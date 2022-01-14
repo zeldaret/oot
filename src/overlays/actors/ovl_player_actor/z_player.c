@@ -29,13 +29,13 @@ typedef struct {
 } GetItemEntry; // size = 0x06
 
 #define GET_ITEM(itemId, objectId, drawId, textId, field, chestAnim) \
-    { itemId, field, (chestAnim != 0 ? 1 : -1) * (drawId + 1), textId, objectId }
+    { itemId, field, (chestAnim != CHEST_ANIM_SHORT ? 1 : -1) * (drawId + 1), textId, objectId }
 
 #define CHEST_ANIM_SHORT 0
 #define CHEST_ANIM_LONG 1
 
 #define GET_ITEM_NONE \
-    { ITEM_NONE, 0, 0, 0, 0 }
+    { ITEM_NONE, 0, 0, 0, OBJECT_INVALID }
 
 typedef enum {
     /* 0x00 */ KNOB_ANIM_ADULT_L,
@@ -4643,7 +4643,7 @@ void func_8083AE40(Player* this, s16 objectId) {
     s32 pad;
     size_t size;
 
-    if (objectId != 0) {
+    if (objectId != OBJECT_INVALID) {
         this->giObjectLoading = true;
         osCreateMesgQueue(&this->giObjectLoadQueue, &this->giObjectLoadMsg, 1);
 
@@ -10340,13 +10340,13 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
             sp68.x = D_80858AC8.unk_02 + 0x3E2;
             sp68.y = D_80858AC8.unk_04 + 0xDBE;
             sp68.z = D_80858AC8.unk_00 - 0x348A;
-            func_800D1694(97.0f, -1203.0f, -240.0f, &sp68);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp68);
             Matrix_ToMtx(sp70++, "../z_player.c", 19273);
 
             sp68.x = D_80858AC8.unk_02 - 0x3E2;
             sp68.y = -0xDBE - D_80858AC8.unk_04;
             sp68.z = D_80858AC8.unk_00 - 0x348A;
-            func_800D1694(97.0f, -1203.0f, 240.0f, &sp68);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp68);
             Matrix_ToMtx(sp70, "../z_player.c", 19279);
         }
 
@@ -10374,8 +10374,8 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                 D_8085486C = D_8085486C * (sp5C * (1.0f / 9.0f));
             }
 
-            func_800D1694(this->actor.world.pos.x, this->actor.world.pos.y + 2.0f, this->actor.world.pos.z,
-                          &D_80854864);
+            Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 2.0f,
+                                         this->actor.world.pos.z, &D_80854864);
             Matrix_Scale(4.0f, 4.0f, 4.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player.c", 19317),
@@ -10440,10 +10440,11 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
             Matrix_Push();
             this->actor.scale.y = -this->actor.scale.y;
-            func_800D1694(this->actor.world.pos.x,
-                          (this->actor.floorHeight + (this->actor.floorHeight - this->actor.world.pos.y)) +
-                              (this->actor.shape.yOffset * this->actor.scale.y),
-                          this->actor.world.pos.z, &this->actor.shape.rot);
+            Matrix_SetTranslateRotateYXZ(
+                this->actor.world.pos.x,
+                (this->actor.floorHeight + (this->actor.floorHeight - this->actor.world.pos.y)) +
+                    (this->actor.shape.yOffset * this->actor.scale.y),
+                this->actor.world.pos.z, &this->actor.shape.rot);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
             Matrix_RotateX(sp78, MTXMODE_APPLY);
             Matrix_RotateY(sp74, MTXMODE_APPLY);

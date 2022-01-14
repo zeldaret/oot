@@ -248,7 +248,8 @@ void func_808992E8(BgJyaIronobj* this, GlobalContext* globalCtx) {
         this->colCylinder.base.acFlags &= ~AC_HIT;
         if (actor != NULL && actor->id == ACTOR_EN_IK) {
             particleFunc[this->dyna.actor.params & 1](this, globalCtx, (EnIk*)actor);
-            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 80,
+                                               NA_SE_EN_IRONNACK_BREAK_PILLAR);
             dropPos.x = this->dyna.actor.world.pos.x;
             dropPos.y = this->dyna.actor.world.pos.y + 20.0f;
             dropPos.z = this->dyna.actor.world.pos.z;

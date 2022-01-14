@@ -238,9 +238,9 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
     if (((void)0, gSaveContext.dayTime) > 0xC000 || ((void)0, gSaveContext.dayTime) < 0x4555) {
-        ((void)0, gSaveContext.nightFlag = true);
+        ((void)0, gSaveContext.nightFlag = 1);
     } else {
-        ((void)0, gSaveContext.nightFlag = false);
+        ((void)0, gSaveContext.nightFlag = 0);
     }
 
     globalCtx->state.gfxCtx->callback = Environment_GraphCallback;
@@ -820,7 +820,7 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_SetColor(&printer, 55, 255, 255, 64);
     GfxPrint_SetPos(&printer, 22, 6);
 
-    if (gSaveContext.nightFlag) {
+    if (!IS_DAY) {
         GfxPrint_Printf(&printer, "%s", "YORU"); // "night"
     } else {
         GfxPrint_Printf(&printer, "%s", "HIRU"); // "day"
@@ -881,7 +881,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
-                    if (!((void)0, gSaveContext.nightFlag) || gTimeIncrement >= 0x190) {
+                    if (IS_DAY || gTimeIncrement >= 0x190) {
                         gSaveContext.dayTime += gTimeIncrement;
                     } else {
                         gSaveContext.dayTime += gTimeIncrement * 2; // time moves twice as fast at night
@@ -900,9 +900,9 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         time = gSaveContext.dayTime;
 
         if (time > 0xC000 || time < 0x4555) {
-            gSaveContext.nightFlag = true;
+            gSaveContext.nightFlag = 1;
         } else {
-            gSaveContext.nightFlag = false;
+            gSaveContext.nightFlag = 0;
         }
 
         if (SREG(0) != 0 || CREG(2) != 0) {

@@ -113,9 +113,9 @@ s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId) {
 
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex) {
     if (objectCtx->status[bankIndex].id > 0) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -232,7 +232,7 @@ void func_800987F8(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x07: Special Files
 void func_8009883C(GlobalContext* globalCtx, SceneCmd* cmd) {
-    if (cmd->specialFiles.keepObjectId != 0) {
+    if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
         globalCtx->objectCtx.subKeepIndex = Object_Spawn(&globalCtx->objectCtx, cmd->specialFiles.keepObjectId);
         gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     }

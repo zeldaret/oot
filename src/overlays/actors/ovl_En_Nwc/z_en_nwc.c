@@ -169,7 +169,7 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
         if (chick->type != CHICK_NONE) {
             Mtx* mtx;
 
-            func_800D1694(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
+            Matrix_SetTranslateRotateYXZ(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
             Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 346);
             gDPSetEnvColor(dList1++, 0, 100, 255, 255);

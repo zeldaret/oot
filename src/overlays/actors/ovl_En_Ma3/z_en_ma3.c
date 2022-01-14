@@ -21,7 +21,6 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
-void EnMa3_ChangeAnim(EnMa3* this, s32 arg1);
 void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
@@ -58,7 +57,15 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 sAnimationInfo[] = {
+typedef enum {
+    /* 0 */ ENMA3_ANIM_0,
+    /* 1 */ ENMA3_ANIM_1,
+    /* 2 */ ENMA3_ANIM_2,
+    /* 3 */ ENMA3_ANIM_3,
+    /* 4 */ ENMA3_ANIM_4
+} EnMa3Animation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -224,11 +231,11 @@ void EnMa3_UpdateEyes(EnMa3* this) {
     }
 }
 
-void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
-    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
+void EnMa3_ChangeAnim(EnMa3* this, s32 index) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -243,11 +250,11 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:
-            EnMa3_ChangeAnim(this, 0);
+            EnMa3_ChangeAnim(this, ENMA3_ANIM_0);
             this->actionFunc = func_80AA3200;
             break;
         case 1:
-            EnMa3_ChangeAnim(this, 0);
+            EnMa3_ChangeAnim(this, ENMA3_ANIM_0);
             this->actionFunc = func_80AA3200;
             break;
         case 2:

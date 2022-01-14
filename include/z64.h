@@ -21,6 +21,7 @@
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
+#include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
 #include "sequence.h"
@@ -282,8 +283,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f originPos;
-    /* 0x10 */ Vec3f relativePos;
+    /* 0x04 */ Vec3f worldPos;
+    /* 0x10 */ Vec3f projectedPos;
 } SoundSource; // size = 0x1C
 
 typedef enum {
@@ -1297,23 +1298,34 @@ typedef enum {
     DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
-// Some animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              playbackSpeed;
+    /* 0x04 */ f32              playSpeed;
     /* 0x08 */ f32              startFrame;
     /* 0x0C */ f32              frameCount;
     /* 0x10 */ u8               mode;
-    /* 0x14 */ f32              transitionRate;
-} struct_80034EC0_Entry; // size = 0x18
+    /* 0x14 */ f32              morphFrames;
+} AnimationInfo; // size = 0x18
 
-// Another animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              frameCount;
     /* 0x08 */ u8               mode;
-    /* 0x0C */ f32              transitionRate;
-} struct_D_80AA1678; // size = 0x10
+    /* 0x0C */ f32              morphFrames;
+} AnimationFrameCountInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32 playSpeed;
+    /* 0x08 */ u8 mode;
+    /* 0x0C */ f32 morphFrames;
+} AnimationSpeedInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ u8 mode;
+    /* 0x08 */ f32 morphFrames;
+} AnimationMinimalInfo; // size = 0xC
 
 typedef struct {
     /* 0x00 */ s16 unk_00;

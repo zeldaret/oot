@@ -1544,7 +1544,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     sp12C[0] = sword;
     sp12C[1] = shield;
 
-    func_800D1694(pos->x, pos->y, pos->z, rot);
+    Matrix_SetTranslateRotateYXZ(pos->x, pos->y, pos->z, rot);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
     gSPSegment(POLY_OPA_DISP++, 0x04, seg04);
