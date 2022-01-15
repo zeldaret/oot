@@ -236,16 +236,6 @@ typedef struct {
 } SwingAnimation; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ SwingAnimation swing;
-    /* 0x1C */ f32 yOffset;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ s16 slopePitchAdj;
-    /* 0x26 */ s16 swingYawTarget;
-    /* 0x28 */ s16 unk_28;
-    /* 0x2A */ s16 startSwingTimer;
-} Normal1Anim; // size = 0x2C
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distMin;
     /* 0x08 */ f32 distMax;
@@ -256,7 +246,21 @@ typedef struct {
     /* 0x1C */ f32 atLERPScaleMax;
     /* 0x20 */ s16 pitchTarget;
     /* 0x22 */ s16 interfaceFlags;
-    /* 0x24 */ Normal1Anim anim;
+} Normal1FixedData; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ SwingAnimation swing;
+    /* 0x1C */ f32 yOffset;
+    /* 0x20 */ f32 unk_20;
+    /* 0x24 */ s16 slopePitchAdj;
+    /* 0x26 */ s16 swingYawTarget;
+    /* 0x28 */ s16 unk_28;
+    /* 0x2A */ s16 startSwingTimer;
+} Normal1DynamicData; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ Normal1FixedData fixedData;
+    /* 0x24 */ Normal1DynamicData dynamicData;
 } Normal1; // size = 0x50
 
 #define CAM_FUNCDATA_NORM1(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
