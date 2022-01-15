@@ -47,7 +47,7 @@ We recommend using WSL on Windows, or native Linux, which the rest of this readm
 * [Docker](docs/BUILDING_DOCKER.md)
 
 (These will also depend on the Linux instructions.)
-Some of these may also be out of date or unmaintained; we currently have contributors who use WSL, Linux, and macOS, so these should be up to date.
+Some of these may also be out of date or unmaintained; usually our contributors use WSL, Linux, and macOS, so these instructions should be up to date.
 
 ### Windows
 
