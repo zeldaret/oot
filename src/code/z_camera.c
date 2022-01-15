@@ -3115,7 +3115,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         anim->unk_00 = spC0.r;
         anim->unk_08 = playerPosRot->pos.y - camera->playerPosDelta.y;
     }
-    if (camera->status == 7) {
+    if (camera->status == CAM_STAT_ACTIVE) {
         sUpdateCameraDirection = 1;
         camera->inputDir.x = -spC0.pitch;
         camera->inputDir.y = BINANG_ROT180(spC0.yaw);
@@ -3866,7 +3866,7 @@ s32 Camera_Fixed1(Camera* camera) {
     }
     if (anim->fov == -1) {
         anim->fov = fixd1->fov * 100.0f;
-    } else if (anim->fov < 361) {
+    } else if (anim->fov <= 360) {
         anim->fov *= 100;
     }
 
@@ -3940,7 +3940,7 @@ s32 Camera_Fixed2(Camera* camera) {
         } else {
             initParams->eye = *eye;
         }
-        if (initParams->fov < 361) {
+        if (initParams->fov <= 360) {
             initParams->fov *= 100;
         }
     }
@@ -4448,7 +4448,7 @@ s32 Camera_Data4(Camera* camera) {
         fov = BGCAM_FOV(sceneCamData);
         initParams->fov = fov;
         if (fov != -1) {
-            data4->fov = initParams->fov < 361 ? initParams->fov : SCALED_STATIC_DATA(initParams->fov);
+            data4->fov = initParams->fov <= 360 ? initParams->fov : SCALED_STATIC_DATA(initParams->fov);
         }
 
         initParams->jfifId = BGCAM_JFIFID(sceneCamData);
@@ -4820,7 +4820,7 @@ s32 Camera_Unique0(Camera* camera) {
         sceneCamRot = BGCAM_ROT(sceneCamData);
         fov = BGCAM_FOV(sceneCamData);
         if (fov != -1) {
-            camera->fov = fov < 361 ? fov : SCALED_STATIC_DATA(fov);
+            camera->fov = fov <= 360 ? fov : SCALED_STATIC_DATA(fov);
         }
         anim->animTimer = BGCAM_JFIFID(sceneCamData);
         if (anim->animTimer == -1) {
@@ -4991,7 +4991,7 @@ s32 Camera_Unique7(Camera* camera) {
         fov = uniq7->fov * 100.0f;
     }
 
-    if (fov < 361) {
+    if (fov <= 360) {
         fov *= 100;
     }
 
@@ -6571,7 +6571,7 @@ s32 Camera_Special6(Camera* camera) {
         fov = 6000;
     }
 
-    if (fov < 361) {
+    if (fov <= 360) {
         fov *= 100;
     }
 
@@ -6984,8 +6984,8 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     s32 i;
 
     if (PREG(82)) {
-        osSyncPrintf("camera: change camera status: cond %c%c\n", status == 7 ? 'o' : 'x',
-                     camera->status != 7 ? 'o' : 'x');
+        osSyncPrintf("camera: change camera status: cond %c%c\n", status == CAM_STAT_ACTIVE ? 'o' : 'x',
+                     camera->status != CAM_STAT_ACTIVE ? 'o' : 'x');
     }
 
     if (PREG(82)) {
@@ -7492,7 +7492,7 @@ Vec3s Camera_Update(Camera* camera) {
 
     OREG(0) &= ~8;
 
-    if (camera->status == 3) {
+    if (camera->status == CAM_STAT_UNK3) {
         return camera->inputDir;
     }
 
