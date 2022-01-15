@@ -177,7 +177,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gHorseGanonSkel, &gHorseGanonIdleAnim);
+    Skin_Init(globalCtx, &this->skin, &gHorseGanonSkel, &gHorseGanonIdleAnim);
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
 
@@ -193,7 +193,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->colliderBody);
     Collider_DestroyJntSph(globalCtx, &this->colliderHead);
 }
@@ -296,7 +296,7 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
 }
 
-void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseGanon_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseGanon* this = (EnHorseGanon*)thisx;
@@ -307,7 +307,7 @@ void func_80A68FA8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         sp4C.y = this->colliderHead.elements[index].dim.modelSphere.center.y;
         sp4C.z = this->colliderHead.elements[index].dim.modelSphere.center.z;
 
-        func_800A6408(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->colliderHead.elements[index].dim.limb, &sp4C, &sp40);
 
         this->colliderHead.elements[index].dim.worldSphere.center.x = sp40.x;
         this->colliderHead.elements[index].dim.worldSphere.center.y = sp40.y;
@@ -326,5 +326,5 @@ void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A68E14(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->skin, func_80A68FA8, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseGanon_PostDraw, true);
 }
