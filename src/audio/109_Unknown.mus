@@ -1,6 +1,7 @@
 .include "seq_macros.inc"
-#include "assets/soundfonts/0.h"
-#include "assets/soundfonts/1.h"
+#include "sequence.h"
+#include "soundfonts/0.h"
+#include "soundfonts/1.h"
 .section .rodata
 .balign 0x10
 sequence_start:
@@ -53,8 +54,8 @@ layer_setpan 127
 layer_setinstr F0_I_WARP
 layer_transpose 24
 layer_setenvelope .envelope_78A, 230
-layer_note1 NOTE_A4, 0x10e, 80
-layer_note1 NOTE_A5, 0x12c, 80
+layer_note1 PITCH_A4, 0x10e, 80
+layer_note1 PITCH_A5, 0x12c, 80
 layer_end
 
 .layer_58:
@@ -64,8 +65,8 @@ layer_setinstr F0_I_WATER_FLOWING
 layer_transpose 48
 layer_setenvelope .envelope_78A, 180
 layer_portamento 0x81, 56, 255
-layer_note1 NOTE_F5, 0xfa, 72
-layer_note1 NOTE_A5, 0x140, 72
+layer_note1 PITCH_F5, 0xfa, 72
+layer_note1 PITCH_A5, 0x140, 72
 layer_end
 
 .layer_71:
@@ -73,7 +74,7 @@ layer_delay 0x1
 layer_setinstr F0_I_SHIMMER
 layer_setenvelope .envelope_78A, 230
 layer_portamento 0x1, 15, 0x5c8
-layer_note1 NOTE_C5, 0x23a, 64
+layer_note1 PITCH_C5, 0x23a, 64
 layer_end
 
 .chan_83:
@@ -91,7 +92,7 @@ chan_end
 layer_setinstr F0_I_WARP
 layer_setenvelope .envelope_8D2, 221
 layer_transpose 24
-layer_note1 NOTE_C5, 0x190, 105
+layer_note1 PITCH_C5, 0x190, 105
 layer_end
 
 .layer_A6:
@@ -99,17 +100,17 @@ layer_delay 0x1
 layer_setinstr F0_I_FAIRY_MAGIC
 layer_setenvelope .envelope_90A, 224
 layer_portamento 0x81, 3, 255
-layer_note1 NOTE_E3, 0x12c, 65
+layer_note1 PITCH_E3, 0x12c, 65
 layer_end
 
 .layer_B7:
 layer_setinstr F0_I_SYNTH
 layer_portamento 0x81, 24, 25
-layer_note1 NOTE_D3, 0x46, 85
+layer_note1 PITCH_D3, 0x46, 85
 layer_delay 0xc8
 layer_setenvelope .envelope_916, 221
 layer_portamento 0x81, 27, 25
-layer_note1 NOTE_F3, 0x96, 85
+layer_note1 PITCH_F3, 0x96, 85
 layer_end
 
 .chan_D0:
@@ -125,8 +126,8 @@ layer_transpose 48
 layer_setinstr F0_I_EYE_OF_TRUTH
 layer_setreleaserate 221
 layer_portamento 0x84, 22, 127
-layer_note1 NOTE_A4, 0x60, 85
-layer_note1 NOTE_B4, 0x7f, 95
+layer_note1 PITCH_A4, 0x60, 85
+layer_note1 PITCH_B4, 0x7f, 95
 layer_end
 
 .layer_EF:
@@ -140,11 +141,11 @@ layer_transpose 36
 layer_setreleaserate 221
 .layer_FD:
 layer_portamento 0x85, 46, 255
-layer_note1 NOTE_A2, 0x3c, 90
+layer_note1 PITCH_A2, 0x3c, 90
 layer_setenvelope .envelope_712, 221
-layer_note1 NOTE_A3, 0x24, 90
+layer_note1 PITCH_A3, 0x24, 90
 layer_portamento 0x85, 51, 255
-layer_note1 NOTE_C3, 0x7f, 90
+layer_note1 PITCH_C3, 0x7f, 90
 layer_end
 
 .chan_113:
@@ -156,19 +157,19 @@ chan_end
 layer_transpose 36
 layer_setinstr F0_I_SHIMMER
 layer_setenvelope .envelope_87A, 180
-layer_note1 NOTE_E4, 0x226, 70
+layer_note1 PITCH_E4, 0x226, 70
 layer_end
 
 .layer_127:
 layer_transpose 30
 layer_setinstr F0_I_WARP
 layer_setenvelope .envelope_87A, 221
-layer_note1 NOTE_F3, 0x9b, 100
-layer_note1 NOTE_F4, 0x7f, 100
+layer_note1 PITCH_F3, 0x9b, 100
+layer_note1 PITCH_F4, 0x7f, 100
 layer_transpose 36
 layer_setinstr F0_I_WARP
 layer_setenvelope .envelope_88A, 221
-layer_note1 NOTE_C4, 0xf8, 100
+layer_note1 PITCH_C4, 0xf8, 100
 layer_end
 
 .chan_143:
@@ -196,20 +197,20 @@ chan_end
 .layer_165:
 layer_setenvelope .envelope_78A, 231
 layer_portamento 0x81, 38, 255
-layer_note1 NOTE_F3, 0x24e, 75
+layer_note1 PITCH_F3, 0x24e, 75
 layer_end
 
 .layer_172:
 layer_delay 0x15e
 layer_setenvelope .envelope_792, 231
 layer_portamento 0x81, 3, 255
-layer_note1 NOTE_C3, 0xf0, 100
+layer_note1 PITCH_C3, 0xf0, 100
 layer_end
 
 .layer_182:
 layer_setinstr F0_I_MECH_CHARGE
 layer_setenvelope .envelope_792, 231
-layer_note1 NOTE_AF3, 0x208, 92
+layer_note1 PITCH_AF3, 0x208, 92
 layer_end
 
 .chan_18D:
@@ -246,17 +247,17 @@ chan_end
 layer_setinstr F0_I_SWORD_SWING
 layer_setenvelope .envelope_75E, 251
 layer_portamento 0x81, 55, 127
-layer_note1 NOTE_DF1, 0x8, 115
+layer_note1 PITCH_DF1, 0x8, 115
 layer_portamento 0x81, 6, 255
-layer_note1 NOTE_AF3, 0xb, 105
+layer_note1 PITCH_AF3, 0xb, 105
 layer_end
 
 .layer_1E9:
 layer_setinstr F0_I_WHISTLE_AIR
 layer_portamento 0x81, 49, 222
-layer_note1 NOTE_BF2, 0x8, 115
+layer_note1 PITCH_BF2, 0x8, 115
 layer_portamento 0x81, 19, 255
-layer_note1 NOTE_F3, 0xc, 115
+layer_note1 PITCH_F3, 0xc, 115
 layer_end
 
 .layer_1FA:
@@ -268,13 +269,13 @@ layer_end
 layer_setinstr F0_I_SLAM_GUNSHOT
 layer_setenvelope .envelope_746, 250
 layer_portamento 0x81, 38, 200
-layer_note0 NOTE_BF3, 0x24, 115, 100
+layer_note0 PITCH_BF3, 0x24, 115, 100
 layer_end
 
 .layer_210:
 layer_setinstr F0_I_STEP_CARPET
-layer_note1 NOTE_E4, 0xa, 75
-layer_note1 NOTE_G3, 0xa, 75
+layer_note1 PITCH_E4, 0xa, 75
+layer_note1 PITCH_G3, 0xa, 75
 layer_delay 0x7
 layer_end
 
@@ -282,12 +283,12 @@ layer_end
 layer_delay 0x7
 layer_setinstr F0_I_SWORD_HIT_SHIELD
 layer_setenvelope .envelope_6F6, 250
-layer_note0 NOTE_C5, 0x6, 39, 127
+layer_note0 PITCH_C5, 0x6, 39, 127
 layer_setinstr F0_I_SWORD_STRIKE
-layer_note0 NOTE_D4, 0x4, 49, 127
+layer_note0 PITCH_D4, 0x4, 49, 127
 layer_setinstr F0_I_STEP_FIRE
-layer_note1 NOTE_B3, 0x5, 39
-layer_note1 NOTE_F3, 0x5, 39
+layer_note1 PITCH_B3, 0x5, 39
+layer_note1 PITCH_F3, 0x5, 39
 layer_end
 
 .layer_236:
@@ -373,8 +374,8 @@ layer_setenvelope .envelope_8C2, 251
 layer_enablelegato
 layer_portamento 0x85, 24, 255
 .layer_2BB:
-layer_note1 NOTE_A3, 0x64, 90
-layer_note1 NOTE_A2, 0x64, 90
+layer_note1 PITCH_A3, 0x64, 90
+layer_note1 PITCH_A2, 0x64, 90
 layer_jumprel .layer_2BB
 
 .layer_2C3:
@@ -385,8 +386,8 @@ layer_setenvelope .envelope_8C2, 251
 layer_enablelegato
 layer_portamento 0x85, 48, 255
 .layer_2D0:
-layer_note1 NOTE_A5, 0x32, 76
-layer_note1 NOTE_A4, 0x32, 76
+layer_note1 PITCH_A5, 0x32, 76
+layer_note1 PITCH_A4, 0x32, 76
 layer_jumprel .layer_2D0
 
 .chan_2D8:
@@ -426,21 +427,21 @@ chan_end
 .layer_312:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_setenvelope .envelope_916, 221
-layer_note0 NOTE_GF4, 0x64, 90, 50
+layer_note0 PITCH_GF4, 0x64, 90, 50
 layer_portamento 0x81, 48, 255
-layer_note1 NOTE_C4, 0x64, 90
+layer_note1 PITCH_C4, 0x64, 90
 layer_portamento 0x81, 50, 100
-layer_note1 NOTE_C2, 0x1f4, 90
+layer_note1 PITCH_C2, 0x1f4, 90
 layer_end
 
 .layer_32C:
 layer_setinstr F1_I_THUNDER_HURT
 layer_setreleaserate 221
-layer_note0 NOTE_E4, 0x64, 90, 50
+layer_note0 PITCH_E4, 0x64, 90, 50
 layer_portamento 0x81, 46, 255
-layer_note1 NOTE_B3, 0x64, 90
+layer_note1 PITCH_B3, 0x64, 90
 layer_portamento 0x81, 48, 100
-layer_note1 NOTE_B1, 0x1f4, 90
+layer_note1 PITCH_B1, 0x1f4, 90
 layer_end
 
 .chan_344:
@@ -491,7 +492,7 @@ layer_transpose -4
 layer_setinstr F0_I_WIND_HOWL_S
 layer_setenvelope .envelope_78A, 241
 layer_portamento 0x81, 3, 224
-layer_note1 NOTE_B4, 0xc6, 80
+layer_note1 PITCH_B4, 0xc6, 80
 layer_end
 
 .layer_39D:
@@ -499,7 +500,7 @@ layer_setinstr F0_I_SLIDE_HEAVY
 layer_setenvelope .envelope_86E, 221
 layer_transpose 12
 layer_portamento 0x81, 2, 255
-layer_note1 NOTE_B5, 0xfa, 85
+layer_note1 PITCH_B5, 0xfa, 85
 layer_end
 
 .chan_3AE:
@@ -517,12 +518,12 @@ chan_end
 layer_setinstr F0_I_POTTERY_ELECTRIC
 layer_setenvelope .envelope_6CE, 245
 layer_portamento 0x82, 27, 255
-layer_note1 NOTE_C4, 0x96, 80
+layer_note1 PITCH_C4, 0x96, 80
 layer_delay 0x96
 layer_end
 
 .layer_3D7:
-layer_note1 NOTE_C3, 0x64, 85
+layer_note1 PITCH_C3, 0x64, 85
 layer_end
 
 .layer_3DB:
@@ -530,19 +531,19 @@ layer_transpose 24
 layer_setinstr F0_I_SLIDE_BLOCK
 layer_setenvelope .envelope_78A, 200
 layer_portamento 0x82, 51, 180
-layer_note1 NOTE_B5, 0xb4, 75
+layer_note1 PITCH_B5, 0xb4, 75
 layer_end
 
 .layer_3EC:
 layer_setinstr F0_I_SYNTH_BUZZ
 layer_portamento 0x81, 34, 208
-layer_note1 NOTE_D3, 0xf0, 105
+layer_note1 PITCH_D3, 0xf0, 105
 layer_end
 
 .layer_unused_3F7:
 layer_setinstr F0_I_WHOOSH
 layer_portamento 0x81, 10, 44
-layer_note1 NOTE_G2, 0x8c, 75
+layer_note1 PITCH_G2, 0x8c, 75
 layer_end
 
 .chan_402:
@@ -566,9 +567,9 @@ layer_setinstr F0_I_FLAME_THUNDER
 layer_setenvelope .envelope_78A, 211
 layer_enablelegato
 layer_portamento 0x85, 3, 255
-layer_note1 NOTE_F2, 0x60, 100
-layer_note1 NOTE_F2, 0xc8, 100
-layer_note1 NOTE_F3, 0x12c, 74
+layer_note1 PITCH_F2, 0x60, 100
+layer_note1 PITCH_F2, 0xc8, 100
+layer_note1 PITCH_F3, 0x12c, 74
 layer_end
 
 .layer_43B:
@@ -591,9 +592,9 @@ layer_setpan 40
 layer_setenvelope .envelope_78A, 211
 layer_enablelegato
 layer_portamento 0x85, 15, 255
-layer_note1 NOTE_F3, 0x60, 74
-layer_note1 NOTE_F3, 0xc8, 74
-layer_note1 NOTE_F4, 0x12c, 74
+layer_note1 PITCH_F3, 0x60, 74
+layer_note1 PITCH_F3, 0xc8, 74
+layer_note1 PITCH_F4, 0x12c, 74
 layer_end
 
 .chan_467:
@@ -617,7 +618,7 @@ layer_setinstr F0_I_SLIDE_BLOCK
 layer_setenvelope .envelope_78A, 231
 layer_delay 0x96
 layer_portamento 0x81, 27, 255
-layer_note1 NOTE_C5, 0x1b8, 45
+layer_note1 PITCH_C5, 0x1b8, 45
 layer_end
 
 .layer_498:
@@ -625,7 +626,7 @@ layer_setinstr F0_I_EXPLOSION_0
 layer_setenvelope .envelope_792, 231
 layer_delay 0xdc
 layer_portamento 0x81, 15, 255
-layer_note1 NOTE_C3, 0x172, 110
+layer_note1 PITCH_C3, 0x172, 110
 layer_end
 
 .chan_4AA:
@@ -658,11 +659,11 @@ layer_setinstr F0_I_EXPLOSION_0
 layer_setenvelope .envelope_792, 221
 layer_setstereo 20
 layer_setpan 84
-layer_note1 NOTE_F2, 0x91, 72
+layer_note1 PITCH_F2, 0x91, 72
 .layer_4E9:
-layer_note1 NOTE_D3, 0x5a, 70
-layer_note1 NOTE_F3, 0xe1, 74
-layer_note1 NOTE_A2, 0x61, 68
+layer_note1 PITCH_D3, 0x5a, 70
+layer_note1 PITCH_F3, 0xe1, 74
+layer_note1 PITCH_A2, 0x61, 68
 layer_jumprel .layer_4E9
 
 .layer_4F5:
@@ -670,11 +671,11 @@ layer_setinstr F0_I_EXPLOSION_0
 layer_setenvelope .envelope_792, 221
 layer_setstereo 20
 layer_setpan 44
-layer_note1 NOTE_D3, 0x10b, 72
+layer_note1 PITCH_D3, 0x10b, 72
 .layer_503:
-layer_note1 NOTE_C3, 0x5e, 40
-layer_note1 NOTE_D3, 0x7c, 44
-layer_note1 NOTE_B2, 0x30, 68
+layer_note1 PITCH_C3, 0x5e, 40
+layer_note1 PITCH_D3, 0x7c, 44
+layer_note1 PITCH_B2, 0x30, 68
 layer_jumprel .layer_503
 
 .layer_50E:
@@ -688,11 +689,11 @@ layer_setenvelope .envelope_71E, 230
 .layer_51A:
 layer_delay 0xa82
 layer_portamento 0x81, 55, 60
-layer_note1 NOTE_C2, 0xc0, 100
+layer_note1 PITCH_C2, 0xc0, 100
 layer_portamento 0x81, 58, 60
-layer_note1 NOTE_E2, 0xc0, 100
+layer_note1 PITCH_E2, 0xc0, 100
 layer_portamento 0x81, 62, 45
-layer_note1 NOTE_G2, 0x1f4, 100
+layer_note1 PITCH_G2, 0x1f4, 100
 layer_end
 
 .layer_536:
@@ -719,8 +720,8 @@ layer_setinstr F0_I_MECH_CHARGE
 layer_setenvelope .envelope_792, 211
 layer_enablelegato
 layer_portamento 0x85, 51, 255
-layer_note1 NOTE_E5, 0xc8, 90
-layer_note1 NOTE_G5, 0x979, 80
+layer_note1 PITCH_E5, 0xc8, 90
+layer_note1 PITCH_G5, 0x979, 80
 layer_end
 
 .layer_566:
@@ -742,14 +743,14 @@ layer_portamento 0x81, 17, 255
 
 .layer_fn_581:
 layer_setinstr F0_I_DOOR_METAL
-layer_note1 NOTE_A2, 0xa41, 65
+layer_note1 PITCH_A2, 0xa41, 65
 layer_disablelegato
 layer_end
 .layer_589:
-layer_note1 NOTE_E3, 0xc0, 120
-layer_note1 NOTE_G3, 0xc0, 120
+layer_note1 PITCH_E3, 0xc0, 120
+layer_note1 PITCH_G3, 0xc0, 120
 layer_setreleaserate 160
-layer_note1 NOTE_A3, 0xc0, 120
+layer_note1 PITCH_A3, 0xc0, 120
 layer_end
 
 .chan_598:
@@ -837,12 +838,12 @@ layer_transpose 48
 .layer_635:
 layer_setinstr F0_I_FLAME_THUNDER
 layer_setenvelope .envelope_692, 200
-layer_note1 NOTE_G4, 0x0, 110
+layer_note1 PITCH_G4, 0x0, 110
 layer_end
 
 .layer_63F:
 layer_setinstr F0_I_POTTERY_ELECTRIC
-layer_note1 NOTE_G3, 0x32, 50
+layer_note1 PITCH_G3, 0x32, 50
 layer_end
 
 .unused_645:

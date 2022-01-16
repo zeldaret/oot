@@ -1,4 +1,6 @@
 .include "seq_macros.inc"
+#include "sequence.h"
+#include "soundfonts/2.h"
 .section .rodata
 .balign 0x10
 sequence_start:
@@ -14,7 +16,7 @@ seq_end
 seq_ioreadval 4
 seq_writeseq 32, .seq_17+1
 seq_ioreadval 5
-seq_writeseq_nextinstr 0, 2
+seq_writeseq 0, .seq_17+2
 .seq_17:
 seq_initchannels 0xd000
 seq_startchannel 13, .chan_EDB
@@ -534,7 +536,7 @@ layer_setreleaserate 100
 layer_enablelegato
 layer_portamento 0x85, 34, 255
 .layer_36F:
-layer_note1 NOTE_C3, 0x64, 75
+layer_note1 PITCH_C3, 0x64, 75
 layer_jumprel .layer_36F
 
 .layer_374:
@@ -549,9 +551,9 @@ layer_setenvelope .envelope_1006, 255
 layer_enablelegato
 layer_portamento 0x85, 39, 255
 .layer_385:
-layer_note1 NOTE_G4, 0xc, 40
+layer_note1 PITCH_G4, 0xc, 40
 .layer_388:
-layer_note1 NOTE_G2, 0x73, 40
+layer_note1 PITCH_G2, 0x73, 40
 layer_end
 
 .layer_38C:
@@ -563,17 +565,17 @@ layer_jumprel .layer_395
 layer_setpan 84
 .layer_395:
 layer_call .layer_fn_EFC
-layer_note1 NOTE_E4, 0x7e, 100
-layer_note1 NOTE_D4, 0x15f, 78
+layer_note1 PITCH_E4, 0x7e, 100
+layer_note1 PITCH_D4, 0x15f, 78
 layer_call .layer_fn_EFC
-layer_note1 NOTE_D4, 0xe2, 95
-layer_note1 NOTE_C4, 0x2d, 86
-layer_note1 NOTE_F4, 0x144, 75
-layer_note1 NOTE_D4, 0xc4, 97
+layer_note1 PITCH_D4, 0xe2, 95
+layer_note1 PITCH_C4, 0x2d, 86
+layer_note1 PITCH_F4, 0x144, 75
+layer_note1 PITCH_D4, 0xc4, 97
 layer_call .layer_fn_EFC
-layer_note1 NOTE_D4, 0xd3, 67
-layer_note1 NOTE_E4, 0x3b, 106
-layer_note1 NOTE_C4, 0x10b, 94
+layer_note1 PITCH_D4, 0xd3, 67
+layer_note1 PITCH_E4, 0x3b, 106
+layer_note1 PITCH_C4, 0x10b, 94
 layer_call .layer_fn_EFC
 layer_jumprel .layer_395
 
@@ -588,17 +590,17 @@ layer_setpan 44
 .layer_3D0:
 layer_call .layer_fn_EFC
 layer_call .layer_fn_EFC
-layer_note1 NOTE_C4, 0x9, 64
-layer_note1 NOTE_C4, 0x96, 75
+layer_note1 PITCH_C4, 0x9, 64
+layer_note1 PITCH_C4, 0x96, 75
 layer_call .layer_fn_EFC
-layer_note1 NOTE_C4, 0x5f, 100
-layer_note1 NOTE_C4, 0x137, 90
-layer_note1 NOTE_C4, 0xce, 75
+layer_note1 PITCH_C4, 0x5f, 100
+layer_note1 PITCH_C4, 0x137, 90
+layer_note1 PITCH_C4, 0xce, 75
 layer_call .layer_fn_EFC
-layer_note1 NOTE_C4, 0x119, 86
-layer_note1 NOTE_C4, 0x23, 69
-layer_note1 NOTE_C4, 0x54, 77
-layer_note1 NOTE_C4, 0x65, 81
+layer_note1 PITCH_C4, 0x119, 86
+layer_note1 PITCH_C4, 0x23, 69
+layer_note1 PITCH_C4, 0x54, 77
+layer_note1 PITCH_C4, 0x65, 81
 layer_jumprel .layer_3D0
 
 .layer_3FD:
@@ -610,21 +612,21 @@ layer_jumprel .layer_406
 layer_setpan 94
 .layer_406:
 layer_call .layer_fn_F03
-layer_note1 NOTE_D4, 0xc, 81
-layer_note1 NOTE_E4, 0xfe, 99
-layer_note1 NOTE_D4, 0x34, 89
+layer_note1 PITCH_D4, 0xc, 81
+layer_note1 PITCH_E4, 0xfe, 99
+layer_note1 PITCH_D4, 0x34, 89
 layer_call .layer_fn_F03
-layer_note1 NOTE_C4, 0xf4, 86
-layer_note1 NOTE_D4, 0x187, 97
+layer_note1 PITCH_C4, 0xf4, 86
+layer_note1 PITCH_D4, 0x187, 97
 layer_call .layer_fn_F03
-layer_note1 NOTE_C4, 0x15, 72
-layer_note1 NOTE_D4, 0xd3, 67
-layer_note1 NOTE_E4, 0x91, 98
+layer_note1 PITCH_C4, 0x15, 72
+layer_note1 PITCH_D4, 0xd3, 67
+layer_note1 PITCH_E4, 0x91, 98
 layer_call .layer_fn_F03
-layer_note1 NOTE_E4, 0x8, 86
-layer_note1 NOTE_D4, 0x13b, 94
-layer_note1 NOTE_C4, 0xb, 94
-layer_note1 NOTE_C4, 0x10f, 94
+layer_note1 PITCH_E4, 0x8, 86
+layer_note1 PITCH_D4, 0x13b, 94
+layer_note1 PITCH_C4, 0xb, 94
+layer_note1 PITCH_C4, 0x10f, 94
 layer_jumprel .layer_406
 
 .layer_43F:
@@ -638,19 +640,19 @@ layer_setpan 34
 .layer_44B:
 layer_call .layer_fn_F03
 layer_call .layer_fn_F03
-layer_note1 NOTE_C4, 0xd3, 72
+layer_note1 PITCH_C4, 0xd3, 72
 layer_call .layer_fn_F03
-layer_note1 NOTE_C4, 0xb, 85
-layer_note1 NOTE_E4, 0x126, 100
-layer_note1 NOTE_D4, 0xa7, 90
+layer_note1 PITCH_C4, 0xb, 85
+layer_note1 PITCH_E4, 0x126, 100
+layer_note1 PITCH_D4, 0xa7, 90
 layer_call .layer_fn_F03
-layer_note1 NOTE_D4, 0xa6, 75
-layer_note1 NOTE_F4, 0x18, 86
-layer_note1 NOTE_C4, 0x163, 84
+layer_note1 PITCH_D4, 0xa6, 75
+layer_note1 PITCH_F4, 0x18, 86
+layer_note1 PITCH_C4, 0x163, 84
 layer_call .layer_fn_F03
-layer_note1 NOTE_D4, 0xdb, 94
-layer_note1 NOTE_E4, 0x9, 67
-layer_note1 NOTE_C4, 0xe0, 81
+layer_note1 PITCH_D4, 0xdb, 94
+layer_note1 PITCH_E4, 0x9, 67
+layer_note1 PITCH_C4, 0xe0, 81
 layer_jumprel .layer_44B
 
 .layer_481:
@@ -665,22 +667,22 @@ layer_call .layer_fn_F0A
 .layer_48A:
 layer_call .layer_fn_F0A
 layer_setpan 64
-layer_note0 NOTE_C4, 0x200, 90, 127
+layer_note0 PITCH_C4, 0x200, 90, 127
 layer_call .layer_fn_F0A
 layer_setpan 91
-layer_note0 NOTE_D4, 0x7f, 61, 127
+layer_note0 PITCH_D4, 0x7f, 61, 127
 layer_delay 0x96
 layer_setpan 77
-layer_note0 NOTE_DF4, 0x1c8, 100, 127
+layer_note0 PITCH_DF4, 0x1c8, 100, 127
 layer_call .layer_fn_F0A
 layer_setpan 38
-layer_note0 NOTE_C4, 0x174, 54, 127
+layer_note0 PITCH_C4, 0x174, 54, 127
 layer_delay 0xae
 layer_setpan 87
-layer_note0 NOTE_DF4, 0x298, 73, 127
+layer_note0 PITCH_DF4, 0x298, 73, 127
 layer_call .layer_fn_F0A
 layer_setpan 54
-layer_note0 NOTE_C4, 0x1b5, 95, 127
+layer_note0 PITCH_C4, 0x1b5, 95, 127
 layer_jumprel .layer_48A
 
 .layer_4C7:
@@ -694,20 +696,20 @@ layer_setpan 94
 .layer_4D3:
 layer_call .layer_fn_F11
 layer_call .layer_fn_F11
-layer_note1 NOTE_E4, 0x108, 100
-layer_note1 NOTE_D4, 0xb, 78
-layer_note1 NOTE_D4, 0x2d, 95
+layer_note1 PITCH_E4, 0x108, 100
+layer_note1 PITCH_D4, 0xb, 78
+layer_note1 PITCH_D4, 0x2d, 95
 layer_call .layer_fn_F11
-layer_note1 NOTE_C4, 0xf6, 86
-layer_note1 NOTE_D4, 0x155, 97
+layer_note1 PITCH_C4, 0xf6, 86
+layer_note1 PITCH_D4, 0x155, 97
 layer_call .layer_fn_F11
-layer_note1 NOTE_D4, 0xd3, 67
-layer_note1 NOTE_C4, 0x15, 94
-layer_note1 NOTE_E4, 0x91, 106
+layer_note1 PITCH_D4, 0xd3, 67
+layer_note1 PITCH_C4, 0x15, 94
+layer_note1 PITCH_E4, 0x91, 106
 layer_call .layer_fn_F11
-layer_note1 NOTE_D4, 0x13b, 94
-layer_note1 NOTE_E4, 0x8, 106
-layer_note1 NOTE_C4, 0x10f, 94
+layer_note1 PITCH_D4, 0x13b, 94
+layer_note1 PITCH_E4, 0x8, 106
+layer_note1 PITCH_C4, 0x10f, 94
 layer_jumprel .layer_4D3
 
 .layer_50C:
@@ -721,48 +723,48 @@ layer_setpan 34
 .layer_518:
 layer_call .layer_fn_F11
 layer_call .layer_fn_F11
-layer_note1 NOTE_C4, 0xfa, 64
+layer_note1 PITCH_C4, 0xfa, 64
 layer_call .layer_fn_F11
-layer_note1 NOTE_C4, 0xe, 75
-layer_note1 NOTE_E4, 0x10f, 100
-layer_note1 NOTE_D4, 0x8, 90
+layer_note1 PITCH_C4, 0xe, 75
+layer_note1 PITCH_E4, 0x10f, 100
+layer_note1 PITCH_D4, 0x8, 90
 layer_call .layer_fn_F11
-layer_note1 NOTE_D4, 0x92, 75
-layer_note1 NOTE_F4, 0x43, 86
-layer_note1 NOTE_C4, 0x155, 69
+layer_note1 PITCH_D4, 0x92, 75
+layer_note1 PITCH_F4, 0x43, 86
+layer_note1 PITCH_C4, 0x155, 69
 layer_call .layer_fn_F11
-layer_note1 NOTE_D4, 0xf5, 77
-layer_note1 NOTE_E4, 0xbd, 77
-layer_note1 NOTE_C4, 0xda, 81
+layer_note1 PITCH_D4, 0xf5, 77
+layer_note1 PITCH_E4, 0xbd, 77
+layer_note1 PITCH_C4, 0xda, 81
 layer_jumprel .layer_518
 
 .layer_54E:
 layer_call .layer_fn_F18
 layer_setpan 84
-layer_note1 NOTE_E4, 0x126, 100
+layer_note1 PITCH_E4, 0x126, 100
 layer_setpan 74
-layer_note1 NOTE_E4, 0x9, 78
-layer_note1 NOTE_C4, 0x16f, 74
+layer_note1 PITCH_E4, 0x9, 78
+layer_note1 PITCH_C4, 0x16f, 74
 
 .layer_560:
 layer_call .layer_fn_F18
 layer_call .layer_fn_F18
 layer_setpan 47
-layer_note1 NOTE_C4, 0x1c2, 100
+layer_note1 PITCH_C4, 0x1c2, 100
 layer_setpan 58
-layer_note1 NOTE_D4, 0xf8, 91
+layer_note1 PITCH_D4, 0xf8, 91
 
 .layer_572:
 layer_call .layer_fn_F18
 layer_delay 0x14
 layer_call .layer_fn_F18
 layer_setpan 95
-layer_note1 NOTE_F4, 0x4b, 67
+layer_note1 PITCH_F4, 0x4b, 67
 layer_setpan 87
-layer_note1 NOTE_D4, 0x9, 55
-layer_note1 NOTE_D4, 0x18, 60
+layer_note1 PITCH_D4, 0x9, 55
+layer_note1 PITCH_D4, 0x18, 60
 layer_setpan 91
-layer_note1 NOTE_E4, 0x126, 100
+layer_note1 PITCH_E4, 0x126, 100
 
 .layer_58D:
 layer_call .layer_fn_F18
@@ -770,11 +772,11 @@ layer_call .layer_fn_F18
 layer_delay 0x30
 layer_call .layer_fn_F18
 layer_setpan 72
-layer_note1 NOTE_C4, 0xa, 91
-layer_note1 NOTE_DF4, 0xc2, 88
+layer_note1 PITCH_C4, 0xa, 91
+layer_note1 PITCH_DF4, 0xc2, 88
 layer_setpan 37
-layer_note1 NOTE_D4, 0x9, 76
-layer_note1 NOTE_D4, 0x155, 91
+layer_note1 PITCH_D4, 0x9, 76
+layer_note1 PITCH_D4, 0x155, 91
 layer_jumprel .layer_54E
 
 .layer_5AC:
@@ -785,29 +787,29 @@ layer_call .layer_fn_F1F
 layer_call .layer_fn_F1F
 layer_setpan 84
 layer_call .layer_fn_F1F
-layer_note1 NOTE_D4, 0xc2, 90
-layer_note1 NOTE_EF4, 0x68, 94
+layer_note1 PITCH_D4, 0xc2, 90
+layer_note1 PITCH_EF4, 0x68, 94
 layer_call .layer_fn_F1F
-layer_note1 NOTE_D4, 0x95, 100
-layer_note1 NOTE_E4, 0x61, 105
+layer_note1 PITCH_D4, 0x95, 100
+layer_note1 PITCH_E4, 0x61, 105
 layer_call .layer_fn_F1F
-layer_note1 NOTE_D4, 0x126, 78
+layer_note1 PITCH_D4, 0x126, 78
 layer_call .layer_fn_F1F
-layer_note1 NOTE_C4, 0x6, 84
-layer_note1 NOTE_E4, 0x24, 76
-layer_note1 NOTE_C4, 0x19d, 78
-layer_note1 NOTE_C4, 0x5e, 57
+layer_note1 PITCH_C4, 0x6, 84
+layer_note1 PITCH_E4, 0x24, 76
+layer_note1 PITCH_C4, 0x19d, 78
+layer_note1 PITCH_C4, 0x5e, 57
 layer_setpan 74
 layer_call .layer_fn_F1F
-layer_note1 NOTE_D4, 0xa8, 88
-layer_note1 NOTE_C4, 0x159, 67
-layer_note1 NOTE_E4, 0x105, 84
-layer_note1 NOTE_E4, 0x43, 67
+layer_note1 PITCH_D4, 0xa8, 88
+layer_note1 PITCH_C4, 0x159, 67
+layer_note1 PITCH_E4, 0x105, 84
+layer_note1 PITCH_E4, 0x43, 67
 layer_call .layer_fn_F1F
-layer_note1 NOTE_DF4, 0xd3, 81
+layer_note1 PITCH_DF4, 0xd3, 81
 layer_call .layer_fn_F1F
-layer_note1 NOTE_D4, 0xb, 91
-layer_note1 NOTE_E4, 0x126, 88
+layer_note1 PITCH_D4, 0xb, 91
+layer_note1 PITCH_E4, 0x126, 88
 layer_jumprel .layer_5B2
 
 .layer_609:
@@ -818,62 +820,62 @@ layer_call .layer_fn_F1F
 .layer_612:
 layer_call .layer_fn_F1F
 layer_setpan 44
-layer_note1 NOTE_D4, 0x15, 75
-layer_note1 NOTE_EF4, 0x3d, 94
+layer_note1 PITCH_D4, 0x15, 75
+layer_note1 PITCH_EF4, 0x3d, 94
 layer_call .layer_fn_F1F
-layer_note1 NOTE_D4, 0x95, 81
-layer_note1 NOTE_E4, 0x137, 42
-layer_note1 NOTE_C4, 0x1f4, 69
+layer_note1 PITCH_D4, 0x95, 81
+layer_note1 PITCH_E4, 0x137, 42
+layer_note1 PITCH_C4, 0x1f4, 69
 layer_call .layer_fn_F1F
-layer_note1 NOTE_F4, 0xc8, 91
-layer_note1 NOTE_D4, 0x95, 84
+layer_note1 PITCH_F4, 0xc8, 91
+layer_note1 PITCH_D4, 0x95, 84
 layer_setpan 54
 layer_call .layer_fn_F1F
-layer_note1 NOTE_EF4, 0x95, 87
-layer_note1 NOTE_D4, 0x163, 96
+layer_note1 PITCH_EF4, 0x95, 87
+layer_note1 PITCH_D4, 0x163, 96
 layer_call .layer_fn_F1F
-layer_note1 NOTE_EF4, 0xd8, 61
+layer_note1 PITCH_EF4, 0xd8, 61
 layer_call .layer_fn_F1F
-layer_note1 NOTE_C4, 0x1e0, 81
+layer_note1 PITCH_C4, 0x1e0, 81
 layer_note1_long 39, 0x4f, 68
 layer_call .layer_fn_F1F
-layer_note1 NOTE_E4, 0x8, 75
-layer_note1 NOTE_EF4, 0x1a5, 94
+layer_note1 PITCH_E4, 0x8, 75
+layer_note1 PITCH_EF4, 0x1a5, 94
 layer_call .layer_fn_F1F
 layer_jumprel .layer_612
 
 .layer_665:
 layer_loop 3
 layer_setpan 104
-layer_note1 NOTE_E4, 0x1cc, 75
+layer_note1 PITCH_E4, 0x1cc, 75
 layer_call .layer_fn_F26
 layer_setpan 50
-layer_note1 NOTE_C4, 0x167, 87
+layer_note1 PITCH_C4, 0x167, 87
 
 .layer_676:
 layer_call .layer_fn_F26
 layer_call .layer_fn_F26
 layer_setpan 34
-layer_note1 NOTE_D4, 0x167, 94
+layer_note1 PITCH_D4, 0x167, 94
 layer_call .layer_fn_F26
 layer_setpan 64
-layer_note1 NOTE_D4, 0x167, 62
+layer_note1 PITCH_D4, 0x167, 62
 
 .layer_68B:
 layer_call .layer_fn_F26
 layer_delay 0x22
 layer_call .layer_fn_F26
 layer_setpan 79
-layer_note1 NOTE_E4, 0x167, 79
+layer_note1 PITCH_E4, 0x167, 79
 layer_call .layer_fn_F26
 layer_setpan 91
-layer_note1 NOTE_F4, 0x167, 62
+layer_note1 PITCH_F4, 0x167, 62
 layer_call .layer_fn_F26
 layer_setpan 54
-layer_note1 NOTE_C4, 0x167, 86
+layer_note1 PITCH_C4, 0x167, 86
 layer_call .layer_fn_F26
 layer_setpan 36
-layer_note1 NOTE_D4, 0x167, 57
+layer_note1 PITCH_D4, 0x167, 57
 
 .layer_6B4:
 layer_call .layer_fn_F26
@@ -882,48 +884,48 @@ layer_delay 0x37
 layer_call .layer_fn_F26
 layer_loopend
 layer_setpan 64
-layer_note1 NOTE_C4, 0x9, 57
-layer_note1 NOTE_E4, 0xd8, 69
+layer_note1 PITCH_C4, 0x9, 57
+layer_note1 PITCH_E4, 0xd8, 69
 layer_call .layer_fn_F26
 layer_jumprel .layer_665
 
 .layer_6CE:
 layer_call .layer_fn_F2D
 layer_setpan 74
-layer_note1 NOTE_E4, 0x15f, 86
+layer_note1 PITCH_E4, 0x15f, 86
 layer_call .layer_fn_F2D
-layer_note1 NOTE_E4, 0x126, 59
+layer_note1 PITCH_E4, 0x126, 59
 layer_setpan 90
-layer_note1 NOTE_E4, 0x15f, 66
-layer_note1 NOTE_C4, 0x126, 49
+layer_note1 PITCH_E4, 0x15f, 66
+layer_note1 PITCH_C4, 0x126, 49
 
 .layer_6E8:
 layer_call .layer_fn_F2D
 layer_delay 0x47
 layer_call .layer_fn_F2D
-layer_note1 NOTE_D4, 0x137, 81
+layer_note1 PITCH_D4, 0x137, 81
 layer_setpan 83
-layer_note1 NOTE_E4, 0x10b, 99
+layer_note1 PITCH_E4, 0x10b, 99
 
 .layer_6FA:
 layer_call .layer_fn_F2D
 layer_call .layer_fn_F2D
 layer_delay 0x21
 layer_call .layer_fn_F2D
-layer_note1 NOTE_C4, 0x18d, 49
-layer_note1 NOTE_C4, 0x116, 78
+layer_note1 PITCH_C4, 0x18d, 49
+layer_note1 PITCH_C4, 0x116, 78
 layer_setpan 69
 layer_call .layer_fn_F2D
-layer_note1 NOTE_C4, 0x1c4, 57
+layer_note1 PITCH_C4, 0x1c4, 57
 
 .layer_716:
 layer_call .layer_fn_F2D
 layer_call .layer_fn_F2D
 layer_call .layer_fn_F2D
 layer_call .layer_fn_F2D
-layer_note1 NOTE_C4, 0x149, 92
+layer_note1 PITCH_C4, 0x149, 92
 layer_setpan 78
-layer_note1 NOTE_C4, 0x108, 75
+layer_note1 PITCH_C4, 0x108, 75
 layer_call .layer_fn_F2D
 layer_jumprel .layer_6CE
 
@@ -934,25 +936,25 @@ layer_call .layer_fn_F34
 layer_setpan 54
 layer_call .layer_fn_F34
 layer_setpan 49
-layer_note1 NOTE_E4, 0xbf, 86
+layer_note1 PITCH_E4, 0xbf, 86
 layer_setpan 41
-layer_note1 NOTE_D4, 0x44, 59
-layer_note1 NOTE_C4, 0x1ca, 91
+layer_note1 PITCH_D4, 0x44, 59
+layer_note1 PITCH_C4, 0x1ca, 91
 layer_setpan 57
-layer_note1 NOTE_C4, 0xee, 77
+layer_note1 PITCH_C4, 0xee, 77
 
 .layer_74E:
 layer_call .layer_fn_F34
 layer_call .layer_fn_F34
 layer_delay 0x19
 layer_setpan 39
-layer_note1 NOTE_E4, 0xc2, 59
-layer_note1 NOTE_D4, 0xa4, 49
+layer_note1 PITCH_E4, 0xc2, 59
+layer_note1 PITCH_D4, 0xa4, 49
 layer_setpan 51
-layer_note1 NOTE_D4, 0x13f, 55
+layer_note1 PITCH_D4, 0x13f, 55
 layer_setpan 59
-layer_note1 NOTE_C4, 0xdb, 72
-layer_note1 NOTE_C4, 0x2f9, 86
+layer_note1 PITCH_C4, 0xdb, 72
+layer_note1 PITCH_C4, 0x2f9, 86
 
 .layer_770:
 layer_call .layer_fn_F34
@@ -960,46 +962,46 @@ layer_call .layer_fn_F34
 layer_call .layer_fn_F34
 layer_delay 0x4b
 layer_setpan 48
-layer_note1 NOTE_D4, 0x34, 95
+layer_note1 PITCH_D4, 0x34, 95
 layer_setpan 53
-layer_note1 NOTE_C4, 0xed, 64
+layer_note1 PITCH_C4, 0xed, 64
 layer_call .layer_fn_F34
 layer_jumprel .layer_734
 
 .layer_78B:
 layer_call .layer_fn_F3B
-layer_note1 NOTE_C4, 0x4f, 95
-layer_note1 NOTE_C4, 0x4f, 95
+layer_note1 PITCH_C4, 0x4f, 95
+layer_note1 PITCH_C4, 0x4f, 95
 
 .layer_794:
 layer_call .layer_fn_F3B
 layer_call .layer_fn_F3B
-layer_note1 NOTE_C4, 0xa9, 75
-layer_note1 NOTE_C4, 0x63, 73
-layer_note1 NOTE_C4, 0x91, 71
+layer_note1 PITCH_C4, 0xa9, 75
+layer_note1 PITCH_C4, 0x63, 73
+layer_note1 PITCH_C4, 0x91, 71
 layer_call .layer_fn_F3B
-layer_note1 NOTE_C4, 0x55, 78
-layer_note1 NOTE_C4, 0xd3, 74
+layer_note1 PITCH_C4, 0x55, 78
+layer_note1 PITCH_C4, 0xd3, 74
 layer_call .layer_fn_F3B
 
 .layer_7B2:
 layer_call .layer_fn_F3B
 layer_delay 0x29
 layer_call .layer_fn_F3B
-layer_note1 NOTE_C4, 0x45, 57
-layer_note1 NOTE_C4, 0x5e, 57
+layer_note1 PITCH_C4, 0x45, 57
+layer_note1 PITCH_C4, 0x5e, 57
 layer_call .layer_fn_F3B
-layer_note1 NOTE_C4, 0x4b, 49
-layer_note1 NOTE_C4, 0x48, 46
+layer_note1 PITCH_C4, 0x4b, 49
+layer_note1 PITCH_C4, 0x48, 46
 
 .layer_7C9:
 layer_call .layer_fn_F3B
 layer_delay 0x44
 layer_call .layer_fn_F3B
 layer_call .layer_fn_F3B
-layer_note1 NOTE_C4, 0x54, 88
-layer_note1 NOTE_C4, 0x5b, 88
-layer_note1 NOTE_C4, 0xbf, 83
+layer_note1 PITCH_C4, 0x54, 88
+layer_note1 PITCH_C4, 0x5b, 88
+layer_note1 PITCH_C4, 0xbf, 83
 layer_jumprel .layer_78B
 
 .layer_7E0:
@@ -1009,26 +1011,26 @@ layer_call .layer_fn_F42
 .layer_7E6:
 layer_call .layer_fn_F42
 layer_setpan 24
-layer_note0 NOTE_E4, 0x1aa, 86, 127
-layer_note0 NOTE_D4, 0x73, 56, 127
+layer_note0 PITCH_E4, 0x1aa, 86, 127
+layer_note0 PITCH_D4, 0x73, 56, 127
 layer_call .layer_fn_F42
 layer_setpan 49
-layer_note0 NOTE_C4, 0x1f4, 94, 127
+layer_note0 PITCH_C4, 0x1f4, 94, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_E4, 0x349, 68, 127
-layer_note0 NOTE_F4, 0x167, 71, 127
+layer_note0 PITCH_E4, 0x349, 68, 127
+layer_note0 PITCH_F4, 0x167, 71, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_E4, 0x349, 68, 127
-layer_note0 NOTE_E4, 0x229, 91, 127
-layer_note0 NOTE_F4, 0xdb, 71, 127
+layer_note0 PITCH_E4, 0x349, 68, 127
+layer_note0 PITCH_E4, 0x229, 91, 127
+layer_note0 PITCH_F4, 0xdb, 71, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_F4, 0x12c, 82, 220
+layer_note0 PITCH_F4, 0x12c, 82, 220
 layer_call .layer_fn_F42
-layer_note0 NOTE_E4, 0x282, 81, 127
-layer_note0 NOTE_E4, 0x4f, 68, 127
-layer_note0 NOTE_F4, 0xdb, 71, 127
+layer_note0 PITCH_E4, 0x282, 81, 127
+layer_note0 PITCH_E4, 0x4f, 68, 127
+layer_note0 PITCH_F4, 0xdb, 71, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_F4, 0x1c3, 54, 127
+layer_note0 PITCH_F4, 0x1c3, 54, 127
 layer_call .layer_fn_F42
 layer_jumprel .layer_7E6
 
@@ -1041,22 +1043,22 @@ layer_call .layer_fn_F42
 layer_call .layer_fn_F42
 layer_setpan 76
 layer_call .layer_fn_F42
-layer_note0 NOTE_E4, 0x142, 86, 127
+layer_note0 PITCH_E4, 0x142, 86, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_D4, 0x1f4, 94, 127
+layer_note0 PITCH_D4, 0x1f4, 94, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_E4, 0xfe, 49, 127
-layer_note0 NOTE_C4, 0xc3, 71, 127
-layer_note0 NOTE_D4, 0x1cb, 61, 127
+layer_note0 PITCH_E4, 0xfe, 49, 127
+layer_note0 PITCH_C4, 0xc3, 71, 127
+layer_note0 PITCH_D4, 0x1cb, 61, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_D4, 0x25, 51, 127
+layer_note0 PITCH_D4, 0x25, 51, 127
 layer_call .layer_fn_F42
-layer_note0 NOTE_DF4, 0x23d, 91, 127
-layer_note0 NOTE_C4, 0x2fd, 88, 127
+layer_note0 PITCH_DF4, 0x23d, 91, 127
+layer_note0 PITCH_C4, 0x2fd, 88, 127
 layer_setpan 100
 layer_call .layer_fn_F42
-layer_note0 NOTE_E4, 0x15c, 76, 127
-layer_note0 NOTE_F4, 0x284, 59, 180
+layer_note0 PITCH_E4, 0x15c, 76, 127
+layer_note0 PITCH_F4, 0x284, 59, 180
 layer_jumprel .layer_849
 
 .layer_898:
@@ -1069,45 +1071,45 @@ layer_jumprel .layer_8A4
 layer_setpan 60
 .layer_8A4:
 layer_call .layer_fn_EFC
-layer_note1 NOTE_C3, 0x34, 89
+layer_note1 PITCH_C3, 0x34, 89
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 77
-layer_note1 NOTE_C3, 0x34, 77
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 71
-layer_note1 NOTE_C3, 0x34, 71
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 76
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 89
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 64
-layer_note1 NOTE_C3, 0x34, 66
-layer_note1 NOTE_C3, 0x34, 69
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 75
+layer_note1 PITCH_C3, 0x34, 77
+layer_note1 PITCH_C3, 0x34, 77
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 85
+layer_note1 PITCH_C3, 0x34, 71
+layer_note1 PITCH_C3, 0x34, 71
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 79
-layer_note1 NOTE_C3, 0x34, 77
-layer_note1 NOTE_C3, 0x34, 71
+layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x34, 76
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x34, 89
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x34, 64
+layer_note1 PITCH_C3, 0x34, 66
+layer_note1 PITCH_C3, 0x34, 69
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x34, 75
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x34, 85
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x34, 79
+layer_note1 PITCH_C3, 0x34, 77
+layer_note1 PITCH_C3, 0x34, 71
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_jumprel .layer_8A4
@@ -1123,47 +1125,47 @@ layer_jump .layer_934
 layer_setpan 69
 .layer_934:
 layer_call .layer_fn_EFC
-layer_note1 NOTE_C3, 0x30, 45
-layer_note1 NOTE_C3, 0x32, 48
-layer_note1 NOTE_C3, 0x34, 47
+layer_note1 PITCH_C3, 0x30, 45
+layer_note1 PITCH_C3, 0x32, 48
+layer_note1 PITCH_C3, 0x34, 47
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 80
-layer_note1 NOTE_C3, 0x34, 81
+layer_note1 PITCH_C3, 0x34, 80
+layer_note1 PITCH_C3, 0x34, 81
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x32, 88
-layer_note1 NOTE_C3, 0x34, 84
+layer_note1 PITCH_C3, 0x32, 88
+layer_note1 PITCH_C3, 0x34, 84
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x32, 94
+layer_note1 PITCH_C3, 0x32, 94
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x32, 76
+layer_note1 PITCH_C3, 0x32, 76
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x32, 55
+layer_note1 PITCH_C3, 0x32, 55
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x32, 65
-layer_call .layer_fn_F6C
-layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x32, 65
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x36, 83
-layer_note1 NOTE_C3, 0x34, 87
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x36, 91
-layer_note1 NOTE_C3, 0x34, 85
+layer_note1 PITCH_C3, 0x36, 83
+layer_note1 PITCH_C3, 0x34, 87
+layer_call .layer_fn_F6C
+layer_call .layer_fn_F6C
+layer_note1 PITCH_C3, 0x36, 91
+layer_note1 PITCH_C3, 0x34, 85
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
 layer_call .layer_fn_F6C
-layer_note1 NOTE_C3, 0x34, 65
-layer_note1 NOTE_C3, 0x30, 59
+layer_note1 PITCH_C3, 0x34, 65
+layer_note1 PITCH_C3, 0x30, 59
 layer_call .layer_fn_F6C
 layer_jump .layer_934
 
@@ -1177,21 +1179,21 @@ layer_jumprel .layer_A11
 layer_setpan 50
 .layer_9C4:
 layer_call .layer_fn_F57
-layer_note1 NOTE_C4, 0x41, 86
+layer_note1 PITCH_C4, 0x41, 86
 layer_delay 0x9f
 layer_call .layer_fn_F57
-layer_note1 NOTE_DF4, 0x36, 56
+layer_note1 PITCH_DF4, 0x36, 56
 layer_delay 0x123
 layer_call .layer_fn_F57
-layer_note1 NOTE_C4, 0x45, 36
+layer_note1 PITCH_C4, 0x45, 36
 layer_delay 0x95
 layer_call .layer_fn_F57
-layer_note1 NOTE_D4, 0x32, 70
+layer_note1 PITCH_D4, 0x32, 70
 layer_delay 0xe2
 layer_call .layer_fn_F57
-layer_note1 NOTE_C4, 0x4c, 51
+layer_note1 PITCH_C4, 0x4c, 51
 layer_delay 0x8f
-layer_note1 NOTE_D4, 0x3d, 70
+layer_note1 PITCH_D4, 0x3d, 70
 layer_delay 0x14e
 layer_call .layer_fn_F57
 layer_jumprel .layer_9C4
@@ -1213,18 +1215,18 @@ layer_delay 0x1bb
 layer_call .layer_fn_F57
 layer_delay 0x108
 layer_call .layer_fn_F57
-layer_note1 NOTE_C4, 0x47, 44
+layer_note1 PITCH_C4, 0x47, 44
 layer_delay 0x1a3
 layer_call .layer_fn_F57
-layer_note1 NOTE_C4, 0x47, 64
+layer_note1 PITCH_C4, 0x47, 64
 layer_call .layer_fn_F57
-layer_note1 NOTE_DF4, 0x38, 71
+layer_note1 PITCH_DF4, 0x38, 71
 layer_delay 0x15f
 layer_call .layer_fn_F57
-layer_note1 NOTE_D4, 0x3c, 89
+layer_note1 PITCH_D4, 0x3c, 89
 layer_delay 0x2c1
 layer_call .layer_fn_F57
-layer_note1 NOTE_C4, 0x39, 57
+layer_note1 PITCH_C4, 0x39, 57
 layer_delay 0x160
 layer_call .layer_fn_F57
 layer_jumprel .layer_A11
@@ -1252,43 +1254,43 @@ layer_jumprel .layer_A6E
 layer_setpan 50
 .layer_A6E:
 layer_call .layer_fn_F57
-layer_note1 NOTE_E3, 0x61, 75
-layer_note1 NOTE_E3, 0x5e, 79
-layer_note1 NOTE_E3, 0x5f, 77
+layer_note1 PITCH_E3, 0x61, 75
+layer_note1 PITCH_E3, 0x5e, 79
+layer_note1 PITCH_E3, 0x5f, 77
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
-layer_note1 NOTE_F3, 0x69, 78
-layer_note1 NOTE_F3, 0x70, 79
-layer_note1 NOTE_F3, 0x6b, 72
+layer_note1 PITCH_F3, 0x69, 78
+layer_note1 PITCH_F3, 0x70, 79
+layer_note1 PITCH_F3, 0x6b, 72
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
-layer_note1 NOTE_E3, 0x5f, 69
-layer_note1 NOTE_E3, 0x59, 74
+layer_note1 PITCH_E3, 0x5f, 69
+layer_note1 PITCH_E3, 0x59, 74
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 .layer_AAA:
-layer_note1 NOTE_E3, 0x58, 81
-layer_note1 NOTE_E3, 0x5d, 83
-layer_note1 NOTE_E3, 0x5b, 77
+layer_note1 PITCH_E3, 0x58, 81
+layer_note1 PITCH_E3, 0x5d, 83
+layer_note1 PITCH_E3, 0x5b, 77
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
-layer_note1 NOTE_E3, 0x66, 69
-layer_note1 NOTE_E3, 0x64, 74
-layer_call .layer_fn_F5E
-layer_call .layer_fn_F5E
-layer_call .layer_fn_F5E
-layer_call .layer_fn_F5E
-layer_note1 NOTE_F3, 0x66, 74
+layer_note1 PITCH_E3, 0x66, 69
+layer_note1 PITCH_E3, 0x64, 74
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
-layer_note1 NOTE_E3, 0x4e, 87
-layer_note1 NOTE_E3, 0x51, 78
+layer_call .layer_fn_F5E
+layer_note1 PITCH_F3, 0x66, 74
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_call .layer_fn_F5E
+layer_note1 PITCH_E3, 0x4e, 87
+layer_note1 PITCH_E3, 0x51, 78
 layer_call .layer_fn_F5E
 layer_call .layer_fn_F5E
 layer_jumprel .layer_A6E
@@ -1298,33 +1300,33 @@ layer_end
 
 .layer_AE6:
 layer_call .layer_fn_F73
-layer_note1 NOTE_C4, 0xa6, 75
+layer_note1 PITCH_C4, 0xa6, 75
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
-layer_note1 NOTE_DF4, 0xa6, 79
+layer_note1 PITCH_DF4, 0xa6, 79
 
 .layer_AFA:
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
-layer_note1 NOTE_DF4, 0xa6, 84
+layer_note1 PITCH_DF4, 0xa6, 84
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
-layer_note1 NOTE_C4, 0xa6, 102
+layer_note1 PITCH_C4, 0xa6, 102
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
 layer_call .layer_fn_F73
-layer_note1 NOTE_C4, 0xa6, 64
+layer_note1 PITCH_C4, 0xa6, 64
 layer_jumprel .layer_AE6
 
 .layer_B26:
 layer_setreleaserate 236
 layer_enablelegato
 layer_setpan 34
-layer_note1 NOTE_C4, 0x2a, 85
+layer_note1 PITCH_C4, 0x2a, 85
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
@@ -1337,41 +1339,41 @@ layer_enablelegato
 .layer_B3F:
 layer_setpan 95
 layer_portamento 0x85, 38, 255
-layer_note1 NOTE_DF4, 0x34, 76
-layer_note1 NOTE_C4, 0x4f, 76
+layer_note1 PITCH_DF4, 0x34, 76
+layer_note1 PITCH_C4, 0x4f, 76
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_setpan 37
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_C4, 0xe1, 99
+layer_note1 PITCH_C4, 0xe1, 99
 layer_call .layer_fn_F49
 layer_setpan 49
-layer_note1 NOTE_C4, 0x1a, 81
+layer_note1 PITCH_C4, 0x1a, 81
 layer_call .layer_fn_F49
 layer_setpan 39
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_C4, 0x112, 91
+layer_note1 PITCH_C4, 0x112, 91
 layer_call .layer_fn_F49
 layer_setpan 55
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_DF4, 0x112, 78
-layer_note1 NOTE_DF4, 0x5e, 78
+layer_note1 PITCH_DF4, 0x112, 78
+layer_note1 PITCH_DF4, 0x5e, 78
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_setpan 74
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_C4, 0x16, 105
+layer_note1 PITCH_C4, 0x16, 105
 layer_call .layer_fn_F49
 layer_setpan 46
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_DF4, 0x24, 94
+layer_note1 PITCH_DF4, 0x24, 94
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_setpan 94
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_DF4, 0x112, 78
-layer_note1 NOTE_DF4, 0x5e, 78
+layer_note1 PITCH_DF4, 0x112, 78
+layer_note1 PITCH_DF4, 0x5e, 78
 layer_jumprel .layer_B3F
 
 .layer_BB3:
@@ -1382,7 +1384,7 @@ layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_setpan 84
-layer_note1 NOTE_DF4, 0x5e, 64
+layer_note1 PITCH_DF4, 0x5e, 64
 layer_jumprel .layer_BD2
 
 .layer_BC9:
@@ -1393,42 +1395,42 @@ layer_enablelegato
 .layer_BD2:
 layer_setpan 94
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_C4, 0x74, 100
+layer_note1 PITCH_C4, 0x74, 100
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_setpan 76
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_DF4, 0x43, 85
-layer_note1 NOTE_B3, 0xf1, 85
+layer_note1 PITCH_DF4, 0x43, 85
+layer_note1 PITCH_B3, 0xf1, 85
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_setpan 57
-layer_note1 NOTE_C4, 0x44, 78
+layer_note1 PITCH_C4, 0x44, 78
 layer_call .layer_fn_F49
 layer_setpan 94
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_DF4, 0x91, 78
+layer_note1 PITCH_DF4, 0x91, 78
 layer_call .layer_fn_F49
 layer_setpan 38
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_DF4, 0x59, 96
+layer_note1 PITCH_DF4, 0x59, 96
 layer_call .layer_fn_F49
 layer_setpan 94
 layer_portamento 0x85, 38, 255
-layer_note1 NOTE_C4, 0xc3, 99
-layer_note1 NOTE_B3, 0x17, 99
+layer_note1 PITCH_C4, 0xc3, 99
+layer_note1 PITCH_B3, 0x17, 99
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_setpan 64
-layer_note1 NOTE_B3, 0x11, 76
+layer_note1 PITCH_B3, 0x11, 76
 layer_call .layer_fn_F49
 layer_setpan 37
-layer_note1 NOTE_B3, 0x13, 105
+layer_note1 PITCH_B3, 0x13, 105
 layer_call .layer_fn_F49
 layer_setpan 43
 layer_portamento 0x81, 38, 127
-layer_note1 NOTE_C4, 0x112, 91
+layer_note1 PITCH_C4, 0x112, 91
 layer_call .layer_fn_F49
 layer_call .layer_fn_F49
 layer_jumprel .layer_BD2
@@ -1438,7 +1440,7 @@ layer_setreleaserate 236
 layer_setpan 34
 layer_delay 0x18
 layer_call .layer_fn_F50
-layer_note1 NOTE_C4, 0x2a, 85
+layer_note1 PITCH_C4, 0x2a, 85
 layer_call .layer_fn_F50
 layer_jumprel .layer_C60
 
@@ -1447,32 +1449,32 @@ layer_setreleaserate 236
 .layer_C60:
 layer_call .layer_fn_F50
 layer_setpan 75
-layer_note1 NOTE_C4, 0x34, 94
+layer_note1 PITCH_C4, 0x34, 94
 layer_call .layer_fn_F50
 layer_setpan 34
-layer_note1 NOTE_C4, 0x9f, 67
+layer_note1 PITCH_C4, 0x9f, 67
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_setpan 72
-layer_note1 NOTE_C4, 0xc5, 79
+layer_note1 PITCH_C4, 0xc5, 79
 layer_call .layer_fn_F50
 layer_setpan 41
-layer_note1 NOTE_C4, 0x85, 68
+layer_note1 PITCH_C4, 0x85, 68
 layer_call .layer_fn_F50
 layer_setpan 49
-layer_note1 NOTE_C4, 0xd3, 99
+layer_note1 PITCH_C4, 0xd3, 99
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_setpan 68
-layer_note1 NOTE_C4, 0x3b, 94
+layer_note1 PITCH_C4, 0x3b, 94
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_setpan 105
-layer_note1 NOTE_C4, 0xc5, 81
+layer_note1 PITCH_C4, 0xc5, 81
 layer_call .layer_fn_F50
 layer_setpan 76
-layer_note1 NOTE_C4, 0x3b, 86
+layer_note1 PITCH_C4, 0x3b, 86
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_jumprel .layer_C60
@@ -1482,7 +1484,7 @@ layer_setreleaserate 236
 layer_setpan 34
 layer_call .layer_fn_F50
 layer_delay 0x18
-layer_note1 NOTE_C4, 0x5e, 77
+layer_note1 PITCH_C4, 0x5e, 77
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_jumprel .layer_CD2
@@ -1493,31 +1495,31 @@ layer_call .layer_fn_F50
 .layer_CD2:
 layer_call .layer_fn_F50
 layer_setpan 75
-layer_note1 NOTE_C4, 0x98, 94
+layer_note1 PITCH_C4, 0x98, 94
 layer_call .layer_fn_F50
 layer_setpan 34
-layer_note1 NOTE_C4, 0xd2, 84
+layer_note1 PITCH_C4, 0xd2, 84
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_setpan 59
-layer_note1 NOTE_C4, 0xa8, 99
+layer_note1 PITCH_C4, 0xa8, 99
 layer_call .layer_fn_F50
 layer_setpan 95
-layer_note1 NOTE_C4, 0x25, 74
+layer_note1 PITCH_C4, 0x25, 74
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_setpan 81
-layer_note1 NOTE_C4, 0x2c, 88
+layer_note1 PITCH_C4, 0x2c, 88
 layer_call .layer_fn_F50
 layer_call .layer_fn_F50
 layer_setpan 64
-layer_note1 NOTE_C4, 0x4e, 91
+layer_note1 PITCH_C4, 0x4e, 91
 layer_call .layer_fn_F50
 layer_setpan 37
-layer_note1 NOTE_C4, 0x9e, 68
+layer_note1 PITCH_C4, 0x9e, 68
 layer_call .layer_fn_F50
 layer_setpan 45
-layer_note1 NOTE_C4, 0x73, 78
+layer_note1 PITCH_C4, 0x73, 78
 layer_call .layer_fn_F50
 layer_jumprel .layer_CD2
 
@@ -1531,7 +1533,7 @@ layer_call .layer_fn_F65
 layer_setpan 34
 layer_delay 0x18
 layer_call .layer_fn_F65
-layer_note1 NOTE_C4, 0x2a, 85
+layer_note1 PITCH_C4, 0x2a, 85
 layer_call .layer_fn_F65
 layer_jumprel .layer_D3C
 
@@ -1539,39 +1541,39 @@ layer_jumprel .layer_D3C
 layer_call .layer_fn_F65
 .layer_D3C:
 layer_setpan 75
-layer_note1 NOTE_C4, 0x34, 94
+layer_note1 PITCH_C4, 0x34, 94
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_setpan 47
-layer_note1 NOTE_DF4, 0x28, 76
-layer_note1 NOTE_DF4, 0x2a, 77
+layer_note1 PITCH_DF4, 0x28, 76
+layer_note1 PITCH_DF4, 0x2a, 77
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_setpan 61
-layer_note1 NOTE_C4, 0x24, 76
+layer_note1 PITCH_C4, 0x24, 76
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_setpan 37
-layer_note1 NOTE_C4, 0x2b, 65
-layer_note1 NOTE_C4, 0x33, 65
+layer_note1 PITCH_C4, 0x2b, 65
+layer_note1 PITCH_C4, 0x33, 65
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_setpan 87
-layer_note1 NOTE_C4, 0x21, 88
-layer_note1 NOTE_C4, 0x2f, 88
+layer_note1 PITCH_C4, 0x21, 88
+layer_note1 PITCH_C4, 0x2f, 88
 layer_call .layer_fn_F65
 layer_setpan 71
-layer_note1 NOTE_C4, 0x2d, 77
-layer_note1 NOTE_C4, 0x27, 77
+layer_note1 PITCH_C4, 0x2d, 77
+layer_note1 PITCH_C4, 0x27, 77
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_setpan 49
-layer_note1 NOTE_C4, 0x37, 85
+layer_note1 PITCH_C4, 0x37, 85
 layer_call .layer_fn_F65
 layer_call .layer_fn_F65
 layer_jumprel .layer_D3C
@@ -1627,7 +1629,7 @@ layer_setpan 84
 layer_enablelegato
 layer_portamento 0x1, 34, 0x64
 .layer_DF4:
-layer_note1 NOTE_C4, 0x60, 100
+layer_note1 PITCH_C4, 0x60, 100
 layer_jumprel .layer_DF4
 
 .layer_DF9:
@@ -1640,7 +1642,7 @@ layer_setstereo 20
 layer_enablelegato
 layer_portamento 0x1, 34, 0x64
 .layer_E06:
-layer_note1 NOTE_BF3, 0x60, 100
+layer_note1 PITCH_BF3, 0x60, 100
 layer_jumprel .layer_E06
 
 .chan_E0B:
@@ -1746,9 +1748,9 @@ layer_setenvelope .envelope_101E, 97
 layer_portamento 0x85, 27, 255
 layer_enablelegato
 .layer_EB8:
-layer_note1 NOTE_A2, 0x1c2, 110
+layer_note1 PITCH_A2, 0x1c2, 110
 .layer_EBC:
-layer_note1 NOTE_A2, 0x64, 110
+layer_note1 PITCH_A2, 0x64, 110
 .layer_EBF:
 layer_delay 0x60
 layer_disablelegato
@@ -1765,10 +1767,10 @@ layer_setreleaserate 97
 layer_setpan 64
 layer_delay 0x1
 .layer_ECF:
-layer_note1 NOTE_C4, 0xc8, 127
+layer_note1 PITCH_C4, 0xc8, 127
 .layer_ED3:
 layer_setstereo 20
-layer_note1 NOTE_A1, 0x28, 80
+layer_note1 PITCH_A1, 0x28, 80
 layer_setstereo 0
 layer_end
 

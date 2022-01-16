@@ -85,11 +85,11 @@ layer_setinstr F0_I_DING
 layer_transpose 12
 layer_setreleaserate 225
 layer_setpan 54
-layer_note1 NOTE_BF3, 0xc, 73
-layer_note1 NOTE_C4, 0xc, 73
-layer_note1 NOTE_D4, 0xc, 73
-layer_note1 NOTE_EF4, 0xc, 73
-layer_note1 NOTE_F4, 0x18, 73
+layer_note1 PITCH_BF3, 0xc, 73
+layer_note1 PITCH_C4, 0xc, 73
+layer_note1 PITCH_D4, 0xc, 73
+layer_note1 PITCH_EF4, 0xc, 73
+layer_note1 PITCH_F4, 0x18, 73
 layer_end
 
 .layer_57DF:
@@ -98,9 +98,9 @@ layer_transpose 24
 layer_setenvelope .envelope_65D8, 245
 layer_setpan 74
 layer_portamento 0x81, 20, 255
-layer_note1 NOTE_F3, 0x18, 73
+layer_note1 PITCH_F3, 0x18, 73
 layer_delay 0x4
-layer_note1 NOTE_F3, 0x18, 73
+layer_note1 PITCH_F3, 0x18, 73
 layer_end
 
 .system_menu_close:
@@ -116,11 +116,11 @@ layer_setinstr F0_I_DING
 layer_setreleaserate 225
 layer_transpose 12
 layer_setpan 54
-layer_note1 NOTE_F4, 0x4, 73
-layer_note1 NOTE_EF4, 0x4, 73
-layer_note1 NOTE_D4, 0x4, 73
-layer_note1 NOTE_C4, 0x4, 73
-layer_note1 NOTE_BF3, 0xc, 73
+layer_note1 PITCH_F4, 0x4, 73
+layer_note1 PITCH_EF4, 0x4, 73
+layer_note1 PITCH_D4, 0x4, 73
+layer_note1 PITCH_C4, 0x4, 73
+layer_note1 PITCH_BF3, 0xc, 73
 layer_end
 
 .layer_581C:
@@ -129,9 +129,9 @@ layer_transpose 24
 layer_setenvelope .envelope_65D8, 245
 layer_setpan 74
 layer_portamento 0x81, 20, 255
-layer_note1 NOTE_F3, 0xc, 73
+layer_note1 PITCH_F3, 0xc, 73
 layer_delay 0x4
-layer_note1 NOTE_F3, 0xc, 73
+layer_note1 PITCH_F3, 0xc, 73
 layer_end
 
 .system_puzzle_solved:
@@ -144,19 +144,19 @@ chan_end
 
 .layer_5841:
 layer_setpan 54
-layer_note1 NOTE_G4, 0x18, 75
-layer_note1 NOTE_EF4, 0x18, 75
-layer_note1 NOTE_AF3, 0x18, 75
-layer_note1 NOTE_AF4, 0x30, 75
+layer_note1 PITCH_G4, 0x18, 75
+layer_note1 PITCH_EF4, 0x18, 75
+layer_note1 PITCH_AF3, 0x18, 75
+layer_note1 PITCH_AF4, 0x30, 75
 layer_end
 
 .layer_5850:
 layer_setpan 74
 layer_delay 0xc
-layer_note1 NOTE_GF4, 0x18, 75
-layer_note1 NOTE_A3, 0x18, 75
-layer_note1 NOTE_E4, 0x18, 75
-layer_note1 NOTE_C5, 0x30, 75
+layer_note1 PITCH_GF4, 0x18, 75
+layer_note1 PITCH_A3, 0x18, 75
+layer_note1 PITCH_E4, 0x18, 75
+layer_note1 PITCH_C5, 0x30, 75
 layer_end
 
 .system_rupee:
@@ -168,14 +168,14 @@ chan_end
 layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
 layer_transpose 24
-layer_note1 NOTE_BF4, 0x6, 80
-layer_note1 NOTE_F4, 0x6, 80
-layer_note1 NOTE_BF4, 0x18, 80
+layer_note1 PITCH_BF4, 0x6, 80
+layer_note1 PITCH_F4, 0x6, 80
+layer_note1 PITCH_BF4, 0x18, 80
 layer_end
 
 .layer_587A:
 layer_setinstr F0_I_UNKNOWN
-layer_note1 NOTE_C5, 0x24, 72
+layer_note1 PITCH_C5, 0x24, 72
 layer_end
 
 .system_timer_ding:
@@ -185,7 +185,7 @@ chan_end
 .layer_5884:
 layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6720, 250
-layer_note1 NOTE_A4, 0x6, 60
+layer_note1 PITCH_A4, 0x6, 60
 layer_end
 
 .system_error:
@@ -195,8 +195,8 @@ chan_end
 .layer_5892:
 layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_664C, 250
-layer_note1 NOTE_E2, 0x9, 80
-layer_note1 NOTE_E2, 0x24, 80
+layer_note1 PITCH_E2, 0x9, 80
+layer_note1 PITCH_E2, 0x24, 80
 layer_end
 
 .system_treasure_appear:
@@ -208,31 +208,31 @@ chan_setlayer 1, .layer_58C3
 chan_end
 
 .layer_58AD:
-layer_note1 NOTE_A4, 0xc, 70
-layer_note1 NOTE_B4, 0xc, 70
-layer_note1 NOTE_D5, 0xc, 70
-layer_note1 NOTE_E5, 0xc, 70
-layer_note1 NOTE_A5, 0x12, 70
-layer_note1 NOTE_A5, 0x12, 40
-layer_note1 NOTE_A5, 0x12, 15
+layer_note1 PITCH_A4, 0xc, 70
+layer_note1 PITCH_B4, 0xc, 70
+layer_note1 PITCH_D5, 0xc, 70
+layer_note1 PITCH_E5, 0xc, 70
+layer_note1 PITCH_A5, 0x12, 70
+layer_note1 PITCH_A5, 0x12, 40
+layer_note1 PITCH_A5, 0x12, 15
 layer_end
 
 .layer_58C3:
 layer_delay 0x6
 layer_setpan 34
-layer_note1 NOTE_A4, 0xc, 40
+layer_note1 PITCH_A4, 0xc, 40
 layer_setpan 94
-layer_note1 NOTE_B4, 0xc, 40
+layer_note1 PITCH_B4, 0xc, 40
 layer_setpan 34
-layer_note1 NOTE_D5, 0xc, 40
+layer_note1 PITCH_D5, 0xc, 40
 layer_setpan 94
-layer_note1 NOTE_E5, 0xc, 40
+layer_note1 PITCH_E5, 0xc, 40
 layer_setpan 34
-layer_note1 NOTE_A5, 0x12, 40
+layer_note1 PITCH_A5, 0x12, 40
 layer_setpan 94
-layer_note1 NOTE_A5, 0x12, 20
+layer_note1 PITCH_A5, 0x12, 20
 layer_setpan 64
-layer_note1 NOTE_A5, 0x12, 10
+layer_note1 PITCH_A5, 0x12, 10
 layer_end
 
 .system_item_equipped:
@@ -244,31 +244,31 @@ chan_setlayer 1, .layer_590D
 chan_end
 
 .layer_58F7:
-layer_note1 NOTE_A4, 0x6, 80
-layer_note1 NOTE_B4, 0x6, 80
-layer_note1 NOTE_D5, 0x6, 80
-layer_note1 NOTE_E5, 0x6, 80
-layer_note1 NOTE_A5, 0x9, 80
-layer_note1 NOTE_A5, 0x9, 50
-layer_note1 NOTE_A5, 0x9, 30
+layer_note1 PITCH_A4, 0x6, 80
+layer_note1 PITCH_B4, 0x6, 80
+layer_note1 PITCH_D5, 0x6, 80
+layer_note1 PITCH_E5, 0x6, 80
+layer_note1 PITCH_A5, 0x9, 80
+layer_note1 PITCH_A5, 0x9, 50
+layer_note1 PITCH_A5, 0x9, 30
 layer_end
 
 .layer_590D:
 layer_delay 0x6
 layer_setpan 34
-layer_note1 NOTE_A4, 0x6, 55
+layer_note1 PITCH_A4, 0x6, 55
 layer_setpan 94
-layer_note1 NOTE_B4, 0x6, 55
+layer_note1 PITCH_B4, 0x6, 55
 layer_setpan 34
-layer_note1 NOTE_D5, 0x6, 55
+layer_note1 PITCH_D5, 0x6, 55
 layer_setpan 94
-layer_note1 NOTE_E5, 0x6, 55
+layer_note1 PITCH_E5, 0x6, 55
 layer_setpan 34
-layer_note1 NOTE_A5, 0x9, 55
+layer_note1 PITCH_A5, 0x9, 55
 layer_setpan 94
-layer_note1 NOTE_A5, 0x9, 45
+layer_note1 PITCH_A5, 0x9, 45
 layer_setpan 64
-layer_note1 NOTE_A5, 0x9, 30
+layer_note1 PITCH_A5, 0x9, 30
 layer_end
 
 .system_cursor:
@@ -279,8 +279,8 @@ chan_end
 layer_setinstr INSTR_WV_SQUARE
 layer_setenvelope .envelope_6660, 242
 layer_portamento 0x81, 36, 72
-layer_note1 NOTE_D4, 0xa, 45
-layer_note1 NOTE_D4, 0x6, 45
+layer_note1 PITCH_D4, 0xa, 45
+layer_note1 PITCH_D4, 0x6, 45
 layer_end
 
 .system_cursor_cancel:
@@ -292,13 +292,13 @@ chan_end
 .layer_5951:
 layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_664C, 250
-layer_note1 NOTE_A4, 0x6, 60
-layer_note1 NOTE_E4, 0x6, 60
-layer_note1 NOTE_D4, 0x6, 60
-layer_note1 NOTE_B3, 0x6, 60
-layer_note1 NOTE_A3, 0x9, 60
-layer_note1 NOTE_B3, 0x6, 20
-layer_note1 NOTE_A3, 0x9, 20
+layer_note1 PITCH_A4, 0x6, 60
+layer_note1 PITCH_E4, 0x6, 60
+layer_note1 PITCH_D4, 0x6, 60
+layer_note1 PITCH_B3, 0x6, 60
+layer_note1 PITCH_A3, 0x9, 60
+layer_note1 PITCH_B3, 0x6, 20
+layer_note1 PITCH_A3, 0x9, 20
 layer_end
 
 .system_heart:
@@ -309,11 +309,11 @@ chan_end
 layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6720, 246
 layer_portamento 0x81, 34, 127
-layer_note1 NOTE_A3, 0x8, 100
+layer_note1 PITCH_A3, 0x8, 100
 layer_portamento 0x81, 46, 127
-layer_note1 NOTE_A4, 0x8, 100
+layer_note1 PITCH_A4, 0x8, 100
 layer_portamento 0x81, 58, 127
-layer_note1 NOTE_A5, 0x8, 100
+layer_note1 PITCH_A5, 0x8, 100
 layer_end
 
 .system_z_shift:
@@ -324,7 +324,7 @@ chan_end
 layer_setinstr F0_I_DING
 layer_setenvelope .envelope_6688, 251
 layer_portamento 0x81, 36, 192
-layer_note1 NOTE_A5, 0x38, 110
+layer_note1 PITCH_A5, 0x38, 110
 layer_end
 
 .chan_unused_599F:
@@ -333,7 +333,7 @@ chan_setlayer 0, .layer_59A5
 chan_end
 
 .layer_59A5:
-layer_note1 NOTE_A4, 0x60, 105
+layer_note1 PITCH_A4, 0x60, 105
 layer_end
 
 .system_map_select_cursor_old:
@@ -344,7 +344,7 @@ chan_end
 layer_setinstr F0_I_SWORD_STRIKE
 layer_setenvelope .envelope_664C, 255
 layer_transpose -5
-layer_note1 NOTE_F4, 0x20, 105
+layer_note1 PITCH_F4, 0x20, 105
 layer_end
 
 .layer_unused_59B9:
@@ -352,8 +352,8 @@ layer_setinstr F0_I_SWORD_HIT_SHIELD
 layer_setenvelope .envelope_66B0, 250
 layer_enablelegato
 layer_portamento 0x85, 46, 255
-layer_note1 NOTE_B4, 0x12, 90
-layer_note1 NOTE_E4, 0x8, 90
+layer_note1 PITCH_B4, 0x12, 90
+layer_note1 PITCH_E4, 0x8, 90
 layer_end
 
 .system_z_cancel:
@@ -365,9 +365,9 @@ layer_setinstr INSTR_WV_SQUARE
 layer_transpose 9
 layer_setenvelope .envelope_6660, 250
 layer_portamento 0x81, 24, 64
-layer_note1 NOTE_D3, 0x2, 65
-layer_note1 NOTE_A2, 0xc, 65
-layer_note1 NOTE_D3, 0x6, 35
+layer_note1 PITCH_D3, 0x2, 65
+layer_note1 PITCH_A2, 0xc, 65
+layer_note1 PITCH_D3, 0x6, 35
 layer_end
 
 .system_z_lock:
@@ -377,12 +377,12 @@ chan_end
 .layer_59E9:
 layer_setinstr F0_I_DING
 layer_setenvelope .envelope_6660, 250
-layer_note1 NOTE_D4, 0x6, 90
-layer_note1 NOTE_G4, 0x6, 90
-layer_note1 NOTE_GF4, 0x6, 90
-layer_note1 NOTE_G4, 0xc, 90
-layer_note1 NOTE_G4, 0xc, 40
-layer_note1 NOTE_G4, 0xc, 20
+layer_note1 PITCH_D4, 0x6, 90
+layer_note1 PITCH_G4, 0x6, 90
+layer_note1 PITCH_GF4, 0x6, 90
+layer_note1 PITCH_G4, 0xc, 90
+layer_note1 PITCH_G4, 0xc, 40
+layer_note1 PITCH_G4, 0xc, 20
 layer_end
 
 .system_menu_unused_down:
@@ -393,10 +393,10 @@ chan_end
 layer_setinstr F0_I_DING
 layer_setenvelope .envelope_6660, 250
 layer_transpose 12
-layer_note1 NOTE_GF4, 0xa, 78
-layer_note1 NOTE_D4, 0xa, 78
-layer_note1 NOTE_B3, 0xa, 78
-layer_note1 NOTE_A3, 0x14, 78
+layer_note1 PITCH_GF4, 0xa, 78
+layer_note1 PITCH_D4, 0xa, 78
+layer_note1 PITCH_B3, 0xa, 78
+layer_note1 PITCH_A3, 0x14, 78
 layer_end
 
 .system_menu_unused_up:
@@ -407,10 +407,10 @@ chan_end
 layer_setinstr F0_I_DING
 layer_setenvelope .envelope_6660, 250
 layer_transpose 12
-layer_note1 NOTE_A3, 0xa, 78
-layer_note1 NOTE_B3, 0xa, 78
-layer_note1 NOTE_D4, 0xa, 78
-layer_note1 NOTE_GF4, 0x14, 78
+layer_note1 PITCH_A3, 0xa, 78
+layer_note1 PITCH_B3, 0xa, 78
+layer_note1 PITCH_D4, 0xa, 78
+layer_note1 PITCH_GF4, 0x14, 78
 layer_end
 
 .system_camera_mode_toggle:
@@ -421,8 +421,8 @@ chan_end
 layer_setinstr F0_I_DING
 layer_setenvelope .envelope_6660, 250
 layer_transpose 12
-layer_note1 NOTE_D4, 0xa, 78
-layer_note1 NOTE_A3, 0x14, 78
+layer_note1 PITCH_D4, 0xa, 78
+layer_note1 PITCH_A3, 0x14, 78
 layer_end
 
 .system_minimap_toggle:
@@ -433,8 +433,8 @@ chan_end
 layer_setinstr F0_I_DING
 layer_setenvelope .envelope_6660, 250
 layer_transpose 12
-layer_note1 NOTE_A3, 0xa, 78
-layer_note1 NOTE_D4, 0x14, 78
+layer_note1 PITCH_A3, 0xa, 78
+layer_note1 PITCH_D4, 0x14, 78
 layer_end
 
 .system_z_shift_old:
@@ -443,7 +443,7 @@ chan_setlayer 0, .layer_5A60
 chan_end
 
 .layer_5A60:
-layer_note1 NOTE_EF4, 0xc, 70
+layer_note1 PITCH_EF4, 0xc, 70
 layer_end
 
 .system_message_advance:
@@ -453,7 +453,7 @@ chan_end
 .layer_5A68:
 layer_setinstr F0_I_DING
 layer_setenvelope .envelope_6660, 248
-layer_note1 NOTE_G4, 0x2e, 95
+layer_note1 PITCH_G4, 0x2e, 95
 layer_end
 
 .system_countdown_caution:
@@ -463,9 +463,9 @@ chan_end
 .layer_5A76:
 layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
-layer_note1 NOTE_C4, 0x6, 60
-layer_note1 NOTE_C4, 0x4, 40
-layer_note1 NOTE_C4, 0x4, 20
+layer_note1 PITCH_C4, 0x6, 60
+layer_note1 PITCH_C4, 0x4, 40
+layer_note1 PITCH_C4, 0x4, 20
 layer_end
 
 .system_countdown_warn:
@@ -476,13 +476,13 @@ chan_end
 .layer_5A8C:
 layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
-layer_note1 NOTE_C4, 0x6, 65
+layer_note1 PITCH_C4, 0x6, 65
 layer_setpan 34
-layer_note1 NOTE_C5, 0x4, 45
+layer_note1 PITCH_C5, 0x4, 45
 layer_setpan 94
-layer_note1 NOTE_C5, 0x4, 45
+layer_note1 PITCH_C5, 0x4, 45
 layer_setpan 64
-layer_note1 NOTE_C5, 0x4, 30
+layer_note1 PITCH_C5, 0x4, 30
 layer_end
 
 .system_low_health:
@@ -492,8 +492,8 @@ chan_end
 .layer_5AA9:
 layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 248
-layer_note0 NOTE_DF5, 0xd, 60, 128
-layer_note1 NOTE_DF5, 0xd, 60
+layer_note0 PITCH_DF5, 0xd, 60, 128
+layer_note1 PITCH_DF5, 0xd, 60
 layer_end
 
 .system_explosive_boom:
@@ -506,14 +506,14 @@ chan_end
 layer_setinstr F0_I_EXPLOSION_0
 layer_setenvelope .envelope_6610, 251
 layer_setpan 54
-layer_note1 NOTE_DF4, 0x60, 107
+layer_note1 PITCH_DF4, 0x60, 107
 layer_end
 
 .layer_5ACC:
 layer_setinstr F0_I_FLAME_THUNDER
 layer_setenvelope .envelope_6610, 251
 layer_setpan 54
-layer_note1 NOTE_A1, 0x60, 104
+layer_note1 PITCH_A1, 0x60, 104
 layer_end
 
 .system_navi_call:
@@ -525,13 +525,13 @@ chan_end
 layer_setinstr F0_I_FAIRY_MAGIC
 layer_setenvelope .envelope_66D0, 246
 layer_portamento 0x81, 58, 246
-layer_note1 NOTE_A4, 0x20, 49
+layer_note1 PITCH_A4, 0x20, 49
 layer_end
 
 .layer_5AED:
 layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6660, 248
-layer_note1 NOTE_A5, 0x9, 50
+layer_note1 PITCH_A5, 0x9, 50
 layer_end
 
 .system_magic_refill:
@@ -556,7 +556,7 @@ layer_setreleaserate 251
 layer_setpan 34
 .layer_5B19:
 layer_transpose 0
-layer_note1 NOTE_C3, 0x3, 32
+layer_note1 PITCH_C3, 0x3, 32
 layer_delay 0x3
 layer_jumprel .layer_5B19
 
@@ -569,9 +569,9 @@ chan_end
 layer_enablelegato
 layer_setenvelope .envelope_6674, 245
 layer_portamento 0x81, 36, 255
-layer_note1 NOTE_F2, 0x8, 68
+layer_note1 PITCH_F2, 0x8, 68
 layer_portamento 0x81, 20, 225
-layer_note1 NOTE_C4, 0x1c, 68
+layer_note1 PITCH_C4, 0x1c, 68
 layer_end
 
 .system_unused21:
@@ -586,8 +586,8 @@ layer_end
 .layer_unused_5B45:
 layer_setenvelope .envelope_6674, 245
 layer_portamento 0x83, 32, 255
-layer_note1 NOTE_F2, 0xc, 80
-layer_note1 NOTE_F2, 0xc, 40
+layer_note1 PITCH_F2, 0xc, 80
+layer_note1 PITCH_F2, 0xc, 40
 layer_end
 
 .system_unused22:
@@ -609,25 +609,25 @@ chan_end
 .layer_5B69:
 layer_setpan 84
 layer_delay 0x6
-layer_note1 NOTE_G3, 0xc, 80
-layer_note1 NOTE_C4, 0xc, 80
-layer_note1 NOTE_G4, 0xc, 80
-layer_note1 NOTE_C5, 0xc, 80
+layer_note1 PITCH_G3, 0xc, 80
+layer_note1 PITCH_C4, 0xc, 80
+layer_note1 PITCH_G4, 0xc, 80
+layer_note1 PITCH_C5, 0xc, 80
 layer_setenvelope .envelope_6660, 222
 layer_setpan 44
-layer_note1 NOTE_E5, 0x18, 30
+layer_note1 PITCH_E5, 0x18, 30
 layer_setpan 84
-layer_note1 NOTE_E5, 0x18, 20
+layer_note1 PITCH_E5, 0x18, 20
 layer_end
 
 .layer_5B88:
 layer_setpan 44
-layer_note1 NOTE_E3, 0xc, 80
-layer_note1 NOTE_A3, 0xc, 80
-layer_note1 NOTE_E4, 0xc, 80
-layer_note1 NOTE_A4, 0xc, 80
+layer_note1 PITCH_E3, 0xc, 80
+layer_note1 PITCH_A3, 0xc, 80
+layer_note1 PITCH_E4, 0xc, 80
+layer_note1 PITCH_A4, 0xc, 80
 layer_setpan 64
-layer_note1 NOTE_E5, 0x60, 80
+layer_note1 PITCH_E5, 0x60, 80
 layer_end
 
 .system_get_item:
@@ -640,15 +640,15 @@ chan_end
 .layer_5BA7:
 layer_call .layer_fn_5BB4
 .layer_5BAA:
-layer_note1 NOTE_AF4, 0xa, 75
-layer_note1 NOTE_AF4, 0x14, 55
-layer_note1 NOTE_AF4, 0x14, 35
+layer_note1 PITCH_AF4, 0xa, 75
+layer_note1 PITCH_AF4, 0x14, 55
+layer_note1 PITCH_AF4, 0x14, 35
 layer_end
 
 .layer_fn_5BB4:
-layer_note1 NOTE_AF4, 0xa, 75
-layer_note1 NOTE_F4, 0xa, 75
-layer_note1 NOTE_DF4, 0xa, 75
+layer_note1 PITCH_AF4, 0xa, 75
+layer_note1 PITCH_F4, 0xa, 75
+layer_note1 PITCH_DF4, 0xa, 75
 layer_end
 
 .system_menu_scroll_left:
@@ -662,17 +662,17 @@ chan_end
 .layer_5BCC:
 layer_setpan 24
 .layer_5BCE:
-layer_note1 NOTE_F4, 0x8, 70
-layer_note1 NOTE_BF4, 0x8, 70
-layer_note1 NOTE_A4, 0x8, 70
-layer_note1 NOTE_G4, 0x8, 70
-layer_note1 NOTE_F4, 0x10, 70
-layer_note1 NOTE_F4, 0x20, 35
+layer_note1 PITCH_F4, 0x8, 70
+layer_note1 PITCH_BF4, 0x8, 70
+layer_note1 PITCH_A4, 0x8, 70
+layer_note1 PITCH_G4, 0x8, 70
+layer_note1 PITCH_F4, 0x10, 70
+layer_note1 PITCH_F4, 0x20, 35
 layer_end
 
 .layer_5BE1:
-layer_note1 NOTE_BF3, 0x20, 45
-layer_note1 NOTE_A3, 0x30, 45
+layer_note1 PITCH_BF3, 0x20, 45
+layer_note1 PITCH_A3, 0x30, 45
 layer_end
 
 .system_menu_scroll_right:
@@ -694,7 +694,7 @@ chan_setlayer 0, .layer_5C03
 chan_end
 
 .layer_5C03:
-layer_note1 NOTE_G4, 0x43, 110
+layer_note1 PITCH_G4, 0x43, 110
 layer_end
 
 .system_camera_mode_toggle_old:
@@ -704,10 +704,10 @@ chan_end
 .layer_5C0B:
 layer_setinstr F0_I_DING
 layer_setreleaserate 250
-layer_note1 NOTE_A3, 0x6, 90
+layer_note1 PITCH_A3, 0x6, 90
 layer_setenvelope .envelope_6674, 245
 layer_portamento 0x81, 36, 144
-layer_note1 NOTE_A4, 0x18, 90
+layer_note1 PITCH_A4, 0x18, 90
 layer_end
 
 .system_minimap_toggle_old:
@@ -717,10 +717,10 @@ chan_end
 .layer_5C22:
 layer_setinstr F0_I_DING
 layer_setreleaserate 250
-layer_note1 NOTE_A4, 0x6, 90
+layer_note1 PITCH_A4, 0x6, 90
 layer_setenvelope .envelope_6674, 245
 layer_portamento 0x82, 36, 144
-layer_note1 NOTE_E4, 0x18, 60
+layer_note1 PITCH_E4, 0x18, 60
 layer_end
 
 .system_lens_on:
@@ -731,8 +731,8 @@ chan_end
 
 .layer_5C3E:
 layer_enablelegato
-layer_note1 NOTE_C4, 0x18, 100
-layer_note1 NOTE_D4, 0x60, 100
+layer_note1 PITCH_C4, 0x18, 100
+layer_note1 PITCH_D4, 0x60, 100
 layer_end
 
 .system_lens_off:
@@ -743,8 +743,8 @@ chan_end
 
 .layer_5C4F:
 layer_enablelegato
-layer_note1 NOTE_C4, 0x18, 100
-layer_note1 NOTE_BF3, 0x60, 100
+layer_note1 PITCH_C4, 0x18, 100
+layer_note1 PITCH_BF3, 0x60, 100
 layer_end
 
 .system_gerudo_whistle:
@@ -753,8 +753,8 @@ chan_setlayer 0, .layer_5C5D
 chan_end
 
 .layer_5C5D:
-layer_note1 NOTE_EF4, 0x6, 100
-layer_note1 NOTE_F4, 0x60, 100
+layer_note1 PITCH_EF4, 0x6, 100
+layer_note1 PITCH_F4, 0x60, 100
 layer_end
 
 .system_minigame_bell:
@@ -766,9 +766,9 @@ chan_end
 layer_transpose 48
 layer_loop 4
 layer_setreleaserate 250
-layer_note1 NOTE_C4, 0xc, 98
+layer_note1 PITCH_C4, 0xc, 98
 layer_setreleaserate 216
-layer_note1 NOTE_C4, 0x28, 87
+layer_note1 PITCH_C4, 0x28, 87
 layer_loopend
 layer_end
 
@@ -778,13 +778,13 @@ chan_setlayer 0, .layer_5C80
 chan_end
 
 .layer_5C80:
-layer_note1 NOTE_E4, 0x6, 70
-layer_note1 NOTE_D4, 0x6, 70
-layer_note1 NOTE_C4, 0xc, 70
+layer_note1 PITCH_E4, 0x6, 70
+layer_note1 PITCH_D4, 0x6, 70
+layer_note1 PITCH_C4, 0xc, 70
 layer_setpan 44
-layer_note1 NOTE_C4, 0x6, 36
+layer_note1 PITCH_C4, 0x6, 36
 layer_setpan 84
-layer_note1 NOTE_C4, 0xc, 36
+layer_note1 PITCH_C4, 0xc, 36
 layer_end
 
 .system_rupee_increase:
@@ -794,14 +794,14 @@ chan_end
 
 .layer_5C9B:
 layer_setinstr F0_I_UNKNOWN
-layer_note1 NOTE_G5, 0xe, 66
+layer_note1 PITCH_G5, 0xe, 66
 layer_end
 
 .layer_5CA1:
 layer_transpose 24
 layer_setinstr INSTR_WV_SAWTOOTH
 layer_setenvelope .envelope_6660, 250
-layer_note1 NOTE_F4, 0x3, 52
+layer_note1 PITCH_F4, 0x3, 52
 layer_end
 
 .system_z_lock_enemy:
@@ -811,7 +811,7 @@ chan_end
 .layer_5CB1:
 layer_setinstr F0_I_Z_TARGET
 layer_transpose 48
-layer_note1 NOTE_C4, 0x61, 100
+layer_note1 PITCH_C4, 0x61, 100
 layer_end
 
 .system_get_treasure_item:
@@ -823,9 +823,9 @@ chan_end
 
 .layer_5CC4:
 layer_call .layer_fn_5BB4
-layer_note1 NOTE_BF4, 0xa, 75
-layer_note1 NOTE_G4, 0xa, 75
-layer_note1 NOTE_EF4, 0xa, 75
+layer_note1 PITCH_BF4, 0xa, 75
+layer_note1 PITCH_G4, 0xa, 75
+layer_note1 PITCH_EF4, 0xa, 75
 layer_jump .layer_5BAA
 
 .system_long_whiteout:
@@ -839,7 +839,7 @@ layer_delay 0x64
 layer_setinstr F0_I_WHISTLE
 layer_setenvelope .envelope_67CC, 221
 layer_transpose 24
-layer_note1 NOTE_B5, 0x96, 100
+layer_note1 PITCH_B5, 0x96, 100
 layer_end
 
 .layer_5CEB:
@@ -847,7 +847,7 @@ layer_setinstr F0_I_SLIDE_HEAVY
 layer_setenvelope .envelope_67D8, 221
 layer_transpose 12
 layer_portamento 0x81, 2, 255
-layer_note1 NOTE_B5, 0xfa, 85
+layer_note1 PITCH_B5, 0xfa, 85
 layer_end
 
 .system_whiteout:
@@ -860,14 +860,14 @@ chan_end
 layer_setinstr F0_I_WHISTLE
 layer_setenvelope .envelope_67D8, 200
 layer_transpose 24
-layer_note1 NOTE_B5, 0xc8, 100
+layer_note1 PITCH_B5, 0xc8, 100
 layer_end
 
 .layer_5D12:
 layer_setinstr F0_I_SLIDE_HEAVY
 layer_setenvelope .envelope_67D8, 200
 layer_transpose 12
-layer_note1 NOTE_B5, 0xc8, 85
+layer_note1 PITCH_B5, 0xc8, 85
 layer_end
 
 .system_warp_in:
@@ -880,14 +880,14 @@ chan_end
 layer_setinstr F0_I_WARP
 layer_setenvelope .envelope_6638, 221
 layer_transpose 24
-layer_note1 NOTE_B5, 0x40, 95
+layer_note1 PITCH_B5, 0x40, 95
 layer_end
 
 .layer_5D34:
 layer_setinstr F0_I_DISTORTION
 layer_setenvelope .envelope_66D0, 224
 layer_transpose 12
-layer_note1 NOTE_B5, 0x20, 65
+layer_note1 PITCH_B5, 0x20, 65
 layer_end
 
 .system_shotgun:
@@ -903,7 +903,7 @@ layer_setenvelope .envelope_66A0, 251
 
 .layer_5D51:
 layer_transpose 48
-layer_note1 NOTE_C4, 0x0, 115
+layer_note1 PITCH_C4, 0x0, 115
 layer_end
 
 .system_metronome:
@@ -921,7 +921,7 @@ chan_setlayer 0, .layer_5D67
 chan_end
 
 .layer_5D67:
-layer_note1 NOTE_C4, 0x39, 110
+layer_note1 PITCH_C4, 0x39, 110
 layer_end
 
 .system_metronome2:
@@ -940,13 +940,13 @@ chan_end
 
 .layer_5D7D:
 layer_call .layer_fn_5D95
-layer_note1 NOTE_C3, 0x10, 100
+layer_note1 PITCH_C3, 0x10, 100
 layer_end
 
 .layer_5D84:
 layer_call .layer_fn_5D8E
-layer_note1 NOTE_C3, 0x8, 46
-layer_note1 NOTE_C4, 0x1c, 36
+layer_note1 PITCH_C3, 0x8, 46
+layer_note1 PITCH_C4, 0x1c, 36
 layer_end
 
 .layer_fn_5D8E:
@@ -969,13 +969,13 @@ chan_end
 layer_setinstr F0_I_WARP
 layer_setenvelope .envelope_6610, 232
 layer_transpose 36
-layer_note1 NOTE_E3, 0x1e, 95
+layer_note1 PITCH_E3, 0x1e, 95
 layer_end
 
 .layer_5DB1:
 layer_call .layer_fn_5D8E
-layer_note1 NOTE_D4, 0x6, 50
-layer_note1 NOTE_E4, 0x18, 50
+layer_note1 PITCH_D4, 0x6, 50
+layer_note1 PITCH_E4, 0x18, 50
 layer_end
 
 .system_file_enter:
@@ -988,14 +988,14 @@ layer_transpose 36
 .layer_5DC4:
 layer_setinstr F0_I_WARP
 layer_setenvelope .envelope_6610, 232
-layer_note1 NOTE_A3, 0x60, 112
+layer_note1 PITCH_A3, 0x60, 112
 layer_end
 
 .layer_5DCE:
 layer_call .layer_fn_5D8E
-layer_note1 NOTE_D4, 0x6, 50
-layer_note1 NOTE_G4, 0x6, 50
-layer_note1 NOTE_A4, 0x18, 50
+layer_note1 PITCH_D4, 0x6, 50
+layer_note1 PITCH_G4, 0x6, 50
+layer_note1 PITCH_A4, 0x18, 50
 layer_end
 
 .system_file_cancel:
@@ -1009,9 +1009,9 @@ layer_jumprel .layer_5DC4
 
 .layer_5DE6:
 layer_call .layer_fn_5D8E
-layer_note1 NOTE_A4, 0x6, 50
-layer_note1 NOTE_E4, 0x6, 50
-layer_note1 NOTE_A3, 0x18, 50
+layer_note1 PITCH_A4, 0x6, 50
+layer_note1 PITCH_E4, 0x6, 50
+layer_note1 PITCH_A3, 0x18, 50
 layer_end
 
 .system_file_error:
@@ -1021,10 +1021,10 @@ chan_end
 .layer_5DF7:
 layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6718, 240
-layer_note1 NOTE_BF2, 0x9, 70
-layer_note1 NOTE_A2, 0x9, 70
-layer_note1 NOTE_BF2, 0x9, 70
-layer_note1 NOTE_A2, 0x18, 70
+layer_note1 PITCH_BF2, 0x9, 70
+layer_note1 PITCH_A2, 0x9, 70
+layer_note1 PITCH_BF2, 0x9, 70
+layer_note1 PITCH_A2, 0x18, 70
 layer_end
 
 .system_equip_fire:
@@ -1080,13 +1080,13 @@ layer_jumprel .layer_5E53
 layer_setpan 34
 .layer_5E53:
 layer_transpose 12
-layer_note1 NOTE_F4, 0xc, 85
-layer_note1 NOTE_BF4, 0xc, 85
-layer_note1 NOTE_EF5, 0xc, 85
-layer_note1 NOTE_BF5, 0xc, 85
-layer_note1 NOTE_F5, 0x18, 85
-layer_note1 NOTE_F5, 0x18, 45
-layer_note1 NOTE_F5, 0x18, 25
+layer_note1 PITCH_F4, 0xc, 85
+layer_note1 PITCH_BF4, 0xc, 85
+layer_note1 PITCH_EF5, 0xc, 85
+layer_note1 PITCH_BF5, 0xc, 85
+layer_note1 PITCH_F5, 0x18, 85
+layer_note1 PITCH_F5, 0x18, 45
+layer_note1 PITCH_F5, 0x18, 25
 layer_end
 
 .system_silver_rupee:
@@ -1096,12 +1096,12 @@ chan_end
 .layer_5E6F:
 layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_66D0, 248
-layer_note1 NOTE_BF3, 0xc, 80
-layer_note1 NOTE_F3, 0xc, 80
-layer_note1 NOTE_D4, 0xc, 80
-layer_note1 NOTE_EF4, 0xc, 80
-layer_note1 NOTE_F4, 0x18, 80
-layer_note1 NOTE_F4, 0x18, 40
+layer_note1 PITCH_BF3, 0xc, 80
+layer_note1 PITCH_F3, 0xc, 80
+layer_note1 PITCH_D4, 0xc, 80
+layer_note1 PITCH_EF4, 0xc, 80
+layer_note1 PITCH_F4, 0x18, 80
+layer_note1 PITCH_F4, 0x18, 40
 layer_end
 
 .system_carrot_recovered:
@@ -1112,6 +1112,6 @@ chan_end
 layer_setinstr INSTR_WV_SINE
 layer_setenvelope .envelope_6720, 246
 layer_portamento 0x83, 32, 127
-layer_note1 NOTE_C4, 0x8, 80
-layer_note1 NOTE_C5, 0xc, 80
+layer_note1 PITCH_C4, 0x8, 80
+layer_note1 PITCH_C5, 0xc, 80
 layer_end

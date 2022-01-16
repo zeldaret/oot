@@ -128,12 +128,12 @@ entry .voice_npcs
 entry .voice_npcs
 entry .voice_npcs
 
-# Play a random voice clip, but not two equal in a row.
+// Play a random voice clip, but not two equal in a row.
 .play_random_voice:
 chan_writeseq 0, .getrand+1
 chan_writeseq 0, .random_voice_cmpmax_instr+1
 chan_setval 0
-chan_writeseq 0, .layer_play_voice+1  # overwrite delay = 0
+chan_writeseq 0, .layer_play_voice+1  // overwrite delay = 0
 chan_call .getrand
 chan_ioreadvalsub 6
 chan_beqzrel .random_voice_same
@@ -148,24 +148,24 @@ chan_subtract 0
 chan_beqzrel .random_voice_store_last
 chan_ioreadval 6
 .random_voice_store_last:
-# Store the last index for both channel 14 and 15
+// Store the last index for both channel 14 and 15
 chan_iowriteval2 14, 6
 chan_iowriteval2 15, 6
 .play_voice_readtone_instr:
-chan_readseq .addr_616D  # read tone at index. source gets overwritten by caller
-chan_writeseq 64, .layer_play_voice  # overwrite "layer_note1 tone"
+chan_readseq .addr_616D  // read tone at index. source gets overwritten by caller
+chan_writeseq 64, .layer_play_voice  // overwrite "layer_note1 tone"
 chan_ioreadval 6
 .play_voice_readvelocity_instr:
-chan_readseq .addr_6171  # read velocity (~volume) at index. source gets overwritten by caller
+chan_readseq .addr_6171  // read velocity (~volume) at index. source gets overwritten by caller
 .play_voice_with_velocity:
-chan_writeseq 0, .layer_play_voice+2  # overwrite velocity
+chan_writeseq 0, .layer_play_voice+2  // overwrite velocity
 chan_setlayer 0, .layer_play_voice
 
 .voice_navi_unused:
 chan_end
 
 .layer_play_voice:
-layer_note1 NOTE_A0, 0x0, 127
+layer_note1 PITCH_A0, 0x0, 127
 layer_end
 
 .getrand:
@@ -175,24 +175,24 @@ chan_end
 .play_dynamic_voice:
 chan_iowriteval 6
 chan_setval 0
-chan_writeseq 0, .layer_play_voice+1  # overwrite delay = 0
+chan_writeseq 0, .layer_play_voice+1  // overwrite delay = 0
 chan_ioreadval 6
 chan_jumprel .play_voice_readtone_instr
 
 .play_single_voice:
 chan_setval 0
-chan_writeseq 0, .layer_play_voice+1  # overwrite delay = 0
+chan_writeseq 0, .layer_play_voice+1  // overwrite delay = 0
 chan_dynsetdyntablelarge
 chan_setval 0
-chan_readdyntable  # read tone from large[0]
-chan_writeseq 64, .layer_play_voice  # overwrite "layer_note1 tone"
+chan_readdyntable  // read tone from large[0]
+chan_writeseq 64, .layer_play_voice  // overwrite "layer_note1 tone"
 chan_setval 1
-chan_readdyntable  # read velocity from large[1]
+chan_readdyntable  // read velocity from large[1]
 chan_jumprel .play_voice_with_velocity
 
-# Same as play_random_voice but only supports two voice clips.
+// Same as play_random_voice but only supports two voice clips.
 .play_alternating_voice:
-chan_writeseq 0, .layer_play_voice+1  # overwrite delay = argument
+chan_writeseq 0, .layer_play_voice+1  // overwrite delay = argument
 chan_ioreadval 6
 chan_subtract 255
 chan_bitand 1
@@ -402,7 +402,7 @@ chan_setlayer 0, .layer_625B
 chan_end
 
 .layer_625B:
-layer_note1 NOTE_F5, 0x0, 96
+layer_note1 PITCH_F5, 0x0, 96
 layer_end
 
 .voice_link_old_death:
@@ -411,9 +411,9 @@ chan_end
 
 .layer_6263:
 layer_transpose 1
-layer_note1 NOTE_BF1, 0x57, 100
-layer_note1 NOTE_B1, 0x61, 100
-layer_note1 NOTE_C2, 0x47, 100
+layer_note1 PITCH_BF1, 0x57, 100
+layer_note1 PITCH_B1, 0x61, 100
+layer_note1 PITCH_C2, 0x47, 100
 layer_end
 
 .voice_link_old_wallmaster:
@@ -441,9 +441,9 @@ chan_end
 
 .layer_628B:
 layer_transpose 1
-layer_note1 NOTE_DF2, 0x7f, 100
-layer_note1 NOTE_D2, 0x118, 100
-layer_note1 NOTE_EF2, 0x13e, 100
+layer_note1 PITCH_DF2, 0x7f, 100
+layer_note1 PITCH_D2, 0x118, 100
+layer_note1 PITCH_EF2, 0x13e, 100
 layer_end
 
 .voice_link_old_sweat:
@@ -452,9 +452,9 @@ chan_end
 
 .layer_629D:
 layer_transpose 1
-layer_note1 NOTE_E2, 0x122, 100
-layer_note1 NOTE_F2, 0xa3, 100
-layer_note1 NOTE_GF2, 0x35, 100
+layer_note1 PITCH_E2, 0x122, 100
+layer_note1 PITCH_F2, 0xa3, 100
+layer_note1 PITCH_GF2, 0x35, 100
 layer_end
 
 .voice_link_old_drink:
@@ -462,7 +462,7 @@ chan_setlayer 0, .layer_62AF
 chan_end
 
 .layer_62AF:
-layer_note1 NOTE_E5, 0x50, 80
+layer_note1 PITCH_E5, 0x50, 80
 layer_jumprel .layer_62AF
 
 .voice_link_old_idle:
@@ -471,9 +471,9 @@ chan_end
 
 .layer_62B8:
 layer_transpose 1
-layer_note1 NOTE_G2, 0xb9, 100
-layer_note1 NOTE_AF2, 0x86, 100
-layer_note1 NOTE_A2, 0x74, 100
+layer_note1 PITCH_G2, 0xb9, 100
+layer_note1 PITCH_AF2, 0x86, 100
+layer_note1 PITCH_A2, 0x74, 100
 layer_end
 
 .voice_link_old_sword_swing_unused:
@@ -519,7 +519,7 @@ chan_end
 
 .layer_62F8:
 layer_transpose 2
-layer_note1 NOTE_EF1, 0x0, 85
+layer_note1 PITCH_EF1, 0x0, 85
 layer_end
 
 .voice_link_old_cast_spell2:
@@ -643,7 +643,7 @@ chan_setlayer 0, .layer_6390
 chan_end
 
 .layer_6390:
-layer_note1 NOTE_A0, 0x0, 100
+layer_note1 PITCH_A0, 0x0, 100
 layer_delay 0x30
 layer_end
 
@@ -760,7 +760,7 @@ chan_setlayer 0, .layer_6420
 chan_end
 
 .layer_6420:
-layer_note1 NOTE_DF5, 0x0, 96
+layer_note1 PITCH_DF5, 0x0, 96
 layer_end
 
 .voice_link_kid_death:
@@ -769,9 +769,9 @@ chan_end
 
 .layer_6428:
 layer_transpose 1
-layer_note1 NOTE_A0, 0x62, 100
-layer_note1 NOTE_BF0, 0x6a, 100
-layer_note1 NOTE_B0, 0x3a, 100
+layer_note1 PITCH_A0, 0x62, 100
+layer_note1 PITCH_BF0, 0x6a, 100
+layer_note1 PITCH_B0, 0x3a, 100
 layer_end
 
 .voice_link_kid_wallmaster:
@@ -804,10 +804,10 @@ chan_end
 
 .layer_6455:
 layer_transpose 1
-layer_note1 NOTE_C1, 0x10b, 50
-layer_note1 NOTE_C1, 0xc5, 50
-layer_note1 NOTE_D1, 0x87, 100
-layer_note1 NOTE_EF1, 0x21, 100
+layer_note1 PITCH_C1, 0x10b, 50
+layer_note1 PITCH_C1, 0xc5, 50
+layer_note1 PITCH_D1, 0x87, 100
+layer_note1 PITCH_EF1, 0x21, 100
 layer_end
 
 .voice_link_kid_sweat:
@@ -816,9 +816,9 @@ chan_end
 
 .layer_646B:
 layer_transpose 1
-layer_note1 NOTE_E1, 0xd9, 100
-layer_note1 NOTE_F1, 0x62, 100
-layer_note1 NOTE_GF1, 0x109, 100
+layer_note1 PITCH_E1, 0xd9, 100
+layer_note1 PITCH_F1, 0x62, 100
+layer_note1 PITCH_GF1, 0x109, 100
 layer_end
 
 .voice_link_kid_drink:
@@ -826,7 +826,7 @@ chan_setlayer 0, .layer_647D
 chan_end
 
 .layer_647D:
-layer_note1 NOTE_C5, 0x50, 80
+layer_note1 PITCH_C5, 0x50, 80
 layer_jumprel .layer_647D
 
 .voice_link_kid_idle:
@@ -835,9 +835,9 @@ chan_end
 
 .layer_6486:
 layer_transpose 1
-layer_note1 NOTE_G1, 0x41, 100
-layer_note1 NOTE_AF1, 0x10a, 100
-layer_note1 NOTE_A1, 0x53, 100
+layer_note1 PITCH_G1, 0x41, 100
+layer_note1 PITCH_AF1, 0x10a, 100
+layer_note1 PITCH_A1, 0x53, 100
 layer_end
 
 .voice_link_kid_sword_swing_unused:
@@ -854,7 +854,7 @@ chan_end
 
 .layer_649F:
 layer_transpose 1
-layer_note1 NOTE_C1, 0x0, 50
+layer_note1 PITCH_C1, 0x0, 50
 layer_end
 
 .voice_link_kid_jump:
@@ -871,7 +871,7 @@ chan_setlayer 0, .layer_64BF
 chan_end
 
 .layer_64BF:
-layer_note1 NOTE_A0, 0x0, 100
+layer_note1 PITCH_A0, 0x0, 100
 layer_delay 0x30
 layer_end
 
@@ -897,7 +897,7 @@ chan_end
 
 .layer_64D5:
 layer_transpose 2
-layer_note1 NOTE_E1, 0x0, 85
+layer_note1 PITCH_E1, 0x0, 85
 layer_end
 
 .voice_link_kid_cast_spell2:
@@ -964,13 +964,13 @@ chan_end
 
 .layer_651A:
 layer_transpose 2
-layer_note1 NOTE_DF1, 0x0, 100
+layer_note1 PITCH_DF1, 0x0, 100
 layer_end
 
 .voice_npcs:
 chan_ioreadval 4
 chan_subtract 80
-chan_writeseq 25, .layer_6536  # set semitone = sound id - 80 + 25
+chan_writeseq 25, .layer_6536  // set semitone = sound id - 80 + 25
 chan_readseq .addr_653B
 chan_writeseq 0, .layer_6536+2
 chan_setlayer 0, .layer_6534
@@ -1027,7 +1027,7 @@ layer_end
 .voice_other_npcs:
 chan_ioreadval 4
 chan_subtract 119
-chan_writeseq 0, .layer_6576  # set semitone = sound id - 119
+chan_writeseq 0, .layer_6576  // set semitone = sound id - 119
 chan_readseq .addr_657B
 chan_writeseq 0, .layer_6576+2
 chan_setlayer 0, .layer_6574
@@ -1063,7 +1063,7 @@ layer_setinstr F0_I_FAIRY_MAGIC
 layer_setenvelope .envelope_66B8, 251
 layer_enablelegato
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_F5, 0x30, 65
+layer_note1 PITCH_F5, 0x30, 65
 layer_end
 
 .addr_65A7:
