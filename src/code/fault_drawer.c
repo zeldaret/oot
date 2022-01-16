@@ -1,6 +1,6 @@
 /**
  * @file fault_drawer.c
- * 
+ *
  * Implements routines for drawing text with a fixed font directly to a framebuffer, used in displaying
  * the crash screen implemented by fault.c
  */

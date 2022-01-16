@@ -173,7 +173,7 @@ s32 Fault_ProcessClient(void* callback, void* arg0, void* arg1) {
 /**
  * Registers a fault client.
  *
- * Clients contribute at least one page to the crash screen, drawn by `callback`. 
+ * Clients contribute at least one page to the crash screen, drawn by `callback`.
  * Arguments are passed on to the callback through `arg0` and `arg1`.
  *
  * The callback is intended to be
@@ -354,7 +354,10 @@ void Fault_Sleep(u32 msec) {
 void PadMgr_RequestPadData(Input* input, s32 mode);
 
 void Fault_PadCallback(Input* input) {
-    //! @bug This function is not called correctly, it is missing a leading PadMgr* argument
+    //! @bug This function is not called correctly, it is missing a leading PadMgr* argument. This
+    //! renders the crash screen unusable.
+    //! In Majora's Mask, PadMgr functions were changed to not require this argument, and this was
+    //! likely just not addressed when backporting.
     PadMgr_RequestPadData(input, 0);
 }
 
@@ -802,6 +805,9 @@ void Fault_DrawMemDumpContents(const char* title, uintptr_t addr, u32 arg2) {
         alignedAddr = K0BASE;
     }
     // 8mb RAM, leave room to display 0x100 bytes on the final page
+    //! @bug The loop below draws 22 * 4 * 4 = 0x160 bytes per page. Due to this, by scrolling further than
+    //! 0x807FFEA0 some invalid bytes are read from outside of 8mb RDRAM space. This does not cause a crash,
+    //! however the values it displays are meaningless. On N64 hardware these invalid addresses are read as 0.
     if (alignedAddr > K0BASE + 0x800000 - 0x100) {
         alignedAddr = K0BASE + 0x800000 - 0x100;
     }
