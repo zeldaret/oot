@@ -350,13 +350,13 @@
 	<Sample Name="Accordion">
 		<Offset Version="MQDebug" At="0xfdfc0"/>
 	</Sample>
-	<Sample Name="Harp">
+	<Sample Name="Harp 1">
 		<Offset Version="MQDebug" At="0x1026f0"/>
 	</Sample>
 	<Sample Name="Malon">
 		<Offset Version="MQDebug" At="0x106c20"/>
 	</Sample>
-	<Sample Name="Stalchild Flute">
+	<Sample Name="Pan Flute">
 		<Offset Version="MQDebug" At="0x108690"/>
 	</Sample>
 	<Sample Name="Tambo Drum">

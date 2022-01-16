@@ -139,8 +139,6 @@ def parseNoteName(noteName):
 	if noteName[1] == '♯':
 		tone_str = noteName[0:2]
 		oct_str = noteName[2:]
-		
-	print("Input String:", noteName)
 	
 	tone = {
 		'C' :0,
@@ -278,8 +276,9 @@ class PCMLoop:
 		wcount = 16
 		output.write(struct.pack(">IIiI", self.start, self.end, self.count, 0))
 		if self.count != 0:
-			output.write(struct.pack(">16h", self.predictorState))
-			wcount += 32
+			for i in range(16):
+				output.write(struct.pack(">h", self.predictorState[i]))
+				wcount += 2
 		return wcount
 		
 	def loopsEqual(self, other):
@@ -330,11 +329,9 @@ class PCMBook:
 		output.write(struct.pack(">LL", self.order, self.predictorCount))
 		predictorSize = self.order * 8
 		for i in range(self.predictorCount):
-			output.write(struct.pack(">" + str(predictorSize) + "h", self.predictors[i]))
-			wcount += predictorSize * 2
-		padding = 16 - (wcount % 16)
-		if padding < 16:
-			output.write(struct.pack(">" + str(padding) + "x"))
+			for j in range(predictorSize):
+				output.write(struct.pack(">h", self.predictors[i][j]))
+				wcount += 2
 		return wcount
 		
 	def booksEqual(self, other):
@@ -346,8 +343,12 @@ class PCMBook:
 			return False
 		if self.order != other.order:
 			return False
-		if self.predictors != other.predictors:
-			return False
+		
+		predictorSize = self.order * 8
+		for i in range(self.predictorCount):
+			for j in range(predictorSize):
+				if self.predictors[i][j] != other.predictors[i][j]:
+					return False
 		return True
 
 class SampleHeader:
@@ -404,6 +405,8 @@ class SampleHeader:
 		#Okay so the frame count is calculated weird.
 		#To get the original data length, looks like we gotta reverse it.
 		self.length = (self.frameCount * blockSize) // 16
+		if(self.length % 2) != 0:
+			self.length += 1
 		
 	def loadInfoFromAIF(self, aif_path):
 		aif_reader = AifReader(aif_path)
@@ -413,6 +416,12 @@ class SampleHeader:
 		sample_rate = parse_f80(comm_data[8:18])
 		if aif_reader.is_aifc:
 			self.codec = fromCodecID(comm_data[18:22])
+			
+		#Default loop (non-loop)
+		self.loop = PCMLoop()
+		self.loop.start = 0
+		self.loop.end = self.frameCount
+		self.loop.count = 0
 			
 		#Go thru appl sections to get book and loop data
 		appl_count = len(aif_reader.appl_sections)
@@ -437,7 +446,6 @@ class SampleHeader:
 						bookpos += predictorBytes				
 				elif strdat == b'VADPCMLOOPS':
 					#Loop data
-					self.loop = PCMLoop()
 					#self.loop.parseFrom(appl_data[20:])
 					looppos = 20
 					self.loop.start, self.loop.end, self.loop.count = struct.unpack(">LLl", appl_data[looppos:looppos+12])
@@ -537,10 +545,10 @@ class Envelope:
 				if val == 0:
 					break
 			elif cmd == 0 or cmd == -1 or cmd == -3:
-				if value != 0:
+				if val != 0:
 					break
 				last = True
-			elif cmd > 0 and value > 32767:
+			elif cmd > 0 and val > 32767:
 				break
 				
 			output.write(struct.pack(">hH", cmd, val))
@@ -619,6 +627,8 @@ class SoundEffect:
 		pitch_str = xml_element.get("Pitch")
 		if pitch_str is not None:
 			self.pitch = float(pitch_str)
+		else:
+			self.pitch = -1.0
 			
 		idx_str = xml_element.get("Index")
 		if idx_str is not None:
@@ -674,6 +684,8 @@ class Percussion:
 		pitch_str = xml_element.get("Pitch")
 		if pitch_str is not None:
 			self.pitch = float(pitch_str)
+		else:
+			self.pitch = -1.0
 		decay_str = xml_element.get("Decay")
 		if decay_str is not None:
 			self.decay = int(decay_str)
@@ -725,6 +737,7 @@ class Instrument:
 			self.keyHighOffset = self.keyHighSample.addr
 		if self.envelope is not None:
 			self.envelopeOffset = self.envelope.addr
+			
 
 	def parseFrom(self, input):
 		self.loaded, self.lowRange, self.highRange, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch = struct.unpack(">BBBbLLfLfLf", input)
@@ -733,7 +746,25 @@ class Instrument:
 		
 	def serializeTo(self, output):
 		self.updateReferences()
-		output.write(struct.pack(">BBBbLLfLfLf", self.loaded, self.lowRange, self.highRange, self.decay, self.envelopeOffset, self.keyLowOffset, self.keyLowPitch, self.keyMedOffset, self.keyMedPitch, self.keyHighOffset, self.keyHighPitch))
+		output.write(struct.pack(">BBBb", self.loaded, self.lowRange, self.highRange, self.decay))
+		if self.envelope is None:
+			output.write(struct.pack("4x"))
+		else:
+			output.write(struct.pack(">L", self.envelopeOffset))
+			
+		if self.keyLowSample is None:
+			output.write(struct.pack("8x"))
+		else:
+			output.write(struct.pack(">Lf", self.keyLowOffset, self.keyLowPitch))
+		if self.keyMedSample is None:
+			output.write(struct.pack("8x"))
+		else:
+			output.write(struct.pack(">Lf", self.keyMedOffset, self.keyMedPitch))
+		if self.keyHighSample is None:
+			output.write(struct.pack("8x"))
+		else:
+			output.write(struct.pack(">Lf", self.keyHighOffset, self.keyHighPitch))			
+
 		return 32
 		
 	def fromXML(self, xml_element):
@@ -831,11 +862,11 @@ class SampleTableEntry:
 		return 16
 		
 	def serializeTo(self, output):
-		output.write(struct.pack(">LLBBxxxxxx", self.offset, self.length, self.medium, self.cache))
+		output.write(struct.pack(">LLBB6x", self.offset, self.length, self.medium, self.cache))
 		return 16
 
 class SoundfontEntry:
-	def __init__(self, data):
+	def __init__(self):
 		self.offset = -1
 		self.length = 0
 		self.medium = 2
@@ -851,7 +882,7 @@ class SoundfontEntry:
 		return 16
 		
 	def serializeTo(self, output):
-		output.write(struct.pack(">LLBBBBBBH", self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
+		output.write(struct.pack(">LLBBBbBBH", self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
 		return 16
 
 class Soundfont:
@@ -867,7 +898,13 @@ class Soundfont:
 		self.soundEffects = []
 		self.envelopes = {}
 		
+		self.inst_read = 0
+		self.perc_read = 0
+		self.sfx_read = 0
+		
 		self.bankNames = []
+		self.bankIdx = -1
+		self.bankIdx2 = -1
 		self.instIdxLookup = {}
 		self.percIdxLookup = {}
 		self.sfxIdxLookup = {}
@@ -878,23 +915,28 @@ class Soundfont:
 			elist.append(item[1])
 		return elist
 	
+	def slotCount(read_val, lookup_map, block_list):
+		if len(lookup_map) < 1:
+			return read_val
+		keyz = sorted(lookup_map.keys(), reverse=True)
+		max_used = keyz[0] + 1
+		empty_exp = read_val - len(block_list)
+		if empty_exp <= 0:
+			return max_used
+		empty_ct = 0
+		for i in range(max_used):
+			if not i in lookup_map:
+				empty_ct += 1
+		return max_used + (empty_exp - empty_ct)		
+	
 	def instSlotCount(self):
-		if len(self.instIdxLookup) < 1:
-			return 0
-		keyz = sorted(self.instIdxLookup.keys(), reverse=True)
-		return keyz[0]+1
+		return Soundfont.slotCount(self.inst_read, self.instIdxLookup, self.instruments)
 	
 	def percSlotCount(self):
-		if len(self.percIdxLookup) < 1:
-			return 0
-		keyz = sorted(self.percIdxLookup.keys(), reverse=True)
-		return keyz[0]+1
+		return Soundfont.slotCount(self.perc_read, self.percIdxLookup, self.percussion)
 	
 	def sfxSlotCount(self):
-		if len(self.sfxIdxLookup) < 1:
-			return 0
-		keyz = sorted(self.sfxIdxLookup.keys(), reverse=True)
-		return keyz[0]+1		
+		return Soundfont.slotCount(self.sfx_read, self.sfxIdxLookup, self.soundEffects)	
 		
 	def fromXML(self, xml_element):
 		#Read font attr
@@ -938,6 +980,7 @@ class Soundfont:
 			e_sfx_list = e_soundeffects.findall("SoundEffect")
 			if e_sfx_list is not None:
 				for e_sfx in e_sfx_list:
+					self.sfx_read += 1
 					sfx = SoundEffect()
 					sfx.fromXML(e_sfx)
 					if sfx.sampleName is not None:
@@ -950,6 +993,7 @@ class Soundfont:
 			e_drum_list = e_drums.findall("Drum")
 			if e_drum_list is not None:
 				for e_drum in e_drum_list:
+					self.perc_read += 1
 					drum = Percussion()
 					drum.fromXML(e_drum)
 					if drum.sampleName is not None:
@@ -965,6 +1009,7 @@ class Soundfont:
 			e_inst_list = e_insts.findall("Instrument")
 			if e_inst_list is not None:
 				for e_inst in e_inst_list:
+					self.inst_read += 1
 					inst = Instrument()
 					inst.fromXML(e_inst)
 					if inst.keyMedName:
@@ -977,6 +1022,25 @@ class Soundfont:
 	def toXML(self):
 		#TODO
 		return None
+	
+	def getTableEntry(self):
+		myentry = SoundfontEntry()
+		if self.bankIdx < 0:
+			if self.bank1:
+				self.bankIdx = self.bank1.idx
+		myentry.bank = self.bankIdx
+		
+		if self.bankIdx2 < 0:
+			if self.bank2:
+				self.bankIdx2 = self.bank2.idx
+		myentry.bank2 = self.bankIdx2		
+			
+		myentry.medium = self.medium
+		myentry.cache = self.cachePolicy
+		myentry.instrumentCount = self.instSlotCount()
+		myentry.percussionCount = self.percSlotCount()
+		myentry.effectCount = self.sfxSlotCount()
+		return myentry
 		
 class Soundbank:
 	def __init__(self):
@@ -993,6 +1057,12 @@ class Soundbank:
 			mysize += sample.length
 			mysize = align(mysize, 16)
 		return mysize
+	
+	def getSample(self, name):
+		if name in self.samplesByName:
+			return self.samplesByName[name]
+		else:
+			return None
 	
 	def fromXML(self, xml_element):
 		#Read attr
@@ -1017,4 +1087,14 @@ def loadBankDefTable(filepath):
 			record.parseFrom(f.read(16))
 			bankdeftbl.append(record)
 	return bankdeftbl
-		
+
+def loadFontDefTable(filepath):
+	fontdeftbl = []
+	with open(filepath,'rb') as f:
+		fontcount, = struct.unpack(">H", f.read(2))
+		f.read(14)
+		for i in range(fontcount):
+			record = SoundfontEntry()
+			record.parseFrom(f.read(16))
+			fontdeftbl.append(record)
+	return fontdeftbl	

@@ -9,7 +9,9 @@ from audio_common import *
 
 #Script variables
 debug_mode = False
+match_mode = False
 bank_lookup = {}
+banks = []
 font_lookup = {}
 
 class DrumOffsetTable:
@@ -29,7 +31,7 @@ class DummyBlock:
 		self.addr = -1	
 		
 	def serializeTo(self, output):
-		output.write(struct.pack(self.size + "x"))
+		output.write(struct.pack(str(self.size) + "x"))
 		return self.size
 
 def checkMatch(refData, checkData, nameStr):
@@ -63,7 +65,64 @@ def checkMatch(refData, checkData, nameStr):
 	print("MATCH " + nameStr + ": Target matches reference!")
 	return True
 
-def orderWaveBlocks(font, ser_blocks, base_addr):
+def orderWaveBlocksInstOrder(font, ser_blocks, base_addr):
+	slist = []
+	
+	slots = font.instSlotCount()
+	for i in range(slots):
+		if i in font.instIdxLookup:
+			inst = font.instIdxLookup[i]
+			if inst.keyLowSample:
+				if inst.keyLowSample not in slist:
+					slist.append(inst.keyLowSample)
+			if inst.keyMedSample:
+				if inst.keyMedSample not in slist:
+					slist.append(inst.keyMedSample)	
+			if inst.keyHighSample:
+				if inst.keyHighSample not in slist:
+					slist.append(inst.keyHighSample)	
+					
+	slots = font.percSlotCount()
+	for i in range(slots):
+		if i in font.percIdxLookup:
+			drum = font.percIdxLookup[i]	
+			if drum.sample:
+				if drum.sample not in slist:
+					slist.append(drum.sample)
+					
+	slots = font.sfxSlotCount()
+	for i in range(slots):
+		if i in font.sfxIdxLookup:
+			sfx = font.sfxIdxLookup[i]	
+			if sfx.sample:
+				if sfx.sample not in slist:
+					slist.append(sfx.sample)
+					
+	current_addr = base_addr
+	for sample in slist:
+		ser_blocks.append(sample)
+		sample.addr = current_addr
+		current_addr += 16
+
+		#Add book if not added
+		if sample.book and (sample.book.addr < 0):
+			ser_blocks.append(sample.book)
+			sample.book.addr = current_addr
+			current_addr += (sample.book.order * sample.book.predictorCount * 16) + 8
+			current_addr = align(current_addr, 16)
+
+		if sample.loop and (sample.loop.addr < 0):
+			ser_blocks.append(sample.loop)
+			sample.loop.addr = current_addr
+			if sample.loop.count != 0:
+				current_addr += 48
+			else:
+				current_addr += 16
+
+	return current_addr	
+			
+
+def orderWaveBlocksBankOrder(font, ser_blocks, base_addr):
 	#Extract all used blocks from the font (ugh)
 	s_dict = {}
 	for inst in font.instruments:
@@ -109,8 +168,8 @@ def orderWaveBlocks(font, ser_blocks, base_addr):
 		if sample.book and (sample.book.addr < 0):
 			ser_blocks.append(sample.book)
 			sample.book.addr = current_addr
-			current_addr += sample.book.order * sample.book.predictorCount * 16
-			current_addr = align(current_addr)
+			current_addr += (sample.book.order * sample.book.predictorCount * 16) + 8
+			current_addr = align(current_addr, 16)
 			
 		if sample.loop and (sample.loop.addr < 0):
 			ser_blocks.append(sample.loop)
@@ -123,26 +182,27 @@ def orderWaveBlocks(font, ser_blocks, base_addr):
 	return current_addr
 
 def orderEnvelopeBlocks(font, ser_blocks, base_addr):
-	envlist = []
-	
+	#Scan inst and perc to make sure all envelopes are in font map
 	for inst in font.instruments:
 		if inst.envelope:
-			if not inst.envelope in envlist:
-				inst.envelope.addr = -1	
-				envlist.append(inst.envelope)
+			if not inst.envelope.name in font.envelopes:
+				font.envelopes[inst.envelope.name] = inst.envelope
 				
 	for drum in font.percussion:
 		if drum.envelope:
-			if not drum.envelope in envlist:
-				drum.envelope.addr = -1	
-				envlist.append(drum.envelope)
+			if not drum.envelope.name in font.envelopes:
+				font.envelopes[drum.envelope.name] = drum.envelope
+				
+	#Nab envelopes from font
+	eitems = sorted(font.envelopes.items())
 	
 	current_addr = base_addr
-	for env in envlist:
+	for eitem in eitems:
+		env = eitem[1]
 		ser_blocks.append(env)
 		env.addr = current_addr
 		current_addr += env.serialSize()
-		current_addr = align(current_addr)
+		current_addr = align(current_addr,16)
 	
 	return current_addr
 
@@ -167,10 +227,10 @@ def compileFont(font, output):
 	
 	#Calculate head offset table size
 	current_pos = 8 + (icount*4)
-	current_pos = align(current_pos)
+	current_pos = align(current_pos, 16)
 	
 	#Wave blocks
-	current_pos = orderWaveBlocks(font, ser_blocks, current_pos)
+	current_pos = orderWaveBlocksBankOrder(font, ser_blocks, current_pos)
 	
 	#Envelope blocks
 	current_pos = orderEnvelopeBlocks(font, ser_blocks, current_pos)
@@ -182,35 +242,44 @@ def compileFont(font, output):
 		current_pos += 32
 		
 	#Drum blocks
-	for drum in font.percussion:
-		ser_blocks.append(drum)
-		drum.addr = current_pos
-		current_pos += 16	
+	has_drums = (pcount > 0)
+	if has_drums:
+		for drum in font.percussion:
+			ser_blocks.append(drum)
+			drum.addr = current_pos
+			current_pos += 16	
 	
-	#Drum offset table
-	drum_offtbl = DrumOffsetTable()
-	drum_offtbl.addr = current_pos
-	for i in range(pcount):
-		if i in font.percIdxLookup:
-			drum_offtbl.off_list.append(font.percIdxLookup[i].addr)
-		else:
-			drum_offtbl.off_list.append(0)
-		current_pos += 4
-	current_pos = align(current_pos)
-	ser_blocks.append(drum_offtbl)
-	
+		#Drum offset table
+		drum_offtbl = DrumOffsetTable()
+		drum_offtbl.addr = current_pos
+		for i in range(pcount):
+			if i in font.percIdxLookup:
+				drum_offtbl.off_list.append(font.percIdxLookup[i].addr)
+			else:
+				drum_offtbl.off_list.append(0)
+			current_pos += 4
+		current_pos = align(current_pos,16)
+		ser_blocks.append(drum_offtbl)
+	else:
+		drum_offtbl = DrumOffsetTable()
+		drum_offtbl.addr = 0
+		
 	#SFX table
-	sfx_tbl_pos = current_pos
-	for i in range(xcount):
-		if i in font.sfxIdxLookup:
-			mysfx = font.sfxIdxLookup[i]
-			mysfx.addr = current_pos
-			ser_blocks.append(mysfx)
-		else:
-			dummysfx = DummyBlock(8)
-			dummysfx.addr = current_pos
-			ser_blocks.append(dummysfx)
-		current_pos += 8
+	has_sfx = (xcount > 0)
+	if has_sfx:
+		sfx_tbl_pos = current_pos
+		for i in range(xcount):
+			if i in font.sfxIdxLookup:
+				mysfx = font.sfxIdxLookup[i]
+				mysfx.addr = current_pos
+				ser_blocks.append(mysfx)
+			else:
+				dummysfx = DummyBlock(8)
+				dummysfx.addr = current_pos
+				ser_blocks.append(dummysfx)
+			current_pos += 8
+	else:
+		sfx_tbl_pos = 0
 	
 	#Serialize the head offset table
 	output.write(struct.pack(">LL", drum_offtbl.addr, sfx_tbl_pos))
@@ -228,16 +297,16 @@ def compileFont(font, output):
 		#Pad if needed
 		padding = block.addr - wpos
 		if padding > 0:
-			output.write(struct.pack(padding + "x"))
+			output.write(struct.pack(str(padding) + "x"))
 			wpos += padding
 		#Serialize block
 		#I feel like this is interpreter abuse, but I don't care
 		wpos += block.serializeTo(output)
 		
 	#Pad to end, if needed
-	padding = align(wpos) - wpos
+	padding = align(wpos,16) - wpos
 	if padding > 0:
-		output.write(struct.pack(padding + "x"))
+		output.write(struct.pack(str(padding) + "x"))
 		wpos += padding
 		
 	return wpos
@@ -251,26 +320,55 @@ def linkFontToBank(font):
 	if not bname:
 		return
 	
-	mybank = bank_lookup[bname]
+	if bname in bank_lookup:
+		mybank = bank_lookup[bname]
+		font.bankIdx = mybank.idx
+	else:
+		#Try to isolate index from name...
+		if bname[0:1].isnumeric():
+			firstspace = bname.find(' ')
+			bidx = int(bname[:firstspace])
+			mybank = banks[bidx]
+			font.bankIdx = bidx
+			if not mybank:
+				print("WARNING: Could not find bank match " + bname + " for font: " + font.name)
+				return
+			#else:
+			#	bank_lookup[bname] = mybank
+		else:
+			print("WARNING: Could not find bank match " + bname + " for font: " + font.name)
+			return
+		
 	if not mybank:
+		print("WARNING: Could not find bank match " + bname + " for font: " + font.name)
 		return
 	
 	font.bank1 = mybank
 	for inst in font.instruments:
 		if inst.keyLowName:
-			inst.keyLowSample = mybank.samplesByName[inst.keyLowName]
+			inst.keyLowSample = mybank.getSample(inst.keyLowName)
+			if (inst.keyLowSample is not None) and (inst.keyLowPitch < 0.0):
+				inst.keyLowPitch = inst.keyLowSample.tuning
 		if inst.keyMedName:
-			inst.keyMedSample = mybank.samplesByName[inst.keyMedName]	
+			inst.keyMedSample = mybank.getSample(inst.keyMedName)	
+			if (inst.keyMedSample is not None) and (inst.keyMedPitch < 0.0):
+				inst.keyMedPitch = inst.keyMedSample.tuning			
 		if inst.keyHighName:
-			inst.keyHighSample = mybank.samplesByName[inst.keyHighName]	
+			inst.keyHighSample = mybank.getSample(inst.keyHighName)
+			if (inst.keyHighSample is not None) and (inst.keyHighPitch < 0.0):
+				inst.keyHighPitch = inst.keyHighSample.tuning			
 			
 	for drum in font.percussion:
 		if drum.sampleName:
-			drum.sample = mybank.samplesByName[drum.sampleName]
+			drum.sample = mybank.getSample(drum.sampleName)
+			if (drum.sample is not None) and (drum.pitch < 0.0):
+				drum.pitch = drum.sample.tuning				
 			
 	for sfx in font.soundEffects:
 		if sfx.sampleName:
-			sfx.sample = mybank.samplesByName[sfx.sampleName]		
+			sfx.sample = mybank.getSample(sfx.sampleName)	
+			if (sfx.sample is not None) and (sfx.pitch < 0.0):
+				sfx.pitch = sfx.sample.tuning				
 
 def getBankbinName(idx):
 	return "audiotable_" + str(idx)
@@ -321,15 +419,15 @@ def printBank2csv(path, bank):
 	csvstream = open(path, 'w')
 	csvstream.write('#Index,Name,Codec,Medium,u2,OffsetInBank,Length,FrameCount,Tuning\n')
 	
-	samplelist = bank.orderSamples()
+	samplelist = bank.samples
 	for sample in samplelist:
 		csvstream.write(str(sample.idx) + ',')
-		csvstream.write(sample.name + ',')
-		csvstream.write(toCodecName(sample.codec) + ',')
+		csvstream.write(sample.name.replace(',','') + ',')
+		csvstream.write(toCodecID(sample.codec).decode("utf-8") + ',')
 		csvstream.write(toMedium(sample.medium) + ',')
 		csvstream.write(str(sample.u2) + ',')
-		csvstream.write('0x' + f'{sample.offsetInBank:08x}' + ',')
-		csvstream.write('0x' + f'{sample.length:08x}' + ',')
+		csvstream.write('0x' + f'{sample.offsetInBank:0>8x}' + ',')
+		csvstream.write('0x' + f'{sample.length:0>8x}' + ',')
 		csvstream.write(str(sample.frameCount) + ',')
 		csvstream.write(str(sample.tuning) + '\n')
 	
@@ -378,13 +476,16 @@ def processBanks(sampledir, builddir):
 	for e_bank in elist_bank:
 		bankname = e_bank.get("Name")
 		if bankname is None:
-			bankname = str(i) + "REF"
-			bank_lookup[bankname] = bank_lookup[e_bank.get("Reference")]
+			bankname = str(i) + " - REF"
+			mybank = bank_lookup[e_bank.get("Reference")]
+			bank_lookup[bankname] = mybank
 			print("Bank reference discovered:",bankname)
 			audiotable_paths.append(None)
+			banks.append(mybank)
 		else:
 			print("Bank discovered:",bankname)
 			mybank = Soundbank()
+			banks.append(mybank)
 			mybank.name = bankname
 			mybank.fromXML(e_bank)
 			bank_lookup[bankname] = mybank
@@ -404,6 +505,8 @@ def processBanks(sampledir, builddir):
 					si = tup[0]
 					samplename = tup[1]
 					mysample = SampleHeader()
+					if samplename in mybank.samplesByName:
+						print("WARNING: Duplicate sample key found:",samplename)
 					mybank.samplesByName[samplename] = mysample
 					mysample.name = samplename
 					mysample.idx = si
@@ -419,7 +522,6 @@ def processBanks(sampledir, builddir):
 					#mysample.updateSize()
 					
 					#If book or loop is identical to previous in bank, merge.
-					#This is annoying because it rarely happens, and is slow to check, but it DOES happen
 					blmerge = False
 					if mysample.book is not None:
 						for book in current_books:
@@ -427,16 +529,18 @@ def processBanks(sampledir, builddir):
 								blmerge = True
 								mysample.book = book
 								break
-							if not blmerge:
-								current_books.append(mysample.book)
-						
-					blmerge = False
-					if mysample.loop is not None:
-						for loop in current_loops:
-							if loop.loopsEqual(mysample.loop):
-								blmerge = True
-								mysample.loop = loop
-								break
+						if not blmerge:
+							current_books.append(mysample.book)
+					
+					if not match_mode:	
+						#Looks like original tool does not merge (the very rare, but existing) identical loops
+						blmerge = False
+						if mysample.loop is not None:
+							for loop in current_loops:
+								if loop.loopsEqual(mysample.loop):
+									blmerge = True
+									mysample.loop = loop
+									break
 							if not blmerge:
 								current_loops.append(mysample.loop)
 					
@@ -553,9 +657,12 @@ def processBanks(sampledir, builddir):
 		
 def main():
 	#TODO
-	if args.debug is not None:
-		if args.debug:
-			debug_mode = True
+	global debug_mode
+	global match_mode
+	if args.debug:
+		debug_mode = True
+	if args.match:
+		match_mode = True
 	
 	outpath = args.outpath
 	inpath = args.inpath
@@ -652,7 +759,72 @@ def main():
 		readFonts(inpath)
 	
 	#compile font(s)
-	#match
+	#TODO: Not merging books/loops at all - fix that
+	#TODO: Order of wave blocks? Wtf is it?
+	fonts_ordered = []
+	font_idict = {}
+	for pair in font_lookup.items():
+		font = pair[1]
+		font_idict[font.idx] = font
+	
+	sorted_fonts = sorted(font_idict.items())
+	audiobank_dir = os.path.join(outpath, "audiobank")
+	if not os.path.isdir(audiobank_dir):
+		os.makedirs(audiobank_dir)		
+	for pair in sorted_fonts:
+		fonts_ordered.append(pair[1])
+	for font in fonts_ordered:
+		fontpath = os.path.join(audiobank_dir, getFontbinName(font.idx))
+		with open(fontpath, 'wb') as f:	
+			compileFont(font, f)
+			
+	#load table for matching
+	og_font_dat = None
+	if debug_mode:
+		fontdat_path = os.path.join(mydir, 'font.bin')
+		fonttbl_path = os.path.join(mydir, 'fontdef.bin')	
+		fontdeftbl = loadFontDefTable(fonttbl_path)
+		with open(fontdat_path, "rb") as f:
+			og_font_dat = f.read()
+	
+	#write audiobank & code table (and match banks one by one)
+	audiobank_tbl_path = os.path.join(audiobank_dir, "audiobank_tbl")
+	audiobank_path = os.path.join(audiobank_dir, "audiobank")
+	current_pos = 0
+	total_fonts = len(fonts_ordered)
+	font_matches = 0
+	with open(audiobank_path, "wb") as audiobank_file:
+		with open(audiobank_tbl_path, "wb") as tblfile:
+			tblfile.write(struct.pack(">H14x", total_fonts))
+			for font in fonts_ordered:
+				binname = getFontbinName(font.idx)
+				fontpath = os.path.join(audiobank_dir, binname)
+				fontsize = os.path.getsize(fontpath)
+				fontdat = None
+				with open(fontpath, "rb") as fontstr:
+					fontdat = fontstr.read()
+					
+				#Check match, if debug mode
+				if debug_mode:
+					og_tbl_rec = fontdeftbl[font.idx]
+					og_st = og_tbl_rec.offset
+					og_ed = og_st + og_tbl_rec.length
+					if checkMatch(og_font_dat[og_st:og_ed], fontdat, binname):
+						font_matches += 1
+						
+				audiobank_file.write(fontdat)
+				myentry = font.getTableEntry()
+				myentry.offset = current_pos
+				myentry.length = fontsize
+				current_pos += fontsize
+				myentry.serializeTo(tblfile)
+				
+	#match audiobank
+	if debug_mode:
+		print(font_matches,"of",total_fonts,"fonts matched.")
+		with open(audiobank_path, "rb") as audiobank_file:
+			abdat = audiobank_file.read()
+		checkMatch(og_font_dat, abdat, "audiobank")
 	
 	return 0
 
@@ -667,6 +839,7 @@ parser.add_argument("sampledir", help="Path to file containing sound samples.")
 parser.add_argument("--debug", action="store_true", help="Flag for debug mode (increased verbosity, output matching)")
 parser.add_argument("--single", action="store_true", help="Use this flag if only want to build a single font (inputting one xml file)")
 parser.add_argument("--buildbank", action="store_true", help="Use this flag to build bank files as well as fonts.")
+parser.add_argument("--match", action="store_true", help="Use this flag if aiming to build match to original ROM (less efficient, more bookkeeping)")
 #parser.add_argument("--sf2", help="If sf2 export is desired, path to directory to write sf2 file(s).")
 args = parser.parse_args()
 
