@@ -185,11 +185,11 @@ typedef struct {
 } View; // size = 0x128
 
 typedef enum {
-    /*  0 */ SETUPDL_0, // prim-env lerp by texel0 factor, fog, shade, xlu, mostly for particles
+    /*  0 */ SETUPDL_0, // prim-env lerp by texel0 factor, AD noise, CD noise, fog, shade, xlu, mostly for particles
     /*  1 */ SETUPDL_1, // unused
     /*  2 */ SETUPDL_2, // unused except func_80094434
     /*  3 */ SETUPDL_3, // unused
-    /*  4 */ SETUPDL_4, // flat textured, xlu, DebugDisplay_DrawPolygon
+    /*  4 */ SETUPDL_4, // flat textured, , xlu, DebugDisplay_DrawPolygon
     /*  5 */ SETUPDL_5, // G_CC_MODULATEI_PRIM, xlu
     /*  6 */ SETUPDL_6, // unused
     /*  7 */ SETUPDL_7, // G_CC_MODULATEIA_PRIM, no zbuffer
@@ -245,8 +245,8 @@ typedef enum {
     /* 57 */ SETUPDL_57, // G_CC_PRIMITIVE, AC threshold, CLD_SURF, no zbuffer
     /* 58 */ SETUPDL_58, // unused except func_80093848
     /* 59 */ SETUPDL_59, // unused except func_80094D4C
-    /* 60 */ SETUPDL_60,
-    /* 61 */ SETUPDL_61,
+    /* 60 */ SETUPDL_60, // prim-env lerp by texel0 factor, AD !magicsq, CLD_SURF, xlu, fire and flames
+    /* 61 */ SETUPDL_61, // prim-env lerp by texel0 factor, AD noise, CLD_SURF, xlu, lightning, dust and effects
     /* 62 */ SETUPDL_62, // unused
     /* 63 */ SETUPDL_63, // unused
     /* 64 */ SETUPDL_64,
