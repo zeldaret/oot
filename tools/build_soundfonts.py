@@ -33,6 +33,16 @@ class DummyBlock:
 	def serializeTo(self, output):
 		output.write(struct.pack(str(self.size) + "x"))
 		return self.size
+	
+class GarbageBlock:
+	def __init__(self):
+		self.data = []
+		self.addr = -1	
+		
+	def serializeTo(self, output):
+		if self.data:
+			output.write(self.data)
+		return len(self.data)	
 
 def checkMatch(refData, checkData, nameStr):
 	#Sees if match. If so, print message saying so. If not, give offset of first mismatched byte
@@ -97,6 +107,13 @@ def orderWaveBlocksInstOrder(font, ser_blocks, base_addr):
 			if sfx.sample:
 				if sfx.sample not in slist:
 					slist.append(sfx.sample)
+					
+	for sample in slist:
+		sample.addr = -1
+		if sample.loop:
+			sample.loop.addr = -1
+		if sample.book:
+			sample.book.addr = -1	
 					
 	current_addr = base_addr
 	for sample in slist:
@@ -181,6 +198,44 @@ def orderWaveBlocksBankOrder(font, ser_blocks, base_addr):
 				
 	return current_addr
 
+def orderWaveBlocksMatchOrder(font, ser_blocks, base_addr):
+	slist = []
+	
+	for stuple in font.sampleOrder:
+		fname = stuple[1]
+		if fname in font.bank1.samplesByName:
+			slist.append(font.bank1.samplesByName[fname])
+			
+	for sample in slist:
+		sample.addr = -1
+		if sample.loop:
+			sample.loop.addr = -1
+		if sample.book:
+			sample.book.addr = -1
+			
+	current_addr = base_addr
+	for sample in slist:
+		ser_blocks.append(sample)
+		sample.addr = current_addr
+		current_addr += 16
+
+		#Add book if not added
+		if sample.book and (sample.book.addr < 0):
+			ser_blocks.append(sample.book)
+			sample.book.addr = current_addr
+			current_addr += (sample.book.order * sample.book.predictorCount * 16) + 8
+			current_addr = align(current_addr, 16)
+
+		if sample.loop and (sample.loop.addr < 0):
+			ser_blocks.append(sample.loop)
+			sample.loop.addr = current_addr
+			if sample.loop.count != 0:
+				current_addr += 48
+			else:
+				current_addr += 16
+
+	return current_addr	
+
 def orderEnvelopeBlocks(font, ser_blocks, base_addr):
 	#Scan inst and perc to make sure all envelopes are in font map
 	for inst in font.instruments:
@@ -230,7 +285,13 @@ def compileFont(font, output):
 	current_pos = align(current_pos, 16)
 	
 	#Wave blocks
-	current_pos = orderWaveBlocksBankOrder(font, ser_blocks, current_pos)
+	if match_mode:
+		if font.sampleOrder and len(font.sampleOrder) > 0:
+			current_pos = orderWaveBlocksMatchOrder(font, ser_blocks, current_pos)
+		else:
+			current_pos = orderWaveBlocksBankOrder(font, ser_blocks, current_pos)
+	else:
+		current_pos = orderWaveBlocksBankOrder(font, ser_blocks, current_pos)
 	
 	#Envelope blocks
 	current_pos = orderEnvelopeBlocks(font, ser_blocks, current_pos)
@@ -280,6 +341,33 @@ def compileFont(font, output):
 			current_pos += 8
 	else:
 		sfx_tbl_pos = 0
+		
+	#If in match mode, insert garbage data
+	if match_mode:
+		for item in font.unusedDat.items():
+			dat_off = item[0]
+			unused_data = item[1]
+			sblock = GarbageBlock()
+			sblock.data = bytes(unused_data)
+			sblock.addr = dat_off
+			
+			#Insert :(
+			ct = len(ser_blocks)
+			inserted = False
+			mysize = len(unused_data)
+			for i in range(ct):
+				ser_block = ser_blocks[i]
+				if ser_block.addr >= sblock.addr:
+					if not inserted:
+						ser_blocks.insert(i, sblock)
+						inserted = True
+					else:
+						ser_block.addr += mysize
+			if inserted:
+				ser_blocks[ct].addr += mysize #Last block that was pushed down
+			else:
+				#Append
+				ser_blocks.append(sblock)
 	
 	#Serialize the head offset table
 	output.write(struct.pack(">LL", drum_offtbl.addr, sfx_tbl_pos))

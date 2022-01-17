@@ -498,6 +498,7 @@ class Envelope:
 			elif -100000 > possibleFloat and possibleFloat < 100000:
 				break
 			else:
+				ncmd = cmd
 				cmd = {
 					0: "ADSR_DISABLE",
 					-1: "ADSR_HANG",
@@ -505,7 +506,9 @@ class Envelope:
 					-3: "ADSR_RESTART"
 				}.get(cmd, cmd)
 				self.script.append((cmd, value))
-				if isinstance(cmd, str):
+				#if isinstance(cmd, str):
+				#	break
+				if ncmd == -1 or ncmd == -3:
 					break
     
 			advanceOffset += 4
@@ -544,7 +547,7 @@ class Envelope:
 					val = val.addr
 				if val == 0:
 					break
-			elif cmd == 0 or cmd == -1 or cmd == -3:
+			elif cmd == -1 or cmd == -3:
 				if val != 0:
 					break
 				last = True
@@ -796,7 +799,7 @@ class Instrument:
 				self.lowRange = parseNoteName(note_str)
 			else:
 				self.lowRange = 0
-			pitch_str = xml_element.get("Pitch")
+			pitch_str = e_key.get("Pitch")
 			if pitch_str is not None:
 				self.keyLowPitch = float(pitch_str)
 			else:
@@ -813,7 +816,7 @@ class Instrument:
 			if self.keyMedName is not None:
 				if self.keyMedName.endswith(".aifc"):
 					self.keyMedName = self.keyMedName[:-5]
-			pitch_str = xml_element.get("Pitch")
+			pitch_str = e_key.get("Pitch")
 			if pitch_str is not None:
 				self.keyMedPitch = float(pitch_str)
 			else:
@@ -834,7 +837,7 @@ class Instrument:
 				self.highRange = parseNoteName(note_str)
 			else:
 				self.highRange = 127
-			pitch_str = xml_element.get("Pitch")
+			pitch_str = e_key.get("Pitch")
 			if pitch_str is not None:
 				self.keyHighPitch = float(pitch_str)
 			else:
@@ -908,6 +911,11 @@ class Soundfont:
 		self.instIdxLookup = {}
 		self.percIdxLookup = {}
 		self.sfxIdxLookup = {}
+		
+		#Needed only for matching (optional)
+		#List of samples in order appearing in font bin.
+		self.sampleOrder = [] #List of tuples (block name, file name (w/o ext))
+		self.unusedDat = {}
 		
 	def getAllEnvelopes(self):
 		elist = []
@@ -1018,6 +1026,32 @@ class Soundfont:
 						if inst.envName:
 							inst.envelope = self.envelopes[inst.envName]
 						self.instIdxLookup[inst.idx] = inst
+						
+		#Read samples (if present)
+		e_samps = xml_element.find("Samples")
+		if e_samps is not None:
+			e_samp_list = e_samps.findall("Sample")
+			for e_samp in e_samp_list:
+				sname = e_samp.get("Name")
+				sfile = e_samp.get("File")
+				if sfile.endswith(".aifc"):
+					sfile = sfile[:-5]
+				self.sampleOrder.append((sname,sfile))
+		
+		#Unused block (if present)
+		e_unused = xml_element.find("Unused")
+		if e_unused is not None:
+			e_data_list = e_unused.findall("Data")
+			if e_data_list:
+				for e_data in e_data_list:
+					data_offset = int(e_data.get("Offset"))
+					data_text = e_data.text
+					text_split = data_text.split(',')
+					data_list = []
+					for b in text_split:
+						data_list.append(int(b,16))
+					self.unusedDat[data_offset] = data_list
+					
 		
 	def toXML(self):
 		#TODO
