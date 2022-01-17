@@ -11934,7 +11934,7 @@ void func_8084E604(Player* this, GlobalContext* globalCtx) {
     } else if (LinkAnimation_OnFrame(&this->skelAnime, 3.0f)) {
         Inventory_ChangeAmmo(ITEM_NUT, -1);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ARROW, this->bodyPartsPos[15].x, this->bodyPartsPos[15].y,
-                    this->bodyPartsPos[15].z, 4000, this->actor.shape.rot.y, 0, 10);
+                    this->bodyPartsPos[15].z, 4000, this->actor.shape.rot.y, 0, ARROW_NUT);
         func_80832698(this, NA_SE_VO_LI_SWORD_N);
     }
 
