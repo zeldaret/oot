@@ -8,9 +8,7 @@
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgGanonOtyuka*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0x00 */ FLASH_NONE,
@@ -65,46 +63,16 @@ static Vec3f sSideCenters[] = {
 
 static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 
-#include "z_bg_ganon_otyuka_gfx.c"
+#include "overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
 
-static CamData sCameraDataList[] = { { 0, 0, 0 } };
-
-static SurfaceType sSurfaceTypeList[] = {
-    { 0x00000000, 0x000007C0 },
-    { 0x00000000, 0x000007C2 },
-};
-
-static CollisionPoly sPolyList[] = {
-    { 0x0000, 0x0000, 0x0001, 0x0002, { 32767, 0, 0 }, -60 },
-    { 0x0000, 0x0000, 0x0002, 0x0003, { 32767, 0, 0 }, -60 },
-    { 0x0000, 0x0003, 0x0002, 0x0004, { 0, 0, -32767 }, -60 },
-    { 0x0000, 0x0003, 0x0004, 0x0005, { 0, 0, -32767 }, -60 },
-    { 0x0000, 0x0005, 0x0004, 0x0006, { -32767, 0, 0 }, -60 },
-    { 0x0000, 0x0005, 0x0006, 0x0007, { -32767, 0, 0 }, -60 },
-    { 0x0000, 0x0007, 0x0006, 0x0001, { 0, 0, 32767 }, -60 },
-    { 0x0000, 0x0007, 0x0001, 0x0000, { 0, 0, 32767 }, -60 },
-    { 0x0001, 0x0000, 0x0003, 0x0005, { 0, 32767, 0 }, 0 },
-    { 0x0001, 0x0000, 0x0005, 0x0007, { 0, 32767, 0 }, 0 },
-};
-
-static Vec3s sVtxList[] = {
-    { 60, 0, 60 },     { 60, -60, 60 }, { 60, -60, -60 }, { 60, 0, -60 },
-    { -60, -60, -60 }, { -60, 0, -60 }, { -60, -60, 60 }, { -60, 0, 60 },
-};
-
-static CollisionHeader sColHeader = {
-    { -60, -60, -60 }, { 60, 0, 60 },    ARRAY_COUNT(sVtxList), sVtxList, ARRAY_COUNT(sPolyList),
-    sPolyList,         sSurfaceTypeList, sCameraDataList,       0,        NULL,
-};
-
-void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
-    s32 pad;
+void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
+    GlobalContext* globalCtx = globalCtx2;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&sColHeader, &colHeader);
+    CollisionHeader_GetVirtual(&sCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     if (thisx->params != 0x23) {
@@ -115,8 +83,9 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
+void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
+    GlobalContext* globalCtx = globalCtx2;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
@@ -243,7 +212,7 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                 }
 
                 func_80033DB8(globalCtx, 10, 15);
-                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 0x28, NA_SE_EV_BOX_BREAK);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
             }
             Actor_Kill(&this->dyna.actor);
         }
@@ -265,7 +234,7 @@ void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->flashTimer++;
@@ -275,7 +244,7 @@ void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     s16 i;
     Gfx* phi_s2;
     Gfx* phi_s1;
@@ -305,7 +274,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPDisplayList(POLY_OPA_DISP++, sPlatformSetupDList);
+    gSPDisplayList(POLY_OPA_DISP++, sPlatformMaterialDL);
 
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (actor != NULL) {
@@ -314,9 +283,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             if (platform->dyna.actor.projectedPos.z > spBC) {
                 if (camera->eye.y > platform->dyna.actor.world.pos.y) {
-                    phi_s2 = sPlatformTopDList;
+                    phi_s2 = sPlatformTopDL;
                 } else {
-                    phi_s2 = sPlatformBottomDList;
+                    phi_s2 = sPlatformBottomDL;
                 }
                 Matrix_Translate(platform->dyna.actor.world.pos.x, platform->dyna.actor.world.pos.y,
                                  platform->dyna.actor.world.pos.z, MTXMODE_NEW);
@@ -325,9 +294,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     Matrix_RotateX((platform->dyna.actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
                     Matrix_RotateZ((platform->dyna.actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
                     if (camera->eye.y > platform->dyna.actor.world.pos.y) {
-                        phi_s1 = sPlatformBottomDList;
+                        phi_s1 = sPlatformBottomDL;
                     } else {
-                        phi_s1 = sPlatformTopDList;
+                        phi_s1 = sPlatformTopDL;
                     }
                 }
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 766),
@@ -346,7 +315,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         gSPMatrix(POLY_OPA_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 785),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_OPA_DISP++, sPlatformSideDList);
+                        gSPDisplayList(POLY_OPA_DISP++, sPlatformSideDL);
                         Matrix_Pop();
                     }
                 }
@@ -382,7 +351,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         gSPMatrix(POLY_XLU_DISP++,
                                   Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ganon_otyuka.c", 847),
                                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                        gSPDisplayList(POLY_XLU_DISP++, sFlashDList);
+                        gSPDisplayList(POLY_XLU_DISP++, sFlashDL);
                         Matrix_Pop();
                     }
                 }

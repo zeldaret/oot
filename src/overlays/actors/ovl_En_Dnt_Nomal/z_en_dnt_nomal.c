@@ -13,9 +13,7 @@
 #include "objects/object_hintnuts/object_hintnuts.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnDntNomal*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -118,13 +116,13 @@ static Color_RGBA8 sLeafColors[] = {
 
 void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     this->type = this->actor.params;
     if (this->type < ENDNTNOMAL_TARGET) {
         this->type = ENDNTNOMAL_TARGET;
     }
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.colChkInfo.mass = 0xFF;
     this->objId = -1;
     if (this->type == ENDNTNOMAL_TARGET) {
@@ -161,7 +159,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     if (this->type == ENDNTNOMAL_TARGET) {
         Collider_DestroyQuad(globalCtx, &this->targetQuad);
@@ -244,7 +242,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
             scorePos.y = this->actor.world.pos.y + 20.0f;
             scorePos.z = this->actor.world.pos.z;
             EffectSsExtra_Spawn(globalCtx, &scorePos, &scoreVel, &scoreAccel, 4, 2);
-            Audio_StopSfx(NA_SE_SY_TRE_BOX_APPEAR);
+            Audio_StopSfxById(NA_SE_SY_TRE_BOX_APPEAR);
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             // "Big hit"
             osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 大当り ☆☆☆☆☆ %d\n" VT_RST, this->hitCounter);
@@ -331,14 +329,14 @@ void EnDntNomal_SetupTargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     this->endFrame = (f32)Animation_GetLastFrame(&gHintNutsTalkAnim);
     Animation_Change(&this->skelAnime, &gHintNutsTalkAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0x10AF;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->actionFunc = EnDntNomal_TargetTalk;
 }
 
 void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
         GET_ACTIVE_CAM(globalCtx)->csId = 0;
         func_8002DF54(globalCtx, NULL, 8);
@@ -521,7 +519,7 @@ void EnDntNomal_StageCelebrate(EnDntNomal* this, GlobalContext* globalCtx) {
         f32 dx = this->targetPos.x - this->actor.world.pos.x;
         f32 dz = this->targetPos.z - this->actor.world.pos.z;
 
-        if ((fabsf(dx) < 10.0f) && (fabsf(dz) < 10.0f) && func_8010BDBC(&globalCtx->msgCtx)) {
+        if ((fabsf(dx) < 10.0f) && (fabsf(dz) < 10.0f) && (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
             this->action = DNT_ACTION_PRIZE;
             this->actionFunc = EnDntNomal_SetupStageDance;
             this->actor.speedXZ = 0.0f;
@@ -739,7 +737,7 @@ void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx) {
 
 void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     if (this->timer1 != 0) {
         this->timer1--;
@@ -823,7 +821,7 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDntNomal_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     if ((limbIndex == 1) || (limbIndex == 3) || (limbIndex == 4) || (limbIndex == 5) || (limbIndex == 6)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1733);
@@ -836,7 +834,7 @@ s32 EnDntNomal_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnDntNomal_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if (this->type == ENDNTNOMAL_TARGET) {
@@ -849,8 +847,8 @@ void EnDntNomal_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
-    static void* blinkTex[] = { &gDntStageEyeOpenTex, &gDntStageEyeHalfTex, &gDntStageEyeShutTex };
-    EnDntNomal* this = THIS;
+    static void* blinkTex[] = { gDntStageEyeOpenTex, gDntStageEyeHalfTex, gDntStageEyeShutTex };
+    EnDntNomal* this = (EnDntNomal*)thisx;
     Vec3f dustScale = { 0.25f, 0.25f, 0.25f };
     s32 pad;
 
@@ -874,7 +872,7 @@ void EnDntNomal_DrawStageScrub(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntNomal_DrawTargetScrub(Actor* thisx, GlobalContext* globalCtx) {
-    EnDntNomal* this = THIS;
+    EnDntNomal* this = (EnDntNomal*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1833);
     func_80093D18(globalCtx->state.gfxCtx);

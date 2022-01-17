@@ -8,9 +8,7 @@
 #include "objects/object_spot00_objects/object_spot00_objects.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot00Hanebasi*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* -1 */ DT_DRAWBRIDGE = -1,
@@ -49,7 +47,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Hanebasi* this = THIS;
+    BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
     s32 pad;
     Vec3f chainPos;
     CollisionHeader* colHeader = NULL;
@@ -128,7 +126,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot00Hanebasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Hanebasi* this = THIS;
+    BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
@@ -144,7 +142,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
         !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) || !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) ||
         (gSaveContext.eventChkInf[8] & 1)) {
         if (this->dyna.actor.shape.rot.x != 0) {
-            if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && (gSaveContext.nightFlag == 0))) {
+            if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && IS_DAY)) {
                 this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
                 this->destAngle = 0;
                 child->destAngle = 0;
@@ -153,8 +151,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
 
             if (this) {} // required to match
         }
-        if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT &&
-            (gSaveContext.nightFlag != 0)) {
+        if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT && !IS_DAY) {
             this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
             this->destAngle = -0x4000;
             child->destAngle = -0xFE0;
@@ -206,7 +203,7 @@ void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* g
 }
 
 void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Hanebasi* this = THIS;
+    BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
     s32 pad;
 
     this->actionFunc(this, globalCtx);

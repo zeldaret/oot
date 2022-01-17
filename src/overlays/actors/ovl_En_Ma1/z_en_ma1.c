@@ -7,9 +7,7 @@
 #include "z_en_ma1.h"
 #include "objects/object_ma1/object_ma1.h"
 
-#define FLAGS 0x02000039
-
-#define THIS ((EnMa1*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,14 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 sAnimationInfo[] = {
+typedef enum {
+    /* 0 */ ENMA1_ANIM_0,
+    /* 1 */ ENMA1_ANIM_1,
+    /* 2 */ ENMA1_ANIM_2,
+    /* 3 */ ENMA1_ANIM_3
+} EnMa1Animation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonChildIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonChildIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonChildSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
@@ -85,6 +90,7 @@ static void* sEyeTextures[] = {
 
 u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x17);
+
     if (faceReaction != 0) {
         return faceReaction;
     }
@@ -119,8 +125,9 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
     s16 ret = 1;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2041:
                     gSaveContext.infTable[8] |= 0x10;
@@ -150,23 +157,23 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 4:
-        case 5:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 ret = 2;
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 ret = 3;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             ret = 1;
             break;
     }
@@ -214,11 +221,11 @@ void EnMa1_UpdateEyes(EnMa1* this) {
     }
 }
 
-void EnMa1_ChangeAnimation(EnMa1* this, UNK_TYPE idx) {
-    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
+void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
@@ -254,7 +261,7 @@ void func_80AA0B74(EnMa1* this) {
 }
 
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
@@ -275,15 +282,15 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
-        EnMa1_ChangeAnimation(this, 2);
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     } else {
         this->actionFunc = func_80AA0F44;
-        EnMa1_ChangeAnimation(this, 2);
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     }
 }
 
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -292,11 +299,11 @@ void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnimation(this, 1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnimation(this, 3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
         }
     }
 
@@ -305,8 +312,8 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     } else if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
-            globalCtx->msgCtx.unk_E3E7 = 4;
-            globalCtx->msgCtx.msgMode = 0x36;
+            globalCtx->msgCtx.stateTimer = 4;
+            globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
     }
 }
@@ -325,7 +332,7 @@ void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
         this->unk_1E8.unk_00 = 0;
         this->actionFunc = func_80AA0D88;
         gSaveContext.eventChkInf[1] |= 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
 
@@ -334,11 +341,11 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnimation(this, 1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnimation(this, 3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
         }
     }
 
@@ -347,9 +354,9 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             player->stateFlags2 |= 0x2000000;
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
-            func_8010B680(globalCtx, this->actor.textId, NULL);
+            Message_StartTextbox(globalCtx, this->actor.textId, NULL);
             this->unk_1E8.unk_00 = 1;
-            this->actor.flags |= 0x10000;
+            this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= 0x800000;
@@ -360,24 +367,24 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
     if (this->unk_1E8.unk_00 == 2) {
-        func_800ED858(2);
-        func_8010BD58(globalCtx, 9);
-        this->actor.flags &= ~0x10000;
+        Audio_OcaSetInstrument(2);
+        func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = func_80AA10EC;
     }
 }
 
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
-    if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
-        func_8010BD58(globalCtx, 0x16);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
+        func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
     }
 }
 
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
-    if (globalCtx->msgCtx.unk_E3EE == 3) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->fadeTransition = 42;
@@ -390,7 +397,7 @@ void EnMa1_DoNothing(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -407,7 +414,7 @@ void EnMa1_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     Vec3s vec;
 
     if ((limbIndex == 2) || (limbIndex == 5)) {
@@ -429,7 +436,7 @@ s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     Vec3f vec = D_80AA16B8;
 
     if (limbIndex == 15) {
@@ -438,7 +445,7 @@ void EnMa1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnMa1* this = THIS;
+    EnMa1* this = (EnMa1*)thisx;
     Camera* camera;
     f32 distFromCamera;
     s32 pad;
@@ -447,7 +454,7 @@ void EnMa1_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     camera = GET_ACTIVE_CAM(globalCtx);
     distFromCamera = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
-    func_800F6268(distFromCamera, 0x2F);
+    func_800F6268(distFromCamera, NA_BGM_LONLON);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));

@@ -8,9 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_bombiwa/object_bombiwa.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((ObjBombiwa*)thisx)
+#define FLAGS 0
 
 void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx);
@@ -66,7 +64,7 @@ static s16 sEffectScales[] = {
 };
 
 void ObjBombiwa_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBombiwa* this = THIS;
+    ObjBombiwa* this = (ObjBombiwa*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -82,6 +80,7 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
         if (thisx->shape.rot.y == 0) {
             s16 rand = (s16)Rand_ZeroFloat(65536.0f);
+
             thisx->world.rot.y = rand;
             thisx->shape.rot.y = rand;
         }
@@ -92,7 +91,7 @@ void ObjBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    ObjBombiwa* this = THIS;
+    ObjBombiwa* this = (ObjBombiwa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -122,14 +121,14 @@ void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjBombiwa* this = THIS;
+    ObjBombiwa* this = (ObjBombiwa*)thisx;
     s32 pad;
 
     if ((func_80033684(globalCtx, &this->actor) != NULL) ||
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000040))) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
         if (((this->actor.params >> 0xF) & 1) != 0) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }

@@ -7,9 +7,7 @@
 #include "z_bg_bdan_switch.h"
 #include "objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgBdanSwitch*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBdanSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -136,7 +134,7 @@ void func_8086D0EC(BgBdanSwitch* this) {
 }
 
 void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgBdanSwitch* this = THIS;
+    BgBdanSwitch* this = (BgBdanSwitch*)thisx;
     s32 pad;
     s16 type;
     s32 flag;
@@ -162,7 +160,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
             BgBdanSwitch_InitCollision(this, globalCtx);
-            this->dyna.actor.flags |= 1;
+            this->dyna.actor.flags |= ACTOR_FLAG_0;
             this->dyna.actor.targetMode = 4;
             break;
     }
@@ -203,7 +201,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBdanSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBdanSwitch* this = THIS;
+    BgBdanSwitch* this = (BgBdanSwitch*)thisx;
 
     switch (this->dyna.actor.params & 0xFF) {
         case BLUE:
@@ -484,7 +482,7 @@ void func_8086DDC0(BgBdanSwitch* this, GlobalContext* globalCtx) {
 
 void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgBdanSwitch* this = THIS;
+    BgBdanSwitch* this = (BgBdanSwitch*)thisx;
     s32 type;
 
     if (this->unk_1DA > 0) {
@@ -508,15 +506,15 @@ void BgBdanSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8086DF58(BgBdanSwitch* this, GlobalContext* globalCtx, Gfx* dlist) {
-    func_800D1694(this->dyna.actor.world.pos.x,
-                  this->dyna.actor.world.pos.y + (this->dyna.actor.shape.yOffset * this->unk_1D0),
-                  this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
+    Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
+                                 this->dyna.actor.world.pos.y + (this->dyna.actor.shape.yOffset * this->unk_1D0),
+                                 this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->unk_1D4, this->unk_1D0, this->unk_1D4, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalCtx, dlist);
 }
 
 void BgBdanSwitch_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgBdanSwitch* this = THIS;
+    BgBdanSwitch* this = (BgBdanSwitch*)thisx;
 
     switch (this->dyna.actor.params & 0xFF) {
         case YELLOW_HEAVY:

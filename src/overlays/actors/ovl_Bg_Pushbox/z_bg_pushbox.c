@@ -7,9 +7,7 @@
 #include "z_bg_pushbox.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgPushbox*)thisx)
+#define FLAGS 0
 
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPushbox* this = THIS;
+    BgPushbox* this = (BgPushbox*)thisx;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
@@ -54,7 +52,7 @@ void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgPushbox* this = THIS;
+    BgPushbox* this = (BgPushbox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -71,7 +69,7 @@ void BgPushbox_UpdateImpl(BgPushbox* this, GlobalContext* globalCtx) {
 }
 
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgPushbox* this = THIS;
+    BgPushbox* this = (BgPushbox*)thisx;
 
     this->actionFunc(this, globalCtx);
     func_8002DF90(&this->dyna);
@@ -85,7 +83,7 @@ void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 269),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &gBlockSmallDL);
+    gSPDisplayList(POLY_OPA_DISP++, gBlockSmallDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_pushbox.c", 272);
 }

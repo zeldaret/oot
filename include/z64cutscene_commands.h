@@ -4,6 +4,12 @@
 #include "command_macros_base.h"
 #include "z64cutscene.h"
 
+#ifdef __GNUC__
+#define CMD_F(a) {.f = (a)}
+#else
+#define CMD_F(a) {(a)}
+#endif
+
 /**
  * ARGS
  *   s32 totalEntries (e), s32 endFrame (n)
@@ -20,8 +26,9 @@
  *   00000001 0001ssss eeee0000
  *   size = 0xC
  */
-#define CS_CAM_POS_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_POS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+#define CS_CAM_POS_LIST CS_CAM_EYE_LIST
+#define CS_CAM_EYE_LIST(startFrame, endFrame) \
+    CS_CMD_CAM_EYE, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * ARGS
@@ -32,8 +39,9 @@
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  */
-#define CS_CAM_POS(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_CAM_POS CS_CAM_EYE
+#define CS_CAM_EYE(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -42,8 +50,9 @@
  *   00000002 0001ssss eeee0000
  *   size = 0xC
  */
-#define CS_CAM_FOCUS_POINT_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_FOCUS, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+#define CS_CAM_FOCUS_POINT_LIST CS_CAM_AT_LIST
+#define CS_CAM_AT_LIST(startFrame, endFrame) \
+    CS_CMD_CAM_AT, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * ARGS
@@ -54,8 +63,9 @@
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  */
-#define CS_CAM_FOCUS_POINT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_CAM_FOCUS_POINT CS_CAM_AT
+#define CS_CAM_AT(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -109,8 +119,9 @@
  *   00000005 0001ssss eeee0000
  *   size = 0xC
  */
-#define CS_CAM_POS_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_POS_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+#define CS_CAM_POS_PLAYER_LIST CS_CAM_EYE_REL_TO_PLAYER_LIST
+#define CS_CAM_EYE_REL_TO_PLAYER_LIST(startFrame, endFrame) \
+    CS_CMD_CAM_EYE_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 
 /**
  * ARGS
@@ -121,8 +132,9 @@
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  */
-#define CS_CAM_POS_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_CAM_POS_PLAYER CS_CAM_EYE_REL_TO_PLAYER
+#define CS_CAM_EYE_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -132,8 +144,9 @@
  *   00000006 0001ssss eeee0000
  *   size = 0xC
  */
-#define CS_CAM_FOCUS_POINT_PLAYER_LIST(startFrame, endFrame) \
-    CS_CMD_CAMERA_FOCUS_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
+#define CS_CAM_FOCUS_POINT_PLAYER_LIST CS_CAM_AT_REL_TO_PLAYER_LIST
+#define CS_CAM_AT_REL_TO_PLAYER_LIST(startFrame, endFrame) \
+    CS_CMD_CAM_AT_REL_TO_PLAYER, CMD_HH(0x0001, startFrame), CMD_HH(endFrame, 0x0000)
 /**
  * ARGS
  *   s8 continueFlag (c), s8 roll (r), s16 frame (f), f32 viewAngle (a), 
@@ -143,8 +156,9 @@
  *   ccrrffff aaaaaaaa xxxxyyyy zzzzUUUU
  *   size = 0x10
  */
-#define CS_CAM_FOCUS_POINT_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+#define CS_CAM_FOCUS_POINT_PLAYER CS_CAM_AT_REL_TO_PLAYER
+#define CS_CAM_AT_REL_TO_PLAYER(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -167,7 +181,7 @@
  *   size = 0x10
  */
 #define CS_CMD_07(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -190,7 +204,7 @@
  *   size = 0x10
  */
 #define CS_CMD_08(continueFlag, roll, frame, viewAngle, xPos, yPos, zPos, unused) \
-    CMD_BBH(continueFlag, roll, frame), CMD_W(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
+    CMD_BBH(continueFlag, roll, frame), CMD_F(viewAngle), CMD_HH(xPos, yPos), CMD_HH(zPos, unused)
 
 /**
  * ARGS
@@ -257,7 +271,7 @@
     CMD_HH(npcAction, startFrame), CMD_HH(endFrame, rotX), CMD_HH(rotY, rotZ), \
     CMD_W(startX), CMD_W(startY), CMD_W(startZ), \
     CMD_W(endX), CMD_W(endY), CMD_W(endZ), \
-    CMD_W(normX), CMD_W(normY), CMD_W(normZ)
+    CMD_F(normX), CMD_F(normY), CMD_F(normZ)
 
 /**
  * ARGS

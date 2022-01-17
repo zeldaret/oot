@@ -10,9 +10,7 @@
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnfHG*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -47,8 +45,6 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx);
 void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx);
 void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx);
 
-void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin);
-
 const ActorInit En_fHG_InitVars = {
     ACTOR_EN_FHG,
     ACTORCAT_BG,
@@ -74,7 +70,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Flags_SetSwitch(globalCtx, 0x14);
@@ -84,7 +80,7 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.speedXZ = 0.0f;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gPhantomHorseSkel, &gPhantomHorseRunningAnim);
+    Skin_Init(globalCtx, &this->skin, &gPhantomHorseSkel, &gPhantomHorseRunningAnim);
 
     if (this->actor.params >= GND_FAKE_BOSS) {
         EnfHG_SetupApproach(this, globalCtx, this->actor.params - GND_FAKE_BOSS);
@@ -95,10 +91,10 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
 
     osSyncPrintf("F DT1\n");
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     osSyncPrintf("F DT2\n");
 }
 
@@ -146,7 +142,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 51) {
                     Audio_PlayActorSound2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
-                    Audio_QueueSeqCmd(0x1B);
+                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
                 }
                 if (this->timers[0] == 0) {
                     EnfHG_SetupApproach(this, globalCtx, Rand_ZeroOne() * 5.99f);
@@ -162,7 +158,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
-            Audio_QueueSeqCmd(0x100100FF);
+            Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
             gSaveContext.eventChkInf[7] |= 4;
             Flags_SetSwitch(globalCtx, 0x23);
         case INTRO_FENCE:
@@ -198,7 +194,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 9);
             }
             if (this->timers[0] == 1) {
-                Audio_QueueSeqCmd(0x23);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_OPENING_GANON);
             }
             Math_ApproachF(&this->cameraEye.x, GND_BOSSROOM_CENTER_X + 40.0f, 0.05f, this->cameraSpeedMod * 20.0f);
             Math_ApproachF(&this->cameraEye.y, GND_BOSSROOM_CENTER_Y + 37.0f, 0.05f, this->cameraSpeedMod * 20.0f);
@@ -286,7 +282,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 this->bossGndSignal = FHG_RIDE;
             }
             if (this->timers[0] == 130) {
-                Audio_QueueSeqCmd(0x105000FF);
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x5000FF);
             }
             if (this->timers[0] == 30) {
                 bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_BRIGHTEN;
@@ -299,7 +295,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
-                Audio_QueueSeqCmd(0x1B);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             }
             if (this->timers[0] == 2) {
                 this->cameraSpeedMod = 0.0f;
@@ -335,7 +331,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 75) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                       SEGMENTED_TO_VIRTUAL(&gPhantomGanonTitleCardTex), 160, 180, 128, 40);
+                                       SEGMENTED_TO_VIRTUAL(gPhantomGanonTitleCardTex), 160, 180, 128, 40);
             }
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_RETREAT;
@@ -681,7 +677,7 @@ void EnfHG_Done(EnfHG* this, GlobalContext* globalCtx) {
 
 void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
     u8 i;
 
     if (this->killActor) {
@@ -710,11 +706,11 @@ void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = (s16)(Math_SinS(this->hitTimer * 0x7000) * 1500.0f) * (this->hitTimer / 20.0f);
 }
 
-void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnfHG_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
 }
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnfHG* this = THIS;
+    EnfHG* this = (EnfHG*)thisx;
     BossGanondrof* bossGnd = (BossGanondrof*)this->actor.parent;
     s32 pad;
 
@@ -726,7 +722,7 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpColorFilterR, (u32)this->warpColorFilterG,
                                      (u32)this->warpColorFilterB, 0, (s32)this->warpColorFilterUnk1 + 995,
                                      (s32)this->warpColorFilterUnk2 + 1000);
-    func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_PostDraw, SKIN_TRANSFORM_IS_FHG);
     POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);
 }

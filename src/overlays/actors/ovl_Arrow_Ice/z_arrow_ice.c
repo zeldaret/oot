@@ -8,9 +8,7 @@
 
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((ArrowIce*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -21,7 +19,7 @@ void ArrowIce_Charge(ArrowIce* this, GlobalContext* globalCtx);
 void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx);
 void ArrowIce_Hit(ArrowIce* this, GlobalContext* globalCtx);
 
-#include "z_arrow_ice_gfx.c"
+#include "overlays/ovl_Arrow_Ice/ovl_Arrow_Ice.c"
 
 const ActorInit Arrow_Ice_InitVars = {
     ACTOR_ARROW_ICE,
@@ -44,7 +42,7 @@ void ArrowIce_SetupAction(ArrowIce* this, ArrowIceActionFunc actionFunc) {
 }
 
 void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowIce* this = THIS;
+    ArrowIce* this = (ArrowIce*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
@@ -181,9 +179,10 @@ void ArrowIce_Fly(ArrowIce* this, GlobalContext* globalCtx) {
 }
 
 void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowIce* this = THIS;
+    ArrowIce* this = (ArrowIce*)thisx;
 
-    if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
+    if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
+        globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
         Actor_Kill(&this->actor);
     } else {
         this->actionFunc(this, globalCtx);
@@ -191,7 +190,7 @@ void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ArrowIce* this = THIS;
+    ArrowIce* this = (ArrowIce*)thisx;
     s32 pad;
     Actor* tranform;
     u32 stateFrames = globalCtx->state.frames;
@@ -225,7 +224,7 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 170, 255, 255, this->alpha);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 128);
-        Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         } else {
@@ -235,11 +234,11 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 660),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+        gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 511 - (stateFrames * 5) % 512, 0, 128, 32, 1,
                                         511 - (stateFrames * 10) % 512, 511 - (stateFrames * 10) % 512, 4, 16));
-        gSPDisplayList(POLY_XLU_DISP++, sVertexDL);
+        gSPDisplayList(POLY_XLU_DISP++, sModelDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 676);
     }

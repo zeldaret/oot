@@ -5,6 +5,7 @@ void JpegUtils_ProcessQuantizationTable(u8* dqt, JpegQuantizationTable* qt, u8 c
 
     for (i = 0; i < count; i++) {
         u8 j;
+
         dqt++;
         for (j = 0; j < 64; j++) {
             qt[i].table[j] = *dqt++;
@@ -102,6 +103,7 @@ u32 JpegUtils_ProcessHuffmanTable(u8* dht, JpegHuffmanTable* ht, u8* codesLength
 
     for (idx = 0; idx < count; idx++) {
         u32 ac = (*dht++ >> 4);
+
         codeCount = JpegUtils_ProcessHuffmanTableImpl(dht, &ht[idx], codesLengths, codes, ac);
         if (codeCount == 0) {
             return 1;

@@ -7,17 +7,17 @@
         <DList Name="object_haka_objects_DL_002ED0" Offset="0x2ED0"/>
         <DList Name="object_haka_objects_DL_003CF0" Offset="0x3CF0"/>
         <DList Name="object_haka_objects_DL_0040F0" Offset="0x40F0"/>
-        <Blob Name="object_haka_objects_Blob_0042A8" Size="0xB8" Offset="0x42A8"/>
+        <Collision Name="object_haka_objects_Col_004330" Offset="0x4330"/>
         <DList Name="object_haka_objects_DL_0043B0" Offset="0x43B0"/>
-        <Blob Name="object_haka_objects_Blob_004448" Size="0xB8" Offset="0x4448"/>
+        <Collision Name="object_haka_objects_Col_0044D0" Offset="0x44D0"/>
         <DList Name="object_haka_objects_DL_0045A0" Offset="0x45A0"/>
-        <Blob Name="object_haka_objects_Blob_004688" Size="0x128" Offset="0x4688"/>
+        <Collision Name="object_haka_objects_Col_004780" Offset="0x4780"/>
         <DList Name="object_haka_objects_DL_0047F0" Offset="0x47F0"/>
-        <Blob Name="object_haka_objects_Blob_0048C0" Size="0xB0" Offset="0x48C0"/>
+        <Collision Name="object_haka_objects_Col_004940" Offset="0x4940"/>
         <DList Name="object_haka_objects_DL_0049B0" Offset="0x49B0"/>
-        <Blob Name="object_haka_objects_Blob_004A80" Size="0xB0" Offset="0x4A80"/>
+        <Collision Name="object_haka_objects_Col_004B00" Offset="0x4B00"/>
         <DList Name="object_haka_objects_DL_004B70" Offset="0x4B70"/>
-        <Blob Name="object_haka_objects_Blob_004C40" Size="0xB0" Offset="0x4C40"/>
+        <Collision Name="object_haka_objects_Col_004CC0" Offset="0x4CC0"/>
         <DList Name="object_haka_objects_DL_005000" Offset="0x5000"/>
         <Collision Name="object_haka_objects_Col_005334" Offset="0x5334"/>
         <DList Name="object_haka_objects_DL_005A70" Offset="0x5A70"/>

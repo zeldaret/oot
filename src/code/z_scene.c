@@ -113,9 +113,9 @@ s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId) {
 
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex) {
     if (objectCtx->status[bankIndex].id > 0) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -232,7 +232,7 @@ void func_800987F8(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x07: Special Files
 void func_8009883C(GlobalContext* globalCtx, SceneCmd* cmd) {
-    if (cmd->specialFiles.keepObjectId != 0) {
+    if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
         globalCtx->objectCtx.subKeepIndex = Object_Spawn(&globalCtx->objectCtx, cmd->specialFiles.keepObjectId);
         gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     }
@@ -247,7 +247,7 @@ void func_80098904(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->roomCtx.curRoom.unk_03 = cmd->roomBehavior.gpFlag1;
     globalCtx->roomCtx.curRoom.unk_02 = cmd->roomBehavior.gpFlag2 & 0xFF;
     globalCtx->roomCtx.curRoom.showInvisActors = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
-    globalCtx->msgCtx.unk_E40C = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
+    globalCtx->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
 
 // Scene Command 0x0A: Mesh Header
@@ -413,11 +413,11 @@ void func_80099134(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x15: Sound Settings
 void func_80099140(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->soundCtx.seqIndex = cmd->soundSettings.seqIndex;
-    globalCtx->soundCtx.nightSeqIndex = cmd->soundSettings.nightSeqIndex;
+    globalCtx->sequenceCtx.seqId = cmd->soundSettings.seqId;
+    globalCtx->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
-    if (gSaveContext.seqIndex == 0xFF) {
-        Audio_QueueSeqCmd(cmd->soundSettings.bgmId | 0xF0000000);
+    if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
+        Audio_QueueSeqCmd(cmd->soundSettings.specId | 0xF0000000);
     }
 }
 

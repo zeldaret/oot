@@ -12,9 +12,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnGSwitch*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ MOVE_TARGET,
@@ -80,7 +78,7 @@ const ActorInit En_G_Switch_InitVars = {
 
 void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     this->type = (this->actor.params >> 0xC) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
@@ -168,7 +166,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -402,7 +400,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
                                  KAKERA_COLOR_NONE, OBJECT_TSUBO, object_tsubo_DL_001960);
         }
         func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
-        Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
         EnGSwitch_Break(this, globalCtx);
         this->killTimer = 50;
         this->broken = true;
@@ -418,7 +416,7 @@ void EnGSwitch_Kill(EnGSwitch* this, GlobalContext* globalCtx) {
 
 void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (this->killTimer != 0) {
@@ -453,7 +451,7 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (!this->broken) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 918);
@@ -471,7 +469,7 @@ static void* sRupeeTextures[] = {
 
 void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGSwitch* this = THIS;
+    EnGSwitch* this = (EnGSwitch*)thisx;
 
     if (1) {}
     if (!this->broken) {

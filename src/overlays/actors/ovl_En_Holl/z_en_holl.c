@@ -1,8 +1,6 @@
 #include "z_en_holl.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHoll*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 // Horizontal Plane parameters
 
@@ -73,21 +71,6 @@ static f32 sHorizTriggerDists[2][4] = {
     { 100.0f, 75.0f, 50.0f, 25.0f },
 };
 
-static Vtx sVertices[] = {
-    VTX(0x55F0, 0x4E20, 0x0000, 0x0800, 0x0800, 255, 255, 255, 255),
-    VTX(0xAA10, 0x4E20, 0x0000, 0x0000, 0x0800, 255, 255, 255, 255),
-    VTX(0xAA10, 0xB1E0, 0x0000, 0x0000, 0x0000, 255, 255, 255, 255),
-    VTX(0x55F0, 0xB1E0, 0x0000, 0x0800, 0x0000, 255, 255, 255, 255),
-};
-
-static Gfx sPlaneDlist[] = {
-    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
-    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PASS2),
-    gsSPVertex(sVertices, 4, 0),
-    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-    gsSPEndDisplayList(),
-};
-
 void EnHoll_SetupAction(EnHoll* this, EnHollActionFunc func) {
     this->actionFunc = func;
 }
@@ -109,7 +92,7 @@ void EnHoll_ChooseAction(EnHoll* this) {
 }
 
 void EnHoll_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     EnHoll_ChooseAction(this);
@@ -331,14 +314,17 @@ void EnHoll_NextAction(EnHoll* this, GlobalContext* globalCtx) {
 }
 
 void EnHoll_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
+
     this->actionFunc(this, globalCtx);
 }
 
+#include "overlays/ovl_En_Holl/ovl_En_Holl.c"
+
 void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHoll* this = THIS;
+    EnHoll* this = (EnHoll*)thisx;
     Gfx* gfxP;
-    u32 setupDLIdx;
+    u32 setupDlIdx;
 
     // Only draw the plane if not invisible
     if (this->planeAlpha != 0) {
@@ -346,12 +332,12 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->planeAlpha == 255) {
             gfxP = POLY_OPA_DISP;
-            setupDLIdx = 37;
+            setupDlIdx = 37;
         } else {
             gfxP = POLY_XLU_DISP;
-            setupDLIdx = 0;
+            setupDlIdx = 0;
         }
-        gfxP = Gfx_CallSetupDL(gfxP, setupDLIdx);
+        gfxP = Gfx_CallSetupDL(gfxP, setupDlIdx);
         if (this->side == 0) {
             Matrix_RotateY(M_PI, MTXMODE_APPLY);
         }
@@ -359,7 +345,7 @@ void EnHoll_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(gfxP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_holl.c", 824),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(gfxP++, 0, 0, 0, 0, 0, (u8)this->planeAlpha);
-        gSPDisplayList(gfxP++, sPlaneDlist);
+        gSPDisplayList(gfxP++, sPlaneDL);
 
         if (this->planeAlpha == 255) {
             POLY_OPA_DISP = gfxP;

@@ -2,9 +2,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnHeishi4*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -58,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
     this->type = thisx->params & 0xFF;
@@ -104,7 +102,7 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -225,12 +223,12 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
                              -10.0f);
             this->actor.textId = 0x7007;
-            this->unk_282 = 5;
+            this->unk_282 = TEXT_STATE_EVENT;
             this->unk_284 = 1;
             osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ デモ開始！ ☆☆☆☆☆ \n" VT_RST);
         } else {
             this->actor.textId = 0x7008;
-            this->unk_282 = 6;
+            this->unk_282 = TEXT_STATE_DONE;
             osSyncPrintf(VT_FGCOL(BLUE) " ☆☆☆☆☆ 返事なし ☆☆☆☆☆ \n" VT_RST);
         }
         this->actionFunc = func_80A56874;
@@ -243,7 +241,7 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
     if (this->unk_284 != 0) {
         SkelAnime_Update(&this->skelAnime);
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (this->unk_284 == 0) {
             this->actionFunc = func_80A5673C;
 
@@ -265,18 +263,17 @@ void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
-    if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
-            func_80106CCC(globalCtx);
-            gSaveContext.infTable[6] |= 0x1000;
-            func_8002DF54(globalCtx, NULL, 8);
-            this->actionFunc = func_80A56A50;
-        }
+    if ((this->unk_282 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
+        gSaveContext.infTable[6] |= 0x1000;
+        func_8002DF54(globalCtx, NULL, 8);
+        this->actionFunc = func_80A56A50;
     }
 }
 
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardDieAnim);
+
     this->unk_288 = frames;
     Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardDieAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;
@@ -326,7 +323,7 @@ void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if ((this->type == HEISHI4_AT_KAKRIKO_ENTRANCE) || (this->type == HEISHI4_AT_IMPAS_HOUSE)) {
             this->unk_284 = 1;
             this->actionFunc = func_80A563BC;
@@ -341,7 +338,7 @@ void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -368,7 +365,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     if (limbIndex == 9) {
         rot->x += this->unk_266.y;
@@ -381,7 +378,7 @@ s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnHeishi4_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi_OverrideLimbDraw, NULL,

@@ -1,9 +1,7 @@
 #include "z_door_warp1.h"
 #include "objects/object_warp1/object_warp1.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((DoorWarp1*)thisx)
+#define FLAGS 0
 
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -60,7 +58,7 @@ void DoorWarp1_SetupAction(DoorWarp1* this, DoorWarp1ActionFunc actionFunc) {
 }
 
 void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
     GlobalContext* globalCtx2 = globalCtx;
 
     this->unk_1B8 = 0;
@@ -85,7 +83,7 @@ void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     u8 i;
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->upperLight);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lowerLight);
@@ -306,7 +304,7 @@ void func_80999214(DoorWarp1* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 3; i++) {
         globalCtx->envCtx.adjAmbientColor[i] = globalCtx->envCtx.adjFogColor[i] = globalCtx->envCtx.adjLight1Color[i] =
-            -255 * darkness;
+            -255.0f * darkness;
     }
     globalCtx->envCtx.adjFogNear = -500.0f * darkness;
 
@@ -382,7 +380,7 @@ void DoorWarp1_ChooseInitialAction(DoorWarp1* this, GlobalContext* globalCtx) {
 void DoorWarp1_AwaitClearFlag(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->actor.room)) {
         this->warpTimer = 200;
-        Audio_QueueSeqCmd(0x21);
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
         DoorWarp1_SetupAction(this, func_809995D4);
     }
 }
@@ -573,13 +571,13 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEye(globalCtx, sRutoWarpSubCamId, &at, &eye);
         Gameplay_CameraSetFov(globalCtx, sRutoWarpSubCamId, 90.0f);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_TALKING;
-        func_8010B680(globalCtx, 0x4022, NULL);
+        Message_StartTextbox(globalCtx, 0x4022, NULL);
         DoorWarp1_SetupAction(this, func_80999FE4);
     }
 }
 
 void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, MAIN_CAM);
         Gameplay_CopyCamera(globalCtx, -1, sRutoWarpSubCamId);
@@ -867,7 +865,7 @@ void func_8099B020(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     this->actionFunc(this, globalCtx);
 
@@ -1022,7 +1020,7 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, GlobalContext* globalCtx) {
 }
 
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DoorWarp1* this = THIS;
+    DoorWarp1* this = (DoorWarp1*)thisx;
 
     switch (this->actor.params) {
         case WARP_DUNGEON_ADULT:

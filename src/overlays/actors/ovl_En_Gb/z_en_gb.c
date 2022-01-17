@@ -7,9 +7,7 @@
 #include "z_en_gb.h"
 #include "objects/object_ps/object_ps.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnGb*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnGb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGb_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -151,7 +149,7 @@ void func_80A2F180(EnGb* this) {
 }
 
 void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 i;
@@ -207,7 +205,7 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.a = 200;
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+    Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                      MTXMODE_APPLY);
     focusOffset.x = focusOffset.y = 0.0f;
     focusOffset.z = 44.0f;
@@ -218,7 +216,7 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->light);
@@ -232,7 +230,7 @@ void func_80A2F608(EnGb* this) {
 
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+    Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                      MTXMODE_APPLY);
     sp48.x = sp48.y = 0.0f;
     sp48.z = 25.0f;
@@ -244,7 +242,7 @@ void func_80A2F608(EnGb* this) {
     for (i = 0; i < ARRAY_COUNT(sBottlesPositions); i++) {
         Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                          MTXMODE_NEW);
-        Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
+        Matrix_RotateZYX(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                          MTXMODE_APPLY);
         Matrix_MultVec3f(&sBottlesPositions[i], &sp3C);
         this->bottlesColliders[i].dim.pos.x = sp3C.x;
@@ -281,7 +279,7 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
             return;
         }
     }
-    if (func_8002F194(&this->dyna.actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->dyna.actor, globalCtx)) {
         switch (func_8002F368(globalCtx)) {
             case EXCH_ITEM_NONE:
                 func_80A2F180(this);
@@ -304,7 +302,7 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         if (!(gSaveContext.infTable[0xB] & 0x40)) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
@@ -314,7 +312,7 @@ void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         if (!(gSaveContext.infTable[0xB] & 0x40)) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
@@ -326,7 +324,7 @@ void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         if (!(gSaveContext.infTable[0xB] & 0x40)) {
             gSaveContext.infTable[0xB] |= 0x40;
         }
@@ -344,14 +342,14 @@ void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
 
             player->exchangeItemId = EXCH_ITEM_NONE;
             this->textId = 0x70F8;
-            func_8010B720(globalCtx, this->textId);
+            Message_ContinueTextbox(globalCtx, this->textId);
             this->actionFunc = func_80A2FB40;
         }
     }
 }
 
 void func_80A2FB40(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         func_8002F434(&this->dyna.actor, globalCtx, GI_BOTTLE, 100.0f, 10.0f);
         this->actionFunc = func_80A2FBB0;
     }
@@ -367,8 +365,8 @@ void func_80A2FBB0(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
-        func_8002F194(&this->dyna.actor, globalCtx);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
+        Actor_ProcessTalkRequest(&this->dyna.actor, globalCtx);
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
     }
@@ -396,7 +394,7 @@ void func_80A2FC70(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void EnGb_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s32 i;
     f32 rand;
@@ -421,7 +419,7 @@ void EnGb_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnGb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGb* this = THIS;
+    EnGb* this = (EnGb*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gb.c", 763);
@@ -537,10 +535,10 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
         Matrix_Push();
         Matrix_Translate(this->cagedSouls[i].translation.x, this->cagedSouls[i].translation.y,
                          this->cagedSouls[i].translation.z, MTXMODE_NEW);
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
         if (this->cagedSouls[i].rotate180) {
-            Matrix_RotateRPY(0, -0x8000, 0, MTXMODE_APPLY);
+            Matrix_RotateZYX(0, -0x8000, 0, MTXMODE_APPLY);
         }
         Matrix_Scale(0.007f, 0.007f, 1.0f, MTXMODE_APPLY);
 

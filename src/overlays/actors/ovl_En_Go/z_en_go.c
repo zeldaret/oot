@@ -3,9 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS 0x00000039
-
-#define THIS ((EnGo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -71,14 +69,14 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-typedef struct {
-    AnimationHeader* animation;
-    f32 playSpeed;
-    u8 mode;
-    f32 morphRate;
+typedef enum {
+    /* 0 */ ENGO_ANIM_0,
+    /* 1 */ ENGO_ANIM_1,
+    /* 2 */ ENGO_ANIM_2,
+    /* 3 */ ENGO_ANIM_3
 } EnGoAnimation;
 
-static EnGoAnimation sAnimationEntries[] = {
+static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
     { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
@@ -202,9 +200,9 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
 
     xzRange = thisx->xzDistToPlayer + 1.0f;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
         if (globalCtx) {}
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x3008:
                     gSaveContext.infTable[14] |= 1;
@@ -256,8 +254,8 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -269,7 +267,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         } else {
                             thisx->textId = 0x300D;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3034:
@@ -284,7 +282,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         } else {
                             thisx->textId = 0x3033;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3054:
@@ -293,7 +291,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                             unkState = 2;
                         } else {
                             thisx->textId = 0x3056;
-                            func_8010B720(globalCtx, thisx->textId);
+                            Message_ContinueTextbox(globalCtx, thisx->textId);
                             unkState = 1;
                         }
                         gSaveContext.infTable[11] |= 0x10;
@@ -301,15 +299,15 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
                     case 0x3032:
                     case 0x3033:
                         thisx->textId = 0x3034;
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     default:
@@ -318,16 +316,16 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 unkState = 3;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 7:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_9:
             break;
     }
     return unkState;
@@ -338,7 +336,7 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     if (arg2->unk_00) {
         arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
         return false;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         arg2->unk_00 = 1;
         return true;
     } else if (!func_8002F2CC(&this->actor, globalCtx, arg3)) {
@@ -349,11 +347,11 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     }
 }
 
-void EnGo_ChangeAnimation(EnGo* this, s32 animIndex) {
-    Animation_Change(&this->skelAnime, sAnimationEntries[animIndex].animation,
-                     sAnimationEntries[animIndex].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[animIndex].animation), sAnimationEntries[animIndex].mode,
-                     sAnimationEntries[animIndex].morphRate);
+void EnGo_ChangeAnim(EnGo* this, s32 index) {
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
+                     sAnimationInfo[index].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
@@ -429,12 +427,12 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
 
     xyzDist = (this->actor.scale.x / 0.01f) * 10000.0f;
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(camera, CAM_SET_TEPPEN);
+        Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
         xyzDist *= 4.8f;
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
-        if (camera->setting == CAM_SET_TEPPEN) {
+        if (camera->setting == CAM_SET_DIRECTED_YAW) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
         return 0;
@@ -620,7 +618,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     s32 pad;
     Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
@@ -637,11 +635,11 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.params & 0xF0) && ((this->actor.params & 0xF0) != 0x90)) {
-        this->actor.flags &= ~0x10;
-        this->actor.flags &= ~0x20;
+        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
-    EnGo_ChangeAnimation(this, 0);
+    EnGo_ChangeAnim(this, ENGO_ANIM_0);
     this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
     this->actor.gravity = -1.0f;
@@ -693,7 +691,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -861,24 +859,24 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
             this->unk_1E0.unk_00 = 0;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                EnGo_ChangeAnimation(this, 2);
+                EnGo_ChangeAnim(this, ENGO_ANIM_2);
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.timer2State = 0;
                 OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 EnGo_GetItem(this, globalCtx);
             }
         }
     } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
             EnGo_ReverseAnimation(this);
@@ -926,7 +924,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -935,7 +933,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[14] & 0x800) {
-        EnGo_ChangeAnimation(this, 3);
+        EnGo_ChangeAnim(this, ENGO_ANIM_3);
         EnGo_SetupAction(this, func_80A40A54);
     } else {
         EnGo_BiggoronActionFunc(this, globalCtx);
@@ -986,11 +984,11 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             gSaveContext.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
             Environment_ClearBgsDayCount();
         }
@@ -1000,7 +998,7 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_21E) == 0) {
         this->actor.textId = 0x305A;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E0.unk_00 = 1;
         EnGo_SetupAction(this, func_80A40DCC);
     }
@@ -1008,9 +1006,9 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, globalCtx);
     }
@@ -1018,7 +1016,7 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
 
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -1068,7 +1066,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_RotateRPY((s16)(globalCtx->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
+    Matrix_RotateZYX((s16)(globalCtx->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1080,7 +1078,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
 }
 
 s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3s vec1;
     f32 float1;
 
@@ -1113,7 +1111,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
 }
 
 void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
@@ -1122,7 +1120,7 @@ void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2479);
 
@@ -1224,7 +1222,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2664),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

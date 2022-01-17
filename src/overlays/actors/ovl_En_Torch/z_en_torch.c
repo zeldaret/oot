@@ -6,9 +6,7 @@
 
 #include "z_en_torch.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnTorch*)thisx)
+#define FLAGS 0
 
 void EnTorch_Init(Actor* thisx, GlobalContext* globalCtx);
 
@@ -29,7 +27,7 @@ static u8 sChestContents[] = {
 };
 
 void EnTorch_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTorch* this = THIS;
+    EnTorch* this = (EnTorch*)thisx;
     s8 returnData = gSaveContext.respawn[RESPAWN_MODE_RETURN].data;
 
     /* Spawn chest with desired contents.

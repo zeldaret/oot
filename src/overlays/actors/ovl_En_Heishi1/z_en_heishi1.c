@@ -8,9 +8,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHeishi1*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ static s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f rupeePos;
     s32 i;
 
@@ -221,8 +219,8 @@ void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gEnHeishiWalkAnim, 3.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -3.0f);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
-    func_8010B680(globalCtx, 0x702D, &this->actor);
-    Interface_SetDoAction(globalCtx, 0x12);
+    Message_StartTextbox(globalCtx, 0x702D, &this->actor);
+    Interface_SetDoAction(globalCtx, DO_ACTION_STOP);
     this->actionFunc = EnHeishi1_MoveToLink;
 }
 
@@ -346,8 +344,8 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (!this->loadStarted) {
         // if dialog state is 5 and textbox has been advanced, kick player out
-        if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx))) {
-            func_80106CCC(globalCtx);
+        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+            Message_CloseTextbox(globalCtx);
             if (!this->loadStarted) {
                 gSaveContext.eventChkInf[4] |= 0x4000;
                 globalCtx->nextEntranceIndex = 0x4FA;
@@ -372,7 +370,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.xzDistToPlayer < 100.0f) {
-        func_8010B680(globalCtx, 0x702D, &this->actor);
+        Message_StartTextbox(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
         func_8002DF54(globalCtx, &this->actor, 1);
@@ -381,7 +379,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     s16 path;
     u8 i;
     s32 pad;
@@ -474,7 +472,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
 
     // turn the guards head to match the direction he is looking
     if (limbIndex == 16) {
@@ -486,7 +484,7 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
     func_80093D18(globalCtx->state.gfxCtx);

@@ -11,9 +11,7 @@
 #include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 
-#define FLAGS 0x02000030
-
-#define THIS ((BgDyYoseizo*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 typedef enum {
     /* 0 */ FAIRY_UPGRADE_MAGIC,
@@ -70,7 +68,7 @@ const ActorInit Bg_Dy_Yoseizo_InitVars = {
 
 void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     this->fountainType = globalCtx->curSpawn;
 
@@ -182,7 +180,7 @@ void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, 0x38)) {
-        globalCtx->msgCtx.unk_E3EE = 4;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             if (!gSaveContext.magicAcquired && (this->fountainType != FAIRY_UPGRADE_MAGIC)) {
                 Actor_Kill(&this->actor);
@@ -204,7 +202,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     func_8002DF54(globalCtx, &this->actor, 1);
     // "Mode"
-    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.unk_E3EE);
+    osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ もうど ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.ocarinaMode);
     givingReward = false;
 
     if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
@@ -376,8 +374,8 @@ void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* glo
     }
 
     this->actor.textId = 0xDB;
-    this->dialogState = 5;
-    func_8010B680(globalCtx, this->actor.textId, NULL);
+    this->dialogState = TEXT_STATE_EVENT;
+    Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
     this->actionFunc = BgDyYoseizo_GreetPlayer_NoReward;
 }
@@ -392,8 +390,8 @@ void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->dialogState == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         Interface_ChangeAlpha(5);
         this->actionFunc = BgDyYoseizo_SetupHealPlayer_NoReward;
     }
@@ -483,8 +481,8 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
 
     if (this->healingTimer == 1) {
         this->actor.textId = 0xDA;
-        this->dialogState = 5;
-        func_8010B720(globalCtx, this->actor.textId);
+        this->dialogState = TEXT_STATE_EVENT;
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->actionFunc = BgDyYoseizo_SayFarewell_NoReward;
         return;
     }
@@ -500,8 +498,8 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->dialogState == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->dialogState == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->mouthState = 0;
         this->actionFunc = BgDyYoseizo_SetupSpinShrink;
         func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
@@ -804,7 +802,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
     s32 phi_v1;
 
     this->absoluteTimer++;
@@ -869,7 +867,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     if (limbIndex == 8) { // Torso
         rot->x += this->torsoRot.y;
@@ -882,18 +880,18 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 static void* sEyeTextures[] = {
-    &gGreatFairyEyeOpenTex,   // Open
-    &gGreatFairyEyeHalfTex,   // Half
-    &gGreatFairyEyeClosedTex, // Closed
+    gGreatFairyEyeOpenTex,   // Open
+    gGreatFairyEyeHalfTex,   // Half
+    gGreatFairyEyeClosedTex, // Closed
 };
 
 static void* sMouthTextures[] = {
-    &gGreatFairyMouthClosedTex, // Closed
-    &gGreatFairyMouthOpenTex,   // Open
+    gGreatFairyMouthClosedTex, // Closed
+    gGreatFairyMouthOpenTex,   // Open
 };
 
 void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgDyYoseizo* this = THIS;
+    BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1609);
     if (this->actionFunc != BgDyYoseizo_Vanish) {
@@ -1028,13 +1026,13 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, particle->envColor.r, particle->envColor.g, particle->envColor.b, 0);
 
             Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(particle->roll, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gGreatFairyParticleAliveDL));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAliveDL));
         }
     }
 
