@@ -63,10 +63,12 @@ void MapMark_Init(GlobalContext* globalCtx) {
     Overlay_Load(overlay->vromStart, overlay->vromEnd, overlay->vramStart, overlay->vramEnd, overlay->loadedRamAddr);
 
     sLoadedMarkDataTable = gMapMarkDataTable;
-    sLoadedMarkDataTable = (void*)(u32)((overlay->vramTable != NULL)
-                                            ? (void*)((u32)overlay->vramTable -
-                                                      (s32)((u32)overlay->vramStart - (u32)overlay->loadedRamAddr))
-                                            : NULL);
+
+    // clang-format off
+    sLoadedMarkDataTable = (void*)(u32)(overlay->vramTable != NULL ?
+        ((u32)overlay->vramTable - (s32)((u32)overlay->vramStart - (u32)overlay->loadedRamAddr))
+        : 0);
+    // clang-format on
 }
 
 void MapMark_ClearPointers(GlobalContext* globalCtx) {
