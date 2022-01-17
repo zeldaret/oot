@@ -2,22 +2,21 @@
 
 // memmove used in __osMalloc.c
 void* func_801068B0(void* dst, void* src, size_t size) {
-    u8* spC = dst;
-    u8* sp8 = src;
-    register s32 a3;
+    u8* byteDst = dst;
+    u8* byteSrc = src;
 
-    if (spC == sp8) {
+    if (byteDst == byteSrc) {
         return dst;
     }
-    if (spC < sp8) {
-        for (a3 = size--; a3 != 0; a3 = size--) {
-            *spC++ = *sp8++;
+    if (byteDst < byteSrc) {
+        while (size--) {
+            *byteDst++ = *byteSrc++;
         }
     } else {
-        spC += size - 1;
-        sp8 += size - 1;
-        for (a3 = size--; a3 != 0; a3 = size--) {
-            *spC-- = *sp8--;
+        byteDst += size - 1;
+        byteSrc += size - 1;
+        while (size--) {
+            *byteDst-- = *byteSrc--;
         }
     }
     return dst;
