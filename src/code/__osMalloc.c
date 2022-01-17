@@ -590,7 +590,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                func_801068B0(newNext, next, sizeof(ArenaNode)); // memcpy
+                func_801068B0(newNext, next, sizeof(ArenaNode)); // memmove
             } else {
                 // "Allocate a new memory block and move the contents"
                 osSyncPrintf("新たにメモリブロックを確保して内容を移動します\n");
