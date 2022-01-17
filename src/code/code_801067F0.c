@@ -1,12 +1,25 @@
 #include "global.h"
 
-// fmodf?
-f32 func_801067F0(f32 arg0, f32 arg1) {
-    s32 sp4;
+/**
+ * @brief Computes one \p x modulo \p y for floats.
+ *
+ * Acts like the standard C fmodf except does not handle Infinity. See https://en.cppreference.com/w/c/numeric/math/fmod
+ * for the details. It summarizes this function as follows:
+ * "The floating-point remainder of the division operation x/y calculated by this function is exactly the value x - n*y,
+ * where n is x/y with its fractional part truncated.
+ *
+ * The returned value has the same sign as x and is less or equal to y in magnitude."
+ *
+ * @param x dividend
+ * @param y modulus
+ * @return f32 0.0f if y is 0.0f, or the x modulo y if
+ */
+f32 fmodf(f32 x, f32 y) {
+    s32 n;
 
-    if (arg1 == 0.0f) {
+    if (y == 0.0f) {
         return 0.0f;
     }
-    sp4 = arg0 / arg1;
-    return arg0 - (sp4 * arg1);
+    n = x / y;
+    return x - (n * y);
 }
