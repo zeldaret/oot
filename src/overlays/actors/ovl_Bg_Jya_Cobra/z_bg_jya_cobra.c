@@ -545,7 +545,7 @@ void func_80896D78(BgJyaCobra* this, GlobalContext* globalCtx) {
     sp44.x = D_80897308[this->dyna.actor.params & 3] + this->dyna.actor.shape.rot.x;
     sp44.y = this->dyna.actor.shape.rot.y;
     sp44.z = this->dyna.actor.shape.rot.z;
-    func_800D1694(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
+    Matrix_SetTranslateRotateYXZ(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
 
     Matrix_Scale(0.1f, 0.1f, this->unk_190, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 939),
@@ -581,7 +581,7 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&sp64, &this->dyna.actor.world.pos);
     }
 
-    func_800D1694(sp64.x, sp64.y, sp64.z, phi_a3);
+    Matrix_SetTranslateRotateYXZ(sp64.x, sp64.y, sp64.z, phi_a3);
 
     Matrix_Scale(D_80897548[params].x, D_80897548[params].y, D_80897548[params].z, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 0.0f, 40.0f, MTXMODE_APPLY);

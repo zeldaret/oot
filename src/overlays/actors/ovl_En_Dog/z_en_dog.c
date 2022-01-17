@@ -55,7 +55,18 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 50 };
 
-static struct_80034EC0_Entry sAnimations[] = {
+typedef enum {
+    /* 0 */ ENDOG_ANIM_0,
+    /* 1 */ ENDOG_ANIM_1,
+    /* 2 */ ENDOG_ANIM_2,
+    /* 3 */ ENDOG_ANIM_3,
+    /* 4 */ ENDOG_ANIM_4,
+    /* 5 */ ENDOG_ANIM_5,
+    /* 6 */ ENDOG_ANIM_6,
+    /* 7 */ ENDOG_ANIM_7
+} EnDogAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gDogWalkAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     { &gDogWalkAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
     { &gDogRunAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
@@ -120,34 +131,34 @@ s32 EnDog_PlayAnimAndSFX(EnDog* this) {
         this->behavior = this->nextBehavior;
         switch (this->behavior) {
             case DOG_WALK:
-                animation = 1;
+                animation = ENDOG_ANIM_1;
                 break;
             case DOG_RUN:
-                animation = 2;
+                animation = ENDOG_ANIM_2;
                 break;
             case DOG_BARK:
-                animation = 3;
+                animation = ENDOG_ANIM_3;
                 break;
             case DOG_SIT:
-                animation = 4;
+                animation = ENDOG_ANIM_4;
                 break;
             case DOG_BOW:
-                animation = 6;
+                animation = ENDOG_ANIM_6;
                 break;
         }
-        func_80034EC0(&this->skelAnime, sAnimations, animation);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animation);
     }
 
     switch (this->behavior) {
         case DOG_SIT:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                func_80034EC0(&this->skelAnime, sAnimations, 5);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_5);
                 this->behavior = this->nextBehavior = DOG_SIT_2;
             }
             break;
         case DOG_BOW:
             if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-                func_80034EC0(&this->skelAnime, sAnimations, 7);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_7);
                 this->behavior = this->nextBehavior = DOG_BOW_2;
             }
             break;
@@ -235,7 +246,7 @@ void EnDog_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDogSkel, NULL, this->jointTable, this->morphTable, 13);
-    func_80034EC0(&this->skelAnime, sAnimations, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDOG_ANIM_0);
 
     if ((this->actor.params & 0x8000) == 0) {
         this->actor.params = (this->actor.params & 0xF0FF) | ((((this->actor.params & 0x0F00) >> 8) + 1) << 8);

@@ -563,7 +563,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.
                     if (this->timers[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
-                        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_FANTOM_THUNDER_GND);
+                        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20,
+                                                           NA_SE_EN_FANTOM_THUNDER_GND);
                     }
                 }
                 break;
@@ -630,7 +631,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Vec3f debrisEffectAcceleration;
 
         this->shouldExplode = false;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
 
         // Spawn flash effect.
         crashEffectLocation.x = this->actor.world.pos.x;
@@ -719,7 +720,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             // Draw the Arwing Backfire
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(2.5f, 1.3f, 0.0f, MTXMODE_APPLY);
             if ((this->frameCounter % 2) != 0) {
                 Matrix_Scale(1.15f, 1.15f, 1.15f, MTXMODE_APPLY);
@@ -959,7 +960,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             gSPSegment(POLY_XLU_DISP++, 8,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, effect->random * -5, 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 20.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1392),
@@ -986,7 +987,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0,
                                         32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1439),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1009,7 +1010,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             // Draw the flash billboard effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, (s8)effect->primColor.a);
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1470),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
