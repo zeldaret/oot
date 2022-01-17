@@ -595,6 +595,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     sp80 = &dbCamera->eye;
     sp7C = &dbCamera->at;
 
+    (void)at;
+    (void)eye;
+
     if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].press.button, BTN_Z)) {
         dbCamera->unk_00++;
         dbCamera->unk_00 %= 3;
