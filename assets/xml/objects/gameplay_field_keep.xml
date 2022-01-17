@@ -57,6 +57,6 @@
         <Texture Name="gFieldSandstorm1Tex" OutName="sandstorm_1" Format="i8" Width="64" Height="32" Offset="0xBA70"/>
         <Texture Name="gFieldSandstorm2Tex" OutName="sandstorm_2" Format="ia8" Width="64" Height="32" Offset="0xC270"/>
         <DList Name="gFieldSandstormDL" Offset="0xCA70"/>
-        <Blob Name="gFieldUnaccounted_00CB30" Size="0x800"/>
+        <Texture Name="gFieldKeepTex_00CB30" OutName="gFieldKeep_00CB30" Format="rgba16" Width="32" Height="32" Offset="0xCB30"/>
     </File>
 </Root>
