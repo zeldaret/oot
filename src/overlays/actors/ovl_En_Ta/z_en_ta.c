@@ -145,7 +145,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (globalCtx->sceneNum == SCENE_MALON_STABLE && gSaveContext.nightFlag) {
+            } else if (globalCtx->sceneNum == SCENE_MALON_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {

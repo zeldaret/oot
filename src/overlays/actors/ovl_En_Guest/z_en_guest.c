@@ -78,7 +78,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 

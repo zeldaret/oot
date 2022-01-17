@@ -2517,12 +2517,13 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
             pauseCtx->unk_204 = -314.0f;
 
+            //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->playerSegment = (void*)(((u32)globalCtx->objectCtx.spaceStart + 0x30) & ~0x3F);
 
             size1 = func_80091738(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime);
             osSyncPrintf("プレイヤー size1＝%x\n", size1);
 
-            pauseCtx->iconItemSegment = (void*)(((u32)pauseCtx->playerSegment + size1 + 0xF) & ~0xF);
+            pauseCtx->iconItemSegment = (void*)ALIGN16((u32)pauseCtx->playerSegment + size1);
 
             size0 = (u32)_icon_item_staticSegmentRomEnd - (u32)_icon_item_staticSegmentRomStart;
             osSyncPrintf("icon_item size0=%x\n", size0);
@@ -2537,14 +2538,14 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 }
             }
 
-            pauseCtx->iconItem24Segment = (void*)(((u32)pauseCtx->iconItemSegment + size0 + 0xF) & ~0xF);
+            pauseCtx->iconItem24Segment = (void*)ALIGN16((u32)pauseCtx->iconItemSegment + size0);
 
             size = (u32)_icon_item_24_staticSegmentRomEnd - (u32)_icon_item_24_staticSegmentRomStart;
             osSyncPrintf("icon_item24 size=%x\n", size);
             DmaMgr_SendRequest1(pauseCtx->iconItem24Segment, (u32)_icon_item_24_staticSegmentRomStart, size,
                                 "../z_kaleido_scope_PAL.c", 3675);
 
-            pauseCtx->iconItemAltSegment = (void*)(((u32)pauseCtx->iconItem24Segment + size + 0xF) & ~0xF);
+            pauseCtx->iconItemAltSegment = (void*)ALIGN16((u32)pauseCtx->iconItem24Segment + size);
 
             switch (globalCtx->sceneNum) {
                 case SCENE_YDAN:
@@ -2585,7 +2586,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
             }
 
-            pauseCtx->iconItemLangSegment = (void*)(((u32)pauseCtx->iconItemAltSegment + size2 + 0xF) & ~0xF);
+            pauseCtx->iconItemLangSegment = (void*)ALIGN16((u32)pauseCtx->iconItemAltSegment + size2);
 
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (u32)_icon_item_nes_staticSegmentRomEnd - (u32)_icon_item_nes_staticSegmentRomStart;
@@ -2604,7 +2605,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                                     "../z_kaleido_scope_PAL.c", 3753);
             }
 
-            pauseCtx->nameSegment = (void*)(((u32)pauseCtx->iconItemLangSegment + size + 0xF) & ~0xF);
+            pauseCtx->nameSegment = (void*)ALIGN16((u32)pauseCtx->iconItemLangSegment + size);
 
             osSyncPrintf("サイズ＝%x\n", size2 + size1 + size0 + size);
             osSyncPrintf("item_name I_N_PT=%x\n", 0x800);
@@ -2630,7 +2631,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 }
             }
 
-            sPreRenderCvg = (void*)(((u32)pauseCtx->nameSegment + 0x400 + 0xA00 + 0xF) & ~0xF);
+            sPreRenderCvg = (void*)ALIGN16((u32)pauseCtx->nameSegment + 0x400 + 0xA00);
 
             PreRender_Init(&sPlayerPreRender);
             PreRender_SetValuesSave(&sPlayerPreRender, 64, 112, pauseCtx->playerSegment, NULL, sPreRenderCvg);
@@ -3128,25 +3129,26 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             pauseCtx->unk_204 = -434.0f;
             Interface_ChangeAlpha(1);
 
+            //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->iconItemSegment = (void*)(((u32)globalCtx->objectCtx.spaceStart + 0x30) & ~0x3F);
             size0 = (u32)_icon_item_staticSegmentRomEnd - (u32)_icon_item_staticSegmentRomStart;
             osSyncPrintf("icon_item size0=%x\n", size0);
             DmaMgr_SendRequest1(pauseCtx->iconItemSegment, (u32)_icon_item_staticSegmentRomStart, size0,
                                 "../z_kaleido_scope_PAL.c", 4356);
 
-            pauseCtx->iconItem24Segment = (void*)(((u32)pauseCtx->iconItemSegment + size0 + 0xF) & ~0xF);
+            pauseCtx->iconItem24Segment = (void*)ALIGN16((u32)pauseCtx->iconItemSegment + size0);
             size = (u32)_icon_item_24_staticSegmentRomEnd - (u32)_icon_item_24_staticSegmentRomStart;
             osSyncPrintf("icon_item24 size=%x\n", size);
             DmaMgr_SendRequest1(pauseCtx->iconItem24Segment, (u32)_icon_item_24_staticSegmentRomStart, size,
                                 "../z_kaleido_scope_PAL.c", 4363);
 
-            pauseCtx->iconItemAltSegment = (void*)(((u32)pauseCtx->iconItem24Segment + size + 0xF) & ~0xF);
+            pauseCtx->iconItemAltSegment = (void*)ALIGN16((u32)pauseCtx->iconItem24Segment + size);
             size2 = (u32)_icon_item_gameover_staticSegmentRomEnd - (u32)_icon_item_gameover_staticSegmentRomStart;
             osSyncPrintf("icon_item_dungeon gameover-size2=%x\n", size2);
             DmaMgr_SendRequest1(pauseCtx->iconItemAltSegment, (u32)_icon_item_gameover_staticSegmentRomStart, size2,
                                 "../z_kaleido_scope_PAL.c", 4370);
 
-            pauseCtx->iconItemLangSegment = (void*)(((u32)pauseCtx->iconItemAltSegment + size2 + 0xF) & ~0xF);
+            pauseCtx->iconItemLangSegment = (void*)ALIGN16((u32)pauseCtx->iconItemAltSegment + size2);
 
             if (gSaveContext.language == LANGUAGE_ENG) {
                 size = (u32)_icon_item_nes_staticSegmentRomEnd - (u32)_icon_item_nes_staticSegmentRomStart;

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import argparse, json, os, signal, time
-from multiprocessing import Pool, cpu_count, Event, Manager, ProcessError
+import argparse, json, os, signal, time, colorama, multiprocessing
+
+colorama.init()
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
@@ -16,13 +17,13 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
         # Don't extract if another file wasn't extracted properly.
         return
 
-    execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath)
-    
+    execStr = f"tools/ZAPD/ZAPD.out e -eh -i {xmlPath} -b baserom/ -o {outputPath} -osf {outputSourcePath} -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml {ZAPDArgs}"
+
     if "overlays" in xmlPath:
         execStr += " --static"
     
     if globalUnaccounted:
-        execStr += " -wu"
+        execStr += " -Wunaccounted"
 
     print(execStr)
     exitValue = os.system(execStr)
@@ -67,16 +68,35 @@ def initializeWorker(abort, unaccounted: bool, extractedAssetsTracker: dict, man
     globalExtractedAssetsTracker = extractedAssetsTracker
     globalManager = manager
 
+def processZAPDArgs(argsZ):
+    badZAPDArg = False
+    for z in argsZ:
+        if z[0] == '-':
+            print(f"{colorama.Fore.LIGHTRED_EX}error{colorama.Fore.RESET}: argument \"{z}\" starts with \"-\", which is not supported.", file=os.sys.stderr)
+            badZAPDArg = True
+
+    if badZAPDArg:
+        exit(1)
+
+    ZAPDArgs = " ".join(f"-{z}" for z in argsZ)
+    print("Using extra ZAPD arguments: " + ZAPDArgs)
+    return ZAPDArgs
+
 def main():
     parser = argparse.ArgumentParser(description="baserom asset extractor")
     parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
     parser.add_argument("-f", "--force", help="Force the extraction of every xml instead of checking the touched ones.", action="store_true")
+    parser.add_argument("-j", "--jobs", help="Number of cpu cores to extract with.")
     parser.add_argument("-u", "--unaccounted", help="Enables ZAPD unaccounted detector warning system.", action="store_true")
+    parser.add_argument("-Z", help="Pass the argument on to ZAPD, e.g. `-ZWunaccounted` to warn about unaccounted blocks in XMLs. Each argument should be passed separately, *without* the leading dash.", metavar="ZAPD_ARG", action="append")
     args = parser.parse_args()
 
+    global ZAPDArgs
+    ZAPDArgs = processZAPDArgs(args.Z) if args.Z else ""
+
     global mainAbort
-    mainAbort = Event()
-    manager = Manager()
+    mainAbort = multiprocessing.Event()
+    manager = multiprocessing.Manager()
     signal.signal(signal.SIGINT, SignalHandler)
 
     extractedAssetsTracker = manager.dict()
@@ -88,7 +108,7 @@ def main():
     if asset_path is not None:
         fullPath = os.path.join("assets", "xml", asset_path + ".xml")
         if not os.path.exists(fullPath):
-            print(f"Error. File {fullPath} doesn't exists.", file=os.sys.stderr)
+            print(f"Error. File {fullPath} does not exist.", file=os.sys.stderr)
             exit(1)
 
         initializeWorker(mainAbort, args.unaccounted, extractedAssetsTracker, manager)
@@ -117,11 +137,13 @@ def main():
                     xmlFiles.append(fullPath)
 
         try:
-            numCores = cpu_count()
-            print("Extracting assets with " + str(numCores) + " CPU cores.")
-            with Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
+            numCores = int(args.jobs or 0)
+            if numCores <= 0:
+                numCores = 1
+            print("Extracting assets with " + str(numCores) + " CPU core" + ("s" if numCores > 1 else "") + ".")
+            with multiprocessing.get_context("fork").Pool(numCores,  initializer=initializeWorker, initargs=(mainAbort, args.unaccounted, extractedAssetsTracker, manager)) as p:
                 p.map(ExtractFunc, xmlFiles)
-        except (ProcessError, TypeError):
+        except (multiprocessing.ProcessError, TypeError):
             print("Warning: Multiprocessing exception ocurred.", file=os.sys.stderr)
             print("Disabling mutliprocessing.", file=os.sys.stderr)
 

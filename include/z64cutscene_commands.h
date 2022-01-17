@@ -4,6 +4,12 @@
 #include "command_macros_base.h"
 #include "z64cutscene.h"
 
+#ifdef __GNUC__
+#define CMD_F(a) {.f = (a)}
+#else
+#define CMD_F(a) {(a)}
+#endif
+
 /**
  * ARGS
  *   s32 totalEntries (e), s32 endFrame (n)
