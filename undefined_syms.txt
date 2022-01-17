@@ -50,14 +50,6 @@ D_A4800004 = 0xA4800004; // SI_PIF_ADDR_RD64B_REG
 D_A4800010 = 0xA4800010; // SI_PIF_ADDR_WR64B_REG
 D_A4800018 = 0xA4800018; // SI_STATUS_REG
 
-// until ZAPD can handle non-aligned textures,
-// we can't use the built assets tied to some symbols
-gKm1Skel = 0x060000F0;
-gKw1Skel = 0x060000F0;
-object_ahg_Skel_0000F0 = 0x060000F0;
-object_bji_Skel_0000F0 = 0x060000F0;
-object_boj_Skel_0000F0 = 0x060000F0;
-
 // z_kankyo, z_demo_kankyo, z_en_viewer, z_object_kankyo, z_eff_ss_dead_dd
 D_01000000 = 0x01000000;
 

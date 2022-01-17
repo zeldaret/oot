@@ -7,6 +7,8 @@
 #include "z_en_ko.h"
 #include "objects/object_fa/object_fa.h"
 #include "objects/object_os_anime/object_os_anime.h"
+#include "objects/object_km1/object_km1.h"
+#include "objects/object_kw1/object_kw1.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
@@ -63,8 +65,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static void* sFaEyes[] = { gFaEyeOpenTex, gFaEyeHalfTex, gFaEyeClosedTex, NULL };
-static void* sKw1Eyes[] = { /* gKw1EyeOpenTex */ 0x06000F4C, /* gKw1EyeHalfTex */ 0x06001A0C,
-                            /* gKw1EyeClosedTex */ 0x06001E0C, NULL };
+static void* sKw1Eyes[] = { gKw1EyeOpenTex, gKw1EyeHalfTex, gKw1EyeClosedTex, NULL };
 
 typedef struct {
     /* 0x0 */ s16 objectId;
@@ -73,8 +74,8 @@ typedef struct {
 } EnKoHead; // size = 0xC
 
 static EnKoHead sHead[] = {
-    { OBJECT_KM1, /* gKm1DL */ 0x06001890, NULL },
-    { OBJECT_KW1, /* object_kw1_DL_002C10 */ 0x06002C10, sKw1Eyes },
+    { OBJECT_KM1, gKm1DL, NULL },
+    { OBJECT_KW1, object_kw1_DL_002C10, sKw1Eyes },
     { OBJECT_FA, gFaDL, sFaEyes },
 };
 
@@ -84,8 +85,8 @@ typedef struct {
 } EnKoSkeleton; // size = 0x8
 
 static EnKoSkeleton sSkeleton[2] = {
-    { OBJECT_KM1, /* gKm1Skel */ 0x060000F0 },
-    { OBJECT_KW1, /* gKw1Skel */ 0x060000F0 },
+    { OBJECT_KM1, &gKm1Skel },
+    { OBJECT_KW1, &gKw1Skel },
 };
 
 typedef enum {
