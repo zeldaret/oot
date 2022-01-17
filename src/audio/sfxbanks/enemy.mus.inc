@@ -495,7 +495,7 @@ entry .enemy_boss_gohma_hurt
 entry .enemy_tektite_land_water1
 entry .enemy_deadhand_burrow
 entry .enemy_goron_land
-entry .enemy_unused2
+entry .enemy_bug_walk
 entry .enemy_boss_twinrova_ice_beam
 entry .enemy_skulltula_quiver
 
@@ -1013,7 +1013,7 @@ chan_end
 layer_setinstr F1_I_TEKTITE_ROTATE
 layer_jumprel .layer_387D
 
-.enemy_unused:
+.enemy_bug_walk:
 chan_setlayer 0, .layer_3899
 chan_end
 
@@ -5951,7 +5951,7 @@ layer_setinstr F1_I_SLIDE_BOOTS
 layer_note1 PITCH_A2, 0x40, 76
 layer_end
 
-.enemy_unused2:
+.enemy_unused:
 chan_end
 
 .balign 16

@@ -136,8 +136,8 @@ entry .env_windmill_blade
 entry .env_warp_unused
 entry .env_pot_break
 entry .env_pot_drop
-entry .chan_6CD
-entry .chan_6E1
+entry .player_large_splash
+entry .player_small_splash
 entry .env_goddess_fly
 entry .env_triforce_aura
 entry .env_triforce_glow
@@ -175,7 +175,7 @@ entry .env_ruto_rebound_jabu
 entry .env_door_creak_rumble
 entry .env_night_howl
 entry .env_jabu_groan
-entry .chan_F8D
+entry .item_sword_swing
 entry .env_frog_jump
 entry .env_ice_freeze_old
 entry .env_fire_wall
@@ -194,8 +194,8 @@ entry .env_deku_sprout_grow
 entry .env_desert_storm
 entry .env_triforce_mark
 entry .env_grave_explode
-entry .chan_6F2
-entry .chan_989
+entry .player_swim
+entry .player_lift_pot
 entry .env_obj_drop_water
 entry .env_obj_lift_water
 entry .env_ganondorf_cloak
@@ -210,7 +210,7 @@ entry .env_goddess_face_break
 entry .env_goddess_face_explode
 entry .env_goddess_face_crumble
 entry .env_trap_blade_move_old
-entry .chan_5C64
+entry .system_minigame_bell
 entry .env_unused7
 entry .env_warp_lower
 entry .env_sage_chamber_ambient
@@ -231,7 +231,7 @@ entry .env_frog_croak_grow
 entry .env_cow_moo_distant
 entry .env_door_ranch_close
 entry .env_butterfly_transform
-entry .env_silver_rupee_chime
+entry .system_silver_rupee
 entry .env_gossip_stretch
 entry .env_gossip_launch
 entry .env_door_slide_close
@@ -248,7 +248,7 @@ entry .env_cow_moo_distant
 entry .env_door_ranch_close
 entry .env_butterfly_transform
 
-.chan_18C5:
+.env_door_open_oca:
 chan_setreverbindex 1
 chan_setval 0
 chan_iowriteval 1
@@ -2269,7 +2269,7 @@ layer_end
 layer_jump .layer_210B
 
 .env_ruto_trip:
-chan_call .chan_7AE
+chan_call .player_slip_jabu
 chan_setlayer 1, .layer_2572
 chan_end
 
@@ -2631,7 +2631,7 @@ layer_transpose 48
 layer_note1 PITCH_C2, 32700, 100
 layer_jumprel .layer_27A5
 
-.chan_27AE:
+.env_grotto_exit:
 chan_setreverbindex 1
 
 .env_warp_unused:

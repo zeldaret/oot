@@ -102,11 +102,13 @@ def main():
         ExtractFunc(fullPath)
     else:
         xmlFiles = []
+        ignorePaths = ['samples', 'sequences', 'soundfonts']
         for currentPath, _, files in os.walk(os.path.join("assets", "xml")):
-            for file in files:
-                fullPath = os.path.join(currentPath, file)
-                if file.endswith(".xml"):
-                    xmlFiles.append(fullPath)
+            if all(path not in currentPath for path in ignorePaths):
+                for file in files:
+                    fullPath = os.path.join(currentPath, file)
+                    if file.endswith(".xml"):
+                        xmlFiles.append(fullPath)
 
         try:
             numCores = cpu_count()

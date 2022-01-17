@@ -1,10 +1,10 @@
 .table_ocarina:
 entry .ocarina_ocarina
 entry .ocarina_voidout
-entry .door_open
+entry .env_door_open_oca
 entry .ocarina_warp_in
 entry .ocarina_warp_out
-entry .ocarina_grotto_exit
+entry .env_grotto_exit
 entry .ocarina_respawn
 entry .ocarina_ocarina
 

@@ -32,7 +32,7 @@ def convert_aseq_to_mus(aseq_name, mus_name, font_path):
     try:
         subprocess.run(["python3", rel_seqdecode, aseq_name, font_path], check=True, stdout=output_file)
     except subprocess.CalledProcessError:
-        print(f"failed to convert {aseq_name} to mus format", file=sys.stderr)
+        print(f"failed to convert {aseq_name} to mus format (header was {os.path.basename(font_path)})", file=sys.stderr)
         exit(1)
     finally:
         output_file.close()
@@ -55,10 +55,10 @@ def main():
         else:
             args.append(a)
 
-    expected_num_args = 6
+    expected_num_args = 5
     if need_help or len(args) != expected_num_args:
         print(
-            f"Usage: {sys.argv[0]} <code file> <offsets json file> <version> <Audioseq file> <assets path> <sequences output dir>"
+            f"Usage: {sys.argv[0]} <version> <code file> <Audioseq file> <assets path> <sequences output dir>"
         )
         sys.exit(0 if need_help else 1)
 
@@ -118,8 +118,8 @@ def main():
             aseq.write(sequence.sequence)
             aseq.flush()
             mus_file = os.path.join(dir, f"{seq_name}.mus")
-            #if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
-                #convert_aseq_to_mus(aseq.name, mus_file, os.path.join(asset_path, "soundfonts", f"{font_id}.h"))
+            if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
+                convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_header_path, f"{font_id}.h"))
 
 if __name__ == "__main__":
     main()

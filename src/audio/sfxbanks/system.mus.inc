@@ -183,7 +183,7 @@ chan_setlayer 0, .layer_5884
 chan_end
 
 .layer_5884:
-layer_setinstr INSTR_WV_SINE
+layer_setinstr INSTR_WV_TRIANGLE
 layer_setenvelope .envelope_6720, 250
 layer_note1 PITCH_A4, 0x6, 60
 layer_end
@@ -284,13 +284,13 @@ layer_note1 PITCH_D4, 0x6, 45
 layer_end
 
 .system_cursor_cancel:
-chan_setinstr INSTR_WV_SINE
+chan_setinstr INSTR_WV_TRIANGLE
 chan_setenvelope .envelope_664C
 chan_setlayer 0, .layer_5951
 chan_end
 
 .layer_5951:
-layer_setinstr INSTR_WV_SINE
+layer_setinstr INSTR_WV_TRIANGLE
 layer_setenvelope .envelope_664C, 250
 layer_note1 PITCH_A4, 0x6, 60
 layer_note1 PITCH_E4, 0x6, 60
@@ -599,7 +599,7 @@ layer_delay 0x1
 layer_end
 
 .system_title_screen:
-chan_setinstr INSTR_WV_SINE
+chan_setinstr INSTR_WV_TRIANGLE
 chan_setenvelope .envelope_664C
 chan_setdecayrelease 240
 chan_setlayer 0, .layer_5B69
@@ -631,7 +631,7 @@ layer_note1 PITCH_E5, 0x60, 80
 layer_end
 
 .system_get_item:
-chan_setinstr INSTR_WV_SINE
+chan_setinstr INSTR_WV_TRIANGLE
 chan_setenvelope .envelope_664C
 chan_setdecayrelease 240
 chan_setlayer 0, .layer_5BA7
@@ -815,7 +815,7 @@ layer_note1 PITCH_C4, 0x61, 100
 layer_end
 
 .system_get_treasure_item:
-chan_setinstr INSTR_WV_SINE
+chan_setinstr INSTR_WV_TRIANGLE
 chan_setenvelope .envelope_664C
 chan_setdecayrelease 240
 chan_setlayer 0, .layer_5CC4

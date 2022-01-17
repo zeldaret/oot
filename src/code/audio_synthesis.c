@@ -790,7 +790,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     if (1) {}
                     if (1) {}
                     if (1) {}
-                    nEntries = 16 * audioFontSample->book->order * audioFontSample->book->npredictors;
+                    nEntries = 16 * audioFontSample->book->order * audioFontSample->book->numPredictors;
                     aLoadADPCM(cmd++, nEntries, gAudioContext.curLoadedBook);
                 }
             }
@@ -890,7 +890,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 }
 
                 if (synthState->restart) {
-                    aSetLoop(cmd++, audioFontSample->loop->state);
+                    aSetLoop(cmd++, audioFontSample->loop->predictorState);
                     flags = A_LOOP;
                     synthState->restart = false;
                 }

@@ -24,7 +24,7 @@ entry .item_arrow_hit_object
 entry .item_unused1
 entry .item_unused2
 entry .item_fishing_rod
-entry .item_unused3
+entry .env_bomb_rebound
 entry .item_sword_strike_wall
 entry .item_sword_strike_bwall
 entry .item_sword_strike_stone
@@ -67,12 +67,12 @@ entry .item_goddess_zoom
 entry .item_goddess_launch
 entry .item_goddess_boom
 entry .item_explosion_unused
-entry .item_neigh
+entry .env_horse_neigh
 entry .item_explosion_unused
 entry .item_explosive_flames
 entry .item_scarecrow_jump
 entry .item_flame_wall
-entry .chan_2848
+entry .env_triforce_glow
 entry .item_fishing_rod_strike
 entry .item_explosion_unused2
 entry .item_sword_break

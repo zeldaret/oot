@@ -1,11 +1,12 @@
 // TODO: format second arg to note1 as decimal
+#include "sequence.h"
 #include "soundfonts/0.h"
 #include "soundfonts/1.h"
 .include "include/seq_macros.inc"
 .section .rodata
 .balign 1
-sequence_start:
 
+sequence_start:
 seq_setmutebhv 0x60
 seq_setmutescale 0
 seq_setvol 127
@@ -28,7 +29,7 @@ seq_startchannel 13, .channel_ocarina
 seq_startchannel 14, .channel_voice0
 seq_startchannel 15, .channel_voice1
 .seq_loop:
-seq_delay 20000
+seq_delay 32720
 seq_jumprel .seq_loop
 
 // Delay for a number of ticks (1-255) in an interruptible manner.
@@ -158,7 +159,7 @@ chan_freelayer 1
 chan_freelayer 2
 chan_jumprel .main_loop_player
 
-#include "sfxbanks/player.mus"
+#include "sfxbanks/player.mus.inc"
 
 // Main loop for BANK_ITEM
 .channel_item0:
@@ -213,7 +214,7 @@ chan_freelayer 2
 chan_setval 0
 chan_jumprel .main_loop_item
 
-#include "sfxbanks/item.mus"
+#include "sfxbanks/item.mus.inc"
 
 // Main loop for BANK_ENV
 .channel_env0:
@@ -282,7 +283,7 @@ chan_freelayer 1
 chan_freelayer 2
 chan_jumprel .main_loop_env
 
-#include "sfxbanks/env.mus"
+#include "sfxbanks/env.mus.inc"
 
 // Main loop for BANK_ENEMY
 .channel_enemy0:
@@ -364,7 +365,7 @@ chan_freelayer 2
 chan_freelayer 3
 chan_jumprel .main_loop_enemy
 
-#include "sfxbanks/enemy.mus"
+#include "sfxbanks/enemy.mus.inc"
 
 // Main loop for BANK_SYSTEM
 .channel_system:
@@ -410,7 +411,7 @@ chan_freelayer 1
 chan_freelayer 2
 chan_jumprel .main_loop_system
 
-#include "sfxbanks/system.mus"
+#include "sfxbanks/system.mus.inc"
 
 // Main loop for BANK_OCARINA
 .channel_ocarina:
@@ -473,7 +474,7 @@ chan_iowriteval 1  // set status = -1 (finished)
 chan_freelayer 0
 chan_jumprel .main_loop_ocarina
 
-#include "sfxbanks/ocarina.mus"
+#include "sfxbanks/ocarina.mus.inc"
 
 // Main loop for BANK_VOICE
 .channel_voice0:
@@ -539,7 +540,7 @@ chan_freelayer 0
 chan_freelayer 1
 chan_jumprel .main_loop_voice
 
-#include "sfxbanks/voice.mus"
+#include "sfxbanks/voice.mus.inc"
 
 .balign 2
 
