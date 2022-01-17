@@ -1,10 +1,12 @@
-# TODO: format second arg to note1 as decimal
-#include "assets/soundfonts/0.h"
-.include "seq_macros.inc"
+// TODO: format second arg to note1 as decimal
+#include "sequence.h"
+#include "soundfonts/0.h"
+#include "soundfonts/1.h"
+.include "include/seq_macros.inc"
 .section .rodata
 .balign 1
-sequence_start:
 
+sequence_start:
 seq_setmutebhv 0x60
 seq_setmutescale 0
 seq_setvol 127
@@ -27,17 +29,17 @@ seq_startchannel 13, .channel_ocarina
 seq_startchannel 14, .channel_voice0
 seq_startchannel 15, .channel_voice1
 .seq_loop:
-seq_delay 20000
+seq_delay 32720
 seq_jumprel .seq_loop
 
-# Delay for a number of ticks (1-255) in an interruptible manner.
+// Delay for a number of ticks (1-255) in an interruptible manner.
 .delay:
 chan_writeseq_nextinstr 0, 1
 chan_loop 20
 chan_jumprel .delay_iter
 
-# Delay for a number of ticks (1-255) in an interruptible manner,
-# with volume controlled by io port 2 and filter by port 3.
+// Delay for a number of ticks (1-255) in an interruptible manner,
+// with volume controlled by io port 2 and filter by port 3.
 .delay_varyingvol:
 chan_writeseq_nextinstr 0, 1
 chan_loop 20
@@ -51,7 +53,7 @@ chan_setvol 127
 .delay_iter:
 chan_delay1
 chan_ioreadval 0
-chan_iowriteval 0  # ports 0 and 1 are reset to -1 when read; restore the value
+chan_iowriteval 0  // ports 0 and 1 are reset to -1 when read; restore the value
 chan_subtract 255
 chan_beqzrel .delay_skip
 chan_jumprel .delay_interrupt
@@ -60,9 +62,9 @@ chan_loopend
 chan_end
 .delay_interrupt:
 chan_ioreadval 0
-chan_iowriteval 0  # ports 0 and 1 are reset to -1 when read; restore the value
-chan_break  # break out of the loop
-chan_break  # force the caller to return immediately
+chan_iowriteval 0  // ports 0 and 1 are reset to -1 when read; restore the value
+chan_break  // break out of the loop
+chan_break  // force the caller to return immediately
 chan_freelayer 0
 chan_freelayer 1
 chan_freelayer 2
@@ -82,7 +84,7 @@ chan_freelayer 0
 chan_freelayer 1
 chan_setval 0
 chan_sethilogain 0
-chan_iowriteval 1  # set status = 0 (playing)
+chan_iowriteval 1  // set status = 0 (playing)
 chan_end
 
 .varyvol:
@@ -93,7 +95,7 @@ chan_setvol 127
 .varyvol_skip:
 chan_end
 
-# Main loop for BANK_PLAYER
+// Main loop for BANK_PLAYER
 .channel_player0:
 chan_setfilter .filter_player0
 chan_jumprel .channel_player
@@ -122,7 +124,7 @@ chan_jump .main_loop_player
 chan_call .start_playing_common
 chan_freelayer 2
 chan_setvibratoextent 0
-chan_ioreadval 4  # read sound id from port 4
+chan_ioreadval 4  // read sound id from port 4
 chan_bgez .part1_player
 chan_bitand 127
 chan_setdyntable .table_player+0x100
@@ -141,15 +143,15 @@ chan_loadfilter 15
 chan_call .varyvol
 chan_delay1
 chan_ioreadval 0
-chan_beqzrel .force_stop_player  # told to stop
+chan_beqzrel .force_stop_player  // told to stop
 chan_bltzrel .skip_player
-chan_jumprel .start_playing_player  # told to play something else
+chan_jumprel .start_playing_player  // told to play something else
 
 .skip_player:
 chan_testlayerfinished 0
-chan_beqzrel .poll_player  # if layer 0 hasn't finished, keep polling
+chan_beqzrel .poll_player  // if layer 0 hasn't finished, keep polling
 chan_setval 255
-chan_iowriteval 1  # set status = -1 (stopped)
+chan_iowriteval 1  // set status = -1 (stopped)
 
 .force_stop_player:
 chan_freelayer 0
@@ -157,9 +159,9 @@ chan_freelayer 1
 chan_freelayer 2
 chan_jumprel .main_loop_player
 
-#include "sfxbanks/player.mus"
+#include "sfxbanks/player.mus.inc"
 
-# Main loop for BANK_ITEM
+// Main loop for BANK_ITEM
 .channel_item0:
 chan_setfilter .filter_item0
 chan_jumprel .channel_item
@@ -212,9 +214,9 @@ chan_freelayer 2
 chan_setval 0
 chan_jumprel .main_loop_item
 
-#include "sfxbanks/item.mus"
+#include "sfxbanks/item.mus.inc"
 
-# Main loop for BANK_ENV
+// Main loop for BANK_ENV
 .channel_env0:
 chan_setfilter .filter_env0
 chan_jumprel .channel_env
@@ -281,9 +283,9 @@ chan_freelayer 1
 chan_freelayer 2
 chan_jumprel .main_loop_env
 
-#include "sfxbanks/env.mus"
+#include "sfxbanks/env.mus.inc"
 
-# Main loop for BANK_ENEMY
+// Main loop for BANK_ENEMY
 .channel_enemy0:
 chan_setfilter .filter_enemy0
 chan_jumprel .channel_enemy
@@ -363,9 +365,9 @@ chan_freelayer 2
 chan_freelayer 3
 chan_jumprel .main_loop_enemy
 
-#include "sfxbanks/enemy.mus"
+#include "sfxbanks/enemy.mus.inc"
 
-# Main loop for BANK_SYSTEM
+// Main loop for BANK_SYSTEM
 .channel_system:
 chan_setdyntable .table_system
 chan_largenoteson
@@ -409,9 +411,9 @@ chan_freelayer 1
 chan_freelayer 2
 chan_jumprel .main_loop_system
 
-#include "sfxbanks/system.mus"
+#include "sfxbanks/system.mus.inc"
 
-# Main loop for BANK_OCARINA
+// Main loop for BANK_OCARINA
 .channel_ocarina:
 chan_setdyntable .table_ocarina
 chan_largenoteson
@@ -424,9 +426,9 @@ chan_setnotepriority 14
 .main_loop_ocarina:
 chan_delay1
 chan_ioreadval 1
-chan_bltzrel .reservenotes_skip_ocarina  # -1 => maintain old reservation status
-chan_beqzrel .unreservenotes_ocarina  # 0 => unreserve notes
-chan_reservenotes 1  # 1 => reserve notes
+chan_bltzrel .reservenotes_skip_ocarina  // -1 => maintain old reservation status
+chan_beqzrel .unreservenotes_ocarina  // 0 => unreserve notes
+chan_reservenotes 1  // 1 => reserve notes
 chan_setnoteallocationpolicy 2
 chan_jumprel .reservenotes_skip_ocarina
 
@@ -466,15 +468,15 @@ chan_jumprel .start_playing_ocarina
 chan_testlayerfinished 0
 chan_beqzrel .poll_ocarina
 chan_setval 255
-chan_iowriteval 1  # set status = -1 (finished)
+chan_iowriteval 1  // set status = -1 (finished)
 
 .force_stop_ocarina:
 chan_freelayer 0
 chan_jumprel .main_loop_ocarina
 
-#import "sfxbanks/ocarina.mus"
+#include "sfxbanks/ocarina.mus.inc"
 
-# Main loop for BANK_VOICE
+// Main loop for BANK_VOICE
 .channel_voice0:
 chan_setfilter .filter_voice0
 chan_jumprel .channel_voice
@@ -503,8 +505,8 @@ chan_jumprel .main_loop_voice
 chan_freelayer 0
 chan_freelayer 1
 chan_setval 0
-chan_iowriteval 1  # set status = 0 (playing)
-chan_ioreadval 4  # read sound id from port 4
+chan_iowriteval 1  // set status = 0 (playing)
+chan_ioreadval 4  // read sound id from port 4
 chan_bgez .part1_voice
 chan_bitand 127
 chan_setdyntable .table_voice+0x100
@@ -531,14 +533,14 @@ chan_jumprel .start_playing_voice
 chan_testlayerfinished 0
 chan_beqzrel .poll_voice
 chan_setval 255
-chan_iowriteval 1  # set status = -1 (finished)
+chan_iowriteval 1  // set status = -1 (finished)
 
 .force_stop_voice:
 chan_freelayer 0
 chan_freelayer 1
 chan_jumprel .main_loop_voice
 
-#import "sfxbanks/voice.mus"
+#include "sfxbanks/voice.mus.inc"
 
 .balign 2
 

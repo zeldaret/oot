@@ -472,7 +472,7 @@ entry .enemy_boss_vocals
 entry .enemy_boss_vocals
 entry .enemy_goron_land
 entry .enemy_deadhand_burrow
-entry .enemy_boss_ganon_roar
+entry .enemy_boss_ganon_growl
 entry .enemy_gold_skull_spin
 entry .enemy_blob_wave
 entry .enemy_armos_hop
@@ -495,7 +495,7 @@ entry .enemy_boss_gohma_hurt
 entry .enemy_tektite_land_water1
 entry .enemy_deadhand_burrow
 entry .enemy_goron_land
-entry .enemy_unused
+entry .enemy_bug_walk
 entry .enemy_boss_twinrova_ice_beam
 entry .enemy_skulltula_quiver
 
@@ -507,7 +507,7 @@ chan_end
 
 .layer_354D:
 layer_portamento 0x81, 34, 80
-layer_note1 NOTE_C3, 0x1e, 100
+layer_note1 PITCH_C3, 0x1e, 100
 layer_end
 
 .enemy_dodongo_breathe:
@@ -516,7 +516,7 @@ chan_end
 
 .layer_3559:
 layer_setinstr F1_I_DODONGO_ROAR
-layer_note1 NOTE_D4, 0x50, 100
+layer_note1 PITCH_D4, 0x50, 100
 layer_end
 
 .enemy_dodongo_flame:
@@ -525,7 +525,7 @@ chan_setlayer 0, .layer_3565
 chan_end
 
 .layer_3565:
-layer_note1 NOTE_F2, 30000, 100
+layer_note1 PITCH_F2, 30000, 100
 layer_jumprel .layer_3565
 
 .enemy_dodongo_hurt:
@@ -536,9 +536,9 @@ chan_end
 
 .layer_3574:
 layer_portamento 0x81, 36, 255
-layer_note1 NOTE_E4, 0xa, 100
+layer_note1 PITCH_E4, 0xa, 100
 layer_portamento 0x81, 44, 255
-layer_note1 NOTE_B3, 0x24, 100
+layer_note1 PITCH_B3, 0x24, 100
 layer_end
 
 .enemy_dodongo_die:
@@ -553,9 +553,9 @@ layer_transpose -6
 
 .layer_3591:
 layer_portamento 0x81, 38, 255
-layer_note1 NOTE_GF4, 0xa, 100
+layer_note1 PITCH_GF4, 0xa, 100
 layer_portamento 0x81, 46, 255
-layer_note1 NOTE_DF4, 0x5a, 100
+layer_note1 PITCH_DF4, 0x5a, 100
 layer_end
 
 .enemy_boss_dodongo_exhale:
@@ -570,7 +570,7 @@ layer_transpose -12
 
 .layer_35AE:
 layer_portamento 0x1, 34, 0x14
-layer_note1 NOTE_B3, 0x5a, 100
+layer_note1 PITCH_B3, 0x5a, 100
 layer_end
 
 .enemy_boss_dodongo_walk:
@@ -581,15 +581,15 @@ chan_setlayer 2, .layer_35C2
 chan_end
 
 .layer_35C2:
-layer_note1 NOTE_B3, 0x50, 100
+layer_note1 PITCH_B3, 0x50, 100
 layer_end
 
 .layer_35C6:
-layer_note1 NOTE_D3, 0x50, 100
+layer_note1 PITCH_D3, 0x50, 100
 layer_end
 
 .layer_35CA:
-layer_note1 NOTE_F2, 0x50, 100
+layer_note1 PITCH_F2, 0x50, 100
 layer_end
 
 .enemy_boss_dodongo_flame:
@@ -602,7 +602,7 @@ chan_end
 layer_transpose -12
 
 .layer_35D9:
-layer_note1 NOTE_G3, 30000, 100
+layer_note1 PITCH_G3, 30000, 100
 layer_jumprel .layer_35D9
 
 .enemy_larvae_egg_break:
@@ -611,7 +611,7 @@ chan_setlayer 0, .layer_35E5
 chan_end
 
 .layer_35E5:
-layer_note1 NOTE_F3, 0x50, 100
+layer_note1 PITCH_F3, 0x50, 100
 layer_end
 
 .enemy_boss_gohma_fall:
@@ -627,14 +627,14 @@ layer_transpose -8
 .layer_35F7:
 layer_setenvelope .envelope_69DC, 240
 layer_portamento 0x81, 34, 64
-layer_note1 NOTE_C3, 0x32, 100
-layer_note1 NOTE_C1, 0x5a, 100
+layer_note1 PITCH_C3, 0x32, 100
+layer_note1 PITCH_C1, 0x5a, 100
 layer_end
 
 .layer_3606:
 layer_setenvelope .envelope_69DC, 240
 layer_portamento 0x81, 38, 64
-layer_note1 NOTE_E3, 0x32, 100
+layer_note1 PITCH_E3, 0x32, 100
 layer_end
 
 .enemy_goron_land:
@@ -649,7 +649,7 @@ layer_transpose -8
 .layer_361D:
 layer_setenvelope .envelope_69DC, 250
 layer_portamento 0x81, 34, 64
-layer_note1 NOTE_C3, 0x62, 100
+layer_note1 PITCH_C3, 0x62, 100
 layer_end
 
 .enemy_lizalfos_land_flat:
@@ -661,10 +661,10 @@ chan_end
 .layer_3631:
 layer_setenvelope .envelope_690C, 250
 layer_portamento 0x81, 29, 150
-layer_note1 NOTE_C3, 0x8, 100
+layer_note1 PITCH_C3, 0x8, 100
 layer_setenvelope .envelope_68EC, 250
 layer_portamento 0x81, 27, 150
-layer_note1 NOTE_F2, 0x1e, 100
+layer_note1 PITCH_F2, 0x1e, 100
 layer_end
 
 .enemy_dodongo_jr_land:
@@ -675,7 +675,7 @@ chan_end
 layer_setinstr F1_I_SMASH
 layer_setenvelope .envelope_68DC, 250
 layer_portamento 0x81, 36, 64
-layer_note1 NOTE_D3, 0x1e, 100
+layer_note1 PITCH_D3, 0x1e, 100
 layer_end
 
 .enemy_boss_gohma_walk:
@@ -687,7 +687,7 @@ chan_end
 
 .layer_3665:
 layer_portamento 0x81, 37, 64
-layer_note1 NOTE_EF3, 0x28, 100
+layer_note1 PITCH_EF3, 0x28, 100
 layer_end
 
 .enemy_boss_gohma_climb:
@@ -701,7 +701,7 @@ layer_transpose 1
 
 .layer_3678:
 layer_portamento 0x81, 19, 64
-layer_note1 NOTE_G2, 0x14, 100
+layer_note1 PITCH_G2, 0x14, 100
 layer_end
 
 .enemy_boss_gohma_birth:
@@ -714,8 +714,8 @@ chan_end
 .layer_368B:
 layer_enablelegato
 layer_portamento 0x85, 20, 255
-layer_note1 NOTE_GF2, 0x28, 100
-layer_note1 NOTE_F2, 0x55, 100
+layer_note1 PITCH_GF2, 0x28, 100
+layer_note1 PITCH_F2, 0x55, 100
 layer_end
 
 .enemy_larvae_walk:
@@ -725,7 +725,7 @@ chan_end
 
 .layer_369D:
 layer_portamento 0x81, 31, 255
-layer_note1 NOTE_C3, 0x5, 100
+layer_note1 PITCH_C3, 0x5, 100
 layer_end
 
 .enemy_larvae_chirp:
@@ -735,7 +735,7 @@ chan_end
 
 .layer_36AB:
 layer_portamento 0x81, 48, 255
-layer_note1 NOTE_GF4, 0x1e, 100
+layer_note1 PITCH_GF4, 0x1e, 100
 layer_end
 
 .enemy_larvae_hurt:
@@ -752,9 +752,9 @@ layer_jumprel .layer_36C3
 layer_setinstr F1_I_MONSTER_ROAR
 .layer_36C3:
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_B5, 0xa, 100
+layer_note1 PITCH_B5, 0xa, 100
 layer_portamento 0x81, 60, 255
-layer_note1 NOTE_E5, 0x12, 100
+layer_note1 PITCH_E5, 0x12, 100
 layer_end
 
 .enemy_larvae_cry:
@@ -764,15 +764,15 @@ chan_end
 .layer_36D6:
 layer_setinstr F1_I_MECH
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_F5, 0xa, 100
+layer_note1 PITCH_F5, 0xa, 100
 layer_portamento 0x81, 53, 255
-layer_note1 NOTE_G5, 0xa, 100
+layer_note1 PITCH_G5, 0xa, 100
 layer_transpose 4
 layer_portamento 0x81, 55, 255
-layer_note1 NOTE_B5, 0xa, 100
+layer_note1 PITCH_B5, 0xa, 100
 layer_transpose 6
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_B5, 0x14, 100
+layer_note1 PITCH_B5, 0x14, 100
 layer_end
 
 .enemy_larvae_die:
@@ -783,13 +783,13 @@ chan_end
 .layer_3700:
 layer_setinstr F1_I_MECH
 layer_portamento 0x81, 56, 255
-layer_note1 NOTE_C5, 0x5, 100
+layer_note1 PITCH_C5, 0x5, 100
 layer_portamento 0x81, 54, 255
-layer_note1 NOTE_BF4, 0xa, 100
+layer_note1 PITCH_BF4, 0xa, 100
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_AF4, 0xa, 100
+layer_note1 PITCH_AF4, 0xa, 100
 layer_portamento 0x81, 47, 255
-layer_note1 NOTE_DF4, 0x14, 100
+layer_note1 PITCH_DF4, 0x14, 100
 layer_end
 
 .enemy_boss_gohma_walk_ceiling:
@@ -799,12 +799,12 @@ chan_setlayer 1, .layer_372C
 chan_end
 
 .layer_3728:
-layer_note1 NOTE_E3, 0x50, 100
+layer_note1 PITCH_E3, 0x50, 100
 layer_end
 
 .layer_372C:
 layer_delay 0xf
-layer_note1 NOTE_C4, 0x50, 100
+layer_note1 PITCH_C4, 0x50, 100
 layer_end
 
 .enemy_boss_gohma_hurt_eye:
@@ -816,22 +816,22 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_G4, 0x14, 80
-layer_note1 NOTE_C4, 0x14, 80
-layer_note1 NOTE_E4, 0x14, 80
-layer_note1 NOTE_A3, 0x14, 80
+layer_note1 PITCH_G4, 0x14, 80
+layer_note1 PITCH_C4, 0x14, 80
+layer_note1 PITCH_E4, 0x14, 80
+layer_note1 PITCH_A3, 0x14, 80
 layer_end
 
 .layer_374D:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_enablelegato
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_G4, 0xa, 100
-layer_note1 NOTE_C4, 0xa, 100
-layer_note1 NOTE_G4, 0xa, 100
-layer_note1 NOTE_C4, 0xa, 100
-layer_note1 NOTE_G4, 0xa, 100
-layer_note1 NOTE_C4, 0x5, 100
+layer_note1 PITCH_G4, 0xa, 100
+layer_note1 PITCH_C4, 0xa, 100
+layer_note1 PITCH_G4, 0xa, 100
+layer_note1 PITCH_C4, 0xa, 100
+layer_note1 PITCH_G4, 0xa, 100
+layer_note1 PITCH_C4, 0x5, 100
 layer_end
 
 .enemy_larvae_egg_land:
@@ -844,15 +844,15 @@ chan_end
 layer_enablelegato
 layer_setenvelope .envelope_68FC, 255
 layer_portamento 0x85, 25, 230
-layer_note1 NOTE_EF3, 0x5, 100
-layer_note1 NOTE_BF2, 0x5, 100
+layer_note1 PITCH_EF3, 0x5, 100
+layer_note1 PITCH_BF2, 0x5, 100
 layer_disablelegato
 layer_delay 0x5
 layer_enablelegato
 layer_setenvelope .envelope_68FC, 255
 layer_portamento 0x85, 25, 220
-layer_note1 NOTE_EF3, 0x5, 100
-layer_note1 NOTE_BF2, 0xa, 100
+layer_note1 PITCH_EF3, 0x5, 100
+layer_note1 PITCH_BF2, 0xa, 100
 layer_end
 
 .chan_unused_3791:
@@ -861,7 +861,7 @@ chan_setlayer 0, .layer_3797
 chan_end
 
 .layer_3797:
-layer_note1 NOTE_D4, 0x46, 100
+layer_note1 PITCH_D4, 0x46, 100
 layer_end
 
 .enemy_keese_attack:
@@ -872,7 +872,7 @@ chan_end
 
 .layer_37A3:
 layer_portamento 0x81, 37, 100
-layer_note1 NOTE_EF4, 0x32, 100
+layer_note1 PITCH_EF4, 0x32, 100
 layer_end
 
 .enemy_keese_fly:
@@ -882,9 +882,9 @@ chan_end
 .layer_37AF:
 layer_setinstr F1_I_OWL_FLAP
 layer_portamento 0x81, 36, 255
-layer_note1 NOTE_E4, 0xa, 100
+layer_note1 PITCH_E4, 0xa, 100
 layer_portamento 0x81, 42, 255
-layer_note1 NOTE_DF4, 0x6, 100
+layer_note1 PITCH_DF4, 0x6, 100
 layer_end
 
 .enemy_dodongo_jr_yell:
@@ -896,7 +896,7 @@ chan_end
 layer_setinstr F1_I_DODONGO_ROAR
 layer_delay 0xa
 layer_portamento 0x81, 48, 64
-layer_note1 NOTE_D5, 0x28, 100
+layer_note1 PITCH_D5, 0x28, 100
 layer_end
 
 .layer_37D3:
@@ -904,7 +904,7 @@ layer_setinstr F1_I_GUNSHOT
 layer_setenvelope .envelope_686C, 240
 layer_transpose 6
 layer_portamento 0x81, 26, 100
-layer_note1 NOTE_B5, 0x32, 100
+layer_note1 PITCH_B5, 0x32, 100
 layer_end
 
 .enemy_dodongo_jr_die:
@@ -915,9 +915,9 @@ chan_end
 .layer_37EA:
 layer_setinstr F1_I_DODONGO_ROAR
 layer_portamento 0x81, 48, 255
-layer_note1 NOTE_D5, 0xa, 100
+layer_note1 PITCH_D5, 0xa, 100
 layer_portamento 0x81, 55, 255
-layer_note1 NOTE_F4, 0x48, 100
+layer_note1 PITCH_F4, 0x48, 100
 layer_end
 
 .enemy_boss_gohma_roar:
@@ -927,16 +927,16 @@ chan_end
 
 .layer_3802:
 layer_setinstr F1_I_MONSTER_ROAR
-layer_note1 NOTE_E4, 0x96, 70
+layer_note1 PITCH_E4, 0x96, 70
 layer_end
 
 .layer_3809:
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x81, 39, 255
-layer_note1 NOTE_D4, 0xa, 100
+layer_note1 PITCH_D4, 0xa, 100
 layer_portamento 0x81, 41, 255
-layer_note1 NOTE_F4, 0xc8, 100
+layer_note1 PITCH_F4, 0xc8, 100
 layer_end
 
 .enemy_boss_gohma_hurt:
@@ -949,17 +949,17 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x81, 42, 64
-layer_note1 NOTE_BF4, 0x14, 80
+layer_note1 PITCH_BF4, 0x14, 80
 layer_portamento 0x81, 47, 255
-layer_note1 NOTE_AF3, 0x24, 80
+layer_note1 PITCH_AF3, 0x24, 80
 layer_end
 
 .layer_3838:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_portamento 0x81, 39, 255
-layer_note1 NOTE_G4, 0xf, 100
+layer_note1 PITCH_G4, 0xf, 100
 layer_portamento 0x81, 44, 255
-layer_note1 NOTE_B3, 0x24, 100
+layer_note1 PITCH_B3, 0x24, 100
 layer_end
 
 .enemy_boss_gohma_growl:
@@ -972,7 +972,7 @@ chan_end
 layer_transpose 2
 
 .layer_3854:
-layer_note1 NOTE_C2, 0x64, 100
+layer_note1 PITCH_C2, 0x64, 100
 layer_end
 
 .enemy_dodongo_jr_walk:
@@ -981,7 +981,7 @@ chan_end
 
 .layer_385C:
 layer_setinstr F1_I_TEKTITE_ROTATE
-layer_note1 NOTE_D2, 0x1e, 70
+layer_note1 PITCH_D2, 0x1e, 70
 layer_end
 
 .enemy_dodongo_jr_burrow:
@@ -990,19 +990,19 @@ chan_end
 
 .layer_3866:
 layer_setinstr F1_I_TEKTITE_ROTATE
-layer_note1 NOTE_BF2, 0x19, 100
-layer_note1 NOTE_AF2, 0x14, 100
-layer_note1 NOTE_BF2, 0xf, 100
-layer_note1 NOTE_AF2, 0xf, 100
-layer_note1 NOTE_BF2, 0xa, 100
-layer_note1 NOTE_AF2, 0xf, 100
-layer_note1 NOTE_BF2, 0xf, 70
+layer_note1 PITCH_BF2, 0x19, 100
+layer_note1 PITCH_AF2, 0x14, 100
+layer_note1 PITCH_BF2, 0xf, 100
+layer_note1 PITCH_AF2, 0xf, 100
+layer_note1 PITCH_BF2, 0xa, 100
+layer_note1 PITCH_AF2, 0xf, 100
+layer_note1 PITCH_BF2, 0xf, 70
 .layer_387D:
-layer_note1 NOTE_AF2, 0xf, 70
-layer_note1 NOTE_BF2, 0xf, 70
-layer_note1 NOTE_AF2, 0xf, 70
-layer_note1 NOTE_BF2, 0xa, 60
-layer_note1 NOTE_AF2, 0xa, 60
+layer_note1 PITCH_AF2, 0xf, 70
+layer_note1 PITCH_BF2, 0xf, 70
+layer_note1 PITCH_AF2, 0xf, 70
+layer_note1 PITCH_BF2, 0xa, 60
+layer_note1 PITCH_AF2, 0xa, 60
 layer_end
 
 .enemy_bug_burrow:
@@ -1013,14 +1013,14 @@ chan_end
 layer_setinstr F1_I_TEKTITE_ROTATE
 layer_jumprel .layer_387D
 
-.enemy_unused:
+.enemy_bug_walk:
 chan_setlayer 0, .layer_3899
 chan_end
 
 .layer_3899:
 layer_setinstr F1_I_TEKTITE_ROTATE
-layer_note1 NOTE_AF2, 0x8, 40
-layer_note1 NOTE_G2, 0x8, 40
+layer_note1 PITCH_AF2, 0x8, 40
+layer_note1 PITCH_G2, 0x8, 40
 layer_end
 
 .enemy_dodongo_jr_emerge:
@@ -1029,8 +1029,8 @@ chan_end
 
 .layer_38A6:
 layer_setinstr F1_I_TEKTITE_ROTATE
-layer_note1 NOTE_GF2, 0x19, 100
-layer_note1 NOTE_AF2, 0x14, 100
+layer_note1 PITCH_GF2, 0x19, 100
+layer_note1 PITCH_AF2, 0x14, 100
 layer_end
 
 .enemy_shop_scrub_burrow:
@@ -1058,7 +1058,7 @@ chan_setlayer 0, .layer_38CD
 chan_end
 
 .layer_38CD:
-layer_note1 NOTE_C3, 0x30, 100
+layer_note1 PITCH_C3, 0x30, 100
 layer_end
 
 .enemy_stalfos_walk:
@@ -1068,7 +1068,7 @@ chan_end
 
 .layer_38D7:
 layer_portamento 0x81, 35, 64
-layer_note1 NOTE_DF3, 0xc, 64
+layer_note1 PITCH_DF3, 0xc, 64
 layer_end
 
 .enemy_stalfos_laugh:
@@ -1078,7 +1078,7 @@ chan_end
 
 .layer_38E5:
 layer_setinstr F1_I_PHANTOM_LAUGH_0
-layer_note1 NOTE_C4, 0x8c, 100
+layer_note1 PITCH_C4, 0x8c, 100
 layer_end
 
 .enemy_lizalfos_hurt:
@@ -1090,17 +1090,17 @@ chan_end
 .layer_38F6:
 layer_setinstr F1_I_LIZALFOS
 layer_portamento 0x81, 33, 255
-layer_note1 NOTE_DF4, 0xf, 100
+layer_note1 PITCH_DF4, 0xf, 100
 layer_portamento 0x81, 38, 255
-layer_note1 NOTE_AF2, 0x28, 100
+layer_note1 PITCH_AF2, 0x28, 100
 layer_end
 
 .layer_3907:
 layer_setinstr F1_I_MOBLIN_GROWL
-layer_note1 NOTE_C5, 0x5, 100
-layer_note1 NOTE_B4, 0x5, 100
-layer_note1 NOTE_A4, 0x5, 100
-layer_note1 NOTE_E4, 0x5, 100
+layer_note1 PITCH_C5, 0x5, 100
+layer_note1 PITCH_B4, 0x5, 100
+layer_note1 PITCH_A4, 0x5, 100
+layer_note1 PITCH_E4, 0x5, 100
 layer_end
 
 .enemy_lizalfos_laugh:
@@ -1110,7 +1110,7 @@ chan_end
 .layer_391A:
 layer_setinstr F1_I_LAUGHTER
 layer_portamento 0x81, 44, 255
-layer_note1 NOTE_C4, 0x14, 100
+layer_note1 PITCH_C4, 0x14, 100
 layer_end
 
 .enemy_lizalfos_die:
@@ -1122,17 +1122,17 @@ chan_end
 .layer_392E:
 layer_setinstr F1_I_LIZALFOS
 layer_portamento 0x81, 35, 255
-layer_note1 NOTE_E3, 0xf, 100
+layer_note1 PITCH_E3, 0xf, 100
 layer_portamento 0x81, 31, 255
-layer_note1 NOTE_C3, 0x1e, 100
+layer_note1 PITCH_C3, 0x1e, 100
 layer_end
 
 .layer_393F:
 layer_setinstr F1_I_MOBLIN_GROWL
-layer_note1 NOTE_AF5, 0x5, 100
-layer_note1 NOTE_F5, 0x5, 100
-layer_note1 NOTE_DF5, 0x5, 100
-layer_note1 NOTE_BF4, 0x5, 100
+layer_note1 PITCH_AF5, 0x5, 100
+layer_note1 PITCH_F5, 0x5, 100
+layer_note1 PITCH_DF5, 0x5, 100
+layer_note1 PITCH_BF4, 0x5, 100
 layer_end
 
 .enemy_stalfos_hurt:
@@ -1145,13 +1145,13 @@ chan_end
 .layer_3958:
 layer_setinstr F1_I_PHANTOM_MOAN
 layer_portamento 0x81, 47, 100
-layer_note1 NOTE_G4, 0x50, 100
+layer_note1 PITCH_G4, 0x50, 100
 layer_end
 
 .layer_3962:
 layer_setinstr F1_I_POT_BREAK
-layer_note1 NOTE_G3, 0x5, 100
-layer_note1 NOTE_G3, 0x5, 100
+layer_note1 PITCH_G3, 0x5, 100
+layer_note1 PITCH_G3, 0x5, 100
 layer_end
 
 .enemy_stalkid_hurt:
@@ -1176,15 +1176,15 @@ chan_end
 layer_setinstr F1_I_PHANTOM_MOAN
 layer_enablelegato
 layer_portamento 0x85, 43, 200
-layer_note1 NOTE_AF4, 0x1e, 100
-layer_note1 NOTE_A3, 0x8c, 100
-layer_note1 NOTE_E4, 0xc8, 100
+layer_note1 PITCH_AF4, 0x1e, 100
+layer_note1 PITCH_A3, 0x8c, 100
+layer_note1 PITCH_E4, 0xc8, 100
 layer_end
 
 .layer_3997:
 layer_setinstr F1_I_POT_BREAK
-layer_note1 NOTE_G3, 0x5, 100
-layer_note1 NOTE_G3, 0xf, 100
+layer_note1 PITCH_G3, 0x5, 100
+layer_note1 PITCH_G3, 0xf, 100
 layer_end
 
 .enemy_stalkid_die:
@@ -1206,7 +1206,7 @@ chan_end
 .layer_39B1:
 layer_setinstr F1_I_LIZALFOS
 layer_transpose 48
-layer_note1 NOTE_DF4, 0xa, 80
+layer_note1 PITCH_DF4, 0xa, 80
 layer_end
 
 .enemy_lizalfos_land:
@@ -1216,8 +1216,8 @@ chan_end
 .layer_39BD:
 layer_setinstr F1_I_LIZALFOS
 layer_transpose 48
-layer_note1 NOTE_E4, 0xa, 80
-layer_note1 NOTE_D4, 0xa, 80
+layer_note1 PITCH_E4, 0xa, 80
+layer_note1 PITCH_D4, 0xa, 80
 layer_end
 
 .enemy_lizalfos_jump:
@@ -1229,8 +1229,8 @@ chan_end
 .layer_39D2:
 layer_setinstr F1_I_LIZALFOS
 layer_transpose 48
-layer_note1 NOTE_E4, 0xa, 100
-layer_note1 NOTE_GF4, 0xa, 100
+layer_note1 PITCH_E4, 0xa, 100
+layer_note1 PITCH_GF4, 0xa, 100
 layer_end
 
 .layer_39DD:
@@ -1238,16 +1238,16 @@ layer_setinstr F1_I_GUNSHOT
 layer_setenvelope .envelope_686C, 240
 layer_transpose 4
 layer_portamento 0x81, 26, 50
-layer_note1 NOTE_B5, 0x50, 100
+layer_note1 PITCH_B5, 0x50, 100
 layer_end
 
 .layer_39ED:
 layer_setinstr F1_I_MOBLIN_GROWL
 layer_delay 0xa
-layer_note1 NOTE_EF4, 0x5, 100
-layer_note1 NOTE_D4, 0x5, 100
-layer_note1 NOTE_C4, 0x5, 100
-layer_note1 NOTE_C4, 0x5, 100
+layer_note1 PITCH_EF4, 0x5, 100
+layer_note1 PITCH_D4, 0x5, 100
+layer_note1 PITCH_C4, 0x5, 100
+layer_note1 PITCH_C4, 0x5, 100
 layer_end
 
 .enemy_armos_hop:
@@ -1257,7 +1257,7 @@ chan_end
 
 .layer_3A04:
 layer_portamento 0x81, 39, 200
-layer_note1 NOTE_A3, 0x14, 100
+layer_note1 PITCH_A3, 0x14, 100
 layer_end
 
 .enemy_armos_awaken:
@@ -1268,13 +1268,13 @@ chan_setlayer 0, .layer_3A2E
 chan_end
 
 .layer_3A18:
-layer_note1 NOTE_E2, 0xa, 100
-layer_note1 NOTE_GF2, 0xa, 100
-layer_note1 NOTE_E2, 0xa, 100
-layer_note1 NOTE_GF2, 0xa, 100
-layer_note1 NOTE_E2, 0xa, 100
-layer_note1 NOTE_GF2, 0xa, 100
-layer_note1 NOTE_E2, 0xa, 100
+layer_note1 PITCH_E2, 0xa, 100
+layer_note1 PITCH_GF2, 0xa, 100
+layer_note1 PITCH_E2, 0xa, 100
+layer_note1 PITCH_GF2, 0xa, 100
+layer_note1 PITCH_E2, 0xa, 100
+layer_note1 PITCH_GF2, 0xa, 100
+layer_note1 PITCH_E2, 0xa, 100
 layer_end
 
 .layer_3A2E:
@@ -1282,8 +1282,8 @@ layer_setinstr F1_I_PHANTOM_WAIL
 layer_setenvelope .envelope_699C, 250
 layer_enablelegato
 layer_portamento 0x85, 23, 255
-layer_note1 NOTE_C4, 0x1e, 100
-layer_note1 NOTE_F3, 0x52, 100
+layer_note1 PITCH_C4, 0x1e, 100
+layer_note1 PITCH_F3, 0x52, 100
 layer_end
 
 .enemy_armos_die:
@@ -1296,8 +1296,8 @@ layer_setinstr F1_I_PHANTOM_WAIL
 layer_setenvelope .envelope_699C, 240
 layer_enablelegato
 layer_portamento 0x85, 37, 200
-layer_note1 NOTE_GF4, 0x1e, 100
-layer_note1 NOTE_GF3, 0x64, 100
+layer_note1 PITCH_GF4, 0x1e, 100
+layer_note1 PITCH_GF3, 0x64, 100
 layer_end
 
 .enemy_armos_roar:
@@ -1310,8 +1310,8 @@ chan_end
 .layer_3A64:
 layer_enablelegato
 layer_portamento 0x85, 23, 255
-layer_note1 NOTE_C4, 0x1e, 100
-layer_note1 NOTE_F3, 0x52, 100
+layer_note1 PITCH_C4, 0x1e, 100
+layer_note1 PITCH_F3, 0x52, 100
 layer_end
 
 .enemy_stalfos_attack:
@@ -1324,15 +1324,15 @@ chan_end
 layer_setinstr F1_I_STALFOS_ATTACK
 layer_enablelegato
 layer_portamento 0x85, 30, 30
-layer_note1 NOTE_BF4, 0x14, 100
-layer_note1 NOTE_A4, 0x14, 100
+layer_note1 PITCH_BF4, 0x14, 100
+layer_note1 PITCH_A4, 0x14, 100
 layer_end
 
 .layer_3A87:
 layer_setinstr F1_I_GERUDO_ATTACK
 layer_setenvelope .envelope_682C, 240
 layer_delay 0xa
-layer_note1 NOTE_B3, 0x1e, 100
+layer_note1 PITCH_B3, 0x1e, 100
 layer_end
 
 .enemy_armos_hurt:
@@ -1344,8 +1344,8 @@ chan_end
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 39, 100
-layer_note1 NOTE_F4, 0x1e, 100
-layer_note1 NOTE_C4, 0x1e, 100
+layer_note1 PITCH_F4, 0x1e, 100
+layer_note1 PITCH_C4, 0x1e, 100
 layer_end
 
 .enemy_boss_dodongo_demo_wall:
@@ -1356,21 +1356,21 @@ chan_setlayer 2, .layer_3ACA
 chan_end
 
 .layer_3AB4:
-layer_note1 NOTE_GF3, 0x14, 100
+layer_note1 PITCH_GF3, 0x14, 100
 layer_setenvelope .envelope_688C, 240
-layer_note1 NOTE_AF2, 0x64, 100
+layer_note1 PITCH_AF2, 0x64, 100
 layer_end
 
 .layer_3ABF:
-layer_note1 NOTE_BF3, 0x14, 100
+layer_note1 PITCH_BF3, 0x14, 100
 layer_setenvelope .envelope_688C, 240
-layer_note1 NOTE_C3, 0x64, 100
+layer_note1 PITCH_C3, 0x64, 100
 layer_end
 
 .layer_3ACA:
-layer_note1 NOTE_DF4, 0x14, 100
+layer_note1 PITCH_DF4, 0x14, 100
 layer_setenvelope .envelope_688C, 240
-layer_note1 NOTE_EF3, 0x64, 100
+layer_note1 PITCH_EF3, 0x64, 100
 layer_end
 
 .enemy_boss_dodongo_wall_hit:
@@ -1380,15 +1380,15 @@ chan_setlayer 1, .layer_3AE9
 chan_end
 
 .layer_3ADE:
-layer_note1 NOTE_GF3, 0x14, 100
+layer_note1 PITCH_GF3, 0x14, 100
 layer_setenvelope .envelope_688C, 240
-layer_note1 NOTE_AF2, 0x32, 100
+layer_note1 PITCH_AF2, 0x32, 100
 layer_end
 
 .layer_3AE9:
-layer_note1 NOTE_B3, 0x14, 100
+layer_note1 PITCH_B3, 0x14, 100
 layer_setenvelope .envelope_688C, 240
-layer_note1 NOTE_DF3, 0x32, 100
+layer_note1 PITCH_DF3, 0x32, 100
 layer_end
 
 .enemy_boss_dodongo_roll:
@@ -1404,7 +1404,7 @@ layer_transpose 12
 .layer_3B01:
 layer_setinstr F1_I_BOULDER
 .layer_3B03:
-layer_note1 NOTE_C4, 30000, 100
+layer_note1 PITCH_C4, 30000, 100
 layer_jumprel .layer_3B03
 
 .enemy_boss_dodongo_inhale:
@@ -1419,9 +1419,9 @@ layer_transpose -4
 .layer_3B14:
 layer_enablelegato
 layer_portamento 0x81, 27, 255
-layer_note1 NOTE_F3, 0xaa, 100
+layer_note1 PITCH_F3, 0xaa, 100
 .layer_3B1D:
-layer_note1 NOTE_F3, 30000, 100
+layer_note1 PITCH_F3, 30000, 100
 layer_jumprel .layer_3B1D
 
 .enemy_boss_dodongo_swallow:
@@ -1435,7 +1435,7 @@ chan_end
 layer_transpose -2
 
 .layer_3B30:
-layer_note1 NOTE_C3, 0x46, 100
+layer_note1 PITCH_C3, 0x46, 100
 layer_end
 
 .enemy_boss_dodongo_paralyzed:
@@ -1451,8 +1451,8 @@ layer_transpose -4
 .layer_3B42:
 layer_enablelegato
 layer_portamento 0x85, 15, 255
-layer_note1 NOTE_D2, 0x32, 100
-layer_note1 NOTE_B1, 0x32, 100
+layer_note1 PITCH_D2, 0x32, 100
+layer_note1 PITCH_B1, 0x32, 100
 layer_disablelegato
 layer_jumprel .layer_3B42
 
@@ -1462,7 +1462,7 @@ chan_setlayer 0, .layer_3B56
 chan_end
 
 .layer_3B56:
-layer_note1 NOTE_E3, 30000, 100
+layer_note1 PITCH_E3, 30000, 100
 layer_jumprel .layer_3B56
 
 .enemy_big_baba_chomp:
@@ -1471,7 +1471,7 @@ chan_setlayer 0, .layer_3B62
 chan_end
 
 .layer_3B62:
-layer_note1 NOTE_F3, 0x1e, 100
+layer_note1 PITCH_F3, 0x1e, 100
 layer_end
 
 .enemy_big_baba_attack:
@@ -1482,7 +1482,7 @@ chan_end
 layer_setinstr F1_I_BABA_LUNGE
 layer_transpose 48
 layer_portamento 0x81, 39, 200
-layer_note1 NOTE_E4, 0x32, 100
+layer_note1 PITCH_E4, 0x32, 100
 layer_end
 
 .enemy_big_baba_hurt:
@@ -1493,9 +1493,9 @@ chan_end
 .layer_3B7D:
 layer_setinstr F1_I_GUAY_HURT
 layer_portamento 0x81, 44, 255
-layer_note1 NOTE_C5, 0xa, 100
+layer_note1 PITCH_C5, 0xa, 100
 layer_portamento 0x81, 53, 255
-layer_note1 NOTE_F4, 0x1e, 100
+layer_note1 PITCH_F4, 0x1e, 100
 layer_end
 
 .enemy_big_baba_die:
@@ -1510,8 +1510,8 @@ layer_setinstr F1_I_MONSTER_ROAR
 layer_setenvelope .envelope_69AC, 255
 layer_enablelegato
 layer_portamento 0x85, 31, 255
-layer_note1 NOTE_C4, 0x1e, 100
-layer_note1 NOTE_C3, 0x78, 100
+layer_note1 PITCH_C4, 0x1e, 100
+layer_note1 PITCH_C3, 0x78, 100
 layer_end
 
 .enemy_shell_die:
@@ -1532,7 +1532,7 @@ chan_setlayer 0, .layer_3BC3
 chan_end
 
 .layer_3BC3:
-layer_note1 NOTE_F4, 0xf, 100
+layer_note1 PITCH_F4, 0xf, 100
 layer_end
 
 .enemy_deku_baba_attack:
@@ -1543,7 +1543,7 @@ chan_end
 layer_setinstr F1_I_BABA_LUNGE
 layer_transpose 48
 layer_portamento 0x81, 48, 255
-layer_note1 NOTE_C5, 0x1e, 100
+layer_note1 PITCH_C5, 0x1e, 100
 layer_end
 
 .enemy_deku_baba_die:
@@ -1558,8 +1558,8 @@ chan_end
 .layer_3BE7:
 layer_enablelegato
 layer_portamento 0x85, 49, 200
-layer_note1 NOTE_GF5, 0x1e, 100
-layer_note1 NOTE_GF4, 0x32, 100
+layer_note1 PITCH_GF5, 0x1e, 100
+layer_note1 PITCH_GF4, 0x32, 100
 layer_end
 
 .enemy_deku_baba_slide:
@@ -1570,7 +1570,7 @@ chan_end
 
 .layer_3BFC:
 layer_portamento 0x81, 13, 255
-layer_note1 NOTE_G1, 0x38, 80
+layer_note1 PITCH_G1, 0x38, 80
 layer_end
 
 .enemy_keese_die:
@@ -1581,9 +1581,9 @@ chan_end
 .layer_3C0B:
 layer_setinstr F1_I_GUAY_HURT
 layer_portamento 0x81, 44, 255
-layer_note1 NOTE_C5, 0xa, 100
+layer_note1 PITCH_C5, 0xa, 100
 layer_portamento 0x81, 53, 255
-layer_note1 NOTE_F4, 0x1e, 100
+layer_note1 PITCH_F4, 0x1e, 100
 layer_end
 
 .enemy_tailpasaran_fly:
@@ -1594,7 +1594,7 @@ chan_setvibratoextent 128
 chan_end
 
 .layer_3C26:
-layer_note1 NOTE_BF2, 30000, 80
+layer_note1 PITCH_BF2, 30000, 80
 layer_jumprel .layer_3C26
 
 .enemy_tailpasaran_cry:
@@ -1604,7 +1604,7 @@ chan_end
 
 .layer_3C32:
 layer_portamento 0x81, 14, 60
-layer_note1 NOTE_E2, 0x32, 100
+layer_note1 PITCH_E2, 0x32, 100
 layer_end
 
 .enemy_tailpasaran_die:
@@ -1617,9 +1617,9 @@ chan_end
 .layer_3C45:
 layer_setinstr F1_I_GUAY_HURT
 layer_portamento 0x81, 35, 96
-layer_note1 NOTE_C5, 0x14, 100
+layer_note1 PITCH_C5, 0x14, 100
 layer_portamento 0x81, 44, 207
-layer_note1 NOTE_C4, 0x30, 100
+layer_note1 PITCH_C4, 0x30, 100
 layer_end
 
 .enemy_skulltula_climb:
@@ -1630,13 +1630,13 @@ chan_end
 
 .layer_3C5F:
 layer_portamento 0x81, 39, 100
-layer_note1 NOTE_E4, 0x32, 100
+layer_note1 PITCH_E4, 0x32, 100
 layer_end
 
 .layer_3C67:
 layer_delay 0x5
 layer_portamento 0x81, 37, 100
-layer_note1 NOTE_D4, 0x32, 100
+layer_note1 PITCH_D4, 0x32, 100
 layer_end
 
 .enemy_skulltula_drop:
@@ -1647,13 +1647,13 @@ chan_end
 
 .layer_3C7A:
 layer_portamento 0x81, 43, 100
-layer_note1 NOTE_C4, 0x32, 100
+layer_note1 PITCH_C4, 0x32, 100
 layer_end
 
 .layer_3C82:
 layer_delay 0x5
 layer_portamento 0x81, 41, 100
-layer_note1 NOTE_BF3, 0x32, 100
+layer_note1 PITCH_BF3, 0x32, 100
 layer_end
 
 .enemy_skulltula_quiver:
@@ -1666,7 +1666,7 @@ chan_setvibratoextent 127
 chan_end
 
 .layer_3C9B:
-layer_note1 NOTE_F1, 0x64, 100
+layer_note1 PITCH_F1, 0x64, 100
 layer_end
 
 .enemy_tektite_turn_ground:
@@ -1675,7 +1675,7 @@ chan_end
 
 .layer_3CA3:
 layer_setinstr F1_I_TEKTITE_ROTATE
-layer_note1 NOTE_C4, 0xa, 70
+layer_note1 PITCH_C4, 0xa, 70
 layer_end
 
 .enemy_poe_attack_charge:
@@ -1685,12 +1685,12 @@ chan_end
 
 .layer_3CB0:
 layer_setinstr F1_I_OWL_FLAP
-layer_note1 NOTE_F3, 0x19, 100
+layer_note1 PITCH_F3, 0x19, 100
 layer_end
 
 .layer_3CB6:
 layer_setinstr F1_I_POT_BREAK
-layer_note1 NOTE_F3, 0xa, 30
+layer_note1 PITCH_F3, 0xa, 30
 layer_end
 
 .enemy_poe_float:
@@ -1702,7 +1702,7 @@ chan_setvibratoextent 127
 chan_end
 
 .layer_3CC9:
-layer_note1 NOTE_F3, 0x87, 100
+layer_note1 PITCH_F3, 0x87, 100
 layer_jumprel .layer_3CC9
 
 .enemy_poe_retreat:
@@ -1713,7 +1713,7 @@ chan_setvibratoextent 100
 chan_end
 
 .layer_3CD9:
-layer_note1 NOTE_E4, 0x32, 100
+layer_note1 PITCH_E4, 0x32, 100
 layer_delay 0xa
 layer_jumprel .layer_3CD9
 
@@ -1727,7 +1727,7 @@ chan_end
 
 .layer_3CED:
 layer_portamento 0x81, 43, 255
-layer_note1 NOTE_C2, 0x96, 100
+layer_note1 PITCH_C2, 0x96, 100
 layer_end
 
 .enemy_poe_appear:
@@ -1739,7 +1739,7 @@ chan_end
 
 .layer_3D00:
 layer_portamento 0x81, 15, 200
-layer_note1 NOTE_E4, 0x96, 100
+layer_note1 PITCH_E4, 0x96, 100
 layer_end
 
 .enemy_poe_hurt:
@@ -1751,9 +1751,9 @@ chan_end
 
 .layer_3D14:
 layer_portamento 0x81, 49, 200
-layer_note1 NOTE_A5, 0xa, 100
+layer_note1 PITCH_A5, 0xa, 100
 layer_portamento 0x81, 60, 155
-layer_note1 NOTE_E5, 0x1e, 100
+layer_note1 PITCH_E5, 0x1e, 100
 layer_end
 
 .enemy_poe_die:
@@ -1765,9 +1765,9 @@ chan_end
 .layer_3D2C:
 layer_setinstr F1_I_POE_DISAPPEAR
 layer_portamento 0x81, 49, 200
-layer_note1 NOTE_A5, 0xa, 100
+layer_note1 PITCH_A5, 0xa, 100
 layer_portamento 0x81, 60, 155
-layer_note1 NOTE_E5, 0x3c, 100
+layer_note1 PITCH_E5, 0x3c, 100
 layer_end
 
 .enemy_boss_dodongo_roar:
@@ -1779,19 +1779,19 @@ chan_end
 .layer_3D47:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_portamento 0x85, 11, 50
-layer_note1 NOTE_C3, 0x12c, 100
+layer_note1 PITCH_C3, 0x12c, 100
 layer_end
 
 .layer_3D52:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_portamento 0x85, 13, 50
-layer_note1 NOTE_D3, 0x122, 100
+layer_note1 PITCH_D3, 0x122, 100
 layer_end
 
 .layer_3D5D:
 layer_setinstr F1_I_DODONGO_ROAR
 layer_portamento 0x81, 12, 255
-layer_note1 NOTE_DF2, 0xc8, 100
+layer_note1 PITCH_DF2, 0xc8, 100
 layer_end
 
 .enemy_boss_gohma_eyeroll:
@@ -1806,7 +1806,7 @@ layer_transpose 4
 
 .layer_3D75:
 layer_portamento 0x81, 3, 200
-layer_note1 NOTE_E1, 0x8c, 100
+layer_note1 PITCH_E1, 0x8c, 100
 layer_end
 
 .enemy_boss_dodongo_die:
@@ -1824,24 +1824,24 @@ layer_transpose -6
 .layer_3D91:
 layer_setinstr F1_I_DODONGO_ROAR
 layer_portamento 0x85, 38, 255
-layer_note1 NOTE_E4, 0x1e, 100
-layer_note1 NOTE_B2, 0x96, 100
+layer_note1 PITCH_E4, 0x1e, 100
+layer_note1 PITCH_B2, 0x96, 100
 layer_transpose -5
 layer_setenvelope .envelope_69DC, 127
 layer_portamento 0x85, 31, 255
-layer_note1 NOTE_A3, 0x3c, 80
+layer_note1 PITCH_A3, 0x3c, 80
 layer_setenvelope .envelope_6A3C, 127
-layer_note1 NOTE_D2, 0xe6, 80
+layer_note1 PITCH_D2, 0xe6, 80
 layer_end
 
 .layer_3DB4:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_setenvelope .envelope_69CC, 230
 layer_portamento 0x81, 15, 20
-layer_note1 NOTE_E3, 0x96, 100
+layer_note1 PITCH_E3, 0x96, 100
 layer_setenvelope .envelope_6A2C, 240
 layer_portamento 0x81, 31, 100
-layer_note1 NOTE_C2, 0x10e, 100
+layer_note1 PITCH_C2, 0x10e, 100
 layer_end
 
 .enemy_boss_dodongo_dying_groan:
@@ -1856,19 +1856,19 @@ chan_end
 .layer_3DDF:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_portamento 0x81, 13, 50
-layer_note1 NOTE_D3, 0x118, 100
+layer_note1 PITCH_D3, 0x118, 100
 layer_end
 
 .layer_3DEA:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_portamento 0x81, 11, 50
-layer_note1 NOTE_C3, 0x122, 100
+layer_note1 PITCH_C3, 0x122, 100
 layer_end
 
 .layer_3DF5:
 layer_setinstr F1_I_DODONGO_ROAR
 layer_portamento 0x81, 12, 255
-layer_note1 NOTE_DF2, 0xc8, 100
+layer_note1 PITCH_DF2, 0xc8, 100
 layer_end
 
 .enemy_boss_dodongo_fossilize:
@@ -1884,7 +1884,7 @@ chan_end
 layer_transpose -8
 
 .layer_3E11:
-layer_note1 NOTE_E2, 30000, 100
+layer_note1 PITCH_E2, 30000, 100
 layer_jumprel .layer_3E11
 
 .enemy_boss_dodongo_lava:
@@ -1902,14 +1902,14 @@ layer_jumprel .layer_3E2B
 .layer_3E29:
 layer_transpose 48
 .layer_3E2B:
-layer_note1 NOTE_C5, 0x46, 100
-layer_note1 NOTE_F4, 0x46, 100
-layer_note1 NOTE_C4, 0x46, 100
-layer_note1 NOTE_BF3, 0x32, 100
-layer_note1 NOTE_G3, 0x28, 100
-layer_note1 NOTE_EF3, 0x28, 100
-layer_note1 NOTE_D3, 0x1e, 100
-layer_note1 NOTE_BF2, 0x1e, 100
+layer_note1 PITCH_C5, 0x46, 100
+layer_note1 PITCH_F4, 0x46, 100
+layer_note1 PITCH_C4, 0x46, 100
+layer_note1 PITCH_BF3, 0x32, 100
+layer_note1 PITCH_G3, 0x28, 100
+layer_note1 PITCH_EF3, 0x28, 100
+layer_note1 PITCH_D3, 0x1e, 100
+layer_note1 PITCH_BF2, 0x1e, 100
 layer_end
 
 .enemy_boss_dodongo_hurt:
@@ -1926,13 +1926,13 @@ layer_transpose -8
 
 .layer_3E58:
 layer_portamento 0x1, 38, 0x14
-layer_note1 NOTE_EF4, 0x50, 100
+layer_note1 PITCH_EF4, 0x50, 100
 layer_end
 
 .layer_3E60:
 layer_portamento 0x85, 31, 150
-layer_note1 NOTE_C4, 0x14, 100
-layer_note1 NOTE_B3, 0x46, 100
+layer_note1 PITCH_C4, 0x14, 100
+layer_note1 PITCH_B3, 0x46, 100
 layer_end
 
 .enemy_stalfos_jump:
@@ -1944,7 +1944,7 @@ layer_setinstr F1_I_GUNSHOT
 layer_setenvelope .envelope_686C, 255
 layer_transpose 4
 layer_portamento 0x81, 26, 50
-layer_note1 NOTE_B5, 0x50, 100
+layer_note1 PITCH_B5, 0x50, 100
 layer_end
 
 .enemy_boss_gohma_die:
@@ -1963,23 +1963,23 @@ layer_transpose -6
 .layer_3E95:
 layer_setinstr F1_I_DINO_ROAR
 layer_portamento 0x85, 38, 255
-layer_note1 NOTE_E4, 0x1e, 100
-layer_note1 NOTE_B2, 0x96, 100
+layer_note1 PITCH_E4, 0x1e, 100
+layer_note1 PITCH_B2, 0x96, 100
 layer_transpose -5
 layer_portamento 0x85, 32, 255
-layer_note1 NOTE_C4, 0x3c, 80
+layer_note1 PITCH_C4, 0x3c, 80
 layer_setenvelope .envelope_6A3C, 200
-layer_note1 NOTE_B2, 0xc8, 80
+layer_note1 PITCH_B2, 0xc8, 80
 layer_end
 
 .layer_3EB4:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_setenvelope .envelope_69CC, 200
 layer_portamento 0x81, 15, 20
-layer_note1 NOTE_E3, 0x96, 100
+layer_note1 PITCH_E3, 0x96, 100
 layer_setenvelope .envelope_6A2C, 200
 layer_portamento 0x81, 31, 100
-layer_note1 NOTE_C2, 0x12c, 100
+layer_note1 PITCH_C2, 0x12c, 100
 layer_end
 
 .enemy_scrub_emerge:
@@ -1993,7 +1993,7 @@ layer_transpose -2
 
 .layer_3EDA:
 layer_portamento 0x81, 31, 64
-layer_note1 NOTE_C4, 0x32, 100
+layer_note1 PITCH_C4, 0x32, 100
 layer_end
 
 .enemy_scrub_burrow:
@@ -2007,7 +2007,7 @@ layer_transpose -2
 
 .layer_3EED:
 layer_portamento 0x81, 39, 64
-layer_note1 NOTE_E3, 0x32, 100
+layer_note1 PITCH_E3, 0x32, 100
 layer_end
 
 .enemy_scrub_spit:
@@ -2018,7 +2018,7 @@ chan_end
 
 .layer_3EFD:
 layer_portamento 0x81, 31, 64
-layer_note1 NOTE_C4, 0xc, 100
+layer_note1 PITCH_C4, 0xc, 100
 layer_end
 
 .enemy_scrub_walk:
@@ -2028,7 +2028,7 @@ chan_end
 
 .layer_3F0C:
 layer_setinstr F1_I_GRASS_RUSTLE
-layer_note1 NOTE_DF4, 0x20, 70
+layer_note1 PITCH_DF4, 0x20, 70
 layer_end
 
 .enemy_scrub_hurt:
@@ -2039,9 +2039,9 @@ chan_end
 layer_setinstr F1_I_SCRUB_DEATH
 layer_transpose 4
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_B5, 0xa, 100
+layer_note1 PITCH_B5, 0xa, 100
 layer_portamento 0x81, 60, 255
-layer_note1 NOTE_E5, 0x19, 100
+layer_note1 PITCH_E5, 0x19, 100
 layer_end
 
 .enemy_scrub_die:
@@ -2051,9 +2051,9 @@ chan_end
 .layer_3F2D:
 layer_setinstr F1_I_SCRUB_DEATH
 layer_portamento 0x81, 59, 255
-layer_note1 NOTE_E5, 0xa, 100
+layer_note1 PITCH_E5, 0xa, 100
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_F4, 0x1e, 100
+layer_note1 PITCH_F4, 0x1e, 100
 layer_end
 
 .enemy_boss_gohma_dissolve:
@@ -2069,7 +2069,7 @@ layer_transpose -1
 .layer_3F4B:
 layer_setinstr 2
 .layer_3F4D:
-layer_note1 NOTE_EF1, 30000, 100
+layer_note1 PITCH_EF1, 30000, 100
 layer_jumprel .layer_3F4D
 
 .enemy_tektite_hurt:
@@ -2081,9 +2081,9 @@ chan_end
 
 .layer_3F5F:
 layer_portamento 0x81, 36, 255
-layer_note1 NOTE_E4, 0xa, 100
+layer_note1 PITCH_E4, 0xa, 100
 layer_portamento 0x81, 44, 255
-layer_note1 NOTE_B3, 0x1e, 100
+layer_note1 PITCH_B3, 0x1e, 100
 layer_end
 
 .enemy_tektite_die:
@@ -2095,17 +2095,17 @@ chan_end
 .layer_3F78:
 layer_setinstr F1_I_DODONGO_ROAR
 layer_portamento 0x81, 32, 255
-layer_note1 NOTE_C4, 0xa, 100
+layer_note1 PITCH_C4, 0xa, 100
 layer_portamento 0x81, 40, 255
-layer_note1 NOTE_G3, 0x5c, 100
+layer_note1 PITCH_G3, 0x5c, 100
 layer_end
 
 .layer_3F89:
 layer_setinstr F1_I_GUAY_HURT
 layer_portamento 0x81, 43, 255
-layer_note1 NOTE_B4, 0xf, 80
+layer_note1 PITCH_B4, 0xf, 80
 layer_portamento 0x81, 48, 255
-layer_note1 NOTE_EF4, 0x24, 80
+layer_note1 PITCH_EF4, 0x24, 80
 layer_end
 
 .enemy_stinger_hurt:
@@ -2132,9 +2132,9 @@ chan_end
 .layer_3FBA:
 layer_setinstr F1_I_DODONGO_ROAR
 layer_portamento 0x81, 22, 127
-layer_note1 NOTE_DF4, 0x28, 100
+layer_note1 PITCH_DF4, 0x28, 100
 layer_portamento 0x81, 38, 255
-layer_note1 NOTE_A2, 0x7f, 100
+layer_note1 PITCH_A2, 0x7f, 100
 layer_end
 
 .layer_3FCB:
@@ -2150,9 +2150,9 @@ chan_end
 .layer_3FD7:
 layer_setinstr F1_I_DINO_INHALE
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_B5, 0xa, 100
+layer_note1 PITCH_B5, 0xa, 100
 layer_portamento 0x81, 60, 255
-layer_note1 NOTE_E5, 0x14, 100
+layer_note1 PITCH_E5, 0x14, 100
 layer_end
 
 .enemy_gold_skull_cry:
@@ -2166,9 +2166,9 @@ chan_end
 
 .layer_3FF2:
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_B5, 0x14, 100
+layer_note1 PITCH_B5, 0x14, 100
 layer_portamento 0x81, 60, 255
-layer_note1 NOTE_E5, 0x14, 100
+layer_note1 PITCH_E5, 0x14, 100
 layer_end
 
 .enemy_skullwall_die:
@@ -2182,8 +2182,8 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x85, 29, 255
-layer_note1 NOTE_BF3, 0x14, 100
-layer_note1 NOTE_BF2, 0x3c, 100
+layer_note1 PITCH_BF3, 0x14, 100
+layer_note1 PITCH_BF2, 0x3c, 100
 layer_end
 
 .enemy_dissolve:
@@ -2194,7 +2194,7 @@ chan_end
 
 .layer_4023:
 layer_portamento 0x81, 7, 100
-layer_note1 NOTE_A1, 0x19, 100
+layer_note1 PITCH_A1, 0x19, 100
 layer_end
 
 .enemy_boss_gohma_thrust:
@@ -2207,7 +2207,7 @@ chan_end
 
 .layer_4038:
 layer_portamento 0x81, 45, 250
-layer_note1 NOTE_GF3, 0x28, 100
+layer_note1 PITCH_GF3, 0x28, 100
 layer_end
 
 .enemy_lizalfos_cry:
@@ -2221,13 +2221,13 @@ chan_end
 layer_setinstr F1_I_BABA_LUNGE
 layer_transpose 48
 layer_portamento 0x81, 32, 100
-layer_note1 NOTE_D3, 0x23, 80
+layer_note1 PITCH_D3, 0x23, 80
 layer_end
 
 .layer_4057:
 layer_setinstr F1_I_LIZALFOS
 layer_portamento 0x81, 39, 100
-layer_note1 NOTE_A3, 0x28, 100
+layer_note1 PITCH_A3, 0x28, 100
 layer_end
 
 .enemy_lizalfos_attack_shout:
@@ -2240,20 +2240,20 @@ chan_end
 layer_setinstr F1_I_BABA_LUNGE
 layer_transpose 48
 layer_portamento 0x81, 34, 200
-layer_note1 NOTE_B3, 0x23, 80
+layer_note1 PITCH_B3, 0x23, 80
 layer_end
 
 .layer_4077:
 layer_setinstr F1_I_LIZALFOS
 layer_portamento 0x81, 39, 255
-layer_note1 NOTE_F4, 0x32, 100
+layer_note1 PITCH_F4, 0x32, 100
 layer_end
 
 .layer_4081:
 layer_setinstr F1_I_GERUDO_ATTACK
 layer_setenvelope .envelope_682C, 240
 layer_delay 0xa
-layer_note1 NOTE_D4, 0x1e, 100
+layer_note1 PITCH_D4, 0x1e, 100
 layer_end
 
 .enemy_dodongo_swipe:
@@ -2266,7 +2266,7 @@ chan_end
 .layer_4098:
 layer_transpose 5
 layer_portamento 0x81, 26, 200
-layer_note1 NOTE_B5, 0xc8, 100
+layer_note1 PITCH_B5, 0xc8, 100
 layer_end
 
 .enemy_poe_transform:
@@ -2279,7 +2279,7 @@ chan_end
 
 .layer_40B0:
 layer_portamento 0x81, 55, 255
-layer_note1 NOTE_C3, 0x50, 100
+layer_note1 PITCH_C3, 0x50, 100
 layer_end
 
 .enemy_wallmaster_fall:
@@ -2292,7 +2292,7 @@ chan_end
 layer_transpose -6
 
 .layer_40C3:
-layer_note1 NOTE_C3, 0x1a0, 100
+layer_note1 PITCH_C3, 0x1a0, 100
 layer_end
 
 .enemy_wallmaster_retreat:
@@ -2304,7 +2304,7 @@ chan_end
 
 .layer_40D3:
 layer_portamento 0x81, 36, 100
-layer_note1 NOTE_C4, 0x78, 100
+layer_note1 PITCH_C4, 0x78, 100
 layer_end
 
 .enemy_floormaster_walk:
@@ -2315,7 +2315,7 @@ chan_end
 
 .layer_40E3:
 layer_portamento 0x81, 9, 128
-layer_note1 NOTE_A1, 0xf, 100
+layer_note1 PITCH_A1, 0xf, 100
 layer_end
 
 .enemy_floormaster_hurt:
@@ -2329,8 +2329,8 @@ chan_end
 .layer_40F8:
 layer_enablelegato
 layer_portamento 0x85, 42, 128
-layer_note1 NOTE_AF4, 0x1e, 100
-layer_note1 NOTE_C4, 0x28, 100
+layer_note1 PITCH_AF4, 0x1e, 100
+layer_note1 PITCH_C4, 0x28, 100
 layer_end
 
 .enemy_floormaster_die:
@@ -2344,8 +2344,8 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x85, 46, 128
-layer_note1 NOTE_C5, 0x28, 100
-layer_note1 NOTE_E4, 0x30, 100
+layer_note1 PITCH_C5, 0x28, 100
+layer_note1 PITCH_E4, 0x30, 100
 layer_end
 
 .enemy_biri_float:
@@ -2357,8 +2357,8 @@ chan_end
 .layer_4126:
 layer_enablelegato
 layer_portamento 0x85, 31, 255
-layer_note1 NOTE_A3, 0x32, 100
-layer_note1 NOTE_AF2, 0x46, 100
+layer_note1 PITCH_A3, 0x32, 100
+layer_note1 PITCH_AF2, 0x46, 100
 layer_end
 
 .enemy_biri_fly:
@@ -2371,8 +2371,8 @@ layer_setinstr 2
 layer_setenvelope .envelope_6A0C, 220
 layer_enablelegato
 layer_portamento 0x85, 27, 200
-layer_note1 NOTE_F3, 0x14, 60
-layer_note1 NOTE_E2, 0x32, 60
+layer_note1 PITCH_F3, 0x14, 60
+layer_note1 PITCH_E2, 0x32, 60
 layer_end
 
 .layer_414B:
@@ -2380,8 +2380,8 @@ layer_setinstr F1_I_STALFOS_ATTACK
 layer_setenvelope .envelope_6A0C, 128
 layer_enablelegato
 layer_portamento 0x85, 31, 200
-layer_note1 NOTE_A3, 0x32, 100
-layer_note1 NOTE_AF2, 0x46, 100
+layer_note1 PITCH_A3, 0x32, 100
+layer_note1 PITCH_AF2, 0x46, 100
 layer_end
 
 .enemy_biri_shock:
@@ -2400,7 +2400,7 @@ chan_call .delay_varyingvol
 chan_jumprel .chan_4162
 
 .layer_4179:
-layer_note1 NOTE_C3, 0x50, 80
+layer_note1 PITCH_C3, 0x50, 80
 layer_jumprel .layer_4179
 
 .enemy_boss_ganon_transform:
@@ -2416,9 +2416,9 @@ chan_end
 .layer_418B:
 layer_setinstr F1_I_GUAY_HURT
 layer_portamento 0x81, 32, 255
-layer_note1 NOTE_C4, 0xa, 100
+layer_note1 PITCH_C4, 0xa, 100
 layer_portamento 0x81, 41, 255
-layer_note1 NOTE_F3, 0xe, 100
+layer_note1 PITCH_F3, 0xe, 100
 layer_end
 
 .enemy_torch_slug_hurt:
@@ -2431,9 +2431,9 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x81, 32, 64
-layer_note1 NOTE_C4, 0x14, 80
+layer_note1 PITCH_C4, 0x14, 80
 layer_portamento 0x81, 37, 255
-layer_note1 NOTE_BF2, 0x24, 80
+layer_note1 PITCH_BF2, 0x24, 80
 layer_end
 
 .layer_41B8:
@@ -2448,7 +2448,7 @@ chan_end
 layer_setinstr F1_I_WATER_BUBBLES
 layer_setenvelope .envelope_6A1C, 249
 layer_portamento 0x81, 25, 255
-layer_note1 NOTE_G3, 0x90, 100
+layer_note1 PITCH_G3, 0x90, 100
 layer_end
 
 .enemy_phantom_reveal:
@@ -2461,7 +2461,7 @@ chan_end
 
 .layer_41E0:
 layer_portamento 0x81, 21, 255
-layer_note1 NOTE_BF2, 0xe6, 100
+layer_note1 PITCH_BF2, 0xe6, 100
 layer_end
 
 .enemy_phantom_lightning:
@@ -2471,7 +2471,7 @@ chan_end
 
 .layer_41EF:
 layer_setinstr F1_I_ELECTRIC_ATTACK
-layer_note1 NOTE_C4, 0x118, 100
+layer_note1 PITCH_C4, 0x118, 100
 layer_end
 
 .enemy_ganondorf_charge:
@@ -2481,7 +2481,7 @@ chan_sethilogain 20
 chan_end
 
 .layer_41FE:
-layer_note1 NOTE_A3, 0x50, 100
+layer_note1 PITCH_A3, 0x50, 100
 layer_end
 
 .enemy_ganondorf_fly:
@@ -2490,7 +2490,7 @@ chan_setlayer 0, .layer_4208
 chan_end
 
 .layer_4208:
-layer_note1 NOTE_D4, 30000, 100
+layer_note1 PITCH_D4, 30000, 100
 layer_jumprel .layer_4208
 
 .enemy_witch_charge:
@@ -2500,7 +2500,7 @@ chan_end
 
 .layer_4214:
 layer_setinstr F1_I_GANONDORF_CHARGE
-layer_note1 NOTE_F4, 0x5a, 100
+layer_note1 PITCH_F4, 0x5a, 100
 layer_end
 
 .enemy_phantom_painting_enter:
@@ -2510,7 +2510,7 @@ chan_end
 
 .layer_4220:
 layer_setinstr F1_I_SWOOSH
-layer_note1 NOTE_D4, 0x5a, 100
+layer_note1 PITCH_D4, 0x5a, 100
 layer_end
 
 .enemy_phantom_shout:
@@ -2521,7 +2521,7 @@ chan_end
 
 .layer_422E:
 layer_portamento 0x81, 39, 50
-layer_note1 NOTE_F4, 0x30, 100
+layer_note1 PITCH_F4, 0x30, 100
 layer_end
 
 .enemy_ganondorf_orb_trail:
@@ -2535,7 +2535,7 @@ layer_setinstr 2
 layer_enablelegato
 layer_portamento 0x81, 37, 255
 .layer_4245:
-layer_note1 NOTE_GF3, 0xc8, 100
+layer_note1 PITCH_GF3, 0xc8, 100
 layer_jumprel .layer_4245
 
 .enemy_boss_twinrova_ice_reflected:
@@ -2557,7 +2557,7 @@ chan_end
 
 .layer_4261:
 layer_setinstr F1_I_ELECTRIC_ATTACK
-layer_note1 NOTE_C5, 0x8c, 100
+layer_note1 PITCH_C5, 0x8c, 100
 layer_end
 
 .enemy_phantom_attack_unused:
@@ -2568,7 +2568,7 @@ chan_sethilogain 16
 chan_end
 
 .layer_4273:
-layer_note1 NOTE_E3, 0x1c2, 100
+layer_note1 PITCH_E3, 0x1c2, 100
 layer_end
 
 .enemy_phantom_staff:
@@ -2579,14 +2579,14 @@ chan_end
 
 .layer_4280:
 layer_delay 0xf
-layer_note1 NOTE_C4, 0x7, 100
-layer_note1 NOTE_G4, 0x7, 100
-layer_note1 NOTE_C5, 0x7, 100
-layer_note1 NOTE_G5, 0x7, 100
-layer_note1 NOTE_E4, 0x7, 100
-layer_note1 NOTE_B4, 0x7, 100
-layer_note1 NOTE_E5, 0x7, 100
-layer_note1 NOTE_B5, 0x7, 100
+layer_note1 PITCH_C4, 0x7, 100
+layer_note1 PITCH_G4, 0x7, 100
+layer_note1 PITCH_C5, 0x7, 100
+layer_note1 PITCH_G5, 0x7, 100
+layer_note1 PITCH_E4, 0x7, 100
+layer_note1 PITCH_B4, 0x7, 100
+layer_note1 PITCH_E5, 0x7, 100
+layer_note1 PITCH_B5, 0x7, 100
 layer_end
 
 .enemy_phantom_eyes:
@@ -2600,7 +2600,7 @@ chan_end
 
 .layer_42AA:
 layer_portamento 0x81, 33, 255
-layer_note1 NOTE_DF3, 0x6e, 100
+layer_note1 PITCH_DF3, 0x6e, 100
 layer_end
 
 .enemy_phantom_orb_dissipate:
@@ -2610,7 +2610,7 @@ chan_end
 
 .layer_42B8:
 layer_portamento 0x81, 60, 200
-layer_note1 NOTE_C3, 0x1e, 100
+layer_note1 PITCH_C3, 0x1e, 100
 layer_end
 
 .enemy_phantom_die_roar:
@@ -2626,19 +2626,19 @@ chan_end
 
 .layer_42D4:
 layer_portamento 0x81, 46, 100
-layer_note1 NOTE_D4, 0xb4, 100
+layer_note1 PITCH_D4, 0xb4, 100
 layer_end
 
 .layer_42DD:
 layer_delay 0x96
 layer_portamento 0x81, 36, 220
-layer_note1 NOTE_E3, 0xd2, 100
+layer_note1 PITCH_E3, 0xd2, 100
 layer_end
 
 .layer_42E9:
 layer_delay 0x14a
 layer_portamento 0x81, 31, 200
-layer_note1 NOTE_A2, 0x14a, 100
+layer_note1 PITCH_A2, 0x14a, 100
 layer_end
 
 .enemy_phantom_hurt:
@@ -2652,17 +2652,17 @@ chan_end
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 39, 100
-layer_note1 NOTE_A4, 0x1e, 100
-layer_note1 NOTE_C4, 0x3c, 100
+layer_note1 PITCH_A4, 0x1e, 100
+layer_note1 PITCH_C4, 0x3c, 100
 layer_end
 
 .layer_430F:
 layer_setinstr F1_I_GANONDORF_ATTACK_0
 layer_enablelegato
 layer_portamento 0x81, 29, 100
-layer_note1 NOTE_E4, 0x14, 68
+layer_note1 PITCH_E4, 0x14, 68
 layer_portamento 0x81, 34, 255
-layer_note1 NOTE_G2, 0x24, 68
+layer_note1 PITCH_G2, 0x24, 68
 layer_end
 
 .enemy_deadhand_hurt:
@@ -2686,8 +2686,8 @@ chan_end
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 36, 255
-layer_note1 NOTE_GF4, 0x50, 100
-layer_note1 NOTE_AF2, 500, 100
+layer_note1 PITCH_GF4, 0x50, 100
+layer_note1 PITCH_AF2, 500, 100
 layer_end
 
 .layer_434A:
@@ -2695,7 +2695,7 @@ layer_transpose -16
 
 .layer_434C:
 layer_setinstr F1_I_THUNDERBURST
-layer_note1 NOTE_AF4, 0x1c2, 100
+layer_note1 PITCH_AF4, 0x1c2, 100
 layer_end
 
 .enemy_deadhand_die:
@@ -2719,8 +2719,8 @@ chan_end
 .layer_436C:
 layer_enablelegato
 layer_portamento 0x85, 30, 100
-layer_note1 NOTE_G3, 0x1e, 100
-layer_note1 NOTE_C3, 0x14, 100
+layer_note1 PITCH_G3, 0x1e, 100
+layer_note1 PITCH_C3, 0x14, 100
 layer_end
 
 .enemy_phantom_laugh:
@@ -2730,7 +2730,7 @@ chan_sethilogain 16
 chan_end
 
 .layer_4380:
-layer_note1 NOTE_BF3, 0x160, 100
+layer_note1 PITCH_BF3, 0x160, 100
 layer_end
 
 .enemy_moblin_walk:
@@ -2741,7 +2741,7 @@ chan_end
 
 .layer_438E:
 layer_portamento 0x81, 28, 64
-layer_note1 NOTE_GF2, 0xd, 76
+layer_note1 PITCH_GF2, 0xd, 76
 layer_end
 
 .enemy_moblin_dash:
@@ -2752,7 +2752,7 @@ chan_end
 
 .layer_439F:
 layer_portamento 0x81, 32, 64
-layer_note1 NOTE_BF2, 0x1d, 100
+layer_note1 PITCH_BF2, 0x1d, 100
 layer_end
 
 .enemy_moblin_slide:
@@ -2765,7 +2765,7 @@ layer_transpose -5
 
 .layer_43B0:
 layer_setinstr F1_I_TEKTITE_ROTATE
-layer_note1 NOTE_C2, 0x78, 100
+layer_note1 PITCH_C2, 0x78, 100
 layer_end
 
 .enemy_octorok_jump:
@@ -2775,7 +2775,7 @@ chan_end
 
 .layer_43BC:
 layer_portamento 0x81, 40, 100
-layer_note1 NOTE_AF4, 0x64, 80
+layer_note1 PITCH_AF4, 0x64, 80
 layer_end
 
 .enemy_octorok_dive:
@@ -2785,7 +2785,7 @@ chan_end
 
 .layer_43CA:
 layer_portamento 0x81, 38, 100
-layer_note1 NOTE_E3, 0x30, 100
+layer_note1 PITCH_E3, 0x30, 100
 layer_end
 
 .enemy_octorok_bubble:
@@ -2794,7 +2794,7 @@ chan_end
 
 .layer_43D6:
 layer_setinstr F1_I_STEP_WATER
-layer_note1 NOTE_B1, 0x66, 100
+layer_note1 PITCH_B1, 0x66, 100
 layer_end
 
 .enemy_octorok_float:
@@ -2804,7 +2804,7 @@ chan_end
 
 .layer_43E2:
 layer_portamento 0x81, 23, 100
-layer_note1 NOTE_BF2, 0x30, 68
+layer_note1 PITCH_BF2, 0x30, 68
 layer_end
 
 .enemy_tektite_land_water1:
@@ -2814,7 +2814,7 @@ chan_end
 
 .layer_43F0:
 layer_portamento 0x81, 47, 100
-layer_note1 NOTE_DF4, 0x50, 80
+layer_note1 PITCH_DF4, 0x50, 80
 layer_end
 
 .enemy_octorok_rock_break:
@@ -2824,7 +2824,7 @@ chan_end
 .layer_43FC:
 layer_setinstr F1_I_EXPLOSION_LAVA
 layer_setenvelope .envelope_68EC, 251
-layer_note1 NOTE_A2, 0x2c, 100
+layer_note1 PITCH_A2, 0x2c, 100
 layer_end
 
 .enemy_bubble_dash:
@@ -2834,9 +2834,9 @@ chan_end
 
 .layer_440C:
 layer_portamento 0x81, 8, 255
-layer_note1 NOTE_C2, 0x6, 70
+layer_note1 PITCH_C2, 0x6, 70
 layer_portamento 0x81, 14, 255
-layer_note1 NOTE_A1, 0x8, 70
+layer_note1 PITCH_A1, 0x8, 70
 layer_end
 
 .enemy_bubble_cry:
@@ -2847,7 +2847,7 @@ chan_end
 
 .layer_4423:
 layer_setinstr F1_I_PHANTOM_LAUGH_0
-layer_note1 NOTE_E4, 0x54, 100
+layer_note1 PITCH_E4, 0x54, 100
 layer_end
 
 .enemy_bubble_flame_appear:
@@ -2860,7 +2860,7 @@ chan_end
 
 .layer_443A:
 layer_portamento 0x81, 19, 255
-layer_note1 NOTE_AF2, 0x46, 100
+layer_note1 PITCH_AF2, 0x46, 100
 layer_end
 
 .enemy_bubble_flame_vanish:
@@ -2873,7 +2873,7 @@ chan_end
 
 .layer_4453:
 layer_portamento 0x81, 23, 255
-layer_note1 NOTE_E2, 0x46, 100
+layer_note1 PITCH_E2, 0x46, 100
 layer_end
 
 .enemy_moblin_attack_shout:
@@ -2884,7 +2884,7 @@ chan_end
 
 .layer_4463:
 layer_portamento 0x81, 17, 255
-layer_note1 NOTE_A2, 0x96, 100
+layer_note1 PITCH_A2, 0x96, 100
 layer_end
 
 .enemy_moblin_grunt:
@@ -2895,7 +2895,7 @@ chan_end
 
 .layer_4474:
 layer_portamento 0x81, 21, 255
-layer_note1 NOTE_DF2, 0x44, 100
+layer_note1 PITCH_DF2, 0x44, 100
 layer_end
 
 .enemy_moblin_spear_relax:
@@ -2905,7 +2905,7 @@ chan_end
 
 .layer_4482:
 layer_transpose 42
-layer_note1 NOTE_F4, 0xa, 100
+layer_note1 PITCH_F4, 0xa, 100
 layer_end
 
 .enemy_moblin_spear_point:
@@ -2916,7 +2916,7 @@ chan_end
 
 .layer_4490:
 layer_transpose 44
-layer_note1 NOTE_B3, 0x1d, 100
+layer_note1 PITCH_B3, 0x1d, 100
 layer_end
 
 .enemy_moblin_club_strike:
@@ -2926,7 +2926,7 @@ chan_end
 
 .layer_449C:
 layer_portamento 0x81, 25, 255
-layer_note1 NOTE_F2, 0x78, 100
+layer_note1 PITCH_F2, 0x78, 100
 layer_end
 
 .enemy_moblin_club_lift:
@@ -2936,7 +2936,7 @@ chan_end
 
 .layer_44AA:
 layer_portamento 0x81, 16, 255
-layer_note1 NOTE_B2, 0x78, 100
+layer_note1 PITCH_B2, 0x78, 100
 layer_end
 
 .enemy_moblin_die:
@@ -2948,8 +2948,8 @@ chan_end
 layer_setinstr F1_I_LIZALFOS
 layer_enablelegato
 layer_portamento 0x85, 23, 200
-layer_note1 NOTE_C3, 0x1e, 100
-layer_note1 NOTE_DF2, 0x3c, 100
+layer_note1 PITCH_C3, 0x1e, 100
+layer_note1 PITCH_DF2, 0x3c, 100
 layer_end
 
 .enemy_boss_volvagia_rock:
@@ -2962,7 +2962,7 @@ chan_setdecayrelease 232
 chan_end
 
 .layer_44D7:
-layer_note1 NOTE_F4, 0x32, 100
+layer_note1 PITCH_F4, 0x32, 100
 layer_end
 
 .enemy_boss_volvagia_roar:
@@ -2973,16 +2973,16 @@ chan_end
 
 .layer_44E4:
 layer_setinstr F1_I_THUNDER_HURT
-layer_note1 NOTE_D4, 0xa8, 100
+layer_note1 PITCH_D4, 0xa8, 100
 layer_end
 
 .layer_44EB:
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x81, 43, 255
-layer_note1 NOTE_GF4, 0xa, 100
+layer_note1 PITCH_GF4, 0xa, 100
 layer_portamento 0x81, 45, 255
-layer_note1 NOTE_A4, 0xa8, 100
+layer_note1 PITCH_A4, 0xa8, 100
 layer_end
 
 .enemy_boss_ganon_roar:
@@ -2993,7 +2993,7 @@ chan_end
 
 .layer_4508:
 layer_setinstr F1_I_MONSTER_ROAR
-layer_note1 NOTE_E4, 0xb4, 100
+layer_note1 PITCH_E4, 0xb4, 100
 layer_end
 
 .layer_450F:
@@ -3016,16 +3016,16 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_F4, 0x14, 80
-layer_note1 NOTE_C3, 0x6e, 80
+layer_note1 PITCH_F4, 0x14, 80
+layer_note1 PITCH_C3, 0x6e, 80
 layer_end
 
 .layer_4532:
 layer_setinstr F1_I_THUNDER_HURT
 layer_enablelegato
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_A4, 0x14, 100
-layer_note1 NOTE_C2, 0xc8, 100
+layer_note1 PITCH_A4, 0x14, 100
+layer_note1 PITCH_C2, 0xc8, 100
 layer_end
 
 .enemy_volvagia_paralyzed:
@@ -3037,8 +3037,8 @@ chan_end
 .layer_4549:
 layer_enablelegato
 layer_portamento 0x85, 19, 255
-layer_note1 NOTE_GF2, 0x1e, 100
-layer_note1 NOTE_B1, 0x1e, 100
+layer_note1 PITCH_GF2, 0x1e, 100
+layer_note1 PITCH_B1, 0x1e, 100
 layer_end
 
 .enemy_boss_volvagia_cry:
@@ -3049,16 +3049,16 @@ chan_end
 
 .layer_455E:
 layer_setinstr F1_I_THUNDER_HURT
-layer_note1 NOTE_AF4, 0x78, 100
+layer_note1 PITCH_AF4, 0x78, 100
 layer_end
 
 .layer_4564:
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x81, 49, 255
-layer_note1 NOTE_C5, 0xa, 100
+layer_note1 PITCH_C5, 0xa, 100
 layer_portamento 0x81, 51, 255
-layer_note1 NOTE_EF5, 0x78, 100
+layer_note1 PITCH_EF5, 0x78, 100
 layer_end
 
 .enemy_boss_ganon_hurt:
@@ -3075,8 +3075,8 @@ layer_jumprel .layer_4564
 layer_setinstr F1_I_MONSTER_ROAR
 layer_enablelegato
 layer_portamento 0x85, 40, 200
-layer_note1 NOTE_AF4, 0x10, 100
-layer_note1 NOTE_D3, 0xb4, 100
+layer_note1 PITCH_AF4, 0x10, 100
+layer_note1 PITCH_D3, 0xb4, 100
 layer_end
 
 .enemy_boss_volvagia_hole:
@@ -3091,13 +3091,13 @@ chan_end
 layer_setinstr F1_I_EXPLOSION_LAVA
 layer_setenvelope .envelope_68B4, 220
 .layer_45A6:
-layer_note1 NOTE_GF2, 0x118, 100
+layer_note1 PITCH_GF2, 0x118, 100
 layer_jumprel .layer_45A6
 
 .layer_45AC:
 layer_setinstr 2
 .layer_45AE:
-layer_note1 NOTE_B0, 30000, 100
+layer_note1 PITCH_B0, 30000, 100
 layer_jumprel .layer_45AE
 
 .enemy_boss_volvagia_swipe:
@@ -3107,7 +3107,7 @@ chan_end
 
 .layer_45BA:
 layer_portamento 0x81, 28, 255
-layer_note1 NOTE_C4, 0x40, 100
+layer_note1 PITCH_C4, 0x40, 100
 layer_end
 
 .enemy_redead_moan:
@@ -3120,7 +3120,7 @@ chan_end
 layer_delay 0x18
 
 .layer_45CD:
-layer_note1 NOTE_E3, 0x170, 80
+layer_note1 PITCH_E3, 0x170, 80
 layer_end
 
 .enemy_redead_scream:
@@ -3136,7 +3136,7 @@ layer_end
 .layer_45DF:
 layer_setinstr F1_I_DINO_ROAR
 layer_portamento 0x81, 30, 255
-layer_note1 NOTE_BF3, 0x2e, 100
+layer_note1 PITCH_BF3, 0x2e, 100
 layer_end
 
 .enemy_redead_hurt:
@@ -3151,7 +3151,7 @@ layer_delay 0x18
 
 .layer_45F7:
 layer_portamento 0x81, 34, 255
-layer_note1 NOTE_E2, 0x44, 100
+layer_note1 PITCH_E2, 0x44, 100
 layer_end
 
 .enemy_redead_die:
@@ -3167,8 +3167,8 @@ layer_delay 0x18
 .layer_460D:
 layer_enablelegato
 layer_portamento 0x85, 30, 255
-layer_note1 NOTE_F3, 0x1e, 100
-layer_note1 NOTE_EF2, 0x84, 100
+layer_note1 PITCH_F3, 0x1e, 100
+layer_note1 PITCH_EF2, 0x84, 100
 layer_end
 
 .enemy_poe_laugh:
@@ -3182,7 +3182,7 @@ chan_end
 layer_delay 0x16
 
 .layer_4627:
-layer_note1 NOTE_BF5, 0x62, 100
+layer_note1 PITCH_BF5, 0x62, 100
 layer_end
 
 .enemy_poe_sister_attack:
@@ -3193,7 +3193,7 @@ chan_end
 
 .layer_4634:
 layer_portamento 0x81, 33, 200
-layer_note1 NOTE_GF4, 0x22, 100
+layer_note1 PITCH_GF4, 0x22, 100
 layer_end
 
 .enemy_redead_attack:
@@ -3205,14 +3205,14 @@ chan_end
 layer_setinstr F1_I_GORON_YAWN
 layer_setenvelope .envelope_68EC, 250
 layer_portamento 0x81, 30, 255
-layer_note1 NOTE_B2, 0x30, 100
+layer_note1 PITCH_B2, 0x30, 100
 layer_end
 
 .layer_4651:
 layer_setinstr F1_I_SMASH
 layer_setenvelope .envelope_692C, 250
 layer_portamento 0x81, 17, 50
-layer_note1 NOTE_D1, 0x1e, 100
+layer_note1 PITCH_D1, 0x1e, 100
 layer_end
 
 .enemy_poe_sister_laugh:
@@ -3229,7 +3229,7 @@ layer_delay 0x16
 layer_delay 0x16
 
 .layer_466F:
-layer_note1 NOTE_GF5, 0x72, 100
+layer_note1 PITCH_GF5, 0x72, 100
 layer_end
 
 .enemy_poe_sister_cry:
@@ -3239,7 +3239,7 @@ chan_end
 
 .layer_4679:
 layer_portamento 0x81, 53, 120
-layer_note1 NOTE_G4, 0x44, 100
+layer_note1 PITCH_G4, 0x44, 100
 layer_end
 
 .enemy_boss_morpha_rise:
@@ -3252,7 +3252,7 @@ chan_end
 .layer_468B:
 layer_setenvelope .envelope_6A4C, 220
 .layer_468F:
-layer_note1 NOTE_A1, 0xfa, 100
+layer_note1 PITCH_A1, 0xfa, 100
 layer_jumprel .layer_468F
 
 .enemy_boss_morpha_attack:
@@ -3266,7 +3266,7 @@ chan_end
 layer_setenvelope .envelope_6A2C, 220
 layer_portamento 0x81, 12, 120
 .layer_46A7:
-layer_note1 NOTE_A3, 0xd0, 100
+layer_note1 PITCH_A3, 0xd0, 100
 layer_jumprel .layer_46A7
 
 .enemy_boss_morpha_toss:
@@ -3280,8 +3280,8 @@ chan_end
 layer_setenvelope .envelope_69BC, 235
 layer_enablelegato
 layer_portamento 0x85, 0, 255
-layer_note1 NOTE_A2, 0x2a, 100
-layer_note1 NOTE_A0, 0x52, 100
+layer_note1 PITCH_A2, 0x2a, 100
+layer_note1 PITCH_A0, 0x52, 100
 layer_end
 
 .enemy_boss_morpha_grab:
@@ -3292,7 +3292,7 @@ chan_end
 
 .layer_46CF:
 layer_portamento 0x81, 30, 255
-layer_note1 NOTE_C3, 0x72, 100
+layer_note1 PITCH_C3, 0x72, 100
 layer_end
 
 .enemy_octorok_death_gasp:
@@ -3303,9 +3303,9 @@ chan_end
 
 .layer_46E0:
 layer_portamento 0x81, 17, 255
-layer_note1 NOTE_BF2, 0x8, 100
+layer_note1 PITCH_BF2, 0x8, 100
 layer_portamento 0x81, 26, 255
-layer_note1 NOTE_EF1, 0xc, 100
+layer_note1 PITCH_EF1, 0xc, 100
 layer_end
 
 .enemy_octorok_die:
@@ -3318,7 +3318,7 @@ chan_end
 
 .layer_46FC:
 layer_portamento 0x81, 38, 255
-layer_note1 NOTE_G3, 0x84, 100
+layer_note1 PITCH_G3, 0x84, 100
 layer_end
 
 .enemy_boss_morpha_demo_move:
@@ -3331,8 +3331,8 @@ chan_end
 layer_enablelegato
 layer_portamento 0x85, 23, 255
 .layer_4712:
-layer_note1 NOTE_F2, 0x2c, 100
-layer_note1 NOTE_AF2, 0x2c, 100
+layer_note1 PITCH_F2, 0x2c, 100
+layer_note1 PITCH_AF2, 0x2c, 100
 layer_jumprel .layer_4712
 
 .enemy_boss_morpha_demo_bubble:
@@ -3349,7 +3349,7 @@ layer_delay 0x8
 
 .layer_472C:
 layer_portamento 0x81, 31, 255
-layer_note1 NOTE_DF3, 0x74, 100
+layer_note1 PITCH_DF3, 0x74, 100
 layer_end
 
 .enemy_boss_morpha_caught:
@@ -3359,16 +3359,16 @@ chan_end
 
 .layer_473B:
 layer_setinstr F1_I_WATER_SPLASH_L
-layer_note1 NOTE_D4, 0x86, 100
+layer_note1 PITCH_D4, 0x86, 100
 layer_end
 
 .layer_4742:
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x81, 36, 100
-layer_note1 NOTE_B4, 0x10, 80
+layer_note1 PITCH_B4, 0x10, 80
 layer_portamento 0x81, 41, 255
-layer_note1 NOTE_D3, 0x6, 80
+layer_note1 PITCH_D3, 0x6, 80
 layer_end
 
 .enemy_boss_morpha_die:
@@ -3400,23 +3400,23 @@ layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x85, 37, 255
 .layer_4788:
-layer_note1 NOTE_EF4, 0x1e, 100
+layer_note1 PITCH_EF4, 0x1e, 100
 .layer_478B:
-layer_note1 NOTE_G3, 0x1e, 100
+layer_note1 PITCH_G3, 0x1e, 100
 layer_disablelegato
 layer_enablelegato
 layer_portamento 0x85, 34, 255
 .layer_4794:
-layer_note1 NOTE_BF4, 0x1e, 100
+layer_note1 PITCH_BF4, 0x1e, 100
 .layer_4797:
-layer_note1 NOTE_BF3, 0x1e, 100
+layer_note1 PITCH_BF3, 0x1e, 100
 layer_disablelegato
 layer_jumprel .layer_4783
 
 .layer_479D:
 layer_setinstr F1_I_GORON_YAWN
 layer_portamento 0x85, 35, 255
-layer_note1 NOTE_DF4, 0xe8, 100
+layer_note1 PITCH_DF4, 0xe8, 100
 layer_end
 
 .enemy_boss_morpha_water_spin:
@@ -3428,8 +3428,8 @@ chan_end
 layer_enablelegato
 layer_portamento 0x85, 25, 128
 .layer_47B3:
-layer_note1 NOTE_EF5, 0xc, 100
-layer_note1 NOTE_BF2, 0xc, 100
+layer_note1 PITCH_EF5, 0xc, 100
+layer_note1 PITCH_BF2, 0xc, 100
 layer_jumprel .layer_47B3
 
 .enemy_boss_morpha_water_move:
@@ -3445,7 +3445,7 @@ layer_delay 0x8
 
 .layer_47CB:
 layer_portamento 0x81, 31, 255
-layer_note1 NOTE_B2, 0x60, 100
+layer_note1 PITCH_B2, 0x60, 100
 layer_end
 
 .enemy_deadhand_bite:
@@ -3456,13 +3456,13 @@ chan_end
 
 .layer_47DC:
 layer_setinstr F1_I_PHANTOM_GROWL
-layer_note1 NOTE_C4, 0x56, 100
+layer_note1 PITCH_C4, 0x56, 100
 layer_end
 
 .layer_47E2:
 layer_setinstr F1_I_EGG_CRACK
 layer_portamento 0x81, 11, 200
-layer_note1 NOTE_C2, 0x29, 100
+layer_note1 PITCH_C2, 0x29, 100
 layer_end
 
 .enemy_deadhand_move:
@@ -3473,7 +3473,7 @@ chan_end
 .layer_47F2:
 layer_setinstr F1_I_EGG_CRACK
 layer_portamento 0x81, 9, 200
-layer_note1 NOTE_BF1, 0x29, 100
+layer_note1 PITCH_BF1, 0x29, 100
 layer_end
 
 .enemy_goron_wake:
@@ -3482,7 +3482,7 @@ chan_end
 
 .layer_4800:
 layer_setinstr F1_I_GORON
-layer_note1 NOTE_GF3, 0x20, 100
+layer_note1 PITCH_GF3, 0x20, 100
 layer_end
 
 .enemy_goron_sit:
@@ -3492,7 +3492,7 @@ chan_end
 .layer_480A:
 layer_setinstr F1_I_GORON
 layer_transpose 48
-layer_note1 NOTE_BF3, 0x84, 100
+layer_note1 PITCH_BF3, 0x84, 100
 layer_end
 
 .enemy_deadhand_grabbed:
@@ -3504,12 +3504,12 @@ chan_end
 .layer_481C:
 layer_setinstr F1_I_PHANTOM_GROWL
 layer_portamento 0x81, 35, 255
-layer_note1 NOTE_E3, 0x30, 100
+layer_note1 PITCH_E3, 0x30, 100
 layer_end
 
 .enemy_boss_ganondorf_struck:
 chan_setlayer 0, .layer_4829
-#! @bug missing chan_end. This bug turns out to be harmless in practice.
+// @bug missing chan_end. This bug turns out to be harmless in practice.
 
 .layer_4829:
 layer_setinstr INSTR_SFX
@@ -3536,15 +3536,15 @@ chan_end
 .layer_4846:
 layer_setinstr F1_I_LIZALFOS
 layer_portamento 0x81, 15, 255
-layer_note1 NOTE_AF1, 0x54, 100
+layer_note1 PITCH_AF1, 0x54, 100
 layer_end
 
 .layer_4850:
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 24, 100
-layer_note1 NOTE_D3, 0x1e, 100
-layer_note1 NOTE_A2, 0x2e, 100
+layer_note1 PITCH_D3, 0x1e, 100
+layer_note1 PITCH_A2, 0x2e, 100
 layer_end
 
 .enemy_big_octo_walk:
@@ -3558,7 +3558,7 @@ chan_call .delay_varyingvol
 chan_jumprel .chan_4863
 
 .layer_4870:
-layer_note1 NOTE_F3, 0x12, 100
+layer_note1 PITCH_F3, 0x12, 100
 layer_jumprel .layer_4870
 
 .enemy_big_octo_grunt:
@@ -3569,8 +3569,8 @@ chan_setdecayrelease 249
 chan_end
 
 .layer_487F:
-layer_note1 NOTE_DF3, 0x8, 100
-layer_note1 NOTE_BF2, 0x1e, 100
+layer_note1 PITCH_DF3, 0x8, 100
+layer_note1 PITCH_BF2, 0x1e, 100
 layer_end
 
 .enemy_big_octo_hurt:
@@ -3586,16 +3586,16 @@ chan_end
 layer_setinstr F1_I_LIZALFOS
 layer_enablelegato
 layer_portamento 0x85, 25, 255
-layer_note1 NOTE_DF3, 0x18, 100
-layer_note1 NOTE_GF1, 0x1c, 100
+layer_note1 PITCH_DF3, 0x18, 100
+layer_note1 PITCH_GF1, 0x1c, 100
 layer_end
 
 .layer_48A4:
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 30, 100
-layer_note1 NOTE_AF3, 0xc, 100
-layer_note1 NOTE_EF3, 0x12, 100
+layer_note1 PITCH_AF3, 0xc, 100
+layer_note1 PITCH_EF3, 0x12, 100
 layer_end
 
 .enemy_big_octo_stop:
@@ -3605,13 +3605,13 @@ chan_end
 
 .layer_48B8:
 layer_portamento 0x81, 47, 100
-layer_note1 NOTE_DF4, 0x12, 100
+layer_note1 PITCH_DF4, 0x12, 100
 layer_portamento 0x81, 47, 100
-layer_note1 NOTE_DF4, 0x12, 100
+layer_note1 PITCH_DF4, 0x12, 100
 layer_portamento 0x81, 47, 100
-layer_note1 NOTE_DF4, 0x12, 100
+layer_note1 PITCH_DF4, 0x12, 100
 layer_portamento 0x81, 47, 100
-layer_note1 NOTE_DF4, 0x50, 100
+layer_note1 PITCH_DF4, 0x50, 100
 layer_end
 
 .enemy_big_octo_die:
@@ -3626,8 +3626,8 @@ chan_end
 .layer_48E5:
 layer_setinstr F1_I_LIZALFOS
 layer_portamento 0x85, 27, 255
-layer_note1 NOTE_AF3, 0x18, 100
-layer_note1 NOTE_AF1, 0x66, 100
+layer_note1 PITCH_AF3, 0x18, 100
+layer_note1 PITCH_AF1, 0x66, 100
 layer_end
 
 .enemy_big_octo_die2:
@@ -3640,7 +3640,7 @@ chan_end
 .layer_48FC:
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_portamento 0x85, 42, 100
-layer_note1 NOTE_EF3, 0x70, 100
+layer_note1 PITCH_EF3, 0x70, 100
 layer_end
 
 .enemy_boss_gohma_paralyzed:
@@ -3652,7 +3652,7 @@ chan_setvibratoextent 100
 chan_end
 
 .layer_4913:
-layer_note1 NOTE_AF3, 0x110, 100
+layer_note1 PITCH_AF3, 0x110, 100
 layer_setenvelope .envelope_68AC, 240
 layer_delay 0x88
 layer_jumprel .layer_4913
@@ -3671,7 +3671,7 @@ chan_end
 .layer_4931:
 layer_transpose 6
 layer_portamento 0x81, 48, 54
-layer_note1 NOTE_BF5, 0x2c, 100
+layer_note1 PITCH_BF5, 0x2c, 100
 layer_end
 
 .enemy_boss_morpha_die_cry:
@@ -3689,15 +3689,15 @@ layer_transpose 1
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 39, 20
-layer_note1 NOTE_E4, 0x10, 100
-layer_note1 NOTE_B3, 0x56, 100
+layer_note1 PITCH_E4, 0x10, 100
+layer_note1 PITCH_B3, 0x56, 100
 layer_end
 
 .layer_4959:
 layer_setinstr F1_I_DINO_ROAR
 layer_portamento 0x85, 38, 255
-layer_note1 NOTE_E4, 0x14, 80
-layer_note1 NOTE_B2, 0x56, 80
+layer_note1 PITCH_E4, 0x14, 80
+layer_note1 PITCH_B2, 0x56, 80
 layer_end
 
 .enemy_shop_scrub_cry:
@@ -3707,9 +3707,9 @@ chan_end
 .layer_496A:
 layer_setinstr F1_I_SCRUB_DEATH
 layer_portamento 0x81, 43, 255
-layer_note1 NOTE_EF5, 0x8, 80
+layer_note1 PITCH_EF5, 0x8, 80
 layer_portamento 0x81, 52, 255
-layer_note1 NOTE_AF4, 0x8, 80
+layer_note1 PITCH_AF4, 0x8, 80
 layer_end
 
 .enemy_skullwall_rotate:
@@ -3720,13 +3720,13 @@ chan_end
 
 .layer_4984:
 layer_portamento 0x81, 31, 100
-layer_note1 NOTE_C3, 0x32, 64
+layer_note1 PITCH_C3, 0x32, 64
 layer_end
 
 .layer_498C:
 layer_delay 0x5
 layer_portamento 0x81, 33, 100
-layer_note1 NOTE_D3, 0x32, 64
+layer_note1 PITCH_D3, 0x32, 64
 layer_end
 
 .enemy_skullwall_dash:
@@ -3737,13 +3737,13 @@ chan_end
 
 .layer_499F:
 layer_portamento 0x81, 27, 100
-layer_note1 NOTE_E3, 0x32, 64
+layer_note1 PITCH_E3, 0x32, 64
 layer_end
 
 .layer_49A7:
 layer_delay 0x5
 layer_portamento 0x81, 29, 100
-layer_note1 NOTE_GF3, 0x32, 64
+layer_note1 PITCH_GF3, 0x32, 64
 layer_end
 
 .enemy_boss_twinrova_appear:
@@ -3757,7 +3757,7 @@ chan_end
 
 .layer_49C0:
 layer_portamento 0x81, 31, 255
-layer_note1 NOTE_B2, 0x64, 100
+layer_note1 PITCH_B2, 0x64, 100
 layer_end
 
 .enemy_boss_twinrova_transform:
@@ -3770,13 +3770,13 @@ chan_end
 
 .layer_49D5:
 layer_setinstr F1_I_GUNSHOT
-layer_note1 NOTE_D3, 0x64, 100
+layer_note1 PITCH_D3, 0x64, 100
 layer_end
 
 .layer_49DB:
 layer_setinstr F1_I_DINO_INHALE
 layer_portamento 0x81, 7, 255
-layer_note1 NOTE_BF3, 0xe6, 84
+layer_note1 PITCH_BF3, 0xe6, 84
 layer_end
 
 .enemy_boss_twinrova_fire_charge:
@@ -3789,9 +3789,9 @@ chan_end
 .layer_49F0:
 layer_enablelegato
 layer_portamento 0x85, 15, 120
-layer_note1 NOTE_C4, 0xc8, 100
+layer_note1 PITCH_C4, 0xc8, 100
 .layer_49F9:
-layer_note1 NOTE_C4, 30000, 100
+layer_note1 PITCH_C4, 30000, 100
 layer_jumprel .layer_49F9
 
 .enemy_boss_twinrova_fire_hit:
@@ -3807,13 +3807,13 @@ layer_transpose -12
 layer_setinstr 2
 layer_setenvelope .envelope_6A7C, 200
 .layer_4A11:
-layer_note1 NOTE_G3, 30000, 100
+layer_note1 PITCH_G3, 30000, 100
 layer_jumprel .layer_4A11
 
 .layer_4A17:
 layer_setinstr F1_I_THUNDERBURST
 layer_setenvelope .envelope_6A5C, 200
-layer_note1 NOTE_GF2, 0x180, 100
+layer_note1 PITCH_GF2, 0x180, 100
 layer_end
 
 .enemy_boss_twinrova_ice_beam:
@@ -3825,10 +3825,10 @@ chan_end
 layer_enablelegato
 layer_portamento 0x85, 10, 102
 layer_transpose 10
-layer_note1 NOTE_F5, 0x28, 100
+layer_note1 PITCH_F5, 0x28, 100
 layer_transpose 0
 .layer_4A34:
-layer_note1 NOTE_F5, 0x64, 100
+layer_note1 PITCH_F5, 0x64, 100
 layer_jumprel .layer_4A34
 
 .enemy_boss_twinrova_fire_reflected:
@@ -3855,9 +3855,9 @@ chan_end
 .layer_4A56:
 layer_enablelegato
 layer_portamento 0x85, 35, 120
-layer_note1 NOTE_AF5, 0xc8, 100
+layer_note1 PITCH_AF5, 0xc8, 100
 .layer_4A5F:
-layer_note1 NOTE_AF5, 30000, 100
+layer_note1 PITCH_AF5, 30000, 100
 layer_jumprel .layer_4A5F
 
 .enemy_ganondorf_charge_major:
@@ -3900,9 +3900,9 @@ layer_loop 10
 layer_enablelegato
 layer_portamento 0x85, 27, 255
 .layer_4AAA:
-layer_note1 NOTE_F3, 0x1e, 100
+layer_note1 PITCH_F3, 0x1e, 100
 .layer_4AAD:
-layer_note1 NOTE_A2, 0x1e, 100
+layer_note1 PITCH_A2, 0x1e, 100
 layer_disablelegato
 layer_loopend
 layer_end
@@ -3916,7 +3916,7 @@ chan_setvibratoextent 240
 chan_end
 
 .layer_4ABF:
-layer_note1 NOTE_AF2, 0x30, 100
+layer_note1 PITCH_AF2, 0x30, 100
 layer_end
 
 .enemy_darunia_chest_pound:
@@ -3928,7 +3928,7 @@ chan_end
 layer_setenvelope .envelope_68DC, 250
 .layer_4ACD:
 layer_portamento 0x81, 26, 64
-layer_note1 NOTE_E2, 0xc, 100
+layer_note1 PITCH_E2, 0xc, 100
 layer_jumprel .layer_4ACD
 
 .enemy_darunia_head_pat:
@@ -3939,7 +3939,7 @@ chan_end
 
 .layer_4ADF:
 layer_portamento 0x81, 32, 130
-layer_note1 NOTE_GF2, 0x1e, 100
+layer_note1 PITCH_GF2, 0x1e, 100
 layer_end
 
 .enemy_boss_twinrova_hurt_cry_old:
@@ -3970,7 +3970,7 @@ chan_end
 
 .layer_4B0B:
 layer_setinstr F1_I_THUNDERBURST
-layer_note1 NOTE_AF4, 0x110, 100
+layer_note1 PITCH_AF4, 0x110, 100
 layer_end
 
 .layer_4B12:
@@ -3989,15 +3989,15 @@ chan_end
 layer_setenvelope .envelope_69DC, 240
 layer_enablelegato
 layer_portamento 0x85, 3, 255
-layer_note1 NOTE_F2, 0x1a, 100
-layer_note1 NOTE_A0, 0x20, 100
+layer_note1 PITCH_F2, 0x1a, 100
+layer_note1 PITCH_A0, 0x20, 100
 layer_end
 
 .layer_4B32:
 layer_setinstr INSTR_WV_8PULSE
 layer_setenvelope .envelope_6A7C, 249
 .layer_4B38:
-layer_note1 NOTE_GF3, 30000, 100
+layer_note1 PITCH_GF3, 30000, 100
 layer_jumprel .layer_4B38
 
 .enemy_boss_twinrova_charge:
@@ -4014,15 +4014,15 @@ chan_end
 
 .layer_4B50:
 layer_setinstr F1_I_SLIDE_BOOTS
-layer_note1 NOTE_BF1, 0x8, 64
-layer_note1 NOTE_G2, 0x14, 64
+layer_note1 PITCH_BF1, 0x8, 64
+layer_note1 PITCH_G2, 0x14, 64
 layer_end
 
 .layer_4B59:
 layer_setinstr F1_I_GUNSHOT
 layer_setenvelope .envelope_68DC, 249
 layer_portamento 0x81, 26, 96
-layer_note1 NOTE_DF2, 0x1e, 100
+layer_note1 PITCH_DF2, 0x1e, 100
 layer_end
 
 .enemy_knuckle_attack:
@@ -4034,14 +4034,14 @@ chan_end
 .layer_4B71:
 layer_setinstr F1_I_GERUDO_ATTACK
 layer_portamento 0x81, 27, 255
-layer_note1 NOTE_A2, 0x78, 100
+layer_note1 PITCH_A2, 0x78, 100
 layer_end
 
 .layer_4B7B:
 layer_setinstr F1_I_SLIDE_BOOTS
-layer_note1 NOTE_BF1, 0x4, 64
-layer_note1 NOTE_G2, 0x6, 64
-layer_note1 NOTE_DF3, 0x14, 64
+layer_note1 PITCH_BF1, 0x4, 64
+layer_note1 PITCH_G2, 0x6, 64
+layer_note1 PITCH_DF3, 0x14, 64
 layer_end
 
 .layer_4B87:
@@ -4062,14 +4062,14 @@ chan_end
 layer_setinstr F1_I_PHANTOM_MOAN
 layer_enablelegato
 layer_portamento 0x85, 46, 200
-layer_note1 NOTE_C5, 0x20, 100
-layer_note1 NOTE_E4, 0x6c, 100
+layer_note1 PITCH_C5, 0x20, 100
+layer_note1 PITCH_E4, 0x6c, 100
 layer_end
 
 .layer_4BA9:
 layer_setinstr F1_I_POT_BREAK
-layer_note1 NOTE_G3, 0x5, 100
-layer_note1 NOTE_G3, 0x5, 100
+layer_note1 PITCH_G3, 0x5, 100
+layer_note1 PITCH_G3, 0x5, 100
 layer_end
 
 .enemy_bubble_hurt:
@@ -4089,8 +4089,8 @@ chan_end
 layer_setinstr F1_I_STALFOS_ATTACK
 layer_enablelegato
 layer_portamento 0x85, 30, 30
-layer_note1 NOTE_AF4, 0x8, 100
-layer_note1 NOTE_GF4, 0x12, 100
+layer_note1 PITCH_AF4, 0x8, 100
+layer_note1 PITCH_GF4, 0x12, 100
 layer_end
 
 .enemy_poe_sister_die:
@@ -4108,10 +4108,10 @@ layer_delay 0x8
 layer_setinstr F1_I_PHANTOM_LAUGH_1
 layer_transpose 12
 layer_portamento 0x81, 48, 100
-layer_note1 NOTE_E5, 0x1e, 100
+layer_note1 PITCH_E5, 0x1e, 100
 layer_portamento 0x85, 51, 100
-layer_note1 NOTE_F5, 0x14, 100
-layer_note1 NOTE_B4, 0x1e, 100
+layer_note1 PITCH_F5, 0x14, 100
+layer_note1 PITCH_B4, 0x1e, 100
 layer_end
 
 .layer_4BF3:
@@ -4119,8 +4119,8 @@ layer_setinstr F1_I_PHANTOM_GROWL
 layer_enablelegato
 layer_transpose 48
 layer_portamento 0x85, 47, 200
-layer_note1 NOTE_D5, 0x20, 100
-layer_note1 NOTE_B2, 0x64, 100
+layer_note1 PITCH_D5, 0x20, 100
+layer_note1 PITCH_B2, 0x64, 100
 layer_end
 
 .enemy_big_poe_get_soul:
@@ -4138,8 +4138,8 @@ chan_end
 .layer_4C0F:
 layer_enablelegato
 layer_portamento 0x85, 19, 200
-layer_note1 NOTE_EF2, 0x18, 100
-layer_note1 NOTE_B2, 0x3c, 100
+layer_note1 PITCH_EF2, 0x18, 100
+layer_note1 PITCH_B2, 0x3c, 100
 layer_end
 
 .enemy_larvae_paralyzed:
@@ -4151,7 +4151,7 @@ chan_end
 
 .layer_4C25:
 layer_portamento 0x81, 62, 255
-layer_note1 NOTE_EF3, 0x40, 100
+layer_note1 PITCH_EF3, 0x40, 100
 layer_end
 
 .enemy_bari_die:
@@ -4163,13 +4163,13 @@ chan_end
 layer_setinstr F1_I_GUAY_HURT
 .layer_4C36:
 layer_portamento 0x81, 32, 255
-layer_note1 NOTE_C4, 0xa, 100
+layer_note1 PITCH_C4, 0xa, 100
 layer_portamento 0x81, 34, 255
-layer_note1 NOTE_D4, 0xa, 100
+layer_note1 PITCH_D4, 0xa, 100
 layer_portamento 0x81, 36, 255
-layer_note1 NOTE_E4, 0xa, 100
+layer_note1 PITCH_E4, 0xa, 100
 layer_portamento 0x81, 45, 255
-layer_note1 NOTE_A3, 0xe, 100
+layer_note1 PITCH_A3, 0xe, 100
 layer_end
 
 .enemy_bari_split:
@@ -4190,7 +4190,7 @@ chan_setvibratoextent 96
 chan_end
 
 .layer_4C6A:
-layer_note1 NOTE_E2, 0x64, 100
+layer_note1 PITCH_E2, 0x64, 100
 layer_end
 
 .enemy_floormaster_mini_walk:
@@ -4200,7 +4200,7 @@ chan_end
 
 .layer_4C74:
 layer_portamento 0x81, 21, 128
-layer_note1 NOTE_A2, 0x8, 100
+layer_note1 PITCH_A2, 0x8, 100
 layer_end
 
 .enemy_floormaster_mini_die:
@@ -4214,8 +4214,8 @@ chan_end
 .layer_4C89:
 layer_enablelegato
 layer_portamento 0x85, 56, 128
-layer_note1 NOTE_BF5, 0x14, 100
-layer_note1 NOTE_D5, 0x2c, 100
+layer_note1 PITCH_BF5, 0x14, 100
+layer_note1 PITCH_D5, 0x2c, 100
 layer_end
 
 .enemy_floormaster_mini_grow:
@@ -4227,7 +4227,7 @@ chan_setvibratoextent 96
 chan_end
 
 .layer_4CA2:
-layer_note1 NOTE_AF3, 0x3c, 80
+layer_note1 PITCH_AF3, 0x3c, 80
 layer_jumprel .layer_4CA2
 
 .enemy_floormaster_grow_done:
@@ -4239,8 +4239,8 @@ layer_setinstr F1_I_EXPLOSION_LAVA
 layer_setenvelope .envelope_694C, 249
 layer_enablelegato
 layer_portamento 0x85, 7, 150
-layer_note1 NOTE_DF1, 0xa, 100
-layer_note1 NOTE_DF2, 0x16, 100
+layer_note1 PITCH_DF1, 0xa, 100
+layer_note1 PITCH_DF2, 0x16, 100
 layer_end
 
 .enemy_floormaster_split:
@@ -4263,8 +4263,8 @@ chan_end
 .layer_4CD3:
 layer_enablelegato
 layer_portamento 0x85, 6, 255
-layer_note1 NOTE_EF3, 0x2a, 69
-layer_note1 NOTE_G2, 0x40, 69
+layer_note1 PITCH_EF3, 0x2a, 69
+layer_note1 PITCH_G2, 0x40, 69
 layer_jumprel .layer_4CD3
 
 .enemy_floormaster_mini_land:
@@ -4276,15 +4276,15 @@ chan_end
 layer_enablelegato
 layer_setenvelope .envelope_68FC, 255
 layer_portamento 0x85, 25, 230
-layer_note1 NOTE_EF3, 0x5, 80
-layer_note1 NOTE_BF2, 0x5, 80
+layer_note1 PITCH_EF3, 0x5, 80
+layer_note1 PITCH_BF2, 0x5, 80
 layer_disablelegato
 layer_delay 0x5
 layer_enablelegato
 layer_setenvelope .envelope_68FC, 255
 layer_portamento 0x85, 25, 220
-layer_note1 NOTE_EF3, 0x5, 80
-layer_note1 NOTE_BF2, 0xa, 80
+layer_note1 PITCH_EF3, 0x5, 80
+layer_note1 PITCH_BF2, 0xa, 80
 layer_end
 
 .enemy_cucco_flap:
@@ -4294,7 +4294,7 @@ chan_end
 
 .layer_4D0E:
 layer_portamento 0x81, 35, 200
-layer_note1 NOTE_B3, 0x20, 100
+layer_note1 PITCH_B3, 0x20, 100
 layer_end
 
 .enemy_ganondorf_magic_fire:
@@ -4316,21 +4316,21 @@ chan_end
 .layer_4D2C:
 layer_transpose 48
 .layer_4D2E:
-layer_note1 NOTE_C4, 30000, 100
+layer_note1 PITCH_C4, 30000, 100
 layer_jumprel .layer_4D2E
 
-.enemy_knuckle_armor_rebound2
+.enemy_knuckle_armor_rebound2:
 chan_setlayer 0, .layer_4D4D
 chan_setlayer 1, .layer_4D3B
 chan_end
 
 .layer_4D3B:
 layer_setinstr F1_I_SLIDE_BOOTS
-layer_note1 NOTE_GF1, 0x40, 100
-layer_note1 NOTE_GF1, 0x14, 100
-layer_note1 NOTE_GF1, 0x10, 84
-layer_note1 NOTE_GF1, 0xa, 68
-layer_note1 NOTE_GF1, 0xa, 68
+layer_note1 PITCH_GF1, 0x40, 100
+layer_note1 PITCH_GF1, 0x14, 100
+layer_note1 PITCH_GF1, 0x10, 84
+layer_note1 PITCH_GF1, 0xa, 68
+layer_note1 PITCH_GF1, 0xa, 68
 layer_end
 
 .layer_4D4D:
@@ -4349,11 +4349,11 @@ chan_end
 
 .layer_4D5E:
 layer_setinstr F1_I_SLIDE_BOOTS
-layer_note1 NOTE_GF1, 0x8, 100
-layer_note1 NOTE_GF1, 0x40, 100
-layer_note1 NOTE_GF1, 0x20, 100
-layer_note1 NOTE_GF1, 0x30, 84
-layer_note1 NOTE_GF1, 0x40, 68
+layer_note1 PITCH_GF1, 0x8, 100
+layer_note1 PITCH_GF1, 0x40, 100
+layer_note1 PITCH_GF1, 0x20, 100
+layer_note1 PITCH_GF1, 0x30, 84
+layer_note1 PITCH_GF1, 0x40, 68
 layer_end
 
 .layer_4D70:
@@ -4367,9 +4367,9 @@ chan_end
 
 .layer_4D7B:
 layer_setinstr F1_I_SLIDE_BOOTS
-layer_note1 NOTE_EF1, 0x6, 100
-layer_note1 NOTE_GF1, 0xe, 100
-layer_note1 NOTE_C2, 0x10, 100
+layer_note1 PITCH_EF1, 0x6, 100
+layer_note1 PITCH_GF1, 0xe, 100
+layer_note1 PITCH_C2, 0x10, 100
 layer_end
 
 .layer_4D87:
@@ -4384,13 +4384,13 @@ chan_end
 .layer_4D92:
 layer_setinstr F1_I_POT_BREAK
 layer_portamento 0x81, 8, 200
-layer_note1 NOTE_BF1, 0x20, 100
+layer_note1 PITCH_BF1, 0x20, 100
 layer_end
 
 .layer_4D9C:
 layer_setinstr F1_I_SLIDE_BOOTS
 layer_delay 0xe
-layer_note1 NOTE_EF1, 0x14, 64
+layer_note1 PITCH_EF1, 0x14, 64
 layer_end
 
 .enemy_knuckle_warcry:
@@ -4402,8 +4402,8 @@ chan_end
 layer_setinstr F1_I_SLIDE_BOOTS
 layer_setenvelope .envelope_695C, 249
 layer_loop 5
-layer_note1 NOTE_C2, 0xa, 100
-layer_note1 NOTE_G1, 0x8, 100
+layer_note1 PITCH_C2, 0xa, 100
+layer_note1 PITCH_G1, 0x8, 100
 layer_loopend
 layer_end
 
@@ -4434,7 +4434,7 @@ chan_end
 layer_transpose 6
 
 .layer_4DDC:
-layer_note1 NOTE_A4, 30000, 100
+layer_note1 PITCH_A4, 30000, 100
 layer_jumprel .layer_4DDC
 
 .enemy_boss_barinade_hurt:
@@ -4453,14 +4453,14 @@ layer_transpose 12
 layer_setinstr F1_I_DINO_ROAR
 .layer_4DF7:
 layer_portamento 0x85, 32, 255
-layer_note1 NOTE_C4, 0x20, 80
-layer_note1 NOTE_B2, 0x90, 80
+layer_note1 PITCH_C4, 0x20, 80
+layer_note1 PITCH_B2, 0x90, 80
 layer_end
 
 .layer_4E03:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_portamento 0x81, 37, 100
-layer_note1 NOTE_GF2, 0xb0, 100
+layer_note1 PITCH_GF2, 0xb0, 100
 layer_end
 
 .enemy_tentacle_die:
@@ -4509,8 +4509,8 @@ layer_setinstr F1_I_EXPLOSION_LAVA
 layer_setenvelope .envelope_694C, 249
 layer_enablelegato
 layer_portamento 0x85, 19, 150
-layer_note1 NOTE_C1, 0xa, 100
-layer_note1 NOTE_B2, 0x14, 100
+layer_note1 PITCH_C1, 0xa, 100
+layer_note1 PITCH_B2, 0x14, 100
 layer_end
 
 .enemy_boss_twinrova_hurt:
@@ -4526,8 +4526,8 @@ layer_transpose 2
 .layer_4E68:
 layer_setinstr F1_I_EXPLOSION_LAVA
 layer_portamento 0x85, 34, 255
-layer_note1 NOTE_F4, 0x14, 100
-layer_note1 NOTE_B2, 0x7f, 100
+layer_note1 PITCH_F4, 0x14, 100
+layer_note1 PITCH_B2, 0x7f, 100
 layer_end
 
 .layer_4E75:
@@ -4537,8 +4537,8 @@ layer_transpose -2
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 39, 64
-layer_note1 NOTE_F4, 0x12, 100
-layer_note1 NOTE_A3, 0xa8, 100
+layer_note1 PITCH_F4, 0x12, 100
+layer_note1 PITCH_A3, 0xa8, 100
 layer_end
 
 .enemy_boss_barinade_tentacle_break:
@@ -4554,13 +4554,13 @@ chan_end
 .layer_4E94:
 layer_setinstr F1_I_BABA_LUNGE
 layer_portamento 0x81, 35, 50
-layer_note1 NOTE_AF2, 0x30, 100
+layer_note1 PITCH_AF2, 0x30, 100
 layer_end
 
 .layer_4E9E:
 layer_setinstr F1_I_GANONDORF_ATTACK_0
 layer_portamento 0x81, 39, 50
-layer_note1 NOTE_DF3, 0x40, 100
+layer_note1 PITCH_DF3, 0x40, 100
 layer_end
 
 .enemy_boss_barinade_beam:
@@ -4575,7 +4575,7 @@ chan_end
 layer_transpose 8
 
 .layer_4EB7:
-layer_note1 NOTE_A3, 0x1a2, 100
+layer_note1 PITCH_A3, 0x1a2, 100
 layer_end
 
 .enemy_deadhand_grab:
@@ -4587,7 +4587,7 @@ chan_end
 
 .layer_4EC6:
 layer_portamento 0x81, 22, 255
-layer_note1 NOTE_DF2, 0x7f, 100
+layer_note1 PITCH_DF2, 0x7f, 100
 layer_end
 
 .enemy_tentacle_wind_up:
@@ -4599,7 +4599,7 @@ chan_end
 
 .layer_4ED8:
 layer_portamento 0x81, 16, 255
-layer_note1 NOTE_G2, 0x7f, 100
+layer_note1 PITCH_G2, 0x7f, 100
 layer_end
 
 .enemy_shabom_pop:
@@ -4611,7 +4611,7 @@ chan_end
 .layer_4EEA:
 layer_setinstr F1_I_GUNSHOT
 layer_portamento 0x81, 54, 100
-layer_note1 NOTE_B5, 0x60, 100
+layer_note1 PITCH_B5, 0x60, 100
 layer_end
 
 .layer_4EF4:
@@ -4622,7 +4622,7 @@ layer_end
 .layer_4EF9:
 layer_setinstr F1_I_STEP_WATER
 layer_portamento 0x81, 27, 255
-layer_note1 NOTE_F3, 0x14, 100
+layer_note1 PITCH_F3, 0x14, 100
 layer_end
 
 .enemy_shabom_bounce:
@@ -4633,8 +4633,8 @@ chan_end
 
 .layer_4F0C:
 layer_portamento 0x85, 39, 100
-layer_note1 NOTE_A3, 0x16, 100
-layer_note1 NOTE_B4, 0x16, 100
+layer_note1 PITCH_A3, 0x16, 100
+layer_note1 PITCH_B4, 0x16, 100
 layer_end
 
 .enemy_stinger_submerge:
@@ -4645,7 +4645,7 @@ chan_end
 
 .layer_4F20:
 layer_portamento 0x81, 27, 100
-layer_note1 NOTE_F3, 0x34, 100
+layer_note1 PITCH_F3, 0x34, 100
 layer_end
 
 .enemy_stinger_glide:
@@ -4658,7 +4658,7 @@ chan_end
 .layer_4F32:
 layer_setenvelope .envelope_6A2C, 230
 .layer_4F36:
-layer_note1 NOTE_E2, 0xd0, 80
+layer_note1 PITCH_E2, 0xd0, 80
 layer_jumprel .layer_4F36
 
 .enemy_stinger_attack:
@@ -4670,7 +4670,7 @@ chan_end
 .layer_4F44:
 layer_setinstr F1_I_GUAY_HURT
 layer_portamento 0x81, 52, 255
-layer_note1 NOTE_GF5, 0x40, 100
+layer_note1 PITCH_GF5, 0x40, 100
 layer_end
 
 .enemy_stinger_cry:
@@ -4683,7 +4683,7 @@ layer_delay 0x6
 
 .layer_4F57:
 layer_setinstr F1_I_GUAY_HURT
-layer_note1 NOTE_GF5, 0x64, 100
+layer_note1 PITCH_GF5, 0x64, 100
 layer_end
 
 .enemy_boss_bongo_drum_low:
@@ -4697,7 +4697,7 @@ chan_end
 layer_transpose 2
 
 .layer_4F6A:
-layer_note1 NOTE_C4, 0x40, 100
+layer_note1 PITCH_C4, 0x40, 100
 layer_end
 
 .enemy_boss_bongo_drum_high:
@@ -4711,7 +4711,7 @@ chan_end
 layer_transpose 2
 
 .layer_4F7B:
-layer_note1 NOTE_F4, 0x40, 100
+layer_note1 PITCH_F4, 0x40, 100
 layer_end
 
 .enemy_owl_fly:
@@ -4725,7 +4725,7 @@ layer_transpose 2
 
 .layer_4F8A:
 layer_portamento 0x81, 23, 200
-layer_note1 NOTE_B2, 0x2c, 100
+layer_note1 PITCH_B2, 0x2c, 100
 layer_end
 
 .enemy_peahat_fly:
@@ -4734,13 +4734,13 @@ chan_setlayer 0, .layer_4F98
 chan_end
 
 .layer_4F98:
-layer_note1 NOTE_E5, 0x6, 100
-layer_note1 NOTE_GF5, 0x6, 100
-layer_note1 NOTE_AF5, 0x6, 100
-layer_note1 NOTE_A5, 0x6, 100
-layer_note1 NOTE_AF5, 0x6, 100
-layer_note1 NOTE_GF5, 0x6, 100
-layer_note1 NOTE_E5, 0x6, 100
+layer_note1 PITCH_E5, 0x6, 100
+layer_note1 PITCH_GF5, 0x6, 100
+layer_note1 PITCH_AF5, 0x6, 100
+layer_note1 PITCH_A5, 0x6, 100
+layer_note1 PITCH_AF5, 0x6, 100
+layer_note1 PITCH_GF5, 0x6, 100
+layer_note1 PITCH_E5, 0x6, 100
 layer_jumprel .layer_4F98
 
 .enemy_peahat_land:
@@ -4755,7 +4755,7 @@ chan_end
 
 .layer_4FBB:
 layer_portamento 0x81, 15, 104
-layer_note1 NOTE_B3, 0x40, 100
+layer_note1 PITCH_B3, 0x40, 100
 layer_end
 
 .enemy_peahat_hurt:
@@ -4769,14 +4769,14 @@ chan_end
 .layer_4FD1:
 layer_setinstr F1_I_DINO_ROAR
 layer_portamento 0x85, 40, 255
-layer_note1 NOTE_AF4, 0x20, 80
-layer_note1 NOTE_G3, 0x40, 80
+layer_note1 PITCH_AF4, 0x20, 80
+layer_note1 PITCH_G3, 0x40, 80
 layer_end
 
 .layer_4FDE:
 layer_setinstr F1_I_MONSTER_ROAR
 layer_portamento 0x81, 41, 100
-layer_note1 NOTE_EF3, 0x60, 100
+layer_note1 PITCH_EF3, 0x60, 100
 layer_end
 
 .enemy_boss_twinrova_fly:
@@ -4789,7 +4789,7 @@ chan_end
 .layer_4FF2:
 layer_setenvelope .envelope_6A2C, 230
 .layer_4FF6:
-layer_note1 NOTE_GF1, 0x70, 100
+layer_note1 PITCH_GF1, 0x70, 100
 layer_jumprel .layer_4FF6
 
 .enemy_boss_twinrova_hover:
@@ -4806,7 +4806,7 @@ layer_transpose 2
 layer_setinstr F1_I_DODONGO_ROAR
 layer_setenvelope .envelope_6A2C, 230
 .layer_500E:
-layer_note1 NOTE_C1, 0x70, 100
+layer_note1 PITCH_C1, 0x70, 100
 layer_jumprel .layer_500E
 
 .enemy_tektite_jump_water:
@@ -4816,7 +4816,7 @@ chan_end
 
 .layer_5019:
 layer_portamento 0x81, 35, 100
-layer_note1 NOTE_DF5, 0x38, 80
+layer_note1 PITCH_DF5, 0x38, 80
 layer_end
 
 .enemy_tektite_land_water2:
@@ -4826,7 +4826,7 @@ chan_end
 
 .layer_5027:
 layer_portamento 0x81, 49, 100
-layer_note1 NOTE_EF4, 0x38, 80
+layer_note1 PITCH_EF4, 0x38, 80
 layer_end
 
 .enemy_tektite_turn_water:
@@ -4836,7 +4836,7 @@ chan_end
 
 .layer_5035:
 layer_portamento 0x81, 16, 100
-layer_note1 NOTE_E2, 0x30, 68
+layer_note1 PITCH_E2, 0x30, 68
 layer_end
 
 .enemy_blob_wave:
@@ -4850,8 +4850,8 @@ chan_end
 layer_transpose -19
 layer_enablelegato
 layer_portamento 0x85, 0, 255
-layer_note1 NOTE_A2, 0x20, 100
-layer_note1 NOTE_A0, 0x20, 100
+layer_note1 PITCH_A2, 0x20, 100
+layer_note1 PITCH_A0, 0x20, 100
 layer_end
 
 .enemy_boss_bongo_clap:
@@ -4864,7 +4864,7 @@ layer_transpose -6
 
 .layer_505E:
 layer_setinstr F1_I_GUNSHOT
-layer_note1 NOTE_D5, 0x30, 100
+layer_note1 PITCH_D5, 0x30, 100
 layer_end
 
 .enemy_boss_bongo_hand_wave:
@@ -4875,7 +4875,7 @@ chan_setvibratoextent 224
 chan_end
 
 .layer_506E:
-layer_note1 NOTE_F3, 0x35, 100
+layer_note1 PITCH_F3, 0x35, 100
 layer_end
 
 .enemy_boss_bongo_hand_attack:
@@ -4891,7 +4891,7 @@ chan_end
 layer_transpose 6
 
 .layer_5083:
-layer_note1 NOTE_E2, 0x90, 100
+layer_note1 PITCH_E2, 0x90, 100
 layer_jumprel .layer_5083
 
 .enemy_wallmaster_grab:
@@ -4907,14 +4907,14 @@ layer_transpose 2
 layer_setinstr F1_I_SMASH
 layer_setenvelope .envelope_696C, 250
 layer_portamento 0x81, 19, 50
-layer_note1 NOTE_E1, 0x20, 100
+layer_note1 PITCH_E1, 0x20, 100
 layer_end
 
 .layer_50A3:
 layer_setinstr F1_I_EGG_CRACK
 layer_setenvelope .envelope_696C, 250
 layer_portamento 0x81, 15, 50
-layer_note1 NOTE_A1, 0x20, 100
+layer_note1 PITCH_A1, 0x20, 100
 layer_end
 
 .enemy_boss_bongo_hand_shake:
@@ -4924,8 +4924,8 @@ chan_end
 
 .layer_50B7:
 layer_portamento 0x85, 21, 200
-layer_note1 NOTE_D3, 0x13, 100
-layer_note1 NOTE_GF2, 0x13, 100
+layer_note1 PITCH_D3, 0x13, 100
+layer_note1 PITCH_GF2, 0x13, 100
 layer_end
 
 .enemy_boss_bongo_hurt:
@@ -4941,8 +4941,8 @@ chan_end
 layer_setinstr F1_I_SCRUB_DEATH
 layer_enablelegato
 layer_portamento 0x85, 4, 60
-layer_note1 NOTE_D2, 0x32, 100
-layer_note1 NOTE_AF1, 0x7f, 100
+layer_note1 PITCH_D2, 0x32, 100
+layer_note1 PITCH_AF1, 0x7f, 100
 layer_end
 
 .enemy_boss_bongo_hand_hurt:
@@ -4964,7 +4964,7 @@ layer_transpose 6
 
 .layer_50F8:
 layer_portamento 0x81, 27, 255
-layer_note1 NOTE_C2, 0x118, 100
+layer_note1 PITCH_C2, 0x118, 100
 layer_end
 
 .enemy_beamos_beam:
@@ -4975,7 +4975,7 @@ chan_setvibratoextent 116
 chan_end
 
 .layer_510B:
-layer_note1 NOTE_F4, 30000, 64
+layer_note1 PITCH_F4, 30000, 64
 layer_jumprel .layer_510B
 
 .enemy_beamos_idle:
@@ -4986,7 +4986,7 @@ chan_setvibratoextent 96
 chan_end
 
 .layer_511B:
-layer_note1 NOTE_F1, 30000, 64
+layer_note1 PITCH_F1, 30000, 64
 layer_jumprel .layer_511B
 
 .enemy_beamos_ground_hit:
@@ -4995,7 +4995,7 @@ chan_setlayer 0, .layer_5127
 chan_end
 
 .layer_5127:
-layer_note1 NOTE_DF1, 30000, 100
+layer_note1 PITCH_DF1, 30000, 100
 layer_jumprel .layer_5127
 
 .enemy_beamos_charging:
@@ -5017,8 +5017,8 @@ layer_transpose -5
 
 .layer_5144:
 layer_portamento 0x85, 39, 100
-layer_note1 NOTE_E3, 0x10, 100
-layer_note1 NOTE_DF5, 0x13, 100
+layer_note1 PITCH_E3, 0x10, 100
+layer_note1 PITCH_DF5, 0x13, 100
 layer_end
 
 .enemy_torch_slug_crawl:
@@ -5029,7 +5029,7 @@ chan_end
 .layer_5156:
 layer_setinstr F1_I_EGG_CRACK
 layer_portamento 0x81, 8, 255
-layer_note1 NOTE_C2, 0x40, 100
+layer_note1 PITCH_C2, 0x40, 100
 layer_end
 
 .layer_5160:
@@ -5046,8 +5046,8 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_D4, 0x8, 100
-layer_note1 NOTE_A3, 0x20, 100
+layer_note1 PITCH_D4, 0x8, 100
+layer_note1 PITCH_A3, 0x20, 100
 layer_end
 
 .enemy_torch_slug_die:
@@ -5062,8 +5062,8 @@ chan_end
 layer_setinstr F1_I_DINO_ROAR
 layer_enablelegato
 layer_portamento 0x85, 25, 255
-layer_note1 NOTE_GF3, 0x14, 80
-layer_note1 NOTE_GF2, 0x60, 80
+layer_note1 PITCH_GF3, 0x14, 80
+layer_note1 PITCH_GF2, 0x60, 80
 layer_end
 
 .enemy_tile_fly:
@@ -5073,18 +5073,18 @@ chan_end
 
 .layer_519C:
 layer_loop 6
-layer_note1 NOTE_C5, 0x9, 100
-layer_note1 NOTE_D5, 0x9, 100
-layer_note1 NOTE_E5, 0x9, 100
+layer_note1 PITCH_C5, 0x9, 100
+layer_note1 PITCH_D5, 0x9, 100
+layer_note1 PITCH_E5, 0x9, 100
 layer_loopend
 
 .layer_51A8:
 layer_setenvelope .envelope_697C, 255
 .layer_51AC:
-layer_note1 NOTE_GF5, 0x6, 100
-layer_note1 NOTE_AF5, 0x6, 100
-layer_note1 NOTE_BF5, 0x6, 100
-layer_note1 NOTE_AF5, 0x6, 100
+layer_note1 PITCH_GF5, 0x6, 100
+layer_note1 PITCH_AF5, 0x6, 100
+layer_note1 PITCH_BF5, 0x6, 100
+layer_note1 PITCH_AF5, 0x6, 100
 layer_jumprel .layer_51AC
 
 .enemy_firedancer_kick:
@@ -5093,7 +5093,7 @@ chan_setlayer 0, .layer_51C0
 chan_end
 
 .layer_51C0:
-layer_note1 NOTE_A2, 0x30, 100
+layer_note1 PITCH_A2, 0x30, 100
 layer_end
 
 .enemy_firedancer_spin:
@@ -5107,7 +5107,7 @@ layer_setinstr F1_I_BOULDER
 layer_transpose 12
 layer_setenvelope .envelope_6A7C, 224
 .layer_51D3:
-layer_note1 NOTE_C5, 30000, 100
+layer_note1 PITCH_C5, 30000, 100
 layer_jumprel .layer_51D3
 
 .layer_51D9:
@@ -5121,7 +5121,7 @@ chan_end
 
 .layer_51E3:
 layer_portamento 0x81, 20, 64
-layer_note1 NOTE_BF1, 0xd, 100
+layer_note1 PITCH_BF1, 0xd, 100
 layer_end
 
 .enemy_firehead_hurt:
@@ -5135,8 +5135,8 @@ chan_end
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 47, 100
-layer_note1 NOTE_F5, 0x14, 100
-layer_note1 NOTE_AF4, 0x24, 100
+layer_note1 PITCH_F5, 0x14, 100
+layer_note1 PITCH_AF4, 0x24, 100
 layer_end
 
 .enemy_firedancer_hurt:
@@ -5158,7 +5158,7 @@ layer_transpose 2
 .layer_521B:
 layer_setinstr 2
 layer_portamento 0x81, 21, 255
-layer_note1 NOTE_B4, 0xe0, 100
+layer_note1 PITCH_B4, 0xe0, 100
 layer_end
 
 .layer_5226:
@@ -5166,7 +5166,7 @@ layer_transpose 1
 
 .layer_5228:
 layer_setinstr F1_I_PHANTOM_LAUGH_1
-layer_note1 NOTE_F4, 0xe0, 100
+layer_note1 PITCH_F4, 0xe0, 100
 layer_end
 
 .enemy_moblin_club_shockwave:
@@ -5180,7 +5180,7 @@ chan_end
 layer_transpose -6
 
 .layer_523C:
-layer_note1 NOTE_GF2, 30000, 100
+layer_note1 PITCH_GF2, 30000, 100
 layer_jumprel .layer_523C
 
 .enemy_peahat_jr_fly:
@@ -5190,10 +5190,10 @@ chan_setenvelope .envelope_697C
 chan_end
 
 .layer_524B:
-layer_note1 NOTE_GF5, 0x6, 80
-layer_note1 NOTE_AF5, 0x6, 80
-layer_note1 NOTE_BF5, 0x6, 80
-layer_note1 NOTE_AF5, 0x6, 80
+layer_note1 PITCH_GF5, 0x6, 80
+layer_note1 PITCH_AF5, 0x6, 80
+layer_note1 PITCH_BF5, 0x6, 80
+layer_note1 PITCH_AF5, 0x6, 80
 layer_jumprel .layer_524B
 
 .enemy_boss_bongo_paralyze:
@@ -5220,8 +5220,8 @@ layer_setinstr F1_I_MONSTER_ROAR
 .layer_5279:
 layer_enablelegato
 layer_portamento 0x85, 27, 127
-layer_note1 NOTE_A3, 0x28, 100
-layer_note1 NOTE_E3, 0xc8, 100
+layer_note1 PITCH_A3, 0x28, 100
+layer_note1 PITCH_E3, 0xc8, 100
 layer_end
 
 .layer_5286:
@@ -5242,7 +5242,7 @@ layer_setinstr F1_I_DINO_INHALE
 .layer_529C:
 layer_setenvelope .envelope_6A7C, 200
 .layer_52A0:
-layer_note1 NOTE_C2, 30000, 100
+layer_note1 PITCH_C2, 30000, 100
 layer_jumprel .layer_52A0
 
 .layer_52A6:
@@ -5266,13 +5266,13 @@ layer_transpose 4
 .layer_52BC:
 layer_setinstr F1_I_DINO_INHALE
 .layer_52BE:
-layer_note1 NOTE_A2, 30000, 100
+layer_note1 PITCH_A2, 30000, 100
 layer_jumprel .layer_52BE
 
 .layer_52C4:
 layer_setinstr F1_I_BOULDER
 .layer_52C6:
-layer_note1 NOTE_A4, 30000, 80
+layer_note1 PITCH_A4, 30000, 80
 layer_jumprel .layer_52C6
 
 .enemy_boss_bongo_chant:
@@ -5282,7 +5282,7 @@ chan_end
 
 .layer_52D2:
 layer_transpose 48
-layer_note1 NOTE_BF2, 0xe0, 100
+layer_note1 PITCH_BF2, 0xe0, 100
 layer_end
 
 .enemy_like_like_die:
@@ -5338,7 +5338,7 @@ chan_end
 .layer_5320:
 layer_setinstr F1_I_SMASH
 layer_portamento 0x81, 44, 64
-layer_note1 NOTE_GF3, 0x5, 72
+layer_note1 PITCH_GF3, 0x5, 72
 layer_end
 
 .enemy_anubis_die:
@@ -5350,15 +5350,15 @@ chan_end
 
 .layer_5335:
 layer_setinstr 2
-layer_note1 NOTE_C3, 0xc8, 100
+layer_note1 PITCH_C3, 0xc8, 100
 layer_end
 
 .layer_533C:
 layer_setinstr F1_I_PHANTOM_WAIL
 layer_enablelegato
 layer_portamento 0x85, 32, 200
-layer_note1 NOTE_D4, 0x10, 100
-layer_note1 NOTE_EF3, 0x96, 100
+layer_note1 PITCH_D4, 0x10, 100
+layer_note1 PITCH_EF3, 0x96, 100
 layer_end
 
 .enemy_anubis_fire_hit:
@@ -5369,8 +5369,8 @@ chan_end
 layer_setinstr F1_I_EXPLOSION_LAVA
 layer_enablelegato
 layer_portamento 0x85, 30, 255
-layer_note1 NOTE_B3, 0x20, 100
-layer_note1 NOTE_E2, 0x50, 100
+layer_note1 PITCH_B3, 0x20, 100
+layer_note1 PITCH_E2, 0x50, 100
 layer_end
 
 .enemy_destroyed_light_arrow:
@@ -5384,8 +5384,8 @@ layer_setinstr F1_I_DINO_INHALE
 layer_enablelegato
 layer_transpose 15
 layer_portamento 0x85, 39, 239
-layer_note1 NOTE_DF3, 0x18, 100
-layer_note1 NOTE_B5, 0x38, 100
+layer_note1 PITCH_DF3, 0x18, 100
+layer_note1 PITCH_B5, 0x38, 100
 layer_end
 
 .enemy_freezard_hurt:
@@ -5407,7 +5407,7 @@ chan_end
 .layer_538D:
 layer_setinstr F1_I_EXPLOSION_LAVA
 layer_setenvelope .envelope_68B4, 220
-layer_note1 NOTE_D4, 0x64, 100
+layer_note1 PITCH_D4, 0x64, 100
 layer_end
 
 .enemy_deadhand_laugh:
@@ -5418,7 +5418,7 @@ chan_end
 
 .layer_539F:
 layer_portamento 0x81, 35, 239
-layer_note1 NOTE_AF2, 0xe0, 100
+layer_note1 PITCH_AF2, 0xe0, 100
 layer_end
 
 .enemy_knuckle_armor_hurt:
@@ -5430,7 +5430,7 @@ chan_end
 
 .layer_53B3:
 layer_setinstr F1_I_SLIDE_BOOTS
-layer_note1 NOTE_A2, 0x40, 100
+layer_note1 PITCH_A2, 0x40, 100
 layer_end
 
 .enemy_knuckle_pillar_break:
@@ -5440,11 +5440,11 @@ chan_end
 
 .layer_53C0:
 layer_setinstr F1_I_EXPLOSION_LAVA
-layer_note1 NOTE_AF3, 0x4, 100
-layer_note1 NOTE_BF3, 0x4, 100
-layer_note1 NOTE_DF4, 0x5, 100
-layer_note1 NOTE_F4, 0x7, 100
-layer_note1 NOTE_B3, 0x30, 100
+layer_note1 PITCH_AF3, 0x4, 100
+layer_note1 PITCH_BF3, 0x4, 100
+layer_note1 PITCH_DF4, 0x5, 100
+layer_note1 PITCH_F4, 0x7, 100
+layer_note1 PITCH_B3, 0x30, 100
 layer_end
 
 .enemy_knuckle_stump_break:
@@ -5463,7 +5463,7 @@ chan_end
 
 .layer_53E4:
 layer_setinstr F1_I_ELECTRIC_ATTACK
-layer_note1 NOTE_B5, 0x5a, 70
+layer_note1 PITCH_B5, 0x5a, 70
 layer_end
 
 .enemy_pot_fly:
@@ -5481,14 +5481,14 @@ chan_end
 .layer_53FB:
 layer_setinstr F1_I_DINO_INHALE
 .layer_53FD:
-layer_note1 NOTE_A2, 30000, 64
+layer_note1 PITCH_A2, 30000, 64
 layer_jumprel .layer_53FD
 
 .enemy_boss_vocals:
 chan_setinstr INSTR_SFX
 chan_ioreadval 4
 chan_subtract 176
-chan_writeseq 0, .layer_5417  # set semitone = sound id - 176
+chan_writeseq 0, .layer_5417  // set semitone = sound id - 176
 chan_readseq .addr_541C
 chan_writeseq 0, .layer_5417+2
 chan_setlayer 0, .layer_5417
@@ -5557,12 +5557,12 @@ chan_end
 .layer_5458:
 layer_setinstr F1_I_EGG_CRACK
 layer_delay 0x8
-layer_note1 NOTE_G2, 0x25, 100
+layer_note1 PITCH_G2, 0x25, 100
 layer_end
 
 .layer_5460:
 layer_setinstr F1_I_BABA_ATTACK
-layer_note1 NOTE_DF3, 0x2d, 100
+layer_note1 PITCH_DF3, 0x2d, 100
 layer_end
 
 .enemy_spike_trap_roll:
@@ -5571,9 +5571,9 @@ chan_setlayer 0, .layer_546C
 chan_end
 
 .layer_546C:
-layer_note1 NOTE_EF2, 0xa, 50
-layer_note1 NOTE_F2, 0xa, 50
-layer_note1 NOTE_G2, 0xa, 50
+layer_note1 PITCH_EF2, 0xa, 50
+layer_note1 PITCH_F2, 0xa, 50
+layer_note1 PITCH_G2, 0xa, 50
 layer_jumprel .layer_546C
 
 .enemy_stalkid_walk:
@@ -5582,7 +5582,7 @@ chan_end
 
 .layer_547B:
 layer_setinstr F1_I_EGG_CRACK
-layer_note1 NOTE_DF3, 0xe, 70
+layer_note1 PITCH_DF3, 0xe, 70
 layer_end
 
 .enemy_stalkid_attack:
@@ -5593,7 +5593,7 @@ chan_end
 .layer_5488:
 layer_setinstr F1_I_PHANTOM_LAUGH_1
 layer_transpose 14
-layer_note1 NOTE_C5, 0x30, 100
+layer_note1 PITCH_C5, 0x30, 100
 layer_end
 
 .enemy_boss_ganon_paralyze:
@@ -5612,8 +5612,8 @@ layer_setinstr F1_I_MONSTER_ROAR
 .layer_54A2:
 layer_enablelegato
 layer_portamento 0x85, 28, 255
-layer_note1 NOTE_F2, 0x30, 100
-layer_note1 NOTE_EF2, 0x48, 100
+layer_note1 PITCH_F2, 0x30, 100
+layer_note1 PITCH_EF2, 0x48, 100
 layer_end
 
 .layer_54AE:
@@ -5637,16 +5637,16 @@ layer_delay 0xa
 layer_setinstr F1_I_MONSTER_ROAR
 layer_loop 4
 layer_portamento 0x81, 30, 107
-layer_note1 NOTE_F4, 0x8c, 100
+layer_note1 PITCH_F4, 0x8c, 100
 .layer_54D3:
 layer_enablelegato
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_G4, 0x30, 100
-layer_note1 NOTE_AF3, 0x48, 100
+layer_note1 PITCH_G4, 0x30, 100
+layer_note1 PITCH_AF3, 0x48, 100
 layer_disablelegato
 layer_loopend
 layer_portamento 0x81, 35, 255
-layer_note1 NOTE_BF2, 0xfa, 100
+layer_note1 PITCH_BF2, 0xfa, 100
 layer_end
 
 .layer_54E9:
@@ -5656,16 +5656,16 @@ layer_delay 0xa
 layer_setinstr F1_I_DINO_ROAR
 layer_loop 4
 layer_portamento 0x81, 44, 107
-layer_note1 NOTE_A4, 0x8c, 100
+layer_note1 PITCH_A4, 0x8c, 100
 .layer_54F7:
 layer_enablelegato
 layer_portamento 0x85, 47, 255
-layer_note1 NOTE_BF4, 0x32, 100
-layer_note1 NOTE_D4, 0x48, 100
+layer_note1 PITCH_BF4, 0x32, 100
+layer_note1 PITCH_D4, 0x48, 100
 layer_disablelegato
 layer_loopend
 layer_portamento 0x81, 37, 255
-layer_note1 NOTE_C3, 0xc8, 100
+layer_note1 PITCH_C3, 0xc8, 100
 layer_end
 
 .enemy_boss_ganon_penultimate_hit:
@@ -5696,7 +5696,7 @@ chan_end
 
 .layer_552F:
 layer_portamento 0x81, 42, 40
-layer_note1 NOTE_G4, 0x7f, 100
+layer_note1 PITCH_G4, 0x7f, 100
 layer_end
 
 .enemy_wolfos_attack:
@@ -5707,7 +5707,7 @@ chan_end
 .layer_553E:
 layer_setinstr F1_I_ANIMALS
 layer_portamento 0x81, 35, 72
-layer_note1 NOTE_F4, 0x40, 100
+layer_note1 PITCH_F4, 0x40, 100
 layer_end
 
 .enemy_wolfos_hurt:
@@ -5719,8 +5719,8 @@ chan_end
 .layer_5551:
 layer_enablelegato
 layer_portamento 0x85, 39, 192
-layer_note1 NOTE_F4, 0x20, 100
-layer_note1 NOTE_DF4, 0x20, 100
+layer_note1 PITCH_F4, 0x20, 100
+layer_note1 PITCH_DF4, 0x20, 100
 layer_end
 
 .enemy_wolfos_die:
@@ -5732,8 +5732,8 @@ chan_end
 .layer_5566:
 layer_enablelegato
 layer_portamento 0x85, 39, 128
-layer_note1 NOTE_B4, 0x1c, 100
-layer_note1 NOTE_AF4, 0x60, 100
+layer_note1 PITCH_B4, 0x1c, 100
+layer_note1 PITCH_AF4, 0x60, 100
 layer_end
 
 .enemy_wolfos_howl:
@@ -5742,7 +5742,7 @@ chan_setlayer 0, .layer_5578
 chan_end
 
 .layer_5578:
-layer_note1 NOTE_D4, 0x70, 75
+layer_note1 PITCH_D4, 0x70, 75
 layer_end
 
 .enemy_guay_hurt:
@@ -5754,8 +5754,8 @@ chan_end
 layer_setinstr F1_I_GUAY_HURT
 layer_enablelegato
 layer_portamento 0x85, 34, 255
-layer_note1 NOTE_C4, 0xa, 100
-layer_note1 NOTE_A3, 0x1e, 100
+layer_note1 PITCH_C4, 0xa, 100
+layer_note1 PITCH_A3, 0x1e, 100
 layer_end
 
 .enemy_guay_die:
@@ -5767,8 +5767,8 @@ chan_end
 layer_setinstr F1_I_GUAY_HURT
 layer_enablelegato
 layer_portamento 0x85, 39, 255
-layer_note1 NOTE_G3, 0xf, 100
-layer_note1 NOTE_DF2, 0x60, 100
+layer_note1 PITCH_G3, 0xf, 100
+layer_note1 PITCH_DF2, 0x60, 100
 layer_end
 
 .enemy_guay_chirp:
@@ -5780,8 +5780,8 @@ chan_end
 .layer_55AE:
 layer_setinstr F1_I_ANIMALS
 layer_transpose 48
-layer_note1 NOTE_C4, 0xc, 100
-layer_note1 NOTE_D4, 0x14, 100
+layer_note1 PITCH_C4, 0xc, 100
+layer_note1 PITCH_D4, 0x14, 100
 layer_end
 
 .enemy_guay_attack:
@@ -5793,10 +5793,10 @@ chan_end
 .layer_55C1:
 layer_setinstr F1_I_ANIMALS
 layer_transpose 48
-layer_note1 NOTE_F4, 0xc, 100
-layer_note1 NOTE_D4, 0x12, 100
-layer_note1 NOTE_E4, 0xc, 100
-layer_note1 NOTE_D4, 0x10, 100
+layer_note1 PITCH_F4, 0xc, 100
+layer_note1 PITCH_D4, 0x12, 100
+layer_note1 PITCH_E4, 0xc, 100
+layer_note1 PITCH_D4, 0x10, 100
 layer_end
 
 .enemy_guay_fly:
@@ -5806,7 +5806,7 @@ chan_end
 
 .layer_55D8:
 layer_portamento 0x81, 22, 200
-layer_note1 NOTE_D3, 0x26, 68
+layer_note1 PITCH_D3, 0x26, 68
 layer_end
 
 .enemy_biggoron_blind:
@@ -5816,7 +5816,7 @@ chan_end
 .layer_55E4:
 layer_setinstr F1_I_GORON
 layer_transpose 48
-layer_note1 NOTE_BF3, 0x45, 100
+layer_note1 PITCH_BF3, 0x45, 100
 layer_end
 
 .enemy_biggoron_happy:
@@ -5830,10 +5830,10 @@ layer_delay 0xc
 .layer_55F5:
 layer_setinstr F1_I_GORON_YAWN
 layer_transpose 48
-layer_note1 NOTE_C4, 0x7f, 100
+layer_note1 PITCH_C4, 0x7f, 100
 layer_end
 
-.enemy_boss_ganon_roar:
+.enemy_boss_ganon_growl:
 chan_setlayer 0, .layer_5604
 chan_setlayer 1, .layer_5606
 chan_end
@@ -5845,8 +5845,8 @@ layer_delay 0x14
 layer_setinstr F1_I_MONSTER_ROAR
 layer_enablelegato
 layer_portamento 0x85, 19, 191
-layer_note1 NOTE_GF2, 0x34, 100
-layer_note1 NOTE_E2, 0xc0, 100
+layer_note1 PITCH_GF2, 0x34, 100
+layer_note1 PITCH_E2, 0xc0, 100
 layer_end
 
 .enemy_gold_skull_spin:
@@ -5857,18 +5857,18 @@ chan_end
 .layer_561C:
 layer_setinstr F1_I_GRASS_RUSTLE
 layer_portamento 0x81, 31, 100
-layer_note1 NOTE_C3, 0x32, 80
+layer_note1 PITCH_C3, 0x32, 80
 layer_end
 
 .layer_5626:
 layer_setinstr F1_I_SLIDE_BOOTS
 layer_delay 0x10
 layer_transpose 24
-layer_note1 NOTE_C2, 0x6, 36
-layer_note1 NOTE_F2, 0x6, 36
-layer_note1 NOTE_C3, 0x6, 36
-layer_note1 NOTE_F3, 0x6, 36
-layer_note1 NOTE_C4, 0x6, 36
+layer_note1 PITCH_C2, 0x6, 36
+layer_note1 PITCH_F2, 0x6, 36
+layer_note1 PITCH_C3, 0x6, 36
+layer_note1 PITCH_F3, 0x6, 36
+layer_note1 PITCH_C4, 0x6, 36
 layer_end
 
 .enemy_boss_ganon_sword_clank:
@@ -5884,7 +5884,7 @@ layer_jumprel .layer_5649
 layer_transpose 48
 .layer_5649:
 layer_setinstr F1_I_WITCH_ARGUE
-layer_note1 NOTE_EF4, 0x7f, 100
+layer_note1 PITCH_EF4, 0x7f, 100
 layer_end
 
 .enemy_skulltula_creak:
@@ -5893,7 +5893,7 @@ chan_setlayer 0, .layer_5655
 chan_end
 
 .layer_5655:
-layer_note1 NOTE_EF3, 0x40, 100
+layer_note1 PITCH_EF3, 0x40, 100
 layer_end
 
 .enemy_boss_twinrova_bicker:
@@ -5911,7 +5911,7 @@ chan_call .delay_varyingvol
 chan_jumprel .chan_565E
 
 .layer_5675:
-layer_note1 NOTE_C3, 0x50, 100
+layer_note1 PITCH_C3, 0x50, 100
 layer_jumprel .layer_5675
 
 .enemy_big_poe_caught_soul:
@@ -5924,7 +5924,7 @@ chan_end
 .layer_5684:
 layer_setenvelope .envelope_6A2C, 230
 .layer_5688:
-layer_note1 NOTE_DF2, 0xd0, 56
+layer_note1 PITCH_DF2, 0xd0, 56
 layer_jumprel .layer_5688
 
 .enemy_goron_kid_cry:
@@ -5937,7 +5937,7 @@ chan_end
 layer_setinstr F1_I_GORON
 layer_transpose 48
 layer_portamento 0x81, 46, 255
-layer_note1 NOTE_GF3, 0x70, 88
+layer_note1 PITCH_GF3, 0x70, 88
 layer_end
 
 .enemy_spike_trap_rock:
@@ -5948,7 +5948,7 @@ chan_end
 
 .layer_56AA:
 layer_setinstr F1_I_SLIDE_BOOTS
-layer_note1 NOTE_A2, 0x40, 76
+layer_note1 PITCH_A2, 0x40, 76
 layer_end
 
 .enemy_unused:

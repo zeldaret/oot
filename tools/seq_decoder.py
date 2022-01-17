@@ -16,13 +16,13 @@ def get_symbols(header_path):
     with open(header_path, "r") as header_file:
         current_mode = ""
         for line in header_file.readlines():
-            if current_mode == "" and "INSTRUMENTS" in line:
+            if current_mode == "" and " INSTRUMENTS " in line:
                 current_mode = "instrument"
                 continue
-            elif current_mode == "instrument" and "DRUMS" in line:
+            elif current_mode == "instrument" and " DRUMS " in line:
                 current_mode = "drum"
                 continue
-            elif current_mode == "drum" and "EFFECTS" in line:
+            elif current_mode == "drum" and " EFFECTS " in line:
                 current_mode = "effect"
                 continue
                 
@@ -434,7 +434,7 @@ def decode_one(state):
         return
 
     if output[pos] is not None:
-        if output_instate[pos] != state:
+        if output_instate[pos][:-1] != state[:-1]:
             errors.append(f"got to {gen_label(orig_pos, tp)} with both state {state} and {output_instate[pos]}")
         return
 
@@ -481,7 +481,7 @@ def decode_one(state):
             subtp = 'layer_large'
         addr = u16()
         if subtp != 'lazyseq' and subtp != 'writeseq':
-            decode_list.append((addr, subtp, 0, True))
+            decode_list.append((addr, subtp, 0, True, current_channel))
         for p in range(orig_pos, pos):
             output[p] = ''
             output_instate[p] = state
@@ -508,7 +508,7 @@ def decode_one(state):
             # assume any goto is backwards and stop decoding
         else:
             output[orig_pos] = f'envelope_line {a} {b}'
-            decode_list.append((pos, tp, nesting, large))
+            decode_list.append((pos, tp, nesting, large, current_channel))
         return
 
     if tp == 'filter':
@@ -553,9 +553,9 @@ def decode_one(state):
         elif a == 'u8' and cmd_mn == 'setinstr':
             instr_num = u8()
             if instr_num == 127:
-                instr = "DRUMS"
+                instr = "INSTR_DRUM"
             elif instr_num == 126:
-                instr = "EFFECTS"
+                instr = "INSTR_EFFECT"
             else:
                 instr = inst_syms[instr_num]
             out_args.append(instr)
@@ -663,7 +663,7 @@ def decode_one(state):
     if cmd_mn == 'largenotesoff':
         large = False
     if nesting >= 0:
-        decode_list.append((pos, tp, nesting, large, None))
+        decode_list.append((pos, tp, nesting, large, current_channel))
 
 def decode_rec(state, initial):
     if not initial:
@@ -850,12 +850,13 @@ def main():
         print(end_padding)
         sys.exit(0)
 
+    print(f"#include \"sequence.h\"")
     print(f"#include \"{header}\"")
     print(".include \"seq_macros.inc\"")
     print(".section .rodata")
     print(".balign 0x10")
+    print("")
     print("sequence_start:")
-    print()
     last_tp = ""
     for i in range(len(data) - end_padding):
         if script_start[i] and i > 0:

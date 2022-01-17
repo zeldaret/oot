@@ -12,172 +12,170 @@
 #define INSTR_WV_4PULSE2  136
 
 // Instrument Notes
-#define NOTE_A0       0
-#define NOTE_BF0      1
-#define NOTE_B0       2
-#define NOTE_C1       3
-#define NOTE_DF1      4
-#define NOTE_D1       5
-#define NOTE_EF1      6
-#define NOTE_E1       7
-#define NOTE_F1       8
-#define NOTE_GF1      9
-#define NOTE_G1      10
-#define NOTE_AF1     11
-#define NOTE_A1      12
-#define NOTE_BF1     13
-#define NOTE_B1      14
-#define NOTE_C2      15
-#define NOTE_DF2     16
-#define NOTE_D2      17
-#define NOTE_EF2     18
-#define NOTE_E2      19
-#define NOTE_F2      20
-#define NOTE_GF2     21
-#define NOTE_G2      22
-#define NOTE_AF2     23
-#define NOTE_A2      24
-#define NOTE_BF2     25
-#define NOTE_B2      26
-#define NOTE_C3      27
-#define NOTE_DF3     28
-#define NOTE_D3      29
-#define NOTE_EF3     30
-#define NOTE_E3      31
-#define NOTE_F3      32
-#define NOTE_GF3     33
-#define NOTE_G3      34
-#define NOTE_AF3     35
-#define NOTE_A3      36
-#define NOTE_BF3     37
-#define NOTE_B3      38
-#define NOTE_C4      39
-#define NOTE_DF4     40
-#define NOTE_D4      41
-#define NOTE_EF4     42
-#define NOTE_E4      43
-#define NOTE_F4      44
-#define NOTE_GF4     45
-#define NOTE_G4      46
-#define NOTE_AF4     47
-#define NOTE_A4      48
-#define NOTE_BF4     49
-#define NOTE_B4      50
-#define NOTE_C5      51
-#define NOTE_DF5     52
-#define NOTE_D5      53
-#define NOTE_EF5     54
-#define NOTE_E5      55
-#define NOTE_F5      56
-#define NOTE_GF5     57
-#define NOTE_G5      58
-#define NOTE_AF5     59
-#define NOTE_A5      60
-#define NOTE_BF5     61
-#define NOTE_B5      62
-#define NOTE_C6      63
-#define NOTE_DF6     64
-#define NOTE_D6      65
-#define NOTE_EF6     66
-#define NOTE_E6      67
-#define NOTE_F6      68
-#define NOTE_GF6     69
-#define NOTE_G6      70
-#define NOTE_AF6     71
-#define NOTE_A6      72
-#define NOTE_BF6     73
-#define NOTE_B6      74
-#define NOTE_C7      75
-#define NOTE_DF7     76
-#define NOTE_D7      77
-#define NOTE_EF7     78
-#define NOTE_E7      79
-#define NOTE_F7      80
-#define NOTE_GF7     81
-#define NOTE_G7      82
-#define NOTE_AF7     83
-#define NOTE_A7      84
-#define NOTE_BF7     85
-#define NOTE_B7      86
-#define NOTE_C8      87
-#define NOTE_DF8     88
-#define NOTE_D8      89
-#define NOTE_EF8     90
-#define NOTE_E8      91
-#define NOTE_F8      92
-#define NOTE_GF8     93
-#define NOTE_G8      94
-#define NOTE_AF8     95
-#define NOTE_A8      96
-#define NOTE_BF8     97
-#define NOTE_B8      98
-#define NOTE_C9      99
-#define NOTE_DF9    100
-#define NOTE_D9     101
-#define NOTE_EF9    102
-#define NOTE_E9     103
-#define NOTE_F9     104
-#define NOTE_GF9    105
-#define NOTE_G9     106
-#define NOTE_AF9    107
-#define NOTE_A9     108
-#define NOTE_BF9    109
-#define NOTE_B9     110
-#define NOTE_C10    111
-#define NOTE_DF10   112
-#define NOTE_D10    113
-#define NOTE_EF10   114
-#define NOTE_E10    115
-#define NOTE_F10    116
-#define NOTE_BFNEG1 117
-#define NOTE_BNEG1  118
-#define NOTE_C0     119
-#define NOTE_DF0    120
-#define NOTE_D0     121
-#define NOTE_EF0    122
-#define NOTE_E0     123
-#define NOTE_F0     124
-#define NOTE_GF0    125
-#define NOTE_G0     126
-#define NOTE_AF0    127
+#define PITCH_A0       0
+#define PITCH_BF0      1
+#define PITCH_B0       2
+#define PITCH_C1       3
+#define PITCH_DF1      4
+#define PITCH_D1       5
+#define PITCH_EF1      6
+#define PITCH_E1       7
+#define PITCH_F1       8
+#define PITCH_GF1      9
+#define PITCH_G1      10
+#define PITCH_AF1     11
+#define PITCH_A1      12
+#define PITCH_BF1     13
+#define PITCH_B1      14
+#define PITCH_C2      15
+#define PITCH_DF2     16
+#define PITCH_D2      17
+#define PITCH_EF2     18
+#define PITCH_E2      19
+#define PITCH_F2      20
+#define PITCH_GF2     21
+#define PITCH_G2      22
+#define PITCH_AF2     23
+#define PITCH_A2      24
+#define PITCH_BF2     25
+#define PITCH_B2      26
+#define PITCH_C3      27
+#define PITCH_DF3     28
+#define PITCH_D3      29
+#define PITCH_EF3     30
+#define PITCH_E3      31
+#define PITCH_F3      32
+#define PITCH_GF3     33
+#define PITCH_G3      34
+#define PITCH_AF3     35
+#define PITCH_A3      36
+#define PITCH_BF3     37
+#define PITCH_B3      38
+#define PITCH_C4      39
+#define PITCH_DF4     40
+#define PITCH_D4      41
+#define PITCH_EF4     42
+#define PITCH_E4      43
+#define PITCH_F4      44
+#define PITCH_GF4     45
+#define PITCH_G4      46
+#define PITCH_AF4     47
+#define PITCH_A4      48
+#define PITCH_BF4     49
+#define PITCH_B4      50
+#define PITCH_C5      51
+#define PITCH_DF5     52
+#define PITCH_D5      53
+#define PITCH_EF5     54
+#define PITCH_E5      55
+#define PITCH_F5      56
+#define PITCH_GF5     57
+#define PITCH_G5      58
+#define PITCH_AF5     59
+#define PITCH_A5      60
+#define PITCH_BF5     61
+#define PITCH_B5      62
+#define PITCH_C6      63
+#define PITCH_DF6     64
+#define PITCH_D6      65
+#define PITCH_EF6     66
+#define PITCH_E6      67
+#define PITCH_F6      68
+#define PITCH_GF6     69
+#define PITCH_G6      70
+#define PITCH_AF6     71
+#define PITCH_A6      72
+#define PITCH_BF6     73
+#define PITCH_B6      74
+#define PITCH_C7      75
+#define PITCH_DF7     76
+#define PITCH_D7      77
+#define PITCH_EF7     78
+#define PITCH_E7      79
+#define PITCH_F7      80
+#define PITCH_GF7     81
+#define PITCH_G7      82
+#define PITCH_AF7     83
+#define PITCH_A7      84
+#define PITCH_BF7     85
+#define PITCH_B7      86
+#define PITCH_C8      87
+#define PITCH_DF8     88
+#define PITCH_D8      89
+#define PITCH_EF8     90
+#define PITCH_E8      91
+#define PITCH_F8      92
+#define PITCH_GF8     93
+#define PITCH_G8      94
+#define PITCH_AF8     95
+#define PITCH_A8      96
+#define PITCH_BF8     97
+#define PITCH_B8      98
+#define PITCH_C9      99
+#define PITCH_DF9    100
+#define PITCH_D9     101
+#define PITCH_EF9    102
+#define PITCH_E9     103
+#define PITCH_F9     104
+#define PITCH_GF9    105
+#define PITCH_G9     106
+#define PITCH_AF9    107
+#define PITCH_A9     108
+#define PITCH_BF9    109
+#define PITCH_B9     110
+#define PITCH_C10    111
+#define PITCH_DF10   112
+#define PITCH_D10    113
+#define PITCH_EF10   114
+#define PITCH_E10    115
+#define PITCH_F10    116
+#define PITCH_BFNEG1 117
+#define PITCH_BNEG1  118
+#define PITCH_C0     119
+#define PITCH_DF0    120
+#define PITCH_D0     121
+#define PITCH_EF0    122
+#define PITCH_E0     123
+#define PITCH_F0     124
+#define PITCH_GF0    125
+#define PITCH_G0     126
+#define PITCH_AF0    127
 
-typedef enum {
-    SOUNDFONT_SFX_1,
-    SOUNDFONT_SFX_2,
-    SOUNDFONT_AMBIENCE,
-    SOUNDFONT_ORCHESTRA,
-    SOUNDFONT_DEKU_TREE,
-    SOUNDFONT_MARKET,
-    SOUNDFONT_TITLE,
-    SOUNDFONT_JABU_JABU,
-    SOUNDFONT_KAKARIKO_CHILD,
-    SOUNDFONT_FAIRY_FOUNTAIN,
-    SOUNDFONT_FIRE_TEMPLE,
-    SOUNDFONT_DODONGO_CAVERN,
-    SOUNDFONT_FOREST_TEMPLE,
-    SOUNDFONT_LON_LON_RANCH,
-    SOUNDFONT_GORON_CITY,
-    SOUNDFONT_KOKIRI_FOREST,
-    SOUNDFONT_SPIRIT_TEMPLE,
-    SOUNDFONT_HORSE_RACE,
-    SOUNDFONT_WARP_SONGS,
-    SOUNDFONT_LEGENDS,
-    SOUNDFONT_MINIGAMES,
-    SOUNDFONT_ZORA_DOMAIN,
-    SOUNDFONT_SHOPS,
-    SOUNDFONT_ICE_CAVERN,
-    SOUNDFONT_SHADOW_TEMPLE,
-    SOUNDFONT_WATER_TEMPLE,
-    SOUNDFONT_UNKNOWN_1,
-    SOUNDFONT_GERUDO_VALLEY,
-    SOUNDFONT_LAKESIDE_LABORATORY, 
-    SOUNDFONT_KOTAKE_KOUME_THEME,
-    SOUNDFONT_GANON_CASTLE_ORGAN,
-    SOUNDFONT_GANON_CASTLE,
-    SOUNDFONT_GANONDORF_BATTLE,
-    SOUNDFONT_ENDING_1,
-    SOUNDFONT_ENDING_2,
-    SOUNDFONT_GAME_OVER,
-    SOUNDFONT_KAEPORA_GAEBORA_THEME,
-    SOUNDFONT_UNKNOWN_2
-} SoundfontId;
+#define SOUNDFONT_SFX_1                0
+#define SOUNDFONT_SFX_2                1
+#define SOUNDFONT_AMBIENCE             2
+#define SOUNDFONT_ORCHESTRA            3
+#define SOUNDFONT_DEKU_TREE            4
+#define SOUNDFONT_MARKET               5
+#define SOUNDFONT_TITLE                6
+#define SOUNDFONT_JABU_JABU            7
+#define SOUNDFONT_KAKARIKO_CHILD       8
+#define SOUNDFONT_FAIRY_FOUNTAIN       9
+#define SOUNDFONT_FIRE_TEMPLE         10
+#define SOUNDFONT_DODONGO_CAVERN      11
+#define SOUNDFONT_FOREST_TEMPLE       12
+#define SOUNDFONT_LON_LON_RANCH       13
+#define SOUNDFONT_GORON_CITY          14
+#define SOUNDFONT_KOKIRI_FOREST       15
+#define SOUNDFONT_SPIRIT_TEMPLE       16
+#define SOUNDFONT_HORSE_RACE          17
+#define SOUNDFONT_WARP_SONGS          18
+#define SOUNDFONT_LEGENDS             19
+#define SOUNDFONT_MINIGAMES           20
+#define SOUNDFONT_ZORA_DOMAIN         21
+#define SOUNDFONT_SHOPS               22
+#define SOUNDFONT_ICE_CAVERN          23
+#define SOUNDFONT_SHADOW_TEMPLE       24
+#define SOUNDFONT_WATER_TEMPLE        25
+#define SOUNDFONT_UNKNOWN_1           26
+#define SOUNDFONT_GERUDO_VALLEY       27
+#define SOUNDFONT_LAKESIDE_LABORATORY 28
+#define SOUNDFONT_KOTAKE_KOUME_THEME  29
+#define SOUNDFONT_GANON_CASTLE_ORGAN  30
+#define SOUNDFONT_GANON_CASTLE        31
+#define SOUNDFONT_GANONDORF_BATTLE    32
+#define SOUNDFONT_ENDING_1            33
+#define SOUNDFONT_ENDING_2            34
+#define SOUNDFONT_GAME_OVER           35
+#define SOUNDFONT_OWL_THEME           36
+#define SOUNDFONT_UNKNOWN_2           37

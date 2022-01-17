@@ -99,17 +99,20 @@ SPEC := spec
 
 SRC_DIRS := $(shell find src -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
-ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
+ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/samples*" -not -path "assets/sequences*" -not -path "assets/soundfonts*")
+MUSIC_BIN_DIR  := assets/sequences
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f)
 
 # source files
+MUS_FILES     := $(foreach dir,$(SRC_DIRS) $(MUSIC_BIN_DIR),$(wildcard $(dir)/*.mus))
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
+				 $(foreach f,$(MUS_FILES:.mus=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
 # Automatic dependency files
@@ -232,6 +235,9 @@ build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
+build/%.o: %.mus
+	$(CC_CHECK) -xc -E $< | $(AS) -I include -o $@
 
 build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
