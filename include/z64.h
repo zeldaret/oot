@@ -21,6 +21,7 @@
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
+#include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
 #include "sequence.h"
@@ -245,7 +246,7 @@ typedef struct {
     /* 0x0004 */ char   unk_04[0x04];
     /* 0x0008 */ u8     total; // total number of actors loaded
     /* 0x0009 */ char   unk_09[0x03];
-    /* 0x000C */ ActorListEntry actorLists[12];
+    /* 0x000C */ ActorListEntry actorLists[ACTORCAT_MAX];
     /* 0x006C */ TargetContext targetCtx;
     struct {
         /* 0x0104 */ u32    swch;
@@ -282,8 +283,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f originPos;
-    /* 0x10 */ Vec3f relativePos;
+    /* 0x04 */ Vec3f worldPos;
+    /* 0x10 */ Vec3f projectedPos;
 } SoundSource; // size = 0x1C
 
 typedef enum {
@@ -868,12 +869,12 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8    type;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
-    /* 0x04 */ void* dlist;
+    /* 0x04 */ Gfx*  dlist;
     union {
         struct {
-            /* 0x08 */ u32   source;
+            /* 0x08 */ void* source;
             /* 0x0C */ u32   unk_0C;
-            /* 0x10 */ u32   tlut;
+            /* 0x10 */ void* tlut;
             /* 0x14 */ u16   width;
             /* 0x16 */ u16   height;
             /* 0x18 */ u8    fmt;
@@ -931,7 +932,7 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 unk_74[2];
+    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
 
 typedef struct {
@@ -1297,23 +1298,34 @@ typedef enum {
     DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
-// Some animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              playbackSpeed;
+    /* 0x04 */ f32              playSpeed;
     /* 0x08 */ f32              startFrame;
     /* 0x0C */ f32              frameCount;
     /* 0x10 */ u8               mode;
-    /* 0x14 */ f32              transitionRate;
-} struct_80034EC0_Entry; // size = 0x18
+    /* 0x14 */ f32              morphFrames;
+} AnimationInfo; // size = 0x18
 
-// Another animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              frameCount;
     /* 0x08 */ u8               mode;
-    /* 0x0C */ f32              transitionRate;
-} struct_D_80AA1678; // size = 0x10
+    /* 0x0C */ f32              morphFrames;
+} AnimationFrameCountInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32 playSpeed;
+    /* 0x08 */ u8 mode;
+    /* 0x0C */ f32 morphFrames;
+} AnimationSpeedInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ u8 mode;
+    /* 0x08 */ f32 morphFrames;
+} AnimationMinimalInfo; // size = 0xC
 
 typedef struct {
     /* 0x00 */ s16 unk_00;

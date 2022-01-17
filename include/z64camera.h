@@ -48,7 +48,7 @@ typedef enum {
     /* 0x17 */ CAM_SET_PIVOT_SHOP_BROWSING, // Shopping and browsing for items "CIRCLE2"
     /* 0x18 */ CAM_SET_PIVOT_IN_FRONT, // The camera used on Link's balcony in Kokiri forest. Data present in scene data for Deku Tree, GTG, Inside Ganon's Castle (TODO: may or may not be used) "CIRCLE3"
     /* 0x19 */ CAM_SET_PREREND_FIXED, // Camera is fixed in position and rotation "PREREND0"
-    /* 0x1A */ CAM_SET_PREREND_PIVET, // Camera is fixed in position with fixed pitch, but is free to rotate in the yaw direction 360 degrees "PREREND1"
+    /* 0x1A */ CAM_SET_PREREND_PIVOT, // Camera is fixed in position with fixed pitch, but is free to rotate in the yaw direction 360 degrees "PREREND1"
     /* 0x1B */ CAM_SET_PREREND_SIDE_SCROLL, // Camera side-scrolls position to follow link. Only used in castle courtyard with the guards "PREREND3"
     /* 0x1C */ CAM_SET_DOOR0, // Custom room door transitions, used in fire and royal family tomb
     /* 0x1D */ CAM_SET_DOORC, // Generic room door transitions, camera moves and follows player as the door is open and closed
@@ -191,6 +191,40 @@ typedef enum {
     /* 0x47 */ CAM_FUNC_MAX
 } CameraFuncType;
 
+typedef enum {
+    /* 0x00 */ CAM_DATA_Y_OFFSET,
+    /* 0x01 */ CAM_DATA_EYE_DIST,
+    /* 0x02 */ CAM_DATA_EYE_DIST_NEXT,
+    /* 0x03 */ CAM_DATA_PITCH_TARGET,
+    /* 0x04 */ CAM_DATA_YAW_UPDATE_RATE_TARGET,
+    /* 0x05 */ CAM_DATA_XZ_UPDATE_RATE_TARGET,
+    /* 0x06 */ CAM_DATA_MAX_YAW_UPDATE,
+    /* 0x07 */ CAM_DATA_FOV,
+    /* 0x08 */ CAM_DATA_AT_LERP_STEP_SCALE,
+    /* 0x09 */ CAM_DATA_FLAGS,
+    /* 0x0A */ CAM_DATA_YAW_TARGET,
+    /* 0x0B */ CAM_DATA_GROUND_Y_OFFSET,
+    /* 0x0C */ CAM_DATA_GROUND_AT_LERP_STEP_SCALE,
+    /* 0x0D */ CAM_DATA_SWING_YAW_INIT,
+    /* 0x0E */ CAM_DATA_SWING_YAW_FINAL,
+    /* 0x0F */ CAM_DATA_SWING_PITCH_INIT,
+    /* 0x10 */ CAM_DATA_SWING_PITCH_FINAL,
+    /* 0x11 */ CAM_DATA_SWING_PITCH_ADJ,
+    /* 0x12 */ CAM_DATA_MIN_MAX_DIST_FACTOR,
+    /* 0x13 */ CAM_DATA_AT_OFFSET_X,
+    /* 0x14 */ CAM_DATA_AT_OFFSET_Y,
+    /* 0x15 */ CAM_DATA_AT_OFFSET_Z,
+    /* 0x16 */ CAM_DATA_UNK_22,
+    /* 0x17 */ CAM_DATA_UNK_23,
+    /* 0x18 */ CAM_DATA_FOV_SCALE,
+    /* 0x19 */ CAM_DATA_YAW_SCALE,
+    /* 0x1A */ CAM_DATA_UNK_26,
+    /* 0x1B */ CAM_DATA_MAX
+} CameraDataType;
+
+#define CAM_FUNCDATA_FLAGS(flags) \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x00 */ Vec3f collisionClosePoint;
     /* 0x0C */ CollisionPoly* atEyePoly;
@@ -225,6 +259,30 @@ typedef struct {
     /* 0x24 */ Normal1Anim anim;
 } Normal1; // size = 0x50
 
+#define CAM_FUNCDATA_NORM1(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_XZ_UPDATE_RATE_TARGET }, \
+    { maxYawUpdate, CAM_DATA_MAX_YAW_UPDATE }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
+#define CAM_FUNCDATA_NORM1_ALT(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_UNK_26 }, \
+    { maxYawUpdate, CAM_DATA_MAX_YAW_UPDATE }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ Vec3f unk_0C;
@@ -249,6 +307,17 @@ typedef struct {
     /* 0x20 */ Normal2Anim anim;
 } Normal2; // size = 0x4A
 
+#define CAM_FUNCDATA_NORM2(yOffset, eyeDist, eyeDistNext, unk_23, yawUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { unk_23, CAM_DATA_UNK_23 }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { maxYawUpdate, CAM_DATA_MAX_YAW_UPDATE }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
@@ -272,6 +341,17 @@ typedef struct {
     /* 0x20 */ Normal3Anim anim;
 } Normal3; // size = 0x4C
 
+#define CAM_FUNCDATA_NORM3(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_XZ_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ f32 yTarget;
@@ -283,7 +363,7 @@ typedef struct {
 } Parallel1Anim; // size = 0x1A
 
 typedef struct {
-    /* 0x00 */ f32 unk_00;
+    /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distTarget;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
@@ -296,6 +376,19 @@ typedef struct {
     /* 0x24 */ s16 interfaceFlags;
     /* 0x28 */ Parallel1Anim anim;
 } Parallel1; // size = 0x42
+
+#define CAM_FUNCDATA_PARA1(yOffset, eyeDist, pitchTarget, yawTarget, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, flags, groundYOffset, groundAtLerpStepScale) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { yawTarget, CAM_DATA_YAW_TARGET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_XZ_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }, \
+    { groundYOffset, CAM_DATA_GROUND_Y_OFFSET }, \
+    { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
 
 typedef struct {
     
@@ -315,6 +408,16 @@ typedef struct {
     /* 0x1C */ s16 interfaceFlags;
     /* 0x20 */ Jump1Anim anim;
 } Jump1; // size = 0x48
+
+#define CAM_FUNCDATA_JUMP1(yOffset, eyeDist, eyeDistNext, yawUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { maxYawUpdate, CAM_DATA_MAX_YAW_UPDATE }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x0 */ f32 floorY;
@@ -338,6 +441,17 @@ typedef struct {
     /* 0x24 */ Jump2Anim anim;
 } Jump2; // size = 0x34
 
+#define CAM_FUNCDATA_JUMP2(yOffset, eyeDist, eyeDistNext, minMaxDistFactor, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { minMaxDistFactor, CAM_DATA_MIN_MAX_DIST_FACTOR }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_XZ_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
@@ -358,6 +472,18 @@ typedef struct {
     /* 0x22 */ s16 interfaceFlags;
     /* 0x24 */ Jump3Anim anim;
 } Jump3; // size = 0x48
+
+#define CAM_FUNCDATA_JUMP3(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_XZ_UPDATE_RATE_TARGET }, \
+    { maxYawUpdate, CAM_DATA_MAX_YAW_UPDATE }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x00 */ f32 initialEyeToAtDist;
@@ -388,8 +514,22 @@ typedef struct {
     /* 0x30 */ Battle1Anim anim;
 } Battle1; // size = 0x50
 
+#define CAM_FUNCDATA_BATT1(yOffset, eyeDist, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, flags, groundYOffset, groundAtLerpStepScale) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { swingYawInit, CAM_DATA_SWING_YAW_INIT }, \
+    { swingYawFinal, CAM_DATA_SWING_YAW_FINAL }, \
+    { swingPitchInit, CAM_DATA_SWING_PITCH_INIT }, \
+    { swingPitchFinal, CAM_DATA_SWING_PITCH_FINAL }, \
+    { swingPitchAdj, CAM_DATA_SWING_PITCH_ADJ }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }, \
+    { groundYOffset, CAM_DATA_GROUND_Y_OFFSET }, \
+    { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
+
 typedef struct {
-    /* 0x0000 */ s16 animTimer;
+    /* 0x0 */ s16 animTimer;
 } Battle4Anim; // size = 0x2
 
 typedef struct {
@@ -403,6 +543,15 @@ typedef struct {
     /* 0x1A */ s16 unk_1A;
     /* 0x1C */ Battle4Anim anim;
 } Battle4; // size = 0x20
+
+#define CAM_FUNCDATA_BATT4(yOffset, eyeDist, pitchTarget, yawUpdateRateTarget, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x00 */ f32 unk_00;
@@ -432,6 +581,21 @@ typedef struct {
     /* 0x34 */ Keep1Anim anim;
 } KeepOn1; // size = 0x4C
 
+#define CAM_FUNCDATA_KEEP1(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, flags, groundYOffset, groundAtLerpStepScale) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { swingYawInit, CAM_DATA_SWING_YAW_INIT }, \
+    { swingYawFinal, CAM_DATA_SWING_YAW_FINAL }, \
+    { swingPitchInit, CAM_DATA_SWING_PITCH_INIT }, \
+    { swingPitchFinal, CAM_DATA_SWING_PITCH_FINAL }, \
+    { swingPitchAdj, CAM_DATA_SWING_PITCH_ADJ }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }, \
+    { groundYOffset, CAM_DATA_GROUND_Y_OFFSET }, \
+    { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
+
 typedef struct {
     /* 0x00 */ Vec3f eyeToAtTarget; // esentially a VecSph, but all floats.
     /* 0x0C */ Actor* target;
@@ -454,6 +618,20 @@ typedef struct {
     /* 0x2A */ s16 flags;
     /* 0x2C */ Keep3Anim anim;
 } KeepOn3; // size = 0x4C
+
+#define CAM_FUNCDATA_KEEP3(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, yawUpdateRateTarget, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { swingYawInit, CAM_DATA_SWING_YAW_INIT }, \
+    { swingYawFinal, CAM_DATA_SWING_YAW_FINAL }, \
+    { swingPitchInit, CAM_DATA_SWING_PITCH_INIT }, \
+    { swingPitchFinal, CAM_DATA_SWING_PITCH_FINAL }, \
+    { swingPitchAdj, CAM_DATA_SWING_PITCH_ADJ }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x00 */ f32 unk_00;
@@ -479,6 +657,17 @@ typedef struct {
     /* 0x20 */ KeepOn4_Unk20 unk_20;
 } KeepOn4; // size = 0x34
 
+#define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetZ, fov, flags, yawUpdateRateTarget, unk_22) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { yawTarget, CAM_DATA_YAW_TARGET }, \
+    { atOffsetZ, CAM_DATA_AT_OFFSET_Z }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { unk_22, CAM_DATA_UNK_22 }
+
 typedef struct {
     /* 0x0 */ f32 fovTarget;
     /* 0x4 */ s16 animTimer;
@@ -491,6 +680,12 @@ typedef struct {
     /* 0x0A */ s16 interfaceFlags;
     /* 0x0C */ KeepOn0Anim anim;
 } KeepOn0; // size = 0x14
+
+#define CAM_FUNCDATA_KEEP0(fovScale, yawScale, yawUpdateRateTarget, flags) \
+    { fovScale, CAM_DATA_FOV_SCALE }, \
+    { yawScale, CAM_DATA_YAW_SCALE }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x00 */ PosRot eyePosRotTarget;
@@ -505,6 +700,12 @@ typedef struct {
     /* 0x10 */ Fixed1Anim anim;
 } Fixed1; // size = 0x28
 
+#define CAM_FUNCDATA_FIXD1(yOffset, yawUpdateRateTarget, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x0 */ Vec3f eye;
     /* 0xC */ s16 fov;
@@ -518,6 +719,13 @@ typedef struct {
     /* 0x10 */ s16 interfaceFlags;
     /* 0x14 */ Fixed2InitParams initParams;
 } Fixed2; // size = 0x24
+
+#define CAM_FUNCDATA_FIXD2(yOffset, yawUpdateRateTarget, xzUpdateRateTarget, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_XZ_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x0 */ Vec3s rot;
@@ -545,6 +753,13 @@ typedef struct {
     /* 0x14 */ Fixed4Anim anim;
 } Fixed4; // size = 0x24
 
+#define CAM_FUNCDATA_FIXD4(yOffset, yawUpdateRateTarget, xzUpdateRateTarget, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { xzUpdateRateTarget, CAM_DATA_XZ_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x0 */ f32 r;
     /* 0x4 */ s16 yaw;
@@ -562,6 +777,17 @@ typedef struct {
     /* 0x20 */ s16 interfaceFlags;
     /* 0x24 */ Subj3Anim anim;
 } Subj3; // size = 0x30
+
+#define CAM_FUNCDATA_SUBJ3(yOffset, eyeDist, eyeDistNext, yawUpdateRateTarget, atOffsetX, atOffsetY, atOffsetZ, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { atOffsetX, CAM_DATA_AT_OFFSET_X }, \
+    { atOffsetY, CAM_DATA_AT_OFFSET_Y }, \
+    { atOffsetZ, CAM_DATA_AT_OFFSET_Z }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x00 */ Linef unk_00;
@@ -581,6 +807,14 @@ typedef struct {
     /* 0x4 */ Subj4Anim anim;
 } Subj4; // size = 0x38
 
+#define CAM_FUNCDATA_SUBJ4(yOffset, eyeDist, eyeDistNext, yawUpdateRateTarget, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x00 */ PosRot eyePosRot;
     /* 0x14 */ char unk_14[0x8];
@@ -594,6 +828,11 @@ typedef struct {
     /* 0x8 */ s16 interfaceFlags;
     /* 0xC */ Data4InitParams initParams;
 } Data4; // size = 0x2C
+
+#define CAM_FUNCDATA_DATA4(yOffset, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x0 */ f32 unk_00; // unused
@@ -614,6 +853,15 @@ typedef struct {
     /* 0x1C */ Unique1Anim anim;
 } Unique1; // size = 0x28
 
+#define CAM_FUNCDATA_UNIQ1(yOffset, eyeDist, eyeDistNext, pitchTarget, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x0 */ f32 unk_00;
     /* 0x4 */ s16 unk_04;
@@ -626,6 +874,12 @@ typedef struct {
     /* 0x0C */ s16 interfaceFlags;
     /* 0x10 */ Unique2Unk10 unk_10; // unused, values set but not read.
 } Unique2; // size = 0x18
+
+#define CAM_FUNCDATA_UNIQ2(yOffset, eyeDist, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x0 */ f32 initialFov;
@@ -651,6 +905,11 @@ typedef struct {
     /* 0x0C */ Unique3Params params;
     /* 0x18 */ Unique3Anim anim;
 } Unique3; // size = 0x20
+
+#define CAM_FUNCDATA_UNIQ3(yOffset, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x00 */ Vec3f initalPos;
@@ -682,6 +941,10 @@ typedef struct {
     /* 0x6 */ s16 align;
     /* 0x8 */ Unique7Unk8 unk_08; // unk_08 goes unused.
 } Unique7; // size = 0x10
+
+#define CAM_FUNCDATA_UNIQ7(fov, flags) \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
 
 /** initFlags
  * & 0x00FF = atInitFlags
@@ -757,6 +1020,11 @@ typedef struct {
     /* 0xC */ Demo3Anim anim;
 } Demo3; // size = 0x20
 
+#define CAM_FUNCDATA_DEMO3(fov, atLerpStepScale, flags) \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x0 */ s16 animTimer;
     /* 0x4 */ Vec3f atTarget;
@@ -798,6 +1066,10 @@ typedef struct {
     /* 0x4 */ s16 interfaceFlags;
 } Special0; // size = 0x8
 
+#define CAM_FUNCDATA_SPEC0(yawUpdateRateTarget, flags) \
+    { yawUpdateRateTarget, CAM_DATA_YAW_UPDATE_RATE_TARGET }, \
+    { flags, CAM_DATA_FLAGS }
+
 typedef struct {
     /* 0x0 */ s16 initalTimer;
 } Special4; // size = 0x4
@@ -818,6 +1090,27 @@ typedef struct {
     /* 0x1A */ s16 unk_1A;
     /* 0x1C */ Special5Anim anim;
 } Special5; // size = 0x20
+
+#define CAM_FUNCDATA_SPEC5(yOffset, eyeDist, eyeDistNext, unk_22, pitchTarget, fov, atLerpStepScale, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { unk_22, CAM_DATA_UNK_22 }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { flags, CAM_DATA_FLAGS }
+
+// Uses incorrect CAM_DATA values
+#define CAM_FUNCDATA_SPEC5_ALT(yOffset, eyeDist, eyeDistNext, pitchTarget, fov, atLerpStepScale, unk_22, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { eyeDist, CAM_DATA_EYE_DIST }, \
+    { eyeDistNext, CAM_DATA_EYE_DIST_NEXT }, \
+    { pitchTarget, CAM_DATA_PITCH_TARGET }, \
+    { fov, CAM_DATA_FOV }, \
+    { atLerpStepScale, CAM_DATA_AT_LERP_STEP_SCALE }, \
+    { unk_22, CAM_DATA_UNK_22 }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x0 */ s16 idx;
@@ -849,6 +1142,11 @@ typedef struct {
     /* 0x0 */ DoorParams doorParams;
     /* 0xC */ Special9Params params;
 } Special9; // size = 0x1C
+
+#define CAM_FUNCDATA_SPEC9(yOffset, fov, flags) \
+    { yOffset, CAM_DATA_Y_OFFSET }, \
+    { fov, CAM_DATA_FOV }, \
+    { flags, CAM_DATA_FLAGS }
 
 typedef struct {
     /* 0x00 */ Vec3f pos;

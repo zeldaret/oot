@@ -456,7 +456,7 @@ void func_809CF984(EnBw* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         }
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
         this->unk_222 = 3000;
         this->actor.flags &= ~ACTOR_FLAG_24;
         this->actor.speedXZ = 0.0f;
@@ -490,7 +490,7 @@ void func_809CFC4C(EnBw* this, GlobalContext* globalCtx) {
         this->unk_258 += this->unk_25C;
         Math_SmoothStepToF(&this->unk_260, 0.075f, 1.0f, 0.005f, 0.0f);
         if (this->actor.bgCheckFlags & 2) {
-            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
         if (this->unk_224 != 0) {
@@ -540,7 +540,7 @@ void func_809CFF98(EnBw* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->unk_248, 0.6f, 1.0f, 0.05f, 0.0f);
     SkelAnime_Update(&this->skelAnime);
     if (this->actor.bgCheckFlags & 3) {
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
         this->unk_222 = 0xBB8;
         this->unk_250 = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
@@ -663,7 +663,7 @@ void func_809D0424(EnBw* this, GlobalContext* globalCtx) {
             if (func_800355E4(globalCtx, &this->collider2.base)) {
                 this->unk_230 = 0;
                 this->actor.scale.y -= 0.009f;
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
             } else {
                 this->unk_230 = 1;
             }
@@ -677,7 +677,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 0x10) && (this->actor.bgCheckFlags & 1)) {
         this->unk_230 = 0;
         this->actor.scale.y -= 0.009f;
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0, false);
         func_809D00F4(this);
     } else {
         if (this->collider2.base.acFlags & AC_HIT) {
@@ -705,8 +705,8 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                     if (func_800355E4(globalCtx, &this->collider2.base)) {
                         this->unk_230 = 0;
                         this->actor.scale.y -= 0.009f;
-                        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 0xB, 4.0f, 0,
-                                                 0, 0);
+                        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 30.0f, 11, 4.0f, 0, 0,
+                                                 false);
                     } else {
                         this->unk_230 = 1;
                     }
@@ -883,7 +883,7 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                                 (globalCtx->gameplayFrames * -20) % 0x200, 0x20, 0x80));
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, 255);
     Matrix_Scale(this->unk_248 * 0.01f, this->unk_248 * 0.01f, this->unk_248 * 0.01f, MTXMODE_APPLY);
-    func_800D1FD4(&globalCtx->billboardMtxF);
+    Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 1500),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);

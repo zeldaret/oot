@@ -641,7 +641,7 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
         this->actor.flags |= ACTOR_FLAG_0;
 
         if (this->actor.params == ENZF_TYPE_LIZALFOS_MINIBOSS_A) {
-            func_800F5ACC(0x38); // Miniboss theme
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     }
 
@@ -666,8 +666,8 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
         this->actor.bgCheckFlags &= ~2;
         this->actor.world.pos.y = this->actor.floorHeight;
         this->actor.velocity.y = 0.0f;
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1535,8 +1535,8 @@ void EnZf_HopAway(EnZf* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = this->actor.floorHeight;
                 this->actor.speedXZ = 0.0f;
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
 
                 if (phi_f20 <= this->actor.xzDistToPlayer) {
                     EnZf_SetupHopAndTaunt(this);

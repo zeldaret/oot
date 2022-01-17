@@ -67,12 +67,12 @@ static ColliderCylinderInit sColCylInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 // NULL-terminated arrays of eye textures
-static void* sEyeTexturesAOB[] = { 0x060005C8, 0x06000DC8, 0x060015C8, NULL };
+static void* sEyeTexturesAOB[] = { gDogLadyEyeOpenTex, gDogLadyEyeHalfTex, gDogLadyEyeClosedTex, NULL };
 static void* sEyeTexturesAHG7[] = { 0x0600057C, 0x0600067C, 0x0600077C, NULL };
-static void* sEyeTexturesBBA[] = { 0x060004C8, NULL };
+static void* sEyeTexturesBBA[] = { object_bba_Tex_0004C8, NULL };
 static void* sEyeTexturesBJI13[] = { 0x060005FC, 0x060009FC, 0x06000DFC, NULL };
 static void* sEyeTexturesBOJ2[] = { 0x060005FC, 0x060006FC, 0x060007FC, NULL };
-static void* sEyeTexturesBOB[] = { 0x060007C8, 0x06000FC8, 0x060017C8, NULL };
+static void* sEyeTexturesBOB[] = { object_bob_Tex_0007C8, object_bob_Tex_000FC8, object_bob_Tex_0017C8, NULL };
 
 typedef struct {
     /* 0x00 */ s16 objectId;
@@ -175,7 +175,7 @@ typedef enum {
     /* 26 */ ENHY_ANIM_26
 } EnHyAnimationIndex;
 
-static struct_80034EC0_Entry sAnimationInfo[] = {
+static AnimationInfo sAnimationInfo[] = {
     /* ENHY_ANIM_0 */ { &gObjOsAnim_092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
     /* ENHY_ANIM_1 */ { &gObjOsAnim_0228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
     /* ENHY_ANIM_2 */ { &gObjOsAnim_4CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
@@ -581,7 +581,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F2:
                 case 0x70F3:
                     if (this->skelAnime.animation != &gObjOsAnim_33B4) {
-                        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_23);
+                        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_23);
                         Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
                     }
                     break;
@@ -594,7 +594,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F2:
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
-                    func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
+                    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
                     Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
                     break;
                 case 0x7016:
@@ -904,7 +904,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        func_80034EC0(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
         if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~ACTOR_FLAG_4;
@@ -967,14 +967,14 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
 void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
-            func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
         }
     } else if (gSaveContext.eventInf[3] & 1) {
         if (this->skelAnime.animation != &gObjOsAnim_0FE4) {
-            func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_25);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_25);
         }
     } else if (this->skelAnime.animation != &gObjOsAnim_12E8) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_24);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_24);
     }
 }
 
@@ -1003,7 +1003,7 @@ void EnHy_DoNothing(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A712C0(EnHy* this, GlobalContext* globalCtx) {
     if ((this->actor.xzDistToPlayer <= 100.0f) && (this->path != NULL)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
         this->actor.speedXZ = 0.4f;
         this->actionFunc = func_80A7134C;
     }
@@ -1016,11 +1016,11 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
     f32 distSq;
 
     if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
     }
 
     if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
     }
 
     this->actor.speedXZ = 0.4f;

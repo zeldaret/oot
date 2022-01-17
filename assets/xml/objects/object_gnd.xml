@@ -66,8 +66,8 @@
         <DList Name="gPhantomGanonFaceDL" Offset="0x4EC0"/>
 
         <!-- Face textures-->
-        <Texture Name="gPhantomGanonEyeTLUT" OutName="phantom_ganon_eye_palette" Format="rgba16" Width="16" Height="5" Offset="0x3CC0"/>
-        <Texture Name="gPhantomGanonMouthTLUT" OutName="phantom_ganon_mouth_palette" Format="rgba16" Width="8" Height="5" Offset="0x3D60"/>
+        <Texture Name="gPhantomGanonEyeTLUT" OutName="phantom_ganon_eye_tlut" Format="rgba16" Width="16" Height="5" Offset="0x3CC0"/>
+        <Texture Name="gPhantomGanonMouthTLUT" OutName="phantom_ganon_mouth_tlut" Format="rgba16" Width="8" Height="5" Offset="0x3D60"/>
         <Texture Name="gPhantomGanonEyeTex" OutName="phantom_ganon_eye_tex" Format="ci8" Width="32" Height="16" Offset="0x3DB0" TlutOffset="0x3CC0"/>
         <Texture Name="gPhantomGanonSmileTex" OutName="phantom_ganon_smile_tex" Format="ci8" Width="16" Height="16" Offset="0x3FB0" TlutOffset="0x3D60"/> 
         <Texture Name="gPhantomGanonMouthTex" OutName="phantom_ganon_mouth_tex" Format="ci8" Width="16" Height="16" Offset="0x40B0" TlutOffset="0x3D60"/>

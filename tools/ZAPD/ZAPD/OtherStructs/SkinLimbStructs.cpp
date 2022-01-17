@@ -263,7 +263,7 @@ void Struct_800A5E28::DeclareReferences(const std::string& prefix)
 
 	ZResource::DeclareReferences(varPrefix);
 
-	if (unk_4 != 0 && GETSEGNUM(unk_4) == parent->segment)
+	if (unk_4 != SEGMENTED_NULL && GETSEGNUM(unk_4) == parent->segment)
 	{
 		const auto& res = unk_4_arr.at(0);
 		std::string unk_4_Str = res.GetDefaultName(varPrefix);
@@ -293,7 +293,7 @@ void Struct_800A5E28::DeclareReferences(const std::string& prefix)
 			decl->text = entryStr;
 	}
 
-	if (unk_8 != 0 && GETSEGNUM(unk_8) == parent->segment)
+	if (unk_8 != SEGMENTED_NULL && GETSEGNUM(unk_8) == parent->segment)
 	{
 		uint32_t unk_8_Offset = Seg2Filespace(unk_8, parent->baseAddress);
 
@@ -306,6 +306,8 @@ void Struct_800A5E28::DeclareReferences(const std::string& prefix)
 		std::string dListStr =
 			StringHelper::Sprintf("%sSkinLimbDL_%06X", varPrefix.c_str(), unk_8_Offset);
 		unk_8_dlist->SetName(dListStr);
+		unk_8_dlist->DeclareVar(varPrefix, "");
+		unk_8_dlist->DeclareReferences(varPrefix);
 		parent->AddResource(unk_8_dlist);
 	}
 }

@@ -90,7 +90,8 @@ ZOverlay* ZOverlay::FromBuild(fs::path buildPath, fs::path cfgFolderPath)
 	std::vector<elfio*> readers;
 	for (size_t i = 1; i < cfgLines.size(); i++)
 	{
-		std::string elfPath = (buildPath / (cfgLines[i].substr(0, cfgLines[i].size() - 2) + ".o")).string();
+		std::string elfPath =
+			(buildPath / (cfgLines[i].substr(0, cfgLines[i].size() - 2) + ".o")).string();
 		elfio* reader = new elfio();
 
 		if (!reader->load(elfPath))
