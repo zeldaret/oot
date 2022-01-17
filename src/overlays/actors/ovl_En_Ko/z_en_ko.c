@@ -88,7 +88,44 @@ static EnKoSkeleton sSkeleton[2] = {
     { OBJECT_KW1, /* gKw1Skel */ 0x060000F0 },
 };
 
-static struct_80034EC0_Entry sOsAnimeTable[] = {
+typedef enum {
+    /*  0 */ ENKO_ANIM_0,
+    /*  1 */ ENKO_ANIM_1,
+    /*  2 */ ENKO_ANIM_2,
+    /*  3 */ ENKO_ANIM_3,
+    /*  4 */ ENKO_ANIM_4,
+    /*  5 */ ENKO_ANIM_5,
+    /*  6 */ ENKO_ANIM_6,
+    /*  7 */ ENKO_ANIM_7,
+    /*  8 */ ENKO_ANIM_8,
+    /*  9 */ ENKO_ANIM_9,
+    /* 10 */ ENKO_ANIM_10,
+    /* 11 */ ENKO_ANIM_11,
+    /* 12 */ ENKO_ANIM_12,
+    /* 13 */ ENKO_ANIM_13,
+    /* 14 */ ENKO_ANIM_14,
+    /* 15 */ ENKO_ANIM_15,
+    /* 16 */ ENKO_ANIM_16,
+    /* 17 */ ENKO_ANIM_17,
+    /* 18 */ ENKO_ANIM_18,
+    /* 19 */ ENKO_ANIM_19,
+    /* 20 */ ENKO_ANIM_20,
+    /* 21 */ ENKO_ANIM_21,
+    /* 22 */ ENKO_ANIM_22,
+    /* 23 */ ENKO_ANIM_23,
+    /* 24 */ ENKO_ANIM_24,
+    /* 25 */ ENKO_ANIM_25,
+    /* 26 */ ENKO_ANIM_26,
+    /* 27 */ ENKO_ANIM_27,
+    /* 28 */ ENKO_ANIM_28,
+    /* 29 */ ENKO_ANIM_29,
+    /* 30 */ ENKO_ANIM_30,
+    /* 31 */ ENKO_ANIM_31,
+    /* 32 */ ENKO_ANIM_32,
+    /* 33 */ ENKO_ANIM_33
+} EnKoAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gObjOsAnim_8F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
     { &gObjOsAnim_8F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
     { &gObjOsAnim_9B64, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
@@ -126,19 +163,19 @@ static struct_80034EC0_Entry sOsAnimeTable[] = {
 };
 
 static u8 sOsAnimeLookup[13][5] = {
-    /* ENKO_TYPE_CHILD_0    */ { 0x08, 0x09, 0x09, 0x0E, 0x0B },
-    /* ENKO_TYPE_CHILD_1    */ { 0x02, 0x0C, 0x02, 0x0D, 0x0D },
-    /* ENKO_TYPE_CHILD_2    */ { 0x0B, 0x0B, 0x0B, 0x0F, 0x09 },
-    /* ENKO_TYPE_CHILD_3    */ { 0x00, 0x10, 0x10, 0x11, 0x12 },
-    /* ENKO_TYPE_CHILD_4    */ { 0x13, 0x13, 0x14, 0x0A, 0x09 },
-    /* ENKO_TYPE_CHILD_5    */ { 0x03, 0x03, 0x03, 0x03, 0x03 },
-    /* ENKO_TYPE_CHILD_6    */ { 0x04, 0x16, 0x16, 0x04, 0x17 },
-    /* ENKO_TYPE_CHILD_7    */ { 0x18, 0x10, 0x10, 0x19, 0x10 },
-    /* ENKO_TYPE_CHILD_8    */ { 0x1A, 0x0F, 0x0F, 0x1A, 0x0F },
-    /* ENKO_TYPE_CHILD_9    */ { 0x03, 0x03, 0x03, 0x1B, 0x1B },
-    /* ENKO_TYPE_CHILD_10   */ { 0x02, 0x02, 0x02, 0x02, 0x16 },
-    /* ENKO_TYPE_CHILD_11   */ { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E },
-    /* ENKO_TYPE_CHILD_FADO */ { 0x05, 0x05, 0x05, 0x05, 0x05 },
+    /* ENKO_TYPE_CHILD_0    */ { ENKO_ANIM_8, ENKO_ANIM_9, ENKO_ANIM_9, ENKO_ANIM_14, ENKO_ANIM_11 },
+    /* ENKO_TYPE_CHILD_1    */ { ENKO_ANIM_2, ENKO_ANIM_12, ENKO_ANIM_2, ENKO_ANIM_13, ENKO_ANIM_13 },
+    /* ENKO_TYPE_CHILD_2    */ { ENKO_ANIM_11, ENKO_ANIM_11, ENKO_ANIM_11, ENKO_ANIM_15, ENKO_ANIM_9 },
+    /* ENKO_TYPE_CHILD_3    */ { ENKO_ANIM_0, ENKO_ANIM_16, ENKO_ANIM_16, ENKO_ANIM_17, ENKO_ANIM_18 },
+    /* ENKO_TYPE_CHILD_4    */ { ENKO_ANIM_19, ENKO_ANIM_19, ENKO_ANIM_20, ENKO_ANIM_10, ENKO_ANIM_9 },
+    /* ENKO_TYPE_CHILD_5    */ { ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3 },
+    /* ENKO_TYPE_CHILD_6    */ { ENKO_ANIM_4, ENKO_ANIM_22, ENKO_ANIM_22, ENKO_ANIM_4, ENKO_ANIM_23 },
+    /* ENKO_TYPE_CHILD_7    */ { ENKO_ANIM_24, ENKO_ANIM_16, ENKO_ANIM_16, ENKO_ANIM_25, ENKO_ANIM_16 },
+    /* ENKO_TYPE_CHILD_8    */ { ENKO_ANIM_26, ENKO_ANIM_15, ENKO_ANIM_15, ENKO_ANIM_26, ENKO_ANIM_15 },
+    /* ENKO_TYPE_CHILD_9    */ { ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_27, ENKO_ANIM_27 },
+    /* ENKO_TYPE_CHILD_10   */ { ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_22 },
+    /* ENKO_TYPE_CHILD_11   */ { ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14 },
+    /* ENKO_TYPE_CHILD_FADO */ { ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5 },
 };
 
 typedef struct {
@@ -627,12 +664,12 @@ s32 func_80A97D68(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x20);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
         }
         arg3 = 2;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7830) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x21);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_33);
         }
         arg3 = 1;
     }
@@ -680,13 +717,13 @@ s32 func_80A97F70(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1D);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         arg3 = 2;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7D94) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1E);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_30);
         }
         arg3 = 1;
     }
@@ -700,14 +737,14 @@ s32 func_80A98034(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1D);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         result = EnKo_IsWithinTalkAngle(this);
         arg3 = (result == true) ? 2 : 1;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_879C) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1F);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_31);
         }
         arg3 = 1;
         result = EnKo_IsWithinTalkAngle(this);
@@ -1113,7 +1150,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
             this->collider.base.ocFlags1 |= 0x40;
         }
         this->forestQuestState = EnKo_GetForestQuestState2(this);
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, sOsAnimeLookup[ENKO_TYPE][this->forestQuestState]);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sOsAnimeLookup[ENKO_TYPE][this->forestQuestState]);
         Actor_SetScale(&this->actor, 0.01f);
         func_80A98CD8(this);
         this->modelAlpha = 0.0f;
@@ -1134,7 +1171,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
 
 void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 != 0 && this->actor.textId == 0x10B9) {
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, 7);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_7);
         this->actionFunc = func_80A99438;
     } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         this->actionFunc = func_80A99504;
@@ -1145,12 +1182,12 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
 
 void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.stateTimer = 4;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else if (this->unk_1E8.unk_00 == 0 || this->actor.textId != 0x10B9) {
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99384;
     }
 }

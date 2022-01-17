@@ -82,5 +82,5 @@ std::string ZVtx::GetExternalExtension() const
 
 DeclarationAlignment ZVtx::GetDeclarationAlignment() const
 {
-	return DeclarationAlignment::Align16;
+	return DeclarationAlignment::Align8;
 }

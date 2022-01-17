@@ -1409,7 +1409,7 @@ AudioAsyncLoad* AudioLoad_StartAsyncLoad(u32 devAddr, void* ramAddr, u32 size, s
     } else if (nChunks == 1) {
         asyncLoad->chunkSize = size;
     } else {
-        asyncLoad->chunkSize = (((s32)size / nChunks) + 0xFF) & ~0xFF;
+        asyncLoad->chunkSize = ALIGN256((s32)size / nChunks);
         if (asyncLoad->chunkSize < 0x100) {
             asyncLoad->chunkSize = 0x100;
         }

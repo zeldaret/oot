@@ -29,13 +29,13 @@ typedef struct {
 } GetItemEntry; // size = 0x06
 
 #define GET_ITEM(itemId, objectId, drawId, textId, field, chestAnim) \
-    { itemId, field, (chestAnim != 0 ? 1 : -1) * (drawId + 1), textId, objectId }
+    { itemId, field, (chestAnim != CHEST_ANIM_SHORT ? 1 : -1) * (drawId + 1), textId, objectId }
 
 #define CHEST_ANIM_SHORT 0
 #define CHEST_ANIM_LONG 1
 
 #define GET_ITEM_NONE \
-    { ITEM_NONE, 0, 0, 0, 0 }
+    { ITEM_NONE, 0, 0, 0, OBJECT_INVALID }
 
 typedef enum {
     /* 0x00 */ KNOB_ANIM_ADULT_L,
@@ -4643,7 +4643,7 @@ void func_8083AE40(Player* this, s16 objectId) {
     s32 pad;
     u32 size;
 
-    if (objectId != 0) {
+    if (objectId != OBJECT_INVALID) {
         this->giObjectLoading = true;
         osCreateMesgQueue(&this->giObjectLoadQueue, &this->giObjectLoadMsg, 1);
 

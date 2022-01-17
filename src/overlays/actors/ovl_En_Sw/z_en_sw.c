@@ -47,7 +47,14 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80B0F074 = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry D_80B0F080[] = {
+typedef enum {
+    /* 0 */ ENSW_ANIM_0,
+    /* 1 */ ENSW_ANIM_1,
+    /* 2 */ ENSW_ANIM_2,
+    /* 3 */ ENSW_ANIM_3
+} EnSwAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &object_st_Anim_000304, 1.0f, 0.0f, -1.0f, 0x01, 0.0f },
     { &object_st_Anim_000304, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
     { &object_st_Anim_0055A8, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
@@ -229,7 +236,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable, 30);
-    func_80034EC0(&this->skelAnime, D_80B0F080, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENSW_ANIM_0);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->sphs);
