@@ -722,7 +722,7 @@ void ZTexture::Save(const fs::path& outFolder)
 	if (!Directory::Exists(outPath.string()))
 		Directory::CreateDirectory(outPath.string());
 
-	std::filesystem::__cxx11::path outFileName;
+	fs::path outFileName;
 
 	if (!dWordAligned)
 		outFileName = outPath / (outName + ".u32" + "." + GetExternalExtension() + ".png");
@@ -776,9 +776,8 @@ Declaration* ZTexture::DeclareVar(const std::string& prefix,
 				incStr = StringHelper::Sprintf("%s.%s.inc.c", poolEntry->second.path.c_str(),
 				                               GetExternalExtension().c_str());
 			else
-				incStr =
-					StringHelper::Sprintf("%s.u32.%s.inc.c", poolEntry->second.path.c_str(),
-				                          GetExternalExtension().c_str());
+				incStr = StringHelper::Sprintf("%s.u32.%s.inc.c", poolEntry->second.path.c_str(),
+				                               GetExternalExtension().c_str());
 		}
 	}
 	size_t texSizeDivisor = (dWordAligned) ? 8 : 4;

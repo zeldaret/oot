@@ -61,7 +61,7 @@ pipeline {
                             sh 'cp ../ZAPD.out tools/ZAPD/'
                             sh 'python3 tools/fixbaserom.py'
                             sh 'python3 tools/extract_baserom.py'
-                            sh 'python3 extract_assets.py -t$(nproc)'
+                            sh 'python3 extract_assets.py -j $(nproc)'
                         }
                     }
                 }
