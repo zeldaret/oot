@@ -191,13 +191,9 @@ class Envelope:
 
 class SampleHeader:
     def __init__(self, bank, name, tuning, record, tbl, baseOffset, offset):
-        index = bank_ctr[bank]
         bank_ctr[bank] += 1
         modes, self.u2, self.length, self.address, self.loopOffset, self.bookOffset = struct.unpack(">bbHLLL", record)
-        if bank in sampleNameLookup and self.address in sampleNameLookup[bank]:
-            self.name = sampleNameLookup[bank][self.address]
-        else:
-            self.name = f"{self.address:0>8x} {index} {name}" or f"{self.address:0>8x} {index}"
+        self.name = f"SampleHeader{offset:0>8x}"
         self.offset = baseOffset + offset
         self.codec = (modes >> 4) & 0xF
         self.medium = (modes & 0xC) >> 2
@@ -421,7 +417,7 @@ def toCodecName(codec):
         5: b"not compressed"
     }.get(codec)
 
-def generate_drum_obj(root, drum, envelopes):
+def generate_drum_obj(root, drum, samples, envelopes):
     drumElement = XmlTree.SubElement(root, "Drum")
 
     if drum is None:
@@ -433,6 +429,7 @@ def generate_drum_obj(root, drum, envelopes):
     drumElement.set("Decay", str(drum.decay))
     drumElement.set("Pan", str(drum.pan))
     drumElement.set("Sample", f"{sampleNameLookup[drum.sample.bank][drum.sample.address]}.aifc")
+    samples[drum.sample.name] = drum.sample
     drumElement.set("Envelope", drum.envelope.name)
     envelopes[drum.envelope.name] = drum.envelope
     if drum.pitch != usedTuning[drum.sample.bank][drum.sample.address]:
@@ -440,7 +437,7 @@ def generate_drum_obj(root, drum, envelopes):
 
     return drumElement
 
-def generate_effect_obj(root, effect):
+def generate_effect_obj(root, effect, samples):
     element = XmlTree.SubElement(root, "SoundEffect")
 
     if effect is None:
@@ -450,13 +447,14 @@ def generate_effect_obj(root, effect):
     element.set("Index", str(effect.index))
     element.set("Enum", effect.enum or "")
     element.set("Sample", f"{sampleNameLookup[effect.sample.bank][effect.sample.address]}.aifc")
+    samples[effect.sample.name] = effect.sample
 
     if effect.pitch != usedTuning[effect.sample.bank][effect.sample.address]:
         element.set("Pitch", str(effect.pitch))
 
     return element
 
-def generate_instrument_obj(root, instrument, envelopes):
+def generate_instrument_obj(root, instrument, samples, envelopes):
     if instrument is None:
         return XmlTree.SubElement(root, "Instrument")
     
@@ -477,17 +475,20 @@ def generate_instrument_obj(root, instrument, envelopes):
     hiKeyElement = XmlTree.SubElement(element, "HighKey")
     if instrument.keyLowSample is not None:
         keyLow = instrument.keyLowSample
+        samples[keyLow.name] = keyLow
         lowKeyElement.set("Sample", f"{sampleNameLookup[keyLow.bank][keyLow.address]}.aifc")
         lowKeyElement.set("MaxNote", toNote(instrument.lowRange))
         if instrument.keyLowPitch != usedTuning[keyLow.bank][keyLow.address]:
             lowKeyElement.set("Pitch", str(instrument.keyLowPitch))
     if instrument.keyMedSample is not None:
         keyMed = instrument.keyMedSample
+        samples[keyMed.name] = keyMed
         medKeyElement.set("Sample", f"{sampleNameLookup[keyMed.bank][keyMed.address]}.aifc")
         if instrument.keyMedPitch != usedTuning[keyMed.bank][keyMed.address]:
             medKeyElement.set("Pitch", str(instrument.keyMedPitch))
     if instrument.keyHighSample is not None:
         keyHigh = instrument.keyHighSample
+        samples[keyHigh.name] = keyHigh
         hiKeyElement.set("Sample", f"{sampleNameLookup[keyHigh.bank][keyHigh.address]}.aifc")
         hiKeyElement.set("MinNote", toNote(instrument.highRange))
         if instrument.keyHighPitch != usedTuning[keyHigh.bank][keyHigh.address]:
@@ -505,7 +506,19 @@ def generate_envelope_obj(root, name, envelope):
     [XmlTree.SubElement(script, "Point", { "Delay": str(x[0]), "Command": str(x[1]) }) for x in envelope.script]
     return envelopeRoot
 
+def generate_sample_obj(root, name, sample):
+    return XmlTree.SubElement(
+        root,
+        "Sample",
+        {
+            "Name": name,
+            "File": f"{sampleNameLookup[sample.bank][sample.address]}.aifc",
+            "Medium": toMedium(sample.medium)
+        }
+    )
+
 def write_soundfont(font, filename, banknames):
+    samplesFound = {}
     envelopesFound = {}
 
     root = XmlTree.Element("Soundfont", {
@@ -523,11 +536,12 @@ def write_soundfont(font, filename, banknames):
     drums = XmlTree.SubElement(root, "Drums")
     effects = XmlTree.SubElement(root, "SoundEffects")
     envelopes = XmlTree.SubElement(root, "Envelopes")
+    samples = XmlTree.SubElement(root, "Samples")
     unused = None
 
-    [generate_instrument_obj(instruments, inst, envelopesFound) for inst in font.font.instruments]
-    [generate_drum_obj(drums, drum, envelopesFound) for drum in font.font.percussions]
-    [generate_effect_obj(effects, effect) for effect in font.font.effects]
+    [generate_instrument_obj(instruments, inst, samplesFound, envelopesFound) for inst in font.font.instruments]
+    [generate_drum_obj(drums, drum, samplesFound, envelopesFound) for drum in font.font.percussions]
+    [generate_effect_obj(effects, effect, samplesFound) for effect in font.font.effects]
     for item in font.font.unused:
         if isinstance(item, Envelope):
             envelopesFound[item.name] = item
@@ -541,12 +555,12 @@ def write_soundfont(font, filename, banknames):
         for referencedEnvelope in envelopesFound[name].referencedScripts:
             envelopesFound[referencedEnvelope.name] = referencedEnvelope
     envelopesFound = dict(sorted(envelopesFound.items()))
+    samplesFound = dict(sorted(samplesFound.items()))
     [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
+    [generate_sample_obj(samples, name, sample) for name, sample in samplesFound.items()]
     xmlstring = minidom.parseString(XmlTree.tostring(root, "unicode")).toprettyxml(indent="\t")
-    file = open(filename, "w")
-    file.write(xmlstring)
-    file.flush()
-    file.close()
+    with open(filename, "w") as file:
+        file.write(xmlstring)
 
 def report_gaps(report_type, data, bin):
     length = len(bin)
@@ -899,10 +913,11 @@ def main():
         for address in rawSamples[bank]:
             sample = rawSamples[bank][address]
             filename_base = os.path.join(samples_out_dir, samplebanks[bank])
+            sampleName = sampleNameLookup[sample.bank][sample.address]
             os.makedirs(filename_base, exist_ok=True)
-            aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)} {sample.name}.aifc")
+            aifc_filename = os.path.join(filename_base, f"{str(idx).zfill(width)} {sampleName}.aifc")
             write_aifc(version, bank_data, bank_defs, sample, aifc_filename)
-            write_aiff(sample, samples_out_dir, aifc_filename, f"{str(idx).zfill(width)} {sample.name}.aiff")
+            write_aiff(sample, samples_out_dir, aifc_filename, f"{str(idx).zfill(width)} {sampleName}.aiff")
             idx += 1
     
     if len(usedRawData) > 0:
@@ -920,9 +935,9 @@ def main():
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{fontentry.font.name}.xml")
-        s_filename = os.path.join(dir, f"{fontentry.font.index}.h")
+        h_filename = os.path.join(dir, f"{fontentry.font.index}.h")
         write_soundfont(fontentry, filename, real_samplebanks)
-        write_soundfont_header(fontentry.font, s_filename)
+        write_soundfont_header(fontentry.font, h_filename)
 
 if __name__ == "__main__":
     main()
