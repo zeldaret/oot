@@ -6384,7 +6384,8 @@ endseg
 beginseg
     name "z_select_static"
     romalign 0x1000
-    include "build/baserom/z_select_static.o"
+    include "build/assets/misc/z_select_static/z_select_static.o"
+    number 1
 endseg
 
 beginseg
