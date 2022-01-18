@@ -156,7 +156,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
                 return 0x2037;
             }
         case EVENTINF_00_MASK | EVENTINF_01_MASK:
-            if ((GET_EVENTINF(EVENTINF_06)) || (GET_EVENTINF(EVENTINF_05))) {
+            if (GET_EVENTINF(EVENTINF_06) || GET_EVENTINF(EVENTINF_05)) {
                 return 0x203E;
             } else {
                 return 0x203D;
@@ -723,7 +723,7 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
         this->unk_308.unk_00 = 0;
         gSaveContext.eventInf[EVENTINF_0X_INDEX] =
             (gSaveContext.eventInf[EVENTINF_0X_INDEX] & 0xFFFF) | EVENTINF_05_MASK;
-        if (!(GET_EVENTINF(EVENTINF_06))) {
+        if (!GET_EVENTINF(EVENTINF_06)) {
             globalCtx->msgCtx.stateTimer = 4;
             globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }

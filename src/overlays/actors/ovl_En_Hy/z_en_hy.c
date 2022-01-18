@@ -431,7 +431,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
                 return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
-                return (GET_EVENTINF(EVENTINF_30)) ? 0x709B : 0x709C;
+                return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
                 s16 followingDog = (gSaveContext.dogParams & 0xF00) >> 8;
 

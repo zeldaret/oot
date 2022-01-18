@@ -158,7 +158,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x2002:
                     SET_INFTABLE(INFTABLE_B9);
                 case 0x2003:
-                    if (!(GET_EVENTINF(EVENTINF_0A))) {
+                    if (!GET_EVENTINF(EVENTINF_0A)) {
                         ret = 0;
                     }
                     break;

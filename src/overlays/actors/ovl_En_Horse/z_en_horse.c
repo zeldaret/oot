@@ -877,7 +877,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         if (this->rider == NULL) {
             __assert("this->race.rider != NULL", "../z_en_horse.c", 3077);
         }
-        if (!(GET_EVENTINF(EVENTINF_06))) {
+        if (!GET_EVENTINF(EVENTINF_06)) {
             this->ingoHorseMaxSpeed = 12.07f;
         } else {
             this->ingoHorseMaxSpeed = 12.625f;
