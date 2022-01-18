@@ -8,6 +8,12 @@
 #define FILL_SCREEN_OPA (1 << 0)
 #define FILL_SCREEN_XLU (1 << 1)
 
+#define NEXT_TIME_NONE 0xFFFF
+#define NEXT_TIME_SUNS_DAY 0x8001
+#define NEXT_TIME_SUNS_NIGHT 0x0000
+#define NEXT_TIME_DAY_SET 0xFFFE
+#define NEXT_TIME_NIGHT_SET 0xFFFD
+
 typedef enum {
     /* 0 */ LIGHTNING_MODE_OFF, // no lightning
     /* 1 */ LIGHTNING_MODE_ON, // request ligtning strikes at random intervals
@@ -90,8 +96,8 @@ typedef struct {
     /* 0x48 */ DmaRequest dmaRequest;
     /* 0x68 */ OSMesgQueue loadQueue;
     /* 0x80 */ OSMesg loadMsg;
-    /* 0x84 */ f32 unk_84;
-    /* 0x88 */ f32 unk_88;
+    /* 0x84 */ f32 lensFlareFillAlpha;
+    /* 0x88 */ f32 lensFlareAlphaScale;
     /* 0x8C */ s16 adjAmbientColor[3];
     /* 0x92 */ s16 adjLight1Color[3];
     /* 0x98 */ s16 adjFogColor[3];

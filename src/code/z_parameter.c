@@ -4119,7 +4119,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         if (globalCtx->envCtx.timeIncrement != 0) {
             if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = 0;
-                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= 0xC001)) {
                     D_80125B60 = 1;
                 }
 
@@ -4127,7 +4127,7 @@ void Interface_Update(GlobalContext* globalCtx) {
                 sPrevTimeIncrement = gTimeIncrement;
                 gTimeIncrement = 400;
             } else if (D_80125B60 == 0) {
-                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= 0xC001)) {
                     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                     gTimeIncrement = sPrevTimeIncrement;
                     globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
@@ -4139,12 +4139,12 @@ void Interface_Update(GlobalContext* globalCtx) {
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {
-                gSaveContext.nextDayTime = 0;
+                gSaveContext.nextDayTime = NEXT_TIME_SUNS_NIGHT;
                 globalCtx->fadeTransition = 4;
                 gSaveContext.nextTransition = 2;
                 globalCtx->unk_11DE9 = 1;
             } else {
-                gSaveContext.nextDayTime = 0x8001;
+                gSaveContext.nextDayTime = NEXT_TIME_SUNS_DAY;
                 globalCtx->fadeTransition = 5;
                 gSaveContext.nextTransition = 3;
                 globalCtx->unk_11DE9 = 1;

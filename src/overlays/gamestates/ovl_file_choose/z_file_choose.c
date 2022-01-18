@@ -1469,7 +1469,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.nextCutsceneIndex = 0xFFEF;
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = 0;
-    gSaveContext.nextDayTime = 0xFFFF;
+    gSaveContext.nextDayTime = NEXT_TIME_NONE;
     gSaveContext.unk_13C3 = 0;
 
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
@@ -1834,8 +1834,8 @@ void FileChoose_InitContext(GameState* thisx) {
     envCtx->unk_17 = 2;
     envCtx->skyboxDisabled = 0;
     envCtx->skyboxBlend = 0;
-    envCtx->unk_84 = 0.0f;
-    envCtx->unk_88 = 0.0f;
+    envCtx->lensFlareFillAlpha = 0.0f;
+    envCtx->lensFlareAlphaScale = 0.0f;
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 

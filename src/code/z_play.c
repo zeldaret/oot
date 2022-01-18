@@ -244,7 +244,7 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.cutsceneIndex = 0;
     }
 
-    if (gSaveContext.nextDayTime != 0xFFFF) {
+    if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
         gSaveContext.dayTime = gSaveContext.nextDayTime;
         gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
@@ -304,8 +304,8 @@ void Gameplay_Init(GameState* thisx) {
     KaleidoScopeCall_Init(globalCtx);
     func_801109B0(globalCtx);
 
-    if (gSaveContext.nextDayTime != 0xFFFF) {
-        if (gSaveContext.nextDayTime == 0x8001) {
+    if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
+        if (gSaveContext.nextDayTime == NEXT_TIME_SUNS_DAY) {
             gSaveContext.totalDays++;
             gSaveContext.bgsDayCount++;
             gSaveContext.dogIsLost = true;
@@ -313,9 +313,9 @@ void Gameplay_Init(GameState* thisx) {
                 Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
                 Message_StartTextbox(globalCtx, 0x3066, NULL);
             }
-            gSaveContext.nextDayTime = 0xFFFE;
+            gSaveContext.nextDayTime = NEXT_TIME_DAY_SET;
         } else {
-            gSaveContext.nextDayTime = 0xFFFD;
+            gSaveContext.nextDayTime = NEXT_TIME_NIGHT_SET;
         }
     }
 
