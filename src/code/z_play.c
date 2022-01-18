@@ -249,7 +249,7 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
 
-    if (gSaveContext.dayTime > 0xC000 || gSaveContext.dayTime < 0x4555) {
+    if (gSaveContext.dayTime > CLOCK_TIME(18, 0) || gSaveContext.dayTime < CLOCK_TIME(6, 30)) {
         gSaveContext.nightFlag = 1;
     } else {
         gSaveContext.nightFlag = 0;

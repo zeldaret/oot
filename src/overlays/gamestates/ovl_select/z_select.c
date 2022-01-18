@@ -586,16 +586,16 @@ void Select_PrintCutsceneSetting(SelectContext* this, GfxPrint* printer, u16 csI
     switch (csIndex) {
         case 0:
             label = GFXP_HIRAGANA " ﾖﾙ " GFXP_KATAKANA "ｺﾞﾛﾝ";
-            gSaveContext.dayTime = 0;
+            gSaveContext.dayTime = CLOCK_TIME(0, 0);
             break;
         case 0x8000:
             // clang-format off
-            gSaveContext.dayTime = 0x8000; label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
+            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = GFXP_HIRAGANA "ｵﾋﾙ " GFXP_KATAKANA "ｼﾞｬﾗ";
             // clang-format on
             break;
         case 0xFFF0:
             // clang-format off
-            gSaveContext.dayTime = 0x8000; label = "ﾃﾞﾓ00";
+            gSaveContext.dayTime = CLOCK_TIME(12, 0); label = "ﾃﾞﾓ00";
             // clang-format on
             break;
         case 0xFFF1:

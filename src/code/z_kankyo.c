@@ -237,7 +237,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
 
-    if (((void)0, gSaveContext.dayTime) > 0xC000 || ((void)0, gSaveContext.dayTime) < 0x4555) {
+    if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(18, 0) || ((void)0, gSaveContext.dayTime) < CLOCK_TIME(6, 30)) {
         ((void)0, gSaveContext.nightFlag = 1);
     } else {
         ((void)0, gSaveContext.nightFlag = 0);
@@ -298,9 +298,9 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
             envCtx->adjFogColor[2] = envCtx->adjFogNear = envCtx->adjFogFar = 0;
 
-    envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    envCtx->sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+    envCtx->sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.y = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    envCtx->sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
     envCtx->windDirection.x = 80;
     envCtx->windDirection.y = 80;
@@ -906,7 +906,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
         time = gSaveContext.dayTime;
 
-        if (time > 0xC000 || time < 0x4555) {
+        if (time > 0xC000 || time < CLOCK_TIME(6, 30)) {
             gSaveContext.nightFlag = 1;
         } else {
             gSaveContext.nightFlag = 0;
@@ -1961,7 +1961,7 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
 
         if (((void)0, gSaveContext.dayTime) > 0xB71C && ((void)0, gSaveContext.dayTime) < 0xCAAC) {
             globalCtx->envCtx.unk_E0 = 3;
-        } else if (((void)0, gSaveContext.dayTime) > 0xCAAC || ((void)0, gSaveContext.dayTime) < 0x4555) {
+        } else if (((void)0, gSaveContext.dayTime) > 0xCAAC || ((void)0, gSaveContext.dayTime) < CLOCK_TIME(6, 30)) {
             globalCtx->envCtx.unk_E0 = 5;
         } else {
             globalCtx->envCtx.unk_E0 = 7;
@@ -2030,7 +2030,7 @@ void func_80075B44(GlobalContext* globalCtx) {
             break;
 
         case 6:
-            if ((gSaveContext.dayTime < 0xCAAC) && (gSaveContext.dayTime > 0x4555)) {
+            if ((gSaveContext.dayTime < 0xCAAC) && (gSaveContext.dayTime > CLOCK_TIME(6, 30))) {
                 gSaveContext.totalDays++;
                 gSaveContext.bgsDayCount++;
                 gSaveContext.dogIsLost = true;

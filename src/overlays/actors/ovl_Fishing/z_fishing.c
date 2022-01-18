@@ -3094,11 +3094,11 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
-                if ((gSaveContext.dayTime >= 0xC000) && (gSaveContext.dayTime <= 0xC01B)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(18, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 27)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
-                if ((gSaveContext.dayTime >= 0x3AAA) && (gSaveContext.dayTime <= 0x3AC5)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(5, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(5, 30) + 27)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
@@ -3349,9 +3349,9 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 multiplier = 1.0f;
             }
 
-            if ((gSaveContext.dayTime >= 0xB555) && (gSaveContext.dayTime <= 0xCAAA)) {
+            if ((gSaveContext.dayTime >= CLOCK_TIME(17, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(19, 0))) {
                 multiplier *= 1.75f;
-            } else if ((gSaveContext.dayTime >= 0x3555) && (gSaveContext.dayTime <= 0x4AAA)) {
+            } else if ((gSaveContext.dayTime >= CLOCK_TIME(5, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(7, 0))) {
                 multiplier *= 1.5f;
             } else if (D_80B7E076 != 0) {
                 multiplier *= 1.5f;

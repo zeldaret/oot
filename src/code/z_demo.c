@@ -327,7 +327,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 18:
             globalCtx->envCtx.unk_EE[0] = 0;
             globalCtx->envCtx.gloomySkyMode = 2;
-            if (gSaveContext.dayTime < 0x4AAB) {
+            if (gSaveContext.dayTime <= CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
             if (globalCtx->envCtx.unk_EE[1] == 0) {
@@ -361,15 +361,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 25:
             gSaveContext.dayTime += 30;
-            if ((gSaveContext.dayTime) > 0xCAAA) {
-                gSaveContext.dayTime = 0xCAAA;
+            if ((gSaveContext.dayTime) > CLOCK_TIME(19, 0)) {
+                gSaveContext.dayTime = CLOCK_TIME(19, 0);
             }
             break;
         case 26:
-            if ((gSaveContext.dayTime < 0x3000) || (gSaveContext.dayTime >= 0x4555)) {
-                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xAAAB)) {
+            if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(16, 0))) {
                     globalCtx->envCtx.unk_BF = 1;
-                } else if ((gSaveContext.dayTime >= 0xAAAB) && (gSaveContext.dayTime < 0xC556)) {
+                } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0) + 1) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
                     globalCtx->envCtx.unk_BF = 2;
                 } else {
                     globalCtx->envCtx.unk_BF = 3;
@@ -1220,8 +1220,8 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.nextTransition = 2;
                 break;
             case 119:
-                gSaveContext.dayTime = 0x8000;
-                gSaveContext.skyboxTime = 0x8000;
+                gSaveContext.dayTime = CLOCK_TIME(12, 0);
+                gSaveContext.skyboxTime = CLOCK_TIME(12, 0);
                 globalCtx->nextEntranceIndex = 0x05F0;
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->fadeTransition = 3;

@@ -202,7 +202,7 @@ void EnMm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80AADA70(void) {
     s32 isDay = false;
 
-    if ((gSaveContext.dayTime > 0x3555) && (gSaveContext.dayTime <= 0xD556)) {
+    if ((gSaveContext.dayTime > CLOCK_TIME(5, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(20, 0) + 1)) {
         isDay = true;
     }
 

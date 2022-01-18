@@ -1464,7 +1464,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.unk_13F0 = 0;
     gSaveContext.unk_13F2 = 0;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
-    gSaveContext.skyboxTime = 0;
+    gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
     gSaveContext.nextTransition = 0xFF;
     gSaveContext.nextCutsceneIndex = 0xFFEF;
     gSaveContext.cutsceneTrigger = 0;
@@ -1814,8 +1814,8 @@ void FileChoose_InitContext(GameState* thisx) {
 
     ShrinkWindow_SetVal(0);
 
-    gSaveContext.skyboxTime = 0;
-    gSaveContext.dayTime = 0;
+    gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
+    gSaveContext.dayTime = CLOCK_TIME(0, 0);
 
     Skybox_Init(&this->state, &this->skyboxCtx, SKYBOX_NORMAL_SKY);
 

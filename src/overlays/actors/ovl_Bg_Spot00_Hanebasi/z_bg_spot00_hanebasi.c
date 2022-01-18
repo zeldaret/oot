@@ -236,10 +236,10 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
             s32 tmp;
 
             if (gTimeIncrement == 50) {
-                tmp = 0xD556;
+                tmp = CLOCK_TIME(20, 0) + 1;
 
-                if (gSaveContext.dayTime >= 0xD557) {
-                    tmp = 0x1D556;
+                if (gSaveContext.dayTime > CLOCK_TIME(20, 0) + 1) {
+                    tmp = CLOCK_TIME(20, 0) + 1 + 0x10000;
                 }
 
                 gTimeIncrement = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
@@ -247,7 +247,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             dayTime = gSaveContext.dayTime;
 
-            if ((dayTime >= 0x2AAC) && (dayTime < 0x3000) && (gSaveContext.sceneSetupIndex == 5)) {
+            if ((dayTime > CLOCK_TIME(4, 0) + 1) && (dayTime < CLOCK_TIME(4, 30)) && (gSaveContext.sceneSetupIndex == 5)) {
                 gTimeIncrement = 0;
             }
         }

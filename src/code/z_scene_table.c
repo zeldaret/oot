@@ -1885,14 +1885,14 @@ void func_8009DA30(GlobalContext* globalCtx) {
 
     gSPSegment(POLY_XLU_DISP++, 0x0A, displayListHead);
 
-    if ((gSaveContext.dayTime >= 0x4AAC) && (gSaveContext.dayTime <= 0xC555)) {
+    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0) + 1) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.dayTime > 0xC555) {
+        if (gSaveContext.dayTime > CLOCK_TIME(18, 30)) {
             if (globalCtx->roomCtx.unk_74[0] != 255) {
                 Math_StepToS(&globalCtx->roomCtx.unk_74[0], 255, 5);
             }
-        } else if (gSaveContext.dayTime >= 0x4000) {
+        } else if (gSaveContext.dayTime >= CLOCK_TIME(6, 0)) {
             if (globalCtx->roomCtx.unk_74[0] != 0) {
                 Math_StepToS(&globalCtx->roomCtx.unk_74[0], 0, 10);
             }
@@ -2245,14 +2245,14 @@ void func_8009F5D4(GlobalContext* globalCtx) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, displayListHead);
 
-    if ((gSaveContext.dayTime >= 0x4AAC) && (gSaveContext.dayTime <= 0xC000)) {
+    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0) + 1) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0))) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.dayTime > 0xC000) {
+        if (gSaveContext.dayTime > CLOCK_TIME(18, 0)) {
             if (globalCtx->roomCtx.unk_74[0] != 255) {
                 Math_StepToS(&globalCtx->roomCtx.unk_74[0], 255, 5);
             }
-        } else if (gSaveContext.dayTime >= 0x4000) {
+        } else if (gSaveContext.dayTime >= CLOCK_TIME(6, 0)) {
             if (globalCtx->roomCtx.unk_74[0] != 0) {
                 Math_StepToS(&globalCtx->roomCtx.unk_74[0], 0, 10);
             }
