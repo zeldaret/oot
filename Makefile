@@ -273,8 +273,7 @@ build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/overlays/%_reloc.o: build/spec
-	$(FADO) -o $(@:.o=.s) $$(tools/reloc_prec $< $(notdir $(@D)))
-#	-M $(@:.o=.d)
+	$(FADO) $$(tools/reloc_preq $< $(notdir $(@D)))	-n $(notdir $(@D)) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/%.inc.c: %.png
