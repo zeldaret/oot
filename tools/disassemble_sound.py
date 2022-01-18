@@ -196,9 +196,9 @@ class SampleHeader:
         self.name = f"SampleHeader{offset:0>8x}"
         self.offset = baseOffset + offset
         self.codec = (modes >> 4) & 0xF
-        self.medium = (modes & 0xC) >> 2
+        self.bank = (modes & 0xC) >> 2
         assert self.codec == 0 or self.codec == 3
-        assert self.medium == 0 or self.medium == 2
+        assert self.bank == 0  # TODO: Need to support lookup from bank 1
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.bank = bank
         assert self.length % 2 == 0
@@ -506,14 +506,14 @@ def generate_envelope_obj(root, name, envelope):
     [XmlTree.SubElement(script, "Point", { "Delay": str(x[0]), "Command": str(x[1]) }) for x in envelope.script]
     return envelopeRoot
 
-def generate_sample_obj(root, name, sample):
+def generate_sample_obj(root, name, sample, banknames):
     return XmlTree.SubElement(
         root,
         "Sample",
         {
             "Name": name,
             "File": f"{sampleNameLookup[sample.bank][sample.address]}.aifc",
-            "Medium": toMedium(sample.medium)
+            "Bank": banknames[sample.bank]
         }
     )
 
@@ -557,7 +557,7 @@ def write_soundfont(font, filename, banknames):
     envelopesFound = dict(sorted(envelopesFound.items()))
     samplesFound = dict(sorted(samplesFound.items()))
     [generate_envelope_obj(envelopes, name, envelope) for name, envelope in envelopesFound.items()]
-    [generate_sample_obj(samples, name, sample) for name, sample in samplesFound.items()]
+    [generate_sample_obj(samples, name, sample, banknames) for name, sample in samplesFound.items()]
     xmlstring = minidom.parseString(XmlTree.tostring(root, "unicode")).toprettyxml(indent="\t")
     with open(filename, "w") as file:
         file.write(xmlstring)
