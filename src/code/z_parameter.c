@@ -1682,7 +1682,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         func_80087708(globalCtx, 12, 5);
 
-        if (!(GET_INFTABLE(INFTABLE_198))) {
+        if (!GET_INFTABLE(INFTABLE_198)) {
             SET_INFTABLE(INFTABLE_198);
             return ITEM_NONE;
         }
@@ -1695,7 +1695,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         func_80087708(globalCtx, 24, 5);
 
-        if (!(GET_INFTABLE(INFTABLE_198))) {
+        if (!GET_INFTABLE(INFTABLE_198)) {
             SET_INFTABLE(INFTABLE_198);
             return ITEM_NONE;
         }
@@ -1878,7 +1878,7 @@ u8 Item_CheckObtainability(u8 item) {
     } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
         osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
-        if (!(GET_INFTABLE(INFTABLE_198))) {
+        if (!GET_INFTABLE(INFTABLE_198)) {
             return ITEM_NONE;
         } else {
             return item;

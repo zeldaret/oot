@@ -291,7 +291,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x10D9;
             }
-            return (GET_INFTABLE(INFTABLE_B7)) ? 0x10D8 : 0x10D7;
+            return GET_INFTABLE(INFTABLE_B7) ? 0x10D8 : 0x10D7;
         case ENKO_TYPE_CHILD_0:
             if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x1025;
@@ -951,7 +951,7 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(globalCtx) == ENKO_TYPE_CHILD_9) {
-            this->actor.textId = (GET_INFTABLE(INFTABLE_BC)) ? 0x10B8 : 0x10B7;
+            this->actor.textId = GET_INFTABLE(INFTABLE_BC) ? 0x10B8 : 0x10B7;
             this->unk_210 = 0;
         }
         player->actor.textId = this->actor.textId;

@@ -491,7 +491,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
-            if ((globalCtx->sceneNum == SCENE_BDAN) && (GET_INFTABLE(INFTABLE_145))) {
+            if ((globalCtx->sceneNum == SCENE_BDAN) && GET_INFTABLE(INFTABLE_145)) {
                 Actor_Kill(&this->actor);
                 return;
             }

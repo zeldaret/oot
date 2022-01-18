@@ -1200,7 +1200,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
-        if (!(GET_INFTABLE(INFTABLE_16C))) {
+        if (!GET_INFTABLE(INFTABLE_16C)) {
             this->actor.textId = 0x601D;
         } else {
             this->actor.textId = 0x6024;

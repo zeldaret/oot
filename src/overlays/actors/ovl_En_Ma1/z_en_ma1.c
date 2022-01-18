@@ -101,7 +101,7 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
         return 0x2049;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
-        if ((GET_INFTABLE(INFTABLE_85))) {
+        if (GET_INFTABLE(INFTABLE_85)) {
             return 0x2049;
         } else {
             return 0x2048;
@@ -188,7 +188,7 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
         return 0;
     }
     if (((globalCtx->sceneNum == SCENE_MARKET_NIGHT) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) &&
-        !GET_EVENTCHKINF(EVENTCHKINF_14) && !(GET_INFTABLE(INFTABLE_8B))) {
+        !GET_EVENTCHKINF(EVENTCHKINF_14) && !GET_INFTABLE(INFTABLE_8B)) {
         return 1;
     }
     if ((globalCtx->sceneNum == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {

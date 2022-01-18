@@ -588,7 +588,7 @@ void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
-    u16 textId = (GET_INFTABLE(INFTABLE_195)) ? 0x4004 : 0x4003;
+    u16 textId = GET_INFTABLE(INFTABLE_195) ? 0x4004 : 0x4003;
 
     // Spoke to Owl in Lake Hylia
     EnOwl_LookAtLink(this, globalCtx);

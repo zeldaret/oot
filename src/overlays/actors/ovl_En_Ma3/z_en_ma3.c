@@ -75,7 +75,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = GET_PLAYER(globalCtx);
     s16* timer1ValuePtr; // weirdness with this necessary to match
 
-    if (!(GET_INFTABLE(INFTABLE_B8))) {
+    if (!GET_INFTABLE(INFTABLE_B8)) {
         return 0x2000;
     }
     timer1ValuePtr = &gSaveContext.timer1Value;
@@ -101,7 +101,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         (Actor_FindNearby(globalCtx, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
-    if (!(GET_INFTABLE(INFTABLE_B9))) {
+    if (!GET_INFTABLE(INFTABLE_B9)) {
         return 0x2002;
     } else {
         return 0x2003;

@@ -585,7 +585,7 @@ void func_80AF6448(EnSa* this, GlobalContext* globalCtx) {
                     break;
             }
         } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) &&
-                   ((GET_INFTABLE(INFTABLE_01)) || (GET_INFTABLE(INFTABLE_03)))) {
+                   (GET_INFTABLE(INFTABLE_01) || GET_INFTABLE(INFTABLE_03))) {
             if (this->unk_20B != 3) {
                 func_80AF5CD4(this, 3);
             }

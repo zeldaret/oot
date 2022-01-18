@@ -150,7 +150,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
-        if (!(GET_INFTABLE(INFTABLE_17F)) || !(GET_EVENTINF(EVENTINF_10))) {
+        if (!GET_INFTABLE(INFTABLE_17F) || !(GET_EVENTINF(EVENTINF_10))) {
             osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }

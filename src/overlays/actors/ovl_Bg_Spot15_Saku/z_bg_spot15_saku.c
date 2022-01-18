@@ -58,7 +58,7 @@ void BgSpot15Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808B4930(BgSpot15Saku* this, GlobalContext* globalCtx) {
-    if (this->unk_168 && !(GET_INFTABLE(INFTABLE_71))) {
+    if (this->unk_168 && !GET_INFTABLE(INFTABLE_71)) {
         this->timer = 2;
         this->actionFunc = func_808B4978;
     }

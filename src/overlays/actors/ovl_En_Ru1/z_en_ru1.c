@@ -761,11 +761,11 @@ void func_80AEC2C0(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEC320(EnRu1* this, GlobalContext* globalCtx) {
     s8 actorRoom;
 
-    if (!(GET_INFTABLE(INFTABLE_141))) {
+    if (!GET_INFTABLE(INFTABLE_141)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 7;
         EnRu1_SetMouthIndex(this, 1);
-    } else if ((GET_INFTABLE(INFTABLE_147)) && !(GET_INFTABLE(INFTABLE_140)) && !(GET_INFTABLE(INFTABLE_145))) {
+    } else if (GET_INFTABLE(INFTABLE_147) && !GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145)) {
         if (!func_80AEB020(this, globalCtx)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
             actorRoom = this->actor.room;
@@ -1170,8 +1170,8 @@ void func_80AED414(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AED44C(EnRu1* this, GlobalContext* globalCtx) {
     s8 actorRoom;
 
-    if ((GET_INFTABLE(INFTABLE_141)) && !(GET_INFTABLE(INFTABLE_145)) && !(GET_INFTABLE(INFTABLE_140)) &&
-        !(GET_INFTABLE(INFTABLE_147))) {
+    if (GET_INFTABLE(INFTABLE_141) && !GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_140) &&
+        !GET_INFTABLE(INFTABLE_147)) {
         if (!func_80AEB020(this, globalCtx)) {
             func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
             actorRoom = this->actor.room;
@@ -1244,7 +1244,7 @@ void func_80AED6DC(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AED6F8(GlobalContext* globalCtx) {
     s8 curRoomNum;
 
-    if ((!(GET_INFTABLE(INFTABLE_147)))) {
+    if (!GET_INFTABLE(INFTABLE_147)) {
         curRoomNum = globalCtx->roomCtx.curRoom.num;
         if (curRoomNum == 2) {
             SET_INFTABLE(INFTABLE_147);
@@ -1495,7 +1495,7 @@ void func_80AEE050(EnRu1* this) {
 s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
     if (!Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
-        if ((GET_INFTABLE(INFTABLE_143))) {
+        if (GET_INFTABLE(INFTABLE_143)) {
             this->actor.textId = 0x404E;
             func_8002F2F4(&this->actor, globalCtx);
         } else if (GET_INFTABLE(INFTABLE_142)) {
@@ -1598,7 +1598,7 @@ s32 func_80AEE6D0(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad;
     s8 curRoomNum = globalCtx->roomCtx.curRoom.num;
 
-    if (!(GET_INFTABLE(INFTABLE_144)) && (func_80AEB124(globalCtx) != 0)) {
+    if (!GET_INFTABLE(INFTABLE_144) && (func_80AEB124(globalCtx) != 0)) {
         if (!Player_InCsMode(globalCtx)) {
             Animation_Change(&this->skelAnime, &gRutoChildSeesSapphireAnim, 1.0f, 0,
                              Animation_GetLastFrame(&gRutoChildSquirmAnim), ANIMMODE_LOOP, -8.0f);
@@ -2093,7 +2093,7 @@ void func_80AEFC24(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEFC54(EnRu1* this, GlobalContext* globalCtx) {
-    if ((GET_INFTABLE(INFTABLE_145)) && !(GET_INFTABLE(INFTABLE_146))) {
+    if (GET_INFTABLE(INFTABLE_145) && !GET_INFTABLE(INFTABLE_146)) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->action = 41;
         this->unk_28C = EnRu1_FindSwitch(globalCtx);
@@ -2177,7 +2177,7 @@ void func_80AEFF40(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEFF94(EnRu1* this, GlobalContext* globalCtx) {
     s8 actorRoom;
 
-    if ((GET_INFTABLE(INFTABLE_141)) && (GET_INFTABLE(INFTABLE_140)) && !(GET_INFTABLE(INFTABLE_145)) &&
+    if (GET_INFTABLE(INFTABLE_141) && GET_INFTABLE(INFTABLE_140) && !GET_INFTABLE(INFTABLE_145) &&
         (!(func_80AEB020(this, globalCtx)))) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         actorRoom = this->actor.room;

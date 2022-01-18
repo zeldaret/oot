@@ -917,7 +917,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
     player->actor.freezeTimer = 10;
     if (this->unk_308.unk_00 == 2) {
         if (1) {}
-        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (GET_INFTABLE(INFTABLE_AB))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && GET_INFTABLE(INFTABLE_AB)) {
             SET_EVENTCHKINF(EVENTCHKINF_1B);
             SET_INFTABLE(INFTABLE_AB);
         }

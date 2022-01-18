@@ -268,7 +268,7 @@ s32 EnMm_GetTextId(EnMm* this, GlobalContext* globalCtx) {
             textId = 0x204D;
         }
     } else if (player->currentMask == PLAYER_MASK_BUNNY) {
-        textId = (GET_INFTABLE(INFTABLE_17C)) ? 0x202B : 0x202A;
+        textId = GET_INFTABLE(INFTABLE_17C) ? 0x202B : 0x202A;
     } else if (textId == 0) {
         textId = 0x2029;
     }

@@ -303,7 +303,7 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
-        if (!(GET_INFTABLE(INFTABLE_B6))) {
+        if (!GET_INFTABLE(INFTABLE_B6)) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
@@ -313,7 +313,7 @@ void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
-        if (!(GET_INFTABLE(INFTABLE_B6))) {
+        if (!GET_INFTABLE(INFTABLE_B6)) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
@@ -325,7 +325,7 @@ void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
-        if (!(GET_INFTABLE(INFTABLE_B6))) {
+        if (!GET_INFTABLE(INFTABLE_B6)) {
             SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);

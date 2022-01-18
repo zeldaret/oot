@@ -85,7 +85,7 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
-        if (!(GET_INFTABLE(INFTABLE_139))) {
+        if (!GET_INFTABLE(INFTABLE_139)) {
             if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 2)) {
                 return 0x401F;
             } else {
@@ -334,7 +334,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (LINK_IS_ADULT) {
-        if (!(GET_INFTABLE(INFTABLE_138))) {
+        if (!GET_INFTABLE(INFTABLE_138)) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
                                this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                0x04FF);
@@ -453,7 +453,7 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = (EnKz*)thisx;
     s32 pad;
 
-    if (LINK_IS_ADULT && !(GET_INFTABLE(INFTABLE_138))) {
+    if (LINK_IS_ADULT && !GET_INFTABLE(INFTABLE_138)) {
         SET_INFTABLE(INFTABLE_138);
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);

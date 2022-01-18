@@ -351,7 +351,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->unk_30B = 0;
     var = 0;
     if (GET_INFTABLE(INFTABLE_76)) {
-        if (!(GET_INFTABLE(INFTABLE_77))) {
+        if (!GET_INFTABLE(INFTABLE_77)) {
             if (Player_GetMask(globalCtx) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A;
@@ -844,7 +844,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
-    if ((this->type == 5) && (GET_INFTABLE(INFTABLE_77))) {
+    if ((this->type == 5) && GET_INFTABLE(INFTABLE_77)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);

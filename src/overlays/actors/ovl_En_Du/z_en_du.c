@@ -156,7 +156,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
 s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
-    } else if (globalCtx->sceneNum == SCENE_HIDAN && !(GET_INFTABLE(INFTABLE_11A)) && LINK_IS_ADULT) {
+    } else if (globalCtx->sceneNum == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
         return 1;
     }
     return 0;

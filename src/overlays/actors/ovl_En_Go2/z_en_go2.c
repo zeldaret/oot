@@ -363,7 +363,7 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
 s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_CLOSING:
-            if ((this->actor.textId == 0x300B) && (GET_INFTABLE(INFTABLE_EB)) == 0) {
+            if ((this->actor.textId == 0x300B) && !GET_INFTABLE(INFTABLE_EB)) {
                 SET_INFTABLE(INFTABLE_EB);
                 return 2;
             } else {
@@ -1547,7 +1547,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnGo2_GetItemAnimation(this, globalCtx);
             break;
         case GORON_CITY_LINK:
-            if ((GET_INFTABLE(INFTABLE_109))) {
+            if (GET_INFTABLE(INFTABLE_109)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
                 if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {

@@ -218,7 +218,7 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     }
     this->unk_284 = 0;
     if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-        if (!(GET_INFTABLE(INFTABLE_6C))) {
+        if (!GET_INFTABLE(INFTABLE_6C)) {
             f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
                              -10.0f);

@@ -429,7 +429,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : ((GET_INFTABLE(INFTABLE_CB)) ? 0x508C : 0x508B);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
                 return (GET_EVENTINF(EVENTINF_30)) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
@@ -446,9 +446,9 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
             }
         case ENHY_TYPE_COB:
             if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-                return (GET_INFTABLE(INFTABLE_C1)) ? 0x7017 : 0x7045;
+                return GET_INFTABLE(INFTABLE_C1) ? 0x7017 : 0x7045;
             } else {
-                return (GET_INFTABLE(INFTABLE_C0)) ? 0x7017 : 0x7016;
+                return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
             }
         case ENHY_TYPE_AHG_2:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
@@ -456,7 +456,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return 0x5085;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-                return (GET_INFTABLE(INFTABLE_C3)) ? 0x701A : 0x7047;
+                return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 return 0x701A;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
@@ -467,27 +467,27 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x701A;
             }
         case ENHY_TYPE_BOJ_3:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? ((GET_INFTABLE(INFTABLE_C4)) ? 0x7001 : 0x70EB) : 0x7001;
+            return GET_EVENTCHKINF(EVENTCHKINF_80) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB) : 0x7001;
         case ENHY_TYPE_AHG_4:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : ((GET_INFTABLE(INFTABLE_C5)) ? 0x7024 : 0x7023);
+            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
             player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
-            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : ((GET_INFTABLE(INFTABLE_C6)) ? 0x7022 : 0x7021);
+            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
         case ENHY_TYPE_BJI_7:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
                 return 0x5088;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return 0x5087;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : ((GET_INFTABLE(INFTABLE_C7)) ? 0x7028 : 0x7027);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
             }
         case ENHY_TYPE_CNE_8:
             if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-                return (GET_INFTABLE(INFTABLE_C9)) ? 0x701E : 0x7048;
+                return GET_INFTABLE(INFTABLE_C9) ? 0x701E : 0x7048;
             } else {
-                return (GET_INFTABLE(INFTABLE_C8)) ? 0x701E : 0x701D;
+                return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
@@ -495,7 +495,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : ((GET_INFTABLE(INFTABLE_CA)) ? 0x7020 : 0x701F);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
             if (globalCtx->sceneNum == SCENE_LABO) {
@@ -503,10 +503,10 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : ((GET_INFTABLE(INFTABLE_CD)) ? 0x7019 : 0x7018);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
             }
         case ENHY_TYPE_CNE_11:
-            return (GET_INFTABLE(INFTABLE_8B)) ? ((GET_INFTABLE(INFTABLE_CC)) ? 0x7014 : 0x70A4) : 0x7014;
+            return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
         case ENHY_TYPE_BOJ_12:
             if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return !IS_DAY ? 0x5084 : 0x5083;
@@ -524,21 +524,20 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
         case ENHY_TYPE_AHG_17:
             if (!LINK_IS_ADULT) {
                 if (IS_DAY) {
-                    return (GET_INFTABLE(INFTABLE_160)) ? 0x5058 : 0x5057;
+                    return GET_INFTABLE(INFTABLE_160) ? 0x5058 : 0x5057;
                 } else {
-                    return (GET_INFTABLE(INFTABLE_161)) ? 0x505A : 0x5059;
+                    return GET_INFTABLE(INFTABLE_161) ? 0x505A : 0x5059;
                 }
             } else if (IS_DAY) {
-                return (GET_INFTABLE(INFTABLE_162)) ? 0x505C : 0x505B;
+                return GET_INFTABLE(INFTABLE_162) ? 0x505C : 0x505B;
             } else {
                 return 0x5058;
             }
         case ENHY_TYPE_BOB_18:
             if (!LINK_IS_ADULT) {
-                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : ((GET_INFTABLE(INFTABLE_163)) ? 0x505E : 0x505D);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062
-                                                             : ((GET_INFTABLE(INFTABLE_164)) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062 : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -655,7 +654,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.dogParams = 0;
                     break;
                 case 0x709F:
-                    func_80A6F7CC(this, globalCtx, (GET_INFTABLE(INFTABLE_191)) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
+                    func_80A6F7CC(this, globalCtx, GET_INFTABLE(INFTABLE_191) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
                     this->actionFunc = func_80A714C4;
                     break;
             }

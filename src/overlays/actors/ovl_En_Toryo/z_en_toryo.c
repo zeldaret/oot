@@ -262,13 +262,13 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
             if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
                                EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
                 ret = 0x606C;
-            } else if ((GET_INFTABLE(INFTABLE_170))) {
+            } else if (GET_INFTABLE(INFTABLE_170)) {
                 ret = 0x606B;
             } else {
                 ret = 0x606A;
             }
         } else if ((this->stateFlags & 2)) {
-            if ((GET_INFTABLE(INFTABLE_172))) {
+            if (GET_INFTABLE(INFTABLE_172)) {
                 ret = 0x5029;
             } else {
                 ret = 0x5028;

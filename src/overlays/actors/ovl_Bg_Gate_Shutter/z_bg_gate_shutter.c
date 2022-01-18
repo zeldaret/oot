@@ -43,7 +43,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if (((GET_INFTABLE(INFTABLE_76)) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (globalCtx->sceneNum == SCENE_SPOT01)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (globalCtx->sceneNum == SCENE_SPOT01)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }
@@ -62,7 +62,7 @@ void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
-    if (this->openingState == 1 && !(GET_INFTABLE(INFTABLE_76))) {
+    if (this->openingState == 1 && !GET_INFTABLE(INFTABLE_76)) {
         this->unk_178 = 2;
         this->actionFunc = func_80878300;
     } else if (this->openingState == 2) {
