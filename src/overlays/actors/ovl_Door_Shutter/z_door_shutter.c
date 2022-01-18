@@ -598,7 +598,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
     if (this->dyna.actor.bgCheckFlags & 1) {
         DoorShutter_SetupAction(this, func_809976B8);
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_70))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
             BossGoma* parent = (BossGoma*)this->dyna.actor.parent;
 
             this->unk_164 = 10;

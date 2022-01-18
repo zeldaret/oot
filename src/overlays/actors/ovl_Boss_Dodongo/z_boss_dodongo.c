@@ -402,7 +402,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_198 == 0x5A) {
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_71))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_71)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(&object_kingdodongo_Blob_017410), 0xA0, 0xB4, 0x80,
                                            0x28);

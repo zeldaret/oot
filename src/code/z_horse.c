@@ -67,7 +67,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
         horseActor->room = -1;
-    } else if ((gSaveContext.entranceIndex == 1230) && (GET_EVENTCHKINF(EVENTCHKINF_18))) {
+    } else if ((gSaveContext.entranceIndex == 1230) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
         Actor* horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);

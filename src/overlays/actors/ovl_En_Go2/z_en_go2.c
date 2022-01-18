@@ -391,7 +391,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return (GET_EVENTCHKINF(EVENTCHKINF_23)) ? 0x3026 : 0x3009;
+        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3026 : 0x3009;
     }
 }
 

@@ -89,7 +89,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
             HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
             gSaveContext.timer1Value = *timer1ValuePtr;
         }
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_1E)) && (gSaveContext.timer1Value < 0x32)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (gSaveContext.timer1Value < 0x32)) {
             return 0x208F;
         } else if (gSaveContext.timer1Value < HIGH_SCORE(HS_HORSE_RACE)) {
             return 0x2012;
@@ -197,7 +197,7 @@ s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
     if (LINK_IS_CHILD) {
         return 2;
     }
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_18))) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
         return 2;
     }
     if (GET_EVENTINF(EVENTINF_0A)) {

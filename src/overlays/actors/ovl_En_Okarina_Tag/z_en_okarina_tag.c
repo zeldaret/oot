@@ -191,8 +191,8 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
-        } else if (((this->type != 4) || !(GET_EVENTCHKINF(EVENTCHKINF_4B))) &&
-                   ((this->type != 6) || !(GET_EVENTCHKINF(EVENTCHKINF_1D))) &&
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
+                   ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {

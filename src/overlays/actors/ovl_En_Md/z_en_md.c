@@ -481,13 +481,13 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
 
 u8 EnMd_ShouldSpawn(EnMd* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT04) {
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_1C)) && !(GET_EVENTCHKINF(EVENTCHKINF_40))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1C) && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
             return 1;
         }
     }
 
     if (globalCtx->sceneNum == SCENE_KOKIRI_HOME4) {
-        if (((GET_EVENTCHKINF(EVENTCHKINF_1C)) != 0) || ((GET_EVENTCHKINF(EVENTCHKINF_40)) != 0)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_1C) || GET_EVENTCHKINF(EVENTCHKINF_40)) {
             if (!LINK_IS_ADULT) {
                 return 1;
             }
@@ -612,7 +612,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
     f32 temp;
 
     if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
-        temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(GET_EVENTCHKINF(EVENTCHKINF_1C)) &&
+        temp = (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
                 (globalCtx->sceneNum == SCENE_SPOT04))
                    ? 100.0f
                    : 400.0f;
@@ -646,10 +646,10 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
 
-    if (((globalCtx->sceneNum == SCENE_SPOT04) && !(GET_EVENTCHKINF(EVENTCHKINF_04))) ||
-        ((globalCtx->sceneNum == SCENE_SPOT04) && (GET_EVENTCHKINF(EVENTCHKINF_04)) &&
+    if (((globalCtx->sceneNum == SCENE_SPOT04) && !GET_EVENTCHKINF(EVENTCHKINF_04)) ||
+        ((globalCtx->sceneNum == SCENE_SPOT04) && GET_EVENTCHKINF(EVENTCHKINF_04) &&
          CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) ||
-        ((globalCtx->sceneNum == SCENE_SPOT10) && !(GET_EVENTCHKINF(EVENTCHKINF_0A)))) {
+        ((globalCtx->sceneNum == SCENE_SPOT10) && !GET_EVENTCHKINF(EVENTCHKINF_0A))) {
         this->actor.home.pos = this->actor.world.pos;
         this->actionFunc = func_80AAB948;
         return;
@@ -709,7 +709,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1E0.unk_00 == 2) {
-        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(GET_EVENTCHKINF(EVENTCHKINF_1C)) &&
+        if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
             (globalCtx->sceneNum == SCENE_SPOT04)) {
             globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         }
@@ -776,7 +776,7 @@ void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !(GET_EVENTCHKINF(EVENTCHKINF_1C)) &&
+    if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && !GET_EVENTCHKINF(EVENTCHKINF_1C) &&
         (globalCtx->sceneNum == SCENE_SPOT04)) {
         Message_CloseTextbox(globalCtx);
         SET_EVENTCHKINF(EVENTCHKINF_1C);

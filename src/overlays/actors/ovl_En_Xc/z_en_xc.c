@@ -275,7 +275,7 @@ void func_80B3C9EC(EnXc* this) {
 
 void func_80B3CA38(EnXc* this, GlobalContext* globalCtx) {
     // If Player is adult but hasn't learned Minuet of Forest
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_50)) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_50) && LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
@@ -303,7 +303,7 @@ s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B3CB58(EnXc* this, GlobalContext* globalCtx) {
     // If hasn't learned Bolero and Player is Adult
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_51)) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_51) && LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
@@ -333,7 +333,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
 
 void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx) {
     // Player is adult and does not have iron boots and has not learned Serenade
-    if ((!CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(GET_EVENTCHKINF(EVENTCHKINF_52))) && LINK_IS_ADULT) {
+    if (!CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !GET_EVENTCHKINF(EVENTCHKINF_52) && LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_SERENADE;
         osSyncPrintf("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
@@ -347,8 +347,8 @@ s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
         Player* player = GET_PLAYER(globalCtx);
         s32 stateFlags = player->stateFlags1;
 
-        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(GET_EVENTCHKINF(EVENTCHKINF_52)) &&
-            !(stateFlags & PLAYER_STATE1_29) && !Gameplay_InCsMode(globalCtx)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !GET_EVENTCHKINF(EVENTCHKINF_52) && !(stateFlags & PLAYER_STATE1_29) &&
+            !Gameplay_InCsMode(globalCtx)) {
             Cutscene_SetSegment(globalCtx, &gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
@@ -2145,18 +2145,18 @@ void EnXc_DrawSquintingEyes(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_C5))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_C5)) {
             SET_EVENTCHKINF(EVENTCHKINF_C5);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, globalCtx);
-        } else if (!(GET_EVENTCHKINF(EVENTCHKINF_55)) && (GET_EVENTCHKINF(EVENTCHKINF_48))) {
+        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_48)) {
             SET_EVENTCHKINF(EVENTCHKINF_55);
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHEIK_ACTION_30;
-        } else if (!(GET_EVENTCHKINF(EVENTCHKINF_55))) {
+        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55)) {
             func_80B3C9EC(this);
         } else {
             Actor_Kill(&this->actor);

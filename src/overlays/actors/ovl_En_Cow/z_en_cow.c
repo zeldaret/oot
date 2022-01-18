@@ -121,7 +121,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_1E))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_1E)) {
                     Actor_Kill(&this->actor);
                     return;
                 }

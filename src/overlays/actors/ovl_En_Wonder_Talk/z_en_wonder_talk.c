@@ -133,7 +133,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
     s16 yawDiffTemp;
 
     this->unk_15A++;
-    if (this->unk_150 == 4 && (GET_EVENTCHKINF(EVENTCHKINF_1D))) {
+    if (this->unk_150 == 4 && GET_EVENTCHKINF(EVENTCHKINF_1D)) {
         Actor_Kill(&this->actor);
         return;
     }

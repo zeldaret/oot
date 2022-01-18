@@ -564,7 +564,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
         }
         if (this->timer <= 198) {
             revealStateTimer = 198 - this->timer;
-            if ((GET_EVENTCHKINF(EVENTCHKINF_77)) && (revealStateTimer <= 44)) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_77) && (revealStateTimer <= 44)) {
                 sCameraAt.x += 492.0f * 0.01f;
                 sCameraAt.y += 200.0f * 0.01f;
                 sCameraEye.x -= 80.0f * 0.01f;
@@ -593,7 +593,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
                     sCameraEye.y += 125.0f * 0.01f;
                     sCameraEye.z -= 350.0f * 0.01f;
                 } else if (revealStateTimer == 85) {
-                    if (!(GET_EVENTCHKINF(EVENTCHKINF_77))) {
+                    if (!GET_EVENTCHKINF(EVENTCHKINF_77)) {
                         TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                                SEGMENTED_TO_VIRTUAL(gBongoTitleCardTex), 160, 180, 128, 40);
                     }

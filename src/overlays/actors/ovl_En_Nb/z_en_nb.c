@@ -1099,11 +1099,11 @@ void EnNb_LookUp(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_95)) && LINK_IS_CHILD) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_95) && LINK_IS_CHILD) {
         EnNb_UpdatePath(this, globalCtx);
 
         // looking into crawlspace
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_94))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_94)) {
             EnNb_SetCurrentAnim(this, &gNabooruKneeingAtCrawlspaceAnim, 0, 0.0f, 0);
             this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = NB_DRAW_DEFAULT;

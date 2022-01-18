@@ -152,13 +152,13 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 noKill = true;
     s32 isFree = false;
 
-    if ((this->actor.params & 3) == 0 && (GET_EVENTCHKINF(EVENTCHKINF_90))) {
+    if ((this->actor.params & 3) == 0 && GET_EVENTCHKINF(EVENTCHKINF_90)) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 1 && (GET_EVENTCHKINF(EVENTCHKINF_91))) {
+    } else if ((this->actor.params & 3) == 1 && GET_EVENTCHKINF(EVENTCHKINF_91)) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 2 && (GET_EVENTCHKINF(EVENTCHKINF_92))) {
+    } else if ((this->actor.params & 3) == 2 && GET_EVENTCHKINF(EVENTCHKINF_92)) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 3 && (GET_EVENTCHKINF(EVENTCHKINF_93))) {
+    } else if ((this->actor.params & 3) == 3 && GET_EVENTCHKINF(EVENTCHKINF_93)) {
         isFree = true;
     }
 

@@ -105,8 +105,8 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
             // "☆☆☆☆☆ Cloudy Rain Thunder (;O;) Uo Melancholy ☆☆☆☆☆"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり雨雷 (;O;) うおお 憂鬱 ☆☆☆☆☆ \n" VT_RST);
 
-            if (!(GET_EVENTCHKINF(EVENTCHKINF_48)) || !(GET_EVENTCHKINF(EVENTCHKINF_49)) ||
-                !(GET_EVENTCHKINF(EVENTCHKINF_4A)) || CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_48) || !GET_EVENTCHKINF(EVENTCHKINF_49) ||
+                !GET_EVENTCHKINF(EVENTCHKINF_4A) || CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
                 Actor_Kill(&this->actor);
             }
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyRainThunderKakariko);

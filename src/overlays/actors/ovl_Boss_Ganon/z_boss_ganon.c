@@ -1081,7 +1081,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                 gSegments[6] = VIRTUAL_TO_PHYSICAL(
                     globalCtx->objectCtx.status[Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON)].segment);
 
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_78))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_78)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gDorfTitleCardTex), 160, 180, 128, 40);
                 }

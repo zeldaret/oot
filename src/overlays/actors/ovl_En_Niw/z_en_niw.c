@@ -193,7 +193,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 3:
-            if (!(GET_EVENTCHKINF(EVENTCHKINF_14))) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -203,7 +203,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 7:
-            if (!(GET_EVENTCHKINF(EVENTCHKINF_18))) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -226,7 +226,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0xD:
         case 0xE:
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit2);
-            if (globalCtx->sceneNum == SCENE_LINK_HOME && !(GET_EVENTCHKINF(EVENTCHKINF_1E))) {
+            if (globalCtx->sceneNum == SCENE_LINK_HOME && !GET_EVENTCHKINF(EVENTCHKINF_1E)) {
                 Actor_Kill(&this->actor);
             }
             break;

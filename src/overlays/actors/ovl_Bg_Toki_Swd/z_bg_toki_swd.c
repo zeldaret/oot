@@ -93,13 +93,13 @@ void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808BAF40(BgTokiSwd* this, GlobalContext* globalCtx) {
-    if (((GET_EVENTCHKINF(EVENTCHKINF_4F)) == 0) && (gSaveContext.sceneSetupIndex < 4) &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_4F) && (gSaveContext.sceneSetupIndex < 4) &&
         Actor_IsFacingAndNearPlayer(&this->actor, 800.0f, 0x7530) && !Gameplay_InCsMode(globalCtx)) {
         SET_EVENTCHKINF(EVENTCHKINF_4F);
         globalCtx->csCtx.segment = D_808BBD90;
         gSaveContext.cutsceneTrigger = 1;
     }
-    if (!LINK_IS_ADULT || ((GET_EVENTCHKINF(EVENTCHKINF_55)))) {
+    if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_55)) {
         if (Actor_HasParent(&this->actor, globalCtx)) {
             if (!LINK_IS_ADULT) {
                 Item_Give(globalCtx, ITEM_SWORD_MASTER);

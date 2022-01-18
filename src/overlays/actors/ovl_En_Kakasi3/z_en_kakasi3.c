@@ -387,7 +387,7 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         if (this->unk_195) {
-            if (!(GET_EVENTCHKINF(EVENTCHKINF_9C))) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_9C)) {
                 SET_EVENTCHKINF(EVENTCHKINF_9C);
             }
         }

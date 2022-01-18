@@ -929,7 +929,7 @@ void func_80986D40(DemoIm* this, GlobalContext* globalCtx) {
         this->drawConfig = 1;
     } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
         Actor_Kill(&this->actor);
-    } else if (!(GET_EVENTCHKINF(EVENTCHKINF_59))) {
+    } else if (!GET_EVENTCHKINF(EVENTCHKINF_59)) {
         this->action = 23;
     } else {
         this->action = 20;

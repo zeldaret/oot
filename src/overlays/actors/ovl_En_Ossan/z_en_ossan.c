@@ -599,7 +599,7 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     // Completed Dodongo's Cavern
-    if (this->actor.params == OSSAN_TYPE_BOMBCHUS && !(GET_EVENTCHKINF(EVENTCHKINF_25))) {
+    if (this->actor.params == OSSAN_TYPE_BOMBCHUS && !GET_EVENTCHKINF(EVENTCHKINF_25)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -1460,7 +1460,7 @@ void EnOssan_HandleCanBuyBombs(GlobalContext* globalCtx, EnOssan* this) {
 
 void EnOssan_BuyGoronCityBombs(GlobalContext* globalCtx, EnOssan* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_25))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_25)) {
             if (GET_INFTABLE(INFTABLE_FC)) {
                 EnOssan_SetStateCantGetItem(globalCtx, this, 0x302E);
             } else {
@@ -2043,7 +2043,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
     if (this->actor.params == OSSAN_TYPE_MASK) {
         if (INV_CONTENT(ITEM_TRADE_CHILD) == ITEM_SOLD_OUT) {
             if (GET_ITEMGETINF(ITEMGETINF_3B)) {
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_8F))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_8F)) {
                     // Pay back Bunny Hood
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_BUNNY_HOOD;
                     return 0x70C6;
@@ -2052,7 +2052,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
                 }
             }
             if (GET_ITEMGETINF(ITEMGETINF_3A)) {
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_8E))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_8E)) {
                     // Pay back Spooky Mask
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SPOOKY_MASK;
                     return 0x70C5;
@@ -2061,7 +2061,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
                 }
             }
             if (GET_ITEMGETINF(ITEMGETINF_39)) {
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_8D))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_8D)) {
                     // Pay back Skull Mask
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_SKULL_MASK;
                     return 0x70C4;
@@ -2070,7 +2070,7 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
                 }
             }
             if (GET_ITEMGETINF(ITEMGETINF_38)) {
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_8C))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_8C)) {
                     // Pay back Keaton Mask
                     this->happyMaskShopState = OSSAN_HAPPY_STATE_REQUEST_PAYMENT_KEATON_MASK;
                     return 0x70A5;

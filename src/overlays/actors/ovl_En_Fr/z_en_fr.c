@@ -632,12 +632,12 @@ void EnFr_Activate(EnFr* this, GlobalContext* globalCtx) {
 void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == 11) {
         // Check if all 6 child songs have been played for the frogs
-        if ((GET_EVENTCHKINF(EVENTCHKINF_D1))       // ZL
-            && (GET_EVENTCHKINF(EVENTCHKINF_D2))    // Epona
-            && (GET_EVENTCHKINF(EVENTCHKINF_D4))    // Saria
-            && (GET_EVENTCHKINF(EVENTCHKINF_D3))    // Suns
-            && (GET_EVENTCHKINF(EVENTCHKINF_D5))    // SoT
-            && (GET_EVENTCHKINF(EVENTCHKINF_D6))) { // SoS
+        if (GET_EVENTCHKINF(EVENTCHKINF_D1)       // ZL
+            && GET_EVENTCHKINF(EVENTCHKINF_D2)    // Epona
+            && GET_EVENTCHKINF(EVENTCHKINF_D4)    // Saria
+            && GET_EVENTCHKINF(EVENTCHKINF_D3)    // Suns
+            && GET_EVENTCHKINF(EVENTCHKINF_D5)    // SoT
+            && GET_EVENTCHKINF(EVENTCHKINF_D6)) { // SoS
             this->actionFunc = EnFr_TalkBeforeFrogSong;
             this->songIndex = FROG_CHOIR_SONG;
             Message_StartTextbox(globalCtx, 0x40AB, &this->actor);
@@ -801,7 +801,7 @@ void EnFr_DeactivateButterfly() {
 }
 
 u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_D0))) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_D0)) {
         return gFrogsSongPtr[ocarinaNoteIndex];
     } else {
         return sOcarinaNotes[(s32)Rand_ZeroFloat(60.0f) % 5];

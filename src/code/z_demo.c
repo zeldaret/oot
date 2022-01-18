@@ -560,7 +560,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 8:
                 gSaveContext.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_45))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
                     SET_EVENTCHKINF(EVENTCHKINF_45);
                     globalCtx->nextEntranceIndex = 0x00A0;
                     globalCtx->sceneLoadFlag = 0x14;
@@ -1013,8 +1013,8 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 3;
                 break;
             case 95:
-                if ((GET_EVENTCHKINF(EVENTCHKINF_48)) && (GET_EVENTCHKINF(EVENTCHKINF_49)) &&
-                    (GET_EVENTCHKINF(EVENTCHKINF_4A))) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
+                    GET_EVENTCHKINF(EVENTCHKINF_4A)) {
                     globalCtx->nextEntranceIndex = 0x0053;
                     globalCtx->sceneLoadFlag = 0x14;
                     gSaveContext.cutsceneIndex = 0xFFF3;
@@ -2073,8 +2073,8 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
             Flags_SetEventChkInf(EVENTCHKINF_AC);
             gSaveContext.entranceIndex = 0x0123;
             gSaveContext.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.entranceIndex == 0x00DB) && LINK_IS_ADULT && (GET_EVENTCHKINF(EVENTCHKINF_48)) &&
-                   (GET_EVENTCHKINF(EVENTCHKINF_49)) && (GET_EVENTCHKINF(EVENTCHKINF_4A)) &&
+        } else if ((gSaveContext.entranceIndex == 0x00DB) && LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_48) &&
+                   GET_EVENTCHKINF(EVENTCHKINF_49) && GET_EVENTCHKINF(EVENTCHKINF_4A) &&
                    !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
             Flags_SetEventChkInf(EVENTCHKINF_AA);
             gSaveContext.cutsceneIndex = 0xFFF0;

@@ -358,7 +358,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (((GET_EVENTCHKINF(EVENTCHKINF_16)) && (DREG(53) != 0)) ||
+    if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {

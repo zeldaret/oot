@@ -57,7 +57,7 @@ void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case 3:
             ItemOcarina_SetupAction(this, ItemOcarina_WaitInWater);
-            if (!(GET_EVENTCHKINF(EVENTCHKINF_80)) || (GET_EVENTCHKINF(EVENTCHKINF_43))) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_80) || GET_EVENTCHKINF(EVENTCHKINF_43)) {
                 Actor_Kill(thisx);
                 return;
             }

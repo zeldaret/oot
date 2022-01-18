@@ -366,34 +366,34 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
 
 s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
-        !(GET_EVENTCHKINF(EVENTCHKINF_14))) {
+        !GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
     if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
-        (GET_EVENTCHKINF(EVENTCHKINF_14))) {
+        GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
     if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
-        if ((this->actor.shape.rot.z == 2) && !(GET_EVENTCHKINF(EVENTCHKINF_14))) {
+        if ((this->actor.shape.rot.z == 2) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
             return 1;
         }
-        if ((this->actor.shape.rot.z == 4) && (GET_EVENTCHKINF(EVENTCHKINF_14))) {
+        if ((this->actor.shape.rot.z == 4) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
             return 1;
         }
     }
     if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
-        if ((this->actor.shape.rot.z == 5) && !(GET_EVENTCHKINF(EVENTCHKINF_18))) {
+        if ((this->actor.shape.rot.z == 5) && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
             return 2;
         }
-        if ((this->actor.shape.rot.z == 7) && (GET_EVENTCHKINF(EVENTCHKINF_18))) {
+        if ((this->actor.shape.rot.z == 7) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
             return 4;
         }
     }
     if (globalCtx->sceneNum == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
-        if (this->actor.shape.rot.z == 6 && !(GET_EVENTCHKINF(EVENTCHKINF_18))) {
+        if (this->actor.shape.rot.z == 6 && !GET_EVENTCHKINF(EVENTCHKINF_18)) {
             return 3;
         }
-        if (this->actor.shape.rot.z == 8 && (GET_EVENTCHKINF(EVENTCHKINF_18))) {
+        if (this->actor.shape.rot.z == 8 && GET_EVENTCHKINF(EVENTCHKINF_18)) {
             return 3;
         }
     }
@@ -532,7 +532,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
             case 3:
                 EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_18))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
                     this->actor.params = 5;
                 }
                 break;
@@ -661,7 +661,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     s32 phi_a2;
     s32 phi_a3;
 
-    if (!(GET_EVENTCHKINF(EVENTCHKINF_1B)) && (player->stateFlags1 & PLAYER_STATE1_23)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         SET_INFTABLE(INFTABLE_AB);
     }
     if (gSaveContext.timer1State == 10) {
@@ -688,7 +688,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
             phi_a3 = 2;
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_FOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            if (!(GET_EVENTCHKINF(EVENTCHKINF_1B))) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_1B)) {
                 if (GET_INFTABLE(INFTABLE_AB)) {
                     SET_EVENTCHKINF(EVENTCHKINF_1B);
                     SET_INFTABLE(INFTABLE_AB);
@@ -917,7 +917,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
     player->actor.freezeTimer = 10;
     if (this->unk_308.unk_00 == 2) {
         if (1) {}
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_1B)) && (GET_INFTABLE(INFTABLE_AB))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1B) && (GET_INFTABLE(INFTABLE_AB))) {
             SET_EVENTCHKINF(EVENTCHKINF_1B);
             SET_INFTABLE(INFTABLE_AB);
         }

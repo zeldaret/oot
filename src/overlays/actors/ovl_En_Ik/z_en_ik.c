@@ -1396,7 +1396,7 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_3B))) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_3B)) {
             this->actor.update = EnIk_Update;
             this->actor.draw = EnIk_Draw;
             Actor_SetScale(&this->actor, 0.01f);
@@ -1435,7 +1435,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
     s32 flag = this->actor.params & 0xFF00;
 
-    if (((this->actor.params & 0xFF) == 0 && (GET_EVENTCHKINF(EVENTCHKINF_3C))) ||
+    if (((this->actor.params & 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
         (flag != 0 && Flags_GetSwitch(globalCtx, flag >> 8))) {
         Actor_Kill(&this->actor);
     } else {

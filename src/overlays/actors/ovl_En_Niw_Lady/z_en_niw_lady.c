@@ -366,7 +366,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     }
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         playerExchangeItemId = func_8002F368(globalCtx);
-        if ((playerExchangeItemId == 6) && (GET_EVENTCHKINF(EVENTCHKINF_6A))) {
+        if ((playerExchangeItemId == 6) && GET_EVENTCHKINF(EVENTCHKINF_6A)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;

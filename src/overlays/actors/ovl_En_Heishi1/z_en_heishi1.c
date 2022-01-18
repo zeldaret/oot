@@ -112,13 +112,13 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.dayTime < 0xB888) || IS_DAY) && !(GET_EVENTCHKINF(EVENTCHKINF_80))) {
+        if (((gSaveContext.dayTime < 0xB888) || IS_DAY) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.dayTime >= 0xB889) || !IS_DAY || (GET_EVENTCHKINF(EVENTCHKINF_80))) {
+        if ((gSaveContext.dayTime >= 0xB889) || !IS_DAY || GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);

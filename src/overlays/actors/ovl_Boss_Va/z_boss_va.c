@@ -973,7 +973,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 sCameraNextAt.y = 140.0f;
                 sCameraNextAt.z = -200.0f;
 
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_76))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_76)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gBarinadeTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }

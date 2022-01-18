@@ -919,7 +919,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             if (Animation_OnFrame(&this->skelanime, 40.0f)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY1);
 
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_70))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }

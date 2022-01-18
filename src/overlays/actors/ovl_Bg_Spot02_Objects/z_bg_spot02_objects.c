@@ -87,7 +87,7 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
-            if (((GET_EVENTCHKINF(EVENTCHKINF_1D)) && (globalCtx->sceneNum == SCENE_SPOT02) && (thisx->params == 2)) ||
+            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (globalCtx->sceneNum == SCENE_SPOT02) && (thisx->params == 2)) ||
                 (LINK_IS_ADULT && (thisx->params == 1))) {
                 Actor_Kill(thisx);
             }

@@ -141,7 +141,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
         case 2:
             osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
-            if (!(GET_EVENTCHKINF(EVENTCHKINF_6B))) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_6B)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
@@ -174,7 +174,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 }
             } else if (globalCtx->sceneNum == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
-                if (!(GET_EVENTCHKINF(EVENTCHKINF_14))) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);

@@ -134,7 +134,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     u16 textID = Text_GetFaceReaction(globalCtx, 0xB);
 
     if (textID == 0) {
-        textID = (GET_EVENTCHKINF(EVENTCHKINF_67)) ? 0x5033 : 0x5032;
+        textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
     // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
@@ -214,7 +214,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if ((GET_EVENTCHKINF(EVENTCHKINF_5B))) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_5B)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & PLAYER_STATE2_24) {
         this->actor.textId = 0x5035;
