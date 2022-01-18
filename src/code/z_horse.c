@@ -203,7 +203,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     Vec3f sp54;
                     s32 temp = 0;
 
-                    if (((GET_EVENTINF(EVENTINF_04)) >> 4) && D_8011F9B8[i].type == 6) {
+                    if ((GET_EVENTINF(EVENTINF_04) >> EVENTINF_04_SHIFT) && D_8011F9B8[i].type == 6) {
                         temp = 0x8000;
                     }
 
