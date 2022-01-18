@@ -953,7 +953,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
 
     // Played a song thats not Saria's song
     if (!(GET_ITEMGETINF(ITEMGETINF_16)) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
-                                                 (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
+                                             (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         Message_CloseTextbox(globalCtx);
         player->unk_6A8 = &this->actor;

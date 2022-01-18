@@ -701,8 +701,8 @@ void EnOssan_StartShopping(GlobalContext* globalCtx, EnOssan* this) {
 
     if (this->actor.params == OSSAN_TYPE_MASK) {
         // if all masks have been sold, give the option to ask about the mask of truth
-        if ((GET_ITEMGETINF(ITEMGETINF_38)) && (GET_ITEMGETINF(ITEMGETINF_39)) &&
-            (GET_ITEMGETINF(ITEMGETINF_3A)) && (GET_ITEMGETINF(ITEMGETINF_3B))) {
+        if ((GET_ITEMGETINF(ITEMGETINF_38)) && (GET_ITEMGETINF(ITEMGETINF_39)) && (GET_ITEMGETINF(ITEMGETINF_3A)) &&
+            (GET_ITEMGETINF(ITEMGETINF_3B))) {
             Message_ContinueTextbox(globalCtx, 0x70AD);
         } else {
             Message_ContinueTextbox(globalCtx, 0x70A2);

@@ -112,7 +112,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 return;
             } else {
                 rewardParams = ((GET_ITEMGETINF(ITEMGETINF_1B)) ? (ITEM_ETC_RUPEE_PURPLE_CHEST_GAME)
-                                                                     : (ITEM_ETC_HEART_PIECE_CHEST_GAME)) &
+                                                                : (ITEM_ETC_HEART_PIECE_CHEST_GAME)) &
                                0xFF;
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_ETCETERA, 20.0f, 20.0f, -2500.0f, 0, 0, 0,
                             ((sTreasureFlags[5] & 0x1F) << 8) + rewardParams);
