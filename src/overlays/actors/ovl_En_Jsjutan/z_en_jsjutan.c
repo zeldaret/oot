@@ -298,7 +298,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->unk_168;
 
         dayTime = gSaveContext.dayTime;
-        
+
         if (dayTime >= CLOCK_TIME(12, 0)) {
             dayTime = 0xFFFF - dayTime;
         }

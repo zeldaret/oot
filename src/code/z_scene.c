@@ -383,7 +383,8 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
             gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
         } else if ((gSaveContext.skyboxTime > CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(17, 0) + 1;
-        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) && (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0) + 1)) {
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) &&
+                   (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0) + 1)) {
             gSaveContext.skyboxTime = CLOCK_TIME(19, 0) + 2;
         }
     }

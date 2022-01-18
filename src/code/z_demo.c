@@ -369,7 +369,8 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(16, 0))) {
                     globalCtx->envCtx.unk_BF = 1;
-                } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0) + 1) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
+                } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0) + 1) &&
+                           (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
                     globalCtx->envCtx.unk_BF = 2;
                 } else {
                     globalCtx->envCtx.unk_BF = 3;

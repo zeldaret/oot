@@ -4139,12 +4139,12 @@ void Interface_Update(GlobalContext* globalCtx) {
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime < CLOCK_TIME(18, 0) + 1)) {
-                gSaveContext.nextDayTime = NEXT_TIME_SUNS_NIGHT;
+                gSaveContext.nextDayTime = CLOCK_TIME(0, 0);
                 globalCtx->fadeTransition = 4;
                 gSaveContext.nextTransition = 2;
                 globalCtx->unk_11DE9 = 1;
             } else {
-                gSaveContext.nextDayTime = NEXT_TIME_SUNS_DAY;
+                gSaveContext.nextDayTime = CLOCK_TIME(12, 0) + 1;
                 globalCtx->fadeTransition = 5;
                 gSaveContext.nextTransition = 3;
                 globalCtx->unk_11DE9 = 1;
