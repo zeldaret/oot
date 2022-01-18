@@ -165,7 +165,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex > 3) {
         func_80A69EC0(this);
     } else if (globalCtx->sceneNum == SCENE_SPOT20) {
-        if (!Flags_GetEventChkInf(0x14)) {
+        if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {
             Actor_Kill(&this->actor);
             return;
         }

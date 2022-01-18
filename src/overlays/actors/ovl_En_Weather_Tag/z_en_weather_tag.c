@@ -66,7 +66,7 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Cloudy (._.) Ah Melancholy ☆☆☆☆☆"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ くもり (._.) あーあ 憂鬱 ☆☆☆☆☆ \n" VT_RST);
-            if (Flags_GetEventChkInf(0x18)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_18)) {
                 Actor_Kill(&this->actor);
             }
             EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyLonLonRanch);

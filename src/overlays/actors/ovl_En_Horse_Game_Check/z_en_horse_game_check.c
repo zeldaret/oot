@@ -440,7 +440,7 @@ void EnHorseGameCheck_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnHorseGameCheckBase* this = (EnHorseGameCheckBase*)thisx;
 
-    if ((globalCtx->sceneNum == SCENE_SPOT20) && (Flags_GetEventChkInf(0x18) || DREG(1))) {
+    if ((globalCtx->sceneNum == SCENE_SPOT20) && (Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1))) {
         this->actor.params = HORSEGAME_MALON_RACE;
     }
     if (sInitFuncs[this->actor.params] != NULL) {

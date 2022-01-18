@@ -497,7 +497,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->sceneLoadFlag, 0x14);
 
         if (globalCtx->sceneNum == SCENE_DDAN_BOSS) {
-            if (!Flags_GetEventChkInf(0x25)) {
+            if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
                 Flags_SetEventChkInf(0x25);
                 Item_Give(globalCtx, ITEM_GORON_RUBY);
                 globalCtx->nextEntranceIndex = 0x13D;
@@ -507,7 +507,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_YDAN_BOSS) {
-            if (!Flags_GetEventChkInf(7)) {
+            if (!Flags_GetEventChkInf(EVENTCHKINF_07)) {
                 Flags_SetEventChkInf(7);
                 Flags_SetEventChkInf(9);
                 Item_Give(globalCtx, ITEM_KOKIRI_EMERALD);

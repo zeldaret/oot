@@ -63,7 +63,9 @@ static u8 sEnergyColors[] = {
 };
 
 s32 DemoKekkai_CheckEventFlag(s32 params) {
-    static s32 eventFlags[] = { 0xC3, 0xBC, 0xBF, 0xBE, 0xBD, 0xAD, 0xBB };
+    static s32 eventFlags[] = {
+        EVENTCHKINF_C3, EVENTCHKINF_BC, EVENTCHKINF_BF, EVENTCHKINF_BE, EVENTCHKINF_BD, EVENTCHKINF_AD, EVENTCHKINF_BB,
+    };
 
     if ((params < KEKKAI_TOWER) || (params > KEKKAI_FOREST)) {
         return true;
