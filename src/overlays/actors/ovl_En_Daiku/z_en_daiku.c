@@ -152,13 +152,13 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 noKill = true;
     s32 isFree = false;
 
-    if ((this->actor.params & 3) == 0 && (gSaveContext.eventChkInf[9] & 1)) {
+    if ((this->actor.params & 3) == 0 && (GET_EVENTCHKINF(EVENTCHKINF_90))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 1 && (gSaveContext.eventChkInf[9] & 2)) {
+    } else if ((this->actor.params & 3) == 1 && (GET_EVENTCHKINF(EVENTCHKINF_91))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 2 && (gSaveContext.eventChkInf[9] & 4)) {
+    } else if ((this->actor.params & 3) == 2 && (GET_EVENTCHKINF(EVENTCHKINF_92))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 3 && (gSaveContext.eventChkInf[9] & 8)) {
+    } else if ((this->actor.params & 3) == 3 && (GET_EVENTCHKINF(EVENTCHKINF_93))) {
         isFree = true;
     }
 
@@ -271,7 +271,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.eventChkInf[9] & (1 << carpenterType)) {
+                        if (gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] & (1 << carpenterType)) {
                             freedCount++;
                         }
                     }
@@ -399,7 +399,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    gSaveContext.eventChkInf[9] |= 1 << (this->actor.params & 3);
+    gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] |= 1 << (this->actor.params & 3);
 
     this->actor.gravity = -1.0f;
     this->escapeSubCamTimer = sEscapeSubCamParams[this->actor.params & 3].maxFramesActive;
@@ -494,7 +494,8 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
-    if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+    if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                       EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         Matrix_RotateY(this->initRot.y * (M_PI / 0x8000), MTXMODE_NEW);
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =

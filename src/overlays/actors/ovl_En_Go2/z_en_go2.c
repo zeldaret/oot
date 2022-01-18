@@ -8,7 +8,7 @@
 /*
 FLAGS
 
-gSaveContext.eventChkInf[2] & 0x8 - DC entrance boulder blown up as child
+EVENTCHKINF_23 - DC entrance boulder blown up as child
 
 InfTable
 
@@ -390,7 +390,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return (gSaveContext.eventChkInf[2] & 0x8) ? 0x3026 : 0x3009;
+        return (GET_EVENTCHKINF(EVENTCHKINF_23)) ? 0x3026 : 0x3009;
     }
 }
 
@@ -408,7 +408,7 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return gSaveContext.eventChkInf[2] & 0x8 ? 0x3021 : gSaveContext.infTable[14] & 0x1 ? 0x302A : 0x3008;
+        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3021 : gSaveContext.infTable[14] & 0x1 ? 0x302A : 0x3008;
     }
 }
 

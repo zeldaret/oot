@@ -132,7 +132,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
                 case 0x301F:
                     return 2;
                 case 0x3020:
-                    gSaveContext.eventChkInf[0x2] |= 4;
+                    SET_EVENTCHKINF(EVENTCHKINF_22);
                     break;
             }
             return 0;

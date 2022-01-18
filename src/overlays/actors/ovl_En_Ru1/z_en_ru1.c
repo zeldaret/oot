@@ -2115,7 +2115,7 @@ void func_80AEFCE8(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.eventChkInf[3] & 0x80) && LINK_IS_CHILD) {
+    if ((GET_EVENTCHKINF(EVENTCHKINF_37)) && LINK_IS_CHILD) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->action = 44;

@@ -157,7 +157,7 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
             return 0x1047;
         }
     }
-    if (gSaveContext.eventChkInf[0] & 4) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_02)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
         if (gSaveContext.infTable[0] & 8) {
@@ -190,7 +190,7 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 0;
                     break;
                 case 0x1031:
-                    gSaveContext.eventChkInf[0] |= 8;
+                    SET_EVENTCHKINF(EVENTCHKINF_03);
                     gSaveContext.infTable[0] |= 8;
                     ret = 0;
                     break;
@@ -382,10 +382,10 @@ s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
         }
     }
     if (globalCtx->sceneNum == SCENE_KOKIRI_HOME5 && !LINK_IS_ADULT &&
-        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !(gSaveContext.eventChkInf[4] & 1)) {
+        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !(GET_EVENTCHKINF(EVENTCHKINF_40))) {
         return 1;
     }
-    if (globalCtx->sceneNum == SCENE_SPOT05 && (gSaveContext.eventChkInf[4] & 1)) {
+    if (globalCtx->sceneNum == SCENE_SPOT05 && (GET_EVENTCHKINF(EVENTCHKINF_40))) {
         return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? 2 : 5;
     }
     if (globalCtx->sceneNum == SCENE_SPOT04 && !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {

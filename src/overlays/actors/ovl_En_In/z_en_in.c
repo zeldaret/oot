@@ -110,7 +110,7 @@ static Gfx* sAdultEraDLs[] = {
 };
 
 u16 func_80A78FB0(GlobalContext* globalCtx) {
-    if (gSaveContext.eventChkInf[1] & 0x10) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
         if (gSaveContext.infTable[9] & 0x80) {
             return 0x2046;
         } else {
@@ -131,7 +131,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
     if (temp_v0 != 0) {
         return temp_v0;
     }
-    if (gSaveContext.eventChkInf[1] & 0x100) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
         if (IS_DAY) {
             return 0x205F;
         } else {
@@ -145,7 +145,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
         case 1:
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
-            } else if (gSaveContext.eventChkInf[1] & 0x800) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
                 if (gSaveContext.infTable[10] & 4) {
                     return 0x2036;
                 } else {
@@ -201,7 +201,7 @@ s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
             ret = 2;
             break;
         case 0x203F:
-            gSaveContext.eventChkInf[1] |= 2;
+            SET_EVENTCHKINF(EVENTCHKINF_11);
             gSaveContext.infTable[9] |= 0x10;
             break;
     }
@@ -364,34 +364,34 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
 
 s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 1 &&
-        !(gSaveContext.eventChkInf[1] & 0x10)) {
+        !(GET_EVENTCHKINF(EVENTCHKINF_14))) {
         return 1;
     }
     if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_DAY && this->actor.shape.rot.z == 3 &&
-        (gSaveContext.eventChkInf[1] & 0x10)) {
+        (GET_EVENTCHKINF(EVENTCHKINF_14))) {
         return 1;
     }
     if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD && IS_NIGHT) {
-        if ((this->actor.shape.rot.z == 2) && !(gSaveContext.eventChkInf[1] & 0x10)) {
+        if ((this->actor.shape.rot.z == 2) && !(GET_EVENTCHKINF(EVENTCHKINF_14))) {
             return 1;
         }
-        if ((this->actor.shape.rot.z == 4) && (gSaveContext.eventChkInf[1] & 0x10)) {
+        if ((this->actor.shape.rot.z == 4) && (GET_EVENTCHKINF(EVENTCHKINF_14))) {
             return 1;
         }
     }
     if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && IS_DAY) {
-        if ((this->actor.shape.rot.z == 5) && !(gSaveContext.eventChkInf[1] & 0x100)) {
+        if ((this->actor.shape.rot.z == 5) && !(GET_EVENTCHKINF(EVENTCHKINF_18))) {
             return 2;
         }
-        if ((this->actor.shape.rot.z == 7) && (gSaveContext.eventChkInf[1] & 0x100)) {
+        if ((this->actor.shape.rot.z == 7) && (GET_EVENTCHKINF(EVENTCHKINF_18))) {
             return 4;
         }
     }
     if (globalCtx->sceneNum == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT) {
-        if (this->actor.shape.rot.z == 6 && !(gSaveContext.eventChkInf[1] & 0x100)) {
+        if (this->actor.shape.rot.z == 6 && !(GET_EVENTCHKINF(EVENTCHKINF_18))) {
             return 3;
         }
-        if (this->actor.shape.rot.z == 8 && (gSaveContext.eventChkInf[1] & 0x100)) {
+        if (this->actor.shape.rot.z == 8 && (GET_EVENTCHKINF(EVENTCHKINF_18))) {
             return 3;
         }
     }
@@ -530,7 +530,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
             case 3:
                 EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
-                if (!(gSaveContext.eventChkInf[1] & 0x100)) {
+                if (!(GET_EVENTCHKINF(EVENTCHKINF_18))) {
                     this->actor.params = 5;
                 }
                 break;
@@ -653,7 +653,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     s32 phi_a2;
     s32 phi_a3;
 
-    if (!(gSaveContext.eventChkInf[1] & 0x800) && (player->stateFlags1 & PLAYER_STATE1_23)) {
+    if (!(GET_EVENTCHKINF(EVENTCHKINF_1B)) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         gSaveContext.infTable[10] |= 0x800;
     }
     if (gSaveContext.timer1State == 10) {
@@ -676,9 +676,9 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
             phi_a3 = 2;
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_FOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-            if (!(gSaveContext.eventChkInf[1] & 0x800)) {
+            if (!(GET_EVENTCHKINF(EVENTCHKINF_1B))) {
                 if (gSaveContext.infTable[10] & 0x800) {
-                    gSaveContext.eventChkInf[1] |= 0x800;
+                    SET_EVENTCHKINF(EVENTCHKINF_1B);
                     gSaveContext.infTable[10] |= 0x800;
                 }
             }
@@ -889,8 +889,8 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
     player->actor.freezeTimer = 10;
     if (this->unk_308.unk_00 == 2) {
         if (1) {}
-        if (!(gSaveContext.eventChkInf[1] & 0x800) && (gSaveContext.infTable[10] & 0x800)) {
-            gSaveContext.eventChkInf[1] |= 0x800;
+        if (!(GET_EVENTCHKINF(EVENTCHKINF_1B)) && (gSaveContext.infTable[10] & 0x800)) {
+            SET_EVENTCHKINF(EVENTCHKINF_1B);
             gSaveContext.infTable[10] |= 0x800;
         }
         func_80A79BAC(this, globalCtx, 0, 0x26);

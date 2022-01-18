@@ -97,20 +97,20 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
     if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         return 0x204A;
     }
-    if (gSaveContext.eventChkInf[1] & 0x40) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
         return 0x2049;
     }
-    if (gSaveContext.eventChkInf[1] & 0x20) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
         if ((gSaveContext.infTable[8] & 0x20)) {
             return 0x2049;
         } else {
             return 0x2048;
         }
     }
-    if (gSaveContext.eventChkInf[1] & 0x10) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 0x2047;
     }
-    if (gSaveContext.eventChkInf[1] & 4) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
         return 0x2044;
     }
     if (gSaveContext.infTable[8] & 0x10) {
@@ -131,14 +131,14 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
             switch (thisx->textId) {
                 case 0x2041:
                     gSaveContext.infTable[8] |= 0x10;
-                    gSaveContext.eventChkInf[1] |= 1;
+                    SET_EVENTCHKINF(EVENTCHKINF_10);
                     ret = 0;
                     break;
                 case 0x2043:
                     ret = 1;
                     break;
                 case 0x2047:
-                    gSaveContext.eventChkInf[1] |= 0x20;
+                    SET_EVENTCHKINF(EVENTCHKINF_15);
                     ret = 0;
                     break;
                 case 0x2048:
@@ -146,7 +146,7 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 0;
                     break;
                 case 0x2049:
-                    gSaveContext.eventChkInf[1] |= 0x40;
+                    SET_EVENTCHKINF(EVENTCHKINF_16);
                     ret = 0;
                     break;
                 case 0x2061:
@@ -188,10 +188,10 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
         return 0;
     }
     if (((globalCtx->sceneNum == SCENE_MARKET_NIGHT) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) &&
-        !(gSaveContext.eventChkInf[1] & 0x10) && !(gSaveContext.infTable[8] & 0x800)) {
+        !(GET_EVENTCHKINF(EVENTCHKINF_14)) && !(gSaveContext.infTable[8] & 0x800)) {
         return 1;
     }
-    if ((globalCtx->sceneNum == SCENE_SPOT15) && !(gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SPOT15) && !(GET_EVENTCHKINF(EVENTCHKINF_14))) {
         if (gSaveContext.infTable[8] & 0x800) {
             return 1;
         } else {
@@ -199,13 +199,13 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
             return 0;
         }
     }
-    if ((globalCtx->sceneNum == SCENE_SOUKO) && IS_NIGHT && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SOUKO) && IS_NIGHT && (GET_EVENTCHKINF(EVENTCHKINF_14))) {
         return 1;
     }
     if (globalCtx->sceneNum != SCENE_SPOT20) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 3) && IS_DAY && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((this->actor.shape.rot.z == 3) && IS_DAY && (GET_EVENTCHKINF(EVENTCHKINF_14))) {
         return 1;
     }
     return 0;
@@ -280,7 +280,7 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 6;
     this->unk_1E8.unk_00 = 0;
 
-    if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    if (!(GET_EVENTCHKINF(EVENTCHKINF_14)) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
         EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     } else {
@@ -307,9 +307,9 @@ void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((globalCtx->sceneNum == SCENE_SPOT15) && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SPOT15) && (GET_EVENTCHKINF(EVENTCHKINF_14))) {
         Actor_Kill(&this->actor);
-    } else if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    } else if (!(GET_EVENTCHKINF(EVENTCHKINF_14)) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
             globalCtx->msgCtx.stateTimer = 4;
@@ -331,7 +331,7 @@ void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 3) {
         this->unk_1E8.unk_00 = 0;
         this->actionFunc = func_80AA0D88;
-        gSaveContext.eventChkInf[1] |= 4;
+        SET_EVENTCHKINF(EVENTCHKINF_12);
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
@@ -349,7 +349,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (gSaveContext.eventChkInf[1] & 0x40) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
         if (player->stateFlags2 & PLAYER_STATE2_24) {
             player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;

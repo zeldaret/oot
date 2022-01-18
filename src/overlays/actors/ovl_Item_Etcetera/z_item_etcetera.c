@@ -81,7 +81,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
         case ITEM_ETC_LETTER:
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B858B4;
-            if (gSaveContext.eventChkInf[3] & 2) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_31)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -119,7 +119,7 @@ void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
 void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == 1) {
-            gSaveContext.eventChkInf[3] |= 2;
+            SET_EVENTCHKINF(EVENTCHKINF_31);
             Flags_SetSwitch(globalCtx, 0xB);
         }
         Actor_Kill(&this->actor);
@@ -131,7 +131,7 @@ void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx) {
 void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == 1) {
-            gSaveContext.eventChkInf[3] |= 2;
+            SET_EVENTCHKINF(EVENTCHKINF_31);
             Flags_SetSwitch(globalCtx, 0xB);
         }
         Actor_Kill(&this->actor);

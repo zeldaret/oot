@@ -2659,7 +2659,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[1] = 1;
             }
 
-            if (gSaveContext.eventChkInf[11] & 4) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_B2)) {
                 pauseCtx->worldMapPoints[2] = 1;
             }
 
@@ -2683,7 +2683,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[3] = 1;
             }
 
-            if (gSaveContext.eventChkInf[0] & 0x200) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
                 pauseCtx->worldMapPoints[4] = 1;
             }
 
@@ -2695,19 +2695,19 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[4] = 1;
             }
 
-            if (gSaveContext.eventChkInf[6] & 0x400) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
                 pauseCtx->worldMapPoints[4] = 2;
             }
 
-            if (gSaveContext.eventChkInf[1] & 0x100) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
                 pauseCtx->worldMapPoints[4] = 1;
             }
 
-            if (gSaveContext.eventChkInf[0] & 0x200) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
                 pauseCtx->worldMapPoints[5] = 2;
             }
 
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 pauseCtx->worldMapPoints[5] = 1;
             }
 
@@ -2715,7 +2715,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[5] = 2;
             }
 
-            if (gSaveContext.eventChkInf[4] & 0x20) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
                 pauseCtx->worldMapPoints[5] = 1;
             }
 
@@ -2723,15 +2723,15 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[5] = 2;
             }
 
-            if (gSaveContext.eventChkInf[0] & 0x200) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
                 pauseCtx->worldMapPoints[6] = 1;
             }
 
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 pauseCtx->worldMapPoints[7] = 2;
             }
 
-            if (gSaveContext.eventChkInf[2] & 0x20) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
                 pauseCtx->worldMapPoints[7] = 1;
             }
 
@@ -2739,7 +2739,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[7] = 2;
             }
 
-            if (gSaveContext.eventChkInf[4] & 0x200) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_49)) {
                 pauseCtx->worldMapPoints[7] = 1;
             }
 
@@ -2755,7 +2755,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[8] = 1;
             }
 
-            if (gSaveContext.eventChkInf[4] & 0x20) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
                 pauseCtx->worldMapPoints[8] = 2;
             }
 
@@ -2767,11 +2767,11 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[8] = 2;
             }
 
-            if (gSaveContext.eventChkInf[6] & 0x80) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_67)) {
                 pauseCtx->worldMapPoints[8] = 1;
             }
 
-            if (gSaveContext.eventChkInf[10] & 0x400) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_AA)) {
                 pauseCtx->worldMapPoints[8] = 2;
             }
 
@@ -2783,7 +2783,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[9] = 1;
             }
 
-            if (gSaveContext.eventChkInf[0] & 0x8000) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_0F)) {
                 pauseCtx->worldMapPoints[9] = 2;
             }
 
@@ -2795,21 +2795,21 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[9] = 2;
             }
 
-            if (gSaveContext.eventChkInf[4] & 0x100) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
                 pauseCtx->worldMapPoints[9] = 1;
             }
 
             pauseCtx->worldMapPoints[10] = 2;
 
-            if (gSaveContext.eventChkInf[0] & 0x200) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_09)) {
                 pauseCtx->worldMapPoints[10] = 1;
             }
 
-            if (gSaveContext.eventChkInf[6] & 0x4000) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_6E)) {
                 pauseCtx->worldMapPoints[10] = 2;
             }
 
-            if (gSaveContext.eventChkInf[0] & 0x8000) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_0F)) {
                 pauseCtx->worldMapPoints[10] = 1;
             }
 
@@ -2817,11 +2817,11 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 pauseCtx->worldMapPoints[11] = 1;
             }
 
-            if (gSaveContext.eventChkInf[2] & 0x20) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_25)) {
                 pauseCtx->worldMapPoints[11] = 2;
             }
 
-            if (gSaveContext.eventChkInf[3] & 0x80) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_37)) {
                 pauseCtx->worldMapPoints[11] = 1;
             }
 

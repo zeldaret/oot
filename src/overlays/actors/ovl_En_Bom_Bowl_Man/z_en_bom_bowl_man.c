@@ -134,7 +134,7 @@ void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->dialogState = TEXT_STATE_EVENT;
 
         // Check for beaten Dodongo's Cavern
-        if ((gSaveContext.eventChkInf[2] & 0x20) || BREG(2)) {
+        if ((GET_EVENTCHKINF(EVENTCHKINF_25)) || BREG(2)) {
             this->actor.textId = 0xBF;
         } else {
             this->actor.textId = 0x7058;
@@ -164,7 +164,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
 
         // Check for beaten Dodongo's Cavern
-        if (!((gSaveContext.eventChkInf[2] & 0x20) || BREG(2))) {
+        if (!((GET_EVENTCHKINF(EVENTCHKINF_25)) || BREG(2))) {
             this->actionFunc = EnBomBowMan_WaitNotBeatenDC;
         } else {
             this->actor.textId = 0x18;

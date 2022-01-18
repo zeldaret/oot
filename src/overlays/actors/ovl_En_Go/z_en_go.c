@@ -142,7 +142,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x20:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3021;
             } else if (gSaveContext.infTable[14] & 0x1) {
                 return 0x302A;
@@ -152,7 +152,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x30:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3026;
             } else {
                 return 0x3009;
@@ -160,7 +160,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x40:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3026;
             } else {
                 return 0x300A;

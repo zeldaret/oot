@@ -603,7 +603,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
     this->warpTimer++;
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        gSaveContext.eventChkInf[3] |= 0x80;
+        SET_EVENTCHKINF(EVENTCHKINF_37);
         Item_Give(globalCtx, ITEM_ZORA_SAPPHIRE);
         globalCtx->nextEntranceIndex = 0x10E;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
@@ -703,8 +703,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         if (globalCtx->sceneNum == SCENE_MORIBOSSROOM) {
-            if (!(gSaveContext.eventChkInf[4] & 0x100)) {
-                gSaveContext.eventChkInf[4] |= 0x100;
+            if (!(GET_EVENTCHKINF(EVENTCHKINF_48))) {
+                SET_EVENTCHKINF(EVENTCHKINF_48);
                 Item_Give(globalCtx, ITEM_MEDALLION_FOREST);
                 globalCtx->nextEntranceIndex = 0x6B;
                 gSaveContext.nextCutsceneIndex = 0;
@@ -718,8 +718,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_FIRE_BS) {
-            if (!(gSaveContext.eventChkInf[4] & 0x200)) {
-                gSaveContext.eventChkInf[4] |= 0x200;
+            if (!(GET_EVENTCHKINF(EVENTCHKINF_49))) {
+                SET_EVENTCHKINF(EVENTCHKINF_49);
                 Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
                 globalCtx->nextEntranceIndex = 0xDB;
                 gSaveContext.nextCutsceneIndex = 0xFFF3;
@@ -732,8 +732,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_MIZUSIN_BS) {
-            if (!(gSaveContext.eventChkInf[4] & 0x400)) {
-                gSaveContext.eventChkInf[4] |= 0x400;
+            if (!(GET_EVENTCHKINF(EVENTCHKINF_4A))) {
+                SET_EVENTCHKINF(EVENTCHKINF_4A);
                 Item_Give(globalCtx, ITEM_MEDALLION_WATER);
                 globalCtx->nextEntranceIndex = 0x6B;
                 gSaveContext.nextCutsceneIndex = 0;

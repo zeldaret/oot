@@ -665,7 +665,7 @@ void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
-            gSaveContext.eventChkInf[9] |= 0x40;
+            SET_EVENTCHKINF(EVENTCHKINF_96);
         }
         if ((this->actor.textId == 0x26) || (this->actor.textId == 0x27)) {
             gSaveContext.infTable[25] |= 0x40;

@@ -336,13 +336,13 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 19:
-            gSaveContext.eventChkInf[6] |= 0x0020;
+            SET_EVENTCHKINF(EVENTCHKINF_65);
             break;
         case 20:
-            gSaveContext.eventChkInf[6] |= 0x0080;
+            SET_EVENTCHKINF(EVENTCHKINF_67);
             break;
         case 21:
-            gSaveContext.eventChkInf[6] |= 0x0200;
+            SET_EVENTCHKINF(EVENTCHKINF_69);
             break;
         case 22:
             D_801614B0.r = 255;
@@ -560,8 +560,8 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 8:
                 gSaveContext.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
-                if (!(gSaveContext.eventChkInf[4] & 0x20)) {
-                    gSaveContext.eventChkInf[4] |= 0x20;
+                if (!(GET_EVENTCHKINF(EVENTCHKINF_45))) {
+                    SET_EVENTCHKINF(EVENTCHKINF_45);
                     globalCtx->nextEntranceIndex = 0x00A0;
                     globalCtx->sceneLoadFlag = 0x14;
                     gSaveContext.cutsceneIndex = 0xFFF3;
@@ -633,7 +633,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 3;
                 break;
             case 18:
-                gSaveContext.eventChkInf[4] |= 0x8000;
+                SET_EVENTCHKINF(EVENTCHKINF_4F);
                 globalCtx->nextEntranceIndex = 0x0324;
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->fadeTransition = 2;
@@ -778,14 +778,14 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 17;
                 break;
             case 46:
-                gSaveContext.eventChkInf[4] |= 0x8000;
+                SET_EVENTCHKINF(EVENTCHKINF_4F);
                 globalCtx->nextEntranceIndex = 0x0324;
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->fadeTransition = 4;
                 break;
             case 47:
                 Item_Give(globalCtx, ITEM_SONG_NOCTURNE);
-                gSaveContext.eventChkInf[5] |= 0x10;
+                SET_EVENTCHKINF(EVENTCHKINF_54);
                 globalCtx->nextEntranceIndex = 0x00DB;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF1;
@@ -1013,8 +1013,8 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 3;
                 break;
             case 95:
-                if ((gSaveContext.eventChkInf[4] & 0x100) && (gSaveContext.eventChkInf[4] & 0x200) &&
-                    (gSaveContext.eventChkInf[4] & 0x400)) {
+                if ((GET_EVENTCHKINF(EVENTCHKINF_48)) && (GET_EVENTCHKINF(EVENTCHKINF_49)) &&
+                    (GET_EVENTCHKINF(EVENTCHKINF_4A))) {
                     globalCtx->nextEntranceIndex = 0x0053;
                     globalCtx->sceneLoadFlag = 0x14;
                     gSaveContext.cutsceneIndex = 0xFFF3;
@@ -1047,7 +1047,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                     gSaveContext.cutsceneIndex = 0xFFF1;
                     globalCtx->fadeTransition = 5;
                 } else {
-                    gSaveContext.eventChkInf[12] |= 0x100;
+                    SET_EVENTCHKINF(EVENTCHKINF_C8);
                     globalCtx->nextEntranceIndex = 0x0610;
                     globalCtx->sceneLoadFlag = 0x14;
                     globalCtx->fadeTransition = 3;
@@ -1193,7 +1193,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.nextTransition = 2;
                 break;
             case 116:
-                if (gSaveContext.eventChkInf[12] & 0x100) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_C8)) {
                     globalCtx->nextEntranceIndex = 0x0580;
                     globalCtx->sceneLoadFlag = 0x14;
                     globalCtx->fadeTransition = 3;
@@ -2072,8 +2072,8 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
             Flags_SetEventChkInf(0xAC);
             gSaveContext.entranceIndex = 0x0123;
             gSaveContext.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.entranceIndex == 0x00DB) && LINK_IS_ADULT && (gSaveContext.eventChkInf[4] & 0x0100) &&
-                   (gSaveContext.eventChkInf[4] & 0x0200) && (gSaveContext.eventChkInf[4] & 0x0400) &&
+        } else if ((gSaveContext.entranceIndex == 0x00DB) && LINK_IS_ADULT && (GET_EVENTCHKINF(EVENTCHKINF_48)) &&
+                   (GET_EVENTCHKINF(EVENTCHKINF_49)) && (GET_EVENTCHKINF(EVENTCHKINF_4A)) &&
                    !Flags_GetEventChkInf(0xAA)) {
             Flags_SetEventChkInf(0xAA);
             gSaveContext.cutsceneIndex = 0xFFF0;

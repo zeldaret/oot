@@ -209,9 +209,10 @@ void EnGe1_SetAnimationIdle(EnGe1* this) {
 }
 
 s32 EnGe1_CheckCarpentersFreed(void) {
-    u16 carpenterFlags = gSaveContext.eventChkInf[9];
+    u16 carpenterFlags = gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX];
 
-    if (!((carpenterFlags & 1) && (carpenterFlags & 2) && (carpenterFlags & 4) && (carpenterFlags & 8))) {
+    if (!((carpenterFlags & EVENTCHKINF_90_MASK) && (carpenterFlags & EVENTCHKINF_91_MASK) &&
+          (carpenterFlags & EVENTCHKINF_92_MASK) && (carpenterFlags & EVENTCHKINF_93_MASK))) {
         return 0;
     }
     return 1;
@@ -230,7 +231,7 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[12] & 0x80) { // Caught previously
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) { // Caught previously
             globalCtx->nextEntranceIndex = 0x5F8;
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
@@ -585,7 +586,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                     globalCtx->fadeTransition = 0x26;
                     globalCtx->sceneLoadFlag = 0x14;
                     gSaveContext.eventInf[0] |= 0x100;
-                    gSaveContext.eventChkInf[6] |= 0x100;
+                    SET_EVENTCHKINF(EVENTCHKINF_68);
 
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                         func_8002DF54(globalCtx, &this->actor, 1);
@@ -670,7 +671,7 @@ void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
         EnGe1_SetTalkAction(this, globalCtx, 0x603F, 100.0f, EnGe1_TalkNoHorse_Archery);
     } else {
-        if (gSaveContext.eventChkInf[6] & 0x100) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_68)) {
             if (gSaveContext.infTable[25] & 1) {
                 textId = 0x6042;
             } else {

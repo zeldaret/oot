@@ -73,7 +73,7 @@ u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
         return 0x402B;
-    } else if (gSaveContext.eventChkInf[3] & 8) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
         return 0x401C;
     } else {
         player->exchangeItemId = EXCH_ITEM_LETTER_RUTO;
@@ -235,7 +235,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
-        if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
+        if ((this->actor.textId == 0x401A) && !(GET_EVENTCHKINF(EVENTCHKINF_33))) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
@@ -329,7 +329,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E0.unk_00 = 0;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
-    if (gSaveContext.eventChkInf[3] & 8) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
         EnKz_SetMovedPos(this, globalCtx);
     }
 
@@ -396,7 +396,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
         EnKz_SetMovedPos(this, globalCtx);
-        gSaveContext.eventChkInf[3] |= 8;
+        SET_EVENTCHKINF(EVENTCHKINF_33);
         this->actor.speedXZ = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }

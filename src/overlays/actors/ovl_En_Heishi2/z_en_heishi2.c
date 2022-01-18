@@ -188,8 +188,8 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_30B = 1;
         this->unk_300 = TEXT_STATE_DONE;
         this->actionFunc = func_80A5475C;
-    } else if ((gSaveContext.eventChkInf[0] & 0x200) && (gSaveContext.eventChkInf[2] & 0x20) &&
-               (gSaveContext.eventChkInf[3] & 0x80)) {
+    } else if ((GET_EVENTCHKINF(EVENTCHKINF_09)) && (GET_EVENTCHKINF(EVENTCHKINF_25)) &&
+               (GET_EVENTCHKINF(EVENTCHKINF_37))) {
         // "Get all spiritual stones!"
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
@@ -208,7 +208,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7099;
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.eventChkInf[1] & 4) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
             osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);

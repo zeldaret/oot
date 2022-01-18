@@ -130,12 +130,12 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
         this->unk_2B4 = 1;
         this->actionFunc = func_80A56B40;
     } else {
-        if (gSaveContext.eventChkInf[8] & 1) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actor.textId = 0x5065;
             this->actionFunc = func_80A56B40;
             return;
         }
-        if (gSaveContext.eventChkInf[4] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
             this->actor.textId = 0x5068;
             this->actionFunc = func_80A56B40;
             return;
@@ -211,13 +211,13 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
-    if (gSaveContext.eventChkInf[4] & 0x20) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
     this->unk_284 = 0;
-    if (gSaveContext.eventChkInf[8] & 1) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
             f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,

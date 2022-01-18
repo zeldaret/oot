@@ -4165,14 +4165,14 @@ void func_80035B18(GlobalContext* globalCtx, Actor* actor, u16 textId) {
  * Tests if event_chk_inf flag is set.
  */
 s32 Flags_GetEventChkInf(s32 flag) {
-    return gSaveContext.eventChkInf[flag >> 4] & (1 << (flag & 0xF));
+    return GET_EVENTCHKINF(flag);
 }
 
 /**
  * Sets event_chk_inf flag.
  */
 void Flags_SetEventChkInf(s32 flag) {
-    gSaveContext.eventChkInf[flag >> 4] |= (1 << (flag & 0xF));
+    SET_EVENTCHKINF(flag);
 }
 
 /**

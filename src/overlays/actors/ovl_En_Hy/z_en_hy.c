@@ -429,7 +429,8 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-                return (this->unk_330 & 0x800) ? 0x508D : ((gSaveContext.infTable[12] & 0x800) ? 0x508C : 0x508B);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D
+                                                             : ((gSaveContext.infTable[12] & 0x800) ? 0x508C : 0x508B);
             } else if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
                 return (gSaveContext.eventInf[3] & 1) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
@@ -445,7 +446,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x70A0;
             }
         case ENHY_TYPE_COB:
-            if (gSaveContext.eventChkInf[8] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return (gSaveContext.infTable[12] & 2) ? 0x7017 : 0x7045;
             } else {
                 return (gSaveContext.infTable[12] & 1) ? 0x7017 : 0x7016;
@@ -455,11 +456,11 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x5086;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return 0x5085;
-            } else if (gSaveContext.eventChkInf[8] & 1) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return (gSaveContext.infTable[12] & 8) ? 0x701A : 0x7047;
-            } else if (gSaveContext.eventChkInf[1] & 0x10) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 return 0x701A;
-            } else if (gSaveContext.eventChkInf[1] & 1) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
                 return 0x701B;
             } else if (gSaveContext.infTable[12] & 4) {
                 return 0x701C;
@@ -467,45 +468,45 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x701A;
             }
         case ENHY_TYPE_BOJ_3:
-            return (gSaveContext.eventChkInf[8] & 1) ? ((gSaveContext.infTable[12] & 0x10) ? 0x7001 : 0x70EB) : 0x7001;
+            return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? ((gSaveContext.infTable[12] & 0x10) ? 0x7001 : 0x70EB) : 0x7001;
         case ENHY_TYPE_AHG_4:
-            return (gSaveContext.eventChkInf[8] & 1) ? 0x704B : ((gSaveContext.infTable[12] & 0x20) ? 0x7024 : 0x7023);
+            return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? 0x704B : ((gSaveContext.infTable[12] & 0x20) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
             player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
-            return (gSaveContext.eventChkInf[8] & 1) ? 0x704A : ((gSaveContext.infTable[12] & 0x40) ? 0x7022 : 0x7021);
+            return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? 0x704A : ((gSaveContext.infTable[12] & 0x40) ? 0x7022 : 0x7021);
         case ENHY_TYPE_BJI_7:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
                 return 0x5088;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return 0x5087;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x704D
+                return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? 0x704D
                                                          : ((gSaveContext.infTable[12] & 0x80) ? 0x7028 : 0x7027);
             }
         case ENHY_TYPE_CNE_8:
-            if (gSaveContext.eventChkInf[8] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return (gSaveContext.infTable[12] & 0x200) ? 0x701E : 0x7048;
             } else {
                 return (gSaveContext.infTable[12] & 0x100) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-                return (gSaveContext.eventChkInf[10] & 0x400) ? 0x5082 : 0x5081;
+                return (GET_EVENTCHKINF(EVENTCHKINF_AA)) ? 0x5082 : 0x5081;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x7049
+                return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? 0x7049
                                                          : ((gSaveContext.infTable[12] & 0x400) ? 0x7020 : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
             if (globalCtx->sceneNum == SCENE_LABO) {
-                return (gSaveContext.eventChkInf[10] & 0x400) ? 0x507E : 0x507D;
+                return (GET_EVENTCHKINF(EVENTCHKINF_AA)) ? 0x507E : 0x507D;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x7046
+                return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? 0x7046
                                                          : ((gSaveContext.infTable[12] & 0x2000) ? 0x7019 : 0x7018);
             }
         case ENHY_TYPE_CNE_11:
@@ -515,7 +516,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
             if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x7044 : 0x7015;
+                return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? 0x7044 : 0x7015;
             }
         case ENHY_TYPE_AHG_13:
             return 0x7055;
@@ -539,9 +540,10 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
             }
         case ENHY_TYPE_BOB_18:
             if (!LINK_IS_ADULT) {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x505F : ((gSaveContext.infTable[22] & 8) ? 0x505E : 0x505D);
+                return (GET_EVENTCHKINF(EVENTCHKINF_80)) ? 0x505F : ((gSaveContext.infTable[22] & 8) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & 0x800) ? 0x5062 : ((gSaveContext.infTable[22] & 0x10) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062
+                                                             : ((gSaveContext.infTable[22] & 0x10) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -853,7 +855,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             } else if (IS_NIGHT) {
                 return false;
-            } else if ((gSaveContext.eventChkInf[8] & 1) && !(gSaveContext.eventChkInf[4] & 0x20)) {
+            } else if ((GET_EVENTCHKINF(EVENTCHKINF_80)) && !(GET_EVENTCHKINF(EVENTCHKINF_45))) {
                 return false;
             } else {
                 return true;
@@ -912,7 +914,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         }
 
         if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.eventChkInf[6];
+            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_6B_INDEX];
         }
 
         EnHy_InitSetProperties(this);

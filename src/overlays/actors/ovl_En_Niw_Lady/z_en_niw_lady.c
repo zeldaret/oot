@@ -336,7 +336,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
         this->unk_27A = 2;
         if (!(GET_ITEMGETINF(ITEMGETINF_2E))) {
             this->unk_27A = 3;
-            if (gSaveContext.eventChkInf[6] & 0x400) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
                 this->unk_27A = 9;
                 if (this->unk_277 != 0) {
                     this->unk_27A = 10;
@@ -360,7 +360,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     }
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         playerExchangeItemId = func_8002F368(globalCtx);
-        if ((playerExchangeItemId == 6) && (gSaveContext.eventChkInf[6] & 0x400)) {
+        if ((playerExchangeItemId == 6) && (GET_EVENTCHKINF(EVENTCHKINF_6A))) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;

@@ -100,7 +100,8 @@ void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
 }
 
 void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
+    if (!CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                        EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         this->actor.textId = 0x6086;
     } else if (gSaveContext.infTable[23] & 0x8000) {
         if (gSaveContext.eventInf[1] & 1) {
