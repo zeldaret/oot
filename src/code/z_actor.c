@@ -4932,7 +4932,7 @@ void func_80036E50(u16 textId, s16 arg1) {
                     Flags_SetInfTable(0x1);
                     return;
                 case 0x1031:
-                    Flags_SetEventChkInf(0x3);
+                    Flags_SetEventChkInf(EVENTCHKINF_03);
                     Flags_SetInfTable(0x3);
                     return;
                 case 0x1047:
@@ -4943,13 +4943,13 @@ void func_80036E50(u16 textId, s16 arg1) {
         case 1:
             switch (textId) {
                 case 0x102F:
-                    Flags_SetEventChkInf(0x2);
+                    Flags_SetEventChkInf(EVENTCHKINF_02);
                     Flags_SetInfTable(0xC);
                     return;
                 case 0x1033:
                     Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
-                    Flags_SetEventChkInf(0x4);
+                    Flags_SetEventChkInf(EVENTCHKINF_04);
                     Flags_SetInfTable(0xE);
                     return;
                 case 0x1045:
@@ -4959,7 +4959,7 @@ void func_80036E50(u16 textId, s16 arg1) {
                     Flags_SetInfTable(0x15);
                     return;
                 case 0x1067:
-                    Flags_SetEventChkInf(0xA);
+                    Flags_SetEventChkInf(EVENTCHKINF_0A);
                     Flags_SetInfTable(0x17);
                     return;
                 case 0x1070:
@@ -5116,13 +5116,13 @@ void func_80036E50(u16 textId, s16 arg1) {
             return;
         case 43:
             if (textId == 0x3018) {
-                Flags_SetEventChkInf(0x20);
+                Flags_SetEventChkInf(EVENTCHKINF_20);
                 Flags_SetInfTable(0xF8);
             }
             return;
         case 48:
             if (textId == 0x3020) {
-                Flags_SetEventChkInf(0x22);
+                Flags_SetEventChkInf(EVENTCHKINF_22);
                 Flags_SetInfTable(0x113);
             }
             return;
@@ -5131,12 +5131,12 @@ void func_80036E50(u16 textId, s16 arg1) {
         case 53:
         case 54:
             if (textId == 0x4006) {
-                Flags_SetEventChkInf(0x30);
+                Flags_SetEventChkInf(EVENTCHKINF_30);
             }
             return;
         case 50:
             if (textId == 0x4006) {
-                Flags_SetEventChkInf(0x30);
+                Flags_SetEventChkInf(EVENTCHKINF_30);
             }
             if (textId == 0x4008) {
                 Flags_SetInfTable(0x124);
@@ -5144,10 +5144,10 @@ void func_80036E50(u16 textId, s16 arg1) {
             return;
         case 51:
             if (textId == 0x4006) {
-                Flags_SetEventChkInf(0x30);
+                Flags_SetEventChkInf(EVENTCHKINF_30);
             }
             if (textId == 0x400A) {
-                Flags_SetEventChkInf(0x32);
+                Flags_SetEventChkInf(EVENTCHKINF_32);
             }
             if (textId == 0x402F) {
                 Flags_SetInfTable(0x12A);
@@ -5155,7 +5155,7 @@ void func_80036E50(u16 textId, s16 arg1) {
             return;
         case 55:
             if (textId == 0x401B) {
-                Flags_SetEventChkInf(0x33);
+                Flags_SetEventChkInf(EVENTCHKINF_33);
                 Flags_SetInfTable(0x138);
             }
             return;
@@ -5171,16 +5171,16 @@ void func_80036E50(u16 textId, s16 arg1) {
             return;
         case 71:
             if (textId == 0x2041) {
-                Flags_SetEventChkInf(0x10);
+                Flags_SetEventChkInf(EVENTCHKINF_10);
             }
             if (textId == 0x2044) {
-                Flags_SetEventChkInf(0x12);
+                Flags_SetEventChkInf(EVENTCHKINF_12);
             }
             if (textId == 0x2047) {
-                Flags_SetEventChkInf(0x15);
+                Flags_SetEventChkInf(EVENTCHKINF_15);
             }
             if (textId == 0x2048) {
-                Flags_SetEventChkInf(0x16);
+                Flags_SetEventChkInf(EVENTCHKINF_16);
             }
             return;
         case 72:

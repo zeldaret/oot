@@ -151,7 +151,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
                     }
                 }
             } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
-                Flags_SetEventChkInf(0xC);
+                Flags_SetEventChkInf(EVENTCHKINF_0C);
                 globalCtx->csCtx.segment = D_808BCE20;
                 gSaveContext.cutsceneTrigger = 1;
                 BgTreemouth_SetupAction(this, func_808BC9EC);
@@ -183,7 +183,7 @@ void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
 
         if (globalCtx->msgCtx.choiceIndex == 0) {
             globalCtx->csCtx.segment = D_808BD520;
-            Flags_SetEventChkInf(5);
+            Flags_SetEventChkInf(EVENTCHKINF_05);
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
             globalCtx->csCtx.segment = D_808BD790;

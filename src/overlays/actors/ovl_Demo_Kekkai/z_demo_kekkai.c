@@ -169,7 +169,7 @@ void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx) {
         } else {
             this->timer++;
             if (this->timer > 100) {
-                Flags_SetEventChkInf(0xC3);
+                Flags_SetEventChkInf(EVENTCHKINF_C3);
                 Actor_Kill(&this->actor);
                 return;
             } else if (this->timer > 40) {

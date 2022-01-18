@@ -533,7 +533,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if ((Message_GetState(msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x703C;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
-                Flags_SetEventChkInf(0x40);
+                Flags_SetEventChkInf(EVENTCHKINF_40);
                 this->unk_1E2 = 6;
             }
             break;

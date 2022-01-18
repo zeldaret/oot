@@ -97,6 +97,7 @@ typedef struct {
 #define EVENTCHKINF_2F 0x2F
 #define EVENTCHKINF_30 0x30
 #define EVENTCHKINF_31 0x31
+#define EVENTCHKINF_32 0x32
 #define EVENTCHKINF_33 0x33
 #define EVENTCHKINF_37 0x37
 #define EVENTCHKINF_38 0x38
@@ -155,6 +156,7 @@ typedef struct {
 #define EVENTCHKINF_77 0x77
 #define EVENTCHKINF_78 0x78
 #define EVENTCHKINF_80 0x80
+#define EVENTCHKINF_82 0x82
 #define EVENTCHKINF_8C 0x8C
 #define EVENTCHKINF_8D 0x8D
 #define EVENTCHKINF_8E 0x8E

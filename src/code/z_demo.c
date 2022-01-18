@@ -2070,28 +2070,28 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
 
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.entranceIndex == 0x01E1) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
-            Flags_SetEventChkInf(0xAC);
+            Flags_SetEventChkInf(EVENTCHKINF_AC);
             gSaveContext.entranceIndex = 0x0123;
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if ((gSaveContext.entranceIndex == 0x00DB) && LINK_IS_ADULT && (GET_EVENTCHKINF(EVENTCHKINF_48)) &&
                    (GET_EVENTCHKINF(EVENTCHKINF_49)) && (GET_EVENTCHKINF(EVENTCHKINF_4A)) &&
                    !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
-            Flags_SetEventChkInf(0xAA);
+            Flags_SetEventChkInf(EVENTCHKINF_AA);
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if ((gSaveContext.entranceIndex == 0x05E0) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {
-            Flags_SetEventChkInf(0xC1);
+            Flags_SetEventChkInf(EVENTCHKINF_C1);
             Item_Give(globalCtx, ITEM_OCARINA_FAIRY);
             gSaveContext.entranceIndex = 0x011E;
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_C4) &&
                    (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_TOKINOMA)) {
-            Flags_SetEventChkInf(0xC4);
+            Flags_SetEventChkInf(EVENTCHKINF_C4);
             gSaveContext.entranceIndex = 0x0053;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
                    (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_GANON_DEMO)) {
-            Flags_SetEventChkInf(0xC7);
+            Flags_SetEventChkInf(EVENTCHKINF_C7);
             gSaveContext.entranceIndex = 0x0517;
             gSaveContext.cutsceneIndex = 0xFFF0;
         }
