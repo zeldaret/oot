@@ -69,6 +69,7 @@ static void* sItemDropTex[] = {
     gDropMagicLargeTex,    gDropMagicSmallTex, gDropDekuSeedsTex, gDropKeySmallTex,
 };
 
+// clang-format off
 static u8 sItemDropIds[] = {
     ITEM00_RUPEE_GREEN,
     ITEM00_RUPEE_BLUE,
@@ -311,6 +312,7 @@ static u8 sItemDropIds[] = {
     ITEM00_SEEDS,
     ITEM00_FLEXIBLE,
 };
+// clang-format on
 
 static u8 sDropQuantities[] = {
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,

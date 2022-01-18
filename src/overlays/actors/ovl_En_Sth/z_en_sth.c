@@ -60,6 +60,7 @@ static s16 sObjectIds[6] = {
     OBJECT_AHG, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ,
 };
 
+// clang-format off
 static FlexSkeletonHeader* sSkeletons[6] = {
     &object_ahg_Skel_0000F0,
     &object_boj_Skel_0000F0,
@@ -68,6 +69,7 @@ static FlexSkeletonHeader* sSkeletons[6] = {
     &object_boj_Skel_0000F0,
     &object_boj_Skel_0000F0,
 };
+// clang-format on
 
 static AnimationHeader* sAnimations[6] = {
     &sParentDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim, &sChildDanceAnim,
