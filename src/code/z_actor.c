@@ -4926,17 +4926,17 @@ void func_80036E50(u16 textId, s16 arg1) {
         case 0:
             switch (textId) {
                 case 0x1001:
-                    Flags_SetInfTable(0x0);
+                    Flags_SetInfTable(INFTABLE_00);
                     return;
                 case 0x1002:
-                    Flags_SetInfTable(0x1);
+                    Flags_SetInfTable(INFTABLE_01);
                     return;
                 case 0x1031:
                     Flags_SetEventChkInf(EVENTCHKINF_03);
-                    Flags_SetInfTable(0x3);
+                    Flags_SetInfTable(INFTABLE_03);
                     return;
                 case 0x1047:
-                    Flags_SetInfTable(0x5);
+                    Flags_SetInfTable(INFTABLE_05);
                     return;
             }
             return;
@@ -4944,186 +4944,186 @@ void func_80036E50(u16 textId, s16 arg1) {
             switch (textId) {
                 case 0x102F:
                     Flags_SetEventChkInf(EVENTCHKINF_02);
-                    Flags_SetInfTable(0xC);
+                    Flags_SetInfTable(INFTABLE_0C);
                     return;
                 case 0x1033:
                     Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     Flags_SetEventChkInf(EVENTCHKINF_04);
-                    Flags_SetInfTable(0xE);
+                    Flags_SetInfTable(INFTABLE_0E);
                     return;
                 case 0x1045:
-                    Flags_SetInfTable(0x10);
+                    Flags_SetInfTable(INFTABLE_10);
                     return;
                 case 0x1060:
-                    Flags_SetInfTable(0x15);
+                    Flags_SetInfTable(INFTABLE_15);
                     return;
                 case 0x1067:
                     Flags_SetEventChkInf(EVENTCHKINF_0A);
-                    Flags_SetInfTable(0x17);
+                    Flags_SetInfTable(INFTABLE_17);
                     return;
                 case 0x1070:
-                    Flags_SetInfTable(0x19);
+                    Flags_SetInfTable(INFTABLE_19);
                     return;
             }
             return;
         case 2:
             if (textId == 0x1056) {
-                Flags_SetInfTable(0x41);
+                Flags_SetInfTable(INFTABLE_41);
             }
             return;
         case 3:
             if (textId == 0x1005) {
-                Flags_SetInfTable(0x1E);
+                Flags_SetInfTable(INFTABLE_1E);
             }
             return;
         case 4:
             if (textId == 0x105D) {
-                Flags_SetInfTable(0x47);
+                Flags_SetInfTable(INFTABLE_47);
             }
             return;
         case 5:
             if (textId == 0x1008) {
-                Flags_SetInfTable(0x22);
+                Flags_SetInfTable(INFTABLE_22);
             }
             return;
         case 6:
             if (textId == 0x100A) {
-                Flags_SetInfTable(0x24);
+                Flags_SetInfTable(INFTABLE_24);
             }
             return;
         case 7:
             if (textId == 0x100C) {
-                Flags_SetInfTable(0x26);
+                Flags_SetInfTable(INFTABLE_26);
             }
             return;
         case 8:
             if (textId == 0x100E) {
-                Flags_SetInfTable(0x28);
+                Flags_SetInfTable(INFTABLE_28);
             }
             if (textId == 0x1059) {
-                Flags_SetInfTable(0x51);
+                Flags_SetInfTable(INFTABLE_51);
             }
             return;
         case 10:
             if (textId == 0x104F) {
-                Flags_SetInfTable(0x59);
+                Flags_SetInfTable(INFTABLE_59);
             }
             return;
         case 13:
             if (textId == 0x1054) {
-                Flags_SetInfTable(0x61);
+                Flags_SetInfTable(INFTABLE_61);
             }
             return;
         case 15:
             if (textId == 0x1062) {
-                Flags_SetInfTable(0x66);
+                Flags_SetInfTable(INFTABLE_66);
             }
             return;
         case 16:
             if (textId == 0x7002) {
-                Flags_SetInfTable(0x6A);
+                Flags_SetInfTable(INFTABLE_6A);
             }
             if (textId == 0x7003) {
-                Flags_SetInfTable(0x6A);
+                Flags_SetInfTable(INFTABLE_6A);
             }
             return;
         case 17:
             if (textId == 0x7007) {
-                Flags_SetInfTable(0x6C);
+                Flags_SetInfTable(INFTABLE_6C);
             }
             return;
         case 18:
             if (textId == 0x7071) {
-                Flags_SetInfTable(0x71);
+                Flags_SetInfTable(INFTABLE_71);
             }
             return;
         case 20:
         case 21:
             if (textId == 0x2010) {
-                Flags_SetInfTable(0x76);
+                Flags_SetInfTable(INFTABLE_76);
             }
             return;
         case 25:
             if (textId == 0x7016) {
-                Flags_SetInfTable(0xC2);
+                Flags_SetInfTable(INFTABLE_C2);
             }
             return;
         case 26:
             if (textId == 0x7018) {
-                Flags_SetInfTable(0xC4);
+                Flags_SetInfTable(INFTABLE_C4);
             }
             return;
         case 28:
             if (textId == 0x701D) {
-                Flags_SetInfTable(0xCA);
+                Flags_SetInfTable(INFTABLE_CA);
             }
             return;
         case 29:
             if (textId == 0x701F) {
-                Flags_SetInfTable(0xCC);
+                Flags_SetInfTable(INFTABLE_CC);
             }
             return;
         case 30:
             if (textId == 0x7021) {
-                Flags_SetInfTable(0xCE);
+                Flags_SetInfTable(INFTABLE_CE);
             }
             return;
         case 31:
             if (textId == 0x7023) {
-                Flags_SetInfTable(0xD0);
+                Flags_SetInfTable(INFTABLE_D0);
             }
             return;
         case 32:
             if (textId == 0x7025) {
-                Flags_SetInfTable(0xD2);
+                Flags_SetInfTable(INFTABLE_D2);
             }
             return;
         case 33:
             if (textId == 0x7027) {
-                Flags_SetInfTable(0xD4);
+                Flags_SetInfTable(INFTABLE_D4);
             }
             return;
         case 34:
             if (textId == 0x403C) {
-                Flags_SetInfTable(0xD6);
+                Flags_SetInfTable(INFTABLE_D6);
             }
             return;
         case 35:
             if (textId == 0x5028) {
-                Flags_SetInfTable(0xD8);
+                Flags_SetInfTable(INFTABLE_D8);
             }
             return;
         case 38:
             if (textId == 0x3008) {
-                Flags_SetInfTable(0xE0);
+                Flags_SetInfTable(INFTABLE_E0);
             }
             return;
         case 40:
             if (textId == 0x300B) {
-                Flags_SetInfTable(0xEB);
+                Flags_SetInfTable(INFTABLE_EB);
             }
             return;
         case 41:
             if (textId == 0x3014) {
-                Flags_SetInfTable(0xF0);
+                Flags_SetInfTable(INFTABLE_F0);
             }
             return;
         case 42:
             if (textId == 0x3016) {
-                Flags_SetInfTable(0xF4);
+                Flags_SetInfTable(INFTABLE_F4);
             }
             return;
         case 43:
             if (textId == 0x3018) {
                 Flags_SetEventChkInf(EVENTCHKINF_20);
-                Flags_SetInfTable(0xF8);
+                Flags_SetInfTable(INFTABLE_F8);
             }
             return;
         case 48:
             if (textId == 0x3020) {
                 Flags_SetEventChkInf(EVENTCHKINF_22);
-                Flags_SetInfTable(0x113);
+                Flags_SetInfTable(INFTABLE_113);
             }
             return;
         case 49:
@@ -5139,7 +5139,7 @@ void func_80036E50(u16 textId, s16 arg1) {
                 Flags_SetEventChkInf(EVENTCHKINF_30);
             }
             if (textId == 0x4008) {
-                Flags_SetInfTable(0x124);
+                Flags_SetInfTable(INFTABLE_124);
             }
             return;
         case 51:
@@ -5150,23 +5150,23 @@ void func_80036E50(u16 textId, s16 arg1) {
                 Flags_SetEventChkInf(EVENTCHKINF_32);
             }
             if (textId == 0x402F) {
-                Flags_SetInfTable(0x12A);
+                Flags_SetInfTable(INFTABLE_12A);
             }
             return;
         case 55:
             if (textId == 0x401B) {
                 Flags_SetEventChkInf(EVENTCHKINF_33);
-                Flags_SetInfTable(0x138);
+                Flags_SetInfTable(INFTABLE_138);
             }
             return;
         case 61:
             if (textId == 0x5000) {
-                Flags_SetInfTable(0x166);
+                Flags_SetInfTable(INFTABLE_166);
             }
             return;
         case 63:
             if (textId == 0x5013) {
-                Flags_SetInfTable(0x16A);
+                Flags_SetInfTable(INFTABLE_16A);
             }
             return;
         case 71:
@@ -5247,25 +5247,25 @@ s32 func_800374E0(GlobalContext* globalCtx, Actor* actor, u16 textId) {
             if (msgCtx->choiceTextId == 0x1035) {
                 if (msgCtx->choiceIndex == 0) {
                     func_80035B18(globalCtx, actor, 0x1036);
-                    Flags_SetInfTable(0x2A);
+                    Flags_SetInfTable(INFTABLE_2A);
                 }
                 if (msgCtx->choiceIndex == 1) {
                     func_80035B18(globalCtx, actor, 0x1037);
-                    Flags_SetInfTable(0x2B);
+                    Flags_SetInfTable(INFTABLE_2B);
                 }
             }
             if (msgCtx->choiceTextId == 0x1038) {
                 if (msgCtx->choiceIndex == 0) {
                     func_80035B18(globalCtx, actor, 0x1039);
-                    Flags_SetInfTable(0x2E);
+                    Flags_SetInfTable(INFTABLE_2E);
                 }
                 if (msgCtx->choiceIndex == 1) {
                     func_80035B18(globalCtx, actor, 0x103A);
-                    Flags_SetInfTable(0x2F);
+                    Flags_SetInfTable(INFTABLE_2F);
                 }
                 if (msgCtx->choiceIndex == 2) {
                     func_80035B18(globalCtx, actor, 0x103B);
-                    Flags_SetInfTable(0x30);
+                    Flags_SetInfTable(INFTABLE_30);
                 }
             }
             ret = 0;
@@ -5292,7 +5292,7 @@ s32 func_800374E0(GlobalContext* globalCtx, Actor* actor, u16 textId) {
             if (msgCtx->choiceIndex == 1) {
                 func_80035B18(globalCtx, actor, 0x2032);
             }
-            Flags_SetInfTable(0x9A);
+            Flags_SetInfTable(INFTABLE_9A);
             ret = 0;
             break;
         case 0x2036:
