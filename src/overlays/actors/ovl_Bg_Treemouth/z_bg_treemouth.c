@@ -138,7 +138,7 @@ void func_808BC864(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
-    if ((!(Flags_GetEventChkInf(EVENTCHKINF_05))) || LINK_IS_ADULT) {
+    if (!Flags_GetEventChkInf(EVENTCHKINF_05) || LINK_IS_ADULT) {
         if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(EVENTCHKINF_0C)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {

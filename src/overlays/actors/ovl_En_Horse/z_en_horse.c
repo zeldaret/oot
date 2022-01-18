@@ -812,7 +812,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (globalCtx->sceneNum == SCENE_SPOT20 &&
         ((gSaveContext.eventInf[EVENTINF_0X_INDEX] & (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK |
                                                       EVENTINF_03_MASK)) == (EVENTINF_01_MASK | EVENTINF_02_MASK)) &&
-        Flags_GetEventChkInf(EVENTCHKINF_18) == 0 && !DREG(1)) {
+        !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
         this->stateFlags |= ENHORSE_FLAG_25;
     }
 

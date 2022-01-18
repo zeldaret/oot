@@ -249,7 +249,7 @@ void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         }
 
-        if ((wallType == BWALL_DC_ENTRANCE) && (!(Flags_GetEventChkInf(EVENTCHKINF_B0)))) {
+        if ((wallType == BWALL_DC_ENTRANCE) && !Flags_GetEventChkInf(EVENTCHKINF_B0)) {
             Flags_SetEventChkInf(EVENTCHKINF_B0);
             Cutscene_SetSegment(globalCtx, gDcOpeningCs);
             gSaveContext.cutsceneTrigger = 1;
