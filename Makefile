@@ -251,8 +251,8 @@ build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
-	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
-	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
+#	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
+#	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
@@ -273,20 +273,9 @@ build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/overlays/%_reloc.o: build/spec
-	$(eval RELOC_PREQ = $(shell grep -o "$(@D).*.o" build/spec | grep -vF 'reloc.o'))
-	$(shell printf "%s: %s\n\n" $@: "$(RELOC_PREQ)" > $(@:.o=.d))
-	$(foreach f,$(RELOC_PREQ), $(shell printf "%s: \n\n" $f >> $(@:.o=.d)))
-	$(FADO) -o $(@:.o=.s) $(RELOC_PREQ)
+	$(FADO) -o $(@:.o=.s) $$(tools/reloc_prec $< $(notdir $(@D)))
+#	-M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
-
-
-#	$(info Generating dependency file $(@:.o=.d))
-#	$(info Generating reloc file $(@:.o=.s))
-#	@printf "%s: " $@ > $(@:.o=.d)
-#	bash mido.sh $@ build/spec
-#	@grep '$(@D)' build/spec | awk -F\" '$$2 ~ "$(basename $@)" { print pre "\n"; exit } { pre=pre $$2 " " }' | tee -a $(@:.o=.d) | xargs $(FADO) -o $(@:.o=.s)
-	
-#	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
