@@ -139,7 +139,7 @@ ZResourceType ZSkeleton::GetResourceType() const
 
 DeclarationAlignment ZSkeleton::GetDeclarationAlignment() const
 {
-	return DeclarationAlignment::Align16;
+	return DeclarationAlignment::Align4;
 }
 
 uint8_t ZSkeleton::GetLimbCount()

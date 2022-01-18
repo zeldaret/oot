@@ -87,14 +87,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef struct {
-    AnimationHeader* anim;
-    f32 unk_4;
-    u8 mode;
-    f32 transitionRate;
-} EnToryoAnimation;
-
-static EnToryoAnimation sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
+static AnimationSpeedInfo sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
 
@@ -131,9 +124,9 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    Animation_Change(&this->skelAnime, sEnToryoAnimation.anim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sEnToryoAnimation.anim), sEnToryoAnimation.mode,
-                     sEnToryoAnimation.transitionRate);
+    Animation_Change(&this->skelAnime, sEnToryoAnimation.animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
+                     sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
     this->actor.targetMode = 6;
     this->actionFunc = func_80B20914;

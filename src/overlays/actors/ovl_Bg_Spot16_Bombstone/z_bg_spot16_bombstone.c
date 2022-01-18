@@ -413,7 +413,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
                 OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
             }
         }
-    } else if (player->stateFlags1 & 0x800) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_11) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
@@ -512,7 +512,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     if (actor->bgCheckFlags & 8 || (actor->bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
         BgSpot16Bombstone_SpawnFragments(this, globalCtx);
         BgSpot16Bombstone_SpawnDust(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);
         Actor_Kill(actor);
         return;
     }

@@ -75,7 +75,7 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
             POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->life * 3, this->life * 15, 32, 64, 1, 0, 0, 32, 32));
         Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
-        func_800D1FD4(&globalCtx->billboardMtxF);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
         scale = this->rScale * 0.0001f;
         Matrix_Scale(scale, scale, 1.0f, MTXMODE_APPLY);
 

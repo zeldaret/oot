@@ -102,7 +102,7 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
         if (yDistWithOffset > 0.0f) {
             Math_SmoothStepToF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
             if (posDifference.y < -70.0f) {
-                player->stateFlags2 |= 0x80000000;
+                player->stateFlags2 |= PLAYER_STATE2_31;
             }
         }
     } else {

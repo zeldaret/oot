@@ -212,18 +212,18 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
             if (absyawTowardsPlayer < 0x4300) {
                 if (!this->unk_194) {
-                    if (player->stateFlags2 & 0x1000000) {
+                    if (player->stateFlags2 & PLAYER_STATE2_24) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
 
                         func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_LONG_RECORDING);
                         this->unk_19A = 0;
                         this->unk_1B8 = 0.0;
-                        player->stateFlags2 |= 0x800000;
+                        player->stateFlags2 |= PLAYER_STATE2_23;
                         this->actionFunc = func_80A8F8D0;
                         return;
                     }
                     if (this->actor.xzDistToPlayer < 80.0f) {
-                        player->stateFlags2 |= 0x800000;
+                        player->stateFlags2 |= PLAYER_STATE2_23;
                     }
                 }
                 func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -252,7 +252,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
         }
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
         func_80A8F320(this, globalCtx, 0);
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
