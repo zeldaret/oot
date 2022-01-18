@@ -351,7 +351,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
                          *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
 
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

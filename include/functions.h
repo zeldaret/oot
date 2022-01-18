@@ -509,7 +509,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3);
-void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* animations, s32 index);
+void Animation_ChangeByInfo(SkelAnime* skelAnime, AnimationInfo* animationInfo, s32 index);
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
 void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist);
@@ -829,9 +829,9 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx);
 void Cutscene_SetSegment(GlobalContext* globalCtx, void* segment);
 void* MemCopy(void* dest, void* src, s32 size);
 void GetItem_Draw(GlobalContext* globalCtx, s16 drawId);
-void func_8006BA00(GlobalContext* globalCtx);
-void func_8006BA30(GlobalContext* globalCtx);
-void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId);
+void SoundSource_InitAll(GlobalContext* globalCtx);
+void SoundSource_UpdateAll(GlobalContext* globalCtx);
+void SoundSource_PlaySfxAtFixedWorldPos(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId);
 u16 ElfMessage_GetSariaText(GlobalContext* globalCtx);
 u16 ElfMessage_GetCUpText(GlobalContext* globalCtx);
 u16 Text_GetFaceReaction(GlobalContext* globalCtx, u32 reactionSet);
@@ -1277,24 +1277,19 @@ void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* pos, s16 angle);
 s32 Animation_OnFrame(SkelAnime* skelAnime, f32 frame);
 void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
 void SkelAnime_CopyFrameTable(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src);
-void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx* arg3, Vec3f* arg4);
-void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3);
-void func_800A5E28(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3, s32 arg4);
-void func_800A5F60(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* arg3, s32 arg4);
-void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
-                   s32 arg5, s32 arg6, s32 arg7);
-void func_800A6330(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4);
-void func_800A6360(Actor* this, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
-                   s32 arg5);
-void func_800A63CC(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
-                   s32 arg5, s32 arg6, s32 arg7);
-void func_800A6408(PSkinAwb* skin, s32 joint, Vec3f* arg2, Vec3f* arg3);
-void func_800A6460(GlobalContext* globalCtx, PSkinAwb* skin, s32 arg2);
-void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeletonHeader,
-                   AnimationHeader* animationHeader);
-void func_800A6888(GlobalContext* globalCtx, PSkinAwb* skin);
-s32 func_800A698C(PSkinAwb* skin, SkinLimb** limbs, MtxF* arg2, u8 arg3, u8 arg4);
-s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3);
+
+void Skin_UpdateVertices(MtxF* mtx, SkinVertex* skinVertices, SkinLimbModif* modifEntry, Vtx* vtxBuf, Vec3f* pos);
+void Skin_DrawAnimatedLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, s32 arg3, s32 drawFlags);
+void Skin_DrawLimb(GraphicsContext* gfxCtx, Skin* skin, s32 limbIndex, Gfx* dlistOverride, s32 drawFlags);
+void func_800A6330(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw, s32 setTranslation);
+void func_800A6360(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw, SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation);
+void func_800A6394(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw, SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6);
+void func_800A63CC(Actor* actor, GlobalContext* globalCtx, Skin* skin, SkinPostDraw postDraw, SkinOverrideLimbDraw overrideLimbDraw, s32 setTranslation, s32 arg6, s32 drawFlags);
+void Skin_GetLimbPos(Skin* skin, s32 limbIndex, Vec3f* arg2, Vec3f* dst);
+void Skin_Init(GlobalContext* globalCtx, Skin* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
+void Skin_Free(GlobalContext* globalCtx, Skin* skin);
+s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* mf, Actor* actor, s32 setTranslation);
+
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest);
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest);
 void SkinMatrix_MtxFMtxFMult(MtxF* mfA, MtxF* mfB, MtxF* dest);
@@ -1309,7 +1304,7 @@ void SkinMatrix_SetTranslateRotateYXZScale(MtxF* dest, f32 scaleX, f32 scaleY, f
 void SkinMatrix_SetTranslateRotateZYX(MtxF* dest, s16 rotX, s16 rotY, s16 rotZ, f32 translateX, f32 translateY,
                                       f32 translateZ);
 Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src);
-void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z);
+void SkinMatrix_SetRotateAxis(MtxF* mf, s16 angle, f32 axisX, f32 axisY, f32 axisZ);
 void Sram_InitNewSave(void);
 void Sram_InitDebugSave(void);
 void Sram_OpenSave(SramContext* sramCtx);
@@ -1759,7 +1754,7 @@ void Matrix_RotateY(f32 y, u8 mode);
 void Matrix_RotateZ(f32 z, u8 mode);
 void Matrix_RotateZYX(s16 x, s16 y, s16 z, u8 mode);
 void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation);
-void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec);
+void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot);
 Mtx* Matrix_MtxFToMtx(MtxF* src, Mtx* dest);
 Mtx* Matrix_ToMtx(Mtx* dest, char* file, s32 line);
 Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx, char* file, s32 line);
@@ -1769,12 +1764,13 @@ void Matrix_MtxFCopy(MtxF* dest, MtxF* src);
 void Matrix_MtxToMtxF(Mtx* src, MtxF* dest);
 void Matrix_MultVec3fExt(Vec3f* src, Vec3f* dest, MtxF* mf);
 void Matrix_Transpose(MtxF* mf);
-void func_800D1FD4(MtxF* mf);
+void Matrix_ReplaceRotation(MtxF* mf);
 void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
 void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag);
-void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode);
+void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line);
-void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
+void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
+                                  f32 translateZ);
 u32 SysUcode_GetUCodeBoot(void);
 u32 SysUcode_GetUCodeBootSize(void);
 u32 SysUcode_GetUCode(void);
@@ -1903,7 +1899,7 @@ void AudioHeap_InitMainPools(s32 sizeForAudioInitPool);
 void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id);
 void* AudioHeap_SearchCaches(s32 tableType, s32 arg1, s32 id);
 void* AudioHeap_SearchRegularCaches(s32 tableType, s32 cache, s32 id);
-void AudioHeap_LoadFilter(s16* filter, s32 filter1, s32 filter2);
+void AudioHeap_LoadFilter(s16* filter, s32 lowPassCutoff, s32 highPassCutoff);
 s32 AudioHeap_ResetStep(void);
 void AudioHeap_Init(void);
 void* AudioHeap_SearchPermanentCache(s32 tableType, s32 id);
@@ -2036,8 +2032,8 @@ void Audio_PlaySoundWaterfall(Vec3f* pos, f32 freqScale);
 void func_800F47BC(void);
 void func_800F47FC(void);
 void func_800F483C(u8 targetVol, u8 volFadeTimer);
-void func_800F4870(u8);
-void func_800F4A54(u8);
+void Audio_SetGanonsTowerBgmVolumeLevel(u8 ganonsTowerLevel);
+void Audio_LowerMainBgmVolume(u8 volume);
 void Audio_PlaySoundIncreasinglyTransposed(Vec3f* pos, s16 sfxId, u8* semitones);
 void Audio_ResetIncreasingTranspose(void);
 void Audio_PlaySoundTransposed(Vec3f* pos, u16 sfxId, s8 semitone);

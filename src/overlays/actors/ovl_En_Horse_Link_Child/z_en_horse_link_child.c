@@ -151,7 +151,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->action = 1;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gChildEponaSkel, &gChildEponaGallopingAnim);
+    Skin_Init(globalCtx, &this->skin, &gChildEponaSkel, &gChildEponaGallopingAnim);
     this->animationIdx = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
@@ -181,7 +181,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
     Collider_DestroyJntSph(globalCtx, &this->headCollider);
 }
@@ -578,7 +578,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80A6948C(this);
 }
 
-void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseLinkChild_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f center;
     Vec3f newCenter;
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
@@ -588,7 +588,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         center.x = this->headCollider.elements[i].dim.modelSphere.center.x;
         center.y = this->headCollider.elements[i].dim.modelSphere.center.y;
         center.z = this->headCollider.elements[i].dim.modelSphere.center.z;
-        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &center, &newCenter);
+        Skin_GetLimbPos(skin, this->headCollider.elements[i].dim.limb, &center, &newCenter);
         this->headCollider.elements[i].dim.worldSphere.center.x = newCenter.x;
         this->headCollider.elements[i].dim.worldSphere.center.y = newCenter.y;
         this->headCollider.elements[i].dim.worldSphere.center.z = newCenter.z;
@@ -600,7 +600,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
 }
 
-s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* arg3) {
+s32 EnHorseLinkChild_OverrideLimbDraw(Actor* thisx, GlobalContext* globalCtx, s32 arg2, Skin* skin) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_link_child.c", 1467);
@@ -620,5 +620,6 @@ void EnHorseLinkChild_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6360(&this->actor, globalCtx, &this->skin, func_80A6ABF8, func_80A6AD84, 1);
+    func_800A6360(&this->actor, globalCtx, &this->skin, EnHorseLinkChild_PostDraw, EnHorseLinkChild_OverrideLimbDraw,
+                  true);
 }

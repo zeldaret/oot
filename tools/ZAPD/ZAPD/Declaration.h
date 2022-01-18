@@ -12,8 +12,7 @@ typedef uint32_t offset_t;
 enum class DeclarationAlignment
 {
 	Align4,
-	Align8,
-	Align16
+	Align8
 };
 
 enum class StaticConfig

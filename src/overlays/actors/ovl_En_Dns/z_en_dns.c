@@ -120,13 +120,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
-typedef struct {
-    /* 0x00 */ AnimationHeader* anim;
-    /* 0x04 */ u8 mode;
-    /* 0x08 */ f32 transitionRate;
-} DnsAnimInfo; // size = 0xC
+typedef enum {
+    /* 0 */ ENDNS_ANIM_0,
+    /* 1 */ ENDNS_ANIM_1,
+    /* 2 */ ENDNS_ANIM_2
+} EnDnsAnimation;
 
-static DnsAnimInfo sAnimInfo[] = {
+static AnimationMinimalInfo sAnimationInfo[] = {
     { &gBusinessScrubNervousIdleAnim, ANIMMODE_LOOP, 0.0f },
     { &gBusinessScrubAnim_4404, ANIMMODE_ONCE, 0.0f },
     { &gBusinessScrubNervousTransitionAnim, ANIMMODE_ONCE, 0.0f },
@@ -173,13 +173,13 @@ void EnDns_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void EnDns_Change(EnDns* this, u8 arg1) {
+void EnDns_ChangeAnim(EnDns* this, u8 index) {
     s16 frameCount;
 
-    frameCount = Animation_GetLastFrame(sAnimInfo[arg1].anim);
-    this->unk_2BA = arg1; // Not used anywhere else?
-    Animation_Change(&this->skelAnime, sAnimInfo[arg1].anim, 1.0f, 0.0f, (f32)frameCount, sAnimInfo[arg1].mode,
-                     sAnimInfo[arg1].transitionRate);
+    frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
+    this->unk_2BA = index; // Not used anywhere else?
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, (f32)frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 /* Item give checking functions */
@@ -315,7 +315,7 @@ void func_809EFB40(EnDns* this) {
 void EnDns_SetupWait(EnDns* this, GlobalContext* globalCtx) {
     if (this->skelAnime.curFrame == this->skelAnime.endFrame) {
         this->actionFunc = EnDns_Wait;
-        EnDns_Change(this, 0);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_0);
     }
 }
 
@@ -411,7 +411,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
             this->dropCollectible = 1;
             this->maintainCollider = 0;
             this->actor.flags &= ~ACTOR_FLAG_0;
-            EnDns_Change(this, 1);
+            EnDns_ChangeAnim(this, ENDNS_ANIM_1);
             this->actionFunc = EnDns_SetupBurrow;
         }
     } else {
@@ -419,7 +419,7 @@ void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
         this->dropCollectible = 1;
         this->maintainCollider = 0;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        EnDns_Change(this, 1);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_1);
         this->actionFunc = EnDns_SetupBurrow;
     }
 }
@@ -428,7 +428,7 @@ void func_809F008C(EnDns* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->maintainCollider = 0;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        EnDns_Change(this, 1);
+        EnDns_ChangeAnim(this, ENDNS_ANIM_1);
         this->actionFunc = EnDns_SetupBurrow;
     }
 }

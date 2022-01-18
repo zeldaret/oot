@@ -777,7 +777,7 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(ptr->unk_04.x, ptr->unk_04.y, ptr->unk_04.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(ptr->unk_2C, ptr->unk_2C, 1.0f, MTXMODE_APPLY);
             Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
