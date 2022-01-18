@@ -206,11 +206,11 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         player = GET_PLAYER(globalCtx);
 
-        if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_11) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~0x800;
+            player->stateFlags1 &= ~PLAYER_STATE1_11;
         }
 
         Actor_Kill(&this->actor);
@@ -365,7 +365,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == BOMB_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
-        func_800D1FD4(&globalCtx->billboardMtxF);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
         func_8002EBCC(thisx, globalCtx, 0);
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),

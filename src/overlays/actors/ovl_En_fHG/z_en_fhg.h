@@ -58,7 +58,7 @@ typedef struct EnfHG {
     /* 0x01F8 */ f32 warpColorFilterUnk2;
     /* 0x01FC */ EnfHGActionFunc actionFunc;
     /* 0x0200 */ char unk_200[4];
-    /* 0x0204 */ PSkinAwb skin;
+    /* 0x0204 */ Skin skin;
 } EnfHG; // size = 0x0294
 
 #endif

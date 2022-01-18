@@ -52,7 +52,7 @@
         <Texture Name="gHumanMouthOpen6Tex" OutName="mouth_open_6" Format="ci8" Width="32" Height="32" Offset="0x7600" TlutOffset="0x7A00"/>
 
         <!-- TLUT -->
-        <Texture Name="gHumanTLUT" OutName="face_palette" Format="rgba16" Width="16" Height="16" Offset="0x7A00"/>
+        <Texture Name="gHumanTLUT" OutName="face_tlut" Format="rgba16" Width="16" Height="16" Offset="0x7A00"/>
     </File>
 
     <File Name="object_human" OutName="anim_looking_back" RangeStart="0x7A40" RangeEnd="0x8360" Segment="6">

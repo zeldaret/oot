@@ -322,7 +322,9 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     }
 
     if ((ABS(sp32) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
-        if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80)) {
+        if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+                                     PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
+            !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->unk_306 == 0) {
                 if (!(this->unk_312 & 0x80)) {
                     player->actor.freezeTimer = 40;
@@ -394,7 +396,9 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80) &&
+    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+                                 PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
+        !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
         this->actor.targetMode = 0;
         func_80AE2B90(this, globalCtx);
@@ -487,7 +491,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x5DC, 0);
             Math_SmoothStepToS(&this->unk_310, 0, 1, 0x5DC, 0);
         case 2:
-            if (!(player->stateFlags2 & 0x80)) {
+            if (!(player->stateFlags2 & PLAYER_STATE2_7)) {
                 Animation_Change(&this->skelAnime, &object_rd_Anim_0046F8, 0.5f, 0.0f,
                                  Animation_GetLastFrame(&object_rd_Anim_0046F8), ANIMMODE_ONCE_INTERP, 0.0f);
                 this->unk_304++;

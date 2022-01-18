@@ -137,7 +137,7 @@ void BgIceObjects_Idle(BgIceObjects* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         if ((this->dyna.unk_150 > 0.0f) && !Player_InCsMode(globalCtx)) {
             BgIceObjects_SetNextTarget(this, globalCtx);
             if (Actor_WorldDistXZToPoint(thisx, &this->targetPos) > 1.0f) {
@@ -202,7 +202,7 @@ void BgIceObjects_Reset(BgIceObjects* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
     }
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 1.0f)) {
@@ -217,7 +217,7 @@ void BgIceObjects_Stuck(BgIceObjects* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
     }
 }
