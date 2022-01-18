@@ -203,9 +203,10 @@ void ObjSwitch_InitJntSphCollider(ObjSwitch* this, GlobalContext* globalCtx, Col
 
     Collider_InitJntSph(globalCtx, colliderJntSph);
     Collider_SetJntSph(globalCtx, colliderJntSph, &this->dyna.actor, colliderJntSphInit, this->jntSph.items);
-    func_800D1694(this->dyna.actor.world.pos.x,
-                  this->dyna.actor.world.pos.y + this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
-                  this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
+    Matrix_SetTranslateRotateYXZ(this->dyna.actor.world.pos.x,
+                                 this->dyna.actor.world.pos.y +
+                                     this->dyna.actor.shape.yOffset * this->dyna.actor.scale.y,
+                                 this->dyna.actor.world.pos.z, &this->dyna.actor.shape.rot);
     Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, MTXMODE_APPLY);
     Collider_UpdateSpheres(0, colliderJntSph);
 }

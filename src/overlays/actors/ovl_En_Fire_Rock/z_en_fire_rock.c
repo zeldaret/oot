@@ -199,7 +199,7 @@ void EnFireRock_Fall(EnFireRock* this, GlobalContext* globalCtx) {
                 func_80033E88(&this->actor, globalCtx, 5, 2);
             case FIRE_ROCK_BROKEN_PIECE1:
                 Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale,
-                                         1, 8.0f, 500, 10, 0);
+                                         1, 8.0f, 500, 10, false);
                 for (i = 0; i < 5; i++) {
                     flamePos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
                     flamePos.y = this->actor.floorHeight;
@@ -210,8 +210,8 @@ void EnFireRock_Fall(EnFireRock* this, GlobalContext* globalCtx) {
                 break;
             default:
                 Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale,
-                                         3, 8.0f, 200, 10, 0);
-                Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_EXPLOSION);
+                                         3, 8.0f, 200, 10, false);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_EXPLOSION);
                 Actor_Kill(&this->actor);
                 break;
         }
@@ -361,7 +361,7 @@ void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (this->collider.base.atFlags & 2) {
                 this->collider.base.atFlags &= ~2;
                 if (this->collider.base.at == playerActor) {
-                    if (!(player->stateFlags1 & 0x04000000)) {
+                    if (!(player->stateFlags1 & PLAYER_STATE1_26)) {
                         func_8002F758(globalCtx, thisx, 2.0f, -player->actor.world.rot.y, 3.0f, 4);
                     }
                     return;

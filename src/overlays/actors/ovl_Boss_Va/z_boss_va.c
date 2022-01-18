@@ -1426,14 +1426,14 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {
-            if ((player->stateFlags1 & 0x4000000) && (this->timer > 35)) {
+            if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer > 35)) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
             this->colliderBody.info.bumper.dmgFlags = 0xFC00712;
             this->timer--;
         } else {
-            if ((player->stateFlags1 & 0x4000000) && (this->timer < -60)) {
+            if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {
                 this->timer = -59;
             }
             if ((globalCtx->gameplayFrames % 4) == 0) {
@@ -2002,7 +2002,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
     sp98 = Math_Vec3f_Yaw(&sp7C, &this->armTip);
     tmp17 = sp98 - this->actor.shape.rot.y;
 
-    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & 0x04000000)) {
+    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_26)) {
 
         if (!this->burst) {
             sp94 = sp98 - this->actor.shape.rot.y;
@@ -2064,7 +2064,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
                 this->timer2 = 0;
             }
 
-            if ((this->timer2 < 0) && (player->stateFlags1 & 0x4000000)) {
+            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_26)) {
                 BossVa_Spark(globalCtx, this, 1, 30, 0.0f, 0.0f, SPARK_LINK, 0.0f, true);
             }
         }
@@ -2265,7 +2265,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
     sp6C = Math_Vec3f_Yaw(&sp54, &this->armTip);
     tmp16 = sp6C - this->actor.shape.rot.y;
 
-    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & 0x04000000)) {
+    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_26)) {
         if (!this->burst) {
 
             sp68 = sp6C - this->actor.shape.rot.y;
@@ -2322,7 +2322,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
                 this->timer2 = 0;
             }
 
-            if ((this->timer2 < 0) && (player->stateFlags1 & 0x4000000)) {
+            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_26)) {
                 BossVa_Spark(globalCtx, this, 1, 30, 0.0f, 0, SPARK_LINK, 0.0f, true);
             }
         }
@@ -3524,7 +3524,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 230, 230, 230, effect->primColor[3]);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale * 0.0185f, effect->scale * 0.0185f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_va.c", 4976),
@@ -3542,7 +3542,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
                 flag++;
             }
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
 
@@ -3577,7 +3577,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
             if (effect->mode == BLOOD_SPOT) {
                 Matrix_RotateX(M_PI / 2, MTXMODE_APPLY);
             } else {
-                func_800D1FD4(&globalCtx->billboardMtxF);
+                Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             }
 
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
@@ -3679,7 +3679,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 230, 230, 230, effect->primColor[3]);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_RotateZ((effect->rot.z / (f32)0x8000) * 3.1416f, MTXMODE_APPLY);
             Matrix_Scale(effect->scale * 0.02f, effect->scale * 0.02f, 1.0f, MTXMODE_APPLY);
 

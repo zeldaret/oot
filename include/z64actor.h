@@ -110,7 +110,7 @@ typedef struct {
 #define ACTOR_FLAG_8 (1 << 8)
 #define ACTOR_FLAG_9 (1 << 9)
 #define ACTOR_FLAG_10 (1 << 10)
-#define ACTOR_FLAG_11 (1 << 11)
+#define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
 #define ACTOR_FLAG_12 (1 << 12)
 #define ACTOR_FLAG_13 (1 << 13)
 #define ACTOR_FLAG_14 (1 << 14)
@@ -334,7 +334,8 @@ typedef enum {
     /* 0x08 */ ACTORCAT_MISC,
     /* 0x09 */ ACTORCAT_BOSS,
     /* 0x0A */ ACTORCAT_DOOR,
-    /* 0x0B */ ACTORCAT_CHEST
+    /* 0x0B */ ACTORCAT_CHEST,
+    /* 0x0C */ ACTORCAT_MAX
 } ActorCategory;
 
 #define DEFINE_ACTOR(_0, enum, _2) enum,

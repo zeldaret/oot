@@ -128,7 +128,7 @@ void ObjBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000040))) {
         ObjBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 80, NA_SE_EV_WALL_BROKEN);
         if (((this->actor.params >> 0xF) & 1) != 0) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }

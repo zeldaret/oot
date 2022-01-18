@@ -1,6 +1,8 @@
 #include "SetSpecialObjects.h"
+
 #include "Utils/BitConverter.h"
 #include "Utils/StringHelper.h"
+#include "ZRoom/ZNames.h"
 
 SetSpecialObjects::SetSpecialObjects(ZFile* nParent) : ZRoomCommand(nParent)
 {
@@ -15,8 +17,10 @@ void SetSpecialObjects::ParseRawData()
 
 std::string SetSpecialObjects::GetBodySourceCode() const
 {
-	return StringHelper::Sprintf("SCENE_CMD_SPECIAL_FILES(0x%02X, 0x%04X)", elfMessage,
-	                             globalObject);
+	std::string objectName = ZNames::GetObjectName(globalObject);
+
+	return StringHelper::Sprintf("SCENE_CMD_SPECIAL_FILES(0x%02X, %s)", elfMessage,
+	                             objectName.c_str());
 }
 
 std::string SetSpecialObjects::GetCommandCName() const
