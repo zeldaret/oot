@@ -28,7 +28,9 @@ void PrintVersion() {
 #define PATH_SEPARATOR '/'
 #endif
 
-/* (Bad) filename-parsing idea to get the overlay name from the filename. output must be freed separately. */
+/**
+ * (Bad) filename-parsing idea to get the overlay name from the filename. Output must be freed separately.
+ */
 char* GetOverlayNameFromFilename(const char* src) {
     char* ret;
     const char* ptr;
@@ -69,7 +71,7 @@ static const PosArgInfo posArgInfo[] = {
 
 static const OptInfo optInfo[] = {
     { { "make-dependency", required_argument, NULL, 'M' }, "FILE", "Write the output file's Makefile dependencies to FILE" },
-    { { "name", required_argument, NULL, 'n' }, "NAME", "Use NAME as the overlay name. Uses the deepest folder name in the input file's path if not specified" },
+    { { "name", required_argument, NULL, 'n' }, "NAME", "Use NAME as the overlay name. Will use the deepest folder name in the input file's path if not specified" },
     { { "output-file", required_argument, NULL, 'o' }, "FILE", "Output to FILE. Will use stdout if none is specified" },
     { { "verbosity", required_argument, NULL, 'v' }, "N", "Verbosity level, one of 0 (None, default), 1 (Info), 2 (Debug)" },
 
@@ -178,13 +180,13 @@ int main(int argc, char** argv) {
 
         FAIRY_INFO_PRINTF("Found %d input file%s\n", inputFilesCount, (inputFilesCount == 1 ? "" : "s"));
 
-        if (ovlName == NULL) {
+        if (ovlName == NULL) { // If a name has not been set using an arg
             ovlName = GetOverlayNameFromFilename(argv[optind]);
+            Fado_Relocs(outputFile, inputFilesCount, inputFiles, ovlName);
+            free(ovlName);
+        } else {
+            Fado_Relocs(outputFile, inputFilesCount, inputFiles, ovlName);
         }
-
-        Fado_Relocs(outputFile, inputFilesCount, inputFiles, ovlName);
-
-        free(ovlName);
 
         for (i = 0; i < inputFilesCount; i++) {
             fclose(inputFiles[i]);
