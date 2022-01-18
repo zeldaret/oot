@@ -604,9 +604,10 @@ Mtx* SkinMatrix_MtxFToNewMtx(GraphicsContext* gfxCtx, MtxF* src) {
 }
 
 /**
- * Produces a matrix which rotates vectors by angle a around a unit vector with components (x,y,z)
+ * Produces a matrix which rotates by binary angle `angle` around a unit vector (`axisX`,`axisY`,`axisZ`).
+ * NB: the rotation axis is assumed to be a unit vector.
  */
-void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
+void SkinMatrix_SetRotateAxis(MtxF* mf, s16 angle, f32 axisX, f32 axisY, f32 axisZ) {
     f32 sinA;
     f32 cosA;
     f32 xx;
@@ -617,28 +618,28 @@ void func_800A7EC0(MtxF* mf, s16 a, f32 x, f32 y, f32 z) {
     f32 xz;
     f32 pad;
 
-    sinA = Math_SinS(a);
-    cosA = Math_CosS(a);
+    sinA = Math_SinS(angle);
+    cosA = Math_CosS(angle);
 
-    xx = x * x;
-    yy = y * y;
-    zz = z * z;
-    xy = x * y;
-    yz = y * z;
-    xz = x * z;
+    xx = axisX * axisX;
+    yy = axisY * axisY;
+    zz = axisZ * axisZ;
+    xy = axisX * axisY;
+    yz = axisY * axisZ;
+    xz = axisX * axisZ;
 
     mf->xx = (1.0f - xx) * cosA + xx;
-    mf->yx = (1.0f - cosA) * xy + z * sinA;
-    mf->zx = (1.0f - cosA) * xz - y * sinA;
+    mf->yx = (1.0f - cosA) * xy + axisZ * sinA;
+    mf->zx = (1.0f - cosA) * xz - axisY * sinA;
     mf->wx = 0.0f;
 
-    mf->xy = (1.0f - cosA) * xy - z * sinA;
+    mf->xy = (1.0f - cosA) * xy - axisZ * sinA;
     mf->yy = (1.0f - yy) * cosA + yy;
-    mf->zy = (1.0f - cosA) * yz + x * sinA;
+    mf->zy = (1.0f - cosA) * yz + axisX * sinA;
     mf->wy = 0.0f;
 
-    mf->xz = (1.0f - cosA) * xz + y * sinA;
-    mf->yz = (1.0f - cosA) * yz - x * sinA;
+    mf->xz = (1.0f - cosA) * xz + axisY * sinA;
+    mf->yz = (1.0f - cosA) * yz - axisX * sinA;
     mf->zz = (1.0f - zz) * cosA + zz;
     mf->wz = 0.0f;
 

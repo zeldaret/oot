@@ -247,7 +247,7 @@ void EnVali_SetupDivideAndDie(EnVali* this, GlobalContext* globalCtx) {
     Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
     this->timer = Rand_S16Offset(10, 10);
     this->bodyCollider.base.acFlags &= ~AC_ON;
-    Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.draw = NULL;
     this->actionFunc = EnVali_DivideAndDie;

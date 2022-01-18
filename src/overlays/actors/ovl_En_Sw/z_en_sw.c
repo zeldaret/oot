@@ -47,7 +47,14 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80B0F074 = { 1, 2, 25, 25, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry D_80B0F080[] = {
+typedef enum {
+    /* 0 */ ENSW_ANIM_0,
+    /* 1 */ ENSW_ANIM_1,
+    /* 2 */ ENSW_ANIM_2,
+    /* 3 */ ENSW_ANIM_3
+} EnSwAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &object_st_Anim_000304, 1.0f, 0.0f, -1.0f, 0x01, 0.0f },
     { &object_st_Anim_000304, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
     { &object_st_Anim_0055A8, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
@@ -229,7 +236,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable, 30);
-    func_80034EC0(&this->skelAnime, D_80B0F080, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENSW_ANIM_0);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->sphs);
@@ -488,8 +495,8 @@ void func_80B0D3AC(EnSw* this, GlobalContext* globalCtx) {
         }
         this->unk_38C--;
         if (this->unk_38C == 0) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 0x28, NA_SE_EN_STALGOLD_UP_CRY);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 0x28, NA_SE_EN_DODO_M_UP);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_STALGOLD_UP_CRY);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_DODO_M_UP);
         } else {
             return;
         }
@@ -648,7 +655,7 @@ void func_80B0DB00(EnSw* this, GlobalContext* globalCtx) {
         }
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 16.0f, 0xC, 2.0f, 0x78, 0xA, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 16.0f, 12, 2.0f, 120, 10, false);
     }
 }
 
@@ -685,7 +692,7 @@ s32 func_80B0DEA8(EnSw* this, GlobalContext* globalCtx, s32 arg2) {
     s32 sp54;
     Vec3f sp48;
 
-    if (!(player->stateFlags1 & 0x200000) && arg2) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_21) && arg2) {
         return false;
     } else if (func_8002DDF4(globalCtx) && arg2) {
         return false;

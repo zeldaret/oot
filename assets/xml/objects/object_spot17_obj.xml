@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_spot17_obj" Segment="6">
-        <Texture Name="gCraterRockPaletteTex" OutName="crater_rock_palette" Format="rgba16" Width="4" Height="4" Offset="0x00"/>
+        <Texture Name="gCraterRockTLUT" OutName="crater_rock_tlut" Format="rgba16" Width="4" Height="4" Offset="0x00"/>
         <Texture Name="gCraterRockTex" OutName="crater_rock" Format="ci4" Width="64" Height="64" Offset="0x20" TlutOffset="0x00"/>
         <DList Name="gCraterBombableWallDL" Offset="0x8A0"/>
         <DList Name="gCraterBombableWallCracksDL" Offset="0x960"/>

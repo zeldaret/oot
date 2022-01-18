@@ -24,11 +24,11 @@ void DemoGt_PlayEarthquakeSfx() {
 }
 
 void DemoGt_PlayExplosion1Sfx(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
 }
 
 void DemoGt_PlayExplosion2Sfx(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGt_Rumble(GlobalContext* globalCtx) {
