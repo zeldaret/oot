@@ -141,8 +141,9 @@ u16 func_80A79010(GlobalContext* globalCtx) {
     if (IS_NIGHT) {
         return 0x204E;
     }
-    switch (gSaveContext.eventInf[0] & 0xF) {
-        case 1:
+    switch (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+            (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) {
+        case EVENTINF_00_MASK:
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
@@ -154,20 +155,20 @@ u16 func_80A79010(GlobalContext* globalCtx) {
             } else {
                 return 0x2037;
             }
-        case 3:
-            if ((gSaveContext.eventInf[0] & 0x40) || (gSaveContext.eventInf[0] & 0x20)) {
+        case EVENTINF_00_MASK | EVENTINF_01_MASK:
+            if ((GET_EVENTINF(EVENTINF_06)) || (GET_EVENTINF(EVENTINF_05))) {
                 return 0x203E;
             } else {
                 return 0x203D;
             }
-        case 4:
+        case EVENTINF_02_MASK:
             return 0x203A;
-        case 5:
-        case 6:
+        case EVENTINF_00_MASK | EVENTINF_02_MASK:
+        case EVENTINF_01_MASK | EVENTINF_02_MASK:
             return 0x203C;
-        case 7:
+        case EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK:
             return 0x205B;
-        case 2:
+        case EVENTINF_01_MASK:
         default:
             if (GET_INFTABLE(INFTABLE_9A)) {
                 return 0x2031;
@@ -257,9 +258,10 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
                 sp18 = 2;
             } else {
                 Message_ContinueTextbox(globalCtx, this->actor.textId = 0x2039);
-                gSaveContext.eventInf[0] &= ~0xF;
-                gSaveContext.eventInf[0] &= ~0x20;
-                gSaveContext.eventInf[0] &= ~0x40;
+                gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
+                    ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
+                CLEAR_EVENTINF(EVENTINF_05);
+                CLEAR_EVENTINF(EVENTINF_06);
                 this->actionFunc = func_80A7A4C8;
             }
             break;
@@ -490,7 +492,7 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     respawnPos = respawn->pos;
     // hardcoded coords for lon lon entrance
     if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
-        gSaveContext.eventInf[0] = 0;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] = 0;
         D_80A7B998 = 1;
     }
     this->actionFunc = func_80A79FB0;
@@ -514,7 +516,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (func_80A7975C(this, globalCtx)) {
-            gSaveContext.eventInf[0] &= ~0x8000;
+            CLEAR_EVENTINF(EVENTINF_0F);
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
@@ -543,23 +545,24 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
                 break;
             default:
-                switch (gSaveContext.eventInf[0] & 0xF) {
+                switch (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) {
                     case 0:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 7:
+                    case EVENTINF_01_MASK:
+                    case EVENTINF_00_MASK | EVENTINF_01_MASK:
+                    case EVENTINF_02_MASK:
+                    case EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK:
                         if (this->actor.params == 2) {
                             sp3C = 1;
                         }
                         break;
-                    case 1:
+                    case EVENTINF_00_MASK:
                         if (this->actor.params == 3) {
                             sp3C = 1;
                         }
                         break;
-                    case 5:
-                    case 6:
+                    case EVENTINF_00_MASK | EVENTINF_02_MASK:
+                    case EVENTINF_01_MASK | EVENTINF_02_MASK:
                         if (this->actor.params == 4) {
                             sp3C = 1;
                         }
@@ -569,36 +572,37 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                switch (gSaveContext.eventInf[0] & 0xF) {
+                switch (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) {
                     case 0:
-                    case 2:
+                    case EVENTINF_01_MASK:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
-                        gSaveContext.eventInf[0] = 0;
+                        gSaveContext.eventInf[EVENTINF_0X_INDEX] = 0;
                         break;
-                    case 1:
+                    case EVENTINF_00_MASK:
                         this->actor.targetMode = 3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         func_80088B34(0x3C);
                         break;
-                    case 3:
+                    case EVENTINF_00_MASK | EVENTINF_01_MASK:
                         EnIn_ChangeAnim(this, ENIN_ANIM_4);
                         this->actionFunc = func_80A7A770;
                         break;
-                    case 4:
+                    case EVENTINF_02_MASK:
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7A940;
                         break;
-                    case 5:
-                    case 6:
+                    case EVENTINF_00_MASK | EVENTINF_02_MASK:
+                    case EVENTINF_01_MASK | EVENTINF_02_MASK:
                         this->actor.targetMode = 3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
                         break;
-                    case 7:
+                    case EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A848;
                         break;
@@ -638,8 +642,12 @@ void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx) {
 void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
         func_80A79BAC(this, globalCtx, 1, 0x20);
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0001;
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
+            EVENTINF_00_MASK;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
         CLEAR_INFTABLE(INFTABLE_A2);
         Environment_ForcePlaySequence(NA_BGM_HORSE);
         globalCtx->msgCtx.stateTimer = 0;
@@ -669,9 +677,13 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                 this->unk_308.unk_00 = 0;
                 return;
             }
-            gSaveContext.eventInf[0] =
-                (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)GET_PLAYER(globalCtx)->rideActor)->type << 4);
-            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
+            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_04_MASK) |
+                (((EnHorse*)GET_PLAYER(globalCtx)->rideActor)->type << EVENTINF_04_SHIFT);
+            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
+                EVENTINF_01_MASK;
             phi_a2 = 2;
             phi_a3 = 2;
         } else {
@@ -682,13 +694,15 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                     SET_INFTABLE(INFTABLE_AB);
                 }
             }
-            gSaveContext.eventInf[0] &= ~0xF;
+            gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
+                ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
             phi_a2 = 0;
             phi_a3 = 0x20;
         }
         func_80A79BAC(this, globalCtx, phi_a2, phi_a3);
         globalCtx->msgCtx.stateTimer = 0;
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
@@ -702,10 +716,14 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x0F) | 7;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
+            (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK);
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x20;
-        if (!(gSaveContext.eventInf[0] & 0x40)) {
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & 0xFFFF) | EVENTINF_05_MASK;
+        if (!(GET_EVENTINF(EVENTINF_06))) {
             globalCtx->msgCtx.stateTimer = 4;
             globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
@@ -715,18 +733,23 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
 void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
         if ((globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees < 50) || globalCtx->msgCtx.choiceIndex == 1) {
-            gSaveContext.eventInf[0] &= ~0xF;
+            gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
+                ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
             this->actionFunc = func_80A7A4C8;
         } else {
             func_80A79BAC(this, globalCtx, 2, 0x26);
-            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
-            gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
+                EVENTINF_01_MASK;
+            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
             globalCtx->msgCtx.stateTimer = 0;
             globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[0] &= ~0x20;
-        gSaveContext.eventInf[0] &= ~0x40;
+        CLEAR_EVENTINF(EVENTINF_05);
+        CLEAR_EVENTINF(EVENTINF_06);
     }
 }
 
@@ -744,12 +767,17 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         func_80A79BAC(this, globalCtx, 2, 0x26);
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
+            EVENTINF_01_MASK;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
         globalCtx->msgCtx.stateTimer = 0;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & 0xFFFF) | 0x40;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & 0xFFFF) | EVENTINF_06_MASK;
     }
 }
 
@@ -894,8 +922,11 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
             SET_INFTABLE(INFTABLE_AB);
         }
         func_80A79BAC(this, globalCtx, 0, 0x26);
-        gSaveContext.eventInf[0] = gSaveContext.eventInf[0] & ~0xF;
-        gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+            ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
+        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
         globalCtx->msgCtx.stateTimer = 4;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
@@ -915,7 +946,10 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
-        if (this->skelAnime.animation == &object_in_Anim_001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
+        if (this->skelAnime.animation == &object_in_Anim_001BE0 &&
+            ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+              (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) !=
+             (EVENTINF_01_MASK | EVENTINF_02_MASK))) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);

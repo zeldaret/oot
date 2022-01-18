@@ -442,7 +442,7 @@ void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
-            gSaveContext.eventInf[1] &= ~1;
+            CLEAR_EVENTINF(EVENTINF_10);
         }
         this->unk_1E0.unk_00 = 0;
         this->actionFunc = EnKz_Wait;

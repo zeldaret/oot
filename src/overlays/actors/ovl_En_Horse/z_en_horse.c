@@ -682,7 +682,10 @@ s32 EnHorse_Spawn(EnHorse* this, GlobalContext* globalCtx) {
             if (globalCtx->sceneNum != SCENE_SPOT20 ||
                 //! Same flag checked twice
                 (Flags_GetEventChkInf(EVENTCHKINF_18) &&
-                 ((gSaveContext.eventInf[0] & 0xF) != 6 || Flags_GetEventChkInf(EVENTCHKINF_18))) ||
+                 (!((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                     (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
+                    (EVENTINF_01_MASK | EVENTINF_02_MASK)) ||
+                  Flags_GetEventChkInf(EVENTCHKINF_18))) ||
                 // always load two spawns inside lon lon
                 ((sHorseSpawns[i].pos.x == 856 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -918) ||
                  (sHorseSpawns[i].pos.x == -1003 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -755))) {
@@ -796,7 +799,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
             if (Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0) {
                 this->stateFlags &= ~ENHORSE_CANT_JUMP;
                 this->stateFlags |= ENHORSE_FLAG_26;
-            } else if (gSaveContext.eventInf[0] & 0x40 && this->type == HORSE_HNI) {
+            } else if (GET_EVENTINF(EVENTINF_06) && this->type == HORSE_HNI) {
                 this->stateFlags |= ENHORSE_FLAG_21 | ENHORSE_FLAG_20;
             }
         } else if (this->actor.params == 1) {
@@ -806,7 +809,9 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    if (globalCtx->sceneNum == SCENE_SPOT20 && (gSaveContext.eventInf[0] & 0xF) == 6 &&
+    if (globalCtx->sceneNum == SCENE_SPOT20 &&
+        ((gSaveContext.eventInf[EVENTINF_0X_INDEX] & (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK |
+                                                      EVENTINF_03_MASK)) == (EVENTINF_01_MASK | EVENTINF_02_MASK)) &&
         Flags_GetEventChkInf(EVENTCHKINF_18) == 0 && !DREG(1)) {
         this->stateFlags |= ENHORSE_FLAG_25;
     }
@@ -872,7 +877,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         if (this->rider == NULL) {
             __assert("this->race.rider != NULL", "../z_en_horse.c", 3077);
         }
-        if (!(gSaveContext.eventInf[0] & 0x40)) {
+        if (!(GET_EVENTINF(EVENTINF_06))) {
             this->ingoHorseMaxSpeed = 12.07f;
         } else {
             this->ingoHorseMaxSpeed = 12.625f;

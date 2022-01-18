@@ -752,7 +752,9 @@ void func_80083108(GlobalContext* globalCtx) {
                     gSaveContext.unk_13EA = 0;
                     Interface_ChangeAlpha(50);
                 }
-            } else if ((gSaveContext.eventInf[0] & 0xF) == 1) {
+            } else if ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
+                       EVENTINF_00_MASK) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.equips.buttonItems[0] != ITEM_BOW)) {
@@ -2618,7 +2620,7 @@ void func_80088AA0(s16 arg0) {
 
 void func_80088AF0(GlobalContext* globalCtx) {
     if (gSaveContext.timer2State != 0) {
-        if (gSaveContext.eventInf[1] & 1) {
+        if (GET_EVENTINF(EVENTINF_10)) {
             gSaveContext.timer2Value = 239;
         } else {
             gSaveContext.timer2Value = 1;
@@ -3388,8 +3390,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // Revert any spoiling trade quest items
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
-                    gSaveContext.eventInf[0] &= 0x7F80;
-                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[0]);
+                    gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
+                        (u16) ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK |
+                                EVENTINF_04_MASK | EVENTINF_05_MASK | EVENTINF_06_MASK | EVENTINF_0F_MASK);
+                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_0X_INDEX]);
                     globalCtx->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
@@ -3692,10 +3696,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                         }
                                     } else {
                                         gSaveContext.timer2Value++;
-                                        if (gSaveContext.eventInf[1] & 1) {
+                                        if (GET_EVENTINF(EVENTINF_10)) {
                                             if (gSaveContext.timer2Value == 240) {
                                                 Message_StartTextbox(globalCtx, 0x6083, NULL);
-                                                gSaveContext.eventInf[1] &= ~1;
+                                                CLEAR_EVENTINF(EVENTINF_10);
                                                 gSaveContext.timer2State = 0;
                                             }
                                         }
