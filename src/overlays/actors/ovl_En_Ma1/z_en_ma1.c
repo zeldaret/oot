@@ -350,8 +350,8 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.eventChkInf[1] & 0x40) {
-        if (player->stateFlags2 & 0x1000000) {
-            player->stateFlags2 |= 0x2000000;
+        if (player->stateFlags2 & PLAYER_STATE2_24) {
+            player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
             Message_StartTextbox(globalCtx, this->actor.textId, NULL);
@@ -359,13 +359,13 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
 }
 
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
-    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (this->unk_1E8.unk_00 == 2) {
         Audio_OcaSetInstrument(2);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
@@ -375,7 +375,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
-    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
@@ -383,7 +383,7 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
-    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;

@@ -351,7 +351,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
 
-        if ((!(player->stateFlags1 & 0x40)) || (actor != player->unk_664)) {
+        if ((!(player->stateFlags1 & PLAYER_STATE1_6)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
 
             for (spB0 = 0, spAC = targetCtx->unk_4C; spB0 < spB8; spB0++, spAC = (spAC + 1) % 3) {
@@ -948,7 +948,7 @@ f32 Actor_HeightDiff(Actor* actorA, Actor* actorB) {
 }
 
 f32 Player_GetHeight(Player* player) {
-    f32 offset = (player->stateFlags1 & 0x800000) ? 32.0f : 0.0f;
+    f32 offset = (player->stateFlags1 & PLAYER_STATE1_23) ? 32.0f : 0.0f;
 
     if (LINK_IS_ADULT) {
         return offset + 68.0f;
@@ -958,9 +958,9 @@ f32 Player_GetHeight(Player* player) {
 }
 
 f32 func_8002DCE4(Player* player) {
-    if (player->stateFlags1 & 0x800000) {
+    if (player->stateFlags1 & PLAYER_STATE1_23) {
         return 8.0f;
-    } else if (player->stateFlags1 & 0x8000000) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_27) {
         return (R_RUN_SPEED_LIMIT / 100.0f) * 0.6f;
     } else {
         return R_RUN_SPEED_LIMIT / 100.0f;
@@ -968,7 +968,7 @@ f32 func_8002DCE4(Player* player) {
 }
 
 s32 func_8002DD6C(Player* player) {
-    return player->stateFlags1 & 0x8;
+    return player->stateFlags1 & PLAYER_STATE1_3;
 }
 
 s32 func_8002DD78(Player* player) {
@@ -978,19 +978,19 @@ s32 func_8002DD78(Player* player) {
 s32 func_8002DDA8(GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    return (player->stateFlags1 & 0x800) || func_8002DD78(player);
+    return (player->stateFlags1 & PLAYER_STATE1_11) || func_8002DD78(player);
 }
 
 s32 func_8002DDE4(GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    return player->stateFlags2 & 0x8;
+    return player->stateFlags2 & PLAYER_STATE2_3;
 }
 
 s32 func_8002DDF4(GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    return player->stateFlags2 & 0x1000;
+    return player->stateFlags2 & PLAYER_STATE2_12;
 }
 
 void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
@@ -1012,12 +1012,12 @@ void func_8002DE74(GlobalContext* globalCtx, Player* player) {
 
 void Actor_MountHorse(GlobalContext* globalCtx, Player* player, Actor* horse) {
     player->rideActor = horse;
-    player->stateFlags1 |= 0x800000;
+    player->stateFlags1 |= PLAYER_STATE1_23;
     horse->child = &player->actor;
 }
 
 s32 func_8002DEEC(Player* player) {
-    return (player->stateFlags1 & 0x20000080) || (player->csMode != 0);
+    return (player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (player->csMode != 0);
 }
 
 void func_8002DF18(GlobalContext* globalCtx, Player* player) {
@@ -1568,10 +1568,12 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
+                                 PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21)) &&
+        Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
-            (!(player->stateFlags1 & 0x20000800))) {
+            (!(player->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_29)))) {
             if ((actor->xzDistToPlayer < xzRange) && (fabsf(actor->yDistToPlayer) < yRange)) {
                 s16 yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
                 s32 absYawDiff = ABS(yawDiff);
@@ -1639,7 +1641,9 @@ s32 Actor_IsMounted(GlobalContext* globalCtx, Actor* horse) {
 u32 Actor_SetRideActor(GlobalContext* globalCtx, Actor* horse, s32 mountSide) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & 0x003C7880)) {
+    if (!(player->stateFlags1 &
+          (PLAYER_STATE1_7 | PLAYER_STATE1_11 | PLAYER_STATE1_12 | PLAYER_STATE1_13 | PLAYER_STATE1_14 |
+           PLAYER_STATE1_18 | PLAYER_STATE1_19 | PLAYER_STATE1_20 | PLAYER_STATE1_21))) {
         player->rideActor = horse;
         player->mountSide = mountSide;
         return true;
@@ -1983,8 +1987,18 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
 }
 
 u32 D_80116068[ACTORCAT_MAX] = {
-    0x100000C0, 0x100000C0, 0x00000000, 0x100004C0, 0x00000080, 0x300000C0,
-    0x10000080, 0x00000000, 0x300000C0, 0x100004C0, 0x00000000, 0x100000C0,
+    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    0,
+    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28,
+    PLAYER_STATE1_7,
+    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29,
+    PLAYER_STATE1_7 | PLAYER_STATE1_28,
+    0,
+    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29,
+    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28,
+    0,
+    PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28,
 };
 
 void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
@@ -2029,11 +2043,11 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
     sp80 = &D_80116068[0];
 
-    if (player->stateFlags2 & 0x8000000) {
+    if (player->stateFlags2 & PLAYER_STATE2_27) {
         unkFlag = ACTOR_FLAG_25;
     }
 
-    if ((player->stateFlags1 & 0x40) && ((player->actor.textId & 0xFF00) != 0x600)) {
+    if ((player->stateFlags1 & PLAYER_STATE1_6) && ((player->actor.textId & 0xFF00) != 0x600)) {
         sp74 = player->targetActor;
     }
 
@@ -3389,7 +3403,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 dista
 s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags1 & 0x10) && actor->isTargeted) {
+    if ((player->stateFlags1 & PLAYER_STATE1_4) && actor->isTargeted) {
         return true;
     } else {
         return false;
@@ -3402,7 +3416,7 @@ s32 Actor_IsTargeted(GlobalContext* globalCtx, Actor* actor) {
 s32 Actor_OtherIsTargeted(GlobalContext* globalCtx, Actor* actor) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags1 & 0x10) && !actor->isTargeted) {
+    if ((player->stateFlags1 & PLAYER_STATE1_4) && !actor->isTargeted) {
         return true;
     } else {
         return false;

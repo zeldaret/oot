@@ -612,7 +612,7 @@ void func_80083108(GlobalContext* globalCtx) {
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
         gSaveContext.unk_13E7 = 0;
 
-        if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
+        if ((player->stateFlags1 & PLAYER_STATE1_23) || (globalCtx->shootingGalleryStatus > 1) ||
             ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 gSaveContext.unk_13E7 = 1;
@@ -661,11 +661,11 @@ void func_80083108(GlobalContext* globalCtx) {
                     Interface_ChangeAlpha(8);
                 } else if ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38)) {
                     Interface_ChangeAlpha(8);
-                } else if (player->stateFlags1 & 0x00800000) {
+                } else if (player->stateFlags1 & PLAYER_STATE1_23) {
                     Interface_ChangeAlpha(12);
                 }
             } else {
-                if (player->stateFlags1 & 0x00800000) {
+                if (player->stateFlags1 & PLAYER_STATE1_23) {
                     Interface_ChangeAlpha(12);
                 }
             }
@@ -743,7 +743,7 @@ void func_80083108(GlobalContext* globalCtx) {
                 }
 
                 Interface_ChangeAlpha(50);
-            } else if ((player->stateFlags1 & 0x00200000) || (player->stateFlags2 & 0x00040000)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (player->stateFlags2 & PLAYER_STATE2_18)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = BTN_DISABLED;
                     gSaveContext.buttonStatus[1] = BTN_DISABLED;
@@ -753,7 +753,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     Interface_ChangeAlpha(50);
                 }
             } else if ((gSaveContext.eventInf[0] & 0xF) == 1) {
-                if (player->stateFlags1 & 0x00800000) {
+                if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.equips.buttonItems[0] != ITEM_BOW)) {
                         if (gSaveContext.inventory.items[SLOT_BOW] == ITEM_NONE) {
@@ -2730,8 +2730,8 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
 
             if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
                 temp = 0;
-            } else if ((player->stateFlags1 & 0x00200000) || (func_8008F2F8(globalCtx) == 4) ||
-                       (player->stateFlags2 & 0x00040000)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (func_8008F2F8(globalCtx) == 4) ||
+                       (player->stateFlags2 & PLAYER_STATE2_18)) {
                 temp = 70;
             } else {
                 temp = interfaceCtx->healthAlpha;
@@ -3157,7 +3157,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment, 0);
 
-                if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
+                if ((player->stateFlags1 & PLAYER_STATE1_23) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
@@ -3403,7 +3403,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
             (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
-            !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
+            !(player->stateFlags2 & PLAYER_STATE2_24) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
@@ -3962,8 +3962,8 @@ void Interface_Update(GlobalContext* globalCtx) {
     HealthMeter_Update(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
-        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
-        (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
+        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE2_24) &&
+        (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {
