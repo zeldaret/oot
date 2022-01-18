@@ -117,7 +117,7 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
-OVL_RELOC_FILES := $(shell awk -F\" '/_reloc.o/ { print $$2 }' spec )
+OVL_RELOC_FILES := $(shell grep -o '[^"]*_reloc.o' spec )
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
@@ -251,8 +251,6 @@ build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
-#	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
-#	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
@@ -273,7 +271,7 @@ build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/overlays/%_reloc.o: build/spec
-	$(FADO) $$(tools/reloc_preq $< $(notdir $(@D)))	-n $(notdir $(@D)) -o $(@:.o=.s) -M $(@:.o=.d)
+	$(FADO) $$(tools/reloc_preq $< $(notdir $(@D))) -n $(notdir $(@D)) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/%.inc.c: %.png
