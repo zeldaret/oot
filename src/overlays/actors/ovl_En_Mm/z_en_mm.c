@@ -228,7 +228,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                     EnMm_ChangeAnim(this, RM_ANIM_HAPPY, &this->curAnimIndex);
                 } else {
                     player->actor.textId = 0x202C;
-                    gSaveContext.infTable[23] |= 0x1000;
+                    SET_INFTABLE(INFTABLE_17C);
                 }
                 sp1C = 2;
             }
@@ -268,7 +268,7 @@ s32 EnMm_GetTextId(EnMm* this, GlobalContext* globalCtx) {
             textId = 0x204D;
         }
     } else if (player->currentMask == PLAYER_MASK_BUNNY) {
-        textId = (gSaveContext.infTable[23] & 0x1000) ? 0x202B : 0x202A;
+        textId = (GET_INFTABLE(INFTABLE_17C)) ? 0x202B : 0x202A;
     } else if (textId == 0) {
         textId = 0x2029;
     }

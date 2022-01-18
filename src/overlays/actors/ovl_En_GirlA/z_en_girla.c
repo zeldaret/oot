@@ -842,7 +842,7 @@ void EnGirlA_ItemGive_BottledItem(GlobalContext* globalCtx, EnGirlA* this) {
 
 void EnGirlA_BuyEvent_ShieldDiscount(GlobalContext* globalCtx, EnGirlA* this) {
     if (this->actor.params == SI_HYLIAN_SHIELD) {
-        if (gSaveContext.infTable[7] & 0x40) {
+        if (GET_INFTABLE(INFTABLE_76)) {
             Rupees_ChangeBy(-(this->basePrice - sShieldDiscounts[(s32)Rand_ZeroFloat(7.9f)]));
             return;
         }

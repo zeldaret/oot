@@ -101,7 +101,7 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
         return 0x2049;
     }
     if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
-        if ((gSaveContext.infTable[8] & 0x20)) {
+        if ((GET_INFTABLE(INFTABLE_85))) {
             return 0x2049;
         } else {
             return 0x2048;
@@ -113,8 +113,8 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
     if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
         return 0x2044;
     }
-    if (gSaveContext.infTable[8] & 0x10) {
-        if (gSaveContext.infTable[8] & 0x800) {
+    if (GET_INFTABLE(INFTABLE_84)) {
+        if (GET_INFTABLE(INFTABLE_8B)) {
             return 0x2043;
         } else {
             return 0x2042;
@@ -130,7 +130,7 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2041:
-                    gSaveContext.infTable[8] |= 0x10;
+                    SET_INFTABLE(INFTABLE_84);
                     SET_EVENTCHKINF(EVENTCHKINF_10);
                     ret = 0;
                     break;
@@ -142,7 +142,7 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
                     ret = 0;
                     break;
                 case 0x2048:
-                    gSaveContext.infTable[8] |= 0x20;
+                    SET_INFTABLE(INFTABLE_85);
                     ret = 0;
                     break;
                 case 0x2049:
@@ -188,14 +188,14 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
         return 0;
     }
     if (((globalCtx->sceneNum == SCENE_MARKET_NIGHT) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) &&
-        !(GET_EVENTCHKINF(EVENTCHKINF_14)) && !(gSaveContext.infTable[8] & 0x800)) {
+        !(GET_EVENTCHKINF(EVENTCHKINF_14)) && !(GET_INFTABLE(INFTABLE_8B))) {
         return 1;
     }
     if ((globalCtx->sceneNum == SCENE_SPOT15) && !(GET_EVENTCHKINF(EVENTCHKINF_14))) {
-        if (gSaveContext.infTable[8] & 0x800) {
+        if (GET_INFTABLE(INFTABLE_8B)) {
             return 1;
         } else {
-            gSaveContext.infTable[8] |= 0x800;
+            SET_INFTABLE(INFTABLE_8B);
             return 0;
         }
     }

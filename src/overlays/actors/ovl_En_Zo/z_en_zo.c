@@ -390,7 +390,7 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
-                return (gSaveContext.infTable[18] & 0x10) ? 0x4009 : 0x4008;
+                return (GET_INFTABLE(INFTABLE_124)) ? 0x4009 : 0x4008;
             }
             break;
 
@@ -399,7 +399,7 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x402D;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_31)) {
-                return (gSaveContext.infTable[18] & 0x200) ? 0x400B : 0x402F;
+                return (GET_INFTABLE(INFTABLE_129)) ? 0x400B : 0x402F;
             }
             if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x400A;
@@ -457,10 +457,10 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x4021:
                     return 0;
                 case 0x4008:
-                    gSaveContext.infTable[18] |= 0x10;
+                    SET_INFTABLE(INFTABLE_124);
                     break;
                 case 0x402F:
-                    gSaveContext.infTable[18] |= 0x200;
+                    SET_INFTABLE(INFTABLE_129);
                     break;
             }
             SET_EVENTCHKINF(EVENTCHKINF_30);

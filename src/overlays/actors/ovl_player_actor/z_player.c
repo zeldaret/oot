@@ -9134,7 +9134,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
 
     if (globalCtx->sceneNum <= SCENE_GANONTIKA_SONOGO) {
-        gSaveContext.infTable[26] |= gBitFlags[globalCtx->sceneNum];
+        gSaveContext.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[globalCtx->sceneNum];
     }
 
     initMode = (thisx->params & 0xF00) >> 8;

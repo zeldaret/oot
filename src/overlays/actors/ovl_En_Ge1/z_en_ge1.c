@@ -499,7 +499,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
         if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
             SET_ITEMGETINF(ITEMGETINF_0F);
         } else {
-            gSaveContext.infTable[25] |= 1;
+            SET_INFTABLE(INFTABLE_190);
         }
     } else {
         if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
@@ -639,7 +639,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (gSaveContext.minigameScore < 1000) {
         this->actor.textId = 0x6045;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
-    } else if (!(gSaveContext.infTable[25] & 1)) {
+    } else if (!(GET_INFTABLE(INFTABLE_190))) {
         this->actor.textId = 0x6046;
         this->actionFunc = EnGe1_TalkWinPrize_Archery;
         this->stateFlags &= ~GE1_STATE_GIVE_QUIVER;
@@ -672,7 +672,7 @@ void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
         EnGe1_SetTalkAction(this, globalCtx, 0x603F, 100.0f, EnGe1_TalkNoHorse_Archery);
     } else {
         if (GET_EVENTCHKINF(EVENTCHKINF_68)) {
-            if (gSaveContext.infTable[25] & 1) {
+            if (GET_INFTABLE(INFTABLE_190)) {
                 textId = 0x6042;
             } else {
                 textId = 0x6043;

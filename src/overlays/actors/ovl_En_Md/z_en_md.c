@@ -383,7 +383,7 @@ u16 EnMd_GetTextKokiriForest(GlobalContext* globalCtx, EnMd* this) {
         return 0x1033;
     }
 
-    if (gSaveContext.infTable[0] & 0x1000) {
+    if (GET_INFTABLE(INFTABLE_0C)) {
         return 0x1030;
     }
 
@@ -406,7 +406,7 @@ u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
     this->unk_209 = TEXT_STATE_NONE;
 
     if (GET_EVENTCHKINF(EVENTCHKINF_48)) {
-        if (gSaveContext.infTable[1] & 0x200) {
+        if (GET_INFTABLE(INFTABLE_19)) {
             return 0x1071;
         }
         return 0x1070;
@@ -416,7 +416,7 @@ u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
         return 0x1068;
     }
 
-    if (gSaveContext.infTable[1] & 0x20) {
+    if (GET_INFTABLE(INFTABLE_15)) {
         return 0x1061;
     }
 
@@ -457,13 +457,13 @@ s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
                     break;
                 case 0x102F:
                     SET_EVENTCHKINF(EVENTCHKINF_02);
-                    gSaveContext.infTable[0] |= 0x1000;
+                    SET_INFTABLE(INFTABLE_0C);
                     break;
                 case 0x1060:
-                    gSaveContext.infTable[1] |= 0x20;
+                    SET_INFTABLE(INFTABLE_15);
                     break;
                 case 0x1070:
-                    gSaveContext.infTable[1] |= 0x200;
+                    SET_INFTABLE(INFTABLE_19);
                     break;
                 case 0x1033:
                 case 0x1067:

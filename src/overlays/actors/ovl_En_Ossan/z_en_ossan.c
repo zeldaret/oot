@@ -588,7 +588,7 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     // If you've given Zelda's Letter to the Kakariko Guard
-    if (this->actor.params == OSSAN_TYPE_MASK && !(gSaveContext.infTable[7] & 0x40)) {
+    if (this->actor.params == OSSAN_TYPE_MASK && !(GET_INFTABLE(INFTABLE_76))) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -1347,7 +1347,7 @@ void EnOssan_HandleCanBuyItem(GlobalContext* globalCtx, EnOssan* this) {
 
     switch (selectedItem->canBuyFunc(globalCtx, selectedItem)) {
         case CANBUY_RESULT_SUCCESS_FANFARE:
-            if (selectedItem->actor.params == SI_HYLIAN_SHIELD && gSaveContext.infTable[7] & 0x40) {
+            if (selectedItem->actor.params == SI_HYLIAN_SHIELD && GET_INFTABLE(INFTABLE_76)) {
                 EnOssan_SetStateGiveDiscountDialog(globalCtx, this);
             } else {
                 EnOssan_GiveItemWithFanfare(globalCtx, this);
@@ -1461,7 +1461,7 @@ void EnOssan_HandleCanBuyBombs(GlobalContext* globalCtx, EnOssan* this) {
 void EnOssan_BuyGoronCityBombs(GlobalContext* globalCtx, EnOssan* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         if (!(GET_EVENTCHKINF(EVENTCHKINF_25))) {
-            if (gSaveContext.infTable[15] & 0x1000) {
+            if (GET_INFTABLE(INFTABLE_FC)) {
                 EnOssan_SetStateCantGetItem(globalCtx, this, 0x302E);
             } else {
                 this->stickLeftPrompt.isEnabled = false;
@@ -1556,7 +1556,7 @@ void EnOssan_State_SelectBombs(EnOssan* this, GlobalContext* globalCtx, Player* 
         osSyncPrintf("%s[%d]:" VT_FGCOL(GREEN) "ズーム中！！" VT_RST "\n", "../z_en_oB1.c", 2798);
         return;
     }
-    osSyncPrintf("店主の依頼 ( %d )\n", gSaveContext.infTable[15] & 0x1000);
+    osSyncPrintf("店主の依頼 ( %d )\n", GET_INFTABLE(INFTABLE_FC));
     if (this->actor.params != OSSAN_TYPE_GORON) {
         EnOssan_State_ItemSelected(this, globalCtx, player);
         return;
@@ -1727,7 +1727,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
 
 void EnOssan_State_WaitForDisplayOnlyBombDialog(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
-        gSaveContext.infTable[15] |= 0x1000;
+        SET_INFTABLE(INFTABLE_FC);
         EnOssan_StartShopping(globalCtx, this);
     }
 }
@@ -1737,7 +1737,7 @@ void EnOssan_State_21(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE_HAS_NEXT && Message_ShouldAdvance(globalCtx)) {
         this->stateFlag = OSSAN_STATE_22;
         Message_ContinueTextbox(globalCtx, 0x3012);
-        gSaveContext.infTable[15] |= 0x1000;
+        SET_INFTABLE(INFTABLE_FC);
     }
 }
 

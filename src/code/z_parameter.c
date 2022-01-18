@@ -814,7 +814,8 @@ void func_80083108(GlobalContext* globalCtx) {
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOW) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_NONE)) {
-                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[29] == 0)) {
+                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) ||
+                            (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
                             gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = 1;
 
@@ -837,7 +838,8 @@ void func_80083108(GlobalContext* globalCtx) {
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOW) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_NONE)) {
-                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[29] == 0)) {
+                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) ||
+                            (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
                             gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = 1;
 
@@ -1289,7 +1291,7 @@ void func_80084BF4(GlobalContext* globalCtx, u16 flag) {
                 Interface_LoadItemIcon1(globalCtx, 0);
             }
         } else if (gSaveContext.equips.buttonItems[0] == ITEM_NONE) {
-            if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[29] == 0)) {
+            if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
                 gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 Interface_LoadItemIcon1(globalCtx, 0);
             }
@@ -1678,8 +1680,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         func_80087708(globalCtx, 12, 5);
 
-        if (!(gSaveContext.infTable[25] & 0x100)) {
-            gSaveContext.infTable[25] |= 0x100;
+        if (!(GET_INFTABLE(INFTABLE_198))) {
+            SET_INFTABLE(INFTABLE_198);
             return ITEM_NONE;
         }
 
@@ -1691,8 +1693,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         func_80087708(globalCtx, 24, 5);
 
-        if (!(gSaveContext.infTable[25] & 0x100)) {
-            gSaveContext.infTable[25] |= 0x100;
+        if (!(GET_INFTABLE(INFTABLE_198))) {
+            SET_INFTABLE(INFTABLE_198);
             return ITEM_NONE;
         }
 
@@ -1873,8 +1875,8 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_HEART;
     } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
-        osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", gSaveContext.infTable[25] & 0x100);
-        if (!(gSaveContext.infTable[25] & 0x100)) {
+        osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
+        if (!(GET_INFTABLE(INFTABLE_198))) {
             return ITEM_NONE;
         } else {
             return item;

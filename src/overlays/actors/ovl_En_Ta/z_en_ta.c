@@ -83,7 +83,7 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
         }
         gSaveContext.eventInf[0] &= ~0x100;
     } else if (faceReaction == 0) {
-        if (gSaveContext.infTable[7] & 0x4000) {
+        if (GET_INFTABLE(INFTABLE_7E)) {
             if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.textId = 0x208B;
             } else {
@@ -973,7 +973,7 @@ void func_80B162E8(EnTa* this, GlobalContext* globalCtx) {
 
 void func_80B16364(EnTa* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-        gSaveContext.infTable[7] |= 0x4000;
+        SET_INFTABLE(INFTABLE_7E);
         if (GET_ITEMGETINF(ITEMGETINF_02)) {
             Message_ContinueTextbox(globalCtx, 0x208B);
             func_80B13AA0(this, func_80B15FE8, func_80B16938);
@@ -1013,7 +1013,7 @@ void func_80B16504(EnTa* this, GlobalContext* globalCtx) {
         if (faceReaction != 0) {
             func_80B14FAC(this, func_80B15E28);
         } else {
-            gSaveContext.infTable[7] |= 0x4000;
+            SET_INFTABLE(INFTABLE_7E);
 
             switch (this->actor.textId) {
                 case 0x207E:

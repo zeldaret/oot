@@ -175,7 +175,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.horseData.pos.z = 5497;
     gSaveContext.horseData.angle = -0x6AD9;
     gSaveContext.magicLevel = 0;
-    gSaveContext.infTable[29] = 1;
+    gSaveContext.infTable[INFTABLE_1DX_INDEX] = 1;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
 

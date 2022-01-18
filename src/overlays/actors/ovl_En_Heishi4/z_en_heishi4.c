@@ -218,7 +218,7 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     }
     this->unk_284 = 0;
     if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
-        if (!(gSaveContext.infTable[6] & 0x1000)) {
+        if (!(GET_INFTABLE(INFTABLE_6C))) {
             f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
                              -10.0f);
@@ -265,7 +265,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
     if ((this->unk_282 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        gSaveContext.infTable[6] |= 0x1000;
+        SET_INFTABLE(INFTABLE_6C);
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A56A50;
     }

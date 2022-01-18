@@ -668,10 +668,10 @@ void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx) {
             SET_EVENTCHKINF(EVENTCHKINF_96);
         }
         if ((this->actor.textId == 0x26) || (this->actor.textId == 0x27)) {
-            gSaveContext.infTable[25] |= 0x40;
+            SET_INFTABLE(INFTABLE_196);
         }
         if ((this->actor.textId == 0x24) || (this->actor.textId == 0x25)) {
-            gSaveContext.infTable[25] |= 0x80;
+            SET_INFTABLE(INFTABLE_197);
         }
     } else {
         if ((this->unkTimer != 0) && (DECR(this->unkTimer) == 0)) {
@@ -696,13 +696,13 @@ void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx) {
                         if (gSaveContext.inventory.gsTokens >= 50) {
                             this->actor.textId = 0x29;
                         } else if (gSaveContext.inventory.gsTokens >= 10) {
-                            if (gSaveContext.infTable[25] & 0x80) {
+                            if (GET_INFTABLE(INFTABLE_197)) {
                                 this->actor.textId = 0x24;
                             } else {
                                 this->actor.textId = 0x25;
                             }
                         } else {
-                            if (gSaveContext.infTable[25] & 0x40) {
+                            if (GET_INFTABLE(INFTABLE_196)) {
                                 this->actor.textId = 0x27;
                             } else {
                                 this->actor.textId = 0x26;

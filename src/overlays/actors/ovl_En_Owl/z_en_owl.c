@@ -588,12 +588,12 @@ void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
-    u16 textId = (gSaveContext.infTable[25] & 0x20) ? 0x4004 : 0x4003;
+    u16 textId = (GET_INFTABLE(INFTABLE_195)) ? 0x4004 : 0x4003;
 
     // Spoke to Owl in Lake Hylia
     EnOwl_LookAtLink(this, globalCtx);
     if (func_80ACA558(this, globalCtx, textId)) {
-        gSaveContext.infTable[25] |= 0x20;
+        SET_INFTABLE(INFTABLE_195);
         Audio_PlayFanfare(NA_BGM_OWL);
         this->actionFunc = func_80ACB148;
     }

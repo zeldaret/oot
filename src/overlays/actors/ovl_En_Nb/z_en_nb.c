@@ -1200,7 +1200,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
-        if (!(gSaveContext.infTable[22] & 0x1000)) {
+        if (!(GET_INFTABLE(INFTABLE_16C))) {
             this->actor.textId = 0x601D;
         } else {
             this->actor.textId = 0x6024;
@@ -1230,7 +1230,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             EnNb_SetupPathMovement(this, globalCtx);
         } else {
             if (textId == 0x6027) {
-                gSaveContext.infTable[22] |= 0x1000;
+                SET_INFTABLE(INFTABLE_16C);
             }
             this->action = NB_IDLE_CRAWLSPACE;
         }

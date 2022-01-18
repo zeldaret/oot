@@ -4179,14 +4179,14 @@ void Flags_SetEventChkInf(s32 flag) {
  * Tests if "inf_table flag is set.
  */
 s32 Flags_GetInfTable(s32 flag) {
-    return gSaveContext.infTable[flag >> 4] & (1 << (flag & 0xF));
+    return GET_INFTABLE(flag);
 }
 
 /**
  * Sets "inf_table" flag.
  */
 void Flags_SetInfTable(s32 flag) {
-    gSaveContext.infTable[flag >> 4] |= (1 << (flag & 0xF));
+    SET_INFTABLE(flag);
 }
 
 u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {

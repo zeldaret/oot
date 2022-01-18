@@ -303,12 +303,12 @@ void func_809EFACC(EnDns* this) {
 }
 
 void func_809EFAFC(EnDns* this) {
-    gSaveContext.infTable[25] |= 0x4;
+    SET_INFTABLE(INFTABLE_192);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 
 void func_809EFB40(EnDns* this) {
-    gSaveContext.infTable[25] |= 0x8;
+    SET_INFTABLE(INFTABLE_193);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 

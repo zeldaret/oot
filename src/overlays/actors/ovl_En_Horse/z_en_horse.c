@@ -2517,7 +2517,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
 
     if (globalCtx->interfaceCtx.hbaAmmo != 0) {
         if (!(this->hbaFlags & 2)) {
-            if (gSaveContext.infTable[25] & 1) {
+            if (GET_INFTABLE(INFTABLE_190)) {
                 if ((s32)gSaveContext.minigameScore >= 1500) {
                     this->hbaFlags |= 4;
                 }

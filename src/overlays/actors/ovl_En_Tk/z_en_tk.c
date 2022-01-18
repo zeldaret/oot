@@ -338,7 +338,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
         return ret;
     }
 
-    if (gSaveContext.infTable[13] & 0x0200) {
+    if (GET_INFTABLE(INFTABLE_D9)) {
         /* "Do you want me to dig here? ..." */
         return 0x5019;
     } else {
@@ -357,7 +357,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
-                gSaveContext.infTable[13] |= 0x0100;
+                SET_INFTABLE(INFTABLE_D8);
             }
             ret = 0;
             break;
@@ -374,11 +374,11 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                 } else {
                     globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
-                    gSaveContext.infTable[13] |= 0x0200;
+                    SET_INFTABLE(INFTABLE_D9);
                     return 2;
                 }
                 Message_ContinueTextbox(globalCtx, thisx->textId);
-                gSaveContext.infTable[13] |= 0x0200;
+                SET_INFTABLE(INFTABLE_D9);
             }
             break;
         case TEXT_STATE_EVENT:

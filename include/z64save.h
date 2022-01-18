@@ -300,6 +300,145 @@ typedef struct {
 #define ITEMGETINF_3B 0x3B
 #define ITEMGETINF_3F 0x3F
 
+// infTable
+
+#define INFTABLE_00 0x00
+#define INFTABLE_01 0x01
+#define INFTABLE_03 0x03
+#define INFTABLE_05 0x05
+#define INFTABLE_0C 0x0C
+#define INFTABLE_15 0x15
+#define INFTABLE_19 0x19
+#define INFTABLE_1E 0x1E
+#define INFTABLE_22 0x22
+#define INFTABLE_24 0x24
+#define INFTABLE_26 0x26
+#define INFTABLE_28 0x28
+#define INFTABLE_41 0x41
+#define INFTABLE_47 0x47
+#define INFTABLE_51 0x51
+#define INFTABLE_59 0x59
+#define INFTABLE_61 0x61
+#define INFTABLE_6C 0x6C
+#define INFTABLE_71 0x71
+#define INFTABLE_76 0x76
+#define INFTABLE_77 0x77
+#define INFTABLE_7E 0x7E
+#define INFTABLE_84 0x84
+#define INFTABLE_85 0x85
+#define INFTABLE_8B 0x8B
+#define INFTABLE_8C 0x8C
+#define INFTABLE_8D 0x8D
+#define INFTABLE_8E 0x8E
+#define INFTABLE_94 0x94
+#define INFTABLE_97 0x97
+#define INFTABLE_9A 0x9A
+#define INFTABLE_A2 0xA2
+#define INFTABLE_AB 0xAB
+#define INFTABLE_B0 0xB0
+#define INFTABLE_B1 0xB1
+#define INFTABLE_B4 0xB4
+#define INFTABLE_B6 0xB6
+#define INFTABLE_B7 0xB7
+#define INFTABLE_B8 0xB8
+#define INFTABLE_B9 0xB9
+#define INFTABLE_BC 0xBC
+#define INFTABLE_C0 0xC0
+#define INFTABLE_C1 0xC1
+#define INFTABLE_C2 0xC2
+#define INFTABLE_C3 0xC3
+#define INFTABLE_C4 0xC4
+#define INFTABLE_C5 0xC5
+#define INFTABLE_C6 0xC6
+#define INFTABLE_C7 0xC7
+#define INFTABLE_C8 0xC8
+#define INFTABLE_C9 0xC9
+#define INFTABLE_CA 0xCA
+#define INFTABLE_CB 0xCB
+#define INFTABLE_CC 0xCC
+#define INFTABLE_CD 0xCD
+#define INFTABLE_D8 0xD8
+#define INFTABLE_D9 0xD9
+#define INFTABLE_E0 0xE0
+#define INFTABLE_E3 0xE3
+#define INFTABLE_E6 0xE6
+#define INFTABLE_EB 0xEB
+#define INFTABLE_F0 0xF0
+#define INFTABLE_F4 0xF4
+#define INFTABLE_F8 0xF8
+#define INFTABLE_FC 0xFC
+#define INFTABLE_109 0x109
+#define INFTABLE_10A 0x10A
+#define INFTABLE_10B 0x10B
+#define INFTABLE_10C 0x10C
+#define INFTABLE_10D 0x10D
+#define INFTABLE_10E 0x10E
+#define INFTABLE_10F 0x10F
+#define INFTABLE_113 0x113
+#define INFTABLE_11A 0x11A
+#define INFTABLE_11E 0x11E
+#define INFTABLE_124 0x124
+#define INFTABLE_129 0x129
+#define INFTABLE_138 0x138
+#define INFTABLE_139 0x139
+#define INFTABLE_140 0x140
+#define INFTABLE_141 0x141
+#define INFTABLE_142 0x142
+#define INFTABLE_143 0x143
+#define INFTABLE_144 0x144
+#define INFTABLE_145 0x145
+#define INFTABLE_146 0x146
+#define INFTABLE_147 0x147
+#define INFTABLE_160 0x160
+#define INFTABLE_161 0x161
+#define INFTABLE_162 0x162
+#define INFTABLE_163 0x163
+#define INFTABLE_164 0x164
+#define INFTABLE_16C 0x16C
+#define INFTABLE_170 0x170
+#define INFTABLE_171 0x171
+#define INFTABLE_172 0x172
+#define INFTABLE_176 0x176
+#define INFTABLE_178 0x178
+#define INFTABLE_17C 0x17C
+#define INFTABLE_17F 0x17F
+#define INFTABLE_190 0x190
+#define INFTABLE_191 0x191
+#define INFTABLE_192 0x192
+#define INFTABLE_193 0x193
+#define INFTABLE_195 0x195
+#define INFTABLE_196 0x196
+#define INFTABLE_197 0x197
+#define INFTABLE_198 0x198
+
+// 0x199-0x19F
+#define INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX 25
+#define INFTABLE_199_MASK (1 << 9)
+#define INFTABLE_19A_MASK (1 << 10)
+#define INFTABLE_19B_MASK (1 << 11)
+#define INFTABLE_19C_MASK (1 << 12)
+#define INFTABLE_19D_MASK (1 << 13)
+#define INFTABLE_19E_MASK (1 << 14)
+#define INFTABLE_19F_MASK (1 << 15)
+
+// 0x1A0-0x1AF
+#define INFTABLE_1AX_INDEX 26
+#define INFTABLE_1A0_SHIFT 0
+#define INFTABLE_1A1_SHIFT 1
+#define INFTABLE_1A2_SHIFT 2
+#define INFTABLE_1A3_SHIFT 3
+#define INFTABLE_1A4_SHIFT 4
+#define INFTABLE_1A5_SHIFT 5
+#define INFTABLE_1A6_SHIFT 6
+#define INFTABLE_1A7_SHIFT 7
+#define INFTABLE_1A8_SHIFT 8
+#define INFTABLE_1A9_SHIFT 9
+#define INFTABLE_1AB_SHIFT 11
+#define INFTABLE_1AD_SHIFT 13
+
+// 0x1D0-0x1DF
+#define INFTABLE_1DX_INDEX 29
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child

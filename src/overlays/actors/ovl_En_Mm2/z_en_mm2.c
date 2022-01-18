@@ -103,7 +103,7 @@ void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
     if (!CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
                         EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         this->actor.textId = 0x6086;
-    } else if (gSaveContext.infTable[23] & 0x8000) {
+    } else if (GET_INFTABLE(INFTABLE_17F)) {
         if (gSaveContext.eventInf[1] & 1) {
             this->actor.textId = 0x6082;
         } else if (gSaveContext.timer2State != 0) {
@@ -150,7 +150,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
-        if (!(gSaveContext.infTable[23] & 0x8000) || !(gSaveContext.eventInf[1] & 1)) {
+        if (!(GET_INFTABLE(INFTABLE_17F)) || !(gSaveContext.eventInf[1] & 1)) {
             osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }
@@ -250,7 +250,7 @@ void func_80AAF57C(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_80AAEF70(this, globalCtx);
     if ((func_80AAF224(this, globalCtx, func_80AAF3C0)) && (this->actor.textId == 0x607D)) {
-        gSaveContext.infTable[23] |= 0x8000;
+        SET_INFTABLE(INFTABLE_17F);
     }
 }
 

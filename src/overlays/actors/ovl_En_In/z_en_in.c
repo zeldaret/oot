@@ -111,13 +111,13 @@ static Gfx* sAdultEraDLs[] = {
 
 u16 func_80A78FB0(GlobalContext* globalCtx) {
     if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
-        if (gSaveContext.infTable[9] & 0x80) {
+        if (GET_INFTABLE(INFTABLE_97)) {
             return 0x2046;
         } else {
             return 0x2045;
         }
     }
-    if (gSaveContext.infTable[9] & 0x10) {
+    if (GET_INFTABLE(INFTABLE_94)) {
         return 0x2040;
     } else {
         return 0x203F;
@@ -146,7 +146,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
-                if (gSaveContext.infTable[10] & 4) {
+                if (GET_INFTABLE(INFTABLE_A2)) {
                     return 0x2036;
                 } else {
                     return 0x2038;
@@ -169,7 +169,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
             return 0x205B;
         case 2:
         default:
-            if (gSaveContext.infTable[0x9] & 0x400) {
+            if (GET_INFTABLE(INFTABLE_9A)) {
                 return 0x2031;
             } else {
                 return 0x2030;
@@ -195,14 +195,14 @@ s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
 
     switch (thisx->textId) {
         case 0x2045:
-            gSaveContext.infTable[9] |= 0x80;
+            SET_INFTABLE(INFTABLE_97);
             break;
         case 0x203E:
             ret = 2;
             break;
         case 0x203F:
             SET_EVENTCHKINF(EVENTCHKINF_11);
-            gSaveContext.infTable[9] |= 0x10;
+            SET_INFTABLE(INFTABLE_94);
             break;
     }
     return ret;
@@ -223,7 +223,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
                 this->actor.textId = 0x2034;
             }
             Message_ContinueTextbox(globalCtx, this->actor.textId);
-            gSaveContext.infTable[9] |= 0x400;
+            SET_INFTABLE(INFTABLE_9A);
             break;
         case 0x2034:
             if (globalCtx->msgCtx.choiceIndex == 1) {
@@ -249,7 +249,7 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
             } else {
                 this->actor.textId = 0x2039;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
-                gSaveContext.infTable[10] |= 4;
+                SET_INFTABLE(INFTABLE_A2);
             }
             break;
         case 0x205B:
@@ -640,7 +640,7 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
         func_80A79BAC(this, globalCtx, 1, 0x20);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0001;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-        gSaveContext.infTable[10] &= ~4;
+        CLEAR_INFTABLE(INFTABLE_A2);
         Environment_ForcePlaySequence(NA_BGM_HORSE);
         globalCtx->msgCtx.stateTimer = 0;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -654,7 +654,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     s32 phi_a3;
 
     if (!(GET_EVENTCHKINF(EVENTCHKINF_1B)) && (player->stateFlags1 & PLAYER_STATE1_23)) {
-        gSaveContext.infTable[10] |= 0x800;
+        SET_INFTABLE(INFTABLE_AB);
     }
     if (gSaveContext.timer1State == 10) {
         Audio_PlaySoundGeneral(NA_SE_SY_FOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -677,9 +677,9 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_FOUND, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             if (!(GET_EVENTCHKINF(EVENTCHKINF_1B))) {
-                if (gSaveContext.infTable[10] & 0x800) {
+                if (GET_INFTABLE(INFTABLE_AB)) {
                     SET_EVENTCHKINF(EVENTCHKINF_1B);
-                    gSaveContext.infTable[10] |= 0x800;
+                    SET_INFTABLE(INFTABLE_AB);
                 }
             }
             gSaveContext.eventInf[0] &= ~0xF;
@@ -889,9 +889,9 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
     player->actor.freezeTimer = 10;
     if (this->unk_308.unk_00 == 2) {
         if (1) {}
-        if (!(GET_EVENTCHKINF(EVENTCHKINF_1B)) && (gSaveContext.infTable[10] & 0x800)) {
+        if (!(GET_EVENTCHKINF(EVENTCHKINF_1B)) && (GET_INFTABLE(INFTABLE_AB))) {
             SET_EVENTCHKINF(EVENTCHKINF_1B);
-            gSaveContext.infTable[10] |= 0x800;
+            SET_INFTABLE(INFTABLE_AB);
         }
         func_80A79BAC(this, globalCtx, 0, 0x26);
         gSaveContext.eventInf[0] = gSaveContext.eventInf[0] & ~0xF;

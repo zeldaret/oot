@@ -71,6 +71,10 @@
 #define GET_ITEMGETINF(flag) (gSaveContext.itemGetInf[flag >> 4] & (1 << (flag & 0xF)))
 #define SET_ITEMGETINF(flag) (gSaveContext.itemGetInf[flag >> 4] |= (1 << (flag & 0xF)))
 
+#define GET_INFTABLE(flag) (gSaveContext.infTable[flag >> 4] & (1 << (flag & 0xF)))
+#define SET_INFTABLE(flag) (gSaveContext.infTable[flag >> 4] |= (1 << (flag & 0xF)))
+#define CLEAR_INFTABLE(flag) (gSaveContext.infTable[flag >> 4] &= ~(1 << (flag & 0xF)))
+
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
                         : (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) \
