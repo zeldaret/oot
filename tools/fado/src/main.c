@@ -7,9 +7,10 @@
 #include <getopt.h>
 
 #include "macros.h"
-#include "help.h"
 #include "fairy/fairy.h"
 #include "fado.h"
+#include "help.h"
+#include "mido.h"
 #include "vc_vector/vc_vector.h"
 
 #include "version.inc"
@@ -52,7 +53,7 @@ char* GetOverlayNameFromFilename(const char* src) {
     return ret;
 }
 
-#define OPTSTR "n:o:v:hV"
+#define OPTSTR "M:n:o:v:hV"
 #define USAGE_STRING "Usage: %s [-hV] [-n name] [-o output_file] [-v level] input_files ...\n"
 
 #define HELP_PROLOGUE                                            \
@@ -67,6 +68,7 @@ static const PosArgInfo posArgInfo[] = {
 };
 
 static const OptInfo optInfo[] = {
+    { { "make-dependency", required_argument, NULL, 'M' }, "FILE", "Write the output file's Makefile dependencies to FILE" },
     { { "name", required_argument, NULL, 'n' }, "NAME", "Use NAME as the overlay name. Uses the deepest folder name in the input file's path if not specified" },
     { { "output-file", required_argument, NULL, 'o' }, "FILE", "Output to FILE. Will use stdout if none is specified" },
     { { "verbosity", required_argument, NULL, 'v' }, "N", "Verbosity level, one of 0 (None, default), 1 (Info), 2 (Debug)" },
@@ -91,11 +93,12 @@ void ConstructLongOpts() {
 }
 
 int main(int argc, char** argv) {
-    // int verbosityLevel = VERBOSITY_NONE;
     int opt;
     int inputFilesCount;
     FILE** inputFiles;
     FILE* outputFile = stdout;
+    char* outputFileName;
+    char* dependencyFileName = NULL;
     char* ovlName = NULL;
 
     ConstructLongOpts();
@@ -114,12 +117,21 @@ int main(int argc, char** argv) {
         }
 
         switch (opt) {
+            case 'M':
+                dependencyFileName = optarg;
+                break;
+
             case 'n':
                 ovlName = optarg;
                 break;
 
             case 'o':
+                outputFileName = optarg;
                 outputFile = fopen(optarg, "wb");
+                if (outputFile == NULL) {
+                    fprintf(stderr, "error: unable to open output file '%s' for writing", optarg);
+                    return EXIT_FAILURE;
+                }
                 break;
 
             case 'v':
@@ -158,6 +170,10 @@ int main(int argc, char** argv) {
         for (i = 0; i < inputFilesCount; i++) {
             FAIRY_INFO_PRINTF("Using input file %s\n", argv[optind + i]);
             inputFiles[i] = fopen(argv[optind + i], "rb");
+            if (inputFiles[i] == NULL) {
+                fprintf(stderr, "error: unable to open input file '%s' for reading", argv[optind + i]);
+                return EXIT_FAILURE;
+            }
         }
 
         FAIRY_INFO_PRINTF("Found %d input file%s\n", inputFilesCount, (inputFilesCount == 1 ? "" : "s"));
@@ -177,6 +193,34 @@ int main(int argc, char** argv) {
         if (outputFile != stdout) {
             fclose(outputFile);
         }
+    }
+
+    if (dependencyFileName != NULL) {
+        int fileNameLength = strlen(outputFileName);
+        char* objectFile = malloc((strlen(outputFileName) + 1) * sizeof(char));
+        vc_vector* inputFilesVector = vc_vector_create(inputFilesCount, sizeof(char*), NULL);
+        char* extensionStart;
+        FILE* dependencyFile = fopen(dependencyFileName, "w");
+
+        if (dependencyFile == NULL) {
+            fprintf(stderr, "error: unable to open dependency file '%s' for writing", dependencyFileName);
+            return EXIT_FAILURE;
+        }
+
+        strcpy(objectFile, outputFileName);
+        extensionStart = strrchr(objectFile, '.');
+        if (extensionStart == objectFile + fileNameLength) {
+            fprintf(stderr, "error: file name should not end in a '.'");
+            return EXIT_FAILURE;
+        }
+        strcpy(extensionStart, ".o");
+        vc_vector_append(inputFilesVector, &argv[optind], inputFilesCount);
+
+        Mido_WriteDependencyFile(dependencyFile, objectFile, inputFilesVector);
+
+        free(objectFile);
+        vc_vector_release(inputFilesVector);
+        fclose(dependencyFile);
     }
 
     return EXIT_SUCCESS;
