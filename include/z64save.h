@@ -139,6 +139,7 @@ typedef struct {
 #define EVENTCHKINF_69 0x69
 #define EVENTCHKINF_6A 0x6A
 
+// 0x6B
 #define EVENTCHKINF_6B_INDEX 6
 #define EVENTCHKINF_6B_SHIFT 11
 #define EVENTCHKINF_6B_MASK (1 << EVENTCHKINF_6B_SHIFT)
@@ -251,6 +252,7 @@ typedef struct {
 #define EVENTCHKINF_DD_MASK (1 << 13)
 #define EVENTCHKINF_DE_MASK (1 << 14)
 
+
 // itemGetInf
 
 #define ITEMGETINF_02 0x02
@@ -275,6 +277,7 @@ typedef struct {
 #define ITEMGETINF_16 0x16
 #define ITEMGETINF_17 0x17
 
+// 0x18-0x1A
 #define ITEMGETINF_18_19_1A_INDEX 1
 #define ITEMGETINF_18_MASK (1 << 8)
 #define ITEMGETINF_19_MASK (1 << 9)
@@ -299,6 +302,7 @@ typedef struct {
 #define ITEMGETINF_3A 0x3A
 #define ITEMGETINF_3B 0x3B
 #define ITEMGETINF_3F 0x3F
+
 
 // infTable
 
@@ -457,6 +461,7 @@ typedef struct {
 // 0x1D0-0x1DF
 #define INFTABLE_1DX_INDEX 29
 
+
 // eventInf
 
 // 0x00-0x0F
@@ -488,6 +493,7 @@ typedef struct {
 
 #define EVENTINF_10 0x10
 
+// 0x20-0x24
 #define EVENTINF_20_21_22_23_24_INDEX 2
 #define EVENTINF_20_MASK (1 << 0)
 #define EVENTINF_21_MASK (1 << 1)
@@ -496,6 +502,7 @@ typedef struct {
 #define EVENTINF_24_MASK (1 << 4)
 
 #define EVENTINF_30 0x30
+
 
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
