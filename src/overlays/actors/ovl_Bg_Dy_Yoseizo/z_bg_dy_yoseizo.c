@@ -208,17 +208,17 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_DAIYOUSEI_IZUMI) {
         switch (this->fountainType) {
             case FAIRY_SPELL_FARORES_WIND:
-                if (!(GET_ITEMGETINF(ITEMGETINF_18))) {
+                if (!(gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] & ITEMGETINF_18_MASK)) {
                     givingReward = true;
                 }
                 break;
             case FAIRY_SPELL_DINS_FIRE:
-                if (!(GET_ITEMGETINF(ITEMGETINF_19))) {
+                if (!(gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] & ITEMGETINF_19_MASK)) {
                     givingReward = true;
                 }
                 break;
             case FAIRY_SPELL_NAYRUS_LOVE:
-                if (!(GET_ITEMGETINF(ITEMGETINF_1A))) {
+                if (!(gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] & ITEMGETINF_1A_MASK)) {
                     givingReward = true;
                 }
                 break;
@@ -652,7 +652,7 @@ static s16 sDemoEffectLightColors[] = { DEMO_EFFECT_LIGHT_GREEN, DEMO_EFFECT_LIG
 
 static s16 sExItemTypes[] = { EXITEM_MAGIC_WIND, EXITEM_MAGIC_FIRE, EXITEM_MAGIC_DARK };
 
-static s16 sItemGetFlags[] = { 0x100, 0x200, 0x400 };
+static s16 sItemGetFlags[] = { ITEMGETINF_18_MASK, ITEMGETINF_19_MASK, ITEMGETINF_1A_MASK };
 
 static u8 sItemIds[] = { ITEM_FARORES_WIND, ITEM_DINS_FIRE, ITEM_NAYRUS_LOVE };
 
@@ -762,8 +762,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
                 Interface_ChangeAlpha(9);
-                // ITEMGETINF_18, ITEMGETINF_19, ITEMGETINF_1A
-                gSaveContext.itemGetInf[1] |= sItemGetFlags[actionIndex];
+                gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= sItemGetFlags[actionIndex];
                 Item_Give(globalCtx, sItemIds[actionIndex]);
             }
         } else {

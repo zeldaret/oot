@@ -81,9 +81,12 @@ typedef struct {
 #define ITEMGETINF_15 0x15
 #define ITEMGETINF_16 0x16
 #define ITEMGETINF_17 0x17
-#define ITEMGETINF_18 0x18
-#define ITEMGETINF_19 0x19
-#define ITEMGETINF_1A 0x1A
+
+#define ITEMGETINF_18_19_1A_INDEX 1
+#define ITEMGETINF_18_MASK (1 << 8)
+#define ITEMGETINF_19_MASK (1 << 9)
+#define ITEMGETINF_1A_MASK (1 << 10)
+
 #define ITEMGETINF_1B 0x1B
 #define ITEMGETINF_1C 0x1C
 #define ITEMGETINF_1D 0x1D
