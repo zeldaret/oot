@@ -196,7 +196,7 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_2F)) {
             textId = 0x5052;
         } else {
-            textId = (GET_ITEMGETINF(ITEMGETINF_15)) ? 0x5054 : 0x5053;
+            textId = GET_ITEMGETINF(ITEMGETINF_15) ? 0x5054 : 0x5053;
         }
         EnAni_SetText(this, globalCtx, textId);
     }

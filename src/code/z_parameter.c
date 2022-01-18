@@ -1623,7 +1623,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
         }
 
-        if (!(GET_ITEMGETINF(ITEMGETINF_13))) {
+        if (!GET_ITEMGETINF(ITEMGETINF_13)) {
             SET_ITEMGETINF(ITEMGETINF_13);
             return ITEM_NONE;
         }
@@ -1636,7 +1636,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
         }
 
-        if (!(GET_ITEMGETINF(ITEMGETINF_13))) {
+        if (!GET_ITEMGETINF(ITEMGETINF_13)) {
             SET_ITEMGETINF(ITEMGETINF_13);
             return ITEM_NONE;
         }
@@ -1862,7 +1862,7 @@ u8 Item_CheckObtainability(u8 item) {
     } else if (item == ITEM_LONGSHOT) {
         return ITEM_NONE;
     } else if ((item == ITEM_SEEDS) || (item == ITEM_SEEDS_30)) {
-        if (!(GET_ITEMGETINF(ITEMGETINF_13))) {
+        if (!GET_ITEMGETINF(ITEMGETINF_13)) {
             return ITEM_NONE;
         } else {
             return ITEM_SEEDS;

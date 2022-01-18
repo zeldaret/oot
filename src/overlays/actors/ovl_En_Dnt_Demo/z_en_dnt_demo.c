@@ -156,14 +156,14 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             delay = 0;
             switch (Player_GetMask(globalCtx)) {
                 case PLAYER_MASK_SKULL:
-                    if (!(GET_ITEMGETINF(ITEMGETINF_1E))) {
+                    if (!GET_ITEMGETINF(ITEMGETINF_1E)) {
                         reaction = DNT_SIGNAL_CELEBRATE;
                         this->prize = DNT_PRIZE_STICK;
                         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SARIA_THEME);
                         break;
                     }
                 case PLAYER_MASK_TRUTH:
-                    if (!(GET_ITEMGETINF(ITEMGETINF_1F)) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
+                    if (!GET_ITEMGETINF(ITEMGETINF_1F) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         this->prize = DNT_PRIZE_NUTS;

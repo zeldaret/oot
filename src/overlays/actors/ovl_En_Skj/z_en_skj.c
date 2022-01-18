@@ -711,7 +711,7 @@ void EnSkj_SetupResetFight(EnSkj* this) {
 
 void EnSkj_SariasSongKidIdle(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
-        if (!(GET_ITEMGETINF(ITEMGETINF_16)) && (this->actor.xzDistToPlayer < 200.0f)) {
+        if (!GET_ITEMGETINF(ITEMGETINF_16) && (this->actor.xzDistToPlayer < 200.0f)) {
             this->backflipFlag = 1;
             EnSkj_Backflip(this);
         } else if (sSmallStumpSkullKid.unk0 != 0) {
@@ -915,7 +915,7 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
-        if ((Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) && !(GET_ITEMGETINF(ITEMGETINF_39))) {
+        if ((Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_39)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             EnSkj_SetupMaskTrade(this);
         } else {
@@ -952,8 +952,8 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     // Played a song thats not Saria's song
-    if (!(GET_ITEMGETINF(ITEMGETINF_16)) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
-                                             (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
+    if (!GET_ITEMGETINF(ITEMGETINF_16) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
+                                           (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         Message_CloseTextbox(globalCtx);
         player->unk_6A8 = &this->actor;
@@ -973,7 +973,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
             EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
             EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE);
         } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-            if (!(GET_ITEMGETINF(ITEMGETINF_16))) {
+            if (!GET_ITEMGETINF(ITEMGETINF_16)) {
                 // Saria's song has been played for the first titme
                 globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -1603,7 +1603,7 @@ s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2417);
 
-    if ((limbIndex == 11) && (GET_ITEMGETINF(ITEMGETINF_39))) {
+    if ((limbIndex == 11) && GET_ITEMGETINF(ITEMGETINF_39)) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);

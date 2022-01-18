@@ -526,10 +526,10 @@ void EnOssan_TalkGoronShopkeeper(GlobalContext* globalCtx) {
 
 // Happy Mask Shop
 void EnOssan_TalkHappyMaskShopkeeper(GlobalContext* globalCtx) {
-    if ((GET_ITEMGETINF(ITEMGETINF_38))       // Sold Keaton Mask
-        && (GET_ITEMGETINF(ITEMGETINF_39))    // Sold Skull Mask
-        && (GET_ITEMGETINF(ITEMGETINF_3A))    // Sold Spooky Mask
-        && (GET_ITEMGETINF(ITEMGETINF_3B))) { // Sold Bunny Hood
+    if (GET_ITEMGETINF(ITEMGETINF_38)       // Sold Keaton Mask
+        && GET_ITEMGETINF(ITEMGETINF_39)    // Sold Skull Mask
+        && GET_ITEMGETINF(ITEMGETINF_3A)    // Sold Spooky Mask
+        && GET_ITEMGETINF(ITEMGETINF_3B)) { // Sold Bunny Hood
         Message_ContinueTextbox(globalCtx, 0x70AE);
     } else {
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -701,8 +701,8 @@ void EnOssan_StartShopping(GlobalContext* globalCtx, EnOssan* this) {
 
     if (this->actor.params == OSSAN_TYPE_MASK) {
         // if all masks have been sold, give the option to ask about the mask of truth
-        if ((GET_ITEMGETINF(ITEMGETINF_38)) && (GET_ITEMGETINF(ITEMGETINF_39)) && (GET_ITEMGETINF(ITEMGETINF_3A)) &&
-            (GET_ITEMGETINF(ITEMGETINF_3B))) {
+        if (GET_ITEMGETINF(ITEMGETINF_38) && GET_ITEMGETINF(ITEMGETINF_39) && GET_ITEMGETINF(ITEMGETINF_3A) &&
+            GET_ITEMGETINF(ITEMGETINF_3B)) {
             Message_ContinueTextbox(globalCtx, 0x70AD);
         } else {
             Message_ContinueTextbox(globalCtx, 0x70A2);
@@ -1665,7 +1665,7 @@ void EnOssan_State_ItemPurchased(EnOssan* this, GlobalContext* globalCtx, Player
             EnOssan_ResetItemPosition(this);
             item = this->shelfSlots[this->cursorIndex];
             item->updateStockedItemFunc(globalCtx, item);
-            if (itemTemp->actor.params == SI_MASK_OF_TRUTH && !(GET_ITEMGETINF(ITEMGETINF_3F))) {
+            if (itemTemp->actor.params == SI_MASK_OF_TRUTH && !GET_ITEMGETINF(ITEMGETINF_3F)) {
                 SET_ITEMGETINF(ITEMGETINF_3F);
                 Message_ContinueTextbox(globalCtx, 0x70AB);
                 this->happyMaskShopState = OSSAN_HAPPY_STATE_BORROWED_FIRST_MASK;
@@ -2081,10 +2081,10 @@ u16 EnOssan_SetupHelloDialog(EnOssan* this) {
         } else {
             if (GET_ITEMGETINF(ITEMGETINF_3B)) {
                 return 0x70AC;
-            } else if (!(GET_ITEMGETINF(ITEMGETINF_3A)) && !(GET_ITEMGETINF(ITEMGETINF_24)) &&
-                       !(GET_ITEMGETINF(ITEMGETINF_38))) {
+            } else if (!GET_ITEMGETINF(ITEMGETINF_3A) && !GET_ITEMGETINF(ITEMGETINF_24) &&
+                       !GET_ITEMGETINF(ITEMGETINF_38)) {
                 // Haven't borrowed the Keaton Mask
-                if (!(GET_ITEMGETINF(ITEMGETINF_23))) {
+                if (!GET_ITEMGETINF(ITEMGETINF_23)) {
                     return 0x70A1;
                 } else {
                     // Haven't sold the Keaton Mask
