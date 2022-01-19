@@ -2280,8 +2280,10 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | G_RM_CLD_SURF | G_RM_CLD_SURF2);
+
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
+
         // the z-buffer will later only allow drawing inside the lens circle
     } else {
         // Update the z-buffer but not the color frame buffer
@@ -2291,11 +2293,13 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL |
                             GBL_c1(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA));
+
         // inverts the mask image, which initially is 0 inner and 74 outer,
         // by setting the combiner to draw 74 - image instead of the image
         gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0,
                           PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0xFF, 74, 74, 74, 74);
+
         // the z-buffer will later only allow drawing outside the lens circle
     }
 
@@ -2321,6 +2325,7 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
         // Draw the lens overlay to the color frame buffer
+
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 
         gDPPipeSync(POLY_XLU_DISP++);
