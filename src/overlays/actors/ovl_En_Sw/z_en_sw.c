@@ -488,8 +488,8 @@ void func_80B0D3AC(EnSw* this, GlobalContext* globalCtx) {
         }
         this->unk_38C--;
         if (this->unk_38C == 0) {
-            SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_STALGOLD_UP_CRY);
-            SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_DODO_M_UP);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_STALGOLD_UP_CRY);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_DODO_M_UP);
         } else {
             return;
         }

@@ -212,7 +212,7 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                 }
 
                 func_80033DB8(globalCtx, 10, 15);
-                SoundSource_PlaySfxAtStationaryPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
             }
             Actor_Kill(&this->dyna.actor);
         }
