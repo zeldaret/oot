@@ -233,7 +233,7 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         BgJyaBombchuiwa_DrawRock(globalCtx);
     }
     if (this->drawFlags & 4) {
-        func_800D1694(D_80894F88.x, D_80894F88.y, D_80894F88.z, &D_80894F94);
+        Matrix_SetTranslateRotateYXZ(D_80894F88.x, D_80894F88.y, D_80894F88.z, &D_80894F94);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         if (this->drawFlags & 4) {
             BgJyaBombchuiwa_DrawLight(thisx, globalCtx);

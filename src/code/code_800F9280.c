@@ -100,21 +100,23 @@ typedef enum {
     Audio_ProcessSeqCmd(0x40000000 | ((u8)playerIdx << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
 
 
-
 typedef struct {
     u8 seqId;
     u8 importance;
 } BgmRequest;
 
-extern BgmRequest sSeqRequests[4][5];
-extern u8 sNumSeqRequests[4];
-extern u32 sAudioSeqCmds[0x100];
-extern u8 sSeqCmdReadPos;
-extern u8 sSeqCmdWritePos;
-extern u8 sIsSeqStartDisabled;
-extern u8 D_80133418;
-extern u8 sSoundModes[];
+BgmRequest sSeqRequests[4][5];
+u8 sNumSeqRequests[4];
+u32 sAudioSeqCmds[0x100];
+ActiveSeq gActiveSeqs[4];
 
+u8 sSeqCmdWritePos = 0;
+u8 sSeqCmdReadPos = 0;
+u8 sIsSeqStartDisabled = 0;
+u8 D_8013340C = 1;
+u8 sSoundModes[] = { 0, 1, 2, 3 };
+u8 gAudioSpecId = 0;
+u8 D_80133418 = 0;
 
 void Audio_StartSequence(u8 playerIdx, u8 seqId, u8 seqArgs, u16 fadeTimer) {
     u8 channelIdx;

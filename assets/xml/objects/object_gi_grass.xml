@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_grass" Segment="6">
         <DList Name="gGiGrassDL" Offset="0x08E0"/>
     </File>

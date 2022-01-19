@@ -12,7 +12,7 @@ typedef struct EnHorseLinkChild {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
     /* 0x0150 */ s32 animationIdx;
-    /* 0x0154 */ PSkinAwb skin;
+    /* 0x0154 */ Skin skin;
     /* 0x01E4 */ s32 timer;
     /* 0x01E8 */ s32 unk_1E8;
     /* 0x01EC */ u8 eyeTexIndex;

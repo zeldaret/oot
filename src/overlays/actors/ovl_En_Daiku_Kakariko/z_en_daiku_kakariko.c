@@ -93,26 +93,34 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-static struct_D_80AA1678 sAnimations[] = {
+typedef enum {
+    /* 0 */ ENDAIKUKAKARIKO_ANIM_0,
+    /* 1 */ ENDAIKUKAKARIKO_ANIM_1,
+    /* 2 */ ENDAIKUKAKARIKO_ANIM_2,
+    /* 3 */ ENDAIKUKAKARIKO_ANIM_3,
+    /* 4 */ ENDAIKUKAKARIKO_ANIM_4,
+    /* 5 */ ENDAIKUKAKARIKO_ANIM_5
+} EnDaikuKakarikoAnimation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_daiku_Anim_001AB0, 1.0f, 2, -7.0f }, { &object_daiku_Anim_007DE0, 1.0f, 0, -7.0f },
     { &object_daiku_Anim_00885C, 1.0f, 0, -7.0f }, { &object_daiku_Anim_000C44, 1.0f, 0, -7.0f },
     { &object_daiku_Anim_000600, 1.0f, 0, -7.0f }, { &object_daiku_Anim_008164, 1.0f, 0, -7.0f },
 };
 
-void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32* currentAnimIndex) {
+void EnDaikuKakariko_ChangeAnim(EnDaikuKakariko* this, s32 index, s32* currentIndex) {
     f32 morphFrames;
 
-    if ((*currentAnimIndex < 0) || (animIndex == *currentAnimIndex)) {
+    if ((*currentIndex < 0) || (index == *currentIndex)) {
         morphFrames = 0.0f;
     } else {
-        morphFrames = sAnimations[animIndex].transitionRate;
+        morphFrames = sAnimationInfo[index].morphFrames;
     }
 
-    Animation_Change(&this->skelAnime, sAnimations[animIndex].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations[animIndex].animation), sAnimations[animIndex].mode,
-                     morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode, morphFrames);
 
-    *currentAnimIndex = animIndex;
+    *currentIndex = index;
 }
 
 void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -156,8 +164,9 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
 
-    Animation_Change(&this->skelAnime, sAnimations->animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations->animation), sAnimations->mode, sAnimations->transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].animation),
+                     sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].mode, sAnimationInfo[ENDAIKUKAKARIKO_ANIM_0].morphFrames);
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
@@ -172,20 +181,20 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->flags & 0x10) {
-        EnDaikuKakariko_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
+        EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_3, &this->currentAnimIndex);
         this->actionFunc = EnDaikuKakariko_Run;
     } else {
         if (this->flags & 8) {
             if (((this->actor.params & 3) == CARPENTER_SABOORO) || ((this->actor.params & 3) == CARPENTER_SHIRO)) {
-                EnDaikuKakariko_SetAnimFromIndex(this, 5, &this->currentAnimIndex);
+                EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_5, &this->currentAnimIndex);
                 this->flags |= 0x800;
             } else {
-                EnDaikuKakariko_SetAnimFromIndex(this, 1, &this->currentAnimIndex);
+                EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_1, &this->currentAnimIndex);
             }
 
             this->skelAnime.curFrame = (s32)(Rand_ZeroOne() * this->skelAnime.endFrame);
         } else {
-            EnDaikuKakariko_SetAnimFromIndex(this, 0, &this->currentAnimIndex);
+            EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_0, &this->currentAnimIndex);
             this->skelAnime.curFrame = (s32)(Rand_ZeroOne() * this->skelAnime.endFrame);
         }
 
@@ -271,21 +280,21 @@ void EnDaikuKakariko_HandleTalking(EnDaikuKakariko* this, GlobalContext* globalC
 
 void EnDaikuKakariko_Talk(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
-        EnDaikuKakariko_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
+        EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_3, &this->currentAnimIndex);
     }
 
     EnDaikuKakariko_HandleTalking(this, globalCtx);
 
     if (this->talkState == 0) {
         if (this->flags & 0x10) {
-            EnDaikuKakariko_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
+            EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_3, &this->currentAnimIndex);
             this->flags &= ~0x0300;
             this->actionFunc = EnDaikuKakariko_Run;
             return;
         }
 
         if (!(this->flags & 8)) {
-            EnDaikuKakariko_SetAnimFromIndex(this, 0, &this->currentAnimIndex);
+            EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_0, &this->currentAnimIndex);
         }
 
         if ((this->flags & 0x800) == 0) {
@@ -301,12 +310,12 @@ void EnDaikuKakariko_Wait(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     EnDaikuKakariko_HandleTalking(this, globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        EnDaikuKakariko_SetAnimFromIndex(this, 0, &this->currentAnimIndex);
+        EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_0, &this->currentAnimIndex);
     }
 
     if (this->talkState != 0) {
         if (!(this->flags & 8)) {
-            EnDaikuKakariko_SetAnimFromIndex(this, 4, &this->currentAnimIndex);
+            EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_4, &this->currentAnimIndex);
         }
 
         if (!(this->flags & 0x800)) {
@@ -323,7 +332,7 @@ void EnDaikuKakariko_StopRunning(EnDaikuKakariko* this, GlobalContext* globalCtx
         this->timer--;
 
         if (this->timer <= 0) {
-            EnDaikuKakariko_SetAnimFromIndex(this, 3, &this->currentAnimIndex);
+            EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_3, &this->currentAnimIndex);
             this->actionFunc = EnDaikuKakariko_Run;
         } else {
             this->skelAnime.curFrame = this->skelAnime.startFrame;
@@ -334,7 +343,7 @@ void EnDaikuKakariko_StopRunning(EnDaikuKakariko* this, GlobalContext* globalCtx
 
     if (this->talkState != 0) {
         this->flags |= 0x200;
-        EnDaikuKakariko_SetAnimFromIndex(this, 4, &this->currentAnimIndex);
+        EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_4, &this->currentAnimIndex);
         this->actionFunc = EnDaikuKakariko_Talk;
     }
 }
@@ -372,7 +381,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 
                         if (this->flags & 0x400) {
                             this->timer = 2;
-                            EnDaikuKakariko_SetAnimFromIndex(this, 0, &this->currentAnimIndex);
+                            EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_0, &this->currentAnimIndex);
                             this->actionFunc = EnDaikuKakariko_StopRunning;
                             return;
                         }
@@ -393,7 +402,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 
                     if (this->flags & 0x400) {
                         this->timer = 2;
-                        EnDaikuKakariko_SetAnimFromIndex(this, 0, &this->currentAnimIndex);
+                        EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_0, &this->currentAnimIndex);
                         this->actionFunc = EnDaikuKakariko_StopRunning;
                         return;
                     }
@@ -437,7 +446,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 
     if (this->talkState != 0) {
         this->flags |= 0x200;
-        EnDaikuKakariko_SetAnimFromIndex(this, 4, &this->currentAnimIndex);
+        EnDaikuKakariko_ChangeAnim(this, ENDAIKUKAKARIKO_ANIM_4, &this->currentAnimIndex);
         this->actionFunc = EnDaikuKakariko_Talk;
     }
 }

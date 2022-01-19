@@ -56,10 +56,16 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry sAnimations[] = {
-    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { &object_kz_Anim_00075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &object_kz_Anim_00046C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+typedef enum {
+    /* 0 */ ENKZ_ANIM_0,
+    /* 1 */ ENKZ_ANIM_1,
+    /* 2 */ ENKZ_ANIM_2
+} EnKzAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
+    { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gKzIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gKzMweepAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
@@ -313,8 +319,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = (EnKz*)thisx;
     s32 pad;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &object_kz_Skel_0086D0, NULL, this->jointTable, this->morphTable,
-                       12);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &gKzSkel, NULL, this->jointTable, this->morphTable, 12);
     ActorShape_Init(&this->actor.shape, 0.0, NULL, 0.0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -322,7 +327,7 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01);
     this->actor.targetMode = 3;
     this->unk_1E0.unk_00 = 0;
-    func_80034EC0(&this->skelanime, sAnimations, 0);
+    Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
     if (gSaveContext.eventChkInf[3] & 8) {
         EnKz_SetMovedPos(this, globalCtx);
@@ -348,7 +353,7 @@ void EnKz_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        func_80034EC0(&this->skelanime, sAnimations, 2);
+        Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_2);
         this->unk_1E0.unk_00 = 0;
         this->actionFunc = EnKz_SetupMweep;
     } else {
@@ -388,7 +393,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     initPos.z += 260.0f;
     Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
     if ((EnKz_FollowPath(this, globalCtx) == 1) && (this->waypoint == 0)) {
-        func_80034EC0(&this->skelanime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
         EnKz_SetMovedPos(this, globalCtx);
         gSaveContext.eventChkInf[3] |= 8;
@@ -484,9 +489,9 @@ void EnKz_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnKz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyeSegments[] = {
-        object_kz_Tex_001470,
-        object_kz_Tex_001870,
-        object_kz_Tex_001C70,
+        gKzEyeOpenTex,
+        gKzEyeHalfTex,
+        gKzEyeClosedTex,
     };
     EnKz* this = (EnKz*)thisx;
 

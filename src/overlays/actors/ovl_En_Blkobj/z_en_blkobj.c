@@ -83,7 +83,7 @@ void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.xzDistToPlayer < 120.0f) {
         EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);
     }
-    player->stateFlags2 |= 0x04000000;
+    player->stateFlags2 |= PLAYER_STATE2_26;
 }
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx) {

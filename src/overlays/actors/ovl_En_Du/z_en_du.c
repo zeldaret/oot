@@ -58,7 +58,25 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-static struct_80034EC0_Entry sAnimations[] = {
+typedef enum {
+    /*  0 */ ENDU_ANIM_0,
+    /*  1 */ ENDU_ANIM_1,
+    /*  2 */ ENDU_ANIM_2,
+    /*  3 */ ENDU_ANIM_3,
+    /*  4 */ ENDU_ANIM_4,
+    /*  5 */ ENDU_ANIM_5,
+    /*  6 */ ENDU_ANIM_6,
+    /*  7 */ ENDU_ANIM_7,
+    /*  8 */ ENDU_ANIM_8,
+    /*  9 */ ENDU_ANIM_9,
+    /* 10 */ ENDU_ANIM_10,
+    /* 11 */ ENDU_ANIM_11,
+    /* 12 */ ENDU_ANIM_12,
+    /* 13 */ ENDU_ANIM_13,
+    /* 14 */ ENDU_ANIM_14
+} EnDuAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gDaruniaIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     { &gDaruniaIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
     { &gDaruniaItemGiveAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
@@ -227,25 +245,32 @@ void func_809FE000(CsCmdActorAction* csAction, Vec3f* dst) {
 }
 
 void func_809FE040(EnDu* this) {
-    s32 animationIndices[] = { 8, 8, 8, 8, 9, 10, 10, 13 };
+    s32 animationIndices[] = {
+        ENDU_ANIM_8, ENDU_ANIM_8, ENDU_ANIM_8, ENDU_ANIM_8, ENDU_ANIM_9, ENDU_ANIM_10, ENDU_ANIM_10, ENDU_ANIM_13,
+    };
 
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->unk_1E6++;
         if (this->unk_1E6 >= 8) {
             this->unk_1E6 = 0;
         }
-        func_80034EC0(&this->skelAnime, sAnimations, animationIndices[this->unk_1E6]);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animationIndices[this->unk_1E6]);
     }
 }
 
 void func_809FE104(EnDu* this) {
-    s32 animationIndices[] = { 8, 8, 11, 12 };
+    s32 animationIndices[] = {
+        ENDU_ANIM_8,
+        ENDU_ANIM_8,
+        ENDU_ANIM_11,
+        ENDU_ANIM_12,
+    };
 
     if (this->unk_1E6 < 4) {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
             this->unk_1E6++;
             if (this->unk_1E6 < 4) {
-                func_80034EC0(&this->skelAnime, sAnimations, animationIndices[this->unk_1E6]);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animationIndices[this->unk_1E6]);
             }
         }
     }
@@ -264,7 +289,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    func_80034EC0(&this->skelAnime, sAnimations, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_0);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 1;
     this->unk_1F4.unk_00 = 0;
@@ -295,9 +320,9 @@ void func_809FE3B4(EnDu* this, GlobalContext* globalCtx) {
 void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags2 & 0x1000000) {
+    if (player->stateFlags2 & PLAYER_STATE2_24) {
         func_8010BD88(globalCtx, OCARINA_ACTION_CHECK_SARIA);
-        player->stateFlags2 |= 0x2000000;
+        player->stateFlags2 |= PLAYER_STATE2_25;
         player->unk_6A8 = &this->actor;
         EnDu_SetupAction(this, func_809FE4A4);
         return;
@@ -307,7 +332,7 @@ void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
         this->unk_1F4.unk_00 = 0;
     }
     if (this->actor.xzDistToPlayer < 116.0f + this->collider.dim.radius) {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
@@ -331,14 +356,14 @@ void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
 void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & 0x20000000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_29)) {
         OnePointCutscene_Init(globalCtx, 3330, -99, &this->actor, MAIN_CAM);
         player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.world.rot.y + 0x7FFF;
         Audio_PlayFanfare(NA_BGM_APPEAR);
@@ -428,11 +453,11 @@ void func_809FE890(EnDu* this, GlobalContext* globalCtx) {
         }
         if (this->unk_1EA != csAction->action) {
             if (csAction->action == 1) {
-                func_80034EC0(&this->skelAnime, sAnimations, 1);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
             }
             if (csAction->action == 7 || csAction->action == 8) {
                 this->unk_1E6 = 0;
-                func_80034EC0(&this->skelAnime, sAnimations, 7);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_7);
             }
             this->unk_1EA = csAction->action;
             if (this->unk_1EA == 7) {
@@ -481,7 +506,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8 == 1) {
         func_8002DF54(globalCtx, &this->actor, 7);
-        func_80034EC0(&this->skelAnime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
         EnDu_SetupAction(this, func_809FE3C0);
         return;
     }
@@ -493,7 +518,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE3C0);
     }
     Message_StartTextbox(globalCtx, this->actor.textId, NULL);
-    func_80034EC0(&this->skelAnime, sAnimations, 14);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_14);
     this->unk_1F4.unk_00 = 1;
 }
 
@@ -531,7 +556,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->skelAnime.animation == &gDaruniaDancingEndAnim &&
         Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
-        func_80034EC0(&this->skelAnime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENDU_ANIM_1);
     }
 
     SkelAnime_Update(&this->skelAnime);

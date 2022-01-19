@@ -654,7 +654,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 yawToWall;
 
-    if (player->stateFlags1 & 0x4000000) { // Shielding
+    if (player->stateFlags1 & PLAYER_STATE1_26) { // Shielding
         this->damageEffect = TAILPASARAN_DMGEFF_NONE;
     }
 
@@ -742,7 +742,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
         } else {
             func_80093D84(globalCtx->state.gfxCtx);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->red, 0, 255, this->alpha);
             gDPPipeSync(POLY_XLU_DISP++);

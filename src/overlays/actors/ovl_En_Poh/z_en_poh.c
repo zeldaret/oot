@@ -908,7 +908,7 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
 void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = (EnPoh*)thisx;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx) != 0) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx)) {
         this->actor.objBankIndex = this->objectIdx;
         this->actor.update = EnPoh_UpdateLiving;
         Actor_SetObjectDependency(globalCtx, &this->actor);

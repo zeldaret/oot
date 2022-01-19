@@ -64,7 +64,7 @@
 #define R_AT_LERP_MIN               OREG(41)
 #define R_AT_LERP_SCALE             OREG(42)
 #define R_CAM_YOFFSET_NORM          OREG(46)
-#define R_CAM_FIXED3_FOV            PREG(7)
+#define R_CAM_DATA(type)            PREG(type)
 #define R_DBG_CAM_UPDATE            PREG(80)
 #define R_DBG_REG_UPDATE            PREG(82)
 #define R_RELOAD_CAM_PARAMS         QREG(0)

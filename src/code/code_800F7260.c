@@ -32,22 +32,24 @@ s32 D_8013338C = 0;
 char D_80133390[] = "SEQ H";
 char D_80133398[] = "    L";
 
-// bss
-extern SoundRequest sSoundRequests[0x100];
-extern SoundBankEntry D_8016BAD0[9];
-extern SoundBankEntry D_8016BC80[12];
-extern SoundBankEntry D_8016BEC0[22];
-extern SoundBankEntry D_8016C2E0[20];
-extern SoundBankEntry D_8016C6A0[8];
-extern SoundBankEntry D_8016C820[3];
-extern SoundBankEntry D_8016C8B0[5];
-extern u8 sSoundBankListEnd[7];
-extern u8 sSoundBankFreeListStart[7];
-extern u8 sSoundBankUnused[7];
-extern u8 sCurSfxPlayerChannelIdx;
-extern UnusedBankLerp sUnusedBankLerp[7];
-
-// data
+SoundBankEntry D_8016BAD0[9];
+SoundBankEntry D_8016BC80[12];
+SoundBankEntry D_8016BEC0[22];
+SoundBankEntry D_8016C2E0[20];
+SoundBankEntry D_8016C6A0[8];
+SoundBankEntry D_8016C820[3];
+SoundBankEntry D_8016C8B0[5];
+SoundRequest sSoundRequests[0x100];
+u8 sSoundBankListEnd[7];
+u8 sSoundBankFreeListStart[7];
+u8 sSoundBankUnused[7];
+ActiveSound gActiveSounds[7][3];
+u8 sCurSfxPlayerChannelIdx;
+u8 gSoundBankMuted[7];
+UnusedBankLerp sUnusedBankLerp[7];
+u16 gAudioSfxSwapSource[10];
+u16 gAudioSfxSwapTarget[10];
+u8 gAudioSfxSwapMode[10];
 
 // sSoundRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
 u8 sSoundRequestWriteIndex = 0;

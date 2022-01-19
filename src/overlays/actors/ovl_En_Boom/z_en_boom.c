@@ -186,7 +186,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 }
             }
             // Set player flags and kill the boomerang beacause Link caught it.
-            player->stateFlags1 &= ~0x02000000;
+            player->stateFlags1 &= ~PLAYER_STATE1_25;
             Actor_Kill(&this->actor);
         }
     } else {
@@ -240,7 +240,7 @@ void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = (EnBoom*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & 0x20000000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_29)) {
         this->actionFunc(this, globalCtx);
         Actor_SetFocus(&this->actor, 0.0f);
         this->activeTimer = this->activeTimer + 1;

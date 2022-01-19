@@ -488,14 +488,14 @@ void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx) {
 }
 
 void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex) {
-    static s16 sgiDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
+    static s16 giDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
 
     func_8002ED80(&this->actor, globalCtx, 0);
-    GetItem_Draw(globalCtx, sgiDrawIds[magicIndex]);
+    GetItem_Draw(globalCtx, giDrawIds[magicIndex]);
 }
 
 void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
-    static s32 keySegments[] = { 0x0403F140 };
+    static void* keySegments[] = { gDropKeySmallTex };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 880);
 
