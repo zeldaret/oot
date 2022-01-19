@@ -11,7 +11,6 @@ ORIG_COMPILER ?= 0
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-# This project is not maintained or tested on platforms that require changing this (like gentoo)
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu
 
 ifeq ($(NON_MATCHING),1)
