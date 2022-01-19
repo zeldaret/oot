@@ -19,7 +19,7 @@ s16 sTextIsCredits = false;
 
 UNK_TYPE D_8014B30C = 0;
 
-s16 sLastPlayedSong = 0xFF;
+s16 sLastPlayedSong = 0xFF; // last played song?
 
 s16 sHasSunsSong = false;
 
@@ -114,8 +114,7 @@ void Message_ResetOcarinaNoteState(void) {
     R_OCARINA_NOTES_YPOS(2) = 179;
     R_OCARINA_NOTES_YPOS(3) = 174;
     R_OCARINA_NOTES_YPOS(4) = 169;
-    sOcarinaNoteBuf[0] = OCARINA_NOTE_INVALID;
-
+    sOcarinaNoteBuf[0] = 0xFF;
     sOcarinaNotesAlphaValues[0] = sOcarinaNotesAlphaValues[1] = sOcarinaNotesAlphaValues[2] =
         sOcarinaNotesAlphaValues[3] = sOcarinaNotesAlphaValues[4] = sOcarinaNotesAlphaValues[5] =
             sOcarinaNotesAlphaValues[6] = sOcarinaNotesAlphaValues[7] = sOcarinaNotesAlphaValues[8] = 0;
