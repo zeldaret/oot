@@ -1819,7 +1819,7 @@ void FileChoose_InitContext(GameState* thisx) {
 
     Skybox_Init(&this->state, &this->skyboxCtx, SKYBOX_NORMAL_SKY);
 
-    gTimeIncrement = 10;
+    gTimeSpeed = 10;
 
     envCtx->unk_19 = 0;
     envCtx->unk_1A = 0;

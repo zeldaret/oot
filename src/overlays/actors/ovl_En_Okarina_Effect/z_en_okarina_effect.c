@@ -35,7 +35,7 @@ void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFun
 void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
-    globalCtx->envCtx.unk_F2[0] = 0;
+    globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
     if ((gWeatherMode != 4) && (gWeatherMode != 5) && (globalCtx->envCtx.gloomySkyMode == 1)) {
         globalCtx->envCtx.gloomySkyMode = 2; // end gloomy sky
         Environment_StopStormNatureAmbience(globalCtx);
@@ -50,16 +50,16 @@ void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Ocarina Storm Effect"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" VT_RST);
     osSyncPrintf("\n\n");
-    if (globalCtx->envCtx.unk_EE[1] != 0) {
+    if (globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
         Actor_Kill(&this->actor);
     }
     EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_TriggerStorm);
 }
 
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
-    this->timer = 400;                   // 20 seconds
-    globalCtx->envCtx.unk_F2[0] = 20;    // rain intensity target
-    globalCtx->envCtx.gloomySkyMode = 1; // start gloomy sky
+    this->timer = 400; // 20 seconds
+    globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 20;
+    globalCtx->envCtx.gloomySkyMode = 1;
     if ((gWeatherMode != 0) || globalCtx->envCtx.unk_17 != 0) {
         globalCtx->envCtx.unk_DE = 1;
     }
@@ -84,12 +84,12 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         }
     }
 
-    if (D_8011FB38 != 0) {
+    if (gInterruptSongOfStorms) {
         this->timer = 0;
     }
 
     if (this->timer == 0) {
-        globalCtx->envCtx.unk_F2[0] = 0;
+        globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
         if (globalCtx->csCtx.state == CS_STATE_IDLE) {
             Environment_StopStormNatureAmbience(globalCtx);
         } else if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {

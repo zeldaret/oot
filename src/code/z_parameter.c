@@ -3798,7 +3798,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
 void Interface_Update(GlobalContext* globalCtx) {
     static u8 D_80125B60 = 0;
-    static s16 sPrevTimeIncrement = 0;
+    static s16 sPrevTimeSpeed = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     Player* player = GET_PLAYER(globalCtx);
@@ -4116,7 +4116,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
 
         // handle suns song in areas where time moves
-        if (globalCtx->envCtx.timeIncrement != 0) {
+        if (globalCtx->envCtx.timeSpeed != 0) {
             if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = 0;
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 1)) {
@@ -4124,17 +4124,17 @@ void Interface_Update(GlobalContext* globalCtx) {
                 }
 
                 gSaveContext.sunsSongState = SUNSSONG_SPEED_TIME;
-                sPrevTimeIncrement = gTimeIncrement;
-                gTimeIncrement = 400;
+                sPrevTimeSpeed = gTimeSpeed;
+                gTimeSpeed = 400;
             } else if (D_80125B60 == 0) {
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 1)) {
                     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-                    gTimeIncrement = sPrevTimeIncrement;
+                    gTimeSpeed = sPrevTimeSpeed;
                     globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 }
             } else if (gSaveContext.dayTime > CLOCK_TIME(18, 0) + 1) {
                 gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-                gTimeIncrement = sPrevTimeIncrement;
+                gTimeSpeed = sPrevTimeSpeed;
                 globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {

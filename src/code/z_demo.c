@@ -229,7 +229,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_4, 0x3F);
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 1);
-                globalCtx->envCtx.unk_EE[0] = 20;
+                globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 20;
             }
             break;
         case 2:
@@ -270,7 +270,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 9:
-            globalCtx->envCtx.unk_EE[3] = 16;
+            globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
             break;
         case 10:
             Flags_SetEnv(globalCtx, 1);
@@ -325,12 +325,12 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 18:
-            globalCtx->envCtx.unk_EE[0] = 0;
+            globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
             globalCtx->envCtx.gloomySkyMode = 2;
             if (gSaveContext.dayTime <= CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
-            if (globalCtx->envCtx.unk_EE[1] == 0) {
+            if (globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
                 gWeatherMode = 0;
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
             }
@@ -415,9 +415,9 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 34:
             if (IS_DAY) {
-                gSaveContext.dayTime -= gTimeIncrement;
+                gSaveContext.dayTime -= gTimeSpeed;
             } else {
-                gSaveContext.dayTime -= gTimeIncrement * 2;
+                gSaveContext.dayTime -= gTimeSpeed * 2;
             }
             break;
         case 35:

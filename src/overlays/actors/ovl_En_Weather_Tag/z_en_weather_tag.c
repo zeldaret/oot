@@ -136,10 +136,10 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         if ((globalCtx->envCtx.indoors != 0) || !gSkyboxBlendingEnabled ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
-            D_8011FB38 = 1;
+            gInterruptSongOfStorms = true;
             if (globalCtx->envCtx.gloomySkyMode == 0 &&
                 (globalCtx->envCtx.indoors != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
-                D_8011FB38 = 0;
+                gInterruptSongOfStorms = false;
                 if (gWeatherMode != weatherMode) {
                     gWeatherMode = weatherMode;
                     if (globalCtx->envCtx.gloomySkyMode == 0) {
@@ -158,7 +158,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
                 ret = true;
             }
         } else {
-            if (gTimeIncrement != 0) {
+            if (gTimeSpeed != 0) {
                 gSaveContext.dayTime += 0x14;
             }
         }
@@ -176,10 +176,10 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         if (globalCtx->envCtx.indoors != 0 || !gSkyboxBlendingEnabled ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
-            D_8011FB38 = 1;
+            gInterruptSongOfStorms = true;
             if ((globalCtx->envCtx.gloomySkyMode == 0) &&
                 (globalCtx->envCtx.indoors != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
-                D_8011FB38 = 0;
+                gInterruptSongOfStorms = false;
                 gWeatherMode = 0;
                 globalCtx->envCtx.unk_19 = 1;
                 globalCtx->envCtx.unk_17 = arg2;
@@ -194,7 +194,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
 
                 ret = true;
             }
-        } else if (gTimeIncrement != 0) {
+        } else if (gTimeSpeed != 0) {
             gSaveContext.dayTime += 0x14;
         }
     }
@@ -239,14 +239,14 @@ void EnWeatherTag_EnabledCloudyDeathMountain(EnWeatherTag* this, GlobalContext* 
 
 void EnWeatherTag_DisabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, 3)) {
-        globalCtx->envCtx.unk_EE[3] = 64;
+        globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 64;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudySnow);
     }
 }
 
 void EnWeatherTag_EnabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 60)) {
-        globalCtx->envCtx.unk_EE[3] = 0;
+        globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudySnow);
     }
 }
@@ -254,7 +254,7 @@ void EnWeatherTag_EnabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx
 void EnWeatherTag_DisabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, 4)) {
         Environment_PlayStormNatureAmbience(globalCtx);
-        globalCtx->envCtx.unk_EE[0] = 25;
+        globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 25;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledRainLakeHylia);
     }
 }
@@ -262,7 +262,7 @@ void EnWeatherTag_DisabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globa
 void EnWeatherTag_EnabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globalCtx) {
     if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 2, 0, 100)) {
         Environment_StopStormNatureAmbience(globalCtx);
-        globalCtx->envCtx.unk_EE[0] = 0;
+        globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainLakeHylia);
     }
 }
@@ -271,7 +271,7 @@ void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalCo
     if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 4, 100, 5)) {
         Environment_PlayStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
-        globalCtx->envCtx.unk_EE[0] = 30;
+        globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 30;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyRainThunderKakariko);
     }
 }
@@ -280,7 +280,7 @@ void EnWeatherTag_EnabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalCon
     if (WeatherTag_CheckRestoreWeather(this, globalCtx, 1, 0, 4, 0, 100)) {
         Environment_StopStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
-        globalCtx->envCtx.unk_EE[0] = 0;
+        globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledCloudyRainThunderKakariko);
     }
 }
@@ -303,7 +303,7 @@ void EnWeatherTag_DisabledRainThunder(EnWeatherTag* this, GlobalContext* globalC
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         Environment_PlayStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
-        globalCtx->envCtx.unk_EE[0] = 25;
+        globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 25;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledRainThunder);
     }
 }
@@ -314,8 +314,8 @@ void EnWeatherTag_EnabledRainThunder(EnWeatherTag* this, GlobalContext* globalCt
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 10.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         Environment_StopStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
-        globalCtx->envCtx.unk_EE[0] = 0;
-        globalCtx->envCtx.unk_EE[1] = 10;
+        globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
+        globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] = 10;
         EnWeatherTag_SetupAction(this, EnWeatherTag_DisabledRainThunder);
     }
 }

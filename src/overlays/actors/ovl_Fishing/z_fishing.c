@@ -863,7 +863,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         D_80B7A684 = 20;
         globalCtx->specialEffects = sFishingEffects;
-        gTimeIncrement = 1;
+        gTimeSpeed = 1;
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
 

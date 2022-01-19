@@ -1227,7 +1227,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                     }
                 }
 
-                if (globalCtx->envCtx.unk_EE[1] != 0) {
+                if (globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
                     Environment_DrawRain(globalCtx, &globalCtx->view, gfxCtx);
                 }
 

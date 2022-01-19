@@ -13,6 +13,16 @@
 #define NEXT_TIME_NIGHT_SET 0xFFFD
 
 typedef enum {
+    /*  0 */ SKYBOX_DMA_INACTIVE,
+    /*  1 */ SKYBOX_DMA_FILE1_START,
+    /*  2 */ SKYBOX_DMA_FILE1_DONE,
+    /*  3 */ SKYBOX_DMA_PAL1_START,
+    /* 11 */ SKYBOX_DMA_FILE2_START = 11,
+    /* 12 */ SKYBOX_DMA_FILE2_DONE,
+    /* 13 */ SKYBOX_DMA_PAL2_START
+} SkyboxDmaState;
+
+typedef enum {
     /* 0 */ LIGHTNING_MODE_OFF, // no lightning
     /* 1 */ LIGHTNING_MODE_ON, // request ligtning strikes at random intervals
     /* 2 */ LIGHTNING_MODE_LAST // request one lightning strike before turning off
@@ -25,14 +35,25 @@ typedef enum {
 } LightningStrikeState;
 
 typedef enum {
-    /*  0 */ SKYBOX_DMA_INACTIVE,
-    /*  1 */ SKYBOX_DMA_FILE1_START,
-    /*  2 */ SKYBOX_DMA_FILE1_DONE,
-    /*  3 */ SKYBOX_DMA_PAL1_START,
-    /* 11 */ SKYBOX_DMA_FILE2_START = 11,
-    /* 12 */ SKYBOX_DMA_FILE2_DONE,
-    /* 13 */ SKYBOX_DMA_PAL2_START
-} SkyboxDmaState;
+    /* 0 */ PRECIP_RAIN_MAX, // max number of raindrops that can draw; uses this or SOS_MAX, whichever is larger
+    /* 1 */ PRECIP_RAIN_CUR, // current number of rain drops being drawn on screen 
+    /* 2 */ PRECIP_SNOW_CUR, // current number of snowflakes being drawn on screen
+    /* 3 */ PRECIP_SNOW_MAX, // max number of snowflakes that can draw
+    /* 4 */ PRECIP_SOS_MAX // max number of rain drops requested from song of storms specifically
+} PrecipitationData;
+
+typedef enum {
+    /*  0x00 */ TIMESEQ_DAY_BGM,
+    /*  0x01 */ TIMESEQ_FADE_DAY_BGM,
+    /*  0x02 */ TIMESEQ_NIGHT_BEGIN_SFX,
+    /*  0x03 */ TIMESEQ_EARLY_NIGHT_CRITTERS,
+    /*  0x04 */ TIMESEQ_NIGHT_DELAY,
+    /*  0x05 */ TIMESEQ_NIGHT_CRITTERS,
+    /*  0x06 */ TIMESEQ_DAY_BEGIN_SFX,
+    /*  0x07 */ TIMESEQ_MORNING_CRITTERS,
+    /*  0x08 */ TIMESEQ_DAY_DELAY,
+    /*  0xFF */ TIMESEQ_DISABLED = 0xFF
+} TimeBasedSeqState;
 
 typedef struct {
     /* 0x00 */ u8 state;
@@ -67,7 +88,7 @@ typedef struct {
 // dbg: 80222A44
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
-    /* 0x02 */ u16 timeIncrement; // how many units of time that pass every update
+    /* 0x02 */ u16 timeSpeed; // how many units of time that pass every update
     /* 0x04 */ Vec3f sunPos; // moon position can be found by negating the sun position
     /* 0x10 */ u8 skybox1Index;
     /* 0x11 */ u8 skybox2Index;
@@ -76,7 +97,7 @@ typedef struct {
     /* 0x14 */ char unk_14[0x01];
     /* 0x15 */ u8 skyboxDisabled;
     /* 0x16 */ u8 sunMoonDisabled;
-    /* 0x17 */ u8 unk_17; // currentWeatherMode for skybox? (prev called gloomySky)
+    /* 0x17 */ u8 unk_17; // currentWeatherMode for skybox?
     /* 0x18 */ u8 unk_18; // nextWeatherMode for skybox?
     /* 0x19 */ u8 unk_19;
     /* 0x1A */ u16 unk_1A;
@@ -117,7 +138,7 @@ typedef struct {
     /* 0xDD */ u8 gloomySkyMode;
     /* 0xDE */ u8 unk_DE; // gloomy sky state
     /* 0xDF */ u8 lightningMode;
-    /* 0xE0 */ u8 unk_E0; // env sounds state
+    /* 0xE0 */ u8 timeSeqState;
     /* 0xE1 */ u8 fillScreen;
     /* 0xE2 */ u8 screenFillColor[4];
     /* 0xE6 */ u8 sandstormState;
@@ -125,9 +146,8 @@ typedef struct {
     /* 0xE8 */ u8 sandstormEnvA;
     /* 0xE9 */ u8 customSkyboxFilter;
     /* 0xEA */ u8 skyboxFilterColor[4];
-    /* 0xEE */ u8 unk_EE[4];
-    /* 0xF2 */ u8 unk_F2[4];
-    /* 0xF6 */ char unk_F6[0x06];
+    /* 0xEE */ u8 precipitation[5];
+    /* 0xF6 */ char unk_F6[0x09];
 } EnvironmentContext; // size = 0xFC
 
 #endif
