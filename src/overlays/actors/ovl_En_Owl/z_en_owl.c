@@ -341,7 +341,7 @@ void func_80ACA76C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~ACTOR_FLAG_16;
     }
@@ -351,7 +351,7 @@ void func_80ACA7E0(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, 0);
         if ((this->unk_3EE & 0x3F) == 0) {
             func_80ACA62C(this, globalCtx);
         } else {
@@ -551,7 +551,7 @@ void func_80ACB03C(EnOwl* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 8);
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, 0);
         func_80ACA62C(this, globalCtx);
         this->actor.flags &= ~ACTOR_FLAG_16;
     }
@@ -580,7 +580,7 @@ void EnOwl_WaitZoraRiver(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB148(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, 0);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
         Flags_SetSwitch(globalCtx, 0x23);
@@ -601,7 +601,7 @@ void EnOwl_WaitHyliaShortcut(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, 0);
         func_80ACA5C8(this);
         this->actionFunc = func_80ACC30C;
     }
@@ -609,7 +609,7 @@ void func_80ACB22C(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF);
+        AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, 0);
         this->actionFunc = EnOwl_WaitDeathMountainShortcut;
     }
 }

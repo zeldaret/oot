@@ -2101,7 +2101,7 @@ void Audio_ProcessSoundRequests(void);
 void func_800F8F88(void);
 u8 Audio_IsSfxPlaying(u32 sfxId);
 void Audio_ResetSounds(void);
-void Audio_StopSequence(u8, u16);
+void Audio_StopSequenceNow(u8, u16);
 void func_800F94FC(u32);
 void Audio_ProcessSeqCmd(u32);
 void Audio_ProcessSeqCmds(void);

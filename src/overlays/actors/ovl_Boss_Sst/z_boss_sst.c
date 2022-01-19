@@ -383,7 +383,7 @@ void BossSst_HeadSetupIntro(BossSst* this, GlobalContext* globalCtx) {
     }
 
     Gameplay_CameraSetAtEye(globalCtx, sCutsceneCamera, &sCameraAt, &sCameraEye);
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
     this->actionFunc = BossSst_HeadIntro;
 }
 
@@ -597,7 +597,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
                         TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                                SEGMENTED_TO_VIRTUAL(gBongoTitleCardTex), 160, 180, 128, 40);
                     }
-                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
+                    AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
                     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadEyeCloseAnim, -5.0f);
                     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DISAPPEAR);
                 }
@@ -1011,7 +1011,7 @@ void BossSst_HeadSetupDeath(BossSst* this, GlobalContext* globalCtx) {
     this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[LEFT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[RIGHT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
-    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
+    AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
     sCutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, sCutsceneCamera, CAM_STAT_ACTIVE);
@@ -1156,7 +1156,7 @@ void BossSst_HeadMelt(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupFinish(BossSst* this) {
     this->actor.draw = BossSst_DrawEffect;
     this->timer = 40;
-    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
+    AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
     BossSst_SetCameraTargets(1.0 / 40, 6);
     this->actionFunc = BossSst_HeadFinish;
 }

@@ -1924,7 +1924,7 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
-            Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | (s32)((void)0, gSaveContext.forcedSeqId));
+            AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, ((void)0, gSaveContext.forcedSeqId));
         }
         gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     } else if (globalCtx->sequenceCtx.seqId == NA_BGM_NO_MUSIC) {
@@ -1985,7 +1985,7 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 1:
             if (gSaveContext.dayTime > 0xB71C) {
                 if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
-                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xF000FF);
+                    AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 240);
                 }
                 globalCtx->envCtx.unk_E0++;
             }
