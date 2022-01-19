@@ -725,7 +725,7 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 sp30;
 
-    if (!(player->stateFlags1 & 0x300000C0)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->collisionDisabledTimer > 0) {
             this->collisionDisabledTimer--;
         }

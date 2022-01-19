@@ -132,7 +132,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         sp40.z = this->actor.world.pos.z;
 
         EffectSsHahen_SpawnBurst(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
     } else {
         if (this->timer == -300) {
@@ -146,7 +146,8 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
-    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == func_80ABBB34)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
+        (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, globalCtx);
 
         Actor_MoveForward(&this->actor);

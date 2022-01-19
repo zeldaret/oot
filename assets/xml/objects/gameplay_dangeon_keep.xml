@@ -6,6 +6,7 @@
         <DList Name="gDoorLockDL" Offset="0x1100"/>
         <DList Name="gDoorChainsDL" Offset="0x11F0"/>
         <Texture Name="gUnusedGoldLockTex" OutName="unused_gold_lock" Format="rgba16" Width="32" Height="32" Offset="0x1A80"/>
+        <Texture Name="gDoorChainTex" OutName="door_chain" Format="rgba16" Width="16" Height="128" Offset="0x2280"/>
         <DList Name="gUnusedBombBagDL" Offset="0x32C0"/>
         <Texture Name="gPushBlockSilverTex" OutName="block_silver" Format="i4" Width="64" Height="64" Offset="0x3350"/>
         <Texture Name="gPushBlockBaseTex" OutName="block_base" Format="i4" Width="64" Height="64" Offset="0x3B50"/>
@@ -39,6 +40,7 @@
         <Texture Name="gEyeSwitchSilverHalfTex" OutName="eye_silver_half" Format="rgba16" Width="32" Height="32" Offset="0xB8A0"/>
         <Texture Name="gEyeSwitchSilverClosedTex" OutName="eye_silver_closed" Format="rgba16" Width="32" Height="32" Offset="0xC0A0"/>
         <Texture Name="gDungeonKeepTex_00C8A0" OutName="dungeon_keep_tex_00C8A0" Format="rgba16" Width="32" Height="32" Offset="0xC8A0"/>
+        <Texture Name="gDungeonkeepTex_00D0A0" OutName="dungeon_keep_tex_00D0A0" Format="rgba16" Width="32" Height="32" Offset="0xD0A0"/>
         <Texture Name="gDungeonKeepTex_00E8A0" OutName="dungeon_keep_tex_00E8A0" Format="i8" Width="32" Height="32" Offset="0xE8A0"/> 
         <Texture Name="gDungeonKeepTex_00ECA0" OutName="dungeon_keep_tex_00ECA0" Format="i8" Width="32" Height="32" Offset="0xECA0"/> 
         <Texture Name="gDungeonKeepTex_00F0A0" OutName="dungeon_keep_tex_00F0A0" Format="rgba16" Width="32" Height="32" Offset="0xF0A0"/>

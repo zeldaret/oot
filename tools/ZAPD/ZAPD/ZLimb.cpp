@@ -228,8 +228,8 @@ std::string ZLimb::GetBodySourceCode() const
 	{
 		std::string childName;
 		std::string siblingName;
-		Globals::Instance->GetSegmentedPtrName(childPtr, parent, "Gfx", childName);
-		Globals::Instance->GetSegmentedPtrName(siblingPtr, parent, "Gfx", siblingName);
+		Globals::Instance->GetSegmentedPtrName(childPtr, parent, "LegacyLimb", childName);
+		Globals::Instance->GetSegmentedPtrName(siblingPtr, parent, "LegacyLimb", siblingName);
 
 		entryStr += StringHelper::Sprintf("%s,\n", dListStr.c_str());
 		entryStr +=

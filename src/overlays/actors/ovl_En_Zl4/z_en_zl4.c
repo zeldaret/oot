@@ -129,7 +129,7 @@ typedef enum {
     /* 33 */ ZL4_ANIM_33
 } EnZl4Animation;
 
-static struct_80034EC0_Entry sAnimationEntries[] = {
+static AnimationInfo sAnimationInfo[] = {
     /*  0 */ /* standing idle */ { &gChildZeldaAnim_000654, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     /*  1 */ /* moves to introduce herself */ { &gChildZeldaAnim_00E5C8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     /*  2 */ /* introducing herself */ { &gChildZeldaAnim_00EBC4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
@@ -362,7 +362,7 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZeldaSkel, NULL, this->jointTable, this->morphTable, 18);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
-    func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_21);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_21);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -372,19 +372,19 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->eyeExpression = this->mouthExpression = ZL4_MOUTH_NEUTRAL;
 
     if (gSaveContext.sceneSetupIndex >= 4) {
-        func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_TheEnd;
     } else if (gSaveContext.eventChkInf[4] & 1) {
-        func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_Idle;
     } else {
         if (gSaveContext.entranceIndex != 0x5F0) {
-            func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_21);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_21);
             this->csState = ZL4_CS_WAIT;
             this->talkState = 0;
         } else {
             EnZl4_SetupFromLegendCs(this, globalCtx);
-            func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
             this->csState = ZL4_CS_LEGEND;
             this->talkState = 0;
         }
@@ -403,7 +403,7 @@ s32 EnZl4_SetNextAnim(EnZl4* this, s32 nextAnim) {
     if (!Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         return false;
     }
-    func_80034EC0(&this->skelAnime, sAnimationEntries, nextAnim);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, nextAnim);
     return true;
 }
 
@@ -498,7 +498,7 @@ s32 EnZl4_CsMeetPlayer(EnZl4* this, GlobalContext* globalCtx) {
         case 6:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 2);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_22);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_22);
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
                 this->talkTimer2 = 0;
                 this->talkState++;
@@ -534,7 +534,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 EnZl4_SetCsCameraAngle(globalCtx, 4);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_28);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_28);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
@@ -542,7 +542,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState = 7;
             } else {
                 EnZl4_SetCsCameraAngle(globalCtx, 2);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_9);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_9);
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
                 Message_StartTextbox(globalCtx, 0x7031, NULL);
                 this->talkState++;
@@ -558,7 +558,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
         case 5:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_9);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_9);
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
                 EnZl4_ReverseAnimation(this);
                 this->talkState = 6;
@@ -579,7 +579,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
                 EnZl4_SetCsCameraAngle(globalCtx, 4);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_28);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_28);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
@@ -587,7 +587,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
                 this->talkState = 7;
             } else {
                 EnZl4_SetCsCameraAngle(globalCtx, 2);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_9);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_9);
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
                 Message_StartTextbox(globalCtx, 0x7031, NULL);
                 this->talkState = 4;
@@ -603,7 +603,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
         case 8:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraMove(globalCtx, 2);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
@@ -620,7 +620,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 10:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_5);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_5);
                 this->eyeExpression = ZL4_EYES_OPEN;
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
                 Message_StartTextbox(globalCtx, 0x70FE, NULL);
@@ -641,7 +641,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
         case 1:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 6);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_1);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_1);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
@@ -656,7 +656,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             }
         case 3:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_16);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_16);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -672,7 +672,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
         case 5:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraMove(globalCtx, 3);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkTimer2 = 0;
                 this->talkState = 6;
@@ -687,7 +687,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 7:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_6);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_6);
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
                 Message_StartTextbox(globalCtx, 0x2075, NULL);
                 this->talkState++;
@@ -707,7 +707,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     EnZl4_SetCsCameraMove(globalCtx, 4);
-                    func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_33);
+                    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_33);
                     this->mouthExpression = ZL4_MOUTH_NEUTRAL;
                     globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     this->talkTimer2 = 0;
@@ -723,7 +723,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 11:
             if (DECR(this->talkTimer1) == 0) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_11);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_11);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_LOOK_RIGHT;
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
@@ -740,7 +740,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             }
         case 13:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_6);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_6);
                 this->blinkTimer = 3;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
@@ -822,7 +822,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
                 Message_StartTextbox(globalCtx, 0x7005, NULL);
                 this->talkState = 9;
             } else {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_5);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_5);
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
                 Message_StartTextbox(globalCtx, 0x7038, NULL);
                 this->talkState++;
@@ -835,7 +835,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
             }
         case 6:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_33);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_33);
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
                 Message_StartTextbox(globalCtx, 0x7037, NULL);
                 this->talkState++;
@@ -855,7 +855,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 9:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_26);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_26);
                 Message_StartTextbox(globalCtx, 0x2078, NULL);
                 this->talkState++;
             }
@@ -913,7 +913,7 @@ s32 EnZl4_CsLookWindow(EnZl4* this, GlobalContext* globalCtx) {
             } else {
                 func_800AA000(0.0f, 0xA0, 0xA, 0x28);
                 func_8002DF54(globalCtx, &this->actor, 1);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_30);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_30);
                 EnZl4_SetCsCameraAngle(globalCtx, 11);
                 Message_StartTextbox(globalCtx, 0x7039, NULL);
                 this->talkState++;
@@ -970,7 +970,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
         case 4:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 12);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_23);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_23);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
@@ -994,14 +994,14 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
             if (!((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx))) {
                 break;
             } else if (globalCtx->msgCtx.choiceIndex == 0) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_31);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_31);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_SQUINT;
                 this->mouthExpression = ZL4_MOUTH_HAPPY;
                 Message_StartTextbox(globalCtx, 0x703B, NULL);
                 this->talkState = 11;
             } else {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_13);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_13);
                 this->blinkTimer = 11;
                 this->eyeExpression = ZL4_EYES_LOOK_LEFT;
                 this->mouthExpression = ZL4_MOUTH_WORRIED;
@@ -1020,7 +1020,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 9:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_14);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_14);
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
@@ -1048,7 +1048,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, GlobalContext* globalCtx) {
 s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
     switch (this->talkState) {
         case 0:
-            func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_18);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_18);
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
             this->mouthExpression = ZL4_MOUTH_WORRIED;
@@ -1065,7 +1065,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
         case 2:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 EnZl4_SetCsCameraAngle(globalCtx, 13);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_19);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_19);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_SURPRISED;
@@ -1080,7 +1080,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
         case 4:
             if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 Message_StartTextbox(globalCtx, 0x207D, NULL);
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_7);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_7);
                 this->blinkTimer = 0;
                 this->eyeExpression = ZL4_EYES_NEUTRAL;
                 this->mouthExpression = ZL4_MOUTH_NEUTRAL;
@@ -1107,7 +1107,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
             break;
         case 7:
             if (Actor_HasParent(&this->actor, globalCtx)) {
-                func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_0);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
                 this->talkState++;
             } else {
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,
@@ -1129,7 +1129,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             }
             break;
         case ZL4_CS_START:
-            func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_3);
             this->blinkTimer = 0;
             this->eyeExpression = ZL4_EYES_NEUTRAL;
             this->mouthExpression = ZL4_MOUTH_SURPRISED;
@@ -1205,7 +1205,7 @@ void EnZl4_TheEnd(EnZl4* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     if (SkelAnime_Update(&this->skelAnime) && (this->skelAnime.animation == &gChildZeldaAnim_010DF8)) {
-        func_80034EC0(&this->skelAnime, sAnimationEntries, ZL4_ANIM_4);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_4);
     }
     if (EnZl4_InMovingAnim(this)) {
         EnZl4_SetMove(this, globalCtx);
@@ -1225,7 +1225,7 @@ void EnZl4_TheEnd(EnZl4* this, GlobalContext* globalCtx) {
             this->actor.world.pos = this->actor.home.pos = pos;
         }
         if (this->lastAction != npcAction->action) {
-            func_80034EC0(&this->skelAnime, sAnimationEntries, animIndex[npcAction->action]);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animIndex[npcAction->action]);
             this->lastAction = npcAction->action;
         }
         this->actor.velocity.x = 0.0f;
