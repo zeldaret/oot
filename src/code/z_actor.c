@@ -2275,21 +2275,16 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
     gDPPipeSync(POLY_XLU_DISP++);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors == 0) {
-        // setup to update the zbuffer (`Z_UPD`)
-        // and the framebuffer:
-        // `G_RM_CLD_SURF | G_RM_CLD_SURF2` sets the blender to blend what is being rendered into the framebuffer
+        // Update both the color frame buffer and the z-buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | G_RM_CLD_SURF | G_RM_CLD_SURF2);
-        // makes the drawn image the color of the primcolor, red
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
         // the z-buffer will later only allow drawing inside the lens circle
     } else {
-        // setup to update the zbuffer (Z_UPD)
-        // but leave the framebuffer untouched:
-        // `G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA` sets the blender to leave the framebuffer untouched
+        // Update the z-buffer but not the color frame buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -2304,14 +2299,11 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
         // the z-buffer will later only allow drawing outside the lens circle
     }
 
-    // Since `G_ZS_PRIM` is used in the other mode set above (in both branches), the depth value will be 0 as set here
-    // for further drawing. 0 is the closest depth value, meaning that for a pixel corresponding to such a depth value
-    // the z-buffer will consider any geometry drawn to that pixel to be behind something and the pixel will stay
-    // unchanged.
+    // Together with the depth source set above, this sets the depth to the closest.
+    // For a pixel with such a depth value, the z-buffer will reject drawing to that pixel.
     gDPSetPrimDepth(POLY_XLU_DISP++, 0, 0);
 
-    // 0 is effectively put into the z-buffer by `Actor_DrawLensOverlay` where the mask is not fully transparent
-    // (alpha not 0), which can be inner or outer the lens circle depending on the branch just above.
+    // The z-buffer will be updated where the mask is not fully transparent.
     Actor_DrawLensOverlay(gfxCtx);
 
     // "Magic lens invisible Actor display START"
@@ -2328,8 +2320,7 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
-        // visually draw the lens mask to the framebuffer and not just the z-buffer,
-        // the same way the `showInvisActors == 0` branch above does
+        // Draw the lens overlay to the color frame buffer
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 
         gDPPipeSync(POLY_XLU_DISP++);
