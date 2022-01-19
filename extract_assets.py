@@ -21,7 +21,7 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath):
 
     if "overlays" in xmlPath:
         execStr += " --static"
-    
+
     if globalUnaccounted:
         execStr += " -Wunaccounted"
 
