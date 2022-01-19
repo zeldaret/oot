@@ -9,7 +9,7 @@ NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
 
-# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu') - Change at your own risk!
+# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu
 
