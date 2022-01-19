@@ -334,6 +334,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
                     globalCtx->envCtx.unk_EE[3] = 0;
                     globalCtx->envCtx.unk_EE[2] = 0;
                     break;
+
                 case 2:
                 case 3:
                 case 4:
@@ -344,6 +345,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
                     globalCtx->envCtx.unk_EE[3] = 0;
                     globalCtx->envCtx.unk_EE[2] = 0;
                     break;
+
                 case 5:
                     envCtx->unk_17 = 1;
                     envCtx->unk_18 = 1;
@@ -352,6 +354,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
                     globalCtx->envCtx.unk_EE[3] = 0;
                     globalCtx->envCtx.unk_EE[2] = 0;
                     break;
+                    
                 default:
                     break;
             }
@@ -2028,10 +2031,12 @@ void func_80075B44(GlobalContext* globalCtx) {
 
         case 5:
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_1, 0);
+
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_1 << 4 | NATURE_CHANNEL_CRITTER_3,
                                                  CHANNEL_IO_PORT_1, 1);
             }
+
             globalCtx->envCtx.unk_E0++;
             break;
 
@@ -2041,11 +2046,13 @@ void func_80075B44(GlobalContext* globalCtx) {
                 gSaveContext.bgsDayCount++;
                 gSaveContext.dogIsLost = true;
                 func_80078884(NA_SE_EV_CHICKEN_CRY_M);
+
                 if ((Inventory_ReplaceItem(globalCtx, ITEM_WEIRD_EGG, ITEM_CHICKEN) ||
                      Inventory_ReplaceItem(globalCtx, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) &&
                     globalCtx->csCtx.state == 0 && !Player_InCsMode(globalCtx)) {
                     Message_StartTextbox(globalCtx, 0x3066, NULL);
                 }
+
                 globalCtx->envCtx.unk_E0++;
             }
             break;
@@ -2053,10 +2060,12 @@ void func_80075B44(GlobalContext* globalCtx) {
         case 7:
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_1 << 4 | NATURE_CHANNEL_CRITTER_3,
                                              CHANNEL_IO_PORT_1, 0);
+
             if (globalCtx->envCtx.unk_EE[0] == 0 && globalCtx->envCtx.unk_F2[0] == 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_4 << 4 | NATURE_CHANNEL_CRITTER_5,
                                                  CHANNEL_IO_PORT_1, 1);
             }
+            
             globalCtx->envCtx.unk_E0++;
             break;
 
