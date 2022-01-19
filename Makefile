@@ -39,7 +39,7 @@ else
 endif
 
 #### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)-ld >/dev/null 2>/dev/null; echo $$?), 0)
+ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
   $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
