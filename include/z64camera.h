@@ -391,7 +391,6 @@ typedef struct {
     { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
 
 typedef struct {
-
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ VecSph unk_20;

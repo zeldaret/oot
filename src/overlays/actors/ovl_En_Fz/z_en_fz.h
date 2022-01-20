@@ -18,7 +18,7 @@ typedef struct {
     /* 0x0028 */ char unk_28[0x4];
     /* 0x002C */ s16 primAlpha; // transparency in RGBA colour system
     /* 0x002E */ s16 primAlphaState; // 0: increasing (more opaque) 1: decreasing (more transparent) 2: collision
-    /* 0x0030 */ f32 xyScale; //
+    /* 0x0030 */ f32 xyScale;
     /* 0x0034 */ f32 xyScaleTarget;
     /* 0x0038 */ u8 isTimerMod8; // conditional, used to run CollisionCheck_SetAT
 } EnFzEffectSsIceSmoke; // size = 0x3C
