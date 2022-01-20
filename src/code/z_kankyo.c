@@ -269,8 +269,8 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->lightBlend = 1.0f;
     envCtx->lightBlendOverride = LIGHT_BLEND_OVERRIDE_NONE;
 
-    envCtx->songOfStormsRequest = SOS_REQUEST_NONE;
-    envCtx->songOfStormsState = 0;
+    envCtx->stormRequest = STORM_REQUEST_NONE;
+    envCtx->stormState = 0;
     envCtx->lightningState = LIGHTNING_OFF;
     envCtx->timeSeqState = TIMESEQ_DAY_BGM;
     envCtx->fillScreen = false;
@@ -570,11 +570,11 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
     return ret;
 }
 
-void Environment_UpdateSongOfStorms(EnvironmentContext* envCtx, u8 unused) {
-    if (envCtx->songOfStormsRequest != SOS_REQUEST_NONE) {
-        switch (envCtx->songOfStormsState) {
+void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
+    if (envCtx->stormRequest != STORM_REQUEST_NONE) {
+        switch (envCtx->stormState) {
             case 0:
-                if ((envCtx->songOfStormsRequest == SOS_REQUEST_STORM_START) && !gSkyboxIsChanging) {
+                if ((envCtx->stormRequest == STORM_REQUEST_START) && !gSkyboxIsChanging) {
                     envCtx->weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
                     envCtx->skyboxConfig = 0;
                     envCtx->nextSkyboxConfig = 1;
@@ -584,12 +584,12 @@ void Environment_UpdateSongOfStorms(EnvironmentContext* envCtx, u8 unused) {
                     envCtx->nextLightConfig = 2;
                     gSavedNextLightConfig = 2;
                     envCtx->weatherChgLightTimer = envCtx->weatherChgDuration = 100;
-                    envCtx->songOfStormsState++;
+                    envCtx->stormState++;
                 }
                 break;
 
             case 1:
-                if (!gSkyboxIsChanging && (envCtx->songOfStormsRequest == SOS_REQUEST_STORM_STOP)) {
+                if (!gSkyboxIsChanging && (envCtx->stormRequest == STORM_REQUEST_STOP)) {
                     gWeatherMode = WEATHER_MODE_CLEAR;
                     envCtx->weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
                     envCtx->skyboxConfig = 1;
@@ -601,8 +601,8 @@ void Environment_UpdateSongOfStorms(EnvironmentContext* envCtx, u8 unused) {
                     gSavedNextLightConfig = 0;
                     envCtx->weatherChgLightTimer = envCtx->weatherChgDuration = 100;
                     envCtx->precipitation[PRECIP_RAIN_MAX] = 0;
-                    envCtx->songOfStormsRequest = SOS_REQUEST_NONE;
-                    envCtx->songOfStormsState = 0;
+                    envCtx->stormRequest = STORM_REQUEST_NONE;
+                    envCtx->stormState = 0;
                 }
                 break;
         }
@@ -667,7 +667,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
 
-        Environment_UpdateSongOfStorms(envCtx, skyboxBlend);
+        Environment_UpdateStorm(envCtx, skyboxBlend);
 
         if (envCtx->weatherChgSkyState >= WEATHER_CHANGE_SKY_ACTIVE) {
             newSkybox1Index = gTimeBasedSkyboxConfigs[envCtx->skyboxConfig][i].skybox1Index;

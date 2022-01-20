@@ -326,7 +326,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 18:
             globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
-            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
+            globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
             if (gSaveContext.dayTime <= CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }

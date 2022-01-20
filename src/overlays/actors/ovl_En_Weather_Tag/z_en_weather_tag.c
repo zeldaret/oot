@@ -138,13 +138,13 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY &&
              globalCtx->envCtx.lightConfig == globalCtx->envCtx.nextLightConfig)) {
             gInterruptSongOfStorms = true;
-            if (globalCtx->envCtx.songOfStormsRequest == SOS_REQUEST_NONE &&
+            if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE &&
                 (globalCtx->envCtx.indoors ||
                  (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.weatherChgLights))) {
                 gInterruptSongOfStorms = false;
                 if (gWeatherMode != weatherMode) {
                     gWeatherMode = weatherMode;
-                    if (globalCtx->envCtx.songOfStormsRequest == SOS_REQUEST_NONE) {
+                    if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) {
                         globalCtx->envCtx.weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
                         globalCtx->envCtx.skyboxConfig = arg2;
                         globalCtx->envCtx.nextSkyboxConfig = arg3;
@@ -180,7 +180,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY &&
              globalCtx->envCtx.lightConfig == globalCtx->envCtx.nextLightConfig)) {
             gInterruptSongOfStorms = true;
-            if ((globalCtx->envCtx.songOfStormsRequest == SOS_REQUEST_NONE) &&
+            if ((globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) &&
                 (globalCtx->envCtx.indoors ||
                  (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.weatherChgLights))) {
                 gInterruptSongOfStorms = false;

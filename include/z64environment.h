@@ -72,10 +72,10 @@ typedef enum {
 } PrecipitationData;
 
 typedef enum {
-    /* 0 */ SOS_REQUEST_NONE,
-    /* 0 */ SOS_REQUEST_STORM_START,
-    /* 2 */ SOS_REQUEST_STORM_STOP,
-} SongOfStormsRequest;
+    /* 0 */ STORM_REQUEST_NONE,
+    /* 0 */ STORM_REQUEST_START,
+    /* 2 */ STORM_REQUEST_STOP,
+} StormRequest;
 
 typedef enum {
     /*  0x00 */ TIMESEQ_DAY_BGM,
@@ -169,8 +169,8 @@ typedef struct {
     /* 0xD6 */ u16 lightBlendRateOverride;
     /* 0xD8 */ f32 lightBlend;
     /* 0xDC */ u8 lightBlendOverride;
-    /* 0xDD */ u8 songOfStormsRequest; // "rain_evt_trg"
-    /* 0xDE */ u8 songOfStormsState;
+    /* 0xDD */ u8 stormRequest; // "rain_evt_trg"
+    /* 0xDE */ u8 stormState;
     /* 0xDF */ u8 lightningState;
     /* 0xE0 */ u8 timeSeqState;
     /* 0xE1 */ u8 fillScreen;

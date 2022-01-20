@@ -37,8 +37,8 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
     if ((gWeatherMode != WEATHER_MODE_LAKE_HYLIA_RAIN) && (gWeatherMode != WEATHER_MODE_KAK_RAIN) &&
-        (globalCtx->envCtx.songOfStormsRequest == SOS_REQUEST_STORM_START)) {
-        globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
+        (globalCtx->envCtx.stormRequest == STORM_REQUEST_START)) {
+        globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
         Environment_StopStormNatureAmbience(globalCtx);
     }
     globalCtx->envCtx.lightningState = LIGHTNING_LAST;
@@ -60,9 +60,9 @@ void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     this->timer = 400; // 20 seconds
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 20;
-    globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_START;
+    globalCtx->envCtx.stormRequest = STORM_REQUEST_START;
     if ((gWeatherMode != WEATHER_MODE_CLEAR) || globalCtx->envCtx.skyboxConfig != 0) {
-        globalCtx->envCtx.songOfStormsState = 1;
+        globalCtx->envCtx.stormState = 1;
     }
     globalCtx->envCtx.lightningState = LIGHTNING_ON;
     Environment_PlayStormNatureAmbience(globalCtx);
@@ -98,12 +98,12 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
         }
         osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
-        osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.songOfStormsRequest);
-        if (gWeatherMode == WEATHER_MODE_CLEAR && (globalCtx->envCtx.songOfStormsRequest == SOS_REQUEST_STORM_START)) {
-            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
+        osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.stormRequest);
+        if (gWeatherMode == WEATHER_MODE_CLEAR && (globalCtx->envCtx.stormRequest == STORM_REQUEST_START)) {
+            globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
         } else {
-            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_NONE;
-            globalCtx->envCtx.songOfStormsState = 0;
+            globalCtx->envCtx.stormRequest = STORM_REQUEST_NONE;
+            globalCtx->envCtx.stormState = 0;
         }
         globalCtx->envCtx.lightningState = LIGHTNING_LAST;
         Actor_Kill(&this->actor);
