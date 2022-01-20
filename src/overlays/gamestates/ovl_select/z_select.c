@@ -35,7 +35,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
-    gWeatherMode = 0;
+    gWeatherMode = WEATHER_MODE_CLEAR;
     this->state.running = false;
     SET_NEXT_GAMESTATE(&this->state, Gameplay_Init, GlobalContext);
 }

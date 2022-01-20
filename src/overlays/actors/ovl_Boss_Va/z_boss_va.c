@@ -955,7 +955,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             sCameraEyeMaxVel.z = sCameraEyeMaxVel.x;
             sCameraAtMaxVel = sCameraEyeMaxVel;
             if (this->timer >= 45000) {
-                globalCtx->envCtx.unk_BF = 1;
+                globalCtx->envCtx.lightSettingOverride = 1;
                 func_8002DF54(globalCtx, &this->actor, 8);
             } else if (this->timer >= 35000) {
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);

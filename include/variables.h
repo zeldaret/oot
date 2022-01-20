@@ -66,12 +66,12 @@ extern s32 gMaxActorId; // original name: "MaxProfile"
 extern s32 gDbgCamEnabled;
 extern GameStateOverlay gGameStateOverlayTable[6];
 extern u8 gWeatherMode;
-extern u8 D_8011FB34;
+extern u8 gSavedNextLightConfig;
 extern u8 gInterruptSongOfStorms;
 extern u8 gSkyboxIsChanging;
 extern u16 gTimeSpeed;
-extern TimeBasedSkyboxInfo gTimeBasedSkyboxInfo[][9];
-extern SkyboxFile gSkyboxFiles[];
+extern TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9];
+extern SkyboxFile gNormalSkyFiles[];
 extern s32 gZeldaArenaLogSeverity;
 extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];

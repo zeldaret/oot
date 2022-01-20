@@ -1470,7 +1470,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = 0;
     gSaveContext.nextDayTime = NEXT_TIME_NONE;
-    gSaveContext.unk_13C3 = 0;
+    gSaveContext.applyWeatherOnLoad = false;
 
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
@@ -1821,17 +1821,17 @@ void FileChoose_InitContext(GameState* thisx) {
 
     gTimeSpeed = 10;
 
-    envCtx->weatherChgState = WEATHER_CHANGE_INACTIVE;
+    envCtx->weatherChgSkyState = WEATHER_CHANGE_SKY_INACTIVE;
     envCtx->weatherChgSkyTimer = 0;
-    envCtx->unk_21 = 0;
+    envCtx->weatherChgLights = false;
     envCtx->weatherChgLightTimer = 0;
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
-    envCtx->unk_1F = 0;
-    envCtx->unk_20 = 0;
-    envCtx->unk_BD = 0;
-    envCtx->unk_17 = 2;
+    envCtx->lightConfig = 0;
+    envCtx->nextLightConfig = 0;
+    envCtx->lightSetting = 0;
+    envCtx->skyboxConfig = 2;
     envCtx->skyboxDisabled = 0;
     envCtx->skyboxBlend = 0;
     envCtx->lensFlareFillAlpha = 0.0f;

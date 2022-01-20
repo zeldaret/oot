@@ -12,21 +12,34 @@
 #define NEXT_TIME_DAY_SET 0xFFFE
 #define NEXT_TIME_NIGHT_SET 0xFFFD
 
+#define LIGHT_SETTING_MAX 30
+#define LIGHT_SETTING_OVERRIDE_NONE 0xFF
+#define LIGHT_BLENDRATE_OVERRIDE_NONE 0xFFFF
+#define LIGHT_BLEND_OVERRIDE_NONE 0
+#define LIGHT_BLEND_OVERRIDE_ON 1
+
+// This mode disables the light system's automatic setting switching,
+// and gives full control to the user. This is a bit of a hack used only by 
+// bosses in the original game.
+// The light system will no longer save the current setting when switching to a new one,
+// and the user is expected to manually set both settings and the light blend.
+#define LIGHT_BLEND_OVERRIDE_FULL_CONTROL 2
+
 typedef enum {
     /*  0 */ SKYBOX_DMA_INACTIVE,
-    /*  1 */ SKYBOX_DMA_FILE1_START,
-    /*  2 */ SKYBOX_DMA_FILE1_DONE,
-    /*  3 */ SKYBOX_DMA_PAL1_START,
-    /* 11 */ SKYBOX_DMA_FILE2_START = 11,
-    /* 12 */ SKYBOX_DMA_FILE2_DONE,
-    /* 13 */ SKYBOX_DMA_PAL2_START
+    /*  1 */ SKYBOX_DMA_TEXTURE1_START,
+    /*  2 */ SKYBOX_DMA_TEXTURE1_DONE,
+    /*  3 */ SKYBOX_DMA_TLUT1_START,
+    /* 11 */ SKYBOX_DMA_TEXTURE2_START = 11,
+    /* 12 */ SKYBOX_DMA_TEXTURE2_DONE,
+    /* 13 */ SKYBOX_DMA_TLUT2_START
 } SkyboxDmaState;
 
 typedef enum {
-    /* 0 */ LIGHTNING_MODE_OFF, // no lightning
-    /* 1 */ LIGHTNING_MODE_ON, // request ligtning strikes at random intervals
-    /* 2 */ LIGHTNING_MODE_LAST // request one lightning strike before turning off
-} LightningMode;
+    /* 0 */ LIGHTNING_OFF, // no lightning
+    /* 1 */ LIGHTNING_ON, // request ligtning strikes at random intervals
+    /* 2 */ LIGHTNING_LAST // request one lightning strike before turning off
+} LightningState;
 
 typedef enum {
     /* 0 */ LIGHTNING_STRIKE_WAIT, // wait between lightning strikes. request bolts when timer hits 0
@@ -36,19 +49,19 @@ typedef enum {
 
 typedef enum {
     /* 0 */ WEATHER_MODE_CLEAR,
-    /* 1 */ WEATHER_MODE_CLOUDY_DARK, // changes the sky and the lighting
-    /* 2 */ WEATHER_MODE_CLOUDY, // changes the sky
-    /* 3 */ WEATHER_MODE_SNOW,
-    /* 4 */ WEATHER_MODE_4,
-    /* 5 */ WEATHER_MODE_5
+    /* 1 */ WEATHER_MODE_HYRULE_CLOUDY,
+    /* 2 */ WEATHER_MODE_LONLON_DMT_CLOUDY,
+    /* 3 */ WEATHER_MODE_ZORA_SNOW,
+    /* 4 */ WEATHER_MODE_LAKE_HYLIA_RAIN,
+    /* 5 */ WEATHER_MODE_KAK_RAIN
 } WeatherMode;
 
 typedef enum {
-    /* 0 */ WEATHER_CHANGE_INACTIVE, // weather is not currently changing
-    /* 1 */ WEATHER_CHANGE_REQUESTED, // a weather change has been requested
-    /* 2 */ WEATHER_CHANGE_WAIT, // weather change was requested, wait 1 frame before processing
-    /* 3 */ WEATHER_CHANGE_ACTIVE // weather is changing
-} weatherChgState;
+    /* 0 */ WEATHER_CHANGE_SKY_INACTIVE,
+    /* 1 */ WEATHER_CHANGE_SKY_REQUESTED,
+    /* 2 */ WEATHER_CHANGE_SKY_WAIT,
+    /* 3 */ WEATHER_CHANGE_SKY_ACTIVE
+} WeatherChangeSkyState;
 
 typedef enum {
     /* 0 */ PRECIP_RAIN_MAX, // max number of raindrops that can draw; uses this or SOS_MAX, whichever is larger
@@ -57,6 +70,12 @@ typedef enum {
     /* 3 */ PRECIP_SNOW_MAX, // max number of snowflakes that can draw
     /* 4 */ PRECIP_SOS_MAX // max number of rain drops requested from song of storms specifically
 } PrecipitationData;
+
+typedef enum {
+    /* 0 */ SOS_REQUEST_NONE,
+    /* 0 */ SOS_REQUEST_STORM_START,
+    /* 2 */ SOS_REQUEST_STORM_STOP,
+} SongOfStormsRequest;
 
 typedef enum {
     /*  0x00 */ TIMESEQ_DAY_BGM,
@@ -86,7 +105,7 @@ typedef struct {
     /* 0x04 */ u8 changeSkybox;
     /* 0x05 */ u8 skybox1Index;
     /* 0x06 */ u8 skybox2Index;
-} TimeBasedSkyboxInfo; // size = 0x8
+} TimeBasedSkyboxEntry; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
@@ -112,15 +131,15 @@ typedef struct {
     /* 0x14 */ char unk_14[0x01];
     /* 0x15 */ u8 skyboxDisabled;
     /* 0x16 */ u8 sunMoonDisabled;
-    /* 0x17 */ u8 unk_17; // currentWeatherMode for skybox?
-    /* 0x18 */ u8 unk_18; // nextWeatherMode for skybox?
-    /* 0x19 */ u8 weatherChgState;
+    /* 0x17 */ u8 skyboxConfig; // only used outdoors
+    /* 0x18 */ u8 nextSkyboxConfig; // only used outdoors
+    /* 0x19 */ u8 weatherChgSkyState;
     /* 0x1A */ u16 weatherChgSkyTimer; // time left to transition the skybox for weather change
     /* 0x1C */ char unk_1C[0x02];
-    /* 0x1E */ u8 indoors; // when set, day time has no effect on lighting
-    /* 0x1F */ u8 unk_1F; // outdoor light index
-    /* 0x20 */ u8 unk_20; // prev outdoor light index?
-    /* 0x21 */ u8 unk_21;
+    /* 0x1E */ u8 indoors; // when true, day time has no effect on lighting
+    /* 0x1F */ u8 lightConfig; // only used outdoors
+    /* 0x20 */ u8 nextLightConfig; // only used outdoors
+    /* 0x21 */ u8 weatherChgLights;
     /* 0x22 */ u16 weatherChgLightTimer; // time left to transition lights for weather change
     /* 0x24 */ u16 weatherChgDuration; // total time to change weather. used for lights and sky lerp
     /* 0x26 */ char unk_26[0x02];
@@ -143,16 +162,16 @@ typedef struct {
     /* 0xB4 */ u8 numLightSettings;
     /* 0xB8 */ EnvLightSettings* lightSettingsList; // list of light settings from the scene file
     /* 0xBC */ u8 blendIndoorLights; // when true, blend between indoor light settings when switching
-    /* 0xBD */ u8 unk_BD; // indoor light index
-    /* 0xBE */ u8 unk_BE; // prev indoor light index?
-    /* 0xBF */ u8 unk_BF;
+    /* 0xBD */ u8 lightSetting;
+    /* 0xBE */ u8 prevLightSetting;
+    /* 0xBF */ u8 lightSettingOverride;
     /* 0xC0 */ EnvLightSettings lightSettings;
-    /* 0xD6 */ u16 unk_D6;
-    /* 0xD8 */ f32 unk_D8; // indoor light blend weight?
-    /* 0xDC */ u8 unk_DC;
-    /* 0xDD */ u8 gloomySkyMode; // "rain_evt_trg"
-    /* 0xDE */ u8 unk_DE; // gloomy sky state
-    /* 0xDF */ u8 lightningMode;
+    /* 0xD6 */ u16 lightBlendRateOverride;
+    /* 0xD8 */ f32 lightBlend;
+    /* 0xDC */ u8 lightBlendOverride;
+    /* 0xDD */ u8 songOfStormsRequest; // "rain_evt_trg"
+    /* 0xDE */ u8 songOfStormsState;
+    /* 0xDF */ u8 lightningState;
     /* 0xE0 */ u8 timeSeqState;
     /* 0xE1 */ u8 fillScreen;
     /* 0xE2 */ u8 screenFillColor[4];

@@ -226,7 +226,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
                     globalCtx->sceneLoadFlag = 0x14;
                     globalCtx->fadeTransition = 4;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
-                    globalCtx->envCtx.gloomySkyMode = 1;
+                    globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_START;
                 }
             }
         }

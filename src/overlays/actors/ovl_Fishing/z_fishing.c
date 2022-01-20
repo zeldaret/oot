@@ -5567,9 +5567,9 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     if (sREG(15) != 0) {
         if (D_80B7A654 != (sREG(15) - 1)) {
             if (D_80B7A654 == 0) {
-                globalCtx->envCtx.gloomySkyMode = 1;
+                globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_START;
             } else {
-                globalCtx->envCtx.gloomySkyMode = 2;
+                globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
             }
         }
 
@@ -5577,10 +5577,10 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (sREG(14) == 1) {
-        globalCtx->envCtx.gloomySkyMode = 1;
+        globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_START;
     }
     if (sREG(14) == -1) {
-        globalCtx->envCtx.gloomySkyMode = 2;
+        globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
     }
 
     sREG(14) = 0;
@@ -5599,10 +5599,10 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         if (Rand_ZeroOne() < 0.5f) {
             D_80B7A654 = (u8)Rand_ZeroFloat(10.0f) + 5;
-            globalCtx->envCtx.gloomySkyMode = 1;
+            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_START;
         } else {
             D_80B7A654 = 0;
-            globalCtx->envCtx.gloomySkyMode = 2;
+            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
         }
     }
 

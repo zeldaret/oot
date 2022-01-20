@@ -3977,7 +3977,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                         Gameplay_TriggerVoidOut(globalCtx);
                         gSaveContext.respawnFlag = -2;
                     }
-                    gSaveContext.unk_13C3 = 1;
+                    gSaveContext.applyWeatherOnLoad = true;
                     func_800994A0(globalCtx);
                 }
                 globalCtx->sceneLoadFlag = 0x14;
@@ -9461,8 +9461,8 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             Audio_SetCodeReverb(SurfaceType_GetEcho(&globalCtx->colCtx, spC0, this->actor.floorBgId));
 
             if (this->actor.floorBgId == BGCHECK_SCENE) {
-                func_80074CE8(globalCtx,
-                              SurfaceType_GetLightSettingIndex(&globalCtx->colCtx, spC0, this->actor.floorBgId));
+                Environment_ChangeLightSetting(
+                    globalCtx, SurfaceType_GetLightSettingIndex(&globalCtx->colCtx, spC0, this->actor.floorBgId));
             } else {
                 func_80043508(&globalCtx->colCtx, this->actor.floorBgId);
             }

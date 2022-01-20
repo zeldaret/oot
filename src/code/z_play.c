@@ -754,7 +754,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 17:
                     if (gSaveContext.unk_1410 != 0) {
                         globalCtx->envCtx.screenFillColor[3] = gSaveContext.unk_1410;
-                        if (gSaveContext.unk_1410 < 0x65) {
+                        if (gSaveContext.unk_1410 <= 100) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;

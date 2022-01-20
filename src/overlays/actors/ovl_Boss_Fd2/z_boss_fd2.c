@@ -411,7 +411,7 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     }
     if ((25.0f <= this->skelAnime.curFrame) && (this->skelAnime.curFrame < 70.0f)) {
         if (this->skelAnime.curFrame == 25.0f) {
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.lightBlend = 0.0f;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_FIRE - SFX_FLAG);
         if (this->skelAnime.curFrame > 50) {

@@ -36,11 +36,12 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
-    if ((gWeatherMode != 4) && (gWeatherMode != 5) && (globalCtx->envCtx.gloomySkyMode == 1)) {
-        globalCtx->envCtx.gloomySkyMode = 2;
+    if ((gWeatherMode != WEATHER_MODE_LAKE_HYLIA_RAIN) && (gWeatherMode != WEATHER_MODE_KAK_RAIN) &&
+        (globalCtx->envCtx.songOfStormsRequest == SOS_REQUEST_STORM_START)) {
+        globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
         Environment_StopStormNatureAmbience(globalCtx);
     }
-    globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
+    globalCtx->envCtx.lightningState = LIGHTNING_LAST;
 }
 
 void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -59,11 +60,11 @@ void EnOkarinaEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     this->timer = 400; // 20 seconds
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 20;
-    globalCtx->envCtx.gloomySkyMode = 1;
-    if ((gWeatherMode != 0) || globalCtx->envCtx.unk_17 != 0) {
-        globalCtx->envCtx.unk_DE = 1;
+    globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_START;
+    if ((gWeatherMode != WEATHER_MODE_CLEAR) || globalCtx->envCtx.skyboxConfig != 0) {
+        globalCtx->envCtx.songOfStormsState = 1;
     }
-    globalCtx->envCtx.lightningMode = LIGHTNING_MODE_ON;
+    globalCtx->envCtx.lightningState = LIGHTNING_ON;
     Environment_PlayStormNatureAmbience(globalCtx);
     EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_ManageStorm);
 }
@@ -74,7 +75,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
          (globalCtx->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(globalCtx)) &&
          ((globalCtx->transitionMode == 0) || (gSaveContext.gameMode != 0))) ||
         (this->timer >= 250)) {
-        if (globalCtx->envCtx.indoors || globalCtx->envCtx.unk_1F != 1) {
+        if (globalCtx->envCtx.indoors || globalCtx->envCtx.lightConfig != 1) {
             this->timer--;
         }
         osSyncPrintf("\nthis->timer=[%d]", this->timer);
@@ -97,14 +98,14 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
         }
         osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
-        osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.gloomySkyMode);
-        if (gWeatherMode == 0 && (globalCtx->envCtx.gloomySkyMode == 1)) {
-            globalCtx->envCtx.gloomySkyMode = 2;
+        osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.songOfStormsRequest);
+        if (gWeatherMode == WEATHER_MODE_CLEAR && (globalCtx->envCtx.songOfStormsRequest == SOS_REQUEST_STORM_START)) {
+            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
         } else {
-            globalCtx->envCtx.gloomySkyMode = 0;
-            globalCtx->envCtx.unk_DE = 0;
+            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_NONE;
+            globalCtx->envCtx.songOfStormsState = 0;
         }
-        globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
+        globalCtx->envCtx.lightningState = LIGHTNING_LAST;
         Actor_Kill(&this->actor);
     }
 }

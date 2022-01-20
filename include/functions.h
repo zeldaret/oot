@@ -884,7 +884,7 @@ void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* 
 void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
                                GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 arg6, f32 arg7, s16 arg8, u8 arg9);
 void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx);
-void func_80074CE8(GlobalContext* globalCtx, u32 arg1);
+void Environment_ChangeLightSetting(GlobalContext* globalCtx, u32 lightSetting);
 void Environment_DrawSkyboxFilters(GlobalContext* globalCtx);
 void Environment_UpdateLightningStrike(GlobalContext* globalCtx);
 void Environment_AddLightningBolts(GlobalContext* globalCtx, u8 num);

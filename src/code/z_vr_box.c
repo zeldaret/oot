@@ -381,21 +381,21 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
     switch (skyboxId) {
         case SKYBOX_NORMAL_SKY:
             phi_v1 = 0;
-            if (gSaveContext.unk_13C3 != 0 && gSaveContext.sceneSetupIndex < 4 && gWeatherMode > 0 &&
-                gWeatherMode < 6) {
+            if (gSaveContext.applyWeatherOnLoad && gSaveContext.sceneSetupIndex < 4 &&
+                gWeatherMode > WEATHER_MODE_CLEAR && gWeatherMode <= WEATHER_MODE_KAK_RAIN) {
                 phi_v1 = 1;
             }
 
             for (i = 0; i < 9; i++) {
-                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxInfo[phi_v1][i].startTime &&
-                    (gSaveContext.skyboxTime < gTimeBasedSkyboxInfo[phi_v1][i].endTime ||
-                     gTimeBasedSkyboxInfo[phi_v1][i].endTime == 0xFFFF)) {
-                    globalCtx->envCtx.skybox1Index = sp41 = gTimeBasedSkyboxInfo[phi_v1][i].skybox1Index;
-                    globalCtx->envCtx.skybox2Index = sp40 = gTimeBasedSkyboxInfo[phi_v1][i].skybox2Index;
-                    if (gTimeBasedSkyboxInfo[phi_v1][i].changeSkybox) {
+                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxConfigs[phi_v1][i].startTime &&
+                    (gSaveContext.skyboxTime < gTimeBasedSkyboxConfigs[phi_v1][i].endTime ||
+                     gTimeBasedSkyboxConfigs[phi_v1][i].endTime == 0xFFFF)) {
+                    globalCtx->envCtx.skybox1Index = sp41 = gTimeBasedSkyboxConfigs[phi_v1][i].skybox1Index;
+                    globalCtx->envCtx.skybox2Index = sp40 = gTimeBasedSkyboxConfigs[phi_v1][i].skybox2Index;
+                    if (gTimeBasedSkyboxConfigs[phi_v1][i].changeSkybox) {
                         globalCtx->envCtx.skyboxBlend =
-                            Environment_LerpWeight(gTimeBasedSkyboxInfo[phi_v1][i].endTime,
-                                                   gTimeBasedSkyboxInfo[phi_v1][i].startTime,
+                            Environment_LerpWeight(gTimeBasedSkyboxConfigs[phi_v1][i].endTime,
+                                                   gTimeBasedSkyboxConfigs[phi_v1][i].startTime,
                                                    ((void)0, gSaveContext.skyboxTime)) *
                             255.0f;
                     } else {
@@ -405,43 +405,43 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
                 }
             }
 
-            size = gSkyboxFiles[sp41].file.vromEnd - gSkyboxFiles[sp41].file.vromStart;
+            size = gNormalSkyFiles[sp41].file.vromEnd - gNormalSkyFiles[sp41].file.vromStart;
             skyboxCtx->staticSegments[0] = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1054);
             ASSERT(skyboxCtx->staticSegments[0] != NULL, "vr_box->vr_box_staticSegment[0] != NULL", "../z_vr_box.c",
                    1055);
 
-            DmaMgr_SendRequest1(skyboxCtx->staticSegments[0], gSkyboxFiles[sp41].file.vromStart, size, "../z_vr_box.c",
-                                1058);
+            DmaMgr_SendRequest1(skyboxCtx->staticSegments[0], gNormalSkyFiles[sp41].file.vromStart, size,
+                                "../z_vr_box.c", 1058);
 
-            size = gSkyboxFiles[sp40].file.vromEnd - gSkyboxFiles[sp40].file.vromStart;
+            size = gNormalSkyFiles[sp40].file.vromEnd - gNormalSkyFiles[sp40].file.vromStart;
             skyboxCtx->staticSegments[1] = GameState_Alloc(&globalCtx->state, size, "../z_vr_box.c", 1060);
             ASSERT(skyboxCtx->staticSegments[1] != NULL, "vr_box->vr_box_staticSegment[1] != NULL", "../z_vr_box.c",
                    1061);
 
-            DmaMgr_SendRequest1(skyboxCtx->staticSegments[1], gSkyboxFiles[sp40].file.vromStart, size, "../z_vr_box.c",
-                                1064);
+            DmaMgr_SendRequest1(skyboxCtx->staticSegments[1], gNormalSkyFiles[sp40].file.vromStart, size,
+                                "../z_vr_box.c", 1064);
 
             if ((sp41 & 1) ^ ((sp41 & 4) >> 2)) {
-                size = gSkyboxFiles[sp41].palette.vromEnd - gSkyboxFiles[sp41].palette.vromStart;
+                size = gNormalSkyFiles[sp41].palette.vromEnd - gNormalSkyFiles[sp41].palette.vromStart;
 
                 skyboxCtx->palettes = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1072);
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1073);
 
-                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[sp41].palette.vromStart, size, "../z_vr_box.c",
+                DmaMgr_SendRequest1(skyboxCtx->palettes, gNormalSkyFiles[sp41].palette.vromStart, size, "../z_vr_box.c",
                                     1075);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gSkyboxFiles[sp40].palette.vromStart, size,
+                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gNormalSkyFiles[sp40].palette.vromStart, size,
                                     "../z_vr_box.c", 1077);
             } else {
-                size = gSkyboxFiles[sp41].palette.vromEnd - gSkyboxFiles[sp41].palette.vromStart;
+                size = gNormalSkyFiles[sp41].palette.vromEnd - gNormalSkyFiles[sp41].palette.vromStart;
 
                 skyboxCtx->palettes = GameState_Alloc(&globalCtx->state, size * 2, "../z_vr_box.c", 1085);
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1086);
 
-                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[sp40].palette.vromStart, size, "../z_vr_box.c",
+                DmaMgr_SendRequest1(skyboxCtx->palettes, gNormalSkyFiles[sp40].palette.vromStart, size, "../z_vr_box.c",
                                     1088);
-                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gSkyboxFiles[sp41].palette.vromStart, size,
+                DmaMgr_SendRequest1((u32)skyboxCtx->palettes + size, gNormalSkyFiles[sp41].palette.vromStart, size,
                                     "../z_vr_box.c", 1090);
             }
             break;

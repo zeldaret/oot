@@ -254,13 +254,13 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 7:
             if (sp3F != 0) {
-                globalCtx->envCtx.weatherChgState = WEATHER_CHANGE_REQUESTED;
-                globalCtx->envCtx.unk_17 = 1;
-                globalCtx->envCtx.unk_18 = 0;
+                globalCtx->envCtx.weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
+                globalCtx->envCtx.skyboxConfig = 1;
+                globalCtx->envCtx.nextSkyboxConfig = 0;
                 globalCtx->envCtx.weatherChgSkyTimer = 60;
-                globalCtx->envCtx.unk_21 = 1;
-                globalCtx->envCtx.unk_1F = 0;
-                globalCtx->envCtx.unk_20 = 1;
+                globalCtx->envCtx.weatherChgLights = true;
+                globalCtx->envCtx.lightConfig = 0;
+                globalCtx->envCtx.nextLightConfig = 1;
                 globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration = 60;
             }
             break;
@@ -326,12 +326,12 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 18:
             globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
-            globalCtx->envCtx.gloomySkyMode = 2;
+            globalCtx->envCtx.songOfStormsRequest = SOS_REQUEST_STORM_STOP;
             if (gSaveContext.dayTime <= CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
             if (globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
-                gWeatherMode = 0;
+                gWeatherMode = WEATHER_MODE_CLEAR;
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
             }
             break;
@@ -368,12 +368,12 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 26:
             if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(16, 0))) {
-                    globalCtx->envCtx.unk_BF = 1;
+                    globalCtx->envCtx.lightSettingOverride = 1;
                 } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0) + 1) &&
                            (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
-                    globalCtx->envCtx.unk_BF = 2;
+                    globalCtx->envCtx.lightSettingOverride = 2;
                 } else {
-                    globalCtx->envCtx.unk_BF = 3;
+                    globalCtx->envCtx.lightSettingOverride = 3;
                 }
             }
             break;
@@ -430,8 +430,8 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
 // Command 4: Set Environment Lighting
 void Cutscene_Command_SetLighting(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        globalCtx->envCtx.unk_BF = cmd->setting - 1;
-        globalCtx->envCtx.unk_D8 = 1.0f;
+        globalCtx->envCtx.lightSettingOverride = cmd->setting - 1;
+        globalCtx->envCtx.lightBlend = 1.0f;
     }
 }
 
