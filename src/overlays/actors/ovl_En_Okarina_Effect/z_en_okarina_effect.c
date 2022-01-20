@@ -37,7 +37,7 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
     if ((gWeatherMode != 4) && (gWeatherMode != 5) && (globalCtx->envCtx.gloomySkyMode == 1)) {
-        globalCtx->envCtx.gloomySkyMode = 2; // end gloomy sky
+        globalCtx->envCtx.gloomySkyMode = 2;
         Environment_StopStormNatureAmbience(globalCtx);
     }
     globalCtx->envCtx.lightningMode = LIGHTNING_MODE_LAST;
@@ -99,7 +99,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
         osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
         osSyncPrintf("\nrain_evt_trg=[%d]\n\n", globalCtx->envCtx.gloomySkyMode);
         if (gWeatherMode == 0 && (globalCtx->envCtx.gloomySkyMode == 1)) {
-            globalCtx->envCtx.gloomySkyMode = 2; // end gloomy sky
+            globalCtx->envCtx.gloomySkyMode = 2;
         } else {
             globalCtx->envCtx.gloomySkyMode = 0;
             globalCtx->envCtx.unk_DE = 0;

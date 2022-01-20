@@ -35,6 +35,22 @@ typedef enum {
 } LightningStrikeState;
 
 typedef enum {
+    /* 0 */ WEATHER_MODE_CLEAR,
+    /* 1 */ WEATHER_MODE_CLOUDY_DARK, // changes the sky and the lighting
+    /* 2 */ WEATHER_MODE_CLOUDY, // changes the sky
+    /* 3 */ WEATHER_MODE_SNOW,
+    /* 4 */ WEATHER_MODE_4,
+    /* 5 */ WEATHER_MODE_5
+} WeatherMode;
+
+typedef enum {
+    /* 0 */ WEATHER_CHANGE_INACTIVE, // weather is not currently changing
+    /* 1 */ WEATHER_CHANGE_REQUESTED, // a weather change has been requested
+    /* 2 */ WEATHER_CHANGE_WAIT, // weather change was requested, wait 1 frame before processing
+    /* 3 */ WEATHER_CHANGE_ACTIVE // weather is changing
+} weatherChgState;
+
+typedef enum {
     /* 0 */ PRECIP_RAIN_MAX, // max number of raindrops that can draw; uses this or SOS_MAX, whichever is larger
     /* 1 */ PRECIP_RAIN_CUR, // current number of rain drops being drawn on screen 
     /* 2 */ PRECIP_SNOW_CUR, // current number of snowflakes being drawn on screen
@@ -64,14 +80,13 @@ typedef struct {
     /* 0x08 */ f32 delayTimer;
 } LightningStrike; // size = 0xC
 
-// describes what skybox files and blending modes to use depending on time of day
 typedef struct {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
-    /* 0x04 */ u8 blend; // if true, blend between.. skyboxes? palettes?
-    /* 0x05 */ u8 skybox1Index; // whats the difference between _pal and non _pal files?
+    /* 0x04 */ u8 changeSkybox;
+    /* 0x05 */ u8 skybox1Index;
     /* 0x06 */ u8 skybox2Index;
-} struct_8011FC1C; // size = 0x8
+} TimeBasedSkyboxInfo; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u8 ambientColor[3];
@@ -99,15 +114,15 @@ typedef struct {
     /* 0x16 */ u8 sunMoonDisabled;
     /* 0x17 */ u8 unk_17; // currentWeatherMode for skybox?
     /* 0x18 */ u8 unk_18; // nextWeatherMode for skybox?
-    /* 0x19 */ u8 unk_19;
-    /* 0x1A */ u16 unk_1A;
+    /* 0x19 */ u8 weatherChgState;
+    /* 0x1A */ u16 weatherChgSkyTimer; // time left to transition the skybox for weather change
     /* 0x1C */ char unk_1C[0x02];
     /* 0x1E */ u8 indoors; // when set, day time has no effect on lighting
     /* 0x1F */ u8 unk_1F; // outdoor light index
     /* 0x20 */ u8 unk_20; // prev outdoor light index?
     /* 0x21 */ u8 unk_21;
-    /* 0x22 */ u16 unk_22;
-    /* 0x24 */ u16 unk_24;
+    /* 0x22 */ u16 weatherChgLightTimer; // time left to transition lights for weather change
+    /* 0x24 */ u16 weatherChgDuration; // total time to change weather. used for lights and sky lerp
     /* 0x26 */ char unk_26[0x02];
     /* 0x28 */ LightInfo dirLight1; // used for sunlight outdoors
     /* 0x36 */ LightInfo dirLight2; // used for moonlight outdoors
@@ -135,7 +150,7 @@ typedef struct {
     /* 0xD6 */ u16 unk_D6;
     /* 0xD8 */ f32 unk_D8; // indoor light blend weight?
     /* 0xDC */ u8 unk_DC;
-    /* 0xDD */ u8 gloomySkyMode;
+    /* 0xDD */ u8 gloomySkyMode; // "rain_evt_trg"
     /* 0xDE */ u8 unk_DE; // gloomy sky state
     /* 0xDF */ u8 lightningMode;
     /* 0xE0 */ u8 timeSeqState;

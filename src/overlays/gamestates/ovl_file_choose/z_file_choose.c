@@ -1821,10 +1821,10 @@ void FileChoose_InitContext(GameState* thisx) {
 
     gTimeSpeed = 10;
 
-    envCtx->unk_19 = 0;
-    envCtx->unk_1A = 0;
+    envCtx->weatherChgState = WEATHER_CHANGE_INACTIVE;
+    envCtx->weatherChgSkyTimer = 0;
     envCtx->unk_21 = 0;
-    envCtx->unk_22 = 0;
+    envCtx->weatherChgLightTimer = 0;
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;

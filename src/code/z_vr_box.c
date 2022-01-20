@@ -387,14 +387,15 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
             }
 
             for (i = 0; i < 9; i++) {
-                if (gSaveContext.skyboxTime >= D_8011FC1C[phi_v1][i].startTime &&
-                    (gSaveContext.skyboxTime < D_8011FC1C[phi_v1][i].endTime ||
-                     D_8011FC1C[phi_v1][i].endTime == 0xFFFF)) {
-                    globalCtx->envCtx.skybox1Index = sp41 = D_8011FC1C[phi_v1][i].skybox1Index;
-                    globalCtx->envCtx.skybox2Index = sp40 = D_8011FC1C[phi_v1][i].skybox2Index;
-                    if (D_8011FC1C[phi_v1][i].blend != 0) {
+                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxInfo[phi_v1][i].startTime &&
+                    (gSaveContext.skyboxTime < gTimeBasedSkyboxInfo[phi_v1][i].endTime ||
+                     gTimeBasedSkyboxInfo[phi_v1][i].endTime == 0xFFFF)) {
+                    globalCtx->envCtx.skybox1Index = sp41 = gTimeBasedSkyboxInfo[phi_v1][i].skybox1Index;
+                    globalCtx->envCtx.skybox2Index = sp40 = gTimeBasedSkyboxInfo[phi_v1][i].skybox2Index;
+                    if (gTimeBasedSkyboxInfo[phi_v1][i].changeSkybox) {
                         globalCtx->envCtx.skyboxBlend =
-                            Environment_LerpWeight(D_8011FC1C[phi_v1][i].endTime, D_8011FC1C[phi_v1][i].startTime,
+                            Environment_LerpWeight(gTimeBasedSkyboxInfo[phi_v1][i].endTime,
+                                                   gTimeBasedSkyboxInfo[phi_v1][i].startTime,
                                                    ((void)0, gSaveContext.skyboxTime)) *
                             255.0f;
                     } else {

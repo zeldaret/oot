@@ -27,7 +27,7 @@ u8 D_8011FB34 = 0;
 
 u8 gInterruptSongOfStorms = false;
 
-u8 gSkyboxBlendingEnabled = false;
+u8 gSkyboxIsChanging = false;
 
 u16 gTimeSpeed = 0;
 
@@ -38,9 +38,9 @@ typedef struct {
     /* 0x02 */ u16 endTime;
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 unk_05;
-} struct_8011FB48; // size = 0x6
+} TimeBasedLightInfo; // size = 0x6
 
-struct_8011FB48 D_8011FB48[][7] = {
+TimeBasedLightInfo sTimeBasedLightInfo[][7] = {
     {
         { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 3, 3 },
         { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(6, 0), 3, 0 },
@@ -88,17 +88,17 @@ struct_8011FB48 D_8011FB48[][7] = {
     },
 };
 
-struct_8011FC1C D_8011FC1C[][9] = {
+TimeBasedSkyboxInfo gTimeBasedSkyboxInfo[][9] = {
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 0, 3, 3 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(5, 0) + 1, 1, 3, 0 },
-        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), 0, 0, 0 },
-        { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, 1, 0, 1 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, 0, 1, 1 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, 1, 1, 2 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, 0, 2, 2 },
-        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 2, 1, 2, 3 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, 0, 3, 3 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, false, 3, 3 },
+        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(5, 0) + 1, true, 3, 0 },
+        { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), false, 0, 0 },
+        { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, true, 0, 1 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, false, 1, 1 },
+        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, true, 1, 2 },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, 2, 2 },
+        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 2, true, 2, 3 },
+        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, false, 3, 3 },
     },
     {
         { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 0, 7, 7 },
@@ -252,10 +252,10 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
 
-    envCtx->unk_19 = 0;
-    envCtx->unk_1A = 0;
+    envCtx->weatherChgState = WEATHER_CHANGE_INACTIVE;
+    envCtx->weatherChgSkyTimer = 0;
     envCtx->unk_21 = 0;
-    envCtx->unk_22 = 0;
+    envCtx->weatherChgLightTimer = 0;
 
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->unk_1F = 0;
@@ -384,7 +384,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
 
     gInterruptSongOfStorms = false;
     D_8011FB34 = 0;
-    gSkyboxBlendingEnabled = false;
+    gSkyboxIsChanging = false;
     gSaveContext.unk_13C3 = 0;
 
     R_ENV_LIGHT1_DIR(0) = 80;
@@ -394,7 +394,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     R_ENV_LIGHT2_DIR(0) = -80;
     R_ENV_LIGHT2_DIR(1) = -80;
     R_ENV_LIGHT2_DIR(2) = -80;
-    
+
     cREG(9) = 10;
     cREG(10) = 0;
     cREG(11) = 0;
@@ -570,35 +570,36 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
     return ret;
 }
 
-void func_8006FB94(EnvironmentContext* envCtx, u8 unused) {
+void Environment_UpdateSongOfStorms(EnvironmentContext* envCtx, u8 unused) {
     if (envCtx->gloomySkyMode != 0) {
         switch (envCtx->unk_DE) {
             case 0:
-                if ((envCtx->gloomySkyMode == 1) && !gSkyboxBlendingEnabled) {
-                    envCtx->unk_19 = 1;
+                if ((envCtx->gloomySkyMode == 1) && !gSkyboxIsChanging) {
+                    envCtx->weatherChgState = WEATHER_CHANGE_REQUESTED;
                     envCtx->unk_17 = 0;
                     envCtx->unk_18 = 1;
-                    envCtx->unk_1A = 100;
+                    envCtx->weatherChgSkyTimer = 100;
                     envCtx->unk_21 = 1;
                     envCtx->unk_1F = 0;
                     envCtx->unk_20 = 2;
                     D_8011FB34 = 2;
-                    envCtx->unk_22 = envCtx->unk_24 = 100;
+                    envCtx->weatherChgLightTimer = envCtx->weatherChgDuration = 100;
                     envCtx->unk_DE++;
                 }
                 break;
+
             case 1:
-                if (!gSkyboxBlendingEnabled && (envCtx->gloomySkyMode == 2)) {
+                if (!gSkyboxIsChanging && (envCtx->gloomySkyMode == 2)) {
                     gWeatherMode = 0;
-                    envCtx->unk_19 = 1;
+                    envCtx->weatherChgState = WEATHER_CHANGE_REQUESTED;
                     envCtx->unk_17 = 1;
                     envCtx->unk_18 = 0;
-                    envCtx->unk_1A = 100;
+                    envCtx->weatherChgSkyTimer = 100;
                     envCtx->unk_21 = 1;
                     envCtx->unk_1F = 2;
                     envCtx->unk_20 = 0;
                     D_8011FB34 = 0;
-                    envCtx->unk_22 = envCtx->unk_24 = 100;
+                    envCtx->weatherChgLightTimer = envCtx->weatherChgDuration = 100;
                     envCtx->precipitation[PRECIP_RAIN_MAX] = 0;
                     envCtx->gloomySkyMode = 0;
                     envCtx->unk_DE = 0;
@@ -618,13 +619,13 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
     if (skyboxId == SKYBOX_CUTSCENE_MAP) {
         envCtx->unk_17 = 3;
 
-        for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
-            if (gSaveContext.skyboxTime >= D_8011FC1C[envCtx->unk_17][i].startTime &&
-                (gSaveContext.skyboxTime < D_8011FC1C[envCtx->unk_17][i].endTime ||
-                 D_8011FC1C[envCtx->unk_17][i].endTime == 0xFFFF)) {
-                if (D_8011FC1C[envCtx->unk_17][i].blend) {
-                    envCtx->skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
-                                                                 D_8011FC1C[envCtx->unk_17][i].startTime,
+        for (i = 0; i < ARRAY_COUNT(gTimeBasedSkyboxInfo[envCtx->unk_17]); i++) {
+            if (gSaveContext.skyboxTime >= gTimeBasedSkyboxInfo[envCtx->unk_17][i].startTime &&
+                (gSaveContext.skyboxTime < gTimeBasedSkyboxInfo[envCtx->unk_17][i].endTime ||
+                 gTimeBasedSkyboxInfo[envCtx->unk_17][i].endTime == 0xFFFF)) {
+                if (gTimeBasedSkyboxInfo[envCtx->unk_17][i].changeSkybox) {
+                    envCtx->skyboxBlend = Environment_LerpWeight(gTimeBasedSkyboxInfo[envCtx->unk_17][i].endTime,
+                                                                 gTimeBasedSkyboxInfo[envCtx->unk_17][i].startTime,
                                                                  ((void)0, gSaveContext.skyboxTime)) *
                                           255;
                 } else {
@@ -634,29 +635,30 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
     } else if (skyboxId == SKYBOX_NORMAL_SKY && !envCtx->skyboxDisabled) {
-        for (i = 0; i < ARRAY_COUNT(D_8011FC1C[envCtx->unk_17]); i++) {
-            if (gSaveContext.skyboxTime >= D_8011FC1C[envCtx->unk_17][i].startTime &&
-                (gSaveContext.skyboxTime < D_8011FC1C[envCtx->unk_17][i].endTime ||
-                 D_8011FC1C[envCtx->unk_17][i].endTime == 0xFFFF)) {
-                newSkybox1Index = D_8011FC1C[envCtx->unk_17][i].skybox1Index;
-                newSkybox2Index = D_8011FC1C[envCtx->unk_17][i].skybox2Index;
-                gSkyboxBlendingEnabled = D_8011FC1C[envCtx->unk_17][i].blend;
+        for (i = 0; i < ARRAY_COUNT(gTimeBasedSkyboxInfo[envCtx->unk_17]); i++) {
+            if (gSaveContext.skyboxTime >= gTimeBasedSkyboxInfo[envCtx->unk_17][i].startTime &&
+                (gSaveContext.skyboxTime < gTimeBasedSkyboxInfo[envCtx->unk_17][i].endTime ||
+                 gTimeBasedSkyboxInfo[envCtx->unk_17][i].endTime == 0xFFFF)) {
+                newSkybox1Index = gTimeBasedSkyboxInfo[envCtx->unk_17][i].skybox1Index;
+                newSkybox2Index = gTimeBasedSkyboxInfo[envCtx->unk_17][i].skybox2Index;
+                gSkyboxIsChanging = gTimeBasedSkyboxInfo[envCtx->unk_17][i].changeSkybox;
 
-                if (gSkyboxBlendingEnabled) {
-                    skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
-                                                         D_8011FC1C[envCtx->unk_17][i].startTime,
+                if (gSkyboxIsChanging) {
+                    skyboxBlend = Environment_LerpWeight(gTimeBasedSkyboxInfo[envCtx->unk_17][i].endTime,
+                                                         gTimeBasedSkyboxInfo[envCtx->unk_17][i].startTime,
                                                          ((void)0, gSaveContext.skyboxTime)) *
                                   255;
                 } else {
-                    skyboxBlend = Environment_LerpWeight(D_8011FC1C[envCtx->unk_17][i].endTime,
-                                                         D_8011FC1C[envCtx->unk_17][i].startTime,
+                    skyboxBlend = Environment_LerpWeight(gTimeBasedSkyboxInfo[envCtx->unk_17][i].endTime,
+                                                         gTimeBasedSkyboxInfo[envCtx->unk_17][i].startTime,
                                                          ((void)0, gSaveContext.skyboxTime)) *
                                   255;
 
-                    skyboxBlend = (skyboxBlend < 0x80) ? 0xFF : 0;
+                    skyboxBlend = (skyboxBlend < 128) ? 255 : 0;
 
-                    if ((envCtx->unk_19 != 0) && (envCtx->unk_19 < 3)) {
-                        envCtx->unk_19++;
+                    if ((envCtx->weatherChgState != WEATHER_CHANGE_INACTIVE) &&
+                        (envCtx->weatherChgState < WEATHER_CHANGE_ACTIVE)) {
+                        envCtx->weatherChgState++;
                         skyboxBlend = 0;
                     }
                 }
@@ -664,16 +666,17 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             }
         }
 
-        func_8006FB94(envCtx, skyboxBlend);
+        Environment_UpdateSongOfStorms(envCtx, skyboxBlend);
 
-        if (envCtx->unk_19 >= 3) {
-            newSkybox1Index = D_8011FC1C[envCtx->unk_17][i].skybox1Index;
-            newSkybox2Index = D_8011FC1C[envCtx->unk_18][i].skybox2Index;
+        if (envCtx->weatherChgState >= WEATHER_CHANGE_ACTIVE) {
+            newSkybox1Index = gTimeBasedSkyboxInfo[envCtx->unk_17][i].skybox1Index;
+            newSkybox2Index = gTimeBasedSkyboxInfo[envCtx->unk_18][i].skybox2Index;
 
-            skyboxBlend = ((f32)envCtx->unk_24 - envCtx->unk_1A--) / (f32)envCtx->unk_24 * 255;
+            skyboxBlend = ((f32)envCtx->weatherChgDuration - envCtx->weatherChgSkyTimer--) /
+                          (f32)envCtx->weatherChgDuration * 255;
 
-            if (envCtx->unk_1A <= 0) {
-                envCtx->unk_19 = 0;
+            if (envCtx->weatherChgSkyTimer <= 0) {
+                envCtx->weatherChgState = WEATHER_CHANGE_INACTIVE;
                 envCtx->unk_17 = envCtx->unk_18;
             }
         }
@@ -843,9 +846,6 @@ void Environment_PrintDebugInfo(GlobalContext* globalCtx, Gfx** gfx) {
     GfxPrint_Destroy(&printer);
 }
 
-#define TIME_ENTRY_1F (D_8011FB48[envCtx->unk_1F][i])
-#define TIME_ENTRY_20 (D_8011FB48[envCtx->unk_20][i])
-
 void Environment_PlayTimeBasedSequence(GlobalContext* globalCtx);
 void Environment_UpdateRain(GlobalContext* globalCtx);
 
@@ -898,10 +898,10 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
-                if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
+                if ((envCtx->weatherChgSkyTimer == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
-                    if (IS_DAY || gTimeSpeed >= 0x190) {
+                    if (IS_DAY || gTimeSpeed >= 400) {
                         gSaveContext.dayTime += gTimeSpeed;
                     } else {
                         gSaveContext.dayTime += gTimeSpeed * 2; // time moves twice as fast at night
@@ -951,24 +951,27 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
         if (envCtx->unk_BF != 0xFE) {
             if (!envCtx->indoors && (envCtx->unk_BF == 0xFF)) {
-                for (i = 0; i < ARRAY_COUNT(D_8011FB48[envCtx->unk_1F]); i++) {
-                    if ((gSaveContext.skyboxTime >= TIME_ENTRY_1F.startTime) &&
-                        ((gSaveContext.skyboxTime < TIME_ENTRY_1F.endTime) || TIME_ENTRY_1F.endTime == 0xFFFF)) {
+                for (i = 0; i < ARRAY_COUNT(sTimeBasedLightInfo[envCtx->unk_1F]); i++) {
+                    if ((gSaveContext.skyboxTime >= sTimeBasedLightInfo[envCtx->unk_1F][i].startTime) &&
+                        ((gSaveContext.skyboxTime < sTimeBasedLightInfo[envCtx->unk_1F][i].endTime) ||
+                         sTimeBasedLightInfo[envCtx->unk_1F][i].endTime == 0xFFFF)) {
                         u8 blend8[2];
                         s16 blend16[2];
 
-                        sp8C = Environment_LerpWeight(TIME_ENTRY_1F.endTime, TIME_ENTRY_1F.startTime,
+                        sp8C = Environment_LerpWeight(sTimeBasedLightInfo[envCtx->unk_1F][i].endTime,
+                                                      sTimeBasedLightInfo[envCtx->unk_1F][i].startTime,
                                                       ((void)0, gSaveContext.skyboxTime));
 
-                        D_8011FDCC = TIME_ENTRY_1F.unk_04 & 3;
-                        D_8011FDD0 = TIME_ENTRY_1F.unk_05 & 3;
+                        D_8011FDCC = sTimeBasedLightInfo[envCtx->unk_1F][i].unk_04 & 3;
+                        D_8011FDD0 = sTimeBasedLightInfo[envCtx->unk_1F][i].unk_05 & 3;
                         sSandstormLerpScale = sp8C;
 
                         if (envCtx->unk_21) {
-                            sp88 = ((f32)envCtx->unk_24 - envCtx->unk_22) / envCtx->unk_24;
-                            envCtx->unk_22--;
+                            sp88 = ((f32)envCtx->weatherChgDuration - envCtx->weatherChgLightTimer) /
+                                   envCtx->weatherChgDuration;
+                            envCtx->weatherChgLightTimer--;
 
-                            if (envCtx->unk_22 <= 0) {
+                            if (envCtx->weatherChgLightTimer <= 0) {
                                 envCtx->unk_21 = 0;
                                 envCtx->unk_1F = envCtx->unk_20;
                             }
@@ -976,10 +979,12 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
                         for (j = 0; j < 3; j++) {
                             // blend ambient color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].ambientColor[j],
-                                             lightSettingsList[TIME_ENTRY_1F.unk_05].ambientColor[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].ambientColor[j],
-                                             lightSettingsList[TIME_ENTRY_20.unk_05].ambientColor[j], sp8C);
+                            blend8[0] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_04].ambientColor[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_05].ambientColor[j], sp8C);
+                            blend8[1] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_04].ambientColor[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_05].ambientColor[j], sp8C);
                             *(envCtx->lightSettings.ambientColor + j) = LERP(blend8[0], blend8[1], sp88);
                         }
 
@@ -998,50 +1003,60 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
                         for (j = 0; j < 3; j++) {
                             // blend light1Color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].light1Color[j],
-                                             lightSettingsList[TIME_ENTRY_1F.unk_05].light1Color[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].light1Color[j],
-                                             lightSettingsList[TIME_ENTRY_20.unk_05].light1Color[j], sp8C);
+                            blend8[0] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_04].light1Color[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_05].light1Color[j], sp8C);
+                            blend8[1] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_04].light1Color[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_05].light1Color[j], sp8C);
                             *(envCtx->lightSettings.light1Color + j) = LERP(blend8[0], blend8[1], sp88);
 
                             // blend light2Color
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].light2Color[j],
-                                             lightSettingsList[TIME_ENTRY_1F.unk_05].light2Color[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].light2Color[j],
-                                             lightSettingsList[TIME_ENTRY_20.unk_05].light2Color[j], sp8C);
+                            blend8[0] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_04].light2Color[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_05].light2Color[j], sp8C);
+                            blend8[1] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_04].light2Color[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_05].light2Color[j], sp8C);
                             *(envCtx->lightSettings.light2Color + j) = LERP(blend8[0], blend8[1], sp88);
                         }
 
                         // blend fogColor
                         for (j = 0; j < 3; j++) {
-                            blend8[0] = LERP(lightSettingsList[TIME_ENTRY_1F.unk_04].fogColor[j],
-                                             lightSettingsList[TIME_ENTRY_1F.unk_05].fogColor[j], sp8C);
-                            blend8[1] = LERP(lightSettingsList[TIME_ENTRY_20.unk_04].fogColor[j],
-                                             lightSettingsList[TIME_ENTRY_20.unk_05].fogColor[j], sp8C);
+                            blend8[0] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_04].fogColor[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_05].fogColor[j], sp8C);
+                            blend8[1] = LERP(
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_04].fogColor[j],
+                                lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_05].fogColor[j], sp8C);
                             *(envCtx->lightSettings.fogColor + j) = LERP(blend8[0], blend8[1], sp88);
                         }
 
-                        blend16[0] = LERP16((lightSettingsList[TIME_ENTRY_1F.unk_04].fogNear & 0x3FF),
-                                            (lightSettingsList[TIME_ENTRY_1F.unk_05].fogNear & 0x3FF), sp8C);
-                        blend16[1] = LERP16(lightSettingsList[TIME_ENTRY_20.unk_04].fogNear & 0x3FF,
-                                            lightSettingsList[TIME_ENTRY_20.unk_05].fogNear & 0x3FF, sp8C);
+                        blend16[0] = LERP16(
+                            (lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_04].fogNear & 0x3FF),
+                            (lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_05].fogNear & 0x3FF), sp8C);
+                        blend16[1] = LERP16(
+                            lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_04].fogNear & 0x3FF,
+                            lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_05].fogNear & 0x3FF, sp8C);
 
                         envCtx->lightSettings.fogNear = LERP16(blend16[0], blend16[1], sp88);
 
-                        blend16[0] = LERP16(lightSettingsList[TIME_ENTRY_1F.unk_04].fogFar,
-                                            lightSettingsList[TIME_ENTRY_1F.unk_05].fogFar, sp8C);
-                        blend16[1] = LERP16(lightSettingsList[TIME_ENTRY_20.unk_04].fogFar,
-                                            lightSettingsList[TIME_ENTRY_20.unk_05].fogFar, sp8C);
+                        blend16[0] =
+                            LERP16(lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_04].fogFar,
+                                   lightSettingsList[sTimeBasedLightInfo[envCtx->unk_1F][i].unk_05].fogFar, sp8C);
+                        blend16[1] =
+                            LERP16(lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_04].fogFar,
+                                   lightSettingsList[sTimeBasedLightInfo[envCtx->unk_20][i].unk_05].fogFar, sp8C);
 
                         envCtx->lightSettings.fogFar = LERP16(blend16[0], blend16[1], sp88);
 
-                        if (TIME_ENTRY_20.unk_05 >= envCtx->numLightSettings) {
+                        if (sTimeBasedLightInfo[envCtx->unk_20][i].unk_05 >= envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
                             osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
                             // "Palette setting = [] Last palette number = []"
                             osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
-                                         TIME_ENTRY_20.unk_05, envCtx->numLightSettings - 1);
+                                         sTimeBasedLightInfo[envCtx->unk_20][i].unk_05, envCtx->numLightSettings - 1);
                         }
                         break;
                     }
@@ -2368,12 +2383,18 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
         envColor.g = sSandstormEnvColors[D_8011FDCC].g;
         envColor.b = sSandstormEnvColors[D_8011FDCC].b;
     } else {
-        primColor.r = (s32)F32_LERP(sSandstormPrimColors[D_8011FDCC].r, sSandstormPrimColors[D_8011FDD0].r, sSandstormLerpScale);
-        primColor.g = (s32)F32_LERP(sSandstormPrimColors[D_8011FDCC].g, sSandstormPrimColors[D_8011FDD0].g, sSandstormLerpScale);
-        primColor.b = (s32)F32_LERP(sSandstormPrimColors[D_8011FDCC].b, sSandstormPrimColors[D_8011FDD0].b, sSandstormLerpScale);
-        envColor.r = (s32)F32_LERP(sSandstormEnvColors[D_8011FDCC].r, sSandstormEnvColors[D_8011FDD0].r, sSandstormLerpScale);
-        envColor.g = (s32)F32_LERP(sSandstormEnvColors[D_8011FDCC].g, sSandstormEnvColors[D_8011FDD0].g, sSandstormLerpScale);
-        envColor.b = (s32)F32_LERP(sSandstormEnvColors[D_8011FDCC].b, sSandstormEnvColors[D_8011FDD0].b, sSandstormLerpScale);
+        primColor.r =
+            (s32)F32_LERP(sSandstormPrimColors[D_8011FDCC].r, sSandstormPrimColors[D_8011FDD0].r, sSandstormLerpScale);
+        primColor.g =
+            (s32)F32_LERP(sSandstormPrimColors[D_8011FDCC].g, sSandstormPrimColors[D_8011FDD0].g, sSandstormLerpScale);
+        primColor.b =
+            (s32)F32_LERP(sSandstormPrimColors[D_8011FDCC].b, sSandstormPrimColors[D_8011FDD0].b, sSandstormLerpScale);
+        envColor.r =
+            (s32)F32_LERP(sSandstormEnvColors[D_8011FDCC].r, sSandstormEnvColors[D_8011FDD0].r, sSandstormLerpScale);
+        envColor.g =
+            (s32)F32_LERP(sSandstormEnvColors[D_8011FDCC].g, sSandstormEnvColors[D_8011FDD0].g, sSandstormLerpScale);
+        envColor.b =
+            (s32)F32_LERP(sSandstormEnvColors[D_8011FDCC].b, sSandstormEnvColors[D_8011FDD0].b, sSandstormLerpScale);
     }
 
     envColor.r = ((envColor.r * sp98) + ((6.0f - sp98) * primColor.r)) * (1.0f / 6.0f);

@@ -134,32 +134,32 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
     Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
-        if ((globalCtx->envCtx.indoors != 0) || !gSkyboxBlendingEnabled ||
+        if (globalCtx->envCtx.indoors || !gSkyboxIsChanging ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
             gInterruptSongOfStorms = true;
             if (globalCtx->envCtx.gloomySkyMode == 0 &&
-                (globalCtx->envCtx.indoors != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
+                (globalCtx->envCtx.indoors || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
                 gInterruptSongOfStorms = false;
                 if (gWeatherMode != weatherMode) {
                     gWeatherMode = weatherMode;
                     if (globalCtx->envCtx.gloomySkyMode == 0) {
-                        globalCtx->envCtx.unk_19 = 1;
+                        globalCtx->envCtx.weatherChgState = WEATHER_CHANGE_REQUESTED;
                         globalCtx->envCtx.unk_17 = arg2;
                         globalCtx->envCtx.unk_18 = arg3;
-                        globalCtx->envCtx.unk_1A = arg6;
+                        globalCtx->envCtx.weatherChgSkyTimer = arg6;
                         globalCtx->envCtx.unk_21 = 1;
                         globalCtx->envCtx.unk_1F = arg4;
                         globalCtx->envCtx.unk_20 = arg5;
                         D_8011FB34 = arg5;
-                        globalCtx->envCtx.unk_24 = arg6;
-                        globalCtx->envCtx.unk_22 = globalCtx->envCtx.unk_24;
+                        globalCtx->envCtx.weatherChgDuration = arg6;
+                        globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration;
                     }
                 }
                 ret = true;
             }
         } else {
             if (gTimeSpeed != 0) {
-                gSaveContext.dayTime += 0x14;
+                gSaveContext.dayTime += 20;
             }
         }
     }
@@ -174,23 +174,23 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
     Player* player = GET_PLAYER(globalCtx);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
-        if (globalCtx->envCtx.indoors != 0 || !gSkyboxBlendingEnabled ||
+        if (globalCtx->envCtx.indoors || !gSkyboxIsChanging ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY && globalCtx->envCtx.unk_1F == globalCtx->envCtx.unk_20)) {
             gInterruptSongOfStorms = true;
             if ((globalCtx->envCtx.gloomySkyMode == 0) &&
-                (globalCtx->envCtx.indoors != 0 || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
+                (globalCtx->envCtx.indoors || (globalCtx->envCtx.unk_1F != 1 && globalCtx->envCtx.unk_21 == 0))) {
                 gInterruptSongOfStorms = false;
                 gWeatherMode = 0;
-                globalCtx->envCtx.unk_19 = 1;
+                globalCtx->envCtx.weatherChgState = WEATHER_CHANGE_REQUESTED;
                 globalCtx->envCtx.unk_17 = arg2;
                 globalCtx->envCtx.unk_18 = arg3;
-                globalCtx->envCtx.unk_1A = arg6;
+                globalCtx->envCtx.weatherChgSkyTimer = arg6;
                 globalCtx->envCtx.unk_21 = 1;
                 globalCtx->envCtx.unk_1F = arg4;
                 globalCtx->envCtx.unk_20 = arg5;
                 D_8011FB34 = arg5;
-                globalCtx->envCtx.unk_24 = arg6;
-                globalCtx->envCtx.unk_22 = globalCtx->envCtx.unk_24;
+                globalCtx->envCtx.weatherChgDuration = arg6;
+                globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration;
 
                 ret = true;
             }

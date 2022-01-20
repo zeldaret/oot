@@ -254,14 +254,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 7:
             if (sp3F != 0) {
-                globalCtx->envCtx.unk_19 = 1;
+                globalCtx->envCtx.weatherChgState = WEATHER_CHANGE_REQUESTED;
                 globalCtx->envCtx.unk_17 = 1;
                 globalCtx->envCtx.unk_18 = 0;
-                globalCtx->envCtx.unk_1A = 0x3C;
+                globalCtx->envCtx.weatherChgSkyTimer = 60;
                 globalCtx->envCtx.unk_21 = 1;
                 globalCtx->envCtx.unk_1F = 0;
                 globalCtx->envCtx.unk_20 = 1;
-                globalCtx->envCtx.unk_22 = globalCtx->envCtx.unk_24 = 0x3C;
+                globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration = 60;
             }
             break;
         case 8:
