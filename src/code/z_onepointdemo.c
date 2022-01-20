@@ -1349,23 +1349,23 @@ s32 OnePointCutscene_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32
 }
 
 // unused
-void OnePointCutscene_EnableAttention() {
+void OnePointCutscene_EnableAttention(void) {
     sDisableAttention = false;
 }
 
 // unused
-void OnePointCutscene_DisableAttention() {
+void OnePointCutscene_DisableAttention(void) {
     sDisableAttention = true;
 }
 
-s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 category) {
+s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 actorCategory) {
     Camera* parentCam = globalCtx->cameraPtrs[MAIN_CAM];
 
     while (parentCam->childCamIdx != SUBCAM_FREE) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
         if ((parentCam == NULL) || (parentCam->setting != CAM_SET_CS_ATTENTION)) {
             break;
-        } else if (category == parentCam->target->category) {
+        } else if (actorCategory == parentCam->target->category) {
             return true;
         }
     }
