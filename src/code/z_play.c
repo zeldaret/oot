@@ -1488,18 +1488,18 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(globalCtx, &globalCtx->roomCtx) / 1024.0f);
 }
 
-void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
-    f32 temp;
+void Gameplay_GetScreenPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
+    f32 w;
 
     Matrix_Mult(&globalCtx->viewProjectionMtxF, MTXMODE_NEW);
     Matrix_MultVec3f(src, dest);
 
-    temp = globalCtx->viewProjectionMtxF.ww +
-           (globalCtx->viewProjectionMtxF.wx * src->x + globalCtx->viewProjectionMtxF.wy * src->y +
-            globalCtx->viewProjectionMtxF.wz * src->z);
+    w = globalCtx->viewProjectionMtxF.ww +
+        (globalCtx->viewProjectionMtxF.wx * src->x + globalCtx->viewProjectionMtxF.wy * src->y +
+         globalCtx->viewProjectionMtxF.wz * src->z);
 
-    dest->x = 160.0f + ((dest->x / temp) * 160.0f);
-    dest->y = 120.0f - ((dest->y / temp) * 120.0f);
+    dest->x = 160.0f + ((dest->x / w) * 160.0f);
+    dest->y = 120.0f - ((dest->y / w) * 120.0f);
 }
 
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {

@@ -74,7 +74,7 @@ typedef enum {
 typedef enum {
     /* 0 */ STORM_REQUEST_NONE,
     /* 0 */ STORM_REQUEST_START,
-    /* 2 */ STORM_REQUEST_STOP,
+    /* 2 */ STORM_REQUEST_STOP
 } StormRequest;
 
 typedef enum {

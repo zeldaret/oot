@@ -1497,7 +1497,7 @@ s32 Gameplay_InCsMode(GlobalContext* globalCtx);
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec);
 void* Gameplay_LoadFile(GlobalContext* globalCtx, RomFile* file);
 void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn);
-void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest);
+void Gameplay_GetScreenPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest);
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx);
 s16 Gameplay_GetActiveCamId(GlobalContext* globalCtx);
 s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status);

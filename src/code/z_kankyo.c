@@ -31,7 +31,7 @@ u8 gSkyboxIsChanging = false;
 
 u16 gTimeSpeed = 0;
 
-u16 D_8011FB44 = 0xFFFC;
+u16 sLensFlareScreenDepth = GPACK_ZDZ(G_MAXFBZ, 0);
 
 typedef struct {
     /* 0x00 */ u16 startTime;
@@ -199,8 +199,8 @@ LightningBolt sLightningBolts[3];
 LightningStrike gLightningStrike;
 s16 sLightningFlashAlpha;
 
-s16 D_8015FD7E;
-s16 D_8015FD80;
+s16 sLensFlareDepthTestX;
+s16 sLensFlareDepthTestY;
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -224,7 +224,7 @@ u16 Environment_GetPixelDepth(s32 x, s32 y) {
 void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param) {
     GlobalContext* globalCtx = (GlobalContext*)param;
 
-    D_8011FB44 = Environment_GetPixelDepth(D_8015FD7E, D_8015FD80);
+    sLensFlareScreenDepth = Environment_GetPixelDepth(sLensFlareDepthTestX, sLensFlareDepthTestY);
     Lights_GlowCheck(globalCtx);
 }
 
@@ -1539,11 +1539,11 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
         // don't draw lens flare
     } else {
         if (isSun) {
-            func_800C016C(globalCtx, &pos, &screenPos);
-            D_8015FD7E = (s16)screenPos.x;
-            D_8015FD80 = (s16)screenPos.y - 5.0f;
-            if (D_8011FB44 != 0xFFFC || screenPos.x < 0.0f || screenPos.y < 0.0f || screenPos.x > SCREEN_WIDTH ||
-                screenPos.y > SCREEN_HEIGHT) {
+            Gameplay_GetScreenPos(globalCtx, &pos, &screenPos);
+            sLensFlareDepthTestX = (s16)screenPos.x;
+            sLensFlareDepthTestY = (s16)screenPos.y - 5.0f;
+            if (sLensFlareScreenDepth != GPACK_ZDZ(G_MAXFBZ, 0) || screenPos.x < 0.0f || screenPos.y < 0.0f ||
+                screenPos.x > SCREEN_WIDTH || screenPos.y > SCREEN_HEIGHT) {
                 isOffScreen = true;
             }
         }
