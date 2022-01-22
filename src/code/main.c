@@ -111,6 +111,6 @@ void Main(void* arg) {
 
     osSyncPrintf("mainproc 後始末\n"); // "Cleanup"
     osDestroyThread(&sGraphThread);
-    Rcp_Reset();
+    RcpUtils_Reset();
     osSyncPrintf("mainproc 実行終了\n"); // "End of execution"
 }
