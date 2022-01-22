@@ -645,8 +645,8 @@ typedef struct {
     /* 0x01F8 */ s16    naviCalling;
     /* 0x01FA */ s16    unk_1FA;
     /* 0x01FC */ s16    unk_1FC;
-    /* 0x01FE */ s16    beatingHeartChangeFactor;
-    /* 0x0200 */ s16    beatingHeartChangeDirection;
+    /* 0x01FE */ s16    beatingHeartColorFactor;
+    /* 0x0200 */ s16    beatingHeartColorFactorDirection;
     /* 0x0202 */ s16    beatingHeartPrim[3];
     /* 0x0208 */ s16    beatingHeartEnv[3];
     /* 0x020E */ s16    heartsPrimR[2];
