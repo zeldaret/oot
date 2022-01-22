@@ -55,10 +55,10 @@ def main():
         else:
             args.append(a)
 
-    expected_num_args = 5
+    expected_num_args = 6
     if need_help or len(args) != expected_num_args:
         print(
-            f"Usage: {sys.argv[0]} <version> <code file> <Audioseq file> <assets path> <sequences output dir>"
+            f"Usage: {sys.argv[0]} <version> <code file> <Audioseq file> <sequence defs path> <soundfont assets path> <sequences output dir>"
         )
         sys.exit(0 if need_help else 1)
 
@@ -70,8 +70,9 @@ def main():
     # code file
     code_data = open(args[1], "rb").read()
     seq_data = open(args[2], "rb").read()
-    asset_path = args[3]
-    midi_out_dir = args[4]
+    seq_def_path = args[3]
+    soundfont_header_path = args[4]
+    midi_out_dir = args[5]
 
     def check_offset(offset, type):
         if offset is None:
@@ -89,12 +90,10 @@ def main():
     seqdef_data = code_data[seqdef_offset:seqdef_offset + seqdef_length]
     seqmap_data = code_data[seqmap_offset:seqmap_offset + seqmap_length]
 
-    asset_input_xml_path = os.path.join(asset_path, "xml", "sequences", "Sequences.xml")
+    asset_input_xml_path = os.path.join(seq_def_path, "Sequences.xml")
     if not os.path.exists(asset_input_xml_path):
         print(f"Could not find {asset_input_xml_path}.", file=sys.stderr)
         sys.exit(1)
-
-    soundfont_header_path = os.path.join(asset_path, "soundfonts")
 
     # Import sequence names
     xml = XmlTree.parse(asset_input_xml_path)

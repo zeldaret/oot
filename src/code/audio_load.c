@@ -665,7 +665,7 @@ void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate) {
     u32 medium;
     s32 status;
     u32 romAddr;
-    s32 cachePolicy;
+    AudioCacheLoadType cachePolicy;
     void* ret;
     u32 realId;
 
@@ -682,25 +682,25 @@ void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate) {
         cachePolicy = table->entries[id].cachePolicy;
         romAddr = table->entries[realId].romAddr;
         switch (cachePolicy) {
-            case 0:
+            case CACHE_LOAD_PERMANENT:
                 ret = AudioHeap_AllocPermanent(tableType, realId, size);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
-            case 1:
+            case CACHE_LOAD_PERSISTENT:
                 ret = AudioHeap_AllocCached(tableType, size, CACHE_PERSISTENT, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
-            case 2:
+            case CACHE_LOAD_TEMPORARY:
                 ret = AudioHeap_AllocCached(tableType, size, CACHE_TEMPORARY, realId);
                 if (ret == NULL) {
                     return ret;
                 }
                 break;
-            case 3:
+            case CACHE_LOAD_EITHER:
             case 4:
                 ret = AudioHeap_AllocCached(tableType, size, CACHE_EITHER, realId);
                 if (ret == NULL) {
@@ -1132,9 +1132,9 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN * sizeof(s16));
     }
 
-    gAudioContext.sequenceTable = (AudioTable*)gSequenceTable;
-    gAudioContext.soundFontTable = (AudioTable*)gSoundFontTable;
-    gAudioContext.sampleBankTable = (AudioTable*)gSampleBankTable;
+    gAudioContext.sequenceTable = &gSequenceTable;
+    gAudioContext.soundFontTable = &gSoundFontTable;
+    gAudioContext.sampleBankTable = &gSampleBankTable;
     gAudioContext.sequenceFontTable = gSequenceFontTable;
     gAudioContext.numSequences = gAudioContext.sequenceTable->numEntries;
 

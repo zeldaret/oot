@@ -232,6 +232,9 @@ beginseg
     include "build/assets/sequences/107_Dodongo_and_Volvagia_Battle.o"
     include "build/assets/sequences/108_Timed_Minigame.o"
     include "build/src/audio/109_Unknown.o"
+    include "build/assets/sequences/110_Trip_to_Skye.o"
+    include "build/assets/sequences/111_Lothlorien.o"
+    include "build/assets/sequences/112_FF6_Overworld.o"
 endseg
 
 beginseg
@@ -620,6 +623,7 @@ beginseg
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
+    include "build/data/audio_tables.data.o"
     include "build/data/rsp.rodata.o"
 endseg
 

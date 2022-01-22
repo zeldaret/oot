@@ -53,6 +53,14 @@ typedef enum {
 } SampleBankTableType;
 
 typedef enum {
+    /* 0 */ CACHE_LOAD_PERMANENT,
+    /* 1 */ CACHE_LOAD_PERSISTENT,
+    /* 2 */ CACHE_LOAD_TEMPORARY,
+    /* 3 */ CACHE_LOAD_EITHER,
+    /* 4 */ CACHE_LOAD_EITHER_NOSYNC
+} AudioCacheLoadType;
+
+typedef enum {
     /* 0 */ CACHE_TEMPORARY,
     /* 1 */ CACHE_PERSISTENT,
     /* 2 */ CACHE_EITHER,
@@ -117,7 +125,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s32 order;
     /* 0x04 */ s32 numPredictors;
-    /* 0x08 */ s16 book[]; // Predictor coefficients, where each book size is 8 * order * npredictors. 8-byte aligned
+    /* 0x08 */ s16 book[1]; // Predictor coefficients, where each book size is 8 * order * npredictors. 8-byte aligned
 } AdpcmBook; // size >= 0x8
 
 typedef struct {
@@ -1031,5 +1039,28 @@ typedef struct {
     u8 state;
     u8 pos;
 } OcarinaStaff;
+
+#define DEFINE_SEQUENCE(a, b, c, d, e) a
+typedef enum {
+#include "tables/sequence_table.h"
+    SEQ_ID_MAX
+} SequenceId;
+#undef DEFINE_SEQUENCE
+
+#define DEFINE_SOUNDFONT(a, b, c, d, e, f, g, h, i) a
+typedef enum {
+#include "tables/soundfont_table.h"
+    FONT_ID_MAX
+} SoundfontId;
+#undef DEFINE_SOUNDFONT
+
+#define DEFINE_SAMPLE_BANK(a, b, c, d, e) a
+#define DEFINE_SAMPLE_BANK_REF(a, b, c, d) a
+typedef enum {
+#include "tables/sample_bank_table.h"
+    BANK_ID_MAX
+} SampleBankId;
+#undef DEFINE_SAMPLE_BANK_REF
+#undef DEFINE_SAMPLE_BANK
 
 #endif
