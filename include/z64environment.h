@@ -63,7 +63,7 @@ typedef enum {
     /* 1 */ CHANGE_SKY_REQUESTED,
     /* 2 */ CHANGE_SKY_WAIT,
     /* 3 */ CHANGE_SKY_ACTIVE
-} changeSkyState;
+} ChangeSkyState;
 
 typedef enum {
     /* 0 */ PRECIP_RAIN_MAX, // max number of raindrops that can draw; uses this or SOS_MAX, whichever is larger
