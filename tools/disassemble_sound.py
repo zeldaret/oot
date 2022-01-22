@@ -39,6 +39,9 @@ class Soundfont:
             self.name = fontdef.name
         else:
             self.name = f"Font_{entry.offset:0>8x}"
+        
+        bank = int(fontdef.bankOverride) if fontdef.bankOverride else entry.bank
+        entry.bankOverride = int(fontdef.bankOverride) if fontdef.bankOverride else None
 
         endOffset = entry.offset + 8
         percussionOffset, effectsOffset = struct.unpack(">LL", ctl[entry.offset:endOffset])
@@ -65,7 +68,7 @@ class Soundfont:
                 if fontdef:
                     instdef = fontdef.instruments[instIdx] if instIdx < len(fontdef.instruments) else None
                 buffer = setCtl[offset:offset + 32]
-                instrument = None if offset == 0 else Instrument(entry.bank, buffer, setCtl, entry.offset, offset, instdef, instIdx, self.name)
+                instrument = None if offset == 0 else Instrument(bank, buffer, setCtl, entry.offset, offset, instdef, instIdx, self.name)
                 self.instruments.append(instrument)
                 instIdx += 1
 
@@ -77,7 +80,7 @@ class Soundfont:
                     effectdef = fontdef.effects[i] if i < len(fontdef.effects) else None
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect(entry.bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef, i)
+                effect = None if offset == 0 else SoundEffect(bank, buffer, setCtl, entry.offset, effectsOffset + (i * 8), effectdef, i)
                 self.effects.append(effect)
         
         if entry.percussionCount > 0:
@@ -88,7 +91,7 @@ class Soundfont:
                 if fontdef:
                     drumdef = fontdef.drums[i] if i < len(fontdef.drums) else None
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion(entry.bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef, i)
+                percussion = None if offset == 0 else Percussion(bank, setCtl[offset:offset + 16], setCtl, entry.offset, offset, drumdef, i)
                 self.percussions.append(percussion)
 
         self.instruments = sorted(self.instruments, key=lambda i: 100 if i is None else i.offset)
@@ -297,8 +300,9 @@ def parse_soundfonts(fontdef_data, font_data, fontdefs):
     return fonts
 
 class SoundfontDefinition:
-    def __init__(self, name, index) -> None:
+    def __init__(self, name, index, bankOverride) -> None:
         self.name = name or ""
+        self.bankOverride = bankOverride or None
         self.index = index or -1
         self.instruments = []
         self.drums = []
@@ -316,7 +320,11 @@ def read_soundfont_xmls(xml_dir):
         if file.endswith(".xml"):
             xml = XmlTree.parse(os.path.join(xml_dir, file))
             soundfontElement = xml.find("./Soundfont")
-            soundfont = SoundfontDefinition(soundfontElement.get("Name"), soundfontElement.get("Index"))
+            soundfont = SoundfontDefinition(
+                soundfontElement.get("Name"),
+                soundfontElement.get("Index"),
+                soundfontElement.get("OverrideSampleBank")
+            )
             instrumentsElement = soundfontElement.find("Instruments")
             instrumentElements = (instrumentsElement and instrumentsElement.findall("Instrument")) or []
             drumsElement = soundfontElement.find("Drums")
@@ -531,6 +539,10 @@ def write_soundfont(font, filename, banknames):
 
     if font.bank2 < 128:
         XmlTree.SubElement(banks, "Bank", { "Name": banknames[font.bank2] })
+    
+    if font.bankOverride:
+        overrideBanks = XmlTree.SubElement(root, "ForceSampleBank")
+        XmlTree.SubElement(overrideBanks, "Bank", { "Name": banknames[font.bankOverride] })
 
     instruments = XmlTree.SubElement(root, "Instruments")
     drums = XmlTree.SubElement(root, "Drums")

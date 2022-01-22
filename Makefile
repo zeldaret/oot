@@ -201,7 +201,7 @@ setup:
 	python3 extract_baserom.py
 	python3 extract_assets.py
 	python3 tools/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/soundfonts
-	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences assets/sequences
+	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences assets/soundfonts assets/sequences
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
