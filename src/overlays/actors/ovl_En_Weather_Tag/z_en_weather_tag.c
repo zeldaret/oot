@@ -141,21 +141,21 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
             gInterruptSongOfStorms = true;
             if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE &&
                 (globalCtx->envCtx.indoors ||
-                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.weatherChgLights))) {
+                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLights))) {
                 gInterruptSongOfStorms = false;
                 if (gWeatherMode != weatherMode) {
                     gWeatherMode = weatherMode;
                     if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) {
-                        globalCtx->envCtx.weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
+                        globalCtx->envCtx.changeSkyState = CHANGE_SKY_REQUESTED;
                         globalCtx->envCtx.skyboxConfig = skyboxConfig;
                         globalCtx->envCtx.nextSkyboxConfig = nextSkyboxConfig;
-                        globalCtx->envCtx.weatherChgSkyTimer = changeDuration;
-                        globalCtx->envCtx.weatherChgLights = true;
+                        globalCtx->envCtx.changeSkyTimer = changeDuration;
+                        globalCtx->envCtx.changeLights = true;
                         globalCtx->envCtx.lightConfig = lightConfig;
                         globalCtx->envCtx.nextLightConfig = nextLightConfig;
                         gSavedNextLightConfig = nextLightConfig;
-                        globalCtx->envCtx.weatherChgDuration = changeDuration;
-                        globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration;
+                        globalCtx->envCtx.outdoorChangeDuration = changeDuration;
+                        globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.outdoorChangeDuration;
                     }
                 }
                 ret = true;
@@ -183,19 +183,19 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
             gInterruptSongOfStorms = true;
             if ((globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) &&
                 (globalCtx->envCtx.indoors ||
-                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.weatherChgLights))) {
+                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLights))) {
                 gInterruptSongOfStorms = false;
                 gWeatherMode = WEATHER_MODE_CLEAR;
-                globalCtx->envCtx.weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
+                globalCtx->envCtx.changeSkyState = CHANGE_SKY_REQUESTED;
                 globalCtx->envCtx.skyboxConfig = skyboxConfig;
                 globalCtx->envCtx.nextSkyboxConfig = nextSkyboxConfig;
-                globalCtx->envCtx.weatherChgSkyTimer = changeDuration;
-                globalCtx->envCtx.weatherChgLights = true;
+                globalCtx->envCtx.changeSkyTimer = changeDuration;
+                globalCtx->envCtx.changeLights = true;
                 globalCtx->envCtx.lightConfig = lightConfig;
                 globalCtx->envCtx.nextLightConfig = nextLightConfig;
                 gSavedNextLightConfig = nextLightConfig;
-                globalCtx->envCtx.weatherChgDuration = changeDuration;
-                globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration;
+                globalCtx->envCtx.outdoorChangeDuration = changeDuration;
+                globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.outdoorChangeDuration;
 
                 ret = true;
             }
@@ -207,7 +207,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
 }
 
 void EnWeatherTag_DisabledCloudyHyruleMarket(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 3, 60, WEATHER_MODE_HYRULE_CLOUDY)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 3, 60, WEATHER_MODE_CLOUDY_CONFIG3)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyHyruleMarket);
     }
 }
@@ -219,7 +219,7 @@ void EnWeatherTag_EnabledCloudyHyruleMarket(EnWeatherTag* this, GlobalContext* g
 }
 
 void EnWeatherTag_DisabledCloudyLonLonRanch(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, WEATHER_MODE_LONLON_DMT_CLOUDY)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, WEATHER_MODE_CLOUDY_CONFIG2)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyLonLonRanch);
     }
 }
@@ -231,7 +231,7 @@ void EnWeatherTag_EnabledCloudyLonLonRanch(EnWeatherTag* this, GlobalContext* gl
 }
 
 void EnWeatherTag_DisabledCloudyDeathMountain(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, WEATHER_MODE_LONLON_DMT_CLOUDY)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, WEATHER_MODE_CLOUDY_CONFIG2)) {
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudyDeathMountain);
     }
 }
@@ -243,7 +243,7 @@ void EnWeatherTag_EnabledCloudyDeathMountain(EnWeatherTag* this, GlobalContext* 
 }
 
 void EnWeatherTag_DisabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, WEATHER_MODE_ZORA_SNOW)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 60, WEATHER_MODE_SNOW)) {
         globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 64;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledCloudySnow);
     }
@@ -257,7 +257,7 @@ void EnWeatherTag_EnabledCloudySnow(EnWeatherTag* this, GlobalContext* globalCtx
 }
 
 void EnWeatherTag_DisabledRainLakeHylia(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, WEATHER_MODE_LAKE_HYLIA_RAIN)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 2, 100, WEATHER_MODE_RAIN)) {
         Environment_PlayStormNatureAmbience(globalCtx);
         globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 25;
         EnWeatherTag_SetupAction(this, EnWeatherTag_EnabledRainLakeHylia);
@@ -273,7 +273,7 @@ void EnWeatherTag_EnabledRainLakeHylia(EnWeatherTag* this, GlobalContext* global
 }
 
 void EnWeatherTag_DisabledCloudyRainThunderKakariko(EnWeatherTag* this, GlobalContext* globalCtx) {
-    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 4, 100, WEATHER_MODE_KAK_RAIN)) {
+    if (WeatherTag_CheckEnableWeatherEffect(this, globalCtx, 0, 1, 0, 4, 100, WEATHER_MODE_HEAVY_RAIN)) {
         Environment_PlayStormNatureAmbience(globalCtx);
         globalCtx->envCtx.lightningState = LIGHTNING_ON;
         globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 30;

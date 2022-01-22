@@ -31,7 +31,7 @@ u8 gSkyboxIsChanging = false;
 
 u16 gTimeSpeed = 0;
 
-u16 sLensFlareScreenDepth = GPACK_ZDZ(G_MAXFBZ, 0);
+u16 sSunScreenDepth = GPACK_ZDZ(G_MAXFBZ, 0);
 
 typedef struct {
     /* 0x00 */ u16 startTime;
@@ -199,8 +199,8 @@ LightningBolt sLightningBolts[3];
 LightningStrike gLightningStrike;
 s16 sLightningFlashAlpha;
 
-s16 sLensFlareDepthTestX;
-s16 sLensFlareDepthTestY;
+s16 sSunDepthTestX;
+s16 sSunDepthTestY;
 
 LightNode* sNGameOverLightNode;
 LightInfo sNGameOverLightInfo;
@@ -237,7 +237,7 @@ u16 Environment_GetPixelDepth(s32 x, s32 y) {
 void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param) {
     GlobalContext* globalCtx = (GlobalContext*)param;
 
-    sLensFlareScreenDepth = Environment_GetPixelDepth(sLensFlareDepthTestX, sLensFlareDepthTestY);
+    sSunScreenDepth = Environment_GetPixelDepth(sSunDepthTestX, sSunDepthTestY);
     Lights_GlowCheck(globalCtx);
 }
 
@@ -265,10 +265,10 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
 
-    envCtx->weatherChgSkyState = WEATHER_CHANGE_SKY_INACTIVE;
-    envCtx->weatherChgSkyTimer = 0;
-    envCtx->weatherChgLights = false;
-    envCtx->weatherChgLightTimer = 0;
+    envCtx->changeSkyState = CHANGE_SKY_INACTIVE;
+    envCtx->changeSkyTimer = 0;
+    envCtx->changeLights = false;
+    envCtx->changeLightTimer = 0;
 
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->lightConfig = 0;
@@ -342,10 +342,10 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 0;
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
 
-    if (gSaveContext.applyWeatherOnLoad) {
+    if (gSaveContext.applyWeatherOnInit) {
         if (((void)0, gSaveContext.sceneSetupIndex) < 4) {
             switch (gWeatherMode) {
-                case WEATHER_MODE_HYRULE_CLOUDY:
+                case WEATHER_MODE_CLOUDY_CONFIG3:
                     envCtx->skyboxConfig = 1;
                     envCtx->nextSkyboxConfig = 1;
                     envCtx->lightConfig = 3;
@@ -354,9 +354,9 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_CUR] = 0;
                     break;
 
-                case WEATHER_MODE_LONLON_DMT_CLOUDY:
-                case WEATHER_MODE_ZORA_SNOW:
-                case WEATHER_MODE_LAKE_HYLIA_RAIN:
+                case WEATHER_MODE_CLOUDY_CONFIG2:
+                case WEATHER_MODE_SNOW:
+                case WEATHER_MODE_RAIN:
                     envCtx->skyboxConfig = 1;
                     envCtx->nextSkyboxConfig = 1;
                     envCtx->lightConfig = 2;
@@ -365,7 +365,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_CUR] = 0;
                     break;
 
-                case WEATHER_MODE_KAK_RAIN:
+                case WEATHER_MODE_HEAVY_RAIN:
                     envCtx->skyboxConfig = 1;
                     envCtx->nextSkyboxConfig = 1;
                     envCtx->lightConfig = 4;
@@ -379,13 +379,13 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
             }
 
             if (globalCtx->skyboxId == SKYBOX_NORMAL_SKY) {
-                if (gWeatherMode == WEATHER_MODE_ZORA_SNOW) {
+                if (gWeatherMode == WEATHER_MODE_SNOW) {
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_CUR] =
                         globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 64;
-                } else if (gWeatherMode == WEATHER_MODE_LAKE_HYLIA_RAIN) {
+                } else if (gWeatherMode == WEATHER_MODE_RAIN) {
                     globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 20;
                     globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] = 20;
-                } else if (gWeatherMode == WEATHER_MODE_KAK_RAIN) {
+                } else if (gWeatherMode == WEATHER_MODE_HEAVY_RAIN) {
                     globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 30;
                     globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] = 30;
                 }
@@ -398,7 +398,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     gInterruptSongOfStorms = false;
     gSavedNextLightConfig = 0;
     gSkyboxIsChanging = false;
-    gSaveContext.applyWeatherOnLoad = false;
+    gSaveContext.applyWeatherOnInit = false;
 
     R_ENV_LIGHT1_DIR(0) = 80;
     R_ENV_LIGHT1_DIR(1) = 80;
@@ -588,15 +588,15 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
         switch (envCtx->stormState) {
             case 0:
                 if ((envCtx->stormRequest == STORM_REQUEST_START) && !gSkyboxIsChanging) {
-                    envCtx->weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
+                    envCtx->changeSkyState = CHANGE_SKY_REQUESTED;
                     envCtx->skyboxConfig = 0;
                     envCtx->nextSkyboxConfig = 1;
-                    envCtx->weatherChgSkyTimer = 100;
-                    envCtx->weatherChgLights = true;
+                    envCtx->changeSkyTimer = 100;
+                    envCtx->changeLights = true;
                     envCtx->lightConfig = 0;
                     envCtx->nextLightConfig = 2;
                     gSavedNextLightConfig = 2;
-                    envCtx->weatherChgLightTimer = envCtx->weatherChgDuration = 100;
+                    envCtx->changeLightTimer = envCtx->outdoorChangeDuration = 100;
                     envCtx->stormState++;
                 }
                 break;
@@ -604,15 +604,15 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
             case 1:
                 if (!gSkyboxIsChanging && (envCtx->stormRequest == STORM_REQUEST_STOP)) {
                     gWeatherMode = WEATHER_MODE_CLEAR;
-                    envCtx->weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
+                    envCtx->changeSkyState = CHANGE_SKY_REQUESTED;
                     envCtx->skyboxConfig = 1;
                     envCtx->nextSkyboxConfig = 0;
-                    envCtx->weatherChgSkyTimer = 100;
-                    envCtx->weatherChgLights = true;
+                    envCtx->changeSkyTimer = 100;
+                    envCtx->changeLights = true;
                     envCtx->lightConfig = 2;
                     envCtx->nextLightConfig = 0;
                     gSavedNextLightConfig = 0;
-                    envCtx->weatherChgLightTimer = envCtx->weatherChgDuration = 100;
+                    envCtx->changeLightTimer = envCtx->outdoorChangeDuration = 100;
                     envCtx->precipitation[PRECIP_RAIN_MAX] = 0;
                     envCtx->stormRequest = STORM_REQUEST_NONE;
                     envCtx->stormState = 0;
@@ -670,9 +670,9 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
                     skyboxBlend = (skyboxBlend < 128) ? 255 : 0;
 
-                    if ((envCtx->weatherChgSkyState != WEATHER_CHANGE_SKY_INACTIVE) &&
-                        (envCtx->weatherChgSkyState < WEATHER_CHANGE_SKY_ACTIVE)) {
-                        envCtx->weatherChgSkyState++;
+                    if ((envCtx->changeSkyState != CHANGE_SKY_INACTIVE) &&
+                        (envCtx->changeSkyState < CHANGE_SKY_ACTIVE)) {
+                        envCtx->changeSkyState++;
                         skyboxBlend = 0;
                     }
                 }
@@ -682,15 +682,16 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         Environment_UpdateStorm(envCtx, skyboxBlend);
 
-        if (envCtx->weatherChgSkyState >= WEATHER_CHANGE_SKY_ACTIVE) {
+        if (envCtx->changeSkyState >= CHANGE_SKY_ACTIVE) {
             newSkybox1Index = gTimeBasedSkyboxConfigs[envCtx->skyboxConfig][i].skybox1Index;
             newSkybox2Index = gTimeBasedSkyboxConfigs[envCtx->nextSkyboxConfig][i].skybox2Index;
 
-            skyboxBlend = ((f32)envCtx->weatherChgDuration - envCtx->weatherChgSkyTimer--) /
-                          (f32)envCtx->weatherChgDuration * 255;
+            skyboxBlend = ((f32)envCtx->outdoorChangeDuration - envCtx->changeSkyTimer) /
+                          (f32)envCtx->outdoorChangeDuration * 255;
+            envCtx->changeSkyTimer--;
 
-            if (envCtx->weatherChgSkyTimer <= 0) {
-                envCtx->weatherChgSkyState = WEATHER_CHANGE_SKY_INACTIVE;
+            if (envCtx->changeSkyTimer <= 0) {
+                envCtx->changeSkyState = CHANGE_SKY_INACTIVE;
                 envCtx->skyboxConfig = envCtx->nextSkyboxConfig;
             }
         }
@@ -900,8 +901,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
             osSyncPrintf("\nnext_zelda_time=[%x]", ((void)0, gSaveContext.nextDayTime));
 
             // nextDayTime is used as both a time of day value and a timer to delay sfx when changing days.
-            // When suns song is played, nextDayTime is set to 0x8001 or 0 for day and night respectively.
-            // These values actually get used as a time of day value.
+            // When Sun's Song is played, nextDayTime is set to 0x8001 or 0 for day and night respectively.
+            // These values will actually get used as a time of day value.
             // After this, nextDayTime is assigned magic values of 0xFFFE or 0xFFFD for day and night respectively.
             // From here, 0x10 is decremented from nextDayTime until it reaches either 0xFF0E or 0xFF0D, effectively
             // delaying the chicken crow or dog howl sfx by 15 frames when loading the new area.
@@ -917,7 +918,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
-                if ((envCtx->weatherChgSkyTimer == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
+                if ((envCtx->changeSkyTimer == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
                     if (IS_DAY || gTimeSpeed >= 400) {
@@ -987,13 +988,13 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                         sNextSandstormColorIndex = sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting & 3;
                         sSandstormLerpScale = sp8C;
 
-                        if (envCtx->weatherChgLights) {
-                            sp88 = ((f32)envCtx->weatherChgDuration - envCtx->weatherChgLightTimer) /
-                                   envCtx->weatherChgDuration;
-                            envCtx->weatherChgLightTimer--;
+                        if (envCtx->changeLights) {
+                            sp88 = ((f32)envCtx->outdoorChangeDuration - envCtx->changeLightTimer) /
+                                   envCtx->outdoorChangeDuration;
+                            envCtx->changeLightTimer--;
 
-                            if (envCtx->weatherChgLightTimer <= 0) {
-                                envCtx->weatherChgLights = false;
+                            if (envCtx->changeLightTimer <= 0) {
+                                envCtx->changeLights = false;
                                 envCtx->lightConfig = envCtx->nextLightConfig;
                             }
                         }
@@ -1021,7 +1022,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                         envCtx->lightSettings.light1Dir[1] =
                             Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f;
                         envCtx->lightSettings.light1Dir[2] =
-                            (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f);
+                            Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f;
 
                         // set light2 direction for the moon
                         envCtx->lightSettings.light2Dir[0] = -envCtx->lightSettings.light1Dir[0];
@@ -1443,7 +1444,8 @@ void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* 
                                   GraphicsContext* gfxCtx, Vec3f pos, s32 unused) {
     if ((globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (globalCtx->envCtx.skyboxConfig == 0)) {
         Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos, 2000,
-                                  370, Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400, 1);
+                                  370, Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400,
+                                  true);
     }
 }
 
@@ -1553,9 +1555,9 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     } else {
         if (isSun) {
             Gameplay_GetScreenPos(globalCtx, &pos, &screenPos);
-            sLensFlareDepthTestX = (s16)screenPos.x;
-            sLensFlareDepthTestY = (s16)screenPos.y - 5.0f;
-            if (sLensFlareScreenDepth != GPACK_ZDZ(G_MAXFBZ, 0) || screenPos.x < 0.0f || screenPos.y < 0.0f ||
+            sSunDepthTestX = (s16)screenPos.x;
+            sSunDepthTestY = (s16)screenPos.y - 5.0f;
+            if (sSunScreenDepth != GPACK_ZDZ(G_MAXFBZ, 0) || screenPos.x < 0.0f || screenPos.y < 0.0f ||
                 screenPos.x > SCREEN_WIDTH || screenPos.y > SCREEN_HEIGHT) {
                 isOffScreen = true;
             }
@@ -2185,7 +2187,7 @@ void Environment_DrawCustomLensFlare(GlobalContext* globalCtx) {
 
         Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos,
                                   gLensFlareUnused, gLensFlareScale, gLensFlareColorIntensity,
-                                  gLensFlareScreenFillAlpha, 0);
+                                  gLensFlareScreenFillAlpha, false);
     }
 }
 

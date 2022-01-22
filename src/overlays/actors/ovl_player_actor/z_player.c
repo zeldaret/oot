@@ -3977,7 +3977,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                         Gameplay_TriggerVoidOut(globalCtx);
                         gSaveContext.respawnFlag = -2;
                     }
-                    gSaveContext.applyWeatherOnLoad = true;
+                    gSaveContext.applyWeatherOnInit = true;
                     func_800994A0(globalCtx);
                 }
                 globalCtx->sceneLoadFlag = 0x14;

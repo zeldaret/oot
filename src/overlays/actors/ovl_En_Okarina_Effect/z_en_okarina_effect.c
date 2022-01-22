@@ -36,7 +36,7 @@ void EnOkarinaEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
-    if ((gWeatherMode != WEATHER_MODE_LAKE_HYLIA_RAIN) && (gWeatherMode != WEATHER_MODE_KAK_RAIN) &&
+    if ((gWeatherMode != WEATHER_MODE_RAIN) && (gWeatherMode != WEATHER_MODE_HEAVY_RAIN) &&
         (globalCtx->envCtx.stormRequest == STORM_REQUEST_START)) {
         globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
         Environment_StopStormNatureAmbience(globalCtx);

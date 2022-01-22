@@ -305,7 +305,7 @@ void Gameplay_Init(GameState* thisx) {
     func_801109B0(globalCtx);
 
     if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
-        if (gSaveContext.nextDayTime == CLOCK_TIME(12, 0) + 1) {
+        if (gSaveContext.nextDayTime == NEXT_TIME_DAY) {
             gSaveContext.totalDays++;
             gSaveContext.bgsDayCount++;
             gSaveContext.dogIsLost = true;

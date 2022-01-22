@@ -376,26 +376,26 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
     u8 sp41; // imageIdx
     u8 sp40; // imageIdx2
     u32 start;
-    s32 phi_v1;
+    s32 skyboxConfig;
 
     switch (skyboxId) {
         case SKYBOX_NORMAL_SKY:
-            phi_v1 = 0;
-            if (gSaveContext.applyWeatherOnLoad && gSaveContext.sceneSetupIndex < 4 &&
-                gWeatherMode > WEATHER_MODE_CLEAR && gWeatherMode <= WEATHER_MODE_KAK_RAIN) {
-                phi_v1 = 1;
+            skyboxConfig = 0;
+            if (gSaveContext.applyWeatherOnInit && gSaveContext.sceneSetupIndex < 4 &&
+                gWeatherMode > WEATHER_MODE_CLEAR && gWeatherMode <= WEATHER_MODE_HEAVY_RAIN) {
+                skyboxConfig = 1;
             }
 
-            for (i = 0; i < 9; i++) {
-                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxConfigs[phi_v1][i].startTime &&
-                    (gSaveContext.skyboxTime < gTimeBasedSkyboxConfigs[phi_v1][i].endTime ||
-                     gTimeBasedSkyboxConfigs[phi_v1][i].endTime == 0xFFFF)) {
-                    globalCtx->envCtx.skybox1Index = sp41 = gTimeBasedSkyboxConfigs[phi_v1][i].skybox1Index;
-                    globalCtx->envCtx.skybox2Index = sp40 = gTimeBasedSkyboxConfigs[phi_v1][i].skybox2Index;
-                    if (gTimeBasedSkyboxConfigs[phi_v1][i].changeSkybox) {
+            for (i = 0; i < ARRAY_COUNT(gTimeBasedSkyboxConfigs[skyboxConfig]); i++) {
+                if (gSaveContext.skyboxTime >= gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime &&
+                    (gSaveContext.skyboxTime < gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime ||
+                     gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime == 0xFFFF)) {
+                    globalCtx->envCtx.skybox1Index = sp41 = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox1Index;
+                    globalCtx->envCtx.skybox2Index = sp40 = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox2Index;
+                    if (gTimeBasedSkyboxConfigs[skyboxConfig][i].changeSkybox) {
                         globalCtx->envCtx.skyboxBlend =
-                            Environment_LerpWeight(gTimeBasedSkyboxConfigs[phi_v1][i].endTime,
-                                                   gTimeBasedSkyboxConfigs[phi_v1][i].startTime,
+                            Environment_LerpWeight(gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime,
+                                                   gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime,
                                                    ((void)0, gSaveContext.skyboxTime)) *
                             255.0f;
                     } else {

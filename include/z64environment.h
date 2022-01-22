@@ -9,6 +9,8 @@
 #define FILL_SCREEN_XLU (1 << 1)
 
 #define NEXT_TIME_NONE 0xFFFF
+#define NEXT_TIME_DAY CLOCK_TIME(12, 0) + 1
+#define NEXT_TIME_NIGHT CLOCK_TIME(0, 0)
 #define NEXT_TIME_DAY_SET 0xFFFE
 #define NEXT_TIME_NIGHT_SET 0xFFFD
 
@@ -49,19 +51,19 @@ typedef enum {
 
 typedef enum {
     /* 0 */ WEATHER_MODE_CLEAR,
-    /* 1 */ WEATHER_MODE_HYRULE_CLOUDY,
-    /* 2 */ WEATHER_MODE_LONLON_DMT_CLOUDY,
-    /* 3 */ WEATHER_MODE_ZORA_SNOW,
-    /* 4 */ WEATHER_MODE_LAKE_HYLIA_RAIN,
-    /* 5 */ WEATHER_MODE_KAK_RAIN
+    /* 1 */ WEATHER_MODE_CLOUDY_CONFIG3, // scene must define settings for light config 3
+    /* 2 */ WEATHER_MODE_CLOUDY_CONFIG2, // scene must define settings for light config 2
+    /* 3 */ WEATHER_MODE_SNOW, // scene must define settings for light config 2
+    /* 4 */ WEATHER_MODE_RAIN, // scene must define settings for light config 2
+    /* 5 */ WEATHER_MODE_HEAVY_RAIN // scene must define settings for light config 4
 } WeatherMode;
 
 typedef enum {
-    /* 0 */ WEATHER_CHANGE_SKY_INACTIVE,
-    /* 1 */ WEATHER_CHANGE_SKY_REQUESTED,
-    /* 2 */ WEATHER_CHANGE_SKY_WAIT,
-    /* 3 */ WEATHER_CHANGE_SKY_ACTIVE
-} WeatherChangeSkyState;
+    /* 0 */ CHANGE_SKY_INACTIVE,
+    /* 1 */ CHANGE_SKY_REQUESTED,
+    /* 2 */ CHANGE_SKY_WAIT,
+    /* 3 */ CHANGE_SKY_ACTIVE
+} changeSkyState;
 
 typedef enum {
     /* 0 */ PRECIP_RAIN_MAX, // max number of raindrops that can draw; uses this or SOS_MAX, whichever is larger
@@ -118,8 +120,6 @@ typedef struct {
     /* 0x14 */ s16 fogFar;
 } EnvLightSettings; // size = 0x16
 
-// 1.0: 801D8EC4
-// dbg: 80222A44
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
     /* 0x02 */ u16 timeSpeed; // how many units of time that pass every update
@@ -133,15 +133,15 @@ typedef struct {
     /* 0x16 */ u8 sunMoonDisabled;
     /* 0x17 */ u8 skyboxConfig; // only used outdoors
     /* 0x18 */ u8 nextSkyboxConfig; // only used outdoors
-    /* 0x19 */ u8 weatherChgSkyState;
-    /* 0x1A */ u16 weatherChgSkyTimer; // time left to transition the skybox for weather change
+    /* 0x19 */ u8 changeSkyState;
+    /* 0x1A */ u16 changeSkyTimer;
     /* 0x1C */ char unk_1C[0x02];
     /* 0x1E */ u8 indoors; // when true, day time has no effect on lighting
     /* 0x1F */ u8 lightConfig; // only used outdoors
     /* 0x20 */ u8 nextLightConfig; // only used outdoors
-    /* 0x21 */ u8 weatherChgLights;
-    /* 0x22 */ u16 weatherChgLightTimer; // time left to transition lights for weather change
-    /* 0x24 */ u16 weatherChgDuration; // total time to change weather. used for lights and sky lerp
+    /* 0x21 */ u8 changeLights;
+    /* 0x22 */ u16 changeLightTimer;
+    /* 0x24 */ u16 outdoorChangeDuration; // total time to change skybox and light configs
     /* 0x26 */ char unk_26[0x02];
     /* 0x28 */ LightInfo dirLight1; // used for sunlight outdoors
     /* 0x36 */ LightInfo dirLight2; // used for moonlight outdoors
