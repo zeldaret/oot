@@ -1498,8 +1498,8 @@ void Gameplay_GetScreenPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
         (globalCtx->viewProjectionMtxF.wx * src->x + globalCtx->viewProjectionMtxF.wy * src->y +
          globalCtx->viewProjectionMtxF.wz * src->z);
 
-    dest->x = 160.0f + ((dest->x / w) * 160.0f);
-    dest->y = 120.0f - ((dest->y / w) * 120.0f);
+    dest->x = (SCREEN_WIDTH / 2) + ((dest->x / w) * (SCREEN_WIDTH / 2));
+    dest->y = (SCREEN_HEIGHT / 2) - ((dest->y / w) * (SCREEN_HEIGHT / 2));
 }
 
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {

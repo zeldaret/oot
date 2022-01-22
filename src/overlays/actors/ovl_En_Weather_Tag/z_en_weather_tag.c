@@ -127,8 +127,9 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3, u8 arg4,
-                                       u8 nextLightConfig, u16 arg6, u8 weatherMode) {
+u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* globalCtx, u8 skyboxConfig,
+                                       u8 nextSkyboxConfig, u8 lightConfig, u8 nextLightConfig, u16 changeDuration,
+                                       u8 weatherMode) {
     s32 pad;
     u8 ret = false;
     Player* player = GET_PLAYER(globalCtx);
@@ -146,14 +147,14 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
                     gWeatherMode = weatherMode;
                     if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) {
                         globalCtx->envCtx.weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
-                        globalCtx->envCtx.skyboxConfig = arg2;
-                        globalCtx->envCtx.nextSkyboxConfig = arg3;
-                        globalCtx->envCtx.weatherChgSkyTimer = arg6;
+                        globalCtx->envCtx.skyboxConfig = skyboxConfig;
+                        globalCtx->envCtx.nextSkyboxConfig = nextSkyboxConfig;
+                        globalCtx->envCtx.weatherChgSkyTimer = changeDuration;
                         globalCtx->envCtx.weatherChgLights = true;
-                        globalCtx->envCtx.lightConfig = arg4;
+                        globalCtx->envCtx.lightConfig = lightConfig;
                         globalCtx->envCtx.nextLightConfig = nextLightConfig;
                         gSavedNextLightConfig = nextLightConfig;
-                        globalCtx->envCtx.weatherChgDuration = arg6;
+                        globalCtx->envCtx.weatherChgDuration = changeDuration;
                         globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration;
                     }
                 }
@@ -169,8 +170,8 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
     return ret;
 }
 
-u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3, u8 arg4,
-                                  u8 nextLightConfig, u16 arg6) {
+u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, u8 skyboxConfig, u8 nextSkyboxConfig,
+                                  u8 lightConfig, u8 nextLightConfig, u16 changeDuration) {
     s32 pad;
     u8 ret = false;
     Player* player = GET_PLAYER(globalCtx);
@@ -186,14 +187,14 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
                 gInterruptSongOfStorms = false;
                 gWeatherMode = WEATHER_MODE_CLEAR;
                 globalCtx->envCtx.weatherChgSkyState = WEATHER_CHANGE_SKY_REQUESTED;
-                globalCtx->envCtx.skyboxConfig = arg2;
-                globalCtx->envCtx.nextSkyboxConfig = arg3;
-                globalCtx->envCtx.weatherChgSkyTimer = arg6;
+                globalCtx->envCtx.skyboxConfig = skyboxConfig;
+                globalCtx->envCtx.nextSkyboxConfig = nextSkyboxConfig;
+                globalCtx->envCtx.weatherChgSkyTimer = changeDuration;
                 globalCtx->envCtx.weatherChgLights = true;
-                globalCtx->envCtx.lightConfig = arg4;
+                globalCtx->envCtx.lightConfig = lightConfig;
                 globalCtx->envCtx.nextLightConfig = nextLightConfig;
                 gSavedNextLightConfig = nextLightConfig;
-                globalCtx->envCtx.weatherChgDuration = arg6;
+                globalCtx->envCtx.weatherChgDuration = changeDuration;
                 globalCtx->envCtx.weatherChgLightTimer = globalCtx->envCtx.weatherChgDuration;
 
                 ret = true;
