@@ -12,27 +12,13 @@ typedef enum {
 } LightningBoltState;
 
 typedef struct {
-    /* 0x00 */ s32 shift; // scaling for fractional part
-    /* 0x04 */ s32 base; // value for integer part when fractional part is 0
-} Struct_8011FAF0; // size = 0x8
+    /* 0x00 */ s32 mantissa;
+    /* 0x04 */ s32 exponent;
+} ZBufValConversionEntry; // size = 0x8
 
-Struct_8011FAF0 D_8011FAF0[1 << 3] = { // enough entries for indexing with 3-bit integer part
-    // range: 0 to 0x1FFC0,     abs range: 0x00000 to 0x1FFC0
-    { 6, (1 << 11) * (0) },
-    // range: 0 to 0x0FFE0,     abs range: 0x20000 to 0x2FFE0
-    { 5, (1 << 11) * ((1 << 6)) },
-    // range: 0 to 0x07FF0,     abs range: 0x30000 to 0x37FF0
-    { 4, (1 << 11) * ((1 << 6) + (1 << 5)) },
-    // range: 0 to 0x03FF8,     abs range: 0x38000 to 0x3BFF8
-    { 3, (1 << 11) * ((1 << 6) + (1 << 5) + (1 << 4)) },
-    // range: 0 to 0x01FFC,     abs range: 0x3C000 to 0x3DFFC
-    { 2, (1 << 11) * ((1 << 6) + (1 << 5) + (1 << 4) + (1 << 3)) },
-    // range: 0 to 0x00FFE,     abs range: 0x3E000 to 0x3EFFE
-    { 1, (1 << 11) * ((1 << 6) + (1 << 5) + (1 << 4) + (1 << 3) + (1 << 2)) },
-    // range: 0 to 0x007FF,     abs range: 0x3F000 to 0x3F7FF
-    { 0, (1 << 11) * ((1 << 6) + (1 << 5) + (1 << 4) + (1 << 3) + (1 << 2) + (1 << 1)) },
-    // range: 0 to 0x007FF,     abs range: 0x3F800 to 0x3FFFF
-    { 0, (1 << 11) * ((1 << 6) + (1 << 5) + (1 << 4) + (1 << 3) + (1 << 2) + (1 << 1) + (1 << 0)) },
+ZBufValConversionEntry sZBufValConversionTable[1 << 3] = {
+    { 6, 0x00000 }, { 5, 0x20000 }, { 4, 0x30000 }, { 3, 0x38000 },
+    { 2, 0x3C000 }, { 1, 0x3E000 }, { 0, 0x3F000 }, { 0, 0x3F800 },
 };
 
 u8 gWeatherMode = WEATHER_MODE_CLEAR; // "E_wether_flg"
@@ -223,19 +209,21 @@ LightInfo sSGameOverLightInfo;
 u8 sGameOverLightsIntensity;
 u16 sSandstormScroll;
 
-#define ZBUF_INT(v)  _SHIFTR(v, 15,  3)
-#define ZBUF_FRAC(v) _SHIFTR(v,  4, 11)
+#define ZBUFVAL_EXPONENT(v) (((v) >> 15) & 7)
+#define ZBUFVAL_MANTISSA(v) (((v) >> 4) & 0x7FF)
 
 /**
- * zBufferVal is 18 bits
+ * Convert an 18-bits Z buffer value to a fixed point 15.3 value
  *
- *   3: Integer part
- *  11: Fractional part
+ * zBufferVal is 18 bits:
+ *   3: Exponent of z value
+ *  11: Mantissa of z value
  *   4: dz value (unused)
  */
-s32 Environment_ZDepthToScreenDepth(s32 zBufferVal) {
-    // base[int] + frac << shift[int]
-    s32 ret = (ZBUF_FRAC(zBufferVal) << D_8011FAF0[ZBUF_INT(zBufferVal)].shift) + D_8011FAF0[ZBUF_INT(zBufferVal)].base;
+s32 Environment_ZBufValToFixedPoint(s32 zBufferVal) {
+    // base[exp] + mantissa << shift[exp]
+    s32 ret = (ZBUFVAL_MANTISSA(zBufferVal) << sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].mantissa) +
+              sZBufValConversionTable[ZBUFVAL_EXPONENT(zBufferVal)].exponent;
 
     return ret;
 }

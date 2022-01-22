@@ -865,6 +865,7 @@ void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);
 void Font_LoadOrderedFont(Font* font);
 s32 func_8006F0A0(s32 arg0);
+s32 Environment_ZBufValToFixedPoint(s32 zBufferVal);
 u16 Environment_GetPixelDepth(s32 x, s32 y);
 void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param);
 void Environment_Init(GlobalContext* globalCtx, EnvironmentContext* envCtx, s32 unused);

@@ -347,7 +347,7 @@ void Lights_GlowCheck(GlobalContext* globalCtx) {
                 if (1) {}
                 if (1) {}
 
-                if (wZ < (Environment_ZDepthToScreenDepth(zBuf) >> 3)) {
+                if (wZ < (Environment_ZBufValToFixedPoint(zBuf) >> 3)) {
                     params->drawGlow = true;
                 }
             }
