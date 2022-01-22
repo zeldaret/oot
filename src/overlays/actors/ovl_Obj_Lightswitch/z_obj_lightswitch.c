@@ -93,8 +93,9 @@ void ObjLightswitch_InitCollider(ObjLightswitch* this, GlobalContext* globalCtx)
 
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderJntSphInit, this->colliderItems);
-    func_800D1694(this->actor.world.pos.x, this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y),
-                  this->actor.world.pos.z, &this->actor.shape.rot);
+    Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x,
+                                 this->actor.world.pos.y + (this->actor.shape.yOffset * this->actor.scale.y),
+                                 this->actor.world.pos.z, &this->actor.shape.rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     Collider_UpdateSpheres(0, &this->collider);
 }
@@ -411,7 +412,7 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
         this->actor.world.pos.y = child->world.pos.y + 60.0f;
         this->actor.world.pos.z = child->world.pos.z;
         Math_Vec3f_Copy(&pos, &this->actor.world.pos);
-        func_800D1694(pos.x, pos.y, pos.z, &this->actor.shape.rot);
+        Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &this->actor.shape.rot);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     } else {
         pos.x = this->actor.world.pos.x;
@@ -427,14 +428,14 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, GlobalContext* globalCtx) {
     rot.x = this->actor.shape.rot.x;
     rot.y = this->actor.shape.rot.y;
     rot.z = this->actor.shape.rot.z + this->flameRingRot;
-    func_800D1694(pos.x, pos.y, pos.z, &rot);
+    Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 859),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, object_lightswitch_DL_000398);
 
     rot.z = this->actor.shape.rot.z - this->flameRingRot;
-    func_800D1694(pos.x, pos.y, pos.z, &rot);
+    Matrix_SetTranslateRotateYXZ(pos.x, pos.y, pos.z, &rot);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 873),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -468,14 +469,14 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, GlobalContext* globalCtx) {
     sp60.y = this->actor.shape.rot.y;
     sp60.z = this->actor.shape.rot.z + this->flameRingRot;
 
-    func_800D1694(sp68.x, sp68.y, sp68.z, &sp60);
+    Matrix_SetTranslateRotateYXZ(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 930),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, object_lightswitch_DL_000398);
 
     sp60.z = this->actor.shape.rot.z - this->flameRingRot;
-    func_800D1694(sp68.x, sp68.y, sp68.z, &sp60);
+    Matrix_SetTranslateRotateYXZ(sp68.x, sp68.y, sp68.z, &sp60);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_lightswitch.c", 944),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

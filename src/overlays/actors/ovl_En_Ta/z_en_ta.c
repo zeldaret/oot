@@ -145,7 +145,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (globalCtx->sceneNum == SCENE_MALON_STABLE && gSaveContext.nightFlag) {
+            } else if (globalCtx->sceneNum == SCENE_MALON_STABLE && !IS_DAY) {
                 Actor_Kill(&this->actor);
                 osSyncPrintf(VT_FGCOL(CYAN) " 夜はいない \n" VT_RST);
             } else {
@@ -573,7 +573,7 @@ s32 func_80B150AC(EnTa* this, GlobalContext* globalCtx, s32 idx) {
     Player* player = GET_PLAYER(globalCtx);
     Actor* interactRangeActor;
 
-    if (player->stateFlags1 & 0x800) {
+    if (player->stateFlags1 & PLAYER_STATE1_11) {
         interactRangeActor = player->interactRangeActor;
         if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW &&
             interactRangeActor == &this->superCuccos[idx]->actor) {
@@ -607,7 +607,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
         if (player->heldActor == &this->superCuccos[unk_2CA]->actor) {
             player->heldActor = NULL;
         }
-        player->stateFlags1 &= ~0x800;
+        player->stateFlags1 &= ~PLAYER_STATE1_11;
         this->superCuccos[unk_2CA] = NULL;
     }
     this->unk_2E0 |= 1;
@@ -807,7 +807,7 @@ void func_80B15AD4(EnTa* this, GlobalContext* globalCtx) {
                          Animation_GetLastFrame(&gTalonSitHandsUpAnim), ANIMMODE_ONCE, 0.0f);
         this->unk_2CC = 50;
         func_80088B34(0x1E);
-        func_800F5ACC(NA_BGM_MINI_GAME_2);
+        func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         this->unk_2E0 |= 0x200;
         Message_CloseTextbox(globalCtx);
         func_8002DF54(globalCtx, &this->actor, 1);

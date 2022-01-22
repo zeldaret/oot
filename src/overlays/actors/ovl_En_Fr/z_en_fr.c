@@ -597,7 +597,7 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
 void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags2 & 0x2000000) {
+    if (player->stateFlags2 & PLAYER_STATE2_25) {
         if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
             globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
         }
@@ -1047,7 +1047,7 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     if ((limbIndex == 7) || (limbIndex == 8)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1735);
         Matrix_Push();
-        func_800D1FD4(&globalCtx->billboardMtxF);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fr.c", 1738),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);

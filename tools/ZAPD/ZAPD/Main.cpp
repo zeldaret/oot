@@ -48,7 +48,7 @@ void ErrorHandler(int sig)
 	const char* crashEasterEgg[] = {
 		"\tYou've met with a terrible fate, haven't you?",
 		"\tSEA BEARS FOAM. SLEEP BEARS DREAMS. \n\tBOTH END IN THE SAME WAY: CRASSSH!",
-		"ZAPD has fallen and cannot get up."
+		"\tZAPD has fallen and cannot get up.",
 	};
 
 	srand(time(nullptr));
@@ -215,6 +215,10 @@ int main(int argc, char* argv[])
 		else if (arg == "-s" || arg == "--static")
 		{
 			Globals::Instance->forceStatic = true;
+		}
+		else if (arg == "-us" || arg == "--unaccounted-static")
+		{
+			Globals::Instance->forceUnaccountedStatic = true;
 		}
 	}
 
@@ -430,6 +434,10 @@ void BuildAssetTexture(const fs::path& pngFilePath, TextureType texType, const f
 	std::string name = outPath.stem().string();
 
 	ZTexture tex(nullptr);
+
+	if (name.find("u32") != std::string::npos)
+		tex.dWordAligned = false;
+
 	tex.FromPNG(pngFilePath.string(), texType);
 	std::string cfgPath = StringHelper::Split(pngFilePath.string(), ".")[0] + ".cfg";
 

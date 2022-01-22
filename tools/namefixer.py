@@ -157,9 +157,17 @@ wordReplace = {
     "ACTIVE_CAM": "GET_ACTIVE_CAM(globalCtx)",
     "SkinMatrix_SetRotateRPY": "SkinMatrix_SetRotateZYX",
     "SkinMatrix_SetScaleRotateYRPTranslate": "SkinMatrix_SetScaleRotateYXZTranslate",
+    "SkinMatrix_SetScaleRotateYXZTranslate": "SkinMatrix_SetTranslateRotateYXZScale",
     "SkinMatrix_SetRotateRPYTranslate": "SkinMatrix_SetRotateZYXTranslate",
+    "SkinMatrix_SetRotateZYXTranslate": "SkinMatrix_SetTranslateRotateZYX",
     "Matrix_RotateRPY": "Matrix_RotateZYX",
     "Matrix_JointPosition": "Matrix_TranslateRotateZYX",
+    "func_800D1694": "Matrix_SetTranslateRotateYXZ",
+    "func_800D1FD4": "Matrix_ReplaceRotation",
+    "func_800A7EC0": "SkinMatrix_SetRotateAxis",
+    "func_800D2A34": "Matrix_SetTranslateUniformScaleMtxF",
+    "func_800D2A98": "Matrix_SetTranslateUniformScaleMtx",
+    "func_800D2CEC": "Matrix_SetTranslateScaleMtx2",
 }
 
 # [a-zA-Z0-9_]

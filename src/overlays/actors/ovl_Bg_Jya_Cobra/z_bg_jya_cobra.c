@@ -449,7 +449,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
 
@@ -490,7 +490,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
 
     if (Math_ScaledStepToS(&this->unk_170, this->unk_16A * 0x2000, this->unk_16E)) {
         this->unk_16C = (this->unk_16C + this->unk_16A) & 7;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
         func_80896918(this, globalCtx);
     } else {
@@ -498,7 +498,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
             (this->unk_16C * 0x2000) + this->dyna.actor.home.rot.y + this->unk_170;
     }
 
-    if (player->stateFlags2 & 0x10) {
+    if (player->stateFlags2 & PLAYER_STATE2_4) {
         if (this->unk_172) {
             func_80895BEC(this, globalCtx);
         }
@@ -545,7 +545,7 @@ void func_80896D78(BgJyaCobra* this, GlobalContext* globalCtx) {
     sp44.x = D_80897308[this->dyna.actor.params & 3] + this->dyna.actor.shape.rot.x;
     sp44.y = this->dyna.actor.shape.rot.y;
     sp44.z = this->dyna.actor.shape.rot.z;
-    func_800D1694(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
+    Matrix_SetTranslateRotateYXZ(this->unk_180.x, this->unk_180.y, this->unk_180.z, &sp44);
 
     Matrix_Scale(0.1f, 0.1f, this->unk_190, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 939),
@@ -581,7 +581,7 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&sp64, &this->dyna.actor.world.pos);
     }
 
-    func_800D1694(sp64.x, sp64.y, sp64.z, phi_a3);
+    Matrix_SetTranslateRotateYXZ(sp64.x, sp64.y, sp64.z, phi_a3);
 
     Matrix_Scale(D_80897548[params].x, D_80897548[params].y, D_80897548[params].z, MTXMODE_APPLY);
     Matrix_Translate(0.0f, 0.0f, 40.0f, MTXMODE_APPLY);

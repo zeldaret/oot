@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_niwatori" Segment="6">
         <DList Name="gGiChickenColorDL" Offset="0x15F0"/>
         <DList Name="gGiCojiroColorDL" Offset="0x1610"/>
