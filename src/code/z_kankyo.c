@@ -283,7 +283,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->lightBlendOverride = LIGHT_BLEND_OVERRIDE_NONE;
 
     envCtx->stormRequest = STORM_REQUEST_NONE;
-    envCtx->stormState = 0;
+    envCtx->stormState = STORM_STATE_OFF;
     envCtx->lightningState = LIGHTNING_OFF;
     envCtx->timeSeqState = TIMESEQ_DAY_BGM;
     envCtx->fillScreen = false;
@@ -586,7 +586,7 @@ f32 Environment_LerpWeightAccelDecel(u16 endFrame, u16 startFrame, u16 curFrame,
 void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
     if (envCtx->stormRequest != STORM_REQUEST_NONE) {
         switch (envCtx->stormState) {
-            case 0:
+            case STORM_STATE_OFF:
                 if ((envCtx->stormRequest == STORM_REQUEST_START) && !gSkyboxIsChanging) {
                     envCtx->changeSkyState = CHANGE_SKY_REQUESTED;
                     envCtx->skyboxConfig = 0;
@@ -601,7 +601,7 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
                 }
                 break;
 
-            case 1:
+            case STORM_STATE_ON:
                 if (!gSkyboxIsChanging && (envCtx->stormRequest == STORM_REQUEST_STOP)) {
                     gWeatherMode = WEATHER_MODE_CLEAR;
                     envCtx->changeSkyState = CHANGE_SKY_REQUESTED;
@@ -615,7 +615,7 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
                     envCtx->changeLightTimer = envCtx->outdoorChangeDuration = 100;
                     envCtx->precipitation[PRECIP_RAIN_MAX] = 0;
                     envCtx->stormRequest = STORM_REQUEST_NONE;
-                    envCtx->stormState = 0;
+                    envCtx->stormState = STORM_STATE_OFF;
                 }
                 break;
         }

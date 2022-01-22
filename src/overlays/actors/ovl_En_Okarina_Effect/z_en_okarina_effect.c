@@ -62,7 +62,7 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 20;
     globalCtx->envCtx.stormRequest = STORM_REQUEST_START;
     if ((gWeatherMode != WEATHER_MODE_CLEAR) || globalCtx->envCtx.skyboxConfig != 0) {
-        globalCtx->envCtx.stormState = 1;
+        globalCtx->envCtx.stormState = STORM_STATE_ON;
     }
     globalCtx->envCtx.lightningState = LIGHTNING_ON;
     Environment_PlayStormNatureAmbience(globalCtx);
@@ -103,7 +103,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
             globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
         } else {
             globalCtx->envCtx.stormRequest = STORM_REQUEST_NONE;
-            globalCtx->envCtx.stormState = 0;
+            globalCtx->envCtx.stormState = STORM_STATE_OFF;
         }
         globalCtx->envCtx.lightningState = LIGHTNING_LAST;
         Actor_Kill(&this->actor);

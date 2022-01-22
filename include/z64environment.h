@@ -75,9 +75,14 @@ typedef enum {
 
 typedef enum {
     /* 0 */ STORM_REQUEST_NONE,
-    /* 0 */ STORM_REQUEST_START,
+    /* 1 */ STORM_REQUEST_START,
     /* 2 */ STORM_REQUEST_STOP
 } StormRequest;
+
+typedef enum {
+    /* 0 */ STORM_STATE_OFF,
+    /* 1 */ STORM_STATE_ON
+} StormState;
 
 typedef enum {
     /*  0x00 */ TIMESEQ_DAY_BGM,
