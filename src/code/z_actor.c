@@ -2270,11 +2270,6 @@ void Actor_DrawLensOverlay(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
 
-#undef LENS_MASK_WIDTH
-#undef LENS_MASK_HEIGHT
-#undef LENS_MASK_OFFSET_S
-#undef LENS_MASK_OFFSET_T
-
 void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
