@@ -3,7 +3,7 @@
 
         <!-- Jabu Jabu animation (waggling fins etc.) -->
         <Animation Name="gJabuJabuAnim" Offset="0x1F4C"/>
-            
+
         <!-- Jabu Jabu eye textures -->
         <Texture Name="gJabuJabuEyeOpenTex" OutName="jabu_jabu_eye_open" Format="rgba16" Width="16" Height="32" Offset="0x7698"/>
         <Texture Name="gJabuJabuEyeHalfTex" OutName="jabu_jabu_eye_half" Format="rgba16" Width="16" Height="32" Offset="0x7A98"/>
@@ -24,7 +24,7 @@
         <DList Name="gJabuJabuRightMidFlipperDL" Offset="0x4648"/>
         <DList Name="gJabuJabuRightLowerFlipperDL" Offset="0x4578"/>
         <DList Name="gJabuJabuFlukeDL" Offset="0x44A0"/>
-        
+
         <!-- Jabu Jabu limbs -->
         <!-- Only limbs with attached dLists are included for now; others are indicated by spaces -->
 
@@ -72,6 +72,6 @@
         <Collision Name="gJabuJabuBodyCol" Offset="0x1830"/>
         <Collision Name="gJabuJabuUnusedCol" Offset="0xBA8C"/>
 
-            
+
     </File>
 </Root>

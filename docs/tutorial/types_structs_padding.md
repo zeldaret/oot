@@ -14,7 +14,7 @@ The following are the common data types used everywhere:
 | char  | 1 byte          | character      |
 | u8    | 1 byte          | unsigned byte  |
 | s8    | 1 byte          | signed byte    |
-| u16   | 2 bytes         | unsigned short | 
+| u16   | 2 bytes         | unsigned short |
 | s16   | 2 bytes         | signed short   |
 | u32   | 4 bytes/1 word  | unsigned int   |
 | s32   | 4 bytes/1 word  | signed int     |
@@ -43,8 +43,8 @@ Here are the usual names and the sizes of some of the most common structs used i
 | ----------------------- | --------------------- | --------------- |
 | `Actor`                 | `actor`               | 0x14C           |
 | `DynaPolyActor`         | `dyna`                | 0x164           |
-| `Vec3f`                 |                       | 0xC             | 
-| `Vec3s`                 |                       | 0x6             | 
+| `Vec3f`                 |                       | 0xC             |
+| `Vec3s`                 |                       | 0x6             |
 | `SkelAnime`             | `skelAnime`           | 0x44            |
 | `Vec3s[limbCount]`      | `jointTable`          | 0x6 * limbCount |
 | `Vec3s[limbCount]`      | `morphTable`          | 0x6 * limbCount |

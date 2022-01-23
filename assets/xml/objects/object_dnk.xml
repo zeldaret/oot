@@ -2,7 +2,7 @@
     <File Name="object_dnk" Segment="6">
         <!-- Forest Stage scrub skeleton -->
         <Skeleton Name="gDntStageSkel" Type="Normal" LimbType="Standard" Offset="0x2AF0"/>
-        
+
         <!-- Forest Stage scrub animations -->
         <Animation Name="gDntStageSpitAnim" Offset="0x31C"/>
         <Animation Name="gDntStageHideAnim" Offset="0x430"/>
