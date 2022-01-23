@@ -7,7 +7,7 @@
         <Texture Name="gSunriseSkybox5Tex" OutName="sunrise_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_fine0_pal_static">
-        <Texture Name="gSunriseSkyboxTlut" OutName="sunrise_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gSunriseSkyboxTlut" OutName="sunrise_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_fine1_static">
@@ -18,7 +18,7 @@
         <Texture Name="gDaySkybox5Tex" OutName="day_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_fine1_pal_static">
-        <Texture Name="gDaySkyboxTlut" OutName="day_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gDaySkyboxTlut" OutName="day_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_fine2_static">
@@ -29,7 +29,7 @@
         <Texture Name="gSunsetSkybox5Tex" OutName="sunset_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_fine2_pal_static">
-        <Texture Name="gSunsetSkyboxTlut" OutName="sunset_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gSunsetSkyboxTlut" OutName="sunset_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_fine3_static">
@@ -40,7 +40,7 @@
         <Texture Name="gNightSkybox5Tex" OutName="night_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_fine3_pal_static">
-        <Texture Name="gNightSkyboxTlut" OutName="night_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gNightSkyboxTlut" OutName="night_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_cloud0_static">
@@ -51,7 +51,7 @@
         <Texture Name="gSunriseOvercastSkybox5Tex" OutName="overcast_sunrise_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_cloud0_pal_static">
-        <Texture Name="gSunriseOvercastSkyboxTlut" OutName="overcast_sunrise_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gSunriseOvercastSkyboxTlut" OutName="overcast_sunrise_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_cloud1_static">
@@ -62,7 +62,7 @@
         <Texture Name="gDayOvercastSkybox5Tex" OutName="overcast_day_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_cloud1_pal_static">
-        <Texture Name="gDayOvercastSkyboxTlut" OutName="overcast_day_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gDayOvercastSkyboxTlut" OutName="overcast_day_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_cloud2_static">
@@ -73,7 +73,7 @@
         <Texture Name="gSunsetOvercastSkybox5Tex" OutName="overcast_sunset_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_cloud2_pal_static">
-        <Texture Name="gSunsetOvercastSkyboxTlut" OutName="overcast_sunset_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gSunsetOvercastSkyboxTlut" OutName="overcast_sunset_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_cloud3_static">
@@ -84,7 +84,7 @@
         <Texture Name="gNightOvercastSkybox5Tex" OutName="overcast_night_5" Format="ci8" Width="128" Height="128" Offset="0x8000"/>
     </File>
     <File Name="vr_cloud3_pal_static">
-        <Texture Name="gNightOvercastSkyboxTlut" OutName="overcast_night_tlut" Format="rgba16" Width="128" Height="1" Offset="0x0"/>
+        <Texture Name="gNightOvercastSkyboxTlut" OutName="overcast_night_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_holy0_static">
