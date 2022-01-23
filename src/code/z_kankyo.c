@@ -265,7 +265,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
 
-    envCtx->changeSkyboxState = CHANGE_SKY_INACTIVE;
+    envCtx->changeSkyboxState = CHANGE_SKYBOX_INACTIVE;
     envCtx->changeSkyboxTimer = 0;
     envCtx->changeLightEnabled = false;
     envCtx->changeLightTimer = 0;
@@ -588,7 +588,7 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
         switch (envCtx->stormState) {
             case STORM_STATE_OFF:
                 if ((envCtx->stormRequest == STORM_REQUEST_START) && !gSkyboxIsChanging) {
-                    envCtx->changeSkyboxState = CHANGE_SKY_REQUESTED;
+                    envCtx->changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
                     envCtx->skyboxConfig = 0;
                     envCtx->changeSkyboxNextConfig = 1;
                     envCtx->changeSkyboxTimer = 100;
@@ -604,7 +604,7 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
             case STORM_STATE_ON:
                 if (!gSkyboxIsChanging && (envCtx->stormRequest == STORM_REQUEST_STOP)) {
                     gWeatherMode = WEATHER_MODE_CLEAR;
-                    envCtx->changeSkyboxState = CHANGE_SKY_REQUESTED;
+                    envCtx->changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
                     envCtx->skyboxConfig = 1;
                     envCtx->changeSkyboxNextConfig = 0;
                     envCtx->changeSkyboxTimer = 100;
@@ -670,8 +670,8 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
                     skyboxBlend = (skyboxBlend < 128) ? 255 : 0;
 
-                    if ((envCtx->changeSkyboxState != CHANGE_SKY_INACTIVE) &&
-                        (envCtx->changeSkyboxState < CHANGE_SKY_ACTIVE)) {
+                    if ((envCtx->changeSkyboxState != CHANGE_SKYBOX_INACTIVE) &&
+                        (envCtx->changeSkyboxState < CHANGE_SKYBOX_ACTIVE)) {
                         envCtx->changeSkyboxState++;
                         skyboxBlend = 0;
                     }
@@ -682,7 +682,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         Environment_UpdateStorm(envCtx, skyboxBlend);
 
-        if (envCtx->changeSkyboxState >= CHANGE_SKY_ACTIVE) {
+        if (envCtx->changeSkyboxState >= CHANGE_SKYBOX_ACTIVE) {
             newSkybox1Index = gTimeBasedSkyboxConfigs[envCtx->skyboxConfig][i].skybox1Index;
             newSkybox2Index = gTimeBasedSkyboxConfigs[envCtx->changeSkyboxNextConfig][i].skybox2Index;
 
@@ -690,7 +690,7 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
             envCtx->changeSkyboxTimer--;
 
             if (envCtx->changeSkyboxTimer <= 0) {
-                envCtx->changeSkyboxState = CHANGE_SKY_INACTIVE;
+                envCtx->changeSkyboxState = CHANGE_SKYBOX_INACTIVE;
                 envCtx->skyboxConfig = envCtx->changeSkyboxNextConfig;
             }
         }

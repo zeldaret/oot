@@ -254,7 +254,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 7:
             if (sp3F != 0) {
-                globalCtx->envCtx.changeSkyboxState = CHANGE_SKY_REQUESTED;
+                globalCtx->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
                 globalCtx->envCtx.skyboxConfig = 1;
                 globalCtx->envCtx.changeSkyboxNextConfig = 0;
                 globalCtx->envCtx.changeSkyboxTimer = 60;

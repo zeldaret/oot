@@ -1821,7 +1821,7 @@ void FileChoose_InitContext(GameState* thisx) {
 
     gTimeSpeed = 10;
 
-    envCtx->changeSkyboxState = CHANGE_SKY_INACTIVE;
+    envCtx->changeSkyboxState = CHANGE_SKYBOX_INACTIVE;
     envCtx->changeSkyboxTimer = 0;
     envCtx->changeLightEnabled = false;
     envCtx->changeLightTimer = 0;

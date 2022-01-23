@@ -146,7 +146,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
                 if (gWeatherMode != weatherMode) {
                     gWeatherMode = weatherMode;
                     if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) {
-                        globalCtx->envCtx.changeSkyboxState = CHANGE_SKY_REQUESTED;
+                        globalCtx->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
                         globalCtx->envCtx.skyboxConfig = skyboxConfig;
                         globalCtx->envCtx.changeSkyboxNextConfig = changeSkyboxNextConfig;
                         globalCtx->envCtx.changeSkyboxTimer = changeDuration;
@@ -187,7 +187,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
                  (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLightEnabled))) {
                 gInterruptSongOfStorms = false;
                 gWeatherMode = WEATHER_MODE_CLEAR;
-                globalCtx->envCtx.changeSkyboxState = CHANGE_SKY_REQUESTED;
+                globalCtx->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
                 globalCtx->envCtx.skyboxConfig = skyboxConfig;
                 globalCtx->envCtx.changeSkyboxNextConfig = changeSkyboxNextConfig;
                 globalCtx->envCtx.changeSkyboxTimer = changeDuration;
