@@ -33,7 +33,8 @@ InputCombo inputCombos[REG_GROUPS] = {
 
 char regChar[] = " SOPQMYDUIZCNKXcsiWAVHGmnBdkb";
 
-void GameInfo_Init(void) {
+// initialize GameInfo
+void func_800636C0(void) {
     s32 i;
 
     gGameInfo = (GameInfo*)SystemArena_MallocDebug(sizeof(GameInfo), "../z_debug.c", 260);

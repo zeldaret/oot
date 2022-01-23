@@ -65,7 +65,7 @@ void Main(void* arg) {
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeap, debugHeapSize);
     DebugArena_Init(debugHeap, debugHeapSize);
-    GameInfo_Init();
+    func_800636C0();
 
     R_ENABLE_ARENA_DBG = 0;
 
