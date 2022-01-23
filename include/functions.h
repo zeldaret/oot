@@ -943,7 +943,7 @@ void func_80078914(Vec3f* arg0, u16 sfxId);
 void HealthMeter_Init(GlobalContext* globalCtx);
 void HealthMeter_Update(GlobalContext* globalCtx);
 void HealthMeter_Draw(GlobalContext* globalCtx);
-void HealthMeter_HandleCriticalAlarm(GlobalContext* globalCtx);
+void HealthMeter_UpdateBeatingHeart(GlobalContext* globalCtx);
 u32 HealthMeter_IsCritical(void);
 void Lights_PointSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, s32 type);
 void Lights_PointNoGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius);

@@ -3946,7 +3946,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    HealthMeter_HandleCriticalAlarm(globalCtx);
+    HealthMeter_UpdateBeatingHeart(globalCtx);
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {

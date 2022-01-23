@@ -645,8 +645,8 @@ typedef struct {
     /* 0x01F8 */ s16    naviCalling;
     /* 0x01FA */ s16    unk_1FA;
     /* 0x01FC */ s16    unk_1FC;
-    /* 0x01FE */ s16    unk_1FE;
-    /* 0x0200 */ s16    unk_200;
+    /* 0x01FE */ s16    heartColorOscillator;
+    /* 0x0200 */ s16    heartColorOscillatorDirection;
     /* 0x0202 */ s16    beatingHeartPrim[3];
     /* 0x0208 */ s16    beatingHeartEnv[3];
     /* 0x020E */ s16    heartsPrimR[2];
@@ -655,10 +655,10 @@ typedef struct {
     /* 0x021A */ s16    heartsEnvR[2];
     /* 0x021E */ s16    heartsEnvG[2];
     /* 0x0222 */ s16    heartsEnvB[2];
-    /* 0x0226 */ s16    unk_226;
-    /* 0x0228 */ s16    unk_228;
-    /* 0x022A */ s16    unk_22A;
-    /* 0x022C */ s16    unk_22C;
+    /* 0x0226 */ s16    unk_226; // Used only in unused functions
+    /* 0x0228 */ s16    unk_228; // Used only in unused functions
+    /* 0x022A */ s16    beatingHeartOscillator;
+    /* 0x022C */ s16    beatingHeartOscillatorDirection;
     /* 0x022E */ s16    unk_22E;
     /* 0x0230 */ s16    unk_230;
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
