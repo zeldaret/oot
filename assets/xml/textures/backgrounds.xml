@@ -1,5 +1,4 @@
 <Root>
-<!-- Unused-->
     <File Name="vr_ALVR_static">
         <Texture Name="gMarketPotionShopBgTex" OutName="market_potion_shop" Format="ci8" Width="256" Height="256" Offset="0x0"/>
         <Texture Name="gMarketPotionShop2BgTex" OutName="market_potion_shop2" Format="ci8" Width="256" Height="256" Offset="0x10000"/>
