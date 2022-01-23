@@ -6410,121 +6410,121 @@ endseg
 beginseg
     name "vr_fine0_static"
     romalign 0x1000
-    include "build/baserom/vr_fine0_static.o"
+    include "build/assets/textures/skyboxes/vr_fine0_static.o"
 endseg
 
 beginseg
     name "vr_fine0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine0_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine1_static"
     romalign 0x1000
-    include "build/baserom/vr_fine1_static.o"
+    include "build/assets/textures/skyboxes/vr_fine1_static.o"
 endseg
 
 beginseg
     name "vr_fine1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine1_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine2_static"
     romalign 0x1000
-    include "build/baserom/vr_fine2_static.o"
+    include "build/assets/textures/skyboxes/vr_fine2_static.o"
 endseg
 
 beginseg
     name "vr_fine2_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine2_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine2_pal_static.o"
 endseg
 
 beginseg
     name "vr_fine3_static"
     romalign 0x1000
-    include "build/baserom/vr_fine3_static.o"
+    include "build/assets/textures/skyboxes/vr_fine3_static.o"
 endseg
 
 beginseg
     name "vr_fine3_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_fine3_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_fine3_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud0_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud0_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud0_static.o"
 endseg
 
 beginseg
     name "vr_cloud0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud0_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud1_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud1_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud1_static.o"
 endseg
 
 beginseg
     name "vr_cloud1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud1_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud2_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud2_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud2_static.o"
 endseg
 
 beginseg
     name "vr_cloud2_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud2_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud2_pal_static.o"
 endseg
 
 beginseg
     name "vr_cloud3_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud3_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud3_static.o"
 endseg
 
 beginseg
     name "vr_cloud3_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_cloud3_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_cloud3_pal_static.o"
 endseg
 
 beginseg
     name "vr_holy0_static"
     romalign 0x1000
-    include "build/baserom/vr_holy0_static.o"
+    include "build/assets/textures/skyboxes/vr_holy0_static.o"
 endseg
 
 beginseg
     name "vr_holy0_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_holy0_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_holy0_pal_static.o"
 endseg
 
 beginseg
     name "vr_holy1_static"
     romalign 0x1000
-    include "build/baserom/vr_holy1_static.o"
+    include "build/assets/textures/skyboxes/vr_holy1_static.o"
 endseg
 
 beginseg
     name "vr_holy1_pal_static"
     romalign 0x1000
-    include "build/baserom/vr_holy1_pal_static.o"
+    include "build/assets/textures/skyboxes/vr_holy1_pal_static.o"
 endseg
 
 beginseg
