@@ -27,6 +27,7 @@ u8 gSavedNextLightConfig = 0;
 
 u8 gInterruptSongOfStorms = false;
 
+// Indicates whether the skybox is changing to a different index of the same config (based on time)
 u8 gSkyboxIsChanging = false;
 
 u16 gTimeSpeed = 0;
