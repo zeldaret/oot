@@ -128,8 +128,8 @@ void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* globalCtx, u8 skyboxConfig,
-                                       u8 nextSkyboxConfig, u8 lightConfig, u8 nextLightConfig, u16 changeDuration,
-                                       u8 weatherMode) {
+                                       u8 changeSkyboxNextConfig, u8 lightConfig, u8 changeLightNextConfig,
+                                       u16 changeDuration, u8 weatherMode) {
     s32 pad;
     u8 ret = false;
     Player* player = GET_PLAYER(globalCtx);
@@ -137,25 +137,25 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         if (globalCtx->envCtx.indoors || !gSkyboxIsChanging ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY &&
-             globalCtx->envCtx.lightConfig == globalCtx->envCtx.nextLightConfig)) {
+             globalCtx->envCtx.lightConfig == globalCtx->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
             if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE &&
                 (globalCtx->envCtx.indoors ||
-                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLights))) {
+                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLightEnabled))) {
                 gInterruptSongOfStorms = false;
                 if (gWeatherMode != weatherMode) {
                     gWeatherMode = weatherMode;
                     if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) {
-                        globalCtx->envCtx.changeSkyState = CHANGE_SKY_REQUESTED;
+                        globalCtx->envCtx.changeSkyboxState = CHANGE_SKY_REQUESTED;
                         globalCtx->envCtx.skyboxConfig = skyboxConfig;
-                        globalCtx->envCtx.nextSkyboxConfig = nextSkyboxConfig;
-                        globalCtx->envCtx.changeSkyTimer = changeDuration;
-                        globalCtx->envCtx.changeLights = true;
+                        globalCtx->envCtx.changeSkyboxNextConfig = changeSkyboxNextConfig;
+                        globalCtx->envCtx.changeSkyboxTimer = changeDuration;
+                        globalCtx->envCtx.changeLightEnabled = true;
                         globalCtx->envCtx.lightConfig = lightConfig;
-                        globalCtx->envCtx.nextLightConfig = nextLightConfig;
-                        gSavedNextLightConfig = nextLightConfig;
-                        globalCtx->envCtx.outdoorChangeDuration = changeDuration;
-                        globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.outdoorChangeDuration;
+                        globalCtx->envCtx.changeLightNextConfig = changeLightNextConfig;
+                        gSavedNextLightConfig = changeLightNextConfig;
+                        globalCtx->envCtx.changeDuration = changeDuration;
+                        globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.changeDuration;
                     }
                 }
                 ret = true;
@@ -170,8 +170,9 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
     return ret;
 }
 
-u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, u8 skyboxConfig, u8 nextSkyboxConfig,
-                                  u8 lightConfig, u8 nextLightConfig, u16 changeDuration) {
+u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, u8 skyboxConfig,
+                                  u8 changeSkyboxNextConfig, u8 lightConfig, u8 changeLightNextConfig,
+                                  u16 changeDuration) {
     s32 pad;
     u8 ret = false;
     Player* player = GET_PLAYER(globalCtx);
@@ -179,23 +180,23 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         if (globalCtx->envCtx.indoors || !gSkyboxIsChanging ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY &&
-             globalCtx->envCtx.lightConfig == globalCtx->envCtx.nextLightConfig)) {
+             globalCtx->envCtx.lightConfig == globalCtx->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
             if ((globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) &&
                 (globalCtx->envCtx.indoors ||
-                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLights))) {
+                 (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLightEnabled))) {
                 gInterruptSongOfStorms = false;
                 gWeatherMode = WEATHER_MODE_CLEAR;
-                globalCtx->envCtx.changeSkyState = CHANGE_SKY_REQUESTED;
+                globalCtx->envCtx.changeSkyboxState = CHANGE_SKY_REQUESTED;
                 globalCtx->envCtx.skyboxConfig = skyboxConfig;
-                globalCtx->envCtx.nextSkyboxConfig = nextSkyboxConfig;
-                globalCtx->envCtx.changeSkyTimer = changeDuration;
-                globalCtx->envCtx.changeLights = true;
+                globalCtx->envCtx.changeSkyboxNextConfig = changeSkyboxNextConfig;
+                globalCtx->envCtx.changeSkyboxTimer = changeDuration;
+                globalCtx->envCtx.changeLightEnabled = true;
                 globalCtx->envCtx.lightConfig = lightConfig;
-                globalCtx->envCtx.nextLightConfig = nextLightConfig;
-                gSavedNextLightConfig = nextLightConfig;
-                globalCtx->envCtx.outdoorChangeDuration = changeDuration;
-                globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.outdoorChangeDuration;
+                globalCtx->envCtx.changeLightNextConfig = changeLightNextConfig;
+                gSavedNextLightConfig = changeLightNextConfig;
+                globalCtx->envCtx.changeDuration = changeDuration;
+                globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.changeDuration;
 
                 ret = true;
             }

@@ -254,14 +254,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 7:
             if (sp3F != 0) {
-                globalCtx->envCtx.changeSkyState = CHANGE_SKY_REQUESTED;
+                globalCtx->envCtx.changeSkyboxState = CHANGE_SKY_REQUESTED;
                 globalCtx->envCtx.skyboxConfig = 1;
-                globalCtx->envCtx.nextSkyboxConfig = 0;
-                globalCtx->envCtx.changeSkyTimer = 60;
-                globalCtx->envCtx.changeLights = true;
+                globalCtx->envCtx.changeSkyboxNextConfig = 0;
+                globalCtx->envCtx.changeSkyboxTimer = 60;
+                globalCtx->envCtx.changeLightEnabled = true;
                 globalCtx->envCtx.lightConfig = 0;
-                globalCtx->envCtx.nextLightConfig = 1;
-                globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.outdoorChangeDuration = 60;
+                globalCtx->envCtx.changeLightNextConfig = 1;
+                globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.changeDuration = 60;
             }
             break;
         case 8:

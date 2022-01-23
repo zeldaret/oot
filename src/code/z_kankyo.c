@@ -265,14 +265,14 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
 
-    envCtx->changeSkyState = CHANGE_SKY_INACTIVE;
-    envCtx->changeSkyTimer = 0;
-    envCtx->changeLights = false;
+    envCtx->changeSkyboxState = CHANGE_SKY_INACTIVE;
+    envCtx->changeSkyboxTimer = 0;
+    envCtx->changeLightEnabled = false;
     envCtx->changeLightTimer = 0;
 
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->lightConfig = 0;
-    envCtx->nextLightConfig = 0;
+    envCtx->changeLightNextConfig = 0;
 
     envCtx->lensFlareFillAlpha = 0.0f;
     envCtx->lensFlareAlphaScale = 0.0f;
@@ -347,9 +347,9 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
             switch (gWeatherMode) {
                 case WEATHER_MODE_CLOUDY_CONFIG3:
                     envCtx->skyboxConfig = 1;
-                    envCtx->nextSkyboxConfig = 1;
+                    envCtx->changeSkyboxNextConfig = 1;
                     envCtx->lightConfig = 3;
-                    envCtx->nextLightConfig = 3;
+                    envCtx->changeLightNextConfig = 3;
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 0;
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_CUR] = 0;
                     break;
@@ -358,18 +358,18 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
                 case WEATHER_MODE_SNOW:
                 case WEATHER_MODE_RAIN:
                     envCtx->skyboxConfig = 1;
-                    envCtx->nextSkyboxConfig = 1;
+                    envCtx->changeSkyboxNextConfig = 1;
                     envCtx->lightConfig = 2;
-                    envCtx->nextLightConfig = 2;
+                    envCtx->changeLightNextConfig = 2;
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 0;
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_CUR] = 0;
                     break;
 
                 case WEATHER_MODE_HEAVY_RAIN:
                     envCtx->skyboxConfig = 1;
-                    envCtx->nextSkyboxConfig = 1;
+                    envCtx->changeSkyboxNextConfig = 1;
                     envCtx->lightConfig = 4;
-                    envCtx->nextLightConfig = 4;
+                    envCtx->changeLightNextConfig = 4;
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 0;
                     globalCtx->envCtx.precipitation[PRECIP_SNOW_CUR] = 0;
                     break;
@@ -588,15 +588,15 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
         switch (envCtx->stormState) {
             case STORM_STATE_OFF:
                 if ((envCtx->stormRequest == STORM_REQUEST_START) && !gSkyboxIsChanging) {
-                    envCtx->changeSkyState = CHANGE_SKY_REQUESTED;
+                    envCtx->changeSkyboxState = CHANGE_SKY_REQUESTED;
                     envCtx->skyboxConfig = 0;
-                    envCtx->nextSkyboxConfig = 1;
-                    envCtx->changeSkyTimer = 100;
-                    envCtx->changeLights = true;
+                    envCtx->changeSkyboxNextConfig = 1;
+                    envCtx->changeSkyboxTimer = 100;
+                    envCtx->changeLightEnabled = true;
                     envCtx->lightConfig = 0;
-                    envCtx->nextLightConfig = 2;
+                    envCtx->changeLightNextConfig = 2;
                     gSavedNextLightConfig = 2;
-                    envCtx->changeLightTimer = envCtx->outdoorChangeDuration = 100;
+                    envCtx->changeLightTimer = envCtx->changeDuration = 100;
                     envCtx->stormState++;
                 }
                 break;
@@ -604,15 +604,15 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
             case STORM_STATE_ON:
                 if (!gSkyboxIsChanging && (envCtx->stormRequest == STORM_REQUEST_STOP)) {
                     gWeatherMode = WEATHER_MODE_CLEAR;
-                    envCtx->changeSkyState = CHANGE_SKY_REQUESTED;
+                    envCtx->changeSkyboxState = CHANGE_SKY_REQUESTED;
                     envCtx->skyboxConfig = 1;
-                    envCtx->nextSkyboxConfig = 0;
-                    envCtx->changeSkyTimer = 100;
-                    envCtx->changeLights = true;
+                    envCtx->changeSkyboxNextConfig = 0;
+                    envCtx->changeSkyboxTimer = 100;
+                    envCtx->changeLightEnabled = true;
                     envCtx->lightConfig = 2;
-                    envCtx->nextLightConfig = 0;
+                    envCtx->changeLightNextConfig = 0;
                     gSavedNextLightConfig = 0;
-                    envCtx->changeLightTimer = envCtx->outdoorChangeDuration = 100;
+                    envCtx->changeLightTimer = envCtx->changeDuration = 100;
                     envCtx->precipitation[PRECIP_RAIN_MAX] = 0;
                     envCtx->stormRequest = STORM_REQUEST_NONE;
                     envCtx->stormState = STORM_STATE_OFF;
@@ -670,9 +670,9 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
                     skyboxBlend = (skyboxBlend < 128) ? 255 : 0;
 
-                    if ((envCtx->changeSkyState != CHANGE_SKY_INACTIVE) &&
-                        (envCtx->changeSkyState < CHANGE_SKY_ACTIVE)) {
-                        envCtx->changeSkyState++;
+                    if ((envCtx->changeSkyboxState != CHANGE_SKY_INACTIVE) &&
+                        (envCtx->changeSkyboxState < CHANGE_SKY_ACTIVE)) {
+                        envCtx->changeSkyboxState++;
                         skyboxBlend = 0;
                     }
                 }
@@ -682,17 +682,16 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
 
         Environment_UpdateStorm(envCtx, skyboxBlend);
 
-        if (envCtx->changeSkyState >= CHANGE_SKY_ACTIVE) {
+        if (envCtx->changeSkyboxState >= CHANGE_SKY_ACTIVE) {
             newSkybox1Index = gTimeBasedSkyboxConfigs[envCtx->skyboxConfig][i].skybox1Index;
-            newSkybox2Index = gTimeBasedSkyboxConfigs[envCtx->nextSkyboxConfig][i].skybox2Index;
+            newSkybox2Index = gTimeBasedSkyboxConfigs[envCtx->changeSkyboxNextConfig][i].skybox2Index;
 
-            skyboxBlend = ((f32)envCtx->outdoorChangeDuration - envCtx->changeSkyTimer) /
-                          (f32)envCtx->outdoorChangeDuration * 255;
-            envCtx->changeSkyTimer--;
+            skyboxBlend = ((f32)envCtx->changeDuration - envCtx->changeSkyboxTimer) / (f32)envCtx->changeDuration * 255;
+            envCtx->changeSkyboxTimer--;
 
-            if (envCtx->changeSkyTimer <= 0) {
-                envCtx->changeSkyState = CHANGE_SKY_INACTIVE;
-                envCtx->skyboxConfig = envCtx->nextSkyboxConfig;
+            if (envCtx->changeSkyboxTimer <= 0) {
+                envCtx->changeSkyboxState = CHANGE_SKY_INACTIVE;
+                envCtx->skyboxConfig = envCtx->changeSkyboxNextConfig;
             }
         }
 
@@ -788,11 +787,11 @@ void Environment_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLight
     }
 
     if (!globalCtx->envCtx.indoors) {
-        gSavedNextLightConfig = globalCtx->envCtx.nextLightConfig;
+        gSavedNextLightConfig = globalCtx->envCtx.changeLightNextConfig;
 
         if (globalCtx->envCtx.lightConfig != waterLightsIndex) {
             globalCtx->envCtx.lightConfig = waterLightsIndex;
-            globalCtx->envCtx.nextLightConfig = waterLightsIndex;
+            globalCtx->envCtx.changeLightNextConfig = waterLightsIndex;
         }
     } else {
         globalCtx->envCtx.blendIndoorLights = false; // instantly switch to water lights
@@ -803,7 +802,7 @@ void Environment_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLight
 void Environment_DisableUnderwaterLights(GlobalContext* globalCtx) {
     if (!globalCtx->envCtx.indoors) {
         globalCtx->envCtx.lightConfig = gSavedNextLightConfig;
-        globalCtx->envCtx.nextLightConfig = gSavedNextLightConfig;
+        globalCtx->envCtx.changeLightNextConfig = gSavedNextLightConfig;
     } else {
         globalCtx->envCtx.blendIndoorLights = false; // instantly switch to previous lights
         globalCtx->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
@@ -918,7 +917,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
 
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
-                if ((envCtx->changeSkyTimer == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
+                if ((envCtx->changeSkyboxTimer == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
                     (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
 
                     if (IS_DAY || gTimeSpeed >= 400) {
@@ -988,14 +987,13 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                         sNextSandstormColorIndex = sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting & 3;
                         sSandstormLerpScale = sp8C;
 
-                        if (envCtx->changeLights) {
-                            sp88 = ((f32)envCtx->outdoorChangeDuration - envCtx->changeLightTimer) /
-                                   envCtx->outdoorChangeDuration;
+                        if (envCtx->changeLightEnabled) {
+                            sp88 = ((f32)envCtx->changeDuration - envCtx->changeLightTimer) / envCtx->changeDuration;
                             envCtx->changeLightTimer--;
 
                             if (envCtx->changeLightTimer <= 0) {
-                                envCtx->changeLights = false;
-                                envCtx->lightConfig = envCtx->nextLightConfig;
+                                envCtx->changeLightEnabled = false;
+                                envCtx->lightConfig = envCtx->changeLightNextConfig;
                             }
                         }
 
@@ -1008,9 +1006,10 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                                          .ambientColor[j],
                                      sp8C);
                             blend8[1] = LERP(
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].lightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .ambientColor[j],
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
+                                                      .nextLightSetting]
                                     .ambientColor[j],
                                 sp8C);
                             *(envCtx->lightSettings.ambientColor + j) = LERP(blend8[0], blend8[1], sp88);
@@ -1038,9 +1037,10 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                                          .light1Color[j],
                                      sp8C);
                             blend8[1] = LERP(
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].lightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .light1Color[j],
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
+                                                      .nextLightSetting]
                                     .light1Color[j],
                                 sp8C);
                             *(envCtx->lightSettings.light1Color + j) = LERP(blend8[0], blend8[1], sp88);
@@ -1053,9 +1053,10 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                                          .light2Color[j],
                                      sp8C);
                             blend8[1] = LERP(
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].lightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .light2Color[j],
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
+                                                      .nextLightSetting]
                                     .light2Color[j],
                                 sp8C);
                             *(envCtx->lightSettings.light2Color + j) = LERP(blend8[0], blend8[1], sp88);
@@ -1070,9 +1071,10 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                                          .fogColor[j],
                                      sp8C);
                             blend8[1] = LERP(
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].lightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
                                     .fogColor[j],
-                                lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting]
+                                lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i]
+                                                      .nextLightSetting]
                                     .fogColor[j],
                                 sp8C);
                             *(envCtx->lightSettings.fogColor + j) = LERP(blend8[0], blend8[1], sp88);
@@ -1086,9 +1088,10 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                              0x3FF),
                             sp8C);
                         blend16[1] = LERP16(
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].lightSetting].fogNear &
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
+                                    .fogNear &
                                 0x3FF,
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting]
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
                                     .fogNear &
                                 0x3FF,
                             sp8C);
@@ -1100,21 +1103,22 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                             lightSettingsList[sTimeBasedLightConfigs[envCtx->lightConfig][i].nextLightSetting].fogFar,
                             sp8C);
                         blend16[1] = LERP16(
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].lightSetting].fogFar,
-                            lightSettingsList[sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting]
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].lightSetting]
+                                .fogFar,
+                            lightSettingsList[sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting]
                                 .fogFar,
                             sp8C);
 
                         envCtx->lightSettings.fogFar = LERP16(blend16[0], blend16[1], sp88);
 
-                        if (sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting >=
+                        if (sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting >=
                             envCtx->numLightSettings) {
                             // "The color palette setting seems to be wrong!"
                             osSyncPrintf(VT_COL(RED, WHITE) "\nカラーパレットの設定がおかしいようです！" VT_RST);
 
                             // "Palette setting = [] Last palette number = []"
                             osSyncPrintf(VT_COL(RED, WHITE) "\n設定パレット＝[%d] 最後パレット番号＝[%d]\n" VT_RST,
-                                         sTimeBasedLightConfigs[envCtx->nextLightConfig][i].nextLightSetting,
+                                         sTimeBasedLightConfigs[envCtx->changeLightNextConfig][i].nextLightSetting,
                                          envCtx->numLightSettings - 1);
                         }
                         break;

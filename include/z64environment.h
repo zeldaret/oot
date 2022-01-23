@@ -63,7 +63,7 @@ typedef enum {
     /* 1 */ CHANGE_SKY_REQUESTED,
     /* 2 */ CHANGE_SKY_WAIT,
     /* 3 */ CHANGE_SKY_ACTIVE
-} ChangeSkyState;
+} changeSkyboxState;
 
 typedef enum {
     /* 0 */ PRECIP_RAIN_MAX, // max number of raindrops that can draw; uses this or SOS_MAX, whichever is larger
@@ -137,16 +137,16 @@ typedef struct {
     /* 0x15 */ u8 skyboxDisabled;
     /* 0x16 */ u8 sunMoonDisabled;
     /* 0x17 */ u8 skyboxConfig; // only used outdoors
-    /* 0x18 */ u8 nextSkyboxConfig; // only used outdoors
-    /* 0x19 */ u8 changeSkyState;
-    /* 0x1A */ u16 changeSkyTimer;
+    /* 0x18 */ u8 changeSkyboxNextConfig; // only used outdoors
+    /* 0x19 */ u8 changeSkyboxState;
+    /* 0x1A */ u16 changeSkyboxTimer;
     /* 0x1C */ char unk_1C[0x02];
     /* 0x1E */ u8 indoors; // when true, day time has no effect on lighting
     /* 0x1F */ u8 lightConfig; // only used outdoors
-    /* 0x20 */ u8 nextLightConfig; // only used outdoors
-    /* 0x21 */ u8 changeLights;
+    /* 0x20 */ u8 changeLightNextConfig; // only used outdoors
+    /* 0x21 */ u8 changeLightEnabled;
     /* 0x22 */ u16 changeLightTimer;
-    /* 0x24 */ u16 outdoorChangeDuration; // total time to change skybox and light configs
+    /* 0x24 */ u16 changeDuration; // total time to change skybox and light configs
     /* 0x26 */ char unk_26[0x02];
     /* 0x28 */ LightInfo dirLight1; // used for sunlight outdoors
     /* 0x36 */ LightInfo dirLight2; // used for moonlight outdoors

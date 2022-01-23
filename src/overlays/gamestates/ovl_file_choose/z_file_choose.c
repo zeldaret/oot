@@ -1821,15 +1821,15 @@ void FileChoose_InitContext(GameState* thisx) {
 
     gTimeSpeed = 10;
 
-    envCtx->changeSkyState = CHANGE_SKY_INACTIVE;
-    envCtx->changeSkyTimer = 0;
-    envCtx->changeLights = false;
+    envCtx->changeSkyboxState = CHANGE_SKY_INACTIVE;
+    envCtx->changeSkyboxTimer = 0;
+    envCtx->changeLightEnabled = false;
     envCtx->changeLightTimer = 0;
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
     envCtx->lightConfig = 0;
-    envCtx->nextLightConfig = 0;
+    envCtx->changeLightNextConfig = 0;
     envCtx->lightSetting = 0;
     envCtx->skyboxConfig = 2;
     envCtx->skyboxDisabled = 0;
