@@ -37,7 +37,7 @@ typedef struct {
 typedef struct ObjSwitch {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ObjSwitchActionFunc actionFunc;
-    /* 0x0168 */ s16 releaseTimer; // used for SUBTYPE_RESET and SUBTYPE_RESET_INVERTED
+    /* 0x0168 */ s16 releaseTimer; // used for SUBTYPE_HOLD and SUBTYPE_HOLD_INVERTED
     /* 0x016A */ s16 disableAcTimer;
     /* 0x016C */ s16 cooldownTimer;
     /* 0x016E */ u8 cooldownOn;
