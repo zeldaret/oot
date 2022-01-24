@@ -826,7 +826,7 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
 
 u32 sOcarinaAllowedBtnMask = 0x800F;
 s32 sOcarinaABtnMap = 0x8000;
-s32 sOcarinaCUpBtnMap = 8;
+s32 sOcarinaCUPBtnMap = 8;
 s32 sOcarinaCDownBtnMap = 4;
 u8 sOcarinaInpEnabled = 0;
 s8 D_80130F10 = 0; // "OCA", ocarina active?
@@ -1250,13 +1250,13 @@ void func_800EC960(u8 custom) {
         osSyncPrintf("AUDIO : Ocarina Control Assign Normal\n");
         sOcarinaAllowedBtnMask = (BTN_A | BTN_CUP | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
         sOcarinaABtnMap = BTN_A;
-        sOcarinaCUpBtnMap = BTN_CUP;
+        sOcarinaCUPBtnMap = BTN_CUP;
         sOcarinaCDownBtnMap = BTN_CDOWN;
     } else {
         osSyncPrintf("AUDIO : Ocarina Control Assign Custom\n");
         sOcarinaAllowedBtnMask = (BTN_A | BTN_B | BTN_CDOWN | BTN_CLEFT | BTN_CRIGHT);
         sOcarinaABtnMap = BTN_B;
-        sOcarinaCUpBtnMap = BTN_CDOWN;
+        sOcarinaCUPBtnMap = BTN_CDOWN;
         sOcarinaCDownBtnMap = BTN_A;
     }
 }
@@ -1575,11 +1575,11 @@ void func_800ED458(s32 arg0) {
             sCurOcarinaBtnIdx = 2;
         } else if (D_8016BA18 & 2) {
             osSyncPrintf("Presss NA_KEY_B4 %08x\n", 2);
-            sCurOcarinaBtnVal = 11;
+            sCurOcarinaBtnVal = 0xB;
             sCurOcarinaBtnIdx = 3;
-        } else if (D_8016BA18 & sOcarinaCUpBtnMap) {
-            osSyncPrintf("Presss NA_KEY_D5 %08x\n", sOcarinaCUpBtnMap);
-            sCurOcarinaBtnVal = 14;
+        } else if (D_8016BA18 & sOcarinaCUPBtnMap) {
+            osSyncPrintf("Presss NA_KEY_D5 %08x\n", sOcarinaCUPBtnMap);
+            sCurOcarinaBtnVal = 0xE;
             sCurOcarinaBtnIdx = 4;
         }
 
