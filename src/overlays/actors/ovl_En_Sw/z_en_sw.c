@@ -280,13 +280,13 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.scale.x = 0.0f;
         case 1:
             this->collider.elements[0].info.toucher.damage *= 2;
-            this->actor.naviEnemyId = NAVI_ENEMY_UNK32;
+            this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLWALLTULA;
             this->actor.colChkInfo.health *= 2;
             this->actor.flags &= ~ACTOR_FLAG_0;
             break;
         default:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
-            this->actor.naviEnemyId = NAVI_ENEMY_UNK31;
+            this->actor.naviEnemyId = NAVI_ENEMY_SKULLWALLTULA;
             break;
     }
 

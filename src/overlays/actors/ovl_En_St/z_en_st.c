@@ -789,7 +789,7 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         this->actor.naviEnemyId = NAVI_ENEMY_SKULLTULA_BIG;
     } else {
-        this->actor.naviEnemyId = NAVI_ENEMY_SKULLTULA_NORMAL;
+        this->actor.naviEnemyId = NAVI_ENEMY_SKULLTULA;
     }
     EnSt_CheckCeilingPos(this, globalCtx);
     this->actor.flags |= ACTOR_FLAG_14;
