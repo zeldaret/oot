@@ -322,8 +322,8 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.params >> 7 & 1) {
         ObjSwitch_EyeFrozenInit(this);
     } else if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        //! @bug if the subtype is OBJSWITCH_SUBTYPE_HOLD_INVERTED, the switch should be Down or Up according to
-        //! `!switchFlagSet` instead of `switchFlagSet`
+        //! @bug This condition does not account for OBJSWITCH_SUBTYPE_HOLD_INVERTED which expects
+        //! the relationship between the switch position and the switch flag to be inverted
         if (switchFlagSet) {
             ObjSwitch_FloorDownInit(this);
         } else {
