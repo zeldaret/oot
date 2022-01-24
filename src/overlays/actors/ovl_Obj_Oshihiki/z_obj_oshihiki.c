@@ -338,33 +338,18 @@ void ObjOshihiki_SetFloors(ObjOshihiki* this, GlobalContext* globalCtx) {
 }
 
 s16 ObjOshihiki_GetHighestFloor(ObjOshihiki* this) {
+    s32 i;
     s16 highestFloor = 0;
-    s16 temp = 1;
-    f32 phi_f0 = this->floorHeights[temp];
 
-    if (phi_f0 > this->floorHeights[highestFloor]) {
-        highestFloor = temp;
-    } else if ((this->floorBgIds[temp] == BGCHECK_SCENE) && ((phi_f0 - this->floorHeights[highestFloor]) > -0.001f)) {
-        highestFloor = temp;
+    for (i = 1; i < ARRAY_COUNT(this->floorHeights); i++) {
+        if (this->floorHeights[i] > this->floorHeights[highestFloor]) {
+            highestFloor = i;
+        } else if ((this->floorBgIds[i] == BGCHECK_SCENE) && 
+            ((this->floorHeights[i] - this->floorHeights[highestFloor]) > -0.001f)) {
+            highestFloor = i;
+        }
     }
-    if (this->floorHeights[temp + 1] > this->floorHeights[highestFloor]) {
-        highestFloor = temp + 1;
-    } else if ((this->floorBgIds[temp + 1] == BGCHECK_SCENE) &&
-               ((this->floorHeights[temp + 1] - this->floorHeights[highestFloor]) > -0.001f)) {
-        highestFloor = temp + 1;
-    }
-    if (this->floorHeights[temp + 2] > this->floorHeights[highestFloor]) {
-        highestFloor = temp + 2;
-    } else if ((this->floorBgIds[temp + 2] == BGCHECK_SCENE) &&
-               ((this->floorHeights[temp + 2] - this->floorHeights[highestFloor]) > -0.001f)) {
-        highestFloor = temp + 2;
-    }
-    if (this->floorHeights[temp + 3] > this->floorHeights[highestFloor]) {
-        highestFloor = temp + 3;
-    } else if ((this->floorBgIds[temp + 3] == BGCHECK_SCENE) &&
-               ((this->floorHeights[temp + 3] - this->floorHeights[highestFloor]) > -0.001f)) {
-        highestFloor = temp + 3;
-    }
+
     return highestFloor;
 }
 
