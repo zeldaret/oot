@@ -41,10 +41,10 @@
         <Texture Name="gFieldUnusedFishTex" OutName="unused_fish" Format="rgba16" Width="64" Height="32" Offset="0x64A8"/>
         <Texture Name="gFieldUnusedFishBottomTex" OutName="unused_fish_bottom" Format="rgba16" Width="64" Height="32" Offset="0x074A8"/>
         <Texture Name="gFieldUnusedFishFinTex" OutName="unused_fish_fin" Format="rgba16" Width="32" Height="16" Offset="0x84A8"/>
-        <DList Name="gSilverRockDL" Offset="0xA3B8"/> 
+        <DList Name="gSilverRockDL" Offset="0xA3B8"/>
         <DList Name="gFieldKakeraDL" Offset="0xA880"/>
         <Texture Name="gFieldKakeraTex" OutName="kakera" Format="rgba16" Width="32" Height="32" Offset="0xA940"/>
-        <DList Name="gSilverRockFragmentsDL" Offset="0xA5E8"/>  
+        <DList Name="gSilverRockFragmentsDL" Offset="0xA5E8"/>
         <DList Name="gFieldBushDL" Offset="0xB9D0"/>
         <Texture Name="gFieldBushTex" OutName="bush" Format="rgba16" Width="32" Height="32" Offset="0xB140"/>
         <DList Name="gFieldBeehiveDL" Offset="0x95B0"/>

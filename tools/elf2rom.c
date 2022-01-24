@@ -50,7 +50,7 @@ static char *sprintf_alloc(const char *fmt, ...)
     va_end(args);
 
     buffer = malloc(size);
-    
+
     va_start(args, fmt);
     vsprintf(buffer, fmt, args);
     va_end(args);
@@ -155,7 +155,7 @@ static void parse_input_file(const char *filename)
             segment->romStart = find_rom_address(syms, numRomSymbols, segment->name, "Start");
             segment->romEnd = find_rom_address(syms, numRomSymbols, segment->name, "End");
         }
-            
+
     }
 
     g_romSize = find_symbol_value(syms, numRomSymbols, "_RomSize");

@@ -88,7 +88,7 @@ static void write_ld_script(FILE *fout)
         fprintf(fout, "        _%sSegmentDataEnd = .;\n", seg->name);
 
         fprintf(fout, "    _%sSegmentDataSize = ABSOLUTE( _%sSegmentDataEnd - _%sSegmentDataStart );\n", seg->name, seg->name, seg->name);
-        
+
         fprintf(fout, "        _%sSegmentRoDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
@@ -135,7 +135,7 @@ static void write_ld_script(FILE *fout)
 
         if (seg->fields & (1 << STMT_increment))
             fprintf(fout, "    . += 0x%08X;\n", seg->increment);
-        
+
 
         fputs("    }\n", fout);
         //fprintf(fout, "    _RomSize += ( _%sSegmentDataEnd - _%sSegmentTextStart );\n", seg->name, seg->name);

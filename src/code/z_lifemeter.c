@@ -116,8 +116,8 @@ void HealthMeter_Init(GlobalContext* globalCtx) {
 
     interfaceCtx->unk_228 = 0x140;
     interfaceCtx->unk_226 = gSaveContext.health;
-    interfaceCtx->unk_22A = interfaceCtx->unk_1FE = 0;
-    interfaceCtx->unk_22C = interfaceCtx->unk_200 = 0;
+    interfaceCtx->beatingHeartOscillator = interfaceCtx->heartColorOscillator = 0;
+    interfaceCtx->beatingHeartOscillatorDirection = interfaceCtx->heartColorOscillatorDirection = 0;
 
     interfaceCtx->heartsPrimR[0] = HEARTS_PRIM_R;
     interfaceCtx->heartsPrimG[0] = HEARTS_PRIM_G;
@@ -146,7 +146,7 @@ void HealthMeter_Init(GlobalContext* globalCtx) {
 
 void HealthMeter_Update(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    f32 factor = interfaceCtx->unk_1FE * 0.1f;
+    f32 factor = interfaceCtx->heartColorOscillator * 0.1f;
     f32 ddFactor;
     s32 type = 0;
     s32 ddType;
@@ -156,17 +156,17 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
 
     if (interfaceCtx) {}
 
-    if (interfaceCtx->unk_200 != 0) {
-        interfaceCtx->unk_1FE--;
-        if (interfaceCtx->unk_1FE <= 0) {
-            interfaceCtx->unk_1FE = 0;
-            interfaceCtx->unk_200 = 0;
+    if (interfaceCtx->heartColorOscillatorDirection != 0) {
+        interfaceCtx->heartColorOscillator--;
+        if (interfaceCtx->heartColorOscillator <= 0) {
+            interfaceCtx->heartColorOscillator = 0;
+            interfaceCtx->heartColorOscillatorDirection = 0;
         }
     } else {
-        interfaceCtx->unk_1FE++;
-        if (interfaceCtx->unk_1FE >= 10) {
-            interfaceCtx->unk_1FE = 10;
-            interfaceCtx->unk_200 = 1;
+        interfaceCtx->heartColorOscillator++;
+        if (interfaceCtx->heartColorOscillator >= 10) {
+            interfaceCtx->heartColorOscillator = 10;
+            interfaceCtx->heartColorOscillatorDirection = 1;
         }
     }
 
@@ -240,11 +240,13 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
     sBeatingHeartsDDEnv[2] = (u8)(bFactor + HEARTS_DD_ENV_B) & 0xFF;
 }
 
+// Unused
 s32 func_80078E18(GlobalContext* globalCtx) {
     gSaveContext.health = globalCtx->interfaceCtx.unk_226;
     return 1;
 }
 
+// Unused
 s32 func_80078E34(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
@@ -259,6 +261,7 @@ s32 func_80078E34(GlobalContext* globalCtx) {
     return 0;
 }
 
+// Unused
 s32 func_80078E84(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
@@ -298,19 +301,19 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
     u32 curColorSet;
     f32 offsetX;
     f32 offsetY;
-    s32 i;
-    f32 temp1;
-    f32 temp2;
-    f32 temp3;
-    f32 temp4;
+    s32 heartIndex;
+    f32 halfHeartLength;
+    f32 heartCenterX;
+    f32 heartCenterY;
+    f32 heartTexCoordPerPixel;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Vtx* sp154 = interfaceCtx->beatingHeartVtx;
+    Vtx* beatingHeartVtx = interfaceCtx->beatingHeartVtx;
     s32 curHeartFraction = gSaveContext.health % 0x10;
     s16 totalHeartCount = gSaveContext.healthCapacity / 0x10;
     s16 fullHeartCount = gSaveContext.health / 0x10;
     s32 pad2;
-    f32 sp144 = interfaceCtx->unk_22A * 0.1f;
+    f32 beatingHeartPulsingSize = interfaceCtx->beatingHeartOscillator * 0.1f;
     s32 curCombineModeSet = 0;
     u8* curBgImgLoaded = NULL;
     s32 ddHeartCountMinusOne = gSaveContext.inventory.defenseHearts - 1;
@@ -325,9 +328,9 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
     offsetY = 0.0f;
     offsetX = 0.0f;
 
-    for (i = 0; i < totalHeartCount; i++) {
-        if ((ddHeartCountMinusOne < 0) || (i > ddHeartCountMinusOne)) {
-            if (i < fullHeartCount) {
+    for (heartIndex = 0; heartIndex < totalHeartCount; heartIndex++) {
+        if ((ddHeartCountMinusOne < 0) || (heartIndex > ddHeartCountMinusOne)) {
+            if (heartIndex < fullHeartCount) {
                 if (curColorSet != 0) {
                     curColorSet = 0;
                     gDPPipeSync(OVERLAY_DISP++);
@@ -336,7 +339,7 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                     gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->heartsEnvR[0], interfaceCtx->heartsEnvG[0],
                                    interfaceCtx->heartsEnvB[0], 255);
                 }
-            } else if (i == fullHeartCount) {
+            } else if (heartIndex == fullHeartCount) {
                 if (curColorSet != 1) {
                     curColorSet = 1;
                     gDPPipeSync(OVERLAY_DISP++);
@@ -346,7 +349,7 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                     gDPSetEnvColor(OVERLAY_DISP++, interfaceCtx->beatingHeartEnv[0], interfaceCtx->beatingHeartEnv[1],
                                    interfaceCtx->beatingHeartEnv[2], 255);
                 }
-            } else if (i > fullHeartCount) {
+            } else if (heartIndex > fullHeartCount) {
                 if (curColorSet != 2) {
                     curColorSet = 2;
                     gDPPipeSync(OVERLAY_DISP++);
@@ -366,15 +369,15 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                 }
             }
 
-            if (i < fullHeartCount) {
+            if (heartIndex < fullHeartCount) {
                 heartBgImg = gHeartFullTex;
-            } else if (i == fullHeartCount) {
+            } else if (heartIndex == fullHeartCount) {
                 heartBgImg = sHeartTextures[curHeartFraction];
             } else {
                 heartBgImg = gHeartEmptyTex;
             }
         } else {
-            if (i < fullHeartCount) {
+            if (heartIndex < fullHeartCount) {
                 if (curColorSet != 4) {
                     curColorSet = 4;
                     gDPPipeSync(OVERLAY_DISP++);
@@ -382,7 +385,7 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                                     interfaceCtx->healthAlpha);
                     gDPSetEnvColor(OVERLAY_DISP++, sHeartsDDEnv[0][0], sHeartsDDEnv[0][1], sHeartsDDEnv[0][2], 255);
                 }
-            } else if (i == fullHeartCount) {
+            } else if (heartIndex == fullHeartCount) {
                 if (curColorSet != 5) {
                     curColorSet = 5;
                     gDPPipeSync(OVERLAY_DISP++);
@@ -391,7 +394,7 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                     gDPSetEnvColor(OVERLAY_DISP++, sBeatingHeartsDDEnv[0], sBeatingHeartsDDEnv[1],
                                    sBeatingHeartsDDEnv[2], 255);
                 }
-            } else if (i > fullHeartCount) {
+            } else if (heartIndex > fullHeartCount) {
                 if (curColorSet != 6) {
                     curColorSet = 6;
                     gDPPipeSync(OVERLAY_DISP++);
@@ -409,9 +412,9 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                 }
             }
 
-            if (i < fullHeartCount) {
+            if (heartIndex < fullHeartCount) {
                 heartBgImg = gDefenseHeartFullTex;
-            } else if (i == fullHeartCount) {
+            } else if (heartIndex == fullHeartCount) {
                 heartBgImg = sHeartDDTextures[curHeartFraction];
             } else {
                 heartBgImg = gDefenseHeartEmptyTex;
@@ -425,8 +428,8 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                                 G_TX_NOLOD, G_TX_NOLOD);
         }
 
-        if (i != fullHeartCount) {
-            if ((ddHeartCountMinusOne < 0) || (i > ddHeartCountMinusOne)) {
+        if (heartIndex != fullHeartCount) {
+            if ((ddHeartCountMinusOne < 0) || (heartIndex > ddHeartCountMinusOne)) {
                 if (curCombineModeSet != 1) {
                     curCombineModeSet = 1;
                     func_80094520(gfxCtx);
@@ -442,18 +445,18 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
                 }
             }
 
-            temp3 = 26.0f + offsetY;
-            temp2 = 30.0f + offsetX;
-            temp4 = 1.0f;
-            temp4 /= 0.68f;
-            temp4 *= 1 << 10;
-            temp1 = 8.0f;
-            temp1 *= 0.68f;
-            gSPTextureRectangle(OVERLAY_DISP++, (s32)((temp2 - temp1) * 4), (s32)((temp3 - temp1) * 4),
-                                (s32)((temp2 + temp1) * 4), (s32)((temp3 + temp1) * 4), G_TX_RENDERTILE, 0, 0,
-                                (s32)temp4, (s32)temp4);
+            heartCenterY = 26.0f + offsetY;
+            heartCenterX = 30.0f + offsetX;
+            heartTexCoordPerPixel = 1.0f;
+            heartTexCoordPerPixel /= 0.68f;
+            heartTexCoordPerPixel *= 1 << 10;
+            halfHeartLength = 8.0f;
+            halfHeartLength *= 0.68f;
+            gSPTextureRectangle(OVERLAY_DISP++, (s32)((heartCenterX - halfHeartLength) * 4), (s32)((heartCenterY - halfHeartLength) * 4),
+                                (s32)((heartCenterX + halfHeartLength) * 4), (s32)((heartCenterY + halfHeartLength) * 4), G_TX_RENDERTILE, 0, 0,
+                                (s32)heartTexCoordPerPixel, (s32)heartTexCoordPerPixel);
         } else {
-            if ((ddHeartCountMinusOne < 0) || (i > ddHeartCountMinusOne)) {
+            if ((ddHeartCountMinusOne < 0) || (heartIndex > ddHeartCountMinusOne)) {
                 if (curCombineModeSet != 2) {
                     curCombineModeSet = 2;
                     func_80094A14(gfxCtx);
@@ -471,16 +474,19 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
 
             {
                 Mtx* matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
-                Matrix_SetTranslateScaleMtx2(matrix, 1.0f - (0.32f * sp144), 1.0f - (0.32f * sp144),
-                                             1.0f - (0.32f * sp144), -130.0f + offsetX, 94.5f - offsetY, 0.0f);
+                Matrix_SetTranslateScaleMtx2(matrix, 1.0f - (0.32f * beatingHeartPulsingSize), 1.0f - (0.32f * beatingHeartPulsingSize), 1.0f - (0.32f * beatingHeartPulsingSize),
+                              -130.0f + offsetX, 94.5f - offsetY, 0.0f);
                 gSPMatrix(OVERLAY_DISP++, matrix, G_MTX_MODELVIEW | G_MTX_LOAD);
-                gSPVertex(OVERLAY_DISP++, sp154, 4, 0);
+                gSPVertex(OVERLAY_DISP++, beatingHeartVtx, 4, 0);
                 gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
             }
         }
 
+        // Move offset to next heart
         offsetX += 10.0f;
-        if (i == 9) {
+
+        // Go down one line after 10 hearts
+        if (heartIndex == 9) {
             offsetY += 10.0f;
             offsetX = 0.0f;
         }
@@ -489,42 +495,42 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_lifemeter.c", 606);
 }
 
-void HealthMeter_HandleCriticalAlarm(GlobalContext* globalCtx) {
+void HealthMeter_UpdateBeatingHeart(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
-    if (interfaceCtx->unk_22C != 0) {
-        interfaceCtx->unk_22A--;
-        if (interfaceCtx->unk_22A <= 0) {
-            interfaceCtx->unk_22A = 0;
-            interfaceCtx->unk_22C = 0;
+    if (interfaceCtx->beatingHeartOscillatorDirection != 0) {
+        interfaceCtx->beatingHeartOscillator--;
+        if (interfaceCtx->beatingHeartOscillator <= 0) {
+            interfaceCtx->beatingHeartOscillator = 0;
+            interfaceCtx->beatingHeartOscillatorDirection = 0;
             if (!Player_InCsMode(globalCtx) && (globalCtx->pauseCtx.state == 0) &&
                 (globalCtx->pauseCtx.debugState == 0) && HealthMeter_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
         }
     } else {
-        interfaceCtx->unk_22A++;
-        if (interfaceCtx->unk_22A >= 10) {
-            interfaceCtx->unk_22A = 10;
-            interfaceCtx->unk_22C = 1;
+        interfaceCtx->beatingHeartOscillator++;
+        if (interfaceCtx->beatingHeartOscillator >= 10) {
+            interfaceCtx->beatingHeartOscillator = 10;
+            interfaceCtx->beatingHeartOscillatorDirection = 1;
         }
     }
 }
 
 u32 HealthMeter_IsCritical(void) {
-    s32 var;
+    s32 criticalHealth;
 
     if (gSaveContext.healthCapacity <= 0x50) {
-        var = 0x10;
+        criticalHealth = 0x10;
     } else if (gSaveContext.healthCapacity <= 0xA0) {
-        var = 0x18;
+        criticalHealth = 0x18;
     } else if (gSaveContext.healthCapacity <= 0xF0) {
-        var = 0x20;
+        criticalHealth = 0x20;
     } else {
-        var = 0x2C;
+        criticalHealth = 0x2C;
     }
 
-    if ((var >= gSaveContext.health) && (gSaveContext.health > 0)) {
+    if ((criticalHealth >= gSaveContext.health) && (gSaveContext.health > 0)) {
         return true;
     } else {
         return false;
