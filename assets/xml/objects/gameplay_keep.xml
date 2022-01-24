@@ -704,6 +704,10 @@
         <Texture Name="gEffShockwaveTex" OutName="eff_shockwave" Format="i8" Width="64" Height="64" Offset="0x190B0"/>
         <DList Name="gEffShockwaveDL" Offset="0x1A0B0"/>
         <DList Name="gEffBubbleDL" Offset="0x1A160"/>
+        <Array Name="gGameplayKeepVtx_01A120" Count="4" Offset="0x1A120">
+            <Vtx/>
+        </Array>
+
         <Texture Name="gEffFireFootprint1Tex" OutName="eff_fire_footprint_1" Format="ia8" Width="32" Height="32" Offset="0x1A220"/>
         <Texture Name="gEffFireFootprint2Tex" OutName="eff_fire_footprint_2" Format="ia8" Width="32" Height="32" Offset="0x1A620"/>
         <Texture Name="gEffFireFootprint3Tex" OutName="eff_fire_footprint_3" Format="ia8" Width="32" Height="32" Offset="0x1AA20"/>

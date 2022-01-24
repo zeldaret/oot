@@ -511,7 +511,7 @@ s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
         return -1;
     }
 
-    if (!(camera->player->stateFlags1 & 0x8000000)) {
+    if (!(camera->player->stateFlags1 & PLAYER_STATE1_27)) {
         // player is not swimming
         *waterY = BGCHECK_Y_MIN;
         return -1;
@@ -1021,7 +1021,7 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 yOffset, f32* arg
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & 0x200000) {
+        camera->player->stateFlags1 & PLAYER_STATE1_21) {
         *arg3 = Camera_LERPCeilF(playerPosRot->pos.y, *arg3, PCT(OREG(43)), 0.1f);
         phi_f20 = playerPosRot->pos.y - *arg3;
         posOffsetTarget.y -= phi_f20;
@@ -1124,7 +1124,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecSph* eyeAtDir, Vec3f* targetPos, f
     tmpPos0.z = tmpPos0.z + lookFromOffset.z;
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & 0x200000) {
+        camera->player->stateFlags1 & PLAYER_STATE1_21) {
         *yPosOffset = Camera_LERPCeilF(playerPosRot->pos.y, *yPosOffset, PCT(OREG(43)), 0.1f);
         yPosDelta = playerPosRot->pos.y - *yPosOffset;
         tmpPos0.y -= yPosDelta;
@@ -2059,7 +2059,7 @@ s32 Camera_Parallel1(Camera* camera) {
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & 0x200000) {
+        camera->player->stateFlags1 & PLAYER_STATE1_21) {
         anim->yTarget = playerPosRot->pos.y;
         sp6A = 0;
     } else {
@@ -2748,7 +2748,7 @@ s32 Camera_Battle1(Camera* camera) {
     sp78 = batt1->swingPitchFinal;
     fov = batt1->fov;
 
-    if (camera->player->stateFlags1 & 0x1000) {
+    if (camera->player->stateFlags1 & PLAYER_STATE1_12) {
         // charging sword.
         anim->unk_10 = Camera_LERPCeilF(PCT(OREG(12)) * 0.5f, anim->unk_10, PCT(OREG(25)), 0.1f);
         camera->xzOffsetUpdateRate = Camera_LERPCeilF(0.2f, camera->xzOffsetUpdateRate, PCT(OREG(25)), 0.1f);
@@ -2819,7 +2819,7 @@ s32 Camera_Battle1(Camera* camera) {
     }
 
     if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-        camera->player->stateFlags1 & 0x200000) {
+        camera->player->stateFlags1 & PLAYER_STATE1_21) {
         isOffGround = false;
         anim->yPosOffset = playerPosRot->pos.y;
     } else {
@@ -3139,7 +3139,7 @@ s32 Camera_KeepOn1(Camera* camera) {
             anim->unk_0C = NULL;
         cont:
             if (camera->playerGroundY == camera->playerPosRot.pos.y || camera->player->actor.gravity > -0.1f ||
-                camera->player->stateFlags1 & 0x200000) {
+                camera->player->stateFlags1 & PLAYER_STATE1_21) {
                 anim->unk_08 = playerPosRot->pos.y;
                 sp80 = 0;
             } else {
@@ -3560,7 +3560,7 @@ s32 Camera_KeepOn4(Camera* camera) {
                 keep4->unk_04 = playerHeight * 1.6f * yNormal;
                 keep4->unk_08 = -2.0f;
                 keep4->unk_0C = 120.0f;
-                keep4->unk_10 = player->stateFlags1 & 0x8000000 ? 0.0f : 20.0f;
+                keep4->unk_10 = player->stateFlags1 & PLAYER_STATE1_27 ? 0.0f : 20.0f;
                 keep4->unk_1C = 0x3212;
                 keep4->unk_1E = 0x1E;
                 keep4->unk_18 = 50.0f;
@@ -4813,7 +4813,7 @@ s32 Camera_Unique0(Camera* camera) {
         camera->animState++;
     }
 
-    if (player->stateFlags1 & 0x20000000) {
+    if (player->stateFlags1 & PLAYER_STATE1_29) {
         anim->initalPos = playerPosRot->pos;
     }
 
@@ -4821,7 +4821,7 @@ s32 Camera_Unique0(Camera* camera) {
         if (anim->animTimer > 0) {
             anim->animTimer--;
             anim->initalPos = playerPosRot->pos;
-        } else if ((!(player->stateFlags1 & 0x20000000)) &&
+        } else if ((!(player->stateFlags1 & PLAYER_STATE1_29)) &&
                    ((OLib_Vec3fDistXZ(&playerPosRot->pos, &anim->initalPos) >= 10.0f) ||
                     CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
                     CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
@@ -4849,7 +4849,7 @@ s32 Camera_Unique0(Camera* camera) {
             anim->initalPos = playerPosRot->pos;
         }
 
-        if ((!(player->stateFlags1 & 0x20000000)) &&
+        if ((!(player->stateFlags1 & PLAYER_STATE1_29)) &&
             ((0.001f < camera->xzSpeed) || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
              CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
              CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
@@ -5066,7 +5066,8 @@ s32 Camera_Unique9(Camera* camera) {
                     D_8011D3AC = anim->curKeyFrame->unk_01 & 0xF;
                 } else if ((anim->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
                     Camera_UpdateInterface(0xF000 | ((anim->curKeyFrame->unk_01 & 0xF) << 8));
-                } else if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != PLAYER_BOOTS_IRON) {
+                } else if (camera->player->stateFlags1 & PLAYER_STATE1_27 &&
+                           player->currentBoots != PLAYER_BOOTS_IRON) {
                     func_8002DF38(camera->globalCtx, camera->target, 8);
                     osSyncPrintf("camera: demo: player demo set WAIT\n");
                 } else {
@@ -5442,7 +5443,7 @@ s32 Camera_Unique9(Camera* camera) {
         // Set the player's position
         camera->player->actor.world.pos.x = anim->playerPos.x;
         camera->player->actor.world.pos.z = anim->playerPos.z;
-        if (camera->player->stateFlags1 & 0x8000000 && player->currentBoots != PLAYER_BOOTS_IRON) {
+        if (camera->player->stateFlags1 & PLAYER_STATE1_27 && player->currentBoots != PLAYER_BOOTS_IRON) {
             camera->player->actor.world.pos.y = anim->playerPos.y;
         }
     } else {
@@ -6003,16 +6004,16 @@ s32 Camera_Demo5(Camera* camera) {
 
     sDemo5PrevSfxFrame = camera->globalCtx->state.frames;
 
-    if (camera->player->stateFlags1 & 0x8000000 && (player->currentBoots != PLAYER_BOOTS_IRON)) {
+    if (camera->player->stateFlags1 & PLAYER_STATE1_27 && (player->currentBoots != PLAYER_BOOTS_IRON)) {
         // swimming, and not iron boots
-        player->stateFlags1 |= 0x20000000;
+        player->stateFlags1 |= PLAYER_STATE1_29;
         // env frozen
         player->actor.freezeTimer = camera->timer;
     } else {
         sp4A = playerhead.rot.y - playerTargetGeo.yaw;
         if (camera->target->category == ACTORCAT_PLAYER) {
             pad = camera->globalCtx->state.frames - sDemo5PrevAction12Frame;
-            if (player->stateFlags1 & 0x800) {
+            if (player->stateFlags1 & PLAYER_STATE1_11) {
                 // holding object over head.
                 func_8002DF54(camera->globalCtx, camera->target, 8);
             } else if (ABS(pad) > 3000) {
@@ -7072,7 +7073,7 @@ s32 Camera_CheckWater(Camera* camera) {
     }
 
     if (camera->unk_14C & 0x200) {
-        if (player->stateFlags2 & 0x800) {
+        if (player->stateFlags2 & PLAYER_STATE2_11) {
             Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_WATER_SURFACE, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
@@ -7556,7 +7557,7 @@ void Camera_Finish(Camera* camera) {
 
         if ((camera->parentCamIdx == MAIN_CAM) && (camera->csId != 0)) {
             player->actor.freezeTimer = 0;
-            player->stateFlags1 &= ~0x20000000;
+            player->stateFlags1 &= ~PLAYER_STATE1_29;
 
             if (player->csMode != 0) {
                 func_8002DF54(camera->globalCtx, &player->actor, 7);

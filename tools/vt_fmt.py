@@ -59,7 +59,7 @@ def vt_fmt(text):
 
         i += 1
 
-    
+
     if curLiteral:
         chars += '\"'
 
@@ -70,7 +70,7 @@ def main():
     parser = argparse.ArgumentParser(description='Properly formats VT macros')
     parser.add_argument('string', help='String to format')
     args = parser.parse_args()
-    
+
     print(vt_fmt(args.string))
 
 

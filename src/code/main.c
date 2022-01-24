@@ -111,6 +111,6 @@ void Main(void* arg) {
 
     osSyncPrintf("mainproc 後始末\n"); // "Cleanup"
     osDestroyThread(&sGraphThread);
-    func_800FBFD8();
+    RcpUtils_Reset();
     osSyncPrintf("mainproc 実行終了\n"); // "End of execution"
 }
