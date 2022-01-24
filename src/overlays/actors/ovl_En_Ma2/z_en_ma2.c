@@ -54,7 +54,15 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 sAnimationInfo[] = {
+typedef enum {
+    /* 0 */ ENMA2_ANIM_0,
+    /* 1 */ ENMA2_ANIM_1,
+    /* 2 */ ENMA2_ANIM_2,
+    /* 3 */ ENMA2_ANIM_3,
+    /* 4 */ ENMA2_ANIM_4
+} EnMa2Animation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -178,11 +186,11 @@ void EnMa2_UpdateEyes(EnMa2* this) {
     }
 }
 
-void EnMa2_ChangeAnim(EnMa2* this, s32 idx) {
-    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
+void EnMa2_ChangeAnim(EnMa2* this, s32 index) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 void func_80AA1DB4(EnMa2* this, GlobalContext* globalCtx) {
@@ -213,18 +221,18 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (func_80AA1B58(this, globalCtx)) {
         case 1:
-            EnMa2_ChangeAnim(this, 2);
+            EnMa2_ChangeAnim(this, ENMA2_ANIM_2);
             this->actionFunc = func_80AA2018;
             break;
         case 2:
-            EnMa2_ChangeAnim(this, 3);
+            EnMa2_ChangeAnim(this, ENMA2_ANIM_3);
             this->actionFunc = func_80AA204C;
             break;
         case 3:
             if (gSaveContext.infTable[8] & 0x2000) {
-                EnMa2_ChangeAnim(this, 0);
+                EnMa2_ChangeAnim(this, ENMA2_ANIM_0);
             } else {
-                EnMa2_ChangeAnim(this, 3);
+                EnMa2_ChangeAnim(this, ENMA2_ANIM_3);
             }
             this->actionFunc = func_80AA2018;
             break;
@@ -256,13 +264,13 @@ void func_80AA2018(EnMa2* this, GlobalContext* globalCtx) {
 void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags2 & 0x1000000) {
+    if (player->stateFlags2 & PLAYER_STATE2_24) {
         player->unk_6A8 = &this->actor;
-        player->stateFlags2 |= 0x2000000;
+        player->stateFlags2 |= PLAYER_STATE2_25;
         func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_EPONA);
         this->actionFunc = func_80AA20E4;
     } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
@@ -279,7 +287,7 @@ void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AA21C8;
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
@@ -287,7 +295,7 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (DECR(this->unk_208)) {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     } else {
         if (this->unk_1E0.unk_00 == 0) {
             this->actor.flags |= ACTOR_FLAG_16;

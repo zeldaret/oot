@@ -31,7 +31,7 @@ typedef struct {
     const char* segment;
 } MessageTableEntry;
 
-/* 
+/*
  *  Message Symbol Declarations
  */
 

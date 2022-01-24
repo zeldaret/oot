@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_hammer" Segment="6">
         <DList Name="gGiHammerDL" Offset="0x09D0"/>
     </File>

@@ -402,7 +402,7 @@ void EnTest_ChooseAction(EnTest* this, GlobalContext* globalCtx) {
         } else {
             if (this->actor.xzDistToPlayer < 110.0f) {
                 if (Rand_ZeroOne() > 0.2f) {
-                    if (player->stateFlags1 & 0x10) {
+                    if (player->stateFlags1 & PLAYER_STATE1_4) {
                         if (this->actor.isTargeted) {
                             EnTest_SetupSlashDown(this);
                         } else {
@@ -688,7 +688,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
 
         if (this->actor.xzDistToPlayer < 110.0f) {
             if (Rand_ZeroOne() > 0.2f) {
-                if (player->stateFlags1 & 0x10) {
+                if (player->stateFlags1 & PLAYER_STATE1_4) {
                     if (this->actor.isTargeted) {
                         EnTest_SetupSlashDown(this);
                     } else {
@@ -973,7 +973,7 @@ void EnTest_SlashDownEnd(EnTest* this, GlobalContext* globalCtx) {
             if ((ABS(yawDiff) > 0x3E80) && (this->actor.params != STALFOS_TYPE_CEILING)) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 EnTest_SetupJumpBack(this);
-            } else if (player->stateFlags1 & 0x10) {
+            } else if (player->stateFlags1 & PLAYER_STATE1_4) {
                 if (this->actor.isTargeted) {
                     EnTest_SetupSlashDown(this);
                 } else if ((globalCtx->gameplayFrames % 2) != 0) {
@@ -1896,7 +1896,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
             if ((this->unk_7C8 == 0x15) || (this->unk_7C8 == 0x16)) {
                 if (this->actor.speedXZ != 0.0f) {
                     Matrix_MultVec3f(&D_80864658, &sp64);
-                    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &sp64, 10.0f, 1, 8.0f, 0x64, 0xF, 0);
+                    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &sp64, 10.0f, 1, 8.0f, 100, 15, false);
                 }
             }
         }

@@ -252,7 +252,7 @@ void EffectSsKiraKira_SpawnDispersed(GlobalContext* globalCtx, Vec3f* pos, Vec3f
     initParams.envColor = *envColor;
     initParams.alphaStep = (-(255.0f / initParams.life)) + (-(255.0f / initParams.life));
 
-    EffectSs_Spawn(globalCtx, 1, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_KIRAKIRA, 128, &initParams);
 }
 
 void EffectSsKiraKira_SpawnFocused(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
@@ -271,7 +271,7 @@ void EffectSsKiraKira_SpawnFocused(GlobalContext* globalCtx, Vec3f* pos, Vec3f* 
     Color_RGBA8_Copy(&initParams.envColor, envColor);
     initParams.alphaStep = (-(255.0f / initParams.life)) + (-(255.0f / initParams.life));
 
-    EffectSs_Spawn(globalCtx, 1, 128, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_KIRAKIRA, 128, &initParams);
 }
 
 // EffectSsBomb Spawn Functions
@@ -833,7 +833,7 @@ void EffectSsIcePiece_Spawn(GlobalContext* globalCtx, Vec3f* pos, f32 scale, Vec
     Math_Vec3f_Copy(&initParams.accel, accel);
     initParams.scale = scale;
     initParams.life = life;
-    EffectSs_Spawn(globalCtx, 0x1A, 0x80, &initParams);
+    EffectSs_Spawn(globalCtx, EFFECT_SS_ICE_PIECE, 128, &initParams);
 }
 
 void EffectSsIcePiece_SpawnBurst(GlobalContext* globalCtx, Vec3f* refPos, f32 scale) {
