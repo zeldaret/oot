@@ -31,8 +31,8 @@
 
 #define GET_ACTIVE_CAM(globalCtx) ((globalCtx)->cameraPtrs[(globalCtx)->activeCamera])
 
-#define LINK_IS_ADULT (gSaveContext.linkAge == 0)
-#define LINK_IS_CHILD (gSaveContext.linkAge == 1)
+#define LINK_IS_ADULT (gSaveContext.linkAge == LINK_AGE_ADULT)
+#define LINK_IS_CHILD (gSaveContext.linkAge == LINK_AGE_CHILD)
 
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
