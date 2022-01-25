@@ -8,7 +8,7 @@
 #include "objects/object_haka_objects/object_haka_objects.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 typedef enum {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
@@ -200,7 +200,7 @@ void BgHakaSgami_SetupSpin(BgHakaSgami* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actor.draw = BgHakaSgami_Draw;
         this->timer = SCYTHE_SPIN_TIME;
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
         this->actionFunc = BgHakaSgami_Spin;
     }
 }

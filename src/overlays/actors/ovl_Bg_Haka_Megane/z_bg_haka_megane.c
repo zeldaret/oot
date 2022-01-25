@@ -8,7 +8,7 @@
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_7)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_7)
 
 void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaMegane_Destroy(Actor* thisx, GlobalContext* globalCtx);

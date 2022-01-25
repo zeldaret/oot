@@ -14,7 +14,7 @@
 #include "scenes/dungeons/ice_doukutu/ice_doukutu_scene.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnXc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -1,7 +1,7 @@
 #include "z_en_bigokuta.h"
 #include "objects/object_bigokuta/object_bigokuta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void EnBigokuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -785,7 +785,7 @@ void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
             for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->cylinder[i].base);
             }
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
         } else {
             for (i = 0; i < ARRAY_COUNT(this->cylinder); i++) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cylinder[i].base);

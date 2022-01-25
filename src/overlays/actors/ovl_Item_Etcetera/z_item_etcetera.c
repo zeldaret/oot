@@ -6,7 +6,7 @@
 
 #include "z_item_etcetera.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx);

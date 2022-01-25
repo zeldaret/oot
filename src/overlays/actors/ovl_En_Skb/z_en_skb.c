@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_skb/object_skb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx);

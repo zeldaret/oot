@@ -170,7 +170,7 @@ void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
             }
             sPuzzleCounter--;
         }
-        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
         this->actionFunc = EnHintnuts_BeginFreeze;
     } else {
         this->actionFunc = EnHintnuts_BeginRun;
@@ -195,7 +195,7 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, GlobalContext* globalCtx) {
     this->animFlagAndTimer = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->collider.base.ocFlags1 &= ~OC1_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00, this->actor.world.pos.x, this->actor.world.pos.y,
                 this->actor.world.pos.z, 0x0, 0x0, 0x0, 0x3); // recovery heart
@@ -450,7 +450,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         } else {
             this->actor.flags |= ACTOR_FLAG_0;
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
             this->actor.colChkInfo.health = sColChkInfoInit.health;
             this->actor.colorFilterTimer = 0;
             EnHintnuts_SetupWait(this);

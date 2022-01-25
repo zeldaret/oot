@@ -7,7 +7,7 @@
 #include "z_en_floormas.h"
 #include "objects/object_wallmaster/object_wallmaster.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_10)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_HOOK_BRING_PLAYER)
 
 #define SPAWN_INVISIBLE 0x8000
 #define SPAWN_SMALL 0x10
@@ -280,7 +280,7 @@ void EnFloormas_SetupLand(EnFloormas* this) {
 void EnFloormas_SetupSplit(EnFloormas* this) {
 
     Actor_SetScale(&this->actor, 0.004f);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
         this->actor.draw = EnFloormas_DrawHighlighted;
     } else {
@@ -385,7 +385,7 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
     }
     this->actor.draw = NULL;
     this->actionFunc = EnFloormas_SmWait;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING);
 }
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
@@ -912,7 +912,7 @@ void EnFloormas_Merge(EnFloormas* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->actor.scale.x >= 0.01f) {
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
             EnFloormas_MakeVulnerable(this);
             this->actor.params = 0;
             this->collider.info.bumperFlags |= BUMP_HOOKABLE;
@@ -1051,7 +1051,7 @@ void EnFloormas_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->actor.scale.x * 3000.0f, 0.0f, 0x1D);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->actionFunc == EnFloormas_Charge) {
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->actionFunc != EnFloormas_GrabLink) {

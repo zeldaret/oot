@@ -110,7 +110,7 @@ void func_80B93D90(ObjHsblock* this) {
 }
 
 void func_80B93DB0(ObjHsblock* this) {
-    this->dyna.actor.flags |= ACTOR_FLAG_4;
+    this->dyna.actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 105.0f;
     ObjHsblock_SetupAction(this, func_80B93DF4);
 }
@@ -131,7 +131,7 @@ void func_80B93E5C(ObjHsblock* this, GlobalContext* globalCtx) {
                                  this->dyna.actor.velocity.y, 0.3f)) < 0.001f) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         func_80B93D90(this);
-        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
     }
 }
 

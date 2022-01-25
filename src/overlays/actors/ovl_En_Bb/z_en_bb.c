@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_Bb/object_Bb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_PLAY_BODYHIT_SFX)
 
 #define vBombHopPhase actionVar1
 #define vTrailIdx actionVar1
@@ -344,7 +344,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->flamePrimBlue = this->flameEnvColor.b = 255;
                 thisx->world.pos.y += 50.0f;
                 EnBb_SetupBlue(this);
-                thisx->flags |= ACTOR_FLAG_14;
+                thisx->flags |= ACTOR_FLAG_ARROW_CAN_CARRY;
                 break;
             case ENBB_RED:
                 thisx->naviEnemyId = 0x24;
@@ -373,7 +373,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 EnBb_SetupWhite(globalCtx, this);
                 EnBb_SetWaypoint(this, globalCtx);
                 EnBb_FaceWaypoint(this);
-                thisx->flags |= ACTOR_FLAG_14;
+                thisx->flags |= ACTOR_FLAG_ARROW_CAN_CARRY;
                 break;
             case ENBB_GREEN_BIG:
                 this->path = this->actionState >> 4;
@@ -1232,7 +1232,7 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.colChkInfo.damageEffect != 0xD) {
         this->actionFunc(this, globalCtx);
         if ((this->actor.params <= ENBB_BLUE) && (this->actor.speedXZ >= -6.0f) &&
-            ((this->actor.flags & ACTOR_FLAG_15) == 0)) {
+            ((this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING) == 0)) {
             Actor_MoveForward(&this->actor);
         }
         if (this->moveMode == BBMOVE_NORMAL) {

@@ -8,7 +8,7 @@
 #include "objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);

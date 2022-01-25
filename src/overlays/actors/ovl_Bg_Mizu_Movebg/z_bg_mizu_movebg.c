@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 #define MOVEBG_TYPE(params) (((u16)(params) >> 0xC) & 0xF)
 #define MOVEBG_FLAGS(params) ((u16)(params)&0x3F)

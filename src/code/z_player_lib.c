@@ -1224,7 +1224,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF sp14C;
-        Actor* hookedActor;
+        Actor* heldActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
 
@@ -1277,23 +1277,23 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         }
 
         if (this->actor.scale.y >= 0.0f) {
-            if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
+            if (!Player_HoldsHookshot(this) && ((heldActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & PLAYER_STATE1_9) {
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
+                    Matrix_MultVec3f(&D_80126128, &heldActor->world.pos);
                     Matrix_RotateZYX(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
-                    Matrix_MtxFToYXZRotS(&sp14C, &hookedActor->world.rot, 0);
-                    hookedActor->shape.rot = hookedActor->world.rot;
+                    Matrix_MtxFToYXZRotS(&sp14C, &heldActor->world.rot, 0);
+                    heldActor->shape.rot = heldActor->world.rot;
                 } else if (this->stateFlags1 & PLAYER_STATE1_11) {
                     Vec3s spB8;
 
                     Matrix_Get(&sp14C);
                     Matrix_MtxFToYXZRotS(&sp14C, &spB8, 0);
 
-                    if (hookedActor->flags & ACTOR_FLAG_17) {
-                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                    if (heldActor->flags & ACTOR_FLAG_TOP_HEAVY) {
+                        heldActor->world.rot.x = heldActor->shape.rot.x = spB8.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
+                        heldActor->world.rot.y = heldActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
             } else {

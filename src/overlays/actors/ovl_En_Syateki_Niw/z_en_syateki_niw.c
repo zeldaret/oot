@@ -8,7 +8,7 @@
 #include "objects/object_niw/object_niw.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -1,7 +1,7 @@
 #include "z_arms_hook.h"
 #include "objects/object_link_boy/object_link_boy.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -171,10 +171,10 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
         (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
         touchedActor = this->collider.base.at;
-        if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
+        if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_HOOK_BRING_PLAYER))) {
             if (this->collider.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
-                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
+                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_HOOK_BRING_PLAYER)) {
                     func_80865044(this);
                 }
             }

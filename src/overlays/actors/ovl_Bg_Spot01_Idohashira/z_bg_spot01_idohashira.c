@@ -8,7 +8,7 @@
 #include "objects/object_spot01_objects/object_spot01_objects.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx);

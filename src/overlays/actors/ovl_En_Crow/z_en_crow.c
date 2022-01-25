@@ -1,7 +1,7 @@
 #include "z_en_crow.h"
 #include "objects/object_crow/object_crow.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_ARROW_CAN_CARRY)
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -175,12 +175,12 @@ void EnCrow_SetupDamaged(EnCrow* this, GlobalContext* globalCtx) {
         Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
     }
 
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING) {
         this->actor.speedXZ = 0.0f;
     }
 
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
 
     this->actionFunc = EnCrow_Damaged;
 }
@@ -328,7 +328,7 @@ void EnCrow_Damaged(EnCrow* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING)) {
         if (this->actor.colorFilterParams & 0x4000) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
@@ -400,7 +400,7 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
         }
         if (Math_StepToF(&this->actor.scale.x, target, target * 0.1f)) {
             this->actor.flags |= ACTOR_FLAG_0;
-            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupFlyIdle(this);
         }

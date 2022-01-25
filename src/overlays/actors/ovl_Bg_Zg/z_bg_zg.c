@@ -8,7 +8,7 @@
 #include "objects/object_zg/object_zg.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void BgZg_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx);

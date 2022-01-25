@@ -11,7 +11,7 @@
 #include "objects/object_kw1/object_kw1.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 #define ENKO_TYPE (this->actor.params & 0xFF)
 #define ENKO_PATH ((this->actor.params & 0xFF00) >> 8)
@@ -1124,7 +1124,7 @@ void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
     if (EnKo_IsOsAnimeLoaded(this, globalCtx) && EnKo_AreObjectsLoaded(this, globalCtx)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
         this->actor.objBankIndex = this->legsObjectBankIdx;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader,

@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 typedef enum {
     /* 0 */ DEATH_START,
@@ -523,7 +523,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
 
     this->disableAT = true;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOK_BRING_PLAYER;
     SkelAnime_Update(&this->skelAnime);
     switch (this->work[FD2_ACTION_STATE]) {
         case 0:
@@ -957,7 +957,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     osSyncPrintf("FD2 move start \n");
     this->disableAT = false;
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOK_BRING_PLAYER;
     this->work[FD2_VAR_TIMER]++;
     this->work[FD2_UNK_TIMER]++;
 

@@ -9,7 +9,7 @@
 #include "objects/object_kanban/object_kanban.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 #define PART_UPPER_LEFT (1 << 0)
 #define PART_LEFT_UPPER (1 << 1)
@@ -387,7 +387,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     }
                     piece->airTimer = 100;
                     piece->actor.flags &= ~ACTOR_FLAG_0;
-                    piece->actor.flags |= ACTOR_FLAG_25;
+                    piece->actor.flags |= ACTOR_FLAG_OCARINA_NO_FREEZE;
                     this->cutMarkTimer = 5;
                     Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_STRIKE);
                 }

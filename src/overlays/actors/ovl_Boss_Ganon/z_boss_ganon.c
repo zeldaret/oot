@@ -9,7 +9,7 @@
 #include "assets/objects/object_ganon_anime2/object_ganon_anime2.h"
 #include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -2563,7 +2563,7 @@ void BossGanon_Vulnerable(BossGanon* this, GlobalContext* globalCtx) {
                 this->fwork[GDF_FWORK_1] = Animation_GetLastFrame(&gDorfLandAnim);
                 Animation_MorphToPlayOnce(&this->skelAnime, &gDorfLandAnim, 0.0f);
                 this->timers[0] = 70;
-                this->actor.flags |= ACTOR_FLAG_10;
+                this->actor.flags |= ACTOR_FLAG_HOOK_BRING_PLAYER;
             }
             break;
 
@@ -2596,7 +2596,7 @@ void BossGanon_Vulnerable(BossGanon* this, GlobalContext* globalCtx) {
 
                 this->unk_2E6 = 80;
                 this->unk_2E8 = 0;
-                this->actor.flags &= ~ACTOR_FLAG_10;
+                this->actor.flags &= ~ACTOR_FLAG_HOOK_BRING_PLAYER;
             }
             break;
 

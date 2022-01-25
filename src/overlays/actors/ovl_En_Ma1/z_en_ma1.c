@@ -7,7 +7,7 @@
 #include "z_en_ma1.h"
 #include "objects/object_ma1/object_ma1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE)
 
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx);

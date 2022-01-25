@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void EnGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -497,7 +497,7 @@ void EnGoma_SetupJump(EnGoma* this) {
 }
 
 void EnGoma_Jump(EnGoma* this, GlobalContext* globalCtx) {
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 10.0f, 0.5f, 5.0f);
 

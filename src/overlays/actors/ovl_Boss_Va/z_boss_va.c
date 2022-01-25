@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 #define GET_BODY(this) ((BossVa*)(this)->actor.parent)
 #define vaGorePulse offset.x
@@ -587,7 +587,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
     switch (this->actor.params) {
         case BOSSVA_BODY:
             SkelAnime_Init(globalCtx, &this->skelAnime, &gBarinadeBodySkel, &gBarinadeBodyAnim, NULL, NULL, 0);
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
             break;
         case BOSSVA_SUPPORT_1:
         case BOSSVA_SUPPORT_2:
@@ -607,7 +607,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeStumpSkel, &gBarinadeStumpAnim, NULL, NULL, 0);
             break;
         default:
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
             SkelAnime_Init(globalCtx, &this->skelAnime, &gBarinadeBariSkel, &gBarinadeBariAnim, NULL, NULL, 0);
             this->actor.shape.yOffset = 400.0f;
             break;

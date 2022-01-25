@@ -64,7 +64,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == 2) {
         DynaPolyActor_Init(&this->dyna, DPM_UNK3);
-        thisx->flags |= ACTOR_FLAG_4;
+        thisx->flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
         CollisionHeader_GetVirtual(&object_haka_objects_Col_005334, &colHeader);
         this->actionFunc = func_8087E258;
     } else {
@@ -83,7 +83,7 @@ void BgHakaMeganeBG_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = func_8087E34C;
                 thisx->world.pos.y = thisx->home.pos.y;
             } else {
-                thisx->flags |= ACTOR_FLAG_4;
+                thisx->flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
                 this->actionFunc = func_8087E288;
             }
         } else {

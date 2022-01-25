@@ -7,7 +7,7 @@
 #include "z_en_st.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -792,8 +792,8 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.naviEnemyId = 0x04;
     }
     EnSt_CheckCeilingPos(this, globalCtx);
-    this->actor.flags |= ACTOR_FLAG_14;
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_ARROW_CAN_CARRY;
+    this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
     EnSt_SetColliderScale(this);
     this->actor.gravity = 0.0f;
     this->initalYaw = this->actor.world.rot.y;
@@ -1007,7 +1007,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING) {
         SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, globalCtx)) {
         // no collision has been detected.

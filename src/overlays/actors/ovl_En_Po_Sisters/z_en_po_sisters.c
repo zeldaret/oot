@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_9 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_ARROW_CAN_CARRY)
 
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -208,7 +208,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
             func_80AD9AA8(this, globalCtx);
         } else {
-            this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
+            this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_ARROW_CAN_CARRY);
             this->collider.info.elemType = ELEMTYPE_UNK4;
             this->collider.info.bumper.dmgFlags |= 1;
             this->collider.base.ocFlags1 = OC1_NONE;
@@ -699,7 +699,7 @@ void func_80ADA9E8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADAAA4(EnPoSisters* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_15)) {
+    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING)) {
         if (this->actor.colChkInfo.health != 0) {
             if (this->unk_194 != 0) {
                 func_80AD96A4(this);
@@ -1212,7 +1212,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_198 = CLAMP_MIN(temp, 1);
         }
         if (this->actionFunc == func_80ADA8C0) {
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->unk_199 & 1) {

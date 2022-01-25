@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx);

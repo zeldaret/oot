@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -732,7 +732,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
     f32 sp4C;
     f32 sp48;
 
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_1DA == 10) {

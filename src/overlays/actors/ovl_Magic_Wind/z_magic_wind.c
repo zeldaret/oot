@@ -6,7 +6,7 @@
 
 #include "z_magic_wind.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE)
 
 void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx);

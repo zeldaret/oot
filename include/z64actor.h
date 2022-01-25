@@ -103,31 +103,31 @@ typedef struct {
 #define ACTOR_FLAG_0 (1 << 0)
 #define ACTOR_FLAG_2 (1 << 2)
 #define ACTOR_FLAG_3 (1 << 3)
-#define ACTOR_FLAG_4 (1 << 4)
-#define ACTOR_FLAG_5 (1 << 5)
-#define ACTOR_FLAG_6 (1 << 6)
+#define ACTOR_FLAG_NO_UPDATE_CULLING (1 << 4) // actor will not stop updating even if out of the uncull zone
+#define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will not stop drawing even if out of the uncull zone
+#define ACTOR_FLAG_NOT_CULLED (1 << 6) // flag still updates regardless of the update/draw cull exclusion lags
 #define ACTOR_FLAG_7 (1 << 7)
-#define ACTOR_FLAG_8 (1 << 8)
-#define ACTOR_FLAG_9 (1 << 9)
-#define ACTOR_FLAG_10 (1 << 10)
+#define ACTOR_FLAG_8 (1 << 8) // related to talking
+#define ACTOR_FLAG_9 (1 << 9) // hookshot related
+#define ACTOR_FLAG_HOOK_BRING_PLAYER (1 << 10) // brings player to the actor if hookshoted
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_12 (1 << 12)
-#define ACTOR_FLAG_13 (1 << 13)
-#define ACTOR_FLAG_14 (1 << 14)
-#define ACTOR_FLAG_15 (1 << 15)
-#define ACTOR_FLAG_16 (1 << 16)
-#define ACTOR_FLAG_17 (1 << 17)
-#define ACTOR_FLAG_18 (1 << 18)
-#define ACTOR_FLAG_19 (1 << 19)
-#define ACTOR_FLAG_20 (1 << 20)
-#define ACTOR_FLAG_21 (1 << 21)
-#define ACTOR_FLAG_22 (1 << 22)
-#define ACTOR_FLAG_23 (1 << 23)
-#define ACTOR_FLAG_24 (1 << 24)
-#define ACTOR_FLAG_25 (1 << 25)
-#define ACTOR_FLAG_26 (1 << 26)
-#define ACTOR_FLAG_27 (1 << 27)
-#define ACTOR_FLAG_28 (1 << 28)
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
+#define ACTOR_FLAG_13 (1 << 13) // grabbed by hookshot or boomerang
+#define ACTOR_FLAG_ARROW_CAN_CARRY (1 << 14)
+#define ACTOR_FLAG_ARROW_IS_CARRYING (1 << 15)
+#define ACTOR_FLAG_16 (1 << 16) // related to talking, possibly navi?
+#define ACTOR_FLAG_TOP_HEAVY (1 << 17) // copies links x rotation instead of y when holding the actor
+#define ACTOR_FLAG_18 (1 << 18) // navi related
+#define ACTOR_FLAG_SFX_AT_POS (1 << 19)
+#define ACTOR_FLAG_SFX_CENTERED2 (1 << 20) // same as ACTOR_FLAG_SFX_CENTERED, unused in the original game
+#define ACTOR_FLAG_SFX_CENTERED (1 << 21)
+#define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22) // actor can still be lit by environment directional lights
+#define ACTOR_FLAG_ALWAYS_THROW (1 << 23) // throw held actor even if standing still
+#define ACTOR_FLAG_PLAY_BODYHIT_SFX (1 << 24) // when actor hits players body, a thump sfx plays
+#define ACTOR_FLAG_OCARINA_NO_FREEZE (1 << 25) // actor doesnt freeze when player has ocarina out or is using a warp song
+#define ACTOR_FLAG_CAN_HOLD_SWITCH (1 << 26)
+#define ACTOR_FLAG_CANT_TARGET (1 << 27) // prevents Z targeting an actor even if Navi is floating over it
+#define ACTOR_FLAG_SFX_TIMER (1 << 28) // actor sfx field is used as timer state instead of an sfx id
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID

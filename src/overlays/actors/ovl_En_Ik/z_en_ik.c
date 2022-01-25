@@ -9,7 +9,7 @@
 #include "objects/object_ik/object_ik.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 typedef void (*EnIkDrawFunc)(struct EnIk*, GlobalContext*);
 
@@ -188,7 +188,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
 
     thisx->update = func_80A75FA0;
     thisx->draw = func_80A76798;
-    thisx->flags |= ACTOR_FLAG_10;
+    thisx->flags |= ACTOR_FLAG_HOOK_BRING_PLAYER;
 
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sCylinderInit);

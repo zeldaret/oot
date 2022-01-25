@@ -3004,7 +3004,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
                 holdTarget = (gSaveContext.zTargetSetting != 0) || (this->actor.category != ACTORCAT_PLAYER);
                 this->stateFlags1 |= PLAYER_STATE1_15;
 
-                if ((actorToTarget != NULL) && !(actorToTarget->flags & ACTOR_FLAG_27)) {
+                if ((actorToTarget != NULL) && !(actorToTarget->flags & ACTOR_FLAG_CANT_TARGET)) {
                     if ((actorToTarget == this->unk_664) && (this->actor.category == ACTORCAT_PLAYER)) {
                         actorToTarget = globalCtx->actorCtx.targetCtx.unk_94;
                     }
@@ -3718,7 +3718,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                 Actor* ac = this->cylinder.base.ac;
                 s32 sp4C;
 
-                if (ac->flags & ACTOR_FLAG_24) {
+                if (ac->flags & ACTOR_FLAG_PLAY_BODYHIT_SFX) {
                     func_8002F7DC(&this->actor, NA_SE_PL_BODY_HIT);
                 }
 
@@ -6003,7 +6003,7 @@ void func_8083EA94(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
-    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_23) &&
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_ALWAYS_THROW) &&
         ((this->linearVelocity < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
         return 0;
     }
@@ -14009,7 +14009,7 @@ void func_80852C50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 
     if (linkCsAction == NULL) {
-        this->actor.flags &= ~ACTOR_FLAG_6;
+        this->actor.flags &= ~ACTOR_FLAG_NOT_CULLED;
         return;
     }
 

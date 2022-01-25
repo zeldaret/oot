@@ -10,7 +10,7 @@
 #include "objects/object_fish/object_fish.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 #define WATER_SURFACE_Y(globalCtx) globalCtx->colCtx.colHeader->waterBoxes->ySurface
 
@@ -5112,7 +5112,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     if ((D_80B7A684 != 0) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_NO_DRAW_CULLING;
     }
 
     if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {

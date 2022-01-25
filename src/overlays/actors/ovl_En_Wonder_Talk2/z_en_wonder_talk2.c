@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk2.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_CANT_TARGET)
 
 void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -91,7 +91,7 @@ void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->talkMode = 4;
     }
     if (this->talkMode == 3) {
-        this->actor.flags &= ~ACTOR_FLAG_27;
+        this->actor.flags &= ~ACTOR_FLAG_CANT_TARGET;
         this->actionFunc = EnWonderTalk2_DoNothing;
     } else {
         this->actionFunc = func_80B3A10C;
@@ -192,7 +192,7 @@ void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
             if (this->talkMode == 4) {
                 this->unk_15A = true;
             }
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING);
             func_8002DF54(globalCtx, NULL, 7);
             this->unk_156 = true;
             this->actionFunc = func_80B3A4F8;
@@ -253,7 +253,7 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
             if (!this->unk_156) {
                 Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 func_8002DF54(globalCtx, NULL, 8);
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
+                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING;
                 this->actionFunc = func_80B3A3D4;
             }
 

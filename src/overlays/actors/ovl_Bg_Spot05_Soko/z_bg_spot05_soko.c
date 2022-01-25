@@ -61,7 +61,7 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5B4;
-            thisx->flags |= ACTOR_FLAG_4;
+            thisx->flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
         }
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);

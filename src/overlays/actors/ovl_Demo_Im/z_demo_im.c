@@ -11,7 +11,7 @@
 #include "objects/object_im/object_im.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -832,7 +832,7 @@ s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_6)) {
+    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_NOT_CULLED)) {
         return true;
     } else {
         return false;

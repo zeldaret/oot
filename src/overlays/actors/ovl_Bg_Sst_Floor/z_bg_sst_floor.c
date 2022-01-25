@@ -7,7 +7,7 @@
 #include "z_bg_sst_floor.h"
 #include "objects/object_sst/object_sst.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void BgSstFloor_Init(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);

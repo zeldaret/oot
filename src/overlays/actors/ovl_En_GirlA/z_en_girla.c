@@ -7,7 +7,7 @@
 #include "z_en_girla.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGirlA_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -980,7 +980,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
     ShopItemEntry* itemEntry = &shopItemEntries[params];
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
         this->actor.objBankIndex = this->objBankIndex;
         switch (this->actor.params) {
             case SI_KEATON_MASK:

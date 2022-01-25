@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
 #include "objects/object_lightswitch/object_lightswitch.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 typedef enum {
     /* 0x00 */ FACE_EYES_CLOSED,
@@ -185,7 +185,7 @@ void ObjLightswitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.z = 0;
         this->actor.world.rot.x = this->actor.home.rot.x = this->actor.shape.rot.x;
         this->actor.world.rot.z = this->actor.home.rot.z = this->actor.shape.rot.z;
-        this->actor.flags |= ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_NO_DRAW_CULLING;
         if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_OBJ_OSHIHIKI,
                                this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0,
                                this->actor.home.rot.y, 0, (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {

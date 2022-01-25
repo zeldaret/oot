@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 #include "objects/object_daiku/object_daiku.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 typedef struct {
     Vec3f eyePosDeltaLocal;

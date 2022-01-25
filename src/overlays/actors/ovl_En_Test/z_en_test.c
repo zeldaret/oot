@@ -7,7 +7,7 @@
 #include "z_en_test.h"
 #include "objects/object_sk2/object_sk2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnTest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx);

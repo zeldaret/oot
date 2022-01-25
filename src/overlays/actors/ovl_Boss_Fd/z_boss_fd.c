@@ -12,7 +12,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 typedef enum {
     /* 0 */ INTRO_FLY_EMERGE,
@@ -687,7 +687,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case BOSSFD_FLY_CHASE:
-            this->actor.flags |= ACTOR_FLAG_24;
+            this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
             temp_y = Math_SinS(this->work[BFD_MOVE_TIMER] * 2396.0f) * 30.0f + this->fwork[BFD_TARGET_Y_OFFSET];
             this->targetPosition.x = player->actor.world.pos.x;
             this->targetPosition.y = player->actor.world.pos.y + temp_y + 30.0f;

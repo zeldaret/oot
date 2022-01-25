@@ -391,7 +391,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
     }
 
     actor = targetCtx->unk_94;
-    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_27)) {
+    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_CANT_TARGET)) {
         NaviColor* naviColor = &sNaviColorList[actor->category];
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x7);
@@ -1436,7 +1436,7 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
     s16 yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
-        if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_27)) {
+        if ((yawTempAbs > 0x4000) || (actor->flags & ACTOR_FLAG_CANT_TARGET)) {
             return FLT_MAX;
         } else {
             f32 ret =
@@ -1713,30 +1713,30 @@ void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
 
 void func_8002F8F0(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= ACTOR_FLAG_19;
-    actor->flags &= ~(ACTOR_FLAG_20 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
+    actor->flags |= ACTOR_FLAG_SFX_AT_POS;
+    actor->flags &= ~(ACTOR_FLAG_SFX_CENTERED2 | ACTOR_FLAG_SFX_CENTERED | ACTOR_FLAG_SFX_TIMER);
 }
 
 void func_8002F91C(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= ACTOR_FLAG_20;
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
+    actor->flags |= ACTOR_FLAG_SFX_CENTERED2;
+    actor->flags &= ~(ACTOR_FLAG_SFX_AT_POS | ACTOR_FLAG_SFX_CENTERED | ACTOR_FLAG_SFX_TIMER);
 }
 
 void func_8002F948(Actor* actor, u16 sfxId) {
     actor->sfx = sfxId;
-    actor->flags |= ACTOR_FLAG_21;
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_28);
+    actor->flags |= ACTOR_FLAG_SFX_CENTERED;
+    actor->flags &= ~(ACTOR_FLAG_SFX_AT_POS | ACTOR_FLAG_SFX_CENTERED2 | ACTOR_FLAG_SFX_TIMER);
 }
 
 void func_8002F974(Actor* actor, u16 sfxId) {
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21 | ACTOR_FLAG_28);
+    actor->flags &= ~(ACTOR_FLAG_SFX_AT_POS | ACTOR_FLAG_SFX_CENTERED2 | ACTOR_FLAG_SFX_CENTERED | ACTOR_FLAG_SFX_TIMER);
     actor->sfx = sfxId;
 }
 
 void func_8002F994(Actor* actor, s32 arg1) {
-    actor->flags |= ACTOR_FLAG_28;
-    actor->flags &= ~(ACTOR_FLAG_19 | ACTOR_FLAG_20 | ACTOR_FLAG_21);
+    actor->flags |= ACTOR_FLAG_SFX_TIMER;
+    actor->flags &= ~(ACTOR_FLAG_SFX_AT_POS | ACTOR_FLAG_SFX_CENTERED2 | ACTOR_FLAG_SFX_CENTERED);
     if (arg1 < 40) {
         actor->sfx = NA_SE_PL_WALK_DIRT - SFX_FLAG;
     } else if (arg1 < 100) {
@@ -2044,7 +2044,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     sp80 = &D_80116068[0];
 
     if (player->stateFlags2 & PLAYER_STATE2_27) {
-        unkFlag = ACTOR_FLAG_25;
+        unkFlag = ACTOR_FLAG_OCARINA_NO_FREEZE;
     }
 
     if ((player->stateFlags1 & PLAYER_STATE1_6) && ((player->actor.textId & 0xFF00) != 0x600)) {
@@ -2091,9 +2091,9 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 actor->xyzDistToPlayerSq = SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer);
 
                 actor->yawTowardsPlayer = Actor_WorldYawTowardActor(actor, &player->actor);
-                actor->flags &= ~ACTOR_FLAG_24;
+                actor->flags &= ~ACTOR_FLAG_PLAY_BODYHIT_SFX;
 
-                if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_4 | ACTOR_FLAG_6))) {
+                if ((DECR(actor->freezeTimer) == 0) && (actor->flags & (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NOT_CULLED))) {
                     if (actor == player->unk_664) {
                         actor->isTargeted = true;
                     } else {
@@ -2175,10 +2175,10 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 
     lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
 
-    Lights_BindAll(lights, globalCtx->lightCtx.listHead, (actor->flags & ACTOR_FLAG_22) ? NULL : &actor->world.pos);
+    Lights_BindAll(lights, globalCtx->lightCtx.listHead, (actor->flags & ACTOR_FLAG_IGNORE_POINT_LIGHTS) ? NULL : &actor->world.pos);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 
-    if (actor->flags & ACTOR_FLAG_12) {
+    if (actor->flags & ACTOR_FLAG_IGNORE_QUAKE) {
         Matrix_SetTranslateRotateYXZ(
             actor->world.pos.x + globalCtx->mainCamera.skyboxOffset.x,
             actor->world.pos.y + (f32)((actor->shape.yOffset * actor->scale.y) + globalCtx->mainCamera.skyboxOffset.y),
@@ -2232,13 +2232,13 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
 }
 
 void func_80030ED8(Actor* actor) {
-    if (actor->flags & ACTOR_FLAG_19) {
+    if (actor->flags & ACTOR_FLAG_SFX_AT_POS) {
         Audio_PlaySoundGeneral(actor->sfx, &actor->projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    } else if (actor->flags & ACTOR_FLAG_20) {
+    } else if (actor->flags & ACTOR_FLAG_SFX_CENTERED2) {
         func_80078884(actor->sfx);
-    } else if (actor->flags & ACTOR_FLAG_21) {
+    } else if (actor->flags & ACTOR_FLAG_SFX_CENTERED) {
         func_800788CC(actor->sfx);
-    } else if (actor->flags & ACTOR_FLAG_28) {
+    } else if (actor->flags & ACTOR_FLAG_SFX_TIMER) {
         func_800F4C58(&D_801333D4, NA_SE_SY_TIMER - SFX_FLAG, (s8)(actor->sfx - 1));
     } else {
         func_80078914(&actor->projectedPos, actor->sfx);
@@ -2387,16 +2387,16 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
                 if (func_800314B0(globalCtx, actor)) {
-                    actor->flags |= ACTOR_FLAG_6;
+                    actor->flags |= ACTOR_FLAG_NOT_CULLED;
                 } else {
-                    actor->flags &= ~ACTOR_FLAG_6;
+                    actor->flags &= ~ACTOR_FLAG_NOT_CULLED;
                 }
             }
 
             actor->isDrawn = false;
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
-                if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_5 | ACTOR_FLAG_6))) {
+                if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_NOT_CULLED))) {
                     if ((actor->flags & ACTOR_FLAG_7) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {

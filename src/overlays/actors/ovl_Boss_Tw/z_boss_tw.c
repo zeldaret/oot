@@ -3,7 +3,7 @@
 #include "objects/object_tw/object_tw.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 typedef enum {
     /*  0 */ TWEFF_NONE,
@@ -2974,7 +2974,7 @@ void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx2) {
     BossTw* this = (BossTw*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOK_BRING_PLAYER;
     this->unk_5F8 = 0;
     this->collider.base.colType = COLTYPE_HIT3;
 
@@ -5285,7 +5285,7 @@ void BossTw_TwinrovaStun(BossTw* this, GlobalContext* globalCtx) {
     s16 cloudType;
 
     this->unk_5F8 = 1;
-    this->actor.flags |= ACTOR_FLAG_10;
+    this->actor.flags |= ACTOR_FLAG_HOOK_BRING_PLAYER;
 
     cloudType = sTwinrovaBlastType == 0 ? 3 : 2;
 

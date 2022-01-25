@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "objects/object_dodongo/object_dodongo.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 typedef enum {
     DODONGO_SWEEP_TAIL,

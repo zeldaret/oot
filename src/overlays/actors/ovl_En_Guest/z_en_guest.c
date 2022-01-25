@@ -9,7 +9,7 @@
 #include "objects/object_boj/object_boj.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +77,7 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex)) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable,

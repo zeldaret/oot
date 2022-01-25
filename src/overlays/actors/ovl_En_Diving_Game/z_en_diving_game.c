@@ -9,7 +9,7 @@
 #include "objects/object_zo/object_zo.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx);

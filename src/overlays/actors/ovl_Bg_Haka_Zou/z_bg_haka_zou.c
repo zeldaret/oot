@@ -8,7 +8,7 @@
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 typedef enum {
     /* 0x0 */ STA_GIANT_BIRD_STATUE,

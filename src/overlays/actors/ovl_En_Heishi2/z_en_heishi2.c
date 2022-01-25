@@ -112,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(globalCtx, &this->collider);
             func_8002DF54(globalCtx, 0, 8);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING;
             this->actionFunc = func_80A544AC;
         }
     } else {

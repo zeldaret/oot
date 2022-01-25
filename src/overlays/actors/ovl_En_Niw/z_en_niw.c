@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Attack_Niw/z_en_attack_niw.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_ALWAYS_THROW)
 
 void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);

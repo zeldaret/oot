@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "objects/object_box/object_box.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx);

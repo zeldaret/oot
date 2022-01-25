@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_En_Honotrap/z_en_honotrap.h"
 #include "objects/object_tk/object_tk.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_12 | ACTOR_FLAG_16)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_16)
 
 void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoRelay_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -141,14 +141,14 @@ void EnPoRelay_SetupRace(EnPoRelay* this) {
     func_80088B34(0);
     this->hookshotSlotFull = INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE;
     this->unk_19A = Actor_WorldYawTowardPoint(&this->actor, &vec);
-    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags |= ACTOR_FLAG_CANT_TARGET;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
     this->actionFunc = EnPoRelay_Race;
 }
 
 void EnPoRelay_SetupEndRace(EnPoRelay* this) {
     this->actor.world.rot.y = this->actor.home.rot.y + 0xC000;
-    this->actor.flags &= ~ACTOR_FLAG_27;
+    this->actor.flags &= ~ACTOR_FLAG_CANT_TARGET;
     this->actor.speedXZ = 0.0f;
     this->actionFunc = EnPoRelay_EndRace;
 }

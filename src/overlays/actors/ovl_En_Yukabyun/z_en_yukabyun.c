@@ -7,7 +7,7 @@
 #include "z_en_yukabyun.h"
 #include "objects/object_yukabyun/object_yukabyun.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnYukabyun_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnYukabyun_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -80,7 +80,7 @@ void func_80B43A94(EnYukabyun* this, GlobalContext* globalCtx) {
         this->unk_150--;
     }
     if (this->unk_150 == 0) {
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE;
         this->actionfunc = func_80B43AD4;
     }
 }
@@ -134,7 +134,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
 
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

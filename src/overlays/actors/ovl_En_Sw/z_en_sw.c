@@ -1,7 +1,7 @@
 #include "z_en_sw.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnSw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSw_Destroy(Actor* thisx, GlobalContext* globalCtx);

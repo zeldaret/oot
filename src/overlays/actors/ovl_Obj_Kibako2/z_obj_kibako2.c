@@ -147,7 +147,7 @@ void ObjKibako2_Idle(ObjKibako2* this, GlobalContext* globalCtx) {
         func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         ObjKibako2_Break(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        this->dyna.actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->dyna.actor.draw = NULL;
         this->actionFunc = ObjKibako2_Kill;

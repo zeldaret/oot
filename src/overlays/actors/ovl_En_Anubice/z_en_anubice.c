@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Bg_Hidan_Curtain/z_bg_hidan_curtain.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);

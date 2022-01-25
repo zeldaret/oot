@@ -7,7 +7,7 @@
 #include "z_bg_mori_rakkatenjo.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx);

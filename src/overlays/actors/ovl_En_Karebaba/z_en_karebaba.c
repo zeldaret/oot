@@ -177,7 +177,7 @@ void EnKarebaba_SetupDying(EnKarebaba* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->actor.speedXZ = 3.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEKU_JR_DEAD);
-    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING;
     this->actionFunc = EnKarebaba_Dying;
 }
 
@@ -190,7 +190,7 @@ void EnKarebaba_SetupDeadItemDrop(EnKarebaba* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowScale = 3.0f;
     Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
     this->actor.params = 200;
-    this->actor.flags &= ~ACTOR_FLAG_5;
+    this->actor.flags &= ~ACTOR_FLAG_NO_DRAW_CULLING;
     this->actionFunc = EnKarebaba_DeadItemDrop;
 }
 
@@ -400,7 +400,7 @@ void EnKarebaba_Regrow(EnKarebaba* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y = this->actor.home.pos.y + (14.0f * scaleFactor);
 
     if (this->actor.params == 20) {
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
         EnKarebaba_SetupIdle(this);

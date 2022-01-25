@@ -7,7 +7,7 @@
 #include "z_en_bdfire.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);

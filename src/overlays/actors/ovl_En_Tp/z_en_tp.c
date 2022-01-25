@@ -153,7 +153,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
         EnTp_Head_SetupWait(this);
         this->actor.focus.pos = this->actor.world.pos;
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING;
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
@@ -169,7 +169,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_SetScale(&next->actor, 0.3f);
 
                 if (i == 2) {
-                    next->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4;
+                    next->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING;
                     next->unk_150 = 1; // Why?
                 }
 

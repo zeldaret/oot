@@ -201,7 +201,7 @@ void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
 
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_12);
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_IGNORE_QUAKE);
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     this->actionFunc = EnEiyer_AppearFromGround;
@@ -216,7 +216,7 @@ void EnEiyer_SetupUnderground(EnEiyer* this) {
     }
 
     this->collider.base.acFlags |= AC_ON;
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
     this->actor.flags |= ACTOR_FLAG_0;
 }
 
@@ -232,7 +232,7 @@ void EnEiyer_SetupAmbush(EnEiyer* this, GlobalContext* globalCtx) {
     this->collider.info.bumper.dmgFlags = ~0x00300000;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags |= ACTOR_FLAG_12;
+    this->actor.flags |= ACTOR_FLAG_IGNORE_QUAKE;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.shape.shadowScale = 65.0f;
     this->actor.shape.yOffset = 600.0f;
@@ -266,7 +266,7 @@ void EnEiyer_SetupDiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
 void EnEiyer_SetupLand(EnEiyer* this) {
     Animation_MorphToPlayOnce(&this->skelanime, &gStingerDiveAnim, -3.0f);
     this->collider.base.atFlags &= ~AT_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
 
     // Update BgCheck info, play sound, and spawn effect on the first frame of the land action
     this->timer = -1;

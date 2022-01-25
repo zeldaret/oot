@@ -61,10 +61,10 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     params = this->actor.params & 0xFF;
     if (params == 0x40 || params == 0x41) {
         this->unk_1A4 = 0;
-        this->actor.flags |= ACTOR_FLAG_4;
-        this->actor.flags |= ACTOR_FLAG_25;
+        this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
+        this->actor.flags |= ACTOR_FLAG_OCARINA_NO_FREEZE;
         this->actionFunc = func_80BADF0C;
-        this->actor.flags |= ACTOR_FLAG_27;
+        this->actor.flags |= ACTOR_FLAG_CANT_TARGET;
     } else {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

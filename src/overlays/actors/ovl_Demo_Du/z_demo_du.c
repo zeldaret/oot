@@ -4,7 +4,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
 typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);

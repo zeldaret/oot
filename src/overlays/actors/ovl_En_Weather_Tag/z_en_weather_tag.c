@@ -7,7 +7,7 @@
 #include "z_en_weather_tag.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnWeatherTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWeatherTag_Destroy(Actor* thisx, GlobalContext* globalCtx);

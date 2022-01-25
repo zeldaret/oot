@@ -10,7 +10,7 @@
 #include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -836,7 +836,7 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx) {
 }
 
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
-    this->actor.flags |= ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_NO_DRAW_CULLING;
 
     if (this->actor.xzDistToPlayer > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);

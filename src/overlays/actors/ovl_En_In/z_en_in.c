@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "objects/object_in/object_in.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);

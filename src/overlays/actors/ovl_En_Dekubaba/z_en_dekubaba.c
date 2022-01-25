@@ -402,7 +402,7 @@ void EnDekubaba_SetupPrunedSomersault(EnDekubaba* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = this->size * 3.0f;
-    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING;
     this->actionFunc = EnDekubaba_PrunedSomersault;
 }
 
@@ -455,7 +455,7 @@ void EnDekubaba_SetupDeadStickDrop(EnDekubaba* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0.0f;
     this->actor.shape.shadowScale = 3.0f;
     Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_MISC);
-    this->actor.flags &= ~ACTOR_FLAG_5;
+    this->actor.flags &= ~ACTOR_FLAG_NO_DRAW_CULLING;
     this->timer = 200;
     this->actionFunc = EnDekubaba_DeadStickDrop;
 }
@@ -1130,7 +1130,7 @@ void EnDekubaba_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->actionFunc == EnDekubaba_Lunge) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
     }
 
     if (this->collider.base.acFlags & AC_ON) {

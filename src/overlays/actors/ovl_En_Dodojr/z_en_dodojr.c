@@ -532,7 +532,7 @@ void func_809F78EC(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F799C(EnDodojr* this, GlobalContext* globalCtx) {
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
     func_8002D868(&this->actor);
 
     if (func_809F68B0(this, globalCtx) != 0) {

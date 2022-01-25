@@ -8,7 +8,7 @@
 #include "objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx);

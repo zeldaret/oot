@@ -7,7 +7,7 @@
 #include "z_en_bili.h"
 #include "objects/object_bl/object_bl.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_ARROW_CAN_CARRY)
 
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -219,7 +219,7 @@ void EnBili_SetupBurnt(EnBili* this) {
     this->timer = 20;
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0x2000, 0x14);
     this->actionFunc = EnBili_Burnt;
@@ -250,7 +250,7 @@ void EnBili_SetupFrozen(EnBili* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f effectPos;
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING)) {
         this->actor.gravity = -1.0f;
     }
 
@@ -455,7 +455,7 @@ void EnBili_Recoil(EnBili* this, GlobalContext* globalCtx) {
 void EnBili_Burnt(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actor.flags & ACTOR_FLAG_15) {
+    if (this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING) {
         this->actor.colorFilterTimer = 20;
     } else {
         if (this->timer != 0) {
@@ -476,7 +476,7 @@ void EnBili_Die(EnBili* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->actor.draw != NULL) {
-        if (this->actor.flags & ACTOR_FLAG_15) {
+        if (this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING) {
             return;
         }
         this->actor.draw = NULL;
@@ -532,7 +532,7 @@ void EnBili_Frozen(EnBili* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (!(this->actor.flags & ACTOR_FLAG_15)) {
+    if (!(this->actor.flags & ACTOR_FLAG_ARROW_IS_CARRYING)) {
         this->actor.gravity = -1.0f;
     }
 
@@ -587,7 +587,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
             }
 
             if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F820) { // DMG_ARROW
-                this->actor.flags |= ACTOR_FLAG_4;
+                this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
             }
         }
     }

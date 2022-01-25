@@ -12,7 +12,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 typedef enum {
     /* 0 */ NOT_DEAD,
@@ -748,7 +748,7 @@ void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_DAMAGE2);
         }
 
-        this->actor.flags |= ACTOR_FLAG_10;
+        this->actor.flags |= ACTOR_FLAG_HOOK_BRING_PLAYER;
     }
 
     osSyncPrintf("TIME0 %d ********************************************\n", this->timers[0]);
@@ -1295,7 +1295,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnfHG* horse;
 
     osSyncPrintf("MOVE START %d\n", this->actor.params);
-    this->actor.flags &= ~ACTOR_FLAG_10;
+    this->actor.flags &= ~ACTOR_FLAG_HOOK_BRING_PLAYER;
     this->colliderBody.base.colType = COLTYPE_HIT3;
     if (this->killActor) {
         Actor_Kill(&this->actor);

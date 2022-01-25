@@ -7,7 +7,7 @@
 #include "z_bg_gnd_nisekabe.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);

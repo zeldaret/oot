@@ -7,7 +7,7 @@
 #include "z_en_vali.h"
 #include "objects/object_vali/object_vali.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -197,7 +197,7 @@ void EnVali_SetupFloatIdle(EnVali* this) {
             this->leftArmCollider.dim.quad[1].y = this->rightArmCollider.dim.quad[0].y =
                 this->rightArmCollider.dim.quad[1].y = this->actor.world.pos.y - 10.0f;
 
-    this->actor.flags &= ~ACTOR_FLAG_4;
+    this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
     this->bodyCollider.base.acFlags |= AC_ON;
     this->slingshotReactionTimer = 0;
     this->floatHomeHeight = this->actor.world.pos.y;
@@ -274,7 +274,7 @@ void EnVali_SetupFrozen(EnVali* this) {
 
 void EnVali_SetupReturnToLurk(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariLurkingAnim, 10.0f);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnVali_ReturnToLurk;
 }

@@ -8,7 +8,7 @@
 #include "objects/object_poh/object_poh.h"
 #include "objects/object_po_composer/object_po_composer.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_12)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoh_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -372,7 +372,7 @@ void EnPoh_SetupDeath(EnPoh* this, GlobalContext* globalCtx) {
     this->actor.draw = EnPoh_DrawSoul;
     this->actor.shape.shadowDraw = NULL;
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     this->actor.gravity = -1.0f;
     this->actor.shape.yOffset = 1500.0f;
     this->actor.world.pos.y -= 15.0f;
@@ -927,7 +927,7 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->colliderCyl.dim.height = 55;
             this->colliderCyl.dim.yShift = 15;
         }
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
         EnPoh_SetupInitialAction(this);
     }
 }
@@ -999,7 +999,7 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     if (this->actionFunc == EnPoh_Attack && this->unk_198 < 10) {
-        this->actor.flags |= ACTOR_FLAG_24;
+        this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSph.base);
     }
     Collider_UpdateCylinder(&this->actor, &this->colliderCyl);

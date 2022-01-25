@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_24)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_PLAY_BODYHIT_SFX)
 
 #define GROUND_HOVER_HEIGHT 75.0f
 #define MAX_LARVA 3
@@ -980,7 +980,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colQuad.base);
         }
         // if PEAHAT_TYPE_GROUNDED
-        if (thisx->params < 0 && (thisx->flags & ACTOR_FLAG_6)) {
+        if (thisx->params < 0 && (thisx->flags & ACTOR_FLAG_NOT_CULLED)) {
             for (i = 1; i >= 0; i--) {
                 Vec3f posResult;
                 CollisionPoly* poly = NULL;

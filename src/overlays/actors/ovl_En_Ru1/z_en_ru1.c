@@ -8,7 +8,7 @@
 #include "objects/object_ru1/object_ru1.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_CAN_HOLD_SWITCH)
 
 void EnRu1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnRu1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -2117,7 +2117,7 @@ void func_80AEFCE8(EnRu1* this, GlobalContext* globalCtx) {
 void func_80AEFD38(EnRu1* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[3] & 0x80) && LINK_IS_CHILD) {
         func_80AEB264(this, &gRutoChildWait2Anim, 0, 0, 0);
-        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
         this->action = 44;
         this->drawConfig = 1;
     } else {

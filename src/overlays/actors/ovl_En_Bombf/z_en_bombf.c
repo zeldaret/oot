@@ -8,7 +8,7 @@
 #include "objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -104,7 +104,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->focus.pos = thisx->world.pos;
 
     if (Actor_FindNearby(globalCtx, thisx, ACTOR_BG_DDAN_KD, ACTORCAT_BG, 10000.0f) != NULL) {
-        thisx->flags |= ACTOR_FLAG_5;
+        thisx->flags |= ACTOR_FLAG_NO_DRAW_CULLING;
     }
 
     thisx->colChkInfo.cylRadius = 10.0f;
@@ -262,7 +262,7 @@ void EnBombf_Explode(EnBombf* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
-        this->actor.flags |= ACTOR_FLAG_5;
+        this->actor.flags |= ACTOR_FLAG_NO_DRAW_CULLING;
         func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
@@ -430,7 +430,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
-                thisx->flags |= ACTOR_FLAG_5;
+                thisx->flags |= ACTOR_FLAG_NO_DRAW_CULLING;
                 EnBombf_SetupAction(this, EnBombf_Explode);
             }
         }

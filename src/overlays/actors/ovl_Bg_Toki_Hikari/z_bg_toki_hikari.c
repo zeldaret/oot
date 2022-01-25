@@ -7,7 +7,7 @@
 #include "z_bg_toki_hikari.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS ACTOR_FLAG_5
+#define FLAGS ACTOR_FLAG_NO_DRAW_CULLING
 
 void BgTokiHikari_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTokiHikari_Destroy(Actor* thisx, GlobalContext* globalCtx);

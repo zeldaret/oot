@@ -3,7 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 /*
 FLAGS
@@ -874,7 +874,7 @@ s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
         } else {
             if (this->collider.base.acFlags & 2) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->actor.flags &= ~ACTOR_FLAG_24;
+                this->actor.flags &= ~ACTOR_FLAG_PLAY_BODYHIT_SFX;
                 this->collider.base.acFlags &= ~0x2;
                 EnGo2_StopRolling(this, globalCtx);
                 return true;
@@ -1329,7 +1329,7 @@ void EnGo2_SetupRolling(EnGo2* this, GlobalContext* globalCtx) {
     } else {
         this->actor.speedXZ = 6.0f;
     }
-    this->actor.flags |= ACTOR_FLAG_24;
+    this->actor.flags |= ACTOR_FLAG_PLAY_BODYHIT_SFX;
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
     this->actor.speedXZ += this->actor.speedXZ; // Speeding up
@@ -1511,8 +1511,8 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
         case GORON_CITY_LOST_WOODS:
         case GORON_DMT_FAIRY_HINT:
         case GORON_MARKET_BAZAAR:
-            this->actor.flags &= ~ACTOR_FLAG_4;
-            this->actor.flags &= ~ACTOR_FLAG_5;
+            this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
+            this->actor.flags &= ~ACTOR_FLAG_NO_DRAW_CULLING;
     }
 
     EnGo2_SetColliderDim(this);
