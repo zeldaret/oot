@@ -5,6 +5,33 @@ import struct
 import math
 
 #Common Class Definitions
+class StructPackSpecs:
+	def __init__(self, archLE=False, arch64=False):
+		self.byte_order_char = ">"
+		if archLE:
+			self.byte_order_char = "<"
+		self.is_64 = arch64;
+		
+	def pointerSize(self):
+		if self.is_64:
+			return 8
+		else:
+			return 4
+		
+	def pointerPaddingSize(self):
+		if self.is_64:
+			return 4
+		else:
+			return 0		
+		
+	def genPackString(self, base_string):
+		#Copied from SM64 sound assembly script
+		if self.is_64:
+			base_string = base_string.replace("P", "Q").replace("X", "xxxx")
+		else:
+			base_string = base_string.replace("P", "I").replace("X", "")
+		return self.byte_order_char + base_string
+
 class AifReader:
 	def __init__(self, filepath):
 		self.path = filepath
@@ -272,12 +299,13 @@ class PCMLoop:
 			mysize += 32
 		return mysize
 		
-	def serializeTo(self, output):
+	def serializeTo(self, output, packspecs=StructPackSpecs()):
 		wcount = 16
-		output.write(struct.pack(">IIiI", self.start, self.end, self.count, 0))
+		#Start and end are in sample frames, so just keep 32-bit regardless of target.
+		output.write(struct.pack(packspecs.genPackString("IIiI"), self.start, self.end, self.count, 0))
 		if self.count != 0:
 			for i in range(16):
-				output.write(struct.pack(">h", self.predictorState[i]))
+				output.write(struct.pack(packspecs.genPackString("h"), self.predictorState[i]))
 				wcount += 2
 		return wcount
 		
@@ -324,13 +352,14 @@ class PCMBook:
 			mysize += predictorBytes
 		return mysize
 		
-	def serializeTo(self, output):
-		wcount = 8
-		output.write(struct.pack(">LL", self.order, self.predictorCount))
+	def serializeTo(self, output, packspecs=StructPackSpecs()):
+		wcount = 8	
+		output.write(struct.pack(packspecs.genPackString("LL"), self.order, self.predictorCount))
 		predictorSize = self.order * 8
+		hw_pack_str = packspecs.genPackString("h")
 		for i in range(self.predictorCount):
 			for j in range(predictorSize):
-				output.write(struct.pack(">h", self.predictors[i][j]))
+				output.write(struct.pack(hw_pack_str, self.predictors[i][j]))
 				wcount += 2
 		return wcount
 		
@@ -458,12 +487,12 @@ class SampleHeader:
 		
 		self.updateSize()
 		
-	def serializeTo(self, output):
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
 		self.updateReferences()
 		modes = (self.codec & 0xf) << 4
 		modes |= (self.medium & 0x3) << 2
-		output.write(struct.pack(">bbHLLL", modes, self.u2, self.length, self.offsetInBank, self.loopOffset, self.bookOffset))
-		return 16
+		output.write(struct.pack(packspecs.genPackString("bbHXPPP"), modes, self.u2, self.length, self.offsetInBank, self.loopOffset, self.bookOffset))
+		return 4 + (3*packspecs.pointerSize()) + packspecs.pointerPaddingSize()
 		
 class Envelope:
 	def __init__(self):
@@ -521,10 +550,9 @@ class Envelope:
 	def serialSize(self):
 		return len(self.script) * 4
 		
-	def serializeTo(self, output):
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
 		if len(self.script) == 0:
 			raise Exception("Not a valid envelope script")
-			
 		mysize = 0
 		i = 0
 		last = False
@@ -554,7 +582,7 @@ class Envelope:
 			elif cmd > 0 and val > 32767:
 				break
 				
-			output.write(struct.pack(">hH", cmd, val))
+			output.write(struct.pack(packspecs.genPackString("hH"), cmd, val))
 			
 			i += 1
 			mysize += 4
@@ -610,11 +638,11 @@ class SoundEffect:
 		self.headerOffset, self.pitch = struct.unpack(">Lf", input)
 		return 8
 		
-	def serializeTo(self, output):
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
 		if self.sample is not None:
-			self.headerOffset = self.sample.addr
-		output.write(struct.pack(">Lf", self.headerOffset, self.pitch))
-		return 8
+			self.headerOffset = self.sample.addr	
+		output.write(struct.pack(packspecs.genPackString("PfX"), self.headerOffset, self.pitch))
+		return packspecs.pointerSize() + 4 + packspecs.pointerPaddingSize()
 		
 	def fromXML(self, xml_element):
 		if xml_element is None:
@@ -664,13 +692,13 @@ class Percussion:
 		assert self.loaded == 0
 		return 16
 		
-	def serializeTo(self, output):
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
 		if self.sample is not None:
 			self.headerOffset = self.sample.addr
 		if self.envelope is not None:
-			self.envelopeOffset = self.envelope.addr
-		output.write(struct.pack(">BBBxLfL", self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset))
-		return 16
+			self.envelopeOffset = self.envelope.addr	
+		output.write(struct.pack(packspecs.genPackString("BBBxXPfXP"), self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset))
+		return 8 + (2*packspecs.pointerSize()) + (2*packspecs.pointerPaddingSize())
 		
 	def fromXML(self, xml_element):
 		if xml_element is None:
@@ -747,28 +775,28 @@ class Instrument:
 		assert self.loaded == 0
 		return 32
 		
-	def serializeTo(self, output):
-		self.updateReferences()
-		output.write(struct.pack(">BBBb", self.loaded, self.lowRange, self.highRange, self.decay))
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
+		self.updateReferences()	
+		output.write(struct.pack("BBBb", self.loaded, self.lowRange, self.highRange, self.decay))
 		if self.envelope is None:
-			output.write(struct.pack("4x"))
+			output.write(struct.pack(packspecs.genPackString("X4x")))
 		else:
-			output.write(struct.pack(">L", self.envelopeOffset))
+			output.write(struct.pack(packspecs.genPackString("XP"), self.envelopeOffset))
 			
 		if self.keyLowSample is None:
-			output.write(struct.pack("8x"))
+			output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
 		else:
-			output.write(struct.pack(">Lf", self.keyLowOffset, self.keyLowPitch))
+			output.write(struct.pack(packspecs.genPackString("PfX"), self.keyLowOffset, self.keyLowPitch))
 		if self.keyMedSample is None:
-			output.write(struct.pack("8x"))
+			output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
 		else:
-			output.write(struct.pack(">Lf", self.keyMedOffset, self.keyMedPitch))
+			output.write(struct.pack(packspecs.genPackString("PfX"), self.keyMedOffset, self.keyMedPitch))
 		if self.keyHighSample is None:
-			output.write(struct.pack("8x"))
+			output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
 		else:
-			output.write(struct.pack(">Lf", self.keyHighOffset, self.keyHighPitch))			
+			output.write(struct.pack(packspecs.genPackString("PfX"), self.keyHighOffset, self.keyHighPitch))			
 
-		return 32
+		return 16 + (packspecs.pointerSize() << 2) + (packspecs.pointerPaddingSize() << 2)
 		
 	def fromXML(self, xml_element):
 		if xml_element is None:
@@ -864,8 +892,8 @@ class SampleTableEntry:
 		self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", input)
 		return 16
 		
-	def serializeTo(self, output):
-		output.write(struct.pack(">LLBB6x", self.offset, self.length, self.medium, self.cache))
+	def serializeTo(self, output,packspecs=StructPackSpecs()):		
+		output.write(struct.pack(packspecs.genPackString("LLBB6x"), self.offset, self.length, self.medium, self.cache))
 		return 16
 
 class SoundfontEntry:
@@ -884,8 +912,8 @@ class SoundfontEntry:
 		self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBBBBBH", input)
 		return 16
 		
-	def serializeTo(self, output):
-		output.write(struct.pack(">LLBBBbBBH", self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
+	def serializeTo(self, output,packspecs=StructPackSpecs()):	
+		output.write(struct.pack(packspecs.genPackString("LLBBBbBBH"), self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
 		return 16
 
 class Soundfont:
@@ -916,6 +944,8 @@ class Soundfont:
 		#List of samples in order appearing in font bin.
 		self.sampleOrder = [] #List of tuples (block name, file name (w/o ext))
 		self.unusedDat = {}
+		self.apparent_banks = []
+		self.apparent_bank = -1
 		
 	def getAllEnvelopes(self):
 		elist = []
@@ -961,6 +991,15 @@ class Soundfont:
 		
 		for e_bank in e_list_bank:
 			self.bankNames.append(e_bank.get("Name"))
+			
+		#See if there's a funky bank override
+		e_banks = xml_element.find("ForceSampleBank")
+		if e_banks:
+			self.apparent_banks = self.bankNames
+			self.bankNames = []
+			e_list_bank = e_banks.findall("Bank")
+			for e_bank in e_list_bank:
+				self.bankNames.append(e_bank.get("Name"))
 		
 		#Read envelopes
 		e_envelopes = xml_element.find("Envelopes")
@@ -983,6 +1022,7 @@ class Soundfont:
 						env.referencedScripts[val] = refscript
 		
 		#Read SFX
+		use_idx_field = True
 		e_soundeffects = xml_element.find("SoundEffects")
 		if e_soundeffects is not None:
 			e_sfx_list = e_soundeffects.findall("SoundEffect")
@@ -993,9 +1033,14 @@ class Soundfont:
 					sfx.fromXML(e_sfx)
 					if sfx.sampleName is not None:
 						self.soundEffects.append(sfx)
+						if (not use_idx_field) or (sfx.idx < 0):
+							#If indices are missed once, they are hereby ignored (for now)
+							use_idx_field = False
+							sfx.idx = self.sfx_read - 1
 						self.sfxIdxLookup[sfx.idx] = sfx
 		
 		#Read Percussion
+		use_idx_field = True
 		e_drums = xml_element.find("Drums")
 		if e_drums is not None:
 			e_drum_list = e_drums.findall("Drum")
@@ -1009,9 +1054,14 @@ class Soundfont:
 						#Find envelope
 						if drum.envName:
 							drum.envelope = self.envelopes[drum.envName]
+						if (not use_idx_field) or (drum.idx < 0):
+							#If indices are missed once, they are hereby ignored (for now)
+							use_idx_field = False
+							drum.idx = self.perc_read - 1						
 						self.percIdxLookup[drum.idx] = drum
 		
 		#Read Instruments
+		use_idx_field = True
 		e_insts = xml_element.find("Instruments")
 		if e_insts is not None:
 			e_inst_list = e_insts.findall("Instrument")
@@ -1025,6 +1075,10 @@ class Soundfont:
 						#Find envelope
 						if inst.envName:
 							inst.envelope = self.envelopes[inst.envName]
+						if (not use_idx_field) or (inst.idx < 0):
+							#If indices are missed once, they are hereby ignored (for now)
+							use_idx_field = False
+							inst.idx = self.inst_read - 1
 						self.instIdxLookup[inst.idx] = inst
 						
 		#Read samples (if present)
@@ -1059,15 +1113,20 @@ class Soundfont:
 	
 	def getTableEntry(self):
 		myentry = SoundfontEntry()
-		if self.bankIdx < 0:
-			if self.bank1:
-				self.bankIdx = self.bank1.idx
-		myentry.bank = self.bankIdx
 		
-		if self.bankIdx2 < 0:
-			if self.bank2:
-				self.bankIdx2 = self.bank2.idx
-		myentry.bank2 = self.bankIdx2		
+		if self.apparent_bank >= 0:
+			myentry.bank = self.apparent_bank
+			myentry.bank2 = -1
+		else:
+			if self.bankIdx < 0:
+				if self.bank1:
+					self.bankIdx = self.bank1.idx
+			myentry.bank = self.bankIdx
+		
+			if self.bankIdx2 < 0:
+				if self.bank2:
+					self.bankIdx2 = self.bank2.idx
+			myentry.bank2 = self.bankIdx2		
 			
 		myentry.medium = self.medium
 		myentry.cache = self.cachePolicy

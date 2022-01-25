@@ -2,6 +2,7 @@
 import argparse
 import os
 import struct
+import shutil
 
 import xml.etree.ElementTree as XmlTree
 
@@ -9,28 +10,44 @@ from audio_common import *
 
 #Script variables
 debug_mode = False
-match_mode = False
+match_mode = None
+target_le = False
+target_64 = False
+packspecs = StructPackSpecs()
+
 bank_lookup = {}
 banks = []
 font_lookup = {}
+
+last_font_match_sizes = {
+	"ocarina" :    0x12b60,
+	"ocarina1_0" : 0x3940,
+	"majora" :     0x3f0
+}
+
+audiobank_sizes = {
+	"ocarina" :    0x2bdc0,
+	"ocarina1_0" : 0x1ca50,
+	"majora" :     0x263f0
+}
 
 class DrumOffsetTable:
 	def __init__(self):
 		self.off_list = []
 		self.addr = -1
 		
-	def serializeTo(self, output):
-		sz = 0
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
+		sz = 0			
 		for off in self.off_list:
-			output.write(struct.pack(">L",off))
-			sz += 4
+			output.write(struct.pack(packspecs.genPackString("P"),off))
+			sz += packspecs.pointerSize()
 		return sz
 class DummyBlock:
 	def __init__(self, size_in_bytes):
 		self.size = size_in_bytes
 		self.addr = -1	
 		
-	def serializeTo(self, output):
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
 		output.write(struct.pack(str(self.size) + "x"))
 		return self.size
 	
@@ -39,7 +56,7 @@ class GarbageBlock:
 		self.data = []
 		self.addr = -1	
 		
-	def serializeTo(self, output):
+	def serializeTo(self, output,packspecs=StructPackSpecs()):
 		if self.data:
 			output.write(self.data)
 		return len(self.data)	
@@ -114,12 +131,15 @@ def orderWaveBlocksInstOrder(font, ser_blocks, base_addr):
 			sample.loop.addr = -1
 		if sample.book:
 			sample.book.addr = -1	
-					
+	
+	block_size = 16
+	if target_64:
+		block_size = 32
 	current_addr = base_addr
 	for sample in slist:
 		ser_blocks.append(sample)
 		sample.addr = current_addr
-		current_addr += 16
+		current_addr += block_size
 
 		#Add book if not added
 		if sample.book and (sample.book.addr < 0):
@@ -174,12 +194,15 @@ def orderWaveBlocksBankOrder(font, ser_blocks, base_addr):
 			sample.book.addr = -1
 			
 	#Iterate again, this time using blank addresses to check for addition
+	block_size = 16
+	if target_64:
+		block_size = 32	
 	current_addr = base_addr
 	for item in dict_items:
 		sample = item[1]
 		ser_blocks.append(sample)
 		sample.addr = current_addr
-		current_addr += 16
+		current_addr += block_size
 		
 		#Add book if not added
 		if sample.book and (sample.book.addr < 0):
@@ -212,12 +235,15 @@ def orderWaveBlocksMatchOrder(font, ser_blocks, base_addr):
 			sample.loop.addr = -1
 		if sample.book:
 			sample.book.addr = -1
-			
+	
+	block_size = 16
+	if target_64:
+		block_size = 32		
 	current_addr = base_addr
 	for sample in slist:
 		ser_blocks.append(sample)
 		sample.addr = current_addr
-		current_addr += 16
+		current_addr += block_size
 
 		#Add book if not added
 		if sample.book and (sample.book.addr < 0):
@@ -261,7 +287,7 @@ def orderEnvelopeBlocks(font, ser_blocks, base_addr):
 	
 	return current_addr
 
-def compileFont(font, output):
+def compileFont(font, output, audiobank_off=0):
 	#Blocks appear to be in the following order:
 	#   Wave Info (In order they appear in bank)
 	#      ADPCM Book (If not identical to one in previous wave)
@@ -281,7 +307,7 @@ def compileFont(font, output):
 	xcount = font.sfxSlotCount()
 	
 	#Calculate head offset table size
-	current_pos = 8 + (icount*4)
+	current_pos = ((2+icount)*(packspecs.pointerSize()))
 	current_pos = align(current_pos, 16)
 	
 	#Wave blocks
@@ -297,18 +323,24 @@ def compileFont(font, output):
 	current_pos = orderEnvelopeBlocks(font, ser_blocks, current_pos)
 	
 	#Instrument blocks
+	block_size = 32
+	if target_64:
+		block_size = 64
 	for inst in font.instruments:
 		ser_blocks.append(inst)
 		inst.addr = current_pos
-		current_pos += 32
+		current_pos += block_size
 		
 	#Drum blocks
+	block_size = 16
+	if target_64:
+		block_size = 32
 	has_drums = (pcount > 0)
 	if has_drums:
 		for drum in font.percussion:
 			ser_blocks.append(drum)
 			drum.addr = current_pos
-			current_pos += 16	
+			current_pos += block_size	
 	
 		#Drum offset table
 		drum_offtbl = DrumOffsetTable()
@@ -318,7 +350,7 @@ def compileFont(font, output):
 				drum_offtbl.off_list.append(font.percIdxLookup[i].addr)
 			else:
 				drum_offtbl.off_list.append(0)
-			current_pos += 4
+			current_pos += packspecs.pointerSize()
 		current_pos = align(current_pos,16)
 		ser_blocks.append(drum_offtbl)
 	else:
@@ -326,6 +358,9 @@ def compileFont(font, output):
 		drum_offtbl.addr = 0
 		
 	#SFX table
+	block_size = 8
+	if target_64:
+		block_size = 16
 	has_sfx = (xcount > 0)
 	if has_sfx:
 		sfx_tbl_pos = current_pos
@@ -335,10 +370,10 @@ def compileFont(font, output):
 				mysfx.addr = current_pos
 				ser_blocks.append(mysfx)
 			else:
-				dummysfx = DummyBlock(8)
+				dummysfx = DummyBlock(block_size)
 				dummysfx.addr = current_pos
 				ser_blocks.append(dummysfx)
-			current_pos += 8
+			current_pos += block_size
 	else:
 		sfx_tbl_pos = 0
 		
@@ -349,7 +384,8 @@ def compileFont(font, output):
 			unused_data = item[1]
 			sblock = GarbageBlock()
 			sblock.data = bytes(unused_data)
-			sblock.addr = dat_off
+			sblock.addr = dat_off-audiobank_off
+			print("DEBUG -- Garbage offset: " + '0x' + f'{sblock.addr:0>8x}')
 			
 			#Insert :(
 			ct = len(ser_blocks)
@@ -370,15 +406,15 @@ def compileFont(font, output):
 				ser_blocks.append(sblock)
 	
 	#Serialize the head offset table
-	output.write(struct.pack(">LL", drum_offtbl.addr, sfx_tbl_pos))
-	wpos = 8
+	output.write(struct.pack(packspecs.genPackString("PP"), drum_offtbl.addr, sfx_tbl_pos))
+	wpos = packspecs.pointerSize() << 1
 	for i in range(icount):
 		if i in font.instIdxLookup:
 			myinst = font.instIdxLookup[i]
-			output.write(struct.pack(">L", myinst.addr))
+			output.write(struct.pack(packspecs.genPackString("P"), myinst.addr))
 		else:
-			output.write(struct.pack("4x"))
-		wpos += 4
+			output.write(struct.pack(str(packspecs.pointerSize()) + "x"))
+		wpos += packspecs.pointerSize()
 	
 	#Write everything else
 	for block in ser_blocks:
@@ -389,7 +425,7 @@ def compileFont(font, output):
 			wpos += padding
 		#Serialize block
 		#I feel like this is interpreter abuse, but I don't care
-		wpos += block.serializeTo(output)
+		wpos += block.serializeTo(output,packspecs)
 		
 	#Pad to end, if needed
 	padding = align(wpos,16) - wpos
@@ -431,6 +467,25 @@ def linkFontToBank(font):
 		print("WARNING: Could not find bank match " + bname + " for font: " + font.name)
 		return
 	
+	#Check for apparent bank if in match mode
+	if match_mode and (len(font.apparent_banks) > 0):
+		abname = font.apparent_banks[0]
+		if abname in bank_lookup:
+			abank = bank_lookup[abname]
+			font.apparent_bank = abank.idx	
+		else:
+			#Try to isolate index from name...
+			if abname[0:1].isnumeric():
+				firstspace = abname.find(' ')
+				abidx = int(abname[:firstspace])
+				abank = banks[abidx]
+				font.bankIdx = abidx
+				if not abank:
+					print("WARNING: Could not find bank match " + abname + " for font: " + font.name)
+			else:
+				print("WARNING: Could not find bank match " + abname + " for font: " + font.name)
+	
+	#Link bank and samples 
 	font.bank1 = mybank
 	for inst in font.instruments:
 		if inst.keyLowName:
@@ -586,6 +641,7 @@ def processBanks(sampledir, builddir):
 			current_loops = []
 			index_map = {}
 			max_idx = -1
+			need_index = []
 			
 			for file in os.listdir(bankdir):
 				if file.endswith(".aifc"):
@@ -599,11 +655,14 @@ def processBanks(sampledir, builddir):
 					mysample.name = samplename
 					mysample.idx = si
 					mysample.fileName = file
-					index_map[si] = mysample
-					#print("Sample found:",mysample.name)
 					
-					if si > max_idx:
-						max_idx = si
+					if si < 0:
+						need_index.append(mysample)
+					else:
+						index_map[si] = mysample
+						#print("Sample found:",mysample.name)
+						if si > max_idx:
+							max_idx = si
 
 					#load from aifc
 					mysample.loadInfoFromAIF(os.path.join(bankdir,file))
@@ -632,6 +691,15 @@ def processBanks(sampledir, builddir):
 							if not blmerge:
 								current_loops.append(mysample.loop)
 					
+			#Assign indices to yet unindexed samples.
+			nextidx = 0
+			for asample in need_index:
+				while nextidx in index_map:
+					nextidx += 1
+				asample.idx = nextidx
+				index_map[nextidx] = asample
+				nextidx += 1
+			
 			#Order samples.
 			c = 0
 			while c <= max_idx:
@@ -646,7 +714,9 @@ def processBanks(sampledir, builddir):
 			sorted_samples = mybank.samples
 			print("Bank", mybank.idx, ":", len(sorted_samples), "samples found")
 			
-			binpath = os.path.join(builddir, getBankbinName(mybank.idx))
+			binpath = None
+			if builddir is not None:
+				binpath = os.path.join(builddir, getBankbinName(mybank.idx))
 			if len(sorted_samples) > 0:
 				output = None
 				if builddir is not None:
@@ -720,9 +790,9 @@ def processBanks(sampledir, builddir):
 		output.close()
 		
 		#Code table
-		output = open(os.path.join(builddir, "audiotable_tbl"), "wb")
+		output = open(os.path.join(builddir, "gSampleBankTable"), "wb")
 		bnk_ordered = sorted(bank_lookup.items())
-		output.write(struct.pack(">H14x", len(bnk_ordered)))
+		output.write(struct.pack(packspecs.genPackString("H14x"), len(bnk_ordered)))
 		i = 0
 		offset = 0
 		for bnk_pair in bnk_ordered:
@@ -735,22 +805,32 @@ def processBanks(sampledir, builddir):
 				if banklen <= 0:
 					#Check for bin.
 					banklen = os.path.getsize(audiotable_paths[mybank.idx])
-				output.write(struct.pack(">LL", offset, banklen))
+				output.write(struct.pack(packspecs.genPackString("LL"), offset, banklen))
 				offset += banklen
 			else:
 				output.write(struct.pack("8x"))
-			output.write(struct.pack(">BB6x", mybank.medium, mybank.cachePolicy))
+			output.write(struct.pack(packspecs.genPackString("BB6x"), mybank.medium, mybank.cachePolicy))
 			i+=1
 		output.close()
 		
 def main():
-	#TODO
 	global debug_mode
 	global match_mode
+	global target_le
+	global target_64
+	global packspecs
+	
+	if args.little_endian:
+		target_le = True
+		packspecs.byte_order_char = "<"
+	if args.arch64:
+		target_64 = True
+		packspecs.is_64 = True
+		
 	if args.debug:
 		debug_mode = True
-	if args.match:
-		match_mode = True
+	if args.match and not target_64 and not target_le:
+		match_mode = args.match
 	
 	outpath = args.outpath
 	inpath = args.inpath
@@ -761,6 +841,7 @@ def main():
 		print("Input Directory:",inpath)
 		print("Output Directory:",outpath)
 		print("Sample Directory:",sampledir)
+		print("Match Mode:",match_mode)
 		
 	#Check for directories' existance
 	if args.single:
@@ -782,13 +863,13 @@ def main():
 	#Process banks and build sample info blocks
 	bankbuilddir = None
 	if args.buildbank:
-		bankbuilddir = os.path.join(outpath, 'audiotable')
+		bankbuilddir = os.path.join(outpath, 'd_audiotable')
 	processBanks(sampledir, bankbuilddir)
 	
 	#Check bank matches (if requested)
-	if debug_mode and args.buildbank:
+	mydir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+	if debug_mode and args.buildbank and match_mode:
 		#Find reference files.
-		mydir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 		bankdat_path = os.path.join(mydir, 'bank.bin')
 		banktbl_path = os.path.join(mydir, 'bankdef.bin')
 		print("Extracted audiotable ref:",bankdat_path)
@@ -839,6 +920,13 @@ def main():
 		#I have no idea if this works to free memory, but Imma do it anyway
 		refdat = None
 		checkdat = None
+		
+	#Move audiotable to output dir, and delete indiv files if not debug
+	if args.buildbank:
+		os.replace(os.path.join(bankbuilddir, 'audiotable'), os.path.join(outpath, 'audiotable'))
+		os.replace(os.path.join(bankbuilddir, 'gSampleBankTable'), os.path.join(outpath, 'gSampleBankTable'))
+		if not debug_mode:
+			shutil.rmtree(bankbuilddir)
 	
 	#Read in font(s)
 	if args.single:
@@ -847,8 +935,6 @@ def main():
 		readFonts(inpath)
 	
 	#compile font(s)
-	#TODO: Not merging books/loops at all - fix that
-	#TODO: Order of wave blocks? Wtf is it?
 	fonts_ordered = []
 	font_idict = {}
 	for pair in font_lookup.items():
@@ -856,19 +942,31 @@ def main():
 		font_idict[font.idx] = font
 	
 	sorted_fonts = sorted(font_idict.items())
-	audiobank_dir = os.path.join(outpath, "audiobank")
+	font_count = len(sorted_fonts)
+	aboff=0
+	audiobank_dir = os.path.join(outpath, "d_audiobank")
 	if not os.path.isdir(audiobank_dir):
-		os.makedirs(audiobank_dir)		
+		os.makedirs(audiobank_dir)	
 	for pair in sorted_fonts:
 		fonts_ordered.append(pair[1])
 	for font in fonts_ordered:
 		fontpath = os.path.join(audiobank_dir, getFontbinName(font.idx))
-		with open(fontpath, 'wb') as f:	
-			compileFont(font, f)
+		with open(fontpath, 'wb') as f:
+			compileFont(font, f, aboff)
+		aboff += os.path.getsize(fontpath)
+		if match_mode and (font.idx == (font_count-1)):
+			if match_mode not in last_font_match_sizes:
+				print("Match string \'" + match_mode + "\' not recognized! Ignoring...")
+			else:
+				target_size = last_font_match_sizes[match_mode]
+				current_size = os.path.getsize(fontpath)
+				diff = target_size - current_size
+				with open(fontpath, 'ab') as f:
+					f.write(struct.pack(str(diff) + "x"))
 			
 	#load table for matching
 	og_font_dat = None
-	if debug_mode:
+	if debug_mode and match_mode:
 		fontdat_path = os.path.join(mydir, 'font.bin')
 		fonttbl_path = os.path.join(mydir, 'fontdef.bin')	
 		fontdeftbl = loadFontDefTable(fonttbl_path)
@@ -876,14 +974,14 @@ def main():
 			og_font_dat = f.read()
 	
 	#write audiobank & code table (and match banks one by one)
-	audiobank_tbl_path = os.path.join(audiobank_dir, "audiobank_tbl")
+	audiobank_tbl_path = os.path.join(audiobank_dir, "gSoundFontTable")
 	audiobank_path = os.path.join(audiobank_dir, "audiobank")
 	current_pos = 0
 	total_fonts = len(fonts_ordered)
 	font_matches = 0
 	with open(audiobank_path, "wb") as audiobank_file:
 		with open(audiobank_tbl_path, "wb") as tblfile:
-			tblfile.write(struct.pack(">H14x", total_fonts))
+			tblfile.write(struct.pack(packspecs.genPackString("H14x"), total_fonts))
 			for font in fonts_ordered:
 				binname = getFontbinName(font.idx)
 				fontpath = os.path.join(audiobank_dir, binname)
@@ -893,7 +991,7 @@ def main():
 					fontdat = fontstr.read()
 					
 				#Check match, if debug mode
-				if debug_mode:
+				if debug_mode and match_mode:
 					og_tbl_rec = fontdeftbl[font.idx]
 					og_st = og_tbl_rec.offset
 					og_ed = og_st + og_tbl_rec.length
@@ -905,14 +1003,29 @@ def main():
 				myentry.offset = current_pos
 				myentry.length = fontsize
 				current_pos += fontsize
-				myentry.serializeTo(tblfile)
+				myentry.serializeTo(tblfile,packspecs)
+				
+	#Pad audiobank to match if needed...
+	if match_mode:
+		if match_mode in audiobank_sizes:
+			target_size = audiobank_sizes[match_mode]
+			current_size = os.path.getsize(audiobank_path)
+			diff = target_size - current_size
+			with open(audiobank_path, 'ab') as f:
+				f.write(struct.pack(str(diff) + "x"))			
 				
 	#match audiobank
-	if debug_mode:
+	if debug_mode and match_mode:
 		print(font_matches,"of",total_fonts,"fonts matched.")
 		with open(audiobank_path, "rb") as audiobank_file:
 			abdat = audiobank_file.read()
 		checkMatch(og_font_dat, abdat, "audiobank")
+	
+	#Move and delete audiobank files
+	os.replace(os.path.join(audiobank_dir, 'audiobank'), os.path.join(outpath, 'audiobank'))
+	os.replace(os.path.join(audiobank_dir, 'gSoundFontTable'), os.path.join(outpath, 'gSoundFontTable'))
+	if not debug_mode:
+		shutil.rmtree(audiobank_dir)	
 	
 	return 0
 
@@ -924,10 +1037,12 @@ parser.add_argument("inpath", help="Input path. If --single, this should be a fo
 parser.add_argument("outpath", help="Output path. This should be the directory where target bins are written.")
 parser.add_argument("sampledir", help="Path to file containing sound samples.")
 #parser.add_argument("--ref", help="Path to directory(batch)/file(single) containing binary font file to match.")
+parser.add_argument("--match", help="Aim to build match to original ROM (less efficient, more bookkeeping). Recognized values: ocarina, ocarina1_0, majora")
 parser.add_argument("--debug", action="store_true", help="Flag for debug mode (increased verbosity, output matching)")
 parser.add_argument("--single", action="store_true", help="Use this flag if only want to build a single font (inputting one xml file)")
-parser.add_argument("--buildbank", action="store_true", help="Use this flag to build bank files as well as fonts.")
-parser.add_argument("--match", action="store_true", help="Use this flag if aiming to build match to original ROM (less efficient, more bookkeeping)")
+parser.add_argument("--buildbank", action="store_true", help="Use this flag to build bank files as well as fonts. Highly recommended.")
+parser.add_argument("--little_endian", action="store_true", help="Use this flag if building for Little-Endian target. Overrides --match and --debug")
+parser.add_argument("--arch64", action="store_true", help="Use this flag if building for 64-bit target. (Importantly, this does NOT include N64 itself). Overrides --match and --debug")
 #parser.add_argument("--sf2", help="If sf2 export is desired, path to directory to write sf2 file(s).")
 args = parser.parse_args()
 
