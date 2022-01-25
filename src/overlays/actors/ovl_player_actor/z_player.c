@@ -13893,12 +13893,12 @@ void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 primColor = { 255, 255, 255, 0 };
     static Color_RGBA8 envColor = { 0, 128, 128, 0 };
-    s32 age = gSaveContext.linkAge;
+    s32 linkAge = gSaveContext.linkAge;
     Vec3f sparklePos;
     Vec3f sp34;
     Vec3s* ptr;
 
-    func_80851294(globalCtx, this, D_80855208[age]);
+    func_80851294(globalCtx, this, D_80855208[linkAge]);
 
     if (this->rightHandType != 0xFF) {
         this->rightHandType = 0xFF;

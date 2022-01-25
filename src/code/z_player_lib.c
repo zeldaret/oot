@@ -342,7 +342,7 @@ s32 func_8008E9C4(Player* this) {
 }
 
 s32 Player_IsChildWithHylianShield(Player* this) {
-    return gSaveContext.linkAge != 0 && (this->currentShield == PLAYER_SHIELD_HYLIAN);
+    return gSaveContext.linkAge != LINK_AGE_ADULT && (this->currentShield == PLAYER_SHIELD_HYLIAN);
 }
 
 s32 Player_ActionToModelGroup(Player* this, s32 actionParam) {

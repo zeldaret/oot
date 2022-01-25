@@ -1795,7 +1795,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             gSaveContext.nextCutsceneIndex = 0xFFF2;
             globalCtx->sceneLoadFlag = 0x14;
             globalCtx->fadeTransition = 3;
-            globalCtx->linkAgeOnLoad = 1;
+            globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
             break;
     }
 
