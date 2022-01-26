@@ -2638,7 +2638,7 @@ void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
     BossSst_HeadCollisionCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
     if (this->vVanish) {
-        if ((globalCtx->actorCtx.unk_03 == 0) || (thisx->colorFilterTimer != 0)) {
+        if (!globalCtx->actorCtx.lensActive || (thisx->colorFilterTimer != 0)) {
             this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
         } else {
             this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;

@@ -2272,7 +2272,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
         case 2:
             if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
                 if (gSaveContext.unk_13F0 == 7) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
                 gSaveContext.unk_13F0 = 1;
@@ -2284,7 +2284,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
         case 1:
             if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
                 if (gSaveContext.unk_13F0 == 7) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
                 gSaveContext.unk_13F0 = 6;
@@ -2312,7 +2312,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
         case 4:
             if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
                 if (gSaveContext.unk_13F0 == 7) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
                 gSaveContext.unk_13F0 = 4;
@@ -2459,8 +2459,8 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
-                    (globalCtx->actorCtx.unk_03 == 0)) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    !globalCtx->actorCtx.lensActive) {
+                    globalCtx->actorCtx.lensActive = false;
                     Audio_PlaySoundGeneral(NA_SE_SY_GLASSMODE_OFF, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     gSaveContext.unk_13F0 = 0;

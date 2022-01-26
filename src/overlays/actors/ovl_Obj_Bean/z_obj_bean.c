@@ -465,7 +465,6 @@ void ObjBean_Grown(ObjBean* this) {
 
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 path;
-    s32 linkAge;
     ObjBean* this = (ObjBean*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
