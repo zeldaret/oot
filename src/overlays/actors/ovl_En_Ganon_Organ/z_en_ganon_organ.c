@@ -31,7 +31,7 @@ static u64 sForceAlignment = 0;
 #include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
-    thisx->flags &= ~ACTOR_FLAG_0;
+    thisx->flags &= ~ACTOR_FLAG_TARGETABLE;
 }
 
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx) {

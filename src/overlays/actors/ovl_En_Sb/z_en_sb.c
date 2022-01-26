@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_sb/object_sb.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY)
 
 void EnSb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx);

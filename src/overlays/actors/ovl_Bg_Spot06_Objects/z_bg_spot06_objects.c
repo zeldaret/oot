@@ -7,7 +7,7 @@
 #include "z_bg_spot06_objects.h"
 #include "objects/object_spot06_objects/object_spot06_objects.h"
 
-#define FLAGS ACTOR_FLAG_9
+#define FLAGS ACTOR_FLAG_HOOK_CAN_CARRY
 
 typedef enum {
     /* 0x0 */ LHO_WATER_TEMPLE_ENTRACE_GATE,
@@ -334,7 +334,7 @@ void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, GlobalContext* globa
 
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.5f;
-        this->dyna.actor.flags &= ~ACTOR_FLAG_13;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_HOOK_ATTACHED;
 
         this->actionFunc = BgSpot06Objects_LockSwimToSurface;
     }

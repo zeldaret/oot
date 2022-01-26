@@ -1,7 +1,7 @@
 #include "z_en_sw.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnSw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -282,7 +282,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.elements[0].info.toucher.damage *= 2;
             this->actor.naviEnemyId = 0x20;
             this->actor.colChkInfo.health *= 2;
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
             break;
         default:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
@@ -349,7 +349,7 @@ s32 func_80B0C9F0(EnSw* this, GlobalContext* globalCtx) {
                 this->unk_38A = 2;
                 this->actor.shape.shadowScale = 16.0f;
                 this->actor.gravity = -1.0f;
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                 this->actionFunc = func_80B0DB00;
             }
 

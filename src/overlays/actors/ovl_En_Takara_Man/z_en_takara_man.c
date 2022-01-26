@@ -8,7 +8,9 @@
 #include "vt.h"
 #include "objects/object_ts/object_ts.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_CANT_TARGET)
+#define FLAGS                                                                                                  \
+    (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | \
+     ACTOR_FLAG_CANT_TARGET)
 
 void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -113,11 +115,11 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
         absYawDiff = ABS(yawDiff);
         if (absYawDiff < 0x4300) {
             if (globalCtx->roomCtx.curRoom.num != this->originalRoomNum) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                 this->unk_218 = 0;
             } else {
                 if (!this->unk_218) {
-                    this->actor.flags |= ACTOR_FLAG_0;
+                    this->actor.flags |= ACTOR_FLAG_TARGETABLE;
                     this->unk_218 = 1;
                 }
                 func_8002F2CC(&this->actor, globalCtx, 100.0f);

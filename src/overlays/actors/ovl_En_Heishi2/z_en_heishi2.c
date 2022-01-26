@@ -12,7 +12,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY)
 
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -92,7 +92,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
-        this->actor.flags &= ~ACTOR_FLAG_0;
+        this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
@@ -112,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(globalCtx, &this->collider);
             func_8002DF54(globalCtx, 0, 8);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING;
+            this->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING;
             this->actionFunc = func_80A544AC;
         }
     } else {
@@ -143,7 +143,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                 // "Peep hole soldier!"
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(globalCtx, collider);
-                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+                this->actor.flags &= ~(ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY);
                 this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
@@ -637,7 +637,7 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actor.world.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
         Message_StartTextbox(globalCtx, 0x708F, NULL);
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_IMMEDIATE_TALK;
         this->actionFunc = func_80A5455C;
         this->unk_2E4 = 0.0f;
     }

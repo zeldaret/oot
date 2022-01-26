@@ -1,7 +1,9 @@
 #include "z_en_ma2.h"
 #include "objects/object_ma2/object_ma2.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE)
+#define FLAGS                                                                                                  \
+    (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | \
+     ACTOR_FLAG_OCARINA_NO_FREEZE)
 
 void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -256,7 +258,7 @@ void EnMa2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AA2018(EnMa2* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_IMMEDIATE_TALK;
         this->unk_1E0.unk_00 = 0;
     }
 }
@@ -298,10 +300,10 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx) {
         player->stateFlags2 |= PLAYER_STATE2_23;
     } else {
         if (this->unk_1E0.unk_00 == 0) {
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_IMMEDIATE_TALK;
             Message_CloseTextbox(globalCtx);
         } else {
-            this->actor.flags &= ~ACTOR_FLAG_16;
+            this->actor.flags &= ~ACTOR_FLAG_IMMEDIATE_TALK;
             this->actionFunc = func_80AA2018;
         }
     }

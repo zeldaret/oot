@@ -1,7 +1,7 @@
 #include "z_en_crow.h"
 #include "objects/object_crow/object_crow.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_ARROW_CAN_CARRY)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY | ACTOR_FLAG_IGNORE_QUAKE | ACTOR_FLAG_ARROW_CAN_CARRY)
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -399,7 +399,7 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
             target = 0.01f;
         }
         if (Math_StepToF(&this->actor.scale.x, target, target * 0.1f)) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_TARGETABLE;
             this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupFlyIdle(this);
@@ -417,7 +417,7 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
                 EnCrow_SetupTurnAway(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 EnCrow_SetupDamaged(this, globalCtx);
             }

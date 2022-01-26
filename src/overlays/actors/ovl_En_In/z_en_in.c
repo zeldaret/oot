@@ -2,7 +2,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "objects/object_in/object_in.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -469,7 +469,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     ShrinkWindow_SetVal(0x20);
     Interface_ChangeAlpha(2);
 }
@@ -696,10 +696,10 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_IMMEDIATE_TALK;
     } else if (this->unk_308.unk_00 == 2) {
         Rupees_ChangeBy(-50);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_IMMEDIATE_TALK;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x0F) | 7;
@@ -732,7 +732,7 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_IMMEDIATE_TALK;
         return;
     }
     if (this->unk_1EC != 0) {
@@ -742,7 +742,7 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_308.unk_00 == 2) {
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_IMMEDIATE_TALK;
         func_80A79BAC(this, globalCtx, 2, 0x26);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;

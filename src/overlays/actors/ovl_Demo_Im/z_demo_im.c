@@ -11,7 +11,7 @@
 #include "objects/object_im/object_im.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -852,7 +852,7 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80986AD0(DemoIm* this, GlobalContext* globalCtx) {
-    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
+    this->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY;
     if (!Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actor.textId = 0x708E;
         func_8002F2F4(&this->actor, globalCtx);
@@ -941,7 +941,7 @@ void func_80986DC8(DemoIm* this, GlobalContext* globalCtx) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+    this->actor.flags &= ~(ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY);
 }
 
 void func_80986E20(DemoIm* this, GlobalContext* globalCtx) {
@@ -988,7 +988,7 @@ void func_80986FA8(DemoIm* this, GlobalContext* globalCtx) {
     DemoIm_UpdateSkelAnime(this);
     func_80984BE0(this);
     func_80984E58(this, globalCtx);
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
+    this->actor.flags &= ~(ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY);
     DemoIm_UpdateCollider(this, globalCtx);
     func_80986CFC(this, globalCtx);
 }
@@ -1106,7 +1106,7 @@ void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     DemoIm_InitCollider(thisx, globalCtx);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gImpaSkel, NULL, this->jointTable, this->morphTable, 17);
-    thisx->flags &= ~ACTOR_FLAG_0;
+    thisx->flags &= ~ACTOR_FLAG_TARGETABLE;
 
     switch (this->actor.params) {
         case 2:

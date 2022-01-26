@@ -202,7 +202,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     ((this->rightChestNum & 0x1F) << 8) + (rightChestItem & 0xFF));
     }
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->actionFunc = EnChanger_Wait;
 }
 

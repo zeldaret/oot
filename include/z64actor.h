@@ -100,32 +100,32 @@ typedef struct {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
-#define ACTOR_FLAG_0 (1 << 0)
-#define ACTOR_FLAG_2 (1 << 2)
-#define ACTOR_FLAG_3 (1 << 3)
-#define ACTOR_FLAG_NO_UPDATE_CULLING (1 << 4) // actor will not stop updating even if out of the uncull zone
-#define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will not stop drawing even if out of the uncull zone
-#define ACTOR_FLAG_NOT_CULLED (1 << 6) // flag still updates regardless of the update/draw cull exclusion lags
-#define ACTOR_FLAG_7 (1 << 7)
-#define ACTOR_FLAG_8 (1 << 8) // related to talking
-#define ACTOR_FLAG_9 (1 << 9) // hookshot related
+#define ACTOR_FLAG_TARGETABLE (1 << 0) // navi will fly over the actor and it can be Z targeted
+#define ACTOR_FLAG_UNFRIENDLY (1 << 2) // changes targeting behavior for unfriendly actors (sound, links stance)
+#define ACTOR_FLAG_FRIENDLY (1 << 3) // opposite of the unfriendly flag. flag is not checked against in the original game
+#define ACTOR_FLAG_NO_UPDATE_CULLING (1 << 4) // actor will not stop updating even if outside of the uncull zone
+#define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will not stop drawing even if outside of the uncull zone
+#define ACTOR_FLAG_NOT_CULLED (1 << 6) // actor is in the uncull zone. flag still updates regardless of the update/draw cull exclusion flags
+#define ACTOR_FLAG_REACT_TO_LENS (1 << 7) // hidden or revealed by lens of truth (depending on room flags)
+#define ACTOR_FLAG_TALK_REQUESTED (1 << 8) // player has requested to talk to the actor
+#define ACTOR_FLAG_HOOK_CAN_CARRY (1 << 9) // brings the actor back to player if hookshoted
 #define ACTOR_FLAG_HOOK_BRING_PLAYER (1 << 10) // brings player to the actor if hookshoted
-#define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12)
-#define ACTOR_FLAG_13 (1 << 13) // grabbed by hookshot or boomerang
-#define ACTOR_FLAG_ARROW_CAN_CARRY (1 << 14)
-#define ACTOR_FLAG_ARROW_IS_CARRYING (1 << 15)
-#define ACTOR_FLAG_16 (1 << 16) // related to talking, possibly navi?
-#define ACTOR_FLAG_TOP_HEAVY (1 << 17) // copies links x rotation instead of y when holding the actor
-#define ACTOR_FLAG_18 (1 << 18) // navi related
-#define ACTOR_FLAG_SFX_AT_POS (1 << 19)
+#define ACTOR_FLAG_ENKUSA_CUT (1 << 11) // grass actor has been cut
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12) // actor will not shake when a quake occurs
+#define ACTOR_FLAG_HOOK_ATTACHED (1 << 13) // hookshot has attached to the actor (either a collider or surface)
+#define ACTOR_FLAG_ARROW_CAN_CARRY (1 << 14) // when an arrow hits the actor it will attach to the actor and carry it
+#define ACTOR_FLAG_ARROW_IS_CARRYING (1 << 15) // an arrow is currently carrying this actor
+#define ACTOR_FLAG_IMMEDIATE_TALK (1 << 16) // forces player to talk when in range. needs to be unset manually to avoid infinite talking
+#define ACTOR_FLAG_CARRY_SET_X_ROT (1 << 17) // copies links x rotation instead of y when holding the actor
+#define ACTOR_FLAG_CHECK_WITH_NAVI (1 << 18) // navi can be used to trigger dialouge when targeting the actor
+#define ACTOR_FLAG_SFX_AT_POS (1 << 19) // play sound from sfx field at the actor's position
 #define ACTOR_FLAG_SFX_CENTERED2 (1 << 20) // same as ACTOR_FLAG_SFX_CENTERED, unused in the original game
-#define ACTOR_FLAG_SFX_CENTERED (1 << 21)
-#define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22) // actor can still be lit by environment directional lights
-#define ACTOR_FLAG_ALWAYS_THROW (1 << 23) // throw held actor even if standing still
+#define ACTOR_FLAG_SFX_CENTERED (1 << 21) // play sound from sfx field at the center of the screen
+#define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22) // ignores point lights but can still be lit by environment lights
+#define ACTOR_FLAG_ALWAYS_THROW (1 << 23) // player throws held actor even if standing still
 #define ACTOR_FLAG_PLAY_BODYHIT_SFX (1 << 24) // when actor hits players body, a thump sfx plays
 #define ACTOR_FLAG_OCARINA_NO_FREEZE (1 << 25) // actor doesnt freeze when player has ocarina out or is using a warp song
-#define ACTOR_FLAG_CAN_HOLD_SWITCH (1 << 26)
+#define ACTOR_FLAG_CAN_HOLD_SWITCH (1 << 26) // actor can press and hold down switches
 #define ACTOR_FLAG_CANT_TARGET (1 << 27) // prevents Z targeting an actor even if Navi is floating over it
 #define ACTOR_FLAG_SFX_TIMER (1 << 28) // actor sfx field is used as timer state instead of an sfx id
 

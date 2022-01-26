@@ -343,7 +343,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
             {
                 Vec3f sp60;
                 spA8 = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&sp60, camera);
+                Camera_GetQuakeOffset(&sp60, camera);
                 func_8009638C(&spA8, polygon1->single.source, polygon1->single.tlut, polygon1->single.width,
                               polygon1->single.height, polygon1->single.fmt, polygon1->single.siz,
                               polygon1->single.mode0, polygon1->single.tlutCount,
@@ -439,7 +439,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
             {
                 Vec3f sp5C;
                 spA8 = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&sp5C, camera);
+                Camera_GetQuakeOffset(&sp5C, camera);
                 func_8009638C(&spA8, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height, bgImage->fmt,
                               bgImage->siz, bgImage->mode0, bgImage->tlutCount,
                               (sp5C.x + sp5C.z) * 1.2f + sp5C.y * 0.6f, sp5C.y * 2.4f + (sp5C.x + sp5C.z) * 0.3f);

@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ta/object_ta.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY)
 
 void EnTa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -616,7 +616,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
 void func_80B15260(EnTa* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80B15100;
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_IMMEDIATE_TALK;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
@@ -723,7 +723,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                             break;
                     }
                     this->actionFunc = func_80B15260;
-                    this->actor.flags |= ACTOR_FLAG_16;
+                    this->actor.flags |= ACTOR_FLAG_IMMEDIATE_TALK;
                     func_8002F2CC(&this->actor, globalCtx, 1000.0f);
                     return;
                 }
@@ -1045,9 +1045,9 @@ void func_80B16608(EnTa* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80B1642C;
                 break;
         }
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_IMMEDIATE_TALK;
     } else {
-        this->actor.flags |= ACTOR_FLAG_16;
+        this->actor.flags |= ACTOR_FLAG_IMMEDIATE_TALK;
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
     this->unk_2E0 |= 1;

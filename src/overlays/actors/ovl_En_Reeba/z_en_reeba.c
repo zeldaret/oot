@@ -10,7 +10,7 @@
 #include "vt.h"
 #include "objects/object_reeba/object_reeba.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_CANT_TARGET)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_CANT_TARGET)
 
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -264,7 +264,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
-    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
+    this->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY;
     this->actionfunc = func_80AE53AC;
 }
 
@@ -327,7 +327,7 @@ void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
     this->unk_27E = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     this->actor.flags |= ACTOR_FLAG_CANT_TARGET;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+    this->actor.flags &= ~(ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY);
     this->actionfunc = func_80AE56E0;
 }
 
@@ -379,7 +379,7 @@ void func_80AE58EC(EnReeba* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.speedXZ = -8.0f;
     this->actor.flags |= ACTOR_FLAG_CANT_TARGET;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
+    this->actor.flags &= ~(ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY);
     this->actionfunc = func_80AE5938;
 }
 
@@ -446,7 +446,7 @@ void func_80AE5BC4(EnReeba* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
     this->unk_278 = 14;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->actionfunc = func_80AE5C38;
 }
 

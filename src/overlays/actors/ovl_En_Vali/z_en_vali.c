@@ -7,7 +7,7 @@
 #include "z_en_vali.h"
 #include "objects/object_vali/object_vali.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_IGNORE_QUAKE)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_IGNORE_QUAKE)
 
 void EnVali_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVali_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -154,7 +154,7 @@ void EnVali_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     EnVali_SetupLurk(this);
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId,
                                                           &this->actor, &this->actor.world.pos);
     this->actor.params = BARI_TYPE_NORMAL;
@@ -181,7 +181,7 @@ void EnVali_SetupLurk(EnVali* this) {
 
 void EnVali_SetupDropAppear(EnVali* this) {
     this->actor.draw = EnVali_Draw;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_TARGETABLE;
     this->actor.velocity.y = 1.0f;
     this->actionFunc = EnVali_DropAppear;
 }
@@ -209,7 +209,7 @@ void EnVali_SetupFloatIdle(EnVali* this) {
  */
 void EnVali_SetupAttacked(EnVali* this) {
     this->lightningTimer = 20;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->bodyCollider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnVali_Attacked;
 }
@@ -248,7 +248,7 @@ void EnVali_SetupDivideAndDie(EnVali* this, GlobalContext* globalCtx) {
     this->timer = Rand_S16Offset(10, 10);
     this->bodyCollider.base.acFlags &= ~AC_ON;
     SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BARI_SPLIT);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->actor.draw = NULL;
     this->actionFunc = EnVali_DivideAndDie;
 }
@@ -275,7 +275,7 @@ void EnVali_SetupFrozen(EnVali* this) {
 void EnVali_SetupReturnToLurk(EnVali* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBariLurkingAnim, 10.0f);
     this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->actionFunc = EnVali_ReturnToLurk;
 }
 
@@ -361,7 +361,7 @@ void EnVali_Attacked(EnVali* this, GlobalContext* globalCtx) {
     EnVali_DischargeLightning(this, globalCtx);
 
     if (this->lightningTimer == 0) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_TARGETABLE;
         this->bodyCollider.base.acFlags |= AC_ON;
         if (this->actor.params == BARI_TYPE_SWORD_DAMAGE) {
             EnVali_SetupRetaliate(this);
@@ -502,7 +502,7 @@ void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DEAD);
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
             } else if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_STUN) &&
                        (this->actor.colChkInfo.damageEffect != BARI_DMGEFF_SLINGSHOT)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BARI_DAMAGE);

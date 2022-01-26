@@ -292,9 +292,9 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx) {
         Math_StepToS(&this->vFlameScale, 350, 20);
     }
     if (globalCtx->actorCtx.unk_03) {
-        this->dyna.actor.flags |= ACTOR_FLAG_7;
+        this->dyna.actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     } else {
-        this->dyna.actor.flags &= ~ACTOR_FLAG_7;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -345,7 +345,7 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaGate* this = (BgHakaGate*)thisx;
     MtxF currentMtxF;
 
-    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_00F1B0);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);

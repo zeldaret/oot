@@ -9,7 +9,7 @@
 #include "objects/object_ahg/object_ahg.h"
 #include "objects/object_boj/object_boj.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -61,12 +61,8 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    &object_ahg_Skel_0000F0,
-    &object_boj_Skel_0000F0,
-    &object_boj_Skel_0000F0,
-    &object_boj_Skel_0000F0,
-    &object_boj_Skel_0000F0,
-    &object_boj_Skel_0000F0,
+    &object_ahg_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
+    &object_boj_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
 };
 
 static AnimationHeader* sAnimations[6] = {

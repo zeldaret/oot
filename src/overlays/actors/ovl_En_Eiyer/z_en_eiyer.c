@@ -1,7 +1,7 @@
 #include "z_en_eiyer.h"
 #include "objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY)
 
 void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -201,7 +201,7 @@ void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
 
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_IGNORE_QUAKE);
+    this->actor.flags &= ~(ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_IGNORE_QUAKE);
     this->actor.shape.shadowScale = 0.0f;
     this->actor.shape.yOffset = 0.0f;
     this->actionFunc = EnEiyer_AppearFromGround;
@@ -217,11 +217,11 @@ void EnEiyer_SetupUnderground(EnEiyer* this) {
 
     this->collider.base.acFlags |= AC_ON;
     this->actor.flags &= ~ACTOR_FLAG_NO_UPDATE_CULLING;
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_TARGETABLE;
 }
 
 void EnEiyer_SetupInactive(EnEiyer* this) {
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionFunc = EnEiyer_Inactive;
 }
@@ -609,7 +609,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
             }
 
             // If underground, one hit kill
@@ -672,7 +672,7 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.flags & ACTOR_FLAG_0) {
+    if (this->actor.flags & ACTOR_FLAG_TARGETABLE) {
         this->actor.focus.pos.x = this->actor.world.pos.x + Math_SinS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.z = this->actor.world.pos.z + Math_CosS(this->actor.shape.rot.y) * 12.5f;
         this->actor.focus.pos.y = this->actor.world.pos.y;

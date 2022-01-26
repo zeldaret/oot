@@ -75,7 +75,7 @@ void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ArmsHook* this = (ArmsHook*)thisx;
 
     if (this->grabbed != NULL) {
-        this->grabbed->flags &= ~ACTOR_FLAG_13;
+        this->grabbed->flags &= ~ACTOR_FLAG_HOOK_ATTACHED;
     }
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
@@ -111,7 +111,7 @@ s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
 
 void ArmsHook_DetachHookFromActor(ArmsHook* this) {
     if (this->grabbed != NULL) {
-        this->grabbed->flags &= ~ACTOR_FLAG_13;
+        this->grabbed->flags &= ~ACTOR_FLAG_HOOK_ATTACHED;
         this->grabbed = NULL;
     }
 }
@@ -120,7 +120,8 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
     if (Player_HoldsHookshot(player)) {
-        if ((player->itemActionParam != player->heldItemActionParam) || (player->actor.flags & ACTOR_FLAG_8) ||
+        if ((player->itemActionParam != player->heldItemActionParam) ||
+            (player->actor.flags & ACTOR_FLAG_TALK_REQUESTED) ||
             ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);
@@ -132,7 +133,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
 }
 
 void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
-    actor->flags |= ACTOR_FLAG_13;
+    actor->flags |= ACTOR_FLAG_HOOK_ATTACHED;
     this->grabbed = actor;
     Math_Vec3f_Diff(&actor->world.pos, &this->actor.world.pos, &this->grabbedDistDiff);
 }
@@ -171,7 +172,8 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
         (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
         touchedActor = this->collider.base.at;
-        if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_HOOK_BRING_PLAYER))) {
+        if ((touchedActor->update != NULL) &&
+            (touchedActor->flags & (ACTOR_FLAG_HOOK_CAN_CARRY | ACTOR_FLAG_HOOK_BRING_PLAYER))) {
             if (this->collider.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
                 if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_HOOK_BRING_PLAYER)) {
@@ -185,7 +187,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     } else if (DECR(this->timer) == 0) {
         grabbed = this->grabbed;
         if (grabbed != NULL) {
-            if ((grabbed->update == NULL) || !CHECK_FLAG_ALL(grabbed->flags, ACTOR_FLAG_13)) {
+            if ((grabbed->update == NULL) || !CHECK_FLAG_ALL(grabbed->flags, ACTOR_FLAG_HOOK_ATTACHED)) {
                 grabbed = NULL;
                 this->grabbed = NULL;
             } else if (this->actor.child != NULL) {

@@ -82,7 +82,8 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+            this->actor.flags |=
+                ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_CHECK_WITH_NAVI; // Make actor targetable and Navi-checkable
             this->actor.textId = ElfMsg2_GetMessageId(this);
         }
         this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
@@ -134,7 +135,8 @@ void ElfMsg2_WaitUntilActivated(ElfMsg2* this, GlobalContext* globalCtx) {
     if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80) &&
         (Flags_GetSwitch(globalCtx, (this->actor.world.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_18; // Make actor targetable and Navi-checkable
+        this->actor.flags |=
+            ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_CHECK_WITH_NAVI; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);
     }
 }

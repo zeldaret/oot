@@ -102,7 +102,7 @@ static u64 sForceAlignment = 0;
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGanonMant* this = (EnGanonMant*)thisx;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
 }
 
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx) {

@@ -105,7 +105,7 @@ void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChainCapturableFlame);
     Actor_SetScale(&this->actor, 0.0074f);
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_TARGETABLE;
     Actor_SetFocus(&this->actor, 10.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);

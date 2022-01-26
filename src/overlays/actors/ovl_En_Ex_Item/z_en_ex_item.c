@@ -51,7 +51,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnExItem* this = (EnExItem*)thisx;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->type = this->actor.params & 0xFF;
     this->unusedParam = (this->actor.params >> 8) & 0xFF;
     osSyncPrintf("\n\n");

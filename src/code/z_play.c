@@ -1220,7 +1220,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                         (GET_ACTIVE_CAM(globalCtx)->setting != CAM_SET_PREREND_FIXED)) {
                         Vec3f sp74;
 
-                        Camera_GetSkyboxOffset(&sp74, GET_ACTIVE_CAM(globalCtx));
+                        Camera_GetQuakeOffset(&sp74, GET_ACTIVE_CAM(globalCtx));
                         SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
                                         globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
                                         globalCtx->view.eye.z + sp74.z);

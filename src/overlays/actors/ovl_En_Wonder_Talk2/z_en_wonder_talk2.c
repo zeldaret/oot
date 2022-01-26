@@ -7,7 +7,7 @@
 #include "z_en_wonder_talk2.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_CANT_TARGET)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_CANT_TARGET)
 
 void EnWonderTalk2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWonderTalk2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -114,7 +114,7 @@ void func_80B3A15C(EnWonderTalk2* this, GlobalContext* globalCtx) {
     this->unk_158++;
     if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (!this->unk_15A) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
             this->unk_15A = true;
         }
     } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
@@ -192,7 +192,7 @@ void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
             if (this->talkMode == 4) {
                 this->unk_15A = true;
             }
-            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING);
+            this->actor.flags &= ~(ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING);
             func_8002DF54(globalCtx, NULL, 7);
             this->unk_156 = true;
             this->actionFunc = func_80B3A4F8;
@@ -207,7 +207,7 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
     this->unk_158++;
     if (this->switchFlag >= 0 && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (!this->unk_15A) {
-            this->actor.flags &= ~ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
             this->unk_15A = true;
         }
     } else if ((this->talkMode != 4) || !this->unk_15A) {
@@ -253,7 +253,7 @@ void func_80B3A4F8(EnWonderTalk2* this, GlobalContext* globalCtx) {
             if (!this->unk_156) {
                 Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 func_8002DF54(globalCtx, NULL, 8);
-                this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING;
+                this->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING;
                 this->actionFunc = func_80B3A3D4;
             }
 

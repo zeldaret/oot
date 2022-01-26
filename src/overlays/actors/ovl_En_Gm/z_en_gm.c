@@ -9,7 +9,7 @@
 #include "objects/object_gm/object_gm.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);

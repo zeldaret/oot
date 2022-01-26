@@ -41,9 +41,9 @@ void BgMenkuriNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
 
     if (globalCtx->actorCtx.unk_03 != 0) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_7;
+        this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -51,7 +51,7 @@ void BgMenkuriNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriNisekabe* this = (BgMenkuriNisekabe*)thisx;
     u32 index = this->actor.params & 0xFF;
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(globalCtx, sDLists[index]);
     } else {
         Gfx_DrawDListOpa(globalCtx, sDLists[index]);

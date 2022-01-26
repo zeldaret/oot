@@ -7,7 +7,9 @@
 #include "z_en_ma1.h"
 #include "objects/object_ma1/object_ma1.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE)
+#define FLAGS                                                                                                  \
+    (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | \
+     ACTOR_FLAG_OCARINA_NO_FREEZE)
 
 void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -356,7 +358,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x2061;
             Message_StartTextbox(globalCtx, this->actor.textId, NULL);
             this->unk_1E8.unk_00 = 1;
-            this->actor.flags |= ACTOR_FLAG_16;
+            this->actor.flags |= ACTOR_FLAG_IMMEDIATE_TALK;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
             player->stateFlags2 |= PLAYER_STATE2_23;
@@ -369,7 +371,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 2) {
         Audio_OcaSetInstrument(2);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
-        this->actor.flags &= ~ACTOR_FLAG_16;
+        this->actor.flags &= ~ACTOR_FLAG_IMMEDIATE_TALK;
         this->actionFunc = func_80AA10EC;
     }
 }

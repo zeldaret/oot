@@ -153,7 +153,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
         EnTp_Head_SetupWait(this);
         this->actor.focus.pos = this->actor.world.pos;
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING;
+        this->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING;
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
@@ -169,7 +169,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_SetScale(&next->actor, 0.3f);
 
                 if (i == 2) {
-                    next->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING;
+                    next->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING;
                     next->unk_150 = 1; // Why?
                 }
 
@@ -209,13 +209,13 @@ void EnTp_Tail_FollowHead(EnTp* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->unk_150 != 0) {
-            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags |= ACTOR_FLAG_TARGETABLE;
         }
 
         if (this->head->unk_150 != 0) {
             this->actor.speedXZ = this->red = this->actor.velocity.y = this->heightPhase = 0.0f;
             if (this->actor.world.pos.y < this->head->actor.home.pos.y) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
             }
 
             this->actor.world.pos = this->actor.parent->prevPos;
@@ -348,7 +348,7 @@ void EnTp_Fragment_SetupFade(EnTp* this) {
     this->actor.velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     EnTp_SetupAction(this, EnTp_Fragment_Fade);
 }
 
@@ -592,7 +592,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
             }
 
             if (this->actor.colChkInfo.health == 0) {
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                 head = this->head;
 
                 if (head->actor.params <= TAILPASARAN_HEAD) {

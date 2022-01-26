@@ -6847,7 +6847,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
 
     camera->up.y = 1.0f;
     camera->up.z = camera->up.x = 0.0f;
-    camera->skyboxOffset.x = camera->skyboxOffset.y = camera->skyboxOffset.z = 0;
+    camera->quakeOffset.x = camera->quakeOffset.y = camera->quakeOffset.z = 0;
     camera->atLERPStepScale = 1;
     sCameraInterfaceFlags = 0xFF00;
     sDbgModeIdx = -1;
@@ -7500,7 +7500,7 @@ Vec3s Camera_Update(Camera* camera) {
         camera->up = viewUp;
     }
 
-    camera->skyboxOffset = quake.eyeOffset;
+    camera->quakeOffset = quake.eyeOffset;
 
     func_80058E8C(camera);
     if ((camera->globalCtx->sceneNum == SCENE_SPOT00) && (camera->fov < 59.0f)) {
@@ -8050,8 +8050,8 @@ s32 Camera_GetDbgCamEnabled() {
     return gDbgCamEnabled;
 }
 
-Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera) {
-    *dst = camera->skyboxOffset;
+Vec3f* Camera_GetQuakeOffset(Vec3f* dst, Camera* camera) {
+    *dst = camera->quakeOffset;
     return dst;
 }
 

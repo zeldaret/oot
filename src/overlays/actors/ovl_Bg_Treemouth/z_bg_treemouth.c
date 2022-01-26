@@ -142,9 +142,9 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
         if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(0xC)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
-                    this->dyna.actor.flags |= ACTOR_FLAG_0;
+                    this->dyna.actor.flags |= ACTOR_FLAG_TARGETABLE;
                     if (this->dyna.actor.isTargeted) {
-                        this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+                        this->dyna.actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                         globalCtx->csCtx.segment = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);

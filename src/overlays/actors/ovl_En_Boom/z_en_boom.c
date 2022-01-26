@@ -159,7 +159,9 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
         if (((this->collider.base.at->id == ACTOR_EN_ITEM00) || (this->collider.base.at->id == ACTOR_EN_SI))) {
             this->grabbed = this->collider.base.at;
             if (this->collider.base.at->id == ACTOR_EN_SI) {
-                this->collider.base.at->flags |= ACTOR_FLAG_13;
+                // this flag is intended for hookshot only, but is used here to make the
+                // skulltula token react the same to boomerang as it would for hookshot
+                this->collider.base.at->flags |= ACTOR_FLAG_HOOK_ATTACHED;
             }
         }
     }
@@ -177,12 +179,11 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 Math_Vec3f_Copy(&target->world.pos, &player->actor.world.pos);
 
                 // If the grabbed actor is EnItem00 (HP/Key etc) set gravity and flags so it falls in front of Link.
-                // Otherwise if it's a Skulltula Token, just set flags so he collides with it to collect it.
                 if (target->id == ACTOR_EN_ITEM00) {
                     target->gravity = -0.9f;
                     target->bgCheckFlags &= ~0x03;
                 } else {
-                    target->flags &= ~ACTOR_FLAG_13;
+                    target->flags &= ~ACTOR_FLAG_HOOK_ATTACHED;
                 }
             }
             // Set player flags and kill the boomerang beacause Link caught it.

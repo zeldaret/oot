@@ -8,7 +8,7 @@
 #include "objects/object_bombf/object_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING)
 
 void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBombf_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -117,7 +117,7 @@ void EnBombf_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->gravity = -1.5f;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_EXPLOSIVE);
         thisx->colChkInfo.mass = 200;
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_TARGETABLE;
         EnBombf_SetupAction(this, EnBombf_Move);
     } else {
         thisx->colChkInfo.mass = MASS_IMMOVABLE;
@@ -157,7 +157,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 this->timer = 180;
                 this->flowerBombScale = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_PL_PULL_UP_ROCK);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
             } else {
                 player->actor.child = NULL;
                 player->heldActor = NULL;
@@ -176,7 +176,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                     bombFlower->unk_200 = 1;
                     bombFlower->timer = 0;
                     this->timer = 180;
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                     this->flowerBombScale = 0.0f;
                 }
             }
@@ -188,7 +188,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
                 if (bombFlower != NULL) {
                     bombFlower->timer = 100;
                     this->timer = 180;
-                    this->actor.flags &= ~ACTOR_FLAG_0;
+                    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                     this->flowerBombScale = 0.0f;
                 }
             } else {
@@ -208,7 +208,7 @@ void EnBombf_GrowBomb(EnBombf* this, GlobalContext* globalCtx) {
         if (this->timer == 0) {
             this->flowerBombScale += 0.05f;
             if (this->flowerBombScale >= 1.0f) {
-                this->actor.flags |= ACTOR_FLAG_0;
+                this->actor.flags |= ACTOR_FLAG_TARGETABLE;
             }
         }
 

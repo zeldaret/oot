@@ -9,7 +9,8 @@
 #include "assets/objects/object_ganon_anime2/object_ganon_anime2.h"
 #include "assets/scenes/dungeons/ganon_boss/ganon_boss_scene.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
+#define FLAGS \
+    (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -380,7 +381,7 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
                                                  0.0f, 0.0f, 0, 0, 0, 1);
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BOSS);
     } else {
-        thisx->flags &= ~ACTOR_FLAG_0;
+        thisx->flags &= ~ACTOR_FLAG_TARGETABLE;
         this->fwork[GDF_FWORK_1] = 255.0f;
 
         if (thisx->params >= 0xC8) {
@@ -2514,7 +2515,7 @@ void BossGanon_Vulnerable(BossGanon* this, GlobalContext* globalCtx) {
     Vec3f sp40;
 
     if (this->timers[3] == 0) {
-        this->actor.flags |= ACTOR_FLAG_0;
+        this->actor.flags |= ACTOR_FLAG_TARGETABLE;
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -2664,7 +2665,7 @@ void BossGanon_SetupDamaged(BossGanon* this, GlobalContext* globalCtx) {
 }
 
 void BossGanon_Damaged(BossGanon* this, GlobalContext* globalCtx) {
-    this->actor.flags |= ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_TARGETABLE;
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -2825,7 +2826,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->collider.base.colType = 3;
     sCape->gravity = -3.0f;
     this->shockGlow = false;
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->unk_1A2++;
     this->unk_1A4++;
 

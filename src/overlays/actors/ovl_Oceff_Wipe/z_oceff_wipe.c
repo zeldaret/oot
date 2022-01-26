@@ -75,7 +75,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
 
     eye = GET_ACTIVE_CAM(globalCtx)->eye;
-    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(globalCtx));
+    Camera_GetQuakeOffset(&vec, GET_ACTIVE_CAM(globalCtx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
 

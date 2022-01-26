@@ -8,7 +8,9 @@
 #include "vt.h"
 #include "objects/object_ka/object_ka.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE | ACTOR_FLAG_CANT_TARGET)
+#define FLAGS                                                                            \
+    (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | \
+     ACTOR_FLAG_OCARINA_NO_FREEZE | ACTOR_FLAG_CANT_TARGET)
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -124,7 +126,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
         OnePointCutscene_Attention(globalCtx, &this->actor);
-        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_CANT_TARGET;
+        this->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_CANT_TARGET;
 
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         if (this->switchFlag >= 0) {
@@ -152,7 +154,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
             OnePointCutscene_Attention(globalCtx, &this->actor);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 
-            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_CANT_TARGET;
+            this->actor.flags |= ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_CANT_TARGET;
             this->actionFunc = func_80A904D8;
         }
     }

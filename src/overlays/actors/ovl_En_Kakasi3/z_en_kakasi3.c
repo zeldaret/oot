@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ka/object_ka.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_OCARINA_NO_FREEZE)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_OCARINA_NO_FREEZE)
 
 void EnKakasi3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi3_Destroy(Actor* thisx, GlobalContext* globalCtx);
