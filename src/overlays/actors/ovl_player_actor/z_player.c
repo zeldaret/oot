@@ -14013,7 +14013,7 @@ void func_80852C50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     }
 
     if (linkCsAction == NULL) {
-        this->actor.flags &= ~ACTOR_FLAG_NOT_CULLED;
+        this->actor.flags &= ~ACTOR_FLAG_IS_IN_UNCULL_ZONE;
         return;
     }
 

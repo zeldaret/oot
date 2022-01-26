@@ -175,7 +175,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
 
     if (!Object_IsLoaded(&globalCtx->objectCtx, skelObjBankIndex) ||
         !Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex)) {
-        this->actor.flags &= ~ACTOR_FLAG_NOT_CULLED;
+        this->actor.flags &= ~ACTOR_FLAG_IS_IN_UNCULL_ZONE;
         return;
     }
 

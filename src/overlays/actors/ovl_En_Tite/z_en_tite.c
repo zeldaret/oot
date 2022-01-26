@@ -363,7 +363,7 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
                     func_800355B8(globalCtx, &this->backLeftFootPos);
                 }
             }
-            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_NOT_CULLED)) {
+            if (!(this->collider.base.atFlags & AT_HIT) && (this->actor.flags & ACTOR_FLAG_IS_IN_UNCULL_ZONE)) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             } else {
                 Player* player = GET_PLAYER(globalCtx);

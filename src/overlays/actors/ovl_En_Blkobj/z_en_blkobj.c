@@ -87,7 +87,7 @@ void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
 }
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx) {
-    if (!(this->dyna.actor.flags & ACTOR_FLAG_NOT_CULLED)) {
+    if (!(this->dyna.actor.flags & ACTOR_FLAG_IS_IN_UNCULL_ZONE)) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TORCH2, this->dyna.actor.world.pos.x,
                     this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.yawTowardsPlayer, 0,
                     0);

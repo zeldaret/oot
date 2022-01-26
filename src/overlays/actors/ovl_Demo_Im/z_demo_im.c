@@ -832,7 +832,7 @@ s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_NOT_CULLED)) {
+    if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && !(this->actor.flags & ACTOR_FLAG_IS_IN_UNCULL_ZONE)) {
         return true;
     } else {
         return false;

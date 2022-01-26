@@ -2097,7 +2097,7 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
                 actor->flags &= ~ACTOR_FLAG_PLAY_BODYHIT_SFX;
 
                 if ((DECR(actor->freezeTimer) == 0) &&
-                    (actor->flags & (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NOT_CULLED))) {
+                    (actor->flags & (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_IS_IN_UNCULL_ZONE))) {
                     if (actor == player->unk_664) {
                         actor->isTargeted = true;
                     } else {
@@ -2419,9 +2419,9 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(70) == 0)) {
                 if (func_800314B0(globalCtx, actor)) {
-                    actor->flags |= ACTOR_FLAG_NOT_CULLED;
+                    actor->flags |= ACTOR_FLAG_IS_IN_UNCULL_ZONE;
                 } else {
-                    actor->flags &= ~ACTOR_FLAG_NOT_CULLED;
+                    actor->flags &= ~ACTOR_FLAG_IS_IN_UNCULL_ZONE;
                 }
             }
 
@@ -2429,7 +2429,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
 
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) &&
-                    (actor->flags & (ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_NOT_CULLED))) {
+                    (actor->flags & (ACTOR_FLAG_NO_DRAW_CULLING | ACTOR_FLAG_IS_IN_UNCULL_ZONE))) {
                     if ((actor->flags & ACTOR_FLAG_REACT_TO_LENS) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || globalCtx->actorCtx.lensActive ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {

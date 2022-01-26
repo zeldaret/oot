@@ -101,11 +101,11 @@ typedef struct {
 } ActorShape; // size = 0x30
 
 #define ACTOR_FLAG_TARGETABLE (1 << 0) // Navi will fly over the actor and it can be Z targeted
-#define ACTOR_FLAG_UNFRIENDLY (1 << 2) // changes targeting behavior for unfriendly actors (sound, links stance)
+#define ACTOR_FLAG_UNFRIENDLY (1 << 2) // changes targeting behavior for unfriendly actors (sound, Link's stance)
 #define ACTOR_FLAG_FRIENDLY (1 << 3) // opposite of the unfriendly flag. flag is not checked against in the original game
-#define ACTOR_FLAG_NO_UPDATE_CULLING (1 << 4) // actor will keep updating even if outside of the uncull zone
-#define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will keep drawing even if outside of the uncull zone
-#define ACTOR_FLAG_NOT_CULLED (1 << 6) // actor is in the uncull zone. flag still updates regardless of the update/draw cull exclusion flags
+#define ACTOR_FLAG_NO_UPDATE_CULLING (1 << 4) // actor will keep updating even if outside of the uncull zone i.e. "update-culling" does not occur
+#define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will keep drawing even if outside of the uncull zone i.e. "draw-culling" does not occur
+#define ACTOR_FLAG_IS_IN_UNCULL_ZONE (1 << 6) // actor is currently in the uncull zone
 #define ACTOR_FLAG_REACT_TO_LENS (1 << 7) // hidden or revealed by Lens of Truth (depending on room flags)
 #define ACTOR_FLAG_TALK_REQUESTED (1 << 8) // Player has requested to talk to the actor
 #define ACTOR_FLAG_HOOK_CAN_CARRY (1 << 9) // brings the actor back to Player if hookshoted
@@ -116,7 +116,7 @@ typedef struct {
 #define ACTOR_FLAG_ARROW_CAN_CARRY (1 << 14) // when an arrow hits the actor it will attach to the actor and carry it
 #define ACTOR_FLAG_ARROW_IS_CARRYING (1 << 15) // an arrow is currently carrying this actor
 #define ACTOR_FLAG_IMMEDIATE_TALK (1 << 16) // forces Player to talk when in range. needs to be unset manually to avoid infinite talking
-#define ACTOR_FLAG_CARRY_SET_X_ROT (1 << 17) // copies links x rotation instead of y when holding the actor
+#define ACTOR_FLAG_CARRY_SET_X_ROT (1 << 17) // copies Link's x rotation instead of y when holding the actor
 #define ACTOR_FLAG_CHECK_WITH_NAVI (1 << 18) // Navi can be used to trigger dialogue when targeting the actor
 #define ACTOR_FLAG_SFX_AT_POS (1 << 19) // play sound from sfx field at the actor's position
 #define ACTOR_FLAG_SFX_CENTERED2 (1 << 20) // same as ACTOR_FLAG_SFX_CENTERED, unused in the original game
