@@ -12,12 +12,13 @@
 # s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint)
 # 
 # Returns the offset of the glyph texture data in `kanji` corresponding to a
-# given Shift-JIS codepoint. No range validity check is carried out.
+# given 2-byte Shift-JIS codepoint. No range validity check is carried out.
 #
 # @param shiftJISCodepoint Codepoint of glyph.
 # return s32 offset into `kanji` file.
 BEGIN Kanji_OffsetFromShiftJIS
-    # Characters with codepoints >= 0x8800 are kanji
+    # Characters with codepoints >= 0x8800 are kanji. Arrangement is regular, 
+    # so convert index directly.
     li      $at, 0x8800
     slt     $at, $a0, $at
     bnez    $at, .not_kanji
@@ -48,6 +49,7 @@ BEGIN Kanji_OffsetFromShiftJIS
      sll    $v0, $a3, 7
      # returns (0x30A + (adjusted byte2) + (adjusted byte1) * 0xBC) * FONT_CHAR_TEX_SIZE
 
+# Non-kanji are arranged with irregular gaps, use the lookup table.
 .not_kanji:
     # Get byte1 and adjust so starts at 0
     srl     $a1, $a0, 8
@@ -90,7 +92,7 @@ END Kanji_OffsetFromShiftJIS
 #             byte2--;
 #         }
 #
-#         return (0x30A + byte2 + 0xBC * byte1) * 0x80;
+#         return (0x30A + byte2 + byte1 * 0xBC) * 0x80;
 #     } else {
 #         byte1 = arg0 >> 8;
 #         byte1 -= 0x81;
@@ -101,7 +103,7 @@ END Kanji_OffsetFromShiftJIS
 #             byte2--;
 #         }
 #
-#         return kanjiNonKanjiIndices[byte2 + 0xBC * byte1] * 0x80;
+#         return kanjiNonKanjiIndices[byte2 + byte1 * 0xBC] * 0x80;
 #     }
 # }
 
