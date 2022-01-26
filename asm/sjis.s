@@ -82,15 +82,15 @@ BEGIN Kanji_OffsetFromShiftJIS
 END Kanji_OffsetFromShiftJIS
 
 # C pseudocode:
-# s32 Kanji_OffsetFromShiftJIS(s32 arg0) {
+# s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint) {
 #     s32 byte1;
 #     s32 byte2;
 #
-#     if (arg0 >= 0x8800) {
-#         byte1 = arg0 >> 8;
+#     if (shiftJISCodepoint >= 0x8800) {
+#         byte1 = shiftJISCodepoint >> 8;
 #         byte1 -= 0x88;
 #
-#         byte2 = (arg0 & 0xFF);
+#         byte2 = (shiftJISCodepoint & 0xFF);
 #         byte2 -= 0x40;
 #         if (byte2 >= 0x40) {
 #             byte2--;
@@ -98,10 +98,10 @@ END Kanji_OffsetFromShiftJIS
 #
 #         return (0x30A + byte2 + byte1 * 0xBC) * 0x80;
 #     } else {
-#         byte1 = arg0 >> 8;
+#         byte1 = shiftJISCodepoint >> 8;
 #         byte1 -= 0x81;
 #
-#         byte2 = (arg0 & 0xFF);
+#         byte2 = (shiftJISCodepoint & 0xFF);
 #         byte2 -= 0x40;
 #         if (byte2 >= 0x40) {
 #             byte2--;
