@@ -105,7 +105,7 @@ typedef struct {
 #define ACTOR_FLAG_FRIENDLY (1 << 3) // opposite of the unfriendly flag. flag is not checked against in the original game
 #define ACTOR_FLAG_NO_UPDATE_CULLING (1 << 4) // actor will keep updating even if outside of the uncull zone i.e. "update-culling" does not occur
 #define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will keep drawing even if outside of the uncull zone i.e. "draw-culling" does not occur
-#define ACTOR_FLAG_IS_IN_UNCULL_ZONE (1 << 6) // actor is currently in the uncull zone
+#define ACTOR_FLAG_IN_UNCULL_ZONE (1 << 6) // actor is currently in the uncull zone
 #define ACTOR_FLAG_REACT_TO_LENS (1 << 7) // hidden or revealed by Lens of Truth (depending on room flags)
 #define ACTOR_FLAG_TALK_REQUESTED (1 << 8) // Player has requested to talk to the actor
 #define ACTOR_FLAG_HOOK_CAN_CARRY (1 << 9) // brings the actor back to Player if hookshoted
