@@ -435,7 +435,7 @@ beginseg
     include "build/src/code/code_800FCE80.o"
     include "build/asm/fp.o"
     include "build/src/code/system_malloc.o"
-    include "build/src/code/code_800FD970.o"
+    include "build/src/code/rand.o"
     include "build/src/code/__osMalloc.o"
     include "build/src/code/printutils.o"
     include "build/src/code/sleep.o"
