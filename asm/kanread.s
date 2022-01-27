@@ -9,14 +9,14 @@
 
 .balign 16
 
-# s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint)
+# s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint) // Originally LeoGetKAdr
 # 
-# Returns the offset of the glyph texture data in `kanji` corresponding to a
-# given 2-byte Shift-JIS codepoint. No range validity check is carried out.
+# Returns the offset of the glyph texture data in the file `kanji` corresponding
+# to a given 2-byte Shift-JIS codepoint. No range validity check is carried out.
 #
 # A nice Shift-JIS codepoint table: https://uic.io/en/charset/show/shift_jis/
-# `kanji` contains the 'Level 1' kanji (889F-9872), and a reworked version of 
-# the non-kanji section.
+# The file `kanji` contains the 'Level 1' kanji (0x889F-0x9872), and a reworked
+# version of the non-kanji section that includes extra English and Hylian glyphs.
 #
 # @param shiftJISCodepoint Codepoint of glyph.
 # return s32 offset into `kanji` file.
@@ -26,7 +26,7 @@ BEGIN Kanji_OffsetFromShiftJIS
     li      $at, 0x8800
     slt     $at, $a0, $at
     bnez    $at, .not_kanji
-     # 0xBC is the size of one block of glyphs in `kanji`:
+     # 0xBC is the size of one block of glyphs in the `kanji` file:
      # 0x100 possible codepoints with the same byte1
      # - 0x40 unused at beginning 
      # - 1 unused at 0x7F 
@@ -71,14 +71,14 @@ BEGIN Kanji_OffsetFromShiftJIS
     mflo    $a2
 .not_kanji_lower_block:
     add     $a3, $a3, $a2
-    lui     $a2, %hi(kanjiNonKanjiIndices)
+    lui     $a2, %hi(sKanjiNonKanjiIndices)
     sll     $a3, $a3, 1
-    addiu   $a2, %lo(kanjiNonKanjiIndices)
+    addiu   $a2, %lo(sKanjiNonKanjiIndices)
     add     $a3, $a3, $a2
     lh      $a2, ($a3)
     jr      $ra
      sll    $v0, $a2, 7
-     # returns kanjiNonKanjiIndices[(adjusted byte2) + (adjusted byte1) * 0xBC] * FONT_CHAR_TEX_SIZE
+     # returns sKanjiNonKanjiIndices[(adjusted byte2) + (adjusted byte1) * 0xBC] * FONT_CHAR_TEX_SIZE
 END Kanji_OffsetFromShiftJIS
 
 # C pseudocode:
@@ -107,11 +107,11 @@ END Kanji_OffsetFromShiftJIS
 #             byte2--;
 #         }
 #
-#         return kanjiNonKanjiIndices[byte2 + byte1 * 0xBC] * 0x80;
+#         return sKanjiNonKanjiIndices[byte2 + byte1 * 0xBC] * 0x80;
 #     }
 # }
 
-BEGINDATA kanjiNonKanjiIndices
+BEGINDATA sKanjiNonKanjiIndices
     #       ___0    ___1    ___2    ___3    ___4    ___5    ___6    ___7    ___8    ___9    ___A    ___B    ___C    ___D    ___E    ___F
     .half 0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007, 0x0008, 0x0009, 0x000A, 0x000B, 0x000C, 0x000D, 0x000E, 0x000F # 814_
     .half 0x0010, 0x0011, 0x0012, 0x0013, 0x0014, 0x0015, 0x0016, 0x0017, 0x0018, 0x0019, 0x001A, 0x001B, 0x001C, 0x001D, 0x001E, 0x001F # 815_
@@ -203,4 +203,4 @@ BEGINDATA kanjiNonKanjiIndices
     .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 # 87D_
     .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0303, 0x0304, 0x0305, 0x0306, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000 # 87E_
     .half 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0307, 0x0308, 0x0309                         # 87F_
-ENDDATA kanjiNonKanjiIndices
+ENDDATA sKanjiNonKanjiIndices
