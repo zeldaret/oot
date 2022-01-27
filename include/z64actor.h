@@ -107,7 +107,7 @@ typedef struct {
 #define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will keep drawing even if outside of the uncull zone i.e. "draw-culling" does not occur
 #define ACTOR_FLAG_IN_UNCULL_ZONE (1 << 6) // actor is currently in the uncull zone
 #define ACTOR_FLAG_REACT_TO_LENS (1 << 7) // hidden or revealed by Lens of Truth (depending on room flags)
-#define ACTOR_FLAG_TALK_REQUESTED (1 << 8) // Player has requested to talk to the actor
+#define ACTOR_FLAG_TALK_REQUESTED (1 << 8) // Player has requested to talk to the actor; Player uses this flag differently than every other actor
 #define ACTOR_FLAG_HOOK_CAN_CARRY (1 << 9) // brings the actor back to Player if hookshoted
 #define ACTOR_FLAG_HOOK_BRING_PLAYER (1 << 10) // brings Player to the actor if hookshoted
 #define ACTOR_FLAG_ENKUSA_CUT (1 << 11) // grass actor has been cut
@@ -121,7 +121,7 @@ typedef struct {
 #define ACTOR_FLAG_SFX_AT_POS (1 << 19) // play sound from sfx field at the actor's position
 #define ACTOR_FLAG_SFX_CENTERED2 (1 << 20) // same as ACTOR_FLAG_SFX_CENTERED, unused in the original game
 #define ACTOR_FLAG_SFX_CENTERED (1 << 21) // play sound from sfx field at the center of the screen
-#define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22) // ignores point lights but can still be lit by environment lights
+#define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22) // ignores point lights but not directional lights (such as environment lights)
 #define ACTOR_FLAG_ALWAYS_THROW (1 << 23) // Player throws held actor even if standing still
 #define ACTOR_FLAG_PLAY_BODYHIT_SFX (1 << 24) // when actor hits Player's body, a thump sfx plays
 #define ACTOR_FLAG_OCARINA_NO_FREEZE (1 << 25) // actor doesnt freeze when Player has ocarina out or is using a warp song
