@@ -9,7 +9,7 @@
 #include "vt.h"
 
 #define FLAGS \
-    (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE | ACTOR_FLAG_CANT_TARGET)
+    (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE | ACTOR_FLAG_CANT_LOCK_ON)
 
 void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx);

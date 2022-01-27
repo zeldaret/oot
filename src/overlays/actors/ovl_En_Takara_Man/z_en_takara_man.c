@@ -10,7 +10,7 @@
 
 #define FLAGS                                                                                                  \
     (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY | ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING | \
-     ACTOR_FLAG_CANT_TARGET)
+     ACTOR_FLAG_CANT_LOCK_ON)
 
 void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);

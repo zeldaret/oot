@@ -64,7 +64,7 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
         this->actor.flags |= ACTOR_FLAG_OCARINA_NO_FREEZE;
         this->actionFunc = func_80BADF0C;
-        this->actor.flags |= ACTOR_FLAG_CANT_TARGET;
+        this->actor.flags |= ACTOR_FLAG_CANT_LOCK_ON;
     } else {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

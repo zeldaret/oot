@@ -116,7 +116,7 @@ typedef struct {
 #define ACTOR_FLAG_ARROW_CAN_CARRY (1 << 14) // when an arrow hits the actor it will attach to the actor and carry it
 #define ACTOR_FLAG_ARROW_IS_CARRYING (1 << 15) // an arrow is currently carrying this actor
 #define ACTOR_FLAG_IMMEDIATE_TALK (1 << 16) // forces Player to talk when in range. needs to be unset manually to avoid infinite talking
-#define ACTOR_FLAG_CARRY_SET_X_ROT (1 << 17) // copies Link's x rotation instead of y when holding the actor
+#define ACTOR_FLAG_HEAVYBLOCK (1 << 17) // changes actor carrying behavior specifically for the golden gauntlets block actor
 #define ACTOR_FLAG_CHECK_WITH_NAVI (1 << 18) // Navi can be used to trigger dialogue when targeting the actor
 #define ACTOR_FLAG_SFX_AT_POS (1 << 19) // play sound from sfx field at the actor's position
 #define ACTOR_FLAG_SFX_CENTERED2 (1 << 20) // same as ACTOR_FLAG_SFX_CENTERED, unused in the original game
@@ -126,7 +126,7 @@ typedef struct {
 #define ACTOR_FLAG_PLAY_BODYHIT_SFX (1 << 24) // when actor hits Player's body, a thump sfx plays
 #define ACTOR_FLAG_OCARINA_NO_FREEZE (1 << 25) // actor doesnt freeze when Player has ocarina out or is using a warp song
 #define ACTOR_FLAG_CAN_HOLD_SWITCH (1 << 26) // actor can press and hold down switches
-#define ACTOR_FLAG_CANT_TARGET (1 << 27) // prevents Z targeting an actor even if Navi is floating over it
+#define ACTOR_FLAG_CANT_LOCK_ON (1 << 27) // prevents locking on with Z targeting an actor even if Navi is floating over it
 #define ACTOR_FLAG_SFX_TIMER (1 << 28) // actor sfx field is used as timer state instead of an sfx id
 
 typedef struct Actor {
