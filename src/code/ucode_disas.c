@@ -631,7 +631,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
 
                 for (i1 = 0; i1 < ARRAY_COUNTU(sUCodeDisasModeHMacros); i1++) {
                     if (sft == sUCodeDisasModeHMacros[i1].shift) {
-                        for (i2 = 0; i2 < 4; i2++) {
+                        for (i2 = 0; i2 < ARRAY_COUNTU(sUCodeDisasModeHMacros[i1].values); i2++) {
                             if (s2 == sUCodeDisasModeHMacros[i1].values[i2].value) {
                                 DISAS_LOG("gsDP%s(%s),", sUCodeDisasModeHMacros[i1].name,
                                           sUCodeDisasModeHMacros[i1].values[i2].name);
@@ -673,7 +673,7 @@ void UCodeDisas_Disassemble(UCodeDisas* this, GfxMod* ptr) {
                 } else {
                     for (i1 = 0; i1 * 1 < ARRAY_COUNTU(sUCodeDisasModeLMacros); i1++) {
                         if (sft == sUCodeDisasModeLMacros[i1].shift) {
-                            for (i2 = 0; i2 < 4; i2++) {
+                            for (i2 = 0; i2 < ARRAY_COUNTU(sUCodeDisasModeLMacros[i1].values); i2++) {
                                 if (s2 == sUCodeDisasModeLMacros[i1].values[i2].value) {
                                     DISAS_LOG("gsDP%s(%s),", sUCodeDisasModeLMacros[i1].name,
                                               sUCodeDisasModeLMacros[i1].values[i2].name);

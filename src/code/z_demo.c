@@ -1944,7 +1944,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     if (func_8006472C(globalCtx, csCtx, 0.0f)) {
         csCtx->linkAction = NULL;
 
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < ARRAY_COUNT(csCtx->npcActions); i++) {
             csCtx->npcActions[i] = NULL;
         }
 
@@ -1986,7 +1986,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         csCtx->unk_12 = 0;
         csCtx->linkAction = NULL;
 
-        for (i = 0; i < 10; i++) {
+        for (i = 0; i < ARRAY_COUNT(csCtx->npcActions); i++) {
             csCtx->npcActions[i] = NULL;
         }
 

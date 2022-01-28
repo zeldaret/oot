@@ -41,19 +41,19 @@ void func_800DDE3C(void) {
 void AudioHeap_ResetLoadStatus(void) {
     s32 i;
 
-    for (i = 0; i < 0x30; i++) {
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.fontLoadStatus); i++) {
         if (gAudioContext.fontLoadStatus[i] != 5) {
             gAudioContext.fontLoadStatus[i] = 0;
         }
     }
 
-    for (i = 0; i < 0x30; i++) {
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.sampleFontLoadStatus); i++) {
         if (gAudioContext.sampleFontLoadStatus[i] != 5) {
             gAudioContext.sampleFontLoadStatus[i] = 0;
         }
     }
 
-    for (i = 0; i < 0x80; i++) {
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.seqLoadStatus); i++) {
         if (gAudioContext.seqLoadStatus[i] != 5) {
             gAudioContext.seqLoadStatus[i] = 0;
         }
@@ -627,14 +627,14 @@ void func_800DF1D8(f32 p, f32 q, u16* out) {
     tmp[1] = (f32)((q * p) * 262159.0f);
     tmp[9] = (f32)(((p * p) + q) * 262159.0f);
 
-    for (i = 2; i < 8; i++) {
+    for (i = 2; i < ARRAY_COUNT(tmp) / 2; i++) {
         //! @bug value should be stored to tmp[i] and tmp[8 + i], otherwise we read
         //! garbage in later loop iterations.
         out[i] = q * tmp[i - 2] + p * tmp[i - 1];
         out[8 + i] = q * tmp[6 + i] + p * tmp[7 + i];
     }
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < ARRAY_COUNT(tmp); i++) {
         out[i] = tmp[i];
     }
 }
@@ -779,7 +779,7 @@ s32 AudioHeap_ResetStep(void) {
         case 1:
             AudioHeap_Init();
             gAudioContext.resetStatus = 0;
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < ARRAY_COUNT(gAudioContext.aiBufLengths); i++) {
                 gAudioContext.aiBufLengths[i] = gAudioContext.audioBufferParameters.maxAiBufferLength;
                 for (j = 0; j < AIBUF_LEN; j++) {
                     gAudioContext.aiBuffers[i][j] = 0;
@@ -900,7 +900,7 @@ void AudioHeap_Init(void) {
 
     gAudioContext.unk_3520 = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
     func_800DDE3C();
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.synthesisReverbs); i++) {
         gAudioContext.synthesisReverbs[i].useReverb = 0;
     }
 

@@ -284,7 +284,7 @@ void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     PadMgr_UnlockSerialMesgQueue(padMgr, queue);
 
     mask = 0;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(padMgr->padStatus); i++) {
         if (padMgr->padStatus[i].errno == 0) {
             if (padMgr->padStatus[i].type == CONT_TYPE_NORMAL) {
                 mask |= 1 << i;

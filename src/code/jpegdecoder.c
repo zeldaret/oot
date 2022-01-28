@@ -130,7 +130,7 @@ s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* out
     u16 codeOff = 0;
     u16 buff = JpegDecoder_ReadBits(16);
 
-    for (codeIdx = 0; codeIdx < 16; codeIdx++) {
+    for (codeIdx = 0; codeIdx < ARRAY_COUNT(hTable->codesB); codeIdx++) {
         if (hTable->codesB[codeIdx] == 0xFFFF) {
             continue;
         }

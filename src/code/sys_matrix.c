@@ -958,8 +958,8 @@ void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode) {
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     s32 i, j;
 
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < 4; j++) {
+    for (i = 0; i < ARRAY_COUNT(mf->mf); i++) {
+        for (j = 0; j < ARRAY_COUNT(mf->mf[i]); j++) {
             if (!(-32768.0f <= mf->mf[i][j]) || !(mf->mf[i][j] < 32768.0f)) {
                 osSyncPrintf("%s %d: [%s] =\n"
                              "/ %12.6f %12.6f %12.6f %12.6f \\\n"

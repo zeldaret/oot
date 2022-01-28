@@ -233,7 +233,7 @@ void AudioLoad_InitSampleDmaBuffers(s32 arg0) {
         gAudioContext.sampleDmas[i].reuseIndex = i;
     }
 
-    for (i = gAudioContext.sampleDmaCount; i < 0x100; i++) {
+    for (i = gAudioContext.sampleDmaCount; i < ARRAY_COUNT(gAudioContext.sampleDmaReuseQueue1); i++) {
         gAudioContext.sampleDmaReuseQueue1[i] = 0;
     }
 
@@ -264,7 +264,7 @@ void AudioLoad_InitSampleDmaBuffers(s32 arg0) {
         gAudioContext.sampleDmas[i].reuseIndex = i - gAudioContext.sampleDmaListSize1;
     }
 
-    for (i = gAudioContext.sampleDmaCount; i < 0x100; i++) {
+    for (i = gAudioContext.sampleDmaCount; i < ARRAY_COUNT(gAudioContext.sampleDmaReuseQueue2); i++) {
         gAudioContext.sampleDmaReuseQueue2[i] = gAudioContext.sampleDmaListSize1;
     }
 
@@ -1094,7 +1094,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     Audio_InitMesgQueues();
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.aiBufLengths); i++) {
         gAudioContext.aiBufLengths[i] = 0xA0;
     }
 
@@ -1130,7 +1130,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     AudioHeap_InitMainPools(D_8014A6C4.initPoolSize);
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ARRAY_COUNT(gAudioContext.aiBuffers); i++) {
         gAudioContext.aiBuffers[i] = AudioHeap_AllocZeroed(&gAudioContext.audioInitPool, AIBUF_LEN * sizeof(s16));
     }
 

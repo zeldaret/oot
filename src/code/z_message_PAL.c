@@ -1284,7 +1284,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                 digits[3] -= 10;
             }
 
-            for (i = 0; i < 4; i++) {
+            for (i = 0; i < ARRAY_COUNT(digits); i++) {
                 Font_LoadChar(font, digits[i] + '0' - ' ', charTexIdx);
                 charTexIdx += FONT_CHAR_TEX_SIZE;
                 msgCtx->msgBufDecoded[decodedBufPos] = digits[i] + '0';
@@ -1322,7 +1322,7 @@ void Message_Decode(GlobalContext* globalCtx) {
             }
 
             loadChar = false;
-            for (i = 0; i < 4; i++) {
+            for (i = 0; i < ARRAY_COUNT(digits); i++) {
                 if (i == 3 || digits[i] != 0) {
                     loadChar = true;
                 }
@@ -1423,7 +1423,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                     if (temp_s2) {}
 
                     loadChar = false;
-                    for (i = 0; i < 4; i++) {
+                    for (i = 0; i < ARRAY_COUNT(digits); i++) {
                         if (i == 3 || digits[i] != 0) {
                             loadChar = true;
                         }

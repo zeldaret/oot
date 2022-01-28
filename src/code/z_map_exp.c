@@ -530,7 +530,7 @@ void Map_Update(GlobalContext* globalCtx) {
                     interfaceCtx->mapPalette[31] = 0;
                 }
 
-                for (floor = 0; floor < 8; floor++) {
+                for (floor = 0; floor < ARRAY_COUNT(gMapData->floorCoordY[mapIndex]); floor++) {
                     if (player->actor.world.pos.y > gMapData->floorCoordY[mapIndex][floor]) {
                         break;
                     }

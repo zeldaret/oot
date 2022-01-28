@@ -474,7 +474,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
             attrs->filter = chan->filter;
 
             if (attrs->filter != NULL) {
-                for (i = 0; i < 8; i++) {
+                for (i = 0; i < ARRAY_COUNT(attrs->filterBuf); i++) {
                     attrs->filterBuf[i] = attrs->filter[i];
                 }
                 attrs->filter = attrs->filterBuf;

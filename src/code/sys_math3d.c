@@ -1784,7 +1784,7 @@ s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, V
     /**
      * Places the found intersection points into intersectA and intersectB. IntersectA is always closer to point A
      */
-    for (count = 0, i = 0; i < 4; i++) {
+    for (count = 0, i = 0; i < ARRAY_COUNT(intPts); i++) {
         if (intFlags & (1 << i)) {
             if (count == 0) {
                 *intersectA = intPts[i];

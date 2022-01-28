@@ -37,7 +37,7 @@ s32 func_800BB2B4(Vec3f* pos, f32* roll, f32* fov, CutsceneCameraPoint* point, s
         return true;
     }
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(pointData); i++) {
         pointData[i][0] = point[key + i].pos.x;
         pointData[i][1] = point[key + i].pos.y;
         pointData[i][2] = point[key + i].pos.z;
