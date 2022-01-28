@@ -34,8 +34,8 @@ typedef struct EnAnubice {
     /* 0x028C */ Vec3f fireballRot;
     /* 0x0298 */ Vec3f home;
     /* 0x02A4 */ Vec3f knockbackRecoveryVelocity;
-    /* 0x02B0 */ BgHidanCurtain* flameCircles[4];
-    /* 0x02C0 */ char unk_2C0[0x8];
+    /* 0x02B0 */ BgHidanCurtain* flameCircles[5];
+    /* 0x02C0 */ char unk_2C0[0x4];
     /* 0x02C8 */ ColliderCylinder col;
 } EnAnubice; // size = 0x0314
 
