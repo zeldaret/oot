@@ -3585,7 +3585,7 @@ void func_8083821C(Player* this) {
     s32 i;
 
     // clang-format off
-    for (i = 0; i < 18; i++) { this->flameTimers[i] = Rand_S16Offset(0, 200); }
+    for (i = 0; i < ARRAY_COUNT(this->flameTimers); i++) { this->flameTimers[i] = Rand_S16Offset(0, 200); }
     // clang-format on
 
     this->isBurning = true;
@@ -6157,7 +6157,7 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
         sp4C = phi_f2 = sp50[0].x;
         sp44 = phi_f12 = sp50[0].z;
-        for (i = 1; i < 3; i++) {
+        for (i = 1; i < ARRAY_COUNT(sp50); i++) {
             if (sp4C > sp50[i].x) {
                 sp4C = sp50[i].x;
             } else if (phi_f2 < sp50[i].x) {

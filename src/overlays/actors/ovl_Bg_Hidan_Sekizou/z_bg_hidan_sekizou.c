@@ -193,7 +193,7 @@ void func_8088D434(BgHidanSekizou* this, GlobalContext* globalCtx) {
     isAligned[0] = fabsf(this->dyna.actor.world.pos.x - player->actor.world.pos.x) < 80.0f;
     isAligned[1] = fabsf(this->dyna.actor.world.pos.z - player->actor.world.pos.z) < 80.0f;
     phi_s4 = 0;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_168); i++) {
         s16 diff;
         s16* temp = &this->unk_168[i];
 
@@ -420,7 +420,7 @@ void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         }
     } else {
         func_8088DE08(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)), this->dyna.actor.shape.rot.y, sp6C);
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < ARRAY_COUNT(sp6C); i++) {
             s32 index = sp6C[i];
 
             if (this->unk_168[index] > 0) {

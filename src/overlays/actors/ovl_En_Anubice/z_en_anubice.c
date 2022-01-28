@@ -358,6 +358,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.yOffset == 0.0f) {
         EnAnubice_Hover(this, globalCtx);
         for (i = 0; i < 5; i++) {
+            // Shouldn't flameCircles have length 5?
             flameCircle = this->flameCircles[i];
 
             if (flameCircle != NULL && fabsf(flameCircle->actor.world.pos.x - this->actor.world.pos.x) < 60.0f &&

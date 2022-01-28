@@ -240,7 +240,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
     for (i = iterateCount - 2; i < iterateCount; i++) {
         elementInit = &sTrisInit.elements[i];
 
-        for (j = 0; j < 3; j++) {
+        for (j = 0; j < ARRAY_COUNT(scytheVertices); j++) {
             scytheVertices[j].x = this->actor.world.pos.x + elementInit->dim.vtx[j].z * actorRotYSin +
                                   elementInit->dim.vtx[j].x * actorRotYCos;
             scytheVertices[j].y = this->actor.world.pos.y + elementInit->dim.vtx[j].y;
@@ -250,7 +250,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
 
         Collider_SetTrisVertices(&this->colliderScythe, i, &scytheVertices[0], &scytheVertices[1], &scytheVertices[2]);
 
-        for (j = 0; j < 3; j++) {
+        for (j = 0; j < ARRAY_COUNT(scytheVertices); j++) {
             scytheVertices[j].x = (2 * this->actor.world.pos.x) - scytheVertices[j].x;
             scytheVertices[j].z = (2 * this->actor.world.pos.z) - scytheVertices[j].z;
         }

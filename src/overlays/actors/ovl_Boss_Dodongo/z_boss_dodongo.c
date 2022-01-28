@@ -876,12 +876,12 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Math_SmoothStepToF(&this->unk_20C, 0, 1, 0.001f, 0.0);
 
     if ((this->unk_19E % 128) == 0) {
-        for (i = 0; i < 50; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->unk_324); i++) {
             this->unk_324[i] = (Rand_ZeroOne() * 0.25f) + 0.5f;
         }
     }
 
-    for (i = 0; i < 50; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_25C); i++) {
         this->unk_25C[i] += this->unk_324[i];
     }
 
@@ -1206,7 +1206,7 @@ void BossDodongo_PlayerPosCheck(BossDodongo* this, GlobalContext* globalCtx) {
 
     this->playerPosInRange = false;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(sCornerPositions); i++) {
         temp_v1 = &sCornerPositions[i];
 
         if ((fabsf(this->actor.world.pos.x - temp_v1->x) < 200.0f) &&

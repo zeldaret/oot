@@ -224,7 +224,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_150[0].unk_0.z = Rand_ZeroOne() * 3.0f + 1.0f;
             break;
         case DEMOKANKYO_CLOUDS:
-            for (i = 0; i < 30; i++) {
+            for (i = 0; i < ARRAY_COUNT(this->unk_150); i++) {
                 this->unk_150[i].unk_20 = Rand_ZeroOne() * 65535.0f;
                 this->unk_150[i].unk_18 = Rand_ZeroOne() * 100.0f + 60.0f;
             }
@@ -265,7 +265,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
         default:
             break;
     }
-    for (i = 0; i < 30; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_150); i++) {
         this->unk_150[i].unk_22 = 0;
     }
     DemoKankyo_SetupAction(this, DemoKankyo_SetupType);
@@ -400,7 +400,7 @@ void DemoKankyo_UpdateRock(DemoKankyo* this, GlobalContext* globalCtx) {
 void DemoKankyo_UpdateClouds(DemoKankyo* this, GlobalContext* globalCtx) {
     u8 i;
 
-    for (i = 0; i < 30; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_150); i++) {
         this->unk_150[i].unk_20 += (s16)this->unk_150[i].unk_18;
     }
 }
@@ -523,7 +523,7 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1186);
 
-    for (i = 0; i < 30; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_150); i++) {
         s32 pad[2];
 
         dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
@@ -658,7 +658,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1425);
 
-    for (i = 0; i < 30; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_150); i++) {
         dx = -(Math_SinS(this->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + (i / 30.0f) * 10.0f);
         dy = Math_CosS(this->unk_150[i].unk_20 - 0x8000) * 5.0f + 1200.0f;
         dz = (Math_CosS(this->unk_150[i].unk_20 - 0x8000) * 120.0f) * (30.0f + (i / 30.0f) * 10.0f);

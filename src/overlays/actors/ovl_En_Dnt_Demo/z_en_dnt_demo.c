@@ -77,7 +77,7 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     osSyncPrintf("\n\n");
     // "Deku Scrub mask show start"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デグナッツお面品評会開始 ☆☆☆☆☆ \n" VT_RST);
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
         this->scrubPos[i] = sScrubPos[i];
         this->scrubs[i] = (EnDntNomal*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
                                                           ACTOR_EN_DNT_NOMAL, this->scrubPos[i].x, this->scrubPos[i].y,
@@ -112,7 +112,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->leaderSignal != DNT_SIGNAL_NONE) {
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
             this->scrubs[i]->stageSignal = this->leaderSignal;
             this->scrubs[i]->action = this->action;
             this->scrubs[i]->stagePrize = DNT_PRIZE_NONE;
@@ -128,7 +128,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             this->subCamera = SUBCAM_FREE;
         }
         if (this->judgeTimer != 0) {
-            for (i = 0; i < 9; i++) {
+            for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
                 this->scrubs[i]->stageSignal = DNT_SIGNAL_HIDE;
             }
             this->judgeTimer = 0;
@@ -139,7 +139,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         }
         this->debugArrowTimer = 0;
         if (this->judgeTimer == 40) {
-            for (i = 0; i < 9; i++) {
+            for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
                 this->scrubs[i]->stageSignal = DNT_SIGNAL_LOOK;
             }
         }
@@ -236,7 +236,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                     }
             }
             if (reaction != DNT_SIGNAL_NONE) {
-                for (i = 0; i < 9; i++) {
+                for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
                     if (delay != 0) {
                         this->scrubs[i]->timer3 = delay * i;
                     }
@@ -265,7 +265,7 @@ void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->leaderSignal != DNT_SIGNAL_NONE) {
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
             this->scrubs[i]->action = this->action;
             this->scrubs[i]->stageSignal = this->leaderSignal;
             this->scrubs[i]->stagePrize = DNT_PRIZE_NONE;
@@ -281,7 +281,7 @@ void EnDntDemo_Results(EnDntDemo* this, GlobalContext* globalCtx) {
         this->leaderSignal = this->action = DNT_SIGNAL_NONE;
         this->actionFunc = EnDntDemo_Prize;
     } else if (this->prize == DNT_PRIZE_STICK) {
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
             s16 offsetAngle = -this->leader->actor.shape.rot.y;
             Vec3f leaderPos = this->leader->actor.world.pos;
             f32 offsetDist;
@@ -302,7 +302,7 @@ void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->leaderSignal != DNT_SIGNAL_NONE) {
-        for (i = 0; i < 9; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->scrubs); i++) {
             this->scrubs[i]->action = this->action;
             this->scrubs[i]->stageSignal = this->leaderSignal;
             this->scrubs[i]->stagePrize = DNT_PRIZE_NONE;

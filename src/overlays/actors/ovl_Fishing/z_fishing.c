@@ -2930,7 +2930,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->unk_15C++;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_17A); i++) {
         if (this->unk_17A[i] != 0) {
             this->unk_17A[i]--;
         }

@@ -421,7 +421,7 @@ void EnOssan_SpawnItemsOnShelves(EnOssan* this, GlobalContext* globalCtx, ShopIt
     s16 itemParams;
     s32 i;
 
-    for (i = 0; i < 8; i++, shopItems++) {
+    for (i = 0; i < ARRAY_COUNT(this->shelfSlots); i++, shopItems++) {
         if (shopItems->shopItemIndex < 0) {
             this->shelfSlots[i] = NULL;
         } else {
@@ -449,7 +449,7 @@ void EnOssan_UpdateShopOfferings(EnOssan* this, GlobalContext* globalCtx) {
     if (this->actor.params == OSSAN_TYPE_MASK) {
         storeItems = sShopkeeperStores[this->actor.params];
         if (1) {}
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->shelfSlots); i++) {
             shopItem = &storeItems[i];
             if (shopItem->shopItemIndex >= 0 && this->shelfSlots[i] == NULL) {
                 s16 params = sShopItemReplaceFunc[shopItem->shopItemIndex](shopItem->shopItemIndex);

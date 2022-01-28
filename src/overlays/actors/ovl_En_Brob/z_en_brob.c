@@ -265,7 +265,7 @@ void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if ((acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & 0x10)) ||
         (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & 0x10))) {
 
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->colliders); i++) {
             this->colliders[i].base.atFlags &= ~(AT_HIT | AT_BOUNCED);
             this->colliders[i].base.acFlags &= ~AC_HIT;
         }
@@ -282,7 +282,7 @@ void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx2) {
             func_809CB008(this);
         }
 
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->colliders); i++) {
             this->colliders[i].base.atFlags &= ~(AT_HIT | AT_BOUNCED);
             this->colliders[i].base.acFlags &= ~AC_HIT;
         }

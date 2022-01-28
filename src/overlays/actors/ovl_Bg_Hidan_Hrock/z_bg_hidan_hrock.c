@@ -102,7 +102,7 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
         colliderElementInit = &sTrisInit.elements[i];
 
         if (1) {
-            for (j = 0; j < 3; j++) {
+            for (j = 0; j < ARRAY_COUNT(vertices); j++) {
                 Vec3f* vtx = &colliderElementInit->dim.vtx[j];
 
                 vertices[j].x = vtx->z * sinRotY + (thisx->home.pos.x + vtx->x * cosRotY);

@@ -281,7 +281,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
                     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                     this->timers[0] = 15;
                     this->actor.world.pos.y = 150.0f;
-                    for (i = 0; i < 10; i++) {
+                    for (i = 0; i < ARRAY_COUNT(this->rightMane.pos); i++) {
                         this->rightMane.pos[i].x += Rand_CenteredFloat(100.0f);
                         this->rightMane.pos[i].z += Rand_CenteredFloat(100.0f);
                         this->leftMane.pos[i].x += Rand_CenteredFloat(100.0f);

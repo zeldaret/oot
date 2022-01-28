@@ -140,7 +140,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     spBC[0] = (parent->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
     spE0[0] = 1;
 
-    for (i = 1; i < 3; i++) {
+    for (i = 1; i < ARRAY_COUNT(spE0); i++) {
         spE0[i] = 0;
     }
 

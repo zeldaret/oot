@@ -176,7 +176,7 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
     } else if (!player->isBurning) {
         distToBurn = (this->actor.scale.x * 130.0f) / 4.2000003f;
         if (this->actor.xyzDistToPlayerSq < SQ(distToBurn)) {
-            for (i = 0; i < 18; i++) {
+            for (i = 0; i < ARRAY_COUNT(player->flameTimers); i++) {
                 player->flameTimers[i] = Rand_S16Offset(0, 200);
             }
             player->isBurning = true;

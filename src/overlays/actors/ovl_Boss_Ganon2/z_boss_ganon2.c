@@ -2612,7 +2612,7 @@ void func_80904D88(BossGanon2* this, GlobalContext* globalCtx) {
         }
         gSPDisplayList(POLY_XLU_DISP++, ovl_Boss_Ganon2_DL_00B308);
 
-        for (i = 0; i < 15; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->unk_234) - 1; i++) {
             Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(this->unk_30C, this->unk_30C, this->unk_30C, MTXMODE_APPLY);
@@ -2963,7 +2963,7 @@ void func_80906538(BossGanon2* this, u8* shadowTexture, f32 arg2) {
     Vec3f sp70;
     Vec3f sp64;
 
-    for (i = 0; i < 15; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_234) - 1; i++) {
         if ((arg2 == 0.0f) || ((j = D_809071CC[i]) >= 0)) {
             if (arg2 > 0.0f) {
                 lerpx = this->unk_234[i].x + (this->unk_234[j].x - this->unk_234[i].x) * arg2;

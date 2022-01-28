@@ -99,7 +99,7 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->initActionFunc = func_80967AD0;
             Actor_SetScale(&this->actor, 1.0f);
 
-            for (i = 0; i < 16; i++) {
+            for (i = 0; i < ARRAY_COUNT(this->unk_1B4); i++) {
                 func_80967A04(this, i);
                 this->unk_1B4[i] = 0.0f;
             }

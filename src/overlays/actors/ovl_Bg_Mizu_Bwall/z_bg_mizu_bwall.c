@@ -202,7 +202,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Vec3f vtx[3];
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
-                        for (j = 0; j < 3; j++) {
+                        for (j = 0; j < ARRAY_COUNT(sTrisInitFloor.elements[i].dim.vtx); j++) {
                             offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
                             offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
                             offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z + 2.0f;
@@ -238,7 +238,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Vec3f vtx[3];
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitRutoWall); i++) {
-                        for (j = 0; j < 3; j++) {
+                        for (j = 0; j < ARRAY_COUNT(sTrisInitRutoWall.elements[i].dim.vtx); j++) {
                             offset.x = sTrisInitRutoWall.elements[i].dim.vtx[j].x;
                             offset.y = sTrisInitRutoWall.elements[i].dim.vtx[j].y;
                             offset.z = sTrisInitRutoWall.elements[i].dim.vtx[j].z + 2.0f;
@@ -274,7 +274,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Vec3f vtx[3];
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
-                        for (j = 0; j < 3; j++) {
+                        for (j = 0; j < ARRAY_COUNT(sTrisInitFloor.elements[i].dim.vtx); j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitUnusedWall.
                             offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
@@ -312,7 +312,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Vec3f vtx[3];
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
-                        for (j = 0; j < 3; j++) {
+                        for (j = 0; j < ARRAY_COUNT(sTrisInitFloor.elements[i].dim.vtx); j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.
                             offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
@@ -350,7 +350,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Vec3f vtx[3];
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
-                        for (j = 0; j < 3; j++) {
+                        for (j = 0; j < ARRAY_COUNT(sTrisInitFloor.elements[i].dim.vtx); j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.
                             offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;

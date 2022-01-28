@@ -2726,7 +2726,7 @@ void BossGanon_UpdateDamage(BossGanon* this, GlobalContext* globalCtx) {
                 }
 
                 for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {
-                    for (j = 1; j < 12; j++) {
+                    for (j = 1; j < ARRAY_COUNT(sCape->strands[j].velocities); j++) {
                         sCape->strands[i].velocities[j].x = Rand_CenteredFloat(15.0f);
                         sCape->strands[i].velocities[j].z = Rand_CenteredFloat(15.0f);
                     }
@@ -2751,7 +2751,7 @@ void BossGanon_UpdateDamage(BossGanon* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, 0);
 
             for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {
-                for (j = 1; j < 12; j++) {
+                for (j = 1; j < ARRAY_COUNT(sCape->strands[i].velocities); j++) {
                     sCape->strands[i].velocities[j].x = Rand_CenteredFloat(15.0f);
                     sCape->strands[i].velocities[j].z = Rand_CenteredFloat(15.0f);
                 }
@@ -3714,8 +3714,8 @@ void BossGanon_GenShadowTexture(u8* tex, BossGanon* this, GlobalContext* globalC
         func_808E0254(this, tex, i / 5.0f);
     }
 
-    for (i = 0; i < 12; i++) {
-        for (j = 0; j < 12; j++) {
+    for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {
+        for (j = 0; j < ARRAY_COUNT(sCape->strands[i].joints); j++) {
             sp7C.x = sCape->strands[i].joints[j].x - this->actor.world.pos.x;
             sp7C.y = sCape->strands[i].joints[j].y - this->actor.world.pos.y + 76.0f + 100.0f + 30.0f;
             sp7C.z = sCape->strands[i].joints[j].z - this->actor.world.pos.z;

@@ -84,7 +84,7 @@ s32 EnHorseGameCheck_InitIngoRace(EnHorseGameCheckBase* base, GlobalContext* glo
 
     this->base.type = HORSEGAME_INGO_RACE;
     this->startFlags = 0;
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->playerCheck); i++) {
         this->playerCheck[i] = 0;
     }
     this->ingoHorse =
@@ -156,7 +156,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
 
     this->startTimer++;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ARRAY_COUNT(sIngoRaceCheckpoints); i++) {
         if ((player->rideActor != NULL) &&
             (Math3D_Vec3f_DistXYZ(&sIngoRaceCheckpoints[i], &player->rideActor->world.pos) < 400.0f)) {
             if ((i > 0) && (this->playerCheck[i - 1] == 1)) {
@@ -185,7 +185,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HORSE_GOAL);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < ARRAY_COUNT(this->playerCheck); i++) {
                 this->playerCheck[i] = 0;
             }
         }
@@ -200,7 +200,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HORSE_GOAL);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
-            for (i = 0; i < 3; i++) {
+            for (i = 0; i < ARRAY_COUNT(this->ingoCheck); i++) {
                 this->ingoCheck[i] = 0;
             }
         }
@@ -278,7 +278,7 @@ s32 EnHorseGameCheck_InitMalonRace(EnHorseGameCheckBase* base, GlobalContext* gl
     this->raceFlags = 0;
     this->finishTimer = 0;
     this->result = MALONRACE_NO_RESULT;
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->fenceCheck); i++) {
         this->fenceCheck[i] = 0;
     }
     this->lapCount = 0;
@@ -342,7 +342,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
         Player* player2 = player;
         f32 dist;
 
-        for (i = 0; i < 16; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->fenceCheck); i++) {
             if ((this->lapCount == 0) && (i >= 8)) {
                 break;
             }

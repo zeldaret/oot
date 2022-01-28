@@ -321,7 +321,7 @@ void MirRay_SetupReflectionPolys(MirRay* this, GlobalContext* globalCtx, MirRayS
     sp60[1] = -((*shieldMtx).yz * this->reflectRange) * this->reflectIntensity * 400.0f;
     sp60[2] = -((*shieldMtx).zz * this->reflectRange) * this->reflectIntensity * 400.0f;
 
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->shieldCorners); i++) {
         posA.x = ((*shieldMtx).xw + (this->shieldCorners[i].x * (*shieldMtx).xx)) +
                  (this->shieldCorners[i].y * (*shieldMtx).xy);
         posA.y = ((*shieldMtx).yw + (this->shieldCorners[i].x * (*shieldMtx).yx)) +

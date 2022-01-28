@@ -502,11 +502,11 @@ void func_80A4F77C(EnGs* this) {
     static Vec3f D_80A4FE3C = { 1.0f, 1.0f, 1.0f };
     s32 i;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_1A0); i++) {
         this->unk_1A0[i] = D_80A4FE34;
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->unk_1B4); i++) {
         this->unk_1B4[i] = D_80A4FE3C;
     }
 

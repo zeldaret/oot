@@ -2277,7 +2277,7 @@ void BossSst_HandSetupFrozen(BossSst* this) {
     this->ready = false;
     this->effectMode = BONGO_ICE;
     this->timer = 35;
-    for (i = 0; i < 18; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         this->effects[i].move = false;
     }
 
@@ -3048,7 +3048,7 @@ void BossSst_SpawnIceShard(BossSst* this) {
     spawnPos.y = Math_SinS(this->actor.shape.rot.x) * 50.0f + this->actor.world.pos.y - 10.0f;
     spawnPos.z = Math_SinS(this->actor.shape.rot.y) * offXZ + this->actor.world.pos.z;
 
-    for (i = 0; i < 18; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         BossSstEffect* ice = &this->effects[i];
 
         Math_Vec3f_Copy(&ice->pos, &spawnPos);
@@ -3074,7 +3074,7 @@ void BossSst_IceShatter(BossSst* this) {
     this->effects[0].status = 1;
     Audio_PlayActorSound2(&this->actor, NA_SE_PL_ICE_BROKEN);
 
-    for (i = 0; i < 18; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         BossSstEffect* ice = &this->effects[i];
 
         if (ice->move) {
@@ -3093,7 +3093,7 @@ void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
     if (this->effectMode != BONGO_NULL) {
         if (this->effectMode == BONGO_ICE) {
             if (this->effects[0].status) {
-                for (i = 0; i < 18; i++) {
+                for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
                     effect = &this->effects[i];
 
                     if (effect->move) {
@@ -3163,7 +3163,7 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->effects[0].alpha);
             gSPDisplayList(POLY_XLU_DISP++, gBongoIceCrystalDL);
 
-            for (i = 0; i < 18; i++) {
+            for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
                 effect = &this->effects[i];
                 if (effect->move) {
                     func_8003435C(&effect->pos, globalCtx);

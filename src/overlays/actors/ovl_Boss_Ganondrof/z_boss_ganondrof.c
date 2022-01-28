@@ -407,14 +407,14 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
 
     this->armRotY = Math_SinS(this->work[GND_VARIANCE_TIMER] * 0x6E8) * 0;
     this->armRotZ = Math_CosS(this->work[GND_VARIANCE_TIMER] * 0x8DC) * 300.0f;
-    for (i = 0; i < 30; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->rideRotY); i++) {
         this->rideRotY[i] = Math_SinS(this->work[GND_VARIANCE_TIMER] * ((i * 50) + 0x7B0)) * 100.0f;
         this->rideRotZ[i] = Math_CosS(this->work[GND_VARIANCE_TIMER] * ((i * 50) + 0x8DC)) * 100.0f;
     }
 
     if (horse->bossGndSignal == FHG_START_FIGHT) {
         BossGanondrof_SetupPaintings(this);
-        for (i = 0; i < 30; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->rideRotY); i++) {
             this->rideRotY[i] = this->rideRotZ[i] = 0.0f;
         }
     }
