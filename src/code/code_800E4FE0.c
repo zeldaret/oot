@@ -441,7 +441,7 @@ void Audio_ProcessCmd(AudioCmd* cmd) {
         }
         if (cmd->arg1 == 0xFF) {
             phi_v0 = gAudioContext.unk_5BDC[cmd->arg0];
-            for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+            for (i = 0; i < 16; i++) {
                 if (phi_v0 & 1) {
                     func_800E6300(seqPlayer->channels[i], cmd);
                 }

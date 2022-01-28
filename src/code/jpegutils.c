@@ -7,7 +7,7 @@ void JpegUtils_ProcessQuantizationTable(u8* dqt, JpegQuantizationTable* qt, u8 c
         u8 j;
 
         dqt++;
-        for (j = 0; j < ARRAY_COUNT(qt[i].table); j++) {
+        for (j = 0; j < 64; j++) {
             qt[i].table[j] = *dqt++;
         }
     }

@@ -246,7 +246,7 @@ void AudioSeq_SequencePlayerSetupChannels(SequencePlayer* seqPlayer, u16 channel
     SequenceChannel* channel;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(seqPlayer->channels); i++) {
+    for (i = 0; i < 16; i++) {
         if (channelBits & 1) {
             channel = seqPlayer->channels[i];
             channel->fontId = seqPlayer->defaultFont;

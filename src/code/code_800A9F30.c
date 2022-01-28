@@ -41,7 +41,7 @@ void func_800AA000(f32 a, u8 b, u8 c, u8 d) {
     if (temp1 < 1000 && b != 0 && d != 0) {
         temp2 = b - (temp1 * 255) / 1000;
 
-        for (i = 0; i < ARRAY_COUNT(D_80160FD0.unk_04); i++) {
+        for (i = 0; i < 0x40; i++) {
             if (D_80160FD0.unk_04[i] == 0) {
                 if (temp2 > 0) {
                     D_80160FD0.unk_04[i] = temp2;

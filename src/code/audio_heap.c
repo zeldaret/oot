@@ -627,7 +627,7 @@ void func_800DF1D8(f32 p, f32 q, u16* out) {
     tmp[1] = (f32)((q * p) * 262159.0f);
     tmp[9] = (f32)(((p * p) + q) * 262159.0f);
 
-    for (i = 2; i < ARRAY_COUNT(tmp) / 2; i++) {
+    for (i = 2; i < 8; i++) {
         //! @bug value should be stored to tmp[i] and tmp[8 + i], otherwise we read
         //! garbage in later loop iterations.
         out[i] = q * tmp[i - 2] + p * tmp[i - 1];
