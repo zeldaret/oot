@@ -42,8 +42,10 @@ typedef struct EnInsect {
 typedef enum {
     /* 0 */ INSECT_PERMANENT,
     /* 1 */ INSECT_SPAWNED,
-    /* 2 */ INSECT_DROPPED,
+    /* 2 */ INSECT_FIRST_DROPPED,
     /* 3 */ INSECT_EXTRA_DROPPED // An additional insect spawned by dropping one from a bottle.
 } EnInsectType;
+
+#define IS_DROPPED(type) ((type) == INSECT_FIRST_DROPPED || (type) == INSECT_EXTRA_DROPPED)
 
 #endif
