@@ -34,7 +34,7 @@ void EnInsect_UpdateDropped(EnInsect* this, GlobalContext* globalCtx);
 
 static f32 D_80A7DEB0 = 0.0f;
 /**
- * The number of bugs caught this frame.
+ * The number of insects caught this frame.
  */
 static s16 sCaughtCount = 0;
 /**
