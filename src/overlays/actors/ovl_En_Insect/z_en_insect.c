@@ -34,11 +34,11 @@ void EnInsect_UpdateDropped(EnInsect* this, GlobalContext* globalCtx);
 
 static f32 D_80A7DEB0 = 0.0f;
 /**
- * The number of insects caught this frame.
+ * The number of bugs caught this frame.
  */
 static s16 sCaughtCount = 0;
 /**
- * The number of active dropped insects.
+ * The number of active dropped bugs.
  */
 static s16 sDroppedCount = 0;
 
@@ -82,7 +82,7 @@ static ColliderJntSphInit sColliderInit = {
 };
 
 /**
- * The inital flags for a new insect, depending on its type.
+ * The inital flags for a new bug, depending on its type.
  */
 static u16 sInitFlags[] = {
     0,
