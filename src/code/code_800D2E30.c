@@ -6,13 +6,13 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
     s32 unk_a3;
     s32 index = -1;
 
-    for (i = 0; i < ARRAY_COUNT(arg0->rumbleEnable); i++) {
+    for (i = 0; i < 4; i++) {
         arg0->rumbleEnable[i] = 0;
     }
 
     if (arg0->unk_105 == 0) {
         if (D_8012DBB0 != 0) {
-            for (i = 0; i < ARRAY_COUNT(gPadMgr.pakType); i++) {
+            for (i = 0; i < 4; i++) {
                 gPadMgr.pakType[i] = 0;
             }
         }
@@ -23,7 +23,7 @@ void func_800D2E30(UnkRumbleStruct* arg0) {
     D_8012DBB0 = arg0->unk_105;
 
     if (arg0->unk_104 == 2) {
-        for (i = 0; i < ARRAY_COUNT(gPadMgr.pakType); ++i) {
+        for (i = 0; i < 4; ++i) {
             gPadMgr.pakType[i] = 0;
         }
 

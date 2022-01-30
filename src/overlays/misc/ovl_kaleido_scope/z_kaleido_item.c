@@ -424,7 +424,7 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-    for (i = j = 0; i < ARRAY_COUNT(gSaveContext.inventory.items); i++, j += 4) {
+    for (i = j = 0; i < 24; i++, j += 4) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->alpha);
 
         if (gSaveContext.inventory.items[i] != ITEM_NONE) {

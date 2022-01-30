@@ -465,7 +465,7 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    for (i = 0; i < ARRAY_COUNT(sBridgeJumps); i++) {
+    for (i = 0; i < 2; i++) {
         xMin = sBridgeJumps[i].xMin;
         xMax = (xMin + sBridgeJumps[i].xMax) + sBridgeJumps[i].xOffset;
         if (xMax < xMin) {
@@ -675,7 +675,7 @@ s32 EnHorse_Spawn(EnHorse* this, GlobalContext* globalCtx) {
     Player* player;
     Vec3f spawnPos;
 
-    for (i = 0; i < ARRAY_COUNT(sHorseSpawns); i++) {
+    for (i = 0; i < 169; i++) {
         if (sHorseSpawns[i].scene == globalCtx->sceneNum) {
             player = GET_PLAYER(globalCtx);
             if (globalCtx->sceneNum != SCENE_SPOT20 ||

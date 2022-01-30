@@ -150,7 +150,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
         lightBeamToggles[1] = lightBeamToggles[2] =
             this->puzzleFlags & (BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
 
-        for (i = 0; i < ARRAY_COUNT(lightBeamToggles); i++) {
+        for (i = 0; i < 3; i++) {
             if (lightBeamToggles[i]) {
                 if ((this->lightBeams[i] == NULL) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
                     this->lightBeams[i] = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, sMirRayPoss[i].x,

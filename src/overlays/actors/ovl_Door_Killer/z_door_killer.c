@@ -277,13 +277,13 @@ void DoorKiller_RiseBackUp(DoorKiller* this, GlobalContext* globalCtx) {
         rotation = 0;
     }
 
-    for (i = 2; i < ARRAY_COUNT(this->jointTable); i++) {
+    for (i = 2; i < 9; i++) {
         this->jointTable[i].z = -rotation;
     }
 
     if (this->timer < 8) {
         rotation = Math_SinS(this->timer * 0x2000) * this->timer * 100.0f;
-        for (i = 2; i < ARRAY_COUNT(this->jointTable); i++) {
+        for (i = 2; i < 9; i++) {
             this->jointTable[i].y = rotation;
         }
     }
@@ -317,7 +317,7 @@ void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
         rotation = 0;
     }
 
-    for (i = 2; i < ARRAY_COUNT(this->jointTable); i++) {
+    for (i = 2; i < 9; i++) {
         this->jointTable[i].z = rotation;
     }
 
@@ -384,11 +384,11 @@ void DoorKiller_Wobble(DoorKiller* this, GlobalContext* globalCtx) {
     }
 
     rotation = Math_SinS(this->timer * 0x2000) * this->timer * 100.0f;
-    for (i = 2; i < ARRAY_COUNT(this->jointTable); i++) {
+    for (i = 2; i < 9; i++) {
         this->jointTable[i].y = rotation;
     }
     rotation = (u16)(s32)(-Math_CosS(this->timer * 0x1000) * 1000.0f) + 1000;
-    for (i = 2; i < ARRAY_COUNT(this->jointTable); i++) {
+    for (i = 2; i < 9; i++) {
         this->jointTable[i].z = rotation;
     }
 }

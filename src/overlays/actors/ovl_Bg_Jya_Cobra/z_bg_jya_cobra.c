@@ -363,17 +363,17 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
     u8* temp_s0;
     u8* sp40;
 
-    for (i = 0; i < ARRAY_COUNT(sp58); i++) {
+    for (i = 0; i < 0x40; i++) {
         sp58[i] = SQ(i - 31.5f);
     }
 
     sp40 = temp_s0 = (u8*)ALIGN16((u32)(&this->shadowTexture));
     Lib_MemSet(temp_s0, 0x1000, 0);
 
-    for (i = 0; i != ARRAY_COUNT(sp58); i++) {
+    for (i = 0; i != 0x40; i++) {
         f32 temp_f12 = sp58[i];
 
-        for (j = 0; j < ARRAY_COUNT(sp58); j++, sp40++) {
+        for (j = 0; j < 0x40; j++, sp40++) {
             f32 temp_f2 = (sp58[j] * 0.5f) + temp_f12;
 
             if (temp_f2 < 300.0f) {

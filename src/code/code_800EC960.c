@@ -3868,7 +3868,7 @@ void Audio_ResetSfxChannelState(void) {
     u8 i;
     SfxPlayerState* state;
 
-    for (i = 0; i < ARRAY_COUNT(sSfxChannelState); i++) {
+    for (i = 0; i < 16; i++) {
         state = &sSfxChannelState[i];
         state->vol = 1.0f;
         state->freqScale = 1.0f;

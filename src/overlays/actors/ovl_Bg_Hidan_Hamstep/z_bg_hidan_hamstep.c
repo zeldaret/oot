@@ -142,7 +142,7 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInit, this->colliderItems);
 
         for (i = 0; i < 2; i++) {
-            for (i2 = 0; i2 < ARRAY_COUNT(sp48); i2++) {
+            for (i2 = 0; i2 < 3; i2++) {
                 sp48[i2].x = sTrisInit.elements[i].dim.vtx[i2].x + this->dyna.actor.home.pos.x;
                 sp48[i2].y = sTrisInit.elements[i].dim.vtx[i2].y + this->dyna.actor.home.pos.y;
                 sp48[i2].z = sTrisInit.elements[i].dim.vtx[i2].z + this->dyna.actor.home.pos.z;

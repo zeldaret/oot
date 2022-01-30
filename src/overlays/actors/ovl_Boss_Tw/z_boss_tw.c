@@ -3930,7 +3930,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                     this->actor.world.rot.x = Math_FAtan2F(yDiff, distXZ) * (32768 / M_PI);
                     this->actor.speedXZ = 20.0f;
 
-                    for (i = 0; i < ARRAY_COUNT(this->blastTailPos); i++) {
+                    for (i = 0; i < 50; i++) {
                         this->blastTailPos[i] = this->actor.world.pos;
                     }
                     this->workf[TAIL_ALPHA] = 255.0f;
@@ -4118,7 +4118,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
                     this->actor.world.rot.x = Math_FAtan2F(yDiff, xzDist) * (32768 / M_PI);
                     this->actor.speedXZ = 20.0f;
-                    for (i = 0; i < ARRAY_COUNT(this->blastTailPos); i++) {
+                    for (i = 0; i < 50; i++) {
                         this->blastTailPos[i] = this->actor.world.pos;
                     }
 

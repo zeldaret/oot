@@ -880,7 +880,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1833),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            for (i = 0; i < ARRAY_COUNT(sShadowTexFlags); i++) {
+            for (i = 0; i < 0x400; i++) {
                 if (sShadowTexFlags[i] & this->partFlags) {
                     shadowTex[i] = 0xFF;
                 } else {

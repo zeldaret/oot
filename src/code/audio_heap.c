@@ -41,19 +41,19 @@ void func_800DDE3C(void) {
 void AudioHeap_ResetLoadStatus(void) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(gAudioContext.fontLoadStatus); i++) {
+    for (i = 0; i < 0x30; i++) {
         if (gAudioContext.fontLoadStatus[i] != 5) {
             gAudioContext.fontLoadStatus[i] = 0;
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(gAudioContext.sampleFontLoadStatus); i++) {
+    for (i = 0; i < 0x30; i++) {
         if (gAudioContext.sampleFontLoadStatus[i] != 5) {
             gAudioContext.sampleFontLoadStatus[i] = 0;
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(gAudioContext.seqLoadStatus); i++) {
+    for (i = 0; i < 0x80; i++) {
         if (gAudioContext.seqLoadStatus[i] != 5) {
             gAudioContext.seqLoadStatus[i] = 0;
         }
@@ -634,7 +634,7 @@ void func_800DF1D8(f32 p, f32 q, u16* out) {
         out[8 + i] = q * tmp[6 + i] + p * tmp[7 + i];
     }
 
-    for (i = 0; i < ARRAY_COUNT(tmp); i++) {
+    for (i = 0; i < 16; i++) {
         out[i] = tmp[i];
     }
 }
@@ -779,7 +779,7 @@ s32 AudioHeap_ResetStep(void) {
         case 1:
             AudioHeap_Init();
             gAudioContext.resetStatus = 0;
-            for (i = 0; i < ARRAY_COUNT(gAudioContext.aiBufLengths); i++) {
+            for (i = 0; i < 3; i++) {
                 gAudioContext.aiBufLengths[i] = gAudioContext.audioBufferParameters.maxAiBufferLength;
                 for (j = 0; j < AIBUF_LEN; j++) {
                     gAudioContext.aiBuffers[i][j] = 0;
@@ -900,7 +900,7 @@ void AudioHeap_Init(void) {
 
     gAudioContext.unk_3520 = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
     func_800DDE3C();
-    for (i = 0; i < ARRAY_COUNT(gAudioContext.synthesisReverbs); i++) {
+    for (i = 0; i < 4; i++) {
         gAudioContext.synthesisReverbs[i].useReverb = 0;
     }
 

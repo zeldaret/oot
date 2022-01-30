@@ -218,7 +218,7 @@ void EnRr_SetupReach(EnRr* this) {
     this->actionTimer = 20;
     this->segPhaseVelTarget = 2500.0f;
     this->segMoveRate = 0.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = segmentHeights[i];
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 0.8f;
         this->bodySegs[i].rotTarget.x = 6000.0f;
@@ -234,7 +234,7 @@ void EnRr_SetupNeutral(EnRr* this) {
     this->reachState = 0;
     this->segMoveRate = 0.0f;
     this->segPhaseVelTarget = 2500.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
@@ -260,7 +260,7 @@ void EnRr_SetupGrabPlayer(EnRr* this, Player* player) {
     this->pulseSizeTarget = 0.15f;
     this->segPhaseVelTarget = 5000.0f;
     this->wobbleSizeTarget = 512.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
@@ -342,7 +342,7 @@ void EnRr_SetupDamage(EnRr* this) {
     this->segPhaseVelTarget = 2500.0f;
     this->pulseSizeTarget = 0.0f;
     this->wobbleSizeTarget = 0.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
@@ -358,7 +358,7 @@ void EnRr_SetupApproach(EnRr* this) {
     this->pulseSizeTarget = 0.15f;
     this->segPhaseVelTarget = 2500.0f;
     this->wobbleSizeTarget = 2048.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
         this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z = 1.0f;
@@ -373,7 +373,7 @@ void EnRr_SetupDeath(EnRr* this) {
     this->frameCount = 0;
     this->shrinkRate = 0.0f;
     this->segMoveRate = 0.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].heightTarget = 0.0f;
         this->bodySegs[i].rotTarget.x = this->bodySegs[i].rotTarget.z = 0.0f;
     }
@@ -398,7 +398,7 @@ void EnRr_SetupStunned(EnRr* this) {
     this->pulseSizeTarget = 0.15f;
     this->wobbleSize = 0.0f;
     this->wobbleSizeTarget = 2048.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].scaleMod.y = 0.0f;
         this->bodySegs[i].rotTarget.x = 0.0f;
         this->bodySegs[i].rotTarget.y = 0.0f;
@@ -525,7 +525,7 @@ void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx) {
     this->pulseSizeTarget = 0.15f;
     this->wobbleSize = 0.0f;
     this->wobbleSizeTarget = 2048.0f;
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].scaleMod.y = 0.0f;
         this->bodySegs[i].rotTarget.x = 0.0f;
         this->bodySegs[i].rotTarget.y = 0.0f;
@@ -533,11 +533,11 @@ void EnRr_InitBodySegments(EnRr* this, GlobalContext* globalCtx) {
         this->bodySegs[i].scale.x = this->bodySegs[i].scale.y = this->bodySegs[i].scale.z =
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.y = this->bodySegs[i].scaleTarget.z = 1.0f;
     }
-    for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 0; i < 5; i++) {
         this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
             Math_CosS(i * (u32)(s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
     }
-    for (i = 1; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 1; i < 5; i++) {
         this->bodySegs[i].rotTarget.x = Math_CosS(i * (u32)(s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
         this->bodySegs[i].rotTarget.z = Math_SinS(i * (u32)(s16)this->segWobblePhaseDiffZ * 0x1000) * this->wobbleSize;
     }
@@ -548,13 +548,13 @@ void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
     s16 phase = this->segMovePhase;
 
     if (!this->isDead) {
-        for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+        for (i = 0; i < 5; i++) {
             this->bodySegs[i].scaleMod.x = this->bodySegs[i].scaleMod.z =
                 Math_CosS(phase + i * (s16)this->segPulsePhaseDiff * 0x1000) * this->pulseSize;
         }
         phase = this->segMovePhase;
         if (!this->isDead && (this->reachState == 0)) {
-            for (i = 1; i < ARRAY_COUNT(this->bodySegs); i++) {
+            for (i = 1; i < 5; i++) {
                 this->bodySegs[i].rotTarget.x =
                     Math_CosS(phase + i * (s16)this->segWobblePhaseDiffX * 0x1000) * this->wobbleSize;
                 this->bodySegs[i].rotTarget.z =
@@ -639,11 +639,11 @@ void EnRr_Damage(EnRr* this, GlobalContext* globalCtx) {
     if (this->actor.colorFilterTimer == 0) {
         EnRr_SetupApproach(this);
     } else if ((this->actor.colorFilterTimer & 8) != 0) {
-        for (i = 1; i < ARRAY_COUNT(this->bodySegs); i++) {
+        for (i = 1; i < 5; i++) {
             this->bodySegs[i].rotTarget.z = 5000.0f;
         }
     } else {
-        for (i = 1; i < ARRAY_COUNT(this->bodySegs); i++) {
+        for (i = 1; i < 5; i++) {
             this->bodySegs[i].rotTarget.z = -5000.0f;
         }
     }
@@ -654,7 +654,7 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->frameCount < 40) {
-        for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+        for (i = 0; i < 5; i++) {
             Math_ApproachF(&this->bodySegs[i].heightTarget, i + 59 - (this->frameCount * 25.0f), 1.0f, 50.0f);
             this->bodySegs[i].scaleTarget.x = this->bodySegs[i].scaleTarget.z =
                 (SQ(4 - i) * (f32)this->frameCount * 0.003f) + 1.0f;
@@ -817,7 +817,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_ApproachF(&this->segWobblePhaseDiffZ, this->segWobbleZTarget, 1.0f, 0.01f);
         Math_ApproachF(&this->pulseSize, this->pulseSizeTarget, 1.0f, 0.0015f);
         Math_ApproachF(&this->wobbleSize, this->wobbleSizeTarget, 1.0f, 20.0f);
-        for (i = 0; i < ARRAY_COUNT(this->bodySegs); i++) {
+        for (i = 0; i < 5; i++) {
             Math_SmoothStepToS(&this->bodySegs[i].rot.x, this->bodySegs[i].rotTarget.x, 5, this->segMoveRate * 1000.0f,
                                0);
             Math_SmoothStepToS(&this->bodySegs[i].rot.z, this->bodySegs[i].rotTarget.z, 5, this->segMoveRate * 1000.0f,
@@ -863,7 +863,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     zeroVec.x = 0.0f;
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
-    for (i = 1; i < ARRAY_COUNT(this->bodySegs); i++) {
+    for (i = 1; i < 5; i++) {
         Matrix_Translate(0.0f, this->bodySegs[i].height + 1000.0f, 0.0f, MTXMODE_APPLY);
 
         Matrix_RotateZYX(this->bodySegs[i].rot.x, this->bodySegs[i].rot.y, this->bodySegs[i].rot.z, MTXMODE_APPLY);

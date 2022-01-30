@@ -179,7 +179,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
                                  this->flameCircles[flameCirclesFound]);
-                    if (flameCirclesFound < ARRAY_COUNT(this->flameCircles) - 1) {
+                    if (flameCirclesFound < 4) {
                         flameCirclesFound++;
                     }
                     currentProp = currentProp->next;
@@ -357,8 +357,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != EnAnubice_SetupDie && this->actionFunc != EnAnubice_Die &&
         this->actor.shape.yOffset == 0.0f) {
         EnAnubice_Hover(this, globalCtx);
-        for (i = 0; i < ARRAY_COUNT(this->flameCircles); i++) {
-            // Shouldn't flameCircles have length 5?
+        for (i = 0; i < 5; i++) {
             flameCircle = this->flameCircles[i];
 
             if (flameCircle != NULL && fabsf(flameCircle->actor.world.pos.x - this->actor.world.pos.x) < 60.0f &&

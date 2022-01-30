@@ -83,7 +83,7 @@ u32 BgMizuWater_GetWaterLevelActionIndex(s16 switchFlag, GlobalContext* globalCt
 void BgMizuWater_SetWaterBoxesHeight(WaterBox* waterBoxes, s16 height) {
     u32 i;
 
-    for (i = 0; i < ARRAY_COUNT(sWaterBoxIndexes); i++) {
+    for (i = 0; i < 8; i++) {
         waterBoxes[sWaterBoxIndexes[i]].ySurface = height;
     }
 }

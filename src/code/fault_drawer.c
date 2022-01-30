@@ -142,7 +142,7 @@ void FaultDrawer_DrawChar(char c) {
 
 s32 FaultDrawer_ColorToPrintColor(u16 color) {
     s32 i;
-    for (i = 0; i < ARRAY_COUNT(sFaultDrawerStruct.printColors); i++) {
+    for (i = 0; i < 10; i++) {
         if (color == sFaultDrawerStruct.printColors[i]) {
             return i;
         }

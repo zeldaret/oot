@@ -102,7 +102,7 @@ s32 __osRepairPackId(OSPfs* pfs, __OSPackId* badid, __OSPackId* newid) {
     index[1] = PFS_ID_1AREA;
     index[2] = PFS_ID_2AREA;
     index[3] = PFS_ID_3AREA;
-    for (i = 0; i < ARRAY_COUNT(index); i++) {
+    for (i = 0; i < 4; i++) {
         if ((ret = __osContRamWrite(pfs->queue, pfs->channel, index[i], (u8*)newid, PFS_FORCE)) != 0) {
             return ret;
         }
@@ -134,7 +134,7 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* check) {
     index[1] = PFS_ID_1AREA;
     index[2] = PFS_ID_2AREA;
     index[3] = PFS_ID_3AREA;
-    for (i = 1; i < ARRAY_COUNT(index); i++) {
+    for (i = 1; i < 4; i++) {
         if ((ret = __osContRamRead(pfs->queue, pfs->channel, index[i], (u8*)check)) != 0) {
             return ret;
         }
@@ -147,7 +147,7 @@ s32 __osCheckPackId(OSPfs* pfs, __OSPackId* check) {
         return PFS_ERR_ID_FATAL;
     }
 
-    for (j = 0; j < ARRAY_COUNT(index); j++) {
+    for (j = 0; j < 4; j++) {
         if (j != i) {
             if ((ret = __osContRamWrite(pfs->queue, pfs->channel, index[j], (u8*)check, PFS_FORCE)) != 0) {
                 return ret;

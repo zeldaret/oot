@@ -352,7 +352,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
             this->kbdX = 4;
         } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
             if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
-                for (i = this->newFileNameCharCount; i < ARRAY_COUNT(this->fileNames[this->buttonIndex]) - 1; i++) {
+                for (i = this->newFileNameCharCount; i < 7; i++) {
                     this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
                 }
 
@@ -365,7 +365,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                     this->newFileNameCharCount = 0;
                     this->configMode = CM_NAME_ENTRY_TO_MAIN;
                 } else {
-                    for (i = this->newFileNameCharCount; i < ARRAY_COUNT(this->fileNames[this->buttonIndex]) - 1; i++) {
+                    for (i = this->newFileNameCharCount; i < 7; i++) {
                         this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
                     }
 
@@ -397,7 +397,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                 } else if (CHECK_BTN_ALL(input->press.button, BTN_A) && (this->charPage != this->kbdButton)) {
                     if (this->kbdButton == FS_KBD_BTN_BACKSPACE) {
                         if ((this->newFileNameCharCount == 7) && (this->fileNames[this->buttonIndex][7] != 0x3E)) {
-                            for (i = this->newFileNameCharCount; i < ARRAY_COUNT(this->fileNames[this->buttonIndex]) - 1; i++) {
+                            for (i = this->newFileNameCharCount; i < 7; i++) {
                                 this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
                             }
 
@@ -411,7 +411,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                                 this->newFileNameCharCount = 0;
                             }
 
-                            for (i = this->newFileNameCharCount; i < ARRAY_COUNT(this->fileNames[this->buttonIndex]) - 1; i++) {
+                            for (i = this->newFileNameCharCount; i < 7; i++) {
                                 this->fileNames[this->buttonIndex][i] = this->fileNames[this->buttonIndex][i + 1];
                             }
 
@@ -422,7 +422,7 @@ void FileChoose_DrawNameEntry(GameState* thisx) {
                     } else if (this->kbdButton == FS_KBD_BTN_END) {
                         validName = false;
 
-                        for (i = 0; i < ARRAY_COUNT(this->fileNames[this->buttonIndex]); i++) {
+                        for (i = 0; i < 8; i++) {
                             if (this->fileNames[this->buttonIndex][i] != 0x3E) {
                                 validName = true;
                                 break;
@@ -869,7 +869,7 @@ void FileChoose_DrawOptionsImpl(GameState* thisx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, this->titleAlpha[0]);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
-    for (i = 0, vtx = 0; i < ARRAY_COUNT(gOptionsMenuHeaders); i++, vtx += 4) {
+    for (i = 0, vtx = 0; i < 4; i++, vtx += 4) {
         gDPLoadTextureBlock(POLY_OPA_DISP++, gOptionsMenuHeaders[i].texture[gSaveContext.language], G_IM_FMT_IA,
                             G_IM_SIZ_8b, gOptionsMenuHeaders[i].width[gSaveContext.language],
                             gOptionsMenuHeaders[i].height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,

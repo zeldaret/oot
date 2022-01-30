@@ -215,7 +215,7 @@ void Gameplay_Init(GameState* thisx) {
     Camera_Init(&globalCtx->mainCamera, &globalCtx->view, &globalCtx->colCtx, globalCtx);
     Camera_ChangeStatus(&globalCtx->mainCamera, CAM_STAT_ACTIVE);
 
-    for (i = 0; i < ARRAY_COUNT(globalCtx->subCameras); i++) {
+    for (i = 0; i < 3; i++) {
         Camera_Init(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
         Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STAT_UNK100);
     }

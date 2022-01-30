@@ -820,7 +820,7 @@ DamageTable* DamageTable_Get(s32 index) {
 // Sets all entries in the damage table to 0x00
 void DamageTable_Clear(DamageTable* table) {
     s32 i;
-    for (i = 0; i < ARRAY_COUNT(table->table); i++) {
+    for (i = 0; i < 32; i++) {
         table->table[i] = 0;
     }
 }

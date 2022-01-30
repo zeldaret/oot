@@ -196,7 +196,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->elements);
 
-    for (i = 0; i < ARRAY_COUNT(this->bodySegsPos); i++) {
+    for (i = 0; i < 100; i++) {
         this->bodySegsPos[i].x = this->actor.world.pos.x;
         this->bodySegsPos[i].y = this->actor.world.pos.y;
         this->bodySegsPos[i].z = this->actor.world.pos.z;

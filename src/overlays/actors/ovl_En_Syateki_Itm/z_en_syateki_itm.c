@@ -111,10 +111,10 @@ void EnSyatekiItm_Idle(EnSyatekiItm* this, GlobalContext* globalCtx) {
             0;
         func_8008EF44(globalCtx, 15);
         this->roundNum = this->hitCount = 0;
-        for (i = 0; i < ARRAY_COUNT(this->roundFlags); i++) {
+        for (i = 0; i < 6; i++) {
             this->roundFlags[i] = false;
         }
-        for (i = 0; i < ARRAY_COUNT(this->markers); i++) {
+        for (i = 0; i < 10; i++) {
             this->markers[i]->galleryFlag = false;
         }
         this->actionFunc = EnSyatekiItm_StartRound;

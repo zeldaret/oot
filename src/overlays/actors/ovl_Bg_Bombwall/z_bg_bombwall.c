@@ -186,7 +186,7 @@ void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx) {
     f32 temp;
     f32 new_var;
 
-    for (i = 0; i < ARRAY_COUNT(D_8086F010); i++) {
+    for (i = 0; i < 7; i++) {
         new_var = D_8086F010[i].x;
         temp = new_var * cos;
         sp88.x = ((sin * D_8086F010[i].z) + ((f32)temp)) + pos->x;

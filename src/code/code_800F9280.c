@@ -58,7 +58,7 @@ void func_800F9280(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer) {
         D_8016E750[playerIdx].unk_18 = 0;
         D_8016E750[playerIdx].unk_14 = 0;
 
-        for (i = 0; i < ARRAY_COUNT(D_8016E750[playerIdx].unk_50); i++) {
+        for (i = 0; i < 0x10; i++) {
             D_8016E750[playerIdx].unk_50[i].unk_00 = 1.0f;
             D_8016E750[playerIdx].unk_50[i].unk_0C = 0;
             D_8016E750[playerIdx].unk_50[i].unk_10 = 1.0f;
@@ -230,7 +230,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                 duration++;
             }
             freqScale = (f32)val / 1000.0f;
-            for (i = 0; i < ARRAY_COUNT(D_8016E750[playerIdx].unk_50); i++) {
+            for (i = 0; i < 16; i++) {
                 D_8016E750[playerIdx].unk_50[i].unk_14 = freqScale;
                 D_8016E750[playerIdx].unk_50[i].unk_1C = duration;
                 D_8016E750[playerIdx].unk_50[i].unk_18 =
@@ -417,7 +417,7 @@ void Audio_SetVolScale(u8 playerIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer)
         D_8016E750[playerIdx].fadeVolUpdate = 1;
         D_8016E750[playerIdx].volFadeTimer = volFadeTimer;
     } else {
-        for (i = 0, volScale = 1.0f; i < ARRAY_COUNT(D_8016E750[playerIdx].volScales); i++) {
+        for (i = 0, volScale = 1.0f; i < 4; i++) {
             volScale *= D_8016E750[playerIdx].volScales[i] / 127.0f;
         }
 
@@ -443,7 +443,7 @@ void func_800FA3DC(void) {
     u8 j;
     u8 k;
 
-    for (playerIdx = 0; playerIdx < ARRAY_COUNT(D_8016E750); playerIdx++) {
+    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
         if (D_8016E750[playerIdx].unk_260 != 0) {
             switch (func_800E5E20(&dummy)) {
                 case 1:
@@ -458,7 +458,7 @@ void func_800FA3DC(void) {
 
         if (D_8016E750[playerIdx].fadeVolUpdate) {
             phi_f0 = 1.0f;
-            for (j = 0; j < ARRAY_COUNT(D_8016E750[playerIdx].volScales); j++) {
+            for (j = 0; j < 4; j++) {
                 phi_f0 *= (D_8016E750[playerIdx].volScales[j] / 127.0f);
             }
             Audio_SeqCmd4(playerIdx, D_8016E750[playerIdx].volFadeTimer, (u8)(phi_f0 * 127.0f));

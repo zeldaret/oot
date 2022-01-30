@@ -111,7 +111,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     sinRotY = Math_SinS(this->dyna.actor.shape.rot.y);
     cosRotY = Math_CosS(this->dyna.actor.shape.rot.y);
 
-    for (i = 0; i < ARRAY_COUNT(sp4C); i++) {
+    for (i = 0; i < 3; i++) {
         sp4C[i].x = (triInit->dim.vtx[i].x * cosRotY) + this->dyna.actor.world.pos.x;
         sp4C[i].y = triInit->dim.vtx[i].y + this->dyna.actor.world.pos.y;
         sp4C[i].z = this->dyna.actor.world.pos.z - (triInit->dim.vtx[i].x * sinRotY);

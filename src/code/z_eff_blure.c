@@ -95,7 +95,7 @@ void EffectBlure_InitElements(EffectBlure* this) {
 
     this->numElements = 0;
 
-    for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
+    for (i = 0; i < 16; i++) {
         elem = &this->elements[i];
 
         elem->state = 2;
@@ -203,7 +203,7 @@ s32 EffectBlure_Update(void* thisx) {
 
     while (true) {
         if (this->elements[0].state == 0) {
-            for (i = 0; i < ARRAY_COUNT(this->elements) - 1; i++) {
+            for (i = 0; i < 15; i++) {
                 this->elements[i] = this->elements[i + 1];
             }
 
@@ -236,7 +236,7 @@ s32 EffectBlure_Update(void* thisx) {
     }
 
     if (this->elemDuration < this->elements[0].timer) {
-        for (i = 0; i < ARRAY_COUNT(this->elements) - 1; i++) {
+        for (i = 0; i < 15; i++) {
             this->elements[i] = this->elements[i + 1];
         }
 
@@ -869,14 +869,14 @@ void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
         }
 
         vtxIter = vtx;
-        for (i = 0; i < ARRAY_COUNT(D_8011578C); i++) {
+        for (i = 0; i < 4; i++) {
             vtxIter->v = D_8011578C[i];
             vtxIter++;
         }
 
         if (this->numElements >= 2) {
             for (elem = this->elements; elem < this->elements + this->numElements - 2; elem++) {
-                for (i = 0; i < ARRAY_COUNT(D_801157CC); i++) {
+                for (i = 0; i < 4; i++) {
                     vtxIter->v = D_801157CC[i];
                     vtxIter++;
                 }

@@ -443,7 +443,7 @@ void EnGb_UpdateCagedSouls(EnGb* this, GlobalContext* globalCtx) {
     s16 rot;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->cagedSouls); i++) {
+    for (i = 0; i < 4; i++) {
         switch (this->cagedSouls[i].unk_1) {
             case 0:
                 Math_ApproachF(&this->cagedSouls[i].unk_20, 1.0f, 0.02f, this->cagedSouls[i].unk_24);
@@ -520,7 +520,7 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(this->cagedSouls); i++) {
+    for (i = 0; i < 4; i++) {
         s32 idx = this->cagedSouls[i].infoIdx;
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
