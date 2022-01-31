@@ -2770,7 +2770,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                 (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((actionParam >= PLAYER_AP_BOTTLE_POTION_RED) && (actionParam <= PLAYER_AP_BOTTLE_FAIRY))) {
-                    func_8002D53C(globalCtx, &globalCtx->actorCtx.titleCtx);
+                    TitleCard_Clear(globalCtx, &globalCtx->actorCtx.titleCtx);
                     this->unk_6AD = 4;
                     this->itemActionParam = actionParam;
                 }
@@ -5890,7 +5890,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
     Actor* interactedActor;
 
     if (iREG(67) || (((interactedActor = this->interactRangeActor) != NULL) &&
-                     func_8002D53C(globalCtx, &globalCtx->actorCtx.titleCtx))) {
+                     TitleCard_Clear(globalCtx, &globalCtx->actorCtx.titleCtx))) {
         if (iREG(67) || (this->getItemId > GI_NONE)) {
             if (iREG(67)) {
                 this->getItemId = iREG(68);
