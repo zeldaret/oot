@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_arrowcase" Segment="6">
         <DList Name="gGiQuiver30InnerColorDL" Offset="0x08D0"/>
         <DList Name="gGiQuiver40InnerColorDL" Offset="0x08F0"/>

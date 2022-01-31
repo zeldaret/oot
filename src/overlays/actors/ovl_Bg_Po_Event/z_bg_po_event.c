@@ -7,9 +7,7 @@
 #include "z_bg_po_event.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgPoEvent*)thisx)
+#define FLAGS 0
 
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -157,7 +155,7 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 bgId;
 
-    this->dyna.actor.flags |= 0x30;
+    this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
     CollisionHeader_GetVirtual(&gPoSistersAmyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
@@ -195,7 +193,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     this->type = (thisx->params >> 8) & 0xF;
@@ -222,7 +220,7 @@ void BgPoEvent_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgPoEvent_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     if (this->type >= 2) {
         Collider_DestroyTris(globalCtx, &this->collider);
@@ -310,7 +308,7 @@ void BgPoEvent_BlockFall(BgPoEvent* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.velocity.y++;
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 433.0f, this->dyna.actor.velocity.y)) {
-        this->dyna.actor.flags &= ~0x20;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_5;
         this->dyna.actor.velocity.y = 0.0f;
         sBlocksAtRest++;
         if (this->type != 1) {
@@ -349,7 +347,7 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, GlobalContext* globalCtx) {
         }
     } else {
         if ((gSaveContext.timer1Value == 0) && (sBlocksAtRest == 5)) {
-            player->stateFlags2 &= ~0x10;
+            player->stateFlags2 &= ~PLAYER_STATE2_4;
             sPuzzleState = 0x10;
             sBlocksAtRest = 0;
         }
@@ -368,11 +366,11 @@ void BgPoEvent_BlockIdle(BgPoEvent* this, GlobalContext* globalCtx) {
                     this->direction = (this->dyna.unk_150 >= 0.0f) ? 1.0f : -1.0f;
                     this->actionFunc = BgPoEvent_BlockPush;
                 } else {
-                    player->stateFlags2 &= ~0x10;
+                    player->stateFlags2 &= ~PLAYER_STATE2_4;
                     this->dyna.unk_150 = 0.0f;
                 }
             } else {
-                player->stateFlags2 &= ~0x10;
+                player->stateFlags2 &= ~PLAYER_STATE2_4;
                 this->dyna.unk_150 = 0.0f;
                 DECR(this->direction);
             }
@@ -395,7 +393,7 @@ void BgPoEvent_BlockPush(BgPoEvent* this, GlobalContext* globalCtx) {
     this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.unk_158) * displacement) + this->dyna.actor.home.pos.x;
     this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.unk_158) * displacement) + this->dyna.actor.home.pos.z;
     if (blockStop) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         if ((this->dyna.unk_150 > 0.0f) && (func_800435D8(globalCtx, &this->dyna, 0x1E, 0x32, -0x14) == 0)) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }
@@ -420,7 +418,7 @@ void BgPoEvent_BlockReset(BgPoEvent* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
     }
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 493.0f, 1.0f) &&
@@ -440,7 +438,7 @@ void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
     if (Math_StepToF(&this->dyna.actor.world.pos.y, 369.0f, 2.0f)) {
         sPuzzleState = 0x20;
@@ -584,7 +582,7 @@ void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx) {
 
 void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
 
     this->actionFunc(this, globalCtx);
     if ((this->actionFunc == BgPoEvent_AmyWait) || (this->actionFunc == BgPoEvent_PaintingPresent)) {
@@ -598,7 +596,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
     };
     s32 pad;
-    BgPoEvent* this = THIS;
+    BgPoEvent* this = (BgPoEvent*)thisx;
     u8 alpha;
     Vec3f sp58;
     Vec3f sp4C;

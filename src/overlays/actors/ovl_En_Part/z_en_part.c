@@ -8,9 +8,7 @@
 #include "objects/object_tite/object_tite.h"
 #include "objects/object_ik/object_ik.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnPart*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -183,6 +181,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
 
         if (sqrt(this->actor.xyzDistToPlayerSq) <= 40.0f) {
             u8 prevInvincibilityTimer = player->invincibilityTimer;
+
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer <= -40) {
                     player->invincibilityTimer = 0;
@@ -217,6 +216,7 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         f32 diffsSum = Math_SmoothStepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f, 5.0f, 0.0f);
+
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->rotZ, 0.0f, 1.0f, 0.25f, 0.0f);
@@ -239,7 +239,7 @@ void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8, func_80ACE7E8,
     };
 
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     Actor_MoveForward(&this->actor);
 
@@ -273,7 +273,7 @@ Gfx* func_80ACEAC0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
 }
 
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_part.c", 647);
 

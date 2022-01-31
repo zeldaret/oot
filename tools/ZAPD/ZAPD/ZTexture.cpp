@@ -8,6 +8,7 @@
 #include "Utils/Directory.h"
 #include "Utils/File.h"
 #include "Utils/Path.h"
+#include "WarningHandler.h"
 
 REGISTER_ZFILENODE(Texture, ZTexture);
 
@@ -15,6 +16,7 @@ ZTexture::ZTexture(ZFile* nParent) : ZResource(nParent)
 {
 	width = 0;
 	height = 0;
+	dWordAligned = true;
 
 	RegisterRequiredAttribute("Width");
 	RegisterRequiredAttribute("Height");
@@ -57,17 +59,17 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 
 	if (!StringHelper::HasOnlyDigits(widthXml))
 	{
-		throw std::runtime_error(
-			StringHelper::Sprintf("ZTexture::ParseXML: Error in %s\n"
-		                          "\t Value of 'Width' attribute has non-decimal digits: '%s'.\n",
-		                          name.c_str(), widthXml.c_str()));
+		std::string errorHeader = StringHelper::Sprintf(
+			"value of 'Width' attribute has non-decimal digits: '%s'", widthXml.c_str());
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      errorHeader, "");
 	}
 	if (!StringHelper::HasOnlyDigits(heightXml))
 	{
-		throw std::runtime_error(
-			StringHelper::Sprintf("ZTexture::ParseXML: Error in %s\n"
-		                          "\t Value of 'Height' attribute has non-decimal digits: '%s'.\n",
-		                          name.c_str(), heightXml.c_str()));
+		std::string errorHeader = StringHelper::Sprintf(
+			"value of 'Height' attribute has non-decimal digits: '%s'", heightXml.c_str());
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      errorHeader, "");
 	}
 
 	width = StringHelper::StrToL(widthXml);
@@ -77,7 +79,10 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 	format = GetTextureTypeFromString(formatStr);
 
 	if (format == TextureType::Error)
-		throw std::runtime_error("Format " + formatStr + " is not supported!");
+	{
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      "invalid value found for 'Format' attribute", "");
+	}
 
 	const auto& tlutOffsetAttr = registeredAttributes.at("TlutOffset");
 	if (tlutOffsetAttr.wasSet)
@@ -90,10 +95,9 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 			break;
 
 		default:
-			throw std::runtime_error(StringHelper::Sprintf(
-				"ZTexture::ParseXML: Error in %s\n"
-				"\t 'TlutOffset' declared in non color-indexed (ci4 or ci8) texture.\n",
-				name.c_str()));
+			HANDLE_ERROR_RESOURCE(WarningType::InvalidXML, parent, this, rawDataIndex,
+			                      "'TlutOffset' declared in non color-indexed (ci4 or ci8) texture",
+			                      "");
 			break;
 		}
 	}
@@ -102,10 +106,7 @@ void ZTexture::ParseXML(tinyxml2::XMLElement* reader)
 void ZTexture::ParseRawData()
 {
 	if (rawDataIndex % 8 != 0)
-		fprintf(stderr,
-		        "ZTexture::ParseXML: Warning in '%s'.\n"
-		        "\t This texture is not 64-bit aligned.\n",
-		        name.c_str());
+		dWordAligned = false;
 
 	switch (format)
 	{
@@ -136,8 +137,11 @@ void ZTexture::ParseRawData()
 	case TextureType::Palette8bpp:
 		PrepareBitmapPalette8();
 		break;
-	default:
-		throw std::runtime_error("Format is not supported!");
+	case TextureType::Error:
+		HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+		                      StringHelper::Sprintf("Invalid texture format", format), "");
+		assert(!"TODO");
+		break;
 	}
 }
 
@@ -375,8 +379,9 @@ void ZTexture::PrepareRawDataFromFile(const fs::path& pngFilePath)
 	case TextureType::Palette8bpp:
 		PrepareRawDataPalette8(pngFilePath);
 		break;
-	default:
-		throw std::runtime_error("Format is not supported!");
+	case TextureType::Error:
+		HANDLE_ERROR_PROCESS(WarningType::InvalidPNG, "Input PNG file has invalid format type", "");
+		break;
 	}
 }
 
@@ -717,7 +722,12 @@ void ZTexture::Save(const fs::path& outFolder)
 	if (!Directory::Exists(outPath.string()))
 		Directory::CreateDirectory(outPath.string());
 
-	auto outFileName = outPath / (outName + "." + GetExternalExtension() + ".png");
+	fs::path outFileName;
+
+	if (!dWordAligned)
+		outFileName = outPath / (outName + ".u32" + "." + GetExternalExtension() + ".png");
+	else
+		outFileName = outPath / (outName + +"." + GetExternalExtension() + ".png");
 
 #ifdef TEXTURE_DEBUG
 	printf("Saving PNG: %s\n", outFileName.c_str());
@@ -738,7 +748,7 @@ Declaration* ZTexture::DeclareVar(const std::string& prefix,
 {
 	std::string auxName = name;
 	std::string auxOutName = outName;
-
+	std::string incStr;
 	if (auxName == "")
 		auxName = GetDefaultName(prefix);
 
@@ -747,8 +757,12 @@ Declaration* ZTexture::DeclareVar(const std::string& prefix,
 
 	auto filepath = Globals::Instance->outputPath / fs::path(auxOutName).stem();
 
-	std::string incStr =
-		StringHelper::Sprintf("%s.%s.inc.c", filepath.c_str(), GetExternalExtension().c_str());
+	if (dWordAligned)
+		incStr =
+			StringHelper::Sprintf("%s.%s.inc.c", filepath.c_str(), GetExternalExtension().c_str());
+	else
+		incStr = StringHelper::Sprintf("%s.u32.%s.inc.c", filepath.c_str(),
+		                               GetExternalExtension().c_str());
 
 	if (!Globals::Instance->cfg.texturePool.empty())
 	{
@@ -758,13 +772,19 @@ Declaration* ZTexture::DeclareVar(const std::string& prefix,
 		const auto& poolEntry = Globals::Instance->cfg.texturePool.find(hash);
 		if (poolEntry != Globals::Instance->cfg.texturePool.end())
 		{
-			incStr = StringHelper::Sprintf("%s.%s.inc.c", poolEntry->second.path.c_str(),
-			                               GetExternalExtension().c_str());
+			if (dWordAligned)
+				incStr = StringHelper::Sprintf("%s.%s.inc.c", poolEntry->second.path.c_str(),
+				                               GetExternalExtension().c_str());
+			else
+				incStr = StringHelper::Sprintf("%s.u32.%s.inc.c", poolEntry->second.path.c_str(),
+				                               GetExternalExtension().c_str());
 		}
 	}
+	size_t texSizeDivisor = (dWordAligned) ? 8 : 4;
 
-	Declaration* decl = parent->AddDeclarationIncludeArray(
-		rawDataIndex, incStr, GetRawDataSize(), GetSourceTypeName(), auxName, GetRawDataSize() / 8);
+	Declaration* decl = parent->AddDeclarationIncludeArray(rawDataIndex, incStr, GetRawDataSize(),
+	                                                       GetSourceTypeName(), auxName,
+	                                                       GetRawDataSize() / texSizeDivisor);
 	decl->staticConf = staticConf;
 	return decl;
 }
@@ -772,15 +792,17 @@ Declaration* ZTexture::DeclareVar(const std::string& prefix,
 std::string ZTexture::GetBodySourceCode() const
 {
 	std::string sourceOutput;
-
-	for (size_t i = 0; i < textureDataRaw.size(); i += 8)
+	size_t texSizeInc = (dWordAligned) ? 8 : 4;
+	for (size_t i = 0; i < textureDataRaw.size(); i += texSizeInc)
 	{
 		if (i % 32 == 0)
 			sourceOutput += "    ";
-
-		sourceOutput +=
-			StringHelper::Sprintf("0x%016llX, ", BitConverter::ToUInt64BE(textureDataRaw, i));
-
+		if (dWordAligned)
+			sourceOutput +=
+				StringHelper::Sprintf("0x%016llX, ", BitConverter::ToUInt64BE(textureDataRaw, i));
+		else
+			sourceOutput +=
+				StringHelper::Sprintf("0x%08llX, ", BitConverter::ToUInt32BE(textureDataRaw, i));
 		if (i % 32 == 24)
 			sourceOutput += StringHelper::Sprintf(" // 0x%06X \n", rawDataIndex + ((i / 32) * 32));
 	}
@@ -805,7 +827,7 @@ ZResourceType ZTexture::GetResourceType() const
 
 std::string ZTexture::GetSourceTypeName() const
 {
-	return "u64";
+	return dWordAligned ? "u64" : "u32";
 }
 
 void ZTexture::CalcHash()
@@ -860,13 +882,9 @@ TextureType ZTexture::GetTextureTypeFromString(const std::string& str)
 	else if (str == "rgb5a1")
 	{
 		texType = TextureType::RGBA16bpp;
-#ifdef DEPRECATION_ON
-		fprintf(stderr, "ZTexture::GetTextureTypeFromString: Deprecation warning.\n"
-		                "\t The texture format 'rgb5a1' is currently deprecated, and will be "
-		                "removed in a future "
-		                "version.\n"
-		                "\t Use the format 'rgba16' instead.\n");
-#endif
+		HANDLE_WARNING(WarningType::Deprecated,
+		               "the texture format 'rgb5a1' is currently deprecated",
+		               "It will be removed in a future version. Use the format 'rgba16' instead.");
 	}
 	else if (str == "i4")
 		texType = TextureType::Grayscale4bpp;
@@ -883,7 +901,9 @@ TextureType ZTexture::GetTextureTypeFromString(const std::string& str)
 	else if (str == "ci8")
 		texType = TextureType::Palette8bpp;
 	else
-		fprintf(stderr, "Encountered Unknown Texture format %s \n", str.c_str());
+		// TODO: handle this case in a more coherent way
+		HANDLE_WARNING(WarningType::InvalidAttributeValue,
+		               "invalid value found for 'Type' attribute", "Defaulting to ''.");
 	return texType;
 }
 

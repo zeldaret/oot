@@ -2,7 +2,9 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <cinttypes>
 #include <string_view>
+
 #include "Commands/EndMarker.h"
 #include "Commands/SetActorCutsceneList.h"
 #include "Commands/SetActorList.h"
@@ -40,6 +42,7 @@
 #include "Utils/File.h"
 #include "Utils/Path.h"
 #include "Utils/StringHelper.h"
+#include "WarningHandler.h"
 #include "ZBlob.h"
 #include "ZCutscene.h"
 #include "ZFile.h"
@@ -123,10 +126,12 @@ void ZRoom::ParseXML(tinyxml2::XMLElement* reader)
 	{
 		hackMode = std::string(reader->Attribute("HackMode"));
 		if (hackMode != "syotes_room")
-			throw std::runtime_error(
-				StringHelper::Sprintf("ZRoom::ParseXML: Fatal error in '%s'.\n"
-			                          "\t Invalid value for attribute 'HackMode': '%s'\n",
-			                          name.c_str(), hackMode.c_str()));
+		{
+			std::string headerError = StringHelper::Sprintf(
+				"invalid value found for 'HackMode' attribute: '%s'", hackMode.c_str());
+			HANDLE_ERROR_RESOURCE(WarningType::InvalidAttributeValue, parent, this, rawDataIndex,
+			                      headerError, "");
+		}
 	}
 }
 
@@ -256,9 +261,10 @@ void ZRoom::ParseRawData()
 		if (Globals::Instance->profile)
 		{
 			auto end = std::chrono::steady_clock::now();
-			auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+			int64_t diff =
+				std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 			if (diff > 50)
-				printf("OP: %s, TIME: %lims\n", cmd->GetCommandCName().c_str(), diff);
+				printf("OP: %s, TIME: %" PRIi64 "ms\n", cmd->GetCommandCName().c_str(), diff);
 		}
 
 		cmd->cmdIndex = currentIndex;
@@ -392,14 +398,10 @@ size_t ZRoom::GetCommandSizeFromNeighbor(ZRoomCommand* cmd)
 	return 0;
 }
 
-std::string ZRoom::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
+void ZRoom::GetSourceOutputCode([[maybe_unused]] const std::string& prefix)
 {
-	if (hackMode == "syotes_room")
-		return "";
-
-	DeclareVar(prefix, GetBodySourceCode());
-
-	return "";
+	if (hackMode != "syotes_room")
+		DeclareVar(prefix, GetBodySourceCode());
 }
 
 size_t ZRoom::GetRawDataSize() const

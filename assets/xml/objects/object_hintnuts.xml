@@ -2,7 +2,7 @@
     <File Name="object_hintnuts" Segment="6">
         <!-- Deku scrub skeleton -->
         <Skeleton Name="gHintNutsSkel" Type="Normal" LimbType="Standard" Offset="0x23B8"/>
-        
+
         <!-- Deku Scrub animations -->
         <Animation Name="gHintNutsSpitAnim" Offset="0x168"/>
         <Animation Name="gHintNutsBurrowAnim" Offset="0x24CC"/>

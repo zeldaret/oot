@@ -2,10 +2,8 @@
 
 #include "code/fbdemo_triforce/z_fbdemo_triforce.c"
 
-#define THIS ((TransitionTriforce*)thisx)
-
 void TransitionTriforce_Start(void* thisx) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     switch (this->state) {
         case 1:
@@ -17,7 +15,7 @@ void TransitionTriforce_Start(void* thisx) {
 }
 
 void* TransitionTriforce_Init(void* thisx) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     bzero(this, sizeof(*this));
     guOrtho(&this->projection, -160.0f, 160.0f, -120.0f, 120.0f, -1000.0f, 1000.0f, 1.0f);
@@ -32,7 +30,7 @@ void TransitionTriforce_Destroy(void* thisx) {
 }
 
 void TransitionTriforce_Update(void* thisx, s32 updateRate) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
     f32 temp_f0;
     s32 i;
 
@@ -50,20 +48,20 @@ void TransitionTriforce_Update(void* thisx, s32 updateRate) {
 }
 
 void TransitionTriforce_SetColor(void* thisx, u32 color) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     this->color.rgba = color;
 }
 
 void TransitionTriforce_SetType(void* thisx, s32 type) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     this->fadeDirection = type;
 }
 
 // unused
 void TransitionTriforce_SetState(void* thisx, s32 state) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     this->state = state;
 }
@@ -72,7 +70,7 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
     f32 scale;
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
     s32 pad;
     f32 rotation = this->transPos * 360.0f;
 
@@ -119,7 +117,7 @@ void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
 }
 
 s32 TransitionTriforce_IsDone(void* thisx) {
-    TransitionTriforce* this = THIS;
+    TransitionTriforce* this = (TransitionTriforce*)thisx;
 
     s32 ret = 0;
 

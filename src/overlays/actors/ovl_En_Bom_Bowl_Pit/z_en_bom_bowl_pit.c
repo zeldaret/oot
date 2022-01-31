@@ -3,9 +3,7 @@
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnBomBowlPit*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ const ActorInit En_Bom_Bowl_Pit_InitVars = {
 };
 
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomBowlPit* this = THIS;
+    EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
     this->actionFunc = EnBomBowlPit_SetupDetectHit;
 }
@@ -183,10 +181,10 @@ void EnBomBowlPit_GivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
         this->getItemId = GI_BOMB_BAG_40;
     }
 
-    player->stateFlags1 &= ~0x20000000;
+    player->stateFlags1 &= ~PLAYER_STATE1_29;
     this->actor.parent = NULL;
     func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
-    player->stateFlags1 |= 0x20000000;
+    player->stateFlags1 |= PLAYER_STATE1_29;
     this->actionFunc = EnBomBowlPit_WaitTillPrizeGiven;
 }
 
@@ -214,7 +212,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomBowlPit* this = THIS;
+    EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
     this->actionFunc(this, globalCtx);
 

@@ -9,9 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnExItem*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -51,9 +49,9 @@ void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnExItem* this = THIS;
+    EnExItem* this = (EnExItem*)thisx;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->type = this->actor.params & 0xFF;
     this->unusedParam = (this->actor.params >> 8) & 0xFF;
     osSyncPrintf("\n\n");
@@ -420,7 +418,7 @@ void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx) {
 
 void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnExItem* this = THIS;
+    EnExItem* this = (EnExItem*)thisx;
 
     if (this->timer != 0) {
         this->timer--;
@@ -436,7 +434,7 @@ void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnExItem* this = THIS;
+    EnExItem* this = (EnExItem*)thisx;
     s32 magicType;
 
     Actor_SetScale(&this->actor, this->scale);
@@ -490,14 +488,14 @@ void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx) {
 }
 
 void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex) {
-    static s16 sgiDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
+    static s16 giDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
 
     func_8002ED80(&this->actor, globalCtx, 0);
-    GetItem_Draw(globalCtx, sgiDrawIds[magicIndex]);
+    GetItem_Draw(globalCtx, giDrawIds[magicIndex]);
 }
 
 void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
-    static s32 keySegments[] = { 0x0403F140 };
+    static void* keySegments[] = { gDropKeySmallTex };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 880);
 

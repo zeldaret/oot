@@ -1,9 +1,7 @@
 #include "z_en_m_thunder.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnMThunder*)thisx)
+#define FLAGS 0
 
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -63,7 +61,7 @@ void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
 
 void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -85,7 +83,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetScale(&this->actor, 0.1f);
     this->unk_1CA = 0;
 
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (!gSaveContext.magicAcquired || gSaveContext.unk_13F0 ||
             (((this->actor.params & 0xFF00) >> 8) &&
              !(func_80087708(globalCtx, (this->actor.params & 0xFF00) >> 8, 0)))) {
@@ -97,7 +95,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
 
-        player->stateFlags2 &= ~0x20000;
+        player->stateFlags2 &= ~PLAYER_STATE2_17;
         this->unk_1CA = 1;
         this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
         this->unk_1C6 = 1;
@@ -114,7 +112,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
 
     if (this->unk_1CA != 0) {
         func_800876C8(globalCtx);
@@ -132,7 +130,7 @@ void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
 void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (player->swordAnimation >= 0x18) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
@@ -144,7 +142,7 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (!(player->stateFlags1 & 0x1000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -177,7 +175,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         func_800AA000(0.0f, (s32)(player->unk_858 * 150.0f) & 0xFF, 2, (s32)(player->unk_858 * 150.0f) & 0xFF);
     }
 
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if ((child != NULL) && (child->update != NULL)) {
             child->parent = NULL;
         }
@@ -192,7 +190,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            player->stateFlags2 &= ~0x20000;
+            player->stateFlags2 &= ~PLAYER_STATE2_17;
             if ((this->actor.params & 0xFF00) >> 8) {
                 gSaveContext.unk_13F0 = 1;
             }
@@ -215,7 +213,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (!(player->stateFlags1 & 0x1000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
         }
@@ -303,7 +301,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
 }
 
 void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
     f32 blueRadius;
     s32 redGreen;
 
@@ -319,7 +317,7 @@ void EnMThunder_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static f32 D_80AA046C[] = { 0.1f, 0.15f, 0.2f, 0.25f, 0.3f, 0.25f, 0.2f, 0.15f };
     GlobalContext* globalCtx = globalCtx2;
-    EnMThunder* this = THIS;
+    EnMThunder* this = (EnMThunder*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     f32 phi_f14;
     s32 phi_t1;

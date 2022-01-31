@@ -10,9 +10,7 @@
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnDntDemo*)thisx)
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ DNT_LIKE,
@@ -72,7 +70,7 @@ void EnDntDemo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
     s32 i;
     s32 pad;
 
@@ -100,7 +98,7 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
     this->subCamera = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnDntDemo_Judge;
 }
 
@@ -161,7 +159,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                     if (!(gSaveContext.itemGetInf[1] & 0x4000)) {
                         reaction = DNT_SIGNAL_CELEBRATE;
                         this->prize = DNT_PRIZE_STICK;
-                        Audio_QueueSeqCmd(NA_BGM_SARIA_THEME);
+                        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SARIA_THEME);
                         break;
                     }
                 case PLAYER_MASK_TRUTH:
@@ -208,17 +206,17 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         this->action = sResultValues[resultIdx][1];
                         switch (this->action) {
                             case DNT_ACTION_LOW_RUPEES:
-                                Audio_QueueSeqCmd(NA_BGM_COURTYARD);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_COURTYARD);
                                 break;
                             case DNT_ACTION_ATTACK:
                                 if (this->subCamera != SUBCAM_FREE) {
                                     this->subCamera = SUBCAM_FREE;
                                     OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, MAIN_CAM);
                                 }
-                                Audio_QueueSeqCmd(NA_BGM_ENEMY | 0x800);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
                                 break;
                             case DNT_ACTION_DANCE:
-                                Audio_QueueSeqCmd(NA_BGM_SHOP);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SHOP);
                                 break;
                         }
                         osSyncPrintf("\n\n");
@@ -315,7 +313,7 @@ void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx) {
 
 void EnDntDemo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
 
     if (this->unkTimer2 != 0) {
         this->unkTimer2--;

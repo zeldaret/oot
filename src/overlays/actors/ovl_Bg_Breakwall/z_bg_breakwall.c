@@ -6,10 +6,10 @@
 
 #include "z_bg_breakwall.h"
 #include "scenes/dungeons/ddan/ddan_scene.h"
+#include "objects/object_bwall/object_bwall.h"
+#include "objects/object_kingdodongo/object_kingdodongo.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgBreakwall*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef struct {
     /* 0x00 */ CollisionHeader* colHeader;
@@ -59,10 +59,10 @@ static ColliderQuadInit sQuadInit = {
 };
 
 static BombableWallInfo sBombableWallInfo[] = {
-    { 0x06000118, 0x06000040, 0 },
-    { 0x06000118, 0x06000040, 0 },
-    { 0x060264A8, 0x06025BD0, 1 },
-    { 0x06025B64, NULL, -1 },
+    { &object_bwall_Col_000118, object_bwall_DL_000040, 0 },
+    { &object_bwall_Col_000118, object_bwall_DL_000040, 0 },
+    { &object_kingdodongo_Col_0264A8, object_kingdodongo_DL_025BD0, 1 },
+    { &object_kingdodongo_Col_025B64, NULL, -1 },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -77,7 +77,7 @@ void BgBreakwall_SetupAction(BgBreakwall* this, BgBreakwallActionFunc actionFunc
 }
 
 void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
     s32 pad;
     s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
@@ -114,7 +114,7 @@ void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -208,7 +208,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, GlobalContext* globalCtx) {
 
         this->dyna.actor.objBankIndex = this->bankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.draw = BgBreakwall_Draw;
         CollisionHeader_GetVirtual(sBombableWallInfo[wallType].colHeader, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -274,7 +274,7 @@ void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx) {
 }
 
 void BgBreakwall_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -290,7 +290,7 @@ static Vec3f sColQuadList[][4] = {
 
 void BgBreakwall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgBreakwall* this = THIS;
+    BgBreakwall* this = (BgBreakwall*)thisx;
 
     if (this->bombableWallDList != NULL) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_breakwall.c", 767);

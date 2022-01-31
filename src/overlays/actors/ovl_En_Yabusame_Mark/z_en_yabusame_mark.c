@@ -7,9 +7,7 @@
 #include "z_en_yabusame_mark.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnYabusameMark*)thisx)
+#define FLAGS 0
 
 void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -72,17 +70,17 @@ static f32 sRingDistance[] = {
 };
 
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnYabusameMark* this = THIS;
+    EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
 
 void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnYabusameMark* this = THIS;
+    EnYabusameMark* this = (EnYabusameMark*)thisx;
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->typeIndex = this->actor.params;
     this->actor.targetMode = 5;
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
@@ -106,7 +104,7 @@ void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
     this->worldPos = this->actor.world.pos;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     if (gSaveContext.sceneSetupIndex != 4) {
         Actor_Kill(&this->actor);
         return;
@@ -188,7 +186,7 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
 }
 
 void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnYabusameMark* this = THIS;
+    EnYabusameMark* this = (EnYabusameMark*)thisx;
     Vec3f* vertexArray;
     u32 arrayIndex;
 

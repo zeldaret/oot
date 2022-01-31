@@ -10,9 +10,7 @@
 
 #include "vt.h"
 
-#define FLAGS 0x00800000
-
-#define THIS ((EnIshi*)thisx)
+#define FLAGS ACTOR_FLAG_23
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -104,7 +102,7 @@ static ColliderCylinderInit sCylinderInits[] = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInits[this->actor.params & 1]);
@@ -307,7 +305,7 @@ static InitChainEntry sInitChains[][5] = {
 };
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
     s16 type = this->actor.params & 1;
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
@@ -335,7 +333,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -351,14 +349,15 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnIshi_SetupLiftedUp(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, liftSounds[type]);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, liftSounds[type]);
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, globalCtx);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
                this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000048) {
         EnIshi_DropCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type], sBreakSounds[type]);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
+                                           sBreakSounds[type]);
         sFragmentSpawnFuncs[type](this, globalCtx);
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
@@ -383,7 +382,7 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
 void EnIshi_SetupLiftedUp(EnIshi* this) {
     this->actionFunc = EnIshi_LiftedUp;
     this->actor.room = -1;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
@@ -425,8 +424,8 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         EnIshi_DropCollectible(this, globalCtx);
         sFragmentSpawnFuncs[type](this, globalCtx);
         if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
-                                      sBreakSounds[type]);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
+                                               sBreakSounds[type]);
             sDustSpawnFuncs[type](this, globalCtx);
         }
         if (type == ROCK_LARGE) {
@@ -456,7 +455,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         this->actor.minVelocityY = -6.0f;
         sRotSpeedX >>= 2;
         sRotSpeedY >>= 2;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         this->actor.bgCheckFlags &= ~0x40;
     }
     Math_StepToF(&this->actor.shape.yOffset, 0.0f, 2.0f);
@@ -471,7 +470,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
 }
 
 void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -495,7 +494,7 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
 static EnIshiDrawFunc sDrawFuncs[] = { EnIshi_DrawSmall, EnIshi_DrawLarge };
 
 void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     sDrawFuncs[this->actor.params & 1](this, globalCtx);
 }

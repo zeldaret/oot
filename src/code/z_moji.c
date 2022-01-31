@@ -69,7 +69,7 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
     }
 
     if (sCurTLUTIndex != GET_CHAR_TLUT_INDEX(c)) {
-        gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, &gMojiFontTLUTs[GET_CHAR_TLUT_INDEX(c)]);
+        gDPLoadTLUT(POLY_OPA_DISP++, 16, 256, gMojiFontTLUTs[GET_CHAR_TLUT_INDEX(c)]);
         sCurTLUTIndex = GET_CHAR_TLUT_INDEX(c);
     }
     gSPTextureRectangle(POLY_OPA_DISP++, sScreenPosX << 2, sScreenPosY << 2, (sScreenPosX + DISP_CHAR_WIDTH) << 2,
@@ -82,7 +82,7 @@ void Moji_DrawChar(GraphicsContext* gfxCtx, char c) {
 /**
  * Does not work as is in most cases.
  * Can work if the render mode, combiner and possibly other settings are set correctly.
- * For example this works with the render mode used in `GfxPrint_InitDlist`,
+ * For example this works with the render mode used in `GfxPrint_Setup`,
  * and `G_CC_MODULATEI_PRIM` for both combiner cycles.
  */
 void Moji_DrawString(GraphicsContext* gfxCtx, const char* str) {

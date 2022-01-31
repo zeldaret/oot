@@ -9,9 +9,7 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgJyaBombiwa*)thisx)
+#define FLAGS 0
 
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -88,7 +86,7 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombiwa* this = THIS;
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     if ((this->dyna.actor.params & 0x3F) != 0x29) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
@@ -111,7 +109,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombiwa* this = THIS;
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -162,12 +160,12 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombiwa* this = THIS;
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -175,7 +173,7 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBombiwa* this = THIS;
+    BgJyaBombiwa* this = (BgJyaBombiwa*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, gBombiwaDL);
     Collider_UpdateSpheres(0, &this->collider);

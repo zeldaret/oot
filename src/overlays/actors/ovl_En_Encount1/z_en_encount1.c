@@ -2,9 +2,7 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Tite/z_en_tite.h"
 
-#define FLAGS 0x08000010
-
-#define THIS ((EnEncount1*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ const ActorInit En_Encount1_InitVars = {
 
 void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnEncount1* this = THIS;
+    EnEncount1* this = (EnEncount1*)thisx;
     f32 spawnRange;
 
     if (this->actor.params <= 0) {
@@ -66,7 +64,7 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発生チェック範囲   ☆☆☆☆☆ %f\n" VT_RST, this->spawnRange);
     osSyncPrintf("\n\n");
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     switch (this->spawnType) {
         case SPAWNER_LEEVER:
             this->timer = 30;
@@ -244,7 +242,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
         while ((this->curNumSpawn < this->maxCurSpawns) && (this->totalNumSpawn < this->maxTotalSpawns)) {
             if (globalCtx->sceneNum == SCENE_SPOT00) {
                 if ((player->unk_89E == 0) || (player->actor.floorBgId != BGCHECK_SCENE) ||
-                    !(player->actor.bgCheckFlags & 1) || (player->stateFlags1 & 0x08000000)) {
+                    !(player->actor.bgCheckFlags & 1) || (player->stateFlags1 & PLAYER_STATE1_27)) {
 
                     this->fieldSpawnTimer = 60;
                     break;
@@ -316,7 +314,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
 
 void EnEncount1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnEncount1* this = THIS;
+    EnEncount1* this = (EnEncount1*)thisx;
 
     if (this->timer != 0) {
         this->timer--;

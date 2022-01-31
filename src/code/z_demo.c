@@ -227,14 +227,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
     switch (cmd->base) {
         case 1:
             if (sp3F != 0) {
-                func_800F6D58(0xE, 4, 0x3F);
-                func_800F6D58(0xE, 1, 1);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_4, 0x3F);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 1);
                 globalCtx->envCtx.unk_EE[0] = 20;
             }
             break;
         case 2:
             if (sp3F != 0) {
-                func_800F6D58(0xF, 0, 0);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
                 Environment_AddLightningBolts(globalCtx, 3);
                 gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
@@ -332,7 +332,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             if (globalCtx->envCtx.unk_EE[1] == 0) {
                 gWeatherMode = 0;
-                func_800F6D58(14, 1, 0);
+                Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
             }
             break;
         case 19:
@@ -456,9 +456,9 @@ void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         var1 = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x110000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_FANFARE << 24 | 0xFF));
         } else {
-            Audio_QueueSeqCmd(var1 << 0x10 | 0x100000FF);
+            Audio_QueueSeqCmd(var1 << 0x10 | (0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xFF));
         }
     }
 }
@@ -569,9 +569,9 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 } else {
                     if (gSaveContext.sceneSetupIndex < 4) {
                         if (!LINK_IS_ADULT) {
-                            globalCtx->linkAgeOnLoad = 0;
+                            globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
                         } else {
-                            globalCtx->linkAgeOnLoad = 1;
+                            globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                         }
                     }
                     globalCtx->nextEntranceIndex = 0x02CA;
@@ -670,7 +670,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 2;
                 break;
             case 25:
-                globalCtx->linkAgeOnLoad = 0;
+                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
                 globalCtx->nextEntranceIndex = 0x006B;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF0;
@@ -714,7 +714,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.chamberCutsceneNum = 2;
                 break;
             case 32:
-                globalCtx->linkAgeOnLoad = 1;
+                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                 globalCtx->nextEntranceIndex = 0x00CD;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF2;
@@ -750,7 +750,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 4;
                 break;
             case 40:
-                globalCtx->linkAgeOnLoad = 0;
+                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
                 globalCtx->nextEntranceIndex = 0x0053;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFFA;
@@ -827,7 +827,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 54:
                 gSaveContext.gameMode = 3;
                 Audio_SetSoundBanksMute(0x6F);
-                globalCtx->linkAgeOnLoad = 1;
+                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                 globalCtx->nextEntranceIndex = 0x0117;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -876,7 +876,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 2;
                 break;
             case 62:
-                globalCtx->linkAgeOnLoad = 0;
+                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
                 globalCtx->nextEntranceIndex = 0x00EE;
                 gSaveContext.cutsceneIndex = 0xFFF6;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -895,7 +895,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->fadeTransition = 2;
                 break;
             case 65:
-                globalCtx->linkAgeOnLoad = 1;
+                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                 globalCtx->nextEntranceIndex = 0x0157;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -934,7 +934,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 Player_SetEquipmentData(globalCtx, player);
                 gSaveContext.equips.equipment |= 0x1000;
                 Player_SetEquipmentData(globalCtx, player);
-                globalCtx->linkAgeOnLoad = 1;
+                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                 globalCtx->nextEntranceIndex = 0x0053;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF1;
@@ -948,7 +948,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.nextTransition = 2;
                 break;
             case 73:
-                globalCtx->linkAgeOnLoad = 1;
+                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                 globalCtx->nextEntranceIndex = 0x0157;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF2;
@@ -962,21 +962,21 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.nextTransition = 3;
                 break;
             case 75:
-                globalCtx->linkAgeOnLoad = 1;
+                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                 globalCtx->nextEntranceIndex = 0x0157;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF4;
                 globalCtx->fadeTransition = 2;
                 break;
             case 76:
-                globalCtx->linkAgeOnLoad = 0;
+                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
                 globalCtx->nextEntranceIndex = 0x0157;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF5;
                 globalCtx->fadeTransition = 2;
                 break;
             case 77:
-                globalCtx->linkAgeOnLoad = 1;
+                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                 globalCtx->nextEntranceIndex = 0x0157;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF6;
@@ -1207,7 +1207,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 117:
                 gSaveContext.gameMode = 3;
                 Audio_SetSoundBanksMute(0x6F);
-                globalCtx->linkAgeOnLoad = 0;
+                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
                 globalCtx->nextEntranceIndex = 0x00CD;
                 gSaveContext.cutsceneIndex = 0xFFF7;
                 globalCtx->sceneLoadFlag = 0x14;
@@ -1849,16 +1849,16 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                     cutscenePtr += 0x30;
                 }
                 break;
-            case CS_CMD_CAMERA_POS:
+            case CS_CMD_CAM_EYE:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_POS_PLAYER:
+            case CS_CMD_CAM_EYE_REL_TO_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraPositions(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
-            case CS_CMD_CAMERA_FOCUS:
+            case CS_CMD_CAM_AT:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 0);
                 break;
-            case CS_CMD_CAMERA_FOCUS_PLAYER:
+            case CS_CMD_CAM_AT_REL_TO_PLAYER:
                 cutscenePtr += Cutscene_Command_CameraFocus(globalCtx, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_07:

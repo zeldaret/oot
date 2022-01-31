@@ -170,7 +170,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
-        if (D_8012D260 != 0) {
+        if (D_8012D260 != NULL) {
             HREG(80) = 7;
             HREG(81) = 1;
             HREG(83) = 2;
@@ -381,14 +381,14 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         sGraphUpdateTime = time;
     }
 
-    if (D_8012DBC0 && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
+    if (gIsCtrlr2Valid && CHECK_BTN_ALL(gameState->input[0].press.button, BTN_Z) &&
         CHECK_BTN_ALL(gameState->input[0].cur.button, BTN_L | BTN_R)) {
         gSaveContext.gameMode = 0;
         SET_NEXT_GAMESTATE(gameState, Select_Init, SelectContext);
         gameState->running = false;
     }
 
-    if (D_8012DBC0 && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
+    if (gIsCtrlr2Valid && PreNmiBuff_IsResetting(gAppNmiBufferPtr) && !gameState->unk_A0) {
         // "To reset mode"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "PRE-NMIによりリセットモードに移行します\n" VT_RST);
         SET_NEXT_GAMESTATE(gameState, PreNMI_Init, PreNMIContext);

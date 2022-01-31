@@ -3,9 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS 0x00000039
-
-#define THIS ((EnGo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -71,14 +69,14 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-typedef struct {
-    AnimationHeader* animation;
-    f32 playSpeed;
-    u8 mode;
-    f32 morphRate;
+typedef enum {
+    /* 0 */ ENGO_ANIM_0,
+    /* 1 */ ENGO_ANIM_1,
+    /* 2 */ ENGO_ANIM_2,
+    /* 3 */ ENGO_ANIM_3
 } EnGoAnimation;
 
-static EnGoAnimation sAnimationEntries[] = {
+static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
     { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
@@ -349,11 +347,11 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     }
 }
 
-void EnGo_ChangeAnimation(EnGo* this, s32 animIndex) {
-    Animation_Change(&this->skelAnime, sAnimationEntries[animIndex].animation,
-                     sAnimationEntries[animIndex].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[animIndex].animation), sAnimationEntries[animIndex].mode,
-                     sAnimationEntries[animIndex].morphRate);
+void EnGo_ChangeAnim(EnGo* this, s32 index) {
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
+                     sAnimationInfo[index].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
@@ -620,7 +618,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     s32 pad;
     Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
@@ -637,11 +635,11 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.params & 0xF0) && ((this->actor.params & 0xF0) != 0x90)) {
-        this->actor.flags &= ~0x10;
-        this->actor.flags &= ~0x20;
+        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
-    EnGo_ChangeAnimation(this, 0);
+    EnGo_ChangeAnim(this, ENGO_ANIM_0);
     this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
     this->actor.gravity = -1.0f;
@@ -693,7 +691,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -861,7 +859,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
             this->unk_1E0.unk_00 = 0;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                EnGo_ChangeAnimation(this, 2);
+                EnGo_ChangeAnim(this, ENGO_ANIM_2);
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
@@ -926,7 +924,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -935,7 +933,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[14] & 0x800) {
-        EnGo_ChangeAnimation(this, 3);
+        EnGo_ChangeAnim(this, ENGO_ANIM_3);
         EnGo_SetupAction(this, func_80A40A54);
     } else {
         EnGo_BiggoronActionFunc(this, globalCtx);
@@ -1008,7 +1006,7 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         Message_CloseTextbox(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
@@ -1018,7 +1016,7 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
 
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -1080,7 +1078,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
 }
 
 s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3s vec1;
     f32 float1;
 
@@ -1113,7 +1111,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
 }
 
 void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
@@ -1122,7 +1120,7 @@ void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2479);
 
@@ -1224,7 +1222,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2664),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

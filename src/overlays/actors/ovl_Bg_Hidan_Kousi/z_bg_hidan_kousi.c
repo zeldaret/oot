@@ -7,9 +7,7 @@
 #include "z_bg_hidan_kousi.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHidanKousi*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionF
 }
 
 void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKousi* this = THIS;
+    BgHidanKousi* this = (BgHidanKousi*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -91,7 +89,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKousi* this = THIS;
+    BgHidanKousi* this = (BgHidanKousi*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -146,7 +144,7 @@ void func_80889D28(BgHidanKousi* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanKousi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanKousi* this = THIS;
+    BgHidanKousi* this = (BgHidanKousi*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

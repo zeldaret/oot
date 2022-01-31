@@ -72,7 +72,7 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック ぶるぶるぶるぶる");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padMgr->pfs[i], temp) != 0) {
+                            if (__osMotorAccess(&padMgr->pfs[i], temp) != 0) {
                                 padMgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 // "A communication error has occurred with the vibration pack"
@@ -94,7 +94,7 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
                             osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
                             osSyncPrintf(VT_RST);
 
-                            if (osSetRumble(&padMgr->pfs[i], 0) != 0) {
+                            if (osMotorStop(&padMgr->pfs[i]) != 0) {
                                 padMgr->pakType[i] = 0;
                                 osSyncPrintf(VT_FGCOL(YELLOW));
                                 // "A communication error has occurred with the vibration pack"
@@ -133,12 +133,12 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
         i = frame % 4;
 
         if (padMgr->ctrlrIsConnected[i] && (padMgr->padStatus[i].status & 1) && (padMgr->pakType[i] != 1)) {
-            var4 = osProbeRumblePak(ctrlrQ, &padMgr->pfs[i], i);
+            var4 = osMotorInit(ctrlrQ, &padMgr->pfs[i], i);
 
             if (var4 == 0) {
                 padMgr->pakType[i] = 1;
-                osSetRumble(&padMgr->pfs[i], 1);
-                osSetRumble(&padMgr->pfs[i], 0);
+                osMotorStart(&padMgr->pfs[i]);
+                osMotorStop(&padMgr->pfs[i]);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Recognized vibration pack"
                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パックを認識しました");
@@ -164,7 +164,7 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
     OSMesgQueue* ctrlrQ = PadMgr_LockSerialMesgQueue(padMgr);
 
     for (i = 0; i < 4; i++) {
-        if (osProbeRumblePak(ctrlrQ, &padMgr->pfs[i], i) == 0) {
+        if (osMotorInit(ctrlrQ, &padMgr->pfs[i], i) == 0) {
             if ((gFaultStruct.msgId == 0) && (padMgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Stop vibration pack"
@@ -172,7 +172,7 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
                 osSyncPrintf(VT_RST);
             }
 
-            osSetRumble(&padMgr->pfs[i], 0);
+            osMotorStop(&padMgr->pfs[i]);
         }
     }
 
@@ -286,7 +286,7 @@ void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     mask = 0;
     for (i = 0; i < 4; i++) {
         if (padMgr->padStatus[i].errno == 0) {
-            if (padMgr->padStatus[i].type == 5) {
+            if (padMgr->padStatus[i].type == CONT_TYPE_NORMAL) {
                 mask |= 1 << i;
             } else {
                 LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);

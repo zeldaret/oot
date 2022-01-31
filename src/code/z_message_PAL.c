@@ -3117,7 +3117,8 @@ void Message_Update(GlobalContext* globalCtx) {
                 R_TEXT_CHOICE_YPOS(1) = R_TEXTBOX_Y_TARGET + 32;
                 R_TEXT_CHOICE_YPOS(2) = R_TEXTBOX_Y_TARGET + 44;
                 osSyncPrintf("message->msg_disp_type=%x\n", msgCtx->textBoxProperties & 0xF0);
-                if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_BOTTOM || msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
+                if (msgCtx->textBoxType == TEXTBOX_TYPE_NONE_BOTTOM ||
+                    msgCtx->textBoxType == TEXTBOX_TYPE_NONE_NO_SHADOW) {
                     msgCtx->msgMode = MSGMODE_TEXT_STARTING;
                     R_TEXTBOX_X = R_TEXTBOX_X_TARGET;
                     R_TEXTBOX_Y = R_TEXTBOX_Y_TARGET;

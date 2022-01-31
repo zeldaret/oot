@@ -8,9 +8,7 @@
 #include "objects/object_mm/object_mm.h"
 #include "objects/object_link_child/object_link_child.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnMm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 typedef enum {
     /* 0 */ RM_ANIM_RUN,
@@ -110,14 +108,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32 playSpeed;
-    /* 0x08 */ u8 mode;
-    /* 0x0C */ f32 morphFrames;
-} EnMmAnimEntry; // size = 0x10
-
-static EnMmAnimEntry sAnimationEntries[] = {
+static AnimationSpeedInfo sAnimationInfo[] = {
     { &gRunningManRunAnim, 1.0f, ANIMMODE_LOOP, -7.0f },     { &gRunningManSitStandAnim, -1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSitWaitAnim, 1.0f, ANIMMODE_LOOP, -7.0f }, { &gRunningManSitStandAnim, 1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSprintAnim, 1.0f, ANIMMODE_LOOP, -7.0f },  { &gRunningManExcitedAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
@@ -142,33 +133,31 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-void EnMm_ChangeAnimation(EnMm* this, s32 newAnimIndex, s32* curAnimIndex) {
+void EnMm_ChangeAnim(EnMm* this, s32 index, s32* currentIndex) {
     f32 morphFrames;
 
-    if ((*curAnimIndex < 0) || (newAnimIndex == *curAnimIndex)) {
+    if ((*currentIndex < 0) || (index == *currentIndex)) {
         morphFrames = 0.0f;
     } else {
-        morphFrames = sAnimationEntries[newAnimIndex].morphFrames;
+        morphFrames = sAnimationInfo[index].morphFrames;
     }
 
-    if (sAnimationEntries[newAnimIndex].playSpeed >= 0.0f) {
-        Animation_Change(&this->skelAnime, sAnimationEntries[newAnimIndex].animation,
-                         sAnimationEntries[newAnimIndex].playSpeed, 0.0f,
-                         Animation_GetLastFrame(sAnimationEntries[newAnimIndex].animation),
-                         sAnimationEntries[newAnimIndex].mode, morphFrames);
+    if (sAnimationInfo[index].playSpeed >= 0.0f) {
+        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].playSpeed, 0.0f,
+                         Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                         morphFrames);
     } else {
-        Animation_Change(&this->skelAnime, sAnimationEntries[newAnimIndex].animation,
-                         sAnimationEntries[newAnimIndex].playSpeed,
-                         Animation_GetLastFrame(sAnimationEntries[newAnimIndex].animation), 0.0f,
-                         sAnimationEntries[newAnimIndex].mode, morphFrames);
+        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].playSpeed,
+                         Animation_GetLastFrame(sAnimationInfo[index].animation), 0.0f, sAnimationInfo[index].mode,
+                         morphFrames);
     }
 
-    *curAnimIndex = newAnimIndex;
+    *currentIndex = index;
 }
 
 void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
@@ -180,9 +169,9 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, sColChkInfoInit);
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    Animation_Change(&this->skelAnime, sAnimationEntries[RM_ANIM_RUN].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[RM_ANIM_RUN].animation),
-                     sAnimationEntries[RM_ANIM_RUN].mode, sAnimationEntries[RM_ANIM_RUN].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[RM_ANIM_RUN].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation), sAnimationInfo[RM_ANIM_RUN].mode,
+                     sAnimationInfo[RM_ANIM_RUN].morphFrames);
 
     this->path = this->actor.params & 0xFF;
     this->unk_1F0 = 2;
@@ -194,18 +183,18 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (func_80AADA70() == 1) {
         this->mouthTexIndex = RM_MOUTH_OPEN;
-        EnMm_ChangeAnimation(this, RM_ANIM_RUN, &this->curAnimIndex);
+        EnMm_ChangeAnim(this, RM_ANIM_RUN, &this->curAnimIndex);
         this->actionFunc = func_80AAE598;
     } else {
         this->mouthTexIndex = RM_MOUTH_CLOSED;
-        EnMm_ChangeAnimation(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
+        EnMm_ChangeAnim(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
         this->actionFunc = func_80AAE294;
     }
 }
 
 void EnMm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -236,7 +225,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     player->actor.textId = 0x202D;
                     this->unk_254 &= ~1;
-                    EnMm_ChangeAnimation(this, RM_ANIM_HAPPY, &this->curAnimIndex);
+                    EnMm_ChangeAnim(this, RM_ANIM_HAPPY, &this->curAnimIndex);
                 } else {
                     player->actor.textId = 0x202C;
                     gSaveContext.infTable[23] |= 0x1000;
@@ -258,7 +247,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
             if (Message_ShouldAdvance(globalCtx)) {
                 if ((player->actor.textId == 0x202E) || (player->actor.textId == 0x202C)) {
                     this->unk_254 |= 1;
-                    EnMm_ChangeAnimation(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
+                    EnMm_ChangeAnim(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
                 }
                 sp1C = 0;
             }
@@ -304,7 +293,7 @@ void func_80AADCD0(EnMm* this, GlobalContext* globalCtx) {
 
             if (this->curAnimIndex != 5) {
                 if ((this->actor.textId == 0x202A) || (this->actor.textId == 0x202B)) {
-                    EnMm_ChangeAnimation(this, RM_ANIM_EXCITED, &this->curAnimIndex);
+                    EnMm_ChangeAnim(this, RM_ANIM_EXCITED, &this->curAnimIndex);
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                 }
             }
@@ -413,7 +402,7 @@ void func_80AAE224(EnMm* this, GlobalContext* globalCtx) {
         this->unk_254 |= 1;
         this->unk_1E0 = 0;
         this->actor.speedXZ = 0.0f;
-        EnMm_ChangeAnimation(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
+        EnMm_ChangeAnim(this, RM_ANIM_SIT_WAIT, &this->curAnimIndex);
     }
 }
 
@@ -454,7 +443,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
 
                 if ((floorYNorm > 0.9848f) || (floorYNorm < -0.9848f)) {
                     if (this->sitTimer > 30) {
-                        EnMm_ChangeAnimation(this, RM_ANIM_SIT, &this->curAnimIndex);
+                        EnMm_ChangeAnim(this, RM_ANIM_SIT, &this->curAnimIndex);
                         this->actionFunc = func_80AAE224;
                     } else {
                         this->sitTimer++;
@@ -487,10 +476,10 @@ void func_80AAE50C(EnMm* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AAE294;
 
         if (gSaveContext.itemGetInf[3] & 0x800) {
-            EnMm_ChangeAnimation(this, RM_ANIM_SPRINT, &this->curAnimIndex);
+            EnMm_ChangeAnim(this, RM_ANIM_SPRINT, &this->curAnimIndex);
             this->mouthTexIndex = RM_MOUTH_CLOSED;
         } else {
-            EnMm_ChangeAnimation(this, RM_ANIM_RUN, &this->curAnimIndex);
+            EnMm_ChangeAnim(this, RM_ANIM_RUN, &this->curAnimIndex);
             this->mouthTexIndex = RM_MOUTH_OPEN;
         }
 
@@ -506,13 +495,13 @@ void func_80AAE598(EnMm* this, GlobalContext* globalCtx) {
         this->unk_1E0 = 3;
         this->actionFunc = func_80AAE50C;
         this->unk_254 &= ~1;
-        EnMm_ChangeAnimation(this, RM_ANIM_STAND, &this->curAnimIndex);
+        EnMm_ChangeAnim(this, RM_ANIM_STAND, &this->curAnimIndex);
     }
 }
 
 void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     this->actionFunc(this, globalCtx);
     func_80AADCD0(this, globalCtx);
@@ -523,7 +512,7 @@ void EnMm_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* mouthTextures[] = { gRunningManMouthOpenTex, gRunningManMouthClosedTex };
     s32 pad;
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (0) {}
 
@@ -555,14 +544,14 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
             sp50.y = 3518;
             sp50.z = -13450;
 
-            func_800D1694(97.0f, -1203.0f, -240.0f, &sp50);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, -240.0f, &sp50);
             Matrix_ToMtx(mtx++, "../z_en_mm.c", 1124);
 
             sp50.x = -994;
             sp50.y = -3518;
             sp50.z = -13450;
 
-            func_800D1694(97.0f, -1203.0f, 240.0f, &sp50);
+            Matrix_SetTranslateRotateYXZ(97.0f, -1203.0f, 240.0f, &sp50);
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
@@ -574,7 +563,7 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (this->unk_254 & 1) {
         switch (limbIndex) {
@@ -596,7 +585,7 @@ s32 EnMm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f headOffset = { 200.0f, 800.0f, 0.0f };
-    EnMm* this = THIS;
+    EnMm* this = (EnMm*)thisx;
 
     if (limbIndex == 15) {
         Matrix_MultVec3f(&headOffset, &this->actor.focus.pos);

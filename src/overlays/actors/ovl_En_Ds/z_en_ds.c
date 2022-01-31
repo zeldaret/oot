@@ -7,9 +7,7 @@
 #include "z_en_ds.h"
 #include "objects/object_ds/object_ds.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnDs*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -31,7 +29,7 @@ const ActorInit En_Ds_InitVars = {
 };
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPotionShopLadySkel, &gPotionShopLadyAnim, this->jointTable,
@@ -45,7 +43,7 @@ void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = EnDs_Wait;
     this->actor.targetMode = 1;
     this->unk_1E8 = 0;
-    this->actor.flags &= ~0x1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_1E4 = 0.0f;
 }
 
@@ -55,7 +53,7 @@ void EnDs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnDs_Talk(EnDs* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Wait;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     this->unk_1E8 |= 1;
 }
@@ -72,7 +70,7 @@ void EnDs_TalkAfterGiveOddPotion(EnDs* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnDs_Talk;
     } else {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
     }
 }
@@ -81,7 +79,7 @@ void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
-        this->actor.flags &= ~0x100;
+        this->actor.flags &= ~ACTOR_FLAG_8;
         gSaveContext.itemGetInf[3] |= 1;
     }
 }
@@ -190,7 +188,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
                         return;
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
-                        this->actor.flags &= ~0x10000;
+                        this->actor.flags &= ~ACTOR_FLAG_16;
                         func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
@@ -235,7 +233,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
 }
 
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         this->skelAnime.curFrame = 0.0f;
@@ -254,7 +252,7 @@ void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (limbIndex == 5) {
         rot->x += this->unk_1D8.y;
@@ -265,7 +263,7 @@ s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     if (limbIndex == 5) {
         Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
@@ -273,7 +271,7 @@ void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDs* this = THIS;
+    EnDs* this = (EnDs*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

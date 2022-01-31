@@ -3,8 +3,9 @@
 #include <algorithm>
 #include <string_view>
 
-#include <Utils/File.h>
-#include <Utils/Path.h>
+#include "Utils/File.h"
+#include "Utils/Path.h"
+#include "WarningHandler.h"
 #include "tinyxml2.h"
 
 Globals* Globals::Instance;
@@ -151,8 +152,8 @@ bool Globals::GetSegmentedPtrName(segptr_t segAddress, ZFile* currentFile,
 		}
 	}
 
-	const auto& symbolFromMap = Globals::Instance->symbolMap.find(segAddress);
-	if (symbolFromMap != Globals::Instance->symbolMap.end())
+	const auto& symbolFromMap = Globals::Instance->cfg.symbolMap.find(segAddress);
+	if (symbolFromMap != Globals::Instance->cfg.symbolMap.end())
 	{
 		declName = "&" + symbolFromMap->second;
 		return true;

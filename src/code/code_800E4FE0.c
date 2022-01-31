@@ -562,8 +562,8 @@ s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
     }
 }
 
-s8 func_800E60C4(s32 arg0, s32 arg1) {
-    return gAudioContext.seqPlayers[arg0].soundScriptIO[arg1];
+s8 func_800E60C4(s32 playerIdx, s32 arg1) {
+    return gAudioContext.seqPlayers[playerIdx].soundScriptIO[arg1];
 }
 
 void Audio_InitExternalPool(void* mem, u32 size) {
@@ -723,7 +723,7 @@ void Audio_WaitForAudioTask(void) {
     osRecvMesg(gAudioContext.taskStartQueueP, NULL, OS_MESG_BLOCK);
 }
 
-s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
+s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
     SequencePlayer* seqPlayer;
     SequenceLayer* layer;
     Note* note;
@@ -731,7 +731,7 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
     s32 loopEnd;
     s32 samplePos;
 
-    seqPlayer = &gAudioContext.seqPlayers[arg0];
+    seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     if (seqPlayer->enabled && seqPlayer->channels[arg1]->enabled) {
         layer = seqPlayer->channels[arg1]->layers[arg2];
         if (layer == NULL) {

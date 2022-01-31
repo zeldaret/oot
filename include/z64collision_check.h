@@ -14,7 +14,7 @@ typedef struct {
     /* 0x04 */ struct Actor* at; // Actor attached to what it collided with as an AT collider.
     /* 0x08 */ struct Actor* ac; // Actor attached to what it collided with as an AC collider.
     /* 0x0C */ struct Actor* oc; // Actor attached to what it collided with as an OC collider.
-    /* 0x10 */ u8 atFlags; // Information flags for AT collisions. 
+    /* 0x10 */ u8 atFlags; // Information flags for AT collisions.
     /* 0x11 */ u8 acFlags; // Information flags for AC collisions.
     /* 0x12 */ u8 ocFlags1; // Information flags for OC collisions.
     /* 0x13 */ u8 ocFlags2;  // Flags related to which colliders it can OC collide with.
@@ -24,7 +24,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
-    /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
+    /* 0x01 */ u8 atFlags; // Information flags for AT collisions.
     /* 0x02 */ u8 acFlags; // Information flags for OC collisions.
     /* 0x03 */ u8 ocFlags1; // Information flags for OC collisions.
     /* 0x04 */ u8 ocFlags2; // Flags related to which colliders it can OC collide with.
@@ -33,7 +33,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
-    /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
+    /* 0x01 */ u8 atFlags; // Information flags for AT collisions.
     /* 0x02 */ u8 acFlags; // Information flags for AC collisions.
     /* 0x03 */ u8 ocFlags1; // Information flags for OC collisions.
     /* 0x04 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
@@ -258,7 +258,7 @@ typedef enum {
 /**
  * Affects the sound Link's sword makes when hitting it, hookability,
  * and possibly other things. It's definitely not flags, as all checks
- * are == or !=. Will probably need more actors decomped to truly 
+ * are == or !=. Will probably need more actors decomped to truly
  * understand what this is.
  */
 typedef enum {
@@ -343,7 +343,7 @@ typedef enum {
 
 #define DMG_ENTRY(damage, effect) ((damage) | ((effect) << 4))
 
-// These flags are not to be used in code until we figure out how we want to format them. They are only here for reference 
+// These flags are not to be used in code until we figure out how we want to format them. They are only here for reference
 #define DMG_DEKU_NUT     (1 << 0x00)
 #define DMG_DEKU_STICK   (1 << 0x01)
 #define DMG_SLINGSHOT    (1 << 0x02)

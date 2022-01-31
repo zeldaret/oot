@@ -7,9 +7,7 @@
 #include "z_en_toryo.h"
 #include "objects/object_toryo/object_toryo.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnToryo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -89,19 +87,12 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef struct {
-    AnimationHeader* anim;
-    f32 unk_4;
-    u8 mode;
-    f32 transitionRate;
-} EnToryoAnimation;
-
-static EnToryoAnimation sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
+static AnimationSpeedInfo sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
 
 void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
     s32 pad;
 
     switch (globalCtx->sceneNum) {
@@ -133,16 +124,16 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    Animation_Change(&this->skelAnime, sEnToryoAnimation.anim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sEnToryoAnimation.anim), sEnToryoAnimation.mode,
-                     sEnToryoAnimation.transitionRate);
+    Animation_Change(&this->skelAnime, sEnToryoAnimation.animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
+                     sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
     this->actor.targetMode = 6;
     this->actionFunc = func_80B20914;
 }
 
 void EnToryo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -356,7 +347,7 @@ void func_80B20914(EnToryo* this, GlobalContext* globalCtx) {
 }
 
 void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
     ColliderCylinder* collider = &this->collider;
     Player* player = GET_PLAYER(globalCtx);
     f32 rot;
@@ -386,7 +377,7 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
@@ -395,7 +386,7 @@ void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     if ((this->stateFlags & 8)) {
         switch (limbIndex) {
@@ -413,7 +404,7 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 }
 
 void EnToryo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnToryo* this = THIS;
+    EnToryo* this = (EnToryo*)thisx;
 
     switch (limbIndex) {
         case 15:

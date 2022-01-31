@@ -21,14 +21,13 @@
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
+#include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
-#include "bgm.h"
+#include "sequence.h"
 #include "sfx.h"
 #include "color.h"
 #include "ichain.h"
-#include "stdarg.h"
-#include "stdlib.h"
 #include "regs.h"
 
 #define SCREEN_WIDTH  320
@@ -187,10 +186,9 @@ typedef struct {
 } View; // size = 0x128
 
 typedef struct {
-    /* 0x00 */ u8   seqIndex;
-    /* 0x01 */ u8   nightSeqIndex;
-    /* 0x02 */ char unk_02[0x2];
-} SoundContext; // size = 0x4
+    /* 0x00 */ u8   seqId;
+    /* 0x01 */ u8   natureAmbienceId;
+} SequenceContext; // size = 0x2
 
 typedef struct {
     /* 0x00 */ s32 enabled;
@@ -219,7 +217,7 @@ typedef struct {
     /* 0x4D */ char     unk_4D[0x03];
     /* 0x50 */ TargetContextEntry arr_50[3];
     /* 0x8C */ Actor*   unk_8C;
-    /* 0x90 */ Actor*   unk_90;
+    /* 0x90 */ Actor*   bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor*   unk_94;
 } TargetContext; // size = 0x98
 
@@ -244,11 +242,10 @@ typedef struct {
     /* 0x0000 */ u8     freezeFlashTimer;
     /* 0x0001 */ char   unk_01[0x01];
     /* 0x0002 */ u8     unk_02;
-    /* 0x0003 */ u8     unk_03;
+    /* 0x0003 */ u8     lensActive;
     /* 0x0004 */ char   unk_04[0x04];
     /* 0x0008 */ u8     total; // total number of actors loaded
-    /* 0x0009 */ char   unk_09[0x03];
-    /* 0x000C */ ActorListEntry actorLists[12];
+    /* 0x000C */ ActorListEntry actorLists[ACTORCAT_MAX];
     /* 0x006C */ TargetContext targetCtx;
     struct {
         /* 0x0104 */ u32    swch;
@@ -285,8 +282,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f originPos;
-    /* 0x10 */ Vec3f relativePos;
+    /* 0x04 */ Vec3f worldPos;
+    /* 0x10 */ Vec3f projectedPos;
 } SoundSource; // size = 0x1C
 
 typedef enum {
@@ -511,9 +508,9 @@ typedef enum {
     /*  4 */ TEXT_STATE_CHOICE,
     /*  5 */ TEXT_STATE_EVENT,
     /*  6 */ TEXT_STATE_DONE,
-    /*  7 */ TEXT_STATE_SONG_DEMO_DONE, 
-    /*  8 */ TEXT_STATE_8, 
-    /*  9 */ TEXT_STATE_9, 
+    /*  7 */ TEXT_STATE_SONG_DEMO_DONE,
+    /*  8 */ TEXT_STATE_8,
+    /*  9 */ TEXT_STATE_9,
     /* 10 */ TEXT_STATE_AWAITING_NEXT
 } TextState;
 
@@ -647,8 +644,8 @@ typedef struct {
     /* 0x01F8 */ s16    naviCalling;
     /* 0x01FA */ s16    unk_1FA;
     /* 0x01FC */ s16    unk_1FC;
-    /* 0x01FE */ s16    unk_1FE;
-    /* 0x0200 */ s16    unk_200;
+    /* 0x01FE */ s16    heartColorOscillator;
+    /* 0x0200 */ s16    heartColorOscillatorDirection;
     /* 0x0202 */ s16    beatingHeartPrim[3];
     /* 0x0208 */ s16    beatingHeartEnv[3];
     /* 0x020E */ s16    heartsPrimR[2];
@@ -657,10 +654,10 @@ typedef struct {
     /* 0x021A */ s16    heartsEnvR[2];
     /* 0x021E */ s16    heartsEnvG[2];
     /* 0x0222 */ s16    heartsEnvB[2];
-    /* 0x0226 */ s16    unk_226;
-    /* 0x0228 */ s16    unk_228;
-    /* 0x022A */ s16    unk_22A;
-    /* 0x022C */ s16    unk_22C;
+    /* 0x0226 */ s16    unk_226; // Used only in unused functions
+    /* 0x0228 */ s16    unk_228; // Used only in unused functions
+    /* 0x022A */ s16    beatingHeartOscillator;
+    /* 0x022C */ s16    beatingHeartOscillatorDirection;
     /* 0x022E */ s16    unk_22E;
     /* 0x0230 */ s16    unk_230;
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
@@ -871,12 +868,12 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8    type;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
-    /* 0x04 */ void* dlist;
+    /* 0x04 */ Gfx*  dlist;
     union {
         struct {
-            /* 0x08 */ u32   source;
+            /* 0x08 */ void* source;
             /* 0x0C */ u32   unk_0C;
-            /* 0x10 */ u32   tlut;
+            /* 0x10 */ void* tlut;
             /* 0x14 */ u16   width;
             /* 0x16 */ u16   height;
             /* 0x18 */ u8    fmt;
@@ -934,7 +931,7 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 unk_74[2];
+    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
 
 typedef struct {
@@ -1140,7 +1137,7 @@ typedef struct GlobalContext {
     /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
-    /* 0x007A4 */ SoundContext soundCtx;
+    /* 0x007A4 */ SequenceContext sequenceCtx;
     /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;
@@ -1167,9 +1164,9 @@ typedef struct GlobalContext {
     /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
     /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
     /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
-    /* 0x11D60 */ MtxF mf_11D60;
-    /* 0x11DA0 */ MtxF mf_11DA0;
-    /* 0x11DE0 */ Mtx* unk_11DE0;
+    /* 0x11D60 */ MtxF viewProjectionMtxF;
+    /* 0x11DA0 */ MtxF billboardMtxF;
+    /* 0x11DE0 */ Mtx* billboardMtx;
     /* 0x11DE4 */ u32 gameplayFrames;
     /* 0x11DE8 */ u8 linkAgeOnLoad;
     /* 0x11DE9 */ u8 unk_11DE9;
@@ -1300,23 +1297,34 @@ typedef enum {
     DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
-// Some animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              playbackSpeed;
+    /* 0x04 */ f32              playSpeed;
     /* 0x08 */ f32              startFrame;
     /* 0x0C */ f32              frameCount;
     /* 0x10 */ u8               mode;
-    /* 0x14 */ f32              transitionRate;
-} struct_80034EC0_Entry; // size = 0x18
+    /* 0x14 */ f32              morphFrames;
+} AnimationInfo; // size = 0x18
 
-// Another animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              frameCount;
     /* 0x08 */ u8               mode;
-    /* 0x0C */ f32              transitionRate;
-} struct_D_80AA1678; // size = 0x10
+    /* 0x0C */ f32              morphFrames;
+} AnimationFrameCountInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32 playSpeed;
+    /* 0x08 */ u8 mode;
+    /* 0x0C */ f32 morphFrames;
+} AnimationSpeedInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ u8 mode;
+    /* 0x08 */ f32 morphFrames;
+} AnimationMinimalInfo; // size = 0xC
 
 typedef struct {
     /* 0x00 */ s16 unk_00;
@@ -1337,24 +1345,24 @@ typedef struct {
 } EntranceInfo; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ void*    loadedRamAddr;
-    /* 0x04 */ u32      vromStart; // if applicable
-    /* 0x08 */ u32      vromEnd;   // if applicable
-    /* 0x0C */ void*    vramStart; // if applicable
-    /* 0x10 */ void*    vramEnd;   // if applicable
-    /* 0x14 */ UNK_PTR  unk_14;
-    /* 0x18 */ void*    init;    // initializes and executes the given context
-    /* 0x1C */ void*    destroy; // deconstructs the context, and sets the next context to load
-    /* 0x20 */ UNK_PTR  unk_20;
-    /* 0x24 */ UNK_PTR  unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
-    /* 0x2C */ u32      instanceSize;
+    /* 0x00 */ void*     loadedRamAddr;
+    /* 0x04 */ u32       vromStart; // if applicable
+    /* 0x08 */ u32       vromEnd;   // if applicable
+    /* 0x0C */ void*     vramStart; // if applicable
+    /* 0x10 */ void*     vramEnd;   // if applicable
+    /* 0x14 */ UNK_PTR   unk_14;
+    /* 0x18 */ void*     init;    // initializes and executes the given context
+    /* 0x1C */ void*     destroy; // deconstructs the context, and sets the next context to load
+    /* 0x20 */ UNK_PTR   unk_20;
+    /* 0x24 */ UNK_PTR   unk_24;
+    /* 0x28 */ UNK_TYPE4 unk_28;
+    /* 0x2C */ u32       instanceSize;
 } GameStateOverlay; // size = 0x30
 
 typedef struct PreNMIContext {
     /* 0x00 */ GameState state;
-    /* 0xA4 */ u32      timer;
-    /* 0xA8 */ UNK_TYPE unk_A8;
+    /* 0xA4 */ u32       timer;
+    /* 0xA8 */ UNK_TYPE4 unk_A8;
 } PreNMIContext; // size = 0xAC
 
 typedef enum {
@@ -1511,26 +1519,35 @@ typedef struct {
     /* 0x38 */ void(*inputCallback)();
 } FaultDrawer; // size = 0x3C
 
-typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint* (*callback)(struct GfxPrint*, const char*, size_t);
-    /* 0x04 */ Gfx* dlist;
+typedef struct {
+    /* 0x00 */ PrintCallback callback;
+    /* 0x04 */ Gfx* dList;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
     /* 0x0C */ u16 baseX;
     /* 0x0E */ u8 baseY;
-    /* 0x0F */ u8 flag;
+    /* 0x0F */ u8 flags;
     /* 0x10 */ Color_RGBA8_u32 color;
     /* 0x14 */ char unk_14[0x1C]; // unused
 } GfxPrint; // size = 0x30
 
-typedef enum {
-    GFXPRINT_FLAG1 = 1,
-    GFXPRINT_USE_RGBA16 = 2,
-    GFXPRINT_FLAG4 = 4,
-    GFXPRINT_UPDATE_MODE = 8,
-    GFXPRINT_FLAG64 = 0x40,
-    GFXPRINT_OPEN = 0x80
-} GfxPrintFlag;
+#define GFXP_UNUSED "\x8E"
+#define GFXP_UNUSED_CHAR 0x8E
+#define GFXP_HIRAGANA "\x8D"
+#define GFXP_HIRAGANA_CHAR 0x8D
+#define GFXP_KATAKANA "\x8C"
+#define GFXP_KATAKANA_CHAR 0x8C
+#define GFXP_RAINBOW_ON "\x8B"
+#define GFXP_RAINBOW_ON_CHAR 0x8B
+#define GFXP_RAINBOW_OFF "\x8A"
+#define GFXP_RAINBOW_OFF_CHAR 0x8A
+
+#define GFXP_FLAG_HIRAGANA (1 << 0)
+#define GFXP_FLAG_RAINBOW  (1 << 1)
+#define GFXP_FLAG_SHADOW   (1 << 2)
+#define GFXP_FLAG_UPDATE   (1 << 3)
+#define GFXP_FLAG_ENLARGE  (1 << 6)
+#define GFXP_FLAG_OPEN     (1 << 7)
 
 typedef struct StackEntry {
     /* 0x00 */ struct StackEntry* next;
@@ -1660,11 +1677,11 @@ typedef struct {
     /* 0x0234 */ OSScTask*    curRDPTask;
     /* 0x0238 */ s32          retraceCnt;
     /* 0x023C */ s32          doAudio;
-    /* 0x0240 */ CfbInfo* curBuf;
-    /* 0x0244 */ CfbInfo*        pendingSwapBuf1;
-    /* 0x0220 */ CfbInfo* pendingSwapBuf2;
-    /* 0x0220 */ UNK_TYPE     unk_24C;
-    /* 0x0250 */ IrqMgrClient   irqClient;
+    /* 0x0240 */ CfbInfo*     curBuf;
+    /* 0x0244 */ CfbInfo*     pendingSwapBuf1;
+    /* 0x0220 */ CfbInfo*     pendingSwapBuf2;
+    /* 0x0220 */ UNK_TYPE4    unk_24C;
+    /* 0x0250 */ IrqMgrClient irqClient;
 } SchedContext; // size = 0x258
 
 // ========================
@@ -1824,7 +1841,7 @@ typedef struct {
     /* 0x50 */ u8* symbols;
 } JpegHuffmanTable; // size = 0x54
 
-// this struct might be unaccurate but it's not used outside jpegutils.c anyways
+// this struct might be inaccurate but it's not used outside jpegutils.c anyways
 typedef struct {
     /* 0x000 */ u8 codeOffs[16];
     /* 0x010 */ u16 dcCodes[120];

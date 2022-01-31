@@ -1,8 +1,7 @@
 #ifndef ULTRA64_CONTROLLER_H
 #define ULTRA64_CONTROLLER_H
 
-#include "ultra64.h"
-#include "ultra64/message.h"
+#include "message.h"
 
 #define SIAccessQueueSize 2
 #define BLOCKSIZE 32
@@ -103,7 +102,7 @@ typedef struct {
 } OSPifRam; // size = 0x40
 
 typedef struct {
-    /* 0x00 */ u16 type; 
+    /* 0x00 */ u16 type;
     /* 0x02 */ u8 status;
     /* 0x03 */ u8 errno;
 } OSContStatus; // size = 0x04

@@ -1448,8 +1448,8 @@ void FileChoose_LoadGame(GameState* thisx) {
 
     gSaveContext.respawn[0].entranceIndex = -1;
     gSaveContext.respawnFlag = 0;
-    gSaveContext.seqIndex = 0xFF;
-    gSaveContext.nightSeqIndex = 0xFF;
+    gSaveContext.seqId = (u8)NA_BGM_DISABLED;
+    gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
     gSaveContext.dogParams = 0;
     gSaveContext.timer1State = 0;
@@ -1463,7 +1463,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.healthAccumulator = 0;
     gSaveContext.unk_13F0 = 0;
     gSaveContext.unk_13F2 = 0;
-    gSaveContext.unk_140E = 0;
+    gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.skyboxTime = 0;
     gSaveContext.nextTransition = 0xFF;
     gSaveContext.nextCutsceneIndex = 0xFFEF;
@@ -1881,6 +1881,6 @@ void FileChoose_Init(GameState* thisx) {
     this->state.destroy = FileChoose_Destroy;
     FileChoose_InitContext(&this->state);
     Font_LoadOrderedFont(&this->font);
-    Audio_QueueSeqCmd(0xF000000A);
-    func_800F5E18(0, 0x57, 0, 7, 1);
+    Audio_QueueSeqCmd(0xF << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA);
+    func_800F5E18(SEQ_PLAYER_BGM_MAIN, NA_BGM_FILE_SELECT, 0, 7, 1);
 }

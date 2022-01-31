@@ -62,7 +62,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
-    /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child
+    /* 0x0004 */ s32 linkAge;
     /* 0x0008 */ s32 cutsceneIndex;
     /* 0x000C */ u16 dayTime; // "zelda_time"
     /* 0x0010 */ s32 nightFlag;
@@ -135,8 +135,8 @@ typedef struct {
     /* 0x13D6 */ s16 timerX[2];
     /* 0x13DA */ s16 timerY[2];
     /* 0x13DE */ char unk_13DE[0x0002];
-    /* 0x13E0 */ u8 seqIndex;
-    /* 0x13E1 */ u8 nightSeqIndex;
+    /* 0x13E0 */ u8 seqId;
+    /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
     /* 0x13E7 */ u8 unk_13E7; // alpha related
     /* 0x13E8 */ u16 unk_13E8; // alpha type?
@@ -157,7 +157,7 @@ typedef struct {
     /* 0x140A */ u8 audioSetting;
     /* 0x140B */ char unk_140B[0x0001];
     /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
-    /* 0x140E */ u16 unk_140E; // bgm related
+    /* 0x140E */ u16 forcedSeqId; // immediately start playing the sequence if set
     /* 0x1410 */ u8 unk_1410; // transition related
     /* 0x1411 */ char unk_1411[0x0001];
     /* 0x1412 */ u16 nextCutsceneIndex;
@@ -211,5 +211,10 @@ typedef enum {
     /* 2 */ SUNSSONG_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
     /* 3 */ SUNSSONG_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
 } SunsSongState;
+
+typedef enum {
+    /* 0 */ LINK_AGE_ADULT,
+    /* 1 */ LINK_AGE_CHILD
+} LinkAge;
 
 #endif

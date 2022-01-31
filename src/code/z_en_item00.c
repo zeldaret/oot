@@ -3,9 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnItem00*)thisx)
+#define FLAGS 0
 
 void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnItem00_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -331,7 +329,7 @@ void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
 }
 
 void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnItem00* this = THIS;
+    EnItem00* this = (EnItem00*)thisx;
     s32 pad;
     f32 yOffset = 980.0f;
     f32 shadowScale = 6.0f;
@@ -553,7 +551,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnItem00_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnItem00* this = THIS;
+    EnItem00* this = (EnItem00*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -729,7 +727,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     s16 sp3A = 0;
     s16 i;
     u32* temp;
-    EnItem00* this = THIS;
+    EnItem00* this = (EnItem00*)thisx;
     s32 pad;
 
     if (this->unk_15A > 0) {
@@ -933,7 +931,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnItem00* this = THIS;
+    EnItem00* this = (EnItem00*)thisx;
     f32 mtxScale;
 
     if (!(this->unk_156 & this->unk_158)) {
@@ -955,6 +953,7 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 if (this->unk_15A < 0) {
                     if (this->unk_15A == -1) {
                         s8 bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_HEART);
+
                         if (Object_IsLoaded(&globalCtx->objectCtx, bankIndex)) {
                             this->actor.objBankIndex = bankIndex;
                             Actor_SetObjectDependency(globalCtx, &this->actor);
@@ -1023,7 +1022,7 @@ void EnItem00_DrawRupee(EnItem00* this, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[texIndex]));
 
-    gSPDisplayList(POLY_OPA_DISP++, &gRupeeDL);
+    gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
 }
@@ -1067,13 +1066,13 @@ void EnItem00_DrawHeartContainer(EnItem00* this, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1634),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &gHeartPieceExteriorDL);
+    gSPDisplayList(POLY_OPA_DISP++, gHeartPieceExteriorDL);
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1644),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &gHeartContainerInteriorDL);
+    gSPDisplayList(POLY_XLU_DISP++, gHeartContainerInteriorDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
 }
@@ -1090,7 +1089,7 @@ void EnItem00_DrawHeartPiece(EnItem00* this, GlobalContext* globalCtx) {
     func_8002ED80(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1670),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &gHeartPieceInteriorDL);
+    gSPDisplayList(POLY_XLU_DISP++, gHeartPieceInteriorDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
 }
@@ -1167,7 +1166,7 @@ EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 pa
                     (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {
                     spawnedActor->actor.room = -1;
                 }
-                spawnedActor->actor.flags |= 0x0010;
+                spawnedActor->actor.flags |= ACTOR_FLAG_4;
             }
         }
     }
@@ -1199,7 +1198,7 @@ EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 p
                 spawnedActor->actor.speedXZ = 0.0f;
                 spawnedActor->actor.gravity = param4000 ? 0.0f : -0.9f;
                 spawnedActor->actor.world.rot.y = Rand_CenteredFloat(65536.0f);
-                spawnedActor->actor.flags |= 0x0010;
+                spawnedActor->actor.flags |= ACTOR_FLAG_4;
             }
         }
     }
@@ -1311,7 +1310,7 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
                         spawnedActor->actor.world.rot.y = Rand_ZeroOne() * 40000.0f;
                         Actor_SetScale(&spawnedActor->actor, 0.0f);
                         EnItem00_SetupAction(spawnedActor, func_8001E304);
-                        spawnedActor->actor.flags |= 0x0010;
+                        spawnedActor->actor.flags |= ACTOR_FLAG_4;
                         if ((spawnedActor->actor.params != ITEM00_SMALL_KEY) &&
                             (spawnedActor->actor.params != ITEM00_HEART_PIECE) &&
                             (spawnedActor->actor.params != ITEM00_HEART_CONTAINER)) {

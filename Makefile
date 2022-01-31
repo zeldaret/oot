@@ -9,6 +9,10 @@ NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
 
+# Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
+# In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
+MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+
 ifeq ($(NON_MATCHING),1)
   CFLAGS := -DNON_MATCHING
   CPPFLAGS := -DNON_MATCHING
@@ -34,11 +38,11 @@ else
     endif
 endif
 
+N_THREADS ?= $(shell nproc)
+
 #### Tools ####
-ifeq ($(shell type mips-linux-gnu-ld >/dev/null 2>/dev/null; echo $$?), 0)
-  MIPS_BINUTILS_PREFIX := mips-linux-gnu-
-else
-  $(error Please install or build mips-linux-gnu)
+ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
+  $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
 CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
@@ -67,10 +71,11 @@ INC        := -Iinclude -Isrc -Iassets -Ibuild -I.
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-format-security -Wno-unknown-pragmas -Wno-unused-parameter -Wno-unused-variable -Wno-missing-braces -Wno-int-conversion
-CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING $(INC) -include stdarg.h $(CHECK_WARNINGS)
+CC_CHECK   := gcc -fno-builtin -fsyntax-only -fsigned-char -std=gnu90 -D _LANGUAGE_C -D NON_MATCHING $(INC) $(CHECK_WARNINGS)
 
 CPP        := cpp
 MKLDSCRIPT := tools/mkldscript
+MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 
@@ -125,15 +130,6 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 # create build directories
 $(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
-build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
-build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
-build/src/libultra_code_O1/%.o: OPTFLAGS := -O1
-build/src/libultra_code_O2/%.o: OPTFLAGS := -O2
-build/src/libultra_code_O2_g3/%.o: OPTFLAGS := -O2 -g3
-
-build/src/libultra_boot_O1/ll.o: MIPS_VERSION := -mips3 -32
-build/src/libultra_code_O1/llcvt.o: MIPS_VERSION := -mips3 -32
-
 build/src/code/fault.o: CFLAGS += -trapuv
 build/src/code/fault.o: OPTFLAGS := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
@@ -143,20 +139,33 @@ build/src/code/code_801068B0.o: OPTFLAGS := -g
 build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/code_801067F0.o: OPTFLAGS := -g
 
-build/src/libultra_boot_O1/%.o: CC := $(CC_OLD)
-build/src/libultra_boot_O2/%.o: CC := $(CC_OLD)
-build/src/libultra_code_O1/%.o: CC := $(CC_OLD)
-build/src/libultra_code_O2/%.o: CC := $(CC_OLD)
-build/src/libultra_code_O2_g3/%.o: CC := $(CC_OLD)
+build/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
+build/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
+build/src/libultra/libc/ll.o: OPTFLAGS := -O1
+build/src/libultra/libc/ll.o: MIPS_VERSION := -mips3 -32
+build/src/libultra/libc/llcvt.o: OPTFLAGS := -O1
+build/src/libultra/libc/llcvt.o: MIPS_VERSION := -mips3 -32
+
+build/src/libultra/os/%.o: OPTFLAGS := -O1
+build/src/libultra/io/%.o: OPTFLAGS := -O2
+build/src/libultra/libc/%.o: OPTFLAGS := -O2
+build/src/libultra/rmon/%.o: OPTFLAGS := -O2
+build/src/libultra/gu/%.o: OPTFLAGS := -O2
+
+build/assets/misc/z_select_static/%.o: CFLAGS += -DF3DEX_GBI
+
+build/src/libultra/gu/%.o: CC := $(CC_OLD)
+build/src/libultra/io/%.o: CC := $(CC_OLD)
+build/src/libultra/libc/%.o: CC := $(CC_OLD)
+build/src/libultra/os/%.o: CC := $(CC_OLD)
+build/src/libultra/rmon/%.o: CC := $(CC_OLD)
 
 build/src/code/jpegutils.o: CC := $(CC_OLD)
 build/src/code/jpegdecoder.o: CC := $(CC_OLD)
 
 build/src/boot/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/code/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
-build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+build/src/overlays/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
 build/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
@@ -174,9 +183,11 @@ $(ROM): $(ELF)
 $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
-build/ldscript.txt: $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > build/spec
-	$(MKLDSCRIPT) build/spec $@
+build/$(SPEC): $(SPEC)
+	$(CPP) $(CPPFLAGS) $< > $@
+
+build/ldscript.txt: build/$(SPEC)
+	$(MKLDSCRIPT) $< $@
 
 build/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
@@ -198,7 +209,7 @@ setup:
 	$(MAKE) -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
-	python3 extract_assets.py
+	python3 extract_assets.py -j$(N_THREADS)
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
@@ -229,6 +240,12 @@ build/assets/%.o: assets/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
+build/dmadata_table_spec.h: build/$(SPEC)
+	$(MKDMADATA) $< $@
+
+build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
+build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
+
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
@@ -241,13 +258,13 @@ build/src/%.o: src/%.c
 	$(CC_CHECK) $<
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
-build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
+build/src/libultra/libc/ll.o: src/libultra/libc/ll.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
-build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
+build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@

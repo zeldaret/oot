@@ -7,9 +7,7 @@
 #include "z_bg_jya_bigmirror.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgJyaBigmirror*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ static BigMirrorDataEntry sCobraSpawnData[] = {
 };
 
 void BgJyaBigmirror_SetRoomFlag(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     this->puzzleFlags &=
         ~(BIGMIR_PUZZLE_IN_STATUE_ROOM | BIGMIR_PUZZLE_IN_1ST_TOP_ROOM | BIGMIR_PUZZLE_IN_2ND_TOP_ROOM);
@@ -58,7 +56,7 @@ void BgJyaBigmirror_SetRoomFlag(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
     static u8 cobraPuzzleFlags[] = { BIGMIR_PUZZLE_COBRA1_SOLVED, BIGMIR_PUZZLE_COBRA2_SOLVED };
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
     BigMirrorDataEntry* curSpawnData;
     BigmirrorCobra* curCobraInfo;
     s32 i;
@@ -109,7 +107,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_SetBombiwaFlag(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (Flags_GetSwitch(globalCtx, 0x29)) {
         this->puzzleFlags |= BIGMIR_PUZZLE_BOMBIWA_DESTROYED;
@@ -125,7 +123,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
         { -560.0f, 1800.0f, -310.0f },
         { 60.0f, 1800.0f, -310.0f },
     };
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
     s32 puzzleSolved;
     s32 lightBeamToggles[3];
     s32 i;
@@ -175,7 +173,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (sIsSpawned) {
         Actor_Kill(&this->actor);
@@ -195,7 +193,7 @@ void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (this->spawned) {
         sIsSpawned = false;
@@ -211,7 +209,7 @@ void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3s D_80893F4C = { 0, 0, 0 };
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
     Actor* lift;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
@@ -220,8 +218,8 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
     if (lift != NULL) {
         this->liftHeight = lift->world.pos.y;
     }
-    func_800D1694(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
-                  &this->actor.shape.rot);
+    Matrix_SetTranslateRotateYXZ(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
+                                 &this->actor.shape.rot);
     Matrix_Scale(0.1f, (this->liftHeight * -(1.0f / 1280.0f)) + (1779.4f / 1280.0f), 0.1f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 457),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -229,7 +227,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
 
     if (lift != NULL) {
         if (1) {}
-        func_800D1694(lift->world.pos.x, lift->world.pos.y, lift->world.pos.z, &D_80893F4C);
+        Matrix_SetTranslateRotateYXZ(lift->world.pos.x, lift->world.pos.y, lift->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -240,7 +238,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaBigmirror* this = THIS;
+    BgJyaBigmirror* this = (BgJyaBigmirror*)thisx;
 
     if (this->puzzleFlags & BIGMIR_PUZZLE_IN_1ST_TOP_ROOM) {
         Gfx_DrawDListOpa(globalCtx, gBigMirror3DL);
