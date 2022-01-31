@@ -136,9 +136,9 @@ typedef struct {
 #define BGCHECKFLAG_4 (1 << 4) // Touching a ceiling
 #define BGCHECKFLAG_5 (1 << 5) // On or below water surface
 #define BGCHECKFLAG_6 (1 << 6) // Has touched water (actor is responsible for unsetting this the frame it touches the water)
-#define BGCHECKFLAG_7 (1 << 7) // Similar to & 0x1 but with no velocity check and is cleared every frame
+#define BGCHECKFLAG_7 (1 << 7) // Similar to BGCHECKFLAG_0 but with no velocity check and is cleared every frame
 #define BGCHECKFLAG_8 (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
-#define BGCHECKFLAG_9 (1 << 9) // Unknown (only set/used by player so far)
+#define BGCHECKFLAG_9 (1 << 9) // Unknown, only set/used by player
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
@@ -165,7 +165,7 @@ typedef struct Actor {
     /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching
     /* 0x080 */ f32 floorHeight; // Y position of the floor polygon directly below the actor
     /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water
-    /* 0x088 */ u16 bgCheckFlags;
+    /* 0x088 */ u16 bgCheckFlags; // Flags indicating how the actor is interacting with collision
     /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player
     /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player in the x,y,z axis
     /* 0x090 */ f32 xzDistToPlayer; // Distance between the actor and the player in the XZ plane
