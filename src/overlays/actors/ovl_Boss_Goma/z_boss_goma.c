@@ -1928,7 +1928,8 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.world.pos.y < -400.0f) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 80.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 80.0f,
+                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
     } else {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 30.0f, 80.0f, UPDBGCHECKINFOFLAG_0);
     }

@@ -596,7 +596,8 @@ void EnWeiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002D97C(&this->actor);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 30.0f, 45.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 30.0f, 45.0f,
+                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
     Actor_SetFocus(&this->actor, 0.0f);
 
     if (this->collider.base.atFlags & AT_HIT) {

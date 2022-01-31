@@ -462,7 +462,8 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 0.006f);
         Actor_MoveForward(&this->actor);
         this->actionFunc(this, globalCtx);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f,
+                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
         EnSb_UpdateDamage(this, globalCtx);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

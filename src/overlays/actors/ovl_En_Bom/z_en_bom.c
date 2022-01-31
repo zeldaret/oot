@@ -245,7 +245,9 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->actionFunc(this, globalCtx);
 
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 15.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 15.0f,
+                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 |
+                                UPDBGCHECKINFOFLAG_4);
 
     if (thisx->params == BOMB_BODY) {
         if (this->timer < 63) {

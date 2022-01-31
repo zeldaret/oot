@@ -151,7 +151,8 @@ void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
 
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height,
+                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
         this->actor.flags |= ACTOR_FLAG_24;

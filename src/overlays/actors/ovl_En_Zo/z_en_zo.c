@@ -725,7 +725,8 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, this->collider.dim.radius, this->collider.dim.height * 0.25f, 0.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, this->collider.dim.radius, this->collider.dim.height * 0.25f, 0.0f,
+                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
     this->actionFunc(this, globalCtx);
     EnZo_Dialog(this, globalCtx);
 

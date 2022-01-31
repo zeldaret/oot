@@ -2140,7 +2140,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y -= 1.0f;
             }
             func_8002D7EC(&this->actor);
-            temp = (this->actor.world.pos.y < -200.0f) ? UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 : UPDBGCHECKINFOFLAG_0;
+            temp = (this->actor.world.pos.y < -200.0f) ? UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2
+                                                       : UPDBGCHECKINFOFLAG_0;
             this->actor.world.pos.y -= 20.0f;
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, temp);
             this->actor.world.pos.y += 20.0f;

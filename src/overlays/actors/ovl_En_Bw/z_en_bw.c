@@ -791,7 +791,9 @@ void EnBw_Update(Actor* thisx, GlobalContext* globalCtx2) {
             (this->unk_234 != 0)) {
             Actor_MoveForward(thisx);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 30.0f, 21.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 30.0f, 21.0f,
+                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 |
+                                    UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
     }
     Collider_UpdateCylinder(thisx, &this->collider2);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);

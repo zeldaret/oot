@@ -247,7 +247,8 @@ void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
         EnIceHono_SetupActionSpreadFlames(this);
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f,
+                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = this->actor.scale.x * 4000.0f;

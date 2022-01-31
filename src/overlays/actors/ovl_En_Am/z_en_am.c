@@ -886,7 +886,9 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f,
+                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 |
+                                    UPDBGCHECKINFOFLAG_4);
     }
 
     Collider_UpdateCylinder(&this->dyna.actor, &this->hurtCollider);

@@ -624,7 +624,8 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_MoveForward(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height,
+                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
         if (this->collider.base.atFlags & AT_ON) {
