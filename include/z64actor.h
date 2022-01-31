@@ -129,16 +129,16 @@ typedef struct {
 #define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
 
-#define BGCHECKFLAG_0 (1 << 0)
-#define BGCHECKFLAG_1 (1 << 1)
-#define BGCHECKFLAG_2 (1 << 2)
-#define BGCHECKFLAG_3 (1 << 3)
-#define BGCHECKFLAG_4 (1 << 4)
-#define BGCHECKFLAG_5 (1 << 5)
-#define BGCHECKFLAG_6 (1 << 6)
-#define BGCHECKFLAG_7 (1 << 7)
-#define BGCHECKFLAG_8 (1 << 8)
-#define BGCHECKFLAG_9 (1 << 9)
+#define BGCHECKFLAG_0 (1 << 0) // Standing on the ground
+#define BGCHECKFLAG_1 (1 << 1) // Has touched the ground (only active for 1 frame)
+#define BGCHECKFLAG_2 (1 << 2) // Has left the ground (only active for 1 frame)
+#define BGCHECKFLAG_3 (1 << 3) // Touching a wall
+#define BGCHECKFLAG_4 (1 << 4) // Touching a ceiling
+#define BGCHECKFLAG_5 (1 << 5) // On or below water surface
+#define BGCHECKFLAG_6 (1 << 6) // Has touched water (actor is responsible for unsetting this the frame it touches the water)
+#define BGCHECKFLAG_7 (1 << 7) // Similar to & 0x1 but with no velocity check and is cleared every frame
+#define BGCHECKFLAG_8 (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
+#define BGCHECKFLAG_9 (1 << 9) // Unknown (only set/used by player so far)
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
@@ -165,7 +165,7 @@ typedef struct Actor {
     /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching
     /* 0x080 */ f32 floorHeight; // Y position of the floor polygon directly below the actor
     /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water
-    /* 0x088 */ u16 bgCheckFlags; // See comments below actor struct for wip docs. TODO: macros for these flags
+    /* 0x088 */ u16 bgCheckFlags;
     /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player
     /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player in the x,y,z axis
     /* 0x090 */ f32 xzDistToPlayer; // Distance between the actor and the player in the XZ plane
@@ -203,20 +203,6 @@ typedef enum {
     /* 0 */ FOOT_LEFT,
     /* 1 */ FOOT_RIGHT
 } ActorFootIndex;
-
-/*
-BgCheckFlags WIP documentation:
-& 0x001 : Standing on the ground
-& 0x002 : Has touched the ground (only active for 1 frame)
-& 0x004 : Has left the ground (only active for 1 frame)
-& 0x008 : Touching a wall
-& 0x010 : Touching a ceiling
-& 0x020 : On or below water surface
-& 0x040 : Has touched water (actor is responsible for unsetting this the frame it touches the water)
-& 0x080 : Similar to & 0x1 but with no velocity check and is cleared every frame
-& 0x100 : Crushed between a floor and ceiling (triggers a void for player)
-& 0x200 : Unknown (only set/used by player so far)
-*/
 
 /*
 colorFilterParams WIP documentation
