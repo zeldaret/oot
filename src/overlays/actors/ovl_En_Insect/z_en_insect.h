@@ -27,7 +27,7 @@ typedef struct EnInsect {
     /* 0x01F0 */ Vec3s jointTable[24];
     /* 0x0280 */ Vec3s morphTable[24];
     /* 0x0310 */ EnInsectActionFunc actionFunc;
-    /* 0x0314 */ u16 flags;
+    /* 0x0314 */ u16 insectFlags;
     /* 0x0316 */ s16 unk_316;
     /* 0x0318 */ s16 unk_318;
     /* 0x031A */ s16 actionTimer;
@@ -45,7 +45,5 @@ typedef enum {
     /* 2 */ INSECT_FIRST_DROPPED,
     /* 3 */ INSECT_EXTRA_DROPPED // An additional bug spawned by dropping one from a bottle.
 } EnInsectType;
-
-#define IS_DROPPED(type) ((type) == INSECT_FIRST_DROPPED || (type) == INSECT_EXTRA_DROPPED)
 
 #endif
