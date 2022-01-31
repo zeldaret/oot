@@ -188,7 +188,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
             floorHeightPtr++;
         }
 
-        if (!(actor->bgCheckFlags & BGCHECKFLAG_0)) {
+        if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
             actor->shape.feetFloorFlags = 0;
         } else if (actor->shape.feetFloorFlags == 3) {
             f32 footDistY = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
@@ -1153,9 +1153,9 @@ s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s
 }
 
 s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
-    if ((actor->bgCheckFlags & BGCHECKFLAG_0) && (arg1 < -11.0f)) {
-        actor->bgCheckFlags &= ~BGCHECKFLAG_0;
-        actor->bgCheckFlags |= BGCHECKFLAG_2;
+    if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && (arg1 < -11.0f)) {
+        actor->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
+        actor->bgCheckFlags |= BGCHECKFLAG_GROUND_LEAVE;
 
         if ((actor->velocity.y < 0.0f) && (arg2 & 0x10)) {
             actor->velocity.y = 0.0f;
@@ -1175,7 +1175,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
 
     actor->floorHeight =
         BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &floorBgId, actor, arg2);
-    actor->bgCheckFlags &= ~(BGCHECKFLAG_1 | BGCHECKFLAG_2 | BGCHECKFLAG_7);
+    actor->bgCheckFlags &= ~(BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_GROUND_LEAVE | BGCHECKFLAG_7);
 
     if (actor->floorHeight <= BGCHECK_Y_MIN) {
         return func_8002E234(actor, BGCHECK_Y_MIN, arg3);
@@ -1187,10 +1187,10 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     if (floorHeightDiff >= 0.0f) { // actor is on or below the ground
         actor->bgCheckFlags |= BGCHECKFLAG_7;
 
-        if (actor->bgCheckFlags & BGCHECKFLAG_4) {
+        if (actor->bgCheckFlags & BGCHECKFLAG_CEILING) {
             if (floorBgId != sCurCeilingBgId) {
                 if (floorHeightDiff > 15.0f) {
-                    actor->bgCheckFlags |= BGCHECKFLAG_8;
+                    actor->bgCheckFlags |= BGCHECKFLAG_CRUSHED;
                 }
             } else {
                 actor->world.pos.x = actor->prevPos.x;
@@ -1201,19 +1201,19 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
         actor->world.pos.y = actor->floorHeight;
 
         if (actor->velocity.y <= 0.0f) {
-            if (!(actor->bgCheckFlags & BGCHECKFLAG_0)) {
-                actor->bgCheckFlags |= BGCHECKFLAG_1;
+            if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
+                actor->bgCheckFlags |= BGCHECKFLAG_GROUND_TOUCH;
             } else if ((arg3 & 0x8) && (actor->gravity < 0.0f)) {
                 actor->velocity.y = -4.0f;
             } else {
                 actor->velocity.y = 0.0f;
             }
 
-            actor->bgCheckFlags |= BGCHECKFLAG_0;
+            actor->bgCheckFlags |= BGCHECKFLAG_GROUND;
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
     } else { // actor is above ground
-        if ((actor->bgCheckFlags & BGCHECKFLAG_0) && (floorHeightDiff >= -11.0f)) {
+        if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && (floorHeightDiff >= -11.0f)) {
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
 
@@ -1237,7 +1237,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
 
     sp74 = actor->world.pos.y - actor->prevPos.y;
 
-    if ((actor->floorBgId != BGCHECK_SCENE) && (actor->bgCheckFlags & BGCHECKFLAG_0)) {
+    if ((actor->floorBgId != BGCHECK_SCENE) && (actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
         func_800433A4(&globalCtx->colCtx, actor->floorBgId, actor);
     }
 
@@ -1251,10 +1251,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
             wallPoly = actor->wallPoly;
             Math_Vec3f_Copy(&actor->world.pos, &sp64);
             actor->wallYaw = Math_Atan2S(wallPoly->normal.z, wallPoly->normal.x);
-            actor->bgCheckFlags |= BGCHECKFLAG_3;
+            actor->bgCheckFlags |= BGCHECKFLAG_WALL;
             actor->wallBgId = bgId;
         } else {
-            actor->bgCheckFlags &= ~BGCHECKFLAG_3;
+            actor->bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
     }
 
@@ -1265,10 +1265,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
         sp64.y = actor->prevPos.y + 10.0f;
         if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (ceilingCheckHeight + sp74) - 10.0f,
                                        &sCurCeilingPoly, &sCurCeilingBgId, actor)) {
-            actor->bgCheckFlags |= BGCHECKFLAG_4;
+            actor->bgCheckFlags |= BGCHECKFLAG_CEILING;
             actor->world.pos.y = (sp58 + sp74) - 10.0f;
         } else {
-            actor->bgCheckFlags &= ~BGCHECKFLAG_4;
+            actor->bgCheckFlags &= ~BGCHECKFLAG_CEILING;
         }
     }
 
@@ -1280,10 +1280,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
                                  &waterBoxYSurface, &waterBox)) {
             actor->yDistToWater = waterBoxYSurface - actor->world.pos.y;
             if (actor->yDistToWater < 0.0f) {
-                actor->bgCheckFlags &= ~(BGCHECKFLAG_5 | BGCHECKFLAG_6);
+                actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
             } else {
-                if (!(actor->bgCheckFlags & BGCHECKFLAG_5)) {
-                    actor->bgCheckFlags |= BGCHECKFLAG_6;
+                if (!(actor->bgCheckFlags & BGCHECKFLAG_WATER)) {
+                    actor->bgCheckFlags |= BGCHECKFLAG_WATER_TOUCH;
                     if (!(flags & 0x40)) {
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
@@ -1293,10 +1293,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
                         EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 8);
                     }
                 }
-                actor->bgCheckFlags |= BGCHECKFLAG_5;
+                actor->bgCheckFlags |= BGCHECKFLAG_WATER;
             }
         } else {
-            actor->bgCheckFlags &= ~(BGCHECKFLAG_5 | BGCHECKFLAG_6);
+            actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
             actor->yDistToWater = BGCHECK_Y_MIN;
         }
     }
@@ -1699,7 +1699,7 @@ void Audio_PlayActorSound2(Actor* actor, u16 sfxId) {
 void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
     s32 sfxId;
 
-    if (actor->bgCheckFlags & BGCHECKFLAG_5) {
+    if (actor->bgCheckFlags & BGCHECKFLAG_WATER) {
         if (actor->yDistToWater < 20.0f) {
             sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
         } else {
@@ -3420,7 +3420,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 dista
 
     Math_Vec3f_Copy(&actor->world.pos, &prevActorPos);
 
-    ret = actor->bgCheckFlags & BGCHECKFLAG_0;
+    ret = actor->bgCheckFlags & BGCHECKFLAG_GROUND;
     actor->bgCheckFlags = prevBgCheckFlags;
 
     return ret;
@@ -3936,10 +3936,10 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
         case 0:
             if (Actor_HasParent(actor, globalCtx)) {
                 actor->params = 1;
-            } else if (!(actor->bgCheckFlags & BGCHECKFLAG_0)) {
+            } else if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 Actor_MoveForward(actor);
                 Math_SmoothStepToF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
-            } else if ((actor->bgCheckFlags & BGCHECKFLAG_1) && (actor->velocity.y < -4.0f)) {
+            } else if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (actor->velocity.y < -4.0f)) {
                 ret = 1;
             } else {
                 actor->shape.rot.x = actor->shape.rot.z = 0;

@@ -129,15 +129,15 @@ typedef struct {
 #define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
 
-#define BGCHECKFLAG_0 (1 << 0) // Standing on the ground
-#define BGCHECKFLAG_1 (1 << 1) // Has touched the ground (only active for 1 frame)
-#define BGCHECKFLAG_2 (1 << 2) // Has left the ground (only active for 1 frame)
-#define BGCHECKFLAG_3 (1 << 3) // Touching a wall
-#define BGCHECKFLAG_4 (1 << 4) // Touching a ceiling
-#define BGCHECKFLAG_5 (1 << 5) // On or below water surface
-#define BGCHECKFLAG_6 (1 << 6) // Has touched water (actor is responsible for unsetting this the frame it touches the water)
-#define BGCHECKFLAG_7 (1 << 7) // Similar to BGCHECKFLAG_0 but with no velocity check and is cleared every frame
-#define BGCHECKFLAG_8 (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
+#define BGCHECKFLAG_GROUND (1 << 0) // Standing on the ground
+#define BGCHECKFLAG_GROUND_TOUCH (1 << 1) // Has touched the ground (only active for 1 frame)
+#define BGCHECKFLAG_GROUND_LEAVE (1 << 2) // Has left the ground (only active for 1 frame)
+#define BGCHECKFLAG_WALL (1 << 3) // Touching a wall
+#define BGCHECKFLAG_CEILING (1 << 4) // Touching a ceiling
+#define BGCHECKFLAG_WATER (1 << 5) // On or below water surface
+#define BGCHECKFLAG_WATER_TOUCH (1 << 6) // Has touched water (actor is responsible for unsetting this the frame it touches the water)
+#define BGCHECKFLAG_7 (1 << 7) // Similar to BGCHECKFLAG_GROUND but with no velocity check and is cleared every frame
+#define BGCHECKFLAG_CRUSHED (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
 #define BGCHECKFLAG_9 (1 << 9) // Unknown, only set/used by player
 
 typedef struct Actor {

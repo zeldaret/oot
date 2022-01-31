@@ -654,7 +654,7 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_0)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         // the Skulltula is not on the ground.
         return false;
     }

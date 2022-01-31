@@ -108,7 +108,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
 
     this->actor.home.rot.z += 0x2AA8;
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) || (this->actor.bgCheckFlags & BGCHECKFLAG_0) ||
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
         (this->collider.base.ocFlags1 & OC1_HIT)) {
         // Checking if the player is using a shield that reflects projectiles
