@@ -273,7 +273,7 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 
 void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
-    if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & 2))) {
+    if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & BGCHECKFLAG_1))) {
         if (!(this->actor.yDistToWater > 0.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
@@ -306,8 +306,8 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
             }
             EnSb_SpawnBubbles(globalCtx, this);
             EnSb_SetupLunge(this);
-        } else if (this->actor.bgCheckFlags & 1) {
-            this->actor.bgCheckFlags &= ~2;
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_0) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_1;
             this->actor.speedXZ = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
@@ -319,13 +319,13 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_Cooldown(EnSb* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
-        if (this->actor.bgCheckFlags & 1) {
-            this->actor.bgCheckFlags &= ~1;
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_0) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_0;
             this->actor.speedXZ = 0.0f;
         }
     } else {
-        if (this->actor.bgCheckFlags & 1) {
-            this->actor.bgCheckFlags &= ~1;
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_0) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_0;
             this->actionFunc = EnSb_WaitClosed;
             this->actor.speedXZ = 0.0f;
         }

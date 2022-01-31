@@ -129,6 +129,23 @@ typedef struct {
 #define ACTOR_FLAG_27 (1 << 27)
 #define ACTOR_FLAG_28 (1 << 28)
 
+#define BGCHECKFLAG_0 (1 << 0)
+#define BGCHECKFLAG_1 (1 << 1)
+#define BGCHECKFLAG_2 (1 << 2)
+#define BGCHECKFLAG_3 (1 << 3)
+#define BGCHECKFLAG_4 (1 << 4)
+#define BGCHECKFLAG_5 (1 << 5)
+#define BGCHECKFLAG_6 (1 << 6)
+#define BGCHECKFLAG_7 (1 << 7)
+#define BGCHECKFLAG_8 (1 << 8)
+#define BGCHECKFLAG_9 (1 << 9)
+#define BGCHECKFLAG_10 (1 << 10)
+#define BGCHECKFLAG_11 (1 << 11)
+#define BGCHECKFLAG_12 (1 << 12)
+#define BGCHECKFLAG_13 (1 << 13)
+#define BGCHECKFLAG_14 (1 << 14)
+#define BGCHECKFLAG_15 (1 << 15)
+
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
     /* 0x002 */ u8 category; // Actor category. Refer to the corresponding enum for values

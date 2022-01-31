@@ -527,7 +527,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
 
                     // Check if the Arwing has hit the ground.
-                    if (this->actor.bgCheckFlags & 9) {
+                    if (this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_3)) {
                         this->shouldExplode = true;
 
                         if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {

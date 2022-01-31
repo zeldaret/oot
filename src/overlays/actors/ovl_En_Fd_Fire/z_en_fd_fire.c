@@ -154,7 +154,7 @@ void func_80A0E70C(EnFdFire* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1 && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
         this->actor.speedXZ = 0.0f;
-        this->actor.bgCheckFlags &= ~1;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_0;
         if (this->actor.params & 0x8000) {
             this->deathTimer = 200;
             this->actionFunc = EnFdFire_DanceTowardsPlayer;
