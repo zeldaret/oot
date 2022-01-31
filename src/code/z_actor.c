@@ -1175,7 +1175,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
 
     actor->floorHeight =
         BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &floorBgId, actor, arg2);
-    actor->bgCheckFlags &= ~(BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_GROUND_LEAVE | BGCHECKFLAG_7);
+    actor->bgCheckFlags &= ~(BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_GROUND_LEAVE | BGCHECKFLAG_GROUND_STRICT);
 
     if (actor->floorHeight <= BGCHECK_Y_MIN) {
         return func_8002E234(actor, BGCHECK_Y_MIN, arg3);
@@ -1185,7 +1185,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     actor->floorBgId = floorBgId;
 
     if (floorHeightDiff >= 0.0f) { // actor is on or below the ground
-        actor->bgCheckFlags |= BGCHECKFLAG_7;
+        actor->bgCheckFlags |= BGCHECKFLAG_GROUND_STRICT;
 
         if (actor->bgCheckFlags & BGCHECKFLAG_CEILING) {
             if (floorBgId != sCurCeilingBgId) {
