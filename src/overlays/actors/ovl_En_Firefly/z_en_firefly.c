@@ -400,7 +400,8 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
         } else {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->targetPitch = 0x954;
-            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->maxAltitude < this->actor.world.pos.y)) {
+            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) ||
+                       (this->maxAltitude < this->actor.world.pos.y)) {
                 this->targetPitch = 0x2154;
             }
         }

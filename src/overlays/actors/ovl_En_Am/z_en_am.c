@@ -683,7 +683,8 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             moveDir = Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->hurtCollider.base.oc->world.pos) - temp158f;
         }
 
-        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) || !(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
+        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) ||
+            !(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
             !func_800435D8(globalCtx, &this->dyna, 0x14,
                            (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA) ||
             ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {

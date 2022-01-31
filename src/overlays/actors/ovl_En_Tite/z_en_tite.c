@@ -240,7 +240,8 @@ void EnTite_Idle(EnTite* this, GlobalContext* globalCtx) {
             this->actor.gravity = -1.0f;
         }
     }
-    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) && (this->actor.velocity.y <= 0.0f)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) &&
+        (this->actor.velocity.y <= 0.0f)) {
         this->actor.velocity.y = 0.0f;
     }
     if (this->vIdleTimer > 0) {
@@ -531,7 +532,8 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
     }
 
     if (((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) ||
-         (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)))) &&
+         (this->actor.params == TEKTITE_BLUE &&
+          (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)))) &&
         (this->actor.velocity.y <= 0.0f)) {
         // slightly turn toward player upon landing and snap to ground or water.
         this->actor.speedXZ = 0.0f;

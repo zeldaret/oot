@@ -948,7 +948,8 @@ void EnZf_JumpForward(EnZf* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
     }
 
-    if ((this->actor.params == ENZF_TYPE_DINOLFOS) && (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
+    if ((this->actor.params == ENZF_TYPE_DINOLFOS) &&
+        (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
         if (EnZf_CanAttack(globalCtx, this)) {
             EnZf_SetupSlash(this);
         } else {
@@ -1533,7 +1534,8 @@ void EnZf_HopAway(EnZf* this, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) ||
+                (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_ONGND);
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = this->actor.floorHeight;

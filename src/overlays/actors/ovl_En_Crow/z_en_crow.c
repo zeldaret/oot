@@ -313,7 +313,8 @@ void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
     }
 
     if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) ||
-        (this->collider.base.atFlags & AT_HIT) || (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
+        (this->collider.base.atFlags & AT_HIT) ||
+        (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
         (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;

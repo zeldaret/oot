@@ -978,7 +978,8 @@ void EnWf_SomersaultAndAttack(EnWf* this, GlobalContext* globalCtx) {
         func_800355B8(globalCtx, &this->unk_4BC);
     }
 
-    if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
+    if (SkelAnime_Update(&this->skelAnime) &&
+        (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
         this->actor.speedXZ = this->actor.velocity.y = 0.0f;

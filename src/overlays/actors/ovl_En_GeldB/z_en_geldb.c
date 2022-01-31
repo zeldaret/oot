@@ -292,7 +292,8 @@ s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
     }
     if (func_800354B4(globalCtx, thisx, 100.0f, 0x5DC0, 0x2AA8, thisx->shape.rot.y)) {
         thisx->shape.rot.y = thisx->world.rot.y = thisx->yawTowardsPlayer;
-        if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2EE0) && (thisx->xzDistToPlayer < 90.0f)) {
+        if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2EE0) &&
+            (thisx->xzDistToPlayer < 90.0f)) {
             EnGeldB_SetupJump(this);
             return true;
         } else if (player->swordAnimation == 0x11) {
@@ -1096,7 +1097,8 @@ void EnGeldB_Jump(EnGeldB* this, GlobalContext* globalCtx) {
         func_800355B8(globalCtx, &this->leftFootPos);
         func_800355B8(globalCtx, &this->rightFootPos);
     }
-    if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
+    if (SkelAnime_Update(&this->skelAnime) &&
+        (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH))) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
         this->actor.speedXZ = 0.0f;

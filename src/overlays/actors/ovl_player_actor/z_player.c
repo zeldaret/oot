@@ -4552,7 +4552,8 @@ void func_8083AA10(Player* this, GlobalContext* globalCtx) {
 
     this->fallDistance = this->fallStartHeight - (s32)this->actor.world.pos.y;
 
-    if (!(this->stateFlags1 & (PLAYER_STATE1_27 | PLAYER_STATE1_29)) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
+    if (!(this->stateFlags1 & (PLAYER_STATE1_27 | PLAYER_STATE1_29)) &&
+        !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (!func_80838FB8(globalCtx, this)) {
             if (D_80853604 == 8) {
                 this->actor.world.pos.x = this->actor.prevPos.x;
@@ -4708,8 +4709,8 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
     GetItemEntry* giEntry;
     Actor* targetActor;
 
-    if ((this->unk_6AD != 0) &&
-        (func_808332B8(this) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->stateFlags1 & PLAYER_STATE1_23))) {
+    if ((this->unk_6AD != 0) && (func_808332B8(this) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
+                                 (this->stateFlags1 & PLAYER_STATE1_23))) {
 
         if (!func_8083ADD4(globalCtx, this)) {
             if (this->unk_6AD == 4) {
@@ -8712,8 +8713,9 @@ void func_80846050(Player* this, GlobalContext* globalCtx) {
             this->heldActor = interactRangeActor;
             this->actor.child = interactRangeActor;
             interactRangeActor->parent = &this->actor;
-            interactRangeActor->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_GROUND_LEAVE | BGCHECKFLAG_WALL |
-                                                  BGCHECKFLAG_CEILING | BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH | BGCHECKFLAG_7);
+            interactRangeActor->bgCheckFlags &=
+                ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_GROUND_LEAVE | BGCHECKFLAG_WALL |
+                  BGCHECKFLAG_CEILING | BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH | BGCHECKFLAG_7);
             this->unk_3BC.y = interactRangeActor->shape.rot.y - this->actor.shape.rot.y;
         }
         return;
