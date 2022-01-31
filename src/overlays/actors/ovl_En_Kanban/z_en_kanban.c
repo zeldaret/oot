@@ -211,7 +211,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->bounceX = 1;
         this->partFlags = 0xFFFF;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, UPDBGCHECKINFOFLAG_2);
         EnKanban_SetFloorRot(this);
         if (LINK_IS_CHILD) {
             this->actor.world.pos.y -= 15.0f;
@@ -426,7 +426,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             u8 onGround;
 
             Actor_MoveForward(&this->actor);
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
 
             tempX = this->actor.world.pos.x;
             tempY = this->actor.world.pos.y;
@@ -435,7 +435,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             tempYDistToWater = this->actor.yDistToWater;
 
             this->actor.world.pos.z += ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, UPDBGCHECKINFOFLAG_2);
             EnKanban_SetFloorRot(this);
 
             this->actor.world.pos.x = tempX;
@@ -599,7 +599,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 }
                 Actor_MoveForward(&this->actor);
                 if (this->actor.speedXZ != 0.0f) {
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 5);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
                     if (this->actor.bgCheckFlags & 8) {
                         this->actor.speedXZ *= -0.5f;
                         if (this->spinVel.y > 0) {

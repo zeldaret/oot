@@ -249,12 +249,12 @@ void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx) {
         if (this->bounceCounter >= ARRAY_COUNT(bounceSpeed)) {
             BgMoriHashigo_SetupLadderRest(this);
         } else {
-            Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 0x1C);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
             thisx->velocity.y = bounceSpeed[this->bounceCounter];
             this->bounceCounter++;
         }
     } else {
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
     }
 }
 

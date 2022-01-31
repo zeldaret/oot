@@ -11033,7 +11033,7 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
             }
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 6.0f, this->ageProperties->unk_00, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 6.0f, this->ageProperties->unk_00, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
         func_8083F360(globalCtx, this, 26.0f, this->ageProperties->unk_3C, 50.0f, -20.0f);
     }
 

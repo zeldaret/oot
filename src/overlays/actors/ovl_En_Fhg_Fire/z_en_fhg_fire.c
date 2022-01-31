@@ -301,7 +301,7 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 1);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFOFLAG_0);
     if (this->actor.bgCheckFlags & 8) {
         Actor_Kill(&this->actor);
     }
@@ -587,7 +587,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
         osSyncPrintf("F_FIRE_MODE %d\n", this->work[FHGFIRE_FIRE_MODE]);
         osSyncPrintf("fly_mode    %d\n", bossGnd->flyMode);
         if (this->work[FHGFIRE_FX_TIMER] == 0) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 7);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
             if ((this->actor.bgCheckFlags & 0x19) || killMode) {
                 u8 lightBallColor2 = FHGFLASH_LIGHTBALL_GREEN;
                 s16 i4;

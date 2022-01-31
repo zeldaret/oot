@@ -129,7 +129,7 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = this->unk_284 = this->scale * -27500.0f;
     ActorShape_Init(&this->actor.shape, this->actor.shape.yOffset, ActorShadow_DrawCircle, 0.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
@@ -602,7 +602,7 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
 
     if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~AT_BOUNCED;

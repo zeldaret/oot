@@ -206,7 +206,7 @@ void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void DemoIm_UpdateBgCheckInfo(DemoIm* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
 }
 
 s32 DemoIm_UpdateSkelAnime(DemoIm* this) {

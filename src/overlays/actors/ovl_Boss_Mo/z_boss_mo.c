@@ -2042,7 +2042,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
             (this->work[MO_TENT_ACTION_STATE] == MO_CORE_STUNNED)) {
             this->actor.world.pos.y += this->actor.velocity.y;
             this->actor.velocity.y -= 1.0f;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, 1);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, UPDBGCHECKINFOFLAG_0);
             effectVelocity.x = effectVelocity.y = effectVelocity.z = 0.0f;
             for (i = 0; i < 1; i++) {
                 effectPos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;

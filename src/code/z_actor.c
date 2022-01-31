@@ -3415,7 +3415,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 dista
     actor->world.pos.x += dx;
     actor->world.pos.z += dz;
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFOFLAG_2);
 
     Math_Vec3f_Copy(&actor->world.pos, &prevActorPos);
 
@@ -3953,7 +3953,7 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
     }
 
     Actor_UpdateBgCheckInfo(globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius,
-                            actor->colChkInfo.cylRadius, 0x1D);
+                            actor->colChkInfo.cylRadius, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
 
     return ret;
 }

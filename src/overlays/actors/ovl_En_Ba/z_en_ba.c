@@ -213,7 +213,7 @@ void EnBa_FallAsBlob(EnBa* this, GlobalContext* globalCtx) {
         }
     } else {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 28.0f, 80.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 28.0f, 80.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
     }
 }
 

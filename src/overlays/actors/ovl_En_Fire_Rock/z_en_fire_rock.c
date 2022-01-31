@@ -336,7 +336,7 @@ void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->type != FIRE_ROCK_ON_FLOOR) {
             Actor_MoveForward(thisx);
-            Actor_UpdateBgCheckInfo(globalCtx, thisx, 50.0f, 50.0f, 100.0f, 0x1C);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
         }
 
         setCollision = false;

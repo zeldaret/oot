@@ -27,7 +27,7 @@ void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoIk_BgCheck(DemoIk* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
 }
 
 s32 DemoIk_UpdateSkelAnime(DemoIk* this) {

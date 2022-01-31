@@ -3115,7 +3115,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
     Vec3f obstacleTop;
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, globalCtx->sceneNum == SCENE_SPOT20 ? 19.0f : 40.0f, 35.0f, 100.0f,
-                            29);
+                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
 
     if (EnHorse_BgCheckBridgeJumpPoint(this, globalCtx)) {
         return;
