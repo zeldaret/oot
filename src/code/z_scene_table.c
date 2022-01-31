@@ -820,15 +820,8 @@ EntranceInfo gEntranceTable[] = {
 #undef DEFINE_SCENE
 
 // Scene Table definition
-#define DEFINE_SCENE(name, title, _2, unk_10, config, unk_12) \
-    { (u32)_##name##SegmentRomStart,                          \
-      (u32)_##name##SegmentRomEnd,                            \
-      (u32)_##title##SegmentRomStart,                         \
-      (u32)_##title##SegmentRomEnd,                           \
-      unk_10,                                                 \
-      config,                                                 \
-      unk_12,                                                 \
-      0 },
+#define DEFINE_SCENE(name, title, _2, config, unk_10, unk_12) \
+    { ROM_FILE(name), ROM_FILE(title), unk_10, config, unk_12, 0 },
 
 // Handle `none` as a special case for scenes without a title card
 #define _noneSegmentRomStart 0
