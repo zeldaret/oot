@@ -243,7 +243,8 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case DIR_LEFT:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_LEFT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_3) && (angleToWall < -0x2000) && (angleToWall > -0x6000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_3) && (angleToWall < -0x2000) &&
+                                   (angleToWall > -0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
@@ -286,7 +287,8 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case DIR_RIGHT:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_RIGHT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_3) && (angleToWall > 0x2000) && (angleToWall < 0x6000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_3) && (angleToWall > 0x2000) &&
+                                   (angleToWall < 0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }

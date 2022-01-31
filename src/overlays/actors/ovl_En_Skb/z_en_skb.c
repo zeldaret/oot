@@ -439,7 +439,8 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
     s16 phi_v1;
     Player* player;
 
-    if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & (BGCHECKFLAG_5 | BGCHECKFLAG_6)) && (this->actor.yDistToWater >= 40.0f)) {
+    if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & (BGCHECKFLAG_5 | BGCHECKFLAG_6)) &&
+        (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->unk_281 = 0;
         func_80AFD7B4(this, globalCtx);

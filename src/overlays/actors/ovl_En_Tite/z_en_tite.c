@@ -422,7 +422,8 @@ void EnTite_Attack(EnTite* this, GlobalContext* globalCtx) {
 void EnTite_SetupTurnTowardPlayer(EnTite* this) {
     Animation_PlayLoop(&this->skelAnime, &object_tite_Anim_000A14);
     this->action = TEKTITE_TURN_TOWARD_PLAYER;
-    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1)) || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_5))) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1)) ||
+        ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_5))) {
         if (this->actor.velocity.y <= 0.0f) {
             this->actor.gravity = 0.0f;
             this->actor.velocity.y = 0.0f;
@@ -520,7 +521,8 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_1) || ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_6))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_1) ||
+        ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_6))) {
         if (this->vQueuedJumps != 0) {
             this->vQueuedJumps--;
         } else {
@@ -528,7 +530,8 @@ void EnTite_MoveTowardPlayer(EnTite* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1)) || (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & (BGCHECKFLAG_5 | BGCHECKFLAG_6)))) &&
+    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1)) ||
+         (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & (BGCHECKFLAG_5 | BGCHECKFLAG_6)))) &&
         (this->actor.velocity.y <= 0.0f)) {
         // slightly turn toward player upon landing and snap to ground or water.
         this->actor.speedXZ = 0.0f;
@@ -618,7 +621,8 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
 
     // Snap to ground or water surface upon landing
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1)) || (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & BGCHECKFLAG_5))) &&
+    if (((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1)) ||
+         (this->actor.params == TEKTITE_BLUE && (this->actor.bgCheckFlags & BGCHECKFLAG_5))) &&
         (this->actor.velocity.y <= 0.0f)) {
         if ((this->actor.params != TEKTITE_BLUE) || !(this->actor.bgCheckFlags & BGCHECKFLAG_5)) {
             if (this->actor.floorHeight > BGCHECK_Y_MIN) {
@@ -647,8 +651,9 @@ void EnTite_Recoil(EnTite* this, GlobalContext* globalCtx) {
 
     // If player is far away, idle. Otherwise attack or move
     angleToPlayer = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
-    if ((this->actor.speedXZ == 0.0f) && ((this->actor.bgCheckFlags & BGCHECKFLAG_0) || ((this->actor.params == TEKTITE_BLUE) &&
-                                                                             (this->actor.bgCheckFlags & BGCHECKFLAG_5)))) {
+    if ((this->actor.speedXZ == 0.0f) &&
+        ((this->actor.bgCheckFlags & BGCHECKFLAG_0) ||
+         ((this->actor.params == TEKTITE_BLUE) && (this->actor.bgCheckFlags & BGCHECKFLAG_5)))) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         this->collider.base.atFlags &= ~AT_HIT;
         if ((this->actor.xzDistToPlayer > 300.0f) && (this->actor.yDistToPlayer > 80.0f) &&

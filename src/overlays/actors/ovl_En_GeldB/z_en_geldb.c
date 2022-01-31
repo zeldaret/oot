@@ -666,8 +666,9 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 8.0f;
             }
         }
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) || !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ,
-                                                                          this->actor.shape.rot.y + 0x3E80)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) ||
+            !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ,
+                                        this->actor.shape.rot.y + 0x3E80)) {
             if (this->actor.bgCheckFlags & BGCHECKFLAG_3) {
                 if (this->actor.speedXZ >= 0.0f) {
                     phi_v1 = this->actor.shape.rot.y + 0x3E80;
@@ -1061,7 +1062,8 @@ void EnGeldB_Damaged(EnGeldB* this, GlobalContext* globalCtx) {
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0) &&
         SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_0)) {
         angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (ABS(angleToWall) < 0x2EE0) && (this->actor.xzDistToPlayer < 90.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (ABS(angleToWall) < 0x2EE0) &&
+            (this->actor.xzDistToPlayer < 90.0f)) {
             EnGeldB_SetupJump(this);
         } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if ((this->actor.xzDistToPlayer <= 45.0f) && !Actor_OtherIsTargeted(globalCtx, &this->actor) &&

@@ -1554,7 +1554,8 @@ void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
     s32 sfxId;
     SkelAnime* sp20 = &this->skelAnime;
 
-    if ((Animation_OnFrame(sp20, 6.0f) || Animation_OnFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & BGCHECKFLAG_0)) {
+    if ((Animation_OnFrame(sp20, 6.0f) || Animation_OnFrame(sp20, 0.0f)) &&
+        (this->actor.bgCheckFlags & BGCHECKFLAG_0)) {
         sfxId = 0x800;
         sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
         func_80078914(&this->actor.projectedPos, sfxId);

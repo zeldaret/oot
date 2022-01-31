@@ -1222,8 +1222,9 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.speedXZ = 0.0f;
 
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
-                                               (this->actor.xzDistToPlayer < 80.0f))) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) &&
+            ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
+             (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else if (!EnTest_ReactToProjectile(globalCtx, this)) {
             EnTest_ChooseAction(this, globalCtx);
@@ -1233,8 +1234,9 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if (player->swordState != 0) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
-                                               (this->actor.xzDistToPlayer < 80.0f))) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) &&
+            ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
+             (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
                    (player->swordAnimation != 0x11)) {
@@ -1272,8 +1274,9 @@ void func_80862418(EnTest* this, GlobalContext* globalCtx) {
     }
 
     if (player->swordState != 0) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
-                                               (this->actor.xzDistToPlayer < 80.0f))) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) &&
+            ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
+             (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
                    (player->swordAnimation != 0x11)) {

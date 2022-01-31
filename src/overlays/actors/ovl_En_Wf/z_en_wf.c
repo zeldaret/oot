@@ -307,7 +307,8 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 mustChoose) {
     if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y)) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (ABS(wallYawDiff) < 0x2EE0) && (this->actor.xzDistToPlayer < 120.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (ABS(wallYawDiff) < 0x2EE0) &&
+            (this->actor.xzDistToPlayer < 120.0f)) {
             EnWf_SetupSomersaultAndAttack(this);
             return true;
         } else if (player->swordAnimation == 0x11) {
@@ -327,7 +328,8 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 mustChoose) {
     if (explosive != NULL) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-        if (((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (wallYawDiff < 0x2EE0)) || (explosive->id == ACTOR_EN_BOM_CHU)) {
+        if (((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (wallYawDiff < 0x2EE0)) ||
+            (explosive->id == ACTOR_EN_BOM_CHU)) {
             if ((explosive->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(&this->actor, explosive) < 80.0f) &&
                 (s16)((this->actor.shape.rot.y - explosive->world.rot.y) + 0x8000) < 0x3E80) {
                 EnWf_SetupSomersaultAndAttack(this);
@@ -934,7 +936,8 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
             angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
             angleToWall = ABS(angleToWall);
 
-            if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (ABS(angleToWall) < 12000) && (this->actor.xzDistToPlayer < 120.0f)) {
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) && (ABS(angleToWall) < 12000) &&
+                (this->actor.xzDistToPlayer < 120.0f)) {
                 EnWf_SetupSomersaultAndAttack(this);
             } else if (!EnWf_DodgeRanged(globalCtx, this)) {
                 if ((this->actor.xzDistToPlayer <= 80.0f) && !Actor_OtherIsTargeted(globalCtx, &this->actor) &&
@@ -1097,8 +1100,9 @@ void EnWf_Sidestep(EnWf* this, GlobalContext* globalCtx) {
     // Actor_TestFloorInDirection is useless here (see comment below)
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) ||
         !Actor_TestFloorInDirection(&this->actor, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y)) {
-        s16 angle =
-            (this->actor.bgCheckFlags & BGCHECKFLAG_3) ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->runAngle : 0;
+        s16 angle = (this->actor.bgCheckFlags & BGCHECKFLAG_3)
+                        ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->runAngle
+                        : 0;
 
         // This is probably meant to reverse direction if the edge of a floor is encountered, but does nothing
         // unless bgCheckFlags & 8 anyway, since angle = 0 otherwise

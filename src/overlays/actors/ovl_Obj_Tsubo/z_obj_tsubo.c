@@ -303,7 +303,8 @@ void ObjTsubo_SetupThrown(ObjTsubo* this) {
 void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
-    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1 | BGCHECKFLAG_3)) || (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1 | BGCHECKFLAG_3)) ||
+        (this->collider.base.atFlags & AT_HIT)) {
         ObjTsubo_AirBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);

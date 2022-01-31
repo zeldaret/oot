@@ -325,7 +325,8 @@ void EnKarebaba_Dying(EnKarebaba* this, GlobalContext* globalCtx) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4800, 0x71C);
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 3.0f, 0, 12, 5, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
-        if (this->actor.scale.x > 0.005f && ((this->actor.bgCheckFlags & BGCHECKFLAG_1) || (this->actor.bgCheckFlags & BGCHECKFLAG_3))) {
+        if (this->actor.scale.x > 0.005f &&
+            ((this->actor.bgCheckFlags & BGCHECKFLAG_1) || (this->actor.bgCheckFlags & BGCHECKFLAG_3))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);

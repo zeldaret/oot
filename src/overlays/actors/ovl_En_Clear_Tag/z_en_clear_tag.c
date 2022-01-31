@@ -558,7 +558,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f, 5);
 
                 // Check if the laser has hit a target, timed out, or hit the ground.
-                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_3)) || hasAtHit || this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
+                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_3)) || hasAtHit ||
+                    this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
                     // Kill the laser.
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.

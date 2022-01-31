@@ -252,7 +252,8 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
 
-    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1 | BGCHECKFLAG_3)) || (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_0 | BGCHECKFLAG_1 | BGCHECKFLAG_3)) ||
+        (this->collider.base.atFlags & AT_HIT)) {
         ObjKibako_AirBreak(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);

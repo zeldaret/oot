@@ -1570,7 +1570,8 @@ void func_80AEE488(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEE568(EnRu1* this, GlobalContext* globalCtx) {
     if (!func_80AEE394(this, globalCtx)) {
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_0) && (this->actor.speedXZ == 0.0f) && (this->actor.minVelocityY == 0.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_0) && (this->actor.speedXZ == 0.0f) &&
+            (this->actor.minVelocityY == 0.0f)) {
             func_80AEE02C(this);
             func_8002F580(&this->actor, globalCtx);
             this->action = 27;

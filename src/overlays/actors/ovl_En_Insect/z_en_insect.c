@@ -260,7 +260,8 @@ void func_80A7C3F4(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->unk_314 & 4) && this->unk_31C <= 0) ||
-        ((sp2E == 2 || sp2E == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_0) && D_80A7DEB8 >= 4)) {
+        ((sp2E == 2 || sp2E == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_0) &&
+         D_80A7DEB8 >= 4)) {
         func_80A7CBC8(this);
     } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_6)) {
         func_80A7CE60(this);
@@ -302,7 +303,8 @@ void func_80A7C5EC(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->unk_314 & 4) && this->unk_31C <= 0) ||
-        ((sp34 == 2 || sp34 == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_0) && D_80A7DEB8 >= 4)) {
+        ((sp34 == 2 || sp34 == 3) && (this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_0) &&
+         D_80A7DEB8 >= 4)) {
         func_80A7CBC8(this);
     } else if ((this->unk_314 & 1) && (this->actor.bgCheckFlags & BGCHECKFLAG_6)) {
         func_80A7CE60(this);

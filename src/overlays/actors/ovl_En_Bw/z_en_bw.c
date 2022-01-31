@@ -362,7 +362,8 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if (((sp64 == 0) && !(this->actor.bgCheckFlags & BGCHECKFLAG_3)) || Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
+            if (((sp64 == 0) && !(this->actor.bgCheckFlags & BGCHECKFLAG_3)) ||
+                Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
                 if (Actor_IsFacingPlayer(&this->actor, 0x1C70)) {
                     this->unk_238 = -this->unk_238;
                 }
