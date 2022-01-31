@@ -8712,8 +8712,8 @@ void func_80846050(Player* this, GlobalContext* globalCtx) {
             this->heldActor = interactRangeActor;
             this->actor.child = interactRangeActor;
             interactRangeActor->parent = &this->actor;
-            interactRangeActor->bgCheckFlags &= BGCHECKFLAG_8 | BGCHECKFLAG_9 | BGCHECKFLAG_10 | BGCHECKFLAG_11 |
-                                                BGCHECKFLAG_12 | BGCHECKFLAG_13 | BGCHECKFLAG_14 | BGCHECKFLAG_15;
+            interactRangeActor->bgCheckFlags &= ~(BGCHECKFLAG_0 | BGCHECKFLAG_1 | BGCHECKFLAG_2 | BGCHECKFLAG_3 |
+                                                  BGCHECKFLAG_4 | BGCHECKFLAG_5 | BGCHECKFLAG_6 | BGCHECKFLAG_7);
             this->unk_3BC.y = interactRangeActor->shape.rot.y - this->actor.shape.rot.y;
         }
         return;

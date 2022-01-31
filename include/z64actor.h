@@ -139,12 +139,6 @@ typedef struct {
 #define BGCHECKFLAG_7 (1 << 7)
 #define BGCHECKFLAG_8 (1 << 8)
 #define BGCHECKFLAG_9 (1 << 9)
-#define BGCHECKFLAG_10 (1 << 10)
-#define BGCHECKFLAG_11 (1 << 11)
-#define BGCHECKFLAG_12 (1 << 12)
-#define BGCHECKFLAG_13 (1 << 13)
-#define BGCHECKFLAG_14 (1 << 14)
-#define BGCHECKFLAG_15 (1 << 15)
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
