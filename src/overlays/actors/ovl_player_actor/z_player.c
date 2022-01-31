@@ -9405,25 +9405,25 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     if (this->stateFlags1 & (PLAYER_STATE1_29 | PLAYER_STATE1_31)) {
         if (this->stateFlags1 & PLAYER_STATE1_31) {
             this->actor.bgCheckFlags &= ~1;
-            spA4 = 0x38;
+            spA4 = UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4 | UPDBGCHECKINFOFLAG_5;
         } else if ((this->stateFlags1 & PLAYER_STATE1_0) && ((this->unk_A84 - (s32)this->actor.world.pos.y) >= 100)) {
-            spA4 = 0x39;
+            spA4 = UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4 | UPDBGCHECKINFOFLAG_5;
         } else if (!(this->stateFlags1 & PLAYER_STATE1_0) &&
                    ((func_80845EF8 == this->func_674) || (func_80845CA4 == this->func_674))) {
             this->actor.bgCheckFlags &= ~0x208;
-            spA4 = 0x3C;
+            spA4 = UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4 | UPDBGCHECKINFOFLAG_5;
         } else {
-            spA4 = 0x3F;
+            spA4 = UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4 | UPDBGCHECKINFOFLAG_5;
         }
     } else {
-        spA4 = 0x3F;
+        spA4 = UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4 | UPDBGCHECKINFOFLAG_5;
     }
 
     if (this->stateFlags3 & PLAYER_STATE3_0) {
-        spA4 &= ~6;
+        spA4 &= ~(UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
     }
 
-    if (spA4 & 4) {
+    if (spA4 & UPDBGCHECKINFOFLAG_2) {
         this->stateFlags3 |= PLAYER_STATE3_4;
     }
 
