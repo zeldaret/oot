@@ -138,7 +138,7 @@ typedef struct {
 #define BGCHECKFLAG_WATER_TOUCH (1 << 6) // Has touched water (actor is responsible for unsetting this the frame it touches the water)
 #define BGCHECKFLAG_7 (1 << 7) // Similar to BGCHECKFLAG_GROUND but with no velocity check and is cleared every frame
 #define BGCHECKFLAG_CRUSHED (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
-#define BGCHECKFLAG_9 (1 << 9) // Unknown, only set/used by player
+#define BGCHECKFLAG_9 (1 << 9) // Only set/used by player, related to interacting with walls
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
