@@ -812,7 +812,7 @@ EntranceInfo gEntranceTable[] = {
 
 // Linker symbol declarations (used in the table below)
 #define DEFINE_SCENE(name, title, _2, _3, _4, _5) \
-    DECLARE_ROM_SEGMENT(name)                                 \
+    DECLARE_ROM_SEGMENT(name)                     \
     DECLARE_ROM_SEGMENT(title)
 
 #include "tables/scene_table.h"
