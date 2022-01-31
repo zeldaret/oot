@@ -277,7 +277,7 @@ void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
         if (!(this->actor.yDistToWater > 0.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
-        this->actor.bgCheckFlags = this->actor.bgCheckFlags & ~2;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_1;
         EnSb_SetupBounce(this);
     }
 }

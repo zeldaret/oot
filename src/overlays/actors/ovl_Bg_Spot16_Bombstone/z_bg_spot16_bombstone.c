@@ -509,7 +509,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (actor->bgCheckFlags & 8 || (actor->bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
+    if ((actor->bgCheckFlags & BGCHECKFLAG_3) || ((actor->bgCheckFlags & BGCHECKFLAG_0) && actor->velocity.y < 0.0f)) {
         BgSpot16Bombstone_SpawnFragments(this, globalCtx);
         BgSpot16Bombstone_SpawnDust(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);

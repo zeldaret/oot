@@ -429,7 +429,7 @@ void func_80AB6324(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y < 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_0) && this->actor.velocity.y < 0.0f) {
         this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
@@ -1031,7 +1031,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (thisx->bgCheckFlags & 0x20 && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
+    if ((thisx->bgCheckFlags & BGCHECKFLAG_5) && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
         thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;

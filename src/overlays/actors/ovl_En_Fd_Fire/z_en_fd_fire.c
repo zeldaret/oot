@@ -151,7 +151,7 @@ void func_80A0E70C(EnFdFire* this, GlobalContext* globalCtx) {
     targetPos.x += this->spawnRadius * Math_SinS(this->actor.world.rot.y);
     targetPos.z += this->spawnRadius * Math_CosS(this->actor.world.rot.y);
     EnFdFire_UpdatePos(this, &targetPos);
-    if (this->actor.bgCheckFlags & 1 && (!(this->actor.velocity.y > 0.0f))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_0) && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
         this->actor.speedXZ = 0.0f;
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_0;

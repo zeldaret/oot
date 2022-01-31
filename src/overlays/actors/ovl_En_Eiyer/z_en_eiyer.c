@@ -477,7 +477,7 @@ void EnEiyer_DiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     this->actor.speedXZ *= 1.1f;
 
-    if (this->actor.bgCheckFlags & 8 || this->actor.bgCheckFlags & 1) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) || (this->actor.bgCheckFlags & BGCHECKFLAG_0)) {
         EnEiyer_SetupLand(this);
     }
 
@@ -494,7 +494,7 @@ void EnEiyer_Land(EnEiyer* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 7.0f, 1.0f);
 
     if (this->timer == -1) {
-        if (this->actor.bgCheckFlags & 8 || this->actor.bgCheckFlags & 1) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_3) || (this->actor.bgCheckFlags & BGCHECKFLAG_0)) {
             this->timer = 10;
             SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_SINK);
 

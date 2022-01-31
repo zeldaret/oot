@@ -348,7 +348,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
 }
 
 void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y <= 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_0) && this->actor.velocity.y <= 0.0f) {
         this->actor.parent->params |= 0x8000;
         Actor_Kill(&this->actor);
     } else {
