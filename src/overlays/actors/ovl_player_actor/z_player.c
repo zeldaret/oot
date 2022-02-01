@@ -2451,7 +2451,8 @@ s32 func_80835588(Player* this, GlobalContext* globalCtx) {
 void func_808355DC(Player* this) {
     this->stateFlags1 |= PLAYER_STATE1_17;
 
-    if (!(this->skelAnime.moveFlags & 0x80) && (this->actor.bgCheckFlags & BGCHECKFLAG_9) && (D_80853608 < 0x2000)) {
+    if (!(this->skelAnime.moveFlags & 0x80) && (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
+        (D_80853608 < 0x2000)) {
         this->currentYaw = this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
     }
 
@@ -6232,7 +6233,7 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
                                 true, &sp78)) {
         wallPoly = this->actor.wallPoly;
 
-        this->actor.bgCheckFlags |= BGCHECKFLAG_9;
+        this->actor.bgCheckFlags |= BGCHECKFLAG_PLAYER_WALL_INTERACT;
         this->actor.wallBgId = sp78;
 
         D_808535F0 = func_80041DB8(&globalCtx->colCtx, wallPoly, sp78);
@@ -6249,7 +6250,7 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
         return 1;
     }
 
-    this->actor.bgCheckFlags &= ~BGCHECKFLAG_9;
+    this->actor.bgCheckFlags &= ~BGCHECKFLAG_PLAYER_WALL_INTERACT;
 
     return 0;
 }
@@ -6308,7 +6309,7 @@ void func_8083F72C(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
 s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
     DynaPolyActor* wallPolyActor;
 
-    if (!(this->stateFlags1 & PLAYER_STATE1_11) && (this->actor.bgCheckFlags & BGCHECKFLAG_9) &&
+    if (!(this->stateFlags1 & PLAYER_STATE1_11) && (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         (D_80853608 < 0x3000)) {
 
         if (((this->linearVelocity > 0.0f) && func_8083EC18(this, globalCtx, D_808535F0)) ||
@@ -6357,7 +6358,7 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083F9D0(GlobalContext* globalCtx, Player* this) {
-    if ((this->actor.bgCheckFlags & BGCHECKFLAG_9) &&
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         ((this->stateFlags2 & PLAYER_STATE2_4) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
         DynaPolyActor* wallPolyActor = NULL;
 
@@ -6399,7 +6400,8 @@ void func_8083FB7C(Player* this, GlobalContext* globalCtx) {
 }
 
 s32 func_8083FBC0(Player* this, GlobalContext* globalCtx) {
-    if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && (this->actor.bgCheckFlags & BGCHECKFLAG_9) &&
+    if (!CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
+        (this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
         ((D_808535F0 & 8) || (D_808535F0 & 2) ||
          func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId))) {
         return 0;
@@ -8032,7 +8034,8 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
                         func_80843E14(this, NA_SE_VO_LI_FALL_L);
                     }
 
-                    if ((this->actor.bgCheckFlags & BGCHECKFLAG_9) && !(this->stateFlags2 & PLAYER_STATE2_19) &&
+                    if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) &&
+                        !(this->stateFlags2 & PLAYER_STATE2_19) &&
                         !(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_27)) && (this->linearVelocity > 0.0f)) {
                         if ((this->wallHeight >= 150.0f) && (this->unk_84B[this->unk_846] == 0)) {
                             func_8083EC18(this, globalCtx, D_808535F0);
@@ -8129,7 +8132,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
             }
         } else {
             if (this->linearVelocity >= 7.0f) {
-                if (((this->actor.bgCheckFlags & BGCHECKFLAG_9) && (D_8085360C < 0x2000)) ||
+                if (((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) && (D_8085360C < 0x2000)) ||
                     ((this->cylinder.base.ocFlags1 & OC1_HIT) &&
                      (cylinderOc = this->cylinder.base.oc,
                       ((cylinderOc->id == ACTOR_EN_WOOD02) &&
@@ -9419,7 +9422,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             spA4 = 0x39;
         } else if (!(this->stateFlags1 & PLAYER_STATE1_0) &&
                    ((func_80845EF8 == this->func_674) || (func_80845CA4 == this->func_674))) {
-            this->actor.bgCheckFlags &= ~(BGCHECKFLAG_WALL | BGCHECKFLAG_9);
+            this->actor.bgCheckFlags &= ~(BGCHECKFLAG_WALL | BGCHECKFLAG_PLAYER_WALL_INTERACT);
             spA4 = 0x3C;
         } else {
             spA4 = 0x3F;
@@ -9492,7 +9495,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
 
     func_80839034(globalCtx, this, spC0, this->actor.floorBgId);
 
-    this->actor.bgCheckFlags &= ~BGCHECKFLAG_9;
+    this->actor.bgCheckFlags &= ~BGCHECKFLAG_PLAYER_WALL_INTERACT;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         CollisionPoly* spA0;
@@ -9505,7 +9508,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
 
         if (!(this->stateFlags2 & PLAYER_STATE2_18) &&
             func_80839768(globalCtx, this, &D_80854798, &spA0, &sp9C, &D_80858AA8)) {
-            this->actor.bgCheckFlags |= BGCHECKFLAG_9;
+            this->actor.bgCheckFlags |= BGCHECKFLAG_PLAYER_WALL_INTERACT;
             if (this->actor.wallPoly != spA0) {
                 this->actor.wallPoly = spA0;
                 this->actor.wallBgId = sp9C;
@@ -9534,7 +9537,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             }
         }
 
-        if ((this->actor.bgCheckFlags & BGCHECKFLAG_9) && (D_80853608 < 0x3000)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_PLAYER_WALL_INTERACT) && (D_80853608 < 0x3000)) {
             CollisionPoly* wallPoly = this->actor.wallPoly;
 
             if (ABS(wallPoly->normal.y) < 600) {
