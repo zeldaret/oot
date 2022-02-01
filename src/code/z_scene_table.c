@@ -824,8 +824,8 @@ EntranceInfo gEntranceTable[] = {
     { ROM_FILE(name), ROM_FILE(title), unk_10, config, unk_12, 0 },
 
 // Handle `none` as a special case for scenes without a title card
-#define _noneSegmentRomStart 0
-#define _noneSegmentRomEnd 0
+#define _noneSegmentRomStart NULL
+#define _noneSegmentRomEnd NULL
 
 SceneTableEntry gSceneTable[] = {
 #include "tables/scene_table.h"
