@@ -7,7 +7,7 @@
 #include "z_en_bird.h"
 #include "objects/object_bird/object_bird.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void EnBird_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBird_Destroy(Actor* thisx, GlobalContext* globalCtx);

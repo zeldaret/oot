@@ -7,7 +7,7 @@
 #include "z_obj_timeblock.h"
 #include "objects/object_timeblock/object_timeblock.h"
 
-#define FLAGS 0x0A000011
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -170,11 +170,11 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (ObjTimeblock_PlayerIsInRange(this, globalCtx)) {
-        if (player->stateFlags2 & 0x1000000) {
+        if (player->stateFlags2 & PLAYER_STATE2_24) {
             func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->songObserverFunc = ObjTimeblock_WaitForSong;
         } else {
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
     return false;

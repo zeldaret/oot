@@ -7,7 +7,7 @@
 #include "z_en_arrow.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -148,7 +148,7 @@ void EnArrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->collider);
 
     if ((this->hitActor != NULL) && (this->hitActor->update != NULL)) {
-        this->hitActor->flags &= ~0x8000;
+        this->hitActor->flags &= ~ACTOR_FLAG_15;
     }
 }
 
@@ -279,7 +279,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             }
 
             EffectSsStone1_Spawn(globalCtx, &this->actor.world.pos, 0);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, sfxId);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, sfxId);
             Actor_Kill(&this->actor);
         } else {
             EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 150, &this->actor.world.pos);
@@ -288,11 +288,11 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
                 hitActor = this->collider.base.at;
 
                 if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & AT_BOUNCED)) &&
-                    (hitActor->flags & 0x4000)) {
+                    (hitActor->flags & ACTOR_FLAG_14)) {
                     this->hitActor = hitActor;
                     EnArrow_CarryActor(this, globalCtx);
                     Math_Vec3f_Diff(&hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                    hitActor->flags |= 0x8000;
+                    hitActor->flags |= ACTOR_FLAG_15;
                     this->collider.base.atFlags &= ~AT_HIT;
                     this->actor.speedXZ /= 2.0f;
                     this->actor.velocity.y /= 2.0f;
@@ -351,14 +351,14 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
                 this->hitActor->world.pos.y = hitPoint.y + ((sp54.y <= hitPoint.y) ? 1.0f : -1.0f);
                 this->hitActor->world.pos.z = hitPoint.z + ((sp54.z <= hitPoint.z) ? 1.0f : -1.0f);
                 Math_Vec3f_Diff(&this->hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
-                this->hitActor->flags &= ~0x8000;
+                this->hitActor->flags &= ~ACTOR_FLAG_15;
                 this->hitActor = NULL;
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
 
             if (this->touchedPoly && (this->hitActor != NULL)) {
-                this->hitActor->flags &= ~0x8000;
+                this->hitActor->flags &= ~ACTOR_FLAG_15;
                 this->hitActor = NULL;
             }
         } else {

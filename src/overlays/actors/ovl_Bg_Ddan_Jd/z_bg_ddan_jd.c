@@ -7,7 +7,7 @@
 #include "z_bg_ddan_jd.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx);

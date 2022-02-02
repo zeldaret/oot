@@ -8,7 +8,7 @@
 #include "objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS 0x04000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void EnAm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -268,7 +268,7 @@ void EnAm_SpawnEffects(EnAm* this, GlobalContext* globalCtx) {
     }
 
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WALK);
-    Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 0x12C, 0xF, 0);
+    Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 300, 15, false);
 }
 
 void EnAm_SetupSleep(EnAm* this) {
@@ -285,7 +285,7 @@ void EnAm_SetupStatue(EnAm* this) {
     f32 lastFrame = Animation_GetLastFrame(&gArmosRicochetAnim);
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
-    this->dyna.actor.flags &= ~1;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
@@ -386,7 +386,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
         if (this->textureBlend >= 240) {
             this->attackTimer = 200;
             this->textureBlend = 255;
-            this->dyna.actor.flags |= 1;
+            this->dyna.actor.flags |= ACTOR_FLAG_0;
             this->dyna.actor.shape.yOffset = 0.0f;
             EnAm_SetupLunge(this);
         } else {
@@ -407,7 +407,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
             this->textureBlend -= 10;
         } else {
             this->textureBlend = 0;
-            this->dyna.actor.flags &= ~1;
+            this->dyna.actor.flags &= ~ACTOR_FLAG_0;
 
             if (this->dyna.bgId < 0) {
                 this->unk_264 = 0;
@@ -689,7 +689,7 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
-            player->stateFlags2 &= ~0x151;
+            player->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_4 | PLAYER_STATE2_6 | PLAYER_STATE2_8);
             player->actor.speedXZ = 0.0f;
             this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
         }

@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_po_field/object_po_field.h"
 
-#define FLAGS 0x00001035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_12)
 
 void EnPoField_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoField_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -193,7 +193,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     Lights_PointSetColorAndRadius(&this->lightInfo, 0, 0, 0, 0);
     this->actionTimer = 200;
     Actor_SetScale(&this->actor, 0.0f);
-    this->actor.flags &= ~0x00010001;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_16);
     this->collider.base.acFlags &= ~AC_ON;
     this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_ALL;
     this->actor.colChkInfo.health = D_80AD70D8.health;
@@ -242,7 +242,7 @@ void EnPoField_SetupCirclePlayer(EnPoField* this, GlobalContext* globalCtx) {
     Math_Vec3f_Copy(&this->actor.home.pos, &player->actor.world.pos);
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     if (this->actionFunc != EnPoField_Damage) {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actionTimer = 600;
         this->unk_194 = 32;
     }
@@ -255,7 +255,7 @@ void EnPoField_SetupFlee(EnPoField* this) {
     this->actionFunc = EnPoField_Flee;
     this->actor.speedXZ = 12.0f;
     if (this->actionFunc != EnPoField_Damage) {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actor.world.rot.y = this->actor.shape.rot.y + 0x8000;
         this->actionTimer = 2000;
         this->unk_194 = 32;
@@ -277,7 +277,7 @@ void EnPoField_SetupDamage(EnPoField* this) {
 
 void EnPoField_SetupDeath(EnPoField* this) {
     this->actionTimer = 0;
-    this->actor.flags &= -2;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.naviEnemyId = 0xFF;
@@ -343,7 +343,7 @@ void func_80AD4384(EnPoField* this) {
     this->actor.textId = 0x5005;
     this->actionTimer = 400;
     this->unk_194 = 32;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = func_80AD58D4;
 }
 
@@ -379,7 +379,8 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
 
 f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
-    f32 speed = ((player->stateFlags1 & 0x800000) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
+    f32 speed =
+        ((player->stateFlags1 & PLAYER_STATE1_23) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;
 
     if (this->actor.xzDistToPlayer < 300.0f) {
         this->actor.speedXZ = speed * 1.5f + 2.0f;
@@ -407,13 +408,13 @@ void EnPoField_WaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
             if (fabsf(sSpawnPositions[i].x - player->actor.world.pos.x) < 150.0f &&
                 fabsf(sSpawnPositions[i].z - player->actor.world.pos.z) < 150.0f) {
                 if (Flags_GetSwitch(globalCtx, sSpawnSwitchFlags[i])) {
-                    if (player->stateFlags1 & 0x800000) { // Player riding Epona
+                    if (player->stateFlags1 & PLAYER_STATE1_23) { // Player riding Epona
                         return;
                     } else {
                         this->actor.params = EN_PO_FIELD_SMALL;
                         spawnDist = 300.0f;
                     }
-                } else if (player->stateFlags1 & 0x800000 || Rand_ZeroOne() < 0.4f) {
+                } else if (player->stateFlags1 & PLAYER_STATE1_23 || Rand_ZeroOne() < 0.4f) {
                     this->actor.params = EN_PO_FIELD_BIG;
                     this->spawnFlagIndex = i;
                     spawnDist = 480.0f;
@@ -656,15 +657,15 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     }
     if (this->actionTimer == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         EnPoField_SetupSoulDisappear(this);
         return;
     }
     if (this->collider.base.ocFlags1 & OC1_HIT) {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 5.0f + this->actor.home.pos.y;

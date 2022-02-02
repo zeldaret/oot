@@ -17,7 +17,7 @@ void GameState_FaultPrint(void) {
     FaultDrawer_DrawText(120, 180, "%08x", sLastButtonPressed);
     for (i = 0; i < ARRAY_COUNT(sBtnChars); i++) {
         if (sLastButtonPressed & (1 << i)) {
-            FaultDrawer_DrawText((i * 8) + 0x78, 0xBE, "%c", sBtnChars[i]);
+            FaultDrawer_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
         }
     }
 }
@@ -84,7 +84,7 @@ void func_800C4344(GameState* gameState) {
         HREG(95) = CHECK_BTN_ALL(selectedInput->press.button, hReg82);
     }
 
-    if (D_8012DBC0 != 0) {
+    if (gIsCtrlr2Valid) {
         func_8006390C(&gameState->input[1]);
     }
 

@@ -31,7 +31,7 @@
         <Texture Name="gPotionShopLadyShirtPatternTex" OutName="shirt_pattern" Format="ci8" Width="16" Height="16" Offset="0x4118" TlutOffset="0x3918"/>
         <Texture Name="gPotionShopLadyCatPattern1Tex" OutName="cat_pattern_1" Format="ci8" Width="32" Height="32" Offset="0x4218" TlutOffset="0x3918"/>
         <Texture Name="gPotionShopLadyCatPattern2Tex" OutName="cat_pattern_2" Format="ci8" Width="16" Height="16" Offset="0x4618" TlutOffset="0x3918"/>
-        
+
         <!-- Potion Shop Lady Animations-->
         <Animation Name="gPotionShopLadyAnim" Offset="0x39C"/>
     </File>

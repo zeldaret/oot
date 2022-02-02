@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_iron/object_jya_iron.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgJyaHaheniron_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaHaheniron_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -188,7 +188,7 @@ void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this) {
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     if (this->timer >= 17) {
         BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.world.pos, D_808987AC);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }

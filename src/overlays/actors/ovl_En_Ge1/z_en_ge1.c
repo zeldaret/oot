@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ge1/object_ge1.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define GE1_STATE_TALKING (1 << 0)
 #define GE1_STATE_GIVE_QUIVER (1 << 1)
@@ -522,7 +522,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
     if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
 
@@ -549,7 +549,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 200.0f);
     }
@@ -571,7 +571,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Actor* horse;
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
 
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
@@ -587,7 +587,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                     gSaveContext.eventInf[0] |= 0x100;
                     gSaveContext.eventChkInf[6] |= 0x100;
 
-                    if (!(player->stateFlags1 & 0x800000)) {
+                    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                         func_8002DF54(globalCtx, &this->actor, 1);
                     } else {
                         horse = Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_HORSE, ACTORCAT_BG, 1200.0f);
@@ -629,7 +629,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[0] &= ~0x100;
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
-    this->actor.flags |= 0x10000;
+    this->actor.flags |= ACTOR_FLAG_16;
 
     if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {
         HIGH_SCORE(HS_HBA) = gSaveContext.minigameScore;
@@ -667,7 +667,7 @@ void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     u16 textId;
 
-    if (!(player->stateFlags1 & 0x800000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
         EnGe1_SetTalkAction(this, globalCtx, 0x603F, 100.0f, EnGe1_TalkNoHorse_Archery);
     } else {
         if (gSaveContext.eventChkInf[6] & 0x100) {

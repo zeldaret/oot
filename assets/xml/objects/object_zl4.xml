@@ -43,7 +43,7 @@
         <Texture Name="gChildZeldaMouthHappyTex" OutName="child_zelda_mouth_happy" Format="i8" Width="32" Height="32" Offset="0x4AF0"/>
         <Texture Name="gChildZeldaMouthWorriedTex" OutName="child_zelda_mouth_worried" Format="i8" Width="32" Height="32" Offset="0x4EF0"/>
         <Texture Name="gChildZeldaMouthSurprisedTex" OutName="child_zelda_mouth_surprised" Format="i8" Width="32" Height="32" Offset="0x52F0"/>
-        
+
         <!-- Child Zelda's eye textures -->
         <Texture Name="gChildZeldaEyeOpenTex" OutName="child_zelda_eye_open" Format="i8" Width="32" Height="32" Offset="0x2AF0"/>
         <Texture Name="gChildZeldaEyeBlinkTex" OutName="child_zelda_eye_blink" Format="i8" Width="32" Height="32" Offset="0x2EF0"/>

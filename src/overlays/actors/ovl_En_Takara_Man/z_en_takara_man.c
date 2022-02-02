@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ts/object_ts.h"
 
-#define FLAGS 0x08000039
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
 
 void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -51,7 +51,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     sTakaraIsInitialized = true;
     osSyncPrintf("\n\n");
     // "Bun! %x" (needs a better translation)
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, globalCtx->actorCtx.flags.chest);
+    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, globalCtx->actorCtx.flags.chest);
     globalCtx->actorCtx.flags.chest = 0;
     gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,
@@ -113,11 +113,11 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
         absYawDiff = ABS(yawDiff);
         if (absYawDiff < 0x4300) {
             if (globalCtx->roomCtx.curRoom.num != this->originalRoomNum) {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->unk_218 = 0;
             } else {
                 if (!this->unk_218) {
-                    this->actor.flags |= 1;
+                    this->actor.flags |= ACTOR_FLAG_0;
                     this->unk_218 = 1;
                 }
                 func_8002F2CC(&this->actor, globalCtx, 100.0f);

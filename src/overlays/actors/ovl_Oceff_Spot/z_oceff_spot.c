@@ -7,7 +7,7 @@
 #include "z_oceff_spot.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -71,7 +71,7 @@ void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode2);
     func_800876C8(globalCtx);
     if ((gSaveContext.nayrusLoveTimer != 0) && (globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].length != 0)) {
-        player->stateFlags3 |= 0x40;
+        player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 

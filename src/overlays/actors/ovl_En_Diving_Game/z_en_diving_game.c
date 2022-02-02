@@ -9,7 +9,7 @@
 #include "objects/object_zo/object_zo.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -414,7 +414,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
         } else {
             func_80088B34(BREG(2) + 50);
         }
-        func_800F5ACC(NA_BGM_MINI_GAME_2);
+        func_800F5ACC(NA_BGM_TIMED_MINI_GAME);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.textId = 0x405B;
         this->unk_292 = TEXT_STATE_EVENT;

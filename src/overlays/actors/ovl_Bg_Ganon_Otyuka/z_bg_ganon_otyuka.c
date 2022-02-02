@@ -8,7 +8,7 @@
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0x00 */ FLASH_NONE,
@@ -212,7 +212,7 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                 }
 
                 func_80033DB8(globalCtx, 10, 15);
-                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 0x28, NA_SE_EV_BOX_BREAK);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
             }
             Actor_Kill(&this->dyna.actor);
         }

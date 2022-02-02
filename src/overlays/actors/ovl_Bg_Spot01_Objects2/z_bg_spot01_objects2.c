@@ -8,7 +8,7 @@
 #include "objects/object_spot01_matoya/object_spot01_matoya.h"
 #include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot01Objects2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Objects2_Destroy(Actor* thisx, GlobalContext* globalCtx);

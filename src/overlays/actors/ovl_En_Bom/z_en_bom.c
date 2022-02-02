@@ -8,7 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -169,7 +169,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
-        this->actor.flags |= 0x20;
+        this->actor.flags |= ACTOR_FLAG_5;
         func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
@@ -206,11 +206,11 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         player = GET_PLAYER(globalCtx);
 
-        if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_11) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~0x800;
+            player->stateFlags1 &= ~PLAYER_STATE1_11;
         }
 
         Actor_Kill(&this->actor);
@@ -323,7 +323,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
-            thisx->flags |= 0x20;
+            thisx->flags |= ACTOR_FLAG_5;
             EnBom_SetupAction(this, EnBom_Explode);
         }
     }
@@ -365,7 +365,7 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == BOMB_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
-        func_800D1FD4(&globalCtx->billboardMtxF);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
         func_8002EBCC(thisx, globalCtx, 0);
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),

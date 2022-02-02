@@ -7,7 +7,7 @@
 #include "z_bg_mori_kaitenkabe.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -111,7 +111,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
 
@@ -144,7 +144,7 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
     Math_Vec3f_Copy(&player->actor.world.pos, &this->lockedPlayerPos);
 }

@@ -8,7 +8,7 @@
 #include "objects/object_fu/object_fu.h"
 #include "scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 
-#define FLAGS 0x02000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 #define FU_RESET_LOOK_ANGLE (1 << 0)
 #define FU_WAIT (1 << 1)
@@ -137,7 +137,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
         textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
     }
 
-    // if actor flags & 0x100 is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
@@ -167,28 +167,28 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = EnFu_WaitAdult;
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
         gSaveContext.eventChkInf[6] |= 0x20;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-        player->stateFlags2 &= ~0x1000000;
+        player->stateFlags2 &= ~PLAYER_STATE2_24;
         this->actionFunc = EnFu_WaitAdult;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
 void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    player->stateFlags2 |= 0x800000;
+    player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 7, player has played back the song
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_STORMS);
@@ -199,7 +199,7 @@ void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
 void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    player->stateFlags2 |= 0x800000;
+    player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
@@ -216,7 +216,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((gSaveContext.eventChkInf[5] & 0x800)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
-    } else if (player->stateFlags2 & 0x1000000) {
+    } else if (player->stateFlags2 & PLAYER_STATE2_24) {
         this->actor.textId = 0x5035;
         Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
@@ -227,7 +227,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
 }

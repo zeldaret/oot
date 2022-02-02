@@ -4,7 +4,7 @@
 #include "objects/object_efc_star_field/object_efc_star_field.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -248,7 +248,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DEMOKANKYO_WARP_OUT:
         case DEMOKANKYO_WARP_IN:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
-            this->actor.flags |= 0x2000000;
+            this->actor.flags |= ACTOR_FLAG_25;
             this->actor.room = -1;
             this->warpTimer = 35;
             this->sparkleCounter = 0;
@@ -856,7 +856,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->unk_150[i].unk_22 < 2) {
             disp = (u32)gEffFlash1DL;
-            if (linkAge != 0) {
+            if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
                 if (translateY) {}

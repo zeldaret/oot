@@ -8,7 +8,7 @@
 #include "objects/object_haka_objects/object_haka_objects.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0x00000011
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
 typedef enum {
     /* 0 */ SCYTHE_TRAP_SHADOW_TEMPLE,
@@ -142,7 +142,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params = (thisx->params >> 8) & 0xFF;
 
     if (this->unk_151 != 0) {
-        thisx->flags |= 0x80;
+        thisx->flags |= ACTOR_FLAG_7;
     }
 
     Collider_InitTris(globalCtx, colliderScythe);
@@ -170,7 +170,7 @@ void BgHakaSgami_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == SCYTHE_TRAP_SHADOW_TEMPLE) {
         this->requiredObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
-        thisx->flags &= ~1;
+        thisx->flags &= ~ACTOR_FLAG_0;
     } else {
         this->requiredObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ICE_OBJECTS);
         this->colliderScytheCenter.dim.radius = 30;
@@ -200,7 +200,7 @@ void BgHakaSgami_SetupSpin(BgHakaSgami* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actor.draw = BgHakaSgami_Draw;
         this->timer = SCYTHE_SPIN_TIME;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actionFunc = BgHakaSgami_Spin;
     }
 }
@@ -259,7 +259,7 @@ void BgHakaSgami_Spin(BgHakaSgami* this, GlobalContext* globalCtx) {
                                  &scytheVertices[2]);
     }
 
-    if ((this->unk_151 == 0) || (globalCtx->actorCtx.unk_03 != 0)) {
+    if ((this->unk_151 == 0) || globalCtx->actorCtx.lensActive) {
         scytheVertices[0].x = this->actor.world.pos.x + blureEffectVertices1[this->actor.params].z * actorRotYSin +
                               blureEffectVertices1[this->actor.params].x * actorRotYCos;
         scytheVertices[0].y = this->actor.world.pos.y + blureEffectVertices1[this->actor.params].y;
@@ -289,7 +289,8 @@ void BgHakaSgami_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaSgami* this = (BgHakaSgami*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == BgHakaSgami_SetupSpin)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
+        (this->actionFunc == BgHakaSgami_SetupSpin)) {
         this->actionFunc(this, globalCtx);
     }
 }

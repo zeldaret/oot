@@ -9,7 +9,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x02000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 
 void EnGs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGs_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -143,8 +143,8 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
     if (this->actor.xzDistToPlayer <= 100.0f) {
         bREG(15) = 1;
         if (this->unk_19D == 0) {
-            player->stateFlags2 |= 0x800000;
-            if (player->stateFlags2 & 0x1000000) {
+            player->stateFlags2 |= PLAYER_STATE2_23;
+            if (player->stateFlags2 & PLAYER_STATE2_24) {
                 func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
                 this->unk_19D |= 1;
             }
@@ -167,7 +167,7 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
                 this->unk_19D = 0;
                 Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
             } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-                player->stateFlags2 |= 0x800000;
+                player->stateFlags2 |= PLAYER_STATE2_23;
             }
         }
     }
@@ -353,7 +353,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
             this->actor.uncullZoneForward = 12000.0f;
 
             this->actor.gravity = 0.3f;
@@ -597,7 +597,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Pop();
         if (this->unk_19E & 2) {
             func_80093D84(globalCtx->state.gfxCtx);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),

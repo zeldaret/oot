@@ -12,7 +12,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_tsubo/object_tsubo.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ MOVE_TARGET,
@@ -96,7 +96,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->silverCount = this->actor.params >> 6;
             this->silverCount &= 0x3F;
             // "maximum number of checks"
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 // This is a reference to Hokuto no Ken
@@ -141,7 +141,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
                 // "what?"
-                osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
+                osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
                 // "bank is funny"
                 osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
@@ -400,7 +400,7 @@ void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
                                  KAKERA_COLOR_NONE, OBJECT_TSUBO, object_tsubo_DL_001960);
         }
         func_80033480(globalCtx, thisPos, 30.0f, 4, 20, 50, 0);
-        Audio_PlaySoundAtPosition(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, thisPos, 40, NA_SE_EV_POT_BROKEN);
         EnGSwitch_Break(this, globalCtx);
         this->killTimer = 50;
         this->broken = true;

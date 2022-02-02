@@ -8,7 +8,7 @@
 #include "z_bg_jya_goroiwa.h"
 #include "objects/object_goroiwa/object_goroiwa.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -200,7 +200,7 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 bgId;
     Vec3f pos;
 
-    if (!(player->stateFlags1 & 0x300000C0)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         this->actionFunc(this, globalCtx);
         BgJyaGoroiwa_UpdateRotation(this);
         pos.x = this->actor.world.pos.x;

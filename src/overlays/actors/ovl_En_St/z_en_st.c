@@ -7,7 +7,7 @@
 #include "z_en_st.h"
 #include "objects/object_st/object_st.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnSt_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSt_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -104,7 +104,18 @@ static ColliderJntSphInit sJntSphInit = {
     sJntSphElementsInit,
 };
 
-static struct_80034EC0_Entry sAnimations[] = {
+typedef enum {
+    /* 0 */ ENST_ANIM_0,
+    /* 1 */ ENST_ANIM_1,
+    /* 2 */ ENST_ANIM_2,
+    /* 3 */ ENST_ANIM_3,
+    /* 4 */ ENST_ANIM_4,
+    /* 5 */ ENST_ANIM_5,
+    /* 6 */ ENST_ANIM_6,
+    /* 7 */ ENST_ANIM_7
+} EnStAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &object_st_Anim_000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &object_st_Anim_005B98, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
     { &object_st_Anim_000304, 4.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
@@ -234,24 +245,24 @@ void EnSt_AddBlurSpace(EnSt* this) {
 }
 
 void EnSt_SetWaitingAnimation(EnSt* this) {
-    func_80034EC0(&this->skelAnime, sAnimations, 3);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_3);
 }
 
 void EnSt_SetReturnToCeilingAnimation(EnSt* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_UP);
-    func_80034EC0(&this->skelAnime, sAnimations, 2);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_2);
 }
 
 void EnSt_SetLandAnimation(EnSt* this) {
     this->actor.world.pos.y = this->actor.floorHeight + this->floorHeightOffset;
-    func_80034EC0(&this->skelAnime, sAnimations, 4);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_4);
     this->sfxTimer = 0;
     this->animFrames = this->skelAnime.animLength;
 }
 
 void EnSt_SetDropAnimAndVel(EnSt* this) {
     if (this->takeDamageSpinTimer == 0) {
-        func_80034EC0(&this->skelAnime, sAnimations, 4);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_4);
         this->animFrames = this->skelAnime.animLength;
     }
     this->sfxTimer = 0;
@@ -440,7 +451,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
 
     this->swayTimer = this->stunTimer = 0;
     this->gaveDamageSpinTimer = 1;
-    func_80034EC0(&this->skelAnime, sAnimations, 3);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_3);
     this->takeDamageSpinTimer = this->skelAnime.animLength;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
     if (Actor_ApplyDamage(&this->actor)) {
@@ -448,7 +459,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
     Enemy_StartFinishingBlow(globalCtx, &this->actor);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->groundBounces = 3;
     this->deathTimer = 20;
     this->actor.gravity = -1.0f;
@@ -769,11 +780,11 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 14.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_st_Skel_005298, NULL, this->jointTable, this->morphTable, 30);
-    func_80034EC0(&this->skelAnime, sAnimations, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_0);
     this->blureIdx = EnSt_CreateBlureEffect(globalCtx);
     EnSt_InitColliders(this, globalCtx);
     if (thisx->params == 2) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
     }
     if (this->actor.params == 1) {
         this->actor.naviEnemyId = 0x05;
@@ -781,8 +792,8 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.naviEnemyId = 0x04;
     }
     EnSt_CheckCeilingPos(this, globalCtx);
-    this->actor.flags |= 0x4000;
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_14;
+    this->actor.flags |= ACTOR_FLAG_24;
     EnSt_SetColliderScale(this);
     this->actor.gravity = 0.0f;
     this->initalYaw = this->actor.world.rot.y;
@@ -817,14 +828,14 @@ void EnSt_WaitOnGround(EnSt* this, GlobalContext* globalCtx) {
     if (this->takeDamageSpinTimer != 0) {
         this->takeDamageSpinTimer--;
         if (this->takeDamageSpinTimer == 0) {
-            func_80034EC0(&this->skelAnime, sAnimations, 3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_3);
         }
     }
 
     if (this->animFrames != 0) {
         this->animFrames--;
         if (this->animFrames == 0) {
-            func_80034EC0(&this->skelAnime, sAnimations, 3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_3);
         }
     }
 
@@ -849,14 +860,14 @@ void EnSt_LandOnGround(EnSt* this, GlobalContext* globalCtx) {
     if (this->animFrames != 0) {
         this->animFrames--;
         if (this->animFrames == 0) {
-            func_80034EC0(&this->skelAnime, sAnimations, 3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_3);
         }
     }
 
     if (this->takeDamageSpinTimer != 0) {
         this->takeDamageSpinTimer--;
         if (this->takeDamageSpinTimer == 0) {
-            func_80034EC0(&this->skelAnime, sAnimations, 3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_3);
         }
     }
 
@@ -879,7 +890,7 @@ void EnSt_MoveToGround(EnSt* this, GlobalContext* globalCtx) {
     if (this->takeDamageSpinTimer != 0) {
         this->takeDamageSpinTimer--;
         if (this->takeDamageSpinTimer == 0) {
-            func_80034EC0(&this->skelAnime, sAnimations, 5);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENST_ANIM_5);
         }
     }
 
@@ -996,7 +1007,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Color_RGBA8 color = { 0, 0, 0, 0 };
 
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         SkelAnime_Update(&this->skelAnime);
     } else if (!EnSt_CheckColliders(this, globalCtx)) {
         // no collision has been detected.

@@ -7,7 +7,7 @@
 #include "z_bg_spot03_taki.h"
 #include "objects/object_spot03_object/object_spot03_object.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSpot03Taki_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot03Taki_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_mushroom" Segment="6">
         <DList Name="gGiOddMushroomDL" Offset="0x09D0"/>
     </File>

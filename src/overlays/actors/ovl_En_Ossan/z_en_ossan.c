@@ -14,7 +14,7 @@
 #include "objects/object_masterzoora/object_masterzoora.h"
 #include "objects/object_masterkokirihead/object_masterkokirihead.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -653,7 +653,7 @@ void EnOssan_EndInteraction(GlobalContext* globalCtx, EnOssan* this) {
     Actor_ProcessTalkRequest(&this->actor, globalCtx);
     globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     globalCtx->msgCtx.stateTimer = 4;
-    player->stateFlags2 &= ~0x20000000;
+    player->stateFlags2 &= ~PLAYER_STATE2_29;
     func_800BC490(globalCtx, 1);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
@@ -737,7 +737,7 @@ void EnOssan_State_Idle(EnOssan* this, GlobalContext* globalCtx, Player* player)
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         // "Start conversation!!"
         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
-        player->stateFlags2 |= 0x20000000;
+        player->stateFlags2 |= PLAYER_STATE2_29;
         func_800BC590(globalCtx);
         EnOssan_SetStateStartShopping(globalCtx, this, false);
     } else if (this->actor.xzDistToPlayer < 100.0f) {
@@ -1323,7 +1323,7 @@ void EnOssan_GiveItemWithFanfare(GlobalContext* globalCtx, EnOssan* this) {
     func_8002F434(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
     globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     globalCtx->msgCtx.stateTimer = 4;
-    player->stateFlags2 &= ~0x20000000;
+    player->stateFlags2 &= ~PLAYER_STATE2_29;
     func_800BC490(globalCtx, 1);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
@@ -1698,7 +1698,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
                     case 0:
                         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 続けるよ！！ ★★★" VT_RST "\n");
                         player->actor.shape.rot.y += 0x8000;
-                        player->stateFlags2 |= 0x20000000;
+                        player->stateFlags2 |= PLAYER_STATE2_29;
                         func_800BC490(globalCtx, 2);
                         Message_StartTextbox(globalCtx, this->actor.textId, &this->actor);
                         EnOssan_SetStateStartShopping(globalCtx, this, true);
@@ -1717,7 +1717,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
         selectedItem = this->shelfSlots[this->cursorIndex];
         selectedItem->updateStockedItemFunc(globalCtx, selectedItem);
         player->actor.shape.rot.y += 0x8000;
-        player->stateFlags2 |= 0x20000000;
+        player->stateFlags2 |= PLAYER_STATE2_29;
         func_800BC490(globalCtx, 2);
         Message_StartTextbox(globalCtx, this->actor.textId, &this->actor);
         EnOssan_SetStateStartShopping(globalCtx, this, true);
@@ -2104,7 +2104,7 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     ShopItem* items;
 
     if (EnOssan_AreShopkeeperObjectsLoaded(this, globalCtx)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->objBankIndex1;
         Actor_SetObjectDependency(globalCtx, &this->actor);
 
@@ -2189,7 +2189,7 @@ void EnOssan_InitActionFunc(EnOssan* this, GlobalContext* globalCtx) {
         this->blinkTimer = 20;
         this->eyeTextureIdx = 0;
         this->blinkFunc = EnOssan_WaitForBlink;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         EnOssan_SetupAction(this, EnOssan_MainActionFunc);
     }
 }

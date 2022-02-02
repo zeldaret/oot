@@ -7,7 +7,7 @@
 #include "z_bg_spot12_saku.h"
 #include "objects/object_spot12_obj/object_spot12_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx);

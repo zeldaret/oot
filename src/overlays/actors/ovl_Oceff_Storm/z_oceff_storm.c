@@ -6,7 +6,7 @@
 
 #include "z_oceff_storm.h"
 
-#define FLAGS 0x02000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
 void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -61,7 +61,7 @@ void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
-        player->stateFlags3 |= 0x40;
+        player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 

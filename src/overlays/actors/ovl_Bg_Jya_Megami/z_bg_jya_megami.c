@@ -2,7 +2,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -191,7 +191,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
     if (this->lightTimer > 40) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         BgJyaMegami_SetupExplode(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
         OnePointCutscene_Init(globalCtx, 3440, -99, &this->dyna.actor, MAIN_CAM);
     } else {
         if (this->lightTimer < 8) {
@@ -230,7 +230,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
 
     this->explosionTimer++;
     if (this->explosionTimer == 30) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
     }
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {

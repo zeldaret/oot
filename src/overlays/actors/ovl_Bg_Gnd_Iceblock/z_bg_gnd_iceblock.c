@@ -7,7 +7,7 @@
 #include "z_bg_gnd_iceblock.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ GNDICE_IDLE,
@@ -235,7 +235,7 @@ void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         if (this->dyna.unk_150 > 0.0f) {
             BgGndIceblock_SetNextPosition(this);
             if (Actor_WorldDistXZToPoint(&this->dyna.actor, &this->targetPos) > 1.0f) {
@@ -252,7 +252,7 @@ void BgGndIceblock_Reset(BgGndIceblock* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
     }
     if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 1.0f)) {

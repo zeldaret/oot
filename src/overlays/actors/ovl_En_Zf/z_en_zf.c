@@ -7,7 +7,7 @@
 #include "z_en_zf.h"
 #include "objects/object_zf/object_zf.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnZf_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -526,8 +526,8 @@ s32 EnZf_CanAttack(GlobalContext* globalCtx, EnZf* this) {
     Actor* targetedActor;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) { // miniboss
-        if (player->stateFlags1 & 0x6000) {                    // Hanging or climbing
+    if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) {             // miniboss
+        if (player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) { // Hanging or climbing
             return false;
         } else {
             return true;
@@ -630,7 +630,7 @@ void EnZf_SetupDropIn(EnZf* this) {
     this->hopAnimIndex = 1;
     this->action = ENZF_ACTION_DROP_IN;
     this->actor.bgCheckFlags &= ~2;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     EnZf_SetupAction(this, EnZf_DropIn);
 }
@@ -638,10 +638,10 @@ void EnZf_SetupDropIn(EnZf* this) {
 void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
     if (this->unk_3F0 == 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
 
         if (this->actor.params == ENZF_TYPE_LIZALFOS_MINIBOSS_A) {
-            func_800F5ACC(0x38); // Miniboss theme
+            func_800F5ACC(NA_BGM_MINI_BOSS);
         }
     }
 
@@ -650,7 +650,7 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
             this->unk_3F0--;
         } else if (this->actor.xzDistToPlayer <= 160.0f) {
             this->unk_3F0 = 0;
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
         }
 
@@ -666,8 +666,8 @@ void EnZf_DropIn(EnZf* this, GlobalContext* globalCtx) {
         this->actor.bgCheckFlags &= ~2;
         this->actor.world.pos.y = this->actor.floorHeight;
         this->actor.velocity.y = 0.0f;
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -1203,7 +1203,7 @@ void EnZf_Slash(EnZf* this, GlobalContext* globalCtx) {
                     if (yawDiff > 16000) {
                         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                         func_80B483E4(this, globalCtx);
-                    } else if (player->stateFlags1 & 0x6010) {
+                    } else if (player->stateFlags1 & (PLAYER_STATE1_4 | PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                         if (this->actor.isTargeted) {
                             EnZf_SetupSlash(this);
                         } else {
@@ -1535,8 +1535,8 @@ void EnZf_HopAway(EnZf* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = this->actor.floorHeight;
                 this->actor.speedXZ = 0.0f;
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, false);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, false);
 
                 if (phi_f20 <= this->actor.xzDistToPlayer) {
                     EnZf_SetupHopAndTaunt(this);
@@ -1898,7 +1898,7 @@ void EnZf_SetupDie(EnZf* this) {
     }
 
     this->action = ENZF_ACTION_DIE;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     if (D_80B4A1B4 != -1) {
         if (this->actor.prev != NULL) {

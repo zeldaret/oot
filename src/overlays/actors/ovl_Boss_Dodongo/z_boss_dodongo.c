@@ -3,7 +3,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"
 
-#define FLAGS 0x00000035
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -217,7 +217,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void BossDodongo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -477,7 +477,7 @@ void BossDodongo_SetupWalk(BossDodongo* this) {
     this->unk_1AA = 0;
     this->actionFunc = BossDodongo_Walk;
     this->unk_1DA = 0;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->unk_1E4 = 0.0f;
 }
 
@@ -665,9 +665,9 @@ void BossDodongo_Walk(BossDodongo* this, GlobalContext* globalCtx) {
     } else if (this->unk_1BC != 2) {
         if (((s32)this->skelAnime.curFrame == 1) || ((s32)this->skelAnime.curFrame == 31)) {
             if ((s32)this->skelAnime.curFrame == 1) {
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_410, 25.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_410, 25.0f, 10, 8.0f, 500, 10, false);
             } else {
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_404, 25.0f, 0xA, 8.0f, 0x1F4, 0xA, 0);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_404, 25.0f, 10, 8.0f, 500, 10, false);
             }
 
             if (this->unk_1BC != 0) {
@@ -732,7 +732,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
     f32 sp4C;
     f32 sp48;
 
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_1DA == 10) {
@@ -762,8 +762,8 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (!(this->unk_19E & 1)) {
-                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA,
-                                         0);
+                Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 500, 10,
+                                         false);
             }
         }
     }
@@ -1280,7 +1280,7 @@ void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DEAD);
     this->unk_1DA = 0;
     this->csState = 0;
-    this->actor.flags &= ~5;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->unk_1BC = 1;
     Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
 }
@@ -1397,8 +1397,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                     Camera_AddQuake(&globalCtx->mainCamera, 2, 1, 8);
                 }
                 if (!(this->unk_19E & 1)) {
-                    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4,
-                                             0xA, 0);
+                    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 500, 10,
+                                             false);
                 }
                 tempSin = cornerPos->x - this->actor.world.pos.x;
                 tempCos = cornerPos->z - this->actor.world.pos.z;
@@ -1522,8 +1522,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
                 if (!(this->unk_19E & 1)) {
-                    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4,
-                                             0xA, 0);
+                    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 500, 10,
+                                             false);
                 }
             }
             Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.2f, 0.1f, 0.0f);
@@ -1694,7 +1694,7 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);
             Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
-            func_800D1FD4(unkMtx);
+            Matrix_ReplaceRotation(unkMtx);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_dodongo.c", 5253),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

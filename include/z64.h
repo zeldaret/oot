@@ -21,6 +21,7 @@
 #include "z64dma.h"
 #include "z64math.h"
 #include "z64map_mark.h"
+#include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
 #include "sequence.h"
@@ -28,6 +29,9 @@
 #include "color.h"
 #include "ichain.h"
 #include "regs.h"
+#include "irqmgr.h"
+#include "padmgr.h"
+#include "fault.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -145,13 +149,6 @@ typedef struct GraphicsContext {
 } GraphicsContext; // size = 0x300
 
 typedef struct {
-    /* 0x00 */ OSContPad cur;
-    /* 0x06 */ OSContPad prev;
-    /* 0x0C */ OSContPad press; // X/Y store delta from last frame
-    /* 0x12 */ OSContPad rel; // X/Y store adjusted
-} Input; // size = 0x18
-
-typedef struct {
    /* 0x0000 */ s32 topY;    // uly (upper left y)
    /* 0x0004 */ s32 bottomY; // lry (lower right y)
    /* 0x0008 */ s32 leftX;   // ulx (upper left x)
@@ -216,7 +213,7 @@ typedef struct {
     /* 0x4D */ char     unk_4D[0x03];
     /* 0x50 */ TargetContextEntry arr_50[3];
     /* 0x8C */ Actor*   unk_8C;
-    /* 0x90 */ Actor*   unk_90;
+    /* 0x90 */ Actor*   bgmEnemy; // The nearest enemy to player with the right flags that will trigger NA_BGM_ENEMY
     /* 0x94 */ Actor*   unk_94;
 } TargetContext; // size = 0x98
 
@@ -241,11 +238,10 @@ typedef struct {
     /* 0x0000 */ u8     freezeFlashTimer;
     /* 0x0001 */ char   unk_01[0x01];
     /* 0x0002 */ u8     unk_02;
-    /* 0x0003 */ u8     unk_03;
+    /* 0x0003 */ u8     lensActive;
     /* 0x0004 */ char   unk_04[0x04];
     /* 0x0008 */ u8     total; // total number of actors loaded
-    /* 0x0009 */ char   unk_09[0x03];
-    /* 0x000C */ ActorListEntry actorLists[12];
+    /* 0x000C */ ActorListEntry actorLists[ACTORCAT_MAX];
     /* 0x006C */ TargetContext targetCtx;
     struct {
         /* 0x0104 */ u32    swch;
@@ -282,8 +278,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u16 countdown;
-    /* 0x04 */ Vec3f originPos;
-    /* 0x10 */ Vec3f relativePos;
+    /* 0x04 */ Vec3f worldPos;
+    /* 0x10 */ Vec3f projectedPos;
 } SoundSource; // size = 0x1C
 
 typedef enum {
@@ -508,9 +504,9 @@ typedef enum {
     /*  4 */ TEXT_STATE_CHOICE,
     /*  5 */ TEXT_STATE_EVENT,
     /*  6 */ TEXT_STATE_DONE,
-    /*  7 */ TEXT_STATE_SONG_DEMO_DONE, 
-    /*  8 */ TEXT_STATE_8, 
-    /*  9 */ TEXT_STATE_9, 
+    /*  7 */ TEXT_STATE_SONG_DEMO_DONE,
+    /*  8 */ TEXT_STATE_8,
+    /*  9 */ TEXT_STATE_9,
     /* 10 */ TEXT_STATE_AWAITING_NEXT
 } TextState;
 
@@ -644,8 +640,8 @@ typedef struct {
     /* 0x01F8 */ s16    naviCalling;
     /* 0x01FA */ s16    unk_1FA;
     /* 0x01FC */ s16    unk_1FC;
-    /* 0x01FE */ s16    unk_1FE;
-    /* 0x0200 */ s16    unk_200;
+    /* 0x01FE */ s16    heartColorOscillator;
+    /* 0x0200 */ s16    heartColorOscillatorDirection;
     /* 0x0202 */ s16    beatingHeartPrim[3];
     /* 0x0208 */ s16    beatingHeartEnv[3];
     /* 0x020E */ s16    heartsPrimR[2];
@@ -654,10 +650,10 @@ typedef struct {
     /* 0x021A */ s16    heartsEnvR[2];
     /* 0x021E */ s16    heartsEnvG[2];
     /* 0x0222 */ s16    heartsEnvB[2];
-    /* 0x0226 */ s16    unk_226;
-    /* 0x0228 */ s16    unk_228;
-    /* 0x022A */ s16    unk_22A;
-    /* 0x022C */ s16    unk_22C;
+    /* 0x0226 */ s16    unk_226; // Used only in unused functions
+    /* 0x0228 */ s16    unk_228; // Used only in unused functions
+    /* 0x022A */ s16    beatingHeartOscillator;
+    /* 0x022C */ s16    beatingHeartOscillatorDirection;
     /* 0x022E */ s16    unk_22E;
     /* 0x0230 */ s16    unk_230;
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
@@ -868,12 +864,12 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8    type;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
-    /* 0x04 */ void* dlist;
+    /* 0x04 */ Gfx*  dlist;
     union {
         struct {
-            /* 0x08 */ u32   source;
+            /* 0x08 */ void* source;
             /* 0x0C */ u32   unk_0C;
-            /* 0x10 */ u32   tlut;
+            /* 0x10 */ void* tlut;
             /* 0x14 */ u16   width;
             /* 0x16 */ u16   height;
             /* 0x18 */ u8    fmt;
@@ -931,7 +927,7 @@ typedef struct {
     /* 0x38 */ DmaRequest dmaRequest;
     /* 0x58 */ OSMesgQueue loadQueue;
     /* 0x70 */ OSMesg loadMsg;
-    /* 0x74 */ s16 unk_74[2];
+    /* 0x74 */ s16 unk_74[2]; // context-specific data used by the current scene draw config
 } RoomContext; // size = 0x78
 
 typedef struct {
@@ -1297,23 +1293,34 @@ typedef enum {
     DPM_UNK3 = 3
 } DynaPolyMoveFlag;
 
-// Some animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32              playbackSpeed;
+    /* 0x04 */ f32              playSpeed;
     /* 0x08 */ f32              startFrame;
     /* 0x0C */ f32              frameCount;
     /* 0x10 */ u8               mode;
-    /* 0x14 */ f32              transitionRate;
-} struct_80034EC0_Entry; // size = 0x18
+    /* 0x14 */ f32              morphFrames;
+} AnimationInfo; // size = 0x18
 
-// Another animation related structure
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              frameCount;
     /* 0x08 */ u8               mode;
-    /* 0x0C */ f32              transitionRate;
-} struct_D_80AA1678; // size = 0x10
+    /* 0x0C */ f32              morphFrames;
+} AnimationFrameCountInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ f32 playSpeed;
+    /* 0x08 */ u8 mode;
+    /* 0x0C */ f32 morphFrames;
+} AnimationSpeedInfo; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ AnimationHeader* animation;
+    /* 0x04 */ u8 mode;
+    /* 0x08 */ f32 morphFrames;
+} AnimationMinimalInfo; // size = 0xC
 
 typedef struct {
     /* 0x00 */ s16 unk_00;
@@ -1441,73 +1448,6 @@ typedef enum {
     MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
 
-typedef struct FaultClient {
-    /* 0x00 */ struct FaultClient* next;
-    /* 0x04 */ u32 callback;
-    /* 0x08 */ u32 param1;
-    /* 0x0C */ u32 param2;
-} FaultClient; // size = 0x10
-
-typedef struct FaultAddrConvClient {
-    /* 0x00 */ struct FaultAddrConvClient* next;
-    /* 0x04 */ u32 callback;
-    /* 0x08 */ u32 param;
-} FaultAddrConvClient; // size = 0xC
-
-
-typedef struct {
-    /* 0x00 */ u32 (*callback)(u32, u32);
-    /* 0x04 */ u32 param0;
-    /* 0x08 */ u32 param1;
-    /* 0x0C */ u32 ret;
-    /* 0x10 */ OSMesgQueue* queue;
-    /* 0x14 */ OSMesg msg;
-} FaultClientContext; // size = 0x18
-
-typedef struct FaultThreadStruct {
-    /* 0x000 */ OSThread thread;
-    /* 0x1B0 */ u8 unk_1B0[0x600];
-    /* 0x7B0 */ OSMesgQueue queue;
-    /* 0x7C8 */ OSMesg msg;
-    /* 0x7CC */ u8 exitDebugger;
-    /* 0x7CD */ u8 msgId;
-    /* 0x7CE */ u8 faultHandlerEnabled;
-    /* 0x7CF */ u8 faultActive;
-    /* 0x7D0 */ OSThread* faultedThread;
-    /* 0x7D4 */ void(*padCallback)(Input*);
-    /* 0x7D8 */ FaultClient* clients;
-    /* 0x7DC */ FaultAddrConvClient* addrConvClients;
-    /* 0x7E0 */ u8 unk_7E0[4];
-    /* 0x7E4 */ Input padInput;
-    /* 0x7FC */ u16 colors[36];
-    /* 0x844 */ void* fb;
-    /* 0x848 */ u32 currClientThreadSp;
-    /* 0x84C */ u8 unk_84C[4];
-} FaultThreadStruct; // size = 0x850
-
-typedef struct {
-    /* 0x00 */ u16* fb;
-    /* 0x04 */ u16 w;
-    /* 0x08 */ u16 h;
-    /* 0x0A */ u16 yStart;
-    /* 0x0C */ u16 yEnd;
-    /* 0x0E */ u16 xStart;
-    /* 0x10 */ u16 xEnd;
-    /* 0x12 */ u16 foreColor;
-    /* 0x14 */ u16 backColor;
-    /* 0x14 */ u16 cursorX;
-    /* 0x16 */ u16 cursorY;
-    /* 0x18 */ const u32* fontData;
-    /* 0x1C */ u8 charW;
-    /* 0x1D */ u8 charH;
-    /* 0x1E */ s8 charWPad;
-    /* 0x1F */ s8 charHPad;
-    /* 0x20 */ u16 printColors[10];
-    /* 0x34 */ u8 escCode; // bool
-    /* 0x35 */ u8 osSyncPrintfEnabled;
-    /* 0x38 */ void(*inputCallback)();
-} FaultDrawer; // size = 0x3C
-
 typedef struct {
     /* 0x00 */ PrintCallback callback;
     /* 0x04 */ Gfx* dList;
@@ -1583,57 +1523,6 @@ typedef struct {
     /* 0x0C */ u32 uncompDataOffset; // only used in mio0
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
-
-typedef struct {
-    /* 0x00 */ s16 type;
-    /* 0x02 */ char  misc[0x1E];
-} OSScMsg; // size = 0x20
-
-typedef struct IrqMgrClient {
-    /* 0x00 */ struct IrqMgrClient* prev;
-    /* 0x04 */ OSMesgQueue* queue;
-} IrqMgrClient;
-
-typedef struct {
-    /* 0x000 */ OSScMsg retraceMsg; // this apparently got moved from OSSched
-    /* 0x020 */ OSScMsg prenmiMsg; // this apparently got moved from OSSched
-    /* 0x040 */ OSScMsg nmiMsg;
-    /* 0x060 */ OSMesgQueue queue;
-    /* 0x078 */ OSMesg msgBuf[8];
-    /* 0x098 */ OSThread thread;
-    /* 0x248 */ IrqMgrClient* clients;
-    /* 0x24C */ u8 resetStatus;
-    /* 0x250 */ OSTime resetTime;
-    /* 0x258 */ OSTimer timer;
-    /* 0x278 */ OSTime retraceTime;
-} IrqMgr; // size = 0x280
-
-typedef struct PadMgr {
-    /* 0x0000 */ OSContStatus padStatus[4];
-    /* 0x0010 */ OSMesg serialMsgBuf[1];
-    /* 0x0014 */ OSMesg lockMsgBuf[1];
-    /* 0x0018 */ OSMesg interruptMsgBuf[4];
-    /* 0x0028 */ OSMesgQueue serialMsgQ;
-    /* 0x0040 */ OSMesgQueue lockMsgQ;
-    /* 0x0058 */ OSMesgQueue interruptMsgQ;
-    /* 0x0070 */ IrqMgrClient irqClient;
-    /* 0x0078 */ IrqMgr* irqMgr;
-    /* 0x0080 */ OSThread thread;
-    /* 0x0230 */ Input inputs[4];
-    /* 0x0290 */ OSContPad pads[4];
-    /* 0x02A8 */ vu8 validCtrlrsMask;
-    /* 0x02A9 */ u8 nControllers;
-    /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
-    /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
-    /* 0x02B2 */ vu8 rumbleEnable[4];
-    /* 0x02B6 */ u8 rumbleCounter[4]; // not clear exact meaning
-    /* 0x02BC */ OSPfs pfs[4];
-    /* 0x045C */ vu8 rumbleOffFrames;
-    /* 0x045D */ vu8 rumbleOnFrames;
-    /* 0x045E */ u8 preNMIShutdown;
-    /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padmgr, s32 unk464);
-    /* 0x0464 */ u32 retraceCallbackValue;
-} PadMgr; // size = 0x468
 
 // == Previously sched.h
 

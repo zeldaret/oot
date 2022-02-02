@@ -1,7 +1,7 @@
 #include "z_bg_jya_bombchuiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
-#define FLAGS 0x00000001
+#define FLAGS ACTOR_FLAG_0
 
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -149,7 +149,7 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* glob
         if (this->timer > 10) {
             BgJyaBombchuiwa_Break(this, globalCtx);
             BgJyaBombchuiwa_CleanUpAfterExplosion(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -162,7 +162,7 @@ void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, GlobalContext*
     BgJyaBombchuiwa_SetDrawFlags(this, 4);
     this->lightRayIntensity = 0.3f;
     this->timer = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 }
 
 void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
@@ -233,7 +233,7 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
         BgJyaBombchuiwa_DrawRock(globalCtx);
     }
     if (this->drawFlags & 4) {
-        func_800D1694(D_80894F88.x, D_80894F88.y, D_80894F88.z, &D_80894F94);
+        Matrix_SetTranslateRotateYXZ(D_80894F88.x, D_80894F88.y, D_80894F88.z, &D_80894F94);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         if (this->drawFlags & 4) {
             BgJyaBombchuiwa_DrawLight(thisx, globalCtx);

@@ -7,7 +7,7 @@
 #include "z_bg_ydan_sp.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -18,8 +18,6 @@ void BgYdanSp_BurnFloorWeb(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_BurnWallWeb(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
-
-extern CollisionHeader gDTWebWallCol;
 
 typedef enum {
     /* 0 */ WEB_FLOOR,
@@ -296,7 +294,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
             if (this->dyna.actor.xzDistToPlayer < 80.0f) {
                 this->unk16C = 200.0f;
                 this->dyna.actor.room = -1;
-                this->dyna.actor.flags |= 0x10;
+                this->dyna.actor.flags |= ACTOR_FLAG_4;
                 this->timer = 40;
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_BROKEN);
                 this->actionFunc = BgYdanSp_FloorWebBreaking;

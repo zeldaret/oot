@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_ka/object_ka.h"
 
-#define FLAGS 0x02000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_25)
 
 void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKakasi_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -73,7 +73,7 @@ void EnKakasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &object_ka_Skel_0065B0, &object_ka_Anim_000214, NULL, NULL, 0);
 
     this->rot = this->actor.world.rot;
-    this->actor.flags |= 0x400;
+    this->actor.flags |= ACTOR_FLAG_10;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     Actor_SetScale(&this->actor, 0.01f);
@@ -212,18 +212,18 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
             if (absyawTowardsPlayer < 0x4300) {
                 if (!this->unk_194) {
-                    if (player->stateFlags2 & 0x1000000) {
+                    if (player->stateFlags2 & PLAYER_STATE2_24) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
 
                         func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_LONG_RECORDING);
                         this->unk_19A = 0;
                         this->unk_1B8 = 0.0;
-                        player->stateFlags2 |= 0x800000;
+                        player->stateFlags2 |= PLAYER_STATE2_23;
                         this->actionFunc = func_80A8F8D0;
                         return;
                     }
                     if (this->actor.xzDistToPlayer < 80.0f) {
-                        player->stateFlags2 |= 0x800000;
+                        player->stateFlags2 |= PLAYER_STATE2_23;
                     }
                 }
                 func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -252,7 +252,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
         }
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
         func_80A8F320(this, globalCtx, 0);
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 

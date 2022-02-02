@@ -9,7 +9,7 @@
 #include "objects/object_boj/object_boj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGuest_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,8 +49,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
-extern FlexSkeletonHeader object_boj_Skel_0000F0;
-
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = (EnGuest*)thisx;
 
@@ -78,8 +76,8 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex) != 0) {
-        this->actor.flags &= ~0x10;
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex)) {
+        this->actor.flags &= ~ACTOR_FLAG_4;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable,
@@ -215,9 +213,9 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* D_80A50BA4[] = {
-        0x060005FC,
-        0x060006FC,
-        0x060007FC,
+        object_boj_Tex_0005FC,
+        object_boj_Tex_0006FC,
+        object_boj_Tex_0007FC,
     };
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;

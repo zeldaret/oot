@@ -11,7 +11,7 @@
 #include "objects/object_gnd_magic/object_gnd_magic.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -162,7 +162,7 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 17:
         case 18:
         case 19:
-            this->actor.flags |= 0x20;
+            this->actor.flags |= ACTOR_FLAG_5;
             this->drawFunc = func_8096865C;
             this->initActionFunc = func_80967410;
             this->flags |= 1;
@@ -704,7 +704,7 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Scale(this->unk_234[i] * D_8096931C[(frames + i) & 3],
                          this->unk_234[i] * D_8096931C[(frames + i) & 3],
                          this->unk_234[i] * D_8096931C[(frames + i) & 3], MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1297),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);

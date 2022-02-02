@@ -13,7 +13,7 @@
 #include "objects/object_mori_hineri2a/object_mori_hineri2a.h"
 #include "objects/object_mori_tex/object_mori_tex.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -254,7 +254,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
     if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
+        Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)) {
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->boxObjIdx].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);

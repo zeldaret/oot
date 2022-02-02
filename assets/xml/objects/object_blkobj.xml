@@ -6,7 +6,7 @@
         <!-- Illusion Room DLists -->
         <DList Name="gIllusionRoomNormalDL" Offset="0x14E0"/>
         <DList Name="gIllusionRoomIllusionDL" Offset="0x53D0"/>
-        
+
         <!-- Unused Content -->
 
         <!-- Illusion room DLists -->

@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -127,7 +127,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             pos.z = this->dyna.actor.world.pos.z;
             pos.y = this->dyna.actor.world.pos.y + 80.0f;
             EffectSsBomb2_SpawnLayered(globalCtx, &pos, &sZeroVector, &sZeroVector, 100, 45);
-            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 50, NA_SE_EV_BOX_BREAK);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 50, NA_SE_EV_BOX_BREAK);
             EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40,
                                      gEffFragments2DL);
             this->dropTimer = 5;

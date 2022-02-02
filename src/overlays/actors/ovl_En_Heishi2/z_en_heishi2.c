@@ -12,7 +12,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "overlays/actors/ovl_Bg_Spot15_Saku/z_bg_spot15_saku.h"
 
-#define FLAGS 0x00000009
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -92,7 +92,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
-        this->actor.flags &= -2;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
@@ -100,7 +100,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             osSyncPrintf("\n\n");
             // "No, I'm completely disappointed" (message for when shooting guard window in courtyard)
-            osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ いやー ついうっかり ☆☆☆☆☆ \n" VT_RST);
 
             Actor_SetScale(&this->actor, 0.02f);
 
@@ -112,7 +112,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(globalCtx, &this->collider);
             func_8002DF54(globalCtx, 0, 8);
-            this->actor.flags |= 0x11;
+            this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_4;
             this->actionFunc = func_80A544AC;
         }
     } else {
@@ -143,7 +143,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                 // "Peep hole soldier!"
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(globalCtx, collider);
-                this->actor.flags &= -0xA;
+                this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
                 this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
@@ -155,7 +155,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         // "Identification Completed!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
         // "Message completed!"
-        osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (this->actor.params >> 8) & 0xF);
+        osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (this->actor.params >> 8) & 0xF);
     }
 }
 
@@ -211,12 +211,12 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
     } else if (gSaveContext.eventChkInf[1] & 4) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
-            osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
             this->actor.textId = 0x7071;
             this->unk_30E = 1;
         } else {
             // "Start under the second sleeve!"
-            osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ２回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
             this->actor.textId = 0x7072;
         }
         this->unk_300 = TEXT_STATE_CHOICE;
@@ -298,7 +298,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
             }
         }
         // "I've come!"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, actor->dyna.actor.next);
         this->actionFunc = func_80A5372C;
     }
 }
@@ -383,7 +383,7 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A5475C;
     } else {
         // "I don't know"
-        osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" VT_RST);
+        osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ とおしゃしねぇちゅーの ☆☆☆☆☆ \n" VT_RST);
         this->actionFunc = func_80A53AD4;
     }
 }
@@ -462,7 +462,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
             }
         }
         // "I've come!"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆ きたきたきたぁ！ ☆☆☆ %x\n" VT_RST, gate->dyna.actor.next);
         this->actionFunc = func_80A53DF8;
     }
 }
@@ -637,7 +637,7 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     this->actor.world.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
         Message_StartTextbox(globalCtx, 0x708F, NULL);
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         this->actionFunc = func_80A5455C;
         this->unk_2E4 = 0.0f;
     }

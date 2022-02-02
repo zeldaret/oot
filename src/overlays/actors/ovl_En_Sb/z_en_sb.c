@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "objects/object_sb/object_sb.h"
 
-#define FLAGS 0x00000005
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnSb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -423,7 +423,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             BodyBreak_Alloc(&this->bodyBreak, 8, globalCtx);
             this->isDead = true;
             Enemy_StartFinishingBlow(globalCtx, &this->actor);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
             return 1;
         }
 

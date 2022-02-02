@@ -7,7 +7,7 @@
 #include "z_oceff_wipe.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +41,7 @@ void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
-        player->stateFlags3 |= 0x40;
+        player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 
@@ -105,7 +105,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
-    func_800D1FD4(&globalCtx->billboardMtxF);
+    Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 375),

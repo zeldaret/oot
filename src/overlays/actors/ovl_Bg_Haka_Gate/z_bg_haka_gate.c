@@ -8,7 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 // general purpose timer
 #define vTimer actionVar1
@@ -97,7 +97,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = BgHakaGate_FalseSkull;
         }
         this->vScrollTimer = Rand_ZeroOne() * 20.0f;
-        thisx->flags |= 0x10;
+        thisx->flags |= ACTOR_FLAG_4;
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->vFlameScale = 350;
         }
@@ -124,7 +124,7 @@ void BgHakaGate_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = BgHakaGate_DoNothing;
                 thisx->world.pos.y += 80.0f;
             } else {
-                thisx->flags |= 0x10;
+                thisx->flags |= ACTOR_FLAG_4;
                 Actor_SetFocus(thisx, 30.0f);
                 this->actionFunc = BgHakaGate_GateWait;
             }
@@ -151,7 +151,7 @@ void BgHakaGate_StatueInactive(BgHakaGate* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
     }
 }
@@ -170,7 +170,7 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, GlobalContext* globalCtx) {
             this->vTurnDirection = linkDirection * forceDirection;
             this->actionFunc = BgHakaGate_StatueTurn;
         } else {
-            player->stateFlags2 &= ~0x10;
+            player->stateFlags2 &= ~PLAYER_STATE2_4;
             this->dyna.unk_150 = 0.0f;
             if (this->vTimer != 0) {
                 this->vTimer--;
@@ -195,7 +195,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
     this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
-    if ((player->stateFlags2 & 0x10) && (sStatueDistToPlayer > 0.0f)) {
+    if ((player->stateFlags2 & PLAYER_STATE2_4) && (sStatueDistToPlayer > 0.0f)) {
         player->actor.world.pos.x =
             this->dyna.actor.home.pos.x +
             (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
@@ -207,7 +207,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     }
     sStatueRotY = this->dyna.actor.shape.rot.y;
     if (turnFinished) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->vRotYDeg10 = (this->vRotYDeg10 + turnAngle) % 3600;
         this->vTurnRateDeg10 = 0;
         this->vTurnAngleDeg10 = 0;
@@ -274,7 +274,7 @@ void BgHakaGate_GateWait(BgHakaGate* this, GlobalContext* globalCtx) {
 void BgHakaGate_GateOpen(BgHakaGate* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 80.0f, 1.0f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->actionFunc = BgHakaGate_DoNothing;
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_METALDOOR_SLIDE - SFX_FLAG);
@@ -291,10 +291,10 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Math_StepToS(&this->vFlameScale, 350, 20);
     }
-    if (globalCtx->actorCtx.unk_03) {
-        this->dyna.actor.flags |= 0x80;
+    if (globalCtx->actorCtx.lensActive) {
+        this->dyna.actor.flags |= ACTOR_FLAG_7;
     } else {
-        this->dyna.actor.flags &= ~0x80;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_7;
     }
 }
 
@@ -345,7 +345,7 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaGate* this = (BgHakaGate*)thisx;
     MtxF currentMtxF;
 
-    if ((thisx->flags & 0x80) == 0x80) {
+    if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_00F1B0);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);

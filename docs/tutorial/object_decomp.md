@@ -164,7 +164,7 @@ If you'd rather not have it tell you about the checksum, you can run `make COMPA
 
 ---
 
-To revert to the original texture, you can just run `extract_assets.py -s` on the object again. 
+To revert to the original texture, you can just run `extract_assets.py -s` on the object again.
 
 N.B. doing this will overwrite every custom texture, as will running `make setup`.
 

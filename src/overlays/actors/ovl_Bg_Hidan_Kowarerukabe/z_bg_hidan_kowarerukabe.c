@@ -9,7 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ CRACKED_STONE_FLOOR,
@@ -307,9 +307,9 @@ void BgHidanKowarerukabe_Update(Actor* thisx, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
 
         if ((this->dyna.actor.params & 0xFF) == 0) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_EXPLOSION);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_EXPLOSION);
         } else {
-            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
 
         func_80078884(NA_SE_SY_CORRECT_CHIME);

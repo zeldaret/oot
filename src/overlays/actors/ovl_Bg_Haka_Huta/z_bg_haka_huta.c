@@ -7,7 +7,7 @@
 #include "z_bg_haka_huta.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +100,7 @@ void BgHakaHuta_PlaySound(BgHakaHuta* this, GlobalContext* globalCtx, u16 sfx) {
                                                 : this->dyna.actor.world.pos.z - 120.0f;
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y;
-    Audio_PlaySoundAtPosition(globalCtx, &pos, 30, sfx);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &pos, 30, sfx);
 }
 
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {

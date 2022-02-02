@@ -8,7 +8,7 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaZurerukabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +77,7 @@ void BgJyaZurerukabe_InitDynaPoly(BgJyaZurerukabe* this, GlobalContext* globalCt
 void func_8089B4C8(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags1 == 0x200000) && (player->actor.wallPoly != NULL)) {
+    if ((player->stateFlags1 == PLAYER_STATE1_21) && (player->actor.wallPoly != NULL)) {
         s32 i;
 
         for (i = 0; i < ARRAY_COUNT(D_8089BA18); i++) {

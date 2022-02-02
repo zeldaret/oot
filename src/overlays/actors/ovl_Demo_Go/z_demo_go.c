@@ -8,7 +8,7 @@
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
+#define FLAGS ACTOR_FLAG_4
 
 void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -75,7 +75,7 @@ void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &thisx->world.pos, &sp20, &sp1C);
-        Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
 

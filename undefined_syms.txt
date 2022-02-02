@@ -26,10 +26,6 @@ D_0602CB48 = 0x0602CB48;
 // z_kankyo, z_demo_kankyo, z_en_viewer, z_object_kankyo, z_eff_ss_dead_dd
 D_01000000 = 0x01000000;
 
-// z_arms_hook
-D_0602B288 = 0x0602B288;
-D_0602AFF0 = 0x0602AFF0;
-
 // code_800AD920
 D_0E000000 = 0x0E000000;
 

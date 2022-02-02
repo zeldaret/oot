@@ -4,7 +4,7 @@
 #include "vt.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x00000030
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -24,11 +24,11 @@ void DemoGt_PlayEarthquakeSfx() {
 }
 
 void DemoGt_PlayExplosion1Sfx(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, pos, 60, NA_SE_IT_BOMB_EXPLOSION);
 }
 
 void DemoGt_PlayExplosion2Sfx(GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundAtPosition(globalCtx, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, pos, 60, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
 void DemoGt_Rumble(GlobalContext* globalCtx) {

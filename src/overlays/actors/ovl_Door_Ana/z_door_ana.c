@@ -7,7 +7,7 @@
 #include "z_door_ana.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x02000000
+#define FLAGS ACTOR_FLAG_25
 
 void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorAna_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -72,7 +72,7 @@ void DoorAna_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         } else {
-            this->actor.flags |= 0x10;
+            this->actor.flags |= ACTOR_FLAG_4;
         }
         Actor_SetScale(&this->actor, 0);
         DoorAna_SetupAction(this, DoorAna_WaitClosed);
@@ -99,7 +99,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
         // opening with song of storms
         if (this->actor.xyzDistToPlayerSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
-            this->actor.flags &= ~0x10;
+            this->actor.flags &= ~ACTOR_FLAG_4;
         }
     } else {
         // bombing/hammering open a grotto
@@ -127,8 +127,8 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 
     player = GET_PLAYER(globalCtx);
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
-        if ((this->actor.targetMode != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
-            (player->unk_84F == 0)) {
+        if ((this->actor.targetMode != 0) && (globalCtx->sceneLoadFlag == 0) &&
+            (player->stateFlags1 & PLAYER_STATE1_31) && (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
             Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_RETURN, 0x4FF);
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;
@@ -140,10 +140,10 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
             DoorAna_SetupAction(this, DoorAna_GrabPlayer);
         } else {
-            if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
+            if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_27)) &&
                 this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
                 this->actor.yDistToPlayer <= 15.0f) {
-                player->stateFlags1 |= 0x80000000;
+                player->stateFlags1 |= PLAYER_STATE1_31;
                 this->actor.targetMode = 1;
             } else {
                 this->actor.targetMode = 0;

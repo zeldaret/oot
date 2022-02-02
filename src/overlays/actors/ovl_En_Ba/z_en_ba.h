@@ -17,9 +17,9 @@ typedef enum {
 
 typedef struct EnBa {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 unk14C; 
-    /* 0x0150 */ EnBaActionFunc actionFunc; 
-    /* 0x0154 */ s16 upperParams; 
+    /* 0x014C */ s32 unk14C;
+    /* 0x0150 */ EnBaActionFunc actionFunc;
+    /* 0x0154 */ s16 upperParams;
     /* 0x0156 */ s16 unk156;
     /* 0x0158 */ Vec3f unk158[14];
     /* 0x0200 */ Vec3f unk200[14];

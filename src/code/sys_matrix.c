@@ -470,59 +470,63 @@ void Matrix_TranslateRotateZYX(Vec3f* translation, Vec3s* rotation) {
     }
 }
 
-void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
+/**
+ * Set the current matrix to translate and rotate using YXZ Tait-Bryan angles.
+ * This means a (column) vector is first rotated around Z, then around X, then around Y, then translated.
+ */
+void Matrix_SetTranslateRotateYXZ(f32 translateX, f32 translateY, f32 translateZ, Vec3s* rot) {
     MtxF* cmf = sCurrentMatrix;
-    f32 sp30 = Math_SinS(vec->y);
-    f32 sp2C = Math_CosS(vec->y);
-    f32 sp28;
-    f32 sp24;
+    f32 temp1 = Math_SinS(rot->y);
+    f32 temp2 = Math_CosS(rot->y);
+    f32 cos;
+    f32 sin;
 
-    cmf->xx = sp2C;
-    cmf->zx = -sp30;
-    cmf->xw = x;
-    cmf->yw = y;
-    cmf->zw = z;
+    cmf->xx = temp2;
+    cmf->zx = -temp1;
+    cmf->xw = translateX;
+    cmf->yw = translateY;
+    cmf->zw = translateZ;
     cmf->wx = 0.0f;
     cmf->wy = 0.0f;
     cmf->wz = 0.0f;
     cmf->ww = 1.0f;
 
-    if (vec->x != 0) {
-        sp24 = Math_SinS(vec->x);
-        sp28 = Math_CosS(vec->x);
+    if (rot->x != 0) {
+        sin = Math_SinS(rot->x);
+        cos = Math_CosS(rot->x);
 
-        cmf->zz = sp2C * sp28;
-        cmf->zy = sp2C * sp24;
-        cmf->xz = sp30 * sp28;
-        cmf->xy = sp30 * sp24;
-        cmf->yz = -sp24;
-        cmf->yy = sp28;
+        cmf->zz = temp2 * cos;
+        cmf->zy = temp2 * sin;
+        cmf->xz = temp1 * cos;
+        cmf->xy = temp1 * sin;
+        cmf->yz = -sin;
+        cmf->yy = cos;
     } else {
-        cmf->zz = sp2C;
-        cmf->xz = sp30;
+        cmf->zz = temp2;
+        cmf->xz = temp1;
         cmf->yz = 0.0f;
         cmf->zy = 0.0f;
         cmf->xy = 0.0f;
         cmf->yy = 1.0f;
     }
 
-    if (vec->z != 0) {
-        sp24 = Math_SinS(vec->z);
-        sp28 = Math_CosS(vec->z);
+    if (rot->z != 0) {
+        sin = Math_SinS(rot->z);
+        cos = Math_CosS(rot->z);
 
-        sp30 = cmf->xx;
-        sp2C = cmf->xy;
-        cmf->xx = sp30 * sp28 + sp2C * sp24;
-        cmf->xy = sp2C * sp28 - sp30 * sp24;
+        temp1 = cmf->xx;
+        temp2 = cmf->xy;
+        cmf->xx = temp1 * cos + temp2 * sin;
+        cmf->xy = temp2 * cos - temp1 * sin;
 
-        sp30 = cmf->zx;
-        sp2C = cmf->zy;
-        cmf->zx = sp30 * sp28 + sp2C * sp24;
-        cmf->zy = sp2C * sp28 - sp30 * sp24;
+        temp1 = cmf->zx;
+        temp2 = cmf->zy;
+        cmf->zx = temp1 * cos + temp2 * sin;
+        cmf->zy = temp2 * cos - temp1 * sin;
 
-        sp2C = cmf->yy;
-        cmf->yx = sp2C * sp24;
-        cmf->yy = sp2C * sp28;
+        temp2 = cmf->yy;
+        cmf->yx = temp2 * sin;
+        cmf->yy = temp2 * cos;
     } else {
         cmf->yx = 0.0f;
     }
@@ -698,47 +702,58 @@ void Matrix_Transpose(MtxF* mf) {
     mf->yz = temp;
 }
 
-void func_800D1FD4(MtxF* mf) {
+/**
+ * Changes the 3x3 part of the current matrix to `mf` * S, where S is the scale in the current matrix.
+ *
+ * In details, S is a diagonal where each coefficient is the norm of the column in the 3x3 current matrix.
+ * The 3x3 part can then be written as R * S where R has its columns normalized.
+ * Since R is typically a rotation matrix, and the 3x3 part is changed from R * S to `mf` * S, this operation can be
+ * seen as replacing the R rotation with `mf`, hence the function name.
+ */
+void Matrix_ReplaceRotation(MtxF* mf) {
     MtxF* cmf = sCurrentMatrix;
+    f32 acc;
     f32 temp;
-    f32 temp2;
-    f32 temp3;
+    f32 curColNorm;
 
-    temp = cmf->xx;
-    temp *= temp;
-    temp2 = cmf->yx;
-    temp += SQ(temp2);
-    temp2 = cmf->zx;
-    temp += SQ(temp2);
-    temp3 = sqrtf(temp);
+    // compute the Euclidean norm of the first column of the current matrix
+    acc = cmf->xx;
+    acc *= acc;
+    temp = cmf->yx;
+    acc += SQ(temp);
+    temp = cmf->zx;
+    acc += SQ(temp);
+    curColNorm = sqrtf(acc);
 
-    cmf->xx = mf->xx * temp3;
-    cmf->yx = mf->yx * temp3;
-    cmf->zx = mf->zx * temp3;
+    cmf->xx = mf->xx * curColNorm;
+    cmf->yx = mf->yx * curColNorm;
+    cmf->zx = mf->zx * curColNorm;
 
-    temp = cmf->xy;
-    temp *= temp;
-    temp2 = cmf->yy;
-    temp += SQ(temp2);
-    temp2 = cmf->zy;
-    temp += SQ(temp2);
-    temp3 = sqrtf(temp);
+    // second column
+    acc = cmf->xy;
+    acc *= acc;
+    temp = cmf->yy;
+    acc += SQ(temp);
+    temp = cmf->zy;
+    acc += SQ(temp);
+    curColNorm = sqrtf(acc);
 
-    cmf->xy = mf->xy * temp3;
-    cmf->yy = mf->yy * temp3;
-    cmf->zy = mf->zy * temp3;
+    cmf->xy = mf->xy * curColNorm;
+    cmf->yy = mf->yy * curColNorm;
+    cmf->zy = mf->zy * curColNorm;
 
-    temp = cmf->xz;
-    temp *= temp;
-    temp2 = cmf->yz;
-    temp += SQ(temp2);
-    temp2 = cmf->zz;
-    temp += SQ(temp2);
-    temp3 = sqrtf(temp);
+    // third column
+    acc = cmf->xz;
+    acc *= acc;
+    temp = cmf->yz;
+    acc += SQ(temp);
+    temp = cmf->zz;
+    acc += SQ(temp);
+    curColNorm = sqrtf(acc);
 
-    cmf->xz = mf->xz * temp3;
-    cmf->yz = mf->yz * temp3;
-    cmf->zz = mf->zz * temp3;
+    cmf->xz = mf->xz * curColNorm;
+    cmf->yz = mf->yz * curColNorm;
+    cmf->zz = mf->zz * curColNorm;
 }
 
 /**
@@ -844,78 +859,76 @@ void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
 }
 
 /*
- * Rotate the matrix by `f` radians around a unit vector `vec`.
- * NB: vec is assumed to be a unit vector.
+ * Rotate the matrix by `angle` radians around a unit vector `axis`.
+ * NB: `axis` is assumed to be a unit vector.
  */
-void Matrix_RotateAxis(f32 f, Vec3f* vec, u8 mode) {
+void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode) {
     MtxF* cmf;
     f32 sin;
     f32 cos;
     f32 rCos;
-    f32 vrs;
     f32 temp1;
     f32 temp2;
     f32 temp3;
     f32 temp4;
-    f32 temp5;
 
     if (mode == MTXMODE_APPLY) {
-        if (f != 0) {
+        if (angle != 0) {
             cmf = sCurrentMatrix;
 
-            sin = sinf(f);
-            cos = cosf(f);
+            sin = sinf(angle);
+            cos = cosf(angle);
 
+            temp1 = cmf->xx;
             temp2 = cmf->xy;
             temp3 = cmf->xz;
-            temp1 = cmf->xx;
-            temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->xx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->xy = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->xz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            temp4 = (axis->x * temp1 + axis->y * temp2 + axis->z * temp3) * (1.0f - cos);
+            cmf->xx = temp1 * cos + axis->x * temp4 + sin * (temp2 * axis->z - temp3 * axis->y);
+            cmf->xy = temp2 * cos + axis->y * temp4 + sin * (temp3 * axis->x - temp1 * axis->z);
+            cmf->xz = temp3 * cos + axis->z * temp4 + sin * (temp1 * axis->y - temp2 * axis->x);
 
             temp1 = cmf->yx;
             temp2 = cmf->yy;
             temp3 = cmf->yz;
-            temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->yx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->yy = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->yz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            temp4 = (axis->x * temp1 + axis->y * temp2 + axis->z * temp3) * (1.0f - cos);
+            cmf->yx = temp1 * cos + axis->x * temp4 + sin * (temp2 * axis->z - temp3 * axis->y);
+            cmf->yy = temp2 * cos + axis->y * temp4 + sin * (temp3 * axis->x - temp1 * axis->z);
+            cmf->yz = temp3 * cos + axis->z * temp4 + sin * (temp1 * axis->y - temp2 * axis->x);
 
             temp1 = cmf->zx;
             temp2 = cmf->zy;
             temp3 = cmf->zz;
-            temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
-            cmf->zx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
-            cmf->zy = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
-            cmf->zz = temp3 * cos + vec->z * temp4 + sin * (temp1 * vec->y - temp2 * vec->x);
+            temp4 = (axis->x * temp1 + axis->y * temp2 + axis->z * temp3) * (1.0f - cos);
+            cmf->zx = temp1 * cos + axis->x * temp4 + sin * (temp2 * axis->z - temp3 * axis->y);
+            cmf->zy = temp2 * cos + axis->y * temp4 + sin * (temp3 * axis->x - temp1 * axis->z);
+            cmf->zz = temp3 * cos + axis->z * temp4 + sin * (temp1 * axis->y - temp2 * axis->x);
         }
     } else {
         cmf = sCurrentMatrix;
 
-        if (f != 0) {
-            sin = sinf(f);
-            cos = cosf(f);
+        if (angle != 0) {
+            sin = sinf(angle);
+            cos = cosf(angle);
             rCos = 1.0f - cos;
 
-            cmf->xx = vec->x * vec->x * rCos + cos;
-            cmf->yy = vec->y * vec->y * rCos + cos;
-            cmf->zz = vec->z * vec->z * rCos + cos;
+            cmf->xx = axis->x * axis->x * rCos + cos;
+            cmf->yy = axis->y * axis->y * rCos + cos;
+            cmf->zz = axis->z * axis->z * rCos + cos;
 
             if (0) {}
 
-            temp2 = vec->x * rCos * vec->y;
-            temp3 = vec->z * sin;
+            temp2 = axis->x * rCos * axis->y;
+            temp3 = axis->z * sin;
             cmf->yx = temp2 + temp3;
             cmf->xy = temp2 - temp3;
 
-            temp2 = vec->x * rCos * vec->z;
-            temp3 = vec->y * sin;
+            temp2 = axis->x * rCos * axis->z;
+            temp3 = axis->y * sin;
             cmf->zx = temp2 - temp3;
             cmf->xz = temp2 + temp3;
 
-            temp2 = vec->y * rCos * vec->z;
-            temp3 = vec->x * sin;
+            temp2 = axis->y * rCos * axis->z;
+            temp3 = axis->x * sin;
             cmf->zy = temp2 + temp3;
             cmf->yz = temp2 - temp3;
 
@@ -963,7 +976,7 @@ MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     return mf;
 }
 
-void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
+void Matrix_SetTranslateUniformScaleMtxF(MtxF* mf, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
     mf->yx = 0.0f;
     mf->zx = 0.0f;
     mf->wx = 0.0f;
@@ -973,131 +986,133 @@ void func_800D2A34(MtxF* mf, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     mf->xz = 0.0f;
     mf->yz = 0.0f;
     mf->wz = 0.0f;
-    mf->xx = arg1;
-    mf->yy = arg1;
-    mf->zz = arg1;
-    mf->xw = arg2;
-    mf->yw = arg3;
-    mf->zw = arg4;
+    mf->xx = scale;
+    mf->yy = scale;
+    mf->zz = scale;
+    mf->xw = translateX;
+    mf->yw = translateY;
+    mf->zw = translateZ;
     mf->ww = 1.0f;
 }
 
-void func_800D2A98(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
+void Matrix_SetTranslateUniformScaleMtx(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
     MtxF mf;
 
-    func_800D2A34(&mf, arg1, arg2, arg3, arg4);
+    Matrix_SetTranslateUniformScaleMtxF(&mf, scale, translateX, translateY, translateZ);
     guMtxF2L(&mf, mtx);
 }
 
-void func_800D2AE4(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
-    u16* m1 = (u16*)&mtx->m[0][0];
-    u16* m2 = (u16*)&mtx->m[2][0];
-    u32 temp;
+void Matrix_SetTranslateUniformScaleMtx2(Mtx* mtx, f32 scale, f32 translateX, f32 translateY, f32 translateZ) {
+    u16* intPart = (u16*)&mtx->m[0][0];
+    u16* fracPart = (u16*)&mtx->m[2][0];
+    u32 fixedPoint;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m2[0] = temp & 0xFFFF;
-    m1[0] = (temp >> 16) & 0xFFFF;
+    fixedPoint = (s32)(scale * 0x10000);
+    fracPart[0] = fixedPoint & 0xFFFF;
+    intPart[0] = (fixedPoint >> 16) & 0xFFFF;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m1[5] = (temp >> 16) & 0xFFFF;
-    m2[5] = temp & 0xFFFF;
+    fixedPoint = (s32)(scale * 0x10000);
+    intPart[5] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[5] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m1[10] = (temp >> 16) & 0xFFFF;
-    m2[10] = temp & 0xFFFF;
+    fixedPoint = (s32)(scale * 0x10000);
+    intPart[10] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[10] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg2 * 65536.0f);
-    m1[12] = (temp >> 16) & 0xFFFF;
-    m2[12] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateX * 0x10000);
+    intPart[12] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[12] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg3 * 65536.0f);
-    m1[13] = (temp >> 16) & 0xFFFF;
-    m2[13] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateY * 0x10000);
+    intPart[13] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[13] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg4 * 65536.0f);
-    m1[14] = (temp >> 16) & 0xFFFF;
-    m2[14] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateZ * 0x10000);
+    intPart[14] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[14] = fixedPoint & 0xFFFF;
 
-    m1[1] = 0;
-    m1[2] = 0;
-    m1[3] = 0;
-    m1[4] = 0;
-    m1[6] = 0;
-    m1[7] = 0;
-    m1[8] = 0;
-    m1[9] = 0;
-    m1[11] = 0;
-    m1[15] = 1;
+    intPart[1] = 0;
+    intPart[2] = 0;
+    intPart[3] = 0;
+    intPart[4] = 0;
+    intPart[6] = 0;
+    intPart[7] = 0;
+    intPart[8] = 0;
+    intPart[9] = 0;
+    intPart[11] = 0;
+    intPart[15] = 1;
 
-    m2[1] = 0;
-    m2[2] = 0;
-    m2[3] = 0;
-    m2[4] = 0;
-    m2[6] = 0;
-    m2[7] = 0;
-    m2[8] = 0;
-    m2[9] = 0;
-    m2[11] = 0;
-    m2[15] = 0;
+    fracPart[1] = 0;
+    fracPart[2] = 0;
+    fracPart[3] = 0;
+    fracPart[4] = 0;
+    fracPart[6] = 0;
+    fracPart[7] = 0;
+    fracPart[8] = 0;
+    fracPart[9] = 0;
+    fracPart[11] = 0;
+    fracPart[15] = 0;
 }
 
-void func_800D2BD0(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    u16* m1 = (u16*)&mtx->m[0][0];
-    u16* m2 = (u16*)&mtx->m[2][0];
-    u32 temp;
+void Matrix_SetTranslateScaleMtx1(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
+                                  f32 translateZ) {
+    u16* intPart = (u16*)&mtx->m[0][0];
+    u16* fracPart = (u16*)&mtx->m[2][0];
+    u32 fixedPoint;
 
-    temp = (s32)(arg1 * 65536.0f);
-    m1[0] = (temp >> 16) & 0xFFFF;
-    m2[0] = temp & 0xFFFF;
+    fixedPoint = (s32)(scaleX * 0x10000);
+    intPart[0] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[0] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg2 * 65536.0f);
-    m1[5] = (temp >> 16) & 0xFFFF;
-    m2[5] = temp & 0xFFFF;
+    fixedPoint = (s32)(scaleY * 0x10000);
+    intPart[5] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[5] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg3 * 65536.0f);
-    m1[10] = (temp >> 16) & 0xFFFF;
-    m2[10] = temp & 0xFFFF;
+    fixedPoint = (s32)(scaleZ * 0x10000);
+    intPart[10] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[10] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg4 * 65536.0f);
-    m1[12] = (temp >> 16) & 0xFFFF;
-    m2[12] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateX * 0x10000);
+    intPart[12] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[12] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg5 * 65536.0f);
-    m1[13] = (temp >> 16) & 0xFFFF;
-    m2[13] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateY * 0x10000);
+    intPart[13] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[13] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg6 * 65536.0f);
-    m1[14] = (temp >> 16) & 0xFFFF;
-    m2[14] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateZ * 0x10000);
+    intPart[14] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[14] = fixedPoint & 0xFFFF;
 
-    m1[1] = 0;
-    m1[2] = 0;
-    m1[3] = 0;
-    m1[4] = 0;
-    m1[6] = 0;
-    m1[7] = 0;
-    m1[8] = 0;
-    m1[9] = 0;
-    m1[11] = 0;
-    m1[15] = 1;
+    intPart[1] = 0;
+    intPart[2] = 0;
+    intPart[3] = 0;
+    intPart[4] = 0;
+    intPart[6] = 0;
+    intPart[7] = 0;
+    intPart[8] = 0;
+    intPart[9] = 0;
+    intPart[11] = 0;
+    intPart[15] = 1;
 
-    m2[1] = 0;
-    m2[2] = 0;
-    m2[3] = 0;
-    m2[4] = 0;
-    m2[6] = 0;
-    m2[7] = 0;
-    m2[8] = 0;
-    m2[9] = 0;
-    m2[11] = 0;
-    m2[15] = 0;
+    fracPart[1] = 0;
+    fracPart[2] = 0;
+    fracPart[3] = 0;
+    fracPart[4] = 0;
+    fracPart[6] = 0;
+    fracPart[7] = 0;
+    fracPart[8] = 0;
+    fracPart[9] = 0;
+    fracPart[11] = 0;
+    fracPart[15] = 0;
 }
 
-void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
+void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
+                                  f32 translateZ) {
     Mtx_t* m = &mtx->m;
-    u16* m1 = (u16*)(*m)[0];
-    u16* m2 = (u16*)(*m)[2];
-    u32 temp;
+    u16* intPart = (u16*)&(*m)[0][0];
+    u16* fracPart = (u16*)&(*m)[2][0];
+    u32 fixedPoint;
 
     (*m)[0][1] = 0;
     (*m)[2][1] = 0;
@@ -1105,33 +1120,32 @@ void func_800D2CEC(Mtx* mtx, f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f
     (*m)[2][3] = 0;
     (*m)[0][4] = 0;
 
-    temp = (s32)(arg1 * 65536.0f);
-    (*m)[0][0] = temp;
+    fixedPoint = (s32)(scaleX * 0x10000);
+    (*m)[0][0] = fixedPoint;
+    intPart[1] = 0;
+    (*m)[2][0] = fixedPoint << 16;
 
-    m1[1] = 0;
-    (*m)[2][0] = temp << 16;
+    fixedPoint = (s32)(scaleY * 0x10000);
+    (*m)[0][2] = fixedPoint >> 16;
+    (*m)[2][2] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg2 * 65536.0f);
-    (*m)[0][2] = temp >> 16;
-    (*m)[2][2] = temp & 0xFFFF;
-
-    temp = (s32)(arg3 * 65536.0f);
-    (*m)[1][1] = temp;
-    m1[11] = 0;
-    (*m)[3][1] = temp << 16;
+    fixedPoint = (s32)(scaleZ * 0x10000);
+    (*m)[1][1] = fixedPoint;
+    intPart[11] = 0;
+    (*m)[3][1] = fixedPoint << 16;
 
     (*m)[2][4] = 0;
 
-    temp = (s32)(arg4 * 65536.0f);
-    m1[12] = (temp >> 16) & 0xFFFF;
-    m2[12] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateX * 0x10000);
+    intPart[12] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[12] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg5 * 65536.0f);
-    m1[13] = (temp >> 16) & 0xFFFF;
-    m2[13] = temp & 0xFFFF;
+    fixedPoint = (s32)(translateY * 0x10000);
+    intPart[13] = (fixedPoint >> 16) & 0xFFFF;
+    fracPart[13] = fixedPoint & 0xFFFF;
 
-    temp = (s32)(arg6 * 65536.0f);
-    m1[14] = (temp >> 16) & 0xFFFF;
-    m1[15] = 1;
-    (*m)[3][3] = temp << 16;
+    fixedPoint = (s32)(translateZ * 0x10000);
+    intPart[14] = (fixedPoint >> 16) & 0xFFFF;
+    intPart[15] = 1;
+    (*m)[3][3] = fixedPoint << 16;
 }

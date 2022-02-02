@@ -7,7 +7,7 @@
 #include "z_en_ba.h"
 #include "objects/object_bxa/object_bxa.h"
 
-#define FLAGS 0x00000015
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnBa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -146,7 +146,7 @@ void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
     if ((this->actor.colChkInfo.mass == MASS_IMMOVABLE) && (this->actor.xzDistToPlayer > 175.0f)) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 330.0f, 1.0f, 7.0f, 0.0f);
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 100.0f, 1.0f, 10.0f, 0.0f);
     }
     this->unk2FC = this->actor.world.pos;
@@ -184,7 +184,7 @@ void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
     }
     this->unk2A8[13].x = this->unk2A8[12].x;
     this->unk2A8[13].y = this->unk2A8[12].y;
-    if (!(player->stateFlags1 & 0x4000000) && (this->actor.xzDistToPlayer <= 175.0f) &&
+    if (!(player->stateFlags1 & PLAYER_STATE1_26) && (this->actor.xzDistToPlayer <= 175.0f) &&
         (this->actor.world.pos.y == this->actor.home.pos.y + 100.0f)) {
         EnBa_SetupSwingAtPlayer(this);
     }
@@ -290,7 +290,7 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
                     Matrix_MultVec3f(&D_809B8080, &this->unk158[i + 1]);
                 }
                 this->unk31A--;
-            } else if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & 0x4000000)) {
+            } else if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & PLAYER_STATE1_26)) {
                 EnBa_SetupIdle(this);
             } else {
                 EnBa_SetupSwingAtPlayer(this);
@@ -309,7 +309,7 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         return;
     }
-    if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & 0x4000000)) {
+    if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & PLAYER_STATE1_26)) {
         EnBa_SetupIdle(this);
     } else {
         EnBa_SetupSwingAtPlayer(this);
@@ -395,7 +395,7 @@ void func_809B75A0(EnBa* this, GlobalContext* globalCtx2) {
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateZYX(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     for (i = 5; i < 13; i++) {
         Math_SmoothStepToS(&this->unk2A8[i].x, this->unk2A8[5].x, 1, this->unk31C, 0);
         Math_SmoothStepToS(&this->unk2A8[i].y, this->unk2A8[5].y, 1, this->unk31C, 0);
@@ -465,7 +465,11 @@ void EnBa_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static Gfx* D_809B8118[] = { 0x060024F0, 0x060027F0, 0x060029F0 };
+static void* D_809B8118[] = {
+    object_bxa_Tex_0024F0,
+    object_bxa_Tex_0027F0,
+    object_bxa_Tex_0029F0,
+};
 
 void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBa* this = (EnBa*)thisx;
