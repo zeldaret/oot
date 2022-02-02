@@ -1,5 +1,5 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
-PROGRAMS := elf2rom makeromfs mkdmadata mkldscript reloc_preq vtxdis yaz0
+PROGRAMS := elf2rom makeromfs mkdmadata mkldscript reloc_prereq vtxdis yaz0
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -30,13 +30,13 @@ distclean: clean
 
 .PHONY: all clean distclean
 
-elf2rom_SOURCES    := elf2rom.c elf32.c n64chksum.c util.c
-makeromfs_SOURCES  := makeromfs.c n64chksum.c util.c
-mkdmadata_SOURCES  := mkdmadata.c spec.c util.c
-mkldscript_SOURCES := mkldscript.c spec.c util.c
-reloc_preq_SOURCES := reloc_preq.c spec.c util.c
-vtxdis_SOURCES     := vtxdis.c
-yaz0_SOURCES       := yaz0tool.c yaz0.c util.c
+elf2rom_SOURCES      := elf2rom.c elf32.c n64chksum.c util.c
+makeromfs_SOURCES    := makeromfs.c n64chksum.c util.c
+mkdmadata_SOURCES    := mkdmadata.c spec.c util.c
+mkldscript_SOURCES   := mkldscript.c spec.c util.c
+reloc_prereq_SOURCES := reloc_prereq.c spec.c util.c
+vtxdis_SOURCES       := vtxdis.c
+yaz0_SOURCES         := yaz0tool.c yaz0.c util.c
 
 
 define COMPILE =
