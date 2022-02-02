@@ -1318,7 +1318,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
 
     // If the previous attention cutscene has an actor in the same category, skip this actor.
     if (actor->category == vLastHigherCat) {
-        osSyncPrintf("→ " VT_FGCOL(PURPLE) "×" VT_RST " (%d)\n", actor->id);
+        osSyncPrintf("→ " VT_FGCOL(MAGENTA) "×" VT_RST " (%d)\n", actor->id);
         return SUBCAM_NONE;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);

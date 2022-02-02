@@ -3,7 +3,7 @@
 
 #include "padmgr.h"
 
-// These are the same as the ansi color codes
+// These are the same as the 3-bit ansi color codes
 #define FAULT_COLOR_BLACK      0
 #define FAULT_COLOR_RED        1
 #define FAULT_COLOR_GREEN      2
@@ -12,6 +12,7 @@
 #define FAULT_COLOR_MAGENTA    5
 #define FAULT_COLOR_CYAN       6
 #define FAULT_COLOR_WHITE      7
+// Additional color codes
 #define FAULT_COLOR_DARK_GRAY  8
 #define FAULT_COLOR_LIGHT_GRAY 9
 

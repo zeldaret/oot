@@ -96,7 +96,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->silverCount = this->actor.params >> 6;
             this->silverCount &= 0x3F;
             // "maximum number of checks"
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 // This is a reference to Hokuto no Ken
@@ -141,7 +141,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
                 // "what?"
-                osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
+                osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
                 // "bank is funny"
                 osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }

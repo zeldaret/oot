@@ -67,7 +67,7 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Type index"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n" VT_RST, this->type);
     // "Correct answer information"
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" VT_RST, this->ocarinaSong);
+    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" VT_RST, this->ocarinaSong);
     // "Range information"
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" VT_RST, this->actor.world.rot.z);
     // "Processing range information"
@@ -301,7 +301,7 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
 
 void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
     // "Open sesame sesame!"
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n" VT_RST, Message_GetState(&globalCtx->msgCtx));
+    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n" VT_RST, Message_GetState(&globalCtx->msgCtx));
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);

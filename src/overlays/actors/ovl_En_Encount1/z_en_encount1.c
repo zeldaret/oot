@@ -57,7 +57,7 @@ void EnEncount1_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Type"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類\t\t   ☆☆☆☆☆ %d\n" VT_RST, this->spawnType);
     // "Maximum number of simultaneous spawns"
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" VT_RST, this->maxCurSpawns);
+    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大同時発生数     ☆☆☆☆☆ %d\n" VT_RST, this->maxCurSpawns);
     // "Maximum number of spawns"
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 最大発生数  \t   ☆☆☆☆☆ %d\n" VT_RST, this->maxTotalSpawns);
     // "Spawn check range"

@@ -343,7 +343,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (BREG(3) != 0) {
         // "No way!"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.ocarinaMode);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.ocarinaMode);
     }
     if ((globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04 ||
          (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05 && globalCtx->msgCtx.ocarinaMode < OCARINA_MODE_0B)) &&
