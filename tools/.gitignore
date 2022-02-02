@@ -4,7 +4,7 @@ elf2rom
 makeromfs
 mkdmadata
 mkldscript
-reloc_preq
+reloc_prereq
 vtxdis
 yaz0
 
