@@ -140,6 +140,10 @@ static const char *const stmtNames[] =
     [STMT_pad_text]  = "pad_text",
 };
 
+/**
+ * `segments` should be freed with `free_rom_spec` after use. 
+ * Note that `segments` contains pointers to inside `spec`, so `spec` should not be freed before `segments`
+ */
 void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 {
     int lineNum = 1;
