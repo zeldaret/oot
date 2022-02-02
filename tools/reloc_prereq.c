@@ -9,7 +9,7 @@
 void print_usage(char* prog_name) {
     printf("USAGE: %s SPEC OVERLAY_SEGMENT_NAME\n"
            "Search the preprocessed spec for an overlay segment name, \n"
-           "e.g. \"ovl_En_Firefly\", and return a space-separated list of the files it"
+           "e.g. \"ovl_En_Firefly\", and return a space-separated list of the files it "
            "includes\n",
            prog_name);
 }

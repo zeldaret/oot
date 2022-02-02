@@ -141,8 +141,9 @@ static const char *const stmtNames[] =
 };
 
 /**
- * `segments` should be freed with `free_rom_spec` after use. 
- * Note that `segments` contains pointers to inside `spec`, so `spec` should not be freed before `segments`
+ * `segments` should be freed with `free_rom_spec` after use.
+ * Will write to the contents of `spec` to introduce string terminating '\0's.
+ * `segments` also contains pointers to inside `spec`, so `spec` should not be freed before `segments`
  */
 void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 {
