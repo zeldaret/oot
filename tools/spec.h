@@ -2,6 +2,7 @@
 #define SPEC_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
 enum {
     STMT_address,
@@ -50,6 +51,8 @@ typedef struct Segment {
 } Segment;
 
 void parse_rom_spec(char* spec, struct Segment** segments, int* segment_count);
+
+bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName);
 
 void free_rom_spec(struct Segment* segments, int segment_count);
 

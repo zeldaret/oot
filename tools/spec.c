@@ -140,6 +140,86 @@ static const char *const stmtNames[] =
     [STMT_pad_text]  = "pad_text",
 };
 
+bool parse_segment_statement(struct Segment *currSeg, unsigned int stmt, char* args, int lineNum, const char* stmtName) {
+    // ensure no duplicates (except for 'include' or 'pad_text')
+    if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && stmt != STMT_pad_text && 
+        (currSeg->fields & (1 << stmt)))
+        util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
+
+    currSeg->fields |= 1 << stmt;
+
+    // statements valid within a segment definition
+    switch (stmt)
+    {
+    case STMT_beginseg:
+        util_fatal_error("line %i: '%s' inside of a segment definition", lineNum, stmtName);
+        break;
+    case STMT_endseg:
+        // verify segment data
+        if (currSeg->name == NULL)
+            util_fatal_error("line %i: no name specified for segment", lineNum);
+        if (currSeg->includesCount == 0)
+            util_fatal_error("line %i: no includes specified for segment", lineNum);
+        //currSeg = NULL;
+        return true;
+        break;
+    case STMT_name:
+        if (!parse_quoted_string(args, &currSeg->name))
+            util_fatal_error("line %i: invalid name", lineNum);
+        break;
+    case STMT_after:
+        if (!parse_quoted_string(args, &currSeg->after))
+            util_fatal_error("line %i: invalid name for 'after'", lineNum);
+        break;
+    case STMT_address:
+        if (!parse_number(args, &currSeg->address))
+            util_fatal_error("line %i: expected number after 'address'", lineNum);
+        break;
+    case STMT_number:
+        if (!parse_number(args, &currSeg->number))
+            util_fatal_error("line %i: expected number after 'number'", lineNum);
+        break;
+    case STMT_flags:
+        if (!parse_flags(args, &currSeg->flags))
+            util_fatal_error("line %i: invalid flags", lineNum);
+        break;
+    case STMT_align:
+        if (!parse_number(args, &currSeg->align))
+            util_fatal_error("line %i: expected number after 'align'", lineNum);
+        if (!is_pow_of_2(currSeg->align))
+            util_fatal_error("line %i: alignment is not a power of two", lineNum);
+        break;
+    case STMT_romalign:
+        if (!parse_number(args, &currSeg->romalign))
+            util_fatal_error("line %i: expected number after 'romalign'", lineNum);
+        if (!is_pow_of_2(currSeg->romalign))
+            util_fatal_error("line %i: alignment is not a power of two", lineNum);
+        break;
+    case STMT_include:
+    case STMT_include_data_with_rodata:
+        currSeg->includesCount++;
+        currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
+
+        if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1].fpath))
+            util_fatal_error("line %i: invalid filename", lineNum);
+
+        currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
+        currSeg->includes[currSeg->includesCount - 1].dataWithRodata = (stmt == STMT_include_data_with_rodata);
+        break;
+        case STMT_increment:
+        if (!parse_number(args, &currSeg->increment))
+            util_fatal_error("line %i: expected number after 'increment'", lineNum);
+        break;
+    case STMT_pad_text:
+        currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
+        break;
+    default:
+        fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
+        break;
+    }
+    return false;
+}
+
 /**
  * `segments` should be freed with `free_rom_spec` after use.
  * Will write to the contents of `spec` to introduce string terminating '\0's.
@@ -176,80 +256,9 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
 
             if (currSeg != NULL)
             {
-                // ensure no duplicates (except for 'include' or 'pad_text')
-                if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && stmt != STMT_pad_text && 
-                    (currSeg->fields & (1 << stmt)))
-                    util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
-
-                currSeg->fields |= 1 << stmt;
-
-                // statements valid within a segment definition
-                switch (stmt)
-                {
-                case STMT_beginseg:
-                    util_fatal_error("line %i: '%s' inside of a segment definition", lineNum, stmtName);
-                    break;
-                case STMT_endseg:
-                    // verify segment data
-                    if (currSeg->name == NULL)
-                        util_fatal_error("line %i: no name specified for segment", lineNum);
-                    if (currSeg->includesCount == 0)
-                        util_fatal_error("line %i: no includes specified for segment", lineNum);
+                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum, stmtName);
+                if (segmentEnded) {
                     currSeg = NULL;
-                    break;
-                case STMT_name:
-                    if (!parse_quoted_string(args, &currSeg->name))
-                        util_fatal_error("line %i: invalid name", lineNum);
-                    break;
-                case STMT_after:
-                    if (!parse_quoted_string(args, &currSeg->after))
-                        util_fatal_error("line %i: invalid name for 'after'", lineNum);
-                    break;
-                case STMT_address:
-                    if (!parse_number(args, &currSeg->address))
-                        util_fatal_error("line %i: expected number after 'address'", lineNum);
-                    break;
-                case STMT_number:
-                    if (!parse_number(args, &currSeg->number))
-                        util_fatal_error("line %i: expected number after 'number'", lineNum);
-                    break;
-                case STMT_flags:
-                    if (!parse_flags(args, &currSeg->flags))
-                        util_fatal_error("line %i: invalid flags", lineNum);
-                    break;
-                case STMT_align:
-                    if (!parse_number(args, &currSeg->align))
-                        util_fatal_error("line %i: expected number after 'align'", lineNum);
-                    if (!is_pow_of_2(currSeg->align))
-                        util_fatal_error("line %i: alignment is not a power of two", lineNum);
-                    break;
-                case STMT_romalign:
-                    if (!parse_number(args, &currSeg->romalign))
-                        util_fatal_error("line %i: expected number after 'romalign'", lineNum);
-                    if (!is_pow_of_2(currSeg->romalign))
-                        util_fatal_error("line %i: alignment is not a power of two", lineNum);
-                    break;
-                case STMT_include:
-                case STMT_include_data_with_rodata:
-                    currSeg->includesCount++;
-                    currSeg->includes = realloc(currSeg->includes, currSeg->includesCount * sizeof(*currSeg->includes));
-
-                    if (!parse_quoted_string(args, &currSeg->includes[currSeg->includesCount - 1].fpath))
-                        util_fatal_error("line %i: invalid filename", lineNum);
-
-                    currSeg->includes[currSeg->includesCount - 1].linkerPadding = 0;
-                    currSeg->includes[currSeg->includesCount - 1].dataWithRodata = (stmt == STMT_include_data_with_rodata);
-                    break;
-                 case STMT_increment:
-                    if (!parse_number(args, &currSeg->increment))
-                        util_fatal_error("line %i: expected number after 'increment'", lineNum);
-                    break;
-                case STMT_pad_text:
-                    currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
-                    break;
-                default:
-                    fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
-                    break;
                 }
             }
             else
@@ -274,6 +283,86 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
         line = nextLine;
         lineNum++;
     }
+}
+
+// dstSegment must be previosly allocated
+bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
+    bool insideSegment = false;
+    bool foundSegment = false;
+    bool incorrectSegment = false;
+    int lineNum = 1;
+    char *line = spec;
+
+    memset(dstSegment, 0, sizeof(struct Segment));
+
+    // iterate over lines
+    while (line[0] != 0)
+    {
+        char *nextLine = line_split(line);
+        char* stmtName = skip_whitespace(line);
+
+        if (stmtName[0] != 0)
+        {
+            char *args = token_split(stmtName);
+            unsigned int stmt;
+
+            for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++)
+                if (strcmp(stmtName, stmtNames[stmt]) == 0)
+                    goto got_stmt;
+            util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
+          got_stmt:
+
+            if (incorrectSegment) {
+                if (stmt == STMT_endseg) {
+                    insideSegment = false;
+                    incorrectSegment = false;
+                }
+            }
+            else if (insideSegment)
+            {
+                bool segmentEnded = parse_segment_statement(dstSegment, stmt, args, lineNum, stmtName);
+                if (stmt == STMT_name) {
+                    if (strcmp(segmentName, dstSegment->name) == 0) {
+                        foundSegment = true;
+                    } else {
+                        incorrectSegment = true;
+                    }
+                }
+                if (segmentEnded) {
+                    insideSegment = false;
+                    if (foundSegment) {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                // commands valid outside a segment definition
+                switch (stmt)
+                {
+                case STMT_beginseg:
+                    insideSegment = true;
+                    if (dstSegment->includes != NULL) {
+                        free(dstSegment->includes);
+                    }
+                    memset(dstSegment, 0, sizeof(struct Segment));
+                    break;
+                case STMT_endseg:
+                    util_fatal_error("line %i: '%s' outside of a segment definition", lineNum, stmtName);
+                    break;
+                default:
+                    fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
+                    break;
+                }
+            }
+        }
+
+        line = nextLine;
+        lineNum++;
+    }
+
+    //return segment;
+    return false;
 }
 
 void free_rom_spec(struct Segment *segments, int segment_count)

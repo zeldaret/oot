@@ -21,10 +21,12 @@ int main(int argc, char** argv) {
     char* overlay_name;
     char* spec;
     size_t size;
-    Segment* segments = NULL;
-    int segments_count = 0;
-    Segment* found_segment = NULL;
+    //Segment* segments = NULL;
+    //int segments_count = 0;
+    Segment segment;
+    //Segment* found_segment = NULL;
     int exit_status = 0;
+    bool segmentFound = false;
 
     if (argc != 3) {
         print_usage(argv[0]);
@@ -38,26 +40,31 @@ int main(int argc, char** argv) {
     // printf("overlay name: %s\n", overlay_name);
 
     spec = util_read_whole_file(spec_path, &size);
-    parse_rom_spec(spec, &segments, &segments_count);
+    //parse_rom_spec(spec, &segments, &segments_count);
+    segmentFound = get_segment_by_name(&segment, spec, overlay_name);
+
+    if (!segmentFound) {
+        fprintf(stderr, ERRMSG_START "no segment \"%s\" found\n" ERRMSG_END, overlay_name);
+        goto error_out;
+    }
 
     {
-        int i;
+        //int i;
         size_t overlay_name_length;
         const char* reloc_suffix = "_reloc.o";
         char* expected_filename;
-
-        for (i = 0; i < segments_count; i++) {
-            if (strcmp(segments[i].name, overlay_name) == 0) {
-                found_segment = &segments[i];
-                break;
-            }
-        }
-        if (i == segments_count) {
-            fprintf(stderr, ERRMSG_START "no segment \"%s\" found\n" ERRMSG_END, overlay_name);
-            goto error_out;
-        }
+        //for (i = 0; i < segments_count; i++) {
+        //    if (strcmp(segments[i].name, overlay_name) == 0) {
+        //        found_segment = &segments[i];
+        //        break;
+        //    }
+        //}
+        //if (i == segments_count) {
+        //    fprintf(stderr, ERRMSG_START "no segment \"%s\" found\n" ERRMSG_END, overlay_name);
+        //    goto error_out;
+        //}
         /* Relocation file must be the last `include` (so .ovl section is linked last) */
-        if (strstr(found_segment->includes[found_segment->includesCount - 1].fpath, reloc_suffix) == NULL) {
+        if (strstr(segment.includes[segment.includesCount - 1].fpath, reloc_suffix) == NULL) {
             fprintf(stderr, ERRMSG_START "last include in overlay segment \"%s\" is not a `%s` file\n" ERRMSG_END,
                     overlay_name, reloc_suffix);
             goto error_out;
@@ -68,9 +75,9 @@ int main(int argc, char** argv) {
         strcpy(expected_filename, overlay_name);
         strcat(expected_filename, reloc_suffix);
 
-        if (strstr(found_segment->includes[found_segment->includesCount - 1].fpath, expected_filename) == NULL) {
+        if (strstr(segment.includes[segment.includesCount - 1].fpath, expected_filename) == NULL) {
             fprintf(stderr, ERRMSG_START "Relocation file \"%s\" should have filename \"%s\"\n" ERRMSG_END,
-                    found_segment->includes[found_segment->includesCount - 1].fpath, expected_filename);
+                    segment.includes[segment.includesCount - 1].fpath, expected_filename);
             goto error_out;
         }
         free(expected_filename);
@@ -78,8 +85,8 @@ int main(int argc, char** argv) {
     {
         int i;
         /* Skip `_reloc.o` include */
-        for (i = 0; i < found_segment->includesCount - 1; i++) {
-            printf("%s ", found_segment->includes[i].fpath);
+        for (i = 0; i < segment.includesCount - 1; i++) {
+            printf("%s ", segment.includes[i].fpath);
         }
         putchar('\n');
     }
@@ -89,7 +96,8 @@ int main(int argc, char** argv) {
         exit_status = 1;
     }
 
-    free_rom_spec(segments, segments_count);
+    // TODO
+    //free_rom_spec(segments, segments_count);
     free(spec);
 
     return exit_status;
