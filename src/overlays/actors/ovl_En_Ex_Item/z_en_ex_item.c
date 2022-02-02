@@ -110,7 +110,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             // "What?"
             osSyncPrintf("なにみの？ %d\n", this->actor.params);
             // "bank is funny"
-            osSyncPrintf(VT_FGCOL(PURPLE) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
         this->actionFunc = EnExItem_WaitForObject;
@@ -125,7 +125,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
         this->actor.objBankIndex = this->objectIdx;
         this->actor.draw = EnExItem_Draw;

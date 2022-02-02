@@ -1,16 +1,15 @@
 #ifndef VT_H
 #define VT_H
 
+// 3-bit color codes
 #define VT_COLOR_BLACK         0
 #define VT_COLOR_RED           1
 #define VT_COLOR_GREEN         2
 #define VT_COLOR_YELLOW        3
 #define VT_COLOR_BLUE          4
-#define VT_COLOR_PURPLE        5
+#define VT_COLOR_MAGENTA       5
 #define VT_COLOR_CYAN          6
 #define VT_COLOR_WHITE         7
-#define VT_COLOR_LIGHTGRAY     8
-#define VT_COLOR_DARKGRAY      9
 
 #define VT_COLOR_FOREGROUND    3
 #define VT_COLOR_BACKGROUND    4

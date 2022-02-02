@@ -23,7 +23,7 @@ void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ) {
     LogUtils_CheckNullPointer("c", c, "../irqmgr.c", 97);
     LogUtils_CheckNullPointer("msgQ", msgQ, "../irqmgr.c", 98);
 
-    prevInt = osSetIntMask(1);
+    prevInt = osSetIntMask(OS_IM_NONE);
 
     c->queue = msgQ;
     c->prev = this->clients;
@@ -48,7 +48,7 @@ void IrqMgr_RemoveClient(IrqMgr* this, IrqMgrClient* c) {
     LogUtils_CheckNullPointer("this", this, "../irqmgr.c", 129);
     LogUtils_CheckNullPointer("c", c, "../irqmgr.c", 130);
 
-    prevInt = osSetIntMask(1);
+    prevInt = osSetIntMask(OS_IM_NONE);
 
     while (iter != NULL) {
         if (iter == c) {
