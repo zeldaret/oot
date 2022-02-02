@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,12 +10,12 @@
 
 .balign 16
 
-BEGIN __osRestoreInt
-    mfc0    $t0, Status
+LEAF(__osRestoreInt)
+    mfc0    $t0, C0_SR
     or      $t0, $t0, $a0
-    mtc0    $t0, Status
+    mtc0    $t0, C0_SR
     nop
     nop
     jr      $ra
      nop
-END __osRestoreInt
+END(__osRestoreInt)

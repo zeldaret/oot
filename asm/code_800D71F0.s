@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,7 +9,7 @@
 
 .balign 16
 
-BEGIN func_800D71F0
+LEAF(func_800D71F0)
     li      $at, 0x8800
     slt     $at, $a0, $at
     bnez    $at, .L800D723C
@@ -52,8 +52,8 @@ BEGIN func_800D71F0
     lh      $a2, ($a3)
     jr      $ra
      sll    $v0, $a2, 7
-END func_800D71F0
+END(func_800D71F0)
 
-BEGINDATA D_800D7288
+DATA(D_800D7288)
     .incbin "baserom.z64", 0xB4E428, 0xB4EE70 - 0xB4E428
-ENDDATA D_800D7288
+ENDDATA(D_800D7288)

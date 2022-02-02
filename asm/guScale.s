@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,8 +9,8 @@
 
 .balign 16
 
-BEGIN guScale
-    li      $at, 0x47800000 # 65536.0
+LEAF(guScale)
+    li      $at, 0x47800000 # 65536.0f
     mtc1    $at, $f4
     mtc1    $a1, $f6
     sw      $zero, 4($a0)
@@ -51,4 +51,4 @@ BEGIN guScale
     sw      $t2, 0x34($a0)
     jr      $ra
      sw     $t0, 0x1c($a0)
-END guScale
+END(guScale)

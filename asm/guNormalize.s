@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -15,12 +15,12 @@
     nop
     nop
 
-BEGIN guNormalize
+LEAF(guNormalize)
     lwc1    $f4, ($a0)
     lwc1    $f6, ($a1)
     lwc1    $f8, ($a2)
     mul.s   $f10, $f4, $f4
-    li      $t0, 0x3F800000 # 1.0
+    li      $t0, 0x3F800000 # 1.0f
     mul.s   $f16, $f6, $f6
     add.s   $f18, $f10, $f16
     mul.s   $f16, $f8, $f8
@@ -37,4 +37,4 @@ BEGIN guNormalize
     swc1    $f18, ($a1)
     jr      $ra
      swc1   $f4, ($a2)
-END guNormalize
+END(guNormalize)

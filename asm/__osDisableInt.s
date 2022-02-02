@@ -1,6 +1,6 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
 #include "ultra64/thread.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -11,15 +11,15 @@
 
 .balign 16
 
-BEGIN __osDisableInt
+LEAF(__osDisableInt)
     lui     $t2, %hi(__OSGlobalIntMask)
     addiu   $t2, $t2, %lo(__OSGlobalIntMask)
     lw      $t3, ($t2)
     andi    $t3, $t3, SR_IMASK
-    mfc0    $t0, Status
+    mfc0    $t0, C0_SR
     li      $at, ~SR_IE
     and     $t1, $t0, $at
-    mtc0    $t1, Status
+    mtc0    $t1, C0_SR
     andi    $v0, $t0, SR_IE
     lw      $t0, ($t2)
     andi    $t0, $t0, SR_IMASK
@@ -34,10 +34,10 @@ BEGIN __osDisableInt
     or      $t1, $t1, $t2
     li      $at, ~SR_IE
     and     $t1, $t1, $at
-    mtc0    $t1, Status
+    mtc0    $t1, C0_SR
     nop
     nop
 1:
     jr      $ra
      nop
-END __osDisableInt
+END(__osDisableInt)

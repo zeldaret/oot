@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,7 +9,7 @@
 
 .balign 16
 
-BEGIN guMtxIdent
+LEAF(guMtxIdent)
     addi    $t0, $zero, 1
     sll     $t1, $t0, 0x10
     sw      $t1, ($a0)
@@ -29,4 +29,4 @@ BEGIN guMtxIdent
     sw      $zero, 0x38($a0)
     jr      $ra
      sw     $zero, 0x3c($a0)
-END guMtxIdent
+END(guMtxIdent)

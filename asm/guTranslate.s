@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -15,8 +15,8 @@
     nop
     nop
 
-BEGIN guTranslate
-    li      $at, 0x47800000 # 65536.0
+LEAF(guTranslate)
+    li      $at, 0x47800000 # 65536.0f
     mtc1    $at, $f4
     mtc1    $a1, $f6
     sw      $zero, ($a0)
@@ -66,4 +66,4 @@ BEGIN guTranslate
     sw      $t2, 0x3c($a0)
     jr      $ra
      sw     $t0, 8($a0)
-END guTranslate
+END(guTranslate)

@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -14,7 +14,7 @@
  *
  *  Decompress Mio0 chunk
  */
-BEGIN Mio0_Decompress
+LEAF(Mio0_Decompress)
     lw      $a3, 8($a0)     # compressed offset
     lw      $t9, 0xc($a0)   # uncompressed offset
     lw      $t8, 4($a0)     # decompressed length
@@ -40,7 +40,7 @@ BEGIN Mio0_Decompress
      sb     $t2, -1($a1)    # store uncompressed byte
 .read_comp:
     lhu     $t2, ($a3)      # read 2 bytes from compressed data
-    addi    $a3, $a3, 2     # advance compresed start
+    addi    $a3, $a3, 2     # advance compressed start
     srl     $t3, $t2, 0xc
     andi    $t2, $t2, 0xfff
     beqz    $t3, 3f
@@ -64,4 +64,4 @@ BEGIN Mio0_Decompress
     addi    $t9, $t9, 1
     b       2b
      addi   $t3, $t3, 0x12
-END Mio0_Decompress
+END(Mio0_Decompress)

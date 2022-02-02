@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -18,7 +18,7 @@
  *  If nbytes is larger than the data cache size, the entire cache
  *  is written back.
  */
-BEGIN osWritebackDCache
+LEAF(osWritebackDCache)
     # If the amount to write back is less or equal to 0, return immediately
     blez    $a1, .ret
      nop
@@ -60,4 +60,4 @@ BEGIN osWritebackDCache
      addiu  $t0, DCACHE_LINESIZE
     jr      $ra
      nop
-END osWritebackDCache
+END(osWritebackDCache)

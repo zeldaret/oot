@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,9 +10,9 @@
 
 .balign 16
 
-BEGIN __osSetFpcCsr
-    cfc1    $v0, FpCsr
-    ctc1    $a0, FpCsr
+LEAF(__osSetFpcCsr)
+    cfc1    $v0, C1_FPCSR
+    ctc1    $a0, C1_FPCSR
     jr      $ra
      nop
-END __osSetFpcCsr
+END(__osSetFpcCsr)

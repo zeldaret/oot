@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "boot.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,7 +10,7 @@
 
 .balign 16
 
-BEGIN entrypoint
+LEAF(entrypoint)
     # Clear boot segment .bss
     lui     $t0, %hi(_bootSegmentBssStart)
     addiu   $t0, %lo(_bootSegmentBssStart)
@@ -27,6 +27,6 @@ BEGIN entrypoint
     addiu   $t2, %lo(bootproc)
     jr      $t2
      addiu  $sp, %lo(sBootThreadStack + BOOT_STACK_SIZE)
-END entrypoint
+END(entrypoint)
 
 .fill 0x60 - (. - entrypoint)

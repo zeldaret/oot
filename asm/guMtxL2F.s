@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,8 +9,8 @@
 
 .balign 16
 
-BEGIN guMtxL2F
-    li      $at, 0x37800000 # 1.0 / 65536.0
+LEAF(guMtxL2F)
+    li      $at, 0x37800000 # 1.0f / 65536.0f
     mtc1    $at, $f0
     li      $t9, 0xFFFF0000
     addiu   $t8, $a1, 0x20
@@ -37,4 +37,4 @@ BEGIN guMtxL2F
      swc1   $f18, -4($a0)
     jr      $ra
      nop
-END guMtxL2F
+END(guMtxL2F)

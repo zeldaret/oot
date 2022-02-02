@@ -1,10 +1,10 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
 #include "ultra64/rcp.h"
 #include "ultra64/rsp.h"
 #include "ultra64/message.h"
 #include "ultra64/thread.h"
-#include "ultra64/internal.h"
-.include "macro.inc"
+#include "ultra64/exception.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -15,18 +15,18 @@
 
 .balign 16
 
-BEGINDATA __osHwIntTable
+DATA(__osHwIntTable)
     .word 0, 0
     .word 0, 0 # cart
     .word 0, 0
     .word 0, 0
     .word 0, 0
-ENDDATA __osHwIntTable
+ENDDATA(__osHwIntTable)
 
-BEGINDATA __osPiIntTable
+DATA(__osPiIntTable)
     .word 0
     .word 0
-ENDDATA __osPiIntTable
+ENDDATA(__osPiIntTable)
 
 .section .rodata
 
@@ -85,26 +85,26 @@ __osIntTable:
  * The exception preamble is copied to the exception vectors at
  * UT_VEC, XUT_VEC, ECC_VEC, E_VEC, to direct execution to __osException
  */
-BEGIN __osExceptionPreamble
+LEAF(__osExceptionPreamble)
     lui     $k0, %hi(__osException)
     addiu   $k0, %lo(__osException)
     jr      $k0
      nop
-END __osExceptionPreamble
+END(__osExceptionPreamble)
 
-BEGIN __osException
+LEAF(__osException)
     # Load scratch space for thread saving
     lui     $k0, %hi(__osThreadSave)
     addiu   $k0, %lo(__osThreadSave)
     # Save $at
     sd      $at, THREAD_AT($k0)
     # Save sr
-    mfc0    $k1, Status
+    mfc0    $k1, C0_SR
     sw      $k1, THREAD_SR($k0)
     # Clear interrupts
     li      $at, ~(SR_IE | SR_EXL)
     and     $k1, $k1, $at
-    mtc0    $k1, Status
+    mtc0    $k1, C0_SR
     # Save some temp registers for use in the following
     sd      $t0, THREAD_T0($k0)
     sd      $t1, THREAD_T1($k0)
@@ -112,7 +112,7 @@ BEGIN __osException
     # Mark FPU as unused
     sw      $zero, THREAD_FP($k0)
     # Left over from mis-placed ifdef, immediately overwritten on next instruction
-    mfc0    $t0, Cause
+    mfc0    $t0, C0_CAUSE
 savecontext:
     # Save the currently running thread's context to be restored when it resumes
     move    $t0, $k0
@@ -195,13 +195,13 @@ savercp:
     or      $t1, $t1, $t0
 endrcp:
     sw      $t1, THREAD_RCP($k0)
-    mfc0    $t0, EPC
+    mfc0    $t0, C0_EPC
     sw      $t0, THREAD_PC($k0)
     lw      $t0, THREAD_FP($k0)
     beqz    $t0, handle_interrupt
      nop
     # Save FP Registers if fpu was touched by this thread
-    cfc1    $t0, FpCsr
+    cfc1    $t0, C1_FPCSR
     nop
     sw      $t0, THREAD_FPCSR($k0)
     sdc1    $f0, THREAD_FP0($k0)
@@ -224,7 +224,7 @@ endrcp:
 handle_interrupt:
     # Determine the cause of the exception or interrupt and
     # enter appropriate handling routine
-    mfc0    $t0, Cause
+    mfc0    $t0, C0_CAUSE
     sw      $t0, THREAD_CAUSE($k0)
     li      $t1, OS_STATE_RUNNABLE
     sh      $t1, THREAD_STATE($k0)
@@ -288,8 +288,8 @@ IP7_Hdlr:
  *  cop0 compare register, this interrupt is triggered
  */
 counter:
-    mfc0    $t1, Compare
-    mtc0    $t1, Compare
+    mfc0    $t1, C0_COMPARE
+    mtc0    $t1, C0_COMPARE
     # Post counter message
     jal     send_mesg
      li     $a0, OS_EVENT_COUNTER*8
@@ -307,7 +307,7 @@ cart:
     # Load cart callback set by __osSetHWIntrRoutine
     lui     $t1, %hi(__osHwIntTable)
     addiu   $t1, %lo(__osHwIntTable)
-    lw      $t2, (OS_INTR_CART*8+HWINTR_CB)($t1)
+    lw      $t2, (OS_INTR_CART*HWINTR_SIZE+HWINTR_CALLBACK)($t1)
     # Clear interrupt
     li      $at, ~CAUSE_IP4
     and     $s0, $s0, $at
@@ -538,7 +538,7 @@ sw2:
     li      $at, ~CAUSE_SW2
     # Clear interrupt
     and     $t0, $t0, $at
-    mtc0    $t0, Cause
+    mtc0    $t0, C0_CAUSE
     # Post sw2 event message
     jal     send_mesg
      li     $a0, OS_EVENT_SW2*8
@@ -551,7 +551,7 @@ sw1:
     li      $at, ~CAUSE_SW1
     # Clear interrupt
     and     $t0, $t0, $at
-    mtc0    $t0, Cause
+    mtc0    $t0, C0_CAUSE
     # Post sw1 event message
     jal     send_mesg
      li     $a0, OS_EVENT_SW1*8
@@ -613,8 +613,8 @@ panic:
     sh      $t1, THREAD_STATE($k0)
     li      $t1, OS_FLAG_FAULT
     sh      $t1, THREAD_FLAGS($k0)
-    # Save BadVaddr
-    mfc0    $t2, BadVaddr
+    # Save C0_BADVADDR
+    mfc0    $t2, C0_BADVADDR
     sw      $t2, THREAD_BADVADDR($k0)
     # Post the fault message
     jal     send_mesg
@@ -706,7 +706,7 @@ handle_CpU:
     sw      $t1, THREAD_FP($k0)
     b       enqueueRunning
      sw     $k1, THREAD_SR($k0)
-END __osException
+END(__osException)
 
 /**
  *  void __osEnqueueAndYield(OSThread** threadQ);
@@ -715,11 +715,11 @@ END __osException
  *   thread queue `threadQ` and yields to the highest priority
  *   unblocked runnable thread
  */
-BEGIN __osEnqueueAndYield
+LEAF(__osEnqueueAndYield)
     lui     $a1, %hi(__osRunningThread)
     lw      $a1, %lo(__osRunningThread)($a1)
     # Save SR
-    mfc0    $t0, Status
+    mfc0    $t0, C0_SR
     lw      $k1, THREAD_FP($a1)
     ori     $t0, $t0, SR_EXL
     sw      $t0, THREAD_SR($a1)
@@ -739,7 +739,7 @@ BEGIN __osEnqueueAndYield
     # Save fpu callee-saved registers if thread has touched the fpu
     beqz    $k1, 1f
      sw     $ra, THREAD_PC($a1)
-    cfc1    $k1, FpCsr
+    cfc1    $k1, C1_FPCSR
     sdc1    $f20, THREAD_FP20($a1)
     sdc1    $f22, THREAD_FP22($a1)
     sdc1    $f24, THREAD_FP24($a1)
@@ -791,14 +791,14 @@ BEGIN __osEnqueueAndYield
 no_enqueue:
     j       __osDispatchThread
      nop
-END __osEnqueueAndYield
+END(__osEnqueueAndYield)
 
 /**
  *  void __osEnqueueThread(OSThread** threadQ, OSThread* thread);
  *
  *  Enqueues `thread` to the thread queue `threadQ`, inserted by priority
  */
-BEGIN __osEnqueueThread
+LEAF(__osEnqueueThread)
     lw      $t8, ($a0)
     lw      $t7, THREAD_PRI($a1)
     move    $t9, $a0
@@ -824,7 +824,7 @@ BEGIN __osEnqueueThread
     sw      $a1, THREAD_NEXT($t9)
     jr      $ra
      sw     $a0, THREAD_QUEUE($a1)
-END __osEnqueueThread
+END(__osEnqueueThread)
 
 /**
  *  OSThread* __osPopThread(OSThread** threadQ);
@@ -832,24 +832,24 @@ END __osEnqueueThread
  *  Pops the highest priority thread from the top of the
  *   thread queue `threadQ` and returns it
  */
-BEGIN __osPopThread
+LEAF(__osPopThread)
     lw      $v0, ($a0)
     lw      $t9, ($v0)
     jr      $ra
      sw     $t9, ($a0)
-END __osPopThread
+END(__osPopThread)
 
-BEGIN __osNop
+LEAF(__osNop)
     jr      $ra
      nop
-END __osNop
+END(__osNop)
 
 /**
  *  void __osDispatchThread(void);
  *
  *  Dispatches the next thread to run after restoring it
  */
-BEGIN __osDispatchThread
+LEAF(__osDispatchThread)
     # Obtain highest priority thread from the active run queue
     lui     $a0, %hi(__osRunQueue)
     jal     __osPopThread
@@ -872,7 +872,7 @@ BEGIN __osDispatchThread
     and     $t1, $t1, $t0
     and     $k1, $k1, $at
     or      $k1, $k1, $t1
-    mtc0    $k1, Status
+    mtc0    $k1, C0_SR
     # Restore GPRs
     ld      $k1, THREAD_LO($k0)
     ld      $at, THREAD_AT($k0)
@@ -909,13 +909,13 @@ BEGIN __osDispatchThread
     ld      $ra, THREAD_RA($k0)
     # Move thread pc to EPC so that eret will return execution to where the thread left off
     lw      $k1, THREAD_PC($k0)
-    mtc0    $k1, EPC
+    mtc0    $k1, C0_EPC
     # Check if the fpu was touched by this thread and if so also restore the fpu registers
     lw      $k1, THREAD_FP($k0)
     beqz    $k1, 1f
      nop
     lw      $k1, THREAD_FPCSR($k0)
-    ctc1    $k1, FpCsr
+    ctc1    $k1, C1_FPCSR
     ldc1    $f0, THREAD_FP0($k0)
     ldc1    $f2, THREAD_FP2($k0)
     ldc1    $f4, THREAD_FP4($k0)
@@ -955,7 +955,7 @@ BEGIN __osDispatchThread
     nop
     # Resume thread execution
     eret
-END __osDispatchThread
+END(__osDispatchThread)
 
 /**
  *  void __osCleanupThread(void);
@@ -964,8 +964,8 @@ END __osDispatchThread
  *  This function is responsible for cleaning up the thread, signalling for the
  *  current thread to be destroyed.
  */
-BEGIN __osCleanupThread
+LEAF(__osCleanupThread)
     jal     osDestroyThread
      move   $a0, $zero
     # Despite being a jal, this function does not return as the thread will have been destroyed
-END __osCleanupThread
+END(__osCleanupThread)

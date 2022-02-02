@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,6 +9,6 @@
 
 .balign 16
 
-BEGINDATA __libm_qnan_f
+DATA(__libm_qnan_f)
     .word 0x7F810000
-ENDDATA __libm_qnan_f
+ENDDATA(__libm_qnan_f)

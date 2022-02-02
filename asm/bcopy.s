@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,7 +9,7 @@
 
 .balign 16
 
-BEGIN bcopy
+LEAF(bcopy)
     beqz    $a2, ret
      move   $a3, $a1
     beq     $a0, $a1, ret
@@ -228,4 +228,4 @@ backwards_4_likely:
     addiu   $a2, $a2, -4
     b       backwards_4
      sw     $v0, ($a1)
-END bcopy
+END(bcopy)

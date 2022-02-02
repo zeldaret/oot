@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,7 +10,7 @@
 
 .balign 16
 
-BEGIN osWritebackDCacheAll
+LEAF(osWritebackDCacheAll)
     li      $t0, K0BASE
     li      $t2, DCACHE_SIZE
     addu    $t1, $t0, $t2
@@ -22,4 +22,4 @@ BEGIN osWritebackDCacheAll
      addiu  $t0, DCACHE_LINESIZE
     jr      $ra
      nop
-END osWritebackDCacheAll
+END(osWritebackDCacheAll)

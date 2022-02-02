@@ -1,10 +1,6 @@
 #ifndef ULTRA64_INTERNAL_H
 #define ULTRA64_INTERNAL_H
 
-#define OS_INTR_CART    1
-
-#ifdef _LANGUAGE_C
-
 #include "pi.h"
 
 typedef struct {
@@ -24,14 +20,5 @@ typedef struct  {
 
 extern OSMgrArgs __osPiDevMgr;
 extern __OSEventState __osEventStateTab[];
-
-#else
-
-// __osHwInt struct member offsets
-
-#define HWINTR_CB   0x00
-#define HWINTR_SP   0x04
-
-#endif
 
 #endif

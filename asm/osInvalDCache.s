@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -25,7 +25,7 @@
  *  If the amount to invalidate is greater than the data cache size, 8192,
  *  the entire data cache is invalidated.
  */
-BEGIN osInvalDCache
+LEAF(osInvalDCache)
     # If the amount to invalidate is less or equal to 0, return immediately
     blez    $a1, .ret
      nop
@@ -93,4 +93,4 @@ BEGIN osInvalDCache
      addiu  $t0, DCACHE_LINESIZE
     jr      $ra
      nop
-END osInvalDCache
+END(osInvalDCache)

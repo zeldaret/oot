@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,7 +9,7 @@
 
 .balign 16
 
-BEGIN bzero
+LEAF(bzero)
     slti    $at, $a1, 0xc
     bnez    $at, .bytezero
      negu   $v1, $a0
@@ -64,7 +64,7 @@ BEGIN bzero
 .zerodone:
     jr      $ra
      nop
-END bzero
+END(bzero)
 
 # padding?
     nop

@@ -1,6 +1,6 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
 #include "ultra64/rcp.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -15,7 +15,7 @@
  *  LUT to convert between MI_INTR and MI_INTR_MASK.
  *  MI_INTR is status for each interrupt whereas MI_INTR_MASK has seperate bits for set/clr.
  */
-BEGINDATA __osRcpImTable
+DATA(__osRcpImTable)
     .half MI_INTR_MASK_CLR_SP | MI_INTR_MASK_CLR_SI | MI_INTR_MASK_CLR_AI | MI_INTR_MASK_CLR_VI | MI_INTR_MASK_CLR_PI | MI_INTR_MASK_CLR_DP
     .half MI_INTR_MASK_SET_SP | MI_INTR_MASK_CLR_SI | MI_INTR_MASK_CLR_AI | MI_INTR_MASK_CLR_VI | MI_INTR_MASK_CLR_PI | MI_INTR_MASK_CLR_DP
     .half MI_INTR_MASK_CLR_SP | MI_INTR_MASK_SET_SI | MI_INTR_MASK_CLR_AI | MI_INTR_MASK_CLR_VI | MI_INTR_MASK_CLR_PI | MI_INTR_MASK_CLR_DP
@@ -80,14 +80,14 @@ BEGINDATA __osRcpImTable
     .half MI_INTR_MASK_SET_SP | MI_INTR_MASK_CLR_SI | MI_INTR_MASK_SET_AI | MI_INTR_MASK_SET_VI | MI_INTR_MASK_SET_PI | MI_INTR_MASK_SET_DP
     .half MI_INTR_MASK_CLR_SP | MI_INTR_MASK_SET_SI | MI_INTR_MASK_SET_AI | MI_INTR_MASK_SET_VI | MI_INTR_MASK_SET_PI | MI_INTR_MASK_SET_DP
     .half MI_INTR_MASK_SET_SP | MI_INTR_MASK_SET_SI | MI_INTR_MASK_SET_AI | MI_INTR_MASK_SET_VI | MI_INTR_MASK_SET_PI | MI_INTR_MASK_SET_DP
-ENDDATA __osRcpImTable
+ENDDATA(__osRcpImTable)
 
 .section .text
 
 .balign 16
 
-BEGIN osSetIntMask
-    mfc0    $t4, Status
+LEAF(osSetIntMask)
+    mfc0    $t4, C0_SR
     andi    $v0, $t4, (SR_IMASK | SR_IE)
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
@@ -123,9 +123,9 @@ BEGIN osSetIntMask
     ori     $at, (~SR_IMASK) & 0xFFFF
     and     $t4, $t4, $at
     or      $t4, $t4, $t0
-    mtc0    $t4, Status
+    mtc0    $t4, C0_SR
     nop
     nop
     jr      $ra
      nop
-END osSetIntMask
+END(osSetIntMask)

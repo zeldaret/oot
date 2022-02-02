@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,8 +10,8 @@
 
 .balign 16
 
-BEGIN osGetCount
-    mfc0    $v0, Count
+LEAF(osGetCount)
+    mfc0    $v0, C0_COUNT
     jr      $ra
      nop
-END osGetCount
+END(osGetCount)

@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,7 +10,7 @@
 
 .balign 16
 
-BEGIN osInvalICache
+LEAF(osInvalICache)
     # If the amount to invalidate is less or equal to 0, return immediately
     blez    $a1, .ret
      nop
@@ -51,4 +51,4 @@ BEGIN osInvalICache
      addiu  $t0, ICACHE_LINESIZE
     jr      $ra
      nop
-END osInvalICache
+END(osInvalICache)

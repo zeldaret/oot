@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noreorder # don't insert nops after branches
@@ -8,145 +8,145 @@
 
 .balign 16
 
-BEGINDATA qNaN0x3FFFFF
+DATA(qNaN0x3FFFFF)
     .word 0x7FBFFFFF
-ENDDATA qNaN0x3FFFFF
+ENDDATA(qNaN0x3FFFFF)
 
-BEGINDATA qNaN0x10000
+DATA(qNaN0x10000)
     .word 0x7F810000
-ENDDATA qNaN0x10000
+ENDDATA(qNaN0x10000)
 
-BEGINDATA sNaN0x3FFFFF
+DATA(sNaN0x3FFFFF)
     .word 0x7FFFFFFF
-ENDDATA sNaN0x3FFFFF
+ENDDATA(sNaN0x3FFFFF)
 
 .section .text
 
 .balign 16
 
-BEGIN floorf
+LEAF(floorf)
     floor.w.s   $f12, $f12
     jr          $ra
      cvt.s.w    $f0, $f12
-END floorf
+END(floorf)
 
-BEGIN floor
+LEAF(floor)
     floor.w.d   $f12, $f12
     jr          $ra
      cvt.d.w    $f0, $f12
-END floor
+END(floor)
 
-BEGIN lfloorf
+LEAF(lfloorf)
     floor.w.s   $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END lfloorf
+END(lfloorf)
 
-BEGIN lfloor
+LEAF(lfloor)
     floor.w.d   $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END lfloor
+END(lfloor)
 
-BEGIN ceilf
+LEAF(ceilf)
     ceil.w.s    $f12, $f12
     jr          $ra
      cvt.s.w    $f0, $f12
-END ceilf
+END(ceilf)
 
-BEGIN ceil
+LEAF(ceil)
     ceil.w.d    $f12, $f12
     jr          $ra
      cvt.d.w    $f0, $f12
-END ceil
+END(ceil)
 
-BEGIN lceilf
+LEAF(lceilf)
     ceil.w.s    $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END lceilf
+END(lceilf)
 
-BEGIN lceil
+LEAF(lceil)
     ceil.w.d    $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END lceil
+END(lceil)
 
-BEGIN truncf
+LEAF(truncf)
     trunc.w.s   $f12, $f12
     jr          $ra
      cvt.s.w    $f0, $f12
-END truncf
+END(truncf)
 
-BEGIN trunc
+LEAF(trunc)
     trunc.w.d   $f12, $f12
     jr          $ra
      cvt.d.w    $f0, $f12
-END trunc
+END(trunc)
 
-BEGIN ltruncf
+LEAF(ltruncf)
     trunc.w.s   $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END ltruncf
+END(ltruncf)
 
-BEGIN ltrunc
+LEAF(ltrunc)
     trunc.w.d   $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END ltrunc
+END(ltrunc)
 
-BEGIN nearbyintf
+LEAF(nearbyintf)
     round.w.s   $f12, $f12
     jr          $ra
      cvt.s.w    $f0, $f12
-END nearbyintf
+END(nearbyintf)
 
-BEGIN nearbyint
+LEAF(nearbyint)
     round.w.d   $f12, $f12
     jr          $ra
      cvt.d.w    $f0, $f12
-END nearbyint
+END(nearbyint)
 
-BEGIN lnearbyintf
+LEAF(lnearbyintf)
     round.w.s   $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END lnearbyintf
+END(lnearbyintf)
 
-BEGIN lnearbyint
+LEAF(lnearbyint)
     round.w.d   $f4, $f12
     mfc1        $v0, $f4
     jr          $ra
      nop
-END lnearbyint
+END(lnearbyint)
 
-BEGIN roundf
+LEAF(roundf)
     li.s        $f4, 0.5
     nop
     add.s       $f0, $f12, $f4
     floor.w.s   $f0, $f0
     jr          $ra
      cvt.s.w     $f0, $f0
-END roundf
+END(roundf)
 
-BEGIN round
+LEAF(round)
     li.d        $f4, 0.5
     nop
     add.d       $f0, $f12, $f4
     floor.w.d   $f0, $f0
     jr          $ra
      cvt.d.w     $f0, $f0
-END round
+END(round)
 
-BEGIN lroundf
+LEAF(lroundf)
     li.s        $f4, 0.5
     nop
     add.s       $f0, $f12, $f4
@@ -154,9 +154,9 @@ BEGIN lroundf
     mfc1        $v0, $f0
     jr          $ra
      nop
-END lroundf
+END(lroundf)
 
-BEGIN lround
+LEAF(lround)
     li.d        $f4, 0.5
     nop
     add.d       $f0, $f12, $f4
@@ -164,4 +164,4 @@ BEGIN lround
     mfc1        $v0, $f0
     jr          $ra
      nop
-END lround
+END(lround)

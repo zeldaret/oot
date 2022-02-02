@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,8 +10,8 @@
 
 .balign 16
 
-BEGIN __osGetSR
-    mfc0    $v0, Status
+LEAF(__osGetSR)
+    mfc0    $v0, C0_SR
     jr      $ra
      nop
-END __osGetSR
+END(__osGetSR)

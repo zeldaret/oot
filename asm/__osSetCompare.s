@@ -1,5 +1,5 @@
+#include "ultra64/asm.h"
 #include "ultra64/r4300.h"
-.include "macro.inc"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -10,8 +10,8 @@
 
 .balign 16
 
-BEGIN __osSetCompare
-    mtc0    $a0, Compare
+LEAF(__osSetCompare)
+    mtc0    $a0, C0_COMPARE
     jr      $ra
      nop
-END __osSetCompare
+END(__osSetCompare)

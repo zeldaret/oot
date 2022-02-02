@@ -1,4 +1,4 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -9,7 +9,7 @@
 
 .balign 16
 
-BEGIN bcmp
+LEAF(bcmp)
     slti    $at, $a2, 0x10
     bnez    $at, .bytecmp
      xor    $v0, $a0, $a1
@@ -92,4 +92,4 @@ BEGIN bcmp
 .cmpdone:
     jr      $ra
      li     $v0, 1
-END bcmp
+END(bcmp)
