@@ -1,10 +1,3 @@
-// libultra OS symbols
-osTvType = 0x80000300;
-osRomBase = 0x80000308;
-osResetType = 0x8000030C;
-osMemSize = 0x80000318;
-osAppNmiBuffer = 0x8000031C;
-
 // until ZAPD can handle non-aligned textures,
 // we can't use the built assets tied to some symbols
 gKm1Skel = 0x060000F0;
