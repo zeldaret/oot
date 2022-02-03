@@ -299,7 +299,6 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
  */
 bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
     bool insideSegment = false;
-    bool incorrectSegment = false;
     int lineNum = 1;
     char *line = spec;
 
@@ -314,46 +313,24 @@ bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *seg
             char *args = token_split(stmtName);
             STMTId stmt = get_stmt_id_by_stmt_name(stmtName, lineNum);
 
-            if (incorrectSegment) {
-                if (stmt == STMT_endseg) {
-                    insideSegment = false;
-                    incorrectSegment = false;
-                }
-            }
-            else if (insideSegment)
-            {
+            if (insideSegment) {
                 bool segmentEnded = parse_segment_statement(dstSegment, stmt, args, lineNum);
 
                 if (stmt == STMT_name) {
                     if (strcmp(segmentName, dstSegment->name) != 0) {
-                        incorrectSegment = true;
+                        // Not the segment we are looking for
+                        insideSegment = false;
                     }
+                } else if (segmentEnded) {
+                    return true;
                 }
-                if (segmentEnded) {
-                    insideSegment = false;
-                    if (!incorrectSegment) {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                // commands valid outside a segment definition
-                switch (stmt)
-                {
-                case STMT_beginseg:
+            } else {
+                if (stmt == STMT_beginseg) {
                     insideSegment = true;
                     if (dstSegment->includes != NULL) {
                         free(dstSegment->includes);
                     }
                     memset(dstSegment, 0, sizeof(struct Segment));
-                    break;
-                case STMT_endseg:
-                    util_fatal_error("line %i: '%s' outside of a segment definition", lineNum, stmtName);
-                    break;
-                default:
-                    fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
-                    break;
                 }
             }
         }
