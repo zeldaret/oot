@@ -171,7 +171,6 @@ bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, i
             util_fatal_error("line %i: no name specified for segment", lineNum);
         if (currSeg->includesCount == 0)
             util_fatal_error("line %i: no includes specified for segment", lineNum);
-        //currSeg = NULL;
         return true;
         break;
     case STMT_name:
@@ -290,10 +289,16 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
     }
 }
 
-// dstSegment must be previosly allocated
+/**
+ * @brief Parses the spec, looking only for the segment with the name `segmentName`.
+ * Returns true if the segment was found, false otherwise
+ * 
+ * @param[out] dstSegment The Segment to be filled. Will only contain the data of the searched segment, or garbage if the segment was not found. dstSegment must be previosly allocated, a stack variable is recommended
+ * @param[in,out] spec A null-terminated string containing the whole spec file. This string will be modified by this function
+ * @param[in] segmentName The name of the segment being searched
+ */
 bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
     bool insideSegment = false;
-    bool foundSegment = false;
     bool incorrectSegment = false;
     int lineNum = 1;
     char *line = spec;
@@ -301,13 +306,11 @@ bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *seg
     memset(dstSegment, 0, sizeof(struct Segment));
 
     // iterate over lines
-    while (line[0] != 0)
-    {
+    while (line[0] != '\0') {
         char *nextLine = line_split(line);
         char* stmtName = skip_whitespace(line);
 
-        if (stmtName[0] != 0)
-        {
+        if (stmtName[0] != '\0') {
             char *args = token_split(stmtName);
             STMTId stmt = get_stmt_id_by_stmt_name(stmtName, lineNum);
 
@@ -322,15 +325,13 @@ bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *seg
                 bool segmentEnded = parse_segment_statement(dstSegment, stmt, args, lineNum);
 
                 if (stmt == STMT_name) {
-                    if (strcmp(segmentName, dstSegment->name) == 0) {
-                        foundSegment = true;
-                    } else {
+                    if (strcmp(segmentName, dstSegment->name) != 0) {
                         incorrectSegment = true;
                     }
                 }
                 if (segmentEnded) {
                     insideSegment = false;
-                    if (foundSegment) {
+                    if (!incorrectSegment) {
                         return true;
                     }
                 }
@@ -361,8 +362,18 @@ bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *seg
         lineNum++;
     }
 
-    //return segment;
     return false;
+}
+
+/**
+ * @brief Frees the elements of the passed Segment. Will not free the pointer itself
+ * 
+ * @param segment 
+ */
+void free_single_segment_elements(struct Segment *segment) {
+    if (segment->includes != NULL) {
+        free(segment->includes);
+    }
 }
 
 void free_rom_spec(struct Segment *segments, int segment_count)
