@@ -8,9 +8,11 @@
 
 void print_usage(char* prog_name) {
     printf("USAGE: %s SPEC OVERLAY_SEGMENT_NAME\n"
-           "Search the preprocessed spec for an overlay segment name, \n"
-           "e.g. \"ovl_En_Firefly\", and return a space-separated list of the files it "
-           "includes\n",
+           "Search the preprocessed SPEC for an overlay segment name, \n"
+           "e.g. \"ovl_En_Firefly\", and return a space-separated list of the files it\n"
+           "includes. The relocation file must the last include in the segment\n"
+           "OVERLAY_SEGMENT_NAME, and have the filename \"OVERLAY_SEGMENT_NAME_reloc.o\",\n"
+           "but can be in a different directory from the other files.\n",
            prog_name);
 }
 
@@ -40,6 +42,10 @@ int main(int argc, char** argv) {
 
     {
         int i;
+        size_t overlay_name_length;
+        const char* reloc_suffix = "_reloc.o";
+        char* expected_filename;
+
         for (i = 0; i < segments_count; i++) {
             if (strcmp(segments[i].name, overlay_name) == 0) {
                 found_segment = &segments[i];
@@ -51,10 +57,23 @@ int main(int argc, char** argv) {
             goto error_out;
         }
         /* Relocation file must be the last `include` (so .ovl section is linked last) */
-        if (strstr(found_segment->includes[found_segment->includesCount - 1].fpath, "_reloc.o") == NULL) {
-            fprintf(stderr, ERRMSG_START "last include in overlay segment \"%s\" is not a `_reloc.o` file\n" ERRMSG_END, overlay_name);
+        if (strstr(found_segment->includes[found_segment->includesCount - 1].fpath, reloc_suffix) == NULL) {
+            fprintf(stderr, ERRMSG_START "last include in overlay segment \"%s\" is not a `%s` file\n" ERRMSG_END,
+                    overlay_name, reloc_suffix);
             goto error_out;
         }
+
+        overlay_name_length = strlen(overlay_name);
+        expected_filename = malloc(overlay_name_length + strlen(reloc_suffix) + 1);
+        strcpy(expected_filename, overlay_name);
+        strcat(expected_filename, reloc_suffix);
+
+        if (strstr(found_segment->includes[found_segment->includesCount - 1].fpath, expected_filename) == NULL) {
+            fprintf(stderr, ERRMSG_START "Relocation file \"%s\" should have filename \"%s\"\n" ERRMSG_END,
+                    found_segment->includes[found_segment->includesCount - 1].fpath, expected_filename);
+            goto error_out;
+        }
+        free(expected_filename);
     }
     {
         int i;
@@ -66,7 +85,7 @@ int main(int argc, char** argv) {
     }
 
     if (0) {
-        error_out:
+    error_out:
         exit_status = 1;
     }
 
