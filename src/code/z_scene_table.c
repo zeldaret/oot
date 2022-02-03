@@ -867,7 +867,7 @@ void func_800994A0(GlobalContext* globalCtx) {
         }
     }
 
-    globalCtx->fadeTransition = gEntranceTable[computedEntranceIndex].field & 0x7F; // Fade out
+    globalCtx->transitionType = gEntranceTable[computedEntranceIndex].field & 0x7F; // Fade out
 }
 
 // Scene Draw Config 0

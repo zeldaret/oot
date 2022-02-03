@@ -352,8 +352,8 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
                 globalCtx->sceneLoadFlag = 0x14;
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
-                globalCtx->fadeTransition = 0x2E;
-                gSaveContext.nextTransition = 0x2E;
+                globalCtx->transitionType = TRANSI_TYPE_46;
+                gSaveContext.nextTransition = TRANSI_TYPE_46;
             }
         }
     }

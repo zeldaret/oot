@@ -53,7 +53,7 @@ void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
         Gameplay_TriggerRespawn(globalCtx);
         gSaveContext.respawnFlag = -2;
         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
-        globalCtx->fadeTransition = 2;
+        globalCtx->transitionType = TRANSI_TYPE_02;
         EnEg_PlayVoidOutSFX();
         voided = true;
     }

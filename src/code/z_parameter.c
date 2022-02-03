@@ -3369,7 +3369,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             D_8015FFE6 = 40;
             gSaveContext.cutsceneIndex = 0;
             globalCtx->sceneLoadFlag = 0x14;
-            globalCtx->fadeTransition = 3;
+            globalCtx->transitionType = TRANSI_TYPE_03;
             gSaveContext.timer2State = 0;
 
             if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
@@ -4140,19 +4140,19 @@ void Interface_Update(GlobalContext* globalCtx) {
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {
                 gSaveContext.nextDayTime = 0;
-                globalCtx->fadeTransition = 4;
-                gSaveContext.nextTransition = 2;
+                globalCtx->transitionType = TRANSI_TYPE_04;
+                gSaveContext.nextTransition = TRANSI_TYPE_02;
                 globalCtx->unk_11DE9 = 1;
             } else {
                 gSaveContext.nextDayTime = 0x8001;
-                globalCtx->fadeTransition = 5;
-                gSaveContext.nextTransition = 3;
+                globalCtx->transitionType = TRANSI_TYPE_05;
+                gSaveContext.nextTransition = TRANSI_TYPE_03;
                 globalCtx->unk_11DE9 = 1;
             }
 
             if (globalCtx->sceneNum == SCENE_SPOT13) {
-                globalCtx->fadeTransition = 14;
-                gSaveContext.nextTransition = 14;
+                globalCtx->transitionType = TRANSI_TYPE_14;
+                gSaveContext.nextTransition = TRANSI_TYPE_14;
             }
 
             gSaveContext.respawnFlag = -2;

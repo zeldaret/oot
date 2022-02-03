@@ -523,8 +523,8 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         }
         osSyncPrintf("\n\n\nおわりおわり");
         globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeTransition = 7;
-        gSaveContext.nextTransition = 3;
+        globalCtx->transitionType = TRANSI_TYPE_07;
+        gSaveContext.nextTransition = TRANSI_TYPE_03;
     }
 
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
@@ -608,7 +608,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = 0x10E;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
         globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeTransition = 7;
+        globalCtx->transitionType = TRANSI_TYPE_07;
     }
 
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
@@ -776,8 +776,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
             }
         }
         globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeTransition = 3;
-        gSaveContext.nextTransition = 7;
+        globalCtx->transitionType = TRANSI_TYPE_03;
+        gSaveContext.nextTransition = TRANSI_TYPE_07;
     }
     if (this->warpTimer >= 141) {
         f32 screenFillAlpha;

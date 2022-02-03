@@ -1487,7 +1487,7 @@ void KaleidoScopeCall_Draw(GlobalContext* globalCtx);
 void func_800BC490(GlobalContext* globalCtx, s16 point);
 s32 func_800BC56C(GlobalContext* globalCtx, s16 arg1);
 void func_800BC590(GlobalContext* globalCtx);
-void func_800BC5E0(GlobalContext* globalCtx, s32 arg1);
+void TransitionContext_Init(GlobalContext* globalCtx, s32 arg1);
 Gfx* Gameplay_SetFog(GlobalContext* globalCtx, Gfx* gfx);
 void Gameplay_Destroy(GameState* thisx);
 void Gameplay_Init(GameState* thisx);

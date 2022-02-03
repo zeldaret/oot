@@ -116,7 +116,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
             if (Message_ShouldAdvance(globalCtx)) {
                 globalCtx->nextEntranceIndex = 0x157;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
-                globalCtx->fadeTransition = 0x26;
+                globalCtx->transitionType = TRANSI_TYPE_38;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.eventInf[0] |= 0x400;
                 gSaveContext.timer1State = 0xF;

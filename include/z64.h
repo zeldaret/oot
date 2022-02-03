@@ -969,6 +969,66 @@ typedef struct {
     /* 0x4C */ u32 unk_4C;
 } PreRender; // size = 0x50
 
+typedef enum {
+    /* 00 */ TRANSI_TYPE_00,
+    /* 01 */ TRANSI_TYPE_01,
+    /* 02 */ TRANSI_TYPE_02,
+    /* 03 */ TRANSI_TYPE_03,
+    /* 04 */ TRANSI_TYPE_04,
+    /* 05 */ TRANSI_TYPE_05,
+    /* 06 */ TRANSI_TYPE_06,
+    /* 07 */ TRANSI_TYPE_07,
+    /* 08 */ TRANSI_TYPE_08,
+    /* 09 */ TRANSI_TYPE_09,
+    /* 10 */ TRANSI_TYPE_10,
+    /* 11 */ TRANSI_TYPE_11,
+    /* 12 */ TRANSI_TYPE_12,
+    /* 13 */ TRANSI_TYPE_13,
+    /* 14 */ TRANSI_TYPE_14,
+    /* 15 */ TRANSI_TYPE_15,
+    /* 16 */ TRANSI_TYPE_16,
+    /* 17 */ TRANSI_TYPE_17,
+    /* 18 */ TRANSI_TYPE_18,
+    /* 19 */ TRANSI_TYPE_19,
+    /* 20 */ TRANSI_TYPE_20,
+    /* 21 */ TRANSI_TYPE_21,
+    /* 22 */ TRANSI_TYPE_22,
+    /* 23 */ TRANSI_TYPE_23,
+    /* 24 */ TRANSI_TYPE_24,
+    /* 25 */ TRANSI_TYPE_25,
+    /* 26 */ TRANSI_TYPE_26,
+    /* 27 */ TRANSI_TYPE_27,
+    /* 28 */ TRANSI_TYPE_28,
+    /* 29 */ TRANSI_TYPE_29,
+    /* 30 */ TRANSI_TYPE_30,
+    /* 31 */ TRANSI_TYPE_31,
+    /* 32 */ TRANSI_TYPE_32,
+    /* 33 */ TRANSI_TYPE_33,
+    /* 34 */ TRANSI_TYPE_34,
+    /* 35 */ TRANSI_TYPE_35,
+    /* 36 */ TRANSI_TYPE_36,
+    /* 37 */ TRANSI_TYPE_37,
+    /* 38 */ TRANSI_TYPE_38,
+    /* 39 */ TRANSI_TYPE_39,
+    /* 40 */ TRANSI_TYPE_40,
+    /* 41 */ TRANSI_TYPE_41,
+    /* 42 */ TRANSI_TYPE_42,
+    /* 43 */ TRANSI_TYPE_43,
+    /* 44 */ TRANSI_TYPE_44,
+    /* 45 */ TRANSI_TYPE_45,
+    /* 46 */ TRANSI_TYPE_46,
+    /* 47 */ TRANSI_TYPE_47,
+    /* 48 */ TRANSI_TYPE_48,
+    /* 49 */ TRANSI_TYPE_49,
+    /* 50 */ TRANSI_TYPE_50,
+    /* 51 */ TRANSI_TYPE_51,
+    /* 52 */ TRANSI_TYPE_52,
+    /* 53 */ TRANSI_TYPE_53,
+    /* 54 */ TRANSI_TYPE_54,
+    /* 55 */ TRANSI_TYPE_55,
+    /* 56 */ TRANSI_TYPE_56
+} TransitionType;
+
 typedef struct {
     union {
         TransitionFade fade;
@@ -1186,7 +1246,7 @@ typedef struct GlobalContext {
     /* 0x11E1C */ char unk_11E1C[0x40];
     /* 0x11E5C */ s8 shootingGalleryStatus;
     /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
-    /* 0x11E5E */ u8 fadeTransition;
+    /* 0x11E5E */ u8 transitionType;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
     /* 0x12124 */ PreRender pauseBgPreRender;

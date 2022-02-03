@@ -43,13 +43,14 @@ void func_800BC590(GlobalContext* globalCtx) {
     }
 }
 
-void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
+void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
     TransitionContext* transitionCtx = &globalCtx->transitionCtx;
 
     bzero(transitionCtx, sizeof(TransitionContext));
 
     transitionCtx->transitionType = transitionType;
 
+    // types 32 - 56 are circles
     if ((transitionCtx->transitionType >> 5) == 1) {
         transitionCtx->init = TransitionCircle_Init;
         transitionCtx->destroy = TransitionCircle_Destroy;
@@ -338,14 +339,14 @@ void Gameplay_Init(GameState* thisx) {
 
     if (gSaveContext.gameMode != 1) {
         if (gSaveContext.nextTransition == 0xFF) {
-            globalCtx->fadeTransition =
-                (gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F; // Fade In
+            globalCtx->transitionType =
+                (gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F;
         } else {
-            globalCtx->fadeTransition = gSaveContext.nextTransition;
+            globalCtx->transitionType = gSaveContext.nextTransition;
             gSaveContext.nextTransition = 0xFF;
         }
     } else {
-        globalCtx->fadeTransition = 6;
+        globalCtx->transitionType = TRANSI_TYPE_06;
     }
 
     ShrinkWindow_Init();
@@ -479,7 +480,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         if (!(gEntranceTable[globalCtx->nextEntranceIndex + sp6E].field & 0x8000)) { // Continue BGM Off
                             // "Sound initalized. 111"
                             osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
-                            if ((globalCtx->fadeTransition < 56) && !Environment_IsForcedSequenceDisabled()) {
+                            if ((globalCtx->transitionType < TRANSI_TYPE_56) && !Environment_IsForcedSequenceDisabled()) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
@@ -489,10 +490,10 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if (CREG(11) == 0) {
-                        func_800BC5E0(globalCtx, globalCtx->fadeTransition);
+                    if (!R_TRANSI_DBG_ENABLED) {
+                        TransitionContext_Init(globalCtx, globalCtx->transitionType);
                     } else {
-                        func_800BC5E0(globalCtx, CREG(12));
+                        TransitionContext_Init(globalCtx, R_TRANSI_NEXT_TYPE);
                     }
 
                     if (globalCtx->transitionMode >= 4) {
@@ -508,39 +509,41 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
 
                     gSaveContext.unk_1419 = 14;
-                    if ((globalCtx->transitionCtx.transitionType == 8) ||
-                        (globalCtx->transitionCtx.transitionType == 9)) {
+
+                    if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_08) ||
+                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_09)) {
                         gSaveContext.unk_1419 = 28;
                     }
 
                     gSaveContext.fadeDuration = 60;
-                    if ((globalCtx->transitionCtx.transitionType == 4) ||
-                        (globalCtx->transitionCtx.transitionType == 5)) {
+
+                    if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_04) ||
+                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_05)) {
                         gSaveContext.fadeDuration = 20;
-                    } else if ((globalCtx->transitionCtx.transitionType == 6) ||
-                               (globalCtx->transitionCtx.transitionType == 7)) {
+                    } else if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_06) ||
+                               (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_07)) {
                         gSaveContext.fadeDuration = 150;
-                    } else if (globalCtx->transitionCtx.transitionType == 17) {
+                    } else if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_17) {
                         gSaveContext.fadeDuration = 2;
                     }
 
-                    if ((globalCtx->transitionCtx.transitionType == 3) ||
-                        (globalCtx->transitionCtx.transitionType == 5) ||
-                        (globalCtx->transitionCtx.transitionType == 7) ||
-                        (globalCtx->transitionCtx.transitionType == 13) ||
-                        (globalCtx->transitionCtx.transitionType == 17)) {
+                    if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_03) ||
+                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_05) ||
+                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_07) ||
+                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_13) ||
+                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_17)) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(160, 160, 160, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
                                                                  RGBA8(160, 160, 160, 255));
                         }
-                    } else if (globalCtx->transitionCtx.transitionType == 18) {
+                    } else if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_18) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(140, 140, 100, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
                                                                  RGBA8(140, 140, 100, 255));
                         }
-                    } else if (globalCtx->transitionCtx.transitionType == 19) {
+                    } else if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_19) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(70, 100, 110, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
@@ -561,7 +564,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                     globalCtx->transitionCtx.start(&globalCtx->transitionCtx);
 
-                    if (globalCtx->transitionCtx.transitionType == 13) {
+                    if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_13) {
                         globalCtx->transitionMode = 11;
                     } else {
                         globalCtx->transitionMode = 3;
@@ -570,7 +573,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 3:
                     if (globalCtx->transitionCtx.isDone(&globalCtx->transitionCtx) != 0) {
-                        if (globalCtx->transitionCtx.transitionType >= 56) {
+                        if (globalCtx->transitionCtx.transitionType >= TRANSI_TYPE_56) {
                             if (globalCtx->sceneLoadFlag == -0x14) {
                                 globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
                                 func_800BC88C(globalCtx);
@@ -1755,7 +1758,7 @@ void Gameplay_TriggerVoidOut(GlobalContext* globalCtx) {
     gSaveContext.respawnFlag = 1;
     globalCtx->sceneLoadFlag = 0x14;
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
-    globalCtx->fadeTransition = 2;
+    globalCtx->transitionType = TRANSI_TYPE_02;
 }
 
 void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
@@ -1773,7 +1776,7 @@ void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
     }
 
-    globalCtx->fadeTransition = 2;
+    globalCtx->transitionType = TRANSI_TYPE_02;
 }
 
 void Gameplay_TriggerRespawn(GlobalContext* globalCtx) {

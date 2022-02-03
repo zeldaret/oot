@@ -206,8 +206,8 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
         globalCtx->sceneLoadFlag = 0x14;
         this->respawnFlag = 1;
-        globalCtx->fadeTransition = 0x2E;
-        gSaveContext.nextTransition = 0x2E;
+        globalCtx->transitionType = TRANSI_TYPE_46;
+        gSaveContext.nextTransition = TRANSI_TYPE_46;
     }
 }
 

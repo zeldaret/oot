@@ -146,7 +146,7 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                         gSaveContext.gameMode = 2;
                         globalCtx->sceneLoadFlag = 20;
-                        globalCtx->fadeTransition = 2;
+                        globalCtx->transitionType = TRANSI_TYPE_02;
                     }
 
                     this->copyrightAlphaStep = 15;
