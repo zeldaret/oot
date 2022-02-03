@@ -1,3 +1,7 @@
+#ifndef ASM_H
+#define ASM_H
+
+#ifndef _LANGUAGE_C
 
 #define LEAF(x)                 \
     .balign 4                  ;\
@@ -45,17 +49,19 @@
 #define ENDDATA(x)              \
     .size x, . - x
 
+#endif
+
 /**
  *  Stack Alignment
  */
 #if   (_MIPS_SIM == _ABIO32)
-#  define NARGSAVE 4      // space for 4 args must be allocated
-#  define ALSZ    (8-1)
-#  define ALMASK ~(8-1)
+#define NARGSAVE 4      // space for 4 args must be allocated
+#define ALSZ    (8-1)
+#define ALMASK ~(8-1)
 #elif (_MIPS_SIM == _ABIN32 || _MIPS_SIM == _ABI64)
-#  define NARGSAVE 0      // no caller responsibilities
-#  define ALSZ    (16-1)
-#  define ALMASK ~(16-1)
+#define NARGSAVE 0      // no caller responsibilities
+#define ALSZ    (16-1)
+#define ALMASK ~(16-1)
 #endif
 
 #define FRAMESZ(size) (((size) + ALSZ) & ALMASK)
@@ -64,11 +70,17 @@
  *  Register Size
  */
 #if   (_MIPS_ISA == _MIPS_ISA_MIPS1 || _MIPS_ISA == _MIPS_ISA_MIPS2)
-#  define SZREG 4
+#define SZREG 4
 #elif (_MIPS_ISA == _MIPS_ISA_MIPS3 || _MIPS_ISA == _MIPS_ISA_MIPS4)
-#  define SZREG 8
+#define SZREG 8
 #endif
 
+// Fixes CC_CHECK, since it is not a MIPS compiler
 #ifndef SZREG
-#  define SZREG 4
+#define NARGSAVE 4
+#define ALSZ    (8-1)
+#define ALMASK ~(8-1)
+#define SZREG 4
+#endif
+
 #endif

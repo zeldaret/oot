@@ -954,7 +954,7 @@
 #define G_DL_NOPUSH     0x01
 
 /*
- * LEAF(C-specific section: (typedef's))
+ * BEGIN C-specific section: (typedef's)
  */
 #if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
