@@ -52,7 +52,7 @@ typedef struct Segment {
 
 void parse_rom_spec(char* spec, struct Segment** segments, int* segment_count);
 
-bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName);
+bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName);
 
 void free_single_segment_elements(struct Segment *segment);
 

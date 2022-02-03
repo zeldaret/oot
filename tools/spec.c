@@ -297,7 +297,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
  * @param[in,out] spec A null-terminated string containing the whole spec file. This string will be modified by this function
  * @param[in] segmentName The name of the segment being searched
  */
-bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
+bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName) {
     bool insideSegment = false;
     int lineNum = 1;
     char *line = spec;

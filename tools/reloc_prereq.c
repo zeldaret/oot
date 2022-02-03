@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
     // printf("overlay name: %s\n", overlay_name);
 
     spec = util_read_whole_file(spec_path, &size);
-    segmentFound = get_segment_by_name(&segment, spec, overlay_name);
+    segmentFound = get_single_segment_by_name(&segment, spec, overlay_name);
 
     if (!segmentFound) {
         fprintf(stderr, ERRMSG_START "no segment \"%s\" found\n" ERRMSG_END, overlay_name);
