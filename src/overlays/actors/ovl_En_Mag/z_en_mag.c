@@ -87,7 +87,7 @@ void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->globalState = MAG_STATE_DISPLAY;
         sDelayTimer = 20;
         gSaveContext.fadeDuration = 1;
-        gSaveContext.unk_1419 = 255;
+        gSaveContext.transWipeSpeed = 255;
     }
 
     Font_LoadOrderedFont(&this->font);
@@ -130,7 +130,7 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->globalState = MAG_STATE_DISPLAY;
                 sDelayTimer = 20;
                 gSaveContext.fadeDuration = 1;
-                gSaveContext.unk_1419 = 255;
+                gSaveContext.transWipeSpeed = 255;
             }
         } else if (this->globalState >= MAG_STATE_DISPLAY) {
             if (sDelayTimer == 0) {

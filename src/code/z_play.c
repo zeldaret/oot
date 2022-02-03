@@ -75,8 +75,8 @@ void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->setEnvColor = NULL;
                 break;
 
-            case TRANS_TYPE_WIPE_00:
-            case TRANS_TYPE_WIPE_08:
+            case TRANS_TYPE_WIPE:
+            case TRANS_TYPE_WIPE_FAST:
                 transitionCtx->init = TransitionWipe_Init;
                 transitionCtx->destroy = TransitionWipe_Destroy;
                 transitionCtx->start = TransitionWipe_Start;
@@ -94,7 +94,7 @@ void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
             case TRANS_TYPE_FADE_WHITE_FAST:
             case TRANS_TYPE_FADE_BLACK_SLOW:
             case TRANS_TYPE_FADE_WHITE_SLOW:
-            case TRANS_TYPE_FADE_WHITE_WAIT:
+            case TRANS_TYPE_FADE_WHITE_CS_DELAYED:
             case TRANS_TYPE_FADE_WHITE_INSTANT:
             case TRANS_TYPE_FADE_GREEN:
             case TRANS_TYPE_FADE_BLUE:
@@ -109,29 +109,29 @@ void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->setEnvColor = NULL;
                 break;
 
-            case TRANS_TYPE_09:
-            case TRANS_TYPE_10:
-                globalCtx->transitionMode = TRANS_MODE_WHITE_FILL_INIT;
+            case TRANS_TYPE_FILL_WHITE2:
+            case TRANS_TYPE_FILL_WHITE:
+                globalCtx->transitionMode = TRANS_MODE_FILL_WHITE_INIT;
                 break;
 
-            case TRANS_TYPE_11:
-                globalCtx->transitionMode = TRANS_MODE_10;
+            case TRANS_TYPE_INSTANT:
+                globalCtx->transitionMode = TRANS_MODE_INSTANT;
                 break;
 
-            case TRANS_TYPE_12:
-                globalCtx->transitionMode = TRANS_MODE_07;
+            case TRANS_TYPE_FILL_BROWN:
+                globalCtx->transitionMode = TRANS_MODE_FILL_BROWN_INIT;
                 break;
 
             case TRANS_TYPE_14:
-                globalCtx->transitionMode = TRANS_MODE_12;
+                globalCtx->transitionMode = TRANS_MODE_SANDSTORM_12;
                 break;
 
             case TRANS_TYPE_15:
-                globalCtx->transitionMode = TRANS_MODE_14;
+                globalCtx->transitionMode = TRANS_MODE_SANDSTORM_14;
                 break;
 
             case TRANS_TYPE_16:
-                globalCtx->transitionMode = TRANS_MODE_16;
+                globalCtx->transitionMode = TRANS_MODE_CUTSCENE_FILL_INIT;
                 break;
 
             default:
@@ -505,7 +505,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         TransitionContext_Init(globalCtx, R_TRANS_NEXT_TYPE);
                     }
 
-                    if (globalCtx->transitionMode >= TRANS_MODE_WHITE_FILL_INIT) {
+                    if (globalCtx->transitionMode >= TRANS_MODE_FILL_WHITE_INIT) {
+                        // special modes break out of this switch, instance types continue
                         break;
                     }
                     // fallthrough 
@@ -517,13 +518,13 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                                                          globalCtx->transitionCtx.transitionType | 0x80);
                     }
 
-                    gSaveContext.unk_1419 = 14;
+                    gSaveContext.transWipeSpeed = 14;
 
-                    if ((globalCtx->transitionCtx.transitionType == TRANS_TYPE_WIPE_08) ||
-                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_09)) {
-                        //! @bug TRANS_TYPE_09 will never reach this case, it uses TRANS_MODE_WHITE_FILL_INIT
-                        //! which will break after the previous case
-                        gSaveContext.unk_1419 = 28;
+                    if ((globalCtx->transitionCtx.transitionType == TRANS_TYPE_WIPE_FAST) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FILL_WHITE2)) {
+                        //! @bug TRANS_TYPE_FILL_WHITE2 will never reach this code.
+                        //! It is a non-instance type transition which doesnt run this case.
+                        gSaveContext.transWipeSpeed = 28;
                     }
 
                     gSaveContext.fadeDuration = 60;
@@ -541,7 +542,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     if ((globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE) ||
                         (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_FAST) ||
                         (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_SLOW) ||
-                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_WAIT) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_CS_DELAYED) ||
                         (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT)) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(160, 160, 160, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
@@ -575,7 +576,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                     globalCtx->transitionCtx.start(&globalCtx->transitionCtx);
 
-                    if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_WAIT) {
+                    if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_CS_DELAYED) {
                         globalCtx->transitionMode = TRANS_MODE_INSTANCE_WAIT;
                     } else {
                         globalCtx->transitionMode = TRANS_MODE_INSTANCE_RUNNING;
@@ -619,7 +620,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             switch (globalCtx->transitionMode) {
-                case TRANS_MODE_WHITE_FILL_INIT:
+                case TRANS_MODE_FILL_WHITE_INIT:
                     sTransitionFillTimer = 0;
                     globalCtx->envCtx.fillScreen = true;
                     globalCtx->envCtx.screenFillColor[0] = 160;
@@ -628,14 +629,14 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.screenFillColor[3] = 0;
-                        globalCtx->transitionMode = TRANS_MODE_05;
+                        globalCtx->transitionMode = TRANS_MODE_FILL_IN;
                     } else {
                         globalCtx->envCtx.screenFillColor[3] = 255;
-                        globalCtx->transitionMode = TRANS_MODE_06;
+                        globalCtx->transitionMode = TRANS_MODE_FILL_OUT;
                     }
                     break;
 
-                case TRANS_MODE_05:
+                case TRANS_MODE_FILL_IN:
                     globalCtx->envCtx.screenFillColor[3] = (sTransitionFillTimer / 20.0f) * 255.0f;
 
                     if (sTransitionFillTimer >= 20 && 1) {
@@ -649,7 +650,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
                     break;
 
-                case TRANS_MODE_06:
+                case TRANS_MODE_FILL_OUT:
                     globalCtx->envCtx.screenFillColor[3] = (1 - sTransitionFillTimer / 20.0f) * 255.0f;
 
                     if (sTransitionFillTimer >= 20 && 1) {
@@ -663,7 +664,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
                     break;
 
-                case TRANS_MODE_07:
+                case TRANS_MODE_FILL_BROWN_INIT:
                     sTransitionFillTimer = 0;
                     globalCtx->envCtx.fillScreen = true;
                     globalCtx->envCtx.screenFillColor[0] = 170;
@@ -672,14 +673,14 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.screenFillColor[3] = 0;
-                        globalCtx->transitionMode = TRANS_MODE_05;
+                        globalCtx->transitionMode = TRANS_MODE_FILL_IN;
                     } else {
                         globalCtx->envCtx.screenFillColor[3] = 255;
-                        globalCtx->transitionMode = TRANS_MODE_06;
+                        globalCtx->transitionMode = TRANS_MODE_FILL_OUT;
                     }
                     break;
 
-                case TRANS_MODE_10:
+                case TRANS_MODE_INSTANT:
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->state.running = false;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
@@ -695,24 +696,24 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_INSTANCE_WAIT:
-                    if (gSaveContext.unk_1410 != 0) {
+                    if (gSaveContext.cutsceneTransControl != 0) {
                         globalCtx->transitionMode = TRANS_MODE_INSTANCE_RUNNING;
                     }
                     break;
 
-                case TRANS_MODE_12:
+                case TRANS_MODE_SANDSTORM_12:
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.sandstormState = 1;
-                        globalCtx->transitionMode = TRANS_MODE_13;
+                        globalCtx->transitionMode = TRANS_MODE_SANDSTORM_13;
                     } else {
                         globalCtx->envCtx.sandstormState = 2;
                         globalCtx->envCtx.sandstormPrimA = 255;
                         globalCtx->envCtx.sandstormEnvA = 255;
-                        globalCtx->transitionMode = TRANS_MODE_13;
+                        globalCtx->transitionMode = TRANS_MODE_SANDSTORM_13;
                     }
                     break;
 
-                case TRANS_MODE_13:
+                case TRANS_MODE_SANDSTORM_13:
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
 
@@ -734,20 +735,20 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
                     break;
 
-                case TRANS_MODE_14:
+                case TRANS_MODE_SANDSTORM_14:
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         globalCtx->envCtx.sandstormState = 4;
                         globalCtx->envCtx.sandstormPrimA = 255;
                         globalCtx->envCtx.sandstormEnvA = 255;
                         // "It's here!!!!!!!!!"
                         LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471);
-                        globalCtx->transitionMode = TRANS_MODE_15;
+                        globalCtx->transitionMode = TRANS_MODE_SANDSTORM_15;
                     } else {
-                        globalCtx->transitionMode = TRANS_MODE_12;
+                        globalCtx->transitionMode = TRANS_MODE_SANDSTORM_12;
                     }
                     break;
 
-                case TRANS_MODE_15:
+                case TRANS_MODE_SANDSTORM_15:
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
@@ -760,20 +761,20 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
                     break;
 
-                case TRANS_MODE_16:
+                case TRANS_MODE_CUTSCENE_FILL_INIT:
                     sTransitionFillTimer = 0;
                     globalCtx->envCtx.fillScreen = true;
                     globalCtx->envCtx.screenFillColor[0] = 0;
                     globalCtx->envCtx.screenFillColor[1] = 0;
                     globalCtx->envCtx.screenFillColor[2] = 0;
                     globalCtx->envCtx.screenFillColor[3] = 255;
-                    globalCtx->transitionMode = TRANS_MODE_17;
+                    globalCtx->transitionMode = TRANS_MODE_CUTSCENE_FILL;
                     break;
 
-                case TRANS_MODE_17:
-                    if (gSaveContext.unk_1410 != 0) {
-                        globalCtx->envCtx.screenFillColor[3] = gSaveContext.unk_1410;
-                        if (gSaveContext.unk_1410 <= 100) {
+                case TRANS_MODE_CUTSCENE_FILL:
+                    if (gSaveContext.cutsceneTransControl != 0) {
+                        globalCtx->envCtx.screenFillColor[3] = gSaveContext.cutsceneTransControl;
+                        if (gSaveContext.cutsceneTransControl <= 100) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;

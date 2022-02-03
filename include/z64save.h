@@ -158,14 +158,14 @@ typedef struct {
     /* 0x140B */ char unk_140B[0x0001];
     /* 0x140C */ u8 zTargetSetting; // 0: Switch; 1: Hold
     /* 0x140E */ u16 forcedSeqId; // immediately start playing the sequence if set
-    /* 0x1410 */ u8 unk_1410; // transition related
+    /* 0x1410 */ u8 cutsceneTransControl; // context dependant usage: can either trigger a delayed fade or control fill alpha
     /* 0x1411 */ char unk_1411[0x0001];
     /* 0x1412 */ u16 nextCutsceneIndex;
     /* 0x1414 */ u8 cutsceneTrigger;
     /* 0x1415 */ u8 chamberCutsceneNum;
     /* 0x1416 */ u16 nextDayTime; // "next_zelda_time"
     /* 0x1418 */ u8 fadeDuration;
-    /* 0x1419 */ u8 unk_1419; // transition related
+    /* 0x1419 */ u8 transWipeSpeed;
     /* 0x141A */ u16 skyboxTime;
     /* 0x141C */ u8 dogIsLost;
     /* 0x141D */ u8 nextTransition;

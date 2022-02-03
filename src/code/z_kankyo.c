@@ -292,7 +292,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
 
     sLightningFlashAlpha = 0;
 
-    gSaveContext.unk_1410 = 0;
+    gSaveContext.cutsceneTransControl = 0;
 
     envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
@@ -2242,10 +2242,12 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
                 envA1 = 128;
             }
             break;
+
         case 1:
             primA1 = 255;
             envA1 = (globalCtx->envCtx.sandstormPrimA >= 255) ? 255 : 128;
             break;
+
         case 2:
             envA1 = 128;
             if (globalCtx->envCtx.sandstormEnvA > 128) {
@@ -2261,6 +2263,7 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
                 globalCtx->envCtx.sandstormState = 3;
             }
             break;
+            
         case 4:
             envA1 = 0;
             primA1 = (globalCtx->envCtx.sandstormEnvA > 128) ? 255 : globalCtx->envCtx.sandstormEnvA >> 1;

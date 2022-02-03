@@ -504,7 +504,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
         Audio_SetCutsceneFlag(0);
-        gSaveContext.unk_1410 = 1;
+        gSaveContext.cutsceneTransControl = 1;
 
         osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base); // "Future fork designation=No. [%d]"
 
@@ -525,37 +525,37 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->nextEntranceIndex = 0x00A0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_10;
+                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 3:
                 globalCtx->nextEntranceIndex = 0x0117;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_10;
+                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 4:
                 globalCtx->nextEntranceIndex = 0x013D;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_10;
+                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 5:
                 globalCtx->nextEntranceIndex = 0x00EE;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_10;
+                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 6:
                 globalCtx->nextEntranceIndex = 0x00A0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_10;
+                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 7:
                 globalCtx->nextEntranceIndex = 0x00EE;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_11;
+                globalCtx->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 8:
                 gSaveContext.fw.set = 0;
@@ -565,7 +565,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                     globalCtx->nextEntranceIndex = 0x00A0;
                     globalCtx->sceneLoadFlag = 0x14;
                     gSaveContext.cutsceneIndex = 0xFFF3;
-                    globalCtx->transitionType = TRANS_TYPE_11;
+                    globalCtx->transitionType = TRANS_TYPE_INSTANT;
                 } else {
                     if (gSaveContext.sceneSetupIndex < 4) {
                         if (!LINK_IS_ADULT) {
@@ -584,7 +584,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->nextEntranceIndex = 0x0117;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_12;
+                globalCtx->transitionType = TRANS_TYPE_FILL_BROWN;
                 break;
             case 10:
                 globalCtx->nextEntranceIndex = 0x00BB;
@@ -718,7 +718,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->nextEntranceIndex = 0x00CD;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionType = TRANS_TYPE_11;
+                globalCtx->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 33:
                 globalCtx->nextEntranceIndex = 0x00CD;
@@ -817,7 +817,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->nextEntranceIndex = 0x0053;
                 gSaveContext.cutsceneIndex = 0xFFF7;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_11;
+                globalCtx->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 53:
                 globalCtx->nextEntranceIndex = 0x050F;
@@ -1261,6 +1261,7 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                     globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
+
             case 2:
             case 6:
                 globalCtx->envCtx.screenFillColor[0] = 0;
@@ -1272,6 +1273,7 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                     globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
+
             case 3:
             case 7:
                 globalCtx->envCtx.screenFillColor[0] = 255;
@@ -1283,6 +1285,7 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                     globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
+
             case 4:
             case 8:
                 globalCtx->envCtx.screenFillColor[0] = 0;
@@ -1294,9 +1297,11 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                     globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
+
             case 9:
-                gSaveContext.unk_1410 = 1;
+                gSaveContext.cutsceneTransControl = 1;
                 break;
+
             case 10:
             case 11:
                 globalCtx->envCtx.screenFillColor[0] = 0;
@@ -1308,9 +1313,11 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                     globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
+
             case 12:
-                gSaveContext.unk_1410 = 255.0f - (155.0f * temp);
+                gSaveContext.cutsceneTransControl = 255.0f - (155.0f * temp);
                 break;
+
             case 13:
                 globalCtx->envCtx.screenFillColor[0] = 0;
                 globalCtx->envCtx.screenFillColor[1] = 0;
