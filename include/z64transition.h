@@ -50,10 +50,10 @@ typedef struct {
     /* 0x004 */ Color_RGBA8_u32 envColor;
     /* 0x008 */ s32 texX;
     /* 0x00C */ s32 texY;
-    /* 0x010 */ s32 step;
+    /* 0x010 */ s32 speed;
     /* 0x014 */ u8 unk_14;
     /* 0x015 */ u8 typeColor;
-    /* 0x016 */ u8 speed;
+    /* 0x016 */ u8 speedType;
     /* 0x017 */ u8 effect;
     /* 0x018 */ u8 isDone;
     /* 0x019 */ u8 frame;

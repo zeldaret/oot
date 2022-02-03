@@ -54,10 +54,10 @@ void TransitionCircle_Start(void* thisx) {
             break;
     }
 
-    if (this->speed == 0) {
-        this->step = 0x14;
+    if (this->speedType == 0) {
+        this->speed = 20;
     } else {
-        this->step = 0xA;
+        this->speed = 10;
     }
 
     if (this->typeColor == 0) {
@@ -65,13 +65,12 @@ void TransitionCircle_Start(void* thisx) {
     } else if (this->typeColor == 1) {
         this->color.rgba = RGBA8(160, 160, 160, 255);
     } else if (this->typeColor == 2) {
-        // yes, really.
         this->color.r = 100;
         this->color.g = 100;
         this->color.b = 100;
         this->color.a = 255;
     } else {
-        this->step = 0x28;
+        this->speed = 40;
         this->color.rgba = this->effect == 1 ? RGBA8(0, 0, 0, 255) : RGBA8(160, 160, 160, 255);
     }
     if (this->unk_14 != 0) {
@@ -110,13 +109,13 @@ void TransitionCircle_Update(void* thisx, s32 updateRate) {
                 Audio_PlaySoundGeneral(NA_SE_OC_SECRET_WARP_IN, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
         }
-        this->texY += this->step * 3 / updateRate;
+        this->texY += this->speed * 3 / updateRate;
         if (this->texY >= 0x1F4) {
             this->texY = 0x1F4;
             this->isDone = 1;
         }
     } else {
-        this->texY -= this->step * 3 / updateRate;
+        this->texY -= this->speed * 3 / updateRate;
         if (this->typeColor != 3) {
             if (this->texY <= 0) {
                 this->texY = 0;
@@ -185,7 +184,7 @@ void TransitionCircle_SetType(void* thisx, s32 type) {
     if (type & 0x80) {
         this->unk_14 = (type >> 5) & 0x1;
         this->typeColor = (type >> 3) & 0x3;
-        this->speed = type & 0x1;
+        this->speedType = type & 0x1;
         this->effect = (type >> 1) & 0x3;
     } else if (type == 1) {
         this->unk_14 = 1;
