@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-enum {
+typedef enum {
     STMT_address,
     STMT_after,
     STMT_align,
@@ -20,7 +20,7 @@ enum {
     STMT_stack,
     STMT_increment,
     STMT_pad_text,
-};
+} STMTId;
 
 enum {
     FLAG_BOOT = (1 << 0),

@@ -140,11 +140,22 @@ static const char *const stmtNames[] =
     [STMT_pad_text]  = "pad_text",
 };
 
-bool parse_segment_statement(struct Segment *currSeg, unsigned int stmt, char* args, int lineNum, const char* stmtName) {
+STMTId get_stmt_id_by_stmt_name(const char *stmtName, int lineNum) {
+    STMTId stmt;
+
+    for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++) {
+        if (strcmp(stmtName, stmtNames[stmt]) == 0)
+        return stmt;
+    }
+    util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
+    return -1;
+}
+
+bool parse_segment_statement(struct Segment *currSeg, STMTId stmt, char* args, int lineNum) {
     // ensure no duplicates (except for 'include' or 'pad_text')
     if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && stmt != STMT_pad_text && 
         (currSeg->fields & (1 << stmt)))
-        util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
+        util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtNames[stmt]);
 
     currSeg->fields |= 1 << stmt;
 
@@ -152,7 +163,7 @@ bool parse_segment_statement(struct Segment *currSeg, unsigned int stmt, char* a
     switch (stmt)
     {
     case STMT_beginseg:
-        util_fatal_error("line %i: '%s' inside of a segment definition", lineNum, stmtName);
+        util_fatal_error("line %i: '%s' inside of a segment definition", lineNum, stmtNames[stmt]);
         break;
     case STMT_endseg:
         // verify segment data
@@ -214,7 +225,7 @@ bool parse_segment_statement(struct Segment *currSeg, unsigned int stmt, char* a
         currSeg->includes[currSeg->includesCount - 1].linkerPadding += 0x10;
         break;
     default:
-        fprintf(stderr, "warning: '%s' is not implemented\n", stmtName);
+        fprintf(stderr, "warning: '%s' is not implemented\n", stmtNames[stmt]);
         break;
     }
     return false;
@@ -246,17 +257,11 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
         if (line[0] != 0 && stmtName[0] != 0)
         {
             char *args = token_split(stmtName);
-            unsigned int stmt;
-
-            for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++)
-                if (strcmp(stmtName, stmtNames[stmt]) == 0)
-                    goto got_stmt;
-            util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
-          got_stmt:
+            STMTId stmt = get_stmt_id_by_stmt_name(stmtName, lineNum);
 
             if (currSeg != NULL)
             {
-                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum, stmtName);
+                bool segmentEnded = parse_segment_statement(currSeg, stmt, args, lineNum);
                 if (segmentEnded) {
                     currSeg = NULL;
                 }
@@ -304,13 +309,7 @@ bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *seg
         if (stmtName[0] != 0)
         {
             char *args = token_split(stmtName);
-            unsigned int stmt;
-
-            for (stmt = 0; stmt < ARRAY_COUNT(stmtNames); stmt++)
-                if (strcmp(stmtName, stmtNames[stmt]) == 0)
-                    goto got_stmt;
-            util_fatal_error("line %i: unknown statement '%s'", lineNum, stmtName);
-          got_stmt:
+            STMTId stmt = get_stmt_id_by_stmt_name(stmtName, lineNum);
 
             if (incorrectSegment) {
                 if (stmt == STMT_endseg) {
@@ -320,7 +319,8 @@ bool get_segment_by_name(struct Segment* dstSegment, char *spec, const char *seg
             }
             else if (insideSegment)
             {
-                bool segmentEnded = parse_segment_statement(dstSegment, stmt, args, lineNum, stmtName);
+                bool segmentEnded = parse_segment_statement(dstSegment, stmt, args, lineNum);
+
                 if (stmt == STMT_name) {
                     if (strcmp(segmentName, dstSegment->name) == 0) {
                         foundSegment = true;
