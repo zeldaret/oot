@@ -653,7 +653,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     Interface_ChangeAlpha(6);
                 }
 
-                if (globalCtx->transitionMode != 0) {
+                if (globalCtx->transitionMode != TRANS_MODE_OFF) {
                     Interface_ChangeAlpha(1);
                 } else if (gSaveContext.minigameState == 1) {
                     Interface_ChangeAlpha(8);
@@ -1048,7 +1048,7 @@ void func_80083108(GlobalContext* globalCtx) {
 
     if (sp28) {
         gSaveContext.unk_13EA = 0;
-        if ((globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0)) {
+        if ((globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == TRANS_MODE_OFF)) {
             Interface_ChangeAlpha(50);
             osSyncPrintf("????????  alpha_change( 50 );  ?????\n");
         } else {
@@ -2454,7 +2454,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         case 7:
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
                 (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
-                (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
+                (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -3369,7 +3369,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             D_8015FFE6 = 40;
             gSaveContext.cutsceneIndex = 0;
             globalCtx->sceneLoadFlag = 0x14;
-            globalCtx->transitionType = TRANSI_TYPE_03;
+            globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             gSaveContext.timer2State = 0;
 
             if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
@@ -3404,7 +3404,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
             (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
             !(player->stateFlags2 & PLAYER_STATE2_24) && (globalCtx->sceneLoadFlag == 0) &&
-            (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
+            (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             svar6 = 0;
@@ -3963,7 +3963,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
         (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE2_24) &&
-        (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
+        (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {
@@ -4044,7 +4044,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
         (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->sceneLoadFlag == 0) &&
-        (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->transitionMode == 0) &&
+        (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->transitionMode == TRANS_MODE_OFF) &&
         ((globalCtx->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
@@ -4140,19 +4140,19 @@ void Interface_Update(GlobalContext* globalCtx) {
         } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {
                 gSaveContext.nextDayTime = 0;
-                globalCtx->transitionType = TRANSI_TYPE_04;
-                gSaveContext.nextTransition = TRANSI_TYPE_02;
+                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                gSaveContext.nextTransition = TRANS_TYPE_FADE_BLACK;
                 globalCtx->unk_11DE9 = 1;
             } else {
                 gSaveContext.nextDayTime = 0x8001;
-                globalCtx->transitionType = TRANSI_TYPE_05;
-                gSaveContext.nextTransition = TRANSI_TYPE_03;
+                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+                gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
                 globalCtx->unk_11DE9 = 1;
             }
 
             if (globalCtx->sceneNum == SCENE_SPOT13) {
-                globalCtx->transitionType = TRANSI_TYPE_14;
-                gSaveContext.nextTransition = TRANSI_TYPE_14;
+                globalCtx->transitionType = TRANS_TYPE_14;
+                gSaveContext.nextTransition = TRANS_TYPE_14;
             }
 
             gSaveContext.respawnFlag = -2;

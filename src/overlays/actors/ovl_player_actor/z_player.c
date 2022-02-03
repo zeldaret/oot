@@ -3965,8 +3965,8 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 if (globalCtx->nextEntranceIndex == 0x7FFF) {
                     gSaveContext.respawnFlag = 2;
                     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
-                    globalCtx->transitionType = TRANSI_TYPE_03;
-                    gSaveContext.nextTransition = TRANSI_TYPE_03;
+                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                    gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
                 } else if (globalCtx->nextEntranceIndex >= 0x7FF9) {
                     globalCtx->nextEntranceIndex =
                         D_808544F8[D_80854514[globalCtx->nextEntranceIndex - 0x7FF9] + globalCtx->curSpawn];
@@ -4040,7 +4040,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                         } else {
                             Gameplay_TriggerVoidOut(globalCtx);
                         }
-                        globalCtx->transitionType = TRANSI_TYPE_04;
+                        globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                         func_80078884(NA_SE_OC_ABYSS);
                     } else {
                         func_80838F5C(globalCtx, this);
@@ -11268,7 +11268,7 @@ s32 func_8084C9BC(Player* this, GlobalContext* globalCtx) {
             }
         }
 
-        if ((globalCtx->csCtx.state == CS_STATE_IDLE) && (globalCtx->transitionMode == 0) &&
+        if ((globalCtx->csCtx.state == CS_STATE_IDLE) && (globalCtx->transitionMode == TRANS_MODE_OFF) &&
             (EN_HORSE_CHECK_1(rideActor) || EN_HORSE_CHECK_4(rideActor))) {
             this->stateFlags2 |= PLAYER_STATE2_22;
 
@@ -11841,7 +11841,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
                 globalCtx->nextEntranceIndex = 0x0123;
                 globalCtx->sceneLoadFlag = 0x14;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
-                globalCtx->transitionType = TRANSI_TYPE_15;
+                globalCtx->transitionType = TRANS_TYPE_15;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
                 func_80852FFC(globalCtx, NULL, 8);
             }
@@ -12459,11 +12459,11 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
                 Gameplay_TriggerVoidOut(globalCtx);
             }
 
-            globalCtx->transitionType = TRANSI_TYPE_04;
+            globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
             func_80078884(NA_SE_OC_ABYSS);
         } else {
-            globalCtx->transitionType = TRANSI_TYPE_02;
-            gSaveContext.nextTransition = TRANSI_TYPE_02;
+            globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+            gSaveContext.nextTransition = TRANS_TYPE_FADE_BLACK;
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = 0xFF;
         }
@@ -12786,7 +12786,7 @@ void func_8085063C(Player* this, GlobalContext* globalCtx) {
             gSaveContext.respawnFlag = 3;
             globalCtx->sceneLoadFlag = 0x14;
             globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
-            globalCtx->transitionType = TRANSI_TYPE_05;
+            globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
             func_80088AF0(globalCtx);
             return;
         }

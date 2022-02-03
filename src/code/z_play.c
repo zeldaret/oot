@@ -10,7 +10,7 @@ s32 gTrnsnUnkState;
 VisMono D_80161498;
 Color_RGBA8_u32 D_801614B0;
 FaultClient D_801614B8;
-s16 D_801614C8;
+s16 sTransitionFillTimer;
 u64 D_801614D0[0xA00];
 
 void func_800BC450(GlobalContext* globalCtx) {
@@ -63,7 +63,7 @@ void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
         transitionCtx->setEnvColor = TransitionCircle_SetEnvColor;
     } else {
         switch (transitionCtx->transitionType) {
-            case 1:
+            case TRANS_TYPE_TRIFORCE:
                 transitionCtx->init = TransitionTriforce_Init;
                 transitionCtx->destroy = TransitionTriforce_Destroy;
                 transitionCtx->start = TransitionTriforce_Start;
@@ -74,8 +74,9 @@ void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->setColor = TransitionTriforce_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
-            case 0:
-            case 8:
+
+            case TRANS_TYPE_WIPE_00:
+            case TRANS_TYPE_WIPE_08:
                 transitionCtx->init = TransitionWipe_Init;
                 transitionCtx->destroy = TransitionWipe_Destroy;
                 transitionCtx->start = TransitionWipe_Start;
@@ -86,16 +87,17 @@ void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->setColor = TransitionWipe_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 13:
-            case 17:
-            case 18:
-            case 19:
+
+            case TRANS_TYPE_FADE_BLACK:
+            case TRANS_TYPE_FADE_WHITE:
+            case TRANS_TYPE_FADE_BLACK_FAST:
+            case TRANS_TYPE_FADE_WHITE_FAST:
+            case TRANS_TYPE_FADE_BLACK_SLOW:
+            case TRANS_TYPE_FADE_WHITE_SLOW:
+            case TRANS_TYPE_FADE_WHITE_WAIT:
+            case TRANS_TYPE_FADE_WHITE_INSTANT:
+            case TRANS_TYPE_FADE_GREEN:
+            case TRANS_TYPE_FADE_BLUE:
                 transitionCtx->init = TransitionFade_Init;
                 transitionCtx->destroy = TransitionFade_Destroy;
                 transitionCtx->start = TransitionFade_Start;
@@ -106,25 +108,32 @@ void TransitionContext_Init(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->setColor = TransitionFade_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
-            case 9:
-            case 10:
-                globalCtx->transitionMode = 4;
+
+            case TRANS_TYPE_09:
+            case TRANS_TYPE_10:
+                globalCtx->transitionMode = TRANS_MODE_WHITE_FILL_INIT;
                 break;
-            case 11:
-                globalCtx->transitionMode = 10;
+
+            case TRANS_TYPE_11:
+                globalCtx->transitionMode = TRANS_MODE_10;
                 break;
-            case 12:
-                globalCtx->transitionMode = 7;
+
+            case TRANS_TYPE_12:
+                globalCtx->transitionMode = TRANS_MODE_07;
                 break;
-            case 14:
-                globalCtx->transitionMode = 12;
+
+            case TRANS_TYPE_14:
+                globalCtx->transitionMode = TRANS_MODE_12;
                 break;
-            case 15:
-                globalCtx->transitionMode = 14;
+
+            case TRANS_TYPE_15:
+                globalCtx->transitionMode = TRANS_MODE_14;
                 break;
-            case 16:
-                globalCtx->transitionMode = 16;
+
+            case TRANS_TYPE_16:
+                globalCtx->transitionMode = TRANS_MODE_16;
                 break;
+
             default:
                 Fault_AddHungupAndCrash("../z_play.c", 2290);
                 break;
@@ -160,10 +169,10 @@ void Gameplay_Destroy(GameState* thisx) {
         gTrnsnUnkState = 0;
     }
 
-    if (globalCtx->transitionMode == 3) {
+    if (globalCtx->transitionMode == TRANS_MODE_INSTANCE_RUNNING) {
         globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx.data);
         func_800BC88C(globalCtx);
-        globalCtx->transitionMode = 0;
+        globalCtx->transitionMode = TRANS_MODE_OFF;
     }
 
     ShrinkWindow_Destroy();
@@ -326,7 +335,7 @@ void Gameplay_Init(GameState* thisx) {
     PreRender_SetValuesSave(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0);
     PreRender_SetValues(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
     gTrnsnUnkState = 0;
-    globalCtx->transitionMode = 0;
+    globalCtx->transitionMode = TRANS_MODE_OFF;
     FrameAdvance_Init(&globalCtx->frameAdvCtx);
     Rand_Seed((u32)osGetTime());
     Matrix_Init(&globalCtx->state);
@@ -346,7 +355,7 @@ void Gameplay_Init(GameState* thisx) {
             gSaveContext.nextTransition = 0xFF;
         }
     } else {
-        globalCtx->transitionType = TRANSI_TYPE_06;
+        globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_SLOW;
     }
 
     ShrinkWindow_Init();
@@ -444,8 +453,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
     if (FrameAdvance_Update(&globalCtx->frameAdvCtx, &input[1])) {
-        if ((globalCtx->transitionMode == 0) && (globalCtx->sceneLoadFlag != 0)) {
-            globalCtx->transitionMode = 1;
+        if ((globalCtx->transitionMode == TRANS_MODE_OFF) && (globalCtx->sceneLoadFlag != 0)) {
+            globalCtx->transitionMode = TRANS_MODE_SETUP;
         }
 
         if (gTrnsnUnkState != 0) {
@@ -468,19 +477,19 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
         if (globalCtx->transitionMode) {
             switch (globalCtx->transitionMode) {
-                case 1:
+                case TRANS_MODE_SETUP:
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        s16 sp6E = 0;
+                        s16 csOffset = 0;
                         Interface_ChangeAlpha(1);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-                            sp6E = (gSaveContext.cutsceneIndex & 0xF) + 4;
+                            csOffset = (gSaveContext.cutsceneIndex & 0xF) + 4;
                         }
 
-                        if (!(gEntranceTable[globalCtx->nextEntranceIndex + sp6E].field & 0x8000)) { // Continue BGM Off
+                        if (!(gEntranceTable[globalCtx->nextEntranceIndex + csOffset].field & 0x8000)) { // Continue BGM Off
                             // "Sound initalized. 111"
                             osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
-                            if ((globalCtx->transitionType < TRANSI_TYPE_56) && !Environment_IsForcedSequenceDisabled()) {
+                            if ((globalCtx->transitionType < TRANS_TYPE_56) && !Environment_IsForcedSequenceDisabled()) {
                                 // "Sound initalized. 222"
                                 osSyncPrintf("\n\n\nサウンドイニシャル来ました。222");
                                 func_800F6964(0x14);
@@ -490,17 +499,17 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if (!R_TRANSI_DBG_ENABLED) {
+                    if (!R_TRANS_DBG_ENABLED) {
                         TransitionContext_Init(globalCtx, globalCtx->transitionType);
                     } else {
-                        TransitionContext_Init(globalCtx, R_TRANSI_NEXT_TYPE);
+                        TransitionContext_Init(globalCtx, R_TRANS_NEXT_TYPE);
                     }
 
-                    if (globalCtx->transitionMode >= 4) {
+                    if (globalCtx->transitionMode >= TRANS_MODE_WHITE_FILL_INIT) {
                         break;
                     }
-
-                case 2:
+                    // fallthrough 
+                case TRANS_MODE_INSTANCE_INIT:
                     globalCtx->transitionCtx.init(&globalCtx->transitionCtx.data);
 
                     if ((globalCtx->transitionCtx.transitionType >> 5) == 1) {
@@ -510,40 +519,42 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                     gSaveContext.unk_1419 = 14;
 
-                    if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_08) ||
-                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_09)) {
+                    if ((globalCtx->transitionCtx.transitionType == TRANS_TYPE_WIPE_08) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_09)) {
+                        //! @bug TRANS_TYPE_09 will never reach this case, it uses TRANS_MODE_WHITE_FILL_INIT
+                        //! which will break after the previous case
                         gSaveContext.unk_1419 = 28;
                     }
 
                     gSaveContext.fadeDuration = 60;
 
-                    if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_04) ||
-                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_05)) {
+                    if ((globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_BLACK_FAST) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_FAST)) {
                         gSaveContext.fadeDuration = 20;
-                    } else if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_06) ||
-                               (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_07)) {
+                    } else if ((globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_BLACK_SLOW) ||
+                               (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_SLOW)) {
                         gSaveContext.fadeDuration = 150;
-                    } else if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_17) {
+                    } else if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT) {
                         gSaveContext.fadeDuration = 2;
                     }
 
-                    if ((globalCtx->transitionCtx.transitionType == TRANSI_TYPE_03) ||
-                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_05) ||
-                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_07) ||
-                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_13) ||
-                        (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_17)) {
+                    if ((globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_FAST) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_SLOW) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_WAIT) ||
+                        (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT)) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(160, 160, 160, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
                                                                  RGBA8(160, 160, 160, 255));
                         }
-                    } else if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_18) {
+                    } else if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_GREEN) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(140, 140, 100, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
                                                                  RGBA8(140, 140, 100, 255));
                         }
-                    } else if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_19) {
+                    } else if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_BLUE) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.data, RGBA8(70, 100, 110, 255));
                         if (globalCtx->transitionCtx.setEnvColor != NULL) {
                             globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.data,
@@ -564,23 +575,23 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                     globalCtx->transitionCtx.start(&globalCtx->transitionCtx);
 
-                    if (globalCtx->transitionCtx.transitionType == TRANSI_TYPE_13) {
-                        globalCtx->transitionMode = 11;
+                    if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_WAIT) {
+                        globalCtx->transitionMode = TRANS_MODE_INSTANCE_WAIT;
                     } else {
-                        globalCtx->transitionMode = 3;
+                        globalCtx->transitionMode = TRANS_MODE_INSTANCE_RUNNING;
                     }
                     break;
 
-                case 3:
+                case TRANS_MODE_INSTANCE_RUNNING:
                     if (globalCtx->transitionCtx.isDone(&globalCtx->transitionCtx) != 0) {
-                        if (globalCtx->transitionCtx.transitionType >= TRANSI_TYPE_56) {
+                        if (globalCtx->transitionCtx.transitionType >= TRANS_TYPE_56) {
                             if (globalCtx->sceneLoadFlag == -0x14) {
                                 globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
                                 func_800BC88C(globalCtx);
-                                globalCtx->transitionMode = 0;
+                                globalCtx->transitionMode = TRANS_MODE_OFF;
                             }
                         } else if (globalCtx->sceneLoadFlag != -0x14) {
-                            globalCtx->state.running = 0;
+                            globalCtx->state.running = false;
                             if (gSaveContext.gameMode != 2) {
                                 SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                                 gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
@@ -593,7 +604,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         } else {
                             globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
                             func_800BC88C(globalCtx);
-                            globalCtx->transitionMode = 0;
+                            globalCtx->transitionMode = TRANS_MODE_OFF;
                             if (gTrnsnUnkState == 3) {
                                 TransitionUnk_Destroy(&sTrnsnUnk);
                                 gTrnsnUnkState = 0;
@@ -608,130 +619,135 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             }
 
             switch (globalCtx->transitionMode) {
-                case 4:
-                    D_801614C8 = 0;
+                case TRANS_MODE_WHITE_FILL_INIT:
+                    sTransitionFillTimer = 0;
                     globalCtx->envCtx.fillScreen = true;
                     globalCtx->envCtx.screenFillColor[0] = 160;
                     globalCtx->envCtx.screenFillColor[1] = 160;
                     globalCtx->envCtx.screenFillColor[2] = 160;
+
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.screenFillColor[3] = 0;
-                        globalCtx->transitionMode = 5;
+                        globalCtx->transitionMode = TRANS_MODE_05;
                     } else {
                         globalCtx->envCtx.screenFillColor[3] = 255;
-                        globalCtx->transitionMode = 6;
+                        globalCtx->transitionMode = TRANS_MODE_06;
                     }
                     break;
 
-                case 5:
-                    globalCtx->envCtx.screenFillColor[3] = (D_801614C8 / 20.0f) * 255.0f;
-                    if (D_801614C8 >= 20 && 1) {
-                        globalCtx->state.running = 0;
+                case TRANS_MODE_05:
+                    globalCtx->envCtx.screenFillColor[3] = (sTransitionFillTimer / 20.0f) * 255.0f;
+
+                    if (sTransitionFillTimer >= 20 && 1) {
+                        globalCtx->state.running = false;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->transitionMode = 0;
+                        globalCtx->transitionMode = TRANS_MODE_OFF;
                     } else {
-                        D_801614C8++;
+                        sTransitionFillTimer++;
                     }
                     break;
 
-                case 6:
-                    globalCtx->envCtx.screenFillColor[3] = (1 - D_801614C8 / 20.0f) * 255.0f;
-                    if (D_801614C8 >= 20 && 1) {
+                case TRANS_MODE_06:
+                    globalCtx->envCtx.screenFillColor[3] = (1 - sTransitionFillTimer / 20.0f) * 255.0f;
+
+                    if (sTransitionFillTimer >= 20 && 1) {
                         gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->transitionMode = 0;
+                        globalCtx->transitionMode = TRANS_MODE_OFF;
                         globalCtx->envCtx.fillScreen = false;
                     } else {
-                        D_801614C8++;
+                        sTransitionFillTimer++;
                     }
                     break;
 
-                case 7:
-                    D_801614C8 = 0;
+                case TRANS_MODE_07:
+                    sTransitionFillTimer = 0;
                     globalCtx->envCtx.fillScreen = true;
                     globalCtx->envCtx.screenFillColor[0] = 170;
                     globalCtx->envCtx.screenFillColor[1] = 160;
                     globalCtx->envCtx.screenFillColor[2] = 150;
+
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.screenFillColor[3] = 0;
-                        globalCtx->transitionMode = 5;
+                        globalCtx->transitionMode = TRANS_MODE_05;
                     } else {
                         globalCtx->envCtx.screenFillColor[3] = 255;
-                        globalCtx->transitionMode = 6;
+                        globalCtx->transitionMode = TRANS_MODE_06;
                     }
                     break;
 
-                case 10:
+                case TRANS_MODE_10:
                     if (globalCtx->sceneLoadFlag != -0x14) {
-                        globalCtx->state.running = 0;
+                        globalCtx->state.running = false;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->transitionMode = 0;
+                        globalCtx->transitionMode = TRANS_MODE_OFF;
                     } else {
                         gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
                         globalCtx->sceneLoadFlag = 0;
-                        globalCtx->transitionMode = 0;
+                        globalCtx->transitionMode = TRANS_MODE_OFF;
                     }
                     break;
 
-                case 11:
+                case TRANS_MODE_INSTANCE_WAIT:
                     if (gSaveContext.unk_1410 != 0) {
-                        globalCtx->transitionMode = 3;
+                        globalCtx->transitionMode = TRANS_MODE_INSTANCE_RUNNING;
                     }
                     break;
 
-                case 12:
+                case TRANS_MODE_12:
                     if (globalCtx->sceneLoadFlag != -0x14) {
                         globalCtx->envCtx.sandstormState = 1;
-                        globalCtx->transitionMode = 13;
+                        globalCtx->transitionMode = TRANS_MODE_13;
                     } else {
                         globalCtx->envCtx.sandstormState = 2;
                         globalCtx->envCtx.sandstormPrimA = 255;
                         globalCtx->envCtx.sandstormEnvA = 255;
-                        globalCtx->transitionMode = 13;
+                        globalCtx->transitionMode = TRANS_MODE_13;
                     }
                     break;
 
-                case 13:
+                case TRANS_MODE_13:
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
+
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.sandstormPrimA < 110) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->transitionMode = 0;
+                            globalCtx->transitionMode = TRANS_MODE_OFF;
                         }
                     } else {
                         if (globalCtx->envCtx.sandstormEnvA == 255) {
-                            globalCtx->state.running = 0;
+                            globalCtx->state.running = false;
                             SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                             gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->transitionMode = 0;
+                            globalCtx->transitionMode = TRANS_MODE_OFF;
                         }
                     }
                     break;
 
-                case 14:
+                case TRANS_MODE_14:
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         globalCtx->envCtx.sandstormState = 4;
                         globalCtx->envCtx.sandstormPrimA = 255;
                         globalCtx->envCtx.sandstormEnvA = 255;
                         // "It's here!!!!!!!!!"
                         LOG_STRING("来た!!!!!!!!!!!!!!!!!!!!!", "../z_play.c", 3471);
-                        globalCtx->transitionMode = 15;
+                        globalCtx->transitionMode = TRANS_MODE_15;
                     } else {
-                        globalCtx->transitionMode = 12;
+                        globalCtx->transitionMode = TRANS_MODE_12;
                     }
                     break;
 
-                case 15:
+                case TRANS_MODE_15:
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     if (globalCtx->sceneLoadFlag == -0x14) {
@@ -739,29 +755,29 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->transitionMode = 0;
+                            globalCtx->transitionMode = TRANS_MODE_OFF;
                         }
                     }
                     break;
 
-                case 16:
-                    D_801614C8 = 0;
+                case TRANS_MODE_16:
+                    sTransitionFillTimer = 0;
                     globalCtx->envCtx.fillScreen = true;
                     globalCtx->envCtx.screenFillColor[0] = 0;
                     globalCtx->envCtx.screenFillColor[1] = 0;
                     globalCtx->envCtx.screenFillColor[2] = 0;
                     globalCtx->envCtx.screenFillColor[3] = 255;
-                    globalCtx->transitionMode = 17;
+                    globalCtx->transitionMode = TRANS_MODE_17;
                     break;
 
-                case 17:
+                case TRANS_MODE_17:
                     if (gSaveContext.unk_1410 != 0) {
                         globalCtx->envCtx.screenFillColor[3] = gSaveContext.unk_1410;
-                        if (gSaveContext.unk_1410 < 0x65) {
+                        if (gSaveContext.unk_1410 <= 100) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->sceneLoadFlag = 0;
-                            globalCtx->transitionMode = 0;
+                            globalCtx->transitionMode = TRANS_MODE_OFF;
                         }
                     }
                     break;
@@ -1116,7 +1132,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             gfxP = Graph_GfxPlusOne(sp1CC);
             gSPDisplayList(OVERLAY_DISP++, gfxP);
 
-            if ((globalCtx->transitionMode == 3) || (globalCtx->transitionMode == 11) ||
+            if ((globalCtx->transitionMode == TRANS_MODE_INSTANCE_RUNNING) || (globalCtx->transitionMode == TRANS_MODE_INSTANCE_WAIT) ||
                 (globalCtx->transitionCtx.transitionType >= 56)) {
                 View view;
 
@@ -1758,7 +1774,7 @@ void Gameplay_TriggerVoidOut(GlobalContext* globalCtx) {
     gSaveContext.respawnFlag = 1;
     globalCtx->sceneLoadFlag = 0x14;
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
-    globalCtx->transitionType = TRANSI_TYPE_02;
+    globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
 }
 
 void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
@@ -1776,7 +1792,7 @@ void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
     }
 
-    globalCtx->transitionType = TRANSI_TYPE_02;
+    globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
 }
 
 void Gameplay_TriggerRespawn(GlobalContext* globalCtx) {

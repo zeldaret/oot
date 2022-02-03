@@ -328,7 +328,7 @@ typedef enum {
     /* 0x0B */ SCENE_CMD_ID_OBJECT_LIST,
     /* 0x0C */ SCENE_CMD_ID_LIGHT_LIST,
     /* 0x0D */ SCENE_CMD_ID_PATH_LIST,
-    /* 0x0E */ SCENE_CMD_ID_TRANSI_ACTOR_LIST,
+    /* 0x0E */ SCENE_CMD_ID_TRANS_ACTOR_LIST,
     /* 0x0F */ SCENE_CMD_ID_ENV_LIGHT_SETTINGS,
     /* 0x10 */ SCENE_CMD_ID_TIME_SETTINGS,
     /* 0x11 */ SCENE_CMD_ID_SKYBOX_SETTINGS,
@@ -386,7 +386,7 @@ typedef enum {
     { SCENE_CMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
 
 #define SCENE_CMD_TRANSITION_ACTOR_LIST(numActors, list) \
-    { SCENE_CMD_ID_TRANSI_ACTOR_LIST, numActors, CMD_PTR(list) }
+    { SCENE_CMD_ID_TRANS_ACTOR_LIST, numActors, CMD_PTR(list) }
 
 #define SCENE_CMD_ENV_LIGHT_SETTINGS(numLightSettings, lightSettingsList) \
     { SCENE_CMD_ID_ENV_LIGHT_SETTINGS, numLightSettings, CMD_PTR(lightSettingsList) }

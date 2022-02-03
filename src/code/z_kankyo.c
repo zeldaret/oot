@@ -879,7 +879,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
-                    (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
+                    (globalCtx->transitionMode == TRANS_MODE_OFF || ((void)0, gSaveContext.gameMode) != 0)) {
 
                     if (IS_DAY || gTimeIncrement >= 0x190) {
                         gSaveContext.dayTime += gTimeIncrement;
@@ -2435,8 +2435,8 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gSaveContext.respawnFlag = -3;
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
     globalCtx->sceneLoadFlag = 0x14;
-    globalCtx->transitionType = TRANSI_TYPE_03;
-    gSaveContext.nextTransition = TRANSI_TYPE_03;
+    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+    gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
 
     switch (globalCtx->nextEntranceIndex) {
         case 0x147:

@@ -773,7 +773,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 globalCtx->nextEntranceIndex = 0xA0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANSI_TYPE_03;
+                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             }
             break;
     }

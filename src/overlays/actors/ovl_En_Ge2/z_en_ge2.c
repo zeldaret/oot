@@ -244,7 +244,7 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
 
-        globalCtx->transitionType = TRANSI_TYPE_38;
+        globalCtx->transitionType = TRANS_TYPE_38;
         globalCtx->sceneLoadFlag = 0x14;
     }
 }
@@ -270,7 +270,7 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
 
-        globalCtx->transitionType = TRANSI_TYPE_38;
+        globalCtx->transitionType = TRANS_TYPE_38;
         globalCtx->sceneLoadFlag = 0x14;
     }
 }

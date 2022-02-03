@@ -666,11 +666,11 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = 0x5E4;
 
         if (gSaveContext.eventInf[0] & 0x100) {
-            globalCtx->transitionType = TRANSI_TYPE_46;
-            gSaveContext.nextTransition = TRANSI_TYPE_03;
+            globalCtx->transitionType = TRANS_TYPE_46;
+            gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
         } else {
-            globalCtx->transitionType = TRANSI_TYPE_38;
-            gSaveContext.nextTransition = TRANSI_TYPE_02;
+            globalCtx->transitionType = TRANS_TYPE_38;
+            gSaveContext.nextTransition = TRANS_TYPE_FADE_BLACK;
         }
 
         globalCtx->sceneLoadFlag = 0x14;

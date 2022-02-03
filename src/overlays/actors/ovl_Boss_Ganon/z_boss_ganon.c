@@ -1497,7 +1497,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             if (this->csTimer == 180) {
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->nextEntranceIndex = 0x43F;
-                globalCtx->transitionType = TRANSI_TYPE_05;
+                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
             }
             break;
 
