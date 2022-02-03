@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     FILE *dmaout;
     void *spec;
     size_t size;
-    
+
     if (argc != 3)
     {
         usage(argv[0]);

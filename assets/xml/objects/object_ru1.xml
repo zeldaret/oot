@@ -38,10 +38,10 @@
         <DList Name="gRutoChildLeftFinDL" Offset="0xDAC0"/>
         <DList Name="gRutoChildLeftHandDL" Offset="0xDDA8"/>
         <DList Name="gRutoChildHeadDL" Offset="0x119F8"/>
-        
+
         <Texture Name="gRutoChildEyeTLUT" OutName="eye_tlut" Format="rgba16" Width="16" Height="16" Offset="0xE038"/>
         <Texture Name="gRutoChildMouthTLUT" OutName="mouth_tlut" Format="rgba16" Width="16" Height="12" Offset="0xE238"/>
-        
+
         <Texture Name="gRutoChildEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0xE3B8" TlutOffset="0xE038"/>
         <Texture Name="gRutoChildEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0xF238" TlutOffset="0xE038"/>
         <Texture Name="gRutoChildEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0xF638" TlutOffset="0xE038"/>
@@ -60,9 +60,9 @@
         <Texture Name="gRutoChildUnkHeadCircleTex" OutName="tex_0000F038" Format="rgba16" Width="16" Height="16" Offset="0xF038"/> <!-- TODO rename me-->
         <Texture Name="gRutoChildFingersTex" OutName="fingers" Format="rgba16" Width="16" Height="16" Offset="0x12200"/>
         <Texture Name="gRutoChildCircleGradientTex" OutName="circle_gradient" Format="rgba16" Width="16" Height="16" Offset="0x12400"/>
-        
+
         <Skeleton Name="gRutoChildSkel" Type="Flex" LimbType="Standard" Offset="0x12700"/>
-        
+
         <Limb Name="gRutoChildRootLimb" LimbType="Standard" Offset="0x12600"/>
         <Limb Name="gRutoChildLeftThighLimb" LimbType="Standard" Offset="0x1260C"/>
         <Limb Name="gRutoChildLeftShinLimb" LimbType="Standard" Offset="0x12618"/>

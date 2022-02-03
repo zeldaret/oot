@@ -573,7 +573,7 @@ s32 func_80B150AC(EnTa* this, GlobalContext* globalCtx, s32 idx) {
     Player* player = GET_PLAYER(globalCtx);
     Actor* interactRangeActor;
 
-    if (player->stateFlags1 & 0x800) {
+    if (player->stateFlags1 & PLAYER_STATE1_11) {
         interactRangeActor = player->interactRangeActor;
         if (interactRangeActor != NULL && interactRangeActor->id == ACTOR_EN_NIW &&
             interactRangeActor == &this->superCuccos[idx]->actor) {
@@ -607,7 +607,7 @@ void func_80B15100(EnTa* this, GlobalContext* globalCtx) {
         if (player->heldActor == &this->superCuccos[unk_2CA]->actor) {
             player->heldActor = NULL;
         }
-        player->stateFlags1 &= ~0x800;
+        player->stateFlags1 &= ~PLAYER_STATE1_11;
         this->superCuccos[unk_2CA] = NULL;
     }
     this->unk_2E0 |= 1;

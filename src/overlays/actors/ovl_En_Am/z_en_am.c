@@ -689,7 +689,7 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
-            player->stateFlags2 &= ~0x151;
+            player->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_4 | PLAYER_STATE2_6 | PLAYER_STATE2_8);
             player->actor.speedXZ = 0.0f;
             this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
         }

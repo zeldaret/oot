@@ -59,13 +59,13 @@ void *util_read_whole_file(const char *filename, size_t *pSize)
 void util_write_whole_file(const char *filename, const void *data, size_t size)
 {
     FILE *file = fopen(filename, "wb");
-    
+
     if (file == NULL)
         util_fatal_error("failed to open file '%s' for writing: %s", filename, strerror(errno));
 
     if (fwrite(data, size, 1, file) != 1)
         util_fatal_error("error writing to file '%s': %s", filename, strerror(errno));
-    
+
     fclose(file);
 }
 
