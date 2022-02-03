@@ -2,8 +2,9 @@
 #define SPEC_H
 
 #include <stdint.h>
+#include <stdbool.h>
 
-enum {
+typedef enum {
     STMT_address,
     STMT_after,
     STMT_align,
@@ -19,7 +20,7 @@ enum {
     STMT_stack,
     STMT_increment,
     STMT_pad_text,
-};
+} STMTId;
 
 enum {
     FLAG_BOOT = (1 << 0),
@@ -50,6 +51,10 @@ typedef struct Segment {
 } Segment;
 
 void parse_rom_spec(char* spec, struct Segment** segments, int* segment_count);
+
+bool get_single_segment_by_name(struct Segment* dstSegment, char *spec, const char *segmentName);
+
+void free_single_segment_elements(struct Segment *segment);
 
 void free_rom_spec(struct Segment* segments, int segment_count);
 
