@@ -1013,8 +1013,28 @@ typedef enum {
     /* 19 */ TRANS_TYPE_FADE_BLUE,
     // transition types 20 - 31 are unused
     // transition types 32 - 56 are constructed using the TRANS_TYPE_CIRCLE macro
-    /* 57 */ TRANS_TYPE_MAX = 57
+    /* 56 */ TRANS_TYPE_56 = 56
 } TransitionType;
+
+typedef enum {
+    /* 0 */ TC_NORMAL,
+    /* 1 */ TC_WAVE,
+    /* 2 */ TC_RIPPLE,
+    /* 3 */ TC_STARBURST
+} TransitionCircleType;
+
+typedef enum {
+    /* 0 */ TC_BLACK,
+    /* 1 */ TC_WHITE,
+    /* 1 */ TC_GRAY
+} TransitionCircleColor;
+
+typedef enum {
+    /* 0 */ TC_FAST,
+    /* 1 */ TC_SLOW
+} TransitionCircleSpeed;
+
+#define TRANS_TYPE_CIRCLE(type, color, speed, unk_14) (((unk_14 & 1) << 5) | ((color & 3) << 3) | ((type & 3) << 1) | (speed & 1))
 
 typedef struct {
     union {

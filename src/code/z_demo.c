@@ -811,7 +811,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 globalCtx->nextEntranceIndex = 0x00CD;
                 gSaveContext.cutsceneIndex = 0xFFF8;
                 globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->transitionType = TRANS_TYPE_41;
+                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_NORMAL, TC_WHITE, TC_SLOW, 1);
                 break;
             case 52:
                 globalCtx->nextEntranceIndex = 0x0053;

@@ -637,7 +637,7 @@ void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
-        func_80A79BAC(this, globalCtx, 1, TRANS_TYPE_32);
+        func_80A79BAC(this, globalCtx, 1, TRANS_TYPE_CIRCLE(TC_NORMAL, TC_BLACK, TC_FAST, 1));
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0001;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         gSaveContext.infTable[10] &= ~4;
@@ -684,7 +684,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
             }
             gSaveContext.eventInf[0] &= ~0xF;
             phi_a2 = 0;
-            transitionType = TRANS_TYPE_32;
+            transitionType = TRANS_TYPE_CIRCLE(TC_NORMAL, TC_BLACK, TC_FAST, 1);
         }
         func_80A79BAC(this, globalCtx, phi_a2, transitionType);
         globalCtx->msgCtx.stateTimer = 0;
@@ -718,7 +718,7 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
             gSaveContext.eventInf[0] &= ~0xF;
             this->actionFunc = func_80A7A4C8;
         } else {
-            func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_38);
+            func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1));
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
             globalCtx->msgCtx.stateTimer = 0;
@@ -743,7 +743,7 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     }
     if (this->unk_308.unk_00 == 2) {
         this->actor.flags &= ~ACTOR_FLAG_16;
-        func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_38);
+        func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1));
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.stateTimer = 0;
@@ -893,7 +893,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
             gSaveContext.eventChkInf[1] |= 0x800;
             gSaveContext.infTable[10] |= 0x800;
         }
-        func_80A79BAC(this, globalCtx, 0, TRANS_TYPE_38);
+        func_80A79BAC(this, globalCtx, 0, TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1));
         gSaveContext.eventInf[0] = gSaveContext.eventInf[0] & ~0xF;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.stateTimer = 4;

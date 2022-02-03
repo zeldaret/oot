@@ -178,6 +178,8 @@ s32 TransitionCircle_IsDone(void* thisx) {
     return this->isDone;
 }
 
+
+
 void TransitionCircle_SetType(void* thisx, s32 type) {
     TransitionCircle* this = (TransitionCircle*)thisx;
 

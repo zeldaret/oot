@@ -236,7 +236,7 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
 
-        globalCtx->transitionType = TRANS_TYPE_38;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1);
         globalCtx->sceneLoadFlag = 0x14;
     }
 }
@@ -582,7 +582,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                     Rupees_ChangeBy(-20);
                     globalCtx->nextEntranceIndex = 0x129;
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
-                    globalCtx->transitionType = TRANS_TYPE_38;
+                    globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1);
                     globalCtx->sceneLoadFlag = 0x14;
                     gSaveContext.eventInf[0] |= 0x100;
                     gSaveContext.eventChkInf[6] |= 0x100;

@@ -1569,7 +1569,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 } else {
                     globalCtx->nextEntranceIndex = 0x3B4;
                 }
-                globalCtx->transitionType = TRANS_TYPE_38;
+                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1);
                 globalCtx->sceneLoadFlag = 0x14;
             }
         }
