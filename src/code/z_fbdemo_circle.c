@@ -75,7 +75,7 @@ void TransitionCircle_Start(void* thisx) {
     }
     if (this->direction != 0) {
         this->texY = 0;
-        if (this->colorType == TC_GRAY) {
+        if ((u32)this->colorType == TC_SPECIAL) {
             this->texY = 0xFA;
         }
     } else {
@@ -116,7 +116,7 @@ void TransitionCircle_Update(void* thisx, s32 updateRate) {
         }
     } else {
         this->texY -= this->speed * 3 / updateRate;
-        if (this->colorType != TC_GRAY) {
+        if (this->colorType != TC_SPECIAL) {
             if (this->texY <= 0) {
                 this->texY = 0;
                 this->isDone = true;
