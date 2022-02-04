@@ -517,7 +517,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     // circle types
                     if ((globalCtx->transitionCtx.transitionType >> 5) == 1) {
                         globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data,
-                                                         globalCtx->transitionCtx.transitionType | 0x80);
+                                                         globalCtx->transitionCtx.transitionType | TC_SET_PARAMS);
                     }
 
                     gSaveContext.transWipeSpeed = 14;

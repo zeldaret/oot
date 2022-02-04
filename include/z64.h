@@ -1025,7 +1025,7 @@ typedef enum {
     /* 1 */ TC_WAVE,
     /* 2 */ TC_RIPPLE,
     /* 3 */ TC_STARBURST
-} TransitionCircleType;
+} TransitionCircleAppearance;
 
 typedef enum {
     /* 0 */ TC_BLACK,
@@ -1038,7 +1038,9 @@ typedef enum {
     /* 1 */ TC_SLOW
 } TransitionCircleSpeed;
 
-#define TRANS_TYPE_CIRCLE(type, color, speed, unk_14) (((unk_14 & 1) << 5) | ((color & 3) << 3) | ((type & 3) << 1) | (speed & 1))
+#define TC_SET_PARAMS (1 << 7)
+
+#define TRANS_TYPE_CIRCLE(appearance, color, speed) ((1 << 5) | ((color & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))
 
 typedef struct {
     union {

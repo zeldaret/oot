@@ -51,10 +51,10 @@ typedef struct {
     /* 0x008 */ s32 texX;
     /* 0x00C */ s32 texY;
     /* 0x010 */ s32 speed;
-    /* 0x014 */ u8 unk_14;
-    /* 0x015 */ u8 typeColor;
+    /* 0x014 */ u8 direction;
+    /* 0x015 */ u8 colorType;
     /* 0x016 */ u8 speedType;
-    /* 0x017 */ u8 effect;
+    /* 0x017 */ u8 appearanceType;
     /* 0x018 */ u8 isDone;
     /* 0x019 */ u8 frame;
     /* 0x01A */ u16 normal;
