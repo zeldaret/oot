@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_bottle_letter" Segment="6">
         <DList Name="gGiLetterBottleContentsDL" Offset="0x08E0"/>
         <DList Name="gGiLetterBottleDL" Offset="0x0AE0"/>

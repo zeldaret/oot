@@ -49,7 +49,7 @@
         <DList Name="gAdultRutoRightHandDL" Offset="0x9B80"/>
         <DList Name="gAdultRutoHeadDL" Offset="0x3EB0"/>
         <DList Name="gAdultRutoWaistDL" Offset="0x88F0"/>
-        
+
         <!-- Adult Ruto Palettes -->
         <Texture Name="gAdultRutoTLUT1" OutName="adult_ruto_tlut_1" Format="rgba16" Width="144" Height="1" Offset="0xE00"/>
         <Texture Name="gAdultRutoTLUT2" OutName="adult_ruto_tlut_2" Format="rgba16" Width="16" Height="16" Offset="0x43C0"/>
@@ -58,7 +58,7 @@
         <Texture Name="gAdultRutoEyeOpenTex" OutName="adult_ruto_eye_open" Format="rgba16" Width="32" Height="32" Offset="0xF20"/>
         <Texture Name="gAdultRutoEyeHalfTex" OutName="adult_ruto_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x22E0"/>
         <Texture Name="gAdultRutoEyeClosedTex" OutName="adult_ruto_eye_closed" Format="rgba16" Width="32" Height="32" Offset="0x2AE0"/>
-        
+
         <!-- Adult Ruto Textures -->
         <Texture Name="gAdultRutoSkinGradient" OutName="adult_ruto_skin_gradient" Format="ci8" Width="8" Height="8" Offset="0x1720" TlutOffset="0xE00"/>
         <Texture Name="gAdultRutoEar1Tex" OutName="adult_ruto_ear_1" Format="ci8" Width="16" Height="16" Offset="0x1760" TlutOffset="0xE00"/>

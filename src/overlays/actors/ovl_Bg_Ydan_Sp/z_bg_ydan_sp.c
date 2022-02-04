@@ -19,8 +19,6 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_BurnWallWeb(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
 
-extern CollisionHeader gDTWebWallCol;
-
 typedef enum {
     /* 0 */ WEB_FLOOR,
     /* 1 */ WEB_WALL

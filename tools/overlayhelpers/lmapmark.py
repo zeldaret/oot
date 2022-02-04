@@ -69,7 +69,7 @@ def IND(n):
 
 
 scriptDir = os.path.dirname(os.path.realpath(__file__))
-repo = scriptDir + os.sep +  ".." + os.sep + ".."    
+repo = scriptDir + os.sep +  ".." + os.sep + ".."
 
 
 kaleido_scope_data = []

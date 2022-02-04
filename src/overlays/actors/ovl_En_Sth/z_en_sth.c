@@ -61,12 +61,12 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    /* object_ahg_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    &object_ahg_Skel_0000F0,
+    &object_boj_Skel_0000F0,
+    &object_boj_Skel_0000F0,
+    &object_boj_Skel_0000F0,
+    &object_boj_Skel_0000F0,
+    &object_boj_Skel_0000F0,
 };
 
 static AnimationHeader* sAnimations[6] = {

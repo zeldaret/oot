@@ -172,7 +172,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
             if (currSeg != NULL)
             {
                 // ensure no duplicates (except for 'include' or 'pad_text')
-                if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && stmt != STMT_pad_text && 
+                if (stmt != STMT_include && stmt != STMT_include_data_with_rodata && stmt != STMT_pad_text &&
                     (currSeg->fields & (1 << stmt)))
                     util_fatal_error("line %i: duplicate '%s' statement", lineNum, stmtName);
 

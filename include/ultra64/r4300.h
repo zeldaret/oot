@@ -294,7 +294,7 @@
 #define CACHERR_PIDX_MASK   0x00000007  // primary cache index
 #define CACHERR_PIDX_SHIFT  12          // bits 2..0 are paddr14..12
 
-/* 
+/*
  * R4000 family supports hardware watchpoints:
  *   C0_WATCHLO:
  *     bits 31..3 are bits 31..3 of physaddr to watch
@@ -337,7 +337,7 @@
 #define C0_TAGHI        C_REG(29)   // cache operations
 #define C0_ERROR_EPC    C_REG(30)   // ECC error prg. counter
 
-// floating-point status register 
+// floating-point status register
 #define C1_FPCSR        C_REG(31)
 
 #define FPCSR_FS        0x01000000  // flush denorm to zero

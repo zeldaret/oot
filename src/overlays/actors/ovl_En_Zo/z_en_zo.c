@@ -309,7 +309,18 @@ const ActorInit En_Zo_InitVars = {
     (ActorFunc)EnZo_Draw,
 };
 
-static struct_80034EC0_Entry sAnimations[] = {
+typedef enum {
+    /* 0 */ ENZO_ANIM_0,
+    /* 1 */ ENZO_ANIM_1,
+    /* 2 */ ENZO_ANIM_2,
+    /* 3 */ ENZO_ANIM_3,
+    /* 4 */ ENZO_ANIM_4,
+    /* 5 */ ENZO_ANIM_5,
+    /* 6 */ ENZO_ANIM_6,
+    /* 7 */ ENZO_ANIM_7
+} EnZoAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gZoraIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
     { &gZoraIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     { &gZoraSurfaceAnim, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
@@ -526,31 +537,31 @@ s32 EnZo_PlayerInProximity(EnZo* this, GlobalContext* globalCtx) {
 }
 
 void EnZo_SetAnimation(EnZo* this) {
-    s32 animId = 8;
+    s32 animId = ARRAY_COUNT(sAnimationInfo);
 
     if (this->skelAnime.animation == &gZoraHandsOnHipsTappingFootAnim ||
         this->skelAnime.animation == &gZoraOpenArmsAnim) {
         if (this->unk_194.unk_00 == 0) {
             if (this->actionFunc == EnZo_Standing) {
-                animId = 0;
+                animId = ENZO_ANIM_0;
             } else {
-                animId = 3;
+                animId = ENZO_ANIM_3;
             }
         }
     }
 
     if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4006 &&
         this->skelAnime.animation != &gZoraHandsOnHipsTappingFootAnim) {
-        animId = 6;
+        animId = ENZO_ANIM_6;
     }
 
     if (this->unk_194.unk_00 != 0 && this->actor.textId == 0x4007 && this->skelAnime.animation != &gZoraOpenArmsAnim) {
-        animId = 7;
+        animId = ENZO_ANIM_7;
     }
 
-    if (animId != 8) {
-        func_80034EC0(&this->skelAnime, sAnimations, animId);
-        if (animId == 3) {
+    if (animId != ARRAY_COUNT(sAnimationInfo)) {
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animId);
+        if (animId == ENZO_ANIM_3) {
             this->skelAnime.curFrame = this->skelAnime.endFrame;
             this->skelAnime.playSpeed = 0.0f;
         }
@@ -571,7 +582,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    func_80034EC0(&this->skelAnime, sAnimations, 2);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->dialogRadius = this->collider.dim.radius + 30.0f;
@@ -584,7 +595,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         this->actor.shape.shadowScale = 24.0f;
-        func_80034EC0(&this->skelAnime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_1);
         this->canSpeak = true;
         this->alpha = 255.0f;
         this->actionFunc = EnZo_Standing;
@@ -630,7 +641,7 @@ void EnZo_Surface(EnZo* this, GlobalContext* globalCtx) {
     if (this->actor.yDistToWater < 54.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_OUT_OF_WATER);
         EnZo_SpawnSplashes(this);
-        func_80034EC0(&this->skelAnime, sAnimations, 3);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_3);
         this->actor.flags |= ACTOR_FLAG_0;
         this->actionFunc = EnZo_TreadWater;
         this->actor.velocity.y = 0.0f;
@@ -665,7 +676,7 @@ void EnZo_TreadWater(EnZo* this, GlobalContext* globalCtx) {
         this->timeToDive = Rand_S16Offset(40, 40);
     } else if (DECR(this->timeToDive) == 0) {
         f32 startFrame;
-        func_80034EC0(&this->skelAnime, sAnimations, 4);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_4);
         this->canSpeak = false;
         this->unk_64C = 1;
         this->actionFunc = EnZo_Dive;
@@ -696,7 +707,7 @@ void EnZo_Dive(EnZo* this, GlobalContext* globalCtx) {
     }
 
     if ((s16)this->alpha == 0) {
-        func_80034EC0(&this->skelAnime, sAnimations, 2);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENZO_ANIM_2);
         this->actor.world.pos = this->actor.home.pos;
         this->alpha = 0.0f;
         this->actionFunc = EnZo_Submerged;

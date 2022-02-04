@@ -45,7 +45,7 @@ def main():
         spec_text = spec_file.read()
 
     spec_text_replaced = re.sub(".*ovl_.*\.o.*\n", handle_actor_line, spec_text)
-    
+
     with open(root_dir + "spec", "w", newline="\n") as spec_file:
         spec_file.write(spec_text_replaced)
 
