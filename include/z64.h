@@ -1030,7 +1030,7 @@ typedef enum {
 typedef enum {
     /* 0 */ TC_BLACK,
     /* 1 */ TC_WHITE,
-    /* 1 */ TC_GRAY
+    /* 2 */ TC_GRAY
 } TransitionCircleColor;
 
 typedef enum {

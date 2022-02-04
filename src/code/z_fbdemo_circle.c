@@ -37,50 +37,50 @@ Gfx sCircleDList[] = {
 void TransitionCircle_Start(void* thisx) {
     TransitionCircle* this = (TransitionCircle*)thisx;
 
-    this->isDone = 0;
+    this->isDone = false;
 
     switch (this->appearanceType) {
-        case 1:
-            this->texture = sCircleWipeWaveTex;
+        case TC_WAVE:
+            this->texture = sTransCircleWaveTex;
             break;
-        case 2:
-            this->texture = sCircleWipeRippleTex;
+        case TC_RIPPLE:
+            this->texture = sTransCircleRippleTex;
             break;
-        case 3:
-            this->texture = sCircleWipeStarburstTex;
+        case TC_STARBURST:
+            this->texture = sTransCircleStarburstTex;
             break;
         default:
-            this->texture = sCircleWipeDefaultTex;
+            this->texture = sTransCircleNormalTex;
             break;
     }
 
-    if (this->speedType == 0) {
+    if (this->speedType == TC_FAST) {
         this->speed = 20;
     } else {
         this->speed = 10;
     }
 
-    if (this->colorType == 0) {
+    if (this->colorType == TC_BLACK) {
         this->color.rgba = RGBA8(0, 0, 0, 255);
-    } else if (this->colorType == 1) {
+    } else if (this->colorType == TC_WHITE) {
         this->color.rgba = RGBA8(160, 160, 160, 255);
-    } else if (this->colorType == 2) {
+    } else if (this->colorType == TC_GRAY) {
         this->color.r = 100;
         this->color.g = 100;
         this->color.b = 100;
         this->color.a = 255;
     } else {
         this->speed = 40;
-        this->color.rgba = this->appearanceType == 1 ? RGBA8(0, 0, 0, 255) : RGBA8(160, 160, 160, 255);
+        this->color.rgba = this->appearanceType == TC_WAVE ? RGBA8(0, 0, 0, 255) : RGBA8(160, 160, 160, 255);
     }
     if (this->direction != 0) {
         this->texY = 0;
-        if (this->colorType == 3) {
+        if (this->colorType == TC_GRAY) {
             this->texY = 0xFA;
         }
     } else {
         this->texY = 0x1F4;
-        if (this->appearanceType == 2) {
+        if (this->appearanceType == TC_RIPPLE) {
             Audio_PlaySoundGeneral(NA_SE_OC_SECRET_WARP_OUT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     }
@@ -105,26 +105,26 @@ void TransitionCircle_Update(void* thisx, s32 updateRate) {
 
     if (this->direction != 0) {
         if (this->texY == 0) {
-            if (this->appearanceType == 2) {
+            if (this->appearanceType == TC_RIPPLE) {
                 Audio_PlaySoundGeneral(NA_SE_OC_SECRET_WARP_IN, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
         }
         this->texY += this->speed * 3 / updateRate;
         if (this->texY >= 0x1F4) {
             this->texY = 0x1F4;
-            this->isDone = 1;
+            this->isDone = true;
         }
     } else {
         this->texY -= this->speed * 3 / updateRate;
-        if (this->colorType != 3) {
+        if (this->colorType != TC_GRAY) {
             if (this->texY <= 0) {
                 this->texY = 0;
-                this->isDone = 1;
+                this->isDone = true;
             }
         } else {
             if (this->texY < 0xFB) {
                 this->texY = 0xFA;
-                this->isDone = 1;
+                this->isDone = true;
             }
         }
     }
