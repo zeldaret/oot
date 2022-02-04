@@ -3724,6 +3724,9 @@ void AudioDebug_ProcessInput(void) {
 void Audio_UpdateRiverSoundVolumes(void);
 void func_800F5CF8(void);
 
+/**
+ * Updates audio functions run on the graph thread
+ */
 void Audio_Update(void) {
     if (func_800FAD34() == 0) {
         sAudioUpdateTaskStart = gAudioContext.totalTaskCount;
