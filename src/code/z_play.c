@@ -503,7 +503,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     if (!R_TRANS_DBG_ENABLED) {
                         Gameplay_SetupTransition(globalCtx, globalCtx->transitionType);
                     } else {
-                        Gameplay_SetupTransition(globalCtx, R_TRANS_TYPE);
+                        Gameplay_SetupTransition(globalCtx, R_TRANS_DBG_TYPE);
                     }
 
                     if (globalCtx->transitionMode >= TRANS_MODE_FILL_WHITE_INIT) {
