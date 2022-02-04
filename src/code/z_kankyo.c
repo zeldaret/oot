@@ -292,7 +292,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
 
     sLightningFlashAlpha = 0;
 
-    gSaveContext.cutsceneTransControl = 0;
+    gSaveContext.cutsceneTransitionControl = 0;
 
     envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =

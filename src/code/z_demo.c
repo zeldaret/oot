@@ -504,7 +504,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
         Audio_SetCutsceneFlag(0);
-        gSaveContext.cutsceneTransControl = 1;
+        gSaveContext.cutsceneTransitionControl = 1;
 
         osSyncPrintf("\n分岐先指定！！=[%d]番", cmd->base); // "Future fork designation=No. [%d]"
 
@@ -1299,7 +1299,7 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 break;
 
             case 9:
-                gSaveContext.cutsceneTransControl = 1;
+                gSaveContext.cutsceneTransitionControl = 1;
                 break;
 
             case 10:
@@ -1315,7 +1315,7 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 break;
 
             case 12:
-                gSaveContext.cutsceneTransControl = 255.0f - (155.0f * temp);
+                gSaveContext.cutsceneTransitionControl = 255.0f - (155.0f * temp);
                 break;
 
             case 13:

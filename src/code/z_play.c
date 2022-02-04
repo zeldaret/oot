@@ -514,7 +514,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case TRANS_MODE_INSTANCE_INIT:
                     globalCtx->transitionCtx.init(&globalCtx->transitionCtx.data);
 
-                    // circle types (32 - 56)
+                    // circle types
                     if ((globalCtx->transitionCtx.transitionType >> 5) == 1) {
                         globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data,
                                                          globalCtx->transitionCtx.transitionType | 0x80);
@@ -706,7 +706,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_INSTANCE_WAIT:
-                    if (gSaveContext.cutsceneTransControl != 0) {
+                    if (gSaveContext.cutsceneTransitionControl != 0) {
                         globalCtx->transitionMode = TRANS_MODE_INSTANCE_RUNNING;
                     }
                     break;
@@ -783,9 +783,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_CS_BLACK_FILL:
-                    if (gSaveContext.cutsceneTransControl != 0) {
-                        globalCtx->envCtx.screenFillColor[3] = gSaveContext.cutsceneTransControl;
-                        if (gSaveContext.cutsceneTransControl <= 100) {
+                    if (gSaveContext.cutsceneTransitionControl != 0) {
+                        globalCtx->envCtx.screenFillColor[3] = gSaveContext.cutsceneTransitionControl;
+                        if (gSaveContext.cutsceneTransitionControl <= 100) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
                             globalCtx->transitionTrigger = TRANS_TRIGGER_OFF;
