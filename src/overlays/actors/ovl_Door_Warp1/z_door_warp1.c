@@ -494,7 +494,8 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
     this->warpTimer++;
 
     if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->transitionTrigger, TRANS_TRIGGER_IN);
+        osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->transitionTrigger,
+                     TRANS_TRIGGER_IN);
 
         if (globalCtx->sceneNum == SCENE_DDAN_BOSS) {
             if (!Flags_GetEventChkInf(0x25)) {

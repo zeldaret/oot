@@ -3067,7 +3067,8 @@ s32 func_80836FAC(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3, 
     f32 temp_f14;
     f32 temp_f12;
 
-    if ((this->unk_6AD != 0) || (globalCtx->transitionTrigger == TRANS_TRIGGER_IN) || (this->stateFlags1 & PLAYER_STATE1_0)) {
+    if ((this->unk_6AD != 0) || (globalCtx->transitionTrigger == TRANS_TRIGGER_IN) ||
+        (this->stateFlags1 & PLAYER_STATE1_0)) {
         *arg2 = 0.0f;
         *arg3 = this->actor.shape.rot.y;
     } else {
@@ -3945,8 +3946,8 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
     if (this->actor.category == ACTORCAT_PLAYER) {
         sp3C = 0;
 
-        if (!(this->stateFlags1 & PLAYER_STATE1_7) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) && (this->csMode == 0) &&
-            !(this->stateFlags1 & PLAYER_STATE1_0) &&
+        if (!(this->stateFlags1 & PLAYER_STATE1_7) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) &&
+            (this->csMode == 0) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
             (((poly != NULL) && (sp3C = SurfaceType_GetSceneExitIndex(&globalCtx->colCtx, poly, bgId), sp3C != 0)) ||
              (func_8083816C(D_808535E4) && (this->unk_A7A == 12)))) {
 
@@ -10114,8 +10115,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                                                             : &gPlayerAnim_002878);
                 }
             } else {
-                if ((this->actor.parent == NULL) &&
-                    ((globalCtx->transitionTrigger == TRANS_TRIGGER_IN) || (this->unk_A87 != 0) || !func_808382DC(this, globalCtx))) {
+                if ((this->actor.parent == NULL) && ((globalCtx->transitionTrigger == TRANS_TRIGGER_IN) ||
+                                                     (this->unk_A87 != 0) || !func_808382DC(this, globalCtx))) {
                     func_8083AA10(this, globalCtx);
                 } else {
                     this->fallStartHeight = this->actor.world.pos.y;
@@ -11841,7 +11842,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
                 globalCtx->nextEntranceIndex = 0x0123;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
-                globalCtx->transitionType = TRANS_TYPE_15;
+                globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
                 func_80852FFC(globalCtx, NULL, 8);
             }

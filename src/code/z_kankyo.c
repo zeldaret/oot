@@ -281,7 +281,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skyboxFilterColor[1] = 0;
     envCtx->skyboxFilterColor[2] = 0;
     envCtx->skyboxFilterColor[3] = 0;
-    envCtx->sandstormState = 0;
+    envCtx->sandstormState = SANDSTORM_OFF;
     envCtx->sandstormPrimA = 0;
     envCtx->sandstormEnvA = 0;
 
@@ -2229,7 +2229,7 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
     u16 sp92;
 
     switch (sandstormState) {
-        case 3:
+        case SANDSTORM_ACTIVE:
             if ((globalCtx->sceneNum == SCENE_SPOT13) && (globalCtx->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (globalCtx->envCtx.sandstormEnvA > 128) ? 255 : globalCtx->envCtx.sandstormEnvA >> 1;
@@ -2243,12 +2243,12 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
             }
             break;
 
-        case 1:
+        case SANDSTORM_FILL:
             primA1 = 255;
             envA1 = (globalCtx->envCtx.sandstormPrimA >= 255) ? 255 : 128;
             break;
 
-        case 2:
+        case SANDSTORM_UNFILL:
             envA1 = 128;
             if (globalCtx->envCtx.sandstormEnvA > 128) {
                 primA1 = 0xFF;
@@ -2260,16 +2260,16 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
                 primA1 += 73;
             }
             if ((primA1 >= primA) && (primA1 != 255)) {
-                globalCtx->envCtx.sandstormState = 3;
+                globalCtx->envCtx.sandstormState = SANDSTORM_ACTIVE;
             }
             break;
-            
-        case 4:
+
+        case SANDSTORM_DISSIPATE:
             envA1 = 0;
             primA1 = (globalCtx->envCtx.sandstormEnvA > 128) ? 255 : globalCtx->envCtx.sandstormEnvA >> 1;
 
             if (primA == 0) {
-                globalCtx->envCtx.sandstormState = 0;
+                globalCtx->envCtx.sandstormState = SANDSTORM_OFF;
             }
             break;
     }

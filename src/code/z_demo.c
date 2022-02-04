@@ -405,7 +405,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 32:
             if (sp3F != 0) {
-                globalCtx->envCtx.sandstormState = 1;
+                globalCtx->envCtx.sandstormState = SANDSTORM_FILL;
             }
             func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
@@ -794,8 +794,8 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 48:
                 globalCtx->nextEntranceIndex = 0x01ED;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
-                globalCtx->transitionType = TRANS_TYPE_15;
-                gSaveContext.nextTransition = TRANS_TYPE_15;
+                globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
+                gSaveContext.nextTransition = TRANS_TYPE_SANDSTORM_END;
                 break;
             case 49:
                 globalCtx->nextEntranceIndex = 0x058C;
@@ -1089,7 +1089,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 101:
                 globalCtx->nextEntranceIndex = 0x01F5;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
-                globalCtx->transitionType = TRANS_TYPE_15;
+                globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
                 break;
             case 102:
                 globalCtx->nextEntranceIndex = 0x0590;

@@ -164,7 +164,7 @@ typedef struct {
     /* 0x1414 */ u8 cutsceneTrigger;
     /* 0x1415 */ u8 chamberCutsceneNum;
     /* 0x1416 */ u16 nextDayTime; // "next_zelda_time"
-    /* 0x1418 */ u8 fadeDuration;
+    /* 0x1418 */ u8 transFadeDuration;
     /* 0x1419 */ u8 transWipeSpeed;
     /* 0x141A */ u16 skyboxTime;
     /* 0x141C */ u8 dogIsLost;

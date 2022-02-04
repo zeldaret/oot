@@ -86,7 +86,7 @@ void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.unk_13E7 = 0;
         this->globalState = MAG_STATE_DISPLAY;
         sDelayTimer = 20;
-        gSaveContext.fadeDuration = 1;
+        gSaveContext.transFadeDuration = 1;
         gSaveContext.transWipeSpeed = 255;
     }
 
@@ -129,7 +129,7 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 this->globalState = MAG_STATE_DISPLAY;
                 sDelayTimer = 20;
-                gSaveContext.fadeDuration = 1;
+                gSaveContext.transFadeDuration = 1;
                 gSaveContext.transWipeSpeed = 255;
             }
         } else if (this->globalState >= MAG_STATE_DISPLAY) {

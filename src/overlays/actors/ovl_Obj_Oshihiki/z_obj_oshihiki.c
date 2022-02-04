@@ -344,8 +344,8 @@ s16 ObjOshihiki_GetHighestFloor(ObjOshihiki* this) {
     for (i = 1; i < ARRAY_COUNT(this->floorHeights); i++) {
         if (this->floorHeights[i] > this->floorHeights[highestFloor]) {
             highestFloor = i;
-        } else if ((this->floorBgIds[i] == BGCHECK_SCENE) && 
-            ((this->floorHeights[i] - this->floorHeights[highestFloor]) > -0.001f)) {
+        } else if ((this->floorBgIds[i] == BGCHECK_SCENE) &&
+                   ((this->floorHeights[i] - this->floorHeights[highestFloor]) > -0.001f)) {
             highestFloor = i;
         }
     }
