@@ -969,6 +969,10 @@ typedef struct {
     /* 0x4C */ u32 unk_4C;
 } PreRender; // size = 0x50
 
+#define TRANS_TRIGGER_OUT -20 // transition is going out
+#define TRANS_TRIGGER_OFF 0 // transition is not active
+#define TRANS_TRIGGER_IN 20 // activate transition to come in
+
 typedef enum {
     /* 00 */ TRANS_MODE_OFF,
     /* 01 */ TRANS_MODE_SETUP,
@@ -1012,8 +1016,8 @@ typedef enum {
     /* 18 */ TRANS_TYPE_FADE_GREEN,
     /* 19 */ TRANS_TYPE_FADE_BLUE,
     // transition types 20 - 31 are unused
-    // transition types 32 - 56 are constructed using the TRANS_TYPE_CIRCLE macro
-    /* 56 */ TRANS_TYPE_56 = 56
+    // transition types 32 - 55 are constructed using the TRANS_TYPE_CIRCLE macro
+    /* 56 */ TRANS_TYPE_MAX = 56
 } TransitionType;
 
 typedef enum {
@@ -1246,7 +1250,7 @@ typedef struct GlobalContext {
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
     /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
-    /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
+    /* 0x11E15 */ s8 transitionTrigger; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;
     /* 0x11E18 */ s16 unk_11E18;
     /* 0x11E1A */ s16 nextEntranceIndex;

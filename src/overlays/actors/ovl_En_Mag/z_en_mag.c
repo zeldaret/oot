@@ -138,14 +138,14 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
                     CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
 
-                    if (globalCtx->sceneLoadFlag != 20) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_IN) {
                         Audio_SetCutsceneFlag(0);
 
                         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
 
                         gSaveContext.gameMode = 2;
-                        globalCtx->sceneLoadFlag = 20;
+                        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
                         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                     }
 

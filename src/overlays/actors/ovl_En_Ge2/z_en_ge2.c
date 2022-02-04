@@ -245,7 +245,7 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
         }
 
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1);
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
     }
 }
 
@@ -271,7 +271,7 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
         }
 
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1);
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
     }
 }
 

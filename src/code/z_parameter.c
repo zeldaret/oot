@@ -1048,7 +1048,7 @@ void func_80083108(GlobalContext* globalCtx) {
 
     if (sp28) {
         gSaveContext.unk_13EA = 0;
-        if ((globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == TRANS_MODE_OFF)) {
+        if ((globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) && (globalCtx->transitionMode == TRANS_MODE_OFF)) {
             Interface_ChangeAlpha(50);
             osSyncPrintf("????????  alpha_change( 50 );  ?????\n");
         } else {
@@ -2454,7 +2454,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         case 7:
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
                 (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
-                (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx)) {
+                (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) && (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -3368,7 +3368,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // Trade quest timer reached 0
             D_8015FFE6 = 40;
             gSaveContext.cutsceneIndex = 0;
-            globalCtx->sceneLoadFlag = 0x14;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
             globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             gSaveContext.timer2State = 0;
 
@@ -3403,7 +3403,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
             (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
-            !(player->stateFlags2 & PLAYER_STATE2_24) && (globalCtx->sceneLoadFlag == 0) &&
+            !(player->stateFlags2 & PLAYER_STATE2_24) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
@@ -3963,7 +3963,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
         (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE2_24) &&
-        (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx)) {}
+        (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) && (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {
@@ -4043,7 +4043,7 @@ void Interface_Update(GlobalContext* globalCtx) {
     WREG(7) = interfaceCtx->unk_1F4;
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
-        (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->sceneLoadFlag == 0) &&
+        (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) &&
         (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->transitionMode == TRANS_MODE_OFF) &&
         ((globalCtx->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
@@ -4157,7 +4157,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
             gSaveContext.respawnFlag = -2;
             globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
-            globalCtx->sceneLoadFlag = 0x14;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
             gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;

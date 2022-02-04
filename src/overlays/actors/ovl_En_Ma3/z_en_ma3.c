@@ -117,7 +117,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 globalCtx->nextEntranceIndex = 0x157;
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST, 1);
-                globalCtx->sceneLoadFlag = 0x14;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
                 gSaveContext.eventInf[0] |= 0x400;
                 gSaveContext.timer1State = 0xF;
             }
