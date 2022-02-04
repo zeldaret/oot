@@ -104,24 +104,24 @@ typedef enum {
 } OcarinaButtonIdx;
 
 typedef enum {
-    /* 0x0 */ NOTE_C4,
-    /* 0x1 */ NOTE_DFLAT4,
-    /* 0x2 */ NOTE_D4,
-    /* 0x3 */ NOTE_EFLAT4,
-    /* 0x4 */ NOTE_E4,
-    /* 0x5 */ NOTE_F4,
-    /* 0x6 */ NOTE_GFLAT4,
-    /* 0x7 */ NOTE_G4,
-    /* 0x8 */ NOTE_AFLAT4,
-    /* 0x9 */ NOTE_A4,
-    /* 0xA */ NOTE_BFLAT4,
-    /* 0xB */ NOTE_B4,
-    /* 0xC */ NOTE_C5,
-    /* 0xD */ NOTE_DFLAT5,
-    /* 0xE */ NOTE_D5,
-    /* 0xF */ NOTE_EFLAT5,
-    /* -1  */ NOTE_NONE = 0xFF
-} OcarinaNoteIdx;
+    /* 0x0 */ OCARINA_PITCH_C4,
+    /* 0x1 */ OCARINA_PITCH_DFLAT4,
+    /* 0x2 */ OCARINA_PITCH_D4,
+    /* 0x3 */ OCARINA_PITCH_EFLAT4,
+    /* 0x4 */ OCARINA_PITCH_E4,
+    /* 0x5 */ OCARINA_PITCH_F4,
+    /* 0x6 */ OCARINA_PITCH_GFLAT4,
+    /* 0x7 */ OCARINA_PITCH_G4,
+    /* 0x8 */ OCARINA_PITCH_AFLAT4,
+    /* 0x9 */ OCARINA_PITCH_A4,
+    /* 0xA */ OCARINA_PITCH_BFLAT4,
+    /* 0xB */ OCARINA_PITCH_B4,
+    /* 0xC */ OCARINA_PITCH_C5,
+    /* 0xD */ OCARINA_PITCH_DFLAT5,
+    /* 0xE */ OCARINA_PITCH_D5,
+    /* 0xF */ OCARINA_PITCH_EFLAT5,
+    /* -1  */ OCARINA_PITCH_NONE = 0xFF
+} OcarinaPitch;
 
 typedef enum {
     /* 0 */ OCARINA_INSTRUMENT_OFF,
@@ -144,28 +144,28 @@ typedef enum {
 } OcarinaRecordingState;
 
 /**
- * BFlat4Flag Note:
- * Flag for resolving whether (noteIdx = NOTE_BFLAT4) 
+ * bFlat4Flag Note:
+ * Flag for resolving whether (pitch = OCARINA_PITCH_BFLAT4) 
  * gets mapped to either C_RIGHT and C_LEFT
  * 
  * This is required as C_RIGHT and C_LEFT are the only notes
- * that map to two semitones apart (NOTE_A4 and NOTE_B4)
+ * that map to two semitones apart (OCARINA_PITCH_A4 and OCARINA_PITCH_B4)
  *      0x40 - BTN_Z is pressed to lower note by a semitone
  *      0x80 - BTN_R is pressed to raise note by a semitone
  */ 
 
 typedef struct {
-    /* 0x0 */ u8 noteIdx; // number of semitones above middle C
+    /* 0x0 */ u8 pitch; // number of semitones above middle C
     /* 0x2 */ u16 length; // number of frames the note is sustained
     /* 0x4 */ u8 volume;
     /* 0x5 */ u8 vibrato;
-    /* 0x6 */ s8 bend; // frequency multiplicative offset from the pitch defined by noteIdx
-    /* 0x7 */ u8 BFlat4Flag; // See note above
+    /* 0x6 */ s8 bend; // frequency multiplicative offset from the pitch
+    /* 0x7 */ u8 bFlat4Flag; // See note above
 } OcarinaNote;  // size = 0x8
 
 typedef struct {
     /* 0x0 */ u8 numButtons;
-    /* 0x1 */ u8 buttonIdx[8];
+    /* 0x1 */ u8 buttonsIdx[8];
 } OcarinaSongButtons; // size = 0x9
 
 typedef struct {

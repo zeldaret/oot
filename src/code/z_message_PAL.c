@@ -1721,10 +1721,18 @@ void Message_ContinueTextbox(GlobalContext* globalCtx, u16 textId) {
 
 void Message_StartOcarina(GlobalContext* globalCtx, u16 ocarinaActionId) {
     static u16 sOcarinaSongFlagsMap[] = {
-        (1 << OCARINA_SONG_MINUET),    (1 << OCARINA_SONG_BOLERO),   (1 << OCARINA_SONG_SERENADE),
-        (1 << OCARINA_SONG_REQUIEM),   (1 << OCARINA_SONG_NOCTURNE), (1 << OCARINA_SONG_PRELUDE),
-        (1 << OCARINA_SONG_LULLABY),   (1 << OCARINA_SONG_EPONAS),   (1 << OCARINA_SONG_SARIAS),
-        (1 << OCARINA_SONG_SUNS),      (1 << OCARINA_SONG_TIME),     (1 << OCARINA_SONG_STORMS),
+        (1 << OCARINA_SONG_MINUET),
+        (1 << OCARINA_SONG_BOLERO),
+        (1 << OCARINA_SONG_SERENADE),
+        (1 << OCARINA_SONG_REQUIEM),
+        (1 << OCARINA_SONG_NOCTURNE),
+        (1 << OCARINA_SONG_PRELUDE),
+        (1 << OCARINA_SONG_LULLABY),
+        (1 << OCARINA_SONG_EPONAS),
+        (1 << OCARINA_SONG_SARIAS),
+        (1 << OCARINA_SONG_SUNS),
+        (1 << OCARINA_SONG_TIME),
+        (1 << OCARINA_SONG_STORMS),
         (1 << OCARINA_SONG_SCARECROW_SPAWN),
     };
     MessageContext* msgCtx = &globalCtx->msgCtx;

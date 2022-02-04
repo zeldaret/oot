@@ -120,7 +120,7 @@ extern volatile OSTime gIrqMgrRetraceTime;
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];
-extern f32 gNoteFrequencies[];
+extern f32 gPitchFrequencies[];
 extern u8 gDefaultShortNoteVelocityTable[16];
 extern u8 gDefaultShortNoteGateTimeTable[16];
 extern AdsrEnvelope gDefaultEnvelope[4];
