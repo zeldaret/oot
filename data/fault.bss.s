@@ -9,10 +9,10 @@
 
 .balign 16
 
-glabel sFaultStructPtr
+glabel sFaultInstance
     .space 4
 
-glabel sFaultIsWaitingForInput
+glabel sFaultAwaitingInput
     .space 4
 
 glabel sFaultStack
@@ -21,5 +21,5 @@ glabel sFaultStack
 glabel sFaultThreadInfo
     .space 0x20
 
-glabel gFaultStruct
+glabel gFaultMgr
     .space 0x850

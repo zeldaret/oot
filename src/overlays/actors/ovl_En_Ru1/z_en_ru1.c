@@ -855,7 +855,8 @@ void func_80AEC780(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_80AEC5FC(this, globalCtx)) && (!Gameplay_InCsMode(globalCtx)) && (!(player->stateFlags1 & 0x206000)) &&
+    if ((func_80AEC5FC(this, globalCtx)) && (!Gameplay_InCsMode(globalCtx)) &&
+        (!(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21))) &&
         (player->actor.bgCheckFlags & 1)) {
 
         globalCtx->csCtx.segment = &D_80AF0880;
@@ -1641,7 +1642,7 @@ void func_80AEE7C4(EnRu1* this, GlobalContext* globalCtx) {
     }
 
     player = GET_PLAYER(globalCtx);
-    if (player->stateFlags2 & 0x10000000) {
+    if (player->stateFlags2 & PLAYER_STATE2_28) {
         this->unk_370 += 1.0f;
         if (this->action != 32) {
             if (*unk_370 > 30.0f) {

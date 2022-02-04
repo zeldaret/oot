@@ -321,7 +321,7 @@ void Lights_GlowCheck(GlobalContext* globalCtx) {
     LightPoint* params;
     Vec3f pos;
     Vec3f multDest;
-    f32 wDest;
+    f32 cappedInvWDest;
     f32 wX;
     f32 wY;
     s32 wZ;
@@ -336,13 +336,13 @@ void Lights_GlowCheck(GlobalContext* globalCtx) {
             pos.x = params->x;
             pos.y = params->y;
             pos.z = params->z;
-            func_8002BE04(globalCtx, &pos, &multDest, &wDest);
+            Actor_ProjectPos(globalCtx, &pos, &multDest, &cappedInvWDest);
             params->drawGlow = false;
-            wX = multDest.x * wDest;
-            wY = multDest.y * wDest;
+            wX = multDest.x * cappedInvWDest;
+            wY = multDest.y * cappedInvWDest;
 
             if ((multDest.z > 1.0f) && (fabsf(wX) < 1.0f) && (fabsf(wY) < 1.0f)) {
-                wZ = (s32)((multDest.z * wDest) * 16352.0f) + 16352;
+                wZ = (s32)((multDest.z * cappedInvWDest) * 16352.0f) + 16352;
                 zBuf = gZBuffer[(s32)((wY * -120.0f) + 120.0f)][(s32)((wX * 160.0f) + 160.0f)] * 4;
                 if (1) {}
                 if (1) {}

@@ -27,8 +27,8 @@ typedef struct {
 
 u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     StickDrawInfo drawInfo[] = {
-        { OBJECT_LINK_BOY, gLinkAdultBrokenGiantsKnifeBladeDL },   // adult, broken sword
-        { OBJECT_LINK_CHILD, gLinkChildLinkDekuStickDL }, // child, broken stick
+        { OBJECT_LINK_BOY, gLinkAdultBrokenGiantsKnifeBladeDL }, // adult, broken sword
+        { OBJECT_LINK_CHILD, gLinkChildLinkDekuStickDL },        // child, broken stick
     };
     StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;

@@ -597,7 +597,7 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
 void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags2 & 0x2000000) {
+    if (player->stateFlags2 & PLAYER_STATE2_25) {
         if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
             globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
         }

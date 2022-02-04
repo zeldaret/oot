@@ -192,7 +192,15 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry sAnimations[] = {
+typedef enum {
+    /* 0 */ ENFD_ANIM_0,
+    /* 1 */ ENFD_ANIM_1,
+    /* 2 */ ENFD_ANIM_2,
+    /* 3 */ ENFD_ANIM_3,
+    /* 4 */ ENFD_ANIM_4
+} EnFdAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gFlareDancerCastingFireAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
     { &gFlareDancerBackflipAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
     { &gFlareDancerGettingUpAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
@@ -471,7 +479,7 @@ void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
     this->coreActive = false;
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
-    func_80034EC0(&this->skelAnime, sAnimations, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_LAUGH);
     this->actionFunc = EnFd_SpinAndGrow;
 }
@@ -483,7 +491,7 @@ void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y ^= 0x8000;
         this->actor.flags |= ACTOR_FLAG_0;
         this->actor.speedXZ = 8.0f;
-        func_80034EC0(&this->skelAnime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
         this->actionFunc = EnFd_JumpToGround;
     } else {
         this->actor.scale.y = this->skelAnime.curFrame * (0.01f / this->skelAnime.animLength);
@@ -497,7 +505,7 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        func_80034EC0(&this->skelAnime, sAnimations, 2);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_2);
         this->actionFunc = EnFd_Land;
     }
 }
@@ -511,7 +519,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
         this->actor.world.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
-        func_80034EC0(&this->skelAnime, sAnimations, 4);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
 }
@@ -559,7 +567,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
             this->curYawToInitPos = this->runDir < 0 ? 0xFFFF : 0;
             this->circlesToComplete = (globalCtx->state.frames & 7) + 2;
             this->spinTimer = Rand_S16Offset(30, 120);
-            func_80034EC0(&this->skelAnime, sAnimations, 3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_3);
             this->actionFunc = EnFd_Run;
         }
     }
@@ -567,7 +575,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
 
 /**
  * Run around in a circle with the center being the initial position, and
- * the radius being the distance from the initial postion to the nearest
+ * the radius being the distance from the initial position to the nearest
  * threat (bomb or player).
  */
 void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
@@ -581,7 +589,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
             this->actor.world.rot.y ^= 0x8000;
             this->actor.velocity.y = 6.0f;
             this->actor.speedXZ = 0.0f;
-            func_80034EC0(&this->skelAnime, sAnimations, 1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
             this->actionFunc = EnFd_JumpToGround;
             return;
         }

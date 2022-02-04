@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_ma1" Segment="6">
         <Skeleton Name="gMalonChildSkel" Type="Flex" LimbType="Standard" Offset="0x8460"/>
-    
+
         <Limb Name="gMalonChildRootLimb" LimbType="Standard" Offset="0x8340"/>
         <Limb Name="gMalonChildLeftThighLimb" LimbType="Standard" Offset="0x834C"/>
         <Limb Name="gMalonChildLeftShinLimb" LimbType="Standard" Offset="0x8358"/>

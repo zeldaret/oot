@@ -104,7 +104,7 @@ void ZNormalAnimation::DeclareReferences(const std::string& prefix)
 			valuesStr += "\n    ";
 	}
 
-	parent->AddDeclarationArray(rotationValuesOffset, DeclarationAlignment::Align16,
+	parent->AddDeclarationArray(rotationValuesOffset, DeclarationAlignment::Align4,
 	                            rotationValues.size() * 2, "s16",
 	                            StringHelper::Sprintf("%sFrameData", defaultPrefix.c_str()),
 	                            rotationValues.size(), valuesStr);
@@ -118,7 +118,7 @@ void ZNormalAnimation::DeclareReferences(const std::string& prefix)
 			indicesStr += "\n";
 	}
 
-	parent->AddDeclarationArray(rotationIndicesOffset, DeclarationAlignment::Align16,
+	parent->AddDeclarationArray(rotationIndicesOffset, DeclarationAlignment::Align4,
 	                            rotationIndices.size() * 6, "JointIndex",
 	                            StringHelper::Sprintf("%sJointIndices", defaultPrefix.c_str()),
 	                            rotationIndices.size(), indicesStr);
@@ -385,7 +385,7 @@ size_t ZCurveAnimation::GetRawDataSize() const
 
 DeclarationAlignment ZCurveAnimation::GetDeclarationAlignment() const
 {
-	return DeclarationAlignment::Align16;
+	return DeclarationAlignment::Align4;
 }
 
 std::string ZCurveAnimation::GetSourceTypeName() const
