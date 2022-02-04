@@ -103,6 +103,8 @@ typedef enum {
     /* -1 */ OCARINA_BTN_INVALID = 0xFF
 } OcarinaButtonIdx;
 
+// Uses scientific pitch notation relative to middle C
+// https://en.wikipedia.org/wiki/Scientific_pitch_notation
 typedef enum {
     /* 0x0 */ OCARINA_PITCH_C4,
     /* 0x1 */ OCARINA_PITCH_DFLAT4,
