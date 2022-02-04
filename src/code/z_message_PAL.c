@@ -2864,13 +2864,13 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                     gDPSetPrimColor(gfx++, 0, 0, 150, 150, 150, 150);
                     gDPSetEnvColor(gfx++, 10, 10, 10, 0);
 
-                    gDPLoadTextureBlock(gfx++, sOcarinaNoteTextures[gOcarinaSongButtons[g].buttonIdx[i]], G_IM_FMT_IA,
+                    gDPLoadTextureBlock(gfx++, sOcarinaNoteTextures[gOcarinaSongButtons[g].buttonsIdx[i]], G_IM_FMT_IA,
                                         G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                     gSPTextureRectangle(
-                        gfx++, notePosX << 2, R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonIdx[i]) << 2,
-                        (notePosX + 16) << 2, (R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonIdx[i]) + 16) << 2,
+                        gfx++, notePosX << 2, R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonsIdx[i]) << 2,
+                        (notePosX + 16) << 2, (R_OCARINA_BUTTONS_YPOS(gOcarinaSongButtons[g].buttonsIdx[i]) + 16) << 2,
                         G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
                 }
             }

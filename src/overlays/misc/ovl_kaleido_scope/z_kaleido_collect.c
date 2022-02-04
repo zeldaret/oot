@@ -516,7 +516,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
             for (sp218 = sp21A, phi_s3 = 0; phi_s3 < sp226; phi_s3++, sp21A += 4) {
                 pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
-                    VREG(21 + gOcarinaSongButtons[sp224].buttonIdx[phi_s3]);
+                    VREG(21 + gOcarinaSongButtons[sp224].buttonsIdx[phi_s3]);
 
                 pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
                     pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
@@ -524,7 +524,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
                 gDPPipeSync(POLY_OPA_DISP++);
 
                 if (pauseCtx->unk_1E4 == 8) {
-                    if (gOcarinaSongButtons[sp224].buttonIdx[phi_s3] == OCARINA_BTN_A) {
+                    if (gOcarinaSongButtons[sp224].buttonsIdx[phi_s3] == OCARINA_BTN_A) {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 80, 255, 150, 200);
                     } else {
                         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 50, 200);
@@ -537,7 +537,7 @@ void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfx
 
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
-                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongButtons[sp224].buttonIdx[phi_s3]],
+                gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[gOcarinaSongButtons[sp224].buttonsIdx[phi_s3]],
                                     G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
