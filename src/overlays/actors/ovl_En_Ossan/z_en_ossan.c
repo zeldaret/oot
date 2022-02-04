@@ -919,7 +919,7 @@ void EnOssan_State_StartConversation(EnOssan* this, GlobalContext* globalCtx, Pl
             case OSSAN_HAPPY_STATE_ANGRY:
                 globalCtx->nextEntranceIndex = 0x1D1;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
-                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_WHITE, TC_FAST, 1);
+                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_WHITE, TC_FAST);
                 return;
         }
 

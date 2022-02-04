@@ -2509,7 +2509,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
             gSaveContext.cutsceneIndex = 0;
             globalCtx->nextEntranceIndex = 0x3B0;
             globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
-            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_NORMAL, TC_BLACK, TC_FAST, 1);
+            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_NORMAL, TC_BLACK, TC_FAST);
         }
     }
 

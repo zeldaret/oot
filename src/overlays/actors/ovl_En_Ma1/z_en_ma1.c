@@ -387,7 +387,7 @@ void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
-        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_WAVE, TC_WHITE, TC_FAST, 1);
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_WAVE, TC_WHITE, TC_FAST);
         globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
         this->actionFunc = EnMa1_DoNothing;
     }
