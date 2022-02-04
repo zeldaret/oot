@@ -36,7 +36,7 @@ typedef enum {
     /* 2 */ SANDSTORM_UNFILL,
     /* 2 */ SANDSTORM_ACTIVE,
     /* 2 */ SANDSTORM_DISSIPATE
-} SandStormState;
+} SandstormState;
 
 typedef struct {
     /* 0x00 */ u8 state;
