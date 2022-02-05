@@ -49,6 +49,12 @@
 #define Z_PRIORITY_DMAMGR      16
 #define Z_PRIORITY_IRQMGR      17
 
+#define STACK(stack, size) \
+    u64 stack[size / sizeof(u64)]
+
+#define STACK_END(stack) \
+    ((u8*)(stack) + sizeof(stack))
+
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
