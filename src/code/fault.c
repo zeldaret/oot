@@ -1264,8 +1264,8 @@ void Fault_Init(void) {
     sFaultInstance->autoScroll = false;
     gFaultMgr.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultInstance->queue, &sFaultInstance->msg, 1);
-    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, STACK_END(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultInstance->thread, 2, Fault_ThreadEntry, 0, STACK_END(sFaultStack),
+    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, STACK_TOP(sFaultStack), 0, 0x100, "fault");
+    osCreateThread(&sFaultInstance->thread, 2, Fault_ThreadEntry, 0, STACK_TOP(sFaultStack),
                    OS_PRIORITY_APPMAX);
     osStartThread(&sFaultInstance->thread);
 }

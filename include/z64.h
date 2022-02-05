@@ -50,9 +50,9 @@
 #define Z_PRIORITY_IRQMGR      17
 
 #define STACK(stack, size) \
-    u64 stack[size / sizeof(u64)]
+    u64 stack[((size + 7) & ~7) / sizeof(u64)]
 
-#define STACK_END(stack) \
+#define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
 
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef

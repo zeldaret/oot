@@ -45,7 +45,7 @@ void osCreateViManager(OSPri pri) {
         __osViDevMgr.piDmaCallback = NULL;
         __osViDevMgr.epiDmaCallback = NULL;
 
-        osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, STACK_END(viThreadStack), pri);
+        osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, STACK_TOP(viThreadStack), pri);
         __osViInit();
         osStartThread(&viThread);
         __osRestoreInt(prevInt);

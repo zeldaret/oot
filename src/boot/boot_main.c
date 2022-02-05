@@ -11,7 +11,7 @@ void cleararena(void) {
 }
 
 void bootproc(void) {
-    StackCheck_Init(&sBootThreadInfo, sBootThreadStack, STACK_END(sBootThreadStack), 0, -1, "boot");
+    StackCheck_Init(&sBootThreadInfo, sBootThreadStack, STACK_TOP(sBootThreadStack), 0, -1, "boot");
 
     osMemSize = osGetMemSize();
     cleararena();
@@ -23,8 +23,8 @@ void bootproc(void) {
     isPrintfInit();
     Locale_Init();
 
-    StackCheck_Init(&sIdleThreadInfo, sIdleThreadStack, STACK_END(sIdleThreadStack), 0, 256, "idle");
-    osCreateThread(&sIdleThread, 1, Idle_ThreadEntry, NULL, STACK_END(sIdleThreadStack),
+    StackCheck_Init(&sIdleThreadInfo, sIdleThreadStack, STACK_TOP(sIdleThreadStack), 0, 256, "idle");
+    osCreateThread(&sIdleThread, 1, Idle_ThreadEntry, NULL, STACK_TOP(sIdleThreadStack),
                    Z_PRIORITY_MAIN);
     osStartThread(&sIdleThread);
 }

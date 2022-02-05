@@ -75,25 +75,25 @@ void Main(void* arg) {
     Main_LogSystemHeap();
 
     osCreateMesgQueue(&irqMgrMsgQ, irqMgrMsgBuf, 0x3C);
-    StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, STACK_END(sIrqMgrStack), 0, 0x100, "irqmgr");
+    StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, STACK_TOP(sIrqMgrStack), 0, 0x100, "irqmgr");
     IrqMgr_Init(&gIrqMgr, &sGraphStackInfo, Z_PRIORITY_IRQMGR, 1);
 
     osSyncPrintf("タスクスケジューラの初期化\n"); // "Initialize the task scheduler"
-    StackCheck_Init(&sSchedStackInfo, sSchedStack, STACK_END(sSchedStack), 0, 0x100, "sched");
+    StackCheck_Init(&sSchedStackInfo, sSchedStack, STACK_TOP(sSchedStack), 0, 0x100, "sched");
     Sched_Init(&gSchedContext, &sAudioStack, Z_PRIORITY_SCHED, D_80013960, 1, &gIrqMgr);
 
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQ);
 
-    StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_END(sAudioStack), 0, 0x100, "audio");
-    AudioMgr_Init(&gAudioMgr, STACK_END(sAudioStack), Z_PRIORITY_AUDIOMGR, 0xA, &gSchedContext, &gIrqMgr);
+    StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_TOP(sAudioStack), 0, 0x100, "audio");
+    AudioMgr_Init(&gAudioMgr, STACK_TOP(sAudioStack), Z_PRIORITY_AUDIOMGR, 0xA, &gSchedContext, &gIrqMgr);
 
-    StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_END(sPadMgrStack), 0, 0x100, "padmgr");
+    StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_TOP(sPadMgrStack), 0, 0x100, "padmgr");
     PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, Z_PRIORITY_PADMGR, &sIrqMgrStack);
 
     AudioMgr_Unlock(&gAudioMgr);
 
-    StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_END(sGraphStack), 0, 0x100, "graph");
-    osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg, STACK_END(sGraphStack), Z_PRIORITY_GRAPH);
+    StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_TOP(sGraphStack), 0, 0x100, "graph");
+    osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), Z_PRIORITY_GRAPH);
     osStartThread(&sGraphThread);
     osSetThreadPri(0, Z_PRIORITY_SCHED);
 
