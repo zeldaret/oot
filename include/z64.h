@@ -49,8 +49,10 @@
 #define Z_PRIORITY_DMAMGR      16
 #define Z_PRIORITY_IRQMGR      17
 
+#define ALIGN8(val) (((val) + 7) & ~7)
+
 #define STACK(stack, size) \
-    u64 stack[((size + (sizeof(u64) - 1)) & ~(sizeof(u64) - 1)) / sizeof(u64)]
+    u64 stack[ALIGN8(size) / sizeof(u64)]
 
 #define STACK_TOP(stack) \
     ((u8*)(stack) + sizeof(stack))
