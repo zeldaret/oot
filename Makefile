@@ -10,8 +10,6 @@ NON_MATCHING ?= 0
 ORIG_COMPILER ?= 0
 # If COMPILER is GCC, compile with GCC instead of IDO.
 COMPILER ?= ido
-# Declare ZAPDFLAGS used for ZAPD's flags.
-ZAPDFLAGS ?=
 # Declare CPPFLAGS used for the preprocessor.
 CPPFLAGS ?=
 
@@ -26,7 +24,6 @@ endif
 # are safe to be used can avoid using GLOBAL_ASM which doesn't work with gcc.
 ifeq ($(COMPILER),gcc)
   CPPFLAGS += -DCOMPILER_GCC
-  ZAPDFLAGS += --gcc-compat
   NON_MATCHING := 1
 endif
 
@@ -115,7 +112,7 @@ OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += -G 0 -nostdinc $(INC) -DNON_MATCHING=1 -DAVOID_UB=1 -mno-shared -march=vr4300 -mfix4300 -mabi=32 -mhard-float -mdivide-breaks -fno-stack-protector -fno-common -fno-zero-initialized-in-bss -mno-abicalls -fno-strict-aliasing -fno-inline-functions -fno-inline-small-functions -fno-toplevel-reorder -ffreestanding -fwrapv $(CHECK_WARNINGS) -g -mno-explicit-relocs -mno-split-addresses -funsigned-char
+  CFLAGS += -G 0 -nostdinc $(INC) -DNON_MATCHING=1 -DAVOID_UB=1 -march=vr4300 -mfix4300 -mabi=32 -mdivide-breaks -fno-common -fno-zero-initialized-in-bss -mno-abicalls -fno-toplevel-reorder -ffreestanding $(CHECK_WARNINGS) -g -mno-explicit-relocs -mno-split-addresses -funsigned-char
   MIPS_VERSION := -mips3
 else 
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
