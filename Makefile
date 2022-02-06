@@ -78,6 +78,7 @@ MKLDSCRIPT := tools/mkldscript
 MKDMADATA  := tools/mkdmadata
 ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
+FADO       := tools/fado/fado.elf
 
 OPTFLAGS := -O2
 ASFLAGS := -march=vr4300 -32 -Iinclude
@@ -118,9 +119,12 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
+OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
+
 # Automatic dependency files
-# (Only asm_processor dependencies are handled for now)
-DEP_FILES := $(O_FILES:.o=.asmproc.d)
+# (Only asm_processor dependencies and reloc dependencies are handled for now)
+DEP_FILES := $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d)
+
 
 TEXTURE_FILES_PNG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.png))
 TEXTURE_FILES_JPG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.jpg))
@@ -177,21 +181,6 @@ ifeq ($(COMPARE),1)
 	@md5sum -c checksum.md5
 endif
 
-$(ROM): $(ELF)
-	$(ELF2ROM) -cic 6105 $< $@
-
-$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt build/undefined_syms.txt
-	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
-
-build/$(SPEC): $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > $@
-
-build/ldscript.txt: build/$(SPEC)
-	$(MKLDSCRIPT) $< $@
-
-build/undefined_syms.txt: undefined_syms.txt
-	$(CPP) $(CPPFLAGS) $< > build/undefined_syms.txt
-
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
@@ -211,13 +200,41 @@ setup:
 	python3 extract_baserom.py
 	python3 extract_assets.py -j$(N_THREADS)
 
-resources: $(ASSET_FILES_OUT)
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
+
 
 .PHONY: all clean setup test distclean assetclean
 
 #### Various Recipes ####
+
+$(ROM): $(ELF)
+	$(ELF2ROM) -cic 6105 $< $@
+
+$(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) $(OVL_RELOC_FILES) build/ldscript.txt build/undefined_syms.txt
+	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
+
+## Order-only prerequisites 
+# These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
+# The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
+
+o_files: $(O_FILES)
+$(OVL_RELOC_FILES): | o_files
+
+asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
+$(O_FILES): | asset_files
+
+.PHONY: o_files asset_files
+
+
+build/$(SPEC): $(SPEC)
+	$(CPP) $(CPPFLAGS) $< > $@
+
+build/ldscript.txt: build/$(SPEC)
+	$(MKLDSCRIPT) $< $@
+
+build/undefined_syms.txt: undefined_syms.txt
+	$(CPP) $(CPPFLAGS) $< > $@
 
 build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
@@ -226,7 +243,7 @@ build/asm/%.o: asm/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 build/data/%.o: data/%.s
-	iconv --from UTF-8 --to EUC-JP $< | $(AS) $(ASFLAGS) -o $@
+	$(AS) $(ASFLAGS) $< -o $@
 
 build/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
 	python3 tools/msgenc.py assets/text/charmap.txt $< $@
@@ -246,13 +263,6 @@ build/dmadata_table_spec.h: build/$(SPEC)
 build/src/boot/z_std_dma.o: build/dmadata_table_spec.h
 build/src/dmadata/dmadata.o: build/dmadata_table_spec.h
 
-build/src/overlays/%.o: src/overlays/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
-	$(CC_CHECK) $<
-	$(ZAPD) bovl -eh -i $@ -cfg $< --outputpath $(@D)/$(notdir $(@D))_reloc.s
-	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
-	@$(OBJDUMP) -d $@ > $(@:.o=.s)
-
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
@@ -269,6 +279,10 @@ build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
+build/src/overlays/%_reloc.o: build/$(SPEC)
+	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
