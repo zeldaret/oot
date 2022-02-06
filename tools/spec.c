@@ -293,7 +293,7 @@ void parse_rom_spec(char *spec, struct Segment **segments, int *segment_count)
  * @brief Parses the spec, looking only for the segment with the name `segmentName`.
  * Returns true if the segment was found, false otherwise
  * 
- * @param[out] dstSegment The Segment to be filled. Will only contain the data of the searched segment, or garbage if the segment was not found. dstSegment must be previosly allocated, a stack variable is recommended
+ * @param[out] dstSegment The Segment to be filled. Will only contain the data of the searched segment, or garbage if the segment was not found. dstSegment must be previously allocated, a stack variable is recommended
  * @param[in,out] spec A null-terminated string containing the whole spec file. This string will be modified by this function
  * @param[in] segmentName The name of the segment being searched
  */

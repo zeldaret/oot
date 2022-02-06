@@ -10,7 +10,7 @@ void print_usage(char* prog_name) {
     printf("USAGE: %s SPEC OVERLAY_SEGMENT_NAME\n"
            "Search the preprocessed SPEC for an overlay segment name, \n"
            "e.g. \"ovl_En_Firefly\", and return a space-separated list of the files it\n"
-           "includes. The relocation file must the last include in the segment\n"
+           "includes. The relocation file must be the last include in the segment\n"
            "OVERLAY_SEGMENT_NAME, and have the filename \"OVERLAY_SEGMENT_NAME_reloc.o\",\n"
            "but can be in a different directory from the other files.\n",
            prog_name);
