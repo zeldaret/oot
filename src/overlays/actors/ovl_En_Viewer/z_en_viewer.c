@@ -15,9 +15,7 @@
 #include "objects/object_ganon/object_ganon.h"
 #include "objects/object_opening_demo1/object_opening_demo1.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnViewer*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -90,7 +88,7 @@ void EnViewer_SetupAction(EnViewer* this, EnViewerActionFunc actionFunc) {
 }
 
 void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
     u8 type;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -108,9 +106,9 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
 }
 
 void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
@@ -142,7 +140,7 @@ void EnViewer_InitAnimImpa(EnViewer* this, GlobalContext* globalCtx, void* skele
 void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim) {
     u8 type;
 
-    func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, anim);
+    Skin_Init(globalCtx, &this->skin, skeletonHeaderSeg, anim);
     type = this->actor.params >> 8;
     if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF ||
           type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
@@ -177,7 +175,7 @@ void EnViewer_InitImpl(EnViewer* this, GlobalContext* globalCtx) {
 
     if (!Object_IsLoaded(&globalCtx->objectCtx, skelObjBankIndex) ||
         !Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex)) {
-        this->actor.flags &= ~0x40;
+        this->actor.flags &= ~ACTOR_FLAG_6;
         return;
     }
 
@@ -479,7 +477,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 void EnViewer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     this->actionFunc(this, globalCtx);
@@ -578,7 +576,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 void EnViewer_DrawHorse(EnViewer* this, GlobalContext* globalCtx) {
-    func_800A6330(&this->actor, globalCtx, &this->skin, NULL, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, NULL, true);
 }
 
 s32 EnViewer_ZeldaOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -693,7 +691,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 };
 
 void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnViewer* this = THIS;
+    EnViewer* this = (EnViewer*)thisx;
     s32 pad;
     s16 type;
 

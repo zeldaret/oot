@@ -8,9 +8,7 @@
 #include "objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgTreemouth*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -86,7 +84,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -144,9 +142,9 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
         if (!LINK_IS_ADULT) {
             if (Flags_GetEventChkInf(0xC)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
-                    this->dyna.actor.flags |= 1;
+                    this->dyna.actor.flags |= ACTOR_FLAG_0;
                     if (this->dyna.actor.isTargeted) {
-                        this->dyna.actor.flags &= ~1;
+                        this->dyna.actor.flags &= ~ACTOR_FLAG_0;
                         globalCtx->csCtx.segment = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
@@ -215,7 +213,7 @@ void BgTreemouth_DoNothing(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     f32 unk_168;
 
     this->actionFunc(this, globalCtx);

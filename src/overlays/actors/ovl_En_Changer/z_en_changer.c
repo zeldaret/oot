@@ -9,9 +9,7 @@
 #include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnChanger*)thisx)
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ CHEST_LEFT,
@@ -67,7 +65,7 @@ void EnChanger_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnChanger* this = THIS;
+    EnChanger* this = (EnChanger*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     s16 leftChestParams;
     s16 rightChestParams;
@@ -158,13 +156,13 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->leftChest != NULL) {
         // "Left treasure generation (what does it contain?)"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" VT_RST, leftChestParams);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 左宝発生(ナニがはいってるの？) ☆☆☆☆☆ %x\n" VT_RST, leftChestParams);
         // "What is the room number?"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 部屋番号は？  %x\n" VT_RST, globalCtx->roomCtx.curRoom.num);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 部屋番号は？  %x\n" VT_RST, globalCtx->roomCtx.curRoom.num);
         // "What is the bit?"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ビットはなぁに？  %x\n" VT_RST, this->rightChestNum);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ビットはなぁに？  %x\n" VT_RST, this->rightChestNum);
         // "Sukesuke-kun" (something to do with being invisible)
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ すけすけ君？ %x\n" VT_RST, rightChestItem);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ すけすけ君？ %x\n" VT_RST, rightChestItem);
         osSyncPrintf("\n\n");
         if (this->roomChestsOpened) {
             Flags_SetTreasure(globalCtx, this->leftChestNum & 0x1F);
@@ -204,7 +202,7 @@ void EnChanger_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     ((this->rightChestNum & 0x1F) << 8) + (rightChestItem & 0xFF));
     }
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnChanger_Wait;
 }
 
@@ -286,7 +284,7 @@ void EnChanger_SetHeartPieceFlag(EnChanger* this, GlobalContext* globalCtx) {
 }
 
 void EnChanger_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnChanger* this = THIS;
+    EnChanger* this = (EnChanger*)thisx;
 
     this->actionFunc(this, globalCtx);
 

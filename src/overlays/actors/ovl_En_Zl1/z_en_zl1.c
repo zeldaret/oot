@@ -7,9 +7,7 @@
 #include "z_en_zl1.h"
 #include "objects/object_zl1/object_zl1.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnZl1*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ void func_80B4AB48(void) {
 
 void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     frameCount = Animation_GetLastFrame(&gChildZelda1Anim_12118);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gChildZelda1Skel, NULL, NULL, NULL, 0);
@@ -114,7 +112,7 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -558,7 +556,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Interface_ChangeAlpha(50);
-                this->actor.flags &= ~0x100;
+                this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;
             }
             break;
@@ -568,7 +566,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
 
 void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     if ((this->actionFunc != func_80B4B8B4) && (this->actionFunc != func_80B4BC78)) {
         SkelAnime_Update(&this->skelAnime);
@@ -586,7 +584,7 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnZl1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     if ((limbIndex == 4) || (limbIndex == 3) || (limbIndex == 6) || (limbIndex == 5)) {
         *dList = NULL;
@@ -608,7 +606,7 @@ s32 EnZl1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnZl1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f vec = { 0.0f, 0.0f, 0.0f };
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     if (limbIndex == 17) {
         Matrix_MultVec3f(&vec, &this->actor.focus.pos);
@@ -616,7 +614,7 @@ void EnZl1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnZl1_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnZl1* this = THIS;
+    EnZl1* this = (EnZl1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_girlB.c", 2011);
 

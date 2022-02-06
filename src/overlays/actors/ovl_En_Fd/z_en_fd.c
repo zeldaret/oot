@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_fw/object_fw.h"
 
-#define FLAGS 0x00000215
-
-#define THIS ((EnFd*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9)
 
 #define FLG_COREDEAD (0x4000)
 #define FLG_COREDONE (0x8000)
@@ -194,7 +192,15 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry sAnimations[] = {
+typedef enum {
+    /* 0 */ ENFD_ANIM_0,
+    /* 1 */ ENFD_ANIM_1,
+    /* 2 */ ENFD_ANIM_2,
+    /* 3 */ ENFD_ANIM_3,
+    /* 4 */ ENFD_ANIM_4
+} EnFdAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gFlareDancerCastingFireAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
     { &gFlareDancerBackflipAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
     { &gFlareDancerGettingUpAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
@@ -218,7 +224,7 @@ s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
         this->actor.child->colChkInfo.health = 8;
     }
 
-    if ((this->actor.flags & 0x2000) == 0x2000) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         func_8002DE04(globalCtx, &this->actor, this->actor.child);
     }
 
@@ -286,7 +292,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
             return false;
         }
         this->invincibilityTimer = 30;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
         Enemy_StartFinishingBlow(globalCtx, &this->actor);
         return true;
@@ -443,15 +449,15 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerSkel, NULL, this->jointTable, this->morphTable, 27);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
-    this->actor.flags &= ~1;
-    this->actor.flags |= 0x1000000;
+    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags |= ACTOR_FLAG_24;
     Actor_SetScale(&this->actor, 0.01f);
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
@@ -461,7 +467,7 @@ void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -473,7 +479,7 @@ void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
     this->coreActive = false;
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
-    func_80034EC0(&this->skelAnime, sAnimations, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_0);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_LAUGH);
     this->actionFunc = EnFd_SpinAndGrow;
 }
@@ -483,9 +489,9 @@ void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 6.0f;
         this->actor.scale.y = 0.01f;
         this->actor.world.rot.y ^= 0x8000;
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actor.speedXZ = 8.0f;
-        func_80034EC0(&this->skelAnime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
         this->actionFunc = EnFd_JumpToGround;
     } else {
         this->actor.scale.y = this->skelAnime.curFrame * (0.01f / this->skelAnime.animLength);
@@ -499,7 +505,7 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        func_80034EC0(&this->skelAnime, sAnimations, 2);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_2);
         this->actionFunc = EnFd_Land;
     }
 }
@@ -513,7 +519,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
         this->actor.world.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
-        func_80034EC0(&this->skelAnime, sAnimations, 4);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
 }
@@ -561,7 +567,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
             this->curYawToInitPos = this->runDir < 0 ? 0xFFFF : 0;
             this->circlesToComplete = (globalCtx->state.frames & 7) + 2;
             this->spinTimer = Rand_S16Offset(30, 120);
-            func_80034EC0(&this->skelAnime, sAnimations, 3);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_3);
             this->actionFunc = EnFd_Run;
         }
     }
@@ -569,7 +575,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
 
 /**
  * Run around in a circle with the center being the initial position, and
- * the radius being the distance from the initial postion to the nearest
+ * the radius being the distance from the initial position to the nearest
  * threat (bomb or player).
  */
 void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
@@ -583,7 +589,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
             this->actor.world.rot.y ^= 0x8000;
             this->actor.velocity.y = 6.0f;
             this->actor.speedXZ = 0.0f;
-            func_80034EC0(&this->skelAnime, sAnimations, 1);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_1);
             this->actionFunc = EnFd_JumpToGround;
             return;
         }
@@ -642,7 +648,7 @@ void EnFd_WaitForCore(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
     s32 pad;
 
     if (this->firstUpdateFlag) {
@@ -655,15 +661,15 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFd_SpawnDot(this, globalCtx);
     }
 
-    if ((this->actor.flags & 0x2000) == 0x2000) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         // has been hookshoted
         if (EnFd_SpawnCore(this, globalCtx)) {
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->invincibilityTimer = 30;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
             Enemy_StartFinishingBlow(globalCtx, &this->actor);
         } else {
-            this->actor.flags &= ~0x2000;
+            this->actor.flags &= ~ACTOR_FLAG_13;
         }
     } else if (this->actionFunc != EnFd_WaitForCore) {
         EnFd_ColliderCheck(this, globalCtx);
@@ -689,7 +695,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnFd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfxP) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
 
     if (this->invincibilityTimer != 0) {
         switch (limbIndex) {
@@ -704,7 +710,7 @@ s32 EnFd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
     Vec3f unused0 = { 6800.0f, 0.0f, 0.0f };
     Vec3f unused1 = { 6800.0f, 0.0f, 0.0f };
     Vec3f initialPos = { 0.0f, 0.0f, 0.0f };
@@ -742,7 +748,7 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFd* this = THIS;
+    EnFd* this = (EnFd*)thisx;
     s32 clampedHealth;
     Color_RGBA8 primColors[] = {
         { 255, 255, 200, 255 },
@@ -890,7 +896,7 @@ void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 2006),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -924,7 +930,7 @@ void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx) {
             gDPPipeSync(POLY_XLU_DISP++);
             if (1) {}
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fd.c", 2064),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

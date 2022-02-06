@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "objects/object_bg/object_bg.h"
 
-#define FLAGS 0x08000039
-
-#define THIS ((EnBomBowlMan*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_27)
 
 typedef enum {
     /* 0 */ CHU_GIRL_EYES_ASLEEP,
@@ -52,7 +50,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx2) {
     static f32 cuccoColliderDims[][3] = { { 16.0f, 46.0f, 0.0f }, { 36.0f, 56.0f, 0.0f } };
     static Vec3f cuccoSpawnPos[] = { { 60, -60, -430 }, { 0, -120, -620 } };
     static f32 cuccoScales[] = { 0.01f, 0.03f };
-    EnBomBowlMan* this = THIS;
+    EnBomBowlMan* this = (EnBomBowlMan*)thisx;
     EnSyatekiNiw* cucco;
     s32 i;
     GlobalContext* globalCtx = globalCtx2;
@@ -238,7 +236,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->gameResult = 1; // Won
             this->bowlPit->status = 0;
             // "Center HIT!"
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
 
         if ((globalCtx->bombchuBowlingStatus == -1) &&
@@ -246,7 +244,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             // "Bombchu lost"
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
         }
     }
 
@@ -469,7 +467,7 @@ void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomBowlMan* this = THIS;
+    EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     this->timer++;
     this->actor.focus.pos.y = 60.0f;
@@ -513,7 +511,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    EnBomBowlMan* this = THIS;
+    EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     if (limbIndex == 4) { // head
         rot->x += this->unk_218.y;
@@ -525,7 +523,7 @@ s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
 void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gChuGirlEyeOpenTex, gChuGirlEyeHalfTex, gChuGirlEyeClosedTex };
-    EnBomBowlMan* this = THIS;
+    EnBomBowlMan* this = (EnBomBowlMan*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 907);
 

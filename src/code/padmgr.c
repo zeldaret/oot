@@ -165,7 +165,7 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
 
     for (i = 0; i < 4; i++) {
         if (osMotorInit(ctrlrQ, &padMgr->pfs[i], i) == 0) {
-            if ((gFaultStruct.msgId == 0) && (padMgr->rumbleOnFrames != 0)) {
+            if ((gFaultMgr.msgId == 0) && (padMgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Stop vibration pack"
                 osSyncPrintf("padmgr: %dコン: %s\n", i + 1, "振動パック 停止");
@@ -286,7 +286,7 @@ void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     mask = 0;
     for (i = 0; i < 4; i++) {
         if (padMgr->padStatus[i].errno == 0) {
-            if (padMgr->padStatus[i].type == 5) {
+            if (padMgr->padStatus[i].type == CONT_TYPE_NORMAL) {
                 mask |= 1 << i;
             } else {
                 LOG_HEX("this->pad_status[i].type", padMgr->padStatus[i].type, "../padmgr.c", 458);
@@ -297,7 +297,7 @@ void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     }
     padMgr->validCtrlrsMask = mask;
 
-    if (gFaultStruct.msgId) {
+    if (gFaultMgr.msgId != 0) {
         PadMgr_RumbleStop(padMgr);
     } else if (padMgr->rumbleOffFrames > 0) {
         --padMgr->rumbleOffFrames;

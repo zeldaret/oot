@@ -3,9 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS 0x00000039
-
-#define THIS ((EnGo2*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 /*
 FLAGS
@@ -127,7 +125,23 @@ static f32 D_80A482D8[14][2] = {
     { 20.0f, 20.0f }, { 20.0f, 20.0f },   { 20.0f, 20.0f },   { 20.0f, 20.0f },
 };
 
-static struct_80034EC0_Entry sAnimations[] = {
+typedef enum {
+    /*  0 */ ENGO2_ANIM_0,
+    /*  1 */ ENGO2_ANIM_1,
+    /*  2 */ ENGO2_ANIM_2,
+    /*  3 */ ENGO2_ANIM_3,
+    /*  4 */ ENGO2_ANIM_4,
+    /*  5 */ ENGO2_ANIM_5,
+    /*  6 */ ENGO2_ANIM_6,
+    /*  7 */ ENGO2_ANIM_7,
+    /*  8 */ ENGO2_ANIM_8,
+    /*  9 */ ENGO2_ANIM_9,
+    /* 10 */ ENGO2_ANIM_10,
+    /* 11 */ ENGO2_ANIM_11,
+    /* 12 */ ENGO2_ANIM_12
+} EnGo2Animation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gGoronAnim_004930, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { &gGoronAnim_004930, 0.0f, 0.0f, -1.0f, 0x00, -8.0f },
     { &gGoronAnim_0029A8, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &gGoronAnim_010590, 1.0f, 0.0f, -1.0f, 0x00, -8.0f },
     { &gGoronAnim_003768, 1.0f, 0.0f, -1.0f, 0x00, -8.0f }, { &gGoronAnim_0038E4, 1.0f, 0.0f, -1.0f, 0x02, -8.0f },
@@ -227,7 +241,7 @@ void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 137),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -457,9 +471,10 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return CUR_UPG_VALUE(UPG_STRENGTH) != 0
-                   ? 0x302C
-                   : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017 : gSaveContext.infTable[15] & 0x100 ? 0x3019 : 0x3018;
+        return CUR_UPG_VALUE(UPG_STRENGTH) != 0    ? 0x302C
+               : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017
+               : gSaveContext.infTable[15] & 0x100 ? 0x3019
+                                                   : 0x3018;
     }
 }
 
@@ -712,7 +727,7 @@ s16 EnGo2_GetStateGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x20);
 
     if (faceReaction) {
@@ -752,7 +767,7 @@ u16 EnGo2_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 EnGo2_GetState(GlobalContext* globalCtx, Actor* thisx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     switch (this->actor.params & 0x1F) {
         case GORON_CITY_ROLLING_BIG:
             return EnGo2_GetStateGoronCityRollingBig(globalCtx, this);
@@ -859,7 +874,7 @@ s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
         } else {
             if (this->collider.base.acFlags & 2) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                this->actor.flags &= ~0x1000000;
+                this->actor.flags &= ~ACTOR_FLAG_24;
                 this->collider.base.acFlags &= ~0x2;
                 EnGo2_StopRolling(this, globalCtx);
                 return true;
@@ -935,10 +950,10 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if ((this->collider.base.ocFlags2 & 1) == 0) {
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             return false;
         } else {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             return true;
         }
     }
@@ -1098,11 +1113,11 @@ void func_80A454CC(EnGo2* this) {
         case GORON_CITY_ENTRANCE:
         case GORON_CITY_STAIRWELL:
         case GORON_DMT_FAIRY_HINT:
-            func_80034EC0(&this->skelAnime, sAnimations, 9);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_9);
             break;
         case GORON_DMT_BIGGORON:
             if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS) {
-                func_80034EC0(&this->skelAnime, sAnimations, 4);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
                 break;
             }
         default:
@@ -1265,11 +1280,11 @@ void EnGo2_GetDustData(EnGo2* this, s32 index2) {
 
 void EnGo2_RollingAnimation(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        this->actor.flags &= ~1;
-        func_80034EC0(&this->skelAnime, sAnimations, 10);
+        this->actor.flags &= ~ACTOR_FLAG_0;
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
         this->skelAnime.playSpeed = -0.5f;
     } else {
-        func_80034EC0(&this->skelAnime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
         this->skelAnime.playSpeed = -1.0f;
     }
     EnGo2_SwapInitialFrameAnimFrameCount(this);
@@ -1289,17 +1304,17 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
     }
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
-        func_80034EC0(&this->skelAnime, sAnimations, 10);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
         this->skelAnime.playSpeed = 0.5f;
     } else {
-        func_80034EC0(&this->skelAnime, sAnimations, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
         this->skelAnime.playSpeed = 1.0f;
     }
     this->actionFunc = func_80A46B40;
 }
 
 void EnGo2_GetItemAnimation(EnGo2* this, GlobalContext* globalCtx) {
-    func_80034EC0(&this->skelAnime, sAnimations, 1);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
     this->unk_211 = true;
     this->actionFunc = func_80A46B40;
     this->skelAnime.playSpeed = 0.0f;
@@ -1314,7 +1329,7 @@ void EnGo2_SetupRolling(EnGo2* this, GlobalContext* globalCtx) {
     } else {
         this->actor.speedXZ = 6.0f;
     }
-    this->actor.flags |= 0x1000000;
+    this->actor.flags |= ACTOR_FLAG_24;
     this->animTimer = 10;
     this->actor.shape.yOffset = 1800.0f;
     this->actor.speedXZ += this->actor.speedXZ; // Speeding up
@@ -1362,7 +1377,7 @@ s32 EnGo2_IsGoronDmtBombFlower(EnGo2* this) {
         return false;
     }
 
-    func_80034EC0(&this->skelAnime, sAnimations, 3);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_3);
     this->unk_194.unk_00 = 0;
     this->isAwake = false;
     this->unk_26E = 1;
@@ -1410,13 +1425,13 @@ s32 EnGo2_IsRolling(EnGo2* this) {
 }
 
 void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
-    s32 animation = 13;
+    s32 animation = ARRAY_COUNT(sAnimationInfo);
 
     if ((this->actor.params & 0x1F) == GORON_CITY_LINK) {
         if ((this->actor.textId == 0x3035 && this->unk_20C == 0) ||
             (this->actor.textId == 0x3036 && this->unk_20C == 0)) {
             if (this->skelAnime.animation != &gGoronAnim_000D5C) {
-                animation = 12;
+                animation = ENGO2_ANIM_12;
                 this->eyeMouthTexState = 0;
             }
         }
@@ -1424,7 +1439,7 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
         if ((this->actor.textId == 0x3032 && this->unk_20C == 12) || (this->actor.textId == 0x3033) ||
             (this->actor.textId == 0x3035 && this->unk_20C == 6)) {
             if (this->skelAnime.animation != &gGoronAnim_000750) {
-                animation = 11;
+                animation = ENGO2_ANIM_11;
                 this->eyeMouthTexState = 1;
             }
         }
@@ -1435,8 +1450,8 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (animation != 13) {
-            func_80034EC0(&this->skelAnime, sAnimations, animation);
+        if (animation != ARRAY_COUNT(sAnimationInfo)) {
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, animation);
         }
     }
 }
@@ -1474,7 +1489,7 @@ void EnGo2_BiggoronAnimation(EnGo2* this) {
 }
 
 void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
@@ -1496,13 +1511,13 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
         case GORON_CITY_LOST_WOODS:
         case GORON_DMT_FAIRY_HINT:
         case GORON_MARKET_BAZAAR:
-            this->actor.flags &= ~0x10;
-            this->actor.flags &= ~0x20;
+            this->actor.flags &= ~ACTOR_FLAG_4;
+            this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
     EnGo2_SetColliderDim(this);
     EnGo2_SetShape(this);
-    func_80034EC0(&this->skelAnime, sAnimations, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_0);
     this->actor.gravity = -1.0f;
     this->alpha = this->actor.shape.shadowAlpha = 0;
     this->reverse = 0;
@@ -1561,7 +1576,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case GORON_DMT_BIGGORON:
             this->actor.shape.shadowDraw = NULL;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN) &&
                 (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS)) {
                 this->eyeMouthTexState = 1;
@@ -1638,7 +1653,7 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
     } else {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
             if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
             }
             func_80A454CC(this);
             this->unk_211 = true;
@@ -1784,8 +1799,8 @@ void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
     switch (this->goronState) {
         case 0:
-            func_80034EC0(&this->skelAnime, sAnimations, 5);
-            this->actor.flags &= ~1;
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_5);
+            this->actor.flags &= ~ACTOR_FLAG_0;
             this->actor.shape.rot.y += 0x5B0;
             this->unk_26E = 1;
             this->animTimer = this->skelAnime.endFrame + 60.0f + 60.0f; // eyeDrops animation timer
@@ -1803,7 +1818,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
                 }
             } else {
                 func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
-                func_80034EC0(&this->skelAnime, sAnimations, 6);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_6);
                 Message_ContinueTextbox(globalCtx, 0x305A);
                 this->eyeMouthTexState = 3;
                 this->goronState++;
@@ -1815,8 +1830,8 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
                 this->eyeMouthTexState = 0;
             }
             if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
-                func_80034EC0(&this->skelAnime, sAnimations, 1);
-                this->actor.flags |= 1;
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_1);
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->unk_26E = 2;
                 this->skelAnime.playSpeed = 0.0f;
                 this->skelAnime.curFrame = this->skelAnime.endFrame;
@@ -1866,7 +1881,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
             if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 EnGo2_GoronFireCamera(this, globalCtx);
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
-                func_80034EC0(&this->skelAnime, sAnimations, 2);
+                Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_2);
                 this->waypoint = 1;
                 this->skelAnime.playSpeed = 2.0f;
                 func_80A44D84(this);
@@ -1914,7 +1929,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_IRON_DOOR_OPEN);
             }
             if (this->animTimer > 44) {
-                Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_IRON_DOOR_CLOSE);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_IRON_DOOR_CLOSE);
             } else {
                 break;
             }
@@ -1930,7 +1945,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
 
     func_80A45360(this, &this->alpha);
     EnGo2_SitDownAnimation(this);
@@ -1982,7 +1997,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     Vec3s vec1;
     f32 float1;
 
@@ -2012,7 +2027,7 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
 }
 
 void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     Vec3f D_80A4856C = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
@@ -2021,7 +2036,7 @@ void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo2* this = THIS;
+    EnGo2* this = (EnGo2*)thisx;
     void* eyeTextures[] = { gGoronCsEyeClosed2Tex, gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     void* mouthTextures[] = { gGoronCsMouthNeutralTex, gGoronCsMouthSmileTex };
 

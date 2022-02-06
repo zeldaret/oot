@@ -89,7 +89,7 @@ There is no need to wait for your PR to be approved and committed before working
 ## Trello
 
 It's helpful to use the labels on Trello.
-- RESERVED is obvious. 
+- RESERVED is obvious.
 - Work in Progress is for when you're actively working on something
 - Matched for when it is totally decompiled and matching
 - Documented if at least everything is named and odd code is commented. We'll likely wipe these and start over when proper documentation begins.

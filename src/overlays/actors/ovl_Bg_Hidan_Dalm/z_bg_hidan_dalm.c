@@ -7,9 +7,7 @@
 #include "z_bg_hidan_dalm.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHidanDalm*)thisx)
+#define FLAGS 0
 
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -97,7 +95,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -118,7 +116,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanDalm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
@@ -140,7 +138,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
 
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
-        this->dyna.actor.flags |= 0x10;
+        this->dyna.actor.flags |= ACTOR_FLAG_4;
         this->actionFunc = BgHidanDalm_Shrink;
         this->dyna.actor.bgCheckFlags &= ~2;
         this->dyna.actor.bgCheckFlags &= ~8;
@@ -179,7 +177,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);
@@ -210,7 +208,7 @@ void BgHidanDalm_UpdateCollider(BgHidanDalm* this) {
 }
 
 void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanDalm* this = THIS;
+    BgHidanDalm* this = (BgHidanDalm*)thisx;
 
     if (this->dyna.actor.params == 0) {
         Gfx_DrawDListOpa(globalCtx, gFireTempleHammerableTotemBodyDL);

@@ -7,9 +7,7 @@
 #include "z_bg_spot05_soko.h"
 #include "objects/object_spot05_objects/object_spot05_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgSpot05Soko*)thisx)
+#define FLAGS 0
 
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -42,7 +40,7 @@ static Gfx* sDLists[] = {
 
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
-    BgSpot05Soko* this = THIS;
+    BgSpot05Soko* this = (BgSpot05Soko*)thisx;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
@@ -63,14 +61,14 @@ void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(thisx);
         } else {
             this->actionFunc = func_808AE5B4;
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
         }
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 }
 
 void BgSpot05Soko_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot05Soko* this = THIS;
+    BgSpot05Soko* this = (BgSpot05Soko*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -80,7 +78,7 @@ void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
 
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
         Actor_SetFocus(&this->dyna.actor, 50.0f);
         OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808AE630;
@@ -97,7 +95,7 @@ void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot05Soko_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot05Soko* this = THIS;
+    BgSpot05Soko* this = (BgSpot05Soko*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

@@ -7,9 +7,7 @@
 #include "z_en_torch2.h"
 #include "objects/object_torch2/object_torch2.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((Player*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ ENTORCH2_WAIT,
@@ -124,7 +122,7 @@ static DamageTable sDamageTable = {
 
 void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     sInput.cur.button = sInput.press.button = sInput.rel.button = 0;
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
@@ -161,7 +159,7 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     Effect_Delete(globalCtx, this->swordEffectIndex);
     func_800F5B58();
@@ -232,7 +230,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     Player* player2 = GET_PLAYER(globalCtx2);
     Player* player = player2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     Input* input = &sInput;
     Camera* camera;
     s16 sp66;
@@ -346,7 +344,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 } else if (sSwordJumpState != 0) {
                     sStickTilt = 0.0f;
-                    player->stateFlags3 |= 4;
+                    player->stateFlags3 |= PLAYER_STATE3_2;
                     Math_SmoothStepToF(&this->actor.world.pos.x,
                                        (Math_SinS(player->actor.shape.rot.y - 0x3E8) * 45.0f) +
                                            player->actor.world.pos.x,
@@ -359,12 +357,12 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     if (((u32)sSwordJumpTimer == 0) || ((player->invincibilityTimer > 0) && (this->swordState == 0))) {
                         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                         input->cur.button = BTN_A;
-                        player->stateFlags3 &= ~4;
+                        player->stateFlags3 &= ~PLAYER_STATE3_2;
                         sStickTilt = 127.0f;
                         player->skelAnime.curFrame = 3.0f;
                         sStickAngle = this->actor.yawTowardsPlayer + 0x8000;
                         sSwordJumpTimer = sSwordJumpState = 0;
-                        this->actor.flags |= 1;
+                        this->actor.flags |= ACTOR_FLAG_0;
                     } else if (sSwordJumpState == 1) {
                         if (sSwordJumpTimer < 16) {
                             EnTorch2_SwingSword(globalCtx, input, this);
@@ -394,8 +392,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                                 sStickTilt = 0.0f;
                                 sSwordJumpState = 1;
-                                player->stateFlags3 |= 4;
-                                this->actor.flags &= ~1;
+                                player->stateFlags3 |= PLAYER_STATE3_2;
+                                this->actor.flags &= ~ACTOR_FLAG_0;
                                 sSwordJumpTimer = 27;
                                 player->swordState = 0;
                                 player->linearVelocity = 0.0f;
@@ -442,7 +440,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         sStickAngle = thisx->yawTowardsPlayer;
                         sp50 = 0.0f;
                         if ((90.0f >= this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 70.0f) &&
-                            (ABS(sp5A) >= 0x7800) && (this->actor.isTargeted || !(player->stateFlags1 & 0x00400000))) {
+                            (ABS(sp5A) >= 0x7800) &&
+                            (this->actor.isTargeted || !(player->stateFlags1 & PLAYER_STATE1_22))) {
                             EnTorch2_SwingSword(globalCtx, input, this);
                         } else if (((this->actor.xzDistToPlayer <= 70.0f) ||
                                     ((this->actor.xzDistToPlayer <= 80.0f + sp50) && (player->swordState != 0))) &&
@@ -513,8 +512,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->swordState = 0;
             input->cur.stick_x = input->cur.stick_y = 0;
             if ((this->invincibilityTimer > 0) && (this->actor.world.pos.y < (this->actor.floorHeight - 160.0f))) {
-                this->stateFlags3 &= ~1;
-                this->actor.flags |= 1;
+                this->stateFlags3 &= ~PLAYER_STATE3_0;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->invincibilityTimer = 0;
                 this->actor.velocity.y = 0.0f;
                 this->actor.world.pos.y = sSpawnPoint.y + 40.0f;
@@ -593,12 +592,12 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         sDeathFlag = false;
     }
     if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) &&
-        (this->cylinder.base.acFlags & AC_HIT) && !(this->stateFlags1 & 0x04000000) &&
+        (this->cylinder.base.acFlags & AC_HIT) && !(this->stateFlags1 & PLAYER_STATE1_26) &&
         !(this->swordQuads[0].base.atFlags & AT_HIT) && !(this->swordQuads[1].base.atFlags & AT_HIT)) {
 
         if (!Actor_ApplyDamage(&this->actor)) {
             func_800F5B58();
-            this->actor.flags &= ~5;
+            this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
             this->unk_8A1 = 2;
             this->unk_8A4 = 6.0f;
             this->unk_8A8 = 6.0f;
@@ -608,7 +607,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             sActionState = ENTORCH2_DEATH;
             Enemy_StartFinishingBlow(globalCtx, &this->actor);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &thisx->world.pos, 0xC0);
-            this->stateFlags3 &= ~4;
+            this->stateFlags3 &= ~PLAYER_STATE3_2;
         } else {
             func_800F5ACC(NA_BGM_MINI_BOSS);
             if (this->actor.colChkInfo.damageEffect == 1) {
@@ -618,15 +617,15 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
                 }
             } else {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->unk_8A0 = this->actor.colChkInfo.damage;
                 this->unk_8A1 = 1;
                 this->unk_8A8 = 6.0f;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
                 Actor_SetDropFlag(&this->actor, &this->cylinder.info, 1);
-                this->stateFlags3 &= ~4;
-                this->stateFlags3 |= 1;
+                this->stateFlags3 &= ~PLAYER_STATE3_2;
+                this->stateFlags3 |= PLAYER_STATE3_0;
                 sActionState = ENTORCH2_DAMAGE;
                 if (sAlpha == 255) {
                     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
@@ -642,10 +641,10 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     // Handles being frozen by a deku nut
 
     if ((this->actor.colorFilterTimer == 0) || (this->actor.colorFilterParams & 0x4000)) {
-        this->stateFlags3 &= ~4;
+        this->stateFlags3 &= ~PLAYER_STATE3_2;
     } else {
-        this->stateFlags3 |= 4;
-        this->stateFlags1 &= ~0x04000000;
+        this->stateFlags3 |= PLAYER_STATE3_2;
+        this->stateFlags1 &= ~PLAYER_STATE1_26;
         this->invincibilityTimer = 0;
         input->press.stick_x = input->press.stick_y = 0;
         /*! @bug
@@ -755,20 +754,20 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 EnTorch2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                               Gfx** gfx) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     return func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, &this->actor);
 }
 
 void EnTorch2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
 
     func_80090D20(globalCtx, limbIndex, dList, rot, &this->actor);
 }
 
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Player* this = THIS;
+    Player* this = (Player*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_torch2.c", 1050);

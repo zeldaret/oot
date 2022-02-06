@@ -9,9 +9,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00400000
-
-#define THIS ((BgSpot08Bakudankabe*)thisx)
+#define FLAGS ACTOR_FLAG_22
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -159,7 +157,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -175,19 +173,19 @@ void BgSpot08Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot08Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
 
     if (this->collider.base.acFlags & AC_HIT) {
         func_808B0324(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
     } else if (this->dyna.actor.xzDistToPlayer < 800.0f) {
@@ -196,7 +194,7 @@ void BgSpot08Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot08Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot08Bakudankabe* this = THIS;
+    BgSpot08Bakudankabe* this = (BgSpot08Bakudankabe*)thisx;
 
     Collider_UpdateSpheres(0, &this->collider);
     Collider_UpdateSpheres(1, &this->collider);

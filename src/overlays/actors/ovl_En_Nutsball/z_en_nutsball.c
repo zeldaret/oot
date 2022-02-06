@@ -12,9 +12,7 @@
 #include "objects/object_dns/object_dns.h"
 #include "objects/object_dnk/object_dnk.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnNutsball*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ static Gfx* sDLists[] = {
 };
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 400.0f, ActorShadow_DrawCircle, 13.0f);
@@ -81,7 +79,7 @@ void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -134,7 +132,7 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
         sp40.z = this->actor.world.pos.z;
 
         EffectSsHahen_SpawnBurst(globalCtx, &sp40, 6.0f, 0, 7, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
         Actor_Kill(&this->actor);
     } else {
         if (this->timer == -300) {
@@ -144,18 +142,19 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
 }
 
 void EnNutsball_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNutsball* this = THIS;
+    EnNutsball* this = (EnNutsball*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
 
-    if (!(player->stateFlags1 & 0x300000C0) || (this->actionFunc == func_80ABBB34)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29)) ||
+        (this->actionFunc == func_80ABBB34)) {
         this->actionFunc(this, globalCtx);
 
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10, sCylinderInit.dim.radius, sCylinderInit.dim.height, 5);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
-        this->actor.flags |= 0x1000000;
+        this->actor.flags |= ACTOR_FLAG_24;
 
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

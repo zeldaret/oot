@@ -2,13 +2,23 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
-extern u8 D_8016E348[4];
-extern u32 sAudioSeqCmds[0x100];
-extern u8 sSeqCmdRdPos;
-extern u8 sSeqCmdWrPos;
-extern u8 D_80133408;
-extern u8 D_80133418;
-extern u8 D_80133410[];
+typedef struct {
+    u8 unk_0;
+    u8 unk_1; // importance?
+} Struct_8016E320;
+
+Struct_8016E320 D_8016E320[4][5];
+u8 D_8016E348[4];
+u32 sAudioSeqCmds[0x100];
+unk_D_8016E750 D_8016E750[4];
+
+u8 sSeqCmdWrPos = 0;
+u8 sSeqCmdRdPos = 0;
+u8 D_80133408 = 0;
+u8 D_8013340C = 1;
+u8 D_80133410[] = { 0, 1, 2, 3 };
+u8 gAudioSpecId = 0;
+u8 D_80133418 = 0;
 
 // TODO: clean up these macros. They are similar to ones in code_800EC960.c but without casts.
 #define Audio_StartSeq(playerIdx, fadeTimer, seqId) \
@@ -84,12 +94,6 @@ typedef enum {
     CMDE,
     CMDF
 } SeqCmdType;
-
-typedef struct {
-    u8 unk_0;
-    u8 unk_1; // importance?
-} Struct_8016E320;
-extern Struct_8016E320 D_8016E320[][5]; // sorted by unk_1, descending
 
 void Audio_ProcessSeqCmd(u32 cmd) {
     s32 pad[2];
@@ -391,14 +395,14 @@ void func_800FA174(u8 playerIdx) {
     D_8016E348[playerIdx] = 0;
 }
 
-void func_800FA18C(u8 playeridx, u8 arg1) {
+void func_800FA18C(u8 playerIdx, u8 arg1) {
     u8 i;
 
-    for (i = 0; i < D_8016E750[playeridx].unk_4D; i++) {
-        u8 unkb = (D_8016E750[playeridx].unk_2C[i] & 0xF00000) >> 20;
+    for (i = 0; i < D_8016E750[playerIdx].unk_4D; i++) {
+        u8 unkb = (D_8016E750[playerIdx].unk_2C[i] & 0xF00000) >> 20;
 
         if (unkb == arg1) {
-            D_8016E750[playeridx].unk_2C[i] = 0xFF000000;
+            D_8016E750[playerIdx].unk_2C[i] = 0xFF000000;
         }
     }
 }

@@ -7,9 +7,7 @@
 #include "z_bg_ice_turara.h"
 #include "objects/object_ice_objects/object_ice_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgIceTurara*)thisx)
+#define FLAGS 0
 
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -83,7 +81,7 @@ void BgIceTurara_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -98,7 +96,7 @@ void BgIceTurara_Break(BgIceTurara* this, GlobalContext* globalCtx, f32 arg2) {
     s32 j;
     s32 i;
 
-    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ICE_BROKEN);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 10; j++) {
             pos.x = this->dyna.actor.world.pos.x + Rand_CenteredFloat(8.0f);
@@ -193,7 +191,7 @@ void BgIceTurara_Regrow(BgIceTurara* this, GlobalContext* globalCtx) {
 }
 
 void BgIceTurara_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgIceTurara* this = THIS;
+    BgIceTurara* this = (BgIceTurara*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

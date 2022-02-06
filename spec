@@ -318,7 +318,7 @@ beginseg
     include "build/src/code/z_demo.o"
     include "build/src/code/code_80069420.o"
     include "build/src/code/z_draw.o"
-    include "build/src/code/code_8006BA00.o"
+    include "build/src/code/z_sound_source.o"
     include "build/src/code/z_elf_message.o"
     include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
@@ -425,13 +425,11 @@ beginseg
     include "build/src/code/code_800EC960.o"
     include "build/src/code/audio_sound_params.o"
     include "build/src/code/code_800F7260.o"
-    include "build/data/code_800F7260.bss.o"
     include "build/src/code/code_800F9280.o"
-    include "build/data/code_800F9280.data.o"
     include "build/src/code/audio_init_params.o"
     include "build/src/code/logseverity.o"
     include "build/src/code/gfxprint.o"
-    include "build/src/code/code_800FBCE0.o"
+    include "build/src/code/rcp_utils.o"
     include "build/src/code/loadfragment2.o"
     include "build/src/code/mtxuty-cvt.o"
     include "build/src/code/relocation.o"
@@ -3400,7 +3398,7 @@ endseg
 beginseg
     name "object_link_boy"
     romalign 0x1000
-    include "build/baserom/object_link_boy.o"
+    include "build/assets/objects/object_link_boy/object_link_boy.o"
     number 6
 endseg
 
@@ -4989,16 +4987,14 @@ endseg
 beginseg
     name "object_km1"
     romalign 0x1000
-    include "build/baserom/object_km1.o"
-    //include "build/assets/objects/object_km1/object_km1.o"
+    include "build/assets/objects/object_km1/object_km1.o"
     number 6
 endseg
 
 beginseg
     name "object_kw1"
     romalign 0x1000
-    include "build/baserom/object_kw1.o"
-    //include "build/assets/objects/object_kw1/object_kw1.o"
+    include "build/assets/objects/object_kw1/object_kw1.o"
     number 6
 endseg
 
@@ -6390,7 +6386,8 @@ endseg
 beginseg
     name "z_select_static"
     romalign 0x1000
-    include "build/baserom/z_select_static.o"
+    include "build/assets/misc/z_select_static/z_select_static.o"
+    number 1
 endseg
 
 beginseg

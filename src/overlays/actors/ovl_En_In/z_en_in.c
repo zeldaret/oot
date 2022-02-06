@@ -2,9 +2,7 @@
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 #include "objects/object_in/object_in.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnIn*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,20 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-static struct_D_80AA1678 sAnimationInfo[] = {
+typedef enum {
+    /* 0 */ ENIN_ANIM_0,
+    /* 1 */ ENIN_ANIM_1,
+    /* 2 */ ENIN_ANIM_2,
+    /* 3 */ ENIN_ANIM_3,
+    /* 4 */ ENIN_ANIM_4,
+    /* 5 */ ENIN_ANIM_5,
+    /* 6 */ ENIN_ANIM_6,
+    /* 7 */ ENIN_ANIM_7,
+    /* 8 */ ENIN_ANIM_8,
+    /* 9 */ ENIN_ANIM_9
+} EnInAnimation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &object_in_Anim_000CB0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_0003B4, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -132,7 +143,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
     }
     switch (gSaveContext.eventInf[0] & 0xF) {
         case 1:
-            if (!(player->stateFlags1 & 0x800000)) {
+            if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (gSaveContext.eventChkInf[1] & 0x800) {
                 if (gSaveContext.infTable[10] & 4) {
@@ -198,7 +209,7 @@ s16 func_80A791CC(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     s32 sp18 = 1;
 
     switch (this->actor.textId) {
@@ -333,10 +344,10 @@ void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A796EC(EnIn* this, s32 arg1) {
-    Animation_Change(&this->skelAnime, sAnimationInfo[arg1].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationInfo[arg1].animation), sAnimationInfo[arg1].mode,
-                     sAnimationInfo[arg1].transitionRate);
+void EnIn_ChangeAnim(EnIn* this, s32 index) {
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
@@ -458,7 +469,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
         player->rideActor->freezeTimer = 10;
     }
     player->actor.freezeTimer = 10;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     ShrinkWindow_SetVal(0x20);
     Interface_ChangeAlpha(2);
 }
@@ -466,7 +477,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
 static s32 D_80A7B998 = 0;
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
@@ -486,7 +497,7 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
 
     if (this->actionFunc != NULL && this->actionFunc != func_80A79FB0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -513,18 +524,18 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 
         switch (func_80A79830(this, globalCtx)) {
             case 1:
-                func_80A796EC(this, 9);
+                EnIn_ChangeAnim(this, ENIN_ANIM_9);
                 this->actionFunc = func_80A7A4BC;
                 break;
             case 3:
-                func_80A796EC(this, 7);
+                EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
                 if (!(gSaveContext.eventChkInf[1] & 0x100)) {
                     this->actor.params = 5;
                 }
                 break;
             case 4:
-                func_80A796EC(this, 8);
+                EnIn_ChangeAnim(this, ENIN_ANIM_8);
                 this->eyeIndex = 3;
                 this->actionFunc = func_80A7A4BC;
                 break;
@@ -561,34 +572,34 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 switch (gSaveContext.eventInf[0] & 0xF) {
                     case 0:
                     case 2:
-                        func_80A796EC(this, 2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
                         gSaveContext.eventInf[0] = 0;
                         break;
                     case 1:
                         this->actor.targetMode = 3;
-                        func_80A796EC(this, 2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         func_80088B34(0x3C);
                         break;
                     case 3:
-                        func_80A796EC(this, 4);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_4);
                         this->actionFunc = func_80A7A770;
                         break;
                     case 4:
-                        func_80A796EC(this, 6);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7A940;
                         break;
                     case 5:
                     case 6:
                         this->actor.targetMode = 3;
-                        func_80A796EC(this, 6);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
                         break;
                     case 7:
-                        func_80A796EC(this, 2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A848;
                         break;
                 }
@@ -642,7 +653,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     s32 phi_a2;
     s32 phi_a3;
 
-    if (!(gSaveContext.eventChkInf[1] & 0x800) && (player->stateFlags1 & 0x800000)) {
+    if (!(gSaveContext.eventChkInf[1] & 0x800) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         gSaveContext.infTable[10] |= 0x800;
     }
     if (gSaveContext.timer1State == 10) {
@@ -685,11 +696,11 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
     } else if (this->unk_308.unk_00 == 2) {
         Rupees_ChangeBy(-50);
-        this->actor.flags &= ~0x10000;
-        func_80A796EC(this, 3);
+        this->actor.flags &= ~ACTOR_FLAG_16;
+        EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x0F) | 7;
         this->unk_308.unk_00 = 0;
@@ -721,7 +732,7 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 0) {
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         return;
     }
     if (this->unk_1EC != 0) {
@@ -731,7 +742,7 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_308.unk_00 == 2) {
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         func_80A79BAC(this, globalCtx, 2, 0x26);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
@@ -804,7 +815,7 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x203C;
                 Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 this->unk_308.unk_00 = 1;
-                func_80A796EC(this, 3);
+                EnIn_ChangeAnim(this, ENIN_ANIM_3);
             } else {
                 globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
@@ -893,7 +904,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
 
 void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
 
     if (this->actionFunc == func_80A79FB0) {
         this->actionFunc(this, globalCtx);
@@ -929,7 +940,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     Vec3s sp2C;
 
     if (this->actor.params > 0 && limbIndex != INGO_HEAD_LIMB) {
@@ -957,7 +968,7 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
     Vec3f D_80A7B9A8 = { 1600.0, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2335);
@@ -979,7 +990,7 @@ void EnIn_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gIngoEyeOpenTex, gIngoEyeHalfTex, gIngoEyeClosedTex, gIngoEyeClosed2Tex };
 
-    EnIn* this = THIS;
+    EnIn* this = (EnIn*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);
     if (this->actionFunc != func_80A79FB0) {

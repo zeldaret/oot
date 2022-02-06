@@ -6,9 +6,7 @@
 
 #include "z_en_si.h"
 
-#define FLAGS 0x00000201
-
-#define THIS ((EnSi*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_9)
 
 void EnSi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ const ActorInit En_Si_InitVars = {
 };
 
 void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -67,7 +65,7 @@ void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -82,7 +80,7 @@ s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx) {
 void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((this->actor.flags & 0x2000) == 0x2000) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         this->actionFunc = func_80AFB89C;
     } else {
         Math_SmoothStepToF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
@@ -115,7 +113,7 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, this->actor.scale.x);
     this->actor.shape.rot.y += 0x400;
 
-    if ((this->actor.flags & 0x2000) != 0x2000) {
+    if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         Item_Give(globalCtx, ITEM_SKULL_TOKEN);
         player->actor.freezeTimer = 10;
         Message_StartTextbox(globalCtx, 0xB4, NULL);
@@ -136,7 +134,7 @@ void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
 }
 
 void EnSi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
@@ -145,7 +143,7 @@ void EnSi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSi* this = THIS;
+    EnSi* this = (EnSi*)thisx;
 
     if (this->actionFunc != func_80AFB950) {
         func_8002ED80(&this->actor, globalCtx, 0);

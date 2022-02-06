@@ -2,9 +2,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnHeishi4*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -58,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     Actor_SetScale(thisx, 0.01f);
     this->type = thisx->params & 0xFF;
@@ -99,12 +97,12 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, thisx->params);
     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！\t    ☆☆☆☆☆ %d\n" VT_RST, this->type);
-    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (thisx->params >> 8) & 0xF);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (thisx->params >> 8) & 0xF);
     osSyncPrintf("\n\n");
 }
 
 void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -340,7 +338,7 @@ void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -367,7 +365,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                               void* thisx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     if (limbIndex == 9) {
         rot->x += this->unk_266.y;
@@ -380,7 +378,7 @@ s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnHeishi4_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi4* this = THIS;
+    EnHeishi4* this = (EnHeishi4*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi_OverrideLimbDraw, NULL,

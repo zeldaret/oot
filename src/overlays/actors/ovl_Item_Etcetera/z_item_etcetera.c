@@ -6,9 +6,7 @@
 
 #include "z_item_etcetera.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ItemEtcetera*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -59,7 +57,7 @@ void ItemEtcetera_SetupAction(ItemEtcetera* this, ItemEtceteraActionFunc actionF
 }
 
 void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ItemEtcetera* this = THIS;
+    ItemEtcetera* this = (ItemEtcetera*)thisx;
     s32 pad;
     s32 type;
     s32 objBankIndex;
@@ -197,13 +195,13 @@ void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, GlobalContext* globalCtx) 
 }
 
 void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ItemEtcetera* this = THIS;
+    ItemEtcetera* this = (ItemEtcetera*)thisx;
     this->actionFunc(this, globalCtx);
 }
 
 void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
-    ItemEtcetera* this = THIS;
-    if (globalCtx->actorCtx.unk_03 != 0) {
+    ItemEtcetera* this = (ItemEtcetera*)thisx;
+    if (globalCtx->actorCtx.lensActive) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
         GetItem_Draw(globalCtx, this->giDrawId);
@@ -211,7 +209,7 @@ void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ItemEtcetera* this = THIS;
+    ItemEtcetera* this = (ItemEtcetera*)thisx;
 
     func_8002EBCC(&this->actor, globalCtx, 0);
     func_8002ED80(&this->actor, globalCtx, 0);

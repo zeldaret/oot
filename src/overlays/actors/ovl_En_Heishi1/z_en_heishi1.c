@@ -8,9 +8,7 @@
 #include "objects/object_sd/object_sd.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnHeishi1*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -67,7 +65,7 @@ static s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
 void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f rupeePos;
     s32 i;
 
@@ -86,21 +84,21 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) " 種類☆☆☆☆☆☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->type);
     // "path data"
     osSyncPrintf(VT_FGCOL(YELLOW) " れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->path);
-    osSyncPrintf(VT_FGCOL(PURPLE) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
     // "interpolation frame"
-    osSyncPrintf(VT_FGCOL(PURPLE) " 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n" VT_RST, this->transitionRate);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n" VT_RST, this->transitionRate);
     // "targeted movement speed value between points"
-    osSyncPrintf(VT_FGCOL(PURPLE) " point間の移動スピード目標値 ☆ %f\n" VT_RST, this->moveSpeedTarget);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " point間の移動スピード目標値 ☆ %f\n" VT_RST, this->moveSpeedTarget);
     // "maximum movement speed value between points"
-    osSyncPrintf(VT_FGCOL(PURPLE) " point間の移動スピード最大 ☆☆ %f\n" VT_RST, this->moveSpeedMax);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " point間の移動スピード最大 ☆☆ %f\n" VT_RST, this->moveSpeedMax);
     // "(body) targeted turning angle speed value"
-    osSyncPrintf(VT_FGCOL(PURPLE) " (体)反転アングルスピード目標値 %f\n" VT_RST, this->bodyTurnSpeedTarget);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " (体)反転アングルスピード目標値 %f\n" VT_RST, this->bodyTurnSpeedTarget);
     // "(body) maximum turning angle speed"
-    osSyncPrintf(VT_FGCOL(PURPLE) " (体)反転アングルスピード最大☆ %f\n" VT_RST, this->bodyTurnSpeedMax);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " (体)反転アングルスピード最大☆ %f\n" VT_RST, this->bodyTurnSpeedMax);
     // "(head) targeted turning angle speed value"
-    osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード加算値 %f\n" VT_RST, this->headTurnSpeedScale);
     // "(head) maximum turning angle speed"
-    osSyncPrintf(VT_FGCOL(PURPLE) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " (頭)反転アングルスピード最大☆ %f\n" VT_RST, this->headTurnSpeedMax);
     osSyncPrintf(VT_FGCOL(GREEN) " 今時間 %d\n" VT_RST, ((void)0, gSaveContext.dayTime)); // "current time"
     osSyncPrintf(VT_FGCOL(YELLOW) " チェック時間 %d\n" VT_RST, 0xBAAA);                   // "check time"
     osSyncPrintf("\n\n");
@@ -381,7 +379,7 @@ void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
 }
 
 void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     s16 path;
     u8 i;
     s32 pad;
@@ -474,7 +472,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
 
     // turn the guards head to match the direction he is looking
     if (limbIndex == 16) {
@@ -486,7 +484,7 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnHeishi1* this = THIS;
+    EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
     func_80093D18(globalCtx->state.gfxCtx);

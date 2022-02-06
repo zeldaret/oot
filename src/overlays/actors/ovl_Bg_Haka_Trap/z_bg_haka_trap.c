@@ -7,9 +7,7 @@
 #include "z_bg_haka_trap.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHakaTrap*)thisx)
+#define FLAGS 0
 
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -109,7 +107,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881014 = 0;
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -133,7 +131,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80880484;
         } else {
             DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-            thisx->flags |= 0x10;
+            thisx->flags |= ACTOR_FLAG_4;
 
             if (thisx->params == HAKA_TRAP_SPIKED_BOX) {
                 CollisionHeader_GetVirtual(&object_haka_objects_Col_009CD0, &colHeader);
@@ -186,7 +184,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
 
     if (this->dyna.actor.params != HAKA_TRAP_PROPELLER) {
         if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
@@ -481,7 +479,7 @@ void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
     Vec3f* actorPos = &this->dyna.actor.world.pos;
 
     this->actionFunc(this, globalCtx);
@@ -522,7 +520,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         object_haka_objects_DL_008A20, object_haka_objects_DL_0072C0,
     };
     static Color_RGBA8 D_8088103C = { 0, 0, 0, 0 };
-    BgHakaTrap* this = THIS;
+    BgHakaTrap* this = (BgHakaTrap*)thisx;
     s32 pad;
     Vec3f sp2C;
 

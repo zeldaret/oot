@@ -1,5 +1,5 @@
 #include "MemoryStream.h"
-#include <string.h>
+#include <cstring>
 
 #ifndef _MSC_VER
 #define memcpy_s(dest, destSize, source, sourceSize) memcpy(dest, source, destSize)

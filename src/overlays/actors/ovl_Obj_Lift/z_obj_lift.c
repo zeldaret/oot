@@ -8,9 +8,7 @@
 #include "objects/object_d_lift/object_d_lift.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ObjLift*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -106,7 +104,7 @@ void func_80B96160(ObjLift* this, GlobalContext* globalCtx) {
 }
 
 void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLift* this = THIS;
+    ObjLift* this = (ObjLift*)thisx;
 
     ObjLift_InitDynaPoly(this, globalCtx, &gCollapsingPlatformCol, DPM_PLAYER);
 
@@ -125,7 +123,7 @@ void ObjLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLift* this = THIS;
+    ObjLift* this = (ObjLift*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -178,7 +176,7 @@ void func_80B96678(ObjLift* this, GlobalContext* globalCtx) {
     }
 
     if ((this->timer & 3) == 3) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 16, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
@@ -202,14 +200,14 @@ void func_80B96840(ObjLift* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >=
         (sMaxFallDistances[(this->dyna.actor.params >> 1) & 1] - 0.001f)) {
         func_80B96160(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 20, NA_SE_EV_BOX_BREAK);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 2) & 0x3F);
         Actor_Kill(&this->dyna.actor);
     }
 }
 
 void ObjLift_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjLift* this = THIS;
+    ObjLift* this = (ObjLift*)thisx;
 
     if (this->timer > 0) {
         this->timer--;

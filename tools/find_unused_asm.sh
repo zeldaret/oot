@@ -23,18 +23,18 @@ rm old_list.txt cur_list.txt old_data_list.txt data_list.txt list.txt
 
 if [ "$1" = "-d" ]
 then
-	if [ -s diff.txt ]
-	then
-		rm $(cat diff.txt)
-	fi
-	rm diff.txt
+    if [ -s diff.txt ]
+    then
+        rm $(cat diff.txt)
+    fi
+    rm diff.txt
 else
-	if [ -s diff.txt ]
-	then
-		cat diff.txt
-		rm diff.txt
-		exit 55
-	else
-		rm diff.txt
-	fi
+    if [ -s diff.txt ]
+    then
+        cat diff.txt
+        rm diff.txt
+        exit 55
+    else
+        rm diff.txt
+    fi
 fi
