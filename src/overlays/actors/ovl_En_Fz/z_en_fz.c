@@ -698,7 +698,7 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->updateBgInfo) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f,
-                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 
     iceSmokeSpawnFuncs[this->state](this);

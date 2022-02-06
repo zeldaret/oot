@@ -132,7 +132,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f,
-                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
         this->actor.flags |= ACTOR_FLAG_24;

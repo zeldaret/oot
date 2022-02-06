@@ -418,9 +418,9 @@ void EnKarebaba_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actionFunc == EnKarebaba_Dying) {
             Actor_MoveForward(&this->actor);
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 15.0f, 10.0f,
-                                    UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         } else {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFOFLAG_2);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
             if (this->boundFloor == NULL) {
                 this->boundFloor = this->actor.floorPoly;
             }

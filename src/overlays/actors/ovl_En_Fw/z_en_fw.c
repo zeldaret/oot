@@ -364,7 +364,7 @@ void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
         // not attached to hookshot.
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 20.0f, 0.0f,
-                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, globalCtx);
         if (this->damageTimer == 0 && this->explosionTimer == 0 && this->actionFunc == EnFw_Run) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

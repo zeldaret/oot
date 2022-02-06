@@ -340,8 +340,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->gravity != 0.0f) {
         DREG(6) = 1;
         Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f,
-                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 |
-                                    UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
+                                    UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
         DREG(6) = 0;
     }
 
@@ -362,8 +362,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_MoveForward(thisx);
             DREG(6) = 1;
             Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f,
-                                    UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2 |
-                                        UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
+                                        UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
             DREG(6) = 0;
             thisx->speedXZ *= 0.7f;
             thisx->bgCheckFlags &= ~8;

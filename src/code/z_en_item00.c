@@ -772,8 +772,8 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (sp3A || D_80157D94[0]) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 15.0f, 15.0f,
-                                    UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 |
-                                        UPDBGCHECKINFOFLAG_4);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
 
             if (this->actor.floorHeight <= -10000.0f) {
                 Actor_Kill(&this->actor);

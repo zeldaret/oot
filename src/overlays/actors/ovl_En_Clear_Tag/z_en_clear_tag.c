@@ -512,7 +512,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] == 0) {
                     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f,
-                                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
                     EnClearTag_CalculateFloorTangent(this);
                 }
 
@@ -557,7 +557,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 Collider_UpdateCylinder(&this->actor, &this->collider);
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
                 Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f,
-                                        UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
                 // Check if the laser has hit a target, timed out, or hit the ground.
                 if (this->actor.bgCheckFlags & 9 || hasAtHit || this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {

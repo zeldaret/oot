@@ -205,7 +205,7 @@ void func_808B8DD0(BgSpot18Obj* this, GlobalContext* globalCtx) {
 
 void func_808B8DDC(BgSpot18Obj* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f,
-                            UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 }
 
 void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {

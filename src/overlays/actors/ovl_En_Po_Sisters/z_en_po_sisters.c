@@ -1192,7 +1192,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->unk_199 & 0x10) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f,
-                                    UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         } else {
             Vec3f vec;
             s32 sp34;

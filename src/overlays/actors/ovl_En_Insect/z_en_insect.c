@@ -747,15 +747,15 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
         phi_v0 = 0;
 
         if (this->unk_314 & 1) {
-            phi_v0 = UPDBGCHECKINFOFLAG_2;
+            phi_v0 = UPDBGCHECKINFO_FLAG_2;
         }
 
         if (this->unk_314 & 2) {
-            phi_v0 |= UPDBGCHECKINFOFLAG_0;
+            phi_v0 |= UPDBGCHECKINFO_FLAG_0;
         }
 
         if (phi_v0 != 0) {
-            phi_v0 |= UPDBGCHECKINFOFLAG_6;
+            phi_v0 |= UPDBGCHECKINFO_FLAG_6;
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 8.0f, 5.0f, 0.0f, phi_v0);
         }
 

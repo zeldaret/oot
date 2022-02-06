@@ -203,7 +203,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f,
-                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 28.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
@@ -239,7 +239,7 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
             func_8002D7EC(&this->actor);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f,
-                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 }
 
@@ -268,7 +268,7 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
         ObjKibako_ApplyGravity(this);
         func_8002D7EC(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f,
-                                UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

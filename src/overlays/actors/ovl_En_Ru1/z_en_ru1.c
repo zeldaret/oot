@@ -234,7 +234,7 @@ void func_80AEAECC(EnRu1* this, GlobalContext* globalCtx) {
 
     *velocityY = -4.0f;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 25.0f, 30.0f,
-                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_1 | UPDBGCHECKINFOFLAG_2);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     *velocityY = velocityYHeld;
 }
 

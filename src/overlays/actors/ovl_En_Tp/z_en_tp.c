@@ -669,7 +669,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->actionIndex != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f,
-                                    UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2);
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
 
         // Turn away from wall

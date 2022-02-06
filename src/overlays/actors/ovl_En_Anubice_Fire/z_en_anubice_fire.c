@@ -194,7 +194,7 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f,
-                            UPDBGCHECKINFOFLAG_0 | UPDBGCHECKINFOFLAG_2 | UPDBGCHECKINFOFLAG_3 | UPDBGCHECKINFOFLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     if (!(this->scale < 0.6f || this->actionFunc == func_809B2B48)) {
         this->cylinder.dim.radius = this->scale * 15.0f + 5.0f;
         this->cylinder.dim.height = this->scale * 15.0f + 5.0f;
