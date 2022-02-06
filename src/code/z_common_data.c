@@ -1,6 +1,6 @@
 #include "global.h"
 
-SaveContext gSaveContext;
+ALIGNED8 SaveContext gSaveContext;
 u32 D_8015FA88;
 u32 D_8015FA8C;
 
