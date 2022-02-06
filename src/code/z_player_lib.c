@@ -654,7 +654,22 @@ u8 sEyeMouthIndexes[][2] = {
  * This allows the array to only contain the symbols for one file and have it apply to both. This is a problem for
  * shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols
  * from adult Link's object are used here.
+ *
+ * Using AVOID_UB here will use a 2D array instead and properly use the child link pointers to allow for shifting.
  */
+#ifdef AVOID_UB
+void* sEyeTextures[][8] = {
+    { gLinkAdultEyesOpenTex, gLinkAdultEyesHalfTex, gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
+      gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex, gLinkAdultEyesUnk2Tex },
+    { gLinkChildEyesOpenTex, gLinkChildEyesHalfTex, gLinkChildEyesClosedfTex, gLinkChildEyesRollLeftTex,
+      gLinkChildEyesRollRightTex, gLinkChildEyesShockTex, gLinkChildEyesUnk1Tex, gLinkChildEyesUnk2Tex },
+};
+
+void* sMouthTextures[][4] = {
+    { gLinkAdultMouth1Tex, gLinkAdultMouth2Tex, gLinkAdultMouth3Tex, gLinkAdultMouth4Tex },
+    { gLinkChildMouth1Tex, gLinkChildMouth2Tex, gLinkChildMouth3Tex, gLinkChildMouth4Tex },
+};
+#else
 void* sEyeTextures[] = {
     gLinkAdultEyesOpenTex,      gLinkAdultEyesHalfTex,  gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
     gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex,    gLinkAdultEyesUnk2Tex,
@@ -666,6 +681,7 @@ void* sMouthTextures[] = {
     gLinkAdultMouth3Tex,
     gLinkAdultMouth4Tex,
 };
+#endif
 
 Color_RGB8 sTunicColors[] = {
     { 30, 105, 27 },
@@ -696,13 +712,21 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
         eyeIndex = sEyeMouthIndexes[face][0];
     }
 
+    #ifdef AVOID_UB
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[gSaveContext.linkAge][eyeIndex]));
+    #else
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyeIndex]));
+    #endif
 
     if (mouthIndex < 0) {
         mouthIndex = sEyeMouthIndexes[face][1];
     }
 
+    #ifdef AVOID_UB
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[gSaveContext.linkAge][mouthIndex]));
+    #else
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[mouthIndex]));
+    #endif
 
     color = &sTunicColors[tunic];
     gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
