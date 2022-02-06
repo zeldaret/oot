@@ -16,7 +16,7 @@ void osDestroyThread(OSThread* thread) {
         __osActiveQueue = __osActiveQueue->tlnext;
     } else {
         s1 = __osActiveQueue;
-        while (s1->priority != -1) {
+        while (s1->priority != OS_PRIORITY_THREADTAIL) {
             s2 = s1->tlnext;
             if (s2 == thread) {
                 s1->tlnext = thread->tlnext;
