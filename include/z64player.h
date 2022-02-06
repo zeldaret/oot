@@ -2,6 +2,7 @@
 #define Z64PLAYER_H
 
 #include "z64actor.h"
+#include "alignment.h"
 
 struct Player;
 
@@ -158,7 +159,7 @@ typedef enum {
 } PlayerDoorType;
 
 
-#define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
+#define PLAYER_LIMB_BUF_COUNT ALIGN8(PLAYER_LIMB_MAX)
 
 typedef struct {
     /* 0x00 */ f32 unk_00;

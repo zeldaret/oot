@@ -24,6 +24,7 @@
 #include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
+#include "alignment.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
@@ -48,8 +49,6 @@
 #define Z_PRIORITY_SCHED       15
 #define Z_PRIORITY_DMAMGR      16
 #define Z_PRIORITY_IRQMGR      17
-
-#define ALIGN8(val) (((val) + 7) & ~7)
 
 #define STACK(stack, size) \
     u64 stack[ALIGN8(size) / sizeof(u64)]
