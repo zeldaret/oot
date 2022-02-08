@@ -10,8 +10,8 @@
 
 Each actor's data is stored in a separate file. EnJj's data is in `data/overlays/actors/z_en_jj.data.s`, for example. At some point in the decompilation process we need to convert this raw data into recognisable information for the C to use.
 
-There are two main ways to do this: either 
-1. import the data first and type it later, or 
+There are two main ways to do this: either
+1. import the data first and type it later, or
 2. wait until the data appears in functions, extern it, then import it at the end
 
 Sometimes something between these two is appropriate: wait until the largest or strangest bits of data appear in functions, get some typing information out of that, and then import it, but for now, let's stick to both of these.
@@ -123,7 +123,7 @@ beginseg
     include "build/data/overlays/actors/z_en_tg.reloc.o"
 endseg
 ```
-and comment out the .data line, 
+and comment out the .data line,
 ```
 beginseg
     name "ovl_En_Tg"
@@ -211,7 +211,7 @@ void func_80B1871C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     EnTg* this = THIS;
 
     Vec3f sp18 = D_80B18968;
-    
+
     if (limbIndex == 9) {
         Matrix_MultVec3f(&sp18, &this->actor.world2.pos);
     }

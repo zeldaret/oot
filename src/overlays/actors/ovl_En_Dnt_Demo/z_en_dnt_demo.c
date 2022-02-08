@@ -196,7 +196,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                             // "This is dangerous!"
                             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             maskIdx = Rand_ZeroFloat(7.99f);
                         }
@@ -230,7 +230,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         // "What kind of evaluation?"
                         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n" VT_RST, reaction);
                         // "What kind of action?"
-                        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
+                        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
                         osSyncPrintf("\n\n");
                         break;
                     }

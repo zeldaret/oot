@@ -54,7 +54,7 @@
 
 /*
  *  Colors
- */ 
+ */
 
 #define COLOR_STR(N) EXPAND_AND_STRINGIFY(GLUE(\x4, N))
 
@@ -74,7 +74,7 @@
 
 #define ARG(x) x
 
-// while a control character, newlines are handled in the charmap conversion 
+// while a control character, newlines are handled in the charmap conversion
 // stage to allow normal newline \n usage in message_data_static files
 #define NEWLINE                 STR(CTRL_NEWLINE)
 #define END                     STR(CTRL_END)

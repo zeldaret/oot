@@ -213,9 +213,9 @@ void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* lef
     }
 }
 
-void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3) {
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, arg1, arg2, arg3);
-    *arg3 = (*arg3 < 1.0f) ? 1.0f : (1.0f / *arg3);
+void Actor_ProjectPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest) {
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, src, xyzDest, cappedInvWDest);
+    *cappedInvWDest = (*cappedInvWDest < 1.0f) ? 1.0f : (1.0f / *cappedInvWDest);
 }
 
 typedef struct {
@@ -266,7 +266,7 @@ void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* g
     }
 }
 
-void func_8002BF60(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
+void Actor_SetNaviToActor(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
     NaviColor* naviColor = &sNaviColorList[actorCategory];
     targetCtx->naviRefPos.x = actor->focus.pos.x;
     targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
@@ -289,7 +289,7 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
     targetCtx->bgmEnemy = NULL;
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
-    func_8002BF60(targetCtx, actor, actor->category, globalCtx);
+    Actor_SetNaviToActor(targetCtx, actor, actor->category, globalCtx);
     func_8002BE98(targetCtx, actor->category, globalCtx);
 }
 
@@ -303,9 +303,9 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         Player* player;
         s16 spCE;
         f32 temp1;
-        Vec3f spBC;
+        Vec3f projTargetCenter;
         s32 spB8;
-        f32 spB4;
+        f32 projTargetCappedInvW;
         s32 spB0;
         s32 spAC;
         f32 var1;
@@ -334,22 +334,22 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
             spCE = targetCtx->unk_48;
         }
 
-        func_8002BE04(globalCtx, &targetCtx->targetCenterPos, &spBC, &spB4);
+        Actor_ProjectPos(globalCtx, &targetCtx->targetCenterPos, &projTargetCenter, &projTargetCappedInvW);
 
-        spBC.x = (160 * (spBC.x * spB4)) * var1;
-        spBC.x = CLAMP(spBC.x, -320.0f, 320.0f);
+        projTargetCenter.x = (160 * (projTargetCenter.x * projTargetCappedInvW)) * var1;
+        projTargetCenter.x = CLAMP(projTargetCenter.x, -320.0f, 320.0f);
 
-        spBC.y = (120 * (spBC.y * spB4)) * var1;
-        spBC.y = CLAMP(spBC.y, -240.0f, 240.0f);
+        projTargetCenter.y = (120 * (projTargetCenter.y * projTargetCappedInvW)) * var1;
+        projTargetCenter.y = CLAMP(projTargetCenter.y, -240.0f, 240.0f);
 
-        spBC.z = spBC.z * var1;
+        projTargetCenter.z = projTargetCenter.z * var1;
 
         targetCtx->unk_4C--;
         if (targetCtx->unk_4C < 0) {
             targetCtx->unk_4C = 2;
         }
 
-        func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
+        func_8002BE64(targetCtx, targetCtx->unk_4C, projTargetCenter.x, projTargetCenter.y, projTargetCenter.z);
 
         if ((!(player->stateFlags1 & PLAYER_STATE1_6)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
@@ -414,8 +414,8 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     s32 pad;
     Actor* unkActor;
     s32 actorCategory;
-    Vec3f sp50;
-    f32 sp4C;
+    Vec3f projectedFocusPos;
+    f32 cappedInvWDest;
     f32 temp1;
     f32 temp2;
     f32 temp3;
@@ -465,12 +465,12 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
         targetCtx->naviRefPos.y += temp3 * temp1;
         targetCtx->naviRefPos.z += temp4 * temp1;
     } else {
-        func_8002BF60(targetCtx, unkActor, actorCategory, globalCtx);
+        Actor_SetNaviToActor(targetCtx, unkActor, actorCategory, globalCtx);
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
-        func_8002BE04(globalCtx, &actorArg->focus.pos, &sp50, &sp4C);
-        if (((sp50.z <= 0.0f) || (1.0f <= fabsf(sp50.x * sp4C))) || (1.0f <= fabsf(sp50.y * sp4C))) {
+        Actor_ProjectPos(globalCtx, &actorArg->focus.pos, &projectedFocusPos, &cappedInvWDest);
+        if (((projectedFocusPos.z <= 0.0f) || (1.0f <= fabsf(projectedFocusPos.x * cappedInvWDest))) || (1.0f <= fabsf(projectedFocusPos.y * cappedInvWDest))) {
             actorArg = NULL;
         }
     }
@@ -655,7 +655,7 @@ void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag) {
     }
 }
 
-void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
+void TitleCard_Init(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
@@ -701,48 +701,49 @@ void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 }
 
 void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    s32 spCC;
-    s32 spC8;
-    s32 unk1;
-    s32 spC0;
-    s32 sp38;
-    s32 spB8;
-    s32 spB4;
-    s32 spB0;
+    s32 width;
+    s32 height;
+    s32 unused;
+    s32 titleX;
+    s32 doubleWidth;
+    s32 titleY;
+    s32 titleSecondY;
+    s32 textureLanguageOffset;
 
     if (titleCtx->alpha != 0) {
-        spCC = titleCtx->width;
-        spC8 = titleCtx->height;
-        spC0 = (titleCtx->x * 4) - (spCC * 2);
-        spB8 = (titleCtx->y * 4) - (spC8 * 2);
-        sp38 = spCC * 2;
+        width = titleCtx->width;
+        height = titleCtx->height;
+        titleX = (titleCtx->x * 4) - (width * 2);
+        titleY = (titleCtx->y * 4) - (height * 2);
+        doubleWidth = width * 2;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2824);
 
-        spB0 = spCC * spC8 * gSaveContext.language;
-        spC8 = (spCC * spC8 > 0x1000) ? 0x1000 / spCC : spC8;
-        spB4 = spB8 + (spC8 * 4);
+        textureLanguageOffset = width * height * gSaveContext.language;
+        height = (width * height > 0x1000) ? 0x1000 / width : height;
+        titleSecondY = titleY + (height * 4);
 
         OVERLAY_DISP = func_80093808(OVERLAY_DISP);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
+        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b, width, height, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
+        gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX) - 4, titleY + (height * 4) - 1, G_TX_RENDERTILE,
                             0, 0, 1 << 10, 1 << 10);
 
-        spC8 = titleCtx->height - spC8;
+        height = titleCtx->height - height;
 
-        if (spC8 > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
-                                spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+        // If texture is bigger than 0x1000, display the rest
+        if (height > 0) {
+            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, width,
+                                height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
+            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleSecondY, ((doubleWidth * 2) + titleX) - 4, titleSecondY + (height * 4) - 1,
                                 G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
@@ -750,7 +751,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     }
 }
 
-s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
+s32 TitleCard_Clear(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
         titleCtx->durationTimer = 0;
         titleCtx->delayTimer = 0;
@@ -1550,11 +1551,11 @@ s8 func_8002F368(GlobalContext* globalCtx) {
 
 void Actor_GetScreenPos(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
     Vec3f projectedPos;
-    f32 w;
+    f32 cappedInvW;
 
-    func_8002BE04(globalCtx, &actor->focus.pos, &projectedPos, &w);
-    *x = projectedPos.x * w * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2);
-    *y = projectedPos.y * w * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
+    Actor_ProjectPos(globalCtx, &actor->focus.pos, &projectedPos, &cappedInvW);
+    *x = projectedPos.x * cappedInvW * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2);
+    *y = projectedPos.y * cappedInvW * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -1944,9 +1945,9 @@ void func_80030488(GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, D_8015BC10);
 }
 
-void func_800304B0(GlobalContext* globalCtx) {
-    if (globalCtx->actorCtx.unk_03 != 0) {
-        globalCtx->actorCtx.unk_03 = 0;
+void Actor_DisableLens(GlobalContext* globalCtx) {
+    if (globalCtx->actorCtx.lensActive) {
+        globalCtx->actorCtx.lensActive = false;
         func_800876C8(globalCtx);
     }
 }
@@ -1977,7 +1978,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     actorCtx->flags.clear = savedSceneFlags->clear;
     actorCtx->flags.collect = savedSceneFlags->collect;
 
-    func_8002CDE4(globalCtx, &actorCtx->titleCtx);
+    TitleCard_Init(globalCtx, &actorCtx->titleCtx);
 
     actorCtx->absoluteSpace = NULL;
 
@@ -2245,20 +2246,32 @@ void func_80030ED8(Actor* actor) {
     }
 }
 
-void func_80030FA8(GraphicsContext* gfxCtx) {
+#define LENS_MASK_WIDTH 64
+#define LENS_MASK_HEIGHT 64
+// 26 and 6 are for padding between the mask texture and the screen borders
+#define LENS_MASK_OFFSET_S ((SCREEN_WIDTH / 2 - LENS_MASK_WIDTH) - 26)
+#define LENS_MASK_OFFSET_T ((SCREEN_HEIGHT / 2 - LENS_MASK_HEIGHT) - 6)
+
+void Actor_DrawLensOverlay(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
-                        G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, LENS_MASK_WIDTH,
+                        LENS_MASK_HEIGHT, 0, G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD,
+                        G_TX_NOLOD);
 
-    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 384, 224, 892, 732);
-    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, 1280, 960, G_TX_RENDERTILE, 2240, 1600, 576, 597);
+    gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, (SCREEN_WIDTH / 2 - LENS_MASK_WIDTH) << 2,
+                   (SCREEN_HEIGHT / 2 - LENS_MASK_HEIGHT) << 2, (SCREEN_WIDTH / 2 + LENS_MASK_WIDTH - 1) << 2,
+                   (SCREEN_HEIGHT / 2 + LENS_MASK_HEIGHT - 1) << 2);
+    gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH << 2, SCREEN_HEIGHT << 2, G_TX_RENDERTILE,
+                        LENS_MASK_OFFSET_S << 5, LENS_MASK_OFFSET_T << 5,
+                        (1 << 10) * (SCREEN_WIDTH - 2 * LENS_MASK_OFFSET_S) / SCREEN_WIDTH,
+                        (1 << 10) * (SCREEN_HEIGHT - 2 * LENS_MASK_OFFSET_T) / SCREEN_HEIGHT);
     gDPPipeSync(POLY_XLU_DISP++);
 
     CLOSE_DISPS(gfxCtx, "../z_actor.c", 6183);
 }
 
-void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
+void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** invisibleActors) {
     Actor** invisibleActor;
     GraphicsContext* gfxCtx;
     s32 i;
@@ -2272,27 +2285,40 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
     gDPPipeSync(POLY_XLU_DISP++);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors == 0) {
+        // Update both the color frame buffer and the z-buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | G_RM_CLD_SURF | G_RM_CLD_SURF2);
+
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
+
+        // the z-buffer will later only allow drawing inside the lens circle
     } else {
+        // Update the z-buffer but not the color frame buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                         G_AC_THRESHOLD | G_ZS_PRIM | Z_UPD | IM_RD | CVG_DST_SAVE | ZMODE_OPA | FORCE_BL |
                             GBL_c1(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA) |
                             GBL_c2(G_BL_CLR_BL, G_BL_0, G_BL_CLR_MEM, G_BL_1MA));
+
+        // inverts the mask image, which initially is 0 inner and 74 outer,
+        // by setting the combiner to draw 74 - image instead of the image
         gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0,
                           PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0, PRIMITIVE, TEXEL0, PRIM_LOD_FRAC, 0);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0xFF, 74, 74, 74, 74);
+
+        // the z-buffer will later only allow drawing outside the lens circle
     }
 
+    // Together with the depth source set above, this sets the depth to the closest.
+    // For a pixel with such a depth value, the z-buffer will reject drawing to that pixel.
     gDPSetPrimDepth(POLY_XLU_DISP++, 0, 0);
 
-    func_80030FA8(gfxCtx);
+    // The z-buffer will be updated where the mask is not fully transparent.
+    Actor_DrawLensOverlay(gfxCtx);
 
     // "Magic lens invisible Actor display START"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 START", numInvisibleActors);
@@ -2308,6 +2334,8 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
+        // Draw the lens overlay to the color frame buffer
+
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 
         gDPPipeSync(POLY_XLU_DISP++);
@@ -2319,7 +2347,7 @@ void func_8003115C(GlobalContext* globalCtx, s32 numInvisibleActors, Actor** inv
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 0, 255);
 
-        func_80030FA8(gfxCtx);
+        Actor_DrawLensOverlay(gfxCtx);
 
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 1); // "Blue spectacles (exterior)"
     }
@@ -2398,7 +2426,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_5 | ACTOR_FLAG_6))) {
                     if ((actor->flags & ACTOR_FLAG_7) &&
-                        ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
+                        ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || globalCtx->actorCtx.lensActive ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
                         ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
                                "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
@@ -2426,10 +2454,10 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     }
 
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
-        if (globalCtx->actorCtx.unk_03 != 0) {
-            func_8003115C(globalCtx, invisibleActorCounter, invisibleActors);
+        if (globalCtx->actorCtx.lensActive) {
+            Actor_DrawLensActors(globalCtx, invisibleActorCounter, invisibleActors);
             if ((globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx)) {
-                func_800304B0(globalCtx);
+                Actor_DisableLens(globalCtx);
             }
         }
     }

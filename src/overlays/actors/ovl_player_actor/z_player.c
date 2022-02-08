@@ -2722,12 +2722,12 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
 
             if (actionParam == PLAYER_AP_LENS) {
                 if (func_80087708(globalCtx, 0, 3)) {
-                    if (globalCtx->actorCtx.unk_03 != 0) {
-                        func_800304B0(globalCtx);
+                    if (globalCtx->actorCtx.lensActive) {
+                        Actor_DisableLens(globalCtx);
                     } else {
-                        globalCtx->actorCtx.unk_03 = 1;
+                        globalCtx->actorCtx.lensActive = true;
                     }
-                    func_80078884((globalCtx->actorCtx.unk_03 != 0) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
+                    func_80078884((globalCtx->actorCtx.lensActive) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
@@ -2770,7 +2770,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                 (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((actionParam >= PLAYER_AP_BOTTLE_POTION_RED) && (actionParam <= PLAYER_AP_BOTTLE_FAIRY))) {
-                    func_8002D53C(globalCtx, &globalCtx->actorCtx.titleCtx);
+                    TitleCard_Clear(globalCtx, &globalCtx->actorCtx.titleCtx);
                     this->unk_6AD = 4;
                     this->itemActionParam = actionParam;
                 }
@@ -4175,7 +4175,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                                         .sides[(doorDirection > 0) ? 0 : 1]
                                         .effects;
 
-                    func_800304B0(globalCtx);
+                    Actor_DisableLens(globalCtx);
                 }
             } else {
                 // This actor can be either EnDoor or DoorKiller.
@@ -4228,7 +4228,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
 
                 if (this->doorType != PLAYER_DOORTYPE_FAKE) {
                     this->stateFlags1 |= PLAYER_STATE1_29;
-                    func_800304B0(globalCtx);
+                    Actor_DisableLens(globalCtx);
 
                     if (((doorActor->params >> 7) & 7) == 3) {
                         sp4C.x = doorActor->world.pos.x - (sp6C * sp74);
@@ -5806,7 +5806,7 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
         func_80832F54(globalCtx, this, 0x9B);
         this->actor.parent = this->rideActor;
         func_80832224(this);
-        func_800304B0(globalCtx);
+        Actor_DisableLens(globalCtx);
         return 1;
     }
 
@@ -5890,7 +5890,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
     Actor* interactedActor;
 
     if (iREG(67) || (((interactedActor = this->interactRangeActor) != NULL) &&
-                     func_8002D53C(globalCtx, &globalCtx->actorCtx.titleCtx))) {
+                     TitleCard_Clear(globalCtx, &globalCtx->actorCtx.titleCtx))) {
         if (iREG(67) || (this->getItemId > GI_NONE)) {
             if (iREG(67)) {
                 this->getItemId = iREG(68);
@@ -13893,12 +13893,12 @@ void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     static Color_RGBA8 primColor = { 255, 255, 255, 0 };
     static Color_RGBA8 envColor = { 0, 128, 128, 0 };
-    s32 age = gSaveContext.linkAge;
+    s32 linkAge = gSaveContext.linkAge;
     Vec3f sparklePos;
     Vec3f sp34;
     Vec3s* ptr;
 
-    func_80851294(globalCtx, this, D_80855208[age]);
+    func_80851294(globalCtx, this, D_80855208[linkAge]);
 
     if (this->rightHandType != 0xFF) {
         this->rightHandType = 0xFF;

@@ -6,9 +6,9 @@ In this project, we are decompiling The Legend of Zelda: Ocarina of Time. This m
 glabel func_80A13098
 /* 00028 80A13098 8482001C */  lh      $v0, 0x001C($a0)           ## 0000001C
 /* 0002C 80A1309C 24010004 */  addiu   $at, $zero, 0x0004         ## $at = 00000004
-/* 00030 80A130A0 14410003 */  bne     $v0, $at, .L80A130B0       
+/* 00030 80A130A0 14410003 */  bne     $v0, $at, .L80A130B0
 /* 00034 80A130A4 244EFFFE */  addiu   $t6, $v0, 0xFFFE           ## $t6 = FFFFFFFE
-/* 00038 80A130A8 10000002 */  beq     $zero, $zero, .L80A130B4   
+/* 00038 80A130A8 10000002 */  beq     $zero, $zero, .L80A130B4
 /* 0003C 80A130AC A480001C */  sh      $zero, 0x001C($a0)         ## 0000001C
 .L80A130B0:
 /* 00040 80A130B0 A48E001C */  sh      $t6, 0x001C($a0)           ## 0000001C
@@ -19,7 +19,7 @@ glabel func_80A13098
 /* 00050 80A130C0 A1E20004 */  sb      $v0, 0x0004($t7)           ## 00000004
 /* 00054 80A130C4 A08201B8 */  sb      $v0, 0x01B8($a0)           ## 000001B8
 /* 00058 80A130C8 A08201B9 */  sb      $v0, 0x01B9($a0)           ## 000001B9
-/* 0005C 80A130CC 03E00008 */  jr      $ra                        
+/* 0005C 80A130CC 03E00008 */  jr      $ra
 /* 00060 80A130D0 A0980117 */  sb      $t8, 0x0117($a0)           ## 00000117
 ```
 
@@ -62,12 +62,12 @@ A lot of work has already been done on the code to bring it into a format that i
 
 An *actor* is any thing in the game that moves or performs actions or interactions: Link is an actor, enemies are actors, NPCs are actors, props like grass are actors (Fishing is also an actor, the largest one, but you don't need to know about it). The vast majority of actors are *overlays*, which means they are loaded only when the game needs them.
 
-In the code, each actor is associated to several files: there is 
+In the code, each actor is associated to several files: there is
 - the main .c file, e.g. `src/overlays/actors/ovl_En_Firefly/z_en_firefly.c`
 - the actor's Header file, e.g. `src/overlays/actors/ovl_En_Firefly/z_en_firefly.h`
-- various .o files that tell the `make` script how to incorporate it into building the ROM, 
+- various .o files that tell the `make` script how to incorporate it into building the ROM,
 
-and then for undecompiled actors, various assembly (.s) files, generally including: 
+and then for undecompiled actors, various assembly (.s) files, generally including:
 - one for the actor's *data* (this usually includes things like its collision information about how to draw it, and various other stuff that is used in it), e.g. `data/overlays/actors/z_en_firefly.data.s`
 - one for each function in the actor, e.g. `asm/non_matchings/overlays/actors/ovl_En_Firefly/func_80A13098.s`
 
