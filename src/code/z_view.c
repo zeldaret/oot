@@ -172,10 +172,10 @@ void func_800AA550(View* view) {
     CLOSE_DISPS(gfxCtx, "../z_view.c", 472);
 }
 
-void View_SetDistortionDirRot(View* view, f32 dirRotX, f32 dirRotY, f32 dirRotZ) {
-    view->distortionDirRot.x = dirRotX;
-    view->distortionDirRot.y = dirRotY;
-    view->distortionDirRot.z = dirRotZ;
+void View_SetDistortionOrientation(View* view, f32 rotX, f32 rotY, f32 rotZ) {
+    view->distortionOrientation.x = rotX;
+    view->distortionOrientation.y = rotY;
+    view->distortionOrientation.z = rotZ;
 }
 
 void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ) {
@@ -189,29 +189,29 @@ s32 View_SetDistortionSpeed(View* view, f32 speed) {
 }
 
 void View_InitDistortion(View* view) {
-    view->distortionDirRot.x = 0.0f;
-    view->distortionDirRot.y = 0.0f;
-    view->distortionDirRot.z = 0.0f;
+    view->distortionOrientation.x = 0.0f;
+    view->distortionOrientation.y = 0.0f;
+    view->distortionOrientation.z = 0.0f;
     view->distortionScale.x = 1.0f;
     view->distortionScale.y = 1.0f;
     view->distortionScale.z = 1.0f;
-    view->curDistortionDirRot = view->distortionDirRot;
+    view->curDistortionOrientation = view->distortionOrientation;
     view->curDistortionScale = view->distortionScale;
     view->distortionSpeed = 0.0f;
 }
 
 void View_ClearDistortion(View* view) {
-    view->distortionDirRot.x = 0.0f;
-    view->distortionDirRot.y = 0.0f;
-    view->distortionDirRot.z = 0.0f;
+    view->distortionOrientation.x = 0.0f;
+    view->distortionOrientation.y = 0.0f;
+    view->distortionOrientation.z = 0.0f;
     view->distortionScale.x = 1.0f;
     view->distortionScale.y = 1.0f;
     view->distortionScale.z = 1.0f;
     view->distortionSpeed = 1.0f;
 }
 
-void View_SetDistortion(View* view, Vec3f dirRot, Vec3f scale, f32 speed) {
-    view->distortionDirRot = dirRot;
+void View_SetDistortion(View* view, Vec3f orientation, Vec3f scale, f32 speed) {
+    view->distortionOrientation = orientation;
     view->distortionScale = scale;
     view->distortionSpeed = speed;
 }
@@ -222,16 +222,16 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
     if (view->distortionSpeed == 0.0f) {
         return false;
     } else if (view->distortionSpeed == 1.0f) {
-        view->curDistortionDirRot = view->distortionDirRot;
+        view->curDistortionOrientation = view->distortionOrientation;
         view->curDistortionScale = view->distortionScale;
         view->distortionSpeed = 0.0f;
     } else {
-        view->curDistortionDirRot.x =
-            F32_LERPIMP(view->curDistortionDirRot.x, view->distortionDirRot.x, view->distortionSpeed);
-        view->curDistortionDirRot.y =
-            F32_LERPIMP(view->curDistortionDirRot.y, view->distortionDirRot.y, view->distortionSpeed);
-        view->curDistortionDirRot.z =
-            F32_LERPIMP(view->curDistortionDirRot.z, view->distortionDirRot.z, view->distortionSpeed);
+        view->curDistortionOrientation.x =
+            F32_LERPIMP(view->curDistortionOrientation.x, view->distortionOrientation.x, view->distortionSpeed);
+        view->curDistortionOrientation.y =
+            F32_LERPIMP(view->curDistortionOrientation.y, view->distortionOrientation.y, view->distortionSpeed);
+        view->curDistortionOrientation.z =
+            F32_LERPIMP(view->curDistortionOrientation.z, view->distortionOrientation.z, view->distortionSpeed);
 
         view->curDistortionScale.x =
             F32_LERPIMP(view->curDistortionScale.x, view->distortionScale.x, view->distortionSpeed);
@@ -243,13 +243,13 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
 
     Matrix_MtxToMtxF(projectionMtx, &projectionMtxF);
     Matrix_Put(&projectionMtxF);
-    Matrix_RotateX(view->curDistortionDirRot.x, MTXMODE_APPLY);
-    Matrix_RotateY(view->curDistortionDirRot.y, MTXMODE_APPLY);
-    Matrix_RotateZ(view->curDistortionDirRot.z, MTXMODE_APPLY);
+    Matrix_RotateX(view->curDistortionOrientation.x, MTXMODE_APPLY);
+    Matrix_RotateY(view->curDistortionOrientation.y, MTXMODE_APPLY);
+    Matrix_RotateZ(view->curDistortionOrientation.z, MTXMODE_APPLY);
     Matrix_Scale(view->curDistortionScale.x, view->curDistortionScale.y, view->curDistortionScale.z, MTXMODE_APPLY);
-    Matrix_RotateZ(-view->curDistortionDirRot.z, MTXMODE_APPLY);
-    Matrix_RotateY(-view->curDistortionDirRot.y, MTXMODE_APPLY);
-    Matrix_RotateX(-view->curDistortionDirRot.x, MTXMODE_APPLY);
+    Matrix_RotateZ(-view->curDistortionOrientation.z, MTXMODE_APPLY);
+    Matrix_RotateY(-view->curDistortionOrientation.y, MTXMODE_APPLY);
+    Matrix_RotateX(-view->curDistortionOrientation.x, MTXMODE_APPLY);
     Matrix_ToMtx(projectionMtx, "../z_view.c", 566);
 
     return true;

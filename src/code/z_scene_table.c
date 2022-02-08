@@ -2312,7 +2312,7 @@ void func_8009FE58(GlobalContext* globalCtx) {
         D_8012A3A0 += 1820;
 
         temp = 0.020000001f;
-        View_SetDistortionDirRot(&globalCtx->view,
+        View_SetDistortionOrientation(&globalCtx->view,
                                  ((360.00018f / 65535.0f) * (M_PI / 180.0f)) * temp * Math_CosS(D_8012A39C),
                                  ((360.00018f / 65535.0f) * (M_PI / 180.0f)) * temp * Math_SinS(D_8012A39C),
                                  ((360.00018f / 65535.0f) * (M_PI / 180.0f)) * temp * Math_SinS(D_8012A3A0));
