@@ -6,7 +6,7 @@
 s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags);
 s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags);
 s32 Camera_QRegInit(void);
-s32 Camera_CheckWater(Camera* camera);
+s32 Camera_UpdateWater(Camera* camera);
 
 #define RELOAD_PARAMS \
     (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14 || R_RELOAD_CAM_PARAMS)
@@ -6956,7 +6956,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     osSyncPrintf(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
 
     if (camera->thisIdx == MAIN_CAM) {
-        Camera_CheckWater(camera);
+        Camera_UpdateWater(camera);
     }
 }
 
@@ -7064,7 +7064,7 @@ void Camera_PrintSettings(Camera* camera) {
     }
 }
 
-s32 Camera_CheckWater(Camera* camera) {
+s32 Camera_UpdateWater(Camera* camera) {
     f32 waterY;
     s16 newQuakeId;
     s32 waterLightsIndex;
@@ -7184,7 +7184,7 @@ s32 Camera_CheckWater(Camera* camera) {
     //! @bug: doesn't always return a value, but sometimes does.
 }
 
-s32 Camera_SetHotRoomDistortionFlag(Camera* camera) {
+s32 Camera_UpdateHotRoom(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
     if (camera->globalCtx->roomCtx.curRoom.unk_02 == 3) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
@@ -7371,8 +7371,8 @@ Vec3s Camera_Update(Camera* camera) {
 
         if (sOOBTimer < 200) {
             if (camera->status == CAM_STAT_ACTIVE) {
-                Camera_CheckWater(camera);
-                Camera_SetHotRoomDistortionFlag(camera);
+                Camera_UpdateWater(camera);
+                Camera_UpdateHotRoom(camera);
             }
 
             if (!(camera->unk_14C & 4)) {
