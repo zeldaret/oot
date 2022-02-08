@@ -495,7 +495,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
             }
         }
         if ((this->ocTimer == 0) && (this->actor.colorFilterTimer == 0) && (player->invincibilityTimer == 0) &&
-            !(player->stateFlags2 & 0x80) &&
+            !(player->stateFlags2 & PLAYER_STATE2_7) &&
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
             this->collider2.base.ocFlags1 &= ~OC1_HIT;
@@ -623,7 +623,7 @@ void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
     this->ocTimer = 8;
-    if ((this->grabTimer == 0) || !(player->stateFlags2 & 0x80)) {
+    if ((this->grabTimer == 0) || !(player->stateFlags2 & PLAYER_STATE2_7)) {
         EnRr_SetupReleasePlayer(this, globalCtx);
     } else {
         Math_ApproachF(&player->actor.world.pos.x, this->mouthPos.x, 1.0f, 30.0f);

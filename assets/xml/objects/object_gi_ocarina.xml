@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_ocarina" Segment="6">
         <DList Name="gGiOcarinaTimeDL" Offset="0x08C0"/>
         <DList Name="gGiOcarinaTimeHolesDL" Offset="0x0AF8"/>

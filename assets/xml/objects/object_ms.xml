@@ -2,7 +2,7 @@
     <File Name="object_ms" Segment="6">
         <!-- Bean Salesman Skeleton -->
         <Skeleton Name="gBeanSalesmanSkel" Type="Flex" LimbType="Standard" Offset="0x3DC0"/>
-        
+
         <!-- Bean Salesman Limbs -->
         <Limb Name="gBeanSalesmanRootLimb" LimbType="Standard" Offset="0x3D40"/>
         <Limb Name="gBeanSalesmanLeftUpperArmLimb" LimbType="Standard" Offset="0x3D4C"/>

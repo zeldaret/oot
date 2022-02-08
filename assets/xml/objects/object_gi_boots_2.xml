@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="object_gi_boots_2" Segment="6">
         <DList Name="gGiIronBootsDL" Offset="0x1630"/>
         <DList Name="gGiIronBootsRivetsDL" Offset="0x1A98"/>

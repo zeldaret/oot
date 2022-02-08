@@ -311,9 +311,9 @@ void Select_UpdateMenu(SelectContext* this) {
 
         if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-                gSaveContext.linkAge = 1;
+                gSaveContext.linkAge = LINK_AGE_CHILD;
             } else {
-                gSaveContext.linkAge = 0;
+                gSaveContext.linkAge = LINK_AGE_ADULT;
             }
         }
 
@@ -754,5 +754,5 @@ void Select_Init(GameState* thisx) {
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_select.c", 1114);
     DmaMgr_SendRequest1(this->staticSegment, _z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     gSaveContext.cutsceneIndex = 0x8000;
-    gSaveContext.linkAge = 1;
+    gSaveContext.linkAge = LINK_AGE_CHILD;
 }

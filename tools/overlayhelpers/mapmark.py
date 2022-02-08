@@ -110,7 +110,7 @@ for i in range(NUM_SCENES):
 cstr = HEADER
 
 for scenemap in scenemaps:
-    cstr += f"MapMarkData {GetDungeonSymbol(scenemap[0])}[] = {{\n" 
+    cstr += f"MapMarkData {GetDungeonSymbol(scenemap[0])}[] = {{\n"
     for mapId, map in enumerate(scenemap[1]):
         cstr += IND(1) + f"// {GetDungeonName(scenemap[0])} minimap {mapId}\n"
         cstr += IND(1) + "{\n"
@@ -130,7 +130,7 @@ for scenemap in scenemaps:
 
 cstr += "MapMarkData* gMapMarkDataTable[] = {\n"
 for scenemap in scenemaps:
-    cstr += f"    {GetDungeonSymbol(scenemap[0])},\n" 
+    cstr += f"    {GetDungeonSymbol(scenemap[0])},\n"
 cstr += "};\n"
 
 with open(sys.argv[1], "w") as file:
