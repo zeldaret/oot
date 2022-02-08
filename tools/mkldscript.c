@@ -227,6 +227,7 @@ int main(int argc, char **argv)
     write_ld_script(ldout);
     fclose(ldout);
 
+    free_rom_spec(g_segments, g_segmentsCount);
     free(spec);
 
     return 0;

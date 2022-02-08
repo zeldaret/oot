@@ -79,7 +79,7 @@ const char* sFpExceptionNames[] = {
 // TODO: import .bss (has reordering issues)
 extern FaultMgr* sFaultInstance;
 extern u8 sFaultAwaitingInput;
-extern char sFaultStack[0x600];
+extern STACK(sFaultStack, 0x600);
 extern StackEntry sFaultThreadInfo;
 extern FaultMgr gFaultMgr;
 
@@ -1264,8 +1264,8 @@ void Fault_Init(void) {
     sFaultInstance->autoScroll = false;
     gFaultMgr.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultInstance->queue, &sFaultInstance->msg, 1);
-    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, sFaultStack + sizeof(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultInstance->thread, 2, Fault_ThreadEntry, 0, sFaultStack + sizeof(sFaultStack),
+    StackCheck_Init(&sFaultThreadInfo, &sFaultStack, STACK_TOP(sFaultStack), 0, 0x100, "fault");
+    osCreateThread(&sFaultInstance->thread, 2, Fault_ThreadEntry, 0, STACK_TOP(sFaultStack),
                    OS_PRIORITY_APPMAX);
     osStartThread(&sFaultInstance->thread);
 }

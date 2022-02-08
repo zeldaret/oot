@@ -6,7 +6,7 @@ OSMgrArgs __osPiDevMgr = { 0 };
 OSPiHandle __Dom1SpeedParam;
 OSPiHandle __Dom2SpeedParam;
 OSThread piThread;
-u8 piStackThread[0x1000];
+STACK(piStackThread, 0x1000);
 OSMesgQueue piEventQueue;
 OSMesg piEventBuf[2];
 OSThread __osThreadSave;
@@ -46,7 +46,7 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgC
         __osPiDevMgr.piDmaCallback = __osPiRawStartDma;
         __osPiDevMgr.epiDmaCallback = __osEPiRawStartDma;
 
-        osCreateThread(&piThread, 0, __osDevMgrMain, (void*)&__osPiDevMgr, piStackThread + sizeof(piStackThread), pri);
+        osCreateThread(&piThread, 0, __osDevMgrMain, (void*)&__osPiDevMgr, STACK_TOP(piStackThread), pri);
         osStartThread(&piThread);
 
         __osRestoreInt(prevInt);
