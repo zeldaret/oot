@@ -352,8 +352,8 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
                 globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
-                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_WHITE, TC_FAST);
-                gSaveContext.nextTransition = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_WHITE, TC_FAST);
+                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+                gSaveContext.nextTransition = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
             }
         }
     }

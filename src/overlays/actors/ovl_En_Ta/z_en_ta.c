@@ -666,10 +666,10 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = 0x5E4;
 
         if (gSaveContext.eventInf[0] & 0x100) {
-            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_WHITE, TC_FAST);
+            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
             gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
         } else {
-            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TC_STARBURST, TC_BLACK, TC_FAST);
+            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
             gSaveContext.nextTransition = TRANS_TYPE_FADE_BLACK;
         }
 

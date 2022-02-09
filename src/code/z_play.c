@@ -50,7 +50,7 @@ void Gameplay_SetupTransition(GlobalContext* globalCtx, s32 transitionType) {
 
     transitionCtx->transitionType = transitionType;
 
-    // types above 32 are treated as circles
+    // circle types
     if ((transitionCtx->transitionType >> 5) == 1) {
         transitionCtx->init = TransitionCircle_Init;
         transitionCtx->destroy = TransitionCircle_Destroy;
@@ -480,6 +480,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case TRANS_MODE_SETUP:
                     if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
                         s16 csOffset = 0;
+                        
                         Interface_ChangeAlpha(1);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {

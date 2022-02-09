@@ -1029,22 +1029,22 @@ typedef enum {
 } TransitionType;
 
 typedef enum {
-    /* 0 */ TC_NORMAL,
-    /* 1 */ TC_WAVE,
-    /* 2 */ TC_RIPPLE,
-    /* 3 */ TC_STARBURST
+    /* 0 */ TCA_NORMAL,
+    /* 1 */ TCA_WAVE,
+    /* 2 */ TCA_RIPPLE,
+    /* 3 */ TCA_STARBURST
 } TransitionCircleAppearance;
 
 typedef enum {
-    /* 0 */ TC_BLACK,
-    /* 1 */ TC_WHITE,
-    /* 2 */ TC_GRAY,
-    /* 3 */ TC_SPECIAL // color varies depending on appearance. unused
+    /* 0 */ TCC_BLACK,
+    /* 1 */ TCC_WHITE,
+    /* 2 */ TCC_GRAY,
+    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused
 } TransitionCircleColor;
 
 typedef enum {
-    /* 0 */ TC_FAST,
-    /* 1 */ TC_SLOW
+    /* 0 */ TCS_FAST,
+    /* 1 */ TCS_SLOW
 } TransitionCircleSpeed;
 
 #define TC_SET_PARAMS (1 << 7)
