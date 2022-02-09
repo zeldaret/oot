@@ -108,11 +108,16 @@ ELF2ROM    := tools/elf2rom
 ZAPD       := tools/ZAPD/ZAPD.out
 FADO       := tools/fado/fado.elf
 
-OPTFLAGS := -O2
+ifeq ($(COMPILER),gcc)
+  OPTFLAGS := -Os -ffast-math -fno-unsafe-math-optimizations
+else
+  OPTFLAGS := -O2
+endif
+
 ASFLAGS := -march=vr4300 -32 -Iinclude
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += -G 0 -nostdinc $(INC) -DNON_MATCHING=1 -DAVOID_UB=1 -march=vr4300 -mfix4300 -mabi=32 -mdivide-breaks -fno-common -fno-zero-initialized-in-bss -mno-abicalls -fno-toplevel-reorder -ffreestanding $(CHECK_WARNINGS) -g -mno-explicit-relocs -mno-split-addresses -funsigned-char
+  CFLAGS += -G 0 -nostdinc $(INC) -D AVOID_UB -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
 else 
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
@@ -207,6 +212,7 @@ build/src/overlays/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS
 
 build/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 else
+build/src/libultra/libc/ll.o: OPTFLAGS := -Ofast
 build/src/%.o: CC := $(CC) -fexec-charset=euc-jp
 endif
 
