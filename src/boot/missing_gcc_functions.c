@@ -70,7 +70,7 @@ f64 __floatundidf(u32 c) {
 f32 __powisf2(f32 a, s32 b) {
     const s32 recip = b < 0;
     f32 r = 1;
-    
+
     while (1) {
         if (b & 1) {
             r *= a;
