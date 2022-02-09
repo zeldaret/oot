@@ -17,7 +17,7 @@ void GameState_FaultPrint(void) {
     FaultDrawer_DrawText(120, 180, "%08x", sLastButtonPressed);
     for (i = 0; i < ARRAY_COUNT(sBtnChars); i++) {
         if (sLastButtonPressed & (1 << i)) {
-            FaultDrawer_DrawText((i * 8) + 0x78, 0xBE, "%c", sBtnChars[i]);
+            FaultDrawer_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
         }
     }
 }

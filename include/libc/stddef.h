@@ -6,4 +6,6 @@
 typedef unsigned long size_t;
 typedef long ssize_t;
 
+typedef unsigned int uintptr_t;
+
 #endif
