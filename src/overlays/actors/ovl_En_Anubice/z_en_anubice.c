@@ -108,20 +108,20 @@ void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = Math_SinS(this->hoverVelocityTimer);
 }
 
-void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 xzdist;
+void EnAnubice_SetHeadRot(EnAnubice* this, GlobalContext* globalCtx) {
+    f32 xzDist;
     f32 x;
     f32 y;
     f32 z;
     Player* player = GET_PLAYER(globalCtx);
 
-    x = player->actor.world.pos.x - this->fireballPos.x;
-    y = player->actor.world.pos.y + 10.0f - this->fireballPos.y;
-    z = player->actor.world.pos.z - this->fireballPos.z;
-    xzdist = sqrtf(SQ(x) + SQ(z));
+    x = player->actor.world.pos.x - this->headPos.x;
+    y = player->actor.world.pos.y + 10.0f - this->headPos.y;
+    z = player->actor.world.pos.z - this->headPos.z;
+    xzDist = sqrtf(SQ(x) + SQ(z));
 
-    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzdist));
-    this->fireballRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
+    this->headRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzDist));
+    this->headRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -172,7 +172,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
     Actor* currentProp;
     s32 flameCirclesFound;
 
-    if (this->isMirroringLink) {
+    if (this->isMirroringPlayer) {
         if (!this->hasSearchedForFlameCircles) {
             flameCirclesFound = 0;
             currentProp = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
@@ -223,7 +223,7 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
 
         if (player->swordState != 0) {
             this->actionFunc = EnAnubice_SetupShootFireball;
-        } else if (this->isLinkOutOfRange) {
+        } else if (this->isPlayerOutOfRange) {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
             this->actionFunc = EnAnubice_GoToHome;
@@ -232,9 +232,9 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 xzdist;
-    f32 xRatio;
-    f32 zRatio;
+    f32 xzDist;
+    f32 normalizedX;
+    f32 normalizedY;
     f32 x;
     f32 z;
 
@@ -250,14 +250,14 @@ void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx) {
         (fabsf(this->home.z - this->actor.world.pos.z) > 3.0f)) {
         x = this->home.x - this->actor.world.pos.x;
         z = this->home.z - this->actor.world.pos.z;
-        xzdist = sqrtf(SQ(x) + SQ(z));
-        xRatio = x / xzdist;
-        zRatio = z / xzdist;
-        this->actor.world.pos.x += xRatio * 8;
-        this->actor.world.pos.z += zRatio * 8.0f;
+        xzDist = sqrtf(SQ(x) + SQ(z));
+        normalizedX = x / xzDist;
+        normalizedY = z / xzDist;
+        this->actor.world.pos.x += normalizedX * 8;
+        this->actor.world.pos.z += normalizedY * 8.0f;
     } else if (this->actor.shape.yOffset < -4220.0f) {
         this->actor.shape.yOffset = -4230.0f;
-        this->isMirroringLink = this->isLinkOutOfRange = false;
+        this->isMirroringPlayer = this->isPlayerOutOfRange = false;
         this->actionFunc = EnAnubice_FindFlameCircles;
         this->actor.gravity = 0.0f;
     }
@@ -281,11 +281,11 @@ void EnAnubice_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    EnAnubice_SetFireballRot(this, globalCtx);
+    EnAnubice_SetHeadRot(this, globalCtx);
 
     if (curFrame == 12.0f) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->fireballPos.x,
-                    this->fireballPos.y + 15.0f, this->fireballPos.z, this->fireballRot.x, this->fireballRot.y, 0, 0);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->headPos.x, this->headPos.y + 15.0f,
+                    this->headPos.z, this->headRot.x, this->headRot.y, 0, 0);
     }
 
     if (this->animLastFrame <= curFrame) {
@@ -299,15 +299,15 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
     this->animLastFrame = lastFrame;
     Animation_Change(&this->skelAnime, &gAnubiceFallDownAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -20.0f);
 
-    this->isFallingOver = false;
-    this->fallTargetPitch = 0;
+    this->isNearWall = false;
+    this->fallTargetYaw = 0;
     this->deathTimer = 20;
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
     this->actor.gravity = -1.0f;
 
-    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->fireballPos, 70.0f)) {
-        this->isFallingOver = true;
-        this->fallTargetPitch = this->actor.shape.rot.x - 0x7F00;
+    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->headPos, 70.0f)) {
+        this->isNearWall = true;
+        this->fallTargetYaw = this->actor.shape.rot.x - 0x7F00;
     }
 
     this->actionFunc = EnAnubice_Die;
@@ -323,10 +323,11 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 0.4f, 0.25f);
 
-    if (this->isFallingOver) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->fallTargetPitch, 1, 10000, 0);
-        if (fabsf(this->actor.shape.rot.y - this->fallTargetPitch) < 100.0f) {
-            this->isFallingOver = false;
+    // If near a wall, turn to avoid the tail falling through it during the death animation
+    if (this->isNearWall) {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->fallTargetYaw, 1, 10000, 0);
+        if (fabsf(this->actor.shape.rot.y - this->fallTargetYaw) < 100.0f) {
+            this->isNearWall = false;
         }
     }
 
@@ -357,8 +358,8 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 zero;
     BgHidanCurtain* flameCircle;
     s32 i;
-    Vec3f sp48;
-    Vec3f sp3C;
+    Vec3f baseKnockbackVelocity;
+    Vec3f rotatedKnockbackVelocity;
     EnAnubice* this = (EnAnubice*)thisx;
 
     if ((this->actionFunc != EnAnubice_SetupDie) && (this->actionFunc != EnAnubice_Die) &&
@@ -394,20 +395,20 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->knockbackTimer = 10;
                 this->isKnockedback = true;
 
-                sp48.x = 0.0f;
-                sp48.y = 0.0f;
-                sp48.z = -10.0f;
-                sp3C.x = 0.0f;
-                sp3C.y = 0.0f;
-                sp3C.z = 0.0f;
+                baseKnockbackVelocity.x = 0.0f;
+                baseKnockbackVelocity.y = 0.0f;
+                baseKnockbackVelocity.z = -10.0f;
+                rotatedKnockbackVelocity.x = 0.0f;
+                rotatedKnockbackVelocity.y = 0.0f;
+                rotatedKnockbackVelocity.z = 0.0f;
 
                 Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
-                Matrix_MultVec3f(&sp48, &sp3C);
+                Matrix_MultVec3f(&baseKnockbackVelocity, &rotatedKnockbackVelocity);
 
-                this->actor.velocity.x = sp3C.x;
-                this->actor.velocity.z = sp3C.z;
-                this->knockbackRecoveryVelocity.x = -sp3C.x;
-                this->knockbackRecoveryVelocity.z = -sp3C.z;
+                this->actor.velocity.x = rotatedKnockbackVelocity.x;
+                this->actor.velocity.z = rotatedKnockbackVelocity.z;
+                this->knockbackRecoveryVelocity.x = -rotatedKnockbackVelocity.x;
+                this->knockbackRecoveryVelocity.z = -rotatedKnockbackVelocity.z;
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
             }
@@ -444,7 +445,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.velocity.y += this->actor.gravity;
     func_8002D7EC(&this->actor);
 
-    if (!this->isLinkOutOfRange) {
+    if (!this->isPlayerOutOfRange) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1D);
     } else {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1C);
@@ -466,7 +467,7 @@ s32 EnAnubice_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     EnAnubice* this = (EnAnubice*)thisx;
 
     if (limbIndex == ANUBICE_LIMB_HEAD) {
-        rot->z += this->headRot;
+        rot->z += this->headRoll;
     }
 
     return false;
@@ -482,7 +483,7 @@ void EnAnubice_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx*
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice.c", 856),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gAnubiceEyesDL);
-        Matrix_MultVec3f(&pos, &this->fireballPos);
+        Matrix_MultVec3f(&pos, &this->headPos);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 868);
     }
