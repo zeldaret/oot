@@ -108,7 +108,7 @@ void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = Math_SinS(this->hoverVelocityTimer);
 }
 
-void EnAnubice_SetHeadRot(EnAnubice* this, GlobalContext* globalCtx) {
+void EnAnubice_AimFireball(EnAnubice* this, GlobalContext* globalCtx) {
     f32 xzDist;
     f32 x;
     f32 y;
@@ -281,7 +281,7 @@ void EnAnubice_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    EnAnubice_SetHeadRot(this, globalCtx);
+    EnAnubice_AimFireball(this, globalCtx);
 
     if (curFrame == 12.0f) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->headPos.x, this->headPos.y + 15.0f,
