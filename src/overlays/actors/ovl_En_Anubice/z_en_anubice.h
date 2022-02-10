@@ -48,7 +48,7 @@ typedef struct EnAnubice {
     /* 0x026C */ f32 animLastFrame;
     /* 0x0270 */ f32 targetHeight;
     /* 0x0274 */ f32 playerHeightOffset; // How high above the player to hover at
-    /* 0x0278 */ f32 headRoll; // Never changed from initial value 0
+    /* 0x0278 */ f32 headPitch; // Never changed from initial value 0
     /* 0x027C */ f32 focusHeightOffset;
     /* 0x0280 */ Vec3f headPos;
     /* 0x028C */ Vec3f fireballRot;

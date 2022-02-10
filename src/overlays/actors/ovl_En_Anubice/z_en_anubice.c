@@ -467,7 +467,7 @@ s32 EnAnubice_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     EnAnubice* this = (EnAnubice*)thisx;
 
     if (limbIndex == ANUBICE_LIMB_HEAD) {
-        rot->z += this->headRoll;
+        rot->z += this->headPitch;
     }
 
     return false;
