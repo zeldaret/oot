@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # automatic rombuild script for OOT RET project 
 #################################
-REQ_PKGS="git build-essential binutils-mips-linux-gnu python3 libpng-dev"
+REQ_PKGS="git build-essential binutils-mips-linux-gnu python3 libpng-dev python3-pip"
 UPDATE="sudo apt update"
 PYPIP="python3 -m pip install colorama"
 #################################
