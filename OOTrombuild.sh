@@ -22,6 +22,8 @@ function ROMBUILD() {
     make
 }
 #################################
+echo "OOT ROMbuild script."
+echo "Updating repositories before beginning build..."
 $UPDATE
 # ensure required packages are installed. we'll install them if not. 
 for pkg in $REQ_PKGS; do
