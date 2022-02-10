@@ -51,7 +51,7 @@ typedef struct EnAnubice {
     /* 0x0278 */ f32 headRoll; // Never changed from initial value 0
     /* 0x027C */ f32 focusHeightOffset;
     /* 0x0280 */ Vec3f headPos;
-    /* 0x028C */ Vec3f headRot;
+    /* 0x028C */ Vec3f fireballRot;
     /* 0x0298 */ Vec3f home;
     /* 0x02A4 */ Vec3f knockbackRecoveryVelocity;
     /* 0x02B0 */ BgHidanCurtain* flameCircles[5];

@@ -120,8 +120,8 @@ void EnAnubice_SetHeadRot(EnAnubice* this, GlobalContext* globalCtx) {
     z = player->actor.world.pos.z - this->headPos.z;
     xzDist = sqrtf(SQ(x) + SQ(z));
 
-    this->headRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzDist));
-    this->headRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
+    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzDist));
+    this->fireballRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -285,7 +285,7 @@ void EnAnubice_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
 
     if (curFrame == 12.0f) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->headPos.x, this->headPos.y + 15.0f,
-                    this->headPos.z, this->headRot.x, this->headRot.y, 0, 0);
+                    this->headPos.z, this->fireballRot.x, this->fireballRot.y, 0, 0);
     }
 
     if (this->animLastFrame <= curFrame) {
