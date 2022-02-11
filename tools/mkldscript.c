@@ -18,6 +18,7 @@ static void write_ld_script(FILE *fout)
     int j;
 
     fputs("SECTIONS {\n"
+          "/DISCARD/ : { *(.MIPS.abiflags) *(.gnu.attributes) }\n"
           "    _RomSize = 0;\n"
           "    _RomStart = _RomSize;\n\n",
           fout);
