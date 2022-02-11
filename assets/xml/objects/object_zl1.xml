@@ -96,7 +96,7 @@
         <Texture Name="gChildZelda1MouthFrowningTex" OutName="mouth_frowning" Format="ci8" Width="32" Height="32" Offset="0x9048" TlutOffset="0x6ED0"/>
         <Texture Name="gChildZelda1MouthOpenTex" OutName="mouth_open" Format="ci8" Width="32" Height="32" Offset="0xA448" TlutOffset="0x6ED0"/>
         <Texture Name="gChildZelda1MouthOpenSmilingTex" OutName="mouth_open_smiling" Format="ci8" Width="32" Height="32" Offset="0xAB48" TlutOffset="0x6ED0"/>
-        
+
         <!-- Animations -->
         <Animation Name="gChildZelda1Anim_00438" Offset="0x00438"/>
         <Animation Name="gChildZelda1Anim_10B38" Offset="0x10B38"/>

@@ -30,8 +30,8 @@ EnJj* this = THIS;
 in the declarations as before. From now on, the process is rather different from the decompilation process used for the other functions. Here is the output of mips2c after sorting out the actor struct from Init, and with the arguments set back to `Actor* thisx`:
 ```C
 void EnJj_Draw(Actor *thisx, GlobalContext *globalCtx) {
-	EnJj* this = THIS;
-	
+    EnJj* this = THIS;
+
     GraphicsContext *sp4C;
     Gfx *sp3C;
     EnJj *sp18;
@@ -166,7 +166,7 @@ Lastly, the penultimate and antepenultimate arguments of `SkelAnime_DrawFlexOpa`
 
 For more examples of graphics macros and the structure of Draw functions, we look at a function from `EnDntNormal`, which is some Deku Scrubs used in the minigame stuff in Lost Woods. This has a good selection of macros, and two functions that are commonly combined with Draw, namely OverrideLimbDraw and PostLimbDraw.
 
-The mips2c output for 
+The mips2c output for
 
 ```C
 void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
@@ -289,7 +289,8 @@ static Color_RGBA8 D_809F5E4C[] = {
     { 255, 255, 255, 255 }, { 255, 195, 175, 255 }, { 210, 255, 0, 255 },
     { 255, 255, 255, 255 }, { 210, 255, 0, 255 },   { 255, 195, 175, 255 },
     { 255, 255, 255, 255 }, { 255, 195, 175, 255 }, { 210, 255, 0, 255 },
-};```
+};
+```
 
 Now, we have two things to worry about: how to implement the negative pointer access, and how the second word is built. Negative accesses can be done by just subtracting 1, so that
 ```C
@@ -304,7 +305,7 @@ or rather, since it is a `Color_RGB8`,
 temp_v0_3->words.w1 = (temp_v1.b << 8) | (temp_v1.r << 0x18) | (temp_v1.g << 0x10) | 0xFF;
 ```
 
-The last thing to worry about is how to put this word into the macro. Let's think aboout what the word actually is in a concrete case; it is easiest to see what is going on in hex, so suppose we are in the case
+The last thing to worry about is how to put this word into the macro. Let's think about what the word actually is in a concrete case; it is easiest to see what is going on in hex, so suppose we are in the case
 ```C
 temp_v1 = { 0xFF, 0xC3, 0xAF, 0xFF };
 ```
@@ -465,7 +466,7 @@ s32 func_809F58E4(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1733);
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, D_809F5E4C[this->type - 1].r, D_809F5E4C[this->type - 1].g, D_809F5E4C[this->type - 1].b, 255);
-        CLOSE_DISPS(globalCtx->state.gfxCtx, (const char*)"../z_en_dnt_nomal.c", 1743);
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1743);
     }
     return 0;
 }

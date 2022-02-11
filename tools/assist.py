@@ -103,7 +103,7 @@ def diff_syms(qb, tb):
     else:
         larger = tb
         smaller = qb
-    
+
     len_ratio = len(smaller) / len(larger)
 
     n_bytes = len(smaller)

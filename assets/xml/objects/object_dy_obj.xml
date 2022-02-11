@@ -98,7 +98,7 @@
         <!-- Great Fairy Mouth Textures -->
         <Texture Name="gGreatFairyMouthClosedTex" OutName="mouth_closed" Format="rgba16" Width="64" Height="32" Offset="0x19130"/>
         <Texture Name="gGreatFairyMouthOpenTex" OutName="mouth_open" Format="rgba16" Width="64" Height="32" Offset="0x1A130"/>
-        
+
         <!-- Great Fairy Animations -->
         <Animation Name="gGreatFairyAnim_000108" Offset="0x108"/>
         <Animation Name="gGreatFairySpellFountainSpinShrinkAnim" Offset="0x92C"/>
@@ -116,6 +116,6 @@
         <Array Name="gGreatFairySpiralBeamVtx" Count="27" Offset="0x1BFB0">
             <Vtx/>
         </Array>
-        
+
     </File>
 </Root>

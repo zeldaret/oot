@@ -119,7 +119,7 @@
         <Limb Name="gIngoLeftEyebrowLimb" LimbType="Standard" Offset="0x13B18"/>
         <Limb Name="gIngoRightEyebrowLimb" LimbType="Standard" Offset="0x13B24"/>
         <Limb Name="gIngoMustacheLimb" LimbType="Standard" Offset="0x13B30"/>
-        
+
         <Skeleton Name="gIngoSkel" Type="Flex" LimbType="Standard" Offset="0x13B88"/>
 
         <Animation Name="object_in_Anim_013C6C" Offset="0x13C6C"/>

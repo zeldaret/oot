@@ -14,7 +14,7 @@
         <Texture Name="gKzEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x1870" TlutOffset="0x970"/>
         <Texture Name="gKzEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x1C70" TlutOffset="0x970"/>
         <Texture Name="gKzEyeOpen2Tex" OutName="eye_open_2" Format="ci8" Width="32" Height="32" Offset="0x2070" TlutOffset="0x970"/>
-        
+
         <Texture Name="gKzHandAndFootTex" OutName="hand_and_foot" Format="ci8" Width="16" Height="16" Offset="0x2470" TlutOffset="0x770"/>
         <Texture Name="object_kz_Tex_002570" OutName="tex_002570" Format="ci8" Width="16" Height="16" Offset="0x2570" TlutOffset="0x770"/>
         <Texture Name="gKzCloakOutlineTex" OutName="cloak_outline" Format="ci8" Width="32" Height="32" Offset="0x2670" TlutOffset="0x770"/>

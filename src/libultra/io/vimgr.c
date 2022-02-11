@@ -2,7 +2,7 @@
 #include "ultra64/internal.h"
 
 OSThread viThread;
-u8 viThreadStack[0x1000];
+STACK(viThreadStack, 0x1000);
 OSMesgQueue viEventQueue;
 OSMesg viEventBuf[6];
 OSIoMesg viRetraceMsg;
@@ -45,7 +45,7 @@ void osCreateViManager(OSPri pri) {
         __osViDevMgr.piDmaCallback = NULL;
         __osViDevMgr.epiDmaCallback = NULL;
 
-        osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, viThreadStack + sizeof(viThreadStack), pri);
+        osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, STACK_TOP(viThreadStack), pri);
         __osViInit();
         osStartThread(&viThread);
         __osRestoreInt(prevInt);
