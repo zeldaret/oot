@@ -231,7 +231,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
     void* ram = req->dramAddr;
     size_t size = req->size;
     uintptr_t romStart;
-    uintptr_t romSize;
+    size_t romSize;
     u8 found = false;
     DmaEntry* iter;
     const char* filename;
@@ -257,7 +257,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
                                  "セグメント境界をまたがってＤＭＡ転送することはできません");
                 }
 
-                DmaMgr_DmaRomToRam(iter->romStart + (vrom - iter->vromStart), ram, size);
+                DmaMgr_DmaRomToRam(iter->romStart + (vrom - iter->vromStart), (uintptr_t)ram, size);
                 found = true;
 
                 if (0) {
@@ -386,7 +386,7 @@ void DmaMgr_Init(void) {
     DmaEntry* iter;
 
     DmaMgr_DmaRomToRam((uintptr_t)_dmadataSegmentRomStart, (uintptr_t)_dmadataSegmentStart,
-                       (uintptr_t)(_dmadataSegmentRomEnd - _dmadataSegmentRomStart));
+                       (size_t)(_dmadataSegmentRomEnd - _dmadataSegmentRomStart));
     osSyncPrintf("dma_rom_ad[]\n");
 
     sDmaMgrIsRomCompressed = false;
