@@ -21,8 +21,8 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_SetupIdle(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx);
-void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx);
-void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx);
+void EnAnubice_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx);
+void EnAnubice_ShootFireball(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx);
 
 const ActorInit En_Anubice_InitVars = {
@@ -57,39 +57,45 @@ static ColliderCylinderInit sCylinderInit = {
     { 29, 103, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0x0 */ ANUBICE_DMGEFF_NONE,
+    /* 0x2 */ ANUBICE_DMGEFF_FIRE = 2,
+    /* 0xF */ ANUBICE_DMGEFF_0xF = 0xF // Treated the same as ANUBICE_DMGEFF_NONE in code
+} AnubiceDamageEffect;
+
 static DamageTable sDamageTable[] = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x0),
-    /* Deku stick    */ DMG_ENTRY(0, 0xF),
-    /* Slingshot     */ DMG_ENTRY(0, 0xF),
-    /* Explosive     */ DMG_ENTRY(0, 0xF),
-    /* Boomerang     */ DMG_ENTRY(0, 0xF),
-    /* Normal arrow  */ DMG_ENTRY(0, 0xF),
-    /* Hammer swing  */ DMG_ENTRY(1, 0xF),
-    /* Hookshot      */ DMG_ENTRY(2, 0xF),
-    /* Kokiri sword  */ DMG_ENTRY(0, 0xF),
-    /* Master sword  */ DMG_ENTRY(2, 0xF),
-    /* Giant's Knife */ DMG_ENTRY(6, 0xF),
-    /* Fire arrow    */ DMG_ENTRY(2, 0x2),
-    /* Ice arrow     */ DMG_ENTRY(0, 0xF),
-    /* Light arrow   */ DMG_ENTRY(0, 0xF),
-    /* Unk arrow 1   */ DMG_ENTRY(0, 0xF),
-    /* Unk arrow 2   */ DMG_ENTRY(0, 0xF),
-    /* Unk arrow 3   */ DMG_ENTRY(0, 0xF),
-    /* Fire magic    */ DMG_ENTRY(3, 0x2),
-    /* Ice magic     */ DMG_ENTRY(0, 0x0),
-    /* Light magic   */ DMG_ENTRY(0, 0x0),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(0, 0xF),
-    /* Giant spin    */ DMG_ENTRY(6, 0xF),
-    /* Master spin   */ DMG_ENTRY(2, 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(0, 0xF),
-    /* Giant jump    */ DMG_ENTRY(12, 0xF),
-    /* Master jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Deku stick    */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Slingshot     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Explosive     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Boomerang     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Normal arrow  */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Hammer swing  */ DMG_ENTRY(1, ANUBICE_DMGEFF_0xF),
+    /* Hookshot      */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
+    /* Kokiri sword  */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Master sword  */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
+    /* Giant's Knife */ DMG_ENTRY(6, ANUBICE_DMGEFF_0xF),
+    /* Fire arrow    */ DMG_ENTRY(2, ANUBICE_DMGEFF_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Light arrow   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Unk arrow 3   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Fire magic    */ DMG_ENTRY(3, ANUBICE_DMGEFF_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Light magic   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Shield        */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Giant spin    */ DMG_ENTRY(6, ANUBICE_DMGEFF_0xF),
+    /* Master spin   */ DMG_ENTRY(2, ANUBICE_DMGEFF_0xF),
+    /* Kokiri jump   */ DMG_ENTRY(0, ANUBICE_DMGEFF_0xF),
+    /* Giant jump    */ DMG_ENTRY(12, ANUBICE_DMGEFF_0xF),
+    /* Master jump   */ DMG_ENTRY(4, ANUBICE_DMGEFF_0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
+    /* Unknown 2     */ DMG_ENTRY(0, ANUBICE_DMGEFF_NONE),
 };
 
 void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
@@ -102,19 +108,19 @@ void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = Math_SinS(this->hoverVelocityTimer);
 }
 
-void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 xzdist;
+void EnAnubice_AimFireball(EnAnubice* this, GlobalContext* globalCtx) {
+    f32 xzDist;
     f32 x;
     f32 y;
     f32 z;
     Player* player = GET_PLAYER(globalCtx);
 
-    x = player->actor.world.pos.x - this->fireballPos.x;
-    y = player->actor.world.pos.y + 10.0f - this->fireballPos.y;
-    z = player->actor.world.pos.z - this->fireballPos.z;
-    xzdist = sqrtf(SQ(x) + SQ(z));
+    x = player->actor.world.pos.x - this->headPos.x;
+    y = player->actor.world.pos.y + 10.0f - this->headPos.y;
+    z = player->actor.world.pos.z - this->headPos.z;
+    xzDist = sqrtf(SQ(x) + SQ(z));
 
-    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzdist));
+    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzDist));
     this->fireballRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
 }
 
@@ -123,7 +129,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable,
-                   16);
+                   ANUBICE_LIMB_MAX);
 
     osSyncPrintf("\n\n");
     // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
@@ -131,8 +137,8 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.naviEnemyId = 0x3A;
 
-    Collider_InitCylinder(globalCtx, &this->col);
-    Collider_SetCylinder(globalCtx, &this->col, &this->actor, &sCylinderInit);
+    Collider_InitCylinder(globalCtx, &this->collider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
     Actor_SetScale(&this->actor, 0.015f);
 
@@ -148,16 +154,16 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubice* this = (EnAnubice*)thisx;
-    EnAnubiceTag* temp_v1;
+    EnAnubiceTag* tag;
 
-    Collider_DestroyCylinder(globalCtx, &this->col);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
 
     if (this->actor.params != 0) {
         if (this->actor.parent) {}
 
-        temp_v1 = (EnAnubiceTag*)this->actor.parent;
-        if (temp_v1 != NULL && temp_v1->actor.update != NULL) {
-            temp_v1->anubis = NULL;
+        tag = (EnAnubiceTag*)this->actor.parent;
+        if (tag != NULL && tag->actor.update != NULL) {
+            tag->anubis = NULL;
         }
     }
 }
@@ -166,7 +172,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
     Actor* currentProp;
     s32 flameCirclesFound;
 
-    if (this->isMirroringLink) {
+    if (this->isMirroringPlayer) {
         if (!this->hasSearchedForFlameCircles) {
             flameCirclesFound = 0;
             currentProp = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
@@ -179,7 +185,7 @@ void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
                                  this->flameCircles[flameCirclesFound]);
-                    if (flameCirclesFound < 4) {
+                    if (flameCirclesFound < ARRAY_COUNT(this->flameCircles) - 1) {
                         flameCirclesFound++;
                     }
                     currentProp = currentProp->next;
@@ -216,8 +222,8 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
         this->actor.shape.yOffset = 0.0f;
 
         if (player->swordState != 0) {
-            this->actionFunc = EnAnubis_SetupShootFireball;
-        } else if (this->isLinkOutOfRange) {
+            this->actionFunc = EnAnubice_SetupShootFireball;
+        } else if (this->isPlayerOutOfRange) {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
             this->actionFunc = EnAnubice_GoToHome;
@@ -226,9 +232,9 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
 }
 
 void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 xzdist;
-    f32 xRatio;
-    f32 zRatio;
+    f32 xzDist;
+    f32 normalizedX;
+    f32 normalizedY;
     f32 x;
     f32 z;
 
@@ -240,32 +246,33 @@ void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    if (fabsf(this->home.x - this->actor.world.pos.x) > 3.0f && fabsf(this->home.z - this->actor.world.pos.z) > 3.0f) {
+    if ((fabsf(this->home.x - this->actor.world.pos.x) > 3.0f) &&
+        (fabsf(this->home.z - this->actor.world.pos.z) > 3.0f)) {
         x = this->home.x - this->actor.world.pos.x;
         z = this->home.z - this->actor.world.pos.z;
-        xzdist = sqrtf(SQ(x) + SQ(z));
-        xRatio = ((x) / xzdist);
-        zRatio = ((z) / xzdist);
-        this->actor.world.pos.x += (xRatio * 8);
-        this->actor.world.pos.z += (zRatio * 8.0f);
+        xzDist = sqrtf(SQ(x) + SQ(z));
+        normalizedX = x / xzDist;
+        normalizedY = z / xzDist;
+        this->actor.world.pos.x += normalizedX * 8;
+        this->actor.world.pos.z += normalizedY * 8.0f;
     } else if (this->actor.shape.yOffset < -4220.0f) {
         this->actor.shape.yOffset = -4230.0f;
-        this->isMirroringLink = this->isLinkOutOfRange = false;
+        this->isMirroringPlayer = this->isPlayerOutOfRange = false;
         this->actionFunc = EnAnubice_FindFlameCircles;
         this->actor.gravity = 0.0f;
     }
 }
 
-void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
+void EnAnubice_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&gAnubiceAttackingAnim);
 
     this->animLastFrame = lastFrame;
     Animation_Change(&this->skelAnime, &gAnubiceAttackingAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -10.0f);
-    this->actionFunc = EnAnubis_ShootFireball;
+    this->actionFunc = EnAnubice_ShootFireball;
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
 }
 
-void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
+void EnAnubice_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
     f32 curFrame = this->skelAnime.curFrame;
 
     SkelAnime_Update(&this->skelAnime);
@@ -274,11 +281,11 @@ void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    EnAnubice_SetFireballRot(this, globalCtx);
+    EnAnubice_AimFireball(this, globalCtx);
 
     if (curFrame == 12.0f) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->fireballPos.x,
-                    this->fireballPos.y + 15.0f, this->fireballPos.z, this->fireballRot.x, this->fireballRot.y, 0, 0);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ANUBICE_FIRE, this->headPos.x, this->headPos.y + 15.0f,
+                    this->headPos.z, this->fireballRot.x, this->fireballRot.y, 0, 0);
     }
 
     if (this->animLastFrame <= curFrame) {
@@ -292,15 +299,15 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
     this->animLastFrame = lastFrame;
     Animation_Change(&this->skelAnime, &gAnubiceFallDownAnim, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -20.0f);
 
-    this->unk_256 = false;
-    this->unk_258 = 0;
+    this->isNearWall = false;
+    this->fallTargetYaw = 0;
     this->deathTimer = 20;
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
     this->actor.gravity = -1.0f;
 
-    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->fireballPos, 70.0f)) {
-        this->unk_256 = true;
-        this->unk_258 = this->actor.shape.rot.x - 0x7F00;
+    if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->headPos, 70.0f)) {
+        this->isNearWall = true;
+        this->fallTargetYaw = this->actor.shape.rot.x - 0x7F00;
     }
 
     this->actionFunc = EnAnubice_Die;
@@ -308,36 +315,39 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
 
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     f32 curFrame;
-    f32 phi_f2;
-    Vec3f sp4C = { 0.0f, 0.0f, 0.0f };
-    Vec3f fireEffectPos = { 0.0f, 0.0f, 0.0f };
+    f32 rotX;
+    Vec3f baseFireEffectPos = { 0.0f, 0.0f, 0.0f };
+    Vec3f rotatedFireEffectPos = { 0.0f, 0.0f, 0.0f };
     s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 0.4f, 0.25f);
 
-    if (this->unk_256) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_258, 1, 10000, 0);
-        if (fabsf(this->actor.shape.rot.y - this->unk_258) < 100.0f) {
-            this->unk_256 = false;
+    // If near a wall, turn away from it while dying to avoid going through it.
+    // The implementation of this is bugged in the sense that the target angle is hardcoded in practice. If the poly
+    // already has an angle of -0x7F00, the expected behavior won't occur.
+    if (this->isNearWall) {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->fallTargetYaw, 1, 10000, 0);
+        if (fabsf(this->actor.shape.rot.y - this->fallTargetYaw) < 100.0f) {
+            this->isNearWall = false;
         }
     }
 
     curFrame = this->skelAnime.curFrame;
-    phi_f2 = curFrame * -3000.0f;
-    phi_f2 = CLAMP_MIN(phi_f2, -11000.0f);
+    rotX = curFrame * -3000.0f;
+    rotX = CLAMP_MIN(rotX, -11000.0f);
 
     Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
-    Matrix_RotateX(BINANG_TO_RAD(phi_f2), MTXMODE_APPLY);
-    sp4C.y = Rand_CenteredFloat(10.0f) + 30.0f;
-    Matrix_MultVec3f(&sp4C, &fireEffectPos);
-    fireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
-    fireEffectPos.y += this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
-    fireEffectPos.z += this->actor.world.pos.z + Rand_CenteredFloat(30.0f);
-    Actor_SetColorFilter(&this->actor, 0x4000, 0x80, 0, 8);
-    EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &fireEffectPos, 100, 0, 0, -1);
+    Matrix_RotateX(BINANG_TO_RAD(rotX), MTXMODE_APPLY);
+    baseFireEffectPos.y = Rand_CenteredFloat(10.0f) + 30.0f;
+    Matrix_MultVec3f(&baseFireEffectPos, &rotatedFireEffectPos);
+    rotatedFireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
+    rotatedFireEffectPos.y += this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
+    rotatedFireEffectPos.z += this->actor.world.pos.z + Rand_CenteredFloat(30.0f);
+    Actor_SetColorFilter(&this->actor, 0x4000, 128, 0, 8);
+    EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &rotatedFireEffectPos, 100, 0, 0, -1);
 
-    if (this->animLastFrame <= curFrame && (this->actor.bgCheckFlags & 1)) {
+    if ((this->animLastFrame <= curFrame) && (this->actor.bgCheckFlags & 1)) {
         Math_ApproachF(&this->actor.shape.yOffset, -4230.0f, 0.5f, 300.0f);
         if (this->actor.shape.yOffset < -2000.0f) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xC0);
@@ -350,19 +360,19 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 zero;
     BgHidanCurtain* flameCircle;
     s32 i;
-    Vec3f sp48;
-    Vec3f sp3C;
+    Vec3f baseKnockbackVelocity;
+    Vec3f rotatedKnockbackVelocity;
     EnAnubice* this = (EnAnubice*)thisx;
 
-    if (this->actionFunc != EnAnubice_SetupDie && this->actionFunc != EnAnubice_Die &&
-        this->actor.shape.yOffset == 0.0f) {
+    if ((this->actionFunc != EnAnubice_SetupDie) && (this->actionFunc != EnAnubice_Die) &&
+        (this->actor.shape.yOffset == 0.0f)) {
         EnAnubice_Hover(this, globalCtx);
-        for (i = 0; i < 5; i++) {
+        for (i = 0; i < ARRAY_COUNT(this->flameCircles); i++) {
             flameCircle = this->flameCircles[i];
 
-            if (flameCircle != NULL && fabsf(flameCircle->actor.world.pos.x - this->actor.world.pos.x) < 60.0f &&
-                fabsf(this->flameCircles[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f &&
-                flameCircle->timer != 0) {
+            if ((flameCircle != NULL) && (fabsf(flameCircle->actor.world.pos.x - this->actor.world.pos.x) < 60.0f) &&
+                (fabsf(this->flameCircles[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f) &&
+                (flameCircle->timer != 0)) {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
@@ -372,9 +382,9 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        if (this->col.base.acFlags & 2) {
-            this->col.base.acFlags &= ~2;
-            if (this->actor.colChkInfo.damageEffect == 2) {
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
+            if (this->actor.colChkInfo.damageEffect == ANUBICE_DMGEFF_FIRE) {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
@@ -387,20 +397,20 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->knockbackTimer = 10;
                 this->isKnockedback = true;
 
-                sp48.x = 0.0f;
-                sp48.y = 0.0f;
-                sp48.z = -10.0f;
-                sp3C.x = 0.0f;
-                sp3C.y = 0.0f;
-                sp3C.z = 0.0f;
+                baseKnockbackVelocity.x = 0.0f;
+                baseKnockbackVelocity.y = 0.0f;
+                baseKnockbackVelocity.z = -10.0f;
+                rotatedKnockbackVelocity.x = 0.0f;
+                rotatedKnockbackVelocity.y = 0.0f;
+                rotatedKnockbackVelocity.z = 0.0f;
 
                 Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
-                Matrix_MultVec3f(&sp48, &sp3C);
+                Matrix_MultVec3f(&baseKnockbackVelocity, &rotatedKnockbackVelocity);
 
-                this->actor.velocity.x = sp3C.x;
-                this->actor.velocity.z = sp3C.z;
-                this->knockbackRecoveryVelocity.x = -sp3C.x;
-                this->knockbackRecoveryVelocity.z = -sp3C.z;
+                this->actor.velocity.x = rotatedKnockbackVelocity.x;
+                this->actor.velocity.z = rotatedKnockbackVelocity.z;
+                this->knockbackRecoveryVelocity.x = -rotatedKnockbackVelocity.x;
+                this->knockbackRecoveryVelocity.z = -rotatedKnockbackVelocity.z;
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
             }
@@ -437,45 +447,45 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.velocity.y += this->actor.gravity;
     func_8002D7EC(&this->actor);
 
-    if (!this->isLinkOutOfRange) {
+    if (!this->isPlayerOutOfRange) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1D);
     } else {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1C);
     }
 
-    if (this->actionFunc != EnAnubice_SetupDie && this->actionFunc != EnAnubice_Die) {
+    if ((this->actionFunc != EnAnubice_SetupDie) && (this->actionFunc != EnAnubice_Die)) {
         Actor_SetFocus(&this->actor, this->focusHeightOffset);
-        Collider_UpdateCylinder(&this->actor, &this->col);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->col.base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-        if (!this->isKnockedback && this->actor.shape.yOffset == 0.0f) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->col.base);
+        if (!this->isKnockedback && (this->actor.shape.yOffset == 0.0f)) {
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }
 
-s32 EnAnubis_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              void* thisx) {
+s32 EnAnubice_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                               void* thisx) {
     EnAnubice* this = (EnAnubice*)thisx;
 
-    if (limbIndex == 13) {
-        rot->z += this->unk_278;
+    if (limbIndex == ANUBICE_LIMB_HEAD) {
+        rot->z += this->headPitch;
     }
 
     return false;
 }
 
-void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnAnubice_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnAnubice* this = (EnAnubice*)thisx;
     Vec3f pos = { 0.0f, 0.0f, 0.0f };
 
-    if (limbIndex == 13) {
+    if (limbIndex == ANUBICE_LIMB_HEAD) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 853);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice.c", 856),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gAnubiceEyesDL);
-        Matrix_MultVec3f(&pos, &this->fireballPos);
+        Matrix_MultVec3f(&pos, &this->headPos);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 868);
     }
@@ -485,6 +495,6 @@ void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubice* this = (EnAnubice*)thisx;
 
     func_80093D84(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnAnubis_OverrideLimbDraw,
-                      EnAnubis_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnAnubice_OverrideLimbDraw,
+                      EnAnubice_PostLimbDraw, this);
 }

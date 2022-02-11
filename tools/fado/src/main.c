@@ -55,7 +55,7 @@ char* GetOverlayNameFromFilename(const char* src) {
     return ret;
 }
 
-#define OPTSTR "M:n:o:v:hV"
+#define OPTSTR "M:n:o:v:ahV"
 #define USAGE_STRING "Usage: %s [-hV] [-n name] [-o output_file] [-v level] input_files ...\n"
 
 #define HELP_PROLOGUE                                            \
@@ -75,6 +75,8 @@ static const OptInfo optInfo[] = {
     { { "output-file", required_argument, NULL, 'o' }, "FILE", "Output to FILE. Will use stdout if none is specified" },
     { { "verbosity", required_argument, NULL, 'v' }, "N", "Verbosity level, one of 0 (None, default), 1 (Info), 2 (Debug)" },
 
+    { { "alignment", no_argument, NULL, 'a' }, NULL, "Experimental. Use the alignment declared by each section in the elf file instead of padding to 0x10 bytes. NOTE: It has not been properly tested because the tools we currently have are not compatible non 0x10 alignment" },
+
     { { "help", no_argument, NULL, 'h' }, NULL, "Display this message and exit" },
     { { "version", no_argument, NULL, 'V' }, NULL, "Display version information" },
 
@@ -82,7 +84,7 @@ static const OptInfo optInfo[] = {
 };
 // clang-format on
 
-static size_t posArgCount = ARRAY_COUNT(optInfo);
+static size_t posArgCount = ARRAY_COUNT(posArgInfo);
 static size_t optCount = ARRAY_COUNT(optInfo);
 static struct option longOptions[ARRAY_COUNT(optInfo)];
 
@@ -140,6 +142,13 @@ int main(int argc, char** argv) {
                 if (sscanf(optarg, "%u", &gVerbosity) == 0) {
                     fprintf(stderr, "warning: verbosity argument '%s' should be a nonnegative decimal integer", optarg);
                 }
+                break;
+
+            case 'a':
+#ifndef EXPERIMENTAL
+                goto not_experimental_err;
+#endif
+                gUseElfAlignment = true;
                 break;
 
             case 'h':
@@ -226,4 +235,12 @@ int main(int argc, char** argv) {
     }
 
     return EXIT_SUCCESS;
+
+    goto not_experimental_err; // silences a warning
+not_experimental_err:
+    fprintf(
+        stderr,
+        "Experimental option '-%c' passed in a non-EXPERIMENTAL build. Rebuild with 'make EXPERIMENTAL=1' to enable.\n",
+        opt);
+    return EXIT_FAILURE;
 }

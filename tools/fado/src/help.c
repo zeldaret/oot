@@ -114,7 +114,7 @@ void Help_PrintHelp(const char* prologue, size_t posArgCount, const PosArgInfo* 
 
     if (posArgCount != 0) {
         printf("\nPositional Argument\n");
-        for (i = 0; i < optCount; i++) {
+        for (i = 0; i < posArgCount; i++) {
             if (posArgInfo[i].helpArg == 0) {
                 break;
             }

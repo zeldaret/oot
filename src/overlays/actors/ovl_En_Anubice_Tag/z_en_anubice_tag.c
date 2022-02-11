@@ -40,7 +40,7 @@ void EnAnubiceTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.params = 0;
     }
     if (this->actor.params != 0) {
-        this->triggerRange = this->actor.params * 40.0f;
+        this->extraTriggerRange = this->actor.params * 40.0f;
     }
     this->actionFunc = EnAnubiceTag_SpawnAnubis;
 }
@@ -77,21 +77,16 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.xzDistToPlayer < (200.0f + this->triggerRange)) {
-        if (!anubis->isLinkOutOfRange) {
-            if (!anubis->isKnockedback) {
-                anubis->isMirroringLink = true;
-                offset.x = -Math_SinS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
-                offset.z = -Math_CosS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
-                Math_ApproachF(&anubis->actor.world.pos.x, (this->actor.world.pos.x + offset.x), 0.3f, 10.0f);
-                Math_ApproachF(&anubis->actor.world.pos.z, (this->actor.world.pos.z + offset.z), 0.3f, 10.0f);
-                return;
-            }
+    if (this->actor.xzDistToPlayer < (200.0f + this->extraTriggerRange)) {
+        if (!anubis->isPlayerOutOfRange && !anubis->isKnockedback) {
+            anubis->isMirroringPlayer = true;
+            offset.x = -Math_SinS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
+            offset.z = -Math_CosS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
+            Math_ApproachF(&anubis->actor.world.pos.x, this->actor.world.pos.x + offset.x, 0.3f, 10.0f);
+            Math_ApproachF(&anubis->actor.world.pos.z, this->actor.world.pos.z + offset.z, 0.3f, 10.0f);
         }
-    } else {
-        if (anubis->isMirroringLink) {
-            anubis->isLinkOutOfRange = true;
-        }
+    } else if (anubis->isMirroringPlayer) {
+        anubis->isPlayerOutOfRange = true;
     }
 }
 
@@ -107,6 +102,6 @@ void EnAnubiceTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                               1.0f, 0xFF, 0, 0, 0xFF, 4, globalCtx->state.gfxCtx);
+                               1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }
 }
