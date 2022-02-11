@@ -592,7 +592,8 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, pauseCtx->iconItemAltSegment);
 
     func_800949A8(globalCtx->state.gfxCtx);
-    KaleidoScope_DrawEquipmentImage(globalCtx, pauseCtx->playerSegment, 64, 112);
+    KaleidoScope_DrawEquipmentImage(globalCtx, pauseCtx->playerSegment, PAUSE_EQUIP_PLAYER_WIDTH,
+                                    PAUSE_EQUIP_PLAYER_HEIGHT);
 
     if (gUpgradeMasks[0]) {}
 

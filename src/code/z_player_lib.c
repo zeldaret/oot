@@ -1658,7 +1658,9 @@ s32 Player_OverrideLimbDrawPause(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 void Player_DrawPauseImpl(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* skelAnime, Vec3f* pos,
                           Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
                           Vec3f* eye, Vec3f* at, f32 fovy, void* colorFrameBuffer, void* depthFrameBuffer) {
-    static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
+    // Note: the viewport x and y values are overwritten below, before usage
+    static Vp viewport = { (PAUSE_EQUIP_PLAYER_WIDTH / 2) << 2, (PAUSE_EQUIP_PLAYER_HEIGHT / 2) << 2, G_MAXZ / 2, 0,
+                           (PAUSE_EQUIP_PLAYER_WIDTH / 2) << 2, (PAUSE_EQUIP_PLAYER_HEIGHT / 2) << 2, G_MAXZ / 2, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
     u8 playerSwordAndShield[2];
@@ -1714,8 +1716,8 @@ void Player_DrawPauseImpl(GlobalContext* globalCtx, void* seg04, void* seg06, Sk
 
     gDPSetDepthImage(POLY_OPA_DISP++, depthFrameBuffer);
 
-    viewport.vp.vscale[0] = viewport.vp.vtrans[0] = width * 2;
-    viewport.vp.vscale[1] = viewport.vp.vtrans[1] = height * 2;
+    viewport.vp.vscale[0] = viewport.vp.vtrans[0] = width * ((1 << 2) / 2);
+    viewport.vp.vscale[1] = viewport.vp.vtrans[1] = height * ((1 << 2) / 2);
     gSPViewport(POLY_OPA_DISP++, &viewport);
 
     guPerspective(perspMtx, &perspNorm, fovy, (f32)width / (f32)height, 10.0f, 4000.0f, 1.0f);
@@ -1791,7 +1793,8 @@ void Player_DrawPause(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnim
         *destTable++ = *srcTable++;
     }
 
-    Player_DrawPauseImpl(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic,
-                         shield, boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
-                         globalCtx->state.gfxCtx->curFrameBuffer + (64 * 112));
+    Player_DrawPauseImpl(
+        globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic, shield, boots,
+        PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
+        globalCtx->state.gfxCtx->curFrameBuffer + (PAUSE_EQUIP_PLAYER_WIDTH * PAUSE_EQUIP_PLAYER_HEIGHT));
 }

@@ -731,6 +731,9 @@ typedef enum {
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
+#define PAUSE_EQUIP_PLAYER_WIDTH 64
+#define PAUSE_EQUIP_PLAYER_HEIGHT 112
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ u8*    iconItemSegment;
