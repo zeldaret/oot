@@ -316,14 +316,16 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     f32 curFrame;
     f32 rotX;
-    Vec3f fireEffectInitialPos = { 0.0f, 0.0f, 0.0f };
-    Vec3f fireEffectPos = { 0.0f, 0.0f, 0.0f };
+    Vec3f baseFireEffectPos = { 0.0f, 0.0f, 0.0f };
+    Vec3f rotatedFireEffectPos = { 0.0f, 0.0f, 0.0f };
     s32 pad;
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 0.4f, 0.25f);
 
-    // If near a wall, turn to avoid the tail falling through it during the death animation
+    // If near a wall, turn away from it while dying to avoid going through it.
+    // The implementation of this is bugged in the sense that the target angle is hardcoded in practice. If the poly
+    // already has an angle of -0x7F00, the expected behavior won't occur.
     if (this->isNearWall) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->fallTargetYaw, 1, 10000, 0);
         if (fabsf(this->actor.shape.rot.y - this->fallTargetYaw) < 100.0f) {
@@ -337,13 +339,13 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
 
     Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
     Matrix_RotateX(BINANG_TO_RAD(rotX), MTXMODE_APPLY);
-    fireEffectInitialPos.y = Rand_CenteredFloat(10.0f) + 30.0f;
-    Matrix_MultVec3f(&fireEffectInitialPos, &fireEffectPos);
-    fireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
-    fireEffectPos.y += this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
-    fireEffectPos.z += this->actor.world.pos.z + Rand_CenteredFloat(30.0f);
+    baseFireEffectPos.y = Rand_CenteredFloat(10.0f) + 30.0f;
+    Matrix_MultVec3f(&baseFireEffectPos, &rotatedFireEffectPos);
+    rotatedFireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
+    rotatedFireEffectPos.y += this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
+    rotatedFireEffectPos.z += this->actor.world.pos.z + Rand_CenteredFloat(30.0f);
     Actor_SetColorFilter(&this->actor, 0x4000, 128, 0, 8);
-    EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &fireEffectPos, 100, 0, 0, -1);
+    EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &rotatedFireEffectPos, 100, 0, 0, -1);
 
     if ((this->animLastFrame <= curFrame) && (this->actor.bgCheckFlags & 1)) {
         Math_ApproachF(&this->actor.shape.yOffset, -4230.0f, 0.5f, 300.0f);

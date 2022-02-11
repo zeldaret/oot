@@ -82,8 +82,8 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
             anubis->isMirroringPlayer = true;
             offset.x = -Math_SinS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
             offset.z = -Math_CosS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
-            Math_ApproachF(&anubis->actor.world.pos.x, (this->actor.world.pos.x + offset.x), 0.3f, 10.0f);
-            Math_ApproachF(&anubis->actor.world.pos.z, (this->actor.world.pos.z + offset.z), 0.3f, 10.0f);
+            Math_ApproachF(&anubis->actor.world.pos.x, this->actor.world.pos.x + offset.x, 0.3f, 10.0f);
+            Math_ApproachF(&anubis->actor.world.pos.z, this->actor.world.pos.z + offset.z, 0.3f, 10.0f);
         }
     } else if (anubis->isMirroringPlayer) {
         anubis->isPlayerOutOfRange = true;
