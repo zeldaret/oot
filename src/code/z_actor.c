@@ -470,7 +470,8 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
         Actor_ProjectPos(globalCtx, &actorArg->focus.pos, &projectedFocusPos, &cappedInvWDest);
-        if (((projectedFocusPos.z <= 0.0f) || (1.0f <= fabsf(projectedFocusPos.x * cappedInvWDest))) || (1.0f <= fabsf(projectedFocusPos.y * cappedInvWDest))) {
+        if (((projectedFocusPos.z <= 0.0f) || (1.0f <= fabsf(projectedFocusPos.x * cappedInvWDest))) ||
+            (1.0f <= fabsf(projectedFocusPos.y * cappedInvWDest))) {
             actorArg = NULL;
         }
     }
@@ -728,23 +729,23 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b, width, height, 0,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                            G_TX_NOLOD);
+        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b,
+                            width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX) - 4, titleY + (height * 4) - 1, G_TX_RENDERTILE,
-                            0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX) - 4, titleY + (height * 4) - 1,
+                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
         height = titleCtx->height - height;
 
         // If texture is bigger than 0x1000, display the rest
         if (height > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, width,
-                                height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                G_TX_NOLOD, G_TX_NOLOD);
+            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA,
+                                G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                                G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleSecondY, ((doubleWidth * 2) + titleX) - 4, titleSecondY + (height * 4) - 1,
-                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleSecondY, ((doubleWidth * 2) + titleX) - 4,
+                                titleSecondY + (height * 4) - 1, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2880);
