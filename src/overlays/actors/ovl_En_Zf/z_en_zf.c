@@ -457,10 +457,10 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, G
     //! is section padding between .text and .data, so 0 gets read as a float.
     //! Other compilers can shift things and result in a crash. Defining `AVOID_UB` will remove these function calls
     //! entirely as they are dead code and do not have any effect.
-    #ifndef AVOID_UB
+#ifndef AVOID_UB
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[nextPlatform]);
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[altNextPlatform]);
-    #endif
+#endif
 
     if (altNextPlatform > 0) {
         s16 nextPlatformToPlayerYaw =
