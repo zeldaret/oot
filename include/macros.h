@@ -43,11 +43,6 @@
 #define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
 #define CHECK_OWNED_EQUIP(equip, value) ((gBitFlags[value] << gEquipShifts[equip]) & gSaveContext.inventory.equipment)
 
-#define SWORD_EQUIP_TO_PLAYER(swordEquip) (swordEquip)
-#define SHIELD_EQUIP_TO_PLAYER(shieldEquip) (shieldEquip)
-#define TUNIC_EQUIP_TO_PLAYER(tunicEquip) ((tunicEquip) - 1)
-#define BOOTS_EQUIP_TO_PLAYER(bootsEquip) ((bootsEquip) - 1)
-
 #define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
 #define CUR_CAPACITY(upg) CAPACITY(upg, CUR_UPG_VALUE(upg))

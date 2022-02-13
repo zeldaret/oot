@@ -523,8 +523,7 @@ s32 EnGirlA_CanBuy_BluePotion(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 EnGirlA_CanBuy_Longsword(GlobalContext* globalCtx, EnGirlA* this) {
-    if ((gBitFlags[EQUIP_INV_SWORD_BGS + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment) &&
-        !(gBitFlags[EQUIP_INV_SWORD_BROKENGIANTKNIFE + (EQUIP_TYPE_SWORD * 4)] & gSaveContext.inventory.equipment)) {
+    if ((gBitFlags[2] & gSaveContext.inventory.equipment) && !(gBitFlags[3] & gSaveContext.inventory.equipment)) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -537,7 +536,7 @@ s32 EnGirlA_CanBuy_Longsword(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 EnGirlA_CanBuy_HylianShield(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[EQUIP_INV_SHIELD_HYLIAN + (EQUIP_TYPE_SHIELD * 4)] & gSaveContext.inventory.equipment) {
+    if (gBitFlags[5] & gSaveContext.inventory.equipment) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -550,7 +549,7 @@ s32 EnGirlA_CanBuy_HylianShield(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 EnGirlA_CanBuy_DekuShield(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[EQUIP_INV_SHIELD_DEKU + (EQUIP_TYPE_SHIELD * 4)] & gSaveContext.inventory.equipment) {
+    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -566,7 +565,7 @@ s32 EnGirlA_CanBuy_GoronTunic(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
-    if (gBitFlags[EQUIP_INV_TUNIC_GORON + (EQUIP_TYPE_TUNIC * 4)] & gSaveContext.inventory.equipment) {
+    if (gBitFlags[9] & gSaveContext.inventory.equipment) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -582,7 +581,7 @@ s32 EnGirlA_CanBuy_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
-    if (gBitFlags[EQUIP_INV_TUNIC_ZORA + (EQUIP_TYPE_TUNIC * 4)] & gSaveContext.inventory.equipment) {
+    if (gBitFlags[10] & gSaveContext.inventory.equipment) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {

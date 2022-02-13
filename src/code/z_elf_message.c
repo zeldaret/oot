@@ -45,7 +45,7 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                     return ((msg->byte0 & 1) == 1) == ((msg->byte1 & 0x0F) == CUR_UPG_VALUE(UPG_STRENGTH));
                 case (ELF_MSG_CONDITION_BOOTS << 4):
                     return ((msg->byte0 & 1) == 1) ==
-                           (((gBitFlags[msg->byte3 - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_TYPE_BOOTS]) &
+                           (((gBitFlags[msg->byte3 - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) &
                              gSaveContext.inventory.equipment) != 0);
                 case (ELF_MSG_CONDITION_SONG << 4):
                     return ((msg->byte0 & 1) == 1) ==

@@ -7,15 +7,13 @@
 typedef struct {
     /* 0x00 */ u8 buttonItems[4];
     /* 0x04 */ u8 cButtonSlots[3];
-    /* 0x08 */ u16 equipment; // a mask where each half-byte corresponds to a type of equipment `EquipmentType`, and
-                              // each half-byte is a piece `EquipValue*`
+    /* 0x08 */ u16 equipment;
 } ItemEquips; // size = 0x0A
 
 typedef struct {
     /* 0x00 */ u8 items[24];
     /* 0x18 */ s8 ammo[16];
-    /* 0x28 */ u16 equipment; // a mask where each half-byte corresponds to a type of equipment `EquipmentType`, and
-                              // each bit to an owned piece `EquipInv*`
+    /* 0x28 */ u16 equipment;
     /* 0x2C */ u32 upgrades;
     /* 0x30 */ u32 questItems;
     /* 0x34 */ u8 dungeonItems[20];
