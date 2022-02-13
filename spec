@@ -110,7 +110,7 @@ beginseg
     include "build/asm/__osSetWatchLo.o"
     include "build/data/rsp_boot.text.o"
 #ifdef COMPILER_GCC
-    include "build/src/boot/missing_gcc_functions.o"
+    include "build/src/gcc-fix/missing_gcc_functions.o"
 #endif
 endseg
 

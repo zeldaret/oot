@@ -141,7 +141,12 @@ ELF := $(ROM:.z64=.elf)
 # description of ROM segments
 SPEC := spec
 
+ifeq ($(COMPILER),ido)
+SRC_DIRS := $(shell find src -type d -not -path src/gcc-fix)
+else
 SRC_DIRS := $(shell find src -type d)
+endif
+
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))

@@ -2,9 +2,8 @@
 /* Depending on the toolchain used, an appropriate precompiled libgcc library      */
 /* may not exist and cannot be linked against. Until we have a better work around, */
 /* necessary gcc functions are hosted here in order to properly compile.           */
+/* This file is NOT a part of the original game and only exists to help gcc work.  */
 /* --------------------------------------------------------------------------------*/
-
-#ifdef __GNUC__
 
 #include "global.h"
 
@@ -50,7 +49,7 @@ u32 __fixunsdfdi(f64 a) {
     if (a < 0.0) {
         a = 0.0;
     }
-    
+
     return (u32)a;
 }
 
@@ -210,5 +209,3 @@ __divdi3:                                   \n\
                                             \n\
     .set pop                                \n\
                                             \n");
-
-#endif
