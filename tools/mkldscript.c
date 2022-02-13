@@ -9,6 +9,10 @@
 #include "spec.h"
 #include "util.h"
 
+// Note: *SECTION ALIGNMENT* Object files built with a compiler such as GCC can, by default, use narrower alignment 
+// for sections compared to IDO's 0x10. To properly generate relocations relative to section starts, sections currently 
+// need to be aligned to 0x10, because otherwise the linker inserts padding in the wrong place.
+
 struct Segment *g_segments;
 int g_segmentsCount;
 

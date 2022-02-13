@@ -10,7 +10,8 @@ NON_MATCHING ?= 0
 ORIG_COMPILER ?= 0
 # If COMPILER is GCC, compile with GCC instead of IDO.
 COMPILER ?= ido
-# Declare CPPFLAGS used for the preprocessor.
+
+CFLAGS ?=
 CPPFLAGS ?=
 
 # ORIG_COMPILER cannot be combined with a non-IDO compiler. Check for this case and error out if found.
@@ -20,8 +21,6 @@ ifneq ($(COMPILER),ido)
   endif
 endif
 
-# If gcc is used, define the NON_MATCHING flag respectively so the files that
-# are safe to be used can avoid using GLOBAL_ASM which doesn't work with gcc.
 ifeq ($(COMPILER),gcc)
   CPPFLAGS += -DCOMPILER_GCC
   NON_MATCHING := 1
