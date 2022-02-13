@@ -7560,7 +7560,7 @@ void Camera_Finish(Camera* camera) {
             player->stateFlags1 &= ~PLAYER_STATE1_29;
 
             if (player->csMode != 0) {
-                func_8002DF54(camera->globalCtx, &player->actor, 7);
+                func_8002DF54(camera->globalCtx, &player->actor, BEL);
                 osSyncPrintf("camera: player demo end!!\n");
             }
 
