@@ -65,8 +65,7 @@ void MapMark_Init(GlobalContext* globalCtx) {
     sLoadedMarkDataTable = gMapMarkDataTable;
     sLoadedMarkDataTable = (void*)(uintptr_t)(
         (overlay->vramTable != NULL)
-            ? (void*)((uintptr_t)overlay->vramTable - ((intptr_t)overlay->vramStart - (intptr_t)overlay->loadedRamAddr))
-            : NULL);
+            ? (void*)((uintptr_t)overlay->vramTable - ((intptr_t)overlay->vramStart - (intptr_t)overlay->loadedRamAddr)) : NULL);
 }
 
 void MapMark_ClearPointers(GlobalContext* globalCtx) {
