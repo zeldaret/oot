@@ -288,9 +288,9 @@ void Player_SetBootData(GlobalContext* globalCtx, Player* this) {
     REG(48) = 370;
 
     currentBoots = this->currentBoots;
-    if (currentBoots == PLAYER_BOOTS_NORMAL) {
+    if (currentBoots == PLAYER_BOOTS_KOKIRI) {
         if (!LINK_IS_ADULT) {
-            currentBoots = PLAYER_BOOTS_NORMAL_CHILD;
+            currentBoots = PLAYER_BOOTS_KOKIRI_CHILD;
         }
     } else if (currentBoots == PLAYER_BOOTS_IRON) {
         if (this->stateFlags1 & PLAYER_STATE1_27) {
@@ -410,10 +410,10 @@ void func_8008EC70(Player* this) {
 
 void Player_SetEquipmentData(GlobalContext* globalCtx, Player* this) {
     if (this->csMode != 0x56) {
-        this->currentShield = CUR_EQUIP_VALUE(EQUIP_SHIELD);
-        this->currentTunic = CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1;
-        this->currentBoots = CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1;
-        this->currentSword = B_BTN_ITEM;
+        this->currentShield = SHIELD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD));
+        this->currentTunic = TUNIC_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC));
+        this->currentBoots = BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS));
+        this->currentSwordItem = B_BTN_ITEM;
         Player_SetModelGroup(this, Player_ActionToModelGroup(this, this->heldItemActionParam));
         Player_SetBootData(globalCtx, this);
     }
@@ -729,8 +729,8 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
                                (D_80160018 == 8) ? gLinkAdultRightGauntletPlate2DL : gLinkAdultRightGauntletPlate3DL);
             }
 
-            if (boots != 0) {
-                Gfx** bootDLists = sBootDListGroups[boots - 1];
+            if (boots != PLAYER_BOOTS_KOKIRI) {
+                Gfx** bootDLists = sBootDListGroups[boots - PLAYER_BOOTS_IRON];
 
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[0]);
                 gSPDisplayList(POLY_OPA_DISP++, bootDLists[1]);
@@ -1434,16 +1434,22 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     return size + 0x8800 + 0x90;
 }
 
-u8 D_801261F8[] = { 2, 2, 5 };
+u8 D_801261F8[] = {
+    /* PLAYER_SWORD_KOKIRI */ 2,
+    /* PLAYER_SWORD_MASTER */ 2,
+    /* PLAYER_SWORD_BGS */ 5
+};
 
 s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
-    u8* ptr = arg;
-    u8 modelGroup = D_801261F8[ptr[0] - 1];
+    u8* playerSwordAndShield = arg;
+    //! @bug `playerSwordAndShield[0]` can be 0 (`PLAYER_SWORD_NONE`), which indexes `D_801261F8[-1]`. The result
+    //! happens to be 0 in vanilla (which is a valid model group index), but weird values are likely to cause a crash
+    u8 modelGroup = D_801261F8[playerSwordAndShield[0] - PLAYER_SWORD_KOKIRI];
     s32 type;
     s32 dListOffset = 0;
     Gfx** dLists;
 
-    if ((modelGroup == 2) && !LINK_IS_ADULT && (ptr[1] == 2)) {
+    if ((modelGroup == 2) && !LINK_IS_ADULT && (playerSwordAndShield[1] == PLAYER_SHIELD_HYLIAN)) {
         modelGroup = 1;
     }
 
@@ -1457,12 +1463,12 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         type = gPlayerModelTypes[modelGroup][2];
         D_80160018 = type;
         if (type == 10) {
-            dListOffset = ptr[1] * 4;
+            dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_SHEATH) {
         type = gPlayerModelTypes[modelGroup][3];
         if ((type == 18) || (type == 19)) {
-            dListOffset = ptr[1] * 4;
+            dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_WAIST) {
         type = gPlayerModelTypes[modelGroup][4];
@@ -1482,7 +1488,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
-    u8 sp12C[2];
+    u8 playerSwordAndShield[2];
     Gfx* opaRef;
     Gfx* xluRef;
     u16 perspNorm;
@@ -1548,8 +1554,8 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
 
     gSPMatrix(POLY_OPA_DISP++, lookAtMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
-    sp12C[0] = sword;
-    sp12C[1] = shield;
+    playerSwordAndShield[0] = sword;
+    playerSwordAndShield[1] = shield;
 
     Matrix_SetTranslateRotateYXZ(pos->x, pos->y, pos->z, rot);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
@@ -1568,7 +1574,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
     func_8008F470(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
-                  func_80091880, NULL, &sp12C);
+                  func_80091880, NULL, &playerSwordAndShield);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);
@@ -1597,7 +1603,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, 
             srcTable = D_04002040;
         }
     } else {
-        if (sword == 3) {
+        if (sword == PLAYER_SWORD_BGS) {
             srcTable = D_04002160;
         } else if (shield != PLAYER_SHIELD_NONE) {
             srcTable = D_04002280;

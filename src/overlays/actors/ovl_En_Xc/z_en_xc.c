@@ -333,7 +333,8 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
 
 void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx) {
     // Player is adult and does not have iron boots and has not learned Serenade
-    if ((!CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4)) && LINK_IS_ADULT) {
+    if ((!CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !(gSaveContext.eventChkInf[5] & 4)) &&
+        LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_SERENADE;
         osSyncPrintf("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
@@ -347,7 +348,7 @@ s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
         Player* player = GET_PLAYER(globalCtx);
         s32 stateFlags = player->stateFlags1;
 
-        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) &&
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !(gSaveContext.eventChkInf[5] & 4) &&
             !(stateFlags & PLAYER_STATE1_29) && !Gameplay_InCsMode(globalCtx)) {
             Cutscene_SetSegment(globalCtx, &gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;

@@ -1427,7 +1427,7 @@ void FileChoose_FadeOut(GameState* thisx) {
  */
 void FileChoose_LoadGame(GameState* thisx) {
     FileChooseContext* this = (FileChooseContext*)thisx;
-    u16 swordEquipMask;
+    u16 swordEquipValue;
     s32 pad;
 
     if (this->buttonIndex == FS_BTN_SELECT_FILE_1) {
@@ -1496,9 +1496,9 @@ void FileChoose_LoadGame(GameState* thisx) {
         (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
 
         gSaveContext.equips.buttonItems[0] = ITEM_NONE;
-        swordEquipMask = gEquipMasks[EQUIP_SWORD] & gSaveContext.equips.equipment;
-        gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_SWORD];
-        gSaveContext.inventory.equipment ^= (gBitFlags[swordEquipMask - 1] << gEquipShifts[EQUIP_SWORD]);
+        swordEquipValue = gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.equips.equipment;
+        gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
+        gSaveContext.inventory.equipment ^= (gBitFlags[swordEquipValue - 1] << gEquipShifts[EQUIP_TYPE_SWORD]);
     }
 }
 
