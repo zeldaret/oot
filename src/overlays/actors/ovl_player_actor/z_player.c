@@ -1923,10 +1923,10 @@ void func_80833DF8(Player* this, GlobalContext* globalCtx) {
 
 void func_808340DC(Player* this, GlobalContext* globalCtx) {
     LinkAnimationHeader* anim;
-    f32 frameCount;
-    f32 startFrame;
-    f32 endFrame;
-    f32 playSpeed;
+    f32 phi_f2;
+    f32 phi_f12;
+    f32 phi_f14;
+    f32 phi_f0;
     s32 sp38;
     s8 sp37;
     s32 temp;
@@ -1949,23 +1949,23 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
         anim = &gPlayerAnim_002F40;
     }
 
-    frameCount = Animation_GetLastFrame(anim);
-    endFrame = frameCount;
+    phi_f2 = Animation_GetLastFrame(anim);
+    phi_f14 = phi_f2;
 
     if (sp38 >= 0) {
-        playSpeed = 1.2f;
-        startFrame = 0.0f;
+        phi_f0 = 1.2f;
+        phi_f12 = 0.0f;
     } else {
-        endFrame = 0.0f;
-        playSpeed = -1.2f;
-        startFrame = frameCount;
+        phi_f14 = 0.0f;
+        phi_f0 = -1.2f;
+        phi_f12 = phi_f2;
     }
 
     if (sp37 != PLAYER_AP_NONE) {
-        playSpeed *= 2.0f;
+        phi_f0 *= 2.0f;
     }
 
-    LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, playSpeed, startFrame, endFrame, ANIMMODE_ONCE, 0.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime2, anim, phi_f0, phi_f12, phi_f14, ANIMMODE_ONCE, 0.0f);
 
     this->stateFlags1 &= ~PLAYER_STATE1_8;
 }
@@ -2127,12 +2127,12 @@ void func_80834894(Player* this) {
 
 void func_808348EC(GlobalContext* globalCtx, Player* this) {
     struct_808540F4* ptr = &D_808540F4[this->unk_15A];
-    f32 frame;
+    f32 temp;
 
-    frame = ptr->unk_04;
-    frame = (this->skelAnime2.playSpeed < 0.0f) ? frame - 1.0f : frame;
+    temp = ptr->unk_04;
+    temp = (this->skelAnime2.playSpeed < 0.0f) ? temp - 1.0f : temp;
 
-    if (LinkAnimation_OnFrame(&this->skelAnime2, frame)) {
+    if (LinkAnimation_OnFrame(&this->skelAnime2, temp)) {
         func_80834594(globalCtx, this);
     }
 
@@ -6144,54 +6144,52 @@ void func_8083F070(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
 
 s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
     CollisionPoly* wallPoly;
-    Vec3f wallVertices[3];
-    f32 tempX;
-    f32 temp;
-    f32 tempZ;
-    f32 maxWallZ;
+    Vec3f sp50[3];
+    f32 sp4C;
+    f32 phi_f2;
+    f32 sp44;
+    f32 phi_f12;
     s32 i;
 
     if (!LINK_IS_ADULT && !(this->stateFlags1 & PLAYER_STATE1_27) && (arg2 & 0x30)) {
         wallPoly = this->actor.wallPoly;
-        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, wallVertices);
+        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, sp50);
 
-        // compute min and max x/z of wall vertices
-        tempX = temp = wallVertices[0].x;
-        tempZ = maxWallZ = wallVertices[0].z;
+        sp4C = phi_f2 = sp50[0].x;
+        sp44 = phi_f12 = sp50[0].z;
         for (i = 1; i < 3; i++) {
-            if (tempX > wallVertices[i].x) {
-                tempX = wallVertices[i].x;
-            } else if (temp < wallVertices[i].x) {
-                temp = wallVertices[i].x;
+            if (sp4C > sp50[i].x) {
+                sp4C = sp50[i].x;
+            } else if (phi_f2 < sp50[i].x) {
+                phi_f2 = sp50[i].x;
             }
 
-            if (tempZ > wallVertices[i].z) {
-                tempZ = wallVertices[i].z;
-            } else if (maxWallZ < wallVertices[i].z) {
-                maxWallZ = wallVertices[i].z;
+            if (sp44 > sp50[i].z) {
+                sp44 = sp50[i].z;
+            } else if (phi_f12 < sp50[i].z) {
+                phi_f12 = sp50[i].z;
             }
         }
 
-        // average min and max x/z of wall vertices
-        tempX = (tempX + temp) * 0.5f;
-        tempZ = (tempZ + maxWallZ) * 0.5f;
+        sp4C = (sp4C + phi_f2) * 0.5f;
+        sp44 = (sp44 + phi_f12) * 0.5f;
 
-        temp = ((this->actor.world.pos.x - tempX) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
-               ((this->actor.world.pos.z - tempZ) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
+        phi_f2 = ((this->actor.world.pos.x - sp4C) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
+                 ((this->actor.world.pos.z - sp44) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
 
-        if (fabsf(temp) < 8.0f) {
+        if (fabsf(phi_f2) < 8.0f) {
             this->stateFlags2 |= PLAYER_STATE2_16;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
-                f32 wallPolyNormX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
-                f32 wallPolyNormZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
-                f32 wallDistance = this->wallDistance;
+                f32 sp38 = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+                f32 sp34 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
+                f32 sp30 = this->wallDistance;
 
                 func_80836898(globalCtx, this, func_8083A40C);
                 this->stateFlags2 |= PLAYER_STATE2_18;
                 this->actor.shape.rot.y = this->currentYaw = this->actor.wallYaw + 0x8000;
-                this->actor.world.pos.x = tempX + (wallDistance * wallPolyNormX);
-                this->actor.world.pos.z = tempZ + (wallDistance * wallPolyNormZ);
+                this->actor.world.pos.x = sp4C + (sp30 * sp38);
+                this->actor.world.pos.z = sp44 + (sp30 * sp34);
                 func_80832224(this);
                 this->actor.prevPos = this->actor.world.pos;
                 func_80832264(globalCtx, this, &gPlayerAnim_002708);
