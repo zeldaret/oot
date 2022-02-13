@@ -150,7 +150,7 @@ static void write_ld_script(FILE *fout)
                   "_%sSegmentRomEnd = _%sSegmentRomEndTemp;\n\n",
                   seg->name, seg->name, seg->name);
 
-        // algn end of ROM segment
+        // align end of ROM segment
         if (seg->fields & (1 << STMT_romalign))
             fprintf(fout, "    _RomSize = (_RomSize + %i) & ~ %i;\n", seg->romalign - 1, seg->romalign - 1);
 
@@ -284,6 +284,7 @@ int main(int argc, char **argv)
     write_ld_script(ldout);
     fclose(ldout);
 
+    free_rom_spec(g_segments, g_segmentsCount);
     free(spec);
 
     return 0;
