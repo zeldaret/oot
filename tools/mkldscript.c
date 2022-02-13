@@ -95,7 +95,7 @@ static void write_ld_script(FILE *fout)
         fprintf(fout, "        _%sSegmentDataEnd = .;\n", seg->name);
 
         fprintf(fout, "    _%sSegmentDataSize = ABSOLUTE( _%sSegmentDataEnd - _%sSegmentDataStart );\n", seg->name, seg->name, seg->name);
-        
+
         fprintf(fout, "        _%sSegmentRoDataStart = .;\n", seg->name);
 
         for (j = 0; j < seg->includesCount; j++)
