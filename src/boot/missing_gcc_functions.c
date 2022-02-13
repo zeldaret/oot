@@ -91,9 +91,7 @@ f32 __powisf2(f32 a, s32 b) {
     return recip ? 1 / r : r;
 }
 
-u64 __umoddi3(u64 a, u64 b) {
-    u64 ret;
-
+unsigned long __umoddi3(unsigned long a, unsigned long b) {
     __asm__(".set push;"
             ".set noat;"
             ".set noreorder;"
@@ -112,16 +110,11 @@ u64 __umoddi3(u64 a, u64 b) {
             "mfhi  $v0;"
             "dsll32 $v1, $v0, 0;"
             "dsra32 $v1, $v1, 0;"
-            "dsra32 %0, $v0, 0;"
-            ".set pop;"
-        : "=r"(ret));
-
-    return ret;
+            "dsra32 $v0, $v0, 0;"
+            ".set pop;");
 }
 
-u64 __udivdi3(u64 a, u64 b) {
-    u64 ret;
-
+unsigned long __udivdi3(unsigned long a, unsigned long b) {
     __asm__(".set push;"
             ".set noat;"
             ".set noreorder;"
@@ -140,16 +133,11 @@ u64 __udivdi3(u64 a, u64 b) {
             "mflo  $v0;"
             "dsll32 $v1, $v0, 0;"
             "dsra32 $v1, $v1, 0;"
-            " dsra32 %0, $v0, 0;"
-            ".set pop;"
-            : "=r"(ret));
-
-    return ret;
+            " dsra32 $v0, $v0, 0;"
+            ".set pop;");
 }
 
-s64 __moddi3(s64 a, s64 b) {
-    s64 ret;
-
+long __moddi3(long a, long b) {
     __asm__(".set push;"
             ".set noat;"
             ".set noreorder;"
@@ -168,16 +156,11 @@ s64 __moddi3(s64 a, s64 b) {
             "mfhi  $v0;"
             "dsll32 $v1, $v0, 0;"
             "dsra32 $v1, $v1, 0;"
-            " dsra32 %0, $v0, 0;"
-            ".set pop;"
-            : "=r"(ret));
-
-    return ret;
+            " dsra32 $v0, $v0, 0;"
+            ".set pop;");
 }
 
-s64 __divdi3(s64 a, s64 b) {
-    s64 ret;
-
+long __divdi3(long a, long b) {
     __asm__(".set push;"
             ".set noat;"
             ".set noreorder;"
@@ -205,11 +188,8 @@ s64 __divdi3(s64 a, s64 b) {
             "mflo  $v0;"
             "dsll32 $v1, $v0, 0;"
             "dsra32 $v1, $v1, 0;"
-            " dsra32 %0, $v0, 0;"
-            ".set pop;"
-            : "=r"(ret));
-
-    return ret;
+            " dsra32 $v0, $v0, 0;"
+            ".set pop;");
 }
 
 #endif
