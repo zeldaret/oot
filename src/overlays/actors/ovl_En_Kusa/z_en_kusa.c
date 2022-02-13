@@ -415,7 +415,8 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
     EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.05f);
     func_8002D7EC(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 | UPDBGCHECKINFO_FLAG_7);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                UPDBGCHECKINFO_FLAG_7);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

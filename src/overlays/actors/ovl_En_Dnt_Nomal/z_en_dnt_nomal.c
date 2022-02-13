@@ -807,7 +807,8 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     if (this->type == ENDNTNOMAL_TARGET) {
         Collider_SetQuadVertices(&this->targetQuad, &this->targetVtx[0], &this->targetVtx[1], &this->targetVtx[2],
                                  &this->targetVtx[3]);

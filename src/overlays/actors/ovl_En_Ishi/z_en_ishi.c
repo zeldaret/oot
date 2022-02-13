@@ -467,7 +467,8 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.x += sRotSpeedX;
     this->actor.shape.rot.y += sRotSpeedY;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 | UPDBGCHECKINFO_FLAG_7);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                UPDBGCHECKINFO_FLAG_7);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

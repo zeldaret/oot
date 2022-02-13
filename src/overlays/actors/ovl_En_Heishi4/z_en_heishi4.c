@@ -359,7 +359,8 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 10.0f, 30.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

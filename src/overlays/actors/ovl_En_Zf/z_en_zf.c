@@ -310,7 +310,8 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->blureIndex, EFFECT_BLURE1, 0, 0, &blureInit);
 
     Actor_UpdateBgCheckInfo(globalCtx, thisx, 75.0f, 45.0f, 45.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     this->alpha = 255;
     thisx->colChkInfo.cylRadius = 40;

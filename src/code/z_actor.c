@@ -3953,9 +3953,9 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             break;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius,
-                            actor->colChkInfo.cylRadius,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+    Actor_UpdateBgCheckInfo(
+        globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius, actor->colChkInfo.cylRadius,
+        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 
     return ret;
 }

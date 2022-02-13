@@ -341,7 +341,8 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 60.0f, 70.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     EnDodongo_SetupIdle(this);
 }
 
