@@ -8,7 +8,7 @@ COMPARE ?= 1
 NON_MATCHING ?= 0
 # If ORIG_COMPILER is 1, compile with QEMU_IRIX and the original compiler
 ORIG_COMPILER ?= 0
-# If COMPILER is GCC, compile with GCC instead of IDO.
+# If COMPILER is "gcc", compile with GCC instead of IDO.
 COMPILER ?= ido
 
 CFLAGS ?=
