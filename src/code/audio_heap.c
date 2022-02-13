@@ -249,7 +249,7 @@ void AudioHeap_PopCache(s32 tableType) {
     persistent->numEntries--;
 }
 
-void AudioHeap_InitMainPools(ssize_t initPoolSize) {
+void AudioHeap_InitMainPools(ptrdiff_t initPoolSize) {
     AudioHeap_AllocPoolInit(&gAudioContext.audioInitPool, gAudioContext.audioHeap, initPoolSize);
     AudioHeap_AllocPoolInit(&gAudioContext.audioSessionPool, gAudioContext.audioHeap + initPoolSize,
                             gAudioContext.audioHeapSize - initPoolSize);
@@ -298,7 +298,7 @@ void AudioHeap_TemporaryCachesInit(AudioPoolSplit3* split) {
     AudioHeap_TemporaryCacheClear(&gAudioContext.sampleBankCache.temporary);
 }
 
-void* AudioHeap_AllocCached(s32 tableType, ssize_t size, s32 cache, s32 id) {
+void* AudioHeap_AllocCached(s32 tableType, ptrdiff_t size, s32 cache, s32 id) {
     AudioCache* loadedPool;
     AudioTemporaryCache* tp;
     AudioAllocPool* pool;

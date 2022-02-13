@@ -3,14 +3,14 @@
 u8 sYaz0DataBuffer[0x400];
 uintptr_t sYaz0CurDataEnd;
 uintptr_t sYaz0CurRomStart;
-u32 sYaz0CurSize;
+size_t sYaz0CurSize;
 uintptr_t sYaz0MaxPtr;
 
 void* Yaz0_FirstDMA(void) {
     u32 pad0;
     u32 pad1;
-    u32 dmaSize;
-    u32 curSize;
+    size_t dmaSize;
+    size_t curSize;
 
     sYaz0MaxPtr = sYaz0CurDataEnd - 0x19;
 
@@ -25,8 +25,8 @@ void* Yaz0_FirstDMA(void) {
 
 void* Yaz0_NextDMA(void* curSrcPos) {
     u8* dst;
-    u32 restSize;
-    u32 dmaSize;
+    size_t restSize;
+    size_t dmaSize;
 
     restSize = sYaz0CurDataEnd - (uintptr_t)curSrcPos;
     dst = (restSize & 7) ? (sYaz0DataBuffer - (restSize & 7)) + 8 : sYaz0DataBuffer;
@@ -56,7 +56,7 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
     u32 chunkHeader;
     u32 nibble;
     u8* backPtr;
-    u32 chunkSize;
+    size_t chunkSize;
     u32 off;
 
     do {
@@ -80,7 +80,7 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
             src += 2;
 
             chunkSize = (nibble == 0)              // N = chunkSize; B = back offset
-                            ? (u32)(*src++ + 0x12) // 3 bytes 0B BB NN
+                            ? (size_t)(*src++ + 0x12) // 3 bytes 0B BB NN
                             : nibble + 2;          // 2 bytes NB BB
 
             do {

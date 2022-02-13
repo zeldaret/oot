@@ -23,7 +23,7 @@ char D_80134488[0x18] = {
 s32 Overlay_Load(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* vRamEnd, void* allocatedVRamAddr) {
     s32 pad;
     uintptr_t end;
-    u32 bssSize;
+    size_t bssSize;
     OverlayRelocationSection* ovl;
     u32 relocCnt;
     u32 ovlOffset;
@@ -108,7 +108,7 @@ void func_800FC83C(void* ptr) {
     }
 }
 
-void func_800FC868(void* blk, u32 nBlk, u32 blkSize, arg3_800FC868 arg3) {
+void func_800FC868(void* blk, size_t nBlk, size_t blkSize, arg3_800FC868 arg3) {
     uintptr_t pos;
 
     for (pos = (uintptr_t)blk; pos < (uintptr_t)blk + (nBlk * blkSize); pos = (uintptr_t)pos + (blkSize & ~0)) {
@@ -116,7 +116,7 @@ void func_800FC868(void* blk, u32 nBlk, u32 blkSize, arg3_800FC868 arg3) {
     }
 }
 
-void func_800FC8D8(void* blk, u32 nBlk, s32 blkSize, arg3_800FC8D8 arg3) {
+void func_800FC8D8(void* blk, size_t nBlk, ptrdiff_t blkSize, arg3_800FC8D8 arg3) {
     uintptr_t pos;
 
     for (pos = (uintptr_t)blk; pos < (uintptr_t)blk + (nBlk * blkSize); pos = (uintptr_t)pos + (blkSize & ~0)) {
@@ -124,7 +124,7 @@ void func_800FC8D8(void* blk, u32 nBlk, s32 blkSize, arg3_800FC8D8 arg3) {
     }
 }
 
-void* func_800FC948(void* blk, u32 nBlk, u32 blkSize, arg3_800FC948 arg3) {
+void* func_800FC948(void* blk, size_t nBlk, size_t blkSize, arg3_800FC948 arg3) {
     uintptr_t pos;
 
     if (blk == NULL) {
@@ -141,7 +141,7 @@ void* func_800FC948(void* blk, u32 nBlk, u32 blkSize, arg3_800FC948 arg3) {
     return blk;
 }
 
-void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg4) {
+void func_800FCA18(void* blk, size_t nBlk, size_t blkSize, arg3_800FCA18 arg3, s32 arg4) {
     uintptr_t pos;
     uintptr_t end;
     s32 masked_arg2;
@@ -151,7 +151,7 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
     }
     if (arg3 != 0) {
         end = (uintptr_t)blk;
-        masked_arg2 = (s32)(blkSize & ~0);
+        masked_arg2 = (size_t)(blkSize & ~0);
         pos = (uintptr_t)end + (nBlk * blkSize);
 
         if (masked_arg2) {}
