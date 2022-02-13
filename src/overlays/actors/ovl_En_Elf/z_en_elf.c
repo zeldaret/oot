@@ -609,7 +609,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     }
 
     func_80A0232C(this, globalCtx);
-    this->unk_28C.y = player->bodyPartsPos[PLAYER_BODYPART_WAIST].y;
+    this->unk_28C.y = player->bodyPartsPos[0].y;
     func_80A02F2C(this, &this->unk_28C);
     func_80A03018(this, globalCtx);
 
@@ -758,7 +758,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
     this->unk_28C.x = Math_CosS(this->unk_2AC) * this->unk_2B8;
     this->unk_28C.z = Math_SinS(this->unk_2AC) * -this->unk_2B8;
     this->unk_2AC += this->unk_2B0;
-    func_80A02E30(this, &player->bodyPartsPos[PLAYER_BODYPART_WAIST]);
+    func_80A02E30(this, &player->bodyPartsPos[0]);
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, globalCtx, 32);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
@@ -782,7 +782,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
         this->unk_2B8 = 1.0f;
     }
 
-    func_80A02E30(this, &player->bodyPartsPos[PLAYER_BODYPART_WAIST]);
+    func_80A02E30(this, &player->bodyPartsPos[0]);
     Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * SQ(1.0f / 9.0f))) * 0.008f);
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, globalCtx, 32);
@@ -882,12 +882,12 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        distFromLinksHead = Math_Vec3f_DistXYZ(&player->bodyPartsPos[PLAYER_BODYPART_HAT], &this->actor.world.pos);
+        distFromLinksHead = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.world.pos);
 
         switch (this->unk_2A8) {
             case 7:
-                func_80A02C98(this, &player->bodyPartsPos[PLAYER_BODYPART_HAT], 1.0f - this->unk_2AE * (1.0f / 30.0f));
-                xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[PLAYER_BODYPART_HAT], &this->actor.world.pos);
+                func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * (1.0f / 30.0f));
+                xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.world.pos);
 
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
@@ -902,12 +902,12 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 EnElf_SpawnSparkles(this, globalCtx, 16);
                 break;
             case 8:
-                func_80A02C98(this, &player->bodyPartsPos[PLAYER_BODYPART_HAT], 0.2f);
-                this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_HAT];
+                func_80A02C98(this, &player->bodyPartsPos[8], 0.2f);
+                this->actor.world.pos = player->bodyPartsPos[8];
                 func_80A029A8(this, 1);
                 break;
             case 11:
-                nextPos = player->bodyPartsPos[PLAYER_BODYPART_HAT];
+                nextPos = player->bodyPartsPos[8];
                 nextPos.y += 1500.0f * this->actor.scale.y;
                 func_80A02E30(this, &nextPos);
                 EnElf_SpawnSparkles(this, globalCtx, 16);
@@ -1168,8 +1168,8 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
         func_80A01C38(this, temp);
 
         if (temp == 11) {
-            this->unk_2B8 = Math_Vec3f_DistXZ(&player->bodyPartsPos[PLAYER_BODYPART_HAT], &this->actor.world.pos);
-            this->unk_2AC = Math_Vec3f_Yaw(&this->actor.world.pos, &player->bodyPartsPos[PLAYER_BODYPART_HAT]);
+            this->unk_2B8 = Math_Vec3f_DistXZ(&player->bodyPartsPos[8], &this->actor.world.pos);
+            this->unk_2AC = Math_Vec3f_Yaw(&this->actor.world.pos, &player->bodyPartsPos[8]);
         }
     }
 }
@@ -1217,11 +1217,9 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
         naviRefPos = globalCtx->actorCtx.targetCtx.naviRefPos;
 
         if ((player->unk_664 == NULL) || (&player->actor == player->unk_664) || (&this->actor == player->unk_664)) {
-            naviRefPos.x =
-                player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
-            naviRefPos.y = player->bodyPartsPos[PLAYER_BODYPART_HEAD].y + 5.0f;
-            naviRefPos.z =
-                player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
+            naviRefPos.x = player->bodyPartsPos[7].x + (Math_SinS(player->actor.shape.rot.y) * 20.0f);
+            naviRefPos.y = player->bodyPartsPos[7].y + 5.0f;
+            naviRefPos.z = player->bodyPartsPos[7].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
         }
 
         this->actor.focus.pos = naviRefPos;

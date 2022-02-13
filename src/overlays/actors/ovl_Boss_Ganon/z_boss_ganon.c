@@ -3535,7 +3535,7 @@ void BossGanon_DrawTriforce(BossGanon* this, GlobalContext* globalCtx) {
         if (this->triforceType == GDF_TRIFORCE_PLAYER) {
             Player* player = GET_PLAYER(globalCtx);
 
-            this->triforcePos = player->bodyPartsPos[PLAYER_BODYPART_L_HAND];
+            this->triforcePos = player->bodyPartsPos[12];
 
             this->triforcePos.x += -0.6f;
             this->triforcePos.y += 3.0f;
@@ -4690,7 +4690,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                     eff->pos.y = sGanondorf->unk_2EC[bodyPart].y + Rand_CenteredFloat(20.0f);
                     eff->pos.z = sGanondorf->unk_2EC[bodyPart].z + Rand_CenteredFloat(20.0f);
                 } else {
-                    bodyPart = (s16)Rand_ZeroFloat(ARRAY_COUNT(player->bodyPartsPos) - 0.1f);
+                    bodyPart = (s16)Rand_ZeroFloat(17.9f);
 
                     eff->pos.x = player->bodyPartsPos[bodyPart].x + Rand_CenteredFloat(10.0f);
                     eff->pos.y = player->bodyPartsPos[bodyPart].y + Rand_CenteredFloat(15.0f);
