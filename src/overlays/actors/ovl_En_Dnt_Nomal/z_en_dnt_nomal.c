@@ -146,7 +146,7 @@ void EnDntNomal_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (this->objIndex < 0) {
             Actor_Kill(&this->actor);
             // "What?"
-            osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
             // "Bank is funny"
             osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
