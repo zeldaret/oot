@@ -5,13 +5,13 @@
  * registered clients. These interrupts are:
  *
  *  - VI Retrace
- *      This event is sent to the IRQ manager by the OS VI manager which only, supports
- *      the forwarding of VI events to a single message queue. The IRQ, manager will
- *      forward these events to every registered client. VI retrace, events are received
+ *      This event is sent to the IRQ manager by the OS VI manager which only supports
+ *      the forwarding of VI events to a single message queue. The IRQ manager will
+ *      forward these events to every registered client. VI retrace events are received
  *      when the Video Interface has reached the start of the vertical blanking interval,
- *      happening, at approximately 60Hz on NTSC and 50Hz on PAL. Many threads sit idle
- *      until a, VI Retrace event wakes them up, at which point they will perform their
- *      task, and then return to idle to await the next retrace.
+ *      happening at approximately 60Hz on NTSC and 50Hz on PAL. Many threads sit idle
+ *      until a VI Retrace event wakes them up, at which point they will perform their
+ *      task and then return to idle to await the next retrace.
  *
  *  - Pre-NMI
  *      This event is sent to the IRQ manager by the OS Interrupt Handler when the reset
