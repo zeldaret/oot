@@ -837,7 +837,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     Actor* arrowPointedActor;
     f32 xScale;
-    f32 distFromLinksHead;
+    f32 distFromPlayerHat;
 
     func_80A0461C(this, globalCtx);
     func_80A03AB0(this, globalCtx);
@@ -882,17 +882,17 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        distFromLinksHead = Math_Vec3f_DistXYZ(&player->bodyPartsPos[PLAYER_BODYPART_HAT], &this->actor.world.pos);
+        distFromPlayerHat = Math_Vec3f_DistXYZ(&player->bodyPartsPos[PLAYER_BODYPART_HAT], &this->actor.world.pos);
 
         switch (this->unk_2A8) {
             case 7:
                 func_80A02C98(this, &player->bodyPartsPos[PLAYER_BODYPART_HAT], 1.0f - this->unk_2AE * (1.0f / 30.0f));
                 xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[PLAYER_BODYPART_HAT], &this->actor.world.pos);
 
-                if (distFromLinksHead < 7.0f) {
+                if (distFromPlayerHat < 7.0f) {
                     this->unk_2C0 = 0;
                     xScale = 0.0f;
-                } else if (distFromLinksHead < 25.0f) {
+                } else if (distFromPlayerHat < 25.0f) {
                     xScale = (xScale - 5.0f) * 0.05f;
                     xScale = 1.0f - xScale;
                     xScale = (1.0f - SQ(xScale)) * 0.008f;
@@ -948,14 +948,14 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                     }
 
                     if (this->fairyFlags & 2) {
-                        if (distFromLinksHead < 30.0f) {
+                        if (distFromPlayerHat < 30.0f) {
                             this->fairyFlags ^= 2;
                         }
 
                         func_80A03148(this, &nextPos, 0.0f, 20.0f, 0.2f);
                         EnElf_SpawnSparkles(this, globalCtx, 16);
                     } else {
-                        if (distFromLinksHead > 100.0f) {
+                        if (distFromPlayerHat > 100.0f) {
                             this->fairyFlags |= 2;
 
                             if (this->unk_2C7 == 0) {
