@@ -9,7 +9,6 @@ f32 fabsf(f32 f);
 f32 __floatundisf(u32 c);
 f64 __floatundidf(u32 c); 
 f32 __powisf2(f32 a, s32 b);
-unsigned long __udivdi3(unsigned long a, unsigned long b);
 #else
 #pragma intrinsic(fabsf)
 #endif
