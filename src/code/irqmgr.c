@@ -5,20 +5,20 @@
  * registered clients. These interrupts are:
  *
  *  - VI Retrace
- *      This event is sent to the IRQ manager by the OS VI manager which only
- *      supports the forwarding of VI events to a single message queue. The IRQ
- *      manager will forward these events to every registered client. VI retrace
- *      events are received when the Video Interface has reached vertical blank, happening
- *      at approximately 60Hz on NTSC and 50Hz on PAL. Many threads sit idle until a
- *      VI Retrace event wakes them up, at which point they will perform their task
- *      and then return to idle to await the next retrace.
- * 
+ *      This event is sent to the IRQ manager by the OS VI manager which only, supports
+ *      the forwarding of VI events to a single message queue. The IRQ, manager will
+ *      forward these events to every registered client. VI retrace, events are received
+ *      when the Video Interface has reached vertical blank, happening, at approximately
+ *      60Hz on NTSC and 50Hz on PAL. Many threads sit idle until a, VI Retrace event wakes
+ *      them up, at which point they will perform their task, and then return to idle to
+ *      await the next retrace.
+ *
  *  - Pre-NMI
- *      This event is sent to the IRQ manager by the OS Interrupt Handler when
- *      the reset button on the N64 control deck is pressed. This event is forwarded
- *      to clients to inform them that a reset will occur in 0.5s / 500ms and to begin
- *      any shutdown procedures.
- * 
+ *      This event is sent to the IRQ manager by the OS Interrupt Handler when the reset
+ *      button on the N64 control deck is pressed. This event is forwarded to clients to
+ *      inform them that a reset will occur in 0.5s / 500ms and to begin any shutdown
+ *      procedures.
+ *
  *  - NMI
  *      This event is sent at 450ms into the Pre-NMI phase, informing clients that a
  *      reset is imminent.
@@ -42,7 +42,7 @@ u32 sIrqMgrRetraceCount = 0;
  * Registers a client and an associated message queue with the irq manager. When an
  * interrupt event is received by the irq manager, these clients will be notified of
  * the event.
- * 
+ *
  * @param this the IrqMgr instance to register with.
  * @param client client to register.
  * @param msgQ message queue to send notifications of interrupts to, associated with the client.
@@ -63,11 +63,11 @@ void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* client, OSMesgQueue* msgQ) {
     osSetIntMask(prevInt);
 
     if (this->resetStatus > IRQ_RESET_IDLE) {
-        osSendMesg(client->queue, (OSMesg)&this->prenmiMsg, OS_MESG_NOBLOCK);
+        osSendMesg(client->queue, (OSMesg) & this->prenmiMsg, OS_MESG_NOBLOCK);
     }
 
     if (this->resetStatus >= IRQ_RESET_NMI) {
-        osSendMesg(client->queue, (OSMesg)&this->nmiMsg, OS_MESG_NOBLOCK);
+        osSendMesg(client->queue, (OSMesg) & this->nmiMsg, OS_MESG_NOBLOCK);
     }
 }
 
@@ -123,7 +123,7 @@ void IrqMgr_SendMesgToClients(IrqMgr* this, OSMesg msg) {
  * high-priority messages that should be jammed to the front of the queue, however a bug prevents
  * this from working in this way and the message is appended to the back of the queue as in
  * `IrqMgr_SendMesgToClients`.
- * 
+ *
  * @see IrqMgr_SendMesgToClients
  */
 void IrqMgr_JamMesgToClients(IrqMgr* this, OSMesg msg) {
@@ -157,7 +157,7 @@ void IrqMgr_HandlePreNMI(IrqMgr* this) {
 
     // Schedule a PRENMI450 message to be handled in 450ms
     osSetTimer(&this->timer, OS_MSEC_TO_CYCLES(450), 0, &this->queue, (OSMesg)PRENMI450_MSG);
-    IrqMgr_JamMesgToClients(this, (OSMesg)&this->prenmiMsg);
+    IrqMgr_JamMesgToClients(this, (OSMesg) & this->prenmiMsg);
 }
 
 void IrqMgr_CheckStacks(void) {
@@ -187,7 +187,7 @@ void IrqMgr_HandlePRENMI450(IrqMgr* this) {
     // Schedule a PRENMI480 message to be handled in 30ms
     osSetTimer(&this->timer, OS_MSEC_TO_CYCLES(30), 0, &this->queue, (OSMesg)PRENMI480_MSG);
     // Send the NMI event to clients
-    IrqMgr_SendMesgToClients(this, (OSMesg)&this->nmiMsg);
+    IrqMgr_SendMesgToClients(this, (OSMesg) & this->nmiMsg);
 }
 
 void IrqMgr_HandlePRENMI480(IrqMgr* this) {
@@ -222,7 +222,7 @@ void IrqMgr_HandleRetrace(IrqMgr* this) {
         }
     }
     sIrqMgrRetraceCount++;
-    IrqMgr_SendMesgToClients(this, (OSMesg)&this->retraceMsg);
+    IrqMgr_SendMesgToClients(this, (OSMesg) & this->retraceMsg);
 }
 
 void IrqMgr_ThreadEntry(void* arg) {
