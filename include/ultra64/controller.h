@@ -96,9 +96,12 @@
 #define BTN_B           0x4000
 #define BTN_A           0x8000
 
-typedef struct {
+typedef union {
+    struct {
     /* 0x00 */ u32 ram[15];
     /* 0x3C */ u32 status;
+    };
+    u64 force_structure_alignment;
 } OSPifRam; // size = 0x40
 
 typedef struct {
