@@ -159,7 +159,7 @@ typedef enum {
 } PlayerDoorType;
 
 typedef enum {
-    /*  0 */ PLAYER_MODELGROUP_0, // unused (except with the `Player_OverrideLimbDrawPause` bug)
+    /*  0 */ PLAYER_MODELGROUP_0, // unused (except with the `func_80091880` bug)
     /*  1 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD, // kokiri/master sword, shield not in hand
     /*  2 */ PLAYER_MODELGROUP_SWORD, // kokiri/master sword and possibly shield
     /*  3 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
