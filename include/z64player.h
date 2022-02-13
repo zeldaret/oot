@@ -158,6 +158,123 @@ typedef enum {
     /*  3 */ PLAYER_DOORTYPE_FAKE
 } PlayerDoorType;
 
+typedef enum {
+    /*  0 */ PLAYER_MODELGROUP_0, // unused (except with the `Player_OverrideLimbDrawPause` bug)
+    /*  1 */ PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD, // kokiri/master sword, shield not in hand
+    /*  2 */ PLAYER_MODELGROUP_SWORD, // kokiri/master sword and possibly shield
+    /*  3 */ PLAYER_MODELGROUP_DEFAULT, // non-specific models, for items that don't have particular link models
+    /*  4 */ PLAYER_MODELGROUP_4, // unused, same as PLAYER_MODELGROUP_DEFAULT
+    /*  5 */ PLAYER_MODELGROUP_BGS, // biggoron sword
+    /*  6 */ PLAYER_MODELGROUP_BOW_SLINGSHOT, // bow/slingshot
+    /*  7 */ PLAYER_MODELGROUP_EXPLOSIVES, // bombs, bombchus, same as PLAYER_MODELGROUP_DEFAULT
+    /*  8 */ PLAYER_MODELGROUP_BOOMERANG,
+    /*  9 */ PLAYER_MODELGROUP_HOOKSHOT,
+    /* 10 */ PLAYER_MODELGROUP_10, // stick/fishing pole (which are drawn separately)
+    /* 11 */ PLAYER_MODELGROUP_HAMMER,
+    /* 12 */ PLAYER_MODELGROUP_OCARINA, // ocarina
+    /* 13 */ PLAYER_MODELGROUP_OOT, // ocarina of time
+    /* 14 */ PLAYER_MODELGROUP_BOTTLE, // bottles (drawn separately)
+    /* 15 */ PLAYER_MODELGROUP_15, // "last used"
+    /* 16 */ PLAYER_MODELGROUP_MAX
+} PlayerModelGroup;
+
+typedef enum {
+    /* 0 */ PLAYER_MODELGROUPENTRY_ANIM,
+    /* 1 */ PLAYER_MODELGROUPENTRY_LEFT_HAND,
+    /* 2 */ PLAYER_MODELGROUPENTRY_RIGHT_HAND,
+    /* 3 */ PLAYER_MODELGROUPENTRY_SHEATH,
+    /* 4 */ PLAYER_MODELGROUPENTRY_WAIST,
+    /* 5 */ PLAYER_MODELGROUPENTRY_MAX
+} PlayerModelGroupEntry;
+
+typedef enum {
+    // left hand
+    /*  0 */ PLAYER_MODELTYPE_LH_OPEN, // empty open hand
+    /*  1 */ PLAYER_MODELTYPE_LH_CLOSED, // empty closed hand
+    /*  2 */ PLAYER_MODELTYPE_LH_SWORD, // holding kokiri/master sword
+    /*  3 */ PLAYER_MODELTYPE_3, // unused, same as PLAYER_MODELTYPE_LH_SWORD
+    /*  4 */ PLAYER_MODELTYPE_LH_BGS, // holding bgs/broken giant knife (child: master sword)
+    /*  5 */ PLAYER_MODELTYPE_LH_HAMMER, // holding hammer (child: empty hand)
+    /*  6 */ PLAYER_MODELTYPE_LH_BOOMERANG, // holding boomerang (adult: empty hand)
+    /*  7 */ PLAYER_MODELTYPE_LH_BOTTLE, // holding bottle (bottle drawn separately)
+    // right hand
+    /*  8 */ PLAYER_MODELTYPE_RH_OPEN, // empty open hand
+    /*  9 */ PLAYER_MODELTYPE_RH_CLOSED, // empty closed hand
+    /* 10 */ PLAYER_MODELTYPE_RH_SHIELD, // holding a shield (including no shield)
+    /* 11 */ PLAYER_MODELTYPE_RH_BOW_SLINGSHOT, // holding bow/slingshot
+    /* 12 */ PLAYER_MODELTYPE_12, // unused, same as PLAYER_MODELTYPE_RH_BOW_SLINGSHOT
+    /* 13 */ PLAYER_MODELTYPE_RH_OCARINA, // holding ocarina (child: fairy ocarina, adult: OoT)
+    /* 14 */ PLAYER_MODELTYPE_RH_OOT, // holding OoT
+    /* 15 */ PLAYER_MODELTYPE_RH_HOOKSHOT, // holding hookshot (child: empty hand)
+    // sheath
+    /* 16 */ PLAYER_MODELTYPE_SHEATH_16, // sheathed kokiri/master sword?
+    /* 17 */ PLAYER_MODELTYPE_SHEATH_17, // empty sheath?
+    /* 18 */ PLAYER_MODELTYPE_SHEATH_18, // sword sheathed and shield on back?
+    /* 19 */ PLAYER_MODELTYPE_SHEATH_19, // empty sheath and shield on back?
+    // waist
+    /* 20 */ PLAYER_MODELTYPE_WAIST,
+    /* 21 */ PLAYER_MODELTYPE_MAX,
+    /* 0xFF */ PLAYER_MODELTYPE_RH_FF = 0xFF // disable shield collider, cutscene-specific
+} PlayerModelType;
+
+typedef enum {
+    /* 0 */ PLAYER_ANIMTYPE_0,
+    /* 1 */ PLAYER_ANIMTYPE_1,
+    /* 2 */ PLAYER_ANIMTYPE_2,
+    /* 3 */ PLAYER_ANIMTYPE_3,
+    /* 4 */ PLAYER_ANIMTYPE_4,
+    /* 5 */ PLAYER_ANIMTYPE_5,
+    /* 6 */ PLAYER_ANIMTYPE_MAX
+} PlayerAnimType;
+
+typedef enum {
+    /*  0 */ PLAYER_ANIMGROUP_0,
+    /*  1 */ PLAYER_ANIMGROUP_1,
+    /*  2 */ PLAYER_ANIMGROUP_2,
+    /*  3 */ PLAYER_ANIMGROUP_3,
+    /*  4 */ PLAYER_ANIMGROUP_4,
+    /*  5 */ PLAYER_ANIMGROUP_5,
+    /*  6 */ PLAYER_ANIMGROUP_6,
+    /*  7 */ PLAYER_ANIMGROUP_7,
+    /*  8 */ PLAYER_ANIMGROUP_8,
+    /*  9 */ PLAYER_ANIMGROUP_9,
+    /* 10 */ PLAYER_ANIMGROUP_10,
+    /* 11 */ PLAYER_ANIMGROUP_11,
+    /* 12 */ PLAYER_ANIMGROUP_12,
+    /* 13 */ PLAYER_ANIMGROUP_13,
+    /* 14 */ PLAYER_ANIMGROUP_14,
+    /* 15 */ PLAYER_ANIMGROUP_15,
+    /* 16 */ PLAYER_ANIMGROUP_16,
+    /* 17 */ PLAYER_ANIMGROUP_17,
+    /* 18 */ PLAYER_ANIMGROUP_18,
+    /* 19 */ PLAYER_ANIMGROUP_19,
+    /* 20 */ PLAYER_ANIMGROUP_20,
+    /* 21 */ PLAYER_ANIMGROUP_21,
+    /* 22 */ PLAYER_ANIMGROUP_22,
+    /* 23 */ PLAYER_ANIMGROUP_23,
+    /* 24 */ PLAYER_ANIMGROUP_24,
+    /* 25 */ PLAYER_ANIMGROUP_25,
+    /* 26 */ PLAYER_ANIMGROUP_26,
+    /* 27 */ PLAYER_ANIMGROUP_27,
+    /* 28 */ PLAYER_ANIMGROUP_28,
+    /* 29 */ PLAYER_ANIMGROUP_29,
+    /* 30 */ PLAYER_ANIMGROUP_30,
+    /* 31 */ PLAYER_ANIMGROUP_31,
+    /* 32 */ PLAYER_ANIMGROUP_32,
+    /* 33 */ PLAYER_ANIMGROUP_33,
+    /* 34 */ PLAYER_ANIMGROUP_34,
+    /* 35 */ PLAYER_ANIMGROUP_35,
+    /* 36 */ PLAYER_ANIMGROUP_36,
+    /* 37 */ PLAYER_ANIMGROUP_37,
+    /* 38 */ PLAYER_ANIMGROUP_38,
+    /* 39 */ PLAYER_ANIMGROUP_39,
+    /* 40 */ PLAYER_ANIMGROUP_40,
+    /* 41 */ PLAYER_ANIMGROUP_41,
+    /* 42 */ PLAYER_ANIMGROUP_42,
+    /* 43 */ PLAYER_ANIMGROUP_43,
+    /* 44 */ PLAYER_ANIMGROUP_44,
+    /* 45 */ PLAYER_ANIMGROUP_MAX
+} PlayerAnimGroup;
 
 #define LIMB_BUF_COUNT(limbCount) ((ALIGN16((limbCount) * sizeof(Vec3s)) + sizeof(Vec3s) - 1) / sizeof(Vec3s))
 #define PLAYER_LIMB_BUF_COUNT LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
