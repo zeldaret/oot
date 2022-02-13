@@ -69,14 +69,14 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-typedef struct {
-    AnimationHeader* animation;
-    f32 playSpeed;
-    u8 mode;
-    f32 morphRate;
+typedef enum {
+    /* 0 */ ENGO_ANIM_0,
+    /* 1 */ ENGO_ANIM_1,
+    /* 2 */ ENGO_ANIM_2,
+    /* 3 */ ENGO_ANIM_3
 } EnGoAnimation;
 
-static EnGoAnimation sAnimationEntries[] = {
+static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
     { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
@@ -347,11 +347,11 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     }
 }
 
-void EnGo_ChangeAnimation(EnGo* this, s32 animIndex) {
-    Animation_Change(&this->skelAnime, sAnimationEntries[animIndex].animation,
-                     sAnimationEntries[animIndex].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[animIndex].animation), sAnimationEntries[animIndex].mode,
-                     sAnimationEntries[animIndex].morphRate);
+void EnGo_ChangeAnim(EnGo* this, s32 index) {
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
+                     sAnimationInfo[index].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
@@ -639,7 +639,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
-    EnGo_ChangeAnimation(this, 0);
+    EnGo_ChangeAnim(this, ENGO_ANIM_0);
     this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
     this->actor.gravity = -1.0f;
@@ -859,7 +859,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
             this->unk_1E0.unk_00 = 0;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                EnGo_ChangeAnimation(this, 2);
+                EnGo_ChangeAnim(this, ENGO_ANIM_2);
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
@@ -924,7 +924,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -933,7 +933,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[14] & 0x800) {
-        EnGo_ChangeAnimation(this, 3);
+        EnGo_ChangeAnim(this, ENGO_ANIM_3);
         EnGo_SetupAction(this, func_80A40A54);
     } else {
         EnGo_BiggoronActionFunc(this, globalCtx);
@@ -1006,7 +1006,7 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         Message_CloseTextbox(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);

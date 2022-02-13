@@ -552,7 +552,7 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
     }
     this->unk_164 = 0;
     this->dyna.actor.velocity.y = 0.0f;
-    if (DoorShutter_SetupDoor(this, globalCtx) && !(player->stateFlags1 & 0x800)) {
+    if (DoorShutter_SetupDoor(this, globalCtx) && !(player->stateFlags1 & PLAYER_STATE1_11)) {
         DoorShutter_SetupAction(this, func_80997568);
         func_8002DF54(globalCtx, NULL, 2);
     }
@@ -567,8 +567,8 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 20.0f) {
             this->dyna.actor.floorHeight = this->dyna.actor.home.pos.y;
-            Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 45.0f, 0xA, 8.0f, 0x1F4,
-                                     0xA, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 45.0f, 10, 8.0f, 500,
+                                     10, false);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         quakeId = Quake_Add(Gameplay_GetCamera(globalCtx, 0), 3);
@@ -605,7 +605,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             func_8099803C(globalCtx, 2, 10, parent->subCameraId);
             Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500,
-                                     10, 1);
+                                     10, true);
         }
     }
 }
@@ -636,7 +636,8 @@ void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = (DoorShutter*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & 0x100004C0) || (this->actionFunc == DoorShutter_SetupType)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_10 | PLAYER_STATE1_28)) ||
+        (this->actionFunc == DoorShutter_SetupType)) {
         this->actionFunc(this, globalCtx);
     }
 }

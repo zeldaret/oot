@@ -127,8 +127,8 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 
     player = GET_PLAYER(globalCtx);
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
-        if ((this->actor.targetMode != 0) && (globalCtx->sceneLoadFlag == 0) && (player->stateFlags1 & 0x80000000) &&
-            (player->unk_84F == 0)) {
+        if ((this->actor.targetMode != 0) && (globalCtx->sceneLoadFlag == 0) &&
+            (player->stateFlags1 & PLAYER_STATE1_31) && (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
             Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_RETURN, 0x4FF);
             gSaveContext.respawn[RESPAWN_MODE_RETURN].pos.y = this->actor.world.pos.y;
@@ -140,10 +140,10 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
             globalCtx->nextEntranceIndex = entrances[destinationIdx];
             DoorAna_SetupAction(this, DoorAna_GrabPlayer);
         } else {
-            if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & 0x8800000) &&
+            if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_27)) &&
                 this->actor.xzDistToPlayer <= 15.0f && -50.0f <= this->actor.yDistToPlayer &&
                 this->actor.yDistToPlayer <= 15.0f) {
-                player->stateFlags1 |= 0x80000000;
+                player->stateFlags1 |= PLAYER_STATE1_31;
                 this->actor.targetMode = 1;
             } else {
                 this->actor.targetMode = 0;

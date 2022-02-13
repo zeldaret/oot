@@ -152,7 +152,6 @@ void PolygonDlist::GetSourceOutputCode(const std::string& prefix)
 		DeclareVar(prefix, bodyStr);
 	else
 		decl->text = bodyStr;
-
 }
 
 std::string PolygonDlist::GetSourceTypeName() const

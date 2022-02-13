@@ -171,7 +171,7 @@ std::string Declaration::GetExternalDeclarationStr() const
 
 std::string Declaration::GetExternStr() const
 {
-	if (IsStatic() || varType == "")
+	if (IsStatic() || varType == "" || isUnaccounted)
 	{
 		return "";
 	}

@@ -1,5 +1,12 @@
-#ifndef _UTIL_H_
-#define _UTIL_H_
+#ifndef UTIL_H
+#define UTIL_H
+
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+
+#define ERRMSG_START "\x1b[91merror\x1b[97m: "
+#define ERRMSG_END "\x1b[0m"
 
 #ifdef __GNUC__
 __attribute__((format(printf, 1, 2), noreturn))

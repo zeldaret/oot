@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_sa" Segment="6">
         <Skeleton Name="gSariaSkel" Type="Flex" LimbType="Standard" Offset="0xB1A0"/>
-        
+
         <Limb Name="gSariaRootLimb" LimbType="Standard" Offset="0xB0A0"/>
         <Limb Name="gSariaWaistLimb" LimbType="Standard" Offset="0xB0AC"/>
         <Limb Name="gSariaLeftThighLimb" LimbType="Standard" Offset="0xB0B8"/>
@@ -72,7 +72,7 @@
         <Texture Name="gSariaSkinTLUT" OutName="skin_tlut" Format="rgba16" Width="8" Height="9" Offset="0x2A70"/>
 
         <Texture Name="gSariaBootsTex" OutName="boots" Format="ci8" Width="16" Height="16" Offset="0x23F0" TlutOffset="0x21F0"/>
-        <Texture Name="gSariaGreenTex" OutName="green" Format="ci8" Width="8" Height="8" Offset="0x24F0" TlutOffset="0x21F0"/> 
+        <Texture Name="gSariaGreenTex" OutName="green" Format="ci8" Width="8" Height="8" Offset="0x24F0" TlutOffset="0x21F0"/>
         <Texture Name="gSariaKneeTex" OutName="knee" Format="ci8" Width="16" Height="16" Offset="0x2570" TlutOffset="0x21F0"/>
         <Texture Name="gSariaTorsoTex" OutName="torso" Format="ci8" Width="16" Height="16" Offset="0x2670" TlutOffset="0x21F0"/>
         <Texture Name="gSariaBeltTex" OutName="belt" Format="ci8" Width="16" Height="16" Offset="0x2770" TlutOffset="0x21F0"/>

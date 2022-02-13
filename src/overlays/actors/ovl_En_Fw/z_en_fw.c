@@ -65,7 +65,13 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry D_80A1FBA0[] = {
+typedef enum {
+    /* 0 */ ENFW_ANIM_0,
+    /* 1 */ ENFW_ANIM_1,
+    /* 2 */ ENFW_ANIM_2
+} EnFwAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gFlareDancerCoreInitRunCycleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
     { &gFlareDancerCoreRunCycleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
     { &gFlareDancerCoreEndRunCycleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
@@ -186,7 +192,7 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable,
                        11);
-    func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->sphs);
@@ -220,7 +226,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &gFlareDancerCoreInitRunCycleAnim) {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.parent->world.pos);
-            func_80034EC0(&this->skelAnime, D_80A1FBA0, 2);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_2);
         }
         return;
     }
@@ -336,7 +342,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 14.0f;
         this->actor.home.pos = this->actor.world.pos;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
-        func_80034EC0(&this->skelAnime, D_80A1FBA0, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_1);
         this->actionFunc = EnFw_JumpToParentInitPos;
     }
 }

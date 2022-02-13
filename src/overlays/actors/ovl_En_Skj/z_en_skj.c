@@ -115,7 +115,7 @@ typedef enum {
 } SkullKidStumpSide;
 
 typedef enum {
-    /* 0 */ SKULL_KID_OCRAINA_WAIT,
+    /* 0 */ SKULL_KID_OCARINA_WAIT,
     /* 1 */ SKULL_KID_OCARINA_PLAY_NOTES,
     /* 2 */ SKULL_KID_OCARINA_LEAVE_GAME
 } SkullKidOcarinaGameState;
@@ -155,10 +155,10 @@ typedef enum {
 typedef struct {
     u8 unk0;
     EnSkj* skullkid;
-} unkSkjStruct;
+} EnSkjUnkStruct;
 
-static unkSkjStruct sSmallStumpSkullKid = { 0, NULL };
-static unkSkjStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
+static EnSkjUnkStruct sSmallStumpSkullKid = { 0, NULL };
+static EnSkjUnkStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
@@ -233,13 +233,7 @@ static s32 sOcarinaGameRewards[] = {
     GI_RUPEE_RED,
 };
 
-typedef struct {
-    AnimationHeader* animation;
-    u8 mode;
-    f32 morphFrames;
-} SkullkidAnimationEntry;
-
-static SkullkidAnimationEntry sSkullKidAnimations[] = {
+static AnimationMinimalInfo sAnimationInfo[] = {
     { &gSkullKidBackflipAnim, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidShootNeedleAnim, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidPlayFluteAnim, ANIMMODE_LOOP, 0.0f },
@@ -291,12 +285,12 @@ static InitChainEntry sInitChain[] = {
 
 static s32 D_80B01EA0; // gets set if ACTOR_FLAG_8 is set
 
-void EnSkj_ChangeAnim(EnSkj* this, u8 animIndex) {
-    f32 endFrame = Animation_GetLastFrame(sSkullKidAnimations[animIndex].animation);
+void EnSkj_ChangeAnim(EnSkj* this, u8 index) {
+    f32 endFrame = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    this->animIndex = animIndex;
-    Animation_Change(&this->skelAnime, sSkullKidAnimations[animIndex].animation, 1.0f, 0.0f, endFrame,
-                     sSkullKidAnimations[animIndex].mode, sSkullKidAnimations[animIndex].morphFrames);
+    this->animIndex = index;
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, endFrame,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 void EnSkj_SetupAction(EnSkj* this, u8 action) {
@@ -444,7 +438,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_SetScale(thisx, 0.01f);
             this->actor.textId = this->textId = 0;
             this->multiuseTimer = 0;
-            this->backfilpFlag = 0;
+            this->backflipFlag = 0;
             this->needlesToShoot = 3;
             this->hitsUntilDodge = 3;
             this->actor.speedXZ = 0.0f;
@@ -621,7 +615,7 @@ s32 EnSkj_CollisionCheck(EnSkj* this, GlobalContext* globalCtx) {
                 return 1;
             }
         } else {
-            this->backfilpFlag = 1;
+            this->backflipFlag = 1;
             EnSkj_Backflip(this);
             return 1;
         }
@@ -666,7 +660,7 @@ void EnSkj_Fade(EnSkj* this, GlobalContext* globalCtx) {
 
     alpha -= 20;
 
-    if (this->backfilpFlag != 0) {
+    if (this->backflipFlag != 0) {
         if (alpha > 255) {
             alpha = 0;
         }
@@ -718,13 +712,13 @@ void EnSkj_SetupResetFight(EnSkj* this) {
 void EnSkj_SariasSongKidIdle(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         if (!(gSaveContext.itemGetInf[1] & 0x40) && (this->actor.xzDistToPlayer < 200.0f)) {
-            this->backfilpFlag = 1;
+            this->backflipFlag = 1;
             EnSkj_Backflip(this);
         } else if (sSmallStumpSkullKid.unk0 != 0) {
             Player* player = GET_PLAYER(globalCtx);
             if (EnSkj_RangeCheck(player, sSmallStumpSkullKid.skullkid)) {
                 EnSkj_SetupWaitInRange(this);
-                player->stateFlags2 |= 0x800000;
+                player->stateFlags2 |= PLAYER_STATE2_23;
                 player->unk_6A8 = &sSmallStumpSkullKid.skullkid->actor;
             }
         }
@@ -843,7 +837,7 @@ void EnSkj_Fight(EnSkj* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = (yawDistToPlayer < 0) ? -(1.0f + phi_f14) : (1.0f + phi_f14);
 
     } else if (func_80AFEDF8(this, globalCtx) != 0) {
-        this->backfilpFlag = 1;
+        this->backflipFlag = 1;
         EnSkj_Backflip(this);
     } else {
         EnSkj_SetupResetFight(this);
@@ -862,7 +856,7 @@ void EnSkj_NeedleRecover(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void EnSkj_SetupSpawnDeathEffect(EnSkj* this) {
-    this->backfilpFlag = 1;
+    this->backflipFlag = 1;
     EnSkj_SetupAction(this, SKJ_ACTION_SPAWN_DEATH_EFFECT);
 }
 
@@ -908,8 +902,8 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
 
     // When link pulls out the Ocarina center him on the stump
     // Link was probably supposed to be pointed towards skull kid as well
-    if (player->stateFlags2 & 0x1000000) {
-        player->stateFlags2 |= 0x2000000;
+    if (player->stateFlags2 & PLAYER_STATE2_24) {
+        player->stateFlags2 |= PLAYER_STATE2_25;
         player->unk_6A8 = &sSmallStumpSkullKid.skullkid->actor;
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
@@ -930,7 +924,7 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
     } else if (!EnSkj_RangeCheck(player, sSmallStumpSkullKid.skullkid)) {
         EnSkj_SetupResetFight(this);
     } else {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
         if (gSaveContext.itemGetInf[1] & 0x40) {
             if (gSaveContext.itemGetInf[3] & 0x200) {
                 this->textId = Text_GetFaceReaction(globalCtx, 0x15);
@@ -991,10 +985,10 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
                 globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_05;
             }
         } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-            player->stateFlags2 &= ~0x1000000;
+            player->stateFlags2 &= ~PLAYER_STATE2_24;
             Actor_Kill(&this->actor);
         } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         } else {
             if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
                 gSaveContext.sunsSongState = 0;
@@ -1178,7 +1172,7 @@ void EnSkj_SetupWaitForMaskTextClear(EnSkj* this) {
 void EnSkj_WaitForMaskTextClear(EnSkj* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         func_8002DF54(globalCtx, &this->actor, 7);
-        this->backfilpFlag = 1;
+        this->backflipFlag = 1;
         EnSkj_Backflip(this);
     }
 }
@@ -1207,7 +1201,7 @@ void EnSkj_SariasSongWaitForTextClear(EnSkj* this, GlobalContext* globalCtx) {
 
     if (state == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
         EnSkj_SetupWaitInRange(this);
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
         player->unk_6A8 = (Actor*)sSmallStumpSkullKid.skullkid;
     }
 }
@@ -1283,7 +1277,7 @@ void EnSkj_LeaveOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
 
     sOcarinaMinigameSkullKids[paramsDecr].unk0 = 0;
     sOcarinaMinigameSkullKids[paramsDecr].skullkid = NULL;
-    this->backfilpFlag = 1;
+    this->backflipFlag = 1;
     EnSkj_Backflip(this);
 }
 
@@ -1312,7 +1306,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->hitsUntilDodge = 3;
     }
 
-    if ((this->backfilpFlag != 0) && (this->alpha == 0)) {
+    if ((this->backflipFlag != 0) && (this->alpha == 0)) {
         if (this->action == 9) {
             dropPos.x = this->actor.world.pos.x;
             dropPos.y = this->actor.world.pos.y;
@@ -1370,8 +1364,8 @@ void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
         sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->playerInRange = true;
         sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->playerInRange = true;
 
-        if (player->stateFlags2 & 0x1000000) {
-            player->stateFlags2 |= 0x2000000;
+        if (player->stateFlags2 & PLAYER_STATE2_24) {
+            player->stateFlags2 |= PLAYER_STATE2_25;
             func_800F5BF0(NATURE_ID_KOKIRI_REGION);
             EnSkj_TurnPlayer(this, player);
             player->unk_6A8 = &this->actor;
@@ -1386,15 +1380,15 @@ void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags2 & 0x1000000) {
-        player->stateFlags2 |= 0x2000000;
+    if (player->stateFlags2 & PLAYER_STATE2_24) {
+        player->stateFlags2 |= PLAYER_STATE2_25;
         func_800F5BF0(NATURE_ID_KOKIRI_REGION);
         EnSkj_TurnPlayer(this, player);
         player->unk_6A8 = &this->actor;
         Message_StartTextbox(globalCtx, 0x10BE, &this->actor);
         this->actionFunc = EnSkj_StartOcarinaMinigame;
     } else if (EnSkj_RangeCheck(player, this)) {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
@@ -1438,7 +1432,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
         switch (globalCtx->msgCtx.msgMode) {
             case MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT:
                 if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
-                    sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
+                    sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCARINA_WAIT;
                 }
                 if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                     if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
@@ -1450,7 +1444,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                 break;
             case MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT:
                 if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
-                    sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCRAINA_WAIT;
+                    sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCARINA_WAIT;
                 }
                 if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
                     Message_UpdateOcarinaGame(globalCtx);
@@ -1513,7 +1507,7 @@ void EnSkj_WaitForOfferResponse(EnSkj* this, GlobalContext* globalCtx) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 player = GET_PLAYER(globalCtx);
-                player->stateFlags3 |= 0x20; // makes player take ocarina out right away after closing box
+                player->stateFlags3 |= PLAYER_STATE3_5; // makes player take ocarina out right away after closing box
                 this->actionFunc = EnSkj_SetupWaitForOcarina;
                 break;
             case 1: // no

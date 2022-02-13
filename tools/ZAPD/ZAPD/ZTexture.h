@@ -54,6 +54,7 @@ public:
 	ZTexture(ZFile* nParent);
 
 	bool isPalette = false;
+	bool dWordAligned = true;
 
 	void ExtractFromBinary(uint32_t nRawDataIndex, int32_t nWidth, int32_t nHeight,
 	                       TextureType nType, bool nIsPalette);

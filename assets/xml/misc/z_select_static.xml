@@ -1,0 +1,40 @@
+<Root>
+    <File Name="z_select_static" Segment="1">
+        <DList Name="gSelectStatic1DL" Ucode="f3dex" Offset="0x0"/>
+        <DList Name="gSelectStatic2DL" Ucode="f3dex" Offset="0x68"/>
+        <DList Name="gSelectStatic3DL" Ucode="f3dex" Offset="0xD0"/>
+        <DList Name="gSelectStatic4DL" Ucode="f3dex" Offset="0x140"/>
+        <DList Name="gSelectStatic5DL" Ucode="f3dex" Offset="0x1A8"/>
+        <DList Name="gSelectStatic6DL" Ucode="f3dex" Offset="0x210"/>
+        <DList Name="gSelectStatic7DL" Ucode="f3dex" Offset="0x278"/>
+        <DList Name="gSelectStatic8DL" Ucode="f3dex" Offset="0x2E8"/>
+        <DList Name="gSelectStatic9DL" Ucode="f3dex" Offset="0x350"/>
+        <DList Name="gSelectStatic10DL" Ucode="f3dex" Offset="0x3B8"/>
+        <DList Name="gSelectStatic11DL" Ucode="f3dex" Offset="0x420"/>
+        <DList Name="gSelectStatic12DL" Ucode="f3dex" Offset="0x488"/>
+        <DList Name="gSelectStatic13DL" Ucode="f3dex" Offset="0x4F8"/>
+        <DList Name="gSelectStatic14DL" Ucode="f3dex" Offset="0x560"/>
+        <DList Name="gSelectStatic15DL" Ucode="f3dex" Offset="0x5C8"/>
+        <DList Name="gSelectStatic16DL" Ucode="f3dex" Offset="0x630"/>
+        <DList Name="gSelectStatic17DL" Ucode="f3dex" Offset="0x698"/>
+        <DList Name="gSelectStatic18DL" Ucode="f3dex" Offset="0x700"/>
+        <DList Name="gSelectStatic19DL" Ucode="f3dex" Offset="0x770"/>
+        <DList Name="gSelectStatic20DL" Ucode="f3dex" Offset="0x7D8"/>
+        <DList Name="gSelectStatic21DL" Ucode="f3dex" Offset="0x840"/>
+        <DList Name="gSelectStatic22DL" Ucode="f3dex" Offset="0x8A8"/>
+        <DList Name="gSelectStatic23DL" Ucode="f3dex" Offset="0x918"/>
+        <DList Name="gSelectStatic24DL" Ucode="f3dex" Offset="0x980"/>
+        <DList Name="gSelectStatic25DL" Ucode="f3dex" Offset="0x9E8"/>
+        <DList Name="gSelectStatic26DL" Ucode="f3dex" Offset="0xA50"/>
+        <DList Name="gSelectStatic27DL" Ucode="f3dex" Offset="0xAB8"/>
+        <DList Name="gSelectStatic28DL" Ucode="f3dex" Offset="0xB20"/>
+        <DList Name="gSelectStatic29DL" Ucode="f3dex" Offset="0xB88"/>
+        <DList Name="gSelectStatic30DL" Ucode="f3dex" Offset="0xBF0"/>
+        <DList Name="gSelectStatic31DL" Ucode="f3dex" Offset="0xC60"/>
+        <DList Name="gSelectStatic32DL" Ucode="f3dex" Offset="0xCD0"/>
+        <DList Name="gSelectStaticMasterDL" Ucode="f3dex" Offset="0xE88"/>
+        <Array Name="gSelectStaticVtx" Count="294" Offset="0xF98">
+            <Vtx/>
+        </Array>
+    </File>
+</Root>
