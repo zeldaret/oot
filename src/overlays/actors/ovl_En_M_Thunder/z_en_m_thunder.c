@@ -75,7 +75,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->collider.dim.yShift = -20;
     this->unk_1C4 = 8;
     this->unk_1B4 = 0.0f;
-    this->actor.world.pos = player->bodyPartsPos[0];
+    this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->unk_1AC = 0.0f;
     this->unk_1BC = 0.0f;
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
@@ -152,7 +152,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     Actor* child = this->actor.child;
 
     this->unk_1B8 = player->unk_858;
-    this->actor.world.pos = player->bodyPartsPos[0];
+    this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
 
     if (this->unk_1CA == 0) {
@@ -282,8 +282,8 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1C4 > 0) {
-        this->actor.world.pos.x = player->bodyPartsPos[0].x;
-        this->actor.world.pos.z = player->bodyPartsPos[0].z;
+        this->actor.world.pos.x = player->bodyPartsPos[PLAYER_BODYPART_WAIST].x;
+        this->actor.world.pos.z = player->bodyPartsPos[PLAYER_BODYPART_WAIST].z;
         this->unk_1C4--;
     }
 
