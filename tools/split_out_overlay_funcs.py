@@ -23,7 +23,7 @@ def handle_file(asm_root, asm_file, c_file_path):
     file_path = os.path.join(asm_root, asm_file)
     with open(file_path) as f:
         file_lines = f.readlines()
-    
+
     new_files = []
     num_rodata = 0
     for i, line in enumerate(file_lines):
@@ -53,10 +53,10 @@ def handle_file(asm_root, asm_file, c_file_path):
             new_file_lines = file_lines[new_file[0]:new_files[i+1][0]]
         else:
             new_file_lines = file_lines[new_file[0]:]
-        
+
         with open(os.path.join(asm_root, new_file[1]), mode="w", newline="\n") as out_file:
             out_file.writelines(new_file_lines)
-    
+
     os.remove(c_file_path)
 
     pragma_begin = "#pragma GLOBAL_ASM(\"" + asm_root.split("../")[1] + "/"

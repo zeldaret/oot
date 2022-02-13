@@ -100,7 +100,7 @@ def bootstrap(ovl_path, ovl_text):
     if init_data is None or len(init_data.regs) == 0:
         return ""
     init_data = data_text[init_data.regs[0][0]:init_data.regs[0][1]]
-    
+
     lines = init_data.split("\n")
 
     init_var_label = lines[0][7:]
@@ -167,14 +167,14 @@ def bootstrap(ovl_path, ovl_text):
         init_vars += indent + "(ActorFunc)Actor_Noop,\n"
     else:
         init_vars += indent + "(ActorFunc)" + init_func_name + ",\n"
-    
+
     if destroy_func == "0x00000000":
         init_vars += indent + "NULL,\n"
     elif destroy_func == "Actor_Noop":
         init_vars += indent + "(ActorFunc)Actor_Noop,\n"
     else:
         init_vars += indent + "(ActorFunc)" + destroy_func_name + ",\n"
-    
+
     if update_func == "0x00000000":
         init_vars += indent + "NULL,\n"
     elif update_func == "Actor_Noop":
@@ -188,7 +188,7 @@ def bootstrap(ovl_path, ovl_text):
         init_vars += indent + "(ActorFunc)Actor_Noop,\n"
     else:
         init_vars += indent + "(ActorFunc)" + draw_func_name + ",\n"
-    
+
     init_vars += "};\n"
 
     return struct_text + "\n" + defines + "\n" + decs + "\n/*\n" + init_vars + "*/"
@@ -208,7 +208,7 @@ def main():
                         newline_spot = file_text.find("\n\n") + 1
                         newfile_text = file_text[:newline_spot] + "\n" + bootstrap_text + file_text[newline_spot:]
                         newfile_text = newfile_text.replace("\n\n\n\n\n", "\n")
-                        
+
                         with open(file_path, "w", newline="\n") as f:
                             f.write(newfile_text)
                     else:

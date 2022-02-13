@@ -77,7 +77,7 @@ void* ZeldaArena_Calloc(u32 num, u32 size) {
         bzero(ret, n);
     }
 
-    ZeldaArena_CheckPointer(ret, n, "zelda_calloc", "確保");
+    ZeldaArena_CheckPointer(ret, n, "zelda_calloc", "確保"); // "Secure"
     return ret;
 }
 

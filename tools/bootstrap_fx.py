@@ -132,10 +132,10 @@ def get_header(header_path):
     ovl_name = path_split[-2]
     short_name = ovl_name[14:]
     init_vars_name = "".join(ovl_name[4:].split("_")) + "InitParams"
-    
+
     ifndef = "#ifndef _Z_EFF_SS_" + short_name.upper() + "_H_\n" + \
              "#define _Z_EFF_SS_" + short_name.upper() + "_H_\n\n"
-    
+
     includes = "#include <ultra64.h>\n#include <global.h>\n\n"
 
     struct = "typedef struct {\n" + \

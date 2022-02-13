@@ -52,7 +52,7 @@
         <Texture Name="gEnHeishiKingGuardTex_B40" Format="ci8" Width="16" Height="16" Offset="0x0B40" TlutOffset="0x0000"/> <!--Leg Armor?-->
         <Texture Name="gEnHeishiKingGuardHandTex" OutName="king_guard_hand" Format="ci8" Width="8" Height="8" Offset="0x0C40" TlutOffset="0x0000"/>
         <Texture Name="gEnHeishiKingGuardPantsTex" OutName="king_guard_pants" Format="ci8" Width="16" Height="16" Offset="0x0C80" TlutOffset="0x0000"/>
-        
+
         <!--Normal Guard Textures-->
         <Texture Name="gHeishiTLUT" OutName="guard_tlut" Format="rgba16" Width="16" Height="16" Offset="0x5C40"/>
         <Texture Name="gEnHeishiMouthTex" OutName="mouth_tex" Format="ci8" Width="16" Height="16" Offset="0x5E40" TlutOffset="0x5C40"/>
