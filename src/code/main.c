@@ -58,7 +58,7 @@ void Main(void* arg) {
     SystemHeap_Init(sysHeap, gSystemHeapSize); // initializes the system heap
     if (osMemSize >= 0x800000) {
         debugHeap = SysCfb_GetFbEnd();
-        debugHeapSize = (s32)(K0BASE + 0x600000 - debugHeap);
+        debugHeapSize = K0BASE + 0x600000 - debugHeap;
     } else {
         debugHeapSize = 0x400;
         debugHeap = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
