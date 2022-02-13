@@ -1,14 +1,19 @@
+/* --------------------------------------------------------------------------------*/
+/* Depending on the toolchain used, an appropriate precompiled libgcc library      */
+/* may not exist and cannot be linked against. Until we have a better work around, */
+/* necessary gcc functions are hosted here in order to properly compile.           */
+/* --------------------------------------------------------------------------------*/
+
 #ifdef __GNUC__
 
 #include "global.h"
-
-// Define functions needed for the GCC build here.
 
 // Self-hosted memcmp.
 int memcmp(void* s1, const void* s2, size_t n) {
     u8* m1 = (u8*)s1;
     u8* m2 = (u8*)s2;
     u32 i;
+
     for (i = 0; i < n; i++) {
         if (m1[i] < m2[i]) {
             return -1;
@@ -16,15 +21,18 @@ int memcmp(void* s1, const void* s2, size_t n) {
             return 1;
         }
     }
+
     return 0;
 }
 
 void* memset(void* str, s32 c, size_t n) {
     u8* m1 = (u8*)str;
     u32 i;
+
     for (i = 0; i < n; i++) {
         m1[i] = c;
     }
+
     return str;
 }
 
@@ -34,6 +42,7 @@ u32 __fixunssfdi(f32 a) {
     if (a < 0.0f) {
         a = 0.0f;
     }
+
     return (u32)a;
 }
 
@@ -41,6 +50,7 @@ u32 __fixunsdfdi(f64 a) {
     if (a < 0.0) {
         a = 0.0;
     }
+    
     return (u32)a;
 }
 
@@ -91,105 +101,114 @@ f32 __powisf2(f32 a, s32 b) {
     return recip ? 1 / r : r;
 }
 
-unsigned long __umoddi3(unsigned long a, unsigned long b) {
-    __asm__(".set push;"
-            ".set noat;"
-            ".set noreorder;"
-            ".set gp=64;"
-            "sw    $a0, ($sp);"
-            "sw    $a1, 4($sp);"
-            "sw    $a2, 8($sp);"
-            "sw    $a3, 0xc($sp);"
-            "ld    $t7, 8($sp);"
-            "ld    $t6, ($sp);"
-            "ddivu $zero, $t6, $t7;"
-            "bnez  $t7, .L80324144;"
-            " nop;"
-            "break 7;"
-            ".L80324144:"
-            "mfhi  $v0;"
-            "dsll32 $v1, $v0, 0;"
-            "dsra32 $v1, $v1, 0;"
-            "dsra32 $v0, $v0, 0;"
-            ".set pop;");
-}
-
-unsigned long __udivdi3(unsigned long a, unsigned long b) {
-    __asm__(".set push;"
-            ".set noat;"
-            ".set noreorder;"
-            ".set gp=64;"
-            "sw    $a0, ($sp);"
-            "sw    $a1, 4($sp);"
-            "sw    $a2, 8($sp);"
-            "sw    $a3, 0xc($sp);"
-            "ld    $t7, 8($sp);"
-            "ld    $t6, ($sp);"
-            "ddivu $zero, $t6, $t7;"
-            "bnez  $t7, .L80324180;"
-            " nop;"
-            "break 7;"
-            ".L80324180:"
-            "mflo  $v0;"
-            "dsll32 $v1, $v0, 0;"
-            "dsra32 $v1, $v1, 0;"
-            " dsra32 $v0, $v0, 0;"
-            ".set pop;");
-}
-
-long __moddi3(long a, long b) {
-    __asm__(".set push;"
-            ".set noat;"
-            ".set noreorder;"
-            ".set gp=64;"
-            "sw    $a0, ($sp);"
-            "sw    $a1, 4($sp);"
-            "sw    $a2, 8($sp);"
-            "sw    $a3, 0xc($sp);"
-            "ld    $t7, 8($sp);"
-            "ld    $t6, ($sp);"
-            "ddivu $zero, $t6, $t7;"
-            "bnez  $t7, .L803241E8;"
-            " nop;"
-            "break 7;"
-            ".L803241E8:"
-            "mfhi  $v0;"
-            "dsll32 $v1, $v0, 0;"
-            "dsra32 $v1, $v1, 0;"
-            " dsra32 $v0, $v0, 0;"
-            ".set pop;");
-}
-
-long __divdi3(long a, long b) {
-    __asm__(".set push;"
-            ".set noat;"
-            ".set noreorder;"
-            ".set gp=64;"
-            "sw    $a0, ($sp);"
-            "sw    $a1, 4($sp);"
-            "sw    $a2, 8($sp);"
-            "sw    $a3, 0xc($sp);"
-            "ld    $t7, 8($sp);"
-            "ld    $t6, ($sp);"
-            "ddiv  $zero, $t6, $t7;"
-            "nop;"
-            "bnez  $t7, .L80324228;"
-            " nop;"
-            "break 7;"
-            ".L80324228:"
-            "daddiu $at, $zero, -1;"
-            "bne   $t7, $at, .L80324244;"
-            " daddiu $at, $zero, 1;"
-            "dsll32 $at, $at, 0x1f;"
-            "bne   $t6, $at, .L80324244;"
-            " nop;"
-            "break 6;"
-            ".L80324244:"
-            "mflo  $v0;"
-            "dsll32 $v1, $v0, 0;"
-            "dsra32 $v1, $v1, 0;"
-            " dsra32 $v0, $v0, 0;"
-            ".set pop;");
-}
+__asm__("                                   \n\
+    .set push                               \n\
+    .set noat                               \n\
+    .set noreorder                          \n\
+    .set gp=64                              \n\
+                                            \n\
+.global __umoddi3                           \n\
+__umoddi3:                                  \n\
+    .type __umoddi3, @function              \n\
+    .ent __umoddi3                          \n\
+    sw    $a0, ($sp)                        \n\
+    sw    $a1, 4($sp)                       \n\
+    sw    $a2, 8($sp)                       \n\
+    sw    $a3, 0xc($sp)                     \n\
+    ld    $t7, 8($sp)                       \n\
+    ld    $t6, ($sp)                        \n\
+    ddivu $zero, $t6, $t7                   \n\
+    bnez  $t7, 1f                           \n\
+     nop                                    \n\
+    break 7                                 \n\
+1:                                          \n\
+    mfhi  $v0                               \n\
+    dsll32 $v1, $v0, 0                      \n\
+    dsra32 $v1, $v1, 0                      \n\
+    jr    $ra                               \n\
+     dsra32 $v0, $v0, 0                     \n\
+    .end __umoddi3                          \n\
+    .size __umoddi3, . - __umoddi3          \n\
+                                            \n\
+.global __udivdi3                           \n\
+__udivdi3:                                  \n\
+    .type __udivdi3, @function              \n\
+    .ent __udivdi3                          \n\
+    sw    $a0, ($sp)                        \n\
+    sw    $a1, 4($sp)                       \n\
+    sw    $a2, 8($sp)                       \n\
+    sw    $a3, 0xc($sp)                     \n\
+    ld    $t7, 8($sp)                       \n\
+    ld    $t6, ($sp)                        \n\
+    ddivu $zero, $t6, $t7                   \n\
+    bnez  $t7, 1f                           \n\
+     nop                                    \n\
+    break 7                                 \n\
+1:                                          \n\
+    mflo  $v0                               \n\
+    dsll32 $v1, $v0, 0                      \n\
+    dsra32 $v1, $v1, 0                      \n\
+    jr    $ra                               \n\
+     dsra32 $v0, $v0, 0                     \n\
+    .end __udivdi3                          \n\
+    .size __udivdi3, . - __udivdi3          \n\
+                                            \n\
+.global __moddi3                            \n\
+__moddi3:                                   \n\
+    .type __moddi3, @function               \n\
+    .ent __moddi3                           \n\
+    sw    $a0, ($sp)                        \n\
+    sw    $a1, 4($sp)                       \n\
+    sw    $a2, 8($sp)                       \n\
+    sw    $a3, 0xc($sp)                     \n\
+    ld    $t7, 8($sp)                       \n\
+    ld    $t6, ($sp)                        \n\
+    ddivu $zero, $t6, $t7                   \n\
+    bnez  $t7, 1f                           \n\
+     nop                                    \n\
+    break 7                                 \n\
+1:                                          \n\
+    mfhi  $v0                               \n\
+    dsll32 $v1, $v0, 0                      \n\
+    dsra32 $v1, $v1, 0                      \n\
+    jr    $ra                               \n\
+     dsra32 $v0, $v0, 0                     \n\
+    .end __moddi3                           \n\
+    .size __moddi3, . - __moddi3            \n\
+                                            \n\
+.global __divdi3                            \n\
+__divdi3:                                   \n\
+    .type __divdi3, @function               \n\
+    .ent __divdi3                           \n\
+    sw    $a0, ($sp)                        \n\
+    sw    $a1, 4($sp)                       \n\
+    sw    $a2, 8($sp)                       \n\
+    sw    $a3, 0xc($sp)                     \n\
+    ld    $t7, 8($sp)                       \n\
+    ld    $t6, ($sp)                        \n\
+    ddiv  $zero, $t6, $t7                   \n\
+    nop                                     \n\
+    bnez  $t7, 1f                           \n\
+     nop                                    \n\
+    break 7                                 \n\
+1:                                          \n\
+    daddiu $at, $zero, -1                   \n\
+    bne   $t7, $at, 2f                      \n\
+     daddiu $at, $zero, 1                   \n\
+    dsll32 $at, $at, 0x1f                   \n\
+    bne   $t6, $at, 2f                      \n\
+     nop                                    \n\
+    break 6                                 \n\
+2:                                          \n\
+    mflo  $v0                               \n\
+    dsll32 $v1, $v0, 0                      \n\
+    dsra32 $v1, $v1, 0                      \n\
+    jr    $ra                               \n\
+     dsra32 $v0, $v0, 0                     \n\
+    .end __divdi3                           \n\
+    .size __divdi3, . - __divdi3            \n\
+                                            \n\
+    .set pop                                \n\
+                                            \n");
 
 #endif
