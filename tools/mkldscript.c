@@ -144,8 +144,6 @@ static void write_ld_script(FILE *fout)
         if (seg->fields & (1 << STMT_increment))
             fprintf(fout, "    . += 0x%08X;\n", seg->increment);
 
-        // fprintf(fout, "        . = ALIGN(0x%X);\n", seg->align);
-
         fputs("    }\n", fout);
 
         fprintf(fout, "    _RomSize += ( _%sSegmentOvlEnd - _%sSegmentTextStart );\n", seg->name, seg->name);
