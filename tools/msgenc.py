@@ -24,7 +24,7 @@ def convert_text(text, charmap):
         return string
 
     # Naive string matcher, assumes single line strings and no comments, handles escaped quotations
-    string_regex = re.compile(r'"((?:[^\\\"\n]|\\.)*)"')
+    string_regex = re.compile(r'"((?:[^\\"\n]|\\.)*)"')
 
     # Collapse escaped newlines
     text = text.replace("\\\n", "")
