@@ -5,9 +5,9 @@
 
 typedef unsigned long size_t;
 
-typedef s32 ptrdiff_t;
-typedef s32 intptr_t;
-typedef u32 uintptr_t;
+typedef long ptrdiff_t;
+typedef long intptr_t;
+typedef unsigned long uintptr_t;
 
 #ifdef __GNUC__
 #define offsetof(structure, member) __builtin_offsetof (structure, member)
