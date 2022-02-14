@@ -9,9 +9,9 @@
 #define OS_SC_PRE_NMI_MSG       4
 
 typedef enum {
-    IRQ_RESET_IDLE,
-    IRQ_RESET_PRENMI,
-    IRQ_RESET_NMI
+    IRQ_RESET_STATUS_IDLE,
+    IRQ_RESET_STATUS_PRENMI,
+    IRQ_RESET_STATUS_NMI
 } IrqResetStatus;
 
 typedef struct {
