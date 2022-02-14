@@ -2,7 +2,7 @@
 #include "vt.h"
 #include "objects/object_ik/object_ik.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void DemoIk_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -100,34 +100,34 @@ typedef struct {
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
-#define ACTOR_FLAG_0 (1 << 0)
-#define ACTOR_FLAG_2 (1 << 2)
-#define ACTOR_FLAG_3 (1 << 3)
-#define ACTOR_FLAG_4 (1 << 4)
-#define ACTOR_FLAG_5 (1 << 5)
-#define ACTOR_FLAG_6 (1 << 6)
-#define ACTOR_FLAG_7 (1 << 7)
-#define ACTOR_FLAG_8 (1 << 8)
-#define ACTOR_FLAG_9 (1 << 9)
-#define ACTOR_FLAG_10 (1 << 10)
-#define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
-#define ACTOR_FLAG_12 (1 << 12)
-#define ACTOR_FLAG_13 (1 << 13)
-#define ACTOR_FLAG_14 (1 << 14)
-#define ACTOR_FLAG_15 (1 << 15)
-#define ACTOR_FLAG_16 (1 << 16)
-#define ACTOR_FLAG_17 (1 << 17)
-#define ACTOR_FLAG_18 (1 << 18)
-#define ACTOR_FLAG_19 (1 << 19)
-#define ACTOR_FLAG_20 (1 << 20)
-#define ACTOR_FLAG_21 (1 << 21)
-#define ACTOR_FLAG_22 (1 << 22)
-#define ACTOR_FLAG_23 (1 << 23)
-#define ACTOR_FLAG_24 (1 << 24)
-#define ACTOR_FLAG_25 (1 << 25)
-#define ACTOR_FLAG_26 (1 << 26)
-#define ACTOR_FLAG_27 (1 << 27)
-#define ACTOR_FLAG_28 (1 << 28)
+#define ACTOR_FLAG_TARGETABLE (1 << 0) // Navi will fly over the actor and it can be Z targeted
+#define ACTOR_FLAG_UNFRIENDLY (1 << 2) // changes targeting behavior for unfriendly actors (sound, Link's stance)
+#define ACTOR_FLAG_FRIENDLY (1 << 3) // opposite of the unfriendly flag. flag is not checked against in the original game
+#define ACTOR_FLAG_NO_UPDATE_CULLING (1 << 4) // actor will keep updating even if outside of the uncull zone i.e. "update-culling" does not occur
+#define ACTOR_FLAG_NO_DRAW_CULLING (1 << 5) // actor will keep drawing even if outside of the uncull zone i.e. "draw-culling" does not occur
+#define ACTOR_FLAG_IN_UNCULL_ZONE (1 << 6) // actor is currently in the uncull zone
+#define ACTOR_FLAG_REACT_TO_LENS (1 << 7) // hidden or revealed by Lens of Truth (depending on room flags)
+#define ACTOR_FLAG_TALK_REQUESTED (1 << 8) // Player has requested to talk to the actor; Player uses this flag differently than every other actor
+#define ACTOR_FLAG_HOOK_CAN_CARRY (1 << 9) // brings the actor back to Player if hookshoted
+#define ACTOR_FLAG_HOOK_BRING_PLAYER (1 << 10) // brings Player to the actor if hookshoted
+#define ACTOR_FLAG_ENKUSA_CUT (1 << 11) // grass actor has been cut
+#define ACTOR_FLAG_IGNORE_QUAKE (1 << 12) // actor will not shake when a quake occurs
+#define ACTOR_FLAG_HOOK_ATTACHED (1 << 13) // hookshot has attached to the actor (either a collider or surface)
+#define ACTOR_FLAG_ARROW_CAN_CARRY (1 << 14) // when an arrow hits the actor it will attach to the actor and carry it
+#define ACTOR_FLAG_ARROW_IS_CARRYING (1 << 15) // an arrow is currently carrying this actor
+#define ACTOR_FLAG_IMMEDIATE_TALK (1 << 16) // forces Player to talk when in range. needs to be unset manually to avoid infinite talking
+#define ACTOR_FLAG_HEAVYBLOCK (1 << 17) // changes actor carrying behavior specifically for the golden gauntlets block actor
+#define ACTOR_FLAG_CHECK_WITH_NAVI (1 << 18) // Navi can be used to trigger dialogue when targeting the actor
+#define ACTOR_FLAG_SFX_AT_POS (1 << 19) // play sound from sfx field at the actor's position
+#define ACTOR_FLAG_SFX_CENTERED2 (1 << 20) // same as ACTOR_FLAG_SFX_CENTERED, unused in the original game
+#define ACTOR_FLAG_SFX_CENTERED (1 << 21) // play sound from sfx field at the center of the screen
+#define ACTOR_FLAG_IGNORE_POINT_LIGHTS (1 << 22) // ignores point lights but not directional lights (such as environment lights)
+#define ACTOR_FLAG_ALWAYS_THROW (1 << 23) // Player throws held actor even if standing still
+#define ACTOR_FLAG_PLAY_BODYHIT_SFX (1 << 24) // when actor hits Player's body, a thump sfx plays
+#define ACTOR_FLAG_OCARINA_NO_FREEZE (1 << 25) // actor doesnt freeze when Player has ocarina out or is using a warp song
+#define ACTOR_FLAG_CAN_HOLD_SWITCH (1 << 26) // actor can press and hold down switches
+#define ACTOR_FLAG_CANT_LOCK_ON (1 << 27) // prevents locking on with Z targeting an actor even if Navi is floating over it
+#define ACTOR_FLAG_SFX_TIMER (1 << 28) // actor sfx field is used as timer state instead of an sfx id
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID

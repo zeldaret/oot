@@ -4,7 +4,7 @@
 #include "objects/object_jya_obj/object_jya_obj.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx);

@@ -7,7 +7,7 @@
 #include "z_en_pu_box.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx);

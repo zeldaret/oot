@@ -8,7 +8,7 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void ElfMsg_Init(Actor* thisx, GlobalContext* globalCtx);
 void ElfMsg_Destroy(Actor* thisx, GlobalContext* globalCtx);

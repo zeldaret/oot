@@ -7,7 +7,7 @@
 #include "z_en_jsjutan.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_FRIENDLY)
 
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,7 +40,7 @@ void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* header = NULL;
 
-    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&sCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, header);

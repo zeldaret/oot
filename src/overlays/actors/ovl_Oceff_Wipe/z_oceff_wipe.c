@@ -7,7 +7,7 @@
 #include "z_oceff_wipe.h"
 #include "vt.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_OCARINA_NO_FREEZE)
 
 void OceffWipe_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffWipe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -75,7 +75,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
 
     eye = GET_ACTIVE_CAM(globalCtx)->eye;
-    Camera_GetSkyboxOffset(&vec, GET_ACTIVE_CAM(globalCtx));
+    Camera_GetQuakeOffset(&vec, GET_ACTIVE_CAM(globalCtx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 346);
 

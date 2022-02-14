@@ -349,7 +349,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
 void EnButte_SetupTransformIntoFairy(EnButte* this) {
     this->timer = 9;
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     this->skelAnime.playSpeed = 1.0f;
     EnButte_ResetTransformationEffect();
     this->actionFunc = EnButte_TransformIntoFairy;

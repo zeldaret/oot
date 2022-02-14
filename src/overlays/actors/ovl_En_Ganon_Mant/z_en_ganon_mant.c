@@ -7,7 +7,7 @@
 #include "z_en_ganon_mant.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -102,7 +102,7 @@ static u64 sForceAlignment = 0;
 void EnGanonMant_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGanonMant* this = (EnGanonMant*)thisx;
 
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
 }
 
 void EnGanonMant_Destroy(Actor* thisx, GlobalContext* globalCtx) {

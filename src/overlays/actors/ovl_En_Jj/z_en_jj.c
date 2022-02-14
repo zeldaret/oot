@@ -8,7 +8,7 @@
 #include "objects/object_jj/object_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 typedef enum {
     /* 0 */ JABUJABU_EYE_OPEN,

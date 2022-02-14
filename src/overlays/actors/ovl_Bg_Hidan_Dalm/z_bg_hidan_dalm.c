@@ -138,7 +138,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
 
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
-        this->dyna.actor.flags |= ACTOR_FLAG_4;
+        this->dyna.actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
         this->actionFunc = BgHidanDalm_Shrink;
         this->dyna.actor.bgCheckFlags &= ~2;
         this->dyna.actor.bgCheckFlags &= ~8;

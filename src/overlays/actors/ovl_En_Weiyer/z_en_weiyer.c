@@ -7,7 +7,7 @@
 #include "z_en_weiyer.h"
 #include "objects/object_ei/object_ei.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
+#define FLAGS (ACTOR_FLAG_TARGETABLE | ACTOR_FLAG_UNFRIENDLY)
 
 void EnWeiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnWeiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -571,7 +571,7 @@ void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
             } else if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_DEAD);
-                this->actor.flags &= ~ACTOR_FLAG_0;
+                this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
                 func_80B32724(this);
             } else {
                 func_80B325A0(this);

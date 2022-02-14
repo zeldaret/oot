@@ -276,7 +276,7 @@ void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
-    this->actor.flags |= ACTOR_FLAG_4;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING;
     this->action = HORSE_FOLLOW_PATH;
     this->animationIdx = 6;
     this->waypoint = 0;
@@ -510,7 +510,7 @@ void func_80A6C6B0(EnHorseNormal* this) {
     this->animationIdx = 0;
     this->unk_21C = 0;
     this->unk_21E = 0;
-    this->actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+    this->actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING;
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,

@@ -45,7 +45,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->dyna.actor);
             return;
         }
-        this->dyna.actor.flags |= ACTOR_FLAG_4 | ACTOR_FLAG_5;
+        this->dyna.actor.flags |= ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING;
     }
 }
 

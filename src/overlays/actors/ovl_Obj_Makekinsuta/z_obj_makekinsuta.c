@@ -7,7 +7,7 @@
 #include "z_obj_makekinsuta.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void ObjMakekinsuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakekinsuta_Update(Actor* thisx, GlobalContext* globalCtx);

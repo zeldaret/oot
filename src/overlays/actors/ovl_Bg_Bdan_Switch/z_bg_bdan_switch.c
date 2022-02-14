@@ -7,7 +7,7 @@
 #include "z_bg_bdan_switch.h"
 #include "objects/object_bdan_objects/object_bdan_objects.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBdanSwitch_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -160,7 +160,7 @@ void BgBdanSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
         case YELLOW_TALL_1:
         case YELLOW_TALL_2:
             BgBdanSwitch_InitCollision(this, globalCtx);
-            this->dyna.actor.flags |= ACTOR_FLAG_0;
+            this->dyna.actor.flags |= ACTOR_FLAG_TARGETABLE;
             this->dyna.actor.targetMode = 4;
             break;
     }

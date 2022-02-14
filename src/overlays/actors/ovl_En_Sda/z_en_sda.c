@@ -6,7 +6,7 @@
 
 #include "z_en_sda.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void EnSda_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSda_Destroy(Actor* thisx, GlobalContext* globalCtx);

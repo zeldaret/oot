@@ -10,7 +10,7 @@
 #include "objects/object_efc_tw/object_efc_tw.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
 
-#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
+#define FLAGS (ACTOR_FLAG_NO_UPDATE_CULLING | ACTOR_FLAG_NO_DRAW_CULLING)
 
 void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -457,7 +457,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE:
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL:
-            this->actor.flags |= ACTOR_FLAG_25;
+            this->actor.flags |= ACTOR_FLAG_OCARINA_NO_FREEZE;
         case DEMO_EFFECT_TIMEWARP_MASTERSWORD:
             this->initDrawFunc = DemoEffect_DrawTimeWarp;
             this->initUpdateFunc = DemoEffect_InitTimeWarp;

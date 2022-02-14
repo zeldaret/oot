@@ -10,7 +10,7 @@
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 typedef struct {
     /* 0x00 */ Vec3f pos;

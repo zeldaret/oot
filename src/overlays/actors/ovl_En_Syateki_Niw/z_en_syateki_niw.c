@@ -8,7 +8,7 @@
 #include "objects/object_niw/object_niw.h"
 #include "vt.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSyatekiNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -68,7 +68,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gCuccoSkel, &gCuccoAnim, this->jointTable, this->morphTable, 16);
 

@@ -7,7 +7,7 @@
 #include "z_bg_gnd_nisekabe.h"
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void BgGndNisekabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndNisekabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -40,9 +40,9 @@ void BgGndNisekabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
 
     if (globalCtx->actorCtx.lensActive) {
-        this->actor.flags |= ACTOR_FLAG_7;
+        this->actor.flags |= ACTOR_FLAG_REACT_TO_LENS;
     } else {
-        this->actor.flags &= ~ACTOR_FLAG_7;
+        this->actor.flags &= ~ACTOR_FLAG_REACT_TO_LENS;
     }
 }
 
@@ -55,7 +55,7 @@ void BgGndNisekabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgGndNisekabe* this = (BgGndNisekabe*)thisx;
     u32 index = this->actor.params & 0xFF;
 
-    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_7)) {
+    if (CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_REACT_TO_LENS)) {
         Gfx_DrawDListXlu(globalCtx, dLists[index]);
     } else {
         Gfx_DrawDListOpa(globalCtx, dLists[index]);

@@ -8,7 +8,7 @@
 #include "objects/object_niw/object_niw.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 
-#define FLAGS ACTOR_FLAG_4
+#define FLAGS ACTOR_FLAG_NO_UPDATE_CULLING
 
 void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAttackNiw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -53,7 +53,7 @@ void EnAttackNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_298.y = Rand_CenteredFloat(10.0f);
     this->unk_298.z = Rand_CenteredFloat(100.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.flags &= ~ACTOR_FLAG_0;
+    this->actor.flags &= ~ACTOR_FLAG_TARGETABLE;
     this->actor.shape.rot.y = this->actor.world.rot.y = (Rand_ZeroOne() - 0.5f) * 60000.0f;
     this->actionFunc = func_809B5670;
 }
