@@ -455,9 +455,9 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, G
     //! @bug `altNextPlatform` can be -1 in certain conditions and cause an out of bounds access.
     //! Under normal conditions, this doesn't cause problems because the data before `sPlatformPositions`
     //! is section padding between .text and .data, so 0 gets read as a float.
-    //! Other compilers can shift things and result in a crash. Defining `AVOID_UB` will remove these function calls
-    //! entirely as they don't have any effect (and return values are not used).
 #ifndef AVOID_UB
+    // Defining `AVOID_UB` will remove these function calls entirely as they don't 
+    // have any effect (and return values are not used).
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[nextPlatform]);
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[altNextPlatform]);
 #endif

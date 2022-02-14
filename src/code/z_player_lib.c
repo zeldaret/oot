@@ -654,10 +654,9 @@ u8 sEyeMouthIndexes[][2] = {
  * This allows the array to only contain the symbols for one file and have it apply to both. This is a problem for
  * shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols
  * from adult Link's object are used here.
- *
- * Using AVOID_UB here will use a 2D array instead and properly use the child link pointers to allow for shifting.
  */
 #ifdef AVOID_UB
+// Defining `AVOID_UB` will use a 2D array instead and properly use the child link pointers to allow for shifting.
 void* sEyeTextures[][8] = {
     { gLinkAdultEyesOpenTex, gLinkAdultEyesHalfTex, gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
       gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex, gLinkAdultEyesUnk2Tex },
