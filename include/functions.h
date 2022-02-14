@@ -120,7 +120,7 @@ OSPri osGetThreadPri(OSThread* thread);
 s32 __osEPiRawReadIo(OSPiHandle* handle, u32 devAddr, u32* data);
 void osViSwapBuffer(void* vaddr);
 s32 __osEPiRawStartDma(OSPiHandle* handle, s32 direction, u32 cartAddr, void* dramAddr, size_t size);
-u32 bcmp(void* __sl, void* __s2, u32 __n);
+u32 bcmp(void* __sl, void* __s2, size_t __n);
 OSTime osGetTime(void);
 void __osTimerServicesInit(void);
 void __osTimerInterrupt(void);
@@ -1317,10 +1317,10 @@ void Sram_WriteSramHeader(SramContext* sramCtx);
 void Sram_InitSram(GameState* gameState, SramContext* sramCtx);
 void Sram_Alloc(GameState* gameState, SramContext* sramCtx);
 void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx);
-void SsSram_Init(u32 addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
+void SsSram_Init(uintptr_t addr, u8 handleType, u8 handleDomain, u8 handleLatency, u8 handlePageSize, u8 handleRelDuration,
                  u8 handlePulse, u32 handleSpeed);
 void SsSram_Dma(void* dramAddr, size_t size, s32 direction);
-void SsSram_ReadWrite(u32 addr, void* dramAddr, size_t size, s32 direction);
+void SsSram_ReadWrite(uintptr_t addr, void* dramAddr, size_t size, s32 direction);
 void func_800A9F30(PadMgr*, s32);
 void func_800A9F6C(f32, u8, u8, u8);
 void func_800AA000(f32, u8, u8, u8);
