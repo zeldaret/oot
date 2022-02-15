@@ -37,9 +37,9 @@ void Main(void* arg) {
     IrqMgrClient irqClient;
     OSMesgQueue irqMgrMsgQ;
     OSMesg irqMgrMsgBuf[60];
-    u32 sysHeap;
+    u32 systemHeapStart;
     u32 fb;
-    s32 debugHeap;
+    s32 debugHeapStart;
     s32 debugHeapSize;
     s16* msg;
 
@@ -50,21 +50,21 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    sysHeap = (u32)gSystemHeap;
+    systemHeapStart = (u32)gSystemHeap;
     fb = SysCfb_GetFbPtr(0);
-    gSystemHeapSize = (fb - sysHeap);
+    gSystemHeapSize = fb - systemHeapStart;
     // "System heap initalization"
-    osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", sysHeap, fb, gSystemHeapSize);
-    SystemHeap_Init(sysHeap, gSystemHeapSize); // initializes the system heap
+    osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
+    SystemHeap_Init(systemHeapStart, gSystemHeapSize); // initializes the system heap
     if (osMemSize >= 0x800000) {
-        debugHeap = SysCfb_GetFbEnd();
-        debugHeapSize = K0BASE + 0x600000 - debugHeap;
+        debugHeapStart = SysCfb_GetFbEnd();
+        debugHeapSize = PHYS_TO_K0(0x600000) - debugHeapStart;
     } else {
         debugHeapSize = 0x400;
-        debugHeap = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
+        debugHeapStart = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
     }
-    osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeap, debugHeapSize);
-    DebugArena_Init(debugHeap, debugHeapSize);
+    osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
+    DebugArena_Init(debugHeapStart, debugHeapSize);
     func_800636C0();
 
     R_ENABLE_ARENA_DBG = 0;

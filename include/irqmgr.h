@@ -38,9 +38,9 @@ typedef struct {
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
 
-void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount);
+void IrqMgr_Init(IrqMgr* irqMgr, void* stack, OSPri pri, u8 retraceCount);
 
-void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ);
-void IrqMgr_RemoveClient(IrqMgr* this, IrqMgrClient* c);
+void IrqMgr_AddClient(IrqMgr* irqMgr, IrqMgrClient* client, OSMesgQueue* msgQ);
+void IrqMgr_RemoveClient(IrqMgr* irqMgr, IrqMgrClient* client);
 
 #endif
