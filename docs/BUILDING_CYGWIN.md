@@ -1,34 +1,46 @@
 # Building with Cygwin
 
-**N.B.** These have not been tested recently, you may find the requirements have changed a bit.
-
 If you want to use Cygwin, you will need to:
 
 
-## 1. Install Git Bash and Cygwin
+## 1. Install Cygwin
 
-* Download and install [Git Bash](https://git-scm.com/download/win).
 * Download and install [Cygwin](https://cygwin.com).
 
+Run the installer and follow the steps to install a cygwin terminal.
+
+After the "choose a download site" step, a window will pop up which will allow you to select pacakges.
+Unlike a normal linux distrobution, you must install pacakges from this interface within the setup program.
+To install a package you can change View from "Pending" to "Full".
+Then you can enter a package name to search. After finding the package you want, change the "Skip" drop down
+to the version you want to install.
+
+Use this interface to select the latest version for all of the following packages:
+* make
+* gcc-g++
+* bison
+* flex
+* texinfo
+* git
+* libiconv
+* dos2unix
+* python3
+* libpng-devel
+* binutils (Make sure to check the "Src?" checkbox since we're interested in the source code)
 
 ## 2. Build mips-linux-binutils on Windows using Cygwin
-
-First, you will need to install the following packages using the Cygwin installer:
-- make
-- gcc-g++
-- bison
-- flex
-- texinfo
-- binutils (Make sure to check the "Src?" checkbox since we're interested in the source code. Once the download is finished, you will find it in `/usr/src/`)
+For the following isntructions, wherever you see `binutils-[...]`, the [...] represents the version number.
+You can use tab auto-complete to fill this in.
 
 Create destination dir for binutils
 ```bash
-sudo mkdir -p /opt/cross
+mkdir -p /opt/cross
 ```
+
 Extract binutils source
 ```bash
 cd /usr/src/binutils-[...].src/
-tar xjf binutils-[...].tar.bz2
+tar -xf binutils-[...].tar.xz
 ```
 
 Create and enter build dir
@@ -39,31 +51,21 @@ cd build-binutils
 
 Configure the build
 ```bash
-../binutils-gdb/configure --target=mips-linux-gnu --prefix=/opt/cross --disable-gprof --disable-nls --disable-werror --disable-gdb --disable-libdecnumber --disable-readline --disable-sim
+../binutils-[...]/configure --target=mips-linux-gnu --prefix=/opt/cross --disable-gprof --disable-nls --disable-werror --disable-gdb --disable-libdecnumber --disable-readline --disable-sim
 ```
 
 Make and install binutils
 ```bash
 make -j
-sudo make install -j
+make install -j
 ```
 
 Add the new binutils binaries to your system PATH:
-
-You can do that by adding `PATH=$PATH:/opt/cross/bin` to `~/.bashrc` and then reloading `~/.bashrc`.
-
-Alternatively you can edit the `Path` variable in `Edit the system environment variables`>`Environment Variables` (in which case you will need to relaunch your terminal).
-
-
-## 3. Install required Cygwin packages
-
-Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
-
-* libiconv
-* dos2unix
-* python3
-* libpng-devel
-
+Go to your home directory `cd`
+Open windows explorer in your current location `explorer.exe .`
+Open the `.bashrc` file in a text editor
+Scroll to the bottom and add `PATH=$PATH:/opt/cross/bin` to a new line and save the file
+Run `source .bashrc` or close and reopen cygwin
 
 ## 4. Install required Python packages
 
@@ -72,7 +74,6 @@ To install the Python dependencies simply run in a terminal:
 ```bash
 python3 -m pip install colorama
 ```
-
 
 ## 5. Continue with Linux instructions
 
