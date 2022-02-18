@@ -10,7 +10,7 @@ If you want to use Cygwin, you will need to:
 Run the installer and follow the steps to install a cygwin terminal.
 
 After the "choose a download site" step, a window will pop up which will allow you to select pacakges.
-Unlike a normal linux distrobution, you must install pacakges from this interface within the setup program.
+Unlike a normal linux distribution, you must install pacakges from this interface within the setup program.
 To install a package you can change View from "Pending" to "Full".
 Then you can enter a package name to search. After finding the package you want, change the "Skip" drop down
 to the version you want to install.
@@ -61,11 +61,11 @@ make install -j
 ```
 
 Add the new binutils binaries to your system PATH:
-Go to your home directory `cd`
-Open windows explorer in your current location `explorer.exe .`
-Open the `.bashrc` file in a text editor
-Scroll to the bottom and add `PATH=$PATH:/opt/cross/bin` to a new line and save the file
-Run `source .bashrc` or close and reopen cygwin
+- Go to your home directory `cd`
+- Open windows explorer in your current location `explorer.exe .`
+- Open the `.bashrc` file in a text editor
+- Scroll to the bottom and add `PATH=$PATH:/opt/cross/bin` to a new line and save the file
+- Run `source .bashrc` or close and reopen cygwin
 
 ## 4. Install required Python packages
 
