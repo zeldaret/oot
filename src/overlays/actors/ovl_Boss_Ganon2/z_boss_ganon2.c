@@ -161,11 +161,11 @@ void BossGanon2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_808FD4D4(BossGanon2* this, GlobalContext* globalCtx, s16 arg2, s16 arg3) {
     if ((arg2 == 0) || (arg2 == 1)) {
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_1D0, 25.0f, arg3, 8.0f, 0x1F4, 0xA, 1);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_1D0, 25.0f, arg3, 8.0f, 500, 10, true);
     }
 
     if ((arg2 == 0) || (arg2 == 2)) {
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_1DC, 25.0f, arg3, 8.0f, 0x1F4, 0xA, 1);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->unk_1DC, 25.0f, arg3, 8.0f, 500, 10, true);
     }
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_WALK);
@@ -1021,7 +1021,7 @@ void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
         Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
-    } else if ((this->actor.bgCheckFlags & 8) && func_808FFA24(this, globalCtx)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && func_808FFA24(this, globalCtx)) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
         Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
@@ -1795,7 +1795,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             gSaveContext.nextCutsceneIndex = 0xFFF2;
             globalCtx->sceneLoadFlag = 0x14;
             globalCtx->fadeTransition = 3;
-            globalCtx->linkAgeOnLoad = 1;
+            globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
             break;
     }
 
@@ -1986,7 +1986,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot = this->actor.world.rot;
     if (this->unk_335 != 0) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 60.0f, 60.0f, 100.0f, 5);
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             if (this->actor.velocity.y < -5.0f) {
                 func_80033E88(&this->actor, globalCtx, 5, 20);
                 func_80078884(NA_SE_IT_BOMB_EXPLOSION);

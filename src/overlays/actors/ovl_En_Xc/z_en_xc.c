@@ -347,8 +347,8 @@ s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
         Player* player = GET_PLAYER(globalCtx);
         s32 stateFlags = player->stateFlags1;
 
-        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && !(stateFlags & 0x20000000) &&
-            !Gameplay_InCsMode(globalCtx)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) &&
+            !(stateFlags & PLAYER_STATE1_29) && !Gameplay_InCsMode(globalCtx)) {
             Cutscene_SetSegment(globalCtx, &gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
             gSaveContext.eventChkInf[5] |= 4; // Learned Serenade of Water Flag
@@ -371,7 +371,7 @@ void EnXc_SetWalkingSFX(EnXc* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     if (Animation_OnFrame(&this->skelAnime, 11.0f) || Animation_OnFrame(&this->skelAnime, 23.0f)) {
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
@@ -385,7 +385,7 @@ void EnXc_SetNutThrowSFX(EnXc* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     if (Animation_OnFrame(&this->skelAnime, 7.0f)) {
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);

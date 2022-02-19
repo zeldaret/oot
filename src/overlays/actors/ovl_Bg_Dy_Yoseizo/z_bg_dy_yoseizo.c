@@ -244,7 +244,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
             case FAIRY_UPGRADE_HALF_DAMAGE:
                 if (!gSaveContext.doubleDefense) {
                     // "Damage halved"
-                    osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST);
+                    osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST);
                     this->givingSpell = true;
                     givingReward = true;
                 }

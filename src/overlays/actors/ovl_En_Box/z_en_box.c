@@ -232,7 +232,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
 
     this->alpha = 255;
     this->movementFlags &= ~ENBOX_MOVE_IMMOBILE;
-    if (this->dyna.actor.bgCheckFlags & 1) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->movementFlags |= ENBOX_MOVE_UNUSED;
         if (this->movementFlags & ENBOX_MOVE_FALL_ANGLE_SIDE) {
             this->movementFlags &= ~ENBOX_MOVE_FALL_ANGLE_SIDE;
@@ -293,8 +293,8 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
         this->unk_1FB = ENBOX_STATE_0;
     } else {
         if (this->unk_1FB == ENBOX_STATE_0) {
-            if (!(player->stateFlags2 & 0x1000000)) {
-                player->stateFlags2 |= 0x800000;
+            if (!(player->stateFlags2 & PLAYER_STATE2_24)) {
+                player->stateFlags2 |= PLAYER_STATE2_23;
                 return;
             }
             this->unk_1FB = ENBOX_STATE_1;

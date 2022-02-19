@@ -22,7 +22,7 @@
         <Limb Name="gSkullKidRightShoulderLimb" LimbType="Standard" Offset="0x5EE0"/>
         <Limb Name="gSkullKidRightArmLimb" LimbType="Standard" Offset="0x5EEC"/>
         <Skeleton Name="gSkullKidSkel" Type="Flex" LimbType="Standard" Offset="0x5F40"/>
-        
+
         <!--Limb DLists-->
         <DList Name="gSkullKidLeftUpperLegDL" Offset="0x3B90"/>
         <DList Name="gSkullKidLeftLowerLegDL" Offset="0x3C88"/>
@@ -50,7 +50,7 @@
         <Animation Name="gSkullKidFightingStanceAnim" Offset="0x8374"/>
         <Animation Name="gSkullKidWaitAnim" Offset="0x8B9C"/>
         <Animation Name="gSkullKidWalkToPlayerAnim" Offset="0x8E14"/>
-        
+
         <Texture Name="gSkullKidSkullMaskTex" OutName="skull_mask" Format="rgba16" Width="16" Height="16" Offset="0xF08"/>
         <Texture Name="gSkullKidSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgba16" Width="8" Height="8" Offset="0x1108"/>
         <Texture Name="gSkullKidSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgba16" Width="8" Height="8" Offset="0x1188"/>

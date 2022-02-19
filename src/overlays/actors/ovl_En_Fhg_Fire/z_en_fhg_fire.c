@@ -302,7 +302,7 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 1);
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Actor_Kill(&this->actor);
     }
 }
@@ -469,7 +469,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
         switch (this->work[FHGFIRE_FIRE_MODE]) {
             case FHGFIRE_LIGHT_GREEN:
                 canBottleReflect1 =
-                    ((player->stateFlags1 & 2) &&
+                    ((player->stateFlags1 & PLAYER_STATE1_1) &&
                      (ABS((s16)(player->actor.shape.rot.y - (s16)(bossGnd->actor.yawTowardsPlayer + 0x8000))) <
                       0x2000) &&
                      (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f))
@@ -588,7 +588,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
         osSyncPrintf("fly_mode    %d\n", bossGnd->flyMode);
         if (this->work[FHGFIRE_FX_TIMER] == 0) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 7);
-            if ((this->actor.bgCheckFlags & 0x19) || killMode) {
+            if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL | BGCHECKFLAG_CEILING)) ||
+                killMode) {
                 u8 lightBallColor2 = FHGFLASH_LIGHTBALL_GREEN;
                 s16 i4;
                 Vec3f sp6C;

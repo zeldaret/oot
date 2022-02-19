@@ -21,7 +21,7 @@
         <Texture Name="gMalonAdultEyeOpenTex" OutName="eye_open" Format="ci8" Width="32" Height="32" Offset="0x2570" TlutOffset="0x1F70"/>
         <Texture Name="gMalonAdultEyeHalfTex" OutName="eye_half" Format="ci8" Width="32" Height="32" Offset="0x2C70" TlutOffset="0x1F70"/>
         <Texture Name="gMalonAdultEyeClosedTex" OutName="eye_closed" Format="ci8" Width="32" Height="32" Offset="0x3070" TlutOffset="0x1F70"/>
-        
+
         <Texture Name="gMalonAdultBasketTex" OutName="basket" Format="rgba16" Width="8" Height="16" Offset="0x2B70"/>
         <Texture Name="gMalonAdultBasketInsideTex" OutName="basket_inside" Format="rgba16" Width="8" Height="16" Offset="0x3470"/>
 

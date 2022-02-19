@@ -180,13 +180,13 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 // Otherwise if it's a Skulltula Token, just set flags so he collides with it to collect it.
                 if (target->id == ACTOR_EN_ITEM00) {
                     target->gravity = -0.9f;
-                    target->bgCheckFlags &= ~0x03;
+                    target->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
                 } else {
                     target->flags &= ~ACTOR_FLAG_13;
                 }
             }
             // Set player flags and kill the boomerang beacause Link caught it.
-            player->stateFlags1 &= ~0x02000000;
+            player->stateFlags1 &= ~PLAYER_STATE1_25;
             Actor_Kill(&this->actor);
         }
     } else {
@@ -240,7 +240,7 @@ void EnBoom_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBoom* this = (EnBoom*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(player->stateFlags1 & 0x20000000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_29)) {
         this->actionFunc(this, globalCtx);
         Actor_SetFocus(&this->actor, 0.0f);
         this->activeTimer = this->activeTimer + 1;

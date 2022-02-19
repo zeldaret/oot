@@ -639,13 +639,13 @@ void func_80B0DB00(EnSw* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.z += 0x1000;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);
 
-    if ((this->actor.bgCheckFlags & 1) && (!(0.0f <= this->actor.velocity.y))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(0.0f <= this->actor.velocity.y)) {
         if (this->actor.floorHeight <= BGCHECK_Y_MIN || this->actor.floorHeight >= 32000.0f) {
             Actor_Kill(&this->actor);
             return;
         }
 
-        this->actor.bgCheckFlags &= ~1;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
 
         if (this->unk_38A == 0) {
             this->actionFunc = func_80B0DC7C;
@@ -655,7 +655,7 @@ void func_80B0DB00(EnSw* this, GlobalContext* globalCtx) {
         }
 
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 16.0f, 0xC, 2.0f, 0x78, 0xA, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 16.0f, 12, 2.0f, 120, 10, false);
     }
 }
 
@@ -692,7 +692,7 @@ s32 func_80B0DEA8(EnSw* this, GlobalContext* globalCtx, s32 arg2) {
     s32 sp54;
     Vec3f sp48;
 
-    if (!(player->stateFlags1 & 0x200000) && arg2) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_21) && arg2) {
         return false;
     } else if (func_8002DDF4(globalCtx) && arg2) {
         return false;

@@ -33,7 +33,7 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
 // Note: In other rom versions this function also updates unk_1D4, coverAlpha, addAlpha, visibleDuration to calculate
 // the fade-in/fade-out + the duration of the n64 logo animation
 void Title_Calc(TitleContext* this) {
-    this->exit = 1;
+    this->exit = true;
 }
 
 void Title_SetupView(TitleContext* this, f32 x, f32 y, f32 z) {

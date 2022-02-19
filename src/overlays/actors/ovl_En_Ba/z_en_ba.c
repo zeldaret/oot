@@ -184,7 +184,7 @@ void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
     }
     this->unk2A8[13].x = this->unk2A8[12].x;
     this->unk2A8[13].y = this->unk2A8[12].y;
-    if (!(player->stateFlags1 & 0x4000000) && (this->actor.xzDistToPlayer <= 175.0f) &&
+    if (!(player->stateFlags1 & PLAYER_STATE1_26) && (this->actor.xzDistToPlayer <= 175.0f) &&
         (this->actor.world.pos.y == this->actor.home.pos.y + 100.0f)) {
         EnBa_SetupSwingAtPlayer(this);
     }
@@ -203,7 +203,7 @@ void EnBa_SetupFallAsBlob(EnBa* this) {
  * Action function of the pink fleshy blobs that spawn and fall to the floor when a tentacle dies
  */
 void EnBa_FallAsBlob(EnBa* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.scale.y -= 0.001f;
         this->actor.scale.x += 0.0005f;
         this->actor.scale.z += 0.0005f;
@@ -290,7 +290,7 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
                     Matrix_MultVec3f(&D_809B8080, &this->unk158[i + 1]);
                 }
                 this->unk31A--;
-            } else if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & 0x4000000)) {
+            } else if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & PLAYER_STATE1_26)) {
                 EnBa_SetupIdle(this);
             } else {
                 EnBa_SetupSwingAtPlayer(this);
@@ -309,7 +309,7 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         return;
     }
-    if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & 0x4000000)) {
+    if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & PLAYER_STATE1_26)) {
         EnBa_SetupIdle(this);
     } else {
         EnBa_SetupSwingAtPlayer(this);

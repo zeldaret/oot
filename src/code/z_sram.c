@@ -59,7 +59,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s32 entranceIndex;
-    /* 0x04 */ s32 linkAge; // 0: Adult; 1: Child
+    /* 0x04 */ s32 linkAge;
     /* 0x08 */ s32 cutsceneIndex;
     /* 0x0C */ u16 dayTime; // "zelda_time"
     /* 0x10 */ s32 nightFlag;
@@ -74,13 +74,13 @@ typedef struct {
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
 
-#define DEATHS OFFSETOF(SaveContext, deaths)
-#define NAME OFFSETOF(SaveContext, playerName)
-#define N64DD OFFSETOF(SaveContext, n64ddFlag)
-#define HEALTH_CAP OFFSETOF(SaveContext, healthCapacity)
-#define QUEST OFFSETOF(SaveContext, inventory.questItems)
-#define DEFENSE OFFSETOF(SaveContext, inventory.defenseHearts)
-#define HEALTH OFFSETOF(SaveContext, health)
+#define DEATHS offsetof(SaveContext, deaths)
+#define NAME offsetof(SaveContext, playerName)
+#define N64DD offsetof(SaveContext, n64ddFlag)
+#define HEALTH_CAP offsetof(SaveContext, healthCapacity)
+#define QUEST offsetof(SaveContext, inventory.questItems)
+#define DEFENSE offsetof(SaveContext, inventory.defenseHearts)
+#define HEALTH offsetof(SaveContext, health)
 
 #define SLOT_OFFSET(index) (SRAM_HEADER_SIZE + 0x10 + (index * SLOT_SIZE))
 
@@ -682,7 +682,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     }
 
     gSaveContext.entranceIndex = 0xBB;
-    gSaveContext.linkAge = 1;
+    gSaveContext.linkAge = LINK_AGE_CHILD;
     gSaveContext.dayTime = 0x6AAB;
     gSaveContext.cutsceneIndex = 0xFFF1;
 

@@ -560,7 +560,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
         this->colQuad.base.acFlags = this->colQuad.base.acFlags & ~AC_BOUNCED;
         EnPeehat_SetStateAttackRecoil(this);
     } else if ((this->colQuad.base.atFlags & AT_HIT) || (this->colCylinder.base.acFlags & AC_HIT) ||
-               (this->actor.bgCheckFlags & 1)) {
+               (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Player* player = GET_PLAYER(globalCtx);
         this->colQuad.base.atFlags &= ~AT_HIT;
         if (!(this->colCylinder.base.acFlags & AC_HIT) && &player->actor == this->colQuad.base.at) {
@@ -570,7 +570,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
                 this->actor.world.rot.y -= 0x2000;
             }
             this->unk2D4 = 40;
-        } else if (this->colCylinder.base.acFlags & AC_HIT || this->actor.bgCheckFlags & 1) {
+        } else if (this->colCylinder.base.acFlags & AC_HIT || this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             Vec3f zeroVec = { 0, 0, 0 };
             s32 i;
             for (i = 4; i >= 0; i--) {
@@ -583,7 +583,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
             }
         }
         if (&player->actor != this->colQuad.base.at || this->colCylinder.base.acFlags & AC_HIT) {
-            if (!(this->actor.bgCheckFlags & 1)) {
+            if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_PIHAT_SM_DEAD, 1, 1,
                                                   40);
             }

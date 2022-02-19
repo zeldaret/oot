@@ -61,7 +61,7 @@ void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800876C8(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
-        player->stateFlags3 |= 0x40;
+        player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 

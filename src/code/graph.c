@@ -134,7 +134,7 @@ void Graph_Init(GraphicsContext* gfxCtx) {
     gfxCtx->yScale = gViConfigYScale;
     osCreateMesgQueue(&gfxCtx->queue, gfxCtx->msgBuff, ARRAY_COUNT(gfxCtx->msgBuff));
     func_800D31F0();
-    Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, 0, 0);
+    Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, NULL, NULL);
 }
 
 void Graph_Destroy(GraphicsContext* gfxCtx) {
