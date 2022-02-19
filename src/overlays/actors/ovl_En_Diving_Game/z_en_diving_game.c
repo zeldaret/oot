@@ -232,7 +232,7 @@ void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
 void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == Message_GetState(&globalCtx->msgCtx) &&
-        Message_ShouldAdvance(globalCtx)) { // Did player selected an answer?
+        Message_ShouldAdvance(globalCtx)) { // Did the player select an answer?
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // Yes
                 if (gSaveContext.rupees >= 20) {
