@@ -77,7 +77,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ DamageTable* damageTable;
-    /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
+    /* 0x04 */ Vec3f displacement; // Amount to correct actor velocity by when colliding into a body
     /* 0x10 */ s16 cylRadius; // Used for various purposes
     /* 0x12 */ s16 cylHeight; // Used for various purposes
     /* 0x14 */ s16 cylYShift; // Unused. Purpose inferred from Cylinder16 and CollisionCheck_CylSideVsLineSeg
