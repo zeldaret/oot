@@ -180,7 +180,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 // Otherwise if it's a Skulltula Token, just set flags so he collides with it to collect it.
                 if (target->id == ACTOR_EN_ITEM00) {
                     target->gravity = -0.9f;
-                    target->bgCheckFlags &= ~0x03;
+                    target->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
                 } else {
                     target->flags &= ~ACTOR_FLAG_13;
                 }

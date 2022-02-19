@@ -599,7 +599,7 @@ void func_80AE3A54(EnRd* this, GlobalContext* globalCtx) {
 void func_80AE3A8C(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_0074F0, -6.0f);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -2.0f;
     }
 
