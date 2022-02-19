@@ -4291,23 +4291,23 @@ s32 Camera_Subj4(Camera* camera) {
     sCameraInterfaceFlags = subj4->interfaceFlags;
     if (camera->animState == 0) {
         spA4 = Camera_GetCamBgDataUnderPlayer(camera, &spAA);
-        Camera_Vec3sToVec3f(&anim->unk_00.a, &spA4[1]);
+        Camera_Vec3sToVec3f(&anim->unk_00.point, &spA4[1]);
         Camera_Vec3sToVec3f(&sp98, &spA4[spAA - 2]);
 
         sp64.r = 10.0f;
         // 0x238C ~ 50 degrees
         sp64.pitch = 0x238C;
-        sp64.yaw = Camera_XZAngle(&sp98, &anim->unk_00.a);
-        sp88 = OLib_Vec3fDist(&playerPosRot->pos, &anim->unk_00.a);
+        sp64.yaw = Camera_XZAngle(&sp98, &anim->unk_00.point);
+        sp88 = OLib_Vec3fDist(&playerPosRot->pos, &anim->unk_00.point);
         if (OLib_Vec3fDist(&playerPosRot->pos, &sp98) < sp88) {
-            anim->unk_00.b.x = anim->unk_00.a.x - sp98.x;
-            anim->unk_00.b.y = anim->unk_00.a.y - sp98.y;
-            anim->unk_00.b.z = anim->unk_00.a.z - sp98.z;
-            anim->unk_00.a = sp98;
+            anim->unk_00.dir.x = anim->unk_00.point.x - sp98.x;
+            anim->unk_00.dir.y = anim->unk_00.point.y - sp98.y;
+            anim->unk_00.dir.z = anim->unk_00.point.z - sp98.z;
+            anim->unk_00.point = sp98;
         } else {
-            anim->unk_00.b.x = sp98.x - anim->unk_00.a.x;
-            anim->unk_00.b.y = sp98.y - anim->unk_00.a.y;
-            anim->unk_00.b.z = sp98.z - anim->unk_00.a.z;
+            anim->unk_00.dir.x = sp98.x - anim->unk_00.point.x;
+            anim->unk_00.dir.y = sp98.y - anim->unk_00.point.y;
+            anim->unk_00.dir.z = sp98.z - anim->unk_00.point.z;
             sp64.yaw = BINANG_ROT180(sp64.yaw);
         }
         anim->unk_30 = sp64.yaw;
@@ -4340,9 +4340,9 @@ s32 Camera_Subj4(Camera* camera) {
 
     Actor_GetWorldPosShapeRot(&sp6C, &camera->player->actor);
     Math3D_LineClosestToPoint(&anim->unk_00, &sp6C.pos, eyeNext);
-    at->x = eyeNext->x + anim->unk_00.b.x;
-    at->y = eyeNext->y + anim->unk_00.b.y;
-    at->z = eyeNext->z + anim->unk_00.b.z;
+    at->x = eyeNext->x + anim->unk_00.dir.x;
+    at->y = eyeNext->y + anim->unk_00.dir.y;
+    at->z = eyeNext->z + anim->unk_00.dir.z;
     *eye = *eyeNext;
     sp64.yaw = anim->unk_30;
     sp64.r = 5.0f;
@@ -4792,9 +4792,9 @@ s32 Camera_Unique0(Camera* camera) {
         func_80043B60(camera);
         camera->unk_14C &= ~4;
         sceneCamData = Camera_GetCamBGData(camera);
-        Camera_Vec3sToVec3f(&anim->sceneCamPosPlayerLine.a, &BGCAM_POS(sceneCamData));
+        Camera_Vec3sToVec3f(&anim->sceneCamPosPlayerLine.point, &BGCAM_POS(sceneCamData));
 
-        *eye = camera->eyeNext = anim->sceneCamPosPlayerLine.a;
+        *eye = camera->eyeNext = anim->sceneCamPosPlayerLine.point;
         sceneCamRot = BGCAM_ROT(sceneCamData);
         fov = BGCAM_FOV(sceneCamData);
         if (fov != -1) {
@@ -4807,7 +4807,7 @@ s32 Camera_Unique0(Camera* camera) {
         atPlayerOffset.r = OLib_Vec3fDist(&playerPosWithOffset, eye);
         atPlayerOffset.yaw = sceneCamRot.y;
         atPlayerOffset.pitch = -sceneCamRot.x;
-        OLib_VecSphGeoToVec3f(&anim->sceneCamPosPlayerLine.b, &atPlayerOffset);
+        OLib_VecSphGeoToVec3f(&anim->sceneCamPosPlayerLine.dir, &atPlayerOffset);
         Math3D_LineClosestToPoint(&anim->sceneCamPosPlayerLine, &playerPosRot->pos, &camera->at);
         anim->initalPos = playerPosRot->pos;
         camera->animState++;
