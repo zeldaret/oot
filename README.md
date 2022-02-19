@@ -83,6 +83,10 @@ To install the Python dependencies simply run in a terminal:
 python3 -m pip install colorama
 ```
 
+If you are using GCC as the compiler for Ocarina of Time, you will also need:
+
+* gcc-mips-linux-gnu
+
 #### 2. Clone the repository
 
 Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, with a command such as:
