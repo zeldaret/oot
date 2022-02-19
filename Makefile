@@ -246,7 +246,8 @@ build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 build/assets/text/%.enc.h: assets/text/%.h assets/text/charmap.txt
-	python3 tools/msgenc.py assets/text/charmap.txt $< $@
+	$(CPP) -P -dD -fpreprocessed $< > $(@:.enc.h=.h)
+	python3 tools/msgenc.py assets/text/charmap.txt $(@:.enc.h=.h) $@
 
 build/assets/text/fra_message_data_static.o: build/assets/text/message_data.enc.h
 build/assets/text/ger_message_data_static.o: build/assets/text/message_data.enc.h

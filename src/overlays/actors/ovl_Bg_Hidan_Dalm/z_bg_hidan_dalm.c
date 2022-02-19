@@ -140,8 +140,8 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         this->actionFunc = BgHidanDalm_Shrink;
-        this->dyna.actor.bgCheckFlags &= ~2;
-        this->dyna.actor.bgCheckFlags &= ~8;
+        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
+        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->dyna.actor.speedXZ = 10.0f;
         Flags_SetSwitch(globalCtx, this->switchFlag);
         func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_IT_HAMMER_HIT);
