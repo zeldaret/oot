@@ -167,7 +167,7 @@ typedef struct Actor {
     /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water
     /* 0x088 */ u16 bgCheckFlags; // Flags indicating how the actor is interacting with collision
     /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player
-    /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player in the x,y,z axis
+    /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player
     /* 0x090 */ f32 xzDistToPlayer; // Distance between the actor and the player in the XZ plane
     /* 0x094 */ f32 yDistToPlayer; // Dist is negative if the actor is above the player
     /* 0x098 */ CollisionCheckInfo colChkInfo; // Variables related to the Collision Check system
