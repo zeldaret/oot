@@ -22,6 +22,7 @@ ifneq ($(COMPILER),ido)
 endif
 
 ifeq ($(COMPILER),gcc)
+  CFLAGS += -DCOMPILER_GCC
   CPPFLAGS += -DCOMPILER_GCC
   NON_MATCHING := 1
 endif
