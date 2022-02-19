@@ -446,7 +446,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.yDistToWater = tempYDistToWater;
 
             osSyncPrintf(VT_RST);
-            onGround = (this->actor.bgCheckFlags & 1);
+            onGround = (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
             if (this->spinXFlag) {
                 this->spinRot.x += this->spinVel.x;
                 this->spinVel.x -= 0x800;
@@ -483,11 +483,11 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->spinVel.z < -0xC00) {
                 this->spinVel.z = -0xC00;
             }
-            if (this->actor.bgCheckFlags & 8) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 this->actor.speedXZ *= -0.5f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_WOODPLATE_BOUND);
             }
-            if (this->actor.bgCheckFlags & 0x40) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
                 this->actionState = ENKANBAN_WATER;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
                 this->bounceX = this->bounceZ = 0;
@@ -595,14 +595,14 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         this->spinVel.y = this->actor.speedXZ * -1000.0f;
                     }
                 }
-                if (this->actor.bgCheckFlags & 1) {
+                if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     this->actor.speedXZ = 0.0f;
                 }
                 Actor_MoveForward(&this->actor);
                 if (this->actor.speedXZ != 0.0f) {
                     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f,
                                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
-                    if (this->actor.bgCheckFlags & 8) {
+                    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                         this->actor.speedXZ *= -0.5f;
                         if (this->spinVel.y > 0) {
                             this->spinVel.y = -0x7D0;

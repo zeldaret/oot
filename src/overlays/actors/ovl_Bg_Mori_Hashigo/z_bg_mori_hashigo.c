@@ -245,7 +245,7 @@ void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     Actor_MoveForward(thisx);
-    if ((thisx->bgCheckFlags & 1) && (thisx->velocity.y < 0.0f)) {
+    if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND) && (thisx->velocity.y < 0.0f)) {
         if (this->bounceCounter >= ARRAY_COUNT(bounceSpeed)) {
             BgMoriHashigo_SetupLadderRest(this);
         } else {

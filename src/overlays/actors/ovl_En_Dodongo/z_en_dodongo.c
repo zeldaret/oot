@@ -774,7 +774,7 @@ void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 60.0f, 70.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
     }

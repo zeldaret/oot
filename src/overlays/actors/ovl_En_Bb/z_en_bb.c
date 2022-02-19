@@ -507,7 +507,7 @@ void EnBb_SetupDamage(EnBb* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BUBLE_DAMAGE);
     if (this->actor.params > ENBB_GREEN) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-        if ((this->actor.bgCheckFlags & 8) == 0) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             this->actor.speedXZ = -7.0f;
         }
         this->actor.shape.yOffset = 1500.0f;
@@ -626,7 +626,7 @@ void EnBb_Blue(EnBb* this, GlobalContext* globalCtx) {
         }
         thisYawToWall = this->actor.wallYaw - this->actor.world.rot.y;
         moveYawToWall = this->actor.wallYaw - this->vMoveAngleY;
-        if ((this->targetActor == NULL) && (this->actor.bgCheckFlags & 8) &&
+        if ((this->targetActor == NULL) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
             (ABS(thisYawToWall) > 0x4000 || ABS(moveYawToWall) > 0x4000)) {
             this->vMoveAngleY = this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
             Math_SmoothStepToS(&this->actor.world.rot.y, this->vMoveAngleY, 1, 0xBB8, 0);
@@ -671,7 +671,7 @@ void EnBb_SetupDown(EnBb* this) {
     this->action = BB_DOWN;
     this->timer = 200;
     this->actor.colorFilterTimer = 0;
-    this->actor.bgCheckFlags &= ~1;
+    this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->actor.speedXZ = 3.0f;
     this->flameScaleX = 0.0f;
     this->flameScaleY = 0.0f;
@@ -684,13 +684,13 @@ void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
     s16 yawDiff = this->actor.world.rot.y - this->actor.wallYaw;
 
     SkelAnime_Update(&this->skelAnime);
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         if (ABS(yawDiff) > 0x4000) {
             this->actor.world.rot.y = this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
         }
-        this->actor.bgCheckFlags &= ~8;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
     }
-    if (this->actor.bgCheckFlags & 3) {
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) {
         if (this->actor.params == ENBB_RED) {
             s32 floorType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
@@ -710,7 +710,7 @@ void EnBb_Down(EnBb* this, GlobalContext* globalCtx) {
         } else {
             this->actor.velocity.y = 10.0f;
         }
-        this->actor.bgCheckFlags &= ~1;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 7.0f, 2, 2.0f, 0, 0, false);
         Math_SmoothStepToS(&this->actor.world.rot.y, -this->actor.yawTowardsPlayer, 1, 0xBB8, 0);
     }
@@ -753,7 +753,7 @@ void EnBb_SetupRed(GlobalContext* globalCtx, EnBb* this) {
         this->actionState = BBRED_ATTACK;
         this->timer = 0;
         this->moveMode = BBMOVE_NORMAL;
-        this->actor.bgCheckFlags &= ~1;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     } else {
         this->actor.colChkInfo.health = 4;
         this->timer = 0;
@@ -762,7 +762,7 @@ void EnBb_SetupRed(GlobalContext* globalCtx, EnBb* this) {
         this->actor.world.pos.y -= 80.0f;
         this->actor.home.pos = this->actor.world.pos;
         this->actor.velocity.y = this->actor.gravity = this->actor.speedXZ = 0.0f;
-        this->actor.bgCheckFlags &= ~1;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         this->actor.flags &= ~ACTOR_FLAG_0;
     }
     this->action = BB_RED;
@@ -789,7 +789,7 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y = 18.0f;
                 this->moveMode = BBMOVE_NOCLIP;
                 this->timer = 7;
-                this->actor.bgCheckFlags &= ~1;
+                this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 this->actionState++;
                 EnBb_SpawnFlameTrail(globalCtx, this, false);
             }
@@ -802,15 +802,15 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
             this->bobPhase += Rand_ZeroOne();
             Math_SmoothStepToF(&this->flameScaleY, 80.0f, 1.0f, 10.0f, 0.0f);
             Math_SmoothStepToF(&this->flameScaleX, 100.0f, 1.0f, 10.0f, 0.0f);
-            if (this->actor.bgCheckFlags & 8) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 yawDiff = this->actor.world.rot.y - this->actor.wallYaw;
                 if (ABS(yawDiff) > 0x4000) {
                     this->actor.world.rot.y =
                         this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
                 }
-                this->actor.bgCheckFlags &= ~8;
+                this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
             }
-            if (this->actor.bgCheckFlags & 1) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 floorType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
                 if ((floorType == 2) || (floorType == 3) || (floorType == 9)) {
                     this->moveMode = BBMOVE_HIDDEN;
@@ -824,7 +824,7 @@ void EnBb_Red(EnBb* this, GlobalContext* globalCtx) {
                     }
                     this->actor.world.rot.y = Math_SinF(this->bobPhase) * 65535.0f;
                 }
-                this->actor.bgCheckFlags &= ~1;
+                this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             }
             this->actor.shape.rot.y = this->actor.world.rot.y;
             if (Actor_GetCollidedExplosive(globalCtx, &this->collider.base) != NULL) {
@@ -1091,20 +1091,20 @@ void EnBb_SetupStunned(EnBb* this) {
             Actor_SetColorFilter(&this->actor, 0, 0xB4, 0, 0x50);
             break;
     }
-    this->actor.bgCheckFlags &= ~1;
+    this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     EnBb_SetupAction(this, EnBb_Stunned);
 }
 
 void EnBb_Stunned(EnBb* this, GlobalContext* globalCtx) {
     s16 yawDiff = this->actor.world.rot.y - this->actor.wallYaw;
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         if (ABS(yawDiff) > 0x4000) {
             this->actor.world.rot.y = this->actor.wallYaw + this->actor.wallYaw - this->actor.world.rot.y - 0x8000;
         }
-        this->actor.bgCheckFlags &= ~8;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
     }
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         if (this->actor.velocity.y < -14.0f) {
             this->actor.velocity.y *= -0.4f;

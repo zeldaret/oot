@@ -80,7 +80,7 @@ static AnimationInfo sAnimationInfo[] = {
 s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
     s16 temp_v1;
 
-    if (!(this->actor.bgCheckFlags & 1) || (this->actor.velocity.y > 0.0f)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.velocity.y > 0.0f)) {
         // not on the ground or moving upwards.
         return false;
     }
@@ -267,7 +267,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0.0f) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
             Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
             return;
         }
@@ -348,7 +348,7 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
 }
 
 void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y <= 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y <= 0.0f) {
         this->actor.parent->params |= 0x8000;
         Actor_Kill(&this->actor);
     } else {

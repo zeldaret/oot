@@ -436,7 +436,7 @@ void func_8008EDF0(Player* this) {
 }
 
 void func_8008EE08(Player* this) {
-    if ((this->actor.bgCheckFlags & 1) ||
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
@@ -619,7 +619,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
         var = 0;
     } else if ((this->unk_840 > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & 1)) ? 1 : 3;
+        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) ? 1 : 3;
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
         var = 2;
     } else {

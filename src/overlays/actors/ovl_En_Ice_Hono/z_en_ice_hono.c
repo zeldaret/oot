@@ -231,7 +231,7 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this) {
 }
 
 void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
-    u32 bgFlag = this->actor.bgCheckFlags & 1;
+    u32 bgFlag = this->actor.bgCheckFlags & BGCHECKFLAG_GROUND;
 
     Math_StepToF(&this->actor.scale.x, 0.0017f, 0.00008f);
     this->actor.scale.z = this->actor.scale.x;

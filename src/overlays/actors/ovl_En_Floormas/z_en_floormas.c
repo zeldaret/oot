@@ -485,7 +485,7 @@ void EnFloormas_BigWalk(EnFloormas* this, GlobalContext* globalCtx) {
 
     if ((this->actor.xzDistToPlayer < 320.0f) && (Actor_IsFacingPlayer(&this->actor, 0x4000))) {
         EnFloormas_SetupRun(this);
-    } else if (this->actor.bgCheckFlags & 8) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         // set target rotation to the colliding wall's rotation
         this->actionTarget = this->actor.wallYaw;
         EnFloormas_SetupTurn(this);
@@ -514,7 +514,7 @@ void EnFloormas_Run(EnFloormas* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x71C);
 
     if ((this->actor.xzDistToPlayer < 280.0f) && Actor_IsFacingPlayer(&this->actor, 0x2000) &&
-        !(this->actor.bgCheckFlags & 8)) {
+        !(this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         EnFloormas_SetupHover(this, globalCtx);
     } else if (this->actor.xzDistToPlayer > 400.0f) {
         EnFloormas_SetupBigWalk(this);
@@ -605,7 +605,7 @@ void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx) {
         EnFloormas_Slide(this, globalCtx);
     }
 
-    if ((this->actor.bgCheckFlags & 8) || (this->actionTimer == 0)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actionTimer == 0)) {
         EnFloormas_SetupLand(this);
     }
 }
@@ -613,8 +613,8 @@ void EnFloormas_Charge(EnFloormas* this, GlobalContext* globalCtx) {
 void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
     s32 isOnGround;
 
-    isOnGround = this->actor.bgCheckFlags & 1;
-    if (this->actor.bgCheckFlags & 2) {
+    isOnGround = this->actor.bgCheckFlags & BGCHECKFLAG_GROUND;
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->actor.params != MERGE_MASTER) {
             EnFloormas_MakeVulnerable(this);
         }
@@ -627,7 +627,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.speedXZ = 0.0f;
     }
 
@@ -661,7 +661,7 @@ void EnFloormas_Land(EnFloormas* this, GlobalContext* globalCtx) {
 }
 
 void EnFloormas_Split(EnFloormas* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (SkelAnime_Update(&this->skelAnime)) {
             this->actor.flags |= ACTOR_FLAG_0;
             this->smActionTimer = 50;
@@ -670,7 +670,7 @@ void EnFloormas_Split(EnFloormas* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 0.0f, 1.0f);
     }
 
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
     }
 }
@@ -685,7 +685,7 @@ void EnFloormas_SmWalk(EnFloormas* this, GlobalContext* globalCtx) {
 
     if (this->smActionTimer == 0) {
         EnFloormas_SetupSmDecideAction(this);
-    } else if (this->actor.bgCheckFlags & 8) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actionTarget = this->actor.wallYaw;
         EnFloormas_SetupTurn(this);
     } else if (this->actor.xzDistToPlayer < 120.0f) {
@@ -701,7 +701,7 @@ void EnFloormas_SmDecideAction(EnFloormas* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 18.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_WALK);
     }
-    isAgainstWall = this->actor.bgCheckFlags & 8;
+    isAgainstWall = this->actor.bgCheckFlags & BGCHECKFLAG_WALL;
     if (isAgainstWall) {
         this->actionTarget = this->actor.wallYaw;
         EnFloormas_SetupTurn(this);
@@ -747,7 +747,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
     } else if (Animation_OnFrame(&this->skelAnime, 20.0f)) {
         this->actor.speedXZ = 5.0f;
         this->actor.velocity.y = 7.0f;
-    } else if (this->actor.bgCheckFlags & 2) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actionTimer = 0x32;
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
@@ -832,7 +832,7 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
     } else if (this->actor.child->params == MERGE_MASTER) {
         primFloormas = this->actor.child;
     } else {
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             this->actor.params = 0x10;
             EnFloormas_SetupLand(this);
         }
@@ -848,7 +848,7 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
                (fabsf(this->actor.world.pos.z - primFloormas->world.pos.z) < 10.0f)) {
         EnFloormas_SetupSmWait(this);
         this->collider.base.ocFlags1 |= OC1_ON;
-    } else if (this->actor.bgCheckFlags & 2) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);

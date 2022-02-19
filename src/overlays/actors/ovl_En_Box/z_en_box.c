@@ -232,7 +232,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
 
     this->alpha = 255;
     this->movementFlags &= ~ENBOX_MOVE_IMMOBILE;
-    if (this->dyna.actor.bgCheckFlags & 1) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->movementFlags |= ENBOX_MOVE_UNUSED;
         if (this->movementFlags & ENBOX_MOVE_FALL_ANGLE_SIDE) {
             this->movementFlags &= ~ENBOX_MOVE_FALL_ANGLE_SIDE;

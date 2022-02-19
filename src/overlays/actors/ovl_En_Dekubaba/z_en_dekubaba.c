@@ -951,7 +951,8 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, this->size * 3.0f, 0, this->size * 12.0f,
                                  this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
-        if ((this->actor.scale.x > 0.005f) && ((this->actor.bgCheckFlags & 2) || (this->actor.bgCheckFlags & 8))) {
+        if ((this->actor.scale.x > 0.005f) &&
+            ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) || (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
@@ -959,7 +960,7 @@ void EnDekubaba_PrunedSomersault(EnDekubaba* this, GlobalContext* globalCtx) {
                                      this->size * 5.0f, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }
 
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             this->timer = 1;
         }
