@@ -458,9 +458,6 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, G
 #ifndef AVOID_UB
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[nextPlatform]);
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[altNextPlatform]);
-#else
-    // Defining `AVOID_UB` will remove these function calls entirely as they don't
-    // have any effect (and return values are not used).
 #endif
 
     if (altNextPlatform > 0) {
