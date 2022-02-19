@@ -23,7 +23,7 @@ typedef enum {
     /* 3 */ ANIMMODE_ONCE_INTERP,
     /* 4 */ ANIMMODE_LOOP_PARTIAL,
     /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
-} AnimationModes;
+} AnimationMode;
 
 typedef enum {
     /* -1 */ ANIMTAPER_DECEL = -1,
@@ -241,7 +241,7 @@ typedef s32 (*AnimUpdateFunc)();
 
 typedef struct SkelAnime {
     /* 0x00 */ u8 limbCount;      // Number of limbs in the skeleton
-    /* 0x01 */ u8 mode;           // 0: loop, 2: play once, 4: partial loop. +1 to interpolate between frames.
+    /* 0x01 */ u8 mode;           // See `AnimationMode`
     /* 0x02 */ u8 dListCount;     // Number of display lists in a flexible skeleton
     /* 0x03 */ s8 taper;          // Tapering to use when morphing between animations. Only used by Door_Warp1.
     /* 0x04 */ void** skeleton;   // An array of pointers to limbs. Can be StandardLimb, LodLimb, or SkinLimb.
