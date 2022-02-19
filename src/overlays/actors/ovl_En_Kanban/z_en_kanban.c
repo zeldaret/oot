@@ -582,7 +582,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 s32 rippleScale;
 
                 if ((player->actor.speedXZ > 0.0f) && (player->actor.world.pos.y < this->actor.world.pos.y) &&
-                    (this->actor.xyzDistToPlayerSq < 2500.0f)) {
+                    (this->actor.xyzDistToPlayerSq < SQ(50.0f))) {
                     Math_ApproachF(&this->actor.speedXZ, player->actor.speedXZ, 1.0f, 0.2f);
                     if (this->actor.speedXZ > 1.0f) {
                         this->actor.speedXZ = 1.0f;

@@ -210,7 +210,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.xyzDistToPlayerSq > 10000.0f) {
+    if (this->actor.xyzDistToPlayerSq > SQ(100.0f)) {
         return 0;
     }
 

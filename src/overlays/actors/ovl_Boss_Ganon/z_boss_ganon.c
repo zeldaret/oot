@@ -3959,7 +3959,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         if (hitWithBottle == false) {
                             // if ganondorf is 250 units away from link, at least 3 volleys are required
-                            if ((ganondorf->actor.xyzDistToPlayerSq > 62500.0f) && (this->unk_1A4 < 3)) {
+                            if ((ganondorf->actor.xyzDistToPlayerSq > SQ(250.0f)) && (this->unk_1A4 < 3)) {
                                 this->unk_1C2 = 1;
                             } else if (Rand_ZeroOne() < 0.7f) {
                                 this->unk_1C2 = 1;
