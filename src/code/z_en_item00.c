@@ -597,7 +597,7 @@ void func_8001DFC8(EnItem00* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actor.gravity != 0.0f) && !(this->actor.bgCheckFlags & 0x0001)) {
+    if ((this->actor.gravity != 0.0f) && !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         EnItem00_SetupAction(this, func_8001E1C8);
     }
 }
@@ -618,14 +618,14 @@ void func_8001E1C8(EnItem00* this, GlobalContext* globalCtx) {
                                     &sEffectEnvColor);
     }
 
-    if (this->actor.bgCheckFlags & 0x0003) {
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) {
         originalVelocity = this->actor.velocity.y;
         if (originalVelocity > -2.0f) {
             EnItem00_SetupAction(this, func_8001DFC8);
             this->actor.velocity.y = 0.0f;
         } else {
             this->actor.velocity.y = originalVelocity * -0.8f;
-            this->actor.bgCheckFlags &= ~1;
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         }
     }
 }
@@ -677,7 +677,7 @@ void func_8001E304(EnItem00* this, GlobalContext* globalCtx) {
                                     &sEffectEnvColor);
     }
 
-    if (this->actor.bgCheckFlags & 0x0003) {
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) {
         EnItem00_SetupAction(this, func_8001DFC8);
         this->actor.shape.rot.z = 0;
         this->actor.velocity.y = 0.0f;
@@ -746,7 +746,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.x;
 
     if (this->actor.gravity) {
-        if (this->actor.bgCheckFlags & 0x0003) {
+        if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH)) {
             if (*temp != globalCtx->gameplayFrames) {
                 D_80157D90 = globalCtx->gameplayFrames;
                 D_80157D94[0] = 0;
