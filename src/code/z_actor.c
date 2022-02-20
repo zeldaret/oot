@@ -550,9 +550,9 @@ void Flags_UnsetSwitch(GlobalContext* globalCtx, s32 flag) {
  */
 s32 Flags_GetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
-        return globalCtx->actorCtx.flags.unk_0 & (1 << flag);
+        return globalCtx->actorCtx.flags.unk0 & (1 << flag);
     } else {
-        return globalCtx->actorCtx.flags.unk_1 & (1 << (flag - 0x20));
+        return globalCtx->actorCtx.flags.unk1 & (1 << (flag - 0x20));
     }
 }
 
@@ -561,9 +561,9 @@ s32 Flags_GetUnknown(GlobalContext* globalCtx, s32 flag) {
  */
 void Flags_SetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
-        globalCtx->actorCtx.flags.unk_0 |= (1 << flag);
+        globalCtx->actorCtx.flags.unk0 |= (1 << flag);
     } else {
-        globalCtx->actorCtx.flags.unk_1 |= (1 << (flag - 0x20));
+        globalCtx->actorCtx.flags.unk1 |= (1 << (flag - 0x20));
     }
 }
 
@@ -572,9 +572,9 @@ void Flags_SetUnknown(GlobalContext* globalCtx, s32 flag) {
  */
 void Flags_UnsetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
-        globalCtx->actorCtx.flags.unk_0 &= ~(1 << flag);
+        globalCtx->actorCtx.flags.unk0 &= ~(1 << flag);
     } else {
-        globalCtx->actorCtx.flags.unk_1 &= ~(1 << (flag - 0x20));
+        globalCtx->actorCtx.flags.unk1 &= ~(1 << (flag - 0x20));
     }
 }
 

@@ -253,8 +253,8 @@ typedef struct {
     struct {
         /* 0x0104 */ u32    swch;
         /* 0x0108 */ u32    tempSwch;
-        /* 0x010C */ u32    unk_0;
-        /* 0x0110 */ u32    unk_1;
+        /* 0x010C */ u32    unk0;
+        /* 0x0110 */ u32    unk1;
         /* 0x0114 */ u32    chest;
         /* 0x0118 */ u32    clear;
         /* 0x011C */ u32    tempClear;
