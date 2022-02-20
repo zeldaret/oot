@@ -248,7 +248,7 @@ void func_80B328E8(EnWeiyer* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 1.3f, 0.03f);
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->unk_196 = this->actor.wallYaw;
         this->unk_194 = 30;
     }
@@ -280,7 +280,7 @@ void func_80B328E8(EnWeiyer* this, GlobalContext* globalCtx) {
     } else {
         Player* player = GET_PLAYER(globalCtx);
 
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->unk_280 =
                 this->actor.home.pos.y - Rand_ZeroOne() * ((this->actor.home.pos.y - this->actor.floorHeight) / 2.0f);
         } else if (sp34 && (Rand_ZeroOne() < 0.1f)) {
@@ -316,7 +316,7 @@ void func_80B32C2C(EnWeiyer* this, GlobalContext* globalCtx) {
             }
 
             func_80B32538(this);
-        } else if (this->actor.bgCheckFlags & 1) {
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             func_80B32494(this);
         }
     }
@@ -415,7 +415,7 @@ void func_80B33018(EnWeiyer* this, GlobalContext* globalCtx) {
         this->unk_194--;
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->unk_196 = this->actor.wallYaw;
     }
 
@@ -443,7 +443,7 @@ void func_80B331CC(EnWeiyer* this, GlobalContext* globalCtx) {
         this->unk_194--;
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->unk_196 = this->actor.wallYaw;
     } else {
         this->unk_196 = this->actor.yawTowardsPlayer + 0x8000;
@@ -469,7 +469,7 @@ void func_80B332B4(EnWeiyer* this, GlobalContext* globalCtx) {
         this->unk_194--;
     }
 
-    if ((this->unk_194 == 0) || (this->actor.bgCheckFlags & 0x10)) {
+    if ((this->unk_194 == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING)) {
         func_80B327B0(this);
     }
 }
@@ -498,7 +498,7 @@ void func_80B333B8(EnWeiyer* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_FLUTTER);
         }
 
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
     }
@@ -546,9 +546,9 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, phi_a1, 0x400);
         }
 
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             func_80B32434(this);
-        } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.shape.rot.x > 0)) {
+        } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.shape.rot.x > 0)) {
             EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 400);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
             func_80B32538(this);

@@ -476,14 +476,14 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
         this->actor.gravity = -1.0f;
     }
     this->actor.home.rot.z += 0x1554;
-    if (this->actor.bgCheckFlags & 0x20) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         this->actor.gravity = -1.0f;
         this->actor.speedXZ -= 0.1f;
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & AT_HIT) ||
-        this->collider.base.acFlags & AC_HIT || this->collider.base.ocFlags1 & OC1_HIT ||
-        this->actor.floorHeight == BGCHECK_Y_MIN) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
+        (this->collider.base.atFlags & AT_HIT) || this->collider.base.acFlags & AC_HIT ||
+        this->collider.base.ocFlags1 & OC1_HIT || this->actor.floorHeight == BGCHECK_Y_MIN) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
              (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
             this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_TYPE_ENEMY &&
@@ -603,17 +603,17 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_MoveForward(&this->actor);
             Math_Vec3f_Copy(&sp38, &this->actor.world.pos);
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 15.0f, 30.0f, 5);
-            if ((this->actor.bgCheckFlags & 8) &&
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
                 SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 sp34 = true;
-                this->actor.bgCheckFlags &= ~8;
+                this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
             }
-            if ((this->actor.bgCheckFlags & 1) &&
+            if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
                 SurfaceType_IsIgnoredByProjectiles(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
                 sp34 = true;
-                this->actor.bgCheckFlags &= ~1;
+                this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             }
-            if (sp34 && !(this->actor.bgCheckFlags & 9)) {
+            if (sp34 && !(this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL))) {
                 Math_Vec3f_Copy(&this->actor.world.pos, &sp38);
             }
         }

@@ -241,7 +241,7 @@ void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         ObjTsubo_SetupLiftedUp(this);
-    } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         ObjTsubo_WaterBreak(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         ObjTsubo_SpawnCollectible(this, globalCtx);
@@ -303,12 +303,13 @@ void ObjTsubo_SetupThrown(ObjTsubo* this) {
 void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
-    if ((this->actor.bgCheckFlags & 0xB) || (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
+        (this->collider.base.atFlags & AT_HIT)) {
         ObjTsubo_AirBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
-    } else if (this->actor.bgCheckFlags & 0x40) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         ObjTsubo_WaterBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);

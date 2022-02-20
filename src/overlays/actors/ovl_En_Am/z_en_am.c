@@ -192,7 +192,7 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
     this->dyna.actor.world.pos = curPos;
-    ret = this->dyna.actor.bgCheckFlags & 1;
+    ret = this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND;
 
     if (!ret && (this->dyna.actor.floorHeight >= (this->dyna.actor.home.pos.y - 20.0f))) {
         ret = true;
@@ -439,7 +439,7 @@ void EnAm_RotateToHome(EnAm* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->dyna.actor.world.rot.y, yawToHome, 1, 0x1F40, 0);
         this->dyna.actor.velocity.y = 12.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
-        if (!(this->dyna.actor.bgCheckFlags & 1)) {
+        if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
         } else {
             EnAm_SpawnEffects(this, globalCtx);
@@ -474,7 +474,7 @@ void EnAm_RotateToInit(EnAm* this, GlobalContext* globalCtx) {
         this->unk_258 = 2;
         this->dyna.actor.velocity.y = 12.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
-        if (!(this->dyna.actor.bgCheckFlags & 1)) {
+        if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
         } else {
             this->unk_258 = 1;
@@ -510,12 +510,12 @@ void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx) {
         this->dyna.actor.velocity.y = 12.0f;
         this->dyna.actor.speedXZ = 6.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
-        if (!(this->dyna.actor.bgCheckFlags & 1)) {
+        if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
         } else {
             Math_SmoothStepToS(&this->dyna.actor.world.rot.y, yawToHome, 1, 0xBB8, 0);
 
-            if (this->dyna.actor.bgCheckFlags & 2) {
+            if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
                 this->unk_258--;
             }
 
@@ -531,7 +531,7 @@ void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx) {
     }
 
     // turn away from a wall if touching one
-    if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
+    if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.wallYaw;
         Actor_MoveForward(&this->dyna.actor);
     }
@@ -573,7 +573,7 @@ void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->dyna.actor.world.rot.y, this->dyna.actor.yawTowardsPlayer, 1, 0x1F40, 0);
             this->dyna.actor.velocity.y = 12.0f;
         } else if (this->skelAnime.curFrame > 11.0f) {
-            if (!(this->dyna.actor.bgCheckFlags & 1)) {
+            if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 this->skelAnime.curFrame = 11;
             } else {
                 if (yawDiff < 3500) {
@@ -614,12 +614,12 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
             this->unk_264 = 1;
             this->hitCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         } else if (this->skelAnime.curFrame > 11.0f) {
-            if (!(this->dyna.actor.bgCheckFlags & 1)) {
+            if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 this->skelAnime.curFrame = 11;
             } else {
                 Math_SmoothStepToS(&this->dyna.actor.world.rot.y, this->dyna.actor.yawTowardsPlayer, 1, 0x1770, 0);
 
-                if (this->dyna.actor.bgCheckFlags & 2) {
+                if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
                     this->unk_258--;
                 }
 
@@ -638,11 +638,11 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
         }
 
         // turn and move away from a wall if contact is made with one
-        if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
+        if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             this->dyna.actor.world.rot.y =
                 (this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw;
             Actor_MoveForward(&this->dyna.actor);
-            this->dyna.actor.bgCheckFlags &= ~8;
+            this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
         SkelAnime_Update(&this->skelAnime);
@@ -683,7 +683,8 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             moveDir = Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->hurtCollider.base.oc->world.pos) - temp158f;
         }
 
-        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) || !(this->dyna.actor.bgCheckFlags & 1) ||
+        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) ||
+            !(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
             !func_800435D8(globalCtx, &this->dyna, 0x14,
                            (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA) ||
             ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
@@ -698,7 +699,7 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
         this->dyna.actor.speedXZ = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
     }
 
-    if (this->dyna.actor.bgCheckFlags & 2) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     }
 

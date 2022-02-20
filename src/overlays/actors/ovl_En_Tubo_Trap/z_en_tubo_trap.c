@@ -170,7 +170,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     Player* player2 = GET_PLAYER(globalCtx);
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         EnTuboTrap_SpawnEffectsInWater(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -210,7 +210,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_POT_BROKEN);
         EnTuboTrap_DropCollectible(this, globalCtx);
