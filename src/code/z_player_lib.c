@@ -1458,9 +1458,9 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
 }
 
 u8 D_801261F8[] = {
-    /* PLAYER_SWORD_KOKIRI */ 2,
-    /* PLAYER_SWORD_MASTER */ 2,
-    /* PLAYER_SWORD_BGS */ 5
+    2, // PLAYER_SWORD_KOKIRI
+    2, // PLAYER_SWORD_MASTER
+    5, // PLAYER_SWORD_BGS
 };
 
 s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
