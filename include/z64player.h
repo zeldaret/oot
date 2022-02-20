@@ -294,7 +294,7 @@ typedef void (*PlayerFuncA74)(struct GlobalContext*, struct Player*);
 typedef struct Player {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ s8         currentTunic; // current tunic from `PlayerTunic`
-    /* 0x014D */ s8         currentSwordItem; // current sword Item ID
+    /* 0x014D */ s8         currentSwordItemId;
     /* 0x014E */ s8         currentShield; // current shield from `PlayerShield`
     /* 0x014F */ s8         currentBoots; // current boots from `PlayerBoots`
     /* 0x0150 */ s8         heldItemButton; // Button index for the item currently used
