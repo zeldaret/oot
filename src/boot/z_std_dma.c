@@ -210,6 +210,9 @@ const char* DmaMgr_GetFileNameImpl(u32 vrom) {
     }
     //! @bug Since there is no return, in case the file isn't found, the return value will be a pointer to the end
     // of gDmaDataTable
+#ifdef AVOID_UB
+    return "";
+#endif
 }
 
 const char* DmaMgr_GetFileName(u32 vrom) {

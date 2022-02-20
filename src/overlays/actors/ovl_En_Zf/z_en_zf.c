@@ -452,9 +452,14 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, G
         }
     }
 
-    // These functions have no side effects, so these two calls do nothing
+    //! @bug `altNextPlatform` can be -1 in certain conditions and cause an out of bounds access.
+    //! Under normal conditions, this doesn't cause problems because the data before `sPlatformPositions`
+    //! is section padding between .text and .data, so 0 gets read as a float.
+    // These two function calls do nothing. Their return values aren't used and they have no side effects.
+#ifndef AVOID_UB
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[nextPlatform]);
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[altNextPlatform]);
+#endif
 
     if (altNextPlatform > 0) {
         s16 nextPlatformToPlayerYaw =
