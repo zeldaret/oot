@@ -9,8 +9,8 @@
 // the half of tmem (0x800 bytes) dedicated to color-indexed data.
 #define VISMONO_CFBFRAG_HEIGHT (0x800 / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
 
-// Maximum size of the dlist written by `VisMono_UpdateDList`.
-// `VisMono_UpdateDList` consistently uses `VISMONO_DLSIZE - 2` double words, so this can be 2 less.
+// Maximum size of the dlist written by `VisMono_DesaturateDList`.
+// `VisMono_DesaturateDList` consistently uses `VISMONO_DLSIZE - 2` double words, so this can be 2 less.
 #define VISMONO_DLSIZE (3 + SCREEN_HEIGHT / VISMONO_CFBFRAG_HEIGHT * (7 + 2 + 2 + 3) + 2 + 2)
 
 // How much each color component contributes to the desaturated result.
@@ -42,7 +42,7 @@ void VisMono_Destroy(VisMono* this) {
     SystemArena_FreeDebug(this->dList, "../z_vismono.c", 137);
 }
 
-void VisMono_UpdateTLUT(VisMono* this, u16* tlut) {
+void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
     s32 i;
 
     for (i = 0; i < 256; i++) {
@@ -63,7 +63,7 @@ void VisMono_UpdateTLUT(VisMono* this, u16* tlut) {
     }
 }
 
-Gfx* VisMono_UpdateDList(VisMono* this, Gfx* gfx) {
+Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
     s32 y;
     s32 height = VISMONO_CFBFRAG_HEIGHT;
     u16* cfbFrag = D_0F000000;
@@ -110,7 +110,7 @@ Gfx* VisMono_UpdateDList(VisMono* this, Gfx* gfx) {
         // The 2*n-th byte of texel 0 is the high byte of the n-th RGBA16 color of the color frame buffer.
         // The 2*n+1-th byte of texel 1 is the low byte of the n-th RGBA16 color of the color frame buffer.
 
-        // With the TLUT computed by `VisMono_UpdateTLUT`:
+        // With the TLUT computed by `VisMono_DesaturateTLUT`:
         // The 2*n-th byte of texel 0 maps to a IA16 color where the high byte I (intensity) corresponds to
         // the high byte of the n-th RGBA16 color of the color frame buffer.
         // The 2*n+1-th byte of texel 1 maps to a IA16 color where the low byte A (alpha) corresponds to
@@ -139,14 +139,14 @@ void VisMono_Draw(VisMono* this, Gfx** gfxp) {
         tlut = this->tlut;
     } else {
         tlut = Graph_DlistAlloc(&gfx, 256 * G_IM_SIZ_16b_BYTES);
-        VisMono_UpdateTLUT(this, tlut);
+        VisMono_DesaturateTLUT(this, tlut);
     }
 
     if (this->dList) {
         dList = this->dList;
     } else {
         dList = Graph_DlistAlloc(&gfx, VISMONO_DLSIZE * sizeof(Gfx));
-        dListEnd = VisMono_UpdateDList(this, dList);
+        dListEnd = VisMono_DesaturateDList(this, dList);
 
         if (!(dListEnd <= dList + VISMONO_DLSIZE)) {
             LOG_ADDRESS("glistp_end", dListEnd, "../z_vismono.c", 257);
@@ -180,12 +180,12 @@ void VisMono_DrawOld(VisMono* this) {
 
     if (this->tlut == NULL) {
         this->tlut = SystemArena_MallocDebug(256 * G_IM_SIZ_16b_BYTES, "../z_vismono.c", 283);
-        VisMono_UpdateTLUT(this, this->tlut);
+        VisMono_DesaturateTLUT(this, this->tlut);
     }
 
     if (this->dList == NULL) {
         this->dList = SystemArena_MallocDebug(VISMONO_DLSIZE * sizeof(Gfx), "../z_vismono.c", 289);
-        dListEnd = VisMono_UpdateDList(this, this->dList);
+        dListEnd = VisMono_DesaturateDList(this, this->dList);
         ASSERT(dListEnd <= this->dList + VISMONO_DLSIZE, "glistp_end <= this->mono_dl + DLSIZE", "../z_vismono.c", 292);
     }
 }
