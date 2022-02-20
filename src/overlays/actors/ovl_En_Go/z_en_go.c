@@ -417,7 +417,7 @@ void func_80A3F0E4(EnGo* this) {
 }
 
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
-    f32 xyzDist;
+    f32 xyzDistSq;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
 
@@ -425,13 +425,13 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    xyzDist = (this->actor.scale.x / 0.01f) * 10000.0f;
+    xyzDistSq = (this->actor.scale.x / 0.01f) * 10000.0f;
     if ((this->actor.params & 0xF0) == 0x90) {
         Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
-        xyzDist *= 4.8f;
+        xyzDistSq *= 4.8f;
     }
 
-    if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
+    if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDistSq) {
         if (camera->setting == CAM_SET_DIRECTED_YAW) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }

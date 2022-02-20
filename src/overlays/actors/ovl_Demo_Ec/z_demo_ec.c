@@ -215,7 +215,7 @@ void DemoEc_InitSkelAnime(DemoEc* this, GlobalContext* globalCtx, FlexSkeletonHe
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, SEGMENTED_TO_VIRTUAL(skeletonHeader), NULL, NULL, NULL, 0);
 }
 
-void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 reverse) {
+void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 reverse) {
     f32 frameCount;
     f32 startFrame;
     AnimationHeader* anim;
@@ -235,7 +235,7 @@ void DemoEc_ChangeAnimation(DemoEc* this, AnimationHeader* animation, u8 mode, f
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, anim, playbackSpeed, startFrame, frameCount, mode, transitionRate);
+    Animation_Change(&this->skelAnime, anim, playbackSpeed, startFrame, frameCount, mode, morphFrames);
 }
 
 Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* color) {

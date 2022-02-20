@@ -4291,23 +4291,23 @@ s32 Camera_Subj4(Camera* camera) {
     sCameraInterfaceFlags = subj4->interfaceFlags;
     if (camera->animState == 0) {
         spA4 = Camera_GetCamBgDataUnderPlayer(camera, &spAA);
-        Camera_Vec3sToVec3f(&anim->unk_00.a, &spA4[1]);
+        Camera_Vec3sToVec3f(&anim->unk_00.point, &spA4[1]);
         Camera_Vec3sToVec3f(&sp98, &spA4[spAA - 2]);
 
         sp64.r = 10.0f;
         // 0x238C ~ 50 degrees
         sp64.pitch = 0x238C;
-        sp64.yaw = Camera_XZAngle(&sp98, &anim->unk_00.a);
-        sp88 = OLib_Vec3fDist(&playerPosRot->pos, &anim->unk_00.a);
+        sp64.yaw = Camera_XZAngle(&sp98, &anim->unk_00.point);
+        sp88 = OLib_Vec3fDist(&playerPosRot->pos, &anim->unk_00.point);
         if (OLib_Vec3fDist(&playerPosRot->pos, &sp98) < sp88) {
-            anim->unk_00.b.x = anim->unk_00.a.x - sp98.x;
-            anim->unk_00.b.y = anim->unk_00.a.y - sp98.y;
-            anim->unk_00.b.z = anim->unk_00.a.z - sp98.z;
-            anim->unk_00.a = sp98;
+            anim->unk_00.dir.x = anim->unk_00.point.x - sp98.x;
+            anim->unk_00.dir.y = anim->unk_00.point.y - sp98.y;
+            anim->unk_00.dir.z = anim->unk_00.point.z - sp98.z;
+            anim->unk_00.point = sp98;
         } else {
-            anim->unk_00.b.x = sp98.x - anim->unk_00.a.x;
-            anim->unk_00.b.y = sp98.y - anim->unk_00.a.y;
-            anim->unk_00.b.z = sp98.z - anim->unk_00.a.z;
+            anim->unk_00.dir.x = sp98.x - anim->unk_00.point.x;
+            anim->unk_00.dir.y = sp98.y - anim->unk_00.point.y;
+            anim->unk_00.dir.z = sp98.z - anim->unk_00.point.z;
             sp64.yaw = BINANG_ROT180(sp64.yaw);
         }
         anim->unk_30 = sp64.yaw;
@@ -4340,9 +4340,9 @@ s32 Camera_Subj4(Camera* camera) {
 
     Actor_GetWorldPosShapeRot(&sp6C, &camera->player->actor);
     Math3D_LineClosestToPoint(&anim->unk_00, &sp6C.pos, eyeNext);
-    at->x = eyeNext->x + anim->unk_00.b.x;
-    at->y = eyeNext->y + anim->unk_00.b.y;
-    at->z = eyeNext->z + anim->unk_00.b.z;
+    at->x = eyeNext->x + anim->unk_00.dir.x;
+    at->y = eyeNext->y + anim->unk_00.dir.y;
+    at->z = eyeNext->z + anim->unk_00.dir.z;
     *eye = *eyeNext;
     sp64.yaw = anim->unk_30;
     sp64.r = 5.0f;
@@ -4792,9 +4792,9 @@ s32 Camera_Unique0(Camera* camera) {
         func_80043B60(camera);
         camera->unk_14C &= ~4;
         sceneCamData = Camera_GetCamBGData(camera);
-        Camera_Vec3sToVec3f(&anim->sceneCamPosPlayerLine.a, &BGCAM_POS(sceneCamData));
+        Camera_Vec3sToVec3f(&anim->sceneCamPosPlayerLine.point, &BGCAM_POS(sceneCamData));
 
-        *eye = camera->eyeNext = anim->sceneCamPosPlayerLine.a;
+        *eye = camera->eyeNext = anim->sceneCamPosPlayerLine.point;
         sceneCamRot = BGCAM_ROT(sceneCamData);
         fov = BGCAM_FOV(sceneCamData);
         if (fov != -1) {
@@ -4807,7 +4807,7 @@ s32 Camera_Unique0(Camera* camera) {
         atPlayerOffset.r = OLib_Vec3fDist(&playerPosWithOffset, eye);
         atPlayerOffset.yaw = sceneCamRot.y;
         atPlayerOffset.pitch = -sceneCamRot.x;
-        OLib_VecSphGeoToVec3f(&anim->sceneCamPosPlayerLine.b, &atPlayerOffset);
+        OLib_VecSphGeoToVec3f(&anim->sceneCamPosPlayerLine.dir, &atPlayerOffset);
         Math3D_LineClosestToPoint(&anim->sceneCamPosPlayerLine, &playerPosRot->pos, &camera->at);
         anim->initalPos = playerPosRot->pos;
         camera->animState++;
@@ -5814,12 +5814,14 @@ s32 Camera_Demo5(Camera* camera) {
     f32 sp90;
     VecSph playerTargetGeo;
     VecSph eyePlayerGeo;
-    VecSph sp78;
+    s16 targetScreenPosX;
+    s16 targetScreenPosY;
+    s32 pad1;
     PosRot playerhead;
     PosRot targethead;
     Player* player;
     s16 sp4A;
-    s32 pad;
+    s32 framesDiff;
     s32 temp_v0;
     s16 t;
     s32 pad2;
@@ -5837,7 +5839,7 @@ s32 Camera_Demo5(Camera* camera) {
     Actor_GetFocus(&camera->targetPosRot, camera->target);
     OLib_Vec3fDiffToVecSphGeo(&playerTargetGeo, &camera->targetPosRot.pos, &camera->playerPosRot.pos);
     D_8011D3AC = camera->target->category;
-    Actor_GetScreenPos(camera->globalCtx, camera->target, &sp78.yaw, &sp78.pitch);
+    Actor_GetScreenPos(camera->globalCtx, camera->target, &targetScreenPosX, &targetScreenPosY);
     eyeTargetDist = OLib_Vec3fDist(&camera->targetPosRot.pos, &camera->eye);
     OLib_Vec3fDiffToVecSphGeo(&eyePlayerGeo, &playerhead.pos, &camera->eyeNext);
     sp4A = eyePlayerGeo.yaw - playerTargetGeo.yaw;
@@ -5869,7 +5871,8 @@ s32 Camera_Demo5(Camera* camera) {
         // distance between player and target is less than 30 units.
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D79C;
         ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
-        if ((sp78.yaw < 0x15) || (sp78.yaw >= 0x12C) || (sp78.pitch < 0x29) || (sp78.pitch >= 0xC8)) {
+        if ((targetScreenPosX < 0x15) || (targetScreenPosX >= 0x12C) || (targetScreenPosY < 0x29) ||
+            (targetScreenPosY >= 0xC8)) {
             D_8011D79C[0].actionFlags = 0x41;
             D_8011D79C[0].atTargetInit.y = -30.0f;
             D_8011D79C[0].atTargetInit.x = 0.0f;
@@ -5901,7 +5904,8 @@ s32 Camera_Demo5(Camera* camera) {
         // The distance between the camera's current position and the target is less than 700 units
         // and the angle between the camera's position and the player, and the player to the target
         // is less than ~76.9 degrees
-        if (sp78.yaw >= 0x15 && sp78.yaw < 0x12C && sp78.pitch >= 0x29 && sp78.pitch < 0xC8 && eyePlayerGeo.r > 30.0f) {
+        if (targetScreenPosX >= 0x15 && targetScreenPosX < 0x12C && targetScreenPosY >= 0x29 &&
+            targetScreenPosY < 0xC8 && eyePlayerGeo.r > 30.0f) {
             D_8011D88C[0].timerInit = camera->timer;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D88C;
             ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
@@ -5997,8 +6001,8 @@ s32 Camera_Demo5(Camera* camera) {
         }
     }
 
-    pad = sDemo5PrevSfxFrame - camera->globalCtx->state.frames;
-    if ((pad >= 0x33) || (pad < -0x32)) {
+    framesDiff = sDemo5PrevSfxFrame - camera->globalCtx->state.frames;
+    if ((framesDiff > 50) || (framesDiff < -50)) {
         func_80078884(camera->data1);
     }
 
@@ -6012,11 +6016,11 @@ s32 Camera_Demo5(Camera* camera) {
     } else {
         sp4A = playerhead.rot.y - playerTargetGeo.yaw;
         if (camera->target->category == ACTORCAT_PLAYER) {
-            pad = camera->globalCtx->state.frames - sDemo5PrevAction12Frame;
+            framesDiff = camera->globalCtx->state.frames - sDemo5PrevAction12Frame;
             if (player->stateFlags1 & PLAYER_STATE1_11) {
                 // holding object over head.
                 func_8002DF54(camera->globalCtx, camera->target, 8);
-            } else if (ABS(pad) > 3000) {
+            } else if (ABS(framesDiff) > 3000) {
                 func_8002DF54(camera->globalCtx, camera->target, 12);
             } else {
                 func_8002DF54(camera->globalCtx, camera->target, 69);
