@@ -160,12 +160,15 @@ def toNote(note):
 	return "{0}{1}".format(tone_str, octave)
 
 def parseNoteName(noteName):
-	#This is crude but eh, just want an implementation for now
-	tone_str = noteName[0]
-	oct_str = noteName[1:]
-	if noteName[1] == '♯':
-		tone_str = noteName[0:2]
-		oct_str = noteName[2:]
+	#tone_str = noteName[0]
+	#oct_str = noteName[1:]
+	#if noteName[1] == '♯':
+	#	tone_str = noteName[0:2]
+	#	oct_str = noteName[2:]
+	
+	#This works if oct_str is never more than one digit/char
+	tone_str = noteName[:-1]
+	oct_str = noteName[-1:]	
 	
 	tone = {
 		'C' :0,
@@ -217,7 +220,13 @@ def toCodecID(codec):
 		2: b"NONE",
 		3: b"ADP5",
 		4: b"RVRB",
-		5: b"NONE"
+		5: b"NONE",
+		b"ADP9":0,
+		b"HPCM":1,
+		b"NONE":2,
+		b"ADP5":3,
+		b"RVRB":4,
+		b"NONE":5		
 	}.get(codec)
 
 def toCodecName(codec):
@@ -228,16 +237,6 @@ def toCodecName(codec):
 		3: b"Nintendo ADPCM 5-byte frame format",
 		4: b"Nintendo Reverb format",
 		5: b"not compressed"
-	}.get(codec)
-
-def fromCodecID(codec):
-	return {
-		b"ADP9":0,
-		b"HPCM":1,
-		b"NONE":2,
-		b"ADP5":3,
-		b"RVRB":4,
-		b"NONE":5
 	}.get(codec)
 
 def parse_f80(data):
@@ -426,10 +425,6 @@ class SampleHeader:
 		blockSize = 9
 		if self.codec == 3:
 			blockSize = 5
-		#blockCount = math.floor(self.frameCount/16)
-		#if (self.frameCount % 16) != 0:
-		#	blockCount += 1
-		#self.length = blockCount * blockSize
 		
 		#Okay so the frame count is calculated weird.
 		#To get the original data length, looks like we gotta reverse it.
@@ -444,7 +439,7 @@ class SampleHeader:
 		self.frameCount, = struct.unpack('>L', comm_data[2:6])
 		sample_rate = parse_f80(comm_data[8:18])
 		if aif_reader.is_aifc:
-			self.codec = fromCodecID(comm_data[18:22])
+			self.codec = toCodecID(comm_data[18:22])
 			
 		#Default loop (non-loop)
 		self.loop = PCMLoop()
@@ -464,7 +459,6 @@ class SampleHeader:
 				if strdat == b'VADPCMCODES':
 					#Code table
 					self.book = PCMBook()
-					#self.book.parseFrom(appl_data[18:])
 					bookpos = 18
 					self.book.order, self.book.predictorCount = struct.unpack(">HH", appl_data[bookpos:bookpos+4])
 					bookpos += 4
@@ -475,7 +469,6 @@ class SampleHeader:
 						bookpos += predictorBytes				
 				elif strdat == b'VADPCMLOOPS':
 					#Loop data
-					#self.loop.parseFrom(appl_data[20:])
 					looppos = 20
 					self.loop.start, self.loop.end, self.loop.count = struct.unpack(">LLl", appl_data[looppos:looppos+12])
 					looppos += 12
