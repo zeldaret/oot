@@ -40,14 +40,14 @@ void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnBox_FallOnSwitchFlag(EnBox*, GlobalContext*);
-void func_809C9700(EnBox*, GlobalContext*);
-void EnBox_AppearOnSwitchFlag(EnBox*, GlobalContext*);
-void EnBox_AppearOnRoomClear(EnBox*, GlobalContext*);
-void EnBox_AppearInit(EnBox*, GlobalContext*);
-void EnBox_AppearAnimation(EnBox*, GlobalContext*);
-void EnBox_WaitOpen(EnBox*, GlobalContext*);
-void EnBox_Open(EnBox*, GlobalContext*);
+void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
+void func_809C9700(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx);
+void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx);
+void EnBox_Open(EnBox* this, GlobalContext* globalCtx);
 
 const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,

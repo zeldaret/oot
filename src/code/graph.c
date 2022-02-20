@@ -506,7 +506,7 @@ void* Graph_DlistAlloc(Gfx** gfx, u32 size) {
     u8* ptr;
     Gfx* dst;
 
-    size = ((size + 7) & ~7),
+    size = ALIGN8(size);
 
     ptr = (u8*)(*gfx + 1);
 

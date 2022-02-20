@@ -8078,7 +8078,7 @@ void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* d
     }
 }
 
-s32 Camera_QRegInit() {
+s32 Camera_QRegInit(void) {
     if (!R_RELOAD_CAM_PARAMS) {
         QREG(2) = 1;
         QREG(10) = -1;
@@ -8113,7 +8113,7 @@ s32 Camera_QRegInit() {
     return true;
 }
 
-s32 func_8005B198() {
+s32 func_8005B198(void) {
     return D_8011D3AC;
 }
 

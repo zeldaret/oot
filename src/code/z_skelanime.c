@@ -340,7 +340,7 @@ void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
  */
 void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skeleton, Vec3s* jointTable,
                                OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg,
-                               Mtx** limbMatricies) {
+                               Mtx** limbMatrices) {
     StandardLimb* limb;
     Gfx* newDList;
     Gfx* limbDList;
@@ -364,13 +364,13 @@ void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** s
     if ((overrideLimbDraw == NULL) || !overrideLimbDraw(globalCtx, limbIndex, &newDList, &pos, &rot, arg)) {
         Matrix_TranslateRotateZYX(&pos, &rot);
         if (newDList != NULL) {
-            Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 1242);
-            gSPMatrix(POLY_OPA_DISP++, *limbMatricies, G_MTX_LOAD);
+            Matrix_ToMtx(*limbMatrices, "../z_skelanime.c", 1242);
+            gSPMatrix(POLY_OPA_DISP++, *limbMatrices, G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, newDList);
-            (*limbMatricies)++;
+            (*limbMatrices)++;
         } else if (limbDList != NULL) {
-            Matrix_ToMtx(*limbMatricies, "../z_skelanime.c", 1249);
-            (*limbMatricies)++;
+            Matrix_ToMtx(*limbMatrices, "../z_skelanime.c", 1249);
+            (*limbMatrices)++;
         }
     }
 
@@ -380,14 +380,14 @@ void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** s
 
     if (limb->child != LIMB_DONE) {
         SkelAnime_DrawFlexLimbOpa(globalCtx, limb->child, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg,
-                                  limbMatricies);
+                                  limbMatrices);
     }
 
     Matrix_Pop();
 
     if (limb->sibling != LIMB_DONE) {
         SkelAnime_DrawFlexLimbOpa(globalCtx, limb->sibling, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg,
-                                  limbMatricies);
+                                  limbMatrices);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1265);
 }
