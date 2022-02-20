@@ -212,7 +212,7 @@ void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 npcActionIdx) {
     }
 }
 
-void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
     f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
@@ -228,7 +228,7 @@ void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transit
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, morphFrames);
 }
 
 void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {

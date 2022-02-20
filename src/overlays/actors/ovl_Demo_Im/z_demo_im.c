@@ -275,8 +275,7 @@ void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 transitionRate,
-                       s32 playBackwards) {
+void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 morphFrames, s32 playBackwards) {
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
     f32 startFrame;
@@ -292,7 +291,7 @@ void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, startFrame, endFrame, animMode, transitionRate);
+    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, startFrame, endFrame, animMode, morphFrames);
 }
 
 void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
