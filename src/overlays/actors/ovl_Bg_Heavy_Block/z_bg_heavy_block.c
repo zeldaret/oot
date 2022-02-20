@@ -182,7 +182,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, thisx, 50.0f, 50.0f, 0.0f, 5);
         thisx->world.pos.y -= this->unk_164.y;
         thisx->prevPos.y -= this->unk_164.y;
-        if (thisx->bgCheckFlags & 1) {
+        if (thisx->bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->pieceFlags |= PIECE_FLAG_HIT_FLOOR;
             thisx->velocity.y = Rand_ZeroFloat(4.0f) + 2.0f;
             thisx->velocity.x = Rand_CenteredFloat(8.0f);

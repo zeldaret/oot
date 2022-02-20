@@ -1019,9 +1019,12 @@ void* AudioHeap_AllocPermanent(s32 tableType, s32 id, u32 size) {
     gAudioContext.permanentCache[index].tableType = tableType;
     gAudioContext.permanentCache[index].id = id;
     gAudioContext.permanentCache[index].size = size;
+
     //! @bug UB: missing return. "ret" is in v0 at this point, but doing an
     // explicit return uses an additional register.
-    // return ret;
+#ifdef AVOID_UB
+    return ret;
+#endif
 }
 
 void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medium, s32 cache) {
