@@ -683,9 +683,9 @@ void* sMouthTextures[][4] = {
 #endif
 
 Color_RGB8 sTunicColors[PLAYER_TUNIC_MAX] = {
-    /* PLAYER_TUNIC_KOKIRI */ { 30, 105, 27 },
-    /* PLAYER_TUNIC_GORON */ { 100, 20, 0 },
-    /* PLAYER_TUNIC_ZORA */ { 0, 60, 100 },
+    { 30, 105, 27 }, // PLAYER_TUNIC_KOKIRI
+    { 100, 20, 0 },  // PLAYER_TUNIC_GORON
+    { 0, 60, 100 },  // PLAYER_TUNIC_ZORA
 };
 
 Color_RGB8 sGauntletColors[] = {
