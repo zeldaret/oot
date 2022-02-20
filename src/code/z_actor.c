@@ -1157,7 +1157,7 @@ s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
         actor->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         actor->bgCheckFlags |= BGCHECKFLAG_GROUND_LEAVE;
 
-        if ((actor->velocity.y < 0.0f) && (arg2 & 0x10)) {
+        if ((actor->velocity.y < 0.0f) && (arg2 & UPDBGCHECKINFO_FLAG_4)) {
             actor->velocity.y = 0.0f;
         }
 
@@ -1203,7 +1203,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
         if (actor->velocity.y <= 0.0f) {
             if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 actor->bgCheckFlags |= BGCHECKFLAG_GROUND_TOUCH;
-            } else if ((arg3 & 0x8) && (actor->gravity < 0.0f)) {
+            } else if ((arg3 & UPDBGCHECKINFO_FLAG_3) && (actor->gravity < 0.0f)) {
                 actor->velocity.y = -4.0f;
             } else {
                 actor->velocity.y = 0.0f;
@@ -1241,11 +1241,11 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
         func_800433A4(&globalCtx->colCtx, actor->floorBgId, actor);
     }
 
-    if (flags & 1) {
-        if ((!(flags & 0x80) &&
+    if (flags & UPDBGCHECKINFO_FLAG_0) {
+        if ((!(flags & UPDBGCHECKINFO_FLAG_7) &&
              BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
                                       &actor->wallPoly, &bgId, actor, wallCheckHeight)) ||
-            ((flags & 0x80) &&
+            ((flags & UPDBGCHECKINFO_FLAG_7) &&
              BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
                                       &actor->wallPoly, &bgId, actor, wallCheckHeight))) {
             wallPoly = actor->wallPoly;
@@ -1261,7 +1261,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
     sp64.x = actor->world.pos.x;
     sp64.z = actor->world.pos.z;
 
-    if (flags & 2) {
+    if (flags & UPDBGCHECKINFO_FLAG_1) {
         sp64.y = actor->prevPos.y + 10.0f;
         if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (ceilingCheckHeight + sp74) - 10.0f,
                                        &sCurCeilingPoly, &sCurCeilingBgId, actor)) {
@@ -1272,7 +1272,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
         }
     }
 
-    if (flags & 4) {
+    if (flags & UPDBGCHECKINFO_FLAG_2) {
         sp64.y = actor->prevPos.y;
         func_8002E2AC(globalCtx, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
@@ -1284,7 +1284,7 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
             } else {
                 if (!(actor->bgCheckFlags & BGCHECKFLAG_WATER)) {
                     actor->bgCheckFlags |= BGCHECKFLAG_WATER_TOUCH;
-                    if (!(flags & 0x40)) {
+                    if (!(flags & UPDBGCHECKINFO_FLAG_6)) {
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
                         ripplePos.z = actor->world.pos.z;
@@ -3416,7 +3416,7 @@ s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 dista
     actor->world.pos.x += dx;
     actor->world.pos.z += dz;
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     Math_Vec3f_Copy(&actor->world.pos, &prevActorPos);
 
@@ -3953,8 +3953,9 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             break;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius,
-                            actor->colChkInfo.cylRadius, 0x1D);
+    Actor_UpdateBgCheckInfo(
+        globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius, actor->colChkInfo.cylRadius,
+        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 
     return ret;
 }

@@ -385,7 +385,8 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     this->actor.prevPos.y -= temp_f22;
     this->actor.world.pos.y -= temp_f22;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     this->unk_1F0 = temp_f22;
     this->actor.world.pos.y += temp_f22;
     if (EnNy_CollisionCheck(this, globalCtx) != 0) {
@@ -503,7 +504,8 @@ void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.prevPos.y -= temp_f0;
     this->actor.world.pos.y -= temp_f0;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     this->unk_1F0 = temp_f0;
     this->actor.world.pos.y += temp_f0;
 

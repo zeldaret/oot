@@ -190,7 +190,7 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     this->dyna.actor.world.pos.x += sin;
     this->dyna.actor.world.pos.z += cos;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->dyna.actor.world.pos = curPos;
     ret = this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND;
 
@@ -887,7 +887,9 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
     }
 
     Collider_UpdateCylinder(&this->dyna.actor, &this->hurtCollider);
