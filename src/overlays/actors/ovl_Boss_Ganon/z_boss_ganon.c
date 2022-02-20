@@ -3968,7 +3968,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             }
 
                             // if a spin attack is used
-                            if (player->swordAnimation >= 0x18) {
+                            if (player->meleeWeaponAnimation >= 0x18) {
                                 this->actor.speedXZ = 20.0f;
                             }
                             break;
@@ -4410,7 +4410,8 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.world.rot.x = (Math_CosS(this->unk_1A2 * 0x3400) * sp84 * 0.1f) + this->actor.shape.rot.x;
             this->actor.world.rot.y = (Math_SinS(this->unk_1A2 * 0x1A00) * sp84) + this->actor.shape.rot.y;
 
-            if ((player->swordState != 0) && (player->swordAnimation >= 0x18) && (this->actor.xzDistToPlayer < 80.0f)) {
+            if ((player->meleeWeaponState != 0) && (player->meleeWeaponAnimation >= 0x18) &&
+                (this->actor.xzDistToPlayer < 80.0f)) {
                 this->unk_1C2 = 0xC;
                 this->actor.speedXZ = -30.0f;
                 func_8002D908(&this->actor);

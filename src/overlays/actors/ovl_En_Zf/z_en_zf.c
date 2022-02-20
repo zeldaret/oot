@@ -727,7 +727,7 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
         angleToPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
         angleToPlayer = ABS(angleToPlayer);
 
-        if ((this->actor.xzDistToPlayer < 100.0f) && (player->swordState != 0) && (angleToPlayer >= 0x1F40)) {
+        if ((this->actor.xzDistToPlayer < 100.0f) && (player->meleeWeaponState != 0) && (angleToPlayer >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             func_80B483E4(this, globalCtx);
         } else if (this->unk_3F0 != 0) {
@@ -844,7 +844,7 @@ void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
         temp_v1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
         temp_v1 = ABS(temp_v1);
 
-        if ((sp48 == this->curPlatform) && (this->actor.xzDistToPlayer < 150.0f) && (player->swordState != 0) &&
+        if ((sp48 == this->curPlatform) && (this->actor.xzDistToPlayer < 150.0f) && (player->meleeWeaponState != 0) &&
             (temp_v1 >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 

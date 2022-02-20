@@ -282,7 +282,7 @@ s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
     angleToLink = ABS(angleToLink);
 
     if (func_800354B4(globalCtx, thisx, 100.0f, 0x2710, 0x3E80, thisx->shape.rot.y)) {
-        if (player->swordAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == 0x11) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
             return true;
         } else if (globalCtx->gameplayFrames & 1) {
@@ -296,7 +296,7 @@ s32 EnGeldB_ReactToPlayer(GlobalContext* globalCtx, EnGeldB* this, s16 arg2) {
             (thisx->xzDistToPlayer < 90.0f)) {
             EnGeldB_SetupJump(this);
             return true;
-        } else if (player->swordAnimation == 0x11) {
+        } else if (player->meleeWeaponAnimation == 0x11) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
             return true;
         } else if ((thisx->xzDistToPlayer < 90.0f) && (globalCtx->gameplayFrames & 1)) {
@@ -444,7 +444,7 @@ void EnGeldB_Ready(EnGeldB* this, GlobalContext* globalCtx) {
             return;
         }
         angleToLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
-        if ((this->actor.xzDistToPlayer < 100.0f) && (player->swordState != 0) && (ABS(angleToLink) >= 0x1F40)) {
+        if ((this->actor.xzDistToPlayer < 100.0f) && (player->meleeWeaponState != 0) && (ABS(angleToLink) >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             EnGeldB_SetupCircle(this);
         } else if (--this->timer == 0) {
@@ -500,7 +500,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = this->actor.speedXZ / 8.0f;
         facingAngletoLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
         facingAngletoLink = ABS(facingAngletoLink);
-        if ((this->actor.xzDistToPlayer < 150.0f) && (player->swordState != 0) && (facingAngletoLink >= 0x1F40)) {
+        if ((this->actor.xzDistToPlayer < 150.0f) && (player->meleeWeaponState != 0) && (facingAngletoLink >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             if (Rand_ZeroOne() > 0.7f) {
                 EnGeldB_SetupCircle(this);
@@ -1141,7 +1141,7 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
         if ((ABS(angleToLink) <= 0x4000) && (this->actor.xzDistToPlayer < 40.0f) &&
             (ABS(this->actor.yDistToPlayer) < 50.0f)) {
             if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
-                if (player->swordAnimation == 0x11) {
+                if (player->meleeWeaponAnimation == 0x11) {
                     EnGeldB_SetupSpinDodge(this, globalCtx);
                 } else if (globalCtx->gameplayFrames & 1) {
                     EnGeldB_SetupBlock(this);
@@ -1162,7 +1162,7 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
         }
     } else if ((this->timer == 0) &&
                func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y)) {
-        if (player->swordAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == 0x11) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
         } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
             if ((globalCtx->gameplayFrames & 1)) {

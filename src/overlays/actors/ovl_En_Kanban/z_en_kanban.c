@@ -286,7 +286,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     u8 i;
 
                     if (hitItem->toucher.dmgFlags & 0x700) {
-                        this->cutType = sCutTypes[player->swordAnimation];
+                        this->cutType = sCutTypes[player->meleeWeaponAnimation];
                     } else {
                         this->cutType = CUT_POST;
                     }

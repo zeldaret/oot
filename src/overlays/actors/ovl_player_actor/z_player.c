@@ -1177,8 +1177,8 @@ void func_808322FC(Player* this) {
 
 void func_80832318(Player* this) {
     this->stateFlags2 &= ~PLAYER_STATE2_17;
-    this->swordState = 0;
-    this->swordInfo[0].active = this->swordInfo[1].active = this->swordInfo[2].active = 0;
+    this->meleeWeaponState = 0;
+    this->meleeWeaponInfo[0].active = this->meleeWeaponInfo[1].active = this->meleeWeaponInfo[2].active = 0;
 }
 
 void func_80832340(GlobalContext* globalCtx, Player* this) {
@@ -1772,11 +1772,11 @@ void func_8083399C(GlobalContext* globalCtx, Player* this, s8 actionParam) {
     Player_SetModelGroup(this, this->modelGroup);
 }
 
-void func_80833A20(Player* this, s32 newSwordState) {
+void func_80833A20(Player* this, s32 newMeleeWeaponState) {
     u16 itemSfx;
     u16 voiceSfx;
 
-    if (this->swordState == 0) {
+    if (this->meleeWeaponState == 0) {
         if ((this->heldItemActionParam == PLAYER_AP_SWORD_BGS) && (gSaveContext.swordHealth > 0.0f)) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
         } else {
@@ -1786,7 +1786,7 @@ void func_80833A20(Player* this, s32 newSwordState) {
         voiceSfx = NA_SE_VO_LI_SWORD_N;
         if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
-        } else if (this->swordAnimation >= 0x18) {
+        } else if (this->meleeWeaponAnimation >= 0x18) {
             itemSfx = 0;
             voiceSfx = NA_SE_VO_LI_SWORD_L;
         } else if (this->unk_845 >= 3) {
@@ -1798,12 +1798,12 @@ void func_80833A20(Player* this, s32 newSwordState) {
             func_808328EC(this, itemSfx);
         }
 
-        if ((this->swordAnimation < 0x10) || (this->swordAnimation >= 0x14)) {
+        if ((this->meleeWeaponAnimation < 0x10) || (this->meleeWeaponAnimation >= 0x14)) {
             func_80832698(this, voiceSfx);
         }
     }
 
-    this->swordState = newSwordState;
+    this->meleeWeaponState = newMeleeWeaponState;
 }
 
 s32 func_80833B2C(Player* this) {
@@ -2702,10 +2702,10 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
     actionParam = Player_ItemToActionParam(item);
 
     if (((this->heldItemActionParam == this->itemActionParam) &&
-         (!(this->stateFlags1 & PLAYER_STATE1_22) || (Player_ActionToSword(actionParam) != 0) ||
+         (!(this->stateFlags1 & PLAYER_STATE1_22) || (Player_ActionToMeleeWeapon(actionParam) != 0) ||
           (actionParam == PLAYER_AP_NONE))) ||
         ((this->itemActionParam < 0) &&
-         ((Player_ActionToSword(actionParam) != 0) || (actionParam == PLAYER_AP_NONE)))) {
+         ((Player_ActionToMeleeWeapon(actionParam) != 0) || (actionParam == PLAYER_AP_NONE)))) {
 
         if ((actionParam == PLAYER_AP_NONE) || !(this->stateFlags1 & PLAYER_STATE1_27) ||
             ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
@@ -3211,7 +3211,7 @@ void func_80837530(GlobalContext* globalCtx, Player* this, s32 arg2) {
 
     if (this->actor.category == ACTORCAT_PLAYER) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_M_THUNDER, this->bodyPartsPos[0].x,
-                    this->bodyPartsPos[0].y, this->bodyPartsPos[0].z, 0, 0, 0, Player_GetSwordHeld(this) | arg2);
+                    this->bodyPartsPos[0].y, this->bodyPartsPos[0].z, 0, 0, 0, Player_GetMeleeWeaponHeld(this) | arg2);
     }
 }
 
@@ -3255,7 +3255,7 @@ s32 func_808375D8(Player* this) {
 void func_80837704(GlobalContext* globalCtx, Player* this) {
     LinkAnimationHeader* anim;
 
-    if ((this->swordAnimation >= 4) && (this->swordAnimation < 8)) {
+    if ((this->meleeWeaponAnimation >= 4) && (this->meleeWeaponAnimation < 8)) {
         anim = D_80854358[Player_HoldsTwoHandedWeapon(this)];
     } else {
         anim = D_80854350[Player_HoldsTwoHandedWeapon(this)];
@@ -3317,12 +3317,12 @@ s32 func_80837818(Player* this) {
 }
 
 void func_80837918(Player* this, s32 quadIndex, u32 flags) {
-    this->swordQuads[quadIndex].info.toucher.dmgFlags = flags;
+    this->meleeWeaponQuads[quadIndex].info.toucher.dmgFlags = flags;
 
     if (flags == 2) {
-        this->swordQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_WOOD;
+        this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_WOOD;
     } else {
-        this->swordQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST;
+        this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST;
     }
 }
 
@@ -3342,7 +3342,7 @@ void func_80837948(GlobalContext* globalCtx, Player* this, s32 arg2) {
         func_80832318(this);
     }
 
-    if ((arg2 != this->swordAnimation) || !(this->unk_845 < 3)) {
+    if ((arg2 != this->meleeWeaponAnimation) || !(this->unk_845 < 3)) {
         this->unk_845 = 0;
     }
 
@@ -3351,7 +3351,7 @@ void func_80837948(GlobalContext* globalCtx, Player* this, s32 arg2) {
         arg2 += 2;
     }
 
-    this->swordAnimation = arg2;
+    this->meleeWeaponAnimation = arg2;
 
     func_808322D0(globalCtx, this, D_80854190[arg2].unk_00);
     if ((arg2 != 16) && (arg2 != 17)) {
@@ -3363,7 +3363,7 @@ void func_80837948(GlobalContext* globalCtx, Player* this, s32 arg2) {
     if (Player_HoldsBrokenKnife(this)) {
         temp = 1;
     } else {
-        temp = Player_GetSwordHeld(this) - 1;
+        temp = Player_GetMeleeWeaponHeld(this) - 1;
     }
 
     if ((arg2 >= 16) && (arg2 < 20)) {
@@ -3711,8 +3711,8 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             }
 
             if ((this->unk_A87 != 0) || (this->invincibilityTimer > 0) || (this->stateFlags1 & PLAYER_STATE1_26) ||
-                (this->csMode != 0) || (this->swordQuads[0].base.atFlags & AT_HIT) ||
-                (this->swordQuads[1].base.atFlags & AT_HIT)) {
+                (this->csMode != 0) || (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) ||
+                (this->meleeWeaponQuads[1].base.atFlags & AT_HIT)) {
                 return 0;
             }
 
@@ -4565,7 +4565,7 @@ void func_8083AA10(Player* this, GlobalContext* globalCtx) {
             if (!(this->stateFlags3 & PLAYER_STATE3_1) && !(this->skelAnime.moveFlags & 0x80) &&
                 (func_8084411C != this->func_674) && (func_80844A44 != this->func_674)) {
 
-                if ((D_80853604 == 7) || (this->swordState != 0)) {
+                if ((D_80853604 == 7) || (this->meleeWeaponState != 0)) {
                     Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.prevPos);
                     func_80832210(this);
                     return;
@@ -4585,7 +4585,7 @@ void func_8083AA10(Player* this, GlobalContext* globalCtx) {
                 this->unk_89E = this->unk_A82;
 
                 if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_LEAVE) && !(this->stateFlags1 & PLAYER_STATE1_27) &&
-                    (D_80853604 != 6) && (D_80853604 != 9) && (D_80853600 > 20.0f) && (this->swordState == 0) &&
+                    (D_80853604 != 6) && (D_80853604 != 9) && (D_80853600 > 20.0f) && (this->meleeWeaponState == 0) &&
                     (ABS(sp5C) < 0x2000) && (this->linearVelocity > 3.0f)) {
 
                     if ((D_80853604 == 11) && !(this->stateFlags1 & PLAYER_STATE1_11)) {
@@ -4971,7 +4971,7 @@ void func_8083BA90(GlobalContext* globalCtx, Player* this, s32 arg2, f32 xzVeloc
 }
 
 s32 func_8083BB20(Player* this) {
-    if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetSwordHeld(this) != 0)) {
+    if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0)) {
         if (D_80853614 ||
             ((this->actor.category != ACTORCAT_PLAYER) && CHECK_BTN_ALL(sControlInput->press.button, BTN_B))) {
             return 1;
@@ -5037,7 +5037,7 @@ s32 func_8083BDBC(Player* this, GlobalContext* globalCtx) {
                         func_8083BC04(this, globalCtx);
                     }
                 } else {
-                    if (Player_GetSwordHeld(this) && func_808365C8(this)) {
+                    if ((Player_GetMeleeWeaponHeld(this) != 0) && func_808365C8(this)) {
                         func_8083BA90(globalCtx, this, 17, 5.0f, 5.0f);
                     } else {
                         func_8083BC04(this, globalCtx);
@@ -5197,7 +5197,7 @@ void func_8083C50C(Player* this) {
 
 s32 func_8083C544(Player* this, GlobalContext* globalCtx) {
     if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_B)) {
-        if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetSwordHeld(this) != 0) && (this->unk_844 == 1) &&
+        if (!(this->stateFlags1 & PLAYER_STATE1_22) && (Player_GetMeleeWeaponHeld(this) != 0) && (this->unk_844 == 1) &&
             (this->heldItemActionParam != PLAYER_AP_STICK)) {
             if ((this->heldItemActionParam != PLAYER_AP_SWORD_BGS) || (gSaveContext.swordHealth > 0.0f)) {
                 func_808377DC(globalCtx, this);
@@ -5754,7 +5754,7 @@ void func_8083DF68(Player* this, f32 arg1, s16 arg2) {
 void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
     s16 yawDiff = this->currentYaw - *arg2;
 
-    if (this->swordState == 0) {
+    if (this->meleeWeaponState == 0) {
         this->linearVelocity = CLAMP(this->linearVelocity, -(R_RUN_SPEED_LIMIT / 100.0f), (R_RUN_SPEED_LIMIT / 100.0f));
     }
 
@@ -6576,7 +6576,7 @@ void func_80840450(Player* this, GlobalContext* globalCtx) {
     s32 temp4;
 
     if (this->stateFlags3 & PLAYER_STATE3_3) {
-        if (Player_GetSwordHeld(this)) {
+        if (Player_GetMeleeWeaponHeld(this) != 0) {
             this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
         } else {
             this->stateFlags3 &= ~PLAYER_STATE3_3;
@@ -6741,7 +6741,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
                 sp34 = Rand_ZeroOne() * 5.0f;
                 if (sp34 < 4) {
                     if (((sp34 != 0) && (sp34 != 3)) ||
-                        ((this->rightHandType == 10) && ((sp34 == 3) || Player_GetSwordHeld(this)))) {
+                        ((this->rightHandType == 10) && ((sp34 == 3) || (Player_GetMeleeWeaponHeld(this) != 0)))) {
                         if ((sp34 == 0) && Player_HoldsTwoHandedWeapon(this)) {
                             sp34 = 4;
                         }
@@ -7417,10 +7417,10 @@ s32 func_8084285C(Player* this, f32 arg1, f32 arg2, f32 arg3) {
 }
 
 s32 func_808428D8(Player* this, GlobalContext* globalCtx) {
-    if (!Player_IsChildWithHylianShield(this) && Player_GetSwordHeld(this) && D_80853614) {
+    if (!Player_IsChildWithHylianShield(this) && (Player_GetMeleeWeaponHeld(this) != 0) && D_80853614) {
         func_80832264(globalCtx, this, &gPlayerAnim_002EC8);
         this->unk_84F = 1;
-        this->swordAnimation = 0xC;
+        this->meleeWeaponAnimation = 0xC;
         this->currentYaw = this->actor.shape.rot.y + this->unk_6BE;
         return 1;
     }
@@ -7527,22 +7527,24 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
     s32 temp1;
     s32 sp48;
 
-    if (this->swordState > 0) {
-        if (this->swordAnimation < 0x18) {
-            if (!(this->swordQuads[0].base.atFlags & AT_BOUNCED) && !(this->swordQuads[1].base.atFlags & AT_BOUNCED)) {
+    if (this->meleeWeaponState > 0) {
+        if (this->meleeWeaponAnimation < 0x18) {
+            if (!(this->meleeWeaponQuads[0].base.atFlags & AT_BOUNCED) &&
+                !(this->meleeWeaponQuads[1].base.atFlags & AT_BOUNCED)) {
                 if (this->skelAnime.curFrame >= 2.0f) {
 
-                    phi_f2 = Math_Vec3f_DistXYZAndStoreDiff(&this->swordInfo[0].tip, &this->swordInfo[0].base, &sp50);
+                    phi_f2 = Math_Vec3f_DistXYZAndStoreDiff(&this->meleeWeaponInfo[0].tip,
+                                                            &this->meleeWeaponInfo[0].base, &sp50);
                     if (phi_f2 != 0.0f) {
                         phi_f2 = (phi_f2 + 10.0f) / phi_f2;
                     }
 
-                    sp68.x = this->swordInfo[0].tip.x + (sp50.x * phi_f2);
-                    sp68.y = this->swordInfo[0].tip.y + (sp50.y * phi_f2);
-                    sp68.z = this->swordInfo[0].tip.z + (sp50.z * phi_f2);
+                    sp68.x = this->meleeWeaponInfo[0].tip.x + (sp50.x * phi_f2);
+                    sp68.y = this->meleeWeaponInfo[0].tip.y + (sp50.y * phi_f2);
+                    sp68.z = this->meleeWeaponInfo[0].tip.z + (sp50.z * phi_f2);
 
-                    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp68, &this->swordInfo[0].tip, &sp5C, &sp78, true,
-                                                false, false, true, &sp74) &&
+                    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp68, &this->meleeWeaponInfo[0].tip, &sp5C, &sp78,
+                                                true, false, false, true, &sp74) &&
                         !SurfaceType_IsIgnoredByEntities(&globalCtx->colCtx, sp78, sp74) &&
                         (func_80041D4C(&globalCtx->colCtx, sp78, sp74) != 6) &&
                         (func_8002F9EC(globalCtx, &this->actor, sp78, sp74, &sp5C) == 0)) {
@@ -7581,11 +7583,11 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
             }
         }
 
-        temp1 = (this->swordQuads[0].base.atFlags & AT_HIT) || (this->swordQuads[1].base.atFlags & AT_HIT);
+        temp1 = (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) || (this->meleeWeaponQuads[1].base.atFlags & AT_HIT);
 
         if (temp1) {
-            if (this->swordAnimation < 0x18) {
-                Actor* at = this->swordQuads[temp1 ? 1 : 0].base.at;
+            if (this->meleeWeaponAnimation < 0x18) {
+                Actor* at = this->meleeWeaponQuads[temp1 ? 1 : 0].base.at;
 
                 if ((at != NULL) && (at->id != ACTOR_EN_KANBAN)) {
                     func_80832630(globalCtx);
@@ -8217,8 +8219,8 @@ void func_80844AF4(Player* this, GlobalContext* globalCtx) {
         }
 
         if (func_80843E64(globalCtx, this) >= 0) {
-            this->swordAnimation += 2;
-            func_80837948(globalCtx, this, this->swordAnimation);
+            this->meleeWeaponAnimation += 2;
+            func_80837948(globalCtx, this, this->meleeWeaponAnimation);
             this->unk_845 = 3;
             func_808328A0(this);
         }
@@ -9033,7 +9035,7 @@ static Vec3s D_80854730 = { -57, 3377, 0 };
 void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader) {
     this->ageProperties = &sAgeProperties[gSaveContext.linkAge];
     Actor_ProcessInitChain(&this->actor, D_80854708);
-    this->swordEffectIndex = TOTAL_EFFECT_COUNT;
+    this->meleeWeaponEffectIndex = TOTAL_EFFECT_COUNT;
     this->currentYaw = this->actor.world.rot.y;
     func_80834644(globalCtx, this);
 
@@ -9044,15 +9046,15 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
                        this->morphTable2, PLAYER_LIMB_MAX);
     this->skelAnime2.baseTransl = D_80854730;
 
-    Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
+    Effect_Add(globalCtx, &this->meleeWeaponEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
     this->unk_46C = SUBCAM_NONE;
     Collider_InitCylinder(globalCtx, &this->cylinder);
     Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &D_80854624);
-    Collider_InitQuad(globalCtx, &this->swordQuads[0]);
-    Collider_SetQuad(globalCtx, &this->swordQuads[0], &this->actor, &D_80854650);
-    Collider_InitQuad(globalCtx, &this->swordQuads[1]);
-    Collider_SetQuad(globalCtx, &this->swordQuads[1], &this->actor, &D_80854650);
+    Collider_InitQuad(globalCtx, &this->meleeWeaponQuads[0]);
+    Collider_SetQuad(globalCtx, &this->meleeWeaponQuads[0], &this->actor, &D_80854650);
+    Collider_InitQuad(globalCtx, &this->meleeWeaponQuads[1]);
+    Collider_SetQuad(globalCtx, &this->meleeWeaponQuads[1], &this->actor, &D_80854650);
     Collider_InitQuad(globalCtx, &this->shieldQuad);
     Collider_SetQuad(globalCtx, &this->shieldQuad, &this->actor, &D_808546A0);
 }
@@ -9715,7 +9717,8 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
                 }
             } else if (this->stateFlags1 & PLAYER_STATE1_19) {
                 camMode = CAM_MODE_FREEFALL;
-            } else if ((this->swordState != 0) && (this->swordAnimation >= 0) && (this->swordAnimation < 0x18)) {
+            } else if ((this->meleeWeaponState != 0) && (this->meleeWeaponAnimation >= 0) &&
+                       (this->meleeWeaponAnimation < 0x18)) {
                 camMode = CAM_MODE_STILL;
             } else {
                 camMode = CAM_MODE_NORMAL;
@@ -9770,8 +9773,8 @@ void func_80848A04(GlobalContext* globalCtx, Player* this) {
         this->unk_85C = temp;
     }
 
-    func_8002836C(globalCtx, &this->swordInfo[0].tip, &D_808547A4, &D_808547B0, &D_808547BC, &D_808547C0, temp * 200.0f,
-                  0, 8);
+    func_8002836C(globalCtx, &this->meleeWeaponInfo[0].tip, &D_808547A4, &D_808547B0, &D_808547BC, &D_808547C0,
+                  temp * 200.0f, 0, 8);
 }
 
 void func_80848B44(GlobalContext* globalCtx, Player* this) {
@@ -10283,8 +10286,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
     Collider_ResetCylinderAC(globalCtx, &this->cylinder.base);
 
-    Collider_ResetQuadAT(globalCtx, &this->swordQuads[0].base);
-    Collider_ResetQuadAT(globalCtx, &this->swordQuads[1].base);
+    Collider_ResetQuadAT(globalCtx, &this->meleeWeaponQuads[0].base);
+    Collider_ResetQuadAT(globalCtx, &this->meleeWeaponQuads[1].base);
 
     Collider_ResetQuadAC(globalCtx, &this->shieldQuad.base);
     Collider_ResetQuadAT(globalCtx, &this->shieldQuad.base);
@@ -10528,11 +10531,11 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 void Player_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Player* this = (Player*)thisx;
 
-    Effect_Delete(globalCtx, this->swordEffectIndex);
+    Effect_Delete(globalCtx, this->meleeWeaponEffectIndex);
 
     Collider_DestroyCylinder(globalCtx, &this->cylinder);
-    Collider_DestroyQuad(globalCtx, &this->swordQuads[0]);
-    Collider_DestroyQuad(globalCtx, &this->swordQuads[1]);
+    Collider_DestroyQuad(globalCtx, &this->meleeWeaponQuads[0]);
+    Collider_DestroyQuad(globalCtx, &this->meleeWeaponQuads[1]);
     Collider_DestroyQuad(globalCtx, &this->shieldQuad);
 
     func_800876C8(globalCtx);
@@ -12709,7 +12712,7 @@ s32 func_80850224(Player* this, GlobalContext* globalCtx) {
 static Vec3f D_80854A40 = { 0.0f, 40.0f, 45.0f };
 
 void func_808502D0(Player* this, GlobalContext* globalCtx) {
-    struct_80854190* sp44 = &D_80854190[this->swordAnimation];
+    struct_80854190* sp44 = &D_80854190[this->meleeWeaponAnimation];
 
     this->stateFlags2 |= PLAYER_STATE2_5;
 
@@ -12753,7 +12756,7 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 this->stateFlags3 |= PLAYER_STATE3_3;
             }
         } else if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
-            if ((this->swordAnimation == 0x16) || (this->swordAnimation == 0x13)) {
+            if ((this->meleeWeaponAnimation == 0x16) || (this->meleeWeaponAnimation == 0x13)) {
                 static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
                 Vec3f shockwavePos;
                 f32 sp2C;
@@ -12764,8 +12767,8 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 Math_ScaledStepToS(&this->actor.focus.rot.x, Math_Atan2S(45.0f, sp2C), 800);
                 func_80836AB8(this, 1);
 
-                if ((((this->swordAnimation == 0x16) && LinkAnimation_OnFrame(&this->skelAnime, 7.0f)) ||
-                     ((this->swordAnimation == 0x13) && LinkAnimation_OnFrame(&this->skelAnime, 2.0f))) &&
+                if ((((this->meleeWeaponAnimation == 0x16) && LinkAnimation_OnFrame(&this->skelAnime, 7.0f)) ||
+                     ((this->meleeWeaponAnimation == 0x13) && LinkAnimation_OnFrame(&this->skelAnime, 2.0f))) &&
                     (sp2C > -40.0f) && (sp2C < 40.0f)) {
                     func_80842A28(globalCtx, this);
                     EffectSsBlast_SpawnWhiteShockwave(globalCtx, &shockwavePos, &zeroVec, &zeroVec);

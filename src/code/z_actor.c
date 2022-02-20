@@ -3999,7 +3999,8 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     var1 = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
     var2 = actor->yawTowardsPlayer - arg5;
 
-    if ((actor->xzDistToPlayer <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
+    if ((actor->xzDistToPlayer <= range) && (player->meleeWeaponState != 0) && (arg4 >= ABS(var1)) &&
+        (arg3 >= ABS(var2))) {
         return true;
     } else {
         return false;
@@ -4039,7 +4040,8 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* pos) {
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
+    if ((collider->acFlags & AC_TYPE_PLAYER) && (player->meleeWeaponState != 0) &&
+        (player->meleeWeaponAnimation == 0x16)) {
         return true;
     } else {
         return false;

@@ -509,7 +509,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                                 this->work[FHGFIRE_RETURN_COUNT] = 100;
                             }
 
-                            if (!canBottleReflect2 && (player->swordAnimation >= 24)) {
+                            if (!canBottleReflect2 && (player->meleeWeaponAnimation >= 24)) {
                                 this->actor.speedXZ = 20.0f;
                                 this->work[FHGFIRE_RETURN_COUNT] = 4;
                             } else {
