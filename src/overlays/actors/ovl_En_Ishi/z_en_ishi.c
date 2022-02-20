@@ -145,11 +145,11 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() * 5.0f) + 5.0f;
         pos.z = this->actor.world.pos.z + (Rand_ZeroOne() - 0.5f) * 8.0f;
         Math_Vec3f_Copy(&velocity, &this->actor.velocity);
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             velocity.x *= 0.8f;
             velocity.y *= -0.8f;
             velocity.z *= 0.8f;
-        } else if (this->actor.bgCheckFlags & 8) {
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             velocity.x *= -0.8f;
             velocity.y *= 0.8f;
             velocity.z *= -0.8f;
@@ -185,11 +185,11 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() * 40.0f) + 5.0f;
         pos.z = this->actor.world.pos.z + (Math_CosS(angle) * rand);
         Math_Vec3f_Copy(&velocity, &thisx->velocity);
-        if (thisx->bgCheckFlags & 1) {
+        if (thisx->bgCheckFlags & BGCHECKFLAG_GROUND) {
             velocity.x *= 0.9f;
             velocity.y *= -0.8f;
             velocity.z *= 0.9f;
-        } else if (thisx->bgCheckFlags & 8) {
+        } else if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
             velocity.x *= -0.9f;
             velocity.y *= 0.8f;
             velocity.z *= -0.9f;
@@ -217,11 +217,11 @@ void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     Math_Vec3f_Copy(&pos, &this->actor.world.pos);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         pos.x += 2.0f * this->actor.velocity.x;
         pos.y -= 2.0f * this->actor.velocity.y;
         pos.z += 2.0f * this->actor.velocity.z;
-    } else if (this->actor.bgCheckFlags & 8) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         pos.x -= 2.0f * this->actor.velocity.x;
         pos.y += 2.0f * this->actor.velocity.y;
         pos.z -= 2.0f * this->actor.velocity.z;
@@ -233,11 +233,11 @@ void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     Math_Vec3f_Copy(&pos, &this->actor.world.pos);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         pos.x += 2.0f * this->actor.velocity.x;
         pos.y -= 2.0f * this->actor.velocity.y;
         pos.z += 2.0f * this->actor.velocity.z;
-    } else if (this->actor.bgCheckFlags & 8) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         pos.x -= 2.0f * this->actor.velocity.x;
         pos.y += 2.0f * this->actor.velocity.y;
         pos.z -= 2.0f * this->actor.velocity.z;
@@ -420,10 +420,10 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     s32 quakeIdx;
     Vec3f contactPos;
 
-    if (this->actor.bgCheckFlags & 9) {
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
         EnIshi_DropCollectible(this, globalCtx);
         sFragmentSpawnFuncs[type](this, globalCtx);
-        if (!(this->actor.bgCheckFlags & 0x20)) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
             SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
                                                sBreakSounds[type]);
             sDustSpawnFuncs[type](this, globalCtx);
@@ -438,7 +438,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (this->actor.bgCheckFlags & 0x40) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
         contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.world.pos.z;
@@ -456,7 +456,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         sRotSpeedX >>= 2;
         sRotSpeedY >>= 2;
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
-        this->actor.bgCheckFlags &= ~0x40;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
     }
     Math_StepToF(&this->actor.shape.yOffset, 0.0f, 2.0f);
     EnIshi_Fall(this);
