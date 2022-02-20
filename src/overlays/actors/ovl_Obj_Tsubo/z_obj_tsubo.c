@@ -241,7 +241,7 @@ void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         ObjTsubo_SetupLiftedUp(this);
-    } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         ObjTsubo_WaterBreak(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         ObjTsubo_SpawnCollectible(this, globalCtx);
@@ -285,7 +285,8 @@ void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx) {
         ObjTsubo_SetupThrown(this);
         ObjTsubo_ApplyGravity(this);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x85);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
     }
 }
 
@@ -303,12 +304,13 @@ void ObjTsubo_SetupThrown(ObjTsubo* this) {
 void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad[2];
 
-    if ((this->actor.bgCheckFlags & 0xB) || (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
+        (this->collider.base.atFlags & AT_HIT)) {
         ObjTsubo_AirBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
         Actor_Kill(&this->actor);
-    } else if (this->actor.bgCheckFlags & 0x40) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         ObjTsubo_WaterBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
@@ -320,7 +322,8 @@ void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx) {
         Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
         this->actor.shape.rot.x += D_80BA1B54;
         this->actor.shape.rot.y += D_80BA1B5C;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x85);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_7);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

@@ -123,7 +123,7 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Animation_Change(&this->skelAnime, sEnToryoAnimation.animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
                      sEnToryoAnimation.morphFrames);

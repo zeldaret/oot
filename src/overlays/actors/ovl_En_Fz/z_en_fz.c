@@ -322,9 +322,9 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
     Vec3f vec;
 
     if (this->isMoving &&
-        ((this->actor.bgCheckFlags & 8) ||
+        ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
          (Actor_TestFloorInDirection(&this->actor, globalCtx, 60.0f, this->actor.world.rot.y) == 0))) {
-        this->actor.bgCheckFlags &= ~8;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->isMoving = false;
         this->speedXZ = 0.0f;
         this->actor.speedXZ = 0.0f;
@@ -697,7 +697,8 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (this->updateBgInfo) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 
     iceSmokeSpawnFuncs[this->state](this);

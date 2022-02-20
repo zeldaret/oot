@@ -848,7 +848,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
     s32 adjustment;
 
     if ((((void)0, gSaveContext.gameMode) != 0) && (((void)0, gSaveContext.gameMode) != 3)) {
-        func_800AA16C(globalCtx);
+        func_800AA16C();
     }
 
     if (pauseCtx->state == 0) {

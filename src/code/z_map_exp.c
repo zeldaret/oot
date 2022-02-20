@@ -475,8 +475,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-                        gSPTextureRectangle(OVERLAY_DISP++, 1080, 616, 1112, 648, G_TX_RENDERTILE, 0, 0, 1 << 10,
-                                            1 << 10);
+                        gSPTextureRectangle(OVERLAY_DISP++, 270 << 2, 154 << 2, 278 << 2, 162 << 2, G_TX_RENDERTILE, 0,
+                                            0, 1 << 10, 1 << 10);
                     }
 
                     Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position

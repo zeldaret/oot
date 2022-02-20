@@ -182,6 +182,7 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     return 0;
 }
 
+// Scene Command 0x00: Spawn List
 void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
                                                         globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;

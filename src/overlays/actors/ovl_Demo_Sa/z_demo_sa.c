@@ -151,7 +151,8 @@ void func_8098E554(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098E5C8(DemoSa* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 DemoSa_UpdateSkelAnime(DemoSa* this) {
@@ -194,7 +195,7 @@ void func_8098E6EC(DemoSa* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 morphFrames, s32 arg4) {
     s32 pad[2];
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
@@ -211,7 +212,7 @@ void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 tr
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, unk0, fc, arg2, morphFrames);
 }
 
 void func_8098E7FC(DemoSa* this, GlobalContext* globalCtx) {
