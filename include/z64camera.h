@@ -789,7 +789,7 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ Linef unk_00;
+    /* 0x00 */ InfiniteLine unk_00;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ f32 unk_20;
@@ -913,7 +913,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f initalPos;
     /* 0x0C */ s16 animTimer;
-    /* 0x10 */ Linef sceneCamPosPlayerLine;
+    /* 0x10 */ InfiniteLine sceneCamPosPlayerLine;
 } Unique0Anim; // size = 0x28
 
 typedef struct {

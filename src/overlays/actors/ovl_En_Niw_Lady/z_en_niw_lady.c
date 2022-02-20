@@ -537,7 +537,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-Gfx* func_80ABB0A0(GraphicsContext* gfxCtx) {
+Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* dList;
 
     dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
@@ -576,7 +576,7 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->faceState]));
-        gSPSegment(POLY_OPA_DISP++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x0C, EnNiwLady_EmptyDList(globalCtx->state.gfxCtx));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnNiwLady_OverrideLimbDraw, NULL, this);
     }

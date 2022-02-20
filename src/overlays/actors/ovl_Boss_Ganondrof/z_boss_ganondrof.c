@@ -1473,7 +1473,7 @@ Gfx* BossGanondrof_GetClearPixelDList(GraphicsContext* gfxCtx) {
     return dList;
 }
 
-Gfx* BossGanondrof_GetNullDList(GraphicsContext* gfxCtx) {
+Gfx* BossGanondrof_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* dList = (Gfx*)Graph_Alloc(gfxCtx, sizeof(Gfx) * 1);
     Gfx* dListHead = dList;
 
@@ -1511,7 +1511,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->work[GND_BODY_DECAY_FLAG]) {
         gSPSegment(POLY_OPA_DISP++, 0x08, BossGanondrof_GetClearPixelDList(globalCtx->state.gfxCtx));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x08, BossGanondrof_GetNullDList(globalCtx->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x08, BossGanondrof_EmptyDList(globalCtx->state.gfxCtx));
     }
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, BossGanondrof_OverrideLimbDraw,

@@ -546,15 +546,15 @@ s16 Math_SmoothStepToS(s16* pValue, s16 target, s16 scale, s16 step, s16 minStep
 /**
  * Changes pValue by step towards target. If step is more than 1/scale of the remaining distance, step by that instead.
  */
-void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 maxStep) {
+void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 step) {
     s16 diff = target - *pValue;
 
     diff /= scale;
 
-    if (diff > maxStep) {
-        *pValue += maxStep;
-    } else if (diff < -maxStep) {
-        *pValue -= maxStep;
+    if (diff > step) {
+        *pValue += step;
+    } else if (diff < -step) {
+        *pValue -= step;
     } else {
         *pValue += diff;
     }

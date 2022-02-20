@@ -188,7 +188,7 @@ void func_80ABCE38(EnNy* this) {
 }
 
 void func_80ABCE50(EnNy* this, GlobalContext* globalCtx) {
-    if (this->actor.xyzDistToPlayerSq <= 25600.0f) {
+    if (this->actor.xyzDistToPlayerSq <= SQ(160.0f)) {
         func_80ABCD94(this);
     }
 }

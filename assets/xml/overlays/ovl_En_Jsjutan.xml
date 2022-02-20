@@ -24,7 +24,7 @@
         <!-- D_80A8D618. Draws the carpet's shadow texture. -->
         <DList Name="sShadowMaterialDL" Offset="0x3E78"/>
 
-        <!-- D_80A8D688. Draws vertexs in segment 0x0C. -->
+        <!-- D_80A8D688. Draws vertices in segment 0x0C. -->
         <DList Name="sModelDL" Offset="0x3EE8"/>
 
         <!-- D_80A8DAB8. Carpet vertices. Same vertex type as sCarpetOddVtx. Used when gameplayFrames is even. -->
