@@ -253,7 +253,7 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AWA_BOUND);
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
-    } else if (this->actor.bgCheckFlags & 0x20 && sp54.y < 0.0f) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && sp54.y < 0.0f) {
         sp60.x = sp60.z = 0.0f;
         sp60.y = 1.0f;
         EnBubble_Vec3fNormalizedRelfect(&sp54, &sp60, &sp54);

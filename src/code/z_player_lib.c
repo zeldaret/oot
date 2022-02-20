@@ -436,7 +436,7 @@ void func_8008EDF0(Player* this) {
 }
 
 void func_8008EE08(Player* this) {
-    if ((this->actor.bgCheckFlags & 1) ||
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
@@ -619,7 +619,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
         var = 0;
     } else if ((this->unk_840 > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & 1)) ? 1 : 3;
+        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) ? 1 : 3;
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
         var = 2;
     } else {
@@ -655,6 +655,7 @@ u8 sEyeMouthIndexes[][2] = {
  * shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols
  * from adult Link's object are used here.
  */
+#ifndef AVOID_UB
 void* sEyeTextures[] = {
     gLinkAdultEyesOpenTex,      gLinkAdultEyesHalfTex,  gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
     gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex,    gLinkAdultEyesUnk2Tex,
@@ -666,6 +667,20 @@ void* sMouthTextures[] = {
     gLinkAdultMouth3Tex,
     gLinkAdultMouth4Tex,
 };
+#else
+// Defining `AVOID_UB` will use a 2D array instead and properly use the child link pointers to allow for shifting.
+void* sEyeTextures[][8] = {
+    { gLinkAdultEyesOpenTex, gLinkAdultEyesHalfTex, gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
+      gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex, gLinkAdultEyesUnk2Tex },
+    { gLinkChildEyesOpenTex, gLinkChildEyesHalfTex, gLinkChildEyesClosedfTex, gLinkChildEyesRollLeftTex,
+      gLinkChildEyesRollRightTex, gLinkChildEyesShockTex, gLinkChildEyesUnk1Tex, gLinkChildEyesUnk2Tex },
+};
+
+void* sMouthTextures[][4] = {
+    { gLinkAdultMouth1Tex, gLinkAdultMouth2Tex, gLinkAdultMouth3Tex, gLinkAdultMouth4Tex },
+    { gLinkChildMouth1Tex, gLinkChildMouth2Tex, gLinkChildMouth3Tex, gLinkChildMouth4Tex },
+};
+#endif
 
 Color_RGB8 sTunicColors[] = {
     { 30, 105, 27 },
@@ -696,13 +711,21 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
         eyeIndex = sEyeMouthIndexes[face][0];
     }
 
+#ifndef AVOID_UB
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyeIndex]));
+#else
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[gSaveContext.linkAge][eyeIndex]));
+#endif
 
     if (mouthIndex < 0) {
         mouthIndex = sEyeMouthIndexes[face][1];
     }
 
+#ifndef AVOID_UB
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[mouthIndex]));
+#else
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[gSaveContext.linkAge][mouthIndex]));
+#endif
 
     color = &sTunicColors[tunic];
     gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);

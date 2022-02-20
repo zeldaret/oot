@@ -377,10 +377,10 @@ void EnFish_Dropped_Fall(EnFish* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.z = this->actor.world.rot.z;
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actor.bgCheckFlags & 1) { // On floor
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->timer = 400;
         EnFish_Dropped_SetupFlopOnGround(this);
-    } else if (this->actor.bgCheckFlags & 0x20) { // In water
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         EnFish_Dropped_SetupSwimAway(this);
     } else if ((this->timer <= 0) && (this->actor.params == FISH_DROPPED) &&
                (this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f)) {
@@ -464,9 +464,9 @@ void EnFish_Dropped_FlopOnGround(EnFish* this, GlobalContext* globalCtx) {
         } else {
             this->actor.draw = NULL;
         }
-    } else if (this->actor.bgCheckFlags & 0x20) { // In water
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         EnFish_Dropped_SetupSwimAway(this);
-    } else if (this->actor.bgCheckFlags & 1) { // On floor
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         EnFish_Dropped_SetupFlopOnGround(this);
     }
 }
@@ -489,7 +489,7 @@ void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 2.8f, 0.1f, 0.4f, 0.0f);
 
     // If touching wall or not in water, turn back and slow down for one frame.
-    if ((this->actor.bgCheckFlags & 8) || !(this->actor.bgCheckFlags & 0x20)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || !(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
         this->actor.home.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
         this->actor.speedXZ *= 0.5f;
     }
@@ -501,7 +501,7 @@ void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {
     this->actor.shape.rot = this->actor.world.rot;
 
     // Raise if on a floor.
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 4.0f, 2.0f);
     } else {
         Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y - 10.0f, 2.0f);

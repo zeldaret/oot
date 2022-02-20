@@ -240,7 +240,7 @@ void func_8088B69C(BgHidanRock* this, GlobalContext* globalCtx) {
 
 void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
     this->timer--;
-    if (this->dyna.actor.bgCheckFlags & 2) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->type == 0) {
             this->timer = 60;
             this->actionFunc = func_8088B5F4;

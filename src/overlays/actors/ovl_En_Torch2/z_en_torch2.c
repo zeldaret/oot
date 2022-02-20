@@ -482,7 +482,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
             } else if (sJumpslashFlag && (sAlpha == 255) && (this->actor.velocity.y > 0)) {
                 input->cur.button |= BTN_B;
-            } else if (!sJumpslashFlag && (this->actor.bgCheckFlags & 1)) {
+            } else if (!sJumpslashFlag && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
                 sStickAngle = this->actor.yawTowardsPlayer;
                 if (sAlpha != 255) {

@@ -251,11 +251,11 @@ void EnNy_TurnToStone(EnNy* this, GlobalContext* globalCtx) {
     phi_f0 -= 2.0f;
     if (phi_f0 <= 0.25f) {
         phi_f0 = 0.25f;
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             if (!(this->unk_1F0 < this->actor.yDistToWater)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             }
-            this->actor.bgCheckFlags &= ~2;
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
             this->actor.speedXZ = 0.0f;
             this->actor.world.rot.y = this->actor.shape.rot.y;
             func_80ABCE38(this);
