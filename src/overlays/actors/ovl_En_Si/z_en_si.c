@@ -137,7 +137,7 @@ void EnSi_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSi* this = (EnSi*)thisx;
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     Actor_SetFocus(&this->actor, 16.0f);
 }

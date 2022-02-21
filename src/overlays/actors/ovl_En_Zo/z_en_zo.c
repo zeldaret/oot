@@ -590,7 +590,7 @@ void EnZo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->canSpeak = false;
     this->unk_194.unk_00 = 0;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.height * 0.5f, this->collider.dim.radius, 0.0f,
-                            5);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (this->actor.yDistToWater < 54.0f || (this->actor.params & 0x3F) == 8) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
@@ -725,7 +725,8 @@ void EnZo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, this->collider.dim.radius, this->collider.dim.height * 0.25f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, this->collider.dim.radius, this->collider.dim.height * 0.25f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     EnZo_Dialog(this, globalCtx);
 

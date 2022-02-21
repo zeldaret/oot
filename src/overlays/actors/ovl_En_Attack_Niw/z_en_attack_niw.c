@@ -327,7 +327,9 @@ void EnAttackNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.rot = this->actor.world.rot;
     this->actor.shape.shadowScale = 15.0f;
     this->actionFunc(this, globalCtx2);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     if (this->actionFunc == func_809B5670) {
         func_8002D97C(&this->actor);

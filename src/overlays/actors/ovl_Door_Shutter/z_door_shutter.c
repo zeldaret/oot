@@ -595,7 +595,7 @@ void func_80997568(DoorShutter* this, GlobalContext* globalCtx) {
 
 void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         DoorShutter_SetupAction(this, func_809976B8);
         if (!(gSaveContext.eventChkInf[7] & 1)) {

@@ -1952,7 +1952,7 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f,
-                            (f32)this->collider.dim.radius * 0.6f, 0.0f, 5);
+                            (f32)this->collider.dim.radius * 0.6f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (this->unk_194.unk_00 == 0) {
         func_80A44AB0(this, globalCtx);
     }

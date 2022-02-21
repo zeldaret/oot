@@ -346,12 +346,12 @@ typedef struct Player {
     /* 0x046C */ s16        unk_46C;
     /* 0x046E */ char       unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;
-    /* 0x04E4 */ ColliderQuad swordQuads[2];
+    /* 0x04E4 */ ColliderQuad meleeWeaponQuads[2];
     /* 0x05E4 */ ColliderQuad shieldQuad;
     /* 0x0664 */ Actor*     unk_664;
     /* 0x0668 */ char       unk_668[0x004];
     /* 0x066C */ s32        unk_66C;
-    /* 0x0670 */ s32        swordEffectIndex;
+    /* 0x0670 */ s32        meleeWeaponEffectIndex;
     /* 0x0674 */ PlayerFunc674 func_674;
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
     /* 0x067C */ u32        stateFlags1;
@@ -393,8 +393,8 @@ typedef struct Player {
     /* 0x083C */ s16        currentYaw;
     /* 0x083E */ s16        targetYaw;
     /* 0x0840 */ u16        unk_840;
-    /* 0x0842 */ s8         swordAnimation;
-    /* 0x0843 */ s8         swordState;
+    /* 0x0842 */ s8         meleeWeaponAnimation;
+    /* 0x0843 */ s8         meleeWeaponState;
     /* 0x0844 */ s8         unk_844;
     /* 0x0845 */ u8         unk_845;
     /* 0x0846 */ u8         unk_846;
@@ -439,7 +439,7 @@ typedef struct Player {
     /* 0x08A8 */ f32        unk_8A8;
     /* 0x08AC */ f32        windSpeed;
     /* 0x08B0 */ s16        windDirection;
-    /* 0x08B4 */ WeaponInfo swordInfo[3];
+    /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
     /* 0x0908 */ Vec3f      bodyPartsPos[18];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       shieldMf;
