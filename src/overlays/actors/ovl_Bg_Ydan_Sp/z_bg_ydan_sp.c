@@ -279,8 +279,8 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     webPos.y = this->dyna.actor.world.pos.y - 50.0f;
     webPos.z = this->dyna.actor.world.pos.z;
     if (Player_IsBurningStickInRange(globalCtx, &webPos, 70.0f, 50.0f) != 0) {
-        this->dyna.actor.home.pos.x = player->swordInfo[0].tip.x;
-        this->dyna.actor.home.pos.z = player->swordInfo[0].tip.z;
+        this->dyna.actor.home.pos.x = player->meleeWeaponInfo[0].tip.x;
+        this->dyna.actor.home.pos.z = player->meleeWeaponInfo[0].tip.z;
         BgYdanSp_BurnWeb(this, globalCtx);
         return;
     }
@@ -400,10 +400,10 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, globalCtx);
     } else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
-        func_8002DBD0(&this->dyna.actor, &sp30, &player->swordInfo[0].tip);
+        func_8002DBD0(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             OnePointCutscene_Init(globalCtx, 3020, 40, &this->dyna.actor, MAIN_CAM);
-            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->swordInfo[0].tip);
+            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->meleeWeaponInfo[0].tip);
             BgYdanSp_BurnWeb(this, globalCtx);
         }
     }

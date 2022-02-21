@@ -27,7 +27,7 @@ void EnGoma_Stunned(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_LookAtPlayer(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_Debris(EnGoma* this, GlobalContext* globalCtx);
-void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx2);
+void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_BossLimb(EnGoma* this, GlobalContext* globalCtx);
 
 void EnGoma_SetupFlee(EnGoma* this);
@@ -720,13 +720,14 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.scale.y, 0.01f, 0.5f, 0.00075f, 0.000001f);
         Math_SmoothStepToF(&this->actor.scale.z, 0.01f, 0.5f, 0.00075f, 0.000001f);
         EnGoma_UpdateHit(this, globalCtx);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         EnGoma_SetFloorRot(this);
         Actor_SetFocus(&this->actor, 20.0f);
         EnGoma_LookAtPlayer(this, globalCtx);
         EnGoma_UpdateEyeEnvColor(this);
         this->visualState = 1;
-        if (player->swordState != 0) {
+        if (player->meleeWeaponState != 0) {
             this->colCyl2.dim.radius = 35;
             this->colCyl2.dim.height = 35;
             this->colCyl2.dim.yShift = 0;
@@ -875,7 +876,7 @@ void EnGoma_BossLimb(EnGoma* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     this->actor.world.pos.y -= 5.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 5.0f;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {

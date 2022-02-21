@@ -234,7 +234,8 @@ s32 EnZf_PrimaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
     this->actor.world.pos.x += sin;
     this->actor.world.pos.z += cos;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     this->actor.world.pos = curPos;
     ret = !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
     this->actor.bgCheckFlags = curBgCheckFlags;
@@ -265,7 +266,8 @@ s16 EnZf_SecondaryFloorCheck(EnZf* this, GlobalContext* globalCtx, f32 dist) {
     this->actor.world.pos.x += sin;
     this->actor.world.pos.z += cos;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     this->actor.world.pos = curPos;
     ret = !(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
     this->actor.bgCheckFlags = curBgCheckFlags;
@@ -307,7 +309,9 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Effect_Add(globalCtx, &this->blureIndex, EFFECT_BLURE1, 0, 0, &blureInit);
 
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 75.0f, 45.0f, 45.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 75.0f, 45.0f, 45.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     this->alpha = 255;
     thisx->colChkInfo.cylRadius = 40;
@@ -452,9 +456,14 @@ s16 EnZf_FindNextPlatformAwayFromPlayer(Vec3f* pos, s16 curPlatform, s16 arg2, G
         }
     }
 
-    // These functions have no side effects, so these two calls do nothing
+    //! @bug `altNextPlatform` can be -1 in certain conditions and cause an out of bounds access.
+    //! Under normal conditions, this doesn't cause problems because the data before `sPlatformPositions`
+    //! is section padding between .text and .data, so 0 gets read as a float.
+    // These two function calls do nothing. Their return values aren't used and they have no side effects.
+#ifndef AVOID_UB
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[nextPlatform]);
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &sPlatformPositions[altNextPlatform]);
+#endif
 
     if (altNextPlatform > 0) {
         s16 nextPlatformToPlayerYaw =
@@ -718,7 +727,7 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
         angleToPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
         angleToPlayer = ABS(angleToPlayer);
 
-        if ((this->actor.xzDistToPlayer < 100.0f) && (player->swordState != 0) && (angleToPlayer >= 0x1F40)) {
+        if ((this->actor.xzDistToPlayer < 100.0f) && (player->meleeWeaponState != 0) && (angleToPlayer >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
             func_80B483E4(this, globalCtx);
         } else if (this->unk_3F0 != 0) {
@@ -835,7 +844,7 @@ void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
         temp_v1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
         temp_v1 = ABS(temp_v1);
 
-        if ((sp48 == this->curPlatform) && (this->actor.xzDistToPlayer < 150.0f) && (player->swordState != 0) &&
+        if ((sp48 == this->curPlatform) && (this->actor.xzDistToPlayer < 150.0f) && (player->meleeWeaponState != 0) &&
             (temp_v1 >= 0x1F40)) {
             this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
@@ -2047,7 +2056,9 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_MoveForward(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 25.0f, 30.0f, 60.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 25.0f, 30.0f, 60.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
 
         if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->hopAnimIndex = 1;

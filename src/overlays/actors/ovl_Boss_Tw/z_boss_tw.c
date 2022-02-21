@@ -1386,7 +1386,7 @@ void BossTw_HitByBeam(BossTw* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 1.0f);
 
     this->actor.world.pos.y -= 50.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 50.0f;
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
@@ -5316,7 +5316,7 @@ void BossTw_TwinrovaStun(BossTw* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y += this->actor.velocity.y;
     Math_ApproachF(&this->actor.velocity.y, -5.0f, 1.0f, 0.5f);
     this->actor.world.pos.y -= 30.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 30.0f;
 
     if (this->csState1 == 0) {

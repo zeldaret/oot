@@ -803,7 +803,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AAB5A4(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_80AAB158(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
 }
 
