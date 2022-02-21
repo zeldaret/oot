@@ -94,7 +94,7 @@ void EnMu_Interact(EnMu* this, GlobalContext* globalCtx) {
 
     textFlags |= bitmask[randomIndex];
     this->defFaceReaction = textIdOffset[randomIndex] | 0x7000;
-    textFlags &= 0xFF;
+    textFlags &= EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK | 0xE0;
     gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] |= textFlags;
 }
 
