@@ -126,7 +126,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(globalCtx) &&
-        (player->swordAnimation == 22 || player->swordAnimation == 23)) {
+        (player->meleeWeaponAnimation == 22 || player->meleeWeaponAnimation == 23)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
             (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
@@ -181,7 +181,8 @@ void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 /**

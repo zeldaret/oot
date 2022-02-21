@@ -111,7 +111,7 @@ void EnXc_SpawnNut(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_BgCheck(EnXc* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 EnXc_AnimIsFinished(EnXc* this) {

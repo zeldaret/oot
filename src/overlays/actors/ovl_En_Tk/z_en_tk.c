@@ -662,7 +662,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_MoveForward(&this->actor);
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     this->actionFunc(this, globalCtx);
 

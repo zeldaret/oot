@@ -131,7 +131,7 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (player->stateFlags2 & PLAYER_STATE2_17) {
-        if (player->swordAnimation >= 0x18) {
+        if (player->meleeWeaponAnimation >= 0x18) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -181,7 +181,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         }
 
         if (player->unk_858 <= 0.15f) {
-            if ((player->unk_858 >= 0.1f) && (player->swordAnimation >= 0x18)) {
+            if ((player->unk_858 >= 0.1f) && (player->meleeWeaponAnimation >= 0x18)) {
                 Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4, &D_801333E0,

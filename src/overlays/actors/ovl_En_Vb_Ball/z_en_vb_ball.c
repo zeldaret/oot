@@ -126,7 +126,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
     f32 angle;
     s16 i;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.velocity.y <= 0.0f)) {
         this->xRotVel = Rand_CenteredFloat((f32)0x4000);
         this->yRotVel = Rand_CenteredFloat((f32)0x4000);
@@ -186,7 +186,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Math_ApproachF(&this->shadowOpacity, 175.0f, 1.0f, 40.0f);
         radius = this->actor.scale.y * 1700.0f;
         this->actor.world.pos.y -= radius;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
         this->actor.world.pos.y += radius;
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.velocity.y <= 0.0f)) {
             if ((this->actor.params == 100) || (this->actor.params == 101)) {

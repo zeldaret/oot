@@ -14,6 +14,21 @@ def read_charmap(path):
 
     return charmap
 
+# From https://stackoverflow.com/questions/241327/remove-c-and-c-comments-using-python
+def remove_comments(text):
+    def replacer(match):
+        s = match.group(0)
+        if s.startswith('/'):
+            return " " # note: a space and not an empty string
+        else:
+            return s
+
+    pattern = re.compile(
+        r'//.*?$|/\*.*?\*/|\'(?:\\.|[^\\\'])*\'|"(?:\\.|[^\\"])*"',
+        re.DOTALL | re.MULTILINE
+    )
+    return re.sub(pattern, replacer, text)
+
 def convert_text(text, charmap):
     def cvt_str(m):
         string = m.group(0)
@@ -46,6 +61,7 @@ def main():
     with open(args.input, "r") as infile:
         text = infile.read()
 
+    text = remove_comments(text)
     text = convert_text(text, charmap)
 
     with open(args.output, "w", encoding="raw_unicode_escape") as outfile:
