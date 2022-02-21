@@ -271,7 +271,8 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] & (1 << carpenterType)) {
+                        if (gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] &
+                            (1 << (carpenterType + EVENTCHKINF_90_SHIFT))) {
                             freedCount++;
                         }
                     }
@@ -399,7 +400,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] |= 1 << (this->actor.params & 3);
+    gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] |= 1 << ((this->actor.params & 3) + EVENTCHKINF_90_SHIFT);
 
     this->actor.gravity = -1.0f;
     this->escapeSubCamTimer = sEscapeSubCamParams[this->actor.params & 3].maxFramesActive;
