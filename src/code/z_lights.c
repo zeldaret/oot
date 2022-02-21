@@ -76,7 +76,7 @@ void Lights_Draw(Lights* lights, GraphicsContext* gfxCtx) {
 
     if (0) {}
 
-    i++; // abmient light is total number of lights + 1
+    i++; // ambient light is total number of lights + 1
     gSPLight(POLY_OPA_DISP++, &lights->l.a, i);
     gSPLight(POLY_XLU_DISP++, &lights->l.a, i);
 

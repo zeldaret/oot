@@ -742,7 +742,7 @@ void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->sceneNum != SCENE_SPOT05) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
     func_80AF609C(this);

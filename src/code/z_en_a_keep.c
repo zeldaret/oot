@@ -325,9 +325,13 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_BOULDER_FRAGMENT) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         } else {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         }
     }
 

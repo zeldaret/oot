@@ -1239,7 +1239,8 @@ void EnBb_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if ((this->actor.world.pos.y - 20.0f) <= this->actor.floorHeight) {
                 sp34 = 20.0f;
             }
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, sp34, 25.0f, 20.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, sp34, 25.0f, 20.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
         this->actor.focus.pos = this->actor.world.pos;
         this->collider.elements->dim.worldSphere.center.x = this->actor.world.pos.x;

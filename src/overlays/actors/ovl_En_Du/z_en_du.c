@@ -571,7 +571,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002D7EC(&this->actor);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->actionFunc != func_809FE4A4) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1F4.unk_00, this->collider.dim.radius + 116.0f, func_809FDC38,

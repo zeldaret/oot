@@ -614,7 +614,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupWaitForSpawn(this, globalCtx);
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
 void EnPoField_SoulUpdateProperties(EnPoField* this, s32 arg1) {
@@ -863,7 +863,7 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->actionFunc != EnPoField_WaitForSpawn) {
         Actor_SetFocus(&this->actor, 42.0f);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, UPDBGCHECKINFO_FLAG_2);
         func_80AD619C(this);
         func_80AD6330(this);
         Collider_UpdateCylinder(&this->actor, &this->collider);

@@ -1491,7 +1491,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
         BossVa_Spark(globalCtx, this, 1, 100, 15.0f, 10.0f, SPARK_BARI, 11.0f, true);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 70.0f, 0.0f, 1);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 70.0f, 0.0f, UPDBGCHECKINFO_FLAG_0);
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     if (this->invincibilityTimer == 0) {

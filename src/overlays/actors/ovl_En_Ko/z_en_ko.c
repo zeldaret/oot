@@ -1256,7 +1256,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
     }
     if (func_80A97C7C(this)) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->actor.gravity = -1.0f;
     } else {
         this->actor.gravity = 0.0f;

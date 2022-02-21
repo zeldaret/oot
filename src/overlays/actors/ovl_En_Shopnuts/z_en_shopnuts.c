@@ -240,7 +240,8 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnShopnuts_ColliderCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
+                            UPDBGCHECKINFO_FLAG_2);
     if (this->collider.base.acFlags & AC_ON) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }

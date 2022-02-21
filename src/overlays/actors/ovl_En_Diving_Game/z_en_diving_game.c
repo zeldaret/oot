@@ -232,7 +232,7 @@ void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
 void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == Message_GetState(&globalCtx->msgCtx) &&
-        Message_ShouldAdvance(globalCtx)) { // Did player selected an answer?
+        Message_ShouldAdvance(globalCtx)) { // Did the player select an answer?
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // Yes
                 if (gSaveContext.rupees >= 20) {
@@ -522,7 +522,9 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
         EffectSsGRipple_Spawn(globalCtx, &pos, 100, 500, 30);
     }
     this->unk_290++;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 29);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

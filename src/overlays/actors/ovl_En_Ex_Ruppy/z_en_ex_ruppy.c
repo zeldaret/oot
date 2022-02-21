@@ -371,7 +371,8 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 }
 
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -354,4 +354,13 @@ typedef enum {
     DOORLOCK_NORMAL_SPIRIT
 } DoorLockType;
 
+#define UPDBGCHECKINFO_FLAG_0 (1 << 0) // check wall
+#define UPDBGCHECKINFO_FLAG_1 (1 << 1) // check ceiling
+#define UPDBGCHECKINFO_FLAG_2 (1 << 2) // check floor and water
+#define UPDBGCHECKINFO_FLAG_3 (1 << 3)
+#define UPDBGCHECKINFO_FLAG_4 (1 << 4)
+#define UPDBGCHECKINFO_FLAG_5 (1 << 5) // unused
+#define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
+#define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
+
 #endif

@@ -454,7 +454,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_Update(&this->skelAnime);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f,
-                            5);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     Collider_UpdateCylinder(&this->actor, &this->collider);

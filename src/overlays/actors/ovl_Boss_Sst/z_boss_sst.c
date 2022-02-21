@@ -2585,7 +2585,8 @@ void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx) {
 
     BossSst_HandCollisionCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 130.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 130.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     Actor_SetFocus(&this->actor, 0.0f);
     if (this->colliderJntSph.base.atFlags & AT_ON) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);

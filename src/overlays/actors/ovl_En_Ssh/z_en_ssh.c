@@ -813,7 +813,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         SkelAnime_Update(&this->skelAnime);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, globalCtx);
     }
     EnSsh_UpdateYaw(this, globalCtx);

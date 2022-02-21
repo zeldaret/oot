@@ -302,7 +302,7 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx2) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
     Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &gCowBodyChewAnim) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);

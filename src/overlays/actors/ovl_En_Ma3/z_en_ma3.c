@@ -262,7 +262,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_1E0.unk_00 = (u16)0;
 }

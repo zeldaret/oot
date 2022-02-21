@@ -219,7 +219,7 @@ void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002D7EC(&this->actor);
     this->actionFunc(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (this->actionFunc != EnFdFire_Disappear) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
