@@ -155,10 +155,10 @@
     <Sample Name="Harpsichord (High)">
 		<Offset Version="MQDebug" At="0x37b2a0"/>
 	</Sample>
-    <Sample Name="Marimba">
+    <Sample Name="Marimba 1">
 		<Offset Version="MQDebug" At="0x382830"/>
 	</Sample>
-    <Sample Name="Marimba">
+    <Sample Name="Marimba 2">
 		<Offset Version="MQDebug" At="0x384ed0"/>
 	</Sample>
     <Sample Name="Crystal Synth">
