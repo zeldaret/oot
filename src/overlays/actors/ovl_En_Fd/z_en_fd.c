@@ -675,7 +675,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFd_ColliderCheck(this, globalCtx);
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     EnFd_Fade(this, globalCtx);
     this->actionFunc(this, globalCtx);
     EnFd_UpdateDots(this);

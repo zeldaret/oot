@@ -103,7 +103,7 @@ void func_80B86AC8(ItemShield* this, GlobalContext* globalCtx) {
         return;
     }
     func_8002F434(&this->actor, globalCtx, GI_SHIELD_DEKU, 30.0f, 50.0f);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->timer--;
         if (this->timer < 60) {
@@ -148,7 +148,7 @@ void func_80B86CA8(ItemShield* this, GlobalContext* globalCtx) {
     s32 temp;
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actor.shape.yOffset = ABS(Math_SinS(this->actor.shape.rot.x)) * 1500.0f;
 
     for (i = 0; i < 8; i++) {

@@ -363,7 +363,7 @@ void EnFish_Dropped_SetupFall(EnFish* this) {
     this->actor.minVelocityY = -10.0f;
     this->actor.shape.yOffset = 0.0f;
     EnFish_SetOutOfWaterAnimation(this);
-    this->unk_250 = 5;
+    this->unk_250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
     this->actionFunc = EnFish_Dropped_Fall;
     this->timer = 300;
 }
@@ -424,7 +424,7 @@ void EnFish_Dropped_SetupFlopOnGround(EnFish* this) {
     this->actor.shape.yOffset = 300.0f;
     EnFish_SetOutOfWaterAnimation(this);
     this->actionFunc = EnFish_Dropped_FlopOnGround;
-    this->unk_250 = 5;
+    this->unk_250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
 
     if (playSound && (this->actor.draw != NULL)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
@@ -480,7 +480,7 @@ void EnFish_Dropped_SetupSwimAway(EnFish* this) {
     this->actor.shape.yOffset = 0.0f;
     EnFish_SetInWaterAnimation(this);
     this->actionFunc = EnFish_Dropped_SwimAway;
-    this->unk_250 = 5;
+    this->unk_250 = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2;
 }
 
 void EnFish_Dropped_SwimAway(EnFish* this, GlobalContext* globalCtx) {

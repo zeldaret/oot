@@ -650,7 +650,8 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc == EnEiyer_Glide || this->actionFunc == EnEiyer_DiveAttack ||
         this->actionFunc == EnEiyer_Stunned || this->actionFunc == EnEiyer_Die || this->actionFunc == EnEiyer_Hurt ||
         (this->actionFunc == EnEiyer_Land && this->timer == -1)) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 27.0f, 30.0f, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 27.0f, 30.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     }
 
     if (this->actor.params == 0xA ||

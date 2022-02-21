@@ -978,7 +978,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                     switch (curPart) {
                         case 0:
                             AudioSynth_InterL(cmd++, DMEM_UNCOMPRESSED_NOTE + skipBytes, DMEM_TEMP + 0x20,
-                                              ((samplesLenAdjusted / 2) + 7) & ~7);
+                                              ALIGN8(samplesLenAdjusted / 2));
                             resampledTempLen = samplesLenAdjusted;
                             noteSamplesDmemAddrBeforeResampling = DMEM_TEMP + 0x20;
                             if (finished) {
@@ -988,7 +988,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                             break;
                         case 1:
                             AudioSynth_InterL(cmd++, DMEM_UNCOMPRESSED_NOTE + skipBytes,
-                                              DMEM_TEMP + 0x20 + resampledTempLen, ((samplesLenAdjusted / 2) + 7) & ~7);
+                                              DMEM_TEMP + 0x20 + resampledTempLen, ALIGN8(samplesLenAdjusted / 2));
                             break;
                     }
             }

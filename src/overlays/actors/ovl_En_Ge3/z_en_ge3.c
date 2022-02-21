@@ -175,7 +175,8 @@ void EnGe3_UpdateCollision(EnGe3* this, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (!(this->unk_30C & 2) && SkelAnime_Update(&this->skelAnime)) {
         this->unk_30C |= 2;

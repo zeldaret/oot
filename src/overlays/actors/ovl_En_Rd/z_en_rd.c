@@ -811,7 +811,9 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.shape.rot.x == 0) && (this->unk_31B != 8) && (this->actor.speedXZ != 0.0f)) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         }
 
         if (this->unk_31B == 7) {
