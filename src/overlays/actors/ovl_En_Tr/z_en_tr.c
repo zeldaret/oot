@@ -375,7 +375,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnTr* this = (EnTr*)thisx;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {

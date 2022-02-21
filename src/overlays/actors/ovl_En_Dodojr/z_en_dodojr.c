@@ -611,7 +611,8 @@ void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_809F70E8(this, globalCtx);
 
     if (this->actionFunc != func_809F73AC) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 
     this->actionFunc(this, globalCtx);

@@ -2274,7 +2274,8 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
                     (sLurePos.z > 1350.0f) || (sLurePos.z < 1100.0f) || (sLurePos.y < 45.0f)) {
                     sp80 = this->actor.world.pos;
                     this->actor.prevPos = this->actor.world.pos = sLurePos;
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f, 0x43);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f,
+                                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_6);
                     this->actor.world.pos = sp80;
 
                     if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
@@ -2524,7 +2525,8 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
                 if (D_80B7E0B6 == 2) {
                     sp58 = this->actor.world.pos;
                     this->actor.prevPos = this->actor.world.pos = sLurePos;
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f, 0x44);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f,
+                                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6);
                     this->actor.world.pos = sp58;
 
                     D_80B7E128.y += -0.5f;
@@ -4132,7 +4134,8 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.world.pos.y -= spD8;
             this->actor.prevPos.y -= spD8;
             this->actor.velocity.y = -1.0f;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 100.0f, 0x45);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 100.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6);
             this->actor.world.pos.y += spD8;
             this->actor.prevPos.y += spD8;
 

@@ -192,9 +192,9 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.mass = MASS_HEAVY;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, thisx, &sJntSphInit, &this->colliderItem);
-    this->unk_2DC = 0x1D;
+    this->unk_2DC = UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4;
     if (this->actor.params == TEKTITE_BLUE) {
-        this->unk_2DC |= 0x40; // Don't use the actor engine's ripple spawning code
+        this->unk_2DC |= UPDBGCHECKINFO_FLAG_6; // Don't use the actor engine's ripple spawning code
         thisx->colChkInfo.health = 4;
         thisx->naviEnemyId += 1;
     }

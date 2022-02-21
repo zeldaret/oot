@@ -179,7 +179,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
     if (!(this->pieceFlags & PIECE_FLAG_HIT_FLOOR)) {
         thisx->world.pos.y += this->unk_164.y;
         thisx->prevPos.y += this->unk_164.y;
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 50.0f, 50.0f, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 50.0f, 50.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         thisx->world.pos.y -= this->unk_164.y;
         thisx->prevPos.y -= this->unk_164.y;
         if (thisx->bgCheckFlags & BGCHECKFLAG_GROUND) {

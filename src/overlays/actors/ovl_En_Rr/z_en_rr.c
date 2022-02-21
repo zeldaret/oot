@@ -809,7 +809,8 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider1.base.ocFlags1 &= ~OC1_HIT;
         this->collider1.base.acFlags &= ~AC_HIT;
     }
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     if (!this->stopScroll) {
         Math_ApproachF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
         Math_ApproachF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);
