@@ -1118,7 +1118,7 @@ void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, 
     (*m)[2][1] = 0;
     (*m)[0][3] = 0;
     (*m)[2][3] = 0;
-    (*m)[0][4] = 0;
+    (*m)[1][0] = 0;
 
     fixedPoint = (s32)(scaleX * 0x10000);
     (*m)[0][0] = fixedPoint;
@@ -1134,7 +1134,7 @@ void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, 
     intPart[11] = 0;
     (*m)[3][1] = fixedPoint << 16;
 
-    (*m)[2][4] = 0;
+    (*m)[3][0] = 0;
 
     fixedPoint = (s32)(translateX * 0x10000);
     intPart[12] = (fixedPoint >> 16) & 0xFFFF;
