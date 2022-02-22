@@ -1,12 +1,169 @@
 <Root>
     <File Name="spot01_scene" Segment="2">
         <Cutscene Name="gKakarikoVillageIntroCs" Offset="0xA540"/>
+        <Texture Name="gKakarikoVillageLadderTex" OutName="ladder" Format="rgba16" Width="32" Height="32" Offset="0xBF50"/>
+        <Texture Name="gKakarikoVillageDoorShadowTex" OutName="door_shadow" Format="ci8" Width="16" Height="32" Offset="0x12950" TlutOffset="0xA870"/>
+        <Texture Name="gKakarikoVillageRoofTex" OutName="roof" Format="ci8" Width="16" Height="32" Offset="0x1BF50" TlutOffset="0xA870"/>
+
+        <Texture Name="gKakarikoVillageLightGreenGrassTex2" OutName="light_green_grass_2" Format="rgba16" Width="32" Height="32" Offset="0xAA50"/>
+        <Texture Name="gKakarikoVillageEastWallTex" OutName="east_wall" Format="ci4" Height="64" Width="64" Offset="0xED50" TlutOffset="0xAA28"/>
+
+        <!-- Also used for Granny's potion shop -->
+        <Texture Name="gKakarikoVillageShopHouseRoofTex" OutName="shop_house_roof" Format="ci8" Width="32" Height="64" Offset="0xE550" TlutOffset="0xA870"/>
+
+        <!-- Also used for House of Skulltula -->
+        <Texture Name="gKakarikoVillageShopHouseWallsTex" OutName="shop_house_walls" Format="ci8" Width="32" Height="64" Offset="0xCD50" TlutOffset="0xA870"/>
+        <Texture Name="gKakarikoVillageBoxSideTex" OutName="box_side" Format="ci8" Width="16" Height="16" Offset="0xB250" TlutOffset="0xA870"/>
+
+        <Texture Name="gKakarikoVillagePlatformAndBoxTopTex" OutName="platform_and_box_top" Format="ci8" Width="16" Height="64" Offset="0xB350" TlutOffset="0xA870"/>
+        
+        <Texture Name="gKakarikoVillageNwAreaTex1" OutName="nw_area_1" Format="i4" Width="64" Height="64" Offset="0xD550"/>
+        <Texture Name="gKakarikoVillageNwAreaTex2" OutName="nw_area_2" Format="i4" Width="64" Height="64" Offset="0xDD50"/>
+
+        <Texture Name="gKakarikoVillageWellTileDirtyTex" OutName="well_tile_dirty" Format="rgba16" Width="32" Height="32" Offset="0xF950"/>
+        <Texture Name="gKakarikoVillageWellTileTex" OutName="well_tile" Format="rgba16" Width="32" Height="32" Offset="0x10150"/>
+        <Texture Name="gKakarikoVillageWellLadderTex" OutName="well_ladder" Format="rgba16" Width="32" Height="16" Offset="0xF550"/>
+
+        <Texture Name="gKakarikoVillageWellUpperTex" OutName="well_upper" Format="rgba16" Width="32" Height="64" Offset="0x10950"/>
+        
+        <Texture Name="gKakarikoVillageTowerTex" OutName="tower" Format="rgba16" Width="32" Height="64" Offset="0x11950"/>
+        <Texture Name="gKakarikoVillageGateBannerTex" OutName="gate_banner" Format="rgba16" Width="64" Height="32" Offset="0x12B50"/>
+        <Texture Name="gKakarikoVillageGateTex" OutName="gate" Format="rgba16" Width="16" Height="64" Offset="0x13B50"/>
+
+        <Texture Name="gKakarikoVillageStairTex" OutName="stair" Format="ci8" Width="64" Height="16" Offset="0x14F50" TlutOffset="0xA870"/>
+
+        <Texture Name="gKakarikoVillageDmtBackground1Tex" OutName="dmt_background_1" Format="ia4" Width="64" Height="32" Offset="0x14750"/>
+        <Texture Name="gKakarikoVillageShortFenceTex" OutName="short_fence" Format="ia4" Width="64" Height="64" Offset="0x15350"/>
+
         <Texture Name="gKakarikoVillageDayWindowTex" OutName="day_window" Format="rgba16" Width="32" Height="64" Offset="0x15B50"/>
         <Texture Name="gKakarikoVillageNightWindowTex" OutName="night_window" Format="rgba16" Width="32" Height="64" Offset="0x16B50"/>
+        
+        <Texture Name="gKakarikoVillageLightGreenGrassTex" OutName="light_green_grass" Format="rgba16" Width="32" Height="32" Offset="0x18B50"/>
+
+        <Texture Name="gKakarikoVillageDarkGreenGrassTex1" OutName="dark_green_grass_1" Format="rgba16" Width="32" Height="32" Offset="0x19350"/>
+        <Texture Name="gKakarikoVillageDarkGreenGrassTex2" OutName="dark_green_grass_2" Format="rgba16" Width="32" Height="32" Offset="0x1B750"/>
+
+        <Texture Name="gKakarikoVillageTallFenceTex" OutName="tall_fence" Format="rgba16" Width="16" Height="64" Offset="0x1AF50"/>
+        <!-- Also used for Impa's house and the house with all of the NPCs-->
+        <Texture Name="gKakarikoVillagePotionShopHouseWallTex" OutName="potion_shop_wall" Format="ci8" Width="32" Height="64" Offset="0x17B50" TlutOffset="0xA870"/>
         <Scene Name="spot01_scene" Offset="0x0"/>
     </File>
     <File Name="spot01_room_0" Segment="3">
-        <DList Name="gSpot01DL_009E38" Offset="0x9E38"/>
+        <!-- ZAPD doesn't support this yet
+        <ActorList Name="gKakarikoVillageChildDayActorList" Count="57" Offset="0x84"/>
+        <ActorList Name="gKakarikoVillageAdultDayActorList" Count="51" Offset="0x5CC"/>
+        <ActorList Name="gKakarikoVillageAdultNightActorList" Count="46" Offset="0x95C"/>
+        <ActorList Name="gKakarikoVillageChildtNightActorList" Count="50" Offset="0xC98"/>
+        -->
+        
+        <DList Name="gKakarikoVillageDarkGreenGrassDL" Offset="0x1F20"/>
+        <DList Name="gKakarikoVillageLightGreenGrassDL" Offset="0x24E8"/>
+        <DList Name="gKakarikoVillageStoneWallsAndStairsDL" Offset="0x3B48"/>
+        <DList Name="gKakarikoVillageEastWallsDL" Offset="0x4420"/>
+
+        <!-- Path to DMT and the stone wall around the NW part of the village -->
+        <DList Name="gKakarikoVillageNorthWestAreaDL" Offset="0x48C8"/>
+        <DList Name="gKakarikoVillageFencesDL" Offset="0x4DB0"/>
+        <DList Name="gKakarikoVillageWellLowerDL" Offset="0x5290"/>
+        <DList Name="gKakarikoVillageWellUpperDL" Offset="0x5680"/>
+        <DList Name="gKakarikoVillageTowerDL" Offset="0x5AD0"/>
+        <DList Name="gKakarikoVillageEntranceGateDL" Offset="0x5E48"/>
+        <DList Name="gKakarikoVillageImpasHousePlatformAndBoxesDL" Offset="0x63A0"/>
+
+        <DList Name="gKakarikoVillageHouseDL" Offset="0x6758"/>
+        <DList Name="gKakarikoVillageGrannysPotionShopDL" Offset="0x6B18"/>
+        <DList Name="gKakarikoVillageHouseOfSkulltulaWallsDL" Offset="0x6EC0"/>
+        <DList Name="gKakarikoVillageImpasHouseWallsDL" Offset="0x7418"/>
+        <DList Name="gKakarikoVillagePotionShopHouseDL" Offset="0x7888"/>
+        <DList Name="gKakarikoVillageShopHouseDL" Offset="0x7C18"/>
+        
+        <!-- Doesn't include the house that becomes a shop, also includes ladders. -->
+        <DList Name="gKakarikoVillageHousesRoofAndDoorDL" Offset="0x86F0"/>
+        <DList Name="gKakarikoVillageHouseWindowsDL" Offset="0x8EC8"/>
+        <DList Name="gKakarikoVilllageDmtBackgroundDL" Offset="0x9108"/>
+        <DList Name="gKakarikoVillageWindmillAndBackFenceDL" Offset="0x9A70"/>
+        <DList Name="gKakarikoVillageMasterDL" Offset="0x9E38"/>
+
+        <Array Name="gKakarikoVillageDmtBackgroundVtx" Count="18" Offset="0x8FE8">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageHouseWindowsVtx" Count="60" Offset="0x8B08">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageHousesRoofAndDoorVtx" Count="150" Offset="0x7D90">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageShopHouseVtx" Count="38" Offset="0x79B8">
+            <Vtx/>
+        </Array>
+        
+        <Array Name="gKakarikoVillagePotionShopHouseVtx" Count="38" Offset="0x7628">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageImpasHouseVtx" Count="67" Offset="0x6FE8">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageHouseOfSkulltulaVtx" Count="39" Offset="0x6C50">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageGrannysPotionSHopVtx" Count="43" Offset="0x6868">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageHouseVtx" Count="25" Offset="0x65C8">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageImpasHousePlatformAndboxesVtx" Count="60" Offset="0x5FE0">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageEntranceGateVtx" Count="39" Offset="0x5BD8">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoTowerVtx" Count="48" Offset="0x57D0">
+            <Vtx/>
+        </Array>
+        
+        <Array Name="gKakarikoWellUpperVtx" Count="36" Offset="0x5440">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoWellLowerVtx" Count="45" Offset="0x4FC0">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageFencesVtx" Count="52" Offset="0x4A70">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageNwAreaVtx" Count="56" Offset="0x4548">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageEastWallsVtx" Count="31" Offset="0x4230">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageStoneWallsAndStairsVtx" Count="334" Offset="0x2668">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageLightGreenGrassVtx" Count="55" Offset="0x2178">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gKakarikoVillageDarkGreenGrassVtx" Count="128" Offset="0x1720">
+            <Vtx/>
+        </Array>
+
         <Room Name="spot01_room_0" Offset="0x0"/>
     </File>
 </Root>
