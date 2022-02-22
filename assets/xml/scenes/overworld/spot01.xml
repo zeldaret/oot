@@ -112,7 +112,7 @@
             <Vtx/>
         </Array>
 
-        <Array Name="gKakarikoVillageGrannysPotionSHopVtx" Count="43" Offset="0x6868">
+        <Array Name="gKakarikoVillageGrannysPotionShopVtx" Count="43" Offset="0x6868">
             <Vtx/>
         </Array>
 
@@ -120,7 +120,7 @@
             <Vtx/>
         </Array>
 
-        <Array Name="gKakarikoVillageImpasHousePlatformAndboxesVtx" Count="60" Offset="0x5FE0">
+        <Array Name="gKakarikoVillageImpasHousePlatformAndBoxesVtx" Count="60" Offset="0x5FE0">
             <Vtx/>
         </Array>
 
