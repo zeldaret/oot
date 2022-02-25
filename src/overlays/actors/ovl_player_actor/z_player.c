@@ -1798,8 +1798,8 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
             func_808328EC(this, itemSfx);
         }
 
-        if ((this->meleeWeaponAnimation < PMWA_FLIPSLASH_START) ||
-            (this->meleeWeaponAnimation > PMWA_JUMPSLASH_FINISH)) {
+        if (!((this->meleeWeaponAnimation >= PMWA_FLIPSLASH_START) &&
+              (this->meleeWeaponAnimation <= PMWA_JUMPSLASH_FINISH))) {
             func_80832698(this, voiceSfx);
         }
     }

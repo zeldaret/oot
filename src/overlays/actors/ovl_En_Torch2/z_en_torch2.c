@@ -430,8 +430,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             }
                         } else if (this->actor.xzDistToPlayer > 100.0f + sp50) {
                             if ((player->meleeWeaponState == 0) ||
-                                (player->meleeWeaponAnimation < PMWA_SPIN_ATTACK_1H) ||
-                                (player->meleeWeaponAnimation > PMWA_BIG_SPIN_2H) ||
+                                !((player->meleeWeaponAnimation >= PMWA_SPIN_ATTACK_1H) &&
+                                  (player->meleeWeaponAnimation <= PMWA_BIG_SPIN_2H)) ||
                                 (this->actor.xzDistToPlayer >= 280.0f)) {
                                 sStickTilt = 127.0f;
                                 sStickAngle = this->actor.yawTowardsPlayer;
@@ -531,8 +531,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     // Causes Dark Link to shield in place when Link is using magic attacks other than the spin attack
 
     if ((gSaveContext.unk_13F0 == 3) &&
-        (player->meleeWeaponState == 0 || (player->meleeWeaponAnimation < PMWA_SPIN_ATTACK_1H) ||
-         (player->meleeWeaponAnimation > PMWA_BIG_SPIN_2H))) {
+        (player->meleeWeaponState == 0 || !((player->meleeWeaponAnimation >= PMWA_SPIN_ATTACK_1H) &&
+                                            (player->meleeWeaponAnimation <= PMWA_BIG_SPIN_2H)))) {
         sStickTilt = 0.0f;
         input->cur.stick_x = 0;
         input->cur.stick_y = 0;

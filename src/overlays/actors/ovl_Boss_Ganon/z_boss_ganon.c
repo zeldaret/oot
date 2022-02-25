@@ -3967,7 +3967,6 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 this->unk_1C2 = 3;
                             }
 
-                            // if a spin attack is used
                             if (player->meleeWeaponAnimation >= PMWA_SPIN_ATTACK_1H) {
                                 this->actor.speedXZ = 20.0f;
                             }
