@@ -178,7 +178,8 @@ typedef enum {
     /* 24 */ PMWA_SPIN_ATTACK_1H,
     /* 25 */ PMWA_SPIN_ATTACK_2H,
     /* 26 */ PMWA_BIG_SPIN_1H,
-    /* 27 */ PMWA_BIG_SPIN_2H
+    /* 27 */ PMWA_BIG_SPIN_2H,
+    /* 28 */ PMWA_MAX
 } PlayerMeleeWeaponAnimation;
 
 typedef enum {
