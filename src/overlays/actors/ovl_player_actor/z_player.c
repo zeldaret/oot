@@ -3302,10 +3302,18 @@ void func_808377DC(GlobalContext* globalCtx, Player* this) {
     func_80837704(globalCtx, this);
 }
 
-static s8 D_80854480[] = { PLAYER_MWA_STAB_1H, PLAYER_MWA_RIGHT_SLASH_1H, PLAYER_MWA_RIGHT_SLASH_1H,
-                           PLAYER_MWA_LEFT_SLASH_1H };
-static s8 D_80854484[] = { PLAYER_MWA_HAMMER_FORWARD, PLAYER_MWA_HAMMER_SIDE, PLAYER_MWA_HAMMER_FORWARD,
-                           PLAYER_MWA_HAMMER_SIDE };
+static s8 D_80854480[] = {
+    PLAYER_MWA_STAB_1H,
+    PLAYER_MWA_RIGHT_SLASH_1H,
+    PLAYER_MWA_RIGHT_SLASH_1H,
+    PLAYER_MWA_LEFT_SLASH_1H,
+};
+static s8 D_80854484[] = {
+    PLAYER_MWA_HAMMER_FORWARD,
+    PLAYER_MWA_HAMMER_SIDE,
+    PLAYER_MWA_HAMMER_FORWARD,
+    PLAYER_MWA_HAMMER_SIDE,
+};
 
 s32 func_80837818(Player* this) {
     s32 sp1C = this->unk_84B[this->unk_846];
@@ -3370,7 +3378,7 @@ void func_80837948(GlobalContext* globalCtx, Player* this, s32 arg2) {
 
     func_80835C58(globalCtx, this, func_808502D0, 0);
     this->unk_844 = 8;
-    if ((arg2 < PLAYER_MWA_FLIPSLASH_FINISH) || (arg2 > PLAYER_MWA_JUMPSLASH_FINISH)) {
+    if (!((arg2 >= PLAYER_MWA_FLIPSLASH_FINISH) && (arg2 <= PLAYER_MWA_JUMPSLASH_FINISH))) {
         func_80832318(this);
     }
 
