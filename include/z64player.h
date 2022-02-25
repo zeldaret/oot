@@ -179,7 +179,7 @@ typedef enum {
     /* 25 */ SPIN_ATTACK_2H,
     /* 26 */ BIG_SPIN_1H,
     /* 27 */ BIG_SPIN_2H
-} PlayerSwordAnimation;
+} PlayerMeleeWeaponAnimation;
 
 typedef enum {
     /* -1 */ PLAYER_DOORTYPE_AJAR = -1,
