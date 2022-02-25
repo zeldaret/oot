@@ -126,7 +126,7 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(globalCtx) &&
-        (player->meleeWeaponAnimation == 22 || player->meleeWeaponAnimation == 23)) {
+        (player->meleeWeaponAnimation == PMWA_HAMMER_FORWARD || player->meleeWeaponAnimation == PMWA_HAMMER_SIDE)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
             (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
