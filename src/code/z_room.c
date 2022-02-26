@@ -323,8 +323,8 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     drawBg = (flags & 1) && isFixedCamera && polygon1->single.source && !(SREG(25) & 1);
-    drawOpa = (flags & 1) && (polygonDlist->opa) != NULL && !(SREG(25) & 2);
-    drawXlu = (flags & 2) && (polygonDlist->xlu) != NULL && !(SREG(25) & 4);
+    drawOpa = (flags & 1) && (polygonDlist->opa != NULL) && !(SREG(25) & 2);
+    drawXlu = (flags & 2) && (polygonDlist->xlu != NULL) && !(SREG(25) & 4);
 
     if (drawOpa || drawBg) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
