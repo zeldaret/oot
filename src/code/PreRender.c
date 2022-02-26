@@ -472,11 +472,11 @@ void func_800C2500(PreRender* this, s32 x, s32 y) {
 void func_800C2FE4(PreRender* this) {
     s32 x;
     s32 y;
-    s32 phi_v0;
+    s32 pad1;
     u8* buffR = alloca(this->width);
     u8* buffG = alloca(this->width);
     u8* buffB = alloca(this->width);
-    s32 pad[3];
+    s32 pad2[3];
     s32 pxR;
     s32 pxG;
     s32 pxB;
