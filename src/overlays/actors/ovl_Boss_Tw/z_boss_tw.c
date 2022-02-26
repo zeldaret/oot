@@ -948,7 +948,7 @@ f32 BossTw_GetFloorY(Vec3f* pos) {
     }
 
     Matrix_Push();
-    Matrix_RotateY((45.0f * (M_PI / 180.0f)), MTXMODE_NEW);
+    Matrix_RotateY(DEG_TO_RAD(45), MTXMODE_NEW);
     Matrix_MultVec3f(pos, &posRotated);
     Matrix_Pop();
 

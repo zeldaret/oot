@@ -204,8 +204,8 @@ f32 func_80A4E754(EnGs* this, GlobalContext* globalCtx, f32* arg2, f32* arg3, u1
 
     if (arg9 == 0) {
         sp2C = Math_SmoothStepToF(arg2, *arg3, arg5, arg6, arg7);
-        this->unk_1B4[0].x = 1.0f + (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * (M_PI / 180.0f)) * *arg2);
-        this->unk_1B4[0].y = 1.0f - (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * (M_PI / 180.0f)) * *arg2);
+        this->unk_1B4[0].x = 1.0f + (sinf(DEG_TO_RAD(((*arg4 % arg8) * (1.0f / arg8)) * 360.0f)) * *arg2);
+        this->unk_1B4[0].y = 1.0f - (sinf(DEG_TO_RAD(((*arg4 % arg8) * (1.0f / arg8)) * 360.0f)) * *arg2);
         *arg4 += 1;
     }
     return sp2C;
@@ -473,8 +473,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         tmpf3 = Math_SmoothStepToF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
-        this->unk_1B4[0].x += sinf((((this->unk_200 % 10) * 0.1f) * 360.0f) * (M_PI / 180.0f)) * this->unk_1F8;
-        this->unk_1B4[0].y += sinf((((this->unk_200 % 10) * 0.1f) * 360.0f) * (M_PI / 180.0f)) * this->unk_1F8;
+        this->unk_1B4[0].x += sinf(DEG_TO_RAD(((this->unk_200 % 10) * 0.1f) * 360.0f)) * this->unk_1F8;
+        this->unk_1B4[0].y += sinf(DEG_TO_RAD(((this->unk_200 % 10) * 0.1f) * 360.0f)) * this->unk_1F8;
         this->unk_200++;
         if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f) && (tmpf3 == 0.0f)) {
             this->unk_19C = 0;
