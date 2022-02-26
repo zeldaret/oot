@@ -10674,8 +10674,8 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         if (this->stateFlags2 & PLAYER_STATE2_26) {
-            f32 sp78 = ((u16)(globalCtx->gameplayFrames * 600) * M_PI) / 0x8000;
-            f32 sp74 = ((u16)(globalCtx->gameplayFrames * 1000) * M_PI) / 0x8000;
+            f32 sp78 = BINANG_TO_RAD_ALT2((u16)(globalCtx->gameplayFrames * 600));
+            f32 sp74 = BINANG_TO_RAD_ALT2((u16)(globalCtx->gameplayFrames * 1000));
 
             Matrix_Push();
             this->actor.scale.y = -this->actor.scale.y;
