@@ -999,7 +999,7 @@ void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 sp30 = { 184, 0, 228, 255 };
 
     if (((this->actor.params & 0xE000) >> 0xD) != 0) {
-        Matrix_RotateX(DEGF_TO_RADF(-80), MTXMODE_APPLY);
+        Matrix_RotateX(DEG_TO_RAD(-80), MTXMODE_APPLY);
         if (this->actor.colChkInfo.health != 0) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         }

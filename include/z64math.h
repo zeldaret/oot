@@ -97,7 +97,6 @@ typedef struct {
 #define DEGF_TO_BINANG(degreesf) (s16)((degreesf) * 182.04167f + .5f)
 #define RADF_TO_BINANG(radf) (s16)((radf) * (0x8000 / M_PI))
 #define RADF_TO_DEGF(radf) ((radf) * (180.0f / M_PI))
-#define DEGF_TO_RADF(degf) ((degf) * (M_PI / 180.0f))
 #define BINANG_ROT180(angle) ((s16)((angle) - 0x7FFF))
 #define BINANG_SUB(a, b) ((s16)((a) - (b)))
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
