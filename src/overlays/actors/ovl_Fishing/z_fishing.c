@@ -5655,7 +5655,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;
-        rot.z = (Camera_GetInputDirYaw(camera) * -(M_PI / 32768)) + rot.y;
+        rot.z = (Camera_GetInputDirYaw(camera) * -(M_PI / 0x8000)) + rot.y;
 
         for (i = 0; i < (u8)D_80B7A650; i++) {
             pos.x = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.x;
