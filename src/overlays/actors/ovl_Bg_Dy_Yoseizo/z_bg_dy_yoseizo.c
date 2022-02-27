@@ -1014,8 +1014,8 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 200; i++, particle++) {
         if (particle->alive == 1) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
             if (phi_s3 == 0) {
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
                 gDPPipeSync(POLY_XLU_DISP++);
 
                 phi_s3++;
