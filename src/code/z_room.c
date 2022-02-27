@@ -132,7 +132,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
                 spA4->unk_00 = polygonDlist;
                 spA4->unk_04 = temp_f2;
                 iter = spB4;
-                if (spB4 == NULL) {
+                if (iter == NULL) {
                     spB4 = spB0 = spA4;
                     spA4->unk_08 = spA4->unk_0C = NULL;
                 } else {
