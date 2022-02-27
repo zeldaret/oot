@@ -1005,7 +1005,7 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 isMaterialSet = false;
+    u8 phi_s3 = 0;
     BgDyYoseizoParticle* particle = this->particles;
     s16 i;
 
@@ -1014,11 +1014,11 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 200; i++, particle++) {
         if (particle->alive == 1) {
-            if (!isMaterialSet) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
+            if (phi_s3 == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
 
-                isMaterialSet++;
+                phi_s3++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, particle->primColor.r, particle->primColor.g, particle->primColor.b,
