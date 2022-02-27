@@ -753,7 +753,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.world.pos.z, sp5C->z, 1.0f, this->unk_1E4, 0.0f);
         this->unk_1C4 += 2000;
 
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->unk_228 = 7700.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_ROLL - SFX_FLAG);
 
@@ -871,7 +871,7 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Math_SmoothStepToF(&thisx->shape.yOffset, this->unk_228, 1.0f, 100.0f, 0.0f);
     Actor_MoveForward(thisx);
     BossDodongo_UpdateDamage(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 10.0f, 20.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 10.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     Math_SmoothStepToF(&this->unk_208, 0, 1, 0.001f, 0.0);
     Math_SmoothStepToF(&this->unk_20C, 0, 1, 0.001f, 0.0);
 

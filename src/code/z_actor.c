@@ -188,7 +188,7 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
             floorHeightPtr++;
         }
 
-        if (!(actor->bgCheckFlags & 1)) {
+        if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
             actor->shape.feetFloorFlags = 0;
         } else if (actor->shape.feetFloorFlags == 3) {
             f32 footDistY = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
@@ -213,9 +213,9 @@ void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* lef
     }
 }
 
-void func_8002BE04(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, f32* arg3) {
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, arg1, arg2, arg3);
-    *arg3 = (*arg3 < 1.0f) ? 1.0f : (1.0f / *arg3);
+void Actor_ProjectPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* xyzDest, f32* cappedInvWDest) {
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, src, xyzDest, cappedInvWDest);
+    *cappedInvWDest = (*cappedInvWDest < 1.0f) ? 1.0f : (1.0f / *cappedInvWDest);
 }
 
 typedef struct {
@@ -266,7 +266,7 @@ void func_8002BE98(TargetContext* targetCtx, s32 actorCategory, GlobalContext* g
     }
 }
 
-void func_8002BF60(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
+void Actor_SetNaviToActor(TargetContext* targetCtx, Actor* actor, s32 actorCategory, GlobalContext* globalCtx) {
     NaviColor* naviColor = &sNaviColorList[actorCategory];
     targetCtx->naviRefPos.x = actor->focus.pos.x;
     targetCtx->naviRefPos.y = actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y);
@@ -289,7 +289,7 @@ void func_8002C0C0(TargetContext* targetCtx, Actor* actor, GlobalContext* global
     targetCtx->bgmEnemy = NULL;
     targetCtx->unk_4B = 0;
     targetCtx->unk_4C = 0;
-    func_8002BF60(targetCtx, actor, actor->category, globalCtx);
+    Actor_SetNaviToActor(targetCtx, actor, actor->category, globalCtx);
     func_8002BE98(targetCtx, actor->category, globalCtx);
 }
 
@@ -303,9 +303,9 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         Player* player;
         s16 spCE;
         f32 temp1;
-        Vec3f spBC;
+        Vec3f projTargetCenter;
         s32 spB8;
-        f32 spB4;
+        f32 projTargetCappedInvW;
         s32 spB0;
         s32 spAC;
         f32 var1;
@@ -334,22 +334,22 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
             spCE = targetCtx->unk_48;
         }
 
-        func_8002BE04(globalCtx, &targetCtx->targetCenterPos, &spBC, &spB4);
+        Actor_ProjectPos(globalCtx, &targetCtx->targetCenterPos, &projTargetCenter, &projTargetCappedInvW);
 
-        spBC.x = (160 * (spBC.x * spB4)) * var1;
-        spBC.x = CLAMP(spBC.x, -320.0f, 320.0f);
+        projTargetCenter.x = (160 * (projTargetCenter.x * projTargetCappedInvW)) * var1;
+        projTargetCenter.x = CLAMP(projTargetCenter.x, -320.0f, 320.0f);
 
-        spBC.y = (120 * (spBC.y * spB4)) * var1;
-        spBC.y = CLAMP(spBC.y, -240.0f, 240.0f);
+        projTargetCenter.y = (120 * (projTargetCenter.y * projTargetCappedInvW)) * var1;
+        projTargetCenter.y = CLAMP(projTargetCenter.y, -240.0f, 240.0f);
 
-        spBC.z = spBC.z * var1;
+        projTargetCenter.z = projTargetCenter.z * var1;
 
         targetCtx->unk_4C--;
         if (targetCtx->unk_4C < 0) {
             targetCtx->unk_4C = 2;
         }
 
-        func_8002BE64(targetCtx, targetCtx->unk_4C, spBC.x, spBC.y, spBC.z);
+        func_8002BE64(targetCtx, targetCtx->unk_4C, projTargetCenter.x, projTargetCenter.y, projTargetCenter.z);
 
         if ((!(player->stateFlags1 & PLAYER_STATE1_6)) || (actor != player->unk_664)) {
             OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x39);
@@ -414,8 +414,8 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
     s32 pad;
     Actor* unkActor;
     s32 actorCategory;
-    Vec3f sp50;
-    f32 sp4C;
+    Vec3f projectedFocusPos;
+    f32 cappedInvWDest;
     f32 temp1;
     f32 temp2;
     f32 temp3;
@@ -465,12 +465,13 @@ void func_8002C7BC(TargetContext* targetCtx, Player* player, Actor* actorArg, Gl
         targetCtx->naviRefPos.y += temp3 * temp1;
         targetCtx->naviRefPos.z += temp4 * temp1;
     } else {
-        func_8002BF60(targetCtx, unkActor, actorCategory, globalCtx);
+        Actor_SetNaviToActor(targetCtx, unkActor, actorCategory, globalCtx);
     }
 
     if ((actorArg != NULL) && (targetCtx->unk_4B == 0)) {
-        func_8002BE04(globalCtx, &actorArg->focus.pos, &sp50, &sp4C);
-        if (((sp50.z <= 0.0f) || (1.0f <= fabsf(sp50.x * sp4C))) || (1.0f <= fabsf(sp50.y * sp4C))) {
+        Actor_ProjectPos(globalCtx, &actorArg->focus.pos, &projectedFocusPos, &cappedInvWDest);
+        if (((projectedFocusPos.z <= 0.0f) || (1.0f <= fabsf(projectedFocusPos.x * cappedInvWDest))) ||
+            (1.0f <= fabsf(projectedFocusPos.y * cappedInvWDest))) {
             actorArg = NULL;
         }
     }
@@ -655,7 +656,7 @@ void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag) {
     }
 }
 
-void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
+void TitleCard_Init(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
@@ -701,56 +702,57 @@ void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 }
 
 void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    s32 spCC;
-    s32 spC8;
-    s32 unk1;
-    s32 spC0;
-    s32 sp38;
-    s32 spB8;
-    s32 spB4;
-    s32 spB0;
+    s32 width;
+    s32 height;
+    s32 unused;
+    s32 titleX;
+    s32 doubleWidth;
+    s32 titleY;
+    s32 titleSecondY;
+    s32 textureLanguageOffset;
 
     if (titleCtx->alpha != 0) {
-        spCC = titleCtx->width;
-        spC8 = titleCtx->height;
-        spC0 = (titleCtx->x * 4) - (spCC * 2);
-        spB8 = (titleCtx->y * 4) - (spC8 * 2);
-        sp38 = spCC * 2;
+        width = titleCtx->width;
+        height = titleCtx->height;
+        titleX = (titleCtx->x * 4) - (width * 2);
+        titleY = (titleCtx->y * 4) - (height * 2);
+        doubleWidth = width * 2;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2824);
 
-        spB0 = spCC * spC8 * gSaveContext.language;
-        spC8 = (spCC * spC8 > 0x1000) ? 0x1000 / spCC : spC8;
-        spB4 = spB8 + (spC8 * 4);
+        textureLanguageOffset = width * height * gSaveContext.language;
+        height = (width * height > 0x1000) ? 0x1000 / width : height;
+        titleSecondY = titleY + (height * 4);
 
         OVERLAY_DISP = func_80093808(OVERLAY_DISP);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
-                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                            G_TX_NOLOD);
+        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset, G_IM_FMT_IA, G_IM_SIZ_8b,
+                            width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
-                            0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, titleX, titleY, ((doubleWidth * 2) + titleX) - 4, titleY + (height * 4) - 1,
+                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-        spC8 = titleCtx->height - spC8;
+        height = titleCtx->height - height;
 
-        if (spC8 > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
-                                spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                                G_TX_NOLOD, G_TX_NOLOD);
+        // If texture is bigger than 0x1000, display the rest
+        if (height > 0) {
+            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + textureLanguageOffset + 0x1000, G_IM_FMT_IA,
+                                G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                                G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
-                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(OVERLAY_DISP++, titleX, titleSecondY, ((doubleWidth * 2) + titleX) - 4,
+                                titleSecondY + (height * 4) - 1, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2880);
     }
 }
 
-s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
+s32 TitleCard_Clear(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
         titleCtx->durationTimer = 0;
         titleCtx->delayTimer = 0;
@@ -1151,11 +1153,11 @@ s32 Actor_ActorAIsFacingAndNearActorB(Actor* actorA, Actor* actorB, f32 range, s
 }
 
 s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
-    if ((actor->bgCheckFlags & 0x1) && (arg1 < -11.0f)) {
-        actor->bgCheckFlags &= ~0x1;
-        actor->bgCheckFlags |= 0x4;
+    if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && (arg1 < -11.0f)) {
+        actor->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
+        actor->bgCheckFlags |= BGCHECKFLAG_GROUND_LEAVE;
 
-        if ((actor->velocity.y < 0.0f) && (arg2 & 0x10)) {
+        if ((actor->velocity.y < 0.0f) && (arg2 & UPDBGCHECKINFO_FLAG_4)) {
             actor->velocity.y = 0.0f;
         }
 
@@ -1173,7 +1175,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
 
     actor->floorHeight =
         BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &actor->floorPoly, &floorBgId, actor, arg2);
-    actor->bgCheckFlags &= ~0x0086;
+    actor->bgCheckFlags &= ~(BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_GROUND_LEAVE | BGCHECKFLAG_GROUND_STRICT);
 
     if (actor->floorHeight <= BGCHECK_Y_MIN) {
         return func_8002E234(actor, BGCHECK_Y_MIN, arg3);
@@ -1183,12 +1185,12 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
     actor->floorBgId = floorBgId;
 
     if (floorHeightDiff >= 0.0f) { // actor is on or below the ground
-        actor->bgCheckFlags |= 0x80;
+        actor->bgCheckFlags |= BGCHECKFLAG_GROUND_STRICT;
 
-        if (actor->bgCheckFlags & 0x10) {
+        if (actor->bgCheckFlags & BGCHECKFLAG_CEILING) {
             if (floorBgId != sCurCeilingBgId) {
                 if (floorHeightDiff > 15.0f) {
-                    actor->bgCheckFlags |= 0x100;
+                    actor->bgCheckFlags |= BGCHECKFLAG_CRUSHED;
                 }
             } else {
                 actor->world.pos.x = actor->prevPos.x;
@@ -1199,19 +1201,19 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
         actor->world.pos.y = actor->floorHeight;
 
         if (actor->velocity.y <= 0.0f) {
-            if (!(actor->bgCheckFlags & 0x1)) {
-                actor->bgCheckFlags |= 0x2;
-            } else if ((arg3 & 0x8) && (actor->gravity < 0.0f)) {
+            if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
+                actor->bgCheckFlags |= BGCHECKFLAG_GROUND_TOUCH;
+            } else if ((arg3 & UPDBGCHECKINFO_FLAG_3) && (actor->gravity < 0.0f)) {
                 actor->velocity.y = -4.0f;
             } else {
                 actor->velocity.y = 0.0f;
             }
 
-            actor->bgCheckFlags |= 0x1;
+            actor->bgCheckFlags |= BGCHECKFLAG_GROUND;
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
     } else { // actor is above ground
-        if ((actor->bgCheckFlags & 0x1) && (floorHeightDiff >= -11.0f)) {
+        if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && (floorHeightDiff >= -11.0f)) {
             func_80043334(&globalCtx->colCtx, actor, actor->floorBgId);
         }
 
@@ -1235,42 +1237,42 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
 
     sp74 = actor->world.pos.y - actor->prevPos.y;
 
-    if ((actor->floorBgId != BGCHECK_SCENE) && (actor->bgCheckFlags & 1)) {
+    if ((actor->floorBgId != BGCHECK_SCENE) && (actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
         func_800433A4(&globalCtx->colCtx, actor->floorBgId, actor);
     }
 
-    if (flags & 1) {
-        if ((!(flags & 0x80) &&
+    if (flags & UPDBGCHECKINFO_FLAG_0) {
+        if ((!(flags & UPDBGCHECKINFO_FLAG_7) &&
              BgCheck_EntitySphVsWall3(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
                                       &actor->wallPoly, &bgId, actor, wallCheckHeight)) ||
-            ((flags & 0x80) &&
+            ((flags & UPDBGCHECKINFO_FLAG_7) &&
              BgCheck_EntitySphVsWall4(&globalCtx->colCtx, &sp64, &actor->world.pos, &actor->prevPos, wallCheckRadius,
                                       &actor->wallPoly, &bgId, actor, wallCheckHeight))) {
             wallPoly = actor->wallPoly;
             Math_Vec3f_Copy(&actor->world.pos, &sp64);
             actor->wallYaw = Math_Atan2S(wallPoly->normal.z, wallPoly->normal.x);
-            actor->bgCheckFlags |= 8;
+            actor->bgCheckFlags |= BGCHECKFLAG_WALL;
             actor->wallBgId = bgId;
         } else {
-            actor->bgCheckFlags &= ~8;
+            actor->bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
     }
 
     sp64.x = actor->world.pos.x;
     sp64.z = actor->world.pos.z;
 
-    if (flags & 2) {
+    if (flags & UPDBGCHECKINFO_FLAG_1) {
         sp64.y = actor->prevPos.y + 10.0f;
         if (BgCheck_EntityCheckCeiling(&globalCtx->colCtx, &sp58, &sp64, (ceilingCheckHeight + sp74) - 10.0f,
                                        &sCurCeilingPoly, &sCurCeilingBgId, actor)) {
-            actor->bgCheckFlags |= 0x10;
+            actor->bgCheckFlags |= BGCHECKFLAG_CEILING;
             actor->world.pos.y = (sp58 + sp74) - 10.0f;
         } else {
-            actor->bgCheckFlags &= ~0x10;
+            actor->bgCheckFlags &= ~BGCHECKFLAG_CEILING;
         }
     }
 
-    if (flags & 4) {
+    if (flags & UPDBGCHECKINFO_FLAG_2) {
         sp64.y = actor->prevPos.y;
         func_8002E2AC(globalCtx, actor, &sp64, flags);
         waterBoxYSurface = actor->world.pos.y;
@@ -1278,11 +1280,11 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
                                  &waterBoxYSurface, &waterBox)) {
             actor->yDistToWater = waterBoxYSurface - actor->world.pos.y;
             if (actor->yDistToWater < 0.0f) {
-                actor->bgCheckFlags &= ~0x60;
+                actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
             } else {
-                if (!(actor->bgCheckFlags & 0x20)) {
-                    actor->bgCheckFlags |= 0x40;
-                    if (!(flags & 0x40)) {
+                if (!(actor->bgCheckFlags & BGCHECKFLAG_WATER)) {
+                    actor->bgCheckFlags |= BGCHECKFLAG_WATER_TOUCH;
+                    if (!(flags & UPDBGCHECKINFO_FLAG_6)) {
                         ripplePos.x = actor->world.pos.x;
                         ripplePos.y = waterBoxYSurface;
                         ripplePos.z = actor->world.pos.z;
@@ -1291,10 +1293,10 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 wallChe
                         EffectSsGRipple_Spawn(globalCtx, &ripplePos, 100, 500, 8);
                     }
                 }
-                actor->bgCheckFlags |= 0x20;
+                actor->bgCheckFlags |= BGCHECKFLAG_WATER;
             }
         } else {
-            actor->bgCheckFlags &= ~0x60;
+            actor->bgCheckFlags &= ~(BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH);
             actor->yDistToWater = BGCHECK_Y_MIN;
         }
     }
@@ -1550,11 +1552,11 @@ s8 func_8002F368(GlobalContext* globalCtx) {
 
 void Actor_GetScreenPos(GlobalContext* globalCtx, Actor* actor, s16* x, s16* y) {
     Vec3f projectedPos;
-    f32 w;
+    f32 cappedInvW;
 
-    func_8002BE04(globalCtx, &actor->focus.pos, &projectedPos, &w);
-    *x = projectedPos.x * w * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2);
-    *y = projectedPos.y * w * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
+    Actor_ProjectPos(globalCtx, &actor->focus.pos, &projectedPos, &cappedInvW);
+    *x = projectedPos.x * cappedInvW * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2);
+    *y = projectedPos.y * cappedInvW * -(SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2);
 }
 
 u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
@@ -1697,7 +1699,7 @@ void Audio_PlayActorSound2(Actor* actor, u16 sfxId) {
 void func_8002F850(GlobalContext* globalCtx, Actor* actor) {
     s32 sfxId;
 
-    if (actor->bgCheckFlags & 0x20) {
+    if (actor->bgCheckFlags & BGCHECKFLAG_WATER) {
         if (actor->yDistToWater < 20.0f) {
             sfxId = NA_SE_PL_WALK_WATER0 - SFX_FLAG;
         } else {
@@ -1977,7 +1979,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
     actorCtx->flags.clear = savedSceneFlags->clear;
     actorCtx->flags.collect = savedSceneFlags->collect;
 
-    func_8002CDE4(globalCtx, &actorCtx->titleCtx);
+    TitleCard_Init(globalCtx, &actorCtx->titleCtx);
 
     actorCtx->absoluteSpace = NULL;
 
@@ -3414,11 +3416,11 @@ s16 Actor_TestFloorInDirection(Actor* actor, GlobalContext* globalCtx, f32 dista
     actor->world.pos.x += dx;
     actor->world.pos.z += dz;
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     Math_Vec3f_Copy(&actor->world.pos, &prevActorPos);
 
-    ret = actor->bgCheckFlags & 1;
+    ret = actor->bgCheckFlags & BGCHECKFLAG_GROUND;
     actor->bgCheckFlags = prevBgCheckFlags;
 
     return ret;
@@ -3934,10 +3936,10 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
         case 0:
             if (Actor_HasParent(actor, globalCtx)) {
                 actor->params = 1;
-            } else if (!(actor->bgCheckFlags & 1)) {
+            } else if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 Actor_MoveForward(actor);
                 Math_SmoothStepToF(&actor->speedXZ, 0.0f, 1.0f, 0.1f, 0.0f);
-            } else if ((actor->bgCheckFlags & 2) && (actor->velocity.y < -4.0f)) {
+            } else if ((actor->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (actor->velocity.y < -4.0f)) {
                 ret = 1;
             } else {
                 actor->shape.rot.x = actor->shape.rot.z = 0;
@@ -3951,8 +3953,9 @@ s32 func_80035124(Actor* actor, GlobalContext* globalCtx) {
             break;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius,
-                            actor->colChkInfo.cylRadius, 0x1D);
+    Actor_UpdateBgCheckInfo(
+        globalCtx, actor, actor->colChkInfo.cylHeight, actor->colChkInfo.cylRadius, actor->colChkInfo.cylRadius,
+        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 
     return ret;
 }
@@ -3996,7 +3999,8 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     var1 = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
     var2 = actor->yawTowardsPlayer - arg5;
 
-    if ((actor->xzDistToPlayer <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
+    if ((actor->xzDistToPlayer <= range) && (player->meleeWeaponState != 0) && (arg4 >= ABS(var1)) &&
+        (arg3 >= ABS(var2))) {
         return true;
     } else {
         return false;
@@ -4036,7 +4040,8 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* pos) {
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
+    if ((collider->acFlags & AC_TYPE_PLAYER) && (player->meleeWeaponState != 0) &&
+        (player->meleeWeaponAnimation == 0x16)) {
         return true;
     } else {
         return false;

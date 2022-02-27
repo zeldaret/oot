@@ -670,8 +670,8 @@ void EnSkj_Fade(EnSkj* this, GlobalContext* globalCtx) {
     }
 
     if (this->actor.velocity.y <= 0.0f) {
-        if (this->actor.bgCheckFlags & 2) {
-            this->actor.bgCheckFlags &= ~2;
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
             func_80AFF2A0(this);
         }
     }
@@ -1090,8 +1090,8 @@ void EnSkj_JumpFromStump(EnSkj* this) {
 
 void EnSkj_WaitForLanding(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.velocity.y <= 0.0f) {
-        if (this->actor.bgCheckFlags & 2) {
-            this->actor.bgCheckFlags &= ~2;
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
             this->actor.speedXZ = 0.0f;
             EnSkj_SetupWaitForLandAnimFinish(this);
         }
@@ -1336,7 +1336,8 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
 }
 
 void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
@@ -1609,7 +1610,7 @@ void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj.c", 2430),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gSKJskullMaskDL);
+        gSPDisplayList(POLY_OPA_DISP++, gSkullKidSkullMaskDL);
         Matrix_Pop();
     }
 

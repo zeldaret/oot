@@ -114,25 +114,27 @@ s32 Math3D_LineVsLineClosestTwoPoints(Vec3f* lineAPointA, Vec3f* lineAPointB, Ve
  * Determines the closest point on the line `line` to `pos`, by forming a line perpendicular from
  * `point` to `line` closest point is placed in `closestPoint`
  */
-void Math3D_LineClosestToPoint(Linef* line, Vec3f* pos, Vec3f* closestPoint) {
-    f32 dirVectorSize;
+void Math3D_LineClosestToPoint(InfiniteLine* line, Vec3f* pos, Vec3f* closestPoint) {
+    f32 dirVectorLengthSq;
     f32 t;
 
-    dirVectorSize = Math3D_Vec3fMagnitudeSq(&line->b);
-    if (IS_ZERO(dirVectorSize)) {
+    dirVectorLengthSq = Math3D_Vec3fMagnitudeSq(&line->dir);
+    if (IS_ZERO(dirVectorLengthSq)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // "Math3D_lineVsPosSuisenCross(): No straight line length"
         osSyncPrintf("Math3D_lineVsPosSuisenCross():直線の長さがありません\n");
         osSyncPrintf("cross = pos を返します。\n"); // "Returns cross = pos."
         osSyncPrintf(VT_RST);
         Math_Vec3f_Copy(closestPoint, pos);
+        //! @bug Missing early return
     }
 
-    t = (((pos->x - line->a.x) * line->b.x) + ((pos->y - line->a.y) * line->b.y) + ((pos->z - line->a.z) * line->b.z)) /
-        dirVectorSize;
-    closestPoint->x = (line->b.x * t) + line->a.x;
-    closestPoint->y = (line->b.y * t) + line->a.y;
-    closestPoint->z = (line->b.z * t) + line->a.z;
+    t = (((pos->x - line->point.x) * line->dir.x) + ((pos->y - line->point.y) * line->dir.y) +
+         ((pos->z - line->point.z) * line->dir.z)) /
+        dirVectorLengthSq;
+    closestPoint->x = (line->dir.x * t) + line->point.x;
+    closestPoint->y = (line->dir.y * t) + line->point.y;
+    closestPoint->z = (line->dir.z * t) + line->point.z;
 }
 
 void Math3D_FindPointOnPlaneIntersect(f32 planeAAxis1Norm, f32 planeAAxis2Norm, f32 planeBAxis1Norm,
@@ -195,10 +197,10 @@ s32 Math3D_PlaneVsPlaneNewLine(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeA
  */
 s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC, f32 planeADist, f32 planeBA,
                                           f32 planeBB, f32 planeBC, f32 planeBDist, Vec3f* point, Vec3f* closestPoint) {
-    static Linef planeIntersect;
+    static InfiniteLine planeIntersect;
 
     if (!Math3D_PlaneVsPlaneNewLine(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist,
-                                    (InfiniteLine*)&planeIntersect)) {
+                                    &planeIntersect)) {
         return false;
     }
     Math3D_LineClosestToPoint(&planeIntersect, point, closestPoint);

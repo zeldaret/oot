@@ -436,7 +436,7 @@ void func_8008EDF0(Player* this) {
 }
 
 void func_8008EE08(Player* this) {
-    if ((this->actor.bgCheckFlags & 1) ||
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         (this->stateFlags1 & (PLAYER_STATE1_21 | PLAYER_STATE1_23 | PLAYER_STATE1_27)) ||
         (!(this->stateFlags1 & (PLAYER_STATE1_18 | PLAYER_STATE1_19)) &&
          ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
@@ -477,7 +477,7 @@ s32 Player_IsBurningStickInRange(GlobalContext* globalCtx, Vec3f* pos, f32 xzRan
     s32 pad;
 
     if ((this->heldItemActionParam == PLAYER_AP_STICK) && (this->unk_860 != 0)) {
-        Math_Vec3f_Diff(&this->swordInfo[0].tip, pos, &diff);
+        Math_Vec3f_Diff(&this->meleeWeaponInfo[0].tip, pos, &diff);
         return ((SQ(diff.x) + SQ(diff.z)) <= SQ(xzRange)) && (0.0f <= diff.y) && (diff.y <= yRange);
     } else {
         return false;
@@ -540,7 +540,7 @@ s32 func_8008F128(Player* this) {
     return Player_HoldsHookshot(this) && (this->heldActor == NULL);
 }
 
-s32 Player_ActionToSword(s32 actionParam) {
+s32 Player_ActionToMeleeWeapon(s32 actionParam) {
     s32 sword = actionParam - PLAYER_AP_FISHING_POLE;
 
     if ((sword > 0) && (sword < 6)) {
@@ -550,8 +550,8 @@ s32 Player_ActionToSword(s32 actionParam) {
     }
 }
 
-s32 Player_GetSwordHeld(Player* this) {
-    return Player_ActionToSword(this->heldItemActionParam);
+s32 Player_GetMeleeWeaponHeld(Player* this) {
+    return Player_ActionToMeleeWeapon(this->heldItemActionParam);
 }
 
 s32 Player_HoldsTwoHandedWeapon(Player* this) {
@@ -619,7 +619,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
         var = 0;
     } else if ((this->unk_840 > 80) &&
                ((this->currentBoots == PLAYER_BOOTS_IRON) || (this->unk_840 >= 300))) { // Deep underwater
-        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & 1)) ? 1 : 3;
+        var = ((this->currentBoots == PLAYER_BOOTS_IRON) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) ? 1 : 3;
     } else if (this->stateFlags1 & PLAYER_STATE1_27) { // Swimming
         var = 2;
     } else {
@@ -655,6 +655,7 @@ u8 sEyeMouthIndexes[][2] = {
  * shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols
  * from adult Link's object are used here.
  */
+#ifndef AVOID_UB
 void* sEyeTextures[] = {
     gLinkAdultEyesOpenTex,      gLinkAdultEyesHalfTex,  gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
     gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex,    gLinkAdultEyesUnk2Tex,
@@ -666,6 +667,20 @@ void* sMouthTextures[] = {
     gLinkAdultMouth3Tex,
     gLinkAdultMouth4Tex,
 };
+#else
+// Defining `AVOID_UB` will use a 2D array instead and properly use the child link pointers to allow for shifting.
+void* sEyeTextures[][8] = {
+    { gLinkAdultEyesOpenTex, gLinkAdultEyesHalfTex, gLinkAdultEyesClosedfTex, gLinkAdultEyesRollLeftTex,
+      gLinkAdultEyesRollRightTex, gLinkAdultEyesShockTex, gLinkAdultEyesUnk1Tex, gLinkAdultEyesUnk2Tex },
+    { gLinkChildEyesOpenTex, gLinkChildEyesHalfTex, gLinkChildEyesClosedfTex, gLinkChildEyesRollLeftTex,
+      gLinkChildEyesRollRightTex, gLinkChildEyesShockTex, gLinkChildEyesUnk1Tex, gLinkChildEyesUnk2Tex },
+};
+
+void* sMouthTextures[][4] = {
+    { gLinkAdultMouth1Tex, gLinkAdultMouth2Tex, gLinkAdultMouth3Tex, gLinkAdultMouth4Tex },
+    { gLinkChildMouth1Tex, gLinkChildMouth2Tex, gLinkChildMouth3Tex, gLinkChildMouth4Tex },
+};
+#endif
 
 Color_RGB8 sTunicColors[] = {
     { 30, 105, 27 },
@@ -696,13 +711,21 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
         eyeIndex = sEyeMouthIndexes[face][0];
     }
 
+#ifndef AVOID_UB
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyeIndex]));
+#else
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[gSaveContext.linkAge][eyeIndex]));
+#endif
 
     if (mouthIndex < 0) {
         mouthIndex = sEyeMouthIndexes[face][1];
     }
 
+#ifndef AVOID_UB
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[mouthIndex]));
+#else
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[gSaveContext.linkAge][mouthIndex]));
+#endif
 
     color = &sTunicColors[tunic];
     gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
@@ -858,7 +881,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (limbIndex == PLAYER_LIMB_ROOT) {
         D_80160014 = this->leftHandType;
         D_80160018 = this->rightHandType;
-        D_80160000 = &this->swordInfo[2].base;
+        D_80160000 = &this->meleeWeaponInfo[2].base;
 
         if (!LINK_IS_ADULT) {
             if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
@@ -1075,15 +1098,16 @@ void func_800906D4(GlobalContext* globalCtx, Player* this, Vec3f* newTipPos) {
     Matrix_MultVec3f(&D_801260A4[1], &newBasePos[1]);
     Matrix_MultVec3f(&D_801260A4[2], &newBasePos[2]);
 
-    if (func_80090480(globalCtx, NULL, &this->swordInfo[0], &newTipPos[0], &newBasePos[0]) &&
+    if (func_80090480(globalCtx, NULL, &this->meleeWeaponInfo[0], &newTipPos[0], &newBasePos[0]) &&
         !(this->stateFlags1 & PLAYER_STATE1_22)) {
-        EffectBlure_AddVertex(Effect_GetByIndex(this->swordEffectIndex), &this->swordInfo[0].tip,
-                              &this->swordInfo[0].base);
+        EffectBlure_AddVertex(Effect_GetByIndex(this->meleeWeaponEffectIndex), &this->meleeWeaponInfo[0].tip,
+                              &this->meleeWeaponInfo[0].base);
     }
 
-    if ((this->swordState > 0) && ((this->swordAnimation < 0x18) || (this->stateFlags2 & PLAYER_STATE2_17))) {
-        func_80090480(globalCtx, &this->swordQuads[0], &this->swordInfo[1], &newTipPos[1], &newBasePos[1]);
-        func_80090480(globalCtx, &this->swordQuads[1], &this->swordInfo[2], &newTipPos[2], &newBasePos[2]);
+    if ((this->meleeWeaponState > 0) &&
+        ((this->meleeWeaponAnimation < 0x18) || (this->stateFlags2 & PLAYER_STATE2_17))) {
+        func_80090480(globalCtx, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPos[1], &newBasePos[1]);
+        func_80090480(globalCtx, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPos[2], &newBasePos[2]);
     }
 }
 
@@ -1171,7 +1195,7 @@ void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2
 
 Vec3f D_801260D4 = { 1100.0f, -700.0f, 0.0f };
 
-f32 sSwordLengths[] = {
+f32 sMeleeWeaponLengths[] = {
     0.0f, 4000.0f, 3000.0f, 5500.0f, 0.0f, 2500.0f,
 };
 
@@ -1236,10 +1260,10 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             if (this->actor.scale.y >= 0.0f) {
                 D_80126080.x = this->unk_85C * 5000.0f;
                 func_80090A28(this, sp124);
-                if (this->swordState != 0) {
+                if (this->meleeWeaponState != 0) {
                     func_800906D4(globalCtx, this, sp124);
                 } else {
-                    Math_Vec3f_Copy(&this->swordInfo[0].tip, &sp124[0]);
+                    Math_Vec3f_Copy(&this->meleeWeaponInfo[0].tip, &sp124[0]);
                 }
             }
 
@@ -1252,13 +1276,13 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildLinkDekuStickDL);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2656);
-        } else if ((this->actor.scale.y >= 0.0f) && (this->swordState != 0)) {
+        } else if ((this->actor.scale.y >= 0.0f) && (this->meleeWeaponState != 0)) {
             Vec3f spE4[3];
 
             if (Player_HoldsBrokenKnife(this)) {
                 D_80126080.x = 1500.0f;
             } else {
-                D_80126080.x = sSwordLengths[Player_GetSwordHeld(this)];
+                D_80126080.x = sMeleeWeaponLengths[Player_GetMeleeWeaponHeld(this)];
             }
 
             func_80090A28(this, spE4);

@@ -15,8 +15,6 @@ COLORS = [
     'PURPLE',
     'CYAN',
     'WHITE',
-    'LIGHTGRAY',
-    'DARKGRAY',
 ]
 
 def re_match(exp, text):
@@ -39,11 +37,11 @@ def vt_fmt(text):
             code = text[i:text.find('m', i)]
             i += len(code)
 
-            if re_match('^4[0-9];3[0-9]$', code):
+            if re_match('^4[0-7];3[0-7]$', code):
                 chars += 'VT_COL(' + COLORS[int(code[1])] + ', ' + COLORS[int(code[4])] + ')'
-            elif re_match('^4[0-9]$', code):
+            elif re_match('^4[0-7]$', code):
                 chars += 'VT_BGCOL(' + COLORS[int(code[1])] + ')'
-            elif re_match('^3[0-9]$', code):
+            elif re_match('^3[0-7]$', code):
                 chars += 'VT_FGCOL(' + COLORS[int(code[1])] + ')'
             elif len(code) == 0:
                 chars += 'VT_RST'

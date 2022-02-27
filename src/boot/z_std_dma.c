@@ -5,7 +5,7 @@ StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
 OSMesg sDmaMgrMsgs[0x20];
 OSThread sDmaMgrThread;
-u8 sDmaMgrStack[0x500];
+STACK(sDmaMgrStack, 0x500);
 const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
 
@@ -210,6 +210,9 @@ const char* DmaMgr_GetFileNameImpl(u32 vrom) {
     }
     //! @bug Since there is no return, in case the file isn't found, the return value will be a pointer to the end
     // of gDmaDataTable
+#ifdef AVOID_UB
+    return "";
+#endif
 }
 
 const char* DmaMgr_GetFileName(u32 vrom) {
@@ -419,8 +422,8 @@ void DmaMgr_Init(void) {
     }
 
     osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, ARRAY_COUNT(sDmaMgrMsgs));
-    StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, sDmaMgrStack + sizeof(sDmaMgrStack), 0, 0x100, "dmamgr");
-    osCreateThread(&sDmaMgrThread, 0x12, DmaMgr_ThreadEntry, 0, sDmaMgrStack + sizeof(sDmaMgrStack), Z_PRIORITY_DMAMGR);
+    StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, STACK_TOP(sDmaMgrStack), 0, 0x100, "dmamgr");
+    osCreateThread(&sDmaMgrThread, 0x12, DmaMgr_ThreadEntry, 0, STACK_TOP(sDmaMgrStack), Z_PRIORITY_DMAMGR);
     osStartThread(&sDmaMgrThread);
 }
 

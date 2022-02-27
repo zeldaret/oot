@@ -511,7 +511,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
                 if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] == 0) {
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f, 5);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f,
+                                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
                     EnClearTag_CalculateFloorTangent(this);
                 }
 
@@ -526,8 +527,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
 
-                    // Check if the Arwing has hit the ground.
-                    if (this->actor.bgCheckFlags & 9) {
+                    // Check if the Arwing has hit the ground or a wall.
+                    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
                         this->shouldExplode = true;
 
                         if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
@@ -555,10 +556,12 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->collider.dim.yShift = -10;
                 Collider_UpdateCylinder(&this->actor, &this->collider);
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f, 5);
+                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f,
+                                        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-                // Check if the laser has hit a target, timed out, or hit the ground.
-                if (this->actor.bgCheckFlags & 9 || hasAtHit || this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
+                // Check if the laser has hit a target, timed out, or hit the ground or a wall.
+                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) || hasAtHit ||
+                    this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
                     // Kill the laser.
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.

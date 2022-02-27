@@ -501,7 +501,7 @@ void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) && !(this->actor.velocity.y > 0.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(this->actor.velocity.y > 0.0f)) {
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -675,7 +675,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFd_ColliderCheck(this, globalCtx);
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     EnFd_Fade(this, globalCtx);
     this->actionFunc(this, globalCtx);
     EnFd_UpdateDots(this);
