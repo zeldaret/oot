@@ -1083,8 +1083,8 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
                 for (i = 0; i < 4; i++) {
                     BossGoma_ClearPixels(sClearPixelTableFirstPass, this->decayingProgress);
-                    //! @bug this allows this->decayingProgress = 0x100 = 256 which is out of bounds when accessing
-                    // sClearPixelTableFirstPass, though timers may prevent this from ever happening?
+                    //! @bug this allows this->decayingProgress = 0x100 = 256 which
+                    // is out of bounds when accessing sClearPixelTableFirstPass
                     if (this->decayingProgress < 0x100) {
                         this->decayingProgress++;
                     }
