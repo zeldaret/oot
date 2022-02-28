@@ -3,11 +3,11 @@
 /**
  * @brief memcpy: copies @p size bytes from memory starting at @p src to memory starting at @p dest . Expects the memory
  * specified by @p src and @p dest to not overlap.
- * 
+ *
  * @sa libultra also has a memcpy().
  *
  * @param[in,out] dest address of start of buffer writing to
- * @param[in] src address of start of buffer to read from 
+ * @param[in] src address of start of buffer to read from
  * @param[in] size number of bytes to copy. Has to be s32: it is not possible to copy more than 2 GB of RAM at once.
  *
  * @return dest

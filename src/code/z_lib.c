@@ -2,7 +2,7 @@
 
 /**
  * @brief memset: sets @p size bytes to @p val starting at address @p dest .
- * 
+ *
  * Unlike normal memset,
  * - @p dest is a u8* already,
  * - does not return @p dest ,

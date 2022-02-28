@@ -3,7 +3,7 @@
 /**
  * @brief memset: sets @p size bytes to @p val starting at address @p dest .
  *
- * There are two other memsets in this codebase, 
+ * There are two other memsets in this codebase,
  * @sa Lib_MemSet(), MemSet()
  * This one is used in __osMalloc, z_quake, z_view, and z_camera
  *
