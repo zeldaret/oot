@@ -13,7 +13,7 @@
  * @param x dividend
  * @param y modulus
  *
- * @return f32 0.0f if y is 0.0f, or the x modulo y if
+ * @return f32 0.0f if y is 0.0f, or x modulo y otherwise
  */
 f32 fmodf(f32 x, f32 y) {
     s32 n;
