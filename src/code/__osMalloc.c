@@ -122,7 +122,7 @@ void __osMallocAddBlock(Arena* arena, void* start, s32 size) {
         size2 = (size - diff) & ~0xF;
 
         if (size2 > (s32)sizeof(ArenaNode)) {
-            __osMemset(firstNode, BLOCK_UNINIT_MAGIC, size2); // memset
+            __osMemset(firstNode, BLOCK_UNINIT_MAGIC, size2);
             firstNode->next = NULL;
             firstNode->prev = NULL;
             firstNode->size = size2 - sizeof(ArenaNode);
@@ -151,7 +151,7 @@ void ArenaImpl_RemoveAllBlocks(Arena* arena) {
     iter = arena->head;
     while (iter != NULL) {
         next = ArenaImpl_GetNextBlock(iter);
-        __osMemset(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode)); // memset
+        __osMemset(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode));
         iter = next;
     }
 
@@ -590,7 +590,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                __osMemmove(newNext, next, sizeof(ArenaNode)); // memmove
+                __osMemmove(newNext, next, sizeof(ArenaNode));
             } else {
                 // "Allocate a new memory block and move the contents"
                 osSyncPrintf("新たにメモリブロックを確保して内容を移動します\n");

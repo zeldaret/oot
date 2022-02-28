@@ -21,7 +21,7 @@ View* View_New(GraphicsContext* gfxCtx) {
     View* view = SystemArena_MallocDebug(sizeof(View), "../z_view.c", 285);
 
     if (view != NULL) {
-        __osMemset(view, 0, sizeof(View)); // memset
+        __osMemset(view, 0, sizeof(View));
         View_Init(view, gfxCtx);
     }
 

@@ -1,23 +1,33 @@
 #include "global.h"
 
-// memmove used in __osMalloc.c
-void* __osMemmove(void* dst, void* src, size_t size) {
-    u8* byteDst = dst;
-    u8* byteSrc = src;
+/**
+ * @brief memmove: copies @p size bytes from memory starting at @p src to memory starting at @p dest .
+ * 
+ * Unlike @ref memcpy(), the regions of memory may overlap.
+ * 
+ * @param[in,out] dest address of start of buffer writing to
+ * @param[in] src address of start of buffer to read from
+ * @param[in] size number of bytes to copy.
+ * 
+ * @return dest
+ */
+void* __osMemmove(void* dest, const void* src, size_t size) {
+    u8* destPtr = dest;
+    const u8* srcPtr = src;
 
-    if (byteDst == byteSrc) {
-        return dst;
+    if (destPtr == srcPtr) {
+        return dest;
     }
-    if (byteDst < byteSrc) {
+    if (destPtr < srcPtr) {
         while (size--) {
-            *byteDst++ = *byteSrc++;
+            *destPtr++ = *srcPtr++;
         }
     } else {
-        byteDst += size - 1;
-        byteSrc += size - 1;
+        destPtr += size - 1;
+        srcPtr += size - 1;
         while (size--) {
-            *byteDst-- = *byteSrc--;
+            *destPtr-- = *srcPtr--;
         }
     }
-    return dst;
+    return dest;
 }

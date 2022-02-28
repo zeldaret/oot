@@ -1,7 +1,24 @@
 #include "global.h"
 
+/**
+ * @brief memset: sets @p size bytes to @p val starting at address @p dest .
+ * 
+ * Unlike normal memset,
+ * - @p dest is a u8* already,
+ * - does not return @p dest ,
+ * - the arguments are in a different order,
+ * - @p val is a u8 instead of the standard s32.
+ *
+ * There are two other memsets in this codebase,
+ * @sa __osMemset(), MemSet()
+ * This one is used in z_actor and certain actors.
+ *
+ * @param[in,out] dest address to start at
+ * @param[in] size number of bytes to write
+ * @param[in] val value to write
+ */
 void Lib_MemSet(u8* dest, size_t size, u8 val) {
-    u32 i;
+    size_t i;
 
     // clang-format off
     for (i = 0; i < size; i++) { *dest++ = val; }
