@@ -1169,9 +1169,9 @@ void Message_LoadItemIcon(GlobalContext* globalCtx, u16 itemId, s16 y) {
 }
 
 void Message_Decode(GlobalContext* globalCtx) {
-    u8 temp_s2;
-    u8 phi_s1;
-    u16 phi_s0_3;
+    u8 curChar;
+    u8 curChar2;
+    u16 value;
     s32 loadChar;
     s32 charTexIdx = 0;
     s16 playerNameLen;
@@ -1188,10 +1188,10 @@ void Message_Decode(GlobalContext* globalCtx) {
     sTextFade = false;
 
     while (true) {
-        phi_s1 = temp_s2 = msgCtx->msgBufDecoded[decodedBufPos] = font->msgBuf[msgCtx->msgBufPos];
+        curChar2 = curChar = msgCtx->msgBufDecoded[decodedBufPos] = font->msgBuf[msgCtx->msgBufPos];
 
-        if (temp_s2 == MESSAGE_BOX_BREAK || temp_s2 == MESSAGE_TEXTID || temp_s2 == MESSAGE_BOX_BREAK_DELAYED ||
-            temp_s2 == MESSAGE_EVENT || temp_s2 == MESSAGE_END) {
+        if (curChar == MESSAGE_BOX_BREAK || curChar == MESSAGE_TEXTID || curChar == MESSAGE_BOX_BREAK_DELAYED ||
+            curChar == MESSAGE_EVENT || curChar == MESSAGE_END) {
             // Textbox decoding ends with any of the above text control characters
             msgCtx->msgMode = MSGMODE_TEXT_DISPLAYING;
             msgCtx->textDrawPos = 1;
@@ -1206,15 +1206,15 @@ void Message_Decode(GlobalContext* globalCtx) {
                     R_TEXT_INIT_YPOS = (u16)(R_TEXTBOX_Y + 16);
                 }
             }
-            if (phi_s1 == MESSAGE_TEXTID) {
+            if (curChar2 == MESSAGE_TEXTID) {
                 osSyncPrintf("NZ_NEXTMSG=%x, %x, %x\n", font->msgBuf[msgCtx->msgBufPos],
                              font->msgBuf[msgCtx->msgBufPos + 1], font->msgBuf[msgCtx->msgBufPos + 2]);
-                temp_s2 = msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[msgCtx->msgBufPos + 1];
+                curChar = msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[msgCtx->msgBufPos + 1];
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[msgCtx->msgBufPos + 2];
-                phi_s0_3 = temp_s2 << 8;
-                sNextTextId = msgCtx->msgBufDecoded[decodedBufPos] | phi_s0_3;
+                value = curChar << 8;
+                sNextTextId = msgCtx->msgBufDecoded[decodedBufPos] | value;
             }
-            if (phi_s1 == MESSAGE_BOX_BREAK_DELAYED) {
+            if (curChar2 == MESSAGE_BOX_BREAK_DELAYED) {
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[msgCtx->msgBufPos + 1];
                 msgCtx->msgBufPos += 2;
             }
@@ -1223,7 +1223,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                 msgCtx->textDrawPos = msgCtx->decodedTextLen;
             }
             break;
-        } else if (temp_s2 == MESSAGE_NAME) {
+        } else if (curChar == MESSAGE_NAME) {
             // Substitute the player name control character for the file's player name.
             for (playerNameLen = ARRAY_COUNT(gSaveContext.playerName); playerNameLen > 0; playerNameLen--) {
                 if (gSaveContext.playerName[playerNameLen - 1] != 0x3E) {
@@ -1233,39 +1233,39 @@ void Message_Decode(GlobalContext* globalCtx) {
             // "Name"
             osSyncPrintf("\n名前 ＝ ");
             for (i = 0; i < playerNameLen; i++) {
-                phi_s1 = gSaveContext.playerName[i];
-                if (phi_s1 == 0x3E) {
-                    phi_s1 = ' ';
-                } else if (phi_s1 == 0x40) {
-                    phi_s1 = '.';
-                } else if (phi_s1 == 0x3F) {
-                    phi_s1 = '-';
-                } else if (phi_s1 < 0xA) {
-                    phi_s1 += 0;
-                    phi_s1 += '0';
-                } else if (phi_s1 < 0x24) {
-                    phi_s1 += 0;
-                    phi_s1 += '7';
-                } else if (phi_s1 < 0x3E) {
-                    phi_s1 += 0;
-                    phi_s1 += '=';
+                curChar2 = gSaveContext.playerName[i];
+                if (curChar2 == 0x3E) {
+                    curChar2 = ' ';
+                } else if (curChar2 == 0x40) {
+                    curChar2 = '.';
+                } else if (curChar2 == 0x3F) {
+                    curChar2 = '-';
+                } else if (curChar2 < 0xA) {
+                    curChar2 += 0;
+                    curChar2 += '0';
+                } else if (curChar2 < 0x24) {
+                    curChar2 += 0;
+                    curChar2 += '7';
+                } else if (curChar2 < 0x3E) {
+                    curChar2 += 0;
+                    curChar2 += '=';
                 }
-                if (phi_s1 != ' ') {
-                    Font_LoadChar(font, phi_s1 - ' ', charTexIdx);
+                if (curChar2 != ' ') {
+                    Font_LoadChar(font, curChar2 - ' ', charTexIdx);
                     charTexIdx += FONT_CHAR_TEX_SIZE;
                 }
-                osSyncPrintf("%x ", phi_s1);
-                msgCtx->msgBufDecoded[decodedBufPos] = phi_s1;
+                osSyncPrintf("%x ", curChar2);
+                msgCtx->msgBufDecoded[decodedBufPos] = curChar2;
                 decodedBufPos++;
             }
             decodedBufPos--;
-        } else if (temp_s2 == MESSAGE_MARATHON_TIME || temp_s2 == MESSAGE_RACE_TIME) {
+        } else if (curChar == MESSAGE_MARATHON_TIME || curChar == MESSAGE_RACE_TIME) {
             // Convert the values of the appropriate timer to digits and add the
             //  digits to the decoded buffer in place of the control character.
             // "EVENT timer"
             osSyncPrintf("\nＥＶＥＮＴタイマー ＝ ");
             digits[0] = digits[1] = digits[2] = 0;
-            if (temp_s2 == MESSAGE_RACE_TIME) {
+            if (curChar == MESSAGE_RACE_TIME) {
                 digits[3] = gSaveContext.timer1Value;
             } else {
                 digits[3] = gSaveContext.timer2Value;
@@ -1300,7 +1300,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                     msgCtx->msgBufDecoded[decodedBufPos] = '"';
                 }
             }
-        } else if (temp_s2 == MESSAGE_POINTS) {
+        } else if (curChar == MESSAGE_POINTS) {
             // Convert the values of the current minigame score to digits and
             //  add the digits to the decoded buffer in place of the control character.
             // "Yabusame score"
@@ -1334,7 +1334,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                 }
             }
             decodedBufPos--;
-        } else if (temp_s2 == MESSAGE_TOKENS) {
+        } else if (curChar == MESSAGE_TOKENS) {
             // Convert the current number of collected gold skulltula tokens to digits and
             //  add the digits to the decoded buffer in place of the control character.
             // "Total number of gold stars"
@@ -1365,7 +1365,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                 }
             }
             decodedBufPos--;
-        } else if (temp_s2 == MESSAGE_FISH_INFO) {
+        } else if (curChar == MESSAGE_FISH_INFO) {
             // "Fishing hole fish size"
             osSyncPrintf("\n釣り堀魚サイズ ＝ ");
             digits[0] = 0;
@@ -1386,27 +1386,27 @@ void Message_Decode(GlobalContext* globalCtx) {
                 }
             }
             decodedBufPos--;
-        } else if (temp_s2 == MESSAGE_HIGHSCORE) {
-            phi_s0_3 = HIGH_SCORE((u8)font->msgBuf[++msgCtx->msgBufPos]);
+        } else if (curChar == MESSAGE_HIGHSCORE) {
+            value = HIGH_SCORE((u8)font->msgBuf[++msgCtx->msgBufPos]);
             // "Highscore"
             osSyncPrintf("ランキング＝%d\n", font->msgBuf[msgCtx->msgBufPos]);
             if ((font->msgBuf[msgCtx->msgBufPos] & 0xFF) == 2) {
                 if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-                    phi_s0_3 &= 0x7F;
+                    value &= 0x7F;
                 } else {
                     osSyncPrintf("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n",
                                  HIGH_SCORE(font->msgBufWide[msgCtx->msgBufPos] & 0xFF000000));
-                    phi_s0_3 = ((HIGH_SCORE((u8)font->msgBuf[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18) & 0x7F;
+                    value = ((HIGH_SCORE((u8)font->msgBuf[msgCtx->msgBufPos]) & 0xFF000000) >> 0x18) & 0x7F;
                 }
-                phi_s0_3 = SQ((f32)phi_s0_3) * 0.0036f + 0.5f;
-                osSyncPrintf("score=%d\n", phi_s0_3);
+                value = SQ((f32)value) * 0.0036f + 0.5f;
+                osSyncPrintf("score=%d\n", value);
             }
             switch (font->msgBuf[msgCtx->msgBufPos] & 0xFF) {
                 case HS_HBA:
                 case HS_POE_POINTS:
                 case HS_FISHING:
                     digits[0] = digits[1] = digits[2] = 0;
-                    digits[3] = phi_s0_3;
+                    digits[3] = value;
 
                     while (digits[3] >= 1000) {
                         digits[0]++;
@@ -1420,7 +1420,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                         digits[2]++;
                         digits[3] -= 10;
                     }
-                    if (temp_s2) {}
+                    if (curChar) {}
 
                     loadChar = false;
                     for (i = 0; i < 4; i++) {
@@ -1442,7 +1442,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                 case HS_MARATHON:
                 case HS_DAMPE_RACE:
                     digits[0] = digits[1] = digits[2] = 0;
-                    digits[3] = phi_s0_3;
+                    digits[3] = value;
 
                     while (digits[3] >= 60) {
                         digits[1]++;
@@ -1475,7 +1475,7 @@ void Message_Decode(GlobalContext* globalCtx) {
                     }
                     break;
             }
-        } else if (temp_s2 == MESSAGE_TIME) {
+        } else if (curChar == MESSAGE_TIME) {
             // "Zelda time"
             osSyncPrintf("\nゼルダ時間 ＝ ");
             digits[0] = 0;
@@ -1506,12 +1506,12 @@ void Message_Decode(GlobalContext* globalCtx) {
                 }
             }
             decodedBufPos--;
-        } else if (temp_s2 == MESSAGE_ITEM_ICON) {
+        } else if (curChar == MESSAGE_ITEM_ICON) {
             msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[msgCtx->msgBufPos + 1];
             osSyncPrintf("ITEM_NO=(%d) (%d)\n", msgCtx->msgBufDecoded[decodedBufPos],
                          font->msgBuf[msgCtx->msgBufPos + 1]);
             Message_LoadItemIcon(globalCtx, font->msgBuf[msgCtx->msgBufPos + 1], R_TEXTBOX_Y + 10);
-        } else if (temp_s2 == MESSAGE_BACKGROUND) {
+        } else if (curChar == MESSAGE_BACKGROUND) {
             msgCtx->textboxBackgroundIdx = font->msgBuf[msgCtx->msgBufPos + 1] * 2;
             msgCtx->textboxBackgroundForeColorIdx = (font->msgBuf[msgCtx->msgBufPos + 2] & 0xF0) >> 4;
             msgCtx->textboxBackgroundBackColorIdx = font->msgBuf[msgCtx->msgBufPos + 2] & 0xF;
@@ -1528,33 +1528,33 @@ void Message_Decode(GlobalContext* globalCtx) {
             R_TEXTBOX_BG_YPOS = R_TEXTBOX_Y + 8;
             numLines = 2;
             R_TEXT_INIT_XPOS = 50;
-        } else if (temp_s2 == MESSAGE_COLOR) {
+        } else if (curChar == MESSAGE_COLOR) {
             msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[++msgCtx->msgBufPos];
-        } else if (temp_s2 == MESSAGE_NEWLINE) {
+        } else if (curChar == MESSAGE_NEWLINE) {
             numLines++;
-        } else if (temp_s2 != MESSAGE_QUICKTEXT_ENABLE && temp_s2 != MESSAGE_QUICKTEXT_DISABLE &&
-                   temp_s2 != MESSAGE_AWAIT_BUTTON_PRESS && temp_s2 != MESSAGE_OCARINA &&
-                   temp_s2 != MESSAGE_PERSISTENT && temp_s2 != MESSAGE_UNSKIPPABLE) {
-            if (temp_s2 == MESSAGE_FADE) {
+        } else if (curChar != MESSAGE_QUICKTEXT_ENABLE && curChar != MESSAGE_QUICKTEXT_DISABLE &&
+                   curChar != MESSAGE_AWAIT_BUTTON_PRESS && curChar != MESSAGE_OCARINA &&
+                   curChar != MESSAGE_PERSISTENT && curChar != MESSAGE_UNSKIPPABLE) {
+            if (curChar == MESSAGE_FADE) {
                 sTextFade = true;
                 osSyncPrintf("NZ_TIMER_END (key_off_flag=%d)\n", sTextFade);
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[++msgCtx->msgBufPos];
-            } else if (temp_s2 == MESSAGE_FADE2) {
+            } else if (curChar == MESSAGE_FADE2) {
                 sTextFade = true;
                 osSyncPrintf("NZ_BGM (key_off_flag=%d)\n", sTextFade);
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[++msgCtx->msgBufPos];
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[++msgCtx->msgBufPos];
-            } else if (temp_s2 == MESSAGE_SHIFT || temp_s2 == MESSAGE_TEXT_SPEED) {
+            } else if (curChar == MESSAGE_SHIFT || curChar == MESSAGE_TEXT_SPEED) {
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[++msgCtx->msgBufPos] & 0xFF;
-            } else if (temp_s2 == MESSAGE_SFX) {
+            } else if (curChar == MESSAGE_SFX) {
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[++msgCtx->msgBufPos];
                 msgCtx->msgBufDecoded[++decodedBufPos] = font->msgBuf[++msgCtx->msgBufPos];
-            } else if (temp_s2 == MESSAGE_TWO_CHOICE) {
+            } else if (curChar == MESSAGE_TWO_CHOICE) {
                 msgCtx->choiceNum = 2;
-            } else if (temp_s2 == MESSAGE_THREE_CHOICE) {
+            } else if (curChar == MESSAGE_THREE_CHOICE) {
                 msgCtx->choiceNum = 3;
-            } else if (temp_s2 != ' ') {
-                Font_LoadChar(font, temp_s2 - ' ', charTexIdx);
+            } else if (curChar != ' ') {
+                Font_LoadChar(font, curChar - ' ', charTexIdx);
                 charTexIdx += FONT_CHAR_TEX_SIZE;
             }
         }

@@ -196,42 +196,42 @@ void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest) {
     f32 ny;
     f32 nz;
     s32 pad;
-    f32 phi_f2;
-    f32 phi_f14;
-    f32 phi_f12;
-    f32 inv_phi_f2;
-    f32 inv_phi_f14;
+    f32 xx;
+    f32 zz;
+    f32 yz;
+    f32 xxInv;
+    f32 zzInv;
 
     if (poly == NULL) {
         return;
     }
     CollisionPoly_GetNormalF(poly, &nx, &ny, &nz);
 
-    phi_f2 = sqrtf(1.0f - SQ(nx));
-    if (!IS_ZERO(phi_f2)) {
-        inv_phi_f2 = 1.0f / phi_f2;
-        phi_f14 = ny * inv_phi_f2;
-        phi_f12 = -(nz * inv_phi_f2);
+    xx = sqrtf(1.0f - SQ(nx));
+    if (!IS_ZERO(xx)) {
+        xxInv = 1.0f / xx;
+        zz = ny * xxInv;
+        yz = -(nz * xxInv);
     } else {
-        phi_f14 = sqrtf(1.0f - SQ(ny));
+        zz = sqrtf(1.0f - SQ(ny));
         if (1) {}
-        if (!IS_ZERO(phi_f14)) {
-            inv_phi_f14 = (1.0f / phi_f14);
-            phi_f12 = nx * inv_phi_f14;
-            phi_f2 = -(nz * inv_phi_f14);
+        if (!IS_ZERO(zz)) {
+            zzInv = 1.0f / zz;
+            yz = nx * zzInv;
+            xx = -(nz * zzInv);
         } else {
-            phi_f12 = 0.0f;
-            phi_f2 = 0.0f;
+            yz = 0.0f;
+            xx = 0.0f;
         }
     }
-    dest->xx = phi_f2;
-    dest->yx = (-nx) * phi_f14;
-    dest->zx = nx * phi_f12;
+    dest->xx = xx;
+    dest->yx = -nx * zz;
+    dest->zx = nx * yz;
     dest->xy = nx;
     dest->yy = ny;
     dest->zy = nz;
-    dest->yz = phi_f12;
-    dest->zz = phi_f14;
+    dest->yz = yz;
+    dest->zz = zz;
     dest->wx = 0.0f;
     dest->wy = 0.0f;
     dest->xz = 0.0f;
@@ -1364,25 +1364,26 @@ u32 BgCheck_InitializeStaticLookup(CollisionContext* colCtx, GlobalContext* glob
     Vec3f curSubdivMin;
     Vec3f curSubdivMax;
     CollisionHeader* colHeader = colCtx->colHeader;
-    StaticLookup* spA4;
-    StaticLookup* phi_fp;
-    StaticLookup* phi_s0;
-    s32 sp98;
+    StaticLookup* lookupTblXY;
+    StaticLookup* lookupTblX;
+    StaticLookup* lookup;
+    s32 subdivAmountXY;
     f32 subdivLengthX;
     f32 subdivLengthY;
     f32 subdivLengthZ;
 
-    for (spA4 = lookupTbl;
-         spA4 < (colCtx->subdivAmount.x * colCtx->subdivAmount.y * colCtx->subdivAmount.z + lookupTbl); spA4++) {
-        spA4->floor.head = SS_NULL;
-        spA4->wall.head = SS_NULL;
-        spA4->ceiling.head = SS_NULL;
+    for (lookupTblXY = lookupTbl;
+         lookupTblXY < (colCtx->subdivAmount.x * colCtx->subdivAmount.y * colCtx->subdivAmount.z + lookupTbl);
+         lookupTblXY++) {
+        lookupTblXY->floor.head = SS_NULL;
+        lookupTblXY->wall.head = SS_NULL;
+        lookupTblXY->ceiling.head = SS_NULL;
     }
 
     polyMax = colHeader->numPolygons;
     vtxList = colHeader->vtxList;
     polyList = colHeader->polyList;
-    sp98 = colCtx->subdivAmount.x * colCtx->subdivAmount.y;
+    subdivAmountXY = colCtx->subdivAmount.x * colCtx->subdivAmount.y;
     subdivLengthX = colCtx->subdivLength.x + (2 * BGCHECK_SUBDIV_OVERLAP);
     subdivLengthY = colCtx->subdivLength.y + (2 * BGCHECK_SUBDIV_OVERLAP);
     subdivLengthZ = colCtx->subdivLength.z + (2 * BGCHECK_SUBDIV_OVERLAP);
@@ -1390,35 +1391,35 @@ u32 BgCheck_InitializeStaticLookup(CollisionContext* colCtx, GlobalContext* glob
     for (polyIdx = 0; polyIdx < polyMax; polyIdx++) {
         BgCheck_GetPolySubdivisionBounds(colCtx, vtxList, polyList, &sxMin, &syMin, &szMin, &sxMax, &syMax, &szMax,
                                          polyIdx);
-        spA4 = szMin * sp98 + lookupTbl;
+        lookupTblXY = szMin * subdivAmountXY + lookupTbl;
         curSubdivMin.z = (colCtx->subdivLength.z * szMin + colCtx->minBounds.z) - BGCHECK_SUBDIV_OVERLAP;
         curSubdivMax.z = curSubdivMin.z + subdivLengthZ;
 
         for (sz = szMin; sz < szMax + 1; sz++) {
-            phi_fp = (colCtx->subdivAmount.x * syMin) + spA4;
+            lookupTblX = (colCtx->subdivAmount.x * syMin) + lookupTblXY;
             curSubdivMin.y = (colCtx->subdivLength.y * syMin + colCtx->minBounds.y) - BGCHECK_SUBDIV_OVERLAP;
             curSubdivMax.y = curSubdivMin.y + subdivLengthY;
 
             for (sy = syMin; sy < syMax + 1; sy++) {
-                phi_s0 = sxMin + phi_fp;
+                lookup = sxMin + lookupTblX;
                 curSubdivMin.x = (colCtx->subdivLength.x * sxMin + colCtx->minBounds.x) - BGCHECK_SUBDIV_OVERLAP;
                 curSubdivMax.x = curSubdivMin.x + subdivLengthX;
 
                 for (sx = sxMin; sx < sxMax + 1; sx++) {
                     if (BgCheck_PolyIntersectsSubdivision(&curSubdivMin, &curSubdivMax, polyList, vtxList, polyIdx)) {
-                        StaticLookup_AddPoly(phi_s0, colCtx, polyList, vtxList, polyIdx);
+                        StaticLookup_AddPoly(lookup, colCtx, polyList, vtxList, polyIdx);
                     }
                     curSubdivMin.x += colCtx->subdivLength.x;
                     curSubdivMax.x += colCtx->subdivLength.x;
-                    phi_s0++;
+                    lookup++;
                 }
                 curSubdivMin.y += colCtx->subdivLength.y;
                 curSubdivMax.y += colCtx->subdivLength.y;
-                phi_fp += colCtx->subdivAmount.x;
+                lookupTblX += colCtx->subdivAmount.x;
             }
             curSubdivMin.z += colCtx->subdivLength.z;
             curSubdivMax.z += colCtx->subdivLength.z;
-            spA4 += sp98;
+            lookupTblXY += subdivAmountXY;
         }
     }
     return colCtx->polyNodes.count * sizeof(SSNode);

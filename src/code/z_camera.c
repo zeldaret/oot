@@ -1013,7 +1013,7 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 yOffset, f32* arg
     PosRot* playerPosRot = &camera->playerPosRot;
     f32 temp_f2;
     f32 phi_f16;
-    f32 sp54;
+    f32 eyeAtDistXZ;
     f32 phi_f20;
     f32 temp_f0_4;
 
@@ -1036,9 +1036,9 @@ s32 Camera_CalcAtForParallel(Camera* camera, VecSph* arg1, f32 yOffset, f32* arg
     } else {
         if (!PREG(75)) {
             phi_f20 = playerPosRot->pos.y - *arg3;
-            sp54 = OLib_Vec3fDistXZ(at, &camera->eye);
-            phi_f16 = sp54;
-            Math_FAtan2F(phi_f20, sp54);
+            eyeAtDistXZ = OLib_Vec3fDistXZ(at, &camera->eye);
+            phi_f16 = eyeAtDistXZ;
+            Math_FAtan2F(phi_f20, eyeAtDistXZ);
             temp_f2 = Math_FTanF(DEG_TO_RAD(camera->fov * 0.4f)) * phi_f16;
             if (temp_f2 < phi_f20) {
                 *arg3 += phi_f20 - temp_f2;
@@ -1085,7 +1085,7 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecSph* eyeAtDir, Vec3f* targetPos, f
     PosRot* playerPosRot = &camera->playerPosRot;
     f32 yPosDelta;
     f32 phi_f16;
-    f32 eyeAtDist;
+    f32 eyeAtDistXZ;
     f32 temp_f0_2;
     f32 playerHeight;
 
@@ -1138,9 +1138,9 @@ s32 Camera_CalcAtForLockOn(Camera* camera, VecSph* eyeAtDir, Vec3f* targetPos, f
     } else {
         if (!(flags & FLG_OFFGROUND)) {
             yPosDelta = playerPosRot->pos.y - *yPosOffset;
-            eyeAtDist = OLib_Vec3fDistXZ(at, &camera->eye);
-            phi_f16 = eyeAtDist;
-            Math_FAtan2F(yPosDelta, eyeAtDist);
+            eyeAtDistXZ = OLib_Vec3fDistXZ(at, &camera->eye);
+            phi_f16 = eyeAtDistXZ;
+            Math_FAtan2F(yPosDelta, eyeAtDistXZ);
             temp_f0_2 = Math_FTanF(DEG_TO_RAD(camera->fov * 0.4f)) * phi_f16;
             if (temp_f0_2 < yPosDelta) {
                 *yPosOffset = *yPosOffset + (yPosDelta - temp_f0_2);
@@ -1261,24 +1261,24 @@ f32 Camera_ClampDist(Camera* camera, f32 dist, f32 minDist, f32 maxDist, s16 tim
 
 s16 Camera_CalcDefaultPitch(Camera* camera, s16 arg1, s16 arg2, s16 arg3) {
     f32 pad;
-    f32 phi_a2;
+    f32 stepScale;
     f32 t;
     s16 phi_v0;
-    s16 phi_v1;
-    s16 sp1C;
+    s16 absCur;
+    s16 target;
 
-    phi_v1 = ABS(arg1);
+    absCur = ABS(arg1);
     phi_v0 = arg3 > 0 ? (s16)(Math_CosS(arg3) * arg3) : arg3;
-    sp1C = arg2 - phi_v0;
+    target = arg2 - phi_v0;
 
-    if (ABS(sp1C) < phi_v1) {
-        phi_a2 = (1.0f / camera->pitchUpdateRateInv) * 3.0f;
+    if (ABS(target) < absCur) {
+        stepScale = (1.0f / camera->pitchUpdateRateInv) * 3.0f;
     } else {
-        t = phi_v1 * (1.0f / R_CAM_MAX_PHI);
+        t = absCur * (1.0f / R_CAM_MAX_PHI);
         pad = Camera_InterpolateCurve(0.8f, 1.0f - t);
-        phi_a2 = (1.0f / camera->pitchUpdateRateInv) * pad;
+        stepScale = (1.0f / camera->pitchUpdateRateInv) * pad;
     }
-    return Camera_LERPCeilS(sp1C, arg1, phi_a2, 0xA);
+    return Camera_LERPCeilS(target, arg1, stepScale, 0xA);
 }
 
 s16 Camera_CalcDefaultYaw(Camera* camera, s16 cur, s16 target, f32 arg3, f32 accel) {
@@ -7296,8 +7296,8 @@ void Camera_UpdateDistortion(Camera* camera) {
         depthPhase += DEGF_TO_BINANG(depthPhaseStep);
         screenPlanePhase += DEGF_TO_BINANG(screenPlanePhaseStep);
 
-        View_SetDistortionOrientation(&camera->globalCtx->view, Math_CosS(depthPhase) * 0.0f, Math_SinS(depthPhase) * 0.0f,
-                                 Math_SinS(screenPlanePhase) * 0.0f);
+        View_SetDistortionOrientation(&camera->globalCtx->view, Math_CosS(depthPhase) * 0.0f,
+                                      Math_SinS(depthPhase) * 0.0f, Math_SinS(screenPlanePhase) * 0.0f);
         View_SetDistortionScale(&camera->globalCtx->view, Math_SinS(screenPlanePhase) * (xScale * scaleFactor) + 1.0f,
                                 Math_CosS(screenPlanePhase) * (yScale * scaleFactor) + 1.0f,
                                 Math_CosS(depthPhase) * (zScale * scaleFactor) + 1.0f);
