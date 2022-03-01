@@ -11,22 +11,22 @@
  *
  * @return dest
  */
-void* __osMemmove(void* dest, const void* src, size_t size) {
-    u8* destPtr = dest;
-    const u8* srcPtr = src;
+void* __osMemmove(void* dest, const void* src, size_t len) {
+    u8* d = dest;
+    const u8* s = src;
 
-    if (destPtr == srcPtr) {
+    if (d == s) {
         return dest;
     }
-    if (destPtr < srcPtr) {
-        while (size--) {
-            *destPtr++ = *srcPtr++;
+    if (d < s) {
+        while (len--) {
+            *d++ = *s++;
         }
     } else {
-        destPtr += size - 1;
-        srcPtr += size - 1;
-        while (size--) {
-            *destPtr-- = *srcPtr--;
+        d += len - 1;
+        s += len - 1;
+        while (len--) {
+            *d-- = *s--;
         }
     }
     return dest;

@@ -1,7 +1,7 @@
 #include "global.h"
 
 /**
- * @brief memset: sets @p size bytes to @p val starting at address @p dest .
+ * @brief memset: sets @p len bytes to @p val starting at address @p dest .
  *
  * Unlike normal memset,
  * - @p dest is a u8* already,
@@ -14,14 +14,14 @@
  * This one is used in z_actor and certain actors.
  *
  * @param[in,out] dest address to start at
- * @param[in] size number of bytes to write
+ * @param[in] len number of bytes to write
  * @param[in] val value to write
  */
-void Lib_MemSet(u8* dest, size_t size, u8 val) {
+void Lib_MemSet(u8* dest, size_t len, u8 val) {
     size_t i;
 
     // clang-format off
-    for (i = 0; i < size; i++) { *dest++ = val; }
+    for (i = 0; i < len; i++) { *dest++ = val; }
     // clang-format on
 }
 
