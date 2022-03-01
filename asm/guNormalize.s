@@ -7,13 +7,7 @@
 
 .section .text
 
-.balign 16
-
-# padding?
-    nop
-    nop
-    nop
-    nop
+.balign 32
 
 LEAF(guNormalize)
     lwc1    $f4, ($a0)

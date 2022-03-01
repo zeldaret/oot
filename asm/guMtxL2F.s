@@ -7,7 +7,7 @@
 
 .section .text
 
-.balign 16
+.balign 32
 
 LEAF(guMtxL2F)
     li      $at, 0x37800000 # 1.0f / 65536.0f

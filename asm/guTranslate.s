@@ -7,13 +7,7 @@
 
 .section .text
 
-.balign 16
-
-# padding?
-    nop
-    nop
-    nop
-    nop
+.balign 32
 
 LEAF(guTranslate)
     li      $at, 0x47800000 # 65536.0f

@@ -7,7 +7,7 @@
 
 .section .text
 
-.balign 16
+.balign 32
 
 LEAF(guMtxIdent)
     addi    $t0, $zero, 1

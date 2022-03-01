@@ -7,7 +7,7 @@
 
 .section .text
 
-.balign 16
+.balign 32
 
 LEAF(guScale)
     li      $at, 0x47800000 # 65536.0f

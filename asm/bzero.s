@@ -66,29 +66,8 @@ LEAF(bzero)
      nop
 END(bzero)
 
+# file padding
+.balign 16
+
 # padding?
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
+.fill 0x60

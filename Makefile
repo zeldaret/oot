@@ -116,7 +116,7 @@ else
   OPTFLAGS := -O2
 endif
 
-ASFLAGS := -march=vr4300 -32 -I include
+ASFLAGS := -march=vr4300 -32 -no-pad-sections -I include
 
 ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -DAVOID_UB -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char

@@ -7,7 +7,7 @@
 
 .section .text
 
-.balign 16
+.balign 32
 
 LEAF(guMtxIdentF)
     li      $t0, 0x3F800000 # 1.0f
