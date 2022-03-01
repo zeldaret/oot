@@ -8,7 +8,7 @@ u64* SysUcode_GetUCodeBoot(void) {
 }
 
 size_t SysUcode_GetUCodeBootSize(void) {
-    return (size_t)((u8*)&rspbootTextEnd - (u8*)&rspbootTextStart);
+    return (size_t)((u8*)rspbootTextEnd - (u8*)rspbootTextStart);
 }
 
 u64* SysUcode_GetUCode(void) {
