@@ -515,6 +515,7 @@ beginseg
     include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
+    include "build/data/audio_tables.rodata.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
 endseg

@@ -1777,10 +1777,10 @@ void Matrix_RotateAxis(f32 angle, Vec3f* axis, u8 mode);
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line);
 void Matrix_SetTranslateScaleMtx2(Mtx* mtx, f32 scaleX, f32 scaleY, f32 scaleZ, f32 translateX, f32 translateY,
                                   f32 translateZ);
-u32 SysUcode_GetUCodeBoot(void);
-u32 SysUcode_GetUCodeBootSize(void);
-u32 SysUcode_GetUCode(void);
-u32 SysUcode_GetUCodeData(void);
+u64* SysUcode_GetUCodeBoot(void);
+size_t SysUcode_GetUCodeBootSize(void);
+u64* SysUcode_GetUCode(void);
+u64* SysUcode_GetUCodeData(void);
 void func_800D2E30(UnkRumbleStruct* arg0);
 void func_800D3140(UnkRumbleStruct* arg0);
 void func_800D3178(UnkRumbleStruct* arg0);

@@ -1743,14 +1743,17 @@ typedef struct {
     /* 0x100 */ u16 acCodes[256];
 } JpegHuffmanTableOld; // size = 0x300
 
-typedef struct {
+typedef union {
+    struct {
     /* 0x00 */ u32 address;
     /* 0x04 */ u32 mbCount;
     /* 0x08 */ u32 mode;
     /* 0x0C */ u32 qTableYPtr;
     /* 0x10 */ u32 qTableUPtr;
     /* 0x14 */ u32 qTableVPtr;
-    /* 0x18 */ char unk_18[0x8];
+    /* 0x18 */ u32 mbSize; // This field is used by the microcode to save the macroblock size during a yield
+    };
+    long long int force_structure_alignment;
 } JpegTaskData; // size = 0x20
 
 typedef struct {
