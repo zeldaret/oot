@@ -17,7 +17,7 @@ LEAF(func_800D71F0)
     srl     $a1, $a0, 8
     addi    $a1, $a1, -0x88
     multu   $a2, $a1
-    andi    $a3, $a0, 0xff
+    andi    $a3, $a0, 0xFF
     addi    $a3, $a3, -0x40
     slti    $at, $a3, 0x40
     mflo    $a2
@@ -26,7 +26,7 @@ LEAF(func_800D71F0)
     addi    $a3, $a3, -1
     mflo    $a2
 .L800D722C:
-    addi    $a3, $a3, 0x30a
+    addi    $a3, $a3, 0x30A
     add     $a3, $a3, $a2
     jr      $ra
      sll    $v0, $a3, 7
@@ -35,7 +35,7 @@ LEAF(func_800D71F0)
     srl     $a1, $a0, 8
     addi    $a1, $a1, -0x81
     multu   $a2, $a1
-    andi    $a3, $a0, 0xff
+    andi    $a3, $a0, 0xFF
     addi    $a3, $a3, -0x40
     slti    $at, $a3, 0x40
     mflo    $a2

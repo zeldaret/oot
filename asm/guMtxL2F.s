@@ -23,7 +23,7 @@ LEAF(guMtxL2F)
     or      $t4, $t2, $t3
     mtc1    $t4, $f4
     sll     $t5, $t0, 0x10
-    andi    $t6, $t1, 0xffff
+    andi    $t6, $t1, 0xFFFF
     or      $t7, $t5, $t6
     cvt.s.w $f6, $f4
     mtc1    $t7, $f10

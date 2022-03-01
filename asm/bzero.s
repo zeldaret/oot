@@ -10,7 +10,7 @@
 .balign 16
 
 LEAF(bzero)
-    slti    $at, $a1, 0xc
+    slti    $at, $a1, 0xC
     bnez    $at, .bytezero
      negu   $v1, $a0
     andi    $v1, $v1, 3

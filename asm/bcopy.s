@@ -79,20 +79,20 @@ forwards_32:
     lw      $v0, ($a0)
     lw      $v1, 4($a0)
     lw      $t0, 8($a0)
-    lw      $t1, 0xc($a0)
+    lw      $t1, 0xC($a0)
     lw      $t2, 0x10($a0)
     lw      $t3, 0x14($a0)
     lw      $t4, 0x18($a0)
-    lw      $t5, 0x1c($a0)
+    lw      $t5, 0x1C($a0)
     addiu   $a0, $a0, 0x20
     addiu   $a1, $a1, 0x20
     addiu   $a2, $a2, -0x20
     sw      $v0, -0x20($a1)
-    sw      $v1, -0x1c($a1)
+    sw      $v1, -0x1C($a1)
     sw      $t0, -0x18($a1)
     sw      $t1, -0x14($a1)
     sw      $t2, -0x10($a1)
-    sw      $t3, -0xc($a1)
+    sw      $t3, -0xC($a1)
     sw      $t4, -8($a1)
     b       forwards_32
      sw     $t5, -4($a1)
@@ -104,12 +104,12 @@ forwards_16_likely:
     lw      $v0, ($a0)
     lw      $v1, 4($a0)
     lw      $t0, 8($a0)
-    lw      $t1, 0xc($a0)
+    lw      $t1, 0xC($a0)
     addiu   $a0, $a0, 0x10
     addiu   $a1, $a1, 0x10
     addiu   $a2, $a2, -0x10
     sw      $v0, -0x10($a1)
-    sw      $v1, -0xc($a1)
+    sw      $v1, -0xC($a1)
     sw      $t0, -8($a1)
     b       forwards_16
      sw     $t1, -4($a1)
@@ -191,11 +191,11 @@ backwards_32:
     addiu   $a0, $a0, -0x20
     addiu   $a1, $a1, -0x20
     addiu   $a2, $a2, -0x20
-    sw      $v0, 0x1c($a1)
+    sw      $v0, 0x1C($a1)
     sw      $v1, 0x18($a1)
     sw      $t0, 0x14($a1)
     sw      $t1, 0x10($a1)
-    sw      $t2, 0xc($a1)
+    sw      $t2, 0xC($a1)
     sw      $t3, 8($a1)
     sw      $t4, 4($a1)
     b       backwards_32
@@ -212,7 +212,7 @@ backwards_16_likely:
     addiu   $a0, $a0, -0x10
     addiu   $a1, $a1, -0x10
     addiu   $a2, $a2, -0x10
-    sw      $v0, 0xc($a1)
+    sw      $v0, 0xC($a1)
     sw      $v1, 8($a1)
     sw      $t0, 4($a1)
     b       backwards_16

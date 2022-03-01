@@ -164,7 +164,7 @@ savecontext:
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
-    li      $at, -1
+    li      $at, ~0
     xor     $t2, $t0, $at
     lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF
     andi    $t2, $t2, SR_IMASK
@@ -187,10 +187,10 @@ savercp:
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
     lw      $t4, THREAD_RCP($k0)
-    li      $at, -1
+    li      $at, ~0
     srl     $t0, $t0, 0x10
     xor     $t0, $t0, $at
-    andi    $t0, $t0, 0x3f
+    andi    $t0, $t0, 0x3F
     and     $t0, $t0, $t4
     or      $t1, $t1, $t0
 endrcp:
@@ -247,7 +247,7 @@ next_interrupt:
     # Handle external interrupt causes, using a jump table
     # to enter into the appropriate handler
     andi    $t1, $s0, SR_IMASK
-    srl     $t2, $t1, 0xc
+    srl     $t2, $t1, 0xC
     bnez    $t2, 1f
      nop
     srl     $t2, $t1, SR_IMASKSHIFT
@@ -652,7 +652,7 @@ send_mesg:
      nop
     break   7 # div0
 1:
-    li      $at, -1
+    li      $at, ~0
     bne     $t4, $at, 2f
      lui    $at, 0x8000
     bne     $t5, $at, 2f
@@ -756,7 +756,7 @@ LEAF(__osEnqueueAndYield)
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
-    li      $at, -1
+    li      $at, ~0
     xor     $t0, $t0, $at
     lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF
     andi    $t0, $t0, SR_IMASK
@@ -775,10 +775,10 @@ LEAF(__osEnqueueAndYield)
     addiu   $k0, %lo(__OSGlobalIntMask)
     lw      $k0, ($k0)
     lw      $t0, THREAD_RCP($a1)
-    li      $at, -1
+    li      $at, ~0
     srl     $k0, $k0, 0x10
     xor     $k0, $k0, $at
-    andi    $k0, $k0, 0x3f
+    andi    $k0, $k0, 0x3F
     and     $k0, $k0, $t0
     or      $k1, $k1, $k0
 3:

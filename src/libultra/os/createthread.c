@@ -21,7 +21,7 @@ void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, 
     thread->context.ra = __osCleanupThread;
 
     mask = OS_IM_ALL;
-    thread->context.sr = (mask & OS_IM_CPU) | 2;
+    thread->context.sr = (mask & OS_IM_CPU) | SR_EXL;
     thread->context.rcp = (mask & RCP_IMASK) >> 16;
     thread->context.fpcsr = FPCSR_FS | FPCSR_EV;
     thread->fp = 0;

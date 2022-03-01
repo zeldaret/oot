@@ -18,7 +18,7 @@
 LEAF(guMtxF2L)
     li      $at, 0x47800000 # 65536.0f
     mtc1    $at, $f0
-    lui     $t9, 0xffff
+    lui     $t9, 0xFFFF
     addiu   $t8, $a1, 0x20
 1:
     lwc1    $f4, ($a0)
@@ -34,12 +34,12 @@ LEAF(guMtxF2L)
     and     $t2, $t0, $t9
     sll     $t5, $t0, 0x10
     srl     $t3, $t1, 0x10
-    andi    $t6, $t1, 0xffff
+    andi    $t6, $t1, 0xFFFF
     or      $t4, $t2, $t3
     or      $t7, $t5, $t6
     sw      $t4, -4($a1)
     bne     $a1, $t8, 1b
-     sw     $t7, 0x1c($a1)
+     sw     $t7, 0x1C($a1)
     jr      $ra
      nop
 END(guMtxF2L)

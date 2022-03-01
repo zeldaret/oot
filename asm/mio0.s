@@ -16,7 +16,7 @@
  */
 LEAF(Mio0_Decompress)
     lw      $a3, 8($a0)     # compressed offset
-    lw      $t9, 0xc($a0)   # uncompressed offset
+    lw      $t9, 0xC($a0)   # uncompressed offset
     lw      $t8, 4($a0)     # decompressed length
     add     $a3, $a3, $a0   # compressed start
     add     $t9, $t9, $a0   # uncompressed start
@@ -41,8 +41,8 @@ LEAF(Mio0_Decompress)
 .read_comp:
     lhu     $t2, ($a3)      # read 2 bytes from compressed data
     addi    $a3, $a3, 2     # advance compressed start
-    srl     $t3, $t2, 0xc
-    andi    $t2, $t2, 0xfff
+    srl     $t3, $t2, 0xC
+    andi    $t2, $t2, 0xFFF
     beqz    $t3, 3f
      sub    $t1, $a1, $t2
     addi    $t3, $t3, 2

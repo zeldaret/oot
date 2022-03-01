@@ -14,7 +14,11 @@ LEAF(entrypoint)
     # Clear boot segment .bss
     lui     $t0, %hi(_bootSegmentBssStart)
     addiu   $t0, %lo(_bootSegmentBssStart)
+#ifdef AVOID_UB
     li      $t1, %lo(_bootSegmentBssSize)
+#else
+    li      $t1, _bootSegmentBssSize
+#endif
 .clear_bss:
     addi    $t1, $t1, -8
     sw      $zero, ($t0)

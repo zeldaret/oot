@@ -25,7 +25,7 @@ LEAF(guTranslate)
     mtc1    $a2, $f6
     sw      $zero, 8($a0)
     sw      $zero, 4($a0)
-    sw      $zero, 0xc($a0)
+    sw      $zero, 0xC($a0)
     sw      $zero, 0x10($a0)
     sw      $zero, 0x20($a0)
     trunc.w.s $f10, $f8
@@ -34,7 +34,7 @@ LEAF(guTranslate)
     sw      $zero, 0x24($a0)
     mfc1    $t1, $f10
     sw      $zero, 0x28($a0)
-    sw      $zero, 0x2c($a0)
+    sw      $zero, 0x2C($a0)
     srl     $t2, $t1, 0x10
     trunc.w.s $f10, $f8
     mul.s   $f8, $f6, $f4
@@ -55,7 +55,7 @@ LEAF(guTranslate)
     srl     $t2, $t1, 0x10
     sll     $t0, $t2, 0x10
     addiu   $t0, $t0, 1
-    sw      $t0, 0x1c($a0)
+    sw      $t0, 0x1C($a0)
     lui     $t0, 1
     ori     $t0, $t0, 0
     sw      $t0, ($a0)
@@ -63,7 +63,7 @@ LEAF(guTranslate)
     lui     $t0, (0x00000001 >> 16)
     ori     $t0, (0x00000001 & 0xFFFF)
     sll     $t2, $t1, 0x10
-    sw      $t2, 0x3c($a0)
+    sw      $t2, 0x3C($a0)
     jr      $ra
      sw     $t0, 8($a0)
 END(guTranslate)

@@ -92,7 +92,7 @@ LEAF(osSetIntMask)
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t3, ($t0)
-    li      $at, -1
+    li      $at, ~0
     xor     $t0, $t3, $at
     andi    $t0, $t0, SR_IMASK
     or      $v0, $v0, $t0
@@ -100,7 +100,7 @@ LEAF(osSetIntMask)
     lw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t2)
     beqz    $t2, 1f
      srl    $t1, $t3, 0x10
-    li      $at, -1
+    li      $at, ~0
     xor     $t1, $t1, $at
     andi    $t1, $t1, MI_INTR_MASK
     or      $t2, $t2, $t1
@@ -110,7 +110,7 @@ LEAF(osSetIntMask)
     lui     $at, MI_INTR_MASK
     and     $t0, $a0, $at
     and     $t0, $t0, $t3
-    srl     $t0, $t0, 0xf
+    srl     $t0, $t0, 0xF
     lui     $t2, %hi(__osRcpImTable)
     addu    $t2, $t2, $t0
     lhu     $t2, %lo(__osRcpImTable)($t2)

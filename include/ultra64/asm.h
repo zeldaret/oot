@@ -1,6 +1,13 @@
 #ifndef ASM_H
 #define ASM_H
 
+#ifdef __sgi
+#define _MIPS_ISA_MIPS1 1
+#define _MIPS_ISA_MIPS2 2
+#define _MIPS_ISA_MIPS3 3
+#define _MIPS_ISA_MIPS4 4
+#endif
+
 #ifndef _LANGUAGE_C
 
 #define LEAF(x)                 \
@@ -73,14 +80,6 @@
 #define SZREG 4
 #elif (_MIPS_ISA == _MIPS_ISA_MIPS3 || _MIPS_ISA == _MIPS_ISA_MIPS4)
 #define SZREG 8
-#endif
-
-// Fixes CC_CHECK, since it is not a MIPS compiler
-#ifndef SZREG
-#define NARGSAVE 4
-#define ALSZ    (8-1)
-#define ALMASK ~(8-1)
-#define SZREG 4
 #endif
 
 #endif
