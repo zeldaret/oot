@@ -235,11 +235,11 @@ void EnBombf_Move(EnBombf* this, GlobalContext* globalCtx) {
 
     this->flowerBombScale = 1.0f;
 
-    if (!(this->actor.bgCheckFlags & 1)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.025f, 0.0f);
     } else {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
-        if ((this->actor.bgCheckFlags & 2) && (this->actor.velocity.y < -6.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -6.0f)) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.5f;
         } else if (this->timer >= 4) {
@@ -339,18 +339,20 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->gravity != 0.0f) {
         DREG(6) = 1;
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f, 0x1F);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
+                                    UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
         DREG(6) = 0;
     }
 
     if (thisx->params == BOMBFLOWER_BODY) {
 
-        if ((thisx->velocity.y > 0.0f) && (thisx->bgCheckFlags & 0x10)) {
+        if ((thisx->velocity.y > 0.0f) && (thisx->bgCheckFlags & BGCHECKFLAG_CEILING)) {
             thisx->velocity.y = -thisx->velocity.y;
         }
 
         // rebound bomb off the wall it hits
-        if ((thisx->speedXZ != 0.0f) && (thisx->bgCheckFlags & 8)) {
+        if ((thisx->speedXZ != 0.0f) && (thisx->bgCheckFlags & BGCHECKFLAG_WALL)) {
 
             if (ABS((s16)(thisx->wallYaw - thisx->world.rot.y)) > 0x4000) {
                 if (1) {}
@@ -359,10 +361,12 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_BOUND);
             Actor_MoveForward(thisx);
             DREG(6) = 1;
-            Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f, 0x1F);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
+                                        UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
             DREG(6) = 0;
             thisx->speedXZ *= 0.7f;
-            thisx->bgCheckFlags &= ~8;
+            thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
         if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
@@ -457,8 +461,8 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(thisx);
             return;
         }
-        if (thisx->bgCheckFlags & 0x40) {
-            thisx->bgCheckFlags &= ~0x40;
+        if (thisx->bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
+            thisx->bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
             Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_DROP_WATER);
         }
     }

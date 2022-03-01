@@ -98,7 +98,7 @@ void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetFlower(EnDntJiji* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->flowerPos = this->actor.world.pos;
         this->actionFunc = EnDntJiji_SetupWait;
     }
@@ -180,7 +180,7 @@ void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx) {
         this->sfxTimer = 5;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
-    if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
         this->actor.speedXZ = 3.0f;
     }
@@ -344,7 +344,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
     dz = this->flowerPos.z - this->actor.world.pos.z;
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 1, 0xBB8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
         this->actor.speedXZ = 3.0f;
     }
@@ -419,7 +419,9 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     if (this->isSolid != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

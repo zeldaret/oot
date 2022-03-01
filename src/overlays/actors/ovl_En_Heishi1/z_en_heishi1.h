@@ -31,7 +31,7 @@ typedef struct EnHeishi1 {
     union {
         struct {
             /* 0x0284 */ f32 animSpeed;
-            /* 0x0288 */ f32 transitionRate;
+            /* 0x0288 */ f32 animMorphFrames;
             /* 0x028C */ f32 moveSpeedTarget;
             /* 0x0290 */ f32 moveSpeedMax;
             /* 0x0294 */ f32 bodyTurnSpeedTarget;

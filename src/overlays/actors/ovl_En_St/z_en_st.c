@@ -654,7 +654,7 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (!(this->actor.bgCheckFlags & 1)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         // the Skulltula is not on the ground.
         return false;
     }
@@ -1020,7 +1020,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002D7EC(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
         if ((this->stunTimer == 0) && (this->swayTimer == 0)) {
             // run the current action if the Skulltula isn't stunned

@@ -188,7 +188,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
                      Animation_GetLastFrame(sAnimationInfo[ENDAIKU_ANIM_SHOUT].animation),
                      sAnimationInfo[ENDAIKU_ANIM_SHOUT].mode, sAnimationInfo[ENDAIKU_ANIM_SHOUT].morphFrames);
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     this->actor.targetMode = 6;
     this->currentAnimIndex = -1;
@@ -543,7 +543,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->subCamActive) {
         EnDaiku_UpdateSubCamera(this, globalCtx);

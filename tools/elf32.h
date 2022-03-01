@@ -1,5 +1,7 @@
-#ifndef _ELF_H_
-#define _ELF_H_
+#ifndef ELF_H
+#define ELF_H
+
+#include <stddef.h>
 
 enum
 {

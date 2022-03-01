@@ -204,11 +204,11 @@ void func_80882BDC(BgHakaZou* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x;
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
 
-    if (this->dyna.actor.bgCheckFlags & 2) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->dyna.actor.velocity.y < -8.0f) {
             this->dyna.actor.velocity.y *= -0.6f;
             this->dyna.actor.velocity.y = CLAMP_MAX(this->dyna.actor.velocity.y, 10.0f);
-            this->dyna.actor.bgCheckFlags &= ~3;
+            this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
             this->dyna.actor.speedXZ = 2.0f;
         } else {
             Actor_Kill(&this->dyna.actor);

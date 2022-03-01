@@ -237,7 +237,7 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     this->actor.shape.rot.y += 0x800;
-    if (this->actor.xyzDistToPlayerSq < 900.0f) {
+    if (this->actor.xyzDistToPlayerSq < SQ(30.0f)) {
         Rupees_ChangeBy(5);
         sCollectedCount++;
         func_80078884(NA_SE_SY_GET_RUPY);
@@ -431,7 +431,8 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) &&
         (this->type != ENGSWITCH_TARGET_RUPEE)) {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f,
+                                UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
     if (this->actor.draw != NULL) {
         if (this->type == ENGSWITCH_TARGET_RUPEE) {

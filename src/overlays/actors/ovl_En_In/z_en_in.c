@@ -918,7 +918,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->skelAnime.animation == &object_in_Anim_001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
     EnIn_UpdateEyes(this);
     this->actionFunc(this, globalCtx);

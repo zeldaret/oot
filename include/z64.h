@@ -24,6 +24,7 @@
 #include "z64skin.h"
 #include "z64transition.h"
 #include "z64interface.h"
+#include "alignment.h"
 #include "sequence.h"
 #include "sfx.h"
 #include "color.h"
@@ -48,6 +49,12 @@
 #define Z_PRIORITY_SCHED       15
 #define Z_PRIORITY_DMAMGR      16
 #define Z_PRIORITY_IRQMGR      17
+
+#define STACK(stack, size) \
+    u64 stack[ALIGN8(size) / sizeof(u64)]
+
+#define STACK_TOP(stack) \
+    ((u8*)(stack) + sizeof(stack))
 
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
@@ -171,11 +178,11 @@ typedef struct {
     /* 0x00A0 */ Mtx    viewing;
     /* 0x00E0 */ Mtx*   projectionPtr;
     /* 0x00E4 */ Mtx*   viewingPtr;
-    /* 0x00E8 */ Vec3f  unk_E8;
-    /* 0x00F4 */ Vec3f  unk_F4;
-    /* 0x0100 */ f32    unk_100;
-    /* 0x0104 */ Vec3f  unk_104;
-    /* 0x0110 */ Vec3f  unk_110;
+    /* 0x00E8 */ Vec3f  distortionOrientation;
+    /* 0x00F4 */ Vec3f  distortionScale;
+    /* 0x0100 */ f32    distortionSpeed;
+    /* 0x0104 */ Vec3f  curDistortionOrientation;
+    /* 0x0110 */ Vec3f  curDistortionScale;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
     /* 0x0120 */ s32    flags;
     /* 0x0124 */ s32    unk_124;
@@ -256,7 +263,7 @@ typedef struct {
     }                   flags;
     /* 0x0128 */ TitleCardContext titleCtx;
     /* 0x0138 */ char   unk_138[0x04];
-    /* 0x013C */ void*  absoluteSpace; // Space used to allocate actor overlays of alloc type 1
+    /* 0x013C */ void*  absoluteSpace; // Space used to allocate actor overlays with alloc type ALLOCTYPE_ABSOLUTE
 } ActorContext; // size = 0x140
 
 typedef struct {
@@ -513,12 +520,22 @@ typedef enum {
 typedef struct {
     /* 0x0000 */ u32    msgOffset;
     /* 0x0004 */ u32    msgLength;
+    union {
     /* 0x0008 */ u8     charTexBuf[FONT_CHAR_TEX_SIZE * 120];
+    /* 0x0008 */ u64    force_structure_alignment_charTex;
+    };
+    union {
     /* 0x3C08 */ u8     iconBuf[FONT_CHAR_TEX_SIZE];
+    /* 0x3C08 */ u64    force_structure_alignment_icon;
+    };
+    union {
     /* 0x3C88 */ u8     fontBuf[FONT_CHAR_TEX_SIZE * 320];
+    /* 0x3C88 */ u64    force_structure_alignment_font;
+    };
     union {
     /* 0xDC88 */ char   msgBuf[1280];
     /* 0xDC88 */ u16    msgBufWide[640];
+    /* 0xDC88 */ u64    force_structure_alignment_msg;
     };
 } Font; // size = 0xE188
 
@@ -1812,7 +1829,7 @@ typedef struct {
     /* 0x08 */ Color_RGBA8_u32 primColor;
     /* 0x0C */ Color_RGBA8_u32 envColor;
     /* 0x10 */ u16* tlut;
-    /* 0x14 */ Gfx* monoDl;
+    /* 0x14 */ Gfx* dList;
 } VisMono; // size = 0x18
 
 // Vis...

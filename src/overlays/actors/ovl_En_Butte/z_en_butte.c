@@ -305,9 +305,9 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
     minAnimSpeed = 0.0f;
 
     if ((this->flightParamsIdx != 0) && (this->timer < 12)) {
-        swordTip.x = player->swordInfo[0].tip.x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
-        swordTip.y = player->swordInfo[0].tip.y;
-        swordTip.z = player->swordInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.x = player->meleeWeaponInfo[0].tip.x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.y = player->meleeWeaponInfo[0].tip.y;
+        swordTip.z = player->meleeWeaponInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
 
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &swordTip) + (s16)(Rand_ZeroOne() * D_809CE410);
         if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000) != 0) {
@@ -319,7 +319,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, player->swordInfo[0].tip.y);
+    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, player->meleeWeaponInfo[0].tip.y);
 
     EnButte_Turn(this);
 
@@ -339,7 +339,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
           (this->swordDownTimer <= 0) && (distSqFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
     } else if (distSqFromHome > SQ(240.0f)) {
-        distSqFromSword = Math3D_Dist2DSq(player->swordInfo[0].tip.x, player->swordInfo[0].tip.z,
+        distSqFromSword = Math3D_Dist2DSq(player->meleeWeaponInfo[0].tip.x, player->meleeWeaponInfo[0].tip.z,
                                           this->actor.world.pos.x, this->actor.world.pos.z);
         if (distSqFromSword < SQ(60.0f)) {
             EnButte_SetupTransformIntoFairy(this);
@@ -398,7 +398,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_260 += 0x600;
 
     if ((this->actor.params & 1) == 1) {
-        if (GET_PLAYER(globalCtx)->swordState == 0) {
+        if (GET_PLAYER(globalCtx)->meleeWeaponState == 0) {
             if (this->swordDownTimer > 0) {
                 this->swordDownTimer--;
             }

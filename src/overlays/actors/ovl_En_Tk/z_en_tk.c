@@ -210,7 +210,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.xyzDistToPlayerSq > 10000.0f) {
+    if (this->actor.xyzDistToPlayerSq > SQ(100.0f)) {
         return 0;
     }
 
@@ -662,7 +662,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_MoveForward(&this->actor);
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     this->actionFunc(this, globalCtx);
 

@@ -221,7 +221,7 @@ void func_80AB1210(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB1284(EnNb* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 EnNb_UpdateSkelAnime(EnNb* this) {
@@ -282,7 +282,7 @@ void EnNb_SetInitialCsPosRot(EnNb* this, GlobalContext* globalCtx, s32 npcAction
     }
 }
 
-void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4) {
+void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 arg4) {
     f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
@@ -298,7 +298,7 @@ void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 tr
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, mode, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, mode, morphFrames);
 }
 
 void EnNb_SetChamberAnim(EnNb* this, GlobalContext* globalCtx) {
