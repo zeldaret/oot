@@ -22,5 +22,6 @@ f32 fmodf(f32 x, f32 y) {
         return 0.0f;
     }
     n = x / y;
+
     return x - (n * y);
 }
