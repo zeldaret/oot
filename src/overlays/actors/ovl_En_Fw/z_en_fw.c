@@ -453,24 +453,24 @@ void EnFw_DrawEffects(EnFw* this, GlobalContext* globalCtx) {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
     EnFwEffect* eff = this->effects;
-    s16 firstDone;
+    s16 materialFlag;
     s16 alpha;
     s16 i;
     s16 idx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fw.c", 1191);
 
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
 
     for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
         if (eff->type != 0) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0U);
                 gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = eff->timer * (255.0f / eff->initialTimer);

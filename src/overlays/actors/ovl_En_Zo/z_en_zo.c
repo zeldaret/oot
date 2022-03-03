@@ -172,20 +172,20 @@ void EnZo_UpdateEffectsSplashes(EnZo* this) {
 void EnZo_DrawEffectsRipples(EnZo* this, GlobalContext* globalCtx) {
     EnZoEffect* effect;
     s16 i;
-    u8 setup;
+    u8 materialFlag;
 
     effect = this->effects;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 217);
-    setup = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
-            if (!setup) {
+            if (!materialFlag) {
                 if (1) {}
                 gDPPipeSync(POLY_XLU_DISP++);
                 gSPDisplayList(POLY_XLU_DISP++, gZoraRipplesMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
-                setup = true;
+                materialFlag = true;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->color.a);
@@ -203,21 +203,21 @@ void EnZo_DrawEffectsRipples(EnZo* this, GlobalContext* globalCtx) {
 void EnZo_DrawEffectsBubbles(EnZo* this, GlobalContext* globalCtx) {
     EnZoEffect* effect = this->effects;
     s16 i;
-    u8 setup;
+    u8 materialFlag;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 260);
-    setup = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
-            if (!setup) {
+            if (!materialFlag) {
                 if (1) {}
                 gSPDisplayList(POLY_XLU_DISP++, gZoraBubblesMaterialDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
 
-                setup = true;
+                materialFlag = true;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -236,20 +236,20 @@ void EnZo_DrawEffectsBubbles(EnZo* this, GlobalContext* globalCtx) {
 void EnZo_DrawEffectsSplashes(EnZo* this, GlobalContext* globalCtx) {
     EnZoEffect* effect;
     s16 i;
-    u8 setup;
+    u8 materialFlag;
 
     effect = this->effects;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 298);
-    setup = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     for (i = 0; i < ARRAY_COUNT(this->effects); i++) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
-            if (!setup) {
+            if (!materialFlag) {
                 if (1) {}
                 gSPDisplayList(POLY_XLU_DISP++, gZoraSplashesMaterialDL);
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
-                setup = true;
+                materialFlag = true;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->color.a);
 

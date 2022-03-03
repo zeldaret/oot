@@ -2879,7 +2879,7 @@ void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx) {
 
 void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
     s16 alpha;
-    u8 usingObjectGEff = false;
+    u8 objectFlag = 0;
     BossGanon2Effect* effect;
     s16 i;
     BossGanon2Effect* effects;
@@ -2932,9 +2932,9 @@ void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type == 2) {
-            if (!usingObjectGEff) {
+            if (objectFlag == 0) {
                 BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
-                usingObjectGEff++;
+                objectFlag++;
             }
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);

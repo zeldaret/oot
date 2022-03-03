@@ -4896,7 +4896,7 @@ f32 BossTw_RandZeroOne(void) {
 }
 
 void BossTw_DrawEffects(GlobalContext* globalCtx) {
-    u8 sp18F = 0;
+    u8 materialFlag = 0;
     s16 i;
     s16 j;
     s32 pad;
@@ -4914,9 +4914,9 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
         if (currentEffect->type == 1) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_tw_DL_01A528);
-                sp18F++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, currentEffect->color.r, currentEffect->color.g,
@@ -4932,14 +4932,14 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
     for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
         if (currentEffect->type == 3) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_tw_DL_01A998));
-                sp18F++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, currentEffect->alpha);
@@ -4956,15 +4956,15 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
     for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
         if (currentEffect->type == 2) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 215, 255, 128);
-                sp18F++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, currentEffect->alpha);
@@ -4982,13 +4982,13 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
     for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
         if (currentEffect->type == 4) {
-            if (sp18F == 0) {
-                sp18F++;
+            if (materialFlag == 0) {
+                materialFlag++;
             }
 
             gSPSegment(POLY_XLU_DISP++, 0xD,
@@ -5027,7 +5027,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
     for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
@@ -5035,12 +5035,12 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         Vec3f off;
 
         if (currentEffect->type == TWEFF_PLYR_FRZ) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_tw_DL_01AA50));
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, 255);
                 gSPSegment(POLY_XLU_DISP++, 8,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
-                sp18F++;
+                materialFlag++;
                 BossTw_InitRand(1, 0x71AC, 0x263A);
             }
 
@@ -5073,7 +5073,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
     for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {

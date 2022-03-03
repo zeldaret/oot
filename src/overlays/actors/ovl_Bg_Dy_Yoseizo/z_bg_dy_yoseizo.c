@@ -1004,7 +1004,7 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
 void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 phi_s3 = 0;
+    u8 materialFlag = 0;
     BgDyYoseizoEffect* effect = this->effects;
     s16 i;
 
@@ -1013,11 +1013,11 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 200; i++, effect++) {
         if (effect->alive == 1) {
-            if (phi_s3 == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
                 gDPPipeSync(POLY_XLU_DISP++);
 
-                phi_s3++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->primColor.r, effect->primColor.g, effect->primColor.b,

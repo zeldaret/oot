@@ -891,7 +891,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
 void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     s16 i;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 isMaterialApplied = false;
+    u8 materialFlag = 0;
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
     EnClearTagEffect* firstEffect = effect;
 
@@ -903,8 +903,8 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_DEBRIS) {
             // Apply the debris effect material if it has not already been applied.
-            if (!isMaterialApplied) {
-                isMaterialApplied++;
+            if (materialFlag == 0) {
+                materialFlag++;
                 gSPDisplayList(POLY_OPA_DISP++, gArwingDebrisEffectMaterialDL);
             }
 
@@ -921,14 +921,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all ground flash effects.
     effect = firstEffect;
-    isMaterialApplied = false;
+    materialFlag = 0;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash ground effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the ground flash effect.
@@ -945,13 +945,13 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all smoke effects.
     effect = firstEffect;
-    isMaterialApplied = false;
+    materialFlag = 0;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_SMOKE) {
             // Apply the smoke effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectMaterialDL);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the smoke effect.
@@ -974,14 +974,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all fire effects.
     effect = firstEffect;
-    isMaterialApplied = false;
+    materialFlag = 0;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
             // Apply the fire effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 215, 255, 128);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the fire effect.
@@ -1000,14 +1000,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all flash billboard effects.
     effect = firstEffect;
-    isMaterialApplied = false;
+    materialFlag = 0;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash billboard effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the flash billboard effect.

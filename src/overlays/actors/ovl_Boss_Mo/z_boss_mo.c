@@ -2896,7 +2896,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
 }
 
 void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -2907,12 +2907,12 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type == MO_FX_BIG_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80094BC4(gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -2927,15 +2927,15 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type == MO_FX_SMALL_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -2950,18 +2950,18 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (((effect->type == MO_FX_DROPLET) || (effect->type == MO_FX_SPLASH)) ||
             (effect->type == MO_FX_SPLASH_TRAIL)) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)effect->fwork[MO_FX_SHIMMER], (s16)effect->fwork[MO_FX_SHIMMER],
@@ -2979,17 +2979,17 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type == MO_FX_WET_SPOT) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80094044(gfxCtx);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)effect->fwork[MO_FX_SHIMMER], (s16)effect->fwork[MO_FX_SHIMMER],
@@ -3005,15 +3005,15 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type == MO_FX_BUBBLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, effect->alpha);

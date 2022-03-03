@@ -1672,7 +1672,7 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
 void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
     MtxF* unkMtx;
     s16 i;
-    u8 phi_s3 = 0;
+    u8 materialFlag = 0;
     BossDodongoEffect* eff;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
@@ -1687,9 +1687,9 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
         if (eff->unk_24 == 1) {
             gDPPipeSync(POLY_XLU_DISP++);
 
-            if (phi_s3 == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_009D50);
-                phi_s3++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);

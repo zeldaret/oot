@@ -219,23 +219,23 @@ void EnGo2_UpdateEffects(EnGo2* this) {
 void EnGo2_DrawEffects(EnGo2* this, GlobalContext* globalCtx) {
     EnGoEffect* dustEffect = this->dustEffects;
     s16 alpha;
-    s16 firstDone;
+    s16 materialFlag;
     s16 index;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 111);
 
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
 
     for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
         if (dustEffect->type) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);

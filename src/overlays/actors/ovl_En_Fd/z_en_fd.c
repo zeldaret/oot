@@ -876,22 +876,22 @@ void EnFd_DrawEffectsFlames(EnFd* this, GlobalContext* globalCtx) {
     static void* dustTextures[] = {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
-    s32 firstDone;
+    s32 materialFlag;
     s16 i;
     s16 idx;
     EnFdEffect* eff = this->effects;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 1969);
-    firstDone = false;
+    materialFlag = false;
     if (1) {}
     func_80093D84(globalCtx->state.gfxCtx);
     for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
         if (eff->type == FD_EFFECT_FLAME) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
-                firstDone = true;
+                materialFlag = true;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
             gDPPipeSync(POLY_XLU_DISP++);
@@ -910,20 +910,20 @@ void EnFd_DrawEffectsFlames(EnFd* this, GlobalContext* globalCtx) {
 
 void EnFd_DrawEffectsDots(EnFd* this, GlobalContext* globalCtx) {
     s16 i;
-    s16 firstDone;
+    s16 materialFlag;
     EnFdEffect* eff = this->effects;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 2034);
 
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
 
     for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
         if (eff->type == FD_EFFECT_DOT) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
-                firstDone = true;
+                materialFlag = true;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b,
                             (u8)(eff->color.a * (this->fadeAlpha / 255.0f)));

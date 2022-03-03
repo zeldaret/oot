@@ -1203,21 +1203,21 @@ void EnGo_DrawEffects(EnGo* this, GlobalContext* globalCtx) {
     static void* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
     EnGoEffect* dustEffect = this->dustEffects;
     s16 alpha;
-    s16 firstDone;
+    s16 materialFlag;
     s16 index;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2626);
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
     for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
         if (dustEffect->type) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);

@@ -3507,7 +3507,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     };
     s16 i;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 flag = 0;
+    u8 materialFlag = 0;
     BossVaEffect* effectHead = effect;
     Camera* camera = Gameplay_GetCamera(globalCtx, sCsCamera);
 
@@ -3515,11 +3515,11 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_LARGE_SPARK) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetEnvColor(POLY_XLU_DISP++, 130, 130, 30, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_0156A0);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 230, 230, 230, effect->primColor[3]);
@@ -3534,12 +3534,12 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
+    for (i = 0, materialFlag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_SPARK_BALL) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_011738);
-                flag++;
+                materialFlag++;
             }
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
@@ -3560,13 +3560,13 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
+    for (i = 0, materialFlag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_BLOOD) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_009430);
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gEffBubble1Tex));
-                flag++;
+                materialFlag++;
             }
 
             gDPPipeSync(POLY_XLU_DISP++);
@@ -3590,15 +3590,15 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
+    for (i = 0, materialFlag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_TUMOR) {
             BossVa* parent = effect->parent;
 
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, effect->envColor[3]);
                 gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_0128B8);
-                flag++;
+                materialFlag++;
             }
 
             if ((effect->mode != TUMOR_BODY) || ((Math_Vec3f_DistXZ(&camera->eye, &effect->pos) -
@@ -3614,12 +3614,12 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
+    for (i = 0, materialFlag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_GORE) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_012BA0);
-                flag++;
+                materialFlag++;
             }
 
             gDPPipeSync(POLY_OPA_DISP++);
@@ -3645,12 +3645,12 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
+    for (i = 0, materialFlag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_ZAP_CHARGE) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_0135B0);
-                flag++;
+                materialFlag++;
             }
 
             gDPPipeSync(POLY_XLU_DISP++);
@@ -3668,13 +3668,13 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
+    for (i = 0, materialFlag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_BLAST_SPARK) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093C14(globalCtx->state.gfxCtx);
                 gDPSetEnvColor(POLY_XLU_DISP++, 130, 130, 30, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_0156A0);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 230, 230, 230, effect->primColor[3]);
@@ -3690,13 +3690,13 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, flag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
+    for (i = 0, materialFlag = 0; i < ARRAY_COUNT(sVaEffects); i++, effect++) {
         if (effect->type == VA_SMALL_SPARK) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 100, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008F08);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->primColor[3]);
