@@ -7,7 +7,7 @@ StackEntry* sStackInfoListEnd = NULL;
 void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 initValue, s32 minSpace,
                      const char* name) {
     StackEntry* iter;
-    u32* addr;
+    uintptr_t* addr;
 
     if (entry == NULL) {
         sStackInfoListStart = NULL;
@@ -39,7 +39,7 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
         }
 
         if (entry->minSpace != -1) {
-            addr = (u32*)entry->head;
+            addr = (uintptr_t*)entry->head;
             while ((uintptr_t)addr < entry->tail) {
                 *addr++ = entry->initValue;
             }
@@ -73,7 +73,7 @@ void StackCheck_Cleanup(StackEntry* entry) {
 }
 
 StackStatus StackCheck_GetState(StackEntry* entry) {
-    u32* last;
+    uintptr_t* last;
     size_t used;
     size_t free;
     s32 ret;
