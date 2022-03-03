@@ -45,6 +45,8 @@ typedef enum {
     /* 0x69 */ TW_DEATHBALL_KOUME
 } TwinrovaType;
 
+#define BOSS_TW_EFFECTS_COUNT 150
+
 typedef struct {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 frame;
@@ -229,7 +231,7 @@ static u8 D_8094C878;
 static s16 D_8094C87A;
 static s16 D_8094C87C;
 static u8 D_8094C87E;
-static BossTwEffect sTwEffects[150];
+static BossTwEffect sTwEffects[BOSS_TW_EFFECTS_COUNT];
 
 void BossTw_AddDotEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale,
                          s16 args, s16 countLimit) {
@@ -298,7 +300,7 @@ void BossTw_AddPlayerFreezeEffect(GlobalContext* globalCtx, Actor* target) {
     BossTwEffect* eff;
     s16 i;
 
-    for (eff = globalCtx->specialEffects, i = 0; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (eff = globalCtx->specialEffects, i = 0; i < BOSS_TW_EFFECTS_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_PLYR_FRZ;
             eff->curSpeed = sZeroVector;
@@ -323,7 +325,7 @@ void BossTw_AddFlameEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* in
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < BOSS_TW_EFFECTS_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_FLAME;
             eff->pos = *initalPos;
@@ -343,7 +345,7 @@ void BossTw_AddMergeFlameEffect(GlobalContext* globalCtx, Vec3f* initialPos, f32
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < BOSS_TW_EFFECTS_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_MERGEFLAME;
             eff->pos = *initialPos;
@@ -366,7 +368,7 @@ void BossTw_AddShieldBlastEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < BOSS_TW_EFFECTS_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_SHLD_BLST;
             eff->pos = *initalPos;
@@ -393,7 +395,7 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
-        for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTwEffects); j++, eff++) {
+        for (eff = globalCtx->specialEffects, j = 0; j < BOSS_TW_EFFECTS_COUNT; j++, eff++) {
             if (eff->type == TWEFF_NONE) {
                 eff->type = TWEFF_SHLD_DEFL;
                 eff->pos = sShieldHitPos;
@@ -423,7 +425,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
-        for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTwEffects); j++, eff++) {
+        for (eff = globalCtx->specialEffects, j = 0; j < BOSS_TW_EFFECTS_COUNT; j++, eff++) {
             if (eff->type == TWEFF_NONE) {
                 eff->type = TWEFF_SHLD_HIT;
                 eff->pos = sShieldHitPos;
@@ -502,7 +504,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         sFixedBlastType = Rand_ZeroFloat(1.99f);
         globalCtx->specialEffects = sTwEffects;
 
-        for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+        for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
             sTwEffects[i].type = TWEFF_NONE;
         }
     }
@@ -734,7 +736,7 @@ void BossTw_SpawnGroundBlast(BossTw* this, GlobalContext* globalCtx, s16 blastTy
     Vec3f velocity;
     Vec3f accel;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         velocity.x = Rand_CenteredFloat(20.0f);
         velocity.y = Rand_ZeroFloat(10.0f);
         velocity.z = Rand_CenteredFloat(20.0f);
@@ -1097,7 +1099,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                         Vec3f velocity;
                         Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
-                        for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+                        for (i = 0; i < 150; i++) {
                             velocity.x = Rand_CenteredFloat(15.0f);
                             velocity.y = Rand_CenteredFloat(15.0f);
                             velocity.z = Rand_CenteredFloat(15.0f);
@@ -1151,7 +1153,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                     Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[15].z, 1.0f, 400.0f);
                     if ((this->work[CS_TIMER_1] % 4) == 0) {
                         BossTw_AddRingEffect(globalCtx, &player->bodyPartsPos[15], 0.5f, 3.0f, 0xFF, this->actor.params,
-                                             1, 150);
+                                             1, BOSS_TW_EFFECTS_COUNT);
                     }
                 } else {
                     this->beamShootState = 0;
@@ -1284,7 +1286,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         }
 
         if (BossTw_BeamReflHitCheck(this, &this->actor.world.pos) && (this->work[CS_TIMER_1] % 4) == 0) {
-            BossTw_AddRingEffect(globalCtx, &this->unk_530, 0.5f, 3.0f, 255, this->actor.params, 1, 150);
+            BossTw_AddRingEffect(globalCtx, &this->unk_530, 0.5f, 3.0f, 255, this->actor.params, 1,
+                                 BOSS_TW_EFFECTS_COUNT);
         }
 
         if (BossTw_BeamReflHitCheck(this, &otherTw->actor.world.pos) && otherTw->actionFunc != BossTw_HitByBeam) {
@@ -4580,7 +4583,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
     f32 phi_f0;
     Actor* unk44;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         if (eff->type != 0) {
             eff->pos.x += eff->curSpeed.x;
             eff->pos.y += eff->curSpeed.y;
@@ -4912,7 +4915,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         if (currentEffect->type == 1) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_tw_DL_01A528);
@@ -4935,7 +4938,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
     materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         if (currentEffect->type == 3) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_tw_DL_01A998));
@@ -4959,7 +4962,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
     materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         if (currentEffect->type == 2) {
             if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
@@ -4985,7 +4988,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
     materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         if (currentEffect->type == 4) {
             if (materialFlag == 0) {
                 materialFlag++;
@@ -5030,7 +5033,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
     materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         Actor* actor;
         Vec3f off;
 
@@ -5076,7 +5079,7 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
     materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
         if (currentEffect->type >= 6) {
             if (currentEffect->work[EFF_ARGS] == 0) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, currentEffect->alpha);
