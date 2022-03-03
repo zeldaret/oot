@@ -247,8 +247,7 @@ typedef struct SkelAnime {
     /* 0x04 */ void** skeleton;   // An array of pointers to limbs. Can be StandardLimb, LodLimb, or SkinLimb.
     /* 0x08 */ void* animation;   // Can be an AnimationHeader or LinkAnimationHeader.
     /* 0x0C */ f32 startFrame;    // In mode ANIMMODE_LOOP_PARTIAL*, start of partial loop.
-    /* 0x10 */ f32 endFrame;      // In mode ANIMMODE_ONCE*, Update returns true when curFrame is equal to this.
-                                  // In mode ANIMMODE_LOOP_PARTIAL*, end of partial loop.
+    /* 0x10 */ f32 endFrame;      // In mode ANIMMODE_ONCE*, Update returns true when curFrame is equal to this. In mode ANIMMODE_LOOP_PARTIAL*, end of partial loop.
     /* 0x14 */ f32 animLength;    // Total number of frames in the current animation.
     /* 0x18 */ f32 curFrame;      // Current frame in the animation
     /* 0x1C */ f32 playSpeed;     // Multiplied by R_UPDATE_RATE / 3 to get the animation's frame rate.
@@ -256,8 +255,7 @@ typedef struct SkelAnime {
     /* 0x24 */ Vec3s* morphTable; // Table of values used to morph between animations
     /* 0x28 */ f32 morphWeight;   // Weight of the current animation morph as a fraction in [0,1]
     /* 0x2C */ f32 morphRate;     // Reciprocal of the number of frames in the morph
-    /* 0x30 */ s32 (*update)();   // Can be Loop, Partial loop, Play once, Morph, or Tapered morph.
-                                  // Link only has Loop, Play once, and Morph
+    /* 0x30 */ s32 (*update)();   // Can be Loop, Partial loop, Play once, Morph, or Tapered morph. Link only has Loop, Play once, and Morph.
     /* 0x34 */ s8 initFlags;      // Flags used when initializing Link's skeleton
     /* 0x35 */ u8 moveFlags;      // Flags used for animations that move the actor in worldspace.
     /* 0x36 */ s16 prevRot;       // Previous rotation in worldspace.
