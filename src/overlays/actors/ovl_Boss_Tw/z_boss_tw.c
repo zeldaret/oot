@@ -274,11 +274,11 @@ void BossTw_AddDmgCloud(GlobalContext* globalCtx, s16 type, Vec3f* initialPos, V
 }
 
 void BossTw_AddRingEffect(GlobalContext* globalCtx, Vec3f* initalPos, f32 scale, f32 arg3, s16 alpha, s16 args,
-                          s16 arg6, s16 arg7) {
+                          s16 arg6, s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < arg7; i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < countLimit; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_RING;
             eff->pos = *initalPos;

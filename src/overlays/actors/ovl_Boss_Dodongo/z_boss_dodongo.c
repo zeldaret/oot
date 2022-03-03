@@ -130,11 +130,11 @@ void func_808C1554(void* arg0, void* floorTex, s32 arg2, f32 arg3) {
     }
 }
 
-void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5) {
+void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 countLimit) {
     s16 i;
     BossDodongoEffect* eff = (BossDodongoEffect*)globalCtx->specialEffects;
 
-    for (i = 0; i < arg5; i++, eff++) {
+    for (i = 0; i < countLimit; i++, eff++) {
         if (eff->unk_24 == 0) {
             eff->unk_24 = 1;
             eff->unk_00 = *arg1;

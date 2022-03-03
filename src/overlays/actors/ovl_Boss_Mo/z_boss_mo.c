@@ -186,12 +186,12 @@ s32 BossMo_NearLand(Vec3f* pos, f32 margin) {
     return false;
 }
 
-void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 partLimit,
+void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 countLimit,
                         u8 type) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
-    for (i = 0; i < partLimit; i++, effect++) {
+    for (i = 0; i < countLimit; i++, effect++) {
         if (effect->type == MO_FX_NONE) {
             effect->stopTimer = 0;
             effect->type = type;
