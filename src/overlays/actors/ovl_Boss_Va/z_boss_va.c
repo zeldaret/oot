@@ -378,7 +378,7 @@ static u8 sKillBari = 0;
 static u8 sBodyBari[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static s16 sCsCamera = 0;
 
-static BossVaEffect sVaEffects[BOSS_VA_EFFECTS_COUNT];
+static BossVaEffect sEffects[BOSS_VA_EFFECTS_COUNT];
 static u8 sBodyState;
 static u8 sFightPhase;
 static s8 sCsState;
@@ -441,7 +441,7 @@ void BossVa_BloodDroplets(GlobalContext* globalCtx, Vec3f* pos, s16 phase, s16 y
         spawnPos.x = Rand_CenteredFloat(10.0f) + pos->x;
         spawnPos.y = pos->y - (Rand_ZeroOne() * 15.0f);
         spawnPos.z = Rand_CenteredFloat(10.0f) + pos->z;
-        BossVa_SpawnBloodDroplets(globalCtx, sVaEffects, &spawnPos, 65, phase, yaw);
+        BossVa_SpawnBloodDroplets(globalCtx, sEffects, &spawnPos, 65, phase, yaw);
     }
 }
 
@@ -453,7 +453,7 @@ void BossVa_BloodSplatter(GlobalContext* globalCtx, BossVaEffect* src, s16 yaw, 
         pos.x = Rand_CenteredFloat(10.0f) + src->pos.x;
         pos.y = src->pos.y - (Rand_ZeroOne() * 15.0f);
         pos.z = Rand_CenteredFloat(10.0f) + src->pos.z;
-        BossVa_SpawnBloodSplatter(globalCtx, sVaEffects, &pos, (s16)Rand_CenteredFloat(0x6590) + yaw, scale);
+        BossVa_SpawnBloodSplatter(globalCtx, sEffects, &pos, (s16)Rand_CenteredFloat(0x6590) + yaw, scale);
     }
 }
 
@@ -465,7 +465,7 @@ void BossVa_Gore(GlobalContext* globalCtx, BossVaEffect* src, s16 yaw, s16 scale
         pos.x = Rand_CenteredFloat(10.0f) + src->pos.x;
         pos.y = Rand_CenteredFloat(10.0f) + src->pos.y;
         pos.z = Rand_CenteredFloat(10.0f) + src->pos.z;
-        BossVa_SpawnGore(globalCtx, sVaEffects, &pos, (s16)Rand_CenteredFloat(0x6590) + yaw, scale);
+        BossVa_SpawnGore(globalCtx, sEffects, &pos, (s16)Rand_CenteredFloat(0x6590) + yaw, scale);
     }
 }
 
@@ -484,7 +484,7 @@ void BossVa_Spark(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, 
         offset.x = Rand_CenteredFloat(xzSpread) + this->effectPos[index].x - this->actor.world.pos.x;
         offset.y = Rand_CenteredFloat(ySpread) + this->effectPos[index].y - this->actor.world.pos.y;
         offset.z = Rand_CenteredFloat(xzSpread) + this->effectPos[index].z - this->actor.world.pos.z;
-        BossVa_SpawnSpark(globalCtx, sVaEffects, this, &offset, scale, mode);
+        BossVa_SpawnSpark(globalCtx, sEffects, this, &offset, scale, mode);
     }
 }
 
@@ -504,7 +504,7 @@ void BossVa_Tumor(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, 
         offset.x = Rand_CenteredFloat(xzSpread) + this->effectPos[index].x - this->actor.world.pos.x;
         offset.y = Rand_CenteredFloat(ySpread) + this->effectPos[index].y - this->actor.world.pos.y;
         offset.z = Rand_CenteredFloat(xzSpread) + this->effectPos[index].z - this->actor.world.pos.z;
-        BossVa_SpawnTumor(globalCtx, sVaEffects, this, &offset, scale, mode);
+        BossVa_SpawnTumor(globalCtx, sEffects, this, &offset, scale, mode);
     }
 }
 
@@ -689,7 +689,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                         sInitRot[i].y + this->actor.world.rot.y, sInitRot[i].z + this->actor.world.rot.z, i);
                 }
 
-                Lib_MemSet((u8*)sVaEffects, BOSS_VA_EFFECTS_COUNT * sizeof(BossVaEffect), 0);
+                Lib_MemSet((u8*)sEffects, BOSS_VA_EFFECTS_COUNT * sizeof(BossVaEffect), 0);
                 if (sCsState < BOSSVA_BATTLE) {
                     BossVa_SetupIntro(this);
                 } else {
@@ -1173,7 +1173,7 @@ void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
         sp48.y += 310.0f + (this->actor.shape.yOffset * this->actor.scale.y);
         sp48.x += -10.0f;
         sp48.z += 220.0f;
-        BossVa_SpawnSparkBall(globalCtx, sVaEffects, this, &sp48, 4, 0);
+        BossVa_SpawnSparkBall(globalCtx, sEffects, this, &sp48, 4, 0);
     }
 
     if (Rand_ZeroOne() < 0.1f) {
@@ -2098,7 +2098,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
             if (this->timer2 == 20) {
                 Vec3f sp44 = this->zapHeadPos;
 
-                BossVa_SpawnZapperCharge(globalCtx, sVaEffects, this, &sp44, &this->headRot, 100, 0);
+                BossVa_SpawnZapperCharge(globalCtx, sEffects, this, &sp44, &this->headRot, 100, 0);
             }
         }
 
@@ -2357,7 +2357,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
             if (this->timer2 == 4) {
                 Vec3f sp48 = this->zapHeadPos;
 
-                BossVa_SpawnZapperCharge(globalCtx, sVaEffects, this, &sp48, &this->headRot, 100, 0);
+                BossVa_SpawnZapperCharge(globalCtx, sEffects, this, &sp48, &this->headRot, 100, 0);
             }
         }
 
@@ -3282,7 +3282,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (*paramsPtr == BOSSVA_BODY) {
-        BossVa_DrawEffects(sVaEffects, globalCtx);
+        BossVa_DrawEffects(sEffects, globalCtx);
     } else if (*paramsPtr == BOSSVA_DOOR) {
         BossVa_DrawDoor(globalCtx, sDoorState);
     }
@@ -3293,7 +3293,7 @@ void BossVa_Draw(Actor* thisx, GlobalContext* globalCtx) {
 static s32 sUnkValue = 0x009B0000; // Unreferenced? Possibly a color
 
 void BossVa_UpdateEffects(GlobalContext* globalCtx) {
-    BossVaEffect* effect = sVaEffects;
+    BossVaEffect* effect = sEffects;
     Player* player = GET_PLAYER(globalCtx);
     s16 spB6;
     s16 i;

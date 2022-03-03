@@ -57,7 +57,7 @@ typedef struct EnGo {
     /* 0x021E */ s16 unk_21E;
     /* 0x0220 */ s16 jointTable[18];
     /* 0x0244 */ s16 morphTable[18];
-    /* 0x0268 */ EnGoEffect dustEffects[EN_GO_EFFECTS_COUNT];
+    /* 0x0268 */ EnGoEffect effects[EN_GO_EFFECTS_COUNT];
 } EnGo; // size = 0x06C8
 
 #endif

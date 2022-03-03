@@ -95,7 +95,7 @@ typedef struct EnGo2 {
     /* 0x0226 */ s16 unk_226[18]; // Remains unknown
     /* 0x024A */ s16 unk_24A[18]; // Remains unknown
     /* 0x026E */ u16 unk_26E; // Remains unknown = 1, 2, or 4: used in func_80034A14
-    /* 0x0270 */ EnGoEffect dustEffects[EN_GO2_EFFECTS_COUNT];
+    /* 0x0270 */ EnGoEffect effects[EN_GO2_EFFECTS_COUNT];
     /* 0x04A0 */ Vec3f eye;
     /* 0x04AC */ Vec3f at;
     /* 0x04B8 */ Vec3s jointTable[18];

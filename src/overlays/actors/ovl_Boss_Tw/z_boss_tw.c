@@ -231,7 +231,7 @@ static u8 D_8094C878;
 static s16 D_8094C87A;
 static s16 D_8094C87C;
 static u8 D_8094C87E;
-static BossTwEffect sTwEffects[BOSS_TW_EFFECTS_COUNT];
+static BossTwEffect sEffects[BOSS_TW_EFFECTS_COUNT];
 
 void BossTw_AddDotEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale,
                          s16 args, s16 countLimit) {
@@ -502,10 +502,10 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         D_8094C858 = D_8094C854 = 0.0f;
         sFixedBlastType = Rand_ZeroFloat(1.99f);
-        globalCtx->specialEffects = sTwEffects;
+        globalCtx->specialEffects = sEffects;
 
         for (i = 0; i < BOSS_TW_EFFECTS_COUNT; i++) {
-            sTwEffects[i].type = TWEFF_NONE;
+            sEffects[i].type = TWEFF_NONE;
         }
     }
 

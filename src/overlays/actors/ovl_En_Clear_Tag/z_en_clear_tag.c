@@ -78,7 +78,7 @@ static ColliderCylinderInit sLaserCylinderInit = {
 static UNK_TYPE4 D_809D5C98 = 0; // unused
 static UNK_TYPE4 D_809D5C9C = 0; // unused
 
-static EnClearTagEffect sClearTagEffects[CLEAR_TAG_EFFECTS_COUNT];
+static EnClearTagEffect sEffects[CLEAR_TAG_EFFECTS_COUNT];
 
 #include "overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
 
@@ -271,9 +271,9 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         // Initialize all effects to available if effects have not been initialized.
         if (!sIsEffectsInitialized) {
             sIsEffectsInitialized = true;
-            globalCtx->specialEffects = &sClearTagEffects[0];
+            globalCtx->specialEffects = sEffects;
             for (i = 0; i < CLEAR_TAG_EFFECTS_COUNT; i++) {
-                sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
+                sEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
             }
             this->drawMode = CLEAR_TAG_DRAW_MODE_ALL;
         }

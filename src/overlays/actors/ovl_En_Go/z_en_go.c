@@ -1152,7 +1152,7 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
                           f32 scaleStep) {
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     s16 i;
     s16 timer;
 
@@ -1174,7 +1174,7 @@ void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel,
 }
 
 void EnGo_UpdateEffects(EnGo* this) {
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     f32 randomNumber;
     s16 i;
 
@@ -1201,7 +1201,7 @@ void EnGo_UpdateEffects(EnGo* this) {
 
 void EnGo_DrawEffects(EnGo* this, GlobalContext* globalCtx) {
     static void* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     s16 alpha;
     s16 materialFlag;
     s16 index;

@@ -170,7 +170,7 @@ static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
                            f32 scaleStep) {
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     s16 i;
     s16 timer;
 
@@ -192,7 +192,7 @@ void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* acce
 }
 
 void EnGo2_UpdateEffects(EnGo2* this) {
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     f32 randomNumber;
     s16 i;
 
@@ -217,7 +217,7 @@ void EnGo2_UpdateEffects(EnGo2* this) {
 }
 
 void EnGo2_DrawEffects(EnGo2* this, GlobalContext* globalCtx) {
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     s16 alpha;
     s16 materialFlag;
     s16 index;

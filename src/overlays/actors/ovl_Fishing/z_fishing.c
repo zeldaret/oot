@@ -409,7 +409,7 @@ static FishingGroupFish sGroupFishes[GROUP_FISH_COUNT];
 static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
-static FishingEffect sFishingEffects[FISHING_EFFECTS_COUNT];
+static FishingEffect sEffects[FISHING_EFFECTS_COUNT];
 static Vec3f sStreamSoundProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
@@ -862,7 +862,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         D_80B7A684 = 20;
-        globalCtx->specialEffects = sFishingEffects;
+        globalCtx->specialEffects = sEffects;
         gTimeIncrement = 1;
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
@@ -904,7 +904,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         for (i = 0; i < FISHING_EFFECTS_COUNT; i++) {
-            sFishingEffects[i].type = FS_EFF_NONE;
+            sEffects[i].type = FS_EFF_NONE;
         }
 
         for (i = 0; i < POND_PROP_COUNT; i++) {
