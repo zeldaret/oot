@@ -92,18 +92,18 @@ void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32
 }
 
 void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1) {
-    BossGanon2Effect* effect = globalCtx->specialEffects;
+    BossGanon2Effect* effects = globalCtx->specialEffects;
 
-    effect->type = 1;
-    effect->position = *arg1;
-    effect->unk_2E = 0;
-    effect->unk_01 = 0;
-    effect->velocity.x = 25.0f;
-    effect->velocity.y = 15.0f;
-    effect->velocity.z = 0.0f;
-    effect->accel.x = 0.0f;
-    effect->accel.y = -1.0f;
-    effect->accel.z = 0.0f;
+    effects[0].type = 1;
+    effects[0].position = *arg1;
+    effects[0].unk_2E = 0;
+    effects[0].unk_01 = 0;
+    effects[0].velocity.x = 25.0f;
+    effects[0].velocity.y = 15.0f;
+    effects[0].velocity.z = 0.0f;
+    effects[0].accel.x = 0.0f;
+    effects[0].accel.y = -1.0f;
+    effects[0].accel.z = 0.0f;
 }
 
 void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 scale) {
@@ -737,12 +737,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 24:
             SkelAnime_Update(&this->skelAnime);
             if (1) {
-                BossGanon2Effect* effect = globalCtx->specialEffects;
+                BossGanon2Effect* effects = globalCtx->specialEffects;
 
-                this->unk_3B0 = effect->position;
-                this->unk_3A4.x = effect->position.x + 70.0f;
-                this->unk_3A4.y = effect->position.y - 30.0f;
-                this->unk_3A4.z = effect->position.z + 70.0f;
+                this->unk_3B0 = effects[0].position;
+                this->unk_3A4.x = effects[0].position.x + 70.0f;
+                this->unk_3A4.y = effects[0].position.y - 30.0f;
+                this->unk_3A4.z = effects[0].position.z + 70.0f;
             }
             if ((this->unk_398 & 3) == 0) {
                 func_80078884(NA_SE_IT_SWORD_SWING);
@@ -762,15 +762,15 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = ((player->actor.world.pos.y + 10.0f + 60.0f) - 20.0f) - 3.0f;
             this->unk_3B0.z = (player->actor.world.pos.z - 40.0f) - 10.0f;
             if (this->unk_398 == 10) {
-                BossGanon2Effect* effect = globalCtx->specialEffects;
+                BossGanon2Effect* effects = globalCtx->specialEffects;
 
-                effect->unk_2E = 1;
-                effect->position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
-                effect->position.y = sZelda->actor.world.pos.y + 350.0f;
-                effect->position.z = sZelda->actor.world.pos.z - 25.0f;
-                effect->velocity.x = 0.0f;
-                effect->velocity.z = 0.0f;
-                effect->velocity.y = -30.0f;
+                effects[0].unk_2E = 1;
+                effects[0].position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
+                effects[0].position.y = sZelda->actor.world.pos.y + 350.0f;
+                effects[0].position.z = sZelda->actor.world.pos.z - 25.0f;
+                effects[0].velocity.x = 0.0f;
+                effects[0].velocity.z = 0.0f;
+                effects[0].velocity.y = -30.0f;
                 this->unk_39C = 26;
                 this->unk_398 = 0;
             } else {

@@ -183,7 +183,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     u16* temp_s2;
     u32 temp_v0;
 
-    globalCtx->specialEffects = &this->effects;
+    globalCtx->specialEffects = this->effects;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 9200.0f, ActorShadow_DrawCircle, 250.0f);
     Actor_SetScale(&this->actor, 0.01f);
