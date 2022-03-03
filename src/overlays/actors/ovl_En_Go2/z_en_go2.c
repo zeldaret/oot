@@ -168,7 +168,8 @@ static EnGo2DustEffectData sDustEffectData[2][4] = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep) {
+void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
+                           f32 scaleStep) {
     EnGoEffect* dustEffect = this->dustEffects;
     s16 i;
     s16 timer;
@@ -190,7 +191,7 @@ void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 in
     }
 }
 
-void EnGo2_UpdateDust(EnGo2* this) {
+void EnGo2_UpdateEffects(EnGo2* this) {
     EnGoEffect* dustEffect = this->dustEffects;
     f32 randomNumber;
     s16 i;
@@ -215,7 +216,7 @@ void EnGo2_UpdateDust(EnGo2* this) {
     }
 }
 
-void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
+void EnGo2_DrawEffects(EnGo2* this, GlobalContext* globalCtx) {
     EnGoEffect* dustEffect = this->dustEffects;
     s16 alpha;
     s16 firstDone;
@@ -270,7 +271,7 @@ s32 EnGo2_SpawnDust(EnGo2* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 
         accel.y += Rand_ZeroOne() * yAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
-        EnGo2_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
+        EnGo2_SpawnEffectDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
     }
@@ -2040,9 +2041,9 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     void* eyeTextures[] = { gGoronCsEyeClosed2Tex, gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     void* mouthTextures[] = { gGoronCsMouthNeutralTex, gGoronCsMouthSmileTex };
 
-    EnGo2_UpdateDust(this);
+    EnGo2_UpdateEffects(this);
     Matrix_Push();
-    EnGo2_DrawDust(this, globalCtx);
+    EnGo2_DrawEffects(this, globalCtx);
     Matrix_Pop();
 
     if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.playSpeed == 0.0f) &&

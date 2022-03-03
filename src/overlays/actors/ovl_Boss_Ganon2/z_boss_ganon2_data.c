@@ -340,7 +340,7 @@ static Actor* D_8090EB30;
 // unused
 static UNK_TYPE D_8090EB34;
 
-static BossGanon2Effect sParticles[100];
+static BossGanon2Effect sEffects[100];
 
 static s32 sSeed1;
 static s32 sSeed2;

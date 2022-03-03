@@ -23,11 +23,11 @@ void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx);
 void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx);
 void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx);
 void EnFd_WaitForCore(EnFd* this, GlobalContext* globalCtx);
-void EnFd_UpdateFlames(EnFd* this);
-void EnFd_UpdateDots(EnFd* this);
-void EnFd_AddEffect(EnFd*, u8, Vec3f*, Vec3f*, Vec3f*, u8, f32, f32);
-void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx);
-void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx);
+void EnFd_UpdateEffectsFlames(EnFd* this);
+void EnFd_UpdateEffectsDots(EnFd* this);
+void EnFd_SpawnEffect(EnFd*, u8, Vec3f*, Vec3f*, Vec3f*, u8, f32, f32);
+void EnFd_DrawEffectsDots(EnFd* this, GlobalContext* globalCtx);
+void EnFd_DrawEffectsFlames(EnFd* this, GlobalContext* globalCtx);
 void EnFd_Land(EnFd* this, GlobalContext* globalCtx);
 
 const ActorInit En_Fd_InitVars = {
@@ -255,7 +255,7 @@ void EnFd_SpawnDot(EnFd* this, GlobalContext* globalCtx) {
         accel.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
         accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f;
         accel.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
-        EnFd_AddEffect(this, FD_EFFECT_FLAME, &pos, &velocity, &accel, 8, 0.6f, 0.2f);
+        EnFd_SpawnEffect(this, FD_EFFECT_FLAME, &pos, &velocity, &accel, 8, 0.6f, 0.2f);
     }
 }
 
@@ -678,8 +678,8 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     EnFd_Fade(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    EnFd_UpdateDots(this);
-    EnFd_UpdateFlames(this);
+    EnFd_UpdateEffectsDots(this);
+    EnFd_UpdateEffectsFlames(this);
     if (this->actionFunc != EnFd_Reappear && this->actionFunc != EnFd_SpinAndGrow &&
         this->actionFunc != EnFd_WaitForCore) {
         if (this->attackTimer == 0 && this->invincibilityTimer == 0) {
@@ -739,7 +739,7 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
                 accel.x = (Rand_ZeroOne() - 0.5f) * 0.4f;
                 accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.6f;
                 accel.z = (Rand_ZeroOne() - 0.5f) * 0.4f;
-                EnFd_AddEffect(this, FD_EFFECT_DOT, &pos, &velocity, &accel, 0, 0.006f, 0.0f);
+                EnFd_SpawnEffect(this, FD_EFFECT_DOT, &pos, &velocity, &accel, 0, 0.006f, 0.0f);
             }
         }
     }
@@ -768,8 +768,8 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 1751);
 
     Matrix_Push();
-    EnFd_DrawDots(this, globalCtx);
-    EnFd_DrawFlames(this, globalCtx);
+    EnFd_DrawEffectsDots(this, globalCtx);
+    EnFd_DrawEffectsFlames(this, globalCtx);
     Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
@@ -792,8 +792,8 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 1822);
 }
 
-void EnFd_AddEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 timer, f32 scale,
-                    f32 scaleStep) {
+void EnFd_SpawnEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 timer, f32 scale,
+                      f32 scaleStep) {
     EnFdEffect* eff = this->effects;
     s16 i;
 
@@ -816,7 +816,7 @@ void EnFd_AddEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* acc
     }
 }
 
-void EnFd_UpdateFlames(EnFd* this) {
+void EnFd_UpdateEffectsFlames(EnFd* this) {
     s16 i;
     EnFdEffect* eff = this->effects;
 
@@ -839,7 +839,7 @@ void EnFd_UpdateFlames(EnFd* this) {
     }
 }
 
-void EnFd_UpdateDots(EnFd* this) {
+void EnFd_UpdateEffectsDots(EnFd* this) {
     EnFdEffect* eff = this->effects;
     s16 i;
     Color_RGBA8 dotColors[] = {
@@ -872,7 +872,7 @@ void EnFd_UpdateDots(EnFd* this) {
     }
 }
 
-void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
+void EnFd_DrawEffectsFlames(EnFd* this, GlobalContext* globalCtx) {
     static void* dustTextures[] = {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
@@ -908,7 +908,7 @@ void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fd.c", 2020);
 }
 
-void EnFd_DrawDots(EnFd* this, GlobalContext* globalCtx) {
+void EnFd_DrawEffectsDots(EnFd* this, GlobalContext* globalCtx) {
     s16 i;
     s16 firstDone;
     EnFdEffect* eff = this->effects;

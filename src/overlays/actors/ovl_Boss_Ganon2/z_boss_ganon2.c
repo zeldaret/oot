@@ -26,8 +26,8 @@ void func_80900580(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900650(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
-void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
-void func_809060E8(GlobalContext* globalCtx);
+void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx);
+void BossGanon2_DrawEffects(GlobalContext* globalCtx);
 void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
@@ -110,7 +110,7 @@ void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f
     BossGanon2Effect* effect = globalCtx->specialEffects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type == 0) {
             effect->type = 2;
             effect->position = *position;
@@ -132,10 +132,10 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s16 i;
 
-    globalCtx->specialEffects = sParticles;
+    globalCtx->specialEffects = sEffects;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++) {
-        sParticles[i].type = 0;
+    for (i = 0; i < ARRAY_COUNT(sEffects); i++) {
+        sEffects[i].type = 0;
     }
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -2164,7 +2164,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80906D78 != 0) {
         D_80906D78 = 0;
 
-        for (i2 = 0; i2 < ARRAY_COUNT(sParticles); i2++) {
+        for (i2 = 0; i2 < ARRAY_COUNT(sEffects); i2++) {
             angle = Rand_ZeroFloat(2 * M_PI);
             sp44 = Rand_ZeroFloat(40.0f) + 10.0f;
             sp58 = this->actor.world.pos;
@@ -2178,7 +2178,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->unk_388 += 0.15f;
-    func_80905DA8(this, globalCtx);
+    BossGanon2_UpdateEffects(this, globalCtx);
 }
 
 void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
@@ -2812,17 +2812,17 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5983);
 
-    func_809060E8(globalCtx);
+    BossGanon2_DrawEffects(globalCtx);
 }
 
-void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
+void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad[5];
     Player* player = GET_PLAYER(globalCtx);
     BossGanon2Effect* effect = globalCtx->specialEffects;
     Vec3f sp78;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type != 0) {
             effect->position.x += effect->velocity.x;
             effect->position.y += effect->velocity.y;
@@ -2877,7 +2877,7 @@ void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809060E8(GlobalContext* globalCtx) {
+void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
     s16 alpha;
     u8 usingObjectGEff = false;
     BossGanon2Effect* effect;
@@ -2930,7 +2930,7 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     effect = effects;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
         if (effect->type == 2) {
             if (!usingObjectGEff) {
                 BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
