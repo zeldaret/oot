@@ -35,9 +35,6 @@ AudioTask* func_800E4FE0(void) {
     return func_800E5000();
 }
 
-extern u64 aspMainDataStart[];
-extern u64 aspMainDataEnd[];
-
 AudioTask* func_800E5000(void) {
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
