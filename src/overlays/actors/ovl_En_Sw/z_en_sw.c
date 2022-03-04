@@ -70,22 +70,22 @@ void EnSw_CrossProduct(Vec3f* a, Vec3f* b, Vec3f* dst) {
 }
 
 s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
-    Vec3f sp44;
+    Vec3f polyNormal;
     Vec3f sp38;
     f32 sp34;
     f32 temp_f0;
     s32 pad;
 
     this->actor.floorPoly = poly;
-    sp44.x = COLPOLY_GET_NORMAL(poly->normal.x);
-    sp44.y = COLPOLY_GET_NORMAL(poly->normal.y);
-    sp44.z = COLPOLY_GET_NORMAL(poly->normal.z);
-    sp34 = Math_FAcosF(DOTXYZ(sp44, this->unk_364));
-    EnSw_CrossProduct(&this->unk_364, &sp44, &sp38);
+    polyNormal.x = COLPOLY_GET_NORMAL(poly->normal.x);
+    polyNormal.y = COLPOLY_GET_NORMAL(poly->normal.y);
+    polyNormal.z = COLPOLY_GET_NORMAL(poly->normal.z);
+    sp34 = Math_FAcosF(DOTXYZ(polyNormal, this->unk_364));
+    EnSw_CrossProduct(&this->unk_364, &polyNormal, &sp38);
     Matrix_RotateAxis(sp34, &sp38, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &sp38);
     this->unk_370 = sp38;
-    EnSw_CrossProduct(&this->unk_370, &sp44, &this->unk_37C);
+    EnSw_CrossProduct(&this->unk_370, &polyNormal, &this->unk_37C);
     temp_f0 = Math3D_Vec3fMagnitude(&this->unk_37C);
     if (temp_f0 < 0.001f) {
         return 0;
@@ -93,7 +93,7 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     this->unk_37C.x = this->unk_37C.x * (1.0f / temp_f0);
     this->unk_37C.y = this->unk_37C.y * (1.0f / temp_f0);
     this->unk_37C.z = this->unk_37C.z * (1.0f / temp_f0);
-    this->unk_364 = sp44;
+    this->unk_364 = polyNormal;
     this->unk_3D8.xx = this->unk_370.x;
     this->unk_3D8.yx = this->unk_370.y;
     this->unk_3D8.zx = this->unk_370.z;
@@ -384,22 +384,22 @@ void func_80B0CBE8(EnSw* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B0CCF4(EnSw* this, f32* arg1) {
-    CollisionPoly* temp_v1;
+    CollisionPoly* floorPoly;
     f32 temp_f0;
-    Vec3f sp6C;
+    Vec3f floorPolyNormal;
     MtxF sp2C;
 
     if (this->actor.floorPoly == NULL) {
         return false;
     }
 
-    temp_v1 = this->actor.floorPoly;
-    sp6C.x = COLPOLY_GET_NORMAL(temp_v1->normal.x);
-    sp6C.y = COLPOLY_GET_NORMAL(temp_v1->normal.y);
-    sp6C.z = COLPOLY_GET_NORMAL(temp_v1->normal.z);
-    Matrix_RotateAxis(*arg1, &sp6C, MTXMODE_NEW);
-    Matrix_MultVec3f(&this->unk_370, &sp6C);
-    this->unk_370 = sp6C;
+    floorPoly = this->actor.floorPoly;
+    floorPolyNormal.x = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+    floorPolyNormal.y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
+    floorPolyNormal.z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
+    Matrix_RotateAxis(*arg1, &floorPolyNormal, MTXMODE_NEW);
+    Matrix_MultVec3f(&this->unk_370, &floorPolyNormal);
+    this->unk_370 = floorPolyNormal;
     EnSw_CrossProduct(&this->unk_370, &this->unk_364, &this->unk_37C);
     temp_f0 = Math3D_Vec3fMagnitude(&this->unk_37C);
     if (temp_f0 < 0.001f) {

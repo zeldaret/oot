@@ -3790,8 +3790,8 @@ s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
     LinkAnimationHeader* sp38;
     f32 sp34;
     f32 temp;
-    f32 sp2C;
-    f32 sp28;
+    f32 wallPolyNormalX;
+    f32 wallPolyNormalZ;
     f32 sp24;
 
     if (!(this->stateFlags1 & PLAYER_STATE1_11) && (this->unk_88C >= 2) &&
@@ -3833,8 +3833,8 @@ s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
                 sp38 = &gPlayerAnim_002D48;
                 this->linearVelocity = 1.0f;
             } else {
-                sp2C = COLPOLY_GET_NORMAL(this->actor.wallPoly->normal.x);
-                sp28 = COLPOLY_GET_NORMAL(this->actor.wallPoly->normal.z);
+                wallPolyNormalX = COLPOLY_GET_NORMAL(this->actor.wallPoly->normal.x);
+                wallPolyNormalZ = COLPOLY_GET_NORMAL(this->actor.wallPoly->normal.z);
                 sp24 = this->wallDistance + 0.5f;
 
                 this->stateFlags1 |= PLAYER_STATE1_14;
@@ -3853,9 +3853,9 @@ s32 func_80838A14(Player* this, GlobalContext* globalCtx) {
 
                 this->actor.shape.yOffset -= sp34 * 100.0f;
 
-                this->actor.world.pos.x -= sp24 * sp2C;
+                this->actor.world.pos.x -= sp24 * wallPolyNormalX;
                 this->actor.world.pos.y += this->wallHeight;
-                this->actor.world.pos.z -= sp24 * sp28;
+                this->actor.world.pos.z -= sp24 * wallPolyNormalZ;
 
                 func_80832224(this);
             }
@@ -4455,16 +4455,16 @@ s32 func_8083A4A8(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_8083A5C4(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, f32 arg3, LinkAnimationHeader* arg4) {
-    f32 sp24 = COLPOLY_GET_NORMAL(arg2->normal.x);
-    f32 sp20 = COLPOLY_GET_NORMAL(arg2->normal.z);
+    f32 nx = COLPOLY_GET_NORMAL(arg2->normal.x);
+    f32 nz = COLPOLY_GET_NORMAL(arg2->normal.z);
 
     func_80835C58(globalCtx, this, func_8084BBE4, 0);
     func_80832564(globalCtx, this);
     func_80832264(globalCtx, this, arg4);
 
-    this->actor.world.pos.x -= (arg3 + 1.0f) * sp24;
-    this->actor.world.pos.z -= (arg3 + 1.0f) * sp20;
-    this->actor.shape.rot.y = this->currentYaw = Math_Atan2S(sp20, sp24);
+    this->actor.world.pos.x -= (arg3 + 1.0f) * nx;
+    this->actor.world.pos.z -= (arg3 + 1.0f) * nz;
+    this->actor.shape.rot.y = this->currentYaw = Math_Atan2S(nz, nx);
 
     func_80832224(this);
     func_80832CFC(this);
@@ -6042,7 +6042,7 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
             if ((sp8C != 0) || (arg2 & 2) ||
                 func_80041E4C(&globalCtx->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 f32 phi_f20;
-                CollisionPoly* sp84 = this->actor.wallPoly;
+                CollisionPoly* wallPoly = this->actor.wallPoly;
                 f32 sp80;
                 f32 sp7C;
                 f32 phi_f12;
@@ -6060,7 +6060,7 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     Vec3f* sp44 = &sp50[0];
                     s32 pad;
 
-                    CollisionPoly_GetVerticesByBgId(sp84, this->actor.wallBgId, &globalCtx->colCtx, sp50);
+                    CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, sp50);
 
                     sp80 = phi_f12 = sp44->x;
                     sp7C = phi_f14 = sp44->z;
@@ -6087,8 +6087,8 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                     sp80 = (sp80 + phi_f12) * 0.5f;
                     sp7C = (sp7C + phi_f14) * 0.5f;
 
-                    phi_f12 = ((this->actor.world.pos.x - sp80) * COLPOLY_GET_NORMAL(sp84->normal.z)) -
-                              ((this->actor.world.pos.z - sp7C) * COLPOLY_GET_NORMAL(sp84->normal.x));
+                    phi_f12 = ((this->actor.world.pos.x - sp80) * COLPOLY_GET_NORMAL(wallPoly->normal.z)) -
+                              ((this->actor.world.pos.z - sp7C) * COLPOLY_GET_NORMAL(wallPoly->normal.x));
                     sp48 = this->actor.world.pos.y - phi_f20;
 
                     phi_f20 = ((f32)(s32)((sp48 / 15.000000223517418) + 0.5) * 15.000000223517418) - sp48;
@@ -6096,8 +6096,8 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                 }
 
                 if (phi_f12 < 8.0f) {
-                    f32 sp3C = COLPOLY_GET_NORMAL(sp84->normal.x);
-                    f32 sp38 = COLPOLY_GET_NORMAL(sp84->normal.z);
+                    f32 wallPolyNormalX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+                    f32 wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
                     f32 sp34 = this->wallDistance;
                     LinkAnimationHeader* sp30;
 
@@ -6126,8 +6126,8 @@ s32 func_8083EC18(Player* this, GlobalContext* globalCtx, u32 arg2) {
                         this->actor.shape.rot.y = this->currentYaw = this->actor.wallYaw;
                     }
 
-                    this->actor.world.pos.x = (sp34 * sp3C) + sp80;
-                    this->actor.world.pos.z = (sp34 * sp38) + sp7C;
+                    this->actor.world.pos.x = (sp34 * wallPolyNormalX) + sp80;
+                    this->actor.world.pos.z = (sp34 * wallPolyNormalZ) + sp7C;
                     func_80832224(this);
                     Math_Vec3f_Copy(&this->actor.prevPos, &this->actor.world.pos);
                     func_80832264(globalCtx, this, sp30);
@@ -6186,15 +6186,15 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
             this->stateFlags2 |= PLAYER_STATE2_16;
 
             if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A)) {
-                f32 sp38 = COLPOLY_GET_NORMAL(wallPoly->normal.x);
-                f32 sp34 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
+                f32 wallPolyNormalX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+                f32 wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
                 f32 sp30 = this->wallDistance;
 
                 func_80836898(globalCtx, this, func_8083A40C);
                 this->stateFlags2 |= PLAYER_STATE2_18;
                 this->actor.shape.rot.y = this->currentYaw = this->actor.wallYaw + 0x8000;
-                this->actor.world.pos.x = sp4C + (sp30 * sp38);
-                this->actor.world.pos.z = sp44 + (sp30 * sp34);
+                this->actor.world.pos.x = sp4C + (sp30 * wallPolyNormalX);
+                this->actor.world.pos.z = sp44 + (sp30 * wallPolyNormalZ);
                 func_80832224(this);
                 this->actor.prevPos = this->actor.world.pos;
                 func_80832264(globalCtx, this, &gPlayerAnim_002708);
@@ -6217,8 +6217,8 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
     f32 yawCos;
     f32 yawSin;
     s32 temp;
-    f32 temp1;
-    f32 temp2;
+    f32 wallPolyNormalX;
+    f32 wallPolyNormalZ;
 
     yawCos = Math_CosS(this->actor.shape.rot.y);
     yawSin = Math_SinS(this->actor.shape.rot.y);
@@ -6238,9 +6238,9 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
 
         D_808535F0 = func_80041DB8(&globalCtx->colCtx, wallPoly, sp78);
 
-        temp1 = COLPOLY_GET_NORMAL(wallPoly->normal.x);
-        temp2 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
-        temp = Math_Atan2S(-temp2, -temp1);
+        wallPolyNormalX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+        wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
+        temp = Math_Atan2S(-wallPolyNormalZ, -wallPolyNormalX);
         Math_ScaledStepToS(&this->actor.shape.rot.y, temp, 800);
 
         this->currentYaw = this->actor.shape.rot.y;
@@ -9397,7 +9397,7 @@ static Vec3f D_80854798 = { 0.0f, 18.0f, 0.0f };
 
 void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     u8 spC7 = 0;
-    CollisionPoly* spC0;
+    CollisionPoly* floorPoly;
     Vec3f spB4;
     f32 spB0;
     f32 spAC;
@@ -9453,10 +9453,10 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     D_80853600 = this->actor.world.pos.y - this->actor.floorHeight;
     D_808535F4 = 0;
 
-    spC0 = this->actor.floorPoly;
+    floorPoly = this->actor.floorPoly;
 
-    if (spC0 != NULL) {
-        this->unk_A7A = func_80041EA4(&globalCtx->colCtx, spC0, this->actor.floorBgId);
+    if (floorPoly != NULL) {
+        this->unk_A7A = func_80041EA4(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
         this->unk_A82 = this->unk_89E;
 
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
@@ -9469,35 +9469,36 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             if (this->stateFlags2 & PLAYER_STATE2_9) {
                 this->unk_89E = 1;
             } else {
-                this->unk_89E = SurfaceType_GetSfx(&globalCtx->colCtx, spC0, this->actor.floorBgId);
+                this->unk_89E = SurfaceType_GetSfx(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
             }
         }
 
         if (this->actor.category == ACTORCAT_PLAYER) {
-            Audio_SetCodeReverb(SurfaceType_GetEcho(&globalCtx->colCtx, spC0, this->actor.floorBgId));
+            Audio_SetCodeReverb(SurfaceType_GetEcho(&globalCtx->colCtx, floorPoly, this->actor.floorBgId));
 
             if (this->actor.floorBgId == BGCHECK_SCENE) {
                 func_80074CE8(globalCtx,
-                              SurfaceType_GetLightSettingIndex(&globalCtx->colCtx, spC0, this->actor.floorBgId));
+                              SurfaceType_GetLightSettingIndex(&globalCtx->colCtx, floorPoly, this->actor.floorBgId));
             } else {
                 func_80043508(&globalCtx->colCtx, this->actor.floorBgId);
             }
         }
 
-        D_808535F4 = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, spC0, this->actor.floorBgId);
+        D_808535F4 = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
         if (D_808535F4 != 0) {
-            D_808535F8 = SurfaceType_IsConveyor(&globalCtx->colCtx, spC0, this->actor.floorBgId);
+            D_808535F8 = SurfaceType_IsConveyor(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
             if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
                 ((D_808535F8 != 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
-                D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, spC0, this->actor.floorBgId) << 10;
+                D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, floorPoly, this->actor.floorBgId)
+                             << 10;
             } else {
                 D_808535F4 = 0;
             }
         }
     }
 
-    func_80839034(globalCtx, this, spC0, this->actor.floorBgId);
+    func_80839034(globalCtx, this, floorPoly, this->actor.floorBgId);
 
     this->actor.bgCheckFlags &= ~BGCHECKFLAG_PLAYER_WALL_INTERACT;
 
@@ -9545,9 +9546,9 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             CollisionPoly* wallPoly = this->actor.wallPoly;
 
             if (ABS(wallPoly->normal.y) < 600) {
-                f32 sp8C = COLPOLY_GET_NORMAL(wallPoly->normal.x);
-                f32 sp88 = COLPOLY_GET_NORMAL(wallPoly->normal.y);
-                f32 sp84 = COLPOLY_GET_NORMAL(wallPoly->normal.z);
+                f32 wallPolyNormalX = COLPOLY_GET_NORMAL(wallPoly->normal.x);
+                f32 wallPolyNormalY = COLPOLY_GET_NORMAL(wallPoly->normal.y);
+                f32 wallPolyNormalZ = COLPOLY_GET_NORMAL(wallPoly->normal.z);
                 f32 wallHeight;
                 CollisionPoly* sp7C;
                 CollisionPoly* sp78;
@@ -9557,11 +9558,12 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
                 f32 sp60;
                 s32 temp3;
 
-                this->wallDistance = Math3D_UDistPlaneToPos(sp8C, sp88, sp84, wallPoly->dist, &this->actor.world.pos);
+                this->wallDistance = Math3D_UDistPlaneToPos(wallPolyNormalX, wallPolyNormalY, wallPolyNormalZ,
+                                                            wallPoly->dist, &this->actor.world.pos);
 
                 spB0 = this->wallDistance + 10.0f;
-                sp68.x = this->actor.world.pos.x - (spB0 * sp8C);
-                sp68.z = this->actor.world.pos.z - (spB0 * sp84);
+                sp68.x = this->actor.world.pos.x - (spB0 * wallPolyNormalX);
+                sp68.z = this->actor.world.pos.z - (spB0 * wallPolyNormalZ);
                 sp68.y = this->actor.world.pos.y + this->ageProperties->unk_0C;
 
                 sp64 = BgCheck_EntityRaycastFloor1(&globalCtx->colCtx, &sp7C, &sp68);
@@ -9614,12 +9616,12 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     }
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        D_808535E4 = func_80041D4C(&globalCtx->colCtx, spC0, this->actor.floorBgId);
+        D_808535E4 = func_80041D4C(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
 
         if (!func_80847A78(this)) {
-            f32 sp58;
-            f32 sp54;
-            f32 sp50;
+            f32 floorPolyNormalX;
+            f32 invFloorPolyNormalY;
+            f32 floorPolyNormalZ;
             f32 sp4C;
             s32 pad2;
             f32 sp44;
@@ -9629,22 +9631,25 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
                 func_800434C8(&globalCtx->colCtx, this->actor.floorBgId);
             }
 
-            sp58 = COLPOLY_GET_NORMAL(spC0->normal.x);
-            sp54 = 1.0f / COLPOLY_GET_NORMAL(spC0->normal.y);
-            sp50 = COLPOLY_GET_NORMAL(spC0->normal.z);
+            floorPolyNormalX = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+            invFloorPolyNormalY = 1.0f / COLPOLY_GET_NORMAL(floorPoly->normal.y);
+            floorPolyNormalZ = COLPOLY_GET_NORMAL(floorPoly->normal.z);
 
             sp4C = Math_SinS(this->currentYaw);
             sp44 = Math_CosS(this->currentYaw);
 
-            this->unk_898 = Math_Atan2S(1.0f, (-(sp58 * sp4C) - (sp50 * sp44)) * sp54);
-            this->unk_89A = Math_Atan2S(1.0f, (-(sp58 * sp44) - (sp50 * sp4C)) * sp54);
+            this->unk_898 =
+                Math_Atan2S(1.0f, (-(floorPolyNormalX * sp4C) - (floorPolyNormalZ * sp44)) * invFloorPolyNormalY);
+            this->unk_89A =
+                Math_Atan2S(1.0f, (-(floorPolyNormalX * sp44) - (floorPolyNormalZ * sp4C)) * invFloorPolyNormalY);
 
             sp4C = Math_SinS(this->actor.shape.rot.y);
             sp44 = Math_CosS(this->actor.shape.rot.y);
 
-            D_80853610 = Math_Atan2S(1.0f, (-(sp58 * sp4C) - (sp50 * sp44)) * sp54);
+            D_80853610 =
+                Math_Atan2S(1.0f, (-(floorPolyNormalX * sp4C) - (floorPolyNormalZ * sp44)) * invFloorPolyNormalY);
 
-            func_8083E318(globalCtx, this, spC0);
+            func_8083E318(globalCtx, this, floorPoly);
         }
     } else {
         func_80847A78(this);
