@@ -256,9 +256,9 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_boom.c", 567);
 
-    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.world.rot.y), MTXMODE_APPLY);
-    Matrix_RotateZ(BINANG_TO_RAD_ALT(0x1F40), MTXMODE_APPLY);
-    Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.world.rot.x), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(0x1F40), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD(this->actor.world.rot.x), MTXMODE_APPLY);
     Matrix_MultVec3f(&sMultVec1, &vec1);
     Matrix_MultVec3f(&sMultVec2, &vec2);
 
@@ -267,7 +267,7 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_RotateY(BINANG_TO_RAD_ALT(this->activeTimer * 12000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->activeTimer * 12000), MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

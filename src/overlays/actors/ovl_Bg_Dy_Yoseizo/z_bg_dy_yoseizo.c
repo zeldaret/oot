@@ -972,8 +972,8 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&particle->pitch, goalPitch, 0.9f, 5000.0f);
                 Math_ApproachF(&particle->yaw, goalYaw, 0.9f, 5000.0f);
                 Matrix_Push();
-                Matrix_RotateY(BINANG_TO_RAD(particle->yaw), MTXMODE_NEW);
-                Matrix_RotateX(BINANG_TO_RAD(particle->pitch), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(particle->yaw), MTXMODE_NEW);
+                Matrix_RotateX(BINANG_TO_RAD_ALT(particle->pitch), MTXMODE_APPLY);
 
                 sp94.x = sp94.y = sp94.z = 3.0f;
 

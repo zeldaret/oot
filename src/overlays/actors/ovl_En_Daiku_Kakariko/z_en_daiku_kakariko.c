@@ -500,8 +500,8 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
     switch (limbIndex) {
         case 8:
             angle = this->npcInfo.unk_0E;
-            Matrix_RotateX(-BINANG_TO_RAD_ALT(angle.y), MTXMODE_APPLY);
-            Matrix_RotateZ(-BINANG_TO_RAD_ALT(angle.x), MTXMODE_APPLY);
+            Matrix_RotateX(-BINANG_TO_RAD(angle.y), MTXMODE_APPLY);
+            Matrix_RotateZ(-BINANG_TO_RAD(angle.x), MTXMODE_APPLY);
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
@@ -509,11 +509,11 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
 
             if (this->flags & 0x1000) {
                 osSyncPrintf("<%d>\n", this->neckAngle.x);
-                Matrix_RotateX(BINANG_TO_RAD_ALT(angle.y + this->neckAngle.y), MTXMODE_APPLY);
-                Matrix_RotateZ(BINANG_TO_RAD_ALT(angle.x + this->neckAngle.x), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD(angle.y + this->neckAngle.y), MTXMODE_APPLY);
+                Matrix_RotateZ(BINANG_TO_RAD(angle.x + this->neckAngle.x), MTXMODE_APPLY);
             } else {
-                Matrix_RotateX(BINANG_TO_RAD_ALT(angle.y), MTXMODE_APPLY);
-                Matrix_RotateZ(BINANG_TO_RAD_ALT(angle.x), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD(angle.y), MTXMODE_APPLY);
+                Matrix_RotateZ(BINANG_TO_RAD(angle.x), MTXMODE_APPLY);
             }
 
             Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
