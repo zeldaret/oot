@@ -803,7 +803,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
 void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
-    s32 phi_v1;
+    s32 sfx;
 
     this->absoluteTimer++;
 
@@ -820,29 +820,29 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     this->actionFunc(this, globalCtx);
 
     if (globalCtx->csCtx.state != CS_STATE_IDLE) {
-        phi_v1 = 0;
+        sfx = 0;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             if ((globalCtx->csCtx.frames == 32) || (globalCtx->csCtx.frames == 291) ||
                 (globalCtx->csCtx.frames == 426) || (globalCtx->csCtx.frames == 851)) {
-                phi_v1 = 1;
+                sfx = 1;
             }
             if (globalCtx->csCtx.frames == 101) {
-                phi_v1 = 2;
+                sfx = 2;
             }
         } else {
             if ((globalCtx->csCtx.frames == 35) || (globalCtx->csCtx.frames == 181) ||
                 (globalCtx->csCtx.frames == 462) || (globalCtx->csCtx.frames == 795)) {
-                phi_v1 = 1;
+                sfx = 1;
             }
             if (globalCtx->csCtx.frames == 90) {
-                phi_v1 = 2;
+                sfx = 2;
             }
         }
 
-        if (phi_v1 == 1) {
+        if (sfx == 1) {
             Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_SMILE_0);
         }
-        if (phi_v1 == 2) {
+        if (sfx == 2) {
             Audio_PlayActorSound2(&this->actor, NA_SE_VO_FR_LAUGH_0);
         }
     }
@@ -1015,7 +1015,7 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
     for (i = 0; i < 200; i++, particle++) {
         if (particle->alive == 1) {
             if (phi_s3 == 0) {
-                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAppearDL));
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
                 gDPPipeSync(POLY_XLU_DISP++);
 
                 phi_s3++;
@@ -1032,7 +1032,7 @@ void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleAliveDL));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleModelDL));
         }
     }
 
