@@ -2,6 +2,7 @@
 #define Z64PLAYER_H
 
 #include "z64actor.h"
+#include "alignment.h"
 
 struct Player;
 
@@ -158,7 +159,8 @@ typedef enum {
 } PlayerDoorType;
 
 
-#define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
+#define LIMB_BUF_COUNT(limbCount) ((ALIGN16((limbCount) * sizeof(Vec3s)) + sizeof(Vec3s) - 1) / sizeof(Vec3s))
+#define PLAYER_LIMB_BUF_COUNT LIMB_BUF_COUNT(PLAYER_LIMB_MAX)
 
 typedef struct {
     /* 0x00 */ f32 unk_00;
@@ -201,6 +203,81 @@ typedef struct {
     /* 0x04 */ Vec3f tip;
     /* 0x10 */ Vec3f base;
 } WeaponInfo; // size = 0x1C
+
+#define PLAYER_STATE1_0 (1 << 0)
+#define PLAYER_STATE1_1 (1 << 1)
+#define PLAYER_STATE1_2 (1 << 2)
+#define PLAYER_STATE1_3 (1 << 3)
+#define PLAYER_STATE1_4 (1 << 4)
+#define PLAYER_STATE1_5 (1 << 5)
+#define PLAYER_STATE1_6 (1 << 6)
+#define PLAYER_STATE1_7 (1 << 7)
+#define PLAYER_STATE1_8 (1 << 8)
+#define PLAYER_STATE1_9 (1 << 9)
+#define PLAYER_STATE1_10 (1 << 10)
+#define PLAYER_STATE1_11 (1 << 11)
+#define PLAYER_STATE1_12 (1 << 12)
+#define PLAYER_STATE1_13 (1 << 13)
+#define PLAYER_STATE1_14 (1 << 14)
+#define PLAYER_STATE1_15 (1 << 15)
+#define PLAYER_STATE1_16 (1 << 16)
+#define PLAYER_STATE1_17 (1 << 17)
+#define PLAYER_STATE1_18 (1 << 18)
+#define PLAYER_STATE1_19 (1 << 19)
+#define PLAYER_STATE1_20 (1 << 20)
+#define PLAYER_STATE1_21 (1 << 21)
+#define PLAYER_STATE1_22 (1 << 22)
+#define PLAYER_STATE1_23 (1 << 23)
+#define PLAYER_STATE1_24 (1 << 24)
+#define PLAYER_STATE1_25 (1 << 25)
+#define PLAYER_STATE1_26 (1 << 26)
+#define PLAYER_STATE1_27 (1 << 27)
+#define PLAYER_STATE1_28 (1 << 28)
+#define PLAYER_STATE1_29 (1 << 29)
+#define PLAYER_STATE1_30 (1 << 30)
+#define PLAYER_STATE1_31 (1 << 31)
+
+#define PLAYER_STATE2_0 (1 << 0)
+#define PLAYER_STATE2_1 (1 << 1)
+#define PLAYER_STATE2_2 (1 << 2)
+#define PLAYER_STATE2_3 (1 << 3)
+#define PLAYER_STATE2_4 (1 << 4)
+#define PLAYER_STATE2_5 (1 << 5)
+#define PLAYER_STATE2_6 (1 << 6)
+#define PLAYER_STATE2_7 (1 << 7)
+#define PLAYER_STATE2_8 (1 << 8)
+#define PLAYER_STATE2_9 (1 << 9)
+#define PLAYER_STATE2_10 (1 << 10)
+#define PLAYER_STATE2_11 (1 << 11)
+#define PLAYER_STATE2_12 (1 << 12)
+#define PLAYER_STATE2_13 (1 << 13)
+#define PLAYER_STATE2_14 (1 << 14)
+#define PLAYER_STATE2_15 (1 << 15)
+#define PLAYER_STATE2_16 (1 << 16)
+#define PLAYER_STATE2_17 (1 << 17)
+#define PLAYER_STATE2_18 (1 << 18)
+#define PLAYER_STATE2_19 (1 << 19)
+#define PLAYER_STATE2_20 (1 << 20)
+#define PLAYER_STATE2_21 (1 << 21)
+#define PLAYER_STATE2_22 (1 << 22)
+#define PLAYER_STATE2_23 (1 << 23)
+#define PLAYER_STATE2_24 (1 << 24)
+#define PLAYER_STATE2_25 (1 << 25)
+#define PLAYER_STATE2_26 (1 << 26)
+#define PLAYER_STATE2_27 (1 << 27)
+#define PLAYER_STATE2_28 (1 << 28)
+#define PLAYER_STATE2_29 (1 << 29)
+#define PLAYER_STATE2_30 (1 << 30)
+#define PLAYER_STATE2_31 (1 << 31)
+
+#define PLAYER_STATE3_0 (1 << 0)
+#define PLAYER_STATE3_1 (1 << 1)
+#define PLAYER_STATE3_2 (1 << 2)
+#define PLAYER_STATE3_3 (1 << 3)
+#define PLAYER_STATE3_4 (1 << 4)
+#define PLAYER_STATE3_5 (1 << 5)
+#define PLAYER_STATE3_6 (1 << 6)
+#define PLAYER_STATE3_7 (1 << 7)
 
 typedef void (*PlayerFunc674)(struct Player*, struct GlobalContext*);
 typedef s32 (*PlayerFunc82C)(struct Player*, struct GlobalContext*);
@@ -269,12 +346,12 @@ typedef struct Player {
     /* 0x046C */ s16        unk_46C;
     /* 0x046E */ char       unk_46E[0x02A];
     /* 0x0498 */ ColliderCylinder cylinder;
-    /* 0x04E4 */ ColliderQuad swordQuads[2];
+    /* 0x04E4 */ ColliderQuad meleeWeaponQuads[2];
     /* 0x05E4 */ ColliderQuad shieldQuad;
     /* 0x0664 */ Actor*     unk_664;
     /* 0x0668 */ char       unk_668[0x004];
     /* 0x066C */ s32        unk_66C;
-    /* 0x0670 */ s32        swordEffectIndex;
+    /* 0x0670 */ s32        meleeWeaponEffectIndex;
     /* 0x0674 */ PlayerFunc674 func_674;
     /* 0x0678 */ PlayerAgeProperties* ageProperties;
     /* 0x067C */ u32        stateFlags1;
@@ -316,8 +393,8 @@ typedef struct Player {
     /* 0x083C */ s16        currentYaw;
     /* 0x083E */ s16        targetYaw;
     /* 0x0840 */ u16        unk_840;
-    /* 0x0842 */ s8         swordAnimation;
-    /* 0x0843 */ s8         swordState;
+    /* 0x0842 */ s8         meleeWeaponAnimation;
+    /* 0x0843 */ s8         meleeWeaponState;
     /* 0x0844 */ s8         unk_844;
     /* 0x0845 */ u8         unk_845;
     /* 0x0846 */ u8         unk_846;
@@ -362,7 +439,7 @@ typedef struct Player {
     /* 0x08A8 */ f32        unk_8A8;
     /* 0x08AC */ f32        windSpeed;
     /* 0x08B0 */ s16        windDirection;
-    /* 0x08B4 */ WeaponInfo swordInfo[3];
+    /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
     /* 0x0908 */ Vec3f      bodyPartsPos[18];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       shieldMf;

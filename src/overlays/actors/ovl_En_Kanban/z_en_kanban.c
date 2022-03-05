@@ -211,7 +211,7 @@ void EnKanban_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->bounceX = 1;
         this->partFlags = 0xFFFF;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, UPDBGCHECKINFO_FLAG_2);
         EnKanban_SetFloorRot(this);
         if (LINK_IS_CHILD) {
             this->actor.world.pos.y -= 15.0f;
@@ -286,7 +286,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     u8 i;
 
                     if (hitItem->toucher.dmgFlags & 0x700) {
-                        this->cutType = sCutTypes[player->swordAnimation];
+                        this->cutType = sCutTypes[player->meleeWeaponAnimation];
                     } else {
                         this->cutType = CUT_POST;
                     }
@@ -426,7 +426,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             u8 onGround;
 
             Actor_MoveForward(&this->actor);
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 50.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
             tempX = this->actor.world.pos.x;
             tempY = this->actor.world.pos.y;
@@ -435,7 +436,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             tempYDistToWater = this->actor.yDistToWater;
 
             this->actor.world.pos.z += ((this->actor.world.pos.y - this->actor.floorHeight) * -50.0f) / 100.0f;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 4);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, UPDBGCHECKINFO_FLAG_2);
             EnKanban_SetFloorRot(this);
 
             this->actor.world.pos.x = tempX;
@@ -445,7 +446,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.yDistToWater = tempYDistToWater;
 
             osSyncPrintf(VT_RST);
-            onGround = (this->actor.bgCheckFlags & 1);
+            onGround = (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND);
             if (this->spinXFlag) {
                 this->spinRot.x += this->spinVel.x;
                 this->spinVel.x -= 0x800;
@@ -482,11 +483,11 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
             if (this->spinVel.z < -0xC00) {
                 this->spinVel.z = -0xC00;
             }
-            if (this->actor.bgCheckFlags & 8) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 this->actor.speedXZ *= -0.5f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_WOODPLATE_BOUND);
             }
-            if (this->actor.bgCheckFlags & 0x40) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
                 this->actionState = ENKANBAN_WATER;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_DROP_WATER);
                 this->bounceX = this->bounceZ = 0;
@@ -582,7 +583,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 s32 rippleScale;
 
                 if ((player->actor.speedXZ > 0.0f) && (player->actor.world.pos.y < this->actor.world.pos.y) &&
-                    (this->actor.xyzDistToPlayerSq < 2500.0f)) {
+                    (this->actor.xyzDistToPlayerSq < SQ(50.0f))) {
                     Math_ApproachF(&this->actor.speedXZ, player->actor.speedXZ, 1.0f, 0.2f);
                     if (this->actor.speedXZ > 1.0f) {
                         this->actor.speedXZ = 1.0f;
@@ -594,13 +595,14 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         this->spinVel.y = this->actor.speedXZ * -1000.0f;
                     }
                 }
-                if (this->actor.bgCheckFlags & 1) {
+                if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                     this->actor.speedXZ = 0.0f;
                 }
                 Actor_MoveForward(&this->actor);
                 if (this->actor.speedXZ != 0.0f) {
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f, 5);
-                    if (this->actor.bgCheckFlags & 8) {
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 50.0f,
+                                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+                    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                         this->actor.speedXZ *= -0.5f;
                         if (this->spinVel.y > 0) {
                             this->spinVel.y = -0x7D0;

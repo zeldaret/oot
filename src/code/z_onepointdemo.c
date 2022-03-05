@@ -769,7 +769,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             func_8002DF54(globalCtx, NULL, 8);
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
-            player->stateFlags1 |= 0x20000000;
+            player->stateFlags1 |= PLAYER_STATE1_29;
             player->actor.freezeTimer = 90;
 
             i = Quake_Add(csCam, 1);
@@ -966,7 +966,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             if (func_800C0CB8(globalCtx)) {
                 D_801231B4[0].eyeTargetInit.z = D_801231B4[1].eyeTargetInit.z = !LINK_IS_ADULT ? 100.0f : 120.0f;
 
-                if (player->stateFlags1 & 0x08000000) {
+                if (player->stateFlags1 & PLAYER_STATE1_27) {
                     D_801231B4[2].atTargetInit.z = 0.0f;
                 }
                 Actor_GetWorldPosShapeRot(&spA0, &player->actor);
@@ -1318,7 +1318,7 @@ s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
 
     // If the previous attention cutscene has an actor in the same category, skip this actor.
     if (actor->category == vLastHigherCat) {
-        osSyncPrintf("→ " VT_FGCOL(PURPLE) "×" VT_RST " (%d)\n", actor->id);
+        osSyncPrintf("→ " VT_FGCOL(MAGENTA) "×" VT_RST " (%d)\n", actor->id);
         return SUBCAM_NONE;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
@@ -1349,23 +1349,23 @@ s32 OnePointCutscene_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32
 }
 
 // unused
-void OnePointCutscene_EnableAttention() {
+void OnePointCutscene_EnableAttention(void) {
     sDisableAttention = false;
 }
 
 // unused
-void OnePointCutscene_DisableAttention() {
+void OnePointCutscene_DisableAttention(void) {
     sDisableAttention = true;
 }
 
-s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 category) {
+s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 actorCategory) {
     Camera* parentCam = globalCtx->cameraPtrs[MAIN_CAM];
 
     while (parentCam->childCamIdx != SUBCAM_FREE) {
         parentCam = globalCtx->cameraPtrs[parentCam->childCamIdx];
         if ((parentCam == NULL) || (parentCam->setting != CAM_SET_CS_ATTENTION)) {
             break;
-        } else if (category == parentCam->target->category) {
+        } else if (actorCategory == parentCam->target->category) {
             return true;
         }
     }

@@ -665,10 +665,10 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->work[BFD_CEILING_TARGET] = 0;
                 }
             }
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 2);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_1);
             if (this->timers[1] == 0) {
                 osSyncPrintf("BGCHECKKKKKKKKKKKKKKKKKKKKKKK\n");
-                if (this->actor.bgCheckFlags & 0x10) {
+                if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
                     this->fwork[BFD_CEILING_BOUNCE] = -18384.0f;
                     this->timers[1] = 10;
                     Audio_PlaySoundGeneral(NA_SE_EV_EXPLOSION, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,

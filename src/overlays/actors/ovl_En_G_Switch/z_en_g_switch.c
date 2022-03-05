@@ -96,7 +96,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->silverCount = this->actor.params >> 6;
             this->silverCount &= 0x3F;
             // "maximum number of checks"
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 最大チェック数 ☆☆☆☆☆ %d\n" VT_RST, this->silverCount);
             osSyncPrintf("\n\n");
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 // This is a reference to Hokuto no Ken
@@ -141,7 +141,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (this->objIndex < 0) {
                 Actor_Kill(&this->actor);
                 // "what?"
-                osSyncPrintf(VT_FGCOL(PURPLE) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
+                osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
                 // "bank is funny"
                 osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
@@ -237,7 +237,7 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     this->actor.shape.rot.y += 0x800;
-    if (this->actor.xyzDistToPlayerSq < 900.0f) {
+    if (this->actor.xyzDistToPlayerSq < SQ(30.0f)) {
         Rupees_ChangeBy(5);
         sCollectedCount++;
         func_80078884(NA_SE_SY_GET_RUPY);
@@ -431,7 +431,8 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) &&
         (this->type != ENGSWITCH_TARGET_RUPEE)) {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f,
+                                UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
     if (this->actor.draw != NULL) {
         if (this->type == ENGSWITCH_TARGET_RUPEE) {

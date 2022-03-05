@@ -643,7 +643,7 @@ void EnGoroiwa_SetupMoveAndFallToGround(EnGoroiwa* this) {
 
 void EnGoroiwa_MoveAndFallToGround(EnGoroiwa* this, GlobalContext* globalCtx) {
     EnGoroiwa_MoveAndFall(this, globalCtx);
-    if ((this->actor.bgCheckFlags & 1) && this->actor.velocity.y < 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y < 0.0f) {
         if ((this->stateFlags & ENGOROIWA_PLAYER_IN_THE_WAY) && (this->actor.home.rot.z & 1) == 1) {
             EnGoroiwa_ReverseDirection(this);
             EnGoroiwa_FaceNextWaypoint(this, globalCtx);
@@ -725,14 +725,15 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s32 sp30;
 
-    if (!(player->stateFlags1 & 0x300000C0)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->collisionDisabledTimer > 0) {
             this->collisionDisabledTimer--;
         }
         this->actionFunc(this, globalCtx);
         switch ((this->actor.params >> 10) & 1) {
             case 1:
-                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f,
+                                        UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
                 break;
             case 0:
                 this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30,

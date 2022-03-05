@@ -836,7 +836,7 @@ s32 BossTw_CheckBeamReflection(BossTw* this, GlobalContext* globalCtx) {
     Vec3f vec;
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags1 & 0x400000 &&
+    if (player->stateFlags1 & PLAYER_STATE1_22 &&
         (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) < 0x2000 &&
         (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) > -0x2000) {
         // player is shielding and facing angles are less than 45 degrees in either direction
@@ -978,7 +978,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
     if (this->timers[1] != 0) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, this->rotateSpeed);
-        if ((player->stateFlags1 & 0x400000) &&
+        if ((player->stateFlags1 & PLAYER_STATE1_22) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) < 0x2000) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) > -0x2000)) {
             Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[15].x, 1.0f, 400.0f);
@@ -1386,10 +1386,10 @@ void BossTw_HitByBeam(BossTw* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 1.0f);
 
     this->actor.world.pos.y -= 50.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 50.0f;
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
 
@@ -3539,7 +3539,7 @@ void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                 diff.y = this->groundBlastPos2.y - player->actor.world.pos.y;
                 diff.z = this->groundBlastPos2.z - player->actor.world.pos.z;
 
-                if ((fabsf(diff.y) < 10.0f) && (player->actor.bgCheckFlags & 1) &&
+                if ((fabsf(diff.y) < 10.0f) && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
                     (sqrtf(SQ(diff.x) + SQ(diff.z)) < (this->workf[UNK_F12] * 4600.0f)) && (sFreezeState == 0) &&
                     (this->workf[UNK_F11] > 200.0f)) {
                     sFreezeState = 1;
@@ -4057,7 +4057,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                 yDiff = sKoumePtr->groundBlastPos2.y - player->actor.world.pos.y;
                 zDiff = sKoumePtr->groundBlastPos2.z - player->actor.world.pos.z;
 
-                if (!player->isBurning && (player->actor.bgCheckFlags & 1) && (fabsf(yDiff) < 10.0f) &&
+                if (!player->isBurning && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (fabsf(yDiff) < 10.0f) &&
                     (sqrtf(SQ(xDiff) + SQ(zDiff)) < (sKoumePtr->workf[UNK_F13] * 4550.0f))) {
                     s16 j;
 
@@ -4804,7 +4804,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                     if (eff->workf[EFF_SCALE] == 0.0f) {
                         eff->type = TWEFF_NONE;
                         if (eff->target == NULL) {
-                            player->stateFlags2 &= ~0x8000;
+                            player->stateFlags2 &= ~PLAYER_STATE2_15;
                             sFreezeState = 0;
                         }
                     }
@@ -4820,9 +4820,9 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
 
                         if (eff->workf[EFF_ROLL] >= 0.8f) {
                             eff->workf[EFF_ROLL] -= 0.8f;
-                            player->stateFlags2 |= 0x8000;
+                            player->stateFlags2 |= PLAYER_STATE2_15;
                         } else {
-                            player->stateFlags2 &= ~0x8000;
+                            player->stateFlags2 &= ~PLAYER_STATE2_15;
                         }
 
                         if ((sKotakePtr->workf[UNK_F11] > 10.0f) && (sKotakePtr->workf[UNK_F11] < 200.0f)) {
@@ -5316,7 +5316,7 @@ void BossTw_TwinrovaStun(BossTw* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y += this->actor.velocity.y;
     Math_ApproachF(&this->actor.velocity.y, -5.0f, 1.0f, 0.5f);
     this->actor.world.pos.y -= 30.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 30.0f;
 
     if (this->csState1 == 0) {
@@ -5330,7 +5330,7 @@ void BossTw_TwinrovaStun(BossTw* this, GlobalContext* globalCtx) {
         Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_035030, 0.0f);
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.velocity.y = 0.0f;
     }
 

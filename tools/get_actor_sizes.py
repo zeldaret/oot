@@ -45,11 +45,11 @@ def count_non_matching():
                 actor_funcs[f_name] = file_size
 
             overlays[actor_dir] = {
-                "summary": (num_files, max_size, total_size, 
+                "summary": (num_files, max_size, total_size,
                     total_size / num_files),
                 "funcs": actor_funcs
             }
-    
+
     return overlays
 
 
@@ -60,7 +60,7 @@ def count_builded_funcs_and_instructions(f_path):
     f_lines = ""
     with open(f_path) as f:
         f_lines = f.readlines()
-    
+
     current = ""
     funcs = {}
     for line in f_lines:
@@ -101,7 +101,7 @@ def count_build():
 
                 file_path = os.path.join(ovl_path, f_name)
                 funcs = count_builded_funcs_and_instructions(file_path)
-                
+
                 if len(funcs) > 0:
                     num_files += len(funcs)
                     # round up the file size to a multiple of four.
@@ -111,7 +111,7 @@ def count_build():
                     actor_funcs = {**actor_funcs, **funcs}
 
             overlays[actor_dir] = {
-                "summary": (num_files, max_size, total_size, 
+                "summary": (num_files, max_size, total_size,
                     total_size / num_files),
                 "funcs": actor_funcs
             }

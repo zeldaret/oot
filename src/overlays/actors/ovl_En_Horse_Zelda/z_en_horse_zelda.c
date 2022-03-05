@@ -157,7 +157,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
+    Skin_Init(globalCtx, &this->skin, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
@@ -174,7 +174,7 @@ void EnHorseZelda_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
     Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
 }
 
 void func_80A6DC7C(EnHorseZelda* this) {
@@ -233,14 +233,16 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
     this->actor.speedXZ = 0.0f;
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
     Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseZelda_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseZelda* this = (EnHorseZelda*)thisx;
@@ -251,7 +253,7 @@ void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         sp4C.y = this->colliderSphere.elements[i].dim.modelSphere.center.y;
         sp4C.z = this->colliderSphere.elements[i].dim.modelSphere.center.z;
 
-        func_800A6408(skin, this->colliderSphere.elements[i].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->colliderSphere.elements[i].dim.limb, &sp4C, &sp40);
 
         this->colliderSphere.elements[i].dim.worldSphere.center.x = sp40.x;
         this->colliderSphere.elements[i].dim.worldSphere.center.y = sp40.y;
@@ -270,5 +272,5 @@ void EnHorseZelda_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80A6DE38(this, globalCtx);
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6DFD4, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseZelda_PostDraw, true);
 }

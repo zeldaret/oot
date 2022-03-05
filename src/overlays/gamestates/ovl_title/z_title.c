@@ -33,7 +33,7 @@ void Title_PrintBuildInfo(Gfx** gfxp) {
 // Note: In other rom versions this function also updates unk_1D4, coverAlpha, addAlpha, visibleDuration to calculate
 // the fade-in/fade-out + the duration of the n64 logo animation
 void Title_Calc(TitleContext* this) {
-    this->exit = 1;
+    this->exit = true;
 }
 
 void Title_SetupView(TitleContext* this, f32 x, f32 y, f32 z) {
@@ -106,7 +106,8 @@ void Title_Draw(TitleContext* this) {
                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         gDPSetTileSize(POLY_OPA_DISP++, 1, this->uls, (this->ult & 0x7F) - idx * 4, 0, 0);
-        gSPTextureRectangle(POLY_OPA_DISP++, 388, y << 2, 1156, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(POLY_OPA_DISP++, 97 << 2, y << 2, 289 << 2, (y + 2) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10,
+                            1 << 10);
     }
 
     Environment_FillScreen(this->state.gfxCtx, 0, 0, 0, (s16)this->coverAlpha, FILL_SCREEN_XLU);

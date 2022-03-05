@@ -1426,14 +1426,14 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {
-            if ((player->stateFlags1 & 0x4000000) && (this->timer > 35)) {
+            if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer > 35)) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
             this->colliderBody.info.bumper.dmgFlags = 0xFC00712;
             this->timer--;
         } else {
-            if ((player->stateFlags1 & 0x4000000) && (this->timer < -60)) {
+            if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {
                 this->timer = -59;
             }
             if ((globalCtx->gameplayFrames % 4) == 0) {
@@ -1466,8 +1466,8 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
     this->unk_1AC += 0xC31;
     this->unk_1A0 = (Math_CosS(this->unk_1AC) * 0.1f) + 1.0f;
     this->unk_1A4 = (Math_SinS(this->unk_1AC) * 0.05f) + 1.0f;
-    if (this->actor.bgCheckFlags & 8) {
-        this->actor.bgCheckFlags &= ~8;
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->actor.world.rot.y = (s16)Rand_CenteredFloat(30 * (0x10000 / 360)) + this->actor.wallYaw;
     }
 
@@ -1491,7 +1491,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
         BossVa_Spark(globalCtx, this, 1, 100, 15.0f, 10.0f, SPARK_BARI, 11.0f, true);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 70.0f, 0.0f, 1);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 70.0f, 0.0f, UPDBGCHECKINFO_FLAG_0);
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     if (this->invincibilityTimer == 0) {
@@ -2002,7 +2002,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
     sp98 = Math_Vec3f_Yaw(&sp7C, &this->armTip);
     tmp17 = sp98 - this->actor.shape.rot.y;
 
-    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & 0x04000000)) {
+    if ((sp8E >= ABS(tmp17) || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_26)) {
 
         if (!this->burst) {
             sp94 = sp98 - this->actor.shape.rot.y;
@@ -2064,7 +2064,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
                 this->timer2 = 0;
             }
 
-            if ((this->timer2 < 0) && (player->stateFlags1 & 0x4000000)) {
+            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_26)) {
                 BossVa_Spark(globalCtx, this, 1, 30, 0.0f, 0.0f, SPARK_LINK, 0.0f, true);
             }
         }
@@ -2265,7 +2265,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
     sp6C = Math_Vec3f_Yaw(&sp54, &this->armTip);
     tmp16 = sp6C - this->actor.shape.rot.y;
 
-    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & 0x04000000)) {
+    if ((ABS(tmp16) <= 0x4650 || this->burst) && !(sBodyState & 0x80) && !(player->stateFlags1 & PLAYER_STATE1_26)) {
         if (!this->burst) {
 
             sp68 = sp6C - this->actor.shape.rot.y;
@@ -2322,7 +2322,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
                 this->timer2 = 0;
             }
 
-            if ((this->timer2 < 0) && (player->stateFlags1 & 0x4000000)) {
+            if ((this->timer2 < 0) && (player->stateFlags1 & PLAYER_STATE1_26)) {
                 BossVa_Spark(globalCtx, this, 1, 30, 0.0f, 0, SPARK_LINK, 0.0f, true);
             }
         }

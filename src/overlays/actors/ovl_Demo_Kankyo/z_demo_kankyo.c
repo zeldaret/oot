@@ -856,7 +856,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->unk_150[i].unk_22 < 2) {
             disp = (u32)gEffFlash1DL;
-            if (linkAge != 0) {
+            if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
                 if (translateY) {}

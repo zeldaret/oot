@@ -202,7 +202,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (globalCtx->sceneNum == SCENE_SPOT20) {
-        if (this->actor.world.rot.z == 0 || gSaveContext.nightFlag) {
+        if (this->actor.world.rot.z == 0 || !IS_DAY) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -226,7 +226,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
         this->actor.home.rot.z = this->actor.world.rot.z = this->actor.shape.rot.z = 0;
-        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
+        Skin_Init(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
         if ((this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f &&
              this->actor.world.pos.z == -1100.0f) ||
@@ -240,7 +240,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
+            Skin_Init(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C6B0(this);
             return;
@@ -248,15 +248,15 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (globalCtx->sceneNum == SCENE_SPOT12) {
         if (this->actor.world.pos.x == 3707.0f && this->actor.world.pos.y == 1413.0f &&
             this->actor.world.pos.z == -665.0f) {
-            func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
+            Skin_Init(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C4CC(this);
             return;
         }
-        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
+        Skin_Init(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     } else {
-        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
+        Skin_Init(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
     if ((this->actor.params & 0xF0) == 0x10 && (this->actor.params & 0xF) != 0xF) {
@@ -269,7 +269,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHorseNormal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseNormal* this = (EnHorseNormal*)thisx;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
     Collider_DestroyCylinder(globalCtx, &this->cloneCollider);
     Collider_DestroyJntSph(globalCtx, &this->headCollider);
@@ -395,7 +395,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 8.0f;
                 phi_t0 = 6;
             }
-            if (Rand_ZeroOne() < 0.1f || (this->unk_21E == 0 && ((this->actor.bgCheckFlags & 8) ||
+            if (Rand_ZeroOne() < 0.1f || (this->unk_21E == 0 && ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
                                                                  (this->bodyCollider.base.ocFlags1 & OC1_HIT) ||
                                                                  (this->headCollider.base.ocFlags1 & OC1_HIT)))) {
                 this->unk_21E += (Rand_ZeroOne() * 30.0f) - 15.0f;
@@ -570,7 +570,9 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 35.0f, 100.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     if (globalCtx->sceneNum == SCENE_SPOT20 && this->actor.world.pos.z < -2400.0f) {
         this->actor.world.pos.z = -2400.0f;
     }
@@ -587,7 +589,7 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseNormal_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f sp4C;
     Vec3f sp40;
     EnHorseNormal* this = (EnHorseNormal*)thisx;
@@ -597,7 +599,7 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         sp4C.x = this->headCollider.elements[i].dim.modelSphere.center.x;
         sp4C.y = this->headCollider.elements[i].dim.modelSphere.center.y;
         sp4C.z = this->headCollider.elements[i].dim.modelSphere.center.z;
-        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &sp4C, &sp40);
+        Skin_GetLimbPos(skin, this->headCollider.elements[i].dim.limb, &sp4C, &sp40);
         this->headCollider.elements[i].dim.worldSphere.center.x = sp40.x;
         this->headCollider.elements[i].dim.worldSphere.center.y = sp40.y;
         this->headCollider.elements[i].dim.worldSphere.center.z = sp40.z;
@@ -642,7 +644,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80A6C8E0(this, globalCtx);
     }
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6330(&this->actor, globalCtx, &this->skin, func_80A6CAFC, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseNormal_PostDraw, true);
 
     if (this->action == HORSE_WAIT_CLONE) {
         MtxF skinMtx;
@@ -692,7 +694,8 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(POLY_OPA_DISP++, mtx1, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        func_800A63CC(&this->actor, globalCtx, &this->skin, NULL, NULL, 1, 0, 3);
+        func_800A63CC(&this->actor, globalCtx, &this->skin, NULL, NULL, true, 0,
+                      SKIN_DRAW_FLAG_CUSTOM_TRANSFORMS | SKIN_DRAW_FLAG_CUSTOM_MATRIX);
         this->cloneCollider.dim.pos.x = clonePos.x;
         this->cloneCollider.dim.pos.y = clonePos.y;
         this->cloneCollider.dim.pos.z = clonePos.z;

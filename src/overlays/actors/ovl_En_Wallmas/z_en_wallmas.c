@@ -185,7 +185,7 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount),
                      ANIMMODE_ONCE, -3.0f);
 
-    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 0x12C, 0x64, 1);
+    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 6, 20.0f, 300, 100, true);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FALL_LAND);
     this->actionFunc = EnWallmas_Land;
 }
@@ -303,7 +303,8 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if ((player->stateFlags1 & 0x100000) || (player->stateFlags1 & 0x8000000) || !(player->actor.bgCheckFlags & 1) ||
+    if ((player->stateFlags1 & PLAYER_STATE1_20) || (player->stateFlags1 & PLAYER_STATE1_27) ||
+        !(player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
         ((this->actor.params == 1) && (320.0f < Math_Vec3f_DistXZ(&this->actor.home.pos, playerPos)))) {
         Audio_StopSfxById(NA_SE_EN_FALL_AIM);
         this->timer = 0x82;
@@ -321,7 +322,7 @@ void EnWallmas_WaitToDrop(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_Drop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & 0x10) && (player->invincibilityTimer >= 0) &&
+    if (!Player_InCsMode(globalCtx) && !(player->stateFlags2 & PLAYER_STATE2_4) && (player->invincibilityTimer >= 0) &&
         (this->actor.xzDistToPlayer < 30.0f) && (this->actor.yDistToPlayer < -5.0f) &&
         (-(f32)(player->cylinder.dim.height + 10) < this->actor.yDistToPlayer)) {
         EnWallmas_SetupTakePlayer(this, globalCtx);
@@ -549,7 +550,9 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != EnWallmas_Drop) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 25.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
     } else if (this->actor.world.pos.y <= this->yTarget) {
         this->actor.world.pos.y = this->yTarget;
         this->actor.velocity.y = 0.0f;
@@ -560,7 +563,7 @@ void EnWallmas_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-        if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & 1) != 0 &&
+        if ((this->actionFunc != EnWallmas_TakeDamage) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
             (this->actor.freezeTimer == 0)) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
