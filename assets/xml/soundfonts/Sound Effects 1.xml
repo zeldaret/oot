@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="00 - Sound Effects 1" Index="0">
+    <Soundfont Name="00 - Sound Effects 1" Index="0" Symbol="gSoundEffectsFont1">
         <Instruments>
             <Instrument Name="Step - Ground" Enum="STEP_GROUND"/>
             <Instrument Name="Step - Sand" Enum="STEP_SAND"/>

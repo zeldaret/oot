@@ -2,7 +2,7 @@
 	<Sample Name="Bird Chirp 1">
 		<Offset Version="MQDebug" At="0"/>
 	</Sample>
-	<Sample Name="Unknown?">
+	<Sample Name="Insect Chirrup" SampleRate="16000">
 		<Offset Version="MQDebug" At="0x5b0"/>
 	</Sample>
 	<Sample Name="Bird Chirp (Unused?)">
@@ -74,7 +74,7 @@
 	<Sample Name="Step - Water">
 		<Offset Version="MQDebug" At="0x40aa0"/>
 	</Sample>
-	<Sample Name="Step - Carpet">
+	<Sample Name="Step - Carpet" SampleRate="8000">
 		<Offset Version="MQDebug" At="0x414f0"/>
 	</Sample>
 	<Sample Name="Step - Thick Carpet">
@@ -104,13 +104,13 @@
 	<Sample Name="Heavy Slide">
 		<Offset Version="MQDebug" At="0x53210"/>
 	</Sample>
-	<Sample Name="Staticky Sound?">
+	<Sample Name="High Static">
 		<Offset Version="MQDebug" At="0x55ba0"/>
 	</Sample>
-	<Sample Name="Distorted Sound?">
+	<Sample Name="Distorted Static">
 		<Offset Version="MQDebug" At="0x57d10"/>
 	</Sample>
-	<Sample Name="Rushing Water">
+	<Sample Name="Heavy Static">
 		<Offset Version="MQDebug" At="0x5b590"/>
 	</Sample>
 	<Sample Name="Large Water Splash">
@@ -122,7 +122,7 @@
 	<Sample Name="Stone Doof">
 		<Offset Version="MQDebug" At="0x61b90"/>
 	</Sample>
-	<Sample Name="Step - Wood + Metal?">
+	<Sample Name="Step - Wooden Bridge">
 		<Offset Version="MQDebug" At="0x63350"/>
 	</Sample>
 	<Sample Name="Step - Fire">
@@ -143,13 +143,13 @@
 	<Sample Name="Whish">
 		<Offset Version="MQDebug" At="0x68cc0"/>
 	</Sample>
-	<Sample Name="Sheathe Sword">
+	<Sample Name="Sheathe Sword" SampleRate="16000">
 		<Offset Version="MQDebug" At="0x69130"/>
 	</Sample>
-	<Sample Name="Draw Sword">
+	<Sample Name="Draw Sword" SampleRate="17640">
 		<Offset Version="MQDebug" At="0x6a040"/>
 	</Sample>
-	<Sample Name="Air Swish">
+	<Sample Name="Air Swish" SampleRate="15435">
 		<Offset Version="MQDebug" At="0x6ba00"/>
 	</Sample>
 	<Sample Name="Air Whistle">
@@ -191,7 +191,7 @@
 	<Sample Name="Dirt Sound?">
 		<Offset Version="MQDebug" At="0x82000"/>
 	</Sample>
-	<Sample Name="Sword Strike">
+	<Sample Name="Sword Strike" SampleRate="10000">
 		<Offset Version="MQDebug" At="0x82ed0"/>
 	</Sample>
 	<Sample Name="Dismiss Eye of Truth">
@@ -200,13 +200,13 @@
 	<Sample Name="Popping Cork">
 		<Offset Version="MQDebug" At="0x87030"/>
 	</Sample>
-	<Sample Name="Bowstring Twang">
+	<Sample Name="Bowstring Twang" SampleRate="19200">
 		<Offset Version="MQDebug" At="0x87440"/>
 	</Sample>
-	<Sample Name="Bombchu Motor">
+	<Sample Name="Bombchu Motor" SampleRate="22050">
 		<Offset Version="MQDebug" At="0x88620"/>
 	</Sample>
-	<Sample Name="Unknown?">
+	<Sample Name="Hookshot Trigger" SampleRate="32000">
 		<Offset Version="MQDebug" At="0x88a50"/>
 	</Sample>
 	<Sample Name="Opening Wooden Door">
@@ -233,7 +233,7 @@
 	<Sample Name="Mechanically Shifting Stone">
 		<Offset Version="MQDebug" At="0xa0260"/>
 	</Sample>
-	<Sample Name="Rolling Boulder">
+	<Sample Name="Rolling Boulder" SampleRate="8000">
 		<Offset Version="MQDebug" At="0xa14a0"/>
 	</Sample>
 	<Sample Name="Bubbling Lava">
@@ -245,10 +245,10 @@
 	<Sample Name="Relaxed Cucco Clucks">
 		<Offset Version="MQDebug" At="0xab9e0"/>
 	</Sample>
-	<Sample Name="Closed Stone Door">
+	<Sample Name="Closed Stone Door" SampleRate="10000">
 		<Offset Version="MQDebug" At="0xadba0"/>
 	</Sample>
-	<Sample Name="Horse Snort">
+	<Sample Name="Horse Snort" SampleRate="12000">
 		<Offset Version="MQDebug" At="0xaf0a0"/>
 	</Sample>
 	<Sample Name="Water Splish">
@@ -269,7 +269,7 @@
 	<Sample Name="Creaking Wood">
 		<Offset Version="MQDebug" At="0xb8690"/>
 	</Sample>
-	<Sample Name="Low Swooshing Sound">
+	<Sample Name="Ignition">
 		<Offset Version="MQDebug" At="0xba0d0"/>
 	</Sample>
 	<Sample Name="Warp Circle Ambience">
@@ -287,7 +287,7 @@
 	<Sample Name="Fire Crackling">
 		<Offset Version="MQDebug" At="0xcaf60"/>
 	</Sample>
-	<Sample Name="Heavy Platform Rotating">
+	<Sample Name="Heavy Platform Rotating" SampleRate="8000">
 		<Offset Version="MQDebug" At="0xd16f0"/>
 	</Sample>
 	<Sample Name="Light Rock Slam">
@@ -305,7 +305,7 @@
 	<Sample Name="Mechanical Ramp-Up">
 		<Offset Version="MQDebug" At="0xe01f0"/>
 	</Sample>
-	<Sample Name="Crystal Synth">
+	<Sample Name="Crystal Synth (Low)">
 		<Offset Version="MQDebug" At="0xe2510"/>
 	</Sample>
 	<Sample Name="Shimmering Treasure">
@@ -335,13 +335,13 @@
 	<Sample Name="Dong (Failed Learning)">
 		<Offset Version="MQDebug" At="0xf2fe0"/>
 	</Sample>
-	<Sample Name="Reed Whistle">
+	<Sample Name="Whistle">
 		<Offset Version="MQDebug" At="0xf5350"/>
 	</Sample>
 	<Sample Name="Clanging Bells">
 		<Offset Version="MQDebug" At="0xf5a90"/>
 	</Sample>
-	<Sample Name="Whistle">
+	<Sample Name="Person Whistling">
 		<Offset Version="MQDebug" At="0xf72a0"/>
 	</Sample>
 	<Sample Name="Ocarina">
@@ -767,10 +767,10 @@
 	<Sample Name="Dodongo Roar">
 		<Offset Version="MQDebug" At="0x206d10"/>
 	</Sample>
-	<Sample Name="Rolling Boulder">
+	<Sample Name="Heavy Rumbling">
 		<Offset Version="MQDebug" At="0x209e40"/>
 	</Sample>
-	<Sample Name="Clattering Spear">
+	<Sample Name="Clattering Spear" SampleRate="10000">
 		<Offset Version="MQDebug" At="0x20b580"/>
 	</Sample>
 	<Sample Name="Ganon's Electrical Charge">
@@ -779,7 +779,7 @@
 	<Sample Name="Dramatic Swoosh">
 		<Offset Version="MQDebug" At="0x20c9e0"/>
 	</Sample>
-	<Sample Name="Broken Pottery">
+	<Sample Name="Broken Pottery" SampleRate="12000">
 		<Offset Version="MQDebug" At="0x20de70"/>
 	</Sample>
 	<Sample Name="Shattered Glass">
@@ -851,7 +851,7 @@
 	<Sample Name="Deku Baba Chomp">
 		<Offset Version="MQDebug" At="0x222ba0"/>
 	</Sample>
-	<Sample Name="Deku Baba Lunge">
+	<Sample Name="Deku Baba Lunge" SampleRate="20000">
 		<Offset Version="MQDebug" At="0x2230b0"/>
 	</Sample>
 	<Sample Name="Buzzing">

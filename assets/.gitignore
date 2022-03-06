@@ -2,5 +2,13 @@
 *.c
 *.h
 *.cfg
+*.aseq
+*.mus
+*.aiff
+*.aifc
 *.vtx.inc
 *.dlist.inc
+
+/soundfonts/*.xml
+/soundfonts/*.h
+/samples/Banks.xml

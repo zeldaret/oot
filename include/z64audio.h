@@ -1040,27 +1040,23 @@ typedef struct {
     u8 pos;
 } OcarinaStaff;
 
-#define DEFINE_SEQUENCE(a, b, c, d, e) a
-typedef enum {
-#include "tables/sequence_table.h"
-    SEQ_ID_MAX
-} SequenceId;
-#undef DEFINE_SEQUENCE
-
 #define DEFINE_SOUNDFONT(a, b, c, d, e, f, g, h, i) a
 typedef enum {
-#include "tables/soundfont_table.h"
+    SOUNDFONT_SFX_1,
+    SOUNDFONT_SFX_2,
     FONT_ID_MAX
 } SoundfontId;
 #undef DEFINE_SOUNDFONT
 
-#define DEFINE_SAMPLE_BANK(a, b, c, d, e) a
-#define DEFINE_SAMPLE_BANK_REF(a, b, c, d) a
 typedef enum {
-#include "tables/sample_bank_table.h"
+    SAMPLE_BANK_SFX,
+    SAMPLE_BANK_ORCHESTRA,
+    SAMPLE_BANK_DEKU_TREE,
+    SAMPLE_BANK_JABU_JABU,
+    SAMPLE_BANK_FOREST_TEMPLE,
+    SAMPLE_BANK_GORON_CITY,
+    SAMPLE_BANK_SPIRIT_TEMPLE,
     BANK_ID_MAX
 } SampleBankId;
-#undef DEFINE_SAMPLE_BANK_REF
-#undef DEFINE_SAMPLE_BANK
 
 #endif
