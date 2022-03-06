@@ -811,7 +811,7 @@ s32 BossTw_BeamHitPlayerCheck(BossTw* this, GlobalContext* globalCtx) {
                     sFreezeState = 1;
                 }
             } else if (!player->isBurning) {
-                for (i = 0; i < ARRAY_COUNT(player->flameTimers); i++) {
+                for (i = 0; i < PLAYER_BODYPART_MAX; i++) {
                     player->flameTimers[i] = Rand_S16Offset(0, 200);
                 }
 
@@ -4837,7 +4837,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                     }
 
                     if ((eff->workf[EFF_DIST] > 0.4f) && ((eff->frame & 7) == 0)) {
-                        spA6 = Rand_ZeroFloat(ARRAY_COUNT(player->bodyPartsPos) - 0.1f);
+                        spA6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
 
                         if (eff->target == NULL) {
                             spC0.x = player->bodyPartsPos[spA6].x + Rand_CenteredFloat(5.0f);

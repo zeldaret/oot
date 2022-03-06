@@ -462,11 +462,11 @@ typedef struct Player {
     /* 0x08AC */ f32        windSpeed;
     /* 0x08B0 */ s16        windDirection;
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
-    /* 0x0908 */ Vec3f      bodyPartsPos[18];
+    /* 0x0908 */ Vec3f      bodyPartsPos[PLAYER_BODYPART_MAX];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       shieldMf;
     /* 0x0A60 */ u8         isBurning;
-    /* 0x0A61 */ u8         flameTimers[18]; // one flame per body part
+    /* 0x0A61 */ u8         flameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8         unk_A73;
     /* 0x0A74 */ PlayerFuncA74 func_A74;
     /* 0x0A78 */ s8         invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)
