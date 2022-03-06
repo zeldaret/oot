@@ -276,7 +276,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     s16 rotY;
 
     shadowTex = COBRA_SHADOW_TEX_PTR(this);
-    Lib_MemSet(shadowTex, sizeof(this->shadowTextureBuffer) & ~0xF, 0);
+    Lib_MemSet(shadowTex, COBRA_SHADOW_TEX_SIZE, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
     rotY = !(this->dyna.actor.params & 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
@@ -368,7 +368,7 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
     }
 
     sp40 = shadowTex = COBRA_SHADOW_TEX_PTR(this);
-    Lib_MemSet(shadowTex, sizeof(this->shadowTextureBuffer) & ~0xF, 0);
+    Lib_MemSet(shadowTex, COBRA_SHADOW_TEX_SIZE, 0);
 
     for (i = 0; i != 0x40; i++) {
         f32 temp_f12 = sp58[i];
