@@ -1476,7 +1476,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
                     if (player->isBurning == false) {
-                        for (i2 = 0; i2 < ARRAY_COUNT(player->flameTimers); i2++) {
+                        for (i2 = 0; i2 < PLAYER_BODYPART_MAX; i2++) {
                             player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }
                         player->isBurning = true;
