@@ -16,37 +16,6 @@ typedef enum {
     /* 3 */ ENTORCH2_DAMAGE
 } EnTorch2ActionStates;
 
-typedef enum {
-    /*  0 */ FORWARD_SLASH_1H,
-    /*  1 */ FORWARD_SLASH_2H,
-    /*  2 */ FORWARD_COMBO_1H,
-    /*  3 */ FORWARD_COMBO_2H,
-    /*  4 */ RIGHT_SLASH_1H,
-    /*  5 */ RIGHT_SLASH_2H,
-    /*  6 */ RIGHT_COMBO_1H,
-    /*  7 */ RIGHT_COMBO_2H,
-    /*  8 */ LEFT_SLASH_1H,
-    /*  9 */ LEFT_SLASH_2H,
-    /* 10 */ LEFT_COMBO_1H,
-    /* 11 */ LEFT_COMBO_2H,
-    /* 12 */ STAB_1H,
-    /* 13 */ STAB_2H,
-    /* 14 */ STAB_COMBO_1H,
-    /* 15 */ STAB_COMBO_2H,
-    /* 16 */ FLIPSLASH_START,
-    /* 17 */ JUMPSLASH_START,
-    /* 18 */ FLIPSLASH_FINISH,
-    /* 19 */ JUMPSLASH_FINISH,
-    /* 20 */ BACKSLASH_RIGHT,
-    /* 21 */ BACKSLASH_LEFT,
-    /* 22 */ HAMMER_FORWARD,
-    /* 23 */ HAMMER_SIDE,
-    /* 24 */ SPIN_ATTACK_1H,
-    /* 25 */ SPIN_ATTACK_2H,
-    /* 26 */ BIG_SPIN_1H,
-    /* 27 */ BIG_SPIN_2H
-} PlayerSwordAnimation;
-
 void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -328,7 +297,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 // Handles Dark Link's initial reaction to jumpslashes
 
                 if (((player->meleeWeaponState != 0) || (player->actor.velocity.y > -3.0f)) &&
-                    (player->meleeWeaponAnimation == JUMPSLASH_START)) {
+                    (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START)) {
                     this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
 
                     if (globalCtx->gameplayFrames % 2) {
@@ -383,13 +352,15 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     // Handles Dark Link's reaction to sword attack other than jumpslashes
 
                     if (func_800354B4(globalCtx, &this->actor, 120.0f, 0x7FFF, 0x7FFF, this->actor.world.rot.y)) {
-                        if ((player->meleeWeaponAnimation == STAB_1H) && (this->actor.xzDistToPlayer < 90.0f)) {
+                        if ((player->meleeWeaponAnimation == PLAYER_MWA_STAB_1H) &&
+                            (this->actor.xzDistToPlayer < 90.0f)) {
 
                             // Handles the reaction to a one-handed stab. If the conditions are satisfied,
                             // Dark Link jumps on Link's sword. Otherwise he backflips away.
 
                             if ((this->meleeWeaponState == 0) && (sCounterState == 0) &&
-                                (player->invincibilityTimer == 0) && (player->meleeWeaponAnimation == STAB_1H) &&
+                                (player->invincibilityTimer == 0) &&
+                                (player->meleeWeaponAnimation == PLAYER_MWA_STAB_1H) &&
                                 (this->actor.xzDistToPlayer <= 85.0f) && Actor_IsTargeted(globalCtx, &this->actor)) {
 
                                 sStickTilt = 0.0f;
@@ -415,17 +386,17 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                             sStickAngle = thisx->yawTowardsPlayer;
                             input->cur.button = BTN_B;
 
-                            if (player->meleeWeaponAnimation <= FORWARD_COMBO_2H) {
+                            if (player->meleeWeaponAnimation <= PLAYER_MWA_FORWARD_COMBO_2H) {
                                 sStickTilt = 0.0f;
-                            } else if (player->meleeWeaponAnimation <= RIGHT_COMBO_2H) {
+                            } else if (player->meleeWeaponAnimation <= PLAYER_MWA_RIGHT_COMBO_2H) {
                                 sStickTilt = 127.0f;
                                 sStickAngle += 0x4000;
-                            } else if (player->meleeWeaponAnimation <= LEFT_COMBO_2H) {
+                            } else if (player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H) {
                                 sStickTilt = 127.0f;
                                 sStickAngle -= 0x4000;
-                            } else if (player->meleeWeaponAnimation <= HAMMER_SIDE) {
+                            } else if (player->meleeWeaponAnimation <= PLAYER_MWA_HAMMER_SIDE) {
                                 input->cur.button = BTN_R;
-                            } else if (player->meleeWeaponAnimation <= BIG_SPIN_2H) {
+                            } else if (player->meleeWeaponAnimation <= PLAYER_MWA_BIG_SPIN_2H) {
                                 EnTorch2_Backflip(this, input, &this->actor);
                             } else {
                                 EnTorch2_Backflip(this, input, &this->actor);
@@ -460,8 +431,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 Math_SmoothStepToS(&sStickAngle, player->actor.shape.rot.y + 0x7FFF, 1, 0x2328, 0);
                             }
                         } else if (this->actor.xzDistToPlayer > 100.0f + sp50) {
-                            if ((player->meleeWeaponState == 0) || (player->meleeWeaponAnimation < SPIN_ATTACK_1H) ||
-                                (player->meleeWeaponAnimation > BIG_SPIN_2H) ||
+                            if ((player->meleeWeaponState == 0) ||
+                                !((player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
+                                  (player->meleeWeaponAnimation <= PLAYER_MWA_BIG_SPIN_2H)) ||
                                 (this->actor.xzDistToPlayer >= 280.0f)) {
                                 sStickTilt = 127.0f;
                                 sStickAngle = this->actor.yawTowardsPlayer;
@@ -561,8 +533,8 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     // Causes Dark Link to shield in place when Link is using magic attacks other than the spin attack
 
     if ((gSaveContext.unk_13F0 == 3) &&
-        (player->meleeWeaponState == 0 || (player->meleeWeaponAnimation < SPIN_ATTACK_1H) ||
-         (player->meleeWeaponAnimation > BIG_SPIN_2H))) {
+        (player->meleeWeaponState == 0 || !((player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
+                                            (player->meleeWeaponAnimation <= PLAYER_MWA_BIG_SPIN_2H)))) {
         sStickTilt = 0.0f;
         input->cur.stick_x = 0;
         input->cur.stick_y = 0;

@@ -1111,7 +1111,7 @@ void func_800906D4(GlobalContext* globalCtx, Player* this, Vec3f* newTipPos) {
     }
 
     if ((this->meleeWeaponState > 0) &&
-        ((this->meleeWeaponAnimation < 0x18) || (this->stateFlags2 & PLAYER_STATE2_17))) {
+        ((this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) || (this->stateFlags2 & PLAYER_STATE2_17))) {
         func_80090480(globalCtx, &this->meleeWeaponQuads[0], &this->meleeWeaponInfo[1], &newTipPos[1], &newBasePos[1]);
         func_80090480(globalCtx, &this->meleeWeaponQuads[1], &this->meleeWeaponInfo[2], &newTipPos[2], &newBasePos[2]);
     }

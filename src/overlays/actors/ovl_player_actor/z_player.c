@@ -1029,34 +1029,62 @@ static ExplosiveInfo sExplosiveInfos[] = {
     { ITEM_BOMBCHU, ACTOR_EN_BOM_CHU },
 };
 
-static struct_80854190 D_80854190[] = {
+static struct_80854190 D_80854190[PLAYER_MWA_MAX] = {
+    /* PLAYER_MWA_FORWARD_SLASH_1H */
     { &gPlayerAnim_002A80, &gPlayerAnim_002A90, &gPlayerAnim_002A88, 1, 4 },
+    /* PLAYER_MWA_FORWARD_SLASH_2H */
     { &gPlayerAnim_0028C0, &gPlayerAnim_0028C8, &gPlayerAnim_002498, 1, 4 },
+    /* PLAYER_MWA_FORWARD_COMBO_1H */
     { &gPlayerAnim_002A98, &gPlayerAnim_002AA0, &gPlayerAnim_002540, 0, 5 },
+    /* PLAYER_MWA_FORWARD_COMBO_2H */
     { &gPlayerAnim_0028D0, &gPlayerAnim_0028D8, &gPlayerAnim_0024A0, 1, 7 },
+    /* PLAYER_MWA_RIGHT_SLASH_1H */
     { &gPlayerAnim_002968, &gPlayerAnim_002970, &gPlayerAnim_0024C0, 1, 4 },
+    /* PLAYER_MWA_RIGHT_SLASH_2H */
     { &gPlayerAnim_002880, &gPlayerAnim_002888, &gPlayerAnim_002478, 0, 5 },
+    /* PLAYER_MWA_RIGHT_COMBO_1H */
     { &gPlayerAnim_002978, &gPlayerAnim_002980, &gPlayerAnim_0024C8, 2, 8 },
+    /* PLAYER_MWA_RIGHT_COMBO_2H */
     { &gPlayerAnim_002890, &gPlayerAnim_002898, &gPlayerAnim_002480, 3, 8 },
+    /* PLAYER_MWA_LEFT_SLASH_1H */
     { &gPlayerAnim_0029A0, &gPlayerAnim_0029A8, &gPlayerAnim_0024D0, 0, 4 },
+    /* PLAYER_MWA_LEFT_SLASH_2H */
     { &gPlayerAnim_0028A0, &gPlayerAnim_0028A8, &gPlayerAnim_002488, 0, 5 },
+    /* PLAYER_MWA_LEFT_COMBO_1H */
     { &gPlayerAnim_0029B0, &gPlayerAnim_0029B8, &gPlayerAnim_0024D8, 0, 6 },
+    /* PLAYER_MWA_LEFT_COMBO_2H */
     { &gPlayerAnim_0028B0, &gPlayerAnim_0028B8, &gPlayerAnim_002490, 1, 5 },
+    /* PLAYER_MWA_STAB_1H */
     { &gPlayerAnim_002AA8, &gPlayerAnim_002AB0, &gPlayerAnim_002548, 0, 3 },
+    /* PLAYER_MWA_STAB_2H */
     { &gPlayerAnim_0028E0, &gPlayerAnim_0028E8, &gPlayerAnim_0024A8, 0, 3 },
+    /* PLAYER_MWA_STAB_COMBO_1H */
     { &gPlayerAnim_002AB8, &gPlayerAnim_002AC0, &gPlayerAnim_002550, 1, 9 },
+    /* PLAYER_MWA_STAB_COMBO_2H */
     { &gPlayerAnim_0028F0, &gPlayerAnim_0028F8, &gPlayerAnim_0024B0, 1, 8 },
+    /* PLAYER_MWA_FLIPSLASH_START */
     { &gPlayerAnim_002A60, &gPlayerAnim_002A50, &gPlayerAnim_002A50, 1, 10 },
+    /* PLAYER_MWA_JUMPSLASH_START */
     { &gPlayerAnim_002900, &gPlayerAnim_002910, &gPlayerAnim_002910, 1, 11 },
+    /* PLAYER_MWA_FLIPSLASH_FINISH */
     { &gPlayerAnim_002A50, &gPlayerAnim_002A58, &gPlayerAnim_002A58, 1, 2 },
+    /* PLAYER_MWA_JUMPSLASH_FINISH */
     { &gPlayerAnim_002910, &gPlayerAnim_002908, &gPlayerAnim_002908, 1, 2 },
+    /* PLAYER_MWA_BACKSLASH_RIGHT */
     { &gPlayerAnim_002B80, &gPlayerAnim_002B88, &gPlayerAnim_002B88, 1, 5 },
+    /* PLAYER_MWA_BACKSLASH_LEFT */
     { &gPlayerAnim_002B70, &gPlayerAnim_002B78, &gPlayerAnim_002B78, 1, 4 },
+    /* PLAYER_MWA_HAMMER_FORWARD */
     { &gPlayerAnim_002C40, &gPlayerAnim_002C50, &gPlayerAnim_002C48, 3, 10 },
+    /* PLAYER_MWA_HAMMER_SIDE */
     { &gPlayerAnim_002C70, &gPlayerAnim_002C80, &gPlayerAnim_002C78, 2, 11 },
+    /* PLAYER_MWA_SPIN_ATTACK_1H */
     { &gPlayerAnim_002B28, &gPlayerAnim_002B30, &gPlayerAnim_002560, 0, 12 },
+    /* PLAYER_MWA_SPIN_ATTACK_2H */
     { &gPlayerAnim_002940, &gPlayerAnim_002948, &gPlayerAnim_0024B8, 0, 15 },
+    /* PLAYER_MWA_BIG_SPIN_1H */
     { &gPlayerAnim_0029C0, &gPlayerAnim_0029C8, &gPlayerAnim_002560, 0, 16 },
+    /* PLAYER_MWA_BIG_SPIN_2H */
     { &gPlayerAnim_0029C0, &gPlayerAnim_0029C8, &gPlayerAnim_0024B8, 0, 16 },
 };
 
@@ -1090,8 +1118,8 @@ static LinkAnimationHeader* D_80854378[] = {
     &gPlayerAnim_002918,
 };
 
-static u8 D_80854380[2] = { 0x18, 0x19 };
-static u8 D_80854384[2] = { 0x1A, 0x1B };
+static u8 D_80854380[2] = { PLAYER_MWA_SPIN_ATTACK_1H, PLAYER_MWA_SPIN_ATTACK_2H };
+static u8 D_80854384[2] = { PLAYER_MWA_BIG_SPIN_1H, PLAYER_MWA_BIG_SPIN_2H };
 
 static u16 D_80854388[] = { BTN_B, BTN_CLEFT, BTN_CDOWN, BTN_CRIGHT };
 
@@ -1786,7 +1814,7 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
         voiceSfx = NA_SE_VO_LI_SWORD_N;
         if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
             itemSfx = NA_SE_IT_HAMMER_SWING;
-        } else if (this->meleeWeaponAnimation >= 0x18) {
+        } else if (this->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             itemSfx = 0;
             voiceSfx = NA_SE_VO_LI_SWORD_L;
         } else if (this->unk_845 >= 3) {
@@ -1798,7 +1826,8 @@ void func_80833A20(Player* this, s32 newMeleeWeaponState) {
             func_808328EC(this, itemSfx);
         }
 
-        if ((this->meleeWeaponAnimation < 0x10) || (this->meleeWeaponAnimation >= 0x14)) {
+        if (!((this->meleeWeaponAnimation >= PLAYER_MWA_FLIPSLASH_START) &&
+              (this->meleeWeaponAnimation <= PLAYER_MWA_JUMPSLASH_FINISH))) {
             func_80832698(this, voiceSfx);
         }
     }
@@ -3256,7 +3285,8 @@ s32 func_808375D8(Player* this) {
 void func_80837704(GlobalContext* globalCtx, Player* this) {
     LinkAnimationHeader* anim;
 
-    if ((this->meleeWeaponAnimation >= 4) && (this->meleeWeaponAnimation < 8)) {
+    if ((this->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H) &&
+        (this->meleeWeaponAnimation <= PLAYER_MWA_RIGHT_COMBO_2H)) {
         anim = D_80854358[Player_HoldsTwoHandedWeapon(this)];
     } else {
         anim = D_80854350[Player_HoldsTwoHandedWeapon(this)];
@@ -3273,8 +3303,18 @@ void func_808377DC(GlobalContext* globalCtx, Player* this) {
     func_80837704(globalCtx, this);
 }
 
-static s8 D_80854480[] = { 12, 4, 4, 8 };
-static s8 D_80854484[] = { 22, 23, 22, 23 };
+static s8 D_80854480[] = {
+    PLAYER_MWA_STAB_1H,
+    PLAYER_MWA_RIGHT_SLASH_1H,
+    PLAYER_MWA_RIGHT_SLASH_1H,
+    PLAYER_MWA_LEFT_SLASH_1H,
+};
+static s8 D_80854484[] = {
+    PLAYER_MWA_HAMMER_FORWARD,
+    PLAYER_MWA_HAMMER_SIDE,
+    PLAYER_MWA_HAMMER_FORWARD,
+    PLAYER_MWA_HAMMER_SIDE,
+};
 
 s32 func_80837818(Player* this) {
     s32 sp1C = this->unk_84B[this->unk_846];
@@ -3288,25 +3328,25 @@ s32 func_80837818(Player* this) {
         this->unk_845 = 0;
     } else {
         if (func_808375D8(this)) {
-            sp18 = 24;
+            sp18 = PLAYER_MWA_SPIN_ATTACK_1H;
         } else {
             if (sp1C < 0) {
                 if (func_80833BCC(this)) {
-                    sp18 = 0;
+                    sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
                 } else {
-                    sp18 = 4;
+                    sp18 = PLAYER_MWA_RIGHT_SLASH_1H;
                 }
             } else {
                 sp18 = D_80854480[sp1C];
-                if (sp18 == 12) {
+                if (sp18 == PLAYER_MWA_STAB_1H) {
                     this->stateFlags2 |= PLAYER_STATE2_30;
                     if (!func_80833BCC(this)) {
-                        sp18 = 0;
+                        sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
                     }
                 }
             }
             if (this->heldItemActionParam == PLAYER_AP_STICK) {
-                sp18 = 0;
+                sp18 = PLAYER_MWA_FORWARD_SLASH_1H;
             }
         }
         if (Player_HoldsTwoHandedWeapon(this)) {
@@ -3339,7 +3379,7 @@ void func_80837948(GlobalContext* globalCtx, Player* this, s32 arg2) {
 
     func_80835C58(globalCtx, this, func_808502D0, 0);
     this->unk_844 = 8;
-    if ((arg2 < 18) || (arg2 >= 20)) {
+    if (!((arg2 >= PLAYER_MWA_FLIPSLASH_FINISH) && (arg2 <= PLAYER_MWA_JUMPSLASH_FINISH))) {
         func_80832318(this);
     }
 
@@ -3355,7 +3395,7 @@ void func_80837948(GlobalContext* globalCtx, Player* this, s32 arg2) {
     this->meleeWeaponAnimation = arg2;
 
     func_808322D0(globalCtx, this, D_80854190[arg2].unk_00);
-    if ((arg2 != 16) && (arg2 != 17)) {
+    if ((arg2 != PLAYER_MWA_FLIPSLASH_START) && (arg2 != PLAYER_MWA_JUMPSLASH_START)) {
         func_80832F54(globalCtx, this, 0x209);
     }
 
@@ -3367,7 +3407,7 @@ void func_80837948(GlobalContext* globalCtx, Player* this, s32 arg2) {
         temp = Player_GetMeleeWeaponHeld(this) - 1;
     }
 
-    if ((arg2 >= 16) && (arg2 < 20)) {
+    if ((arg2 >= PLAYER_MWA_FLIPSLASH_START) && (arg2 <= PLAYER_MWA_JUMPSLASH_FINISH)) {
         flags = D_80854488[temp][1];
     } else {
         flags = D_80854488[temp][0];
@@ -4984,7 +5024,7 @@ s32 func_8083BB20(Player* this) {
 
 s32 func_8083BBA0(Player* this, GlobalContext* globalCtx) {
     if (func_8083BB20(this) && (D_808535E4 != 7)) {
-        func_8083BA90(globalCtx, this, 17, 3.0f, 4.5f);
+        func_8083BA90(globalCtx, this, PLAYER_MWA_JUMPSLASH_START, 3.0f, 4.5f);
         return 1;
     }
 
@@ -5039,7 +5079,7 @@ s32 func_8083BDBC(Player* this, GlobalContext* globalCtx) {
                     }
                 } else {
                     if ((Player_GetMeleeWeaponHeld(this) != 0) && func_808365C8(this)) {
-                        func_8083BA90(globalCtx, this, 17, 5.0f, 5.0f);
+                        func_8083BA90(globalCtx, this, PLAYER_MWA_JUMPSLASH_START, 5.0f, 5.0f);
                     } else {
                         func_8083BC04(this, globalCtx);
                     }
@@ -7423,7 +7463,7 @@ s32 func_808428D8(Player* this, GlobalContext* globalCtx) {
     if (!Player_IsChildWithHylianShield(this) && (Player_GetMeleeWeaponHeld(this) != 0) && D_80853614) {
         func_80832264(globalCtx, this, &gPlayerAnim_002EC8);
         this->unk_84F = 1;
-        this->meleeWeaponAnimation = 0xC;
+        this->meleeWeaponAnimation = PLAYER_MWA_STAB_1H;
         this->currentYaw = this->actor.shape.rot.y + this->unk_6BE;
         return 1;
     }
@@ -7533,7 +7573,7 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
     s32 sp48;
 
     if (this->meleeWeaponState > 0) {
-        if (this->meleeWeaponAnimation < 0x18) {
+        if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
             if (!(this->meleeWeaponQuads[0].base.atFlags & AT_BOUNCED) &&
                 !(this->meleeWeaponQuads[1].base.atFlags & AT_BOUNCED)) {
                 if (this->skelAnime.curFrame >= 2.0f) {
@@ -7591,7 +7631,7 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
         temp1 = (this->meleeWeaponQuads[0].base.atFlags & AT_HIT) || (this->meleeWeaponQuads[1].base.atFlags & AT_HIT);
 
         if (temp1) {
-            if (this->meleeWeaponAnimation < 0x18) {
+            if (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H) {
                 Actor* at = this->meleeWeaponQuads[temp1 ? 1 : 0].base.at;
 
                 if ((at != NULL) && (at->id != ACTOR_EN_KANBAN)) {
@@ -9727,8 +9767,8 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
                 }
             } else if (this->stateFlags1 & PLAYER_STATE1_19) {
                 camMode = CAM_MODE_FREEFALL;
-            } else if ((this->meleeWeaponState != 0) && (this->meleeWeaponAnimation >= 0) &&
-                       (this->meleeWeaponAnimation < 0x18)) {
+            } else if ((this->meleeWeaponState != 0) && (this->meleeWeaponAnimation >= PLAYER_MWA_FORWARD_SLASH_1H) &&
+                       (this->meleeWeaponAnimation < PLAYER_MWA_SPIN_ATTACK_1H)) {
                 camMode = CAM_MODE_STILL;
             } else {
                 camMode = CAM_MODE_NORMAL;
@@ -12709,7 +12749,7 @@ s32 func_80850224(Player* this, GlobalContext* globalCtx) {
 
             func_80837948(globalCtx, this, sp24);
 
-            if (sp24 >= 0x18) {
+            if (sp24 >= PLAYER_MWA_SPIN_ATTACK_1H) {
                 this->stateFlags2 |= PLAYER_STATE2_17;
                 func_80837530(globalCtx, this, 0);
                 return 1;
@@ -12769,7 +12809,8 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 this->stateFlags3 |= PLAYER_STATE3_3;
             }
         } else if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
-            if ((this->meleeWeaponAnimation == 0x16) || (this->meleeWeaponAnimation == 0x13)) {
+            if ((this->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD) ||
+                (this->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_FINISH)) {
                 static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
                 Vec3f shockwavePos;
                 f32 sp2C;
@@ -12780,8 +12821,10 @@ void func_808502D0(Player* this, GlobalContext* globalCtx) {
                 Math_ScaledStepToS(&this->actor.focus.rot.x, Math_Atan2S(45.0f, sp2C), 800);
                 func_80836AB8(this, 1);
 
-                if ((((this->meleeWeaponAnimation == 0x16) && LinkAnimation_OnFrame(&this->skelAnime, 7.0f)) ||
-                     ((this->meleeWeaponAnimation == 0x13) && LinkAnimation_OnFrame(&this->skelAnime, 2.0f))) &&
+                if ((((this->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD) &&
+                      LinkAnimation_OnFrame(&this->skelAnime, 7.0f)) ||
+                     ((this->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_FINISH) &&
+                      LinkAnimation_OnFrame(&this->skelAnime, 2.0f))) &&
                     (sp2C > -40.0f) && (sp2C < 40.0f)) {
                     func_80842A28(globalCtx, this);
                     EffectSsBlast_SpawnWhiteShockwave(globalCtx, &shockwavePos, &zeroVec, &zeroVec);
