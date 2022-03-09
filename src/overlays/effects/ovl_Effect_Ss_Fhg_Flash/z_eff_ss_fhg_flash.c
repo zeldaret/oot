@@ -169,7 +169,7 @@ void EffectSsFhgFlash_UpdateLightBall(GlobalContext* globalCtx, u32 index, Effec
 }
 
 void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s16 randBodypart;
+    s16 randBodyPart;
     Player* player;
     BossGanondrof* phantomGanon;
     s16 rand;
@@ -179,16 +179,16 @@ void EffectSsFhgFlash_UpdateShock(GlobalContext* globalCtx, u32 index, EffectSs*
 
     if (this->rParam == FHGFLASH_SHOCK_PLAYER) {
         player = GET_PLAYER(globalCtx);
-        randBodypart = Rand_ZeroFloat(17.9f);
-        this->pos.x = player->bodyPartsPos[randBodypart].x + Rand_CenteredFloat(10.0f);
-        this->pos.y = player->bodyPartsPos[randBodypart].y + Rand_CenteredFloat(15.0f);
-        this->pos.z = player->bodyPartsPos[randBodypart].z + Rand_CenteredFloat(10.0f);
+        randBodyPart = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
+        this->pos.x = player->bodyPartsPos[randBodyPart].x + Rand_CenteredFloat(10.0f);
+        this->pos.y = player->bodyPartsPos[randBodyPart].y + Rand_CenteredFloat(15.0f);
+        this->pos.z = player->bodyPartsPos[randBodyPart].z + Rand_CenteredFloat(10.0f);
     } else if (this->rParam == FHGFLASH_SHOCK_PG) {
         phantomGanon = (BossGanondrof*)this->actor;
-        randBodypart = Rand_ZeroFloat(23.9f);
-        this->pos.x = phantomGanon->bodyPartsPos[randBodypart].x + Rand_CenteredFloat(15.0f);
-        this->pos.y = phantomGanon->bodyPartsPos[randBodypart].y + Rand_CenteredFloat(20.0f);
-        this->pos.z = phantomGanon->bodyPartsPos[randBodypart].z + Rand_CenteredFloat(15.0f);
+        randBodyPart = Rand_ZeroFloat(23.9f);
+        this->pos.x = phantomGanon->bodyPartsPos[randBodyPart].x + Rand_CenteredFloat(15.0f);
+        this->pos.y = phantomGanon->bodyPartsPos[randBodyPart].y + Rand_CenteredFloat(20.0f);
+        this->pos.z = phantomGanon->bodyPartsPos[randBodyPart].z + Rand_CenteredFloat(15.0f);
     }
 
     if (this->life < 100) {

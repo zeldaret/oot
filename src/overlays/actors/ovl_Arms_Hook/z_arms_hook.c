@@ -146,16 +146,16 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 bodyDistDiff;
     f32 phi_f16;
     DynaPolyActor* dynaPolyActor;
-    f32 sp94;
-    f32 sp90;
+    f32 curGrabbedDist;
+    f32 grabbedDist;
     s32 pad;
     CollisionPoly* poly;
     s32 bgId;
-    Vec3f sp78;
+    Vec3f intersectPos;
     Vec3f prevFrameDiff;
     Vec3f sp60;
-    f32 sp5C;
-    f32 sp58;
+    f32 polyNormalX;
+    f32 polyNormalZ;
     f32 velocity;
     s32 pad1;
 
@@ -189,10 +189,11 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 grabbed = NULL;
                 this->grabbed = NULL;
             } else if (this->actor.child != NULL) {
-                sp94 = Actor_WorldDistXYZToActor(&this->actor, grabbed);
-                sp90 = sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
+                curGrabbedDist = Actor_WorldDistXYZToActor(&this->actor, grabbed);
+                grabbedDist =
+                    sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
                 Math_Vec3f_Diff(&grabbed->world.pos, &this->grabbedDistDiff, &this->actor.world.pos);
-                if (50.0f < (sp94 - sp90)) {
+                if ((curGrabbedDist - grabbedDist) > 50.0f) {
                     ArmsHook_DetachHookFromActor(this);
                     grabbed = NULL;
                 }
@@ -256,14 +257,14 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         sp60.x = this->unk_1F4.x - (this->unk_1E8.x - this->unk_1F4.x);
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
-        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, true, true, true, true,
-                                    &bgId) &&
-            !func_8002F9EC(globalCtx, &this->actor, poly, bgId, &sp78)) {
-            sp5C = COLPOLY_GET_NORMAL(poly->normal.x);
-            sp58 = COLPOLY_GET_NORMAL(poly->normal.z);
-            Math_Vec3f_Copy(&this->actor.world.pos, &sp78);
-            this->actor.world.pos.x += 10.0f * sp5C;
-            this->actor.world.pos.z += 10.0f * sp58;
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &intersectPos, &poly, true, true, true,
+                                    true, &bgId) &&
+            !func_8002F9EC(globalCtx, &this->actor, poly, bgId, &intersectPos)) {
+            polyNormalX = COLPOLY_GET_NORMAL(poly->normal.x);
+            polyNormalZ = COLPOLY_GET_NORMAL(poly->normal.z);
+            Math_Vec3f_Copy(&this->actor.world.pos, &intersectPos);
+            this->actor.world.pos.x += 10.0f * polyNormalX;
+            this->actor.world.pos.z += 10.0f * polyNormalZ;
             this->timer = 0;
             if (SurfaceType_IsHookshotSurface(&globalCtx->colCtx, poly, bgId)) {
                 if (bgId != BGCHECK_SCENE) {
@@ -299,8 +300,8 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ArmsHook* this = (ArmsHook*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f sp78;
-    Vec3f sp6C;
-    Vec3f sp60;
+    Vec3f hookNewTip;
+    Vec3f hookNewBase;
     f32 sp5C;
     f32 sp58;
 
@@ -309,16 +310,16 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if ((ArmsHook_Shoot != this->actionFunc) || (this->timer <= 0)) {
             Matrix_MultVec3f(&D_80865B70, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865B88, &sp6C);
-            Matrix_MultVec3f(&D_80865B94, &sp60);
+            Matrix_MultVec3f(&D_80865B88, &hookNewTip);
+            Matrix_MultVec3f(&D_80865B94, &hookNewBase);
             this->hookInfo.active = 0;
         } else {
             Matrix_MultVec3f(&D_80865B7C, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865BA0, &sp6C);
-            Matrix_MultVec3f(&D_80865BAC, &sp60);
+            Matrix_MultVec3f(&D_80865BA0, &hookNewTip);
+            Matrix_MultVec3f(&D_80865BAC, &hookNewBase);
         }
 
-        func_80090480(globalCtx, &this->collider, &this->hookInfo, &sp6C, &sp60);
+        func_80090480(globalCtx, &this->collider, &this->hookInfo, &hookNewTip, &hookNewBase);
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
