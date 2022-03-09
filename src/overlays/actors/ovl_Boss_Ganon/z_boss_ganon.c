@@ -3354,7 +3354,7 @@ void BossGanon_DrawShock(BossGanon* this, GlobalContext* globalCtx) {
         if (this->unk_2E8 != 0) {
             Player* player = GET_PLAYER(globalCtx);
 
-            for (i = 0; i < ARRAY_COUNT(player->bodyPartsPos); i++) {
+            for (i = 0; i < PLAYER_BODYPART_MAX; i++) {
                 Matrix_Translate(player->bodyPartsPos[i].x, player->bodyPartsPos[i].y, player->bodyPartsPos[i].z,
                                  MTXMODE_NEW);
                 Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
@@ -3535,7 +3535,7 @@ void BossGanon_DrawTriforce(BossGanon* this, GlobalContext* globalCtx) {
         if (this->triforceType == GDF_TRIFORCE_PLAYER) {
             Player* player = GET_PLAYER(globalCtx);
 
-            this->triforcePos = player->bodyPartsPos[12];
+            this->triforcePos = player->bodyPartsPos[PLAYER_BODYPART_L_HAND];
 
             this->triforcePos.x += -0.6f;
             this->triforcePos.y += 3.0f;
@@ -4691,7 +4691,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                     eff->pos.y = sGanondorf->unk_2EC[bodyPart].y + Rand_CenteredFloat(20.0f);
                     eff->pos.z = sGanondorf->unk_2EC[bodyPart].z + Rand_CenteredFloat(20.0f);
                 } else {
-                    bodyPart = (s16)Rand_ZeroFloat(17.9f);
+                    bodyPart = (s16)Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
 
                     eff->pos.x = player->bodyPartsPos[bodyPart].x + Rand_CenteredFloat(10.0f);
                     eff->pos.y = player->bodyPartsPos[bodyPart].y + Rand_CenteredFloat(15.0f);

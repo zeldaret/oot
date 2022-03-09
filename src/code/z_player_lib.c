@@ -274,7 +274,7 @@ Gfx gCullFrontDList[] = {
     gsSPEndDisplayList(),
 };
 
-Vec3f* D_80160000;
+Vec3f* sCurBodyPartPos;
 s32 sDListsLodOffset;
 Vec3f sGetItemRefPos;
 s32 D_80160014;
@@ -768,7 +768,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 1803);
 }
 
-Vec3f D_8012602C = { 0.0f, 0.0f, 0.0f };
+Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 Vec3f D_80126038[] = {
     { 1304.0f, 0.0f, 0.0f },
@@ -816,10 +816,10 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
         Matrix_Push();
         Matrix_TranslateRotateZYX(pos, rot);
-        Matrix_MultVec3f(&D_8012602C, &spA4);
+        Matrix_MultVec3f(&sZeroVec, &spA4);
         Matrix_TranslateRotateZYX(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
         Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_MultVec3f(&D_8012602C, &sp98);
+        Matrix_MultVec3f(&sZeroVec, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
         Matrix_Pop();
 
@@ -881,7 +881,13 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     if (limbIndex == PLAYER_LIMB_ROOT) {
         D_80160014 = this->leftHandType;
         D_80160018 = this->rightHandType;
-        D_80160000 = &this->meleeWeaponInfo[2].base;
+
+        // `sCurBodyPartPos` is incremented before each usage, so it starts at index -1.
+        // What determines if a limb corresponds to a body part is whether or not it has a non-NULL `dList`.
+        // Note: The increment would not be done for the root limb, even if it had a non-NULL `dList`.
+        //       So if the root limb had a non-NULL `dList` (which is not the case in vanilla),
+        //       an out-of-bounds write to `bodyPartsPos` would occur.
+        sCurBodyPartPos = &this->bodyPartsPos[-1];
 
         if (!LINK_IS_ADULT) {
             if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
@@ -905,7 +911,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
     } else {
         if (*dList != NULL) {
-            D_80160000++;
+            sCurBodyPartPos++;
         }
 
         if (limbIndex == PLAYER_LIMB_HEAD) {
@@ -1243,14 +1249,14 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
-        Matrix_MultVec3f(&D_8012602C, D_80160000);
+        Matrix_MultVec3f(&sZeroVec, sCurBodyPartPos);
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF sp14C;
         Actor* hookedActor;
 
-        Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
+        Math_Vec3f_Copy(&this->leftHandPos, sCurBodyPartPos);
 
         if (this->itemActionParam == PLAYER_AP_STICK) {
             Vec3f sp124[3];
@@ -1342,8 +1348,8 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 Vec3f sp90;
                 f32 distXYZ;
 
-                Matrix_MultVec3f(&D_8012602C, &sp90);
-                distXYZ = Math_Vec3f_DistXYZ(D_80160000, &sp90);
+                Matrix_MultVec3f(&sZeroVec, &sp90);
+                distXYZ = Math_Vec3f_DistXYZ(sCurBodyPartPos, &sp90);
 
                 this->unk_858 = distXYZ - 3.0f;
                 if (distXYZ < 3.0f) {
@@ -1404,9 +1410,9 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     (this->exchangeItemId != EXCH_ITEM_NONE)) {
                     Math_Vec3f_Copy(&sGetItemRefPos, &this->leftHandPos);
                 } else {
-                    sGetItemRefPos.x = (this->bodyPartsPos[15].x + this->leftHandPos.x) * 0.5f;
-                    sGetItemRefPos.y = (this->bodyPartsPos[15].y + this->leftHandPos.y) * 0.5f;
-                    sGetItemRefPos.z = (this->bodyPartsPos[15].z + this->leftHandPos.z) * 0.5f;
+                    sGetItemRefPos.x = (this->bodyPartsPos[PLAYER_BODYPART_R_HAND].x + this->leftHandPos.x) * 0.5f;
+                    sGetItemRefPos.y = (this->bodyPartsPos[PLAYER_BODYPART_R_HAND].y + this->leftHandPos.y) * 0.5f;
+                    sGetItemRefPos.z = (this->bodyPartsPos[PLAYER_BODYPART_R_HAND].z + this->leftHandPos.z) * 0.5f;
                 }
 
                 if (this->unk_862 == 0) {
