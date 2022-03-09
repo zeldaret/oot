@@ -389,7 +389,7 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
     BossTwEffect* eff;
     Player* player = GET_PLAYER(globalCtx);
 
-    sShieldHitPos = player->bodyPartsPos[15];
+    sShieldHitPos = player->bodyPartsPos[PLAYER_BODYPART_R_HAND];
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
@@ -419,7 +419,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     BossTwEffect* eff;
     Player* player = GET_PLAYER(globalCtx);
 
-    sShieldHitPos = player->bodyPartsPos[15];
+    sShieldHitPos = player->bodyPartsPos[PLAYER_BODYPART_R_HAND];
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
@@ -811,7 +811,7 @@ s32 BossTw_BeamHitPlayerCheck(BossTw* this, GlobalContext* globalCtx) {
                     sFreezeState = 1;
                 }
             } else if (!player->isBurning) {
-                for (i = 0; i < ARRAY_COUNT(player->flameTimers); i++) {
+                for (i = 0; i < PLAYER_BODYPART_MAX; i++) {
                     player->flameTimers[i] = Rand_S16Offset(0, 200);
                 }
 
@@ -981,9 +981,9 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         if ((player->stateFlags1 & PLAYER_STATE1_22) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) < 0x2000) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) > -0x2000)) {
-            Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[15].x, 1.0f, 400.0f);
-            Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[15].y, 1.0f, 400.0f);
-            Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[15].z, 1.0f, 400.0f);
+            Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x, 1.0f, 400.0f);
+            Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y, 1.0f, 400.0f);
+            Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z, 1.0f, 400.0f);
         } else {
             Math_ApproachF(&this->targetPos.x, player->actor.world.pos.x, 1.0f, 400.0f);
             Math_ApproachF(&this->targetPos.y, player->actor.world.pos.y + 30.0f, 1.0f, 400.0f);
@@ -1101,7 +1101,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                             velocity.x = Rand_CenteredFloat(15.0f);
                             velocity.y = Rand_CenteredFloat(15.0f);
                             velocity.z = Rand_CenteredFloat(15.0f);
-                            pos = player->bodyPartsPos[15];
+                            pos = player->bodyPartsPos[PLAYER_BODYPART_R_HAND];
                             BossTw_AddDotEffect(globalCtx, &pos, &velocity, &accel, (s16)Rand_ZeroFloat(2.0f) + 5,
                                                 this->actor.params, 150);
                         }
@@ -1146,12 +1146,12 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
                     this->beamDist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
                     Math_ApproachF(&this->beamReflectionDist, 2000.0f, 1.0f, 40.0f);
-                    Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[15].x, 1.0f, 400.0f);
-                    Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[15].y, 1.0f, 400.0f);
-                    Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[15].z, 1.0f, 400.0f);
+                    Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x, 1.0f, 400.0f);
+                    Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y, 1.0f, 400.0f);
+                    Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z, 1.0f, 400.0f);
                     if ((this->work[CS_TIMER_1] % 4) == 0) {
-                        BossTw_AddRingEffect(globalCtx, &player->bodyPartsPos[15], 0.5f, 3.0f, 0xFF, this->actor.params,
-                                             1, 150);
+                        BossTw_AddRingEffect(globalCtx, &player->bodyPartsPos[PLAYER_BODYPART_R_HAND], 0.5f, 3.0f, 0xFF,
+                                             this->actor.params, 1, 150);
                     }
                 } else {
                     this->beamShootState = 0;
@@ -3948,7 +3948,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                         Vec3s blastDir;
                         s16 alpha;
 
-                        this->actor.world.pos = player2->bodyPartsPos[15];
+                        this->actor.world.pos = player2->bodyPartsPos[PLAYER_BODYPART_R_HAND];
                         this->actor.world.pos.y = -2000.0f;
                         Matrix_MtxFToYXZRotS(&player2->shieldMf, &blastDir, 0);
                         blastDir.x = -blastDir.x;
@@ -3974,8 +3974,8 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                             alpha = this->timers[0] * 10;
                             alpha = CLAMP_MAX(alpha, 255);
 
-                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[15], &velocity, &sZeroVector,
-                                                        10.0f, 80.0f, alpha, 1);
+                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[PLAYER_BODYPART_R_HAND],
+                                                        &velocity, &sZeroVector, 10.0f, 80.0f, alpha, 1);
                         }
 
                         if (this->timers[0] == 1) {
@@ -4138,7 +4138,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                         Vec3s reflDir;
                         s16 alpha;
 
-                        this->actor.world.pos = player2->bodyPartsPos[15];
+                        this->actor.world.pos = player2->bodyPartsPos[PLAYER_BODYPART_R_HAND];
                         this->actor.world.pos.y = -2000.0f;
                         Matrix_MtxFToYXZRotS(&player2->shieldMf, &reflDir, 0);
                         reflDir.x = -reflDir.x;
@@ -4164,8 +4164,8 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                             alpha = this->timers[0] * 10;
                             alpha = CLAMP_MAX(alpha, 255);
 
-                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[15], &velocity, &sZeroVector,
-                                                        10.0f, 80.0f, alpha, 0);
+                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[PLAYER_BODYPART_R_HAND],
+                                                        &velocity, &sZeroVector, 10.0f, 80.0f, alpha, 0);
                         }
 
                         if (this->timers[0] == 1) {
@@ -4837,7 +4837,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                     }
 
                     if ((eff->workf[EFF_DIST] > 0.4f) && ((eff->frame & 7) == 0)) {
-                        spA6 = Rand_ZeroFloat(17.9f);
+                        spA6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
 
                         if (eff->target == NULL) {
                             spC0.x = player->bodyPartsPos[spA6].x + Rand_CenteredFloat(5.0f);

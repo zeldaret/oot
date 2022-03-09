@@ -4158,9 +4158,9 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
 }
 
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
-    f32 sp44;
-    f32 sp40;
-    f32 sp3C;
+    f32 floorPolyNormalX;
+    f32 floorPolyNormalY;
+    f32 floorPolyNormalZ;
     f32 sp38;
     f32 sp34;
     f32 sp30;
@@ -4172,19 +4172,19 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
 
     if (actor->floorPoly != NULL) {
         floorPoly = actor->floorPoly;
-        sp44 = COLPOLY_GET_NORMAL(floorPoly->normal.x);
-        sp40 = COLPOLY_GET_NORMAL(floorPoly->normal.y);
-        sp3C = COLPOLY_GET_NORMAL(floorPoly->normal.z);
+        floorPolyNormalX = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+        floorPolyNormalY = COLPOLY_GET_NORMAL(floorPoly->normal.y);
+        floorPolyNormalZ = COLPOLY_GET_NORMAL(floorPoly->normal.z);
 
         sp38 = Math_SinS(arg1);
         sp34 = Math_CosS(arg1);
-        sp28 = (-(sp44 * sp38) - (sp3C * sp34));
-        arg2->x = -(s16)(Math_FAtan2F(sp28 * sp40, 1.0f) * (32768 / M_PI));
+        sp28 = (-(floorPolyNormalX * sp38) - (floorPolyNormalZ * sp34));
+        arg2->x = -(s16)(Math_FAtan2F(sp28 * floorPolyNormalY, 1.0f) * (32768 / M_PI));
 
         sp2C = Math_SinS(arg1 - 16375);
         sp30 = Math_CosS(arg1 - 16375);
-        sp24 = (-(sp44 * sp2C) - (sp3C * sp30));
-        arg2->z = -(s16)(Math_FAtan2F(sp24 * sp40, 1.0f) * (32768 / M_PI));
+        sp24 = (-(floorPolyNormalX * sp2C) - (floorPolyNormalZ * sp30));
+        arg2->z = -(s16)(Math_FAtan2F(sp24 * floorPolyNormalY, 1.0f) * (32768 / M_PI));
     }
 }
 
