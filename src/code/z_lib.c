@@ -11,7 +11,6 @@
  *
  * There are two other memsets in this codebase,
  * @sa __osMemset(), MemSet()
- * This one is used in z_actor and certain actors.
  *
  * @param[in,out] dest address to start at
  * @param[in] len number of bytes to write

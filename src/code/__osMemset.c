@@ -5,7 +5,6 @@
  *
  * There are two other memsets in this codebase,
  * @sa Lib_MemSet(), MemSet()
- * This one is used in __osMalloc, z_quake, z_view, and z_camera
  *
  * @param[in,out] dest address to start at
  * @param[in] val value to write (s32, but interpreted as u8)

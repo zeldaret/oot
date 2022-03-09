@@ -8,7 +8,7 @@
  *
  * @param[in,out] dest address of start of buffer writing to
  * @param[in] src address of start of buffer to read from
- * @param[in] len number of bytes to copy. Has to be s32: it is not possible to copy more than 2 GB of RAM at once.
+ * @param[in] len number of bytes to copy. (s32 rather than the standard size_t)
  *
  * @return dest
  */
@@ -33,7 +33,7 @@ void* MemCpy(void* dest, const void* src, s32 len) {
  *
  * @param[in,out] dest address to start at
  * @param[in] val value to write (s32, but interpreted as u8)
- * @param[in] len number of bytes to write. Has to be s32: it is not possible to set more than 2 GB of RAM at once.
+ * @param[in] len number of bytes to write. (s32 rather than the standard size_t)
  *
  * @return dest
  */
