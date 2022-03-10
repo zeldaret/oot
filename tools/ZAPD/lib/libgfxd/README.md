@@ -195,7 +195,7 @@ and `height`, and the palette index in `pal`.
 
 ##### `typedef int gfxd_cimg_fn_t(uint32_t cimg, int32_t fmt, int32_t siz, int32_t width)`
 ##### `void gfxd_cimg_callback(gfxd_cimg_fn_t *fn)`
-Set the callback function for framebuffer arguments. The argument type is
+Set the callback function for frame buffer arguments. The argument type is
 `gfxd_Cimg`. The image format is in `fmt` and `siz`, and the horizontal
 resolution in `width`.
 
