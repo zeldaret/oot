@@ -1643,6 +1643,6 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, 
     }
 
     func_80091A24(globalCtx, segment + 0x3800, segment + 0x8800, skelAnime, pos, rot, scale, sword, tunic, shield,
-                  boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFrameBuffer,
-                  globalCtx->state.gfxCtx->curFrameBuffer + 0x1C00);
+                  boots, 64, 112, &eye, &at, 60.0f, globalCtx->state.gfxCtx->curFramebuffer,
+                  globalCtx->state.gfxCtx->curFramebuffer + 0x1C00);
 }

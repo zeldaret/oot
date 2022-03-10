@@ -2286,7 +2286,7 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
     gDPPipeSync(POLY_XLU_DISP++);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors == 0) {
-        // Update both the color frame buffer and the z-buffer
+        // Update both the color framebuffer and the z-buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -2297,7 +2297,7 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
 
         // the z-buffer will later only allow drawing inside the lens circle
     } else {
-        // Update the z-buffer but not the color frame buffer
+        // Update the z-buffer but not the color framebuffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                             G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
@@ -2335,7 +2335,7 @@ void Actor_DrawLensActors(GlobalContext* globalCtx, s32 numInvisibleActors, Acto
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
     if (globalCtx->roomCtx.curRoom.showInvisActors != 0) {
-        // Draw the lens overlay to the color frame buffer
+        // Draw the lens overlay to the color framebuffer
 
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
 

@@ -94,7 +94,7 @@ void Graph_InitTHGA(GraphicsContext* gfxCtx) {
     gfxCtx->overlayBuffer = pool->overlayBuffer;
     gfxCtx->workBuffer = pool->workBuffer;
 
-    gfxCtx->curFrameBuffer = (u16*)SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
+    gfxCtx->curFramebuffer = (u16*)SysCfb_GetFbPtr(gfxCtx->fbIdx % 2);
     gfxCtx->unk_014 = 0;
 }
 
@@ -231,8 +231,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     scTask->msg = NULL;
 
     cfb = &sGraphCfbInfos[sGraphCfbInfoIdx++];
-    cfb->fb1 = gfxCtx->curFrameBuffer;
-    cfb->swapBuffer = gfxCtx->curFrameBuffer;
+    cfb->fb1 = gfxCtx->curFramebuffer;
+    cfb->swapBuffer = gfxCtx->curFramebuffer;
     cfb->viMode = gfxCtx->viMode;
     cfb->features = gfxCtx->viFeatures;
     cfb->xScale = gfxCtx->xScale;

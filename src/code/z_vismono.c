@@ -1,10 +1,10 @@
 /**
- * Color frame buffer effect to desaturate the colors.
+ * Color framebuffer effect to desaturate the colors.
  */
 
 #include "global.h"
 
-// Height of the fragments the color frame buffer (CFB) is split into.
+// Height of the fragments the color framebuffer (CFB) is split into.
 // It is the maximum amount of lines such that all rgba16 SCREEN_WIDTH-long lines fit into
 // the half of tmem (0x800 bytes) dedicated to color-indexed data.
 #define VISMONO_CFBFRAG_HEIGHT (0x800 / (SCREEN_WIDTH * G_IM_SIZ_16b_BYTES))
@@ -47,7 +47,7 @@ void VisMono_DesaturateTLUT(VisMono* this, u16* tlut) {
 
     for (i = 0; i < 256; i++) {
         // `tlut[i]` is a IA16 color
-        // `i` corresponds to either byte of a RGBA16 color RRRR_RGGG GGBB_BBBA from the color frame buffer
+        // `i` corresponds to either byte of a RGBA16 color RRRR_RGGG GGBB_BBBA from the color framebuffer
 
         // The high byte I (intensity) corresponds to `i` being interpreted as the high byte RRRR_RGGG
         // I = (RRRRR * FAC_RED + GGG00 * FAC_GREEN) * (255 / FAC_NORM)
@@ -81,7 +81,7 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
                       0, 0, PRIMITIVE);
 
     for (y = 0; y <= SCREEN_HEIGHT - height; y += height) {
-        // Load a few lines of the color frame buffer
+        // Load a few lines of the color framebuffer
         gDPLoadTextureBlock(gfx++, cfbFrag, G_IM_FMT_CI, G_IM_SIZ_8b, SCREEN_WIDTH * 2, height, 0,
                             G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                             G_TX_NOLOD, G_TX_NOLOD);
@@ -107,14 +107,14 @@ Gfx* VisMono_DesaturateDList(VisMono* this, Gfx* gfx) {
         // a pixel at S coordinates s = 2+2*n will look at the 2*n-th byte of texel 0 and the 2*n+1-th byte of texel 1.
         // (in "s = 2+2*n" the first "2" is the starting S coordinate and the second "2" is the dsdx value)
 
-        // The 2*n-th byte of texel 0 is the high byte of the n-th RGBA16 color of the color frame buffer.
-        // The 2*n+1-th byte of texel 1 is the low byte of the n-th RGBA16 color of the color frame buffer.
+        // The 2*n-th byte of texel 0 is the high byte of the n-th RGBA16 color of the color framebuffer.
+        // The 2*n+1-th byte of texel 1 is the low byte of the n-th RGBA16 color of the color framebuffer.
 
         // With the TLUT computed by `VisMono_DesaturateTLUT`:
         // The 2*n-th byte of texel 0 maps to a IA16 color where the high byte I (intensity) corresponds to
-        // the high byte of the n-th RGBA16 color of the color frame buffer.
+        // the high byte of the n-th RGBA16 color of the color framebuffer.
         // The 2*n+1-th byte of texel 1 maps to a IA16 color where the low byte A (alpha) corresponds to
-        // the low byte of the n-th RGBA16 color of the color frame buffer.
+        // the low byte of the n-th RGBA16 color of the color framebuffer.
 
         // Since the combiner is in part set up to sum texel 0 color (I, intensity) with texel 1 alpha (A, alpha),
         // the resulting color in the drawn rectangle is a desaturated color as defined by the `VISMONO_FAC_*` values.

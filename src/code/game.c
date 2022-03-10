@@ -194,17 +194,17 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
     }
 }
 
-void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
+void GameState_SetFramebuffer(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../game.c", 814);
 
     gSPSegment(POLY_OPA_DISP++, 0, 0);
-    gSPSegment(POLY_OPA_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_OPA_DISP++, 0xF, gfxCtx->curFramebuffer);
     gSPSegment(POLY_OPA_DISP++, 0xE, gZBuffer);
     gSPSegment(POLY_XLU_DISP++, 0, 0);
-    gSPSegment(POLY_XLU_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_XLU_DISP++, 0xF, gfxCtx->curFramebuffer);
     gSPSegment(POLY_XLU_DISP++, 0xE, gZBuffer);
     gSPSegment(OVERLAY_DISP++, 0, 0);
-    gSPSegment(OVERLAY_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(OVERLAY_DISP++, 0xF, gfxCtx->curFramebuffer);
     gSPSegment(OVERLAY_DISP++, 0xE, gZBuffer);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 838);
@@ -237,7 +237,7 @@ void GameState_ReqPadData(GameState* gameState) {
 void GameState_Update(GameState* gameState) {
     GraphicsContext* gfxCtx = gameState->gfxCtx;
 
-    GameState_SetFrameBuffer(gfxCtx);
+    GameState_SetFramebuffer(gfxCtx);
 
     gameState->main(gameState);
 

@@ -56,7 +56,7 @@ void Fault_RemoveAddrConvClient(FaultAddrConvClient* client);
 
 void Fault_WaitForInput(void);
 void Fault_FillScreenBlack(void);
-void Fault_SetFrameBuffer(void* fb, u16 w, u16 h);
+void Fault_SetFramebuffer(void* fb, u16 w, u16 h);
 
 void FaultDrawer_SetForeColor(u16 color);
 void FaultDrawer_SetBackColor(u16 color);

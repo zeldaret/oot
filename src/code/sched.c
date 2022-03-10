@@ -13,7 +13,7 @@ OSTime sRSPAudioStartTime;
 OSTime sRSPOtherStartTime;
 OSTime sRDPStartTime;
 
-void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
+void Sched_SwapFramebuffer(CfbInfo* cfbInfo) {
     u16 width;
 
     LogUtils_CheckValidPointer("cfbinfo->swapbuffer", cfbInfo->swapBuffer, "../sched.c", 340);
@@ -26,7 +26,7 @@ void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
                          (cfbInfo != NULL ? cfbInfo->swapBuffer : NULL));
         }
         width = cfbInfo->viMode != NULL ? cfbInfo->viMode->comRegs.width : (u32)gScreenWidth;
-        Fault_SetFrameBuffer(cfbInfo->swapBuffer, width, 0x10);
+        Fault_SetFramebuffer(cfbInfo->swapBuffer, width, 0x10);
 
         if (HREG(80) == 0xD && HREG(95) != 0xD) {
             HREG(81) = 0;
@@ -64,7 +64,7 @@ void func_800C84E4(SchedContext* sc, CfbInfo* cfbInfo) {
         }
     }
 
-    Sched_SwapFrameBuffer(cfbInfo);
+    Sched_SwapFramebuffer(cfbInfo);
 }
 
 void Sched_HandleReset(SchedContext* sc) {

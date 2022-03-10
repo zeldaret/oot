@@ -1145,7 +1145,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
             POLY_OPA_DISP = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
         } else {
-            PreRender_SetValues(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer,
+            PreRender_SetValues(&globalCtx->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFramebuffer,
                                 gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
@@ -1280,11 +1280,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = OVERLAY_DISP;
 
-                    globalCtx->pauseBgPreRender.fbuf = gfxCtx->curFrameBuffer;
+                    globalCtx->pauseBgPreRender.fbuf = gfxCtx->curFramebuffer;
                     globalCtx->pauseBgPreRender.fbufSave = (u16*)gZBuffer;
                     func_800C1F20(&globalCtx->pauseBgPreRender, &sp70);
                     if (R_PAUSE_MENU_MODE == 1) {
-                        globalCtx->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFrameBuffer;
+                        globalCtx->pauseBgPreRender.cvgSave = (u8*)gfxCtx->curFramebuffer;
                         func_800C20B4(&globalCtx->pauseBgPreRender, &sp70);
                         R_PAUSE_MENU_MODE = 2;
                     } else {

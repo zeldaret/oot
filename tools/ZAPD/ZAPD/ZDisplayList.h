@@ -163,7 +163,7 @@ enum class OoTSegments
 	IconFieldDungeonStatic = 13,
 	IconItemLanguageStatic = 14,
 	ZBuffer = 15,
-	FrameBuffer = 16,
+	Framebuffer = 16,
 };
 
 #define G_MDSFT_ALPHACOMPARE 0

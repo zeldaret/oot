@@ -235,7 +235,7 @@ void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
     Gfx* gfxRef;
     void* fbuf;
 
-    fbuf = globalCtx->state.gfxCtx->curFrameBuffer;
+    fbuf = globalCtx->state.gfxCtx->curFramebuffer;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_scope_PAL.c", 496);
 

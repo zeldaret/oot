@@ -144,7 +144,7 @@ typedef struct GraphicsContext {
     /* 0x02B8 */ TwoHeadGfxArena polyOpa; // "Zelda 0"
     /* 0x02C8 */ TwoHeadGfxArena polyXlu; // "Zelda 1"
     /* 0x02D8 */ u32 gfxPoolIdx;
-    /* 0x02DC */ u16* curFrameBuffer;
+    /* 0x02DC */ u16* curFramebuffer;
     /* 0x02E0 */ char unk_2E0[0x04];
     /* 0x02E4 */ u32 viFeatures;
     /* 0x02E8 */ s32 fbIdx;
@@ -1556,7 +1556,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ u16*   curBuffer;
     /* 0x0004 */ u16*   nextBuffer;
-} FrameBufferSwap;
+} FramebufferSwap;
 
 typedef struct {
     /* 0x0000 */ OSMesgQueue  interruptQ;

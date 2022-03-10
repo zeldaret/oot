@@ -1099,7 +1099,7 @@ void Fault_ResumeThread(OSThread* thread) {
     osStartThread(thread);
 }
 
-void Fault_DisplayFrameBuffer(void) {
+void Fault_DisplayFramebuffer(void) {
     void* fb;
 
     osViSetYScale(1.0f);
@@ -1137,7 +1137,7 @@ void Fault_ProcessClients(void) {
             FaultDrawer_SetCharPad(0, 0);
             Fault_ProcessClient(client->callback, client->arg0, client->arg1);
             Fault_WaitForInput();
-            Fault_DisplayFrameBuffer();
+            Fault_DisplayFramebuffer();
         }
         client = client->next;
     }
@@ -1199,7 +1199,7 @@ void Fault_ThreadEntry(void* arg) {
         Fault_Sleep(1000 / 2);
 
         // Show fault framebuffer
-        Fault_DisplayFrameBuffer();
+        Fault_DisplayFramebuffer();
 
         if (sFaultInstance->autoScroll) {
             Fault_Wait5Seconds();
@@ -1245,7 +1245,7 @@ void Fault_ThreadEntry(void* arg) {
     }
 }
 
-void Fault_SetFrameBuffer(void* fb, u16 w, u16 h) {
+void Fault_SetFramebuffer(void* fb, u16 w, u16 h) {
     sFaultInstance->fb = fb;
     FaultDrawer_SetDrawerFB(fb, w, h);
 }

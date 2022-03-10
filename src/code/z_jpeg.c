@@ -68,8 +68,8 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
 /**
  * Copies a 16x16 block of decoded image data to the Z-buffer.
  */
-void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
-    u16* dst = zbuffer + (((y * SCREEN_WIDTH) + x) * 16);
+void Jpeg_CopyToZBuffer(u16* src, u16* zBuffer, s32 x, s32 y) {
+    u16* dst = zBuffer + (((y * SCREEN_WIDTH) + x) * 16);
     s32 i;
 
     for (i = 0; i < 16; i++) {
@@ -229,7 +229,7 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
     }
 }
 
-s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
+s32 Jpeg_Decode(void* data, void* zBuffer, void* work, u32 workSize) {
     s32 y;
     s32 x;
     u32 j;
@@ -342,7 +342,7 @@ s32 Jpeg_Decode(void* data, void* zbuffer, void* work, u32 workSize) {
             osInvalDCache(&workBuff->data, sizeof(workBuff->data[0]));
 
             for (j = 0; j < ARRAY_COUNT(workBuff->data); j++) {
-                Jpeg_CopyToZbuffer(workBuff->data[j], zbuffer, x, y);
+                Jpeg_CopyToZBuffer(workBuff->data[j], zBuffer, x, y);
                 x++;
 
                 if (x >= 20) {
