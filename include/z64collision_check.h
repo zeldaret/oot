@@ -252,7 +252,7 @@ typedef enum {
     /* 1 */ COLSHAPE_CYLINDER,
     /* 2 */ COLSHAPE_TRIS,
     /* 3 */ COLSHAPE_QUAD,
-    /* 4 */ COLSHAPE_INVALID
+    /* 4 */ COLSHAPE_MAX
 } ColliderShape;
 
 /**
