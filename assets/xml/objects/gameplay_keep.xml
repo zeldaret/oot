@@ -925,8 +925,8 @@
         <Texture Name="gDoorMetalBarsTex" OutName="door_metal_bars" Format="ia8" Width="32" Height="128" Offset="0x4A090"/>
         <DList Name="gDoorMetalBarsDL" Offset="0x4B0D0"/>
         <Texture Name="gGenericDungeonDoorTex" OutName="generic_dungeon_door" Format="rgba16" Width="32" Height="64" Offset="0x4B160"/>
-        <Texture Name="gSunTex" OutName="sun" Format="i4" Width="64" Height="64" Offset="0x4C160"/>
-        <Texture Name="gSunEveningTex" OutName="sun_evening" Format="i4" Width="64" Height="64" Offset="0x4C960"/>
+        <Texture Name="gSunTex" OutName="sun" Format="i8" Width="64" Height="64" Offset="0x4C160"/>
+        <Texture Name="gSunEveningTex" OutName="sun_evening" Format="i8" Width="64" Height="64" Offset="0x4C960"/>
         <DList Name="gKokiriDustMoteTextureLoadDL" Offset="0x4D160"/>
         <DList Name="gKokiriDustMoteDL" Offset="0x4D1A8"/>
         <DList Name="gSunDL" Offset="0x4D1C0"/>
