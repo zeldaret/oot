@@ -30,6 +30,21 @@ void EnRd_Dead(EnRd* this, GlobalContext* globalCtx);
 void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx);
 
 typedef enum {
+    /*  0 */ EN_RD_ACTION_IDLE,
+    /*  1 */ EN_RD_ACTION_STUNNED,
+    /*  2 */ EN_RD_ACTION_WALKING_TO_HOME,
+    /*  3 */ EN_RD_ACTION_WALKING_TO_PARENT,
+    /*  4 */ EN_RD_ACTION_WALKING_TO_PLAYER_OR_RELEASING_GRAB,
+    /*  5 */ EN_RD_ACTION_STANDING_UP,
+    /*  6 */ EN_RD_ACTION_CROUCHING,
+    /*  7 */ EN_RD_ACTION_ATTEMPTING_PLAYER_STUN,
+    /*  8 */ EN_RD_ACTION_GRABBING,
+    /*  9 */ EN_RD_ACTION_DAMAGE,
+    /* 10 */ EN_RD_ACTION_DEAD,
+    /* 11 */ EN_RD_ACTION_RISING_FROM_COFFIN
+} EnRdAction;
+
+typedef enum {
     /* 0 */ EN_RD_GRAB_START,
     /* 1 */ EN_RD_GRAB_INITIAL_DAMAGE,
     /* 2 */ EN_RD_GRAB_ATTACK,
@@ -206,7 +221,8 @@ void EnRd_UpdateParentForOtherRedeads(GlobalContext* globalCtx, Actor* thisx, s3
     Actor* enemyIt = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].head;
 
     while (enemyIt != NULL) {
-        if ((enemyIt->id != ACTOR_EN_RD) || (enemyIt == thisx) || (enemyIt->params < EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING)) {
+        if ((enemyIt->id != ACTOR_EN_RD) || (enemyIt == thisx) ||
+            (enemyIt->params < EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING)) {
             enemyIt = enemyIt->next;
             continue;
         }
@@ -227,7 +243,7 @@ void EnRd_SetupIdle(EnRd* this) {
         Animation_PlayLoop(&this->skelAnime, &gGibdoRedeadSobbingAnim);
     }
 
-    this->action = 0;
+    this->action = EN_RD_ACTION_IDLE;
     this->animationJudderTimer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -290,7 +306,7 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_SetupRiseFromCoffin(EnRd* this) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadIdleAnim, 0, 0, Animation_GetLastFrame(&gGibdoRedeadIdleAnim),
                      ANIMMODE_LOOP, -6.0f);
-    this->action = 11;
+    this->action = EN_RD_ACTION_RISING_FROM_COFFIN;
     this->coffinRiseForwardAccelTimer = 6;
     this->actor.shape.rot.x = -0x4000;
     this->actor.gravity = 0.0f;
@@ -325,7 +341,7 @@ void EnRd_SetupWalkToPlayer(EnRd* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadWalkAnim, 1.0f, 4.0f, Animation_GetLastFrame(&gGibdoRedeadWalkAnim),
                      ANIMMODE_LOOP_INTERP, -4.0f);
     this->actor.speedXZ = 0.4f;
-    this->action = 4;
+    this->action = EN_RD_ACTION_WALKING_TO_PLAYER_OR_RELEASING_GRAB;
     EnRd_SetupAction(this, EnRd_WalkToPlayer);
 }
 
@@ -396,7 +412,7 @@ void EnRd_WalkToPlayer(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_SetupWalkToHome(EnRd* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadWalkAnim, 0.5f, 0, Animation_GetLastFrame(&gGibdoRedeadWalkAnim),
                      ANIMMODE_LOOP_INTERP, -4.0f);
-    this->action = 2;
+    this->action = EN_RD_ACTION_WALKING_TO_HOME;
     EnRd_SetupAction(this, EnRd_WalkToHome);
 }
 
@@ -447,7 +463,7 @@ void EnRd_WalkToHome(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_SetupWalkToParent(EnRd* this) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadWalkAnim, 0.5f, 0, Animation_GetLastFrame(&gGibdoRedeadWalkAnim),
                      ANIMMODE_LOOP_INTERP, -4.0f);
-    this->action = 3;
+    this->action = EN_RD_ACTION_WALKING_TO_PARENT;
     this->isMourning = true;
     EnRd_SetupAction(this, EnRd_WalkToParent);
 }
@@ -500,7 +516,7 @@ void EnRd_SetupGrab(EnRd* this) {
     Animation_PlayOnce(&this->skelAnime, &gGibdoRedeadGrabStartAnim);
     this->animationJudderTimer = this->grabState = 0;
     this->grabDamageTimer = 200;
-    this->action = 8;
+    this->action = EN_RD_ACTION_GRABBING;
     this->actor.speedXZ = 0.0f;
     EnRd_SetupAction(this, EnRd_Grab);
 }
@@ -530,7 +546,7 @@ void EnRd_Grab(EnRd* this, GlobalContext* globalCtx) {
                 Animation_Change(&this->skelAnime, &gGibdoRedeadGrabEndAnim, 0.5f, 0.0f,
                                  Animation_GetLastFrame(&gGibdoRedeadGrabEndAnim), ANIMMODE_ONCE_INTERP, 0.0f);
                 this->grabState++;
-                this->action = 4;
+                this->action = EN_RD_ACTION_WALKING_TO_PLAYER_OR_RELEASING_GRAB;
                 return;
             }
 
@@ -582,7 +598,7 @@ void EnRd_Grab(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_SetupAttemptPlayerFreeze(EnRd* this) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadLookBackAnim, 0.0f, 0.0f,
                      Animation_GetLastFrame(&gGibdoRedeadLookBackAnim), ANIMMODE_ONCE, 0.0f);
-    this->action = 7;
+    this->action = EN_RD_ACTION_ATTEMPTING_PLAYER_STUN;
     EnRd_SetupAction(this, EnRd_AttemptPlayerFreeze);
 }
 
@@ -607,7 +623,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, GlobalContext* globalCtx) {
 
 void EnRd_SetupStandUp(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGibdoRedeadStandUpAnim, -4.0f);
-    this->action = 5;
+    this->action = EN_RD_ACTION_STANDING_UP;
     EnRd_SetupAction(this, EnRd_StandUp);
 }
 
@@ -624,7 +640,7 @@ void EnRd_StandUp(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_SetupCrouch(EnRd* this) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadStandUpAnim, -1.0f,
                      Animation_GetLastFrame(&gGibdoRedeadStandUpAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
-    this->action = 6;
+    this->action = EN_RD_ACTION_CROUCHING;
     EnRd_SetupAction(this, EnRd_Crouch);
 }
 
@@ -643,7 +659,7 @@ void EnRd_SetupDamage(EnRd* this) {
 
     this->actor.flags |= ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
-    this->action = 9;
+    this->action = EN_RD_ACTION_DAMAGE;
     EnRd_SetupAction(this, EnRd_Damage);
 }
 
@@ -674,7 +690,7 @@ void EnRd_Damage(EnRd* this, GlobalContext* globalCtx) {
 
 void EnRd_SetupDead(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGibdoRedeadDeathAnim, -1.0f);
-    this->action = 10;
+    this->action = EN_RD_ACTION_DEAD;
     this->deathTimer = 300;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
@@ -713,7 +729,7 @@ void EnRd_Dead(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void EnRd_SetupStunned(EnRd* this) {
-    this->action = 1;
+    this->action = EN_RD_ACTION_STUNNED;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
@@ -781,7 +797,8 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) &&
-        (!this->stunnedBySunsSong) && (this->action != 9) && (this->action != 10) && (this->action != 1)) {
+        (!this->stunnedBySunsSong) && (this->action != EN_RD_ACTION_DAMAGE) && (this->action != EN_RD_ACTION_DEAD) &&
+        (this->action != EN_RD_ACTION_STUNNED)) {
         EnRd_SetupStunned(this);
         return;
     }
@@ -790,7 +807,7 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->damageEffect = this->actor.colChkInfo.damageEffect;
 
-        if (this->action != 11) {
+        if (this->action != EN_RD_ACTION_RISING_FROM_COFFIN) {
             Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
@@ -798,7 +815,7 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
 
             if ((this->damageEffect != EN_RD_DMGEFF_NONE) && (this->damageEffect != EN_RD_DMGEFF_ICE)) {
                 if (((this->damageEffect == EN_RD_DMGEFF_STUN) || (this->damageEffect == EN_RD_DMGEFF_LIGHT)) &&
-                    (this->action != 1)) {
+                    (this->action != EN_RD_ACTION_STUNNED)) {
                     Actor_ApplyDamage(&this->actor);
                     EnRd_SetupStunned(this);
                     return;
@@ -839,23 +856,25 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
-    if (this->damageEffect != EN_RD_DMGEFF_ICE && ((this->action != 11) || (this->damageEffect != EN_RD_DMGEFF_FIRE))) {
+    if (this->damageEffect != EN_RD_DMGEFF_ICE &&
+        ((this->action != EN_RD_ACTION_RISING_FROM_COFFIN) || (this->damageEffect != EN_RD_DMGEFF_FIRE))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }
 
         this->actionFunc(this, globalCtx);
-        if (this->action != 8 && this->actor.speedXZ != 0.0f) {
+        if (this->action != EN_RD_ACTION_GRABBING && this->actor.speedXZ != 0.0f) {
             Actor_MoveForward(&this->actor);
         }
 
-        if ((this->actor.shape.rot.x == 0) && (this->action != 8) && (this->actor.speedXZ != 0.0f)) {
+        if ((this->actor.shape.rot.x == 0) && (this->action != EN_RD_ACTION_GRABBING) &&
+            (this->actor.speedXZ != 0.0f)) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f,
                                     UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                         UPDBGCHECKINFO_FLAG_4);
         }
 
-        if (this->action == 7) {
+        if (this->action == EN_RD_ACTION_ATTEMPTING_PLAYER_STUN) {
             EnRd_TurnTowardsPlayer(this, globalCtx);
         }
     }
@@ -863,10 +882,10 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 50.0f;
 
-    if ((this->actor.colChkInfo.health > 0) && (this->action != 8)) {
+    if ((this->actor.colChkInfo.health > 0) && (this->action != EN_RD_ACTION_GRABBING)) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        if ((this->action != 9) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
+        if ((this->action != EN_RD_ACTION_DAMAGE) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
