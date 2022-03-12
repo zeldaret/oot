@@ -1998,7 +1998,7 @@ void CollisionCheck_AC_JntSphVsQuad(GlobalContext* globalCtx, CollisionCheckCont
             if (CollisionCheck_NoSharedFlags(&atItem->info, &ac->info) == 1) {
                 continue;
             }
-            if (Math3D_TriVsSphIntersect(&atItem->dim.worldSphere, &tri1, &hitPos) == 1 ||
+            if (Math3D_TriVsSphIntersect(&atItem->dim.worldSphere, &tri1, &hitPos) == true ||
                 Math3D_TriVsSphIntersect(&atItem->dim.worldSphere, &tri2, &hitPos) == 1) {
                 Vec3f atPos;
                 Vec3f acPos;
@@ -2205,7 +2205,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
         }
         Math3D_TriNorm(&tri1, &ac->dim.quad[2], &ac->dim.quad[3], &ac->dim.quad[1]);
         Math3D_TriNorm(&tri2, &ac->dim.quad[1], &ac->dim.quad[0], &ac->dim.quad[2]);
-        if (Math3D_CylTriVsIntersect(&at->dim, &tri1, &intersection) == 1) {
+        if (Math3D_CylTriVsIntersect(&at->dim, &tri1, &intersection) == true) {
             Vec3f atPos1;
             Vec3f acPos1;
 
@@ -2359,7 +2359,7 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
             if (CollisionCheck_NoSharedFlags(&atItem->info, &ac->info) == 1) {
                 continue;
             }
-            if (Math3D_TriVsTriIntersect(&tri1, &atItem->dim, &intersection) == 1 ||
+            if (Math3D_TriVsTriIntersect(&tri1, &atItem->dim, &intersection) == true ||
                 Math3D_TriVsTriIntersect(&tri2, &atItem->dim, &intersection) == 1) {
                 Vec3f atPos;
                 Vec3f acPos;
@@ -3098,7 +3098,7 @@ s32 CollisionCheck_LineOC_JntSph(GlobalContext* globalCtx, CollisionCheckContext
         }
         lineSeg.a = *a;
         lineSeg.b = *b;
-        if (Math3D_LineVsSph(&element->dim.worldSphere, &lineSeg) == 1) {
+        if (Math3D_LineVsSph(&element->dim.worldSphere, &lineSeg) == true) {
             return true;
         }
     }
