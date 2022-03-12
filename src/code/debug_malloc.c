@@ -69,9 +69,9 @@ void DebugArena_FreeDebug(void* ptr, const char* file, s32 line) {
     __osFreeDebug(&sDebugArena, ptr, file, line);
 }
 
-void* DebugArena_Calloc(u32 num, size_t size) {
+void* DebugArena_Calloc(size_t num, size_t size) {
     void* ret;
-    u32 n = num * size;
+    size_t n = num * size;
 
     ret = __osMalloc(&sDebugArena, n);
     if (ret != NULL) {
@@ -88,7 +88,7 @@ void DebugArena_Display(void) {
     __osDisplayArena(&sDebugArena);
 }
 
-void DebugArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc) {
+void DebugArena_GetSizes(size_t* outMaxFree, size_t* outFree, size_t* outAlloc) {
     ArenaImpl_GetSizes(&sDebugArena, outMaxFree, outFree, outAlloc);
 }
 

@@ -2876,12 +2876,12 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
                 (COLPOLY_VTX_INDEX(newPoly->flags_vIB) + *vtxStartIndex) | ((*newPoly).flags_vIB & 0xE000);
             newPoly->vIC = *vtxStartIndex + newPoly->vIC;
             dVtxList = dyna->vtxList;
-            vtxA.x = dVtxList[(uintptr_t)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].x;
-            vtxA.y = dVtxList[(uintptr_t)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].y;
-            vtxA.z = dVtxList[(uintptr_t)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].z;
-            vtxB.x = dVtxList[(uintptr_t)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].x;
-            vtxB.y = dVtxList[(uintptr_t)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].y;
-            vtxB.z = dVtxList[(uintptr_t)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].z;
+            vtxA.x = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].x;
+            vtxA.y = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].y;
+            vtxA.z = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIA)].z;
+            vtxB.x = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].x;
+            vtxB.y = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].y;
+            vtxB.z = dVtxList[(u32)COLPOLY_VTX_INDEX(newPoly->flags_vIB)].z;
             vtxC.x = dVtxList[newPoly->vIC].x;
             vtxC.y = dVtxList[newPoly->vIC].y;
             vtxC.z = dVtxList[newPoly->vIC].z;

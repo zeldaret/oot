@@ -68,9 +68,9 @@ void ZeldaArena_FreeDebug(void* ptr, const char* file, s32 line) {
     __osFreeDebug(&sZeldaArena, ptr, file, line);
 }
 
-void* ZeldaArena_Calloc(u32 num, size_t size) {
+void* ZeldaArena_Calloc(size_t num, size_t size) {
     void* ret;
-    u32 n = num * size;
+    size_t n = num * size;
 
     ret = __osMalloc(&sZeldaArena, n);
     if (ret != NULL) {
@@ -86,7 +86,7 @@ void ZeldaArena_Display() {
     __osDisplayArena(&sZeldaArena);
 }
 
-void ZeldaArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc) {
+void ZeldaArena_GetSizes(size_t* outMaxFree, size_t* outFree, size_t* outAlloc) {
     ArenaImpl_GetSizes(&sZeldaArena, outMaxFree, outFree, outAlloc);
 }
 

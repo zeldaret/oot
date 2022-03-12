@@ -384,7 +384,7 @@ typedef struct {
 
 typedef struct {
     s32 cmd : 8;
-    size_t size : 8;
+    unsigned int size : 8;
     u32 offset : 8;
     u32 index : 8;
     u32 data;

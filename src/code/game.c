@@ -61,7 +61,7 @@ void GameState_SetFBFilter(Gfx** gfx) {
 
 void func_800C4344(GameState* gameState) {
     Input* selectedInput;
-    s32 hexDumpSize;
+    size_t hexDumpSize;
     u16 hReg82;
 
     if (HREG(80) == 0x14) {
@@ -336,9 +336,9 @@ void GameState_InitArena(GameState* gameState, size_t size) {
 void GameState_Realloc(GameState* gameState, size_t size) {
     GameAlloc* alloc = &gameState->alloc;
     void* gameArena;
-    u32 systemMaxFree;
-    u32 systemFree;
-    u32 systemAlloc;
+    size_t systemMaxFree;
+    size_t systemFree;
+    size_t systemAlloc;
     void* thaBufp = gameState->tha.bufp;
 
     THA_Dt(&gameState->tha);
@@ -466,7 +466,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     if (THA_IsCrash(&gameState->tha)) {
         osSyncPrintf("ハイラルは滅亡している\n");
         ret = NULL;
-    } else if ((uintptr_t)THA_GetSize(&gameState->tha) < size) {
+    } else if ((size_t)THA_GetSize(&gameState->tha) < size) {
         // "Hyral on the verge of extinction does not have %d bytes left (%d bytes until extinction)"
         osSyncPrintf("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n", size,
                      THA_GetSize(&gameState->tha));

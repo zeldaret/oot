@@ -649,7 +649,7 @@ void* __osReallocDebug(Arena* arena, void* ptr, size_t newSize, const char* file
     return __osRealloc(arena, ptr, newSize);
 }
 
-void ArenaImpl_GetSizes(Arena* arena, u32* outMaxFree, u32* outFree, u32* outAlloc) {
+void ArenaImpl_GetSizes(Arena* arena, size_t* outMaxFree, size_t* outFree, size_t* outAlloc) {
     ArenaNode* iter;
 
     ArenaImpl_Lock(arena);

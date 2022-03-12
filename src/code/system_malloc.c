@@ -69,9 +69,9 @@ void SystemArena_FreeDebug(void* ptr, const char* file, s32 line) {
     __osFreeDebug(&gSystemArena, ptr, file, line);
 }
 
-void* SystemArena_Calloc(u32 num, size_t size) {
+void* SystemArena_Calloc(size_t num, size_t size) {
     void* ret;
-    u32 n = num * size;
+    size_t n = num * size;
 
     ret = __osMalloc(&gSystemArena, n);
     if (ret != NULL) {
@@ -87,7 +87,7 @@ void SystemArena_Display(void) {
     __osDisplayArena(&gSystemArena);
 }
 
-void SystemArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc) {
+void SystemArena_GetSizes(size_t* outMaxFree, size_t* outFree, size_t* outAlloc) {
     ArenaImpl_GetSizes(&gSystemArena, outMaxFree, outFree, outAlloc);
 }
 

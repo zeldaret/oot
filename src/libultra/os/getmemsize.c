@@ -2,7 +2,7 @@
 
 #define STEP 0x100000
 
-u32 osGetMemSize(void) {
+size_t osGetMemSize(void) {
     u32* ptr;
     size_t size = 0x400000;
     u32 data0;
