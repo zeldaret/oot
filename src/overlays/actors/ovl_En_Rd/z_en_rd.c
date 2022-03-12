@@ -69,39 +69,48 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
+typedef enum {
+    /* 0x0 */ EN_RD_DMGEFF_NONE,
+    /* 0x1 */ EN_RD_DMGEFF_STUN,
+    /* 0x6 */ EN_RD_DMGEFF_ICE = 0x6,
+    /* 0xD */ EN_RD_DMGEFF_LIGHT = 0xD,
+    /* 0xE */ EN_RD_DMGEFF_FIRE,
+    /* 0xF */ EN_RD_DMGEFF_DAMAGE
+} EnRdDamageEffect;
+
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0x0),
-    /* Deku stick    */ DMG_ENTRY(2, 0xF),
-    /* Slingshot     */ DMG_ENTRY(0, 0x0),
-    /* Explosive     */ DMG_ENTRY(0, 0x0),
-    /* Boomerang     */ DMG_ENTRY(0, 0x0),
-    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
-    /* Hookshot      */ DMG_ENTRY(0, 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
-    /* Master sword  */ DMG_ENTRY(2, 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
-    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
-    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
-    /* Light arrow   */ DMG_ENTRY(0, 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
-    /* Fire magic    */ DMG_ENTRY(4, 0xE),
-    /* Ice magic     */ DMG_ENTRY(0, 0x6),
-    /* Light magic   */ DMG_ENTRY(3, 0xD),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
-    /* Giant spin    */ DMG_ENTRY(4, 0xF),
-    /* Master spin   */ DMG_ENTRY(2, 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
-    /* Giant jump    */ DMG_ENTRY(8, 0xF),
-    /* Master jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Deku stick    */ DMG_ENTRY(2, EN_RD_DMGEFF_DAMAGE),
+    /* Slingshot     */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Explosive     */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Boomerang     */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Normal arrow  */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_RD_DMGEFF_DAMAGE),
+    /* Hookshot      */ DMG_ENTRY(0, EN_RD_DMGEFF_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_RD_DMGEFF_DAMAGE),
+    /* Master sword  */ DMG_ENTRY(2, EN_RD_DMGEFF_DAMAGE),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_RD_DMGEFF_DAMAGE),
+    /* Fire arrow    */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Ice arrow     */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Light arrow   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Unk arrow 1   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Fire magic    */ DMG_ENTRY(4, EN_RD_DMGEFF_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, EN_RD_DMGEFF_ICE),
+    /* Light magic   */ DMG_ENTRY(3, EN_RD_DMGEFF_LIGHT),
+    /* Shield        */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_RD_DMGEFF_DAMAGE),
+    /* Giant spin    */ DMG_ENTRY(4, EN_RD_DMGEFF_DAMAGE),
+    /* Master spin   */ DMG_ENTRY(2, EN_RD_DMGEFF_DAMAGE),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_RD_DMGEFF_DAMAGE),
+    /* Giant jump    */ DMG_ENTRY(8, EN_RD_DMGEFF_DAMAGE),
+    /* Master jump   */ DMG_ENTRY(4, EN_RD_DMGEFF_DAMAGE),
+    /* Unknown 1     */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_RD_DMGEFF_DAMAGE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -712,7 +721,7 @@ void EnRd_SetupStunned(EnRd* this) {
         this->sunsSongStunTimer = 600;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, -0x8000, -0x7F38, 0, 0xFF);
-    } else if (this->damageEffect == 1) {
+    } else if (this->damageEffect == EN_RD_DMGEFF_STUN) {
         Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, 0x50);
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -787,8 +796,9 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
                 this->unk_31D = player->unk_845;
             }
 
-            if ((this->damageEffect != 0) && (this->damageEffect != 6)) {
-                if (((this->damageEffect == 1) || (this->damageEffect == 13)) && (this->action != 1)) {
+            if ((this->damageEffect != EN_RD_DMGEFF_NONE) && (this->damageEffect != EN_RD_DMGEFF_ICE)) {
+                if (((this->damageEffect == EN_RD_DMGEFF_STUN) || (this->damageEffect == EN_RD_DMGEFF_LIGHT)) &&
+                    (this->action != 1)) {
                     Actor_ApplyDamage(&this->actor);
                     EnRd_SetupStunned(this);
                     return;
@@ -797,9 +807,9 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
                 this->stunnedBySunsSong = false;
                 this->sunsSongStunTimer = 0;
 
-                if (this->damageEffect == 0xE) {
+                if (this->damageEffect == EN_RD_DMGEFF_FIRE) {
                     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x50);
-                    this->fireTimer = 0x28;
+                    this->fireTimer = 40;
                 } else {
                     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
                 }
@@ -829,7 +839,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
-    if (this->damageEffect != 6 && ((this->action != 11) || (this->damageEffect != 14))) {
+    if (this->damageEffect != EN_RD_DMGEFF_ICE && ((this->action != 11) || (this->damageEffect != EN_RD_DMGEFF_FIRE))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }
