@@ -272,6 +272,8 @@ typedef enum {
     /* 7 */ ELEMTYPE_UNK7
 } ElementType;
 
+#define SAC_ON (1 << 0)
+
 #define AT_NONE 0 // No flags set. Cannot have AT collisions when set as AT
 #define AT_ON (1 << 0) // Can have AT collisions when set as AT
 #define AT_HIT (1 << 1) // Had an AT collision
