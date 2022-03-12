@@ -3,13 +3,13 @@
 
 s32 gScreenWidth = SCREEN_WIDTH;
 s32 gScreenHeight = SCREEN_HEIGHT;
-u32 gSystemHeapSize = 0;
+size_t gSystemHeapSize = 0;
 
 PreNmiBuff* gAppNmiBufferPtr;
 SchedContext gSchedContext;
 PadMgr gPadMgr;
 IrqMgr gIrqMgr;
-u32 gSegments[NUM_SEGMENTS];
+uintptr_t gSegments[NUM_SEGMENTS];
 OSThread sGraphThread;
 STACK(sGraphStack, 0x1800);
 STACK(sSchedStack, 0x600);
@@ -37,10 +37,10 @@ void Main(void* arg) {
     IrqMgrClient irqClient;
     OSMesgQueue irqMgrMsgQ;
     OSMesg irqMgrMsgBuf[60];
-    u32 sysHeap;
-    u32 fb;
-    s32 debugHeap;
-    s32 debugHeapSize;
+    uintptr_t sysHeap;
+    uintptr_t fb;
+    uintptr_t debugHeap;
+    size_t debugHeapSize;
     s16* msg;
 
     osSyncPrintf("mainproc 実行開始\n"); // "Start running"
@@ -50,15 +50,15 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    sysHeap = (u32)gSystemHeap;
+    sysHeap = gSystemHeap;
     fb = SysCfb_GetFbPtr(0);
-    gSystemHeapSize = (fb - sysHeap);
+    gSystemHeapSize = fb - sysHeap;
     // "System heap initalization"
     osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", sysHeap, fb, gSystemHeapSize);
     SystemHeap_Init(sysHeap, gSystemHeapSize); // initializes the system heap
     if (osMemSize >= 0x800000) {
         debugHeap = SysCfb_GetFbEnd();
-        debugHeapSize = (s32)(0x80600000 - debugHeap);
+        debugHeapSize = 0x80600000 - debugHeap;
     } else {
         debugHeapSize = 0x400;
         debugHeap = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
