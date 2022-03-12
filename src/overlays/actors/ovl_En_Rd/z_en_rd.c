@@ -158,7 +158,7 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->params &= 0xFF;
     }
 
-    if (thisx->params >= -1) {
+    if (thisx->params > EN_RD_TYPE_GIBDO) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRedeadSkel, &gGibdoRedeadIdleAnim, this->jointTable,
                            this->morphTable, 26);
         thisx->naviEnemyId = 0x2A;
@@ -171,7 +171,7 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
-    if (thisx->params >= -2) {
+    if (thisx->params > EN_RD_TYPE_GIBDO_RISING_OUT_OF_COFFIN) {
         EnRd_SetupIdle(this);
     } else {
         EnRd_SetupRiseFromCoffin(this);
@@ -179,7 +179,7 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (thisx->params == 3) {
+    if (thisx->params == EN_RD_TYPE_INVISIBLE) {
         thisx->flags |= ACTOR_FLAG_7;
     }
 }
@@ -206,7 +206,7 @@ void EnRd_UpdateParentForOtherRedeads(GlobalContext* globalCtx, Actor* thisx, s3
     Actor* enemyIt = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].head;
 
     while (enemyIt != NULL) {
-        if ((enemyIt->id != ACTOR_EN_RD) || (enemyIt == thisx) || (enemyIt->params < 0)) {
+        if ((enemyIt->id != ACTOR_EN_RD) || (enemyIt == thisx) || (enemyIt->params < EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING)) {
             enemyIt = enemyIt->next;
             continue;
         }
@@ -221,7 +221,7 @@ void EnRd_UpdateParentForOtherRedeads(GlobalContext* globalCtx, Actor* thisx, s3
 }
 
 void EnRd_SetupIdle(EnRd* this) {
-    if (this->actor.params != 2) {
+    if (this->actor.params != EN_RD_TYPE_CRYING) {
         Animation_MorphToLoop(&this->skelAnime, &gGibdoRedeadIdleAnim, -6.0f);
     } else {
         Animation_PlayLoop(&this->skelAnime, &gGibdoRedeadSobbingAnim);
@@ -239,7 +239,7 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->headYRotation, 0, 1, 0x64, 0);
     Math_SmoothStepToS(&this->upperBodyYRotation, 0, 1, 0x64, 0);
 
-    if ((this->actor.params == 2) && (0.0f == this->skelAnime.curFrame)) {
+    if ((this->actor.params == EN_RD_TYPE_CRYING) && (0.0f == this->skelAnime.curFrame)) {
         if (Rand_ZeroOne() >= 0.5f) {
             Animation_PlayLoop(&this->skelAnime, &gGibdoRedeadSobbingAnim);
         } else {
@@ -257,7 +257,7 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
 
     if (this->actor.parent != NULL) {
         if (!this->isMourning) {
-            if (this->actor.params != 2) {
+            if (this->actor.params != EN_RD_TYPE_CRYING) {
                 EnRd_SetupWalkToParent(this);
             } else {
                 EnRd_SetupStandUp(this);
@@ -265,7 +265,7 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->isMourning) {
-            if (this->actor.params != 2) {
+            if (this->actor.params != EN_RD_TYPE_CRYING) {
                 EnRd_SetupAttemptPlayerFreeze(this);
             } else {
                 EnRd_SetupStandUp(this);
@@ -274,7 +274,7 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
 
         this->isMourning = false;
         if ((this->actor.xzDistToPlayer <= 150.0f) && func_8002DDE4(globalCtx)) {
-            if ((this->actor.params != 2) && (!this->isMourning)) {
+            if ((this->actor.params != EN_RD_TYPE_CRYING) && (!this->isMourning)) {
                 EnRd_SetupAttemptPlayerFreeze(this);
             } else {
                 EnRd_SetupStandUp(this);
@@ -378,7 +378,7 @@ void EnRd_WalkToPlayer(EnRd* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             EnRd_SetupGrab(this);
         }
-    } else if (this->actor.params > 0) {
+    } else if (this->actor.params > EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
         if (this->actor.parent != NULL) {
             EnRd_SetupWalkToParent(this);
         } else {
@@ -410,7 +410,7 @@ void EnRd_WalkToHome(EnRd* this, GlobalContext* globalCtx) {
     } else {
         this->actor.speedXZ = 0.0f;
         if (Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.home.rot.y, 1, 0x1C2, 0) == 0) {
-            if (this->actor.params != 2) {
+            if (this->actor.params != EN_RD_TYPE_CRYING) {
                 EnRd_SetupIdle(this);
             } else {
                 EnRd_SetupCrouch(this);
@@ -429,7 +429,7 @@ void EnRd_WalkToHome(EnRd* this, GlobalContext* globalCtx) {
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
         this->actor.targetMode = 0;
         EnRd_SetupWalkToPlayer(this, globalCtx);
-    } else if (this->actor.params > 0) {
+    } else if (this->actor.params > EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING) {
         if (this->actor.parent != NULL) {
             EnRd_SetupWalkToParent(this);
         } else {
@@ -473,7 +473,7 @@ void EnRd_WalkToParent(EnRd* this, GlobalContext* globalCtx) {
         } else {
             this->actor.speedXZ = 0.0f;
 
-            if (this->actor.params != 2) {
+            if (this->actor.params != EN_RD_TYPE_CRYING) {
                 EnRd_SetupIdle(this);
             } else {
                 EnRd_SetupCrouch(this);

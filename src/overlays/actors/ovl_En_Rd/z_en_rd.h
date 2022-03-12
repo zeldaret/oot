@@ -8,6 +8,16 @@ struct EnRd;
 
 typedef void (*EnRdActionFunc)(struct EnRd*, GlobalContext*);
 
+typedef enum {
+    /* -3 */ EN_RD_TYPE_GIBDO_RISING_OUT_OF_COFFIN = -3,
+    /* -2 */ EN_RD_TYPE_GIBDO = -2,
+    /* -1 */ EN_RD_TYPE_DOES_NOT_MOURN = -1,
+    /*  0 */ EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING = 0,
+    /*  1 */ EN_RD_TYPE_REGULAR,
+    /*  2 */ EN_RD_TYPE_CRYING,
+    /*  3 */ EN_RD_TYPE_INVISIBLE
+} EnRdType;
+
 typedef struct EnRd {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ Vec3s firePos[10];
