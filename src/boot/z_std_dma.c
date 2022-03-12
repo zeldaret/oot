@@ -48,7 +48,7 @@ s32 DmaMgr_DmaRomToRam(uintptr_t rom, uintptr_t ram, size_t size) {
     OSMesgQueue queue;
     OSMesg msg;
     s32 ret;
-    u32 buffSize = gDmaMgrDmaBuffSize;
+    size_t buffSize = gDmaMgrDmaBuffSize;
     s32 pad[2];
 
     if (buffSize == 0) {
