@@ -293,10 +293,10 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
-                                 G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
-                                 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
-                                 G_TX_NOMASK, G_TX_NOLOD);
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80,
+                                 1, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
+                                 phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
+                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AE3C[phi_t2_4 + 1], D_8012AE3C[phi_t2_4 + 2],
                                D_8012AE3C[phi_t2_4 + 3], D_8012AE3C[phi_t2_4 + 0], 3);
             }
@@ -309,10 +309,10 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
-                                 G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
-                                 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
-                                 G_TX_NOMASK, G_TX_NOLOD);
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80,
+                                 1, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
+                                 phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
+                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AE3C[phi_t2_4 + 1], D_8012AE3C[phi_t2_4 + 2],
                                D_8012AE3C[phi_t2_4 + 3], D_8012AE3C[phi_t2_4 + 0], 3);
             }
@@ -324,10 +324,10 @@ s32 func_800AE2C0(SkyboxContext* skyboxCtx, Vtx* roomVtx, s32 arg2, s32 arg3, s3
                                  G_TX_RENDERTILE, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
                                  phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80, 1,
-                                 G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F, phi_a2_4 + 0x1F,
-                                 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
-                                 G_TX_NOMASK, G_TX_NOLOD);
+                gDPLoadMultiTile(skyboxCtx->unk_138++, (uintptr_t)skyboxCtx->staticSegments[1] + D_8012ADC0[arg8], 0x80,
+                                 1, G_IM_FMT_CI, G_IM_SIZ_8b, 128, 0, phi_a0_4, phi_a2_4, phi_a0_4 + 0x1F,
+                                 phi_a2_4 + 0x1F, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD,
+                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
                 gSP1Quadrangle(skyboxCtx->unk_138++, D_8012AE3C[phi_t2_4 + 1], D_8012AE3C[phi_t2_4 + 2],
                                D_8012AE3C[phi_t2_4 + 3], D_8012AE3C[phi_t2_4 + 0], 3);
             }
@@ -427,10 +427,10 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1073);
 
-                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[skybox1Index].palette.vromStart, size, "../z_vr_box.c",
-                                    1075);
-                DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, gSkyboxFiles[skybox2Index].palette.vromStart, size,
-                                    "../z_vr_box.c", 1077);
+                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[skybox1Index].palette.vromStart, size,
+                                    "../z_vr_box.c", 1075);
+                DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, gSkyboxFiles[skybox2Index].palette.vromStart,
+                                    size, "../z_vr_box.c", 1077);
             } else {
                 size = gSkyboxFiles[skybox1Index].palette.vromEnd - gSkyboxFiles[skybox1Index].palette.vromStart;
 
@@ -438,10 +438,10 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
 
                 ASSERT(skyboxCtx->palettes != NULL, "vr_box->vr_box_staticSegment[2] != NULL", "../z_vr_box.c", 1086);
 
-                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[skybox2Index].palette.vromStart, size, "../z_vr_box.c",
-                                    1088);
-                DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, gSkyboxFiles[skybox1Index].palette.vromStart, size,
-                                    "../z_vr_box.c", 1090);
+                DmaMgr_SendRequest1(skyboxCtx->palettes, gSkyboxFiles[skybox2Index].palette.vromStart, size,
+                                    "../z_vr_box.c", 1088);
+                DmaMgr_SendRequest1((uintptr_t)skyboxCtx->palettes + size, gSkyboxFiles[skybox1Index].palette.vromStart,
+                                    size, "../z_vr_box.c", 1090);
             }
             break;
 

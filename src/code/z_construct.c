@@ -55,8 +55,8 @@ void func_801109B0(GlobalContext* globalCtx) {
         doActionOffset = 0x5700;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, 0x300,
-                        "../z_construct.c", 174);
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
+                        0x300, "../z_construct.c", 174);
 
     if (gSaveContext.language == LANGUAGE_ENG) {
         doActionOffset = 0x480;
@@ -66,8 +66,8 @@ void func_801109B0(GlobalContext* globalCtx) {
         doActionOffset = 0x5B80;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset,
-                        0x180, "../z_construct.c", 178);
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300,
+                        (uintptr_t)_do_action_staticSegmentRomStart + doActionOffset, 0x180, "../z_construct.c", 178);
 
     interfaceCtx->iconItemSegment = GameState_Alloc(&globalCtx->state, 0x4000, "../z_construct.c", 190);
 

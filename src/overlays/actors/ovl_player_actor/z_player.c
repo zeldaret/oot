@@ -4663,8 +4663,9 @@ void func_8083AE40(Player* this, s16 objectId) {
         LOG_HEX("size", size, "../z_player.c", 9090);
         ASSERT(size <= 1024 * 8, "size <= 1024 * 8", "../z_player.c", 9091);
 
-        DmaMgr_SendRequest2(&this->giObjectDmaRequest, (uintptr_t)this->giObjectSegment, gObjectTable[objectId].vromStart,
-                            size, 0, &this->giObjectLoadQueue, NULL, "../z_player.c", 9099);
+        DmaMgr_SendRequest2(&this->giObjectDmaRequest, (uintptr_t)this->giObjectSegment,
+                            gObjectTable[objectId].vromStart, size, 0, &this->giObjectLoadQueue, NULL, "../z_player.c",
+                            9099);
     }
 }
 
@@ -10127,9 +10128,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->stateFlags1 & PLAYER_STATE1_27)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this)       ? &gPlayerAnim_003310
-                                  : (this->shockTimer != 0) ? &gPlayerAnim_002F08
-                                                            : &gPlayerAnim_002878);
+                                  func_808332B8(this)
+                                      ? &gPlayerAnim_003310
+                                      : (this->shockTimer != 0) ? &gPlayerAnim_002F08 : &gPlayerAnim_002878);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&

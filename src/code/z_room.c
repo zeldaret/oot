@@ -554,7 +554,8 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         ASSERT(roomNum < globalCtx->numRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = globalCtx->roomList[roomNum].vromEnd - globalCtx->roomList[roomNum].vromStart;
-        roomCtx->unk_34 = (void*)ALIGN16((intptr_t)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
+        roomCtx->unk_34 =
+            (void*)ALIGN16((intptr_t)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
         DmaMgr_SendRequest2(&roomCtx->dmaRequest, roomCtx->unk_34, globalCtx->roomList[roomNum].vromStart, size, 0,

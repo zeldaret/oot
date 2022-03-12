@@ -45,8 +45,8 @@ void AudioLoad_SyncDmaUnkMedium(u32 devAddr, u8* addr, size_t size, s32 unkMediu
 s32 AudioLoad_Dma(OSIoMesg* mesg, u32 priority, s32 direction, u32 devAddr, void* ramAddr, size_t size,
                   OSMesgQueue* reqQueue, s32 medium, const char* dmaFuncType);
 void* AudioLoad_AsyncLoadInner(s32 tableType, s32 id, s32 nChunks, s32 retData, OSMesgQueue* retQueue);
-AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, ptrdiff_t size, s32 medium,
-                                                  s32 nChunks, OSMesgQueue* retQueue, s32 retMsg);
+AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, ptrdiff_t size,
+                                                  s32 medium, s32 nChunks, OSMesgQueue* retQueue, s32 retMsg);
 AudioAsyncLoad* AudioLoad_StartAsyncLoad(u32 devAddr, void* ramAddr, size_t size, s32 medium, s32 nChunks,
                                          OSMesgQueue* retQueue, s32 retMsg);
 void AudioLoad_AsyncDma(AudioAsyncLoad* asyncLoad, size_t size);
@@ -1366,8 +1366,8 @@ void AudioLoad_InitAsyncLoads(void) {
     }
 }
 
-AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, ptrdiff_t size, s32 medium,
-                                                  s32 nChunks, OSMesgQueue* retQueue, s32 retMsg) {
+AudioAsyncLoad* AudioLoad_StartAsyncLoadUnkMedium(s32 unkMediumParam, u32 devAddr, void* ramAddr, ptrdiff_t size,
+                                                  s32 medium, s32 nChunks, OSMesgQueue* retQueue, s32 retMsg) {
     AudioAsyncLoad* asyncLoad;
 
     asyncLoad = AudioLoad_StartAsyncLoad(devAddr, ramAddr, size, medium, nChunks, retQueue, retMsg);

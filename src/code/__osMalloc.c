@@ -579,7 +579,8 @@ void* __osRealloc(Arena* arena, void* ptr, size_t newSize) {
         } else if (node->size < newSize) {
             next = ArenaImpl_GetNextBlock(node);
             sizeDiff = newSize - node->size;
-            if ((uintptr_t)next == ((uintptr_t)node + node->size + sizeof(ArenaNode)) && next->isFree && next->size >= sizeDiff) {
+            if ((uintptr_t)next == ((uintptr_t)node + node->size + sizeof(ArenaNode)) && next->isFree &&
+                next->size >= sizeDiff) {
                 // "Merge because there is a free block after the current memory block"
                 osSyncPrintf("現メモリブロックの後ろにフリーブロックがあるので結合します\n");
                 next->size -= sizeDiff;

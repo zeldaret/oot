@@ -23,15 +23,15 @@
 #undef DEFINE_ACTOR_UNSET
 
 // Actor Overlay Table definition
-#define DEFINE_ACTOR(name, _1, allocType) \
-    { (uintptr_t)_ovl_##name##SegmentRomStart,  \
-      (uintptr_t)_ovl_##name##SegmentRomEnd,    \
-      _ovl_##name##SegmentStart,          \
-      _ovl_##name##SegmentEnd,            \
-      NULL,                               \
-      &name##_InitVars,                   \
-      #name,                              \
-      allocType,                          \
+#define DEFINE_ACTOR(name, _1, allocType)      \
+    { (uintptr_t)_ovl_##name##SegmentRomStart, \
+      (uintptr_t)_ovl_##name##SegmentRomEnd,   \
+      _ovl_##name##SegmentStart,               \
+      _ovl_##name##SegmentEnd,                 \
+      NULL,                                    \
+      &name##_InitVars,                        \
+      #name,                                   \
+      allocType,                               \
       0 },
 
 #define DEFINE_ACTOR_INTERNAL(name, _1, allocType) { 0, 0, NULL, NULL, NULL, &name##_InitVars, #name, allocType, 0 },

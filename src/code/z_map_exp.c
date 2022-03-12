@@ -131,7 +131,8 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
             osSyncPrintf(VT_RST);
             sEntranceIconMapIndex = extendedMapIndex;
             DmaMgr_SendRequest1(interfaceCtx->mapSegment,
-                                (uintptr_t)_map_grand_staticSegmentRomStart + gMapData->owMinimapTexOffset[extendedMapIndex],
+                                (uintptr_t)_map_grand_staticSegmentRomStart +
+                                    gMapData->owMinimapTexOffset[extendedMapIndex],
                                 gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
             interfaceCtx->unk_258 = mapIndex;
             break;

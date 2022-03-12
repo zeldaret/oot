@@ -1,10 +1,10 @@
 #include "global.h"
 #include "vt.h"
 
-#define KALEIDO_OVERLAY(name)                                                                                \
-    {                                                                                                        \
-        NULL, (uintptr_t)_ovl_##name##SegmentRomStart, (uintptr_t)_ovl_##name##SegmentRomEnd, _ovl_##name##SegmentStart, \
-            _ovl_##name##SegmentEnd, 0, #name,                                                               \
+#define KALEIDO_OVERLAY(name)                                                                 \
+    {                                                                                         \
+        NULL, (uintptr_t)_ovl_##name##SegmentRomStart, (uintptr_t)_ovl_##name##SegmentRomEnd, \
+            _ovl_##name##SegmentStart, _ovl_##name##SegmentEnd, 0, #name,                     \
     }
 
 KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
@@ -98,7 +98,8 @@ void* KaleidoManager_GetRamAddr(void* vram) {
     }
 
 KaleidoManager_GetRamAddr_end:
-    if ((ovl == NULL) || ((uintptr_t)vram < (uintptr_t)ovl->vramStart) || ((uintptr_t)vram >= (uintptr_t)ovl->vramEnd)) {
+    if ((ovl == NULL) || ((uintptr_t)vram < (uintptr_t)ovl->vramStart) ||
+        ((uintptr_t)vram >= (uintptr_t)ovl->vramEnd)) {
         return NULL;
     }
 

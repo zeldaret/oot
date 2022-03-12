@@ -747,13 +747,13 @@ u16 Message_DrawItemIcon(GlobalContext* globalCtx, u16 itemId, Gfx** p, u16 i) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, msgCtx->textColorAlpha);
 
     if (itemId >= ITEM_MEDALLION_FOREST) {
-        gDPLoadTextureBlock(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                            24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA,
+                            G_IM_SIZ_32b, 24, 24, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     } else {
-        gDPLoadTextureBlock(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA, G_IM_SIZ_32b,
-                            32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                            G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_RGBA,
+                            G_IM_SIZ_32b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     }
     gSPTextureRectangle(gfx++, (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS) << 2, R_TEXTBOX_ICON_YPOS << 2,
                         (msgCtx->textPosX + R_TEXTBOX_ICON_XPOS + R_TEXTBOX_ICON_SIZE) << 2,
@@ -995,8 +995,8 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                                 sTextboxBackgroundBackPrimColors[msgCtx->textboxBackgroundBackColorIdx][2],
                                 msgCtx->textColorAlpha);
 
-                gDPLoadTextureBlock_4b(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_I, 96, 48,
-                                       0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                gDPLoadTextureBlock_4b(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE, G_IM_FMT_I,
+                                       96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(
                     gfx++, (msgCtx->textPosX + 1) << 2,
@@ -1005,9 +1005,9 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                     (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx] + 48) << 2,
                     G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-                gDPLoadTextureBlock_4b(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900, G_IM_FMT_I,
-                                       96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_4b(gfx++, (uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900,
+                                       G_IM_FMT_I, 96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                                       G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(
                     gfx++, (msgCtx->textPosX + 96 + 1) << 2,
                     (R_TEXTBOX_BG_YPOS + sTextboxBackgroundYOffsets[msgCtx->textboxBackgroundYOffsetIdx]) << 2,
@@ -1021,8 +1021,8 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                                 sTextboxBackgroundForePrimColors[msgCtx->textboxBackgroundForeColorIdx][2],
                                 msgCtx->textColorAlpha);
 
-                gDPLoadTextureBlock_4b(gfx++, ((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE), G_IM_FMT_I, 96,
-                                       48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                gDPLoadTextureBlock_4b(gfx++, ((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE), G_IM_FMT_I,
+                                       96, 48, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 gSPTextureRectangle(gfx++, msgCtx->textPosX << 2, R_TEXTBOX_BG_YPOS << 2, (msgCtx->textPosX + 96) << 2,
                                     (R_TEXTBOX_BG_YPOS + 48) << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
@@ -1150,8 +1150,8 @@ void Message_LoadItemIcon(GlobalContext* globalCtx, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_YPOS = y + 6;
         R_TEXTBOX_ICON_SIZE = 32;
         DmaMgr_SendRequest1((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                            (uintptr_t)_icon_item_staticSegmentRomStart + (itemId * 0x1000), 0x1000, "../z_message_PAL.c",
-                            1473);
+                            (uintptr_t)_icon_item_staticSegmentRomStart + (itemId * 0x1000), 0x1000,
+                            "../z_message_PAL.c", 1473);
         // "Item 32-0"
         osSyncPrintf("アイテム32-0\n");
     } else {
@@ -1159,8 +1159,8 @@ void Message_LoadItemIcon(GlobalContext* globalCtx, u16 itemId, s16 y) {
         R_TEXTBOX_ICON_YPOS = y + 10;
         R_TEXTBOX_ICON_SIZE = 24;
         DmaMgr_SendRequest1((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                            (uintptr_t)_icon_item_24_staticSegmentRomStart + (itemId - ITEM_MEDALLION_FOREST) * 0x900, 0x900,
-                            "../z_message_PAL.c", 1482);
+                            (uintptr_t)_icon_item_24_staticSegmentRomStart + (itemId - ITEM_MEDALLION_FOREST) * 0x900,
+                            0x900, "../z_message_PAL.c", 1482);
         // "Item 24"
         osSyncPrintf("アイテム24＝%d (%d) {%d}\n", itemId, itemId - ITEM_KOKIRI_EMERALD, 84);
     }
@@ -1518,7 +1518,8 @@ void Message_Decode(GlobalContext* globalCtx) {
             msgCtx->textboxBackgroundYOffsetIdx = (font->msgBuf[msgCtx->msgBufPos + 3] & 0xF0) >> 4;
             msgCtx->textboxBackgroundUnkArg = font->msgBuf[msgCtx->msgBufPos + 3] & 0xF;
             DmaMgr_SendRequest1((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE,
-                                (uintptr_t)_message_texture_staticSegmentRomStart + msgCtx->textboxBackgroundIdx * 0x900,
+                                (uintptr_t)_message_texture_staticSegmentRomStart +
+                                    msgCtx->textboxBackgroundIdx * 0x900,
                                 0x900, "../z_message_PAL.c", 1830);
             DmaMgr_SendRequest1((uintptr_t)msgCtx->textboxSegment + MESSAGE_STATIC_TEX_SIZE + 0x900,
                                 (uintptr_t)_message_texture_staticSegmentRomStart +

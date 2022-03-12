@@ -1327,8 +1327,8 @@ size_t Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContex
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     size_t size;
 
-    cmd += sizeof(CutsceneData)*2;
-    size = sizeof(CutsceneData)*2;
+    cmd += sizeof(CutsceneData) * 2;
+    size = sizeof(CutsceneData) * 2;
 
     if ((cmdBase->startFrame < csCtx->frames) && (csCtx->frames < cmdBase->endFrame) &&
         ((csCtx->unk_18 < cmdBase->startFrame) || (csCtx->unk_18 >= 0xF000))) {

@@ -335,7 +335,8 @@ void DmaMgr_ThreadEntry(void* arg0) {
     osSyncPrintf("ＤＭＡマネージャスレッド実行終了\n");
 }
 
-s32 DmaMgr_SendRequestImpl(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue, OSMesg msg) {
+s32 DmaMgr_SendRequestImpl(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk, OSMesgQueue* queue,
+                           OSMesg msg) {
     static s32 sDmaMgrQueueFullLogged = 0;
 
     if ((1 && (ram == 0)) || (osMemSize < ram + size + 0x80000000) || (vrom & 1) || (vrom > 0x4000000) || (size == 0) ||
@@ -427,8 +428,8 @@ void DmaMgr_Init(void) {
     osStartThread(&sDmaMgrThread);
 }
 
-s32 DmaMgr_SendRequest2(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue, OSMesg msg,
-                        const char* file, s32 line) {
+s32 DmaMgr_SendRequest2(DmaRequest* req, uintptr_t ram, uintptr_t vrom, size_t size, u32 unk5, OSMesgQueue* queue,
+                        OSMesg msg, const char* file, s32 line) {
     req->filename = file;
     req->line = line;
     DmaMgr_SendRequestImpl(req, ram, vrom, size, unk5, queue, msg);

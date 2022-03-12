@@ -105,7 +105,7 @@ void* THA_AllocEnd(TwoHeadArena* tha, size_t size) {
 }
 
 void* THA_AllocEndAlign16(TwoHeadArena* tha, size_t size) {
-    tha->tail = (((intptr_t) tha->tail & ~0xF) - size) & ~0xF;
+    tha->tail = (((intptr_t)tha->tail & ~0xF) - size) & ~0xF;
 
     return tha->tail;
 }

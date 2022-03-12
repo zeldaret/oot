@@ -855,7 +855,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
         translateZ = this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z;
 
         if (this->unk_150[i].unk_22 < 2) {
-            disp = (uintptr_t)gEffFlash1DL; //This is probably fake
+            disp = (uintptr_t)gEffFlash1DL; // This is probably fake
             if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
