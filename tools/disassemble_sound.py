@@ -556,7 +556,7 @@ parser.add_argument("audiobank", metavar="<Audiobank file>", type=argparse.FileT
 parser.add_argument("assetxml", metavar="<assets XML dir>", type=Path, help="The asset XML path where the definitions are stored.")
 parser.add_argument("sampleout", metavar="<samples out dir>", type=Path, help="The output path for extracted samples.")
 parser.add_argument("fontout", metavar="<soundfont out dir>", type=Path, help="The output path for extracted soundfonts.")
-parser.add_argument("--help", "-h", action="help", help="Show this help message and exit.")
+parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
 parser.add_argument("--detect-gaps", "-g", dest="gaps", action='store_true', help="Outputs unreferenced data ranges to standard out.")
 args = parser.parse_args()
 

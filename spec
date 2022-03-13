@@ -118,7 +118,45 @@ endseg
 beginseg
     name "Audiobank"
     address 0x10 // fake RAM address to avoid map lookup inaccuracies
-    include "build/baserom/Audiobank.o"
+    include "build/assets/soundfonts/audiobank_0.o"
+    include "build/assets/soundfonts/audiobank_1.o"
+    include "build/assets/soundfonts/audiobank_2.o"
+    include "build/assets/soundfonts/audiobank_3.o"
+    include "build/assets/soundfonts/audiobank_4.o"
+    include "build/assets/soundfonts/audiobank_5.o"
+    include "build/assets/soundfonts/audiobank_6.o"
+    include "build/assets/soundfonts/audiobank_7.o"
+    include "build/assets/soundfonts/audiobank_8.o"
+    include "build/assets/soundfonts/audiobank_9.o"
+    include "build/assets/soundfonts/audiobank_10.o"
+    include "build/assets/soundfonts/audiobank_11.o"
+    include "build/assets/soundfonts/audiobank_12.o"
+    include "build/assets/soundfonts/audiobank_13.o"
+    include "build/assets/soundfonts/audiobank_14.o"
+    include "build/assets/soundfonts/audiobank_15.o"
+    include "build/assets/soundfonts/audiobank_16.o"
+    include "build/assets/soundfonts/audiobank_17.o"
+    include "build/assets/soundfonts/audiobank_18.o"
+    include "build/assets/soundfonts/audiobank_19.o"
+    include "build/assets/soundfonts/audiobank_20.o"
+    include "build/assets/soundfonts/audiobank_21.o"
+    include "build/assets/soundfonts/audiobank_22.o"
+    include "build/assets/soundfonts/audiobank_23.o"
+    include "build/assets/soundfonts/audiobank_24.o"
+    include "build/assets/soundfonts/audiobank_25.o"
+    include "build/assets/soundfonts/audiobank_26.o"
+    include "build/assets/soundfonts/audiobank_27.o"
+    include "build/assets/soundfonts/audiobank_28.o"
+    include "build/assets/soundfonts/audiobank_29.o"
+    include "build/assets/soundfonts/audiobank_30.o"
+    include "build/assets/soundfonts/audiobank_31.o"
+    include "build/assets/soundfonts/audiobank_32.o"
+    include "build/assets/soundfonts/audiobank_33.o"
+    include "build/assets/soundfonts/audiobank_34.o"
+    include "build/assets/soundfonts/audiobank_35.o"
+    include "build/assets/soundfonts/audiobank_36.o"
+    include "build/assets/soundfonts/audiobank_37.o"
+    include "build/assets/soundfonts/audiobank_38.o"
 endseg
 
 beginseg
@@ -235,11 +273,18 @@ beginseg
     include "build/assets/sequences/110_Trip_to_Skye.o"
     include "build/assets/sequences/111_Lothlorien.o"
     include "build/assets/sequences/112_FF6_Overworld.o"
+    include "build/assets/sequences/113_FF7_Airship.o"
 endseg
 
 beginseg
     name "Audiotable"
-    include "build/baserom/Audiotable.o"
+    include "build/assets/samplebanks/audiotable_0.o"
+    include "build/assets/samplebanks/audiotable_2.o"
+    include "build/assets/samplebanks/audiotable_3.o"
+    include "build/assets/samplebanks/audiotable_4.o"
+    include "build/assets/samplebanks/audiotable_5.o"
+    include "build/assets/samplebanks/audiotable_6.o"
+    include "build/assets/samplebanks/audiotable_7.o"
 endseg
 
 beginseg
@@ -623,6 +668,10 @@ beginseg
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
+    include "build/assets/data/SoundFontTable.o"
+    include "build/assets/data/SequenceFontTable.o"
+    include "build/assets/data/SequenceTable.o"
+    include "build/assets/data/SampleBankTable.o"
     include "build/data/audio_tables.data.o"
     include "build/data/rsp.rodata.o"
 endseg

@@ -1,16 +1,15 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 import argparse
 import os
 from pathlib import Path
-import shutil
 import struct
 import sys
 import tempfile
 
 import xml.etree.ElementTree as XmlTree
 
-from audio_common import *
 from makeelf.elf import *
+from audio_common import *
 
 # Script variables
 debug_mode = False
@@ -451,14 +450,14 @@ def linkFontToBank(font):
 
     if bname in bank_lookup:
         mybank = bank_lookup[bname]
-        font.bankIdx = mybank.idx
+        font.bankIdx1 = mybank.idx
     else:
         # Try to isolate index from name...
         if bname[0:1].isnumeric():
             firstspace = bname.find(' ')
             bidx = int(bname[:firstspace])
             mybank = banks[bidx]
-            font.bankIdx = bidx
+            font.bankIdx1 = bidx
             if not mybank:
                 print(f"WARNING: Could not find bank match {bname} for font: {font.name}")
                 return
@@ -482,7 +481,7 @@ def linkFontToBank(font):
                 firstspace = abname.find(' ')
                 abidx = int(abname[:firstspace])
                 abank = banks[abidx]
-                font.bankIdx = abidx
+                font.bankIdx1 = abidx
                 if not abank:
                     print(f"WARNING: Could not find bank match {abname} for font: {font.name}")
             else:
@@ -856,6 +855,7 @@ def processBanks(sampledir, builddir, tabledir):
         if tmpbank and tmpbank.endswith(".tmp"):
             Path(tmpbank).unlink(missing_ok=True)
 
+    os.makedirs(tabledir, exist_ok=True)
     with open(os.path.join(tabledir, "SampleBankTable.o"), "wb") as elftblfile:
         with open(banktable_path, "rb") as tblfile:
             elf = ELF(
@@ -872,18 +872,6 @@ def processBanks(sampledir, builddir, tabledir):
             elftblfile.write(bytes(elf))
 
     Path(banktable_path).unlink(missing_ok=True)
-
-def parse_machine(machine):
-    return {
-        "mips": EM.EM_MIPS,
-        "mips2": EM.EM_MIPS,
-        "mips3": EM.EM_MIPS,
-        "x64": EM.EM_X86_64,
-        "x86-64": EM.EM_X86_64,
-        "x86": EM.EM_386,
-        "386": EM.EM_386,
-        "arm": EM.EM_ARM
-    }.get(machine.lower(), "mips")
 
 def main():
     global debug_mode
@@ -939,7 +927,7 @@ def main():
     bankbuilddir = None
     tablebuilddir = os.path.join(outpath, 'data')
     if args.buildbank:
-        bankbuilddir = os.path.join(outpath, 'audio', 'samplebanks')
+        bankbuilddir = os.path.join(outpath, 'samplebanks')
     processBanks(sampledir, bankbuilddir, tablebuilddir)
 
     # Check bank matches (if requested)
@@ -1005,34 +993,35 @@ def main():
     sorted_fonts = sorted(font_idict.items())
     font_count = len(sorted_fonts)
     aboff = 0
-    audiobank_dir = os.path.join(outpath, 'audio', 'soundfonts')
+    audiobank_dir = os.path.join(outpath, 'soundfonts')
 
     if not os.path.isdir(audiobank_dir):
         os.makedirs(audiobank_dir)
 
     for pair in sorted_fonts:
         fonts_ordered.append(pair[1])
+    
+    fontpaths = {}
 
     for font in fonts_ordered:
-        fontpath = os.path.join(audiobank_dir, getFontbinName(font.idx))
-
-        with open(fontpath, 'wb') as f:
+        with tempfile.NamedTemporaryFile('wb', prefix=f'Bank{font.idx}_', suffix='.tmp', delete=False) as f:
+            fontpaths[font.idx] = f.name
             compileFont(font, f, aboff)
 
-        aboff += os.path.getsize(fontpath)
+        aboff += os.path.getsize(fontpaths[font.idx])
 
         if match_mode and font.idx == (font_count - 1):
             if match_mode not in last_font_match_sizes:
                 print(f"Match string \'{match_mode}\' not recognized! Ignoring...")
             else:
                 target_size = last_font_match_sizes[match_mode]
-                current_size = os.path.getsize(fontpath)
+                current_size = os.path.getsize(fontpaths[font.idx])
                 diff = target_size - current_size
-                with open(fontpath, 'ab') as f:
+                with open(fontpaths[font.idx], 'ab') as f:
                     f.write(struct.pack(f"{diff}x"))
         
-        with open(fontpath + ".o", "wb") as elffile:
-            with open(fontpath, "rb") as bin:
+        with open(os.path.join(audiobank_dir, f"audiobank_{font.idx}.o"), "wb") as elffile:
+            with open(fontpaths[font.idx], "rb") as bin:
                 elf = ELF(
                     e_class=ELFCLASS.ELFCLASS64 if target_64 else ELFCLASS.ELFCLASS32,
                     e_data=ELFDATA.ELFDATA2LSB if target_le else ELFDATA.ELFDATA2MSB,
@@ -1054,7 +1043,7 @@ def main():
             og_font_dat = f.read()
 
     # write audiobank & code table (and match banks one by one)
-    audiobank_tbl_path = (outpath, "data", "SoundFontTable.o")
+    audiobank_tbl_path = os.path.join(outpath, "data", "SoundFontTable.o")
     audiobank_tbl_tmp = None
     current_pos = 0
     total_fonts = len(fonts_ordered)
@@ -1066,14 +1055,8 @@ def main():
 
         for font in fonts_ordered:
             binname = getFontbinName(font.idx)
-            fontpath = os.path.join(audiobank_dir, binname)
-            fontsize = os.path.getsize(fontpath)
-            fontdat = None
+            fontsize = os.path.getsize(fontpaths[font.idx])
 
-            with open(fontpath, "rb") as fontstr:
-                fontdat = fontstr.read()
-
-            audiobank_file.write(fontdat)
             myentry = font.getTableEntry()
             myentry.offset = current_pos
             myentry.length = fontsize
@@ -1115,6 +1098,8 @@ def main():
         checkMatch(og_font_dat, abdat, "audiobank")
 
     Path(audiobank_tbl_tmp).unlink(missing_ok=True)
+    for path in fontpaths.values():
+        Path(path).unlink(missing_ok=True)
 
     return 0
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-
 import xml.etree.ElementTree as XmlTree
 import struct
 import math
+from makeelf.elf import EM
 
 # Common Class Definitions
 class StructPackSpec:
@@ -87,7 +87,7 @@ class AifReader:
         if section_loc is None:
             return None
         return self.loadData(section_loc[0], section_loc[1])
-            
+
 class AifcWriter:
     def __init__(self, out):
         self.out = out
@@ -220,6 +220,7 @@ def toCodecID(codec):
         3: b"ADP5",
         4: b"RVRB",
         5: b"NONE",
+        b"VAPC":0,
         b"ADP9":0,
         b"HPCM":1,
         b"NONE":2,
@@ -278,6 +279,18 @@ def padding16(val):
     if mod16 > 0:
         return 16 - mod16
     return 0
+
+def parse_machine(machine):
+    return {
+        "mips": EM.EM_MIPS,
+        "mips2": EM.EM_MIPS,
+        "mips3": EM.EM_MIPS,
+        "x64": EM.EM_X86_64,
+        "x86-64": EM.EM_X86_64,
+        "x86": EM.EM_386,
+        "386": EM.EM_386,
+        "arm": EM.EM_ARM
+    }.get(machine.lower(), "mips")
 
 #Audio Class Definitions
 class PCMLoop:
@@ -508,12 +521,12 @@ class SampleHeader:
         
         self.updateSize()
 
-    def serializeTo(self, output,packspecs=StructPackSpec()):
+    def serializeTo(self, output, packspecs=StructPackSpec()):
         self.updateReferences()
         modes = (self.codec & 0xf) << 4
         modes |= (self.medium & 0x3) << 2
         output.write(struct.pack(packspecs.genPackString("bbHXPPP"), modes, self.u2, self.length, self.offsetInBank, self.loopOffset, self.bookOffset))
-        return 4 + (3*packspecs.pointerSize()) + packspecs.pointerPaddingSize()
+        return 4 + (3 * packspecs.pointerSize()) + packspecs.pointerPaddingSize()
 
     def toXML(self, root, bankNames, sampleNames):
         return XmlTree.SubElement(
@@ -752,7 +765,7 @@ class Percussion:
         else:
             self.name = f"Drum_{offset:0>8x}"
             self.enum = ""
-        self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">BBBxLfL", input)
+        self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset = struct.unpack(">bbBxLfL", input)
         assert self.loaded == 0
         usedFontData.append((self, baseOffset + offset, baseOffset + offset + 16))
         self.sample = SampleHeader()
@@ -765,7 +778,7 @@ class Percussion:
             self.headerOffset = self.sample.addr
         if self.envelope is not None:
             self.envelopeOffset = self.envelope.addr	
-        output.write(struct.pack(packspecs.genPackString("BBBxXPfXP"), self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset))
+        output.write(struct.pack(packspecs.genPackString("bbBxXPfXP"), self.decay, self.pan, self.loaded, self.headerOffset, self.pitch, self.envelopeOffset))
         return 8 + (2*packspecs.pointerSize()) + (2*packspecs.pointerPaddingSize())
 
     def fromXML(self, xml_element):
@@ -1062,21 +1075,26 @@ class SoundfontEntry:
     def parseFrom(self, input):
         self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount = struct.unpack(">LLBBbbBBH", input)
 
-    def serializeTo(self, output,packspecs=StructPackSpec()):	
-        output.write(struct.pack(packspecs.genPackString("LLBBBBBBH"), self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
+    def serializeTo(self, output, packspecs=StructPackSpec()):	
+        output.write(struct.pack(packspecs.genPackString("LLBBbbBBH"), self.offset, self.length, self.medium, self.cache, self.bank, self.bank2, self.instrumentCount, self.percussionCount, self.effectCount))
 
 class Soundfont:
     def __init__(self):
         self.name = ''
+        self.symbol = None
         self.idx = -1
         self.medium = 2
         self.cachePolicy = 2
         self.offset = -1
         self.length = -1
+
         self.bank1 = None
         self.bank2 = None
         self.bankOverride = None
-        self.symbol = None
+        self.bankNames = []
+        self.bankIdx1 = -1
+        self.bankIdx2 = -1
+
         self.instruments = []
         self.percussion = []
         self.soundEffects = []
@@ -1087,9 +1105,6 @@ class Soundfont:
         self.perc_read = 0
         self.sfx_read = 0
         
-        self.bankNames = []
-        self.bankIdx = -1
-        self.bankIdx2 = -1
         self.instIdxLookup = {}
         self.percIdxLookup = {}
         self.sfxIdxLookup = {}
@@ -1119,7 +1134,7 @@ class Soundfont:
         for i in range(max_used):
             if not i in lookup_map:
                 empty_ct += 1
-        return max_used + (empty_exp - empty_ct)		
+        return max_used + (empty_exp - empty_ct)
 
     def instSlotCount(self):
         return Soundfont.slotCount(self.inst_read, self.instIdxLookup, self.instruments)
@@ -1144,12 +1159,12 @@ class Soundfont:
         self.bankOverride = int(fontdef.bankOverride) if fontdef.bankOverride else None
         self.medium = entry.medium
         self.cachePolicy = entry.cache
-        self.bank1 = entry.bank
-        self.bank2 = entry.bank2
+        self.bankIdx1 = entry.bank
+        self.bankIdx2 = entry.bank2
         self.offset = entry.offset
         self.length = entry.length
 
-        banks = [int(self.bankOverride)] if self.bankOverride else [self.bank1, self.bank2]
+        banks = [int(self.bankOverride)] if self.bankOverride else [self.bankIdx1, self.bankIdx2]
 
         endOffset = entry.offset + 8
         percussionOffset, effectsOffset = struct.unpack(">LL", datafile[entry.offset:endOffset])
@@ -1335,7 +1350,7 @@ class Soundfont:
                     text_split = data_text.split(',')
                     data_list = []
                     for b in text_split:
-                        data_list.append(int(b,16))
+                        data_list.append(int(b, 16))
                     self.unusedDat[data_offset] = data_list
 
     def toXML(self, bankNames, sampleNames, tunings):
@@ -1351,10 +1366,10 @@ class Soundfont:
             root.attrib["Symbol"] = self.symbol
 
         banks = XmlTree.SubElement(root, "SampleBanks")
-        XmlTree.SubElement(banks, "Bank", { "Name": bankNames[self.bank1] })
+        XmlTree.SubElement(banks, "Bank", { "Name": bankNames[self.bankIdx1] })
 
         if self.bank2 > -1:
-            XmlTree.SubElement(banks, "Bank", { "Name": bankNames[self.bank2] })
+            XmlTree.SubElement(banks, "Bank", { "Name": bankNames[self.bankIdx2] })
         
         if self.bankOverride:
             overrideBanks = XmlTree.SubElement(root, "ForceSampleBank")
@@ -1395,8 +1410,8 @@ class Soundfont:
     def getTableEntry(self):
         myentry = SoundfontEntry()
 
-        myentry.bank = self.bank1
-        myentry.bank2 = self.bank2
+        myentry.bank = self.bankIdx1
+        myentry.bank2 = self.bankIdx2
         myentry.medium = self.medium
         myentry.cache = self.cachePolicy
 

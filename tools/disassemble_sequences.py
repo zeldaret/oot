@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import argparse
+from pathlib import Path
 import subprocess
 import xml.etree.ElementTree as XmlTree
 import os
@@ -43,36 +45,18 @@ def get_soundfont_ids_for_seq(index, data):
     assert count == 1
     return struct.unpack(">b", data[seq_idx + 1:seq_idx + 2])[0]
 
-def main():
-    args = []
-    need_help = False
-    for a in sys.argv[1:]:
-        if a == "--help" or a == "-h":
-            need_help = True
-        elif a.startswith("-"):
-            print("Unrecognized option " + a)
-            sys.exit(1)
-        else:
-            args.append(a)
-
-    expected_num_args = 6
-    if need_help or len(args) != expected_num_args:
-        print(
-            f"Usage: {sys.argv[0]} <version> <code file> <Audioseq file> <sequence defs path> <soundfont assets path> <sequences output dir>"
-        )
-        sys.exit(0 if need_help else 1)
-
+def main(args):
     with open("offsets.json", "r") as offset_file:
         table_offsets = json.load(offset_file)
     
-    version = args[0]
+    version = args.version
 
     # code file
-    code_data = open(args[1], "rb").read()
-    seq_data = open(args[2], "rb").read()
-    seq_def_path = args[3]
-    soundfont_header_path = args[4]
-    midi_out_dir = args[5]
+    code_data = args.code.read()
+    seq_data = args.audioseq.read()
+    seq_def_path = args.seqdef
+    soundfont_header_path = args.soundfonts
+    midi_out_dir = args.output
 
     def check_offset(offset, type):
         if offset is None:
@@ -120,5 +104,17 @@ def main():
             if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
                 convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_header_path, f"{font_id}.h"))
 
+            f"Usage: {sys.argv[0]} <version> <code file> <Audioseq file> <sequence defs path> <soundfont assets path> <sequences output dir>"
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument("version", metavar="<version>", help="The version of Ocarina of Time being disassembled.")
+parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
+parser.add_argument("audioseq", metavar="<Audioseq file>", type=argparse.FileType("rb"), help="Path to the 'Audioseq' file, usually in baserom.")
+parser.add_argument("seqdef", metavar="<sequence defs path>", type=Path, help="The asset XML path where the sequence definitions are stored.")
+parser.add_argument("soundfonts", metavar="<soundfont assets path>", type=Path, help="The path to the soundfont assets.")
+parser.add_argument("output", metavar="<sequences output dir>", type=Path, help="The output path for sequences.")
+parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
+args = parser.parse_args()
+
 if __name__ == "__main__":
-    main()
+    main(args)
