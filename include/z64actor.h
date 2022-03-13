@@ -265,7 +265,8 @@ typedef enum {
     /* 0x16 */ ITEM00_SHIELD_HYLIAN,
     /* 0x17 */ ITEM00_TUNIC_ZORA,
     /* 0x18 */ ITEM00_TUNIC_GORON,
-    /* 0x19 */ ITEM00_BOMBS_SPECIAL
+    /* 0x19 */ ITEM00_BOMBS_SPECIAL,
+    /* 0xFF */ ITEM00_NONE = 0xFF
 } Item00Type;
 
 struct EnItem00;

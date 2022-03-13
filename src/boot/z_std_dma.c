@@ -9,7 +9,7 @@ STACK(sDmaMgrStack, 0x500);
 const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
 
-u32 D_80009460 = 0;
+u32 gDmaMgrVerbose = 0;
 u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrIsRomCompressed = false;
 
@@ -68,7 +68,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
         ioMsg.dramAddr = (void*)ram;
         ioMsg.size = buffSize;
 
-        if (D_80009460 == 10) {
+        if (gDmaMgrVerbose == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
                          ioMsg.devAddr, ioMsg.size, gPiMgrCmdQ.validCount);
         }
@@ -78,12 +78,12 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
             goto end;
         }
 
-        if (D_80009460 == 10) {
+        if (gDmaMgrVerbose == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
         }
 
         osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-        if (D_80009460 == 10) {
+        if (gDmaMgrVerbose == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
         }
 
@@ -100,7 +100,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
     ioMsg.dramAddr = (void*)ram;
     ioMsg.size = size;
 
-    if (D_80009460 == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
                      ioMsg.devAddr, ioMsg.size, gPiMgrCmdQ.validCount);
     }
@@ -111,7 +111,7 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
     }
 
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-    if (D_80009460 == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
     }
 
@@ -129,7 +129,7 @@ s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(direction == OS_READ, "direction == OS_READ", "../z_std_dma.c", 531);
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
-    if (D_80009460 == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld サウンドＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), mb->dramAddr,
                      mb->devAddr, mb->size, gPiMgrCmdQ.validCount);
     }
