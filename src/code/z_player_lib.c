@@ -852,14 +852,14 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
             sp50 = Math_FAtan2F(sp58, sp60);
 
-            temp1 = (M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * (0x8000 / M_PI);
+            temp1 = RADF_TO_BINANG(M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50)));
             temp1 = temp1 - skelAnime->jointTable[shinLimbIndex].z;
 
             if ((s16)(ABS(skelAnime->jointTable[shinLimbIndex].x) + ABS(skelAnime->jointTable[shinLimbIndex].y)) < 0) {
                 temp1 += 0x8000;
             }
 
-            temp2 = (sp50 - sp54) * (0x8000 / M_PI);
+            temp2 = RADF_TO_BINANG(sp50 - sp54);
             rot->z -= temp2;
 
             skelAnime->jointTable[thighLimbIndex].z = skelAnime->jointTable[thighLimbIndex].z - temp2;

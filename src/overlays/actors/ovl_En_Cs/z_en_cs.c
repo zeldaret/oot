@@ -290,7 +290,7 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
     EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
     xDiff = pathPos.x - this->actor.world.pos.x;
     zDiff = pathPos.z - this->actor.world.pos.z;
-    walkAngle1 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
+    walkAngle1 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     this->walkAngle = walkAngle1;
     this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
 
@@ -305,7 +305,7 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
         EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
         xDiff = pathPos.x - this->actor.world.pos.x;
         zDiff = pathPos.z - this->actor.world.pos.z;
-        walkAngle2 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
+        walkAngle2 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
         this->walkAngle = walkAngle2;
         this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
     }
