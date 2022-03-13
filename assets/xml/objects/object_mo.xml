@@ -50,6 +50,7 @@
         <DList Name="gMorphaTentaclePart38DL" Offset="0x87A8"/>
         <DList Name="gMorphaTentaclePart39DL" Offset="0x87F0"/>
         <DList Name="gMorphaTentaclePart40DL" Offset="0x8838"/>
+        <Texture Name="gMorphaWaterTex" Format="rgba16" Width="32" Height="32" Offset="0x8870"/>
 
         <!-- DLists for Morpha's particles -->
         <DList Name="gMorphaBubbleDL" Offset="0x140"/>
