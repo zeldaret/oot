@@ -6,11 +6,11 @@
         <Texture Name="gHylianShieldDesignTex" OutName="hylian_shield_design" Format="rgba16" Width="32" Height="64" Offset="0x400"/>
         <Texture Name="gOcarinaofTimeDesignTex" OutName="ocarina_of_time_design" Format="rgba16" Width="32" Height="16" Offset="0x1400"/>
         <Texture Name="gBottleGlassTex" OutName="bottle_glass" Format="rgba16" Width="16" Height="16" Offset="0x1800"/>
-        <Texture Name="gLinkTunic1Tex" OutName="link_tunic_1" Format="i8" Width="8" Height="8" Offset="0x1A00"/>
+        <Texture Name="gDekuStickTex" OutName="deku_stick" Format="i8" Width="8" Height="8" Offset="0x1A00"/>
         <Texture Name="gLinkHairTex" OutName="link_hair" Format="rgba16" Width="16" Height="16" Offset="0x1A40"/>
-        <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x1C40"/>
-        <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
-        <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>
+        <Texture Name="gLinkTunic1Tex" OutName="link_tunic_1" Format="i8" Width="16" Height="16" Offset="0x1C40"/>
+        <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
+        <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="16" Offset="0x1F40"/>
         <Array Name="gLinkPauseChildJointTable" Count="24" Offset="0x2040">
             <Vector Type="s16" Dimensions="3"/>
         </Array>
