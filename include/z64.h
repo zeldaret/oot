@@ -740,6 +740,12 @@ typedef enum {
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
 
+#define PAUSE_EQUIP_PLAYER_WIDTH 64
+#define PAUSE_EQUIP_PLAYER_HEIGHT 112
+
+#define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
+#define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ u8*    iconItemSegment;
@@ -1581,11 +1587,6 @@ typedef struct {
 
 // ========================
 
-#define OS_SC_RETRACE_MSG       1
-#define OS_SC_DONE_MSG          2
-#define OS_SC_NMI_MSG           3 // name is made up, 3 is OS_SC_RDP_DONE_MSG in the original sched.c
-#define OS_SC_PRE_NMI_MSG       4
-
 #define OS_SC_DP                0x0001
 #define OS_SC_SP                0x0002
 #define OS_SC_YIELD             0x0010
@@ -1829,7 +1830,7 @@ typedef struct {
     /* 0x08 */ Color_RGBA8_u32 primColor;
     /* 0x0C */ Color_RGBA8_u32 envColor;
     /* 0x10 */ u16* tlut;
-    /* 0x14 */ Gfx* monoDl;
+    /* 0x14 */ Gfx* dList;
 } VisMono; // size = 0x18
 
 // Vis...

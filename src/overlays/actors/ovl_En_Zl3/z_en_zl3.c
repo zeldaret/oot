@@ -1614,7 +1614,7 @@ s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
         f32 xDiff = vec2->x - vec1->x;
         f32 zDiff = vec2->z - vec1->z;
 
-        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     }
     return 0;
 }
@@ -1627,7 +1627,7 @@ s16 func_80B57104(EnZl3* this, s32 arg1) {
         f32 zDiff = point->z - this->actor.world.pos.z;
 
         if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
-            return Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI);
+            return RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
         }
     }
     return 0;
@@ -1741,7 +1741,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
         return 1;
     }
 
-    temp_v0 = (s16)(temp_v1 - (s16)(Math_FAtan2F(temp_f12, temp_f13) * (0x8000 / M_PI)));
+    temp_v0 = (s16)(temp_v1 - RADF_TO_BINANG(Math_FAtan2F(temp_f12, temp_f13)));
 
     if (temp_v0 < 0x1555) {
         return 1;
@@ -1828,7 +1828,7 @@ void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     f32 posZ = vec->z;
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, posX, posY, posZ, 0,
-                (Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ) * (0x8000 / M_PI)), 0, 5);
+                RADF_TO_BINANG(Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ)), 0, 5);
 }
 
 void func_80B57858(GlobalContext* globalCtx) {

@@ -296,7 +296,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         } else {
             Vec3f sp48;
             EnFw_GetPosAdjAroundCircle(&sp48, this, this->runRadius, this->runDirection);
-            Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0, 1);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(sp48.x, sp48.z)), 4, 0xFA0, 1);
         }
 
         this->actor.world.rot = this->actor.shape.rot;
