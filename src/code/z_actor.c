@@ -4041,7 +4041,7 @@ u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = GET_PLAYER(globalCtx);
 
     if ((collider->acFlags & AC_TYPE_PLAYER) && (player->meleeWeaponState != 0) &&
-        (player->meleeWeaponAnimation == 0x16)) {
+        (player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD)) {
         return true;
     } else {
         return false;

@@ -15,7 +15,7 @@ extern u8 osAppNmiBuffer[0x40];
 extern u8 D_80009320[];
 extern u8 D_800093F0[];
 extern s8 D_80009430;
-extern u32 D_80009460;
+extern u32 gDmaMgrVerbose;
 extern u32 gDmaMgrDmaBuffSize;
 extern vu8 gViConfigUseDefault;
 extern u8 gViConfigAdditionalScanLines;
