@@ -1,0 +1,3449 @@
+// Nintendo 64 Music Macro Language (Audioseq) (.mus) sequence: FF6-_Overworld_Theme
+// Converted by SEQ64 V2.0 [https://github.com/sauraen/seq64]
+#include "sequence.h"
+#include "assets/soundfonts/3.h"
+.include "seq_macros.inc"
+.section .rodata
+.balign 0x10
+// Sequence Header
+
+sequence_start:
+    seq_setmutebhv  32
+    seq_setmutescale  50
+    seq_initchannels  0xAAAF
+seq:
+    seq_startchannel  0, seq_chn0
+    seq_startchannel  1, seq_chn1
+    seq_startchannel  2, seq_chn2
+    seq_startchannel  3, seq_chn3
+    seq_startchannel  5, seq_chn5
+    seq_startchannel  7, seq_chn7
+    seq_startchannel  9, seq_chn9
+    seq_startchannel  11, seq_chn11
+    seq_startchannel  13, seq_chn13
+    seq_startchannel  15, seq_chn15
+    seq_setvol  88
+    seq_settempo  80
+    seq_delay  20544
+    seq_jump  seq
+    seq_end	
+// Section total ticks: 20544
+
+// Channel Headers
+
+// tsec0
+
+seq_chn0:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn0_ly0
+    chan_call  _chn0_call2
+    chan_setinstr  F3_I_FLUTE
+    chan_delay  20544
+    chan_end	
+// Section total ticks: 20544
+
+seq_chn1:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn1_ly0
+    chan_call  _chn0_call2
+    chan_setinstr  F3_I_FLUTE
+    chan_delay  20544
+    chan_end	
+// Section total ticks: 20544
+
+seq_chn2:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn2_ly0
+    chan_call  _chn0_call2
+    chan_setinstr  F3_I_FLUTE
+    chan_delay  20544
+    chan_end	
+// Section total ticks: 20544
+
+seq_chn3:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn3_ly0
+    chan_call  _chn0_call2
+    chan_call  _chn3_call3
+    chan_loop  16
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  56
+    chan_delayshort  12
+    chan_setvol  59
+    chan_delayshort  12
+    chan_loop  17
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  80
+    chan_delayshort  12
+    chan_setvol  83
+    chan_delayshort  12
+    chan_loop  17
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  104
+    chan_delayshort  12
+    chan_setvol  107
+    chan_delayshort  12
+    chan_loop  16
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  127
+    chan_delay  20160
+    chan_end	
+// Section total ticks: 20296
+
+seq_chn5:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn5_ly0
+    chan_call  _chn0_call2
+    chan_call  _chn3_call3
+    chan_loop  16
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  56
+    chan_delayshort  12
+    chan_setvol  59
+    chan_delayshort  12
+    chan_loop  17
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  80
+    chan_delayshort  12
+    chan_setvol  83
+    chan_delayshort  12
+    chan_loop  17
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  104
+    chan_delayshort  12
+    chan_setvol  107
+    chan_delayshort  12
+    chan_loop  16
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  127
+    chan_delay  20160
+    chan_end	
+// Section total ticks: 20296
+
+seq_chn7:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn7_ly0
+    chan_call  _chn0_call2
+    chan_call  _chn3_call3
+    chan_loop  16
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  56
+    chan_delayshort  12
+    chan_setvol  59
+    chan_delayshort  12
+    chan_loop  17
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  80
+    chan_delayshort  12
+    chan_setvol  83
+    chan_delayshort  12
+    chan_loop  17
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  104
+    chan_delayshort  12
+    chan_setvol  107
+    chan_delayshort  12
+    chan_loop  16
+    chan_setvol  0
+    chan_delayshort  4
+    chan_loopend	
+    chan_setvol  0
+    chan_delayshort  5
+    chan_setvol  127
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  3072
+    chan_loop  2
+    chan_setinstr  F3_I_HORN
+    chan_delay  1536
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  5184
+    chan_loopend	
+    chan_setinstr  F3_I_HORN
+    chan_delay  1536
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  2112
+    chan_end	
+// Section total ticks: 13576
+
+seq_chn9:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn9_ly0
+    chan_setlayer  1, seq_chn9_ly1
+    chan_call  _chn0_call2
+    chan_setinstr INSTR_DRUM
+    chan_delay  20544
+    chan_end	
+// Section total ticks: 20544
+
+seq_chn11:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn11_ly0
+    chan_call  _chn0_call2
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  3456
+    chan_loop  2
+    chan_setinstr  F3_I_HORN
+    chan_delay  3648
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  3072
+    chan_loopend	
+    chan_setinstr  F3_I_HORN
+    chan_delay  3648
+    chan_end	
+// Section total ticks: 13824
+
+seq_chn13:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn13_ly0
+    chan_call  _chn0_call2
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  4968
+    chan_loop  2
+    chan_setinstr  F3_I_HORN
+    chan_delay  2136
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  4584
+    chan_loopend	
+    chan_setinstr  F3_I_HORN
+    chan_delay  2136
+    chan_end	
+// Section total ticks: 13824
+
+seq_chn15:
+    chan_largenoteson	
+    chan_setlayer  0, seq_chn15_ly0
+    chan_call  _chn0_call2
+    chan_setinstr  F3_I_PIZZICATO
+    chan_delay  384
+    chan_setinstr  F3_I_BASSOON
+    chan_delay  20160
+    chan_end	
+// Section total ticks: 20544
+
+// Note Layers
+
+seq_chn0_ly0:
+    layer_transpose  0
+    layer_delay  372
+    layer_note1  59, 12, 75
+    layer_note2  61, 75, 0
+    layer_note2  62, 75, 0
+    layer_transpose  12
+    layer_loop  2
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call8
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call10
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call13
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call8
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call10
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call20
+    layer_note1  45, 120, 75
+    layer_call  _chn0_ly0_call20
+    layer_note1  57, 120, 75
+    layer_call  _chn0_ly0_call13
+    layer_call  _chn0_ly0_call7
+    layer_note1  42, 120, 75
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call28
+    layer_note0  47, 2280, 75, 237
+    layer_call  _chn0_ly0_call13
+    layer_loopend	
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call8
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call10
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call13
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call8
+    layer_call  _chn0_ly0_call7
+    layer_call  _chn0_ly0_call10
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call20
+    layer_note1  45, 120, 75
+    layer_call  _chn0_ly0_call20
+    layer_note1  57, 120, 75
+    layer_call  _chn0_ly0_call13
+    layer_call  _chn0_ly0_call7
+    layer_note1  42, 120, 75
+    layer_call  _chn0_ly0_call11
+    layer_call  _chn0_ly0_call28
+    layer_note0  47, 2280, 75, 237
+    layer_note1  47, 12, 75
+    layer_end	
+// Section total ticks: 13824
+
+seq_chn1_ly0:
+    layer_transpose  0
+    layer_delay  360
+    layer_note1  59, 12, 108
+    layer_note2  61, 108, 0
+    layer_note2  62, 108, 0
+    layer_transpose  12
+    layer_loop  2
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call8
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call10
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call13
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call8
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call10
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call20
+    layer_note1  45, 120, 108
+    layer_call  _chn1_ly0_call20
+    layer_note1  57, 120, 108
+    layer_call  _chn1_ly0_call13
+    layer_call  _chn1_ly0_call7
+    layer_note1  42, 120, 108
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call28
+    layer_note0  47, 2280, 108, 237
+    layer_call  _chn1_ly0_call13
+    layer_loopend	
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call8
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call10
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call13
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call8
+    layer_call  _chn1_ly0_call7
+    layer_call  _chn1_ly0_call10
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call20
+    layer_note1  45, 120, 108
+    layer_call  _chn1_ly0_call20
+    layer_note1  57, 120, 108
+    layer_call  _chn1_ly0_call13
+    layer_call  _chn1_ly0_call7
+    layer_note1  42, 120, 108
+    layer_call  _chn1_ly0_call11
+    layer_call  _chn1_ly0_call28
+    layer_note0  47, 2280, 108, 237
+    layer_note1  47, 12, 108
+    layer_note2  49, 108, 0
+    layer_end	
+// Section total ticks: 13824
+
+seq_chn2_ly0:
+    layer_transpose  0
+    layer_delay  384
+    layer_note1  59, 12, 45
+    layer_note2  61, 45, 0
+    layer_note2  62, 45, 0
+    layer_transpose  12
+    layer_loop  2
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call8
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call10
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call13
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call8
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call10
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call20
+    layer_note1  45, 120, 45
+    layer_call  _chn2_ly0_call20
+    layer_note1  57, 120, 45
+    layer_call  _chn2_ly0_call13
+    layer_call  _chn2_ly0_call7
+    layer_note1  42, 120, 45
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call28
+    layer_note0  47, 2280, 45, 237
+    layer_call  _chn2_ly0_call13
+    layer_loopend	
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call8
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call10
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call13
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call8
+    layer_call  _chn2_ly0_call7
+    layer_call  _chn2_ly0_call10
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call20
+    layer_note1  45, 120, 45
+    layer_call  _chn2_ly0_call20
+    layer_note1  57, 120, 45
+    layer_call  _chn2_ly0_call13
+    layer_call  _chn2_ly0_call7
+    layer_note1  42, 120, 45
+    layer_call  _chn2_ly0_call11
+    layer_call  _chn2_ly0_call28
+    layer_note0  47, 2280, 45, 237
+    layer_end	
+// Section total ticks: 13824
+
+seq_chn3_ly0:
+    layer_transpose  0
+    layer_note1  47, 384, 92
+    layer_call  _chn3_ly0_call3
+    layer_call  _chn3_ly0_call3
+    layer_loop  2
+    layer_call  _chn3_ly0_call6
+    layer_call  _chn3_ly0_call3
+    layer_call  _chn3_ly0_call3
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn3_ly0_call3
+    layer_note1  55, 192, 92
+    layer_note2  54, 92, 0
+    layer_note1  50, 96, 92
+    layer_note1  54, 48, 92
+    layer_note2  50, 92, 0
+    layer_note1  47, 192, 92
+    layer_note1  52, 96, 92
+    layer_note1  55, 48, 92
+    layer_note2  52, 92, 0
+    layer_note1  49, 192, 92
+    layer_note1  54, 96, 92
+    layer_note1  57, 48, 92
+    layer_note2  54, 92, 0
+    layer_note1  50, 144, 92
+    layer_note1  52, 24, 92
+    layer_note2  54, 92, 0
+    layer_note1  52, 48, 92
+    layer_note1  47, 96, 92
+    layer_note1  49, 48, 92
+    layer_note1  50, 192, 92
+    layer_note2  49, 92, 0
+    layer_call  _chn3_ly0_call33
+    layer_note1  59, 96, 92
+    layer_note2  62, 92, 0
+    layer_call  _chn3_ly0_call3
+    layer_call  _chn3_ly0_call3
+    layer_call  _chn3_ly0_call6
+    layer_call  _chn3_ly0_call3
+    layer_call  _chn3_ly0_call3
+    layer_call  _chn3_ly0_call6
+    layer_call  _chn3_ly0_call3
+    layer_call  _chn3_ly0_call3
+    layer_loopend	
+    layer_call  _chn3_ly0_call3
+    layer_note1  55, 192, 92
+    layer_note2  54, 92, 0
+    layer_note1  50, 96, 92
+    layer_note1  54, 48, 92
+    layer_note2  50, 92, 0
+    layer_note1  47, 192, 92
+    layer_note1  52, 96, 92
+    layer_note1  55, 48, 92
+    layer_note2  52, 92, 0
+    layer_note1  49, 192, 92
+    layer_note1  54, 96, 92
+    layer_note1  57, 48, 92
+    layer_note2  54, 92, 0
+    layer_note1  50, 144, 92
+    layer_note1  52, 24, 92
+    layer_note2  54, 92, 0
+    layer_note1  52, 48, 92
+    layer_note1  47, 96, 92
+    layer_note1  49, 48, 92
+    layer_note1  50, 192, 92
+    layer_note2  49, 92, 0
+    layer_call  _chn3_ly0_call33
+    layer_note1  59, 96, 92
+    layer_note2  62, 92, 0
+    layer_end	
+// Section total ticks: 12288
+
+seq_chn5_ly0:
+    layer_transpose  0
+    layer_note1  38, 384, 92
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_loop  2
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call9
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call9
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call19
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call19
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call9
+    layer_call  _chn5_ly0_call26
+    layer_note1  42, 48, 92
+    layer_note1  43, 192, 92
+    layer_note1  43, 96, 92
+    layer_note1  47, 48, 92
+    layer_note2  43, 92, 0
+    layer_note1  45, 192, 92
+    layer_call  _chn5_ly0_call26
+    layer_note1  45, 48, 92
+    layer_note1  47, 144, 92
+    layer_note1  47, 24, 92
+    layer_note2  45, 92, 0
+    layer_note1  43, 192, 92
+    layer_note2  45, 92, 0
+    layer_note2  40, 92, 0
+    layer_note1  42, 96, 92
+    layer_note2  47, 92, 0
+    layer_call  _chn3_ly0_call33
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_loopend	
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call9
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call4
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call9
+    layer_loop  2
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call19
+    layer_loopend	
+    layer_call  _chn5_ly0_call3
+    layer_call  _chn5_ly0_call8
+    layer_call  _chn5_ly0_call9
+    layer_call  _chn5_ly0_call26
+    layer_note1  42, 48, 92
+    layer_note1  43, 192, 92
+    layer_note1  43, 96, 92
+    layer_note1  47, 48, 92
+    layer_note2  43, 92, 0
+    layer_note1  45, 192, 92
+    layer_call  _chn5_ly0_call26
+    layer_note1  45, 48, 92
+    layer_note1  47, 144, 92
+    layer_note1  47, 24, 92
+    layer_note2  45, 92, 0
+    layer_note1  43, 192, 92
+    layer_note2  45, 92, 0
+    layer_note2  40, 92, 0
+    layer_note1  42, 96, 92
+    layer_note2  47, 92, 0
+    layer_call  _chn3_ly0_call33
+    layer_end	
+// Section total ticks: 13440
+
+seq_chn7_ly0:
+    layer_transpose  0
+    layer_note1  23, 384, 92
+    layer_loop  3
+    layer_note1  42, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  42, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_note1  40, 24, 75
+    layer_note2  40, 75, 0
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_note1  40, 24, 75
+    layer_note2  40, 75, 0
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call67
+    layer_call  _chn7_ly0_call68
+    layer_note1  38, 12, 75
+    layer_note0  38, 60, 75, 204
+    layer_call  _chn7_ly0_call71
+    layer_call  _chn7_ly0_call71
+    layer_note1  35, 48, 92
+    layer_call  _chn7_ly0_call74
+    layer_note1  42, 192, 92
+    layer_call  _chn7_ly0_call76
+    layer_call  _chn7_ly0_call76
+    layer_note1  42, 192, 92
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call87
+    layer_call  _chn7_ly0_call87
+    layer_call  _chn7_ly0_call87
+    layer_call  _chn7_ly0_call87
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_note1  35, 6, 75
+    layer_note2  35, 73, 0
+    layer_note2  35, 71, 0
+    layer_note2  35, 69, 0
+    layer_note2  35, 67, 0
+    layer_note2  35, 65, 0
+    layer_note2  35, 63, 0
+    layer_note2  35, 61, 0
+    layer_note2  35, 59, 0
+    layer_note2  35, 57, 0
+    layer_note2  35, 55, 0
+    layer_note2  35, 53, 0
+    layer_note2  35, 51, 0
+    layer_note2  35, 49, 0
+    layer_note2  35, 47, 0
+    layer_note2  35, 45, 0
+    layer_note2  35, 43, 0
+    layer_note2  35, 41, 0
+    layer_note2  35, 39, 0
+    layer_note2  35, 37, 0
+    layer_note2  35, 35, 0
+    layer_note2  35, 33, 0
+    layer_note2  35, 31, 0
+    layer_note2  35, 29, 0
+    layer_note2  35, 27, 0
+    layer_note2  35, 25, 0
+    layer_note2  35, 23, 0
+    layer_note2  35, 21, 0
+    layer_note2  35, 19, 0
+    layer_note2  35, 17, 0
+    layer_note2  35, 15, 0
+    layer_note2  35, 13, 0
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call79
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_note1  37, 6, 75
+    layer_note2  37, 73, 0
+    layer_note2  37, 71, 0
+    layer_note2  37, 69, 0
+    layer_note2  37, 67, 0
+    layer_call  _chn7_ly0_call87
+    layer_call  _chn7_ly0_call87
+    layer_call  _chn7_ly0_call87
+    layer_note1  37, 6, 53
+    layer_note2  37, 51, 0
+    layer_note2  37, 49, 0
+    layer_note2  37, 47, 0
+    layer_note2  37, 45, 0
+    layer_note2  37, 43, 0
+    layer_note2  37, 41, 0
+    layer_note2  37, 39, 0
+    layer_note2  37, 37, 0
+    layer_note2  37, 35, 0
+    layer_note2  37, 33, 0
+    layer_note2  37, 31, 0
+    layer_note2  37, 29, 0
+    layer_note2  37, 27, 0
+    layer_note2  37, 25, 0
+    layer_note2  37, 23, 0
+    layer_note2  37, 21, 0
+    layer_note2  37, 19, 0
+    layer_note2  37, 17, 0
+    layer_note2  37, 15, 0
+    layer_note2  37, 13, 0
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call127
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_call  _chn7_ly0_call172
+    layer_note1  47, 6, 75
+    layer_note2  47, 73, 0
+    layer_note2  47, 71, 0
+    layer_note2  47, 69, 0
+    layer_note2  47, 67, 0
+    layer_note2  47, 65, 0
+    layer_note2  47, 63, 0
+    layer_note2  47, 61, 0
+    layer_note2  47, 59, 0
+    layer_note2  47, 57, 0
+    layer_note2  47, 55, 0
+    layer_note2  47, 53, 0
+    layer_note2  47, 51, 0
+    layer_note2  47, 49, 0
+    layer_note2  47, 47, 0
+    layer_note2  47, 45, 0
+    layer_note2  47, 43, 0
+    layer_note2  47, 41, 0
+    layer_note2  47, 39, 0
+    layer_note2  47, 37, 0
+    layer_note2  47, 35, 0
+    layer_note2  47, 33, 0
+    layer_note2  47, 31, 0
+    layer_note2  47, 29, 0
+    layer_note2  47, 27, 0
+    layer_note2  47, 25, 0
+    layer_note2  47, 23, 0
+    layer_note2  47, 21, 0
+    layer_note2  47, 19, 0
+    layer_note2  47, 17, 0
+    layer_note2  47, 15, 0
+    layer_note2  47, 13, 0
+    layer_delay  576
+    layer_call  _chn7_ly0_call221
+    layer_note1  50, 24, 75
+    layer_call  _chn7_ly0_call221
+    layer_call  _chn7_ly0_call224
+    layer_call  _chn7_ly0_call221
+    layer_note1  50, 24, 75
+    layer_call  _chn7_ly0_call221
+    layer_call  _chn7_ly0_call224
+    layer_call  _chn7_ly0_call221
+    layer_note1  50, 24, 75
+    layer_call  _chn7_ly0_call221
+    layer_call  _chn7_ly0_call224
+    layer_call  _chn7_ly0_call221
+    layer_note1  50, 24, 75
+    layer_call  _chn7_ly0_call221
+    layer_call  _chn7_ly0_call224
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_loopend	
+    layer_note1  42, 24, 75
+    layer_loop  3
+    layer_note1  42, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  42, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  40, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  40, 8, 75
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call25
+    layer_loopend	
+    layer_note1  38, 24, 75
+    layer_loop  3
+    layer_note1  38, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  38, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  42, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  42, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_call  _chn7_ly0_call9
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call10
+    layer_call  _chn7_ly0_call12
+    layer_call  _chn7_ly0_call9
+    layer_loopend	
+    layer_note1  42, 24, 75
+    layer_loop  3
+    layer_note1  42, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  42, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  40, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  40, 8, 75
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn7_ly0_call21
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call23
+    layer_call  _chn7_ly0_call25
+    layer_loopend	
+    layer_note1  38, 24, 75
+    layer_loop  3
+    layer_note1  38, 8, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  38, 12, 75
+    layer_loopend	
+    layer_note0  38, 60, 75, 204
+    layer_call  _chn7_ly0_call71
+    layer_call  _chn7_ly0_call71
+    layer_note1  35, 48, 92
+    layer_call  _chn7_ly0_call74
+    layer_note1  42, 192, 92
+    layer_call  _chn7_ly0_call76
+    layer_call  _chn7_ly0_call76
+    layer_note1  42, 192, 92
+    layer_loop  16
+    layer_note1  38, 6, 60
+    layer_loopend	
+    layer_loop  8
+    layer_note1  37, 6, 60
+    layer_loopend	
+    layer_loop  8
+    layer_note1  38, 6, 60
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 69
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 63
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 57
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 51
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 45
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 39
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 33
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 27
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 6, 21
+    layer_loopend	
+    layer_loop  2
+    layer_note1  35, 6, 15
+    layer_loopend	
+    layer_loop  16
+    layer_note1  40, 6, 60
+    layer_loopend	
+    layer_loop  8
+    layer_note1  38, 6, 60
+    layer_loopend	
+    layer_loop  8
+    layer_note1  40, 6, 60
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 69
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 63
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 57
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 51
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 45
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 39
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 33
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 27
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 6, 21
+    layer_loopend	
+    layer_loop  2
+    layer_note1  37, 6, 15
+    layer_loopend	
+    layer_loop  16
+    layer_note1  42, 6, 60
+    layer_loopend	
+    layer_loop  8
+    layer_note1  40, 6, 60
+    layer_loopend	
+    layer_loop  8
+    layer_note1  42, 6, 60
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 69
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 63
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 57
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 51
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 45
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 39
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 33
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 27
+    layer_loopend	
+    layer_loop  3
+    layer_note1  47, 6, 21
+    layer_loopend	
+    layer_loop  2
+    layer_note1  47, 6, 15
+    layer_loopend	
+    layer_delay  576
+    layer_loop  4
+    layer_call  _chn7_ly0_call221
+    layer_note1  50, 24, 75
+    layer_call  _chn7_ly0_call221
+    layer_call  _chn7_ly0_call224
+    layer_loopend	
+    layer_end	
+// Section total ticks: 10648
+
+seq_chn9_ly0:
+    layer_transpose  0
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 24, 10
+    layer_loopend	
+    layer_note2  F3_D_SNARE_0, 16, 0
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 19
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 22
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 25
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 28
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 32
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 24, 36
+    layer_loopend	
+    layer_note2  F3_D_SNARE_0, 44, 0
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 48
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 51
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 55
+    layer_loopend	
+    layer_loop  24
+    layer_call  _chn9_ly0_call28
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_call  _chn9_ly0_call32
+    layer_call  _chn9_ly0_call34
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_note2  F3_D_SNARE_0, 60, 0
+    layer_call  _chn9_ly0_call107
+    layer_call  _chn9_ly0_call107
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_call  _chn9_ly0_call28
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_loop  4
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_loopend	
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_loopend	
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 60
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 60
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_loopend	
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 60
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_loop  3
+    layer_note1  F3_D_SNARE_0, 8, 60
+    layer_loopend	
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_loop  2
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_loopend	
+    layer_end	
+// Section total ticks: 8212
+
+seq_chn9_ly1:
+    layer_transpose  0
+    layer_delay  4992
+    layer_loop  3
+    layer_note0  F3_D_BASS_00, 384, 92, 136
+    layer_loopend	
+    layer_loop  3
+    layer_note0  F3_D_BASS_00, 192, 92, 16
+    layer_loopend	
+    layer_loop  2
+    layer_note0  F3_D_BASS_00, 4992, 92, 246
+    layer_note0  F3_D_BASS_00, 384, 92, 136
+    layer_note2  F3_D_BASS_00, 92, 136
+    layer_note2  F3_D_BASS_00, 92, 136
+    layer_note0  F3_D_BASS_00, 192, 92, 16
+    layer_note2  F3_D_BASS_00, 92, 16
+    layer_note2  F3_D_BASS_00, 92, 16
+    layer_loopend	
+    layer_note0  F3_D_BASS_00, 384, 92, 136
+    layer_end	
+// Section total ticks: 12672
+
+seq_chn11_ly0:
+    layer_transpose  0
+    layer_note1  42, 48, 10
+    layer_note2  42, 19, 0
+    layer_note2  42, 28, 0
+    layer_note2  42, 37, 0
+    layer_note2  42, 46, 0
+    layer_note2  42, 55, 0
+    layer_note2  42, 65, 0
+    layer_note2  42, 75, 0
+    layer_loop  3
+    layer_note1  38, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  38, 8, 75
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn7_ly0_call25
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn11_ly0_call23
+    layer_note1  35, 12, 75
+    layer_call  _chn11_ly0_call23
+    layer_note1  35, 12, 75
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn11_ly0_call23
+    layer_note1  35, 12, 75
+    layer_call  _chn11_ly0_call23
+    layer_note0  35, 60, 75, 204
+    layer_call  _chn7_ly0_call74
+    layer_call  _chn11_ly0_call41
+    layer_call  _chn7_ly0_call74
+    layer_call  _chn11_ly0_call41
+    layer_call  _chn7_ly0_call74
+    layer_note1  47, 48, 92
+    layer_note1  45, 192, 92
+    layer_call  _chn11_ly0_call47
+    layer_call  _chn11_ly0_call47
+    layer_note1  47, 192, 92
+    layer_note1  38, 96, 92
+    layer_note1  42, 48, 92
+    layer_note2  38, 92, 0
+    layer_note0  35, 192, 92, 32
+    layer_note1  40, 96, 92
+    layer_note1  43, 48, 92
+    layer_note2  40, 92, 0
+    layer_note0  37, 192, 92, 32
+    layer_note1  42, 96, 92
+    layer_note1  45, 48, 92
+    layer_note2  42, 92, 0
+    layer_note0  38, 144, 92, 42
+    layer_note1  40, 24, 92
+    layer_note2  42, 92, 0
+    layer_note1  40, 48, 92
+    layer_note1  35, 96, 92
+    layer_note1  37, 48, 92
+    layer_note1  38, 192, 92
+    layer_note2  37, 92, 0
+    layer_note0  38, 384, 92, 16
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn7_ly0_call25
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn7_ly0_call25
+    layer_loopend	
+    layer_note1  38, 24, 75
+    layer_loop  3
+    layer_note1  38, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  38, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 8, 75
+    layer_loopend	
+    layer_note1  37, 24, 75
+    layer_loop  3
+    layer_note1  37, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  37, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  38, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  38, 8, 75
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn7_ly0_call30
+    layer_call  _chn11_ly0_call17
+    layer_call  _chn7_ly0_call25
+    layer_loopend	
+    layer_note1  38, 24, 75
+    layer_loop  3
+    layer_note1  38, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  38, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  37, 8, 75
+    layer_loopend	
+    layer_note1  37, 24, 75
+    layer_loop  3
+    layer_note1  37, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  37, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_note0  35, 60, 75, 204
+    layer_call  _chn7_ly0_call74
+    layer_call  _chn11_ly0_call41
+    layer_call  _chn7_ly0_call74
+    layer_call  _chn11_ly0_call41
+    layer_call  _chn7_ly0_call74
+    layer_note1  47, 48, 92
+    layer_note1  45, 192, 92
+    layer_call  _chn11_ly0_call47
+    layer_call  _chn11_ly0_call47
+    layer_note1  47, 192, 92
+    layer_note1  38, 96, 92
+    layer_note1  42, 48, 92
+    layer_note2  38, 92, 0
+    layer_note0  35, 192, 92, 32
+    layer_note1  40, 96, 92
+    layer_note1  43, 48, 92
+    layer_note2  40, 92, 0
+    layer_note0  37, 192, 92, 32
+    layer_note1  42, 96, 92
+    layer_note1  45, 48, 92
+    layer_note2  42, 92, 0
+    layer_note0  38, 144, 92, 42
+    layer_note1  40, 24, 92
+    layer_note2  42, 92, 0
+    layer_note1  40, 48, 92
+    layer_note1  35, 96, 92
+    layer_note1  37, 48, 92
+    layer_note1  38, 192, 92
+    layer_note2  37, 92, 0
+    layer_note0  38, 384, 92, 16
+    layer_end	
+// Section total ticks: 12140
+
+seq_chn13_ly0:
+    layer_transpose  0
+    layer_delay  12
+    layer_note1  47, 48, 12
+    layer_loop  2
+    layer_note1  47, 24, 21
+    layer_loopend	
+    layer_note1  47, 48, 29
+    layer_loop  2
+    layer_note1  47, 24, 38
+    layer_loopend	
+    layer_note1  47, 48, 46
+    layer_loop  2
+    layer_note1  47, 24, 55
+    layer_loopend	
+    layer_note1  47, 48, 65
+    layer_note1  47, 24, 75
+    layer_note1  47, 12, 75
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn13_ly0_call24
+    layer_call  _chn13_ly0_call25
+    layer_call  _chn13_ly0_call25
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn11_ly0_call23
+    layer_note1  35, 12, 75
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_note1  31, 24, 75
+    layer_note2  31, 75, 0
+    layer_call  _chn13_ly0_call39
+    layer_call  _chn13_ly0_call39
+    layer_call  _chn13_ly0_call41
+    layer_call  _chn13_ly0_call41
+    layer_note1  30, 24, 75
+    layer_note2  30, 75, 0
+    layer_call  _chn13_ly0_call45
+    layer_call  _chn13_ly0_call45
+    layer_call  _chn13_ly0_call47
+    layer_call  _chn13_ly0_call47
+    layer_call  _chn11_ly0_call23
+    layer_note1  35, 12, 75
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn11_ly0_call23
+    layer_note1  35, 12, 75
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_note1  31, 24, 75
+    layer_note2  31, 75, 0
+    layer_call  _chn13_ly0_call39
+    layer_call  _chn13_ly0_call39
+    layer_call  _chn13_ly0_call41
+    layer_call  _chn13_ly0_call41
+    layer_note1  30, 24, 75
+    layer_note2  30, 75, 0
+    layer_call  _chn13_ly0_call45
+    layer_call  _chn13_ly0_call45
+    layer_call  _chn13_ly0_call47
+    layer_call  _chn13_ly0_call47
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call80
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call80
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call80
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call80
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call110
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call112
+    layer_call  _chn13_ly0_call110
+    layer_call  _chn13_ly0_call112
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call97
+    layer_note1  42, 48, 75
+    layer_note1  27, 8, 108
+    layer_note2  27, 108, 0
+    layer_note2  27, 108, 0
+    layer_note0  27, 360, 108, 119
+    layer_note1  23, 6, 108
+    layer_note2  23, 108, 0
+    layer_note2  23, 108, 0
+    layer_note2  23, 108, 0
+    layer_note0  28, 360, 108, 119
+    layer_note1  25, 6, 108
+    layer_note2  25, 108, 0
+    layer_note2  25, 108, 0
+    layer_note2  25, 108, 0
+    layer_note0  30, 288, 108, 85
+    layer_note1  23, 48, 108
+    layer_note2  23, 108, 0
+    layer_note1  31, 144, 108
+    layer_note1  28, 48, 108
+    layer_note1  33, 96, 108
+    layer_note2  28, 108, 0
+    layer_call  _chn13_ly0_call140
+    layer_call  _chn13_ly0_call140
+    layer_note0  23, 384, 108, 128
+    layer_note1  35, 24, 75
+    layer_note2  35, 75, 0
+    layer_call  _chn13_ly0_call24
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_note1  33, 24, 75
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  33, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_note1  33, 24, 75
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  33, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  31, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  31, 8, 75
+    layer_loopend	
+    layer_note1  31, 24, 75
+    layer_loop  3
+    layer_note1  31, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  31, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  30, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  30, 8, 75
+    layer_loopend	
+    layer_note1  30, 24, 75
+    layer_loop  3
+    layer_note1  30, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  30, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_note1  33, 24, 75
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  33, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_note1  35, 24, 75
+    layer_loop  3
+    layer_note1  35, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  35, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_call  _chn13_ly0_call28
+    layer_call  _chn13_ly0_call27
+    layer_note1  33, 24, 75
+    layer_loop  3
+    layer_note1  33, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  33, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  31, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  31, 8, 75
+    layer_loopend	
+    layer_note1  31, 24, 75
+    layer_loop  3
+    layer_note1  31, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  31, 12, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  30, 24, 75
+    layer_loopend	
+    layer_loop  3
+    layer_note1  30, 8, 75
+    layer_loopend	
+    layer_note1  30, 24, 75
+    layer_loop  3
+    layer_note1  30, 8, 75
+    layer_loopend	
+    layer_loop  4
+    layer_note1  30, 12, 75
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call73
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call80
+    layer_call  _chn13_ly0_call79
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn13_ly0_call73
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call73
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call80
+    layer_call  _chn13_ly0_call79
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call97
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn13_ly0_call79
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call79
+    layer_loopend	
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call110
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call112
+    layer_call  _chn13_ly0_call110
+    layer_call  _chn13_ly0_call112
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call74
+    layer_call  _chn13_ly0_call97
+    layer_call  _chn13_ly0_call97
+    layer_note1  42, 48, 75
+    layer_loop  3
+    layer_note1  27, 8, 108
+    layer_loopend	
+    layer_note0  27, 360, 108, 119
+    layer_loop  4
+    layer_note1  23, 6, 108
+    layer_loopend	
+    layer_note0  28, 360, 108, 119
+    layer_loop  4
+    layer_note1  25, 6, 108
+    layer_loopend	
+    layer_note0  30, 288, 108, 85
+    layer_loop  2
+    layer_note1  23, 48, 108
+    layer_loopend	
+    layer_note1  31, 144, 108
+    layer_note1  28, 48, 108
+    layer_note1  33, 96, 108
+    layer_note2  28, 108, 0
+    layer_call  _chn13_ly0_call140
+    layer_call  _chn13_ly0_call140
+    layer_note0  23, 384, 108, 128
+    layer_end	
+// Section total ticks: 11684
+
+seq_chn15_ly0:
+    layer_transpose  0
+    layer_delay  24
+    layer_note1  50, 48, 14
+    layer_note2  50, 22, 0
+    layer_note2  50, 30, 0
+    layer_note2  50, 39, 0
+    layer_note2  50, 47, 0
+    layer_note2  50, 56, 0
+    layer_note2  50, 65, 0
+    layer_note1  50, 24, 75
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_loop  2
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call19
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call19
+    layer_call  _chn15_ly0_call25
+    layer_call  _chn15_ly0_call26
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call19
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call19
+    layer_call  _chn15_ly0_call25
+    layer_call  _chn15_ly0_call26
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call25
+    layer_call  _chn15_ly0_call25
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call19
+    layer_call  _chn15_ly0_call26
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call17
+    layer_call  _chn15_ly0_call18
+    layer_call  _chn15_ly0_call59
+    layer_call  _chn15_ly0_call59
+    layer_note1  26, 12, 92
+    layer_note0  26, 36, 92, 170
+    layer_call  _chn15_ly0_call59
+    layer_call  _chn15_ly0_call59
+    layer_note1  26, 12, 92
+    layer_note0  26, 36, 92, 170
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call69
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call69
+    layer_call  _chn15_ly0_call73
+    layer_call  _chn15_ly0_call73
+    layer_note1  28, 12, 92
+    layer_note0  28, 36, 92, 170
+    layer_call  _chn15_ly0_call73
+    layer_call  _chn15_ly0_call73
+    layer_note1  28, 12, 92
+    layer_note0  28, 36, 92, 170
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call83
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call83
+    layer_call  _chn15_ly0_call87
+    layer_call  _chn15_ly0_call87
+    layer_note1  30, 12, 92
+    layer_note0  30, 36, 92, 170
+    layer_call  _chn15_ly0_call87
+    layer_call  _chn15_ly0_call87
+    layer_note1  30, 12, 92
+    layer_note0  30, 36, 92, 170
+    layer_call  _chn15_ly0_call95
+    layer_call  _chn15_ly0_call95
+    layer_note1  23, 12, 92
+    layer_note0  23, 36, 92, 170
+    layer_call  _chn15_ly0_call95
+    layer_call  _chn15_ly0_call95
+    layer_note1  23, 12, 92
+    layer_note0  23, 36, 92, 170
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call69
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call67
+    layer_call  _chn15_ly0_call69
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call83
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call83
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call83
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call83
+    layer_note0  23, 384, 92, 128
+    layer_call  _chn15_ly0_call20
+    layer_call  _chn15_ly0_call17
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  18, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  2
+    layer_note0  18, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  18, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  2
+    layer_note0  18, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  26, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  2
+    layer_note0  26, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  21, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  2
+    layer_note0  21, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  19, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  19, 8, 92
+    layer_loopend	
+    layer_note0  16, 24, 92, 170
+    layer_loop  3
+    layer_note1  16, 8, 92
+    layer_loopend	
+    layer_note0  16, 24, 92, 170
+    layer_loop  2
+    layer_note0  16, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  18, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  2
+    layer_note0  18, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  18, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  2
+    layer_note0  18, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  26, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  2
+    layer_note0  26, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  21, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  2
+    layer_note0  21, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  19, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  19, 8, 92
+    layer_loopend	
+    layer_note0  16, 24, 92, 170
+    layer_loop  3
+    layer_note1  16, 8, 92
+    layer_loopend	
+    layer_note0  16, 24, 92, 170
+    layer_loop  2
+    layer_note0  16, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  26, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  2
+    layer_note0  26, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  21, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  2
+    layer_note0  21, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  26, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  3
+    layer_note1  26, 8, 92
+    layer_loopend	
+    layer_note0  26, 24, 92, 170
+    layer_loop  2
+    layer_note0  26, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  21, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  3
+    layer_note1  21, 8, 92
+    layer_loopend	
+    layer_note0  21, 24, 92, 170
+    layer_loop  2
+    layer_note0  21, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  18, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  3
+    layer_note1  18, 8, 92
+    layer_loopend	
+    layer_note0  18, 24, 92, 170
+    layer_loop  2
+    layer_note0  18, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  19, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  19, 8, 92
+    layer_loopend	
+    layer_note0  16, 24, 92, 170
+    layer_loop  3
+    layer_note1  16, 8, 92
+    layer_loopend	
+    layer_note0  16, 24, 92, 170
+    layer_loop  2
+    layer_note0  16, 12, 92, 85
+    layer_loopend	
+    layer_loop  3
+    layer_note0  23, 24, 92, 170
+    layer_loopend	
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  3
+    layer_note1  23, 8, 92
+    layer_loopend	
+    layer_note0  23, 24, 92, 170
+    layer_loop  2
+    layer_note0  23, 12, 92, 85
+    layer_loopend	
+    layer_loop  5
+    layer_note1  26, 12, 92
+    layer_loopend	
+    layer_note0  26, 36, 92, 170
+    layer_loop  5
+    layer_note1  26, 12, 92
+    layer_loopend	
+    layer_note0  26, 36, 92, 170
+    layer_loop  5
+    layer_note1  19, 12, 92
+    layer_loopend	
+    layer_note0  19, 36, 92, 170
+    layer_loop  5
+    layer_note1  19, 12, 92
+    layer_loopend	
+    layer_note0  19, 36, 92, 170
+    layer_loop  5
+    layer_note1  28, 12, 92
+    layer_loopend	
+    layer_note0  28, 36, 92, 170
+    layer_loop  5
+    layer_note1  28, 12, 92
+    layer_loopend	
+    layer_note0  28, 36, 92, 170
+    layer_loop  5
+    layer_note1  21, 12, 92
+    layer_loopend	
+    layer_note0  21, 36, 92, 170
+    layer_loop  5
+    layer_note1  21, 12, 92
+    layer_loopend	
+    layer_note0  21, 36, 92, 170
+    layer_loop  5
+    layer_note1  30, 12, 92
+    layer_loopend	
+    layer_note0  30, 36, 92, 170
+    layer_loop  5
+    layer_note1  30, 12, 92
+    layer_loopend	
+    layer_note0  30, 36, 92, 170
+    layer_loop  5
+    layer_note1  23, 12, 92
+    layer_loopend	
+    layer_note0  23, 36, 92, 170
+    layer_loop  5
+    layer_note1  23, 12, 92
+    layer_loopend	
+    layer_note0  23, 36, 92, 170
+    layer_loop  5
+    layer_note1  19, 12, 92
+    layer_loopend	
+    layer_note0  19, 36, 92, 170
+    layer_loop  5
+    layer_note1  19, 12, 92
+    layer_loopend	
+    layer_note0  19, 36, 92, 170
+    layer_loop  5
+    layer_note1  21, 12, 92
+    layer_loopend	
+    layer_loop  3
+    layer_note0  21, 36, 92, 170
+    layer_call  _chn15_ly0_call81
+    layer_call  _chn15_ly0_call81
+    layer_note1  21, 12, 92
+    layer_loopend	
+    layer_note0  21, 36, 92, 170
+    layer_note0  23, 384, 92, 128
+    layer_end	
+// Section total ticks: 10704
+
+// Channel Headers
+
+_chn0_call2:
+    chan_setvol  127
+    chan_setpan  64
+    chan_end	
+// Section total ticks: 0
+
+_chn3_call3:
+    chan_setinstr  F3_I_STRINGS_0
+    chan_delayshort  4
+    chan_setvol  33
+    chan_delayshort  12
+    chan_setvol  36
+    chan_delayshort  12
+    chan_end	
+// Section total ticks: 28
+
+// Note Layers
+
+_chn0_ly0_call7:
+    layer_note1  54, 12, 75
+    layer_note1  50, 144, 75
+    layer_note1  49, 12, 75
+    layer_note2  47, 75, 0
+    layer_note1  49, 48, 75
+    layer_end	
+// Section total ticks: 228
+
+// layer_calls
+
+_chn0_ly0_call8:
+    layer_note1  42, 120, 75
+    layer_call  _chn0_ly0_call13
+    layer_end	
+// Section total ticks: 156
+
+// Note Layers
+
+_chn0_ly0_call10:
+    layer_note1  54, 120, 75
+    layer_call  _chn0_ly0_call20
+    layer_note1  45, 120, 75
+    layer_end	
+// Section total ticks: 504
+
+// layer_calls
+
+_chn0_ly0_call11:
+    layer_call  _chn0_ly0_call28
+    layer_note1  47, 168, 75
+    layer_end	
+// Section total ticks: 192
+
+// Note Layers
+
+_chn0_ly0_call13:
+    layer_note1  47, 12, 75
+    layer_note2  49, 75, 0
+    layer_note2  50, 75, 0
+    layer_end	
+// Section total ticks: 36
+
+// layer_calls
+
+_chn0_ly0_call20:
+    layer_note1  50, 12, 75
+    layer_note2  52, 75, 0
+    layer_note2  54, 75, 0
+    layer_note2  57, 75, 0
+    layer_note1  54, 144, 75
+    layer_note1  52, 12, 75
+    layer_note2  50, 75, 0
+    layer_note1  52, 48, 75
+    layer_end	
+// Section total ticks: 264
+
+// Note Layers
+
+_chn0_ly0_call28:
+    layer_note1  50, 12, 75
+    layer_note2  49, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn1_ly0_call7:
+    layer_note1  54, 12, 108
+    layer_note1  50, 144, 108
+    layer_note1  49, 12, 108
+    layer_note2  47, 108, 0
+    layer_note1  49, 48, 108
+    layer_end	
+// Section total ticks: 228
+
+// Note Layers
+
+_chn1_ly0_call8:
+    layer_note1  42, 120, 108
+    layer_call  _chn1_ly0_call13
+    layer_end	
+// Section total ticks: 156
+
+// layer_calls
+
+_chn1_ly0_call10:
+    layer_note1  54, 120, 108
+    layer_call  _chn1_ly0_call20
+    layer_note1  45, 120, 108
+    layer_end	
+// Section total ticks: 504
+
+// Note Layers
+
+_chn1_ly0_call11:
+    layer_call  _chn1_ly0_call28
+    layer_note1  47, 168, 108
+    layer_end	
+// Section total ticks: 192
+
+// layer_calls
+
+_chn1_ly0_call13:
+    layer_note1  47, 12, 108
+    layer_note2  49, 108, 0
+    layer_note2  50, 108, 0
+    layer_end	
+// Section total ticks: 36
+
+// Note Layers
+
+_chn1_ly0_call20:
+    layer_note1  50, 12, 108
+    layer_note2  52, 108, 0
+    layer_note2  54, 108, 0
+    layer_note2  57, 108, 0
+    layer_note1  54, 144, 108
+    layer_note1  52, 12, 108
+    layer_note2  50, 108, 0
+    layer_note1  52, 48, 108
+    layer_end	
+// Section total ticks: 264
+
+// layer_calls
+
+_chn1_ly0_call28:
+    layer_note1  50, 12, 108
+    layer_note2  49, 108, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn2_ly0_call7:
+    layer_note1  54, 12, 45
+    layer_note1  50, 144, 45
+    layer_note1  49, 12, 45
+    layer_note2  47, 45, 0
+    layer_note1  49, 48, 45
+    layer_end	
+// Section total ticks: 228
+
+// layer_calls
+
+_chn2_ly0_call8:
+    layer_note1  42, 120, 45
+    layer_call  _chn2_ly0_call13
+    layer_end	
+// Section total ticks: 156
+
+// Note Layers
+
+_chn2_ly0_call10:
+    layer_note1  54, 120, 45
+    layer_call  _chn2_ly0_call20
+    layer_note1  45, 120, 45
+    layer_end	
+// Section total ticks: 504
+
+// layer_calls
+
+_chn2_ly0_call11:
+    layer_call  _chn2_ly0_call28
+    layer_note1  47, 168, 45
+    layer_end	
+// Section total ticks: 192
+
+// Note Layers
+
+_chn2_ly0_call13:
+    layer_note1  47, 12, 45
+    layer_note2  49, 45, 0
+    layer_note2  50, 45, 0
+    layer_end	
+// Section total ticks: 36
+
+// layer_calls
+
+_chn2_ly0_call20:
+    layer_note1  50, 12, 45
+    layer_note2  52, 45, 0
+    layer_note2  54, 45, 0
+    layer_note2  57, 45, 0
+    layer_note1  54, 144, 45
+    layer_note1  52, 12, 45
+    layer_note2  50, 45, 0
+    layer_note1  52, 48, 45
+    layer_end	
+// Section total ticks: 264
+
+// Note Layers
+
+_chn2_ly0_call28:
+    layer_note1  50, 12, 45
+    layer_note2  49, 45, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn3_ly0_call3:
+    layer_note1  54, 192, 92
+    layer_note2  57, 92, 0
+    layer_end	
+// Section total ticks: 384
+
+// Note Layers
+
+_chn3_ly0_call6:
+    layer_note1  54, 192, 92
+    layer_note1  57, 48, 92
+    layer_note2  55, 92, 0
+    layer_note2  54, 92, 0
+    layer_note2  52, 92, 0
+    layer_note1  54, 96, 92
+    layer_note2  55, 92, 0
+    layer_note1  54, 192, 92
+    layer_end	
+// Section total ticks: 768
+
+// layer_calls
+
+_chn3_ly0_call33:
+    layer_note1  50, 96, 92
+    layer_note2  54, 92, 0
+    layer_end	
+// Section total ticks: 192
+
+// Note Layers
+
+_chn5_ly0_call3:
+    layer_note1  50, 48, 92
+    layer_note2  42, 92, 0
+    layer_end	
+// Section total ticks: 96
+
+// layer_calls
+
+_chn5_ly0_call4:
+    layer_note1  47, 48, 92
+    layer_note2  50, 92, 0
+    layer_call  _chn5_ly0_call19
+    layer_end	
+// Section total ticks: 288
+
+// Note Layers
+
+_chn5_ly0_call8:
+    layer_note1  45, 48, 92
+    layer_note2  50, 92, 0
+    layer_end	
+// Section total ticks: 96
+
+// layer_calls
+
+_chn5_ly0_call9:
+    layer_note1  49, 192, 92
+    layer_note2  47, 92, 0
+    layer_note2  50, 92, 0
+    layer_end	
+// Section total ticks: 576
+
+// Note Layers
+
+_chn5_ly0_call19:
+    layer_note1  52, 96, 92
+    layer_note1  50, 48, 92
+    layer_note2  49, 92, 0
+    layer_end	
+// Section total ticks: 192
+
+// layer_calls
+
+_chn5_ly0_call26:
+    layer_note1  45, 96, 92
+    layer_note1  49, 48, 92
+    layer_end	
+// Section total ticks: 144
+
+// Note Layers
+
+_chn7_ly0_call9:
+    layer_note1  42, 24, 75
+    layer_note1  42, 8, 75
+    layer_note2  42, 75, 0
+    layer_note2  42, 75, 0
+    layer_end	
+// Section total ticks: 48
+
+// layer_calls
+
+_chn7_ly0_call10:
+    layer_note1  42, 12, 75
+    layer_note2  42, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn7_ly0_call12:
+    layer_note1  42, 24, 75
+    layer_note2  42, 75, 0
+    layer_end	
+// Section total ticks: 48
+
+// layer_calls
+
+_chn7_ly0_call21:
+    layer_note1  40, 24, 75
+    layer_note1  40, 8, 75
+    layer_note2  40, 75, 0
+    layer_note2  40, 75, 0
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn7_ly0_call23:
+    layer_note1  40, 12, 75
+    layer_note2  40, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn7_ly0_call25:
+    layer_note1  38, 24, 75
+    layer_note2  38, 75, 0
+    layer_call  _chn7_ly0_call67
+    layer_end	
+// Section total ticks: 96
+
+// Note Layers
+
+_chn7_ly0_call30:
+    layer_call  _chn7_ly0_call67
+    layer_call  _chn7_ly0_call68
+    layer_call  _chn7_ly0_call68
+    layer_end	
+// Section total ticks: 96
+
+// layer_calls
+
+_chn7_ly0_call67:
+    layer_note1  38, 24, 75
+    layer_note1  38, 8, 75
+    layer_note2  38, 75, 0
+    layer_note2  38, 75, 0
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn7_ly0_call68:
+    layer_note1  38, 12, 75
+    layer_note2  38, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn7_ly0_call71:
+    layer_note1  33, 48, 92
+    layer_call  _chn7_ly0_call74
+    layer_note0  40, 240, 92, 51
+    layer_end	
+// Section total ticks: 384
+
+// Note Layers
+
+_chn7_ly0_call74:
+    layer_note1  38, 48, 92
+    layer_note2  42, 92, 0
+    layer_end	
+// Section total ticks: 96
+
+// layer_calls
+
+_chn7_ly0_call76:
+    layer_note1  43, 72, 92
+    layer_note1  43, 8, 92
+    layer_note2  43, 92, 0
+    layer_note2  43, 92, 0
+    layer_end	
+// Section total ticks: 96
+
+// Note Layers
+
+_chn7_ly0_call79:
+    layer_note1  38, 6, 60
+    layer_note2  38, 60, 0
+    layer_end	
+// Section total ticks: 12
+
+// layer_calls
+
+_chn7_ly0_call87:
+    layer_note1  37, 6, 60
+    layer_note2  37, 60, 0
+    layer_end	
+// Section total ticks: 12
+
+// Note Layers
+
+_chn7_ly0_call127:
+    layer_note1  40, 6, 60
+    layer_note2  40, 60, 0
+    layer_end	
+// Section total ticks: 12
+
+// layer_calls
+
+_chn7_ly0_call172:
+    layer_note1  42, 6, 60
+    layer_note2  42, 60, 0
+    layer_end	
+// Section total ticks: 12
+
+// Note Layers
+
+_chn7_ly0_call221:
+    layer_note1  42, 12, 75
+    layer_note2  47, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn7_ly0_call224:
+    layer_note1  50, 12, 75
+    layer_note2  47, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn9_ly0_call28:
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_call  _chn9_ly0_call32
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_note2  F3_D_SNARE_0, 60, 0
+    layer_call  _chn9_ly0_call107
+    layer_call  _chn9_ly0_call107
+    layer_end	
+// Section total ticks: 192
+
+// layer_calls
+
+_chn9_ly0_call32:
+    layer_note1  F3_D_SNARE_0, 12, 60
+    layer_note2  F3_D_SNARE_0, 60, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn9_ly0_call34:
+    layer_note1  F3_D_SNARE_0, 12, 30
+    layer_note2  F3_D_SNARE_0, 30, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn9_ly0_call107:
+    layer_note1  F3_D_SNARE_0, 24, 60
+    layer_note1  F3_D_SNARE_0, 8, 60
+    layer_note2  F3_D_SNARE_0, 60, 0
+    layer_note2  F3_D_SNARE_0, 60, 0
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn11_ly0_call17:
+    layer_note1  37, 24, 75
+    layer_note2  37, 75, 0
+    layer_note2  37, 75, 0
+    layer_note1  37, 8, 75
+    layer_note2  37, 75, 0
+    layer_note2  37, 75, 0
+    layer_note1  37, 24, 75
+    layer_note1  37, 8, 75
+    layer_note2  37, 75, 0
+    layer_note2  37, 75, 0
+    layer_note1  37, 12, 75
+    layer_note2  37, 75, 0
+    layer_note2  37, 75, 0
+    layer_note2  37, 75, 0
+    layer_end	
+// Section total ticks: 192
+
+// layer_calls
+
+_chn11_ly0_call23:
+    layer_note1  35, 24, 75
+    layer_note2  35, 75, 0
+    layer_call  _chn13_ly0_call24
+    layer_call  _chn13_ly0_call24
+    layer_call  _chn13_ly0_call25
+    layer_note1  35, 12, 75
+    layer_end	
+// Section total ticks: 180
+
+// Note Layers
+
+_chn11_ly0_call41:
+    layer_note1  45, 48, 92
+    layer_note0  45, 240, 92, 51
+    layer_end	
+// Section total ticks: 288
+
+// layer_calls
+
+_chn11_ly0_call47:
+    layer_note1  47, 72, 92
+    layer_note1  47, 8, 92
+    layer_note2  47, 92, 0
+    layer_note2  47, 92, 0
+    layer_end	
+// Section total ticks: 96
+
+// Note Layers
+
+_chn13_ly0_call24:
+    layer_note1  35, 24, 75
+    layer_note1  35, 8, 75
+    layer_note2  35, 75, 0
+    layer_note2  35, 75, 0
+    layer_end	
+// Section total ticks: 48
+
+// layer_calls
+
+_chn13_ly0_call25:
+    layer_note1  35, 12, 75
+    layer_note2  35, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn13_ly0_call27:
+    layer_note1  33, 24, 75
+    layer_note2  33, 75, 0
+    layer_note2  33, 75, 0
+    layer_note1  33, 8, 75
+    layer_note2  33, 75, 0
+    layer_note2  33, 75, 0
+    layer_end	
+// Section total ticks: 96
+
+// layer_calls
+
+_chn13_ly0_call28:
+    layer_note1  33, 24, 75
+    layer_note1  33, 8, 75
+    layer_note2  33, 75, 0
+    layer_note2  33, 75, 0
+    layer_note1  33, 12, 75
+    layer_note2  33, 75, 0
+    layer_note2  33, 75, 0
+    layer_note2  33, 75, 0
+    layer_end	
+// Section total ticks: 96
+
+// Note Layers
+
+_chn13_ly0_call39:
+    layer_note1  31, 24, 75
+    layer_note1  31, 8, 75
+    layer_note2  31, 75, 0
+    layer_note2  31, 75, 0
+    layer_end	
+// Section total ticks: 48
+
+// layer_calls
+
+_chn13_ly0_call41:
+    layer_note1  31, 12, 75
+    layer_note2  31, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn13_ly0_call45:
+    layer_note1  30, 24, 75
+    layer_note1  30, 8, 75
+    layer_note2  30, 75, 0
+    layer_note2  30, 75, 0
+    layer_end	
+// Section total ticks: 48
+
+// layer_calls
+
+_chn13_ly0_call47:
+    layer_note1  30, 12, 75
+    layer_note2  30, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn13_ly0_call73:
+    layer_note1  33, 12, 75
+    layer_note2  38, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn13_ly0_call74:
+    layer_note1  42, 36, 75
+    layer_note1  30, 12, 75
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn13_ly0_call79:
+    layer_note1  33, 12, 75
+    layer_note2  37, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn13_ly0_call80:
+    layer_note1  40, 36, 75
+    layer_note1  28, 12, 75
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn13_ly0_call97:
+    layer_note1  35, 12, 75
+    layer_note2  38, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn13_ly0_call110:
+    layer_note1  43, 36, 75
+    layer_note1  31, 12, 75
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn13_ly0_call112:
+    layer_note1  35, 12, 75
+    layer_note2  40, 75, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn13_ly0_call140:
+    layer_note1  33, 48, 108
+    layer_note2  28, 108, 0
+    layer_end	
+// Section total ticks: 96
+
+// Note Layers
+
+_chn15_ly0_call17:
+    layer_note0  23, 24, 92, 170
+    layer_note1  23, 8, 92
+    layer_note2  23, 92, 0
+    layer_note2  23, 92, 0
+    layer_end	
+// Section total ticks: 48
+
+// layer_calls
+
+_chn15_ly0_call18:
+    layer_note0  23, 24, 92, 170
+    layer_note0  23, 12, 92, 85
+    layer_note2  23, 92, 85
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn15_ly0_call19:
+    layer_note0  18, 24, 92, 170
+    layer_note2  18, 92, 170
+    layer_note2  18, 92, 170
+    layer_note1  18, 8, 92
+    layer_note2  18, 92, 0
+    layer_note2  18, 92, 0
+    layer_note0  18, 24, 92, 170
+    layer_note1  18, 8, 92
+    layer_note2  18, 92, 0
+    layer_note2  18, 92, 0
+    layer_note0  18, 24, 92, 170
+    layer_note0  18, 12, 92, 85
+    layer_note2  18, 92, 85
+    layer_end	
+// Section total ticks: 192
+
+// layer_calls
+
+_chn15_ly0_call20:
+    layer_note0  23, 24, 92, 170
+    layer_note2  23, 92, 170
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn15_ly0_call25:
+    layer_note0  26, 24, 92, 170
+    layer_note2  26, 92, 170
+    layer_note2  26, 92, 170
+    layer_note1  26, 8, 92
+    layer_note2  26, 92, 0
+    layer_note2  26, 92, 0
+    layer_note0  26, 24, 92, 170
+    layer_note1  26, 8, 92
+    layer_note2  26, 92, 0
+    layer_note2  26, 92, 0
+    layer_note0  26, 24, 92, 170
+    layer_note0  26, 12, 92, 85
+    layer_note2  26, 92, 85
+    layer_note0  21, 24, 92, 170
+    layer_note2  21, 92, 170
+    layer_note2  21, 92, 170
+    layer_note1  21, 8, 92
+    layer_note2  21, 92, 0
+    layer_note2  21, 92, 0
+    layer_note0  21, 24, 92, 170
+    layer_note1  21, 8, 92
+    layer_note2  21, 92, 0
+    layer_note2  21, 92, 0
+    layer_note0  21, 24, 92, 170
+    layer_note0  21, 12, 92, 85
+    layer_note2  21, 92, 85
+    layer_end	
+// Section total ticks: 384
+
+// layer_calls
+
+_chn15_ly0_call26:
+    layer_note0  19, 24, 92, 170
+    layer_note2  19, 92, 170
+    layer_note2  19, 92, 170
+    layer_note1  19, 8, 92
+    layer_note2  19, 92, 0
+    layer_note2  19, 92, 0
+    layer_note0  16, 24, 92, 170
+    layer_note1  16, 8, 92
+    layer_note2  16, 92, 0
+    layer_note2  16, 92, 0
+    layer_note0  16, 24, 92, 170
+    layer_note0  16, 12, 92, 85
+    layer_note2  16, 92, 85
+    layer_end	
+// Section total ticks: 192
+
+// Note Layers
+
+_chn15_ly0_call59:
+    layer_note1  26, 12, 92
+    layer_note2  26, 92, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn15_ly0_call67:
+    layer_note1  19, 12, 92
+    layer_note2  19, 92, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn15_ly0_call69:
+    layer_note1  19, 12, 92
+    layer_note0  19, 36, 92, 170
+    layer_end	
+// Section total ticks: 48
+
+// layer_calls
+
+_chn15_ly0_call73:
+    layer_note1  28, 12, 92
+    layer_note2  28, 92, 0
+    layer_end	
+// Section total ticks: 24
+
+// Note Layers
+
+_chn15_ly0_call81:
+    layer_note1  21, 12, 92
+    layer_note2  21, 92, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn15_ly0_call83:
+    layer_note1  21, 12, 92
+    layer_note0  21, 36, 92, 170
+    layer_end	
+// Section total ticks: 48
+
+// Note Layers
+
+_chn15_ly0_call87:
+    layer_note1  30, 12, 92
+    layer_note2  30, 92, 0
+    layer_end	
+// Section total ticks: 24
+
+// layer_calls
+
+_chn15_ly0_call95:
+    layer_note1  23, 12, 92
+    layer_note2  23, 92, 0
+    layer_end	
+// Section total ticks: 24
+
