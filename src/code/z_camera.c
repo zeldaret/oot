@@ -4482,7 +4482,7 @@ s32 Camera_Unique1(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
-    Vec3f playerBodyPart0;
+    Vec3f playerWaistPos;
     s16 phiTarget;
     VecSph sp8C;
     VecSph unk908PlayerPosOffset;
@@ -4524,8 +4524,8 @@ s32 Camera_Unique1(Camera* camera) {
         camera->posOffset.y = camera->posOffset.y - camera->playerPosDelta.y;
         anim->yawTarget = eyeNextAtOffset.yaw;
         anim->unk_00 = 0.0f;
-        playerBodyPart0 = camera->player->bodyPartsPos[0];
-        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerBodyPart0);
+        playerWaistPos = camera->player->bodyPartsPos[PLAYER_BODYPART_WAIST];
+        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerWaistPos);
         anim->timer = R_DEFA_CAM_ANIM_TIME;
         anim->yawTargetAdj = ABS(BINANG_SUB(unk908PlayerPosOffset.yaw, eyeAtOffset.yaw)) < 0x3A98
                                  ? 0
