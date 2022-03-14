@@ -12,10 +12,10 @@ typedef struct {
 
 typedef struct PadMgr {
     /* 0x0000 */ OSContStatus padStatus[4];
-    /* 0x0010 */ OSMesg serialMsgBuf[1];
+    /* 0x0010 */ OSMesg serialLockMsgBuf[1];
     /* 0x0014 */ OSMesg lockMsgBuf[1];
     /* 0x0018 */ OSMesg interruptMsgBuf[4];
-    /* 0x0028 */ OSMesgQueue serialEventQueue;
+    /* 0x0028 */ OSMesgQueue serialLockQueue;
     /* 0x0040 */ OSMesgQueue lockQueue;
     /* 0x0058 */ OSMesgQueue interruptQueue;
     /* 0x0070 */ IrqMgrClient irqClient;

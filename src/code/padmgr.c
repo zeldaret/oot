@@ -4,38 +4,38 @@
 s32 D_8012D280 = 1;
 
 OSMesgQueue* PadMgr_LockSerialMesgQueue(PadMgr* padMgr) {
-    OSMesgQueue* ctrlrQueue = NULL;
+    OSMesgQueue* serialEventQueue = NULL;
 
     if (D_8012D280 > 2) {
         // "serialMsgQ Waiting for lock"
         osSyncPrintf("%2d %d serialMsgQロック待ち         %08x %08x          %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialEventQueue), padMgr, &padMgr->serialEventQueue, &ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue, &serialEventQueue);
     }
 
-    osRecvMesg(&padMgr->serialEventQueue, (OSMesg*)&ctrlrQueue, OS_MESG_BLOCK);
+    osRecvMesg(&padMgr->serialLockQueue, (OSMesg*)&serialEventQueue, OS_MESG_BLOCK);
 
     if (D_8012D280 > 2) {
         // "serialMsgQ Locked"
         osSyncPrintf("%2d %d serialMsgQをロックしました                     %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialEventQueue), ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialLockQueue), serialEventQueue);
     }
 
-    return ctrlrQueue;
+    return serialEventQueue;
 }
 
-void PadMgr_UnlockSerialMesgQueue(PadMgr* padMgr, OSMesgQueue* ctrlrQueue) {
+void PadMgr_UnlockSerialMesgQueue(PadMgr* padMgr, OSMesgQueue* serialEventQueue) {
     if (D_8012D280 > 2) {
         // "serialMsgQ Unlock"
         osSyncPrintf("%2d %d serialMsgQロック解除します   %08x %08x %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialEventQueue), padMgr, &padMgr->serialEventQueue, ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue, serialEventQueue);
     }
 
-    osSendMesg(&padMgr->serialEventQueue, (OSMesg)ctrlrQueue, OS_MESG_BLOCK);
+    osSendMesg(&padMgr->serialLockQueue, (OSMesg)serialEventQueue, OS_MESG_BLOCK);
 
     if (D_8012D280 > 2) {
         // "serialMsgQ Unlocked"
         osSyncPrintf("%2d %d serialMsgQロック解除しました %08x %08x %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialEventQueue), padMgr, &padMgr->serialEventQueue, ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialLockQueue), padMgr, &padMgr->serialLockQueue, serialEventQueue);
     }
 }
 
@@ -52,7 +52,7 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
     static u32 frame;
     s32 temp = 1;
     s32 triedRumbleComm;
-    OSMesgQueue* ctrlrQueue = PadMgr_LockSerialMesgQueue(padMgr);
+    OSMesgQueue* serialEventQueue = PadMgr_LockSerialMesgQueue(padMgr);
     s32 var4;
     s32 i;
 
@@ -133,7 +133,7 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
         i = frame % 4;
 
         if (padMgr->ctrlrIsConnected[i] && (padMgr->padStatus[i].status & 1) && (padMgr->pakType[i] != 1)) {
-            var4 = osMotorInit(ctrlrQueue, &padMgr->pfs[i], i);
+            var4 = osMotorInit(serialEventQueue, &padMgr->pfs[i], i);
 
             if (var4 == 0) {
                 padMgr->pakType[i] = 1;
@@ -156,15 +156,15 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
     }
 
     frame++;
-    PadMgr_UnlockSerialMesgQueue(padMgr, ctrlrQueue);
+    PadMgr_UnlockSerialMesgQueue(padMgr, serialEventQueue);
 }
 
 void PadMgr_RumbleStop(PadMgr* padMgr) {
     s32 i;
-    OSMesgQueue* ctrlrQueue = PadMgr_LockSerialMesgQueue(padMgr);
+    OSMesgQueue* serialEventQueue = PadMgr_LockSerialMesgQueue(padMgr);
 
     for (i = 0; i < 4; i++) {
-        if (osMotorInit(ctrlrQueue, &padMgr->pfs[i], i) == 0) {
+        if (osMotorInit(serialEventQueue, &padMgr->pfs[i], i) == 0) {
             if ((gFaultMgr.msgId == 0) && (padMgr->rumbleOnFrames != 0)) {
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Stop vibration pack"
@@ -176,7 +176,7 @@ void PadMgr_RumbleStop(PadMgr* padMgr) {
         }
     }
 
-    PadMgr_UnlockSerialMesgQueue(padMgr, ctrlrQueue);
+    PadMgr_UnlockSerialMesgQueue(padMgr, serialEventQueue);
 }
 
 void PadMgr_RumbleReset(PadMgr* padMgr) {
@@ -265,23 +265,23 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
 
 void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     s32 i;
-    OSMesgQueue* queue = PadMgr_LockSerialMesgQueue(padMgr);
+    OSMesgQueue* serialEventQueue = PadMgr_LockSerialMesgQueue(padMgr);
     u32 mask;
 
-    osContStartReadData(queue);
+    osContStartReadData(serialEventQueue);
     if (padMgr->retraceCallback) {
         padMgr->retraceCallback(padMgr, padMgr->retraceCallbackValue);
     }
-    osRecvMesg(queue, NULL, OS_MESG_BLOCK);
+    osRecvMesg(serialEventQueue, NULL, OS_MESG_BLOCK);
     osContGetReadData(padMgr->pads);
     if (padMgr->preNMIShutdown) {
         bzero(padMgr->pads, sizeof(padMgr->pads));
     }
     PadMgr_ProcessInputs(padMgr);
-    osContStartQuery(queue);
-    osRecvMesg(queue, NULL, OS_MESG_BLOCK);
+    osContStartQuery(serialEventQueue);
+    osRecvMesg(serialEventQueue, NULL, OS_MESG_BLOCK);
     osContGetQuery(padMgr->padStatus);
-    PadMgr_UnlockSerialMesgQueue(padMgr, queue);
+    PadMgr_UnlockSerialMesgQueue(padMgr, serialEventQueue);
 
     mask = 0;
     for (i = 0; i < 4; i++) {
@@ -401,7 +401,7 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, 
 
     osCreateMesgQueue(&padMgr->interruptQueue, padMgr->interruptMsgBuf, ARRAY_COUNT(padMgr->interruptMsgBuf));
     IrqMgr_AddClient(padMgr->irqMgr, &padMgr->irqClient, &padMgr->interruptQueue);
-    osCreateMesgQueue(&padMgr->serialEventQueue, padMgr->serialMsgBuf, ARRAY_COUNT(padMgr->serialMsgBuf));
+    osCreateMesgQueue(&padMgr->serialLockQueue, padMgr->serialLockMsgBuf, ARRAY_COUNT(padMgr->serialLockMsgBuf));
     PadMgr_UnlockSerialMesgQueue(padMgr, serialEventQueue);
     osCreateMesgQueue(&padMgr->lockQueue, padMgr->lockMsgBuf, ARRAY_COUNT(padMgr->lockMsgBuf));
     PadMgr_UnlockPadData(padMgr);
