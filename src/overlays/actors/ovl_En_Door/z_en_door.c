@@ -312,7 +312,7 @@ s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
             (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             rotDiff = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -
-                       Math_Vec3f_Yaw(&globalCtx->view.eye, &this->actor.world.pos);
+                      Math_Vec3f_Yaw(&globalCtx->view.eye, &this->actor.world.pos);
             *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
         } else {
             doorDListIndex = this->unk_192;
