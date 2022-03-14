@@ -9,15 +9,15 @@ OSMesgQueue* PadMgr_LockSerialMesgQueue(PadMgr* padMgr) {
     if (D_8012D280 > 2) {
         // "serialMsgQ Waiting for lock"
         osSyncPrintf("%2d %d serialMsgQロック待ち         %08x %08x          %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialMsgQueue), padMgr, &padMgr->serialMsgQueue, &ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialEventQueue), padMgr, &padMgr->serialEventQueue, &ctrlrQueue);
     }
 
-    osRecvMesg(&padMgr->serialMsgQueue, (OSMesg*)&ctrlrQueue, OS_MESG_BLOCK);
+    osRecvMesg(&padMgr->serialEventQueue, (OSMesg*)&ctrlrQueue, OS_MESG_BLOCK);
 
     if (D_8012D280 > 2) {
         // "serialMsgQ Locked"
         osSyncPrintf("%2d %d serialMsgQをロックしました                     %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialMsgQueue), ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialEventQueue), ctrlrQueue);
     }
 
     return ctrlrQueue;
@@ -27,15 +27,15 @@ void PadMgr_UnlockSerialMesgQueue(PadMgr* padMgr, OSMesgQueue* ctrlrQueue) {
     if (D_8012D280 > 2) {
         // "serialMsgQ Unlock"
         osSyncPrintf("%2d %d serialMsgQロック解除します   %08x %08x %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialMsgQueue), padMgr, &padMgr->serialMsgQueue, ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialEventQueue), padMgr, &padMgr->serialEventQueue, ctrlrQueue);
     }
 
-    osSendMesg(&padMgr->serialMsgQueue, ctrlrQueue, OS_MESG_BLOCK);
+    osSendMesg(&padMgr->serialEventQueue, (OSMesg)ctrlrQueue, OS_MESG_BLOCK);
 
     if (D_8012D280 > 2) {
         // "serialMsgQ Unlocked"
         osSyncPrintf("%2d %d serialMsgQロック解除しました %08x %08x %08x\n", osGetThreadId(NULL),
-                     MQ_GET_COUNT(&padMgr->serialMsgQueue), padMgr, &padMgr->serialMsgQueue, ctrlrQueue);
+                     MQ_GET_COUNT(&padMgr->serialEventQueue), padMgr, &padMgr->serialEventQueue, ctrlrQueue);
     }
 }
 
@@ -393,7 +393,7 @@ void PadMgr_ThreadEntry(PadMgr* padMgr) {
     osSyncPrintf("コントローラスレッド実行終了\n"); // "Controller thread execution end"
 }
 
-void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* siIntMsgQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack) {
+void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack) {
     osSyncPrintf("パッドマネージャ作成 padmgr_Create()\n"); // "Pad Manager creation"
 
     bzero(padMgr, sizeof(PadMgr));
@@ -401,11 +401,11 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* siIntMsgQueue, IrqMgr* irqMgr, OSI
 
     osCreateMesgQueue(&padMgr->interruptQueue, padMgr->interruptMsgBuf, ARRAY_COUNT(padMgr->interruptMsgBuf));
     IrqMgr_AddClient(padMgr->irqMgr, &padMgr->irqClient, &padMgr->interruptQueue);
-    osCreateMesgQueue(&padMgr->serialMsgQueue, padMgr->serialMsgBuf, ARRAY_COUNT(padMgr->serialMsgBuf));
-    PadMgr_UnlockSerialMesgQueue(padMgr, siIntMsgQueue);
+    osCreateMesgQueue(&padMgr->serialEventQueue, padMgr->serialMsgBuf, ARRAY_COUNT(padMgr->serialMsgBuf));
+    PadMgr_UnlockSerialMesgQueue(padMgr, serialEventQueue);
     osCreateMesgQueue(&padMgr->lockQueue, padMgr->lockMsgBuf, ARRAY_COUNT(padMgr->lockMsgBuf));
     PadMgr_UnlockPadData(padMgr);
-    PadSetup_Init(siIntMsgQueue, (u8*)&padMgr->validCtrlrsMask, padMgr->padStatus);
+    PadSetup_Init(serialEventQueue, (u8*)&padMgr->validCtrlrsMask, padMgr->padStatus);
 
     padMgr->nControllers = 4;
     osContSetCh(padMgr->nControllers);

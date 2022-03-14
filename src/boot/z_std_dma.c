@@ -3,7 +3,7 @@
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
-OSMesg sDmaMgrMsgs[0x20];
+OSMesg sDmaMgrMsgBuf[32];
 OSThread sDmaMgrThread;
 STACK(sDmaMgrStack, 0x500);
 const char* sDmaMgrCurFileName;
@@ -309,7 +309,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
     }
 }
 
-void DmaMgr_ThreadEntry(void* arg0) {
+void DmaMgr_ThreadEntry(void* arg) {
     OSMesg msg;
     DmaRequest* req;
 
@@ -357,12 +357,12 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk
         osSyncPrintf("%c", BEL);
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。");
-        LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgs), "../z_std_dma.c",
+        LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgBuf), "../z_std_dma.c",
                 952);
         osSyncPrintf(VT_RST);
     }
 
-    osSendMesg(&sDmaMgrMsgQueue, req, OS_MESG_BLOCK);
+    osSendMesg(&sDmaMgrMsgQueue, (OSMesg)req, OS_MESG_BLOCK);
     return 0;
 }
 
@@ -420,7 +420,7 @@ void DmaMgr_Init(void) {
         Fault_AddHungupAndCrash("../z_std_dma.c", 1055);
     }
 
-    osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, ARRAY_COUNT(sDmaMgrMsgs));
+    osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgBuf, ARRAY_COUNT(sDmaMgrMsgBuf));
     StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, STACK_TOP(sDmaMgrStack), 0, 0x100, "dmamgr");
     osCreateThread(&sDmaMgrThread, THREAD_ID_DMAMGR, DmaMgr_ThreadEntry, NULL, STACK_TOP(sDmaMgrStack),
                    THREAD_PRI_DMAMGR);

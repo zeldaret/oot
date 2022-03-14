@@ -82,12 +82,12 @@ void Sched_HandleReset(SchedContext* sc) {
             if (sc->curRSPTask != NULL) {
                 LOG_TIME("(((u64)(now - graph_rsp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
                          OS_CYCLES_TO_USEC(now - sRSPGFXStartTime), "../sched.c", 427);
-                osSendMesg(&sc->interruptQueue, RSP_DONE_MSG, OS_MESG_NOBLOCK);
+                osSendMesg(&sc->interruptQueue, (OSMesg)RSP_DONE_MSG, OS_MESG_NOBLOCK);
             }
             if (sc->curRDPTask != NULL) {
                 LOG_TIME("(((u64)(now - rdp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
                          OS_CYCLES_TO_USEC(now - sRDPStartTime), "../sched.c", 431);
-                osSendMesg(&sc->interruptQueue, RDP_DONE_MSG, OS_MESG_NOBLOCK);
+                osSendMesg(&sc->interruptQueue, (OSMesg)RDP_DONE_MSG, OS_MESG_NOBLOCK);
             }
         }
     }
@@ -292,10 +292,10 @@ void Sched_HandleEntry(SchedContext* sc) {
     OSScTask* nextRSP = NULL;
     OSScTask* nextRDP = NULL;
     s32 state;
-    OSMesg msg = NULL;
+    OSScTask* task = NULL;
 
-    while (osRecvMesg(&sc->cmdQueue, &msg, OS_MESG_NOBLOCK) != -1) {
-        Sched_QueueTask(sc, msg);
+    while (osRecvMesg(&sc->cmdQueue, (OSMesg*)&task, OS_MESG_NOBLOCK) != -1) {
+        Sched_QueueTask(sc, task);
     }
 
     if (sc->doAudio != 0 && sc->curRSPTask != NULL) {
@@ -425,14 +425,12 @@ void Sched_SendEntryMsg(SchedContext* sc) {
         osSyncPrintf("osScKickEntryMsg\n");
     }
 
-    osSendMesg(&sc->interruptQueue, ENTRY_MSG, OS_MESG_BLOCK);
+    osSendMesg(&sc->interruptQueue, (OSMesg)ENTRY_MSG, OS_MESG_BLOCK);
 }
 
 void Sched_ThreadEntry(void* arg) {
-    void* msg;
+    OSMesg msg = NULL;
     SchedContext* sc = (SchedContext*)arg;
-
-    msg = NULL;
 
     while (true) {
         if (sLogScheduler) {
@@ -461,8 +459,6 @@ void Sched_ThreadEntry(void* arg) {
                 }
                 Sched_HandleRDPDone(sc);
                 continue;
-            default:
-                break;
         }
         switch (((OSScMsg*)msg)->type) {
             case 1:

@@ -1,11 +1,10 @@
 #include "global.h"
 
 void func_800C3C80(AudioMgr* audioMgr) {
-    AudioTask* task;
+    AudioTask* task = audioMgr->rspTask;
 
-    task = audioMgr->rspTask;
-    if (audioMgr->rspTask->taskQueue != NULL) {
-        osSendMesg(task->taskQueue, NULL, OS_MESG_BLOCK);
+    if (audioMgr->rspTask->msgQueue != NULL) {
+        osSendMesg(task->msgQueue, NULL, OS_MESG_BLOCK);
     }
 }
 
@@ -24,7 +23,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
         audioMgr->audioTask.msgQueue = &audioMgr->taskQueue;
 
         audioMgr->audioTask.msg = NULL;
-        osSendMesg(&audioMgr->sched->cmdQueue, &audioMgr->audioTask, OS_MESG_BLOCK);
+        osSendMesg(&audioMgr->sched->cmdQueue, (OSMesg)&audioMgr->audioTask, OS_MESG_BLOCK);
         Sched_SendEntryMsg(audioMgr->sched);
     }
 

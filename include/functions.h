@@ -31,7 +31,7 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
 const char* DmaMgr_GetFileNameImpl(u32 vrom);
 const char* DmaMgr_GetFileName(u32 vrom);
 void DmaMgr_ProcessMsg(DmaRequest* req);
-void DmaMgr_ThreadEntry(void* arg0);
+void DmaMgr_ThreadEntry(void* arg);
 s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk, OSMesgQueue* queue, OSMesg msg);
 s32 DmaMgr_SendRequest0(u32 ram, u32 vrom, u32 size);
 void DmaMgr_Init(void);
@@ -1648,7 +1648,7 @@ void PadMgr_HandlePreNMI(PadMgr* padmgr);
 // This function must remain commented out, because it is called incorrectly in
 // fault.c (actual bug in game), and the compiler notices and won't compile it
 // void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
-void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* siIntMsgQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);
+void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);
 void Sched_SwapFrameBuffer(CfbInfo* cfbInfo);
 void func_800C84E4(SchedContext* sc, CfbInfo* cfbInfo);
 void Sched_HandleReset(SchedContext* sc);

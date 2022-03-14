@@ -13,7 +13,7 @@ void MsgEvent_SendNullTask(void) {
     task.framebuffer = NULL;
     task.list.t.type = M_NULTASK;
     osCreateMesgQueue(task.msgQueue, &msg, 1);
-    osSendMesg(&gSchedContext.cmdQueue, &task, OS_MESG_BLOCK);
+    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)&task, OS_MESG_BLOCK);
     Sched_SendEntryMsg(&gSchedContext);
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
 }

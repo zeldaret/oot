@@ -46,7 +46,7 @@ void __osDevMgrMain(void* arg) {
                     HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLEAR_INTR;
                     __osSetGlobalIntMask(0x00100C01);
                 }
-                osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);
+                osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
 
                 if ((phi_s2 != 1) || (ioMesg->piHandle->transferInfo.block[0].errStatus != 0)) {
                     break;
@@ -80,7 +80,7 @@ void __osDevMgrMain(void* arg) {
                                                   ioMesg->size);
                     break;
                 case OS_MESG_TYPE_LOOPBACK:
-                    osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);
+                    osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
                     phi_s0 = -1;
                     break;
                 default:
@@ -90,7 +90,7 @@ void __osDevMgrMain(void* arg) {
 
             if (phi_s0 == 0) {
                 osRecvMesg(arg0->eventQueue, &sp70, OS_MESG_BLOCK);
-                osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);
+                osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
                 osSendMesg(arg0->acccessQueue, NULL, OS_MESG_NOBLOCK);
             }
         }

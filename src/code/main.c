@@ -22,7 +22,7 @@ StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
 AudioMgr gAudioMgr;
-OSMesgQueue sSerialMsgQueue;
+OSMesgQueue sSerialEventQueue;
 OSMesg sSerialMsgBuf[1];
 
 void Main_LogSystemHeap(void) {
@@ -69,8 +69,8 @@ void Main(void* arg) {
 
     R_ENABLE_ARENA_DBG = 0;
 
-    osCreateMesgQueue(&sSerialMsgQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
-    osSetEventMesg(OS_EVENT_SI, &sSerialMsgQueue, NULL);
+    osCreateMesgQueue(&sSerialEventQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
+    osSetEventMesg(OS_EVENT_SI, &sSerialEventQueue, NULL);
 
     Main_LogSystemHeap();
 
@@ -89,7 +89,7 @@ void Main(void* arg) {
                   &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_TOP(sPadMgrStack), 0, 0x100, "padmgr");
-    PadMgr_Init(&gPadMgr, &sSerialMsgQueue, &gIrqMgr, THREAD_ID_PADMGR, THREAD_PRI_PADMGR, STACK_TOP(sPadMgrStack));
+    PadMgr_Init(&gPadMgr, &sSerialEventQueue, &gIrqMgr, THREAD_ID_PADMGR, THREAD_PRI_PADMGR, STACK_TOP(sPadMgrStack));
 
     AudioMgr_Unlock(&gAudioMgr);
 

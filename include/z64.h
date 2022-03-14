@@ -52,6 +52,8 @@
 #define THREAD_PRI_SCHED        15
 #define THREAD_PRI_DMAMGR       16
 #define THREAD_PRI_IRQMGR       17
+#define THREAD_PRI_FAULT_CLIENT (OS_PRIORITY_APPMAX - 1)
+#define THREAD_PRI_FAULT        OS_PRIORITY_APPMAX
 
 #define THREAD_ID_IDLE        1
 #define THREAD_ID_FAULT       2
@@ -1625,7 +1627,7 @@ struct ArenaNode;
 typedef struct Arena {
     /* 0x00 */ struct ArenaNode* head;
     /* 0x04 */ void* start;
-    /* 0x08 */ OSMesgQueue lock;
+    /* 0x08 */ OSMesgQueue lockQueue;
     /* 0x20 */ u8 unk_20;
     /* 0x21 */ u8 isInit;
     /* 0x22 */ u8 flag;
