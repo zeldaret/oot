@@ -42,26 +42,26 @@
 #define REGION_JP 2
 #define REGION_EU 3
 
-#define Z_PRIORITY_MAIN_INIT   10
-#define Z_PRIORITY_GRAPH       11
-#define Z_PRIORITY_AUDIOMGR    12
-#define Z_PRIORITY_PADMGR      14
-#define Z_PRIORITY_MAIN        15
-#define Z_PRIORITY_IDLE_INIT   10
-#define Z_PRIORITY_SCHED       15
-#define Z_PRIORITY_DMAMGR      16
-#define Z_PRIORITY_DMAMGR_LOW  10   // Used when decompressing files
-#define Z_PRIORITY_IRQMGR      17
+#define THREAD_PRI_IDLE_INIT    10
+#define THREAD_PRI_MAIN_INIT    10
+#define THREAD_PRI_DMAMGR_LOW   10  // Used when decompressing files
+#define THREAD_PRI_GRAPH        11
+#define THREAD_PRI_AUDIOMGR     12
+#define THREAD_PRI_PADMGR       14
+#define THREAD_PRI_MAIN         15
+#define THREAD_PRI_SCHED        15
+#define THREAD_PRI_DMAMGR       16
+#define THREAD_PRI_IRQMGR       17
 
-#define Z_THREADID_IDLE         1
-#define Z_THREADID_FAULT        2
-#define Z_THREADID_MAIN         3
-#define Z_THREADID_GRAPH        4
-#define Z_THREADID_SCHED        5
-#define Z_THREADID_PADMGR       7
-#define Z_THREADID_AUDIOMGR    10
-#define Z_THREADID_DMAMGR      18
-#define Z_THREADID_IRQMGR      19
+#define THREAD_ID_IDLE        1
+#define THREAD_ID_FAULT       2
+#define THREAD_ID_MAIN        3
+#define THREAD_ID_GRAPH       4
+#define THREAD_ID_SCHED       5
+#define THREAD_ID_PADMGR      7
+#define THREAD_ID_AUDIOMGR   10
+#define THREAD_ID_DMAMGR     18
+#define THREAD_ID_IRQMGR     19
 
 #define STACK(stack, size) \
     u64 stack[ALIGN8(size) / sizeof(u64)]
@@ -131,7 +131,7 @@ typedef struct OSScTask {
     /* 0x08 */ u32 flags;
     /* 0x0C */ CfbInfo* framebuffer;
     /* 0x10 */ OSTask list;
-    /* 0x50 */ OSMesgQueue* msgQ;
+    /* 0x50 */ OSMesgQueue* msgQueue;
     /* 0x54 */ OSMesg msg;
     /* 0x58 */ char unk_58[0x10];
 } OSScTask; // size = 0x68
@@ -144,7 +144,7 @@ typedef struct GraphicsContext {
     /* 0x0014 */ u32 unk_014;
     /* 0x0018 */ char unk_018[0x20];
     /* 0x0038 */ OSMesg msgBuff[0x08];
-    /* 0x0058 */ OSMesgQueue* schedMsgQ;
+    /* 0x0058 */ OSMesgQueue* schedMsgQueue;
     /* 0x005C */ OSMesgQueue queue;
     /* 0x0074 */ char unk_074[0x04];
     /* 0x0078 */ OSScTask task;
@@ -1579,9 +1579,9 @@ typedef struct {
 } FrameBufferSwap;
 
 typedef struct {
-    /* 0x0000 */ OSMesgQueue  interruptQ;
-    /* 0x0018 */ OSMesg       intBuf[8];
-    /* 0x0038 */ OSMesgQueue  cmdQ;
+    /* 0x0000 */ OSMesgQueue  interruptQueue;
+    /* 0x0018 */ OSMesg       interruptMsgBuf[8];
+    /* 0x0038 */ OSMesgQueue  cmdQueue;
     /* 0x0050 */ OSMesg       cmdMsgBuf[8];
     /* 0x0070 */ OSThread     thread;
     /* 0x0220 */ OSScTask*    audioListHead;
@@ -1611,11 +1611,11 @@ typedef struct {
     /* 0x0004 */ SchedContext* sched;
     /* 0x0008 */ OSScTask      audioTask;
     /* 0x0070 */ AudioTask*    rspTask;
-    /* 0x0074 */ OSMesgQueue   interruptQ;
+    /* 0x0074 */ OSMesgQueue   interruptQueue;
     /* 0x008C */ OSMesg        interruptMsgBuf[8];
-    /* 0x00AC */ OSMesgQueue   taskQ;
+    /* 0x00AC */ OSMesgQueue   taskQueue;
     /* 0x00C4 */ OSMesg        taskMsgBuf[1];
-    /* 0x00C8 */ OSMesgQueue   lockQ;
+    /* 0x00C8 */ OSMesgQueue   lockQueue;
     /* 0x00E0 */ OSMesg        lockMsgBuf[1];
     /* 0x00E8 */ OSThread      thread;
 } AudioMgr; // size = 0x298

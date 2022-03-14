@@ -1,6 +1,6 @@
 #include "global.h"
 
-s32 osSendMesg(OSMesgQueue* mq, OSMesg mesg, s32 flag) {
+s32 osSendMesg(OSMesgQueue* mq, OSMesg msg, s32 flag) {
     register u32 prevInt = __osDisableInt();
     register u32 index;
 
@@ -15,7 +15,7 @@ s32 osSendMesg(OSMesgQueue* mq, OSMesg mesg, s32 flag) {
     }
 
     index = (mq->first + mq->validCount) % mq->msgCount;
-    mq->msg[index] = mesg;
+    mq->msg[index] = msg;
     mq->validCount++;
 
     if (mq->mtqueue->next != NULL) {

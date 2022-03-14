@@ -11,12 +11,12 @@ void __osSiCreateAccessQueue(void) {
 }
 
 void __osSiGetAccess(void) {
-    OSMesg mesg;
+    OSMesg msg;
 
     if (!__osSiAccessQueueEnabled) {
         __osSiCreateAccessQueue();
     }
-    osRecvMesg(&__osSiAccessQueue, &mesg, OS_MESG_BLOCK);
+    osRecvMesg(&__osSiAccessQueue, &msg, OS_MESG_BLOCK);
 }
 
 void __osSiRelAccess(void) {

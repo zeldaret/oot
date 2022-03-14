@@ -24,7 +24,7 @@ void bootproc(void) {
     Locale_Init();
 
     StackCheck_Init(&sIdleThreadInfo, sIdleThreadStack, STACK_TOP(sIdleThreadStack), 0, 256, "idle");
-    osCreateThread(&sIdleThread, Z_THREADID_IDLE, Idle_ThreadEntry, NULL, STACK_TOP(sIdleThreadStack),
-                   Z_PRIORITY_IDLE_INIT);
+    osCreateThread(&sIdleThread, THREAD_ID_IDLE, Idle_ThreadEntry, NULL, STACK_TOP(sIdleThreadStack),
+                   THREAD_PRI_IDLE_INIT);
     osStartThread(&sIdleThread);
 }

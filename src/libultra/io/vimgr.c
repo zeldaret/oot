@@ -59,7 +59,7 @@ void viMgrMain(void* vargs) {
     static u16 viRetrace;
     OSMgrArgs* args;
     u32 addTime;
-    OSIoMesg* mesg = NULL;
+    OSIoMesg* msg = NULL;
     u32 temp = 0; // always 0
 
     viRetrace = __osViGetCurrentContext()->retraceCount;
@@ -70,8 +70,8 @@ void viMgrMain(void* vargs) {
     args = (OSMgrArgs*)vargs;
 
     while (true) {
-        osRecvMesg(args->eventQueue, (OSMesg*)&mesg, OS_MESG_BLOCK);
-        switch (mesg->hdr.type) {
+        osRecvMesg(args->eventQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
+        switch (msg->hdr.type) {
             case OS_MESG_TYPE_VRETRACE:
                 __osViSwapContext();
                 viRetrace--;

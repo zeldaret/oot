@@ -11,13 +11,13 @@ void __osPiCreateAccessQueue(void) {
 }
 
 void __osPiGetAccess(void) {
-    OSMesg mesg;
+    OSMesg msg;
 
     if (!__osPiAccessQueueEnabled) {
         __osPiCreateAccessQueue();
     }
 
-    osRecvMesg(&__osPiAccessQueue, &mesg, OS_MESG_BLOCK);
+    osRecvMesg(&__osPiAccessQueue, &msg, OS_MESG_BLOCK);
 }
 
 void __osPiRelAccess(void) {
