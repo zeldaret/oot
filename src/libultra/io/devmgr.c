@@ -15,7 +15,7 @@ void __osDevMgrMain(void* arg) {
     ioMesg = NULL;
 
     while (true) {
-        osRecvMesg(arg0->cmdQueue, (OSMesg)&ioMesg, OS_MESG_BLOCK);
+        osRecvMesg(arg0->cmdQueue, (OSMesg*)&ioMesg, OS_MESG_BLOCK);
         if ((ioMesg->piHandle != NULL) && (ioMesg->piHandle->type == DEVICE_TYPE_64DD) &&
             ((ioMesg->piHandle->transferInfo.cmdType == 0) || (ioMesg->piHandle->transferInfo.cmdType == 1))) {
             transfer = &ioMesg->piHandle->transferInfo;
@@ -55,7 +55,7 @@ void __osDevMgrMain(void* arg) {
                 phi_s2 = 0;
             }
 
-            osSendMesg(arg0->acccessQueue, 0, OS_MESG_NOBLOCK);
+            osSendMesg(arg0->acccessQueue, NULL, OS_MESG_NOBLOCK);
             if (ioMesg->piHandle->transferInfo.blockNum == 1) {
                 osYieldThread();
             }

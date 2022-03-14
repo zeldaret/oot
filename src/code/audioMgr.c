@@ -17,11 +17,11 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     }
     if (audioMgr->rspTask != NULL) {
         audioMgr->audioTask.next = NULL;
-        audioMgr->audioTask.flags = 2;
+        audioMgr->audioTask.flags = OS_SC_NEEDS_RSP;
         audioMgr->audioTask.framebuffer = NULL;
 
         audioMgr->audioTask.list = audioMgr->rspTask->task;
-        audioMgr->audioTask.msgQ = &audioMgr->unk_AC;
+        audioMgr->audioTask.msgQ = &audioMgr->taskQ;
 
         audioMgr->audioTask.msg = NULL;
         osSendMesg(&audioMgr->sched->cmdQ, &audioMgr->audioTask, OS_MESG_BLOCK);
@@ -37,7 +37,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     D_8016A558 += osGetTime() - D_8016A550;
     D_8016A550 = 0;
     if (audioMgr->rspTask != NULL) {
-        osRecvMesg(&audioMgr->unk_AC, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&audioMgr->taskQ, NULL, OS_MESG_BLOCK);
         func_800C3C80(audioMgr);
     }
     audioMgr->rspTask = rspTask;
@@ -58,16 +58,16 @@ void AudioMgr_ThreadEntry(void* arg0) {
     Audio_Init();
     AudioLoad_SetDmaHandler(DmaMgr_DmaHandler);
     Audio_InitSound();
-    osSendMesg(&audioMgr->unk_C8, NULL, OS_MESG_BLOCK);
-    IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->unk_74);
+    osSendMesg(&audioMgr->lockQ, NULL, OS_MESG_BLOCK);
+    IrqMgr_AddClient(audioMgr->irqMgr, &irqClient, &audioMgr->interruptQ);
 
     while (true) {
-        osRecvMesg(&audioMgr->unk_74, (OSMesg*)&msg, OS_MESG_BLOCK);
+        osRecvMesg(&audioMgr->interruptQ, (OSMesg*)&msg, OS_MESG_BLOCK);
         switch (*msg) {
             case OS_SC_RETRACE_MSG:
                 AudioMgr_HandleRetrace(audioMgr);
-                while (audioMgr->unk_74.validCount != 0) {
-                    osRecvMesg(&audioMgr->unk_74, (OSMesg*)&msg, OS_MESG_BLOCK);
+                while (!MQ_IS_EMPTY(&audioMgr->interruptQ)) {
+                    osRecvMesg(&audioMgr->interruptQ, (OSMesg*)&msg, OS_MESG_BLOCK);
                     switch (*msg) {
                         case OS_SC_RETRACE_MSG:
                             break;
@@ -85,7 +85,7 @@ void AudioMgr_ThreadEntry(void* arg0) {
 }
 
 void AudioMgr_Unlock(AudioMgr* audioMgr) {
-    osRecvMesg(&audioMgr->unk_C8, NULL, OS_MESG_BLOCK);
+    osRecvMesg(&audioMgr->lockQ, NULL, OS_MESG_BLOCK);
 }
 
 void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr) {
@@ -95,12 +95,12 @@ void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedCon
     audioMgr->irqMgr = irqMgr;
     audioMgr->rspTask = NULL;
 
-    osCreateMesgQueue(&audioMgr->unk_AC, &audioMgr->unk_C4, 1);
-    osCreateMesgQueue(&audioMgr->unk_74, &audioMgr->unk_8C, 8);
-    osCreateMesgQueue(&audioMgr->unk_C8, &audioMgr->unk_E0, 1);
+    osCreateMesgQueue(&audioMgr->taskQ, audioMgr->taskMsgBuf, ARRAY_COUNT(audioMgr->taskMsgBuf));
+    osCreateMesgQueue(&audioMgr->interruptQ, audioMgr->interruptMsgBuf, ARRAY_COUNT(audioMgr->interruptMsgBuf));
+    osCreateMesgQueue(&audioMgr->lockQ, audioMgr->lockMsgBuf, ARRAY_COUNT(audioMgr->lockMsgBuf));
 
-    osSendMesg(&audioMgr->unk_AC, NULL, OS_MESG_BLOCK);
+    osSendMesg(&audioMgr->taskQ, NULL, OS_MESG_BLOCK);
 
-    osCreateThread(&audioMgr->unk_E8, id, AudioMgr_ThreadEntry, audioMgr, stack, pri);
-    osStartThread(&audioMgr->unk_E8);
+    osCreateThread(&audioMgr->thread, id, AudioMgr_ThreadEntry, audioMgr, stack, pri);
+    osStartThread(&audioMgr->thread);
 }

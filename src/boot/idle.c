@@ -80,7 +80,7 @@ void Idle_ThreadEntry(void* arg) {
     osViSwapBuffer(0x803DA80); //! @bug Invalid vram address (probably intended to be 0x803DA800)
     osCreatePiManager(OS_PRIORITY_PIMGR, &gPiMgrCmdQ, sPiMgrCmdBuff, 50);
     StackCheck_Init(&sMainStackInfo, sMainStack, STACK_TOP(sMainStack), 0, 0x400, "main");
-    osCreateThread(&gMainThread, 3, Main_ThreadEntry, arg, STACK_TOP(sMainStack), Z_PRIORITY_MAIN);
+    osCreateThread(&gMainThread, Z_THREADID_MAIN, Main_ThreadEntry, arg, STACK_TOP(sMainStack), Z_PRIORITY_MAIN_INIT);
     osStartThread(&gMainThread);
     osSetThreadPri(NULL, OS_PRIORITY_IDLE);
 

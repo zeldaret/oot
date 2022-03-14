@@ -298,6 +298,6 @@ void IrqMgr_Init(IrqMgr* irqMgr, void* stack, OSPri pri, u8 retraceCount) {
     osCreateMesgQueue(&irqMgr->queue, irqMgr->msgBuf, ARRAY_COUNT(irqMgr->msgBuf));
     osSetEventMesg(OS_EVENT_PRENMI, &irqMgr->queue, (OSMesg)IRQ_PRENMI_MSG);
     osViSetEvent(&irqMgr->queue, (OSMesg)IRQ_RETRACE_MSG, retraceCount);
-    osCreateThread(&irqMgr->thread, 19, IrqMgr_ThreadEntry, irqMgr, stack, pri);
+    osCreateThread(&irqMgr->thread, Z_THREADID_IRQMGR, IrqMgr_ThreadEntry, irqMgr, stack, pri);
     osStartThread(&irqMgr->thread);
 }

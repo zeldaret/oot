@@ -99,7 +99,7 @@ AudioTask* func_800E5000(void) {
         }
     }
 
-    sp48 = gAudioContext.currAudioFrameDmaQueue.validCount;
+    sp48 = MQ_GET_COUNT(&gAudioContext.currAudioFrameDmaQueue);
     if (sp48 != 0) {
         for (i = 0; i < sp48; i++) {
             osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK);

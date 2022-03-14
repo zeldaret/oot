@@ -481,11 +481,11 @@ void Sched_ThreadEntry(void* arg) {
 void Sched_Init(SchedContext* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr) {
     bzero(sc, sizeof(SchedContext));
     sc->unk_24C = 1;
-    osCreateMesgQueue(&sc->interruptQ, sc->intBuf, 8);
-    osCreateMesgQueue(&sc->cmdQ, sc->cmdMsgBuf, 8);
+    osCreateMesgQueue(&sc->interruptQ, sc->intBuf, ARRAY_COUNT(sc->intBuf));
+    osCreateMesgQueue(&sc->cmdQ, sc->cmdMsgBuf, ARRAY_COUNT(sc->cmdMsgBuf));
     osSetEventMesg(OS_EVENT_SP, &sc->interruptQ, RSP_DONE_MSG);
     osSetEventMesg(OS_EVENT_DP, &sc->interruptQ, RDP_DONE_MSG);
     IrqMgr_AddClient(irqMgr, &sc->irqClient, &sc->interruptQ);
-    osCreateThread(&sc->thread, 5, Sched_ThreadEntry, sc, stack, priority);
+    osCreateThread(&sc->thread, Z_THREADID_SCHED, Sched_ThreadEntry, sc, stack, priority);
     osStartThread(&sc->thread);
 }
