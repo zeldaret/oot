@@ -85,7 +85,8 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
 
         osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
         if (gDmaMgrVerbose == 10) {
-            osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQueue));
+            osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
+                         MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         size -= buffSize;
@@ -421,7 +422,7 @@ void DmaMgr_Init(void) {
 
     osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, ARRAY_COUNT(sDmaMgrMsgs));
     StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, STACK_TOP(sDmaMgrStack), 0, 0x100, "dmamgr");
-    osCreateThread(&sDmaMgrThread, THREAD_ID_DMAMGR, DmaMgr_ThreadEntry, 0, STACK_TOP(sDmaMgrStack),
+    osCreateThread(&sDmaMgrThread, THREAD_ID_DMAMGR, DmaMgr_ThreadEntry, NULL, STACK_TOP(sDmaMgrStack),
                    THREAD_PRI_DMAMGR);
     osStartThread(&sDmaMgrThread);
 }
