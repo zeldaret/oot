@@ -114,7 +114,8 @@ AudioTask* func_800E5000(void) {
     if (gAudioContext.resetStatus != 0) {
         if (AudioHeap_ResetStep() == 0) {
             if (gAudioContext.resetStatus == 0) {
-                osSendMesg(gAudioContext.audioResetQueueP, (OSMesg)(u32)gAudioContext.audioResetSpecIdToLoad, OS_MESG_NOBLOCK);
+                osSendMesg(gAudioContext.audioResetQueueP, (OSMesg)(u32)gAudioContext.audioResetSpecIdToLoad,
+                           OS_MESG_NOBLOCK);
             }
 
             sWaitingAudioTask = NULL;
@@ -350,7 +351,8 @@ void Audio_InitMesgQueuesInternal(void) {
     gAudioContext.audioResetQueueP = &gAudioContext.audioResetQueue;
     osCreateMesgQueue(gAudioContext.taskStartQueueP, gAudioContext.taskStartMsgBuf,
                       ARRAY_COUNT(gAudioContext.taskStartMsgBuf));
-    osCreateMesgQueue(gAudioContext.cmdProcQueueP, gAudioContext.cmdProcMsgBuf, ARRAY_COUNT(gAudioContext.cmdProcMsgBuf));
+    osCreateMesgQueue(gAudioContext.cmdProcQueueP, gAudioContext.cmdProcMsgBuf,
+                      ARRAY_COUNT(gAudioContext.cmdProcMsgBuf));
     osCreateMesgQueue(gAudioContext.audioResetQueueP, gAudioContext.audioResetMsgBuf,
                       ARRAY_COUNT(gAudioContext.audioResetMsgBuf));
 }
