@@ -1,8 +1,8 @@
 #include "global.h"
 
-OSThread* __osThreadTail[2] = { NULL, (OSThread*)OS_PRIORITY_THREADTAIL };
-OSThread* __osRunQueue = (OSThread*)__osThreadTail;
-OSThread* __osActiveQueue = (OSThread*)__osThreadTail;
+__OSThreadTail __osThreadTail = { NULL, OS_PRIORITY_THREADTAIL };
+OSThread* __osRunQueue = (OSThread*)&__osThreadTail;
+OSThread* __osActiveQueue = (OSThread*)&__osThreadTail;
 OSThread* __osRunningThread = NULL;
 OSThread* __osFaultedThread = NULL;
 
