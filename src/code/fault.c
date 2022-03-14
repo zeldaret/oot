@@ -128,8 +128,8 @@ void Fault_ClientRunTask(FaultClientTask* task) {
         // Run the fault client callback on a separate thread
         thread = alloca(sizeof(OSThread));
 
-        osCreateThread(thread, Z_THREADID_FAULT, Fault_ClientProcessThread, task,
-                       sFaultInstance->clientThreadSp, OS_PRIORITY_APPMAX - 1);
+        osCreateThread(thread, Z_THREADID_FAULT, Fault_ClientProcessThread, task, sFaultInstance->clientThreadSp,
+                       OS_PRIORITY_APPMAX - 1);
         osStartThread(thread);
     } else {
         // Run the fault client callback on this thread
@@ -1265,7 +1265,8 @@ void Fault_Init(void) {
     gFaultMgr.faultHandlerEnabled = true;
     osCreateMesgQueue(&sFaultInstance->queue, &sFaultInstance->msg, 1);
     StackCheck_Init(&sFaultThreadInfo, &sFaultStack, STACK_TOP(sFaultStack), 0, 0x100, "fault");
-    osCreateThread(&sFaultInstance->thread, Z_THREADID_FAULT, Fault_ThreadEntry, 0, STACK_TOP(sFaultStack), OS_PRIORITY_APPMAX);
+    osCreateThread(&sFaultInstance->thread, Z_THREADID_FAULT, Fault_ThreadEntry, 0, STACK_TOP(sFaultStack),
+                   OS_PRIORITY_APPMAX);
     osStartThread(&sFaultInstance->thread);
 }
 

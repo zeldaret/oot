@@ -85,7 +85,8 @@ void Main(void* arg) {
     IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQ);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_TOP(sAudioStack), 0, 0x100, "audio");
-    AudioMgr_Init(&gAudioMgr, STACK_TOP(sAudioStack), Z_PRIORITY_AUDIOMGR, Z_THREADID_AUDIOMGR, &gSchedContext, &gIrqMgr);
+    AudioMgr_Init(&gAudioMgr, STACK_TOP(sAudioStack), Z_PRIORITY_AUDIOMGR, Z_THREADID_AUDIOMGR, &gSchedContext,
+                  &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_TOP(sPadMgrStack), 0, 0x100, "padmgr");
     PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, Z_THREADID_PADMGR, Z_PRIORITY_PADMGR, STACK_TOP(sPadMgrStack));

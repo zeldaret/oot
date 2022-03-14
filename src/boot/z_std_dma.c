@@ -79,7 +79,8 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
         }
 
         if (gDmaMgrVerbose == 10) {
-            osSyncPrintf("%10lld ノーマルＤＭＡ START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQ));
+            osSyncPrintf("%10lld ノーマルＤＭＡ START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
+                         MQ_GET_COUNT(&gPiMgrCmdQ));
         }
 
         osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
@@ -355,8 +356,8 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk
         osSyncPrintf("%c", BEL);
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。");
-        LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgs),
-                "../z_std_dma.c", 952);
+        LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgs), "../z_std_dma.c",
+                952);
         osSyncPrintf(VT_RST);
     }
 
@@ -420,7 +421,8 @@ void DmaMgr_Init(void) {
 
     osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, ARRAY_COUNT(sDmaMgrMsgs));
     StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, STACK_TOP(sDmaMgrStack), 0, 0x100, "dmamgr");
-    osCreateThread(&sDmaMgrThread, Z_THREADID_DMAMGR, DmaMgr_ThreadEntry, 0, STACK_TOP(sDmaMgrStack), Z_PRIORITY_DMAMGR);
+    osCreateThread(&sDmaMgrThread, Z_THREADID_DMAMGR, DmaMgr_ThreadEntry, 0, STACK_TOP(sDmaMgrStack),
+                   Z_PRIORITY_DMAMGR);
     osStartThread(&sDmaMgrThread);
 }
 
