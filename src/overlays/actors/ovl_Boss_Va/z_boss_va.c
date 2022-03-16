@@ -1466,8 +1466,8 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
     this->unk_1AC += 0xC31;
     this->unk_1A0 = (Math_CosS(this->unk_1AC) * 0.1f) + 1.0f;
     this->unk_1A4 = (Math_SinS(this->unk_1AC) * 0.05f) + 1.0f;
-    if (this->actor.bgCheckFlags & 8) {
-        this->actor.bgCheckFlags &= ~8;
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->actor.world.rot.y = (s16)Rand_CenteredFloat(30 * (0x10000 / 360)) + this->actor.wallYaw;
     }
 
@@ -1491,7 +1491,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
         BossVa_Spark(globalCtx, this, 1, 100, 15.0f, 10.0f, SPARK_BARI, 11.0f, true);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 70.0f, 0.0f, 1);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 70.0f, 0.0f, UPDBGCHECKINFO_FLAG_0);
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
     if (this->invincibilityTimer == 0) {
@@ -3340,7 +3340,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                     effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
                     effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
                 } else {
-                    spB6 = Rand_ZeroFloat(ARRAY_COUNT(player->bodyPartsPos) - 0.1f);
+                    spB6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
                     effect->pos.x = player->bodyPartsPos[spB6].x + Rand_CenteredFloat(10.0f);
                     effect->pos.y = player->bodyPartsPos[spB6].y + Rand_CenteredFloat(15.0f);
                     effect->pos.z = player->bodyPartsPos[spB6].z + Rand_CenteredFloat(10.0f);
@@ -3759,7 +3759,7 @@ void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
 
                 case SPARK_LINK:
                     effect->type = VA_SMALL_SPARK;
-                    index = Rand_ZeroFloat(ARRAY_COUNT(player->bodyPartsPos) - 0.1f);
+                    index = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
                     effect->pos.x = player->bodyPartsPos[index].x + Rand_CenteredFloat(10.0f);
                     effect->pos.y = player->bodyPartsPos[index].y + Rand_CenteredFloat(15.0f);
                     effect->pos.z = player->bodyPartsPos[index].z + Rand_CenteredFloat(10.0f);

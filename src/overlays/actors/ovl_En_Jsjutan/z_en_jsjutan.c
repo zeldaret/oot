@@ -72,7 +72,7 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
         } else {
             this->dyna.actor.world.pos.x = oddVtx->v.ob[0] * 0.02f + actorPos.x;
             this->dyna.actor.world.pos.z = oddVtx->v.ob[2] * 0.02f + actorPos.z;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 10.0f, 10.0f, 4);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 10.0f, 10.0f, UPDBGCHECKINFO_FLAG_2);
             oddVtx->v.ob[1] = evenVtx->v.ob[1] = this->dyna.actor.floorHeight;
             this->dyna.actor.world.pos = actorPos;
         }

@@ -15,6 +15,7 @@
 #define OS_PHYSICAL_TO_K0(x)    (void*)(((u32)(x)+0x80000000))
 #define OS_PHYSICAL_TO_K1(x)    (void*)(((u32)(x)+0xA0000000))
 
-#define OS_SEC_TO_CYCLES(n)     OS_USEC_TO_CYCLES((n) * 1000 * 1000)
+#define OS_MSEC_TO_CYCLES(n)    OS_USEC_TO_CYCLES((n) * 1000)
+#define OS_SEC_TO_CYCLES(n)     OS_MSEC_TO_CYCLES((n) * 1000)
 
 #endif

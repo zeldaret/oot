@@ -3354,7 +3354,7 @@ void BossGanon_DrawShock(BossGanon* this, GlobalContext* globalCtx) {
         if (this->unk_2E8 != 0) {
             Player* player = GET_PLAYER(globalCtx);
 
-            for (i = 0; i < ARRAY_COUNT(player->bodyPartsPos); i++) {
+            for (i = 0; i < PLAYER_BODYPART_MAX; i++) {
                 Matrix_Translate(player->bodyPartsPos[i].x, player->bodyPartsPos[i].y, player->bodyPartsPos[i].z,
                                  MTXMODE_NEW);
                 Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
@@ -3535,7 +3535,7 @@ void BossGanon_DrawTriforce(BossGanon* this, GlobalContext* globalCtx) {
         if (this->triforceType == GDF_TRIFORCE_PLAYER) {
             Player* player = GET_PLAYER(globalCtx);
 
-            this->triforcePos = player->bodyPartsPos[12];
+            this->triforcePos = player->bodyPartsPos[PLAYER_BODYPART_L_HAND];
 
             this->triforcePos.x += -0.6f;
             this->triforcePos.y += 3.0f;
@@ -3959,7 +3959,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         if (hitWithBottle == false) {
                             // if ganondorf is 250 units away from link, at least 3 volleys are required
-                            if ((ganondorf->actor.xyzDistToPlayerSq > 62500.0f) && (this->unk_1A4 < 3)) {
+                            if ((ganondorf->actor.xyzDistToPlayerSq > SQ(250.0f)) && (this->unk_1A4 < 3)) {
                                 this->unk_1C2 = 1;
                             } else if (Rand_ZeroOne() < 0.7f) {
                                 this->unk_1C2 = 1;
@@ -3967,8 +3967,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 this->unk_1C2 = 3;
                             }
 
-                            // if a spin attack is used
-                            if (player->swordAnimation >= 0x18) {
+                            if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
                                 this->actor.speedXZ = 20.0f;
                             }
                             break;
@@ -4061,7 +4060,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         if (this->actor.world.pos.y < 10.0f) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 20.0f, 20.0f, 4);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
         }
 
         if ((fabsf(this->actor.world.pos.x) > 465.0f) || (this->actor.world.pos.y > 500.0f) ||
@@ -4069,7 +4068,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
             spBA = 4;
         }
 
-        if ((spBA != 0) || (this->actor.bgCheckFlags & 1)) {
+        if ((spBA != 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             f32 sp58;
             f32 sp54;
             f32 phi_f20;
@@ -4410,7 +4409,8 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.world.rot.x = (Math_CosS(this->unk_1A2 * 0x3400) * sp84 * 0.1f) + this->actor.shape.rot.x;
             this->actor.world.rot.y = (Math_SinS(this->unk_1A2 * 0x1A00) * sp84) + this->actor.shape.rot.y;
 
-            if ((player->swordState != 0) && (player->swordAnimation >= 0x18) && (this->actor.xzDistToPlayer < 80.0f)) {
+            if ((player->meleeWeaponState != 0) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
+                (this->actor.xzDistToPlayer < 80.0f)) {
                 this->unk_1C2 = 0xC;
                 this->actor.speedXZ = -30.0f;
                 func_8002D908(&this->actor);
@@ -4690,7 +4690,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                     eff->pos.y = sGanondorf->unk_2EC[bodyPart].y + Rand_CenteredFloat(20.0f);
                     eff->pos.z = sGanondorf->unk_2EC[bodyPart].z + Rand_CenteredFloat(20.0f);
                 } else {
-                    bodyPart = (s16)Rand_ZeroFloat(17.9f);
+                    bodyPart = (s16)Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
 
                     eff->pos.x = player->bodyPartsPos[bodyPart].x + Rand_CenteredFloat(10.0f);
                     eff->pos.y = player->bodyPartsPos[bodyPart].y + Rand_CenteredFloat(15.0f);

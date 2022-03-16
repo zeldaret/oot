@@ -180,9 +180,10 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
-            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.sunPos.x * (1.0f / 6.0f);
-            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.sunPos.y * (1.0f / 6.0f);
-            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.sunPos.z * (1.0f / 6.0f);
+            cylinderPos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + globalCtx->envCtx.sunPos.x * (1.0f / 6.0f);
+            cylinderPos.y =
+                player->bodyPartsPos[PLAYER_BODYPART_HEAD].y - 30.0f + globalCtx->envCtx.sunPos.y * (1.0f / 6.0f);
+            cylinderPos.z = player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + globalCtx->envCtx.sunPos.z * (1.0f / 6.0f);
 
             this->hitboxPos = cylinderPos;
 

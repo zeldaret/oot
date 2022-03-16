@@ -168,7 +168,7 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, sColChkInfoInit);
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Animation_Change(&this->skelAnime, sAnimationInfo[RM_ANIM_RUN].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimationInfo[RM_ANIM_RUN].animation), sAnimationInfo[RM_ANIM_RUN].mode,
                      sAnimationInfo[RM_ANIM_RUN].morphFrames);
@@ -389,7 +389,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     return 0;
 }
@@ -407,7 +407,7 @@ void func_80AAE224(EnMm* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
-    f32 floorYNorm;
+    f32 floorPolyNormalY;
     Vec3f dustPos;
 
     if (!Player_InCsMode(globalCtx)) {
@@ -439,9 +439,9 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
 
         if (func_80AADA70() == 0) {
             if (this->actor.floorPoly != NULL) {
-                floorYNorm = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
+                floorPolyNormalY = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
 
-                if ((floorYNorm > 0.9848f) || (floorYNorm < -0.9848f)) {
+                if ((floorPolyNormalY > 0.9848f) || (floorPolyNormalY < -0.9848f)) {
                     if (this->sitTimer > 30) {
                         EnMm_ChangeAnim(this, RM_ANIM_SIT, &this->curAnimIndex);
                         this->actionFunc = func_80AAE224;

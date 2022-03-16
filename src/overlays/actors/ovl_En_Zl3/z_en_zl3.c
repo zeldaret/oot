@@ -141,11 +141,12 @@ void func_80B53614(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B5366C(EnZl3* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 void func_80B536B4(EnZl3* this) {
-    this->actor.bgCheckFlags &= ~0x9;
+    this->actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL);
 }
 
 void func_80B536C4(EnZl3* this) {
@@ -746,7 +747,7 @@ void func_80B54DE0(EnZl3* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[idx].segment);
 }
 
-void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
     f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
@@ -762,7 +763,7 @@ void func_80B54E14(EnZl3* this, AnimationHeader* animation, u8 arg2, f32 transit
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, morphFrames);
 }
 
 void func_80B54EA4(EnZl3* this, GlobalContext* globalCtx) {
@@ -1554,7 +1555,8 @@ void func_80B56E38(EnZl3* this, GlobalContext* globalCtx) {
     s32 sfxId;
     SkelAnime* sp20 = &this->skelAnime;
 
-    if ((Animation_OnFrame(sp20, 6.0f) || Animation_OnFrame(sp20, 0.0f)) && (this->actor.bgCheckFlags & 1)) {
+    if ((Animation_OnFrame(sp20, 6.0f) || Animation_OnFrame(sp20, 0.0f)) &&
+        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         sfxId = 0x800;
         sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
         func_80078914(&this->actor.projectedPos, sfxId);
@@ -1612,7 +1614,7 @@ s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
         f32 xDiff = vec2->x - vec1->x;
         f32 zDiff = vec2->z - vec1->z;
 
-        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
+        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     }
     return 0;
 }
@@ -1625,7 +1627,7 @@ s16 func_80B57104(EnZl3* this, s32 arg1) {
         f32 zDiff = point->z - this->actor.world.pos.z;
 
         if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
-            return Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI);
+            return RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
         }
     }
     return 0;
@@ -1739,7 +1741,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
         return 1;
     }
 
-    temp_v0 = (s16)(temp_v1 - (s16)(Math_FAtan2F(temp_f12, temp_f13) * (0x8000 / M_PI)));
+    temp_v0 = (s16)(temp_v1 - RADF_TO_BINANG(Math_FAtan2F(temp_f12, temp_f13)));
 
     if (temp_v0 < 0x1555) {
         return 1;
@@ -1826,7 +1828,7 @@ void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     f32 posZ = vec->z;
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, posX, posY, posZ, 0,
-                (Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ) * (0x8000 / M_PI)), 0, 5);
+                RADF_TO_BINANG(Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ)), 0, 5);
 }
 
 void func_80B57858(GlobalContext* globalCtx) {
@@ -2198,7 +2200,7 @@ s32 func_80B58938(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B5899C(EnZl3* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1)) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Player* player = GET_PLAYER(globalCtx);
         s8 invincibilityTimer = player->invincibilityTimer;
 
