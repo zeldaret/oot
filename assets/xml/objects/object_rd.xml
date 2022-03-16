@@ -1,7 +1,11 @@
 <Root>
+    <!-- Assets for Gibdos and Redeads -->
     <File Name="object_rd" Segment="6">
+        <!-- Gibdo Textures -->
         <Texture Name="gGibdoWrappingTex" OutName="gibdo_wrapping" Format="rgba16" Width="64" Height="32" Offset="0x0"/>
         <Texture Name="gGibdoEyeTex" OutName="gibdo_eye" Format="rgba16" Width="32" Height="16" Offset="0x1000"/>
+
+        <!-- Gibdo Limb DisplayLists -->
         <DList Name="gGibdoPelvisDL" Offset="0x2C60"/>
         <DList Name="gGibdoHeadDL" Offset="0x2D40"/>
         <DList Name="gGibdoTorsoDL" Offset="0x2EB0"/>
@@ -17,6 +21,8 @@
         <DList Name="gGibdoLeftThighDL" Offset="0x3948"/>
         <DList Name="gGibdoLeftShinDL" Offset="0x3A58"/>
         <DList Name="gGibdoLeftFootDL" Offset="0x3B50"/>
+
+        <!-- Gidbo Limbs -->
         <Limb Name="gGibdoRootLimb" LimbType="Standard" Offset="0x3C48"/>
         <Limb Name="gGibdoLeftLegRootLimb" LimbType="Standard" Offset="0x3C54"/>
         <Limb Name="gGibdoLeftThighLimb" LimbType="Standard" Offset="0x3C60"/>
@@ -42,17 +48,22 @@
         <Limb Name="gGibdoHeadRootLimb" LimbType="Standard" Offset="0x3D50"/>
         <Limb Name="gGibdoHeadLimb" LimbType="Standard" Offset="0x3D5C"/>
         <Limb Name="gGibdoPelvisLimb" LimbType="Standard" Offset="0x3D68"/>
+
+        <!-- Gibdo Skeleton -->
         <Skeleton Name="gGibdoSkel" Type="Flex" LimbType="Standard" Offset="0x3DD8"/>
-        <Animation Name="gGibdoRedeadGrabAttackAnim" Offset="0x4268"/>
-        <Animation Name="gGibdoRedeadGrabEndAnim" Offset="0x46F8"/>
-        <Animation Name="gGibdoRedeadGrabStartAnim" Offset="0x4ADC"/>
-        <Animation Name="gGibdoRedeadLookBackAnim" Offset="0x4F94"/>
-        <Animation Name="gGibdoRedeadWipingTearsAnim" Offset="0x57AC"/>
-        <Animation Name="gGibdoRedeadSobbingAnim" Offset="0x5D98"/>
-        <Animation Name="gGibdoRedeadDeathAnim" Offset="0x6E88"/>
-        <Animation Name="gGibdoRedeadDamageAnim" Offset="0x74F0"/>
-        <Animation Name="gGibdoRedeadStandUpAnim" Offset="0x8040"/>
-        <Animation Name="gGibdoRedeadIdleAnim" Offset="0x87D0"/>
+
+        <Animation Name="gGibdoRedeadGrabAttackAnim" Offset="0x4268"/> <!-- Original name is "re_dead_attack" -->
+        <Animation Name="gGibdoRedeadGrabEndAnim" Offset="0x46F8"/> <!-- Original name is "re_dead_attack_end" -->
+        <Animation Name="gGibdoRedeadGrabStartAnim" Offset="0x4ADC"/> <!-- Original name is "re_dead_attack_start" -->
+        <Animation Name="gGibdoRedeadLookBackAnim" Offset="0x4F94"/> <!-- Original name is "re_dead_back_turn" -->
+        <Animation Name="gGibdoRedeadWipingTearsAnim" Offset="0x57AC"/> <!-- Original name is "re_dead_cry" -->
+        <Animation Name="gGibdoRedeadSobbingAnim" Offset="0x5D98"/> <!-- Original name is "re_dead_cryB" -->
+        <Animation Name="gGibdoRedeadDeathAnim" Offset="0x6E88"/> <!-- Original name is "re_dead_down" -->
+        <Animation Name="gGibdoRedeadDamageAnim" Offset="0x74F0"/> <!-- Original name is "re_dead_hit" -->
+        <Animation Name="gGibdoRedeadStandUpAnim" Offset="0x8040"/> <!-- Original name is "re_dead_standing" -->
+        <Animation Name="gGibdoRedeadIdleAnim" Offset="0x87D0"/> <!-- Original name is "re_dead_wait" -->
+
+        <!-- Redead Textures -->
         <Texture Name="gRedeadBackTex" OutName="redead_back" Format="rgba16" Width="32" Height="64" Offset="0x87E0"/>
         <Texture Name="gRedeadTorsoTex" OutName="redead_torso" Format="rgba16" Width="32" Height="64" Offset="0x97E0"/>
         <Texture Name="gRedeadFingersAndToesTex" OutName="redead_fingers_and_toes" Format="rgba16" Width="16" Height="32" Offset="0xA7E0"/>
@@ -60,6 +71,8 @@
         <Texture Name="gRedeadMaskTex" OutName="redead_mask" Format="i8" Width="32" Height="32" Offset="0xAFE0"/>
         <Texture Name="gRedeadFaceTex" OutName="redead_face" Format="rgba16" Width="32" Height="64" Offset="0xB3E0"/>
         <Texture Name="gRedeadHipsTex" OutName="redead_hips" Format="rgba16" Width="32" Height="16" Offset="0xC3E0"/>
+
+        <!-- Redead Limb DisplayLists -->
         <DList Name="gRedeadPelvisDL" Offset="0xD6A0"/>
         <DList Name="gRedeadTorsoDL" Offset="0xD7C8"/>
         <DList Name="gRedeadLeftShoulderAndUpperArmDL" Offset="0xDAC0"/>
@@ -75,6 +88,8 @@
         <DList Name="gRedeadRightThighDL" Offset="0xE358"/>
         <DList Name="gRedeadRightShinDL" Offset="0xE438"/>
         <DList Name="gRedeadRightFootDL" Offset="0xE500"/>
+
+        <!-- Redead Limbs -->
         <Limb Name="gRedeadRootLimb" LimbType="Standard" Offset="0xE5E8"/>
         <Limb Name="gRedeadLeftLegRootLimb" LimbType="Standard" Offset="0xE5F4"/>
         <Limb Name="gRedeadLeftThighLimb" LimbType="Standard" Offset="0xE600"/>
@@ -100,7 +115,10 @@
         <Limb Name="gRedeadHeadRootLimb" LimbType="Standard" Offset="0xE6F0"/>
         <Limb Name="gRedeadHeadLimb" LimbType="Standard" Offset="0xE6FC"/>
         <Limb Name="gRedeadPelvisLimb" LimbType="Standard" Offset="0xE708"/>
+
+        <!-- Redead Skeleton -->
         <Skeleton Name="gRedeadSkel" Type="Flex" LimbType="Standard" Offset="0xE778"/>
-        <Animation Name="gGibdoRedeadWalkAnim" Offset="0xEFDC"/>
+
+        <Animation Name="gGibdoRedeadWalkAnim" Offset="0xEFDC"/> <!-- Original name is "re_dead_walk" -->
     </File>
 </Root>
