@@ -8,6 +8,8 @@ struct EnRd;
 
 typedef void (*EnRdActionFunc)(struct EnRd*, GlobalContext*);
 
+#define EN_RD_GET_FLAGS(thisx) (((thisx)->params & 0xFF00) >> 8)
+
 typedef enum GibdoLimbs {
     /*  0 */ REDEAD_GIBDO_LIMB_NONE,
     /*  1 */ REDEAD_GIBDO_LIMB_ROOT,

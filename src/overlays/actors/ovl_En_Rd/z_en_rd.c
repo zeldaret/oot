@@ -18,12 +18,12 @@ void EnRd_WalkToHome(EnRd* this, GlobalContext* globalCtx);
 void EnRd_SetupWalkToParent(EnRd* this);
 void EnRd_WalkToParent(EnRd* this, GlobalContext* globalCtx);
 void EnRd_SetupGrab(EnRd* this);
-void EnRd_SetupStandUp(EnRd* this);
-void EnRd_SetupCrouch(EnRd* this);
 void EnRd_Grab(EnRd* this, GlobalContext* globalCtx);
 void EnRd_SetupAttemptPlayerFreeze(EnRd* this);
 void EnRd_AttemptPlayerFreeze(EnRd* this, GlobalContext* globalCtx);
+void EnRd_SetupStandUp(EnRd* this);
 void EnRd_StandUp(EnRd* this, GlobalContext* globalCtx);
+void EnRd_SetupCrouch(EnRd* this);
 void EnRd_Crouch(EnRd* this, GlobalContext* globalCtx);
 void EnRd_Damage(EnRd* this, GlobalContext* globalCtx);
 void EnRd_Dead(EnRd* this, GlobalContext* globalCtx);
@@ -146,7 +146,7 @@ static Color_RGBA8 D_80AE493C = { 0, 0, 255, 0 };
 
 static Vec3f D_80AE4940 = { 300.0f, 0.0f, 0.0f };
 static Vec3f D_80AE494C = { 300.0f, 0.0f, 0.0f };
-static Vec3f D_80AE4958 = { 0.25f, 0.25f, 0.25f };
+static Vec3f sShadowScale = { 0.25f, 0.25f, 0.25f };
 
 void EnRd_SetupAction(EnRd* this, EnRdActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -156,37 +156,37 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnRd* this = (EnRd*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    thisx->targetMode = 0;
-    thisx->colChkInfo.damageTable = &sDamageTable;
+    this->actor.targetMode = 0;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     this->upperBodyYRotation = this->headYRotation = 0;
-    thisx->focus.pos = thisx->world.pos;
-    thisx->focus.pos.y += 50.0f;
-    thisx->colChkInfo.mass = MASS_HEAVY;
-    thisx->colChkInfo.health = 8;
+    this->actor.focus.pos = thisx->world.pos;
+    this->actor.focus.pos.y += 50.0f;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
+    this->actor.colChkInfo.health = 8;
     this->alpha = this->unk_31D = 255;
-    this->flags = (thisx->params & 0xFF00) >> 8;
+    this->flags = EN_RD_GET_FLAGS(thisx);
 
-    if (thisx->params & 0x80) {
-        thisx->params |= 0xFF00;
+    if (this->actor.params & 0x80) {
+        this->actor.params |= 0xFF00;
     } else {
-        thisx->params &= 0xFF;
+        this->actor.params &= 0xFF;
     }
 
-    if (thisx->params > EN_RD_TYPE_GIBDO) {
+    if (this->actor.params > EN_RD_TYPE_GIBDO) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRedeadSkel, &gGibdoRedeadIdleAnim, this->jointTable,
-                           this->morphTable, 26);
-        thisx->naviEnemyId = 0x2A;
+                           this->morphTable, REDEAD_GIBDO_LIMB_MAX);
+        this->actor.naviEnemyId = 0x2A;
     } else {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGibdoSkel, &gGibdoRedeadIdleAnim, this->jointTable,
-                           this->morphTable, 26);
-        thisx->naviEnemyId = 0x2D;
+                           this->morphTable, REDEAD_GIBDO_LIMB_MAX);
+        this->actor.naviEnemyId = 0x2D;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
-    if (thisx->params > EN_RD_TYPE_GIBDO_RISING_OUT_OF_COFFIN) {
+    if (this->actor.params > EN_RD_TYPE_GIBDO_RISING_OUT_OF_COFFIN) {
         EnRd_SetupIdle(this);
     } else {
         EnRd_SetupRiseFromCoffin(this);
@@ -194,8 +194,8 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (thisx->params == EN_RD_TYPE_INVISIBLE) {
-        thisx->flags |= ACTOR_FLAG_7;
+    if (this->actor.params == EN_RD_TYPE_INVISIBLE) {
+        this->actor.flags |= ACTOR_FLAG_7;
     }
 }
 
@@ -205,6 +205,7 @@ void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.sunsSongState != SUNSSONG_INACTIVE) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
+
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -218,21 +219,22 @@ void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  *   other Redeads stop mourning over it.
  */
 void EnRd_UpdateParentForOtherRedeads(GlobalContext* globalCtx, Actor* thisx, s32 setParent) {
-    Actor* enemyIt = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].head;
+    Actor* enemyIterator = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].head;
 
-    while (enemyIt != NULL) {
-        if ((enemyIt->id != ACTOR_EN_RD) || (enemyIt == thisx) ||
-            (enemyIt->params < EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING)) {
-            enemyIt = enemyIt->next;
+    while (enemyIterator != NULL) {
+        if ((enemyIterator->id != ACTOR_EN_RD) || (enemyIterator == thisx) ||
+            (enemyIterator->params < EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING)) {
+            enemyIterator = enemyIterator->next;
             continue;
         }
 
         if (setParent) {
-            enemyIt->parent = thisx;
-        } else if (enemyIt->parent == thisx) {
-            enemyIt->parent = NULL;
+            enemyIterator->parent = thisx;
+        } else if (enemyIterator->parent == thisx) {
+            enemyIterator->parent = NULL;
         }
-        enemyIt = enemyIt->next;
+
+        enemyIterator = enemyIterator->next;
     }
 }
 
@@ -255,7 +257,7 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->headYRotation, 0, 1, 0x64, 0);
     Math_SmoothStepToS(&this->upperBodyYRotation, 0, 1, 0x64, 0);
 
-    if ((this->actor.params == EN_RD_TYPE_CRYING) && (0.0f == this->skelAnime.curFrame)) {
+    if ((this->actor.params == EN_RD_TYPE_CRYING) && (this->skelAnime.curFrame == 0.0f)) {
         if (Rand_ZeroOne() >= 0.5f) {
             Animation_PlayLoop(&this->skelAnime, &gGibdoRedeadSobbingAnim);
         } else {
@@ -326,6 +328,7 @@ void EnRd_RiseFromCoffin(EnRd* this, GlobalContext* globalCtx) {
         if (this->actor.world.pos.y == this->actor.home.pos.y) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
         }
+
         if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 50.0f, 0.3f, 2.0f, 0.3f) == 0.0f) {
             if (this->coffinRiseForwardAccelTimer != 0) {
                 this->coffinRiseForwardAccelTimer--;
@@ -351,7 +354,7 @@ void EnRd_WalkToPlayer(EnRd* this, GlobalContext* globalCtx) {
     Color_RGBA8 sp3C = D_80AE4928;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
-    s16 sp32 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headYRotation - this->upperBodyYRotation;
+    s16 yaw = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headYRotation - this->upperBodyYRotation;
 
     this->skelAnime.playSpeed = this->actor.speedXZ;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA, 0);
@@ -364,7 +367,7 @@ void EnRd_WalkToPlayer(EnRd* this, GlobalContext* globalCtx) {
         EnRd_SetupWalkToHome(this, globalCtx);
     }
 
-    if ((ABS(sp32) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
+    if ((ABS(yaw) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
         if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
                                      PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
             !(player->stateFlags2 & PLAYER_STATE2_7)) {
@@ -375,6 +378,7 @@ void EnRd_WalkToPlayer(EnRd* this, GlobalContext* globalCtx) {
                     GET_PLAYER(globalCtx)->unk_684 = &this->actor;
                     func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
                 }
+
                 this->playerStunWaitTimer = 60;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_AIM);
             }
@@ -607,15 +611,15 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, GlobalContext* globalCtx) {
     Color_RGBA8 sp30 = D_80AE4938;
     Color_RGBA8 sp2C = D_80AE493C;
     Player* player = GET_PLAYER(globalCtx);
-    s16 temp_v0 =
-        this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headYRotation - this->upperBodyYRotation;
+    s16 yaw = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headYRotation - this->upperBodyYRotation;
 
-    if (ABS(temp_v0) < 0x2008) {
+    if (ABS(yaw) < 0x2008) {
         if (!(this->flags & 0x80)) {
             player->actor.freezeTimer = 60;
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
             func_8008EEAC(globalCtx, &this->actor);
         }
+
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_AIM);
         EnRd_SetupWalkToPlayer(this, globalCtx);
     }
@@ -711,10 +715,12 @@ void EnRd_Dead(EnRd* this, GlobalContext* globalCtx) {
             if (!Flags_GetSwitch(globalCtx, this->flags & 0x7F)) {
                 Flags_SetSwitch(globalCtx, this->flags & 0x7F);
             }
+
             if (this->alpha != 0) {
                 if (this->alpha == 180) {
                     EnRd_UpdateParentForOtherRedeads(globalCtx, &this->actor, 0);
                 }
+
                 this->actor.scale.y -= 0.000075f;
                 this->alpha -= 5;
             } else {
@@ -743,6 +749,7 @@ void EnRd_SetupStunned(EnRd* this) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0x50);
     }
+
     EnRd_SetupAction(this, EnRd_Stunned);
 }
 
@@ -752,6 +759,7 @@ void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx) {
         if (this->sunsSongStunTimer >= 0xFF) {
             Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0xFF);
         }
+
         if (this->sunsSongStunTimer == 0) {
             this->stunnedBySunsSong = false;
             gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
@@ -770,26 +778,23 @@ void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void EnRd_TurnTowardsPlayer(EnRd* this, GlobalContext* globalCtx) {
-    s16 temp1;
-    s16 temp2;
-    s16 temp3;
+    s16 headAngleTemp = this->actor.yawTowardsPlayer - (s16)(this->actor.shape.rot.y + this->upperBodyYRotation);
+    s16 upperBodyAngle = CLAMP(headAngleTemp, -500, 500);
+    s16 headAngle;
 
-    temp1 = this->actor.yawTowardsPlayer - (s16)(this->actor.shape.rot.y + this->upperBodyYRotation);
-    temp2 = CLAMP(temp1, -500, 500);
+    headAngleTemp -= this->headYRotation;
+    headAngle = CLAMP(headAngleTemp, -500, 500);
 
-    temp1 -= this->headYRotation;
-    temp3 = CLAMP(temp1, -500, 500);
-
-    if ((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y) >= 0) {
-        this->upperBodyYRotation += ABS(temp2);
-        this->headYRotation += ABS(temp3);
+    if (BINANG_SUB(this->actor.yawTowardsPlayer, this->actor.shape.rot.y) >= 0) {
+        this->upperBodyYRotation += ABS(upperBodyAngle);
+        this->headYRotation += ABS(headAngle);
     } else {
-        this->upperBodyYRotation -= ABS(temp2);
-        this->headYRotation -= ABS(temp3);
+        this->upperBodyYRotation -= ABS(upperBodyAngle);
+        this->headYRotation -= ABS(headAngle);
     }
 
-    this->upperBodyYRotation = CLAMP(this->upperBodyYRotation, -18783, 18783);
-    this->headYRotation = CLAMP(this->headYRotation, -9583, 9583);
+    this->upperBodyYRotation = CLAMP(this->upperBodyYRotation, -0x495F, 0x495F);
+    this->headYRotation = CLAMP(this->headYRotation, -0x256F, 0x256F);
 }
 
 void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
@@ -900,6 +905,7 @@ s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     } else if (limbIndex == REDEAD_GIBDO_LIMB_UPPER_BODY_ROOT) {
         rot->y += this->upperBodyYRotation;
     }
+
     return false;
 }
 
@@ -975,7 +981,9 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_OPA_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnRd_OverrideLimbDraw, EnRd_PostLimbDraw, this,
                                            POLY_OPA_DISP);
-        func_80033C30(&thisPos, &D_80AE4958, 255, globalCtx);
+
+        func_80033C30(&thisPos, &sShadowScale, 255, globalCtx);
+
         if (this->fireTimer != 0) {
             thisx->colorFilterTimer++;
             this->fireTimer--;
@@ -992,7 +1000,7 @@ void EnRd_Draw(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                this->skelAnime.dListCount, EnRd_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
-        func_80033C30(&thisPos, &D_80AE4958, this->alpha, globalCtx);
+        func_80033C30(&thisPos, &sShadowScale, this->alpha, globalCtx);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rd.c", 1735);
