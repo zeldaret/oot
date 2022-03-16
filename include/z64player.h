@@ -151,6 +151,60 @@ typedef enum {
 } PlayerLimb;
 
 typedef enum {
+    /* 0x00 */ PLAYER_BODYPART_WAIST,      // PLAYER_LIMB_WAIST
+    /* 0x01 */ PLAYER_BODYPART_R_THIGH,    // PLAYER_LIMB_R_THIGH
+    /* 0x02 */ PLAYER_BODYPART_R_SHIN,     // PLAYER_LIMB_R_SHIN
+    /* 0x03 */ PLAYER_BODYPART_R_FOOT,     // PLAYER_LIMB_R_FOOT
+    /* 0x04 */ PLAYER_BODYPART_L_THIGH,    // PLAYER_LIMB_L_THIGH
+    /* 0x05 */ PLAYER_BODYPART_L_SHIN,     // PLAYER_LIMB_L_SHIN
+    /* 0x06 */ PLAYER_BODYPART_L_FOOT,     // PLAYER_LIMB_L_FOOT
+    /* 0x07 */ PLAYER_BODYPART_HEAD,       // PLAYER_LIMB_HEAD
+    /* 0x08 */ PLAYER_BODYPART_HAT,        // PLAYER_LIMB_HAT
+    /* 0x09 */ PLAYER_BODYPART_COLLAR,     // PLAYER_LIMB_COLLAR
+    /* 0x0A */ PLAYER_BODYPART_L_SHOULDER, // PLAYER_LIMB_L_SHOULDER
+    /* 0x0B */ PLAYER_BODYPART_L_FOREARM,  // PLAYER_LIMB_L_FOREARM
+    /* 0x0C */ PLAYER_BODYPART_L_HAND,     // PLAYER_LIMB_L_HAND
+    /* 0x0D */ PLAYER_BODYPART_R_SHOULDER, // PLAYER_LIMB_R_SHOULDER
+    /* 0x0E */ PLAYER_BODYPART_R_FOREARM,  // PLAYER_LIMB_R_FOREARM
+    /* 0x0F */ PLAYER_BODYPART_R_HAND,     // PLAYER_LIMB_R_HAND
+    /* 0x10 */ PLAYER_BODYPART_SHEATH,     // PLAYER_LIMB_SHEATH
+    /* 0x11 */ PLAYER_BODYPART_TORSO,      // PLAYER_LIMB_TORSO
+    /* 0x12 */ PLAYER_BODYPART_MAX
+} PlayerBodyPart;
+
+typedef enum {
+    /*  0 */ PLAYER_MWA_FORWARD_SLASH_1H,
+    /*  1 */ PLAYER_MWA_FORWARD_SLASH_2H,
+    /*  2 */ PLAYER_MWA_FORWARD_COMBO_1H,
+    /*  3 */ PLAYER_MWA_FORWARD_COMBO_2H,
+    /*  4 */ PLAYER_MWA_RIGHT_SLASH_1H,
+    /*  5 */ PLAYER_MWA_RIGHT_SLASH_2H,
+    /*  6 */ PLAYER_MWA_RIGHT_COMBO_1H,
+    /*  7 */ PLAYER_MWA_RIGHT_COMBO_2H,
+    /*  8 */ PLAYER_MWA_LEFT_SLASH_1H,
+    /*  9 */ PLAYER_MWA_LEFT_SLASH_2H,
+    /* 10 */ PLAYER_MWA_LEFT_COMBO_1H,
+    /* 11 */ PLAYER_MWA_LEFT_COMBO_2H,
+    /* 12 */ PLAYER_MWA_STAB_1H,
+    /* 13 */ PLAYER_MWA_STAB_2H,
+    /* 14 */ PLAYER_MWA_STAB_COMBO_1H,
+    /* 15 */ PLAYER_MWA_STAB_COMBO_2H,
+    /* 16 */ PLAYER_MWA_FLIPSLASH_START,
+    /* 17 */ PLAYER_MWA_JUMPSLASH_START,
+    /* 18 */ PLAYER_MWA_FLIPSLASH_FINISH,
+    /* 19 */ PLAYER_MWA_JUMPSLASH_FINISH,
+    /* 20 */ PLAYER_MWA_BACKSLASH_RIGHT,
+    /* 21 */ PLAYER_MWA_BACKSLASH_LEFT,
+    /* 22 */ PLAYER_MWA_HAMMER_FORWARD,
+    /* 23 */ PLAYER_MWA_HAMMER_SIDE,
+    /* 24 */ PLAYER_MWA_SPIN_ATTACK_1H,
+    /* 25 */ PLAYER_MWA_SPIN_ATTACK_2H,
+    /* 26 */ PLAYER_MWA_BIG_SPIN_1H,
+    /* 27 */ PLAYER_MWA_BIG_SPIN_2H,
+    /* 28 */ PLAYER_MWA_MAX
+} PlayerMeleeWeaponAnimation;
+
+typedef enum {
     /* -1 */ PLAYER_DOORTYPE_AJAR = -1,
     /*  0 */ PLAYER_DOORTYPE_NONE,
     /*  1 */ PLAYER_DOORTYPE_HANDLE,
@@ -440,11 +494,11 @@ typedef struct Player {
     /* 0x08AC */ f32        windSpeed;
     /* 0x08B0 */ s16        windDirection;
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
-    /* 0x0908 */ Vec3f      bodyPartsPos[18];
+    /* 0x0908 */ Vec3f      bodyPartsPos[PLAYER_BODYPART_MAX];
     /* 0x09E0 */ MtxF       mf_9E0;
     /* 0x0A20 */ MtxF       shieldMf;
     /* 0x0A60 */ u8         isBurning;
-    /* 0x0A61 */ u8         flameTimers[18]; // one flame per body part
+    /* 0x0A61 */ u8         flameTimers[PLAYER_BODYPART_MAX]; // one flame per body part
     /* 0x0A73 */ u8         unk_A73;
     /* 0x0A74 */ PlayerFuncA74 func_A74;
     /* 0x0A78 */ s8         invincibilityTimer; // prevents damage when nonzero (positive = visible, counts towards zero each frame)

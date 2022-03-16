@@ -197,7 +197,7 @@ void EnBubble_Vec3fNormalize(Vec3f* vec) {
 }
 
 void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
-    CollisionPoly* sp94;
+    CollisionPoly* poly;
     Actor* bumpActor;
     Vec3f sp84;
     Vec3f sp78;
@@ -233,10 +233,10 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
     sp6C.x += (sp54.x * 24.0f);
     sp6C.y += (sp54.y * 24.0f);
     sp6C.z += (sp54.z * 24.0f);
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &sp94, true, true, true, false, &bgId)) {
-        sp60.x = COLPOLY_GET_NORMAL(sp94->normal.x);
-        sp60.y = COLPOLY_GET_NORMAL(sp94->normal.y);
-        sp60.z = COLPOLY_GET_NORMAL(sp94->normal.z);
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &poly, true, true, true, false, &bgId)) {
+        sp60.x = COLPOLY_GET_NORMAL(poly->normal.x);
+        sp60.y = COLPOLY_GET_NORMAL(poly->normal.y);
+        sp60.z = COLPOLY_GET_NORMAL(poly->normal.z);
         EnBubble_Vec3fNormalizedRelfect(&sp54, &sp60, &sp54);
         this->bounceDirection = sp54;
         bounceCount = this->bounceCount;

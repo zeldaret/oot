@@ -371,7 +371,7 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
     Vec3f sp100;
     Vec3f intersection;
     f32 spE8[3];
-    f32 normalVec[3];
+    f32 polyNormal[3];
     MtxF* shieldMtx;
     Vec3f vecA;
     Vec3f vecC;
@@ -404,12 +404,12 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
     for (i = 0; i < 6; i++) {
         currentReflection = &reflection[i];
         if (currentReflection->reflectionPoly != NULL) {
-            normalVec[0] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.x);
-            normalVec[1] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.y);
-            normalVec[2] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.z);
+            polyNormal[0] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.x);
+            polyNormal[1] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.y);
+            polyNormal[2] = COLPOLY_GET_NORMAL(currentReflection->reflectionPoly->normal.z);
 
-            if (Math3D_LineSegVsPlane(normalVec[0], normalVec[1], normalVec[2], currentReflection->reflectionPoly->dist,
-                                      &vecB, &vecD, &sp118, 1)) {
+            if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
+                                      currentReflection->reflectionPoly->dist, &vecB, &vecD, &sp118, 1)) {
 
                 currentReflection->pos.x = sp118.x;
                 currentReflection->pos.y = sp118.y;
@@ -445,7 +445,7 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
                         currentReflection->mtx.xz = currentReflection->mtx.yz = currentReflection->mtx.wz =
                             currentReflection->mtx.xw = currentReflection->mtx.yw = currentReflection->mtx.zw;
 
-                if (Math3D_LineSegVsPlane(normalVec[0], normalVec[1], normalVec[2],
+                if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
                                           currentReflection->reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
                     currentReflection->mtx.xx = intersection.x - sp118.x;
                     currentReflection->mtx.yx = intersection.y - sp118.y;
@@ -460,7 +460,7 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
                 sp100.y = (spE8[1] * 4.0f) + sp10C.y;
                 sp100.z = (spE8[2] * 4.0f) + sp10C.z;
 
-                if (Math3D_LineSegVsPlane(normalVec[0], normalVec[1], normalVec[2],
+                if (Math3D_LineSegVsPlane(polyNormal[0], polyNormal[1], polyNormal[2],
                                           currentReflection->reflectionPoly->dist, &sp10C, &sp100, &intersection, 1)) {
                     currentReflection->mtx.xy = intersection.x - sp118.x;
                     currentReflection->mtx.yy = intersection.y - sp118.y;

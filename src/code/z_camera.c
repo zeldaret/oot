@@ -951,7 +951,7 @@ s32 func_800458D4(Camera* camera, VecSph* eyeAtDir, f32 arg2, f32* arg3, s16 arg
 
     if (eyeAtAngle > DEGF_TO_RADF(OREG(32))) {
         if (1) {}
-        phi_f2 = 1.0f - sinf(DEGF_TO_RADF(eyeAtAngle - OREG(32)));
+        phi_f2 = 1.0f - sinf(eyeAtAngle - DEGF_TO_RADF(OREG(32)));
     } else if (eyeAtAngle < DEGF_TO_RADF(OREG(33))) {
         phi_f2 = 1.0f - sinf(DEGF_TO_RADF(OREG(33)) - eyeAtAngle);
     } else {
@@ -4482,7 +4482,7 @@ s32 Camera_Unique1(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
-    Vec3f playerBodyPart0;
+    Vec3f playerWaistPos;
     s16 phiTarget;
     VecSph sp8C;
     VecSph unk908PlayerPosOffset;
@@ -4524,8 +4524,8 @@ s32 Camera_Unique1(Camera* camera) {
         camera->posOffset.y = camera->posOffset.y - camera->playerPosDelta.y;
         anim->yawTarget = eyeNextAtOffset.yaw;
         anim->unk_00 = 0.0f;
-        playerBodyPart0 = camera->player->bodyPartsPos[0];
-        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerBodyPart0);
+        playerWaistPos = camera->player->bodyPartsPos[PLAYER_BODYPART_WAIST];
+        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerWaistPos);
         anim->timer = R_DEFA_CAM_ANIM_TIME;
         anim->yawTargetAdj = ABS(BINANG_SUB(unk908PlayerPosOffset.yaw, eyeAtOffset.yaw)) < 0x3A98
                                  ? 0

@@ -407,7 +407,7 @@ void func_80AAE224(EnMm* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
-    f32 floorYNorm;
+    f32 floorPolyNormalY;
     Vec3f dustPos;
 
     if (!Player_InCsMode(globalCtx)) {
@@ -439,9 +439,9 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
 
         if (func_80AADA70() == 0) {
             if (this->actor.floorPoly != NULL) {
-                floorYNorm = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
+                floorPolyNormalY = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
 
-                if ((floorYNorm > 0.9848f) || (floorYNorm < -0.9848f)) {
+                if ((floorPolyNormalY > 0.9848f) || (floorPolyNormalY < -0.9848f)) {
                     if (this->sitTimer > 30) {
                         EnMm_ChangeAnim(this, RM_ANIM_SIT, &this->curAnimIndex);
                         this->actionFunc = func_80AAE224;

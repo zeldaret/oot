@@ -690,8 +690,8 @@ void EnGoma_SetFloorRot(EnGoma* this) {
         nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
         ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
         nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
-        Math_ApproachS(&this->slopePitch, -Math_FAtan2F(-nz * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
-        Math_ApproachS(&this->slopeRoll, Math_FAtan2F(-nx * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
+        Math_ApproachS(&this->slopePitch, RADF_TO_BINANG(-Math_FAtan2F(-nz * ny, 1.0f)), 1, 1000);
+        Math_ApproachS(&this->slopeRoll, RADF_TO_BINANG(Math_FAtan2F(-nx * ny, 1.0f)), 1, 1000);
     }
 }
 
