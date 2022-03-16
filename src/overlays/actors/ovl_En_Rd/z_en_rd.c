@@ -895,9 +895,9 @@ s32 EnRd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
                           Gfx** gfx) {
     EnRd* this = (EnRd*)thisx;
 
-    if (limbIndex == 23) {
+    if (limbIndex == REDEAD_GIBDO_LIMB_HEAD_ROOT) {
         rot->y += this->headYRotation;
-    } else if (limbIndex == 12) {
+    } else if (limbIndex == REDEAD_GIBDO_LIMB_UPPER_BODY_ROOT) {
         rot->y += this->upperBodyYRotation;
     }
     return false;
@@ -911,34 +911,43 @@ void EnRd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     if ((this->fireTimer != 0) || ((this->actor.colorFilterTimer != 0) && (this->actor.colorFilterParams & 0x4000))) {
         switch (limbIndex - 1) {
-            case 23:
+            case REDEAD_GIBDO_LIMB_HEAD - 1:
                 idx = 0;
                 break;
-            case 0:
+
+            case REDEAD_GIBDO_LIMB_ROOT - 1:
                 idx = 1;
                 break;
-            case 21:
+
+            case REDEAD_GIBDO_LIMB_RIGHT_HAND - 1:
                 idx = 2;
                 break;
-            case 17:
+
+            case REDEAD_GIBDO_LIMB_LEFT_HAND - 1:
                 idx = 3;
                 break;
-            case 13:
+
+            case REDEAD_GIBDO_LIMB_TORSO - 1:
                 idx = 4;
                 break;
-            case 24:
+
+            case REDEAD_GIBDO_LIMB_PELVIS - 1:
                 idx = 5;
                 break;
-            case 8:
+
+            case REDEAD_GIBDO_LIMB_RIGHT_SHIN - 1:
                 idx = 6;
                 break;
-            case 3:
+
+            case REDEAD_GIBDO_LIMB_LEFT_SHIN - 1:
                 idx = 7;
                 break;
-            case 10:
+
+            case REDEAD_GIBDO_LIMB_RIGHT_FOOT - 1:
                 idx = 8;
                 break;
-            case 5:
+
+            case REDEAD_GIBDO_LIMB_LEFT_FOOT - 1:
                 idx = 9;
                 break;
         }
