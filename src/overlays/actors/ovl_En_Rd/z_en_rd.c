@@ -85,12 +85,12 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 typedef enum {
-    /* 0x0 */ EN_RD_DMGEFF_NONE,
-    /* 0x1 */ EN_RD_DMGEFF_STUN,
-    /* 0x6 */ EN_RD_DMGEFF_ICE = 0x6,
-    /* 0xD */ EN_RD_DMGEFF_LIGHT = 0xD,
-    /* 0xE */ EN_RD_DMGEFF_FIRE,
-    /* 0xF */ EN_RD_DMGEFF_DAMAGE
+    /* 0x0 */ EN_RD_DMGEFF_NONE,              // Does not interact with the Gibdo/Redead at all
+    /* 0x1 */ EN_RD_DMGEFF_HOOKSHOT,          // Stuns the Gibdo/Redead
+    /* 0x6 */ EN_RD_DMGEFF_ICE_MAGIC = 0x6,   // Does not interact with the Gibdo/Redead at all
+    /* 0xD */ EN_RD_DMGEFF_LIGHT_MAGIC = 0xD, // Stuns the Gibdo/Redead
+    /* 0xE */ EN_RD_DMGEFF_FIRE_MAGIC,        // Applies a fire effect
+    /* 0xF */ EN_RD_DMGEFF_DAMAGE             // Deals damage without stunning or applying an effect
 } EnRdDamageEffect;
 
 static DamageTable sDamageTable = {
@@ -101,7 +101,7 @@ static DamageTable sDamageTable = {
     /* Boomerang     */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
     /* Normal arrow  */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
     /* Hammer swing  */ DMG_ENTRY(2, EN_RD_DMGEFF_DAMAGE),
-    /* Hookshot      */ DMG_ENTRY(0, EN_RD_DMGEFF_STUN),
+    /* Hookshot      */ DMG_ENTRY(0, EN_RD_DMGEFF_HOOKSHOT),
     /* Kokiri sword  */ DMG_ENTRY(1, EN_RD_DMGEFF_DAMAGE),
     /* Master sword  */ DMG_ENTRY(2, EN_RD_DMGEFF_DAMAGE),
     /* Giant's Knife */ DMG_ENTRY(4, EN_RD_DMGEFF_DAMAGE),
@@ -111,9 +111,9 @@ static DamageTable sDamageTable = {
     /* Unk arrow 1   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
     /* Unk arrow 2   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
     /* Unk arrow 3   */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
-    /* Fire magic    */ DMG_ENTRY(4, EN_RD_DMGEFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, EN_RD_DMGEFF_ICE),
-    /* Light magic   */ DMG_ENTRY(3, EN_RD_DMGEFF_LIGHT),
+    /* Fire magic    */ DMG_ENTRY(4, EN_RD_DMGEFF_FIRE_MAGIC),
+    /* Ice magic     */ DMG_ENTRY(0, EN_RD_DMGEFF_ICE_MAGIC),
+    /* Light magic   */ DMG_ENTRY(3, EN_RD_DMGEFF_LIGHT_MAGIC),
     /* Shield        */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
     /* Mirror Ray    */ DMG_ENTRY(0, EN_RD_DMGEFF_NONE),
     /* Kokiri spin   */ DMG_ENTRY(1, EN_RD_DMGEFF_DAMAGE),
@@ -743,7 +743,7 @@ void EnRd_SetupStunned(EnRd* this) {
         this->sunsSongStunTimer = 600;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
         Actor_SetColorFilter(&this->actor, -0x8000, -0x7F38, 0, 0xFF);
-    } else if (this->damageEffect == EN_RD_DMGEFF_STUN) {
+    } else if (this->damageEffect == EN_RD_DMGEFF_HOOKSHOT) {
         Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, 0x50);
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
@@ -818,8 +818,9 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
                 this->unk_31D = player->unk_845;
             }
 
-            if ((this->damageEffect != EN_RD_DMGEFF_NONE) && (this->damageEffect != EN_RD_DMGEFF_ICE)) {
-                if (((this->damageEffect == EN_RD_DMGEFF_STUN) || (this->damageEffect == EN_RD_DMGEFF_LIGHT)) &&
+            if ((this->damageEffect != EN_RD_DMGEFF_NONE) && (this->damageEffect != EN_RD_DMGEFF_ICE_MAGIC)) {
+                if (((this->damageEffect == EN_RD_DMGEFF_HOOKSHOT) ||
+                     (this->damageEffect == EN_RD_DMGEFF_LIGHT_MAGIC)) &&
                     (this->action != EN_RD_ACTION_STUNNED)) {
                     Actor_ApplyDamage(&this->actor);
                     EnRd_SetupStunned(this);
@@ -829,7 +830,7 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
                 this->stunnedBySunsSong = false;
                 this->sunsSongStunTimer = 0;
 
-                if (this->damageEffect == EN_RD_DMGEFF_FIRE) {
+                if (this->damageEffect == EN_RD_DMGEFF_FIRE_MAGIC) {
                     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x50);
                     this->fireTimer = 40;
                 } else {
@@ -861,8 +862,8 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
     }
 
-    if (this->damageEffect != EN_RD_DMGEFF_ICE &&
-        ((this->action != EN_RD_ACTION_RISING_FROM_COFFIN) || (this->damageEffect != EN_RD_DMGEFF_FIRE))) {
+    if (this->damageEffect != EN_RD_DMGEFF_ICE_MAGIC &&
+        ((this->action != EN_RD_ACTION_RISING_FROM_COFFIN) || (this->damageEffect != EN_RD_DMGEFF_FIRE_MAGIC))) {
         if (this->playerStunWaitTimer != 0) {
             this->playerStunWaitTimer--;
         }
