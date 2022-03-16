@@ -9,10 +9,10 @@
         <DList Name="gGibdoPelvisDL" Offset="0x2C60"/>
         <DList Name="gGibdoHeadDL" Offset="0x2D40"/>
         <DList Name="gGibdoTorsoDL" Offset="0x2EB0"/>
-        <DList Name="gGibdoRightShoulderAndUpperArmDL" Offset="0x3018"/>
+        <DList Name="gGibdoRightUpperArmDL" Offset="0x3018"/>
         <DList Name="gGibdoRightForearmDL" Offset="0x3120"/>
         <DList Name="gGibdoRightHandDL" Offset="0x3220"/>
-        <DList Name="gGibdoLeftShoulderAndUpperArmDL" Offset="0x3320"/>
+        <DList Name="gGibdoLeftUpperArmDL" Offset="0x3320"/>
         <DList Name="gGibdoLeftForearmDL" Offset="0x3428"/>
         <DList Name="gGibdoLeftHandDL" Offset="0x3528"/>
         <DList Name="gGibdoRightThighDL" Offset="0x3628"/>
@@ -27,22 +27,22 @@
         <Limb Name="gGibdoLeftLegRootLimb" LimbType="Standard" Offset="0x3C54"/>
         <Limb Name="gGibdoLeftThighLimb" LimbType="Standard" Offset="0x3C60"/>
         <Limb Name="gGibdoLeftShinLimb" LimbType="Standard" Offset="0x3C6C"/>
-        <Limb Name="gGibdoLeftAnkleLimb" LimbType="Standard" Offset="0x3C78"/>
+        <Limb Name="gGibdoLeftFootRootLimb" LimbType="Standard" Offset="0x3C78"/>
         <Limb Name="gGibdoLeftFootLimb" LimbType="Standard" Offset="0x3C84"/>
         <Limb Name="gGibdoRightLegRootLimb" LimbType="Standard" Offset="0x3C90"/>
         <Limb Name="gGibdoRightThighLimb" LimbType="Standard" Offset="0x3C9C"/>
         <Limb Name="gGibdoRightShinLimb" LimbType="Standard" Offset="0x3CA8"/>
-        <Limb Name="gGibdoRightAnkleLimb" LimbType="Standard" Offset="0x3CB4"/>
+        <Limb Name="gGibdoRightFootRootLimb" LimbType="Standard" Offset="0x3CB4"/>
         <Limb Name="gGibdoRightFootLimb" LimbType="Standard" Offset="0x3CC0"/>
         <Limb Name="gGibdoUpperBodyRootLimb" LimbType="Standard" Offset="0x3CCC"/>
-        <Limb Name="gGibdoUpperBodyLimb" LimbType="Standard" Offset="0x3CD8"/>
+        <Limb Name="gGibdoTorsoRootLimb" LimbType="Standard" Offset="0x3CD8"/>
         <Limb Name="gGibdoTorsoLimb" LimbType="Standard" Offset="0x3CE4"/>
         <Limb Name="gGibdoLeftArmRootLimb" LimbType="Standard" Offset="0x3CF0"/>
-        <Limb Name="gGibdoLeftShoulderAndUpperArmLimb" LimbType="Standard" Offset="0x3CFC"/>
+        <Limb Name="gGibdoLeftUpperArmLimb" LimbType="Standard" Offset="0x3CFC"/>
         <Limb Name="gGibdoLeftForearmLimb" LimbType="Standard" Offset="0x3D08"/>
         <Limb Name="gGibdoLeftHandLimb" LimbType="Standard" Offset="0x3D14"/>
         <Limb Name="gGibdoRightArmRootLimb" LimbType="Standard" Offset="0x3D20"/>
-        <Limb Name="gGibdoRightShoulderAndUpperArmLimb" LimbType="Standard" Offset="0x3D2C"/>
+        <Limb Name="gGibdoRightUpperArmLimb" LimbType="Standard" Offset="0x3D2C"/>
         <Limb Name="gGibdoRightForearmLimb" LimbType="Standard" Offset="0x3D38"/>
         <Limb Name="gGibdoRightHandLimb" LimbType="Standard" Offset="0x3D44"/>
         <Limb Name="gGibdoHeadRootLimb" LimbType="Standard" Offset="0x3D50"/>
@@ -75,10 +75,10 @@
         <!-- Redead Limb DisplayLists -->
         <DList Name="gRedeadPelvisDL" Offset="0xD6A0"/>
         <DList Name="gRedeadTorsoDL" Offset="0xD7C8"/>
-        <DList Name="gRedeadLeftShoulderAndUpperArmDL" Offset="0xDAC0"/>
+        <DList Name="gRedeadLeftUpperArmDL" Offset="0xDAC0"/>
         <DList Name="gRedeadLeftForearmDL" Offset="0xDBA0"/>
         <DList Name="gRedeadLeftHandDL" Offset="0xDC60"/>
-        <DList Name="gRedeadRightShoulderAndUpperArmDL" Offset="0xDD30"/>
+        <DList Name="gRedeadRightUpperArmDL" Offset="0xDD30"/>
         <DList Name="gRedeadRightForearmDL" Offset="0xDE08"/>
         <DList Name="gRedeadRightHandDL" Offset="0xDED8"/>
         <DList Name="gRedeadHeadDL" Offset="0xDFA8"/>
@@ -94,22 +94,22 @@
         <Limb Name="gRedeadLeftLegRootLimb" LimbType="Standard" Offset="0xE5F4"/>
         <Limb Name="gRedeadLeftThighLimb" LimbType="Standard" Offset="0xE600"/>
         <Limb Name="gRedeadLeftShinLimb" LimbType="Standard" Offset="0xE60C"/>
-        <Limb Name="gRedeadLeftAnkleLimb" LimbType="Standard" Offset="0xE618"/>
+        <Limb Name="gRedeadLeftFootRootLimb" LimbType="Standard" Offset="0xE618"/>
         <Limb Name="gRedeadLeftFootLimb" LimbType="Standard" Offset="0xE624"/>
         <Limb Name="gRedeadRightLegRootLimb" LimbType="Standard" Offset="0xE630"/>
         <Limb Name="gRedeadRightThighLimb" LimbType="Standard" Offset="0xE63C"/>
         <Limb Name="gRedeadRightShinLimb" LimbType="Standard" Offset="0xE648"/>
-        <Limb Name="gRedeadRightAnkleLimb" LimbType="Standard" Offset="0xE654"/>
+        <Limb Name="gRedeadRightFootRootLimb" LimbType="Standard" Offset="0xE654"/>
         <Limb Name="gRedeadRightFootLimb" LimbType="Standard" Offset="0xE660"/>
         <Limb Name="gRedeadUpperBodyRootLimb" LimbType="Standard" Offset="0xE66C"/>
-        <Limb Name="gRedeadUpperBodyLimb" LimbType="Standard" Offset="0xE678"/>
+        <Limb Name="gRedeadTorsoRootLimb" LimbType="Standard" Offset="0xE678"/>
         <Limb Name="gRedeadTorsoLimb" LimbType="Standard" Offset="0xE684"/>
         <Limb Name="gRedeadLeftArmRootLimb" LimbType="Standard" Offset="0xE690"/>
-        <Limb Name="gRedeadLeftShoulderAndUpperArmLimb" LimbType="Standard" Offset="0xE69C"/>
+        <Limb Name="gRedeadLeftUpperArmLimb" LimbType="Standard" Offset="0xE69C"/>
         <Limb Name="gRedeadLeftForearmLimb" LimbType="Standard" Offset="0xE6A8"/>
         <Limb Name="gRedeadLeftHandLimb" LimbType="Standard" Offset="0xE6B4"/>
         <Limb Name="gRedeadRightArmRootLimb" LimbType="Standard" Offset="0xE6C0"/>
-        <Limb Name="gRedeadRightShoulderAndUpperArmLimb" LimbType="Standard" Offset="0xE6CC"/>
+        <Limb Name="gRedeadRightUpperArmLimb" LimbType="Standard" Offset="0xE6CC"/>
         <Limb Name="gRedeadRightForearmLimb" LimbType="Standard" Offset="0xE6D8"/>
         <Limb Name="gRedeadRightHandLimb" LimbType="Standard" Offset="0xE6E4"/>
         <Limb Name="gRedeadHeadRootLimb" LimbType="Standard" Offset="0xE6F0"/>

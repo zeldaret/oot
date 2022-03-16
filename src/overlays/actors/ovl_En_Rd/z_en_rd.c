@@ -210,15 +210,15 @@ void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * This function does two things depending on whether setParent is true or false.
- * - If setParent is true, this function sets thisx to be the parent for all Redeads
+ * This function does two things depending on whether shouldMourn is true or false.
+ * - If shouldMourn is true, this function sets thisx to be the parent for all Redeads
  *   in the area that are capable of mourning. This is used right when thisx first
  *   dies to make the other Redeads mourn it.
- * - If setParent is false, this function nulls out the parent for all Redeads in the
+ * - If shouldMourn is false, this function nulls out the parent for all Redeads in the
  *   are whose parents is thisx. This is used when thisx is fading away to make the
  *   other Redeads stop mourning over it.
  */
-void EnRd_UpdateParentForOtherRedeads(GlobalContext* globalCtx, Actor* thisx, s32 setParent) {
+void EnRd_UpdateMourningTarget(GlobalContext* globalCtx, Actor* thisx, s32 shouldMourn) {
     Actor* enemyIterator = globalCtx->actorCtx.actorLists[ACTORCAT_ENEMY].head;
 
     while (enemyIterator != NULL) {
@@ -228,7 +228,7 @@ void EnRd_UpdateParentForOtherRedeads(GlobalContext* globalCtx, Actor* thisx, s3
             continue;
         }
 
-        if (setParent) {
+        if (shouldMourn) {
             enemyIterator->parent = thisx;
         } else if (enemyIterator->parent == thisx) {
             enemyIterator->parent = NULL;
@@ -292,7 +292,7 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
 
         this->isMourning = false;
         if ((this->actor.xzDistToPlayer <= 150.0f) && func_8002DDE4(globalCtx)) {
-            if ((this->actor.params != EN_RD_TYPE_CRYING) && (!this->isMourning)) {
+            if ((this->actor.params != EN_RD_TYPE_CRYING) && !this->isMourning) {
                 EnRd_SetupAttemptPlayerFreeze(this);
             } else {
                 EnRd_SetupStandUp(this);
@@ -540,10 +540,12 @@ void EnRd_Grab(EnRd* this, GlobalContext* globalCtx) {
             globalCtx->damagePlayer(globalCtx, -8);
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 1, 0xC);
             this->grabDamageTimer = 20;
+            // fallthrough
 
         case EN_RD_GRAB_START:
             Math_SmoothStepToS(&this->headYRotation, 0, 1, 0x5DC, 0);
             Math_SmoothStepToS(&this->upperBodyYRotation, 0, 1, 0x5DC, 0);
+            // fallthrough
 
         case EN_RD_GRAB_ATTACK:
             if (!(player->stateFlags2 & PLAYER_STATE2_7)) {
@@ -718,7 +720,7 @@ void EnRd_Dead(EnRd* this, GlobalContext* globalCtx) {
 
             if (this->alpha != 0) {
                 if (this->alpha == 180) {
-                    EnRd_UpdateParentForOtherRedeads(globalCtx, &this->actor, 0);
+                    EnRd_UpdateMourningTarget(globalCtx, &this->actor, false);
                 }
 
                 this->actor.scale.y -= 0.000075f;
@@ -756,7 +758,7 @@ void EnRd_SetupStunned(EnRd* this) {
 void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx) {
     if ((this->stunnedBySunsSong) && (this->sunsSongStunTimer != 0)) {
         this->sunsSongStunTimer--;
-        if (this->sunsSongStunTimer >= 0xFF) {
+        if (this->sunsSongStunTimer >= 255) {
             Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0xFF);
         }
 
@@ -768,7 +770,7 @@ void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx) {
 
     if (this->actor.colorFilterTimer == 0) {
         if (this->actor.colChkInfo.health == 0) {
-            EnRd_UpdateParentForOtherRedeads(globalCtx, &this->actor, 1);
+            EnRd_UpdateMourningTarget(globalCtx, &this->actor, true);
             EnRd_SetupDead(this);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x90);
         } else {
@@ -839,7 +841,7 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
 
                 Actor_ApplyDamage(&this->actor);
                 if (this->actor.colChkInfo.health == 0) {
-                    EnRd_UpdateParentForOtherRedeads(globalCtx, &this->actor, 1);
+                    EnRd_UpdateMourningTarget(globalCtx, &this->actor, true);
                     EnRd_SetupDead(this);
                     Item_DropCollectibleRandom(globalCtx, 0, &this->actor.world.pos, 0x90);
                 } else {
