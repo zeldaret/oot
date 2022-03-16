@@ -62,10 +62,10 @@ typedef struct EnRd {
     /* 0x0307 */ u8 grabWaitTimer; // Cannot grab the player if this is non-zero
     /* 0x0308 */ EnRdActionFunc actionFunc;
     /* 0x030C */ union {
-                    s16 animationJudderTimer;
-                    s16 deathTimer;
-                    s16 coffinRiseForwardAccelTimer;
-                };
+                    s16 animationJudder;
+                    s16 death;
+                    s16 coffinRiseForwardAccel;
+                } timer;
     /* 0x030E */ s16 headYRotation;
     /* 0x0310 */ s16 upperBodyYRotation;
     /* 0x0312 */ s16 flags;

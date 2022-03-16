@@ -246,7 +246,7 @@ void EnRd_SetupIdle(EnRd* this) {
     }
 
     this->action = EN_RD_ACTION_IDLE;
-    this->animationJudderTimer = (Rand_ZeroOne() * 10.0f) + 5.0f;
+    this->timer.animationJudder = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     EnRd_SetupAction(this, EnRd_Idle);
@@ -264,11 +264,11 @@ void EnRd_Idle(EnRd* this, GlobalContext* globalCtx) {
             Animation_PlayLoop(&this->skelAnime, &gGibdoRedeadWipingTearsAnim);
         }
     } else {
-        this->animationJudderTimer--;
-        if (this->animationJudderTimer == 0) {
+        this->timer.animationJudder--;
+        if (this->timer.animationJudder == 0) {
             // This resets the idle animation back to its first frame, making the
             // Redead/Gibdo appear to "judder" in place.
-            this->animationJudderTimer = (Rand_ZeroOne() * 10.0f) + 10.0f;
+            this->timer.animationJudder = (Rand_ZeroOne() * 10.0f) + 10.0f;
             this->skelAnime.curFrame = 0.0f;
         }
     }
@@ -309,7 +309,7 @@ void EnRd_SetupRiseFromCoffin(EnRd* this) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadIdleAnim, 0, 0, Animation_GetLastFrame(&gGibdoRedeadIdleAnim),
                      ANIMMODE_LOOP, -6.0f);
     this->action = EN_RD_ACTION_RISING_FROM_COFFIN;
-    this->coffinRiseForwardAccelTimer = 6;
+    this->timer.coffinRiseForwardAccel = 6;
     this->actor.shape.rot.x = -0x4000;
     this->actor.gravity = 0.0f;
     this->actor.shape.yOffset = 0.0f;
@@ -330,8 +330,8 @@ void EnRd_RiseFromCoffin(EnRd* this, GlobalContext* globalCtx) {
         }
 
         if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 50.0f, 0.3f, 2.0f, 0.3f) == 0.0f) {
-            if (this->coffinRiseForwardAccelTimer != 0) {
-                this->coffinRiseForwardAccelTimer--;
+            if (this->timer.coffinRiseForwardAccel != 0) {
+                this->timer.coffinRiseForwardAccel--;
                 Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.3f, 1.0f, 0.3f);
             } else if (Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.3f, 1.0f, 0.3f) == 0.0f) {
                 Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 0x7D0, 0);
@@ -518,7 +518,7 @@ void EnRd_WalkToParent(EnRd* this, GlobalContext* globalCtx) {
 
 void EnRd_SetupGrab(EnRd* this) {
     Animation_PlayOnce(&this->skelAnime, &gGibdoRedeadGrabStartAnim);
-    this->animationJudderTimer = this->grabState = 0;
+    this->timer.animationJudder = this->grabState = 0;
     this->grabDamageTimer = 200;
     this->action = EN_RD_ACTION_GRABBING;
     this->actor.speedXZ = 0.0f;
@@ -697,7 +697,7 @@ void EnRd_Damage(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_SetupDead(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGibdoRedeadDeathAnim, -1.0f);
     this->action = EN_RD_ACTION_DEAD;
-    this->deathTimer = 300;
+    this->timer.death = 300;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_DEAD);
@@ -713,7 +713,7 @@ void EnRd_Dead(EnRd* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->upperBodyYRotation, 0, 1, 0x7D0, 0);
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (this->deathTimer == 0) {
+        if (this->timer.death == 0) {
             if (!Flags_GetSwitch(globalCtx, this->flags & 0x7F)) {
                 Flags_SetSwitch(globalCtx, this->flags & 0x7F);
             }
@@ -729,7 +729,7 @@ void EnRd_Dead(EnRd* this, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
             }
         } else {
-            this->deathTimer--;
+            this->timer.death--;
         }
     } else if (((s32)this->skelAnime.curFrame == 33) || ((s32)this->skelAnime.curFrame == 40)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
