@@ -31,4 +31,7 @@
 #define VT_RST VT_SGR("")
 #define VT_CLS VT_ED(2)
 
+// ASCII BEL character, plays an alert tone
+#define BEL '\a'
+
 #endif
