@@ -1624,7 +1624,6 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
 
     if (actor != NULL) {
         s16 angleToFacing;
-        s16 pad;
         f32 dist;
 
         angleToFacing = Actor_WorldYawTowardActor(&this->actor, actor) - this->actor.shape.rot.y;
