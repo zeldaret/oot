@@ -3415,19 +3415,7 @@ endseg
 beginseg
     name "object_human"
     romalign 0x1000
-    include "build/assets/objects/object_human/face_expressions.o"
-    include "build/assets/objects/object_human/anim_looking_back.o"
-    include "build/assets/objects/object_human/anim_looking_back_starts.o"
-    include "build/assets/objects/object_human/anim_tilt_head.o"
-    include "build/assets/objects/object_human/anim_looking_around.o"
-    include "build/assets/objects/object_human/anim_looking_back_end.o"
-    include "build/assets/objects/object_human/anim_thinking_end.o"
-    include "build/assets/objects/object_human/anim_thinking_start.o"
-    include "build/assets/objects/object_human/anim_thinking.o"
-    include "build/assets/objects/object_human/skeleton.o"
-    include "build/assets/objects/object_human/anim_walking.o"
-    include "build/assets/objects/object_human/anim_walking_end.o"
-    include "build/assets/objects/object_human/anim_walking_start.o"
+    include "build/assets/objects/object_human/object_human.o"
     number 6
 endseg
 

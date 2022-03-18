@@ -1,5 +1,5 @@
 <Root>
-    <File Name="object_human" OutName="face_expressions" RangeStart="0x0" RangeEnd="0x7A40" Segment="6">
+    <File Name="object_human" Segment="6">
         <!-- Facial textures -->
         <Texture Name="gHumanEyeLookForwardOpenTex" OutName="eye_look_forward_open" Format="ci8" Width="32" Height="32" Offset="0x0" TlutOffset="0x7A00"/>
         <Texture Name="gHumanEyeLookForwardHalfTex" OutName="eye_look_forward_half" Format="ci8" Width="32" Height="32" Offset="0x400" TlutOffset="0x7A00"/>
@@ -53,41 +53,23 @@
 
         <!-- TLUT -->
         <Texture Name="gHumanTLUT" OutName="face_tlut" Format="rgba16" Width="16" Height="16" Offset="0x7A00"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_looking_back" RangeStart="0x7A40" RangeEnd="0x8360" Segment="6">
         <LegacyAnimation Name="gHumanLookingBackAnim" Offset="0x8354"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_looking_back_starts" RangeStart="0x8360" RangeEnd="0x8790" Segment="6">
         <LegacyAnimation Name="gHumanLookingBackStartsAnim" Offset="0x8784"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_tilt_head" RangeStart="0x8790" RangeEnd="0x8CEC" Segment="6">
         <LegacyAnimation Name="gHumanTiltHeadAnim" Offset="0x8CE0"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_looking_around" RangeStart="0x8CF0" RangeEnd="0x9918" Segment="6">
         <LegacyAnimation Name="gHumanLookingAroundAnim" Offset="0x990C"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_looking_back_end" RangeStart="0x9920" RangeEnd="0x9C38" Segment="6">
         <LegacyAnimation Name="gHumanLookingBackEndsAnim" Offset="0x9C2C"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_thinking_end" RangeStart="0x9C40" RangeEnd="0xA050" Segment="6">
         <LegacyAnimation Name="gHumanThinkingEndAnim" Offset="0xA044"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_thinking_start" RangeStart="0xA050" RangeEnd="0xA8C0" Segment="6">
         <LegacyAnimation Name="gHumanThinkingStartsAnim" Offset="0xA8B4"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_thinking" RangeStart="0xA8C0" RangeEnd="0xAF3C" Segment="6">
         <LegacyAnimation Name="gHumanThinkingAnim" Offset="0xAF30"/>
-    </File>
 
-    <File Name="object_human" OutName="skeleton" RangeStart="0xAF40" RangeEnd="0x1206C" Segment="6">
         <!-- Left arm -->
         <DList Name="gHumanArmLeftDL" Offset="0xAF40"/>
         <DList Name="gHumanArmLeftWrapperDL" Offset="0xB040"/>
@@ -224,17 +206,11 @@
         <Limb Name="gHumanRootLimb" LimbType="Legacy" Offset="0x11FA8"/>
 
         <LimbTable Name="gHumanLimbTable" LimbType="Legacy" Count="41" Offset="0x11FC8"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_walking" RangeStart="0x12070" RangeEnd="0x12928" Segment="6">
         <LegacyAnimation Name="gHumanWalkingAnim" Offset="0x1291C"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_walking_end" RangeStart="0x12930" RangeEnd="0x12D24" Segment="6">
         <LegacyAnimation Name="gHumanWalkingEndAnim" Offset="0x12D18"/>
-    </File>
 
-    <File Name="object_human" OutName="anim_walking_start" RangeStart="0x12D30" RangeEnd="0x13178" Segment="6">
         <LegacyAnimation Name="gHumanWalkingStartAnim" Offset="0x1316C"/>
     </File>
 </Root>
