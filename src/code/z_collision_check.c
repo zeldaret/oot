@@ -1050,7 +1050,7 @@ void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext
     Collider** col;
     OcLine** line;
 
-    if (!(colChkCtx->sacFlags & SAC_ON)) {
+    if (!(colChkCtx->sacFlags & SAC_ENABLE)) {
         colChkCtx->colATCount = 0;
         colChkCtx->colACCount = 0;
         colChkCtx->colOCCount = 0;
@@ -1077,14 +1077,14 @@ void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext
  * Enables SAC, an alternate collision check mode that allows direct management of collider lists. Unused.
  */
 void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    colChkCtx->sacFlags |= SAC_ON;
+    colChkCtx->sacFlags |= SAC_ENABLE;
 }
 
 /**
  * Disables SAC, an alternate collision check mode that allows direct management of collider lists. Unused.
  */
 void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
-    colChkCtx->sacFlags &= ~SAC_ON;
+    colChkCtx->sacFlags &= ~SAC_ENABLE;
 }
 
 /**
@@ -1190,7 +1190,7 @@ s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChk
         osSyncPrintf("CollisionCheck_setAT():インデックスがオーバーして追加不能\n");
         return -1;
     }
-    if (colChkCtx->sacFlags & SAC_ON) {
+    if (colChkCtx->sacFlags & SAC_ENABLE) {
         return -1;
     }
     index = colChkCtx->colATCount;
@@ -1213,7 +1213,7 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (colChkCtx->sacFlags & SAC_ON) {
+    if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colATCount)) {
             // "You are trying to register a location that is larger than the total number of data."
             osSyncPrintf("CollisionCheck_setAT_SAC():全データ数より大きいところに登録しようとしている。\n");
@@ -1259,7 +1259,7 @@ s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChk
         osSyncPrintf("CollisionCheck_setAC():インデックスがオーバして追加不能\n");
         return -1;
     }
-    if (colChkCtx->sacFlags & SAC_ON) {
+    if (colChkCtx->sacFlags & SAC_ENABLE) {
         return -1;
     }
     index = colChkCtx->colACCount;
@@ -1282,7 +1282,7 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (colChkCtx->sacFlags & SAC_ON) {
+    if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colACCount)) {
             // "You are trying to register a location that is larger than the total number of data."
             osSyncPrintf("CollisionCheck_setAC_SAC():全データ数より大きいところに登録しようとしている。\n");
@@ -1330,7 +1330,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
         osSyncPrintf("CollisionCheck_setOC():インデックスがオーバして追加不能\n");
         return -1;
     }
-    if (colChkCtx->sacFlags & SAC_ON) {
+    if (colChkCtx->sacFlags & SAC_ENABLE) {
         return -1;
     }
     index = colChkCtx->colOCCount;
@@ -1353,7 +1353,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (collider->actor != NULL && collider->actor->update == NULL) {
         return -1;
     }
-    if (colChkCtx->sacFlags & SAC_ON) {
+    if (colChkCtx->sacFlags & SAC_ENABLE) {
         if (!(index < colChkCtx->colOCCount)) {
             // "You are trying to register a location that is larger than the total number of data."
             osSyncPrintf("CollisionCheck_setOC_SAC():全データ数より大きいところに登録しようとしている。\n");
@@ -2153,7 +2153,7 @@ void CollisionCheck_AC_CylVsTris(GlobalContext* globalCtx, CollisionCheckContext
  */
 void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT,
                                  Collider* colAC) {
-    static Vec3f intersection;
+    static Vec3f hitPos;
     ColliderTris* at = (ColliderTris*)colAT;
     ColliderTrisElement* atItem;
     ColliderCylinder* ac = (ColliderCylinder*)colAC;
@@ -2172,13 +2172,13 @@ void CollisionCheck_AC_TrisVsCyl(GlobalContext* globalCtx, CollisionCheckContext
                 continue;
             }
 
-            if (Math3D_CylTriVsIntersect(&ac->dim, &atItem->dim, &intersection) == true) {
+            if (Math3D_CylTriVsIntersect(&ac->dim, &atItem->dim, &hitPos) == true) {
                 atPos.x = (atItem->dim.vtx[0].x + atItem->dim.vtx[1].x + atItem->dim.vtx[2].x) * (1.0f / 3);
                 atPos.y = (atItem->dim.vtx[0].y + atItem->dim.vtx[1].y + atItem->dim.vtx[2].y) * (1.0f / 3);
                 atPos.z = (atItem->dim.vtx[0].z + atItem->dim.vtx[1].z + atItem->dim.vtx[2].z) * (1.0f / 3);
                 Math_Vec3s_ToVec3f(&acPos, &ac->dim.pos);
                 CollisionCheck_SetATvsAC(globalCtx, &at->base, &atItem->info, &atPos, &ac->base, &ac->info, &acPos,
-                                         &intersection);
+                                         &hitPos);
                 return;
             }
         }
@@ -2192,7 +2192,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
                                  Collider* colAC) {
     static TriNorm tri1;
     static TriNorm tri2;
-    static Vec3f intersection;
+    static Vec3f hitPos;
     ColliderCylinder* at = (ColliderCylinder*)colAT;
     ColliderQuad* ac = (ColliderQuad*)colAC;
 
@@ -2205,7 +2205,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
         }
         Math3D_TriNorm(&tri1, &ac->dim.quad[2], &ac->dim.quad[3], &ac->dim.quad[1]);
         Math3D_TriNorm(&tri2, &ac->dim.quad[1], &ac->dim.quad[0], &ac->dim.quad[2]);
-        if (Math3D_CylTriVsIntersect(&at->dim, &tri1, &intersection) == true) {
+        if (Math3D_CylTriVsIntersect(&at->dim, &tri1, &hitPos) == true) {
             Vec3f atPos1;
             Vec3f acPos1;
 
@@ -2213,9 +2213,8 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
             acPos1.x = (ac->dim.quad[0].x + (ac->dim.quad[1].x + (ac->dim.quad[3].x + ac->dim.quad[2].x))) / 4.0f;
             acPos1.y = (ac->dim.quad[0].y + (ac->dim.quad[1].y + (ac->dim.quad[3].y + ac->dim.quad[2].y))) / 4.0f;
             acPos1.z = (ac->dim.quad[0].z + (ac->dim.quad[1].z + (ac->dim.quad[3].z + ac->dim.quad[2].z))) / 4.0f;
-            CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos1, &ac->base, &ac->info, &acPos1,
-                                     &intersection);
-        } else if (Math3D_CylTriVsIntersect(&at->dim, &tri2, &intersection) == true) {
+            CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos1, &ac->base, &ac->info, &acPos1, &hitPos);
+        } else if (Math3D_CylTriVsIntersect(&at->dim, &tri2, &hitPos) == true) {
             Vec3f atPos2;
             Vec3f acPos2;
 
@@ -2223,8 +2222,7 @@ void CollisionCheck_AC_CylVsQuad(GlobalContext* globalCtx, CollisionCheckContext
             acPos2.x = (ac->dim.quad[0].x + (ac->dim.quad[1].x + (ac->dim.quad[3].x + ac->dim.quad[2].x))) / 4.0f;
             acPos2.y = (ac->dim.quad[0].y + (ac->dim.quad[1].y + (ac->dim.quad[3].y + ac->dim.quad[2].y))) / 4.0f;
             acPos2.z = (ac->dim.quad[0].z + (ac->dim.quad[1].z + (ac->dim.quad[3].z + ac->dim.quad[2].z))) / 4.0f;
-            CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos2, &ac->base, &ac->info, &acPos2,
-                                     &intersection);
+            CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos2, &ac->base, &ac->info, &acPos2, &hitPos);
         }
     }
 }
@@ -2239,7 +2237,7 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
                                  Collider* colAC) {
     static TriNorm tri1;
     static TriNorm tri2;
-    static Vec3f intersection;
+    static Vec3f hitPos;
     ColliderQuad* at = (ColliderQuad*)colAT;
     ColliderCylinder* ac = (ColliderCylinder*)colAC;
 
@@ -2252,8 +2250,8 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
         }
         Math3D_TriNorm(&tri1, &at->dim.quad[2], &at->dim.quad[3], &at->dim.quad[1]);
         Math3D_TriNorm(&tri2, &at->dim.quad[2], &at->dim.quad[1], &at->dim.quad[0]);
-        if (Math3D_CylTriVsIntersect(&ac->dim, &tri1, &intersection) == true) {
-            if (Collider_QuadSetNearestAC(globalCtx, at, &intersection)) {
+        if (Math3D_CylTriVsIntersect(&ac->dim, &tri1, &hitPos) == true) {
+            if (Collider_QuadSetNearestAC(globalCtx, at, &hitPos)) {
                 Vec3f atPos1;
                 Vec3f acPos1;
 
@@ -2262,12 +2260,12 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
                 atPos1.z = (at->dim.quad[0].z + (at->dim.quad[1].z + (at->dim.quad[3].z + at->dim.quad[2].z))) / 4.0f;
                 Math_Vec3s_ToVec3f(&acPos1, &ac->dim.pos);
                 CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos1, &ac->base, &ac->info, &acPos1,
-                                         &intersection);
+                                         &hitPos);
                 return;
             }
         }
-        if (Math3D_CylTriVsIntersect(&ac->dim, &tri2, &intersection) == true) {
-            if (Collider_QuadSetNearestAC(globalCtx, at, &intersection)) {
+        if (Math3D_CylTriVsIntersect(&ac->dim, &tri2, &hitPos) == true) {
+            if (Collider_QuadSetNearestAC(globalCtx, at, &hitPos)) {
                 Vec3f atPos2;
                 Vec3f acPos2;
 
@@ -2276,7 +2274,7 @@ void CollisionCheck_AC_QuadVsCyl(GlobalContext* globalCtx, CollisionCheckContext
                 atPos2.z = (at->dim.quad[0].z + (at->dim.quad[1].z + (at->dim.quad[3].z + at->dim.quad[2].z))) / 4.0f;
                 Math_Vec3s_ToVec3f(&acPos2, &ac->dim.pos);
                 CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos2, &ac->base, &ac->info, &acPos2,
-                                         &intersection);
+                                         &hitPos);
             }
         }
     }
@@ -2292,7 +2290,7 @@ static s8 sBssDummy6;
  */
 void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT,
                                   Collider* colAC) {
-    static Vec3f intersection;
+    static Vec3f hitPos;
     ColliderTris* at = (ColliderTris*)colAT;
     ColliderTrisElement* atItem;
     ColliderTris* ac = (ColliderTris*)colAC;
@@ -2310,7 +2308,7 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
                 if (CollisionCheck_NoSharedFlags(&atItem->info, &acElem->info) == true) {
                     continue;
                 }
-                if (Math3D_TriVsTriIntersect(&atItem->dim, &acElem->dim, &intersection) == true) {
+                if (Math3D_TriVsTriIntersect(&atItem->dim, &acElem->dim, &hitPos) == true) {
                     Vec3f atPos;
                     Vec3f acPos;
 
@@ -2321,7 +2319,7 @@ void CollisionCheck_AC_TrisVsTris(GlobalContext* globalCtx, CollisionCheckContex
                     acPos.y = (acElem->dim.vtx[0].y + acElem->dim.vtx[1].y + acElem->dim.vtx[2].y) * (1.0f / 3);
                     acPos.z = (acElem->dim.vtx[0].z + acElem->dim.vtx[1].z + acElem->dim.vtx[2].z) * (1.0f / 3);
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &atItem->info, &atPos, &ac->base, &acElem->info,
-                                             &acPos, &intersection);
+                                             &acPos, &hitPos);
                     return;
                 }
             }
@@ -2339,7 +2337,7 @@ static s8 sBssDummy10;
  */
 void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT,
                                   Collider* colAC) {
-    static Vec3f intersection;
+    static Vec3f hitPos;
     static TriNorm tri1;
     static TriNorm tri2;
     ColliderTris* at = (ColliderTris*)colAT;
@@ -2359,8 +2357,8 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
             if (CollisionCheck_NoSharedFlags(&atItem->info, &ac->info) == true) {
                 continue;
             }
-            if (Math3D_TriVsTriIntersect(&tri1, &atItem->dim, &intersection) == true ||
-                Math3D_TriVsTriIntersect(&tri2, &atItem->dim, &intersection) == true) {
+            if (Math3D_TriVsTriIntersect(&tri1, &atItem->dim, &hitPos) == true ||
+                Math3D_TriVsTriIntersect(&tri2, &atItem->dim, &hitPos) == true) {
                 Vec3f atPos;
                 Vec3f acPos;
 
@@ -2371,7 +2369,7 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
                 acPos.y = (ac->dim.quad[0].y + (ac->dim.quad[1].y + (ac->dim.quad[3].y + ac->dim.quad[2].y))) / 4.0f;
                 acPos.z = (ac->dim.quad[0].z + (ac->dim.quad[1].z + (ac->dim.quad[3].z + ac->dim.quad[2].z))) / 4.0f;
                 CollisionCheck_SetATvsAC(globalCtx, &at->base, &atItem->info, &atPos, &ac->base, &ac->info, &acPos,
-                                         &intersection);
+                                         &hitPos);
                 return;
             }
         }
@@ -2383,7 +2381,7 @@ void CollisionCheck_AC_TrisVsQuad(GlobalContext* globalCtx, CollisionCheckContex
  */
 void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT,
                                   Collider* colAC) {
-    static Vec3f intersection;
+    static Vec3f hitPos;
     static TriNorm tri1;
     static TriNorm tri2;
     ColliderQuad* at = (ColliderQuad*)colAT;
@@ -2403,9 +2401,9 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
             if (CollisionCheck_NoSharedFlags(&at->info, &acElem->info) == true) {
                 continue;
             }
-            if (Math3D_TriVsTriIntersect(&tri1, &acElem->dim, &intersection) == true ||
-                Math3D_TriVsTriIntersect(&tri2, &acElem->dim, &intersection) == true) {
-                if (Collider_QuadSetNearestAC(globalCtx, at, &intersection)) {
+            if (Math3D_TriVsTriIntersect(&tri1, &acElem->dim, &hitPos) == true ||
+                Math3D_TriVsTriIntersect(&tri2, &acElem->dim, &hitPos) == true) {
+                if (Collider_QuadSetNearestAC(globalCtx, at, &hitPos)) {
                     Vec3f atPos;
                     Vec3f acPos;
 
@@ -2419,7 +2417,7 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
                     atPos.z =
                         (at->dim.quad[0].z + (at->dim.quad[1].z + (at->dim.quad[3].z + at->dim.quad[2].z))) / 4.0f;
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info, &acPos,
-                                             &intersection);
+                                             &hitPos);
                     return;
                 }
             }
@@ -2433,7 +2431,7 @@ void CollisionCheck_AC_QuadVsTris(GlobalContext* globalCtx, CollisionCheckContex
 void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* colAT,
                                   Collider* colAC) {
     static TriNorm acTris[2];
-    static Vec3f intersection;
+    static Vec3f hitPos;
     static TriNorm atTris[2];
     ColliderQuad* at = (ColliderQuad*)colAT;
     ColliderQuad* ac = (ColliderQuad*)colAC;
@@ -2457,8 +2455,8 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
-            if (Math3D_TriVsTriIntersect(&atTris[j], &acTris[i], &intersection) == true) {
-                if (Collider_QuadSetNearestAC(globalCtx, at, &intersection)) {
+            if (Math3D_TriVsTriIntersect(&atTris[j], &acTris[i], &hitPos) == true) {
+                if (Collider_QuadSetNearestAC(globalCtx, at, &hitPos)) {
                     Vec3f atPos;
                     Vec3f acPos;
 
@@ -2475,7 +2473,7 @@ void CollisionCheck_AC_QuadVsQuad(GlobalContext* globalCtx, CollisionCheckContex
                     acPos.z =
                         (ac->dim.quad[0].z + (ac->dim.quad[1].z + (ac->dim.quad[3].z + ac->dim.quad[2].z))) / 4.0f;
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &ac->info, &acPos,
-                                             &intersection);
+                                             &hitPos);
                     return;
                 }
             }
@@ -2998,7 +2996,7 @@ void CollisionCheck_ApplyDamage(GlobalContext* globalCtx, CollisionCheckContext*
         s32 i;
         u32 flags = info->acHitInfo->toucher.dmgFlags;
 
-        for (i = 0; i < ARRAY_COUNT(tbl->table); i++, flags >>= 1) {
+        for (i = 0; i < 32; i++, flags >>= 1) {
             if (flags == 1) {
                 break;
             }
