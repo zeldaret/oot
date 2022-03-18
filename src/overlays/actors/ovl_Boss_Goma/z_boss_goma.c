@@ -1026,8 +1026,8 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
         for (i = 0; i < 4; i++) {
             //! @bug this 0-indexes into this->defeatedLimbPositions which is initialized with
-            // this->defeatedLimbPositions[limb], but limb is 1-indexed in skelanime callbacks, this means effects
-            // should spawn at this->defeatedLimbPositions[0] too, which is uninitialized, so map origin?
+            //! this->defeatedLimbPositions[limb], but limb is 1-indexed in skelanime callbacks, this means effects
+            //! should spawn at this->defeatedLimbPositions[0] too, which is uninitialized, so map origin?
             j = (s16)(Rand_ZeroOne() * (BOSSGOMA_LIMB_MAX - 1));
             if (this->defeatedLimbPositions[j].y < 10000.0f) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
