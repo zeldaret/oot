@@ -951,7 +951,7 @@ s32 func_800458D4(Camera* camera, VecSph* eyeAtDir, f32 arg2, f32* arg3, s16 arg
 
     if (eyeAtAngle > DEGF_TO_RADF(OREG(32))) {
         if (1) {}
-        phi_f2 = 1.0f - sinf(DEGF_TO_RADF(eyeAtAngle - OREG(32)));
+        phi_f2 = 1.0f - sinf(eyeAtAngle - DEGF_TO_RADF(OREG(32)));
     } else if (eyeAtAngle < DEGF_TO_RADF(OREG(33))) {
         phi_f2 = 1.0f - sinf(DEGF_TO_RADF(OREG(33)) - eyeAtAngle);
     } else {

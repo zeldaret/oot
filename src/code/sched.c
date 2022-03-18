@@ -59,7 +59,7 @@ void func_800C84E4(SchedContext* sc, CfbInfo* cfbInfo) {
     if (sc->unk_24C != 0) {
         sc->unk_24C = 0;
 
-        if (gIrqMgrResetStatus == 0) {
+        if (gIrqMgrResetStatus == IRQ_RESET_STATUS_IDLE) {
             ViConfig_UpdateVi(0);
         }
     }

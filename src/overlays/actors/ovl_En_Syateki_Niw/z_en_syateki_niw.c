@@ -328,8 +328,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_294 = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(tmpf1, tmpf2) * (0x8000 / M_PI), 3, this->unk_2C8.z,
-                           0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(tmpf1, tmpf2)), 3, this->unk_2C8.z, 0);
         Math_ApproachF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -475,9 +474,8 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->actor.world.rot.y,
-                       (s16)(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
-                                          player->actor.world.pos.z - this->actor.world.pos.z) *
-                             (0x8000 / M_PI)) +
+                       RADF_TO_BINANG(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
+                                                   player->actor.world.pos.z - this->actor.world.pos.z)) +
                            phi_f16,
                        5, this->unk_2C8.y, 0);
     Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
