@@ -373,15 +373,7 @@ void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE6CC(EnDu* this, GlobalContext* globalCtx) {
-    s16 phi_v1;
-
-    if (this->unk_1E2 == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_1E2--;
-        phi_v1 = this->unk_1E2;
-    }
-    if (phi_v1 == 0) {
+    if (DECR(this->unk_1E2) == 0) {
         this->actor.textId = 0x3039;
         Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->unk_1F4.unk_00 = 1;
@@ -398,15 +390,7 @@ void func_809FE740(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE798(EnDu* this, GlobalContext* globalCtx) {
-    s32 phi_v0;
-
-    if (this->unk_1E2 == 0) {
-        phi_v0 = 0;
-    } else {
-        this->unk_1E2--;
-        phi_v0 = this->unk_1E2;
-    }
-    if (phi_v0 != 0) {
+    if (DECR(this->unk_1E2) != 0) {
         switch (this->unk_1E2) {
             case 0x50:
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
@@ -536,6 +520,7 @@ void func_809FEC70(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FECE4);
     } else {
         f32 xzRange = this->actor.xzDistToPlayer + 1.0f;
+
         func_8002F434(&this->actor, globalCtx, GI_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
