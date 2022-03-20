@@ -468,8 +468,6 @@ void EnInsect_WalkOnWater(EnInsect* this, GlobalContext* globalCtx) {
     s16 pad;
     s16 type;
     Vec3f ripplePoint;
-    s32 phi_v0;
-    s32 phi_v0_2;
 
     type = this->actor.params & 3;
 
@@ -490,30 +488,11 @@ void EnInsect_WalkOnWater(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     temp_v1 = this->skelAnime.playSpeed * 200.0f;
-
-    if (this->unk_316 < -temp_v1) {
-        this->unk_316 = -temp_v1;
-    } else {
-        if (temp_v1 < this->unk_316) {
-            phi_v0 = temp_v1;
-        } else {
-            phi_v0 = this->unk_316;
-        }
-        this->unk_316 = phi_v0;
-    }
+    this->unk_316 = CLAMP(this->unk_316, -temp_v1, temp_v1);
     this->actor.world.rot.y += this->unk_316;
 
     temp_v1 = this->skelAnime.playSpeed * 1000.0f;
-    if (this->unk_318 < -temp_v1) {
-        this->unk_318 = -temp_v1;
-    } else {
-        if (temp_v1 < this->unk_318) {
-            phi_v0_2 = temp_v1;
-        } else {
-            phi_v0_2 = this->unk_318;
-        }
-        this->unk_318 = phi_v0_2;
-    }
+    this->unk_318 = CLAMP(this->unk_318, -temp_v1, temp_v1);
     this->actor.shape.rot.y += this->unk_318;
 
     Math_ScaledStepToS(&this->actor.world.rot.x, 0, 3000);
@@ -584,7 +563,7 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
     f32 phi_f0;
     EnInsect* thisTemp = this;
     s32 temp_a1;
-    f32 distance;
+    f32 distanceSq;
     f32 phi_f2;
     s16 type;
     s16 sp38;
@@ -594,7 +573,7 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
     type = this->actor.params & 3;
 
     if (this->soilActor != NULL) {
-        distance = Math3D_Vec3fDistSq(&this->actor.world.pos, &this->soilActor->actor.world.pos);
+        distanceSq = Math3D_Vec3fDistSq(&this->actor.world.pos, &this->soilActor->actor.world.pos);
     } else {
         if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
             osSyncPrintf(VT_COL(YELLOW, BLACK));
@@ -602,7 +581,7 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
             osSyncPrintf("warning:目標 Actor が NULL (%s %d)\n", "../z_en_mushi.c", 1046);
             osSyncPrintf(VT_RST);
         }
-        distance = 40.0f;
+        distanceSq = 40.0f;
     }
 
     D_80A7DEB0 += 0.99999994f / 300.0f;
@@ -613,7 +592,7 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
     if (D_80A7DEB0 > 0.999f) {
         phi_f2 = 0.0f;
     } else {
-        if (distance > 900.0f) {
+        if (distanceSq > SQ(30.0f)) {
             phi_f2 = ((1.1f - D_80A7DEB0) * 100.0f) + 20.0f;
         } else {
             phi_f2 = (1.0f - D_80A7DEB0) * 10.0f;
@@ -706,14 +685,14 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
     if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         EnInsect_SetupWalkOnWater(this);
     } else if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
-        if (distance < 9.0f) {
+        if (distanceSq < SQ(3.0f)) {
             EnInsect_SetupDig(this);
         } else if (this->actionTimer <= 0 || this->lifeTimer <= 0 ||
                    ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
                     sDroppedCount >= 4 && IS_DROPPED(type))) {
             EnInsect_SetupDig(this);
         } else {
-            if (distance < 900.0f) {
+            if (distanceSq < SQ(30.0f)) {
                 this->lifeTimer++;
                 this->insectFlags |= INSECT_FLAG_SOIL_CLOSE;
             } else {
@@ -738,7 +717,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.child != NULL) {
         if (this->actor.child->update == NULL) {
-            if (&this->actor != this->actor.child) {
+            if (this->actor.child != &this->actor) {
                 this->actor.child = NULL;
             }
         }
