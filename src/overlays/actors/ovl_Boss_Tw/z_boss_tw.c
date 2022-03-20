@@ -1219,8 +1219,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             sp128.x = -sp128.x;
             Math_ApproachS(&this->magicDir.x, sp128.x, 5, 0x2000);
             Math_ApproachS(&this->magicDir.y, sp128.y, 5, 0x2000);
-            this->beamReflectionPitch = (this->magicDir.x / 32768.0f) * M_PI;
-            this->beamReflectionYaw = (this->magicDir.y / 32768.0f) * M_PI;
+            this->beamReflectionPitch = BINANG_TO_RAD_ALT(this->magicDir.x);
+            this->beamReflectionYaw = BINANG_TO_RAD_ALT(this->magicDir.y);
         }
 
         Matrix_Translate(this->beamReflectionOrigin.x, this->beamReflectionOrigin.y, this->beamReflectionOrigin.z,
@@ -4702,7 +4702,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);
@@ -4748,7 +4748,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);
