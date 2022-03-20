@@ -10,7 +10,7 @@ struct EnInsect;
 typedef void (*EnInsectActionFunc)(struct EnInsect*, GlobalContext*);
 
 #define INSECT_FLAG_TEMP_AND_ALIVE (1 << 0) // Set when the bug is temporary and is not drowning.
-#define INSECT_FLAG_ON_GROUND (1 << 1) // Set when the bug was dropped and is standing on the ground.
+#define INSECT_FLAG_1 (1 << 1)
 #define INSECT_FLAG_TEMP (1 << 2) // Set when the bug disappears after a while.
 #define INSECT_FLAG_UNCATCHABLE (1 << 3) // Set when the bug is about to disappear and can no longer be caught.
 #define INSECT_FLAG_FOUND_SOIL (1 << 4)

@@ -89,8 +89,8 @@ static ColliderJntSphInit sColliderInit = {
 static u16 sInitInsectFlags[] = {
     0,
     INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_TEMP,
-    INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_ON_GROUND | INSECT_FLAG_TEMP,
-    INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_ON_GROUND | INSECT_FLAG_TEMP,
+    INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_1 | INSECT_FLAG_TEMP,
+    INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_1 | INSECT_FLAG_TEMP,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -552,7 +552,7 @@ void EnInsect_SetupDrown(EnInsect* this) {
     this->actor.speedXZ = 0.0f;
     this->actor.minVelocityY = -0.8f;
     this->actor.gravity = -0.04f;
-    this->insectFlags &= ~(INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_ON_GROUND);
+    this->insectFlags &= ~(INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_1);
     this->actionFunc = EnInsect_Drown;
     this->insectFlags &= ~INSECT_FLAG_CRAWLING;
     this->insectFlags |= INSECT_FLAG_UNCATCHABLE;
@@ -778,7 +778,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             tmp = UPDBGCHECKINFO_FLAG_2;
         }
 
-        if (this->insectFlags & INSECT_FLAG_ON_GROUND) {
+        if (this->insectFlags & INSECT_FLAG_1) {
             tmp |= UPDBGCHECKINFO_FLAG_0;
         }
 
