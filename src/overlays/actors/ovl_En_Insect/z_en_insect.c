@@ -473,7 +473,7 @@ void EnInsect_WalkOnWater(EnInsect* this, GlobalContext* globalCtx) {
 
     type = this->actor.params & 3;
 
-    if (this->actionTimer >= 81) {
+    if (this->actionTimer > 80) {
         Math_StepToF(&this->actor.speedXZ, 0.6f, 0.08f);
     } else {
         Math_StepToF(&this->actor.speedXZ, 0.0f, 0.02f);
@@ -484,7 +484,7 @@ void EnInsect_WalkOnWater(EnInsect* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actionTimer >= 81) {
+    if (this->actionTimer > 80) {
         this->unk_316 += Rand_S16Offset(-50, 100);
         this->unk_318 += Rand_S16Offset(-300, 600);
     }
