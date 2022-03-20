@@ -136,27 +136,24 @@ void EnInsect_SetCrawlAnim(EnInsect* this) {
 /**
  * Find the nearest soft dirt patch within 6400 units in the xz plane and the current room
  *
- * @return 1 if one was found, 0 otherwise
+ * @return true if one was found, false otherwise
  */
-s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
-    Actor* currentActor;
-    f32 currentDistance;
-    f32 bestDistance;
-    s32 ret;
+s32 EnInsect_TryFindNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
+    Actor* currentActor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
+    f32 currentDistanceSq;
+    f32 bestDistanceSq = SQ(80.0f);
+    s32 ret = false;
 
-    ret = 0;
-    currentActor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
-    bestDistance = 6400.0f;
     this->soilActor = NULL;
 
     while (currentActor != NULL) {
         if (currentActor->id == ACTOR_OBJ_MAKEKINSUTA) {
-            currentDistance = Math3D_Dist2DSq(this->actor.world.pos.x, this->actor.world.pos.z,
-                                              currentActor->world.pos.x, currentActor->world.pos.z);
+            currentDistanceSq = Math3D_Dist2DSq(this->actor.world.pos.x, this->actor.world.pos.z,
+                                                currentActor->world.pos.x, currentActor->world.pos.z);
 
-            if (currentDistance < bestDistance && currentActor->room == this->actor.room) {
-                ret = 1;
-                bestDistance = currentDistance;
+            if (currentDistanceSq < bestDistanceSq && currentActor->room == this->actor.room) {
+                ret = true;
+                bestDistanceSq = currentDistanceSq;
                 this->soilActor = (ObjMakekinsuta*)currentActor;
             }
         }
@@ -211,7 +208,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (IS_DROPPED(type)) {
-        if (EnInsect_FoundNearbySoil(this, globalCtx)) {
+        if (EnInsect_TryFindNearbySoil(this, globalCtx)) {
             this->insectFlags |= INSECT_FLAG_FOUND_SOIL;
             D_80A7DEB0 = 0.0f;
         }
