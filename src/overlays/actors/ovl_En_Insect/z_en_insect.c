@@ -27,8 +27,8 @@ void EnInsect_SetupCaught(EnInsect* this);
 void EnInsect_Caught(EnInsect* this, GlobalContext* globalCtx);
 void EnInsect_SetupDig(EnInsect* this);
 void EnInsect_Dig(EnInsect* this, GlobalContext* globalCtx);
-void EnInsect_SetupSink(EnInsect* this);
-void EnInsect_Sink(EnInsect* this, GlobalContext* globalCtx);
+void EnInsect_SetupWalkOnWater(EnInsect* this);
+void EnInsect_WalkOnWater(EnInsect* this, GlobalContext* globalCtx);
 void EnInsect_SetupDrown(EnInsect* this);
 void EnInsect_Drown(EnInsect* this, GlobalContext* globalCtx);
 void EnInsect_SetupDropped(EnInsect* this);
@@ -285,7 +285,7 @@ void EnInsect_SlowDown(EnInsect* this, GlobalContext* globalCtx) {
         EnInsect_SetupDig(this);
     } else if ((this->insectFlags & INSECT_FLAG_0) &&
                (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
-        EnInsect_SetupSink(this);
+        EnInsect_SetupWalkOnWater(this);
     } else if (this->actor.xzDistToPlayer < 40.0f) {
         EnInsect_SetupRunFromPlayer(this);
     }
@@ -330,7 +330,7 @@ void EnInsect_Crawl(EnInsect* this, GlobalContext* globalCtx) {
         EnInsect_SetupDig(this);
     } else if ((this->insectFlags & INSECT_FLAG_0) &&
                (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
-        EnInsect_SetupSink(this);
+        EnInsect_SetupWalkOnWater(this);
     } else if (this->actor.xzDistToPlayer < 40.0f) {
         EnInsect_SetupRunFromPlayer(this);
     }
@@ -380,7 +380,7 @@ void EnInsect_RunFromPlayer(EnInsect* this, GlobalContext* globalCtx) {
         EnInsect_SetupSlowDown(this);
     } else if ((this->insectFlags & INSECT_FLAG_0) &&
                (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
-        EnInsect_SetupSink(this);
+        EnInsect_SetupWalkOnWater(this);
     }
 }
 
@@ -460,15 +460,15 @@ void EnInsect_Dig(EnInsect* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnInsect_SetupSink(EnInsect* this) {
+void EnInsect_SetupWalkOnWater(EnInsect* this) {
     this->actionTimer = Rand_S16Offset(120, 50);
     EnInsect_SetCrawlAnim(this);
     this->unk_316 = this->unk_318 = 0;
-    this->actionFunc = EnInsect_Sink;
+    this->actionFunc = EnInsect_WalkOnWater;
     this->insectFlags &= ~INSECT_FLAG_CRAWLING;
 }
 
-void EnInsect_Sink(EnInsect* this, GlobalContext* globalCtx) {
+void EnInsect_WalkOnWater(EnInsect* this, GlobalContext* globalCtx) {
     f32 temp_f0;
     s16 temp_v1;
     s16 pad;
@@ -710,7 +710,7 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
-        EnInsect_SetupSink(this);
+        EnInsect_SetupWalkOnWater(this);
     } else if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
         if (distance < 9.0f) {
             EnInsect_SetupDig(this);
