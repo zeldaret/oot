@@ -694,7 +694,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         this->actionState = ENKANBAN_AIR;
                         this->actor.gravity = -1.0f;
-                        this->actor.world.rot.y = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
+                        this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
                         if (this->partCount >= 4) {
                             this->bounceX = (s16)Rand_ZeroFloat(10.0f) + 6;
                             this->bounceZ = (s16)Rand_ZeroFloat(10.0f) + 6;

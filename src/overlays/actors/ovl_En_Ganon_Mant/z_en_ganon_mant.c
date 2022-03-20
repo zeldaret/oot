@@ -174,7 +174,7 @@ void EnGanonMant_UpdateStrand(GlobalContext* globalCtx, EnGanonMant* this, Vec3f
         // Pushes all the strands away from the actor
         delta.x = 0.0f;
         delta.z = -30.0f;
-        Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&delta, &posStep);
         for (i = 0; i < GANON_MANT_NUM_JOINTS; i++) {
             (pos + i)->x += posStep.x;

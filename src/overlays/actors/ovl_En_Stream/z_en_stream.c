@@ -91,7 +91,7 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
     if (func_80B0B81C(&this->actor.world.pos, &player->actor.world.pos, &posDifference, this->actor.scale.y) != 0) {
         xzDist = sqrtf(SQ(posDifference.x) + SQ(posDifference.z));
         yDistWithOffset = player->actor.world.pos.y - (this->actor.world.pos.y - 90.0f);
-        player->windDirection = Math_FAtan2F(-posDifference.x, -posDifference.z) * (0x8000 / M_PI);
+        player->windDirection = RADF_TO_BINANG(Math_FAtan2F(-posDifference.x, -posDifference.z));
         if (xzDist > 3.0f) {
             Math_SmoothStepToF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
         } else {

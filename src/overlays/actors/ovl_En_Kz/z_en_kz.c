@@ -284,7 +284,7 @@ s32 EnKz_FollowPath(EnKz* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.world.pos.x;
     pathDiffZ = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI)), 0xA, 0x3E8, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ)), 0xA, 0x3E8, 1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 10.0f) {
         this->waypoint++;

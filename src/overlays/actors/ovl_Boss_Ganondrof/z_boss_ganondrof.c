@@ -844,7 +844,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 vecToLink.z = playerx->world.pos.z - thisx->world.pos.z;
                 thisx->world.rot.y = thisx->shape.rot.y;
                 thisx->world.rot.x =
-                    Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))) * (0x8000 / M_PI);
+                    RADF_TO_BINANG(Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))));
             }
 
             func_8002D908(thisx);
