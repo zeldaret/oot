@@ -622,7 +622,7 @@ static GetItemEntry sGetItemTable[] = {
     GET_ITEM_NONE,
 };
 
-#define PLAYER_ANIM_BY_GROUP_AND_TYPE(group, type) D_80853914[group * PLAYER_ANIMTYPE_MAX + type]
+#define GET_PLAYER_ANIM(group, type) D_80853914[group * PLAYER_ANIMTYPE_MAX + type]
 
 static LinkAnimationHeader* D_80853914[PLAYER_ANIMGROUP_MAX * PLAYER_ANIMTYPE_MAX] = {
     /* PLAYER_ANIMGROUP_0 */
@@ -1731,7 +1731,7 @@ void func_808332F4(Player* this, GlobalContext* globalCtx) {
 }
 
 static LinkAnimationHeader* func_80833338(Player* this) {
-    return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_0, this->modelAnimType);
+    return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType);
 }
 
 s32 func_80833350(Player* this) {
@@ -1758,12 +1758,12 @@ void func_808333FC(Player* this, s32 arg1) {
 
 LinkAnimationHeader* func_80833438(Player* this) {
     if (this->unk_890 != 0) {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_3, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_3, this->modelAnimType);
     } else if (!(this->stateFlags1 & (PLAYER_STATE1_27 | PLAYER_STATE1_29)) &&
                (this->currentBoots == PLAYER_BOOTS_IRON)) {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_4, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_4, this->modelAnimType);
     } else {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_2, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_2, this->modelAnimType);
     }
 }
 
@@ -1775,7 +1775,7 @@ LinkAnimationHeader* func_808334E4(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_002638;
     } else {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_6, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_6, this->modelAnimType);
     }
 }
 
@@ -1783,7 +1783,7 @@ LinkAnimationHeader* func_80833528(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_002630;
     } else {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_5, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_5, this->modelAnimType);
     }
 }
 
@@ -1791,7 +1791,7 @@ LinkAnimationHeader* func_8083356C(Player* this) {
     if (func_8002DD78(this)) {
         return &gPlayerAnim_0026E8;
     } else {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_23, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_23, this->modelAnimType);
     }
 }
 
@@ -1799,7 +1799,7 @@ LinkAnimationHeader* func_808335B0(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_002620;
     } else {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_25, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_25, this->modelAnimType);
     }
 }
 
@@ -1807,7 +1807,7 @@ LinkAnimationHeader* func_808335F4(Player* this) {
     if (func_808334B4(this)) {
         return &gPlayerAnim_002618;
     } else {
-        return PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_24, this->modelAnimType);
+        return GET_PLAYER_ANIM(PLAYER_ANIMGROUP_24, this->modelAnimType);
     }
 }
 
@@ -1835,7 +1835,7 @@ void func_80833664(GlobalContext* globalCtx, Player* this, s8 actionParam) {
     func_8083399C(globalCtx, this, actionParam);
 
     if (i < PLAYER_ANIMGROUP_MAX) {
-        this->skelAnime.animation = PLAYER_ANIM_BY_GROUP_AND_TYPE(i, this->modelAnimType);
+        this->skelAnime.animation = GET_PLAYER_ANIM(i, this->modelAnimType);
     }
 }
 
@@ -2376,8 +2376,7 @@ s32 func_80834C74(Player* this, GlobalContext* globalCtx) {
 
     if (D_80853614 || LinkAnimation_Update(globalCtx, &this->skelAnime2)) {
         func_80833638(this, D_80853EDC[this->heldItemActionParam]);
-        LinkAnimation_PlayLoop(globalCtx, &this->skelAnime2,
-                               PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_0, this->modelAnimType));
+        LinkAnimation_PlayLoop(globalCtx, &this->skelAnime2, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType));
         this->unk_6AC = 0;
         this->func_82C(this, globalCtx);
         return 0;
@@ -2409,7 +2408,7 @@ s32 func_80834D2C(Player* this, GlobalContext* globalCtx) {
     if (this->stateFlags1 & PLAYER_STATE1_23) {
         func_80832284(globalCtx, this, &gPlayerAnim_003380);
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !func_80833B54(this)) {
-        func_80832284(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_0, this->modelAnimType));
+        func_80832284(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType));
     }
 
     return 1;
@@ -3664,7 +3663,7 @@ void func_80837C0C(GlobalContext* globalCtx, Player* this, s32 arg2, f32 arg3, f
                 this->linearVelocity = 3.0f;
                 this->actor.velocity.y = 6.0f;
 
-                func_80832C2C(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_3, this->modelAnimType));
+                func_80832C2C(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_3, this->modelAnimType));
                 func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
             } else {
                 this->actor.speedXZ = arg3;
@@ -4367,13 +4366,13 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                                                          : (LINK_IS_ADULT ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
 
                 if (door->animStyle == KNOB_ANIM_ADULT_L) {
-                    sp5C = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_9, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_9, this->modelAnimType);
                 } else if (door->animStyle == KNOB_ANIM_CHILD_L) {
-                    sp5C = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_10, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_10, this->modelAnimType);
                 } else if (door->animStyle == KNOB_ANIM_ADULT_R) {
-                    sp5C = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_11, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_11, this->modelAnimType);
                 } else {
-                    sp5C = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_12, this->modelAnimType);
+                    sp5C = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_12, this->modelAnimType);
                 }
 
                 func_80835C58(globalCtx, this, func_80845EF8, 0);
@@ -4548,7 +4547,7 @@ void func_8083A0F4(GlobalContext* globalCtx, Player* this) {
                 anim = &gPlayerAnim_003060;
             } else {
                 func_80835C58(globalCtx, this, func_80846050, 0);
-                anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_13, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_13, this->modelAnimType);
             }
 
             func_80832264(globalCtx, this, anim);
@@ -4965,8 +4964,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                         this->exchangeItemId = sp2C;
 
                         if (this->unk_84F < 0) {
-                            func_80832B0C(globalCtx, this,
-                                          PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_32, this->modelAnimType));
+                            func_80832B0C(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_32, this->modelAnimType));
                         } else {
                             func_80832264(globalCtx, this, D_80854548[this->unk_84F]);
                         }
@@ -5172,8 +5170,7 @@ s32 func_8083BBA0(Player* this, GlobalContext* globalCtx) {
 void func_8083BC04(Player* this, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_80844708, 0);
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime,
-                                   PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_16, this->modelAnimType),
-                                   1.25f * D_808535E8);
+                                   GET_PLAYER_ANIM(PLAYER_ANIMGROUP_16, this->modelAnimType), 1.25f * D_808535E8);
 }
 
 s32 func_8083BC7C(Player* this, GlobalContext* globalCtx) {
@@ -5245,14 +5242,14 @@ void func_8083BF50(Player* this, GlobalContext* globalCtx) {
     }
 
     if (sp30 < 14.0f) {
-        anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_18, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_18, this->modelAnimType);
         sp30 = 11.0f - sp30;
         if (sp30 < 0.0f) {
             sp30 = 1.375f * -sp30;
         }
         sp30 /= 11.0f;
     } else {
-        anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_19, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_19, this->modelAnimType);
         sp30 = 26.0f - sp30;
         if (sp30 < 0.0f) {
             sp30 = 2 * -sp30;
@@ -5324,7 +5321,7 @@ s32 func_8083C2B0(Player* this, GlobalContext* globalCtx) {
 
             if (!Player_IsChildWithHylianShield(this)) {
                 Player_SetModelsForHoldingShield(this);
-                anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_20, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_20, this->modelAnimType);
             } else {
                 anim = &gPlayerAnim_002400;
             }
@@ -5460,7 +5457,7 @@ void func_8083C858(Player* this, GlobalContext* globalCtx) {
     }
 
     func_80835C58(globalCtx, this, func, 1);
-    func_80832BE8(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_2, this->modelAnimType));
+    func_80832BE8(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_2, this->modelAnimType));
 
     this->unk_89C = 0;
     this->unk_864 = this->unk_868 = 0.0f;
@@ -5533,7 +5530,7 @@ void func_8083CB2C(Player* this, s16 yaw, GlobalContext* globalCtx) {
 
 void func_8083CB94(Player* this, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_80840DE4, 1);
-    func_80832BE8(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_1, this->modelAnimType));
+    func_80832BE8(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType));
 }
 
 void func_8083CBF0(Player* this, s16 yaw, GlobalContext* globalCtx) {
@@ -5546,7 +5543,7 @@ void func_8083CBF0(Player* this, s16 yaw, GlobalContext* globalCtx) {
 
 void func_8083CC9C(Player* this, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_8084193C, 1);
-    func_80832BE8(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_25, this->modelAnimType));
+    func_80832BE8(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_25, this->modelAnimType));
     this->unk_868 = 0.0f;
 }
 
@@ -5560,9 +5557,8 @@ void func_8083CD54(GlobalContext* globalCtx, Player* this, s16 yaw) {
     func_80835C58(globalCtx, this, func_80841BA8, 1);
     this->unk_87E = 1200;
     this->unk_87E *= D_808535E8;
-    LinkAnimation_Change(globalCtx, &this->skelAnime,
-                         PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_26, this->modelAnimType), 1.0f, 0.0f, 0.0f,
-                         ANIMMODE_LOOP, -6.0f);
+    LinkAnimation_Change(globalCtx, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_26, this->modelAnimType), 1.0f,
+                         0.0f, 0.0f, ANIMMODE_LOOP, -6.0f);
 }
 
 void func_8083CE0C(Player* this, GlobalContext* globalCtx) {
@@ -5571,9 +5567,9 @@ void func_8083CE0C(Player* this, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_80840BC8, 1);
 
     if (this->unk_870 < 0.5f) {
-        anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_28, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_28, this->modelAnimType);
     } else {
-        anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_27, this->modelAnimType);
+        anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_27, this->modelAnimType);
     }
     func_80832264(globalCtx, this, anim);
 
@@ -5582,7 +5578,7 @@ void func_8083CE0C(Player* this, GlobalContext* globalCtx) {
 
 void func_8083CEAC(Player* this, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_80840450, 1);
-    func_80832B0C(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_7, this->modelAnimType));
+    func_80832B0C(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_7, this->modelAnimType));
     this->unk_850 = 1;
 }
 
@@ -6188,7 +6184,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
 
 void func_8083EA94(Player* this, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_80846578, 1);
-    func_80832264(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_29, this->modelAnimType));
+    func_80832264(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_29, this->modelAnimType));
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
@@ -6206,7 +6202,7 @@ s32 func_8083EB44(Player* this, GlobalContext* globalCtx) {
         if (!func_80835644(globalCtx, this, this->heldActor)) {
             if (!func_8083EAF0(this, this->heldActor)) {
                 func_80835C58(globalCtx, this, func_808464B0, 1);
-                func_80832264(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_30, this->modelAnimType));
+                func_80832264(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_30, this->modelAnimType));
             } else {
                 func_8083EA94(this, globalCtx);
             }
@@ -6574,7 +6570,7 @@ void func_8083FAB8(Player* this, GlobalContext* globalCtx) {
 void func_8083FB14(Player* this, GlobalContext* globalCtx) {
     func_80835C58(globalCtx, this, func_8084B9E4, 0);
     this->stateFlags2 |= PLAYER_STATE2_4;
-    func_80832264(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_35, this->modelAnimType));
+    func_80832264(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_35, this->modelAnimType));
 }
 
 void func_8083FB7C(Player* this, GlobalContext* globalCtx) {
@@ -7105,8 +7101,7 @@ void func_80841138(Player* this, GlobalContext* globalCtx) {
         temp1 = R_UPDATE_RATE * 0.5f;
         func_8084029C(this, REG(35) / 1000.0f);
         LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime,
-                                  PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_31, this->modelAnimType),
-                                  this->unk_868);
+                                  GET_PLAYER_ANIM(PLAYER_ANIMGROUP_31, this->modelAnimType), this->unk_868);
         this->unk_864 += 1 * temp1;
         if (this->unk_864 >= 1.0f) {
             this->unk_864 = 1.0f;
@@ -7118,8 +7113,7 @@ void func_80841138(Player* this, GlobalContext* globalCtx) {
             temp1 = 1.0f;
             func_8084029C(this, (REG(35) / 1000.0f) + ((REG(36) / 1000.0f) * this->linearVelocity));
             LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime,
-                                      PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_31, this->modelAnimType),
-                                      this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_31, this->modelAnimType), this->unk_868);
         } else {
             temp1 = (REG(37) / 1000.0f) * temp2;
             if (temp1 < 1.0f) {
@@ -7129,8 +7123,7 @@ void func_80841138(Player* this, GlobalContext* globalCtx) {
                 func_8084029C(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
             }
             LinkAnimation_LoadToMorph(globalCtx, &this->skelAnime,
-                                      PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_31, this->modelAnimType),
-                                      this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_31, this->modelAnimType), this->unk_868);
             LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, &gPlayerAnim_002DD0,
                                       this->unk_868 * (16.0f / 29.0f));
         }
@@ -7246,8 +7239,8 @@ void func_808417FC(Player* this, GlobalContext* globalCtx) {
 
 void func_80841860(GlobalContext* globalCtx, Player* this) {
     f32 frame;
-    LinkAnimationHeader* sp38 = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_24, this->modelAnimType);
-    LinkAnimationHeader* sp34 = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_25, this->modelAnimType);
+    LinkAnimationHeader* sp38 = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_24, this->modelAnimType);
+    LinkAnimationHeader* sp34 = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_25, this->modelAnimType);
 
     this->skelAnime.animation = sp38;
 
@@ -7364,12 +7357,10 @@ void func_80841CC4(Player* this, s32 arg1, GlobalContext* globalCtx) {
     if ((this->modelAnimType == PLAYER_ANIMTYPE_3) || ((this->unk_89C == 0) && (this->unk_6C4 <= 0.0f))) {
         if (arg1 == 0) {
             LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime,
-                                      PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_1, this->modelAnimType),
-                                      this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType), this->unk_868);
         } else {
             LinkAnimation_LoadToMorph(globalCtx, &this->skelAnime,
-                                      PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_1, this->modelAnimType),
-                                      this->unk_868);
+                                      GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType), this->unk_868);
         }
         return;
     }
@@ -7395,12 +7386,12 @@ void func_80841CC4(Player* this, s32 arg1, GlobalContext* globalCtx) {
 
     if (arg1 == 0) {
         LinkAnimation_BlendToJoint(globalCtx, &this->skelAnime,
-                                   PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_1, this->modelAnimType),
-                                   this->unk_868, anim, this->unk_868, rate, this->blendTable);
+                                   GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType), this->unk_868, anim,
+                                   this->unk_868, rate, this->blendTable);
     } else {
         LinkAnimation_BlendToMorph(globalCtx, &this->skelAnime,
-                                   PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_1, this->modelAnimType),
-                                   this->unk_868, anim, this->unk_868, rate, this->blendTable);
+                                   GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType), this->unk_868, anim,
+                                   this->unk_868, rate, this->blendTable);
     }
 }
 
@@ -7412,8 +7403,7 @@ void func_80841EE4(Player* this, GlobalContext* globalCtx) {
         temp1 = R_UPDATE_RATE * 0.5f;
 
         func_8084029C(this, REG(35) / 1000.0f);
-        LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime,
-                                  PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_1, this->modelAnimType),
+        LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_1, this->modelAnimType),
                                   this->unk_868);
 
         this->unk_864 += 1 * temp1;
@@ -7592,11 +7582,11 @@ s32 func_8084269C(GlobalContext* globalCtx, Player* this) {
 }
 
 void func_8084279C(Player* this, GlobalContext* globalCtx) {
-    func_80832CB0(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_33, this->modelAnimType));
+    func_80832CB0(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_33, this->modelAnimType));
 
     if (DECR(this->unk_850) == 0) {
         if (!func_8083B040(this, globalCtx)) {
-            func_8083A098(this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_34, this->modelAnimType), globalCtx);
+            func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_34, this->modelAnimType), globalCtx);
         }
 
         this->actor.flags &= ~ACTOR_FLAG_8;
@@ -7821,7 +7811,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (!Player_IsChildWithHylianShield(this)) {
-            func_80832284(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_21, this->modelAnimType));
+            func_80832284(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_21, this->modelAnimType));
         }
         this->unk_850 = 1;
         this->unk_84F = 0;
@@ -7888,8 +7878,7 @@ void func_80843188(Player* this, GlobalContext* globalCtx) {
                     if (this->itemActionParam < 0) {
                         func_8008EC70(this);
                     }
-                    func_8083A098(this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_22, this->modelAnimType),
-                                  globalCtx);
+                    func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_22, this->modelAnimType), globalCtx);
                 }
 
                 func_8002F7DC(&this->actor, NA_SE_IT_SHIELD_REMOVE);
@@ -7924,7 +7913,7 @@ void func_808435C4(Player* this, GlobalContext* globalCtx) {
             func_80835C58(globalCtx, this, func_80843188, 1);
             this->stateFlags1 |= PLAYER_STATE1_22;
             Player_SetModelsForHoldingShield(this);
-            anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_20, this->modelAnimType);
+            anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_20, this->modelAnimType);
             frames = Animation_GetLastFrame(anim);
             LinkAnimation_Change(globalCtx, &this->skelAnime, anim, 1.0f, frames, frames, ANIMMODE_ONCE, 0.0f);
         }
@@ -8253,7 +8242,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
                             }
                             this->actor.world.pos.y += this->wallHeight;
                             func_8083A5C4(globalCtx, this, this->actor.wallPoly, this->wallDistance,
-                                          PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_39, this->modelAnimType));
+                                          GET_PLAYER_ANIM(PLAYER_ANIMGROUP_39, this->modelAnimType));
                             this->actor.shape.rot.y = this->currentYaw += 0x8000;
                             this->stateFlags1 |= PLAYER_STATE1_13;
                         }
@@ -8262,7 +8251,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        LinkAnimationHeader* anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_14, this->modelAnimType);
+        LinkAnimationHeader* anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_14, this->modelAnimType);
         s32 sp3C;
 
         if (this->stateFlags2 & PLAYER_STATE2_19) {
@@ -8277,7 +8266,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
             anim = &gPlayerAnim_002538;
             func_80833C3C(this);
         } else if (this->fallDistance <= 80) {
-            anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_15, this->modelAnimType);
+            anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_15, this->modelAnimType);
         } else if ((this->fallDistance < 800) && (this->unk_84B[this->unk_846] == 0) &&
                    !(this->stateFlags1 & PLAYER_STATE1_11)) {
             func_8083BC04(this, globalCtx);
@@ -8287,7 +8276,7 @@ void func_8084411C(Player* this, GlobalContext* globalCtx) {
         sp3C = func_80843E64(globalCtx, this);
 
         if (sp3C > 0) {
-            func_8083A098(this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_14, this->modelAnimType), globalCtx);
+            func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_14, this->modelAnimType), globalCtx);
             this->skelAnime.endFrame = 8.0f;
             if (sp3C == 1) {
                 this->unk_850 = 10;
@@ -8350,8 +8339,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
                         }
                     }
 
-                    func_80832264(globalCtx, this,
-                                  PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_17, this->modelAnimType));
+                    func_80832264(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_17, this->modelAnimType));
                     this->linearVelocity = -this->linearVelocity;
                     func_808429B4(globalCtx, 33267, 3, 12);
                     func_8083264C(this, 255, 20, 150, 0);
@@ -9242,8 +9230,8 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
     func_80834644(globalCtx, this);
 
     SkelAnime_InitLink(globalCtx, &this->skelAnime, skelHeader,
-                       PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_0, this->modelAnimType), 9, this->jointTable,
-                       this->morphTable, PLAYER_LIMB_MAX);
+                       GET_PLAYER_ANIM(PLAYER_ANIMGROUP_0, this->modelAnimType), 9, this->jointTable, this->morphTable,
+                       PLAYER_LIMB_MAX);
     this->skelAnime.baseTransl = D_80854730;
     SkelAnime_InitLink(globalCtx, &this->skelAnime2, skelHeader, func_80833338(this), 9, this->jointTable2,
                        this->morphTable2, PLAYER_LIMB_MAX);
@@ -11088,7 +11076,7 @@ void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
     Vec3f sp44;
     Vec3f sp38;
 
-    anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_36, this->modelAnimType);
+    anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_36, this->modelAnimType);
     this->stateFlags2 |= PLAYER_STATE2_0 | PLAYER_STATE2_6 | PLAYER_STATE2_8;
 
     if (func_80832CB0(globalCtx, this, anim)) {
@@ -11111,7 +11099,7 @@ void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
         if (temp1 > 0) {
             func_8083FAB8(this, globalCtx);
         } else if (temp1 == 0) {
-            func_8083F72C(this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_37, this->modelAnimType), globalCtx);
+            func_8083F72C(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_37, this->modelAnimType), globalCtx);
         } else {
             this->stateFlags2 |= PLAYER_STATE2_4;
         }
@@ -11143,7 +11131,7 @@ void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         // clang-format off
-        anim = (this->unk_84F > 0) ? &gPlayerAnim_002F28 : PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_40, this->modelAnimType); func_80832284(globalCtx, this, anim);
+        anim = (this->unk_84F > 0) ? &gPlayerAnim_002F28 : GET_PLAYER_ANIM(PLAYER_ANIMGROUP_40, this->modelAnimType); func_80832284(globalCtx, this, anim);
         // clang-format on
     } else if (this->unk_84F == 0) {
         if (this->skelAnime.animation == &gPlayerAnim_002F10) {
@@ -11168,9 +11156,9 @@ void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
         func_80837268(this, &sp3C, &sp3A, 0.0f, globalCtx);
         if (this->unk_847[this->unk_846] >= 0) {
             if (this->unk_84F > 0) {
-                anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_38, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_38, this->modelAnimType);
             } else {
-                anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_41, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_41, this->modelAnimType);
             }
             func_8083A9B8(this, anim, globalCtx);
             return;
@@ -11824,7 +11812,7 @@ void func_8084D610(Player* this, GlobalContext* globalCtx) {
             sp32 = this->actor.shape.rot.y;
 
             if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-                func_8083A098(this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_15, this->modelAnimType), globalCtx);
+                func_8083A098(this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_15, this->modelAnimType), globalCtx);
                 func_808328A0(this);
             }
         } else {
@@ -12614,9 +12602,9 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
         if (Math_AsymStepToF(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
             LinkAnimationHeader* anim;
             if (this->unk_84F == 0) {
-                anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_42, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_42, this->modelAnimType);
             } else {
-                anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_43, this->modelAnimType);
+                anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_43, this->modelAnimType);
             }
             func_8083A098(this, anim, globalCtx);
         }
@@ -13650,7 +13638,7 @@ void func_808515A4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         return;
     }
 
-    anim = PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_44, this->modelAnimType);
+    anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_44, this->modelAnimType);
 
     if ((this->unk_446 == 6) || (this->unk_446 == 0x2E)) {
         func_80832264(globalCtx, this, anim);
@@ -13974,7 +13962,7 @@ void func_808521B8(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 }
 
 void func_808521F4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
-    func_80832B0C(globalCtx, this, PLAYER_ANIM_BY_GROUP_AND_TYPE(PLAYER_ANIMGROUP_44, this->modelAnimType));
+    func_80832B0C(globalCtx, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_44, this->modelAnimType));
     func_80832210(this);
 }
 
