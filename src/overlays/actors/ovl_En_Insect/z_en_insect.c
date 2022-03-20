@@ -88,9 +88,9 @@ static ColliderJntSphInit sColliderInit = {
  */
 static u16 sInitInsectFlags[] = {
     0,
-    INSECT_FLAG_0 | INSECT_FLAG_TEMP,
-    INSECT_FLAG_0 | INSECT_FLAG_1 | INSECT_FLAG_TEMP,
-    INSECT_FLAG_0 | INSECT_FLAG_1 | INSECT_FLAG_TEMP,
+    INSECT_FLAG_0 | INSECT_FLAG_IS_SHORT_LIVED,
+    INSECT_FLAG_0 | INSECT_FLAG_1 | INSECT_FLAG_IS_SHORT_LIVED,
+    INSECT_FLAG_0 | INSECT_FLAG_1 | INSECT_FLAG_IS_SHORT_LIVED,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -205,7 +205,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.minVelocityY = -2.0f;
     }
 
-    if (this->insectFlags & INSECT_FLAG_TEMP) {
+    if (this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) {
         this->lifeTimer = Rand_S16Offset(200, 40);
         this->actor.flags |= ACTOR_FLAG_4;
     }
@@ -279,7 +279,7 @@ void EnInsect_SlowDown(EnInsect* this, GlobalContext* globalCtx) {
         EnInsect_SetupCrawl(this);
     }
 
-    if (((this->insectFlags & INSECT_FLAG_TEMP) && this->lifeTimer <= 0) ||
+    if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
         (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) &&
          (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
@@ -324,7 +324,7 @@ void EnInsect_Crawl(EnInsect* this, GlobalContext* globalCtx) {
         EnInsect_SetupSlowDown(this);
     }
 
-    if (((this->insectFlags & INSECT_FLAG_TEMP) && this->lifeTimer <= 0) ||
+    if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
         (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) &&
          (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
@@ -400,10 +400,10 @@ void EnInsect_SetupCaught(EnInsect* this) {
 }
 
 void EnInsect_Caught(EnInsect* this, GlobalContext* globalCtx) {
-    if (this->actionTimer == 20 && !(this->insectFlags & INSECT_FLAG_TEMP)) {
+    if (this->actionTimer == 20 && !(this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED)) {
         this->actor.draw = EnInsect_Draw;
     } else if (this->actionTimer == 0) {
-        if (this->insectFlags & INSECT_FLAG_TEMP) {
+        if (this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) {
             Actor_Kill(&this->actor);
         } else {
             Actor_SetScale(&this->actor, 0.01f);
@@ -533,7 +533,7 @@ void EnInsect_Sink(EnInsect* this, GlobalContext* globalCtx) {
         EffectSsGRipple_Spawn(globalCtx, &ripplePoint, 40, 200, 8);
     }
 
-    if (this->actionTimer <= 0 || ((this->insectFlags & INSECT_FLAG_TEMP) && this->lifeTimer <= 0) ||
+    if (this->actionTimer <= 0 || ((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
         (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) && sDroppedCount >= 4)) {
         EnInsect_SetupDrown(this);
     } else if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
