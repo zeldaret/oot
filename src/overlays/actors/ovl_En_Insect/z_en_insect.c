@@ -280,7 +280,7 @@ void EnInsect_SlowDown(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->insectFlags & INSECT_FLAG_TEMP) && this->lifeTimer <= 0) ||
-        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_TEMP_AND_ALIVE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) && sDroppedCount >= 4)) {
+        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_TEMP_AND_ALIVE) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
     } else if ((this->insectFlags & INSECT_FLAG_TEMP_AND_ALIVE) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         EnInsect_SetupSink(this);
