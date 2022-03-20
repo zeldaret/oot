@@ -741,9 +741,9 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateX(this->floorTangent.x, MTXMODE_APPLY);
             Matrix_RotateZ(this->floorTangent.z, MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x + 0.35f, 0.0f, this->actor.scale.z + 0.35f, MTXMODE_APPLY);
-            Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX((this->actor.shape.rot.x / 32768.0f) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
             if (this->crashingTimer != 0) {
                 f32 xRotation;
                 f32 yRotation;

@@ -25,9 +25,74 @@ s16 sBootData[PLAYER_BOOTS_MAX][17] = {
 };
 
 // Used to map action params to model groups
-u8 sActionModelGroups[] = {
-    3,  15, 10, 2,  2,  5,  10, 11, 6,  6, 6, 6, 6, 6, 6, 6, 9, 9, 7, 7, 8, 3, 3, 6, 3, 3, 3, 3, 12, 13, 14, 14, 14, 14,
-    14, 14, 14, 14, 14, 14, 14, 14, 14, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  3,  3,  3,  3,
+u8 sActionModelGroups[PLAYER_AP_MAX] = {
+    /* PLAYER_AP_NONE */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_LAST_USED */ PLAYER_MODELGROUP_15,
+    /* PLAYER_AP_FISHING_POLE */ PLAYER_MODELGROUP_10,
+    /* PLAYER_AP_SWORD_MASTER */ PLAYER_MODELGROUP_SWORD,
+    /* PLAYER_AP_SWORD_KOKIRI */ PLAYER_MODELGROUP_SWORD,
+    /* PLAYER_AP_SWORD_BGS */ PLAYER_MODELGROUP_BGS,
+    /* PLAYER_AP_STICK */ PLAYER_MODELGROUP_10,
+    /* PLAYER_AP_HAMMER */ PLAYER_MODELGROUP_HAMMER,
+    /* PLAYER_AP_BOW */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_BOW_FIRE */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_BOW_ICE */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_BOW_LIGHT */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_BOW_0C */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_BOW_0D */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_BOW_0E */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_SLINGSHOT */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_HOOKSHOT */ PLAYER_MODELGROUP_HOOKSHOT,
+    /* PLAYER_AP_LONGSHOT */ PLAYER_MODELGROUP_HOOKSHOT,
+    /* PLAYER_AP_BOMB */ PLAYER_MODELGROUP_EXPLOSIVES,
+    /* PLAYER_AP_BOMBCHU */ PLAYER_MODELGROUP_EXPLOSIVES,
+    /* PLAYER_AP_BOOMERANG */ PLAYER_MODELGROUP_BOOMERANG,
+    /* PLAYER_AP_MAGIC_SPELL_15 */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MAGIC_SPELL_16 */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MAGIC_SPELL_17 */ PLAYER_MODELGROUP_BOW_SLINGSHOT,
+    /* PLAYER_AP_FARORES_WIND */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_NAYRUS_LOVE */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_DINS_FIRE */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_NUT */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_OCARINA_FAIRY */ PLAYER_MODELGROUP_OCARINA,
+    /* PLAYER_AP_OCARINA_TIME */ PLAYER_MODELGROUP_OOT,
+    /* PLAYER_AP_BOTTLE */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_FISH */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_FIRE */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_BUG */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_POE */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_BIG_POE */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_LETTER */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_POTION_RED */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_POTION_BLUE */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_POTION_GREEN */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_MILK */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_MILK_HALF */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_BOTTLE_FAIRY */ PLAYER_MODELGROUP_BOTTLE,
+    /* PLAYER_AP_LETTER_ZELDA */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_WEIRD_EGG */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_CHICKEN */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_BEAN */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_POCKET_EGG */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_POCKET_CUCCO */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_COJIRO */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_ODD_MUSHROOM */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_ODD_POTION */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_SAW */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_SWORD_BROKEN */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_PRESCRIPTION */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_FROG */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_EYEDROPS */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_CLAIM_CHECK */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_KEATON */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_SKULL */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_SPOOKY */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_BUNNY */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_GORON */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_ZORA */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_GERUDO */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_MASK_TRUTH */ PLAYER_MODELGROUP_DEFAULT,
+    /* PLAYER_AP_LENS */ PLAYER_MODELGROUP_DEFAULT,
 };
 
 TextTriggerEntry sTextTriggers[] = {
@@ -38,68 +103,134 @@ TextTriggerEntry sTextTriggers[] = {
 };
 
 // Used to map model groups to model types for [animation, left hand, right hand, sheath, waist]
-u8 gPlayerModelTypes[][5] = {
-    { 2, 0, 10, 16, 20 }, { 1, 2, 9, 19, 20 },  { 1, 2, 10, 17, 20 }, { 0, 0, 8, 18, 20 },
-    { 0, 0, 8, 18, 20 },  { 3, 4, 9, 19, 20 },  { 4, 1, 11, 18, 20 }, { 5, 0, 8, 18, 20 },
-    { 0, 6, 8, 18, 20 },  { 4, 0, 15, 18, 20 }, { 3, 1, 9, 18, 20 },  { 3, 5, 9, 18, 20 },
-    { 0, 0, 13, 18, 20 }, { 0, 0, 14, 18, 20 }, { 0, 7, 8, 18, 20 },  { 0, 2, 8, 19, 20 },
+u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX] = {
+    /* PLAYER_MODELGROUP_0 */
+    { PLAYER_ANIMTYPE_2, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_SHEATH_16,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD */
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_SWORD */
+    { PLAYER_ANIMTYPE_1, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_SHIELD, PLAYER_MODELTYPE_SHEATH_17,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_DEFAULT */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_4 */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_BGS */
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_BGS, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_BOW_SLINGSHOT */
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_BOW_SLINGSHOT, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_EXPLOSIVES */
+    { PLAYER_ANIMTYPE_5, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_BOOMERANG */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOOMERANG, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_HOOKSHOT */
+    { PLAYER_ANIMTYPE_4, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_HOOKSHOT, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_10 */
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_CLOSED, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_HAMMER */
+    { PLAYER_ANIMTYPE_3, PLAYER_MODELTYPE_LH_HAMMER, PLAYER_MODELTYPE_RH_CLOSED, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_OCARINA */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OCARINA, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_OOT */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_OPEN, PLAYER_MODELTYPE_RH_OOT, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_BOTTLE */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_BOTTLE, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_18,
+      PLAYER_MODELTYPE_WAIST },
+    /* PLAYER_MODELGROUP_15 */
+    { PLAYER_ANIMTYPE_0, PLAYER_MODELTYPE_LH_SWORD, PLAYER_MODELTYPE_RH_OPEN, PLAYER_MODELTYPE_SHEATH_19,
+      PLAYER_MODELTYPE_WAIST },
 };
 
-Gfx* D_80125CE8[] = {
+Gfx* D_80125CE8[PLAYER_SHIELD_MAX * 4] = {
+    // PLAYER_SHIELD_NONE
     gLinkAdultRightHandClosedNearDL,
     gLinkChildRightHandClosedNearDL,
     gLinkAdultRightHandClosedFarDL,
     gLinkChildRightHandClosedFarDL,
+    // PLAYER_SHIELD_DEKU
     gLinkAdultRightHandClosedNearDL,
     gLinkChildRightFistAndDekuShieldNearDL,
     gLinkAdultRightHandClosedFarDL,
     gLinkChildRightFistAndDekuShieldFarDL,
+    // PLAYER_SHIELD_HYLIAN
     gLinkAdultRightHandHoldingHylianShieldNearDL,
     gLinkChildRightHandClosedNearDL,
     gLinkAdultRightHandHoldingHylianShieldFarDL,
     gLinkChildRightHandClosedFarDL,
+    // PLAYER_SHIELD_MIRROR
     gLinkAdultRightHandHoldingMirrorShieldNearDL,
     gLinkChildRightHandClosedNearDL,
     gLinkAdultRightHandHoldingMirrorShieldFarDL,
     gLinkChildRightHandClosedFarDL,
 };
 
-Gfx* D_80125D28[] = {
-    gLinkAdultMasterSwordAndSheathNearDL,       gLinkChildSwordAndSheathNearDL,
-    gLinkAdultMasterSwordAndSheathFarDL,        gLinkChildSwordAndSheathFarDL,
-    gLinkAdultMasterSwordAndSheathNearDL,       gLinkChildDekuShieldSwordAndSheathNearDL,
-    gLinkAdultMasterSwordAndSheathFarDL,        gLinkChildDekuShieldSwordAndSheathFarDL,
-    gLinkAdultHylianShieldSwordAndSheathNearDL, gLinkChildHylianShieldSwordAndSheathNearDL,
-    gLinkAdultHylianShieldSwordAndSheathFarDL,  gLinkChildHylianShieldSwordAndSheathFarDL,
-    gLinkAdultMirrorShieldSwordAndSheathNearDL, gLinkChildSwordAndSheathNearDL,
-    gLinkAdultMirrorShieldSwordAndSheathFarDL,  gLinkChildSwordAndSheathFarDL,
+Gfx* D_80125D28[PLAYER_SHIELD_MAX * 4] = {
+    // PLAYER_SHIELD_NONE
+    gLinkAdultMasterSwordAndSheathNearDL,
+    gLinkChildSwordAndSheathNearDL,
+    gLinkAdultMasterSwordAndSheathFarDL,
+    gLinkChildSwordAndSheathFarDL,
+    // PLAYER_SHIELD_DEKU
+    gLinkAdultMasterSwordAndSheathNearDL,
+    gLinkChildDekuShieldSwordAndSheathNearDL,
+    gLinkAdultMasterSwordAndSheathFarDL,
+    gLinkChildDekuShieldSwordAndSheathFarDL,
+    // PLAYER_SHIELD_HYLIAN
+    gLinkAdultHylianShieldSwordAndSheathNearDL,
+    gLinkChildHylianShieldSwordAndSheathNearDL,
+    gLinkAdultHylianShieldSwordAndSheathFarDL,
+    gLinkChildHylianShieldSwordAndSheathFarDL,
+    // PLAYER_SHIELD_MIRROR
+    gLinkAdultMirrorShieldSwordAndSheathNearDL,
+    gLinkChildSwordAndSheathNearDL,
+    gLinkAdultMirrorShieldSwordAndSheathFarDL,
+    gLinkChildSwordAndSheathFarDL,
 };
 
 Gfx* D_80125D68[] = {
     NULL, NULL, NULL, NULL, NULL, gLinkChildDekuShieldWithMatrixDL, NULL, gLinkChildDekuShieldWithMatrixDL,
 };
 
-Gfx* D_80125D88[] = {
+Gfx* D_80125D88[(PLAYER_SHIELD_MAX + 2) * 4] = {
+    // PLAYER_SHIELD_NONE
     gLinkAdultSheathNearDL,
     gLinkChildSheathNearDL,
     gLinkAdultSheathFarDL,
     gLinkChildSheathFarDL,
+    // PLAYER_SHIELD_DEKU
     gLinkAdultSheathNearDL,
     gLinkChildDekuShieldAndSheathNearDL,
     gLinkAdultSheathFarDL,
     gLinkChildDekuShieldAndSheathFarDL,
+    // PLAYER_SHIELD_HYLIAN
     gLinkAdultHylianShieldAndSheathNearDL,
     gLinkChildHylianShieldAndSheathNearDL,
     gLinkAdultHylianShieldAndSheathFarDL,
     gLinkChildHylianShieldAndSheathFarDL,
+    // PLAYER_SHIELD_MIRROR
     gLinkAdultMirrorShieldAndSheathNearDL,
     gLinkChildSheathNearDL,
     gLinkAdultMirrorShieldAndSheathFarDL,
     gLinkChildSheathFarDL,
+    // PLAYER_SHIELD_NONE (child, no sword)
     NULL,
     NULL,
     NULL,
     NULL,
+    // PLAYER_SHIELD_DEKU (child, no sword)
     gLinkAdultSheathNearDL,
     gLinkChildDekuShieldWithMatrixDL,
     gLinkAdultSheathNearDL,
@@ -107,10 +238,16 @@ Gfx* D_80125D88[] = {
 };
 
 Gfx* D_80125DE8[] = {
-    gLinkAdultLeftHandHoldingBgsNearDL,          gLinkChildLeftHandHoldingMasterSwordDL,
-    gLinkAdultLeftHandHoldingBgsFarDL,           gLinkChildLeftHandHoldingMasterSwordDL,
-    gLinkAdultHandHoldingBrokenGiantsKnifeDL,    gLinkChildLeftHandHoldingMasterSwordDL,
-    gLinkAdultHandHoldingBrokenGiantsKnifeFarDL, gLinkChildLeftHandHoldingMasterSwordDL,
+    // biggoron sword
+    gLinkAdultLeftHandHoldingBgsNearDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
+    gLinkAdultLeftHandHoldingBgsFarDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
+    // broken giant knife
+    gLinkAdultHandHoldingBrokenGiantsKnifeDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
+    gLinkAdultHandHoldingBrokenGiantsKnifeFarDL,
+    gLinkChildLeftHandHoldingMasterSwordDL,
 };
 
 Gfx* D_80125E08[] = {
@@ -258,10 +395,28 @@ Gfx* sHoldingFirstPersonWeaponDLs[] = {
 };
 
 // Indexed by model types (left hand, right hand, sheath or waist)
-Gfx** sPlayerDListGroups[] = {
-    D_80125E08, D_80125E18, D_80125E38, D_80125E28, D_80125DE8, D_80125EE8, D_80125EF8,
-    D_80125F08, D_80125E48, D_80125E58, D_80125CE8, D_80125E68, D_80125EA8, D_80125EB8,
-    D_80125EC8, D_80125ED8, D_80125E78, D_80125E88, D_80125D28, D_80125D88, D_80125E98,
+Gfx** sPlayerDListGroups[PLAYER_MODELTYPE_MAX] = {
+    /* PLAYER_MODELTYPE_LH_OPEN */ D_80125E08,
+    /* PLAYER_MODELTYPE_LH_CLOSED */ D_80125E18,
+    /* PLAYER_MODELTYPE_LH_SWORD */ D_80125E38,
+    /* PLAYER_MODELTYPE_3 */ D_80125E28,
+    /* PLAYER_MODELTYPE_LH_BGS */ D_80125DE8,
+    /* PLAYER_MODELTYPE_LH_HAMMER */ D_80125EE8,
+    /* PLAYER_MODELTYPE_LH_BOOMERANG */ D_80125EF8,
+    /* PLAYER_MODELTYPE_LH_BOTTLE */ D_80125F08,
+    /* PLAYER_MODELTYPE_RH_OPEN */ D_80125E48,
+    /* PLAYER_MODELTYPE_RH_CLOSED */ D_80125E58,
+    /* PLAYER_MODELTYPE_RH_SHIELD */ D_80125CE8,
+    /* PLAYER_MODELTYPE_RH_BOW_SLINGSHOT */ D_80125E68,
+    /* PLAYER_MODELTYPE_12 */ D_80125EA8,
+    /* PLAYER_MODELTYPE_RH_OCARINA */ D_80125EB8,
+    /* PLAYER_MODELTYPE_RH_OOT */ D_80125EC8,
+    /* PLAYER_MODELTYPE_RH_HOOKSHOT */ D_80125ED8,
+    /* PLAYER_MODELTYPE_SHEATH_16 */ D_80125E78,
+    /* PLAYER_MODELTYPE_SHEATH_17 */ D_80125E88,
+    /* PLAYER_MODELTYPE_SHEATH_18 */ D_80125D28,
+    /* PLAYER_MODELTYPE_SHEATH_19 */ D_80125D88,
+    /* PLAYER_MODELTYPE_WAIST */ D_80125E98,
 };
 
 Gfx gCullBackDList[] = {
@@ -277,8 +432,8 @@ Gfx gCullFrontDList[] = {
 Vec3f* sCurBodyPartPos;
 s32 sDListsLodOffset;
 Vec3f sGetItemRefPos;
-s32 D_80160014;
-s32 D_80160018;
+s32 sLeftHandType;
+s32 sRightHandType;
 
 void Player_SetBootData(GlobalContext* globalCtx, Player* this) {
     s32 currentBoots;
@@ -348,8 +503,9 @@ s32 Player_IsChildWithHylianShield(Player* this) {
 s32 Player_ActionToModelGroup(Player* this, s32 actionParam) {
     s32 modelGroup = sActionModelGroups[actionParam];
 
-    if ((modelGroup == 2) && Player_IsChildWithHylianShield(this)) {
-        return 1;
+    if ((modelGroup == PLAYER_MODELGROUP_SWORD) && Player_IsChildWithHylianShield(this)) {
+        // child, using kokiri sword with hylian shield equipped
+        return PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD;
     } else {
         return modelGroup;
     }
@@ -359,29 +515,33 @@ void Player_SetModelsForHoldingShield(Player* this) {
     if ((this->stateFlags1 & PLAYER_STATE1_22) &&
         ((this->itemActionParam < 0) || (this->itemActionParam == this->heldItemActionParam))) {
         if (!Player_HoldsTwoHandedWeapon(this) && !Player_IsChildWithHylianShield(this)) {
-            this->rightHandType = 10;
-            this->rightHandDLists = &sPlayerDListGroups[10][(void)0, gSaveContext.linkAge];
-            if (this->sheathType == 18) {
-                this->sheathType = 16;
-            } else if (this->sheathType == 19) {
-                this->sheathType = 17;
+            this->rightHandType = PLAYER_MODELTYPE_RH_SHIELD;
+            this->rightHandDLists = &sPlayerDListGroups[PLAYER_MODELTYPE_RH_SHIELD][(void)0, gSaveContext.linkAge];
+            if (this->sheathType == PLAYER_MODELTYPE_SHEATH_18) {
+                this->sheathType = PLAYER_MODELTYPE_SHEATH_16;
+            } else if (this->sheathType == PLAYER_MODELTYPE_SHEATH_19) {
+                this->sheathType = PLAYER_MODELTYPE_SHEATH_17;
             }
             this->sheathDLists = &sPlayerDListGroups[this->sheathType][(void)0, gSaveContext.linkAge];
-            this->modelAnimType = 2;
+            this->modelAnimType = PLAYER_ANIMTYPE_2;
             this->itemActionParam = -1;
         }
     }
 }
 
 void Player_SetModels(Player* this, s32 modelGroup) {
-    this->leftHandType = gPlayerModelTypes[modelGroup][1];
-    this->rightHandType = gPlayerModelTypes[modelGroup][2];
-    this->sheathType = gPlayerModelTypes[modelGroup][3];
+    this->leftHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND];
+    this->rightHandType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
+    this->sheathType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
 
-    this->leftHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][1]][(void)0, gSaveContext.linkAge];
-    this->rightHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][2]][(void)0, gSaveContext.linkAge];
-    this->sheathDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][3]][(void)0, gSaveContext.linkAge];
-    this->waistDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][4]][(void)0, gSaveContext.linkAge];
+    this->leftHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND]]
+                                              [(void)0, gSaveContext.linkAge];
+    this->rightHandDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND]]
+                                               [(void)0, gSaveContext.linkAge];
+    this->sheathDLists = &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH]]
+                                            [(void)0, gSaveContext.linkAge];
+    this->waistDLists =
+        &sPlayerDListGroups[gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST]][(void)0, gSaveContext.linkAge];
 
     Player_SetModelsForHoldingShield(this);
 }
@@ -389,14 +549,14 @@ void Player_SetModels(Player* this, s32 modelGroup) {
 void Player_SetModelGroup(Player* this, s32 modelGroup) {
     this->modelGroup = modelGroup;
 
-    if (modelGroup == 1) {
-        this->modelAnimType = 0;
+    if (modelGroup == PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD) {
+        this->modelAnimType = PLAYER_ANIMTYPE_0;
     } else {
-        this->modelAnimType = gPlayerModelTypes[modelGroup][0];
+        this->modelAnimType = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_ANIM];
     }
 
-    if ((this->modelAnimType < 3) && (this->currentShield == PLAYER_SHIELD_NONE)) {
-        this->modelAnimType = 0;
+    if ((this->modelAnimType < PLAYER_ANIMTYPE_3) && (this->currentShield == PLAYER_SHIELD_NONE)) {
+        this->modelAnimType = PLAYER_ANIMTYPE_0;
     }
 
     Player_SetModels(this, modelGroup);
@@ -519,7 +679,7 @@ s32 Player_HasMirrorShieldEquipped(GlobalContext* globalCtx) {
 s32 Player_HasMirrorShieldSetToDraw(GlobalContext* globalCtx) {
     Player* this = GET_PLAYER(globalCtx);
 
-    return (this->rightHandType == 10) && (this->currentShield == PLAYER_SHIELD_MIRROR);
+    return (this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD) && (this->currentShield == PLAYER_SHIELD_MIRROR);
 }
 
 s32 Player_ActionToMagicSpell(Player* this, s32 actionParam) {
@@ -694,8 +854,8 @@ Color_RGB8 sGauntletColors[] = {
 };
 
 Gfx* sBootDListGroups[][2] = {
-    { gLinkAdultLeftIronBootDL, gLinkAdultRightIronBootDL },
-    { gLinkAdultLeftHoverBootDL, gLinkAdultRightHoverBootDL },
+    /* PLAYER_BOOTS_IRON */ { gLinkAdultLeftIronBootDL, gLinkAdultRightIronBootDL },
+    /* PLAYER_BOOTS_HOVER */ { gLinkAdultLeftHoverBootDL, gLinkAdultRightHoverBootDL },
 };
 
 void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
@@ -747,10 +907,12 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultLeftGauntletPlate1DL);
                 gSPDisplayList(POLY_OPA_DISP++, gLinkAdultRightGauntletPlate1DL);
-                gSPDisplayList(POLY_OPA_DISP++,
-                               (D_80160014 == 0) ? gLinkAdultLeftGauntletPlate2DL : gLinkAdultLeftGauntletPlate3DL);
-                gSPDisplayList(POLY_OPA_DISP++,
-                               (D_80160018 == 8) ? gLinkAdultRightGauntletPlate2DL : gLinkAdultRightGauntletPlate3DL);
+                gSPDisplayList(POLY_OPA_DISP++, (sLeftHandType == PLAYER_MODELTYPE_LH_OPEN)
+                                                    ? gLinkAdultLeftGauntletPlate2DL
+                                                    : gLinkAdultLeftGauntletPlate3DL);
+                gSPDisplayList(POLY_OPA_DISP++, (sRightHandType == PLAYER_MODELTYPE_RH_OPEN)
+                                                    ? gLinkAdultRightGauntletPlate2DL
+                                                    : gLinkAdultRightGauntletPlate3DL);
             }
 
             if (boots != 0) {
@@ -881,8 +1043,8 @@ s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbInde
     Player* this = (Player*)thisx;
 
     if (limbIndex == PLAYER_LIMB_ROOT) {
-        D_80160014 = this->leftHandType;
-        D_80160018 = this->rightHandType;
+        sLeftHandType = this->leftHandType;
+        sRightHandType = this->rightHandType;
 
         // `sCurBodyPartPos` is incremented before each usage, so it starts at index -1.
         // What determines if a limb corresponds to a body part is whether or not it has a non-NULL `dList`.
@@ -957,40 +1119,42 @@ s32 Player_OverrideLimbDrawGameplayDefault(GlobalContext* globalCtx, s32 limbInd
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
-            if ((D_80160014 == 4) && (gSaveContext.swordHealth <= 0.0f)) {
+            if ((sLeftHandType == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
                 dLists += 4;
-            } else if ((D_80160014 == 6) && (this->stateFlags1 & PLAYER_STATE1_25)) {
+            } else if ((sLeftHandType == PLAYER_MODELTYPE_LH_BOOMERANG) && (this->stateFlags1 & PLAYER_STATE1_25)) {
                 dLists = &D_80125E08[gSaveContext.linkAge];
-                D_80160014 = 0;
-            } else if ((this->leftHandType == 0) && (this->actor.speedXZ > 2.0f) &&
+                sLeftHandType = PLAYER_MODELTYPE_LH_OPEN;
+            } else if ((this->leftHandType == PLAYER_MODELTYPE_LH_OPEN) && (this->actor.speedXZ > 2.0f) &&
                        !(this->stateFlags1 & PLAYER_STATE1_27)) {
                 dLists = &D_80125E18[gSaveContext.linkAge];
-                D_80160014 = 1;
+                sLeftHandType = PLAYER_MODELTYPE_LH_CLOSED;
             }
 
             *dList = dLists[sDListsLodOffset];
         } else if (limbIndex == PLAYER_LIMB_R_HAND) {
             Gfx** dLists = this->rightHandDLists;
 
-            if (D_80160018 == 10) {
+            if (sRightHandType == PLAYER_MODELTYPE_RH_SHIELD) {
                 dLists += this->currentShield * 4;
-            } else if ((this->rightHandType == 8) && (this->actor.speedXZ > 2.0f) &&
+            } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_OPEN) && (this->actor.speedXZ > 2.0f) &&
                        !(this->stateFlags1 & PLAYER_STATE1_27)) {
                 dLists = &D_80125E58[gSaveContext.linkAge];
-                D_80160018 = 9;
+                sRightHandType = PLAYER_MODELTYPE_RH_CLOSED;
             }
 
             *dList = dLists[sDListsLodOffset];
         } else if (limbIndex == PLAYER_LIMB_SHEATH) {
             Gfx** dLists = this->sheathDLists;
 
-            if ((this->sheathType == 18) || (this->sheathType == 19)) {
+            if ((this->sheathType == PLAYER_MODELTYPE_SHEATH_18) || (this->sheathType == PLAYER_MODELTYPE_SHEATH_19)) {
                 dLists += this->currentShield * 4;
                 if (!LINK_IS_ADULT && (this->currentShield < PLAYER_SHIELD_HYLIAN) &&
                     (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
-                    dLists += 16;
+                    dLists += PLAYER_SHIELD_MAX * 4;
                 }
-            } else if (!LINK_IS_ADULT && ((this->sheathType == 16) || (this->sheathType == 17)) &&
+            } else if (!LINK_IS_ADULT &&
+                       ((this->sheathType == PLAYER_MODELTYPE_SHEATH_16) ||
+                        (this->sheathType == PLAYER_MODELTYPE_SHEATH_17)) &&
                        (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI)) {
                 dLists = D_80125D68;
             }
@@ -1298,7 +1462,7 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
             func_80090A28(this, spE4);
             func_800906D4(globalCtx, this, spE4);
-        } else if ((*dList != NULL) && (this->leftHandType == 7)) {
+        } else if ((*dList != NULL) && (this->leftHandType == PLAYER_MODELTYPE_LH_BOTTLE)) {
             Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2710);
@@ -1339,9 +1503,10 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
         Actor* heldActor = this->heldActor;
 
-        if (this->rightHandType == 0xFF) {
+        if (this->rightHandType == PLAYER_MODELTYPE_RH_FF) {
             Matrix_Get(&this->shieldMf);
-        } else if ((this->rightHandType == 11) || (this->rightHandType == 12)) {
+        } else if ((this->rightHandType == PLAYER_MODELTYPE_RH_BOW_SLINGSHOT) ||
+                   (this->rightHandType == PLAYER_MODELTYPE_12)) {
             BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
@@ -1382,7 +1547,7 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
             Matrix_Pop();
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2809);
-        } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == 10)) {
+        } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == PLAYER_MODELTYPE_RH_SHIELD)) {
             Matrix_Get(&this->shieldMf);
             func_80090604(globalCtx, this, &this->shieldQuad, D_80126154);
         }
@@ -1427,7 +1592,8 @@ void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
         }
     } else if (this->actor.scale.y >= 0.0f) {
         if (limbIndex == PLAYER_LIMB_SHEATH) {
-            if ((this->rightHandType != 10) && (this->rightHandType != 0xFF)) {
+            if ((this->rightHandType != PLAYER_MODELTYPE_RH_SHIELD) &&
+                (this->rightHandType != PLAYER_MODELTYPE_RH_FF)) {
                 if (Player_IsChildWithHylianShield(this)) {
                     func_80090604(globalCtx, this, &this->shieldQuad, D_8012619C);
                 }
@@ -1471,39 +1637,42 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
            sizeof(Vec3s[PLAYER_LIMB_BUF_COUNT]);
 }
 
-u8 D_801261F8[] = { 2, 2, 5 };
+u8 D_801261F8[] = { PLAYER_MODELGROUP_SWORD, PLAYER_MODELGROUP_SWORD, PLAYER_MODELGROUP_BGS };
 
 s32 Player_OverrideLimbDrawPause(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* arg) {
-    u8* ptr = arg;
-    u8 modelGroup = D_801261F8[ptr[0] - 1];
+    u8* playerSwordAndShield = arg;
+    //! @bug `playerSwordAndShield[0]` can be 0 (no sword), which indexes `D_801261F8[-1]`. The result
+    //! happens to be 0 (`PLAYER_MODELGROUP_0`) in vanilla, but weird values are likely to cause a crash
+    u8 modelGroup = D_801261F8[playerSwordAndShield[0] - 1];
     s32 type;
     s32 dListOffset = 0;
     Gfx** dLists;
 
-    if ((modelGroup == 2) && !LINK_IS_ADULT && (ptr[1] == 2)) {
-        modelGroup = 1;
+    if ((modelGroup == PLAYER_MODELGROUP_SWORD) && !LINK_IS_ADULT &&
+        (playerSwordAndShield[1] == PLAYER_SHIELD_HYLIAN)) {
+        modelGroup = PLAYER_MODELGROUP_CHILD_HYLIAN_SHIELD;
     }
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
-        type = gPlayerModelTypes[modelGroup][1];
-        D_80160014 = type;
-        if ((type == 4) && (gSaveContext.swordHealth <= 0.0f)) {
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_LEFT_HAND];
+        sLeftHandType = type;
+        if ((type == PLAYER_MODELTYPE_LH_BGS) && (gSaveContext.swordHealth <= 0.0f)) {
             dListOffset = 4;
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-        type = gPlayerModelTypes[modelGroup][2];
-        D_80160018 = type;
-        if (type == 10) {
-            dListOffset = ptr[1] * 4;
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_RIGHT_HAND];
+        sRightHandType = type;
+        if (type == PLAYER_MODELTYPE_RH_SHIELD) {
+            dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_SHEATH) {
-        type = gPlayerModelTypes[modelGroup][3];
-        if ((type == 18) || (type == 19)) {
-            dListOffset = ptr[1] * 4;
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_SHEATH];
+        if ((type == PLAYER_MODELTYPE_SHEATH_18) || (type == PLAYER_MODELTYPE_SHEATH_19)) {
+            dListOffset = playerSwordAndShield[1] * 4;
         }
     } else if (limbIndex == PLAYER_LIMB_WAIST) {
-        type = gPlayerModelTypes[modelGroup][4];
+        type = gPlayerModelTypes[modelGroup][PLAYER_MODELGROUPENTRY_WAIST];
     } else {
         return 0;
     }
@@ -1522,7 +1691,7 @@ void Player_DrawPauseImpl(GlobalContext* globalCtx, void* gameplayKeep, void* li
                            (PAUSE_EQUIP_PLAYER_WIDTH / 2) << 2, (PAUSE_EQUIP_PLAYER_HEIGHT / 2) << 2, G_MAXZ / 2, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
-    u8 sp12C[2];
+    u8 playerSwordAndShield[2];
     Gfx* opaRef;
     Gfx* xluRef;
     u16 perspNorm;
@@ -1588,8 +1757,8 @@ void Player_DrawPauseImpl(GlobalContext* globalCtx, void* gameplayKeep, void* li
 
     gSPMatrix(POLY_OPA_DISP++, lookAtMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
-    sp12C[0] = sword;
-    sp12C[1] = shield;
+    playerSwordAndShield[0] = sword;
+    playerSwordAndShield[1] = shield;
 
     Matrix_SetTranslateRotateYXZ(pos->x, pos->y, pos->z, rot);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
@@ -1608,7 +1777,7 @@ void Player_DrawPauseImpl(GlobalContext* globalCtx, void* gameplayKeep, void* li
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
     Player_DrawImpl(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, tunic, boots, 0,
-                    Player_OverrideLimbDrawPause, NULL, &sp12C);
+                    Player_OverrideLimbDrawPause, NULL, &playerSwordAndShield);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);
