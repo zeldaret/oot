@@ -15,7 +15,7 @@ typedef void (*EnInsectActionFunc)(struct EnInsect*, GlobalContext*);
 #define INSECT_FLAG_UNCATCHABLE (1 << 3) // Set when the bug is about to disappear and can no longer be caught.
 #define INSECT_FLAG_FOUND_SOIL (1 << 4)
 #define INSECT_FLAG_SOIL_CLOSE (1 << 5)
-#define INSECT_FLAG_LANDED (1 << 6) // Set when the landing sound has been played.
+#define INSECT_FLAG_DROPPED_HAS_LANDED (1 << 6) // Set when the landing sound has been played.
 #define INSECT_FLAG_7 (1 << 7)
 #define INSECT_FLAG_CRAWLING (1 << 8)
 

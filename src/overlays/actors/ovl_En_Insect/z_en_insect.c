@@ -688,10 +688,10 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     SkelAnime_Update(&this->skelAnime);
-    if (!(this->insectFlags & INSECT_FLAG_LANDED) && (this->insectFlags & INSECT_FLAG_0) &&
+    if (!(this->insectFlags & INSECT_FLAG_DROPPED_HAS_LANDED) && (this->insectFlags & INSECT_FLAG_0) &&
         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
-        this->insectFlags |= INSECT_FLAG_LANDED;
+        this->insectFlags |= INSECT_FLAG_DROPPED_HAS_LANDED;
     }
 
     if (type == INSECT_FIRST_DROPPED && (this->insectFlags & INSECT_FLAG_FOUND_SOIL) &&
