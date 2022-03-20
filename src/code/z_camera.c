@@ -7296,8 +7296,8 @@ void Camera_UpdateDistortion(Camera* camera) {
         depthPhase += DEGF_TO_BINANG(depthPhaseStep);
         screenPlanePhase += DEGF_TO_BINANG(screenPlanePhaseStep);
 
-        View_SetDistortionOrientation(&camera->globalCtx->view, Math_CosS(depthPhase) * 0.0f, Math_SinS(depthPhase) * 0.0f,
-                                 Math_SinS(screenPlanePhase) * 0.0f);
+        View_SetDistortionOrientation(&camera->globalCtx->view, Math_CosS(depthPhase) * 0.0f,
+                                      Math_SinS(depthPhase) * 0.0f, Math_SinS(screenPlanePhase) * 0.0f);
         View_SetDistortionScale(&camera->globalCtx->view, Math_SinS(screenPlanePhase) * (xScale * scaleFactor) + 1.0f,
                                 Math_CosS(screenPlanePhase) * (yScale * scaleFactor) + 1.0f,
                                 Math_CosS(depthPhase) * (zScale * scaleFactor) + 1.0f);
