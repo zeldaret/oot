@@ -476,7 +476,7 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
     zDist = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0x8000 / M_PI)), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(xDist, zDist)), 10, 1000, 1);
 
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;

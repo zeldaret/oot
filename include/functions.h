@@ -59,7 +59,7 @@ void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
-StackStatus StackCheck_GetState(StackEntry* entry);
+s32 StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
 f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
@@ -1792,18 +1792,6 @@ void func_800D3178(UnkRumbleStruct* arg0);
 void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
-void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ);
-void IrqMgr_RemoveClient(IrqMgr* this, IrqMgrClient* c);
-void IrqMgr_SendMesgForClient(IrqMgr* this, OSMesg msg);
-void IrqMgr_JamMesgForClient(IrqMgr* this, OSMesg msg);
-void IrqMgr_HandlePreNMI(IrqMgr* this);
-void IrqMgr_CheckStack();
-void IrqMgr_HandlePRENMI450(IrqMgr* this);
-void IrqMgr_HandlePRENMI480(IrqMgr* this);
-void IrqMgr_HandlePRENMI500(IrqMgr* this);
-void IrqMgr_HandleRetrace(IrqMgr* this);
-void IrqMgr_ThreadEntry(void* arg0);
-void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount);
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* DebugArena_Malloc(u32 size);
 void* DebugArena_MallocDebug(u32 size, const char* file, s32 line);

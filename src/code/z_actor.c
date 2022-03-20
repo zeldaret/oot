@@ -47,7 +47,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
             Matrix_Put(&sp60);
 
             if (dlist != gCircleShadowDL) {
-                Matrix_RotateY(actor->shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(actor->shape.rot.y), MTXMODE_APPLY);
             }
 
             temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
@@ -398,7 +398,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y) + 17.0f,
                          actor->focus.pos.z, MTXMODE_NEW);
-        Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD((u16)(globalCtx->gameplayFrames * 3000)), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
@@ -544,7 +544,7 @@ void Flags_UnsetSwitch(GlobalContext* globalCtx, s32 flag) {
 }
 
 /**
- * Tests if current scene unknown flag is set.
+ * Tests if unknown flag is set.
  */
 s32 Flags_GetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
@@ -555,7 +555,7 @@ s32 Flags_GetUnknown(GlobalContext* globalCtx, s32 flag) {
 }
 
 /**
- * Sets current scene unknown flag.
+ * Sets unknown flag.
  */
 void Flags_SetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
@@ -566,7 +566,7 @@ void Flags_SetUnknown(GlobalContext* globalCtx, s32 flag) {
 }
 
 /**
- * Unsets current scene unknown flag.
+ * Unsets unknown flag.
  */
 void Flags_UnsetUnknown(GlobalContext* globalCtx, s32 flag) {
     if (flag < 0x20) {
@@ -4179,12 +4179,12 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
         sp38 = Math_SinS(arg1);
         sp34 = Math_CosS(arg1);
         sp28 = (-(floorPolyNormalX * sp38) - (floorPolyNormalZ * sp34));
-        arg2->x = -(s16)(Math_FAtan2F(sp28 * floorPolyNormalY, 1.0f) * (32768 / M_PI));
+        arg2->x = -RADF_TO_BINANG(Math_FAtan2F(sp28 * floorPolyNormalY, 1.0f));
 
         sp2C = Math_SinS(arg1 - 16375);
         sp30 = Math_CosS(arg1 - 16375);
         sp24 = (-(floorPolyNormalX * sp2C) - (floorPolyNormalZ * sp30));
-        arg2->z = -(s16)(Math_FAtan2F(sp24 * floorPolyNormalY, 1.0f) * (32768 / M_PI));
+        arg2->z = -RADF_TO_BINANG(Math_FAtan2F(sp24 * floorPolyNormalY, 1.0f));
     }
 }
 

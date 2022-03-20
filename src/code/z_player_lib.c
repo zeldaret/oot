@@ -1014,14 +1014,14 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
 
             sp50 = Math_FAtan2F(sp58, sp60);
 
-            temp1 = (M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * (0x8000 / M_PI);
+            temp1 = RADF_TO_BINANG(M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50)));
             temp1 = temp1 - skelAnime->jointTable[shinLimbIndex].z;
 
             if ((s16)(ABS(skelAnime->jointTable[shinLimbIndex].x) + ABS(skelAnime->jointTable[shinLimbIndex].y)) < 0) {
                 temp1 += 0x8000;
             }
 
-            temp2 = (sp50 - sp54) * (0x8000 / M_PI);
+            temp2 = RADF_TO_BINANG(sp50 - sp54);
             rot->z -= temp2;
 
             skelAnime->jointTable[thighLimbIndex].z = skelAnime->jointTable[thighLimbIndex].z - temp2;
@@ -1068,7 +1068,7 @@ s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbInde
 
         if (this->unk_6C2 != 0) {
             Matrix_Translate(pos->x, ((Math_CosS(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
-            Matrix_RotateX(this->unk_6C2 * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(this->unk_6C2), MTXMODE_APPLY);
             Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
             rot->x = rot->y = rot->z = 0;
@@ -1084,17 +1084,17 @@ s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbInde
             rot->z += this->unk_6B6;
         } else if (limbIndex == PLAYER_LIMB_UPPER) {
             if (this->unk_6B0 != 0) {
-                Matrix_RotateZ(0x44C * (M_PI / 0x8000), MTXMODE_APPLY);
-                Matrix_RotateY(this->unk_6B0 * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateZ(BINANG_TO_RAD(0x44C), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->unk_6B0), MTXMODE_APPLY);
             }
             if (this->unk_6BE != 0) {
-                Matrix_RotateY(this->unk_6BE * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->unk_6BE), MTXMODE_APPLY);
             }
             if (this->unk_6BC != 0) {
-                Matrix_RotateX(this->unk_6BC * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD(this->unk_6BC), MTXMODE_APPLY);
             }
             if (this->unk_6C0 != 0) {
-                Matrix_RotateZ(this->unk_6C0 * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateZ(BINANG_TO_RAD(this->unk_6C0), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
             func_8008F87C(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,

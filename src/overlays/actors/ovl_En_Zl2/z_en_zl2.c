@@ -754,7 +754,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
     this->unk_23C = 0.0f;
     shape->shadowAlpha = 255;
-    this->actor.world.rot.y = shape->rot.y = Math_FAtan2F(actionXDelta, actionZDelta) * (0x8000 / M_PI);
+    this->actor.world.rot.y = shape->rot.y = RADF_TO_BINANG(Math_FAtan2F(actionXDelta, actionZDelta));
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {
