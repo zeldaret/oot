@@ -246,7 +246,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     // Rotation by the angle between surfaceNormal and the vertical about rotationAxis
     Matrix_RotateAxis(Math_FAcosF(Math3D_Cos(&sVerticalVector, &this->surfaceNormal)), &this->rotationAxis,
                       MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Get(&mtx);
     Matrix_MtxFToYXZRotS(&mtx, &this->dyna.actor.shape.rot, 0);
 }

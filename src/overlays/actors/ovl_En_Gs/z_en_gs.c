@@ -572,13 +572,13 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
         if (this->unk_19E & 1) {
-            Matrix_RotateY(this->unk_1A0[0].y * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateX(this->unk_1A0[0].x * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_1A0[0].z * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(this->unk_1A0[0].y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(this->unk_1A0[0].x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(this->unk_1A0[0].z), MTXMODE_APPLY);
             Matrix_Scale(this->unk_1B4[0].x, this->unk_1B4[0].y, this->unk_1B4[0].z, MTXMODE_APPLY);
-            Matrix_RotateY(this->unk_1A0[1].y * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateX(this->unk_1A0[1].x * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_1A0[1].z * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(this->unk_1A0[1].y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(this->unk_1A0[1].x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(this->unk_1A0[1].z), MTXMODE_APPLY);
         }
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),

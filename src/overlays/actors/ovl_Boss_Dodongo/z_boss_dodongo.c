@@ -1387,7 +1387,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 sp198.x = Math_SinS(this->unk_19E * 1000) * sp178;
                 sp198.y = sp198.z = 0.0f;
 
-                Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
                 Matrix_MultVec3f(&sp198, &sp184);
 
                 Math_SmoothStepToF(&this->actor.world.pos.x, cornerPos->x + sp184.x, 1.0f, this->unk_1E4, 0.0f);

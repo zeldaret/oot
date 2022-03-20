@@ -693,7 +693,7 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx2) {
 
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, 255);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000)), MTXMODE_APPLY);
 
         for (i = 0; i < 16; i++) {
             gDPPipeSync(POLY_XLU_DISP++);
