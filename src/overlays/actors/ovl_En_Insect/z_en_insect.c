@@ -277,11 +277,10 @@ void EnInsect_SlowDown(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) &&
-         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && sDroppedCount >= 4)) {
+        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+         sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
-    } else if ((this->insectFlags & INSECT_FLAG_0) &&
-               (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
+    } else if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         EnInsect_SetupWalkOnWater(this);
     } else if (this->actor.xzDistToPlayer < 40.0f) {
         EnInsect_SetupRunFromPlayer(this);
@@ -322,11 +321,10 @@ void EnInsect_Crawl(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) &&
-         (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && sDroppedCount >= 4)) {
+        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+         sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
-    } else if ((this->insectFlags & INSECT_FLAG_0) &&
-               (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
+    } else if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         EnInsect_SetupWalkOnWater(this);
     } else if (this->actor.xzDistToPlayer < 40.0f) {
         EnInsect_SetupRunFromPlayer(this);
@@ -375,8 +373,7 @@ void EnInsect_RunFromPlayer(EnInsect* this, GlobalContext* globalCtx) {
 
     if (this->actionTimer <= 0 || !playerIsClose) {
         EnInsect_SetupSlowDown(this);
-    } else if ((this->insectFlags & INSECT_FLAG_0) &&
-               (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
+    } else if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         EnInsect_SetupWalkOnWater(this);
     }
 }
@@ -712,8 +709,8 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
         if (distance < 9.0f) {
             EnInsect_SetupDig(this);
         } else if (this->actionTimer <= 0 || this->lifeTimer <= 0 ||
-                   ((this->insectFlags & INSECT_FLAG_0) &&
-                    (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && sDroppedCount >= 4 && IS_DROPPED(type))) {
+                   ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+                    sDroppedCount >= 4 && IS_DROPPED(type))) {
             EnInsect_SetupDig(this);
         } else {
             if (distance < 900.0f) {
