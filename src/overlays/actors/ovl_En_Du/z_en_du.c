@@ -573,14 +573,14 @@ s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == 16) {
         Matrix_Translate(2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp1C = this->unk_1F4.unk_08;
-        Matrix_RotateX(BINANG_TO_RAD(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(sp1C.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
         Matrix_Translate(-2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
         sp1C = this->unk_1F4.unk_0E;
-        Matrix_RotateY(BINANG_TO_RAD(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD(sp1C.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
     }
     return 0;
 }

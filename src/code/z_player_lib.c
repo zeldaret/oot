@@ -906,7 +906,7 @@ s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbInde
 
         if (this->unk_6C2 != 0) {
             Matrix_Translate(pos->x, ((Math_CosS(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
-            Matrix_RotateX(this->unk_6C2 * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(this->unk_6C2), MTXMODE_APPLY);
             Matrix_RotateZYX(rot->x, rot->y, rot->z, MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
             rot->x = rot->y = rot->z = 0;
@@ -922,17 +922,17 @@ s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbInde
             rot->z += this->unk_6B6;
         } else if (limbIndex == PLAYER_LIMB_UPPER) {
             if (this->unk_6B0 != 0) {
-                Matrix_RotateZ(0x44C * (M_PI / 0x8000), MTXMODE_APPLY);
-                Matrix_RotateY(this->unk_6B0 * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateZ(BINANG_TO_RAD(0x44C), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->unk_6B0), MTXMODE_APPLY);
             }
             if (this->unk_6BE != 0) {
-                Matrix_RotateY(this->unk_6BE * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->unk_6BE), MTXMODE_APPLY);
             }
             if (this->unk_6BC != 0) {
-                Matrix_RotateX(this->unk_6BC * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD(this->unk_6BC), MTXMODE_APPLY);
             }
             if (this->unk_6C0 != 0) {
-                Matrix_RotateZ(this->unk_6C0 * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateZ(BINANG_TO_RAD(this->unk_6C0), MTXMODE_APPLY);
             }
         } else if (limbIndex == PLAYER_LIMB_L_THIGH) {
             func_8008F87C(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN,

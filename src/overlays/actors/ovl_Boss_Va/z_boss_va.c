@@ -3034,11 +3034,11 @@ s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
             Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
             Matrix_Get(&zapperMtx);
             Matrix_MtxFToZYXRotS(&zapperMtx, &sZapperRot, false);
-            Matrix_RotateX(-sZapperRot.x * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateY(-sZapperRot.y * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateZ(-sZapperRot.z * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateY(this->unk_1F2 * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_1F0 * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(-sZapperRot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(-sZapperRot.y), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(-sZapperRot.z), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(this->unk_1F2), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(this->unk_1F0), MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
             rot->x = rot->y = rot->z = 0;
             break;

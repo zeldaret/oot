@@ -247,9 +247,9 @@ void func_808ACCB8(Actor* thisx, GlobalContext* globalCtx) {
 
         Matrix_Translate(globalCtx->csCtx.npcActions[0]->startPos.x, globalCtx->csCtx.npcActions[0]->startPos.y,
                          globalCtx->csCtx.npcActions[0]->startPos.z, MTXMODE_NEW);
-        Matrix_RotateX(globalCtx->csCtx.npcActions[0]->urot.x * (M_PI / (f32)0x8000), MTXMODE_APPLY);
-        Matrix_RotateY(globalCtx->csCtx.npcActions[0]->urot.y * (M_PI / (f32)0x8000), MTXMODE_APPLY);
-        Matrix_RotateZ(globalCtx->csCtx.npcActions[0]->urot.z * (M_PI / (f32)0x8000), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(globalCtx->csCtx.npcActions[0]->urot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(globalCtx->csCtx.npcActions[0]->urot.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(globalCtx->csCtx.npcActions[0]->urot.z), MTXMODE_APPLY);
         Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
         func_80093D84(globalCtx->state.gfxCtx);
 
@@ -309,8 +309,8 @@ void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
         if ((globalCtx->csCtx.npcActions[2]->action & 0xFFFF) == 2) {
             Matrix_Translate(globalCtx->csCtx.npcActions[2]->startPos.x, globalCtx->csCtx.npcActions[2]->startPos.y,
                              globalCtx->csCtx.npcActions[2]->startPos.z, MTXMODE_NEW);
-            Matrix_RotateX(globalCtx->csCtx.npcActions[2]->urot.x * (M_PI / (f32)0x8000), MTXMODE_APPLY);
-            Matrix_RotateY(globalCtx->csCtx.npcActions[2]->urot.y * (M_PI / (f32)0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(globalCtx->csCtx.npcActions[2]->urot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(globalCtx->csCtx.npcActions[2]->urot.y), MTXMODE_APPLY);
             Matrix_Scale(0.9f, 0.9f, (((this->unk_170 - this->unk_172) * lerp) + this->unk_172) * 0.1f, MTXMODE_APPLY);
             func_80093D84(globalCtx->state.gfxCtx);
 

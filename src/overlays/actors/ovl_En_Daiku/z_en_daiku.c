@@ -448,7 +448,7 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     eyePosDeltaLocal.x = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.x;
     eyePosDeltaLocal.y = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.y;
     eyePosDeltaLocal.z = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.z;
-    Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&eyePosDeltaLocal, &eyePosDeltaWorld);
 
     this->subCamEyeInit.x = this->subCamEye.x = this->actor.world.pos.x + eyePosDeltaWorld.x;
@@ -495,7 +495,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
     this->subCamActive = false;
 
     if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
-        Matrix_RotateY(this->initRot.y * (M_PI / 0x8000), MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD(this->initRot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GE3, this->initPos.x + vec.x, this->initPos.y + vec.y,
