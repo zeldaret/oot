@@ -86,9 +86,12 @@ static ColliderJntSphInit sColliderInit = {
 /**
  * The initial flags for a new bug, depending on its type.
  */
-static u16 sInitInsectFlags[] = { 0, INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_TEMP,
-                                  INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_ON_GROUND | INSECT_FLAG_TEMP,
-                                  INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_ON_GROUND | INSECT_FLAG_TEMP };
+static u16 sInitInsectFlags[] = {
+    0,
+    INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_TEMP,
+    INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_ON_GROUND | INSECT_FLAG_TEMP,
+    INSECT_FLAG_TEMP_AND_ALIVE | INSECT_FLAG_ON_GROUND | INSECT_FLAG_TEMP,
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
