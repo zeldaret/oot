@@ -519,7 +519,7 @@ void EnFz_BlowSmoke(EnFz* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + 20.0f;
         pos.z = this->actor.world.pos.z;
 
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
 
         vec1.x = 0.0f;
         vec1.y = -2.0f;
@@ -631,7 +631,7 @@ void EnFz_BlowSmokeStationary(EnFz* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + 20.0f;
         pos.z = this->actor.world.pos.z;
 
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
 
         vec1.x = 0.0f;
         vec1.y = -2.0f;

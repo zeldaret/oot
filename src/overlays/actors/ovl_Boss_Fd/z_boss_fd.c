@@ -950,9 +950,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->bodySegsPos[i4].x = this->actor.world.pos.x;
         this->bodySegsPos[i4].y = this->actor.world.pos.y;
         this->bodySegsPos[i4].z = this->actor.world.pos.z;
-        this->bodySegsRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->bodySegsRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->bodySegsRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
 
         this->work[BFD_LEAD_MANE_SEG]++;
         if (this->work[BFD_LEAD_MANE_SEG] >= 30) {
@@ -963,9 +963,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->rightMane.scale[i4] = (Math_SinS(this->work[BFD_MOVE_TIMER] * 5496.0f) * 0.3f) + 1.0f;
         this->leftMane.scale[i4] = (Math_CosS(this->work[BFD_MOVE_TIMER] * 5696.0f) * 0.3f) + 1.0f;
         this->centerMane.pos[i4] = this->centerMane.head;
-        this->fireManeRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->fireManeRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->fireManeRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
         this->rightMane.pos[i4] = this->rightMane.head;
         this->leftMane.pos[i4] = this->leftMane.head;
 
@@ -1233,8 +1233,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                                &D_801333E8);
         spawnPos2 = this->headPos;
 
-        spawnAngleY = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        spawnAngleX = (((-this->actor.world.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
+        spawnAngleY = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        spawnAngleX = BINANG_TO_RAD_ALT(-this->actor.world.rot.x) + 0.3f;
         Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
         Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
@@ -1938,7 +1938,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                      MTXMODE_NEW);
     Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
-    Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 0.0f, temp_float, MTXMODE_APPLY);
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 25.0f, MTXMODE_APPLY);
