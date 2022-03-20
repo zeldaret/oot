@@ -2098,7 +2098,7 @@ void BossGanon_ChargeBigMagic(BossGanon* this, GlobalContext* globalCtx) {
                 sp74.y = Rand_ZeroFloat(10.0f) + 150.0f;
                 sp74.z = 0.0f;
 
-                Matrix_RotateY(BINANG_TO_RAD(this->actor.yawTowardsPlayer), MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.yawTowardsPlayer), MTXMODE_NEW);
                 Matrix_RotateZ(Rand_ZeroFloat(65536.0f), MTXMODE_APPLY);
                 Matrix_MultVec3f(&sp74, &sp68);
 
@@ -3354,7 +3354,7 @@ void BossGanon_DrawShock(BossGanon* this, GlobalContext* globalCtx) {
         if (this->unk_2E8 != 0) {
             Player* player = GET_PLAYER(globalCtx);
 
-            for (i = 0; i < ARRAY_COUNT(player->bodyPartsPos); i++) {
+            for (i = 0; i < PLAYER_BODYPART_MAX; i++) {
                 Matrix_Translate(player->bodyPartsPos[i].x, player->bodyPartsPos[i].y, player->bodyPartsPos[i].z,
                                  MTXMODE_NEW);
                 Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
@@ -3496,7 +3496,7 @@ void BossGanon_DrawBigMagicCharge(BossGanon* this, GlobalContext* globalCtx) {
         Matrix_RotateY((this->unk_1A2 * 10.0f) / 1000.0f, MTXMODE_APPLY);
         gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
 
-        yRot = BINANG_TO_RAD(this->actor.yawTowardsPlayer);
+        yRot = BINANG_TO_RAD_ALT(this->actor.yawTowardsPlayer);
 
         for (i = 0; i < this->unk_1AC; i++) {
             f32 xzRot = (BossGanon_RandZeroOne() - 0.5f) * M_PI * 1.5f;
@@ -3535,7 +3535,7 @@ void BossGanon_DrawTriforce(BossGanon* this, GlobalContext* globalCtx) {
         if (this->triforceType == GDF_TRIFORCE_PLAYER) {
             Player* player = GET_PLAYER(globalCtx);
 
-            this->triforcePos = player->bodyPartsPos[12];
+            this->triforcePos = player->bodyPartsPos[PLAYER_BODYPART_L_HAND];
 
             this->triforcePos.x += -0.6f;
             this->triforcePos.y += 3.0f;
@@ -3967,8 +3967,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                                 this->unk_1C2 = 3;
                             }
 
-                            // if a spin attack is used
-                            if (player->meleeWeaponAnimation >= 0x18) {
+                            if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
                                 this->actor.speedXZ = 20.0f;
                             }
                             break;
@@ -4288,7 +4287,7 @@ void func_808E229C(Actor* thisx, GlobalContext* globalCtx2) {
         Matrix_Scale(this->actor.scale.x * (1.0f - (i * 0.07000001f)), this->actor.scale.y * (1.0f - (i * 0.07000001f)),
                      this->actor.scale.z * (1.0f - (i * 0.07000001f)), MTXMODE_APPLY);
         Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-        Matrix_RotateZ(((2.0f * (i * M_PI)) / 10.0f) + BINANG_TO_RAD(this->actor.shape.rot.z), MTXMODE_APPLY);
+        Matrix_RotateZ(((2.0f * (i * M_PI)) / 10.0f) + BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon.c", 10109),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gDorfSquareDL);
@@ -4334,8 +4333,8 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2EC[this->unk_1A6] = this->actor.world.pos;
-    this->unk_3C4[this->unk_1A6].x = BINANG_TO_RAD(this->actor.world.rot.x);
-    this->unk_3C4[this->unk_1A6].y = BINANG_TO_RAD(this->actor.world.rot.y);
+    this->unk_3C4[this->unk_1A6].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+    this->unk_3C4[this->unk_1A6].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
 
     switch (this->unk_1C2) {
         if (1) {}
@@ -4410,7 +4409,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.world.rot.x = (Math_CosS(this->unk_1A2 * 0x3400) * sp84 * 0.1f) + this->actor.shape.rot.x;
             this->actor.world.rot.y = (Math_SinS(this->unk_1A2 * 0x1A00) * sp84) + this->actor.shape.rot.y;
 
-            if ((player->meleeWeaponState != 0) && (player->meleeWeaponAnimation >= 0x18) &&
+            if ((player->meleeWeaponState != 0) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
                 (this->actor.xzDistToPlayer < 80.0f)) {
                 this->unk_1C2 = 0xC;
                 this->actor.speedXZ = -30.0f;
@@ -4691,7 +4690,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                     eff->pos.y = sGanondorf->unk_2EC[bodyPart].y + Rand_CenteredFloat(20.0f);
                     eff->pos.z = sGanondorf->unk_2EC[bodyPart].z + Rand_CenteredFloat(20.0f);
                 } else {
-                    bodyPart = (s16)Rand_ZeroFloat(17.9f);
+                    bodyPart = (s16)Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
 
                     eff->pos.x = player->bodyPartsPos[bodyPart].x + Rand_CenteredFloat(10.0f);
                     eff->pos.y = player->bodyPartsPos[bodyPart].y + Rand_CenteredFloat(15.0f);
@@ -4705,7 +4704,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                 }
             } else if (eff->type == GDF_EFF_LIGHTNING) {
                 if (eff->unk_3C == 0.0f) {
-                    eff->unk_44 = BINANG_TO_RAD(Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, MAIN_CAM)));
+                    eff->unk_44 = BINANG_TO_RAD_ALT(Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, MAIN_CAM)));
                 } else {
                     eff->unk_44 = M_PI / 2;
                 }

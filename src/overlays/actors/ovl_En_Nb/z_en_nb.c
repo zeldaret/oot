@@ -117,8 +117,8 @@ void EnNb_UpdatePath(EnNb* this, GlobalContext* globalCtx) {
         this->finalPos.x = pointPos[1].x;
         this->finalPos.y = pointPos[1].y;
         this->finalPos.z = pointPos[1].z;
-        this->pathYaw = (Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) *
-                         (0x8000 / M_PI));
+        this->pathYaw =
+            RADF_TO_BINANG(Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z));
         // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
     } else {

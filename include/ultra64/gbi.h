@@ -218,6 +218,7 @@
 #define GPACK_RGBA5551(r, g, b, a)  ((((r)<<8) & 0xf800) |      \
                      (((g)<<3) & 0x7c0) |       \
                      (((b)>>2) & 0x3e) | ((a) & 0x1))
+#define GPACK_IA16(i, a) (((i) << 8) | (a))
 #define GPACK_ZDZ(z, dz)        ((z) << 2 | (dz))
 
 /*

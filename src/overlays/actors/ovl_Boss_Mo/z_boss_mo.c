@@ -1277,8 +1277,8 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             dz = this->targetPos.z - this->cameraEye.z;
             tempY = Math_FAtan2F(dx, dz);
             tempX = Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)));
-            Math_ApproachS(&this->actor.world.rot.y, tempY * (0x8000 / M_PI), 5, this->cameraYawRate);
-            Math_ApproachS(&this->actor.world.rot.x, tempX * (0x8000 / M_PI), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.y, RADF_TO_BINANG(tempY), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(tempX), 5, this->cameraYawRate);
             if (this->work[MO_TENT_MOVE_TIMER] == 150) {
                 this->cameraAtVel.x = fabsf(this->cameraAt.x - player->actor.world.pos.x);
                 this->cameraAtVel.y = fabsf(this->cameraAt.y - player->actor.world.pos.y);
@@ -2130,8 +2130,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 spDC = this->targetPos.x - this->actor.world.pos.x;
                 spD8 = this->targetPos.y - this->actor.world.pos.y;
                 spD4 = this->targetPos.z - this->actor.world.pos.z;
-                spCC = (s16)(Math_FAtan2F(spDC, spD4) * (0x8000 / M_PI));
-                spD0 = (s16)(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))) * (0x8000 / M_PI));
+                spCC = RADF_TO_BINANG(Math_FAtan2F(spDC, spD4));
+                spD0 = RADF_TO_BINANG(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))));
                 Math_ApproachS(&this->actor.world.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->actor.world.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
                 func_8002D908(&this->actor);
