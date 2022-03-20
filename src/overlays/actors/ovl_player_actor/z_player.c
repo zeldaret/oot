@@ -12301,7 +12301,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
 static BottleDropInfo D_80854A28[] = {
     { ACTOR_EN_FISH, FISH_DROPPED },
     { ACTOR_EN_ICE_HONO, 0 },
-    { ACTOR_EN_INSECT, INSECT_FIRST_DROPPED },
+    { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
 };
 
 static struct_80832924 D_80854A34[] = {

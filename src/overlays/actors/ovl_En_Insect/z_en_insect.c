@@ -10,7 +10,7 @@
 
 #define FLAGS 0
 
-#define IS_DROPPED(type) ((type) == INSECT_FIRST_DROPPED || (type) == INSECT_EXTRA_DROPPED)
+#define IS_DROPPED(type) ((type) == INSECT_TYPE_FIRST_DROPPED || (type) == INSECT_TYPE_EXTRA_DROPPED)
 
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -213,14 +213,14 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             D_80A7DEB0 = 0.0f;
         }
 
-        if (type == INSECT_FIRST_DROPPED) {
+        if (type == INSECT_TYPE_FIRST_DROPPED) {
             this->actor.world.rot.z = 0;
             this->actor.shape.rot.z = this->actor.world.rot.z;
 
             for (count = 0; count < 2; count++) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
                             this->actor.world.pos.y, this->actor.world.pos.z, this->actor.shape.rot.x,
-                            this->actor.shape.rot.y, this->actor.shape.rot.z, INSECT_EXTRA_DROPPED);
+                            this->actor.shape.rot.y, this->actor.shape.rot.z, INSECT_TYPE_EXTRA_DROPPED);
             }
         }
 
@@ -667,7 +667,7 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
         this->insectFlags |= INSECT_FLAG_DROPPED_HAS_LANDED;
     }
 
-    if (type == INSECT_FIRST_DROPPED && (this->insectFlags & INSECT_FLAG_FOUND_SOIL) &&
+    if (type == INSECT_TYPE_FIRST_DROPPED && (this->insectFlags & INSECT_FLAG_FOUND_SOIL) &&
         !(this->insectFlags & INSECT_FLAG_7)) {
         if (this->unk_32A >= 15) {
             if (this->soilActor != NULL) {

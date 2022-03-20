@@ -40,10 +40,10 @@ typedef struct EnInsect {
 } EnInsect; // size = 0x032C
 
 typedef enum {
-    /* 0 */ INSECT_PERMANENT,
-    /* 1 */ INSECT_SPAWNED,
-    /* 2 */ INSECT_FIRST_DROPPED,
-    /* 3 */ INSECT_EXTRA_DROPPED // An additional bug spawned by dropping one from a bottle.
+    /* 0 */ INSECT_TYPE_PERMANENT,
+    /* 1 */ INSECT_TYPE_SPAWNED,
+    /* 2 */ INSECT_TYPE_FIRST_DROPPED,
+    /* 3 */ INSECT_TYPE_EXTRA_DROPPED // An additional bug spawned by dropping one from a bottle.
 } EnInsectType;
 
 #endif
