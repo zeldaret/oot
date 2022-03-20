@@ -122,9 +122,9 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = CLAMP(alpha, 0, 255);
 
     Camera_GetCamDir(&camDir, GET_ACTIVE_CAM(globalCtx));
-    Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
-    Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
-    Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(camDir.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD(camDir.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(camDir.z), MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809CE3C4, &sp5C);
     Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
                                  this->actor.focus.pos.z + sp5C.z, &camDir);

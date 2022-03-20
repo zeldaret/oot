@@ -481,9 +481,9 @@ void EnGeldB_SetupAdvance(EnGeldB* this, GlobalContext* globalCtx) {
 }
 
 void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
-    s32 thisKeyFrame;
-    s32 prevKeyFrame;
-    s32 playSpeed;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    s32 absPlaySpeed;
     s16 facingAngletoLink;
     Player* player = GET_PLAYER(globalCtx);
 
@@ -507,10 +507,12 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
                 return;
             }
         }
-        thisKeyFrame = (s32)this->skelAnime.curFrame;
+
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        playSpeed = (f32)ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
+
         if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
             if (Rand_ZeroOne() > 0.5f) {
                 EnGeldB_SetupCircle(this);
@@ -528,7 +530,7 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             }
         }
         if (!EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
-            if ((210.0f > this->actor.xzDistToPlayer) && (this->actor.xzDistToPlayer > 150.0f) &&
+            if ((this->actor.xzDistToPlayer < 210.0f) && (this->actor.xzDistToPlayer > 150.0f) &&
                 Actor_IsFacingPlayer(&this->actor, 0x71C)) {
                 if (Actor_IsTargeted(globalCtx, &this->actor)) {
                     if (Rand_ZeroOne() > 0.5f) {
@@ -544,10 +546,10 @@ void EnGeldB_Advance(EnGeldB* this, GlobalContext* globalCtx) {
             if ((globalCtx->gameplayFrames & 0x5F) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
             }
-            if (thisKeyFrame != (s32)this->skelAnime.curFrame) {
-                s32 temp = playSpeed + thisKeyFrame;
+            if (prevFrame != (s32)this->skelAnime.curFrame) {
+                s32 afterPrevFrame = absPlaySpeed + prevFrame;
 
-                if (((prevKeyFrame < 0) && (temp > 0)) || ((prevKeyFrame < 4) && (temp > 4))) {
+                if (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 4) && (afterPrevFrame > 4))) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
                 }
             }
@@ -646,10 +648,10 @@ void EnGeldB_SetupCircle(EnGeldB* this) {
 void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
     s16 angleBehindLink;
     s16 phi_v1;
-    s32 nextKeyFrame;
-    s32 thisKeyFrame;
+    s32 afterPrevFrame;
+    s32 prevFrame;
     s32 pad;
-    s32 prevKeyFrame;
+    s32 beforeCurFrame;
     Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
@@ -708,15 +710,16 @@ void EnGeldB_Circle(EnGeldB* this, GlobalContext* globalCtx) {
         }
         this->skelAnime.playSpeed = CLAMP(this->skelAnime.playSpeed, -3.0f, 3.0f);
 
-        thisKeyFrame = this->skelAnime.curFrame;
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        afterPrevFrame = (s32)ABS(this->skelAnime.playSpeed) + prevFrame;
 
-        prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        nextKeyFrame = (s32)ABS(this->skelAnime.playSpeed) + thisKeyFrame;
-        if ((thisKeyFrame != (s32)this->skelAnime.curFrame) &&
-            ((prevKeyFrame < 0 && 0 < nextKeyFrame) || (prevKeyFrame < 5 && 5 < nextKeyFrame))) {
+        if ((prevFrame != (s32)this->skelAnime.curFrame) &&
+            (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 5) && (afterPrevFrame > 5)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
         }
+
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
         }
@@ -761,10 +764,10 @@ void EnGeldB_SetupSpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
 
 void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
     s16 phi_v1;
-    s32 thisKeyFrame;
+    s32 prevFrame;
     s32 pad;
-    s32 lastKeyFrame;
-    s32 nextKeyFrame;
+    s32 beforeCurFrame;
+    s32 afterPrevFrame;
 
     this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x3A98;
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
@@ -802,14 +805,17 @@ void EnGeldB_SpinDodge(EnGeldB* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = -this->approachRate * 0.5f;
     }
     this->skelAnime.playSpeed = CLAMP(this->skelAnime.playSpeed, -3.0f, 3.0f);
-    thisKeyFrame = this->skelAnime.curFrame;
+
+    prevFrame = (s32)this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
-    lastKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-    nextKeyFrame = (s32)ABS(this->skelAnime.playSpeed) + thisKeyFrame;
-    if ((thisKeyFrame != (s32)this->skelAnime.curFrame) &&
-        ((lastKeyFrame < 0 && 0 < nextKeyFrame) || (lastKeyFrame < 5 && 5 < nextKeyFrame))) {
+    beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+    afterPrevFrame = (s32)ABS(this->skelAnime.playSpeed) + prevFrame;
+
+    if ((prevFrame != (s32)this->skelAnime.curFrame) &&
+        (((beforeCurFrame < 0) && (afterPrevFrame > 0)) || ((beforeCurFrame < 5) && (afterPrevFrame > 5)))) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
     }
+
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_BREATH);
     }
@@ -1206,9 +1212,9 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
     s16 behindLinkAngle;
     s16 phi_v1;
     Player* player = GET_PLAYER(globalCtx);
-    s32 thisKeyFrame;
-    s32 prevKeyFrame;
-    f32 playSpeed;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    f32 absPlaySpeed;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
     behindLinkAngle = player->actor.shape.rot.y + 0x8000;
@@ -1262,11 +1268,11 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = -this->approachRate * 0.5f;
     }
     this->skelAnime.playSpeed = CLAMP(this->skelAnime.playSpeed, -3.0f, 3.0f);
-    thisKeyFrame = this->skelAnime.curFrame;
-    SkelAnime_Update(&this->skelAnime);
-    prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
 
-    playSpeed = ((void)0, ABS(this->skelAnime.playSpeed)); // Needed to match for some reason
+    prevFrame = (s32)this->skelAnime.curFrame;
+    SkelAnime_Update(&this->skelAnime);
+    beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+    absPlaySpeed = ((void)0, ABS(this->skelAnime.playSpeed)); // Needed to match for some reason
 
     if (!EnGeldB_DodgeRanged(globalCtx, this) && !EnGeldB_ReactToPlayer(globalCtx, this, 0)) {
         if (--this->timer == 0) {
@@ -1297,9 +1303,9 @@ void EnGeldB_Sidestep(EnGeldB* this, GlobalContext* globalCtx) {
                 }
             }
         }
-        if ((thisKeyFrame != (s32)this->skelAnime.curFrame) &&
-            (((prevKeyFrame < 0) && (((s32)playSpeed + thisKeyFrame) > 0)) ||
-             ((prevKeyFrame < 5) && (((s32)playSpeed + thisKeyFrame) > 5)))) {
+        if ((prevFrame != (s32)this->skelAnime.curFrame) &&
+            (((beforeCurFrame < 0) && (((s32)absPlaySpeed + prevFrame) > 0)) ||
+             ((beforeCurFrame < 5) && (((s32)absPlaySpeed + prevFrame) > 5)))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_LAND);
         }
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -1618,7 +1624,6 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
 
     if (actor != NULL) {
         s16 angleToFacing;
-        s16 pad18;
         f32 dist;
 
         angleToFacing = Actor_WorldYawTowardActor(&this->actor, actor) - this->actor.shape.rot.y;

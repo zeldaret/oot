@@ -971,8 +971,8 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&effect->pitch, goalPitch, 0.9f, 5000.0f);
                 Math_ApproachF(&effect->yaw, goalYaw, 0.9f, 5000.0f);
                 Matrix_Push();
-                Matrix_RotateY(BINANG_TO_RAD(effect->yaw), MTXMODE_NEW);
-                Matrix_RotateX(BINANG_TO_RAD(effect->pitch), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(effect->yaw), MTXMODE_NEW);
+                Matrix_RotateX(BINANG_TO_RAD_ALT(effect->pitch), MTXMODE_APPLY);
 
                 sp94.x = sp94.y = sp94.z = 3.0f;
 

@@ -154,7 +154,7 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
         case 5:
         case 6:
-            Matrix_RotateY(thisx->world.rot.y * (M_PI / 32768), MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD(thisx->world.rot.y), MTXMODE_NEW);
             Matrix_MultVec3f(&D_8089EBA0, &sp48);
 
             if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK,
@@ -305,7 +305,7 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
         case 5:
         case 6:
             if (globalCtx->roomCtx.curRoom.num == this->dyna.actor.room) {
-                Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 32768), MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
                 Matrix_MultVec3f(&D_8089EBAC, &sp28);
                 this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + sp28.x;
                 this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + sp28.y;

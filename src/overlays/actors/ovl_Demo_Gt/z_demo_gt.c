@@ -643,7 +643,7 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
     s32* unk178;
 
     spC6 = this->unk_172;
-    spC0 = fabsf(spC6 * (M_PI / 0x8000));
+    spC0 = fabsf(BINANG_TO_RAD(spC6));
     spBC = kREG(71);
     spB8 = (s16)((s32)kREG(70)) + 0x4000;
     spBA = kREG(70);
@@ -1263,7 +1263,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx2) {
     if (frames < 301) {
 
         sp76 = this->unk_172;
-        sp70 = fabsf(sp76 * (M_PI / 0x8000));
+        sp70 = fabsf(BINANG_TO_RAD(sp76));
         sp6C = kREG(61);
         sp68 = (s16)((s32)kREG(58)) + 0x4000;
         sp6A = kREG(58);
@@ -1382,7 +1382,7 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
     f32 sp44;
 
     sp76 = this->unk_172;
-    sp70 = fabsf(sp76 * (M_PI / 0x8000));
+    sp70 = fabsf(BINANG_TO_RAD(sp76));
     sp6C = kREG(62);
     sp6A = kREG(59) - 0x4000;
     sp68 = (s16)(kREG(59) - 0x4000) + 0x4000;
@@ -1477,7 +1477,7 @@ void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f sp4C;
     f32 sp48;
 
-    sp74 = fabsf(sp78 * (M_PI / 0x8000));
+    sp74 = fabsf(BINANG_TO_RAD(sp78));
     sp70 = kREG(63);
     sp6E = kREG(60) + 0x4000;
     sp6C = kREG(60) + 0x4000;
@@ -1570,7 +1570,7 @@ void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
     f32 sp40;
 
     sp6E = this2->unk_172;
-    sp68 = fabsf(sp6E * (M_PI / 0x8000));
+    sp68 = fabsf(BINANG_TO_RAD(sp6E));
     sp64 = kREG(75);
     sp62 = kREG(74) + 0x7FEC;
     sp60 = kREG(74) + 0x7FEC;
@@ -1661,7 +1661,7 @@ void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
     f32 sp40;
 
     sp6E = this2->unk_172;
-    sp68 = fabsf(sp6E * (M_PI / 0x8000));
+    sp68 = fabsf(BINANG_TO_RAD(sp6E));
     sp64 = kREG(78);
     sp62 = kREG(77) + 0xBE80;
     sp60 = kREG(77) + 0xBE80;

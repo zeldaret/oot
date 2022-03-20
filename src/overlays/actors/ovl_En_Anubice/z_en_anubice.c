@@ -337,8 +337,8 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     rotX = curFrame * -3000.0f;
     rotX = CLAMP_MIN(rotX, -11000.0f);
 
-    Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
-    Matrix_RotateX(BINANG_TO_RAD(rotX), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD_ALT(rotX), MTXMODE_APPLY);
     baseFireEffectPos.y = Rand_CenteredFloat(10.0f) + 30.0f;
     Matrix_MultVec3f(&baseFireEffectPos, &rotatedFireEffectPos);
     rotatedFireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
@@ -404,7 +404,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 rotatedKnockbackVelocity.y = 0.0f;
                 rotatedKnockbackVelocity.z = 0.0f;
 
-                Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
                 Matrix_MultVec3f(&baseKnockbackVelocity, &rotatedKnockbackVelocity);
 
                 this->actor.velocity.x = rotatedKnockbackVelocity.x;
