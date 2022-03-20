@@ -206,9 +206,9 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
 
         Matrix_Translate(tranform->world.pos.x, tranform->world.pos.y, tranform->world.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(tranform->shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
-        Matrix_RotateX(tranform->shape.rot.x * (M_PI / 0x8000), MTXMODE_APPLY);
-        Matrix_RotateZ(tranform->shape.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(tranform->shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(tranform->shape.rot.x), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(tranform->shape.rot.z), MTXMODE_APPLY);
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
 
         // Draw red effect over the screen when arrow hits

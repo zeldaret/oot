@@ -289,8 +289,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
           this->fwork[BFD_FLY_WOBBLE_AMP];
     dz += Math_SinS((1796.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
           this->fwork[BFD_FLY_WOBBLE_AMP];
-    angleToTarget = (s16)(Math_FAtan2F(dx, dz) * (0x8000 / M_PI));
-    pitchToTarget = (s16)(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI));
+    angleToTarget = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
+    pitchToTarget = RADF_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))));
 
     osSyncPrintf("MODE %d\n", this->work[BFD_ACTION_STATE]);
 
@@ -1476,7 +1476,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
                     if (player->isBurning == false) {
-                        for (i2 = 0; i2 < ARRAY_COUNT(player->flameTimers); i2++) {
+                        for (i2 = 0; i2 < PLAYER_BODYPART_MAX; i2++) {
                             player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }
                         player->isBurning = true;

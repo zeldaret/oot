@@ -89,6 +89,9 @@ If you are using GCC as the compiler for Ocarina of Time, you will also need:
 
 #### 2. Clone the repository
 
+**N.B.** If using WSL, we strongly encourage you to clone into WSL's Linux filesystem using Linux's `git`.
+Cloning into the Windows filesystem will result in much slower read/write speeds, and often causes issues when Windows copies the files with the wrong line endings, which the compiler IDO cannot handle correctly.
+
 Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, with a command such as:
 
 ```bash

@@ -27,7 +27,7 @@ f32 Path_OrientAndGetDistSq(Actor* actor, Path* path, s16 waypoint, s16* yaw) {
     dx = pointPos->x - actor->world.pos.x;
     dz = pointPos->z - actor->world.pos.z;
 
-    *yaw = Math_FAtan2F(dx, dz) * (32768 / M_PI);
+    *yaw = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
 
     return SQ(dx) + SQ(dz);
 }
