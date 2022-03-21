@@ -355,9 +355,9 @@ void EnEncount2_DrawEffects(Actor* thisx, GlobalContext* globalCtx) {
         for (i = 0; i < EN_ENCOUNT2_EFFECTS_COUNT; effect++, i++) {
             if (effect->isAlive) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-                Matrix_RotateX(effect->rot.x * (M_PI / 180.0f), MTXMODE_APPLY);
-                Matrix_RotateY(effect->rot.y * (M_PI / 180.0f), MTXMODE_APPLY);
-                Matrix_RotateZ(effect->rot.z * (M_PI / 180.0f), MTXMODE_APPLY);
+                Matrix_RotateX(DEG_TO_RAD(effect->rot.x), MTXMODE_APPLY);
+                Matrix_RotateY(DEG_TO_RAD(effect->rot.y), MTXMODE_APPLY);
+                Matrix_RotateZ(DEG_TO_RAD(effect->rot.z), MTXMODE_APPLY);
                 Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);

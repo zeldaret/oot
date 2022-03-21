@@ -949,11 +949,11 @@ s32 func_800458D4(Camera* camera, VecSph* eyeAtDir, f32 arg2, f32* arg3, s16 arg
     deltaY = playerPosRot->pos.y - *arg3;
     eyeAtAngle = Math_FAtan2F(deltaY, OLib_Vec3fDistXZ(&camera->at, &camera->eye));
 
-    if (eyeAtAngle > DEGF_TO_RADF(OREG(32))) {
+    if (eyeAtAngle > DEG_TO_RAD(OREG(32))) {
         if (1) {}
-        phi_f2 = 1.0f - sinf(eyeAtAngle - DEGF_TO_RADF(OREG(32)));
-    } else if (eyeAtAngle < DEGF_TO_RADF(OREG(33))) {
-        phi_f2 = 1.0f - sinf(DEGF_TO_RADF(OREG(33)) - eyeAtAngle);
+        phi_f2 = 1.0f - sinf(eyeAtAngle - DEG_TO_RAD(OREG(32)));
+    } else if (eyeAtAngle < DEG_TO_RAD(OREG(33))) {
+        phi_f2 = 1.0f - sinf(DEG_TO_RAD(OREG(33)) - eyeAtAngle);
     } else {
         phi_f2 = 1.0f;
     }
