@@ -12,16 +12,16 @@ typedef unsigned int uintptr_t;
 #define INT8_MAX    0x7F
 #define INT16_MAX   0x7FFF
 #define INT32_MAX   0x7FFFFFFF
-#define INT64_MAX   0x7FFFFFFFffffffff
+#define INT64_MAX   0x7FFFFFFFFFFFFFFF
 
 #define UINT8_MAX   0xFF
 #define UINT16_MAX  0xFFFF
 #define UINT32_MAX  0xFFFFFFFF
-#define UINT64_MAX  0xFFFFFFFFffffffff
+#define UINT64_MAX  0xFFFFFFFFFFFFFFFF
 
-#define INTPTR_MIN  (-0x80000000)
-#define INTPTR_MAX  0x7FFFFFFF
-#define UINTPTR_MAX 0xFFFFFFFF
+#define INTPTR_MIN  INT32_MIN
+#define INTPTR_MAX  INT32_MAX
+#define UINTPTR_MAX UINT32_MAX
 
 
-#endif /* STDINT_H */
+#endif

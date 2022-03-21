@@ -50,21 +50,21 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    sysHeap = gSystemHeap;
+    sysHeap = (uintptr_t)gSystemHeap;
     fb = SysCfb_GetFbPtr(0);
     gSystemHeapSize = fb - sysHeap;
     // "System heap initalization"
     osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", sysHeap, fb, gSystemHeapSize);
-    SystemHeap_Init(sysHeap, gSystemHeapSize); // initializes the system heap
+    SystemHeap_Init((void*)sysHeap, gSystemHeapSize); // initializes the system heap
     if (osMemSize >= 0x800000) {
         debugHeap = SysCfb_GetFbEnd();
         debugHeapSize = 0x80600000 - debugHeap;
     } else {
         debugHeapSize = 0x400;
-        debugHeap = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
+        debugHeap = (uintptr_t)SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
     }
     osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeap, debugHeapSize);
-    DebugArena_Init(debugHeap, debugHeapSize);
+    DebugArena_Init((void*)debugHeap, debugHeapSize);
     func_800636C0();
 
     R_ENABLE_ARENA_DBG = 0;

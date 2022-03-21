@@ -1672,7 +1672,7 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
 void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, GameState* state);
 void SysCfb_Init(s32 n64dd);
 uintptr_t SysCfb_GetFbPtr(s32 idx);
-uintptr_t SysCfb_GetFbEnd();
+uintptr_t SysCfb_GetFbEnd(void);
 f32 Math_FactorialF(f32 n);
 f32 Math_Factorial(s32 n);
 f32 Math_PowF(f32 base, s32 exp);
