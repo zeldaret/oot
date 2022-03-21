@@ -1,5 +1,6 @@
 <Root>
     <File Name="ice_doukutu_scene" Segment="2">
+        <Path Name="ice_doukutu_scenePathList_000304" Offset="0x0304" NumPaths="5"/>
         <Cutscene Name="gIceCavernSerenadeCs" Offset="0x330"/>
         <Texture Name="gIceCavernNightEntranceTex" OutName="night_entrance" Format="ia16" Width="64" Height="4" Offset="0xF8C0"/>
         <Texture Name="gIceCavernDayEntranceTex" OutName="day_entrance" Format="ia16" Width="64" Height="4" Offset="0xFAC0"/>

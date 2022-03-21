@@ -739,7 +739,7 @@ s32 func_80B0DFFC(EnSw* this, GlobalContext* globalCtx) {
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, true,
                                 false, false, true, &sp5C)) {
-        this->actor.wallYaw = Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z) * (0x8000 / M_PI);
+        this->actor.wallYaw = RADF_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
         this->actor.world.pos = sp50;
         this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
         this->actor.world.pos.z += 6.0f * Math_CosS(this->actor.world.rot.y);
@@ -999,7 +999,7 @@ void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 sp30 = { 184, 0, 228, 255 };
 
     if (((this->actor.params & 0xE000) >> 0xD) != 0) {
-        Matrix_RotateX(DEGF_TO_RADF(-80), MTXMODE_APPLY);
+        Matrix_RotateX(DEG_TO_RAD(-80), MTXMODE_APPLY);
         if (this->actor.colChkInfo.health != 0) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         }

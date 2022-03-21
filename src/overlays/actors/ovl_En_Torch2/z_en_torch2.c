@@ -97,7 +97,7 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemActionParam = this->heldItemId = PLAYER_AP_SWORD_MASTER;
-    Player_SetModelGroup(this, 2);
+    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD);
     globalCtx->playerInit(this, globalCtx, &gDarkLinkSkel);
     this->actor.naviEnemyId = 0x26;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
@@ -733,13 +733,13 @@ s32 EnTorch2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
                               Gfx** gfx) {
     Player* this = (Player*)thisx;
 
-    return func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, &this->actor);
+    return Player_OverrideLimbDrawGameplayCommon(globalCtx, limbIndex, dList, pos, rot, &this->actor);
 }
 
 void EnTorch2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Player* this = (Player*)thisx;
 
-    func_80090D20(globalCtx, limbIndex, dList, rot, &this->actor);
+    Player_PostLimbDrawGameplay(globalCtx, limbIndex, dList, rot, &this->actor);
 }
 
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {

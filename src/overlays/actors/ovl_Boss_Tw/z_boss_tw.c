@@ -687,9 +687,9 @@ void BossTw_FlyTo(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yawTarget = (s16)(Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI));
+    yawTarget = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    pitchTarget = (s16)(Math_FAtan2F(yDiff, xzDist) * (32768.0f / M_PI));
+    pitchTarget = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
 
     Math_ApproachS(&this->actor.world.rot.x, pitchTarget, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yawTarget, 0xA, this->rotateSpeed);
@@ -948,7 +948,7 @@ f32 BossTw_GetFloorY(Vec3f* pos) {
     }
 
     Matrix_Push();
-    Matrix_RotateY((45.0f * (M_PI / 180.0f)), MTXMODE_NEW);
+    Matrix_RotateY(DEG_TO_RAD(45), MTXMODE_NEW);
     Matrix_MultVec3f(pos, &posRotated);
     Matrix_Pop();
 
@@ -1219,8 +1219,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             sp128.x = -sp128.x;
             Math_ApproachS(&this->magicDir.x, sp128.x, 5, 0x2000);
             Math_ApproachS(&this->magicDir.y, sp128.y, 5, 0x2000);
-            this->beamReflectionPitch = (this->magicDir.x / 32768.0f) * M_PI;
-            this->beamReflectionYaw = (this->magicDir.y / 32768.0f) * M_PI;
+            this->beamReflectionPitch = BINANG_TO_RAD_ALT(this->magicDir.x);
+            this->beamReflectionYaw = BINANG_TO_RAD_ALT(this->magicDir.y);
         }
 
         Matrix_Translate(this->beamReflectionOrigin.x, this->beamReflectionOrigin.y, this->beamReflectionOrigin.z,
@@ -2360,8 +2360,8 @@ void BossTw_DeathBall(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yaw = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
-    Math_ApproachS(&this->actor.world.rot.x, Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff))) * (32768 / M_PI), 5,
+    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff)))), 5,
                    this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 5, this->rotateSpeed);
     func_8002D908(&this->actor);
@@ -3924,10 +3924,10 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
                     // yaw
-                    this->actor.world.rot.y = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
+                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     // pitch
                     distXZ = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = Math_FAtan2F(yDiff, distXZ) * (32768 / M_PI);
+                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, distXZ));
                     this->actor.speedXZ = 20.0f;
 
                     for (i = 0; i < 50; i++) {
@@ -4114,9 +4114,9 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
-                    this->actor.world.rot.y = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
+                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = Math_FAtan2F(yDiff, xzDist) * (32768 / M_PI);
+                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
                     this->actor.speedXZ = 20.0f;
                     for (i = 0; i < 50; i++) {
                         this->blastTailPos[i] = this->actor.world.pos;
@@ -4702,7 +4702,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);
@@ -4748,7 +4748,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);
@@ -5383,9 +5383,9 @@ void BossTw_TwinrovaSetupFly(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_TwinrovaFly;
     this->rotateSpeed = 0.0f;
     this->actor.speedXZ = 0.0f;
-    this->actor.world.rot.y = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
+    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    this->actor.world.rot.x = Math_FAtan2F(yDiff, xzDist) * (32768 / M_PI);
+    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
     Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_032BF8, -10.0f);
 }
 
@@ -5402,12 +5402,9 @@ void BossTw_TwinrovaFly(BossTw* this, GlobalContext* globalCtx) {
     xDiff = this->targetPos.x - this->actor.world.pos.x;
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
-    // Convert from radians to degrees, then degrees to binary angle
-    yaw = (s16)(Math_FAtan2F(xDiff, zDiff) * ((180.0f / M_PI) * (65536.0f / 360.0f)));
+    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    Math_ApproachS(&this->actor.world.rot.x,
-                   (f32)(s16)(Math_FAtan2F(yDiff, xzDist) * ((180.0f / M_PI) * (65536.0f / 360.0f))), 0xA,
-                   this->rotateSpeed);
+    Math_ApproachS(&this->actor.world.rot.x, (f32)RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist)), 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.shape.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachF(&this->rotateSpeed, 2000.0f, 1.0f, 100.0f);

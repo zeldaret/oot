@@ -59,7 +59,7 @@ void Mio0_Decompress(Yaz0Header* hdr, u8* dst);
 void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 initValue, s32 minSpace,
                      const char* name);
 void StackCheck_Cleanup(StackEntry* entry);
-StackStatus StackCheck_GetState(StackEntry* entry);
+s32 StackCheck_GetState(StackEntry* entry);
 u32 StackCheck_CheckAll(void);
 u32 StackCheck_Check(StackEntry* entry);
 f32 LogUtils_CheckFloatRange(const char* exp, s32 line, const char* valueName, f32 value, const char* minName, f32 min,
@@ -1090,19 +1090,24 @@ s32 Player_ActionToExplosive(Player* player, s32 actionParam);
 s32 Player_GetExplosiveHeld(Player* player);
 s32 func_8008F2BC(Player* player, s32 actionParam);
 s32 func_8008F2F8(GlobalContext* globalCtx);
-void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
-                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* this);
-s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
-s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
-s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
-s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data);
+void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
+                     s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
+                     void* data);
+s32 Player_OverrideLimbDrawGameplayCommon(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                          void* data);
+s32 Player_OverrideLimbDrawGameplayDefault(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                           void* data);
+s32 Player_OverrideLimbDrawGameplayFirstPerson(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos,
+                                               Vec3s* rot, void* data);
+s32 Player_OverrideLimbDrawGameplay_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos,
+                                             Vec3s* rot, void* data);
 u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponDim, Vec3f* newTip,
                  Vec3f* newBase);
 void Player_DrawGetItem(GlobalContext* globalCtx, Player* player);
-void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* data);
+void Player_PostLimbDrawGameplay(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* data);
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime);
-void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
-                   s32 sword, s32 tunic, s32 shield, s32 boots);
+void Player_DrawPause(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+                      s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
 Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2);
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x);
@@ -1787,18 +1792,6 @@ void func_800D3178(UnkRumbleStruct* arg0);
 void func_800D31A0(void);
 void func_800D31F0(void);
 void func_800D3210(void);
-void IrqMgr_AddClient(IrqMgr* this, IrqMgrClient* c, OSMesgQueue* msgQ);
-void IrqMgr_RemoveClient(IrqMgr* this, IrqMgrClient* c);
-void IrqMgr_SendMesgForClient(IrqMgr* this, OSMesg msg);
-void IrqMgr_JamMesgForClient(IrqMgr* this, OSMesg msg);
-void IrqMgr_HandlePreNMI(IrqMgr* this);
-void IrqMgr_CheckStack();
-void IrqMgr_HandlePRENMI450(IrqMgr* this);
-void IrqMgr_HandlePRENMI480(IrqMgr* this);
-void IrqMgr_HandlePRENMI500(IrqMgr* this);
-void IrqMgr_HandleRetrace(IrqMgr* this);
-void IrqMgr_ThreadEntry(void* arg0);
-void IrqMgr_Init(IrqMgr* this, void* stack, OSPri pri, u8 retraceCount);
 void DebugArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action);
 void* DebugArena_Malloc(u32 size);
 void* DebugArena_MallocDebug(u32 size, const char* file, s32 line);

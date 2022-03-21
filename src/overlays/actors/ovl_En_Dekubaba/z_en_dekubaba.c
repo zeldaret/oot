@@ -1294,7 +1294,7 @@ void EnDekubaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         scale = this->size * 0.01f;
         Matrix_Translate(this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(this->actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->actor.home.rot.y), MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dekubaba.c", 2780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -166,11 +166,11 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
         osSyncPrintf("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
                      sceneCmd->base.data2);
 
-        if (cmdCode == 0x14) {
+        if (cmdCode == SCENE_CMD_ID_END) {
             break;
         }
 
-        if (cmdCode <= 0x19) {
+        if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
             gSceneCmdHandlers[cmdCode](globalCtx, sceneCmd);
         } else {
             osSyncPrintf(VT_FGCOL(RED));
@@ -443,7 +443,7 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
 
         if (altHeader != NULL) {
             Scene_ExecuteCommands(globalCtx, SEGMENTED_TO_VIRTUAL(altHeader));
-            (cmd + 1)->base.code = 0x14;
+            (cmd + 1)->base.code = SCENE_CMD_ID_END;
         } else {
             // "Coughh! There is no specified dataaaaa!"
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
@@ -457,7 +457,7 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
 
                 if (altHeader != NULL) {
                     Scene_ExecuteCommands(globalCtx, SEGMENTED_TO_VIRTUAL(altHeader));
-                    (cmd + 1)->base.code = 0x14;
+                    (cmd + 1)->base.code = SCENE_CMD_ID_END;
                 }
             }
         }
@@ -491,7 +491,7 @@ void func_800993C0(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 }
 
-void (*gSceneCmdHandlers[])(GlobalContext*, SceneCmd*) = {
+void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(GlobalContext*, SceneCmd*) = {
     func_80098508, func_800985DC, func_80098630, func_80098674, func_800987A4, func_80099090, func_800987F8,
     func_8009883C, func_80098904, func_80099134, func_80098958, func_8009899C, func_80098B74, func_80098C24,
     func_80098C68, func_80098CC8, func_80098D80, func_80098D1C, func_80098D5C, func_800990F0, NULL,

@@ -190,15 +190,15 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         *dList = object_boj_DL_0059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp3C = this->unk_2A0.unk_08;
-        Matrix_RotateX((sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp3C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
         sp3C = this->unk_2A0.unk_0E;
-        Matrix_RotateX((-sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp3C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {

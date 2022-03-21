@@ -521,7 +521,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    Matrix_RotateY(this->actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.home.rot.y), MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1144),
               G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDekuBabaBaseLeavesDL);

@@ -877,7 +877,7 @@ void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this) {
         forearmModelOffset.z = KREG(18) - 10.0f;
         yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
 
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
         sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
         sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;
