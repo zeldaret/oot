@@ -322,9 +322,9 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
     Vec3f vec;
 
     if (this->isMoving &&
-        ((this->actor.bgCheckFlags & 8) ||
+        ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
          (Actor_TestFloorInDirection(&this->actor, globalCtx, 60.0f, this->actor.world.rot.y) == 0))) {
-        this->actor.bgCheckFlags &= ~8;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->isMoving = false;
         this->speedXZ = 0.0f;
         this->actor.speedXZ = 0.0f;
@@ -519,7 +519,7 @@ void EnFz_BlowSmoke(EnFz* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + 20.0f;
         pos.z = this->actor.world.pos.z;
 
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
 
         vec1.x = 0.0f;
         vec1.y = -2.0f;
@@ -631,7 +631,7 @@ void EnFz_BlowSmokeStationary(EnFz* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + 20.0f;
         pos.z = this->actor.world.pos.z;
 
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
 
         vec1.x = 0.0f;
         vec1.y = -2.0f;
@@ -697,7 +697,8 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (this->updateBgInfo) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 
     iceSmokeSpawnFuncs[this->state](this);

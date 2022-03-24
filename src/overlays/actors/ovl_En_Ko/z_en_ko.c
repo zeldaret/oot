@@ -1256,7 +1256,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
     }
     if (func_80A97C7C(this)) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->actor.gravity = -1.0f;
     } else {
         this->actor.gravity = 0.0f;
@@ -1290,14 +1290,14 @@ s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
     if (limbIndex == 8) {
         sp40 = this->unk_1E8.unk_0E;
-        Matrix_RotateX(BINANG_TO_RAD(-sp40.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp40.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
     }
     if (limbIndex == 15) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp40 = this->unk_1E8.unk_08;
-        Matrix_RotateX(BINANG_TO_RAD(sp40.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp40.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {

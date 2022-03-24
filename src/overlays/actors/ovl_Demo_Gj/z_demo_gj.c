@@ -550,10 +550,10 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
             zDistance = player->actor.world.pos.z - pos->z;
 
             if (xDistance != 0.0f || zDistance != 0.0f) {
-                actor->world.rot.y = (Math_FAtan2F(xDistance, zDistance) * (0x8000 / M_PI));
+                actor->world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDistance, zDistance));
             }
         } else {
-            actor->world.rot.y = (Math_FAtan2F(xDistance, zDistance) * (0x8000 / M_PI));
+            actor->world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDistance, zDistance));
         }
     }
 }

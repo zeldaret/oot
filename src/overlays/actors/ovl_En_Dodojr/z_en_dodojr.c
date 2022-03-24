@@ -144,7 +144,7 @@ s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         this->dustPos = this->actor.world.pos;
         func_809F6510(this, globalCtx, 10);
@@ -450,7 +450,7 @@ void func_809F758C(EnDodojr* this, GlobalContext* globalCtx) {
         this->actionFunc = func_809F799C;
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_DOWN);
         func_809F6BBC(this);
         this->actionFunc = func_809F7A00;
@@ -611,7 +611,8 @@ void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_809F70E8(this, globalCtx);
 
     if (this->actionFunc != func_809F73AC) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 
     this->actionFunc(this, globalCtx);

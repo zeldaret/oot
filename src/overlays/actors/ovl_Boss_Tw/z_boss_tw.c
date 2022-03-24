@@ -389,7 +389,7 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
     BossTwEffect* eff;
     Player* player = GET_PLAYER(globalCtx);
 
-    sShieldHitPos = player->bodyPartsPos[15];
+    sShieldHitPos = player->bodyPartsPos[PLAYER_BODYPART_R_HAND];
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
@@ -419,7 +419,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     BossTwEffect* eff;
     Player* player = GET_PLAYER(globalCtx);
 
-    sShieldHitPos = player->bodyPartsPos[15];
+    sShieldHitPos = player->bodyPartsPos[PLAYER_BODYPART_R_HAND];
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
@@ -687,9 +687,9 @@ void BossTw_FlyTo(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yawTarget = (s16)(Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI));
+    yawTarget = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    pitchTarget = (s16)(Math_FAtan2F(yDiff, xzDist) * (32768.0f / M_PI));
+    pitchTarget = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
 
     Math_ApproachS(&this->actor.world.rot.x, pitchTarget, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yawTarget, 0xA, this->rotateSpeed);
@@ -811,7 +811,7 @@ s32 BossTw_BeamHitPlayerCheck(BossTw* this, GlobalContext* globalCtx) {
                     sFreezeState = 1;
                 }
             } else if (!player->isBurning) {
-                for (i = 0; i < ARRAY_COUNT(player->flameTimers); i++) {
+                for (i = 0; i < PLAYER_BODYPART_MAX; i++) {
                     player->flameTimers[i] = Rand_S16Offset(0, 200);
                 }
 
@@ -948,7 +948,7 @@ f32 BossTw_GetFloorY(Vec3f* pos) {
     }
 
     Matrix_Push();
-    Matrix_RotateY((45.0f * (M_PI / 180.0f)), MTXMODE_NEW);
+    Matrix_RotateY(DEG_TO_RAD(45), MTXMODE_NEW);
     Matrix_MultVec3f(pos, &posRotated);
     Matrix_Pop();
 
@@ -981,9 +981,9 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         if ((player->stateFlags1 & PLAYER_STATE1_22) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) < 0x2000) &&
             ((s16)((player->actor.shape.rot.y - this->actor.shape.rot.y) + 0x8000) > -0x2000)) {
-            Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[15].x, 1.0f, 400.0f);
-            Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[15].y, 1.0f, 400.0f);
-            Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[15].z, 1.0f, 400.0f);
+            Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x, 1.0f, 400.0f);
+            Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y, 1.0f, 400.0f);
+            Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z, 1.0f, 400.0f);
         } else {
             Math_ApproachF(&this->targetPos.x, player->actor.world.pos.x, 1.0f, 400.0f);
             Math_ApproachF(&this->targetPos.y, player->actor.world.pos.y + 30.0f, 1.0f, 400.0f);
@@ -1101,7 +1101,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                             velocity.x = Rand_CenteredFloat(15.0f);
                             velocity.y = Rand_CenteredFloat(15.0f);
                             velocity.z = Rand_CenteredFloat(15.0f);
-                            pos = player->bodyPartsPos[15];
+                            pos = player->bodyPartsPos[PLAYER_BODYPART_R_HAND];
                             BossTw_AddDotEffect(globalCtx, &pos, &velocity, &accel, (s16)Rand_ZeroFloat(2.0f) + 5,
                                                 this->actor.params, 150);
                         }
@@ -1146,12 +1146,12 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
                     this->beamDist = sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff));
                     Math_ApproachF(&this->beamReflectionDist, 2000.0f, 1.0f, 40.0f);
-                    Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[15].x, 1.0f, 400.0f);
-                    Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[15].y, 1.0f, 400.0f);
-                    Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[15].z, 1.0f, 400.0f);
+                    Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x, 1.0f, 400.0f);
+                    Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y, 1.0f, 400.0f);
+                    Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z, 1.0f, 400.0f);
                     if ((this->work[CS_TIMER_1] % 4) == 0) {
-                        BossTw_AddRingEffect(globalCtx, &player->bodyPartsPos[15], 0.5f, 3.0f, 0xFF, this->actor.params,
-                                             1, 150);
+                        BossTw_AddRingEffect(globalCtx, &player->bodyPartsPos[PLAYER_BODYPART_R_HAND], 0.5f, 3.0f, 0xFF,
+                                             this->actor.params, 1, 150);
                     }
                 } else {
                     this->beamShootState = 0;
@@ -1219,8 +1219,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             sp128.x = -sp128.x;
             Math_ApproachS(&this->magicDir.x, sp128.x, 5, 0x2000);
             Math_ApproachS(&this->magicDir.y, sp128.y, 5, 0x2000);
-            this->beamReflectionPitch = (this->magicDir.x / 32768.0f) * M_PI;
-            this->beamReflectionYaw = (this->magicDir.y / 32768.0f) * M_PI;
+            this->beamReflectionPitch = BINANG_TO_RAD_ALT(this->magicDir.x);
+            this->beamReflectionYaw = BINANG_TO_RAD_ALT(this->magicDir.y);
         }
 
         Matrix_Translate(this->beamReflectionOrigin.x, this->beamReflectionOrigin.y, this->beamReflectionOrigin.z,
@@ -1386,10 +1386,10 @@ void BossTw_HitByBeam(BossTw* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 1.0f);
 
     this->actor.world.pos.y -= 50.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 50.0f;
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
 
@@ -2360,8 +2360,8 @@ void BossTw_DeathBall(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yaw = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
-    Math_ApproachS(&this->actor.world.rot.x, Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff))) * (32768 / M_PI), 5,
+    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff)))), 5,
                    this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 5, this->rotateSpeed);
     func_8002D908(&this->actor);
@@ -3539,7 +3539,7 @@ void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                 diff.y = this->groundBlastPos2.y - player->actor.world.pos.y;
                 diff.z = this->groundBlastPos2.z - player->actor.world.pos.z;
 
-                if ((fabsf(diff.y) < 10.0f) && (player->actor.bgCheckFlags & 1) &&
+                if ((fabsf(diff.y) < 10.0f) && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
                     (sqrtf(SQ(diff.x) + SQ(diff.z)) < (this->workf[UNK_F12] * 4600.0f)) && (sFreezeState == 0) &&
                     (this->workf[UNK_F11] > 200.0f)) {
                     sFreezeState = 1;
@@ -3924,10 +3924,10 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
                     // yaw
-                    this->actor.world.rot.y = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
+                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     // pitch
                     distXZ = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = Math_FAtan2F(yDiff, distXZ) * (32768 / M_PI);
+                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, distXZ));
                     this->actor.speedXZ = 20.0f;
 
                     for (i = 0; i < 50; i++) {
@@ -3948,7 +3948,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                         Vec3s blastDir;
                         s16 alpha;
 
-                        this->actor.world.pos = player2->bodyPartsPos[15];
+                        this->actor.world.pos = player2->bodyPartsPos[PLAYER_BODYPART_R_HAND];
                         this->actor.world.pos.y = -2000.0f;
                         Matrix_MtxFToYXZRotS(&player2->shieldMf, &blastDir, 0);
                         blastDir.x = -blastDir.x;
@@ -3974,8 +3974,8 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                             alpha = this->timers[0] * 10;
                             alpha = CLAMP_MAX(alpha, 255);
 
-                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[15], &velocity, &sZeroVector,
-                                                        10.0f, 80.0f, alpha, 1);
+                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[PLAYER_BODYPART_R_HAND],
+                                                        &velocity, &sZeroVector, 10.0f, 80.0f, alpha, 1);
                         }
 
                         if (this->timers[0] == 1) {
@@ -4057,7 +4057,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                 yDiff = sKoumePtr->groundBlastPos2.y - player->actor.world.pos.y;
                 zDiff = sKoumePtr->groundBlastPos2.z - player->actor.world.pos.z;
 
-                if (!player->isBurning && (player->actor.bgCheckFlags & 1) && (fabsf(yDiff) < 10.0f) &&
+                if (!player->isBurning && (player->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (fabsf(yDiff) < 10.0f) &&
                     (sqrtf(SQ(xDiff) + SQ(zDiff)) < (sKoumePtr->workf[UNK_F13] * 4550.0f))) {
                     s16 j;
 
@@ -4114,9 +4114,9 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
-                    this->actor.world.rot.y = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
+                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = Math_FAtan2F(yDiff, xzDist) * (32768 / M_PI);
+                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
                     this->actor.speedXZ = 20.0f;
                     for (i = 0; i < 50; i++) {
                         this->blastTailPos[i] = this->actor.world.pos;
@@ -4138,7 +4138,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                         Vec3s reflDir;
                         s16 alpha;
 
-                        this->actor.world.pos = player2->bodyPartsPos[15];
+                        this->actor.world.pos = player2->bodyPartsPos[PLAYER_BODYPART_R_HAND];
                         this->actor.world.pos.y = -2000.0f;
                         Matrix_MtxFToYXZRotS(&player2->shieldMf, &reflDir, 0);
                         reflDir.x = -reflDir.x;
@@ -4164,8 +4164,8 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                             alpha = this->timers[0] * 10;
                             alpha = CLAMP_MAX(alpha, 255);
 
-                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[15], &velocity, &sZeroVector,
-                                                        10.0f, 80.0f, alpha, 0);
+                            BossTw_AddShieldBlastEffect(globalCtx, &player2->bodyPartsPos[PLAYER_BODYPART_R_HAND],
+                                                        &velocity, &sZeroVector, 10.0f, 80.0f, alpha, 0);
                         }
 
                         if (this->timers[0] == 1) {
@@ -4702,7 +4702,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);
@@ -4748,7 +4748,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);
@@ -4837,7 +4837,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                     }
 
                     if ((eff->workf[EFF_DIST] > 0.4f) && ((eff->frame & 7) == 0)) {
-                        spA6 = Rand_ZeroFloat(17.9f);
+                        spA6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
 
                         if (eff->target == NULL) {
                             spC0.x = player->bodyPartsPos[spA6].x + Rand_CenteredFloat(5.0f);
@@ -5316,7 +5316,7 @@ void BossTw_TwinrovaStun(BossTw* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y += this->actor.velocity.y;
     Math_ApproachF(&this->actor.velocity.y, -5.0f, 1.0f, 0.5f);
     this->actor.world.pos.y -= 30.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 30.0f;
 
     if (this->csState1 == 0) {
@@ -5330,7 +5330,7 @@ void BossTw_TwinrovaStun(BossTw* this, GlobalContext* globalCtx) {
         Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_035030, 0.0f);
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.velocity.y = 0.0f;
     }
 
@@ -5383,9 +5383,9 @@ void BossTw_TwinrovaSetupFly(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_TwinrovaFly;
     this->rotateSpeed = 0.0f;
     this->actor.speedXZ = 0.0f;
-    this->actor.world.rot.y = Math_FAtan2F(xDiff, zDiff) * (32768 / M_PI);
+    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    this->actor.world.rot.x = Math_FAtan2F(yDiff, xzDist) * (32768 / M_PI);
+    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
     Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_032BF8, -10.0f);
 }
 
@@ -5402,12 +5402,9 @@ void BossTw_TwinrovaFly(BossTw* this, GlobalContext* globalCtx) {
     xDiff = this->targetPos.x - this->actor.world.pos.x;
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
-    // Convert from radians to degrees, then degrees to binary angle
-    yaw = (s16)(Math_FAtan2F(xDiff, zDiff) * ((180.0f / M_PI) * (65536.0f / 360.0f)));
+    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    Math_ApproachS(&this->actor.world.rot.x,
-                   (f32)(s16)(Math_FAtan2F(yDiff, xzDist) * ((180.0f / M_PI) * (65536.0f / 360.0f))), 0xA,
-                   this->rotateSpeed);
+    Math_ApproachS(&this->actor.world.rot.x, (f32)RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist)), 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.shape.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachF(&this->rotateSpeed, 2000.0f, 1.0f, 100.0f);

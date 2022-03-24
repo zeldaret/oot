@@ -445,9 +445,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 // Calculate the direction for the Arwing to fly and the rotation for the Arwing
                 // based on the Arwing's direction, and current rotation.
-                worldRotationTargetY = Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * (0x8000 / M_PI);
+                worldRotationTargetY = RADF_TO_BINANG(Math_FAtan2F(vectorToTargetX, vectorToTargetZ));
                 worldRotationTargetX =
-                    Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) * (0x8000 / M_PI);
+                    RADF_TO_BINANG(Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))));
                 if ((worldRotationTargetX < 0) && (this->actor.world.pos.y < this->actor.floorHeight + 20.0f)) {
                     worldRotationTargetX = 0;
                 }
@@ -511,7 +511,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
                 if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] == 0) {
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f, 5);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f,
+                                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
                     EnClearTag_CalculateFloorTangent(this);
                 }
 
@@ -526,8 +527,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
 
-                    // Check if the Arwing has hit the ground.
-                    if (this->actor.bgCheckFlags & 9) {
+                    // Check if the Arwing has hit the ground or a wall.
+                    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
                         this->shouldExplode = true;
 
                         if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
@@ -555,10 +556,12 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->collider.dim.yShift = -10;
                 Collider_UpdateCylinder(&this->actor, &this->collider);
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f, 5);
+                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f,
+                                        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-                // Check if the laser has hit a target, timed out, or hit the ground.
-                if (this->actor.bgCheckFlags & 9 || hasAtHit || this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
+                // Check if the laser has hit a target, timed out, or hit the ground or a wall.
+                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) || hasAtHit ||
+                    this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
                     // Kill the laser.
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.
@@ -738,9 +741,9 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateX(this->floorTangent.x, MTXMODE_APPLY);
             Matrix_RotateZ(this->floorTangent.z, MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x + 0.35f, 0.0f, this->actor.scale.z + 0.35f, MTXMODE_APPLY);
-            Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX((this->actor.shape.rot.x / 32768.0f) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
             if (this->crashingTimer != 0) {
                 f32 xRotation;
                 f32 yRotation;
