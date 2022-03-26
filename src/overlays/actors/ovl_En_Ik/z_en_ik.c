@@ -34,6 +34,13 @@ typedef enum {
     /* 0x02 */ IK_DRAW_2
 } EnIkDrawMode;
 
+typedef enum {
+    /* 0 */ IK_TYPE_NABOORU,
+    /* 1 */ IK_TYPE_SITTING,
+    /* 2 */ IK_TYPE_BLACK,
+    /* 3 */ IK_TYPE_WHITE
+} EnIkType;
+
 void EnIk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -59,19 +66,19 @@ void EnIk_StopAndBlock(EnIk* this, GlobalContext* globalCtx);
 void EnIk_ReactToAttack(EnIk* this, GlobalContext* globalCtx);
 void EnIk_Death(EnIk* this, GlobalContext* globalCtx);
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
-void func_80A76798(Actor* thisx, GlobalContext* globalCtx);
-void func_80A7748C(EnIk* this, GlobalContext* globalCtx);
-void func_80A774BC(EnIk* this, GlobalContext* globalCtx);
-void func_80A774F8(EnIk* this, GlobalContext* globalCtx);
-void func_80A77844(EnIk* this, GlobalContext* globalCtx);
-void func_80A779DC(EnIk* this, GlobalContext* globalCtx);
-void func_80A77AEC(EnIk* this, GlobalContext* globalCtx);
-void func_80A77B0C(EnIk* this, GlobalContext* globalCtx);
-void func_80A77B3C(EnIk* this, GlobalContext* globalCtx);
-void EnIk_DrawNothing(EnIk* this, GlobalContext* globalCtx);
-void func_80A77EDC(EnIk* this, GlobalContext* globalCtx);
-void func_80A78160(EnIk* this, GlobalContext* globalCtx);
-void func_80A781CC(Actor* thisx, GlobalContext* globalCtx);
+void EnIk_DrawParamType(Actor* thisx, GlobalContext* globalCtx);
+void EnIk_UpdateCs_03(EnIk* this, GlobalContext* globalCtx);
+void EnIk_UpdateCs_04(EnIk* this, GlobalContext* globalCtx);
+void EnIk_UpdateCs_05(EnIk* this, GlobalContext* globalCtx);
+void EnIk_CsNabooruDefeatDraw(EnIk* this, GlobalContext* globalCtx);
+void EnIk_HandleSubscenesByNpcAction(EnIk* this, GlobalContext* globalCtx);
+void EnIk_UpdateCs_00(EnIk* this, GlobalContext* globalCtx);
+void EnIk_UpdateCs_01(EnIk* this, GlobalContext* globalCtx);
+void EnIk_UpdateCs_02(EnIk* this, GlobalContext* globalCtx);
+void EnIk_EmptyRoomDraw(EnIk* this, GlobalContext* globalCtx);
+void EnIk_CsNabooruKnuckleIntroDraw(EnIk* this, GlobalContext* globalCtx);
+void EnIk_CsAdvanceTo04(EnIk* this, GlobalContext* globalCtx);
+void EnIk_CheckCsMode(Actor* thisx, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -208,7 +215,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     EffectBlureInit1 blureInit;
 
     thisx->update = func_80A75FA0;
-    thisx->draw = func_80A76798;
+    thisx->draw = EnIk_DrawParamType;
     thisx->flags |= ACTOR_FLAG_10;
 
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
@@ -393,7 +400,8 @@ void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx) {
     }
     targetStepVal = this->actor.wallYaw - this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(targetStepVal) >= 0x4000)) {
-        targetStepVal = (this->actor.yawTowardsPlayer > 0) ? this->actor.wallYaw - 0x4000 : this->actor.wallYaw + 0x4000;
+        targetStepVal =
+            (this->actor.yawTowardsPlayer > 0) ? this->actor.wallYaw - 0x4000 : this->actor.wallYaw + 0x4000;
         Math_SmoothStepToS(&this->actor.world.rot.y, targetStepVal, 1, stepVal, 0);
     } else {
         Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, stepVal, 0);
@@ -523,7 +531,8 @@ void EnIk_DoubleHorizontalAttack(EnIk* this, GlobalContext* globalCtx) {
     }
     if (((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 9.0f)) ||
         ((this->skelAnime.curFrame > 13.0f) && (this->skelAnime.curFrame < 18.0f))) {
-        if ((this->isDestroyingIronObj == 0) && (this->armorStatusFlag != ARMOR_UNBROKEN) && (this->skelAnime.curFrame < 10.0f)) {
+        if ((this->isDestroyingIronObj == 0) && (this->armorStatusFlag != ARMOR_UNBROKEN) &&
+            (this->skelAnime.curFrame < 10.0f)) {
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
@@ -780,7 +789,7 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
     this->drawArmorFlag = this->armorStatusFlag;
     func_80A75C38(this, globalCtx);
     if ((this->actor.params == 0) && (this->actor.colChkInfo.health <= 10)) {
-        func_80A781CC(&this->actor, globalCtx);
+        EnIk_CheckCsMode(&this->actor, globalCtx);
         return;
     }
     this->actionFunc(this, globalCtx);
@@ -958,7 +967,8 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1294);
 }
 
-void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
+// Draw and Update Display list depending on Iron Knuckle param type
+void EnIk_DrawParamType(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1309);
@@ -966,20 +976,21 @@ void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    if (this->actor.params == 0) {
+    if (this->actor.params == IK_TYPE_NABOORU) {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 245, 225, 155, 30, 30, 0));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 40, 0, 40, 0, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 255, 255, 20, 40, 30));
-    } else if (this->actor.params == 1) {
+    } else if (this->actor.params == IK_TYPE_SITTING) {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 245, 255, 205, 30, 35, 0));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 185, 135, 25, 20, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 255, 255, 30, 40, 20));
-    } else if (this->actor.params == 2) {
+    } else if (this->actor.params == IK_TYPE_BLACK) {
         gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 55, 65, 55, 0, 0, 0));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 255, 255, 180, 180, 180));
+        gSPSegment(POLY_OPA_DISP++, 0x08,
+                   EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 255, 255, 180, 180, 180));
         gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
         gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
     }
@@ -995,7 +1006,7 @@ void EnIk_StartMusic(void) {
 
 // Cutscene: Nabooru Knuckle Wakes up
 // Various SFX played, indicated by the framecount.
-void EnIk_CsPlaySfx_NabooruKnuckle(EnIk* this) {
+void EnIk_CsPlaySfx_NabooruKnuckleWakeUp(EnIk* this) {
     if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -1018,14 +1029,14 @@ void EnIk_CsPlaySfx_NabooruKnuckle(EnIk* this) {
 }
 
 // Cutscene: Summons Axe for Nabooru Knuckle
-// Sfx is played after the Iron Knuckle snaps fingers 
+// Sfx is played after the Iron Knuckle snaps fingers
 void EnIk_CsPlaySfx_SummonAxe(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
     Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                            &D_801333E8);
 }
 
-void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
-    static Vec3f sSmokeEffectData[] = {
+void EnIk_SpawnAxeSmoke(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
+    static Vec3f sAxeSmokeEffectData[] = {
         { 1000.0, -1000.0, 1000.0 },  { 0.0, -1000.0, 0.0 },        { -1000.0, -5000.0, -4000.0 },
         { 1000.0, -5000.0, -3000.0 }, { -1000.0, 1000.0, -6000.0 }, { -1000.0, 3000.0, -5000.0 },
         { -800.0, 1000.0, -3000.0 },  { 0.0, -4000.0, -2000.0 },    { -1000.0, -2000.0, -6000.0 },
@@ -1041,13 +1052,13 @@ void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
         Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
         s32 i;
 
-        for (i = ARRAY_COUNT(sSmokeEffectData) - 1; i >= 0; i--) {
+        for (i = ARRAY_COUNT(sAxeSmokeEffectData) - 1; i >= 0; i--) {
             Color_RGBA8 primColor = { 200, 200, 200, 255 };
             Color_RGBA8 envColor = { 150, 150, 150, 0 };
             s32 temp_v0;
             Vec3f effectPos;
 
-            Matrix_MultVec3f(&sSmokeEffectData[i], &effectPos);
+            Matrix_MultVec3f(&sAxeSmokeEffectData[i], &effectPos);
             temp_v0 = (Rand_ZeroOne() * 20.0f) - 10.0f;
             primColor.r += temp_v0;
             primColor.g += temp_v0;
@@ -1064,7 +1075,7 @@ void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
     }
 }
 
-void func_80A77034(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_UpdateBgCheckInfo(EnIk* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
                             UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
@@ -1092,19 +1103,21 @@ void EnIk_MoveNpcToPos(EnIk* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-f32 EnIk_curFrame(Actor* thisx) {
+f32 EnIk_CurFrame(Actor* thisx) {
     EnIk* this = (EnIk*)thisx;
 
     return this->skelAnime.curFrame;
 }
 
-void func_80A77148(EnIk* this) {
+// unused
+void EnIk_CsAdvanceTo01(EnIk* this) {
     this->action = IK_INIT;
     this->drawMode = IK_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
 }
 
-void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
+// Cutscene: Nabooru sitting and Kotake and Koume looking at her
+void EnIk_CsAdvanceTo02(EnIk* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gIronKuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gIronKuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
     EnIk_MoveNpcToPos(this, globalCtx, 4);
@@ -1113,7 +1126,8 @@ void func_80A77158(EnIk* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowAlpha = 0xFF;
 }
 
-void func_80A771E4(EnIk* this) {
+// Cutscene: Nabooru Knuckle starts to stand up
+void EnIk_CsAdvanceTo03(EnIk* this) {
     Animation_Change(&this->skelAnime, &gIronKuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gIronKuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
     this->action = 2;
@@ -1122,21 +1136,22 @@ void func_80A771E4(EnIk* this) {
     this->actor.shape.shadowAlpha = 0xFF;
 }
 
-void func_80A77264(EnIk* this, GlobalContext* globalCtx, s32 arg2) {
-    if ((arg2 != 0) && (EnIk_GetNpcAction(globalCtx, 4) != NULL)) {
-        func_80A78160(this, globalCtx);
+// Waits for previous axe summoning anim to finish before advancing cutscene
+void EnIk_WaitForAxeSummon(EnIk* this, GlobalContext* globalCtx, s32 skelAnimStatus) {
+    if (skelAnimStatus && (EnIk_GetNpcAction(globalCtx, 4) != NULL)) {
+        EnIk_CsAdvanceTo04(this, globalCtx);
     }
 }
 
 // Cutscene: After defeating Nabooru, she staggers forward
-// Sfx is played when you defeat Iron Knuckle Nabooru 
-void EnIk_CsPlaySfx_NabooruKnucleStaggered(EnIk* this) {
+// Sfx is played when you defeat Iron Knuckle Nabooru
+void EnIk_CsPlaySfx_ArmorFallingOff(EnIk* this) {
     Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                            &D_801333E8);
 }
 
 // Cutscene: When you defeat Nabooru Knuckle
-// Sfx is played when you defeat Iron Knuckle Nabooru 
+// Sfx is played when you defeat Iron Knuckle Nabooru
 void EnIk_CsPlaySfx_NabooruKnucleDefeat(EnIk* this, GlobalContext* globalCtx) {
     static Vec3f D_80A78FA0;
     s32 pad[2];
@@ -1146,7 +1161,8 @@ void EnIk_CsPlaySfx_NabooruKnucleDefeat(EnIk* this, GlobalContext* globalCtx) {
     Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
-void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
+// Cutscene: starts after final hit to Nabooru
+void EnIk_CsAdvanceTo05(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[3];
     f32 frames = Animation_GetLastFrame(&gIronKuckleNabooruDeathAnim);
 
@@ -1160,31 +1176,33 @@ void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowAlpha = 0xFF;
 }
 
-void func_80A77434(EnIk* this, GlobalContext* globalCtx) {
+// Cutscene: Armor falling off revealing Nabooru underneath
+void EnIk_CsAdvanceTo06(EnIk* this, GlobalContext* globalCtx) {
     this->action = 4;
     this->drawMode = 2;
-    EnIk_CsPlaySfx_NabooruKnucleStaggered(this);
+    EnIk_CsPlaySfx_ArmorFallingOff(this);
     this->actor.shape.shadowAlpha = 0xFF;
 }
 
-void func_80A77474(EnIk* this, GlobalContext* globalCtx) {
+// Cutscene: all the armor has fallen off
+void EnIk_CsAdvanceTo07(EnIk* this, GlobalContext* globalCtx) {
     this->action = 5;
     this->drawMode = IK_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
 }
 
-void func_80A7748C(EnIk* this, GlobalContext* globalCtx) {
-    func_80A77034(this, globalCtx);
-    func_80A779DC(this, globalCtx);
+void EnIk_UpdateCs_03(EnIk* this, GlobalContext* globalCtx) {
+    EnIk_UpdateBgCheckInfo(this, globalCtx);
+    EnIk_HandleSubscenesByNpcAction(this, globalCtx);
 }
 
-void func_80A774BC(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_UpdateCs_04(EnIk* this, GlobalContext* globalCtx) {
     EnIk_CheckSkelAnim(this);
-    func_80A77034(this, globalCtx);
-    func_80A779DC(this, globalCtx);
+    EnIk_UpdateBgCheckInfo(this, globalCtx);
+    EnIk_HandleSubscenesByNpcAction(this, globalCtx);
 }
 
-void func_80A774F8(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_UpdateCs_05(EnIk* this, GlobalContext* globalCtx) {
     if (EnIk_GetNpcAction(globalCtx, 4) == NULL) {
         Actor_Kill(&this->actor);
     }
@@ -1194,7 +1212,7 @@ s32 EnIk_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     EnIk* this = (EnIk*)thisx;
 
     if ((limbIndex == 13) || (limbIndex == 26) || (limbIndex == 27)) {
-        if (EnIk_curFrame(&this->actor) >= 30.0f) {
+        if (EnIk_CurFrame(&this->actor) >= 30.0f) {
             *dList = NULL;
         }
     }
@@ -1211,7 +1229,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         case 13: {
             EnIk* this = (EnIk*)thisx;
 
-            if (EnIk_curFrame(&this->actor) < 30.0f) {
+            if (EnIk_CurFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 267),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016D88);
@@ -1230,7 +1248,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         case 26: {
             EnIk* this = (EnIk*)thisx;
 
-            if (EnIk_curFrame(&this->actor) < 30.0f) {
+            if (EnIk_CurFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 288),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016BE0);
@@ -1239,7 +1257,7 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         case 27: {
             EnIk* this = (EnIk*)thisx;
 
-            if (EnIk_curFrame(&this->actor) < 30.0f) {
+            if (EnIk_CurFrame(&this->actor) < 30.0f) {
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_ik_inAwake.c", 297),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, object_ik_DL_016CD8);
@@ -1249,7 +1267,8 @@ void EnIk_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 304);
 }
 
-void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
+// Called during the cutscene after last hit on nabooru
+void EnIk_CsNabooruDefeatDraw(EnIk* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 pad[2];
@@ -1268,36 +1287,35 @@ void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 345);
 }
 
-void func_80A779DC(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_HandleSubscenesByNpcAction(EnIk* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnIk_GetNpcAction(globalCtx, 4);
-    u32 action;
-    u32 currentNpcAction;
 
     if (npcAction != NULL) {
-        action = npcAction->action;
-        currentNpcAction = this->npcAction;
+        s32 action = npcAction->action;
+        s32 currentNpcAction = this->npcAction;
+
         if (action != currentNpcAction) {
             switch (action) {
                 case 1:
-                    func_80A77148(this);
+                    EnIk_CsAdvanceTo01(this);
                     break;
                 case 2:
-                    func_80A77158(this, globalCtx);
+                    EnIk_CsAdvanceTo02(this, globalCtx);
                     break;
                 case 3:
-                    func_80A771E4(this);
+                    EnIk_CsAdvanceTo03(this);
                     break;
                 case 4:
-                    func_80A78160(this, globalCtx);
+                    EnIk_CsAdvanceTo04(this, globalCtx);
                     break;
                 case 5:
-                    func_80A7735C(this, globalCtx);
+                    EnIk_CsAdvanceTo05(this, globalCtx);
                     break;
                 case 6:
-                    func_80A77434(this, globalCtx);
+                    EnIk_CsAdvanceTo06(this, globalCtx);
                     break;
                 case 7:
-                    func_80A77474(this, globalCtx);
+                    EnIk_CsAdvanceTo07(this, globalCtx);
                     break;
                 default:
                     osSyncPrintf("En_Ik_inConfrontion_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
@@ -1308,27 +1326,27 @@ void func_80A779DC(EnIk* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A77AEC(EnIk* this, GlobalContext* globalCtx) {
-    func_80A779DC(this, globalCtx);
+void EnIk_UpdateCs_00(EnIk* this, GlobalContext* globalCtx) {
+    EnIk_HandleSubscenesByNpcAction(this, globalCtx);
 }
 
-void func_80A77B0C(EnIk* this, GlobalContext* globalCtx) {
-    func_80A77034(this, globalCtx);
-    func_80A779DC(this, globalCtx);
+void EnIk_UpdateCs_01(EnIk* this, GlobalContext* globalCtx) {
+    EnIk_UpdateBgCheckInfo(this, globalCtx);
+    EnIk_HandleSubscenesByNpcAction(this, globalCtx);
 }
 
-void func_80A77B3C(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_UpdateCs_02(EnIk* this, GlobalContext* globalCtx) {
     s32 skelAnimStatus;
 
     skelAnimStatus = EnIk_CheckSkelAnim(this);
-    EnIk_CsPlaySfx_NabooruKnuckle(this);
-    func_80A77034(this, globalCtx);
-    func_80A779DC(this, globalCtx);
-    func_80A77264(this, globalCtx, skelAnimStatus);
+    EnIk_CsPlaySfx_NabooruKnuckleWakeUp(this);
+    EnIk_UpdateBgCheckInfo(this, globalCtx);
+    EnIk_HandleSubscenesByNpcAction(this, globalCtx);
+    EnIk_WaitForAxeSummon(this, globalCtx, skelAnimStatus);
 }
 
 static EnIkActionFunc sActionFuncs[] = {
-    func_80A77AEC, func_80A77B0C, func_80A77B3C, func_80A7748C, func_80A774BC, func_80A774F8,
+    EnIk_UpdateCs_00, EnIk_UpdateCs_01, EnIk_UpdateCs_02, EnIk_UpdateCs_03, EnIk_UpdateCs_04, EnIk_UpdateCs_05,
 };
 
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1352,7 +1370,7 @@ s32 EnIk_OverrideLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
             if (curFrame < 120.0f) {
                 *dList = NULL;
             } else {
-                func_80A76E2C(this, globalCtx, pos);
+                EnIk_SpawnAxeSmoke(this, globalCtx, pos);
             }
             break;
         case 29:
@@ -1400,10 +1418,12 @@ void EnIk_PostLimbDraw1(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 604);
 }
 
-void EnIk_DrawNothing(EnIk* this, GlobalContext* globalCtx) {
+// Called after defeating Nabooru, draws the empty room
+void EnIk_EmptyRoomDraw(EnIk* this, GlobalContext* globalCtx) {
 }
 
-void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
+// Called in the Intro Cutscene with Kotake and Koume
+void EnIk_CsNabooruKnuckleIntroDraw(EnIk* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 pad[2];
@@ -1422,7 +1442,7 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 653);
 }
 
-static EnIkDrawFunc sDrawFuncs[] = { EnIk_DrawNothing, func_80A77EDC, func_80A77844 };
+static EnIkDrawFunc sDrawFuncs[] = { EnIk_EmptyRoomDraw, EnIk_CsNabooruKnuckleIntroDraw, EnIk_CsNabooruDefeatDraw };
 
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
@@ -1435,30 +1455,31 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sDrawFuncs[this->drawMode](this, globalCtx);
 }
 
-void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_InConfrontationInit(EnIk* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         if (!(gSaveContext.eventChkInf[3] & 0x800)) {
             this->actor.update = EnIk_Update;
             this->actor.draw = EnIk_Draw;
             Actor_SetScale(&this->actor, 0.01f);
         } else {
-            func_80A78160(this, globalCtx);
+            EnIk_CsAdvanceTo04(this, globalCtx);
             EnIk_StartMusic();
         }
     }
     osSyncPrintf("En_Ik_inConfrontion_Init : %d !!!!!!!!!!!!!!!!\n", this->actor.params);
 }
 
-void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
+// Cutscene the axe was summoned and walks away from chair
+void EnIk_CsAdvanceTo04(EnIk* this, GlobalContext* globalCtx) {
     this->actor.update = func_80A75FA0;
-    this->actor.draw = func_80A76798;
+    this->actor.draw = EnIk_DrawParamType;
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     gSaveContext.eventChkInf[3] |= 0x800;
     Actor_SetScale(&this->actor, 0.012f);
     EnIk_SetupIdle(this);
 }
 
-void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
+void EnIk_CheckCsMode(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
 
     if (!Gameplay_InCsMode(globalCtx)) {
@@ -1468,7 +1489,7 @@ void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
         gSaveContext.eventChkInf[3] |= 0x1000;
-        func_80A7735C(this, globalCtx);
+        EnIk_CsAdvanceTo05(this, globalCtx);
     }
 }
 
@@ -1484,7 +1505,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_01E178, &gIronKuckleNabooruSummonAxeAnim,
                            this->jointTable, this->morphTable, 30);
         func_80A74398(&this->actor, globalCtx);
-        func_80A780D0(this, globalCtx);
+        EnIk_InConfrontationInit(this, globalCtx);
     }
 }
 
