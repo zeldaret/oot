@@ -68,13 +68,14 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
+* python3-pip
 * libpng-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 python3-pip libpng-dev
 ```
 
 To install the Python dependencies simply run in a terminal:
