@@ -18,7 +18,7 @@ typedef struct EnIk {
     /* 0x02FA */ u8 drawArmorFlag;
     /* 0x02FB */ u8 armorStatusFlag;
     /* 0x02FC */ u8 isDestroyingIronObj;
-    /* 0x02FD */ u8 unk_2FD;
+    /* 0x02FD */ u8 damageEffect;
     /* 0x02FE */ s8 unk_2FE;
     /* 0x02FF */ s8 unk_2FF;
     /* 0x0300 */ s16 unk_300;

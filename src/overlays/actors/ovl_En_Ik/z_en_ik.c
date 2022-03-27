@@ -19,13 +19,12 @@ typedef enum {
 } EnIkArmorStatus;
 
 typedef enum {
-    /* 0x00 */ IK_INIT,
+    /* 0x00 */ IK_ACTION_INIT,
     /* 0x01 */ IK_ACTION_1,
     /* 0x02 */ IK_ACTION_2,
     /* 0x03 */ IK_ACTION_3,
     /* 0x04 */ IK_ACTION_4,
     /* 0x05 */ IK_ACTION_5
-
 } EnIkAction;
 
 typedef enum {
@@ -40,6 +39,14 @@ typedef enum {
     /* 2 */ IK_TYPE_BLACK,
     /* 3 */ IK_TYPE_WHITE
 } EnIkType;
+
+typedef enum {
+    /* 0x0 */ EN_IK_DMGEFF_NONE,
+    /* 0x6 */ EN_IK_DMGEFF_ELEMENTAL_MAGIC = 0x6,
+    /* 0xD */ EN_IK_DMGEFF_PARTICLES_METAL = 0xD,
+    /* 0xE */ EN_IK_DMGEFF_PROJECTILE,
+    /* 0xF */ EN_IK_DMGEFF_DAMAGE
+} EnIkDamageEffect;
 
 void EnIk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +72,7 @@ void EnIk_SetupStopAndBlock(EnIk* this);
 void EnIk_StopAndBlock(EnIk* this, GlobalContext* globalCtx);
 void EnIk_ReactToAttack(EnIk* this, GlobalContext* globalCtx);
 void EnIk_Death(EnIk* this, GlobalContext* globalCtx);
-void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx);
+void EnIk_AxeAttackHitPlayer(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_DrawParamType(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_UpdateCs_03(EnIk* this, GlobalContext* globalCtx);
 void EnIk_UpdateCs_04(EnIk* this, GlobalContext* globalCtx);
@@ -159,38 +166,38 @@ static ColliderQuadInit sQuadInit = {
 };
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, 0xD),
-    /* Deku stick    */ DMG_ENTRY(2, 0xF),
-    /* Slingshot     */ DMG_ENTRY(1, 0xE),
-    /* Explosive     */ DMG_ENTRY(2, 0xF),
-    /* Boomerang     */ DMG_ENTRY(0, 0xD),
-    /* Normal arrow  */ DMG_ENTRY(2, 0xE),
-    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
-    /* Hookshot      */ DMG_ENTRY(0, 0xD),
-    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
-    /* Master sword  */ DMG_ENTRY(2, 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
-    /* Fire arrow    */ DMG_ENTRY(2, 0xE),
-    /* Ice arrow     */ DMG_ENTRY(2, 0xE),
-    /* Light arrow   */ DMG_ENTRY(2, 0xE),
-    /* Unk arrow 1   */ DMG_ENTRY(2, 0xE),
-    /* Unk arrow 2   */ DMG_ENTRY(2, 0xE),
-    /* Unk arrow 3   */ DMG_ENTRY(15, 0xE),
-    /* Fire magic    */ DMG_ENTRY(0, 0x6),
-    /* Ice magic     */ DMG_ENTRY(0, 0x6),
-    /* Light magic   */ DMG_ENTRY(0, 0x6),
-    /* Shield        */ DMG_ENTRY(0, 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
-    /* Giant spin    */ DMG_ENTRY(4, 0xF),
-    /* Master spin   */ DMG_ENTRY(2, 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
-    /* Giant jump    */ DMG_ENTRY(8, 0xF),
-    /* Master jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 1     */ DMG_ENTRY(10, 0xF),
-    /* Unblockable   */ DMG_ENTRY(0, 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4, 0xF),
-    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, EN_IK_DMGEFF_PARTICLES_METAL),
+    /* Deku stick    */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
+    /* Slingshot     */ DMG_ENTRY(1, EN_IK_DMGEFF_PROJECTILE),
+    /* Explosive     */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
+    /* Boomerang     */ DMG_ENTRY(0, EN_IK_DMGEFF_PARTICLES_METAL),
+    /* Normal arrow  */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
+    /* Hammer swing  */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
+    /* Hookshot      */ DMG_ENTRY(0, EN_IK_DMGEFF_PARTICLES_METAL),
+    /* Kokiri sword  */ DMG_ENTRY(1, EN_IK_DMGEFF_DAMAGE),
+    /* Master sword  */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
+    /* Giant's Knife */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
+    /* Fire arrow    */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
+    /* Ice arrow     */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
+    /* Light arrow   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, EN_IK_DMGEFF_PROJECTILE),
+    /* Unk arrow 3   */ DMG_ENTRY(15, EN_IK_DMGEFF_PROJECTILE),
+    /* Fire magic    */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
+    /* Ice magic     */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
+    /* Light magic   */ DMG_ENTRY(0, EN_IK_DMGEFF_ELEMENTAL_MAGIC),
+    /* Shield        */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, EN_IK_DMGEFF_DAMAGE),
+    /* Giant spin    */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
+    /* Master spin   */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
+    /* Kokiri jump   */ DMG_ENTRY(2, EN_IK_DMGEFF_DAMAGE),
+    /* Giant jump    */ DMG_ENTRY(8, EN_IK_DMGEFF_DAMAGE),
+    /* Master jump   */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
+    /* Unknown 1     */ DMG_ENTRY(10, EN_IK_DMGEFF_DAMAGE),
+    /* Unblockable   */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, EN_IK_DMGEFF_DAMAGE),
+    /* Unknown 2     */ DMG_ENTRY(0, EN_IK_DMGEFF_NONE),
 };
 
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -209,12 +216,12 @@ void EnIk_SetupAction(EnIk* this, EnIkActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
+void EnIk_SetAndInitColliders(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
     s32 pad;
     EffectBlureInit1 blureInit;
 
-    thisx->update = func_80A75FA0;
+    thisx->update = EnIk_AxeAttackHitPlayer;
     thisx->draw = EnIk_DrawParamType;
     thisx->flags |= ACTOR_FLAG_10;
 
@@ -696,7 +703,7 @@ void EnIk_Death(EnIk* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_UpdateDamage(EnIk* this, GlobalContext* globalCtx) {
     f32 frames;
     u8 pad;
     u8 pad2;
@@ -723,14 +730,14 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     sp38.y += 50.0f;
     Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
     damageEffect = this->actor.colChkInfo.damageEffect;
-    this->unk_2FD = damageEffect & 0xFF;
+    this->damageEffect = damageEffect & 0xFF;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
 
     if (1) {}
 
-    if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) ||
-        ((this->armorStatusFlag == ARMOR_UNBROKEN) && (this->unk_2FD == 0xE))) {
-        if (this->unk_2FD != 0) {
+    if ((this->damageEffect == 0) || (this->damageEffect == EN_IK_DMGEFF_PARTICLES_METAL) ||
+        ((this->armorStatusFlag == ARMOR_UNBROKEN) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
+        if (this->damageEffect != 0) {
             CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sp38);
         }
         return;
@@ -780,14 +787,15 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     CollisionCheck_SpawnShieldParticles(globalCtx, &sp38);
 }
 
-void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
+void EnIk_AxeAttackHitPlayer(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     u8 prevInvincibilityTimer;
 
+
     this->drawArmorFlag = this->armorStatusFlag;
-    func_80A75C38(this, globalCtx);
+    EnIk_UpdateDamage(this, globalCtx);
     if ((this->actor.params == 0) && (this->actor.colChkInfo.health <= 10)) {
         EnIk_CheckCsMode(&this->actor, globalCtx);
         return;
@@ -1111,7 +1119,7 @@ f32 EnIk_CurFrame(Actor* thisx) {
 
 // unused
 void EnIk_CsAdvanceTo01(EnIk* this) {
-    this->action = IK_INIT;
+    this->action = IK_ACTION_INIT;
     this->drawMode = IK_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -1121,7 +1129,7 @@ void EnIk_CsAdvanceTo02(EnIk* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gIronKuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gIronKuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
     EnIk_MoveNpcToPos(this, globalCtx, 4);
-    this->action = 1;
+    this->action = IK_ACTION_1;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 0xFF;
 }
@@ -1130,7 +1138,7 @@ void EnIk_CsAdvanceTo02(EnIk* this, GlobalContext* globalCtx) {
 void EnIk_CsAdvanceTo03(EnIk* this) {
     Animation_Change(&this->skelAnime, &gIronKuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
                      Animation_GetLastFrame(&gIronKuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
-    this->action = 2;
+    this->action = IK_ACTION_2;
     this->drawMode = 1;
     this->isAxeSummoned = 0;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -1169,7 +1177,7 @@ void EnIk_CsAdvanceTo05(EnIk* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable,
                        30);
     Animation_Change(&this->skelAnime, &gIronKuckleNabooruDeathAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
-    this->action = 3;
+    this->action = IK_ACTION_3;
     this->drawMode = 2;
     EnIk_MoveNpcToPos(this, globalCtx, 4);
     EnIk_CsPlaySfx_NabooruKnucleDefeat(this, globalCtx);
@@ -1178,7 +1186,7 @@ void EnIk_CsAdvanceTo05(EnIk* this, GlobalContext* globalCtx) {
 
 // Cutscene: Armor falling off revealing Nabooru underneath
 void EnIk_CsAdvanceTo06(EnIk* this, GlobalContext* globalCtx) {
-    this->action = 4;
+    this->action = IK_ACTION_4;
     this->drawMode = 2;
     EnIk_CsPlaySfx_ArmorFallingOff(this);
     this->actor.shape.shadowAlpha = 0xFF;
@@ -1186,7 +1194,7 @@ void EnIk_CsAdvanceTo06(EnIk* this, GlobalContext* globalCtx) {
 
 // Cutscene: all the armor has fallen off
 void EnIk_CsAdvanceTo07(EnIk* this, GlobalContext* globalCtx) {
-    this->action = 5;
+    this->action = IK_ACTION_5;
     this->drawMode = IK_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -1471,7 +1479,7 @@ void EnIk_InConfrontationInit(EnIk* this, GlobalContext* globalCtx) {
 
 // Cutscene the axe was summoned and walks away from chair
 void EnIk_CsAdvanceTo04(EnIk* this, GlobalContext* globalCtx) {
-    this->actor.update = func_80A75FA0;
+    this->actor.update = EnIk_AxeAttackHitPlayer;
     this->actor.draw = EnIk_DrawParamType;
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     gSaveContext.eventChkInf[3] |= 0x800;
@@ -1504,7 +1512,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_01E178, &gIronKuckleNabooruSummonAxeAnim,
                            this->jointTable, this->morphTable, 30);
-        func_80A74398(&this->actor, globalCtx);
+        EnIk_SetAndInitColliders(&this->actor, globalCtx);
         EnIk_InConfrontationInit(this, globalCtx);
     }
 }
