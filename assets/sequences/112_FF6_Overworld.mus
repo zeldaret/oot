@@ -1,14 +1,11 @@
-// Nintendo 64 Music Macro Language (Audioseq) (.mus) sequence: FF6-_Overworld_Theme
-// Converted by SEQ64 V2.0 [https://github.com/sauraen/seq64]
-#include "sequence.h"
-#include "assets/soundfonts/3.h"
-.include "seq_macros.inc"
-.section .rodata
-.balign 0x10
-// Sequence Header
+.title Final Fantasy VI - Terra's Theme   # These are just for metadata purposes so that sequence editors can be more expressive.
+.author Nobuo Uematsu                     # Everything here is optional except for .usefont.
+.type song            # Identifies if it's a program or song for the sequence.  Doesn't change behavior, just metadata.
+.enum SEQ_TERRA_THEME # A C enum symbol for the font.  Could be used for modding pipelines and cross-referencing sequences.
+.usefont 3            # Alternatively, we could support enums from sequence.h, e.g. SOUNDFONT_ORCHESTRA
 
-sequence_start:
-    seq_setmutebhv  32
+.sequence
+    seq_setmutebhv  32  # Whitespace should be treated like it is in C, not in Python
     seq_setmutescale  50
     seq_initchannels  0xAAAF
 seq:
@@ -24,14 +21,11 @@ seq:
     seq_startchannel  15, seq_chn15
     seq_setvol  88
     seq_settempo  80
-    seq_delay  20544
+    seq_delay  20544  # Should be able to represent numbers in binary ('0b1100110011111111'), hex ('0xCCFF'), or dec ('52479')
     seq_jump  seq
     seq_end	
-// Section total ticks: 20544
 
-// Channel Headers
-
-// tsec0
+# Channel Headers
 
 seq_chn0:
     chan_largenoteson	
@@ -40,7 +34,6 @@ seq_chn0:
     chan_setinstr  F3_I_FLUTE
     chan_delay  20544
     chan_end	
-// Section total ticks: 20544
 
 seq_chn1:
     chan_largenoteson	
@@ -49,7 +42,6 @@ seq_chn1:
     chan_setinstr  F3_I_FLUTE
     chan_delay  20544
     chan_end	
-// Section total ticks: 20544
 
 seq_chn2:
     chan_largenoteson	
@@ -58,7 +50,7 @@ seq_chn2:
     chan_setinstr  F3_I_FLUTE
     chan_delay  20544
     chan_end	
-// Section total ticks: 20544
+# Section total ticks: 20544
 
 seq_chn3:
     chan_largenoteson	
@@ -104,7 +96,7 @@ seq_chn3:
     chan_setvol  127
     chan_delay  20160
     chan_end	
-// Section total ticks: 20296
+# Section total ticks: 20296
 
 seq_chn5:
     chan_largenoteson	
@@ -150,7 +142,7 @@ seq_chn5:
     chan_setvol  127
     chan_delay  20160
     chan_end	
-// Section total ticks: 20296
+# Section total ticks: 20296
 
 seq_chn7:
     chan_largenoteson	
@@ -207,7 +199,7 @@ seq_chn7:
     chan_setinstr  F3_I_PIZZICATO
     chan_delay  2112
     chan_end	
-// Section total ticks: 13576
+# Section total ticks: 13576
 
 seq_chn9:
     chan_largenoteson	
@@ -217,7 +209,7 @@ seq_chn9:
     chan_setinstr INSTR_DRUM
     chan_delay  20544
     chan_end	
-// Section total ticks: 20544
+# Section total ticks: 20544
 
 seq_chn11:
     chan_largenoteson	
@@ -234,7 +226,7 @@ seq_chn11:
     chan_setinstr  F3_I_HORN
     chan_delay  3648
     chan_end	
-// Section total ticks: 13824
+# Section total ticks: 13824
 
 seq_chn13:
     chan_largenoteson	
@@ -251,7 +243,7 @@ seq_chn13:
     chan_setinstr  F3_I_HORN
     chan_delay  2136
     chan_end	
-// Section total ticks: 13824
+# Section total ticks: 13824
 
 seq_chn15:
     chan_largenoteson	
@@ -262,9 +254,9 @@ seq_chn15:
     chan_setinstr  F3_I_BASSOON
     chan_delay  20160
     chan_end	
-// Section total ticks: 20544
+# Section total ticks: 20544
 
-// Note Layers
+# Note Layers
 
 seq_chn0_ly0:
     layer_transpose  0
@@ -324,7 +316,7 @@ seq_chn0_ly0:
     layer_note0  47, 2280, 75, 237
     layer_note1  47, 12, 75
     layer_end	
-// Section total ticks: 13824
+# Section total ticks: 13824
 
 seq_chn1_ly0:
     layer_transpose  0
@@ -385,7 +377,7 @@ seq_chn1_ly0:
     layer_note1  47, 12, 108
     layer_note2  49, 108, 0
     layer_end	
-// Section total ticks: 13824
+# Section total ticks: 13824
 
 seq_chn2_ly0:
     layer_transpose  0
@@ -444,7 +436,7 @@ seq_chn2_ly0:
     layer_call  _chn2_ly0_call28
     layer_note0  47, 2280, 45, 237
     layer_end	
-// Section total ticks: 13824
+# Section total ticks: 13824
 
 seq_chn3_ly0:
     layer_transpose  0
@@ -517,7 +509,7 @@ seq_chn3_ly0:
     layer_note1  59, 96, 92
     layer_note2  62, 92, 0
     layer_end	
-// Section total ticks: 12288
+# Section total ticks: 12288
 
 seq_chn5_ly0:
     layer_transpose  0
@@ -606,7 +598,7 @@ seq_chn5_ly0:
     layer_note2  47, 92, 0
     layer_call  _chn3_ly0_call33
     layer_end	
-// Section total ticks: 13440
+# Section total ticks: 13440
 
 seq_chn7_ly0:
     layer_transpose  0
@@ -1077,7 +1069,7 @@ seq_chn7_ly0:
     layer_call  _chn7_ly0_call224
     layer_loopend	
     layer_end	
-// Section total ticks: 10648
+# Section total ticks: 10648
 
 seq_chn9_ly0:
     layer_transpose  0
@@ -1461,7 +1453,7 @@ seq_chn9_ly0:
     layer_note1  F3_D_SNARE_0, 12, 60
     layer_loopend	
     layer_end	
-// Section total ticks: 8212
+# Section total ticks: 8212
 
 seq_chn9_ly1:
     layer_transpose  0
@@ -1483,7 +1475,7 @@ seq_chn9_ly1:
     layer_loopend	
     layer_note0  F3_D_BASS_00, 384, 92, 136
     layer_end	
-// Section total ticks: 12672
+# Section total ticks: 12672
 
 seq_chn11_ly0:
     layer_transpose  0
@@ -1699,7 +1691,7 @@ seq_chn11_ly0:
     layer_note2  37, 92, 0
     layer_note0  38, 384, 92, 16
     layer_end	
-// Section total ticks: 12140
+# Section total ticks: 12140
 
 seq_chn13_ly0:
     layer_transpose  0
@@ -2071,7 +2063,7 @@ seq_chn13_ly0:
     layer_call  _chn13_ly0_call140
     layer_note0  23, 384, 108, 128
     layer_end	
-// Section total ticks: 11684
+# Section total ticks: 11684
 
 seq_chn15_ly0:
     layer_transpose  0
@@ -2597,15 +2589,15 @@ seq_chn15_ly0:
     layer_note0  21, 36, 92, 170
     layer_note0  23, 384, 92, 128
     layer_end	
-// Section total ticks: 10704
+# Section total ticks: 10704
 
-// Channel Headers
+# Channel Headers
 
 _chn0_call2:
     chan_setvol  127
     chan_setpan  64
     chan_end	
-// Section total ticks: 0
+# Section total ticks: 0
 
 _chn3_call3:
     chan_setinstr  F3_I_STRINGS_0
@@ -2615,9 +2607,9 @@ _chn3_call3:
     chan_setvol  36
     chan_delayshort  12
     chan_end	
-// Section total ticks: 28
+# Section total ticks: 28
 
-// Note Layers
+# Note Layers
 
 _chn0_ly0_call7:
     layer_note1  54, 12, 75
@@ -2626,43 +2618,43 @@ _chn0_ly0_call7:
     layer_note2  47, 75, 0
     layer_note1  49, 48, 75
     layer_end	
-// Section total ticks: 228
+# Section total ticks: 228
 
-// layer_calls
+# layer_calls
 
 _chn0_ly0_call8:
     layer_note1  42, 120, 75
     layer_call  _chn0_ly0_call13
     layer_end	
-// Section total ticks: 156
+# Section total ticks: 156
 
-// Note Layers
+# Note Layers
 
 _chn0_ly0_call10:
     layer_note1  54, 120, 75
     layer_call  _chn0_ly0_call20
     layer_note1  45, 120, 75
     layer_end	
-// Section total ticks: 504
+# Section total ticks: 504
 
-// layer_calls
+# layer_calls
 
 _chn0_ly0_call11:
     layer_call  _chn0_ly0_call28
     layer_note1  47, 168, 75
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// Note Layers
+# Note Layers
 
 _chn0_ly0_call13:
     layer_note1  47, 12, 75
     layer_note2  49, 75, 0
     layer_note2  50, 75, 0
     layer_end	
-// Section total ticks: 36
+# Section total ticks: 36
 
-// layer_calls
+# layer_calls
 
 _chn0_ly0_call20:
     layer_note1  50, 12, 75
@@ -2674,17 +2666,17 @@ _chn0_ly0_call20:
     layer_note2  50, 75, 0
     layer_note1  52, 48, 75
     layer_end	
-// Section total ticks: 264
+# Section total ticks: 264
 
-// Note Layers
+# Note Layers
 
 _chn0_ly0_call28:
     layer_note1  50, 12, 75
     layer_note2  49, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn1_ly0_call7:
     layer_note1  54, 12, 108
@@ -2693,43 +2685,43 @@ _chn1_ly0_call7:
     layer_note2  47, 108, 0
     layer_note1  49, 48, 108
     layer_end	
-// Section total ticks: 228
+# Section total ticks: 228
 
-// Note Layers
+# Note Layers
 
 _chn1_ly0_call8:
     layer_note1  42, 120, 108
     layer_call  _chn1_ly0_call13
     layer_end	
-// Section total ticks: 156
+# Section total ticks: 156
 
-// layer_calls
+# layer_calls
 
 _chn1_ly0_call10:
     layer_note1  54, 120, 108
     layer_call  _chn1_ly0_call20
     layer_note1  45, 120, 108
     layer_end	
-// Section total ticks: 504
+# Section total ticks: 504
 
-// Note Layers
+# Note Layers
 
 _chn1_ly0_call11:
     layer_call  _chn1_ly0_call28
     layer_note1  47, 168, 108
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// layer_calls
+# layer_calls
 
 _chn1_ly0_call13:
     layer_note1  47, 12, 108
     layer_note2  49, 108, 0
     layer_note2  50, 108, 0
     layer_end	
-// Section total ticks: 36
+# Section total ticks: 36
 
-// Note Layers
+# Note Layers
 
 _chn1_ly0_call20:
     layer_note1  50, 12, 108
@@ -2741,17 +2733,17 @@ _chn1_ly0_call20:
     layer_note2  50, 108, 0
     layer_note1  52, 48, 108
     layer_end	
-// Section total ticks: 264
+# Section total ticks: 264
 
-// layer_calls
+# layer_calls
 
 _chn1_ly0_call28:
     layer_note1  50, 12, 108
     layer_note2  49, 108, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn2_ly0_call7:
     layer_note1  54, 12, 45
@@ -2760,43 +2752,43 @@ _chn2_ly0_call7:
     layer_note2  47, 45, 0
     layer_note1  49, 48, 45
     layer_end	
-// Section total ticks: 228
+# Section total ticks: 228
 
-// layer_calls
+# layer_calls
 
 _chn2_ly0_call8:
     layer_note1  42, 120, 45
     layer_call  _chn2_ly0_call13
     layer_end	
-// Section total ticks: 156
+# Section total ticks: 156
 
-// Note Layers
+# Note Layers
 
 _chn2_ly0_call10:
     layer_note1  54, 120, 45
     layer_call  _chn2_ly0_call20
     layer_note1  45, 120, 45
     layer_end	
-// Section total ticks: 504
+# Section total ticks: 504
 
-// layer_calls
+# layer_calls
 
 _chn2_ly0_call11:
     layer_call  _chn2_ly0_call28
     layer_note1  47, 168, 45
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// Note Layers
+# Note Layers
 
 _chn2_ly0_call13:
     layer_note1  47, 12, 45
     layer_note2  49, 45, 0
     layer_note2  50, 45, 0
     layer_end	
-// Section total ticks: 36
+# Section total ticks: 36
 
-// layer_calls
+# layer_calls
 
 _chn2_ly0_call20:
     layer_note1  50, 12, 45
@@ -2808,25 +2800,25 @@ _chn2_ly0_call20:
     layer_note2  50, 45, 0
     layer_note1  52, 48, 45
     layer_end	
-// Section total ticks: 264
+# Section total ticks: 264
 
-// Note Layers
+# Note Layers
 
 _chn2_ly0_call28:
     layer_note1  50, 12, 45
     layer_note2  49, 45, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn3_ly0_call3:
     layer_note1  54, 192, 92
     layer_note2  57, 92, 0
     layer_end	
-// Section total ticks: 384
+# Section total ticks: 384
 
-// Note Layers
+# Note Layers
 
 _chn3_ly0_call6:
     layer_note1  54, 192, 92
@@ -2838,68 +2830,68 @@ _chn3_ly0_call6:
     layer_note2  55, 92, 0
     layer_note1  54, 192, 92
     layer_end	
-// Section total ticks: 768
+# Section total ticks: 768
 
-// layer_calls
+# layer_calls
 
 _chn3_ly0_call33:
     layer_note1  50, 96, 92
     layer_note2  54, 92, 0
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// Note Layers
+# Note Layers
 
 _chn5_ly0_call3:
     layer_note1  50, 48, 92
     layer_note2  42, 92, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// layer_calls
+# layer_calls
 
 _chn5_ly0_call4:
     layer_note1  47, 48, 92
     layer_note2  50, 92, 0
     layer_call  _chn5_ly0_call19
     layer_end	
-// Section total ticks: 288
+# Section total ticks: 288
 
-// Note Layers
+# Note Layers
 
 _chn5_ly0_call8:
     layer_note1  45, 48, 92
     layer_note2  50, 92, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// layer_calls
+# layer_calls
 
 _chn5_ly0_call9:
     layer_note1  49, 192, 92
     layer_note2  47, 92, 0
     layer_note2  50, 92, 0
     layer_end	
-// Section total ticks: 576
+# Section total ticks: 576
 
-// Note Layers
+# Note Layers
 
 _chn5_ly0_call19:
     layer_note1  52, 96, 92
     layer_note1  50, 48, 92
     layer_note2  49, 92, 0
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// layer_calls
+# layer_calls
 
 _chn5_ly0_call26:
     layer_note1  45, 96, 92
     layer_note1  49, 48, 92
     layer_end	
-// Section total ticks: 144
+# Section total ticks: 144
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call9:
     layer_note1  42, 24, 75
@@ -2907,25 +2899,25 @@ _chn7_ly0_call9:
     layer_note2  42, 75, 0
     layer_note2  42, 75, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call10:
     layer_note1  42, 12, 75
     layer_note2  42, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call12:
     layer_note1  42, 24, 75
     layer_note2  42, 75, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call21:
     layer_note1  40, 24, 75
@@ -2933,35 +2925,35 @@ _chn7_ly0_call21:
     layer_note2  40, 75, 0
     layer_note2  40, 75, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call23:
     layer_note1  40, 12, 75
     layer_note2  40, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call25:
     layer_note1  38, 24, 75
     layer_note2  38, 75, 0
     layer_call  _chn7_ly0_call67
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call30:
     layer_call  _chn7_ly0_call67
     layer_call  _chn7_ly0_call68
     layer_call  _chn7_ly0_call68
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call67:
     layer_note1  38, 24, 75
@@ -2969,34 +2961,34 @@ _chn7_ly0_call67:
     layer_note2  38, 75, 0
     layer_note2  38, 75, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call68:
     layer_note1  38, 12, 75
     layer_note2  38, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call71:
     layer_note1  33, 48, 92
     layer_call  _chn7_ly0_call74
     layer_note0  40, 240, 92, 51
     layer_end	
-// Section total ticks: 384
+# Section total ticks: 384
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call74:
     layer_note1  38, 48, 92
     layer_note2  42, 92, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call76:
     layer_note1  43, 72, 92
@@ -3004,57 +2996,57 @@ _chn7_ly0_call76:
     layer_note2  43, 92, 0
     layer_note2  43, 92, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call79:
     layer_note1  38, 6, 60
     layer_note2  38, 60, 0
     layer_end	
-// Section total ticks: 12
+# Section total ticks: 12
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call87:
     layer_note1  37, 6, 60
     layer_note2  37, 60, 0
     layer_end	
-// Section total ticks: 12
+# Section total ticks: 12
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call127:
     layer_note1  40, 6, 60
     layer_note2  40, 60, 0
     layer_end	
-// Section total ticks: 12
+# Section total ticks: 12
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call172:
     layer_note1  42, 6, 60
     layer_note2  42, 60, 0
     layer_end	
-// Section total ticks: 12
+# Section total ticks: 12
 
-// Note Layers
+# Note Layers
 
 _chn7_ly0_call221:
     layer_note1  42, 12, 75
     layer_note2  47, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn7_ly0_call224:
     layer_note1  50, 12, 75
     layer_note2  47, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn9_ly0_call28:
     layer_note1  F3_D_SNARE_0, 24, 60
@@ -3064,25 +3056,25 @@ _chn9_ly0_call28:
     layer_call  _chn9_ly0_call107
     layer_call  _chn9_ly0_call107
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// layer_calls
+# layer_calls
 
 _chn9_ly0_call32:
     layer_note1  F3_D_SNARE_0, 12, 60
     layer_note2  F3_D_SNARE_0, 60, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn9_ly0_call34:
     layer_note1  F3_D_SNARE_0, 12, 30
     layer_note2  F3_D_SNARE_0, 30, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn9_ly0_call107:
     layer_note1  F3_D_SNARE_0, 24, 60
@@ -3090,9 +3082,9 @@ _chn9_ly0_call107:
     layer_note2  F3_D_SNARE_0, 60, 0
     layer_note2  F3_D_SNARE_0, 60, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn11_ly0_call17:
     layer_note1  37, 24, 75
@@ -3110,9 +3102,9 @@ _chn11_ly0_call17:
     layer_note2  37, 75, 0
     layer_note2  37, 75, 0
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// layer_calls
+# layer_calls
 
 _chn11_ly0_call23:
     layer_note1  35, 24, 75
@@ -3122,17 +3114,17 @@ _chn11_ly0_call23:
     layer_call  _chn13_ly0_call25
     layer_note1  35, 12, 75
     layer_end	
-// Section total ticks: 180
+# Section total ticks: 180
 
-// Note Layers
+# Note Layers
 
 _chn11_ly0_call41:
     layer_note1  45, 48, 92
     layer_note0  45, 240, 92, 51
     layer_end	
-// Section total ticks: 288
+# Section total ticks: 288
 
-// layer_calls
+# layer_calls
 
 _chn11_ly0_call47:
     layer_note1  47, 72, 92
@@ -3140,9 +3132,9 @@ _chn11_ly0_call47:
     layer_note2  47, 92, 0
     layer_note2  47, 92, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call24:
     layer_note1  35, 24, 75
@@ -3150,17 +3142,17 @@ _chn13_ly0_call24:
     layer_note2  35, 75, 0
     layer_note2  35, 75, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call25:
     layer_note1  35, 12, 75
     layer_note2  35, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call27:
     layer_note1  33, 24, 75
@@ -3170,9 +3162,9 @@ _chn13_ly0_call27:
     layer_note2  33, 75, 0
     layer_note2  33, 75, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call28:
     layer_note1  33, 24, 75
@@ -3184,9 +3176,9 @@ _chn13_ly0_call28:
     layer_note2  33, 75, 0
     layer_note2  33, 75, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call39:
     layer_note1  31, 24, 75
@@ -3194,17 +3186,17 @@ _chn13_ly0_call39:
     layer_note2  31, 75, 0
     layer_note2  31, 75, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call41:
     layer_note1  31, 12, 75
     layer_note2  31, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call45:
     layer_note1  30, 24, 75
@@ -3212,81 +3204,81 @@ _chn13_ly0_call45:
     layer_note2  30, 75, 0
     layer_note2  30, 75, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call47:
     layer_note1  30, 12, 75
     layer_note2  30, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call73:
     layer_note1  33, 12, 75
     layer_note2  38, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call74:
     layer_note1  42, 36, 75
     layer_note1  30, 12, 75
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call79:
     layer_note1  33, 12, 75
     layer_note2  37, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call80:
     layer_note1  40, 36, 75
     layer_note1  28, 12, 75
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call97:
     layer_note1  35, 12, 75
     layer_note2  38, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call110:
     layer_note1  43, 36, 75
     layer_note1  31, 12, 75
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn13_ly0_call112:
     layer_note1  35, 12, 75
     layer_note2  40, 75, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn13_ly0_call140:
     layer_note1  33, 48, 108
     layer_note2  28, 108, 0
     layer_end	
-// Section total ticks: 96
+# Section total ticks: 96
 
-// Note Layers
+# Note Layers
 
 _chn15_ly0_call17:
     layer_note0  23, 24, 92, 170
@@ -3294,18 +3286,18 @@ _chn15_ly0_call17:
     layer_note2  23, 92, 0
     layer_note2  23, 92, 0
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// layer_calls
+# layer_calls
 
 _chn15_ly0_call18:
     layer_note0  23, 24, 92, 170
     layer_note0  23, 12, 92, 85
     layer_note2  23, 92, 85
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn15_ly0_call19:
     layer_note0  18, 24, 92, 170
@@ -3322,17 +3314,17 @@ _chn15_ly0_call19:
     layer_note0  18, 12, 92, 85
     layer_note2  18, 92, 85
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// layer_calls
+# layer_calls
 
 _chn15_ly0_call20:
     layer_note0  23, 24, 92, 170
     layer_note2  23, 92, 170
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn15_ly0_call25:
     layer_note0  26, 24, 92, 170
@@ -3362,9 +3354,9 @@ _chn15_ly0_call25:
     layer_note0  21, 12, 92, 85
     layer_note2  21, 92, 85
     layer_end	
-// Section total ticks: 384
+# Section total ticks: 384
 
-// layer_calls
+# layer_calls
 
 _chn15_ly0_call26:
     layer_note0  19, 24, 92, 170
@@ -3381,69 +3373,75 @@ _chn15_ly0_call26:
     layer_note0  16, 12, 92, 85
     layer_note2  16, 92, 85
     layer_end	
-// Section total ticks: 192
+# Section total ticks: 192
 
-// Note Layers
+# Note Layers
 
 _chn15_ly0_call59:
     layer_note1  26, 12, 92
     layer_note2  26, 92, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn15_ly0_call67:
     layer_note1  19, 12, 92
     layer_note2  19, 92, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn15_ly0_call69:
     layer_note1  19, 12, 92
     layer_note0  19, 36, 92, 170
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// layer_calls
+# layer_calls
 
 _chn15_ly0_call73:
     layer_note1  28, 12, 92
     layer_note2  28, 92, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// Note Layers
+# Note Layers
 
 _chn15_ly0_call81:
     layer_note1  21, 12, 92
     layer_note2  21, 92, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn15_ly0_call83:
     layer_note1  21, 12, 92
     layer_note0  21, 36, 92, 170
     layer_end	
-// Section total ticks: 48
+# Section total ticks: 48
 
-// Note Layers
+# Note Layers
 
 _chn15_ly0_call87:
     layer_note1  30, 12, 92
     layer_note2  30, 92, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
-// layer_calls
+# layer_calls
 
 _chn15_ly0_call95:
     layer_note1  23, 12, 92
     layer_note2  23, 92, 0
     layer_end	
-// Section total ticks: 24
+# Section total ticks: 24
 
+.envelopes
+.envelope_unused:
+envelope_point 1 32700
+envelope_point 100 30000
+envelope_point 200 5000
+envelope_hang

@@ -68,7 +68,7 @@
 	<Sample Name="Step - Rock">
 		<Offset Version="MQDebug" At="0x3f770"/>
 	</Sample>
-	<Sample Name="Step - Wet Dirt">
+	<Sample Name="Step - Jabu Jabu">
 		<Offset Version="MQDebug" At="0x40000"/>
 	</Sample>
 	<Sample Name="Step - Water">
@@ -95,7 +95,7 @@
 	<Sample Name="Sliding Block">
 		<Offset Version="MQDebug" At="0x4a6a0"/>
 	</Sample>
-	<Sample Name="Wood Tap">
+	<Sample Name="Step - Wood">
 		<Offset Version="MQDebug" At="0x4a510"/>
 	</Sample>
 	<Sample Name="Boots Sliding">
@@ -131,7 +131,7 @@
 	<Sample Name="Iron Boots 2">
 		<Offset Version="MQDebug" At="0x64600"/>
 	</Sample>
-	<Sample Name="Step - Wet Rock">
+	<Sample Name="Step - Ice">
 		<Offset Version="MQDebug" At="0x64f70"/>
 	</Sample>
 	<Sample Name="Crackling Fire (Keese)">
@@ -179,7 +179,7 @@
 	<Sample Name="Air Whoosh">
 		<Offset Version="MQDebug" At="0x7d290"/>
 	</Sample>
-	<Sample Name="Muffled Crunch???">
+	<Sample Name="Broken Wood">
 		<Offset Version="MQDebug" At="0x7f3f0"/>
 	</Sample>
 	<Sample Name="Whip Snap">
@@ -206,7 +206,7 @@
 	<Sample Name="Bombchu Motor" SampleRate="22050">
 		<Offset Version="MQDebug" At="0x88620"/>
 	</Sample>
-	<Sample Name="Hookshot Trigger" SampleRate="32000">
+	<Sample Name="Rupee" SampleRate="32000">
 		<Offset Version="MQDebug" At="0x88a50"/>
 	</Sample>
 	<Sample Name="Opening Wooden Door">
@@ -245,7 +245,7 @@
 	<Sample Name="Relaxed Cucco Clucks">
 		<Offset Version="MQDebug" At="0xab9e0"/>
 	</Sample>
-	<Sample Name="Closed Stone Door" SampleRate="10000">
+	<Sample Name="Stone Strike" SampleRate="10000">
 		<Offset Version="MQDebug" At="0xadba0"/>
 	</Sample>
 	<Sample Name="Horse Snort" SampleRate="12000">
@@ -356,7 +356,7 @@
 	<Sample Name="Malon">
 		<Offset Version="MQDebug" At="0x106c20"/>
 	</Sample>
-	<Sample Name="Pan Flute">
+	<Sample Name="Flute">
 		<Offset Version="MQDebug" At="0x108690"/>
 	</Sample>
 	<Sample Name="Tambo Drum">
@@ -455,7 +455,7 @@
 	<Sample Name="Adult Link - Refreshed">
 		<Offset Version="MQDebug" At="0x13f6b0"/>
 	</Sample>
-	<Sample Name="Adult Link - Lift (Unused?)">
+	<Sample Name="Adult Link - Lift (Unused)">
 		<Offset Version="MQDebug" At="0x140fc0"/>
 	</Sample>
 	<Sample Name="Adult Link - Cast Attacking Magic">
@@ -467,16 +467,16 @@
 	<Sample Name="Adult Link - Dramatic Gasp">
 		<Offset Version="MQDebug" At="0x146490"/>
 	</Sample>
-	<Sample Name="Adult Link - Hurt (Unused?)">
+	<Sample Name="Adult Link - Hurt (Unused)">
 		<Offset Version="MQDebug" At="0x1478f0"/>
 	</Sample>
 	<Sample Name="Adult Link - Choking">
 		<Offset Version="MQDebug" At="0x148390"/>
 	</Sample>
-	<Sample Name="Adult Link - Gasping (Unused?)">
+	<Sample Name="Adult Link - Gasping (Unused)">
 		<Offset Version="MQDebug" At="0x1493c0"/>
 	</Sample>
-	<Sample Name="Adult Link - Small Gasp (Unused?)">
+	<Sample Name="Adult Link - Small Gasp (Unused)">
 		<Offset Version="MQDebug" At="0x14b440"/>
 	</Sample>
 	<Sample Name="Adult Link - Unsettled Moan">
@@ -548,13 +548,13 @@
 	<Sample Name="Child Link - Hurt 3">
 		<Offset Version="MQDebug" At="0x175140"/>
 	</Sample>
-	<Sample Name="Child Link - Hurt 4 (Unused?)">
+	<Sample Name="Child Link - Hurt 4">
 		<Offset Version="MQDebug" At="0x175c30"/>
 	</Sample>
 	<Sample Name="Child Link - Knocked Back">
 		<Offset Version="MQDebug" At="0x177480"/>
 	</Sample>
-	<Sample Name="Child Link - Hurt 5 (Unused?)">
+	<Sample Name="Child Link - Hurt 5">
 		<Offset Version="MQDebug" At="0x178d40"/>
 	</Sample>
 	<Sample Name="Child Link - Falling 1">
@@ -581,7 +581,7 @@
 	<Sample Name="Child Link - Refreshed">
 		<Offset Version="MQDebug" At="0x18b650"/>
 	</Sample>
-	<Sample Name="Child Link - Charge Up (Unused?)">
+	<Sample Name="Child Link - Charge Up (Unused)">
 		<Offset Version="MQDebug" At="0x18d090"/>
 	</Sample>
 	<Sample Name="Child Link - Cast Attack Spell">
@@ -596,7 +596,7 @@
 	<Sample Name="Child Link - Dying Gasp">
 		<Offset Version="MQDebug" At="0x196950"/>
 	</Sample>
-	<Sample Name="Child Link - Strangled? (Unused?)">
+	<Sample Name="Child Link - Strangled (Unused)">
 		<Offset Version="MQDebug" At="0x1971a0"/>
 	</Sample>
 	<Sample Name="Child Link - Gasp 3">
@@ -701,7 +701,7 @@
 	<Sample Name="Girl Surprised 2">
 		<Offset Version="MQDebug" At="0x1e55f0"/>
 	</Sample>
-	<Sample Name="Girl Discombobulated (Unused?)">
+	<Sample Name="Girl Discombobulated (Unused)">
 		<Offset Version="MQDebug" At="0x1e6000"/>
 	</Sample>
 	<Sample Name="Woman Yells">

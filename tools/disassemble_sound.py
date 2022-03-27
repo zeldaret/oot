@@ -245,7 +245,7 @@ def getTuning(tunings):
     # Seems to sound like the default for most samples with bad sample rates
     return 0.5
 
-def write_aifc(raw, bank_defs, entry: SampleHeader, filename: str, tunings: dict[int, dict[int, set[float]]]):
+def write_aifc(raw, bank_defs, entry, filename, tunings):
     offset = bank_defs[entry.bank].offset + entry.offsetInBank
     length = entry.length
     data = raw[offset:offset + length]
@@ -370,7 +370,7 @@ def write_soundfont_header(font, filename):
 
             file.write(f"#define F{font.idx}_E_{effect.enum} {effect.idx}\n")
 
-def populateRawSamples(fonts: list[Soundfont]):
+def populateRawSamples(fonts):
     rawSamples = {}
 
     for font in fonts:
@@ -387,7 +387,7 @@ def populateRawSamples(fonts: list[Soundfont]):
 
     return rawSamples
 
-def populateSampleNames(fonts: list[Soundfont], sampleNames: dict[int, dict[int, str]]):
+def populateSampleNames(fonts, sampleNames):
     for font in fonts:
         for sample in font.getSamples():
             if sample.bank not in sampleNames:
@@ -395,8 +395,8 @@ def populateSampleNames(fonts: list[Soundfont], sampleNames: dict[int, dict[int,
             if sample.offsetInBank not in sampleNames[sample.bank]:
                 sampleNames[sample.bank][sample.offsetInBank] = sample.name
 
-def populateTunings(fonts: list[Soundfont]):
-    tunings: dict[int, dict[int, set[float]]] = {}
+def populateTunings(fonts):
+    tunings = {}
 
     for font in fonts:
         for sample in font.getSamples():

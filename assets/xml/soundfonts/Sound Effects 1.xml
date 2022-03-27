@@ -3,30 +3,30 @@
         <Instruments>
             <Instrument Name="Step - Ground" Enum="STEP_GROUND"/>
             <Instrument Name="Step - Sand" Enum="STEP_SAND"/>
-            <Instrument Name="Step - Rock" Enum="STEP_ROCK_0"/>
-            <Instrument Name="Step - Wet Dirt" Enum="STEP_DIRT"/>
+            <Instrument Name="Step - Rock" Enum="STEP_ROCK"/>
+            <Instrument Name="Step - Jabu Jabu" Enum="STEP_JABU"/>
             <Instrument Name="Step - Water" Enum="STEP_WATER"/>
-            <Instrument Name="Step - Carpet" Enum="STEP_CARPET"/>
-            <Instrument Name="Step - Thick Carpet" Enum="STEP_METAL"/>
+            <Instrument Name="Step - Carpet" Enum="STEP_CARPET_0"/>
+            <Instrument Name="Step - Thick Carpet" Enum="STEP_CARPET_1"/>
             <Instrument Name="Step - Tall Grass" Enum="STEP_GRASS"/>
             <Instrument Name="Synth Pad" Enum="SYNTH"/>
             <Instrument Name="Small Splash" Enum="WATER_SPLASH_S"/>
             <Instrument Name="Drop" Enum="DROP"/>
-            <Instrument Name="Wood Tap" Enum="TAP_WOOD"/>
+            <Instrument Name="Step - Wood" Enum="STEP_WOOD"/>
             <Instrument Name="Sliding Block" Enum="SLIDE_BLOCK"/>
             <Instrument Name="Boots Sliding" Enum="SLIDE_LINK"/>
             <Instrument Name="Heavy Slide" Enum="SLIDE_HEAVY"/>
             <Instrument Name="Fire and Wind" Enum="FIRE_WIND"/>
-            <Instrument Name="Unknown" Enum="STATIC"/>
-            <Instrument Name="Unknown" Enum="DISTORTION"/>
-            <Instrument Name="Rushing Water" Enum="WATER_STRONG"/>
+            <Instrument Name="Wet Slide" Enum="SLIDE_WET"/>
+            <Instrument Name="Distortion Effect" Enum="DISTORTION"/>
+            <Instrument Name="Fire Wall" Enum="FIRE_WALL"/>
             <Instrument Name="Water Splash" Enum="WATER_SPLASH"/>
             <Instrument Name="Swimming" Enum="WATER_SWIM"/>
             <Instrument Name="Crash and Gunshot" Enum="SLAM_GUNSHOT"/>
-            <Instrument Name="Step - Wood + Metal" Enum="STEP_WOOD"/>
+            <Instrument Name="Step - Wooden Bridge" Enum="STEP_BRIDGE"/>
             <Instrument Name="Step - Fire" Enum="STEP_FIRE"/>
             <Instrument Name="Step - Iron Boots" Enum="STEP_IRON"/>
-            <Instrument Name="Step - Wet Rock" Enum="STEP_ROCK_1"/>
+            <Instrument Name="Step - Ice" Enum="STEP_ICE"/>
             <Instrument Name="Sword Strike" Enum="SWORD_STRIKE"/>
             <Instrument Name="Sword Miss" Enum="SWORD_MISS"/>
             <Instrument Name="Put Away Sword" Enum="SWORD_SHEATHE"/>
@@ -41,10 +41,10 @@
             <Instrument Name="Egg Hatches" Enum="EGG_BREAK"/>
             <Instrument Name="Arrow Thunk" Enum="ARROW_WOOD"/>
             <Instrument Name="Air Whoosh" Enum="WHOOSH"/>
-            <Instrument Name="Muffled Crunch" Enum="CRUNCH"/>
+            <Instrument Name="Broken Wood" Enum="WOOD_BREAK"/>
             <Instrument Name="Whip and Cork" Enum="WHIP_CORK"/>
             <Instrument Name="Buzzing Synth" Enum="SYNTH_BUZZ"/>
-            <Instrument Name="Dirt Sound" Enum="DIRT"/>
+            <Instrument Name="Soft Thump" Enum="SOFT_HIT"/>
             <Instrument Name="Eye of Truth" Enum="EYE_OF_TRUTH"/>
             <Instrument Name="Wooden Door" Enum="DOOR_WOOD"/>
             <Instrument Name="Shimmering Treasure" Enum="SHIMMER"/>
@@ -60,7 +60,7 @@
             <Instrument Name="Bubbling Lava" Enum="LAVA"/>
             <Instrument Name="Retracting Metal Chain" Enum="CHAIN_RETRACT"/>
             <Instrument Name="Animal Sounds" Enum="ANIMALS_0"/>
-            <Instrument Name="Closed Stone Door" Enum="DOOR_STONE"/>
+            <Instrument Name="Stone Strike" Enum="STONE_STRIKE"/>
             <Instrument Name="Short Howling Wind" Enum="WIND_HOWL_S"/>
             <Instrument Name="Animal Cries" Enum="ANIMALS_1"/>
             <Instrument Name="Water Splish" Enum="WATER_SPLISH"/>
@@ -68,7 +68,7 @@
             <Instrument Name="Flying Fairy" Enum="FAIRY"/>
             <Instrument Name="Settled Stone Block" Enum="BLOCK_LOCK"/>
             <Instrument Name="Creaking Sounds" Enum="CREAK"/>
-            <Instrument Name="Low Swooshing Sound" Enum="WOOSH_LOW"/>
+            <Instrument Name="Flame Ignition" Enum="IGNITE"/>
             <Instrument Name="Warp Circle Ambience" Enum="WARP"/>
             <Instrument Name="Fairy Magic" Enum="FAIRY_MAGIC"/>
             <Instrument Name="Broken Pottery + Charge-up" Enum="POTTERY_ELECTRIC"/>
@@ -83,16 +83,16 @@
             <Instrument Name="People Chattering" Enum="CHATTER"/>
             <Instrument Name="Tearing Cloth" Enum="CLOTH_TEAR"/>
             <Instrument Name="Dodongos and Dogs" Enum="ROAR_BARK"/>
-            <Instrument Name="Pan Flute" Enum="PAN_FLUTE"/>
+            <Instrument Name="Flute" Enum="FLUTE"/>
             <Instrument Name="Accordion" Enum="ACCORDION"/>
             <Instrument Name="Dialogue Continue" Enum="DING"/>
             <Instrument Name="Malon" Enum="MALON"/>
-            <Instrument Name="Whistle" Enum="WHISTLE"/>
+            <Instrument Name="Person Whistling" Enum="WHISTLE_PERSON"/>
             <Instrument Name="Failed Song and Bells" Enum="FAIL_BELLS"/>
-            <Instrument Name="Reed Whistle" Enum="WHISTLE_REED"/>
+            <Instrument Name="Whistle" Enum="WHISTLE"/>
             <Instrument Name="Harp" Enum="HARP"/>
             <Instrument Name="Targeting Sounds" Enum="Z_TARGET"/>
-            <Instrument Name="Unknown" Enum="UNKNOWN"/>
+            <Instrument Name="Rupee" Enum="RUPEE"/>
         </Instruments>
         <Drums>
             <Drum Name="Tambo Drum" Enum="TAMBO"/>
@@ -166,7 +166,7 @@
             <Effect Name="Child Link - Charge Up" Enum="LINK_KID_CHARGE"/>
             <Effect Name="Child Link - Cast Spell" Enum="LINK_KID_SPELL"/>
             <Effect Name="Child Link - Dying Gasp" Enum="LINK_KID_DEATH_1"/>
-            <Effect Name="Child Link - Strangled?" Enum="LINK_KID_STRANGLED"/>
+            <Effect Name="Child Link - Strangled" Enum="LINK_KID_STRANGLED"/>
             <Effect Name="Child Link - Gasp 3" Enum="LINK_KID_GASP_2"/>
             <Effect Name="Child Link - Shiver" Enum="LINK_KID_SHIVER"/>
             <Effect/>
@@ -180,8 +180,8 @@
             <Effect Name="Child Link - Stretch Refreshingly" Enum="LINK_KID_WAKE_3"/>
             <Effect Name="Adult Link - Hurt 6" Enum="LINK_OLD_HURT_5"/>
             <Effect Name="Adult Link - Choking" Enum="LINK_OLD_CHOKE"/>
-            <Effect Name="Adult Link - Gasping?" Enum="LINK_OLD_GASPING"/>
-            <Effect Name="Adult Link - Small Gasp?" Enum="LINK_OLD_GASP_3"/>
+            <Effect Name="Adult Link - Gasping" Enum="LINK_OLD_GASPING"/>
+            <Effect Name="Adult Link - Small Gasp" Enum="LINK_OLD_GASP_3"/>
             <Effect Name="Adult Link - Unsettled Moan" Enum="LINK_OLD_MOAN"/>
             <Effect Name="Adult Link - Sneeze" Enum="LINK_OLD_SNEEZE"/>
             <Effect Name="Adult Link - Sigh 1" Enum="LINK_OLD_SIGH_0"/>

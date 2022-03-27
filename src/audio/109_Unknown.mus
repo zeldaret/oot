@@ -1,11 +1,11 @@
-.include "seq_macros.inc"
-#include "sequence.h"
-#include "soundfonts/0.h"
-#include "soundfonts/1.h"
-.section .rodata
-.balign 0x10
-sequence_start:
+.title Cutscene sounds?
+.author Koji Kondo
+.type program
+.enum SEQUENCE_UNKNOWN
+.usefont SOUNDFONT_SFX_1
+.usefont SOUNDFONT_SFX_2
 
+.sequence
 seq_setmutebhv 0x60
 seq_setmutescale 0
 seq_setvol 127
@@ -867,323 +867,301 @@ entry .chan_4AA
 entry .chan_598
 entry .chan_5C0
 
-.balign 2
+.envelopes
 
 .envelope_unused_666:
-envelope_line 1 32700
-envelope_hang 0
+envelope_point 1 32700
+envelope_hang
 
 .envelope_unused_66E:
-envelope_line 1 32700
-envelope_line 100 30000
-envelope_line 200 5000
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 100 30000
+envelope_point 200 5000
+envelope_hang
 
 .envelope_unused_67E:
-envelope_line 1 32700
-envelope_line 25 25000
-envelope_line 100 25000
-envelope_line 200 5000
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 25 25000
+envelope_point 100 25000
+envelope_point 200 5000
+envelope_hang
 
 .envelope_692:
-envelope_line 1 32700
-envelope_line 100 30000
-envelope_line 250 30000
-envelope_line 200 5000
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 100 30000
+envelope_point 250 30000
+envelope_point 200 5000
+envelope_hang
 
 .envelope_unused_6A6:
-envelope_line 1 32700
-envelope_line 50 30000
-envelope_line 100 10000
-envelope_line 100 0
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 50 30000
+envelope_point 100 10000
+envelope_point 100 0
+envelope_hang
 
 .envelope_unused_6BA:
-envelope_line 1 32700
-envelope_line 30 30000
-envelope_line 50 10000
-envelope_line 50 0
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 30 30000
+envelope_point 50 10000
+envelope_point 50 0
+envelope_hang
 
 .envelope_6CE:
-envelope_line 1 32700
-envelope_line 70 30000
-envelope_line 120 10000
-envelope_line 120 0
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 70 30000
+envelope_point 120 10000
+envelope_point 120 0
+envelope_hang
 
 .envelope_unused_6E2:
-envelope_line 1 32700
-envelope_line 15 32700
-envelope_line 15 22000
-envelope_line 100 15000
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 15 32700
+envelope_point 15 22000
+envelope_point 100 15000
+envelope_hang
 
 .envelope_6F6:
-envelope_line 1 32700
-envelope_line 8 32700
-envelope_line 8 22000
-envelope_line 100 15000
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 8 32700
+envelope_point 8 22000
+envelope_point 100 15000
+envelope_hang
 
 .envelope_unused_70A:
-envelope_line 10 32700
-envelope_hang 0
+envelope_point 10 32700
+envelope_hang
 
 .envelope_712:
-envelope_line 30 10000
-envelope_line 30 32700
-envelope_hang 0
+envelope_point 30 10000
+envelope_point 30 32700
+envelope_hang
 
 .envelope_71E:
-envelope_line 20 15000
-envelope_line 10 32700
-envelope_hang 0
+envelope_point 20 15000
+envelope_point 10 32700
+envelope_hang
 
 .envelope_72A:
-envelope_line 48 10000
-envelope_line 32 32700
-envelope_hang 0
+envelope_point 48 10000
+envelope_point 32 32700
+envelope_hang
 
 .envelope_unused_736:
-envelope_line 47 15000
-envelope_line 13 32700
-envelope_line 72 10000
-envelope_hang 0
+envelope_point 47 15000
+envelope_point 13 32700
+envelope_point 72 10000
+envelope_hang
 
 .envelope_746:
-envelope_line 6 32700
-envelope_hang 0
+envelope_point 6 32700
+envelope_hang
 
 .envelope_unused_74E:
-envelope_line 20 32700
-envelope_line 50 10000
-envelope_line 40 0
-envelope_hang 0
+envelope_point 20 32700
+envelope_point 50 10000
+envelope_point 40 0
+envelope_hang
 
 .envelope_75E:
-envelope_line 18 32700
-envelope_hang 0
+envelope_point 18 32700
+envelope_hang
 
 .envelope_unused_766:
-envelope_line 10 32700
-envelope_line 240 31000
-envelope_line 150 2000
-envelope_hang 0
+envelope_point 10 32700
+envelope_point 240 31000
+envelope_point 150 2000
+envelope_hang
 
 .envelope_unused_776:
-envelope_line 14 15000
-envelope_line 13 32700
-envelope_hang 0
+envelope_point 14 15000
+envelope_point 13 32700
+envelope_hang
 
 .envelope_unused_782:
-envelope_line 40 32700
-envelope_hang 0
+envelope_point 40 32700
+envelope_hang
 
 .envelope_78A:
-envelope_line 400 32700
-envelope_hang 0
+envelope_point 400 32700
+envelope_hang
 
 .envelope_792:
-envelope_line 100 32700
-envelope_hang 0
+envelope_point 100 32700
+envelope_hang
 
 .envelope_unused_79A:
-envelope_line 225 32700
-envelope_line 30 30000
-envelope_hang 0
+envelope_point 225 32700
+envelope_point 30 30000
+envelope_hang
 
 .envelope_unused_7A6:
-envelope_line 200 32700
-envelope_hang 0
+envelope_point 200 32700
+envelope_hang
 
 .envelope_unused_7AE:
-envelope_line 3 32700
-envelope_hang 0
+envelope_point 3 32700
+envelope_hang
 
 .envelope_unused_7B6:
-envelope_line 12 32700
-envelope_line 40 5000
-envelope_hang 0
+envelope_point 12 32700
+envelope_point 40 5000
+envelope_hang
 
 .envelope_unused_7C2:
-envelope_line 10 32700
-envelope_line 4 20000
-envelope_line 4 10000
-envelope_line 50 2000
-envelope_hang 0
+envelope_point 10 32700
+envelope_point 4 20000
+envelope_point 4 10000
+envelope_point 50 2000
+envelope_hang
 
 .envelope_unused_7D6:
-envelope_line 40 32700
-envelope_line 150 32700
-envelope_line 300 0
-envelope_hang 0
+envelope_point 40 32700
+envelope_point 150 32700
+envelope_point 300 0
+envelope_hang
 
 .envelope_unused_7E6:
-envelope_line 40 32700
-envelope_line 800 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 600 0
-envelope_hang 0
+envelope_point 40 32700
+envelope_point 800 32700
+envelope_point 100 16000
+envelope_point 100 32700
+envelope_point 100 16000
+envelope_point 100 32700
+envelope_point 100 16000
+envelope_point 100 32700
+envelope_point 600 0
+envelope_hang
 
 .envelope_unused_80E:
-envelope_line 200 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 600 0
-envelope_hang 0
+envelope_point 200 32700
+envelope_point 100 16000
+envelope_point 100 32700
+envelope_point 100 16000
+envelope_point 100 32700
+envelope_point 600 0
+envelope_hang
 
 .envelope_unused_82A:
-envelope_line 35 32700
-envelope_line 40 32700
-envelope_line 105 0
-envelope_hang 0
+envelope_point 35 32700
+envelope_point 40 32700
+envelope_point 105 0
+envelope_hang
 
 .envelope_unused_83A:
-envelope_line 1 25000
-envelope_line 12 32700
-envelope_line 40 32700
-envelope_line 60 15000
-envelope_line 80 5000
-envelope_hang 0
+envelope_point 1 25000
+envelope_point 12 32700
+envelope_point 40 32700
+envelope_point 60 15000
+envelope_point 80 5000
+envelope_hang
 
 .envelope_unused_852:
-envelope_line 10 32700
-envelope_line 50 32700
-envelope_line 60 5000
-envelope_hang 0
+envelope_point 10 32700
+envelope_point 50 32700
+envelope_point 60 5000
+envelope_hang
 
 .envelope_unused_862:
-envelope_line 200 32700
-envelope_line 340 0
-envelope_hang 0
+envelope_point 200 32700
+envelope_point 340 0
+envelope_hang
 
 .envelope_86E:
-envelope_line 400 32700
-envelope_line 400 20000
+envelope_point 400 32700
+envelope_point 400 20000
 envelope_goto 0
 
 .envelope_87A:
-envelope_line 1400 32700
-envelope_line 400 14000
-envelope_line 400 32700
+envelope_point 1400 32700
+envelope_point 400 14000
+envelope_point 400 32700
 envelope_goto 1
 
 .envelope_88A:
-envelope_line 25 32700
-envelope_line 490 12000
-envelope_hang 0
+envelope_point 25 32700
+envelope_point 490 12000
+envelope_hang
 
 .envelope_unused_896:
-envelope_line 100 32700
-envelope_line 450 32700
-envelope_line 150 32700
-envelope_line 1200 32700
-envelope_line 400 20000
-envelope_hang 0
+envelope_point 100 32700
+envelope_point 450 32700
+envelope_point 150 32700
+envelope_point 1200 32700
+envelope_point 400 20000
+envelope_hang
 
 .envelope_unused_8AE:
-envelope_line 200 32700
-envelope_line 200 20000
+envelope_point 200 32700
+envelope_point 200 20000
 envelope_goto 0
 
 .envelope_unused_8BA:
-envelope_line 2 25000
-envelope_hang 0
+envelope_point 2 25000
+envelope_hang
 
 .envelope_8C2:
-envelope_line 1 32700
-envelope_line 712 32700
-envelope_line 900 0
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 712 32700
+envelope_point 900 0
+envelope_hang
 
 .envelope_8D2:
-envelope_line 1 32700
-envelope_line 200 32700
-envelope_line 200 16000
-envelope_line 200 32700
-envelope_line 600 0
-envelope_hang 0
+envelope_point 1 32700
+envelope_point 200 32700
+envelope_point 200 16000
+envelope_point 200 32700
+envelope_point 600 0
+envelope_hang
 
 .envelope_8EA:
-envelope_line 140 20000
-envelope_line 2540 10000
-envelope_line 200 32700
-envelope_line 720 20000
-envelope_line 240 27000
-envelope_line 20 16000
-envelope_line 940 32700
-envelope_hang 0
+envelope_point 140 20000
+envelope_point 2540 10000
+envelope_point 200 32700
+envelope_point 720 20000
+envelope_point 240 27000
+envelope_point 20 16000
+envelope_point 940 32700
+envelope_hang
 
 .envelope_90A:
-envelope_line 100 20000
-envelope_line 400 32700
-envelope_hang 0
+envelope_point 100 20000
+envelope_point 400 32700
+envelope_hang
 
 .envelope_916:
-envelope_line 50 32700
-envelope_hang 0
+envelope_point 50 32700
+envelope_hang
 
 .envelope_91E:
-envelope_line 500 25000
-envelope_line 675 30000
-envelope_line 800 25000
-envelope_line 20 20000
-envelope_hang 0
+envelope_point 500 25000
+envelope_point 675 30000
+envelope_point 800 25000
+envelope_point 20 20000
+envelope_hang
 
 .unused_932:
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
-.byte 0x0
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable
+envelope_disable

@@ -7,5 +7,4 @@
 	<SampleBank Name="4 - Forest Temple (Unused)" CachePolicy="AnyNoSyncLoad" Medium="Cartridge"/>
 	<SampleBank Name="5 - Goron City" CachePolicy="AnyNoSyncLoad" Medium="Cartridge"/>
 	<SampleBank Name="6 - Spirit Temple" CachePolicy="AnyNoSyncLoad" Medium="Cartridge"/>
-	<SampleBank Name="7 - Demo" CachePolicy="AnyNoSyncLoad" Medium="Cartridge"/>
 </SampleBanks>

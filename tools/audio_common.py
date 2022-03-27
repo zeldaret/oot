@@ -10,7 +10,7 @@ class StructPackSpec:
         self.byte_order_char = ">"
         if archLE:
             self.byte_order_char = "<"
-        self.is_64 = arch64;
+        self.is_64 = arch64
         
     def pointerSize(self):
         if self.is_64:
@@ -1145,7 +1145,7 @@ class Soundfont:
     def sfxSlotCount(self):
         return Soundfont.slotCount(self.sfx_read, self.sfxIdxLookup, self.soundEffects)	
 
-    def getSamples(self) -> list[SampleHeader]:
+    def getSamples(self):
         samples = []
         [samples.extend(instrument.getSamples()) for instrument in self.instruments if instrument is not None]
         [samples.append(drum.sample) for drum in self.percussion if drum is not None]
@@ -1368,7 +1368,7 @@ class Soundfont:
         banks = XmlTree.SubElement(root, "SampleBanks")
         XmlTree.SubElement(banks, "Bank", { "Name": bankNames[self.bankIdx1] })
 
-        if self.bank2 > -1:
+        if self.bank2 and self.bank2 > -1:
             XmlTree.SubElement(banks, "Bank", { "Name": bankNames[self.bankIdx2] })
         
         if self.bankOverride:
