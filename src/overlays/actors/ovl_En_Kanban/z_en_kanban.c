@@ -371,7 +371,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         piece->pieceType = PIECE_WHOLE_SIGN;
                     }
 
-                    Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+                    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
                     Matrix_MultVec3f(&sPieceOffsets[piece->pieceType], &offset);
                     piece->actor.world.pos.x += offset.x;
                     piece->actor.world.pos.y += offset.y;
@@ -750,7 +750,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
             }
 
-            Matrix_RotateY((signpost->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(signpost->actor.shape.rot.y), MTXMODE_NEW);
             Matrix_MultVec3f(&sPieceOffsets[this->pieceType], &offset);
             distX =
                 Math_SmoothStepToF(&this->actor.world.pos.x, signpost->actor.world.pos.x + offset.x, 1.0f, 3.0f, 0.0f);
@@ -815,15 +815,15 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateX(this->floorRot.x, MTXMODE_APPLY);
         Matrix_RotateZ(this->floorRot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, this->actor.shape.yOffset, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
         zShift = fabsf(Math_SinS(this->spinRot.x) * this->pieceHeight);
         zShift2 = fabsf(Math_SinS(this->spinRot.z) * this->pieceWidth);
         zShift = MAX(zShift2, zShift);
         zShift *= -(f32)this->direction;
         Matrix_Translate(0.0f, 0.0f, zShift, MTXMODE_APPLY);
-        Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(this->spinRot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->spinRot.z), MTXMODE_APPLY);
         Matrix_Translate(this->offset.x, this->offset.y, this->offset.z - 100.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1715),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -888,10 +888,10 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if (this->actionState == ENKANBAN_SIGN) {
                 Matrix_RotateX(-M_PI / 5, MTXMODE_APPLY);
             }
-            Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->spinRot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->spinRot.z), MTXMODE_APPLY);
             Matrix_Translate(this->offset.x, this->offset.y, this->offset.z, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1833),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

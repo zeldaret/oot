@@ -67,7 +67,7 @@ void KaleidoManager_Init(GlobalContext* globalCtx) {
     gKaleidoMgrCurOvl = 0;
 }
 
-void KaleidoManager_Destroy() {
+void KaleidoManager_Destroy(void) {
     if (gKaleidoMgrCurOvl != NULL) {
         KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
         gKaleidoMgrCurOvl = NULL;

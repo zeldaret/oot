@@ -106,7 +106,7 @@ void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     temp2 = Math_SinS(yaw);
     dist = Math_Vec3f_DistXZ(&scale, &this->vec) / (this->rReg10 * 0.1f);
     Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000)), MTXMODE_APPLY);
-    Matrix_RotateZ(temp2 * this->rReg2 * dist * (M_PI / 180.0f), MTXMODE_APPLY);
+    Matrix_RotateZ(DEG_TO_RAD(temp2 * this->rReg2 * dist), MTXMODE_APPLY);
     temp2 = 1.0f - ((f32)(this->life + 1) / this->rLifespan);
     temp2 = 1.0f - SQ(temp2);
     scale.x = scale.y = scale.z = temp2 * (this->rScale * 0.000010000001f);

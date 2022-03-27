@@ -286,8 +286,8 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
         sp178.x *= (KREG(88) - 1);
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
         Matrix_MultVec3f(&D_80AFA0D0, &sp16C);
-        Matrix_RotateY((sp178.y / 32768.0f) * M_PI, MTXMODE_NEW);
-        Matrix_RotateX((sp178.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp178.y), MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp178.x), MTXMODE_APPLY);
         for (i = 0; i < 22; i++) {
             Matrix_MultVec3f(&D_80AFA180[i], &sp188);
             if (1) {}
