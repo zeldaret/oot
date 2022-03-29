@@ -426,7 +426,7 @@ s32 View_ApplyOrtho(View* view) {
 /**
  * Apply scissor, viewport and projection (ortho) to OVERLAY_DISP.
  */
-s32 View_ApplyToOverlayOrtho(View* view) {
+s32 View_ApplyOrthoToOverlay(View* view) {
     Vp* vp;
     Mtx* projection;
     GraphicsContext* gfxCtx;
@@ -464,7 +464,7 @@ s32 View_ApplyToOverlayOrtho(View* view) {
 /**
  * Apply scissor, viewport, view and projection (perspective) to OVERLAY_DISP.
  */
-s32 View_ApplyToOverlayPerspective(View* view) {
+s32 View_ApplyPerspectiveToOverlay(View* view) {
     s32 pad[2];
     f32 aspect;
     s32 width;

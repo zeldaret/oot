@@ -1936,7 +1936,7 @@ void Message_DrawTextBox(GlobalContext* globalCtx, Gfx** p) {
 
 void Message_SetView(View* view) {
     SET_FULLSCREEN_VIEWPORT(view);
-    View_ApplyToOverlayOrtho(view);
+    View_ApplyOrthoToOverlay(view);
 }
 
 /**

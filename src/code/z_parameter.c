@@ -2984,12 +2984,12 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
     View_SetViewport(&interfaceCtx->view, &interfaceCtx->viewport);
 
     View_SetPerspective(&interfaceCtx->view, 60.0f, 10.0f, 60.0f);
-    View_ApplyToOverlayPerspective(&interfaceCtx->view);
+    View_ApplyPerspectiveToOverlay(&interfaceCtx->view);
 }
 
 void func_8008A994(InterfaceContext* interfaceCtx) {
     SET_FULLSCREEN_VIEWPORT(&interfaceCtx->view);
-    View_ApplyToOverlayOrtho(&interfaceCtx->view);
+    View_ApplyOrthoToOverlay(&interfaceCtx->view);
 }
 
 void Interface_Draw(GlobalContext* globalCtx) {
