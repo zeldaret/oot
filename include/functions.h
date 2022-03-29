@@ -1348,7 +1348,7 @@ View* View_New(GraphicsContext* gfxCtx);
 void View_Free(View* view);
 void View_Init(View*, GraphicsContext*);
 void View_LookAt(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up);
-void View_LookAtInternal(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up);
+void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up);
 void View_SetScale(View* view, f32 scale);
 void View_GetScale(View* view, f32* scale);
 void View_SetPerspective(View* view, f32 fovy, f32 near, f32 far);
