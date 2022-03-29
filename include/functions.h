@@ -1370,7 +1370,7 @@ s32 View_ApplyOrtho(View* view);
 s32 View_ApplyOrthoToOverlay(View* view);
 s32 View_ApplyPerspectiveToOverlay(View* view);
 s32 View_UpdateViewingMatrix(View* view);
-s32 View_ApplyTo(View* view, s32 arg1, Gfx** p);
+s32 View_ApplyTo(View* view, s32 mask, Gfx** p);
 s32 View_SanityCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ);
 void ViMode_LogPrint(OSViMode* viMode);
 void ViMode_Configure(ViMode* viMode, s32 mode, s32 type, s32 unk_70, s32 unk_74, s32 unk_78, s32 unk_7C, s32 width,
