@@ -106,7 +106,7 @@ void View_SetOrtho(View* view, f32 fovy, f32 near, f32 far) {
     view->fovy = fovy;
     view->zNear = near;
     view->zFar = far;
-    view->dirty |= VIEW_PROJECTION_ORTHOGRAPHIC;
+    view->dirty |= VIEW_PROJECTION_ORTHO;
     view->scale = 1.0f;
 }
 
@@ -262,7 +262,7 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
 void View_Apply(View* view, s32 mask) {
     mask = (view->dirty & mask) | (mask >> 4);
 
-    if (mask & VIEW_PROJECTION_ORTHOGRAPHIC) {
+    if (mask & VIEW_PROJECTION_ORTHO) {
         View_ApplyOrtho(view);
     } else {
         View_ApplyPerspective(view);
@@ -548,7 +548,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
         gSPViewport(gfx++, vp);
     }
 
-    if (mask & VIEW_PROJECTION_ORTHOGRAPHIC) {
+    if (mask & VIEW_PROJECTION_ORTHO) {
         projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
         LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 921);
         view->projectionPtr = projection;

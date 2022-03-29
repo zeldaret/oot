@@ -70,7 +70,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     }
 
     View_Init(&view, gfxCtx);
-    view.dirty = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHOGRAPHIC;
+    view.dirty = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHO;
 
     SET_FULLSCREEN_VIEWPORT(&view);
 
@@ -126,7 +126,7 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
         OPEN_DISPS(gfxCtx, "../speed_meter.c", 318);
 
         View_Init(&view, gfxCtx);
-        view.dirty = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHOGRAPHIC;
+        view.dirty = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHO;
 
         SET_FULLSCREEN_VIEWPORT(&view);
 
