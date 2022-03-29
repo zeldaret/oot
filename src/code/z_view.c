@@ -74,7 +74,8 @@ void View_LookAt(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
 }
 
 /*
- * Unused. Maybe inlined into View_LookAt?
+ * Unused. View_LookAt is always used instead. This version is similar but
+ * is missing the input sanitization and the update to the dirtyFlags.
  */
 void View_LookAtInternal(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
     view->eye = *eye;
