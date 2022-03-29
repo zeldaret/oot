@@ -18,7 +18,7 @@ void Sample_Draw(SampleContext* this) {
 
     func_80095248(gfxCtx, 0, 0, 0);
 
-    view->dirty = VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE;
+    view->dirtyFlags = VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE;
     View_Apply(view, VIEW_ALL);
 
     {
