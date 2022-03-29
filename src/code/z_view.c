@@ -359,7 +359,7 @@ s32 View_ApplyPerspective(View* view) {
         view->eye.z += 1.0f;
     }
 
-    View_SanityCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
     guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
              view->up.y, view->up.z);
 
@@ -513,7 +513,7 @@ s32 View_ApplyPerspectiveToOverlay(View* view) {
         view->eye.z += 1.0f;
     }
 
-    View_SanityCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
     guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
              view->up.y, view->up.z);
 
@@ -532,7 +532,7 @@ s32 View_ApplyPerspectiveToOverlay(View* view) {
 s32 View_UpdateViewingMatrix(View* view) {
     OPEN_DISPS(view->gfxCtx, "../z_view.c", 878);
 
-    View_SanityCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
     guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
              view->up.x, view->up.y, view->up.z);
 
@@ -598,7 +598,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
         LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 948);
         view->viewingPtr = viewing;
 
-        View_SanityCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+        View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
         guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
                  view->up.x, view->up.y, view->up.z);
 
@@ -616,7 +616,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
 /**
  * Logs an error and returns nonzero if camera is too far from the origin.
  */
-s32 View_SanityCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
+s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
     s32 error = 0;
 
     if (SQ(eyeX) + SQ(eyeY) + SQ(eyeZ) > SQ(32767.0f)) {
