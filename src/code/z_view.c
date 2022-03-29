@@ -73,7 +73,9 @@ void View_LookAt(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
     view->dirtyFlags |= VIEW_VIEWING;
 }
 
-// Unused. Maybe inlined into View_LookAt?
+/*
+ * Unused. Maybe inlined into View_LookAt?
+ */
 void View_LookAtInternal(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
     view->eye = *eye;
     view->lookAt = *lookAt;
@@ -110,8 +112,10 @@ void View_SetOrtho(View* view, f32 fovy, f32 near, f32 far) {
     view->scale = 1.0f;
 }
 
-// Identical to View_GetPerspective, and never called.
-// Named as it seems to fit the "set, get" pattern.
+/*
+ * Identical to View_GetPerspective, and never called.
+ * Named as it seems to fit the "set, get" pattern.
+ */
 void View_GetOrtho(View* view, f32* fovy, f32* near, f32* far) {
     *fovy = view->fovy;
     *near = view->zNear;
@@ -258,7 +262,9 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
     return true;
 }
 
-// Apply view to POLY_OPA_DISP, POLY_XLU_DISP, OVERLAY_DISP
+/**
+ * Apply view to POLY_OPA_DISP, POLY_XLU_DISP, OVERLAY_DISP
+ */
 void View_Apply(View* view, s32 mask) {
     mask = (view->dirtyFlags & mask) | (mask >> 4);
 
@@ -269,7 +275,9 @@ void View_Apply(View* view, s32 mask) {
     }
 }
 
-// Subroutine of View_Apply
+/**
+ * Subroutine of View_Apply
+ */
 s32 View_ApplyPerspective(View* view) {
     f32 aspect;
     s32 width;
@@ -377,7 +385,9 @@ s32 View_ApplyPerspective(View* view) {
     return 1;
 }
 
-// Subroutine of View_Apply
+/**
+ * Subroutine of View_Apply
+ */
 s32 View_ApplyOrtho(View* view) {
     Vp* vp;
     Mtx* projection;
@@ -413,7 +423,9 @@ s32 View_ApplyOrtho(View* view) {
     return 1;
 }
 
-// Apply scissor, viewport and projection (ortho) to OVERLAY_DISP.
+/**
+ * Apply scissor, viewport and projection (ortho) to OVERLAY_DISP.
+ */
 s32 View_ApplyToOverlayOrtho(View* view) {
     Vp* vp;
     Mtx* projection;
@@ -449,7 +461,9 @@ s32 View_ApplyToOverlayOrtho(View* view) {
     return 1;
 }
 
-// Apply scissor, viewport, view and projection (perspective) to OVERLAY_DISP.
+/**
+ * Apply scissor, viewport, view and projection (perspective) to OVERLAY_DISP.
+ */
 s32 View_ApplyToOverlayPerspective(View* view) {
     s32 pad[2];
     f32 aspect;
@@ -511,7 +525,9 @@ s32 View_ApplyToOverlayPerspective(View* view) {
     return 1;
 }
 
-// Just updates view's view matrix from its eye/lookat/up vectors. Opens disps but doesn't use them.
+/**
+ * Just updates view's view matrix from its eye/lookat/up vectors. Opens disps but doesn't use them.
+ */
 s32 View_UpdateViewingMatrix(View* view) {
     OPEN_DISPS(view->gfxCtx, "../z_view.c", 878);
 
@@ -596,7 +612,9 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
     return 1;
 }
 
-// Logs an error and returns nonzero if camera is too far from the origin.
+/**
+ * Logs an error and returns nonzero if camera is too far from the origin.
+ */
 s32 View_SanityCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
     s32 error = 0;
 
