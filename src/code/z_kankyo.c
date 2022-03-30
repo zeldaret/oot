@@ -1859,8 +1859,8 @@ void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
     for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
         switch (sLightningBolts[i].state) {
             case LIGHTNING_BOLT_START:
-                dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-                dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+                dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+                dz = globalCtx->view.at.z - globalCtx->view.eye.z;
 
                 x = dx / sqrtf(SQ(dx) + SQ(dz));
                 z = dz / sqrtf(SQ(dx) + SQ(dz));
