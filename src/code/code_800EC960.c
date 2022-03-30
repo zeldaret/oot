@@ -1956,7 +1956,7 @@ void AudioOcarina_SetRecordingSong(u8 isRecordingComplete) {
          * The notes for scarecrows spawn song are first recorded into the ocarina memory
          * game address to act as a buffer. That way, if a new scarecrow spawn song is
          * rejected, the previous scarecrow spawn song is not overwritten. If the scarecrow
-         * spawn song is accepted, then the notes are then copied over to the scarecrow spawn
+         * spawn song is accepted, then the notes are copied over to the scarecrow spawn
          * song address
          */
         recordedSong = sMemoryGameSongPtr;
