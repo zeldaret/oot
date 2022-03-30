@@ -1,7 +1,7 @@
 #include "global.h"
 #include "vt.h"
 
-vu32 sViewNotInitialized = true;
+vu32 sLogOnNextViewInit = true;
 
 void View_ViewportToVp(Vp* dest, Viewport* src) {
     s32 width = src->rightX - src->leftX;
@@ -51,10 +51,10 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->up.z = 0.0f;
     view->eye.z = -1.0f;
 
-    if (sViewNotInitialized) {
-        if (sViewNotInitialized == 0) {}
+    if (sLogOnNextViewInit) {
+        if (sLogOnNextViewInit == false) {}
         osSyncPrintf("\nview: initialize ---\n");
-        sViewNotInitialized = false;
+        sLogOnNextViewInit = false;
     }
 
     view->unk_124 = 0;
