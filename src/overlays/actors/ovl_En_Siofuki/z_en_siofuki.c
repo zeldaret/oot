@@ -142,7 +142,7 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
             dist2d = sqrtf(SQ(dX) + SQ(dZ));
             this->applySpeed = true;
             this->splashTimer = 0;
-            angle = Math_FAtan2F(dX, dZ) * (0x8000 / M_PI);
+            angle = RADF_TO_BINANG(Math_FAtan2F(dX, dZ));
             dAngle = (player->actor.world.rot.y ^ 0x8000) - angle;
             player->actor.gravity = 0.0f;
             player->actor.velocity.y = 0.0f;

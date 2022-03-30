@@ -35,8 +35,8 @@ typedef struct {
 } LightningBolt; // size = 0x20
 
 typedef struct {
-    /* 0x00 */ s32 unk0;
-    /* 0x04 */ s32 unk1;
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
 } Struct_8011FAF0; // size = 0x8
 
 Struct_8011FAF0 D_8011FAF0[] = {
@@ -213,7 +213,7 @@ u8 sGameOverLightsIntensity;
 u16 D_8015FDB0;
 
 s32 func_8006F0A0(s32 a0) {
-    s32 ret = ((a0 >> 4 & 0x7FF) << D_8011FAF0[a0 >> 15 & 7].unk0) + D_8011FAF0[a0 >> 15 & 7].unk1;
+    s32 ret = ((a0 >> 4 & 0x7FF) << D_8011FAF0[a0 >> 15 & 7].unk_00) + D_8011FAF0[a0 >> 15 & 7].unk_04;
 
     return ret;
 }
@@ -848,7 +848,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
     s32 adjustment;
 
     if ((((void)0, gSaveContext.gameMode) != 0) && (((void)0, gSaveContext.gameMode) != 3)) {
-        func_800AA16C(globalCtx);
+        func_800AA16C();
     }
 
     if (pauseCtx->state == 0) {
@@ -1899,8 +1899,8 @@ void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
             Matrix_Translate(sLightningBolts[i].pos.x + sLightningBolts[i].offset.x,
                              sLightningBolts[i].pos.y + sLightningBolts[i].offset.y,
                              sLightningBolts[i].pos.z + sLightningBolts[i].offset.z, MTXMODE_NEW);
-            Matrix_RotateX(sLightningBolts[i].pitch * (M_PI / 180.0f), MTXMODE_APPLY);
-            Matrix_RotateZ(sLightningBolts[i].roll * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateX(DEG_TO_RAD(sLightningBolts[i].pitch), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(sLightningBolts[i].roll), MTXMODE_APPLY);
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);

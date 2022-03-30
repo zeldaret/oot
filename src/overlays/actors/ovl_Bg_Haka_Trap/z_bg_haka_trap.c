@@ -248,7 +248,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808802D8;
     } else if (D_80881018 == 3) {
         D_80881018 = 4;
-        player->actor.bgCheckFlags |= 0x100;
+        player->actor.bgCheckFlags |= BGCHECKFLAG_CRUSHED;
     }
 }
 

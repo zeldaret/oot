@@ -266,18 +266,18 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnEncount2_ParticleUpdate(this, globalCtx);
 
     if (!this->isNotDeathMountain) {
-        this->unk17C = this->envEffectsTimer / 60.0f;
-        this->unk160 = this->unk17C * -50.0f;
-        globalCtx->envCtx.adjAmbientColor[0] = (s16)this->unk160 * -1.5f;
-        globalCtx->envCtx.adjAmbientColor[1] = globalCtx->envCtx.adjAmbientColor[2] = this->unk160;
-        this->unk168 = this->unk17C * -20.0f;
-        globalCtx->envCtx.adjLight1Color[0] = (s16)this->unk168 * -1.5f;
-        globalCtx->envCtx.adjLight1Color[1] = globalCtx->envCtx.adjLight1Color[2] = this->unk168;
-        this->unk170 = this->unk17C * -50.0f;
-        globalCtx->envCtx.adjFogNear = this->unk170;
-        globalCtx->envCtx.adjFogColor[0] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[0]) * this->unk17C);
-        globalCtx->envCtx.adjFogColor[1] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[1]) * this->unk17C);
-        globalCtx->envCtx.adjFogColor[2] = (u8)((150.0f - globalCtx->envCtx.lightSettings.fogColor[2]) * this->unk17C);
+        this->unk_17C = this->envEffectsTimer / 60.0f;
+        this->unk_160 = this->unk_17C * -50.0f;
+        globalCtx->envCtx.adjAmbientColor[0] = (s16)this->unk_160 * -1.5f;
+        globalCtx->envCtx.adjAmbientColor[1] = globalCtx->envCtx.adjAmbientColor[2] = this->unk_160;
+        this->unk_168 = this->unk_17C * -20.0f;
+        globalCtx->envCtx.adjLight1Color[0] = (s16)this->unk_168 * -1.5f;
+        globalCtx->envCtx.adjLight1Color[1] = globalCtx->envCtx.adjLight1Color[2] = this->unk_168;
+        this->unk_170 = this->unk_17C * -50.0f;
+        globalCtx->envCtx.adjFogNear = this->unk_170;
+        globalCtx->envCtx.adjFogColor[0] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[0]) * this->unk_17C);
+        globalCtx->envCtx.adjFogColor[1] = (u8)((160.0f - globalCtx->envCtx.lightSettings.fogColor[1]) * this->unk_17C);
+        globalCtx->envCtx.adjFogColor[2] = (u8)((150.0f - globalCtx->envCtx.lightSettings.fogColor[2]) * this->unk_17C);
     }
 }
 
@@ -355,9 +355,9 @@ void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
         for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {
             if (particle->isAlive) {
                 Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-                Matrix_RotateX(particle->rot.x * (M_PI / 180.0f), MTXMODE_APPLY);
-                Matrix_RotateY(particle->rot.y * (M_PI / 180.0f), MTXMODE_APPLY);
-                Matrix_RotateZ(particle->rot.z * (M_PI / 180.0f), MTXMODE_APPLY);
+                Matrix_RotateX(DEG_TO_RAD(particle->rot.x), MTXMODE_APPLY);
+                Matrix_RotateY(DEG_TO_RAD(particle->rot.y), MTXMODE_APPLY);
+                Matrix_RotateZ(DEG_TO_RAD(particle->rot.z), MTXMODE_APPLY);
                 Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);

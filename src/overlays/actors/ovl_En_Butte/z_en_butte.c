@@ -122,9 +122,9 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = CLAMP(alpha, 0, 255);
 
     Camera_GetCamDir(&camDir, GET_ACTIVE_CAM(globalCtx));
-    Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
-    Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
-    Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(camDir.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD(camDir.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(camDir.z), MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809CE3C4, &sp5C);
     Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
                                  this->actor.focus.pos.z + sp5C.z, &camDir);
@@ -305,9 +305,9 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
     minAnimSpeed = 0.0f;
 
     if ((this->flightParamsIdx != 0) && (this->timer < 12)) {
-        swordTip.x = player->swordInfo[0].tip.x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
-        swordTip.y = player->swordInfo[0].tip.y;
-        swordTip.z = player->swordInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.x = player->meleeWeaponInfo[0].tip.x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.y = player->meleeWeaponInfo[0].tip.y;
+        swordTip.z = player->meleeWeaponInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
 
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &swordTip) + (s16)(Rand_ZeroOne() * D_809CE410);
         if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000) != 0) {
@@ -319,7 +319,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, player->swordInfo[0].tip.y);
+    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, player->meleeWeaponInfo[0].tip.y);
 
     EnButte_Turn(this);
 
@@ -339,7 +339,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
           (this->swordDownTimer <= 0) && (distSqFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
     } else if (distSqFromHome > SQ(240.0f)) {
-        distSqFromSword = Math3D_Dist2DSq(player->swordInfo[0].tip.x, player->swordInfo[0].tip.z,
+        distSqFromSword = Math3D_Dist2DSq(player->meleeWeaponInfo[0].tip.x, player->meleeWeaponInfo[0].tip.z,
                                           this->actor.world.pos.x, this->actor.world.pos.z);
         if (distSqFromSword < SQ(60.0f)) {
             EnButte_SetupTransformIntoFairy(this);
@@ -398,7 +398,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_260 += 0x600;
 
     if ((this->actor.params & 1) == 1) {
-        if (GET_PLAYER(globalCtx)->swordState == 0) {
+        if (GET_PLAYER(globalCtx)->meleeWeaponState == 0) {
             if (this->swordDownTimer > 0) {
                 this->swordDownTimer--;
             }

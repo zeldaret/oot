@@ -123,7 +123,7 @@ static const FairyDefineString relSectionNames[] = {
     { 0 },
 };
 
-/* Taken from elf.h */
+/* Taken from elf.h/mips_elf.h */
 static const FairyDefineString relTypeNames[] = {
     FAIRY_DEF_STRING(, R_MIPS_NONE),    /* No reloc */
     FAIRY_DEF_STRING(, R_MIPS_16),      /* Direct 16 bit */

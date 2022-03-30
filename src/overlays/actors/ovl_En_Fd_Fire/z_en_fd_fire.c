@@ -151,10 +151,10 @@ void func_80A0E70C(EnFdFire* this, GlobalContext* globalCtx) {
     targetPos.x += this->spawnRadius * Math_SinS(this->actor.world.rot.y);
     targetPos.z += this->spawnRadius * Math_CosS(this->actor.world.rot.y);
     EnFdFire_UpdatePos(this, &targetPos);
-    if (this->actor.bgCheckFlags & 1 && (!(this->actor.velocity.y > 0.0f))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (!(this->actor.velocity.y > 0.0f))) {
         this->actor.velocity = velocity;
         this->actor.speedXZ = 0.0f;
-        this->actor.bgCheckFlags &= ~1;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
         if (this->actor.params & 0x8000) {
             this->deathTimer = 200;
             this->actionFunc = EnFdFire_DanceTowardsPlayer;
@@ -219,7 +219,7 @@ void EnFdFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002D7EC(&this->actor);
     this->actionFunc(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (this->actionFunc != EnFdFire_Disappear) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -256,8 +256,8 @@ void EnFdFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (1) {}
     if (1) {}
     if (1) {}
-    Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
-    Matrix_RotateZ(((sp88 * -10.0f) * sp80) * (M_PI / 180.0f), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000)), MTXMODE_APPLY);
+    Matrix_RotateZ(DEG_TO_RAD((sp88 * -10.0f) * sp80), MTXMODE_APPLY);
     scale.x = scale.y = scale.z = this->scale * 0.001f;
     Matrix_Scale(scale.x, scale.y, scale.z, MTXMODE_APPLY);
     sp84 = sp80 * ((0.01f * -15.0f) * sp84) + 1.0f;
