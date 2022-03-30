@@ -40,14 +40,14 @@ void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnBox_FallOnSwitchFlag(EnBox*, GlobalContext*);
-void func_809C9700(EnBox*, GlobalContext*);
-void EnBox_AppearOnSwitchFlag(EnBox*, GlobalContext*);
-void EnBox_AppearOnRoomClear(EnBox*, GlobalContext*);
-void EnBox_AppearInit(EnBox*, GlobalContext*);
-void EnBox_AppearAnimation(EnBox*, GlobalContext*);
-void EnBox_WaitOpen(EnBox*, GlobalContext*);
-void EnBox_Open(EnBox*, GlobalContext*);
+void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
+void func_809C9700(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx);
+void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx);
+void EnBox_Open(EnBox* this, GlobalContext* globalCtx);
 
 const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
@@ -232,7 +232,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
 
     this->alpha = 255;
     this->movementFlags &= ~ENBOX_MOVE_IMMOBILE;
-    if (this->dyna.actor.bgCheckFlags & 1) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->movementFlags |= ENBOX_MOVE_UNUSED;
         if (this->movementFlags & ENBOX_MOVE_FALL_ANGLE_SIDE) {
             this->movementFlags &= ~ENBOX_MOVE_FALL_ANGLE_SIDE;
@@ -520,7 +520,8 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->movementFlags & ENBOX_MOVE_IMMOBILE)) {
         Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
 
     switch (this->type) {

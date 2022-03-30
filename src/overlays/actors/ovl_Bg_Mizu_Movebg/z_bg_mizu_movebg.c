@@ -1,7 +1,7 @@
 /*
  * File: z_bg_mizu_movebg.c
  * Overlay: ovl_Bg_Mizu_Movebg
- * Description: Kakariko Village Well Water
+ * Description: Water Temple Moving Objects
  */
 
 #include "z_bg_mizu_movebg.h"
@@ -51,7 +51,7 @@ static CollisionHeader* D_8089EB70[] = {
     &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_0015F8,
 };
 
-static InitChainEntry D_8089EB90[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
@@ -86,7 +86,7 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     Vec3f sp48;
 
-    Actor_ProcessInitChain(thisx, D_8089EB90);
+    Actor_ProcessInitChain(thisx, sInitChain);
     ((BgMizuMovebg*)thisx)->homeY = thisx->world.pos.y;
     ((BgMizuMovebg*)thisx)->dlist = D_8089EB50[MOVEBG_TYPE(thisx->params)];
     DynaPolyActor_Init(&((BgMizuMovebg*)thisx)->dyna, DPM_PLAYER);
@@ -154,7 +154,7 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
         case 5:
         case 6:
-            Matrix_RotateY(thisx->world.rot.y * (M_PI / 32768), MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD(thisx->world.rot.y), MTXMODE_NEW);
             Matrix_MultVec3f(&D_8089EBA0, &sp48);
 
             if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK,
@@ -305,7 +305,7 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
         case 5:
         case 6:
             if (globalCtx->roomCtx.curRoom.num == this->dyna.actor.room) {
-                Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 32768), MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
                 Matrix_MultVec3f(&D_8089EBAC, &sp28);
                 this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x + sp28.x;
                 this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + sp28.y;

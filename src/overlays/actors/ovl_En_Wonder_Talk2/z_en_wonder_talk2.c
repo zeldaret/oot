@@ -186,7 +186,8 @@ void func_80B3A3D4(EnWonderTalk2* this, GlobalContext* globalCtx) {
             if ((this->switchFlag >= 0) && (this->talkMode != 4)) {
                 Flags_SetSwitch(globalCtx, this->switchFlag);
                 // "(Forced) I saved it! All of it!"
-                osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" VT_RST, this->switchFlag);
+                osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ (強制)セーブしたよ！おもいっきり！ %x\n" VT_RST,
+                             this->switchFlag);
             }
 
             if (this->talkMode == 4) {

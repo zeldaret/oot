@@ -1,7 +1,7 @@
 /* Copyright (C) 2021 Elliptic Ellipsis */
 /* SPDX-License-Identifier: AGPL-3.0-only */
 #include "fairy.h"
-#include <elf.h>
+#include "mips_elf.h"
 
 // clang-format off
 static const FairyDefineString stTypes[] = {

@@ -969,7 +969,7 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
 }
 
 s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
-    if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
     }
 
@@ -1952,7 +1952,7 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f,
-                            (f32)this->collider.dim.radius * 0.6f, 0.0f, 5);
+                            (f32)this->collider.dim.radius * 0.6f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (this->unk_194.unk_00 == 0) {
         func_80A44AB0(this, globalCtx);
     }
@@ -2004,17 +2004,17 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_194.unk_08;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
         vec1 = this->unk_194.unk_0E;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
     if ((limb == 10) || (limb == 11) || (limb == 14)) {

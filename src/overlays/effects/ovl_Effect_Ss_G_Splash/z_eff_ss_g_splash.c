@@ -11,7 +11,7 @@
 // this ends up having no effect because the texture provided does not use segment 6
 #define rType regs[11]
 
-u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParams);
+u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
 void EffectSsGSplash_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
 

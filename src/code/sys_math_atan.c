@@ -131,5 +131,5 @@ s16 Math_Atan2S(f32 x, f32 y) {
 }
 
 f32 Math_Atan2F(f32 x, f32 y) {
-    return Math_Atan2S(x, y) * (M_PI / 32768.0f);
+    return BINANG_TO_RAD(Math_Atan2S(x, y));
 }

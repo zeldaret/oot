@@ -1,6 +1,7 @@
 DEBUG       ?= 0
 LLD         ?= 0
 ASAN        ?= 0
+EXPERIMENTAL?= 0
 
 ELF         := fado.elf
 
@@ -30,6 +31,10 @@ ifneq ($(LD),ld)
 endif
 endif
 
+ifneq ($(EXPERIMENTAL),0)
+  CFLAGS    += -DEXPERIMENTAL
+endif
+
 # GCC is too stupid to be trusted with these warnings
 ifeq ($(CC),gcc)
   WARNINGS += -Wno-implicit-fallthrough -Wno-maybe-uninitialized
@@ -52,7 +57,7 @@ clean:
 	$(RM) -r build $(ELF)
 
 format:
-	clang-format-11 -i $(C_FILES) $(H_FILES)
+	clang-format-11 -i $(C_FILES) $(H_FILES) lib/fairy/*
 
 .PHONY: all clean format
 

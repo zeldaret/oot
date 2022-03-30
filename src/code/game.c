@@ -88,7 +88,7 @@ void func_800C4344(GameState* gameState) {
         func_8006390C(&gameState->input[1]);
     }
 
-    D_80009460 = HREG(60);
+    gDmaMgrVerbose = HREG(60);
     gDmaMgrDmaBuffSize = SREG(21) != 0 ? ALIGN16(SREG(21)) : 0x2000;
     gSystemArenaLogSeverity = HREG(61);
     gZeldaArenaLogSeverity = HREG(62);
@@ -346,7 +346,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     osSyncPrintf("ハイラル一時解放!!\n"); // "Hyrule temporarily released!!"
     SystemArena_GetSizes(&systemMaxFree, &systemFree, &systemAlloc);
     if ((systemMaxFree - 0x10) < size) {
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         osSyncPrintf(VT_FGCOL(RED));
 
         // "Not enough memory. Change the hyral size to the largest possible value"

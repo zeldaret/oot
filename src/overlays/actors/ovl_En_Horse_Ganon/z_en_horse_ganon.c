@@ -280,7 +280,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     temp_ret = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &col, &temp1, &v);
 
     this->unk_1F4 = temp_ret;
-    this->actor.shape.rot.x = (0x8000 / M_PI) * Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f);
+    this->actor.shape.rot.x = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f));
 }
 
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -289,7 +289,9 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);

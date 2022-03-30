@@ -21,4 +21,5 @@ extern size_t helpTextWidth;
 extern size_t helpDtIndent;
 extern size_t helpDdIndent;
 
-void Help_PrintHelp(const char* prologue, size_t posArgCount, const PosArgInfo* posArgInfo, size_t optCount, const OptInfo* optInfo, const char* epilogue);
+void Help_PrintHelp(const char* prologue, size_t posArgCount, const PosArgInfo* posArgInfo, size_t optCount,
+                    const OptInfo* optInfo, const char* epilogue);

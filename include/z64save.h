@@ -87,7 +87,7 @@ typedef struct {
     /* 0x003F */ u8 ocarinaGameRoundNum;
     /* 0x0040 */ ItemEquips childEquips;
     /* 0x004A */ ItemEquips adultEquips;
-    /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignement
+    /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignment
     /* 0x0058 */ char unk_58[0x0E];
     /* 0x0066 */ s16 savedSceneNum;
     /* 0x0068 */ ItemEquips equips;

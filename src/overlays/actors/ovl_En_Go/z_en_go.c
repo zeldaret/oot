@@ -417,7 +417,7 @@ void func_80A3F0E4(EnGo* this) {
 }
 
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
-    f32 xyzDist;
+    f32 xyzDistSq;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
 
@@ -425,13 +425,13 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    xyzDist = (this->actor.scale.x / 0.01f) * 10000.0f;
+    xyzDistSq = (this->actor.scale.x / 0.01f) * 10000.0f;
     if ((this->actor.params & 0xF0) == 0x90) {
         Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
-        xyzDist *= 4.8f;
+        xyzDistSq *= 4.8f;
     }
 
-    if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
+    if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDistSq) {
         if (camera->setting == CAM_SET_DIRECTED_YAW) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
@@ -476,7 +476,7 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
     zDist = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0x8000 / M_PI)), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(xDist, zDist)), 10, 1000, 1);
 
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;
@@ -540,7 +540,7 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
 }
 
 s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
-    if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
     } else if (this->unk_1E0.unk_00 != 0) {
         return true;
@@ -1033,7 +1033,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     func_80A3F0E4(this);
     func_80A3F908(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -1085,18 +1085,18 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_1E0.unk_08;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limb == 10) {
         vec1 = this->unk_1E0.unk_0E;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
 
