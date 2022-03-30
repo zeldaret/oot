@@ -164,9 +164,9 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
     }
     if (spawnerState != ENCOUNT2_INACTIVE) {
         // Direction vector for the direction the camera is facing
-        tempVec1X = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        tempVec1Y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        tempVec1Z = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        tempVec1X = globalCtx->view.at.x - globalCtx->view.eye.x;
+        tempVec1Y = globalCtx->view.at.y - globalCtx->view.eye.y;
+        tempVec1Z = globalCtx->view.at.z - globalCtx->view.eye.z;
 
         // Normalised direction vector for the direction the camera is facing
         magnitude = sqrtf(SQ(tempVec1X) + SQ(tempVec1Y) + SQ(tempVec1Z));

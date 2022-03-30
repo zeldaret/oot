@@ -5097,9 +5097,9 @@ s32 Camera_Unique9(Camera* camera) {
         anim->atTarget = anim->curKeyFrame->atTargetInit;
     } else if (atInitFlags == 2) {
         if (anim->isNewKeyFrame) {
-            anim->atTarget.x = camera->globalCtx->view.lookAt.x + anim->curKeyFrame->atTargetInit.x;
-            anim->atTarget.y = camera->globalCtx->view.lookAt.y + anim->curKeyFrame->atTargetInit.y;
-            anim->atTarget.z = camera->globalCtx->view.lookAt.z + anim->curKeyFrame->atTargetInit.z;
+            anim->atTarget.x = camera->globalCtx->view.at.x + anim->curKeyFrame->atTargetInit.x;
+            anim->atTarget.y = camera->globalCtx->view.at.y + anim->curKeyFrame->atTargetInit.y;
+            anim->atTarget.z = camera->globalCtx->view.at.z + anim->curKeyFrame->atTargetInit.z;
         }
     } else if (atInitFlags == 3) {
         if (anim->isNewKeyFrame) {

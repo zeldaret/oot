@@ -347,9 +347,9 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx) {
     Actor* attackCucco;
 
     if ((this->timer5 == 0) && (this->unk_296 < 7)) {
-        viewX = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        viewY = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        viewZ = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        viewX = globalCtx->view.at.x - globalCtx->view.eye.x;
+        viewY = globalCtx->view.at.y - globalCtx->view.eye.y;
+        viewZ = globalCtx->view.at.z - globalCtx->view.eye.z;
         attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + globalCtx->view.eye.x;
         attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((globalCtx->view.eye.y + 50.0f) + (viewY * 0.5f));
         attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + globalCtx->view.eye.z;
@@ -983,9 +983,9 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (thisx->floorHeight <= BGCHECK_Y_MIN || thisx->floorHeight >= 32000.0f) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->floorHeight);
-        cam.x = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        cam.y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        cam.z = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        cam.x = globalCtx->view.at.x - globalCtx->view.eye.x;
+        cam.y = globalCtx->view.at.y - globalCtx->view.eye.y;
+        cam.z = globalCtx->view.at.z - globalCtx->view.eye.z;
         camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.x);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.y);
