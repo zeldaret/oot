@@ -45,7 +45,7 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->fovy = 60.0f;
     view->zNear = 10.0f;
     view->zFar = 12800.0f;
-    view->lookAt.x = 0.0f;
+    view->at.x = 0.0f;
     view->up.x = 0.0f;
     view->up.y = 1.0f;
     view->up.z = 0.0f;
@@ -62,13 +62,13 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     View_InitDistortion(view);
 }
 
-void View_LookAt(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
-    if (eye->x == lookAt->x && eye->z == lookAt->z) {
+void View_LookAt(View* view, Vec3f* eye, Vec3f* at, Vec3f* up) {
+    if (eye->x == at->x && eye->z == at->z) {
         eye->x += 0.1f;
     }
 
     view->eye = *eye;
-    view->lookAt = *lookAt;
+    view->at = *at;
     view->up = *up;
     view->dirtyFlags |= VIEW_VIEWING;
 }
@@ -77,9 +77,9 @@ void View_LookAt(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
  * Unused. View_LookAt is always used instead. This version is similar but
  * is missing the input sanitization and the update to the dirtyFlags.
  */
-void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
+void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* at, Vec3f* up) {
     view->eye = *eye;
-    view->lookAt = *lookAt;
+    view->at = *at;
     view->up = *up;
 }
 
@@ -350,14 +350,14 @@ s32 View_ApplyPerspective(View* view) {
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 667);
     view->viewingPtr = viewing;
 
-    if (view->eye.x == view->lookAt.x && view->eye.y == view->lookAt.y && view->eye.z == view->lookAt.z) {
+    if (view->eye.x == view->at.x && view->eye.y == view->at.y && view->eye.z == view->at.z) {
         view->eye.x += 1.0f;
         view->eye.y += 1.0f;
         view->eye.z += 1.0f;
     }
 
     View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
              view->up.y, view->up.z);
 
     view->viewing = *viewing;
@@ -501,14 +501,14 @@ s32 View_ApplyPerspectiveToOverlay(View* view) {
     view->viewingPtr = viewing;
 
     // This check avoids a divide-by-zero in guLookAt if eye == at
-    if (view->eye.x == view->lookAt.x && view->eye.y == view->lookAt.y && view->eye.z == view->lookAt.z) {
+    if (view->eye.x == view->at.x && view->eye.y == view->at.y && view->eye.z == view->at.z) {
         view->eye.x += 1.0f;
         view->eye.y += 1.0f;
         view->eye.z += 1.0f;
     }
 
     View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
              view->up.y, view->up.z);
 
     view->viewing = *viewing;
@@ -521,13 +521,13 @@ s32 View_ApplyPerspectiveToOverlay(View* view) {
 }
 
 /**
- * Just updates view's view matrix from its eye/lookat/up vectors. Opens disps but doesn't use them.
+ * Just updates view's view matrix from its eye/at/up vectors. Opens disps but doesn't use them.
  */
 s32 View_UpdateViewingMatrix(View* view) {
     OPEN_DISPS(view->gfxCtx, "../z_view.c", 878);
 
     View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
+    guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z,
              view->up.x, view->up.y, view->up.z);
 
     CLOSE_DISPS(view->gfxCtx, "../z_view.c", 886);
@@ -593,7 +593,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
         view->viewingPtr = viewing;
 
         View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
-        guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
+        guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z,
                  view->up.x, view->up.y, view->up.z);
 
         view->viewing = *viewing;
