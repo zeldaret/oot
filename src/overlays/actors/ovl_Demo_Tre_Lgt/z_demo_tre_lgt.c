@@ -38,7 +38,7 @@ const ActorInit Demo_Tre_Lgt_InitVars = {
     (ActorFunc)DemoTreLgt_Draw,
 };
 
-static TransformUpdateIndex* sTransformUpdIdx[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
+static CurveAnimationHeader* sAnimations[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
 
 static DemoTreLgtActionFunc sActionFuncs[] = {
     func_8099375C,
@@ -48,7 +48,7 @@ static DemoTreLgtActionFunc sActionFuncs[] = {
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
-    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sTransformUpdIdx[0])) {
+    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sAnimations[0])) {
         // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
@@ -74,25 +74,25 @@ void func_80993754(DemoTreLgt* this) {
 void func_8099375C(DemoTreLgt* this, GlobalContext* globalCtx) {
     EnBox* treasureChest = (EnBox*)this->actor.parent;
 
-    if (treasureChest != NULL && Animation_OnFrame(&treasureChest->skelanime, 10.0f)) {
+    if ((treasureChest != NULL) && Animation_OnFrame(&treasureChest->skelanime, 10.0f)) {
         func_809937B4(this, globalCtx, treasureChest->skelanime.curFrame);
     }
 }
 
 void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame) {
-    SkelAnimeCurve* skelCurve = &this->skelCurve;
+    SkelCurve* skelCurve = &this->skelCurve;
     s32 pad[2];
 
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
-    SkelCurve_SetAnim(skelCurve, sTransformUpdIdx[gSaveContext.linkAge], 1.0f,
+    SkelCurve_SetAnim(skelCurve, sAnimations[gSaveContext.linkAge], 1.0f,
                       sDemoTreLgtInfo[gSaveContext.linkAge].endFrame + sDemoTreLgtInfo[gSaveContext.linkAge].unk_08,
                       currentFrame, 1.0f);
     SkelCurve_Update(globalCtx, skelCurve);
 }
 
 void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
-    f32 currentFrame = this->skelCurve.animCurFrame;
+    f32 currentFrame = this->skelCurve.curFrame;
 
     if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame) {
         this->unk_170 = 255;
@@ -131,7 +131,7 @@ void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
 }
 
-s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
+s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 

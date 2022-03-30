@@ -2042,7 +2042,7 @@ void DemoEffect_DrawGetItem(Actor* thisx, GlobalContext* globalCtx) {
 /**
  * Callback for the SkelCurve system to draw the animated limbs.
  */
-s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void* thisx) {
+s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
     DemoEffect* this = (DemoEffect*)thisx;
     u32 frames = globalCtx->gameplayFrames;
@@ -2057,13 +2057,13 @@ s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelC
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3172);
 
     if (limbIndex == 0) {
-        LimbTransform* transform = &skelCuve->transforms[0];
+        s16* transform = &skelCurve->jointTable[0];
 
-        transform->scale.y = 1024;
-        transform->scale.z = transform->scale.x = 1024;
+        transform[2] = transform[0] = 1024;
+        transform[1] = 1024;
     }
 
-    return 1;
+    return true;
 }
 
 /**
