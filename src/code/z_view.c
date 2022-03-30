@@ -506,7 +506,7 @@ s32 View_ApplyPerspectiveToOverlay(View* view) {
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 848);
     view->viewingPtr = viewing;
 
-    // This check avoids a divide-by-zero in guLookAt if eye == lookAt
+    // This check avoids a divide-by-zero in guLookAt if eye == at
     if (view->eye.x == view->lookAt.x && view->eye.y == view->lookAt.y && view->eye.z == view->lookAt.z) {
         view->eye.x += 1.0f;
         view->eye.y += 1.0f;
