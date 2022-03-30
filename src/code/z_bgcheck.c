@@ -4113,7 +4113,7 @@ s32 SurfaceType_IsIgnoredByProjectiles(CollisionContext* colCtx, CollisionPoly* 
 }
 
 /**
- * CollisionPoly is a floor conveyor
+ * Checks if poly is a floor conveyor
  *
  * A conveyor surface is enabled with non-zero speed.
  * When enabled, the conveyor will exhibit two types of behaviour depending on the return value:
