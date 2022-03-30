@@ -368,12 +368,12 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BossGoma_PlayEffectsAndSfx(BossGoma* this, GlobalContext* globalCtx, s16 arg2, s16 amountMinus1) {
     if (arg2 == 0 || arg2 == 1 || arg2 == 3) {
         Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightHandBackLimbWorldPos, 25.0f, amountMinus1, 8.0f,
-                                 500, 10, 1);
+                                 500, 10, true);
     }
 
     if (arg2 == 0 || arg2 == 2 || arg2 == 3) {
         Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftHandBackLimbWorldPos, 25.0f, amountMinus1, 8.0f,
-                                 500, 10, 1);
+                                 500, 10, true);
     }
 
     if (arg2 == 0) {
@@ -881,7 +881,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             Math_ApproachS(&this->actor.world.rot.y,
                            Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2, 0x7D0);
 
-            if (this->actor.bgCheckFlags & 1) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->actionState = 130;
                 this->actor.velocity.y = 0.0f;
                 Animation_Change(&this->skelanime, &gGohmaInitialLandingAnim, 1.0f, 0.0f,
@@ -1377,7 +1377,7 @@ void BossGoma_FloorLandStruckDown(BossGoma* this, GlobalContext* globalCtx) {
         this->framesUntilNextAction = 150;
     }
 
-    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 55.0f, 4, 8.0f, 500, 10, 1);
+    Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 55.0f, 4, 8.0f, 500, 10, true);
 }
 
 /**
@@ -1403,7 +1403,7 @@ void BossGoma_FloorStunned(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
 
     if (this->timer == 1) {
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 55.0f, 4, 8.0f, 500, 10, 1);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 55.0f, 4, 8.0f, 500, 10, true);
     }
 
     Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
@@ -1430,7 +1430,7 @@ void BossGoma_FallJump(BossGoma* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 2,
                    0x7D0);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         BossGoma_SetupFloorLand(this);
         this->actor.velocity.y = 0.0f;
         BossGoma_PlayEffectsAndSfx(this, globalCtx, 0, 8);
@@ -1447,7 +1447,7 @@ void BossGoma_FallStruckDown(BossGoma* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(globalCtx)->actor), 3,
                    0x7D0);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         BossGoma_SetupFloorLandStruckDown(this);
         this->actor.velocity.y = 0.0f;
         BossGoma_PlayEffectsAndSfx(this, globalCtx, 0, 8);
@@ -1634,11 +1634,11 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.velocity.y = 0.0f;
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         BossGoma_SetupWallClimb(this);
     }
 
@@ -1685,7 +1685,7 @@ void BossGoma_CeilingMoveToCenter(BossGoma* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.shape.rot.x, -0x8000, 3, 0x3E8);
 
     // avoid walking into a wall?
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         angle = this->actor.shape.rot.y + 0x8000;
 
         if (angle < this->actor.wallYaw) {
@@ -1927,9 +1927,10 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actor.world.pos.y < -400.0f) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 80.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 80.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     } else {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 30.0f, 80.0f, 1);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 30.0f, 80.0f, UPDBGCHECKINFO_FLAG_0);
     }
 
     BossGoma_UpdateEye(this, globalCtx);
@@ -2083,7 +2084,7 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                                                 childPos.x, childPos.y, childPos.z, childRot.x, childRot.y, childRot.z,
                                                 sDeadLimbLifetime[limbIndex] + 100);
         if (babyGohma != NULL) {
-            babyGohma->bossLimbDl = *dList;
+            babyGohma->bossLimbDL = *dList;
             babyGohma->actor.objBankIndex = this->actor.objBankIndex;
         }
     }

@@ -26,7 +26,7 @@ void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
                          (cfbInfo != NULL ? cfbInfo->swapBuffer : NULL));
         }
         width = cfbInfo->viMode != NULL ? cfbInfo->viMode->comRegs.width : (u32)gScreenWidth;
-        Fault_SetFB(cfbInfo->swapBuffer, width, 0x10);
+        Fault_SetFrameBuffer(cfbInfo->swapBuffer, width, 0x10);
 
         if (HREG(80) == 0xD && HREG(95) != 0xD) {
             HREG(81) = 0;
@@ -59,7 +59,7 @@ void func_800C84E4(SchedContext* sc, CfbInfo* cfbInfo) {
     if (sc->unk_24C != 0) {
         sc->unk_24C = 0;
 
-        if (gIrqMgrResetStatus == 0) {
+        if (gIrqMgrResetStatus == IRQ_RESET_STATUS_IDLE) {
             ViConfig_UpdateVi(0);
         }
     }
@@ -78,7 +78,7 @@ void Sched_HandleReset(SchedContext* sc) {
                      OS_CYCLES_TO_USEC(now - sRSPAudioStartTime), "../sched.c", 421);
         } else if (OS_CYCLES_TO_USEC(now - sRSPGFXStartTime) > 1000000 ||
                    OS_CYCLES_TO_USEC(now - sRDPStartTime) > 1000000) {
-            func_800FBFD8();
+            RcpUtils_Reset();
             if (sc->curRSPTask != NULL) {
                 LOG_TIME("(((u64)(now - graph_rsp_start_time)*(1000000LL/15625LL))/((62500000LL*3/4)/15625LL))",
                          OS_CYCLES_TO_USEC(now - sRSPGFXStartTime), "../sched.c", 427);

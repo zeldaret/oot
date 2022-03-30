@@ -42,7 +42,7 @@ def read_file(filename):
 
         file_contents = file_contents[end:]
         match = pattern.search(file_contents)
-    
+
     parsed_contents += file_contents
     return parsed_contents
 
@@ -81,7 +81,7 @@ def main():
         else:
             write_file(filename, contents)
     else:
-        index = parse_number(args.index, args.hex)        
+        index = parse_number(args.index, args.hex)
         if args.offset:
             offset = index
             if not check_valid_offset(offset):

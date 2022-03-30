@@ -60,7 +60,20 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-static struct_D_80AA1678 sAnimationInfo[] = {
+typedef enum {
+    /* 0 */ ENIN_ANIM_0,
+    /* 1 */ ENIN_ANIM_1,
+    /* 2 */ ENIN_ANIM_2,
+    /* 3 */ ENIN_ANIM_3,
+    /* 4 */ ENIN_ANIM_4,
+    /* 5 */ ENIN_ANIM_5,
+    /* 6 */ ENIN_ANIM_6,
+    /* 7 */ ENIN_ANIM_7,
+    /* 8 */ ENIN_ANIM_8,
+    /* 9 */ ENIN_ANIM_9
+} EnInAnimation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_013C6C, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &object_in_Anim_000CB0, 1.0f, ANIMMODE_LOOP, 0.0f }, { &object_in_Anim_0003B4, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -130,7 +143,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
     }
     switch (gSaveContext.eventInf[0] & 0xF) {
         case 1:
-            if (!(player->stateFlags1 & 0x800000)) {
+            if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (gSaveContext.eventChkInf[1] & 0x800) {
                 if (gSaveContext.infTable[10] & 4) {
@@ -331,10 +344,10 @@ void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A796EC(EnIn* this, s32 arg1) {
-    Animation_Change(&this->skelAnime, sAnimationInfo[arg1].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationInfo[arg1].animation), sAnimationInfo[arg1].mode,
-                     sAnimationInfo[arg1].transitionRate);
+void EnIn_ChangeAnim(EnIn* this, s32 index) {
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
@@ -511,18 +524,18 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 
         switch (func_80A79830(this, globalCtx)) {
             case 1:
-                func_80A796EC(this, 9);
+                EnIn_ChangeAnim(this, ENIN_ANIM_9);
                 this->actionFunc = func_80A7A4BC;
                 break;
             case 3:
-                func_80A796EC(this, 7);
+                EnIn_ChangeAnim(this, ENIN_ANIM_7);
                 this->actionFunc = func_80A7A4BC;
                 if (!(gSaveContext.eventChkInf[1] & 0x100)) {
                     this->actor.params = 5;
                 }
                 break;
             case 4:
-                func_80A796EC(this, 8);
+                EnIn_ChangeAnim(this, ENIN_ANIM_8);
                 this->eyeIndex = 3;
                 this->actionFunc = func_80A7A4BC;
                 break;
@@ -559,34 +572,34 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 switch (gSaveContext.eventInf[0] & 0xF) {
                     case 0:
                     case 2:
-                        func_80A796EC(this, 2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
                         gSaveContext.eventInf[0] = 0;
                         break;
                     case 1:
                         this->actor.targetMode = 3;
-                        func_80A796EC(this, 2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         func_80088B34(0x3C);
                         break;
                     case 3:
-                        func_80A796EC(this, 4);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_4);
                         this->actionFunc = func_80A7A770;
                         break;
                     case 4:
-                        func_80A796EC(this, 6);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7A940;
                         break;
                     case 5:
                     case 6:
                         this->actor.targetMode = 3;
-                        func_80A796EC(this, 6);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
                         break;
                     case 7:
-                        func_80A796EC(this, 2);
+                        EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A848;
                         break;
                 }
@@ -640,7 +653,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     s32 phi_a2;
     s32 phi_a3;
 
-    if (!(gSaveContext.eventChkInf[1] & 0x800) && (player->stateFlags1 & 0x800000)) {
+    if (!(gSaveContext.eventChkInf[1] & 0x800) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         gSaveContext.infTable[10] |= 0x800;
     }
     if (gSaveContext.timer1State == 10) {
@@ -687,7 +700,7 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
     } else if (this->unk_308.unk_00 == 2) {
         Rupees_ChangeBy(-50);
         this->actor.flags &= ~ACTOR_FLAG_16;
-        func_80A796EC(this, 3);
+        EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x0F) | 7;
         this->unk_308.unk_00 = 0;
@@ -802,7 +815,7 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x203C;
                 Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 this->unk_308.unk_00 = 1;
-                func_80A796EC(this, 3);
+                EnIn_ChangeAnim(this, ENIN_ANIM_3);
             } else {
                 globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
                 this->unk_308.unk_00 = 0;
@@ -905,7 +918,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->skelAnime.animation == &object_in_Anim_001BE0 && ((gSaveContext.eventInf[0] & 0xF) != 6)) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
     EnIn_UpdateEyes(this);
     this->actionFunc(this, globalCtx);
@@ -938,14 +951,14 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp2C = this->unk_308.unk_08;
-        Matrix_RotateZ(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB) {
         sp2C = this->unk_308.unk_0E;
-        Matrix_RotateX(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB || limbIndex == INGO_LEFT_SHOULDER_LIMB || limbIndex == INGO_RIGHT_SHOULDER_LIMB) {
         rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;

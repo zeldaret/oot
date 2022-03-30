@@ -204,7 +204,8 @@ void func_808B8DD0(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void func_808B8DDC(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 }
 
 void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {
@@ -212,7 +213,7 @@ void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
 
@@ -255,7 +256,7 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);

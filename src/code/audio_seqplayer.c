@@ -1313,8 +1313,8 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                         command = parameters[0];
 
                         if (channel->filter != NULL) {
-                            lowBits = (command >> 4) & 0xF;
-                            command &= 0xF;
+                            lowBits = (command >> 4) & 0xF; // LowPassCutoff
+                            command &= 0xF;                 // HighPassCutoff
                             AudioHeap_LoadFilter(channel->filter, lowBits, command);
                         }
                         break;

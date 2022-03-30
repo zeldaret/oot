@@ -12,7 +12,7 @@ typedef struct EnHorseZelda {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
     /* 0x0150 */ s32 animationIndex;
-    /* 0x0154 */ PSkinAwb skin;
+    /* 0x0154 */ Skin skin;
     /* 0x01E4 */ char unk_1E4[0x8];
     /* 0x01EC */ s32 unk_1EC;
     /* 0x01F0 */ char unk_1F0[0x4];

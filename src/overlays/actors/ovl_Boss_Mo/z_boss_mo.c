@@ -925,7 +925,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     spFC.x = 0;
                     spFC.y = 0;
                     spFC.z = 0;
-                    Matrix_RotateY((player->actor.world.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+                    Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.world.rot.y), MTXMODE_NEW);
                     Matrix_MultVec3f(&spFC, &spF0);
                     spF0.x = player->actor.world.pos.x + spF0.x;
                     spF0.z = player->actor.world.pos.z + spF0.z;
@@ -1277,8 +1277,8 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             dz = this->targetPos.z - this->subCamEye.z;
             tempY = Math_FAtan2F(dx, dz);
             tempX = Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)));
-            Math_ApproachS(&this->actor.world.rot.y, tempY * (0x8000 / M_PI), 5, this->subCamYawRate);
-            Math_ApproachS(&this->actor.world.rot.x, tempX * (0x8000 / M_PI), 5, this->subCamYawRate);
+            Math_ApproachS(&this->actor.world.rot.y, RADF_TO_BINANG(tempY), 5, this->subCamYawRate);
+            Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(tempX), 5, this->subCamYawRate);
             if (this->work[MO_TENT_MOVE_TIMER] == 150) {
                 this->subCamAtVel.x = fabsf(this->subCamAt.x - player->actor.world.pos.x);
                 this->subCamAtVel.y = fabsf(this->subCamAt.y - player->actor.world.pos.y);
@@ -2043,7 +2043,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
             (this->work[MO_TENT_ACTION_STATE] == MO_CORE_STUNNED)) {
             this->actor.world.pos.y += this->actor.velocity.y;
             this->actor.velocity.y -= 1.0f;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, 1);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, UPDBGCHECKINFO_FLAG_0);
             effectVelocity.x = effectVelocity.y = effectVelocity.z = 0.0f;
             for (i = 0; i < 1; i++) {
                 effectPos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
@@ -2102,7 +2102,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                             sp70.x = 0.0f;
                             sp70.y = 0.0f;
                             sp70.z = 100.0f;
-                            Matrix_RotateY((player->actor.world.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+                            Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.world.rot.y), MTXMODE_NEW);
                             Matrix_MultVec3f(&sp70, &sp64);
                             this->targetPos.x = player->actor.world.pos.x + sp64.x;
                             this->targetPos.y = player->actor.world.pos.y + 30.0f;
@@ -2131,8 +2131,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 spDC = this->targetPos.x - this->actor.world.pos.x;
                 spD8 = this->targetPos.y - this->actor.world.pos.y;
                 spD4 = this->targetPos.z - this->actor.world.pos.z;
-                spCC = (s16)(Math_FAtan2F(spDC, spD4) * (0x8000 / M_PI));
-                spD0 = (s16)(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))) * (0x8000 / M_PI));
+                spCC = RADF_TO_BINANG(Math_FAtan2F(spDC, spD4));
+                spD0 = RADF_TO_BINANG(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))));
                 Math_ApproachS(&this->actor.world.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->actor.world.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
                 func_8002D908(&this->actor);
@@ -2141,7 +2141,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y -= 1.0f;
             }
             func_8002D7EC(&this->actor);
-            temp = (this->actor.world.pos.y < -200.0f) ? 5 : 1;
+            temp = (this->actor.world.pos.y < -200.0f) ? UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2
+                                                       : UPDBGCHECKINFO_FLAG_0;
             this->actor.world.pos.y -= 20.0f;
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, temp);
             this->actor.world.pos.y += 20.0f;
@@ -2448,8 +2449,8 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x0C, matrix);
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-    Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
 
     BossMo_InitRand(1, 29100, 9786);
 
@@ -2464,8 +2465,8 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
         } else {
             if (i >= 3) {
                 Matrix_Translate(0.0f, this->tentStretch[i - 2].y, 0.0f, MTXMODE_APPLY);
-                Matrix_RotateX((this->tentRot[i - 2].x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-                Matrix_RotateZ((this->tentRot[i - 2].z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD_ALT(this->tentRot[i - 2].x), MTXMODE_APPLY);
+                Matrix_RotateZ(BINANG_TO_RAD_ALT(this->tentRot[i - 2].z), MTXMODE_APPLY);
             }
             Matrix_Push();
             Matrix_Scale((this->tentScale[i - 2].x + this->tentRipple[i - 2].x) * this->actor.scale.x,

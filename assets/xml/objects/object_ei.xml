@@ -45,7 +45,7 @@
         <Texture Name="gStingerFinTex" OutName="fin" Format="rgba16" Width="8" Height="8" Offset="0x1640"/>
         <Texture Name="gStingerTailGradientTex" OutName="tail_gradient" Format="rgba16" Width="4" Height="4" Offset="0x16C0"/>
         <Texture Name="gStingerTailConnectionGradientTex" OutName="tail_connection_gradient" Format="rgba16" Width="4" Height="4" Offset="0x16E0"/>
-    
+
         <!-- Stinger Animations -->
         <Animation Name="gStingerPopOutAnim" Offset="0x288"/>
         <Animation Name="gStingerDiveAnim" Offset="0x4C4"/>

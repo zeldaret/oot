@@ -8,13 +8,6 @@
 #define VIRTUAL_TO_PHYSICAL(addr) (u32)((u8*)(addr) - 0x80000000)
 #define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
-#define ALIGN16(val) (((val) + 0xF) & ~0xF)
-#define ALIGN32(val) (((val) + 0x1F) & ~0x1F)
-#define ALIGN64(val) (((val) + 0x3F) & ~0x3F)
-#define ALIGN256(val) (((val) + 0xFF) & ~0xFF)
-
-#define OFFSETOF(structure, member) ((size_t)&(((structure*)0)->member))
-
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : --(x))
@@ -31,8 +24,8 @@
 
 #define GET_ACTIVE_CAM(globalCtx) ((globalCtx)->cameraPtrs[(globalCtx)->activeCamId])
 
-#define LINK_IS_ADULT (gSaveContext.linkAge == 0)
-#define LINK_IS_CHILD (gSaveContext.linkAge == 1)
+#define LINK_IS_ADULT (gSaveContext.linkAge == LINK_AGE_ADULT)
+#define LINK_IS_CHILD (gSaveContext.linkAge == LINK_AGE_CHILD)
 
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
@@ -167,11 +160,5 @@ extern GraphicsContext* __gfxCtx;
         gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
                        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
     } while (0)
-
-#ifdef __GNUC__
-#define ALIGNED8 __attribute__ ((aligned (8)))
-#else
-#define ALIGNED8
-#endif
 
 #endif

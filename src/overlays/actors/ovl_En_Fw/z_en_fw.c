@@ -65,16 +65,20 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry D_80A1FBA0[] = {
+typedef enum {
+    /* 0 */ ENFW_ANIM_0,
+    /* 1 */ ENFW_ANIM_1,
+    /* 2 */ ENFW_ANIM_2
+} EnFwAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
     { &gFlareDancerCoreInitRunCycleAnim, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
     { &gFlareDancerCoreRunCycleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
     { &gFlareDancerCoreEndRunCycleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
 };
 
 s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
-    s16 temp_v1;
-
-    if (!(this->actor.bgCheckFlags & 1) || (this->actor.velocity.y > 0.0f)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.velocity.y > 0.0f)) {
         // not on the ground or moving upwards.
         return false;
     }
@@ -90,8 +94,8 @@ s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
         this->bounceCnt = totalBounces;
     }
     this->actor.velocity.y = yVelocity;
-    this->actor.velocity.y *= ((f32)this->bounceCnt / totalBounces);
-    return 1;
+    this->actor.velocity.y *= (f32)this->bounceCnt / totalBounces;
+    return true;
 }
 
 s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
@@ -132,7 +136,6 @@ Vec3f* EnFw_GetPosAdjAroundCircle(Vec3f* dst, EnFw* this, f32 radius, s16 dir) {
 
 s32 EnFw_CheckCollider(EnFw* this, GlobalContext* globalCtx) {
     ColliderInfo* info;
-    s32 phi_return;
 
     if (this->collider.base.acFlags & AC_HIT) {
         info = &this->collider.elements[0].info;
@@ -186,7 +189,7 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable,
                        11);
-    func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
+    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->sphs);
@@ -199,6 +202,7 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = (EnFw*)thisx;
+
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -211,7 +215,7 @@ void EnFw_Bounce(EnFw* this, GlobalContext* globalCtx) {
 
 void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     f32 tmpAngle;
-    s16 phi_v0;
+    s16 curFrame;
     f32 facingDir;
     EnBom* bomb;
     Actor* flareDancer;
@@ -220,7 +224,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &gFlareDancerCoreInitRunCycleAnim) {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.parent->world.pos);
-            func_80034EC0(&this->skelAnime, D_80A1FBA0, 2);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_2);
         }
         return;
     }
@@ -261,7 +265,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             return;
         }
     } else {
-        if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0.0f) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
             Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
             return;
         }
@@ -289,8 +293,9 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             this->turnAround = false;
         } else {
             Vec3f sp48;
+
             EnFw_GetPosAdjAroundCircle(&sp48, this, this->runRadius, this->runDirection);
-            Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(sp48.x, sp48.z) * (0x8000 / M_PI)), 4, 0xFA0, 1);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(sp48.x, sp48.z)), 4, 0xFA0, 1);
         }
 
         this->actor.world.rot = this->actor.shape.rot;
@@ -316,8 +321,8 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
             }
         } else {
             Math_SmoothStepToF(&this->actor.speedXZ, 6.0f, 0.1f, 1.0f, 0.0f);
-            phi_v0 = this->skelAnime.curFrame;
-            if (phi_v0 == 1 || phi_v0 == 4) {
+            curFrame = this->skelAnime.curFrame;
+            if (curFrame == 1 || curFrame == 4) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_MAN_RUN);
                 EnFw_SpawnDust(this, 8, 0.16f, 0.1f, 1, 0.0f, 20.0f, 0.0f);
             }
@@ -336,13 +341,13 @@ void EnFw_TurnToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = 14.0f;
         this->actor.home.pos = this->actor.world.pos;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
-        func_80034EC0(&this->skelAnime, D_80A1FBA0, 1);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_1);
         this->actionFunc = EnFw_JumpToParentInitPos;
     }
 }
 
 void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y <= 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y <= 0.0f) {
         this->actor.parent->params |= 0x8000;
         Actor_Kill(&this->actor);
     } else {
@@ -353,11 +358,13 @@ void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx) {
 
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = (EnFw*)thisx;
+
     SkelAnime_Update(&this->skelAnime);
     if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         // not attached to hookshot.
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 20.0f, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 20.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, globalCtx);
         if (this->damageTimer == 0 && this->explosionTimer == 0 && this->actionFunc == EnFw_Run) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

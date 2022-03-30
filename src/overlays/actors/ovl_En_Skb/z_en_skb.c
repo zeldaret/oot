@@ -336,7 +336,7 @@ void func_80AFD508(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void EnSkb_SetupStunned(EnSkb* this) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -346,15 +346,15 @@ void EnSkb_SetupStunned(EnSkb* this) {
 }
 
 void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speedXZ = 0.0f;
     }
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (this->actor.speedXZ < 0.0f) {
             this->actor.speedXZ += 0.05f;
         }
     }
-    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->actor.colChkInfo.health == 0) {
             func_80AFD7B4(this, globalCtx);
         } else {
@@ -365,7 +365,7 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD644(EnSkb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDamagedAnim, -4.0f);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -383,17 +383,17 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
         if ((*new_var) != 0) {
             this->unk_283 = (*new_var) | 2;
         }
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             this->actor.speedXZ = 0;
         }
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             if (this->actor.speedXZ < 0.0f) {
                 this->actor.speedXZ += 0.05f;
             }
         }
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
-        if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & 1)) {
+        if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             func_80AFCD60(this);
         }
     }
@@ -403,7 +403,7 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDyingAnim, -4.0f);
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -6.0f;
     }
     this->unk_280 = 1;
@@ -439,7 +439,8 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
     s16 phi_v1;
     Player* player;
 
-    if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & 0x60) && (this->actor.yDistToWater >= 40.0f)) {
+    if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
+        (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->unk_281 = 0;
         func_80AFD7B4(this, globalCtx);
@@ -478,8 +479,10 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                     if (this->unk_283 == 0) {
                         if ((this->actor.colChkInfo.damageEffect == 0xD) ||
                             ((this->actor.colChkInfo.damageEffect == 0xE) &&
-                             ((player->swordAnimation >= 4 && player->swordAnimation <= 11) ||
-                              (player->swordAnimation == 20 || player->swordAnimation == 21)))) {
+                             ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H &&
+                               player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H) ||
+                              (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||
+                               player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT)))) {
                             BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                             this->unk_283 = 1;
                         }
@@ -497,7 +500,9 @@ void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80AFD968(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     this->actionFunc(this, globalCtx);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += (3000.0f * this->actor.scale.y);

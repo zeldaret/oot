@@ -6,6 +6,7 @@ DEPRECATION_ON ?= 1
 DEBUG ?= 0
 COPYCHECK_ARGS ?=
 LLD ?= 0
+WERROR ?= 0
 
 # Use clang++ if available, else use g++
 ifeq ($(shell command -v clang++ >/dev/null 2>&1; echo $$?),0)
@@ -23,14 +24,16 @@ ifneq ($(DEBUG),0)
   CXXFLAGS += -g3 -DDEVELOPMENT -D_DEBUG
   COPYCHECK_ARGS += --devel
   DEPRECATION_ON = 0
-else
+endif
+
+ifneq ($(WERROR),0)
   CXXFLAGS += -Werror
 endif
 
 ifeq ($(OPTIMIZATION_ON),0)
   OPTFLAGS := -O0
 else
-  OPTFLAGS := -O2 -march=native -mtune=native
+  OPTFLAGS := -O2
 endif
 
 ifneq ($(ASAN),0)
@@ -53,9 +56,22 @@ ifneq ($(LLD),0)
 endif
 
 UNAME := $(shell uname)
+UNAMEM := $(shell uname -m)
 ifneq ($(UNAME), Darwin)
-    LDFLAGS += -Wl,-export-dynamic -lstdc++fs
+  LDFLAGS += -Wl,-export-dynamic -lstdc++fs
+  EXPORTERS := -Wl,--whole-archive ExporterTest/ExporterTest.a -Wl,--no-whole-archive
+else
+  EXPORTERS := -Wl,-force_load ExporterTest/ExporterTest.a
+  ifeq ($(UNAMEM),arm64)
+    ifeq ($(shell brew list libpng > /dev/null 2>&1; echo $$?),0)
+      LDFLAGS += -L $(shell brew --prefix)/lib
+      INC += -I $(shell brew --prefix)/include
+      else
+      $(error Please install libpng via Homebrew)
+    endif
+  endif
 endif
+
 
 ZAPD_SRC_DIRS := $(shell find ZAPD -type d)
 SRC_DIRS = $(ZAPD_SRC_DIRS) lib/tinyxml2
@@ -115,4 +131,4 @@ ZAPDUtils:
 
 # Linking
 ZAPD.out: $(O_FILES) lib/libgfxd/libgfxd.a ExporterTest ZAPDUtils
-	$(CXX) $(CXXFLAGS) $(O_FILES) lib/libgfxd/libgfxd.a ZAPDUtils/ZAPDUtils.a -Wl,--whole-archive ExporterTest/ExporterTest.a -Wl,--no-whole-archive $(LDFLAGS) $(OUTPUT_OPTION)
+	$(CXX) $(CXXFLAGS) $(O_FILES) lib/libgfxd/libgfxd.a ZAPDUtils/ZAPDUtils.a $(EXPORTERS) $(LDFLAGS) $(OUTPUT_OPTION)

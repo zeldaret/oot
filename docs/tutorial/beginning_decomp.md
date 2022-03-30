@@ -60,8 +60,8 @@ The above is a rough ordering for the beginner. As you become more experienced, 
 
 Associated to each actor is a `.data` file, containing data that the actor uses. This ranges from spawn positions, to display lists, to even some cutscene data. Since the structure of the data is very inconsistent between actors, automatic importing has been very limited, so the vast majority must be done manually.
 
-There are two ways of transfering the data into an actor: we can either 
-- import it all naively as words (`s32`s), which will still allow it to compile, and sort out the actual types later, or 
+There are two ways of transfering the data into an actor: we can either
+- import it all naively as words (`s32`s), which will still allow it to compile, and sort out the actual types later, or
 - we can extern each piece of data as we come across it, and come back to it later when we have a better idea of what it is.
 
 We will concentrate on the second here; the other is covered in [the document about data](data.md). Thankfully this means we essentially don't have to do anything to the data yet. Nevertheless, it is often quite helpful to copy over at least some of the data and leave it commented out for later replacement. *Data must go in the same order as in the data file, and data is "all or nothing": you cannot only import some of it*.
@@ -93,7 +93,7 @@ from the main directory of the repository. In this case, the C file is `src/over
 
 ![Copying the context](images/ctx.png)
 
-Now, open the file containing the assembly for `EnJj_Init`. 
+Now, open the file containing the assembly for `EnJj_Init`.
 
 ![Copying the Init asm](images/init_asm.png)
 
@@ -117,7 +117,7 @@ void EnJj_Init(EnJj *this, GlobalContext *globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     temp_v0 = this->actor.params;
     temp_a1 = this + 0x164;
-	[...]
+    [...]
 ```
 
 Typically for all buth the simplest functions, there is a lot that needs fixing before we are anywhere near seeing how close we are to the original code. You will notice that mips2c creates a lot of temporary variables. Usually most of these will turn out to not be real, and we need to remove the right ones to get the code to match.
@@ -217,7 +217,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
 In the next sections, we shall sort out the various initialisation functions that occur in Init. There are several types, and one of the reasons we are using EnJj as the example is that it has several of the most common ones. A disadvantage of this actor is that it has an unusually complicated Init: we can see that it does three different things depending on the value of its params.
 
 ### Init chains
- 
+
 Almost always, one of the first items in `Init` is a function that looks like
 
 ```C
@@ -324,7 +324,7 @@ this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this-
 Next, replace `(DynaPolyActor *) this` by `&this->dyna`. There's not a lot more we can do to the DynaPoly stuff right now, so just remove the casts to void and move on.
 
 ### Colliders
- 
+
 The next common thing that actors have is colliders. Not every actor has these, but most do, even if they don't just use them for collision system purposes.
 
 The relevant functions in this actor are
@@ -355,7 +355,7 @@ Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &D_80A88CB4)
 
 (You may prefer to just comment out temps initially, to keep track of where they were.)
 
-The last thing we need to deal with is the last variable of `Collider_SetCylinder`, which is again data. 
+The last thing we need to deal with is the last variable of `Collider_SetCylinder`, which is again data.
 
 <!--Also again we have a script to translate the raw data. This one is called `colliderinit.py`, and lives in `tools/overlayhelpers`. It takes the VRAM address of the data and the type of collider (for more info on use, pass it `-h`). We find
 ```
@@ -575,7 +575,7 @@ Unfortunately the others are not so easy to deal with. In order to find out what
 
 ```MIPS
 glabel func_80A87800
-/* 00000 80A87800 03E00008 */  jr      $ra                        
+/* 00000 80A87800 03E00008 */  jr      $ra
 /* 00004 80A87804 AC8502FC */  sw      $a1, 0x02FC($a0)           ## 000002FC
 ```
 
@@ -593,7 +593,7 @@ Put this between `struct EnJj;` and the actor struct in the header file. This al
 We have actually learnt three useful pieces of information from this, the other two being that the function above Init is simply
 ```C
 void func_80A87800(EnJj* this, EnJjActionFunc actionFunc) {
-	this->actionFunc = actionFunc;
+    this->actionFunc = actionFunc;
 }
 ```
 
@@ -695,7 +695,7 @@ extern UNK_TYPE D_0600BA8C;
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func_80A87800.s")
 void func_80A87800(EnJj* this, EnJjActionFunc actionFunc) {
-	this->actionFunc = actionFunc;
+    this->actionFunc = actionFunc;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/EnJj_Init.s")
@@ -904,7 +904,7 @@ except we still have some stack issues. Now that `temp_v0` is only used once, it
 void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnJj* this = THIS;
-	...
+    ...
 ```
 
 It turns out that this is enough to completely fix the diff:

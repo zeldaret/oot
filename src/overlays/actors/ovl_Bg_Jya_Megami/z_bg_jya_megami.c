@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_jya_megami.c
+ * Overlay: ovl_Bg_Jya_Megami
+ * Description: Face of Spirit Temple Goddess Statue
+ */
+
 #include "z_bg_jya_megami.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
@@ -327,8 +333,8 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
         piece = &this->pieces[i];
         Matrix_Translate(piece->pos.x + sPiecesInit[i].unk_00.x, piece->pos.y + sPiecesInit[i].unk_00.y,
                          piece->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
-        Matrix_RotateY(piece->rotVelY * (M_PI / 0x8000), MTXMODE_APPLY);
-        Matrix_RotateX(piece->rotVelX * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(piece->rotVelY), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(piece->rotVelX), MTXMODE_APPLY);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         Matrix_Translate(sPiecesInit[i].unk_00.x * -10.0f, sPiecesInit[i].unk_00.y * -10.0f,
                          sPiecesInit[i].unk_00.z * -10.0f, MTXMODE_APPLY);

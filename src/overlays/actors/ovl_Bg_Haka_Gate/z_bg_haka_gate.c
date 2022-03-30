@@ -151,7 +151,7 @@ void BgHakaGate_StatueInactive(BgHakaGate* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->dyna.unk_150 != 0.0f) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
     }
 }
@@ -170,7 +170,7 @@ void BgHakaGate_StatueIdle(BgHakaGate* this, GlobalContext* globalCtx) {
             this->vTurnDirection = linkDirection * forceDirection;
             this->actionFunc = BgHakaGate_StatueTurn;
         } else {
-            player->stateFlags2 &= ~0x10;
+            player->stateFlags2 &= ~PLAYER_STATE2_4;
             this->dyna.unk_150 = 0.0f;
             if (this->vTimer != 0) {
                 this->vTimer--;
@@ -195,7 +195,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     turnFinished = Math_StepToS(&this->vTurnAngleDeg10, 600, this->vTurnRateDeg10);
     turnAngle = this->vTurnAngleDeg10 * this->vTurnDirection;
     this->dyna.actor.shape.rot.y = (this->vRotYDeg10 + turnAngle) * 0.1f * (0x10000 / 360.0f);
-    if ((player->stateFlags2 & 0x10) && (sStatueDistToPlayer > 0.0f)) {
+    if ((player->stateFlags2 & PLAYER_STATE2_4) && (sStatueDistToPlayer > 0.0f)) {
         player->actor.world.pos.x =
             this->dyna.actor.home.pos.x +
             (Math_SinS(this->dyna.actor.shape.rot.y - this->vInitTurnAngle) * sStatueDistToPlayer);
@@ -207,7 +207,7 @@ void BgHakaGate_StatueTurn(BgHakaGate* this, GlobalContext* globalCtx) {
     }
     sStatueRotY = this->dyna.actor.shape.rot.y;
     if (turnFinished) {
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->vRotYDeg10 = (this->vRotYDeg10 + turnAngle) % 3600;
         this->vTurnRateDeg10 = 0;
         this->vTurnAngleDeg10 = 0;
@@ -291,7 +291,7 @@ void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         Math_StepToS(&this->vFlameScale, 350, 20);
     }
-    if (globalCtx->actorCtx.unk_03) {
+    if (globalCtx->actorCtx.lensActive) {
         this->dyna.actor.flags |= ACTOR_FLAG_7;
     } else {
         this->dyna.actor.flags &= ~ACTOR_FLAG_7;
@@ -325,7 +325,7 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
         Matrix_Translate(thisx->world.pos.x, thisx->world.pos.y + 15.0f, thisx->world.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx))), MTXMODE_APPLY);
         scale = this->vFlameScale * 0.00001f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 744),
@@ -353,14 +353,14 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 781);
             Matrix_Get(&currentMtxF);
             Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
-            Matrix_RotateX(this->vOpenAngle * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(this->vOpenAngle), MTXMODE_APPLY);
             Matrix_Translate(0.0f, 0.0f, 2000.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 788),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_OPA_DISP++, object_haka_objects_DL_010A10);
             Matrix_Put(&currentMtxF);
             Matrix_Translate(0.0f, 0.0f, 2000.0f, MTXMODE_APPLY);
-            Matrix_RotateX(-this->vOpenAngle * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(-this->vOpenAngle), MTXMODE_APPLY);
             Matrix_Translate(0.0f, 0.0f, -2000.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 796),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

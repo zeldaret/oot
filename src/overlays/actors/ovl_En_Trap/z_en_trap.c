@@ -88,7 +88,9 @@ void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             trapSpeed = 10.0f;
             thisx->params = 0xF;
         }
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 20.0f, 20.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 20.0f, 20.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
         thisx->home.pos = thisx->world.pos;
         this->targetPosLeft.x = thisx->world.pos.x + (trapDist * Math_CosS(thisx->world.rot.y));
         this->targetPosLeft.z = thisx->world.pos.z - (trapDist * Math_SinS(thisx->world.rot.y));
@@ -180,7 +182,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             this->vContinue = 1.0f;
             // If physically touching a wall and wall faces towards spike trap
-            if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) >= 0x6000)) {
+            if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) >= 0x6000)) {
                 this->vContinue = 0.0f;
             }
             // If there is a collision poly between current position and a position 30 units ahead of spike trap
@@ -224,7 +226,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case DIR_FWD:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_FWD_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) > 0x6000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) > 0x6000)) {
                             this->vMovementMetric = 0.0f;
                         }
                         if (touchingActor && (this->vMovementMetric != 0.0f) && (ABS(angleToCollidedActor) > 0x6000)) {
@@ -243,7 +245,8 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case DIR_LEFT:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_LEFT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & 8) && (angleToWall < -0x2000) && (angleToWall > -0x6000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall < -0x2000) &&
+                                   (angleToWall > -0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
@@ -265,7 +268,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case DIR_BACK:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_BACK_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) < 0x2000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (ABS(angleToWall) < 0x2000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
@@ -286,7 +289,8 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                     case DIR_RIGHT:
                         if (!(thisx->params & SPIKETRAP_FOURWAY_RIGHT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
-                        } else if ((thisx->bgCheckFlags & 8) && (angleToWall > 0x2000) && (angleToWall < 0x6000)) {
+                        } else if ((thisx->bgCheckFlags & BGCHECKFLAG_WALL) && (angleToWall > 0x2000) &&
+                                   (angleToWall < 0x6000)) {
                             this->vMovementMetric = 0.0f;
                             break;
                         }
@@ -324,7 +328,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->vClosestDirection = (Math_Vec3f_Yaw(&thisx->world.pos, &thisx->home.pos) + 0x2000) & 0xC000;
                 switch (this->vClosestDirection) {
                     case 0: // movement is closest to +z direction
-                        if (thisx->bgCheckFlags & 8) {
+                        if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                             if (ABS(thisx->wallYaw) > 0x6000) {
                                 blockedOnReturn = true;
                             }
@@ -333,7 +337,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
                         break;
                     case 0x4000: // movement is closest to +x direction
-                        if (thisx->bgCheckFlags & 8) {
+                        if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                             if ((thisx->wallYaw < -0x2000) && (thisx->wallYaw > -0x6000)) {
                                 blockedOnReturn = true;
                             }
@@ -343,7 +347,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
                         break;
                     case -0x8000: // movement is closest to -z direction
-                        if (thisx->bgCheckFlags & 8) {
+                        if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                             if (ABS(thisx->wallYaw) < 0x2000) {
                                 blockedOnReturn = true;
                             }
@@ -352,7 +356,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
                         break;
                     case -0x4000: // movement is closest to -x direction
-                        if (thisx->bgCheckFlags & 8) {
+                        if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                             if ((thisx->wallYaw > 0x2000) && (thisx->wallYaw < 0x6000)) {
                                 blockedOnReturn = true;
                             }
@@ -373,7 +377,9 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             posTemp = thisx->world.pos;
         }
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 25.0f, 20.0f, 20.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 25.0f, 20.0f, 20.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             thisx->world.pos.x = posTemp.x;
             thisx->world.pos.z = posTemp.z;

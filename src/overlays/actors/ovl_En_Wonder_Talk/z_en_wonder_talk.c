@@ -66,7 +66,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->height = 0.0f;
                 this->unk_15C = 80.0f;
                 // "Attention coordinates"
-                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 if (!LINK_IS_ADULT) {
                     this->actor.textId = 0x7040;
                     // "Children"
@@ -88,7 +88,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->height = 30.0f;
                 this->unk_15C = 40.0f;
                 // "Attention coordinates"
-                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 30.0f);
+                osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 30.0f);
                 break;
             case 3:
                 this->actor.textId = 0x501E;
@@ -96,14 +96,14 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // "Attention coordinates"
-                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 break;
             case 4:
                 this->actor.textId = 0x5020;
                 this->unk_156 = TEXT_STATE_DONE;
                 this->height = 0.0f;
                 // "Attention coordinates"
-                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 this->unk_15C = 120.0f;
                 if (gSaveContext.eventChkInf[1] & 0x2000) {
                     Actor_Kill(&this->actor);
@@ -115,7 +115,7 @@ void func_80B391CC(EnWonderTalk* this, GlobalContext* globalCtx) {
                 this->height = 0.0f;
                 this->unk_15C = 110.0f;
                 // "Attention coordinates"
-                osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
+                osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 注目座標\t       \t☆☆☆☆☆ %f\n" VT_RST, 0.0f);
                 break;
             default:
                 this->actor.textId = 0x7072;
@@ -158,7 +158,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
                     // "Save information"
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ セーブ情報\t\t☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
                     // "Type index"
-                    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 種類インデックス\t☆☆☆☆☆ %d\n" VT_RST, this->unk_150);
+                    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 種類インデックス\t☆☆☆☆☆ %d\n" VT_RST, this->unk_150);
                     // "Actual message type"
                     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
                     // "Specified range"
@@ -198,7 +198,7 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
                         break;
                     case 1:
                         // "Out!"
-                        osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" VT_RST);
+                        osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ はずれ！ ☆☆☆☆☆ \n" VT_RST);
                         this->actor.textId = 0x5004;
                         break;
                 }

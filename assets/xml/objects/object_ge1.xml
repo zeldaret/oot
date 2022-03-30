@@ -63,7 +63,7 @@
 
         <!-- White-clothed Gerudo Hair textures -->
         <Texture Name="gGerudoWhiteHairTex" OutName="gerudo_white_hair" Format="ci8" Width="16" Height="16" Offset="0x2A08" TlutOffset="0x2808"/>
-        
+
         <!-- White-clothed Gerudo Eye Textures -->
         <Texture Name="gGerudoWhiteEyeOpenTex" OutName="gerudo_white_eye_open" Format="rgba16" Width="32" Height="32" Offset="0x0708"/>
         <Texture Name="gGerudoWhiteEyeHalfTex" OutName="gerudo_white_eye_half" Format="rgba16" Width="32" Height="32" Offset="0x0F08"/>

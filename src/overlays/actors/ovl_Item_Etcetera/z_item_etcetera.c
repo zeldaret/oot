@@ -162,9 +162,9 @@ void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
 }
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     Actor_MoveForward(&this->actor);
-    if (!(this->actor.bgCheckFlags & 1)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         ItemEtcetera_SpawnSparkles(this, globalCtx);
     }
     this->actor.shape.rot.y += 0x400;
@@ -201,7 +201,7 @@ void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = (ItemEtcetera*)thisx;
-    if (globalCtx->actorCtx.unk_03 != 0) {
+    if (globalCtx->actorCtx.lensActive) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
         GetItem_Draw(globalCtx, this->giDrawId);

@@ -21,7 +21,6 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx);
 s32 func_80AA2F28(EnMa3* this);
 void EnMa3_UpdateEyes(EnMa3* this);
-void EnMa3_ChangeAnim(EnMa3* this, s32 arg1);
 void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
@@ -58,7 +57,15 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 sAnimationInfo[] = {
+typedef enum {
+    /* 0 */ ENMA3_ANIM_0,
+    /* 1 */ ENMA3_ANIM_1,
+    /* 2 */ ENMA3_ANIM_2,
+    /* 3 */ ENMA3_ANIM_3,
+    /* 4 */ ENMA3_ANIM_4
+} EnMa3Animation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },       { &gMalonAdultIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonAdultStandStillAnim, 1.0f, ANIMMODE_LOOP, 0.0f }, { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonAdultSingAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
@@ -90,7 +97,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
             return 0x2004;
         }
     }
-    if ((!(player->stateFlags1 & 0x800000)) &&
+    if ((!(player->stateFlags1 & PLAYER_STATE1_23)) &&
         (Actor_FindNearby(globalCtx, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
@@ -224,11 +231,11 @@ void EnMa3_UpdateEyes(EnMa3* this) {
     }
 }
 
-void EnMa3_ChangeAnim(EnMa3* this, s32 idx) {
-    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
+void EnMa3_ChangeAnim(EnMa3* this, s32 index) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -243,11 +250,11 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:
-            EnMa3_ChangeAnim(this, 0);
+            EnMa3_ChangeAnim(this, ENMA3_ANIM_0);
             this->actionFunc = func_80AA3200;
             break;
         case 1:
-            EnMa3_ChangeAnim(this, 0);
+            EnMa3_ChangeAnim(this, ENMA3_ANIM_0);
             this->actionFunc = func_80AA3200;
             break;
         case 2:
@@ -255,7 +262,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_1E0.unk_00 = (u16)0;
 }
@@ -307,14 +314,14 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == MALON_ADULT_LIMB_HEAD) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec = this->unk_1E0.unk_08;
-        Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) {
         vec = this->unk_1E0.unk_0E;
-        Matrix_RotateY((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateX((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
     }
     if ((limbIndex == MALON_ADULT_LIMB_CHEST_AND_NECK) || (limbIndex == MALON_ADULT_LIMB_LEFT_SHOULDER) ||
         (limbIndex == MALON_ADULT_LIMB_RIGHT_SHOULDER)) {

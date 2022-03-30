@@ -54,7 +54,7 @@ typedef enum {
     /* 0x1E */ CAM_SET_CRAWLSPACE, // Used in all crawlspaces "RAIL3"
     /* 0x1F */ CAM_SET_START0, // Data is given in Temple of Time, but no surface uses it
     /* 0x20 */ CAM_SET_START1, // Scene/room door transitions that snap the camera to a fixed location (example: ganon's towers doors climbing up)
-    /* 0x21 */ CAM_SET_FREE0, // Full manual control is given over the camera 
+    /* 0x21 */ CAM_SET_FREE0, // Full manual control is given over the camera
     /* 0x22 */ CAM_SET_FREE2, // Various OnePoint Cutscenes, 10 total (example: falling chest)
     /* 0x23 */ CAM_SET_PIVOT_CORNER, // Inside the carpenter jail cells from theives hideout "CIRCLE4"
     /* 0x24 */ CAM_SET_PIVOT_WATER_SURFACE, // Player diving from the surface of the water to underwater "CIRCLE5"
@@ -390,7 +390,6 @@ typedef struct {
     { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
 
 typedef struct {
-    
     /* 0x00 */ SwingAnimation swing;
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ VecSph unk_20;
@@ -402,7 +401,7 @@ typedef struct {
     /* 0x08 */ f32 distMax;
     /* 0x0C */ f32 yawUpateRateTarget;
     /* 0x10 */ f32 maxYawUpdate;
-    /* 0x14 */ f32 unk_14; // never used.  
+    /* 0x14 */ f32 unk_14; // never used.
     /* 0x18 */ f32 atLERPScaleMax;
     /* 0x1C */ s16 interfaceFlags;
     /* 0x20 */ Jump1Anim anim;
@@ -789,7 +788,7 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ Linef unk_00;
+    /* 0x00 */ InfiniteLine unk_00;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ f32 unk_20;
@@ -913,7 +912,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f initalPos;
     /* 0x0C */ s16 animTimer;
-    /* 0x10 */ Linef sceneCamPosPlayerLine;
+    /* 0x10 */ InfiniteLine sceneCamPosPlayerLine;
 } Unique0Anim; // size = 0x28
 
 typedef struct {
@@ -953,7 +952,7 @@ typedef struct {
  * 0x2: Add atTargetInit to view's lookAt
  *      if initFlags & 0x6060: use world for focus point
  * 0x3: Add atTargetInit to camera's at
- * 0x4: Don't update targets? 
+ * 0x4: Don't update targets?
  * 0x8: flag to use atTagetInit as f32 pitch, yaw, r
  * 0x10: ? unused
  * 0x20: focus on player
@@ -1032,7 +1031,7 @@ typedef struct {
 typedef struct {
     /* 0x0 */ s16 interfaceFlags;
     /* 0x2 */ s16 unk_02;
-    /* 0x4 */ Demo6Anim anim; 
+    /* 0x4 */ Demo6Anim anim;
 } Demo6; // size = 0x14
 
 typedef struct {
@@ -1156,66 +1155,66 @@ typedef struct {
 } CamColChk; // size = 0x28
 
 typedef struct {
-    /* 0x0000 */ char paramData[0x50];
-    /* 0x0050 */ Vec3f at;
-    /* 0x005C */ Vec3f eye;
-    /* 0x0068 */ Vec3f up;
-    /* 0x0074 */ Vec3f eyeNext;
-    /* 0x0080 */ Vec3f skyboxOffset;
-    /* 0x008C */ struct GlobalContext* globalCtx;
-    /* 0x0090 */ struct Player* player;
-    /* 0x0094 */ PosRot playerPosRot;
-    /* 0x00A8 */ struct Actor* target;
-    /* 0x00AC */ PosRot targetPosRot;
-    /* 0x00C0 */ f32 rUpdateRateInv;
-    /* 0x00C4 */ f32 pitchUpdateRateInv;
-    /* 0x00C8 */ f32 yawUpdateRateInv;
-    /* 0x00CC */ f32 xzOffsetUpdateRate;
-    /* 0x00D0 */ f32 yOffsetUpdateRate;
-    /* 0x00D4 */ f32 fovUpdateRate;
-    /* 0x00D8 */ f32 xzSpeed;
-    /* 0x00DC */ f32 dist;
-    /* 0x00E0 */ f32 speedRatio;
-    /* 0x00E4 */ Vec3f posOffset;
-    /* 0x00F0 */ Vec3f playerPosDelta;
-    /* 0x00FC */ f32 fov;
-    /* 0x0100 */ f32 atLERPStepScale;
-    /* 0x0104 */ f32 playerGroundY;
-    /* 0x0108 */ Vec3f floorNorm;
-    /* 0x0114 */ f32 waterYPos;
-    /* 0x0118 */ s32 waterPrevCamIdx;
-    /* 0x011C */ s32 waterPrevCamSetting;
-    /* 0x0120 */ s32 waterQuakeId;
-    /* 0x0124 */ void* data0;
-    /* 0x0128 */ void* data1;
-    /* 0x012C */ s16 data2;
-    /* 0x012E */ s16 data3;
-    /* 0x0130 */ s16 uid;
-    /* 0x0132 */ char unk_132[2];
-    /* 0x0134 */ Vec3s inputDir;
-    /* 0x013A */ Vec3s camDir;
-    /* 0x0140 */ s16 status;
-    /* 0x0142 */ s16 setting;
-    /* 0x0144 */ s16 mode;
-    /* 0x0146 */ s16 bgCheckId;
-    /* 0x0148 */ s16 camDataIdx;
-    /* 0x014A */ s16 unk_14A;
-    /* 0x014C */ s16 unk_14C;
-    /* 0x014E */ s16 childCamId;
-    /* 0x0150 */ s16 unk_150;
-    /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ s16 prevSetting;
-    /* 0x0156 */ s16 nextCamDataIdx;
-    /* 0x0158 */ s16 nextBGCheckId;
-    /* 0x015A */ s16 roll;
-    /* 0x015C */ s16 paramFlags;
-    /* 0x015E */ s16 animState;
-    /* 0x0160 */ s16 timer;
-    /* 0x0162 */ s16 parentCamId;
-    /* 0x0164 */ s16 camId;
-    /* 0x0166 */ s16 prevCamDataIdx;
-    /* 0x0168 */ s16 csId;
-    /* 0x016A */ s16 unk_16A;
+    /* 0x000 */ char paramData[0x50];
+    /* 0x050 */ Vec3f at;
+    /* 0x05C */ Vec3f eye;
+    /* 0x068 */ Vec3f up;
+    /* 0x074 */ Vec3f eyeNext;
+    /* 0x080 */ Vec3f skyboxOffset;
+    /* 0x08C */ struct GlobalContext* globalCtx;
+    /* 0x090 */ struct Player* player;
+    /* 0x094 */ PosRot playerPosRot;
+    /* 0x0A8 */ struct Actor* target;
+    /* 0x0AC */ PosRot targetPosRot;
+    /* 0x0C0 */ f32 rUpdateRateInv;
+    /* 0x0C4 */ f32 pitchUpdateRateInv;
+    /* 0x0C8 */ f32 yawUpdateRateInv;
+    /* 0x0CC */ f32 xzOffsetUpdateRate;
+    /* 0x0D0 */ f32 yOffsetUpdateRate;
+    /* 0x0D4 */ f32 fovUpdateRate;
+    /* 0x0D8 */ f32 xzSpeed;
+    /* 0x0DC */ f32 dist;
+    /* 0x0E0 */ f32 speedRatio;
+    /* 0x0E4 */ Vec3f posOffset;
+    /* 0x0F0 */ Vec3f playerPosDelta;
+    /* 0x0FC */ f32 fov;
+    /* 0x100 */ f32 atLERPStepScale;
+    /* 0x104 */ f32 playerGroundY;
+    /* 0x108 */ Vec3f floorNorm;
+    /* 0x114 */ f32 waterYPos;
+    /* 0x118 */ s32 waterPrevCamIdx;
+    /* 0x11C */ s32 waterPrevCamSetting;
+    /* 0x120 */ s32 waterQuakeId;
+    /* 0x124 */ void* data0;
+    /* 0x128 */ void* data1;
+    /* 0x12C */ s16 data2;
+    /* 0x12E */ s16 data3;
+    /* 0x130 */ s16 uid;
+    /* 0x132 */ char unk_132[2];
+    /* 0x134 */ Vec3s inputDir;
+    /* 0x13A */ Vec3s camDir;
+    /* 0x140 */ s16 status;
+    /* 0x142 */ s16 setting;
+    /* 0x144 */ s16 mode;
+    /* 0x146 */ s16 bgCheckId;
+    /* 0x148 */ s16 camDataIdx;
+    /* 0x14A */ s16 unk_14A;
+    /* 0x14C */ s16 unk_14C;
+    /* 0x14E */ s16 childCamId;
+    /* 0x150 */ s16 waterDistortionTimer;
+    /* 0x152 */ s16 distortionFlags;
+    /* 0x154 */ s16 prevSetting;
+    /* 0x156 */ s16 nextCamDataIdx;
+    /* 0x158 */ s16 nextBGCheckId;
+    /* 0x15A */ s16 roll;
+    /* 0x15C */ s16 paramFlags;
+    /* 0x15E */ s16 animState;
+    /* 0x160 */ s16 timer;
+    /* 0x162 */ s16 parentCamId;
+    /* 0x164 */ s16 camId;
+    /* 0x166 */ s16 prevCamDataIdx;
+    /* 0x168 */ s16 csId;
+    /* 0x16A */ s16 unk_16A;
 } Camera; // size = 0x16C
 
 /**

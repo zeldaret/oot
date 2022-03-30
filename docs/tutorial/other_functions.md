@@ -13,15 +13,15 @@ Following the scheme we gave last time, we have three options:
 Another option is to look at `Destroy`, which for smaller actors can often be done straight after Init, since it usually just removes colliders and deallocates dynapoly. However, glancing at the three given functions' assembly, there is an obvious standout:
 ```MIPS
 glabel func_80A87F44
-/* 00744 80A87F44 AFA40000 */  sw      $a0, 0x0000($sp)           
-/* 00748 80A87F48 03E00008 */  jr      $ra                        
-/* 0074C 80A87F4C AFA50004 */  sw      $a1, 0x0004($sp)           
+/* 00744 80A87F44 AFA40000 */  sw      $a0, 0x0000($sp)
+/* 00748 80A87F48 03E00008 */  jr      $ra
+/* 0074C 80A87F4C AFA50004 */  sw      $a1, 0x0004($sp)
 
 ```
 This is a classic "function with two arguments that does nothing". So we can simply comment out the appropriate pragma and put
 ```C
 void func_80A87F44(Actor* thisx, GlobalContext* globalCtx) {
-    
+
 }
 ```
 in the C file.
@@ -190,7 +190,7 @@ To use the permuter, clone the decomp-permuter repo from the link given in Disco
 
 It will put it in a subdirectory of `nonmatchings`. You then run
 ```sh
-./permuter.py nonmatchings/<function_name>/ 
+./permuter.py nonmatchings/<function_name>/
 ```
 to produce suggestions. There are various arguments that can be used, of which the most important initially is `-j`: `-jN` tells it to use `N` CPU threads.
 
@@ -217,7 +217,7 @@ The first suggestion looks plausible:
 -      func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->childActor->bgId);
 +      func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, new_var->bgId);
      }
- 
+
    }
 ```
 
@@ -285,7 +285,7 @@ void func_80A87C30(EnJj *this, GlobalContext *globalCtx) {
 }
 ```
 
-There are three things left to do to this function: 
+There are three things left to do to this function:
 - prototype the new action function, `func_80A87CEC`. This one is used before its definition, so needs to be prototyped at the top of the file.
 - extern `D_80A88CF0`, and since the arguments of `Math_Vec3f_DistXZ` are `Vec3f`s, convert it to floats. To do float conversion, either use an online converter, or get an extension for VSCode that can do it. The data becomes
 ```C
@@ -698,7 +698,7 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
 
 At the top we have
 ```C
-temp_v0 = *globalCtx->unk1D94;
+    temp_v0 = *globalCtx->unk1D94;
     if (temp_v0 != 1) {
         if (temp_v0 != 2) {
             if (temp_v0 != 3) {
@@ -721,18 +721,18 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
 
     switch (globalCtx->csCtx.npcActions[2]->action) {
         case 1:
-			temp_v1_3 = this->unk_30A;
-			phi_v1 = temp_v1_3;
-			if ((temp_v1_3 & 2) != 0) {
-				this->unk_30E = 0;
-				this->unk_30F = Rand_S16Offset((u16)0x14, (u16)0x14);
-				this->unk_310 = 0;
-				temp_t9 = this->unk_30A ^ 2;
-				this->unk_311 = 0;
-				this->unk_30A = temp_t9;
-				phi_v1 = temp_t9 & 0xFFFF;
-			}
-			break;
+            temp_v1_3 = this->unk_30A;
+            phi_v1 = temp_v1_3;
+            if ((temp_v1_3 & 2) != 0) {
+                this->unk_30E = 0;
+                this->unk_30F = Rand_S16Offset((u16)0x14, (u16)0x14);
+                this->unk_310 = 0;
+                temp_t9 = this->unk_30A ^ 2;
+                this->unk_311 = 0;
+                this->unk_30A = temp_t9;
+                phi_v1 = temp_t9 & 0xFFFF;
+            }
+            break;
         case 2:
             temp_t1 = this->unk_30A | 1;
             temp_v1_2 = temp_t1 & 0xFFFF;
@@ -744,23 +744,23 @@ void func_80A87D94(EnJj *this, GlobalContext *globalCtx) {
                 this->unk_30A = temp_t4;
                 phi_v1 = temp_t4 & 0xFFFF;
             }
-			break;
+            break;
         case 3:
-			temp_v1 = this->unk_30A;
-			temp_t7 = temp_v1 | 2;
-			phi_v1 = temp_v1;
-			if ((temp_v1 & 2) == 0) {
-				this->unk_30E = 0;
-				this->unk_30F = 0;
-				this->unk_310 = 1;
-				this->unk_311 = 0;
-				this->unk_30A = temp_t7;
-				phi_v1 = temp_t7 & 0xFFFF;
-			}
-			break;
+            temp_v1 = this->unk_30A;
+            temp_t7 = temp_v1 | 2;
+            phi_v1 = temp_v1;
+            if ((temp_v1 & 2) == 0) {
+                this->unk_30E = 0;
+                this->unk_30F = 0;
+                this->unk_310 = 1;
+                this->unk_311 = 0;
+                this->unk_30A = temp_t7;
+                phi_v1 = temp_t7 & 0xFFFF;
+            }
+            break;
         default:
-             phi_v1 = this->unk_30A;
-			break;
+            phi_v1 = this->unk_30A;
+            break;
     }
     if ((phi_v1 & 1) != 0) {
         Audio_PlayActorSound2((Actor *) this, (u16)0x206DU);
@@ -780,7 +780,7 @@ As usual, most of the remaining temps look fake. The only one that does not is p
 
 <details>
 <summary>
-	Matching C for `func_80A87D94`
+    Matching C for `func_80A87D94`
 </summary>
 
 ```C

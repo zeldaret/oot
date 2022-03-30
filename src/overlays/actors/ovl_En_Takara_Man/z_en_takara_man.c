@@ -51,7 +51,7 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     sTakaraIsInitialized = true;
     osSyncPrintf("\n\n");
     // "Bun! %x" (needs a better translation)
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, globalCtx->actorCtx.flags.chest);
+    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST, globalCtx->actorCtx.flags.chest);
     globalCtx->actorCtx.flags.chest = 0;
     gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ts_Skel_004FE0, &object_ts_Anim_000498, this->jointTable,

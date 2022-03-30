@@ -254,7 +254,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
     if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
+        Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)) {
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->boxObjIdx].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
@@ -267,7 +267,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Put(&mtx);
         Matrix_Translate(167.0f, -218.0f, -453.0f, MTXMODE_APPLY);
         if (Flags_GetTreasure(globalCtx, 0xE)) {
-            Matrix_RotateZ(0x3500 * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(0x3500), MTXMODE_APPLY);
         } else {
             Matrix_RotateZ(M_PI, MTXMODE_APPLY);
         }
