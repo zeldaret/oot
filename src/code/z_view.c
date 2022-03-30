@@ -94,21 +94,21 @@ void View_GetScale(View* view, f32* scale) {
 
 void View_SetPerspective(View* view, f32 fovy, f32 zNear, f32 zFar) {
     view->fovy = fovy;
-    view->zNear = near;
-    view->zFar = far;
+    view->zNear = zNear;
+    view->zFar = zFar;
     view->dirtyFlags |= VIEW_PROJECTION_PERSPECTIVE;
 }
 
-void View_GetPerspective(View* view, f32* fovy, f32* near, f32* far) {
+void View_GetPerspective(View* view, f32* fovy, f32* zNear, f32* zFar) {
     *fovy = view->fovy;
-    *near = view->zNear;
-    *far = view->zFar;
+    *zNear = view->zNear;
+    *zFar = view->zFar;
 }
 
-void View_SetOrtho(View* view, f32 fovy, f32 near, f32 far) {
+void View_SetOrtho(View* view, f32 fovy, f32 zNear, f32 zFar) {
     view->fovy = fovy;
-    view->zNear = near;
-    view->zFar = far;
+    view->zNear = zNear;
+    view->zFar = zFar;
     view->dirtyFlags |= VIEW_PROJECTION_ORTHO;
     view->scale = 1.0f;
 }
@@ -117,10 +117,10 @@ void View_SetOrtho(View* view, f32 fovy, f32 near, f32 far) {
  * Identical to View_GetPerspective, and never called.
  * Named as it seems to fit the "set, get" pattern.
  */
-void View_GetOrtho(View* view, f32* fovy, f32* near, f32* far) {
+void View_GetOrtho(View* view, f32* fovy, f32* zNear, f32* zFar) {
     *fovy = view->fovy;
-    *near = view->zNear;
-    *far = view->zFar;
+    *zNear = view->zNear;
+    *zFar = view->zFar;
 }
 
 void View_SetViewport(View* view, Viewport* viewport) {
