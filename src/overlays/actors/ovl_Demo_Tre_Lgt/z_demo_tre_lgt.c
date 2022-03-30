@@ -131,7 +131,7 @@ void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
 }
 
-s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
+s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
@@ -147,6 +147,12 @@ s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, s32 
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 448);
+
+    //! @bug This function should return a boolean, true if it is to be drawn, but does not match with a return.
+    //! TODO: what happens to v0 here?
+#ifdef AVOID_UB
+    return true;
+#endif
 }
 
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -161,7 +167,7 @@ void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
-    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_PostLimbDraw, NULL, 1, thisx);
+    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, thisx);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_tre_lgt.c", 476);
 }
