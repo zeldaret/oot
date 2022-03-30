@@ -3,6 +3,9 @@
 
 vu32 sLogOnNextViewInit = true;
 
+s32 View_ApplyPerspective(View*);
+s32 View_ApplyOrtho(View*);
+
 void View_ViewportToVp(Vp* dest, Viewport* src) {
     s32 width = src->rightX - src->leftX;
     s32 height = src->bottomY - src->topY;
