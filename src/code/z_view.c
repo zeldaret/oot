@@ -276,9 +276,6 @@ void View_Apply(View* view, s32 mask) {
     }
 }
 
-/**
- * Subroutine of View_Apply
- */
 s32 View_ApplyPerspective(View* view) {
     f32 aspect;
     s32 width;
@@ -386,9 +383,6 @@ s32 View_ApplyPerspective(View* view) {
     return 1;
 }
 
-/**
- * Subroutine of View_Apply
- */
 s32 View_ApplyOrtho(View* view) {
     Vp* vp;
     Mtx* projection;
