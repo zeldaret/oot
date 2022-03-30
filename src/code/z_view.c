@@ -92,7 +92,7 @@ void View_GetScale(View* view, f32* scale) {
     *scale = view->scale;
 }
 
-void View_SetPerspective(View* view, f32 fovy, f32 near, f32 far) {
+void View_SetPerspective(View* view, f32 fovy, f32 zNear, f32 zFar) {
     view->fovy = fovy;
     view->zNear = near;
     view->zFar = far;
