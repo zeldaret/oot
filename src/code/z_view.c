@@ -290,7 +290,7 @@ s32 View_ApplyPerspective(View* view) {
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 596);
 
-    // Apply viewport
+    // Viewport
     vp = Graph_Alloc(gfxCtx, sizeof(Vp));
     LogUtils_CheckNullPointer("vp", vp, "../z_view.c", 601);
     View_ViewportToVp(vp, &view->viewport);
@@ -301,7 +301,7 @@ s32 View_ApplyPerspective(View* view) {
     gSPViewport(POLY_OPA_DISP++, vp);
     gSPViewport(POLY_XLU_DISP++, vp);
 
-    // Apply perspective projection
+    // Perspective projection
     projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
     LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 616);
     view->projectionPtr = projection;
@@ -348,7 +348,7 @@ s32 View_ApplyPerspective(View* view) {
     gSPPerspNormalize(POLY_XLU_DISP++, view->normal);
     gSPMatrix(POLY_XLU_DISP++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
-    // Apply view matrix (look-at)
+    // View matrix (look-at)
     viewing = Graph_Alloc(gfxCtx, sizeof(Mtx));
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 667);
     view->viewingPtr = viewing;
