@@ -65,4 +65,4 @@ typedef CurveInterpKnot TransformData;
 typedef CurveAnimationHeader TransformUpdateIndex;
 typedef CurveSkeletonHeader SkelCurveLimbList;
 
-#endif // Z64_CURVE_H
+#endif

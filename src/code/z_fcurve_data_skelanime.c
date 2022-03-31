@@ -2,17 +2,17 @@
  * File: z_fcurve_data_skelanime.c
  * Description: Curve skeleton animation system
  *
- * A curve skeleton has a fixed number of limbs, each of which has 9 propetries that may be changed by the animation:
+ * A curve skeleton has a fixed number of limbs, each of which has 9 properties that may be changed by the animation:
  * - 3 scales,
  * - 3 rotations,
  * - 3 positions
  * (note the position is stored in the animations instead of being stored in the limbs like SkelAnime would). Otherwise the structure is similar to an ordinary SkelAnime-compatible skeleton.
  *
  * The animations are significantly more complex than SkelAnime. A curve animation consists of 4 parts:
- * - a header (really a footer, for it is always last in the object file)
+ * - a header (CurveAnimationHeader)
  * - a list of counts for the 9 properties of each limb (u8)
  * - a list of interpolation data (CurveInterpKnot). The length is the sum of the counts.
- * - a list of constant data (). The length is the number of 0 in counts.
+ * - a list of constant data (s16[9]). The length is the number of 0 in counts.
  *
  * If the interpolation count for a property is 0, the value of the property is copied from the next number in the
  * constant data; there are no gaps for nonzero interpolation count.
@@ -39,7 +39,7 @@ void SkelCurve_Clear(SkelCurve* skelCurve) {
 }
 
 /**
- * Initialises the SkelCurve struct and mallocs the joint data.
+ * Initialises the SkelCurve struct and mallocs the joint table.
  *
  * @return bool always true
  */
@@ -59,7 +59,7 @@ s32 SkelCurve_Init(GlobalContext* globalCtx, SkelCurve* skelCurve, CurveSkeleton
 }
 
 /**
- * Frees the joint data.
+ * Frees the joint table.
  */
 void SkelCurve_Destroy(GlobalContext* globalCtx, SkelCurve* skelCurve) {
     if (skelCurve->jointTable != NULL) {
@@ -84,7 +84,7 @@ typedef enum {
 } SkelCurveVecType;
 
 #define SKELCURVE_SCALE_SCALE 1024.0f
-#define SKELCURVE_SCALE_ROTATION (32768.0f / 180.0f)
+#define SKELCURVE_SCALE_ROTATION (0x8000 / 180.0f)
 #define SKELCURVE_SCALE_POSITION 100
 
 /**
