@@ -18,23 +18,23 @@
         <Animation Name="object_ik_Anim_0008DC" Offset="0x8DC"/>
         <Animation Name="object_ik_Anim_000C6C" Offset="0xC6C"/>
         <Animation Name="object_ik_Anim_000F0C" Offset="0xF0C"/>
-        <Animation Name="gIronKnuckleVerticleAttackAnim" Offset="0x1C28"/>
-        <Animation Name="gIronKnuckleRecoverFromVerticleAttackAnim" Offset="0x2538"/>
+        <Animation Name="gIronKnuckleVerticalAttackAnim" Offset="0x1C28"/>
+        <Animation Name="gIronKnuckleRecoverFromVerticalAttackAnim" Offset="0x2538"/>
         <Animation Name="gIronKnuckleAxeStuckAnim" Offset="0x29FC"/>
         <Animation Name="gIronKnuckleHorizontalAttackAnim" Offset="0x33C4"/>
-        <Animation Name="gIronKnuckleRecoverFromHorizontalAnim" Offset="0x3DBC"/>
-        <Animation Name="gIronKuckleBackHitAnim" Offset="0x45BC"/>
+        <Animation Name="gIronKnuckleRecoverFromHorizontalAttackAnim" Offset="0x3DBC"/>
+        <Animation Name="gIronKnuckleBackHitAnim" Offset="0x45BC"/>
         <Animation Name="gIronKnuckleBlockAnim" Offset="0x485C"/>
         <Animation Name="gIronKnuckleDeathAnim" Offset="0x5944"/>
-        <Animation Name="gIronKuckleFrontHitAnim" Offset="0x6194"/>
-        <Animation Name="gIronKuckleRunAnim" Offset="0x6734"/>
-        <Animation Name="gIronKuckleNabooruSummonAxeAnim" Offset="0xC114"/>
-        <Animation Name="gIronKuckleStandUpAnim" Offset="0xCD70"/>
+        <Animation Name="gIronKnuckleFrontHitAnim" Offset="0x6194"/>
+        <Animation Name="gIronKnuckleRunAnim" Offset="0x6734"/>
+        <Animation Name="gIronKnuckleNabooruSummonAxeAnim" Offset="0xC114"/>
+        <Animation Name="gIronKnuckleStandUpAnim" Offset="0xCD70"/>
         <Animation Name="object_ik_Anim_00DD50" Offset="0xDD50"/>
-        <Animation Name="gIronKuckleWalkAnim" Offset="0xED24"/>
+        <Animation Name="gIronKnuckleWalkAnim" Offset="0xED24"/>
         <Animation Name="object_ik_Anim_01EB14" Offset="0x1EB14"/>
-        <Animation Name="object_ik_Anim_01EE34" Offset="0x1EE34"/> <!-- Crashes when trying to view -->
-        <Animation Name="gIronKuckleNabooruDeathAnim" Offset="0x203D8"/>
+        <Animation Name="object_ik_Anim_01EE34" Offset="0x1EE34"/>
+        <Animation Name="gIronKnuckleNabooruDeathAnim" Offset="0x203D8"/>
 
         <Texture Name="object_ik_Tlut_00F630" OutName="tlut_00F630" Format="rgba16" Width="23" Height="8" Offset="0xf630"/>
         <Texture Name="object_ik_Tex_00F7A0" OutName="tex_00F7A0" Format="i4" Width="32" Height="64" Offset="0xF7A0"/>

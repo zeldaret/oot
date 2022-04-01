@@ -13,10 +13,7 @@
 
 typedef void (*EnIkDrawFunc)(struct EnIk*, GlobalContext*);
 
-typedef enum {
-    /* 0x00 */ ARMOR_UNBROKEN,
-    /* 0x01 */ ARMOR_BROKEN
-} EnIkArmorStatus;
+#define ARMOR_BROKEN (1 << 0)
 
 typedef enum {
     /* 0x00 */ IK_ACTION_INIT,
@@ -53,14 +50,14 @@ void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnIk_SetupStandup(EnIk* this);
-void EnIk_Standup(EnIk* this, GlobalContext* globalCtx);
+void EnIk_SetupStandUp(EnIk* this);
+void EnIk_StandUp(EnIk* this, GlobalContext* globalCtx);
 void EnIk_Idle(EnIk* this, GlobalContext* globalCtx);
 void EnIk_SetupWalkOrRun(EnIk* this);
 void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx);
 void EnIk_SetupVerticleAttack(EnIk* this);
 void EnIk_VerticleAttack(EnIk* this, GlobalContext* globalCtx);
-void EnIk_SetupPulloutAxe(EnIk* this);
+void EnIk_SetupPullOutAxe(EnIk* this);
 void EnIk_PulloutAxe(EnIk* this, GlobalContext* globalCtx);
 void EnIk_SetupDoubleHorizontalAttack(EnIk* this);
 void EnIk_DoubleHorizontalAttack(EnIk* this, GlobalContext* globalCtx);
@@ -234,7 +231,7 @@ void EnIk_SetAndInitColliders(Actor* thisx, GlobalContext* globalCtx) {
 
     thisx->colChkInfo.damageTable = &sDamageTable;
     thisx->colChkInfo.mass = MASS_HEAVY;
-    this->isDestroyingIronObj = 0;
+    this->isDestroyingBgJyaIronobj = false;
     thisx->colChkInfo.health = 30;
     thisx->gravity = -1.0f;
     this->switchFlags = (thisx->params >> 8) & 0xFF;
@@ -263,7 +260,7 @@ void EnIk_SetAndInitColliders(Actor* thisx, GlobalContext* globalCtx) {
     blureInit.calcMode = 2;
 
     Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
-    EnIk_SetupStandup(this);
+    EnIk_SetupStandUp(this);
 
     if (this->switchFlags != 0xFF) {
         if (Flags_GetSwitch(globalCtx, this->switchFlags)) {
@@ -276,7 +273,7 @@ void EnIk_SetAndInitColliders(Actor* thisx, GlobalContext* globalCtx) {
 
 // Checks to see if action can be interrupted to block attack
 s32 EnIk_ChangeAction(EnIk* this, GlobalContext* globalCtx) {
-    if (((this->armorStatusFlag != ARMOR_UNBROKEN) || (this->actor.params == 0)) &&
+    if (((this->armorStatusFlag != 0) || (this->actor.params == 0)) &&
         (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x4000, this->actor.shape.rot.y) != 0) &&
         (globalCtx->gameplayFrames & 1)) {
         EnIk_SetupStopAndBlock(this);
@@ -304,8 +301,8 @@ Actor* EnIk_CheckForIronObj(GlobalContext* globalCtx, Actor* actor) {
     return NULL;
 }
 
-void EnIk_SetupStandup(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIronKuckleStandUpAnim);
+void EnIk_SetupStandUp(EnIk* this) {
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleStandUpAnim);
     f32 frame;
 
     if (this->actor.params >= 2) {
@@ -314,13 +311,13 @@ void EnIk_SetupStandup(EnIk* this) {
         frame = 0.0f;
     }
 
-    Animation_Change(&this->skelAnime, &gIronKuckleStandUpAnim, 0.0f, frame, frames, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleStandUpAnim, 0.0f, frame, frames, ANIMMODE_ONCE, 0.0f);
     this->unk_2F8 = 3;
     this->actor.speedXZ = 0.0f;
-    EnIk_SetupAction(this, EnIk_Standup);
+    EnIk_SetupAction(this, EnIk_StandUp);
 }
 
-void EnIk_Standup(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_StandUp(EnIk* this, GlobalContext* globalCtx) {
     Vec3f sp24;
 
     if (this->bodyCollider.base.acFlags & AC_HIT) {
@@ -351,7 +348,7 @@ void EnIk_SetupIdle(EnIk* this) {
 }
 
 void EnIk_Idle(EnIk* this, GlobalContext* globalCtx) {
-    s32 phi_a0 = (this->armorStatusFlag == ARMOR_UNBROKEN) ? 0xAAA : 0x3FFC;
+    s32 phi_a0 = (this->armorStatusFlag == 0) ? 0xAAA : 0x3FFC;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistToPlayer < 100.0f) &&
@@ -372,12 +369,12 @@ void EnIk_Idle(EnIk* this, GlobalContext* globalCtx) {
 
 void EnIk_SetupWalkOrRun(EnIk* this) {
     this->unk_2F8 = 5;
-    if (this->armorStatusFlag == ARMOR_UNBROKEN) {
-        Animation_Change(&this->skelAnime, &gIronKuckleWalkAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gIronKuckleWalkAnim), ANIMMODE_LOOP, -4.0f);
+    if (this->armorStatusFlag == 0) {
+        Animation_Change(&this->skelAnime, &gIronKnuckleWalkAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gIronKnuckleWalkAnim), ANIMMODE_LOOP, -4.0f);
         this->actor.speedXZ = 0.9f;
     } else {
-        Animation_Change(&this->skelAnime, &gIronKuckleRunAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKuckleRunAnim),
+        Animation_Change(&this->skelAnime, &gIronKnuckleRunAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gIronKnuckleRunAnim),
                          ANIMMODE_LOOP, -4.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DASH);
         this->actor.speedXZ = 2.5f;
@@ -394,7 +391,7 @@ void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx) {
     s16 sp2E;
     s16 stepVal;
 
-    if (this->armorStatusFlag == ARMOR_UNBROKEN) {
+    if (this->armorStatusFlag == 0) {
         temp_t0 = 0xAAA;
         stepVal = 0x320;
         sp30 = 0;
@@ -426,7 +423,7 @@ void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx) {
     }
     if (EnIk_CheckForIronObj(globalCtx, &this->actor) != NULL) {
         EnIk_SetupDoubleHorizontalAttack(this);
-        this->isDestroyingIronObj = 1;
+        this->isDestroyingBgJyaIronobj = true;
     } else {
         temp_t0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         if (ABS(temp_t0) > 0x4000) {
@@ -446,12 +443,12 @@ void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void EnIk_SetupVerticleAttack(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIronKnuckleVerticleAttackAnim);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleVerticalAttackAnim);
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &gIronKnuckleVerticleAttackAnim, 1.5f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleVerticalAttackAnim, 1.5f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
     EnIk_SetupAction(this, EnIk_VerticleAttack);
 }
 
@@ -473,7 +470,7 @@ void EnIk_VerticleAttack(EnIk* this, GlobalContext* globalCtx) {
     if ((this->skelAnime.curFrame > 17.0f) && (this->skelAnime.curFrame < 23.0f)) {
         this->unk_2FE = 1;
     } else {
-        if ((this->armorStatusFlag != ARMOR_UNBROKEN) && (this->skelAnime.curFrame < 10.0f)) {
+        if ((this->armorStatusFlag != 0) && (this->skelAnime.curFrame < 10.0f)) {
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.world.rot.y;
         }
@@ -481,11 +478,11 @@ void EnIk_VerticleAttack(EnIk* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        EnIk_SetupPulloutAxe(this);
+        EnIk_SetupPullOutAxe(this);
     }
 }
 
-void EnIk_SetupPulloutAxe(EnIk* this) {
+void EnIk_SetupPullOutAxe(EnIk* this) {
     f32 frames = Animation_GetLastFrame(&gIronKnuckleAxeStuckAnim);
 
     this->unk_2FE = 0;
@@ -504,9 +501,9 @@ void EnIk_PulloutAxe(EnIk* this, GlobalContext* globalCtx) {
         if (this->unk_2F8 == 8) {
             EnIk_SetupIdle(this);
         } else {
-            frames = Animation_GetLastFrame(&gIronKnuckleRecoverFromVerticleAttackAnim);
+            frames = Animation_GetLastFrame(&gIronKnuckleRecoverFromVerticalAttackAnim);
             this->unk_2F8 = 8;
-            Animation_Change(&this->skelAnime, &gIronKnuckleRecoverFromVerticleAttackAnim, 1.5f, 0.0f, frames,
+            Animation_Change(&this->skelAnime, &gIronKnuckleRecoverFromVerticalAttackAnim, 1.5f, 0.0f, frames,
                              ANIMMODE_ONCE_INTERP, -4.0f);
         }
     }
@@ -522,7 +519,7 @@ void EnIk_SetupDoubleHorizontalAttack(EnIk* this) {
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleHorizontalAttackAnim, 0.0f, 0.0f, frames, ANIMMODE_ONCE_INTERP,
                      -6.0f);
-    this->isDestroyingIronObj = 0;
+    this->isDestroyingBgJyaIronobj = false;
     EnIk_SetupAction(this, EnIk_DoubleHorizontalAttack);
 }
 
@@ -538,7 +535,7 @@ void EnIk_DoubleHorizontalAttack(EnIk* this, GlobalContext* globalCtx) {
     }
     if (((this->skelAnime.curFrame > 1.0f) && (this->skelAnime.curFrame < 9.0f)) ||
         ((this->skelAnime.curFrame > 13.0f) && (this->skelAnime.curFrame < 18.0f))) {
-        if ((this->isDestroyingIronObj == 0) && (this->armorStatusFlag != ARMOR_UNBROKEN) &&
+        if (!this->isDestroyingBgJyaIronobj && (this->armorStatusFlag != 0) &&
             (this->skelAnime.curFrame < 10.0f)) {
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
             this->actor.shape.rot.y = this->actor.world.rot.y;
@@ -556,11 +553,11 @@ void EnIk_DoubleHorizontalAttack(EnIk* this, GlobalContext* globalCtx) {
 }
 
 void EnIk_SetupRecoverFromHorizontalAttack(EnIk* this) {
-    f32 frames = Animation_GetLastFrame(&gIronKnuckleRecoverFromHorizontalAnim);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleRecoverFromHorizontalAttackAnim);
 
     this->unk_2FF = this->unk_2FE = 0;
     this->unk_2F8 = 8;
-    Animation_Change(&this->skelAnime, &gIronKnuckleRecoverFromHorizontalAnim, 1.5f, 0.0f, frames, ANIMMODE_ONCE_INTERP,
+    Animation_Change(&this->skelAnime, &gIronKnuckleRecoverFromHorizontalAttackAnim, 1.5f, 0.0f, frames, ANIMMODE_ONCE_INTERP,
                      -4.0f);
     EnIk_SetupAction(this, EnIk_RecoverFromHorizontalAttack);
 }
@@ -635,12 +632,12 @@ void EnIk_SetupReactToAttack(EnIk* this) {
     this->unk_2F8 = 0;
     yawDiff = yaw - this->actor.shape.rot.y;
     if (ABS(yawDiff) <= 0x4000) {
-        Animation_Change(&this->skelAnime, &gIronKuckleFrontHitAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gIronKuckleFrontHitAnim), ANIMMODE_ONCE, -4.0f);
+        Animation_Change(&this->skelAnime, &gIronKnuckleFrontHitAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gIronKnuckleFrontHitAnim), ANIMMODE_ONCE, -4.0f);
         this->actor.speedXZ = -6.0f;
     } else {
-        Animation_Change(&this->skelAnime, &gIronKuckleBackHitAnim, 1.0f, 0.0f,
-                         Animation_GetLastFrame(&gIronKuckleBackHitAnim), ANIMMODE_ONCE, -4.0f);
+        Animation_Change(&this->skelAnime, &gIronKnuckleBackHitAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gIronKnuckleBackHitAnim), ANIMMODE_ONCE, -4.0f);
         this->actor.speedXZ = 6.0f;
     }
     this->unk_2FE = 0;
@@ -735,8 +732,8 @@ void EnIk_UpdateDamage(EnIk* this, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    if ((this->damageEffect == 0) || (this->damageEffect == EN_IK_DMGEFF_PARTICLES_METAL) ||
-        ((this->armorStatusFlag == ARMOR_UNBROKEN) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
+    if ((this->damageEffect == EN_IK_DMGEFF_NONE) || (this->damageEffect == EN_IK_DMGEFF_PARTICLES_METAL) ||
+        ((this->armorStatusFlag == 0) && (this->damageEffect == EN_IK_DMGEFF_PROJECTILE))) {
         if (this->damageEffect != 0) {
             CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sp38);
         }
@@ -772,7 +769,7 @@ void EnIk_UpdateDamage(EnIk* this, GlobalContext* globalCtx) {
             EnIk_SetupSingleHorizontalAttack(this);
         }
     }
-    if ((this->actor.params != 0) && (this->armorStatusFlag != ARMOR_UNBROKEN)) {
+    if ((this->actor.params != 0) && (this->armorStatusFlag != 0)) {
         if ((prevHealth > 10) && (this->actor.colChkInfo.health <= 10)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO);
         } else {
@@ -792,7 +789,6 @@ void EnIk_AxeAttackHitPlayer(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     u8 prevInvincibilityTimer;
-
 
     this->drawArmorFlag = this->armorStatusFlag;
     EnIk_UpdateDamage(this, globalCtx);
@@ -837,7 +833,7 @@ void EnIk_AxeAttackHitPlayer(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-Gfx* EnIk_UpdateDisplayList(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
+Gfx* EnIk_SetPrimColorEnvColor(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 envR, u8 envG, u8 envB) {
     Gfx* displayList;
     Gfx* displayListHead;
 
@@ -985,22 +981,22 @@ void EnIk_DrawParamType(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     if (this->actor.params == IK_TYPE_NABOORU) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 245, 225, 155, 30, 30, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 40, 0, 40, 0, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 255, 255, 20, 40, 30));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 245, 225, 155, 30, 30, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 255, 40, 0, 40, 0, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 255, 255, 255, 20, 40, 30));
     } else if (this->actor.params == IK_TYPE_SITTING) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 245, 255, 205, 30, 35, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 185, 135, 25, 20, 20, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 255, 255, 30, 40, 20));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 245, 255, 205, 30, 35, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 185, 135, 25, 20, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 255, 255, 255, 30, 40, 20));
     } else if (this->actor.params == IK_TYPE_BLACK) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 55, 65, 55, 0, 0, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 55, 65, 55, 0, 0, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 205, 165, 75, 25, 20, 0));
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
-                   EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 255, 255, 255, 180, 180, 180));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
-        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+                   EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 255, 255, 255, 180, 180, 180));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(globalCtx->state.gfxCtx, 225, 205, 115, 25, 20, 0));
     }
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnIk_OverrideLimbDraw3, EnIk_PostLimbDraw3, this);
@@ -1054,7 +1050,7 @@ void EnIk_SpawnAxeSmoke(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
         { 900.0, -800.0, 2700.0 },    { 720.0f, 900.0f, 2500.0f },
     };
 
-    if (this->isAxeSummoned == 0) {
+    if (!this->isAxeSummoned) {
         s32 pad;
         Vec3f effectVelocity = { 0.0f, 0.0f, 0.0f };
         Vec3f effectAccel = { 0.0f, 0.3f, 0.0f };
@@ -1078,7 +1074,7 @@ void EnIk_SpawnAxeSmoke(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
                           (Rand_ZeroOne() * 60.0f) + 300.0f, 0);
         }
 
-        this->isAxeSummoned = 1;
+        this->isAxeSummoned = true;
         EnIk_CsPlaySfx_SummonAxe(this, globalCtx, pos);
     }
 }
@@ -1126,8 +1122,8 @@ void EnIk_CsAdvanceTo01(EnIk* this) {
 
 // Cutscene: Nabooru sitting and Kotake and Koume looking at her
 void EnIk_CsAdvanceTo02(EnIk* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &gIronKuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(&gIronKuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gIronKnuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
     EnIk_MoveNpcToPos(this, globalCtx, 4);
     this->action = IK_ACTION_1;
     this->drawMode = 1;
@@ -1136,11 +1132,11 @@ void EnIk_CsAdvanceTo02(EnIk* this, GlobalContext* globalCtx) {
 
 // Cutscene: Nabooru Knuckle starts to stand up
 void EnIk_CsAdvanceTo03(EnIk* this) {
-    Animation_Change(&this->skelAnime, &gIronKuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(&gIronKuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleNabooruSummonAxeAnim, 1.0f, 0.0f,
+                     Animation_GetLastFrame(&gIronKnuckleNabooruSummonAxeAnim), ANIMMODE_ONCE, 0.0f);
     this->action = IK_ACTION_2;
     this->drawMode = 1;
-    this->isAxeSummoned = 0;
+    this->isAxeSummoned = false;
     this->actor.shape.shadowAlpha = 0xFF;
 }
 
@@ -1172,11 +1168,11 @@ void EnIk_CsPlaySfx_NabooruKnucleDefeat(EnIk* this, GlobalContext* globalCtx) {
 // Cutscene: starts after final hit to Nabooru
 void EnIk_CsAdvanceTo05(EnIk* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frames = Animation_GetLastFrame(&gIronKuckleNabooruDeathAnim);
+    f32 frames = Animation_GetLastFrame(&gIronKnuckleNabooruDeathAnim);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_0205C0, NULL, this->jointTable, this->morphTable,
                        30);
-    Animation_Change(&this->skelAnime, &gIronKuckleNabooruDeathAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gIronKnuckleNabooruDeathAnim, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = IK_ACTION_3;
     this->drawMode = 2;
     EnIk_MoveNpcToPos(this, globalCtx, 4);
@@ -1286,9 +1282,9 @@ void EnIk_CsNabooruDefeatDraw(EnIk* this, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
     func_80093D18(gfxCtx);
     func_80093D84(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(gfxCtx, 245, 225, 155, 30, 30, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(gfxCtx, 255, 40, 0, 40, 0, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(gfxCtx, 255, 255, 255, 20, 40, 30));
+    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(gfxCtx, 245, 225, 155, 30, 30, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(gfxCtx, 255, 40, 0, 40, 0, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(gfxCtx, 255, 255, 255, 20, 40, 30));
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           EnIk_OverrideLimbDraw2, EnIk_PostLimbDraw2, this);
 
@@ -1441,9 +1437,9 @@ void EnIk_CsNabooruKnuckleIntroDraw(EnIk* this, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
     func_80093D18(gfxCtx);
     func_80093D84(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_UpdateDisplayList(gfxCtx, 245, 225, 155, 30, 30, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_UpdateDisplayList(gfxCtx, 255, 40, 0, 40, 0, 0));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_UpdateDisplayList(gfxCtx, 255, 255, 255, 20, 40, 30));
+    gSPSegment(POLY_OPA_DISP++, 0x08, EnIk_SetPrimColorEnvColor(gfxCtx, 245, 225, 155, 30, 30, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x09, EnIk_SetPrimColorEnvColor(gfxCtx, 255, 40, 0, 40, 0, 0));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, EnIk_SetPrimColorEnvColor(gfxCtx, 255, 255, 255, 20, 40, 30));
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
                           EnIk_OverrideLimbDraw1, EnIk_PostLimbDraw1, this);
 
@@ -1510,7 +1506,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_01E178, &gIronKuckleNabooruSummonAxeAnim,
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_ik_Skel_01E178, &gIronKnuckleNabooruSummonAxeAnim,
                            this->jointTable, this->morphTable, 30);
         EnIk_SetAndInitColliders(&this->actor, globalCtx);
         EnIk_InConfrontationInit(this, globalCtx);
