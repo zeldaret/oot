@@ -55,8 +55,8 @@ void EnIk_StandUp(EnIk* this, GlobalContext* globalCtx);
 void EnIk_Idle(EnIk* this, GlobalContext* globalCtx);
 void EnIk_SetupWalkOrRun(EnIk* this);
 void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx);
-void EnIk_SetupVerticleAttack(EnIk* this);
-void EnIk_VerticleAttack(EnIk* this, GlobalContext* globalCtx);
+void EnIk_SetupVerticalAttack(EnIk* this);
+void EnIk_VerticalAttack(EnIk* this, GlobalContext* globalCtx);
 void EnIk_SetupPullOutAxe(EnIk* this);
 void EnIk_PulloutAxe(EnIk* this, GlobalContext* globalCtx);
 void EnIk_SetupDoubleHorizontalAttack(EnIk* this);
@@ -354,7 +354,7 @@ void EnIk_Idle(EnIk* this, GlobalContext* globalCtx) {
     if ((ABS(yawDiff) <= phi_a0) && (this->actor.xzDistToPlayer < 100.0f) &&
         (ABS(this->actor.yDistToPlayer) < 150.0f)) {
         if ((globalCtx->gameplayFrames & 1)) {
-            EnIk_SetupVerticleAttack(this);
+            EnIk_SetupVerticalAttack(this);
         } else {
             EnIk_SetupDoubleHorizontalAttack(this);
         }
@@ -415,7 +415,7 @@ void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx) {
     if ((ABS(yawDiff) <= temp_t0) && (this->actor.xzDistToPlayer < 100.0f)) {
         if (ABS(this->actor.yDistToPlayer) < 150.0f) {
             if ((globalCtx->gameplayFrames & 1)) {
-                EnIk_SetupVerticleAttack(this);
+                EnIk_SetupVerticalAttack(this);
             } else {
                 EnIk_SetupDoubleHorizontalAttack(this);
             }
@@ -442,17 +442,17 @@ void EnIk_WalkOrRun(EnIk* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnIk_SetupVerticleAttack(EnIk* this) {
+void EnIk_SetupVerticalAttack(EnIk* this) {
     f32 frames = Animation_GetLastFrame(&gIronKnuckleVerticalAttackAnim);
 
     this->unk_2FF = 1;
     this->unk_2F8 = 6;
     this->actor.speedXZ = 0.0f;
     Animation_Change(&this->skelAnime, &gIronKnuckleVerticalAttackAnim, 1.5f, 0.0f, frames, ANIMMODE_ONCE, -4.0f);
-    EnIk_SetupAction(this, EnIk_VerticleAttack);
+    EnIk_SetupAction(this, EnIk_VerticalAttack);
 }
 
-void EnIk_VerticleAttack(EnIk* this, GlobalContext* globalCtx) {
+void EnIk_VerticalAttack(EnIk* this, GlobalContext* globalCtx) {
     Vec3f sp2C;
 
     if (this->skelAnime.curFrame == 15.0f) {
@@ -614,7 +614,7 @@ void EnIk_StopAndBlock(EnIk* this, GlobalContext* globalCtx) {
         if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4000) &&
             (this->actor.xzDistToPlayer < 100.0f) && (ABS(this->actor.yDistToPlayer) < 150.0f)) {
             if ((globalCtx->gameplayFrames & 1)) {
-                EnIk_SetupVerticleAttack(this);
+                EnIk_SetupVerticalAttack(this);
             } else {
                 EnIk_SetupDoubleHorizontalAttack(this);
             }
