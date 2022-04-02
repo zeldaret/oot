@@ -148,8 +148,11 @@ s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, 
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 448);
 
-    //! @bug This function should return a boolean, true if it is to be drawn, but does not match with a return.
-    //! TODO: what happens to v0 here?
+    //! @bug missing return
+    // If the return value ends up being false (0), the limb won't draw (meaning no limb at all will draw).
+    // - In debug versions, `Graph_CloseDisps` has the last instruction writing to v0 before this function ends.
+    // - In retail versions, the `gDPSetPrimColor` has the last one.
+    // In both cases, that instruction sets v0 to a non-NULL pointer, which is "true", so the limbs get drawn.
 #ifdef AVOID_UB
     return true;
 #endif

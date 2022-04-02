@@ -6,19 +6,20 @@
  * - 3 scales,
  * - 3 rotations,
  * - 3 positions
- * (note the position is stored in the animations instead of being stored in the limbs like SkelAnime would). Otherwise the structure is similar to an ordinary SkelAnime-compatible skeleton.
+ * (note the position is stored in the animations instead of being stored in the limbs like SkelAnime would). Otherwise
+ * the structure is similar to an ordinary SkelAnime-compatible skeleton.
  *
  * The animations are significantly more complex than SkelAnime. A curve animation consists of 4 parts:
  * - a header (CurveAnimationHeader)
- * - a list of counts for the 9 properties of each limb (u8)
+ * - a list of counts, one for each of the 9 properties of each limb (u8)
  * - a list of interpolation data (CurveInterpKnot). The length is the sum of the counts.
- * - a list of constant data (s16[9]). The length is the number of 0 in counts.
+ * - a list of constant data (s16[9]). The length is the number of 0s in counts.
  *
  * If the interpolation count for a property is 0, the value of the property is copied from the next number in the
  * constant data; there are no gaps for nonzero interpolation count.
  * If the interpolation count N for a property is larger than 0, the next N elements of the interpolation data array
  * are used to interpolate the value of the property, using Curve_Interpolate.
- * 
+ *
  * Curve limbs may use LOD:
  * - lower detail draws only the first displaylist
  * - higher detail draws both.
@@ -67,8 +68,8 @@ void SkelCurve_Destroy(GlobalContext* globalCtx, SkelCurve* skelCurve) {
     }
 }
 
-void SkelCurve_SetAnim(SkelCurve* skelCurve, CurveAnimationHeader* animation, f32 arg2, f32 endFrame,
-                       f32 curFrame, f32 playSpeed) {
+void SkelCurve_SetAnim(SkelCurve* skelCurve, CurveAnimationHeader* animation, f32 arg2, f32 endFrame, f32 curFrame,
+                       f32 playSpeed) {
     skelCurve->unk_0C = arg2 - skelCurve->playSpeed;
     skelCurve->endFrame = endFrame;
     skelCurve->curFrame = curFrame;
@@ -118,9 +119,12 @@ s32 SkelCurve_Update(GlobalContext* globalCtx, SkelCurve* skelCurve) {
     }
 
     for (curLimb = 0; curLimb < skelCurve->limbCount; curLimb++) {
-        for (vecType = SKELCURVE_VEC_TYPE_SCALE; vecType < SKELCURVE_VEC_TYPE_MAX;
-             vecType++) {                         // scale/rotation/position
-            for (coord = 0; coord < 3; coord++) { // x/y/z
+
+        // scale/rotation/position
+        for (vecType = SKELCURVE_VEC_TYPE_SCALE; vecType < SKELCURVE_VEC_TYPE_MAX; vecType++) {
+
+            // x/y/z
+            for (coord = 0; coord < 3; coord++) {
                 f32 transformValue;
 
                 if (*knotCounts == 0) {
