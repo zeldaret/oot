@@ -2881,7 +2881,7 @@ s32 Camera_Battle1(Camera* camera) {
         }
         anim->animTimer--;
     } else if (ABS(tmpAng1) > DEGF_TO_BINANG(swingAngle)) {
-        spFC = BINANG_TO_DEGF(tmpAng1);
+        spFC = BINANG_TO_DEG_ALT(tmpAng1);
         temp_f2_2 = swingAngle + (spF8 - swingAngle) * (OLib_ClampMaxDist(atToTargetDir.r, spB4.r) / spB4.r);
         temp_f12_2 = ((temp_f2_2 * temp_f2_2) - 2.0f) / (temp_f2_2 - 360.0f);
         var2 = ((temp_f12_2 * spFC) + (2.0f - (360.0f * temp_f12_2)));
@@ -3207,7 +3207,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         }
         anim->unk_16--;
     } else if (ABS(spE2) > DEGF_TO_BINANG(spEC)) {
-        spF4 = BINANG_TO_DEGF(spE2);
+        spF4 = BINANG_TO_DEG_ALT(spE2);
         t2 = spEC + (spF0 - spEC) * (OLib_ClampMaxDist(spD0.r, spD8.r) / spD8.r);
         temp_f12_2 = ((SQ(t2) - 2.0f) / (t2 - 360.0f));
         t1 = (temp_f12_2 * spF4) + (2.0f - (360.0f * temp_f12_2));
@@ -7498,7 +7498,7 @@ Vec3s Camera_Update(Camera* camera) {
         OLib_Vec3fDiffToVecSphGeo(&eyeAtAngle, &viewEye, &viewAt);
         Camera_CalcUpFromPitchYawRoll(&viewUp, eyeAtAngle.pitch + quake.rotZ, eyeAtAngle.yaw + quake.unk_1A,
                                       camera->roll);
-        viewFov = camera->fov + BINANG_TO_DEGF(quake.zoom);
+        viewFov = camera->fov + BINANG_TO_DEG_ALT(quake.zoom);
     } else {
         viewAt = camera->at;
         viewEye = camera->eye;
@@ -7537,9 +7537,9 @@ Vec3s Camera_Update(Camera* camera) {
 
     if (PREG(81)) {
         osSyncPrintf("dir  (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->inputDir.x,
-                     BINANG_TO_DEGF(camera->inputDir.x), camera->inputDir.y, BINANG_TO_DEGF(camera->inputDir.y));
+                     BINANG_TO_DEG_ALT(camera->inputDir.x), camera->inputDir.y, BINANG_TO_DEG_ALT(camera->inputDir.y));
         osSyncPrintf("real (%d) %d(%f) %d(%f) 0(0) \n", sUpdateCameraDirection, camera->camDir.x,
-                     BINANG_TO_DEGF(camera->camDir.x), camera->camDir.y, BINANG_TO_DEGF(camera->camDir.y));
+                     BINANG_TO_DEG_ALT(camera->camDir.x), camera->camDir.y, BINANG_TO_DEG_ALT(camera->camDir.y));
     }
 
     if (camera->timer != -1 && CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_DRIGHT)) {
@@ -7550,7 +7550,7 @@ Vec3s Camera_Update(Camera* camera) {
         osSyncPrintf("camera: out (%f %f %f) (%f %f %f)\n", camera->at.x, camera->at.y, camera->at.z, camera->eye.x,
                      camera->eye.y, camera->eye.z);
         osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", eyeAtAngle.r, eyeAtAngle.pitch,
-                     BINANG_TO_DEGF(eyeAtAngle.pitch), eyeAtAngle.yaw, BINANG_TO_DEGF(eyeAtAngle.yaw), camera->fov);
+                     BINANG_TO_DEG_ALT(eyeAtAngle.pitch), eyeAtAngle.yaw, BINANG_TO_DEG_ALT(eyeAtAngle.yaw), camera->fov);
         if (camera->player != NULL) {
             osSyncPrintf("camera: foot(%f %f %f) dist (%f)\n", curPlayerPosRot.pos.x, curPlayerPosRot.pos.y,
                          curPlayerPosRot.pos.z, camera->dist);

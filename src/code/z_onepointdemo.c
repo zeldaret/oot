@@ -95,7 +95,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             D_80120964[0].eyeTargetInit = globalCtx->view.eye;
             D_80120964[0].fovTargetInit = globalCtx->view.fovy;
             OLib_Vec3fDiffToVecSphGeo(&spD0, &mainCam->at, &mainCam->eye);
-            D_80120964[1].eyeTargetInit.y = BINANG_TO_DEGF(spD0.yaw);
+            D_80120964[1].eyeTargetInit.y = BINANG_TO_DEG_ALT(spD0.yaw);
             D_80120964[1].timerInit = timer - 1;
 
             csInfo->keyFrames = D_80120964;
@@ -310,7 +310,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
         case 2210:
             OLib_Vec3fDiffToVecSphGeo(&spD0, &player->actor.world.pos, &actor->world.pos);
             D_801213B4[0].eyeTargetInit.y = D_801213B4[1].eyeTargetInit.y = D_801213B4[2].eyeTargetInit.y =
-                D_801213B4[2].atTargetInit.y = BINANG_TO_DEGF(spD0.yaw);
+                D_801213B4[2].atTargetInit.y = BINANG_TO_DEG_ALT(spD0.yaw);
             if (Rand_ZeroOne() < 0.0f) {
                 D_801213B4[3].eyeTargetInit.x = -D_801213B4[3].eyeTargetInit.x;
             }
