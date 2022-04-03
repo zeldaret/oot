@@ -475,7 +475,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->actor.world.rot.y,
                        RAD_TO_BINANG(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
-                                                   player->actor.world.pos.z - this->actor.world.pos.z)) +
+                                                  player->actor.world.pos.z - this->actor.world.pos.z)) +
                            phi_f16,
                        5, this->unk_2C8.y, 0);
     Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);

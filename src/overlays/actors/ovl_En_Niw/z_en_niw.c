@@ -840,7 +840,7 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         this->actionFunc = EnNiw_ResetAction;
     } else {
         this->unk_2E4 = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
-                                                    this->actor.world.pos.z - player->actor.world.pos.z));
+                                                   this->actor.world.pos.z - player->actor.world.pos.z));
         func_80AB6100(this, globalCtx, 0);
         func_80AB5BF8(this, globalCtx, 2);
     }
