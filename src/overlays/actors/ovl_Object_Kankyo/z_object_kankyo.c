@@ -741,8 +741,8 @@ void ObjectKankyo_DrawLightning(ObjectKankyo* this, GlobalContext* globalCtx) {
     if (this->effects[0].state == 1) {
         Matrix_Translate(globalCtx->csCtx.npcActions[0]->startPos.x, globalCtx->csCtx.npcActions[0]->startPos.y,
                          globalCtx->csCtx.npcActions[0]->startPos.z, MTXMODE_NEW);
-        Matrix_RotateX(DEG_TO_RAD(20.0f), MTXMODE_APPLY);
-        Matrix_RotateZ(DEG_TO_RAD(20.0f), MTXMODE_APPLY);
+        Matrix_RotateX(DEG_TO_RAD(20), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(20), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 5.0f, 2.0f, MTXMODE_APPLY);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);

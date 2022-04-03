@@ -845,7 +845,7 @@ s32 BossTw_CheckBeamReflection(BossTw* this, GlobalContext* globalCtx) {
         offset.z = 10.0f;
 
         // set beam check point to 10 units in front of link.
-        Matrix_RotateY(player->actor.shape.rot.y / 32768.0f * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(player->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&offset, &vec);
 
         // calculates a vector where the origin is at the beams origin,
@@ -948,7 +948,7 @@ f32 BossTw_GetFloorY(Vec3f* pos) {
     }
 
     Matrix_Push();
-    Matrix_RotateY(DEG_TO_RAD(45), MTXMODE_NEW);
+    Matrix_RotateY(M_PI / 4, MTXMODE_NEW);
     Matrix_MultVec3f(pos, &posRotated);
     Matrix_Pop();
 
@@ -1579,11 +1579,11 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             sKoumePtr->actor.world.pos.x = spA4.x;
             sKoumePtr->actor.world.pos.y = spA4.y;
             sKoumePtr->actor.world.pos.z = spA4.z;
-            sKoumePtr->actor.shape.rot.y = (this->workf[UNK_F9] / M_PI) * 32768.0f;
+            sKoumePtr->actor.shape.rot.y = (this->workf[UNK_F9] / M_PI) * (f32)0x8000;
             sKotakePtr->actor.world.pos.x = -spA4.x;
             sKotakePtr->actor.world.pos.y = spA4.y;
             sKotakePtr->actor.world.pos.z = -spA4.z;
-            sKotakePtr->actor.shape.rot.y = ((this->workf[UNK_F9] / M_PI) * 32768.0f) + 32768.0f;
+            sKotakePtr->actor.shape.rot.y = ((this->workf[UNK_F9] / M_PI) * (f32)0x8000) + (f32)0x8000;
             Math_ApproachF(&this->workf[UNK_F11], 0.0f, 0.1f, 7.0f);
             this->workf[UNK_F9] -= this->workf[UNK_F10];
             Math_ApproachF(&this->workf[UNK_F10], 0.5f, 1, 0.0039999997f);
@@ -2245,12 +2245,13 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 sKoumePtr->actor.world.pos.x = sp84.x;
                 sKoumePtr->actor.world.pos.y = sp84.y;
                 sKoumePtr->actor.world.pos.z = sp84.z;
-                sKoumePtr->actor.world.rot.y = sKoumePtr->actor.shape.rot.y = (this->workf[UNK_F9] / M_PI) * 32768.0f;
+                sKoumePtr->actor.world.rot.y = sKoumePtr->actor.shape.rot.y =
+                    (this->workf[UNK_F9] / M_PI) * (f32)0x8000;
                 sKotakePtr->actor.world.pos.x = -sp84.x;
                 sKotakePtr->actor.world.pos.y = sp84.y;
                 sKotakePtr->actor.world.pos.z = -sp84.z;
                 sKotakePtr->actor.shape.rot.y = sKotakePtr->actor.world.rot.y =
-                    ((this->workf[UNK_F9] / M_PI) * 32768.0f) + 32768.0f;
+                    ((this->workf[UNK_F9] / M_PI) * (f32)0x8000) + (f32)0x8000;
                 Math_ApproachF(&this->workf[UNK_F11], 80.0f, 0.1f, 5.0f);
                 this->workf[UNK_F9] -= this->workf[UNK_F10];
                 Math_ApproachF(&this->workf[UNK_F10], 0.19999999f, 1.0f, 0.0019999994f);
