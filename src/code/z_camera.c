@@ -565,7 +565,7 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
  * Calculates the angle between points `from` and `to`
  */
 s16 Camera_XZAngle(Vec3f* to, Vec3f* from) {
-    return DEG_TO_BINANG_ALT(RADF_TO_DEGF(Math_FAtan2F(from->x - to->x, from->z - to->z)));
+    return DEG_TO_BINANG_ALT(RAD_TO_DEG(Math_FAtan2F(from->x - to->x, from->z - to->z)));
 }
 
 s16 func_80044ADC(Camera* camera, s16 yaw, s16 arg2) {
@@ -630,8 +630,8 @@ s16 func_80044ADC(Camera* camera, s16 yaw, s16 arg2) {
     }
     phi_f16 = PCT(OREG(20)) * (D_8015CE50 - camera->playerGroundY);
     phi_f18 = (1.0f - PCT(OREG(20))) * (D_8015CE54 - camera->playerGroundY);
-    temp_s0 = DEG_TO_BINANG_ALT(RADF_TO_DEGF(Math_FAtan2F(phi_f16, sp30)));
-    temp_s1 = DEG_TO_BINANG_ALT(RADF_TO_DEGF(Math_FAtan2F(phi_f18, sp2C)));
+    temp_s0 = DEG_TO_BINANG_ALT(RAD_TO_DEG(Math_FAtan2F(phi_f16, sp30)));
+    temp_s1 = DEG_TO_BINANG_ALT(RAD_TO_DEG(Math_FAtan2F(phi_f18, sp2C)));
     return temp_s0 + temp_s1;
 }
 
