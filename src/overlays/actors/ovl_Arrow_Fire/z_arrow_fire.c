@@ -193,7 +193,7 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     u32 stateFrames;
     EnArrow* arrow;
-    Actor* tranform;
+    Actor* transform;
 
     stateFrames = globalCtx->state.frames;
     arrow = (EnArrow*)this->actor.parent;
@@ -201,14 +201,14 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
-        tranform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
+        transform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
 
-        Matrix_Translate(tranform->world.pos.x, tranform->world.pos.y, tranform->world.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(tranform->shape.rot.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD(tranform->shape.rot.x), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(tranform->shape.rot.z), MTXMODE_APPLY);
+        Matrix_Translate(transform->world.pos.x, transform->world.pos.y, transform->world.pos.z, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD(transform->shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(transform->shape.rot.x), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(transform->shape.rot.z), MTXMODE_APPLY);
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
 
         // Draw red effect over the screen when arrow hits

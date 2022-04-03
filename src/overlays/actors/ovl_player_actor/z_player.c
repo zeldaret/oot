@@ -2152,7 +2152,7 @@ s32 func_80834380(GlobalContext* globalCtx, Player* this, s32* itemPtr, s32* typ
         if (this->stateFlags1 & PLAYER_STATE1_23) {
             *typePtr = ARROW_NORMAL_HORSE;
         } else {
-            *typePtr = this->heldItemActionParam - 6;
+            *typePtr = ARROW_NORMAL + (this->heldItemActionParam - PLAYER_AP_BOW);
         }
     } else {
         *itemPtr = ITEM_SLINGSHOT;
