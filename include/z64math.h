@@ -101,6 +101,7 @@ typedef struct {
 #define RADF_TO_BINANG(radf) (s16)((radf) * (0x8000 / M_PI))
 #define RADF_TO_DEGF(radf) ((radf) * (180.0f / M_PI))
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
+#define BINANG_TO_DEG(binang) ((f32)(binang) * (180.0f / 0x8000))
 #define BINANG_TO_DEG_ALT(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 #define BINANG_TO_RAD(binang) ((f32)(binang) * (M_PI / 0x8000))
 #define BINANG_TO_RAD_ALT(binang) (((f32)(binang) / (f32)0x8000) * M_PI)
