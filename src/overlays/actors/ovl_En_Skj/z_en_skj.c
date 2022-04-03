@@ -330,7 +330,7 @@ void EnSkj_CalculateCenter(EnSkj* this) {
     mult.y = 0.0f;
     mult.z = 120.0f;
 
-    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&mult, &this->center);
 
     this->center.x += this->actor.world.pos.x;
@@ -498,7 +498,7 @@ s32 EnSkj_ShootNeedle(EnSkj* this, GlobalContext* globalCtx) {
     pos.y = 0.0f;
     pos.z = 40.0f;
 
-    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&pos, &pos2);
 
     pos2.x += this->actor.world.pos.x;
@@ -822,7 +822,7 @@ void EnSkj_Fight(EnSkj* this, GlobalContext* globalCtx) {
         pos1.y = 0.0f;
         pos1.z = -120.0f;
 
-        Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&pos1, &pos2);
         prevPosX = this->actor.world.pos.x;
         prevPosZ = this->actor.world.pos.z;

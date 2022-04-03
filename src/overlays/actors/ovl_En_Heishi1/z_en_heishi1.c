@@ -424,7 +424,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         searchBallPos.z = this->actor.world.pos.z;
 
                         Matrix_Push();
-                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, MTXMODE_NEW);
+                        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y + this->headAngle), MTXMODE_NEW);
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pop();
