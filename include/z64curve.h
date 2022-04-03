@@ -20,13 +20,13 @@ typedef struct {
     /* 0x8 */ s16* constantData;
     /* 0xC */ s16 unk_0C;     // Set but not used, always 1 in objects
     /* 0xE */ s16 frameCount; // Not used, inferred from use in objects
-} CurveAnimationHeader; // size 0x10
+} CurveAnimationHeader; // size = 0x10
 
 typedef struct {
     /* 0x0 */ u8 child;
     /* 0x1 */ u8 sibling;
     /* 0x4 */ Gfx* dList[2];
-} SkelCurveLimb; // size >= 0x8
+} SkelCurveLimb; // size = 0xC
 
 typedef struct {
     /* 0x0 */ SkelCurveLimb** limbs;
