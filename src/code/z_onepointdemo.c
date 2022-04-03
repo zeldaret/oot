@@ -22,7 +22,7 @@ void OnePointCutscene_AddVecSphToVec3f(Vec3f* dst, Vec3f* src, VecSph* vecSph) {
 }
 
 s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
-    return DEGF_TO_BINANG(RADF_TO_DEGF(Math_FAtan2F(vec2->x - vec1->x, vec2->z - vec1->z)));
+    return DEG_TO_BINANG_ALT(RADF_TO_DEGF(Math_FAtan2F(vec2->x - vec1->x, vec2->z - vec1->z)));
 }
 
 void OnePointCutscene_Vec3sToVec3f(Vec3f* src, Vec3s* dst) {

@@ -97,7 +97,7 @@ typedef struct {
 #define IS_ZERO(f) (fabsf(f) < 0.008f)
 
 // Angle conversion macros
-#define DEGF_TO_BINANG(degreesf) (s16)((degreesf) * 182.04167f + .5f)
+#define DEG_TO_BINANG_ALT(degreesf) (s16)((degreesf) * 182.04167f + .5f)
 #define RADF_TO_BINANG(radf) (s16)((radf) * (0x8000 / M_PI))
 #define RADF_TO_DEGF(radf) ((radf) * (180.0f / M_PI))
 #define DEG_TO_RAD(degrees) ((degrees) * (M_PI / 180.0f))
