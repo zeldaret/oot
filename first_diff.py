@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# SPDX-License-Identifier: CC0-1.0
+
 import os.path
 import argparse
 from subprocess import check_call
