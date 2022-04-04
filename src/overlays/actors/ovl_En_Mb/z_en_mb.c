@@ -1448,7 +1448,7 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f unused = { 1100.0f, -700.0f, 0.0f };
     static Vec3f feetPos = { 0.0f, 0.0f, 0.0f };
-    static Vec3f effSpawnPosModel = { 0.0f, -8000.0f, 0.0f };
+    static Vec3f effSpawnModelPos = { 0.0f, -8000.0f, 0.0f };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 bodyPart = -1;
     EnMb* this = (EnMb*)thisx;
@@ -1456,7 +1456,7 @@ void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     if (this->actor.params == ENMB_TYPE_CLUB) {
         if (limbIndex == ENMB_LIMB_LHAND) {
-            Matrix_MultVec3f(&effSpawnPosModel, &this->effSpawnPos);
+            Matrix_MultVec3f(&effSpawnModelPos, &this->effSpawnPos);
             if (this->attack > ENMB_ATTACK_NONE) {
                 EnMb_ClubUpdateAttackCollider(&this->actor, globalCtx);
             }

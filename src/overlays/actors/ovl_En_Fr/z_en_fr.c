@@ -411,7 +411,7 @@ void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
 
     vec1.x = vec1.y = 0.0f;
     vec1.z = this->xzDistToLogSpot;
-    Matrix_RotateY(((this->actor.world.rot.y + 0x8000) / (f32)0x8000) * M_PI, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.world.rot.y + 0x8000), MTXMODE_NEW);
     Matrix_MultVec3f(&vec1, &vec2);
     this->actor.world.pos.x = this->posLogSpot.x + vec2.x;
     this->actor.world.pos.z = this->posLogSpot.z + vec2.z;

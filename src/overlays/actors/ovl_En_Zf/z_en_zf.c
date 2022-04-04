@@ -773,15 +773,15 @@ void EnZf_SetupApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
 }
 
 void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
-    s32 sp54;
-    s32 sp50;
-    s32 temp;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    s32 afterPrevFrame;
     s16 temp_v1;
     s16 sp48 = -1;
     f32 sp44 = 350.0f;
     f32 sp40 = 0.0f;
     Player* player = GET_PLAYER(globalCtx);
-    s32 sp30;
+    s32 absPlaySpeed;
 
     if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) { // miniboss
         sp48 = EnZf_FindPlatform(&player->actor.world.pos, sp48);
@@ -854,10 +854,10 @@ void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
             }
         }
 
-        sp54 = this->skelAnime.curFrame;
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        sp50 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        sp30 = (f32)ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
         if (sp48 == this->curPlatform) {
             if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
@@ -907,10 +907,10 @@ void EnZf_ApproachPlayer(EnZf* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
         }
 
-        if (sp54 != (s32)this->skelAnime.curFrame) {
-            temp = sp30 + sp54;
+        if (prevFrame != (s32)this->skelAnime.curFrame) {
+            afterPrevFrame = absPlaySpeed + prevFrame;
 
-            if (((sp50 < 2) && (temp >= 4)) || ((sp50 < 32) && (temp >= 34))) {
+            if (((beforeCurFrame < 2) && (afterPrevFrame >= 4)) || ((beforeCurFrame < 32) && (afterPrevFrame >= 34))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
             }
         }
@@ -1052,9 +1052,9 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
     s16 angleBehindPlayer;
     s16 phi_v0_3;
     s32 pad;
-    s32 curKeyFrame;
-    s32 prevKeyFrame;
-    s32 playSpeed;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    s32 absPlaySpeed;
     Player* player = GET_PLAYER(globalCtx);
     f32 baseRange = 0.0f;
 
@@ -1131,15 +1131,16 @@ void func_80B463E4(EnZf* this, GlobalContext* globalCtx) {
             this->skelAnime.playSpeed = this->unk_408 * 0.75f;
         }
 
-        curKeyFrame = this->skelAnime.curFrame;
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        playSpeed = (f32)ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
-        if (curKeyFrame != (s32)this->skelAnime.curFrame) {
-            s32 nextKeyFrame = playSpeed + curKeyFrame;
+        if (prevFrame != (s32)this->skelAnime.curFrame) {
+            s32 afterPrevFrame = absPlaySpeed + prevFrame;
 
-            if (((prevKeyFrame < 14) && (nextKeyFrame > 15)) || ((prevKeyFrame < 27) && (nextKeyFrame > 28))) {
+            if (((beforeCurFrame < 14) && (afterPrevFrame >= 16)) ||
+                ((beforeCurFrame < 27) && (afterPrevFrame >= 29))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
             }
         }
@@ -1770,9 +1771,9 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
     s16 playerRot;
     s16 phi_v0_4;
     Player* player = GET_PLAYER(globalCtx);
-    s32 curKeyFrame;
-    s32 prevKeyFrame;
-    s32 playSpeed;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    s32 absPlaySpeed;
     f32 baseRange = 0.0f;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xBB8, 1);
@@ -1841,10 +1842,10 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
         this->skelAnime.playSpeed = this->unk_408 * 0.75f;
     }
 
-    curKeyFrame = this->skelAnime.curFrame;
+    prevFrame = (s32)this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
-    prevKeyFrame = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-    playSpeed = (f32)ABS(this->skelAnime.playSpeed);
+    beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+    absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
     this->curPlatform = EnZf_FindPlatform(&this->actor.world.pos, this->curPlatform);
 
@@ -1889,9 +1890,11 @@ void EnZf_CircleAroundPlayer(EnZf* this, GlobalContext* globalCtx) {
         } else {
             this->unk_3F0--;
         }
-        if (curKeyFrame != (s32)this->skelAnime.curFrame) {
-            s32 nextKeyFrame = playSpeed + curKeyFrame;
-            if (((prevKeyFrame < 14) && (nextKeyFrame >= 16)) || ((prevKeyFrame < 27) && (nextKeyFrame >= 29))) {
+        if (prevFrame != (s32)this->skelAnime.curFrame) {
+            s32 afterPrevFrame = absPlaySpeed + prevFrame;
+
+            if (((beforeCurFrame < 14) && (afterPrevFrame >= 16)) ||
+                ((beforeCurFrame < 27) && (afterPrevFrame >= 29))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
             }
         }

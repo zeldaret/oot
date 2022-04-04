@@ -896,9 +896,9 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
         baseOffset.y = 10.0f;
         for (i = 0; i < 10; i++) {
             Matrix_Push();
-            Matrix_RotateY((thisx->shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
-            Matrix_RotateX((thisx->shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ((this->work[GND_PARTICLE_ANGLE] / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(thisx->shape.rot.y), MTXMODE_NEW);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(thisx->shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->work[GND_PARTICLE_ANGLE]), MTXMODE_APPLY);
             Matrix_MultVec3f(&baseOffset, &offset);
             Matrix_Pop();
             pos.x = this->spearTip.x + offset.x;
