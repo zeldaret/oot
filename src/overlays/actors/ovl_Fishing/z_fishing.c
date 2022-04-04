@@ -1356,9 +1356,9 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     effect = firstEffect;
     if (effect->type == FS_EFF_OWNER_HAT) {
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-        Matrix_RotateY((sEffOwnerHatRot.y * M_PI) / 32768, MTXMODE_APPLY);
-        Matrix_RotateX((sEffOwnerHatRot.x * M_PI) / 32768, MTXMODE_APPLY);
-        Matrix_RotateZ((sEffOwnerHatRot.z * M_PI) / 32768, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT2(sEffOwnerHatRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT2(sEffOwnerHatRot.x), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT2(sEffOwnerHatRot.z), MTXMODE_APPLY);
         Matrix_Scale(effect->unk_30, effect->unk_30, effect->unk_30, MTXMODE_APPLY);
         Matrix_Translate(-1250.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2, MTXMODE_APPLY);
@@ -4706,8 +4706,8 @@ void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
 
             if (fish->shouldDraw) {
                 Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
-                Matrix_RotateY(((f32)fish->unk_3E * M_PI) / 32768.0f, MTXMODE_APPLY);
-                Matrix_RotateX((-(f32)fish->unk_3C * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
                 Matrix_Scale(fish->unk_2C * scale, scale, scale, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 8093),
@@ -5655,7 +5655,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;
-        rot.z = (Camera_GetInputDirYaw(camera) * -(M_PI / 32768)) + rot.y;
+        rot.z = (Camera_GetInputDirYaw(camera) * -(M_PI / 0x8000)) + rot.y;
 
         for (i = 0; i < (u8)D_80B7A650; i++) {
             pos.x = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.x;

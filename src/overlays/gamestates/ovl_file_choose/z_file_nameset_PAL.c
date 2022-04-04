@@ -46,6 +46,8 @@ void FileChoose_SetKeyboardVtx(GameState* thisx) {
         phi_t0 = -0x60;
 
         for (phi_t1 = 0; phi_t1 < 13; phi_t1++, phi_t3 += 4, phi_t2++) {
+            //! @bug D_80812544 is accessed out of bounds when drawing the empty space character (value of 64). Under normal
+            //! circumstances it reads a halfword from sNameLabelTextures.
             this->keyboardVtx[phi_t3].v.ob[0] = this->keyboardVtx[phi_t3 + 2].v.ob[0] = D_80812544[phi_t2] + phi_t0;
 
             this->keyboardVtx[phi_t3 + 1].v.ob[0] = this->keyboardVtx[phi_t3 + 3].v.ob[0] =
