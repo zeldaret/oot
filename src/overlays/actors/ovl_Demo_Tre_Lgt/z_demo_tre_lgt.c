@@ -131,7 +131,7 @@ void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
 }
 
-s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
+s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
@@ -147,6 +147,11 @@ s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 448);
+
+    //! @bug missing return
+    // If the return value ends up being false (0), the limb won't draw (meaning no limb at all will draw).
+    // In MQ Debug, `Graph_CloseDisps` has the last instruction writing to v0 before this function ends.
+    // That instruction sets v0 to a non-NULL pointer, which is "true", so the limbs get drawn.
 }
 
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -161,7 +166,7 @@ void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
-    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_PostLimbDraw, NULL, 1, thisx);
+    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, thisx);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_tre_lgt.c", 476);
 }

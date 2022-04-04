@@ -192,7 +192,7 @@ void ArrowIce_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ArrowIce* this = (ArrowIce*)thisx;
     s32 pad;
-    Actor* tranform;
+    Actor* transform;
     u32 stateFrames = globalCtx->state.frames;
     EnArrow* arrow = (EnArrow*)this->actor.parent;
 
@@ -200,14 +200,14 @@ void ArrowIce_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
-        tranform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
+        transform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_ice.c", 610);
 
-        Matrix_Translate(tranform->world.pos.x, tranform->world.pos.y, tranform->world.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(BINANG_TO_RAD(tranform->shape.rot.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD(tranform->shape.rot.x), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(tranform->shape.rot.z), MTXMODE_APPLY);
+        Matrix_Translate(transform->world.pos.x, transform->world.pos.y, transform->world.pos.z, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD(transform->shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(transform->shape.rot.x), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD(transform->shape.rot.z), MTXMODE_APPLY);
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
 
         // Draw blue effect over the screen when arrow hits

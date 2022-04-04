@@ -804,7 +804,7 @@ s32 func_8008F2F8(GlobalContext* globalCtx) {
     return var + 1;
 }
 
-u8 sEyeMouthIndexes[][2] = {
+u8 sEyeMouthIndices[][2] = {
     { 0, 0 }, { 1, 0 }, { 2, 0 }, { 0, 0 }, { 1, 0 }, { 2, 0 }, { 4, 0 }, { 5, 1 },
     { 7, 2 }, { 0, 2 }, { 3, 0 }, { 4, 0 }, { 2, 2 }, { 1, 1 }, { 0, 2 }, { 0, 0 },
 };
@@ -868,7 +868,7 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 1721);
 
     if (eyeIndex < 0) {
-        eyeIndex = sEyeMouthIndexes[face][0];
+        eyeIndex = sEyeMouthIndices[face][0];
     }
 
 #ifndef AVOID_UB
@@ -878,7 +878,7 @@ void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTabl
 #endif
 
     if (mouthIndex < 0) {
-        mouthIndex = sEyeMouthIndexes[face][1];
+        mouthIndex = sEyeMouthIndices[face][1];
     }
 
 #ifndef AVOID_UB
