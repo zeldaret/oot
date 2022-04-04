@@ -68,7 +68,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->path = ((this->actor.params >> 8) & 0xFF);
     this->actor.gravity = -3.0f;
-    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     vec2.x = vec2.y = vec2.z = 0.0f;
     vec1.x = vec1.y = 0.0f;
     vec1.z = 50.0;

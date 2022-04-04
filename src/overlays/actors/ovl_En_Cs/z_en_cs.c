@@ -516,7 +516,7 @@ void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Translate(0.0f, -200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateX(0.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(5.0 * M_PI / 9.0, MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(100), MTXMODE_APPLY);
         Matrix_Get(&this->spookyMaskMtx);
     }
 }

@@ -1085,18 +1085,18 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_1E0.unk_08;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limb == 10) {
         vec1 = this->unk_1E0.unk_0E;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
 

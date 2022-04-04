@@ -1899,8 +1899,8 @@ void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
             Matrix_Translate(sLightningBolts[i].pos.x + sLightningBolts[i].offset.x,
                              sLightningBolts[i].pos.y + sLightningBolts[i].offset.y,
                              sLightningBolts[i].pos.z + sLightningBolts[i].offset.z, MTXMODE_NEW);
-            Matrix_RotateX(sLightningBolts[i].pitch * (M_PI / 180.0f), MTXMODE_APPLY);
-            Matrix_RotateZ(sLightningBolts[i].roll * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateX(DEG_TO_RAD(sLightningBolts[i].pitch), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(sLightningBolts[i].roll), MTXMODE_APPLY);
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);

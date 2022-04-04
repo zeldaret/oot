@@ -1409,9 +1409,9 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
 
     distance = frameDivisor * sqrtf(SQ(endPos.x - startPos.x) + SQ(endPos.y - startPos.y) + SQ(endPos.z - startPos.z));
 
-    this->actor.world.pos.x = radius * cosf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.x = radius * cosf(DEG_TO_RAD(degrees));
     this->actor.world.pos.y = distance;
-    this->actor.world.pos.z = radius * sinf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.z = radius * sinf(DEG_TO_RAD(degrees));
 
     xPos = this->actor.world.pos.x;
     ySpherical = (this->actor.world.pos.y * cosf(BINANG_TO_RAD(rotation.x))) -
@@ -1745,23 +1745,23 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
                                 512 - ((frames * 2) % 512) - 1, 0, 64, 64));
     Matrix_Push();
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2661),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
-    Matrix_RotateY((2.0f * M_PI) / 3.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD(120), MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2672),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
-    Matrix_RotateY((4.0f * M_PI) / 3.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD(240), MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2683),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1839,7 +1839,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
             if (1) {}
         }
 
-        Matrix_RotateZ((((s32)this->godLgt.rotation) * 3.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(((s32)this->godLgt.rotation) * 3.0f), MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -140.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
@@ -1876,14 +1876,14 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
                          ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
             Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
-            Matrix_RotateZ(this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             if (disp) {};
             gSPDisplayList(POLY_XLU_DISP++, disp);
             Matrix_Pop();
             Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
-            Matrix_RotateZ(-(f32)this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, disp);

@@ -845,7 +845,7 @@ s32 BossTw_CheckBeamReflection(BossTw* this, GlobalContext* globalCtx) {
         offset.z = 10.0f;
 
         // set beam check point to 10 units in front of link.
-        Matrix_RotateY(player->actor.shape.rot.y / 32768.0f * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(player->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&offset, &vec);
 
         // calculates a vector where the origin is at the beams origin,
@@ -948,7 +948,7 @@ f32 BossTw_GetFloorY(Vec3f* pos) {
     }
 
     Matrix_Push();
-    Matrix_RotateY((45.0f * (M_PI / 180.0f)), MTXMODE_NEW);
+    Matrix_RotateY(M_PI / 4, MTXMODE_NEW);
     Matrix_MultVec3f(pos, &posRotated);
     Matrix_Pop();
 
@@ -1219,8 +1219,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             sp128.x = -sp128.x;
             Math_ApproachS(&this->magicDir.x, sp128.x, 5, 0x2000);
             Math_ApproachS(&this->magicDir.y, sp128.y, 5, 0x2000);
-            this->beamReflectionPitch = (this->magicDir.x / 32768.0f) * M_PI;
-            this->beamReflectionYaw = (this->magicDir.y / 32768.0f) * M_PI;
+            this->beamReflectionPitch = BINANG_TO_RAD_ALT(this->magicDir.x);
+            this->beamReflectionYaw = BINANG_TO_RAD_ALT(this->magicDir.y);
         }
 
         Matrix_Translate(this->beamReflectionOrigin.x, this->beamReflectionOrigin.y, this->beamReflectionOrigin.z,
@@ -1579,11 +1579,11 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             sKoumePtr->actor.world.pos.x = spA4.x;
             sKoumePtr->actor.world.pos.y = spA4.y;
             sKoumePtr->actor.world.pos.z = spA4.z;
-            sKoumePtr->actor.shape.rot.y = (this->workf[UNK_F9] / M_PI) * 32768.0f;
+            sKoumePtr->actor.shape.rot.y = (this->workf[UNK_F9] / M_PI) * (f32)0x8000;
             sKotakePtr->actor.world.pos.x = -spA4.x;
             sKotakePtr->actor.world.pos.y = spA4.y;
             sKotakePtr->actor.world.pos.z = -spA4.z;
-            sKotakePtr->actor.shape.rot.y = ((this->workf[UNK_F9] / M_PI) * 32768.0f) + 32768.0f;
+            sKotakePtr->actor.shape.rot.y = ((this->workf[UNK_F9] / M_PI) * (f32)0x8000) + (f32)0x8000;
             Math_ApproachF(&this->workf[UNK_F11], 0.0f, 0.1f, 7.0f);
             this->workf[UNK_F9] -= this->workf[UNK_F10];
             Math_ApproachF(&this->workf[UNK_F10], 0.5f, 1, 0.0039999997f);
@@ -2245,12 +2245,13 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 sKoumePtr->actor.world.pos.x = sp84.x;
                 sKoumePtr->actor.world.pos.y = sp84.y;
                 sKoumePtr->actor.world.pos.z = sp84.z;
-                sKoumePtr->actor.world.rot.y = sKoumePtr->actor.shape.rot.y = (this->workf[UNK_F9] / M_PI) * 32768.0f;
+                sKoumePtr->actor.world.rot.y = sKoumePtr->actor.shape.rot.y =
+                    (this->workf[UNK_F9] / M_PI) * (f32)0x8000;
                 sKotakePtr->actor.world.pos.x = -sp84.x;
                 sKotakePtr->actor.world.pos.y = sp84.y;
                 sKotakePtr->actor.world.pos.z = -sp84.z;
                 sKotakePtr->actor.shape.rot.y = sKotakePtr->actor.world.rot.y =
-                    ((this->workf[UNK_F9] / M_PI) * 32768.0f) + 32768.0f;
+                    ((this->workf[UNK_F9] / M_PI) * (f32)0x8000) + (f32)0x8000;
                 Math_ApproachF(&this->workf[UNK_F11], 80.0f, 0.1f, 5.0f);
                 this->workf[UNK_F9] -= this->workf[UNK_F10];
                 Math_ApproachF(&this->workf[UNK_F10], 0.19999999f, 1.0f, 0.0019999994f);
@@ -4702,7 +4703,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);
@@ -4748,7 +4749,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                 sp11C.x = 0.0f;
                 sp11C.y = 0.0f;
                 sp11C.z = -eff->workf[EFF_DIST];
-                Matrix_RotateY((sShieldHitYaw / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(sShieldHitYaw), MTXMODE_NEW);
                 Matrix_RotateX(-0.2f, MTXMODE_APPLY);
                 Matrix_RotateZ(eff->workf[EFF_ROLL], MTXMODE_APPLY);
                 Matrix_RotateY(eff->workf[EFF_YAW], MTXMODE_APPLY);

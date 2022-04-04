@@ -3449,7 +3449,7 @@ s32 EnHorse_UpdateConveyors(EnHorse* this, GlobalContext* globalCtx) {
         return 0;
     }
     conveyorDir = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-    conveyorDir = (conveyorDir << 10) - this->actor.world.rot.y;
+    conveyorDir = (conveyorDir * (0x10000 / 64)) - this->actor.world.rot.y;
     if (conveyorDir > 800.0f) {
         this->actor.world.rot.y += 800.0f;
     } else if (conveyorDir < -800.0f) {
@@ -3812,13 +3812,13 @@ s32 EnHorse_OverrideLimbDraw(Actor* thisx, GlobalContext* globalCtx, s32 limbInd
         gEponaEyeHalfTex,
         gEponaEyeClosedTex,
     };
-    static u8 eyeBlinkIndexes[] = { 0, 1, 2, 1 };
+    static u8 eyeBlinkIndices[] = { 0, 1, 2, 1 };
     EnHorse* this = (EnHorse*)thisx;
     s32 drawOriginalLimb = true;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
     if (limbIndex == 13 && this->type == HORSE_EPONA) {
-        u8 index = eyeBlinkIndexes[this->blinkTimer];
+        u8 index = eyeBlinkIndices[this->blinkTimer];
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[index]));
     } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {

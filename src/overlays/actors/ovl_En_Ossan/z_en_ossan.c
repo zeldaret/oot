@@ -548,7 +548,7 @@ void EnOssan_UpdateCameraDirection(EnOssan* this, GlobalContext* globalCtx, f32 
     Camera_SetCameraData(GET_ACTIVE_CAM(globalCtx), 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
 }
 
-s32 EnOssan_TryGetObjBankIndexes(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
+s32 EnOssan_TryGetObjBankIndices(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
     if (objectIds[1] != OBJECT_ID_MAX) {
         this->objBankIndex2 = Object_GetIndex(&globalCtx->objectCtx, objectIds[1]);
         if (this->objBankIndex2 < 0) {
@@ -616,7 +616,7 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (EnOssan_TryGetObjBankIndexes(this, globalCtx, objectIds) == 0) {
+    if (EnOssan_TryGetObjBankIndices(this, globalCtx, objectIds) == 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("予備バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);

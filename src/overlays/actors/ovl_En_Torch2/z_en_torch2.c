@@ -97,7 +97,7 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemActionParam = this->heldItemId = PLAYER_AP_SWORD_MASTER;
-    Player_SetModelGroup(this, 2);
+    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD);
     globalCtx->playerInit(this, globalCtx, &gDarkLinkSkel);
     this->actor.naviEnemyId = 0x26;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;

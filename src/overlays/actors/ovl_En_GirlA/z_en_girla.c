@@ -1102,7 +1102,7 @@ void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags) {
 void EnGirlA_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = (EnGirlA*)thisx;
 
-    Matrix_RotateY(((this->yRotation * 360.0f) / 65536.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD((this->yRotation * 360.0f) / 65536.0f), MTXMODE_APPLY);
     if (this->hiliteFunc != NULL) {
         this->hiliteFunc(thisx, globalCtx, 0);
     }

@@ -686,8 +686,8 @@ void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
         f32 spawnY;
         f32 spawnZ;
 
-        Matrix_RotateY(this->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_NEW);
-        Matrix_RotateX(this->actor.shape.rot.x / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
         baseOffset.x = 0.0f;
         baseOffset.y = 0.0f;
         baseOffset.z = 5.0f;
