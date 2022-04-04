@@ -141,7 +141,7 @@ s32 func_800A698C(Skin* skin, SkinLimb** skeleton, MtxF* limbMatrices, u8 parent
 }
 
 /**
- * Recursively applies matrix tranformations to each limb
+ * Recursively applies matrix transformations to each limb
  */
 s32 Skin_ApplyAnimTransformations(Skin* skin, MtxF* limbMatrices, Actor* actor, s32 setTranslation) {
     s32 i;

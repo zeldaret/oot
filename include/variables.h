@@ -77,7 +77,7 @@ extern MapData gMapDataTable;
 extern s16 gSpoilingItems[3];
 extern s16 gSpoilingItemReverts[3];
 extern FlexSkeletonHeader* gPlayerSkelHeaders[2];
-extern u8 gPlayerModelTypes[][5];
+extern u8 gPlayerModelTypes[PLAYER_MODELGROUP_MAX][PLAYER_MODELGROUPENTRY_MAX];
 extern Gfx* D_80125DE8[];
 extern Gfx* D_80125E08[];
 extern Gfx* D_80125E18[];

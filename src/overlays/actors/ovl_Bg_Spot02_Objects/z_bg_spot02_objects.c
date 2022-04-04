@@ -290,7 +290,7 @@ void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot02_objects.c", 736);
 
     if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[2] != NULL) {
-        u16 temp_v1 = globalCtx->csCtx.npcActions[2]->urot.z * 0.00549325f;
+        u16 temp_v1 = BINANG_TO_DEGF(globalCtx->csCtx.npcActions[2]->urot.z);
 
         if (this->unk_170 != temp_v1) {
             if (this->unk_170 == 0xFFFF) {
