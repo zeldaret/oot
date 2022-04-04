@@ -1,0 +1,7 @@
+The following only applies to files with an explicit license,
+with the exception of fado and ZAPD (in the tools folder) for which it doesn't apply.
+
+This repository uses SPDX short-form identifiers (https://spdx.dev/ids/)
+to identify the license a file falls under.
+
+Corresponding legal text for licenses used can be found in the LICENSES folder.
