@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="32 - Ganondorf's Battle" Index="32">
+    <Soundfont Name="32 Ganondorf's Battle" Index="32">
         <Instruments>
             <Instrument Name="Pan Flute" Enum="FLUTE"/>
             <Instrument Name="Vocals 1" Enum="VOCALS_0"/>

@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="37 - Deku Tree (Unused)" Index="37" OverrideSampleBank="2">
+    <Soundfont Name="37 Deku Tree (Unused)" Index="37" OverrideSampleBank="2">
         <Instruments>
             <Instrument Name="Warm Pad" Enum="WARM_PAD_1"/>
             <Instrument Name="Quiet Warm Pad" Enum="WARM_PAD_2"/>

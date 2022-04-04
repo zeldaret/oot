@@ -127,7 +127,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
     for xmlfile in os.listdir(xml_dir):
         if xmlfile.endswith(".xml"):
             bankname = os.path.splitext(xmlfile)[0]
-            index = int(bankname.split(" - ")[0])
+            index = int(bankname.split(" ")[0])
             results[index] = bankname
             root = XmlTree.parse(os.path.join(xml_dir, xmlfile))
             for sample in root.findall("Sample"):
@@ -342,34 +342,6 @@ def write_soundfont(font, filename, samplebanks, sampleNames, tunings):
         xmlstring = minidom.parseString(XmlTree.tostring(xml, "unicode")).toprettyxml(indent="\t")
         file.write(xmlstring)
 
-def write_soundfont_header(font, filename):
-    with open(filename, "w") as file:
-        file.write("/*\n")
-        file.write("   Soundfont file constants\n")
-        file.write(f"   ID: {font.idx}\n")
-        file.write(f"   Name: {font.name}\n")
-        file.write("*/\n\n/**** INSTRUMENTS ****/\n")
-
-        for instrument in font.instruments:
-            if instrument is None:
-                continue
-
-            file.write(f"#define F{font.idx}_I_{instrument.enum} {instrument.idx}\n")
-        
-        file.write("\n/**** DRUMS ****/\n")
-        for drum in font.percussion:
-            if drum is None:
-                continue
-
-            file.write(f"#define F{font.idx}_D_{drum.enum} {drum.idx}\n")
-        
-        file.write("\n/**** EFFECTS ****/\n")
-        for effect in font.soundEffects:
-            if effect is None:
-                continue
-
-            file.write(f"#define F{font.idx}_E_{effect.enum} {effect.idx}\n")
-
 def populateRawSamples(fonts):
     rawSamples = {}
 
@@ -544,21 +516,18 @@ def main(args):
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{font.name}.xml")
-        h_filename = os.path.join(dir, f"{font.idx}.h")
         write_soundfont(font, filename, real_samplebanks, sampleNames, tunings)
-        write_soundfont_header(font, h_filename)
-
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("version", metavar="<version>", help="The version of Ocarina of Time being disassembled.")
-parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
-parser.add_argument("audiotable", metavar="<Audiotable file>", type=argparse.FileType("rb"), help="Path to the 'AudioTable' file, usually in baserom.")
-parser.add_argument("audiobank", metavar="<Audiobank file>", type=argparse.FileType("rb"), help="Path to the 'Audiobank' file, usually in baserom.")
-parser.add_argument("assetxml", metavar="<assets XML dir>", type=Path, help="The asset XML path where the definitions are stored.")
-parser.add_argument("sampleout", metavar="<samples out dir>", type=Path, help="The output path for extracted samples.")
-parser.add_argument("fontout", metavar="<soundfont out dir>", type=Path, help="The output path for extracted soundfonts.")
-parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
-parser.add_argument("--detect-gaps", "-g", dest="gaps", action='store_true', help="Outputs unreferenced data ranges to standard out.")
-args = parser.parse_args()
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("version", metavar="<version>", help="The version of Ocarina of Time being disassembled.")
+    parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
+    parser.add_argument("audiotable", metavar="<Audiotable file>", type=argparse.FileType("rb"), help="Path to the 'AudioTable' file, usually in baserom.")
+    parser.add_argument("audiobank", metavar="<Audiobank file>", type=argparse.FileType("rb"), help="Path to the 'Audiobank' file, usually in baserom.")
+    parser.add_argument("assetxml", metavar="<assets XML dir>", type=Path, help="The asset XML path where the definitions are stored.")
+    parser.add_argument("sampleout", metavar="<samples out dir>", type=Path, help="The output path for extracted samples.")
+    parser.add_argument("fontout", metavar="<soundfont out dir>", type=Path, help="The output path for extracted soundfonts.")
+    parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
+    parser.add_argument("--detect-gaps", "-g", dest="gaps", action='store_true', help="Outputs unreferenced data ranges to standard out.")
+    args = parser.parse_args()
     main(args)

@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="12 - Forest Temple" Index="12">
+    <Soundfont Name="12 Forest Temple" Index="12">
         <Instruments>
             <Instrument Name="Vocals" Enum="VOCAL_PAD"/>
             <Instrument Name="Flute and Vocalization" Enum="FLUTE_VOICE"/>

@@ -20,7 +20,7 @@ chan_bitand 7
 chan_readseq .addr_5F38
 chan_writeseq 0, .layer_5F2B+3
 .chan_5F0C:
-chan_setinstr F0_I_OCARINA_0
+chan_setinstr FONT00_INSTR_OCARINA_0
 chan_ioreadval 5
 chan_bltzrel .chan_5F15
 chan_writeseq 0, .layer_5F29+1
@@ -70,7 +70,7 @@ chan_setval 129
 chan_setvibratorate 64
 chan_setvibratoextentlinear 4, 8, 8
 chan_writeseq 0, .layer_5F5C+1
-chan_setinstr F0_I_FAIRY
+chan_setinstr FONT00_INSTR_FAIRY
 chan_setenvelope .envelope_66FC
 chan_setdecayrelease 240
 chan_setlayer 0, .layer_5F5A
@@ -104,7 +104,7 @@ chan_setvibratoextentlinear 4, 40, 8
 chan_end
 
 .layer_5F84:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_transpose 48
 layer_setenvelope .envelope_6740, 251
 .layer_5F8C:

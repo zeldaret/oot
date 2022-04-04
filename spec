@@ -672,7 +672,6 @@ beginseg
     include "build/assets/data/SequenceFontTable.o"
     include "build/assets/data/SequenceTable.o"
     include "build/assets/data/SampleBankTable.o"
-    include "build/data/audio_tables.data.o"
     include "build/data/rsp.rodata.o"
 endseg
 

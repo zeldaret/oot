@@ -258,9 +258,9 @@ chan_setlayer 0, .layer_18CE
 chan_end
 
 .layer_18CE:
-layer_setinstr F0_I_DOOR_WOOD
+layer_setinstr FONT00_INSTR_DOOR_WOOD
 layer_note1 PITCH_A3, 0x30, 100
-layer_setinstr F0_I_CREAK
+layer_setinstr FONT00_INSTR_CREAK
 layer_note1 PITCH_A3, 0x30, 75
 layer_end
 
@@ -269,7 +269,7 @@ chan_setlayer 0, .layer_18DD
 chan_end
 
 .layer_18DD:
-layer_setinstr F0_I_DOOR_WOOD
+layer_setinstr FONT00_INSTR_DOOR_WOOD
 layer_transpose 48
 layer_note1 PITCH_A3, 0x60, 100
 layer_end
@@ -279,14 +279,14 @@ chan_setlayer 0, .layer_18E9
 chan_end
 
 .layer_18E9:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_65E8, 251
 layer_note1 PITCH_A4, 0xc, 110
 layer_note1 PITCH_A3, 0x7f, 110
 layer_end
 
 .env_horse_trot:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setlayer 0, .layer_18FC
 chan_end
 
@@ -295,7 +295,7 @@ layer_note1 PITCH_G3, 0x18, 110
 layer_end
 
 .env_horse_gallop:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setlayer 0, .layer_1906
 chan_end
 
@@ -304,7 +304,7 @@ layer_note1 PITCH_C4, 0x25, 110
 layer_end
 
 .env_horse_neigh:
-chan_setinstr F0_I_HORSE_VOCALS
+chan_setinstr FONT00_INSTR_HORSE_VOCALS
 chan_setlayer 0, .layer_1910
 chan_end
 
@@ -313,7 +313,7 @@ layer_note1 PITCH_C4, 0xaf, 110
 layer_end
 
 .env_river:
-chan_setinstr F0_I_WATER_FLOWING
+chan_setinstr FONT00_INSTR_WATER_FLOWING
 chan_setpanmix 48
 chan_setlayer 0, .layer_1922
 chan_setlayer 1, .layer_1920
@@ -341,7 +341,7 @@ layer_jumprel .layer_1938
 .layer_1936:
 layer_transpose 48
 .layer_1938:
-layer_setinstr F0_I_WATER_FLOWING
+layer_setinstr FONT00_INSTR_WATER_FLOWING
 layer_setenvelope .envelope_66F4, 220
 layer_enablelegato
 .layer_193F:
@@ -349,7 +349,7 @@ layer_note1 PITCH_C4, 0x7d00, 92
 layer_jumprel .layer_193F
 
 .env_zora_surface:
-chan_setinstr F0_I_WATER_SPLASH
+chan_setinstr FONT00_INSTR_WATER_SPLASH
 chan_setenvelope .envelope_6610
 chan_setlayer 0, .layer_194E
 chan_end
@@ -365,7 +365,7 @@ chan_setlayer 0, .layer_195D
 chan_end
 
 .layer_195D:
-layer_setinstr F0_I_WATER_SPLASH
+layer_setinstr FONT00_INSTR_WATER_SPLASH
 layer_setenvelope .envelope_65FC, 127
 layer_portamento 0x81, 36, 200
 layer_note1 PITCH_A2, 0x7f, 90
@@ -376,7 +376,7 @@ chan_setlayer 0, .layer_196F
 chan_end
 
 .layer_196F:
-layer_setinstr F0_I_ROLL_BOULDER
+layer_setinstr FONT00_INSTR_ROLL_BOULDER
 layer_setreleaserate 245
 layer_enablelegato
 layer_portamento 0x1, 15, 0x30
@@ -385,7 +385,7 @@ layer_note1 PITCH_C3, 32700, 100
 layer_jumprel .layer_1978
 
 .env_lava_bubbling_old:
-chan_setinstr F0_I_LAVA
+chan_setinstr FONT00_INSTR_LAVA
 chan_setpanmix 48
 chan_setdecayrelease 112
 chan_setlayer 0, .layer_1988
@@ -403,7 +403,7 @@ chan_setlayer 1, .layer_19B0
 chan_end
 
 .layer_1996:
-layer_setinstr F0_I_CHAIN
+layer_setinstr FONT00_INSTR_CHAIN
 layer_setreleaserate 235
 layer_note0 PITCH_F3, 0x19, 56, 10
 layer_note0 PITCH_G3, 0x17, 56, 10
@@ -414,7 +414,7 @@ layer_note0 PITCH_C4, 0x13, 56, 10
 layer_jumprel .layer_19AA
 
 .layer_19B0:
-layer_setinstr F0_I_CHAIN_RETRACT
+layer_setinstr FONT00_INSTR_CHAIN_RETRACT
 layer_enablelegato
 layer_portamento 0x85, 18, 255
 layer_note1 PITCH_BF2, 0x14, 90
@@ -424,7 +424,7 @@ layer_note1 PITCH_EF3, 32700, 90
 layer_jumprel .layer_19BD
 
 .env_drawbridge_raise:
-chan_setinstr F0_I_CHAIN_RETRACT
+chan_setinstr FONT00_INSTR_CHAIN_RETRACT
 chan_setlayer 0, .layer_19CC
 chan_setlayer 1, .layer_19DD
 chan_end
@@ -439,7 +439,7 @@ layer_note1 PITCH_E3, 32700, 90
 layer_jumprel .layer_19D7
 
 .layer_19DD:
-layer_setinstr F0_I_CHAIN
+layer_setinstr FONT00_INSTR_CHAIN
 layer_setreleaserate 235
 layer_note0 PITCH_G3, 0x19, 56, 10
 layer_note0 PITCH_A3, 0x17, 56, 10
@@ -456,12 +456,12 @@ chan_setlayer 1, .layer_1A01
 chan_end
 
 .layer_1A01:
-layer_setinstr F0_I_SLAM_HEAVY
+layer_setinstr FONT00_INSTR_SLAM_HEAVY
 layer_note1 PITCH_B2, 0x64, 75
 layer_end
 
 .layer_1A07:
-layer_setinstr F0_I_DOOR_STONE
+layer_setinstr FONT00_INSTR_STONE_STRIKE
 layer_note1 PITCH_D1, 0xb4, 110
 layer_end
 
@@ -472,12 +472,12 @@ chan_setlayer 1, .layer_1A18
 chan_end
 
 .layer_1A18:
-layer_setinstr F0_I_SLAM_HEAVY
+layer_setinstr FONT00_INSTR_SLAM_HEAVY
 layer_note1 PITCH_B2, 0x64, 75
 layer_end
 
 .layer_1A1E:
-layer_setinstr F0_I_DOOR_STONE
+layer_setinstr FONT00_INSTR_STONE_STRIKE
 layer_note1 PITCH_AF1, 0xb4, 110
 layer_end
 
@@ -497,7 +497,7 @@ layer_jumprel .layer_1A36
 layer_transpose -24
 
 .layer_1A36:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_6688, 230
 layer_portamento 0x81, 58, 127
 layer_note1 PITCH_C4, 0x52, 95
@@ -506,7 +506,7 @@ layer_note1 PITCH_F3, 0xb9, 70
 layer_end
 
 .env_cucco_cluck:
-chan_setinstr F0_I_ANIMALS_0
+chan_setinstr FONT00_INSTR_ANIMALS_0
 chan_setlayer 0, .layer_1A52
 chan_end
 
@@ -520,16 +520,16 @@ chan_setlayer 0, .layer_1A5F
 chan_end
 
 .layer_1A5F:
-layer_setinstr F0_I_ANIMALS_1
+layer_setinstr FONT00_INSTR_ANIMALS_1
 layer_note0 PITCH_AF3, 0xc, 95, 10
-layer_setinstr F0_I_ANIMALS_0
+layer_setinstr FONT00_INSTR_ANIMALS_0
 layer_setenvelope .envelope_65D8, 251
 layer_portamento 0x81, 51, 127
 layer_note1 PITCH_E4, 0x48, 105
 layer_end
 
 .env_cucco_crow:
-chan_setinstr F0_I_ANIMALS_1
+chan_setinstr FONT00_INSTR_ANIMALS_1
 chan_setlayer 0, .layer_1A79
 chan_end
 
@@ -538,7 +538,7 @@ layer_note1 PITCH_C4, 0xa6, 105
 layer_end
 
 .env_door_slide_open:
-chan_setinstr F0_I_DOOR_METAL
+chan_setinstr FONT00_INSTR_DOOR_METAL
 chan_setenvelope .envelope_6610
 chan_setlayer 0, .layer_1A87
 chan_end
@@ -554,15 +554,15 @@ chan_setlayer 1, .layer_1AA5
 chan_end
 
 .layer_1A96:
-layer_setinstr F0_I_STICK_ATTACK
+layer_setinstr FONT00_INSTR_STICK_ATTACK
 layer_note1 PITCH_C4, 0x4, 105
-layer_setinstr F0_I_DOOR_STONE
+layer_setinstr FONT00_INSTR_STONE_STRIKE
 layer_setenvelope .envelope_664C, 255
 layer_note1 PITCH_BF1, 0x28, 105
 layer_end
 
 .layer_1AA5:
-layer_setinstr F0_I_DOOR_STONE
+layer_setinstr FONT00_INSTR_STONE_STRIKE
 layer_setenvelope .envelope_664C, 251
 layer_note0 PITCH_C3, 0x4, 102, 96
 layer_note1 PITCH_BF1, 0x28, 102
@@ -575,7 +575,7 @@ chan_end
 .layer_1AB7:
 layer_transpose 48
 .layer_1AB9:
-layer_setinstr F0_I_HORSE_VOCALS
+layer_setinstr FONT00_INSTR_HORSE_VOCALS
 layer_enablelegato
 layer_portamento 0x85, 34, 255
 layer_note1 PITCH_AF3, 0x6, 85
@@ -591,12 +591,12 @@ chan_end
 layer_transpose 6
 
 .layer_1AD0:
-layer_setinstr F0_I_WATER_SPLISH
+layer_setinstr FONT00_INSTR_WATER_SPLISH
 layer_note1 PITCH_F4, 0x5c, 115
 layer_end
 
 .env_horse_jump:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setlayer 0, .layer_1ADC
 chan_end
 
@@ -606,7 +606,7 @@ layer_note1 PITCH_E4, 0xf, 110
 layer_end
 
 .env_horse_land:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setlayer 0, .layer_1AE9
 chan_end
 
@@ -616,7 +616,7 @@ layer_note1 PITCH_D4, 0x12, 110
 layer_end
 
 .env_horse_slip:
-chan_setinstr F0_I_SLIDE_BLOCK
+chan_setinstr FONT00_INSTR_SLIDE_BLOCK
 chan_setenvelope .envelope_667C
 chan_setlayer 0, .layer_1AF9
 chan_end
@@ -631,14 +631,14 @@ chan_setlayer 0, .layer_1B05
 chan_end
 
 .layer_1B05:
-layer_setinstr F0_I_FAIRY_MAGIC
+layer_setinstr FONT00_INSTR_FAIRY_MAGIC
 layer_setenvelope .envelope_6794, 251
 layer_portamento 0x1, 52, 0x100
 layer_note1 PITCH_B5, 0x48, 65
 layer_end
 
 .env_door_slide_close:
-chan_setinstr F0_I_DOOR_METAL
+chan_setinstr FONT00_INSTR_DOOR_METAL
 chan_setenvelope .envelope_6610
 chan_setlayer 0, .layer_1B1D
 chan_end
@@ -655,11 +655,11 @@ chan_setlayer 1, .layer_1B41
 chan_end
 
 .layer_1B2E:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setreleaserate 160
 layer_note1 PITCH_E4, 0x32, 102
 .layer_1B35:
-layer_setinstr F0_I_BLOCK_LOCK
+layer_setinstr FONT00_INSTR_BLOCK_LOCK
 layer_setenvelope .envelope_6740, 245
 layer_note1 PITCH_E2, 0x64, 80
 layer_end
@@ -668,19 +668,19 @@ layer_end
 layer_transpose 4
 
 .layer_1B41:
-layer_setinstr F0_I_BLOCK_LOCK
+layer_setinstr FONT00_INSTR_BLOCK_LOCK
 layer_note1 PITCH_E3, 0x64, 110
 layer_end
 
 .env_door_time_open:
-chan_setinstr F0_I_DOOR_METAL
+chan_setinstr FONT00_INSTR_DOOR_METAL
 chan_setenvelope .envelope_6674
 chan_setlayer 0, .layer_1B57
 chan_setlayer 1, .layer_1B53
 chan_end
 
 .layer_1B53:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_transpose 22
 
 .layer_1B57:
@@ -696,14 +696,14 @@ chan_setlayer 1, .layer_1B68
 chan_end
 
 .layer_1B68:
-layer_setinstr F0_I_DOOR_WOOD
+layer_setinstr FONT00_INSTR_DOOR_WOOD
 layer_note1 PITCH_A4, 0x3, 115
 layer_note1 PITCH_E5, 0x6, 115
 layer_end
 
 .layer_1B71:
 layer_delay 0x19
-layer_setinstr F0_I_CREAK
+layer_setinstr FONT00_INSTR_CREAK
 layer_portamento 0x81, 31, 255
 layer_note1 PITCH_G3, 0x18, 100
 layer_end
@@ -713,7 +713,7 @@ chan_setlayer 0, .layer_1B81
 chan_end
 
 .layer_1B81:
-layer_setinstr F0_I_CREAK
+layer_setinstr FONT00_INSTR_CREAK
 layer_setenvelope .envelope_65FC, 250
 layer_portamento 0x83, 32, 255
 layer_note0 PITCH_D3, 0x18, 100, 127
@@ -721,7 +721,7 @@ layer_note1 PITCH_C4, 0x48, 100
 layer_end
 
 .env_timer_tick:
-chan_setinstr F0_I_BOW
+chan_setinstr FONT00_INSTR_BOW
 chan_setval 7
 chan_call .delay_varyingvol
 chan_setnoteallocationpolicy 2
@@ -770,13 +770,13 @@ chan_setlayer 0, .layer_1BEF
 chan_end
 
 .layer_1BEF:
-layer_setinstr F0_I_WOOSH_LOW
+layer_setinstr FONT00_INSTR_IGNITE
 layer_portamento 0x81, 27, 152
 layer_note1 PITCH_C4, 0x3c, 100
 layer_end
 
 .env_guard_attention:
-chan_setinstr F0_I_SWORD_STRIKE
+chan_setinstr FONT00_INSTR_SWORD_STRIKE
 chan_setlayer 0, .layer_1C05
 chan_setlayer 1, .layer_1C0B
 chan_setlayer 2, .layer_1C0F
@@ -804,7 +804,7 @@ chan_end
 layer_transpose -12
 
 .layer_1C1D:
-layer_setinstr F0_I_DOOR_METAL
+layer_setinstr FONT00_INSTR_DOOR_METAL
 layer_setenvelope .envelope_6674, 251
 layer_enablelegato
 layer_portamento 0x1, 26, 0x3c
@@ -813,7 +813,7 @@ layer_note1 PITCH_A3, 32700, 95
 layer_jumprel .layer_1C28
 
 .env_warp_circle:
-chan_setinstr F0_I_WARP
+chan_setinstr FONT00_INSTR_WARP
 chan_setdecayrelease 182
 chan_setlayer 0, .layer_1C65
 chan_setlayer 1, .layer_1C6F
@@ -875,7 +875,7 @@ envelope_line 80 32700
 envelope_goto 1
 
 .env_warp_circle_enter:
-chan_setinstr F0_I_WARP
+chan_setinstr FONT00_INSTR_WARP
 chan_setpanmix 48
 chan_setval 25
 chan_iowriteval 1
@@ -903,7 +903,7 @@ layer_transpose 12
 layer_note1 PITCH_D4, 0x18, 75
 layer_note1 PITCH_D5, 0x190, 75
 layer_transpose 0
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_6778, 251
 layer_portamento 0x81, 57, 255
 layer_note1 PITCH_BF5, 500, 50
@@ -921,7 +921,7 @@ layer_note1 PITCH_C5, 500, 90
 layer_end
 
 .env_stairs_lower:
-chan_setinstr F0_I_EXPLOSION_0
+chan_setinstr FONT00_INSTR_EXPLOSION_0
 chan_setpanmix 72
 chan_setlayer 0, .layer_1D0C
 chan_setlayer 1, .layer_1D70
@@ -971,13 +971,13 @@ layer_note1 PITCH_C2, 0x21, 70
 layer_jumprel .layer_1D4A
 
 .layer_1D70:
-layer_setinstr F0_I_DOOR_METAL
+layer_setinstr FONT00_INSTR_DOOR_METAL
 .layer_1D72:
 layer_note1 PITCH_DF3, 0x1c, 102
 layer_jumprel .layer_1D72
 
 .env_waterfall_small:
-chan_setinstr F0_I_WATER_FLOWING
+chan_setinstr FONT00_INSTR_WATER_FLOWING
 chan_setpanmix 48
 chan_setdecayrelease 211
 chan_setlayer 0, .layer_1D86
@@ -994,7 +994,7 @@ layer_note1 PITCH_A3, 0x7d00, 75
 layer_jumprel .layer_1D87
 
 .env_river_slow:
-chan_setinstr F0_I_WATER_FLOWING
+chan_setinstr FONT00_INSTR_WATER_FLOWING
 chan_setpanmix 64
 chan_setlayer 0, .layer_1D9A
 chan_setlayer 1, .layer_1D98
@@ -1010,7 +1010,7 @@ layer_note1 PITCH_G2, 0x7d00, 60
 layer_jumprel .layer_1D9B
 
 .env_river_fast:
-chan_setinstr F0_I_WATER_FLOWING
+chan_setinstr FONT00_INSTR_WATER_FLOWING
 chan_setpanmix 64
 chan_setlayer 0, .layer_1DAE
 chan_setlayer 1, .layer_1DAC
@@ -1026,7 +1026,7 @@ layer_note1 PITCH_G3, 0x7d00, 75
 layer_jumprel .layer_1DAF
 
 .env_horse_phantom_gallop:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setlayer 0, .layer_1DBB
 chan_end
 
@@ -1035,7 +1035,7 @@ layer_note1 PITCH_B3, 0x12, 110
 layer_end
 
 .env_horse_stop_sand:
-chan_setinstr F0_I_SLIDE_BLOCK
+chan_setinstr FONT00_INSTR_SLIDE_BLOCK
 chan_setenvelope .envelope_667C
 chan_setlayer 0, .layer_1DC8
 chan_end
@@ -1046,7 +1046,7 @@ layer_note1 PITCH_C4, 0x20, 80
 layer_end
 
 .env_electric_charge:
-chan_setinstr F0_I_POTTERY_ELECTRIC
+chan_setinstr FONT00_INSTR_POTTERY_ELECTRIC
 chan_setval 32
 chan_iowriteval 1
 chan_setdecayrelease 245
@@ -1072,19 +1072,19 @@ chan_setlayer 2, .layer_1E0A
 chan_end
 
 .layer_1DFA:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_jumprel .layer_1E02
 
 .layer_1DFE:
 layer_transpose 42
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 .layer_1E02:
 layer_setenvelope .envelope_65FC, 200
 layer_note1 PITCH_DF4, 0x0, 110
 layer_end
 
 .layer_1E0A:
-layer_setinstr F0_I_POTTERY_ELECTRIC
+layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
 layer_note1 PITCH_G3, 0x32, 50
 layer_end
 
@@ -1093,7 +1093,7 @@ chan_setlayer 0, .layer_1E14
 chan_end
 
 .layer_1E14:
-layer_setinstr F0_I_SLAM_HEAVY
+layer_setinstr FONT00_INSTR_SLAM_HEAVY
 layer_setenvelope .envelope_6660, 251
 layer_enablelegato
 layer_portamento 0x85, 48, 255
@@ -1102,7 +1102,7 @@ layer_note1 PITCH_BF3, 0x5, 95
 layer_end
 
 .env_water_drip:
-chan_setinstr F0_I_WATER_DRIP
+chan_setinstr FONT00_INSTR_WATER_DRIP
 chan_setenvelope .envelope_6624
 chan_setdecayrelease 201
 chan_setval 20
@@ -1175,7 +1175,7 @@ layer_setstereo 20
 layer_end
 
 .env_fire_crackle:
-chan_setinstr F0_I_FIRE_COW
+chan_setinstr FONT00_INSTR_FIRE_COW
 chan_sethilogain 10
 chan_setlayer 0, .layer_1EB3
 chan_end
@@ -1193,7 +1193,7 @@ chan_setlayer 1, .layer_1ED4
 chan_end
 
 .layer_1EC3:
-layer_setinstr F0_I_LAVA
+layer_setinstr FONT00_INSTR_LAVA
 layer_enablelegato
 layer_portamento 0x85, 32, 200
 .layer_1ECA:
@@ -1202,7 +1202,7 @@ layer_note1 PITCH_F3, 500, 105
 layer_jumprel .layer_1ECA
 
 .layer_1ED4:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_667C, 221
 .layer_1EDA:
 layer_portamento 0x81, 27, 255
@@ -1216,7 +1216,7 @@ chan_setlayer 0, .layer_1EF0
 chan_end
 
 .layer_1EF0:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 layer_setreleaserate 240
 layer_enablelegato
 layer_portamento 0x1, 24, 0x28
@@ -1229,7 +1229,7 @@ chan_setlayer 0, .layer_1F03
 chan_end
 
 .layer_1F03:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 layer_setenvelope .envelope_667C, 240
 layer_enablelegato
 layer_portamento 0x85, 32, 255
@@ -1246,7 +1246,7 @@ chan_end
 layer_transpose -4
 
 .layer_1F1C:
-layer_setinstr F0_I_BLOCK_LOCK
+layer_setinstr FONT00_INSTR_BLOCK_LOCK
 layer_setreleaserate 241
 layer_note1 PITCH_GF4, 0x6, 110
 layer_note1 PITCH_EF3, 0x64, 110
@@ -1257,7 +1257,7 @@ chan_setlayer 0, .layer_1F2B
 chan_end
 
 .layer_1F2B:
-layer_setinstr F0_I_MECH_ROTATE
+layer_setinstr FONT00_INSTR_MECH_ROTATE
 layer_setreleaserate 240
 layer_enablelegato
 layer_portamento 0x85, 25, 255
@@ -1274,13 +1274,13 @@ chan_end
 layer_transpose -6
 
 .layer_1F43:
-layer_setinstr F0_I_SLAM_LIGHT
+layer_setinstr FONT00_INSTR_SLAM_LIGHT
 layer_setreleaserate 241
 layer_note1 PITCH_A3, 0x5e, 95
 layer_end
 
 .env_block_shake:
-chan_setinstr F0_I_BLOCK_LOCK
+chan_setinstr FONT00_INSTR_BLOCK_LOCK
 chan_setenvelope .envelope_6660
 chan_setlayer 0, .layer_1F57
 chan_setlayer 1, .layer_1F5F
@@ -1292,7 +1292,7 @@ layer_note1 PITCH_C3, 0x14, 110
 layer_end
 
 .layer_1F5F:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_note1 PITCH_A2, 0x14, 100
 layer_end
 
@@ -1303,14 +1303,14 @@ chan_setlayer 1, .layer_1F7B
 chan_end
 
 .layer_1F6E:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_6610, 251
 layer_note1 PITCH_C5, 0xf, 94
 layer_note1 PITCH_EF4, 0x60, 99
 layer_end
 
 .layer_1F7B:
-layer_setinstr F0_I_STICK_ATTACK
+layer_setinstr FONT00_INSTR_STICK_ATTACK
 layer_setenvelope .envelope_65E8, 180
 layer_note1 PITCH_GF4, 0x8, 92
 layer_note1 PITCH_EF4, 0x6, 85
@@ -1325,13 +1325,13 @@ chan_setlayer 1, .layer_1FA2
 chan_end
 
 .layer_1F98:
-layer_setinstr F0_I_BLOCK_LOCK
+layer_setinstr FONT00_INSTR_BLOCK_LOCK
 layer_note0 PITCH_DF5, 0x12, 95, 127
 layer_note1 PITCH_DF4, 0x41, 95
 layer_end
 
 .layer_1FA2:
-layer_setinstr F0_I_DOOR_STONE
+layer_setinstr FONT00_INSTR_STONE_STRIKE
 layer_note1 PITCH_C4, 0x12, 80
 layer_note1 PITCH_C3, 0x41, 80
 layer_end
@@ -1343,7 +1343,7 @@ chan_setlayer 1, .layer_1FC5
 chan_end
 
 .layer_1FB4:
-layer_setinstr F0_I_LAVA
+layer_setinstr FONT00_INSTR_LAVA
 layer_enablelegato
 layer_portamento 0x85, 38, 200
 .layer_1FBB:
@@ -1352,7 +1352,7 @@ layer_note1 PITCH_B3, 0x17c, 110
 layer_jumprel .layer_1FBB
 
 .layer_1FC5:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_667C, 221
 .layer_1FCB:
 layer_portamento 0x81, 32, 255
@@ -1367,21 +1367,21 @@ chan_setlayer 1, .layer_1FE4
 chan_end
 
 .layer_1FE4:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_664C, 240
 layer_note1 PITCH_F5, 0x3, 70
 layer_note1 PITCH_F3, 0x4, 64
 layer_end
 
 .layer_1FF1:
-layer_setinstr F0_I_SWORD_STRIKE
+layer_setinstr FONT00_INSTR_SWORD_STRIKE
 layer_transpose 48
 layer_note0 PITCH_D2, 0x3, 100, 127
 layer_note1 PITCH_E3, 0x30, 100
 layer_end
 
 .env_horse_ganon_neigh:
-chan_setinstr F0_I_HORSE_VOCALS
+chan_setinstr FONT00_INSTR_HORSE_VOCALS
 chan_setlayer 0, .layer_2003
 chan_end
 
@@ -1397,7 +1397,7 @@ chan_setlayer 0, .layer_2013
 chan_end
 
 .layer_2013:
-layer_setinstr F0_I_HORSE_VOCALS
+layer_setinstr FONT00_INSTR_HORSE_VOCALS
 layer_transpose 48
 layer_enablelegato
 layer_portamento 0x85, 32, 255
@@ -1417,7 +1417,7 @@ chan_setvibratoextentlinear 80, 10, 100
 chan_end
 
 .layer_203C:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 layer_setenvelope .envelope_6694, 231
 layer_enablelegato
 layer_portamento 0x85, 3, 255
@@ -1433,12 +1433,12 @@ layer_end
 
 .layer_unused_205E:
 layer_transpose -30
-layer_setinstr F0_I_OCARINA_0
+layer_setinstr FONT00_INSTR_OCARINA_0
 layer_jump .layer_2069
 
 .layer_2065:
 layer_transpose 12
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 .layer_2069:
 layer_setenvelope .envelope_6688, 251
 layer_enablelegato
@@ -1457,7 +1457,7 @@ chan_setvibratoextent 50
 chan_end
 
 .layer_208C:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 layer_setenvelope .envelope_667C, 211
 layer_enablelegato
 layer_portamento 0x85, 3, 255
@@ -1467,11 +1467,11 @@ layer_jumprel .layer_2097
 
 .layer_209C:
 layer_transpose -18
-layer_setinstr F0_I_OCARINA_0
+layer_setinstr FONT00_INSTR_OCARINA_0
 layer_jump .layer_20A7
 
 .layer_20A3:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_transpose 12
 .layer_20A7:
 layer_setenvelope .envelope_667C, 211
@@ -1487,7 +1487,7 @@ chan_setlayer 1, .layer_20C7
 chan_end
 
 .layer_20BC:
-layer_setinstr F0_I_WATER_FLOWING
+layer_setinstr FONT00_INSTR_WATER_FLOWING
 layer_transpose 48
 .layer_20C0:
 layer_enablelegato
@@ -1496,11 +1496,11 @@ layer_note1 PITCH_GF4, 32700, 64
 layer_jumprel .layer_20C1
 
 .layer_20C7:
-layer_setinstr F0_I_WATER_FLOWING
+layer_setinstr FONT00_INSTR_WATER_FLOWING
 layer_jumprel .layer_20C0
 
 .env_horse_kid_trot:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setdecayrelease 245
 chan_setlayer 0, .layer_20D3
 chan_end
@@ -1510,7 +1510,7 @@ layer_note1 PITCH_C4, 0x9, 110
 layer_end
 
 .env_horse_kid_gallop:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setlayer 0, .layer_20DD
 chan_end
 
@@ -1519,7 +1519,7 @@ layer_note1 PITCH_E4, 0x18, 110
 layer_end
 
 .env_horse_kid_neigh:
-chan_setinstr F0_I_HORSE_VOCALS
+chan_setinstr FONT00_INSTR_HORSE_VOCALS
 chan_setlayer 0, .layer_20E7
 chan_end
 
@@ -1542,21 +1542,21 @@ chan_setlayer 1, .layer_210B
 chan_end
 
 .layer_20FE:
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_67F4, 221
 layer_transpose 24
 layer_note1 PITCH_C4, 0xf8, 75
 layer_end
 
 .layer_210B:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_67F4, 221
 layer_transpose 36
 layer_note1 PITCH_C4, 0xf8, 100
 layer_end
 
 .env_barrier_dispell:
-chan_setinstr F0_I_WARP
+chan_setinstr FONT00_INSTR_WARP
 chan_setlayer 0, .layer_2130
 chan_setlayer 1, .layer_2124
 chan_setlayer 2, .layer_2147
@@ -1582,14 +1582,14 @@ layer_jumprel .layer_2137
 
 .layer_unused_213D:
 layer_transpose 32
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_setenvelope .envelope_65FC, 240
 layer_jumprel .layer_214F
 
 .layer_2147:
 layer_transpose 48
 .layer_2149:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_setenvelope .envelope_66FC, 240
 .layer_214F:
 layer_enablelegato
@@ -1605,14 +1605,14 @@ chan_end
 .layer_215D:
 layer_delay 0x6
 layer_enablelegato
-layer_setinstr F0_I_STEP_GRASS
+layer_setinstr FONT00_INSTR_STEP_GRASS
 layer_portamento 0x85, 32, 255
 layer_note1 PITCH_A3, 0x18, 80
 layer_note1 PITCH_G2, 0x32, 80
 layer_end
 
 .layer_216D:
-layer_setinstr F0_I_CRUNCH
+layer_setinstr FONT00_INSTR_WOOD_BREAK
 layer_note0 PITCH_E3, 0xa, 93, 127
 layer_note1 PITCH_GF2, 0x1f, 90
 layer_end
@@ -1628,7 +1628,7 @@ chan_end
 layer_transpose -6
 
 .layer_2185:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setreleaserate 221
 layer_enablelegato
 .layer_218A:
@@ -1636,7 +1636,7 @@ layer_note1 PITCH_F4, 0x7d00, 90
 layer_jumprel .layer_218A
 
 .layer_2190:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_6674, 221
 .layer_2196:
 layer_setpan 64
@@ -1663,12 +1663,12 @@ chan_setlayer 1, .layer_21CD
 chan_end
 
 .layer_21C7:
-layer_setinstr F0_I_CHAIN
+layer_setinstr FONT00_INSTR_CHAIN
 layer_note1 PITCH_E4, 0x18, 80
 layer_end
 
 .layer_21CD:
-layer_setinstr F0_I_SWORD_DRAW
+layer_setinstr FONT00_INSTR_SWORD_DRAW
 layer_portamento 0x81, 28, 255
 layer_note1 PITCH_EF3, 0x18, 95
 layer_end
@@ -1679,17 +1679,17 @@ chan_setlayer 1, .layer_21DE
 chan_end
 
 .layer_21DE:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_portamento 0x81, 39, 255
 layer_note1 PITCH_AF2, 0x8, 70
-layer_setinstr F0_I_SWORD_STRIKE
+layer_setinstr FONT00_INSTR_SWORD_STRIKE
 layer_note1 PITCH_E3, 0x8, 90
 layer_end
 
 .layer_21ED:
-layer_setinstr F0_I_CHAIN
+layer_setinstr FONT00_INSTR_CHAIN
 layer_note1 PITCH_A4, 0x6, 80
-layer_setinstr F0_I_SWORD_DRAW
+layer_setinstr FONT00_INSTR_SWORD_DRAW
 layer_portamento 0x81, 38, 255
 layer_note1 PITCH_F3, 0xe, 95
 layer_end
@@ -1699,7 +1699,7 @@ chan_setlayer 0, .layer_2200
 chan_end
 
 .layer_2200:
-layer_setinstr F0_I_MECH_ROTATE
+layer_setinstr FONT00_INSTR_MECH_ROTATE
 layer_setreleaserate 240
 .layer_2204:
 layer_portamento 0x81, 27, 255
@@ -1707,13 +1707,13 @@ layer_note1 PITCH_A2, 0x40, 72
 layer_jumprel .layer_2204
 
 .env_guillotine_chain:
-chan_setinstr F0_I_CHAIN
+chan_setinstr FONT00_INSTR_CHAIN
 chan_setlayer 0, .layer_221A
 chan_setlayer 1, .layer_2216
 chan_end
 
 .layer_2216:
-layer_setinstr F0_I_CHAIN_RETRACT
+layer_setinstr FONT00_INSTR_CHAIN_RETRACT
 layer_transpose -2
 
 .layer_221A:
@@ -1729,19 +1729,19 @@ chan_setlayer 1, .layer_222C
 chan_end
 
 .layer_222C:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_note1 PITCH_G3, 0x14, 100
 layer_end
 
 .layer_2232:
-layer_setinstr F0_I_STEP_GRASS
+layer_setinstr FONT00_INSTR_STEP_GRASS
 layer_note0 PITCH_E3, 0x6, 90, 127
 layer_note0 PITCH_BF3, 0x6, 90, 127
 layer_note1 PITCH_E4, 0x2a, 90
 layer_end
 
 .env_ship_bell:
-chan_setinstr F0_I_FAIL_BELLS
+chan_setinstr FONT00_INSTR_FAIL_BELLS
 chan_setenvelope .envelope_6624
 chan_setval 32
 chan_iowriteval 1
@@ -1766,7 +1766,7 @@ layer_jumprel .layer_2257
 chan_setval 96
 chan_writeseq 0, .chan_2287+1
 .chan_2267:
-chan_setinstr F0_I_CLOAK
+chan_setinstr FONT00_INSTR_CLOAK
 chan_setenvelope .envelope_66EC
 chan_setdecayrelease 231
 chan_setval 4
@@ -1806,7 +1806,7 @@ chan_setlayer 0, .layer_22AA
 chan_end
 
 .layer_22AA:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_6624, 246
 layer_note0 PITCH_EF4, 0x9, 105, 192
 layer_setenvelope .envelope_6610, 220
@@ -1814,7 +1814,7 @@ layer_note1 PITCH_B2, 0x0, 105
 layer_end
 
 .env_phantom_warp2:
-chan_setinstr F0_I_OCARINA_0
+chan_setinstr FONT00_INSTR_OCARINA_0
 chan_setenvelope .envelope_6674
 chan_setlayer 0, .layer_22CB
 chan_setvibratoextent 255
@@ -1826,7 +1826,7 @@ layer_note1 PITCH_D2, 0x1c2, 80
 layer_end
 
 .env_phantom_warp_loop:
-chan_setinstr F0_I_OCARINA_0
+chan_setinstr FONT00_INSTR_OCARINA_0
 chan_setenvelope .envelope_6674
 chan_setlayer 0, .layer_22DF
 chan_setvibratoextent 255
@@ -1844,14 +1844,14 @@ chan_setlayer 0, .layer_22EA
 chan_end
 
 .layer_22EA:
-layer_setinstr F0_I_DOOR_WOOD
+layer_setinstr FONT00_INSTR_DOOR_WOOD
 layer_note1 PITCH_C3, 0x13, 105
-layer_setinstr F0_I_CREAK
+layer_setinstr FONT00_INSTR_CREAK
 layer_note1 PITCH_B1, 0x49, 103
 layer_end
 
 .env_coffin_close:
-chan_setinstr F0_I_STICK_ATTACK
+chan_setinstr FONT00_INSTR_STICK_ATTACK
 chan_setlayer 0, .layer_22FB
 chan_end
 
@@ -1870,7 +1870,7 @@ layer_transpose 5
 
 .layer_230B:
 layer_enablelegato
-layer_setinstr F0_I_WIND_HOWL_S
+layer_setinstr FONT00_INSTR_WIND_HOWL_S
 layer_setenvelope .envelope_6674, 200
 layer_portamento 0x1, 56, 0x7f
 .layer_2316:
@@ -1887,14 +1887,14 @@ chan_end
 layer_transpose 4
 
 .layer_2327:
-layer_setinstr F0_I_CREAK
+layer_setinstr FONT00_INSTR_CREAK
 layer_portamento 0x84, 19, 127
 .layer_232D:
 layer_note1 PITCH_D1, 0x9, 110
 layer_jumprel .layer_232D
 
 .env_door_slide_lock:
-chan_setinstr F0_I_MECH_ROTATE
+chan_setinstr FONT00_INSTR_MECH_ROTATE
 chan_setlayer 0, .layer_2338
 chan_end
 
@@ -1904,7 +1904,7 @@ layer_note1 PITCH_B3, 0x30, 80
 layer_end
 
 .env_door_slide_unlock:
-chan_setinstr F0_I_MECH_ROTATE
+chan_setinstr FONT00_INSTR_MECH_ROTATE
 chan_setlayer 0, .layer_2346
 chan_end
 
@@ -1920,7 +1920,7 @@ chan_setlayer 1, .layer_2366
 chan_end
 
 .layer_2357:
-layer_setinstr F0_I_FIRE_COW
+layer_setinstr FONT00_INSTR_FIRE_COW
 layer_setreleaserate 221
 layer_enablelegato
 layer_portamento 0x81, 52, 255
@@ -1929,7 +1929,7 @@ layer_note1 PITCH_F4, 0xc8, 110
 layer_jumprel .layer_2360
 
 .layer_2366:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 layer_setreleaserate 221
 layer_enablelegato
 layer_portamento 0x81, 16, 255
@@ -1943,7 +1943,7 @@ chan_setlayer 1, .layer_2185
 chan_end
 
 .layer_237B:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setenvelope .envelope_6660, 247
 .layer_2381:
 layer_note1 PITCH_F5, 0x3, 95
@@ -1964,7 +1964,7 @@ layer_jumprel .layer_239A
 .layer_2398:
 layer_setpan 127
 .layer_239A:
-layer_setinstr F0_I_CHATTER
+layer_setinstr FONT00_INSTR_CHATTER
 layer_setenvelope .envelope_66F4, 225
 .layer_23A0:
 layer_note1 PITCH_C4, 0x7d00, 64
@@ -1982,11 +1982,11 @@ layer_jumprel .layer_23B3
 .layer_23B1:
 layer_transpose 11
 .layer_23B3:
-layer_setinstr F0_I_WATER_BUBBLES
+layer_setinstr FONT00_INSTR_WATER_BUBBLES
 layer_jumprel .layer_23BD
 
 .layer_23B7:
-layer_setinstr F0_I_WATER_BUBBLES
+layer_setinstr FONT00_INSTR_WATER_BUBBLES
 layer_setenvelope .envelope_6824, 225
 .layer_23BD:
 layer_setreleaserate 225
@@ -2002,7 +2002,7 @@ layer_jumprel .layer_23CB
 layer_transpose -2
 
 .layer_23CB:
-layer_setinstr F0_I_SLIDE_LINK
+layer_setinstr FONT00_INSTR_SLIDE_LINK
 layer_setreleaserate 225
 .layer_23CF:
 layer_note1 PITCH_F3, 0x7d00, 74
@@ -2013,7 +2013,7 @@ chan_setlayer 0, .layer_23D9
 chan_end
 
 .layer_23D9:
-layer_setinstr F0_I_FAIRY_MAGIC
+layer_setinstr FONT00_INSTR_FAIRY_MAGIC
 layer_setenvelope .envelope_66B8, 251
 layer_enablelegato
 layer_portamento 0x85, 27, 255
@@ -2027,16 +2027,16 @@ chan_setlayer 0, .layer_23F2
 chan_end
 
 .layer_23F2:
-layer_setinstr F0_I_STICK_ATTACK
+layer_setinstr FONT00_INSTR_STICK_ATTACK
 layer_transpose 48
 layer_note1 PITCH_EF2, 0x5, 88
-layer_setinstr F0_I_DOOR_STONE
+layer_setinstr FONT00_INSTR_STONE_STRIKE
 layer_transpose 0
 layer_note1 PITCH_A3, 0xc, 50
 layer_end
 
 .env_web_bend:
-chan_setinstr F0_I_CLOTH_TEAR
+chan_setinstr FONT00_INSTR_CLOTH_TEAR
 chan_setenvelope .envelope_6688
 chan_setlayer 0, .layer_240A
 chan_end
@@ -2049,7 +2049,7 @@ layer_note1 PITCH_AF2, 0x30, 100
 layer_end
 
 .env_web_break:
-chan_setinstr F0_I_CLOTH_TEAR
+chan_setinstr FONT00_INSTR_CLOTH_TEAR
 chan_setenvelope .envelope_6688
 chan_setlayer 0, .layer_2422
 chan_setlayer 1, .layer_2432
@@ -2076,7 +2076,7 @@ chan_setvibratoextent 53
 chan_end
 
 .layer_2445:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 layer_setenvelope .envelope_667C, 247
 layer_enablelegato
 .layer_244C:
@@ -2085,7 +2085,7 @@ layer_jumprel .layer_244C
 
 .layer_2451:
 layer_transpose -18
-layer_setinstr F0_I_OCARINA_0
+layer_setinstr FONT00_INSTR_OCARINA_0
 layer_setenvelope .envelope_667C, 247
 layer_enablelegato
 .layer_245A:
@@ -2098,14 +2098,14 @@ chan_setlayer 1, .layer_2475
 chan_end
 
 .layer_2466:
-layer_setinstr F0_I_CLOTH_TEAR
+layer_setinstr FONT00_INSTR_CLOTH_TEAR
 layer_setenvelope .envelope_6694, 251
 layer_portamento 0x81, 10, 255
 layer_note1_long 22, 0x24, 82
 layer_end
 
 .layer_2475:
-layer_setinstr F0_I_STEP_WATER
+layer_setinstr FONT00_INSTR_STEP_WATER
 layer_portamento 0x81, 8, 255
 layer_note1_long 15, 0x24, 105
 layer_end
@@ -2116,14 +2116,14 @@ chan_setlayer 1, .layer_2496
 chan_end
 
 .layer_2487:
-layer_setinstr F0_I_CLOTH_TEAR
+layer_setinstr FONT00_INSTR_CLOTH_TEAR
 layer_setenvelope .envelope_6694, 251
 layer_portamento 0x81, 22, 255
 layer_note1_long 3, 0x24, 90
 layer_end
 
 .layer_2496:
-layer_setinstr F0_I_STEP_WATER
+layer_setinstr FONT00_INSTR_STEP_WATER
 layer_portamento 0x81, 20, 255
 layer_note1_long 3, 0x24, 95
 layer_end
@@ -2136,7 +2136,7 @@ chan_end
 layer_transpose 8
 
 .layer_24A7:
-layer_setinstr F0_I_CREAK
+layer_setinstr FONT00_INSTR_CREAK
 layer_note1 PITCH_B1, 0x0, 103
 layer_end
 
@@ -2145,7 +2145,7 @@ chan_setlayer 0, .layer_24B1
 chan_end
 
 .layer_24B1:
-layer_setinstr F0_I_MECH_ROTATE
+layer_setinstr FONT00_INSTR_MECH_ROTATE
 layer_setreleaserate 240
 layer_note1 PITCH_E3, 0x3c, 75
 .layer_24B8:
@@ -2153,7 +2153,7 @@ layer_note1 PITCH_GF3, 0x38, 75
 layer_jumprel .layer_24B8
 
 .env_bottle_scoop_water:
-chan_setinstr F0_I_WATER_SPLISH
+chan_setinstr FONT00_INSTR_WATER_SPLISH
 chan_setlayer 0, .layer_24C3
 chan_end
 
@@ -2163,14 +2163,14 @@ layer_note1 PITCH_A3, 0x7f, 100
 layer_end
 
 .env_fish_flop:
-chan_setinstr F0_I_WATER_SPLISH
+chan_setinstr FONT00_INSTR_WATER_SPLISH
 chan_delayshort 7
 chan_setlayer 0, .layer_24D2
 chan_end
 
 .layer_24D2:
 layer_note1 PITCH_A4, 0x7, 76
-layer_setinstr F0_I_STEP_DIRT
+layer_setinstr FONT00_INSTR_STEP_JABU
 layer_portamento 0x81, 39, 127
 layer_note1 PITCH_B5, 0x18, 100
 layer_end
@@ -2179,7 +2179,7 @@ layer_end
 chan_setlayer 0, .layer_24E9
 
 .chan_fn_24E2:
-chan_setinstr F0_I_STEP_GRASS
+chan_setinstr FONT00_INSTR_STEP_GRASS
 chan_setvibratoextent 36
 chan_setvibratorate 255
 chan_end
@@ -2205,7 +2205,7 @@ chan_setlayer 0, .layer_2506
 chan_end
 
 .layer_2506:
-layer_setinstr F0_I_WHIP_CORK
+layer_setinstr FONT00_INSTR_WHIP_CORK
 layer_transpose 48
 layer_note1 PITCH_A3, 0x0, 110
 layer_end
@@ -2217,7 +2217,7 @@ chan_setpanmix 48
 chan_end
 
 .layer_2517:
-layer_setinstr F0_I_WIND_HOWL_S
+layer_setinstr FONT00_INSTR_WIND_HOWL_S
 layer_setenvelope .envelope_6674, 232
 layer_enablelegato
 layer_portamento 0x85, 46, 255
@@ -2226,7 +2226,7 @@ layer_note1 PITCH_C5, 0x3e8, 105
 layer_jumprel .layer_2522
 
 .layer_2528:
-layer_setinstr F0_I_ROAR_BARK
+layer_setinstr FONT00_INSTR_ROAR_BARK
 layer_note1 PITCH_C3, 0x8, 105
 layer_note1 PITCH_G2, 0x0, 105
 layer_end
@@ -2237,7 +2237,7 @@ chan_setlayer 1, .layer_2538
 chan_end
 
 .layer_2538:
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_67D8, 240
 layer_enablelegato
 .layer_253F:
@@ -2245,7 +2245,7 @@ layer_note1 PITCH_AF3, 0x7d00, 32
 layer_jumprel .layer_253F
 
 .layer_2545:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_67E4, 240
 layer_transpose 15
 layer_enablelegato
@@ -2260,7 +2260,7 @@ chan_end
 
 .layer_255B:
 layer_transpose 24
-layer_setinstr F0_I_SYNTH_BUZZ
+layer_setinstr FONT00_INSTR_SYNTH_BUZZ
 layer_setenvelope .envelope_67CC, 241
 layer_note1 PITCH_EF5, 0x120, 42
 layer_end
@@ -2274,7 +2274,7 @@ chan_setlayer 1, .layer_2572
 chan_end
 
 .layer_2572:
-layer_setinstr F0_I_STEP_DIRT
+layer_setinstr FONT00_INSTR_STEP_JABU
 layer_portamento 0x84, 27, 255
 layer_note1 PITCH_A3, 0xf, 93
 layer_note1 PITCH_F3, 0x10, 93
@@ -2282,7 +2282,7 @@ layer_note1 PITCH_D3, 0x11, 93
 layer_end
 
 .env_fairy_fly:
-chan_setinstr F0_I_FAIRY_MAGIC
+chan_setinstr FONT00_INSTR_FAIRY_MAGIC
 chan_setenvelope .envelope_67D8
 chan_setpanmix 0
 chan_setlayer 0, .layer_258D
@@ -2305,17 +2305,17 @@ chan_delay 0x32
 chan_end
 
 .layer_25A7:
-layer_setinstr F0_I_TAP_WOOD
+layer_setinstr FONT00_INSTR_STEP_WOOD
 layer_setreleaserate 210
 layer_note1 PITCH_A3, 0x4, 95
-layer_setinstr F0_I_OCARINA_0
+layer_setinstr FONT00_INSTR_OCARINA_0
 layer_setenvelope .envelope_6674, 235
 layer_portamento 0x85, 7, 255
 layer_note1 PITCH_G3, 0x38, 70
 layer_end
 
 .layer_25BC:
-layer_setinstr F0_I_DOOR_WOOD
+layer_setinstr FONT00_INSTR_DOOR_WOOD
 layer_setreleaserate 216
 layer_note1 PITCH_C3, 0x4, 95
 layer_jump .layer_23D9
@@ -2325,7 +2325,7 @@ chan_setlayer 0, .layer_25CA
 chan_end
 
 .layer_25CA:
-layer_setinstr F0_I_STICK_ATTACK
+layer_setinstr FONT00_INSTR_STICK_ATTACK
 layer_transpose 48
 layer_setreleaserate 245
 layer_note1 PITCH_AF2, 0xd, 90
@@ -2337,7 +2337,7 @@ chan_setlayer 1, .layer_25DB
 chan_end
 
 .layer_25DB:
-layer_setinstr F0_I_WATER_BUBBLES
+layer_setinstr FONT00_INSTR_WATER_BUBBLES
 layer_setenvelope .envelope_66F4, 160
 layer_enablelegato
 layer_portamento 0x85, 26, 255
@@ -2346,7 +2346,7 @@ layer_note1 PITCH_GF3, 0x3e8, 80
 layer_jumprel .layer_25E6
 
 .layer_25EC:
-layer_setinstr F0_I_WATER_FLOWING
+layer_setinstr FONT00_INSTR_WATER_FLOWING
 layer_setenvelope .envelope_66F4, 160
 layer_transpose 48
 layer_enablelegato
@@ -2364,7 +2364,7 @@ chan_end
 layer_transpose 5
 
 .layer_2608:
-layer_setinstr F0_I_WATER_DRIP
+layer_setinstr FONT00_INSTR_WATER_DRIP
 layer_setenvelope .envelope_66F4, 211
 layer_enablelegato
 layer_portamento 0x81, 27, 255
@@ -2373,7 +2373,7 @@ layer_note1 PITCH_G4, 500, 80
 layer_jumprel .layer_2613
 
 .env_windmill_gear:
-chan_setinstr F0_I_CREAK
+chan_setinstr FONT00_INSTR_CREAK
 chan_setpanmix 64
 chan_setlayer 0, .layer_2621
 chan_end
@@ -2390,12 +2390,12 @@ chan_setlayer 1, .layer_2631
 chan_end
 
 .layer_2631:
-layer_setinstr F0_I_CREAK
+layer_setinstr FONT00_INSTR_CREAK
 layer_note1 PITCH_E3, 0x18, 65
 layer_transpose 18
 
 .layer_2638:
-layer_setinstr F0_I_STEP_GRASS
+layer_setinstr FONT00_INSTR_STEP_GRASS
 layer_setenvelope .envelope_6688, 251
 layer_note1 PITCH_B2, 0xe, 95
 layer_note1 PITCH_C4, 0x14, 100
@@ -2404,7 +2404,7 @@ layer_note1 PITCH_BF3, 0x50, 103
 layer_end
 
 .env_horse_demo_gallop:
-chan_setinstr F0_I_HORSE_GALLOP
+chan_setinstr FONT00_INSTR_HORSE_GALLOP
 chan_setlayer 0, .layer_2651
 chan_end
 
@@ -2413,7 +2413,7 @@ layer_note1 PITCH_C4, 0x27, 110
 layer_jumprel .layer_2651
 
 .env_elevator_geared_move:
-chan_setinstr F0_I_MECH_CHARGE
+chan_setinstr FONT00_INSTR_MECH_CHARGE
 chan_sethilogain 20
 chan_setlayer 0, .layer_265E
 chan_end
@@ -2432,19 +2432,19 @@ chan_setlayer 2, .layer_2685
 chan_end
 
 .layer_2671:
-layer_setinstr F0_I_SLAM_LIGHT
+layer_setinstr FONT00_INSTR_SLAM_LIGHT
 layer_note1 PITCH_F3, 0x40, 95
 layer_end
 
 .layer_2677:
-layer_setinstr F0_I_SLAM_GUNSHOT
+layer_setinstr FONT00_INSTR_SLAM_GUNSHOT
 layer_setenvelope .envelope_66B0, 250
 layer_portamento 0x81, 31, 200
 layer_note1 PITCH_C3, 0x3c, 100
 layer_end
 
 .layer_2685:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_transpose 48
 layer_portamento 0x81, 39, 255
 layer_note1 PITCH_GF2, 0x34, 96
@@ -2457,7 +2457,7 @@ chan_setlayer 2, .layer_26C2
 chan_end
 
 .layer_269B:
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_6694, 235
 layer_portamento 0x83, 39, 255
 layer_loop 7
@@ -2469,7 +2469,7 @@ layer_end
 
 .layer_26B3:
 layer_transpose 16
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_6694, 235
 layer_loop 7
 layer_note1 PITCH_GF5, 0x40, 50
@@ -2478,7 +2478,7 @@ layer_end
 
 .layer_26C2:
 layer_delay 0x109
-layer_setinstr F0_I_SYNTH
+layer_setinstr FONT00_INSTR_SYNTH
 layer_setenvelope .envelope_67CC, 235
 layer_note1 PITCH_D3, 0x7f, 105
 layer_end
@@ -2490,14 +2490,14 @@ chan_setlayer 1, .layer_26DE
 chan_end
 
 .layer_26D8:
-layer_setinstr F0_I_CHAIN
+layer_setinstr FONT00_INSTR_CHAIN
 layer_note1 PITCH_GF4, 0x4c, 50
 layer_end
 
 .layer_26DE:
-layer_setinstr F0_I_SWORD_STRIKE
+layer_setinstr FONT00_INSTR_SWORD_STRIKE
 layer_note1 PITCH_E2, 0x8, 84
-layer_setinstr F0_I_SWORD_SHEATHE
+layer_setinstr FONT00_INSTR_SWORD_SHEATHE
 layer_note1 PITCH_DF4, 0x14, 105
 layer_end
 
@@ -2507,18 +2507,18 @@ chan_setlayer 1, .layer_26FA
 chan_end
 
 .layer_26F0:
-layer_setinstr F0_I_SWORD_DRAW
+layer_setinstr FONT00_INSTR_SWORD_DRAW
 layer_portamento 0x81, 12, 64
 layer_note1 PITCH_BF2, 0x7f, 85
 layer_end
 
 .layer_26FA:
-layer_setinstr F0_I_CHAIN
+layer_setinstr FONT00_INSTR_CHAIN
 layer_note1 PITCH_D3, 0x30, 81
 layer_end
 
 .env_fairy_heal_old:
-chan_setinstr F0_I_SHIMMER
+chan_setinstr FONT00_INSTR_SHIMMER
 chan_setenvelope .envelope_66F4
 chan_setdecayrelease 221
 chan_setlayer 0, .layer_2713
@@ -2549,7 +2549,7 @@ layer_jumprel .layer_2729
 chan_setval 129
 .chan_2731:
 chan_writeseq 0, .layer_2745+1
-chan_setinstr F0_I_FAIRY
+chan_setinstr FONT00_INSTR_FAIRY
 chan_setenvelope .envelope_66FC
 chan_setdecayrelease 221
 chan_setlayer 0, .layer_2743
@@ -2573,14 +2573,14 @@ chan_setlayer 0, .layer_2756
 chan_end
 
 .layer_2756:
-layer_setinstr F0_I_SYNTH
+layer_setinstr FONT00_INSTR_SYNTH
 layer_setenvelope .envelope_67CC, 245
 layer_portamento 0x81, 19, 80
 layer_note1 PITCH_AF3, 0x6e, 105
 layer_end
 
 .env_gears_unused:
-chan_setinstr F0_I_DOOR_METAL
+chan_setinstr FONT00_INSTR_DOOR_METAL
 chan_setenvelope .envelope_6674
 chan_setpanmix 72
 chan_setlayer 0, .layer_276F
@@ -2593,7 +2593,7 @@ layer_note1 PITCH_F3, 0x7d00, 88
 layer_jumprel .layer_2770
 
 .env_wall_move_unused:
-chan_setinstr F0_I_DOOR_METAL
+chan_setinstr FONT00_INSTR_DOOR_METAL
 chan_setlayer 0, .layer_2781
 chan_setlayer 1, .layer_277F
 chan_end
@@ -2613,7 +2613,7 @@ chan_setlayer 0, .layer_2790
 chan_end
 
 .layer_2790:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_6638, 251
 layer_transpose 36
 layer_note1 PITCH_D3, 0xd, 98
@@ -2621,7 +2621,7 @@ layer_note1 PITCH_D4, 0x64, 98
 layer_end
 
 .env_windmill_blade:
-chan_setinstr F0_I_CREAK
+chan_setinstr FONT00_INSTR_CREAK
 chan_setlayer 0, .layer_27A5
 chan_end
 
@@ -2654,7 +2654,7 @@ layer_transpose 4
 layer_setpan 24
 
 .layer_27CC:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_66F4, 230
 layer_enablelegato
 .layer_27D3:
@@ -2675,7 +2675,7 @@ layer_jumprel .layer_27EA
 .layer_27E8:
 layer_transpose 48
 .layer_27EA:
-layer_setinstr F0_I_POTTERY_ELECTRIC
+layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
 layer_note1 PITCH_BF3, 0x0, 75
 layer_end
 
@@ -2697,14 +2697,14 @@ chan_setvibratoextent 16
 chan_end
 
 .layer_280A:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setenvelope .envelope_6674, 245
 .layer_2810:
 layer_note1 PITCH_D5, 0x7d00, 60
 layer_jumprel .layer_2810
 
 .layer_2816:
-layer_setinstr F0_I_WIND_HOWL_S
+layer_setinstr FONT00_INSTR_WIND_HOWL_S
 layer_setenvelope .envelope_66F4, 245
 layer_enablelegato
 .layer_281D:
@@ -2718,7 +2718,7 @@ chan_iowriteval 1
 chan_end
 
 .env_triforce_aura:
-chan_setinstr F0_I_SHIMMER
+chan_setinstr FONT00_INSTR_SHIMMER
 chan_setlayer 0, .layer_2832
 chan_setlayer 1, .layer_283C
 chan_end
@@ -2748,7 +2748,7 @@ layer_jumprel .layer_2855
 .layer_2853:
 layer_transpose 12
 .layer_2855:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_66F4, 230
 layer_enablelegato
 .layer_285C:
@@ -2765,14 +2765,14 @@ chan_end
 layer_transpose 4
 
 .layer_286D:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setenvelope .envelope_66FC, 170
 layer_portamento 0x81, 32, 145
 layer_note1 PITCH_D3, 0x244, 105
 layer_end
 
 .layer_287C:
-layer_setinstr F0_I_CLOTH_TEAR
+layer_setinstr FONT00_INSTR_CLOTH_TEAR
 layer_setenvelope .envelope_66FC, 170
 layer_portamento 0x81, 5, 145
 layer_note1 PITCH_B0, 0x244, 110
@@ -2790,11 +2790,11 @@ chan_end
 
 .layer_289C:
 layer_transpose -12
-layer_setinstr F0_I_OCARINA_0
+layer_setinstr FONT00_INSTR_OCARINA_0
 layer_jump .layer_28A5
 
 .layer_28A3:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 .layer_28A5:
 layer_setenvelope .envelope_667C, 231
 layer_enablelegato
@@ -2813,7 +2813,7 @@ chan_jumprel .chan_2891
 chan_setval 129
 .chan_28BE:
 chan_writeseq 0, .layer_28D2+1
-chan_setinstr F0_I_SYNTH
+chan_setinstr FONT00_INSTR_SYNTH
 chan_setenvelope .envelope_6688
 chan_setlayer 0, .layer_28D2
 chan_setlayer 1, .layer_28D0
@@ -2821,7 +2821,7 @@ chan_delay 0x14
 chan_end
 
 .layer_28D0:
-layer_setinstr F0_I_STEP_WATER
+layer_setinstr FONT00_INSTR_STEP_WATER
 
 .layer_28D2:
 layer_portamento 0x81, 17, 255
@@ -2839,7 +2839,7 @@ chan_setlayer 1, .layer_1F1A
 chan_end
 
 .env_stone_restore:
-chan_setinstr F0_I_WARP
+chan_setinstr FONT00_INSTR_WARP
 chan_setlayer 0, .layer_2913
 chan_setlayer 1, .layer_2900
 chan_setlayer 2, .layer_2922
@@ -2851,7 +2851,7 @@ chan_setvibratoextent 0
 chan_end
 
 .layer_2900:
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_67E4, 200
 layer_portamento 0x81, 38, 180
 layer_note1 PITCH_C4, 0x384, 32
@@ -2882,7 +2882,7 @@ chan_setlayer 0, .layer_2937
 chan_end
 
 .layer_2937:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_setenvelope .envelope_6808, 240
 layer_transpose 48
 layer_enablelegato
@@ -2899,7 +2899,7 @@ chan_setlayer 1, .layer_54B
 chan_end
 
 .layer_2958:
-layer_setinstr F0_I_SLAM_GUNSHOT
+layer_setinstr FONT00_INSTR_SLAM_GUNSHOT
 layer_setenvelope .envelope_66B0, 250
 layer_portamento 0x83, 38, 200
 layer_note1 PITCH_AF2, 0x3, 95
@@ -2911,7 +2911,7 @@ chan_setlayer 0, .layer_296E
 chan_end
 
 .layer_296E:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_setenvelope .envelope_6800, 240
 layer_transpose 48
 layer_enablelegato
@@ -2937,7 +2937,7 @@ layer_setstereo 20
 layer_transpose -6
 
 .layer_299C:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setenvelope .envelope_66FC, 211
 layer_enablelegato
 layer_portamento 0x81, 46, 255
@@ -2949,7 +2949,7 @@ layer_jumprel .layer_29A7
 layer_delay 0x64
 
 .layer_29AF:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_66FC, 221
 layer_note1 PITCH_A2, 0xcf, 72
 .layer_29B9:
@@ -2970,7 +2970,7 @@ chan_end
 layer_transpose -4
 
 .layer_29D4:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_setenvelope .envelope_66F4, 241
 layer_portamento 0x81, 39, 255
 layer_note1 PITCH_EF3, 0xc6, 90
@@ -2978,13 +2978,13 @@ layer_end
 
 .layer_29E3:
 layer_delay 0xbc
-layer_setinstr F0_I_SYNTH
+layer_setinstr FONT00_INSTR_SYNTH
 layer_portamento 0x81, 3, 32
 layer_note1 PITCH_C2, 0x40, 105
 layer_end
 
 .env_sage_warp:
-chan_setinstr F0_I_WARP
+chan_setinstr FONT00_INSTR_WARP
 chan_setlayer 0, .layer_29FC
 chan_setlayer 1, .layer_2124
 chan_setlayer 2, .layer_2A01
@@ -2998,7 +2998,7 @@ layer_jump .layer_2132
 layer_transpose 51
 layer_jump .layer_2149
 .layer_2A06:
-layer_setinstr F0_I_EYE_OF_TRUTH
+layer_setinstr FONT00_INSTR_EYE_OF_TRUTH
 layer_setreleaserate 221
 layer_portamento 0x84, 22, 127
 layer_note1 PITCH_A4, 0x60, 85
@@ -3006,7 +3006,7 @@ layer_note1 PITCH_B4, 0x7f, 95
 layer_end
 
 .env_sage_charge:
-chan_setinstr F0_I_SHIMMER
+chan_setinstr FONT00_INSTR_SHIMMER
 chan_setlayer 0, .layer_2A27
 chan_setlayer 1, .layer_2A36
 chan_setlayer 2, .layer_2A3F
@@ -3015,7 +3015,7 @@ chan_setvibratoratelinear 148, 240, 100
 chan_end
 
 .layer_2A27:
-layer_setinstr F0_I_FLAME_THUNDER
+layer_setinstr FONT00_INSTR_FLAME_THUNDER
 layer_setenvelope .envelope_66F4, 221
 layer_portamento 0x81, 39, 255
 layer_note1 PITCH_B5, 0x2e4, 95
@@ -3032,7 +3032,7 @@ layer_setreleaserate 180
 layer_portamento 0x81, 27, 255
 layer_note1 PITCH_B4, 0x21c, 62
 layer_transpose 0
-layer_setinstr F0_I_SLIDE_LINK
+layer_setinstr FONT00_INSTR_SLIDE_LINK
 layer_setenvelope .envelope_66F4, 221
 layer_portamento 0x81, 39, 255
 layer_note1 PITCH_B5, 0xc8, 85
@@ -3049,7 +3049,7 @@ chan_setvibratoextent 6
 chan_end
 
 .layer_2A6D:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_transpose 24
 layer_setenvelope .envelope_66F4, 230
 .layer_2A75:
@@ -3057,7 +3057,7 @@ layer_note1 PITCH_A4, 0x7d00, 64
 layer_jumprel .layer_2A75
 
 .layer_2A7B:
-layer_setinstr F0_I_WATER_FLOWING
+layer_setinstr FONT00_INSTR_WATER_FLOWING
 layer_transpose 48
 layer_enablelegato
 layer_setenvelope .envelope_66F4, 180
@@ -3066,7 +3066,7 @@ layer_note1 PITCH_F5, 0x7d00, 40
 layer_jumprel .layer_2A84
 
 .layer_2A8A:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_setenvelope .envelope_66F4, 180
 layer_enablelegato
 .layer_2A91:
@@ -3080,12 +3080,12 @@ chan_setlayer 1, .layer_2AA0
 chan_end
 
 .layer_2AA0:
-layer_setinstr F0_I_STEP_WATER
+layer_setinstr FONT00_INSTR_STEP_WATER
 layer_note1 PITCH_G1, 0x1e, 80
 layer_jump .layer_1B35
 
 .layer_2AA8:
-layer_setinstr F0_I_BLOCK_LOCK
+layer_setinstr FONT00_INSTR_BLOCK_LOCK
 layer_portamento 0x81, 32, 127
 layer_note1 PITCH_A3, 0x64, 110
 layer_end
@@ -3098,12 +3098,12 @@ chan_setlayer 2, .layer_2ABE
 chan_end
 
 .layer_2ABE:
-layer_setinstr F0_I_STEP_WATER
+layer_setinstr FONT00_INSTR_STEP_WATER
 layer_note1 PITCH_D1, 0x32, 80
 layer_jump .layer_1B35
 
 .layer_2AC6:
-layer_setinstr F0_I_BLOCK_LOCK
+layer_setinstr FONT00_INSTR_BLOCK_LOCK
 layer_note1 PITCH_D3, 0x78, 110
 layer_end
 
@@ -3132,14 +3132,14 @@ chan_setlayer 1, .layer_2AF2
 chan_end
 
 .layer_2AF2:
-layer_setinstr F0_I_SLIDE_BLOCK
+layer_setinstr FONT00_INSTR_SLIDE_BLOCK
 layer_setenvelope .envelope_66FC, 225
 layer_portamento 0x81, 62, 255
 layer_note1 PITCH_C5, 0xaa, 96
 layer_end
 
 .layer_2B01:
-layer_setinstr F0_I_BOMB
+layer_setinstr FONT00_INSTR_BOMB
 layer_setenvelope .envelope_66FC, 225
 layer_portamento 0x81, 51, 255
 layer_note1 PITCH_A2, 0xaa, 96
@@ -3150,7 +3150,7 @@ chan_setlayer 0, .layer_2C60
 chan_end
 
 .env_unused5:
-chan_setinstr F0_I_DOOR_METAL
+chan_setinstr FONT00_INSTR_DOOR_METAL
 chan_setenvelope .envelope_6610
 chan_setlayer 0, .layer_2B1D
 chan_end
@@ -3169,12 +3169,12 @@ chan_setlayer 1, .layer_2B39
 chan_end
 
 .layer_2B31:
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_66FC, 195
 layer_jumprel .layer_2B41
 
 .layer_2B39:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_setenvelope .envelope_66FC, 195
 layer_transpose 48
 .layer_2B41:
@@ -3213,12 +3213,12 @@ chan_setlayer 1, .layer_2B9F
 chan_end
 
 .layer_2B86:
-layer_setinstr F0_I_FAIRY_MAGIC
+layer_setinstr FONT00_INSTR_FAIRY_MAGIC
 layer_transpose -12
 layer_jumprel .layer_2B90
 
 .layer_2B8C:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_transpose 48
 .layer_2B90:
 layer_enablelegato
@@ -3230,7 +3230,7 @@ layer_note1 PITCH_C5, 500, 85
 layer_jumprel .layer_2B99
 
 .layer_2B9F:
-layer_setinstr F0_I_FAIRY_MAGIC
+layer_setinstr FONT00_INSTR_FAIRY_MAGIC
 layer_enablelegato
 layer_setenvelope .envelope_67D8, 221
 .layer_2BA6:
@@ -3247,14 +3247,14 @@ chan_setlayer 2, .layer_26D8
 chan_end
 
 .layer_2BBC:
-layer_setinstr F0_I_SWORD_STRIKE
+layer_setinstr FONT00_INSTR_SWORD_STRIKE
 layer_note1 PITCH_E2, 0xf, 84
-layer_setinstr F0_I_CHAIN
+layer_setinstr FONT00_INSTR_CHAIN
 layer_note1 PITCH_C4, 0x3d, 66
 layer_end
 
 .layer_2BC7:
-layer_setinstr F0_I_SWORD_STRIKE
+layer_setinstr FONT00_INSTR_SWORD_STRIKE
 layer_note1 PITCH_E1, 0x8, 84
 layer_transpose 48
 layer_note1 PITCH_EF2, 0x0, 80
@@ -3277,7 +3277,7 @@ chan_setlayer 0, .layer_2BE5
 chan_end
 
 .layer_2BE5:
-layer_setinstr F0_I_STICK_ATTACK
+layer_setinstr FONT00_INSTR_STICK_ATTACK
 layer_note1 PITCH_C3, 0x4, 100
 layer_note1 PITCH_G2, 0x8, 100
 layer_end
@@ -3300,7 +3300,7 @@ chan_setlayer 0, .layer_2C05
 chan_end
 
 .layer_2C05:
-layer_setinstr F0_I_ANIMALS_1
+layer_setinstr FONT00_INSTR_ANIMALS_1
 layer_transpose 48
 layer_note1 PITCH_G3, 0x0, 70
 layer_end
@@ -3317,7 +3317,7 @@ chan_setlayer 1, .layer_2C2A
 chan_end
 
 .layer_2C20:
-layer_setinstr F0_I_ANIMALS_0
+layer_setinstr FONT00_INSTR_ANIMALS_0
 layer_transpose 48
 layer_setreleaserate 241
 layer_note1 PITCH_C3, 0x2b, 100
@@ -3336,12 +3336,12 @@ chan_setlayer 1, .layer_2C3F
 chan_end
 
 .layer_2C3F:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_667C, 240
 layer_jumprel .layer_2C4E
 
 .layer_2C47:
-layer_setinstr F0_I_FIRE_WIND
+layer_setinstr FONT00_INSTR_FIRE_WIND
 layer_enablelegato
 layer_portamento 0x81, 32, 255
 .layer_2C4E:
@@ -3358,7 +3358,7 @@ chan_jump .chan_2267
 layer_transpose 6
 
 .layer_2C62:
-layer_setinstr F0_I_WATER_STRONG
+layer_setinstr FONT00_INSTR_FIRE_WALL
 layer_setenvelope .envelope_667C, 230
 layer_enablelegato
 layer_portamento 0x85, 3, 255
@@ -3368,7 +3368,7 @@ layer_note1 PITCH_C1, 0x20, 80
 layer_jumprel .layer_2C6D
 
 .env_wood_rebound:
-chan_setinstr F0_I_STICK_ATTACK
+chan_setinstr FONT00_INSTR_STICK_ATTACK
 chan_setlayer 0, .layer_2C7E
 chan_setlayer 1, .layer_13EE
 chan_end
@@ -3390,7 +3390,7 @@ layer_transpose -1
 
 .layer_2C91:
 layer_delay 0x30
-layer_setinstr F0_I_WATER_DRIP
+layer_setinstr FONT00_INSTR_WATER_DRIP
 layer_note1 PITCH_GF3, 0x40, 105
 layer_end
 
@@ -3399,7 +3399,7 @@ chan_setlayer 0, .layer_2C9D
 chan_end
 
 .layer_2C9D:
-layer_setinstr F0_I_ROAR_BARK
+layer_setinstr FONT00_INSTR_ROAR_BARK
 layer_setreleaserate 240
 layer_portamento 0x83, 8, 255
 layer_note0 PITCH_C2, 0xa8, 85, 5
@@ -3419,12 +3419,12 @@ chan_setlayer 1, .layer_2CC2
 chan_end
 
 .layer_2CC2:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_transpose 15
 layer_jumprel .layer_2CCA
 
 .layer_2CC8:
-layer_setinstr F0_I_ROLL_BOULDER
+layer_setinstr FONT00_INSTR_ROLL_BOULDER
 .layer_2CCA:
 layer_enablelegato
 layer_setreleaserate 235
@@ -3442,7 +3442,7 @@ chan_end
 layer_transpose -24
 
 .layer_2CDF:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setenvelope .envelope_6674, 251
 layer_enablelegato
 layer_portamento 0x1, 36, 0x7f
@@ -3483,7 +3483,7 @@ layer_transpose -9
 
 .layer_2D25:
 layer_enablelegato
-layer_setinstr F0_I_WIND_HOWL_S
+layer_setinstr FONT00_INSTR_WIND_HOWL_S
 layer_setenvelope .envelope_6818, 241
 layer_portamento 0x1, 44, 0x7f
 .layer_2D30:
@@ -3497,7 +3497,7 @@ chan_end
 .layer_2D3A:
 layer_transpose 12
 layer_enablelegato
-layer_setinstr F0_I_WIND_HOWL_S
+layer_setinstr FONT00_INSTR_WIND_HOWL_S
 layer_setenvelope .envelope_6694, 221
 layer_portamento 0x85, 48, 255
 layer_note1 PITCH_D4, 0x24, 105
@@ -3510,7 +3510,7 @@ chan_setlayer 1, .layer_599
 chan_end
 
 .layer_2D55:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setenvelope .envelope_6688, 230
 layer_portamento 0x81, 10, 255
 layer_note1 PITCH_A4, 0x46, 95
@@ -3529,7 +3529,7 @@ layer_jumprel .layer_2D70
 layer_transpose 36
 .layer_2D70:
 layer_enablelegato
-layer_setinstr F0_I_FIRE_WIND
+layer_setinstr FONT00_INSTR_FIRE_WIND
 layer_setenvelope .envelope_6674, 200
 layer_portamento 0x85, 56, 255
 .layer_2D7B:
@@ -3544,7 +3544,7 @@ chan_setlayer 2, .layer_2790
 chan_end
 
 .layer_2D8F:
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_66FC, 195
 layer_portamento 0x81, 0, 255
 layer_note1 PITCH_F2, 0x7f, 85
@@ -3566,16 +3566,16 @@ chan_setlayer 0, .layer_2DB1
 chan_end
 
 .layer_2DB1:
-layer_setinstr F0_I_WATER_SPLISH
+layer_setinstr FONT00_INSTR_WATER_SPLISH
 layer_note1 PITCH_B4, 0x9, 100
-layer_setinstr F0_I_WATER_SPLASH
+layer_setinstr FONT00_INSTR_WATER_SPLASH
 layer_setenvelope .envelope_664C, 240
 layer_note1 PITCH_A4, 0x6, 90
 layer_note1 PITCH_B4, 0x22, 80
 layer_end
 
 .env_ganondorf_cloak:
-chan_setinstr F0_I_CLOAK
+chan_setinstr FONT00_INSTR_CLOAK
 chan_setlayer 0, .layer_2DC9
 chan_end
 
@@ -3594,13 +3594,13 @@ chan_setlayer 0, .layer_2DDC
 chan_end
 
 .layer_2DDC:
-layer_setinstr F0_I_WATER_BUBBLES
+layer_setinstr FONT00_INSTR_WATER_BUBBLES
 layer_setreleaserate 200
 layer_note1 PITCH_G3, 0x40, 55
 layer_end
 
 .env_ice_break_old:
-chan_setinstr F0_I_CHATTER
+chan_setinstr FONT00_INSTR_CHATTER
 chan_setenvelope .envelope_65D8
 chan_setlayer 0, .layer_2DF0
 chan_setlayer 1, .layer_2DF6
@@ -3640,7 +3640,7 @@ chan_setlayer 0, .layer_2E21
 chan_end
 
 .layer_2E21:
-layer_setinstr F0_I_DOOR_METAL
+layer_setinstr FONT00_INSTR_DOOR_METAL
 layer_transpose 48
 layer_note1 PITCH_C3, 0x0, 110
 layer_end
@@ -3666,13 +3666,13 @@ chan_setlayer 1, .layer_26FA
 chan_end
 
 .layer_2E45:
-layer_setinstr F0_I_SWORD_DRAW
+layer_setinstr FONT00_INSTR_SWORD_DRAW
 layer_portamento 0x81, 24, 64
 layer_note1 PITCH_G2, 0x7f, 85
 layer_end
 
 .env_unused7:
-chan_setinstr F0_I_CHATTER
+chan_setinstr FONT00_INSTR_CHATTER
 chan_setlayer 0, .layer_2E55
 chan_end
 
@@ -3692,7 +3692,7 @@ chan_setlayer 0, .layer_2E67
 chan_end
 
 .layer_2E67:
-layer_setinstr F0_I_WATER_DRIP
+layer_setinstr FONT00_INSTR_WATER_DRIP
 .layer_2E69:
 layer_note1 PITCH_B0, 0x0, 70
 layer_jumprel .layer_2E69
@@ -3704,7 +3704,7 @@ chan_setlayer 0, .layer_2E75
 chan_end
 
 .layer_2E75:
-layer_setinstr F0_I_WIND_HOWL_S
+layer_setinstr FONT00_INSTR_WIND_HOWL_S
 layer_setenvelope .envelope_6710, 251
 layer_enablelegato
 layer_portamento 0x81, 39, 255
@@ -3717,13 +3717,13 @@ chan_setlayer 0, .layer_2E8A
 chan_end
 
 .layer_2E8A:
-layer_setinstr F0_I_ROAR_BARK
+layer_setinstr FONT00_INSTR_ROAR_BARK
 layer_transpose 48
 layer_note1 PITCH_C4, 0x0, 100
 layer_end
 
 .env_zelda_cast_spell:
-chan_setinstr F0_I_WARP
+chan_setinstr FONT00_INSTR_WARP
 chan_sethilogain 15
 chan_setlayer 1, .layer_290F
 chan_setlayer 0, .layer_2EA0
@@ -3731,7 +3731,7 @@ chan_setlayer 2, .layer_2EAF
 chan_end
 
 .layer_2EA0:
-layer_setinstr F0_I_FAIRY
+layer_setinstr FONT00_INSTR_FAIRY
 layer_setenvelope .envelope_67E4, 200
 layer_portamento 0x81, 50, 180
 layer_note1 PITCH_C5, 0xc8, 110
@@ -3752,13 +3752,13 @@ chan_end
 .layer_2EC1:
 layer_enablelegato
 .layer_2EC2:
-layer_note1 F0_D_RAIN_1, 32700, 80
+layer_note1 FONT00_DRUM_RAIN_1, 32700, 80
 layer_jumprel .layer_2EC2
 
 .layer_2EC8:
 layer_enablelegato
 .layer_2EC9:
-layer_note1 F0_D_RAIN_0, 32700, 80
+layer_note1 FONT00_DRUM_RAIN_0, 32700, 80
 layer_jumprel .layer_2EC9
 
 .env_door_metal_open:
@@ -3766,7 +3766,7 @@ chan_setlayer 0, .layer_2ED3
 chan_end
 
 .layer_2ED3:
-layer_setinstr F0_I_DOOR_METAL
+layer_setinstr FONT00_INSTR_DOOR_METAL
 layer_transpose 48
 layer_note1 PITCH_D4, 0x0, 110
 layer_end
@@ -3776,7 +3776,7 @@ chan_setlayer 0, .layer_2EDF
 chan_end
 
 .layer_2EDF:
-layer_setinstr F0_I_DOOR_METAL
+layer_setinstr FONT00_INSTR_DOOR_METAL
 layer_transpose 48
 layer_note1 PITCH_G3, 0x0, 110
 layer_end
@@ -3794,7 +3794,7 @@ chan_setlayer 2, .layer_1F41
 chan_end
 
 .layer_2EFA:
-layer_setinstr F0_I_EXPLOSION_0
+layer_setinstr FONT00_INSTR_EXPLOSION_0
 layer_setreleaserate 221
 layer_note1 PITCH_C4, 0xc, 82
 layer_portamento 0x81, 27, 255
@@ -3802,7 +3802,7 @@ layer_note1 PITCH_F2, 0x91, 105
 layer_end
 
 .layer_2F0A:
-layer_setinstr F0_I_MECH_CHARGE
+layer_setinstr FONT00_INSTR_MECH_CHARGE
 layer_setreleaserate 221
 layer_note1 PITCH_C5, 0xc, 82
 layer_portamento 0x81, 39, 255
@@ -3810,7 +3810,7 @@ layer_note1 PITCH_F3, 0x91, 105
 layer_end
 
 .env_cow_moo:
-chan_setinstr F0_I_FIRE_COW
+chan_setinstr FONT00_INSTR_FIRE_COW
 chan_setlayer 0, .layer_2F20
 chan_end
 
@@ -3825,14 +3825,14 @@ chan_setlayer 1, .layer_2F38
 chan_end
 
 .layer_2F2D:
-layer_setinstr F0_I_DOOR_METAL
+layer_setinstr FONT00_INSTR_DOOR_METAL
 layer_transpose 48
 layer_note1 PITCH_G5, 0xd, 66
 layer_note1 PITCH_D5, 0x1a, 66
 layer_end
 
 .layer_2F38:
-layer_setinstr F0_I_POTTERY_ELECTRIC
+layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
 layer_transpose 48
 layer_note1 PITCH_A3, 0x0, 68
 layer_note1 PITCH_C4, 0x0, 68
@@ -3848,7 +3848,7 @@ chan_setlayer 0, .layer_2F4E
 chan_end
 
 .layer_2F4E:
-layer_setinstr F0_I_ANIMALS_0
+layer_setinstr FONT00_INSTR_ANIMALS_0
 layer_transpose 48
 layer_note1 PITCH_F3, 0x8, 85
 layer_note1 PITCH_D3, 0x8, 85
@@ -3861,7 +3861,7 @@ chan_setlayer 0, .layer_2F64
 chan_end
 
 .layer_2F64:
-layer_setinstr F0_I_ANIMALS_0
+layer_setinstr FONT00_INSTR_ANIMALS_0
 layer_transpose 48
 layer_note1 PITCH_F3, 0x8, 85
 layer_note1 PITCH_A3, 0x8, 85
@@ -3870,7 +3870,7 @@ layer_note1 PITCH_C3, 0x18, 85
 layer_end
 
 .env_cow_moo_distant:
-chan_setinstr F0_I_FIRE_COW
+chan_setinstr FONT00_INSTR_FIRE_COW
 chan_setdecayrelease 180
 chan_setval 20
 chan_iowriteval 1
@@ -3912,7 +3912,7 @@ chan_setlayer 1, .layer_2BC7
 chan_end
 
 .layer_2FBF:
-layer_setinstr F0_I_SWORD_STRIKE
+layer_setinstr FONT00_INSTR_SWORD_STRIKE
 layer_note1 PITCH_E2, 0x0, 84
 layer_end
 
@@ -3922,7 +3922,7 @@ chan_setlayer 1, .layer_2FDC
 chan_end
 
 .layer_2FCC:
-layer_setinstr F0_I_SHIMMER
+layer_setinstr FONT00_INSTR_SHIMMER
 layer_transpose 48
 layer_setenvelope .envelope_6638, 251
 layer_portamento 0x81, 39, 255
@@ -3930,7 +3930,7 @@ layer_note1 PITCH_C5, 0x64, 80
 layer_end
 
 .layer_2FDC:
-layer_setinstr F0_I_FAIRY_MAGIC
+layer_setinstr FONT00_INSTR_FAIRY_MAGIC
 layer_setenvelope .envelope_6638, 251
 layer_portamento 0x81, 39, 255
 layer_note1 PITCH_C5, 0x64, 80
@@ -3956,7 +3956,7 @@ chan_setlayer 0, .layer_3006
 chan_end
 
 .layer_3006:
-layer_setinstr F0_I_CHAIN_RETRACT
+layer_setinstr FONT00_INSTR_CHAIN_RETRACT
 layer_enablelegato
 .layer_3009:
 layer_note1 PITCH_DF3, 32700, 80
@@ -3968,7 +3968,7 @@ chan_setlayer 1, .layer_3029
 chan_end
 
 .layer_3016:
-layer_setinstr F0_I_OCARINA_0
+layer_setinstr FONT00_INSTR_OCARINA_0
 layer_setenvelope .envelope_6674, 251
 layer_enablelegato
 layer_portamento 0x85, 15, 255
@@ -3978,7 +3978,7 @@ layer_note1 PITCH_C2, 0x64, 55
 layer_jumprel .layer_3021
 
 .layer_3029:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_6674, 251
 layer_enablelegato
 layer_portamento 0x85, 27, 255
@@ -4004,7 +4004,7 @@ layer_note1 PITCH_C1, 0x2d, 40
 layer_jumprel .layer_3051
 
 .layer_3059:
-layer_setinstr F0_I_WARP
+layer_setinstr FONT00_INSTR_WARP
 layer_setenvelope .envelope_6674, 251
 layer_enablelegato
 layer_portamento 0x85, 34, 255
@@ -4014,7 +4014,7 @@ layer_note1 PITCH_G3, 0x5a, 65
 layer_jumprel .layer_3064
 
 .layer_306C:
-layer_setinstr F0_I_OCARINA_0
+layer_setinstr FONT00_INSTR_OCARINA_0
 layer_setenvelope .envelope_6674, 251
 layer_enablelegato
 layer_portamento 0x85, 7, 255
@@ -4028,7 +4028,7 @@ chan_setlayer 0, .layer_3085
 chan_end
 
 .layer_3085:
-layer_setinstr F0_I_STEP_GROUND
+layer_setinstr FONT00_INSTR_STEP_GROUND
 layer_portamento 0x81, 43, 255
 layer_note1 PITCH_E2, 0xe, 60
 layer_end
@@ -4039,15 +4039,15 @@ chan_setlayer 1, .layer_3096
 chan_end
 
 .layer_3096:
-layer_setinstr F0_I_STEP_GROUND
+layer_setinstr FONT00_INSTR_STEP_GROUND
 layer_portamento 0x81, 32, 127
 layer_note1 PITCH_F3, 0xa, 76
 layer_end
 
 .layer_30A0:
-layer_setinstr F0_I_SWORD_STRIKE
+layer_setinstr FONT00_INSTR_SWORD_STRIKE
 layer_note1 PITCH_F4, 0x6, 48
-layer_setinstr F0_I_STEP_FIRE
+layer_setinstr FONT00_INSTR_STEP_FIRE
 layer_note1 PITCH_C4, 0xa, 48
 layer_end
 
@@ -4056,7 +4056,7 @@ chan_setlayer 0, .layer_30AF
 chan_end
 
 .layer_30AF:
-layer_setinstr F0_I_BLOCK_LOCK
+layer_setinstr FONT00_INSTR_BLOCK_LOCK
 layer_setreleaserate 241
 layer_note1 PITCH_GF4, 0x6, 75
 layer_note1 PITCH_F3, 0x64, 75

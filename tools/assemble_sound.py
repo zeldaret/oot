@@ -873,7 +873,38 @@ def processBanks(sampledir, builddir, tabledir):
 
     Path(banktable_path).unlink(missing_ok=True)
 
-def main():
+def write_soundfont_header(font, fontcount, filename):
+    width = int(math.log10(fontcount)) + 1
+    index = str(font.idx).zfill(width)
+
+    with open(filename, "w") as file:
+        file.write("/*\n")
+        file.write("   Soundfont file constants\n")
+        file.write(f"   ID: {font.idx}\n")
+        file.write(f"   Name: {font.name}\n")
+        file.write("*/\n\n/**** INSTRUMENTS ****/\n")
+
+        for instrument in font.instruments:
+            if instrument is None:
+                continue
+
+            file.write(f"#define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
+        
+        file.write("\n/**** DRUMS ****/\n")
+        for drum in font.percussion:
+            if drum is None:
+                continue
+
+            file.write(f"#define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
+        
+        file.write("\n/**** EFFECTS ****/\n")
+        for effect in font.soundEffects:
+            if effect is None:
+                continue
+
+            file.write(f"#define FONT{index}_EFFECT_{effect.enum} {effect.idx}\n")
+
+def main(args):
     global debug_mode
     global match_mode
     global target_le
@@ -1035,6 +1066,10 @@ def main():
                 elf.append_symbol(f"{get_sym_name(fontsym)}_end", rodata, len(fontbytes), 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
                 elffile.write(bytes(elf))
 
+        os.makedirs(args.outinclude, exist_ok=True)
+        h_filename = os.path.join(args.outinclude, f"{font.idx}.h")
+        write_soundfont_header(font, font_count, h_filename)
+
     # load table for matching
     og_font_dat = None
     if debug_mode and match_mode:
@@ -1103,19 +1138,20 @@ def main():
 
     return 0
 
-# Args
-parser = argparse.ArgumentParser()
-parser.add_argument("inpath", help="Input path. If --single, this should be a font xml. If batch, this should be a directory of font xmls.")
-parser.add_argument("outpath", help="Output path. This should be the directory where target bins are written.")
-parser.add_argument("sampledir", help="Path to file containing sound samples.")
-parser.add_argument("--match", help="Aim to build match to original ROM (less efficient, more bookkeeping). Recognized values: ocarina, ocarina1_0, majora")
-parser.add_argument("--debug", action="store_true", help="Flag for debug mode (increased verbosity, output matching)")
-parser.add_argument("--single", action="store_true", help="Use this flag if only want to build a single font (inputting one xml file)")
-parser.add_argument("--buildbank", action="store_true", help="Use this flag to build bank files as well as fonts. Highly recommended.")
-parser.add_argument("--little-endian", action="store_true", help="Use this flag if building for Little-Endian target. Overrides --match and --debug")
-parser.add_argument("--arch64", action="store_true", help="Use this flag if building for 64-bit target. (Importantly, this does NOT include N64 itself). Overrides --match and --debug")
-parser.add_argument("--machine", nargs=1, required=False, default="mips", help="The machine type to use for the output ELF files.")
-args = parser.parse_args()
-
 if __name__ == "__main__":
-    main()
+    # Args
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("inpath", type=Path, help="Input path. If --single, this should be a font xml. If batch, this should be a directory of font xmls.")
+    parser.add_argument("outpath", type=Path, help="Output path. This should be the directory where target bins are written.")
+    parser.add_argument("outinclude", type=Path, help="Output path for generated include headers.")
+    parser.add_argument("sampledir", type=Path, help="Path to file containing sound samples.")
+    parser.add_argument("--match", help="Aim to build match to original ROM (less efficient, more bookkeeping). Recognized values: ocarina, ocarina1_0, majora")
+    parser.add_argument("--debug", action="store_true", help="Flag for debug mode (increased verbosity, output matching)")
+    parser.add_argument("--single", action="store_true", help="Use this flag if only want to build a single font (inputting one xml file)")
+    parser.add_argument("--buildbank", action="store_true", help="Use this flag to build bank files as well as fonts. Highly recommended.")
+    parser.add_argument("--little-endian", action="store_true", help="Use this flag if building for Little-Endian target. Overrides --match and --debug")
+    parser.add_argument("--arch64", action="store_true", help="Use this flag if building for 64-bit target. (Importantly, this does NOT include N64 itself). Overrides --match and --debug")
+    parser.add_argument("--machine", nargs=1, required=False, default="mips", help="The machine type to use for the output ELF files.")
+    parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
+    args = parser.parse_args()
+    main(args)

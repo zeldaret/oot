@@ -1,7 +1,7 @@
 <Root>
-    <Soundfont Name="03 - Orchestra" Index="3">
+    <Soundfont Name="03 Orchestra" Index="3">
         <Instruments>
-            <Instrument Name="Pan Flute" Enum="FLUTE"/>
+            <Instrument Name="Flute" Enum="FLUTE"/>
             <Instrument Name="Oboe" Enum="OBOE"/>
             <Instrument Name="Clarinet" Enum="CLARINET"/>
             <Instrument Name="Bassoon" Enum="BASSOON"/>

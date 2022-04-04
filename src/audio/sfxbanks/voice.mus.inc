@@ -208,10 +208,10 @@ chan_setval 4
 chan_jumprel .play_random_voice
 
 .addr_616D:
-.byte F0_E_LINK_OLD_ATTACK_0
-.byte F0_E_LINK_OLD_ATTACK_1
-.byte F0_E_LINK_OLD_ATTACK_2
-.byte F0_E_LINK_OLD_ATTACK_3
+.byte FONT00_EFFECT_LINK_OLD_ATTACK_0
+.byte FONT00_EFFECT_LINK_OLD_ATTACK_1
+.byte FONT00_EFFECT_LINK_OLD_ATTACK_2
+.byte FONT00_EFFECT_LINK_OLD_ATTACK_3
 
 .addr_6171:
 .byte 105
@@ -243,8 +243,8 @@ chan_ioreadval 6
 chan_iowriteval 6
 
 .addr_6197:
-.byte F0_E_LINK_OLD_MAJOR_0
-.byte F0_E_LINK_OLD_MAJOR_1
+.byte FONT00_EFFECT_LINK_OLD_MAJOR_0
+.byte FONT00_EFFECT_LINK_OLD_MAJOR_1
 
 .addr_6199:
 .byte 110
@@ -274,8 +274,8 @@ chan_ioreadval 6
 chan_iowriteval 6
 
 .addr_61BD:
-.byte F0_E_LINK_OLD_SPUR_0
-.byte F0_E_LINK_OLD_SPUR_1
+.byte FONT00_EFFECT_LINK_OLD_SPUR_0
+.byte FONT00_EFFECT_LINK_OLD_SPUR_1
 
 .addr_61BF:
 .byte 105
@@ -290,8 +290,8 @@ chan_setval 0
 chan_jumprel .play_alternating_voice
 
 .addr_61D1:
-.byte F0_E_LINK_OLD_LEDGE_0
-.byte F0_E_LINK_OLD_LEDGE_2
+.byte FONT00_EFFECT_LINK_OLD_LEDGE_0
+.byte FONT00_EFFECT_LINK_OLD_LEDGE_2
 
 .addr_61D3:
 .byte 95
@@ -306,8 +306,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_61E6:
-.byte F0_E_LINK_OLD_CLIMB
-.byte F0_E_LINK_OLD_LEDGE_1
+.byte FONT00_EFFECT_LINK_OLD_CLIMB
+.byte FONT00_EFFECT_LINK_OLD_LEDGE_1
 
 .addr_61E8:
 .byte 72
@@ -322,9 +322,9 @@ chan_setval 3
 chan_jump .play_random_voice
 
 .addr_61FB:
-.byte F0_E_LINK_OLD_HURT_0
-.byte F0_E_LINK_OLD_HURT_1
-.byte F0_E_LINK_OLD_HURT_2
+.byte FONT00_EFFECT_LINK_OLD_HURT_0
+.byte FONT00_EFFECT_LINK_OLD_HURT_1
+.byte FONT00_EFFECT_LINK_OLD_HURT_2
 
 .addr_61FE:
 .byte 117
@@ -340,9 +340,9 @@ chan_setval 3
 chan_jump .play_random_voice
 
 .addr_6212:
-.byte F0_E_LINK_OLD_HURT_3
-.byte F0_E_LINK_OLD_KNOCKBACK
-.byte F0_E_LINK_OLD_HURT_4
+.byte FONT00_EFFECT_LINK_OLD_HURT_3
+.byte FONT00_EFFECT_LINK_OLD_KNOCKBACK
+.byte FONT00_EFFECT_LINK_OLD_HURT_4
 
 .addr_6215:
 .byte 113
@@ -358,8 +358,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_6229:
-.byte F0_E_LINK_OLD_GASP_0
-.byte F0_E_LINK_OLD_GASP_1
+.byte FONT00_EFFECT_LINK_OLD_GASP_0
+.byte FONT00_EFFECT_LINK_OLD_GASP_1
 
 .addr_622B:
 .byte 100
@@ -374,8 +374,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_623E:
-.byte F0_E_LINK_OLD_FALL_0
-.byte F0_E_LINK_OLD_FALL_1
+.byte FONT00_EFFECT_LINK_OLD_FALL_0
+.byte FONT00_EFFECT_LINK_OLD_FALL_1
 
 .addr_6240:
 .byte 110
@@ -390,8 +390,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_6253:
-.byte F0_E_LINK_OLD_PANT_0
-.byte F0_E_LINK_OLD_PANT_1
+.byte FONT00_EFFECT_LINK_OLD_PANT_0
+.byte FONT00_EFFECT_LINK_OLD_PANT_1
 
 .addr_6255:
 .byte 90
@@ -425,8 +425,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_6280:
-.byte F0_E_LINK_OLD_FALL_0
-.byte F0_E_LINK_OLD_FALL_1
+.byte FONT00_EFFECT_LINK_OLD_FALL_0
+.byte FONT00_EFFECT_LINK_OLD_FALL_1
 
 .addr_6282:
 .byte 105
@@ -481,7 +481,7 @@ chan_setvallargeaddr .addr_62CC
 chan_jump .play_single_voice
 
 .addr_62CC:
-.byte F0_E_LINK_OLD_ATTACK_0
+.byte FONT00_EFFECT_LINK_OLD_ATTACK_0
 .byte 100
 
 .voice_link_old_jump:
@@ -498,8 +498,8 @@ chan_setlayer 0, .layer_64BF
 chan_end
 
 .addr_62E8:
-.byte F0_E_LINK_OLD_JUMP
-.byte F0_E_LINK_OLD_GASP_2
+.byte FONT00_EFFECT_LINK_OLD_JUMP
+.byte FONT00_EFFECT_LINK_OLD_GASP_2
 
 .addr_62EA:
 .byte 80
@@ -510,7 +510,7 @@ chan_setvallargeaddr .addr_62F2
 chan_jump .play_single_voice
 
 .addr_62F2:
-.byte F0_E_LINK_OLD_MAJOR_1
+.byte FONT00_EFFECT_LINK_OLD_MAJOR_1
 .byte 110
 
 .voice_link_old_shock:
@@ -527,7 +527,7 @@ chan_setvallargeaddr .addr_6304
 chan_jump .play_single_voice
 
 .addr_6304:
-.byte F0_E_LINK_OLD_MAJOR_0
+.byte FONT00_EFFECT_LINK_OLD_MAJOR_0
 .byte 95
 
 .voice_link_old_push_block:
@@ -535,7 +535,7 @@ chan_setvallargeaddr .addr_630C
 chan_jump .play_single_voice
 
 .addr_630C:
-.byte F0_E_LINK_OLD_CLIMB
+.byte FONT00_EFFECT_LINK_OLD_CLIMB
 .byte 82
 
 .voice_link_old_hookshot_hang:
@@ -543,7 +543,7 @@ chan_setvallargeaddr .addr_6314
 chan_jump .play_single_voice
 
 .addr_6314:
-.byte F0_E_LINK_OLD_LEDGE_0
+.byte FONT00_EFFECT_LINK_OLD_LEDGE_0
 .byte 95
 
 .voice_link_old_knockback:
@@ -551,7 +551,7 @@ chan_setvallargeaddr .addr_631C
 chan_jump .play_single_voice
 
 .addr_631C:
-.byte F0_E_LINK_OLD_FALL_DMG
+.byte FONT00_EFFECT_LINK_OLD_FALL_DMG
 .byte 110
 
 .voice_link_old_unused:
@@ -559,7 +559,7 @@ chan_setvallargeaddr .addr_6324
 chan_jump .play_single_voice
 
 .addr_6324:
-.byte F0_E_LINK_OLD_LIFT
+.byte FONT00_EFFECT_LINK_OLD_LIFT
 .byte 100
 
 .voice_link_old_cast_spell3:
@@ -567,7 +567,7 @@ chan_setvallargeaddr .addr_632C
 chan_jump .play_single_voice
 
 .addr_632C:
-.byte F0_E_LINK_OLD_SPELL
+.byte FONT00_EFFECT_LINK_OLD_SPELL
 .byte 110
 
 .voice_link_old_knockback_unused:
@@ -575,7 +575,7 @@ chan_setvallargeaddr .addr_6334
 chan_jump .play_single_voice
 
 .addr_6334:
-.byte F0_E_LINK_OLD_KNOCKBACK
+.byte FONT00_EFFECT_LINK_OLD_KNOCKBACK
 .byte 113
 
 .voice_link_kid_attack:
@@ -587,10 +587,10 @@ chan_setval 4
 chan_jump .play_random_voice
 
 .addr_6347:
-.byte F0_E_LINK_KID_ATTACK_0
-.byte F0_E_LINK_KID_ATTACK_1
-.byte F0_E_LINK_KID_ATTACK_2
-.byte F0_E_LINK_KID_ATTACK_3
+.byte FONT00_EFFECT_LINK_KID_ATTACK_0
+.byte FONT00_EFFECT_LINK_KID_ATTACK_1
+.byte FONT00_EFFECT_LINK_KID_ATTACK_2
+.byte FONT00_EFFECT_LINK_KID_ATTACK_3
 
 .addr_634B:
 .byte 110
@@ -622,8 +622,8 @@ chan_ioreadval 6
 chan_iowriteval 6
 
 .addr_6372:
-.byte F0_E_LINK_KID_STRONG_0
-.byte F0_E_LINK_KID_STRONG_1
+.byte FONT00_EFFECT_LINK_KID_STRONG_0
+.byte FONT00_EFFECT_LINK_KID_STRONG_1
 
 .addr_6374:
 .byte 110
@@ -648,8 +648,8 @@ layer_delay 0x30
 layer_end
 
 .addr_6396:
-.byte F0_E_LINK_KID_LEDGE_0
-.byte F0_E_LINK_KID_LEDGE_1
+.byte FONT00_EFFECT_LINK_KID_LEDGE_0
+.byte FONT00_EFFECT_LINK_KID_LEDGE_1
 
 .addr_6398:
 .byte 100
@@ -664,8 +664,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_63AB:
-.byte F0_E_LINK_KID_SIGH_0
-.byte F0_E_LINK_KID_SIGH_1
+.byte FONT00_EFFECT_LINK_KID_SIGH_0
+.byte FONT00_EFFECT_LINK_KID_SIGH_1
 
 .addr_63AD:
 .byte 90
@@ -680,9 +680,9 @@ chan_setval 3
 chan_jump .play_random_voice
 
 .addr_63C0:
-.byte F0_E_LINK_KID_HURT_0
-.byte F0_E_LINK_KID_HURT_1
-.byte F0_E_LINK_KID_HURT_2
+.byte FONT00_EFFECT_LINK_KID_HURT_0
+.byte FONT00_EFFECT_LINK_KID_HURT_1
+.byte FONT00_EFFECT_LINK_KID_HURT_2
 
 .addr_63C3:
 .byte 110
@@ -698,9 +698,9 @@ chan_setval 3
 chan_jump .play_random_voice
 
 .addr_63D7:
-.byte F0_E_LINK_KID_HURT_3
-.byte F0_E_LINK_KID_KNOCKBACK
-.byte F0_E_LINK_KID_HURT_4
+.byte FONT00_EFFECT_LINK_KID_HURT_3
+.byte FONT00_EFFECT_LINK_KID_KNOCKBACK
+.byte FONT00_EFFECT_LINK_KID_HURT_4
 
 .addr_63DA:
 .byte 110
@@ -716,8 +716,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_63EE:
-.byte F0_E_LINK_KID_GASP_0
-.byte F0_E_LINK_KID_GASP_1
+.byte FONT00_EFFECT_LINK_KID_GASP_0
+.byte FONT00_EFFECT_LINK_KID_GASP_1
 
 .addr_63F0:
 .byte 100
@@ -732,8 +732,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_6403:
-.byte F0_E_LINK_KID_FALL_0
-.byte F0_E_LINK_KID_FALL_1
+.byte FONT00_EFFECT_LINK_KID_FALL_0
+.byte FONT00_EFFECT_LINK_KID_FALL_1
 
 .addr_6405:
 .byte 100
@@ -748,8 +748,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_6418:
-.byte F0_E_LINK_KID_WHEEZE
-.byte F0_E_LINK_KID_PANT
+.byte FONT00_EFFECT_LINK_KID_WHEEZE
+.byte FONT00_EFFECT_LINK_KID_PANT
 
 .addr_641A:
 .byte 85
@@ -783,8 +783,8 @@ chan_rand 2
 chan_jump .play_dynamic_voice
 
 .addr_6445:
-.byte F0_E_LINK_KID_FALL_0
-.byte F0_E_LINK_KID_FALL_1
+.byte FONT00_EFFECT_LINK_KID_FALL_0
+.byte FONT00_EFFECT_LINK_KID_FALL_1
 
 .addr_6447:
 .byte 100
@@ -795,7 +795,7 @@ chan_setvallargeaddr .addr_644F
 chan_jump .play_single_voice
 
 .addr_644F:
-.byte F0_E_LINK_KID_DEATH_0
+.byte FONT00_EFFECT_LINK_KID_DEATH_0
 .byte 100
 
 .voice_link_kid_sneeze:
@@ -845,7 +845,7 @@ chan_setvallargeaddr .addr_6499
 chan_jump .play_single_voice
 
 .addr_6499:
-.byte F0_E_LINK_KID_ATTACK_0
+.byte FONT00_EFFECT_LINK_KID_ATTACK_0
 .byte 100
 
 .voice_link_kid_shiver:
@@ -876,8 +876,8 @@ layer_delay 0x30
 layer_end
 
 .addr_64C5:
-.byte F0_E_LINK_KID_JUMP_0
-.byte F0_E_LINK_OLD_JUMP_1
+.byte FONT00_EFFECT_LINK_KID_JUMP_0
+.byte FONT00_EFFECT_LINK_OLD_JUMP_1
 
 .addr_64C7:
 .byte 80
@@ -888,7 +888,7 @@ chan_setvallargeaddr .addr_64CF
 chan_jump .play_single_voice
 
 .addr_64CF:
-.byte F0_E_LINK_KID_STRONG_1
+.byte FONT00_EFFECT_LINK_KID_STRONG_1
 .byte 110
 
 .voice_link_kid_shock:
@@ -905,7 +905,7 @@ chan_setvallargeaddr .addr_64E1
 chan_jump .play_single_voice
 
 .addr_64E1:
-.byte F0_E_LINK_KID_STRONG_0
+.byte FONT00_EFFECT_LINK_KID_STRONG_0
 .byte 95
 
 .voice_link_kid_push_block:
@@ -913,7 +913,7 @@ chan_setvallargeaddr .addr_64E9
 chan_jump .play_single_voice
 
 .addr_64E9:
-.byte F0_E_LINK_KID_SIGH_0
+.byte FONT00_EFFECT_LINK_KID_SIGH_0
 .byte 90
 
 .voice_link_kid_hookshot_hang:
@@ -921,7 +921,7 @@ chan_setvallargeaddr .addr_64F1
 chan_jump .play_single_voice
 
 .addr_64F1:
-.byte F0_E_LINK_KID_LEDGE_0
+.byte FONT00_EFFECT_LINK_KID_LEDGE_0
 .byte 100
 
 .voice_link_kid_knockback:
@@ -929,7 +929,7 @@ chan_setvallargeaddr .addr_64F9
 chan_jump .play_single_voice
 
 .addr_64F9:
-.byte F0_E_LINK_KID_FALL_DMG
+.byte FONT00_EFFECT_LINK_KID_FALL_DMG
 .byte 115
 
 .voice_link_kid_unused:
@@ -937,7 +937,7 @@ chan_setvallargeaddr .addr_6501
 chan_jump .play_single_voice
 
 .addr_6501:
-.byte F0_E_LINK_KID_CHARGE
+.byte FONT00_EFFECT_LINK_KID_CHARGE
 .byte 100
 
 .voice_link_kid_cast_spell3:
@@ -945,7 +945,7 @@ chan_setvallargeaddr .addr_6509
 chan_jump .play_single_voice
 
 .addr_6509:
-.byte F0_E_LINK_KID_SPELL
+.byte FONT00_EFFECT_LINK_KID_SPELL
 .byte 110
 
 .voice_link_kid_cutscene_attacked:
@@ -953,7 +953,7 @@ chan_setvallargeaddr .addr_6511
 chan_jump .play_single_voice
 
 .addr_6511:
-.byte F0_E_LINK_KID_FALL_1
+.byte FONT00_EFFECT_LINK_KID_FALL_1
 .byte 100
 
 .voice_navi_greeting:
@@ -1059,7 +1059,7 @@ chan_setval 3
 chan_jump .play_random_voice
 
 .layer_6598:
-layer_setinstr F0_I_FAIRY_MAGIC
+layer_setinstr FONT00_INSTR_FAIRY_MAGIC
 layer_setenvelope .envelope_66B8, 251
 layer_enablelegato
 layer_portamento 0x81, 51, 255
@@ -1067,9 +1067,9 @@ layer_note1 PITCH_F5, 0x30, 65
 layer_end
 
 .addr_65A7:
-.byte F0_E_NAVI_WATCH_OUT
-.byte F0_E_NAVI_LOOK
-.byte F0_E_NAVI_HEY
+.byte FONT00_EFFECT_NAVI_WATCH_OUT
+.byte FONT00_EFFECT_NAVI_LOOK
+.byte FONT00_EFFECT_NAVI_HEY
 
 .addr_65AA:
 .byte 100

@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="24 - Shadow Temple" Index="24">
+    <Soundfont Name="24 Shadow Temple" Index="24">
         <Instruments>
             <Instrument Name="Melodic Drum" Enum="DRUM"/>
             <Instrument Name="Ghostly Wind" Enum="WIND"/>

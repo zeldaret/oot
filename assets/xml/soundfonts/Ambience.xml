@@ -1,12 +1,12 @@
 <Root>
-    <Soundfont Name="02 - Ambient Sounds" Index="2">
+    <Soundfont Name="02 Ambient Sounds" Index="2">
         <Instruments>
             <Instrument/>
-            <Instrument Name="Bird Chirp 1" Enum="BIRD_CHIRP_1"/>
-            <Instrument Name="Tap" Enum="TAP"/>
-            <Instrument Name="Bird Chirp 2" Enum="BIRD_CHIRP_2"/>
+            <Instrument Name="Bird Chirp 1" Enum="BIRD_CHIRP_0"/>
+            <Instrument Name="Insect Chirps" Enum="INSECTS"/>
+            <Instrument Name="Bird Chirp 2" Enum="BIRD_CHIRP_1"/>
             <Instrument Name="Crickets" Enum="CRICKETS"/>
-            <Instrument Name="Loud Chirping" Enum="BIRD_CHIRP_3"/>
+            <Instrument Name="Loud Chirping" Enum="BIRD_CHIRP_2"/>
             <Instrument Name="Crow Caws" Enum="CROWS"/>
             <Instrument Name="Bird Call" Enum="BIRD_CALL"/>
             <Instrument Name="Bird Screech" Enum="BIRD_SCREECH"/>
@@ -14,7 +14,7 @@
             <Instrument Name="Cucco Crows" Enum="CUCCO"/>
             <Instrument Name="Owl Hoot" Enum="OWL"/>
             <Instrument Name="Hawk Screech" Enum="HAWK"/>
-            <Instrument Name="Small Bird Chirps" Enum="BIRD_CHIRP_4"/>
+            <Instrument Name="Small Bird Chirps" Enum="BIRD_CHIRP_3"/>
             <Instrument Name="Cawing Bird" Enum="BIRD_CAW"/>
             <Instrument Name="Rushing Water" Enum="WATER"/>
             <Instrument Name="Howling Wind" Enum="WIND_HOWL"/>

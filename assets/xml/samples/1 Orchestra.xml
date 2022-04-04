@@ -14,7 +14,7 @@
     <Sample Name="Flute">
 		<Offset Version="MQDebug" At="0x108690"/>
 	</Sample>
-    <Sample Name="Ghostly Wind?">
+    <Sample Name="Ghostly Wind">
 		<Offset Version="MQDebug" At="0x29fe30"/>
 	</Sample>
     <Sample Name="Ghostly Echoes">
@@ -92,10 +92,10 @@
     <Sample Name="Fiddle" SampleRate="20158">
 		<Offset Version="MQDebug" At="0x32ca00"/>
 	</Sample>
-    <Sample Name="Acoustic Guitar" SampleRate="40317">
+    <Sample Name="Acoustic Guitar 1" SampleRate="40317">
 		<Offset Version="MQDebug" At="0x32ecb0"/>
 	</Sample>
-    <Sample Name="Guitar?" SampleRate="13454">
+    <Sample Name="Acoustic Guitar 2" SampleRate="13454">
 		<Offset Version="MQDebug" At="0x332d10"/>
 	</Sample>
     <Sample Name="Tom Drum" SampleRate="20000">
@@ -119,10 +119,10 @@
     <Sample Name="Pizzicato Violin" SampleRate="17959">
 		<Offset Version="MQDebug" At="0x3403f0"/>
 	</Sample>
-    <Sample Name="Electric Organ">
+    <Sample Name="Church Organ">
 		<Offset Version="MQDebug" At="0x343870"/>
 	</Sample>
-    <Sample Name="Organ">
+    <Sample Name="Electric Organ">
 		<Offset Version="MQDebug" At="0x34d670"/>
 	</Sample>
     <Sample Name="Horn">
@@ -146,7 +146,7 @@
     <Sample Name="Drum and Sitar" SampleRate="20000">
 		<Offset Version="MQDebug" At="0x374c20"/>
 	</Sample>
-    <Sample Name="Uncertain" SampleRate="23973">
+    <Sample Name="Percussive Resonance" SampleRate="23973">
 		<Offset Version="MQDebug" At="0x378360"/>
 	</Sample>
     <Sample Name="Clarinet">
@@ -164,19 +164,19 @@
     <Sample Name="Crystal Synth" SampleRate="26939">
 		<Offset Version="MQDebug" At="0x387060"/>
 	</Sample>
-    <Sample Name="Sitar (High?)" SampleRate="57017">
+    <Sample Name="Sitar" SampleRate="57017">
 		<Offset Version="MQDebug" At="0x38f000"/>
 	</Sample>
     <Sample Name="Koto" SampleRate="28508">
 		<Offset Version="MQDebug" At="0x3926d0"/>
 	</Sample>
-    <Sample Name="Some Manner of Drum" SampleRate="32000">
+    <Sample Name="Some Manner of Drum?" SampleRate="32000">
 		<Offset Version="MQDebug" At="0x396f80"/>
 	</Sample>
-    <Sample Name="Another Type of Drum" SampleRate="32000">
+    <Sample Name="Another Type of Drum?" SampleRate="32000">
 		<Offset Version="MQDebug" At="0x397fa0"/>
 	</Sample>
-    <Sample Name="Quick Drum" SampleRate="32000">
+    <Sample Name="Quick Drum?" SampleRate="32000">
 		<Offset Version="MQDebug" At="0x399790"/>
 	</Sample>
     <Sample Name="Gong" SampleRate="32000">

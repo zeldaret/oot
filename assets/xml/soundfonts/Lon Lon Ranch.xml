@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="13 - Lon Lon Ranch" Index="13">
+    <Soundfont Name="13 Lon Lon Ranch" Index="13">
         <Instruments>
             <Instrument Name="Malon Voice 1" Enum="MALON_0"/>
             <Instrument Name="Malon Voice 2" Enum="MALON_1"/>

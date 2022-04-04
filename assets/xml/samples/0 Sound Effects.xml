@@ -5,7 +5,7 @@
 	<Sample Name="Insect Chirrup" SampleRate="16000">
 		<Offset Version="MQDebug" At="0x5b0"/>
 	</Sample>
-	<Sample Name="Bird Chirp (Unused?)">
+	<Sample Name="Bird Chirp 2">
 		<Offset Version="MQDebug" At="0x780"/>
 	</Sample>
 	<Sample Name="Crickets">
@@ -188,13 +188,13 @@
 	<Sample Name="Buzzing Synth">
 		<Offset Version="MQDebug" At="0x80e00"/>
 	</Sample>
-	<Sample Name="Dirt Sound?">
+	<Sample Name="Soft Thump">
 		<Offset Version="MQDebug" At="0x82000"/>
 	</Sample>
 	<Sample Name="Sword Strike" SampleRate="10000">
 		<Offset Version="MQDebug" At="0x82ed0"/>
 	</Sample>
-	<Sample Name="Dismiss Eye of Truth">
+	<Sample Name="Eye of Truth">
 		<Offset Version="MQDebug" At="0x84380"/>
 	</Sample>
 	<Sample Name="Popping Cork">
@@ -827,10 +827,10 @@
 	<Sample Name="Lizalfos Foot Patter">
 		<Offset Version="MQDebug" At="0x21b150"/>
 	</Sample>
-	<Sample Name="Laughter (Unused, maybe Poe?)">
+	<Sample Name="Lizalfos Laughter">
 		<Offset Version="MQDebug" At="0x21b370"/>
 	</Sample>
-	<Sample Name="Female Cry (Unused?)">
+	<Sample Name="Deku Scrub Collapses">
 		<Offset Version="MQDebug" At="0x21bbc0"/>
 	</Sample>
 	<Sample Name="Broken Small Pottery">
@@ -875,13 +875,13 @@
 	<Sample Name="Phantom Ganon Attacks">
 		<Offset Version="MQDebug" At="0x236f80"/>
 	</Sample>
-	<Sample Name="Phantom Ganon Groans (Unused?)">
+	<Sample Name="Phantom Ganon Groans (Unused)">
 		<Offset Version="MQDebug" At="0x237ba0"/>
 	</Sample>
 	<Sample Name="Thunder and Groan">
 		<Offset Version="MQDebug" At="0x23ad60"/>
 	</Sample>
-	<Sample Name="Phantom Ganon Moans (Unused?)">
+	<Sample Name="Goron and Redead Moan">
 		<Offset Version="MQDebug" At="0x23d490"/>
 	</Sample>
 	<Sample Name="Phantom Ganon Growls">
@@ -944,7 +944,7 @@
 	<Sample Name="Finger Snap">
 		<Offset Version="MQDebug" At="0x2581c0"/>
 	</Sample>
-	<Sample Name="Iron Knuckle Grunt (Unused?)">
+	<Sample Name="Iron Knuckle Grunt (Unused)">
 		<Offset Version="MQDebug" At="0x259120"/>
 	</Sample>
 	<Sample Name="Iron Knuckle Charges">
@@ -959,7 +959,7 @@
 	<Sample Name="Iron Knuckle Murmurs (Unused)">
 		<Offset Version="MQDebug" At="0x25cd60"/>
 	</Sample>
-	<Sample Name="Muted Timpani?">
+	<Sample Name="Muted Timpani">
 		<Offset Version="MQDebug" At="0x25db50"/>
 	</Sample>
 	<Sample Name="Chanting">
@@ -1007,7 +1007,7 @@
 	<Sample Name="Ganondorf Recovers">
 		<Offset Version="MQDebug" At="0x270e40"/>
 	</Sample>
-	<Sample Name="Ganondorf Gurgling Yell (Unused?)">
+	<Sample Name="Ganondorf Gurgling Yell (Unused)">
 		<Offset Version="MQDebug" At="0x271a70"/>
 	</Sample>
 	<Sample Name="Ganondorf Dying Breath">
@@ -1022,7 +1022,7 @@
 	<Sample Name="Ganondorf's Final Attack (Unused)">
 		<Offset Version="MQDebug" At="0x27c0a0"/>
 	</Sample>
-	<Sample Name="Ganondorf's Final Attack 2 (Unused?)">
+	<Sample Name="Ganondorf's Final Attack 2 (Unused)">
 		<Offset Version="MQDebug" At="0x27e260"/>
 	</Sample>
 	<Sample Name="Ganondorf Chuckles">
@@ -1034,7 +1034,7 @@
 	<Sample Name="Monstrous Roaring">
 		<Offset Version="MQDebug" At="0x2869c0"/>
 	</Sample>
-	<Sample Name="Mechanical Sound?">
+	<Sample Name="Larval Sound Base">
 		<Offset Version="MQDebug" At="0x28bf50"/>
 	</Sample>
 	<Sample Name="Dinosaur Cry">
@@ -1046,7 +1046,7 @@
 	<Sample Name="Iron Boots 1">
 		<Offset Version="MQDebug" At="0x29b480"/>
 	</Sample>
-	<Sample Name="Metal Clink (Map Select Sound)">
+	<Sample Name="Metal Clink">
 		<Offset Version="MQDebug" At="0x29eb20"/>
 	</Sample>
 </Root>

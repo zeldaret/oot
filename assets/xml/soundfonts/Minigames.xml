@@ -1,7 +1,7 @@
 <Root>
-    <Soundfont Name="20 - Minigames" Index="20">
+    <Soundfont Name="20 Minigames" Index="20">
         <Instruments>
-            <Instrument Name="Pan Flute" Enum="FLUTE"/>
+            <Instrument Name="Flute" Enum="FLUTE"/>
             <Instrument Name="Clarinet 1" Enum="CLARINET_0"/>
             <Instrument Name="Clarinet 2" Enum="CLARINET_1"/>
             <Instrument Name="Accordion" Enum="ACCORDION"/>

@@ -1,7 +1,7 @@
 <Root>
-    <Soundfont Name="25 - Water Temple" Index="25">
+    <Soundfont Name="25 Water Temple" Index="25">
         <Instruments>
-            <Instrument Name="Pan Flute" Enum="FLUTE"/>
+            <Instrument Name="Flute" Enum="FLUTE"/>
             <Instrument Name="Gong and Chimes" Enum="CHIMES"/>
             <Instrument/>
             <Instrument/>
