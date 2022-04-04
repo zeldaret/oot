@@ -251,7 +251,7 @@ void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx, CollisionHeader* 
 }
 
 // TODO: find a better name
-s32 DemoGj_InitSetIndexes(DemoGj* this, GlobalContext* globalCtx, s32 updateMode, s32 drawConfig,
+s32 DemoGj_InitSetIndices(DemoGj* this, GlobalContext* globalCtx, s32 updateMode, s32 drawConfig,
                           CollisionHeader* header) {
     if (!DemoGj_IsSceneInvalid()) {
         this->updateMode = updateMode;
@@ -565,7 +565,7 @@ void DemoGj_CheckIfTransformedIntoGanon(DemoGj* this) {
 }
 
 void DemoGj_InitRubblePile1(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 1, 2, &gGanonsCastleRubble2Col);
+    DemoGj_InitSetIndices(this, globalCtx, 1, 2, &gGanonsCastleRubble2Col);
 }
 
 void func_8097A000(DemoGj* this, GlobalContext* globalCtx) {
@@ -630,7 +630,7 @@ void DemoGj_DrawRotatedRubble2(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_InitRubblePile2(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 2, 3, &gGanonsCastleRubble3Col);
+    DemoGj_InitSetIndices(this, globalCtx, 2, 3, &gGanonsCastleRubble3Col);
 }
 
 void func_8097A238(DemoGj* this, GlobalContext* globalCtx) {
@@ -695,7 +695,7 @@ void DemoGj_DrawRotatedRubble3(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_InitRubblePile3(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 3, 4, &gGanonsCastleRubble4Col);
+    DemoGj_InitSetIndices(this, globalCtx, 3, 4, &gGanonsCastleRubble4Col);
 }
 
 void func_8097A474(DemoGj* this, GlobalContext* globalCtx) {
@@ -743,7 +743,7 @@ void DemoGj_DrawRotatedRubble4(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_InitRubblePile4(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 4, 5, &gGanonsCastleRubble5Col);
+    DemoGj_InitSetIndices(this, globalCtx, 4, 5, &gGanonsCastleRubble5Col);
 }
 
 void func_8097A644(DemoGj* this, GlobalContext* globalCtx) {
@@ -791,7 +791,7 @@ void DemoGj_DrawRotatedRubble5(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_InitRubblePile5(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 5, 6, &gGanonsCastleRubble6Col);
+    DemoGj_InitSetIndices(this, globalCtx, 5, 6, &gGanonsCastleRubble6Col);
 }
 
 void func_8097A814(DemoGj* this, GlobalContext* globalCtx) {
@@ -839,7 +839,7 @@ void DemoGj_DrawRotatedRubble6(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_InitRubblePile6(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 6, 7, &gGanonsCastleRubble7Col);
+    DemoGj_InitSetIndices(this, globalCtx, 6, 7, &gGanonsCastleRubble7Col);
 }
 
 void func_8097A9E4(DemoGj* this, GlobalContext* globalCtx) {
@@ -887,7 +887,7 @@ void DemoGj_DrawRotatedRubble7(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_InitRubblePile7(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 7, 8, &gGanonsCastleRubbleTallCol);
+    DemoGj_InitSetIndices(this, globalCtx, 7, 8, &gGanonsCastleRubbleTallCol);
 }
 
 void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
@@ -952,7 +952,7 @@ void DemoGj_DrawRotatedRubbleTall(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_InitRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 0, 1, &gGanonsCastleRubbleAroundArenaCol);
+    DemoGj_InitSetIndices(this, globalCtx, 0, 1, &gGanonsCastleRubbleAroundArenaCol);
 }
 
 // func_8097ADF0
@@ -969,7 +969,7 @@ void DemoGj_DrawRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
 
 // Inits the three cylinders with `sCylinderInit1`
 void DemoGj_InitDestructableRubble1(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 15, 0, NULL);
+    DemoGj_InitSetIndices(this, globalCtx, 15, 0, NULL);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[0], &sCylinderInit1);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[1], &sCylinderInit1);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[2], &sCylinderInit1);
@@ -1102,7 +1102,7 @@ void DemoGj_DrawDestructableRubble1(DemoGj* this, GlobalContext* globalCtx) {
 
 // Inits the three cylinders with `sCylinderInit2`
 void DemoGj_InitDestructableRubble2(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 16, 0, NULL);
+    DemoGj_InitSetIndices(this, globalCtx, 16, 0, NULL);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[0], &sCylinderInit2);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[1], &sCylinderInit2);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[2], &sCylinderInit2);
@@ -1233,7 +1233,7 @@ void DemoGj_DemoGj_InitDestructableRubble2(DemoGj* this, GlobalContext* globalCt
 
 // Inits the first cylinder (only that one) with `sCylinderInit3`
 void DemoGj_InitDestructableRubbleTall(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 17, 0, NULL);
+    DemoGj_InitSetIndices(this, globalCtx, 17, 0, NULL);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[0], &sCylinderInit3);
 }
 

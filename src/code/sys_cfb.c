@@ -49,6 +49,6 @@ u32 SysCfb_GetFbPtr(s32 idx) {
     return 0;
 }
 
-u32 SysCfb_GetFbEnd() {
+u32 SysCfb_GetFbEnd(void) {
     return sSysCfbEnd;
 }
