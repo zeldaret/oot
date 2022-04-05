@@ -61,7 +61,7 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     }
 
     view->unk_124 = 0;
-    view->dirtyFlags = VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE;
+    view->flags = VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE;
     View_InitDistortion(view);
 }
 
@@ -73,12 +73,12 @@ void View_LookAt(View* view, Vec3f* eye, Vec3f* at, Vec3f* up) {
     view->eye = *eye;
     view->at = *at;
     view->up = *up;
-    view->dirtyFlags |= VIEW_VIEWING;
+    view->flags |= VIEW_VIEWING;
 }
 
 /*
  * Unused. View_LookAt is always used instead. This version is similar but
- * is missing the input sanitization and the update to the dirtyFlags.
+ * is missing the input sanitization and the update to the flags.
  */
 void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* at, Vec3f* up) {
     view->eye = *eye;
@@ -87,7 +87,7 @@ void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* at, Vec3f* up) {
 }
 
 void View_SetScale(View* view, f32 scale) {
-    view->dirtyFlags |= VIEW_PROJECTION_PERSPECTIVE;
+    view->flags |= VIEW_PROJECTION_PERSPECTIVE;
     view->scale = scale;
 }
 
@@ -99,7 +99,7 @@ void View_SetPerspective(View* view, f32 fovy, f32 zNear, f32 zFar) {
     view->fovy = fovy;
     view->zNear = zNear;
     view->zFar = zFar;
-    view->dirtyFlags |= VIEW_PROJECTION_PERSPECTIVE;
+    view->flags |= VIEW_PROJECTION_PERSPECTIVE;
 }
 
 void View_GetPerspective(View* view, f32* fovy, f32* zNear, f32* zFar) {
@@ -112,7 +112,7 @@ void View_SetOrtho(View* view, f32 fovy, f32 zNear, f32 zFar) {
     view->fovy = fovy;
     view->zNear = zNear;
     view->zFar = zFar;
-    view->dirtyFlags |= VIEW_PROJECTION_ORTHO;
+    view->flags |= VIEW_PROJECTION_ORTHO;
     view->scale = 1.0f;
 }
 
@@ -128,7 +128,7 @@ void View_GetOrtho(View* view, f32* fovy, f32* zNear, f32* zFar) {
 
 void View_SetViewport(View* view, Viewport* viewport) {
     view->viewport = *viewport;
-    view->dirtyFlags |= VIEW_VIEWPORT;
+    view->flags |= VIEW_VIEWPORT;
 }
 
 void View_GetViewport(View* view, Viewport* viewport) {
@@ -270,7 +270,7 @@ s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
  * Apply view to POLY_OPA_DISP, POLY_XLU_DISP, OVERLAY_DISP
  */
 void View_Apply(View* view, s32 mask) {
-    mask = (view->dirtyFlags & mask) | (mask >> 4);
+    mask = (view->flags & mask) | (mask >> 4);
 
     if (mask & VIEW_PROJECTION_ORTHO) {
         View_ApplyOrtho(view);
@@ -547,7 +547,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
     Mtx* projection;
     Mtx* viewing;
 
-    mask = (view->dirtyFlags & mask) | (mask >> 4);
+    mask = (view->flags & mask) | (mask >> 4);
 
     if (mask & VIEW_VIEWPORT) {
         vp = Graph_Alloc(gfxCtx, sizeof(Vp));
@@ -604,7 +604,7 @@ s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
         gSPMatrix(gfx++, viewing, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
     }
 
-    view->dirtyFlags = 0;
+    view->flags = 0;
     *gfxp = gfx;
 
     return 1;

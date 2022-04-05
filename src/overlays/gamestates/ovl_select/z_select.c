@@ -733,7 +733,7 @@ void Select_Init(GameState* thisx) {
     this->opt = 0;
     this->count = ARRAY_COUNT(sScenes);
     View_Init(&this->view, this->state.gfxCtx);
-    this->view.dirtyFlags = (VIEW_PROJECTION_ORTHO | VIEW_VIEWPORT);
+    this->view.flags = (VIEW_PROJECTION_ORTHO | VIEW_VIEWPORT);
     this->verticalInputAccumulator = 0;
     this->verticalInput = 0;
     this->timerUp = 0;

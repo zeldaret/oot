@@ -1118,7 +1118,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 View view;
 
                 View_Init(&view, gfxCtx);
-                view.dirtyFlags = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHO;
+                view.flags = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHO;
 
                 SET_FULLSCREEN_VIEWPORT(&view);
 
