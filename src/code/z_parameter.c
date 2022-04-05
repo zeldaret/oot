@@ -2345,7 +2345,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         { 255, 255, 150 },
         { 255, 255, 50 },
     };
-    static s16 sMagicBorderIndexes[] = { 0, 1, 1, 0 };
+    static s16 sMagicBorderIndices[] = { 0, 1, 1, 0 };
     static s16 sMagicBorderRatio = 2;
     static s16 sMagicBorderStep = 1;
     MessageContext* msgCtx = &globalCtx->msgCtx;
@@ -2410,7 +2410,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         case 3:
         case 4:
         case 6:
-            temp = sMagicBorderIndexes[sMagicBorderStep];
+            temp = sMagicBorderIndices[sMagicBorderStep];
             borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
             borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
             borderChangeB = ABS(sMagicBorderB - sMagicBorderColors[temp][2]) / sMagicBorderRatio;
@@ -2475,7 +2475,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                 }
             }
 
-            temp = sMagicBorderIndexes[sMagicBorderStep];
+            temp = sMagicBorderIndices[sMagicBorderStep];
             borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
             borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
             borderChangeB = ABS(sMagicBorderB - sMagicBorderColors[temp][2]) / sMagicBorderRatio;
