@@ -135,7 +135,7 @@ void View_GetViewport(View* view, Viewport* viewport) {
     *viewport = view->viewport;
 }
 
-void View_ApplyScissor(View* view) {
+void View_ApplyShrinkWindow(View* view) {
     s32 varY;
     s32 varX;
     s32 pad;
@@ -296,7 +296,7 @@ s32 View_ApplyPerspective(View* view) {
     View_ViewportToVp(vp, &view->viewport);
     view->vp = *vp;
 
-    View_ApplyScissor(view);
+    View_ApplyShrinkWindow(view);
 
     gSPViewport(POLY_OPA_DISP++, vp);
     gSPViewport(POLY_XLU_DISP++, vp);
@@ -398,7 +398,7 @@ s32 View_ApplyOrtho(View* view) {
     View_ViewportToVp(vp, &view->viewport);
     view->vp = *vp;
 
-    View_ApplyScissor(view);
+    View_ApplyShrinkWindow(view);
 
     gSPViewport(POLY_OPA_DISP++, vp);
     gSPViewport(POLY_XLU_DISP++, vp);
