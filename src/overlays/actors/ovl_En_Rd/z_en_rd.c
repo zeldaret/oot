@@ -25,7 +25,7 @@ void EnRd_SetupStandUp(EnRd* this);
 void EnRd_StandUp(EnRd* this, GlobalContext* globalCtx);
 void EnRd_SetupCrouch(EnRd* this);
 void EnRd_Crouch(EnRd* this, GlobalContext* globalCtx);
-void EnRd_Damage(EnRd* this, GlobalContext* globalCtx);
+void EnRd_Damaged(EnRd* this, GlobalContext* globalCtx);
 void EnRd_Dead(EnRd* this, GlobalContext* globalCtx);
 void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx);
 
@@ -37,9 +37,9 @@ typedef enum {
     /*  4 */ EN_RD_ACTION_WALKING_TO_PLAYER_OR_RELEASING_GRAB,
     /*  5 */ EN_RD_ACTION_STANDING_UP,
     /*  6 */ EN_RD_ACTION_CROUCHING,
-    /*  7 */ EN_RD_ACTION_ATTEMPTING_PLAYER_STUN,
+    /*  7 */ EN_RD_ACTION_ATTEMPT_PLAYER_FREEZE,
     /*  8 */ EN_RD_ACTION_GRABBING,
-    /*  9 */ EN_RD_ACTION_DAMAGE,
+    /*  9 */ EN_RD_ACTION_DAMAGED,
     /* 10 */ EN_RD_ACTION_DEAD,
     /* 11 */ EN_RD_ACTION_RISING_FROM_COFFIN
 } EnRdAction;
@@ -165,7 +165,7 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 8;
     this->alpha = this->unk_31D = 255;
-    this->flags = EN_RD_GET_FLAGS(thisx);
+    this->rdFlags = EN_RD_GET_FLAGS(thisx);
 
     if (this->actor.params & 0x80) {
         this->actor.params |= 0xFF00;
@@ -372,7 +372,7 @@ void EnRd_WalkToPlayer(EnRd* this, GlobalContext* globalCtx) {
                                      PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
             !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->playerStunWaitTimer == 0) {
-                if (!(this->flags & 0x80)) {
+                if (!(this->rdFlags & 0x80)) {
                     player->actor.freezeTimer = 40;
                     func_8008EEAC(globalCtx, &this->actor);
                     GET_PLAYER(globalCtx)->unk_684 = &this->actor;
@@ -604,7 +604,7 @@ void EnRd_Grab(EnRd* this, GlobalContext* globalCtx) {
 void EnRd_SetupAttemptPlayerFreeze(EnRd* this) {
     Animation_Change(&this->skelAnime, &gGibdoRedeadLookBackAnim, 0.0f, 0.0f,
                      Animation_GetLastFrame(&gGibdoRedeadLookBackAnim), ANIMMODE_ONCE, 0.0f);
-    this->action = EN_RD_ACTION_ATTEMPTING_PLAYER_STUN;
+    this->action = EN_RD_ACTION_ATTEMPT_PLAYER_FREEZE;
     EnRd_SetupAction(this, EnRd_AttemptPlayerFreeze);
 }
 
@@ -616,7 +616,7 @@ void EnRd_AttemptPlayerFreeze(EnRd* this, GlobalContext* globalCtx) {
     s16 yaw = this->actor.yawTowardsPlayer - this->actor.shape.rot.y - this->headYRotation - this->upperBodyYRotation;
 
     if (ABS(yaw) < 0x2008) {
-        if (!(this->flags & 0x80)) {
+        if (!(this->rdFlags & 0x80)) {
             player->actor.freezeTimer = 60;
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
             func_8008EEAC(globalCtx, &this->actor);
@@ -656,7 +656,7 @@ void EnRd_Crouch(EnRd* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnRd_SetupDamage(EnRd* this) {
+void EnRd_SetupDamaged(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gGibdoRedeadDamageAnim, -6.0f);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
@@ -665,11 +665,11 @@ void EnRd_SetupDamage(EnRd* this) {
 
     this->actor.flags |= ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_DAMAGE);
-    this->action = EN_RD_ACTION_DAMAGE;
-    EnRd_SetupAction(this, EnRd_Damage);
+    this->action = EN_RD_ACTION_DAMAGED;
+    EnRd_SetupAction(this, EnRd_Damaged);
 }
 
-void EnRd_Damage(EnRd* this, GlobalContext* globalCtx) {
+void EnRd_Damaged(EnRd* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->actor.speedXZ < 0.0f) {
@@ -714,8 +714,8 @@ void EnRd_Dead(EnRd* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer.death == 0) {
-            if (!Flags_GetSwitch(globalCtx, this->flags & 0x7F)) {
-                Flags_SetSwitch(globalCtx, this->flags & 0x7F);
+            if (!Flags_GetSwitch(globalCtx, this->rdFlags & 0x7F)) {
+                Flags_SetSwitch(globalCtx, this->rdFlags & 0x7F);
             }
 
             if (this->alpha != 0) {
@@ -756,7 +756,7 @@ void EnRd_SetupStunned(EnRd* this) {
 }
 
 void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx) {
-    if ((this->stunnedBySunsSong) && (this->sunsSongStunTimer != 0)) {
+    if (this->stunnedBySunsSong && (this->sunsSongStunTimer != 0)) {
         this->sunsSongStunTimer--;
         if (this->sunsSongStunTimer >= 255) {
             Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0xFF);
@@ -774,7 +774,7 @@ void EnRd_Stunned(EnRd* this, GlobalContext* globalCtx) {
             EnRd_SetupDead(this);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x90);
         } else {
-            EnRd_SetupDamage(this);
+            EnRd_SetupDamaged(this);
         }
     }
 }
@@ -804,7 +804,7 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if ((gSaveContext.sunsSongState != SUNSSONG_INACTIVE) && (this->actor.shape.rot.x == 0) &&
-        (!this->stunnedBySunsSong) && (this->action != EN_RD_ACTION_DAMAGE) && (this->action != EN_RD_ACTION_DEAD) &&
+        !this->stunnedBySunsSong && (this->action != EN_RD_ACTION_DAMAGED) && (this->action != EN_RD_ACTION_DEAD) &&
         (this->action != EN_RD_ACTION_STUNNED)) {
         EnRd_SetupStunned(this);
         return;
@@ -845,7 +845,7 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
                     EnRd_SetupDead(this);
                     Item_DropCollectibleRandom(globalCtx, 0, &this->actor.world.pos, 0x90);
                 } else {
-                    EnRd_SetupDamage(this);
+                    EnRd_SetupDamaged(this);
                 }
             }
         }
@@ -882,7 +882,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
                                         UPDBGCHECKINFO_FLAG_4);
         }
 
-        if (this->action == EN_RD_ACTION_ATTEMPTING_PLAYER_STUN) {
+        if (this->action == EN_RD_ACTION_ATTEMPT_PLAYER_FREEZE) {
             EnRd_TurnTowardsPlayer(this, globalCtx);
         }
     }
@@ -893,7 +893,7 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.colChkInfo.health > 0) && (this->action != EN_RD_ACTION_GRABBING)) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-        if ((this->action != EN_RD_ACTION_DAMAGE) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
+        if ((this->action != EN_RD_ACTION_DAMAGED) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }

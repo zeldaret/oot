@@ -68,7 +68,7 @@ typedef struct EnRd {
                 } timer;
     /* 0x030E */ s16 headYRotation;
     /* 0x0310 */ s16 upperBodyYRotation;
-    /* 0x0312 */ s16 flags;
+    /* 0x0312 */ s16 rdFlags;
     /* 0x0314 */ s16 alpha;
     /* 0x0316 */ s16 sunsSongStunTimer;
     /* 0x0318 */ u8 stunnedBySunsSong;
