@@ -215,7 +215,7 @@ void EnRd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  *   in the area that are capable of mourning. This is used right when thisx first
  *   dies to make the other Redeads mourn it.
  * - If shouldMourn is false, this function nulls out the parent for all Redeads in the
- *   are whose parents is thisx. This is used when thisx is fading away to make the
+ *   area whose parents are thisx. This is used when thisx is fading away to make the
  *   other Redeads stop mourning over it.
  */
 void EnRd_UpdateMourningTarget(GlobalContext* globalCtx, Actor* thisx, s32 shouldMourn) {
