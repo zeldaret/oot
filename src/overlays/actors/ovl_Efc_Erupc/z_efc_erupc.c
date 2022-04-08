@@ -9,10 +9,10 @@ void EfcErupc_Update(Actor* thisx, GlobalContext* globalCtx);
 void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EfcErupc_UpdateAction(EfcErupc* this, GlobalContext* globalCtx);
-void EfcErupc_DrawEffects(EfcErupcEffect* effects, GlobalContext* globalCtx);
+void EfcErupc_DrawEffects(EfcErupcEffect* effect, GlobalContext* globalCtx);
 void EfcErupc_UpdateEffects(EfcErupc* this, GlobalContext* globalCtx);
-void EfcErupc_SpawnEffect(EfcErupcEffect* effects, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
-void EfcErupc_InitEffects(EfcErupcEffect* effects);
+void EfcErupc_SpawnEffect(EfcErupcEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor);
+void EfcErupc_InitEffects(EfcErupcEffect* effect);
 
 const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
@@ -159,23 +159,23 @@ void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EfcErupc_DrawEffects(this->effects, globalCtx);
 }
 
-void EfcErupc_DrawEffects(EfcErupcEffect* effects, GlobalContext* globalCtx) {
+void EfcErupc_DrawEffects(EfcErupcEffect* effect, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
-    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effects++) {
-        if (effects->isActive) {
+    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effect++) {
+        if (effect->isActive) {
             func_80093D84(globalCtx->state.gfxCtx);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002760);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effects->color.r, effects->color.g, effects->color.b,
-                            effects->alpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b,
+                            effect->alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 0, 0);
             gDPPipeSync(POLY_XLU_DISP++);
-            Matrix_Translate(effects->pos.x, effects->pos.y, effects->pos.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-            Matrix_Scale(effects->scale, effects->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_efc_erupc.c", 393),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_0027D8);
@@ -226,27 +226,27 @@ void EfcErupc_UpdateEffects(EfcErupc* this, GlobalContext* globalCtx) {
     }
 }
 
-void EfcErupc_SpawnEffect(EfcErupcEffect* effects, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor) {
+void EfcErupc_SpawnEffect(EfcErupcEffect* effect, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor) {
     s16 i;
 
-    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effects++) {
-        if (!effects->isActive) {
-            effects->isActive = true;
-            effects->pos = *pos;
-            effects->vel = *vel;
-            effects->accel = *accel;
-            effects->scale = scaleFactor / 1000.0f;
-            effects->alpha = 255;
-            effects->animTimer = (s16)Rand_ZeroFloat(10.0f);
+    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effect++) {
+        if (!effect->isActive) {
+            effect->isActive = true;
+            effect->pos = *pos;
+            effect->vel = *vel;
+            effect->accel = *accel;
+            effect->scale = scaleFactor / 1000.0f;
+            effect->alpha = 255;
+            effect->animTimer = (s16)Rand_ZeroFloat(10.0f);
             return;
         }
     }
 }
 
-void EfcErupc_InitEffects(EfcErupcEffect* effects) {
+void EfcErupc_InitEffects(EfcErupcEffect* effect) {
     s16 i;
 
-    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effects++) {
-        effects->isActive = false;
+    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effect++) {
+        effect->isActive = false;
     }
 }
