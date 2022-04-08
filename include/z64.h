@@ -171,7 +171,7 @@ typedef struct {
     /* 0x0020 */ f32    zFar;  // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ Vec3f  lookAt;
+    /* 0x0034 */ Vec3f  at;
     /* 0x0040 */ Vec3f  up;
     /* 0x0050 */ Vp     vp;
     /* 0x0060 */ Mtx    projection;
@@ -187,6 +187,17 @@ typedef struct {
     /* 0x0120 */ s32    flags;
     /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
+
+#define VIEW_VIEWING (1 << 0)
+#define VIEW_VIEWPORT (1 << 1)
+#define VIEW_PROJECTION_PERSPECTIVE (1 << 2)
+#define VIEW_PROJECTION_ORTHO (1 << 3)
+#define VIEW_ALL (VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE | VIEW_PROJECTION_ORTHO)
+
+#define VIEW_FORCE_VIEWING (VIEW_VIEWING << 4)
+#define VIEW_FORCE_VIEWPORT (VIEW_VIEWPORT << 4)
+#define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
+#define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
 
 typedef struct {
     /* 0x00 */ u8   seqId;
