@@ -8,7 +8,7 @@ struct EnEncount2;
 
 typedef void (*EnEncount2ActionFunc)(struct EnEncount2*, GlobalContext*);
 
-#define EN_ENCOUNT2_EFFECTS_COUNT 50
+#define EN_ENCOUNT2_EFFECT_COUNT 50
 
 typedef struct {
     /* 0x0000 */ Vec3f pos;
@@ -37,7 +37,7 @@ typedef struct EnEncount2 {
     /* 0x0178 */ s16 envEffectsTimer;
     /* 0x017C */ f32 unk_17C;
     /* 0x0180 */ u64 isQuaking;
-    /* 0x0188 */ EnEncount2Effect effects[EN_ENCOUNT2_EFFECTS_COUNT];
+    /* 0x0188 */ EnEncount2Effect effects[EN_ENCOUNT2_EFFECT_COUNT];
 } EnEncount2; // size = 0x0A20
 
 #endif

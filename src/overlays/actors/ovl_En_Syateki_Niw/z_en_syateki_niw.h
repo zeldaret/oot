@@ -20,7 +20,7 @@ typedef struct {
     /* 0x34 */ u8    unk_34;
 } EnSyatekiNiwEffect; // size = 0x38
 
-#define EN_SYATEKI_NIW_EFFECTS_COUNT 5
+#define EN_SYATEKI_NIW_EFFECT_COUNT 5
 
 typedef struct EnSyatekiNiw {
     /* 0x0000 */ Actor actor;
@@ -67,7 +67,7 @@ typedef struct EnSyatekiNiw {
     /* 0x02F4 */ f32 unk_2F4;
     /* 0x02F8 */ u8 unk_2F8;
     /* 0x02FC */ ColliderCylinder collider;
-    /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECTS_COUNT];
+    /* 0x0348 */ EnSyatekiNiwEffect effects[EN_SYATEKI_NIW_EFFECT_COUNT];
 } EnSyatekiNiw; // size = 0x0460
 
 #endif

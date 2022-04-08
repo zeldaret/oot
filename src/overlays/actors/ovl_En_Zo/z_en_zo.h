@@ -6,7 +6,7 @@
 
 struct EnZo;
 
-#define EN_ZO_EFFECTS_COUNT 15
+#define EN_ZO_EFFECT_COUNT 15
 
 typedef struct {
     /* 0x00 */ u8 type;
@@ -30,7 +30,7 @@ typedef struct EnZo {
     /* 0x0208 */ u8 canSpeak;
     /* 0x020A */ Vec3s jointTable[20];
     /* 0x0282 */ Vec3s morphTable[20];
-    /* 0x02FC */ EnZoEffect effects[EN_ZO_EFFECTS_COUNT];
+    /* 0x02FC */ EnZoEffect effects[EN_ZO_EFFECT_COUNT];
     /* 0x0644 */ f32 dialogRadius;
     /* 0x0648 */ f32 alpha;
     /* 0x064C */ s16 unk_64C;

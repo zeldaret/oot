@@ -1433,7 +1433,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     s16 i1;
     s16 i2;
 
-    for (i1 = 0; i1 < BOSSFD_EFFECTS_COUNT; i1++, effect++) {
+    for (i1 = 0; i1 < BOSSFD_EFFECT_COUNT; i1++, effect++) {
         if (effect->type != BFD_FX_NONE) {
             effect->timer1++;
 
@@ -1519,7 +1519,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 4023);
 
-    for (i = 0; i < BOSSFD_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_EMBER) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
@@ -1540,7 +1540,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
     effect = firstEffect;
     materialFlag = 0;
-    for (i = 0; i < BOSSFD_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DEBRIS) {
             if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
@@ -1561,7 +1561,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
     effect = firstEffect;
     materialFlag = 0;
-    for (i = 0; i < BOSSFD_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DUST) {
             if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
@@ -1584,7 +1584,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
     effect = firstEffect;
     materialFlag = 0;
-    for (i = 0; i < BOSSFD_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_FIRE_BREATH) {
             if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
@@ -1607,7 +1607,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
     effect = firstEffect;
     materialFlag = 0;
-    for (i = 0; i < BOSSFD_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_SKULL_PIECE) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);

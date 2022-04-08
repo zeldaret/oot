@@ -23,7 +23,7 @@
 #define PHASE_4 15
 #define PHASE_DEATH 18
 
-#define BOSS_VA_EFFECTS_COUNT 400
+#define BOSS_VA_EFFECT_COUNT 400
 
 typedef struct BossVaEffect {
     /* 0x00 */ Vec3f pos;
@@ -378,7 +378,7 @@ static u8 sKillBari = 0;
 static u8 sBodyBari[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 static s16 sCsCamera = 0;
 
-static BossVaEffect sEffects[BOSS_VA_EFFECTS_COUNT];
+static BossVaEffect sEffects[BOSS_VA_EFFECT_COUNT];
 static u8 sBodyState;
 static u8 sFightPhase;
 static s8 sCsState;
@@ -689,7 +689,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                         sInitRot[i].y + this->actor.world.rot.y, sInitRot[i].z + this->actor.world.rot.z, i);
                 }
 
-                Lib_MemSet((u8*)sEffects, BOSS_VA_EFFECTS_COUNT * sizeof(BossVaEffect), 0);
+                Lib_MemSet((u8*)sEffects, BOSS_VA_EFFECT_COUNT * sizeof(BossVaEffect), 0);
                 if (sCsState < BOSSVA_BATTLE) {
                     BossVa_SetupIntro(this);
                 } else {
@@ -3311,7 +3311,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
     f32 pad78;
     f32 pad74;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type != VA_NONE) {
             effect->timer--;
 
@@ -3515,7 +3515,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_boss_va.c", 4953);
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_LARGE_SPARK) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
@@ -3536,7 +3536,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_SPARK_BALL) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
@@ -3562,7 +3562,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_BLOOD) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
@@ -3592,7 +3592,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_TUMOR) {
             BossVa* parent = effect->parent;
 
@@ -3616,7 +3616,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_GORE) {
             if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
@@ -3647,7 +3647,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_ZAP_CHARGE) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
@@ -3670,7 +3670,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_BLAST_SPARK) {
             if (materialFlag == 0) {
                 func_80093C14(globalCtx->state.gfxCtx);
@@ -3692,7 +3692,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_SMALL_SPARK) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
@@ -3724,7 +3724,7 @@ void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
     Vec3f tempVec;
     s16 i;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
             effect->type = VA_LARGE_SPARK;
             effect->parent = this;
@@ -3781,7 +3781,7 @@ void BossVa_SpawnSparkBall(GlobalContext* globalCtx, BossVaEffect* effect, BossV
     Vec3f pos = { 0.0f, -1000.0f, 0.0f };
     s16 i;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
             effect->type = VA_SPARK_BALL;
             effect->parent = this;
@@ -3814,7 +3814,7 @@ void BossVa_SpawnBloodDroplets(GlobalContext* globalCtx, BossVaEffect* effect, V
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     f32 xzVel;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
             effect->type = VA_BLOOD;
             effect->pos = *pos;
@@ -3844,7 +3844,7 @@ void BossVa_SpawnBloodSplatter(GlobalContext* globalCtx, BossVaEffect* effect, V
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f velocity;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
             effect->type = VA_BLOOD;
             effect->pos = *pos;
@@ -3878,7 +3878,7 @@ void BossVa_SpawnTumor(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
     Vec3f pos = { 0.0f, -1000.0f, 0.0f };
     s16 i;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
             effect->type = VA_TUMOR;
             effect->parent = this;
@@ -3912,7 +3912,7 @@ void BossVa_SpawnGore(GlobalContext* globalCtx, BossVaEffect* effect, Vec3f* pos
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f velocity;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
             effect->type = VA_GORE;
             effect->pos = *pos;
@@ -3954,7 +3954,7 @@ void BossVa_SpawnZapperCharge(GlobalContext* globalCtx, BossVaEffect* effect, Bo
     Vec3f unused = { 0.0f, -1000.0f, 0.0f };
     s16 i;
 
-    for (i = 0; i < BOSS_VA_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_NONE) {
             effect->type = VA_ZAP_CHARGE;
             effect->parent = this;

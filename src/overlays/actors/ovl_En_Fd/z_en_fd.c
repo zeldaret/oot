@@ -797,7 +797,7 @@ void EnFd_SpawnEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* a
     EnFdEffect* eff = this->effects;
     s16 i;
 
-    for (i = 0; i < EN_FD_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
         if (eff->type != FD_EFFECT_NONE) {
             continue;
         }
@@ -820,7 +820,7 @@ void EnFd_UpdateEffectsFlames(EnFd* this) {
     s16 i;
     EnFdEffect* eff = this->effects;
 
-    for (i = 0; i < EN_FD_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
         if (eff->type == FD_EFFECT_FLAME) {
             eff->timer--;
             if (eff->timer == 0) {
@@ -849,7 +849,7 @@ void EnFd_UpdateEffectsDots(EnFd* this) {
         { 255, 0, 0, 0 },
     };
 
-    for (i = 0; i < EN_FD_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
         if (eff->type == FD_EFFECT_DOT) {
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;
@@ -885,7 +885,7 @@ void EnFd_DrawEffectsFlames(EnFd* this, GlobalContext* globalCtx) {
     materialFlag = false;
     if (1) {}
     func_80093D84(globalCtx->state.gfxCtx);
-    for (i = 0; i < EN_FD_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
         if (eff->type == FD_EFFECT_FLAME) {
             if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
@@ -918,7 +918,7 @@ void EnFd_DrawEffectsDots(EnFd* this, GlobalContext* globalCtx) {
     materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < EN_FD_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
         if (eff->type == FD_EFFECT_DOT) {
             if (!materialFlag) {
                 func_80093D84(globalCtx->state.gfxCtx);

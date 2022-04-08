@@ -8,7 +8,7 @@ struct EfcErupc;
 
 typedef void (*EfcErupcActionFunc)(struct EfcErupc*, GlobalContext*);
 
-#define EFC_ERUPC_EFFECTS_COUNT 100
+#define EFC_ERUPC_EFFECT_COUNT 100
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -30,7 +30,7 @@ typedef struct EfcErupc {
     /* 0x0150 */ s16 unk_150;
     /* 0x0152 */ s16 unk_152;
     /* 0x0154 */ s16 unk_154;
-    /* 0x0158 */ EfcErupcEffect effects[EFC_ERUPC_EFFECTS_COUNT];
+    /* 0x0158 */ EfcErupcEffect effects[EFC_ERUPC_EFFECT_COUNT];
     /* 0x18C8 */ EfcErupcActionFunc actionFunc;
 } EfcErupc; // size = 0x18CC
 

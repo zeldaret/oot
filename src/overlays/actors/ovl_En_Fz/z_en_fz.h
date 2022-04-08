@@ -23,7 +23,7 @@ typedef struct {
     /* 0x0038 */ u8 isTimerMod8; // conditional, used to run CollisionCheck_SetAT
 } EnFzEffect; // size = 0x3C
 
-#define EN_FZ_EFFECTS_COUNT 40
+#define EN_FZ_EFFECT_COUNT 40
 
 typedef struct EnFz {
     /* 0x0000 */ Actor actor;
@@ -51,7 +51,7 @@ typedef struct EnFz {
     /* 0x0263 */ u8 unusedTimer2; // Timer
     /* 0x0264 */ Vec3f wallHitPos; // Position contact was made with a wall
     /* 0x0270 */ f32 distToTargetSq;
-    /* 0x0274 */ EnFzEffect effects[EN_FZ_EFFECTS_COUNT];
+    /* 0x0274 */ EnFzEffect effects[EN_FZ_EFFECT_COUNT];
 } EnFz; // size = 0x0BD4
 
 #endif

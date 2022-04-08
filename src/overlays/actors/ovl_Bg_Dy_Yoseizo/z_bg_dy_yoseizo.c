@@ -918,7 +918,7 @@ void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVeloc
 
     effect = this->effects;
 
-    for (i = 0; i < BG_DY_YOSEIZO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
         if (effect->alive == 0) {
             effect->alive = 1;
             effect->pos = *initPos;
@@ -947,7 +947,7 @@ void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 goalYaw;
     s16 i = 0;
 
-    for (i = 0; i < BG_DY_YOSEIZO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
         if (effect->alive != 0) {
             effect->roll += 3000.0f;
 
@@ -1011,7 +1011,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < BG_DY_YOSEIZO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
         if (effect->alive == 1) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));

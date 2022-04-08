@@ -714,7 +714,7 @@ void EnSyatekiNiw_SpawnFeather(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec
     s16 i;
     EnSyatekiNiwEffect* effect = &this->effects[0];
 
-    for (i = 0; i < EN_SYATEKI_NIW_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < EN_SYATEKI_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->unk_00 == 0) {
             effect->unk_00 = 1;
             effect->unk_04 = *arg1;
@@ -733,7 +733,7 @@ void EnSyatekiNiw_UpdateEffects(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 i;
     EnSyatekiNiwEffect* effect = &this->effects[0];
 
-    for (i = 0; i < EN_SYATEKI_NIW_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < EN_SYATEKI_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->unk_00 != 0) {
             effect->unk_04.x += effect->unk_10.x;
             effect->unk_04.y += effect->unk_10.y;
@@ -769,7 +769,7 @@ void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < EN_SYATEKI_NIW_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < EN_SYATEKI_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->unk_00 == 1) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherMaterialDL);

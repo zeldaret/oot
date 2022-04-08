@@ -412,7 +412,7 @@ void EnFw_SpawnEffectDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Ve
     EnFwEffect* eff = this->effects;
     s16 i;
 
-    for (i = 0; i < EN_FW_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
         if (eff->type != 1) {
             eff->scale = scale;
             eff->scaleStep = scaleStep;
@@ -430,7 +430,7 @@ void EnFw_UpdateEffects(EnFw* this) {
     EnFwEffect* eff = this->effects;
     s16 i;
 
-    for (i = 0; i < EN_FW_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
         if (eff->type != 0) {
             if ((--eff->timer) == 0) {
                 eff->type = 0;
@@ -464,7 +464,7 @@ void EnFw_DrawEffects(EnFw* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
 
-    for (i = 0; i < EN_FW_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
         if (eff->type != 0) {
             if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0U);

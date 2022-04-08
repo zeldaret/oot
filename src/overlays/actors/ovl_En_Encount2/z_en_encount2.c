@@ -291,7 +291,7 @@ void EnEncount2_SpawnEffect(EnEncount2* this, Vec3f* position, f32 scale) {
     EnEncount2Effect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < EN_ENCOUNT2_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; i++, effect++) {
         if (!effect->isAlive) {
             effect->pos = *position;
             effect->scale = scale;
@@ -313,7 +313,7 @@ void EnEncount2_UpdateEffects(EnEncount2* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     Vec3f targetPos;
 
-    for (i = 0; i < EN_ENCOUNT2_EFFECTS_COUNT; effect++, i++) {
+    for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; effect++, i++) {
         if (effect->isAlive) {
             effect->rot.x += Rand_ZeroOne() * 500.0f;
             effect->rot.y += Rand_ZeroOne() * 500.0f;
@@ -352,7 +352,7 @@ void EnEncount2_DrawEffects(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
 
-        for (i = 0; i < EN_ENCOUNT2_EFFECTS_COUNT; effect++, i++) {
+        for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; effect++, i++) {
             if (effect->isAlive) {
                 Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_RotateX(DEG_TO_RAD(effect->rot.x), MTXMODE_APPLY);

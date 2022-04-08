@@ -40,7 +40,7 @@ typedef enum {
     /* 0x08 */ FS_EFF_RAIN_SPLASH
 } FishingEffectType;
 
-#define FISHING_EFFECTS_COUNT 130
+#define FISHING_EFFECT_COUNT 130
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -409,7 +409,7 @@ static FishingGroupFish sGroupFishes[GROUP_FISH_COUNT];
 static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
-static FishingEffect sEffects[FISHING_EFFECTS_COUNT];
+static FishingEffect sEffects[FISHING_EFFECT_COUNT];
 static Vec3f sStreamSoundProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
@@ -579,7 +579,7 @@ void Fishing_SpawnRainDrop(FishingEffect* effect, Vec3f* pos, Vec3f* rot) {
 
     effect += 30;
 
-    for (i = 30; i < FISHING_EFFECTS_COUNT; i++) {
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_NONE) {
             effect->type = FS_EFF_RAIN_DROP;
             effect->pos = *pos;
@@ -903,7 +903,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
             D_80B7E077 = 0;
         }
 
-        for (i = 0; i < FISHING_EFFECTS_COUNT; i++) {
+        for (i = 0; i < FISHING_EFFECT_COUNT; i++) {
             sEffects[i].type = FS_EFF_NONE;
         }
 
@@ -1024,7 +1024,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     f32 rippleY;
     s16 i;
 
-    for (i = 0; i < FISHING_EFFECTS_COUNT; i++) {
+    for (i = 0; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type) {
             effect->timer++;
             effect->pos.x += effect->vel.x;
@@ -1277,7 +1277,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
 
     effect = firstEffect + 30;
     materialFlag = 0;
-    for (i = 30; i < FISHING_EFFECTS_COUNT; i++) {
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_DROP) {
             if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
@@ -1304,7 +1304,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
 
     effect = firstEffect + 30;
     materialFlag = 0;
-    for (i = 30; i < FISHING_EFFECTS_COUNT; i++) {
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_RIPPLE) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
@@ -1326,7 +1326,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
 
     effect = firstEffect + 30;
     materialFlag = 0;
-    for (i = 30; i < FISHING_EFFECTS_COUNT; i++) {
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_SPLASH) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashMaterialDL);

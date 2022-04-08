@@ -18,7 +18,7 @@
     ((tent != NULL) && \
      ((tent->work[MO_TENT_ACTION_STATE] == MO_TENT_GRAB) || (tent->work[MO_TENT_ACTION_STATE] == MO_TENT_SHAKE)))
 
-#define BOSS_MO_EFFECTS_COUNT 300
+#define BOSS_MO_EFFECT_COUNT 300
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -142,7 +142,7 @@ static f32 sFlatWidth[41] = {
 
 #include "z_boss_mo_colchk.c"
 
-static BossMoEffect sEffects[BOSS_MO_EFFECTS_COUNT];
+static BossMoEffect sEffects[BOSS_MO_EFFECT_COUNT];
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
@@ -337,7 +337,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         MO_WATER_LEVEL(globalCtx) = this->waterLevel = MO_WATER_LEVEL(globalCtx);
         globalCtx->roomCtx.unk_74[0] = 0xA0;
         globalCtx->specialEffects = sEffects;
-        for (i = 0; i < BOSS_MO_EFFECTS_COUNT; i++) {
+        for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++) {
             sEffects[i].type = MO_FX_NONE;
         }
         this->actor.world.pos.x = 200.0f;
@@ -2753,7 +2753,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
     Vec3f bubbleSpeed = { 0.0f, 0.0f, 0.0f };
     Vec3f bubbleVel;
 
-    for (i = 0; i < BOSS_MO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type != MO_FX_NONE) {
             effect->timer++;
             if (effect->stopTimer == 0) {
@@ -2907,7 +2907,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_boss_mo.c", 7264);
     Matrix_Push();
 
-    for (i = 0; i < BOSS_MO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BIG_RIPPLE) {
             if (materialFlag == 0) {
                 func_80094BC4(gfxCtx);
@@ -2930,7 +2930,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
     effect = effectHead;
     materialFlag = 0;
-    for (i = 0; i < BOSS_MO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_SMALL_RIPPLE) {
             if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
@@ -2953,7 +2953,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
     effect = effectHead;
     materialFlag = 0;
-    for (i = 0; i < BOSS_MO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (((effect->type == MO_FX_DROPLET) || (effect->type == MO_FX_SPLASH)) ||
             (effect->type == MO_FX_SPLASH_TRAIL)) {
             if (materialFlag == 0) {
@@ -2982,7 +2982,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
     effect = effectHead;
     materialFlag = 0;
-    for (i = 0; i < BOSS_MO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_WET_SPOT) {
             if (materialFlag == 0) {
                 func_80094044(gfxCtx);
@@ -3008,7 +3008,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
 
     effect = effectHead;
     materialFlag = 0;
-    for (i = 0; i < BOSS_MO_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BUBBLE) {
             if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);

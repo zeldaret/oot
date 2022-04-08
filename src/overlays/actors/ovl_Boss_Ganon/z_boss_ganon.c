@@ -110,7 +110,7 @@ static BossGanon* sGanondorf;
 
 static EnZl3* sZelda;
 
-#define BOSSGANON_EFFECTS_COUNT 200
+#define BOSSGANON_EFFECT_COUNT 200
 
 typedef struct {
     /* 0x00 */ u8 type;
@@ -130,7 +130,7 @@ typedef struct {
     /* 0x48 */ f32 unk_48; // mostly y rot
 } GanondorfEffect;         // size = 0x4C
 
-GanondorfEffect sEffects[BOSSGANON_EFFECTS_COUNT];
+GanondorfEffect sEffects[BOSSGANON_EFFECT_COUNT];
 
 void BossGanonEff_SpawnWindowShard(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, f32 scale) {
     static Color_RGB8 shardColors[] = { { 255, 175, 85 }, { 155, 205, 155 }, { 155, 125, 55 } };
@@ -347,7 +347,7 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Flags_SetSwitch(globalCtx, 0x14);
         globalCtx->specialEffects = sEffects;
 
-        for (i = 0; i < BOSSGANON_EFFECTS_COUNT; i++) {
+        for (i = 0; i < BOSSGANON_EFFECT_COUNT; i++) {
             sEffects[i].type = GDF_EFF_NONE;
         }
 
@@ -4612,7 +4612,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
     spA0.x = 0.0f;
     spA0.y = 0.0f;
 
-    for (i = 0; i < BOSSGANON_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < BOSSGANON_EFFECT_COUNT; i++, eff++) {
         if (eff->type != GDF_EFF_NONE) {
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;

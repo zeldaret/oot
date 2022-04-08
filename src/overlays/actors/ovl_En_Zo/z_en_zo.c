@@ -34,7 +34,7 @@ void EnZo_SpawnRipple(EnZo* this, Vec3f* pos, f32 scale, f32 targetScale, u8 alp
     s16 i;
 
     effect = this->effects;
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_NONE) {
             effect->type = ENZO_EFFECT_RIPPLE;
             effect->pos = *pos;
@@ -55,7 +55,7 @@ void EnZo_SpawnBubble(EnZo* this, Vec3f* pos) {
     f32 waterSurface;
 
     effect = this->effects;
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (1) {}
         if (effect->type == ENZO_EFFECT_NONE) {
             waterSurface = this->actor.world.pos.y + this->actor.yDistToWater;
@@ -78,7 +78,7 @@ void EnZo_SpawnSplash(EnZo* this, Vec3f* pos, Vec3f* vel, f32 scale) {
     s16 i;
 
     effect = this->effects;
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (1) {}
         if (effect->type != ENZO_EFFECT_SPLASH) {
             effect->type = ENZO_EFFECT_SPLASH;
@@ -97,7 +97,7 @@ void EnZo_UpdateEffectsRipples(EnZo* this) {
     EnZoEffect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
             Math_ApproachF(&effect->scale, effect->targetScale, 0.2f, 0.8f);
             if (effect->color.a > 20) {
@@ -120,7 +120,7 @@ void EnZo_UpdateEffectsBubbles(EnZo* this) {
     s16 i;
 
     effect = this->effects;
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
             effect->pos.x = ((Rand_ZeroOne() * 0.5f) - 0.25f) + effect->vec.x;
             effect->pos.z = ((Rand_ZeroOne() * 0.5f) - 0.25f) + effect->vec.z;
@@ -144,7 +144,7 @@ void EnZo_UpdateEffectsSplashes(EnZo* this) {
     s16 i;
 
     effect = this->effects;
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
             effect->pos.x += effect->vel.x;
             effect->pos.y += effect->vel.y;
@@ -178,7 +178,7 @@ void EnZo_DrawEffectsRipples(EnZo* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 217);
     materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
             if (!materialFlag) {
                 if (1) {}
@@ -208,7 +208,7 @@ void EnZo_DrawEffectsBubbles(EnZo* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 260);
     materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
             if (!materialFlag) {
                 if (1) {}
@@ -242,7 +242,7 @@ void EnZo_DrawEffectsSplashes(EnZo* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 298);
     materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
-    for (i = 0; i < EN_ZO_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
             if (!materialFlag) {
                 if (1) {}

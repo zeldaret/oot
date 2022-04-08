@@ -748,7 +748,7 @@ void EnFz_SpawnIceSmokeNoFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* 
     EnFzEffect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < EN_FZ_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
         if (effect->type == 0) {
             effect->type = 1;
             effect->pos = *pos;
@@ -770,7 +770,7 @@ void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* ac
     EnFzEffect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < EN_FZ_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
         if (effect->type == 0) {
             effect->type = 2;
             effect->pos = *pos;
@@ -794,7 +794,7 @@ void EnFz_UpdateIceSmoke(EnFz* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f pos;
 
-    for (i = 0; i < EN_FZ_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
         if (effect->type) {
             effect->pos.x += effect->velocity.x;
             effect->pos.y += effect->velocity.y;
@@ -865,7 +865,7 @@ void EnFz_DrawEffects(EnFz* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < EN_FZ_EFFECTS_COUNT; i++) {
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
         if (effect->type > 0) {
             gDPPipeSync(POLY_XLU_DISP++);
 

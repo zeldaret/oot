@@ -1152,7 +1152,7 @@ void EnNiw_SpawnFeather(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 s
     s16 i;
     EnNiwEffect* effect = this->effects;
 
-    for (i = 0; i < EN_NIW_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 0) {
             effect->type = 1;
             effect->pos = *pos;
@@ -1171,7 +1171,7 @@ void EnNiw_UpdateEffects(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
     EnNiwEffect* effect = this->effects;
 
-    for (i = 0; i < EN_NIW_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->type != 0) {
             effect->timer++;
             effect->pos.x += effect->vel.x;
@@ -1209,7 +1209,7 @@ void EnNiw_DrawEffects(EnNiw* this, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < EN_NIW_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 1) {
             if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherMaterialDL);

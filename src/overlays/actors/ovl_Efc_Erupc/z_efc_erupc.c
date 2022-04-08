@@ -165,7 +165,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effects, GlobalContext* globalCtx) {
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
-    for (i = 0; i < EFC_ERUPC_EFFECTS_COUNT; i++, effects++) {
+    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effects++) {
         if (effects->isActive) {
             func_80093D84(globalCtx->state.gfxCtx);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002760);
@@ -203,7 +203,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, GlobalContext* globalCtx) {
     Color_RGB8* color;
     EfcErupcEffect* cur = this->effects;
 
-    for (i = 0; i < EFC_ERUPC_EFFECTS_COUNT; i++, cur++) {
+    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, cur++) {
         if (cur->isActive) {
             cur->pos.x += cur->vel.x;
             cur->pos.y += cur->vel.y;
@@ -229,7 +229,7 @@ void EfcErupc_UpdateEffects(EfcErupc* this, GlobalContext* globalCtx) {
 void EfcErupc_SpawnEffect(EfcErupcEffect* effects, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scaleFactor) {
     s16 i;
 
-    for (i = 0; i < EFC_ERUPC_EFFECTS_COUNT; i++, effects++) {
+    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effects++) {
         if (!effects->isActive) {
             effects->isActive = true;
             effects->pos = *pos;
@@ -246,7 +246,7 @@ void EfcErupc_SpawnEffect(EfcErupcEffect* effects, Vec3f* pos, Vec3f* vel, Vec3f
 void EfcErupc_InitEffects(EfcErupcEffect* effects) {
     s16 i;
 
-    for (i = 0; i < EFC_ERUPC_EFFECTS_COUNT; i++, effects++) {
+    for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effects++) {
         effects->isActive = false;
     }
 }

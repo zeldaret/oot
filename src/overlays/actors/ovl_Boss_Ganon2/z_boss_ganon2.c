@@ -110,7 +110,7 @@ void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f
     BossGanon2Effect* effect = globalCtx->specialEffects;
     s16 i;
 
-    for (i = 0; i < BOSS_GANON2_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 0) {
             effect->type = 2;
             effect->position = *position;
@@ -134,7 +134,7 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     globalCtx->specialEffects = sEffects;
 
-    for (i = 0; i < BOSS_GANON2_EFFECTS_COUNT; i++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++) {
         sEffects[i].type = 0;
     }
 
@@ -2822,7 +2822,7 @@ void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx) {
     Vec3f sp78;
     s16 i;
 
-    for (i = 0; i < BOSS_GANON2_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type != 0) {
             effect->position.x += effect->velocity.x;
             effect->position.y += effect->velocity.y;
@@ -2930,7 +2930,7 @@ void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
 
     effect = effects;
 
-    for (i = 0; i < BOSS_GANON2_EFFECTS_COUNT; i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 2) {
             if (objectFlag == 0) {
                 BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);

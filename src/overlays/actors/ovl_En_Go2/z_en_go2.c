@@ -174,7 +174,7 @@ void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* acce
     s16 i;
     s16 timer;
 
-    for (i = 0; i < EN_GO2_EFFECTS_COUNT; i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
@@ -196,7 +196,7 @@ void EnGo2_UpdateEffects(EnGo2* this) {
     f32 randomNumber;
     s16 i;
 
-    for (i = 0; i < EN_GO2_EFFECTS_COUNT; i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             dustEffect->timer--;
             if (dustEffect->timer == 0) {
@@ -229,7 +229,7 @@ void EnGo2_DrawEffects(EnGo2* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
 
-    for (i = 0; i < EN_GO2_EFFECTS_COUNT; i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);

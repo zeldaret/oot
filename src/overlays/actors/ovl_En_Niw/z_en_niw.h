@@ -20,7 +20,7 @@ typedef struct {
     /* 0x0034 */ u8 timer;
 } EnNiwEffect; // size = 0x0038
 
-#define EN_NIW_EFFECTS_COUNT 20
+#define EN_NIW_EFFECT_COUNT 20
 
 typedef struct EnNiw {
     /* 0x0000 */ Actor actor;
@@ -75,7 +75,7 @@ typedef struct EnNiw {
     /* 0x0304 */ f32 unk_304;
     /* 0x0308 */ u8 unk_308;
     /* 0x030C */ ColliderCylinder collider;
-    /* 0x0358 */ EnNiwEffect effects[EN_NIW_EFFECTS_COUNT];
+    /* 0x0358 */ EnNiwEffect effects[EN_NIW_EFFECT_COUNT];
 } EnNiw; // size = 0x07B8
 
 #endif

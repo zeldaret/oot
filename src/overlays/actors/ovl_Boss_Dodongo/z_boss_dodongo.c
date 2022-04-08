@@ -992,7 +992,7 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 sp54.y = -1513.76f;
                 sp54.z = cosf(sp4C) * sp50 + (-3304.0f);
                 func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, ((s16)Rand_ZeroFloat(2.0f)) + 6,
-                              BOSS_DODONGO_EFFECTS_COUNT);
+                              BOSS_DODONGO_EFFECT_COUNT);
             }
         }
 
@@ -1646,7 +1646,7 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
     s16 colorIndex;
     s16 i;
 
-    for (i = 0; i < BOSS_DODONGO_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 != 0) {
             eff->unk_00.x += eff->unk_0C.x;
             eff->unk_00.y += eff->unk_0C.y;
@@ -1684,7 +1684,7 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     unkMtx = &globalCtx->billboardMtxF;
 
-    for (i = 0; i < BOSS_DODONGO_EFFECTS_COUNT; i++, eff++) {
+    for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 == 1) {
             gDPPipeSync(POLY_XLU_DISP++);
 

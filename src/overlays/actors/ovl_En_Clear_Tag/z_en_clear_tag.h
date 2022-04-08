@@ -72,7 +72,7 @@ typedef struct EnClearTag {
     /* 0x01FE */ char unk_1FE[0x06];
 } EnClearTag; // size = 0x0204
 
-#define CLEAR_TAG_EFFECTS_COUNT 100
+#define CLEAR_TAG_EFFECT_COUNT 100
 
 typedef struct EnClearTagEffect {
     /* 0x0000 */ u8 type;
