@@ -12,12 +12,13 @@
 
 LEAF(entrypoint)
     # Clear boot segment .bss
-    lui     $t0, %hi(_bootSegmentBssStart)
-    addiu   $t0, %lo(_bootSegmentBssStart)
-#ifdef AVOID_UB
-    li      $t1, %lo(_bootSegmentBssSize)
-#else
+    la      $t0, _bootSegmentBssStart
+#ifndef AVOID_UB
+    # UB: li only loads the lower 16 bits of _bootSegmentBssSize when it may be larger than this,
+    # so not all of bss may be cleared if it is too large
     li      $t1, _bootSegmentBssSize
+#else
+    la      $t1, _bootSegmentBssSize
 #endif
 .clear_bss:
     addi    $t1, $t1, -8

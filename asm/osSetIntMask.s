@@ -1,6 +1,7 @@
 #include "ultra64/asm.h"
 #include "ultra64/r4300.h"
 #include "ultra64/rcp.h"
+#include "ultra64/exception.h"
 
 # assembler directives
 .set noat      # allow manual use of $at
@@ -13,7 +14,7 @@
 
 /**
  *  LUT to convert between MI_INTR and MI_INTR_MASK.
- *  MI_INTR is status for each interrupt whereas MI_INTR_MASK has seperate bits for set/clr.
+ *  MI_INTR is status for each interrupt whereas MI_INTR_MASK has separate bits for set/clr.
  */
 DATA(__osRcpImTable)
     .half MI_INTR_MASK_CLR_SP | MI_INTR_MASK_CLR_SI | MI_INTR_MASK_CLR_AI | MI_INTR_MASK_CLR_VI | MI_INTR_MASK_CLR_PI | MI_INTR_MASK_CLR_DP
@@ -116,7 +117,7 @@ LEAF(osSetIntMask)
     lhu     $t2, %lo(__osRcpImTable)($t2)
     lui     $at, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
     sw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($at)
-    andi    $t0, $a0, (SR_IMASK | SR_IE)
+    andi    $t0, $a0, OS_IM_CPU
     andi    $t1, $t3, SR_IMASK
     and     $t0, $t0, $t1
     lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF

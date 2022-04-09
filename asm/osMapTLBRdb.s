@@ -16,7 +16,7 @@ LEAF(osMapTLBRdb)
     mtc0    $t1, C0_INX
     mtc0    $zero, C0_PAGEMASK
     li      $t2, (TLBLO_UNCACHED | TLBLO_D | TLBLO_V | TLBLO_G)
-    li      $t1, K2BASE
+    li      $t1, (K2BASE & TLBHI_VPN2MASK)
     mtc0    $t1, C0_ENTRYHI
     li      $t1, K0BASE
     srl     $t3, $t1, TLBLO_PFNSHIFT

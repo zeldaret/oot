@@ -29,7 +29,7 @@ LEAF(__osProbeTLB)
     nop
     nop
     nop
-    # TLB probe, sets the Index register to a value matching C0_ENTRYHI.
+    # TLB probe, sets C0_INX to a value matching C0_ENTRYHI.
     # If no match is found the TLBINX_PROBE bit is set to indicate this.
     tlbp
     nop
@@ -39,47 +39,48 @@ LEAF(__osProbeTLB)
     li      $at, TLBINX_PROBE
     and     $t3, $t3, $at
     # Branch if no match was found
-    bnez    $t3, .no_paddr
+    bnez    $t3, 3f
      nop
     # Read TLB, sets C0_ENTRYHI, C0_ENTRYLO0, C0_ENTRYLO1 and C0_PAGEMASK for the TLB
-    # entry indicated by the Index register
+    # entry indicated by C0_INX
     tlbr
     nop
     nop
     nop
-    # Get C0_PAGEMASK
+    # Calculate page size = (page mask + 0x2000) >> 1
     mfc0    $t3, C0_PAGEMASK
-    addi    $t3, $t3, DCACHE_SIZE
+    addi    $t3, $t3, 0x2000
     srl     $t3, $t3, 1
+    # & with vaddr
     and     $t4, $t3, $a0
     # Select C0_ENTRYLO0 or C0_ENTRYLO1
-    bnez    $t4, .get_lo1
-     addi   $t3, $t3, -1
+    bnez    $t4, 1f
+     addi   $t3, $t3, -1 # make bitmask out of page size
     mfc0    $v0, C0_ENTRYLO0
-    b       .got_lo0
+    b       2f
      nop
-.get_lo1:
+1:
     mfc0    $v0, C0_ENTRYLO1
-.got_lo0:
+2:
     # Check valid bit and branch if not valid
     andi    $t5, $v0, TLBLO_V
-    beqz    $t5, .no_paddr
+    beqz    $t5, 3f
      nop
     # Extract the Page Frame Number from the entry
     li      $at, TLBLO_PFNMASK
     and     $v0, $v0, $at
     sll     $v0, $v0, TLBLO_PFNSHIFT
-    # Mask vaddr
+    # Mask vaddr with page size mask
     and     $t5, $a0, $t3
     # Add masked vaddr to pfn to obtain the physical address
     add     $v0, $v0, $t5
-    b       .got_paddr
+    b       4f
      nop
-.no_paddr:
+3:
     # No physical address for the supplied virtual address was found,
     # return -1
     li      $v0, -1
-.got_paddr:
+4:
     # Restore original C0_ENTRYHI value before returning
     mtc0    $t0, C0_ENTRYHI
     jr      $ra

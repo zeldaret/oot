@@ -37,10 +37,10 @@ __osIntOffTable:
 	.byte 0x14 /* prenmi */
 	.byte 0x18 /* IP6_Hdlr */
 	.byte 0x18 /* IP6_Hdlr */
-	.byte 0x1c /* IP7_Hdlr */
-	.byte 0x1c /* IP7_Hdlr */
-	.byte 0x1c /* IP7_Hdlr */
-	.byte 0x1c /* IP7_Hdlr */
+	.byte 0x1C /* IP7_Hdlr */
+	.byte 0x1C /* IP7_Hdlr */
+	.byte 0x1C /* IP7_Hdlr */
+	.byte 0x1C /* IP7_Hdlr */
 	.byte 0x20 /* counter */
 	.byte 0x20 /* counter */
 	.byte 0x20 /* counter */
@@ -53,10 +53,10 @@ __osIntOffTable:
 	.byte 0x04 /* sw1 */
 	.byte 0x08 /* sw2 */
 	.byte 0x08 /* sw2 */
-	.byte 0x0c /* rcp */
-	.byte 0x0c /* rcp */
-	.byte 0x0c /* rcp */
-	.byte 0x0c /* rcp */
+	.byte 0x0C /* rcp */
+	.byte 0x0C /* rcp */
+	.byte 0x0C /* rcp */
+	.byte 0x0C /* rcp */
 	.byte 0x10 /* cart */
 	.byte 0x10 /* cart */
 	.byte 0x10 /* cart */
@@ -307,7 +307,7 @@ cart:
     # Load cart callback set by __osSetHWIntrRoutine
     lui     $t1, %hi(__osHwIntTable)
     addiu   $t1, %lo(__osHwIntTable)
-    lw      $t2, (OS_INTR_CART*HWINTR_SIZE+HWINTR_CALLBACK)($t1)
+    lw      $t2, (OS_INTR_CART*HWINT_SIZE+HWINT_CALLBACK)($t1)
     # Clear interrupt
     li      $at, ~CAUSE_IP4
     and     $s0, $s0, $at
@@ -316,7 +316,7 @@ cart:
      addi   $t1, $t1, (OS_INTR_CART*8)
     # Set up a stack and run the callback
     jalr    $t2
-    lw      $sp, HWINTR_SP($t1)
+    lw      $sp, HWINT_SP($t1)
     beqz    $v0, send_cart_mesg
      nop
     # Redispatch immediately if the callback returned nonzero
@@ -458,7 +458,7 @@ pi:
     beqz    $t2, no_pi_callback
      nop
     # Set up a stack and run the callback
-    lw      $sp, HWINTR_SP($t1)
+    lw      $sp, HWINT_SP($t1)
     jalr    $t2
     move    $a0, $v0
     # If the callback returns non-zero, don't post a pi event message
@@ -709,10 +709,10 @@ handle_CpU:
 END(__osException)
 
 /**
- *  void __osEnqueueAndYield(OSThread** threadQ);
+ *  void __osEnqueueAndYield(OSThread** threadQueue);
  *
  *  Enqueues the currently running thread to the top of the
- *   thread queue `threadQ` and yields to the highest priority
+ *   thread queue `threadQueue` and yields to the highest priority
  *   unblocked runnable thread
  */
 LEAF(__osEnqueueAndYield)
@@ -794,9 +794,9 @@ no_enqueue:
 END(__osEnqueueAndYield)
 
 /**
- *  void __osEnqueueThread(OSThread** threadQ, OSThread* thread);
+ *  void __osEnqueueThread(OSThread** threadQueue, OSThread* thread);
  *
- *  Enqueues `thread` to the thread queue `threadQ`, inserted by priority
+ *  Enqueues `thread` to the thread queue `threadQueue`, inserted by priority
  */
 LEAF(__osEnqueueThread)
     lw      $t8, ($a0)
@@ -827,14 +827,14 @@ LEAF(__osEnqueueThread)
 END(__osEnqueueThread)
 
 /**
- *  OSThread* __osPopThread(OSThread** threadQ);
+ *  OSThread* __osPopThread(OSThread** threadQueue);
  *
  *  Pops the highest priority thread from the top of the
- *   thread queue `threadQ` and returns it
+ *   thread queue `threadQueue` and returns it
  */
 LEAF(__osPopThread)
     lw      $v0, ($a0)
-    lw      $t9, ($v0)
+    lw      $t9, THREAD_NEXT($v0)
     jr      $ra
      sw     $t9, ($a0)
 END(__osPopThread)

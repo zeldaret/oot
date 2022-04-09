@@ -13,7 +13,7 @@ LEAF(guMtxL2F)
     li      $at, 0x37800000 # 1.0f / 65536.0f
     mtc1    $at, $f0
     li      $t9, 0xFFFF0000
-    addiu   $t8, $a1, 0x20
+    addiu   $t8, $a1, 0x40/2 # sizeof(mtx) / 2
 1:
     lw      $t0, ($a1)
     lw      $t1, 0x20($a1)

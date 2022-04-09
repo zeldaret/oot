@@ -23,7 +23,7 @@ LEAF(Mio0_Decompress)
     move    $a2, $zero      # 0
     addi    $a0, $a0, 0x10  # move past header
     add     $t8, $t8, $a1   # dst + decompressed length = end
-.loop:
+mainloop:
     bnez    $a2, 1f
      nop
     lw      $t0, ($a0)
@@ -31,14 +31,14 @@ LEAF(Mio0_Decompress)
     addi    $a0, $a0, 4
 1:
     slt     $t1, $t0, $zero
-    beqz    $t1, .read_comp
+    beqz    $t1, read_comp
      nop
     lb      $t2, ($t9)      # read 1 byte from uncompressed data
     addi    $t9, $t9, 1     # advance uncompressed start
     addi    $a1, $a1, 1
-    b       .next_iter
+    b       next_iter
      sb     $t2, -1($a1)    # store uncompressed byte
-.read_comp:
+read_comp:
     lhu     $t2, ($a3)      # read 2 bytes from compressed data
     addi    $a3, $a3, 2     # advance compressed start
     srl     $t3, $t2, 0xC
@@ -53,9 +53,9 @@ LEAF(Mio0_Decompress)
     addi    $a1, $a1, 1
     bnez    $t3, 2b
      sb     $t2, -1($a1)
-.next_iter:
+next_iter:
     sll     $t0, $t0, 1
-    bne     $a1, $t8, .loop # continue until decompressed length is reached
+    bne     $a1, $t8, mainloop # continue until decompressed length is reached
      addi   $a2, $a2, -1
     jr      $ra
      nop

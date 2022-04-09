@@ -23,7 +23,7 @@ LEAF(__osDisableInt)
     andi    $v0, $t0, SR_IE
     lw      $t0, ($t2)
     andi    $t0, $t0, SR_IMASK
-    beq     $t0, $t3, 1f
+    beq     $t0, $t3, No_Change_Global_Int
      lui    $t2, %hi(__osRunningThread)
     addiu   $t2, $t2, %lo(__osRunningThread)
     lw      $t1, THREAD_SR($t2)
@@ -37,7 +37,17 @@ LEAF(__osDisableInt)
     mtc0    $t1, C0_SR
     nop
     nop
-1:
+No_Change_Global_Int:
     jr      $ra
      nop
 END(__osDisableInt)
+
+LEAF(__osRestoreInt)
+    mfc0    $t0, C0_SR
+    or      $t0, $t0, $a0
+    mtc0    $t0, C0_SR
+    nop
+    nop
+    jr      $ra
+     nop
+END(__osRestoreInt)

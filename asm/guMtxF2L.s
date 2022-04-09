@@ -13,7 +13,7 @@ LEAF(guMtxF2L)
     li      $at, 0x47800000 # 65536.0f
     mtc1    $at, $f0
     lui     $t9, 0xFFFF
-    addiu   $t8, $a1, 0x20
+    addiu   $t8, $a1, 0x40/2 # sizeof(Mtx)/2
 1:
     lwc1    $f4, ($a0)
     lwc1    $f10, 4($a0)
@@ -33,7 +33,7 @@ LEAF(guMtxF2L)
     or      $t7, $t5, $t6
     sw      $t4, -4($a1)
     bne     $a1, $t8, 1b
-     sw     $t7, 0x1C($a1)
+     sw     $t7, (0x40/2-4)($a1) # sizeof(Mtx)/2 - 4
     jr      $ra
      nop
 END(guMtxF2L)

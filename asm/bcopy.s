@@ -34,11 +34,11 @@ forwards_bytecopy:
     beqz    $a2, ret
      nop
     addu    $v1, $a0, $a2
-1:
+99:
     lb      $v0, ($a0)
     addiu   $a0, $a0, 1
     addiu   $a1, $a1, 1
-    bne     $a0, $v1, 1b
+    bne     $a0, $v1, 99b
      sb     $v0, -1($a1)
 ret:
     jr      $ra
@@ -72,9 +72,11 @@ forw_copy3:
     addiu   $a2, $a2, -3
     sb      $v0, -3($a1)
     sh      $v1, -2($a1)
+
+forwards:
 forwards_32:
     slti    $at, $a2, 0x20
-    bnezl   $at, forwards_16_likely
+    bnezl   $at, forwards_16_
      slti   $at, $a2, 0x10
     lw      $v0, ($a0)
     lw      $v1, 4($a0)
@@ -98,8 +100,8 @@ forwards_32:
      sw     $t5, -4($a1)
 forwards_16:
     slti    $at, $a2, 0x10
-forwards_16_likely:
-    bnezl   $at, forwards_4_likely
+forwards_16_: # fake label due to branch likely optimization
+    bnezl   $at, forwards_4_
      slti   $at, $a2, 4
     lw      $v0, ($a0)
     lw      $v1, 4($a0)
@@ -115,7 +117,7 @@ forwards_16_likely:
      sw     $t1, -4($a1)
 forwards_4:
     slti    $at, $a2, 4
-forwards_4_likely:
+forwards_4_: # fake label due to branch likely optimization
     bnez    $at, forwards_bytecopy
      nop
     lw      $v0, ($a0)
@@ -139,11 +141,11 @@ backwards_bytecopy:
     addiu   $a0, $a0, -1
     addiu   $a1, $a1, -1
     subu    $v1, $a0, $a2
-1:
+99:
     lb      $v0, ($a0)
     addiu   $a0, $a0, -1
     addiu   $a1, $a1, -1
-    bne     $a0, $v1, 1b
+    bne     $a0, $v1, 99b
      sb     $v0, 1($a1)
     jr      $ra
      move   $v0, $a3
@@ -176,9 +178,11 @@ back_copy3:
     addiu   $a2, $a2, -3
     sb      $v0, 2($a1)
     sh      $v1, ($a1)
+
+backwards:
 backwards_32:
     slti    $at, $a2, 0x20
-    bnezl   $at, backwards_16_likely
+    bnezl   $at, backwards_16_
      slti   $at, $a2, 0x10
     lw      $v0, -4($a0)
     lw      $v1, -8($a0)
@@ -202,12 +206,12 @@ backwards_32:
      sw     $t5, ($a1)
 backwards_16:
     slti    $at, $a2, 0x10
-backwards_16_likely:
-    bnezl   $at, backwards_4_likely
+backwards_16_: # fake label due to branch likely optimization
+    bnezl   $at, backwards_4_
      slti   $at, $a2, 4
     lw      $v0, -4($a0)
     lw      $v1, -8($a0)
-    lw      $t0, -0xc($a0)
+    lw      $t0, -0xC($a0)
     lw      $t1, -0x10($a0)
     addiu   $a0, $a0, -0x10
     addiu   $a1, $a1, -0x10
@@ -219,7 +223,7 @@ backwards_16_likely:
      sw     $t1, ($a1)
 backwards_4:
     slti    $at, $a2, 4
-backwards_4_likely:
+backwards_4_: # fake label due to branch likely optimization
     bnez    $at, backwards_bytecopy
      nop
     lw      $v0, -4($a0)

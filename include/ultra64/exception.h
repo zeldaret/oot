@@ -50,11 +50,11 @@ extern __osHwInt __osHwIntTable[];
 #else
 
 // __osHwInt struct member offsets
-#define HWINTR_CALLBACK 0x00
-#define HWINTR_SP       0x04
+#define HWINT_CALLBACK 0x00
+#define HWINT_SP       0x04
 
 // __osHwInt struct size
-#define HWINTR_SIZE     0x8
+#define HWINT_SIZE     0x8
 
 #endif
 
