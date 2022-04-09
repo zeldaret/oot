@@ -4,6 +4,7 @@
 #include "ultra64.h"
 #include "z64cutscene.h"
 
+// these two angle conversion macros are slightly inaccurate
 #define DEG_TO_BINANG(degrees) (s16)((degrees) * 182.04167f + .5f)
 #define BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 
