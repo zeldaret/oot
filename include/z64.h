@@ -42,13 +42,28 @@
 #define REGION_JP 2
 #define REGION_EU 3
 
-#define Z_PRIORITY_MAIN        10
-#define Z_PRIORITY_GRAPH       11
-#define Z_PRIORITY_AUDIOMGR    12
-#define Z_PRIORITY_PADMGR      14
-#define Z_PRIORITY_SCHED       15
-#define Z_PRIORITY_DMAMGR      16
-#define Z_PRIORITY_IRQMGR      17
+#define THREAD_PRI_IDLE_INIT    10
+#define THREAD_PRI_MAIN_INIT    10
+#define THREAD_PRI_DMAMGR_LOW   10  // Used when decompressing files
+#define THREAD_PRI_GRAPH        11
+#define THREAD_PRI_AUDIOMGR     12
+#define THREAD_PRI_PADMGR       14
+#define THREAD_PRI_MAIN         15
+#define THREAD_PRI_SCHED        15
+#define THREAD_PRI_DMAMGR       16
+#define THREAD_PRI_IRQMGR       17
+#define THREAD_PRI_FAULT_CLIENT (OS_PRIORITY_APPMAX - 1)
+#define THREAD_PRI_FAULT        OS_PRIORITY_APPMAX
+
+#define THREAD_ID_IDLE        1
+#define THREAD_ID_FAULT       2
+#define THREAD_ID_MAIN        3
+#define THREAD_ID_GRAPH       4
+#define THREAD_ID_SCHED       5
+#define THREAD_ID_PADMGR      7
+#define THREAD_ID_AUDIOMGR   10
+#define THREAD_ID_DMAMGR     18
+#define THREAD_ID_IRQMGR     19
 
 #define STACK(stack, size) \
     u64 stack[ALIGN8(size) / sizeof(u64)]
@@ -118,9 +133,10 @@ typedef struct OSScTask {
     /* 0x08 */ u32 flags;
     /* 0x0C */ CfbInfo* framebuffer;
     /* 0x10 */ OSTask list;
-    /* 0x50 */ OSMesgQueue* msgQ;
+    /* 0x50 */ OSMesgQueue* msgQueue;
     /* 0x54 */ OSMesg msg;
-} OSScTask;
+    /* 0x58 */ char unk_58[0x10];
+} OSScTask; // size = 0x68
 
 typedef struct GraphicsContext {
     /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
@@ -130,11 +146,11 @@ typedef struct GraphicsContext {
     /* 0x0014 */ u32 unk_014;
     /* 0x0018 */ char unk_018[0x20];
     /* 0x0038 */ OSMesg msgBuff[0x08];
-    /* 0x0058 */ OSMesgQueue* schedMsgQ;
+    /* 0x0058 */ OSMesgQueue* schedMsgQueue;
     /* 0x005C */ OSMesgQueue queue;
     /* 0x0074 */ char unk_074[0x04];
-    /* 0x0078 */ OSScTask task; // size of OSScTask might be wrong
-    /* 0x00D0 */ char unk_0D0[0xE0];
+    /* 0x0078 */ OSScTask task;
+    /* 0x00E0 */ char unk_0E0[0xD0];
     /* 0x01B0 */ Gfx* workBuffer;
     /* 0x01B4 */ TwoHeadGfxArena work;
     /* 0x01C4 */ char unk_01C4[0xC0];
@@ -1576,9 +1592,9 @@ typedef struct {
 } FrameBufferSwap;
 
 typedef struct {
-    /* 0x0000 */ OSMesgQueue  interruptQ;
-    /* 0x0018 */ OSMesg       intBuf[8];
-    /* 0x0038 */ OSMesgQueue  cmdQ;
+    /* 0x0000 */ OSMesgQueue  interruptQueue;
+    /* 0x0018 */ OSMesg       interruptMsgBuf[8];
+    /* 0x0038 */ OSMesgQueue  cmdQueue;
     /* 0x0050 */ OSMesg       cmdMsgBuf[8];
     /* 0x0070 */ OSThread     thread;
     /* 0x0220 */ OSScTask*    audioListHead;
@@ -1607,18 +1623,14 @@ typedef struct {
     /* 0x0000 */ IrqMgr*       irqMgr;
     /* 0x0004 */ SchedContext* sched;
     /* 0x0008 */ OSScTask      audioTask;
-    /* 0x0060 */ char          unk_60[0x10];
     /* 0x0070 */ AudioTask*    rspTask;
-    /* 0x0074 */ OSMesgQueue   unk_74;
-    /* 0x008C */ OSMesg        unk_8C;
-    /* 0x0090 */ OSMesgQueue   unk_90;
-    /* 0x00A8 */ OSMesg        unk_A8;
-    /* 0x00AC */ OSMesgQueue   unk_AC;
-    /* 0x00C4 */ OSMesg        unk_C4;
-    /* 0x00C8 */ OSMesgQueue   unk_C8;
-    /* 0x00E0 */ OSMesg        unk_E0;
-    /* 0x00E4 */ char          unk_E4[0x04];
-    /* 0x00E8 */ OSThread      unk_E8;
+    /* 0x0074 */ OSMesgQueue   interruptQueue;
+    /* 0x008C */ OSMesg        interruptMsgBuf[8];
+    /* 0x00AC */ OSMesgQueue   taskQueue;
+    /* 0x00C4 */ OSMesg        taskMsgBuf[1];
+    /* 0x00C8 */ OSMesgQueue   lockQueue;
+    /* 0x00E0 */ OSMesg        lockMsgBuf[1];
+    /* 0x00E8 */ OSThread      thread;
 } AudioMgr; // size = 0x298
 
 struct ArenaNode;
@@ -1626,7 +1638,7 @@ struct ArenaNode;
 typedef struct Arena {
     /* 0x00 */ struct ArenaNode* head;
     /* 0x04 */ void* start;
-    /* 0x08 */ OSMesgQueue lock;
+    /* 0x08 */ OSMesgQueue lockQueue;
     /* 0x20 */ u8 unk_20;
     /* 0x21 */ u8 isInit;
     /* 0x22 */ u8 flag;
@@ -1793,7 +1805,6 @@ typedef struct {
     /* 0x28 */ u32 mode; // 0 if Y V0 is 1 and 2 if Y V0 is 2
     /* 0x2C */ char unk_2C[4];
     /* 0x30 */ OSScTask scTask;
-    /* 0x88 */ char unk_88[0x10];
     /* 0x98 */ OSMesgQueue mq;
     /* 0xB0 */ OSMesg msg;
     /* 0xB4 */ JpegWork* workBuf;
