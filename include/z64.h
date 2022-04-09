@@ -216,77 +216,77 @@ typedef struct {
 #define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
 
 typedef enum {
-    /*  0 */ SETUPDL_0, // prim-env lerp by texel0 factor, AD noise, CD noise, fog, shade, xlu, mostly for particles
-    /*  1 */ SETUPDL_1, // unused
-    /*  2 */ SETUPDL_2, // unused except func_80094434
-    /*  3 */ SETUPDL_3, // unused
-    /*  4 */ SETUPDL_4, // flat textured, , xlu, DebugDisplay_DrawPolygon
-    /*  5 */ SETUPDL_5, // G_CC_MODULATEI_PRIM, xlu
-    /*  6 */ SETUPDL_6, // unused
-    /*  7 */ SETUPDL_7, // G_CC_MODULATEIA_PRIM, no zbuffer
-    /*  8 */ SETUPDL_8,  // unused
-    /*  9 */ SETUPDL_9,  // unused
-    /* 10 */ SETUPDL_10, // unused
-    /* 11 */ SETUPDL_11, // unused
-    /* 12 */ SETUPDL_12, // unused
-    /* 13 */ SETUPDL_13, // unused
-    /* 14 */ SETUPDL_14, // unused
-    /* 15 */ SETUPDL_15, // unused
-    /* 16 */ SETUPDL_16, // unused
-    /* 17 */ SETUPDL_17, // unused
-    /* 18 */ SETUPDL_18, // unused
-    /* 19 */ SETUPDL_19, // unused
-    /* 20 */ SETUPDL_20, // G_CC_MODULATEIA_PRIM, AC threshold, CLD_SURF
-    /* 21 */ SETUPDL_21, // unused
-    /* 22 */ SETUPDL_22, // unused
-    /* 23 */ SETUPDL_23, // unused
-    /* 24 */ SETUPDL_24, // unused
-    /* 25 */ SETUPDL_25, // texel0*shade*prim, fog, opa
-    /* 26 */ SETUPDL_26, // G_CC_MODULATEI_PRIM, opa
-    /* 27 */ SETUPDL_27, // G_CC_MODULATEI_PRIM, xlu
-    /* 28 */ SETUPDL_28, // G_CC_MODULATEIDECALA_PRIM, AC threshold, opa, tex edge
-    /* 29 */ SETUPDL_29, // unused
-    /* 30 */ SETUPDL_30, // unused
-    /* 31 */ SETUPDL_31, // unused except func_80093DF0
-    /* 32 */ SETUPDL_32, // unused except func_80093E5C
-    /* 33 */ SETUPDL_33, // unused except func_80093EC8
-    /* 34 */ SETUPDL_34, // unused except func_80093F58, func_80093F7C
-    /* 35 */ SETUPDL_35, // unused except func_80093FD8
-    /* 36 */ SETUPDL_36, // G_CYC_FILL fill mode
-    /* 37 */ SETUPDL_37, // flat textured, fog, opa
-    /* 38 */ SETUPDL_38, // flat textured, xlu
-    /* 39 */ SETUPDL_39, // G_CC_MODULATEIA_PRIM, AC threshold, no zbuffer
-    /* 40 */ SETUPDL_40, // cull front, no zbuffer
-    /* 41 */ SETUPDL_41, // G_CC_MODULATEIA, xlu
-    /* 42 */ SETUPDL_42, // G_CC_MODULATEIDECALA, no zbuffer
-    /* 43 */ SETUPDL_43, // unused except func_800941AC
-    /* 44 */ SETUPDL_44, // G_CC_MODULATEIA_PRIM, decal, shadows
-    /* 45 */ SETUPDL_45, // unused except func_80094218
-    /* 46 */ SETUPDL_46, // unused except func_80094284
-    /* 47 */ SETUPDL_47, // G_CC_MODULATEI_PRIM, xlu, DebugDisplay_DrawSpriteI8
-    /* 48 */ SETUPDL_48, // unused except func_80094A80
-    /* 49 */ SETUPDL_49, // unused except func_80094AEC
-    /* 50 */ SETUPDL_50, // unused except func_80093920
-    /* 51 */ SETUPDL_51, // G_CC_MODULATEIA_PRIM, alpha dither, no zbuffer, gMoonDL
-    /* 52 */ SETUPDL_52, // G_CC_MODULATEIA_PRIM, AC threshold, no zbuffer, TitleCard_Draw
-    /* 53 */ SETUPDL_53, // unused except func_80093A64
-    /* 54 */ SETUPDL_54, // prim-env lerp by (texel0-texel1 lerp by env alpha), AC threshold, no zbuffer, gSunDL
-    /* 55 */ SETUPDL_55, // unused except func_80093B3C
-    /* 56 */ SETUPDL_56, // G_CC_MODULATEIA_PRIM, AC threshold, no zbuffer, gTitleZeldaShieldLogoMQTex, gTitleMasterQuestSubtitleTex
-    /* 57 */ SETUPDL_57, // G_CC_PRIMITIVE, AC threshold, CLD_SURF, no zbuffer
-    /* 58 */ SETUPDL_58, // unused except func_80093848
-    /* 59 */ SETUPDL_59, // unused except func_80094D4C
-    /* 60 */ SETUPDL_60, // prim-env lerp by texel0 factor, AD !magicsq, CLD_SURF, xlu, fire and flames
-    /* 61 */ SETUPDL_61, // prim-env lerp by texel0 factor, AD noise, CLD_SURF, xlu, lightning, dust and effects
-    /* 62 */ SETUPDL_62, // unused
-    /* 63 */ SETUPDL_63, // unused
+    /*  0 */ SETUPDL_0,
+    /*  1 */ SETUPDL_1,
+    /*  2 */ SETUPDL_2,
+    /*  3 */ SETUPDL_3,
+    /*  4 */ SETUPDL_4,
+    /*  5 */ SETUPDL_5,
+    /*  6 */ SETUPDL_6,
+    /*  7 */ SETUPDL_7,
+    /*  8 */ SETUPDL_8,
+    /*  9 */ SETUPDL_9,
+    /* 10 */ SETUPDL_10,
+    /* 11 */ SETUPDL_11,
+    /* 12 */ SETUPDL_12,
+    /* 13 */ SETUPDL_13,
+    /* 14 */ SETUPDL_14,
+    /* 15 */ SETUPDL_15,
+    /* 16 */ SETUPDL_16,
+    /* 17 */ SETUPDL_17,
+    /* 18 */ SETUPDL_18,
+    /* 19 */ SETUPDL_19,
+    /* 20 */ SETUPDL_20,
+    /* 21 */ SETUPDL_21,
+    /* 22 */ SETUPDL_22,
+    /* 23 */ SETUPDL_23,
+    /* 24 */ SETUPDL_24,
+    /* 25 */ SETUPDL_25,
+    /* 26 */ SETUPDL_26,
+    /* 27 */ SETUPDL_27,
+    /* 28 */ SETUPDL_28,
+    /* 29 */ SETUPDL_29,
+    /* 30 */ SETUPDL_30,
+    /* 31 */ SETUPDL_31,
+    /* 32 */ SETUPDL_32,
+    /* 33 */ SETUPDL_33,
+    /* 34 */ SETUPDL_34,
+    /* 35 */ SETUPDL_35,
+    /* 36 */ SETUPDL_36,
+    /* 37 */ SETUPDL_37,
+    /* 38 */ SETUPDL_38,
+    /* 39 */ SETUPDL_39,
+    /* 40 */ SETUPDL_40,
+    /* 41 */ SETUPDL_41,
+    /* 42 */ SETUPDL_42,
+    /* 43 */ SETUPDL_43,
+    /* 44 */ SETUPDL_44,
+    /* 45 */ SETUPDL_45,
+    /* 46 */ SETUPDL_46,
+    /* 47 */ SETUPDL_47,
+    /* 48 */ SETUPDL_48,
+    /* 49 */ SETUPDL_49,
+    /* 50 */ SETUPDL_50,
+    /* 51 */ SETUPDL_51,
+    /* 52 */ SETUPDL_52,
+    /* 53 */ SETUPDL_53,
+    /* 54 */ SETUPDL_54,
+    /* 55 */ SETUPDL_55,
+    /* 56 */ SETUPDL_56,
+    /* 57 */ SETUPDL_57,
+    /* 58 */ SETUPDL_58,
+    /* 59 */ SETUPDL_59,
+    /* 60 */ SETUPDL_60,
+    /* 61 */ SETUPDL_61,
+    /* 62 */ SETUPDL_62,
+    /* 63 */ SETUPDL_63,
     /* 64 */ SETUPDL_64,
     /* 65 */ SETUPDL_65,
     /* 66 */ SETUPDL_66,
-    /* 67 */ SETUPDL_67, // unused except func_80094708
-    /* 68 */ SETUPDL_68, // unused except func_8009472C
-    /* 69 */ SETUPDL_69, // unused except func_8009476C
-    /* 70 */ SETUPDL_70, // unused except func_80094944
+    /* 67 */ SETUPDL_67,
+    /* 68 */ SETUPDL_68,
+    /* 69 */ SETUPDL_69,
+    /* 70 */ SETUPDL_70,
     /* 71 */ SETUPDL_MAX
 } SetupDL;
 
