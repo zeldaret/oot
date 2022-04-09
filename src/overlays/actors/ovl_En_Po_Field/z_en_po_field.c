@@ -788,7 +788,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
         sp4C = this->flameScale * 85000.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, sp4C);
         Matrix_Translate(this->flamePosition.x, this->flamePosition.y, this->flamePosition.z, MTXMODE_NEW);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000)), MTXMODE_APPLY);
         if (this->flameTimer >= 20) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             Matrix_Scale(this->flameScale, this->flameScale, this->flameScale, MTXMODE_APPLY);

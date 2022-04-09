@@ -1409,21 +1409,21 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
 
     distance = frameDivisor * sqrtf(SQ(endPos.x - startPos.x) + SQ(endPos.y - startPos.y) + SQ(endPos.z - startPos.z));
 
-    this->actor.world.pos.x = radius * cosf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.x = radius * cosf(DEG_TO_RAD(degrees));
     this->actor.world.pos.y = distance;
-    this->actor.world.pos.z = radius * sinf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.z = radius * sinf(DEG_TO_RAD(degrees));
 
     xPos = this->actor.world.pos.x;
-    ySpherical = (this->actor.world.pos.y * cosf(rotation.x * (M_PI / 0x8000))) -
-                 (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.world.pos.z);
-    xzSpherical = (this->actor.world.pos.z * cosf(rotation.x * (M_PI / 0x8000))) +
-                  (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.world.pos.y);
+    ySpherical = (this->actor.world.pos.y * cosf(BINANG_TO_RAD(rotation.x))) -
+                 (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.z);
+    xzSpherical = (this->actor.world.pos.z * cosf(BINANG_TO_RAD(rotation.x))) +
+                  (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.y);
 
     this->actor.world.pos.x =
-        (xPos * cosf(rotation.y * (M_PI / 0x8000))) - (sinf(rotation.y * (M_PI / 0x8000)) * xzSpherical);
+        (xPos * cosf(BINANG_TO_RAD(rotation.y))) - (sinf(BINANG_TO_RAD(rotation.y)) * xzSpherical);
     this->actor.world.pos.y = ySpherical;
     this->actor.world.pos.z =
-        (xzSpherical * cosf(rotation.y * (M_PI / 0x8000))) + (sinf(rotation.y * (M_PI / 0x8000)) * xPos);
+        (xzSpherical * cosf(BINANG_TO_RAD(rotation.y))) + (sinf(BINANG_TO_RAD(rotation.y)) * xPos);
 
     this->actor.world.pos.x += startPos.x;
     this->actor.world.pos.y += startPos.y;
@@ -1471,7 +1471,7 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     }
 
     if (startPos.x != endPos.x || startPos.y != endPos.y || startPos.z != endPos.z) {
-        this->jewelCsRotation.x = Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (0x8000 / M_PI);
+        this->jewelCsRotation.x = RADF_TO_BINANG(Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)));
         this->jewelCsRotation.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
@@ -1745,23 +1745,23 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
                                 512 - ((frames * 2) % 512) - 1, 0, 64, 64));
     Matrix_Push();
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2661),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
-    Matrix_RotateY((2.0f * M_PI) / 3.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD(120), MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2672),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
-    Matrix_RotateY((4.0f * M_PI) / 3.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD(240), MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2683),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1839,7 +1839,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
             if (1) {}
         }
 
-        Matrix_RotateZ((((s32)this->godLgt.rotation) * 3.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(((s32)this->godLgt.rotation) * 3.0f), MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -140.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
@@ -1876,14 +1876,14 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
                          ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
             Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
-            Matrix_RotateZ(this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             if (disp) {};
             gSPDisplayList(POLY_XLU_DISP++, disp);
             Matrix_Pop();
             Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
-            Matrix_RotateZ(-(f32)this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, disp);
@@ -1905,7 +1905,7 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 255);
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
-    Matrix_RotateZ(this->blueOrb.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(this->blueOrb.rotation), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2901),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->blueOrb.rotation += 0x01F4;
@@ -1996,7 +1996,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002ED80(&this->actor, globalCtx, 0);
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
-                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->triforceSpot.rotation), MTXMODE_APPLY);
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3053),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_XLU_DISP++, 8,
@@ -2008,7 +2008,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002EBCC(&this->actor, globalCtx, 0);
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_OPA_DISP++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
-                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->triforceSpot.rotation), MTXMODE_APPLY);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3085),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_OPA_DISP++, 8,
@@ -2093,8 +2093,8 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = Math_FAtan2F(x, z) * (32768.0f / M_PI);
-    this->actor.shape.rot.x = Math_FAtan2F(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
+    this->actor.shape.rot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
+    this->actor.shape.rot.x = RADF_TO_BINANG(Math_FAtan2F(-(endPos.y - startPos.y), xzDistance));
 }
 
 /**

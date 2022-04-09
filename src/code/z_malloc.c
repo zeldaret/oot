@@ -81,7 +81,7 @@ void* ZeldaArena_Calloc(u32 num, u32 size) {
     return ret;
 }
 
-void ZeldaArena_Display() {
+void ZeldaArena_Display(void) {
     osSyncPrintf("ゼルダヒープ表示\n"); // "Zelda heap display"
     __osDisplayArena(&sZeldaArena);
 }
@@ -90,7 +90,7 @@ void ZeldaArena_GetSizes(u32* outMaxFree, u32* outFree, u32* outAlloc) {
     ArenaImpl_GetSizes(&sZeldaArena, outMaxFree, outFree, outAlloc);
 }
 
-void ZeldaArena_Check() {
+void ZeldaArena_Check(void) {
     __osCheckArena(&sZeldaArena);
 }
 
@@ -99,11 +99,11 @@ void ZeldaArena_Init(void* start, u32 size) {
     __osMallocInit(&sZeldaArena, start, size);
 }
 
-void ZeldaArena_Cleanup() {
+void ZeldaArena_Cleanup(void) {
     gZeldaArenaLogSeverity = LOG_SEVERITY_NOLOG;
     __osMallocCleanup(&sZeldaArena);
 }
 
-u8 ZeldaArena_IsInitalized() {
+u8 ZeldaArena_IsInitalized(void) {
     return __osMallocIsInitalized(&sZeldaArena);
 }

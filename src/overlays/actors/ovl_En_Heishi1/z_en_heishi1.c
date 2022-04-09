@@ -165,7 +165,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 
         pathDiffX = pointPos->x - this->actor.world.pos.x;
         pathDiffZ = pointPos->z - this->actor.world.pos.z;
-        Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI)), 3,
+        Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ)), 3,
                            this->bodyTurnSpeed, 0);
 
         Math_ApproachF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);
@@ -424,7 +424,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         searchBallPos.z = this->actor.world.pos.z;
 
                         Matrix_Push();
-                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, MTXMODE_NEW);
+                        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y + this->headAngle), MTXMODE_NEW);
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pop();

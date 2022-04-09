@@ -191,7 +191,7 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
         if ((chick->type != CHICK_NONE) && (chick->floorPoly != NULL)) {
             func_80038A28(chick->floorPoly, chick->pos.x, chick->floorY, chick->pos.z, &floorMat);
             Matrix_Put(&floorMat);
-            Matrix_RotateY(chick->rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(chick->rot.y), MTXMODE_APPLY);
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 388),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

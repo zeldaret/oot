@@ -3,7 +3,6 @@
 
 #include "message.h"
 
-#define SIAccessQueueSize 2
 #define BLOCKSIZE 32
 #define MAXCONTROLLERS  4
 #define PFS_ONE_PAGE 8

@@ -40,8 +40,8 @@ static s16 sObjectIds[] = {
     OBJECT_GI_RUPY,   OBJECT_GI_RUPY,          OBJECT_GI_HEARTS,   OBJECT_GI_KEY,
 };
 
-// Indexes passed to the item table in z_draw.c
-static s16 sDrawItemIndexes[] = {
+// Indices passed to the item table in z_draw.c
+static s16 sDrawItemIndices[] = {
     GID_BOTTLE,       GID_LETTER_RUTO,  GID_SHIELD_HYLIAN, GID_QUIVER_40,   GID_SCALE_SILVER,
     GID_SCALE_GOLDEN, GID_KEY_SMALL,    GID_ARROW_FIRE,    GID_RUPEE_GREEN, GID_RUPEE_BLUE,
     GID_RUPEE_RED,    GID_RUPEE_PURPLE, GID_HEART_PIECE,   GID_KEY_SMALL,
@@ -71,7 +71,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->objBankIndex = objBankIndex;
     }
-    this->giDrawId = sDrawItemIndexes[type];
+    this->giDrawId = sDrawItemIndices[type];
     this->getItemId = sGetItemIds[type];
     this->futureActionFunc = func_80B85824;
     this->drawFunc = ItemEtcetera_Draw;

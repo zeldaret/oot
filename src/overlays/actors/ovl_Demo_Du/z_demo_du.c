@@ -396,7 +396,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
         s32 pad[2];
         s32 i;
         Player* player = GET_PLAYER(globalCtx);
-        Vec3f* headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
+        Vec3f* pos = &player->bodyPartsPos[PLAYER_BODYPART_L_FOREARM];
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 0.3f, 0.0f };
         s32 pad2;
@@ -408,13 +408,13 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
             Vec3f position;
 
             if (Animation_OnFrame(&this->skelAnime, 31.0f)) {
-                position.x = dustPosOffsets[i + 5].x + headPos->x;
-                position.y = dustPosOffsets[i + 5].y + headPos->y;
-                position.z = dustPosOffsets[i + 5].z + headPos->z;
+                position.x = dustPosOffsets[i + 5].x + pos->x;
+                position.y = dustPosOffsets[i + 5].y + pos->y;
+                position.z = dustPosOffsets[i + 5].z + pos->z;
             } else {
-                position.x = dustPosOffsets[i + 0].x + headPos->x;
-                position.y = dustPosOffsets[i + 0].y + headPos->y;
-                position.z = dustPosOffsets[i + 0].z + headPos->z;
+                position.x = dustPosOffsets[i + 0].x + pos->x;
+                position.y = dustPosOffsets[i + 0].y + pos->y;
+                position.z = dustPosOffsets[i + 0].z + pos->z;
             }
 
             colorDelta = Rand_ZeroOne() * 20.0f - 10.0f;
