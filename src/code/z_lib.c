@@ -3,7 +3,9 @@
 void Lib_MemSet(u8* dest, size_t size, u8 val) {
     u32 i;
 
-    for (i = 0; i < size; i++, *dest++ = val) {}
+    // clang-format off
+    for (i = 0; i < size; i++) { *dest++ = val; }
+    // clang-format on
 }
 
 f32 Math_CosS(s16 angle) {

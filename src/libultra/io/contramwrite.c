@@ -21,7 +21,9 @@ s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 
             __osContLastPoll = CONT_CMD_WRITE_MEMPACK;
             __osPfsLastChannel = channel;
 
-            for (i = 0; i < channel; i++, *ptr++ = 0) {}
+            // clang-format off
+            for (i = 0; i < channel; i++) { *ptr++ = 0; }
+            // clang-format on
 
             gPifMempakBuf.status = 1;
 
