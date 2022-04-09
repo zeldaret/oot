@@ -1429,7 +1429,8 @@ void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
     up.y = 1.0f;
 
     View_LookAt(&pauseCtx->view, &eye, &lookAt, &up);
-    View_Apply(&pauseCtx->view, VIEW_ALL | VIEW_FORCE_VIEWING | VIEW_FORCE_VIEWPORT | VIEW_FORCE_PROJECTION_PERSPECTIVE);
+    View_Apply(&pauseCtx->view,
+               VIEW_ALL | VIEW_FORCE_VIEWING | VIEW_FORCE_VIEWPORT | VIEW_FORCE_PROJECTION_PERSPECTIVE);
 }
 
 static u8 D_8082AE48[][4] = {
