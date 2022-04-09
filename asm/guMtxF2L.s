@@ -9,11 +9,14 @@
 
 .balign 32
 
+#define MTX_INTPART  0
+#define MTX_FRACPART 0x20
+
 LEAF(guMtxF2L)
     li      $at, 0x47800000 # 65536.0f
     mtc1    $at, $f0
-    lui     $t9, 0xFFFF
-    addiu   $t8, $a1, 0x40/2 # sizeof(Mtx)/2
+    li      $t9, 0xFFFF0000
+    addiu   $t8, $a1, MTX_FRACPART
 1:
     lwc1    $f4, ($a0)
     lwc1    $f10, 4($a0)
@@ -31,9 +34,9 @@ LEAF(guMtxF2L)
     andi    $t6, $t1, 0xFFFF
     or      $t4, $t2, $t3
     or      $t7, $t5, $t6
-    sw      $t4, -4($a1)
+    sw      $t4, (MTX_INTPART-4)($a1)
     bne     $a1, $t8, 1b
-     sw     $t7, (0x40/2-4)($a1) # sizeof(Mtx)/2 - 4
+     sw     $t7, (MTX_FRACPART-4)($a1)
     jr      $ra
      nop
 END(guMtxF2L)
