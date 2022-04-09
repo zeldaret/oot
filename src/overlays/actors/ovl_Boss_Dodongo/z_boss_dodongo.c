@@ -130,11 +130,11 @@ void func_808C1554(void* arg0, void* floorTex, s32 arg2, f32 arg3) {
     }
 }
 
-void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5) {
+void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 countLimit) {
     s16 i;
     BossDodongoEffect* eff = (BossDodongoEffect*)globalCtx->specialEffects;
 
-    for (i = 0; i < arg5; i++, eff++) {
+    for (i = 0; i < countLimit; i++, eff++) {
         if (eff->unk_24 == 0) {
             eff->unk_24 = 1;
             eff->unk_00 = *arg1;
@@ -183,7 +183,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     u16* temp_s2;
     u32 temp_v0;
 
-    globalCtx->specialEffects = &this->effects;
+    globalCtx->specialEffects = this->effects;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 9200.0f, ActorShadow_DrawCircle, 250.0f);
     Actor_SetScale(&this->actor, 0.01f);
@@ -991,7 +991,8 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 sp54.x = sinf(sp4C) * sp50 + (-890.0f);
                 sp54.y = -1513.76f;
                 sp54.z = cosf(sp4C) * sp50 + (-3304.0f);
-                func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, ((s16)Rand_ZeroFloat(2.0f)) + 6, 0x50);
+                func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, ((s16)Rand_ZeroFloat(2.0f)) + 6,
+                              BOSS_DODONGO_EFFECT_COUNT);
             }
         }
 
@@ -1645,7 +1646,7 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
     s16 colorIndex;
     s16 i;
 
-    for (i = 0; i < 80; i++, eff++) {
+    for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 != 0) {
             eff->unk_00.x += eff->unk_0C.x;
             eff->unk_00.y += eff->unk_0C.y;
@@ -1672,7 +1673,7 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
 void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
     MtxF* unkMtx;
     s16 i;
-    u8 phi_s3 = 0;
+    u8 materialFlag = 0;
     BossDodongoEffect* eff;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
@@ -1683,13 +1684,13 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     unkMtx = &globalCtx->billboardMtxF;
 
-    for (i = 0; i < 80; i++, eff++) {
+    for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 == 1) {
             gDPPipeSync(POLY_XLU_DISP++);
 
-            if (phi_s3 == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_009D50);
-                phi_s3++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);

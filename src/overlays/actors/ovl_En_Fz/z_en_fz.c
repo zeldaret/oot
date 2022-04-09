@@ -43,7 +43,7 @@ void EnFz_SpawnIceSmokeNoFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* 
 void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 xyScale, f32 xyScaleTarget,
                               s16 primAlpha, u8 isTimerMod8);
 void EnFz_UpdateIceSmoke(EnFz* this, GlobalContext* globalCtx);
-void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx);
+void EnFz_DrawEffects(EnFz* this, GlobalContext* globalCtx);
 
 const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,
@@ -741,152 +741,152 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fz.c", 1200);
-    EnFz_DrawIceSmoke(this, globalCtx);
+    EnFz_DrawEffects(this, globalCtx);
 }
 
 void EnFz_SpawnIceSmokeNoFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 xyScale) {
-    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
+    EnFzEffect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
-        if (iceSmoke->type == 0) {
-            iceSmoke->type = 1;
-            iceSmoke->pos = *pos;
-            iceSmoke->velocity = *velocity;
-            iceSmoke->accel = *accel;
-            iceSmoke->primAlphaState = 0;
-            iceSmoke->xyScale = xyScale / 1000.0f;
-            iceSmoke->primAlpha = 0;
-            iceSmoke->timer = 0;
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
+        if (effect->type == 0) {
+            effect->type = 1;
+            effect->pos = *pos;
+            effect->velocity = *velocity;
+            effect->accel = *accel;
+            effect->primAlphaState = 0;
+            effect->xyScale = xyScale / 1000.0f;
+            effect->primAlpha = 0;
+            effect->timer = 0;
             break;
         }
 
-        iceSmoke++;
+        effect++;
     }
 }
 
 void EnFz_SpawnIceSmokeFreeze(EnFz* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 xyScale, f32 xyScaleTarget,
                               s16 primAlpha, u8 isTimerMod8) {
-    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
+    EnFzEffect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
-        if (iceSmoke->type == 0) {
-            iceSmoke->type = 2;
-            iceSmoke->pos = *pos;
-            iceSmoke->velocity = *velocity;
-            iceSmoke->accel = *accel;
-            iceSmoke->primAlphaState = 0;
-            iceSmoke->xyScale = xyScale / 1000.0f;
-            iceSmoke->xyScaleTarget = xyScaleTarget / 1000.0f;
-            iceSmoke->primAlpha = primAlpha;
-            iceSmoke->timer = 0;
-            iceSmoke->isTimerMod8 = isTimerMod8;
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
+        if (effect->type == 0) {
+            effect->type = 2;
+            effect->pos = *pos;
+            effect->velocity = *velocity;
+            effect->accel = *accel;
+            effect->primAlphaState = 0;
+            effect->xyScale = xyScale / 1000.0f;
+            effect->xyScaleTarget = xyScaleTarget / 1000.0f;
+            effect->primAlpha = primAlpha;
+            effect->timer = 0;
+            effect->isTimerMod8 = isTimerMod8;
             break;
         }
 
-        iceSmoke++;
+        effect++;
     }
 }
 
 void EnFz_UpdateIceSmoke(EnFz* this, GlobalContext* globalCtx) {
-    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
+    EnFzEffect* effect = this->effects;
     s16 i;
     Vec3f pos;
 
-    for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
-        if (iceSmoke->type) {
-            iceSmoke->pos.x += iceSmoke->velocity.x;
-            iceSmoke->pos.y += iceSmoke->velocity.y;
-            iceSmoke->pos.z += iceSmoke->velocity.z;
-            iceSmoke->timer++;
-            iceSmoke->velocity.x += iceSmoke->accel.x;
-            iceSmoke->velocity.y += iceSmoke->accel.y;
-            iceSmoke->velocity.z += iceSmoke->accel.z;
-            if (iceSmoke->type == 1) {
-                if (iceSmoke->primAlphaState == 0) { // Becoming more opaque
-                    iceSmoke->primAlpha += 10;
-                    if (iceSmoke->primAlpha >= 100) {
-                        iceSmoke->primAlphaState++;
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
+        if (effect->type) {
+            effect->pos.x += effect->velocity.x;
+            effect->pos.y += effect->velocity.y;
+            effect->pos.z += effect->velocity.z;
+            effect->timer++;
+            effect->velocity.x += effect->accel.x;
+            effect->velocity.y += effect->accel.y;
+            effect->velocity.z += effect->accel.z;
+            if (effect->type == 1) {
+                if (effect->primAlphaState == 0) { // Becoming more opaque
+                    effect->primAlpha += 10;
+                    if (effect->primAlpha >= 100) {
+                        effect->primAlphaState++;
                     }
                 } else { // Becoming more transparent
-                    iceSmoke->primAlpha -= 3;
-                    if (iceSmoke->primAlpha <= 0) {
-                        iceSmoke->primAlpha = 0;
-                        iceSmoke->type = 0;
+                    effect->primAlpha -= 3;
+                    if (effect->primAlpha <= 0) {
+                        effect->primAlpha = 0;
+                        effect->type = 0;
                     }
                 }
-            } else if (iceSmoke->type == 2) { // Freezing
-                Math_ApproachF(&iceSmoke->xyScale, iceSmoke->xyScaleTarget, 0.1f, iceSmoke->xyScaleTarget / 10.0f);
-                if (iceSmoke->primAlphaState == 0) { // Becoming more opaque
-                    if (iceSmoke->timer >= 7) {
-                        iceSmoke->primAlphaState++;
+            } else if (effect->type == 2) { // Freezing
+                Math_ApproachF(&effect->xyScale, effect->xyScaleTarget, 0.1f, effect->xyScaleTarget / 10.0f);
+                if (effect->primAlphaState == 0) { // Becoming more opaque
+                    if (effect->timer >= 7) {
+                        effect->primAlphaState++;
                     }
                 } else { // Becoming more transparent, slows down
-                    iceSmoke->accel.y = 2.0f;
-                    iceSmoke->primAlpha -= 17;
-                    iceSmoke->velocity.x *= 0.75f;
-                    iceSmoke->velocity.z *= 0.75f;
-                    if (iceSmoke->primAlpha <= 0) {
-                        iceSmoke->primAlpha = 0;
-                        iceSmoke->type = 0;
+                    effect->accel.y = 2.0f;
+                    effect->primAlpha -= 17;
+                    effect->velocity.x *= 0.75f;
+                    effect->velocity.z *= 0.75f;
+                    if (effect->primAlpha <= 0) {
+                        effect->primAlpha = 0;
+                        effect->type = 0;
                     }
                 }
 
-                if ((this->unusedTimer2 == 0) && (iceSmoke->primAlpha >= 101) && iceSmoke->isTimerMod8) {
-                    this->collider3.dim.pos.x = (s16)iceSmoke->pos.x;
-                    this->collider3.dim.pos.y = (s16)iceSmoke->pos.y;
-                    this->collider3.dim.pos.z = (s16)iceSmoke->pos.z;
+                if ((this->unusedTimer2 == 0) && (effect->primAlpha >= 101) && effect->isTimerMod8) {
+                    this->collider3.dim.pos.x = (s16)effect->pos.x;
+                    this->collider3.dim.pos.y = (s16)effect->pos.y;
+                    this->collider3.dim.pos.z = (s16)effect->pos.z;
                     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider3.base);
                 }
 
-                pos.x = iceSmoke->pos.x;
-                pos.y = iceSmoke->pos.y + 10.0f;
-                pos.z = iceSmoke->pos.z;
+                pos.x = effect->pos.x;
+                pos.y = effect->pos.y + 10.0f;
+                pos.z = effect->pos.z;
 
-                if ((iceSmoke->primAlphaState != 2) && EnFz_ReachedTarget(this, &pos)) {
-                    iceSmoke->primAlphaState = 2;
-                    iceSmoke->velocity.x = 0.0f;
-                    iceSmoke->velocity.z = 0.0f;
+                if ((effect->primAlphaState != 2) && EnFz_ReachedTarget(this, &pos)) {
+                    effect->primAlphaState = 2;
+                    effect->velocity.x = 0.0f;
+                    effect->velocity.z = 0.0f;
                 }
             }
         }
-        iceSmoke++;
+        effect++;
     }
 }
 
-void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
-    EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
+void EnFz_DrawEffects(EnFz* this, GlobalContext* globalCtx) {
+    EnFzEffect* effect = this->effects;
     s16 i;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 texLoaded = false;
+    u8 materialFlag = 0;
 
     OPEN_DISPS(gfxCtx, "../z_en_fz.c", 1384);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(this->iceSmoke); i++) {
-        if (iceSmoke->type > 0) {
+    for (i = 0; i < EN_FZ_EFFECT_COUNT; i++) {
+        if (effect->type > 0) {
             gDPPipeSync(POLY_XLU_DISP++);
 
-            if (!texLoaded) {
+            if (!materialFlag) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));
-                texLoaded++;
+                materialFlag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, iceSmoke->primAlpha);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, effect->primAlpha);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 3 * (iceSmoke->timer + (3 * i)),
-                                        15 * (iceSmoke->timer + (3 * i)), 32, 64, 1, 0, 0, 32, 32));
-            Matrix_Translate(iceSmoke->pos.x, iceSmoke->pos.y, iceSmoke->pos.z, MTXMODE_NEW);
+                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 3 * (effect->timer + (3 * i)),
+                                        15 * (effect->timer + (3 * i)), 32, 64, 1, 0, 0, 32, 32));
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-            Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
+            Matrix_Scale(effect->xyScale, effect->xyScale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamDL));
         }
 
-        iceSmoke++;
+        effect++;
     }
 
     CLOSE_DISPS(gfxCtx, "../z_en_fz.c", 1430);

@@ -49,9 +49,9 @@ void Title_SetupView(TitleContext* this, f32 x, f32 y, f32 z) {
     lookAt.x = lookAt.y = lookAt.z = 0.0f;
     up.y = 1.0f;
 
-    func_800AA460(view, 30.0f, 10.0f, 12800.0f);
-    func_800AA358(view, &eye, &lookAt, &up);
-    func_800AAA50(view, 0xF);
+    View_SetPerspective(view, 30.0f, 10.0f, 12800.0f);
+    View_LookAt(view, &eye, &lookAt, &up);
+    View_Apply(view, VIEW_ALL);
 }
 
 void Title_Draw(TitleContext* this) {

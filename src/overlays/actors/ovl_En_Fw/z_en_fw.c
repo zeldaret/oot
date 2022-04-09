@@ -15,10 +15,10 @@ void EnFw_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx);
-void EnFw_UpdateDust(EnFw* this);
-void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx);
-void EnFw_AddDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
-                  f32 scaleStep);
+void EnFw_UpdateEffects(EnFw* this);
+void EnFw_DrawEffects(EnFw* this, GlobalContext* globalCtx);
+void EnFw_SpawnEffectDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
+                          f32 scaleStep);
 void EnFw_Bounce(EnFw* this, GlobalContext* globalCtx);
 void EnFw_Run(EnFw* this, GlobalContext* globalCtx);
 void EnFw_JumpToParentInitPos(EnFw* this, GlobalContext* globalCtx);
@@ -177,7 +177,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
         accel.z = (Rand_ZeroOne() - 0.5f) * xzAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
-        EnFw_AddDust(this, &pos, &velocity, &accel, timer, scale, scaleStep);
+        EnFw_SpawnEffectDust(this, &pos, &velocity, &accel, timer, scale, scaleStep);
         angle += (s16)(0x10000 / dustCnt);
         i--;
     }
@@ -398,21 +398,21 @@ void EnFw_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = (EnFw*)thisx;
 
-    EnFw_UpdateDust(this);
+    EnFw_UpdateEffects(this);
     Matrix_Push();
-    EnFw_DrawDust(this, globalCtx);
+    EnFw_DrawEffects(this, globalCtx);
     Matrix_Pop();
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
 }
 
-void EnFw_AddDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
-                  f32 scaleStep) {
+void EnFw_SpawnEffectDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* accel, u8 initialTimer, f32 scale,
+                          f32 scaleStep) {
     EnFwEffect* eff = this->effects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
+    for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
         if (eff->type != 1) {
             eff->scale = scale;
             eff->scaleStep = scaleStep;
@@ -426,11 +426,11 @@ void EnFw_AddDust(EnFw* this, Vec3f* initialPos, Vec3f* initialSpeed, Vec3f* acc
     }
 }
 
-void EnFw_UpdateDust(EnFw* this) {
+void EnFw_UpdateEffects(EnFw* this) {
     EnFwEffect* eff = this->effects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
+    for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
         if (eff->type != 0) {
             if ((--eff->timer) == 0) {
                 eff->type = 0;
@@ -448,29 +448,29 @@ void EnFw_UpdateDust(EnFw* this) {
     }
 }
 
-void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
+void EnFw_DrawEffects(EnFw* this, GlobalContext* globalCtx) {
     static void* dustTextures[] = {
         gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
     EnFwEffect* eff = this->effects;
-    s16 firstDone;
+    s16 materialFlag;
     s16 alpha;
     s16 i;
     s16 idx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fw.c", 1191);
 
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
 
-    for (i = 0; i < ARRAY_COUNT(this->effects); i++, eff++) {
+    for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
         if (eff->type != 0) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0U);
                 gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = eff->timer * (255.0f / eff->initialTimer);

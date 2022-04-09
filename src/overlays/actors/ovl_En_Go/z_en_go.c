@@ -29,9 +29,10 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx);
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx);
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx);
 
-void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep);
-void EnGo_UpdateDust(EnGo* this);
-void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx);
+void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
+                          f32 scaleStep);
+void EnGo_UpdateEffects(EnGo* this);
+void EnGo_DrawEffects(EnGo* this, GlobalContext* globalCtx);
 
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
@@ -532,7 +533,7 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
         accel.z = (Rand_ZeroOne() - 0.5f) * xzAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
-        EnGo_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
+        EnGo_SpawnEffectDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
     }
@@ -1124,9 +1125,9 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2479);
 
-    EnGo_UpdateDust(this);
+    EnGo_UpdateEffects(this);
     Matrix_Push();
-    EnGo_DrawDust(this, globalCtx);
+    EnGo_DrawEffects(this, globalCtx);
     Matrix_Pop();
 
     if (this->actionFunc == EnGo_CurledUp) {
@@ -1145,16 +1146,17 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2525);
-        EnGo_DrawDust(this, globalCtx);
+        EnGo_DrawEffects(this, globalCtx);
     }
 }
 
-void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
+                          f32 scaleStep) {
+    EnGoEffect* dustEffect = this->effects;
     s16 i;
     s16 timer;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
@@ -1171,12 +1173,12 @@ void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 init
     }
 }
 
-void EnGo_UpdateDust(EnGo* this) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo_UpdateEffects(EnGo* this) {
+    EnGoEffect* dustEffect = this->effects;
     f32 randomNumber;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             dustEffect->timer--;
             if (dustEffect->timer == 0) {
@@ -1197,25 +1199,25 @@ void EnGo_UpdateDust(EnGo* this) {
     }
 }
 
-void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
+void EnGo_DrawEffects(EnGo* this, GlobalContext* globalCtx) {
     static void* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     s16 alpha;
-    s16 firstDone;
+    s16 materialFlag;
     s16 index;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2626);
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);

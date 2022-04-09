@@ -1433,7 +1433,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     s16 i1;
     s16 i2;
 
-    for (i1 = 0; i1 < 180; i1++, effect++) {
+    for (i1 = 0; i1 < BOSSFD_EFFECT_COUNT; i1++, effect++) {
         if (effect->type != BFD_FX_NONE) {
             effect->timer1++;
 
@@ -1512,19 +1512,19 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
-    u8 flag = false;
+    u8 materialFlag = 0;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     BossFdEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 4023);
 
-    for (i = 0; i < 180; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_EMBER) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
@@ -1539,13 +1539,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DEBRIS) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1560,15 +1560,15 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DUST) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 90, 30, 0, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 90, 30, 0, 0);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1583,14 +1583,14 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_FIRE_BREATH) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 255);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, effect->alpha);
@@ -1606,13 +1606,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_SKULL_PIECE) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);

@@ -78,7 +78,7 @@ static ColliderCylinderInit sLaserCylinderInit = {
 static UNK_TYPE4 D_809D5C98 = 0; // unused
 static UNK_TYPE4 D_809D5C9C = 0; // unused
 
-static EnClearTagEffect sClearTagEffects[CLEAR_TAG_EFFECT_MAX_COUNT];
+static EnClearTagEffect sEffects[CLEAR_TAG_EFFECT_COUNT];
 
 #include "overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
 
@@ -92,7 +92,7 @@ void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx, Vec3f* position, Ve
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a Debris effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->type = CLEAR_TAG_EFFECT_DEBRIS;
 
@@ -126,7 +126,7 @@ void EnClearTag_CreateFireEffect(GlobalContext* globalCtx, Vec3f* pos, f32 scale
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a fire effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->random = (s16)Rand_ZeroFloat(100.0f);
             effect->type = CLEAR_TAG_EFFECT_FIRE;
@@ -154,7 +154,7 @@ void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx, Vec3f* position, f32
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a smoke effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->random = (s16)Rand_ZeroFloat(100.0f);
             effect->type = CLEAR_TAG_EFFECT_SMOKE;
@@ -190,7 +190,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a flash effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->type = CLEAR_TAG_EFFECT_FLASH;
 
@@ -271,9 +271,9 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         // Initialize all effects to available if effects have not been initialized.
         if (!sIsEffectsInitialized) {
             sIsEffectsInitialized = true;
-            globalCtx->specialEffects = &sClearTagEffects[0];
-            for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++) {
-                sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
+            globalCtx->specialEffects = sEffects;
+            for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++) {
+                sEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
             }
             this->drawMode = CLEAR_TAG_DRAW_MODE_ALL;
         }
@@ -780,7 +780,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
     f32 originalYPosition;
     Vec3f sphereCenter;
 
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type != CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->random++;
 
@@ -891,7 +891,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
 void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     s16 i;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 isMaterialApplied = false;
+    u8 materialFlag = 0;
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
     EnClearTagEffect* firstEffect = effect;
 
@@ -900,11 +900,11 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     // Draw all Debris effects.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_DEBRIS) {
             // Apply the debris effect material if it has not already been applied.
-            if (!isMaterialApplied) {
-                isMaterialApplied++;
+            if (materialFlag == 0) {
+                materialFlag++;
                 gSPDisplayList(POLY_OPA_DISP++, gArwingDebrisEffectMaterialDL);
             }
 
@@ -921,14 +921,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all ground flash effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash ground effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the ground flash effect.
@@ -945,13 +945,13 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all smoke effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_SMOKE) {
             // Apply the smoke effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectMaterialDL);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the smoke effect.
@@ -974,14 +974,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all fire effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
             // Apply the fire effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 215, 255, 128);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the fire effect.
@@ -1000,14 +1000,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all flash billboard effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash billboard effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the flash billboard effect.

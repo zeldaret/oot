@@ -2975,7 +2975,7 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
     up.x = up.z = 0.0f;
     up.y = 1.0f;
 
-    func_800AA358(&interfaceCtx->view, &eye, &lookAt, &up);
+    View_LookAt(&interfaceCtx->view, &eye, &lookAt, &up);
 
     interfaceCtx->viewport.topY = topY;
     interfaceCtx->viewport.bottomY = bottomY;
@@ -2983,13 +2983,13 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
     interfaceCtx->viewport.rightX = rightX;
     View_SetViewport(&interfaceCtx->view, &interfaceCtx->viewport);
 
-    func_800AA460(&interfaceCtx->view, 60.0f, 10.0f, 60.0f);
-    func_800AB560(&interfaceCtx->view);
+    View_SetPerspective(&interfaceCtx->view, 60.0f, 10.0f, 60.0f);
+    View_ApplyPerspectiveToOverlay(&interfaceCtx->view);
 }
 
 void func_8008A994(InterfaceContext* interfaceCtx) {
     SET_FULLSCREEN_VIEWPORT(&interfaceCtx->view);
-    func_800AB2C4(&interfaceCtx->view);
+    View_ApplyOrthoToOverlay(&interfaceCtx->view);
 }
 
 void Interface_Draw(GlobalContext* globalCtx) {

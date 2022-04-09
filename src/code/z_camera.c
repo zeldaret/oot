@@ -5097,9 +5097,9 @@ s32 Camera_Unique9(Camera* camera) {
         anim->atTarget = anim->curKeyFrame->atTargetInit;
     } else if (atInitFlags == 2) {
         if (anim->isNewKeyFrame) {
-            anim->atTarget.x = camera->globalCtx->view.lookAt.x + anim->curKeyFrame->atTargetInit.x;
-            anim->atTarget.y = camera->globalCtx->view.lookAt.y + anim->curKeyFrame->atTargetInit.y;
-            anim->atTarget.z = camera->globalCtx->view.lookAt.z + anim->curKeyFrame->atTargetInit.z;
+            anim->atTarget.x = camera->globalCtx->view.at.x + anim->curKeyFrame->atTargetInit.x;
+            anim->atTarget.y = camera->globalCtx->view.at.y + anim->curKeyFrame->atTargetInit.y;
+            anim->atTarget.z = camera->globalCtx->view.at.z + anim->curKeyFrame->atTargetInit.z;
         }
     } else if (atInitFlags == 3) {
         if (anim->isNewKeyFrame) {
@@ -7473,7 +7473,7 @@ Vec3s Camera_Update(Camera* camera) {
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
         DbCamera_Update(&D_8015BD80, camera);
-        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
+        View_LookAt(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
@@ -7524,7 +7524,7 @@ Vec3s Camera_Update(Camera* camera) {
         View_SetScale(&camera->globalCtx->view, 1.0f);
     }
     camera->globalCtx->view.fovy = viewFov;
-    func_800AA358(&camera->globalCtx->view, &viewEye, &viewAt, &viewUp);
+    View_LookAt(&camera->globalCtx->view, &viewEye, &viewAt, &viewUp);
     camera->camDir.x = eyeAtAngle.pitch;
     camera->camDir.y = eyeAtAngle.yaw;
     camera->camDir.z = 0;
