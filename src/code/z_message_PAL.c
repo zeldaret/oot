@@ -739,7 +739,9 @@ u16 Message_DrawItemIcon(GlobalContext* globalCtx, u16 itemId, Gfx** p, u16 i) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
 
     // clang-format off
-    if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) { Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8); }
+    if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) { Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0,
+                                                                             &D_801333E0, &D_801333E8);
+    }
     // clang-format on
 
     gDPPipeSync(gfx++);
@@ -986,7 +988,9 @@ void Message_DrawText(GlobalContext* globalCtx, Gfx** gfxP) {
                 break;
             case MESSAGE_BACKGROUND:
                 // clang-format off
-                if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) { Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8); }
+                if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) { Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0,
+                                                                                            &D_801333E0, &D_801333E8);
+                }
                 // clang-format on
                 gDPPipeSync(gfx++);
                 gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);

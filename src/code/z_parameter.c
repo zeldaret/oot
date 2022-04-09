@@ -2087,7 +2087,8 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState) {
         (globalCtx->csCtx.state == CS_STATE_IDLE)) {
         // clang-format off
         if (naviCallState == 0x1E) { Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &D_801333D4, 4,
-                                                            &D_801333E0, &D_801333E0, &D_801333E8); }
+                                                            &D_801333E0, &D_801333E0, &D_801333E8);
+        }
         // clang-format on
 
         if (naviCallState == 0x1D) {
