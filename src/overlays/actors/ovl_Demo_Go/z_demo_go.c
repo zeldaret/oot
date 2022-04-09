@@ -333,7 +333,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_go.c", 732);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
 

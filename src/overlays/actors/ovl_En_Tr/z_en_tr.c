@@ -437,7 +437,7 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 840);
-        func_800943C8(globalCtx->state.gfxCtx);
+        Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
         func_8002EBCC(&this->actor, globalCtx, 0);
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,

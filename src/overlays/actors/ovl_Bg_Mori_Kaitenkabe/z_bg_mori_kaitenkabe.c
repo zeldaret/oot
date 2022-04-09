@@ -161,7 +161,7 @@ void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 347);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 

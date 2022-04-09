@@ -2263,7 +2263,7 @@ void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, D_80B4A2F8);
 
     if (this->alpha == 255) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
@@ -2283,7 +2283,7 @@ void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if (1) {}
         }
     } else { // fades out when dead
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_XLU_DISP++, 0x09, &D_80116280[0]);

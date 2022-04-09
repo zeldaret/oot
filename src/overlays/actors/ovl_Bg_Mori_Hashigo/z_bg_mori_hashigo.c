@@ -284,7 +284,7 @@ void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHashigo* this = (BgMoriHashigo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashigo.c", 516);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     if (1) {}
     gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 

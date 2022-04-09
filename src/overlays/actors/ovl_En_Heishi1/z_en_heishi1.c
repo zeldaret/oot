@@ -487,7 +487,7 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi1_OverrideLimbDraw, NULL,
                       this);
     func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, globalCtx);

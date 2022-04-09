@@ -323,7 +323,7 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     s32 phi_t1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 844);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

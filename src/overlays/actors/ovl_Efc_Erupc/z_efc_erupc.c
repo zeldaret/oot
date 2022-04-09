@@ -116,7 +116,7 @@ void EfcErupc_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_efc_erupc.c", 282);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_14C * 1, this->unk_14E * -4, 32, 64, 1,
@@ -167,7 +167,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effect, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
     for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effect++) {
         if (effect->isActive) {
-            func_80093D84(globalCtx->state.gfxCtx);
+            Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002760);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 0, 0);

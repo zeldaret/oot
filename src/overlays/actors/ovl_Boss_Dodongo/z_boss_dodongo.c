@@ -1122,7 +1122,7 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_dodongo.c", 3922);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     if ((this->unk_1C0 >= 2) && (this->unk_1C0 & 1)) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
@@ -1681,7 +1681,7 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_boss_dodongo.c", 5228);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
     unkMtx = &globalCtx->billboardMtxF;
 
     for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {

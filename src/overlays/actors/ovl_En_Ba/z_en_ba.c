@@ -480,7 +480,7 @@ void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f unused = { 0.0f, 0.0f, 448.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ba.c", 933);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     if (this->actor.params < EN_BA_DEAD_BLOB) {
         Matrix_Push();
         gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);

@@ -911,23 +911,23 @@ void Gfx_CallSetupDLAtPtr(Gfx** gfxp, u32 i) {
     *gfxp = Gfx_CallSetupDL(*gfxp, i);
 }
 
-Gfx* func_800937C0(Gfx* gfx) {
+Gfx* Gfx_SetupDl57(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_57]);
     return gfx;
 }
 
-Gfx* func_800937E4(Gfx* gfx) {
+Gfx* Gfx_SetupDl57b(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_57]);
     return gfx;
 }
 
-Gfx* func_80093808(Gfx* gfx) {
+Gfx* Gfx_SetupDl52NoCD(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_52]);
     gDPSetColorDither(gfx++, G_CD_DISABLE);
     return gfx;
 }
 
-void func_80093848(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl58Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1293);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_58]);
@@ -935,7 +935,7 @@ void func_80093848(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1297);
 }
 
-void func_800938B4(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl57Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1309);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_57]);
@@ -943,7 +943,7 @@ void func_800938B4(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1313);
 }
 
-void func_80093920(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl50Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1325);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_50]);
@@ -951,7 +951,7 @@ void func_80093920(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1329);
 }
 
-void func_8009398C(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl51Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1341);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_51]);
@@ -959,7 +959,7 @@ void func_8009398C(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1345);
 }
 
-void func_800939F8(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl52Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1357);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_52]);
@@ -967,7 +967,7 @@ void func_800939F8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1361);
 }
 
-void func_80093A64(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl53Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1373);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_53]);
@@ -975,7 +975,7 @@ void func_80093A64(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1377);
 }
 
-void func_80093AD0(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl54Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1389);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_54]);
@@ -983,7 +983,7 @@ void func_80093AD0(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1393);
 }
 
-void func_80093B3C(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl55Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1405);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_55]);
@@ -991,7 +991,7 @@ void func_80093B3C(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1409);
 }
 
-void func_80093BA8(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl26Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1421);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_26]);
@@ -999,7 +999,7 @@ void func_80093BA8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1425);
 }
 
-void func_80093C14(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl25Xlu2(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1439);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_25]);
@@ -1010,7 +1010,7 @@ void func_80093C14(GraphicsContext* gfxCtx) {
 void func_80093C80(GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
 
     if (globalCtx->roomCtx.curRoom.unk_03 == 3) {
         OPEN_DISPS(gfxCtx, "../z_rcp.c", 1460);
@@ -1021,7 +1021,7 @@ void func_80093C80(GlobalContext* globalCtx) {
     }
 }
 
-void func_80093D18(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl25Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1475);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_25]);
@@ -1029,7 +1029,7 @@ void func_80093D18(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1479);
 }
 
-void func_80093D84(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl25Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1491);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_25]);
@@ -1037,7 +1037,7 @@ void func_80093D84(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1495);
 }
 
-void func_80093DF0(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl31Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1507);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_31]);
@@ -1045,7 +1045,7 @@ void func_80093DF0(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1511);
 }
 
-void func_80093E5C(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl32Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1523);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_32]);
@@ -1053,7 +1053,7 @@ void func_80093E5C(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1527);
 }
 
-void func_80093EC8(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl33Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1539);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_33]);
@@ -1061,25 +1061,25 @@ void func_80093EC8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1543);
 }
 
-Gfx* func_80093F34(Gfx* gfx) {
+Gfx* Gfx_SetupDl64(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_64]);
     return gfx;
 }
 
-Gfx* func_80093F58(Gfx* gfx) {
+Gfx* Gfx_SetupDl34(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_34]);
     return gfx;
 }
 
-void func_80093F7C(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl34Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1569);
 
-    POLY_OPA_DISP = func_80093F58(POLY_OPA_DISP);
+    POLY_OPA_DISP = Gfx_SetupDl34(POLY_OPA_DISP);
 
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1573);
 }
 
-void func_80093FD8(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl35Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1585);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_35]);
@@ -1087,7 +1087,7 @@ void func_80093FD8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1589);
 }
 
-void func_80094044(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl44Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1601);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_44]);
@@ -1095,7 +1095,7 @@ void func_80094044(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1605);
 }
 
-void func_800940B0(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl36Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1617);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_36]);
@@ -1103,12 +1103,12 @@ void func_800940B0(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1621);
 }
 
-Gfx* func_8009411C(Gfx* gfx) {
+Gfx* Gfx_SetupDl28(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_28]);
     return gfx;
 }
 
-void func_80094140(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl28Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1640);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_28]);
@@ -1116,7 +1116,7 @@ void func_80094140(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1644);
 }
 
-void func_800941AC(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl43Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1651);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_43]);
@@ -1124,7 +1124,7 @@ void func_800941AC(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1655);
 }
 
-void func_80094218(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl45Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1670);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_45]);
@@ -1132,7 +1132,7 @@ void func_80094218(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1674);
 }
 
-void func_80094284(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl46Overlay(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1681);
 
     gSPDisplayList(OVERLAY_DISP++, sSetupDL[SETUPDL_46]);
@@ -1140,7 +1140,7 @@ void func_80094284(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1685);
 }
 
-void func_800942F0(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl38Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1700);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_38]);
@@ -1148,7 +1148,7 @@ void func_800942F0(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1704);
 }
 
-void func_8009435C(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl4Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1722);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_4]);
@@ -1156,7 +1156,7 @@ void func_8009435C(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1726);
 }
 
-void func_800943C8(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl37Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1758);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_37]);
@@ -1164,7 +1164,7 @@ void func_800943C8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1762);
 }
 
-void func_80094434(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl2Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1775);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_2]);
@@ -1172,34 +1172,35 @@ void func_80094434(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1779);
 }
 
-Gfx* func_800944A0(Gfx* gfx) {
+Gfx* Gfx_SetupDl39(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_39]);
     return gfx;
 }
 
-void func_800944C4(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl39Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1799);
 
-    POLY_OPA_DISP = func_800944A0(POLY_OPA_DISP);
+    POLY_OPA_DISP = Gfx_SetupDl39(POLY_OPA_DISP);
 
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1801);
 }
 
-void func_80094520(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl39Overlay(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1809);
 
-    OVERLAY_DISP = func_800944A0(OVERLAY_DISP);
+    OVERLAY_DISP = Gfx_SetupDl39(OVERLAY_DISP);
 
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1811);
 }
 
-void func_8009457C(Gfx** gfxp) {
+void Gfx_SetupDl39Ptr(Gfx** gfxp) {
     Gfx* gfx = *gfxp;
+
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_39]);
     *gfxp = gfx;
 }
 
-void func_800945A0(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl40Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1837);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_40]);
@@ -1207,7 +1208,7 @@ void func_800945A0(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1841);
 }
 
-void func_8009460C(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl41Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1853);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_41]);
@@ -1215,7 +1216,7 @@ void func_8009460C(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1857);
 }
 
-void func_80094678(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl47Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1869);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_47]);
@@ -1223,23 +1224,23 @@ void func_80094678(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1873);
 }
 
-Gfx* func_800946E4(Gfx* gfx) {
+Gfx* Gfx_SetupDl66(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_66]);
     return gfx;
 }
 
-Gfx* func_80094708(Gfx* gfx) {
+Gfx* Gfx_SetupDl67(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_67]);
     return gfx;
 }
 
-Gfx* func_8009472C(Gfx* gfx) {
+Gfx* Gfx_SetupDl68NoCD(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_68]);
     gDPSetColorDither(gfx++, G_CD_DISABLE);
     return gfx;
 }
 
-Gfx* func_8009476C(Gfx* gfx) {
+Gfx* Gfx_SetupDl69NoCD(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_69]);
     gDPSetColorDither(gfx++, G_CD_DISABLE);
     return gfx;
@@ -1268,18 +1269,18 @@ Gfx* func_800947AC(Gfx* gfx) {
     return gfx;
 }
 
-Gfx* func_80094944(Gfx* gfx) {
+Gfx* Gfx_SetupDl70(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_70]);
     return gfx;
 }
 
-Gfx* func_80094968(Gfx* gfx) {
+Gfx* Gfx_SetupDl20NoCD(Gfx* gfx) {
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_20]);
     gDPSetColorDither(gfx++, G_CD_DISABLE);
     return gfx;
 }
 
-void func_800949A8(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl42Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1953);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_42]);
@@ -1287,7 +1288,7 @@ void func_800949A8(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1957);
 }
 
-void func_80094A14(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl42Overlay(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1964);
 
     gSPDisplayList(OVERLAY_DISP++, sSetupDL[SETUPDL_42]);
@@ -1295,7 +1296,7 @@ void func_80094A14(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1968);
 }
 
-void func_80094A80(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl48Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 1992);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_48]);
@@ -1303,7 +1304,7 @@ void func_80094A80(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 1996);
 }
 
-void func_80094AEC(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl49Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2008);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_49]);
@@ -1311,7 +1312,7 @@ void func_80094AEC(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2012);
 }
 
-void func_80094B58(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl27Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2024);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_27]);
@@ -1319,7 +1320,7 @@ void func_80094B58(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2028);
 }
 
-void func_80094BC4(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl60NoCDXlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2040);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_60]);
@@ -1328,7 +1329,7 @@ void func_80094BC4(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2043);
 }
 
-void func_80094C50(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl61Xlu(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2056);
 
     gSPDisplayList(POLY_XLU_DISP++, sSetupDL[SETUPDL_61]);
@@ -1336,7 +1337,7 @@ void func_80094C50(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2058);
 }
 
-void func_80094CBC(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl56Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2086);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_56]);
@@ -1344,7 +1345,7 @@ void func_80094CBC(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../z_rcp.c", 2090);
 }
 
-void func_80094D28(Gfx** gfxp) {
+void Gfx_SetupDl56Ptr(Gfx** gfxp) {
     Gfx* gfx = *gfxp;
 
     gSPDisplayList(gfx++, sSetupDL[SETUPDL_56]);
@@ -1352,7 +1353,7 @@ void func_80094D28(Gfx** gfxp) {
     *gfxp = gfx;
 }
 
-void func_80094D4C(GraphicsContext* gfxCtx) {
+void Gfx_SetupDl59Opa(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_rcp.c", 2112);
 
     gSPDisplayList(POLY_OPA_DISP++, sSetupDL[SETUPDL_59]);

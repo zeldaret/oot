@@ -643,7 +643,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_SPOT20 || globalCtx->sceneNum != SCENE_MALON_STABLE) {
         func_80A6C8E0(this, globalCtx);
     }
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseNormal_PostDraw, true);
 
     if (this->action == HORSE_WAIT_CLONE) {
@@ -700,7 +700,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         this->cloneCollider.dim.pos.y = clonePos.y;
         this->cloneCollider.dim.pos.z = clonePos.z;
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cloneCollider.base);
-        func_80094044(globalCtx->state.gfxCtx);
+        Gfx_SetupDl44Xlu(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
         Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, MTXMODE_NEW);
         temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.shadowScale;

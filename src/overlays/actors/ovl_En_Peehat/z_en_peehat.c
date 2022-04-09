@@ -1070,7 +1070,7 @@ void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
     };
     EnPeehat* this = (EnPeehat*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPeehat_OverrideLimbDraw,
                       EnPeehat_PostLimbDraw, this);
     if (this->actor.speedXZ != 0.0f || this->actor.velocity.y != 0.0f) {

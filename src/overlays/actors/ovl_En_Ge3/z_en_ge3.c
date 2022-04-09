@@ -286,7 +286,7 @@ void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge3.c", 614);
 
-    func_800943C8(globalCtx->state.gfxCtx);
+    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     func_8002EBCC(&this->actor, globalCtx, 0);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

@@ -365,7 +365,7 @@ void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnMk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMk* this = (EnMk*)thisx;
 
-    func_800943C8(globalCtx->state.gfxCtx);
+    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMk_OverrideLimbDraw, EnMk_PostLimbDraw, &this->actor);
 }

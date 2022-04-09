@@ -587,7 +587,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1386);
 
-    func_80094044(globalCtx->state.gfxCtx);
+    Gfx_SetupDl44Xlu(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
 
     func_80038A28(this->actor.floorPoly, this->actor.world.pos.x, this->actor.floorHeight, this->actor.world.pos.z,
@@ -645,7 +645,7 @@ void EnWallmas_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnWallmas* this = (EnWallmas*)thisx;
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }

@@ -317,7 +317,7 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx) {
 
         if (1) {}
 
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                     (this->vScrollTimer * -20) & 0x1FF, 0x20, 0x80));
@@ -348,7 +348,7 @@ void BgHakaGate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (CHECK_FLAG_ALL(thisx->flags, ACTOR_FLAG_7)) {
         Gfx_DrawDListXlu(globalCtx, object_haka_objects_DL_00F1B0);
     } else {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         if (thisx->params == BGHAKAGATE_FLOOR) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 781);
             Matrix_Get(&currentMtxF);

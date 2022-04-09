@@ -487,7 +487,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (!(this->reflectIntensity <= 0.0f)) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_mir_ray.c", 966);
 
-            func_80093D84(globalCtx->state.gfxCtx);
+            Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
             Matrix_Scale(1.0f, 1.0f, this->reflectIntensity * 5.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

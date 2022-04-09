@@ -788,7 +788,7 @@ void EnVali_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnVali* this = (EnVali*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_vali.c", 1505);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TexScroll(globalCtx->state.gfxCtx, 0, (127 - (globalCtx->gameplayFrames * 12)) % 128, 32, 32));

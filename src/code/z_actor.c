@@ -724,7 +724,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         height = (width * height > 0x1000) ? 0x1000 / width : height;
         titleSecondY = titleY + (height * 4);
 
-        OVERLAY_DISP = func_80093808(OVERLAY_DISP);
+        OVERLAY_DISP = Gfx_SetupDl52NoCD(OVERLAY_DISP);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
                         (u8)titleCtx->alpha);
@@ -3851,7 +3851,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8831);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, alpha);
@@ -3868,7 +3868,7 @@ void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8876);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, alpha);

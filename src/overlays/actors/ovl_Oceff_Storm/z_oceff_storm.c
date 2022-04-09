@@ -132,7 +132,7 @@ void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    POLY_XLU_DISP = func_80093F34(POLY_XLU_DISP);
+    POLY_XLU_DISP = Gfx_SetupDl64(POLY_XLU_DISP);
     gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
     gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 150, this->primColorAlpha);
@@ -152,7 +152,7 @@ void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 486);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 0, 128);

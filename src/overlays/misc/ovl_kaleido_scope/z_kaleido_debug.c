@@ -113,7 +113,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
     pauseCtx->stickRelX = input->rel.stick_x;
     pauseCtx->stickRelY = input->rel.stick_y;
 
-    func_800944C4(globalCtx->state.gfxCtx);
+    Gfx_SetupDl39Opa(globalCtx->state.gfxCtx);
 
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);

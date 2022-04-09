@@ -321,7 +321,7 @@ void EnBrob_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 void EnBrob_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBrob* this = (EnBrob*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     Matrix_Translate(0.0f, this->unk_1AE, 0.0f, MTXMODE_APPLY);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, EnBrob_PostLimbDraw, this);

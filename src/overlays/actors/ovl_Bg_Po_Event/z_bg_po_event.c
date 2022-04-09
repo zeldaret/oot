@@ -604,7 +604,7 @@ void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_event.c", 1481);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     if ((this->type == 3) || (this->type == 2)) {
         if (this->actionFunc == BgPoEvent_PaintingEmpty) {
             alpha = 255;

@@ -124,7 +124,7 @@ void BgSstFloor_Draw(BgSstFloor* thisx, GlobalContext* globalCtx) {
     BgSstFloor* this = (BgSstFloor*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 277);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     Matrix_Scale(1.0f, this->drumHeight * -0.0025f, 1.0f, MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 283),

@@ -317,7 +317,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 565);
 
     if (globalCtx->interfaceCtx.minimapAlpha >= 0xAA) {
-        func_80094A14(globalCtx->state.gfxCtx);
+        Gfx_SetupDl42Overlay(globalCtx->state.gfxCtx);
 
         gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
@@ -378,7 +378,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
                 if (!R_MINIMAP_DISABLED) {
-                    func_80094520(globalCtx->state.gfxCtx);
+                    Gfx_SetupDl39Overlay(globalCtx->state.gfxCtx);
                     gDPSetCombineLERP(OVERLAY_DISP++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0,
                                       TEXEL0, 0, PRIMITIVE, 0);
 
@@ -396,7 +396,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
 
                     if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
-                        func_80094520(globalCtx->state.gfxCtx);
+                        Gfx_SetupDl39Overlay(globalCtx->state.gfxCtx);
                         MapMark_Draw(globalCtx);
                     }
                 }
@@ -434,7 +434,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
             case SCENE_SPOT20:
             case SCENE_GANON_TOU:
                 if (!R_MINIMAP_DISABLED) {
-                    func_80094520(globalCtx->state.gfxCtx);
+                    Gfx_SetupDl39Overlay(globalCtx->state.gfxCtx);
 
                     gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MINIMAP_COLOR(0), R_MINIMAP_COLOR(1), R_MINIMAP_COLOR(2),

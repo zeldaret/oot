@@ -1588,7 +1588,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->action != GELDB_WAIT) || !this->invisible) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->blinkState]));
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGeldB_OverrideLimbDraw, EnGeldB_PostLimbDraw, this);

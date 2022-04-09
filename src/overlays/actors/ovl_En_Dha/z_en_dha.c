@@ -459,7 +459,7 @@ void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnDha* this = (EnDha*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDha_OverrideLimbDraw, EnDha_PostLimbDraw, this);
 }

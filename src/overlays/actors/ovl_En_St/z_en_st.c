@@ -1082,7 +1082,7 @@ void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSt* this = (EnSt*)thisx;
 
     EnSt_CheckBodyStickHit(this, globalCtx);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSt_OverrideLimbDraw,
                       EnSt_PostLimbDraw, this);
 }

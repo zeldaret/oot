@@ -379,7 +379,7 @@ void EnCow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = (EnCow*)thisx;
 
-    func_800943C8(globalCtx->state.gfxCtx);
+    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnCow_OverrideLimbDraw, EnCow_PostLimbDraw, this);
 }
@@ -387,7 +387,7 @@ void EnCow_Draw(Actor* thisx, GlobalContext* globalCtx) {
 void func_809E0070(Actor* thisx, GlobalContext* globalCtx) {
     EnCow* this = (EnCow*)thisx;
 
-    func_800943C8(globalCtx->state.gfxCtx);
+    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
 }

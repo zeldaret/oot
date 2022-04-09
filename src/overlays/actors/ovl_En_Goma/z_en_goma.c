@@ -783,7 +783,7 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_goma.c", 2040);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     switch (this->gomaType) {
         case ENGOMA_NORMAL:

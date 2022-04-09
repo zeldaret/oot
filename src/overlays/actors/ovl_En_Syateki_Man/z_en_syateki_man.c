@@ -498,7 +498,7 @@ void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnSyatekiMan_OverrideLimbDraw, NULL, this);
 }

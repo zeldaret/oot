@@ -933,8 +933,8 @@ void func_80A76798(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ik_inFight.c", 1309);
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     if (this->actor.params == 0) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80A761B0(globalCtx->state.gfxCtx, 245, 225, 155, 30, 30, 0));
@@ -1219,8 +1219,8 @@ void func_80A77844(EnIk* this, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_en_ik_inAwake.c", 322);
 
     func_8002EBCC(&this->actor, globalCtx, 0);
-    func_80093D18(gfxCtx);
-    func_80093D84(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
+    Gfx_SetupDl25Xlu(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
     gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));
@@ -1373,8 +1373,8 @@ void func_80A77EDC(EnIk* this, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_en_ik_inConfrontion.c", 630);
 
     func_8002EBCC(&this->actor, globalCtx, 0);
-    func_80093D18(gfxCtx);
-    func_80093D84(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
+    Gfx_SetupDl25Xlu(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80A761B0(gfxCtx, 245, 225, 155, 30, 30, 0));
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80A761B0(gfxCtx, 255, 40, 0, 40, 0, 0));
     gSPSegment(POLY_OPA_DISP++, 0x0A, func_80A761B0(gfxCtx, 255, 255, 255, 20, 40, 30));

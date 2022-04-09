@@ -257,7 +257,7 @@ void DemoEc_DrawSkeleton(DemoEc* this, GlobalContext* globalCtx, void* eyeTextur
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 565);
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
 
     if (eyeTexture != NULL) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
@@ -283,7 +283,7 @@ void DemoEc_DrawSkeletonCustomColor(DemoEc* this, GlobalContext* globalCtx, Gfx*
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 609);
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
 
     if (arg2 != 0) {
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(arg2));

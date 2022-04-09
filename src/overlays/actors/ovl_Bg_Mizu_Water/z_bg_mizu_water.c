@@ -330,7 +330,7 @@ void BgMizuWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_water.c", 738);
     gameplayFrames = globalCtx->gameplayFrames;
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x0C,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -gameplayFrames * 1, gameplayFrames * 1, 32, 32, 1, 0,

@@ -399,7 +399,7 @@ s32 func_809B5F98(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnAttackNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAttackNiw* this = (EnAttackNiw*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           func_809B5F98, NULL, this);
 }

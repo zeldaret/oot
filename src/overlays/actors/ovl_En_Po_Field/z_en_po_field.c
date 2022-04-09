@@ -781,7 +781,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
 
     if (this->flameTimer != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_field.c", 1669);
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
                                     (globalCtx->gameplayFrames * -20) % 512, 32, 128));
@@ -927,8 +927,8 @@ void EnPoField_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != EnPoField_WaitForSpawn) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_field.c", 1976);
-        func_80093D18(globalCtx->state.gfxCtx);
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x0A,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, info->envColor.r, info->envColor.g, info->envColor.b, 255));
         if (this->lightColor.a == 255 || this->lightColor.a == 0) {
@@ -977,7 +977,7 @@ void EnPoField_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_field.c", 2077);
     if (this->actionFunc == EnPoField_SoulIdle) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x0A,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, info->envColor.r, info->envColor.g, info->envColor.b, 255));
         Lights_PointGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -988,7 +988,7 @@ void EnPoField_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_OPA_DISP++, gPoeFieldLanternDL);
         gSPDisplayList(POLY_OPA_DISP++, gPoeFieldLanternTopDL);
     } else {
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                     (globalCtx->gameplayFrames * info->unk_9) & 0x1FF, 0x20, 0x80));

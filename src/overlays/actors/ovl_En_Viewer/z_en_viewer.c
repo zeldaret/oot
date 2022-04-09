@@ -504,7 +504,7 @@ s32 EnViewer_Ganondorf3OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex,
 void EnViewer_Ganondorf9PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     if (limbIndex == 11) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1365);
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_viewer.c", 1370),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_ganon_DL_00BE90));
@@ -700,12 +700,12 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
         type = this->actor.params >> 8;
         if (type <= ENVIEWER_TYPE_2_ZELDA) { // zelda's horse, impa and zelda
             if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL) {
-                func_80093D18(globalCtx->state.gfxCtx);
+                Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
                 sDrawFuncs[this->drawFuncIndex](this, globalCtx);
             }
         } else if ((globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL) ||
                    type == ENVIEWER_TYPE_9_GANONDORF) {
-            func_80093D18(globalCtx->state.gfxCtx);
+            Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
             sDrawFuncs[this->drawFuncIndex](this, globalCtx);
         }
     }
@@ -842,7 +842,7 @@ void EnViewer_DrawFireEffects(EnViewer* this2, GlobalContext* globalCtx) {
                 break;
         }
 
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         Matrix_Translate(this->fireEffects[i].pos.x, this->fireEffects[i].pos.y, this->fireEffects[i].pos.z,
                          MTXMODE_NEW);
         Matrix_Scale(this->fireEffects[i].scale, this->fireEffects[i].scale, this->fireEffects[i].scale, MTXMODE_APPLY);

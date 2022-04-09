@@ -162,7 +162,7 @@ void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 

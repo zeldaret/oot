@@ -254,7 +254,7 @@ void EnPoDesert_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnPoDesert* this = (EnPoDesert*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_po_desert.c", 559);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x0A, Gfx_EnvColor(globalCtx->state.gfxCtx, 255, 85, 0, 255));
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,

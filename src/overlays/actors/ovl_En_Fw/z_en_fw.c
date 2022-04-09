@@ -402,7 +402,7 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Push();
     EnFw_DrawEffects(this, globalCtx);
     Matrix_Pop();
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
 }
@@ -461,7 +461,7 @@ void EnFw_DrawEffects(EnFw* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fw.c", 1191);
 
     materialFlag = false;
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
     if (1) {}
 
     for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {

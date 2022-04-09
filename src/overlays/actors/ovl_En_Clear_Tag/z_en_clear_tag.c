@@ -687,7 +687,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_clear_tag.c", 983);
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
         if (this->state >= CLEAR_TAG_STATE_LASER) {
             // Draw Arwing lasers.
@@ -704,7 +704,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(POLY_XLU_DISP++, gArwingLaserDL);
         } else {
             // Draw the Arwing itself.
-            func_80093D18(globalCtx->state.gfxCtx);
+            Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
             if (this->crashingTimer != 0) {
                 f32 xRotation;
@@ -896,8 +896,8 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     EnClearTagEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_en_clear_tag.c", 1288);
-    func_80093D18(globalCtx->state.gfxCtx);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     // Draw all Debris effects.
     for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {

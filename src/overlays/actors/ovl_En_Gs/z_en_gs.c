@@ -569,7 +569,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1046);
 
         frames = globalCtx->gameplayFrames;
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         Matrix_Push();
         if (this->unk_19E & 1) {
             Matrix_RotateY(BINANG_TO_RAD(this->unk_1A0[0].y), MTXMODE_APPLY);
@@ -597,7 +597,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         Matrix_Pop();
         if (this->unk_19E & 2) {
-            func_80093D84(globalCtx->state.gfxCtx);
+            Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 

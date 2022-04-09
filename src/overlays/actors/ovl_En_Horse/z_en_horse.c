@@ -3824,7 +3824,7 @@ void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorse* this = (EnHorse*)thisx;
 
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         this->stateFlags |= ENHORSE_DRAW;
         if (this->stateFlags & ENHORSE_JUMPING) {
             func_800A6360(thisx, globalCtx, &this->skin, EnHorse_PostDraw, EnHorse_OverrideLimbDraw, false);

@@ -376,7 +376,7 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 695);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (globalCtx->state.frames * -20) % 512,

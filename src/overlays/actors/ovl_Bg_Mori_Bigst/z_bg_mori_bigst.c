@@ -244,7 +244,7 @@ void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.status[this->moriTexObjIndex].segment);
 

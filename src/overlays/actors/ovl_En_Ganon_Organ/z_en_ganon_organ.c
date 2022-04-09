@@ -95,7 +95,7 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 205);
 
     osSyncPrintf("ORGAN DRAW  1\n");
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     if ((thisx->params == 1) && (dorf->organAlpha != 255)) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));

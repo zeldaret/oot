@@ -71,7 +71,7 @@ void BgSpot01Idosoko_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot01Idosoko_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 162);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_idosoko.c", 166),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

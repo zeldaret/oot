@@ -527,7 +527,7 @@ void BgJyaCobra_Update(Actor* thisx, GlobalContext* globalCtx2) {
 void func_80896CB4(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 864);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 867),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCobra2DL);
@@ -540,7 +540,7 @@ void func_80896D78(BgJyaCobra* this, GlobalContext* globalCtx) {
     Vec3s sp44;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 924);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     sp44.x = D_80897308[this->dyna.actor.params & 3] + this->dyna.actor.shape.rot.x;
     sp44.y = this->dyna.actor.shape.rot.y;
@@ -564,7 +564,7 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 966);
 
-    func_80094044(globalCtx->state.gfxCtx);
+    Gfx_SetupDl44Xlu(globalCtx->state.gfxCtx);
 
     if (params == 0) {
         sp64.x = this->dyna.actor.world.pos.x - 50.0f;

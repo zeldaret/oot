@@ -116,7 +116,7 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_choo.c", 295);
 
-    func_80093C14(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu2(globalCtx->state.gfxCtx);
 
     alpha = Math_SinS(sTransformationEffectAlpha) * 250;
     alpha = CLAMP(alpha, 0, 255);
@@ -423,7 +423,7 @@ void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnButte* this = (EnButte*)thisx;
 
     if (this->drawSkelAnime) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
         Collider_UpdateSpheres(0, &this->collider);
     }

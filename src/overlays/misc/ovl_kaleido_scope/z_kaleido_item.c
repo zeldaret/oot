@@ -96,7 +96,7 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_item.c", 234);
 
-    func_800949A8(globalCtx->state.gfxCtx);
+    Gfx_SetupDl42Opa(globalCtx->state.gfxCtx);
 
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 

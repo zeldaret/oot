@@ -505,7 +505,7 @@ void DoorKiller_SetTexture(Actor* thisx, GlobalContext* globalCtx) {
 void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    func_800943C8(globalCtx->state.gfxCtx);
+    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
     DoorKiller_SetTexture(&this->actor, globalCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, NULL);

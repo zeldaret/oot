@@ -456,7 +456,7 @@ void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!this->broken) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 918);
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 925),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, object_tsubo_DL_0017C0);
@@ -475,7 +475,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     if (1) {}
     if (!this->broken) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 951);
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         func_8002EBCC(&this->actor, globalCtx, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -552,7 +552,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, GlobalContext* globalCtx) {
     s32 pad;
 
     OPEN_DISPS(gfxCtx, "../z_en_g_switch.c", 1073);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     for (i = 0; i < this->numEffects; i++, effect++) {
         if (effect->flag) {
             scale = effect->scale / 10000.0f;

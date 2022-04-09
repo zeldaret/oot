@@ -248,7 +248,7 @@ s32 EnHeishi3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 void EnHeishi3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi3* this = (EnHeishi3*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi3_OverrideLimbDraw, NULL,
                       this);
 }

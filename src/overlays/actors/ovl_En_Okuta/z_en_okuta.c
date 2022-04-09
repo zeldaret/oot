@@ -705,7 +705,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnOkuta* this = (EnOkuta*)thisx;
     s32 pad;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     if (this->actor.params == 0) {
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnOkuta_OverrideLimbDraw,

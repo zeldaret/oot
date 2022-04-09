@@ -894,7 +894,7 @@ void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1609);
     if (this->actionFunc != BgDyYoseizo_Vanish) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeState]));
 
@@ -1009,7 +1009,7 @@ void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     s16 i;
 
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
         if (effect->alive == 1) {

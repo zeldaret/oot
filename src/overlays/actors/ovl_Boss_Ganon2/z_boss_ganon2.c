@@ -2603,7 +2603,7 @@ void func_80904D88(BossGanon2* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5575);
 
     if (this->unk_30C > 0.0f) {
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         if (this->unk_380 > 0.0f) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 0);
@@ -2633,7 +2633,7 @@ void func_80904FC8(BossGanon2* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5632);
 
     if (this->unk_384 > 0.0f) {
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 200);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 0);
         gSPDisplayList(POLY_XLU_DISP++, ovl_Boss_Ganon2_DL_00B308);
@@ -2664,7 +2664,7 @@ void func_8090523C(BossGanon2* this, GlobalContext* globalCtx) {
         s8 i;
 
         player = GET_PLAYER(globalCtx);
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s16)this->unk_38C);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 0);
         gSPDisplayList(POLY_XLU_DISP++, ovl_Boss_Ganon2_DL_00B308);
@@ -2745,8 +2745,8 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5840);
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     switch (this->unk_337) {
         case 0:
@@ -2888,7 +2888,7 @@ void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6086);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     for (i = 0; i < 1; i++) {
         if (effect->type == 1) {
@@ -2896,7 +2896,7 @@ void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
             f32 temp_f0;
             f32 angle;
 
-            func_80093D84(globalCtx->state.gfxCtx);
+            Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
             spA0.x = globalCtx->envCtx.dirLight1.params.dir.x;
             spA0.y = globalCtx->envCtx.dirLight1.params.dir.y;
             spA0.z = globalCtx->envCtx.dirLight1.params.dir.z;
@@ -3049,7 +3049,7 @@ void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalC
 
     OPEN_DISPS(gfxCtx, "../z_boss_ganon2.c", 6430);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     if ((globalCtx->envCtx.unk_BD == 1) || (globalCtx->envCtx.unk_BD == 2)) {
         alpha = (s16)(globalCtx->envCtx.unk_D8 * 180.0f) + 30;

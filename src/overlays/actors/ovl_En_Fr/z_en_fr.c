@@ -1066,7 +1066,7 @@ void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s16 frogIndex = this->actor.params - 1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1754);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     // For the frogs 2 HP, the frog with the next note and the butterfly lights up
     lightRadius = this->isButterflyDrawn ? 95 : -1;
     gDPPipeSync(POLY_OPA_DISP++);

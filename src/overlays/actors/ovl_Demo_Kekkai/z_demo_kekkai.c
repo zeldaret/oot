@@ -285,7 +285,7 @@ void DemoKekkai_DrawTrialBarrier(Actor* thisx, GlobalContext* globalCtx2) {
         }
         colorIndex = (this->actor.params - 1) * 6;
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 632);
-        func_80093D84(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
         Matrix_Push();
         Matrix_Translate(0.0f, 1200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(this->orbScale, this->orbScale, this->orbScale, MTXMODE_APPLY);
@@ -324,7 +324,7 @@ void DemoKekkai_DrawTowerBarrier(Actor* thisx, GlobalContext* globalCtx) {
 
     scroll = (s32)this->barrierScroll & 0xFFFF;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 705);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kekkai.c", 707),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 170, 255, 255);

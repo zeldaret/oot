@@ -670,7 +670,7 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Pop();
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40, unk178[0],
@@ -680,7 +680,7 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
                                         unk188[1], unk188[2], 0x80));
     gSPMatrix(POLY_OPA_DISP++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsExteriorStructureDL);
-    func_80093D84(gfxCtx);
+    Gfx_SetupDl25Xlu(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
     gSPSegment(
         POLY_XLU_DISP++, 0x09,
@@ -855,7 +855,7 @@ void DemoGt_Draw2(DemoGt* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part2.c", 470);
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
     unk198 = this->unk_198;
     unk178 = this->unk_178;
     gSPSegment(POLY_OPA_DISP++, 0x08,
@@ -1170,7 +1170,7 @@ void DemoGt_Draw3(DemoGt* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1026);
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part3.c", 1028),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsCollapsedStructureOuterDL);
@@ -1293,7 +1293,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx2) {
 
         Matrix_Pop();
 
-        func_80093D18(gfxCtx);
+        Gfx_SetupDl25Opa(gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsStandalonePillarDL);
         gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
@@ -1412,7 +1412,7 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Pop();
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp60, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsStandalonePillarDL);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
@@ -1504,7 +1504,7 @@ void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Pop();
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp64, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsStandalonePillarDL);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
@@ -1596,7 +1596,7 @@ void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Pop();
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsWalkwayDL);
 
@@ -1687,7 +1687,7 @@ void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
 
     Matrix_Pop();
 
-    func_80093D18(gfxCtx);
+    Gfx_SetupDl25Opa(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gTowerCollapseCsAlternativeWalkwayDL);
 

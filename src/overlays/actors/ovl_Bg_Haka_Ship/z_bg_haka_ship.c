@@ -198,7 +198,7 @@ void BgHakaShip_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 angleTemp;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_ship.c", 528);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     if (this->dyna.actor.params == 0) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_ship.c", 534),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

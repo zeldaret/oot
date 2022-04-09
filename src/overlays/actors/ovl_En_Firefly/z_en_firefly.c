@@ -806,7 +806,7 @@ void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1733);
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
 
     if (this->onFire) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
@@ -823,7 +823,7 @@ void EnFirefly_DrawInvisible(Actor* thisx, GlobalContext* globalCtx) {
     EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1775);
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
 
     if (this->onFire) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);

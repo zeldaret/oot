@@ -111,7 +111,7 @@ void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_dy_extra.c", 294);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, globalCtx->state.frames * 2, 0, 0x20, 0x40, 1,
                                 globalCtx->state.frames, globalCtx->state.frames * -8, 0x10, 0x10));

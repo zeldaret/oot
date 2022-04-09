@@ -1950,7 +1950,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnTest* this = (EnTest*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 1);
 
     if ((thisx->params <= STALFOS_TYPE_CEILING) || (thisx->child == NULL)) {

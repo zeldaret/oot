@@ -220,7 +220,7 @@ void ItemShield_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->unk_19C & 2)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_shield.c", 457);
-        func_80093D18(globalCtx->state.gfxCtx);
+        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_shield.c", 460),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gLinkChildDekuShieldDL));
