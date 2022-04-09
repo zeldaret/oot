@@ -2134,11 +2134,11 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
     // clang-format off
     if (healthChange > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &D_801333D4, 4,
                                                    &D_801333E0, &D_801333E0, &D_801333E8);
+        // clang-format on
     } else if ((gSaveContext.doubleDefense != 0) && (healthChange < 0)) {
         healthChange >>= 1;
         osSyncPrintf("ハート減少半分！！＝%d\n", healthChange); // "Heart decrease halved!!＝%d"
     }
-    // clang-format on
 
     gSaveContext.health += healthChange;
 
@@ -3764,11 +3764,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 for (svar1 = 0; svar1 < 5; svar1++) {
                     // clang-format off
                     svar5 = gSaveContext.timerX[svar6]; OVERLAY_DISP =
+                        // clang-format on
                         Gfx_TextureI8(OVERLAY_DISP, ((u8*)gCounterDigit0Tex + (8 * 16 * timerDigits[svar1])), 8, 16,
-                                      svar5 + timerDigitLeftPos[svar1],
-                                      svar2 = gSaveContext.timerY[svar6], digitWidth[svar1], VREG(42), VREG(43) << 1,
-                                      VREG(43) << 1);
-                    // clang-format on
+                                      svar5 + timerDigitLeftPos[svar1], svar2 = gSaveContext.timerY[svar6],
+                                      digitWidth[svar1], VREG(42), VREG(43) << 1, VREG(43) << 1);
                 }
             }
         }
