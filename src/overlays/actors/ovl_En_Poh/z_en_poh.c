@@ -1075,8 +1075,8 @@ void EnPoh_DrawRegular(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_poh.c", 2629);
     func_80AE067C(this);
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     if (this->lightColor.a == 255 || this->lightColor.a == 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, this->lightColor.a);
         gSPSegment(POLY_OPA_DISP++, 0x08, D_80116280 + 2);
@@ -1112,7 +1112,7 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
         phi_t0 = &D_80AE1B58;
     }
     if (this->lightColor.a == 255 || this->lightColor.a == 0) {
-        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                                 this->lightColor.a));
@@ -1125,8 +1125,8 @@ void EnPoh_DrawComposer(Actor* thisx, GlobalContext* globalCtx) {
                                            this->skelAnime.dListCount, EnPoh_OverrideLimbDraw, EnPoh_PostLimbDraw,
                                            &this->actor, POLY_OPA_DISP);
     } else {
-        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
-        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_EnvColor(globalCtx->state.gfxCtx, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                                 this->lightColor.a));
@@ -1168,7 +1168,7 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_poh.c", 2833);
 
     if (this->actionFunc == EnPoh_Death) {
-        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, this->envColor.r, this->envColor.g, this->envColor.b, 255);
         Lights_PointGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                                 this->actor.world.pos.z, this->envColor.r, this->envColor.g, this->envColor.b, 200);
@@ -1185,7 +1185,7 @@ void EnPoh_DrawSoul(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(POLY_OPA_DISP++, gPoeComposerLanternTopDL);
         }
     } else {
-        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
                                     (this->visibilityTimer * this->info->unk_8) % 512U, 0x20, 0x80));

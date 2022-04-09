@@ -789,7 +789,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnInsect* this = (EnInsect*)thisx;
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
     Collider_UpdateSpheres(0, &this->collider);
     D_80A7DEB4 = 0;

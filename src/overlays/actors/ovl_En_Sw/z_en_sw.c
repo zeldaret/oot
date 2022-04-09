@@ -1008,7 +1008,7 @@ void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80B0EDB8(globalCtx, &sp30, 0x14, 0x1E);
     }
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSw_OverrideLimbDraw,
                       EnSw_PostLimbDraw, this);
     if (this->actionFunc == func_80B0E728) {

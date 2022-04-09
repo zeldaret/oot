@@ -72,7 +72,7 @@ void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot07_taki.c", 169);
     frames = globalCtx->gameplayFrames;
     if (LINK_IS_ADULT) {
-        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot07_taki.c", 177),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->dyna.actor.params == 0) {
@@ -81,7 +81,7 @@ void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(POLY_OPA_DISP++, object_spot07_object_DL_003210);
         }
     }
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot07_taki.c", 191),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

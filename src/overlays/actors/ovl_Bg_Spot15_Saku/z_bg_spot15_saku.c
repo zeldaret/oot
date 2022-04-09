@@ -96,7 +96,7 @@ void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot15Saku_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 259);
 
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot15_saku.c", 263),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

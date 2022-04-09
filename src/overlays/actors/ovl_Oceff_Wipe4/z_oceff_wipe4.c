@@ -85,7 +85,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 314);
 
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
     Matrix_Translate(eye.x + vec.x, eye.y + vec.y, eye.z + vec.z, MTXMODE_NEW);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);

@@ -161,7 +161,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_light.c", 441);
 
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
     if (this->actor.params >= 0) {
         gSPSegment(

@@ -271,6 +271,6 @@ void EnHorseZelda_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseZelda* this = (EnHorseZelda*)thisx;
 
     func_80A6DE38(this, globalCtx);
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseZelda_PostDraw, true);
 }

@@ -172,7 +172,7 @@ void ElfMsg_Draw(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     if (thisx->params & 0x8000) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 100, 100, R_NAVI_MSG_REGION_ALPHA);
     } else {

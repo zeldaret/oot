@@ -331,7 +331,7 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.objBankIndex == this->requiredObjBankIndex) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_door.c", 910);
 
-        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDoor_OverrideLimbDraw,
                           NULL, &this->actor);
         if (this->actor.world.rot.y != 0) {

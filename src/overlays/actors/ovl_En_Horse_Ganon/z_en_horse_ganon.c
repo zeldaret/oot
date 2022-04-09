@@ -327,6 +327,6 @@ void EnHorseGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseGanon* this = (EnHorseGanon*)thisx;
 
     func_80A68E14(this, globalCtx);
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnHorseGanon_PostDraw, true);
 }

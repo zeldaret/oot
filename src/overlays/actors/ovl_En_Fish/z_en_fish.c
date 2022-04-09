@@ -760,7 +760,7 @@ void EnFish_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFish* this = (EnFish*)thisx;
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, NULL);
     Collider_UpdateSpheres(0, &this->collider);

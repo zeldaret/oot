@@ -490,7 +490,7 @@ void EnBombf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1034);
 
     if (thisx->params <= BOMBFLOWER_BODY) {
-        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
 
         if (thisx->params != BOMBFLOWER_BODY) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bombf.c", 1041),

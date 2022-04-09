@@ -193,7 +193,7 @@ void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx) {
     ObjIcePoly* this = (ObjIcePoly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 421);
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
     Matrix_RotateZYX(0x500, 0, -0x500, MTXMODE_APPLY);
 

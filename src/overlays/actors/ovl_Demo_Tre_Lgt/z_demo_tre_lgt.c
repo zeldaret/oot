@@ -164,7 +164,7 @@ void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    Gfx_SetupDl25Xlu(gfxCtx);
+    Gfx_SetupDL25Xlu(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
     SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, thisx);
 

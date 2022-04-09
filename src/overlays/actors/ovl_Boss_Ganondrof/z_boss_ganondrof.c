@@ -1495,7 +1495,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     osSyncPrintf("YP %f\n", this->actor.world.pos.y);
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     if (this->work[GND_INVINC_TIMER] & 4) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);
     } else {

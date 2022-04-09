@@ -674,7 +674,7 @@ void KaleidoScope_DrawPages(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
 
             if (sInDungeonScene) {
                 KaleidoScope_DrawDungeonMap(globalCtx, gfxCtx);
-                Gfx_SetupDl42Opa(gfxCtx);
+                Gfx_SetupDL42Opa(gfxCtx);
 
                 gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -718,7 +718,7 @@ void KaleidoScope_DrawPages(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
 
                 if (sInDungeonScene) {
                     KaleidoScope_DrawDungeonMap(globalCtx, gfxCtx);
-                    Gfx_SetupDl42Opa(gfxCtx);
+                    Gfx_SetupDL42Opa(gfxCtx);
 
                     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -776,7 +776,7 @@ void KaleidoScope_DrawPages(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
         }
     }
 
-    Gfx_SetupDl42Opa(gfxCtx);
+    Gfx_SetupDL42Opa(gfxCtx);
 
     if ((pauseCtx->state == 7) || ((pauseCtx->state >= 8) && (pauseCtx->state < 0x12))) {
         KaleidoScope_UpdatePrompt(globalCtx);
@@ -2211,7 +2211,7 @@ void KaleidoScope_DrawGameOver(GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 3122);
 
-    Gfx_SetupDl39Opa(gfxCtx);
+    Gfx_SetupDL39Opa(gfxCtx);
 
     gDPSetCycleType(POLY_OPA_DISP++, G_CYC_2CYCLE);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_PASS, G_RM_XLU_SURF2);
@@ -2272,11 +2272,11 @@ void KaleidoScope_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->debugState == 0) {
         KaleidoScope_SetView(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
 
-        Gfx_SetupDl42Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL42Opa(globalCtx->state.gfxCtx);
         KaleidoScope_InitVertices(globalCtx, globalCtx->state.gfxCtx);
         KaleidoScope_DrawPages(globalCtx, globalCtx->state.gfxCtx);
 
-        Gfx_SetupDl42Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL42Opa(globalCtx->state.gfxCtx);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 

@@ -342,7 +342,7 @@ void func_80AF9C70(u8* shadowTexture, Player* player, GlobalContext* globalCtx) 
     OPEN_DISPS(gfxCtx, "../z_en_sda.c", 826);
 
     osSyncPrintf("SDA D 1\n");
-    Gfx_SetupDl44Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL44Xlu(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, (BREG(52) + 50));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
     Matrix_Translate(player->actor.world.pos.x, player->actor.floorHeight, player->actor.world.pos.z, MTXMODE_NEW);

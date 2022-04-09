@@ -273,7 +273,7 @@ void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = (EnDs*)thisx;
 
-    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL37Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

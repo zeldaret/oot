@@ -307,7 +307,7 @@ void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 centerX, s16 centerY, u8* source, u32
     s32 pad;
     s32 i;
 
-    Gfx_SetupDl56Ptr(&gfx);
+    Gfx_SetupDL56Ptr(&gfx);
 
     curTexture = source;
     rectLeft = centerX - (width / 2);
@@ -394,7 +394,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
 
     gSPSegment(gfx++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
 
-    Gfx_SetupDl39Ptr(&gfx);
+    Gfx_SetupDL39Ptr(&gfx);
 
     this->effectScroll -= 2;
 
@@ -424,7 +424,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         EnMag_DrawImageRGBA32(&gfx, 152, 100, (u8*)gTitleZeldaShieldLogoMQTex, 160, 160);
     }
 
-    Gfx_SetupDl39Ptr(&gfx);
+    Gfx_SetupDL39Ptr(&gfx);
 
     gDPPipeSync(gfx++);
     gDPSetAlphaCompare(gfx++, G_AC_NONE);
@@ -457,7 +457,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         EnMag_DrawImageRGBA32(&gfx, 174, 145, (u8*)gTitleMasterQuestSubtitleTex, 128, 32);
     }
 
-    Gfx_SetupDl39Ptr(&gfx);
+    Gfx_SetupDL39Ptr(&gfx);
 
     gDPSetAlphaCompare(gfx++, G_AC_NONE);
     gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);

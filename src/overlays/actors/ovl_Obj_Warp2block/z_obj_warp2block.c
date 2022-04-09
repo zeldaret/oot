@@ -308,7 +308,7 @@ void ObjWarp2block_Draw(Actor* thisx, GlobalContext* globalCtx) {
     sp44 = &sColors[thisx->home.rot.z & 7];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 584);
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 588),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -497,7 +497,7 @@ void EnAnubice_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx*
 void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubice* this = (EnAnubice*)thisx;
 
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnAnubice_OverrideLimbDraw,
                       EnAnubice_PostLimbDraw, this);
 }

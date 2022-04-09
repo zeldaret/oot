@@ -86,7 +86,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
         if (mtx != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            Gfx_SetupDl60NoCDXlu(gfxCtx);
+            Gfx_SetupDL60NoCDXlu(gfxCtx);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);

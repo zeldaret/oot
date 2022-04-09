@@ -499,7 +499,7 @@ void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 880);
 
-    Gfx_SetupDl41Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL41Opa(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 887),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));

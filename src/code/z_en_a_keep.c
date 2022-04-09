@@ -352,7 +352,7 @@ void EnAObj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_a_keep.c", 701);
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
 
     if (type >= A_OBJ_MAX) {
         type = A_OBJ_BOULDER_FRAGMENT;

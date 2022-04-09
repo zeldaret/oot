@@ -412,7 +412,7 @@ void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1175);
 
     if (this->actionFunc != EnBubble_Disappear) {
-        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
         Math_SmoothStepToF(&this->graphicRotSpeed, 16.0f, 0.2f, 1000.0f, 0.0f);
         Math_SmoothStepToF(&this->graphicEccentricity, 0.08f, 0.2f, 1000.0f, 0.0f);
         Matrix_ReplaceRotation(&globalCtx->billboardMtxF);

@@ -644,7 +644,7 @@ void Select_DrawMenu(SelectContext* this) {
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     View_Apply(&this->view, VIEW_ALL);
-    Gfx_SetupDl28Opa(gfxCtx);
+    Gfx_SetupDL28Opa(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);
@@ -668,7 +668,7 @@ void Select_DrawLoadingScreen(SelectContext* this) {
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
     View_Apply(&this->view, VIEW_ALL);
-    Gfx_SetupDl28Opa(gfxCtx);
+    Gfx_SetupDL28Opa(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
     GfxPrint_Init(printer);

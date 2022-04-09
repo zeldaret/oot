@@ -225,7 +225,7 @@ void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnJs* this = (EnJs*)thisx;
 
-    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL37Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnJs_OverrideLimbDraw, EnJs_PostLimbDraw, this);
 }

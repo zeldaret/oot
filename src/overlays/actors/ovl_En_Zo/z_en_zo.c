@@ -177,7 +177,7 @@ void EnZo_DrawEffectsRipples(EnZo* this, GlobalContext* globalCtx) {
     effect = this->effects;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 217);
     materialFlag = false;
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_RIPPLE) {
             if (!materialFlag) {
@@ -207,7 +207,7 @@ void EnZo_DrawEffectsBubbles(EnZo* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 260);
     materialFlag = false;
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_BUBBLE) {
             if (!materialFlag) {
@@ -241,7 +241,7 @@ void EnZo_DrawEffectsSplashes(EnZo* this, GlobalContext* globalCtx) {
     effect = this->effects;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo_eff.c", 298);
     materialFlag = false;
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     for (i = 0; i < EN_ZO_EFFECT_COUNT; i++) {
         if (effect->type == ENZO_EFFECT_SPLASH) {
             if (!materialFlag) {

@@ -270,7 +270,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_dust.c", 425);
 
-    Gfx_SetupDl25Opa(gfxCtx);
+    Gfx_SetupDL25Opa(gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 128, 128, 128, 255);
@@ -318,7 +318,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_dust.c", 472);
 
-    Gfx_SetupDl25Opa(gfxCtx);
+    Gfx_SetupDL25Opa(gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);

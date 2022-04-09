@@ -138,7 +138,7 @@ void EnHata_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 void EnHata_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHata* this = (EnHata*)thisx;
 
-    Gfx_SetupDl37Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL37Opa(globalCtx->state.gfxCtx);
     Matrix_Scale(1.0f, 1.1f, 1.0f, MTXMODE_APPLY);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHata_OverrideLimbDraw,
                       EnHata_PostLimbDraw, this);

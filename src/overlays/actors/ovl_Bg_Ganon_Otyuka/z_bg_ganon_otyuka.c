@@ -273,7 +273,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
         actor = actor->next;
     }
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     gSPDisplayList(POLY_OPA_DISP++, sPlatformMaterialDL);
 
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
@@ -325,7 +325,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
         actor = actor->next;
     }
 
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (actor != NULL) {
         if (actor->id == ACTOR_BG_GANON_OTYUKA) {

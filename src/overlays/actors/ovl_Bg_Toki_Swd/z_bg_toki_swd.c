@@ -165,7 +165,7 @@ void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_toki_swd.c", 727);
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
 
     func_8002EBCC(&this->actor, globalCtx, 0);
 

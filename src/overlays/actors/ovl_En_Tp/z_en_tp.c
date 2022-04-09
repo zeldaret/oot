@@ -734,7 +734,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_150 != 2) {
         if ((thisx->params <= TAILPASARAN_HEAD) || (thisx->params == TAILPASARAN_HEAD_DYING)) {
-            Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+            Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 1459),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -742,7 +742,7 @@ void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
         } else {
-            Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+            Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->red, 0, 255, this->alpha);

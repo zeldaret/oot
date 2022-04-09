@@ -170,7 +170,7 @@ void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params == 3) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 388);
 
-        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

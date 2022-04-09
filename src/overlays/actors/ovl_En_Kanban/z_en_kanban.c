@@ -806,8 +806,8 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u8* shadowTex = Graph_Alloc(globalCtx->state.gfxCtx, 0x400);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1659);
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
     gSPDisplayList(POLY_OPA_DISP++, object_kanban_DL_000C30);
     if (this->actionState != ENKANBAN_SIGN) {
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);

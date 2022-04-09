@@ -2540,7 +2540,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
             magicBarY = R_MAGIC_BAR_SMALL_Y;
         }
 
-        Gfx_SetupDl39Overlay(globalCtx->state.gfxCtx);
+        Gfx_SetupDL39Overlay(globalCtx->state.gfxCtx);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, sMagicBorderR, sMagicBorderG, sMagicBorderB, interfaceCtx->magicAlpha);
         gDPSetEnvColor(OVERLAY_DISP++, 100, 50, 50, 255);
@@ -3035,7 +3035,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         func_8008A994(interfaceCtx);
         HealthMeter_Draw(globalCtx);
 
-        Gfx_SetupDl39Overlay(globalCtx->state.gfxCtx);
+        Gfx_SetupDL39Overlay(globalCtx->state.gfxCtx);
 
         // Rupee Icon
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 100, interfaceCtx->magicAlpha);
@@ -3144,7 +3144,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             func_8002C124(&globalCtx->actorCtx.targetCtx, globalCtx); // Draw Z-Target
         }
 
-        Gfx_SetupDl39Overlay(globalCtx->state.gfxCtx);
+        Gfx_SetupDL39Overlay(globalCtx->state.gfxCtx);
 
         Interface_DrawItemButtons(globalCtx);
 
@@ -3224,7 +3224,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         }
 
         // A Button
-        Gfx_SetupDl42Overlay(globalCtx->state.gfxCtx);
+        Gfx_SetupDL42Overlay(globalCtx->state.gfxCtx);
         func_8008A8B8(globalCtx, R_A_BTN_Y, R_A_BTN_Y + 45, R_A_BTN_X, R_A_BTN_X + 45);
         gSPClearGeometryMode(OVERLAY_DISP++, G_CULL_BOTH);
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -3259,7 +3259,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 3)) {
             // Inventory Equip Effects
             gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
-            Gfx_SetupDl42Overlay(globalCtx->state.gfxCtx);
+            Gfx_SetupDL42Overlay(globalCtx->state.gfxCtx);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATERGBA_PRIM, G_CC_MODULATERGBA_PRIM);
             gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
 
@@ -3305,7 +3305,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
         }
 
-        Gfx_SetupDl39Overlay(globalCtx->state.gfxCtx);
+        Gfx_SetupDL39Overlay(globalCtx->state.gfxCtx);
 
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0)) {
             if (gSaveContext.minigameState != 1) {

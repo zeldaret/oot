@@ -698,7 +698,7 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 sp30 = { 0, 0, 0, 255 };
 
     if (this->actionFunc != func_80B128F8) {
-        Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
         if (this->unk_260 != 0) {
             func_80026230(globalCtx, &sp30, 0, 0x14);
         }
@@ -767,7 +767,7 @@ void EnSyatekiNiw_DrawEffects(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_syateki_niw.c", 1234);
 
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
     for (i = 0; i < EN_SYATEKI_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->unk_00 == 1) {

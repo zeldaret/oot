@@ -752,7 +752,7 @@ void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBili* this = (EnBili*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bili.c", 1521);
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
     this->tentaclesTexIndex = CLAMP_MAX(this->tentaclesTexIndex, 7);
 

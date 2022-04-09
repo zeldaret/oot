@@ -284,7 +284,7 @@ void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateZ(this->rotZ, MTXMODE_APPLY);
     }
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     func_8002EBCC(thisx, globalCtx, 0);
 
     if (thisx->params == 5) {

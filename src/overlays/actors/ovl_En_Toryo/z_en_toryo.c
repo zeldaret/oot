@@ -379,7 +379,7 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnToryo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnToryo* this = (EnToryo*)thisx;
 
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnToryo_OverrideLimbDraw, EnToryo_PostLimbDraw, this);
 }

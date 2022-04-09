@@ -69,7 +69,7 @@ void DebugDisplay_DrawObjects(GlobalContext* globalCtx) {
 void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, void* texture, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_debug_display.c", 169);
 
-    Gfx_SetupDl47Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL47Xlu(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
 
@@ -91,7 +91,7 @@ void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, void* texture, GlobalCo
 void DebugDisplay_DrawPolygon(DebugDispObject* dispObj, void* dlist, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_debug_display.c", 211);
 
-    Gfx_SetupDl4Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL4Xlu(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, dispObj->color.r, dispObj->color.g, dispObj->color.b, dispObj->color.a);
 

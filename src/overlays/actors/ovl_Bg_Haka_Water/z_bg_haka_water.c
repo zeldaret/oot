@@ -112,7 +112,7 @@ void BgHakaWater_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_water.c", 287);
-    Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
     if (this->isLowered) {
         temp = this->actor.world.pos.y - this->actor.home.pos.y;

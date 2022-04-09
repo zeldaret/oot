@@ -10658,7 +10658,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         func_80093C80(globalCtx);
-        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);

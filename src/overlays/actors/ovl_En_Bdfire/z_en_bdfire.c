@@ -206,8 +206,8 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 612);
     temp = this->unk_156 & 7;
     Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-    Gfx_SetupDl60NoCDXlu(globalCtx->state.gfxCtx);
-    POLY_XLU_DISP = Gfx_SetupDl20NoCD(POLY_XLU_DISP);
+    Gfx_SetupDL60NoCDXlu(globalCtx->state.gfxCtx);
+    POLY_XLU_DISP = Gfx_SetupDL20NoCD(POLY_XLU_DISP);
     gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0,
                       ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0,
                       ENVIRONMENT);

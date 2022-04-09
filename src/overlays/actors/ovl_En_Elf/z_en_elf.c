@@ -1505,7 +1505,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2730);
 
-            Gfx_SetupDl27Xlu(globalCtx->state.gfxCtx);
+            Gfx_SetupDL27Xlu(globalCtx->state.gfxCtx);
 
             envAlpha = (this->timer * 50) & 0x1FF;
             envAlpha = (envAlpha > 255) ? 511 - envAlpha : envAlpha;

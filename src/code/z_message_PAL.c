@@ -1996,11 +1996,11 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             msgCtx->msgMode >= MSGMODE_TEXT_BOX_GROWING && msgCtx->msgMode < MSGMODE_TEXT_CLOSING &&
             msgCtx->textBoxType < TEXTBOX_TYPE_NONE_BOTTOM) {
             Message_SetView(&msgCtx->view);
-            Gfx_SetupDl39Ptr(&gfx);
+            Gfx_SetupDL39Ptr(&gfx);
             Message_DrawTextBox(globalCtx, &gfx);
         }
 
-        Gfx_SetupDl39Ptr(&gfx);
+        Gfx_SetupDL39Ptr(&gfx);
 
         gDPSetAlphaCompare(gfx++, G_AC_NONE);
         gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE,
@@ -2839,7 +2839,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
 
         if (msgCtx->msgMode >= MSGMODE_OCARINA_PLAYING && msgCtx->msgMode < MSGMODE_TEXT_AWAIT_NEXT &&
             msgCtx->ocarinaAction != OCARINA_ACTION_FREE_PLAY && msgCtx->ocarinaAction != OCARINA_ACTION_CHECK_NOWARP) {
-            Gfx_SetupDl39Ptr(&gfx);
+            Gfx_SetupDL39Ptr(&gfx);
 
             gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                               ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);

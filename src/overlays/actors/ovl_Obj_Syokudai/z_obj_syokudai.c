@@ -265,7 +265,7 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
     timerMax = (((this->actor.params >> 6) & 0xF) * 50) + 100;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 707);
-    Gfx_SetupDl25Opa(globalCtx->state.gfxCtx);
+    Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 714),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -282,7 +282,7 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         flameScale *= 0.0027f;
 
-        Gfx_SetupDl25Xlu(globalCtx->state.gfxCtx);
+        Gfx_SetupDL25Xlu(globalCtx->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0,
