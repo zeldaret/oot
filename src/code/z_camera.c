@@ -7550,8 +7550,7 @@ Vec3s Camera_Update(Camera* camera) {
         osSyncPrintf("camera: out (%f %f %f) (%f %f %f)\n", camera->at.x, camera->at.y, camera->at.z, camera->eye.x,
                      camera->eye.y, camera->eye.z);
         osSyncPrintf("camera: dir (%f %d(%f) %d(%f)) (%f)\n", eyeAtAngle.r, eyeAtAngle.pitch,
-                     BINANG_TO_DEG(eyeAtAngle.pitch), eyeAtAngle.yaw, BINANG_TO_DEG(eyeAtAngle.yaw),
-                     camera->fov);
+                     BINANG_TO_DEG(eyeAtAngle.pitch), eyeAtAngle.yaw, BINANG_TO_DEG(eyeAtAngle.yaw), camera->fov);
         if (camera->player != NULL) {
             osSyncPrintf("camera: foot(%f %f %f) dist (%f)\n", curPlayerPosRot.pos.x, curPlayerPosRot.pos.y,
                          curPlayerPosRot.pos.z, camera->dist);

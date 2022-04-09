@@ -968,8 +968,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         }
 
         OLib_Vec3fDiffToVecSphGeo(&spF4, sp80, sp7C);
-        DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw,
-                                        DEG_TO_BINANG(dbCamera->rollDegrees));
+        DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw, DEG_TO_BINANG(dbCamera->rollDegrees));
         if (dbCamera->unk_00 == 1) {
             if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_CRIGHT)) {
                 cam->inputDir = dbCamera->sub.unk_104A;
