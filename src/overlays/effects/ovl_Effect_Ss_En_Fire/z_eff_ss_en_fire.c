@@ -74,7 +74,7 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     camYaw = (Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000);
-    Matrix_RotateY(camYaw * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(camYaw), MTXMODE_APPLY);
 
     scale = Math_SinS(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
@@ -127,8 +127,8 @@ void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
             if (this->rBodyPart < 0) {
                 Matrix_Translate(this->actor->world.pos.x, this->actor->world.pos.y, this->actor->world.pos.z,
                                  MTXMODE_NEW);
-                Matrix_RotateY((this->rYaw + this->actor->shape.rot.y) * (M_PI / 0x8000), MTXMODE_APPLY);
-                Matrix_RotateX((this->rPitch + this->actor->shape.rot.x) * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->rYaw + this->actor->shape.rot.y), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD(this->rPitch + this->actor->shape.rot.x), MTXMODE_APPLY);
                 Matrix_MultVec3f(&this->vec, &this->pos);
             } else {
                 if ((this->rFlags & 0x8000)) {

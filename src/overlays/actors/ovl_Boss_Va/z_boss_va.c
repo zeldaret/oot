@@ -3034,11 +3034,11 @@ s32 BossVa_ZapperOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
             Matrix_Translate(pos->x, pos->y, pos->z, MTXMODE_APPLY);
             Matrix_Get(&zapperMtx);
             Matrix_MtxFToZYXRotS(&zapperMtx, &sZapperRot, false);
-            Matrix_RotateX(-sZapperRot.x * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateY(-sZapperRot.y * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateZ(-sZapperRot.z * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateY(this->unk_1F2 * (M_PI / 0x8000), MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_1F0 * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD(-sZapperRot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(-sZapperRot.y), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(-sZapperRot.z), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(this->unk_1F2), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(this->unk_1F0), MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
             rot->x = rot->y = rot->z = 0;
             break;
@@ -3340,7 +3340,7 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
                     effect->pos.y = effect->offset.y + refActor->actor.world.pos.y;
                     effect->pos.z = effect->offset.z + refActor->actor.world.pos.z;
                 } else {
-                    spB6 = Rand_ZeroFloat(ARRAY_COUNT(player->bodyPartsPos) - 0.1f);
+                    spB6 = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
                     effect->pos.x = player->bodyPartsPos[spB6].x + Rand_CenteredFloat(10.0f);
                     effect->pos.y = player->bodyPartsPos[spB6].y + Rand_CenteredFloat(15.0f);
                     effect->pos.z = player->bodyPartsPos[spB6].z + Rand_CenteredFloat(10.0f);
@@ -3759,7 +3759,7 @@ void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
 
                 case SPARK_LINK:
                     effect->type = VA_SMALL_SPARK;
-                    index = Rand_ZeroFloat(ARRAY_COUNT(player->bodyPartsPos) - 0.1f);
+                    index = Rand_ZeroFloat(PLAYER_BODYPART_MAX - 0.1f);
                     effect->pos.x = player->bodyPartsPos[index].x + Rand_CenteredFloat(10.0f);
                     effect->pos.y = player->bodyPartsPos[index].y + Rand_CenteredFloat(15.0f);
                     effect->pos.z = player->bodyPartsPos[index].z + Rand_CenteredFloat(10.0f);

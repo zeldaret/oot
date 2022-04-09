@@ -476,7 +476,7 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
     zDist = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0x8000 / M_PI)), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(xDist, zDist)), 10, 1000, 1);
 
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;
@@ -1085,18 +1085,18 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_1E0.unk_08;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limb == 10) {
         vec1 = this->unk_1E0.unk_0E;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
 

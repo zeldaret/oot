@@ -347,9 +347,9 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx) {
     Actor* attackCucco;
 
     if ((this->timer5 == 0) && (this->unk_296 < 7)) {
-        viewX = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        viewY = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        viewZ = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        viewX = globalCtx->view.at.x - globalCtx->view.eye.x;
+        viewY = globalCtx->view.at.y - globalCtx->view.eye.y;
+        viewZ = globalCtx->view.at.z - globalCtx->view.eye.z;
         attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + globalCtx->view.eye.x;
         attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((globalCtx->view.eye.y + 50.0f) + (viewY * 0.5f));
         attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + globalCtx->view.eye.z;
@@ -577,7 +577,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(posY, posZ)), 3, this->unk_300, 0);
         Math_ApproachF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -605,7 +605,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;
         pathDiffZ = pointPos->z - this->actor.world.pos.z;
-        this->unk_2E4 = Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI);
+        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ));
         func_80AB6100(this, globalCtx, 2);
 
         if (fabsf(pathDiffX) < 30.0f && fabsf(pathDiffZ) < 30.0f) {
@@ -839,9 +839,8 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        this->unk_2E4 = Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
-                                     this->actor.world.pos.z - player->actor.world.pos.z) *
-                        (0x8000 / M_PI);
+        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
+                                                    this->actor.world.pos.z - player->actor.world.pos.z));
         func_80AB6100(this, globalCtx, 0);
         func_80AB5BF8(this, globalCtx, 2);
     }
@@ -984,9 +983,9 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (thisx->floorHeight <= BGCHECK_Y_MIN || thisx->floorHeight >= 32000.0f) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->floorHeight);
-        cam.x = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        cam.y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        cam.z = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        cam.x = globalCtx->view.at.x - globalCtx->view.eye.x;
+        cam.y = globalCtx->view.at.y - globalCtx->view.eye.y;
+        cam.z = globalCtx->view.at.z - globalCtx->view.eye.z;
         camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.x);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.y);

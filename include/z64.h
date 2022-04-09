@@ -171,7 +171,7 @@ typedef struct {
     /* 0x0020 */ f32    zFar;  // distance to far clipping plane
     /* 0x0024 */ f32    scale; // scale for matrix elements
     /* 0x0028 */ Vec3f  eye;
-    /* 0x0034 */ Vec3f  lookAt;
+    /* 0x0034 */ Vec3f  at;
     /* 0x0040 */ Vec3f  up;
     /* 0x0050 */ Vp     vp;
     /* 0x0060 */ Mtx    projection;
@@ -187,6 +187,17 @@ typedef struct {
     /* 0x0120 */ s32    flags;
     /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
+
+#define VIEW_VIEWING (1 << 0)
+#define VIEW_VIEWPORT (1 << 1)
+#define VIEW_PROJECTION_PERSPECTIVE (1 << 2)
+#define VIEW_PROJECTION_ORTHO (1 << 3)
+#define VIEW_ALL (VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE | VIEW_PROJECTION_ORTHO)
+
+#define VIEW_FORCE_VIEWING (VIEW_VIEWING << 4)
+#define VIEW_FORCE_VIEWPORT (VIEW_VIEWPORT << 4)
+#define VIEW_FORCE_PROJECTION_PERSPECTIVE (VIEW_PROJECTION_PERSPECTIVE << 4)
+#define VIEW_FORCE_PROJECTION_ORTHO (VIEW_PROJECTION_ORTHO << 4)
 
 typedef struct {
     /* 0x00 */ u8   seqId;
@@ -739,6 +750,12 @@ typedef enum {
     /* 0x03 */ PAUSE_EQUIP,
     /* 0x04 */ PAUSE_WORLD_MAP
 } PauseMenuPage;
+
+#define PAUSE_EQUIP_PLAYER_WIDTH 64
+#define PAUSE_EQUIP_PLAYER_HEIGHT 112
+
+#define PAUSE_EQUIP_BUFFER_SIZE sizeof(u16[PAUSE_EQUIP_PLAYER_HEIGHT][PAUSE_EQUIP_PLAYER_WIDTH])
+#define PAUSE_PLAYER_SEGMENT_GAMEPLAY_KEEP_BUFFER_SIZE 0x5000
 
 typedef struct {
     /* 0x0000 */ View   view;
@@ -1397,7 +1414,7 @@ typedef enum {
     /* 16 */ F_B8
 } FloorID;
 
-// All arrays pointed in this struct are indexed by "map indexes"
+// All arrays pointed in this struct are indexed by "map indices"
 // In dungeons, the map index corresponds to the dungeon index (which also indexes keys, items, etc)
 // In overworld areas, the map index corresponds to the overworld area index (spot 00, 01, etc)
 typedef struct {
@@ -1580,11 +1597,6 @@ typedef struct {
 } SchedContext; // size = 0x258
 
 // ========================
-
-#define OS_SC_RETRACE_MSG       1
-#define OS_SC_DONE_MSG          2
-#define OS_SC_NMI_MSG           3 // name is made up, 3 is OS_SC_RDP_DONE_MSG in the original sched.c
-#define OS_SC_PRE_NMI_MSG       4
 
 #define OS_SC_DP                0x0001
 #define OS_SC_SP                0x0002

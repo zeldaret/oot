@@ -908,7 +908,7 @@ void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
                         s32 pad;
                         Vec3f sp28;
 
-                        Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.5f, MTXMODE_NEW);
+                        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y) + 0.5f, MTXMODE_NEW);
                         sp28.x = 0.0f;
                         sp28.y = 0.0f;
                         sp28.z = 1.0f;
@@ -1300,7 +1300,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_1A2[1] == 50) {
                 func_80078884(NA_SE_EN_MGANON_WALK);
             }
-            Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.3f, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y) + 0.3f, MTXMODE_NEW);
             sp5C.x = 0.0f;
             sp5C.y = 0.0f;
             sp5C.z = 250.0f;
@@ -1853,7 +1853,7 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
         temp_f12 = -200.0f - player->actor.world.pos.z;
 
         if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 784.0f) {
-            for (j = 0; j < ARRAY_COUNT(player->flameTimers); j++) {
+            for (j = 0; j < PLAYER_BODYPART_MAX; j++) {
                 player->flameTimers[j] = Rand_S16Offset(0, 200);
             }
 

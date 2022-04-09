@@ -80,8 +80,8 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
     Matrix_Push();
-    Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
-    Matrix_RotateX(BINANG_TO_RAD(this->actor.world.rot.x), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.world.rot.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.world.rot.x), MTXMODE_APPLY);
     velocity.z = 15.0f;
     Matrix_MultVec3f(&velocity, &this->actor.velocity);
     Matrix_Pop();

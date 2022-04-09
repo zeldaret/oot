@@ -411,7 +411,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
         dx = pointPos->x - this->actor.world.pos.x;
         dz = pointPos->z - this->actor.world.pos.z;
-        this->rotYtowardsPath = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
+        this->rotYtowardsPath = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
         dxz = sqrtf(SQ(dx) + SQ(dz));
         if (dxz > 10.0f) {
             exitLoop = true;
@@ -448,7 +448,7 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     eyePosDeltaLocal.x = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.x;
     eyePosDeltaLocal.y = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.y;
     eyePosDeltaLocal.z = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.z;
-    Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&eyePosDeltaLocal, &eyePosDeltaWorld);
 
     this->subCamEyeInit.x = this->subCamEye.x = this->actor.world.pos.x + eyePosDeltaWorld.x;
@@ -495,11 +495,11 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
     this->subCamActive = false;
 
     if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
-        Matrix_RotateY(this->initRot.y * (M_PI / 0x8000), MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD(this->initRot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GE3, this->initPos.x + vec.x, this->initPos.y + vec.y,
-                        this->initPos.z + vec.z, 0, Math_FAtan2F(-vec.x, -vec.z) * (0x8000 / M_PI), 0, 2);
+                        this->initPos.z + vec.z, 0, RADF_TO_BINANG(Math_FAtan2F(-vec.x, -vec.z)), 0, 2);
 
         if (gerudoGuard == NULL) {
             Actor_Kill(&this->actor);
@@ -526,7 +526,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
     dz = pointPos->z - this->actor.world.pos.z;
-    ry = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
+    ry = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
     dxz = sqrtf(SQ(dx) + SQ(dz));
     if (dxz <= 20.88f) {
         this->waypoint++;
