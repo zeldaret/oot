@@ -30,9 +30,9 @@ void func_80AB714C(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7204(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7328(EnNiw* this, GlobalContext* globalCtx);
-void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
-void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx);
-void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_SpawnFeather(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
+void EnNiw_UpdateEffects(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_DrawEffects(EnNiw* this, GlobalContext* globalCtx);
 
 static s16 D_80AB85E0 = 0;
 
@@ -922,13 +922,13 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             accel.x = 0.0f;
             accel.y = -0.15f;
             accel.z = 0.0f;
-            EnNiw_FeatherSpawn(this, &pos, &vel, &accel, scale);
+            EnNiw_SpawnFeather(this, &pos, &vel, &accel, scale);
         }
 
         this->unk_2A6 = 0;
     }
 
-    EnNiw_FeatherUpdate(this, globalCtx);
+    EnNiw_UpdateEffects(this, globalCtx);
     if (this->timer1 != 0) {
         this->timer1--;
     }
@@ -1145,84 +1145,84 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80033C30(&this->actor.world.pos, &scale, 255, globalCtx);
     }
 
-    EnNiw_FeatherDraw(this, globalCtx);
+    EnNiw_DrawEffects(this, globalCtx);
 }
 
-void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
+void EnNiw_SpawnFeather(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
     s16 i;
-    EnNiwFeather* feather = this->feathers;
+    EnNiwEffect* effect = this->effects;
 
-    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
-        if (feather->type == 0) {
-            feather->type = 1;
-            feather->pos = *pos;
-            feather->vel = *vel;
-            feather->accel = *accel;
-            feather->timer = 0;
-            feather->scale = scale / 1000.0f;
-            feather->life = (s16)Rand_ZeroFloat(20.0f) + 40;
-            feather->unk_2A = Rand_ZeroFloat(1000.0f);
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
+        if (effect->type == 0) {
+            effect->type = 1;
+            effect->pos = *pos;
+            effect->vel = *vel;
+            effect->accel = *accel;
+            effect->timer = 0;
+            effect->scale = scale / 1000.0f;
+            effect->life = (s16)Rand_ZeroFloat(20.0f) + 40;
+            effect->unk_2A = Rand_ZeroFloat(1000.0f);
             break;
         }
     }
 }
 
-void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx) {
+void EnNiw_UpdateEffects(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
-    EnNiwFeather* feather = this->feathers;
+    EnNiwEffect* effect = this->effects;
 
-    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
-        if (feather->type != 0) {
-            feather->timer++;
-            feather->pos.x += feather->vel.x;
-            feather->pos.y += feather->vel.y;
-            feather->pos.z += feather->vel.z;
-            feather->vel.x += feather->accel.x;
-            feather->vel.y += feather->accel.y;
-            feather->vel.z += feather->accel.z;
-            if (feather->type == 1) {
-                feather->unk_2A++;
-                Math_ApproachF(&feather->vel.x, 0.0f, 1.0f, 0.05f);
-                Math_ApproachF(&feather->vel.z, 0.0f, 1.0f, 0.05f);
-                if (feather->vel.y < -0.5f) {
-                    feather->vel.y = -0.5f;
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
+        if (effect->type != 0) {
+            effect->timer++;
+            effect->pos.x += effect->vel.x;
+            effect->pos.y += effect->vel.y;
+            effect->pos.z += effect->vel.z;
+            effect->vel.x += effect->accel.x;
+            effect->vel.y += effect->accel.y;
+            effect->vel.z += effect->accel.z;
+            if (effect->type == 1) {
+                effect->unk_2A++;
+                Math_ApproachF(&effect->vel.x, 0.0f, 1.0f, 0.05f);
+                Math_ApproachF(&effect->vel.z, 0.0f, 1.0f, 0.05f);
+                if (effect->vel.y < -0.5f) {
+                    effect->vel.y = -0.5f;
                 }
 
-                feather->unk_30 = Math_SinS(feather->unk_2A * 0xBB8) * M_PI * 0.2f;
+                effect->unk_30 = Math_SinS(effect->unk_2A * 0xBB8) * M_PI * 0.2f;
 
-                if (feather->life < feather->timer) {
-                    feather->type = 0;
+                if (effect->life < effect->timer) {
+                    effect->type = 0;
                 }
             }
         }
     }
 }
 
-void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx) {
-    u8 flag = 0;
+void EnNiw_DrawEffects(EnNiw* this, GlobalContext* globalCtx) {
+    u8 materialFlag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    EnNiwFeather* feather = &this->feathers[0];
+    EnNiwEffect* effect = &this->effects[0];
 
     OPEN_DISPS(gfxCtx, "../z_en_niw.c", 1897);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
-        if (feather->type == 1) {
-            if (!flag) {
-                gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAppearDL);
-                flag++;
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
+        if (effect->type == 1) {
+            if (materialFlag == 0) {
+                gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherMaterialDL);
+                materialFlag++;
             }
-            Matrix_Translate(feather->pos.x, feather->pos.y, feather->pos.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-            Matrix_Scale(feather->scale, feather->scale, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(feather->unk_30, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAliveDL);
+            gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherModelDL);
         }
     }
 

@@ -898,7 +898,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             Matrix_Push();
             Matrix_RotateY(BINANG_TO_RAD_ALT(thisx->shape.rot.y), MTXMODE_NEW);
             Matrix_RotateX(BINANG_TO_RAD_ALT(thisx->shape.rot.x), MTXMODE_APPLY);
-            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->work[GND_PARTICLE_ANGLE]), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->work[GND_EFFECT_ANGLE]), MTXMODE_APPLY);
             Matrix_MultVec3f(&baseOffset, &offset);
             Matrix_Pop();
             pos.x = this->spearTip.x + offset.x;
@@ -911,7 +911,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             accel.y = (offset.y * -50.0f) / 1000.0f;
             accel.z = (offset.z * -50.0f) / 1000.0f;
             EffectSsFhgFlash_SpawnLightBall(globalCtx, &pos, &vel, &accel, 150, i % 7);
-            this->work[GND_PARTICLE_ANGLE] += 0x1A5C;
+            this->work[GND_EFFECT_ANGLE] += 0x1A5C;
         }
     }
 

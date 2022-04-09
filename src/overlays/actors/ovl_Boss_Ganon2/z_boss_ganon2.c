@@ -26,8 +26,8 @@ void func_80900580(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900650(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
-void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
-void func_809060E8(GlobalContext* globalCtx);
+void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx);
+void BossGanon2_DrawEffects(GlobalContext* globalCtx);
 void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
@@ -92,25 +92,25 @@ void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32
 }
 
 void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1) {
-    BossGanon2Effect* effect = globalCtx->specialEffects;
+    BossGanon2Effect* effects = globalCtx->specialEffects;
 
-    effect->type = 1;
-    effect->position = *arg1;
-    effect->unk_2E = 0;
-    effect->unk_01 = 0;
-    effect->velocity.x = 25.0f;
-    effect->velocity.y = 15.0f;
-    effect->velocity.z = 0.0f;
-    effect->accel.x = 0.0f;
-    effect->accel.y = -1.0f;
-    effect->accel.z = 0.0f;
+    effects[0].type = 1;
+    effects[0].position = *arg1;
+    effects[0].unk_2E = 0;
+    effects[0].unk_01 = 0;
+    effects[0].velocity.x = 25.0f;
+    effects[0].velocity.y = 15.0f;
+    effects[0].velocity.z = 0.0f;
+    effects[0].accel.x = 0.0f;
+    effects[0].accel.y = -1.0f;
+    effects[0].accel.z = 0.0f;
 }
 
 void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 scale) {
     BossGanon2Effect* effect = globalCtx->specialEffects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 0) {
             effect->type = 2;
             effect->position = *position;
@@ -132,10 +132,10 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s16 i;
 
-    globalCtx->specialEffects = sParticles;
+    globalCtx->specialEffects = sEffects;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++) {
-        sParticles[i].type = 0;
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++) {
+        sEffects[i].type = 0;
     }
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -737,12 +737,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 24:
             SkelAnime_Update(&this->skelAnime);
             if (1) {
-                BossGanon2Effect* effect = globalCtx->specialEffects;
+                BossGanon2Effect* effects = globalCtx->specialEffects;
 
-                this->unk_3B0 = effect->position;
-                this->unk_3A4.x = effect->position.x + 70.0f;
-                this->unk_3A4.y = effect->position.y - 30.0f;
-                this->unk_3A4.z = effect->position.z + 70.0f;
+                this->unk_3B0 = effects[0].position;
+                this->unk_3A4.x = effects[0].position.x + 70.0f;
+                this->unk_3A4.y = effects[0].position.y - 30.0f;
+                this->unk_3A4.z = effects[0].position.z + 70.0f;
             }
             if ((this->unk_398 & 3) == 0) {
                 func_80078884(NA_SE_IT_SWORD_SWING);
@@ -762,15 +762,15 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = ((player->actor.world.pos.y + 10.0f + 60.0f) - 20.0f) - 3.0f;
             this->unk_3B0.z = (player->actor.world.pos.z - 40.0f) - 10.0f;
             if (this->unk_398 == 10) {
-                BossGanon2Effect* effect = globalCtx->specialEffects;
+                BossGanon2Effect* effects = globalCtx->specialEffects;
 
-                effect->unk_2E = 1;
-                effect->position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
-                effect->position.y = sZelda->actor.world.pos.y + 350.0f;
-                effect->position.z = sZelda->actor.world.pos.z - 25.0f;
-                effect->velocity.x = 0.0f;
-                effect->velocity.z = 0.0f;
-                effect->velocity.y = -30.0f;
+                effects[0].unk_2E = 1;
+                effects[0].position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
+                effects[0].position.y = sZelda->actor.world.pos.y + 350.0f;
+                effects[0].position.z = sZelda->actor.world.pos.z - 25.0f;
+                effects[0].velocity.x = 0.0f;
+                effects[0].velocity.z = 0.0f;
+                effects[0].velocity.y = -30.0f;
                 this->unk_39C = 26;
                 this->unk_398 = 0;
             } else {
@@ -2164,7 +2164,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80906D78 != 0) {
         D_80906D78 = 0;
 
-        for (i2 = 0; i2 < ARRAY_COUNT(sParticles); i2++) {
+        for (i2 = 0; i2 < 100; i2++) {
             angle = Rand_ZeroFloat(2 * M_PI);
             sp44 = Rand_ZeroFloat(40.0f) + 10.0f;
             sp58 = this->actor.world.pos;
@@ -2178,7 +2178,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->unk_388 += 0.15f;
-    func_80905DA8(this, globalCtx);
+    BossGanon2_UpdateEffects(this, globalCtx);
 }
 
 void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
@@ -2812,17 +2812,17 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5983);
 
-    func_809060E8(globalCtx);
+    BossGanon2_DrawEffects(globalCtx);
 }
 
-void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
+void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad[5];
     Player* player = GET_PLAYER(globalCtx);
     BossGanon2Effect* effect = globalCtx->specialEffects;
     Vec3f sp78;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type != 0) {
             effect->position.x += effect->velocity.x;
             effect->position.y += effect->velocity.y;
@@ -2877,9 +2877,9 @@ void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809060E8(GlobalContext* globalCtx) {
+void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
     s16 alpha;
-    u8 usingObjectGEff = false;
+    u8 objectFlag = 0;
     BossGanon2Effect* effect;
     s16 i;
     BossGanon2Effect* effects;
@@ -2930,11 +2930,11 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     effect = effects;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 2) {
-            if (!usingObjectGEff) {
+            if (objectFlag == 0) {
                 BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
-                usingObjectGEff++;
+                objectFlag++;
             }
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
