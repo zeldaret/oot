@@ -17,9 +17,7 @@ s32 __osContRamRead(OSMesgQueue* ctrlrqueue, s32 channel, u16 addr, u8* data) {
         if ((__osContLastPoll != 2) || (__osPfsLastChannel != channel)) {
             __osContLastPoll = 2;
             __osPfsLastChannel = channel;
-            // clang-format off
-            for (i = 0; i < channel; i++) { *bufptr++ = 0; }
-            // clang-format on
+            for (i = 0; i < channel; i++, *bufptr++ = 0) {}
             gPifMempakBuf.status = 1;
             ((__OSContRamHeader*)bufptr)->unk_00 = 0xFF;
             ((__OSContRamHeader*)bufptr)->txsize = 3;

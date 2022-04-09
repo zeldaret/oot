@@ -3762,9 +3762,7 @@ void func_8083819C(Player* this, GlobalContext* globalCtx) {
 void func_8083821C(Player* this) {
     s32 i;
 
-    // clang-format off
-    for (i = 0; i < PLAYER_BODYPART_MAX; i++) { this->flameTimers[i] = Rand_S16Offset(0, 200); }
-    // clang-format on
+    for (i = 0; i < PLAYER_BODYPART_MAX; this->flameTimers[i] = Rand_S16Offset(0, 200), i++) {}
 
     this->isBurning = true;
 }

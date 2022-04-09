@@ -4,9 +4,7 @@ void SoundSource_InitAll(GlobalContext* globalCtx) {
     SoundSource* sources = &globalCtx->soundSources[0];
     s32 i;
 
-    // clang-format off
-    for (i = 0; i < ARRAY_COUNT(globalCtx->soundSources); i++) { sources[i].countdown = 0; }
-    // clang-format on
+    for (i = 0; i < ARRAY_COUNT(globalCtx->soundSources); sources[i].countdown = 0, i++) {}
 }
 
 void SoundSource_UpdateAll(GlobalContext* globalCtx) {
