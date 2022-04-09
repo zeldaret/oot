@@ -4,8 +4,8 @@
 #include "ultra64.h"
 #include "z64cutscene.h"
 
-#define DEG_TO_BINANG_ALT(degrees) (s16)((degrees) * 182.04167f + .5f)
-#define BINANG_TO_DEG_ALT(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
+#define DEG_TO_BINANG(degrees) (s16)((degrees) * 182.04167f + .5f)
+#define BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
 
 #define CAM_STAT_CUT        0
 #define CAM_STAT_WAIT       1
