@@ -168,12 +168,13 @@ static EnGo2DustEffectData sDustEffectData[2][4] = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
+                           f32 scaleStep) {
+    EnGoEffect* dustEffect = this->effects;
     s16 i;
     s16 timer;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
@@ -190,12 +191,12 @@ void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 in
     }
 }
 
-void EnGo2_UpdateDust(EnGo2* this) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo2_UpdateEffects(EnGo2* this) {
+    EnGoEffect* dustEffect = this->effects;
     f32 randomNumber;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             dustEffect->timer--;
             if (dustEffect->timer == 0) {
@@ -215,26 +216,26 @@ void EnGo2_UpdateDust(EnGo2* this) {
     }
 }
 
-void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo2_DrawEffects(EnGo2* this, GlobalContext* globalCtx) {
+    EnGoEffect* dustEffect = this->effects;
     s16 alpha;
-    s16 firstDone;
+    s16 materialFlag;
     s16 index;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 111);
 
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
@@ -270,7 +271,7 @@ s32 EnGo2_SpawnDust(EnGo2* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 
         accel.y += Rand_ZeroOne() * yAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
-        EnGo2_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
+        EnGo2_SpawnEffectDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
     }
@@ -2040,9 +2041,9 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     void* eyeTextures[] = { gGoronCsEyeClosed2Tex, gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     void* mouthTextures[] = { gGoronCsMouthNeutralTex, gGoronCsMouthSmileTex };
 
-    EnGo2_UpdateDust(this);
+    EnGo2_UpdateEffects(this);
     Matrix_Push();
-    EnGo2_DrawDust(this, globalCtx);
+    EnGo2_DrawEffects(this, globalCtx);
     Matrix_Pop();
 
     if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.playSpeed == 0.0f) &&

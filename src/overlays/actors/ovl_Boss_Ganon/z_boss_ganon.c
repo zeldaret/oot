@@ -110,6 +110,8 @@ static BossGanon* sGanondorf;
 
 static EnZl3* sZelda;
 
+#define BOSSGANON_EFFECT_COUNT 200
+
 typedef struct {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 timer;
@@ -128,7 +130,7 @@ typedef struct {
     /* 0x48 */ f32 unk_48; // mostly y rot
 } GanondorfEffect;         // size = 0x4C
 
-GanondorfEffect sEffectBuf[200];
+GanondorfEffect sEffects[BOSSGANON_EFFECT_COUNT];
 
 void BossGanonEff_SpawnWindowShard(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, f32 scale) {
     static Color_RGB8 shardColors[] = { { 255, 175, 85 }, { 155, 205, 155 }, { 155, 125, 55 } };
@@ -343,10 +345,10 @@ void BossGanon_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (thisx->params < 0x64) {
         Flags_SetSwitch(globalCtx, 0x14);
-        globalCtx->specialEffects = sEffectBuf;
+        globalCtx->specialEffects = sEffects;
 
-        for (i = 0; i < ARRAY_COUNT(sEffectBuf); i++) {
-            sEffectBuf[i].type = GDF_EFF_NONE;
+        for (i = 0; i < BOSSGANON_EFFECT_COUNT; i++) {
+            sEffects[i].type = GDF_EFF_NONE;
         }
 
         sGanondorf = this;
@@ -4610,7 +4612,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
     spA0.x = 0.0f;
     spA0.y = 0.0f;
 
-    for (i = 0; i < ARRAY_COUNT(sEffectBuf); i++, eff++) {
+    for (i = 0; i < BOSSGANON_EFFECT_COUNT; i++, eff++) {
         if (eff->type != GDF_EFF_NONE) {
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;
@@ -4808,7 +4810,7 @@ static u8 sLightningEnvColors[] = {
 };
 
 void BossGanon_DrawEffects(GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -4821,9 +4823,9 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
     for (i = 0; i < 200; i++, eff++) {
         if (eff->type == GDF_EFF_WINDOW_SHARD) {
             gDPPipeSync(POLY_OPA_DISP++);
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gDorfWindowShardMaterialDL);
-                flag++;
+                materialFlag++;
             }
             if ((eff->timer & 7) != 0) {
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, 255);
@@ -4841,15 +4843,15 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
     }
 
     eff = effFirst;
-    flag = 0;
+    materialFlag = 0;
 
     for (i = 0; i < 150; i++, eff++) {
         if (eff->type == GDF_EFF_SPARKLE) {
             gDPPipeSync(POLY_XLU_DISP++);
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gDorfLightBallMaterialDL);
-                flag++;
+                materialFlag++;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, eff->alpha);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
@@ -4863,15 +4865,15 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
     }
 
     eff = effFirst;
-    flag = 0;
+    materialFlag = 0;
 
     for (i = 0; i < 150; i++, eff++) {
         if (eff->type == GDF_EFF_LIGHT_RAY) {
             gDPPipeSync(POLY_XLU_DISP++);
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gDorfLightBallMaterialDL);
-                flag++;
+                materialFlag++;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, eff->alpha);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
@@ -4887,11 +4889,11 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
     }
 
     eff = effFirst;
-    flag = 0;
+    materialFlag = 0;
 
     for (i = 0; i < 150; i++, eff++) {
         if (eff->type == GDF_EFF_SHOCK) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 if (eff->unk_2E == GDF_SHOCK_PLAYER_PURPLE) {
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 0, 200, 255);
@@ -4900,7 +4902,7 @@ void BossGanon_DrawEffects(GlobalContext* globalCtx) {
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
                     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 0);
                 }
-                flag++;
+                materialFlag++;
             }
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);

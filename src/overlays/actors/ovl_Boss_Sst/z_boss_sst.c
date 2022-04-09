@@ -52,8 +52,8 @@ void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx);
 void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx);
 void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx);
 void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx);
-void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx);
-void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx);
+void BossSst_UpdateEffects(Actor* thisx, GlobalContext* globalCtx);
+void BossSst_DrawEffects(Actor* thisx, GlobalContext* globalCtx);
 
 void BossSst_HeadSfx(BossSst* this, u16 sfxId);
 
@@ -1154,7 +1154,7 @@ void BossSst_HeadMelt(BossSst* this, GlobalContext* globalCtx) {
 }
 
 void BossSst_HeadSetupFinish(BossSst* this) {
-    this->actor.draw = BossSst_DrawEffect;
+    this->actor.draw = BossSst_DrawEffects;
     this->timer = 40;
     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
     BossSst_SetCameraTargets(1.0 / 40, 6);
@@ -2235,7 +2235,7 @@ void BossSst_HandMelt(BossSst* this, GlobalContext* globalCtx) {
 }
 
 void BossSst_HandSetupFinish(BossSst* this) {
-    this->actor.draw = BossSst_DrawEffect;
+    this->actor.draw = BossSst_DrawEffects;
     this->timer = 20;
     this->effects[0].status = 0;
     this->actionFunc = BossSst_HandFinish;
@@ -2621,7 +2621,7 @@ void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx) {
     trail->yRotMod = this->handYRotMod;
 
     this->trailIndex = (this->trailIndex + 1) % 7;
-    BossSst_UpdateEffect(&this->actor, globalCtx);
+    BossSst_UpdateEffects(&this->actor, globalCtx);
 }
 
 void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
@@ -2673,7 +2673,7 @@ void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
         BossSst_HeadSfx(this, NA_SE_EN_SHADEST_MOVE - SFX_FLAG);
     }
 
-    BossSst_UpdateEffect(&this->actor, globalCtx);
+    BossSst_UpdateEffects(&this->actor, globalCtx);
 }
 
 s32 BossSst_OverrideHandDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -2759,7 +2759,7 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6654);
 
-    BossSst_DrawEffect(&this->actor, globalCtx);
+    BossSst_DrawEffects(&this->actor, globalCtx);
 }
 
 s32 BossSst_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
@@ -2927,7 +2927,7 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_sst.c", 6941);
 
     SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->viewProjectionMtxF, &this->actor.focus.pos, &this->center);
-    BossSst_DrawEffect(&this->actor, globalCtx);
+    BossSst_DrawEffects(&this->actor, globalCtx);
 }
 
 void BossSst_SpawnHeadShadow(BossSst* this) {
@@ -3086,7 +3086,7 @@ void BossSst_IceShatter(BossSst* this) {
     }
 }
 
-void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
+void BossSst_UpdateEffects(Actor* thisx, GlobalContext* globalCtx) {
     BossSst* this = (BossSst*)thisx;
     BossSstEffect* effect;
     s32 i;
@@ -3147,7 +3147,7 @@ void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
+void BossSst_DrawEffects(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BossSst* this = (BossSst*)thisx;
     s32 i;

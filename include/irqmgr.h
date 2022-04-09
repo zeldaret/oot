@@ -40,7 +40,7 @@ typedef struct {
 
 void IrqMgr_Init(IrqMgr* irqMgr, void* stack, OSPri pri, u8 retraceCount);
 
-void IrqMgr_AddClient(IrqMgr* irqMgr, IrqMgrClient* client, OSMesgQueue* msgQ);
+void IrqMgr_AddClient(IrqMgr* irqMgr, IrqMgrClient* client, OSMesgQueue* msgQueue);
 void IrqMgr_RemoveClient(IrqMgr* irqMgr, IrqMgrClient* client);
 
 #endif

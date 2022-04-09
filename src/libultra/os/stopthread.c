@@ -5,19 +5,19 @@ void osStopThread(OSThread* thread) {
     register u32 state;
 
     if (thread == NULL) {
-        state = 4;
+        state = OS_STATE_RUNNING;
     } else {
         state = thread->state;
     }
 
     switch (state) {
-        case 4:
-            __osRunningThread->state = 1;
+        case OS_STATE_RUNNING:
+            __osRunningThread->state = OS_STATE_STOPPED;
             __osEnqueueAndYield(NULL);
             break;
-        case 2:
-        case 8:
-            thread->state = 1;
+        case OS_STATE_RUNNABLE:
+        case OS_STATE_WAITING:
+            thread->state = OS_STATE_STOPPED;
             __osDequeueThread(thread->queue, thread);
             break;
     }

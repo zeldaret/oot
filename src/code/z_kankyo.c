@@ -731,11 +731,11 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         }
 
         if ((envCtx->skyboxDmaState == SKYBOX_DMA_FILE1_START) || (envCtx->skyboxDmaState == SKYBOX_DMA_FILE2_START)) {
-            if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
+            if (osRecvMesg(&envCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 envCtx->skyboxDmaState++;
             }
         } else if (envCtx->skyboxDmaState >= SKYBOX_DMA_FILE1_DONE) {
-            if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
+            if (osRecvMesg(&envCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
             }
         }

@@ -18,6 +18,8 @@
     ((tent != NULL) && \
      ((tent->work[MO_TENT_ACTION_STATE] == MO_TENT_GRAB) || (tent->work[MO_TENT_ACTION_STATE] == MO_TENT_SHAKE)))
 
+#define BOSS_MO_EFFECT_COUNT 300
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
@@ -140,7 +142,7 @@ static f32 sFlatWidth[41] = {
 
 #include "z_boss_mo_colchk.c"
 
-static BossMoEffect sEffects[300];
+static BossMoEffect sEffects[BOSS_MO_EFFECT_COUNT];
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
@@ -184,12 +186,12 @@ s32 BossMo_NearLand(Vec3f* pos, f32 margin) {
     return false;
 }
 
-void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 partLimit,
+void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 countLimit,
                         u8 type) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
-    for (i = 0; i < partLimit; i++, effect++) {
+    for (i = 0; i < countLimit; i++, effect++) {
         if (effect->type == MO_FX_NONE) {
             effect->stopTimer = 0;
             effect->type = type;
@@ -335,7 +337,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         MO_WATER_LEVEL(globalCtx) = this->waterLevel = MO_WATER_LEVEL(globalCtx);
         globalCtx->roomCtx.unk_74[0] = 0xA0;
         globalCtx->specialEffects = sEffects;
-        for (i = 0; i < ARRAY_COUNT(sEffects); i++) {
+        for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++) {
             sEffects[i].type = MO_FX_NONE;
         }
         this->actor.world.pos.x = 200.0f;
@@ -2751,7 +2753,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
     Vec3f bubbleSpeed = { 0.0f, 0.0f, 0.0f };
     Vec3f bubbleVel;
 
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type != MO_FX_NONE) {
             effect->timer++;
             if (effect->stopTimer == 0) {
@@ -2896,7 +2898,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
 }
 
 void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -2905,14 +2907,14 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_boss_mo.c", 7264);
     Matrix_Push();
 
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BIG_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80094BC4(gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -2927,15 +2929,15 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_SMALL_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -2950,18 +2952,18 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (((effect->type == MO_FX_DROPLET) || (effect->type == MO_FX_SPLASH)) ||
             (effect->type == MO_FX_SPLASH_TRAIL)) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)effect->fwork[MO_FX_SHIMMER], (s16)effect->fwork[MO_FX_SHIMMER],
@@ -2979,17 +2981,17 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_WET_SPOT) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80094044(gfxCtx);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)effect->fwork[MO_FX_SHIMMER], (s16)effect->fwork[MO_FX_SHIMMER],
@@ -3005,15 +3007,15 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BUBBLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, effect->alpha);

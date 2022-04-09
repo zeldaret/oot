@@ -32,6 +32,7 @@ typedef union {
         /* 0x00 */ f32 f_odd;
         /* 0x04 */ f32 f_even;
     } f;
+    f64 d;
 } __OSfp; // size = 0x08
 
 typedef struct {
@@ -64,6 +65,11 @@ typedef struct OSThread {
     /* 0x1C */ __OSThreadprofile* thprof;
     /* 0x20 */ __OSThreadContext context;
 } OSThread; // size = 0x1B0
+
+typedef struct {
+    OSThread* next;
+    OSPri priority;
+} __OSThreadTail; // size = 0x8
 
 #else
 
