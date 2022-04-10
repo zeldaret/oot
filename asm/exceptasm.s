@@ -101,7 +101,7 @@ LEAF(__osException)
     # Save sr
     mfc0    $k1, C0_SR
     sw      $k1, THREAD_SR($k0)
-    # Clear interrupts
+    # Disable interrupts
     li      $at, ~(SR_IE | SR_EXL)
     and     $k1, $k1, $at
     mtc0    $k1, C0_SR
@@ -111,10 +111,10 @@ LEAF(__osException)
     sd      $t2, THREAD_T2($k0)
     # Mark FPU as unused
     sw      $zero, THREAD_FP($k0)
-    # Left over from mis-placed ifdef, immediately overwritten on next instruction
+    # Left over from misplaced ifdef, immediately overwritten on next instruction
     mfc0    $t0, C0_CAUSE
 savecontext:
-    # Save the currently running thread's context to be restored when it resumes
+    # Save the previously running thread's context to be restored when it resumes
     move    $t0, $k0
     lui     $k0, %hi(__osRunningThread)
     lw      $k0, %lo(__osRunningThread)($k0)
@@ -200,7 +200,7 @@ endrcp:
     lw      $t0, THREAD_FP($k0)
     beqz    $t0, handle_interrupt
      nop
-    # Save FP Registers if fpu was touched by this thread
+    # Save FP Registers if FPU was used by the thread
     cfc1    $t0, C1_FPCSR
     nop
     sw      $t0, THREAD_FPCSR($k0)
@@ -233,7 +233,7 @@ handle_interrupt:
     li      $t2, EXC_BREAK
     beq     $t1, $t2, handle_break
      nop
-    # Test for cpu exception (coprocessor unusable)
+    # Test for CpU (coprocessor unusable) exception
     li      $t2, EXC_CPU
     beq     $t1, $t2, handle_CpU
      nop
@@ -561,7 +561,7 @@ sw1:
      and    $s0, $s0, $at
 
 handle_break:
-    # Set thread as having hit a break exception
+    # Set last thread as having hit a break exception
     li      $t1, OS_FLAG_CPU_BREAK
     sh      $t1, THREAD_FLAGS($k0)
     # Post a cpu break event message
@@ -581,8 +581,8 @@ redispatch:
     slt     $at, $t1, $t3
     beqz    $at, enqueueRunning
      nop
-    # The current thread is no longer the highest priority, enqueue it
-    #  to the run queue to wait its turn again
+    # The previously running thread is no longer the highest priority,
+    #  enqueue it to the run queue to wait its turn again
     lui     $a0, %hi(__osRunQueue)
     move    $a1, $k0
     jal     __osEnqueueThread
@@ -591,7 +591,8 @@ redispatch:
      nop
 
 /**
- *  Dispatches the top of the run queue
+ *  Resume the previously running thread by placing it at the top of
+ *  the run queue and dispatching it
  */
 enqueueRunning:
     lui     $t1, %hi(__osRunQueue)
@@ -606,7 +607,7 @@ enqueueRunning:
  *  trap to software by posting a fault message
  */
 panic:
-    # Mark thread as having faulted
+    # Mark the thread as having faulted
     lui     $at, %hi(__osFaultedThread)
     sw      $k0, %lo(__osFaultedThread)($at)
     li      $t1, OS_STATE_STOPPED
@@ -698,7 +699,7 @@ handle_CpU:
     li      $t2, 1 # if not coprocessor 1, panic
     bne     $t1, $t2, panic
      nop
-    # Mark cop1 as usable for this thread
+    # Mark cop1 as usable for previous thread
     lw      $k1, THREAD_SR($k0)
     li      $at, SR_CU1
     li      $t1, 1
@@ -711,9 +712,10 @@ END(__osException)
 /**
  *  void __osEnqueueAndYield(OSThread** threadQueue);
  *
+ *  Voluntary thread yielding.
  *  Enqueues the currently running thread to the top of the
  *   thread queue `threadQueue` and yields to the highest priority
- *   unblocked runnable thread
+ *   unblocked runnable thread.
  */
 LEAF(__osEnqueueAndYield)
     lui     $a1, %hi(__osRunningThread)
@@ -736,7 +738,7 @@ LEAF(__osEnqueueAndYield)
     sd      $sp, THREAD_SP($a1)
     sd      $fp, THREAD_S8($a1)
     sd      $ra, THREAD_RA($a1)
-    # Save fpu callee-saved registers if thread has touched the fpu
+    # Save FPU callee-saved registers if the current thread has used the FPU
     beqz    $k1, 1f
      sw     $ra, THREAD_PC($a1)
     cfc1    $k1, C1_FPCSR
@@ -847,7 +849,7 @@ END(__osNop)
 /**
  *  void __osDispatchThread(void);
  *
- *  Dispatches the next thread to run after restoring it
+ *  Dispatches the next thread to run after restoring the context
  */
 LEAF(__osDispatchThread)
     # Obtain highest priority thread from the active run queue
@@ -910,7 +912,7 @@ LEAF(__osDispatchThread)
     # Move thread pc to EPC so that eret will return execution to where the thread left off
     lw      $k1, THREAD_PC($k0)
     mtc0    $k1, C0_EPC
-    # Check if the fpu was touched by this thread and if so also restore the fpu registers
+    # Check if the FPU was used by this thread and if so also restore the FPU registers
     lw      $k1, THREAD_FP($k0)
     beqz    $k1, 1f
      nop

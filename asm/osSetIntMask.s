@@ -120,8 +120,7 @@ LEAF(osSetIntMask)
     andi    $t0, $a0, OS_IM_CPU
     andi    $t1, $t3, SR_IMASK
     and     $t0, $t0, $t1
-    lui     $at, ((~SR_IMASK) >> 0x10) & 0xFFFF
-    ori     $at, (~SR_IMASK) & 0xFFFF
+    li      $at, ~SR_IMASK
     and     $t4, $t4, $at
     or      $t4, $t4, $t0
     mtc0    $t4, C0_SR
