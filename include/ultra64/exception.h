@@ -3,6 +3,7 @@
 
 // Interrupt masks
 #define OS_IM_NONE      0x00000001
+#define OS_IM_RCP       0x00000401
 #define OS_IM_SW1       0x00000501
 #define OS_IM_SW2       0x00000601
 #define OS_IM_CART      0x00000C01

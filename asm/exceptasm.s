@@ -160,7 +160,8 @@ savecontext:
     sd      $ra, THREAD_RA($k0)
     beqz    $t1, savercp
      sd     $t0, THREAD_HI($k0)
-    # If any interrupts are enabled
+    # If any CPU interrupts are enabled in SR, mask previous thread's SR
+    # with the CPU bits of the global interrupt mask
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
@@ -182,15 +183,16 @@ savercp:
     lw      $t1, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t1)
     beqz    $t1, endrcp
      nop
-    # If there are RCP interrupts
+    # If there are RCP interrupts masked, mask previous thread's RCP mask
+    # with the RCP bits of the global interrupt mask
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
     lw      $t4, THREAD_RCP($k0)
     li      $at, ~0
-    srl     $t0, $t0, 0x10
+    srl     $t0, $t0, RCP_IMASKSHIFT
     xor     $t0, $t0, $at
-    andi    $t0, $t0, 0x3F
+    andi    $t0, $t0, (RCP_IMASK >> RCP_IMASKSHIFT)
     and     $t0, $t0, $t4
     or      $t1, $t1, $t0
 endrcp:
@@ -228,8 +230,8 @@ handle_interrupt:
     sw      $t0, THREAD_CAUSE($k0)
     li      $t1, OS_STATE_RUNNABLE
     sh      $t1, THREAD_STATE($k0)
-    # Test for break exception
     andi    $t1, $t0, CAUSE_EXCMASK
+    # Test for break exception
     li      $t2, EXC_BREAK
     beq     $t1, $t2, handle_break
      nop
@@ -246,11 +248,11 @@ handle_interrupt:
 next_interrupt:
     # Handle external interrupt causes, using a jump table
     # to enter into the appropriate handler
-    andi    $t1, $s0, SR_IMASK
-    srl     $t2, $t1, 0xC
+    andi    $t1, $s0, CAUSE_IPMASK
+    srl     $t2, $t1, CAUSE_IPSHIFT + 4
     bnez    $t2, 1f
      nop
-    srl     $t2, $t1, SR_IMASKSHIFT
+    srl     $t2, $t1, CAUSE_IPSHIFT
     addi    $t2, $t2, 0x10
 1:
     lui     $at, %hi(__osIntOffTable)
@@ -294,8 +296,7 @@ counter:
     jal     send_mesg
      li     $a0, OS_EVENT_COUNTER*8
     # Clear interrupt and continue
-    lui     $at, ((~CAUSE_IP8) >> 0x10) & 0xFFFF
-    ori     $at, (~CAUSE_IP8) & 0xFFFF
+    li      $at, ~CAUSE_IP8
     b       next_interrupt
      and    $s0, $s0, $at
 
@@ -313,10 +314,10 @@ cart:
     and     $s0, $s0, $at
     # If the callback is NULL, handling is done
     beqz    $t2, send_cart_mesg
-     addi   $t1, $t1, (OS_INTR_CART*8)
+     addi   $t1, $t1, (OS_INTR_CART*HWINT_SIZE)
     # Set up a stack and run the callback
     jalr    $t2
-    lw      $sp, HWINT_SP($t1)
+     lw     $sp, HWINT_SP($t1)
     beqz    $v0, send_cart_mesg
      nop
     # Redispatch immediately if the callback returned nonzero
@@ -335,13 +336,13 @@ send_cart_mesg:
  *  Signalled by the RCP for various reasons, described below
  */
 rcp:
-    # Load the MI interrupts and mask with the global interrupt mask
+    # Load the MI interrupts and mask with the RCP bits in the global interrupt mask
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
     lui     $s1, %hi(PHYS_TO_K1(MI_INTR_REG))
     lw      $s1, %lo(PHYS_TO_K1(MI_INTR_REG))($s1)
-    srl     $t0, $t0, 0x10
+    srl     $t0, $t0, RCP_IMASKSHIFT
     and     $s1, $s1, $t0
 
 /**
@@ -359,7 +360,7 @@ sp:
     lui     $at, %hi(PHYS_TO_K1(SP_STATUS_REG))
     andi    $t4, $t4, (SP_STATUS_YIELDED | SP_STATUS_TASKDONE)
     # Mask out SP interrupt
-    andi    $s1, $s1, (MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
+    andi    $s1, $s1, (MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_PI | MI_INTR_DP)
     beqz    $t4, sp_other_break
     # Clear interrupt and signal 3
      sw     $t1, %lo(PHYS_TO_K1(SP_STATUS_REG))($at)
@@ -385,11 +386,11 @@ sp_other_break:
  */
 vi:
     # Test for vi interrupt
-    andi    $t1, $s1, MI_INTR_MASK_VI
+    andi    $t1, $s1, MI_INTR_VI
     beqz    $t1, ai
      lui    $at, %hi(PHYS_TO_K1(VI_CURRENT_REG))
     # Mask out vi interrupt
-    andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
+    andi    $s1, $s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_PI | MI_INTR_DP)
     # Clear interrupt
     sw      $zero, %lo(PHYS_TO_K1(VI_CURRENT_REG))($at)
     # Post vi event message
@@ -403,13 +404,13 @@ vi:
  */
 ai:
     # Test for ai interrupt
-    andi    $t1, $s1, MI_INTR_MASK_AI
+    andi    $t1, $s1, MI_INTR_AI
     beqz    $t1, si
      nop
     li      $t1, 1
     lui     $at, %hi(PHYS_TO_K1(AI_STATUS_REG))
     # Mask out ai interrupt
-    andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_VI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
+    andi    $s1, $s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_VI | MI_INTR_PI | MI_INTR_DP)
     # Clear interrupt
     sw      $t1, %lo(PHYS_TO_K1(AI_STATUS_REG))($at)
     # Post ai event message
@@ -423,11 +424,11 @@ ai:
  */
 si:
     # Test for si interrupt
-    andi    $t1, $s1, MI_INTR_MASK_SI
+    andi    $t1, $s1, MI_INTR_SI
     beqz    $t1, pi
      lui    $at, %hi(PHYS_TO_K1(SI_STATUS_REG))
     # Mask out si interrupt
-    andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_PI | MI_INTR_MASK_DP)
+    andi    $s1, $s1, (MI_INTR_SP | MI_INTR_AI | MI_INTR_VI | MI_INTR_PI | MI_INTR_DP)
     # Clear interrupt
     sw      $zero, %lo(PHYS_TO_K1(SI_STATUS_REG))($at)
     # Post si event message
@@ -441,7 +442,7 @@ si:
  */
 pi:
     # Test for pi interrupt
-    andi    $t1, $s1, MI_INTR_MASK_PI
+    andi    $t1, $s1, MI_INTR_PI
     beqz    $t1, dp
      nop
     # Clear interrupt
@@ -453,14 +454,14 @@ pi:
     addiu   $t1, %lo(__osPiIntTable)
     lw      $t2, ($t1)
     # Mask out pi interrupt
-    andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_DP)
+    andi    $s1, $s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_DP)
     # Skip callback if NULL
     beqz    $t2, no_pi_callback
      nop
     # Set up a stack and run the callback
     lw      $sp, HWINT_SP($t1)
     jalr    $t2
-    move    $a0, $v0
+     move   $a0, $v0
     # If the callback returns non-zero, don't post a pi event message
     bnez    $v0, skip_pi_mesg
      nop
@@ -477,14 +478,14 @@ skip_pi_mesg:
  */
 dp:
     # Test for dp interrupt
-    andi    $t1, $s1, MI_INTR_MASK_DP
+    andi    $t1, $s1, MI_INTR_DP
     beqz    $t1, NoMoreRcpInts
      nop
     # Clear dp interrupt
     li      $t1, MI_CLR_DP_INTR
     lui     $at, %hi(PHYS_TO_K1(MI_INIT_MODE_REG))
     # Mask out dp interrupt
-    andi    $s1, $s1, (MI_INTR_MASK_SP | MI_INTR_MASK_SI | MI_INTR_MASK_AI | MI_INTR_MASK_VI | MI_INTR_MASK_PI)
+    andi    $s1, $s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_PI)
     sw      $t1, %lo(PHYS_TO_K1(MI_INIT_MODE_REG))($at)
     # Post dp event message
     jal     send_mesg
@@ -574,7 +575,7 @@ handle_break:
 redispatch:
     lui     $t2, %hi(__osRunQueue)
     lw      $t2, %lo(__osRunQueue)($t2)
-    # Get currently running priority
+    # Get priority of previously running thread
     lw      $t1, THREAD_PRI($k0)
     # Get highest priority from waiting threads
     lw      $t3, THREAD_PRI($t2)
@@ -653,9 +654,9 @@ send_mesg:
      nop
     break   7 # div0
 1:
-    li      $at, ~0
+    li      $at, -1
     bne     $t4, $at, 2f
-     lui    $at, 0x8000
+     li     $at, -0x80000000
     bne     $t5, $at, 2f
      nop
     break   6 # overflow
@@ -672,12 +673,12 @@ send_mesg:
     sw      $t5, ($t4)
     # Increment the validCount
     sw      $t2, MQ_VALIDCOUNT($t1)
+    # If there was a thread blocked on this message queue,
+    #  wake it up
     lw      $t2, MQ_MTQUEUE($t1)
     lw      $t3, ($t2)
     beqz    $t3, send_done
      nop
-    # If there was a thread blocked on this message queue,
-    #  wake it up
     jal     __osPopThread
      move    $a0, $t1
     move    $t2, $v0
@@ -754,7 +755,8 @@ LEAF(__osEnqueueAndYield)
     andi    $t1, $k1, SR_IMASK
     beqz    $t1, 2f
      nop
-    # If any interrupts are enabled
+    # If any CPU interrupts are enabled in SR, mask previous thread's SR
+    # with the CPU bits of the global interrupt mask
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
@@ -772,15 +774,16 @@ LEAF(__osEnqueueAndYield)
     lw      $k1, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($k1)
     beqz    $k1, 3f
      nop
-    # If there are RCP interrupts pending
+    # If there are RCP interrupts masked, mask previous thread's RCP mask
+    # with the RCP bits of the global interrupt mask
     lui     $k0, %hi(__OSGlobalIntMask)
     addiu   $k0, %lo(__OSGlobalIntMask)
     lw      $k0, ($k0)
     lw      $t0, THREAD_RCP($a1)
     li      $at, ~0
-    srl     $k0, $k0, 0x10
+    srl     $k0, $k0, RCP_IMASKSHIFT
     xor     $k0, $k0, $at
-    andi    $k0, $k0, 0x3F
+    andi    $k0, $k0, (RCP_IMASK >> RCP_IMASKSHIFT)
     and     $k0, $k0, $t0
     or      $k1, $k1, $k0
 3:
@@ -821,9 +824,9 @@ LEAF(__osEnqueueThread)
      nop
 2:
     # Insert the thread into the queue
-    lw      $t8, THREAD_NEXT($t9)
+    lw      $t8, ($t9)
     sw      $t8, THREAD_NEXT($a1)
-    sw      $a1, THREAD_NEXT($t9)
+    sw      $a1, ($t9)
     jr      $ra
      sw     $a0, THREAD_QUEUE($a1)
 END(__osEnqueueThread)
@@ -861,7 +864,7 @@ LEAF(__osDispatchThread)
     sw      $v0, %lo(__osRunningThread)($at)
     li      $t0, OS_STATE_RUNNING
     sh      $t0, THREAD_STATE($v0)
-    # Restore SR
+    # Restore SR, masking it with the CPU bits in the global interrupt mask
     move    $k0, $v0
     lui     $t0, %hi(__OSGlobalIntMask)
     lw      $k1, THREAD_SR($k0)
@@ -935,12 +938,13 @@ LEAF(__osDispatchThread)
     ldc1    $f28, THREAD_FP28($k0)
     ldc1    $f30, THREAD_FP30($k0)
 1:
-    # Restore RCP interrupt mask
+    # Restore RCP interrupt mask, masking it with the RCP bits in
+    # the global interrupt mask
     lw      $k1, THREAD_RCP($k0)
     lui     $k0, %hi(__OSGlobalIntMask)
     addiu   $k0, %lo(__OSGlobalIntMask)
     lw      $k0, ($k0)
-    srl     $k0, $k0, 0x10
+    srl     $k0, $k0, RCP_IMASKSHIFT
     and     $k1, $k1, $k0
     sll     $k1, $k1, 1
     lui     $k0, %hi(__osRcpImTable)

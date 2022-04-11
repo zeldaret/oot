@@ -100,18 +100,18 @@ LEAF(osSetIntMask)
     lui     $t2, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
     lw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t2)
     beqz    $t2, 1f
-     srl    $t1, $t3, 0x10
+     srl    $t1, $t3, RCP_IMASKSHIFT
     li      $at, ~0
     xor     $t1, $t1, $at
     andi    $t1, $t1, MI_INTR_MASK
     or      $t2, $t2, $t1
 1:
-    sll     $t2, $t2, 0x10
+    sll     $t2, $t2, RCP_IMASKSHIFT
     or      $v0, $v0, $t2
     lui     $at, MI_INTR_MASK
     and     $t0, $a0, $at
     and     $t0, $t0, $t3
-    srl     $t0, $t0, 0xF
+    srl     $t0, $t0, (RCP_IMASKSHIFT-1)
     lui     $t2, %hi(__osRcpImTable)
     addu    $t2, $t2, $t0
     lhu     $t2, %lo(__osRcpImTable)($t2)
