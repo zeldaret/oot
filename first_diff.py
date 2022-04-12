@@ -90,9 +90,9 @@ def search_rom_address(target_addr):
                 continue
 
             ram = int(line[16 : 16 + 18], 0)
-            rom = ram - ram_offset 
+            rom = ram - ram_offset
             sym = line.split()[-1]
-    
+
             if sym.startswith("0x"):
                 ram_offset = None
                 continue

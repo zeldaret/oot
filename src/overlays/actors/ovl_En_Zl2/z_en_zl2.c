@@ -203,7 +203,8 @@ void EnZl2_setMouthIndex(EnZl2* this, s16 index) {
 }
 
 void func_80B4ED2C(EnZl2* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 EnZl2_UpdateSkelAnime(EnZl2* this) {
@@ -544,7 +545,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         {
             Player* player = GET_PLAYER(globalCtx);
             Matrix_Push();
-            if (player->rightHandType == 0xFF) {
+            if (player->rightHandType == PLAYER_MODELTYPE_RH_FF) {
                 Matrix_Put(&player->shieldMf);
                 Matrix_Translate(180.0f, 979.0f, -375.0f, MTXMODE_APPLY);
                 Matrix_RotateZYX(-0x5DE7, -0x53E9, 0x3333, MTXMODE_APPLY);
@@ -564,7 +565,7 @@ void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[unk_274].segment);
 }
 
-void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
     f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
@@ -580,7 +581,7 @@ void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 transit
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, arg2, morphFrames);
 }
 
 void func_80B4FD90(EnZl2* this, GlobalContext* globalCtx) {
@@ -753,7 +754,7 @@ void func_80B50304(EnZl2* this, GlobalContext* globalCtx) {
     this->drawConfig = 1;
     this->unk_23C = 0.0f;
     shape->shadowAlpha = 255;
-    this->actor.world.rot.y = shape->rot.y = Math_FAtan2F(actionXDelta, actionZDelta) * (0x8000 / M_PI);
+    this->actor.world.rot.y = shape->rot.y = RADF_TO_BINANG(Math_FAtan2F(actionXDelta, actionZDelta));
 }
 
 void func_80B503DC(EnZl2* this, GlobalContext* globalCtx) {
@@ -1437,7 +1438,7 @@ void func_80B51D24(EnZl2* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
 
     if (Animation_OnFrame(skelAnime, 6.0f) || Animation_OnFrame(skelAnime, 0.0f)) {
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);

@@ -27,7 +27,7 @@ void EnGoma_Stunned(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_LookAtPlayer(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_Debris(EnGoma* this, GlobalContext* globalCtx);
-void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx2);
+void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx);
 void EnGoma_BossLimb(EnGoma* this, GlobalContext* globalCtx);
 
 void EnGoma_SetupFlee(EnGoma* this);
@@ -212,7 +212,7 @@ void EnGoma_EggFallToGround(EnGoma* this, GlobalContext* globalCtx) {
 
     switch (this->hatchState) {
         case 0:
-            if (this->actor.bgCheckFlags & 1) { // floor
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 if (this->actor.params < 6) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_BJR_EGG1);
                 } else {
@@ -258,7 +258,7 @@ void EnGoma_EggFallToGround(EnGoma* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_ApproachZeroF(&this->actor.speedXZ, 0.2f, 0.05f);
     }
     this->eggPitch += (this->actor.speedXZ * 0.1f);
@@ -340,7 +340,7 @@ void EnGoma_SetupHurt(EnGoma* this, GlobalContext* globalCtx) {
 void EnGoma_Hurt(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
     }
 
@@ -372,7 +372,7 @@ void EnGoma_SetupDie(EnGoma* this) {
 void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
     }
 
@@ -475,7 +475,7 @@ void EnGoma_SetupLand(EnGoma* this) {
 void EnGoma_Land(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 2.0f);
     }
     if (this->actionTimer == 0) {
@@ -501,7 +501,7 @@ void EnGoma_Jump(EnGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 10.0f, 0.5f, 5.0f);
 
-    if (this->actor.velocity.y <= 0.0f && (this->actor.bgCheckFlags & 1)) {
+    if (this->actor.velocity.y <= 0.0f && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         EnGoma_SetupLand(this);
         if (this->actor.params < 6) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_BJR_LAND2);
@@ -538,7 +538,7 @@ void EnGoma_ChasePlayer(EnGoma* this, GlobalContext* globalCtx) {
     Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.velocity.y = 0.0f;
     }
     if (this->actor.xzDistToPlayer <= 150.0f) {
@@ -567,7 +567,7 @@ void EnGoma_Stunned(EnGoma* this, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelanime);
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.velocity.y = 0.0f;
         Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 2.0f);
     }
@@ -631,7 +631,7 @@ void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx) {
                         this->actor.velocity.y = 0.0f;
                         this->actor.speedXZ = -5.0f;
                     } else {
-                        Matrix_RotateY(player->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_NEW);
+                        Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;
                     }
@@ -690,8 +690,8 @@ void EnGoma_SetFloorRot(EnGoma* this) {
         nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
         ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
         nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
-        Math_ApproachS(&this->slopePitch, -Math_FAtan2F(-nz * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
-        Math_ApproachS(&this->slopeRoll, Math_FAtan2F(-nx * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
+        Math_ApproachS(&this->slopePitch, RADF_TO_BINANG(-Math_FAtan2F(-nz * ny, 1.0f)), 1, 1000);
+        Math_ApproachS(&this->slopeRoll, RADF_TO_BINANG(Math_FAtan2F(-nx * ny, 1.0f)), 1, 1000);
     }
 }
 
@@ -720,13 +720,14 @@ void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.scale.y, 0.01f, 0.5f, 0.00075f, 0.000001f);
         Math_SmoothStepToF(&this->actor.scale.z, 0.01f, 0.5f, 0.00075f, 0.000001f);
         EnGoma_UpdateHit(this, globalCtx);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         EnGoma_SetFloorRot(this);
         Actor_SetFocus(&this->actor, 20.0f);
         EnGoma_LookAtPlayer(this, globalCtx);
         EnGoma_UpdateEyeEnvColor(this);
         this->visualState = 1;
-        if (player->swordState != 0) {
+        if (player->meleeWeaponState != 0) {
             this->colCyl2.dim.radius = 35;
             this->colCyl2.dim.height = 35;
             this->colCyl2.dim.yShift = 0;
@@ -791,11 +792,11 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
                              this->actor.world.pos.y + ((this->actor.shape.yOffset * this->actor.scale.y) +
                                                         globalCtx->mainCamera.skyboxOffset.y),
                              this->actor.world.pos.z, MTXMODE_NEW);
-            Matrix_RotateX(this->slopePitch / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ(this->slopeRoll / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateY(this->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX(this->actor.shape.rot.x / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ(this->actor.shape.rot.z / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->slopePitch), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->slopeRoll), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
             SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw,
                               NULL, this);
@@ -829,11 +830,11 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case ENGOMA_BOSSLIMB:
-            if (this->bossLimbDl != NULL) {
+            if (this->bossLimbDL != NULL) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, EnGoma_NoBackfaceCullingDlist(globalCtx->state.gfxCtx));
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2114),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDl);
+                gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDL);
             }
             break;
     }
@@ -875,10 +876,10 @@ void EnGoma_BossLimb(EnGoma* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     this->actor.world.pos.y -= 5.0f;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
     this->actor.world.pos.y += 5.0f;
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.velocity.y = 0.0f;
     } else if (this->actionTimer < 250) {
         this->actor.shape.rot.y += 2000;

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-# 
+#
 # message_data_static disassembler/decompiler
-# 
+#
 
 import re, struct
 from os import path
@@ -129,11 +129,11 @@ colors = {
 
 highscores = {
     0x00 : "HS_HORSE_ARCHERY",
-    0x01 : "HS_POE_POINTS",   
-    0x02 : "HS_LARGEST_FISH", 
-    0x03 : "HS_HORSE_RACE",   
-    0x04 : "HS_MARATHON",     
-    0x06 : "HS_DAMPE_RACE",   
+    0x01 : "HS_POE_POINTS",
+    0x02 : "HS_LARGEST_FISH",
+    0x03 : "HS_HORSE_RACE",
+    0x04 : "HS_MARATHON",
+    0x06 : "HS_DAMPE_RACE",
 }
 
 def format_char(byte):
@@ -195,7 +195,7 @@ def decode(read_bytes, box_type):
                 if byte == ord(ctrl):
                     name = control_codes[ctrl]
                     # single bytes
-                    if (name == "COLOR" or name == "SHIFT" or name == "BOX_BREAK_DELAYED" or 
+                    if (name == "COLOR" or name == "SHIFT" or name == "BOX_BREAK_DELAYED" or
                         name == "FADE" or name == "ITEM_ICON" or name == "TEXT_SPEED" or
                         name == "HIGHSCORE"):
                         buf.append("\" " + name + "(")
@@ -340,7 +340,7 @@ def dump_all_text():
                 with open("baserom/ger_message_data_static","rb") as infile:
                     infile.seek(ger_offset)
                     ger_text = fixup_message(decode(infile.read(ger_length), entry[1]).replace("\x00","",-1))
-                
+
                 fra_offset = segmented_to_physical(entry[5])
                 fra_length = next_entry[5] - entry[5]
                 with open("baserom/fra_message_data_static","rb") as infile:

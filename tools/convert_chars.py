@@ -10,22 +10,22 @@ root_dir = script_dir + "/../"
 
 def handle_match(match):
     original_text = match.group()
-    
+
     match_text = original_text.replace("\\x", "")
 
     if match_text.lower() == "1b":
         return original_text
-    
+
     end = ""
     if original_text.lower().endswith("\\x1b"):
         end = original_text[-4:]
         match_text = match_text[:-2]
-        
+
     try:
         text = bytes.fromhex(match_text).decode("EUC-JP")
     except UnicodeDecodeError:
         return original_text
-    
+
     if text[2:].lower() == match_text.lower():
         return original_text
 

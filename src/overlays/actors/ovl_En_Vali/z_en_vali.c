@@ -734,7 +734,7 @@ void EnVali_DrawBody(EnVali* this, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, gBariInnerHoodDL);
 
     Matrix_Put(&mtx);
-    Matrix_RotateY(-this->actor.shape.rot.y * (M_PI / 32768.0f), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(-this->actor.shape.rot.y), MTXMODE_APPLY);
 
     cos = Math_CosS(this->actor.shape.rot.y);
     sin = Math_SinS(this->actor.shape.rot.y);

@@ -111,7 +111,7 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
         tri[1].x = tri[0].x;
         tri[1].z = tri[2].z;
         Collider_SetTrisVertices(&this->trisCollider, 1, &tri[0], &tri[2], &tri[1]);
-        this->unk16C = 0.0f;
+        this->unk_16C = 0.0f;
     } else {
         CollisionHeader_GetVirtual(&gDTWebWallCol, &colHeader);
         this->actionFunc = BgYdanSp_WallWebIdle;
@@ -248,7 +248,7 @@ void BgYdanSp_FloorWebBreaking(BgYdanSp* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    this->dyna.actor.world.pos.y = (sinf((f32)this->timer * (M_PI / 20)) * this->unk16C) + this->dyna.actor.home.pos.y;
+    this->dyna.actor.world.pos.y = (sinf((f32)this->timer * (M_PI / 20)) * this->unk_16C) + this->dyna.actor.home.pos.y;
     if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 190.0f) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->timer = 40;
@@ -279,8 +279,8 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     webPos.y = this->dyna.actor.world.pos.y - 50.0f;
     webPos.z = this->dyna.actor.world.pos.z;
     if (Player_IsBurningStickInRange(globalCtx, &webPos, 70.0f, 50.0f) != 0) {
-        this->dyna.actor.home.pos.x = player->swordInfo[0].tip.x;
-        this->dyna.actor.home.pos.z = player->swordInfo[0].tip.z;
+        this->dyna.actor.home.pos.x = player->meleeWeaponInfo[0].tip.x;
+        this->dyna.actor.home.pos.z = player->meleeWeaponInfo[0].tip.z;
         BgYdanSp_BurnWeb(this, globalCtx);
         return;
     }
@@ -292,7 +292,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         sqrtFallDistance = sqrtf(CLAMP_MIN(player->fallDistance, 0.0f));
         if (player->fallDistance > 750.0f) {
             if (this->dyna.actor.xzDistToPlayer < 80.0f) {
-                this->unk16C = 200.0f;
+                this->unk_16C = 200.0f;
                 this->dyna.actor.room = -1;
                 this->dyna.actor.flags |= ACTOR_FLAG_4;
                 this->timer = 40;
@@ -302,20 +302,20 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
             }
         }
         unk = sqrtFallDistance + sqrtFallDistance;
-        if (this->unk16C < unk) {
+        if (this->unk_16C < unk) {
             if (unk > 2.0f) {
-                this->unk16C = unk;
+                this->unk_16C = unk;
                 this->timer = 14;
             }
         }
         if (player->actor.speedXZ != 0.0f) {
-            if (this->unk16C < 0.1f) {
+            if (this->unk_16C < 0.1f) {
                 this->timer = 14;
             }
-            if (this->unk16C < 2.0f) {
-                this->unk16C = 2.0f;
+            if (this->unk_16C < 2.0f) {
+                this->unk_16C = 2.0f;
             } else {
-                this->unk16C = this->unk16C;
+                this->unk_16C = this->unk_16C;
             }
         }
     }
@@ -325,10 +325,10 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         this->timer = 14;
     }
-    this->dyna.actor.world.pos.y = sinf((f32)this->timer * (M_PI / 7)) * this->unk16C + this->dyna.actor.home.pos.y;
-    Math_ApproachZeroF(&this->unk16C, 1.0f, 0.8f);
+    this->dyna.actor.world.pos.y = sinf((f32)this->timer * (M_PI / 7)) * this->unk_16C + this->dyna.actor.home.pos.y;
+    Math_ApproachZeroF(&this->unk_16C, 1.0f, 0.8f);
     if (this->timer == 13) {
-        if (this->unk16C > 3.0f) {
+        if (this->unk_16C > 3.0f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
         } else {
             Audio_StopSfxById(NA_SE_EV_WEB_VIBRATION);
@@ -400,10 +400,10 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, globalCtx);
     } else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
-        func_8002DBD0(&this->dyna.actor, &sp30, &player->swordInfo[0].tip);
+        func_8002DBD0(&this->dyna.actor, &sp30, &player->meleeWeaponInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             OnePointCutscene_Init(globalCtx, 3020, 40, &this->dyna.actor, MAIN_CAM);
-            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->swordInfo[0].tip);
+            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->meleeWeaponInfo[0].tip);
             BgYdanSp_BurnWeb(this, globalCtx);
         }
     }

@@ -1576,7 +1576,7 @@ def ExtractFunc(i):
     else:             # compressed
         compressed = True
         size = physEnd - physStart
-    
+
     print('extracting ' + filename + " (0x%08X, 0x%08X)" % (virtStart, virtEnd))
     write_output_file(filename, physStart, size)
     if compressed:

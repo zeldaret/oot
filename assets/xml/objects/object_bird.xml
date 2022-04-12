@@ -8,7 +8,7 @@
         <DList Name="gBirdRightWingDL" Offset="0x180"/>
         <DList Name="gBirdRightWingWrapper1DL" Offset="0x220"/>
         <DList Name="gBirdRightWingWrapper2DL" Offset="0x230"/>
-        
+
         <DList Name="gBirdBodyDL" Offset="0x280"/>
         <DList Name="gBirdBodyWrapper1DL" Offset="0x3D0"/>
         <DList Name="gBirdBodyWrapper2DL" Offset="0x3E0"/>

@@ -1,7 +1,10 @@
 #include "global.h"
 #include "vt.h"
 
-vu32 D_8012ABF0 = true;
+vu32 sLogOnNextViewInit = true;
+
+s32 View_ApplyPerspective(View*);
+s32 View_ApplyOrtho(View*);
 
 void View_ViewportToVp(Vp* dest, Viewport* src) {
     s32 width = src->rightX - src->leftX;
@@ -45,42 +48,46 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->fovy = 60.0f;
     view->zNear = 10.0f;
     view->zFar = 12800.0f;
-    view->lookAt.x = 0.0f;
+    view->at.x = 0.0f;
     view->up.x = 0.0f;
     view->up.y = 1.0f;
     view->up.z = 0.0f;
     view->eye.z = -1.0f;
 
-    if (D_8012ABF0) {
-        if (D_8012ABF0 == 0) {}
+    if (sLogOnNextViewInit) {
+        if (sLogOnNextViewInit == false) {}
         osSyncPrintf("\nview: initialize ---\n");
-        D_8012ABF0 = false;
+        sLogOnNextViewInit = false;
     }
 
     view->unk_124 = 0;
-    view->flags = 1 | 2 | 4;
-    func_800AA7B8(view);
+    view->flags = VIEW_VIEWING | VIEW_VIEWPORT | VIEW_PROJECTION_PERSPECTIVE;
+    View_InitDistortion(view);
 }
 
-void func_800AA358(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
-    if (eye->x == lookAt->x && eye->z == lookAt->z) {
+void View_LookAt(View* view, Vec3f* eye, Vec3f* at, Vec3f* up) {
+    if (eye->x == at->x && eye->z == at->z) {
         eye->x += 0.1f;
     }
 
     view->eye = *eye;
-    view->lookAt = *lookAt;
+    view->at = *at;
     view->up = *up;
-    view->flags |= 1;
+    view->flags |= VIEW_VIEWING;
 }
 
-void func_800AA3F0(View* view, Vec3f* eye, Vec3f* lookAt, Vec3f* up) {
+/*
+ * Unused. View_LookAt is always used instead. This version is similar but
+ * is missing the input sanitization and the update to the flags.
+ */
+void View_LookAtUnsafe(View* view, Vec3f* eye, Vec3f* at, Vec3f* up) {
     view->eye = *eye;
-    view->lookAt = *lookAt;
+    view->at = *at;
     view->up = *up;
 }
 
 void View_SetScale(View* view, f32 scale) {
-    view->flags |= 4;
+    view->flags |= VIEW_PROJECTION_PERSPECTIVE;
     view->scale = scale;
 }
 
@@ -88,43 +95,47 @@ void View_GetScale(View* view, f32* scale) {
     *scale = view->scale;
 }
 
-void func_800AA460(View* view, f32 fovy, f32 near, f32 far) {
+void View_SetPerspective(View* view, f32 fovy, f32 zNear, f32 zFar) {
     view->fovy = fovy;
-    view->zNear = near;
-    view->zFar = far;
-    view->flags |= 4;
+    view->zNear = zNear;
+    view->zFar = zFar;
+    view->flags |= VIEW_PROJECTION_PERSPECTIVE;
 }
 
-void func_800AA48C(View* view, f32* fovy, f32* near, f32* far) {
+void View_GetPerspective(View* view, f32* fovy, f32* zNear, f32* zFar) {
     *fovy = view->fovy;
-    *near = view->zNear;
-    *far = view->zFar;
+    *zNear = view->zNear;
+    *zFar = view->zFar;
 }
 
-void func_800AA4A8(View* view, f32 fovy, f32 near, f32 far) {
+void View_SetOrtho(View* view, f32 fovy, f32 zNear, f32 zFar) {
     view->fovy = fovy;
-    view->zNear = near;
-    view->zFar = far;
-    view->flags |= 8;
+    view->zNear = zNear;
+    view->zFar = zFar;
+    view->flags |= VIEW_PROJECTION_ORTHO;
     view->scale = 1.0f;
 }
 
-void func_800AA4E0(View* view, f32* fovy, f32* near, f32* far) {
+/*
+ * Identical to View_GetPerspective, and never called.
+ * Named as it seems to fit the "set, get" pattern.
+ */
+void View_GetOrtho(View* view, f32* fovy, f32* zNear, f32* zFar) {
     *fovy = view->fovy;
-    *near = view->zNear;
-    *far = view->zFar;
+    *zNear = view->zNear;
+    *zFar = view->zFar;
 }
 
 void View_SetViewport(View* view, Viewport* viewport) {
     view->viewport = *viewport;
-    view->flags |= 2;
+    view->flags |= VIEW_VIEWPORT;
 }
 
 void View_GetViewport(View* view, Viewport* viewport) {
     *viewport = view->viewport;
 }
 
-void func_800AA550(View* view) {
+void View_ApplyShrinkWindow(View* view) {
     s32 varY;
     s32 varX;
     s32 pad;
@@ -172,94 +183,103 @@ void func_800AA550(View* view) {
     CLOSE_DISPS(gfxCtx, "../z_view.c", 472);
 }
 
-void func_800AA76C(View* view, f32 x, f32 y, f32 z) {
-    view->unk_E8.x = x;
-    view->unk_E8.y = y;
-    view->unk_E8.z = z;
+void View_SetDistortionOrientation(View* view, f32 rotX, f32 rotY, f32 rotZ) {
+    view->distortionOrientation.x = rotX;
+    view->distortionOrientation.y = rotY;
+    view->distortionOrientation.z = rotZ;
 }
 
-void func_800AA78C(View* view, f32 x, f32 y, f32 z) {
-    view->unk_F4.x = x;
-    view->unk_F4.y = y;
-    view->unk_F4.z = z;
+void View_SetDistortionScale(View* view, f32 scaleX, f32 scaleY, f32 scaleZ) {
+    view->distortionScale.x = scaleX;
+    view->distortionScale.y = scaleY;
+    view->distortionScale.z = scaleZ;
 }
 
-s32 func_800AA7AC(View* view, f32 arg1) {
-    view->unk_100 = arg1;
+s32 View_SetDistortionSpeed(View* view, f32 speed) {
+    view->distortionSpeed = speed;
 }
 
-void func_800AA7B8(View* view) {
-    view->unk_E8.x = 0.0f;
-    view->unk_E8.y = 0.0f;
-    view->unk_E8.z = 0.0f;
-    view->unk_F4.x = 1.0f;
-    view->unk_F4.y = 1.0f;
-    view->unk_F4.z = 1.0f;
-    view->unk_104 = view->unk_E8;
-    view->unk_110 = view->unk_F4;
-    view->unk_100 = 0.0f;
+void View_InitDistortion(View* view) {
+    view->distortionOrientation.x = 0.0f;
+    view->distortionOrientation.y = 0.0f;
+    view->distortionOrientation.z = 0.0f;
+    view->distortionScale.x = 1.0f;
+    view->distortionScale.y = 1.0f;
+    view->distortionScale.z = 1.0f;
+    view->curDistortionOrientation = view->distortionOrientation;
+    view->curDistortionScale = view->distortionScale;
+    view->distortionSpeed = 0.0f;
 }
 
-void func_800AA814(View* view) {
-    view->unk_E8.x = 0.0f;
-    view->unk_E8.y = 0.0f;
-    view->unk_E8.z = 0.0f;
-    view->unk_F4.x = 1.0f;
-    view->unk_F4.y = 1.0f;
-    view->unk_F4.z = 1.0f;
-    view->unk_100 = 1.0f;
+void View_ClearDistortion(View* view) {
+    view->distortionOrientation.x = 0.0f;
+    view->distortionOrientation.y = 0.0f;
+    view->distortionOrientation.z = 0.0f;
+    view->distortionScale.x = 1.0f;
+    view->distortionScale.y = 1.0f;
+    view->distortionScale.z = 1.0f;
+    view->distortionSpeed = 1.0f;
 }
 
-void func_800AA840(View* view, Vec3f vec1, Vec3f vec2, f32 arg3) {
-    view->unk_E8 = vec1;
-    view->unk_F4 = vec2;
-    view->unk_100 = arg3;
+void View_SetDistortion(View* view, Vec3f orientation, Vec3f scale, f32 speed) {
+    view->distortionOrientation = orientation;
+    view->distortionScale = scale;
+    view->distortionSpeed = speed;
 }
 
-s32 func_800AA890(View* view, Mtx* mtx) {
-    MtxF mf;
+s32 View_StepDistortion(View* view, Mtx* projectionMtx) {
+    MtxF projectionMtxF;
 
-    if (view->unk_100 == 0.0f) {
-        return 0;
-    } else if (view->unk_100 == 1.0f) {
-        view->unk_104 = view->unk_E8;
-        view->unk_110 = view->unk_F4;
-        view->unk_100 = 0.0f;
+    if (view->distortionSpeed == 0.0f) {
+        return false;
+    } else if (view->distortionSpeed == 1.0f) {
+        view->curDistortionOrientation = view->distortionOrientation;
+        view->curDistortionScale = view->distortionScale;
+        view->distortionSpeed = 0.0f;
     } else {
-        view->unk_104.x += ((view->unk_E8.x - view->unk_104.x) * view->unk_100);
-        view->unk_104.y += ((view->unk_E8.y - view->unk_104.y) * view->unk_100);
-        view->unk_104.z += ((view->unk_E8.z - view->unk_104.z) * view->unk_100);
+        view->curDistortionOrientation.x =
+            F32_LERPIMP(view->curDistortionOrientation.x, view->distortionOrientation.x, view->distortionSpeed);
+        view->curDistortionOrientation.y =
+            F32_LERPIMP(view->curDistortionOrientation.y, view->distortionOrientation.y, view->distortionSpeed);
+        view->curDistortionOrientation.z =
+            F32_LERPIMP(view->curDistortionOrientation.z, view->distortionOrientation.z, view->distortionSpeed);
 
-        view->unk_110.x += ((view->unk_F4.x - view->unk_110.x) * view->unk_100);
-        view->unk_110.y += ((view->unk_F4.y - view->unk_110.y) * view->unk_100);
-        view->unk_110.z += ((view->unk_F4.z - view->unk_110.z) * view->unk_100);
+        view->curDistortionScale.x =
+            F32_LERPIMP(view->curDistortionScale.x, view->distortionScale.x, view->distortionSpeed);
+        view->curDistortionScale.y =
+            F32_LERPIMP(view->curDistortionScale.y, view->distortionScale.y, view->distortionSpeed);
+        view->curDistortionScale.z =
+            F32_LERPIMP(view->curDistortionScale.z, view->distortionScale.z, view->distortionSpeed);
     }
 
-    Matrix_MtxToMtxF(mtx, &mf);
-    Matrix_Put(&mf);
-    Matrix_RotateX(view->unk_104.x, MTXMODE_APPLY);
-    Matrix_RotateY(view->unk_104.y, MTXMODE_APPLY);
-    Matrix_RotateZ(view->unk_104.z, MTXMODE_APPLY);
-    Matrix_Scale(view->unk_110.x, view->unk_110.y, view->unk_110.z, MTXMODE_APPLY);
-    Matrix_RotateZ(-view->unk_104.z, MTXMODE_APPLY);
-    Matrix_RotateY(-view->unk_104.y, MTXMODE_APPLY);
-    Matrix_RotateX(-view->unk_104.x, MTXMODE_APPLY);
-    Matrix_ToMtx(mtx, "../z_view.c", 566);
+    Matrix_MtxToMtxF(projectionMtx, &projectionMtxF);
+    Matrix_Put(&projectionMtxF);
+    Matrix_RotateX(view->curDistortionOrientation.x, MTXMODE_APPLY);
+    Matrix_RotateY(view->curDistortionOrientation.y, MTXMODE_APPLY);
+    Matrix_RotateZ(view->curDistortionOrientation.z, MTXMODE_APPLY);
+    Matrix_Scale(view->curDistortionScale.x, view->curDistortionScale.y, view->curDistortionScale.z, MTXMODE_APPLY);
+    Matrix_RotateZ(-view->curDistortionOrientation.z, MTXMODE_APPLY);
+    Matrix_RotateY(-view->curDistortionOrientation.y, MTXMODE_APPLY);
+    Matrix_RotateX(-view->curDistortionOrientation.x, MTXMODE_APPLY);
+    Matrix_ToMtx(projectionMtx, "../z_view.c", 566);
 
-    return 1;
+    return true;
 }
 
-void func_800AAA50(View* view, s32 arg1) {
-    arg1 = (view->flags & arg1) | (arg1 >> 4);
+/**
+ * Apply view to POLY_OPA_DISP, POLY_XLU_DISP (and OVERLAY_DISP if ortho)
+ */
+void View_Apply(View* view, s32 mask) {
+    mask = (view->flags & mask) | (mask >> 4);
 
-    if (arg1 & 8) {
-        func_800AB0A8(view);
+    if (mask & VIEW_PROJECTION_ORTHO) {
+        View_ApplyOrtho(view);
     } else {
-        func_800AAA9C(view);
+        View_ApplyPerspective(view);
     }
 }
 
-s32 func_800AAA9C(View* view) {
+s32 View_ApplyPerspective(View* view) {
     f32 aspect;
     s32 width;
     s32 height;
@@ -270,16 +290,18 @@ s32 func_800AAA9C(View* view) {
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 596);
 
+    // Viewport
     vp = Graph_Alloc(gfxCtx, sizeof(Vp));
     LogUtils_CheckNullPointer("vp", vp, "../z_view.c", 601);
     View_ViewportToVp(vp, &view->viewport);
     view->vp = *vp;
 
-    func_800AA550(view);
+    View_ApplyShrinkWindow(view);
 
     gSPViewport(POLY_OPA_DISP++, vp);
     gSPViewport(POLY_XLU_DISP++, vp);
 
+    // Perspective projection
     projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
     LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 616);
     view->projectionPtr = projection;
@@ -319,29 +341,31 @@ s32 func_800AAA9C(View* view) {
 
     view->projection = *projection;
 
-    func_800AA890(view, projection);
+    View_StepDistortion(view, projection);
 
     gSPPerspNormalize(POLY_OPA_DISP++, view->normal);
     gSPMatrix(POLY_OPA_DISP++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPPerspNormalize(POLY_XLU_DISP++, view->normal);
     gSPMatrix(POLY_XLU_DISP++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
+    // View matrix (look-at)
     viewing = Graph_Alloc(gfxCtx, sizeof(Mtx));
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 667);
     view->viewingPtr = viewing;
 
-    if (view->eye.x == view->lookAt.x && view->eye.y == view->lookAt.y && view->eye.z == view->lookAt.z) {
+    if (view->eye.x == view->at.x && view->eye.y == view->at.y && view->eye.z == view->at.z) {
         view->eye.x += 1.0f;
         view->eye.y += 1.0f;
         view->eye.z += 1.0f;
     }
 
-    func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
              view->up.y, view->up.z);
 
     view->viewing = *viewing;
 
+    // Debug print view matrix
     if (QREG(88) & 2) {
         s32 i;
         MtxF mf;
@@ -362,7 +386,7 @@ s32 func_800AAA9C(View* view) {
     return 1;
 }
 
-s32 func_800AB0A8(View* view) {
+s32 View_ApplyOrtho(View* view) {
     Vp* vp;
     Mtx* projection;
     GraphicsContext* gfxCtx = view->gfxCtx;
@@ -374,7 +398,7 @@ s32 func_800AB0A8(View* view) {
     View_ViewportToVp(vp, &view->viewport);
     view->vp = *vp;
 
-    func_800AA550(view);
+    View_ApplyShrinkWindow(view);
 
     gSPViewport(POLY_OPA_DISP++, vp);
     gSPViewport(POLY_XLU_DISP++, vp);
@@ -397,7 +421,10 @@ s32 func_800AB0A8(View* view) {
     return 1;
 }
 
-s32 func_800AB2C4(View* view) {
+/**
+ * Apply scissor, viewport and projection (ortho) to OVERLAY_DISP.
+ */
+s32 View_ApplyOrthoToOverlay(View* view) {
     Vp* vp;
     Mtx* projection;
     GraphicsContext* gfxCtx;
@@ -432,7 +459,10 @@ s32 func_800AB2C4(View* view) {
     return 1;
 }
 
-s32 func_800AB560(View* view) {
+/**
+ * Apply scissor, viewport, view and projection (perspective) to OVERLAY_DISP.
+ */
+s32 View_ApplyPerspectiveToOverlay(View* view) {
     s32 pad[2];
     f32 aspect;
     s32 width;
@@ -473,14 +503,15 @@ s32 func_800AB560(View* view) {
     LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 848);
     view->viewingPtr = viewing;
 
-    if (view->eye.x == view->lookAt.x && view->eye.y == view->lookAt.y && view->eye.z == view->lookAt.z) {
+    // This check avoids a divide-by-zero in guLookAt if eye == at
+    if (view->eye.x == view->at.x && view->eye.y == view->at.y && view->eye.z == view->at.z) {
         view->eye.x += 1.0f;
         view->eye.y += 1.0f;
         view->eye.z += 1.0f;
     }
 
-    func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z, view->up.x,
+    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+    guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z, view->up.x,
              view->up.y, view->up.z);
 
     view->viewing = *viewing;
@@ -492,11 +523,14 @@ s32 func_800AB560(View* view) {
     return 1;
 }
 
-s32 func_800AB944(View* view) {
+/**
+ * Just updates view's view matrix from its eye/at/up vectors. Opens disps but doesn't use them.
+ */
+s32 View_UpdateViewingMatrix(View* view) {
     OPEN_DISPS(view->gfxCtx, "../z_view.c", 878);
 
-    func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-    guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
+    View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+    guLookAt(view->viewingPtr, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z,
              view->up.x, view->up.y, view->up.z);
 
     CLOSE_DISPS(view->gfxCtx, "../z_view.c", 886);
@@ -504,7 +538,7 @@ s32 func_800AB944(View* view) {
     return 1;
 }
 
-s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
+s32 View_ApplyTo(View* view, s32 mask, Gfx** gfxp) {
     Gfx* gfx = *gfxp;
     GraphicsContext* gfxCtx = view->gfxCtx;
     s32 width;
@@ -513,9 +547,9 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     Mtx* projection;
     Mtx* viewing;
 
-    arg1 = (view->flags & arg1) | (arg1 >> 4);
+    mask = (view->flags & mask) | (mask >> 4);
 
-    if (arg1 & 2) {
+    if (mask & VIEW_VIEWPORT) {
         vp = Graph_Alloc(gfxCtx, sizeof(Vp));
         LogUtils_CheckNullPointer("vp", vp, "../z_view.c", 910);
         View_ViewportToVp(vp, &view->viewport);
@@ -528,7 +562,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         gSPViewport(gfx++, vp);
     }
 
-    if (arg1 & 8) {
+    if (mask & VIEW_PROJECTION_ORTHO) {
         projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
         LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 921);
         view->projectionPtr = projection;
@@ -539,7 +573,7 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         view->projection = *projection;
 
         gSPMatrix(gfx++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    } else if (arg1 & 6) {
+    } else if (mask & (VIEW_PROJECTION_PERSPECTIVE | VIEW_VIEWPORT)) {
         projection = Graph_Alloc(gfxCtx, sizeof(Mtx));
         LogUtils_CheckNullPointer("projection", projection, "../z_view.c", 932);
         view->projectionPtr = projection;
@@ -556,13 +590,13 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
         gSPMatrix(gfx++, projection, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     }
 
-    if (arg1 & 1) {
+    if (mask & VIEW_VIEWING) {
         viewing = Graph_Alloc(gfxCtx, sizeof(Mtx));
         LogUtils_CheckNullPointer("viewing", viewing, "../z_view.c", 948);
         view->viewingPtr = viewing;
 
-        func_800ABE74(view->eye.x, view->eye.y, view->eye.z);
-        guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->lookAt.x, view->lookAt.y, view->lookAt.z,
+        View_ErrorCheckEyePosition(view->eye.x, view->eye.y, view->eye.z);
+        guLookAt(viewing, view->eye.x, view->eye.y, view->eye.z, view->at.x, view->at.y, view->at.z,
                  view->up.x, view->up.y, view->up.z);
 
         view->viewing = *viewing;
@@ -576,7 +610,10 @@ s32 func_800AB9EC(View* view, s32 arg1, Gfx** gfxp) {
     return 1;
 }
 
-s32 func_800ABE74(f32 eyeX, f32 eyeY, f32 eyeZ) {
+/**
+ * Logs an error and returns nonzero if camera is too far from the origin.
+ */
+s32 View_ErrorCheckEyePosition(f32 eyeX, f32 eyeY, f32 eyeZ) {
     s32 error = 0;
 
     if (SQ(eyeX) + SQ(eyeY) + SQ(eyeZ) > SQ(32767.0f)) {

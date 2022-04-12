@@ -400,7 +400,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupDamage(EnDh* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_003D6C, -6.0f);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -1.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
@@ -507,7 +507,9 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDh_CollisionCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 45.0f, 45.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 45.0f, 45.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->headPos;
     Collider_UpdateCylinder(&this->actor, &this->collider1);
     if (this->actor.colChkInfo.health > 0) {

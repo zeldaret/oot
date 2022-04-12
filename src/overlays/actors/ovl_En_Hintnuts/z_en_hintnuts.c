@@ -352,9 +352,9 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx) {
 
     Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
     if (Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_196, 1, 0xE38, 0xB6) == 0) {
-        if (this->actor.bgCheckFlags & 0x20) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             this->unk_196 = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
-        } else if (this->actor.bgCheckFlags & 8) {
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             this->unk_196 = this->actor.wallYaw;
         } else if (this->animFlagAndTimer == 0) {
             diffRotInit = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
@@ -405,7 +405,7 @@ void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         temp_a1 = this->actor.wallYaw;
     } else {
         temp_a1 = this->actor.yawTowardsPlayer - Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - 0x8000;
@@ -483,8 +483,9 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         if (this->actionFunc != EnHintnuts_Freeze && this->actionFunc != EnHintnuts_BeginFreeze) {
             Actor_MoveForward(&this->actor);
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius,
-                                    this->collider.dim.height, 0x1D);
+            Actor_UpdateBgCheckInfo(
+                globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
+                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
         }
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->collider.base.acFlags & AC_ON) {

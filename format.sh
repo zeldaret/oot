@@ -7,9 +7,9 @@ COMPILER_OPTS="-fno-builtin -std=gnu90 -Iinclude -Isrc -D_LANGUAGE_C -DNON_MATCH
 
 # https://backreference.org/2010/05/23/sanitizing-files-with-no-trailing-newline/index.html
 # "gets the last character of the file pipes it into read, which will exit with
-# a nonzero exit code if it encounters EOF before newline (so, if the last 
+# a nonzero exit code if it encounters EOF before newline (so, if the last
 # character of the file isn't a newline). If read exits nonzero, then append a
-# newline onto the file using echo (if read exits 0, that satisfies the ||, so 
+# newline onto the file using echo (if read exits 0, that satisfies the ||, so
 # the echo command isn't run)." (https://stackoverflow.com/a/34865616)
 function add_final_newline () {
     for file in "$@"
@@ -21,13 +21,13 @@ export -f add_final_newline
 
 shopt -s globstar
 
-if [ $(command -v clang-format) ]
+if [ $(command -v clang-format-${FORMAT_VER}) ]
 then
-    CLANG_FORMAT="clang-format"
+    CLANG_FORMAT="clang-format-${FORMAT_VER}"
 else
-    if [ $(command -v clang-format-${FORMAT_VER}) ]
+    if [ $(command -v clang-format) ]
     then
-        CLANG_FORMAT="clang-format-${FORMAT_VER}"
+        CLANG_FORMAT="clang-format"
     else
         echo "Neither clang-format nor clang-format-${FORMAT_VER} found. Exiting."
         exit 1

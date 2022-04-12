@@ -571,7 +571,7 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actionFunc != func_80B4B8B4) && (this->actionFunc != func_80B4BC78)) {
         SkelAnime_Update(&this->skelAnime);
     }
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80B4B8B4) {
         Collider_UpdateCylinder(&this->actor, &this->collider);

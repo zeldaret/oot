@@ -455,8 +455,8 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         spawnSpeed.z = 30.0f;
         spawnPos = this->headPos;
 
-        tempY = ((this->actor.shape.rot.y + this->headRot.y) / (f32)0x8000) * M_PI;
-        tempX = ((this->headRot.x / (f32)0x8000) * M_PI) + 1.0f / 2;
+        tempY = BINANG_TO_RAD_ALT(this->actor.shape.rot.y + this->headRot.y);
+        tempX = BINANG_TO_RAD_ALT(this->headRot.x) + 1.0f / 2;
         Matrix_RotateY(tempY, MTXMODE_NEW);
         Matrix_RotateX(tempX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed, &spawnVel);
@@ -692,7 +692,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE2);
             }
             Math_ApproachF(&this->skelAnime.playSpeed, retreatSpeed, 1.0f, 1.0f);
-            Matrix_RotateY(((this->actor.yawTowardsPlayer / (f32)0x8000) * M_PI) + 0.2f, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.yawTowardsPlayer) + 0.2f, MTXMODE_NEW);
             sp70.x = 0.0f;
             sp70.y = 0.0f;
             sp70.z = 250.0f;

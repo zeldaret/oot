@@ -12,18 +12,18 @@ void util_fatal_error(const char *msgfmt, ...)
 {
     va_list args;
 
-    fputs("error: ", stderr);
+    fputs(ERRMSG_START, stderr);
 
     va_start(args, msgfmt);
     vfprintf(stderr, msgfmt, args);
     va_end(args);
 
-    fputc('\n', stderr);
+    fputs(ERRMSG_END "\n", stderr);
 
     exit(1);
 }
 
-// reads a whole file into memory, and returns a pointer to the data
+// reads a whole file into memory, and returns a malloc'd pointer to the data.
 void *util_read_whole_file(const char *filename, size_t *pSize)
 {
     FILE *file = fopen(filename, "rb");
@@ -59,13 +59,13 @@ void *util_read_whole_file(const char *filename, size_t *pSize)
 void util_write_whole_file(const char *filename, const void *data, size_t size)
 {
     FILE *file = fopen(filename, "wb");
-    
+
     if (file == NULL)
         util_fatal_error("failed to open file '%s' for writing: %s", filename, strerror(errno));
 
     if (fwrite(data, size, 1, file) != 1)
         util_fatal_error("error writing to file '%s': %s", filename, strerror(errno));
-    
+
     fclose(file);
 }
 

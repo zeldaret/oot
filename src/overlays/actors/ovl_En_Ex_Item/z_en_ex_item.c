@@ -110,7 +110,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             // "What?"
             osSyncPrintf("なにみの？ %d\n", this->actor.params);
             // "bank is funny"
-            osSyncPrintf(VT_FGCOL(PURPLE) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
         this->actionFunc = EnExItem_WaitForObject;
@@ -125,7 +125,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
         this->actor.objBankIndex = this->objectIdx;
         this->actor.draw = EnExItem_Draw;
@@ -279,9 +279,9 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
             if (this->type == EXITEM_BOMBCHUS_BOWLING) {
                 sp3C = 220.0f;
             }
-            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.lookAt.z + sp3C - globalCtx->view.eye.z;
+            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.at.y - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.at.z + sp3C - globalCtx->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;
@@ -362,9 +362,9 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
 
     if (this->timer != 0) {
         if (this->prizeRotateTimer != 0) {
-            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.lookAt.y - 10.0f - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.lookAt.z + 10.0f - globalCtx->view.eye.z;
+            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.at.y - 10.0f - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.at.z + 10.0f - globalCtx->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;

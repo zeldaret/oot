@@ -599,7 +599,7 @@ void func_80AE3A54(EnRd* this, GlobalContext* globalCtx) {
 void func_80AE3A8C(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_0074F0, -6.0f);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -2.0f;
     }
 
@@ -811,7 +811,9 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.shape.rot.x == 0) && (this->unk_31B != 8) && (this->actor.speedXZ != 0.0f)) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         }
 
         if (this->unk_31B == 7) {

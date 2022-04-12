@@ -1,5 +1,6 @@
 <Root>
     <File Name="jyasinzou_scene" Segment="2">
+        <Path Name="jyasinzou_scenePathList_00049C" Offset="0x049C" NumPaths="5"/>
         <Texture Name="gSpiritTempleDayEntranceTex" OutName="day_entrance" Format="ia16" Width="8" Height="128" Offset="0x18920"/>
         <Texture Name="gSpiritTempleNightEntranceTex" OutName="night_entrance" Format="ia16" Width="8" Height="128" Offset="0x18020"/>
         <Scene Name="jyasinzou_scene" Offset="0x0"/>

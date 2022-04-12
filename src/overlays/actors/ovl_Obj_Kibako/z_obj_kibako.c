@@ -190,7 +190,7 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         ObjKibako_SetupHeld(this);
-    } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 19.0f)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 19.0f)) {
         ObjKibako_WaterBreak(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
@@ -202,7 +202,8 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 28.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
@@ -237,7 +238,8 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
             ObjKibako_ApplyGravity(this);
             func_8002D7EC(&this->actor);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 }
 
@@ -252,12 +254,13 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
 
-    if ((this->actor.bgCheckFlags & 0xB) || (this->collider.base.atFlags & AT_HIT)) {
+    if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) ||
+        (this->collider.base.atFlags & AT_HIT)) {
         ObjKibako_AirBreak(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
         Actor_Kill(&this->actor);
-    } else if (this->actor.bgCheckFlags & 0x40) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         ObjKibako_WaterBreak(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_WOODBOX_BREAK);
         ObjKibako_SpawnCollectible(this, globalCtx);
@@ -265,7 +268,8 @@ void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx) {
     } else {
         ObjKibako_ApplyGravity(this);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

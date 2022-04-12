@@ -70,22 +70,22 @@ void EnSw_CrossProduct(Vec3f* a, Vec3f* b, Vec3f* dst) {
 }
 
 s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
-    Vec3f sp44;
+    Vec3f polyNormal;
     Vec3f sp38;
     f32 sp34;
     f32 temp_f0;
     s32 pad;
 
     this->actor.floorPoly = poly;
-    sp44.x = COLPOLY_GET_NORMAL(poly->normal.x);
-    sp44.y = COLPOLY_GET_NORMAL(poly->normal.y);
-    sp44.z = COLPOLY_GET_NORMAL(poly->normal.z);
-    sp34 = Math_FAcosF(DOTXYZ(sp44, this->unk_364));
-    EnSw_CrossProduct(&this->unk_364, &sp44, &sp38);
+    polyNormal.x = COLPOLY_GET_NORMAL(poly->normal.x);
+    polyNormal.y = COLPOLY_GET_NORMAL(poly->normal.y);
+    polyNormal.z = COLPOLY_GET_NORMAL(poly->normal.z);
+    sp34 = Math_FAcosF(DOTXYZ(polyNormal, this->unk_364));
+    EnSw_CrossProduct(&this->unk_364, &polyNormal, &sp38);
     Matrix_RotateAxis(sp34, &sp38, MTXMODE_NEW);
     Matrix_MultVec3f(&this->unk_370, &sp38);
     this->unk_370 = sp38;
-    EnSw_CrossProduct(&this->unk_370, &sp44, &this->unk_37C);
+    EnSw_CrossProduct(&this->unk_370, &polyNormal, &this->unk_37C);
     temp_f0 = Math3D_Vec3fMagnitude(&this->unk_37C);
     if (temp_f0 < 0.001f) {
         return 0;
@@ -93,7 +93,7 @@ s32 func_80B0BE20(EnSw* this, CollisionPoly* poly) {
     this->unk_37C.x = this->unk_37C.x * (1.0f / temp_f0);
     this->unk_37C.y = this->unk_37C.y * (1.0f / temp_f0);
     this->unk_37C.z = this->unk_37C.z * (1.0f / temp_f0);
-    this->unk_364 = sp44;
+    this->unk_364 = polyNormal;
     this->unk_3D8.xx = this->unk_370.x;
     this->unk_3D8.yx = this->unk_370.y;
     this->unk_3D8.zx = this->unk_370.z;
@@ -384,22 +384,22 @@ void func_80B0CBE8(EnSw* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B0CCF4(EnSw* this, f32* arg1) {
-    CollisionPoly* temp_v1;
+    CollisionPoly* floorPoly;
     f32 temp_f0;
-    Vec3f sp6C;
+    Vec3f floorPolyNormal;
     MtxF sp2C;
 
     if (this->actor.floorPoly == NULL) {
         return false;
     }
 
-    temp_v1 = this->actor.floorPoly;
-    sp6C.x = COLPOLY_GET_NORMAL(temp_v1->normal.x);
-    sp6C.y = COLPOLY_GET_NORMAL(temp_v1->normal.y);
-    sp6C.z = COLPOLY_GET_NORMAL(temp_v1->normal.z);
-    Matrix_RotateAxis(*arg1, &sp6C, MTXMODE_NEW);
-    Matrix_MultVec3f(&this->unk_370, &sp6C);
-    this->unk_370 = sp6C;
+    floorPoly = this->actor.floorPoly;
+    floorPolyNormal.x = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+    floorPolyNormal.y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
+    floorPolyNormal.z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
+    Matrix_RotateAxis(*arg1, &floorPolyNormal, MTXMODE_NEW);
+    Matrix_MultVec3f(&this->unk_370, &floorPolyNormal);
+    this->unk_370 = floorPolyNormal;
     EnSw_CrossProduct(&this->unk_370, &this->unk_364, &this->unk_37C);
     temp_f0 = Math3D_Vec3fMagnitude(&this->unk_37C);
     if (temp_f0 < 0.001f) {
@@ -637,15 +637,15 @@ void func_80B0DB00(EnSw* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->actor.shape.rot.x += 0x1000;
     this->actor.shape.rot.z += 0x1000;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if ((this->actor.bgCheckFlags & 1) && (!(0.0f <= this->actor.velocity.y))) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && !(0.0f <= this->actor.velocity.y)) {
         if (this->actor.floorHeight <= BGCHECK_Y_MIN || this->actor.floorHeight >= 32000.0f) {
             Actor_Kill(&this->actor);
             return;
         }
 
-        this->actor.bgCheckFlags &= ~1;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
 
         if (this->unk_38A == 0) {
             this->actionFunc = func_80B0DC7C;
@@ -739,7 +739,7 @@ s32 func_80B0DFFC(EnSw* this, GlobalContext* globalCtx) {
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, true,
                                 false, false, true, &sp5C)) {
-        this->actor.wallYaw = Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z) * (0x8000 / M_PI);
+        this->actor.wallYaw = RADF_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
         this->actor.world.pos = sp50;
         this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
         this->actor.world.pos.z += 6.0f * Math_CosS(this->actor.world.rot.y);
@@ -999,7 +999,7 @@ void EnSw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 sp30 = { 184, 0, 228, 255 };
 
     if (((this->actor.params & 0xE000) >> 0xD) != 0) {
-        Matrix_RotateX(DEGF_TO_RADF(-80), MTXMODE_APPLY);
+        Matrix_RotateX(DEG_TO_RAD(-80), MTXMODE_APPLY);
         if (this->actor.colChkInfo.health != 0) {
             Matrix_Translate(0.0f, 0.0f, 200.0f, MTXMODE_APPLY);
         }

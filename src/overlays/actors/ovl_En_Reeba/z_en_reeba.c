@@ -129,7 +129,9 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = this->unk_284 = this->scale * -27500.0f;
     ActorShape_Init(&this->actor.shape, this->actor.shape.yOffset, ActorShadow_DrawCircle, 0.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
@@ -255,7 +257,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         this->actionfunc = func_80AE5688;
     } else if ((this->unk_272 == 0) || (this->actor.xzDistToPlayer < 30.0f) || (this->actor.xzDistToPlayer > 400.0f) ||
-               (this->actor.bgCheckFlags & 8)) {
+               (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else if (this->unk_274 == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
@@ -283,7 +285,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
     if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistToPlayer > 400.0f) ||
-        (this->actor.bgCheckFlags & 8)) {
+        (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else {
         if ((this->actor.xzDistToPlayer < 70.0f) && (this->unk_270 == 0)) {
@@ -602,7 +604,9 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~AT_BOUNCED;

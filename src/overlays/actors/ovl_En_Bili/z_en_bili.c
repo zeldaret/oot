@@ -316,7 +316,7 @@ void EnBili_UpdateFloating(EnBili* this) {
     this->actor.world.pos.y = this->actor.home.pos.y + (sinf(this->timer * (M_PI / 16)) * 3.0f);
 
     // Turn around if touching wall
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.world.rot.y = this->actor.wallYaw;
     }
 }
@@ -518,7 +518,7 @@ void EnBili_Stunned(EnBili* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
@@ -536,7 +536,7 @@ void EnBili_Frozen(EnBili* this, GlobalContext* globalCtx) {
         this->actor.gravity = -1.0f;
     }
 
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
         this->actor.colorFilterTimer = 0;
         EnBili_SetupDie(this);
     } else {
@@ -624,7 +624,8 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_MoveForward(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
         if (this->collider.base.atFlags & AT_ON) {
