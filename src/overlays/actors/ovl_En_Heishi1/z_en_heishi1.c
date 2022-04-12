@@ -86,7 +86,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW) " れえるでぇたぁ☆☆☆☆☆☆☆☆ %d\n" VT_RST, this->path);
     osSyncPrintf(VT_FGCOL(MAGENTA) " anime_frame_speed ☆☆☆☆☆☆ %f\n" VT_RST, this->animSpeed);
     // "interpolation frame"
-    osSyncPrintf(VT_FGCOL(MAGENTA) " 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n" VT_RST, this->transitionRate);
+    osSyncPrintf(VT_FGCOL(MAGENTA) " 補間フレーム☆☆☆☆☆☆☆☆☆ %f\n" VT_RST, this->animMorphFrames);
     // "targeted movement speed value between points"
     osSyncPrintf(VT_FGCOL(MAGENTA) " point間の移動スピード目標値 ☆ %f\n" VT_RST, this->moveSpeedTarget);
     // "maximum movement speed value between points"
@@ -133,7 +133,7 @@ void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiWalkAnim);
 
     Animation_Change(&this->skelAnime, &gEnHeishiWalkAnim, this->animSpeed, 0.0f, (s16)frameCount, ANIMMODE_LOOP,
-                     this->transitionRate);
+                     this->animMorphFrames);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
     this->headDirection = Rand_ZeroFloat(1.99f);
@@ -165,7 +165,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 
         pathDiffX = pointPos->x - this->actor.world.pos.x;
         pathDiffZ = pointPos->z - this->actor.world.pos.z;
-        Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI)), 3,
+        Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ)), 3,
                            this->bodyTurnSpeed, 0);
 
         Math_ApproachF(&this->bodyTurnSpeed, this->bodyTurnSpeedTarget, 1.0f, this->bodyTurnSpeedMax);
@@ -245,7 +245,7 @@ void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, this->animSpeed, 0.0f, (s16)frameCount, ANIMMODE_LOOP,
-                     this->transitionRate);
+                     this->animMorphFrames);
     this->headBehaviorDecided = false;
     this->headDirection = Rand_ZeroFloat(1.99f);
     rand = Rand_ZeroFloat(50.0f);
@@ -424,7 +424,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         searchBallPos.z = this->actor.world.pos.z;
 
                         Matrix_Push();
-                        Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, MTXMODE_NEW);
+                        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y + this->headAngle), MTXMODE_NEW);
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pop();

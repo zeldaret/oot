@@ -1,7 +1,6 @@
 <Root>
     <File Name="spot10_scene" Segment="2">
-        <Path Name="gSpot10Path_00C088" Offset="0xC088"/>
-        <Path Name="gSpot10Path_00C090" Offset="0xC090"/>
+        <Path Name="spot10_scenePathList_00C080" Offset="0xC080" NumPaths="3"/>
 
         <Scene Name="spot10_scene" Offset="0x0"/>
     </File>

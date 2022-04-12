@@ -149,7 +149,7 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.dim.pos = sp2C;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     temp = this->collider.dim.radius + 30.0f;
     func_800343CC(globalCtx, &this->actor, &this->isTalking, temp, EnTg_GetTextId, EnTg_OnTextComplete);

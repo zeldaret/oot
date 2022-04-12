@@ -30,9 +30,9 @@ void func_80AB714C(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7204(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7290(EnNiw* this, GlobalContext* globalCtx);
 void func_80AB7328(EnNiw* this, GlobalContext* globalCtx);
-void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
-void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx);
-void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_SpawnFeather(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale);
+void EnNiw_UpdateEffects(EnNiw* this, GlobalContext* globalCtx);
+void EnNiw_DrawEffects(EnNiw* this, GlobalContext* globalCtx);
 
 static s16 D_80AB85E0 = 0;
 
@@ -347,9 +347,9 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx) {
     Actor* attackCucco;
 
     if ((this->timer5 == 0) && (this->unk_296 < 7)) {
-        viewX = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        viewY = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        viewZ = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        viewX = globalCtx->view.at.x - globalCtx->view.eye.x;
+        viewY = globalCtx->view.at.y - globalCtx->view.eye.y;
+        viewZ = globalCtx->view.at.z - globalCtx->view.eye.z;
         attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + globalCtx->view.eye.x;
         attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((globalCtx->view.eye.y + 50.0f) + (viewY * 0.5f));
         attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + globalCtx->view.eye.z;
@@ -373,7 +373,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
     if (this->timer4 == 0) {
         this->timer4 = 3;
 
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.velocity.y = 3.5f;
         }
     }
@@ -388,7 +388,7 @@ void func_80AB6100(EnNiw* this, GlobalContext* globalCtx, s32 arg2) {
         factor = -D_80AB860C[arg2];
     }
     if (arg2 == 1) {
-        if (this->timer6 == 0 || this->actor.bgCheckFlags & 8) {
+        if (this->timer6 == 0 || this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             this->timer6 = 150;
             if (this->timer8 == 0) {
                 this->timer8 = 70;
@@ -429,7 +429,7 @@ void func_80AB6324(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y < 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y < 0.0f) {
         this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
         this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
         this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
@@ -550,7 +550,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_2B8.z = this->unk_2AC.z + posZ;
         } else {
             this->timer4 = 4;
-            if (this->actor.bgCheckFlags & 1) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->actor.speedXZ = 0.0f;
                 this->actor.velocity.y = 3.5f;
             }
@@ -577,7 +577,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(posY, posZ) * (0x8000 / M_PI), 3, this->unk_300, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(posY, posZ)), 3, this->unk_300, 0);
         Math_ApproachF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -605,7 +605,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;
         pathDiffZ = pointPos->z - this->actor.world.pos.z;
-        this->unk_2E4 = Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI);
+        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ));
         func_80AB6100(this, globalCtx, 2);
 
         if (fabsf(pathDiffX) < 30.0f && fabsf(pathDiffZ) < 30.0f) {
@@ -648,7 +648,7 @@ void func_80AB6BF8(EnNiw* this, GlobalContext* globalCtx) {
 
 void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
     if (this->path == 0) {
-        if (!(this->actor.bgCheckFlags & 1)) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             return;
         }
         if (this->actor.params == 0xE) {
@@ -669,7 +669,7 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         this->actor.velocity.y = 4.0f;
     } else {
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->sfxTimer1 = 0;
             this->actor.velocity.y = 4.0f;
             this->unk_2A6 = 1;
@@ -716,7 +716,7 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = 2.0f;
 
-    if (this->actor.bgCheckFlags & 0x20) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
         this->actor.gravity = 0.0f;
 
         if (this->actor.yDistToWater > 15.0f) {
@@ -728,21 +728,21 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
             pos.y += this->actor.yDistToWater;
             EffectSsGRipple_Spawn(globalCtx, &pos, 100, 500, 30);
         }
-        if (this->actor.bgCheckFlags & 8) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             this->actor.velocity.y = 10.0f;
             this->actor.speedXZ = 1.0f;
         }
     } else {
         this->actor.gravity = -2.0f;
 
-        if (this->actor.bgCheckFlags & 8) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             this->actor.velocity.y = 10.0f;
             this->actor.speedXZ = 1.0f;
             this->actor.gravity = 0.0f;
         } else {
             this->actor.speedXZ = 4.0f;
         }
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->actor.gravity = -2.0f;
             this->timer6 = 100;
             this->timer4 = 0;
@@ -839,16 +839,15 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        this->unk_2E4 = Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
-                                     this->actor.world.pos.z - player->actor.world.pos.z) *
-                        (0x8000 / M_PI);
+        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
+                                                    this->actor.world.pos.z - player->actor.world.pos.z));
         func_80AB6100(this, globalCtx, 0);
         func_80AB5BF8(this, globalCtx, 2);
     }
 }
 
 void func_80AB7420(EnNiw* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->unk_2A4 = (s16)Rand_ZeroFloat(3.99f) + 5;
         this->actionFunc = EnNiw_ResetAction;
     }
@@ -923,13 +922,13 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             accel.x = 0.0f;
             accel.y = -0.15f;
             accel.z = 0.0f;
-            EnNiw_FeatherSpawn(this, &pos, &vel, &accel, scale);
+            EnNiw_SpawnFeather(this, &pos, &vel, &accel, scale);
         }
 
         this->unk_2A6 = 0;
     }
 
-    EnNiw_FeatherUpdate(this, globalCtx);
+    EnNiw_UpdateEffects(this, globalCtx);
     if (this->timer1 != 0) {
         this->timer1--;
     }
@@ -973,16 +972,20 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (this->actionFunc != func_80AB6EB4 && this->actionFunc != func_80AB6450 && globalCtx->sceneNum != SCENE_SPOT03) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 31);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
+                                    UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
     if (globalCtx->sceneNum == SCENE_SPOT03) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 29);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
     }
     if (thisx->floorHeight <= BGCHECK_Y_MIN || thisx->floorHeight >= 32000.0f) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 上下？ ☆☆☆☆☆ %f\n" VT_RST, thisx->floorHeight);
-        cam.x = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        cam.y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        cam.z = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        cam.x = globalCtx->view.at.x - globalCtx->view.eye.x;
+        cam.y = globalCtx->view.at.y - globalCtx->view.eye.y;
+        cam.z = globalCtx->view.at.z - globalCtx->view.eye.z;
         camResult = cam.y / sqrtf(SQ(cam.x) + SQ(cam.y) + SQ(cam.z));
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｘ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.x);
         osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 範囲外Ｙ！ ☆☆☆☆☆ %f\n" VT_RST, thisx->world.pos.y);
@@ -1031,7 +1034,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (thisx->bgCheckFlags & 0x20 && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
+    if ((thisx->bgCheckFlags & BGCHECKFLAG_WATER) && thisx->yDistToWater > 15.0f && this->actionFunc != func_80AB6F04 &&
         thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
@@ -1142,84 +1145,84 @@ void EnNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80033C30(&this->actor.world.pos, &scale, 255, globalCtx);
     }
 
-    EnNiw_FeatherDraw(this, globalCtx);
+    EnNiw_DrawEffects(this, globalCtx);
 }
 
-void EnNiw_FeatherSpawn(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
+void EnNiw_SpawnFeather(EnNiw* this, Vec3f* pos, Vec3f* vel, Vec3f* accel, f32 scale) {
     s16 i;
-    EnNiwFeather* feather = this->feathers;
+    EnNiwEffect* effect = this->effects;
 
-    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
-        if (feather->type == 0) {
-            feather->type = 1;
-            feather->pos = *pos;
-            feather->vel = *vel;
-            feather->accel = *accel;
-            feather->timer = 0;
-            feather->scale = scale / 1000.0f;
-            feather->life = (s16)Rand_ZeroFloat(20.0f) + 40;
-            feather->unk_2A = Rand_ZeroFloat(1000.0f);
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
+        if (effect->type == 0) {
+            effect->type = 1;
+            effect->pos = *pos;
+            effect->vel = *vel;
+            effect->accel = *accel;
+            effect->timer = 0;
+            effect->scale = scale / 1000.0f;
+            effect->life = (s16)Rand_ZeroFloat(20.0f) + 40;
+            effect->unk_2A = Rand_ZeroFloat(1000.0f);
             break;
         }
     }
 }
 
-void EnNiw_FeatherUpdate(EnNiw* this, GlobalContext* globalCtx) {
+void EnNiw_UpdateEffects(EnNiw* this, GlobalContext* globalCtx) {
     s16 i;
-    EnNiwFeather* feather = this->feathers;
+    EnNiwEffect* effect = this->effects;
 
-    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
-        if (feather->type != 0) {
-            feather->timer++;
-            feather->pos.x += feather->vel.x;
-            feather->pos.y += feather->vel.y;
-            feather->pos.z += feather->vel.z;
-            feather->vel.x += feather->accel.x;
-            feather->vel.y += feather->accel.y;
-            feather->vel.z += feather->accel.z;
-            if (feather->type == 1) {
-                feather->unk_2A++;
-                Math_ApproachF(&feather->vel.x, 0.0f, 1.0f, 0.05f);
-                Math_ApproachF(&feather->vel.z, 0.0f, 1.0f, 0.05f);
-                if (feather->vel.y < -0.5f) {
-                    feather->vel.y = -0.5f;
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
+        if (effect->type != 0) {
+            effect->timer++;
+            effect->pos.x += effect->vel.x;
+            effect->pos.y += effect->vel.y;
+            effect->pos.z += effect->vel.z;
+            effect->vel.x += effect->accel.x;
+            effect->vel.y += effect->accel.y;
+            effect->vel.z += effect->accel.z;
+            if (effect->type == 1) {
+                effect->unk_2A++;
+                Math_ApproachF(&effect->vel.x, 0.0f, 1.0f, 0.05f);
+                Math_ApproachF(&effect->vel.z, 0.0f, 1.0f, 0.05f);
+                if (effect->vel.y < -0.5f) {
+                    effect->vel.y = -0.5f;
                 }
 
-                feather->unk_30 = Math_SinS(feather->unk_2A * 0xBB8) * M_PI * 0.2f;
+                effect->unk_30 = Math_SinS(effect->unk_2A * 0xBB8) * M_PI * 0.2f;
 
-                if (feather->life < feather->timer) {
-                    feather->type = 0;
+                if (effect->life < effect->timer) {
+                    effect->type = 0;
                 }
             }
         }
     }
 }
 
-void EnNiw_FeatherDraw(EnNiw* this, GlobalContext* globalCtx) {
-    u8 flag = 0;
+void EnNiw_DrawEffects(EnNiw* this, GlobalContext* globalCtx) {
+    u8 materialFlag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    EnNiwFeather* feather = &this->feathers[0];
+    EnNiwEffect* effect = &this->effects[0];
 
     OPEN_DISPS(gfxCtx, "../z_en_niw.c", 1897);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(this->feathers); i++, feather++) {
-        if (feather->type == 1) {
-            if (!flag) {
-                gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAppearDL);
-                flag++;
+    for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
+        if (effect->type == 1) {
+            if (materialFlag == 0) {
+                gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherMaterialDL);
+                materialFlag++;
             }
-            Matrix_Translate(feather->pos.x, feather->pos.y, feather->pos.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-            Matrix_Scale(feather->scale, feather->scale, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(feather->unk_30, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_niw.c", 1913),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gCuccoParticleAliveDL);
+            gSPDisplayList(POLY_XLU_DISP++, gCuccoEffectFeatherModelDL);
         }
     }
 

@@ -346,7 +346,7 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
         cyloffsets[i].z *= this->colliderScale;
         Matrix_Push();
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
-        Matrix_RotateY((this->initalYaw / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->initalYaw), MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pop();
         this->colCylinder[i + 3].dim.pos.x = cylPos.x;
@@ -654,7 +654,7 @@ s32 EnSt_IsDoneBouncing(EnSt* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (!(this->actor.bgCheckFlags & 1)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         // the Skulltula is not on the ground.
         return false;
     }
@@ -765,7 +765,7 @@ void EnSt_Sway(EnSt* this) {
         amtToTranslate.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
-        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768.0f), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);
         Matrix_MultVec3f(&amtToTranslate, &translatedPos);
         Matrix_Pop();
         this->actor.shape.rot.z = -(rotAngle * 2);
@@ -1020,7 +1020,7 @@ void EnSt_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002D7EC(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
         if ((this->stunTimer == 0) && (this->swayTimer == 0)) {
             // run the current action if the Skulltula isn't stunned

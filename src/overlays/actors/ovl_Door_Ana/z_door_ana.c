@@ -97,7 +97,7 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
 
     if (!(this->actor.params & 0x200)) {
         // opening with song of storms
-        if (this->actor.xyzDistToPlayerSq < 40000.0f && Flags_GetEnv(globalCtx, 5)) {
+        if (this->actor.xyzDistToPlayerSq < SQ(200.0f) && Flags_GetEnv(globalCtx, 5)) {
             openGrotto = true;
             this->actor.flags &= ~ACTOR_FLAG_4;
         }

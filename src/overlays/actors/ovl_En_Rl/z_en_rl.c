@@ -77,7 +77,8 @@ void func_80AE73D8(EnRl* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE744C(EnRl* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 func_80AE7494(EnRl* this) {

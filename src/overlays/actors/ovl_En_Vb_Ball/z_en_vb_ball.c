@@ -126,8 +126,8 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
     f32 angle;
     s16 i;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
-    if ((this->actor.bgCheckFlags & 1) && (this->actor.velocity.y <= 0.0f)) {
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.velocity.y <= 0.0f)) {
         this->xRotVel = Rand_CenteredFloat((f32)0x4000);
         this->yRotVel = Rand_CenteredFloat((f32)0x4000);
         angle = Math_FAtan2F(this->actor.world.pos.x, this->actor.world.pos.z);
@@ -186,9 +186,9 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Math_ApproachF(&this->shadowOpacity, 175.0f, 1.0f, 40.0f);
         radius = this->actor.scale.y * 1700.0f;
         this->actor.world.pos.y -= radius;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_2);
         this->actor.world.pos.y += radius;
-        if ((this->actor.bgCheckFlags & 1) && (this->actor.velocity.y <= 0.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (this->actor.velocity.y <= 0.0f)) {
             if ((this->actor.params == 100) || (this->actor.params == 101)) {
                 Actor_Kill(&this->actor);
                 if (this->actor.params == 100) {
@@ -228,7 +228,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         newActor->yRotVel = 0.0f;
                         xRotVel = sqrtf(SQ(spawnOffset.x) + SQ(spawnOffset.z));
                         newActor->xRotVel = 0x1000 / 10.0f * xRotVel;
-                        newActor->actor.shape.rot.y = Math_FAtan2F(spawnOffset.x, spawnOffset.z) * ((f32)0x8000 / M_PI);
+                        newActor->actor.shape.rot.y = RADF_TO_BINANG(Math_FAtan2F(spawnOffset.x, spawnOffset.z));
                         newActor->shadowOpacity = 200.0f;
                     }
                 }

@@ -788,7 +788,9 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
         case 9:
             break;
         default:
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
             Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             break;
@@ -851,7 +853,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(DEGTORAD(70.0), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(70), MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
             gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[linkObjBankIndex].segment);

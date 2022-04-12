@@ -59,8 +59,8 @@ static u8 D_80AFA15C[] = {
     2, 2, 2, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 3,
 };
 
-static s8 D_80AFA16C[] = {
-    2, 9, 10, 11, 12, 13, 14, 0, 15, -1, 3, 4, 5, 6, 7, 8, -1, 1, 0, 0,
+static s8 D_80AFA16C[PLAYER_BODYPART_MAX] = {
+    2, 9, 10, 11, 12, 13, 14, 0, 15, -1, 3, 4, 5, 6, 7, 8, -1, 1,
 };
 
 static Vec3f D_80AFA180[] = {
@@ -266,7 +266,7 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
         }
     }
     Matrix_RotateX((BREG(50) + 70) / 100.0f, MTXMODE_NEW);
-    for (i = 0; i < 18; i++) {
+    for (i = 0; i < PLAYER_BODYPART_MAX; i++) {
         if (D_80AFA16C[i] >= 0) {
             D_80AFA660[D_80AFA16C[i]] = player->bodyPartsPos[i];
         }
@@ -286,8 +286,8 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
         sp178.x *= (KREG(88) - 1);
         Matrix_Mult(&player->shieldMf, MTXMODE_NEW);
         Matrix_MultVec3f(&D_80AFA0D0, &sp16C);
-        Matrix_RotateY((sp178.y / 32768.0f) * M_PI, MTXMODE_NEW);
-        Matrix_RotateX((sp178.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp178.y), MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp178.x), MTXMODE_APPLY);
         for (i = 0; i < 22; i++) {
             Matrix_MultVec3f(&D_80AFA180[i], &sp188);
             if (1) {}

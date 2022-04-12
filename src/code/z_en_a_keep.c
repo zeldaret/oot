@@ -278,18 +278,18 @@ void EnAObj_BoulderFragment(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
 
-    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & 0x8) {
+    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->dyna.actor.world.rot.y =
             this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y + this->dyna.actor.wallYaw - 0x8000;
         if (1) {}
-        this->dyna.actor.bgCheckFlags &= ~0x8;
+        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
     }
 
-    if (this->dyna.actor.bgCheckFlags & 0x2) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->dyna.actor.velocity.y < -8.0f) {
             this->dyna.actor.velocity.y *= -0.6f;
             this->dyna.actor.speedXZ *= 0.6f;
-            this->dyna.actor.bgCheckFlags &= ~0x3;
+            this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
         } else {
             Actor_Kill(&this->dyna.actor);
         }
@@ -325,9 +325,13 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_BOULDER_FRAGMENT) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         } else {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         }
     }
 
