@@ -248,7 +248,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sBigDekuBabaDamageTable, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
-        this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA_BIG;
+        this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
         this->actor.targetMode = 2;
     } else {
         this->size = 1.0f;

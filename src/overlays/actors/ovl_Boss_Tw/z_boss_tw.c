@@ -511,7 +511,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->actor.params == TW_KOTAKE) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
-        this->actor.naviEnemyId = NAVI_ENEMY_KOTAKE;
+        this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOTAKE;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_0070E0, &object_tw_Anim_006F28, NULL, NULL, 0);
 
         if (gSaveContext.eventChkInf[7] & 0x20) {
@@ -529,7 +529,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->visible = true;
     } else if (this->actor.params == TW_KOUME) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
-        this->actor.naviEnemyId = NAVI_ENEMY_KOUME;
+        this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOUME;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_01F888, &object_tw_Anim_006F28, NULL, NULL, 0);
 
         if (gSaveContext.eventChkInf[7] & 0x20) {

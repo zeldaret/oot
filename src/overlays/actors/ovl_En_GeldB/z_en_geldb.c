@@ -227,7 +227,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.health = 20;
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
-    thisx->naviEnemyId = NAVI_ENEMY_GERUDO_FIGHTER;
+    thisx->naviEnemyId = NAVI_ENEMY_GERUDO_THEIF;
     this->keyFlag = thisx->params & 0xFF00;
     thisx->params &= 0xFF;
     this->blinkState = 0;

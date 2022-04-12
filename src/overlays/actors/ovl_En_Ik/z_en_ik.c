@@ -207,10 +207,10 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == 0) {
         thisx->colChkInfo.health += 20;
-        thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE_1;
+        thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE_MINIBOSS;
     } else {
         Actor_SetScale(thisx, 0.012f);
-        thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE_2;
+        thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_ENEMY);
     }
 

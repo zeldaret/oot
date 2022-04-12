@@ -463,7 +463,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
         this->colliderBody.dim.height = 60;
         this->colliderBody.dim.yShift = -33;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
-        this->actor.naviEnemyId = NAVI_ENEMY_GANON_PHANTOM;
+        this->actor.naviEnemyId = NAVI_ENEMY_PHANTOM_GANON_2;
     } else {
         horse->bossGndSignal = FHG_NO_SIGNAL;
         this->actor.scale.x = horse->actor.scale.x / 1.15f;

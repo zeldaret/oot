@@ -228,7 +228,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
         this->collider.dim.yShift = D_80AD7080.dim.yShift;
         this->actor.shape.shadowScale = 37.0f;
         this->scaleModifier = 0.01f;
-        this->actor.naviEnemyId = NAVI_ENEMY_DESERT_POE;
+        this->actor.naviEnemyId = NAVI_ENEMY_POE_WASTELAND;
     }
     this->actionFunc = EnPoField_Appear;
 }
