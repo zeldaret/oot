@@ -2439,7 +2439,7 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
     globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
-    gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
+    gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (globalCtx->nextEntranceIndex) {
         case 0x147:

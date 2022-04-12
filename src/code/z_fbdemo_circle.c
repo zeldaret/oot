@@ -75,7 +75,7 @@ void TransitionCircle_Start(void* thisx) {
     }
     if (this->direction != 0) {
         this->texY = 0;
-        if ((u32)this->colorType == TCC_SPECIAL) {
+        if (this->colorType == TCC_SPECIAL) {
             this->texY = 0xFA;
         }
     } else {
@@ -182,9 +182,8 @@ void TransitionCircle_SetType(void* thisx, s32 type) {
     TransitionCircle* this = (TransitionCircle*)thisx;
 
     if (type & TC_SET_PARAMS) {
-        // This bit is always going to be set under this context, this does nothing.
-        // Additionally SetType is called twice for circles, and the value will be overwritten on the
-        // second call.
+        // SetType is called twice for circles, the actual direction value will be set on the second call.
+        // The direction set here will be overwritten on that second call.
         this->direction = (type >> 5) & 0x1;
 
         this->colorType = (type >> 3) & 0x3;

@@ -309,6 +309,8 @@ typedef enum {
     /* 0x6E */ SCENE_ID_MAX
 } SceneID;
 
+#define SCENE_UNUSED_6E SCENE_ID_MAX
+
 #undef DEFINE_SCENE
 
 // Scene commands

@@ -525,7 +525,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n\nおわりおわり");
         globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
-        gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
+        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
     }
 
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
@@ -778,7 +778,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         }
         globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
-        gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE_SLOW;
+        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }
     if (this->warpTimer >= 141) {
         f32 screenFillAlpha;

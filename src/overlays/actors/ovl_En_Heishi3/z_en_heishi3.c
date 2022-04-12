@@ -207,7 +207,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
         globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
         this->respawnFlag = 1;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-        gSaveContext.nextTransition = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+        gSaveContext.nextTransitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
     }
 }
 

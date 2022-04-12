@@ -4143,18 +4143,18 @@ void Interface_Update(GlobalContext* globalCtx) {
             if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {
                 gSaveContext.nextDayTime = 0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
-                gSaveContext.nextTransition = TRANS_TYPE_FADE_BLACK;
+                gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 globalCtx->unk_11DE9 = 1;
             } else {
                 gSaveContext.nextDayTime = 0x8001;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
-                gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
+                gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 globalCtx->unk_11DE9 = 1;
             }
 
             if (globalCtx->sceneNum == SCENE_SPOT13) {
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_PERSIST;
-                gSaveContext.nextTransition = TRANS_TYPE_SANDSTORM_PERSIST;
+                gSaveContext.nextTransitionType = TRANS_TYPE_SANDSTORM_PERSIST;
             }
 
             gSaveContext.respawnFlag = -2;

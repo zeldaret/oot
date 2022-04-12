@@ -1465,7 +1465,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.unk_13F2 = 0;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.skyboxTime = 0;
-    gSaveContext.nextTransition = 0xFF;
+    gSaveContext.nextTransitionType = 0xFF;
     gSaveContext.nextCutsceneIndex = 0xFFEF;
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = 0;

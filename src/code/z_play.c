@@ -347,12 +347,13 @@ void Gameplay_Init(GameState* thisx) {
     globalCtx->unk_11DE9 = 0;
 
     if (gSaveContext.gameMode != 1) {
-        if (gSaveContext.nextTransition == 0xFF) {
+        if (gSaveContext.nextTransitionType == 0xFF) {
+            // fade in
             globalCtx->transitionType =
                 (gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F;
         } else {
-            globalCtx->transitionType = gSaveContext.nextTransition;
-            gSaveContext.nextTransition = 0xFF;
+            globalCtx->transitionType = gSaveContext.nextTransitionType;
+            gSaveContext.nextTransitionType = 0xFF;
         }
     } else {
         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_SLOW;
@@ -479,15 +480,16 @@ void Gameplay_Update(GlobalContext* globalCtx) {
             switch (globalCtx->transitionMode) {
                 case TRANS_MODE_SETUP:
                     if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
-                        s16 csOffset = 0;
+                        s16 sceneSetupIndex = 0;
                         
                         Interface_ChangeAlpha(1);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-                            csOffset = (gSaveContext.cutsceneIndex & 0xF) + 4;
+                            sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
                         }
 
-                        if (!(gEntranceTable[globalCtx->nextEntranceIndex + csOffset].field & 0x8000)) {
+                        // fade out bgm if "continue bgm" flag is not set
+                        if (!(gEntranceTable[globalCtx->nextEntranceIndex + sceneSetupIndex].field & 0x8000)) {
                             // "Sound initalized. 111"
                             osSyncPrintf("\n\n\nサウンドイニシャル来ました。111");
                             if ((globalCtx->transitionType < TRANS_TYPE_MAX) &&
@@ -508,7 +510,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     }
 
                     if (globalCtx->transitionMode >= TRANS_MODE_FILL_WHITE_INIT) {
-                        // special modes break out of this switch, instance types continue
+                        // non-instance modes break out of this switch
                         break;
                     }
                     // fallthrough
@@ -629,7 +631,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
             }
 
-            // update non-instance type transitions
+            // update non-instance transitions
             switch (globalCtx->transitionMode) {
                 case TRANS_MODE_FILL_WHITE_INIT:
                     sTransitionFillTimer = 0;
@@ -650,7 +652,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case TRANS_MODE_FILL_IN:
                     globalCtx->envCtx.screenFillColor[3] = (sTransitionFillTimer / 20.0f) * 255.0f;
 
-                    if (sTransitionFillTimer >= 20 && 1) {
+                    if (sTransitionFillTimer >= 20) {
                         globalCtx->state.running = false;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
@@ -664,7 +666,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case TRANS_MODE_FILL_OUT:
                     globalCtx->envCtx.screenFillColor[3] = (1 - sTransitionFillTimer / 20.0f) * 255.0f;
 
-                    if (sTransitionFillTimer >= 20 && 1) {
+                    if (sTransitionFillTimer >= 20) {
                         gTrnsnUnkState = 0;
                         R_UPDATE_RATE = 3;
                         globalCtx->transitionTrigger = TRANS_TRIGGER_OFF;

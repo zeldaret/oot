@@ -353,7 +353,7 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-                gSaveContext.nextTransition = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+                gSaveContext.nextTransitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
             }
         }
     }

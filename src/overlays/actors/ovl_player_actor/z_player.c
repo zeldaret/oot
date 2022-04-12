@@ -4146,7 +4146,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                     gSaveContext.respawnFlag = 2;
                     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
-                    gSaveContext.nextTransition = TRANS_TYPE_FADE_WHITE;
+                    gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 } else if (globalCtx->nextEntranceIndex >= 0x7FF9) {
                     globalCtx->nextEntranceIndex =
                         D_808544F8[D_80854514[globalCtx->nextEntranceIndex - 0x7FF9] + globalCtx->curSpawn];
@@ -12693,7 +12693,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
             func_80078884(NA_SE_OC_ABYSS);
         } else {
             globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
-            gSaveContext.nextTransition = TRANS_TYPE_FADE_BLACK;
+            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;
             gSaveContext.natureAmbienceId = 0xFF;
         }

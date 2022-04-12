@@ -3380,7 +3380,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     if (pauseCtx->promptChoice == 0) {
                         Gameplay_TriggerRespawn(globalCtx);
                         gSaveContext.respawnFlag = -2;
-                        gSaveContext.nextTransition = TRANS_TYPE_FADE_BLACK;
+                        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                         gSaveContext.health = 0x30;
                         Audio_QueueSeqCmd(0xF << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA);
                         gSaveContext.healthAccumulator = 0;

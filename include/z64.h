@@ -1024,17 +1024,17 @@ typedef struct {
 #define TRANS_TRIGGER_IN 20 // activate transition to come in
 
 typedef enum {
-    /* 00 */ TRANS_MODE_OFF,
-    /* 01 */ TRANS_MODE_SETUP,
-    /* 02 */ TRANS_MODE_INSTANCE_INIT,
-    /* 03 */ TRANS_MODE_INSTANCE_RUNNING,
-    /* 04 */ TRANS_MODE_FILL_WHITE_INIT,
-    /* 05 */ TRANS_MODE_FILL_IN,
-    /* 06 */ TRANS_MODE_FILL_OUT,
-    /* 07 */ TRANS_MODE_FILL_BROWN_INIT,
-    /* 08 */ TRANS_MODE_08, // unused
-    /* 09 */ TRANS_MODE_09, // unused
-    /* 10 */ TRANS_MODE_INSTANT,
+    /*  0 */ TRANS_MODE_OFF,
+    /*  1 */ TRANS_MODE_SETUP,
+    /*  2 */ TRANS_MODE_INSTANCE_INIT,
+    /*  3 */ TRANS_MODE_INSTANCE_RUNNING,
+    /*  4 */ TRANS_MODE_FILL_WHITE_INIT,
+    /*  5 */ TRANS_MODE_FILL_IN,
+    /*  6 */ TRANS_MODE_FILL_OUT,
+    /*  7 */ TRANS_MODE_FILL_BROWN_INIT,
+    /*  8 */ TRANS_MODE_08, // unused
+    /*  9 */ TRANS_MODE_09, // unused
+    /*  0 */ TRANS_MODE_INSTANT,
     /* 11 */ TRANS_MODE_INSTANCE_WAIT,
     /* 12 */ TRANS_MODE_SANDSTORM_INIT,
     /* 13 */ TRANS_MODE_SANDSTORM,
@@ -1045,16 +1045,16 @@ typedef enum {
 } TransitionMode;
 
 typedef enum {
-    /* 00 */ TRANS_TYPE_WIPE,
-    /* 01 */ TRANS_TYPE_TRIFORCE,
-    /* 02 */ TRANS_TYPE_FADE_BLACK,
-    /* 03 */ TRANS_TYPE_FADE_WHITE,
-    /* 04 */ TRANS_TYPE_FADE_BLACK_FAST,
-    /* 05 */ TRANS_TYPE_FADE_WHITE_FAST,
-    /* 06 */ TRANS_TYPE_FADE_BLACK_SLOW,
-    /* 07 */ TRANS_TYPE_FADE_WHITE_SLOW,
-    /* 08 */ TRANS_TYPE_WIPE_FAST,
-    /* 09 */ TRANS_TYPE_FILL_WHITE2, 
+    /*  0 */ TRANS_TYPE_WIPE,
+    /*  1 */ TRANS_TYPE_TRIFORCE,
+    /*  2 */ TRANS_TYPE_FADE_BLACK,
+    /*  3 */ TRANS_TYPE_FADE_WHITE,
+    /*  4 */ TRANS_TYPE_FADE_BLACK_FAST,
+    /*  5 */ TRANS_TYPE_FADE_WHITE_FAST,
+    /*  6 */ TRANS_TYPE_FADE_BLACK_SLOW,
+    /*  7 */ TRANS_TYPE_FADE_WHITE_SLOW,
+    /*  8 */ TRANS_TYPE_WIPE_FAST,
+    /*  9 */ TRANS_TYPE_FILL_WHITE2, 
     /* 10 */ TRANS_TYPE_FILL_WHITE,
     /* 11 */ TRANS_TYPE_INSTANT,
     /* 12 */ TRANS_TYPE_FILL_BROWN,
@@ -1081,7 +1081,7 @@ typedef enum {
     /* 0 */ TCC_BLACK,
     /* 1 */ TCC_WHITE,
     /* 2 */ TCC_GRAY,
-    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused
+    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused and appears broken
 } TransitionCircleColor;
 
 typedef enum {
