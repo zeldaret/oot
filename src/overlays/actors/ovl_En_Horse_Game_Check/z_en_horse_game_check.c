@@ -128,7 +128,7 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalConte
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
     }
     DREG(25) = 0;
-    globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     gSaveContext.timer1State = 0;
 }
 
@@ -294,21 +294,21 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, GlobalCon
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x4CE;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     } else if (this->result == MALONRACE_FAILURE) {
         gSaveContext.timer1Value = 240;
         gSaveContext.timer1State = 0xF;
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x4CE;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     } else {
         // "not supported"
         osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x157;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 

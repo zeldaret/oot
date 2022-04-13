@@ -431,7 +431,7 @@ void func_80A79BAC(EnIn* this, GlobalContext* globalCtx, s32 index, u32 transiti
         gSaveContext.nextCutsceneIndex = 0xFFF0;
     }
     globalCtx->transitionType = transitionType;
-    globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     func_8002DF54(globalCtx, &this->actor, 8);
     Interface_ChangeAlpha(1);
     if (index == 0) {
@@ -867,7 +867,7 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
     yaw = Math_Vec3f_Yaw(&pos, &player->actor.world.pos);
     if (ABS(yaw) > 0x4000) {
         globalCtx->nextEntranceIndex = 0x0476;
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
         this->actionFunc = func_80A7B018;
     } else if (this->unk_308.unk_00 == 2) {

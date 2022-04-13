@@ -1582,7 +1582,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     globalCtx->nextEntranceIndex = 0x3B4;
                 }
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
-                globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             }
         }
     }

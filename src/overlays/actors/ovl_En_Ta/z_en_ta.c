@@ -673,7 +673,7 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
             gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
         }
 
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         gSaveContext.eventInf[0] |= 0x400;
         this->actionFunc = func_80B153D4;
         this->unk_2CC = 22;

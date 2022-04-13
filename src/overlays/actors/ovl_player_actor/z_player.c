@@ -2137,7 +2137,7 @@ void func_80834298(Player* this, GlobalContext* globalCtx) {
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
         (gSaveContext.health != 0) && (globalCtx->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
         (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == MAIN_CAM) &&
-        (globalCtx->transitionTrigger != TRANS_TRIGGER_IN) && (gSaveContext.timer1State != 10)) {
+        (globalCtx->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
     }
 
@@ -3233,7 +3233,7 @@ s32 func_80836FAC(GlobalContext* globalCtx, Player* this, f32* arg2, s16* arg3, 
     f32 temp_f14;
     f32 temp_f12;
 
-    if ((this->unk_6AD != 0) || (globalCtx->transitionTrigger == TRANS_TRIGGER_IN) ||
+    if ((this->unk_6AD != 0) || (globalCtx->transitionTrigger == TRANS_TRIGGER_START) ||
         (this->stateFlags1 & PLAYER_STATE1_0)) {
         *arg2 = 0.0f;
         *arg3 = this->actor.shape.rot.y;
@@ -4160,7 +4160,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                     gSaveContext.unk_13C3 = 1;
                     func_800994A0(globalCtx);
                 }
-                globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             }
 
             if (!(this->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_29)) &&
@@ -10338,7 +10338,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                                                             : &gPlayerAnim_002878);
                 }
             } else {
-                if ((this->actor.parent == NULL) && ((globalCtx->transitionTrigger == TRANS_TRIGGER_IN) ||
+                if ((this->actor.parent == NULL) && ((globalCtx->transitionTrigger == TRANS_TRIGGER_START) ||
                                                      (this->unk_A87 != 0) || !func_808382DC(this, globalCtx))) {
                     func_8083AA10(this, globalCtx);
                 } else {
@@ -12067,7 +12067,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
         if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
                 globalCtx->nextEntranceIndex = 0x0123;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
                 this->stateFlags1 &= ~PLAYER_STATE1_29;
@@ -12698,7 +12698,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
             gSaveContext.natureAmbienceId = 0xFF;
         }
 
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -13017,7 +13017,7 @@ void func_8085063C(Player* this, GlobalContext* globalCtx) {
 
         if (globalCtx->msgCtx.choiceIndex == 0) {
             gSaveContext.respawnFlag = 3;
-            globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
             globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
             func_80088AF0(globalCtx);

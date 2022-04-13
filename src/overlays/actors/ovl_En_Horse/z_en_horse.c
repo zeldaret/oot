@@ -2508,7 +2508,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
         if (sp20 != 1 && gSaveContext.minigameState != 3) {
             gSaveContext.cutsceneIndex = 0;
             globalCtx->nextEntranceIndex = 0x3B0;
-            globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
         }
     }

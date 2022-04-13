@@ -772,7 +772,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 globalCtx->nextEntranceIndex = 0xA0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             }
             break;

@@ -246,7 +246,7 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
         }
 
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -272,7 +272,7 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
         }
 
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 

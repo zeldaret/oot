@@ -3369,7 +3369,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // Trade quest timer reached 0
             D_8015FFE6 = 40;
             gSaveContext.cutsceneIndex = 0;
-            globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             gSaveContext.timer2State = 0;
 
@@ -4159,7 +4159,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
             gSaveContext.respawnFlag = -2;
             globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
-            globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
             func_800F6964(30);
             gSaveContext.seqId = (u8)NA_BGM_DISABLED;

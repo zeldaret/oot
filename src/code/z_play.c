@@ -341,7 +341,7 @@ void Gameplay_Init(GameState* thisx) {
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
     globalCtx->state.destroy = Gameplay_Destroy;
-    globalCtx->transitionTrigger = TRANS_TRIGGER_OUT;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_END;
     globalCtx->unk_11E16 = 0xFF;
     globalCtx->unk_11E18 = 0;
     globalCtx->unk_11DE9 = 0;
@@ -479,9 +479,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         if (globalCtx->transitionMode) {
             switch (globalCtx->transitionMode) {
                 case TRANS_MODE_SETUP:
-                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_END) {
                         s16 sceneSetupIndex = 0;
-                        
+
                         Interface_ChangeAlpha(1);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
@@ -576,7 +576,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_END) {
                         globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data, 1);
                     } else {
                         globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data, 2);
@@ -594,12 +594,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case TRANS_MODE_INSTANCE_RUNNING:
                     if (globalCtx->transitionCtx.isDone(&globalCtx->transitionCtx)) {
                         if (globalCtx->transitionCtx.transitionType >= TRANS_TYPE_MAX) {
-                            if (globalCtx->transitionTrigger == TRANS_TRIGGER_OUT) {
+                            if (globalCtx->transitionTrigger == TRANS_TRIGGER_END) {
                                 globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
                                 func_800BC88C(globalCtx);
                                 globalCtx->transitionMode = TRANS_MODE_OFF;
                             }
-                        } else if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
+                        } else if (globalCtx->transitionTrigger != TRANS_TRIGGER_END) {
                             globalCtx->state.running = false;
 
                             if (gSaveContext.gameMode != 2) {
@@ -640,7 +640,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     globalCtx->envCtx.screenFillColor[1] = 160;
                     globalCtx->envCtx.screenFillColor[2] = 160;
 
-                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_END) {
                         globalCtx->envCtx.screenFillColor[3] = 0;
                         globalCtx->transitionMode = TRANS_MODE_FILL_IN;
                     } else {
@@ -684,7 +684,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     globalCtx->envCtx.screenFillColor[1] = 160;
                     globalCtx->envCtx.screenFillColor[2] = 150;
 
-                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_END) {
                         globalCtx->envCtx.screenFillColor[3] = 0;
                         globalCtx->transitionMode = TRANS_MODE_FILL_IN;
                     } else {
@@ -694,7 +694,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_INSTANT:
-                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_END) {
                         globalCtx->state.running = false;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
@@ -715,7 +715,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_SANDSTORM_INIT:
-                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_END) {
                         // trigger in, leaving area
                         globalCtx->envCtx.sandstormState = SANDSTORM_FILL;
                         globalCtx->transitionMode = TRANS_MODE_SANDSTORM;
@@ -731,7 +731,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
 
-                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_END) {
                         if (globalCtx->envCtx.sandstormPrimA < 110) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
@@ -750,7 +750,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_SANDSTORM_END_INIT:
-                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_END) {
                         globalCtx->envCtx.sandstormState = SANDSTORM_DISSIPATE;
                         globalCtx->envCtx.sandstormPrimA = 255;
                         globalCtx->envCtx.sandstormEnvA = 255;
@@ -765,7 +765,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case TRANS_MODE_SANDSTORM_END:
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
-                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_OUT) {
+                    if (globalCtx->transitionTrigger == TRANS_TRIGGER_END) {
                         if (globalCtx->envCtx.sandstormPrimA <= 0) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
@@ -1788,14 +1788,14 @@ void Gameplay_TriggerVoidOut(GlobalContext* globalCtx) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempSwchFlags = globalCtx->actorCtx.flags.tempSwch;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags = globalCtx->actorCtx.flags.tempCollect;
     gSaveContext.respawnFlag = 1;
-    globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex;
     globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
 }
 
 void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
     gSaveContext.respawnFlag = -1;
-    globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
 
     if ((globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
         (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO) || (globalCtx->sceneNum == SCENE_GANON_DEMO)) {

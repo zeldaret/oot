@@ -388,7 +388,7 @@ void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_WAVE, TCC_WHITE, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         this->actionFunc = EnMa1_DoNothing;
     }
 }

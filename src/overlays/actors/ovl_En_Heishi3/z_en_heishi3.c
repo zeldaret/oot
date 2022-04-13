@@ -204,7 +204,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
         (this->respawnFlag == 0)) {
         gSaveContext.eventChkInf[4] |= 0x4000;
         globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         gSaveContext.nextTransitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);

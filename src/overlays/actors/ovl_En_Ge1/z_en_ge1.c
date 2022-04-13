@@ -237,7 +237,7 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
         }
 
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -583,7 +583,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                     globalCtx->nextEntranceIndex = 0x129;
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
                     globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.eventInf[0] |= 0x100;
                     gSaveContext.eventChkInf[6] |= 0x100;
 

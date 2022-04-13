@@ -349,7 +349,7 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
             if (!this->loadStarted) {
                 gSaveContext.eventChkInf[4] |= 0x4000;
                 globalCtx->nextEntranceIndex = 0x4FA;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);

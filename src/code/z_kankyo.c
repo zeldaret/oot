@@ -2437,7 +2437,7 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gSaveContext.cutsceneIndex = 0;
     gSaveContext.respawnFlag = -3;
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
-    globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 

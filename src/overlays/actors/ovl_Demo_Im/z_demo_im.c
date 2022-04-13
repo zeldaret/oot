@@ -868,7 +868,7 @@ void func_80986B2C(GlobalContext* globalCtx) {
 
         globalCtx->nextEntranceIndex = 0xCD;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         func_8002DF54(globalCtx, &player->actor, 8);
     }
 }

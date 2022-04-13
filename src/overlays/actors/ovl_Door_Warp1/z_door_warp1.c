@@ -495,7 +495,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
 
     if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->transitionTrigger,
-                     TRANS_TRIGGER_IN);
+                     TRANS_TRIGGER_START);
 
         if (globalCtx->sceneNum == SCENE_DDAN_BOSS) {
             if (!Flags_GetEventChkInf(0x25)) {
@@ -523,7 +523,7 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
             gSaveContext.nextCutsceneIndex = 0;
         }
         osSyncPrintf("\n\n\nおわりおわり");
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
     }
@@ -608,7 +608,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         Item_Give(globalCtx, ITEM_ZORA_SAPPHIRE);
         globalCtx->nextEntranceIndex = 0x10E;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }
 
@@ -776,7 +776,7 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         }
-        globalCtx->transitionTrigger = TRANS_TRIGGER_IN;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }

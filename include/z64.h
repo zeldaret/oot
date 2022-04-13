@@ -1019,9 +1019,9 @@ typedef struct {
     /* 0x4C */ u32 unk_4C;
 } PreRender; // size = 0x50
 
-#define TRANS_TRIGGER_OUT -20 // transition is going out
+#define TRANS_TRIGGER_END -20 // transition is ending (arriving in a new area)
 #define TRANS_TRIGGER_OFF 0 // transition is not active
-#define TRANS_TRIGGER_IN 20 // activate transition to come in
+#define TRANS_TRIGGER_START 20 // start transition (exiting an area)
 
 typedef enum {
     /*  0 */ TRANS_MODE_OFF,
@@ -1034,7 +1034,7 @@ typedef enum {
     /*  7 */ TRANS_MODE_FILL_BROWN_INIT,
     /*  8 */ TRANS_MODE_08, // unused
     /*  9 */ TRANS_MODE_09, // unused
-    /*  0 */ TRANS_MODE_INSTANT,
+    /* 10 */ TRANS_MODE_INSTANT,
     /* 11 */ TRANS_MODE_INSTANCE_WAIT,
     /* 12 */ TRANS_MODE_SANDSTORM_INIT,
     /* 13 */ TRANS_MODE_SANDSTORM,
