@@ -237,7 +237,7 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.0075f);
         thisx->naviEnemyId = NAVI_ENEMY_WOLFOS;
-    } else {                       // WOLFOS_WHITE
+    } else { // WOLFOS_WHITE
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
