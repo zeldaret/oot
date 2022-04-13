@@ -1,9 +1,13 @@
-The following only applies to files with an explicit license,
-with the exception of fado and ZAPD (in the tools folder) for which it doesn't apply.
+Not all files in this repository are licensed. See below for the list of licensed files.
 
 This repository uses SPDX short-form identifiers (https://spdx.dev/ids/)
 to identify the license a file falls under.
 
 Corresponding legal text for licenses used can be found in the LICENSES folder.
+
+List of licensed files:
+COPYING
+first_diff.py
+sym_info.py
 
 This file is licensed under the CC0 1.0 license.
