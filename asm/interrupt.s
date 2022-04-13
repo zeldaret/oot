@@ -25,6 +25,8 @@ LEAF(__osDisableInt)
     andi    $t0, $t0, SR_IMASK
     beq     $t0, $t3, No_Change_Global_Int
      lui    $t2, %hi(__osRunningThread)
+    //! @bug this addiu should be lw, it may never come up in practice as to reach this code
+    //! the CPU bits of __OSGlobalIntMask must have changed while this function is running.
     addiu   $t2, $t2, %lo(__osRunningThread)
     lw      $t1, THREAD_SR($t2)
     andi    $t2, $t1, SR_IMASK

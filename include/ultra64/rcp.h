@@ -118,14 +118,6 @@
 #define MI_INTR_MASK_PI         0x10
 #define MI_INTR_MASK_DP         0x20
 
-#define MI_INTR_MASK  \
-   (MI_INTR_MASK_SP | \
-    MI_INTR_MASK_SI | \
-    MI_INTR_MASK_AI | \
-    MI_INTR_MASK_VI | \
-    MI_INTR_MASK_PI | \
-    MI_INTR_MASK_DP)
-
 // MI_INTR_MASK_REG masks (write)
 #define MI_INTR_MASK_CLR_SP     0x0001
 #define MI_INTR_MASK_SET_SP     0x0002

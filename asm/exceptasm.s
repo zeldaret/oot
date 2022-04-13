@@ -24,8 +24,7 @@ DATA(__osHwIntTable)
 ENDDATA(__osHwIntTable)
 
 DATA(__osPiIntTable)
-    .word 0
-    .word 0
+    .word 0, 0
 ENDDATA(__osPiIntTable)
 
 .section .rodata
@@ -160,8 +159,11 @@ savecontext:
     sd      $ra, THREAD_RA($k0)
     beqz    $t1, savercp
      sd     $t0, THREAD_HI($k0)
-    # If any CPU interrupts are enabled in SR, mask previous thread's SR
-    # with the CPU bits of the global interrupt mask
+    # If any CPU interrupts are enabled in the previous thread's SR, bitwise-OR in the
+    # disabled CPU interrupts from the global interrupt mask. The COP0 SR that is
+    # saved here is really the thread's SR masked by the global interrupt mask, so this
+    # is an attempt to recover the thread's SR from the current SR. This is however
+    # broken, see comments for osSetIntMask.
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
@@ -179,12 +181,13 @@ savecontext:
     sw      $t3, THREAD_SR($k0)
     or      $k1, $k1, $t1
 savercp:
+    # Save the currently masked RCP interrupts.
     lui     $t1, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
     lw      $t1, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t1)
     beqz    $t1, endrcp
      nop
-    # If there are RCP interrupts masked, mask previous thread's RCP mask
-    # with the RCP bits of the global interrupt mask
+    # Similar to the above comment, but for RCP interrupt enable bits rather than CPU.
+    # This suffers from the problem as above.
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
@@ -337,6 +340,9 @@ send_cart_mesg:
  */
 rcp:
     # Load the MI interrupts and mask with the RCP bits in the global interrupt mask
+    //! @bug this clobbers the t0 register which is expected to hold the value of the
+    //! C0_CAUSE register in the sw1 and sw2 handlers. If the sw1 or sw2 handler runs
+    //! after this, the interrupt will not be cleared properly.
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
@@ -452,7 +458,7 @@ pi:
     # Load pi callback
     lui     $t1, %hi(__osPiIntTable)
     addiu   $t1, %lo(__osPiIntTable)
-    lw      $t2, ($t1)
+    lw      $t2, HWINT_CALLBACK($t1)
     # Mask out pi interrupt
     andi    $s1, $s1, (MI_INTR_SP | MI_INTR_SI | MI_INTR_AI | MI_INTR_VI | MI_INTR_DP)
     # Skip callback if NULL
@@ -502,14 +508,14 @@ NoMoreRcpInts:
  *  Reset button has been pressed
  */
 prenmi:
+    # Disable IP5/PreNMI interrupt for the previously running thread
     lw      $k1, THREAD_SR($k0)
-    # Clear interrupt
-    li      $at, ~CAUSE_IP5
+    li      $at, ~SR_IBIT5
     lui     $t1, %hi(__osShutdown)
     and     $k1, $k1, $at
     sw      $k1, THREAD_SR($k0)
     addiu   $t1, %lo(__osShutdown)
-    # Test __osShutdown for first nmi
+    # Test __osShutdown for first PreNMI event
     lw      $t2, ($t1)
     beqz    $t2, firstnmi
      li     $at, ~CAUSE_IP5
@@ -524,10 +530,10 @@ firstnmi:
     # Post a PreNMI event message
     jal     send_mesg
      li     $a0, OS_EVENT_PRENMI*8
-    # Clear interrupt
+    # Mask out and disable IP5/PreNMI interrupt for the highest priority thread
     lui     $t2, %hi(__osRunQueue)
     lw      $t2, %lo(__osRunQueue)($t2)
-    li      $at, ~CAUSE_IP5
+    li      $at, ~SR_IBIT5
     and     $s0, $s0, $at
     lw      $k1, THREAD_SR($t2)
     and     $k1, $k1, $at
@@ -536,8 +542,8 @@ firstnmi:
      sw     $k1, THREAD_SR($t2)
 
 sw2:
-    li      $at, ~CAUSE_SW2
     # Clear interrupt
+    li      $at, ~CAUSE_SW2
     and     $t0, $t0, $at
     mtc0    $t0, C0_CAUSE
     # Post sw2 event message
@@ -549,8 +555,8 @@ sw2:
      and    $s0, $s0, $at
 
 sw1:
-    li      $at, ~CAUSE_SW1
     # Clear interrupt
+    li      $at, ~CAUSE_SW1
     and     $t0, $t0, $at
     mtc0    $t0, C0_CAUSE
     # Post sw1 event message
@@ -755,8 +761,8 @@ LEAF(__osEnqueueAndYield)
     andi    $t1, $k1, SR_IMASK
     beqz    $t1, 2f
      nop
-    # If any CPU interrupts are enabled in SR, mask previous thread's SR
-    # with the CPU bits of the global interrupt mask
+    # This code does the same thing as the block just above the `savercp` label.
+    # See the comment there for more about this.
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
@@ -774,8 +780,8 @@ LEAF(__osEnqueueAndYield)
     lw      $k1, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($k1)
     beqz    $k1, 3f
      nop
-    # If there are RCP interrupts masked, mask previous thread's RCP mask
-    # with the RCP bits of the global interrupt mask
+    # This code does the same thing as the block just below the `savercp` label.
+    # See the comment there for more about this.
     lui     $k0, %hi(__OSGlobalIntMask)
     addiu   $k0, %lo(__OSGlobalIntMask)
     lw      $k0, ($k0)
@@ -864,7 +870,8 @@ LEAF(__osDispatchThread)
     sw      $v0, %lo(__osRunningThread)($at)
     li      $t0, OS_STATE_RUNNING
     sh      $t0, THREAD_STATE($v0)
-    # Restore SR, masking it with the CPU bits in the global interrupt mask
+    # Restore SR, masking out any interrupts that are not also
+    # enabled in the global interrupt mask
     move    $k0, $v0
     lui     $t0, %hi(__OSGlobalIntMask)
     lw      $k1, THREAD_SR($k0)
@@ -938,8 +945,8 @@ LEAF(__osDispatchThread)
     ldc1    $f28, THREAD_FP28($k0)
     ldc1    $f30, THREAD_FP30($k0)
 1:
-    # Restore RCP interrupt mask, masking it with the RCP bits in
-    # the global interrupt mask
+    # Restore RCP interrupt mask, masking out any RCP interrupts that
+    # are not also enabled in the global interrupt mask
     lw      $k1, THREAD_RCP($k0)
     lui     $k0, %hi(__OSGlobalIntMask)
     addiu   $k0, %lo(__OSGlobalIntMask)
