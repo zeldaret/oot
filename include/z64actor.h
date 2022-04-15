@@ -415,7 +415,7 @@ typedef enum {
     /* 0x38 */ NAVI_ENEMY_UNUSED_38,
     /* 0x39 */ NAVI_ENEMY_BEAMOS,
     /* 0x3A */ NAVI_ENEMY_ANUBIS,
-    /* 0x3B */ NAVI_ENEMY_FREEZZARD,
+    /* 0x3B */ NAVI_ENEMY_FREEZARD,
     /* 0x3C */ NAVI_ENEMY_UNUSED_3C,
     /* 0x3D */ NAVI_ENEMY_GANONDORF,
     /* 0x3E */ NAVI_ENEMY_GANON,
