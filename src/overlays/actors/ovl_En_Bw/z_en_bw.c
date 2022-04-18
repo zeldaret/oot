@@ -227,7 +227,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-            sp62 = Math_FAtan2F(sp74->normal.x, sp74->normal.z) * ((f32)0x8000 / M_PI);
+            sp62 = RADF_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
         } else {
             sp62 = this->actor.world.rot.y + 0x8000;
         }
@@ -305,7 +305,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                                         &sp74, 1, 0, 0, 1);
             if (sp64 != 0) {
                 sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-                sp60 = Math_FAtan2F(sp74->normal.x, sp74->normal.z) * ((f32)0x8000 / M_PI);
+                sp60 = RADF_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
                 if (this->unk_236 != sp60) {
                     if ((s16)(this->actor.yawTowardsPlayer - sp60) >= 0) {
                         this->unk_238 = 0x4000;

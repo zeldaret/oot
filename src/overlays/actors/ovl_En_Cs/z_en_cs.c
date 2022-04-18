@@ -290,7 +290,7 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
     EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
     xDiff = pathPos.x - this->actor.world.pos.x;
     zDiff = pathPos.z - this->actor.world.pos.z;
-    walkAngle1 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
+    walkAngle1 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     this->walkAngle = walkAngle1;
     this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
 
@@ -305,7 +305,7 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
         EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
         xDiff = pathPos.x - this->actor.world.pos.x;
         zDiff = pathPos.z - this->actor.world.pos.z;
-        walkAngle2 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
+        walkAngle2 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
         this->walkAngle = walkAngle2;
         this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
     }
@@ -516,7 +516,7 @@ void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Translate(0.0f, -200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateX(0.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(5.0 * M_PI / 9.0, MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(100), MTXMODE_APPLY);
         Matrix_Get(&this->spookyMaskMtx);
     }
 }

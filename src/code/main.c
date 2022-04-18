@@ -22,8 +22,8 @@ StackEntry sAudioStackInfo;
 StackEntry sPadMgrStackInfo;
 StackEntry sIrqMgrStackInfo;
 AudioMgr gAudioMgr;
-OSMesgQueue sSiIntMsgQ;
-OSMesg sSiIntMsgBuf[1];
+OSMesgQueue sSerialEventQueue;
+OSMesg sSerialMsgBuf[1];
 
 void Main_LogSystemHeap(void) {
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -35,11 +35,11 @@ void Main_LogSystemHeap(void) {
 
 void Main(void* arg) {
     IrqMgrClient irqClient;
-    OSMesgQueue irqMgrMsgQ;
+    OSMesgQueue irqMgrMsgQueue;
     OSMesg irqMgrMsgBuf[60];
-    u32 sysHeap;
+    u32 systemHeapStart;
     u32 fb;
-    s32 debugHeap;
+    s32 debugHeapStart;
     s32 debugHeapSize;
     s16* msg;
 
@@ -50,56 +50,57 @@ void Main(void* arg) {
     PreNmiBuff_Init(gAppNmiBufferPtr);
     Fault_Init();
     SysCfb_Init(0);
-    sysHeap = (u32)gSystemHeap;
+    systemHeapStart = (u32)gSystemHeap;
     fb = SysCfb_GetFbPtr(0);
-    gSystemHeapSize = (fb - sysHeap);
+    gSystemHeapSize = fb - systemHeapStart;
     // "System heap initalization"
-    osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", sysHeap, fb, gSystemHeapSize);
-    SystemHeap_Init(sysHeap, gSystemHeapSize); // initializes the system heap
+    osSyncPrintf("システムヒープ初期化 %08x-%08x %08x\n", systemHeapStart, fb, gSystemHeapSize);
+    SystemHeap_Init(systemHeapStart, gSystemHeapSize); // initializes the system heap
     if (osMemSize >= 0x800000) {
-        debugHeap = SysCfb_GetFbEnd();
-        debugHeapSize = (s32)(0x80600000 - debugHeap);
+        debugHeapStart = SysCfb_GetFbEnd();
+        debugHeapSize = PHYS_TO_K0(0x600000) - debugHeapStart;
     } else {
         debugHeapSize = 0x400;
-        debugHeap = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
+        debugHeapStart = SystemArena_MallocDebug(debugHeapSize, "../main.c", 565);
     }
-    osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeap, debugHeapSize);
-    DebugArena_Init(debugHeap, debugHeapSize);
+    osSyncPrintf("debug_InitArena(%08x, %08x)\n", debugHeapStart, debugHeapSize);
+    DebugArena_Init(debugHeapStart, debugHeapSize);
     func_800636C0();
 
     R_ENABLE_ARENA_DBG = 0;
 
-    osCreateMesgQueue(&sSiIntMsgQ, sSiIntMsgBuf, 1);
-    osSetEventMesg(5, &sSiIntMsgQ, 0);
+    osCreateMesgQueue(&sSerialEventQueue, sSerialMsgBuf, ARRAY_COUNT(sSerialMsgBuf));
+    osSetEventMesg(OS_EVENT_SI, &sSerialEventQueue, NULL);
 
     Main_LogSystemHeap();
 
-    osCreateMesgQueue(&irqMgrMsgQ, irqMgrMsgBuf, 0x3C);
+    osCreateMesgQueue(&irqMgrMsgQueue, irqMgrMsgBuf, ARRAY_COUNT(irqMgrMsgBuf));
     StackCheck_Init(&sIrqMgrStackInfo, sIrqMgrStack, STACK_TOP(sIrqMgrStack), 0, 0x100, "irqmgr");
-    IrqMgr_Init(&gIrqMgr, &sGraphStackInfo, Z_PRIORITY_IRQMGR, 1);
+    IrqMgr_Init(&gIrqMgr, STACK_TOP(sIrqMgrStack), THREAD_PRI_IRQMGR, 1);
 
     osSyncPrintf("タスクスケジューラの初期化\n"); // "Initialize the task scheduler"
     StackCheck_Init(&sSchedStackInfo, sSchedStack, STACK_TOP(sSchedStack), 0, 0x100, "sched");
-    Sched_Init(&gSchedContext, &sAudioStack, Z_PRIORITY_SCHED, D_80013960, 1, &gIrqMgr);
+    Sched_Init(&gSchedContext, STACK_TOP(sSchedStack), THREAD_PRI_SCHED, D_80013960, 1, &gIrqMgr);
 
-    IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQ);
+    IrqMgr_AddClient(&gIrqMgr, &irqClient, &irqMgrMsgQueue);
 
     StackCheck_Init(&sAudioStackInfo, sAudioStack, STACK_TOP(sAudioStack), 0, 0x100, "audio");
-    AudioMgr_Init(&gAudioMgr, STACK_TOP(sAudioStack), Z_PRIORITY_AUDIOMGR, 0xA, &gSchedContext, &gIrqMgr);
+    AudioMgr_Init(&gAudioMgr, STACK_TOP(sAudioStack), THREAD_PRI_AUDIOMGR, THREAD_ID_AUDIOMGR, &gSchedContext,
+                  &gIrqMgr);
 
     StackCheck_Init(&sPadMgrStackInfo, sPadMgrStack, STACK_TOP(sPadMgrStack), 0, 0x100, "padmgr");
-    PadMgr_Init(&gPadMgr, &sSiIntMsgQ, &gIrqMgr, 7, Z_PRIORITY_PADMGR, &sIrqMgrStack);
+    PadMgr_Init(&gPadMgr, &sSerialEventQueue, &gIrqMgr, THREAD_ID_PADMGR, THREAD_PRI_PADMGR, STACK_TOP(sPadMgrStack));
 
     AudioMgr_Unlock(&gAudioMgr);
 
     StackCheck_Init(&sGraphStackInfo, sGraphStack, STACK_TOP(sGraphStack), 0, 0x100, "graph");
-    osCreateThread(&sGraphThread, 4, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), Z_PRIORITY_GRAPH);
+    osCreateThread(&sGraphThread, THREAD_ID_GRAPH, Graph_ThreadEntry, arg, STACK_TOP(sGraphStack), THREAD_PRI_GRAPH);
     osStartThread(&sGraphThread);
-    osSetThreadPri(0, Z_PRIORITY_SCHED);
+    osSetThreadPri(NULL, THREAD_PRI_MAIN);
 
     while (true) {
         msg = NULL;
-        osRecvMesg(&irqMgrMsgQ, (OSMesg)&msg, OS_MESG_BLOCK);
+        osRecvMesg(&irqMgrMsgQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
         if (msg == NULL) {
             break;
         }

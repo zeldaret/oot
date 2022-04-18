@@ -949,11 +949,11 @@ s32 func_800458D4(Camera* camera, VecSph* eyeAtDir, f32 arg2, f32* arg3, s16 arg
     deltaY = playerPosRot->pos.y - *arg3;
     eyeAtAngle = Math_FAtan2F(deltaY, OLib_Vec3fDistXZ(&camera->at, &camera->eye));
 
-    if (eyeAtAngle > DEGF_TO_RADF(OREG(32))) {
+    if (eyeAtAngle > DEG_TO_RAD(OREG(32))) {
         if (1) {}
-        phi_f2 = 1.0f - sinf(DEGF_TO_RADF(eyeAtAngle - OREG(32)));
-    } else if (eyeAtAngle < DEGF_TO_RADF(OREG(33))) {
-        phi_f2 = 1.0f - sinf(DEGF_TO_RADF(OREG(33)) - eyeAtAngle);
+        phi_f2 = 1.0f - sinf(eyeAtAngle - DEG_TO_RAD(OREG(32)));
+    } else if (eyeAtAngle < DEG_TO_RAD(OREG(33))) {
+        phi_f2 = 1.0f - sinf(DEG_TO_RAD(OREG(33)) - eyeAtAngle);
     } else {
         phi_f2 = 1.0f;
     }
@@ -4482,7 +4482,7 @@ s32 Camera_Unique1(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* at = &camera->at;
     Vec3f* eyeNext = &camera->eyeNext;
-    Vec3f playerBodyPart0;
+    Vec3f playerWaistPos;
     s16 phiTarget;
     VecSph sp8C;
     VecSph unk908PlayerPosOffset;
@@ -4524,8 +4524,8 @@ s32 Camera_Unique1(Camera* camera) {
         camera->posOffset.y = camera->posOffset.y - camera->playerPosDelta.y;
         anim->yawTarget = eyeNextAtOffset.yaw;
         anim->unk_00 = 0.0f;
-        playerBodyPart0 = camera->player->bodyPartsPos[0];
-        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerBodyPart0);
+        playerWaistPos = camera->player->bodyPartsPos[PLAYER_BODYPART_WAIST];
+        OLib_Vec3fDiffToVecSphGeo(&unk908PlayerPosOffset, &playerPosRot->pos, &playerWaistPos);
         anim->timer = R_DEFA_CAM_ANIM_TIME;
         anim->yawTargetAdj = ABS(BINANG_SUB(unk908PlayerPosOffset.yaw, eyeAtOffset.yaw)) < 0x3A98
                                  ? 0
@@ -5097,9 +5097,9 @@ s32 Camera_Unique9(Camera* camera) {
         anim->atTarget = anim->curKeyFrame->atTargetInit;
     } else if (atInitFlags == 2) {
         if (anim->isNewKeyFrame) {
-            anim->atTarget.x = camera->globalCtx->view.lookAt.x + anim->curKeyFrame->atTargetInit.x;
-            anim->atTarget.y = camera->globalCtx->view.lookAt.y + anim->curKeyFrame->atTargetInit.y;
-            anim->atTarget.z = camera->globalCtx->view.lookAt.z + anim->curKeyFrame->atTargetInit.z;
+            anim->atTarget.x = camera->globalCtx->view.at.x + anim->curKeyFrame->atTargetInit.x;
+            anim->atTarget.y = camera->globalCtx->view.at.y + anim->curKeyFrame->atTargetInit.y;
+            anim->atTarget.z = camera->globalCtx->view.at.z + anim->curKeyFrame->atTargetInit.z;
         }
     } else if (atInitFlags == 3) {
         if (anim->isNewKeyFrame) {
@@ -7473,7 +7473,7 @@ Vec3s Camera_Update(Camera* camera) {
     if (gDbgCamEnabled) {
         camera->globalCtx->view.fovy = D_8015BD80.fov;
         DbCamera_Update(&D_8015BD80, camera);
-        func_800AA358(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
+        View_LookAt(&camera->globalCtx->view, &D_8015BD80.eye, &D_8015BD80.at, &D_8015BD80.unk_1C);
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
@@ -7524,7 +7524,7 @@ Vec3s Camera_Update(Camera* camera) {
         View_SetScale(&camera->globalCtx->view, 1.0f);
     }
     camera->globalCtx->view.fovy = viewFov;
-    func_800AA358(&camera->globalCtx->view, &viewEye, &viewAt, &viewUp);
+    View_LookAt(&camera->globalCtx->view, &viewEye, &viewAt, &viewUp);
     camera->camDir.x = eyeAtAngle.pitch;
     camera->camDir.y = eyeAtAngle.yaw;
     camera->camDir.z = 0;

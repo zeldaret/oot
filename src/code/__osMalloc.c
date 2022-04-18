@@ -56,15 +56,15 @@ void ArenaImpl_SetDebugInfo(ArenaNode* node, const char* file, s32 line, Arena* 
 }
 
 void ArenaImpl_LockInit(Arena* arena) {
-    osCreateMesgQueue(&arena->lock, &sArenaLockMsg, 1);
+    osCreateMesgQueue(&arena->lockQueue, &sArenaLockMsg, 1);
 }
 
 void ArenaImpl_Lock(Arena* arena) {
-    osSendMesg(&arena->lock, NULL, OS_MESG_BLOCK);
+    osSendMesg(&arena->lockQueue, NULL, OS_MESG_BLOCK);
 }
 
 void ArenaImpl_Unlock(Arena* arena) {
-    osRecvMesg(&arena->lock, NULL, OS_MESG_BLOCK);
+    osRecvMesg(&arena->lockQueue, NULL, OS_MESG_BLOCK);
 }
 
 ArenaNode* ArenaImpl_GetNextBlock(ArenaNode* node) {

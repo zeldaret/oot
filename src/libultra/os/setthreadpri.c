@@ -9,12 +9,12 @@ void osSetThreadPri(OSThread* thread, OSPri pri) {
 
     if (thread->priority != pri) {
         thread->priority = pri;
-        if (thread != __osRunningThread && thread->state != 1) {
+        if (thread != __osRunningThread && thread->state != OS_STATE_STOPPED) {
             __osDequeueThread(thread->queue, thread);
             __osEnqueueThread(thread->queue, thread);
         }
         if (__osRunningThread->priority < __osRunQueue->priority) {
-            __osRunningThread->state = 2;
+            __osRunningThread->state = OS_STATE_RUNNABLE;
             __osEnqueueAndYield(&__osRunQueue);
         }
     }

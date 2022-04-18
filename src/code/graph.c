@@ -24,7 +24,7 @@ UCodeInfo D_8012D248[3] = {
 };
 // clang-format on
 
-void Graph_FaultClient() {
+void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();
     void* newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
@@ -227,7 +227,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         gfxCtx->fbIdx--;
     }
 
-    scTask->msgQ = &gfxCtx->queue;
+    scTask->msgQueue = &gfxCtx->queue;
     scTask->msg = NULL;
 
     cfb = &sGraphCfbInfos[sGraphCfbInfoIdx++];
@@ -245,9 +245,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     if (1) {}
 
-    gfxCtx->schedMsgQ = &gSchedContext.cmdQ;
+    gfxCtx->schedMsgQueue = &gSchedContext.cmdQueue;
 
-    osSendMesg(&gSchedContext.cmdQ, scTask, OS_MESG_BLOCK);
+    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
     Sched_SendEntryMsg(&gSchedContext);
 }
 
@@ -323,14 +323,14 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
         if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
             //! @bug (?) : "problem = true;" may be missing
-            osSyncPrintf("%c", 7);
+            osSyncPrintf("%c", BEL);
             // "Dynamic area head is destroyed"
             osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
             Fault_AddHungupAndCrash("../graph.c", 1070);
         }
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
-            osSyncPrintf("%c", 7);
+            osSyncPrintf("%c", BEL);
             // "Dynamic region tail is destroyed"
             osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
             Fault_AddHungupAndCrash("../graph.c", 1076);
@@ -339,19 +339,19 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     if (THGA_IsCrash(&gfxCtx->polyOpa)) {
         problem = true;
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         // "Zelda 0 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->polyXlu)) {
         problem = true;
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         // "Zelda 1 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ1は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->overlay)) {
         problem = true;
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         // "Zelda 4 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ4は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }

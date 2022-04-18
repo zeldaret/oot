@@ -289,8 +289,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
           this->fwork[BFD_FLY_WOBBLE_AMP];
     dz += Math_SinS((1796.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
           this->fwork[BFD_FLY_WOBBLE_AMP];
-    angleToTarget = (s16)(Math_FAtan2F(dx, dz) * (0x8000 / M_PI));
-    pitchToTarget = (s16)(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI));
+    angleToTarget = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
+    pitchToTarget = RADF_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))));
 
     osSyncPrintf("MODE %d\n", this->work[BFD_ACTION_STATE]);
 
@@ -950,9 +950,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->bodySegsPos[i4].x = this->actor.world.pos.x;
         this->bodySegsPos[i4].y = this->actor.world.pos.y;
         this->bodySegsPos[i4].z = this->actor.world.pos.z;
-        this->bodySegsRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->bodySegsRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->bodySegsRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
 
         this->work[BFD_LEAD_MANE_SEG]++;
         if (this->work[BFD_LEAD_MANE_SEG] >= 30) {
@@ -963,9 +963,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->rightMane.scale[i4] = (Math_SinS(this->work[BFD_MOVE_TIMER] * 5496.0f) * 0.3f) + 1.0f;
         this->leftMane.scale[i4] = (Math_CosS(this->work[BFD_MOVE_TIMER] * 5696.0f) * 0.3f) + 1.0f;
         this->centerMane.pos[i4] = this->centerMane.head;
-        this->fireManeRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->fireManeRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->fireManeRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
         this->rightMane.pos[i4] = this->rightMane.head;
         this->leftMane.pos[i4] = this->leftMane.head;
 
@@ -1233,8 +1233,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
                                &D_801333E8);
         spawnPos2 = this->headPos;
 
-        spawnAngleY = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        spawnAngleX = (((-this->actor.world.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
+        spawnAngleY = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        spawnAngleX = BINANG_TO_RAD_ALT(-this->actor.world.rot.x) + 0.3f;
         Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
         Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
@@ -1433,7 +1433,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     s16 i1;
     s16 i2;
 
-    for (i1 = 0; i1 < 180; i1++, effect++) {
+    for (i1 = 0; i1 < BOSSFD_EFFECT_COUNT; i1++, effect++) {
         if (effect->type != BFD_FX_NONE) {
             effect->timer1++;
 
@@ -1476,7 +1476,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
                     if (player->isBurning == false) {
-                        for (i2 = 0; i2 < ARRAY_COUNT(player->flameTimers); i2++) {
+                        for (i2 = 0; i2 < PLAYER_BODYPART_MAX; i2++) {
                             player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }
                         player->isBurning = true;
@@ -1512,19 +1512,19 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
-    u8 flag = false;
+    u8 materialFlag = 0;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     BossFdEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 4023);
 
-    for (i = 0; i < 180; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_EMBER) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
@@ -1539,13 +1539,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DEBRIS) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1560,15 +1560,15 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DUST) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 90, 30, 0, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 90, 30, 0, 0);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1583,14 +1583,14 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_FIRE_BREATH) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 255);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, effect->alpha);
@@ -1606,13 +1606,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_SKULL_PIECE) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1938,7 +1938,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                      MTXMODE_NEW);
     Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
-    Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 0.0f, temp_float, MTXMODE_APPLY);
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 25.0f, MTXMODE_APPLY);

@@ -295,7 +295,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     pointPos += this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
     dz = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 0xA, 0x7D0, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(dx, dz)), 0xA, 0x7D0, 1);
     this->actor.shape.rot.y = this->actor.world.rot.y;
     if (SQ(dx) + SQ(dz) < 600.0f) {
         this->waypoint++;
@@ -556,7 +556,7 @@ void func_80A6C8E0(EnHorseNormal* this, GlobalContext* globalCtx) {
     sp28.y = this->actor.world.pos.y + 60.0f;
     sp28.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
     this->unk_220 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &sp38, &sp24, &sp28);
-    this->actor.shape.rot.x = Math_FAtan2F(this->actor.world.pos.y - this->unk_220, 30.0f) * (0x8000 / M_PI);
+    this->actor.shape.rot.x = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_220, 30.0f));
 }
 
 static EnHorseNormalActionFunc sActionFuncs[] = {
@@ -705,7 +705,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(clonePos.x, clonePos.y, clonePos.z, MTXMODE_NEW);
         temp_f0_4 = (1.0f - (distFromGround * 0.01f)) * this->actor.shape.shadowScale;
         Matrix_Scale(this->actor.scale.x * temp_f0_4, 1.0f, this->actor.scale.z * temp_f0_4, MTXMODE_APPLY);
-        Matrix_RotateY(cloneRotY * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(cloneRotY), MTXMODE_APPLY);
         mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
         if (mtx2 != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

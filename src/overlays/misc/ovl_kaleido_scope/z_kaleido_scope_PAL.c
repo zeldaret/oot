@@ -243,7 +243,7 @@ void KaleidoScope_SetupPlayerPreRender(GlobalContext* globalCtx) {
     gfx = Graph_GfxPlusOne(gfxRef);
     gSPDisplayList(WORK_DISP++, gfx);
 
-    PreRender_SetValues(&sPlayerPreRender, 64, 112, fbuf, NULL);
+    PreRender_SetValues(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT, fbuf, NULL);
     func_800C1F20(&sPlayerPreRender, &gfx);
     func_800C20B4(&sPlayerPreRender, &gfx);
 
@@ -1428,8 +1428,8 @@ void KaleidoScope_SetView(PauseContext* pauseCtx, f32 x, f32 y, f32 z) {
     up.x = up.z = 0.0f;
     up.y = 1.0f;
 
-    func_800AA358(&pauseCtx->view, &eye, &lookAt, &up);
-    func_800AAA50(&pauseCtx->view, 127);
+    View_LookAt(&pauseCtx->view, &eye, &lookAt, &up);
+    View_Apply(&pauseCtx->view, VIEW_ALL | VIEW_FORCE_VIEWING | VIEW_FORCE_VIEWPORT | VIEW_FORCE_PROJECTION_PERSPECTIVE);
 }
 
 static u8 D_8082AE48[][4] = {
@@ -2634,7 +2634,8 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
             sPreRenderCvg = (void*)ALIGN16((u32)pauseCtx->nameSegment + 0x400 + 0xA00);
 
             PreRender_Init(&sPlayerPreRender);
-            PreRender_SetValuesSave(&sPlayerPreRender, 64, 112, pauseCtx->playerSegment, NULL, sPreRenderCvg);
+            PreRender_SetValuesSave(&sPlayerPreRender, PAUSE_EQUIP_PLAYER_WIDTH, PAUSE_EQUIP_PLAYER_HEIGHT,
+                                    pauseCtx->playerSegment, NULL, sPreRenderCvg);
 
             KaleidoScope_DrawPlayerWork(globalCtx);
             KaleidoScope_SetupPlayerPreRender(globalCtx);

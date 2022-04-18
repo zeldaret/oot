@@ -951,14 +951,14 @@ s32 EnIn_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == INGO_HEAD_LIMB) {
         Matrix_Translate(1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp2C = this->unk_308.unk_08;
-        Matrix_RotateZ(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
         Matrix_Translate(-1500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB) {
         sp2C = this->unk_308.unk_0E;
-        Matrix_RotateX(BINANG_TO_RAD(sp2C.x), MTXMODE_APPLY);
-        Matrix_RotateY(BINANG_TO_RAD(sp2C.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp2C.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp2C.y), MTXMODE_APPLY);
     }
     if (limbIndex == INGO_CHEST_LIMB || limbIndex == INGO_LEFT_SHOULDER_LIMB || limbIndex == INGO_RIGHT_SHOULDER_LIMB) {
         rot->y += Math_SinS(this->unk_330[limbIndex].y) * 200.0f;

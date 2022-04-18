@@ -844,7 +844,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 vecToLink.z = playerx->world.pos.z - thisx->world.pos.z;
                 thisx->world.rot.y = thisx->shape.rot.y;
                 thisx->world.rot.x =
-                    Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))) * (0x8000 / M_PI);
+                    RADF_TO_BINANG(Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))));
             }
 
             func_8002D908(thisx);
@@ -896,9 +896,9 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
         baseOffset.y = 10.0f;
         for (i = 0; i < 10; i++) {
             Matrix_Push();
-            Matrix_RotateY((thisx->shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
-            Matrix_RotateX((thisx->shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ((this->work[GND_PARTICLE_ANGLE] / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(thisx->shape.rot.y), MTXMODE_NEW);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(thisx->shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->work[GND_EFFECT_ANGLE]), MTXMODE_APPLY);
             Matrix_MultVec3f(&baseOffset, &offset);
             Matrix_Pop();
             pos.x = this->spearTip.x + offset.x;
@@ -911,7 +911,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             accel.y = (offset.y * -50.0f) / 1000.0f;
             accel.z = (offset.z * -50.0f) / 1000.0f;
             EffectSsFhgFlash_SpawnLightBall(globalCtx, &pos, &vel, &accel, 150, i % 7);
-            this->work[GND_PARTICLE_ANGLE] += 0x1A5C;
+            this->work[GND_EFFECT_ANGLE] += 0x1A5C;
         }
     }
 
