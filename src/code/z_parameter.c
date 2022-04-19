@@ -2312,7 +2312,7 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
                     return false;
                 }
             }
-        case MAGIC_BAR_CONSUME_PREVIEW:
+        case MAGIC_BAR_CONSUME_WITH_PREVIEW:
             if ((gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) ||
                 (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME)) {
                 if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME) {

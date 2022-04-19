@@ -4849,7 +4849,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     func_80835DE4(globalCtx, this, func_808507F4, 0);
 
     this->unk_84F = magicSpell - 3;
-    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_BAR_CONSUME_PREVIEW);
+    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_BAR_CONSUME_WITH_PREVIEW);
 
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayerAnim_002D28, 0.83f);
 

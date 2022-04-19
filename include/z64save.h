@@ -23,7 +23,7 @@ typedef enum MagicBarChange {
     /* 01 */ MAGIC_BAR_CONSUME_NO_PREVIEW, // Unused, consumes magic without drawing yellow magic to target consumption
     /* 02 */ MAGIC_BAR_CONSUME_WITH_PENALTY_ALT, // Unused, identical behaviour to MAGIC_BAR_CONSUME_WITH_PENALTY
     /* 03 */ MAGIC_BAR_CONSUME_LENS, // Lens consumption
-    /* 04 */ MAGIC_BAR_CONSUME_PREVIEW, // Consume Magic and draws yellow magic to target consumption
+    /* 04 */ MAGIC_BAR_CONSUME_WITH_PREVIEW, // Consume Magic and draws yellow magic to target consumption
     /* 05 */ MAGIC_BAR_ADD
 } MagicBarChange;
 
