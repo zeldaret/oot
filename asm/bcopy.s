@@ -1,9 +1,7 @@
 #include "ultra64/asm.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
@@ -100,7 +98,7 @@ forwards_32:
      sw     $t5, -4($a1)
 forwards_16:
     slti    $at, $a2, 0x10
-forwards_16_: # fake label due to branch likely optimization
+forwards_16_: // fake label due to branch likely optimization
     bnezl   $at, forwards_4_
      slti   $at, $a2, 4
     lw      $v0, ($a0)
@@ -117,7 +115,7 @@ forwards_16_: # fake label due to branch likely optimization
      sw     $t1, -4($a1)
 forwards_4:
     slti    $at, $a2, 4
-forwards_4_: # fake label due to branch likely optimization
+forwards_4_: // fake label due to branch likely optimization
     bnez    $at, forwards_bytecopy
      nop
     lw      $v0, ($a0)
@@ -206,7 +204,7 @@ backwards_32:
      sw     $t5, ($a1)
 backwards_16:
     slti    $at, $a2, 0x10
-backwards_16_: # fake label due to branch likely optimization
+backwards_16_: // fake label due to branch likely optimization
     bnezl   $at, backwards_4_
      slti   $at, $a2, 4
     lw      $v0, -4($a0)
@@ -223,7 +221,7 @@ backwards_16_: # fake label due to branch likely optimization
      sw     $t1, ($a1)
 backwards_4:
     slti    $at, $a2, 4
-backwards_4_: # fake label due to branch likely optimization
+backwards_4_: // fake label due to branch likely optimization
     bnez    $at, backwards_bytecopy
      nop
     lw      $v0, -4($a0)

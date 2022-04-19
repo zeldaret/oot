@@ -1,8 +1,6 @@
 #include "ultra64/asm.h"
 
-# assembler directives
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noreorder
 
 .section .data
 

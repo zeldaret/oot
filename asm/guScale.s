@@ -1,16 +1,14 @@
 #include "ultra64/asm.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
 .balign 32
 
 LEAF(guScale)
-    li      $at, 0x47800000 # 65536.0f
+    li      $at, 0x47800000 // 65536.0f
     mtc1    $at, $f4
     mtc1    $a1, $f6
     sw      $zero, 4($a0)

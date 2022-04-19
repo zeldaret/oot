@@ -1,9 +1,7 @@
 #include "ultra64/asm.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
@@ -19,13 +17,13 @@ LEAF(bzero)
     swl     $zero, ($a0)
     addu    $a0, $a0, $v1
 blkzero:
-    # align backwards to 0x20
+    // align backwards to 0x20
     li      $at, ~0x1F
     and     $a3, $a1, $at
-    # If the result is zero, the amount to zero is less than 0x20 bytes
+    // If the result is zero, the amount to zero is less than 0x20 bytes
     beqz    $a3, wordzero
      subu   $a1, $a1, $a3
-    # zero in blocks of 0x20 at a time
+    // zero in blocks of 0x20 at a time
     addu    $a3, $a3, $a0
 1:
     addiu   $a0, $a0, 0x20
@@ -39,23 +37,23 @@ blkzero:
     bne     $a0, $a3, 1b
      sw     $zero, -4($a0)
 wordzero:
-    # align backwards to 0x4
+    // align backwards to 0x4
     li      $at, ~3
     and     $a3, $a1, $at
-    # If the result is zero, the amount to zero is less than 0x4 bytes
+    // If the result is zero, the amount to zero is less than 0x4 bytes
     beqz    $a3, bytezero
      subu   $a1, $a1, $a3
-    # zero one word at a time
+    // zero one word at a time
     addu    $a3, $a3, $a0
 1:
     addiu   $a0, $a0, 4
     bne     $a0, $a3, 1b
      sw     $zero, -4($a0)
 bytezero:
-    # test if nothing left to zero
+    // test if nothing left to zero
     blez    $a1, zerodone
      nop
-    # zero one byte at a time
+    // zero one byte at a time
     addu    $a1, $a1, $a0
 1:
     addiu   $a0, $a0, 1

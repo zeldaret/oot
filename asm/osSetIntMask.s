@@ -3,10 +3,8 @@
 #include "ultra64/rcp.h"
 #include "ultra64/exception.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .rodata
 
@@ -115,52 +113,52 @@ ENDDATA(__osRcpImTable)
  *       OS_IM_ALL, so the operation is usually simply (SR | 0).
  */
 LEAF(osSetIntMask)
-    # Extract interrupt enable bits from current SR
+    // Extract interrupt enable bits from current SR
     mfc0    $t4, C0_SR
     andi    $v0, $t4, (SR_IMASK | SR_IE)
-    # Get value of __OSGlobalIntMask
+    // Get value of __OSGlobalIntMask
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t3, ($t0)
-    # Bitwise-OR in the disabled CPU bits of __OSGlobalIntMask
+    // Bitwise-OR in the disabled CPU bits of __OSGlobalIntMask
     li      $at, ~0
     xor     $t0, $t3, $at
     andi    $t0, $t0, SR_IMASK
     or      $v0, $v0, $t0
-    # Fetch MI_INTR_MASK_REG
+    // Fetch MI_INTR_MASK_REG
     lui     $t2, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
     lw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($t2)
-    # If there are RCP interrupts masked
+    // If there are RCP interrupts masked
     beqz    $t2, 1f
      srl    $t1, $t3, RCP_IMASKSHIFT
-    # Bitwise-OR in the disabled RCP bits of __OSGlobalIntMask
+    // Bitwise-OR in the disabled RCP bits of __OSGlobalIntMask
     li      $at, ~0
     xor     $t1, $t1, $at
     andi    $t1, $t1, (RCP_IMASK >> RCP_IMASKSHIFT)
     or      $t2, $t2, $t1
 1:
-    # Shift the RCP bits to not conflict with the CPU bits
+    // Shift the RCP bits to not conflict with the CPU bits
     sll     $t2, $t2, RCP_IMASKSHIFT
-    # OR the CPU and RCP bits together
+    // OR the CPU and RCP bits together
     or      $v0, $v0, $t2
-    # Extract RCP interrupt enable bits from requested mask and mask with __OSGlobalIntMask
+    // Extract RCP interrupt enable bits from requested mask and mask with __OSGlobalIntMask
     li      $at, RCP_IMASK
     and     $t0, $a0, $at
     and     $t0, $t0, $t3
-    # Convert to a value for MI_INTR_MASK_REG and set it
+    // Convert to a value for MI_INTR_MASK_REG and set it
     srl     $t0, $t0, (RCP_IMASKSHIFT-1)
     lui     $t2, %hi(__osRcpImTable)
     addu    $t2, $t2, $t0
     lhu     $t2, %lo(__osRcpImTable)($t2)
     lui     $at, %hi(PHYS_TO_K1(MI_INTR_MASK_REG))
     sw      $t2, %lo(PHYS_TO_K1(MI_INTR_MASK_REG))($at)
-    # Extract CPU interrupt enable bits from requested mask and mask with __OSGlobalIntMask
+    // Extract CPU interrupt enable bits from requested mask and mask with __OSGlobalIntMask
     andi    $t0, $a0, OS_IM_CPU
     andi    $t1, $t3, SR_IMASK
     and     $t0, $t0, $t1
     li      $at, ~SR_IMASK
     and     $t4, $t4, $at
-    # Bitwise OR in the remaining bits of SR and set new SR
+    // Bitwise OR in the remaining bits of SR and set new SR
     or      $t4, $t4, $t0
     mtc0    $t4, C0_SR
     nop
