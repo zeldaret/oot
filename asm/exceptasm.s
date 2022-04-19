@@ -160,10 +160,9 @@ savecontext:
     beqz    $t1, savercp
      sd     $t0, THREAD_HI($k0)
     # If any CPU interrupts are enabled in the previous thread's SR, bitwise-OR in the
-    # disabled CPU interrupts from the global interrupt mask. The COP0 SR that is
-    # saved here is really the thread's SR masked by the global interrupt mask, so this
-    # is an attempt to recover the thread's SR from the current SR. This is however
-    # broken, see comments for osSetIntMask.
+    # disabled CPU interrupts from the global interrupt mask.
+    # This is an attempt at reverting the effect of masking the thread's SR with the
+    # global interrupt mask. This is however broken, see comments for osSetIntMask.
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)
@@ -187,7 +186,7 @@ savercp:
     beqz    $t1, endrcp
      nop
     # Similar to the above comment, but for RCP interrupt enable bits rather than CPU.
-    # This suffers from the problem as above.
+    # This suffers from the same problem as above.
     lui     $t0, %hi(__OSGlobalIntMask)
     addiu   $t0, %lo(__OSGlobalIntMask)
     lw      $t0, ($t0)

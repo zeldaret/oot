@@ -133,7 +133,7 @@ LEAF(osSetIntMask)
     # If there are RCP interrupts masked
     beqz    $t2, 1f
      srl    $t1, $t3, RCP_IMASKSHIFT
-    # BItwise-OR in the disabled RCP bits of __OSGlobalIntMask
+    # Bitwise-OR in the disabled RCP bits of __OSGlobalIntMask
     li      $at, ~0
     xor     $t1, $t1, $at
     andi    $t1, $t1, (RCP_IMASK >> RCP_IMASKSHIFT)
