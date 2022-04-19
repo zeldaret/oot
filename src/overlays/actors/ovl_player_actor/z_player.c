@@ -476,9 +476,9 @@ static s32 D_808535E4 = 0;
 static f32 D_808535E8 = 1.0f;
 static f32 D_808535EC = 1.0f;
 static u32 D_808535F0 = 0;
-static u32 D_808535F4 = 0;
-static s16 D_808535F8 = 0;
-static s16 D_808535FC = 0;
+static u32 sConveyorSpeedIndex = 0;
+static s16 sIsFloorConveyor = false;
+static s16 sConveyorYaw = 0;
 static f32 D_80853600 = 0.0f;
 static s32 D_80853604 = 0;
 static s32 D_80853608 = 0;
@@ -2152,7 +2152,7 @@ s32 func_80834380(GlobalContext* globalCtx, Player* this, s32* itemPtr, s32* typ
         if (this->stateFlags1 & PLAYER_STATE1_23) {
             *typePtr = ARROW_NORMAL_HORSE;
         } else {
-            *typePtr = this->heldItemActionParam - 6;
+            *typePtr = ARROW_NORMAL + (this->heldItemActionParam - PLAYER_AP_BOW);
         }
     } else {
         *itemPtr = ITEM_SLINGSHOT;
@@ -4186,8 +4186,8 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                         gSaveContext.entranceSpeed = linearVel;
                     }
 
-                    if (D_808535F4 != 0) {
-                        yaw = D_808535FC;
+                    if (sConveyorSpeedIndex != 0) {
+                        yaw = sConveyorYaw;
                     } else {
                         yaw = this->actor.world.rot.y;
                     }
@@ -5032,7 +5032,8 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
     s32 sp28 = 0;
     s32 sp24;
 
-    sp24 = (sp30 != NULL) && (CHECK_FLAG_ALL(sp30->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) || (sp30->naviEnemyId != 0xFF));
+    sp24 = (sp30 != NULL) &&
+           (CHECK_FLAG_ALL(sp30->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) || (sp30->naviEnemyId != NAVI_ENEMY_NONE));
 
     if (sp24 || (this->naviTextId != 0)) {
         sp28 = (this->naviTextId < 0) && ((ABS(this->naviTextId) & 0xFF00) != 0x200);
@@ -5083,7 +5084,7 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
                                 sp2C->textId = -this->naviTextId;
                             }
                         } else {
-                            if (sp2C->naviEnemyId != 0xFF) {
+                            if (sp2C->naviEnemyId != NAVI_ENEMY_NONE) {
                                 sp2C->textId = sp2C->naviEnemyId + 0x600;
                             }
                         }
@@ -5119,8 +5120,8 @@ s32 func_8083B998(Player* this, GlobalContext* globalCtx) {
         return 1;
     }
 
-    if ((this->unk_664 != NULL) &&
-        (CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) || (this->unk_664->naviEnemyId != 0xFF))) {
+    if ((this->unk_664 != NULL) && (CHECK_FLAG_ALL(this->unk_664->flags, ACTOR_FLAG_0 | ACTOR_FLAG_18) ||
+                                    (this->unk_664->naviEnemyId != NAVI_ENEMY_NONE))) {
         this->stateFlags2 |= PLAYER_STATE2_21;
     } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
                (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, globalCtx)) {
@@ -5998,12 +5999,12 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_8083E298(CollisionPoly* arg0, Vec3f* arg1, s16* arg2) {
-    arg1->x = COLPOLY_GET_NORMAL(arg0->normal.x);
-    arg1->y = COLPOLY_GET_NORMAL(arg0->normal.y);
-    arg1->z = COLPOLY_GET_NORMAL(arg0->normal.z);
+void Player_GetSlopeDirection(CollisionPoly* floorPoly, Vec3f* slopeNormal, s16* downwardSlopeYaw) {
+    slopeNormal->x = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+    slopeNormal->y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
+    slopeNormal->z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
 
-    *arg2 = Math_Atan2S(arg1->z, arg1->x);
+    *downwardSlopeYaw = Math_Atan2S(slopeNormal->z, slopeNormal->x);
 }
 
 static LinkAnimationHeader* D_80854590[] = {
@@ -6011,30 +6012,36 @@ static LinkAnimationHeader* D_80854590[] = {
     &gPlayerAnim_0031D0,
 };
 
-s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2) {
+s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* floorPoly) {
     s32 pad;
-    s16 sp4A;
-    Vec3f sp3C;
-    s16 sp3A;
-    f32 temp1;
-    f32 temp2;
-    s16 temp3;
+    s16 playerVelYaw;
+    Vec3f slopeNormal;
+    s16 downwardSlopeYaw;
+    f32 slopeSlowdownSpeed;
+    f32 slopeSlowdownSpeedStep;
+    s16 velYawToDownwardSlope;
 
     if (!Player_InBlockingCsMode(globalCtx, this) && (func_8084F390 != this->func_674) &&
-        (SurfaceType_GetSlope(&globalCtx->colCtx, arg2, this->actor.floorBgId) == 1)) {
-        sp4A = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
-        func_8083E298(arg2, &sp3C, &sp3A);
-        temp3 = sp3A - sp4A;
+        (SurfaceType_GetSlope(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) == 1)) {
 
-        if (ABS(temp3) > 16000) {
-            temp1 = (1.0f - sp3C.y) * 40.0f;
-            temp2 = (temp1 * temp1) * 0.015f;
-            if (temp2 < 1.2f) {
-                temp2 = 1.2f;
+        // Get direction of movement relative to the downward direction of the slope
+        playerVelYaw = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
+        Player_GetSlopeDirection(floorPoly, &slopeNormal, &downwardSlopeYaw);
+        velYawToDownwardSlope = downwardSlopeYaw - playerVelYaw;
+
+        if (ABS(velYawToDownwardSlope) > 0x3E80) { // 87.9 degrees
+            // moving parallel or upwards on the slope, player does not slip but does slow down
+            slopeSlowdownSpeed = (1.0f - slopeNormal.y) * 40.0f;
+            slopeSlowdownSpeedStep = SQ(slopeSlowdownSpeed) * 0.015f;
+            if (slopeSlowdownSpeedStep < 1.2f) {
+                slopeSlowdownSpeedStep = 1.2f;
             }
-            this->windDirection = sp3A;
-            Math_StepToF(&this->windSpeed, temp1, temp2);
+
+            // slows down speed as player is climbing a slope
+            this->pushedYaw = downwardSlopeYaw;
+            Math_StepToF(&this->pushedSpeed, slopeSlowdownSpeed, slopeSlowdownSpeedStep);
         } else {
+            // moving downward on the slope, causing player to slip
             func_80835C58(globalCtx, this, func_8084F390, 0);
             func_80832564(globalCtx, this);
             if (D_80853610 >= 0) {
@@ -6042,12 +6049,12 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2) {
             }
             func_80832BE8(globalCtx, this, D_80854590[this->unk_84F]);
             this->linearVelocity = sqrtf(SQ(this->actor.velocity.x) + SQ(this->actor.velocity.z));
-            this->currentYaw = sp4A;
-            return 1;
+            this->currentYaw = playerVelYaw;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 // unknown data (unused)
@@ -8831,9 +8838,9 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
             if (this->stateFlags1 & PLAYER_STATE1_0) {
                 sp34 = gSaveContext.entranceSpeed;
 
-                if (D_808535F4 != 0) {
-                    this->unk_450.x = (Math_SinS(D_808535FC) * 400.0f) + this->actor.world.pos.x;
-                    this->unk_450.z = (Math_CosS(D_808535FC) * 400.0f) + this->actor.world.pos.z;
+                if (sConveyorSpeedIndex != 0) {
+                    this->unk_450.x = (Math_SinS(sConveyorYaw) * 400.0f) + this->actor.world.pos.x;
+                    this->unk_450.z = (Math_CosS(sConveyorYaw) * 400.0f) + this->actor.world.pos.z;
                 }
             } else if (this->unk_850 < 0) {
                 this->unk_850++;
@@ -9642,7 +9649,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
     }
 
     D_80853600 = this->actor.world.pos.y - this->actor.floorHeight;
-    D_808535F4 = 0;
+    sConveyorSpeedIndex = 0;
 
     floorPoly = this->actor.floorPoly;
 
@@ -9675,16 +9682,17 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
             }
         }
 
-        D_808535F4 = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
-        if (D_808535F4 != 0) {
-            D_808535F8 = SurfaceType_IsConveyor(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
-            if (((D_808535F8 == 0) && (this->actor.yDistToWater > 20.0f) &&
+        // This block extracts the conveyor properties from the floor poly
+        sConveyorSpeedIndex = SurfaceType_GetConveyorSpeed(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
+        if (sConveyorSpeedIndex != 0) {
+            sIsFloorConveyor = SurfaceType_IsFloorConveyor(&globalCtx->colCtx, floorPoly, this->actor.floorBgId);
+            if ((!sIsFloorConveyor && (this->actor.yDistToWater > 20.0f) &&
                  (this->currentBoots != PLAYER_BOOTS_IRON)) ||
-                ((D_808535F8 != 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
-                D_808535FC = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, floorPoly, this->actor.floorBgId)
-                             << 10;
+                (sIsFloorConveyor && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND))) {
+                sConveyorYaw = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) *
+                               (0x10000 / 64);
             } else {
-                D_808535F4 = 0;
+                sConveyorSpeedIndex = 0;
             }
         }
     }
@@ -10090,8 +10098,8 @@ static s8 D_808547C4[] = {
 
 static Vec3f D_80854814 = { 0.0f, 0.0f, 200.0f };
 
-static f32 D_80854820[] = { 2.0f, 4.0f, 7.0f };
-static f32 D_8085482C[] = { 0.5f, 1.0f, 3.0f };
+static f32 sWaterConveyorSpeeds[] = { 2.0f, 4.0f, 7.0f };
+static f32 sFloorConveyorSpeeds[] = { 0.5f, 1.0f, 3.0f };
 
 void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
     s32 pad;
@@ -10252,11 +10260,11 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
             func_8002D868(&this->actor);
 
-            if ((this->windSpeed != 0.0f) && !Player_InCsMode(globalCtx) &&
+            if ((this->pushedSpeed != 0.0f) && !Player_InCsMode(globalCtx) &&
                 !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)) &&
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
-                this->actor.velocity.x += this->windSpeed * Math_SinS(this->windDirection);
-                this->actor.velocity.z += this->windSpeed * Math_CosS(this->windDirection);
+                this->actor.velocity.x += this->pushedSpeed * Math_SinS(this->pushedYaw);
+                this->actor.velocity.z += this->pushedSpeed * Math_CosS(this->pushedYaw);
             }
 
             func_8002D7EC(&this->actor);
@@ -10287,31 +10295,33 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 }
             }
 
-            D_808535F4 = 0;
-            this->windSpeed = 0.0f;
+            sConveyorSpeedIndex = 0;
+            this->pushedSpeed = 0.0f;
         }
 
-        if ((D_808535F4 != 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
-            f32 sp48;
+        // This block applies the bg conveyor to pushedSpeed
+        if ((sConveyorSpeedIndex != 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
+            f32 conveyorSpeed;
 
-            D_808535F4--;
+            // converts 1-index to 0-index
+            sConveyorSpeedIndex--;
 
-            if (D_808535F8 == 0) {
-                sp48 = D_80854820[D_808535F4];
+            if (!sIsFloorConveyor) {
+                conveyorSpeed = sWaterConveyorSpeeds[sConveyorSpeedIndex];
 
                 if (!(this->stateFlags1 & PLAYER_STATE1_27)) {
-                    sp48 *= 0.25f;
+                    conveyorSpeed *= 0.25f;
                 }
             } else {
-                sp48 = D_8085482C[D_808535F4];
+                conveyorSpeed = sFloorConveyorSpeeds[sConveyorSpeedIndex];
             }
 
-            Math_StepToF(&this->windSpeed, sp48, sp48 * 0.1f);
+            Math_StepToF(&this->pushedSpeed, conveyorSpeed, conveyorSpeed * 0.1f);
 
-            Math_ScaledStepToS(&this->windDirection, D_808535FC,
-                               ((this->stateFlags1 & PLAYER_STATE1_27) ? 400.0f : 800.0f) * sp48);
-        } else if (this->windSpeed != 0.0f) {
-            Math_StepToF(&this->windSpeed, 0.0f, (this->stateFlags1 & PLAYER_STATE1_27) ? 0.5f : 1.0f);
+            Math_ScaledStepToS(&this->pushedYaw, sConveyorYaw,
+                               ((this->stateFlags1 & PLAYER_STATE1_27) ? 400.0f : 800.0f) * conveyorSpeed);
+        } else if (this->pushedSpeed != 0.0f) {
+            Math_StepToF(&this->pushedSpeed, 0.0f, (this->stateFlags1 & PLAYER_STATE1_27) ? 0.5f : 1.0f);
         }
 
         if (!Player_InBlockingCsMode(globalCtx, this) && !(this->stateFlags2 & PLAYER_STATE2_18)) {
@@ -10674,8 +10684,8 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         if (this->stateFlags2 & PLAYER_STATE2_26) {
-            f32 sp78 = ((u16)(globalCtx->gameplayFrames * 600) * M_PI) / 0x8000;
-            f32 sp74 = ((u16)(globalCtx->gameplayFrames * 1000) * M_PI) / 0x8000;
+            f32 sp78 = BINANG_TO_RAD_ALT2((u16)(globalCtx->gameplayFrames * 600));
+            f32 sp74 = BINANG_TO_RAD_ALT2((u16)(globalCtx->gameplayFrames * 1000));
 
             Matrix_Push();
             this->actor.scale.y = -this->actor.scale.y;
@@ -12557,9 +12567,9 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
     f32 sp50;
     f32 sp4C;
     f32 sp48;
-    s16 sp46;
+    s16 downwardSlopeYaw;
     s16 sp44;
-    Vec3f sp38;
+    Vec3f slopeNormal;
 
     this->stateFlags2 |= PLAYER_STATE2_5 | PLAYER_STATE2_6;
     LinkAnimation_Update(globalCtx, &this->skelAnime);
@@ -12574,25 +12584,25 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        func_8083E298(floorPoly, &sp38, &sp46);
+        Player_GetSlopeDirection(floorPoly, &slopeNormal, &downwardSlopeYaw);
 
-        sp44 = sp46;
+        sp44 = downwardSlopeYaw;
         if (this->unk_84F != 0) {
-            sp44 = sp46 + 0x8000;
+            sp44 = downwardSlopeYaw + 0x8000;
         }
 
         if (this->linearVelocity < 0) {
-            sp46 += 0x8000;
+            downwardSlopeYaw += 0x8000;
         }
 
-        sp50 = (1.0f - sp38.y) * 40.0f;
+        sp50 = (1.0f - slopeNormal.y) * 40.0f;
         sp50 = CLAMP(sp50, 0, 10.0f);
         sp4C = (sp50 * sp50) * 0.015f;
-        sp48 = sp38.y * 0.01f;
+        sp48 = slopeNormal.y * 0.01f;
 
         if (SurfaceType_GetSlope(&globalCtx->colCtx, floorPoly, this->actor.floorBgId) != 1) {
             sp50 = 0;
-            sp48 = sp38.y * 10.0f;
+            sp48 = slopeNormal.y * 10.0f;
         }
 
         if (sp4C < 1.0f) {
@@ -12601,6 +12611,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
 
         if (Math_AsymStepToF(&this->linearVelocity, sp50, sp4C, sp48) && (sp50 == 0)) {
             LinkAnimationHeader* anim;
+
             if (this->unk_84F == 0) {
                 anim = GET_PLAYER_ANIM(PLAYER_ANIMGROUP_42, this->modelAnimType);
             } else {
@@ -12609,7 +12620,7 @@ void func_8084F390(Player* this, GlobalContext* globalCtx) {
             func_8083A098(this, anim, globalCtx);
         }
 
-        Math_SmoothStepToS(&this->currentYaw, sp46, 10, 4000, 800);
+        Math_SmoothStepToS(&this->currentYaw, downwardSlopeYaw, 10, 4000, 800);
         Math_ScaledStepToS(&this->actor.shape.rot.y, sp44, 2000);
     }
 }

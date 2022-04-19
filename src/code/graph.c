@@ -227,7 +227,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         gfxCtx->fbIdx--;
     }
 
-    scTask->msgQ = &gfxCtx->queue;
+    scTask->msgQueue = &gfxCtx->queue;
     scTask->msg = NULL;
 
     cfb = &sGraphCfbInfos[sGraphCfbInfoIdx++];
@@ -245,9 +245,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     if (1) {}
 
-    gfxCtx->schedMsgQ = &gSchedContext.cmdQ;
+    gfxCtx->schedMsgQueue = &gSchedContext.cmdQueue;
 
-    osSendMesg(&gSchedContext.cmdQ, scTask, OS_MESG_BLOCK);
+    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
     Sched_SendEntryMsg(&gSchedContext);
 }
 

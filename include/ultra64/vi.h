@@ -64,7 +64,7 @@ typedef struct {
     /* 0x08 */ OSViMode* modep;
     /* 0x0C */ u32 features;
     /* 0x10 */ OSMesgQueue* mq;
-    /* 0x14 */ OSMesg* msg;
+    /* 0x14 */ OSMesg msg;
     /* 0x18 */ __OSViScale x;
     /* 0x24 */ __OSViScale y;
 } OSViContext; // size = 0x30

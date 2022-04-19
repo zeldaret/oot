@@ -332,7 +332,7 @@ void BossGoma_ClearPixels(u8* clearPixelTable, s16 i) {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x01, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GOHMA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
@@ -1026,8 +1026,8 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
         for (i = 0; i < 4; i++) {
             //! @bug this 0-indexes into this->defeatedLimbPositions which is initialized with
-            // this->defeatedLimbPositions[limb], but limb is 1-indexed in skelanime callbacks, this means effects
-            // should spawn at this->defeatedLimbPositions[0] too, which is uninitialized, so map origin?
+            //! this->defeatedLimbPositions[limb], but limb is 1-indexed in skelanime callbacks, this means effects
+            //! should spawn at this->defeatedLimbPositions[0] too, which is uninitialized, so map origin?
             j = (s16)(Rand_ZeroOne() * (BOSSGOMA_LIMB_MAX - 1));
             if (this->defeatedLimbPositions[j].y < 10000.0f) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->defeatedLimbPositions[j].x;
@@ -1083,8 +1083,8 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
                 for (i = 0; i < 4; i++) {
                     BossGoma_ClearPixels(sClearPixelTableFirstPass, this->decayingProgress);
-                    //! @bug this allows this->decayingProgress = 0x100 = 256 which is out of bounds when accessing
-                    // sClearPixelTableFirstPass, though timers may prevent this from ever happening?
+                    //! @bug this allows this->decayingProgress = 0x100 = 256 which
+                    //! is out of bounds when accessing sClearPixelTableFirstPass
                     if (this->decayingProgress < 0x100) {
                         this->decayingProgress++;
                     }

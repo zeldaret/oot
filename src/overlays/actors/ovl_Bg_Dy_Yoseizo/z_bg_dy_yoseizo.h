@@ -10,6 +10,8 @@ struct BgDyYoseizo;
 
 typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, GlobalContext*);
 
+#define BG_DY_YOSEIZO_EFFECT_COUNT 200
+
 typedef struct {
     /* 0x00 */ u8 alive; // drawn if 1, respawn if 0
     /* 0x04 */ Vec3f pos;
@@ -24,7 +26,7 @@ typedef struct {
     /* 0x36 */ f32 pitch;
     /* 0x36 */ f32 yaw;
     /* 0x40 */ f32 roll;
-} BgDyYoseizoParticle; // size = 0x44
+} BgDyYoseizoEffect; // size = 0x44
 
 typedef struct BgDyYoseizo {
     /* 0x0000 */ Actor actor;
@@ -67,7 +69,7 @@ typedef struct BgDyYoseizo {
     /* 0x0340 */ EnDyExtra* beam;
     /* 0x0344 */ EnExItem* item;
     /* 0x0348 */ char unk_348[0x4C];
-    /* 0x0394 */ BgDyYoseizoParticle particles[200];
+    /* 0x0394 */ BgDyYoseizoEffect effects[BG_DY_YOSEIZO_EFFECT_COUNT];
 } BgDyYoseizo; // size = 0x38B4
 
 #endif

@@ -209,7 +209,7 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->colJntSph);
     Collider_SetJntSph(globalCtx, &this->colJntSph, &this->actor, &sJntSphInit, this->colJntSphItemList);
 
-    this->actor.naviEnemyId = 0x48;
+    this->actor.naviEnemyId = NAVI_ENEMY_PEAHAT;
     this->xzDistToRise = 740.0f;
     this->xzDistMax = 1200.0f;
     this->actor.uncullZoneForward = 4000.0f;
@@ -235,7 +235,7 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->colCylinder.info.bumper.dmgFlags = 0x1F824;
             this->colQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
             this->colQuad.base.acFlags = AC_ON | AC_TYPE_PLAYER;
-            this->actor.naviEnemyId = 0x49; // Larva
+            this->actor.naviEnemyId = NAVI_ENEMY_PEAHAT_LARVA;
             EnPeehat_Larva_SetStateSeekPlayer(this);
             break;
     }

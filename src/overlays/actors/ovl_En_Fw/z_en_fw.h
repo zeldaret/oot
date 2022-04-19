@@ -8,6 +8,8 @@ struct EnFw;
 
 typedef void (*EnFwActionFunc)(struct EnFw* this, GlobalContext* globalCtx);
 
+#define EN_FW_EFFECT_COUNT 20
+
 typedef struct {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 timer;
@@ -42,7 +44,7 @@ typedef struct EnFw {
     /* 0x0218 */ f32 runRadius;
     /* 0x021C */ Vec3s jointTable[11];
     /* 0x025E */ Vec3s morphTable[11];
-    /* 0x02A0 */ EnFwEffect effects[20];
+    /* 0x02A0 */ EnFwEffect effects[EN_FW_EFFECT_COUNT];
 } EnFw; // size = 0x0700
 
 #endif

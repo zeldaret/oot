@@ -341,21 +341,21 @@ void EnSkj_SetNaviId(EnSkj* this) {
     switch (this->actor.params) {
         case 0:
             if (gSaveContext.itemGetInf[3] & 0x200) {
-                this->actor.naviEnemyId = 0x41; // Skull kid with skull mask
+                this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_MASK;
             } else if (gSaveContext.itemGetInf[1] & 0x40) {
-                this->actor.naviEnemyId = 0x40; // Skull kid after Saria's song but no mask
+                this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_FRIENDLY;
             } else {
-                this->actor.naviEnemyId = 0x3F; // No Sarias song no skull mask
+                this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID; // No Sarias song no skull mask
             }
             break;
 
         case 1:
         case 2:
-            this->actor.naviEnemyId = 0x3F;
+            this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID;
             break;
 
         default:
-            this->actor.naviEnemyId = 0x36; // Skull kid as adult
+            this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_ADULT;
             break;
     }
 }
