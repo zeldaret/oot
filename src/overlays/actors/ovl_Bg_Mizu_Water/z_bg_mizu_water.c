@@ -44,7 +44,7 @@ const ActorInit Bg_Mizu_Water_InitVars = {
 static f32 sUnused1 = 0;
 static f32 sUnused2 = 110.0f;
 
-static u32 sWaterBoxIndexes[] = { 2, 3, 5, 7, 12, 20, 21, 22 };
+static u32 sWaterBoxIndices[] = { 2, 3, 5, 7, 12, 20, 21, 22 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 1, ICHAIN_STOP),
@@ -84,7 +84,7 @@ void BgMizuWater_SetWaterBoxesHeight(WaterBox* waterBoxes, s16 height) {
     u32 i;
 
     for (i = 0; i < 8; i++) {
-        waterBoxes[sWaterBoxIndexes[i]].ySurface = height;
+        waterBoxes[sWaterBoxIndices[i]].ySurface = height;
     }
 }
 

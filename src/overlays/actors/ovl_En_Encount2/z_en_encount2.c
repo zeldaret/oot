@@ -18,9 +18,9 @@ void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx);
 void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx);
 
-void EnEncount2_ParticleInit(EnEncount2* this, Vec3f* particlePos, f32 scale);
-void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx);
-void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx);
+void EnEncount2_SpawnEffect(EnEncount2* this, Vec3f* position, f32 scale);
+void EnEncount2_DrawEffects(Actor* thisx, GlobalContext* globalCtx);
+void EnEncount2_UpdateEffects(EnEncount2* this, GlobalContext* globalCtx);
 
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
@@ -123,8 +123,8 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
     f32 tempVec2X;
     f32 tempVec2Y;
     f32 tempVec2Z;
-    f32 particleScale;
-    Vec3f particlePos;
+    f32 effectScale;
+    Vec3f effectPos;
     s16 spawnedRockType;
     s16 spawnerState;
     s16 maxRocks;
@@ -181,16 +181,16 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
 
         // Position between 160 and 200 units ahead of camera depending on camera pitch, plus a 400 unit offset in +y
         // (plus some random variation)
-        particlePos.x = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.x + (tempVec2X * 200.0f));
-        particlePos.y = Rand_CenteredFloat(50.0f) + tempVec1Y;
-        particlePos.z = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.z + (tempVec2Z * 200.0f));
-        particleScale = Rand_CenteredFloat(0.005f) + 0.007f;
+        effectPos.x = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.x + (tempVec2X * 200.0f));
+        effectPos.y = Rand_CenteredFloat(50.0f) + tempVec1Y;
+        effectPos.z = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.z + (tempVec2Z * 200.0f));
+        effectScale = Rand_CenteredFloat(0.005f) + 0.007f;
 
         if (spawnerState == ENCOUNT2_ACTIVE_DEATH_MOUNTAIN) {
-            EnEncount2_ParticleInit(this, &particlePos, particleScale);
-        } else if (this->particleSpawnTimer == 0) {
-            EnEncount2_ParticleInit(this, &particlePos, particleScale);
-            this->particleSpawnTimer = 5;
+            EnEncount2_SpawnEffect(this, &effectPos, effectScale);
+        } else if (this->effectSpawnTimer == 0) {
+            EnEncount2_SpawnEffect(this, &effectPos, effectScale);
+            this->effectSpawnTimer = 5;
         }
 
         if ((this->numSpawnedRocks < maxRocks) && (this->timerBetweenRockSpawns == 0)) {
@@ -257,13 +257,13 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
         this->timerBetweenRockSpawns--;
     }
 
-    if (this->particleSpawnTimer != 0) {
-        this->particleSpawnTimer--;
+    if (this->effectSpawnTimer != 0) {
+        this->effectSpawnTimer--;
     }
 
     this->actionFunc(this, globalCtx);
 
-    EnEncount2_ParticleUpdate(this, globalCtx);
+    EnEncount2_UpdateEffects(this, globalCtx);
 
     if (!this->isNotDeathMountain) {
         this->unk_17C = this->envEffectsTimer / 60.0f;
@@ -284,62 +284,62 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnEncount2* this = (EnEncount2*)thisx;
 
-    EnEncount2_ParticleDraw(&this->actor, globalCtx);
+    EnEncount2_DrawEffects(&this->actor, globalCtx);
 }
 
-void EnEncount2_ParticleInit(EnEncount2* this, Vec3f* particlePos, f32 scale) {
-    EnEncount2Particle* particle = this->particles;
+void EnEncount2_SpawnEffect(EnEncount2* this, Vec3f* position, f32 scale) {
+    EnEncount2Effect* effect = this->effects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->particles); i++, particle++) {
-        if (!particle->isAlive) {
-            particle->pos = *particlePos;
-            particle->scale = scale;
-            particle->rot.x = 0.0f;
-            particle->rot.y = 0.0f;
-            particle->rot.z = 0.0f;
-            particle->moveDirection.x = Rand_CenteredFloat(20.0f);
-            particle->moveDirection.y = -20.0f;
-            particle->moveDirection.z = Rand_CenteredFloat(20.0f);
-            particle->isAlive = 1;
+    for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; i++, effect++) {
+        if (!effect->isAlive) {
+            effect->pos = *position;
+            effect->scale = scale;
+            effect->rot.x = 0.0f;
+            effect->rot.y = 0.0f;
+            effect->rot.z = 0.0f;
+            effect->moveDirection.x = Rand_CenteredFloat(20.0f);
+            effect->moveDirection.y = -20.0f;
+            effect->moveDirection.z = Rand_CenteredFloat(20.0f);
+            effect->isAlive = 1;
             break;
         }
     }
 }
 
-void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx) {
+void EnEncount2_UpdateEffects(EnEncount2* this, GlobalContext* globalCtx) {
     s16 i;
-    EnEncount2Particle* particle = this->particles;
+    EnEncount2Effect* effect = this->effects;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f targetPos;
 
-    for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {
-        if (particle->isAlive) {
-            particle->rot.x += Rand_ZeroOne() * 500.0f;
-            particle->rot.y += Rand_ZeroOne() * 500.0f;
-            particle->rot.z += Rand_ZeroOne() * 500.0f;
-            targetPos.x = particle->pos.x + particle->moveDirection.x;
-            targetPos.y = particle->pos.y + particle->moveDirection.y;
-            targetPos.z = particle->pos.z + particle->moveDirection.z;
-            Math_ApproachF(&particle->pos.x, targetPos.x, 0.3f, 30.0f);
-            Math_ApproachF(&particle->pos.y, targetPos.y, 0.8f, 250.0f);
-            Math_ApproachF(&particle->pos.z, targetPos.z, 0.3f, 30.0f);
-            Math_ApproachF(&particle->moveDirection.y, -20.0f, 0.9f, 1.0f);
+    for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; effect++, i++) {
+        if (effect->isAlive) {
+            effect->rot.x += Rand_ZeroOne() * 500.0f;
+            effect->rot.y += Rand_ZeroOne() * 500.0f;
+            effect->rot.z += Rand_ZeroOne() * 500.0f;
+            targetPos.x = effect->pos.x + effect->moveDirection.x;
+            targetPos.y = effect->pos.y + effect->moveDirection.y;
+            targetPos.z = effect->pos.z + effect->moveDirection.z;
+            Math_ApproachF(&effect->pos.x, targetPos.x, 0.3f, 30.0f);
+            Math_ApproachF(&effect->pos.y, targetPos.y, 0.8f, 250.0f);
+            Math_ApproachF(&effect->pos.z, targetPos.z, 0.3f, 30.0f);
+            Math_ApproachF(&effect->moveDirection.y, -20.0f, 0.9f, 1.0f);
 
             if (globalCtx->sceneNum != SCENE_SPOT16) {
-                if (particle->pos.y < (player->actor.floorHeight - 50.0f)) {
-                    particle->isAlive = 0;
+                if (effect->pos.y < (player->actor.floorHeight - 50.0f)) {
+                    effect->isAlive = 0;
                 }
-            } else if (particle->pos.y < 1500.0f) {
-                particle->isAlive = 0;
+            } else if (effect->pos.y < 1500.0f) {
+                effect->isAlive = 0;
             }
         }
     }
 }
 
-void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
+void EnEncount2_DrawEffects(Actor* thisx, GlobalContext* globalCtx) {
     EnEncount2* this = (EnEncount2*)thisx;
-    EnEncount2Particle* particle = this->particles;
+    EnEncount2Effect* effect = this->effects;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     s32 objBankIndex;
@@ -352,13 +352,13 @@ void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
 
-        for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {
-            if (particle->isAlive) {
-                Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
-                Matrix_RotateX(DEG_TO_RAD(particle->rot.x), MTXMODE_APPLY);
-                Matrix_RotateY(DEG_TO_RAD(particle->rot.y), MTXMODE_APPLY);
-                Matrix_RotateZ(DEG_TO_RAD(particle->rot.z), MTXMODE_APPLY);
-                Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
+        for (i = 0; i < EN_ENCOUNT2_EFFECT_COUNT; effect++, i++) {
+            if (effect->isAlive) {
+                Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
+                Matrix_RotateX(DEG_TO_RAD(effect->rot.x), MTXMODE_APPLY);
+                Matrix_RotateY(DEG_TO_RAD(effect->rot.y), MTXMODE_APPLY);
+                Matrix_RotateZ(DEG_TO_RAD(effect->rot.z), MTXMODE_APPLY);
+                Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_encount2.c", 669),

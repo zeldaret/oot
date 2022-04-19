@@ -38,8 +38,8 @@ void FileChoose_SetView(FileChooseContext* this, f32 eyeX, f32 eyeY, f32 eyeZ) {
 
     up.y = 1.0f;
 
-    func_800AA358(&this->view, &eye, &lookAt, &up);
-    func_800AAA50(&this->view, 0x7F);
+    View_LookAt(&this->view, &eye, &lookAt, &up);
+    View_Apply(&this->view, VIEW_ALL | VIEW_FORCE_VIEWING | VIEW_FORCE_VIEWPORT | VIEW_FORCE_PROJECTION_PERSPECTIVE);
 }
 
 Gfx* FileChoose_QuadTextureIA8(Gfx* gfx, void* texture, s16 width, s16 height, s16 point) {

@@ -1086,8 +1086,8 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
         POLY_XLU_DISP = Gameplay_SetFog(globalCtx, POLY_XLU_DISP);
 
-        func_800AA460(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.fogFar);
-        func_800AAA50(&globalCtx->view, 15);
+        View_SetPerspective(&globalCtx->view, globalCtx->view.fovy, globalCtx->view.zNear, globalCtx->lightCtx.fogFar);
+        View_Apply(&globalCtx->view, VIEW_ALL);
 
         // The billboard matrix temporarily stores the viewing matrix
         Matrix_MtxToMtxF(&globalCtx->view.viewing, &globalCtx->billboardMtxF);
@@ -1118,11 +1118,11 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 View view;
 
                 View_Init(&view, gfxCtx);
-                view.flags = 2 | 8;
+                view.flags = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHO;
 
                 SET_FULLSCREEN_VIEWPORT(&view);
 
-                func_800AB9EC(&view, 15, &gfxP);
+                View_ApplyTo(&view, VIEW_ALL, &gfxP);
                 globalCtx->transitionCtx.draw(&globalCtx->transitionCtx.data, &gfxP);
             }
 
@@ -1305,7 +1305,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
     if (globalCtx->view.unk_124 != 0) {
         Camera_Update(GET_ACTIVE_CAM(globalCtx));
-        func_800AB944(&globalCtx->view);
+        View_UpdateViewingMatrix(&globalCtx->view);
         globalCtx->view.unk_124 = 0;
         if (globalCtx->skyboxId && (globalCtx->skyboxId != SKYBOX_UNSET_1D) && !globalCtx->envCtx.skyboxDisabled) {
             SkyboxDraw_UpdateMatrix(&globalCtx->skyboxCtx, globalCtx->view.eye.x, globalCtx->view.eye.y,

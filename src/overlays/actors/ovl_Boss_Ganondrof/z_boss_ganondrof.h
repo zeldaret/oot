@@ -42,7 +42,7 @@ typedef enum {
     /*  9 */ GND_THROW_COUNT,
     /* 10 */ GND_MASK_OFF,
     /* 11 */ GND_EYE_STATE,
-    /* 12 */ GND_PARTICLE_ANGLE,
+    /* 12 */ GND_EFFECT_ANGLE,
     /* 13 */ GND_BODY_DECAY_INDEX,
     /* 14 */ GND_BODY_DECAY_FLAG,
     /* 15 */ GND_LIMB_DECAY_INDEX,
