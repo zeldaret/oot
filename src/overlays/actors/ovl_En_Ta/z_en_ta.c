@@ -523,8 +523,8 @@ void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
     Vec3f subCamAt;
 
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    this->activeCamId = globalCtx->activeCamId;
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_WAIT);
+    this->returnToCamId = globalCtx->activeCamId;
+    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
     subCamEye.x = 1053.0f;
@@ -539,7 +539,7 @@ void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14EDC(EnTa* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_ACTIVE);
+    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
     Gameplay_ClearCamera(globalCtx, this->subCamId);
 }
 

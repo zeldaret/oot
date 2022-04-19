@@ -28,7 +28,7 @@ typedef struct EnTa {
     /* 0x02CC */ s16 unk_2CC;
     /* 0x02CE */ s16 unk_2CE;
     /* 0x02D0 */ s16 subCamId;
-    /* 0x02D2 */ s16 activeCamId;
+    /* 0x02D2 */ s16 returnToCamId;
     /* 0x02D4 */ Vec3s unk_2D4;
     /* 0x02DA */ Vec3s unk_2DA;
     /* 0x02E0 */ u16 unk_2E0;
