@@ -115,7 +115,7 @@ void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMThunder* this = (EnMThunder*)thisx;
 
     if (this->unk_1CA != 0) {
-        Magic_RestoreMagicBarIdleAction(globalCtx);
+        Magic_ResetMagicBarAction(globalCtx);
     }
 
     Collider_DestroyCylinder(globalCtx, &this->collider);

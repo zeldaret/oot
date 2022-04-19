@@ -69,7 +69,7 @@ void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode1);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode2);
-    Magic_RestoreMagicBarIdleAction(globalCtx);
+    Magic_ResetMagicBarAction(globalCtx);
     if ((gSaveContext.nayrusLoveTimer != 0) && (globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].length != 0)) {
         player->stateFlags3 |= PLAYER_STATE3_6;
     }

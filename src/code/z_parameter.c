@@ -2246,7 +2246,7 @@ void Magic_Fill(GlobalContext* globalCtx) {
     }
 }
 
-void Magic_RestoreMagicBarIdleAction(GlobalContext* globalCtx) {
+void Magic_ResetMagicBarAction(GlobalContext* globalCtx) {
     if ((gSaveContext.magicBarAction != MAGIC_BAR_ACTION_GROW_WIDE) &&
         (gSaveContext.magicBarAction != MAGIC_BAR_ACTION_FILL)) {
         if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_ADD) {

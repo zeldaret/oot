@@ -10747,7 +10747,7 @@ void Player_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->meleeWeaponQuads[1]);
     Collider_DestroyQuad(globalCtx, &this->shieldQuad);
 
-    Magic_RestoreMagicBarIdleAction(globalCtx);
+    Magic_ResetMagicBarAction(globalCtx);
 
     gSaveContext.linkAge = globalCtx->linkAgeOnLoad;
 }
@@ -13111,7 +13111,7 @@ void func_808507F4(Player* this, GlobalContext* globalCtx) {
                         gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP;
                     }
                 } else {
-                    Magic_RestoreMagicBarIdleAction(globalCtx);
+                    Magic_ResetMagicBarAction(globalCtx);
                 }
             } else {
                 LinkAnimation_PlayLoopSetSpeed(globalCtx, &this->skelAnime, D_80854A64[this->unk_84F], 0.83f);

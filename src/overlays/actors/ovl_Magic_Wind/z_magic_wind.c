@@ -69,7 +69,7 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
 void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     MagicWind* this = (MagicWind*)thisx;
     SkelCurve_Destroy(globalCtx, &this->skelCurve);
-    Magic_RestoreMagicBarIdleAction(globalCtx);
+    Magic_ResetMagicBarAction(globalCtx);
     // "wipe out"
     LOG_STRING("消滅", "../z_magic_wind.c", 505);
 }
