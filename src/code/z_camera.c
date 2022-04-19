@@ -11,14 +11,14 @@ s32 Camera_UpdateWater(Camera* camera);
 #define CAM_GET_RO_DATA(type) &((type*)camera->paramData)->roData // Read-Only Data
 #define CAM_GET_RW_DATA(type) &((type*)camera->paramData)->rwData // Read-Write Data
 
-// Camera will reload its paramData. This is mainly fixed data from camera_data. Although some dynamic data is reset as
-// well
+// Camera will reload its paramData. This is mainly read-only data from camera_data. Although some read-write data is
+// reset as well
 #define RELOAD_PARAMS (camera->animState == 0 || camera->animState == 10 || camera->animState == 20)
 
 /**
- * Camera data is stored in both ro-data and OREG as s16, and then converted to the appropriate type during runtime.
- * If a small f32 is being stored as an s16, it is common to store that value 100 times larger than the original value.
- * This is then scaled back down during runtime with the CAM_DATA_SCALED macro.
+ * Camera data is stored in both read-only data and OREG as s16, and then converted to the appropriate type during
+ * runtime. If a small f32 is being stored as an s16, it is common to store that value 100 times larger than the
+ * original value. This is then scaled back down during runtime with the CAM_DATA_SCALED macro.
  */
 #define CAM_DATA_SCALED(x) ((x)*0.01f)
 
