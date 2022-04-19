@@ -612,7 +612,7 @@ void func_80083108(GlobalContext* globalCtx) {
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
         gSaveContext.unk_13E7 = 0;
 
-        if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
+        if ((player->stateFlags1 & PLAYER_STATE1_23) || (globalCtx->shootingGalleryStatus > 1) ||
             ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 gSaveContext.unk_13E7 = 1;
@@ -661,11 +661,11 @@ void func_80083108(GlobalContext* globalCtx) {
                     Interface_ChangeAlpha(8);
                 } else if ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38)) {
                     Interface_ChangeAlpha(8);
-                } else if (player->stateFlags1 & 0x00800000) {
+                } else if (player->stateFlags1 & PLAYER_STATE1_23) {
                     Interface_ChangeAlpha(12);
                 }
             } else {
-                if (player->stateFlags1 & 0x00800000) {
+                if (player->stateFlags1 & PLAYER_STATE1_23) {
                     Interface_ChangeAlpha(12);
                 }
             }
@@ -743,7 +743,7 @@ void func_80083108(GlobalContext* globalCtx) {
                 }
 
                 Interface_ChangeAlpha(50);
-            } else if ((player->stateFlags1 & 0x00200000) || (player->stateFlags2 & 0x00040000)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (player->stateFlags2 & PLAYER_STATE2_18)) {
                 if (gSaveContext.buttonStatus[0] != BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = BTN_DISABLED;
                     gSaveContext.buttonStatus[1] = BTN_DISABLED;
@@ -753,7 +753,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     Interface_ChangeAlpha(50);
                 }
             } else if ((gSaveContext.eventInf[0] & 0xF) == 1) {
-                if (player->stateFlags1 & 0x00800000) {
+                if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.equips.buttonItems[0] != ITEM_BOW)) {
                         if (gSaveContext.inventory.items[SLOT_BOW] == ITEM_NONE) {
@@ -2272,7 +2272,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
         case 2:
             if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
                 if (gSaveContext.unk_13F0 == 7) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
                 gSaveContext.unk_13F0 = 1;
@@ -2284,7 +2284,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
         case 1:
             if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
                 if (gSaveContext.unk_13F0 == 7) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
                 gSaveContext.unk_13F0 = 6;
@@ -2312,7 +2312,7 @@ s32 func_80087708(GlobalContext* globalCtx, s16 arg1, s16 arg2) {
         case 4:
             if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
                 if (gSaveContext.unk_13F0 == 7) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
                 gSaveContext.unk_13F0 = 4;
@@ -2345,7 +2345,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         { 255, 255, 150 },
         { 255, 255, 50 },
     };
-    static s16 sMagicBorderIndexes[] = { 0, 1, 1, 0 };
+    static s16 sMagicBorderIndices[] = { 0, 1, 1, 0 };
     static s16 sMagicBorderRatio = 2;
     static s16 sMagicBorderStep = 1;
     MessageContext* msgCtx = &globalCtx->msgCtx;
@@ -2410,7 +2410,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
         case 3:
         case 4:
         case 6:
-            temp = sMagicBorderIndexes[sMagicBorderStep];
+            temp = sMagicBorderIndices[sMagicBorderStep];
             borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
             borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
             borderChangeB = ABS(sMagicBorderB - sMagicBorderColors[temp][2]) / sMagicBorderRatio;
@@ -2459,8 +2459,8 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
-                    (globalCtx->actorCtx.unk_03 == 0)) {
-                    globalCtx->actorCtx.unk_03 = 0;
+                    !globalCtx->actorCtx.lensActive) {
+                    globalCtx->actorCtx.lensActive = false;
                     Audio_PlaySoundGeneral(NA_SE_SY_GLASSMODE_OFF, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     gSaveContext.unk_13F0 = 0;
@@ -2475,7 +2475,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                 }
             }
 
-            temp = sMagicBorderIndexes[sMagicBorderStep];
+            temp = sMagicBorderIndices[sMagicBorderStep];
             borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
             borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
             borderChangeB = ABS(sMagicBorderB - sMagicBorderColors[temp][2]) / sMagicBorderRatio;
@@ -2730,8 +2730,8 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
 
             if ((gSaveContext.unk_13EA == 1) || (gSaveContext.unk_13EA == 2) || (gSaveContext.unk_13EA == 5)) {
                 temp = 0;
-            } else if ((player->stateFlags1 & 0x00200000) || (func_8008F2F8(globalCtx) == 4) ||
-                       (player->stateFlags2 & 0x00040000)) {
+            } else if ((player->stateFlags1 & PLAYER_STATE1_21) || (func_8008F2F8(globalCtx) == 4) ||
+                       (player->stateFlags2 & PLAYER_STATE2_18)) {
                 temp = 70;
             } else {
                 temp = interfaceCtx->healthAlpha;
@@ -2975,7 +2975,7 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
     up.x = up.z = 0.0f;
     up.y = 1.0f;
 
-    func_800AA358(&interfaceCtx->view, &eye, &lookAt, &up);
+    View_LookAt(&interfaceCtx->view, &eye, &lookAt, &up);
 
     interfaceCtx->viewport.topY = topY;
     interfaceCtx->viewport.bottomY = bottomY;
@@ -2983,13 +2983,13 @@ void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s
     interfaceCtx->viewport.rightX = rightX;
     View_SetViewport(&interfaceCtx->view, &interfaceCtx->viewport);
 
-    func_800AA460(&interfaceCtx->view, 60.0f, 10.0f, 60.0f);
-    func_800AB560(&interfaceCtx->view);
+    View_SetPerspective(&interfaceCtx->view, 60.0f, 10.0f, 60.0f);
+    View_ApplyPerspectiveToOverlay(&interfaceCtx->view);
 }
 
 void func_8008A994(InterfaceContext* interfaceCtx) {
     SET_FULLSCREEN_VIEWPORT(&interfaceCtx->view);
-    func_800AB2C4(&interfaceCtx->view);
+    View_ApplyOrthoToOverlay(&interfaceCtx->view);
 }
 
 void Interface_Draw(GlobalContext* globalCtx) {
@@ -3157,7 +3157,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
                 Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment, 0);
 
-                if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
+                if ((player->stateFlags1 & PLAYER_STATE1_23) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
                     gDPPipeSync(OVERLAY_DISP++);
                     gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE,
@@ -3403,7 +3403,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
             (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
-            !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
+            !(player->stateFlags2 & PLAYER_STATE2_24) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
@@ -3946,7 +3946,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    HealthMeter_HandleCriticalAlarm(globalCtx);
+    HealthMeter_UpdateBeatingHeart(globalCtx);
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {
@@ -3962,8 +3962,8 @@ void Interface_Update(GlobalContext* globalCtx) {
     HealthMeter_Update(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
-        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
-        (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
+        (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE2_24) &&
+        (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {

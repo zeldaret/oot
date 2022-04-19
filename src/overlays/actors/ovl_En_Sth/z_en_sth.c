@@ -61,12 +61,8 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    /* object_ahg_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    &object_ahg_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
+    &object_boj_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
 };
 
 static AnimationHeader* sAnimations[6] = {
@@ -322,7 +318,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }

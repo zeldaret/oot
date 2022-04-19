@@ -53,7 +53,7 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
     ItemBHeart* this = (ItemBHeart*)thisx;
 
     func_80B85264(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (Actor_HasParent(&this->actor, globalCtx)) {
         Flags_SetCollectible(globalCtx, 0x1F);
         Actor_Kill(&this->actor);

@@ -66,7 +66,7 @@ Suggestions are saved in the function directory it imported the function into.
 
 ## first_diff
 
-Tells you where your built rom first differs from the baserom. It gives you a memory address that you can use to do, e.g. a binary diff, and also tries too find what function or data this address is in. Run with 
+Tells you where your built rom first differs from the baserom. It gives you a memory address that you can use to do, e.g. a binary diff, and also tries too find what function or data this address is in. Run with
 ```C
 ./first_diff.py
 ```

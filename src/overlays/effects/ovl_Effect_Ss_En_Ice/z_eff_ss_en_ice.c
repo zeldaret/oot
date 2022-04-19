@@ -111,8 +111,8 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    Matrix_RotateY(this->rYaw * (M_PI / 0x8000), MTXMODE_APPLY);
-    Matrix_RotateX(this->rPitch * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD(this->rPitch), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_en_ice.c", 261),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 

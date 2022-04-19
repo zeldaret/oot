@@ -2,7 +2,7 @@
     <File Name="object_dekunuts" Segment="6">
         <!-- Deku Scrub skeleton -->
         <Skeleton Name="gDekuNutsSkel" Type="Normal" LimbType="Standard" Offset="0x3268"/>
-        
+
         <!-- Deku Scrub animations -->
         <Animation Name="gDekuNutsSpitAnim" Offset="0x1C4"/>
         <Animation Name="gDekuNutsDamageAnim" Offset="0x368"/>

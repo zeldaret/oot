@@ -20,7 +20,7 @@
         <Limb Name="gDogLadyLimb_09C" LimbType="Standard" Offset="0x09C"/>
         <Limb Name="gDogLadyHeadLimb" LimbType="Standard" Offset="0x0A8"/>
 
-        
+
         <!-- Dog Lady Limb DisplayLists -->
         <DList Name="gDogLadyDressDL" Offset="0x5588"/>
         <DList Name="gDogLadyDL_54B8" Offset="0x54B8"/>

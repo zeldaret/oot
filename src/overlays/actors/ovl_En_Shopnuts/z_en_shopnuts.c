@@ -51,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 20, 40, 0xFE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4E, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
 };
@@ -240,7 +240,8 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnShopnuts_ColliderCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
+                            UPDBGCHECKINFO_FLAG_2);
     if (this->collider.base.acFlags & AC_ON) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }

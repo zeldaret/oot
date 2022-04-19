@@ -49,8 +49,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
-extern FlexSkeletonHeader object_boj_Skel_0000F0;
-
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = (EnGuest*)thisx;
 
@@ -192,15 +190,15 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         *dList = object_boj_DL_0059B0;
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp3C = this->unk_2A0.unk_08;
-        Matrix_RotateX((sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp3C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
         sp3C = this->unk_2A0.unk_0E;
-        Matrix_RotateX((-sp3C.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((sp3C.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp3C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp3C.x), MTXMODE_APPLY);
     }
 
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
@@ -215,9 +213,9 @@ s32 EnGuest_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
 
 void EnGuest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* D_80A50BA4[] = {
-        0x060005FC,
-        0x060006FC,
-        0x060007FC,
+        object_boj_Tex_0005FC,
+        object_boj_Tex_0006FC,
+        object_boj_Tex_0007FC,
     };
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;

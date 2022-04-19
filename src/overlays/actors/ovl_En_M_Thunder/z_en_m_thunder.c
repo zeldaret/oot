@@ -75,7 +75,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->collider.dim.yShift = -20;
     this->unk_1C4 = 8;
     this->unk_1B4 = 0.0f;
-    this->actor.world.pos = player->bodyPartsPos[0];
+    this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->unk_1AC = 0.0f;
     this->unk_1BC = 0.0f;
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
@@ -83,7 +83,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetScale(&this->actor, 0.1f);
     this->unk_1CA = 0;
 
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (!gSaveContext.magicAcquired || gSaveContext.unk_13F0 ||
             (((this->actor.params & 0xFF00) >> 8) &&
              !(func_80087708(globalCtx, (this->actor.params & 0xFF00) >> 8, 0)))) {
@@ -95,7 +95,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
 
-        player->stateFlags2 &= ~0x20000;
+        player->stateFlags2 &= ~PLAYER_STATE2_17;
         this->unk_1CA = 1;
         this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];
         this->unk_1C6 = 1;
@@ -130,8 +130,8 @@ void func_80A9F314(GlobalContext* globalCtx, f32 arg1) {
 void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags2 & 0x20000) {
-        if (player->swordAnimation >= 0x18) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
+        if (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -142,7 +142,7 @@ void func_80A9F350(EnMThunder* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (!(player->stateFlags1 & 0x1000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -152,7 +152,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
     Actor* child = this->actor.child;
 
     this->unk_1B8 = player->unk_858;
-    this->actor.world.pos = player->bodyPartsPos[0];
+    this->actor.world.pos = player->bodyPartsPos[PLAYER_BODYPART_WAIST];
     this->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
 
     if (this->unk_1CA == 0) {
@@ -175,13 +175,13 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         func_800AA000(0.0f, (s32)(player->unk_858 * 150.0f) & 0xFF, 2, (s32)(player->unk_858 * 150.0f) & 0xFF);
     }
 
-    if (player->stateFlags2 & 0x20000) {
+    if (player->stateFlags2 & PLAYER_STATE2_17) {
         if ((child != NULL) && (child->update != NULL)) {
             child->parent = NULL;
         }
 
         if (player->unk_858 <= 0.15f) {
-            if ((player->unk_858 >= 0.1f) && (player->swordAnimation >= 0x18)) {
+            if ((player->unk_858 >= 0.1f) && (player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H)) {
                 Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
                 Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4, &D_801333E0,
@@ -190,7 +190,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            player->stateFlags2 &= ~0x20000;
+            player->stateFlags2 &= ~PLAYER_STATE2_17;
             if ((this->actor.params & 0xFF00) >> 8) {
                 gSaveContext.unk_13F0 = 1;
             }
@@ -213,7 +213,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (!(player->stateFlags1 & 0x1000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_12)) {
         if (this->actor.child != NULL) {
             this->actor.child->parent = NULL;
         }
@@ -282,8 +282,8 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1C4 > 0) {
-        this->actor.world.pos.x = player->bodyPartsPos[0].x;
-        this->actor.world.pos.z = player->bodyPartsPos[0].z;
+        this->actor.world.pos.x = player->bodyPartsPos[PLAYER_BODYPART_WAIST].x;
+        this->actor.world.pos.z = player->bodyPartsPos[PLAYER_BODYPART_WAIST].z;
         this->unk_1C4--;
     }
 

@@ -178,8 +178,8 @@ void func_80895A70(BgJyaCobra* this) {
 
         mirRay->unLit = 0;
         Math_Vec3f_Copy(&mirRay->sourcePt, &this->unk_180);
-        Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
-        Matrix_RotateX(D_80897308[this->dyna.actor.params & 3] * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_NEW);
+        Matrix_RotateX(BINANG_TO_RAD(D_80897308[this->dyna.actor.params & 3]), MTXMODE_APPLY);
         sp28.x = 0.0f;
         sp28.y = 0.0;
         sp28.z = this->unk_190 * 2800.0f;
@@ -281,7 +281,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
     rotY = !(this->dyna.actor.params & 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
                                           : (this->dyna.actor.shape.rot.y - 0x4000);
-    Matrix_RotateY(rotY * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(rotY), MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
 
     for (i = 0; i < 25; i++) {
@@ -449,7 +449,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
 
@@ -490,7 +490,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
 
     if (Math_ScaledStepToS(&this->unk_170, this->unk_16A * 0x2000, this->unk_16E)) {
         this->unk_16C = (this->unk_16C + this->unk_16A) & 7;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         this->dyna.unk_150 = 0.0f;
         func_80896918(this, globalCtx);
     } else {
@@ -498,7 +498,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
             (this->unk_16C * 0x2000) + this->dyna.actor.home.rot.y + this->unk_170;
     }
 
-    if (player->stateFlags2 & 0x10) {
+    if (player->stateFlags2 & PLAYER_STATE2_4) {
         if (this->unk_172) {
             func_80895BEC(this, globalCtx);
         }

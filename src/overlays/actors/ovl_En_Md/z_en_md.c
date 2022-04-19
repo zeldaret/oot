@@ -735,8 +735,8 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if ((this->unk_1E0.unk_00 == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
-        if (player->stateFlags2 & 0x1000000) {
-            player->stateFlags2 |= 0x2000000;
+        if (player->stateFlags2 & PLAYER_STATE2_24) {
+            player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
             func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SARIA);
             this->actionFunc = func_80AABC10;
@@ -744,7 +744,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         }
 
         if (this->actor.xzDistToPlayer < (30.0f + this->collider.dim.radius)) {
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
 }
@@ -763,7 +763,7 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AAB948;
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
@@ -803,7 +803,7 @@ void EnMd_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80AAB5A4(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_80AAB158(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
 }
 
@@ -815,14 +815,14 @@ s32 EnMd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == 16) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec = this->unk_1E0.unk_08;
-        Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 9) {
         vec = this->unk_1E0.unk_0E;
-        Matrix_RotateX((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateY((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
     }
 
     if (((limbIndex == 9) || (limbIndex == 10)) || (limbIndex == 13)) {

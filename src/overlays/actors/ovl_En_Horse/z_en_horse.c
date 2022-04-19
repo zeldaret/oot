@@ -722,9 +722,9 @@ void EnHorse_ResetRace(EnHorse* this, GlobalContext* globalCtx) {
 s32 EnHorse_PlayerCanMove(EnHorse* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags1 & 1) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 || (player->stateFlags1 & 0x100000) ||
-        ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) || this->action == ENHORSE_ACT_HBA ||
-        player->actor.flags & ACTOR_FLAG_8 || globalCtx->csCtx.state != 0) {
+    if ((player->stateFlags1 & PLAYER_STATE1_0) || func_8002DD78(GET_PLAYER(globalCtx)) == 1 ||
+        (player->stateFlags1 & PLAYER_STATE1_20) || ((this->stateFlags & ENHORSE_FLAG_19) && !this->inRace) ||
+        this->action == ENHORSE_ACT_HBA || player->actor.flags & ACTOR_FLAG_8 || globalCtx->csCtx.state != 0) {
         return false;
     }
     return true;
@@ -2936,7 +2936,7 @@ void EnHorse_CheckFloors(EnHorse* this, GlobalContext* globalCtx) {
         return;
     }
 
-    floorSlope = Math_FAtan2F(this->yBack - this->yFront, 60.0f) * (0x8000 / M_PI);
+    floorSlope = RADF_TO_BINANG(Math_FAtan2F(this->yBack - this->yFront, 60.0f));
     if (this->actor.floorPoly != 0) {
         nx = this->actor.floorPoly->normal.x * COLPOLY_NORMAL_FRAC;
         ny = this->actor.floorPoly->normal.y * COLPOLY_NORMAL_FRAC;
@@ -3035,7 +3035,7 @@ void EnHorse_StickDirection(Vec2f* curStick, f32* stickMag, s16* angle) {
         *stickMag = *stickMag;
     }
 
-    *angle = Math_FAtan2F(-curStick->x, curStick->y) * (32768.0f / M_PI);
+    *angle = RADF_TO_BINANG(Math_FAtan2F(-curStick->x, curStick->y));
 }
 
 void EnHorse_UpdateStick(EnHorse* this, GlobalContext* globalCtx) {
@@ -3054,9 +3054,8 @@ void EnHorse_ResolveCollision(EnHorse* this, GlobalContext* globalCtx, Collision
     nx = COLPOLY_GET_NORMAL(colPoly->normal.x);
     ny = COLPOLY_GET_NORMAL(colPoly->normal.y);
     nz = COLPOLY_GET_NORMAL(colPoly->normal.z);
-    if (!(Math_CosS(this->actor.world.rot.y -
-                    (s16)(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z) * (0x8000 / M_PI)) - 0x7FFF) <
-          0.7071f)) { // cos(45 degrees)
+    if (!(Math_CosS(this->actor.world.rot.y - RADF_TO_BINANG(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z)) -
+                    0x7FFF) < 0.7071f)) { // cos(45 degrees)
         dist = Math3D_DistPlaneToPos(nx, ny, nz, colPoly->dist, &this->actor.world.pos);
         offset = (1.0f / sqrtf(SQ(nx) + SQ(nz)));
         offset = (30.0f - dist) * offset;
@@ -3115,14 +3114,16 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
     Vec3f obstacleTop;
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, globalCtx->sceneNum == SCENE_SPOT20 ? 19.0f : 40.0f, 35.0f, 100.0f,
-                            29);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     if (EnHorse_BgCheckBridgeJumpPoint(this, globalCtx)) {
         return;
     }
 
     // void 0 trick required to match, but is surely not real. revisit at a later time
-    if (this->actor.bgCheckFlags & 8 && Math_CosS(this->actor.wallYaw - ((void)0, this->actor.world).rot.y) < -0.3f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) &&
+        Math_CosS(this->actor.wallYaw - ((void)0, this->actor.world).rot.y) < -0.3f) {
         if (this->actor.speedXZ > 4.0f) {
             this->actor.speedXZ -= 1.0f;
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_SANDDUST, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -3173,7 +3174,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
         if (intersectDist < 30.0f) {
             EnHorse_ResolveCollision(this, globalCtx, wall);
         }
-        if ((Math_CosS(this->actor.world.rot.y - (s16)(Math_FAtan2F(wall->normal.x, wall->normal.z) * (0x8000 / M_PI)) -
+        if ((Math_CosS(this->actor.world.rot.y - RADF_TO_BINANG(Math_FAtan2F(wall->normal.x, wall->normal.z)) -
                        0x7FFF) < 0.5f) ||
             SurfaceType_IsHorseBlocked(&globalCtx->colCtx, wall, bgId) != 0) {
             return;
@@ -3441,7 +3442,7 @@ s32 EnHorse_UpdateConveyors(EnHorse* this, GlobalContext* globalCtx) {
         return 0;
     }
     conveyorDir = SurfaceType_GetConveyorDirection(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-    conveyorDir = (conveyorDir << 10) - this->actor.world.rot.y;
+    conveyorDir = (conveyorDir * (0x10000 / 64)) - this->actor.world.rot.y;
     if (conveyorDir > 800.0f) {
         this->actor.world.rot.y += 800.0f;
     } else if (conveyorDir < -800.0f) {
@@ -3531,7 +3532,7 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx2) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->cyl1.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cyl1.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cyl2.base);
-        if ((player->stateFlags1 & 1) && player->rideActor != NULL) {
+        if ((player->stateFlags1 & PLAYER_STATE1_0) && player->rideActor != NULL) {
             if (globalCtx->sceneNum != SCENE_SPOT20 ||
                 (globalCtx->sceneNum == SCENE_SPOT20 && (thisx->world.pos.z < -2400.0f))) {
                 EnHorse_UpdateConveyors(this, globalCtx);
@@ -3802,13 +3803,13 @@ s32 EnHorse_OverrideLimbDraw(Actor* thisx, GlobalContext* globalCtx, s32 limbInd
         gEponaEyeHalfTex,
         gEponaEyeClosedTex,
     };
-    static u8 eyeBlinkIndexes[] = { 0, 1, 2, 1 };
+    static u8 eyeBlinkIndices[] = { 0, 1, 2, 1 };
     EnHorse* this = (EnHorse*)thisx;
     s32 drawOriginalLimb = true;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
     if (limbIndex == 13 && this->type == HORSE_EPONA) {
-        u8 index = eyeBlinkIndexes[this->blinkTimer];
+        u8 index = eyeBlinkIndices[this->blinkTimer];
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[index]));
     } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {

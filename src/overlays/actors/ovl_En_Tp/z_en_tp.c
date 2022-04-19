@@ -147,7 +147,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
 
     if (this->actor.params <= TAILPASARAN_HEAD) {
-        this->actor.naviEnemyId = 0x06;
+        this->actor.naviEnemyId = NAVI_ENEMY_TAILPASARAN;
         this->timer = 0;
         this->collider.base.acFlags |= AC_HARD;
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
@@ -654,7 +654,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s16 yawToWall;
 
-    if (player->stateFlags1 & 0x4000000) { // Shielding
+    if (player->stateFlags1 & PLAYER_STATE1_26) { // Shielding
         this->damageEffect = TAILPASARAN_DMGEFF_NONE;
     }
 
@@ -668,11 +668,12 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
 
         if (this->actionIndex != TAILPASARAN_ACTION_HEAD_BURROWRETURNHOME) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
 
         // Turn away from wall
-        if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
+        if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             yawToWall = this->actor.wallYaw - this->actor.world.rot.y;
 
             if (ABS(yawToWall) > 0x4000) {

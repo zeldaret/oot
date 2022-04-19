@@ -115,7 +115,7 @@ static DnsItemEntry* sItemEntries[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4E, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -405,7 +405,7 @@ void func_809EFF50(EnDns* this, GlobalContext* globalCtx) {
 void func_809EFF98(EnDns* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (player->stateFlags1 & 0x400) {
+    if (player->stateFlags1 & PLAYER_STATE1_10) {
         if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
             this->dnsItemEntry->setRupeesAndFlags(this);
             this->dropCollectible = 1;
@@ -483,7 +483,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     if (this->standOnGround) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
     if (this->maintainCollider) {
         Collider_UpdateCylinder(&this->actor, &this->collider);

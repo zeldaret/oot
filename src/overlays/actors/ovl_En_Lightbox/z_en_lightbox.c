@@ -77,24 +77,24 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.unk_162++;
         } else {
             if (thisx->speedXZ) {
-                if (thisx->bgCheckFlags & 8) {
+                if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
                     thisx->world.rot.y = (thisx->world.rot.y + thisx->wallYaw) - thisx->world.rot.y;
                     Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     thisx->speedXZ *= 0.7f;
-                    thisx->bgCheckFlags &= ~0x8;
+                    thisx->bgCheckFlags &= ~BGCHECKFLAG_WALL;
                 }
             }
 
-            if ((thisx->bgCheckFlags & 1) == 0) {
+            if (!(thisx->bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 Math_StepToF(&thisx->speedXZ, 0, IREG(57) / 100.0f);
             } else {
                 Math_StepToF(&thisx->speedXZ, 0, IREG(58) / 100.0f);
-                if ((thisx->bgCheckFlags & 2) && (thisx->velocity.y < IREG(59) / 100.0f)) {
+                if ((thisx->bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (thisx->velocity.y < IREG(59) / 100.0f)) {
                     Audio_PlaySoundGeneral(NA_SE_EV_BOMB_BOUND, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                     thisx->velocity.y *= IREG(60) / 100.0f;
-                    thisx->bgCheckFlags &= ~0x1;
+                    thisx->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 } else {
                     func_8002F580(thisx, globalCtx);
                 }
@@ -102,8 +102,9 @@ void EnLightbox_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
-                            thisx->colChkInfo.cylRadius, 0x1D);
+    Actor_UpdateBgCheckInfo(
+        globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius, thisx->colChkInfo.cylRadius,
+        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     thisx->focus.pos = thisx->world.pos;
 }
 

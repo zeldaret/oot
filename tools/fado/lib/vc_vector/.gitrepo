@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:skogorev/vc_vector.git
+	branch = master
+	commit = 39108a4b0aeb904636514b37f418c590084220a7
+	parent = 462bee5811d54659236ca51481d01b76c69a37a7
+	method = merge
+	cmdver = 0.4.3

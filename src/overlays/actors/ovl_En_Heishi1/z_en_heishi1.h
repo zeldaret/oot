@@ -14,7 +14,7 @@ typedef struct EnHeishi1 {
     /* 0x0190 */ Vec3s jointTable[17];
     /* 0x01F6 */ Vec3s morphTable[17];
     /* 0x025C */ EnHeishi1ActionFunc actionFunc;
-    /* 0x0260 */ s16 activeTimer; 
+    /* 0x0260 */ s16 activeTimer;
     /* 0x0262 */ s16 headDirection;
     /* 0x0264 */ s16 headBehaviorDecided;
     /* 0x0266 */ s16 linkDetected;
@@ -31,7 +31,7 @@ typedef struct EnHeishi1 {
     union {
         struct {
             /* 0x0284 */ f32 animSpeed;
-            /* 0x0288 */ f32 transitionRate;
+            /* 0x0288 */ f32 animMorphFrames;
             /* 0x028C */ f32 moveSpeedTarget;
             /* 0x0290 */ f32 moveSpeedMax;
             /* 0x0294 */ f32 bodyTurnSpeedTarget;

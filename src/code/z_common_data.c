@@ -1,6 +1,7 @@
 #include "global.h"
 
-SaveContext gSaveContext;
+// The use of ALIGNED8 here is just a temporary solution until the SaveContext is re-structured
+ALIGNED8 SaveContext gSaveContext;
 u32 D_8015FA88;
 u32 D_8015FA8C;
 

@@ -18,12 +18,12 @@ includes = "#include <ultra64.h>\n#include <global.h>\n\n"
 def remove_struct(root, filename):
     with open(os.path.join(root, filename)) as f:
         c_text = f.read()
-    
+
     struct_start = c_text.find("typedef")
     struct_end = c_text.find("#define")
 
     struct = c_text[struct_start:struct_end]
-    
+
     newfile_text = "#include \"" + filename[:-2] + ".h\"" + "\n\n" + c_text[struct_end:]
     with open(os.path.join(root, filename), "w", newline="\n") as f:
         f.write(newfile_text)
@@ -51,7 +51,7 @@ def handle_file(root, filename):
     header_text += "extern const ActorInit " + init_vars_name + ";\n\n"
 
     header_text += "#endif\n"
-    
+
     with open(os.path.join(root, filename[:-2] + ".h"), "w", newline="\n") as f:
         f.write(header_text)
 

@@ -62,7 +62,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
-    /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child
+    /* 0x0004 */ s32 linkAge;
     /* 0x0008 */ s32 cutsceneIndex;
     /* 0x000C */ u16 dayTime; // "zelda_time"
     /* 0x0010 */ s32 nightFlag;
@@ -87,7 +87,7 @@ typedef struct {
     /* 0x003F */ u8 ocarinaGameRoundNum;
     /* 0x0040 */ ItemEquips childEquips;
     /* 0x004A */ ItemEquips adultEquips;
-    /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignement
+    /* 0x0054 */ u32 unk_54; // this may be incorrect, currently used for alignment
     /* 0x0058 */ char unk_58[0x0E];
     /* 0x0066 */ s16 savedSceneNum;
     /* 0x0068 */ ItemEquips equips;
@@ -211,5 +211,10 @@ typedef enum {
     /* 2 */ SUNSSONG_SPEED_TIME, // suns was played where time passes, speed up the advancement of time
     /* 3 */ SUNSSONG_SPECIAL // time does not advance, but signals the song was played. used for freezing redeads
 } SunsSongState;
+
+typedef enum {
+    /* 0 */ LINK_AGE_ADULT,
+    /* 1 */ LINK_AGE_CHILD
+} LinkAge;
 
 #endif
