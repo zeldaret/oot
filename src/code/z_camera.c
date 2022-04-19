@@ -1442,8 +1442,8 @@ s32 Camera_Normal1(Camera* camera) {
     VecSph atEyeGeo;
     VecSph atEyeNextGeo;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Normal1RoData* roData = CAM_GET_RO_DATA(Normal1);
-    Normal1RwData* rwData = CAM_GET_RW_DATA(Normal1);
+    Normal1ReadOnlyData* roData = CAM_GET_RO_DATA(Normal1);
+    Normal1ReadWriteData* rwData = CAM_GET_RW_DATA(Normal1);
     f32 playerHeight;
     f32 rate = 0.1f;
 
