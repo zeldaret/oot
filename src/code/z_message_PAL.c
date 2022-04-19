@@ -82,7 +82,7 @@ s16 sTextboxBackgroundYOffsets[] = {
 };
 
 // original name: onpu_buff
-u8 sOcarinaButtonIdxBuf[12] = { OCARINA_BTN_A };
+u8 sOcarinaButtonIdxBuf[12] = { 0 };
 
 s16 sOcarinaButtonAlphaValues[9] = { 0 };
 

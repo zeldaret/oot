@@ -893,7 +893,7 @@ u8 sOcaMemoryGameEndPos = 0;
 u8 sOcaMemoryGameNumNotes[] = { 5, 6, 8 };
 
 OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
-    // 0: Minuet
+    // OCARINA_SONG_MINUET
     {
         { OCARINA_PITCH_D4, 18, 86, 0, 0, 0 },
         { OCARINA_PITCH_D5, 18, 92, 0, 0, 0 },
@@ -904,7 +904,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 86, 0, 0, 0 },
     },
 
-    // 1: Bolero
+    // OCARINA_SONG_BOLERO
     {
         { OCARINA_PITCH_F4, 15, 80, 0, 0, 0 },
         { OCARINA_PITCH_D4, 15, 72, 0, 0, 0 },
@@ -917,7 +917,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 66, 0, 0, 0 },
     },
 
-    // 2: Serenade
+    // OCARINA_SONG_SERENADE
     {
         { OCARINA_PITCH_D4, 36, 60, 0, 0, 0 },
         { OCARINA_PITCH_F4, 36, 78, 0, 0, 0 },
@@ -928,7 +928,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 3: Requiem
+    // OCARINA_SONG_REQUIEM
     {
         { OCARINA_PITCH_D4, 45, 88, 0, 0, 0 },
         { OCARINA_PITCH_F4, 23, 86, 0, 0, 0 },
@@ -939,7 +939,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 94, 0, 0, 0 },
     },
 
-    // 4: Nocturne
+    // OCARINA_SONG_NOCTURNE
     {
         { OCARINA_PITCH_B4, 36, 88, 0, 0, 0 },
         { OCARINA_PITCH_A4, 33, 84, 0, 0, 0 },
@@ -952,7 +952,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 96, 0, 0, 0 },
     },
 
-    // 5: Prelude
+    // OCARINA_SONG_PRELUDE
     {
         { OCARINA_PITCH_D5, 15, 84, 0, 0, 0 },
         { OCARINA_PITCH_A4, 45, 88, 0, 0, 0 },
@@ -964,7 +964,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 6: Sarias
+    // OCARINA_SONG_SARIAS
     {
         { OCARINA_PITCH_F4, 17, 84, 0, 0, 0 },
         { OCARINA_PITCH_A4, 17, 88, 0, 0, 0 },
@@ -975,7 +975,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 7: Epona
+    // OCARINA_SONG_EPONAS
     {
         { OCARINA_PITCH_D5, 18, 84, 0, 0, 0 },
         { OCARINA_PITCH_B4, 18, 88, 0, 0, 0 },
@@ -986,7 +986,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 8: Lullaby
+    // OCARINA_SONG_LULLABY
     {
         { OCARINA_PITCH_B4, 51, 84, 0, 0, 0 },
         { OCARINA_PITCH_D5, 25, 88, 0, 0, 0 },
@@ -997,7 +997,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 9: Suns
+    // OCARINA_SONG_SUNS
     {
         { OCARINA_PITCH_A4, 12, 84, 0, 0, 0 },
         { OCARINA_PITCH_F4, 13, 88, 0, 0, 0 },
@@ -1009,7 +1009,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 10: Song of Time
+    // OCARINA_SONG_TIME
     {
         { OCARINA_PITCH_A4, 32, 84, 0, 0, 0 },
         { OCARINA_PITCH_D4, 65, 88, 0, 0, 0 },
@@ -1020,7 +1020,7 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 11: Storms
+    // OCARINA_SONG_STORMS
     {
         { OCARINA_PITCH_D4, 11, 84, 0, 0, 0 },
         { OCARINA_PITCH_F4, 11, 88, 0, 0, 0 },
@@ -1031,13 +1031,13 @@ OcarinaNote sOcarinaSongNotes[OCARINA_SONG_MAX][20] = {
         { OCARINA_PITCH_NONE, 0, 90, 0, 0, 0 },
     },
 
-    // 12: Scarecrow Spawn
+    // OCARINA_SONG_SCARECROW_SPAWN
     {
         { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 255, 0, 0, 0 },
     },
 
-    // 13: Lost Woods Memory Game
+    // OCARINA_SONG_MEMORY_GAME
     {
         { OCARINA_PITCH_D4, 3, 0, 0, 0, 0 },
         { OCARINA_PITCH_NONE, 0, 0, 0, 0, 0 },
@@ -1092,7 +1092,7 @@ u8 sPitchToButtonMap[16] = {
 };
 
 OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
-    // 0: Minuet
+    // OCARINA_SONG_MINUET
     { 6,
       {
           OCARINA_BTN_A,
@@ -1102,7 +1102,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_LEFT,
           OCARINA_BTN_C_RIGHT,
       } },
-    // 1: Bolero
+    // OCARINA_SONG_BOLERO
     { 8,
       {
           OCARINA_BTN_C_DOWN,
@@ -1114,7 +1114,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_RIGHT,
           OCARINA_BTN_C_DOWN,
       } },
-    // 2: Serenade
+    // OCARINA_SONG_SERENADE
     { 5,
       {
           OCARINA_BTN_A,
@@ -1123,7 +1123,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_RIGHT,
           OCARINA_BTN_C_LEFT,
       } },
-    // 3: Requiem
+    // OCARINA_SONG_REQUIEM
     { 6,
       {
           OCARINA_BTN_A,
@@ -1133,7 +1133,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_DOWN,
           OCARINA_BTN_A,
       } },
-    // 4: Nocturne
+    // OCARINA_SONG_NOCTURNE
     { 7,
       {
           OCARINA_BTN_C_LEFT,
@@ -1144,7 +1144,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_RIGHT,
           OCARINA_BTN_C_DOWN,
       } },
-    // 5: Prelude
+    // OCARINA_SONG_PRELUDE
     { 6,
       {
           OCARINA_BTN_C_UP,
@@ -1154,7 +1154,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_LEFT,
           OCARINA_BTN_C_UP,
       } },
-    // 6: Sarias
+    // OCARINA_SONG_SARIAS
     { 6,
       {
           OCARINA_BTN_C_DOWN,
@@ -1164,7 +1164,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_RIGHT,
           OCARINA_BTN_C_LEFT,
       } },
-    // 7: Epona
+    // OCARINA_SONG_EPONAS
     { 6,
       {
           OCARINA_BTN_C_UP,
@@ -1174,7 +1174,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_LEFT,
           OCARINA_BTN_C_RIGHT,
       } },
-    // 8: Lullaby
+    // OCARINA_SONG_LULLABY
     { 6,
       {
           OCARINA_BTN_C_LEFT,
@@ -1184,7 +1184,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_UP,
           OCARINA_BTN_C_RIGHT,
       } },
-    // 9: Suns
+    // OCARINA_SONG_SUNS
     { 6,
       {
           OCARINA_BTN_C_RIGHT,
@@ -1194,7 +1194,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_DOWN,
           OCARINA_BTN_C_UP,
       } },
-    // 10: Song of Time
+    // OCARINA_SONG_TIME
     { 6,
       {
           OCARINA_BTN_C_RIGHT,
@@ -1204,7 +1204,7 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_A,
           OCARINA_BTN_C_DOWN,
       } },
-    // 11: Storms
+    // OCARINA_SONG_STORMS
     { 6,
       {
           OCARINA_BTN_A,
@@ -1214,12 +1214,11 @@ OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
           OCARINA_BTN_C_DOWN,
           OCARINA_BTN_C_UP,
       } },
-    // 12: Scarecrow
-    { 8, { OCARINA_BTN_A } },
-    // 13: Lost Woods Memory Game
-    { 0, { OCARINA_BTN_A } },
+    // OCARINA_SONG_SCARECROW_SPAWN
+    { 8, { 0 } },
+    // OCARINA_SONG_MEMORY_GAME
+    { 0, { 0 } },
 };
-// clang-format on
 
 u32 sAudioUpdateStartTime;
 u32 sAudioUpdateEndTime;
