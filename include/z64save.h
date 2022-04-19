@@ -6,24 +6,24 @@
 
 typedef enum MagicBarAction {
     /* 00 */ MAGIC_BAR_ACTION_IDLE, // Regular gameplay
-    /* 01 */ MAGIC_BAR_ACTION_CHARGE_SETUP,
-    /* 02 */ MAGIC_BAR_ACTION_CHARGE,
-    /* 03 */ MAGIC_BAR_ACTION_BORDER_FREEZE_DARK_LINK, // Using magic attacks other than the spin attack
-    /* 04 */ MAGIC_BAR_ACTION_BORDER_YELLOW_TARGET, // Yellow part of the bar indicating the amount of magic to be subtracted
-    /* 05 */ MAGIC_BAR_ACTION_RESET, // Reset colors and return to idle
-    /* 06 */ MAGIC_BAR_ACTION_BORDER_STANDARD,
+    /* 01 */ MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP,
+    /* 02 */ MAGIC_BAR_ACTION_CHARGE_PENALTY, // Consume a small amount of magic before flashing the border
+    /* 03 */ MAGIC_BAR_ACTION_FLASH_BORDER_1, // Flashes border and freezes Dark Link
+    /* 04 */ MAGIC_BAR_ACTION_FLASH_BORDER_2, // Flashes border and draws yellow magic to target consumption
+    /* 05 */ MAGIC_BAR_ACTION_RESTORE_IDLE, // Reset colors and return to idle
+    /* 06 */ MAGIC_BAR_ACTION_FLASH_BORDER_3, // Flashes border with no additional behaviour
     /* 07 */ MAGIC_BAR_ACTION_LENS_CONSUME, // Magic slowly consumed by lens. 
     /* 08 */ MAGIC_BAR_ACTION_GROW_WIDE, // Init magic on a new load, grow from a width of 0 to magicCapacity
-    /* 09 */ MAGIC_BAR_ACTION_FILL, // Fill to full capacity
+    /* 09 */ MAGIC_BAR_ACTION_FILL, // Fill to either full capacity or another action takes over
     /* 10 */ MAGIC_BAR_ACTION_ADD // Add requested magic
 } MagicBarAction;
 
 typedef enum MagicBarChange {
-    /* 00 */ MAGIC_BAR_CONSUME_CHARGE, // Consume Magic (spell & spin attack)
-    /* 01 */ MAGIC_BAR_CONSUME_NO_PREVIEW, // Unused
-    /* 02 */ MAGIC_BAR_CONSUME_CHARGE_ALT, // Consume Magic Alt
-    /* 03 */ MAGIC_BAR_CONSUME_LENS, // Lens
-    /* 04 */ MAGIC_BAR_CONSUME_PREVIEW, // Consume Magic (spell & spin attack)
+    /* 00 */ MAGIC_BAR_CONSUME_WITH_PENALTY, // Consume Magic, includes a small penality of consumption is magic consumption is not followed through (spin attack, magic arrows)
+    /* 01 */ MAGIC_BAR_CONSUME_NO_PREVIEW, // Unused, consumes magic without drawing yellow magic to target consumption
+    /* 02 */ MAGIC_BAR_CONSUME_WITH_PENALTY_ALT, // Unused, identical behaviour to MAGIC_BAR_CONSUME_WITH_PENALTY
+    /* 03 */ MAGIC_BAR_CONSUME_LENS, // Lens consumption
+    /* 04 */ MAGIC_BAR_CONSUME_PREVIEW, // Consume Magic and draws yellow magic to target consumption
     /* 05 */ MAGIC_BAR_ADD
 } MagicBarChange;
 
@@ -101,7 +101,7 @@ typedef struct {
     /* 0x002E */ s16 healthCapacity; // "max_life"
     /* 0x0030 */ s16 health; // "now_life"
     /* 0x0032 */ s8 magicLevel; // 0 for no magic/new load, 1 for magic, 2 for double magic
-    /* 0x0033 */ s8 magic; // true magic value available
+    /* 0x0033 */ s8 magic; // current magic available for use
     /* 0x0034 */ s16 rupees;
     /* 0x0036 */ u16 swordHealth;
     /* 0x0038 */ u16 naviTimer;
@@ -169,8 +169,8 @@ typedef struct {
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16 magicBarAction;
-    /* 0x13F2 */ s16 magicBarActionStored; // stores the previous magic state while magic is increasing. Allows magicBarAction to be restored afterwards
+    /* 0x13F0 */ s16 magicBarAction; // Next action magic bar will take on each frame
+    /* 0x13F2 */ s16 magicBarActionStored; // stores the previous magic action while magic is increasing. Allows magicBarAction to be restored afterwards
     /* 0x13F4 */ s16 magicCapacityDrawn; // Only differs from magicCapacity in a new save load, where magicCapacityDrawn is slowly stepped from 0 to magicCapacity
     /* 0x13F6 */ s16 magicCapacity; // Maximum magic available
     /* 0x13F8 */ s16 magicTarget; // Target for magic to step to when adding or consuming magic

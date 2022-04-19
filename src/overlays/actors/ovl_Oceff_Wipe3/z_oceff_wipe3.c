@@ -42,7 +42,7 @@ void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe3* this = (OceffWipe3*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    Magic_ResetState(globalCtx);
+    Magic_RestoreMagicBarIdleAction(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
         player->stateFlags3 |= PLAYER_STATE3_6;
     }

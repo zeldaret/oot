@@ -2190,7 +2190,7 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
 
                 if (this->unk_860 >= 0) {
                     if ((magicArrowType >= 0) && (magicArrowType <= 2) &&
-                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_BAR_CONSUME_CHARGE)) {
+                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_BAR_CONSUME_WITH_PENALTY)) {
                         arrowType = ARROW_NORMAL;
                     }
 
@@ -9368,7 +9368,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (gSaveContext.nayrusLoveTimer != 0) {
-        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_FREEZE_DARK_LINK;
+        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
         func_80846A00(globalCtx, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -10157,7 +10157,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
     if ((this->stateFlags3 & PLAYER_STATE3_6) && (gSaveContext.nayrusLoveTimer != 0) &&
         (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE)) {
-        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_FREEZE_DARK_LINK;
+        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
         func_80846A00(globalCtx, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -10747,7 +10747,7 @@ void Player_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->meleeWeaponQuads[1]);
     Collider_DestroyQuad(globalCtx, &this->shieldQuad);
 
-    Magic_ResetState(globalCtx);
+    Magic_RestoreMagicBarIdleAction(globalCtx);
 
     gSaveContext.linkAge = globalCtx->linkAgeOnLoad;
 }
@@ -13108,10 +13108,10 @@ void func_808507F4(Player* this, GlobalContext* globalCtx) {
                 if (func_80846A00(globalCtx, this, this->unk_84F) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                     if ((this->unk_84F != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
-                        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_SETUP;
+                        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP;
                     }
                 } else {
-                    Magic_ResetState(globalCtx);
+                    Magic_RestoreMagicBarIdleAction(globalCtx);
                 }
             } else {
                 LinkAnimation_PlayLoopSetSpeed(globalCtx, &this->skelAnime, D_80854A64[this->unk_84F], 0.83f);

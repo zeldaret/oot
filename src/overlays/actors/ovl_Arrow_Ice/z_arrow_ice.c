@@ -55,7 +55,7 @@ void ArrowIce_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowIce_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Magic_ResetState(globalCtx);
+    Magic_RestoreMagicBarIdleAction(globalCtx);
     LOG_STRING("消滅", "../z_arrow_ice.c", 415); // "Disappearance"
 }
 

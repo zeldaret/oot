@@ -259,7 +259,7 @@ void Gameplay_Init(GameState* thisx) {
 
     if (gSaveContext.gameMode != 0 || gSaveContext.cutsceneIndex >= 0xFFF0) {
         gSaveContext.nayrusLoveTimer = 0;
-        Magic_ResetState(globalCtx);
+        Magic_RestoreMagicBarIdleAction(globalCtx);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
     } else if (!LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneSetupIndex = 0;

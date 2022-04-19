@@ -2246,13 +2246,13 @@ void Magic_Fill(GlobalContext* globalCtx) {
     }
 }
 
-void Magic_ResetState(GlobalContext* globalCtx) {
+void Magic_RestoreMagicBarIdleAction(GlobalContext* globalCtx) {
     if ((gSaveContext.magicBarAction != MAGIC_BAR_ACTION_GROW_WIDE) &&
         (gSaveContext.magicBarAction != MAGIC_BAR_ACTION_FILL)) {
         if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_ADD) {
             gSaveContext.magicBarActionStored = gSaveContext.magicBarAction;
         }
-        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_RESET;
+        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_RESTORE_IDLE;
     }
 }
 
@@ -2269,15 +2269,15 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
     }
 
     switch (changeType) {
-        case MAGIC_BAR_CONSUME_CHARGE:
-        case MAGIC_BAR_CONSUME_CHARGE_ALT:
+        case MAGIC_BAR_CONSUME_WITH_PENALTY:
+        case MAGIC_BAR_CONSUME_WITH_PENALTY_ALT:
             if ((gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) ||
                 (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME)) {
                 if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME) {
                     globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.magicTarget = gSaveContext.magic - magicChange;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_SETUP;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP;
                 return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -2290,7 +2290,7 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
                     globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.magicTarget = gSaveContext.magic - magicChange;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_STANDARD;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_3;
                 return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -2319,7 +2319,7 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
                     globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.magicTarget = gSaveContext.magic - magicChange;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_YELLOW_TARGET;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_2;
                 return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
@@ -2382,6 +2382,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             break;
 
         case MAGIC_BAR_ACTION_FILL:
+            // Fill to either full capacity or another action takes over
             gSaveContext.magic += 4;
 
             if (gSaveContext.gameMode == 0 && gSaveContext.sceneSetupIndex < 4) {
@@ -2398,26 +2399,26 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
             break;
 
-        case MAGIC_BAR_ACTION_CHARGE_SETUP:
+        case MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP:
             sMagicBorderRatio = 2;
-            gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE;
+            gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY;
             break;
 
-        case MAGIC_BAR_ACTION_CHARGE:
+        case MAGIC_BAR_ACTION_CHARGE_PENALTY:
             gSaveContext.magic -= 2;
             if (gSaveContext.magic <= 0) {
                 gSaveContext.magic = 0;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_FREEZE_DARK_LINK;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             } else if (gSaveContext.magic == gSaveContext.magicTarget) {
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_FREEZE_DARK_LINK;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             }
             // fallthrough
 
-        case MAGIC_BAR_ACTION_BORDER_FREEZE_DARK_LINK:
-        case MAGIC_BAR_ACTION_BORDER_YELLOW_TARGET:
-        case MAGIC_BAR_ACTION_BORDER_STANDARD:
+        case MAGIC_BAR_ACTION_FLASH_BORDER_1:
+        case MAGIC_BAR_ACTION_FLASH_BORDER_2:
+        case MAGIC_BAR_ACTION_FLASH_BORDER_3:
             temp = sMagicBorderIndices[sMagicBorderStep];
             borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
             borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
@@ -2454,7 +2455,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
             break;
 
-        case MAGIC_BAR_ACTION_RESET:
+        case MAGIC_BAR_ACTION_RESTORE_IDLE:
             sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             gSaveContext.magicBarAction = MAGIC_BAR_ACTION_IDLE;
             break;
@@ -2468,6 +2469,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
                     !globalCtx->actorCtx.lensActive) {
+                    // Force lens off and restore magic bar to idle action
                     globalCtx->actorCtx.lensActive = false;
                     Audio_PlaySoundGeneral(NA_SE_SY_GLASSMODE_OFF, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
@@ -2571,7 +2573,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
                           ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
 
-        if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_BORDER_YELLOW_TARGET) {
+        if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_FLASH_BORDER_2) {
             // Yellow part of the bar indicating the amount of magic to be subtracted
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
 
@@ -4050,6 +4052,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     WREG(7) = interfaceCtx->unk_1F4;
 
+    // Update Magic
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
         (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->sceneLoadFlag == 0) &&
         (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->transitionMode == 0) &&

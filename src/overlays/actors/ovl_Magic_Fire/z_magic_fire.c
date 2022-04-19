@@ -92,7 +92,7 @@ void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Magic_ResetState(globalCtx);
+    Magic_RestoreMagicBarIdleAction(globalCtx);
 }
 
 void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {

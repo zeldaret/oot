@@ -86,7 +86,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (!gSaveContext.isMagicAcquired || (gSaveContext.magicBarAction != MAGIC_BAR_ACTION_IDLE) ||
             (((this->actor.params & 0xFF00) >> 8) &&
-             !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_BAR_CONSUME_CHARGE)))) {
+             !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_BAR_CONSUME_WITH_PENALTY)))) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -115,7 +115,7 @@ void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMThunder* this = (EnMThunder*)thisx;
 
     if (this->unk_1CA != 0) {
-        Magic_ResetState(globalCtx);
+        Magic_RestoreMagicBarIdleAction(globalCtx);
     }
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -193,7 +193,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_17;
             if ((this->actor.params & 0xFF00) >> 8) {
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_SETUP;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP;
             }
             if (player->unk_858 < 0.85f) {
                 this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];

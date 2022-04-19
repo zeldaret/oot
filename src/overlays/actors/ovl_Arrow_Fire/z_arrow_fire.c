@@ -54,7 +54,7 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Magic_ResetState(globalCtx);
+    Magic_RestoreMagicBarIdleAction(globalCtx);
     LOG_STRING("消滅", "../z_arrow_fire.c", 421); // "Disappearance"
 }
 
