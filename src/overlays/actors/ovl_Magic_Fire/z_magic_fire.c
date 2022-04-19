@@ -92,7 +92,7 @@ void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    func_800876C8(globalCtx);
+    Magic_ResetState(globalCtx);
 }
 
 void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {

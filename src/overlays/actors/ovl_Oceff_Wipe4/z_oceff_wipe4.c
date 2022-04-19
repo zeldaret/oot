@@ -38,7 +38,7 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = (OceffWipe4*)thisx;
 
-    func_800876C8(globalCtx);
+    Magic_ResetState(globalCtx);
 }
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {

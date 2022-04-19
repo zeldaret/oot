@@ -18,7 +18,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     interfaceCtx->unk_1FA = interfaceCtx->unk_261 = interfaceCtx->unk_1FC = 0;
     interfaceCtx->unk_1EC = interfaceCtx->unk_1EE = interfaceCtx->unk_1F0 = 0;
     interfaceCtx->unk_22E = 0;
-    interfaceCtx->unk_230 = 16;
+    interfaceCtx->lensMagicDepletionTimer = 16;
     interfaceCtx->unk_1F4 = 0.0f;
     interfaceCtx->unk_228 = XREG(95);
     interfaceCtx->minimapAlpha = 0;

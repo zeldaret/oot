@@ -467,7 +467,7 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
         this->refillTimer = 200;
     }
 
-    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.unk_13F4)) ||
+    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.magicMaxDrawn)) ||
         (this->refillTimer == 1)) {
         this->healingTimer--;
         if (this->healingTimer == 90) {
@@ -711,7 +711,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         switch (actionIndex) {
             case FAIRY_UPGRADE_MAGIC:
                 gSaveContext.magicAcquired = true;
-                gSaveContext.unk_13F6 = 0x30;
+                gSaveContext.magicMax = MAGIC_HALF_BAR;
                 Interface_ChangeAlpha(9);
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
@@ -719,7 +719,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     gSaveContext.magicAcquired = true;
                 }
                 gSaveContext.doubleMagic = true;
-                gSaveContext.unk_13F6 = 0x60;
+                gSaveContext.magicMax = MAGIC_FULL_BAR;
                 gSaveContext.magicLevel = 0;
                 Interface_ChangeAlpha(9);
                 break;
@@ -752,8 +752,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                                               itemPos.x, itemPos.y, itemPos.z, 0, 0, 0, sExItemTypes[actionIndex]);
 
             if (this->item != NULL) {
-                if (gSaveContext.magicAcquired == 0) {
-                    gSaveContext.magicAcquired = 1;
+                if (!gSaveContext.magicAcquired) {
+                    gSaveContext.magicAcquired = true;
                 } else {
                     Magic_Fill(globalCtx);
                 }

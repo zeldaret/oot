@@ -54,7 +54,7 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    func_800876C8(globalCtx);
+    Magic_ResetState(globalCtx);
     LOG_STRING("消滅", "../z_arrow_fire.c", 421); // "Disappearance"
 }
 

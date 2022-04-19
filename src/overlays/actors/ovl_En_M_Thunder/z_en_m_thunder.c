@@ -84,9 +84,9 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk_1CA = 0;
 
     if (player->stateFlags2 & PLAYER_STATE2_17) {
-        if (!gSaveContext.magicAcquired || gSaveContext.unk_13F0 ||
+        if (!gSaveContext.magicAcquired || (gSaveContext.magicState != MAGIC_STATE_DEFAULT) ||
             (((this->actor.params & 0xFF00) >> 8) &&
-             !(func_80087708(globalCtx, (this->actor.params & 0xFF00) >> 8, 0)))) {
+             !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_CHANGE_0)))) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -115,7 +115,7 @@ void EnMThunder_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMThunder* this = (EnMThunder*)thisx;
 
     if (this->unk_1CA != 0) {
-        func_800876C8(globalCtx);
+        Magic_ResetState(globalCtx);
     }
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -157,8 +157,9 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
 
     if (this->unk_1CA == 0) {
         if (player->unk_858 >= 0.1f) {
-            if ((gSaveContext.unk_13F0) || (((this->actor.params & 0xFF00) >> 8) &&
-                                            !(func_80087708(globalCtx, (this->actor.params & 0xFF00) >> 8, 4)))) {
+            if ((gSaveContext.magicState != MAGIC_STATE_DEFAULT) ||
+                (((this->actor.params & 0xFF00) >> 8) &&
+                 !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_CHANGE_4)))) {
                 func_80A9F350(this, globalCtx);
                 func_80A9EFE0(this, func_80A9F350);
                 this->unk_1C8 = 0;
@@ -192,7 +193,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_17;
             if ((this->actor.params & 0xFF00) >> 8) {
-                gSaveContext.unk_13F0 = 1;
+                gSaveContext.magicState = MAGIC_STATE_1;
             }
             if (player->unk_858 < 0.85f) {
                 this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];

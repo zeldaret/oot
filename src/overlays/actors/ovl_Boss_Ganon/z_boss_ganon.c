@@ -1191,7 +1191,7 @@ void BossGanon_SetupTowerCutscene(BossGanon* this, GlobalContext* globalCtx) {
         this->csTimer = 0;
         this->csState = 100;
         this->unk_198 = 1;
-        gSaveContext.magic = gSaveContext.unk_13F4;
+        gSaveContext.magic = gSaveContext.magicMaxDrawn;
         gSaveContext.health = gSaveContext.healthCapacity;
     } else {
         this->actionFunc = BossGanon_SetupTowerCutscene;

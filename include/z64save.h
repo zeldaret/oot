@@ -4,6 +4,32 @@
 #include "ultra64.h"
 #include "z64math.h"
 
+typedef enum MagicState {
+    /* 00 */ MAGIC_STATE_DEFAULT, // Normal
+    /* 01 */ MAGIC_STATE_1,
+    /* 02 */ MAGIC_STATE_2,
+    /* 03 */ MAGIC_STATE_BORDER_FREEZE_DARK_LINK, // Using magic attacks other than the spin attack
+    /* 04 */ MAGIC_STATE_BORDER_YELLOW_TARGET, // Yellow part of the bar indicating the amount of magic to be subtracted
+    /* 05 */ MAGIC_STATE_RESET,
+    /* 06 */ MAGIC_STATE_BORDER_STANDARD,
+    /* 07 */ MAGIC_STATE_LENS_CONSUME, // Lens
+    /* 08 */ MAGIC_STATE_INIT, // Init magic, starting a new load
+    /* 09 */ MAGIC_STATE_FILL, // Fill to max
+    /* 10 */ MAGIC_STATE_ADD // Add
+} MagicState;
+
+typedef enum MagicChange {
+    /* 00 */ MAGIC_CHANGE_0, // Consume Magic (spell & spin attack)
+    /* 01 */ MAGIC_CHANGE_1, // Unused
+    /* 02 */ MAGIC_CHANGE_2, // Consume Magic Alt
+    /* 03 */ MAGIC_CHANGE_3, // Lens
+    /* 04 */ MAGIC_CHANGE_4, // Consume Magic (spell & spin attack)
+    /* 05 */ MAGIC_CHANGE_ADD
+} MagicChange;
+
+#define MAGIC_HALF_BAR 0x30
+#define MAGIC_FULL_BAR 0x60
+
 typedef struct {
     /* 0x00 */ u8 buttonItems[4];
     /* 0x04 */ u8 cButtonSlots[3];
@@ -74,8 +100,8 @@ typedef struct {
     /* 0x002C */ s16 n64ddFlag;
     /* 0x002E */ s16 healthCapacity; // "max_life"
     /* 0x0030 */ s16 health; // "now_life"
-    /* 0x0032 */ s8 magicLevel;
-    /* 0x0033 */ s8 magic;
+    /* 0x0032 */ s8 magicLevel; // 0 for no magic/new load, 1 for magic, 2 for double magic
+    /* 0x0033 */ s8 magic; // true magic value available
     /* 0x0034 */ s16 rupees;
     /* 0x0036 */ u16 swordHealth;
     /* 0x0038 */ u16 naviTimer;
@@ -143,11 +169,11 @@ typedef struct {
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16 unk_13F0; // magic related
-    /* 0x13F2 */ s16 unk_13F2; // magic related
-    /* 0x13F4 */ s16 unk_13F4; // magic related
-    /* 0x13F6 */ s16 unk_13F6; // magic related
-    /* 0x13F8 */ s16 unk_13F8; // magic related
+    /* 0x13F0 */ s16 magicState;
+    /* 0x13F2 */ s16 magicStateStored; // stores the previous magic state so it can be restored
+    /* 0x13F4 */ s16 magicMaxDrawn; // Only differs from magicMax in a new save load, where magicMaxDrawn is slowly stepped from 0 to magicMax
+    /* 0x13F6 */ s16 magicMax;
+    /* 0x13F8 */ s16 yellowMagic; // preview of the magic about to be consumed
     /* 0x13FA */ u16 eventInf[4]; // "event_inf"
     /* 0x1402 */ u16 mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16 minigameState;

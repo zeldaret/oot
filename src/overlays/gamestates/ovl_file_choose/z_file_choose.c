@@ -1461,8 +1461,8 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.unk_13EE = 0x32;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
-    gSaveContext.unk_13F0 = 0;
-    gSaveContext.unk_13F2 = 0;
+    gSaveContext.magicState = MAGIC_STATE_DEFAULT;
+    gSaveContext.magicStateStored = MAGIC_STATE_DEFAULT;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
     gSaveContext.skyboxTime = 0;
     gSaveContext.nextTransition = 0xFF;
@@ -1476,16 +1476,15 @@ void FileChoose_LoadGame(GameState* thisx) {
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
-        gSaveContext.unk_13F4 = 0;
+        gSaveContext.magicMaxDrawn = 0;
 
-    gSaveContext.unk_13F6 = gSaveContext.magic;
-    gSaveContext.magic = 0;
-    gSaveContext.magicLevel = gSaveContext.magic;
+    gSaveContext.magicMax = gSaveContext.magic;
+    gSaveContext.magicLevel = gSaveContext.magic = 0;
 
     if (1) {}
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.unk_13F6), gSaveContext.magic);
+    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicMax), gSaveContext.magic);
     osSyncPrintf(VT_RST);
 
     gSaveContext.naviTimer = 0;

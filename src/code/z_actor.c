@@ -1949,7 +1949,7 @@ void func_80030488(GlobalContext* globalCtx) {
 void Actor_DisableLens(GlobalContext* globalCtx) {
     if (globalCtx->actorCtx.lensActive) {
         globalCtx->actorCtx.lensActive = false;
-        func_800876C8(globalCtx);
+        Magic_ResetState(globalCtx);
     }
 }
 
