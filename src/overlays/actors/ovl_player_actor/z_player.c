@@ -2190,7 +2190,7 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
 
                 if (this->unk_860 >= 0) {
                     if ((magicArrowType >= 0) && (magicArrowType <= 2) &&
-                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_CHANGE_0)) {
+                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_CHANGE_CONSUME_CHARGE)) {
                         arrowType = ARROW_NORMAL;
                     }
 
@@ -2885,7 +2885,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
             }
 
             if (actionParam == PLAYER_AP_LENS) {
-                if (Magic_ChangeBy(globalCtx, 0, MAGIC_CHANGE_3)) {
+                if (Magic_ChangeBy(globalCtx, 0, MAGIC_CHANGE_CONSUME_LENS)) {
                     if (globalCtx->actorCtx.lensActive) {
                         Actor_DisableLens(globalCtx);
                     } else {
@@ -4849,7 +4849,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     func_80835DE4(globalCtx, this, func_808507F4, 0);
 
     this->unk_84F = magicSpell - 3;
-    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_CHANGE_4);
+    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_CHANGE_CONSUME_NOW);
 
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayerAnim_002D28, 0.83f);
 
@@ -13107,7 +13107,7 @@ void func_808507F4(Player* this, GlobalContext* globalCtx) {
                 if (func_80846A00(globalCtx, this, this->unk_84F) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                     if ((this->unk_84F != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
-                        gSaveContext.magicState = MAGIC_STATE_1;
+                        gSaveContext.magicState = MAGIC_STATE_CHARGE_SETUP;
                     }
                 } else {
                     Magic_ResetState(globalCtx);

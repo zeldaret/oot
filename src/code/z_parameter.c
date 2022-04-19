@@ -2268,21 +2268,21 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
     }
 
     switch (changeType) {
-        case MAGIC_CHANGE_0:
-        case MAGIC_CHANGE_2:
+        case MAGIC_CHANGE_CONSUME_CHARGE:
+        case MAGIC_CHANGE_CONSUME_CHARGE_ALT:
             if ((gSaveContext.magicState == MAGIC_STATE_DEFAULT) ||
                 (gSaveContext.magicState == MAGIC_STATE_LENS_CONSUME)) {
                 if (gSaveContext.magicState == MAGIC_STATE_LENS_CONSUME) {
                     globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.yellowMagic = gSaveContext.magic - magicChange;
-                gSaveContext.magicState = MAGIC_STATE_1;
+                gSaveContext.magicState = MAGIC_STATE_CHARGE_SETUP;
                 return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 return false;
             }
-        case MAGIC_CHANGE_1:
+        case MAGIC_CHANGE_CONSUME_NOW_NO_YELLOW:
             if ((gSaveContext.magicState == MAGIC_STATE_DEFAULT) ||
                 (gSaveContext.magicState == MAGIC_STATE_LENS_CONSUME)) {
                 if (gSaveContext.magicState == MAGIC_STATE_LENS_CONSUME) {
@@ -2295,7 +2295,7 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 return false;
             }
-        case MAGIC_CHANGE_3:
+        case MAGIC_CHANGE_CONSUME_LENS:
             if (gSaveContext.magicState == MAGIC_STATE_DEFAULT) {
                 if (gSaveContext.magic != 0) {
                     globalCtx->interfaceCtx.lensMagicDepletionTimer = 80;
@@ -2311,7 +2311,7 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
                     return false;
                 }
             }
-        case MAGIC_CHANGE_4:
+        case MAGIC_CHANGE_CONSUME_NOW:
             if ((gSaveContext.magicState == MAGIC_STATE_DEFAULT) ||
                 (gSaveContext.magicState == MAGIC_STATE_LENS_CONSUME)) {
                 if (gSaveContext.magicState == MAGIC_STATE_LENS_CONSUME) {
@@ -2395,12 +2395,12 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
             break;
 
-        case MAGIC_STATE_1:
+        case MAGIC_STATE_CHARGE_SETUP:
             sMagicBorderRatio = 2;
-            gSaveContext.magicState = MAGIC_STATE_2;
+            gSaveContext.magicState = MAGIC_STATE_CHARGE;
             break;
 
-        case MAGIC_STATE_2:
+        case MAGIC_STATE_CHARGE:
             gSaveContext.magic -= 2;
             if (gSaveContext.magic <= 0) {
                 gSaveContext.magic = 0;

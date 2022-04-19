@@ -1044,7 +1044,7 @@ void Rupees_ChangeBy(s16 rupeeChange);
 void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
 void Magic_Fill(GlobalContext* globalCtx);
 void Magic_ResetState(GlobalContext* globalCtx);
-s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 arg1, s16 arg2);
+s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType);
 void func_80088AA0(s16 arg0);
 void func_80088AF0(GlobalContext* globalCtx);
 void func_80088B34(s16 arg0);

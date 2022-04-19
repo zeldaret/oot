@@ -6,8 +6,8 @@
 
 typedef enum MagicState {
     /* 00 */ MAGIC_STATE_DEFAULT, // Normal
-    /* 01 */ MAGIC_STATE_1,
-    /* 02 */ MAGIC_STATE_2,
+    /* 01 */ MAGIC_STATE_CHARGE_SETUP,
+    /* 02 */ MAGIC_STATE_CHARGE,
     /* 03 */ MAGIC_STATE_BORDER_FREEZE_DARK_LINK, // Using magic attacks other than the spin attack
     /* 04 */ MAGIC_STATE_BORDER_YELLOW_TARGET, // Yellow part of the bar indicating the amount of magic to be subtracted
     /* 05 */ MAGIC_STATE_RESET,
@@ -19,16 +19,16 @@ typedef enum MagicState {
 } MagicState;
 
 typedef enum MagicChange {
-    /* 00 */ MAGIC_CHANGE_0, // Consume Magic (spell & spin attack)
-    /* 01 */ MAGIC_CHANGE_1, // Unused
-    /* 02 */ MAGIC_CHANGE_2, // Consume Magic Alt
-    /* 03 */ MAGIC_CHANGE_3, // Lens
-    /* 04 */ MAGIC_CHANGE_4, // Consume Magic (spell & spin attack)
+    /* 00 */ MAGIC_CHANGE_CONSUME_CHARGE, // Consume Magic (spell & spin attack)
+    /* 01 */ MAGIC_CHANGE_CONSUME_NOW_NO_YELLOW, // Unused
+    /* 02 */ MAGIC_CHANGE_CONSUME_CHARGE_ALT, // Consume Magic Alt
+    /* 03 */ MAGIC_CHANGE_CONSUME_LENS, // Lens
+    /* 04 */ MAGIC_CHANGE_CONSUME_NOW, // Consume Magic (spell & spin attack)
     /* 05 */ MAGIC_CHANGE_ADD
 } MagicChange;
 
 #define MAGIC_HALF_BAR 0x30
-#define MAGIC_FULL_BAR 0x60
+#define MAGIC_FULL_BAR (2 * MAGIC_HALF_BAR)
 
 typedef struct {
     /* 0x00 */ u8 buttonItems[4];
