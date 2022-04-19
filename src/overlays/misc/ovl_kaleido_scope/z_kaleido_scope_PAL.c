@@ -3385,16 +3385,16 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         gSaveContext.health = 0x30;
                         Audio_QueueSeqCmd(0xF << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA);
                         gSaveContext.healthAccumulator = 0;
-                        gSaveContext.magicState = MAGIC_STATE_DEFAULT;
-                        gSaveContext.magicStateStored = MAGIC_STATE_DEFAULT;
+                        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_IDLE;
+                        gSaveContext.magicBarActionStored = MAGIC_BAR_ACTION_IDLE;
                         osSyncPrintf(VT_FGCOL(YELLOW));
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicMax);
-                        gSaveContext.magicMaxDrawn = 0;
-                        gSaveContext.magicMax = gSaveContext.magic;
+                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicCapacity);
+                        gSaveContext.magicCapacityDrawn = 0;
+                        gSaveContext.magicCapacity = gSaveContext.magic;
                         gSaveContext.magicLevel = gSaveContext.magic = 0;
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicMax);
+                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicCapacity);
                         osSyncPrintf(VT_RST);
                     } else {
                         globalCtx->state.running = 0;

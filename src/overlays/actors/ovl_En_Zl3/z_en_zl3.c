@@ -1812,7 +1812,7 @@ void func_80B5772C(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 void func_80B57754(EnZl3* this, GlobalContext* globalCtx) {
-    if (gSaveContext.magicState == MAGIC_STATE_DEFAULT) {
+    if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_OCEFF_WIPE4, this->actor.world.pos.x,
                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 1);
         func_80B56DA4(this);

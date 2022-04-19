@@ -20,8 +20,8 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitDebugSave();
-        gSaveContext.magicMax = gSaveContext.magic;
-        gSaveContext.magicMaxDrawn = 0;
+        gSaveContext.magicCapacity = gSaveContext.magic;
+        gSaveContext.magicCapacityDrawn = 0;
         gSaveContext.magicLevel = gSaveContext.magic = 0;
     }
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =

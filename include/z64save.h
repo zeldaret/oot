@@ -4,28 +4,28 @@
 #include "ultra64.h"
 #include "z64math.h"
 
-typedef enum MagicState {
-    /* 00 */ MAGIC_STATE_DEFAULT, // Normal
-    /* 01 */ MAGIC_STATE_CHARGE_SETUP,
-    /* 02 */ MAGIC_STATE_CHARGE,
-    /* 03 */ MAGIC_STATE_BORDER_FREEZE_DARK_LINK, // Using magic attacks other than the spin attack
-    /* 04 */ MAGIC_STATE_BORDER_YELLOW_TARGET, // Yellow part of the bar indicating the amount of magic to be subtracted
-    /* 05 */ MAGIC_STATE_RESET,
-    /* 06 */ MAGIC_STATE_BORDER_STANDARD,
-    /* 07 */ MAGIC_STATE_LENS_CONSUME, // Lens
-    /* 08 */ MAGIC_STATE_INIT, // Init magic, starting a new load
-    /* 09 */ MAGIC_STATE_FILL, // Fill to max
-    /* 10 */ MAGIC_STATE_ADD // Add
-} MagicState;
+typedef enum MagicBarAction {
+    /* 00 */ MAGIC_BAR_ACTION_IDLE, // Regular gameplay
+    /* 01 */ MAGIC_BAR_ACTION_CHARGE_SETUP,
+    /* 02 */ MAGIC_BAR_ACTION_CHARGE,
+    /* 03 */ MAGIC_BAR_ACTION_BORDER_FREEZE_DARK_LINK, // Using magic attacks other than the spin attack
+    /* 04 */ MAGIC_BAR_ACTION_BORDER_YELLOW_TARGET, // Yellow part of the bar indicating the amount of magic to be subtracted
+    /* 05 */ MAGIC_BAR_ACTION_RESET, // Reset colors and return to idle
+    /* 06 */ MAGIC_BAR_ACTION_BORDER_STANDARD,
+    /* 07 */ MAGIC_BAR_ACTION_LENS_CONSUME, // Magic slowly consumed by lens. 
+    /* 08 */ MAGIC_BAR_ACTION_GROW_WIDE, // Init magic on a new load, grow from a width of 0 to magicCapacity
+    /* 09 */ MAGIC_BAR_ACTION_FILL, // Fill to full capacity
+    /* 10 */ MAGIC_BAR_ACTION_ADD // Add requested magic
+} MagicBarAction;
 
-typedef enum MagicChange {
-    /* 00 */ MAGIC_CHANGE_CONSUME_CHARGE, // Consume Magic (spell & spin attack)
-    /* 01 */ MAGIC_CHANGE_CONSUME_NOW_NO_YELLOW, // Unused
-    /* 02 */ MAGIC_CHANGE_CONSUME_CHARGE_ALT, // Consume Magic Alt
-    /* 03 */ MAGIC_CHANGE_CONSUME_LENS, // Lens
-    /* 04 */ MAGIC_CHANGE_CONSUME_NOW, // Consume Magic (spell & spin attack)
-    /* 05 */ MAGIC_CHANGE_ADD
-} MagicChange;
+typedef enum MagicBarChange {
+    /* 00 */ MAGIC_BAR_CONSUME_CHARGE, // Consume Magic (spell & spin attack)
+    /* 01 */ MAGIC_BAR_CONSUME_NO_PREVIEW, // Unused
+    /* 02 */ MAGIC_BAR_CONSUME_CHARGE_ALT, // Consume Magic Alt
+    /* 03 */ MAGIC_BAR_CONSUME_LENS, // Lens
+    /* 04 */ MAGIC_BAR_CONSUME_PREVIEW, // Consume Magic (spell & spin attack)
+    /* 05 */ MAGIC_BAR_ADD
+} MagicBarChange;
 
 #define MAGIC_HALF_BAR 0x30
 #define MAGIC_FULL_BAR (2 * MAGIC_HALF_BAR)
@@ -105,9 +105,9 @@ typedef struct {
     /* 0x0034 */ s16 rupees;
     /* 0x0036 */ u16 swordHealth;
     /* 0x0038 */ u16 naviTimer;
-    /* 0x003A */ u8 magicAcquired;
+    /* 0x003A */ u8 isMagicAcquired;
     /* 0x003B */ char unk_3B[0x01];
-    /* 0x003C */ u8 doubleMagic;
+    /* 0x003C */ u8 isDoubleMagicAcquired;
     /* 0x003D */ u8 doubleDefense;
     /* 0x003E */ u8 bgsFlag;
     /* 0x003F */ u8 ocarinaGameRoundNum;
@@ -169,11 +169,11 @@ typedef struct {
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16 magicState;
-    /* 0x13F2 */ s16 magicStateStored; // stores the previous magic state so it can be restored
-    /* 0x13F4 */ s16 magicMaxDrawn; // Only differs from magicMax in a new save load, where magicMaxDrawn is slowly stepped from 0 to magicMax
-    /* 0x13F6 */ s16 magicMax;
-    /* 0x13F8 */ s16 yellowMagic; // preview of the magic about to be consumed
+    /* 0x13F0 */ s16 magicBarAction;
+    /* 0x13F2 */ s16 magicBarActionStored; // stores the previous magic state while magic is increasing. Allows magicBarAction to be restored afterwards
+    /* 0x13F4 */ s16 magicCapacityDrawn; // Only differs from magicCapacity in a new save load, where magicCapacityDrawn is slowly stepped from 0 to magicCapacity
+    /* 0x13F6 */ s16 magicCapacity; // Maximum magic available
+    /* 0x13F8 */ s16 magicTarget; // Target for magic to step to when adding or consuming magic
     /* 0x13FA */ u16 eventInf[4]; // "event_inf"
     /* 0x1402 */ u16 mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16 minigameState;

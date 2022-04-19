@@ -617,7 +617,7 @@ void func_80ACB274(EnOwl* this, GlobalContext* globalCtx) {
 void EnOwl_WaitDeathMountainShortcut(EnOwl* this, GlobalContext* globalCtx) {
     EnOwl_LookAtLink(this, globalCtx);
 
-    if (!gSaveContext.magicAcquired) {
+    if (!gSaveContext.isMagicAcquired) {
         if (func_80ACA558(this, globalCtx, 0x3062)) {
             Audio_PlayFanfare(NA_BGM_OWL);
             this->actionFunc = func_80ACB274;

@@ -483,7 +483,7 @@ s32 Player_InBlockingCsMode(GlobalContext* globalCtx, Player* this) {
     return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csMode != 0) ||
            (globalCtx->sceneLoadFlag == 0x14) || (this->stateFlags1 & PLAYER_STATE1_0) ||
            (this->stateFlags3 & PLAYER_STATE3_7) ||
-           ((gSaveContext.magicState != MAGIC_STATE_DEFAULT) &&
+           ((gSaveContext.magicBarAction != MAGIC_BAR_ACTION_IDLE) &&
             (Player_ActionToMagicSpell(this, this->itemActionParam) >= 0));
 }
 
