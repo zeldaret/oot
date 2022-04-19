@@ -3727,7 +3727,7 @@ void func_800F5CF8(void);
 /**
  * Updates audio functions run on the graph thread
  */
-void Audio_Update(void) {
+void func_800F3054(void) {
     if (func_800FAD34() == 0) {
         sAudioUpdateTaskStart = gAudioContext.totalTaskCount;
         sAudioUpdateStartTime = osGetTime();

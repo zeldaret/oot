@@ -1943,7 +1943,7 @@ s32 AudioOcarina_MemoryGameGenerateNotes(void);
 void AudioOcarina_PlayLongScarecrowAfterCredits(void);
 void AudioDebug_Draw(GfxPrint* printer);
 void AudioDebug_ScrPrt(const s8* str, u16 num);
-void Audio_Update(void);
+void func_800F3054(void);
 void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx);
 void func_800F3F3C(u8);
 void func_800F4010(Vec3f* pos, u16 sfxId, f32);
