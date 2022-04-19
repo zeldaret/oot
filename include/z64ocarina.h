@@ -100,6 +100,7 @@ typedef enum {
     /*  2 */ OCARINA_BTN_C_RIGHT,
     /*  3 */ OCARINA_BTN_C_LEFT,
     /*  4 */ OCARINA_BTN_C_UP,
+    /*  5 */ OCARINA_BTN_C_RIGHT_OR_C_LEFT,  // Special case for bFlat4: Interface/Overlap between C_RIGHT and C_LEFT
     /* -1 */ OCARINA_BTN_INVALID = 0xFF
 } OcarinaButtonIdx;
 

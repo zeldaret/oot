@@ -1073,22 +1073,22 @@ u8* gScarecrowSpawnSongPtr = (u8*)&sOcarinaSongNotes[OCARINA_SONG_SCARECROW_SPAW
 OcarinaNote* sMemoryGameSongPtr = sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME];
 
 u8 sPitchToButtonMap[16] = {
-    OCARINA_BTN_A,                            // OCARINA_PITCH_C4
-    OCARINA_BTN_A,                            // OCARINA_PITCH_DFLAT4
-    OCARINA_BTN_A,                            // OCARINA_PITCH_D4
-    OCARINA_BTN_A,                            // OCARINA_PITCH_EFLAT4
-    OCARINA_BTN_C_DOWN,                       // OCARINA_PITCH_E4
-    OCARINA_BTN_C_DOWN,                       // OCARINA_PITCH_F4
-    OCARINA_BTN_C_DOWN,                       // OCARINA_PITCH_GFLAT4
-    OCARINA_BTN_C_RIGHT,                      // OCARINA_PITCH_G4
-    OCARINA_BTN_C_RIGHT,                      // OCARINA_PITCH_AFLAT4
-    OCARINA_BTN_C_RIGHT,                      // OCARINA_PITCH_A4
-    OCARINA_BTN_C_RIGHT + OCARINA_BTN_C_LEFT, // OCARINA_PITCH_BFLAT4: Interface/Overlap between C_RIGHT and C_LEFT
-    OCARINA_BTN_C_LEFT,                       // OCARINA_PITCH_B4
-    OCARINA_BTN_C_LEFT,                       // OCARINA_PITCH_C5
-    OCARINA_BTN_C_UP,                         // OCARINA_PITCH_DFLAT5
-    OCARINA_BTN_C_UP,                         // OCARINA_PITCH_D5
-    OCARINA_BTN_C_UP,                         // OCARINA_PITCH_EFLAT5
+    OCARINA_BTN_A,                 // OCARINA_PITCH_C4
+    OCARINA_BTN_A,                 // OCARINA_PITCH_DFLAT4
+    OCARINA_BTN_A,                 // OCARINA_PITCH_D4
+    OCARINA_BTN_A,                 // OCARINA_PITCH_EFLAT4
+    OCARINA_BTN_C_DOWN,            // OCARINA_PITCH_E4
+    OCARINA_BTN_C_DOWN,            // OCARINA_PITCH_F4
+    OCARINA_BTN_C_DOWN,            // OCARINA_PITCH_GFLAT4
+    OCARINA_BTN_C_RIGHT,           // OCARINA_PITCH_G4
+    OCARINA_BTN_C_RIGHT,           // OCARINA_PITCH_AFLAT4
+    OCARINA_BTN_C_RIGHT,           // OCARINA_PITCH_A4
+    OCARINA_BTN_C_RIGHT_OR_C_LEFT, // OCARINA_PITCH_BFLAT4: Interface/Overlap between C_RIGHT and C_LEFT
+    OCARINA_BTN_C_LEFT,            // OCARINA_PITCH_B4
+    OCARINA_BTN_C_LEFT,            // OCARINA_PITCH_C5
+    OCARINA_BTN_C_UP,              // OCARINA_PITCH_DFLAT5
+    OCARINA_BTN_C_UP,              // OCARINA_PITCH_D5
+    OCARINA_BTN_C_UP,              // OCARINA_PITCH_EFLAT5
 };
 
 OcarinaSongButtons gOcarinaSongButtons[OCARINA_SONG_MAX] = {
@@ -1372,15 +1372,15 @@ u8 AudioOcarina_MapNoteToButton(u8 pitchAndBFlatFlag) {
     u8 buttonIndex = sPitchToButtonMap[pitchAndBFlatFlag & 0x3F];
 
     /**
-     * Special case for BFlat4:
+     * Special case for bFlat4:
      * CRIGHT and CLEFT are the only two pitches that are 2 semitones apart
      * which are pitches A4 and B4 respectively
-     * BFlat4 is in the middle of those two and is the only pitches that can not
+     * bFlat4 is in the middle of those two and is the only pitches that can not
      * be resolved between the two buttons without external information.
      * That information is stored as flags in pitch with the mask:
      * (pitchAndBFlatFlag & 0xC0)
      */
-    if (buttonIndex == (OCARINA_BTN_C_RIGHT + OCARINA_BTN_C_LEFT)) {
+    if (buttonIndex == OCARINA_BTN_C_RIGHT_OR_C_LEFT) {
         if (pitchAndBFlatFlag & 0x80) {
             return OCARINA_BTN_C_RIGHT;
         }
