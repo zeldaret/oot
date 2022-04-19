@@ -1481,8 +1481,6 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.magicCapacity = gSaveContext.magic;
     gSaveContext.magicLevel = gSaveContext.magic = 0;
 
-    if (1) {}
-
     osSyncPrintf(VT_FGCOL(GREEN));
     osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicCapacity), gSaveContext.magic);
     osSyncPrintf(VT_RST);
