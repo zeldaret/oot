@@ -8,12 +8,12 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags);
 s32 Camera_QRegInit(void);
 s32 Camera_UpdateWater(Camera* camera);
 
-#define CAM_GET_RO_DATA(type) &((type*)camera->paramData)->roData // Read-Only Data
-#define CAM_GET_RW_DATA(type) &((type*)camera->paramData)->rwData // Read-Write Data
+#define CAM_GET_RO_DATA(type, paramData) &((type*)paramData)->roData // Read-Only Data
+#define CAM_GET_RW_DATA(type, paramData) &((type*)paramData)->rwData // Read-Write Data
 
 // Camera will reload its paramData. This is mainly read-only data from stored in CameraModeValue. Although some
 // read-write data is reset as well
-#define RELOAD_PARAMS (camera->animState == 0 || camera->animState == 10 || camera->animState == 20)
+#define RELOAD_PARAMS(camera) (camera->animState == 0 || camera->animState == 10 || camera->animState == 20)
 
 /**
  * Camera data is stored in both read-only data and OREG as s16, and then converted to the appropriate type during
@@ -1442,13 +1442,13 @@ s32 Camera_Normal1(Camera* camera) {
     VecSph atEyeGeo;
     VecSph atEyeNextGeo;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Normal1ReadOnlyData* roData = CAM_GET_RO_DATA(Normal1);
-    Normal1ReadWriteData* rwData = CAM_GET_RW_DATA(Normal1);
+    Normal1ReadOnlyData* roData = CAM_GET_RO_DATA(Normal1, camera->paramData);
+    Normal1ReadWriteData* rwData = CAM_GET_RW_DATA(Normal1, camera->paramData);
     f32 playerHeight;
     f32 rate = 0.1f;
 
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal =
             (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) - CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
@@ -1689,7 +1689,7 @@ s32 Camera_Normal2(Camera* camera) {
         Camera_CopyPREGToModeValues(camera);
     }
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         norm2->unk_00 = GET_NEXT_SCALED_RO_DATA(values) * playerHeight * yNormal;
@@ -1849,7 +1849,7 @@ s32 Camera_Normal3(Camera* camera) {
     f32 playerHeight;
 
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         norm3->yOffset = GET_NEXT_RO_DATA(values) * CAM_DATA_SCALED(playerHeight);
@@ -2001,7 +2001,7 @@ s32 Camera_Parallel1(Camera* camera) {
     s32 pad3;
 
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
 
@@ -2210,7 +2210,7 @@ s32 Camera_Jump1(Camera* camera) {
     f32 playerHeight;
 
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                       (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
@@ -2237,7 +2237,7 @@ s32 Camera_Jump1(Camera* camera) {
 
     sCameraInterfaceFlags = jump1->interfaceFlags;
 
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         anim->swing.unk_16 = anim->swing.unk_18 = 0;
         anim->swing.atEyePoly = NULL;
         anim->unk_20.pitch = 0;
@@ -2365,7 +2365,7 @@ s32 Camera_Jump2(Camera* camera) {
 
     playerHeight = Player_GetHeight(camera->player);
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
         jump2->atYOffset =
@@ -2390,7 +2390,7 @@ s32 Camera_Jump2(Camera* camera) {
 
     sCameraInterfaceFlags = jump2->interfaceFlags;
 
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         bgChkPos = playerPosRot->pos;
         anim->floorY = Camera_GetFloorY(camera, &bgChkPos);
         anim->yawTarget = atToEyeNextDir.yaw;
@@ -2569,7 +2569,7 @@ s32 Camera_Jump3(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&eyeAtOffset, at, eye);
     OLib_Vec3fDiffToVecSphGeo(&eyeNextAtOffset, at, eyeNext);
 
-    if (RELOAD_PARAMS || modeSwitch || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || modeSwitch || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[anim->mode].values;
         yNormal = ((1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                    (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight)));
@@ -2759,7 +2759,7 @@ s32 Camera_Battle1(Camera* camera) {
     skipEyeAtCalc = false;
     player = camera->player;
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
 
@@ -2834,7 +2834,7 @@ s32 Camera_Battle1(Camera* camera) {
 
     sCameraInterfaceFlags = batt1->flags;
 
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         anim->unk_14 = 0;
         anim->roll = 0.0f;
         anim->target = camera->target;
@@ -3000,7 +3000,7 @@ s32 Camera_Battle4(Camera* camera) {
     f32 playerHeight;
 
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                       (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
@@ -3110,7 +3110,7 @@ s32 Camera_KeepOn1(Camera* camera) {
         return 1;
     }
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
 
@@ -3136,7 +3136,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&spC0, at, eye);
     OLib_Vec3fDiffToVecSphGeo(&spB8, at, eyeNext);
     sCameraInterfaceFlags = keep1->interfaceFlags;
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         camera->animState++;
         anim->unk_10 = 0;
         anim->unk_04 = 0.0f;
@@ -3342,7 +3342,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         Camera_ChangeMode(camera, CAM_MODE_TARGET);
         return 1;
     }
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         if (camera->globalCtx->view.unk_124 == 0) {
             camera->unk_14C |= 0x20;
             camera->globalCtx->view.unk_124 = camera->thisIdx | 0x50;
@@ -3351,7 +3351,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         camera->unk_14C &= ~0x20;
     }
     camera->unk_14C &= ~0x10;
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerHeight));
 
@@ -3382,7 +3382,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     playerHeadPos.y += playerHeight;
     OLib_Vec3fDiffToVecSphGeo(&targetToPlayerDir, &playerHeadPos, &camera->targetPosRot.pos);
     sCameraInterfaceFlags = keep3->flags;
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         colChkActors[0] = camera->target;
         colChkActors[1] = &camera->player->actor;
         camera->animState++;
@@ -3521,7 +3521,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     s16 angleCnt;
     s32 i;
 
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         if (camera->globalCtx->view.unk_124 == 0) {
             camera->unk_14C |= 0x20;
             camera->unk_14C &= ~(0x4 | 0x2);
@@ -3544,7 +3544,7 @@ s32 Camera_KeepOn4(Camera* camera) {
 
     playerHeight = Player_GetHeight(camera->player);
     camera->unk_14C &= ~0x10;
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + t) - ((68.0f / playerHeight) * t);
 
@@ -3804,7 +3804,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     s16 fov;
 
     camera->unk_14C &= ~0x10;
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         keep0->fovScale = GET_NEXT_SCALED_RO_DATA(values);
@@ -3880,7 +3880,7 @@ s32 Camera_Fixed1(Camera* camera) {
     f32 playerHeight;
 
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         scenePosData = Camera_GetCamBGData(camera);
@@ -3953,7 +3953,7 @@ s32 Camera_Fixed2(Camera* camera) {
 
     playerHeight = Player_GetHeight(camera->player);
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                       (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
@@ -4034,7 +4034,7 @@ s32 Camera_Fixed3(Camera* camera) {
 
     OLib_Vec3fDiffToVecSphGeo(&eyeAtOffset, eye, at);
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         fixd3->interfaceFlags = GET_NEXT_RO_DATA(values);
@@ -4108,7 +4108,7 @@ s32 Camera_Fixed4(Camera* camera) {
     f32 playerYOffset;
 
     playerYOffset = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = ((1.0f + CAM_DATA_SCALED(OREG(46))) - (CAM_DATA_SCALED(OREG(46)) * (68.0f / playerYOffset)));
 
@@ -4231,7 +4231,7 @@ s32 Camera_Subj3(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&sp7C, at, eye);
 
     sCameraInterfaceFlags = subj3->interfaceFlags;
-    if (RELOAD_PARAMS) {
+    if (RELOAD_PARAMS(camera)) {
         anim->r = sp7C.r;
         anim->yaw = sp7C.yaw;
         anim->pitch = sp7C.pitch;
@@ -4323,7 +4323,7 @@ s32 Camera_Subj4(Camera* camera) {
     Subj4* subj4 = (Subj4*)camera->paramData;
     Subj4Anim* anim = &subj4->anim;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         subj4->interfaceFlags = GET_NEXT_RO_DATA(values);
@@ -4470,7 +4470,7 @@ s32 Camera_Data4(Camera* camera) {
 
     playerHeight = Player_GetHeight(camera->player);
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                   (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
@@ -4546,7 +4546,7 @@ s32 Camera_Unique1(Camera* camera) {
     s32 pad2;
 
     playerHeight = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                       (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
@@ -4640,7 +4640,7 @@ s32 Camera_Unique2(Camera* camera) {
 
     OLib_Vec3fDiffToVecSphGeo(&eyeAtOffset, at, eye);
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = ((1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                        (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight)));
@@ -4716,7 +4716,7 @@ s32 Camera_Unique3(Camera* camera) {
 
     playerHeight = Player_GetHeight(camera->player);
     camera->unk_14C &= ~0x10;
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal = (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) -
                       (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerHeight));
@@ -4834,7 +4834,7 @@ s32 Camera_Unique0(Camera* camera) {
     yOffset = Player_GetHeight(camera->player);
     player = camera->player;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         params->interfaceFlags = GET_NEXT_RO_DATA(values);
     }
@@ -4952,7 +4952,7 @@ s32 Camera_Unique6(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     f32 offset;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         uniq6->interfaceFlags = GET_NEXT_RO_DATA(values);
     }
@@ -5005,7 +5005,7 @@ s32 Camera_Unique7(Camera* camera) {
     Vec3f* eyeNext = &camera->eyeNext;
     Unique7Unk8* unk08 = &uniq7->unk_08;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         uniq7->fov = GET_NEXT_RO_DATA(values);
         uniq7->interfaceFlags = (s16)GET_NEXT_RO_DATA(values);
@@ -5085,7 +5085,7 @@ s32 Camera_Unique9(Camera* camera) {
     CameraModeValue* values;
     PosRot eyeFocusPosRot;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         uniq9->interfaceFlags = GET_NEXT_RO_DATA(values);
     }
@@ -5589,7 +5589,7 @@ s32 Camera_Demo1(Camera* camera) {
     s16* relativeToPlayer = &camera->data2;
     Demo1Anim* anim = &demo1->anim;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         demo1->interfaceFlags = GET_NEXT_RO_DATA(values);
     }
@@ -5670,7 +5670,7 @@ s32 Camera_Demo3(Camera* camera) {
 
     camera->unk_14C &= ~0x10;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         demo3->fov = GET_NEXT_RO_DATA(values);
@@ -6117,7 +6117,7 @@ s32 Camera_Demo6(Camera* camera) {
     stateTimers[2] = 0x46;
     stateTimers[3] = 0x5A;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         ((Demo6*)camera->paramData)->interfaceFlags = GET_NEXT_RO_DATA(values);
     }
@@ -6218,7 +6218,7 @@ s32 Camera_Demo9(Camera* camera) {
 
     mainCam = Gameplay_GetCamera(camera->globalCtx, MAIN_CAM);
     mainCamPlayerPosRot = &mainCam->playerPosRot;
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         demo9->interfaceFlags = GET_NEXT_RO_DATA(values);
     }
@@ -6340,7 +6340,7 @@ s32 Camera_Special0(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     Special0* spec0 = (Special0*)camera->paramData;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         spec0->lerpAtScale = GET_NEXT_SCALED_RO_DATA(values);
@@ -6450,7 +6450,7 @@ s32 Camera_Special5(Camera* camera) {
     f32 yOffset;
 
     yOffset = Player_GetHeight(camera->player);
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
         f32 yNormal =
             (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) - (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / yOffset));
@@ -6596,7 +6596,7 @@ s32 Camera_Special6(Camera* camera) {
     Special6Anim* anim = &spec6->anim;
     s32 pad;
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         spec6->interfaceFlags = GET_NEXT_RO_DATA(values);
@@ -6707,7 +6707,7 @@ s32 Camera_Special9(Camera* camera) {
     yNormal =
         (1.0f + CAM_DATA_SCALED(R_CAM_YOFFSET_NORM)) - (CAM_DATA_SCALED(R_CAM_YOFFSET_NORM) * (68.0f / playerYOffset));
 
-    if (RELOAD_PARAMS || R_RELOAD_CAM_PARAMS) {
+    if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
 
         params->yOffset = GET_NEXT_SCALED_RO_DATA(values) * playerYOffset * yNormal;
