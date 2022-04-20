@@ -302,7 +302,8 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
 
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
+                                     &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
 
                 cursorPoint = cursorX = cursorY = 0;
                 while (true) {
@@ -348,7 +349,8 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
             if (pauseCtx->stickRelX < -30) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
+                                     &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
 
                 cursorPoint = cursorX = 3;
                 cursorY = 0;
@@ -487,16 +489,19 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
                     Interface_LoadItemIcon1(globalCtx, 0);
                 }
 
-                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySfxGeneral(NA_SE_SY_DECIDE, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
+                                     &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
                 pauseCtx->unk_1E4 = 7;
                 sEquipTimer = 10;
             } else {
-                Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
+                                     &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
             }
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_EQUIP]) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySfxGeneral(NA_SE_SY_CURSOR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
+                                 &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
         }
     } else if ((pauseCtx->unk_1E4 == 7) && (pauseCtx->pageIndex == PAUSE_EQUIP)) {
         KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_EQUIP] * 4, pauseCtx->equipVtx);

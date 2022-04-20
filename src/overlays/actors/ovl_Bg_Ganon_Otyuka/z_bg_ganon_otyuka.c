@@ -218,11 +218,11 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->dropTimer == 1) {
-            Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySfxGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4, &gSfxFreqOrVolDefaultVal,
+                                 &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
-                                   &D_801333E0, &D_801333E8);
+            Audio_PlaySfxGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+                                 &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
         }
         Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);

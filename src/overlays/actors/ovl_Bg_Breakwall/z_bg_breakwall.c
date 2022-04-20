@@ -253,12 +253,14 @@ void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx) {
             Flags_SetEventChkInf(0xB0);
             Cutscene_SetSegment(globalCtx, gDcOpeningCs);
             gSaveContext.cutsceneTrigger = 1;
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
+                                 &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
             func_8002DF54(globalCtx, NULL, 0x31);
         }
 
         if (this->dyna.actor.params < 0) {
-            Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
+                                 &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
         }
 
         Actor_Kill(&this->dyna.actor);

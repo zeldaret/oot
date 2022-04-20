@@ -79,13 +79,13 @@ u8 gSfxChannelLayout = 0;
 
 u16 D_801333D0 = 0;
 
-Vec3f D_801333D4 = { 0.0f, 0.0f, 0.0f }; // default pos
+Vec3f gSfxPosScreenCenter = { 0.0f, 0.0f, 0.0f }; // default pos
 
-f32 D_801333E0 = 1.0f; // default freqScale
+f32 gSfxFreqOrVolDefaultVal = 1.0f; // default freqScale
 
 s32 D_801333E4 = 0; // unused
 
-s8 D_801333E8 = 0; // default reverbAdd
+s8 gSfxReverbAddNone = 0; // default reverbAdd
 
 s32 D_801333EC = 0; // unused
 
@@ -122,7 +122,7 @@ void Audio_ClearBGMMute(u8 channelIdx) {
     }
 }
 
-void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd) {
+void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd) {
     u8 i;
     SoundRequest* req;
 
@@ -370,7 +370,7 @@ void Audio_ChooseActiveSounds(u8 bankId) {
         } else if (gSoundBanks[bankId][entryIndex].state != SFX_STATE_EMPTY) {
             entry = &gSoundBanks[bankId][entryIndex];
 
-            if (&D_801333D4.x == entry[0].posX) {
+            if (&gSfxPosScreenCenter.x == entry[0].posX) {
                 entry->dist = 0.0f;
             } else {
                 tempf1 = *entry->posY * 1;

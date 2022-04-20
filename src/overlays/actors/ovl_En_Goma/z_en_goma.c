@@ -418,7 +418,8 @@ void EnGoma_Dead(EnGoma* this, GlobalContext* globalCtx) {
 
             parent->childrenGohmaState[this->actor.params] = -1;
         }
-        Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySfxGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &gSfxFreqOrVolDefaultVal,
+                             &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
         Actor_Kill(&this->actor);
         Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 0x30);
     }
