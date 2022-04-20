@@ -164,8 +164,9 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                     }
                 case PLAYER_MASK_TRUTH:
                     if (!(gSaveContext.itemGetInf[1] & 0x8000) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                             &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxPosScreenCenter, 4,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultReverb);
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         reaction = DNT_SIGNAL_LOOK;

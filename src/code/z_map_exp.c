@@ -405,9 +405,9 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     osSyncPrintf("Game_play_demo_mode_check=%d\n", Gameplay_InCsMode(globalCtx));
                     // clang-format off
                     if (!R_MINIMAP_DISABLED) { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxPosScreenCenter, 4,
-                                                                      &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone); }
+                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb); }
                     else { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxPosScreenCenter, 4,
-                                                  &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone); }
+                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb); }
                     // clang-format on
                     R_MINIMAP_DISABLED ^= 1;
                 }
@@ -485,9 +485,9 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                 if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
                     // clang-format off
                     if (!R_MINIMAP_DISABLED) { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxPosScreenCenter, 4,
-                                                                      &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone); }
+                                                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb); }
                     else { Audio_PlaySfxGeneral(NA_SE_SY_CAMERA_ZOOM_DOWN, &gSfxPosScreenCenter, 4,
-                                                  &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone); }
+                                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb); }
                     // clang-format on
                     R_MINIMAP_DISABLED ^= 1;
                 }

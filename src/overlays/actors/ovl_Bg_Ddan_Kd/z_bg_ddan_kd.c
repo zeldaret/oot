@@ -171,7 +171,7 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
         }
         Camera_AddQuake(&globalCtx->mainCamera, 0, effectStrength * 0.6f, 3);
         Audio_PlaySfxGeneral(NA_SE_EV_PILLAR_SINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
-                             &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 

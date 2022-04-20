@@ -733,7 +733,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_GRAB;
                         func_80078914(&this->tentTipPos, NA_SE_EN_MOFER_CATCH);
                         Audio_PlaySfxGeneral(NA_SE_VO_LI_DAMAGE_S, &player->actor.projectedPos, 4,
-                                             &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultReverb);
                     } else {
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                         this->tentMaxAngle = .001f;

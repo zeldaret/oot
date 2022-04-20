@@ -603,8 +603,9 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
                     }
                 case 0x3054:
                     if (dialogState == TEXT_STATE_NONE) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                             &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                        Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxPosScreenCenter, 4,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultReverb);
                     }
             }
             return 1;
@@ -874,8 +875,8 @@ s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
             return false;
         } else {
             if (this->collider.base.acFlags & 2) {
-                Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                     &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->actor.flags &= ~ACTOR_FLAG_24;
                 this->collider.base.acFlags &= ~0x2;
                 EnGo2_StopRolling(this, globalCtx);

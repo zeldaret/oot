@@ -24,7 +24,7 @@ void func_800BC490(GlobalContext* globalCtx, s16 point) {
 
     if ((YREG(15) != 0x10) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         Audio_PlaySfxGeneral((point == 1) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP, &gSfxPosScreenCenter,
-                             4, &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                             4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 
     func_800BC450(globalCtx);
@@ -696,7 +696,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 13:
                     Audio_PlaySfxGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxPosScreenCenter, 4,
-                                         &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.sandstormPrimA < 110) {
                             gTrnsnUnkState = 0;
@@ -730,7 +730,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
 
                 case 15:
                     Audio_PlaySfxGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxPosScreenCenter, 4,
-                                         &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (globalCtx->sceneLoadFlag == -0x14) {
                         if (globalCtx->envCtx.sandstormPrimA <= 0) {
                             gTrnsnUnkState = 0;
@@ -917,8 +917,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (YREG(15) == 0x10) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                             &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                        Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
                         func_800BC490(globalCtx, globalCtx->unk_1242B ^ 3);
                     }

@@ -474,8 +474,8 @@ void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx) {
         this->dList = NULL;
         BgMizuBwall_SpawnDebris(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
-        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                             &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+        Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->actionFunc = BgMizuBwall_Break;
     } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

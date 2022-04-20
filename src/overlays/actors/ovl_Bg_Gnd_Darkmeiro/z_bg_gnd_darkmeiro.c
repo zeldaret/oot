@@ -123,8 +123,8 @@ void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, GlobalContext* global
         } else {
             this->actionFlags |= 4;
             this->timer1 = 304;
-            Audio_PlaySfxGeneral(NA_SE_EV_RED_EYE, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                 &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+            Audio_PlaySfxGeneral(NA_SE_EV_RED_EYE, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
 
@@ -139,8 +139,8 @@ void BgGndDarkmeiro_UpdateBlockTimer(BgGndDarkmeiro* this, GlobalContext* global
         } else {
             this->actionFlags |= 8;
             this->timer2 = 304;
-            Audio_PlaySfxGeneral(NA_SE_EV_RED_EYE, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                 &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+            Audio_PlaySfxGeneral(NA_SE_EV_RED_EYE, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                 &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
 

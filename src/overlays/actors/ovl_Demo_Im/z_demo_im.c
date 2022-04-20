@@ -722,8 +722,8 @@ void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
         u32 sfxId = SFX_FLAG;
 
         sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        Audio_PlaySfxGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal,
-                             &gSfxReverbAddNone);
+        Audio_PlaySfxGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 

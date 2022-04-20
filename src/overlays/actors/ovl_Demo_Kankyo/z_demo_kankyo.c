@@ -254,8 +254,8 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                Audio_PlaySfxGeneral(NA_SE_EV_SARIA_MELODY, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                     &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                Audio_PlaySfxGeneral(NA_SE_EV_SARIA_MELODY, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case DEMOKANKYO_SPARKLES:
@@ -800,7 +800,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                     }
                 } else {
                     Audio_PlaySfxGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxPosScreenCenter, 4,
-                                         &gSfxFreqOrVolDefaultVal, &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;

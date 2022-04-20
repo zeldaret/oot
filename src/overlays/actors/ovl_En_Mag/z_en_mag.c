@@ -111,8 +111,8 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
                 CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
 
-                Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                     &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 this->mainAlpha = 210;
                 this->subAlpha = 255;
@@ -142,8 +142,9 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     if (globalCtx->sceneLoadFlag != 20) {
                         Audio_SetCutsceneFlag(0);
 
-                        Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                             &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                        Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxPosScreenCenter, 4,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultReverb);
 
                         gSaveContext.gameMode = 2;
                         globalCtx->sceneLoadFlag = 20;

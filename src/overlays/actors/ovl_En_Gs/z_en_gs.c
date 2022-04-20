@@ -320,14 +320,14 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
             if (this->unk_200 < 20) {
                 Color_RGBA8_Copy(&this->flashColor, &flashRed);
                 if ((this->unk_200 % 20) == 7) {
-                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                         &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_E, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
             } else {
                 Color_RGBA8_Copy(&this->flashColor, &flashBlue);
                 if ((this->unk_200 % 20) == 7) {
-                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxPosScreenCenter, 4, &gSfxFreqOrVolDefaultVal,
-                                         &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+                    Audio_PlaySfxGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 }
             }
         }

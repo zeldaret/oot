@@ -45,8 +45,8 @@ void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void DemoExt_PlayVortexSFX(DemoExt* this) {
     if (this->alphaTimer <= (kREG(35) + 40.0f) - 15.0f) {
-        Audio_PlaySfxGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4, &gSfxFreqOrVolDefaultVal,
-                             &gSfxFreqOrVolDefaultVal, &gSfxReverbAddNone);
+        Audio_PlaySfxGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4,
+                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 

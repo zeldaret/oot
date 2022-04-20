@@ -81,11 +81,11 @@ u16 D_801333D0 = 0;
 
 Vec3f gSfxPosScreenCenter = { 0.0f, 0.0f, 0.0f }; // default pos
 
-f32 gSfxFreqOrVolDefaultVal = 1.0f; // default frequency or volume scale factor
+f32 gSfxDefaultFreqAndVolScale = 1.0f; // default frequency or volume scale factor
 
 s32 D_801333E4 = 0; // unused
 
-s8 gSfxReverbAddNone = 0; // default reverbAdd
+s8 gSfxDefaultReverb = 0; // default reverbAdd
 
 s32 D_801333EC = 0; // unused
 
