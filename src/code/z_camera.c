@@ -8,11 +8,11 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags);
 s32 Camera_QRegInit(void);
 s32 Camera_UpdateWater(Camera* camera);
 
-#define CAM_GET_RO_DATA(type, paramData) &((type*)paramData)->roData // Read-Only Data
-#define CAM_GET_RW_DATA(type, paramData) &((type*)paramData)->rwData // Read-Write Data
+#define CAM_GET_RO_DATA(type, camera) &((type*)camera->paramData)->roData // Read-Only Data
+#define CAM_GET_RW_DATA(type, paramData) &((type*)paramData)->rwData      // Read-Write Data
 
-// Camera will reload its paramData. This is mainly read-only data from stored in CameraModeValue. Although some
-// read-write data is reset as well
+// Camera will reload its paramData. Usually that means setting the read-only data from what is stored in
+// CameraModeValue arrays. Although sometimes some read-write data is reset as well
 #define RELOAD_PARAMS(camera) (camera->animState == 0 || camera->animState == 10 || camera->animState == 20)
 
 /**
@@ -1442,7 +1442,7 @@ s32 Camera_Normal1(Camera* camera) {
     VecSph atEyeGeo;
     VecSph atEyeNextGeo;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Normal1ReadOnlyData* roData = CAM_GET_RO_DATA(Normal1, camera->paramData);
+    Normal1ReadOnlyData* roData = CAM_GET_RO_DATA(Normal1, camera);
     Normal1ReadWriteData* rwData = CAM_GET_RW_DATA(Normal1, camera->paramData);
     f32 playerHeight;
     f32 rate = 0.1f;
