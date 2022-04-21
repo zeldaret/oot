@@ -6,12 +6,12 @@
 
 typedef enum MagicBarAction {
     /* 00 */ MAGIC_BAR_ACTION_IDLE, // Regular gameplay
-    /* 01 */ MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP,
-    /* 02 */ MAGIC_BAR_ACTION_CHARGE_PENALTY, // Consume a small amount of magic before flashing the border
-    /* 03 */ MAGIC_BAR_ACTION_FLASH_BORDER_1, // Flashes border and freezes Dark Link
-    /* 04 */ MAGIC_BAR_ACTION_FLASH_BORDER_2, // Flashes border and draws yellow magic to target consumption
+    /* 01 */ MAGIC_BAR_ACTION_CONSUME_SETUP, // Sets the speed in which magic border flashes
+    /* 02 */ MAGIC_BAR_ACTION_CONSUME, // Consume magic until target is reached or no more magic is available
+    /* 03 */ MAGIC_BAR_ACTION_BORDER_CHANGE_1, // Flashes border and freezes Dark Link
+    /* 04 */ MAGIC_BAR_ACTION_BORDER_CHANGE_2, // Flashes border and draws yellow magic to preview target consumption
     /* 05 */ MAGIC_BAR_ACTION_RESTORE_IDLE, // Reset colors and return to idle
-    /* 06 */ MAGIC_BAR_ACTION_FLASH_BORDER_3, // Flashes border with no additional behaviour
+    /* 06 */ MAGIC_BAR_ACTION_BORDER_CHANGE_3, // Flashes border with no additional behaviour
     /* 07 */ MAGIC_BAR_ACTION_LENS_CONSUME, // Magic slowly consumed by lens. 
     /* 08 */ MAGIC_BAR_ACTION_GROW_WIDE, // Init magic on a new load, grow from a width of 0 to magicCapacity
     /* 09 */ MAGIC_BAR_ACTION_FILL, // Fill to either full capacity or another action takes over
@@ -19,12 +19,12 @@ typedef enum MagicBarAction {
 } MagicBarAction;
 
 typedef enum MagicBarChange {
-    /* 00 */ MAGIC_BAR_CONSUME_WITH_PENALTY, // Consume Magic, includes a small penality of consumption is magic consumption is not followed through (spin attack, magic arrows)
-    /* 01 */ MAGIC_BAR_CONSUME_NO_PREVIEW, // Unused, consumes magic without drawing yellow magic to target consumption
-    /* 02 */ MAGIC_BAR_CONSUME_WITH_PENALTY_ALT, // Unused, identical behaviour to MAGIC_BAR_CONSUME_WITH_PENALTY
+    /* 00 */ MAGIC_BAR_CONSUME_NOW, // Consume Magic immediately without preview
+    /* 01 */ MAGIC_BAR_CONSUME_WAIT_NO_PREVIEW, // Sets consume target but waits to consume. No yellow magic preview to target consumption. Unused
+    /* 02 */ MAGIC_BAR_CONSUME_NOW_ALT, // Identical behaviour to MAGIC_BAR_CONSUME_NOW. Unused
     /* 03 */ MAGIC_BAR_CONSUME_LENS, // Lens consumption
-    /* 04 */ MAGIC_BAR_CONSUME_WITH_PREVIEW, // Consume Magic and draws yellow magic to target consumption
-    /* 05 */ MAGIC_BAR_ADD
+    /* 04 */ MAGIC_BAR_CONSUME_WAIT_PREVIEW, // Sets consume target but waits to consume. Draws yellow magic to target consumption
+    /* 05 */ MAGIC_BAR_ADD // Sets a target to add magic
 } MagicBarChange;
 
 #define MAGIC_HALF_BAR 0x30

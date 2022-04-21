@@ -86,7 +86,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (!gSaveContext.isMagicAcquired || (gSaveContext.magicBarAction != MAGIC_BAR_ACTION_IDLE) ||
             (((this->actor.params & 0xFF00) >> 8) &&
-             !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_BAR_CONSUME_WITH_PENALTY)))) {
+             !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_BAR_CONSUME_NOW)))) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -159,7 +159,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         if (player->unk_858 >= 0.1f) {
             if ((gSaveContext.magicBarAction != MAGIC_BAR_ACTION_IDLE) ||
                 (((this->actor.params & 0xFF00) >> 8) &&
-                 !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_BAR_CONSUME_WITH_PREVIEW)))) {
+                 !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_BAR_CONSUME_WAIT_PREVIEW)))) {
                 func_80A9F350(this, globalCtx);
                 func_80A9EFE0(this, func_80A9F350);
                 this->unk_1C8 = 0;
@@ -193,7 +193,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         } else {
             player->stateFlags2 &= ~PLAYER_STATE2_17;
             if ((this->actor.params & 0xFF00) >> 8) {
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CONSUME_SETUP;
             }
             if (player->unk_858 < 0.85f) {
                 this->collider.info.toucher.dmgFlags = D_80AA044C[this->unk_1C7];

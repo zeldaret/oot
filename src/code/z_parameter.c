@@ -2269,33 +2269,39 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
     }
 
     switch (changeType) {
-        case MAGIC_BAR_CONSUME_WITH_PENALTY:
-        case MAGIC_BAR_CONSUME_WITH_PENALTY_ALT:
+        case MAGIC_BAR_CONSUME_NOW:
+        case MAGIC_BAR_CONSUME_NOW_ALT:
+            // Consume magic immediately
             if ((gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) ||
                 (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME)) {
                 if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME) {
                     globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.magicTarget = gSaveContext.magic - magicChange;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CONSUME_SETUP;
                 return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 return false;
             }
-        case MAGIC_BAR_CONSUME_NO_PREVIEW:
+
+        case MAGIC_BAR_CONSUME_WAIT_NO_PREVIEW:
+            // Sets consume target but waits to consume.
+            // No yellow magic to preview target consumption.
+            // Unused
             if ((gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) ||
                 (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME)) {
                 if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME) {
                     globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.magicTarget = gSaveContext.magic - magicChange;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_3;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_3;
                 return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 return false;
             }
+
         case MAGIC_BAR_CONSUME_LENS:
             if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) {
                 if (gSaveContext.magic != 0) {
@@ -2312,20 +2318,25 @@ s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
                     return false;
                 }
             }
-        case MAGIC_BAR_CONSUME_WITH_PREVIEW:
+
+        case MAGIC_BAR_CONSUME_WAIT_PREVIEW:
+            // Sets consume target but waits to consume.
+            // Preview consumption with a yellow bar
             if ((gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) ||
                 (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME)) {
                 if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_LENS_CONSUME) {
                     globalCtx->actorCtx.lensActive = false;
                 }
                 gSaveContext.magicTarget = gSaveContext.magic - magicChange;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_2;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_2;
                 return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 return false;
             }
+
         case MAGIC_BAR_ADD:
+            // Sets target for magic to be added to
             if (gSaveContext.magic <= gSaveContext.magicCapacityDrawn) {
                 gSaveContext.magicTarget = gSaveContext.magic + magicChange;
 
@@ -2357,7 +2368,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
     s16 borderChangeR;
     s16 borderChangeG;
     s16 borderChangeB;
-    s16 temp;
+    s16 temp; // magicCapacity or magicBorderIndex
 
     switch (gSaveContext.magicBarAction) {
         case MAGIC_BAR_ACTION_GROW_WIDE:
@@ -2382,7 +2393,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             break;
 
         case MAGIC_BAR_ACTION_FILL:
-            // Fill to either full capacity or another action takes over
+            // Add magic until full capacity is reached
             gSaveContext.magic += 4;
 
             if (gSaveContext.gameMode == 0 && gSaveContext.sceneSetupIndex < 4) {
@@ -2392,6 +2403,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
 
             // "Storage  MAGIC_NOW=%d (%d)"
             osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicCapacity);
+
             if (gSaveContext.magic >= gSaveContext.magicCapacity) {
                 gSaveContext.magic = gSaveContext.magicCapacity;
                 gSaveContext.magicBarAction = gSaveContext.magicBarActionStored;
@@ -2399,26 +2411,28 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             }
             break;
 
-        case MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP:
+        case MAGIC_BAR_ACTION_CONSUME_SETUP:
+            // Sets the speed in which magic border flashes
             sMagicBorderRatio = 2;
-            gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY;
+            gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CONSUME;
             break;
 
-        case MAGIC_BAR_ACTION_CHARGE_PENALTY:
+        case MAGIC_BAR_ACTION_CONSUME:
+            // Consume magic until target is reached or no more magic is available
             gSaveContext.magic -= 2;
             if (gSaveContext.magic <= 0) {
                 gSaveContext.magic = 0;
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_1;
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             } else if (gSaveContext.magic == gSaveContext.magicTarget) {
-                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
+                gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_1;
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             }
-            // fallthrough
+            // fallthrough (flash border while magic is being consumed)
 
-        case MAGIC_BAR_ACTION_FLASH_BORDER_1:
-        case MAGIC_BAR_ACTION_FLASH_BORDER_2:
-        case MAGIC_BAR_ACTION_FLASH_BORDER_3:
+        case MAGIC_BAR_ACTION_BORDER_CHANGE_1:
+        case MAGIC_BAR_ACTION_BORDER_CHANGE_2:
+        case MAGIC_BAR_ACTION_BORDER_CHANGE_3:
             temp = sMagicBorderIndices[sMagicBorderStep];
             borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
             borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
@@ -2522,6 +2536,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             break;
 
         case MAGIC_BAR_ACTION_ADD:
+            // Add magic until target is reached
             gSaveContext.magic += 4;
             Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             if (gSaveContext.magic >= gSaveContext.magicTarget) {
@@ -2573,7 +2588,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
                           ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
 
-        if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_FLASH_BORDER_2) {
+        if (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_BORDER_CHANGE_2) {
             // Yellow part of the bar indicating the amount of magic to be subtracted
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
 

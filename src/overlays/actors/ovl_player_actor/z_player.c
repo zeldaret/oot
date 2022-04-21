@@ -2190,7 +2190,7 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
 
                 if (this->unk_860 >= 0) {
                     if ((magicArrowType >= 0) && (magicArrowType <= 2) &&
-                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_BAR_CONSUME_WITH_PENALTY)) {
+                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_BAR_CONSUME_NOW)) {
                         arrowType = ARROW_NORMAL;
                     }
 
@@ -4849,7 +4849,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     func_80835DE4(globalCtx, this, func_808507F4, 0);
 
     this->unk_84F = magicSpell - 3;
-    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_BAR_CONSUME_WITH_PREVIEW);
+    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_BAR_CONSUME_WAIT_PREVIEW);
 
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayerAnim_002D28, 0.83f);
 
@@ -9368,7 +9368,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (gSaveContext.nayrusLoveTimer != 0) {
-        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
+        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_1;
         func_80846A00(globalCtx, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -10157,7 +10157,7 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
     if ((this->stateFlags3 & PLAYER_STATE3_6) && (gSaveContext.nayrusLoveTimer != 0) &&
         (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE)) {
-        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_FLASH_BORDER_1;
+        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_1;
         func_80846A00(globalCtx, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -13108,7 +13108,7 @@ void func_808507F4(Player* this, GlobalContext* globalCtx) {
                 if (func_80846A00(globalCtx, this, this->unk_84F) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                     if ((this->unk_84F != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
-                        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CHARGE_PENALTY_SETUP;
+                        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CONSUME_SETUP;
                     }
                 } else {
                     Magic_ResetMagicBarAction(globalCtx);
