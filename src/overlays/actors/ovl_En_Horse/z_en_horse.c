@@ -3371,7 +3371,7 @@ void EnHorse_RegenBoost(EnHorse* this, GlobalContext* globalCtx) {
             this->numBoosts = this->numBoosts + 1;
 
             if (!EN_HORSE_CHECK_4(this)) {
-                Audio_PlaySfxGeneral(NA_SE_SY_CARROT_RECOVER, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                Audio_PlaySfxGeneral(NA_SE_SY_CARROT_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
 
@@ -3388,7 +3388,7 @@ void EnHorse_RegenBoost(EnHorse* this, GlobalContext* globalCtx) {
             this->numBoosts = 6;
 
             if (!EN_HORSE_CHECK_4(this)) {
-                Audio_PlaySfxGeneral(NA_SE_SY_CARROT_RECOVER, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                Audio_PlaySfxGeneral(NA_SE_SY_CARROT_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }

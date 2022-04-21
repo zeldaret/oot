@@ -1607,8 +1607,7 @@ void func_800ED458(s32 arg0) {
         if ((sCurOcarinaBtnVal != 0xFF) && (sPrevOcarinaNoteVal != sCurOcarinaBtnVal)) {
             Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | 0xD07, D_80130F10 - 1);
             Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | 0xD05, sCurOcarinaBtnVal);
-            Audio_PlaySfxGeneral(NA_SE_OC_OCARINA, &gSfxPosScreenCenter, 4, &D_80130F24, &D_80130F28,
-                                 &gSfxDefaultReverb);
+            Audio_PlaySfxGeneral(NA_SE_OC_OCARINA, &gSfxDefaultPos, 4, &D_80130F24, &D_80130F28, &gSfxDefaultReverb);
         } else if ((sPrevOcarinaNoteVal != 0xFF) && (sCurOcarinaBtnVal == 0xFF)) {
             Audio_StopSfxById(NA_SE_OC_OCARINA);
         }
@@ -1744,7 +1743,7 @@ void Audio_OcaPlayback(void) {
                     sStaffPlaybackPos++;
                     Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | 0xD07, D_80130F10 - 1);
                     Audio_QueueCmdS8(0x6 << 24 | SEQ_PLAYER_SFX << 16 | 0xD05, sDisplayedNoteValue & 0x3F);
-                    Audio_PlaySfxGeneral(NA_SE_OC_OCARINA, &gSfxPosScreenCenter, 4, &sNormalizedNotePlaybackTone,
+                    Audio_PlaySfxGeneral(NA_SE_OC_OCARINA, &gSfxDefaultPos, 4, &sNormalizedNotePlaybackTone,
                                          &sNormalizedNotePlaybackVolume, &gSfxDefaultReverb);
                 } else {
                     Audio_StopSfxById(NA_SE_OC_OCARINA);
@@ -2962,7 +2961,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
             case 2:
             case 3:
                 Audio_PlaySfxGeneral(((sAudioSndContWork[2] << 12) & 0xFFFF) + sAudioSndContWork[3] + SFX_FLAG,
-                                     &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                     &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultReverb);
                 break;
             case 4:
@@ -3364,7 +3363,7 @@ void AudioDebug_ProcessInput_SfxParamChg(void) {
 
     if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
         sfx = (u16)(sAudioSfxParamChgWork[0] << 12) + sAudioSfxParamChgWork[1] + SFX_FLAG;
-        Audio_PlaySfxGeneral(sfx, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+        Audio_PlaySfxGeneral(sfx, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultReverb);
     }
 
@@ -4018,8 +4017,8 @@ void func_800F4578(Vec3f* pos, u16 sfxId, f32 arg2) {
 }
 
 void func_800F45D0(f32 arg0) {
-    func_800F4414(&gSfxPosScreenCenter, NA_SE_IT_FISHING_REEL_SLOW - SFX_FLAG, arg0);
-    func_800F436C(&gSfxPosScreenCenter, 0, (0.15f * arg0) + 1.4f);
+    func_800F4414(&gSfxDefaultPos, NA_SE_IT_FISHING_REEL_SLOW - SFX_FLAG, arg0);
+    func_800F436C(&gSfxDefaultPos, 0, (0.15f * arg0) + 1.4f);
 }
 
 void Audio_PlaySoundRiver(Vec3f* pos, f32 freqScale) {
@@ -4754,11 +4753,11 @@ void func_800F6268(f32 dist, u16 arg1) {
 void func_800F64E0(u8 arg0) {
     D_80130608 = arg0;
     if (arg0 != 0) {
-        Audio_PlaySfxGeneral(NA_SE_SY_WIN_OPEN, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+        Audio_PlaySfxGeneral(NA_SE_SY_WIN_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Audio_QueueCmdS32(0xF1000000, 0);
     } else {
-        Audio_PlaySfxGeneral(NA_SE_SY_WIN_CLOSE, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+        Audio_PlaySfxGeneral(NA_SE_SY_WIN_CLOSE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Audio_QueueCmdS32(0xF2000000, 0);
     }
@@ -4837,7 +4836,7 @@ void Audio_SetBaseFilter(u8 filter) {
         if (filter == 0) {
             Audio_StopSfxById(NA_SE_PL_IN_BUBBLE);
         } else if (sAudioBaseFilter == 0) {
-            Audio_PlaySfxGeneral(NA_SE_PL_IN_BUBBLE, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_PL_IN_BUBBLE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
@@ -4871,7 +4870,7 @@ void Audio_PlaySfxGeneralIfNotInCutscene(u16 sfxId, Vec3f* pos, u8 arg2, f32* fr
 }
 
 void Audio_PlaySoundIfNotInCutscene(u16 sfxId) {
-    Audio_PlaySfxGeneralIfNotInCutscene(sfxId, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+    Audio_PlaySfxGeneralIfNotInCutscene(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                         &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 

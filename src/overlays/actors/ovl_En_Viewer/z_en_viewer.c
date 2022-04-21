@@ -225,7 +225,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
                 case 380:
                 case 409:
                 case 438:
-                    Audio_PlaySfxGeneral(NA_SE_SY_DEMO_CUT, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                    Audio_PlaySfxGeneral(NA_SE_SY_DEMO_CUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     break;
             }
@@ -430,7 +430,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
             case 0:
                 if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL &&
                     globalCtx->csCtx.npcActions[1]->action == 7) {
-                    Audio_PlaySfxGeneral(NA_SE_EN_GANON_LAUGH, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                    Audio_PlaySfxGeneral(NA_SE_EN_GANON_LAUGH, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                          &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     Animation_MorphToPlayOnce(&this->skin.skelAnime, &object_gndd_Anim_004534, -5.0f);
                     this->state++;
@@ -776,7 +776,7 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
             }
         }
         if (type == ENVIEWER_TYPE_5_GANONDORF) {
-            Audio_PlaySfxGeneral(NA_SE_EV_BURNING - SFX_FLAG, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_EV_BURNING - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             EnViewer_DrawFireEffects(this, globalCtx);
         }

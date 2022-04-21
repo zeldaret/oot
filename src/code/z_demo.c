@@ -495,7 +495,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
          CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B) ||
          CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START)) &&
         (gSaveContext.fileNum != 0xFEDC) && (globalCtx->sceneLoadFlag == 0)) {
-        Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+        Audio_PlaySfxGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         temp = 1;
     }
@@ -1248,12 +1248,12 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 if (cmd->base == 1) {
                     globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
                     if ((temp == 0.0f) && (gSaveContext.entranceIndex == 0x006B)) {
-                        Audio_PlaySfxGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                        Audio_PlaySfxGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((temp == 0.0f) &&
                                ((gSaveContext.entranceIndex == 0x0053) || (gSaveContext.entranceIndex == 0x0138) ||
                                 (gSaveContext.entranceIndex == 0x0371))) {
-                        Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                        Audio_PlaySfxGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((temp == 0.0f) && (globalCtx->sceneNum == SCENE_GANONTIKA)) {
                         func_800788CC(NA_SE_EV_WHITE_OUT);

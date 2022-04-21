@@ -98,7 +98,7 @@ void func_808BC65C(BgTreemouth* this, GlobalContext* globalCtx) {
             if (npcAction->action == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (npcAction->action == 3) {
-                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
@@ -203,7 +203,7 @@ void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx) {
             if (npcAction->action == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (npcAction->action == 3) {
-                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+                Audio_PlaySfxGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                      &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }

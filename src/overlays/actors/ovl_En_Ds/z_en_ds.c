@@ -207,7 +207,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
 
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
-            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;

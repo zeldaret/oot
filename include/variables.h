@@ -147,7 +147,7 @@ extern char D_80133390[];
 extern char D_80133398[];
 extern SoundBankEntry* gSoundBanks[7];
 extern u8 gSfxChannelLayout;
-extern Vec3f gSfxPosScreenCenter;
+extern Vec3f gSfxDefaultPos;
 extern f32 gSfxDefaultFreqAndVolScale;
 extern s8 gSfxDefaultReverb;
 extern u8 D_801333F0;

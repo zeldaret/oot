@@ -158,18 +158,18 @@ void BgDodoago_WaitExplosives(BgDodoago* this, GlobalContext* globalCtx) {
             ((globalCtx->roomCtx.unk_74[BGDODOAGO_EYE_RIGHT] == 255) && (this->state == BGDODOAGO_EYE_LEFT))) {
             Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
             this->state = 0;
-            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             BgDodoago_SetupAction(this, BgDodoago_OpenJaw);
             OnePointCutscene_Init(globalCtx, 3380, 160, &this->dyna.actor, MAIN_CAM);
         } else if (globalCtx->roomCtx.unk_74[this->state] == 0) {
             OnePointCutscene_Init(globalCtx, 3065, 40, &this->dyna.actor, MAIN_CAM);
             BgDodoago_SetupAction(this, BgDodoago_LightOneEye);
-            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
             OnePointCutscene_Init(globalCtx, 3065, 20, &this->dyna.actor, MAIN_CAM);
-            Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             sTimer += 30;
             return;

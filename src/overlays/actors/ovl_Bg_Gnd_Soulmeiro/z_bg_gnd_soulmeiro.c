@@ -162,7 +162,7 @@ void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
     if (!Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         this->actor.draw = BgGndSoulmeiro_Draw;
         if (this->collider.base.acFlags & AC_HIT) {
-            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->unk_198 = 40;
             this->actionFunc = func_8087AF38;

@@ -658,7 +658,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
         gSaveContext.infTable[10] |= 0x800;
     }
     if (gSaveContext.timer1State == 10) {
-        Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+        Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A79C78(this, globalCtx);
         this->actionFunc = func_80A7B024;
@@ -677,7 +677,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
             phi_a2 = 2;
             phi_a3 = 2;
         } else {
-            Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             if (!(gSaveContext.eventChkInf[1] & 0x800)) {
                 if (gSaveContext.infTable[10] & 0x800) {

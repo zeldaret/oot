@@ -627,7 +627,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_SY_ERROR);
         } else if (this->currentReward == 4) {
             /* Heart piece */
-            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxPosScreenCenter, 4, &gSfxDefaultFreqAndVolScale,
+            Audio_PlaySfxGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                  &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
             /* Rupee */
