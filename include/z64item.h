@@ -44,7 +44,8 @@ typedef enum {
     /* 0x15 */ QUEST_STONE_OF_AGONY,
     /* 0x16 */ QUEST_GERUDO_CARD,
     /* 0x17 */ QUEST_SKULL_TOKEN,
-    /* 0x18 */ QUEST_HEART_PIECE
+    /* 0x1C */ QUEST_HEART_PIECE = 0x1C,
+    /* 0x1E */ QUEST_HEART_CONTAINER = 0x1E
 } QuestItem;
 
 typedef enum {
