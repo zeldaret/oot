@@ -73,7 +73,7 @@ typedef enum {
     /* 0x2F */ OCARINA_ACTION_FROGS,
     /* 0x30 */ OCARINA_ACTION_CHECK_NOWARP, // Check for any of sarias - storms
     /* 0x31 */ OCARINA_ACTION_CHECK_NOWARP_DONE
-} OcarinaSongActionIDs;
+} OcarinaSongActionId;
 
 typedef enum {
     /* 0x00 */ OCARINA_MODE_00,
@@ -95,14 +95,14 @@ typedef enum {
 } OcarinaMode;
 
 typedef enum {
-    /*  0 */ OCARINA_BTN_A,
-    /*  1 */ OCARINA_BTN_C_DOWN,
-    /*  2 */ OCARINA_BTN_C_RIGHT,
-    /*  3 */ OCARINA_BTN_C_LEFT,
-    /*  4 */ OCARINA_BTN_C_UP,
-    /*  5 */ OCARINA_BTN_C_RIGHT_OR_C_LEFT,  // Special case for bFlat4: Interface/Overlap between C_RIGHT and C_LEFT
-    /* -1 */ OCARINA_BTN_INVALID = 0xFF
-} OcarinaButtonIdx;
+    /* 0 */ OCARINA_BTN_A,
+    /* 1 */ OCARINA_BTN_C_DOWN,
+    /* 2 */ OCARINA_BTN_C_RIGHT,
+    /* 3 */ OCARINA_BTN_C_LEFT,
+    /* 4 */ OCARINA_BTN_C_UP,
+    /* 5 */ OCARINA_BTN_C_RIGHT_OR_C_LEFT,  // Special case for bFlat4: Interface/Overlap between C_RIGHT and C_LEFT
+    /* 0xFF */ OCARINA_BTN_INVALID = 0xFF
+} OcarinaButtonIndex;
 
 // Uses scientific pitch notation relative to middle C
 // https://en.wikipedia.org/wiki/Scientific_pitch_notation
@@ -123,7 +123,7 @@ typedef enum {
     /* 0xD */ OCARINA_PITCH_DFLAT5,
     /* 0xE */ OCARINA_PITCH_D5,
     /* 0xF */ OCARINA_PITCH_EFLAT5,
-    /* -1  */ OCARINA_PITCH_NONE = 0xFF
+    /* 0xFF */ OCARINA_PITCH_NONE = 0xFF
 } OcarinaPitch;
 
 typedef enum {
@@ -143,7 +143,7 @@ typedef enum {
     /* 0  */ OCARINA_RECORD_OFF,
     /* 1  */ OCARINA_RECORD_SCARECROW_LONG,
     /* 2  */ OCARINA_RECORD_SCARECROW_SPAWN,
-    /* -1 */ OCARINA_RECORD_REJECTED = 0xFF
+    /* 0xFF */ OCARINA_RECORD_REJECTED = 0xFF
 } OcarinaRecordingState;
 
 /**

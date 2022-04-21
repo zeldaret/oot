@@ -39,7 +39,7 @@ extern u64 rspAspMainDataStart[];
 extern u64 rspAspMainDataEnd[];
 
 /**
- * Updates audio functions run on the audio thread
+ * This is Audio_Update for the audio thread
  */
 AudioTask* func_800E5000(void) {
     static s32 sMaxAbiCmdCnt = 0x80;

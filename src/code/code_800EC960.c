@@ -52,7 +52,7 @@ typedef enum {
     /* 0xD */ SFX_CHANNEL_OCARINA, // SfxOcarinaBank
     /* 0xE */ SFX_CHANNEL_VOICE0,  // SfxVoiceBank
     /* 0xF */ SFX_CHANNEL_VOICE1
-} SfxChannelIdx; // playerIdx = 2
+} SfxChannelIndex; // playerIdx = 2
 
 typedef struct {
     /* 0x0 */ f32 value;
@@ -833,10 +833,6 @@ NatureAmbienceDataIO sNatureAmbienceDataIO[20] = {
     },
 };
 
-/**
- * Audio Ocarina Data
- */
-
 u32 sOcarinaAllowedButtonMask = (BTN_A | BTN_CRIGHT | BTN_CLEFT | BTN_CDOWN | BTN_CUP);
 s32 sOcarinaAButtonMap = BTN_A;
 s32 sOcarinaCUpButtonMap = BTN_CUP;
@@ -853,20 +849,6 @@ s8 sCurOcarinaBendIndex = 0;
 s8 sCurOcarinaVolume = 87;
 s8 sCurOcarinaVibrato = 0;
 u8 sPlaybackState = 0;
-/** bit field of songs that can be played
- * 0x0800 storms
- * 0x0400 song of time
- * 0x0200 suns
- * 0x0100 lullaby
- * 0x0080 epona
- * 0x0040 sarias
- * 0x0020 prelude
- * 0x0010 nocturne
- * 0x0008 requiem
- * 0x0004 serenade
- * 0x0002 bolero
- * 0x0001 minuet
- */
 u32 sOcarinaFlags = 0;
 u32 sPlaybackNoteTimer = 0;
 u16 sPlaybackNotePos = 0;
@@ -1250,10 +1232,6 @@ u8 D_8016B9F3;
 u8 D_8016B9F4;
 u16 D_8016B9F6;
 
-/**
- * Audio Ocarina Bss
- */
-
 OcarinaStaff sPlayingStaff;
 OcarinaStaff sPlaybackStaff;
 OcarinaStaff sRecordingStaff;
@@ -1286,10 +1264,6 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId);
 s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol);
 
 // =========== Audio Ocarina ===========
-
-/**
- * Audio Ocarina Functions
- */
 
 void AudioOcarina_SetCustomButtonMapping(u8 useCustom) {
     if (!useCustom) {
@@ -2326,19 +2300,11 @@ extern u8 gAudioSfxSwapMode[];
 extern u8 gAudioSfxSwapOff;
 extern u8 D_801333F0;
 
-/**
- * Audio Debug Bss
- */
-
 u32 sDebugPadHold;
 u32 sDebugPadBtnLast;
 u32 sDebugPadPress;
 s32 sAudioUpdateTaskStart;
 s32 sAudioUpdateTaskEnd;
-
-/**
- * Audio Debug Data
- */
 
 f32 sAudioUpdateDuration = 0.0f;
 f32 sAudioUpdateDurationMax = 0.0f;
@@ -2396,10 +2362,6 @@ u8 sAudioBlkChgBgmSel = 0;
 char sBoolStrs[3][5] = { "OFF", "ON", "STBY" };
 u8 sAudioNatureFailed = false;
 u8 sPeakNumNotes = 0;
-
-/**
- * Audio Debug Functions
- */
 
 void AudioDebug_SetInput(void) {
     Input inputs[4];
@@ -3724,7 +3686,7 @@ void Audio_UpdateRiverSoundVolumes(void);
 void func_800F5CF8(void);
 
 /**
- * Updates audio functions run on the graph thread
+ * This is Audio_Update for the graph thread
  */
 void func_800F3054(void) {
     if (func_800FAD34() == 0) {
