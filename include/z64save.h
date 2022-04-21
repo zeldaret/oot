@@ -14,7 +14,7 @@ typedef enum MagicBarAction {
     /* 06 */ MAGIC_BAR_ACTION_BORDER_CHANGE_3, // Flashes border with no additional behaviour
     /* 07 */ MAGIC_BAR_ACTION_LENS_CONSUME, // Magic slowly consumed by lens. 
     /* 08 */ MAGIC_BAR_ACTION_GROW_WIDE, // Init magic on a new load, grow from a width of 0 to magicCapacity
-    /* 09 */ MAGIC_BAR_ACTION_FILL, // Fill to either full capacity or another action takes over
+    /* 09 */ MAGIC_BAR_ACTION_FILL, // Add magic until full capacity is reached
     /* 10 */ MAGIC_BAR_ACTION_ADD // Add requested magic
 } MagicBarAction;
 
