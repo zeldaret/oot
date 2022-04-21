@@ -2475,6 +2475,7 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
             break;
 
         case MAGIC_BAR_ACTION_LENS_CONSUME:
+            // Slowly consume magic while lens is on
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
                 (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
                 (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
