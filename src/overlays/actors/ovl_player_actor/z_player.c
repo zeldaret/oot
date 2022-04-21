@@ -3826,7 +3826,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             }
 
             func_80832698(this, NA_SE_VO_LI_TAKEN_AWAY);
-            globalCtx->unk_11DE9 = 1;
+            globalCtx->unk_11DE9 = true;
             func_80078884(NA_SE_OC_ABYSS);
         } else if ((this->unk_8A1 != 0) && ((this->unk_8A1 >= 2) || (this->invincibilityTimer == 0))) {
             u8 sp5C[] = { 2, 1, 1 };

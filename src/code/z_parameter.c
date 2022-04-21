@@ -139,7 +139,7 @@ static s16 sExtraItemBases[] = {
 };
 
 static s16 D_80125A58 = 0;
-static s16 D_80125A5C = 0;
+static s16 D_80125A5C = false;
 
 static Gfx sSetupDL_80125A60[] = {
     gsDPPipeSync(),
@@ -596,7 +596,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
             break;
     }
 
-    if ((globalCtx->roomCtx.curRoom.unk_03 == 1) && (interfaceCtx->minimapAlpha >= 0xFF)) {
+    if ((globalCtx->roomCtx.curRoom.unk_03 == 1) && (interfaceCtx->minimapAlpha >= 255)) {
         interfaceCtx->minimapAlpha = 255;
     }
 }
@@ -1945,11 +1945,11 @@ s32 Inventory_ReplaceItem(GlobalContext* globalCtx, u16 oldItem, u16 newItem) {
                     break;
                 }
             }
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 Inventory_HasEmptyBottle(void) {
@@ -2122,7 +2122,7 @@ void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action) {
                         &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2228);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
 
-    interfaceCtx->unk_1FA = 1;
+    interfaceCtx->unk_1FA = true;
 }
 
 s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
@@ -2166,9 +2166,9 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
 
     if (gSaveContext.health <= 0) {
         gSaveContext.health = 0;
-        return 0;
+        return false;
     } else {
-        return 1;
+        return true;
     }
 }
 
@@ -2605,7 +2605,7 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
 void func_80088AA0(s16 arg0) {
     gSaveContext.timerX[1] = 140;
     gSaveContext.timerY[1] = 80;
-    D_80125A5C = 0;
+    D_80125A5C = false;
     gSaveContext.timer2Value = arg0;
 
     if (arg0 != 0) {
@@ -2628,7 +2628,7 @@ void func_80088AF0(GlobalContext* globalCtx) {
 void func_80088B34(s16 arg0) {
     gSaveContext.timerX[0] = 140;
     gSaveContext.timerY[0] = 80;
-    D_80125A5C = 0;
+    D_80125A5C = false;
     gSaveContext.timer1Value = arg0;
 
     if (arg0 != 0) {
@@ -3495,11 +3495,11 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                             if (gSaveContext.timer1Value == 0) {
                                 gSaveContext.timer1State = 10;
-                                if (D_80125A5C != 0) {
+                                if (D_80125A5C) {
                                     gSaveContext.health = 0;
                                     globalCtx->damagePlayer(globalCtx, -(gSaveContext.health + 2));
                                 }
-                                D_80125A5C = 0;
+                                D_80125A5C = false;
                             } else if (gSaveContext.timer1Value > 60) {
                                 if (timerDigits[4] == 1) {
                                     Audio_PlaySoundGeneral(NA_SE_SY_MESSAGE_WOMAN, &D_801333D4, 4, &D_801333E0,
@@ -3798,7 +3798,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
 }
 
 void Interface_Update(GlobalContext* globalCtx) {
-    static u8 D_80125B60 = 0;
+    static u8 D_80125B60 = false;
     static s16 sPrevTimeIncrement = 0;
     MessageContext* msgCtx = &globalCtx->msgCtx;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
@@ -4067,7 +4067,7 @@ void Interface_Update(GlobalContext* globalCtx) {
             gSaveContext.timer1State = 1;
             gSaveContext.timerX[0] = 140;
             gSaveContext.timerY[0] = 80;
-            D_80125A5C = 1;
+            D_80125A5C = true;
         }
     } else {
         if (((D_80125A58 == 0) || (D_80125A58 == 3)) && (gSaveContext.timer1State < 5)) {
@@ -4119,15 +4119,15 @@ void Interface_Update(GlobalContext* globalCtx) {
         // handle suns song in areas where time moves
         if (globalCtx->envCtx.timeIncrement != 0) {
             if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
-                D_80125B60 = 0;
+                D_80125B60 = false;
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
-                    D_80125B60 = 1;
+                    D_80125B60 = true;
                 }
 
                 gSaveContext.sunsSongState = SUNSSONG_SPEED_TIME;
                 sPrevTimeIncrement = gTimeIncrement;
                 gTimeIncrement = 400;
-            } else if (D_80125B60 == 0) {
+            } else if (!D_80125B60) {
                 if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
                     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                     gTimeIncrement = sPrevTimeIncrement;
@@ -4143,12 +4143,12 @@ void Interface_Update(GlobalContext* globalCtx) {
                 gSaveContext.nextDayTime = 0;
                 globalCtx->fadeTransition = 4;
                 gSaveContext.nextTransition = 2;
-                globalCtx->unk_11DE9 = 1;
+                globalCtx->unk_11DE9 = true;
             } else {
                 gSaveContext.nextDayTime = 0x8001;
                 globalCtx->fadeTransition = 5;
                 gSaveContext.nextTransition = 3;
-                globalCtx->unk_11DE9 = 1;
+                globalCtx->unk_11DE9 = true;
             }
 
             if (globalCtx->sceneNum == SCENE_SPOT13) {
