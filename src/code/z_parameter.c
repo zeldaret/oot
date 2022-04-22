@@ -134,8 +134,24 @@ static s16 sMagicBorderG = 255;
 static s16 sMagicBorderB = 255;
 
 static s16 sExtraItemBases[] = {
-    ITEM_STICK, ITEM_STICK, ITEM_NUT,   ITEM_NUT,     ITEM_BOMB,    ITEM_BOMB,  ITEM_BOMB,  ITEM_BOMB, ITEM_BOW,
-    ITEM_BOW,   ITEM_BOW,   ITEM_SEEDS, ITEM_BOMBCHU, ITEM_BOMBCHU, ITEM_STICK, ITEM_STICK, ITEM_NUT,  ITEM_NUT,
+    ITEM_STICK,   // ITEM_STICKS_5
+    ITEM_STICK,   // ITEM_STICKS_10
+    ITEM_NUT,     // ITEM_NUTS_5
+    ITEM_NUT,     // ITEM_NUTS_10
+    ITEM_BOMB,    // ITEM_BOMBS_5
+    ITEM_BOMB,    // ITEM_BOMBS_10
+    ITEM_BOMB,    // ITEM_BOMBS_20
+    ITEM_BOMB,    // ITEM_BOMBS_30
+    ITEM_BOW,     // ITEM_ARROWS_SMALL
+    ITEM_BOW,     // ITEM_ARROWS_MEDIUM
+    ITEM_BOW,     // ITEM_ARROWS_LARGE
+    ITEM_SEEDS,   // ITEM_SEEDS_30
+    ITEM_BOMBCHU, // ITEM_BOMBCHUS_5
+    ITEM_BOMBCHU, // ITEM_BOMBCHUS_20
+    ITEM_STICK,   // ITEM_STICK_UPGRADE_20
+    ITEM_STICK,   // ITEM_STICK_UPGRADE_30
+    ITEM_NUT,     // ITEM_NUT_UPGRADE_30
+    ITEM_NUT,     // ITEM_NUT_UPGRADE_40
 };
 
 static s16 D_80125A58 = 0;
@@ -1304,7 +1320,7 @@ void func_80084BF4(GlobalContext* globalCtx, u16 flag) {
 }
 
 u8 Item_Give(GlobalContext* globalCtx, u8 item) {
-    static s16 sAmmoRefillCounts[] = { 5, 10, 20, 30 };
+    static s16 sAmmoRefillCounts[] = { 5, 10, 20, 30 }; // Sticks, nuts, bombs
     static s16 sArrowRefillCounts[] = { 5, 10, 30 };
     static s16 sBombchuRefillCounts[] = { 5, 20 };
     static s16 sRupeeRefillCounts[] = { 1, 5, 20, 50, 200, 10 };
