@@ -77,9 +77,9 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 this->unk_1C8.x = this->unk_1C8.y = this->unk_1C8.z = 0.1f;
                 this->unk_1A4.x = this->unk_1A4.y = this->unk_1A4.z = 0.1f;
 
-                this->unk_180.x = this->unk_168.x = globalCtx->view.lookAt.x;
-                this->unk_180.y = this->unk_168.y = globalCtx->view.lookAt.y;
-                this->unk_180.z = this->unk_168.z = globalCtx->view.lookAt.z;
+                this->unk_180.x = this->unk_168.x = globalCtx->view.at.x;
+                this->unk_180.y = this->unk_168.y = globalCtx->view.at.y;
+                this->unk_180.z = this->unk_168.z = globalCtx->view.at.z;
 
                 this->unk_18C.x = this->unk_174.x = globalCtx->view.eye.x;
                 this->unk_18C.y = this->unk_174.y = globalCtx->view.eye.y;

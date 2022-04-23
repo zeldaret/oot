@@ -313,9 +313,9 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) 
         this->rupeesLeftToThrow = 10;
     }
     this->unk_2DC.x = this->unk_2DC.y = this->unk_2DC.z = this->unk_300.x = this->unk_300.y = this->unk_300.z = 0.1f;
-    this->camLookAt.x = globalCtx->view.lookAt.x;
-    this->camLookAt.y = globalCtx->view.lookAt.y;
-    this->camLookAt.z = globalCtx->view.lookAt.z;
+    this->camLookAt.x = globalCtx->view.at.x;
+    this->camLookAt.y = globalCtx->view.at.y;
+    this->camLookAt.z = globalCtx->view.at.z;
     this->camEye.x = globalCtx->view.eye.x;
     this->camEye.y = globalCtx->view.eye.y + 80.0f;
     this->camEye.z = globalCtx->view.eye.z + 250.0f;

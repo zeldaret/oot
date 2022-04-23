@@ -47,10 +47,10 @@ void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCt
 void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* globalCtx);
 void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx);
 
-void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel,
-                              Color_RGB8* primColor, Color_RGB8* envColor, f32 scale, s16 life, s16 type);
-void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx);
-void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel,
+                             Color_RGB8* primColor, Color_RGB8* envColor, f32 scale, s16 life, s16 type);
+void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx);
+void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx);
 
 static s32 sUnusedGetItemIds[] = { GI_FARORES_WIND, GI_NAYRUS_LOVE, GI_DINS_FIRE };
 
@@ -97,71 +97,70 @@ void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
 void BgDyYoseizo_Destroy(Actor* this, GlobalContext* globalCtx) {
 }
 
-static Color_RGB8 sParticlePrimColors[] = {
+static Color_RGB8 sEffectPrimColors[] = {
     { 255, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
     { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 255, 170 },
 };
 
-static Color_RGB8 sParticleEnvColors[] = {
+static Color_RGB8 sEffectEnvColors[] = {
     { 155, 255, 255 }, { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 255, 100, 255 },
     { 255, 255, 100 }, { 100, 255, 100 }, { 255, 100, 100 }, { 100, 255, 255 },
 };
 
-void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16 type) {
-    Vec3f particleInitVelocity = { 0.0f, 0.0f, 0.0f };
-    Vec3f particleAccel;
-    Vec3f particleInitPos;
-    Color_RGB8 particlePrimColor;
-    Color_RGB8 particleEnvColor;
+void BgDyYoseizo_SpawnEffects(BgDyYoseizo* this, GlobalContext* globalCtx, s16 type) {
+    Vec3f vel = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel;
+    Vec3f pos;
+    Color_RGB8 primColor;
+    Color_RGB8 envColor;
     f32 spawnPosVariation;
-    s32 particleType;
-    f32 particleScale;
+    s32 effectType;
+    f32 scale;
     s32 i;
-    s16 particleLife;
+    s16 life;
 
     if (!(this->scale < 0.01f)) {
         spawnPosVariation = this->scale * 3500.0f;
-        particleAccel.x = Rand_ZeroOne() - 0.5f;
-        particleAccel.y = Rand_ZeroOne() - 0.5f;
-        particleAccel.z = Rand_ZeroOne() - 0.5f;
+        accel.x = Rand_ZeroOne() - 0.5f;
+        accel.y = Rand_ZeroOne() - 0.5f;
+        accel.z = Rand_ZeroOne() - 0.5f;
         for (i = 0; i < 2; i++) {
             if (type == 0) {
-                particleType = 0;
-                particleScale = 0.4f;
-                particleLife = 90;
-                particleInitPos.x = this->actor.world.pos.x;
-                particleInitPos.y = this->actor.world.pos.y + spawnPosVariation +
-                                    ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.5f));
-                particleInitPos.z = this->actor.world.pos.z + 30.0f;
+                effectType = 0;
+                scale = 0.4f;
+                life = 90;
+                pos.x = this->actor.world.pos.x;
+                pos.y = this->actor.world.pos.y + spawnPosVariation +
+                        ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.5f));
+                pos.z = this->actor.world.pos.z + 30.0f;
             } else {
-                particleLife = 50;
-                particleType = type;
-                particleScale = 0.2f;
-                particleInitPos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
+                life = 50;
+                effectType = type;
+                scale = 0.2f;
+                pos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
 
                 if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-                    particleInitPos.y = this->actor.world.pos.y + spawnPosVariation + 50.0f +
-                                        ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
-                    particleInitPos.z = this->actor.world.pos.z + 30.0f;
+                    pos.y = this->actor.world.pos.y + spawnPosVariation + 50.0f +
+                            ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
+                    pos.z = this->actor.world.pos.z + 30.0f;
                 } else {
-                    particleInitPos.y = this->actor.world.pos.y + spawnPosVariation - 30.0f +
-                                        ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
-                    particleInitPos.z = this->actor.world.pos.z + 60.0f;
+                    pos.y = this->actor.world.pos.y + spawnPosVariation - 30.0f +
+                            ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
+                    pos.z = this->actor.world.pos.z + 60.0f;
                 }
 
                 if (LINK_IS_ADULT) {
-                    particleInitPos.y += 20.0f;
+                    pos.y += 20.0f;
                 }
             }
 
-            particlePrimColor.r = sParticlePrimColors[particleType].r;
-            particlePrimColor.g = sParticlePrimColors[particleType].g;
-            particlePrimColor.b = sParticlePrimColors[particleType].b;
-            particleEnvColor.r = sParticleEnvColors[particleType].r;
-            particleEnvColor.g = sParticleEnvColors[particleType].g;
-            particleEnvColor.b = sParticleEnvColors[particleType].b;
-            BgDyYoseizo_ParticleInit(this, &particleInitPos, &particleInitVelocity, &particleAccel, &particlePrimColor,
-                                     &particleEnvColor, particleScale, particleLife, particleType);
+            primColor.r = sEffectPrimColors[effectType].r;
+            primColor.g = sEffectPrimColors[effectType].g;
+            primColor.b = sEffectPrimColors[effectType].b;
+            envColor.r = sEffectEnvColors[effectType].r;
+            envColor.g = sEffectEnvColors[effectType].g;
+            envColor.b = sEffectEnvColors[effectType].b;
+            BgDyYoseizo_SpawnEffect(this, &pos, &vel, &accel, &primColor, &envColor, scale, life, effectType);
         }
     }
 }
@@ -341,7 +340,7 @@ void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) 
     } else {
         this->actor.shape.rot.y += 3000;
     }
-    BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
+    BgDyYoseizo_SpawnEffects(this, globalCtx, 0);
 }
 
 void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
@@ -376,7 +375,7 @@ void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* glo
     this->actor.textId = 0xDB;
     this->dialogState = TEXT_STATE_EVENT;
     Message_StartTextbox(globalCtx, this->actor.textId, NULL);
-    BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
+    BgDyYoseizo_SpawnEffects(this, globalCtx, 0);
     this->actionFunc = BgDyYoseizo_GreetPlayer_NoReward;
 }
 
@@ -397,7 +396,7 @@ void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
     }
 
     BgDyYoseizo_Bob(this, globalCtx);
-    BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
+    BgDyYoseizo_SpawnEffects(this, globalCtx, 0);
 }
 
 void BgDyYoseizo_SetupHealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
@@ -506,7 +505,7 @@ void BgDyYoseizo_SayFarewell_NoReward(BgDyYoseizo* this, GlobalContext* globalCt
     }
 
     BgDyYoseizo_Bob(this, globalCtx);
-    BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
+    BgDyYoseizo_SpawnEffects(this, globalCtx, 0);
 }
 
 void BgDyYoseizo_SetupSpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
@@ -540,7 +539,7 @@ void BgDyYoseizo_SpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
             Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
             this->actor.shape.rot.y += 3000;
-            BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
+            BgDyYoseizo_SpawnEffects(this, globalCtx, 0);
         }
     }
 }
@@ -645,7 +644,7 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
             this->actionFunc = BgDyYoseizo_Give_Reward;
         }
     }
-    BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
+    BgDyYoseizo_SpawnEffects(this, globalCtx, 0);
 }
 
 static s16 sDemoEffectLightColors[] = { DEMO_EFFECT_LIGHT_GREEN, DEMO_EFFECT_LIGHT_RED, DEMO_EFFECT_LIGHT_BLUE };
@@ -693,7 +692,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         actionIndex = globalCtx->csCtx.npcActions[0]->action - 4;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             actionIndex++;
-            BgDyYoseizo_SpawnParticles(this, globalCtx, actionIndex);
+            BgDyYoseizo_SpawnEffects(this, globalCtx, actionIndex);
 
         } else if (!this->lightBallSpawned) {
             demoEffectParams = ((s16)(sDemoEffectLightColors[actionIndex] << 0xC) | DEMO_EFFECT_LIGHT);
@@ -702,7 +701,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
             this->lightBallSpawned = true;
         }
     } else {
-        BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
+        BgDyYoseizo_SpawnEffects(this, globalCtx, 0);
     }
 
     if ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) && (globalCtx->csCtx.npcActions[0]->action >= 10) &&
@@ -861,7 +860,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetFocus(&this->actor, this->heightOffset);
     this->actor.focus.pos.y = this->heightOffset;
     func_80038290(globalCtx, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
-    BgDyYoseizo_ParticleUpdate(this, globalCtx);
+    BgDyYoseizo_UpdateEffects(this, globalCtx);
     Actor_SetScale(&this->actor, this->scale);
 }
 
@@ -909,38 +908,38 @@ void BgDyYoseizo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               this->skelAnime.dListCount, BgDyYoseizo_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1629);
-    BgDyYoseizo_ParticleDraw(this, globalCtx);
+    BgDyYoseizo_DrawEffects(this, globalCtx);
 }
 
-void BgDyYoseizo_ParticleInit(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel,
-                              Color_RGB8* primColor, Color_RGB8* envColor, f32 scale, s16 life, s16 type) {
-    BgDyYoseizoParticle* particle;
+void BgDyYoseizo_SpawnEffect(BgDyYoseizo* this, Vec3f* initPos, Vec3f* initVelocity, Vec3f* accel,
+                             Color_RGB8* primColor, Color_RGB8* envColor, f32 scale, s16 life, s16 type) {
+    BgDyYoseizoEffect* effect;
     s16 i;
 
-    particle = this->particles;
+    effect = this->effects;
 
-    for (i = 0; i < 200; i++, particle++) {
-        if (particle->alive == 0) {
-            particle->alive = 1;
-            particle->pos = *initPos;
-            particle->velocity = *initVelocity;
-            particle->accel = *accel;
-            particle->primColor = *primColor;
-            particle->alpha = 0;
-            particle->envColor = *envColor;
-            particle->scale = scale;
-            particle->timer = life;
-            particle->type = type;
-            particle->pitch = 0.0f;
-            particle->yaw = Rand_CenteredFloat(30000.0f);
-            particle->roll = 0.0f;
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->alive == 0) {
+            effect->alive = 1;
+            effect->pos = *initPos;
+            effect->velocity = *initVelocity;
+            effect->accel = *accel;
+            effect->primColor = *primColor;
+            effect->alpha = 0;
+            effect->envColor = *envColor;
+            effect->scale = scale;
+            effect->timer = life;
+            effect->type = type;
+            effect->pitch = 0.0f;
+            effect->yaw = Rand_CenteredFloat(30000.0f);
+            effect->roll = 0.0f;
             return;
         }
     }
 }
 
-void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    BgDyYoseizoParticle* particle = this->particles;
+void BgDyYoseizo_UpdateEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
+    BgDyYoseizoEffect* effect = this->effects;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f sp94;
     Vec3f sp88;
@@ -948,17 +947,17 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 goalYaw;
     s16 i = 0;
 
-    for (i = 0; i < 200; i++, particle++) {
-        if (particle->alive != 0) {
-            particle->roll += 3000.0f;
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->alive != 0) {
+            effect->roll += 3000.0f;
 
-            if (particle->type == 0) {
-                particle->pos.x += particle->velocity.x;
-                particle->pos.y += particle->velocity.y;
-                particle->pos.z += particle->velocity.z;
-                particle->velocity.x += particle->accel.x;
-                particle->velocity.y += particle->accel.y;
-                particle->velocity.z += particle->accel.z;
+            if (effect->type == 0) {
+                effect->pos.x += effect->velocity.x;
+                effect->pos.y += effect->velocity.y;
+                effect->pos.z += effect->velocity.z;
+                effect->velocity.x += effect->accel.x;
+                effect->velocity.y += effect->accel.y;
+                effect->velocity.z += effect->accel.z;
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HEALING - SFX_FLAG);
 
@@ -966,69 +965,69 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 sp94.y = player->actor.world.pos.y - 150.0f;
                 sp94.z = player->actor.world.pos.z - 50.0f;
 
-                goalPitch = Math_Vec3f_Pitch(&particle->pos, &sp94);
-                goalYaw = Math_Vec3f_Yaw(&particle->pos, &sp94);
+                goalPitch = Math_Vec3f_Pitch(&effect->pos, &sp94);
+                goalYaw = Math_Vec3f_Yaw(&effect->pos, &sp94);
 
-                Math_ApproachF(&particle->pitch, goalPitch, 0.9f, 5000.0f);
-                Math_ApproachF(&particle->yaw, goalYaw, 0.9f, 5000.0f);
+                Math_ApproachF(&effect->pitch, goalPitch, 0.9f, 5000.0f);
+                Math_ApproachF(&effect->yaw, goalYaw, 0.9f, 5000.0f);
                 Matrix_Push();
-                Matrix_RotateY(BINANG_TO_RAD_ALT(particle->yaw), MTXMODE_NEW);
-                Matrix_RotateX(BINANG_TO_RAD_ALT(particle->pitch), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(effect->yaw), MTXMODE_NEW);
+                Matrix_RotateX(BINANG_TO_RAD_ALT(effect->pitch), MTXMODE_APPLY);
 
                 sp94.x = sp94.y = sp94.z = 3.0f;
 
                 Matrix_MultVec3f(&sp94, &sp88);
                 Matrix_Pop();
-                particle->pos.x += sp88.x;
-                particle->pos.y += sp88.y;
-                particle->pos.z += sp88.z;
+                effect->pos.x += sp88.x;
+                effect->pos.y += sp88.y;
+                effect->pos.z += sp88.z;
             }
         }
 
         // fade up, fade down, vanish and reset
-        if (particle->timer != 0) {
-            particle->timer--;
-            particle->alpha += 30;
+        if (effect->timer != 0) {
+            effect->timer--;
+            effect->alpha += 30;
 
-            if (particle->alpha > 255) {
-                particle->alpha = 255;
+            if (effect->alpha > 255) {
+                effect->alpha = 255;
             }
         } else {
-            particle->alpha -= 30;
+            effect->alpha -= 30;
 
-            if (particle->alpha <= 0) {
-                particle->alpha = particle->alive = 0;
+            if (effect->alpha <= 0) {
+                effect->alpha = effect->alive = 0;
             }
         }
     }
 }
 
-void BgDyYoseizo_ParticleDraw(BgDyYoseizo* this, GlobalContext* globalCtx) {
+void BgDyYoseizo_DrawEffects(BgDyYoseizo* this, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 phi_s3 = 0;
-    BgDyYoseizoParticle* particle = this->particles;
+    u8 materialFlag = 0;
+    BgDyYoseizoEffect* effect = this->effects;
     s16 i;
 
     OPEN_DISPS(gfxCtx, "../z_bg_dy_yoseizo.c", 1767);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < 200; i++, particle++) {
-        if (particle->alive == 1) {
-            if (phi_s3 == 0) {
+    for (i = 0; i < BG_DY_YOSEIZO_EFFECT_COUNT; i++, effect++) {
+        if (effect->alive == 1) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gGreatFairyParticleMaterialDL));
                 gDPPipeSync(POLY_XLU_DISP++);
 
-                phi_s3++;
+                materialFlag++;
             }
 
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, particle->primColor.r, particle->primColor.g, particle->primColor.b,
-                            particle->alpha);
-            gDPSetEnvColor(POLY_XLU_DISP++, particle->envColor.r, particle->envColor.g, particle->envColor.b, 0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->primColor.r, effect->primColor.g, effect->primColor.b,
+                            effect->alpha);
+            gDPSetEnvColor(POLY_XLU_DISP++, effect->envColor.r, effect->envColor.g, effect->envColor.b, 0);
 
-            Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+            Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-            Matrix_Scale(particle->scale, particle->scale, 1.0f, MTXMODE_APPLY);
-            Matrix_RotateZ(particle->roll, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->roll, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_bg_dy_yoseizo.c", 1810),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

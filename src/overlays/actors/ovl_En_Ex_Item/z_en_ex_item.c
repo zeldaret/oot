@@ -279,9 +279,9 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
             if (this->type == EXITEM_BOMBCHUS_BOWLING) {
                 sp3C = 220.0f;
             }
-            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.lookAt.z + sp3C - globalCtx->view.eye.z;
+            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.at.y - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.at.z + sp3C - globalCtx->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;
@@ -362,9 +362,9 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
 
     if (this->timer != 0) {
         if (this->prizeRotateTimer != 0) {
-            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.lookAt.y - 10.0f - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.lookAt.z + 10.0f - globalCtx->view.eye.z;
+            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.at.y - 10.0f - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.at.z + 10.0f - globalCtx->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;

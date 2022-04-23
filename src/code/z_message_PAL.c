@@ -1936,7 +1936,7 @@ void Message_DrawTextBox(GlobalContext* globalCtx, Gfx** p) {
 
 void Message_SetView(View* view) {
     SET_FULLSCREEN_VIEWPORT(view);
-    func_800AB2C4(view);
+    View_ApplyOrthoToOverlay(view);
 }
 
 /**

@@ -62,13 +62,13 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-static AnimationHeader* D_809FCECC[] = { &gDoor3Anim, &gDoor1Anim, &gDoor4Anim, &gDoor2Anim };
+static AnimationHeader* sDoorAnims[] = { &gDoor3Anim, &gDoor1Anim, &gDoor4Anim, &gDoor2Anim };
 
 static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 
 static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
 
-static Gfx* D_809FCEE4[5][2] = {
+static Gfx* sDoorDLists[5][2] = {
     { gDoorLeftDL, gDoorRightDL },
     { gFireTempleDoorWithHandleFrontDL, gFireTempleDoorWithHandleBackDL },
     { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },
@@ -185,13 +185,13 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 doorType;
     Vec3f playerPosRelToDoor;
-    s16 phi_v0;
+    s16 yawDiff;
 
     doorType = this->actor.params >> 7 & 7;
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     if (this->playerIsOpening != 0) {
         this->actionFunc = EnDoor_Open;
-        Animation_PlayOnceSetSpeed(&this->skelAnime, D_809FCECC[this->animStyle],
+        Animation_PlayOnceSetSpeed(&this->skelAnime, sDoorAnims[this->animStyle],
                                    (player->stateFlags1 & PLAYER_STATE1_27) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
@@ -201,11 +201,11 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
     } else if (!Player_InCsMode(globalCtx)) {
         if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
             fabsf(playerPosRelToDoor.z) < 50.0f) {
-            phi_v0 = player->actor.shape.rot.y - this->actor.shape.rot.y;
+            yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
             if (playerPosRelToDoor.z > 0.0f) {
-                phi_v0 = 0x8000 - phi_v0;
+                yawDiff = 0x8000 - yawDiff;
             }
-            if (ABS(phi_v0) < 0x3000) {
+            if (ABS(yawDiff) < 0x3000) {
                 if (this->lockTimer != 0) {
                     if (gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] <= 0) {
                         Player* player2 = GET_PLAYER(globalCtx);
@@ -299,27 +299,27 @@ void EnDoor_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 EnDoor_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
     TransitionActorEntry* transitionEntry;
-    Gfx** temp_a2;
+    Gfx** doorDLists;
     s32 pad2;
-    s16 phi_v0_2;
-    s32 phi_v0;
+    s16 rotDiff;
+    s32 doorDListIndex;
     EnDoor* this = (EnDoor*)thisx;
 
     if (limbIndex == 4) {
-        temp_a2 = D_809FCEE4[this->dListIndex];
+        doorDLists = sDoorDLists[this->dListIndex];
         transitionEntry = &globalCtx->transiActorCtx.list[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.world.rot.y;
         if ((globalCtx->roomCtx.prevRoom.num >= 0) ||
             (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
-            phi_v0_2 = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -
-                       Math_Vec3f_Yaw(&globalCtx->view.eye, &this->actor.world.pos);
-            *dList = (ABS(phi_v0_2) < 0x4000) ? temp_a2[0] : temp_a2[1];
+            rotDiff = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -
+                      Math_Vec3f_Yaw(&globalCtx->view.eye, &this->actor.world.pos);
+            *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
         } else {
-            phi_v0 = this->unk_192;
+            doorDListIndex = this->unk_192;
             if (transitionEntry->sides[0].room != this->actor.room) {
-                phi_v0 ^= 1;
+                doorDListIndex ^= 1;
             }
-            *dList = temp_a2[phi_v0];
+            *dList = doorDLists[doorDListIndex];
         }
     }
     return false;
