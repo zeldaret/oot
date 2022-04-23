@@ -1592,7 +1592,7 @@ void Message_OpenText(GlobalContext* globalCtx, u16 textId) {
     if (textId == 0xC2 || textId == 0xFA) {
         // Increments text id based on piece of heart count, assumes the piece of heart text is all
         // in order and that you don't have more than the intended amount of heart pieces.
-        textId += (gSaveContext.inventory.questItems & 0xF0000000 & 0xF0000000) >> 0x1C;
+        textId += (gSaveContext.inventory.questItems & 0xF0000000 & 0xF0000000) >> QUEST_HEART_PIECE_COUNT;
     } else if (msgCtx->textId == 0xC && CHECK_OWNED_EQUIP(EQUIP_SWORD, 2)) {
         textId = 0xB; // Traded Giant's Knife for Biggoron Sword
     } else if (msgCtx->textId == 0xB4 && (gSaveContext.eventChkInf[9] & 0x40)) {
@@ -3259,8 +3259,8 @@ void Message_Update(GlobalContext* globalCtx) {
             } else {
                 msgCtx->textboxEndType = TEXTBOX_ENDTYPE_DEFAULT;
             }
-            if ((s32)(gSaveContext.inventory.questItems & 0xF0000000) == 0x40000000) {
-                gSaveContext.inventory.questItems ^= 0x40000000;
+            if ((s32)(gSaveContext.inventory.questItems & 0xF0000000) == (4 << QUEST_HEART_PIECE_COUNT)) {
+                gSaveContext.inventory.questItems ^= (4 << QUEST_HEART_PIECE_COUNT);
                 gSaveContext.healthCapacity += 0x10;
                 gSaveContext.health += 0x10;
             }

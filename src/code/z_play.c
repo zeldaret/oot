@@ -334,7 +334,7 @@ void Gameplay_Init(GameState* thisx) {
     globalCtx->sceneLoadFlag = -0x14;
     globalCtx->unk_11E16 = 0xFF;
     globalCtx->unk_11E18 = 0;
-    globalCtx->unk_11DE9 = 0;
+    globalCtx->unk_11DE9 = false;
 
     if (gSaveContext.gameMode != 1) {
         if (gSaveContext.nextTransition == 0xFF) {
@@ -856,7 +856,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3637);
                     }
 
-                    if (globalCtx->unk_11DE9 == 0) {
+                    if (!globalCtx->unk_11DE9) {
                         Actor_UpdateAll(globalCtx, &globalCtx->actorCtx);
                     }
 
