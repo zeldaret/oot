@@ -130,7 +130,7 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBw* this = (EnBw*)thisx;
 
     Actor_SetScale(&this->actor, 0.012999999f);
-    this->actor.naviEnemyId = 0x23;
+    this->actor.naviEnemyId = NAVI_ENEMY_TORCH_SLUG;
     this->actor.gravity = -2.0f;
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_bw_Skel_0020F0, &object_bw_Anim_000228, this->jointTable,
                    this->morphTable, 12);

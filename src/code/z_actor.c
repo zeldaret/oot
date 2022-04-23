@@ -809,7 +809,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     actor->targetMode = 3;
     actor->minVelocityY = -20.0f;
     actor->xyzDistToPlayerSq = FLT_MAX;
-    actor->naviEnemyId = 0xFF;
+    actor->naviEnemyId = NAVI_ENEMY_NONE;
     actor->uncullZoneForward = 1000.0f;
     actor->uncullZoneScale = 350.0f;
     actor->uncullZoneDownward = 700.0f;

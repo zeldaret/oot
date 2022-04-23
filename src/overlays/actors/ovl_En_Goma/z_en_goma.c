@@ -99,7 +99,7 @@ static Vec3f sDeadEffectVel = { 0.0f, 0.0f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x03, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GOHMA_LARVA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 20, ICHAIN_STOP),
 };
@@ -787,7 +787,7 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->gomaType) {
         case ENGOMA_NORMAL:
-            this->actor.naviEnemyId = 0x03;
+            this->actor.naviEnemyId = NAVI_ENEMY_GOHMA_LARVA;
             Matrix_Translate(this->actor.world.pos.x,
                              this->actor.world.pos.y + ((this->actor.shape.yOffset * this->actor.scale.y) +
                                                         globalCtx->mainCamera.skyboxOffset.y),
@@ -803,7 +803,7 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case ENGOMA_EGG:
-            this->actor.naviEnemyId = 0x02;
+            this->actor.naviEnemyId = NAVI_ENEMY_GOHMA_EGG;
             y = (s16)(sinf((this->eggTimer * 5.0f * 3.1415f) / 180.0f) * 31.9f);
             y = (s16)(y + 31);
             gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, y));

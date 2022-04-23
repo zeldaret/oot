@@ -299,7 +299,7 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x0D, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DODONGO, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2800, ICHAIN_STOP),
 };

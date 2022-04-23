@@ -49,7 +49,7 @@ const ActorInit Boss_Dodongo_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x0C, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_KING_DODONGO, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000.0f, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 8200.0f, ICHAIN_STOP),
 };
