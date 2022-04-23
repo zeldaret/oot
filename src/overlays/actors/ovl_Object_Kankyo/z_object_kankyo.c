@@ -229,9 +229,9 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < globalCtx->envCtx.unk_EE[3]; i++) {
         // spawn in front of the camera
-        dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+        dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+        dz = globalCtx->view.at.z - globalCtx->view.eye.z;
         dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
         viewForwards.x = dx / dist;
@@ -600,9 +600,9 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, GlobalContext* globalCtx2) {
             switch (this->effects[i].state) {
                 case 0:
                     // spawn in front of the camera
-                    dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-                    dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-                    dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+                    dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+                    dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+                    dz = globalCtx->view.at.z - globalCtx->view.eye.z;
                     dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
                     // fake
@@ -624,9 +624,9 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, GlobalContext* globalCtx2) {
                     break;
 
                 case 1:
-                    dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-                    dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-                    dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+                    dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+                    dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+                    dz = globalCtx->view.at.z - globalCtx->view.eye.z;
                     dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
                     baseX = globalCtx->view.eye.x + dx / dist * 80.0f;

@@ -82,7 +82,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->type = (this->actor.params >> 0xC) & 0xF;
     this->switchFlag = this->actor.params & 0x3F;
-    this->numEffects = ARRAY_COUNT(this->effects);
+    this->numEffects = EN_GSWITCH_EFFECT_COUNT;
     // "index"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
     // "save"

@@ -28,8 +28,6 @@ typedef struct {
     /* 0x0C */ f32 unk_0C;
 } FishingFishInit; // size = 0x10
 
-#define EFFECT_COUNT 130
-
 typedef enum {
     /* 0x00 */ FS_EFF_NONE,
     /* 0x01 */ FS_EFF_RIPPLE,
@@ -41,6 +39,8 @@ typedef enum {
     /* 0x07 */ FS_EFF_RAIN_RIPPLE,
     /* 0x08 */ FS_EFF_RAIN_SPLASH
 } FishingEffectType;
+
+#define FISHING_EFFECT_COUNT 130
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -409,7 +409,7 @@ static FishingGroupFish sGroupFishes[GROUP_FISH_COUNT];
 static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
-static FishingEffect sFishingEffects[EFFECT_COUNT];
+static FishingEffect sEffects[FISHING_EFFECT_COUNT];
 static Vec3f sStreamSoundProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
@@ -579,7 +579,7 @@ void Fishing_SpawnRainDrop(FishingEffect* effect, Vec3f* pos, Vec3f* rot) {
 
     effect += 30;
 
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_NONE) {
             effect->type = FS_EFF_RAIN_DROP;
             effect->pos = *pos;
@@ -862,7 +862,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         D_80B7A684 = 20;
-        globalCtx->specialEffects = sFishingEffects;
+        globalCtx->specialEffects = sEffects;
         gTimeIncrement = 1;
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
@@ -903,8 +903,8 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
             D_80B7E077 = 0;
         }
 
-        for (i = 0; i < EFFECT_COUNT; i++) {
-            sFishingEffects[i].type = FS_EFF_NONE;
+        for (i = 0; i < FISHING_EFFECT_COUNT; i++) {
+            sEffects[i].type = FS_EFF_NONE;
         }
 
         for (i = 0; i < POND_PROP_COUNT; i++) {
@@ -1024,7 +1024,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     f32 rippleY;
     s16 i;
 
-    for (i = 0; i < EFFECT_COUNT; i++) {
+    for (i = 0; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type) {
             effect->timer++;
             effect->pos.x += effect->vel.x;
@@ -1167,7 +1167,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
 }
 
 void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     f32 rotY;
     s16 i;
     s32 pad;
@@ -1181,10 +1181,10 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
 
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -1201,13 +1201,13 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_DUST_SPLASH) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->alpha);
@@ -1225,13 +1225,13 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_WATER_DUST) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustMaterialDL);
                 gDPSetEnvColor(POLY_OPA_DISP++, 40, 90, 80, 128);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 40, 90, 80, effect->alpha);
@@ -1253,14 +1253,14 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_BUBBLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingBubbleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1276,14 +1276,14 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect + 30;
-    flag = 0;
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    materialFlag = 0;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_DROP) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
                 gDPSetCombineMode(POLY_XLU_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 150, 255, 255, 30);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1303,14 +1303,14 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     effect = firstEffect + 30;
-    flag = 0;
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    materialFlag = 0;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 130);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1325,13 +1325,13 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect + 30;
-    flag = 0;
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    materialFlag = 0;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_SPLASH) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, KREG(19) + 80);
-                flag++;
+                materialFlag++;
             }
 
             if (Rand_ZeroOne() < 0.5f) {
@@ -4386,7 +4386,7 @@ void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
 }
 
 void Fishing_DrawPondProps(GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     FishingProp* prop = &sPondProps[0];
     s16 i;
     s32 pad;
@@ -4397,9 +4397,9 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
 
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_REED) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingReedMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
@@ -4419,12 +4419,12 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     }
 
     prop = &sPondProps[0];
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_WOOD_POST) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
@@ -4441,12 +4441,12 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     }
 
     prop = &sPondProps[0];
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_LILY_PAD) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
@@ -4466,12 +4466,12 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     }
 
     prop = &sPondProps[0];
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_ROCK) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingRockMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
@@ -4680,7 +4680,7 @@ void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
 }
 
 void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     FishingGroupFish* fish = &sGroupFishes[0];
     f32 scale;
     s16 i;
@@ -4698,10 +4698,10 @@ void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
 
     for (i = 0; i < GROUP_FISH_COUNT; i++) {
         if (fish->type != FS_GROUP_FISH_NONE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-                flag++;
+                materialFlag++;
             }
 
             if (fish->shouldDraw) {

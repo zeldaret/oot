@@ -246,7 +246,7 @@ static DamageTable sClubMoblinDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4A, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MOBLIN, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
 };
@@ -308,7 +308,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
             this->actor.flags &= ~ACTOR_FLAG_0;
-            this->actor.naviEnemyId += 1;
+            this->actor.naviEnemyId += 1; // NAVI_ENEMY_MOBLIN_CLUB
             EnMb_SetupClubWaitPlayerNear(this);
             break;
         default: /* Spear Patrol */
