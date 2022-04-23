@@ -2570,8 +2570,8 @@ void func_80B59828(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B59A80(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B59768(this, globalCtx)) {
-        Audio_PlaySfxGeneral(NA_SE_OC_REVENGE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
-                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        Audio_PlaySoundGeneral(NA_SE_OC_REVENGE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 

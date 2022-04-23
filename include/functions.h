@@ -2012,7 +2012,7 @@ void func_800F71BC(s32 arg0);
 void Audio_SetSoundBanksMute(u16 muteMask);
 void Audio_QueueSeqCmdMute(u8 channelIdx);
 void Audio_ClearBGMMute(u8 channelIdx);
-void Audio_PlaySfxGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd);
+void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* pos, u8 token, f32* freqScale, f32* vol, s8* reverbAdd);
 void Audio_ProcessSoundRequest(void);
 void Audio_ChooseActiveSounds(u8 bankId);
 void Audio_PlayActiveSounds(u8 bankId);
