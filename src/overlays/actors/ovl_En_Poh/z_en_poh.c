@@ -232,11 +232,11 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params < EN_POH_SHARP) {
         this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_POH);
         this->infoIdx = EN_POH_INFO_NORMAL;
-        this->actor.naviEnemyId = 0x44;
+        this->actor.naviEnemyId = NAVI_ENEMY_POE;
     } else {
         this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_PO_COMPOSER);
         this->infoIdx = EN_POH_INFO_COMPOSER;
-        this->actor.naviEnemyId = 0x43;
+        this->actor.naviEnemyId = NAVI_ENEMY_POE_COMPOSER;
     }
     this->info = &sPoeInfo[this->infoIdx];
     if (this->objectIdx < 0) {
@@ -332,7 +332,7 @@ void func_80ADE48C(EnPoh* this) {
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk_198 = 0;
-    this->actor.naviEnemyId = 0xFF;
+    this->actor.naviEnemyId = NAVI_ENEMY_NONE;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = func_80ADF15C;
 }

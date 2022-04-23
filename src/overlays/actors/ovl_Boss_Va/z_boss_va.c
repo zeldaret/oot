@@ -619,7 +619,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->actor.focus.pos = this->actor.world.pos;
     this->onCeiling = false;
-    this->actor.naviEnemyId = 0x14;
+    this->actor.naviEnemyId = NAVI_ENEMY_BARINADE;
 
     switch (this->actor.params) {
         case BOSSVA_BODY:

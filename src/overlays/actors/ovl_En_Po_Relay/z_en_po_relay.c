@@ -68,7 +68,7 @@ static ColliderCylinderInit sCylinderInit = {
 static s32 D_80AD8D24 = 0;
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4F, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DAMPES_GHOST, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 1500, ICHAIN_STOP),
 };
 

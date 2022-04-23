@@ -323,12 +323,12 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == ENZF_TYPE_DINOLFOS) {
         thisx->colChkInfo.health = 12;
-        thisx->naviEnemyId = 0x10;
+        thisx->naviEnemyId = NAVI_ENEMY_DINOLFOS;
         SkelAnime_Init(globalCtx, &this->skelAnime, &gZfDinolfosSkel, &gZfCryingAnim, this->jointTable,
                        this->morphTable, ENZF_LIMB_MAX);
     } else { // Lizalfos
         thisx->colChkInfo.health = 6;
-        thisx->naviEnemyId = 0x0F;
+        thisx->naviEnemyId = NAVI_ENEMY_LIZALFOS;
         SkelAnime_Init(globalCtx, &this->skelAnime, &gZfLizalfosSkel, &gZfCryingAnim, this->jointTable,
                        this->morphTable, ENZF_LIMB_MAX);
     }

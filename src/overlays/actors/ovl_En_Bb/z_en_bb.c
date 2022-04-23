@@ -339,7 +339,7 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, 0.01f);
         switch (thisx->params) {
             case ENBB_BLUE:
-                thisx->naviEnemyId = 0x1C;
+                thisx->naviEnemyId = NAVI_ENEMY_BLUE_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableBlueGreen;
                 this->flamePrimBlue = this->flameEnvColor.b = 255;
                 thisx->world.pos.y += 50.0f;
@@ -347,14 +347,14 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 thisx->flags |= ACTOR_FLAG_14;
                 break;
             case ENBB_RED:
-                thisx->naviEnemyId = 0x24;
+                thisx->naviEnemyId = NAVI_ENEMY_RED_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableRed;
                 this->flameEnvColor.r = 255;
                 this->collider.elements[0].info.toucher.effect = 1;
                 EnBb_SetupRed(globalCtx, this);
                 break;
             case ENBB_WHITE:
-                thisx->naviEnemyId = 0x1D;
+                thisx->naviEnemyId = NAVI_ENEMY_WHITE_BUBBLE;
                 thisx->colChkInfo.damageTable = &sDamageTableWhite;
                 this->path = this->actionState;
                 blureInit.p1StartColor[0] = blureInit.p1StartColor[1] = blureInit.p1StartColor[2] =
@@ -379,8 +379,9 @@ void EnBb_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->path = this->actionState >> 4;
                 this->collider.elements[0].dim.modelSphere.radius = 0x16;
                 Actor_SetScale(thisx, 0.03f);
+                // fallthrough
             case ENBB_GREEN:
-                thisx->naviEnemyId = 0x1E;
+                thisx->naviEnemyId = NAVI_ENEMY_GREEN_BUBBLE;
                 this->bobSize = (this->actionState & 0xF) * 20.0f;
                 thisx->colChkInfo.damageTable = &sDamageTableBlueGreen;
                 this->flameEnvColor.g = 255;

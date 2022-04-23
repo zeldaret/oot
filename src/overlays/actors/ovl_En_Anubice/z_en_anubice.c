@@ -135,7 +135,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n" VT_RST);
 
-    this->actor.naviEnemyId = 0x3A;
+    this->actor.naviEnemyId = NAVI_ENEMY_ANUBIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);

@@ -200,7 +200,7 @@ static void* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmile
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x2B, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_PHANTOM_GANON_PHASE_1, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -463,7 +463,7 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
         this->colliderBody.dim.height = 60;
         this->colliderBody.dim.yShift = -33;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
-        this->actor.naviEnemyId = 0x1A;
+        this->actor.naviEnemyId = NAVI_ENEMY_PHANTOM_GANON_PHASE_2;
     } else {
         horse->bossGndSignal = FHG_NO_SIGNAL;
         this->actor.scale.x = horse->actor.scale.x / 1.15f;

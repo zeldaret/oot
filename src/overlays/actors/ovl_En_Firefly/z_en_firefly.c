@@ -121,7 +121,7 @@ void EnFirefly_Extinguish(EnFirefly* this) {
     this->collider.elements[0].info.toucher.effect = 0; // None
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
-    this->actor.naviEnemyId = 0x12; // Keese
+    this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
 }
 
 void EnFirefly_Ignite(EnFirefly* this) {
@@ -133,7 +133,7 @@ void EnFirefly_Ignite(EnFirefly* this) {
     this->collider.elements[0].info.toucher.effect = 1; // Fire
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
-    this->actor.naviEnemyId = 0x11; // Fire Keese
+    this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
 }
 
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -165,7 +165,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->timer = Rand_S16Offset(20, 60);
         this->actor.shape.rot.x = 0x1554;
         this->auraType = KEESE_AURA_FIRE;
-        this->actor.naviEnemyId = 0x11; // Fire Keese
+        this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
         this->maxAltitude = this->actor.home.pos.y;
     } else {
         if (this->actor.params == KEESE_NORMAL_PERCH) {
@@ -176,10 +176,10 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->actor.params == KEESE_ICE_FLY) {
             this->collider.elements[0].info.toucher.effect = 2; // Ice
-            this->actor.naviEnemyId = 0x56;                     // Ice Keese
+            this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
             this->collider.elements[0].info.toucher.effect = 0; // Nothing
-            this->actor.naviEnemyId = 0x12;                     // Keese
+            this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
 
         this->maxAltitude = this->actor.home.pos.y + 100.0f;

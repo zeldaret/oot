@@ -236,14 +236,14 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosNormalSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.0075f);
-        thisx->naviEnemyId = 0x4C; // Wolfos
-    } else {                       // WOLFOS_WHITE
+        thisx->naviEnemyId = NAVI_ENEMY_WOLFOS;
+    } else { // WOLFOS_WHITE
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
         this->colliderSpheres.elements[0].info.toucher.damage = this->colliderSpheres.elements[1].info.toucher.damage =
             8;
-        thisx->naviEnemyId = 0x57; // White Wolfos
+        thisx->naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
 
     EnWf_SetupWaitToAppear(this);

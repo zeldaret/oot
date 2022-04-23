@@ -462,7 +462,7 @@ void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
     this->runDir = Rand_ZeroOne() < 0.5f ? -1 : 1;
-    this->actor.naviEnemyId = 0x22;
+    this->actor.naviEnemyId = NAVI_ENEMY_FLARE_DANCER;
     this->actionFunc = EnFd_Reappear;
 }
 

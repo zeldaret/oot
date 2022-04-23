@@ -220,7 +220,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
         this->collider.dim.yShift = 10;
         this->actor.shape.shadowScale = 45.0f;
         this->scaleModifier = 0.014f;
-        this->actor.naviEnemyId = 0x5A;
+        this->actor.naviEnemyId = NAVI_ENEMY_BIG_POE;
     } else {
         this->actor.speedXZ = 0.0f;
         this->collider.dim.radius = D_80AD7080.dim.radius;
@@ -228,7 +228,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
         this->collider.dim.yShift = D_80AD7080.dim.yShift;
         this->actor.shape.shadowScale = 37.0f;
         this->scaleModifier = 0.01f;
-        this->actor.naviEnemyId = 0x5C;
+        this->actor.naviEnemyId = NAVI_ENEMY_POE_WASTELAND;
     }
     this->actionFunc = EnPoField_Appear;
 }
@@ -280,7 +280,7 @@ void EnPoField_SetupDeath(EnPoField* this) {
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.naviEnemyId = 0xFF;
+    this->actor.naviEnemyId = NAVI_ENEMY_NONE;
     if (this->flameTimer >= 20) {
         this->flameTimer = 19;
     }

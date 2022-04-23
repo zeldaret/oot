@@ -144,7 +144,7 @@ void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->colliderQuad2, thisx, &sQuadInit2);
     this->beamSightRange = (thisx->params >> 8) * 40.0f;
     thisx->params &= 0xFF;
-    thisx->naviEnemyId = 0x39;
+    thisx->naviEnemyId = NAVI_ENEMY_BEAMOS;
 
     if (thisx->params == BEAMOS_LARGE) {
         thisx->colChkInfo.health = 2;
