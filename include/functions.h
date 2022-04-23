@@ -1933,7 +1933,7 @@ void AudioSeq_InitSequencePlayerChannels(s32 playerIdx);
 void AudioSeq_InitSequencePlayers(void);
 void AudioOcarina_Start(u16 ocarinaFlags);
 void AudioOcarina_SetInstrument(u8 ocarinaInstrumentId);
-void AudioOcarina_SetPlaybackSong(s8 songIdxPlusOne, s8 displayedState);
+void AudioOcarina_SetPlaybackSong(s8 songIndexPlusOne, s8 playbackState);
 void AudioOcarina_SetRecordingState(u8 recordingState);
 OcarinaStaff* AudioOcarina_GetRecordingStaff(void);
 OcarinaStaff* AudioOcarina_GetPlayingStaff(void);
