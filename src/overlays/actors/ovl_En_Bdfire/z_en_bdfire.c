@@ -119,55 +119,45 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
 }
 
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
-    s16 phi_v1_2;
+    s16 quarterTurn;
     Player* player = GET_PLAYER(globalCtx);
     f32 distToBurn;
     BossDodongo* bossDodongo;
     s16 i;
-    s16 phi_v1;
-    s32 temp;
 
     bossDodongo = ((BossDodongo*)this->actor.parent);
     this->unk_158 = bossDodongo->unk_1A2;
-    phi_v1_2 = 0;
+    quarterTurn = false;
     if (this->actor.params == 0) {
         Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_FIRE - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
     Math_SmoothStepToF(&this->actor.scale.x, this->unk_188, 0.3f, 0.5f, 0.0f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
-    if (this->actor.world.pos.x < -1390.0f) {
-        if (this->actor.velocity.x < -10.0f) {
-            this->actor.world.pos.x = -1390.0f;
-            phi_v1_2 = 1;
-        }
+    if ((this->actor.world.pos.x < -1390.0f) && (this->actor.velocity.x < -10.0f)) {
+        this->actor.world.pos.x = -1390.0f;
+        quarterTurn = true;
     }
     if ((this->actor.world.pos.x > -390.0f) && (this->actor.velocity.x > 10.0f)) {
         this->actor.world.pos.x = -390.0f;
-        phi_v1_2 = 1;
+        quarterTurn = true;
     }
     if ((this->actor.world.pos.z > -2804.0f) && (this->actor.velocity.z > 10.0f)) {
         this->actor.world.pos.z = -2804.0f;
-        phi_v1_2 = 1;
+        quarterTurn = true;
     }
     if ((this->actor.world.pos.z < -3804.0f) && (this->actor.velocity.z < -10.0f)) {
         this->actor.world.pos.z = -3804.0f;
-        phi_v1_2 = 1;
+        quarterTurn = true;
     }
-    if (phi_v1_2 != 0) {
+    if (quarterTurn) {
         if (this->unk_158 == 0) {
             this->actor.world.rot.y += 0x4000;
         } else {
             this->actor.world.rot.y -= 0x4000;
         }
     }
-    if (this->unk_154 == 0) {
-        temp = 0;
-    } else {
-        this->unk_154--;
-        temp = this->unk_154;
-    }
-    if (temp == 0) {
+    if (DECR(this->unk_154) == 0) {
         Math_SmoothStepToF(&this->unk_18C, 0.0f, 1.0f, 10.0f, 0.0f);
         if (this->unk_18C < 10.0f) {
             Actor_Kill(&this->actor);
@@ -200,11 +190,11 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
         object_kingdodongo_Tex_0294E0, object_kingdodongo_Tex_02A4E0, object_kingdodongo_Tex_02B4E0,
         object_kingdodongo_Tex_02C4E0, object_kingdodongo_Tex_02D4E0,
     };
-    s16 temp;
+    s16 texIndex;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 612);
-    temp = this->unk_156 & 7;
+    texIndex = this->unk_156 & 7;
     Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
     func_80094BC4(globalCtx->state.gfxCtx);
     POLY_XLU_DISP = func_80094968(POLY_XLU_DISP);
@@ -214,7 +204,7 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 100, (s8)this->unk_18C);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 0, 0, 0);
-    gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809BCB10[temp]));
+    gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(D_809BCB10[texIndex]));
     Matrix_Translate(0.0f, 11.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bdfire.c", 647),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
