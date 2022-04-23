@@ -108,7 +108,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x30, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_WALLMASTER, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1500, ICHAIN_STOP),
 };

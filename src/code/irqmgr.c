@@ -50,18 +50,18 @@ u32 sIrqMgrRetraceCount = 0;
  *
  * @param irqMgr the IrqMgr instance to register with.
  * @param client client to register.
- * @param msgQ message queue to send notifications of interrupts to, associated with the client.
+ * @param msgQueue message queue to send notifications of interrupts to, associated with the client.
  */
-void IrqMgr_AddClient(IrqMgr* irqMgr, IrqMgrClient* client, OSMesgQueue* msgQ) {
+void IrqMgr_AddClient(IrqMgr* irqMgr, IrqMgrClient* client, OSMesgQueue* msgQueue) {
     OSIntMask prevInt;
 
     LogUtils_CheckNullPointer("this", irqMgr, "../irqmgr.c", 96);
     LogUtils_CheckNullPointer("c", client, "../irqmgr.c", 97);
-    LogUtils_CheckNullPointer("msgQ", msgQ, "../irqmgr.c", 98);
+    LogUtils_CheckNullPointer("msgQ", msgQueue, "../irqmgr.c", 98);
 
     prevInt = osSetIntMask(OS_IM_NONE);
 
-    client->queue = msgQ;
+    client->queue = msgQueue;
     client->prev = irqMgr->clients;
     irqMgr->clients = client;
 
@@ -298,6 +298,6 @@ void IrqMgr_Init(IrqMgr* irqMgr, void* stack, OSPri pri, u8 retraceCount) {
     osCreateMesgQueue(&irqMgr->queue, irqMgr->msgBuf, ARRAY_COUNT(irqMgr->msgBuf));
     osSetEventMesg(OS_EVENT_PRENMI, &irqMgr->queue, (OSMesg)IRQ_PRENMI_MSG);
     osViSetEvent(&irqMgr->queue, (OSMesg)IRQ_RETRACE_MSG, retraceCount);
-    osCreateThread(&irqMgr->thread, 19, IrqMgr_ThreadEntry, irqMgr, stack, pri);
+    osCreateThread(&irqMgr->thread, THREAD_ID_IRQMGR, IrqMgr_ThreadEntry, irqMgr, stack, pri);
     osStartThread(&irqMgr->thread);
 }
