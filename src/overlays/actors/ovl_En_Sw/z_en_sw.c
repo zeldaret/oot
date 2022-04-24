@@ -741,7 +741,7 @@ s32 func_80B0DFFC(EnSw* this, GlobalContext* globalCtx) {
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, true,
                                 false, false, true, &sp5C)) {
-        this->actor.wallYaw = RADF_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
+        this->actor.wallYaw = RAD_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
         this->actor.world.pos = sp50;
         this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
         this->actor.world.pos.z += 6.0f * Math_CosS(this->actor.world.rot.y);

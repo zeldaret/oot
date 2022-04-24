@@ -229,7 +229,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         newActor->yRotVel = 0.0f;
                         xRotVel = sqrtf(SQ(spawnOffset.x) + SQ(spawnOffset.z));
                         newActor->xRotVel = 0x1000 / 10.0f * xRotVel;
-                        newActor->actor.shape.rot.y = RADF_TO_BINANG(Math_FAtan2F(spawnOffset.x, spawnOffset.z));
+                        newActor->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(spawnOffset.x, spawnOffset.z));
                         newActor->shadowOpacity = 200.0f;
                     }
                 }

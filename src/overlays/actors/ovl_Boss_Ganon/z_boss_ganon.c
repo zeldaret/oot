@@ -4221,9 +4221,9 @@ void func_808E1EB4(Actor* thisx, GlobalContext* globalCtx2) {
         yDiff = dorf->unk_1FC.y - this->actor.world.pos.y;
         zDiff = dorf->unk_1FC.z - this->actor.world.pos.z;
 
-        yRotTarget = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+        yRotTarget = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
         xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-        xRotTarget = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+        xRotTarget = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
 
         Math_ApproachS(&this->actor.world.rot.x, xRotTarget, 1, 0x1000);
         Math_ApproachS(&this->actor.world.rot.y, yRotTarget, 1, 0x1000);
@@ -4348,10 +4348,10 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             xDiff = dorf->unk_278.x - this->actor.world.pos.x;
             yDiff = dorf->unk_278.y - this->actor.world.pos.y;
             zDiff = dorf->unk_278.z - this->actor.world.pos.z;
-            sp80 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+            sp80 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
             xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
 
-            xRot = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+            xRot = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
             sp84 = (xzDist * 700.0f) / 10.0f;
             if (sp84 > 6144.0f) {
                 sp84 = 6144.0f;
@@ -4389,7 +4389,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             this->fwork[1] = 255.0f;
             this->unk_1F0 = player->actor.world.pos;
             new_var = this->unk_1F0.x - this->actor.world.pos.x;
-            this->actor.shape.rot.y = RADF_TO_BINANG(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z)) +
+            this->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z)) +
                                       (this->actor.params << 0xD) - 0x20C000;
             // fallthrough
         case 11:
@@ -4399,8 +4399,8 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
                 yDiff = (this->unk_1F0.y + 30.0f) - this->actor.world.pos.y;
                 zDiff = this->unk_1F0.z - this->actor.world.pos.z;
 
-                sp80 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
-                this->actor.shape.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff))));
+                sp80 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+                this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff))));
                 Math_ApproachS(&this->actor.shape.rot.y, sp80, 1, this->csCamMaxStepScale);
                 Math_ApproachF(&this->csCamMaxStepScale, 4096.0f, 1.0f, 256.0f);
             }
@@ -4489,9 +4489,9 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             yDiff = this->unk_1F0.y - this->actor.world.pos.y;
             zDiff = this->unk_1F0.z - this->actor.world.pos.z;
 
-            sp80 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+            sp80 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
             xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-            xRot = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+            xRot = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
             sp84 = (xzDist * 700.0f) / 10.0f;
 
             if (sp84 > 6144.0f) {

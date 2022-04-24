@@ -2957,7 +2957,7 @@ void EnHorse_CheckFloors(EnHorse* this, GlobalContext* globalCtx) {
         return;
     }
 
-    floorSlope = RADF_TO_BINANG(Math_FAtan2F(this->yBack - this->yFront, 60.0f));
+    floorSlope = RAD_TO_BINANG(Math_FAtan2F(this->yBack - this->yFront, 60.0f));
     if (this->actor.floorPoly != 0) {
         nx = this->actor.floorPoly->normal.x * COLPOLY_NORMAL_FRAC;
         ny = this->actor.floorPoly->normal.y * COLPOLY_NORMAL_FRAC;
@@ -3056,7 +3056,7 @@ void EnHorse_StickDirection(Vec2f* curStick, f32* stickMag, s16* angle) {
         *stickMag = *stickMag;
     }
 
-    *angle = RADF_TO_BINANG(Math_FAtan2F(-curStick->x, curStick->y));
+    *angle = RAD_TO_BINANG(Math_FAtan2F(-curStick->x, curStick->y));
 }
 
 void EnHorse_UpdateStick(EnHorse* this, GlobalContext* globalCtx) {
@@ -3075,7 +3075,7 @@ void EnHorse_ResolveCollision(EnHorse* this, GlobalContext* globalCtx, Collision
     nx = COLPOLY_GET_NORMAL(colPoly->normal.x);
     ny = COLPOLY_GET_NORMAL(colPoly->normal.y);
     nz = COLPOLY_GET_NORMAL(colPoly->normal.z);
-    if (!(Math_CosS(this->actor.world.rot.y - RADF_TO_BINANG(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z)) -
+    if (!(Math_CosS(this->actor.world.rot.y - RAD_TO_BINANG(Math_FAtan2F(colPoly->normal.x, colPoly->normal.z)) -
                     0x7FFF) < 0.7071f)) { // cos(45 degrees)
         dist = Math3D_DistPlaneToPos(nx, ny, nz, colPoly->dist, &this->actor.world.pos);
         offset = (1.0f / sqrtf(SQ(nx) + SQ(nz)));
@@ -3195,8 +3195,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
         if (intersectDist < 30.0f) {
             EnHorse_ResolveCollision(this, globalCtx, wall);
         }
-        if ((Math_CosS(this->actor.world.rot.y - RADF_TO_BINANG(Math_FAtan2F(wall->normal.x, wall->normal.z)) -
-                       0x7FFF) < 0.5f) ||
+        if ((Math_CosS(this->actor.world.rot.y - RAD_TO_BINANG(Math_FAtan2F(wall->normal.x, wall->normal.z)) - 0x7FFF) <
+             0.5f) ||
             SurfaceType_IsHorseBlocked(&globalCtx->colCtx, wall, bgId) != 0) {
             return;
         }
