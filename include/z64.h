@@ -699,7 +699,7 @@ typedef struct {
     /* 0x022A */ s16    beatingHeartOscillator;
     /* 0x022C */ s16    beatingHeartOscillatorDirection;
     /* 0x022E */ s16    unk_22E;
-    /* 0x0230 */ s16    lensMagicDepletionTimer; // When lens is active, magic is depleted 1 unit when the timer reaches 0
+    /* 0x0230 */ s16    magicConsuptionTimer; // When lens is active, 1 unit of magic is consumed every time the timer reaches 0
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
     /* 0x023A */ u8     numHorseBoosts;
     /* 0x023C */ u16    unk_23C;

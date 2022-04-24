@@ -4,28 +4,28 @@
 #include "ultra64.h"
 #include "z64math.h"
 
-typedef enum MagicBarAction {
-    /* 00 */ MAGIC_BAR_ACTION_IDLE, // Regular gameplay
-    /* 01 */ MAGIC_BAR_ACTION_CONSUME_SETUP, // Sets the speed in which magic border flashes
-    /* 02 */ MAGIC_BAR_ACTION_CONSUME, // Consume magic until target is reached or no more magic is available
-    /* 03 */ MAGIC_BAR_ACTION_BORDER_CHANGE_1, // Flashes border and freezes Dark Link
-    /* 04 */ MAGIC_BAR_ACTION_BORDER_CHANGE_2, // Flashes border and draws yellow magic to preview target consumption
-    /* 05 */ MAGIC_BAR_ACTION_RESTORE_IDLE, // Reset colors and return to idle
-    /* 06 */ MAGIC_BAR_ACTION_BORDER_CHANGE_3, // Flashes border with no additional behaviour
-    /* 07 */ MAGIC_BAR_ACTION_LENS_CONSUME, // Magic slowly consumed by lens. 
-    /* 08 */ MAGIC_BAR_ACTION_GROW_WIDE, // Init magic on a new load, grow from a width of 0 to magicCapacity
-    /* 09 */ MAGIC_BAR_ACTION_FILL, // Add magic until full capacity is reached
-    /* 10 */ MAGIC_BAR_ACTION_ADD // Add requested magic
-} MagicBarAction;
+typedef enum {
+    /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
+    /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed in which magic border flashes
+    /* 0x2 */ MAGIC_STATE_CONSUME, // Consume magic until target is reached or no more magic is available
+    /* 0x3 */ MAGIC_STATE_BORDER_CHANGE_1, // Flashes border and freezes Dark Link
+    /* 0x4 */ MAGIC_STATE_BORDER_CHANGE_2, // Flashes border and draws yellow magic to preview target consumption
+    /* 0x5 */ MAGIC_STATE_RESTORE_IDLE, // Reset colors and return to idle
+    /* 0x6 */ MAGIC_STATE_BORDER_CHANGE_3, // Flashes border with no additional behaviour
+    /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
+    /* 0x8 */ MAGIC_STATE_GROW_METER, // Init magic on a new load, grow from a width of 0 to magicCapacity
+    /* 0x9 */ MAGIC_STATE_FILL, // Add magic until full capacity is reached
+    /* 0xA */ MAGIC_STATE_ADD // Add requested magic
+} MagicState;
 
-typedef enum MagicBarChange {
-    /* 00 */ MAGIC_BAR_CONSUME_NOW, // Consume Magic immediately without preview
-    /* 01 */ MAGIC_BAR_CONSUME_WAIT_NO_PREVIEW, // Sets consume target but waits to consume. No yellow magic preview to target consumption. Unused
-    /* 02 */ MAGIC_BAR_CONSUME_NOW_ALT, // Identical behaviour to MAGIC_BAR_CONSUME_NOW. Unused
-    /* 03 */ MAGIC_BAR_CONSUME_LENS, // Lens consumption
-    /* 04 */ MAGIC_BAR_CONSUME_WAIT_PREVIEW, // Sets consume target but waits to consume. Draws yellow magic to target consumption
-    /* 05 */ MAGIC_BAR_ADD // Sets a target to add magic
-} MagicBarChange;
+typedef enum {
+    /* 0 */ MAGIC_CONSUME_NOW, // Consume Magic immediately without preview
+    /* 1 */ MAGIC_CONSUME_WAIT_NO_PREVIEW, // Sets consume target but waits to consume. No yellow magic preview to target consumption. Unused
+    /* 2 */ MAGIC_CONSUME_NOW_ALT, // Identical behaviour to MAGIC_CONSUME_NOW. Unused
+    /* 3 */ MAGIC_CONSUME_LENS, // Lens consumption
+    /* 4 */ MAGIC_CONSUME_WAIT_PREVIEW, // Sets consume target but waits to consume. Draws yellow magic to target consumption
+    /* 5 */ MAGIC_ADD // Sets a target to add magic
+} MagicChangeType;
 
 #define MAGIC_HALF_BAR 0x30
 #define MAGIC_FULL_BAR (2 * MAGIC_HALF_BAR)
@@ -169,8 +169,8 @@ typedef struct {
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16 magicBarAction; // Next action magic bar will take on each frame
-    /* 0x13F2 */ s16 magicBarActionStored; // stores the previous magic action while magic is increasing. Allows magicBarAction to be restored afterwards
+    /* 0x13F0 */ s16 magicState; // Determines magic meter behavior on each frame
+    /* 0x13F2 */ s16 magicStateStored; // Stores the previous magic state while magic is increasing. Allows magicState to be restored afterwards
     /* 0x13F4 */ s16 magicCapacityDrawn; // Only differs from magicCapacity in a new save load, where magicCapacityDrawn is slowly stepped from 0 to magicCapacity
     /* 0x13F6 */ s16 magicCapacity; // Maximum magic available
     /* 0x13F8 */ s16 magicTarget; // Target for magic to step to when adding or consuming magic

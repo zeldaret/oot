@@ -64,7 +64,7 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void MagicDark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.nayrusLoveTimer == 0) {
-        Magic_ResetMagicBarAction(globalCtx);
+        Magic_Reset(globalCtx);
     }
 }
 

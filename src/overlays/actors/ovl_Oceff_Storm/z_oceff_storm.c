@@ -59,7 +59,7 @@ void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffStorm* this = (OceffStorm*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
-    Magic_ResetMagicBarAction(globalCtx);
+    Magic_Reset(globalCtx);
     if (gSaveContext.nayrusLoveTimer != 0) {
         player->stateFlags3 |= PLAYER_STATE3_6;
     }

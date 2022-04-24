@@ -2174,7 +2174,7 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
     s32 magicArrowType;
 
     if ((this->heldItemActionParam >= PLAYER_AP_BOW_FIRE) && (this->heldItemActionParam <= PLAYER_AP_BOW_0E) &&
-        (gSaveContext.magicBarAction != MAGIC_BAR_ACTION_IDLE)) {
+        (gSaveContext.magicState != MAGIC_STATE_IDLE)) {
         func_80078884(NA_SE_SY_ERROR);
     } else {
         func_80833638(this, func_808351D4);
@@ -2190,7 +2190,7 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
 
                 if (this->unk_860 >= 0) {
                     if ((magicArrowType >= 0) && (magicArrowType <= 2) &&
-                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_BAR_CONSUME_NOW)) {
+                        !Magic_ChangeBy(globalCtx, sMagicArrowCosts[magicArrowType], MAGIC_CONSUME_NOW)) {
                         arrowType = ARROW_NORMAL;
                     }
 
@@ -2885,7 +2885,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
             }
 
             if (actionParam == PLAYER_AP_LENS) {
-                if (Magic_ChangeBy(globalCtx, 0, MAGIC_BAR_CONSUME_LENS)) {
+                if (Magic_ChangeBy(globalCtx, 0, MAGIC_CONSUME_LENS)) {
                     if (globalCtx->actorCtx.lensActive) {
                         Actor_DisableLens(globalCtx);
                     } else {
@@ -2910,7 +2910,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
             temp = Player_ActionToMagicSpell(this, actionParam);
             if (temp >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
-                    ((gSaveContext.magicCapacityDrawn != 0) && (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE) &&
+                    ((gSaveContext.magicCapacityDrawn != 0) && (gSaveContext.magicState == MAGIC_STATE_IDLE) &&
                      (gSaveContext.magic >= sMagicSpellCosts[temp]))) {
                     this->itemActionParam = actionParam;
                     this->unk_6AD = 4;
@@ -4849,7 +4849,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     func_80835DE4(globalCtx, this, func_808507F4, 0);
 
     this->unk_84F = magicSpell - 3;
-    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_BAR_CONSUME_WAIT_PREVIEW);
+    Magic_ChangeBy(globalCtx, sMagicSpellCosts[magicSpell], MAGIC_CONSUME_WAIT_PREVIEW);
 
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayerAnim_002D28, 0.83f);
 
@@ -9368,7 +9368,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (gSaveContext.nayrusLoveTimer != 0) {
-        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_1;
+        gSaveContext.magicState = MAGIC_STATE_BORDER_CHANGE_1;
         func_80846A00(globalCtx, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -10156,8 +10156,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
     }
 
     if ((this->stateFlags3 & PLAYER_STATE3_6) && (gSaveContext.nayrusLoveTimer != 0) &&
-        (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE)) {
-        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_BORDER_CHANGE_1;
+        (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
+        gSaveContext.magicState = MAGIC_STATE_BORDER_CHANGE_1;
         func_80846A00(globalCtx, this, 1);
         this->stateFlags3 &= ~PLAYER_STATE3_6;
     }
@@ -10747,7 +10747,7 @@ void Player_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->meleeWeaponQuads[1]);
     Collider_DestroyQuad(globalCtx, &this->shieldQuad);
 
-    Magic_ResetMagicBarAction(globalCtx);
+    Magic_Reset(globalCtx);
 
     gSaveContext.linkAge = globalCtx->linkAgeOnLoad;
 }
@@ -12355,7 +12355,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
         func_8083C0E8(this, globalCtx);
         func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
     } else if (this->unk_850 == 1) {
-        if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicBarAction != MAGIC_BAR_ACTION_FILL)) {
+        if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
             func_80832B78(globalCtx, this, &gPlayerAnim_002660);
             this->unk_850 = 2;
             Player_UpdateBottleHeld(globalCtx, this, ITEM_BOTTLE, PLAYER_AP_BOTTLE);
@@ -13096,8 +13096,7 @@ static struct_80832924 D_80854A8C[][2] = {
 void func_808507F4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         if (this->unk_84F < 0) {
-            if ((this->itemActionParam == PLAYER_AP_NAYRUS_LOVE) ||
-                (gSaveContext.magicBarAction == MAGIC_BAR_ACTION_IDLE)) {
+            if ((this->itemActionParam == PLAYER_AP_NAYRUS_LOVE) || (gSaveContext.magicState == MAGIC_STATE_IDLE)) {
                 func_80839FFC(this, globalCtx);
                 func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
             }
@@ -13108,10 +13107,10 @@ void func_808507F4(Player* this, GlobalContext* globalCtx) {
                 if (func_80846A00(globalCtx, this, this->unk_84F) != NULL) {
                     this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
                     if ((this->unk_84F != 0) || (gSaveContext.respawn[RESPAWN_MODE_TOP].data <= 0)) {
-                        gSaveContext.magicBarAction = MAGIC_BAR_ACTION_CONSUME_SETUP;
+                        gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
                     }
                 } else {
-                    Magic_ResetMagicBarAction(globalCtx);
+                    Magic_Reset(globalCtx);
                 }
             } else {
                 LinkAnimation_PlayLoopSetSpeed(globalCtx, &this->skelAnime, D_80854A64[this->unk_84F], 0.83f);

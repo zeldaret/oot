@@ -38,7 +38,7 @@ void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = (OceffWipe4*)thisx;
 
-    Magic_ResetMagicBarAction(globalCtx);
+    Magic_Reset(globalCtx);
 }
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {

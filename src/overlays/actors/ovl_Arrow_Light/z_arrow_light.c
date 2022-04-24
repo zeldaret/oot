@@ -55,7 +55,7 @@ void ArrowLight_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Magic_ResetMagicBarAction(globalCtx);
+    Magic_Reset(globalCtx);
     LOG_STRING("消滅", "../z_arrow_light.c", 403); // "Disappearance"
 }
 

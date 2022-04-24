@@ -15,8 +15,8 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
     if (pauseCtx->state == 0 && pauseCtx->debugState == 0 && globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE &&
         globalCtx->sceneLoadFlag == 0 && globalCtx->transitionMode == 0 && gSaveContext.cutsceneIndex < 0xFFF0 &&
         gSaveContext.nextCutsceneIndex < 0xFFF0 && !Gameplay_InCsMode(globalCtx) &&
-        globalCtx->shootingGalleryStatus <= 1 && gSaveContext.magicBarAction != MAGIC_BAR_ACTION_GROW_WIDE &&
-        gSaveContext.magicBarAction != MAGIC_BAR_ACTION_FILL &&
+        globalCtx->shootingGalleryStatus <= 1 && gSaveContext.magicState != MAGIC_STATE_GROW_METER &&
+        gSaveContext.magicState != MAGIC_STATE_FILL &&
         (globalCtx->sceneNum != SCENE_BOWLING || !Flags_GetSwitch(globalCtx, 0x38))) {
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_L) && CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
