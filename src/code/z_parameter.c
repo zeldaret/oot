@@ -3055,7 +3055,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->debugState == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
-        HealthMeter_Draw(globalCtx);
+        Health_Draw(globalCtx);
 
         func_80094520(globalCtx->state.gfxCtx);
 
@@ -3973,7 +3973,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    HealthMeter_UpdateBeatingHeart(globalCtx);
+    Health_UpdateBeatingHeart(globalCtx);
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {
@@ -3986,7 +3986,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    HealthMeter_Update(globalCtx);
+    Health_Update(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
         (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE2_24) &&
