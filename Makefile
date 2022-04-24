@@ -115,7 +115,7 @@ endif
 ASFLAGS := -march=vr4300 -32 -Iinclude
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += -G 0 -nostdinc $(INC) -DAVOID_UB -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
+  CFLAGS += -G 0 -nostdinc $(INC) -DAVOID_UB -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
 else 
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
@@ -183,7 +183,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)) $(SEGMENT_DIR))
+$(shell mkdir -p build/baserom build/assets/text $(SEGMENT_DIR) $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 ifeq ($(COMPILER),ido)
 build/src/code/fault.o: CFLAGS += -trapuv
@@ -268,7 +268,7 @@ $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
 $(ELF): $(SEGMENT_OBJECTS) $(SEGMENT_RELOCS) build/ldscript.txt build/undefined_syms.txt
-	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
+	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --emit-relocs -Map build/z64.map -o $@
 
 build/undefined_syms.txt: undefined_syms.txt
 	$(CPP) $(CPPFLAGS) $< > $@
@@ -294,10 +294,10 @@ $(SEGMENT_DIR)/%.reloc.o: $(SEGMENT_DIR)/%.o
 	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 $(SEGMENT_OBJECTS): %.o: %.ld %.d
-	$(LD) -T $< -r --accept-unknown-input-arch -Map $(@:.o=.map) -o $@
+	$(LD) -r -T $< --accept-unknown-input-arch -Map $(@:.o=.map) -o $@
 
 ## Order-only prerequisites 
-# These ensure e.g. the asset include files are built before the main objects themselves
+# These ensure e.g. the asset include files are built before the files that include them
 # The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
 
 asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
