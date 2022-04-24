@@ -237,9 +237,9 @@ static void write_segment_script(const char *dir, const struct Segment *seg)
     if (seg->fields & (1 << STMT_align))
         fprintf(f, " ALIGN(0x%X)", seg->align);
 
-    fprintf(f, "\n" "\t{\n");
+    fprintf(f, "\n\t{\n");
     write_text_sections(f, seg);
-    fprintf(f, "\t}\n" "\n");
+    fprintf(f, "\t}\n\n");
 
     /* .data */
     fprintf(f, "\t.data :");
@@ -247,9 +247,9 @@ static void write_segment_script(const char *dir, const struct Segment *seg)
     if (seg->fields & (1 << STMT_align))
         fprintf(f, " ALIGN(0x%X)", seg->align);
 
-    fprintf(f, "\n" "\t{\n");
+    fprintf(f, "\n\t{\n");
     write_data_sections(f, seg);
-    fprintf(f, "\t}\n" "\n");
+    fprintf(f, "\t}\n\n");
 
     /* .rodata */
     fprintf(f, "\t.rodata :");
@@ -257,9 +257,9 @@ static void write_segment_script(const char *dir, const struct Segment *seg)
     if (seg->fields & (1 << STMT_align))
         fprintf(f, " ALIGN(0x%X)", seg->align);
 
-    fprintf(f, "\n" "\t{\n");
+    fprintf(f, "\n\t{\n");
     write_rodata_sections(f, seg);
-    fprintf(f, "\t}\n" "\n");
+    fprintf(f, "\t}\n\n");
 
     /* .bss */
     fprintf(f, "\t.bss (NOLOAD) :");
@@ -267,9 +267,9 @@ static void write_segment_script(const char *dir, const struct Segment *seg)
     if (seg->fields & (1 << STMT_align))
         fprintf(f, " ALIGN(0x%X)", seg->align);
 
-    fprintf(f, "\n" "\t{\n");
+    fprintf(f, "\n\t{\n");
     write_bss_sections(f, seg);
-    fprintf(f, "\t}\n" "\n");
+    fprintf(f, "\t}\n\n");
 
     write_sections_finale(f);
     fprintf(f, "}\n");
@@ -342,7 +342,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
             fprintf(f, "0x%02X000000 ", seg->number);
         else if (seg->fields & (1 << STMT_address))
             fprintf(f, "0x%08X ", seg->address);
-        fprintf(f, ": AT(_%sSegmentRomStart)\n" "\t{\n", seg->name);
+        fprintf(f, ": AT(_%sSegmentRomStart)\n\t{\n", seg->name);
     
         /* content sections */
         fprintf(f, "\t\t_%sSegmentStart = .;\n\n", seg->name);
@@ -365,7 +365,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         /* loadable sections done */
         if (seg->fields & (1 << STMT_increment))
-            fprintf(f, "\n" "\t. += 0x%08X;\n", seg->increment);
+            fprintf(f, "\n\t. += 0x%08X;\n", seg->increment);
 
         fprintf(f,
             "\t}\n"
@@ -402,7 +402,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
         );
     }
 
-    fprintf(f, "\t_RomEnd = _RomSize;\n" "\n");
+    fprintf(f, "\t_RomEnd = _RomSize;\n\n");
 
     /* end */
     write_sections_finale(f);
@@ -413,9 +413,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
 static void usage(const char *execname)
 {
-    fprintf
-    (
-        stderr,
+    fprintf(stderr,
         "Ocarina of Time linker script generator\n"
         "usage:\n"
         "\t%s -s <spec-file> <segment-dir> <segment-name>\n"
