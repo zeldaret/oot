@@ -1690,9 +1690,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         return item;
     } else if (item == ITEM_MAGIC_SMALL) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-            // This function is only used to store the magicState
-            // Setting the state to FILL gets immediately overwritten
-            // in Magic_ChangeBy i.e. magic is added not filled
+            // This function is only used to store the magicState.
+            // Setting the state to FILL gets immediately overwritten in Magic_ChangeBy.
+            // I.e. magic is added not filled
             Magic_Fill(globalCtx);
         }
 
@@ -1706,9 +1706,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         return item;
     } else if (item == ITEM_MAGIC_LARGE) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
-            // This function is only used to store the magicState
-            // Setting the state to FILL gets immediately overwritten
-            // in Magic_ChangeBy i.e. magic is added not filled
+            // This function is only used to store the magicState.
+            // Setting the state to FILL gets immediately overwritten in Magic_ChangeBy.
+            // I.e. magic is added not filled.
             Magic_Fill(globalCtx);
         }
 
