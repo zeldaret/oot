@@ -165,17 +165,16 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
-OVL_RELOC_FILES := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '[^"]*_reloc.o' )
-
 SEGMENTS            := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '^[ \t]*name[ \t]\+".\+"' | sed 's/.*"\(.*\)".*/\1/g' )
 SEGMENT_DIR         := build/segments
 SEGMENT_OBJECTS     := $(SEGMENTS:%=$(SEGMENT_DIR)/%.o)
 SEGMENT_SCRIPTS     := $(SEGMENT_OBJECTS:.o=.ld)
 SEGMENT_DEPENDS     := $(SEGMENT_OBJECTS:.o=.d)
+SEGMENT_RELOCS      := $(SEGMENT_OBJECTS:.o=.reloc.o)
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
-DEP_FILES := $(O_FILES:.o=.asmproc.d) $(OVL_RELOC_FILES:.o=.d)
+DEP_FILES := $(O_FILES:.o=.asmproc.d)
 
 
 TEXTURE_FILES_PNG := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.png))
@@ -268,8 +267,17 @@ test: $(ROM)
 $(ROM): $(ELF)
 	$(ELF2ROM) -cic 6105 $< $@
 
-$(ELF): $(SEGMENT_OBJECTS) build/ldscript.txt build/undefined_syms.txt
+$(ELF): $(SEGMENT_OBJECTS) $(SEGMENT_RELOCS) build/ldscript.txt build/undefined_syms.txt
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
+
+build/undefined_syms.txt: undefined_syms.txt
+	$(CPP) $(CPPFLAGS) $< > $@
+
+build/$(SPEC): $(SPEC)
+	$(CPP) $(CPPFLAGS) $< > $@
+
+build/ldscript.txt: build/$(SPEC)
+	$(MKLDSCRIPT) -r $< $(SEGMENT_DIR) $@
 
 $(SEGMENT_SCRIPTS): build/$(SPEC)
 $(SEGMENT_SCRIPTS): %.ld: %.d
@@ -281,30 +289,22 @@ ifeq ($(MAKECMDGOALS),$(filter-out clean assetclean distclean setup,$(MAKECMDGOA
 -include $(SEGMENT_DEPENDS)
 endif
 
+$(SEGMENT_DIR)/%.reloc.o: $(SEGMENT_DIR)/%.o
+	$(FADO) $< -n $(<F:.o=) -o $(@:.o=.s)
+	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+
 $(SEGMENT_OBJECTS): %.o: %.ld %.d
 	$(LD) -T $< -r --accept-unknown-input-arch -Map $(@:.o=.map) -o $@
 
 ## Order-only prerequisites 
-# These ensure e.g. the O_FILES are built before the OVL_RELOC_FILES.
+# These ensure e.g. the asset include files are built before the main objects themselves
 # The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
-
-o_files: $(O_FILES)
-$(OVL_RELOC_FILES): | o_files
 
 asset_files: $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT)
 $(O_FILES): | asset_files
 
-.PHONY: o_files asset_files
+.PHONY: asset_files
 
-
-build/$(SPEC): $(SPEC)
-	$(CPP) $(CPPFLAGS) $< > $@
-
-build/ldscript.txt: build/$(SPEC)
-	$(MKLDSCRIPT) -r $< $(SEGMENT_DIR) $@
-
-build/undefined_syms.txt: undefined_syms.txt
-	$(CPP) $(CPPFLAGS) $< > $@
 
 build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
@@ -349,10 +349,6 @@ build/src/libultra/libc/llcvt.o: src/libultra/libc/llcvt.c
 	$(CC_CHECK) $<
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
-
-build/src/overlays/%_reloc.o: build/$(SPEC)
-	$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
-	$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
 
 build/%.inc.c: %.png
 	$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
