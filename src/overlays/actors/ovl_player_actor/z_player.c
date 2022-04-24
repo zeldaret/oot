@@ -6038,8 +6038,8 @@ s32 func_8083E318(GlobalContext* globalCtx, Player* this, CollisionPoly* floorPo
             }
 
             // slows down speed as player is climbing a slope
-            this->pushedYaw = downwardSlopeYaw;
-            Math_StepToF(&this->pushedSpeed, slopeSlowdownSpeed, slopeSlowdownSpeedStep);
+            this->pushYaw = downwardSlopeYaw;
+            Math_StepToF(&this->pushSpeed, slopeSlowdownSpeed, slopeSlowdownSpeedStep);
         } else {
             // moving downward on the slope, causing player to slip
             func_80835C58(globalCtx, this, func_8084F390, 0);
@@ -10260,11 +10260,11 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
             func_8002D868(&this->actor);
 
-            if ((this->pushedSpeed != 0.0f) && !Player_InCsMode(globalCtx) &&
+            if ((this->pushSpeed != 0.0f) && !Player_InCsMode(globalCtx) &&
                 !(this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_21)) &&
                 (func_80845668 != this->func_674) && (func_808507F4 != this->func_674)) {
-                this->actor.velocity.x += this->pushedSpeed * Math_SinS(this->pushedYaw);
-                this->actor.velocity.z += this->pushedSpeed * Math_CosS(this->pushedYaw);
+                this->actor.velocity.x += this->pushSpeed * Math_SinS(this->pushYaw);
+                this->actor.velocity.z += this->pushSpeed * Math_CosS(this->pushYaw);
             }
 
             func_8002D7EC(&this->actor);
@@ -10296,10 +10296,10 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             }
 
             sConveyorSpeedIndex = 0;
-            this->pushedSpeed = 0.0f;
+            this->pushSpeed = 0.0f;
         }
 
-        // This block applies the bg conveyor to pushedSpeed
+        // This block applies the bg conveyor to pushSpeed
         if ((sConveyorSpeedIndex != 0) && (this->currentBoots != PLAYER_BOOTS_IRON)) {
             f32 conveyorSpeed;
 
@@ -10316,12 +10316,12 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                 conveyorSpeed = sFloorConveyorSpeeds[sConveyorSpeedIndex];
             }
 
-            Math_StepToF(&this->pushedSpeed, conveyorSpeed, conveyorSpeed * 0.1f);
+            Math_StepToF(&this->pushSpeed, conveyorSpeed, conveyorSpeed * 0.1f);
 
-            Math_ScaledStepToS(&this->pushedYaw, sConveyorYaw,
+            Math_ScaledStepToS(&this->pushYaw, sConveyorYaw,
                                ((this->stateFlags1 & PLAYER_STATE1_27) ? 400.0f : 800.0f) * conveyorSpeed);
-        } else if (this->pushedSpeed != 0.0f) {
-            Math_StepToF(&this->pushedSpeed, 0.0f, (this->stateFlags1 & PLAYER_STATE1_27) ? 0.5f : 1.0f);
+        } else if (this->pushSpeed != 0.0f) {
+            Math_StepToF(&this->pushSpeed, 0.0f, (this->stateFlags1 & PLAYER_STATE1_27) ? 0.5f : 1.0f);
         }
 
         if (!Player_InBlockingCsMode(globalCtx, this) && !(this->stateFlags2 & PLAYER_STATE2_18)) {

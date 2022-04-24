@@ -163,8 +163,8 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);
             }
 
-            player->pushedYaw = this->appliedYaw;
-            player->pushedSpeed = this->appliedSpeed;
+            player->pushYaw = this->appliedYaw;
+            player->pushSpeed = this->appliedSpeed;
         }
     } else {
         if (this->applySpeed) {
