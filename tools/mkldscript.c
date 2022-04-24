@@ -352,8 +352,10 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         /* overlay relocation section */
         fprintf(f, "\t\t_%sSegmentOvlStart = .;\n", seg->name);
-        if (seg->flags & FLAG_OVL)
+
+        if (strncmp(seg->name, "ovl_", 4) == 0)
             fprintf(f, "\t\t%s/%s.reloc.o (.ovl)\n", dir, seg->name);
+
         fprintf(f,
             "\t\t_%sSegmentOvlEnd = .;\n"
             "\t\t_%sSegmentOvlSize = ABSOLUTE(_%sSegmentOvlEnd - _%sSegmentOvlStart);\n",

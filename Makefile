@@ -166,11 +166,12 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
 SEGMENTS            := $(shell $(CPP) $(CPPFLAGS) $(SPEC) | grep -o '^[ \t]*name[ \t]\+".\+"' | sed 's/.*"\(.*\)".*/\1/g' )
+SEGMENTS_OVL        := $(filter ovl_%,$(SEGMENTS))
 SEGMENT_DIR         := build/segments
 SEGMENT_OBJECTS     := $(SEGMENTS:%=$(SEGMENT_DIR)/%.o)
+SEGMENT_RELOCS      := $(SEGMENTS_OVL:%=$(SEGMENT_DIR)/%.reloc.o)
 SEGMENT_SCRIPTS     := $(SEGMENT_OBJECTS:.o=.ld)
 SEGMENT_DEPENDS     := $(SEGMENT_OBJECTS:.o=.d)
-SEGMENT_RELOCS      := $(SEGMENT_OBJECTS:.o=.reloc.o)
 
 # Automatic dependency files
 # (Only asm_processor dependencies and reloc dependencies are handled for now)
