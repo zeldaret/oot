@@ -376,6 +376,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         fprintf(f,
             "\t}\n"
+            "\n"
             "\t_%sSegmentRomSize = ABSOLUTE(_%sSegment%sEnd - _%sSegmentTextStart);\n"
             "\t_RomSize += _%sSegmentRomSize;\n"
             "\t_%sSegmentRomEndTemp = _RomSize;\n"
@@ -391,6 +392,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         /* .bss sections */
         fprintf(f,
+            "\n"
             "\t..%s.bss (NOLOAD) :\n"
             "\t{\n"
             "\t\t%s/%s.o (.bss)\n"
