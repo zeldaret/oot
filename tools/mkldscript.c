@@ -336,17 +336,21 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
         );
 
         /* placement */
-        fprintf(f, "\t..%s ", seg->name);
+        fprintf(f, "\t_%sSegmentStart = ", seg->name);
         if (seg->fields & (1 << STMT_after))
-            fprintf(f, "_%sSegmentEnd ", seg->after);
+            fprintf(f, "_%sSegmentEnd", seg->after);
         else if (seg->fields & (1 << STMT_number))
-            fprintf(f, "0x%02X000000 ", seg->number);
+            fprintf(f, "0x%02X000000", seg->number);
         else if (seg->fields & (1 << STMT_address))
-            fprintf(f, "0x%08X ", seg->address);
-        fprintf(f, ": AT(_%sSegmentRomStart)\n\t{\n", seg->name);
+            fprintf(f, "0x%08X", seg->address);
+        else
+            fprintf(f, ".");
+        fprintf(f, ";\n\n");
+
+        fprintf(f, "\t..%s _%sSegmentStart : AT(_%sSegmentRomStart)\n\t{\n",
+                seg->name, seg->name, seg->name);
     
         /* content sections */
-        fprintf(f, "\t\t_%sSegmentStart = .;\n\n", seg->name);
         fprintf(f, "\t\t%s/%s.o (.text)\n", dir, seg->name);
         fprintf(f, "\t\t%s/%s.o (.data)\n", dir, seg->name);
         fprintf(f, "\t\t%s/%s.o (.rodata)\n", dir, seg->name);
@@ -397,8 +401,9 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         /* end segment */
         fprintf(f,
-            "\t\t_%sSegmentEnd = .;\n"
-            "\t\t_%sSegmentSize = ABSOLUTE(_%sSegmentEnd - _%sSegmentStart);\n"
+            "\n"
+            "\t_%sSegmentEnd = .;\n"
+            "\t_%sSegmentSize = ABSOLUTE(_%sSegmentEnd - _%sSegmentStart);\n"
             "\n\n",
             seg->name,
             seg->name, seg->name, seg->name
