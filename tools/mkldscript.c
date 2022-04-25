@@ -322,6 +322,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
     for (i = 0; i < segment_count; i++)
     {
         const struct Segment *seg = &segments[i];
+        bool isOverlay = strncmp(seg->name, "ovl_", 4) == 0;
 
         /* begin segment */
         if (seg->fields & (1 << STMT_romalign))
@@ -351,17 +352,19 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
         fprintf(f, "\t\t%s/%s.o (.rodata)\n", dir, seg->name);
 
         /* overlay relocation section */
-        fprintf(f, "\t\t_%sSegmentOvlStart = .;\n", seg->name);
-
-        if (strncmp(seg->name, "ovl_", 4) == 0)
-            fprintf(f, "\t\t%s/%s.reloc.o (.ovl)\n", dir, seg->name);
-
-        fprintf(f,
-            "\t\t_%sSegmentOvlEnd = .;\n"
-            "\t\t_%sSegmentOvlSize = ABSOLUTE(_%sSegmentOvlEnd - _%sSegmentOvlStart);\n",
-            seg->name,
-            seg->name, seg->name, seg->name
-        );
+        if (isOverlay) {
+            fprintf(f,
+                "\n"
+                "\t\t_%sSegmentOvlStart = .;\n"
+                "\t\t%s/%s.reloc.o (.ovl)\n"
+                "\t\t_%sSegmentOvlEnd = .;\n"
+                "\t\t_%sSegmentOvlSize = ABSOLUTE(_%sSegmentOvlEnd - _%sSegmentOvlStart);\n",
+                seg->name,
+                dir, seg->name,
+                seg->name,
+                seg->name, seg->name, seg->name
+            );
+        }
 
         /* loadable sections done */
         if (seg->fields & (1 << STMT_increment))
@@ -369,11 +372,11 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         fprintf(f,
             "\t}\n"
-            "\t_%sSegmentRomSize = ABSOLUTE(_%sSegmentOvlEnd - _%sSegmentTextStart);\n"
+            "\t_%sSegmentRomSize = ABSOLUTE(_%sSegment%sEnd - _%sSegmentTextStart);\n"
             "\t_RomSize += _%sSegmentRomSize;\n"
             "\t_%sSegmentRomEndTemp = _RomSize;\n"
             "\t_%sSegmentRomEnd = _%sSegmentRomEndTemp;\n",
-            seg->name, seg->name, seg->name,
+            seg->name, seg->name, isOverlay ? "Ovl": "RoData", seg->name,
             seg->name,
             seg->name,
             seg->name, seg->name
