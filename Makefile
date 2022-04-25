@@ -152,11 +152,11 @@ endif
 
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*" -not -path "assets/text")
-ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
+ASSET_XML := $(shell find assets/xml/ -name "*.xml")
+ASSET_STAMPS_EXTRACTED := $(ASSET_XML:assets/xml/%.xml=assets/%/.stamp_extracted)
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
-ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
-				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f) \
-				   $(foreach f,$(wildcard assets/text/*.c),build/$(f:.c=.o))
+ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f) \
+                   $(foreach f,$(wildcard assets/text/*.c),build/$(f:.c=.o))
 
 # source files
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
@@ -239,7 +239,6 @@ assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
 	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
-	$(RM) -r .extracted-assets.json
 
 distclean: clean assetclean
 	$(RM) -r baserom/
@@ -249,13 +248,28 @@ setup:
 	$(MAKE) -C tools
 	python3 fixbaserom.py
 	python3 extract_baserom.py
-	python3 extract_assets.py -j$(N_THREADS)
+	$(MAKE) extract_assets
+
+extract_assets: $(ASSET_STAMPS_EXTRACTED) assets/text/message_data.h assets/text/message_data_staff.h
+
+# For asset data in overlays, make the extracted symbols static.
+$(filter assets/overlays/%,$(ASSET_STAMPS_EXTRACTED)): ZAPD_FLAGS_OVERLAYS := --static
+
+$(ASSET_STAMPS_EXTRACTED): assets/%/.stamp_extracted: assets/xml/%.xml
+	$(ZAPD) e -eh -i $< -b baserom/ -o $(@D) -gsf 1 -rconf tools/ZAPDConfigs/MqDbg/Config.xml $(ZAPD_FLAGS) $(ZAPD_FLAGS_OVERLAYS)
+	touch $@
+
+assets/text/message_data.h:
+	./tools/msgdis.py --text-out $@
+
+assets/text/message_data_staff.h:
+	./tools/msgdis.py --staff-text-out $@
 
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
 
-.PHONY: all clean setup test distclean assetclean
+.PHONY: all clean setup extract_assets test distclean assetclean
 
 #### Various Recipes ####
 
