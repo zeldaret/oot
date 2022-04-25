@@ -417,7 +417,10 @@ static void usage(const char *execname)
         "Ocarina of Time linker script generator\n"
         "usage:\n"
         "\t%s -s <spec-file> <segment-dir> <segment-name>\n"
-        "\t%s -r <spec-file> <segment-dir> <output-file>\n",
+        "\t\tWrite a linker script and dependencies for the specified segment\n"
+        "\t\n"
+        "\t%s -r <spec-file> <segment-dir> <output-file>\n"
+        "\t\tWrite a linker script for linking all the segments together\n",
         execname,
         execname
     );
