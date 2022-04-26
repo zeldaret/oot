@@ -1019,9 +1019,9 @@ typedef struct {
     /* 0x4C */ u32 unk_4C;
 } PreRender; // size = 0x50
 
-#define TRANS_TRIGGER_END -20 // transition is ending (arriving in a new area)
 #define TRANS_TRIGGER_OFF 0 // transition is not active
 #define TRANS_TRIGGER_START 20 // start transition (exiting an area)
+#define TRANS_TRIGGER_END -20 // transition is ending (arriving in a new area)
 
 typedef enum {
     /*  0 */ TRANS_MODE_OFF,
