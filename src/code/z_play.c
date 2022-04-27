@@ -23,8 +23,8 @@ void func_800BC490(GlobalContext* globalCtx, s16 point) {
     globalCtx->unk_1242B = point;
 
     if ((YREG(15) != 0x10) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        Audio_PlaySoundGeneral((point == 1) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP, &D_801333D4, 4,
-                               &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral((point == 1) ? NA_SE_SY_CAMERA_ZOOM_DOWN : NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 
     func_800BC450(globalCtx);
@@ -344,7 +344,7 @@ void Gameplay_Init(GameState* thisx) {
     globalCtx->transitionTrigger = TRANS_TRIGGER_END;
     globalCtx->unk_11E16 = 0xFF;
     globalCtx->unk_11E18 = 0;
-    globalCtx->unk_11DE9 = 0;
+    globalCtx->unk_11DE9 = false;
 
     if (gSaveContext.gameMode != 1) {
         if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
@@ -728,8 +728,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_SANDSTORM:
-                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                           &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
 
                     if (globalCtx->transitionTrigger == TRANS_TRIGGER_END) {
                         if (globalCtx->envCtx.sandstormPrimA < 110) {
@@ -763,8 +764,9 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case TRANS_MODE_SANDSTORM_END:
-                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                           &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &gSfxDefaultPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                     if (globalCtx->transitionTrigger == TRANS_TRIGGER_END) {
                         if (globalCtx->envCtx.sandstormPrimA <= 0) {
                             gTrnsnUnkState = 0;
@@ -890,7 +892,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         LOG_NUM("1", 1, "../z_play.c", 3637);
                     }
 
-                    if (globalCtx->unk_11DE9 == 0) {
+                    if (!globalCtx->unk_11DE9) {
                         Actor_UpdateAll(globalCtx, &globalCtx->actorCtx);
                     }
 
@@ -951,7 +953,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         // "Changing viewpoint is prohibited during the cutscene"
                         osSyncPrintf(VT_FGCOL(CYAN) "デモ中につき視点変更を禁止しております\n" VT_RST);
                     } else if (YREG(15) == 0x10) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else {
                         func_800BC490(globalCtx, globalCtx->unk_1242B ^ 3);
                     }

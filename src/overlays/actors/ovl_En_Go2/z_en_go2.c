@@ -599,12 +599,12 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
                     }
                 case 0x3059:
                     if (dialogState == TEXT_STATE_NONE) {
-                        func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
+                        func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
                     }
                 case 0x3054:
                     if (dialogState == TEXT_STATE_NONE) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
             }
             return 1;
@@ -874,7 +874,8 @@ s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
             return false;
         } else {
             if (this->collider.base.acFlags & 2) {
-                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->actor.flags &= ~ACTOR_FLAG_24;
                 this->collider.base.acFlags &= ~0x2;
                 EnGo2_StopRolling(this, globalCtx);
@@ -1257,7 +1258,7 @@ void EnGo2_SitDownAnimation(EnGo2* this) {
             if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             } else {
-                func_800F4524(&D_801333D4, NA_SE_EN_GOLON_SIT_DOWN, 60);
+                func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_SIT_DOWN, 60);
             }
         }
         if (this->skelAnime.playSpeed < 0.0f) {
@@ -1300,7 +1301,7 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
         if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
         } else {
-            func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
+            func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
         }
     }
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
@@ -1484,7 +1485,7 @@ void EnGo2_BiggoronAnimation(EnGo2* this) {
         (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
         if (DECR(this->animTimer) == 0) {
             this->animTimer = Rand_S16Offset(30, 30);
-            func_800F4524(&D_801333D4, NA_SE_EN_GOLON_EYE_BIG, 60);
+            func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_EYE_BIG, 60);
         }
     }
 }
@@ -1815,10 +1816,10 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             if (DECR(this->animTimer)) {
                 if (this->animTimer == 60 || this->animTimer == 120) {
                     func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
-                    func_800F4524(&D_801333D4, NA_SE_EV_GORON_WATER_DROP, 60);
+                    func_800F4524(&gSfxDefaultPos, NA_SE_EV_GORON_WATER_DROP, 60);
                 }
             } else {
-                func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
+                func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_GOOD_BIG, 60);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_6);
                 Message_ContinueTextbox(globalCtx, 0x305A);
                 this->eyeMouthTexState = 3;

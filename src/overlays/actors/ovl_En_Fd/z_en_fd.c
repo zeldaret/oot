@@ -462,7 +462,7 @@ void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
     this->runDir = Rand_ZeroOne() < 0.5f ? -1 : 1;
-    this->actor.naviEnemyId = 0x22;
+    this->actor.naviEnemyId = NAVI_ENEMY_FLARE_DANCER;
     this->actionFunc = EnFd_Reappear;
 }
 
@@ -518,7 +518,7 @@ void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
         this->spinTimer = Rand_S16Offset(60, 90);
         this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(adjPos.x, adjPos.z));
+        this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(adjPos.x, adjPos.z));
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFD_ANIM_4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -619,7 +619,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     }
     Math_SmoothStepToF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-    Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(adjPos.x, adjPos.z)), 4, 0xFA0, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(adjPos.x, adjPos.z)), 4, 0xFA0, 1);
     this->actor.world.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
     if (this->skelAnime.curFrame == 6.0f || this->skelAnime.curFrame == 13.0f || this->skelAnime.curFrame == 28.0f) {

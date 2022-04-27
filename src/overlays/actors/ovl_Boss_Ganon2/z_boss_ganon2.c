@@ -147,7 +147,7 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, false);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDorfSkel, NULL, NULL, NULL, 0);
     func_808FD5C4(this, globalCtx);
-    this->actor.naviEnemyId = 0x3E;
+    this->actor.naviEnemyId = NAVI_ENEMY_GANON;
     this->actor.gravity = 0.0f;
 }
 
