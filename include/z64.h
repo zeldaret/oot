@@ -1070,6 +1070,8 @@ typedef enum {
     /* 56 */ TRANS_TYPE_MAX = 56
 } TransitionType;
 
+#define TRANS_NEXT_TYPE_DEFAULT 0xFF // when `nextTransitionType` is set to default, the type will be taken from the entrance table for the ending transition
+
 typedef enum {
     /* 0 */ TCA_NORMAL,
     /* 1 */ TCA_WAVE,

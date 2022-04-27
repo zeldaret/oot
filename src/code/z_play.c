@@ -347,13 +347,13 @@ void Gameplay_Init(GameState* thisx) {
     globalCtx->unk_11DE9 = 0;
 
     if (gSaveContext.gameMode != 1) {
-        if (gSaveContext.nextTransitionType == 0xFF) {
+        if (gSaveContext.nextTransitionType == TRANS_NEXT_TYPE_DEFAULT) {
             // fade in
             globalCtx->transitionType =
                 (gEntranceTable[((void)0, gSaveContext.entranceIndex) + tempSetupIndex].field >> 7) & 0x7F;
         } else {
             globalCtx->transitionType = gSaveContext.nextTransitionType;
-            gSaveContext.nextTransitionType = 0xFF;
+            gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
         }
     } else {
         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_SLOW;
