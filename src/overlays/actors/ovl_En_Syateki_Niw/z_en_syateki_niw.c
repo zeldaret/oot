@@ -463,7 +463,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
         case 6:
             if (this->unk_25E == 1) {
-                globalCtx->sceneLoadFlag = 0x14;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
                 globalCtx->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;

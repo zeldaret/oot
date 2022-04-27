@@ -1582,8 +1582,8 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 } else {
                     globalCtx->nextEntranceIndex = 0x3B4;
                 }
-                globalCtx->fadeTransition = 0x26;
-                globalCtx->sceneLoadFlag = 0x14;
+                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             }
         }
     }
