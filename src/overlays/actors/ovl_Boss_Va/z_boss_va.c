@@ -619,7 +619,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->actor.focus.pos = this->actor.world.pos;
     this->onCeiling = false;
-    this->actor.naviEnemyId = 0x14;
+    this->actor.naviEnemyId = NAVI_ENEMY_BARINADE;
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
@@ -3899,7 +3899,8 @@ void BossVa_SpawnTumor(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
             effect->scale = 0.0f;
 
             if (((i % 4) == 0) || (mode == 2)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_BALINADE_BREAK, &effect->pos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_BALINADE_BREAK, &effect->pos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         }

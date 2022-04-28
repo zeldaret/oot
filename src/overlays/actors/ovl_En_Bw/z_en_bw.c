@@ -130,7 +130,7 @@ void EnBw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBw* this = (EnBw*)thisx;
 
     Actor_SetScale(&this->actor, 0.012999999f);
-    this->actor.naviEnemyId = 0x23;
+    this->actor.naviEnemyId = NAVI_ENEMY_TORCH_SLUG;
     this->actor.gravity = -2.0f;
     SkelAnime_Init(globalCtx, &this->skelAnime, &object_bw_Skel_0020F0, &object_bw_Anim_000228, this->jointTable,
                    this->morphTable, 12);
@@ -227,7 +227,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-            sp62 = RADF_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
+            sp62 = RAD_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
         } else {
             sp62 = this->actor.world.rot.y + 0x8000;
         }
@@ -305,7 +305,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                                         &sp74, 1, 0, 0, 1);
             if (sp64 != 0) {
                 sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-                sp60 = RADF_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
+                sp60 = RAD_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
                 if (this->unk_236 != sp60) {
                     if ((s16)(this->actor.yawTowardsPlayer - sp60) >= 0) {
                         this->unk_238 = 0x4000;

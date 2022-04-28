@@ -591,8 +591,8 @@ void func_80AEBC30(GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.frames == 0xCD) {
         player = GET_PLAYER(globalCtx);
-        Audio_PlaySoundGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_DIVE_INTO_WATER, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -1058,7 +1058,7 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
         shapeRotY = &player->actor.shape.rot.y;
         temp1 = this->actor.world.pos.x - player->actor.world.pos.x;
         temp2 = this->actor.world.pos.z - player->actor.world.pos.z;
-        temp_f16 = RADF_TO_BINANG(Math_FAtan2F(temp1, temp2));
+        temp_f16 = RAD_TO_BINANG(Math_FAtan2F(temp1, temp2));
         if (*shapeRotY != temp_f16) {
             Math_SmoothStepToS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
             player->actor.world.rot.y = *shapeRotY;
@@ -1197,8 +1197,8 @@ void func_80AED4FC(EnRu1* this) {
 void func_80AED520(EnRu1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    Audio_PlaySoundGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                           &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_PL_PULL_UP_RUTO, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     func_80078914(&this->actor.projectedPos, NA_SE_VO_RT_LIFT);
 }
 
