@@ -1101,8 +1101,7 @@ typedef struct {
         TransitionCircle circle;
         TransitionTriforce triforce;
         TransitionWipe wipe;
-        char data[0x228];
-    };
+    } instanceData;
     /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
