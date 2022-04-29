@@ -1510,7 +1510,7 @@ void FileChoose_LoadGame(GameState* thisx) {
         gSaveContext.equips.buttonItems[0] = ITEM_NONE;
         swordEquipValue = gEquipMasks[EQUIP_TYPE_SWORD] & gSaveContext.equips.equipment;
         gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SWORD];
-        gSaveContext.inventory.equipment ^= (gBitFlags[swordEquipValue - 1] << gEquipShifts[EQUIP_TYPE_SWORD]);
+        gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, swordEquipValue - 1);
     }
 }
 

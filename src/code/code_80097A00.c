@@ -200,7 +200,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
         equipValue >>= gEquipShifts[equipment];
 
         gSaveContext.equips.equipment &= gEquipNegMasks[equipment];
-        gSaveContext.inventory.equipment ^= gBitFlags[equipValue - 1] << gEquipShifts[equipment];
+        gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG(equipment, equipValue - 1);
 
         if (equipment == EQUIP_TYPE_TUNIC) {
             gSaveContext.equips.equipment |= EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4);
