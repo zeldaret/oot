@@ -11175,7 +11175,7 @@ void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) || (this->actor.shape.feetFloorFlags != 0)) {
+        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) || (this->actor.shape.feetFloorFlag != 0)) {
             func_80837B60(this);
             if (this->unk_84F < 0) {
                 this->linearVelocity = -0.8f;

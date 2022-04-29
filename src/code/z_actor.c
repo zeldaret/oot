@@ -137,18 +137,20 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
 
         POLY_OPA_DISP = Gfx_CallSetupDL(POLY_OPA_DISP, 0x2C);
 
-        actor->shape.feetFloorFlags = 0;
+        // feetFloorFlag is temporarily a bitfield where the bits are set if the foot is on ground
+        // feetFloorFlag & 2 is left foot, feetFloorFlag & 1 is right foot
+        actor->shape.feetFloorFlag = 0;
 
         for (i = 0; i < 2; i++) {
             feetPosPtr->y += 50.0f;
             *floorHeightPtr = func_800BFCB8(globalCtx, &floorMtx, feetPosPtr);
             feetPosPtr->y -= 50.0f;
-            actor->shape.feetFloorFlags <<= 1;
+            actor->shape.feetFloorFlag <<= 1;
             distToFloor = feetPosPtr->y - *floorHeightPtr;
 
             if ((-1.0f <= distToFloor) && (distToFloor < 500.0f)) {
                 if (distToFloor <= 0.0f) {
-                    actor->shape.feetFloorFlags++;
+                    actor->shape.feetFloorFlag++;
                 }
                 distToFloor = CLAMP_MAX(distToFloor, 30.0f);
                 shadowAlpha = (f32)actor->shape.shadowAlpha * (1.0f - (distToFloor * (1.0f / 30.0f)));
@@ -189,14 +191,14 @@ void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx
         }
 
         if (!(actor->bgCheckFlags & BGCHECKFLAG_GROUND)) {
-            actor->shape.feetFloorFlags = 0;
-        } else if (actor->shape.feetFloorFlags == 3) {
+            actor->shape.feetFloorFlag = 0;
+        } else if (actor->shape.feetFloorFlag == 3) {
             f32 footDistY = actor->shape.feetPos[FOOT_LEFT].y - actor->shape.feetPos[FOOT_RIGHT].y;
 
-            if ((floorHeight[0] + footDistY) < (floorHeight[1] - footDistY)) {
-                actor->shape.feetFloorFlags = 2;
+            if ((floorHeight[FOOT_LEFT] + footDistY) < (floorHeight[FOOT_RIGHT] - footDistY)) {
+                actor->shape.feetFloorFlag = 2;
             } else {
-                actor->shape.feetFloorFlags = 1;
+                actor->shape.feetFloorFlag = 1;
             }
         }
 
