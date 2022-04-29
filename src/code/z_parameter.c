@@ -1244,7 +1244,7 @@ void Inventory_SwapAgeEquipment(void) {
     shieldEquipValue = gEquipMasks[EQUIP_TYPE_SHIELD] & gSaveContext.equips.equipment;
     if (shieldEquipValue != 0) {
         shieldEquipValue >>= gEquipShifts[EQUIP_TYPE_SHIELD];
-        if (!(gBitFlags[shieldEquipValue + (-1 + (EQUIP_TYPE_SHIELD * 4))] & gSaveContext.inventory.equipment)) {
+        if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, shieldEquipValue - 1)) {
             gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SHIELD];
         }
     }
@@ -1263,7 +1263,7 @@ void func_800849EC(GlobalContext* globalCtx) {
     gSaveContext.inventory.equipment |= gBitFlags[EQUIP_INV_SWORD_BGS] << gEquipShifts[EQUIP_TYPE_SWORD];
     gSaveContext.inventory.equipment ^= (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE) << gEquipShifts[EQUIP_TYPE_SWORD];
 
-    if (gBitFlags[EQUIP_INV_SWORD_BROKENGIANTKNIFE] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
     } else {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
