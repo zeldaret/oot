@@ -918,8 +918,8 @@ void EnOssan_State_StartConversation(EnOssan* this, GlobalContext* globalCtx, Pl
                 return;
             case OSSAN_HAPPY_STATE_ANGRY:
                 globalCtx->nextEntranceIndex = 0x1D1;
-                globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->fadeTransition = 0x2E;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
                 return;
         }
 

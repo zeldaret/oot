@@ -223,8 +223,8 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, &player->actor, 8);
                     globalCtx->nextEntranceIndex = 0x00CD;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
-                    globalCtx->sceneLoadFlag = 0x14;
-                    globalCtx->fadeTransition = 4;
+                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                    globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
                     globalCtx->envCtx.gloomySkyMode = 1;
                 }

@@ -289,8 +289,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
           this->fwork[BFD_FLY_WOBBLE_AMP];
     dz += Math_SinS((1796.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
           this->fwork[BFD_FLY_WOBBLE_AMP];
-    angleToTarget = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
-    pitchToTarget = RADF_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))));
+    angleToTarget = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
+    pitchToTarget = RAD_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))));
 
     osSyncPrintf("MODE %d\n", this->work[BFD_ACTION_STATE]);
 

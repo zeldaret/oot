@@ -4181,12 +4181,12 @@ void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2) {
         sp38 = Math_SinS(arg1);
         sp34 = Math_CosS(arg1);
         sp28 = (-(floorPolyNormalX * sp38) - (floorPolyNormalZ * sp34));
-        arg2->x = -RADF_TO_BINANG(Math_FAtan2F(sp28 * floorPolyNormalY, 1.0f));
+        arg2->x = -RAD_TO_BINANG(Math_FAtan2F(sp28 * floorPolyNormalY, 1.0f));
 
         sp2C = Math_SinS(arg1 - 16375);
         sp30 = Math_CosS(arg1 - 16375);
         sp24 = (-(floorPolyNormalX * sp2C) - (floorPolyNormalZ * sp30));
-        arg2->z = -RADF_TO_BINANG(Math_FAtan2F(sp24 * floorPolyNormalY, 1.0f));
+        arg2->z = -RAD_TO_BINANG(Math_FAtan2F(sp24 * floorPolyNormalY, 1.0f));
     }
 }
 
