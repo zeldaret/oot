@@ -60,7 +60,7 @@ void Gameplay_SetupTransition(GlobalContext* globalCtx, s32 transitionType) {
         transitionCtx->update = TransitionCircle_Update;
         transitionCtx->setType = TransitionCircle_SetType;
         transitionCtx->setColor = TransitionCircle_SetColor;
-        transitionCtx->setEnvColor = TransitionCircle_SetEnvColor;
+        transitionCtx->setUnkColor = TransitionCircle_SetUnkColor;
     } else {
         switch (transitionCtx->transitionType) {
             case TRANS_TYPE_TRIFORCE:
@@ -72,7 +72,7 @@ void Gameplay_SetupTransition(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->update = TransitionTriforce_Update;
                 transitionCtx->setType = TransitionTriforce_SetType;
                 transitionCtx->setColor = TransitionTriforce_SetColor;
-                transitionCtx->setEnvColor = NULL;
+                transitionCtx->setUnkColor = NULL;
                 break;
 
             case TRANS_TYPE_WIPE:
@@ -85,7 +85,7 @@ void Gameplay_SetupTransition(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->update = TransitionWipe_Update;
                 transitionCtx->setType = TransitionWipe_SetType;
                 transitionCtx->setColor = TransitionWipe_SetColor;
-                transitionCtx->setEnvColor = NULL;
+                transitionCtx->setUnkColor = NULL;
                 break;
 
             case TRANS_TYPE_FADE_BLACK:
@@ -106,7 +106,7 @@ void Gameplay_SetupTransition(GlobalContext* globalCtx, s32 transitionType) {
                 transitionCtx->update = TransitionFade_Update;
                 transitionCtx->setType = TransitionFade_SetType;
                 transitionCtx->setColor = TransitionFade_SetColor;
-                transitionCtx->setEnvColor = NULL;
+                transitionCtx->setUnkColor = NULL;
                 break;
 
             case TRANS_TYPE_FILL_WHITE2:
@@ -551,31 +551,31 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_WHITE_INSTANT)) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.instanceData,
                                                           RGBA8(160, 160, 160, 255));
-                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
-                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.instanceData,
+                        if (globalCtx->transitionCtx.setUnkColor != NULL) {
+                            globalCtx->transitionCtx.setUnkColor(&globalCtx->transitionCtx.instanceData,
                                                                  RGBA8(160, 160, 160, 255));
                         }
                     } else if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_GREEN) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.instanceData,
                                                           RGBA8(140, 140, 100, 255));
 
-                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
-                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.instanceData,
+                        if (globalCtx->transitionCtx.setUnkColor != NULL) {
+                            globalCtx->transitionCtx.setUnkColor(&globalCtx->transitionCtx.instanceData,
                                                                  RGBA8(140, 140, 100, 255));
                         }
                     } else if (globalCtx->transitionCtx.transitionType == TRANS_TYPE_FADE_BLUE) {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.instanceData,
                                                           RGBA8(70, 100, 110, 255));
 
-                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
-                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.instanceData,
+                        if (globalCtx->transitionCtx.setUnkColor != NULL) {
+                            globalCtx->transitionCtx.setUnkColor(&globalCtx->transitionCtx.instanceData,
                                                                  RGBA8(70, 100, 110, 255));
                         }
                     } else {
                         globalCtx->transitionCtx.setColor(&globalCtx->transitionCtx.instanceData, RGBA8(0, 0, 0, 0));
 
-                        if (globalCtx->transitionCtx.setEnvColor != NULL) {
-                            globalCtx->transitionCtx.setEnvColor(&globalCtx->transitionCtx.instanceData,
+                        if (globalCtx->transitionCtx.setUnkColor != NULL) {
+                            globalCtx->transitionCtx.setUnkColor(&globalCtx->transitionCtx.instanceData,
                                                                  RGBA8(0, 0, 0, 0));
                         }
                     }
