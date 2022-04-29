@@ -10,7 +10,6 @@ FaultClient sGraphFaultClient;
 CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
 
-// clang-format off
 UCodeInfo D_8012D230[3] = {
     { UCODE_F3DZEX, D_80155F50 },
     { UCODE_UNK, NULL },
@@ -22,7 +21,6 @@ UCodeInfo D_8012D248[3] = {
     { UCODE_UNK, NULL },
     { UCODE_S2DEX, D_80113070 },
 };
-// clang-format on
 
 void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();

@@ -288,7 +288,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
                     // clang-format off
-                    this->envXluColor[0] = 200; this->envXluColor[1] = 50; this->envXluColor[2] = 255; // Sameline prevents reordering
+                    // Sameline prevents reordering
+                    this->envXluColor[0] = 200; this->envXluColor[1] = 50; this->envXluColor[2] = 255;
                     // clang-format on
                     break;
 
