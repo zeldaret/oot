@@ -135,10 +135,10 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
          gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
         (gSaveContext.respawnFlag == 0)) {
         Vec3s spawnPositions[] = {
-            { 0xF46F, 0x0139, 0x1E14 },
-            { 0xF894, 0x0139, 0x1B67 },
-            { 0xF035, 0x0139, 0x1B15 },
-            { 0xF6F7, 0x0139, 0x1766 },
+            { -2961, 313, 7700 },
+            { -1900, 313, 7015 },
+            { -4043, 313, 6933 },
+            { -2313, 313, 5990 },
         };
 
         if (gSaveContext.entranceIndex == 0x028A) {
