@@ -2153,11 +2153,11 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
     if (healthChange > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4,
                                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                    &gSfxDefaultReverb);
-        // clang-format on
     } else if (gSaveContext.doubleDefense && (healthChange < 0)) {
         healthChange >>= 1;
         osSyncPrintf("ハート減少半分！！＝%d\n", healthChange); // "Heart decrease halved!!＝%d"
     }
+    // clang-format on
 
     gSaveContext.health += healthChange;
 
