@@ -2738,7 +2738,7 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
         trail2 = &this->handTrails[(idx + 2) % 7];
 
         for (i = 0; i < end; i++) {
-            if (Math3D_Vec3fDistSq(&trail2->world.pos, &trail->world.pos) > 900.0f) {
+            if (Math3D_Vec3fDistSq(&trail2->world.pos, &trail->world.pos) > SQ(30.0f)) {
                 Matrix_SetTranslateRotateYXZ(trail->world.pos.x, trail->world.pos.y, trail->world.pos.z,
                                              &trail->world.rot);
                 Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);

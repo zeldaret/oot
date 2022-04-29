@@ -251,7 +251,7 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     func_808B8DDC(this, globalCtx);
 
     if (Math3D_Dist2DSq(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.x,
-                        this->dyna.actor.home.pos.z) >= 6400.0f) {
+                        this->dyna.actor.home.pos.z) >= SQ(80.0f)) {
         func_808B9030(this);
         this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
