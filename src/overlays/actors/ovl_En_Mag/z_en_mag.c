@@ -86,8 +86,8 @@ void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.unk_13E7 = 0;
         this->globalState = MAG_STATE_DISPLAY;
         sDelayTimer = 20;
-        gSaveContext.fadeDuration = 1;
-        gSaveContext.unk_1419 = 255;
+        gSaveContext.transFadeDuration = 1;
+        gSaveContext.transWipeSpeed = 255;
     }
 
     Font_LoadOrderedFont(&this->font);
@@ -130,8 +130,8 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 this->globalState = MAG_STATE_DISPLAY;
                 sDelayTimer = 20;
-                gSaveContext.fadeDuration = 1;
-                gSaveContext.unk_1419 = 255;
+                gSaveContext.transFadeDuration = 1;
+                gSaveContext.transWipeSpeed = 255;
             }
         } else if (this->globalState >= MAG_STATE_DISPLAY) {
             if (sDelayTimer == 0) {
@@ -139,15 +139,15 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
                     CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
 
-                    if (globalCtx->sceneLoadFlag != 20) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_START) {
                         Audio_SetCutsceneFlag(0);
 
                         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                         gSaveContext.gameMode = 2;
-                        globalCtx->sceneLoadFlag = 20;
-                        globalCtx->fadeTransition = 2;
+                        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                        globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                     }
 
                     this->copyrightAlphaStep = 15;

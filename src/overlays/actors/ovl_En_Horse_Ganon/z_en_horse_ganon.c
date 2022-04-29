@@ -282,7 +282,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     temp_ret = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &col, &temp1, &v);
 
     this->unk_1F4 = temp_ret;
-    this->actor.shape.rot.x = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f));
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f));
 }
 
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {

@@ -316,16 +316,16 @@ s16 func_80A79500(GlobalContext* globalCtx, Actor* thisx) {
 
 void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
-    s16 phi_a3;
+    s16 arg3;
 
     if (this->skelAnime.animation == &object_in_Anim_0003B4 || this->skelAnime.animation == &object_in_Anim_001BE0 ||
         this->skelAnime.animation == &object_in_Anim_013D60) {
-        phi_a3 = 1;
+        arg3 = 1;
     } else {
-        phi_a3 = 0;
+        arg3 = 0;
     }
     if (this->actionFunc == func_80A7A568) {
-        phi_a3 = 4;
+        arg3 = 4;
     }
     if (this->actionFunc == func_80A7B024) {
         this->unk_308.unk_18 = globalCtx->view.eye;
@@ -334,7 +334,7 @@ void func_80A795C8(EnIn* this, GlobalContext* globalCtx) {
         this->unk_308.unk_18 = player->actor.world.pos;
         this->unk_308.unk_14 = 16.0f;
     }
-    func_80034A14(&this->actor, &this->unk_308, 1, phi_a3);
+    func_80034A14(&this->actor, &this->unk_308, 1, arg3);
 }
 
 void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {
@@ -423,15 +423,15 @@ void func_80A79AB4(EnIn* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A79BAC(EnIn* this, GlobalContext* globalCtx, s32 index, u32 arg3) {
+void func_80A79BAC(EnIn* this, GlobalContext* globalCtx, s32 index, u32 transitionType) {
     s16 entrances[] = { 0x0558, 0x04CA, 0x0157 };
 
     globalCtx->nextEntranceIndex = entrances[index];
     if (index == 2) {
         gSaveContext.nextCutsceneIndex = 0xFFF0;
     }
-    globalCtx->fadeTransition = arg3;
-    globalCtx->sceneLoadFlag = 0x14;
+    globalCtx->transitionType = transitionType;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     func_8002DF54(globalCtx, &this->actor, 8);
     Interface_ChangeAlpha(1);
     if (index == 0) {
@@ -638,7 +638,7 @@ void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
-        func_80A79BAC(this, globalCtx, 1, 0x20);
+        func_80A79BAC(this, globalCtx, 1, TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST));
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0001;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         gSaveContext.infTable[10] &= ~4;
@@ -652,7 +652,7 @@ void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
 void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 phi_a2;
-    s32 phi_a3;
+    s32 transitionType;
 
     if (!(gSaveContext.eventChkInf[1] & 0x800) && (player->stateFlags1 & PLAYER_STATE1_23)) {
         gSaveContext.infTable[10] |= 0x800;
@@ -675,7 +675,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                 (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)GET_PLAYER(globalCtx)->rideActor)->type << 4);
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             phi_a2 = 2;
-            phi_a3 = 2;
+            transitionType = TRANS_TYPE_FADE_BLACK;
         } else {
             Audio_PlaySoundGeneral(NA_SE_SY_FOUND, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -687,9 +687,9 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
             }
             gSaveContext.eventInf[0] &= ~0xF;
             phi_a2 = 0;
-            phi_a3 = 0x20;
+            transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
         }
-        func_80A79BAC(this, globalCtx, phi_a2, phi_a3);
+        func_80A79BAC(this, globalCtx, phi_a2, transitionType);
         globalCtx->msgCtx.stateTimer = 0;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
@@ -721,7 +721,7 @@ void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
             gSaveContext.eventInf[0] &= ~0xF;
             this->actionFunc = func_80A7A4C8;
         } else {
-            func_80A79BAC(this, globalCtx, 2, 0x26);
+            func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
             globalCtx->msgCtx.stateTimer = 0;
@@ -746,7 +746,7 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     }
     if (this->unk_308.unk_00 == 2) {
         this->actor.flags &= ~ACTOR_FLAG_16;
-        func_80A79BAC(this, globalCtx, 2, 0x26);
+        func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x000F) | 0x0002;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.stateTimer = 0;
@@ -870,8 +870,8 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
     yaw = Math_Vec3f_Yaw(&pos, &player->actor.world.pos);
     if (ABS(yaw) > 0x4000) {
         globalCtx->nextEntranceIndex = 0x0476;
-        globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeTransition = 5;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+        globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
         this->actionFunc = func_80A7B018;
     } else if (this->unk_308.unk_00 == 2) {
         globalCtx->msgCtx.stateTimer = 4;
@@ -896,7 +896,7 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
             gSaveContext.eventChkInf[1] |= 0x800;
             gSaveContext.infTable[10] |= 0x800;
         }
-        func_80A79BAC(this, globalCtx, 0, 0x26);
+        func_80A79BAC(this, globalCtx, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
         gSaveContext.eventInf[0] = gSaveContext.eventInf[0] & ~0xF;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
         globalCtx->msgCtx.stateTimer = 4;

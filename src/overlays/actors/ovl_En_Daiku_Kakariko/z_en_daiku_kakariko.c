@@ -364,7 +364,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
         pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
         xDist = pathPos->x - this->actor.world.pos.x;
         zDist = pathPos->z - this->actor.world.pos.z;
-        runAngle = RADF_TO_BINANG(Math_FAtan2F(xDist, zDist));
+        runAngle = RAD_TO_BINANG(Math_FAtan2F(xDist, zDist));
         runDist = sqrtf((xDist * xDist) + (zDist * zDist));
 
         run = false;

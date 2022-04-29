@@ -577,7 +577,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(posY, posZ)), 3, this->unk_300, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(posY, posZ)), 3, this->unk_300, 0);
         Math_ApproachF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -605,7 +605,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;
         pathDiffZ = pointPos->z - this->actor.world.pos.z;
-        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ));
+        this->unk_2E4 = RAD_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ));
         func_80AB6100(this, globalCtx, 2);
 
         if (fabsf(pathDiffX) < 30.0f && fabsf(pathDiffZ) < 30.0f) {
@@ -839,8 +839,8 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
-                                                    this->actor.world.pos.z - player->actor.world.pos.z));
+        this->unk_2E4 = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
+                                                   this->actor.world.pos.z - player->actor.world.pos.z));
         func_80AB6100(this, globalCtx, 0);
         func_80AB5BF8(this, globalCtx, 2);
     }
