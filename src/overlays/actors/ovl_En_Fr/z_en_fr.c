@@ -210,7 +210,7 @@ void EnFr_OrientUnderwater(EnFr* this) {
     this->actor.world.pos.z = this->posLogSpot.z + vec2.z;
     this->actor.world.pos.y = sLogSpotToFromWater[this->actor.params].yDist + this->posLogSpot.y;
     this->actor.world.rot.y = this->actor.shape.rot.y =
-        RADF_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw) + 0x8000;
+        RAD_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw) + 0x8000;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
@@ -445,7 +445,7 @@ void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
 
 void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == 12) {
-        this->actor.world.rot.y = RADF_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw);
+        this->actor.world.rot.y = RAD_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw);
         Animation_Change(&this->skelAnime, &object_fr_Anim_0007BC, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_fr_Anim_0007BC), ANIMMODE_ONCE, 0.0f);
         this->actionFunc = EnFr_JumpingBackIntoWater;

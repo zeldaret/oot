@@ -694,7 +694,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         this->actionState = ENKANBAN_AIR;
                         this->actor.gravity = -1.0f;
-                        this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
+                        this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
                         if (this->partCount >= 4) {
                             this->bounceX = (s16)Rand_ZeroFloat(10.0f) + 6;
                             this->bounceZ = (s16)Rand_ZeroFloat(10.0f) + 6;
@@ -731,8 +731,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
                         this->actionState = ENKANBAN_REPAIR;
                         this->bounceX = 1;
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
                     break;
             }

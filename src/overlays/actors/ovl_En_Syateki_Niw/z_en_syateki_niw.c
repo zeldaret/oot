@@ -328,7 +328,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_294 = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(tmpf1, tmpf2)), 3, this->unk_2C8.z, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(tmpf1, tmpf2)), 3, this->unk_2C8.z, 0);
         Math_ApproachF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -453,8 +453,8 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             }
 
             if ((this->unk_25A == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
-                Audio_PlaySoundGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->unk_25E = 0x14;
                 this->unk_29A = 6;
                 this->actor.speedXZ = 0.0f;
@@ -463,7 +463,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
         case 6:
             if (this->unk_25E == 1) {
-                globalCtx->sceneLoadFlag = 0x14;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
                 globalCtx->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
@@ -474,8 +474,8 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->actor.world.rot.y,
-                       RADF_TO_BINANG(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
-                                                   player->actor.world.pos.z - this->actor.world.pos.z)) +
+                       RAD_TO_BINANG(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
+                                                  player->actor.world.pos.z - this->actor.world.pos.z)) +
                            phi_f16,
                        5, this->unk_2C8.y, 0);
     Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);

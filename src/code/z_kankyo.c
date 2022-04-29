@@ -281,7 +281,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skyboxFilterColor[1] = 0;
     envCtx->skyboxFilterColor[2] = 0;
     envCtx->skyboxFilterColor[3] = 0;
-    envCtx->sandstormState = 0;
+    envCtx->sandstormState = SANDSTORM_OFF;
     envCtx->sandstormPrimA = 0;
     envCtx->sandstormEnvA = 0;
 
@@ -292,7 +292,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
 
     sLightningFlashAlpha = 0;
 
-    gSaveContext.unk_1410 = 0;
+    gSaveContext.cutsceneTransitionControl = 0;
 
     envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
@@ -879,7 +879,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
-                    (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
+                    (globalCtx->transitionMode == TRANS_MODE_OFF || ((void)0, gSaveContext.gameMode) != 0)) {
 
                     if (IS_DAY || gTimeIncrement >= 0x190) {
                         gSaveContext.dayTime += gTimeIncrement;
@@ -2229,7 +2229,7 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
     u16 sp92;
 
     switch (sandstormState) {
-        case 3:
+        case SANDSTORM_ACTIVE:
             if ((globalCtx->sceneNum == SCENE_SPOT13) && (globalCtx->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (globalCtx->envCtx.sandstormEnvA > 128) ? 255 : globalCtx->envCtx.sandstormEnvA >> 1;
@@ -2242,11 +2242,13 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
                 envA1 = 128;
             }
             break;
-        case 1:
+
+        case SANDSTORM_FILL:
             primA1 = 255;
             envA1 = (globalCtx->envCtx.sandstormPrimA >= 255) ? 255 : 128;
             break;
-        case 2:
+
+        case SANDSTORM_UNFILL:
             envA1 = 128;
             if (globalCtx->envCtx.sandstormEnvA > 128) {
                 primA1 = 0xFF;
@@ -2258,15 +2260,16 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
                 primA1 += 73;
             }
             if ((primA1 >= primA) && (primA1 != 255)) {
-                globalCtx->envCtx.sandstormState = 3;
+                globalCtx->envCtx.sandstormState = SANDSTORM_ACTIVE;
             }
             break;
-        case 4:
+
+        case SANDSTORM_DISSIPATE:
             envA1 = 0;
             primA1 = (globalCtx->envCtx.sandstormEnvA > 128) ? 255 : globalCtx->envCtx.sandstormEnvA >> 1;
 
             if (primA == 0) {
-                globalCtx->envCtx.sandstormState = 0;
+                globalCtx->envCtx.sandstormState = SANDSTORM_OFF;
             }
             break;
     }
@@ -2434,9 +2437,9 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gSaveContext.cutsceneIndex = 0;
     gSaveContext.respawnFlag = -3;
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
-    globalCtx->sceneLoadFlag = 0x14;
-    globalCtx->fadeTransition = 3;
-    gSaveContext.nextTransition = 3;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+    gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (globalCtx->nextEntranceIndex) {
         case 0x147:

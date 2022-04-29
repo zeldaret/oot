@@ -303,7 +303,7 @@ void EnDntNomal_TargetWalk(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     dx = 1340.0f + 3.0f - this->actor.world.pos.x;
     dz = 0.0f - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(dx, dz)), 0x32, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 0x32, 0xBB8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
@@ -382,8 +382,8 @@ void EnDntNomal_TargetReturn(EnDntNomal* this, GlobalContext* globalCtx) {
     dx = this->flowerPos.x - this->actor.world.pos.x;
     dz = -180.0f - this->actor.world.pos.z;
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(dx, dz)), 3, 0x1388, 0);
-    if (fabsf(this->actor.shape.rot.y - RADF_TO_BINANG(Math_FAtan2F(dx, dz))) < 20.0f) {
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 3, 0x1388, 0);
+    if (fabsf(this->actor.shape.rot.y - RAD_TO_BINANG(Math_FAtan2F(dx, dz))) < 20.0f) {
         this->actor.speedXZ = 1.0f;
     }
     if (Animation_OnFrame(&this->skelAnime, 0.0f) || Animation_OnFrame(&this->skelAnime, 6.0f)) {
@@ -453,7 +453,7 @@ void EnDntNomal_StageUp(EnDntNomal* this, GlobalContext* globalCtx) {
                 f32 dx = this->targetPos.x - this->actor.world.pos.x;
                 f32 dz = this->targetPos.z - this->actor.world.pos.z;
 
-                Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(dx, dz)), 1, 0xBB8, 0);
+                Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 1, 0xBB8, 0);
                 turnMod = 90.0f;
             }
             if ((Rand_ZeroFloat(10.0f + turnMod) < 1.0f) && (this->action != DNT_ACTION_ATTACK)) {
@@ -525,7 +525,7 @@ void EnDntNomal_StageCelebrate(EnDntNomal* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             return;
         }
-        Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(dx, dz)), 1, 0xBB8, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 1, 0xBB8, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
     } else {
         if (this->timer1 == 1) {
@@ -668,7 +668,7 @@ void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
     dx = player->actor.world.pos.x - this->mouthPos.x;
     dy = player->actor.world.pos.y + 30.0f - this->mouthPos.y;
     dz = player->actor.world.pos.z - this->mouthPos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.x, -RADF_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)))), 3, 0x1388,
+    Math_SmoothStepToS(&this->actor.shape.rot.x, -RAD_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)))), 3, 0x1388,
                        0);
     if ((frame >= this->endFrame) && (this->timer2 == 0)) {
         this->timer2 = (s16)Rand_ZeroFloat(10.0f) + 10;
@@ -721,7 +721,7 @@ void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     sp2C = this->flowerPos.x - this->actor.world.pos.x;
     sp28 = this->flowerPos.z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(sp2C, sp28)), 1, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(sp2C, sp28)), 1, 0xBB8, 0);
     if (this->timer5 == 0) {
         this->timer5 = 10;
     } else if (!(this->timer5 & 1)) {

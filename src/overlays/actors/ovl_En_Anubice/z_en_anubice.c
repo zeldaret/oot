@@ -120,8 +120,8 @@ void EnAnubice_AimFireball(EnAnubice* this, GlobalContext* globalCtx) {
     z = player->actor.world.pos.z - this->headPos.z;
     xzDist = sqrtf(SQ(x) + SQ(z));
 
-    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzDist));
-    this->fireballRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
+    this->fireballRot.x = -RAD_TO_BINANG(Math_FAtan2F(y, xzDist));
+    this->fireballRot.y = RAD_TO_BINANG(Math_FAtan2F(x, z));
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
