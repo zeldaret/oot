@@ -224,7 +224,7 @@ void func_80A6DE38(EnHorseZelda* this, GlobalContext* globalCtx) {
     pos.y = this->actor.world.pos.y + 60.0f;
     pos.z = (Math_CosS(this->actor.shape.rot.y) * 30.0f) + this->actor.world.pos.z;
     this->unk_1F4 = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &poly, &bgId, &pos);
-    this->actor.shape.rot.x = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_1F4, 30.0f));
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.y - this->unk_1F4, 30.0f));
 }
 
 void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {

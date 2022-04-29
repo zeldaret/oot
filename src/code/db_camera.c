@@ -957,8 +957,8 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
     } else {
         temp_f0_5 = sGlobalCtx->state.input[2].rel.stick_y;
         temp_f2_2 = sGlobalCtx->state.input[2].rel.stick_x;
-        pitch = DEGF_TO_BINANG((SQ(temp_f0_5) / 600.0f) * 0.8f);
-        yaw = DEGF_TO_BINANG((SQ(temp_f2_2) / 600.0f) * 0.8f);
+        pitch = CAM_DEG_TO_BINANG((SQ(temp_f0_5) / 600.0f) * 0.8f);
+        yaw = CAM_DEG_TO_BINANG((SQ(temp_f2_2) / 600.0f) * 0.8f);
         if (!D_80161144) {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? pitch : -pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? yaw : -yaw);
@@ -974,7 +974,8 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         }
 
         OLib_Vec3fDiffToVecSphGeo(&spF4, sp80, sp7C);
-        DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw, DEGF_TO_BINANG(dbCamera->rollDegrees));
+        DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, spF4.pitch, spF4.yaw,
+                                        CAM_DEG_TO_BINANG(dbCamera->rollDegrees));
         if (dbCamera->unk_00 == 1) {
             if (CHECK_BTN_ALL(sGlobalCtx->state.input[2].cur.button, BTN_CRIGHT)) {
                 cam->inputDir = dbCamera->sub.unk_104A;
@@ -1100,9 +1101,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                     dbCamera->unk_3C = false;
                     if (dbCamera->sub.mode != 1) {
                         func_8006376C(0xD, 0x18, 3, !D_80161144 ? D_8012CF04 : D_8012CF08);
-                        DbCamera_SetTextValue(BINANG_TO_DEGF(sp104.pitch), &D_8012D0E4[11], 4);
+                        DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.pitch), &D_8012D0E4[11], 4);
                         func_8006376C(0xF, 0x17, 3, D_8012D0E4);
-                        DbCamera_SetTextValue(BINANG_TO_DEGF(sp104.yaw), &D_8012D0F8[11], 4);
+                        DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.yaw), &D_8012D0F8[11], 4);
                         func_8006376C(0xF, 0x18, 3, D_8012D0F8);
                         DbCamera_SetTextValue(sp104.r, &D_8012D0D4[8], 6);
                         func_8006376C(0xF, 0x19, 3, D_8012D0D4);
@@ -1375,9 +1376,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                               : !D_80161144                                                               ? 4
                                                                                                           : 3,
                               D_8012CF30);
-                DbCamera_SetTextValue(BINANG_TO_DEGF(spFC.pitch), &D_8012D0E4[10], 4);
+                DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.pitch), &D_8012D0E4[10], 4);
                 func_8006376C(3, 0x17, 3, D_8012D0E4);
-                DbCamera_SetTextValue(BINANG_TO_DEGF(spFC.yaw), &D_8012D0F8[10], 4);
+                DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.yaw), &D_8012D0F8[10], 4);
                 func_8006376C(3, 0x18, 3, D_8012D0F8);
                 DbCamera_SetTextValue(spFC.r, &D_8012D0D4[7], 6);
                 func_8006376C(3, 0x19, 3, D_8012D0D4);
@@ -1388,9 +1389,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                               : D_80161144                                                               ? 4
                                                                                                          : 3,
                               D_8012CF34);
-                DbCamera_SetTextValue(BINANG_TO_DEGF(spFC.pitch), &D_8012D0E4[10], 4);
+                DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.pitch), &D_8012D0E4[10], 4);
                 func_8006376C(0x1C, 0x17, 3, D_8012D0E4);
-                DbCamera_SetTextValue(BINANG_TO_DEGF(spFC.yaw), &D_8012D0F8[10], 4);
+                DbCamera_SetTextValue(CAM_BINANG_TO_DEG(spFC.yaw), &D_8012D0F8[10], 4);
                 func_8006376C(0x1C, 0x18, 3, D_8012D0F8);
                 DbCamera_SetTextValue(spFC.r, &D_8012D0D4[7], 6);
                 func_8006376C(0x1C, 0x19, 3, D_8012D0D4);
@@ -1464,9 +1465,9 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
         DbCamera_SetTextValue(dbCamera->eye.z, &sp111, 6);
         func_8006376C(0x1E, 0x19, 2, &sp110);
         func_8006376C(0xD, 0x18, 3, !D_80161144 ? D_8012CF04 : D_8012CF08);
-        DbCamera_SetTextValue(BINANG_TO_DEGF(sp104.pitch), &D_8012D0E4[11], 4);
+        DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.pitch), &D_8012D0E4[11], 4);
         func_8006376C(0xF, 0x17, 3, D_8012D0E4);
-        DbCamera_SetTextValue(BINANG_TO_DEGF(sp104.yaw), &D_8012D0F8[11], 4);
+        DbCamera_SetTextValue(CAM_BINANG_TO_DEG(sp104.yaw), &D_8012D0F8[11], 4);
         func_8006376C(0xF, 0x18, 3, D_8012D0F8);
         DbCamera_SetTextValue(sp104.r, &D_8012D0D4[8], 6);
         func_8006376C(0xF, 0x19, 3, D_8012D0D4);
@@ -2148,7 +2149,7 @@ s32 DbCamera_UpdateDemoControl(DbCamera* dbCamera, Camera* cam) {
                 }
                 OLib_Vec3fDiffToVecSphGeo(&sp5C, &dbCamera->eye, &dbCamera->at);
                 DbCamera_CalcUpFromPitchYawRoll(&dbCamera->unk_1C, sp5C.pitch, sp5C.yaw,
-                                                DEGF_TO_BINANG(dbCamera->rollDegrees));
+                                                CAM_DEG_TO_BINANG(dbCamera->rollDegrees));
                 return 2;
             }
 
