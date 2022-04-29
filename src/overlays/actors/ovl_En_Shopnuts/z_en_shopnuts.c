@@ -228,7 +228,7 @@ void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx) {
 void EnShopnuts_ColliderCheck(EnShopnuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         EnShopnuts_SetupSpawnSalesman(this);
     } else if (globalCtx->actorCtx.unk_02 != 0) {
         EnShopnuts_SetupSpawnSalesman(this);
