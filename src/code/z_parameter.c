@@ -1390,7 +1390,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
-        gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI);
+        gSaveContext.inventory.equipment |=
+            OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI);
 
         if (item == ITEM_SWORD_BGS) {
             gSaveContext.swordHealth = 8;
