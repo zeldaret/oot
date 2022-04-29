@@ -342,7 +342,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->timers[0] = 0;
                     this->camData.speedMod = 0.0f;
                     this->camData.accel = 0.0f;
-                    if (gSaveContext.eventChkInf[7] & 8) {
+                    if (GET_EVENTCHKINF(EVENTCHKINF_73)) {
                         this->introState = BFD_CS_EMERGE;
                         this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
                         this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
@@ -464,7 +464,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 osSyncPrintf("WAY_SPD X = %f\n", this->camData.atVel.x);
                 osSyncPrintf("WAY_SPD Y = %f\n", this->camData.atVel.y);
                 osSyncPrintf("WAY_SPD Z = %f\n", this->camData.atVel.z);
-                if ((this->timers[3] > 190) && !(gSaveContext.eventChkInf[7] & 8)) {
+                if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
                     Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultReverb);
@@ -492,7 +492,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->timers[3] == 160) {
                     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
                 }
-                if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
+                if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
@@ -543,7 +543,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;
                     this->handoffSignal = FD2_SIGNAL_GROUND;
-                    gSaveContext.eventChkInf[7] |= 8;
+                    SET_EVENTCHKINF(EVENTCHKINF_73);
                 }
                 break;
         }

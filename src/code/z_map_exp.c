@@ -118,11 +118,16 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
                     extendedMapIndex = 0x15;
                 }
             } else if (globalCtx->sceneNum == SCENE_SPOT09) {
-                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !((gSaveContext.eventChkInf[9] & 0xF) == 0xF)) {
+                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) &&
+                    !CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                                    EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK |
+                                        EVENTCHKINF_93_MASK)) {
                     extendedMapIndex = 0x16;
                 }
             } else if (globalCtx->sceneNum == SCENE_SPOT12) {
-                if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+                if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                                   EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK |
+                                       EVENTCHKINF_93_MASK)) {
                     extendedMapIndex = 0x17;
                 }
             }
@@ -455,7 +460,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                         (LINK_AGE_IN_YEARS != YEARS_ADULT)) {
                         if ((gMapData->owEntranceFlag[sEntranceIconMapIndex] == 0xFFFF) ||
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
-                             (gSaveContext.infTable[26] & gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
+                             (gSaveContext.infTable[INFTABLE_1AX_INDEX] &
+                              gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
                             gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b,
                                                 8, 8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
@@ -470,7 +476,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if ((globalCtx->sceneNum == SCENE_SPOT08) && (gSaveContext.infTable[26] & gBitFlags[9])) {
+                    if ((globalCtx->sceneNum == SCENE_SPOT08) &&
+                        (gSaveContext.infTable[INFTABLE_1AX_INDEX] & gBitFlags[INFTABLE_1A9_SHIFT])) {
                         gDPLoadTextureBlock(OVERLAY_DISP++, gMapDungeonEntranceIconTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8,
                                             8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);

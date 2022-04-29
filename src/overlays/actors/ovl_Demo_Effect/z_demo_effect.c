@@ -491,7 +491,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
-            if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & 0x20)) {
+            if ((globalCtx->sceneNum == SCENE_BDAN) && GET_INFTABLE(INFTABLE_145)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -696,7 +696,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
     } else if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
-               (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & 0x200)))) {
+               (gSaveContext.entranceIndex == 0x0324 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -760,7 +760,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
 
     if (this->timeWarp.shrinkTimer > 250) {
         if (gSaveContext.entranceIndex == 0x0324) {
-            gSaveContext.eventChkInf[12] |= 0x200;
+            SET_EVENTCHKINF(EVENTCHKINF_C9);
         }
 
         Actor_Kill(&this->actor);
@@ -1560,8 +1560,8 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 3:
-                if (gSaveContext.eventChkInf[4] & 0x800) {
-                    gSaveContext.eventChkInf[4] |= 0x800;
+                if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_4B);
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, globalCtx);
                 if ((globalCtx->gameplayFrames & 1) == 0) {
@@ -1594,7 +1594,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.entranceIndex == 0x0053) {
-        if (!(gSaveContext.eventChkInf[4] & 0x800)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
                 this->effectFlags |= 0x1;

@@ -57,13 +57,17 @@ void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
 
 void EnMu_Interact(EnMu* this, GlobalContext* globalCtx) {
     u8 textIdOffset[] = { 0x42, 0x43, 0x3F, 0x41, 0x3E };
-    u8 bitmask[] = { 0x01, 0x02, 0x04, 0x08, 0x10 };
+    u8 bitmask[] = {
+        EVENTINF_20_MASK, EVENTINF_21_MASK, EVENTINF_22_MASK, EVENTINF_23_MASK, EVENTINF_24_MASK,
+    };
     u8 textFlags;
     s32 randomIndex;
     s32 i;
 
-    textFlags = gSaveContext.eventInf[2] & 0x1F;
-    gSaveContext.eventInf[2] &= ~0x1F;
+    textFlags = gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &
+                (EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
+    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] &=
+        ~(EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK);
     randomIndex = (globalCtx->state.frames + (s32)(Rand_ZeroOne() * 5.0f)) % 5;
 
     for (i = 0; i < 5; i++) {
@@ -90,8 +94,8 @@ void EnMu_Interact(EnMu* this, GlobalContext* globalCtx) {
 
     textFlags |= bitmask[randomIndex];
     this->defFaceReaction = textIdOffset[randomIndex] | 0x7000;
-    textFlags &= 0xFF;
-    gSaveContext.eventInf[2] |= textFlags;
+    textFlags &= EVENTINF_20_MASK | EVENTINF_21_MASK | EVENTINF_22_MASK | EVENTINF_23_MASK | EVENTINF_24_MASK | 0xE0;
+    gSaveContext.eventInf[EVENTINF_20_21_22_23_24_INDEX] |= textFlags;
 }
 
 u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {

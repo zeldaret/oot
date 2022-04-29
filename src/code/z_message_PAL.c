@@ -1605,7 +1605,7 @@ void Message_OpenText(GlobalContext* globalCtx, u16 textId) {
         textId += (gSaveContext.inventory.questItems & 0xF0000000 & 0xF0000000) >> QUEST_HEART_PIECE_COUNT;
     } else if (msgCtx->textId == 0xC && CHECK_OWNED_EQUIP(EQUIP_SWORD, 2)) {
         textId = 0xB; // Traded Giant's Knife for Biggoron Sword
-    } else if (msgCtx->textId == 0xB4 && (gSaveContext.eventChkInf[9] & 0x40)) {
+    } else if (msgCtx->textId == 0xB4 && GET_EVENTCHKINF(EVENTCHKINF_96)) {
         textId = 0xB5; // Destroyed Gold Skulltula
     }
     // Ocarina Staff + Dialog
@@ -2456,7 +2456,9 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                         if (msgCtx->disableWarpSongs || interfaceCtx->restrictions.warpSongs == 3) {
                             Message_StartTextbox(globalCtx, 0x88C, NULL); // "You can't warp here!"
                             globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
-                        } else if ((gSaveContext.eventInf[0] & 0xF) != 1) {
+                        } else if ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                                    (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) !=
+                                   EVENTINF_00_MASK) {
                             Message_StartTextbox(globalCtx, msgCtx->lastPlayedSong + 0x88D,
                                                  NULL); // "Warp to [place name]?"
                             globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_01;
@@ -3217,8 +3219,10 @@ void Message_Update(GlobalContext* globalCtx) {
                     if (Message_ShouldAdvance(globalCtx)) {
                         osSyncPrintf("OCARINA_MODE=%d -> ", globalCtx->msgCtx.ocarinaMode);
                         globalCtx->msgCtx.ocarinaMode = (msgCtx->choiceIndex == 0) ? OCARINA_MODE_02 : OCARINA_MODE_04;
-                        osSyncPrintf("InRaceSeq=%d(%d) OCARINA_MODE=%d  -->  ", gSaveContext.eventInf[0] & 0xF, 1,
-                                     globalCtx->msgCtx.ocarinaMode);
+                        osSyncPrintf("InRaceSeq=%d(%d) OCARINA_MODE=%d  -->  ",
+                                     gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                                         (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK),
+                                     1, globalCtx->msgCtx.ocarinaMode);
                         Message_CloseTextbox(globalCtx);
                         osSyncPrintf("OCARINA_MODE=%d\n", globalCtx->msgCtx.ocarinaMode);
                     }
