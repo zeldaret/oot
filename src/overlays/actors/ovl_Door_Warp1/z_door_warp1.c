@@ -465,8 +465,8 @@ void DoorWarp1_ChildWarpIdle(DoorWarp1* this, GlobalContext* globalCtx) {
     if (DoorWarp1_PlayerInRange(this, globalCtx)) {
         player = GET_PLAYER(globalCtx);
 
-        Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         OnePointCutscene_Init(globalCtx, 0x25E7, 999, &this->actor, MAIN_CAM);
         func_8002DF54(globalCtx, &this->actor, 10);
 
@@ -494,7 +494,8 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
     this->warpTimer++;
 
     if (sWarpTimerTarget < this->warpTimer && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->sceneLoadFlag, 0x14);
+        osSyncPrintf("\n\n\nじかんがきたからおーしまい fade_direction=[%d]", globalCtx->transitionTrigger,
+                     TRANS_TRIGGER_START);
 
         if (globalCtx->sceneNum == SCENE_DDAN_BOSS) {
             if (!Flags_GetEventChkInf(0x25)) {
@@ -522,9 +523,9 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
             gSaveContext.nextCutsceneIndex = 0;
         }
         osSyncPrintf("\n\n\nおわりおわり");
-        globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeTransition = 7;
-        gSaveContext.nextTransition = 3;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+        globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
+        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
     }
 
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
@@ -578,7 +579,8 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
 
 void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
-        Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, MAIN_CAM);
         Gameplay_CopyCamera(globalCtx, -1, sRutoWarpSubCamId);
         Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_WAIT);
@@ -607,8 +609,8 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
         Item_Give(globalCtx, ITEM_ZORA_SAPPHIRE);
         globalCtx->nextEntranceIndex = 0x10E;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
-        globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeTransition = 7;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+        globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }
 
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
@@ -664,7 +666,8 @@ void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx) {
         this->unk_1B2--;
         return;
     }
-    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     Animation_ChangeImpl(&this->skelAnime, &gWarpCrystalAnim, 1.0f, Animation_GetLastFrame(&gWarpCrystalAnim),
                          Animation_GetLastFrame(&gWarpCrystalAnim), ANIMMODE_ONCE, 40.0f, 1);
 
@@ -775,9 +778,9 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         }
-        globalCtx->sceneLoadFlag = 0x14;
-        globalCtx->fadeTransition = 3;
-        gSaveContext.nextTransition = 7;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+        globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+        gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE_SLOW;
     }
     if (this->warpTimer >= 141) {
         f32 screenFillAlpha;

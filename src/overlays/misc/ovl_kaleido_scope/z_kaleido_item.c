@@ -209,7 +209,8 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
 
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 cursorPoint = cursorX = cursorY = 0;
                 while (true) {
@@ -243,7 +244,8 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
                 pauseCtx->nameDisplayTimer = 0;
                 pauseCtx->cursorSpecialPos = 0;
 
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 cursorPoint = cursorX = 5;
                 cursorY = 0;
@@ -374,19 +376,20 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
                                 if (pauseCtx->equipTargetItem == ITEM_ARROW_LIGHT) {
                                     index = 2;
                                 }
-                                Audio_PlaySoundGeneral(NA_SE_SY_SET_FIRE_ARROW + index, &D_801333D4, 4, &D_801333E0,
-                                                       &D_801333E0, &D_801333E8);
+                                Audio_PlaySoundGeneral(NA_SE_SY_SET_FIRE_ARROW + index, &gSfxDefaultPos, 4,
+                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                       &gSfxDefaultReverb);
                                 pauseCtx->equipTargetItem = 0xBF + index;
                                 sEquipState = 0;
                                 pauseCtx->equipAnimAlpha = 0;
                                 sEquipMoveTimer = 6;
                             } else {
-                                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                       &D_801333E8);
+                                Audio_PlaySoundGeneral(NA_SE_SY_DECIDE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                             }
                         } else {
-                            Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                   &D_801333E8);
+                            Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         }
                     }
                 }
@@ -402,7 +405,8 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_ITEM]) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if ((pauseCtx->unk_1E4 == 3) && (pauseCtx->pageIndex == PAUSE_ITEM)) {
         KaleidoScope_SetCursorVtx(pauseCtx, cursorSlot * 4, pauseCtx->itemVtx);
@@ -515,7 +519,8 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
             WREG(90) = 320;
             WREG(87) = WREG(91);
             sEquipState++;
-            Audio_PlaySoundGeneral(NA_SE_SY_SYNTH_MAGIC_ARROW, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_SYNTH_MAGIC_ARROW, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         return;
     }

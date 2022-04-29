@@ -666,14 +666,14 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
         globalCtx->nextEntranceIndex = 0x5E4;
 
         if (gSaveContext.eventInf[0] & 0x100) {
-            globalCtx->fadeTransition = 46;
-            gSaveContext.nextTransition = 3;
+            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
         } else {
-            globalCtx->fadeTransition = 38;
-            gSaveContext.nextTransition = 2;
+            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+            gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
         }
 
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         gSaveContext.eventInf[0] |= 0x400;
         this->actionFunc = func_80B153D4;
         this->unk_2CC = 22;
