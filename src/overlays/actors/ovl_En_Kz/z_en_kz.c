@@ -73,7 +73,7 @@ u16 EnKz_GetTextNoMaskChild(GlobalContext* globalCtx, EnKz* this) {
 
     if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
         return 0x402B;
-    } else if (gSaveContext.eventChkInf[3] & 8) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
         return 0x401C;
     } else {
         player->exchangeItemId = EXCH_ITEM_LETTER_RUTO;
@@ -85,7 +85,7 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_FROG) {
-        if (!(gSaveContext.infTable[19] & 0x200)) {
+        if (!GET_INFTABLE(INFTABLE_139)) {
             if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 2)) {
                 return 0x401F;
             } else {
@@ -124,14 +124,14 @@ s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
             ret = 0;
             switch (this->actor.textId) {
                 case 0x4012:
-                    gSaveContext.infTable[19] |= 0x200;
+                    SET_INFTABLE(INFTABLE_139);
                     ret = 2;
                     break;
                 case 0x401B:
                     ret = !Message_ShouldAdvance(globalCtx) ? 1 : 2;
                     break;
                 case 0x401F:
-                    gSaveContext.infTable[19] |= 0x200;
+                    SET_INFTABLE(INFTABLE_139);
                     break;
             }
             break;
@@ -236,7 +236,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
-        if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
+        if ((this->actor.textId == 0x401A) && !GET_EVENTCHKINF(EVENTCHKINF_33)) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
                 this->sfxPlayed = false;
@@ -258,7 +258,7 @@ void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
             }
 
             this->isTrading = false;
-            if (gSaveContext.infTable[19] & 0x200) {
+            if (GET_INFTABLE(INFTABLE_139)) {
                 this->actor.textId = CHECK_QUEST_ITEM(QUEST_SONG_SERENADE) ? 0x4045 : 0x401A;
                 player->actor.textId = this->actor.textId;
             } else {
@@ -330,12 +330,12 @@ void EnKz_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E0.unk_00 = 0;
     Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_0);
 
-    if (gSaveContext.eventChkInf[3] & 8) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
         EnKz_SetMovedPos(this, globalCtx);
     }
 
     if (LINK_IS_ADULT) {
-        if (!(gSaveContext.infTable[19] & 0x100)) {
+        if (!GET_INFTABLE(INFTABLE_138)) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BG_ICE_SHELTER,
                                this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                0x04FF);
@@ -397,7 +397,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
         EnKz_SetMovedPos(this, globalCtx);
-        gSaveContext.eventChkInf[3] |= 8;
+        SET_EVENTCHKINF(EVENTCHKINF_33);
         this->actor.speedXZ = 0.0;
         this->actionFunc = EnKz_StopMweep;
     }
@@ -443,7 +443,7 @@ void EnKz_StartTimer(EnKz* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_FROG) {
             func_80088AA0(180); // start timer2 with 3 minutes
-            gSaveContext.eventInf[1] &= ~1;
+            CLEAR_EVENTINF(EVENTINF_10);
         }
         this->unk_1E0.unk_00 = 0;
         this->actionFunc = EnKz_Wait;
@@ -454,8 +454,8 @@ void EnKz_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnKz* this = (EnKz*)thisx;
     s32 pad;
 
-    if (LINK_IS_ADULT && !(gSaveContext.infTable[19] & 0x100)) {
-        gSaveContext.infTable[19] |= 0x100;
+    if (LINK_IS_ADULT && !GET_INFTABLE(INFTABLE_138)) {
+        SET_INFTABLE(INFTABLE_138);
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

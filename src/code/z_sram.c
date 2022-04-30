@@ -175,7 +175,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.horseData.pos.z = 5497;
     gSaveContext.horseData.angle = -0x6AD9;
     gSaveContext.magicLevel = 0;
-    gSaveContext.infTable[29] = 1;
+    gSaveContext.infTable[INFTABLE_1DX_INDEX] = 1;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
 
@@ -265,8 +265,8 @@ void Sram_InitDebugSave(void) {
     gSaveContext.horseData.angle = -0x6AD9;
     gSaveContext.infTable[0] |= 0x5009;
     gSaveContext.eventChkInf[0] |= 0x123F;
-    gSaveContext.eventChkInf[8] |= 1;
-    gSaveContext.eventChkInf[12] |= 0x10;
+    SET_EVENTCHKINF(EVENTCHKINF_80);
+    SET_EVENTCHKINF(EVENTCHKINF_C4);
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
@@ -408,9 +408,9 @@ void Sram_OpenSave(SramContext* sramCtx) {
     }
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
-    if ((gSaveContext.eventChkInf[4] & 1) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-        i = gSaveContext.eventChkInf[4] & ~1;
-        gSaveContext.eventChkInf[4] = i;
+    if (GET_EVENTCHKINF(EVENTCHKINF_40) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
+        i = gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
+        gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] = i;
 
         INV_CONTENT(ITEM_LETTER_ZELDA) = ITEM_CHICKEN;
 

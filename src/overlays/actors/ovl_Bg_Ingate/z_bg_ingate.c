@@ -45,13 +45,15 @@ void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if ((globalCtx->sceneNum != SCENE_SPOT20 || !LINK_IS_ADULT) ||
-        (((gSaveContext.eventChkInf[1] & 0x100)) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
+        (GET_EVENTCHKINF(EVENTCHKINF_18) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
 
     Actor_SetScale(&this->dyna.actor, 0.1f);
-    if (((this->dyna.actor.params & 1) != 0) && ((gSaveContext.eventInf[0] & 0xF) == 6)) {
+    if (((this->dyna.actor.params & 1) != 0) &&
+        ((gSaveContext.eventInf[EVENTINF_0X_INDEX] & (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK |
+                                                      EVENTINF_03_MASK)) == (EVENTINF_01_MASK | EVENTINF_02_MASK))) {
         globalCtx->csCtx.frames = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {

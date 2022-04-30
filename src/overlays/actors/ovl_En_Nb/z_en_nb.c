@@ -563,7 +563,7 @@ void EnNb_InitKidnap(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &gNabooruTrappedInVortexPushingGroundAnim, 0, 0.0f, 0);
     this->action = NB_KIDNAPPED;
     this->actor.shape.shadowAlpha = 0;
-    gSaveContext.eventChkInf[9] |= 0x20;
+    SET_EVENTCHKINF(EVENTCHKINF_95);
 }
 
 void EnNb_PlayCrySFX(EnNb* this, GlobalContext* globalCtx) {
@@ -1099,11 +1099,11 @@ void EnNb_LookUp(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
-    if (!(gSaveContext.eventChkInf[9] & 0x20) && LINK_IS_CHILD) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_95) && LINK_IS_CHILD) {
         EnNb_UpdatePath(this, globalCtx);
 
         // looking into crawlspace
-        if (!(gSaveContext.eventChkInf[9] & 0x10)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_94)) {
             EnNb_SetCurrentAnim(this, &gNabooruKneeingAtCrawlspaceAnim, 0, 0.0f, 0);
             this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = NB_DRAW_DEFAULT;
@@ -1200,7 +1200,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
-        if (!(gSaveContext.infTable[22] & 0x1000)) {
+        if (!GET_INFTABLE(INFTABLE_16C)) {
             this->actor.textId = 0x601D;
         } else {
             this->actor.textId = 0x6024;
@@ -1212,7 +1212,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_SetupPathMovement(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &gNabooruStandingToWalkingTransitionAnim, 2, -8.0f, 0);
-    gSaveContext.eventChkInf[9] |= 0x10;
+    SET_EVENTCHKINF(EVENTCHKINF_94);
     this->action = NB_IN_PATH;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
 }
@@ -1230,7 +1230,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             EnNb_SetupPathMovement(this, globalCtx);
         } else {
             if (textId == 0x6027) {
-                gSaveContext.infTable[22] |= 0x1000;
+                SET_INFTABLE(INFTABLE_16C);
             }
             this->action = NB_IDLE_CRAWLSPACE;
         }
