@@ -854,8 +854,8 @@ Color_RGB8 sGauntletColors[] = {
 };
 
 Gfx* sBootDListGroups[][2] = {
-    /* PLAYER_BOOTS_IRON */ { gLinkAdultLeftIronBootDL, gLinkAdultRightIronBootDL },
-    /* PLAYER_BOOTS_HOVER */ { gLinkAdultLeftHoverBootDL, gLinkAdultRightHoverBootDL },
+    { gLinkAdultLeftIronBootDL, gLinkAdultRightIronBootDL },   // PLAYER_BOOTS_IRON
+    { gLinkAdultLeftHoverBootDL, gLinkAdultRightHoverBootDL }, // PLAYER_BOOTS_HOVER
 };
 
 void Player_DrawImpl(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
