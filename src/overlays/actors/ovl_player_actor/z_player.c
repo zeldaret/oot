@@ -3755,7 +3755,7 @@ void func_8083819C(Player* this, GlobalContext* globalCtx) {
     if (this->currentShield == PLAYER_SHIELD_DEKU) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_SHIELD, this->actor.world.pos.x,
                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 1);
-        Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
+        Inventory_DeleteEquipment(globalCtx, EQUIP_TYPE_SHIELD);
         Message_StartTextbox(globalCtx, 0x305F, NULL);
     }
 }
@@ -14110,9 +14110,9 @@ void func_80852648(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         this->heldItemId = ITEM_NONE;
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
         this->leftHandDLists = D_80125E08;
-        Inventory_ChangeEquipment(EQUIP_SWORD, 2);
+        Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
-        Inventory_DeleteEquipment(globalCtx, 0);
+        Inventory_DeleteEquipment(globalCtx, EQUIP_TYPE_SWORD);
     }
 }
 

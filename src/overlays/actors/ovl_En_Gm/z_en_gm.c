@@ -92,9 +92,9 @@ void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A3D7C8(void) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 0;
-    } else if (!(gBitFlags[2] & gSaveContext.inventory.equipment)) {
+    } else if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS)) {
         return 1;
-    } else if (gBitFlags[3] & gSaveContext.inventory.equipment) {
+    } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
         return 2;
     } else {
         return 3;
