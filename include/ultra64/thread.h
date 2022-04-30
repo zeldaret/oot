@@ -12,6 +12,8 @@
 #define OS_PRIORITY_APPMAX   127
 #define OS_PRIORITY_IDLE       0
 
+#define OS_PRIORITY_THREADTAIL -1
+
 #define OS_STATE_STOPPED    1
 #define OS_STATE_RUNNABLE   2
 #define OS_STATE_RUNNING    4
@@ -28,6 +30,7 @@ typedef union {
         /* 0x00 */ f32 f_odd;
         /* 0x04 */ f32 f_even;
     } f;
+    f64 d;
 } __OSfp; // size = 0x08
 
 typedef struct {
@@ -60,5 +63,10 @@ typedef struct OSThread {
     /* 0x1C */ __OSThreadprofile* thprof;
     /* 0x20 */ __OSThreadContext context;
 } OSThread; // size = 0x1B0
+
+typedef struct {
+    OSThread* next;
+    OSPri priority;
+} __OSThreadTail; // size = 0x8
 
 #endif

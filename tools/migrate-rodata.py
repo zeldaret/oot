@@ -103,7 +103,7 @@ def is_rodata(r):
 """
 For given asm and rodata files, build a rodata section for the asm file
 """
-def build_rodata(asm, rodata): 
+def build_rodata(asm, rodata):
     contained_syms = [s for s in asm_syms(asm) if s in rodata_syms(rodata)]
     contained_blocks = [b for b in rodata_blocks(rodata) if rodata_sym(b) in contained_syms]
     # TODO include arrays in rodata_list
@@ -188,7 +188,7 @@ Processes each individual file
  data\code\
 """
 def process_file(filename, identifier, delete_rodata):
-    folder_path = "asm" + sep + "non_matchings" + sep + ("code" + sep if identifier=="code" else "overlays" + sep + identifier.lower() + sep + "ovl_") + filename + sep 
+    folder_path = "asm" + sep + "non_matchings" + sep + ("code" + sep if identifier=="code" else "overlays" + sep + identifier.lower() + sep + "ovl_") + filename + sep
     rodata_path = "data" + sep + (sep if identifier=="code" else "overlays" + sep + identifier.lower() + sep + "z_") + filename.lower() + ".rodata.s"
     if filename == "player":
         folder_path = "asm" + sep + "non_matchings" + sep + "overlays" + sep + "actors" + sep + "ovl_player_actor" + sep
@@ -227,7 +227,7 @@ def process_files(filenames, identifier, spechandle, delete_rodata):
         files = filenames.split(",")
         for f in files:
             process_file(f, identifier, delete_rodata)
-    else: 
+    else:
         process_file(filenames, identifier, delete_rodata)
     if spechandle.lower() == "delete":
         modify_spec(filenames, identifier, True)
@@ -294,4 +294,3 @@ run(False)
     # command = "echo >> src/overlays/effects/ovl_" + effects[i] + "/z_" + effects[i].lower() + ".c"
     # os.system(command) # purpose of this is to "modify" each C file in order to prevent undefined symbol errors.
     #                    # the new line will be removed by format.sh
-    

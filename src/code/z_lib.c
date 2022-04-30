@@ -1,10 +1,26 @@
 #include "global.h"
 
-void Lib_MemSet(u8* dest, size_t size, u8 val) {
-    u32 i;
+/**
+ * @brief memset: sets @p len bytes to @p val starting at address @p dest .
+ *
+ * Unlike normal memset,
+ * - @p dest is a u8* already,
+ * - does not return @p dest ,
+ * - the arguments are in a different order,
+ * - @p val is a u8 instead of the standard s32.
+ *
+ * There are two other memsets in this codebase,
+ * @sa __osMemset(), MemSet()
+ *
+ * @param[in,out] dest address to start at
+ * @param[in] len number of bytes to write
+ * @param[in] val value to write
+ */
+void Lib_MemSet(u8* dest, size_t len, u8 val) {
+    size_t i;
 
     // clang-format off
-    for (i = 0; i < size; i++) { *dest++ = val; }
+    for (i = 0; i < len; i++) { *dest++ = val; }
     // clang-format on
 }
 
@@ -546,15 +562,15 @@ s16 Math_SmoothStepToS(s16* pValue, s16 target, s16 scale, s16 step, s16 minStep
 /**
  * Changes pValue by step towards target. If step is more than 1/scale of the remaining distance, step by that instead.
  */
-void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 maxStep) {
+void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 step) {
     s16 diff = target - *pValue;
 
     diff /= scale;
 
-    if (diff > maxStep) {
-        *pValue += maxStep;
-    } else if (diff < -maxStep) {
-        *pValue -= maxStep;
+    if (diff > step) {
+        *pValue += step;
+    } else if (diff < -step) {
+        *pValue -= step;
     } else {
         *pValue += diff;
     }

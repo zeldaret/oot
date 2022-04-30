@@ -1,12 +1,12 @@
 #include "global.h"
 
 u32 osVirtualToPhysical(void* vaddr) {
-    if ((u32)vaddr >= 0x80000000 && (u32)vaddr < 0xA0000000) {
-        return (u32)vaddr & 0x1FFFFFFF;
+    if (IS_KSEG0(vaddr)) {
+        return K0_TO_PHYS(vaddr);
     }
 
-    if ((u32)vaddr >= 0xA0000000 && (u32)vaddr < 0xC0000000) {
-        return (u32)vaddr & 0x1FFFFFFF;
+    if (IS_KSEG1(vaddr)) {
+        return K1_TO_PHYS(vaddr);
     }
 
     return __osProbeTLB(vaddr);

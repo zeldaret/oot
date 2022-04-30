@@ -80,8 +80,8 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
     Matrix_Push();
-    Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
-    Matrix_RotateX(BINANG_TO_RAD(this->actor.world.rot.x), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.world.rot.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.world.rot.x), MTXMODE_APPLY);
     velocity.z = 15.0f;
     Matrix_MultVec3f(&velocity, &this->actor.velocity);
     Matrix_Pop();
@@ -193,7 +193,9 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_15C--;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     if (!(this->scale < 0.6f || this->actionFunc == func_809B2B48)) {
         this->cylinder.dim.radius = this->scale * 15.0f + 5.0f;
         this->cylinder.dim.height = this->scale * 15.0f + 5.0f;

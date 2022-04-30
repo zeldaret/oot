@@ -49,7 +49,7 @@ def remove_balign_after_float(file_text):
 def format_file(file_path):
     with open(file_path) as f:
         orig_file_text = f.read()
-    
+
     file_text = orig_file_text
 
     # Condense 2+ empty lines to 1

@@ -548,7 +548,7 @@ void EnOssan_UpdateCameraDirection(EnOssan* this, GlobalContext* globalCtx, f32 
     Camera_SetCameraData(GET_ACTIVE_CAM(globalCtx), 0xC, NULL, NULL, cameraFaceAngle, 0, 0);
 }
 
-s32 EnOssan_TryGetObjBankIndexes(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
+s32 EnOssan_TryGetObjBankIndices(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
     if (objectIds[1] != OBJECT_ID_MAX) {
         this->objBankIndex2 = Object_GetIndex(&globalCtx->objectCtx, objectIds[1]);
         if (this->objBankIndex2 < 0) {
@@ -616,7 +616,7 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if (EnOssan_TryGetObjBankIndexes(this, globalCtx, objectIds) == 0) {
+    if (EnOssan_TryGetObjBankIndices(this, globalCtx, objectIds) == 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("予備バンクが無いよ！！(%s)\n", sShopkeeperPrintName[this->actor.params]);
@@ -653,7 +653,7 @@ void EnOssan_EndInteraction(GlobalContext* globalCtx, EnOssan* this) {
     Actor_ProcessTalkRequest(&this->actor, globalCtx);
     globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     globalCtx->msgCtx.stateTimer = 4;
-    player->stateFlags2 &= ~0x20000000;
+    player->stateFlags2 &= ~PLAYER_STATE2_29;
     func_800BC490(globalCtx, 1);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
@@ -737,7 +737,7 @@ void EnOssan_State_Idle(EnOssan* this, GlobalContext* globalCtx, Player* player)
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         // "Start conversation!!"
         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 会話開始！！ ★★★" VT_RST "\n");
-        player->stateFlags2 |= 0x20000000;
+        player->stateFlags2 |= PLAYER_STATE2_29;
         func_800BC590(globalCtx);
         EnOssan_SetStateStartShopping(globalCtx, this, false);
     } else if (this->actor.xzDistToPlayer < 100.0f) {
@@ -1323,7 +1323,7 @@ void EnOssan_GiveItemWithFanfare(GlobalContext* globalCtx, EnOssan* this) {
     func_8002F434(&this->actor, globalCtx, this->shelfSlots[this->cursorIndex]->getItemId, 120.0f, 120.0f);
     globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     globalCtx->msgCtx.stateTimer = 4;
-    player->stateFlags2 &= ~0x20000000;
+    player->stateFlags2 &= ~PLAYER_STATE2_29;
     func_800BC490(globalCtx, 1);
     Interface_ChangeAlpha(50);
     this->drawCursor = 0;
@@ -1698,7 +1698,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
                     case 0:
                         osSyncPrintf(VT_FGCOL(YELLOW) "★★★ 続けるよ！！ ★★★" VT_RST "\n");
                         player->actor.shape.rot.y += 0x8000;
-                        player->stateFlags2 |= 0x20000000;
+                        player->stateFlags2 |= PLAYER_STATE2_29;
                         func_800BC490(globalCtx, 2);
                         Message_StartTextbox(globalCtx, this->actor.textId, &this->actor);
                         EnOssan_SetStateStartShopping(globalCtx, this, true);
@@ -1717,7 +1717,7 @@ void EnOssan_State_ContinueShoppingPrompt(EnOssan* this, GlobalContext* globalCt
         selectedItem = this->shelfSlots[this->cursorIndex];
         selectedItem->updateStockedItemFunc(globalCtx, selectedItem);
         player->actor.shape.rot.y += 0x8000;
-        player->stateFlags2 |= 0x20000000;
+        player->stateFlags2 |= PLAYER_STATE2_29;
         func_800BC490(globalCtx, 2);
         Message_StartTextbox(globalCtx, this->actor.textId, &this->actor);
         EnOssan_SetStateStartShopping(globalCtx, this, true);
@@ -2213,7 +2213,7 @@ void EnOssan_MainActionFunc(EnOssan* this, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     Actor_SetFocus(&this->actor, 90.0f);
     Actor_SetScale(&this->actor, sShopkeeperScale[this->actor.params]);
 
@@ -2373,7 +2373,7 @@ s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(GlobalContext* globalCtx, s32 limbI
     return 0;
 }
 
-Gfx* EnOssan_EndDList(GraphicsContext* gfxCtx) {
+Gfx* EnOssan_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* disp = Graph_Alloc(gfxCtx, sizeof(Gfx));
 
     gSPEndDisplayList(disp);
@@ -2398,7 +2398,7 @@ void EnOssan_DrawKokiriShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x08, EnOssan_SetEnvColor(globalCtx->state.gfxCtx, 0, 130, 70, 255));
     gSPSegment(POLY_OPA_DISP++, 0x09, EnOssan_SetEnvColor(globalCtx->state.gfxCtx, 110, 170, 20, 255));
-    gSPSegment(POLY_OPA_DISP++, 0x0C, EnOssan_EndDList(globalCtx->state.gfxCtx));
+    gSPSegment(POLY_OPA_DISP++, 0x0C, EnOssan_EmptyDList(globalCtx->state.gfxCtx));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnOssan_OverrideLimbDrawKokiriShopkeeper, NULL, this);
@@ -2445,7 +2445,7 @@ void EnOssan_DrawZoraShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, EnOssan_EndDList(globalCtx->state.gfxCtx));
+    gSPSegment(POLY_OPA_DISP++, 0x0C, EnOssan_EmptyDList(globalCtx->state.gfxCtx));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sZoraShopkeeperEyeTextures[this->eyeTextureIdx]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

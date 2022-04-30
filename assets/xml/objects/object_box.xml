@@ -12,7 +12,7 @@
 
         <DList Name="gTreasureChestBossKeyChestFrontDL" Offset="0xAE8"/>
         <Texture Name="gTreasureChestBossKeyFrontTex" OutName="boss_key_front_tex" Format="rgba16" Width="32" Height="64" Offset="0x3798"/>
-        
+
         <DList Name="gTreasureChestChestSideAndLidDL" Offset="0x10C0"/>
         <Texture Name="gTreasureChestSideAndTopTex" OutName="side_and_top" Format="rgba16" Width="32" Height="32" Offset="0x2798"/>
 

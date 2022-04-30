@@ -311,9 +311,9 @@ void Select_UpdateMenu(SelectContext* this) {
 
         if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
             if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-                gSaveContext.linkAge = 1;
+                gSaveContext.linkAge = LINK_AGE_CHILD;
             } else {
-                gSaveContext.linkAge = 0;
+                gSaveContext.linkAge = LINK_AGE_ADULT;
             }
         }
 
@@ -643,7 +643,7 @@ void Select_DrawMenu(SelectContext* this) {
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
-    func_800AAA50(&this->view, 0xF);
+    View_Apply(&this->view, VIEW_ALL);
     func_80094140(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
@@ -667,7 +667,7 @@ void Select_DrawLoadingScreen(SelectContext* this) {
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
-    func_800AAA50(&this->view, 0xF);
+    View_Apply(&this->view, VIEW_ALL);
     func_80094140(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
@@ -688,7 +688,7 @@ void Select_Draw(SelectContext* this) {
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
-    func_800AAA50(&this->view, 0xF);
+    View_Apply(&this->view, VIEW_ALL);
 
     if (!this->state.running) {
         Select_DrawLoadingScreen(this);
@@ -707,7 +707,7 @@ void Select_Main(GameState* thisx) {
 }
 
 void Select_Destroy(GameState* thisx) {
-    osSyncPrintf("%c", '\a'); // ASCII BEL character, plays an alert tone
+    osSyncPrintf("%c", BEL);
     // "view_cleanup will hang, so it won't be called"
     osSyncPrintf("*** view_cleanupはハングアップするので、呼ばない ***\n");
 }
@@ -733,7 +733,7 @@ void Select_Init(GameState* thisx) {
     this->opt = 0;
     this->count = ARRAY_COUNT(sScenes);
     View_Init(&this->view, this->state.gfxCtx);
-    this->view.flags = (0x08 | 0x02);
+    this->view.flags = (VIEW_PROJECTION_ORTHO | VIEW_VIEWPORT);
     this->verticalInputAccumulator = 0;
     this->verticalInput = 0;
     this->timerUp = 0;
@@ -754,5 +754,5 @@ void Select_Init(GameState* thisx) {
     this->staticSegment = GameState_Alloc(&this->state, size, "../z_select.c", 1114);
     DmaMgr_SendRequest1(this->staticSegment, _z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     gSaveContext.cutsceneIndex = 0x8000;
-    gSaveContext.linkAge = 1;
+    gSaveContext.linkAge = LINK_AGE_CHILD;
 }
