@@ -98,7 +98,8 @@ void func_808BC65C(BgTreemouth* this, GlobalContext* globalCtx) {
             if (npcAction->action == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (npcAction->action == 3) {
-                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }
@@ -138,9 +139,9 @@ void func_808BC864(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
-    if ((!(Flags_GetEventChkInf(5))) || LINK_IS_ADULT) {
+    if (!Flags_GetEventChkInf(EVENTCHKINF_05) || LINK_IS_ADULT) {
         if (!LINK_IS_ADULT) {
-            if (Flags_GetEventChkInf(0xC)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_0C)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
                     this->dyna.actor.flags |= ACTOR_FLAG_0;
                     if (this->dyna.actor.isTargeted) {
@@ -151,7 +152,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
                     }
                 }
             } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
-                Flags_SetEventChkInf(0xC);
+                Flags_SetEventChkInf(EVENTCHKINF_0C);
                 globalCtx->csCtx.segment = D_808BCE20;
                 gSaveContext.cutsceneTrigger = 1;
                 BgTreemouth_SetupAction(this, func_808BC9EC);
@@ -183,7 +184,7 @@ void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
 
         if (globalCtx->msgCtx.choiceIndex == 0) {
             globalCtx->csCtx.segment = D_808BD520;
-            Flags_SetEventChkInf(5);
+            Flags_SetEventChkInf(EVENTCHKINF_05);
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
             globalCtx->csCtx.segment = D_808BD790;
@@ -202,7 +203,8 @@ void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx) {
             if (npcAction->action == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (npcAction->action == 3) {
-                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }
@@ -232,7 +234,7 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
-        if (gSaveContext.eventChkInf[0] & 0x80) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }
     } else { // neeeded to match

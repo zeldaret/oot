@@ -62,9 +62,7 @@ u32 Rand_Next_Variable(u32* rndNum) {
 f32 Rand_ZeroOne_Variable(u32* rndNum) {
     u32 next = (*rndNum * 1664525) + 1013904223;
 
-    // clang-format off
-    *rndNum = next; sRandFloat = (next >> 9) | 0x3F800000;
-    // clang-format on
+    sRandFloat = ((*rndNum = next) >> 9) | 0x3F800000;
     return *((f32*)&sRandFloat) - 1.0f;
 }
 
@@ -75,8 +73,7 @@ f32 Rand_ZeroOne_Variable(u32* rndNum) {
 f32 Rand_Centered_Variable(u32* rndNum) {
     u32 next = (*rndNum * 1664525) + 1013904223;
 
-    // clang-format off
-    *rndNum = next; sRandFloat = (next >> 9) | 0x3F800000;
-    // clang-format on
+    *rndNum = next;
+    sRandFloat = (next >> 9) | 0x3F800000;
     return *((f32*)&sRandFloat) - 1.5f;
 }

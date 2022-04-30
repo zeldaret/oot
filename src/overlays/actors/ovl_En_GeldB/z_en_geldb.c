@@ -227,7 +227,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.health = 20;
     thisx->colChkInfo.cylRadius = 50;
     thisx->colChkInfo.cylHeight = 100;
-    thisx->naviEnemyId = 0x54;
+    thisx->naviEnemyId = NAVI_ENEMY_GERUDO_THIEF;
     this->keyFlag = thisx->params & 0xFF00;
     thisx->params &= 0xFF;
     this->blinkState = 0;
@@ -1387,8 +1387,9 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
                         if (key != NULL) {
                             key->actor.world.rot.y = Math_Vec3f_Yaw(&key->actor.world.pos, &this->actor.home.pos);
                             key->actor.speedXZ = 6.0f;
-                            Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                                   &D_801333E8);
+                            Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4,
+                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                   &gSfxDefaultReverb);
                         }
                     }
                     EnGeldB_SetupDefeated(this);
@@ -1576,13 +1577,13 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if (this->timer == 0) {
                 if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
                     globalCtx->nextEntranceIndex = 0x1A5;
-                } else if (gSaveContext.eventChkInf[12] & 0x80) {
+                } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
                     globalCtx->nextEntranceIndex = 0x5F8;
                 } else {
                     globalCtx->nextEntranceIndex = 0x3B4;
                 }
-                globalCtx->fadeTransition = 0x26;
-                globalCtx->sceneLoadFlag = 0x14;
+                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             }
         }
     }

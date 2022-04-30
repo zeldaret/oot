@@ -85,7 +85,7 @@ static DamageTable sDamageTable[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x27, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_SHELL_BLADE, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -453,7 +453,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (!this->hitByWindArrow) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x80);
             } else {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, 8);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_ARROWS_SMALL);
             }
             Actor_Kill(&this->actor);
         }

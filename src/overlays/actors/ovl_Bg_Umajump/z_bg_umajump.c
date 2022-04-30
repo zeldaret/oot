@@ -41,7 +41,7 @@ void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.actor.params == 1) {
-        if (!Flags_GetEventChkInf(0x18) && (DREG(1) == 0)) {
+        if (!Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0)) {
             Actor_Kill(&this->dyna.actor);
             return;
         }

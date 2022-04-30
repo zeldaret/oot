@@ -7,6 +7,14 @@
 struct Player;
 
 typedef enum {
+    /* 0 */ PLAYER_SWORD_NONE,
+    /* 1 */ PLAYER_SWORD_KOKIRI,
+    /* 2 */ PLAYER_SWORD_MASTER,
+    /* 3 */ PLAYER_SWORD_BGS,
+    /* 4 */ PLAYER_SWORD_MAX
+} PlayerSword;
+
+typedef enum {
     /* 0x00 */ PLAYER_SHIELD_NONE,
     /* 0x01 */ PLAYER_SHIELD_DEKU,
     /* 0x02 */ PLAYER_SHIELD_HYLIAN,
@@ -22,13 +30,13 @@ typedef enum {
 } PlayerTunic;
 
 typedef enum {
-    /* 0x00 */ PLAYER_BOOTS_NORMAL,
+    /* 0x00 */ PLAYER_BOOTS_KOKIRI,
     /* 0x01 */ PLAYER_BOOTS_IRON,
     /* 0x02 */ PLAYER_BOOTS_HOVER,
     /* Values below are only relevant when setting regs in Player_SetBootData */
     /* 0x03 */ PLAYER_BOOTS_INDOOR,
     /* 0x04 */ PLAYER_BOOTS_IRON_UNDERWATER,
-    /* 0x05 */ PLAYER_BOOTS_NORMAL_CHILD,
+    /* 0x05 */ PLAYER_BOOTS_KOKIRI_CHILD,
     /* 0x06 */ PLAYER_BOOTS_MAX
 } PlayerBoots;
 
@@ -457,7 +465,7 @@ typedef void (*PlayerFuncA74)(struct GlobalContext*, struct Player*);
 typedef struct Player {
     /* 0x0000 */ Actor      actor;
     /* 0x014C */ s8         currentTunic; // current tunic from `PlayerTunic`
-    /* 0x014D */ s8         currentSword; // current sword Item ID
+    /* 0x014D */ s8         currentSwordItemId;
     /* 0x014E */ s8         currentShield; // current shield from `PlayerShield`
     /* 0x014F */ s8         currentBoots; // current boots from `PlayerBoots`
     /* 0x0150 */ s8         heldItemButton; // Button index for the item currently used
@@ -608,8 +616,8 @@ typedef struct Player {
     /* 0x08A2 */ s16        unk_8A2;
     /* 0x08A4 */ f32        unk_8A4;
     /* 0x08A8 */ f32        unk_8A8;
-    /* 0x08AC */ f32        windSpeed;
-    /* 0x08B0 */ s16        windDirection;
+    /* 0x08AC */ f32        pushedSpeed; // Pushing player, examples include water currents, floor conveyors, climbing sloped surfaces
+    /* 0x08B0 */ s16        pushedYaw; // Yaw direction of player being pushed
     /* 0x08B4 */ WeaponInfo meleeWeaponInfo[3];
     /* 0x0908 */ Vec3f      bodyPartsPos[PLAYER_BODYPART_MAX];
     /* 0x09E0 */ MtxF       mf_9E0;

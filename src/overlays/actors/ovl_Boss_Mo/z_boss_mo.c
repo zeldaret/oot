@@ -18,6 +18,8 @@
     ((tent != NULL) && \
      ((tent->work[MO_TENT_ACTION_STATE] == MO_TENT_GRAB) || (tent->work[MO_TENT_ACTION_STATE] == MO_TENT_SHAKE)))
 
+#define BOSS_MO_EFFECT_COUNT 300
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f vel;
@@ -140,7 +142,7 @@ static f32 sFlatWidth[41] = {
 
 #include "z_boss_mo_colchk.c"
 
-static BossMoEffect sEffects[300];
+static BossMoEffect sEffects[BOSS_MO_EFFECT_COUNT];
 static s32 sSeed1;
 static s32 sSeed2;
 static s32 sSeed3;
@@ -184,12 +186,12 @@ s32 BossMo_NearLand(Vec3f* pos, f32 margin) {
     return false;
 }
 
-void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 partLimit,
+void BossMo_SpawnRipple(BossMoEffect* effect, Vec3f* pos, f32 scale, f32 maxScale, s16 maxAlpha, s16 countLimit,
                         u8 type) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
-    for (i = 0; i < partLimit; i++, effect++) {
+    for (i = 0; i < countLimit; i++, effect++) {
         if (effect->type == MO_FX_NONE) {
             effect->stopTimer = 0;
             effect->type = type;
@@ -291,7 +293,7 @@ static s16 sAttackRot[41] = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x25, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MORPHA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -335,7 +337,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         MO_WATER_LEVEL(globalCtx) = this->waterLevel = MO_WATER_LEVEL(globalCtx);
         globalCtx->roomCtx.unk_74[0] = 0xA0;
         globalCtx->specialEffects = sEffects;
-        for (i = 0; i < ARRAY_COUNT(sEffects); i++) {
+        for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++) {
             sEffects[i].type = MO_FX_NONE;
         }
         this->actor.world.pos.x = 200.0f;
@@ -357,7 +359,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             MO_WATER_LEVEL(globalCtx) = -500;
             return;
         }
-        if (gSaveContext.eventChkInf[7] & 0x10) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_74)) {
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
@@ -730,8 +732,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                         player->actor.parent = &this->actor;
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_GRAB;
                         func_80078914(&this->tentTipPos, NA_SE_EN_MOFER_CATCH);
-                        Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S, &player->actor.projectedPos, 4, &D_801333E0,
-                                               &D_801333E0, &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S, &player->actor.projectedPos, 4,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultReverb);
                     } else {
                         this->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                         this->tentMaxAngle = .001f;
@@ -1277,8 +1280,8 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             dz = this->targetPos.z - this->cameraEye.z;
             tempY = Math_FAtan2F(dx, dz);
             tempX = Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)));
-            Math_ApproachS(&this->actor.world.rot.y, RADF_TO_BINANG(tempY), 5, this->cameraYawRate);
-            Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(tempX), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.y, RAD_TO_BINANG(tempY), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.x, RAD_TO_BINANG(tempX), 5, this->cameraYawRate);
             if (this->work[MO_TENT_MOVE_TIMER] == 150) {
                 this->cameraAtVel.x = fabsf(this->cameraAt.x - player->actor.world.pos.x);
                 this->cameraAtVel.y = fabsf(this->cameraAt.y - player->actor.world.pos.y);
@@ -1421,7 +1424,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
-                gSaveContext.eventChkInf[7] |= 0x10;
+                SET_EVENTCHKINF(EVENTCHKINF_74);
             }
             break;
         case MO_INTRO_FINISH:
@@ -2130,8 +2133,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 spDC = this->targetPos.x - this->actor.world.pos.x;
                 spD8 = this->targetPos.y - this->actor.world.pos.y;
                 spD4 = this->targetPos.z - this->actor.world.pos.z;
-                spCC = RADF_TO_BINANG(Math_FAtan2F(spDC, spD4));
-                spD0 = RADF_TO_BINANG(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))));
+                spCC = RAD_TO_BINANG(Math_FAtan2F(spDC, spD4));
+                spD0 = RAD_TO_BINANG(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))));
                 Math_ApproachS(&this->actor.world.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->actor.world.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
                 func_8002D908(&this->actor);
@@ -2751,7 +2754,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
     Vec3f bubbleSpeed = { 0.0f, 0.0f, 0.0f };
     Vec3f bubbleVel;
 
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type != MO_FX_NONE) {
             effect->timer++;
             if (effect->stopTimer == 0) {
@@ -2896,7 +2899,7 @@ void BossMo_UpdateEffects(BossMo* this, GlobalContext* globalCtx) {
 }
 
 void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     s16 i;
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -2905,14 +2908,14 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_boss_mo.c", 7264);
     Matrix_Push();
 
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BIG_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80094BC4(gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -2927,15 +2930,15 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_SMALL_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -2950,18 +2953,18 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (((effect->type == MO_FX_DROPLET) || (effect->type == MO_FX_SPLASH)) ||
             (effect->type == MO_FX_SPLASH_TRAIL)) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)effect->fwork[MO_FX_SHIMMER], (s16)effect->fwork[MO_FX_SHIMMER],
@@ -2979,17 +2982,17 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_WET_SPOT) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80094044(gfxCtx);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletMaterialDL);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s16)effect->fwork[MO_FX_SHIMMER], (s16)effect->fwork[MO_FX_SHIMMER],
@@ -3005,15 +3008,15 @@ void BossMo_DrawEffects(BossMoEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = effectHead;
-    flag = 0;
-    for (i = 0; i < ARRAY_COUNT(sEffects); i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BUBBLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);
 
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, effect->alpha);

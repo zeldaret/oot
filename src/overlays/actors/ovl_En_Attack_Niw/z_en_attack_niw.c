@@ -187,13 +187,13 @@ void func_809B5670(EnAttackNiw* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = 10.0f;
 
-    tmpf1 = (this->unk_298.x + globalCtx->view.lookAt.x) - globalCtx->view.eye.x;
-    tmpf2 = (this->unk_298.y + globalCtx->view.lookAt.y) - globalCtx->view.eye.y;
-    tmpf3 = (this->unk_298.z + globalCtx->view.lookAt.z) - globalCtx->view.eye.z;
+    tmpf1 = (this->unk_298.x + globalCtx->view.at.x) - globalCtx->view.eye.x;
+    tmpf2 = (this->unk_298.y + globalCtx->view.at.y) - globalCtx->view.eye.y;
+    tmpf3 = (this->unk_298.z + globalCtx->view.at.z) - globalCtx->view.eye.z;
 
-    sp34.x = globalCtx->view.lookAt.x + tmpf1;
-    sp34.y = globalCtx->view.lookAt.y + tmpf2;
-    sp34.z = globalCtx->view.lookAt.z + tmpf3;
+    sp34.x = globalCtx->view.at.x + tmpf1;
+    sp34.y = globalCtx->view.at.y + tmpf2;
+    sp34.z = globalCtx->view.at.z + tmpf3;
 
     this->unk_2D4 = Math_Vec3f_Yaw(&this->actor.world.pos, &sp34);
     this->unk_2D0 = Math_Vec3f_Pitch(&this->actor.world.pos, &sp34) * -1.0f;

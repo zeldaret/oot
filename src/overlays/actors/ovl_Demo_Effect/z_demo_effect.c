@@ -288,7 +288,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
                     // clang-format off
-                    this->envXluColor[0] = 200; this->envXluColor[1] = 50; this->envXluColor[2] = 255; // Sameline prevents reordering
+                    // Sameline prevents reordering
+                    this->envXluColor[0] = 200; this->envXluColor[1] = 50; this->envXluColor[2] = 255;
                     // clang-format on
                     break;
 
@@ -491,7 +492,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
-            if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & 0x20)) {
+            if ((globalCtx->sceneNum == SCENE_BDAN) && GET_INFTABLE(INFTABLE_145)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -696,7 +697,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
     } else if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
-               (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & 0x200)))) {
+               (gSaveContext.entranceIndex == 0x0324 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -760,7 +761,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
 
     if (this->timeWarp.shrinkTimer > 250) {
         if (gSaveContext.entranceIndex == 0x0324) {
-            gSaveContext.eventChkInf[12] |= 0x200;
+            SET_EVENTCHKINF(EVENTCHKINF_C9);
         }
 
         Actor_Kill(&this->actor);
@@ -1471,7 +1472,7 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     }
 
     if (startPos.x != endPos.x || startPos.y != endPos.y || startPos.z != endPos.z) {
-        this->jewelCsRotation.x = RADF_TO_BINANG(Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)));
+        this->jewelCsRotation.x = RAD_TO_BINANG(Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)));
         this->jewelCsRotation.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
@@ -1560,8 +1561,8 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 3:
-                if (gSaveContext.eventChkInf[4] & 0x800) {
-                    gSaveContext.eventChkInf[4] |= 0x800;
+                if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_4B);
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, globalCtx);
                 if ((globalCtx->gameplayFrames & 1) == 0) {
@@ -1594,7 +1595,7 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     }
 
     if (gSaveContext.entranceIndex == 0x0053) {
-        if (!(gSaveContext.eventChkInf[4] & 0x800)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
                 this->effectFlags |= 0x1;
@@ -2093,8 +2094,8 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
-    this->actor.shape.rot.x = RADF_TO_BINANG(Math_FAtan2F(-(endPos.y - startPos.y), xzDistance));
+    this->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(x, z));
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(-(endPos.y - startPos.y), xzDistance));
 }
 
 /**

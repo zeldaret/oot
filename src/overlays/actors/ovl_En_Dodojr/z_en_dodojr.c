@@ -75,7 +75,7 @@ void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
 
-    this->actor.naviEnemyId = 0xE;
+    this->actor.naviEnemyId = NAVI_ENEMY_BABY_DODONGO;
     this->actor.flags &= ~ACTOR_FLAG_0;
 
     Actor_SetScale(&this->actor, 0.02f);

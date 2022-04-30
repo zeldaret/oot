@@ -44,10 +44,10 @@ s32 __osContRamWrite(OSMesgQueue* mq, s32 channel, u16 address, u8* buffer, s32 
 
         ret = __osSiRawStartDma(OS_WRITE, &gPifMempakBuf);
         crc = __osContDataCrc(buffer);
-        osRecvMesg(mq, (OSMesg*)NULL, OS_MESG_BLOCK);
+        osRecvMesg(mq, NULL, OS_MESG_BLOCK);
 
         ret = __osSiRawStartDma(OS_READ, &gPifMempakBuf);
-        osRecvMesg(mq, (OSMesg*)NULL, OS_MESG_BLOCK);
+        osRecvMesg(mq, NULL, OS_MESG_BLOCK);
 
         ret = ((((__OSContRamHeader*)ptr)->rxsize & 0xC0) >> 4);
         if (!ret) {

@@ -142,7 +142,7 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
             dist2d = sqrtf(SQ(dX) + SQ(dZ));
             this->applySpeed = true;
             this->splashTimer = 0;
-            angle = RADF_TO_BINANG(Math_FAtan2F(dX, dZ));
+            angle = RAD_TO_BINANG(Math_FAtan2F(dX, dZ));
             dAngle = (player->actor.world.rot.y ^ 0x8000) - angle;
             player->actor.gravity = 0.0f;
             player->actor.velocity.y = 0.0f;
@@ -163,8 +163,8 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);
             }
 
-            player->windDirection = this->appliedYaw;
-            player->windSpeed = this->appliedSpeed;
+            player->pushedYaw = this->appliedYaw;
+            player->pushedSpeed = this->appliedSpeed;
         }
     } else {
         if (this->applySpeed) {
