@@ -228,7 +228,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
                     EnMm_ChangeAnim(this, RM_ANIM_HAPPY, &this->curAnimIndex);
                 } else {
                     player->actor.textId = 0x202C;
-                    gSaveContext.infTable[23] |= 0x1000;
+                    SET_INFTABLE(INFTABLE_17C);
                 }
                 sp1C = 2;
             }
@@ -237,7 +237,7 @@ s32 func_80AADAA0(EnMm* this, GlobalContext* globalCtx) {
             if (Message_ShouldAdvance(globalCtx)) {
                 Player_UnsetMask(globalCtx);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
-                gSaveContext.itemGetInf[3] |= 0x800;
+                SET_ITEMGETINF(ITEMGETINF_3B);
                 Rupees_ChangeBy(500);
                 player->actor.textId = 0x202E;
                 sp1C = 2;
@@ -263,12 +263,12 @@ s32 EnMm_GetTextId(EnMm* this, GlobalContext* globalCtx) {
 
     textId = Text_GetFaceReaction(globalCtx, 0x1C);
 
-    if (gSaveContext.itemGetInf[3] & 0x800) {
+    if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         if (textId == 0) {
             textId = 0x204D;
         }
     } else if (player->currentMask == PLAYER_MASK_BUNNY) {
-        textId = (gSaveContext.infTable[23] & 0x1000) ? 0x202B : 0x202A;
+        textId = GET_INFTABLE(INFTABLE_17C) ? 0x202B : 0x202A;
     } else if (textId == 0) {
         textId = 0x2029;
     }
@@ -427,7 +427,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.itemGetInf[3] & 0x800) {
+        if (GET_ITEMGETINF(ITEMGETINF_3B)) {
             this->speedXZ = 10.0f;
             this->skelAnime.playSpeed = 2.0f;
         } else {
@@ -454,7 +454,7 @@ void func_80AAE294(EnMm* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.itemGetInf[3] & 0x800) {
+        if (GET_ITEMGETINF(ITEMGETINF_3B)) {
             dustPos.x = this->actor.world.pos.x;
             dustPos.y = this->actor.world.pos.y;
             dustPos.z = this->actor.world.pos.z;
@@ -475,7 +475,7 @@ void func_80AAE50C(EnMm* this, GlobalContext* globalCtx) {
         this->sitTimer = 0;
         this->actionFunc = func_80AAE294;
 
-        if (gSaveContext.itemGetInf[3] & 0x800) {
+        if (GET_ITEMGETINF(ITEMGETINF_3B)) {
             EnMm_ChangeAnim(this, RM_ANIM_SPRINT, &this->curAnimIndex);
             this->mouthTexIndex = RM_MOUTH_CLOSED;
         } else {
@@ -523,7 +523,7 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMm_OverrideLimbDraw, EnMm_PostLimbDraw, this);
 
-    if (gSaveContext.itemGetInf[3] & 0x800) {
+    if (GET_ITEMGETINF(ITEMGETINF_3B)) {
         s32 linkChildObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
 
         if (linkChildObjBankIndex >= 0) {

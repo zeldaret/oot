@@ -411,7 +411,7 @@ void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         // "Successful completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-        gSaveContext.itemGetInf[1] |= 0x2000;
+        SET_ITEMGETINF(ITEMGETINF_1D);
         Actor_Kill(&this->actor);
     }
 }

@@ -23,12 +23,6 @@ brew install coreutils make python3 libpng bash clang-format
 
 (The repository expects Homebrew-installed programs to be either linked correctly in `$PATH` etc. or in their default locations.)
 
-To install the Python dependencies simply run in a terminal:
-
-```bash
-python3 -m pip install colorama
-```
-
 
 ## 2. Building mips-linux-binutils
 

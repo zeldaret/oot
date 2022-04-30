@@ -65,7 +65,8 @@ static Vec3f sKakarikoPosList[] = {
 };
 
 static s16 sKakarikoFlagList[] = {
-    0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000,
+    INFTABLE_199_MASK, INFTABLE_19A_MASK, INFTABLE_19B_MASK, INFTABLE_19C_MASK,
+    INFTABLE_19D_MASK, INFTABLE_19E_MASK, INFTABLE_19F_MASK,
 };
 
 static u8 sLowerRiverSpawned = false;
@@ -160,7 +161,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
                 osSyncPrintf(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
-                if (gSaveContext.infTable[25] & sKakarikoFlagList[i]) {
+                if (gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] & sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
                     this->actor.world.pos.z = 1530.0f;
@@ -187,22 +188,22 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if (gSaveContext.eventChkInf[1] & 0x10) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 3:
-            if (!(gSaveContext.eventChkInf[1] & 0x10)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 5:
-            if (gSaveContext.eventChkInf[1] & 0x100) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 7:
-            if (!(gSaveContext.eventChkInf[1] & 0x100)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -225,7 +226,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0xD:
         case 0xE:
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit2);
-            if (globalCtx->sceneNum == SCENE_LINK_HOME && !(gSaveContext.eventChkInf[1] & 0x4000)) {
+            if (globalCtx->sceneNum == SCENE_LINK_HOME && !GET_EVENTCHKINF(EVENTCHKINF_1E)) {
                 Actor_Kill(&this->actor);
             }
             break;

@@ -114,22 +114,22 @@ void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             // Check which beams are disabled
-            if (Flags_GetEventChkInf(0xBB)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BB)) {
                 this->effects[0].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBC)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BC)) {
                 this->effects[1].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBD)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BD)) {
                 this->effects[2].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBE)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BE)) {
                 this->effects[3].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBF)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BF)) {
                 this->effects[4].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xAD)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_AD)) {
                 this->effects[5].size = 0.0f;
             }
 

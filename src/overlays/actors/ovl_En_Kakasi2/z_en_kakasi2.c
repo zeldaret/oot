@@ -135,7 +135,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A904D8;
     } else if ((this->actor.xzDistToPlayer < this->maxSpawnDistance.x) &&
                (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < this->maxSpawnDistance.y) &&
-               (gSaveContext.eventChkInf[9] & 0x1000)) {
+               GET_EVENTCHKINF(EVENTCHKINF_9C)) {
 
         this->unk_194 = 0;
         if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_0B) {

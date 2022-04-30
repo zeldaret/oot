@@ -79,7 +79,7 @@ void EfcErupc_UpdateAction(EfcErupc* this, GlobalContext* globalCtx) {
                 case 2:
                     if (this->unk_14E == 0) {
                         func_800F3F3C(6);
-                        gSaveContext.eventChkInf[2] |= 0x8000;
+                        SET_EVENTCHKINF(EVENTCHKINF_2F);
                     }
                     this->unk_14E++;
                     break;

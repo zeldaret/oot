@@ -74,13 +74,13 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     if (faceReaction != 0) {
         return faceReaction;
     }
-    if (gSaveContext.eventChkInf[1] & 0x100) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
         return 0x2056;
     }
     if (IS_NIGHT) {
-        if (gSaveContext.infTable[8] & 0x1000) {
+        if (GET_INFTABLE(INFTABLE_8C)) {
             return 0x2052;
-        } else if (gSaveContext.infTable[8] & 0x4000) {
+        } else if (GET_INFTABLE(INFTABLE_8E)) {
             return 0x2051;
         } else {
             return 0x2050;
@@ -96,11 +96,11 @@ s16 func_80AA1A38(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2051:
-                    gSaveContext.infTable[8] |= 0x1000;
+                    SET_INFTABLE(INFTABLE_8C);
                     ret = 2;
                     break;
                 case 0x2053:
-                    gSaveContext.infTable[8] |= 0x2000;
+                    SET_INFTABLE(INFTABLE_8D);
                     ret = 0;
                     break;
                 default:
@@ -141,15 +141,15 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
     if (LINK_IS_CHILD) {
         return 0;
     }
-    if (!(gSaveContext.eventChkInf[1] & 0x100) && (globalCtx->sceneNum == SCENE_MALON_STABLE) && IS_DAY &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (globalCtx->sceneNum == SCENE_MALON_STABLE) && IS_DAY &&
         (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if (!(gSaveContext.eventChkInf[1] & 0x100) && (globalCtx->sceneNum == SCENE_SPOT20) && IS_NIGHT &&
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18) && (globalCtx->sceneNum == SCENE_SPOT20) && IS_NIGHT &&
         (this->actor.shape.rot.z == 6)) {
         return 2;
     }
-    if (!(gSaveContext.eventChkInf[1] & 0x100) || (globalCtx->sceneNum != SCENE_SPOT20)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18) || (globalCtx->sceneNum != SCENE_SPOT20)) {
         return 0;
     }
     if ((this->actor.shape.rot.z == 7) && IS_DAY) {
@@ -229,7 +229,7 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_80AA204C;
             break;
         case 3:
-            if (gSaveContext.infTable[8] & 0x2000) {
+            if (GET_INFTABLE(INFTABLE_8D)) {
                 EnMa2_ChangeAnim(this, ENMA2_ANIM_0);
             } else {
                 EnMa2_ChangeAnim(this, ENMA2_ANIM_3);
@@ -284,7 +284,7 @@ void func_80AA20E4(EnMa2* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk_208 = 0x1E;
-        gSaveContext.infTable[8] |= 0x4000;
+        SET_INFTABLE(INFTABLE_8E);
         this->actionFunc = func_80AA21C8;
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else {

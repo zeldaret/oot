@@ -202,7 +202,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx) &&
         (this->respawnFlag == 0)) {
-        gSaveContext.eventChkInf[4] |= 0x4000;
+        SET_EVENTCHKINF(EVENTCHKINF_4E);
         globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;

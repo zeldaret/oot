@@ -8,27 +8,28 @@
 /*
 FLAGS
 
-gSaveContext.eventChkInf[2] & 0x8 - DC entrance boulder blown up as child
+EVENTCHKINF_23 - DC entrance boulder blown up as child
 
 InfTable
 
-gSaveContext.infTable[11] & 0x10
-gSaveContext.infTable[14] & 0x1 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
-gSaveContext.infTable[14] & 0x8 - Talked to GC Goron in bottom level stairwell
-gSaveContext.infTable[14] & 0x40 - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
-gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
-gSaveContext.infTable[15] & 0x1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
-gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
-gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
-before getting goron bracelet) gSaveContext.infTable[16] & 0x200 - Obtained Fire Tunic from Goron Link
-gSaveContext.infTable[16] & 0x400 - (not on cloud modding)
-gSaveContext.infTable[16] & 0x800 - Spoke to Goron Link About Volvagia
-gSaveContext.infTable[16] & 0x1000 - Stopped Goron Link's Rolling
-gSaveContext.infTable[16] & 0x2000 - EnGo Exclusive
-gSaveContext.infTable[16] & 0x4000 - Spoke to Goron Link
-gSaveContext.infTable[16] & 0x8000 - (not on cloud modding)
+INFTABLE_B4
+INFTABLE_E0 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
+INFTABLE_E3 - Talked to GC Goron in bottom level stairwell
+INFTABLE_E6 - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
+INFTABLE_EB - Talked to DMT Goron at Bomb Flower with goron bracelet
+INFTABLE_F0 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
+INFTABLE_F4 - Talked to Goron at GC Island (Before goron ruby is obtained)
+INFTABLE_F8 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
+before getting goron bracelet)
+INFTABLE_109 - Obtained Fire Tunic from Goron Link
+INFTABLE_10A - (not on cloud modding)
+INFTABLE_10B - Spoke to Goron Link About Volvagia
+INFTABLE_10C - Stopped Goron Link's Rolling
+INFTABLE_10D - EnGo Exclusive
+INFTABLE_10E - Spoke to Goron Link
+INFTABLE_10F - (not on cloud modding)
 
-gSaveContext.infTable[17] & 0x4000 - Bomb bag upgrade obtained from rolling Goron
+INFTABLE_11E - Bomb bag upgrade obtained from rolling Goron
 
 EnGo
 pathIndex: this->actor.params & 0xF
@@ -322,7 +323,7 @@ u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
-    if (gSaveContext.infTable[17] & 0x4000) {
+    if (GET_INFTABLE(INFTABLE_11E)) {
         return 0x3013;
     } else if (CUR_CAPACITY(UPG_BOMB_BAG) >= 20 && this->waypoint > 7 && this->waypoint < 12) {
         return 0x3012;
@@ -344,7 +345,7 @@ s16 EnGo2_GetStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
                     bombBagUpgrade = CUR_CAPACITY(UPG_BOMB_BAG) == 30 ? GI_BOMB_BAG_40 : GI_BOMB_BAG_30;
                     EnGo2_GetItem(this, globalCtx, bombBagUpgrade);
                     Message_CloseTextbox(globalCtx);
-                    gSaveContext.infTable[17] |= 0x4000;
+                    SET_INFTABLE(INFTABLE_11E);
                     return 2;
                 } else {
                     return 2;
@@ -363,8 +364,8 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
 s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_CLOSING:
-            if ((this->actor.textId == 0x300B) && (gSaveContext.infTable[14] & 0x800) == 0) {
-                gSaveContext.infTable[14] |= 0x800;
+            if ((this->actor.textId == 0x300B) && !GET_INFTABLE(INFTABLE_EB)) {
+                SET_INFTABLE(INFTABLE_EB);
                 return 2;
             } else {
                 return 0;
@@ -391,7 +392,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return (gSaveContext.eventChkInf[2] & 0x8) ? 0x3026 : 0x3009;
+        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3026 : 0x3009;
     }
 }
 
@@ -409,14 +410,14 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return gSaveContext.eventChkInf[2] & 0x8 ? 0x3021 : gSaveContext.infTable[14] & 0x1 ? 0x302A : 0x3008;
+        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3021 : GET_INFTABLE(INFTABLE_E0) ? 0x302A : 0x3008;
     }
 }
 
 s16 EnGo2_GetStateGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3008) {
-            gSaveContext.infTable[14] |= 0x1;
+            SET_INFTABLE(INFTABLE_E0);
         }
         return 0;
     } else {
@@ -430,14 +431,14 @@ u16 EnGo2_GetTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return gSaveContext.infTable[15] & 0x1 ? 0x3015 : 0x3014;
+        return GET_INFTABLE(INFTABLE_F0) ? 0x3015 : 0x3014;
     }
 }
 
 s16 EnGo2_GetStateGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3014) {
-            gSaveContext.infTable[15] |= 0x1;
+            SET_INFTABLE(INFTABLE_F0);
         }
         return 0;
     } else {
@@ -451,14 +452,14 @@ u16 EnGo2_GetTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3067;
     } else {
-        return gSaveContext.infTable[15] & 0x10 ? 0x3017 : 0x3016;
+        return GET_INFTABLE(INFTABLE_F4) ? 0x3017 : 0x3016;
     }
 }
 
 s16 EnGo2_GetStateGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3016) {
-            gSaveContext.infTable[15] |= 0x10;
+            SET_INFTABLE(INFTABLE_F4);
         }
         return 0;
     } else {
@@ -474,7 +475,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else {
         return CUR_UPG_VALUE(UPG_STRENGTH) != 0    ? 0x302C
                : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017
-               : gSaveContext.infTable[15] & 0x100 ? 0x3019
+               : GET_INFTABLE(INFTABLE_F8)         ? 0x3019
                                                    : 0x3018;
     }
 }
@@ -482,7 +483,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
 s16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3018) {
-            gSaveContext.infTable[15] |= 0x100;
+            SET_INFTABLE(INFTABLE_F8);
         }
         return 0;
     } else {
@@ -492,13 +493,13 @@ s16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
 
 u16 EnGo2_GetTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
-        return gSaveContext.infTable[16] & 0x8000 ? 0x3042 : 0x3041;
+        return GET_INFTABLE(INFTABLE_10F) ? 0x3042 : 0x3041;
     } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
-        return gSaveContext.infTable[16] & 0x4000 ? 0x3038 : 0x3037;
-    } else if (gSaveContext.infTable[16] & 0x1000) {
+        return GET_INFTABLE(INFTABLE_10E) ? 0x3038 : 0x3037;
+    } else if (GET_INFTABLE(INFTABLE_10C)) {
         this->unk_20C = 0;
         this->dialogState = TEXT_STATE_NONE;
-        return gSaveContext.infTable[16] & 0x400 ? 0x3033 : 0x3032;
+        return GET_INFTABLE(INFTABLE_10A) ? 0x3033 : 0x3032;
     } else {
         return 0x3030;
     }
@@ -513,7 +514,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     this->actionFunc = EnGo2_SetupGetItem;
                     return 2;
                 case 0x3037:
-                    gSaveContext.infTable[16] |= 0x4000;
+                    SET_INFTABLE(INFTABLE_10E);
                 default:
                     return 0;
             }
@@ -521,12 +522,12 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3034) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
-                        this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
+                        this->actor.textId = GET_INFTABLE(INFTABLE_10B) ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
                             Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     } else {
-                        this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
+                        this->actor.textId = GET_INFTABLE(INFTABLE_10B) ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
                             Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
@@ -542,7 +543,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x3035:
-                        gSaveContext.infTable[16] |= 0x800;
+                        SET_INFTABLE(INFTABLE_10B);
                     case 0x3032:
                     case 0x3033:
                         this->actor.textId = 0x3034;
@@ -660,13 +661,13 @@ s16 EnGo2_GetStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
-    return !LINK_IS_ADULT ? gSaveContext.infTable[14] & 0x8 ? 0x3022 : 0x300E : 0x3043;
+    return !LINK_IS_ADULT ? GET_INFTABLE(INFTABLE_E3) ? 0x3022 : 0x300E : 0x3043;
 }
 
 s16 EnGo2_GetStateGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x300E) {
-            gSaveContext.infTable[14] |= 0x8;
+            SET_INFTABLE(INFTABLE_E3);
         }
         return 0;
     } else {
@@ -692,7 +693,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
         if (Flags_GetSwitch(globalCtx, 0x1C)) {
             return 0x302F;
         } else {
-            return gSaveContext.infTable[14] & 0x40 ? 0x3025 : 0x3024;
+            return GET_INFTABLE(INFTABLE_E6) ? 0x3025 : 0x3024;
         }
     } else {
         return 0x3043;
@@ -702,7 +703,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
 s16 EnGo2_GetStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3024) {
-            gSaveContext.infTable[14] |= 0x40;
+            SET_INFTABLE(INFTABLE_E6);
         }
         return 0;
     } else {
@@ -1052,7 +1053,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_SWORD_BROKEN) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
-                if (gSaveContext.infTable[11] & 0x10) {
+                if (GET_INFTABLE(INFTABLE_B4)) {
                     textId = 0x3055;
                 } else {
                     textId = 0x3054;
@@ -1327,7 +1328,7 @@ void EnGo2_GetItemAnimation(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_SetupRolling(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG || (this->actor.params & 0x1F) == GORON_CITY_LINK) {
         this->collider.info.bumperFlags = 1;
-        this->actor.speedXZ = gSaveContext.infTable[17] & 0x4000 ? 6.0f : 3.6000001f;
+        this->actor.speedXZ = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
     } else {
         this->actor.speedXZ = 6.0f;
     }
@@ -1548,7 +1549,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnGo2_GetItemAnimation(this, globalCtx);
             break;
         case GORON_CITY_LINK:
-            if ((gSaveContext.infTable[16] & 0x200)) {
+            if (GET_INFTABLE(INFTABLE_109)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
                 if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
@@ -1557,7 +1558,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->actionFunc = EnGo2_CurledUp;
                 }
             } else {
-                gSaveContext.infTable[16] &= ~0x1000;
+                CLEAR_INFTABLE(INFTABLE_10C);
                 this->collider.dim.height = (D_80A4816C[this->actor.params & 0x1F].height * 0.6f);
                 EnGo2_SetupRolling(this, globalCtx);
                 this->isAwake = true;
@@ -1588,7 +1589,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = EnGo2_CurledUp;
             break;
         case GORON_DMT_BOMB_FLOWER:
-            if (gSaveContext.infTable[14] & 0x800) {
+            if (GET_INFTABLE(INFTABLE_EB)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
             }
@@ -1782,7 +1783,7 @@ void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
                 EnGo2_GetItemAnimation(this, globalCtx);
                 return;
             case GI_TUNIC_GORON:
-                gSaveContext.infTable[16] |= 0x200;
+                SET_INFTABLE(INFTABLE_109);
                 EnGo2_GetItemAnimation(this, globalCtx);
                 return;
             case GI_SWORD_BGS:
@@ -1866,7 +1867,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
-        gSaveContext.infTable[16] |= 0x1000;
+        SET_INFTABLE(INFTABLE_10C);
         this->unk_26E = 1;
         this->unk_211 = false;
         this->isAwake = false;

@@ -71,9 +71,9 @@ void func_80B13AA0(EnTa* this, EnTaActionFunc arg1, EnTaUnkFunc arg2) {
 void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 24);
 
-    if (gSaveContext.eventInf[0] & 0x400) {
-        if (gSaveContext.eventInf[0] & 0x100) {
-            if (gSaveContext.itemGetInf[0] & 4) {
+    if (GET_EVENTINF(EVENTINF_0A)) {
+        if (GET_EVENTINF(EVENTINF_08)) {
+            if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.textId = 0x2088;
             } else {
                 this->actor.textId = 0x2086;
@@ -81,10 +81,10 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
         } else {
             this->actor.textId = 0x2085;
         }
-        gSaveContext.eventInf[0] &= ~0x100;
+        CLEAR_EVENTINF(EVENTINF_08);
     } else if (faceReaction == 0) {
-        if (gSaveContext.infTable[7] & 0x4000) {
-            if (gSaveContext.itemGetInf[0] & 4) {
+        if (GET_INFTABLE(INFTABLE_7E)) {
+            if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.textId = 0x208B;
             } else {
                 this->actor.textId = 0x207F;
@@ -122,11 +122,11 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
     switch (this->actor.params) {
         case 1:
             osSyncPrintf(VT_FGCOL(CYAN) " 追放タロン \n" VT_RST);
-            if (gSaveContext.eventChkInf[6] & 0x800) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_6B)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
-            } else if (gSaveContext.eventChkInf[6] & 0x400) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
                 func_80B13AA0(this, func_80B14CAC, func_80B167C0);
                 this->eyeIndex = 0;
                 Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
@@ -141,7 +141,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
         case 2:
             osSyncPrintf(VT_FGCOL(CYAN) " 出戻りタロン \n" VT_RST);
-            if (!(gSaveContext.eventChkInf[6] & 0x800)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_6B)) {
                 Actor_Kill(&this->actor);
             } else if (!LINK_IS_ADULT) {
                 Actor_Kill(&this->actor);
@@ -158,9 +158,9 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
         default:
             osSyncPrintf(VT_FGCOL(CYAN) " その他のタロン \n" VT_RST);
             if (globalCtx->sceneNum == SCENE_SPOT15) {
-                if (gSaveContext.eventChkInf[1] & 0x10) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
-                } else if (gSaveContext.eventChkInf[1] & 0x8) {
+                } else if (GET_EVENTCHKINF(EVENTCHKINF_13)) {
                     func_80B13AA0(this, func_80B14C18, func_80B167C0);
                     this->eyeIndex = 0;
                     Animation_PlayOnce(&this->skelAnime, &gTalonStandAnim);
@@ -174,7 +174,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 }
             } else if (globalCtx->sceneNum == SCENE_SOUKO) {
                 osSyncPrintf(VT_FGCOL(CYAN) " ロンロン牧場の倉庫 の タロン\n" VT_RST);
-                if (!(gSaveContext.eventChkInf[1] & 0x10)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                     Actor_Kill(&this->actor);
                 } else if (LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
@@ -193,12 +193,12 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         func_80B13AAC(this, globalCtx);
 
-                        if (gSaveContext.eventInf[0] & 0x400) {
+                        if (GET_EVENTINF(EVENTINF_0A)) {
                             func_80B13AA0(this, func_80B16608, func_80B16938);
                             Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                                              Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                                              Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 0.0f);
-                            gSaveContext.eventInf[0] &= ~0x400;
+                            CLEAR_EVENTINF(EVENTINF_0A);
                         } else {
                             func_80B13AA0(this, func_80B16504, func_80B16854);
                             this->eyeIndex = 0;
@@ -274,10 +274,10 @@ void func_80B143D4(EnTa* this, GlobalContext* globalCtx) {
 void func_80B14410(EnTa* this) {
     if (!LINK_IS_ADULT) {
         func_80B13AA0(this, func_80B14C18, func_80B167C0);
-        gSaveContext.eventChkInf[1] |= 0x8;
+        SET_EVENTCHKINF(EVENTCHKINF_13);
     } else {
         func_80B13AA0(this, func_80B14CAC, func_80B167C0);
-        gSaveContext.eventChkInf[6] |= 0x400;
+        SET_EVENTCHKINF(EVENTCHKINF_6A);
     }
 }
 
@@ -462,7 +462,7 @@ void func_80B14B6C(EnTa* this, GlobalContext* globalCtx) {
         OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, MAIN_CAM);
         func_80B13AA0(this, func_80B14AF4, func_80B167C0);
         this->unk_2CC = 5;
-        gSaveContext.eventChkInf[1] |= 0x10;
+        SET_EVENTCHKINF(EVENTCHKINF_14);
         Animation_PlayOnce(&this->skelAnime, &gTalonRunTransitionAnim);
         this->currentAnimation = &gTalonRunAnim;
     }
@@ -484,10 +484,10 @@ void func_80B14C60(EnTa* this, GlobalContext* globalCtx) {
 }
 
 void func_80B14CAC(EnTa* this, GlobalContext* globalCtx) {
-    if (gSaveContext.eventChkInf[1] & 0x100) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
         if (func_80B142F4(this, globalCtx, 0x5017)) {
             func_80B13AA0(this, func_80B14C60, func_80B167C0);
-            gSaveContext.eventChkInf[6] |= 0x800;
+            SET_EVENTCHKINF(EVENTCHKINF_6B);
         }
     } else if (func_80B142F4(this, globalCtx, 0x5016)) {
         func_80B13AA0(this, func_80B14C60, func_80B167C0);
@@ -665,7 +665,7 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         globalCtx->nextEntranceIndex = 0x5E4;
 
-        if (gSaveContext.eventInf[0] & 0x100) {
+        if (GET_EVENTINF(EVENTINF_08)) {
             globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
             gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
         } else {
@@ -674,7 +674,7 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
         }
 
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-        gSaveContext.eventInf[0] |= 0x400;
+        SET_EVENTINF(EVENTINF_0A);
         this->actionFunc = func_80B153D4;
         this->unk_2CC = 22;
     }
@@ -708,7 +708,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                                              -10.0f);
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
-                            gSaveContext.eventInf[0] |= 0x100;
+                            SET_EVENTINF(EVENTINF_08);
                             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
                             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
@@ -746,7 +746,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
         Message_StartTextbox(globalCtx, 0x2081, &this->actor);
         this->actionFunc = func_80B15424;
         func_80B14E28(this, globalCtx);
-        gSaveContext.eventInf[0] &= ~0x100;
+        CLEAR_EVENTINF(EVENTINF_08);
         this->unk_2E0 |= 0x80;
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
         this->unk_2E0 &= ~0x10;
@@ -866,7 +866,7 @@ void func_80B15E80(EnTa* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_80B15E28;
         if (!(this->unk_2E0 & 0x2)) {
-            gSaveContext.itemGetInf[0] |= 4;
+            SET_ITEMGETINF(ITEMGETINF_02);
         }
         this->unk_2E0 &= ~0x2;
     } else if (this->unk_2E0 & 2) {
@@ -973,8 +973,8 @@ void func_80B162E8(EnTa* this, GlobalContext* globalCtx) {
 
 void func_80B16364(EnTa* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-        gSaveContext.infTable[7] |= 0x4000;
-        if (gSaveContext.itemGetInf[0] & 4) {
+        SET_INFTABLE(INFTABLE_7E);
+        if (GET_ITEMGETINF(ITEMGETINF_02)) {
             Message_ContinueTextbox(globalCtx, 0x208B);
             func_80B13AA0(this, func_80B15FE8, func_80B16938);
         } else {
@@ -1013,7 +1013,7 @@ void func_80B16504(EnTa* this, GlobalContext* globalCtx) {
         if (faceReaction != 0) {
             func_80B14FAC(this, func_80B15E28);
         } else {
-            gSaveContext.infTable[7] |= 0x4000;
+            SET_INFTABLE(INFTABLE_7E);
 
             switch (this->actor.textId) {
                 case 0x207E:

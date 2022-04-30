@@ -105,9 +105,9 @@ static EnFrPointers sEnFrPointers = {
     },
 };
 
-// Flags for gSaveContext.eventChkInf[13]
 static u16 sSongIndex[] = {
-    0x0002, 0x0004, 0x0010, 0x0008, 0x0020, 0x0040, 0x0001, 0x0000,
+    EVENTCHKINF_D1_MASK, EVENTCHKINF_D2_MASK, EVENTCHKINF_D4_MASK, EVENTCHKINF_D3_MASK,
+    EVENTCHKINF_D5_MASK, EVENTCHKINF_D6_MASK, EVENTCHKINF_D0_MASK, 0,
 };
 
 // Frog to Index for Song Flag (sSongIndex) Mapping
@@ -281,7 +281,10 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
                                   this->actor.home.pos.z, 255, 255, 255, -1);
         // Check to see if the song for a particular frog has been played.
         // If it has, the frog is larger. If not, the frog is smaller
-        this->scale = gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogIndex]] ? 270.0f : 150.0f;
+        this->scale =
+            gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] & sSongIndex[sFrogToSongIndex[frogIndex]]
+                ? 270.0f
+                : 150.0f;
         // When the frogs are not active (link doesn't have his ocarina out),
         // Then shrink the frogs down by a factor of 10,000
         Actor_SetScale(&this->actor, this->scale * 0.0001f);
@@ -629,12 +632,12 @@ void EnFr_Activate(EnFr* this, GlobalContext* globalCtx) {
 void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == 11) {
         // Check if all 6 child songs have been played for the frogs
-        if ((gSaveContext.eventChkInf[13] & 0x2)        // ZL
-            && (gSaveContext.eventChkInf[13] & 0x4)     // Epona
-            && (gSaveContext.eventChkInf[13] & 0x10)    // Saria
-            && (gSaveContext.eventChkInf[13] & 0x8)     // Suns
-            && (gSaveContext.eventChkInf[13] & 0x20)    // SoT
-            && (gSaveContext.eventChkInf[13] & 0x40)) { // SoS
+        if (GET_EVENTCHKINF(EVENTCHKINF_D1)       // ZL
+            && GET_EVENTCHKINF(EVENTCHKINF_D2)    // Epona
+            && GET_EVENTCHKINF(EVENTCHKINF_D4)    // Saria
+            && GET_EVENTCHKINF(EVENTCHKINF_D3)    // Suns
+            && GET_EVENTCHKINF(EVENTCHKINF_D5)    // SoT
+            && GET_EVENTCHKINF(EVENTCHKINF_D6)) { // SoS
             this->actionFunc = EnFr_TalkBeforeFrogSong;
             this->songIndex = FROG_CHOIR_SONG;
             Message_StartTextbox(globalCtx, 0x40AB, &this->actor);
@@ -724,7 +727,7 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
         if (songIndex == FROG_STORMS) {
             this->actor.textId = 0x40AA;
             EnFr_SetupReward(this, globalCtx, false);
-        } else if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
+        } else if (!(gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] & sSongIndex[songIndex])) {
             frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
@@ -798,7 +801,7 @@ void EnFr_DeactivateButterfly() {
 }
 
 u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
-    if (!(gSaveContext.eventChkInf[13] & 1)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_D0)) {
         return gFrogsSongPtr[ocarinaNoteIndex];
     } else {
         return sOcarinaNotes[(s32)Rand_ZeroFloat(60.0f) % 5];
@@ -937,22 +940,22 @@ void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx) {
     this->actionFunc = EnFr_Deactivate;
     this->reward = GI_NONE;
     if ((songIndex >= FROG_ZL) && (songIndex <= FROG_SOT)) {
-        if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
-            gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
+        if (!(gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] & sSongIndex[songIndex])) {
+            gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] |= sSongIndex[songIndex];
             this->reward = GI_RUPEE_PURPLE;
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
     } else if (songIndex == FROG_STORMS) {
-        if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
-            gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
+        if (!(gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] & sSongIndex[songIndex])) {
+            gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] |= sSongIndex[songIndex];
             this->reward = GI_HEART_PIECE;
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
     } else if (songIndex == FROG_CHOIR_SONG) {
-        if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
-            gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
+        if (!(gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] & sSongIndex[songIndex])) {
+            gSaveContext.eventChkInf[EVENTCHKINF_D0_D1_D2_D3_D4_D5_D6_INDEX] |= sSongIndex[songIndex];
             this->reward = GI_HEART_PIECE;
         } else {
             this->reward = GI_RUPEE_PURPLE;

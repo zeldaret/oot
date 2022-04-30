@@ -152,13 +152,13 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 noKill = true;
     s32 isFree = false;
 
-    if ((this->actor.params & 3) == 0 && (gSaveContext.eventChkInf[9] & 1)) {
+    if ((this->actor.params & 3) == 0 && GET_EVENTCHKINF(EVENTCHKINF_90)) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 1 && (gSaveContext.eventChkInf[9] & 2)) {
+    } else if ((this->actor.params & 3) == 1 && GET_EVENTCHKINF(EVENTCHKINF_91)) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 2 && (gSaveContext.eventChkInf[9] & 4)) {
+    } else if ((this->actor.params & 3) == 2 && GET_EVENTCHKINF(EVENTCHKINF_92)) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 3 && (gSaveContext.eventChkInf[9] & 8)) {
+    } else if ((this->actor.params & 3) == 3 && GET_EVENTCHKINF(EVENTCHKINF_93)) {
         isFree = true;
     }
 
@@ -238,10 +238,10 @@ s32 EnDaiku_UpdateTalking(EnDaiku* this, GlobalContext* globalCtx) {
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x6061:
-                        gSaveContext.infTable[23] |= 0x40;
+                        SET_INFTABLE(INFTABLE_176);
                         break;
                     case 0x6064:
-                        gSaveContext.infTable[23] |= 0x100;
+                        SET_INFTABLE(INFTABLE_178);
                         break;
                 }
 
@@ -271,7 +271,8 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.eventChkInf[9] & (1 << carpenterType)) {
+                        if (gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] &
+                            (1 << (carpenterType + EVENTCHKINF_90_SHIFT))) {
                             freedCount++;
                         }
                     }
@@ -307,7 +308,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6063;
                         } else {
-                            if (!(gSaveContext.infTable[23] & 0x40)) {
+                            if (!GET_INFTABLE(INFTABLE_176)) {
                                 this->actor.textId = 0x6061;
                             } else {
                                 this->actor.textId = 0x6062;
@@ -318,7 +319,7 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
                         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
                             this->actor.textId = 0x6066;
                         } else {
-                            if (!(gSaveContext.infTable[23] & 0x100)) {
+                            if (!GET_INFTABLE(INFTABLE_178)) {
                                 this->actor.textId = 0x6064;
                             } else {
                                 this->actor.textId = 0x6065;
@@ -399,7 +400,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    gSaveContext.eventChkInf[9] |= 1 << (this->actor.params & 3);
+    gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] |= 1 << ((this->actor.params & 3) + EVENTCHKINF_90_SHIFT);
 
     this->actor.gravity = -1.0f;
     this->escapeSubCamTimer = sEscapeSubCamParams[this->actor.params & 3].maxFramesActive;
@@ -494,7 +495,8 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
-    if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+    if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                       EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         Matrix_RotateY(BINANG_TO_RAD(this->initRot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =

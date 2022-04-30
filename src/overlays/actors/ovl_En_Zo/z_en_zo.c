@@ -364,7 +364,7 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
 
     switch (thisx->params & 0x3F) {
         case 8:
-            if (gSaveContext.eventChkInf[3] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x402A;
             }
             break;
@@ -379,7 +379,7 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402D;
             }
-            if (gSaveContext.eventChkInf[3] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x4007;
             }
             break;
@@ -389,8 +389,8 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x402E;
             }
 
-            if (gSaveContext.eventChkInf[3] & 1) {
-                return (gSaveContext.infTable[18] & 0x10) ? 0x4009 : 0x4008;
+            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
+                return GET_INFTABLE(INFTABLE_124) ? 0x4009 : 0x4008;
             }
             break;
 
@@ -398,10 +398,10 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402D;
             }
-            if (gSaveContext.eventChkInf[3] & 2) {
-                return (gSaveContext.infTable[18] & 0x200) ? 0x400B : 0x402F;
+            if (GET_EVENTCHKINF(EVENTCHKINF_31)) {
+                return GET_INFTABLE(INFTABLE_129) ? 0x400B : 0x402F;
             }
-            if (gSaveContext.eventChkInf[3] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x400A;
             }
             break;
@@ -410,7 +410,7 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402E;
             }
-            if (gSaveContext.eventChkInf[3] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x400C;
             }
             break;
@@ -420,10 +420,10 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x402D;
             }
 
-            if (gSaveContext.eventChkInf[3] & 8) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_33)) {
                 return 0x4010;
             }
-            if (gSaveContext.eventChkInf[3] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x400F;
             }
             break;
@@ -432,7 +432,7 @@ u16 func_80B61024(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
                 return 0x402E;
             }
-            if (gSaveContext.eventChkInf[3] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_30)) {
                 return 0x4011;
             }
             break;
@@ -457,13 +457,13 @@ s16 func_80B61298(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x4021:
                     return 0;
                 case 0x4008:
-                    gSaveContext.infTable[18] |= 0x10;
+                    SET_INFTABLE(INFTABLE_124);
                     break;
                 case 0x402F:
-                    gSaveContext.infTable[18] |= 0x200;
+                    SET_INFTABLE(INFTABLE_129);
                     break;
             }
-            gSaveContext.eventChkInf[3] |= 1;
+            SET_EVENTCHKINF(EVENTCHKINF_30);
             return 0;
 
         case TEXT_STATE_CHOICE:

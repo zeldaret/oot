@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 
-import argparse, json, os, signal, time, colorama, multiprocessing
+import argparse
+import json
+import os
+import signal
+import time
+import multiprocessing
 
-colorama.init()
 
 EXTRACTED_ASSETS_NAMEFILE = ".extracted-assets.json"
 
@@ -72,7 +76,7 @@ def processZAPDArgs(argsZ):
     badZAPDArg = False
     for z in argsZ:
         if z[0] == '-':
-            print(f"{colorama.Fore.LIGHTRED_EX}error{colorama.Fore.RESET}: argument \"{z}\" starts with \"-\", which is not supported.", file=os.sys.stderr)
+            print(f'error: argument "{z}" starts with "-", which is not supported.', file=os.sys.stderr)
             badZAPDArg = True
 
     if badZAPDArg:

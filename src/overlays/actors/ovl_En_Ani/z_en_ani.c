@@ -123,7 +123,7 @@ void func_809B0558(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
-        gSaveContext.itemGetInf[1] |= 0x20;
+        SET_ITEMGETINF(ITEMGETINF_15);
     } else {
         func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 200.0f);
     }
@@ -161,7 +161,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
         }
     } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
                -80.0f < this->actor.yDistToPlayer) {
-        if (gSaveContext.itemGetInf[1] & 0x20) {
+        if (GET_ITEMGETINF(ITEMGETINF_15)) {
             EnAni_SetText(this, globalCtx, 0x5056);
         } else {
             EnAni_SetText(this, globalCtx, 0x5055);
@@ -187,16 +187,16 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
         }
     } else if (yawDiff > -0x36B0 && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
                -80.0f < this->actor.yDistToPlayer) {
-        if (gSaveContext.itemGetInf[1] & 0x20) {
+        if (GET_ITEMGETINF(ITEMGETINF_15)) {
             EnAni_SetText(this, globalCtx, 0x5056);
         } else {
             EnAni_SetText(this, globalCtx, 0x5055);
         }
     } else if (yawDiff > -0x3E8 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
-        if (!(gSaveContext.eventChkInf[2] & 0x8000)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_2F)) {
             textId = 0x5052;
         } else {
-            textId = (gSaveContext.itemGetInf[1] & 0x20) ? 0x5054 : 0x5053;
+            textId = GET_ITEMGETINF(ITEMGETINF_15) ? 0x5054 : 0x5053;
         }
         EnAni_SetText(this, globalCtx, textId);
     }

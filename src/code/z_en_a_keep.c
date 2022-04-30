@@ -139,9 +139,9 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnAObj_SetupBlockRot(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:
-            // clang-format off
-            thisx->flags |= ACTOR_FLAG_0; this->dyna.bgId = 5; this->focusYoffset = 10.0f;
-            // clang-format on
+            this->focusYoffset = 10.0f;
+            thisx->flags |= ACTOR_FLAG_0;
+            this->dyna.bgId = 5;
             thisx->gravity = -2.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
             break;
@@ -153,9 +153,8 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             thisx->textId = (this->textId & 0xFF) | 0x300;
-            // clang-format off
-            thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3; thisx->targetArrowOffset = 500.0f;
-            // clang-format on
+            thisx->targetArrowOffset = 500.0f;
+            thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->focusYoffset = 45.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
             Collider_InitCylinder(globalCtx, &this->collider);

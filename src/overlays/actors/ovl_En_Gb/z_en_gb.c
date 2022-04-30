@@ -141,7 +141,7 @@ static Vec3f sBottlesPositions[] = {
 };
 
 void func_80A2F180(EnGb* this) {
-    if (gSaveContext.infTable[0xB] & 0x40) {
+    if (GET_INFTABLE(INFTABLE_B6)) {
         this->textId = 0x70F5;
     } else {
         this->textId = 0x70F4;
@@ -303,8 +303,8 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
-        if (!(gSaveContext.infTable[0xB] & 0x40)) {
-            gSaveContext.infTable[0xB] |= 0x40;
+        if (!GET_INFTABLE(INFTABLE_B6)) {
+            SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
         this->actionFunc = func_80A2F83C;
@@ -313,8 +313,8 @@ void func_80A2F94C(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
-        if (!(gSaveContext.infTable[0xB] & 0x40)) {
-            gSaveContext.infTable[0xB] |= 0x40;
+        if (!GET_INFTABLE(INFTABLE_B6)) {
+            SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
         Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
@@ -325,8 +325,8 @@ void func_80A2F9C0(EnGb* this, GlobalContext* globalCtx) {
 
 void func_80A2FA50(EnGb* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE && Message_ShouldAdvance(globalCtx)) {
-        if (!(gSaveContext.infTable[0xB] & 0x40)) {
-            gSaveContext.infTable[0xB] |= 0x40;
+        if (!GET_INFTABLE(INFTABLE_B6)) {
+            SET_INFTABLE(INFTABLE_B6);
         }
         func_80A2F180(this);
         Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);

@@ -461,7 +461,8 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, GlobalContext* globalCtx) {
     if (this->actor.speedXZ < 12.8f) {
         return false;
     }
-    if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+    if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                       EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         return false;
     }
 
@@ -682,7 +683,11 @@ s32 EnHorse_Spawn(EnHorse* this, GlobalContext* globalCtx) {
             player = GET_PLAYER(globalCtx);
             if (globalCtx->sceneNum != SCENE_SPOT20 ||
                 //! Same flag checked twice
-                (Flags_GetEventChkInf(0x18) && ((gSaveContext.eventInf[0] & 0xF) != 6 || Flags_GetEventChkInf(0x18))) ||
+                (Flags_GetEventChkInf(EVENTCHKINF_18) &&
+                 (!((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                     (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
+                    (EVENTINF_01_MASK | EVENTINF_02_MASK)) ||
+                  Flags_GetEventChkInf(EVENTCHKINF_18))) ||
                 // always load two spawns inside lon lon
                 ((sHorseSpawns[i].pos.x == 856 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -918) ||
                  (sHorseSpawns[i].pos.x == -1003 && sHorseSpawns[i].pos.y == 0 && sHorseSpawns[i].pos.z == -755))) {
@@ -793,10 +798,10 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->stateFlags = ENHORSE_FLAG_19 | ENHORSE_CANT_JUMP | ENHORSE_UNRIDEABLE;
         } else if (this->actor.params == 6) {
             this->stateFlags = ENHORSE_FLAG_19 | ENHORSE_CANT_JUMP;
-            if (Flags_GetEventChkInf(0x18) || DREG(1) != 0) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0) {
                 this->stateFlags &= ~ENHORSE_CANT_JUMP;
                 this->stateFlags |= ENHORSE_FLAG_26;
-            } else if (gSaveContext.eventInf[0] & 0x40 && this->type == HORSE_HNI) {
+            } else if (GET_EVENTINF(EVENTINF_06) && this->type == HORSE_HNI) {
                 this->stateFlags |= ENHORSE_FLAG_21 | ENHORSE_FLAG_20;
             }
         } else if (this->actor.params == 1) {
@@ -806,8 +811,10 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    if (globalCtx->sceneNum == SCENE_SPOT20 && (gSaveContext.eventInf[0] & 0xF) == 6 &&
-        Flags_GetEventChkInf(0x18) == 0 && !DREG(1)) {
+    if (globalCtx->sceneNum == SCENE_SPOT20 &&
+        ((gSaveContext.eventInf[EVENTINF_0X_INDEX] & (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK |
+                                                      EVENTINF_03_MASK)) == (EVENTINF_01_MASK | EVENTINF_02_MASK)) &&
+        !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
         this->stateFlags |= ENHORSE_FLAG_25;
     }
 
@@ -833,7 +840,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
                 return;
             }
-            if (Flags_GetEventChkInf(0x18)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_18)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -841,12 +848,12 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (!Flags_GetEventChkInf(0x18) && !DREG(1) && !IS_DAY) {
+        } else if (!Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1) && !IS_DAY) {
             Actor_Kill(&this->actor);
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-        if (IS_DAY || Flags_GetEventChkInf(0x18) || DREG(1) != 0 || !LINK_IS_ADULT) {
+        if (IS_DAY || Flags_GetEventChkInf(EVENTCHKINF_18) || DREG(1) != 0 || !LINK_IS_ADULT) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -872,7 +879,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         if (this->rider == NULL) {
             __assert("this->race.rider != NULL", "../z_en_horse.c", 3077);
         }
-        if (!(gSaveContext.eventInf[0] & 0x40)) {
+        if (!GET_EVENTINF(EVENTINF_06)) {
             this->ingoHorseMaxSpeed = 12.07f;
         } else {
             this->ingoHorseMaxSpeed = 12.625f;
@@ -882,7 +889,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else if (this->actor.params == 8) {
         EnHorse_InitHorsebackArchery(this);
         Interface_InitHorsebackArchery(globalCtx);
-    } else if (globalCtx->sceneNum == SCENE_SPOT20 && !Flags_GetEventChkInf(0x18) && !DREG(1)) {
+    } else if (globalCtx->sceneNum == SCENE_SPOT20 && !Flags_GetEventChkInf(EVENTCHKINF_18) && !DREG(1)) {
         EnHorse_InitFleePlayer(this);
     } else {
         if (globalCtx->sceneNum == SCENE_SOUKO) {
@@ -2534,7 +2541,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
 
     if (globalCtx->interfaceCtx.hbaAmmo != 0) {
         if (!(this->hbaFlags & 2)) {
-            if (gSaveContext.infTable[25] & 1) {
+            if (GET_INFTABLE(INFTABLE_190)) {
                 if ((s32)gSaveContext.minigameScore >= 1500) {
                     this->hbaFlags |= 4;
                 }
@@ -3578,7 +3585,9 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->stateFlags &= ~ENHORSE_FLAG_24;
         }
 
-        if (globalCtx->sceneNum == SCENE_SPOT09 && (gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
+        if (globalCtx->sceneNum == SCENE_SPOT09 &&
+            !CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                            EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
             EnHorse_CheckBridgeJumps(this, globalCtx);
         }
 

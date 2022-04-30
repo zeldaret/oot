@@ -87,8 +87,7 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
-            if (((gSaveContext.eventChkInf[1] & 0x2000) && (globalCtx->sceneNum == SCENE_SPOT02) &&
-                 (thisx->params == 2)) ||
+            if ((GET_EVENTCHKINF(EVENTCHKINF_1D) && (globalCtx->sceneNum == SCENE_SPOT02) && (thisx->params == 2)) ||
                 (LINK_IS_ADULT && (thisx->params == 1))) {
                 Actor_Kill(thisx);
             }
@@ -100,7 +99,7 @@ void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_808ACC34;
             thisx->draw = func_808ACCB8;
 
-            if (gSaveContext.eventChkInf[1] & 0x2000) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_1D)) {
                 Actor_Kill(thisx);
             }
             break;
@@ -131,7 +130,7 @@ void func_808AC908(BgSpot02Objects* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         if (globalCtx->csCtx.npcActions[3] != NULL && globalCtx->csCtx.npcActions[3]->action == 2) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_GRAVE_EXPLOSION);
-            gSaveContext.eventChkInf[1] |= 0x2000;
+            SET_EVENTCHKINF(EVENTCHKINF_1D);
             this->timer = 25;
             pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * 50.0f) + this->dyna.actor.world.pos.x;
             pos.y = this->dyna.actor.world.pos.y + 30.0f;

@@ -130,12 +130,12 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
         this->unk_2B4 = 1;
         this->actionFunc = func_80A56B40;
     } else {
-        if (gSaveContext.eventChkInf[8] & 1) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actor.textId = 0x5065;
             this->actionFunc = func_80A56B40;
             return;
         }
-        if (gSaveContext.eventChkInf[4] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
             this->actor.textId = 0x5068;
             this->actionFunc = func_80A56B40;
             return;
@@ -211,14 +211,14 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
-    if (gSaveContext.eventChkInf[4] & 0x20) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_45)) {
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ マスターソード祝入手！ ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
         return;
     }
     this->unk_284 = 0;
-    if (gSaveContext.eventChkInf[8] & 1) {
-        if (!(gSaveContext.infTable[6] & 0x1000)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+        if (!GET_INFTABLE(INFTABLE_6C)) {
             f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuardAnim_00C444);
             Animation_Change(&this->skelAnime, &gEnHeishiDyingGuardAnim_00C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
                              -10.0f);
@@ -265,7 +265,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
     if ((this->unk_282 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        gSaveContext.infTable[6] |= 0x1000;
+        SET_INFTABLE(INFTABLE_6C);
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A56A50;
     }

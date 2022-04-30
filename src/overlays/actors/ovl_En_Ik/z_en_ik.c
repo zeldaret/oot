@@ -1400,7 +1400,7 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
-        if (!(gSaveContext.eventChkInf[3] & 0x800)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_3B)) {
             this->actor.update = EnIk_Update;
             this->actor.draw = EnIk_Draw;
             Actor_SetScale(&this->actor, 0.01f);
@@ -1416,7 +1416,7 @@ void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
     this->actor.update = func_80A75FA0;
     this->actor.draw = func_80A76798;
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
-    gSaveContext.eventChkInf[3] |= 0x800;
+    SET_EVENTCHKINF(EVENTCHKINF_3B);
     Actor_SetScale(&this->actor, 0.012f);
     func_80A7489C(this);
 }
@@ -1430,7 +1430,7 @@ void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
         Cutscene_SetSegment(globalCtx, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
-        gSaveContext.eventChkInf[3] |= 0x1000;
+        SET_EVENTCHKINF(EVENTCHKINF_3C);
         func_80A7735C(this, globalCtx);
     }
 }
@@ -1439,7 +1439,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
     s32 flag = this->actor.params & 0xFF00;
 
-    if (((this->actor.params & 0xFF) == 0 && (gSaveContext.eventChkInf[3] & 0x1000)) ||
+    if (((this->actor.params & 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
         (flag != 0 && Flags_GetSwitch(globalCtx, flag >> 8))) {
         Actor_Kill(&this->actor);
     } else {

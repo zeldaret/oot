@@ -207,7 +207,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
         if (!LINK_IS_ADULT) {
-            if (Flags_GetEventChkInf(0x14)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_14)) {
                 if (this->actor.world.rot.z != 3) {
                     Actor_Kill(&this->actor);
                     return;
@@ -216,7 +216,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (Flags_GetEventChkInf(0x18) || (DREG(1) != 0)) {
+        } else if (Flags_GetEventChkInf(EVENTCHKINF_18) || (DREG(1) != 0)) {
             if (this->actor.world.rot.z != 7) {
                 Actor_Kill(&this->actor);
                 return;

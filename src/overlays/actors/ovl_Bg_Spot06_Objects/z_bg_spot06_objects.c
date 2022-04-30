@@ -123,7 +123,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_SetJntSph(globalCtx, &this->collider, thisx, &sJntSphInit, this->colliderItem);
 
             if (LINK_IS_ADULT && Flags_GetSwitch(globalCtx, this->switchFlag)) {
-                if (!(gSaveContext.eventChkInf[6] & 0x200)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_69)) {
                     thisx->home.pos.y = thisx->world.pos.y = WATER_LEVEL_LOWERED;
                 } else {
                     thisx->home.pos.y = thisx->world.pos.y = WATER_LEVEL_RAISED;
@@ -149,7 +149,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_ProcessInitChain(thisx, sInitChainWaterPlane);
             thisx->flags = ACTOR_FLAG_4 | ACTOR_FLAG_5;
 
-            if (LINK_IS_ADULT && !(gSaveContext.eventChkInf[6] & 0x200)) {
+            if (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69)) {
                 if (gSaveContext.sceneSetupIndex < 4) {
                     this->lakeHyliaWaterLevel = -681.0f;
                     globalCtx->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface =
@@ -483,7 +483,7 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
  * cleared.
  */
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
-    if (gSaveContext.eventChkInf[6] & 0x200) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_69)) {
         this->actionFunc = BgSpot06Objects_WaterPlaneCutsceneRise;
     }
 }

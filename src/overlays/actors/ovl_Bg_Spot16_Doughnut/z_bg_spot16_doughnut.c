@@ -70,7 +70,7 @@ void BgSpot16Doughnut_Init(Actor* thisx, GlobalContext* globalCtx) {
                 break;
         }
         osSyncPrintf(VT_FGCOL(CYAN) "%f" VT_RST "\n", this->actor.scale.x);
-        if (!LINK_IS_ADULT || gSaveContext.eventChkInf[2] & 0x8000) {
+        if (!LINK_IS_ADULT || GET_EVENTCHKINF(EVENTCHKINF_2F)) {
             this->fireFlag &= ~1;
         } else {
             this->fireFlag |= 1;

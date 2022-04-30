@@ -325,10 +325,10 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         // depending on where he is on his path. En_Hy checks these event flags.
         if (this->waypoint < 9) {
             // Richard is close to her, text says something about his coat
-            gSaveContext.eventInf[3] |= 1;
+            SET_EVENTINF(EVENTINF_30);
         } else {
             // Richard is far, text says something about running fast
-            gSaveContext.eventInf[3] &= ~1;
+            CLEAR_EVENTINF(EVENTINF_30);
         }
     } else {
         frame = globalCtx->state.frames % 3;

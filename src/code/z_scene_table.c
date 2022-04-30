@@ -2846,7 +2846,7 @@ void func_8009E0B8(GlobalContext* globalCtx) {
         spA3 = 255 - (u8)globalCtx->roomCtx.unk_74[0];
     } else if (gSaveContext.sceneSetupIndex == 6) {
         spA0 = globalCtx->roomCtx.unk_74[0] + 500;
-    } else if (((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) && (gSaveContext.eventChkInf[0] & 0x80)) {
+    } else if (((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) && GET_EVENTCHKINF(EVENTCHKINF_07)) {
         spA0 = 2150;
     }
 
@@ -2874,7 +2874,7 @@ void func_8009E54C(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7058);
 
-    if ((gSaveContext.sceneSetupIndex > 3) || (LINK_IS_ADULT && !(gSaveContext.eventChkInf[6] & 0x200))) {
+    if ((gSaveContext.sceneSetupIndex > 3) || (LINK_IS_ADULT && !GET_EVENTCHKINF(EVENTCHKINF_69))) {
         globalCtx->roomCtx.unk_74[0] = 87;
     }
 

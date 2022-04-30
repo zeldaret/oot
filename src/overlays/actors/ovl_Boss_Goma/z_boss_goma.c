@@ -680,7 +680,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             // entrance of the boss room
             if (fabsf(player->actor.world.pos.x - 150.0f) < 60.0f &&
                 fabsf(player->actor.world.pos.z - 350.0f) < 60.0f) {
-                if (gSaveContext.eventChkInf[7] & 1) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_70)) {
                     BossGoma_SetupEncounterState4(this, globalCtx);
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f,
                                        -480.0f, 397.68002f, 0, -0x705C, 0, 0x180);
@@ -919,13 +919,13 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             if (Animation_OnFrame(&this->skelanime, 40.0f)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY1);
 
-                if (!(gSaveContext.eventChkInf[7] & 1)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_70)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
 
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
-                gSaveContext.eventChkInf[7] |= 1;
+                SET_EVENTCHKINF(EVENTCHKINF_70);
             }
 
             if (Animation_OnFrame(&this->skelanime, this->currentAnimFrameCount)) {

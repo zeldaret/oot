@@ -80,7 +80,7 @@ void EnDs_DisplayOddPotionText(EnDs* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x504F;
         this->actionFunc = EnDs_TalkAfterGiveOddPotion;
         this->actor.flags &= ~ACTOR_FLAG_8;
-        gSaveContext.itemGetInf[3] |= 1;
+        SET_ITEMGETINF(ITEMGETINF_30);
     }
 }
 
@@ -211,7 +211,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;
-        } else if (gSaveContext.itemGetInf[3] & 1) {
+        } else if (GET_ITEMGETINF(ITEMGETINF_30)) {
             player->actor.textId = 0x500C;
             this->actionFunc = EnDs_OfferBluePotion;
         } else {

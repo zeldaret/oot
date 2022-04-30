@@ -627,7 +627,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                                0, BOSSVA_DOOR);
             if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
                 warpId = ACTOR_EN_RU1;
-                if (gSaveContext.eventChkInf[3] & 0x80) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_37)) {
                     warpId = ACTOR_DOOR_WARP1;
                 }
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, warpId, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -640,7 +640,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             } else {
                 this->actor.colChkInfo.damageTable = sDamageTable;
                 sPhase2Timer = 0xFFFF;
-                if (gSaveContext.eventChkInf[7] & 0x40) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_76)) {
                     sCsState = INTRO_CALL_BARI;
                     sDoorState = 100;
                     func_8002DF54(globalCtx, &this->actor, 1);
@@ -975,7 +975,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 sCameraNextAt.y = 140.0f;
                 sCameraNextAt.z = -200.0f;
 
-                if (!(gSaveContext.eventChkInf[7] & 0x40)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_76)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gBarinadeTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
@@ -1017,7 +1017,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
                 Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 sCsState++;
-                gSaveContext.eventChkInf[7] |= 0x40;
+                SET_EVENTCHKINF(EVENTCHKINF_76);
                 player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
             }
             break;

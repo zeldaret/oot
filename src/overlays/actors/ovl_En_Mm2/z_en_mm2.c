@@ -100,10 +100,11 @@ void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
 }
 
 void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
+    if (!CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                        EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         this->actor.textId = 0x6086;
-    } else if (gSaveContext.infTable[23] & 0x8000) {
-        if (gSaveContext.eventInf[1] & 1) {
+    } else if (GET_INFTABLE(INFTABLE_17F)) {
+        if (GET_EVENTINF(EVENTINF_10)) {
             this->actor.textId = 0x6082;
         } else if (gSaveContext.timer2State != 0) {
             this->actor.textId = 0x6076;
@@ -116,7 +117,7 @@ void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x6076;
     } else {
         this->actor.textId = 0x607D;
-        gSaveContext.eventInf[1] &= ~1;
+        CLEAR_EVENTINF(EVENTINF_10);
         HIGH_SCORE(HS_MARATHON) = 158;
     }
 }
@@ -149,7 +150,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
-        if (!(gSaveContext.infTable[23] & 0x8000) || !(gSaveContext.eventInf[1] & 1)) {
+        if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_10)) {
             osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }
@@ -194,7 +195,7 @@ void func_80AAF330(EnMm2* this, GlobalContext* globalCtx) {
             Message_CloseTextbox(globalCtx);
         }
         gSaveContext.timer2State = 0;
-        gSaveContext.eventInf[1] &= ~1;
+        CLEAR_EVENTINF(EVENTINF_10);
     }
 }
 
@@ -209,7 +210,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
                     case 0:
                         Message_ContinueTextbox(globalCtx, 0x607F);
                         this->actor.textId = 0x607F;
-                        gSaveContext.eventInf[1] |= 1;
+                        SET_EVENTINF(EVENTINF_10);
                         break;
                     case 1:
                         Message_ContinueTextbox(globalCtx, 0x6080);
@@ -249,7 +250,7 @@ void func_80AAF57C(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_80AAEF70(this, globalCtx);
     if ((func_80AAF224(this, globalCtx, func_80AAF3C0)) && (this->actor.textId == 0x607D)) {
-        gSaveContext.infTable[23] |= 0x8000;
+        SET_INFTABLE(INFTABLE_17F);
     }
 }
 
@@ -277,8 +278,8 @@ void func_80AAF668(EnMm2* this, GlobalContext* globalCtx) {
             HIGH_SCORE(HS_MARATHON) = gSaveContext.timer2Value;
         }
     } else {
-        LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", gSaveContext.eventInf[1] & 1, "../z_en_mm2.c", 541);
-        if (!(gSaveContext.eventInf[1] & 1)) {
+        LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", GET_EVENTINF(EVENTINF_10), "../z_en_mm2.c", 541);
+        if (!GET_EVENTINF(EVENTINF_10)) {
             this->unk_1F4 |= 2;
             this->unk_1F4 &= ~1;
             EnMm2_ChangeAnim(this, RM2_ANIM_STAND, &this->previousAnimation);

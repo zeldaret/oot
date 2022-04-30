@@ -2443,19 +2443,19 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
 
     switch (globalCtx->nextEntranceIndex) {
         case 0x147:
-            Flags_SetEventChkInf(0xB9);
+            Flags_SetEventChkInf(EVENTCHKINF_B9);
             break;
         case 0x0102:
-            Flags_SetEventChkInf(0xB1);
+            Flags_SetEventChkInf(EVENTCHKINF_B1);
             break;
         case 0x0123:
-            Flags_SetEventChkInf(0xB8);
+            Flags_SetEventChkInf(EVENTCHKINF_B8);
             break;
         case 0x00E4:
-            Flags_SetEventChkInf(0xB6);
+            Flags_SetEventChkInf(EVENTCHKINF_B6);
             break;
         case 0x0053:
-            Flags_SetEventChkInf(0xA7);
+            Flags_SetEventChkInf(EVENTCHKINF_A7);
             break;
         case 0x00FC:
             break;

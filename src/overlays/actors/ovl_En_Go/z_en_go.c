@@ -112,20 +112,20 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
             }
         case 0x00:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
-                if (gSaveContext.infTable[16] & 0x8000) {
+                if (GET_INFTABLE(INFTABLE_10F)) {
                     return 0x3042;
                 } else {
                     return 0x3041;
                 }
-            } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1) || (gSaveContext.infTable[16] & 0x2000)) {
-                if (gSaveContext.infTable[16] & 0x4000) {
+            } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1) || GET_INFTABLE(INFTABLE_10D)) {
+                if (GET_INFTABLE(INFTABLE_10E)) {
                     return 0x3038;
                 } else {
                     return 0x3037;
                 }
             } else {
-                if (gSaveContext.infTable[16] & 0x200) {
-                    if (gSaveContext.infTable[16] & 0x400) {
+                if (GET_INFTABLE(INFTABLE_109)) {
+                    if (GET_INFTABLE(INFTABLE_10A)) {
                         return 0x3033;
                     } else {
                         return 0x3032;
@@ -143,9 +143,9 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x20:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3021;
-            } else if (gSaveContext.infTable[14] & 0x1) {
+            } else if (GET_INFTABLE(INFTABLE_E0)) {
                 return 0x302A;
             } else {
                 return 0x3008;
@@ -153,7 +153,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x30:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3026;
             } else {
                 return 0x3009;
@@ -161,7 +161,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x40:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3026;
             } else {
                 return 0x300A;
@@ -169,7 +169,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x50:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.infTable[15] & 1) {
+            } else if (GET_INFTABLE(INFTABLE_F0)) {
                 return 0x3015;
             } else {
                 return 0x3014;
@@ -177,7 +177,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x60:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.infTable[15] & 0x10) {
+            } else if (GET_INFTABLE(INFTABLE_F4)) {
                 return 0x3017;
             } else {
                 return 0x3016;
@@ -185,7 +185,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x70:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.infTable[15] & 0x100) {
+            } else if (GET_INFTABLE(INFTABLE_F8)) {
                 return 0x3019;
             } else {
                 return 0x3018;
@@ -206,36 +206,36 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x3008:
-                    gSaveContext.infTable[14] |= 1;
+                    SET_INFTABLE(INFTABLE_E0);
                     unkState = 0;
                     break;
                 case 0x300B:
-                    gSaveContext.infTable[14] |= 0x800;
+                    SET_INFTABLE(INFTABLE_EB);
                     unkState = 0;
                     break;
                 case 0x3014:
-                    gSaveContext.infTable[15] |= 1;
+                    SET_INFTABLE(INFTABLE_F0);
                     unkState = 0;
                     break;
                 case 0x3016:
-                    gSaveContext.infTable[15] |= 0x10;
+                    SET_INFTABLE(INFTABLE_F4);
                     unkState = 0;
                     break;
                 case 0x3018:
-                    gSaveContext.infTable[15] |= 0x100;
+                    SET_INFTABLE(INFTABLE_F8);
                     unkState = 0;
                     break;
                 case 0x3036:
                     func_8002F434(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
-                    gSaveContext.infTable[16] |= 0x2000; // EnGo exclusive flag
+                    SET_INFTABLE(INFTABLE_10D); // EnGo exclusive flag
                     unkState = 2;
                     break;
                 case 0x3037:
-                    gSaveContext.infTable[16] |= 0x4000;
+                    SET_INFTABLE(INFTABLE_10E);
                     unkState = 0;
                     break;
                 case 0x3041:
-                    gSaveContext.infTable[16] |= 0x8000;
+                    SET_INFTABLE(INFTABLE_10F);
                     unkState = 0;
                     break;
                 case 0x3059:
@@ -260,7 +260,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || (gSaveContext.infTable[14] & 0x800)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || GET_INFTABLE(INFTABLE_EB)) {
                                 thisx->textId = 0x300B;
                             } else {
                                 thisx->textId = 0x300C;
@@ -273,12 +273,12 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         break;
                     case 0x3034:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
-                            if (gSaveContext.infTable[16] & 0x800) {
+                            if (GET_INFTABLE(INFTABLE_10B)) {
                                 thisx->textId = 0x3033;
                             } else {
                                 thisx->textId = 0x3035;
                             }
-                        } else if (gSaveContext.infTable[16] & 0x800) {
+                        } else if (GET_INFTABLE(INFTABLE_10B)) {
                             thisx->textId = 0x3036;
                         } else {
                             thisx->textId = 0x3033;
@@ -295,7 +295,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                             Message_ContinueTextbox(globalCtx, thisx->textId);
                             unkState = 1;
                         }
-                        gSaveContext.infTable[11] |= 0x10;
+                        SET_INFTABLE(INFTABLE_B4);
                         break;
                 }
             }
@@ -304,7 +304,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x3035:
-                        gSaveContext.infTable[16] |= 0x800;
+                        SET_INFTABLE(INFTABLE_10B);
                     case 0x3032:
                     case 0x3033:
                         thisx->textId = 0x3034;
@@ -595,7 +595,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
                 if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
-                    if (gSaveContext.infTable[11] & 0x10) {
+                    if (GET_INFTABLE(INFTABLE_B4)) {
                         this->actor.textId = 0x3055;
                     } else {
                         this->actor.textId = 0x3054;
@@ -663,7 +663,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
         case 0x40:
-            if (gSaveContext.infTable[14] & 0x800) {
+            if (GET_INFTABLE(INFTABLE_EB)) {
                 EnGo_SetMovedPos(this, globalCtx);
             }
             Actor_SetScale(&this->actor, 0.015f);
@@ -751,7 +751,7 @@ void EnGo_GoronLinkRolling(EnGo* this, GlobalContext* globalCtx) {
         (this->unk_218 == 0)) {
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
-        gSaveContext.infTable[16] |= 0x200;
+        SET_INFTABLE(INFTABLE_109);
     }
 
     this->actor.shape.rot = this->actor.world.rot;
@@ -846,7 +846,7 @@ void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
         this->unk_212 = Rand_S16Offset(30, 30);
-        if (((this->actor.params & 0xF0) == 0x40) && ((gSaveContext.infTable[14] & 0x800) == 0)) {
+        if (((this->actor.params & 0xF0) == 0x40) && !GET_INFTABLE(INFTABLE_EB)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
             EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -933,7 +933,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
-    if (gSaveContext.infTable[14] & 0x800) {
+    if (GET_INFTABLE(INFTABLE_EB)) {
         EnGo_ChangeAnim(this, ENGO_ANIM_3);
         EnGo_SetupAction(this, func_80A40A54);
     } else {

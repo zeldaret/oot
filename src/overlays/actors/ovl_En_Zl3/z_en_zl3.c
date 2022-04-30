@@ -2583,7 +2583,7 @@ void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
     func_80088AA0(180);
     func_80B54EA4(this, globalCtx);
     func_80B53614(this, globalCtx);
-    gSaveContext.eventChkInf[12] &= ~0x80;
+    CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
     func_80B56F10(this, globalCtx);
     gSaveContext.healthAccumulator = 320;
     Magic_Fill(globalCtx);
