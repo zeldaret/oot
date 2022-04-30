@@ -101,7 +101,7 @@ ENDDATA(__osRcpImTable)
  *
  * @bug Some usage of the global interrupt mask is broken both in here and in the
  *       exception handler routines.
- *      While a thread is running, the C0_SR interrupt enable bits contains the
+ *      While a thread is running, the C0_SR interrupt enable bits contain the
  *       interrupt enable bits for the current thread masked by the global
  *       interrupt mask. There is an attempt to recover only the original interrupt
  *       enable bits belonging to the thread itself using the operation

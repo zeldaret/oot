@@ -41,7 +41,7 @@
     .end x
 
 #define IMPORT(x, size)         \
-    .extern sym, size
+    .extern x, size
 
 #define EXPORT(x)               \
     .globl x                   ;\

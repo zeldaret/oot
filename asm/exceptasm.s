@@ -270,7 +270,7 @@ next_interrupt:
  *  Only signalled by development hardware
  */
 IP6_Hdlr:
-    // Clear interrupt and continue
+    // Mask out interrupt and continue
     li      $at, ~CAUSE_IP6
     b       next_interrupt
      and    $s0, $s0, $at
@@ -280,7 +280,7 @@ IP6_Hdlr:
  *  Only signalled by development hardware
  */
 IP7_Hdlr:
-    // Clear interrupt and continue
+    // Mask out interrupt and continue
     li      $at, ~CAUSE_IP7
     b       next_interrupt
      and    $s0, $s0, $at
@@ -296,7 +296,7 @@ counter:
     // Post counter message
     jal     send_mesg
      li     $a0, OS_EVENT_COUNTER*8
-    // Clear interrupt and continue
+    // Mask out interrupt and continue
     li      $at, ~CAUSE_IP8
     b       next_interrupt
      and    $s0, $s0, $at
@@ -310,7 +310,7 @@ cart:
     lui     $t1, %hi(__osHwIntTable)
     addiu   $t1, %lo(__osHwIntTable)
     lw      $t2, (OS_INTR_CART*HWINT_SIZE+HWINT_CALLBACK)($t1)
-    // Clear interrupt
+    // Mask out interrupt
     li      $at, ~CAUSE_IP4
     and     $s0, $s0, $at
     // If the callback is NULL, handling is done
@@ -496,7 +496,7 @@ dp:
      li     $a0, OS_EVENT_DP*8
 
 NoMoreRcpInts:
-    // Clear interrupt and continue
+    // Mask out interrupt and continue
     li      $at, ~CAUSE_IP3
     b       next_interrupt
      and    $s0, $s0, $at
@@ -540,7 +540,7 @@ firstnmi:
      sw     $k1, THREAD_SR($t2)
 
 sw2:
-    // Clear interrupt
+    // Mask out interrupt
     li      $at, ~CAUSE_SW2
     and     $t0, $t0, $at
     mtc0    $t0, C0_CAUSE
@@ -553,7 +553,7 @@ sw2:
      and    $s0, $s0, $at
 
 sw1:
-    // Clear interrupt
+    // Mask out interrupt
     li      $at, ~CAUSE_SW1
     and     $t0, $t0, $at
     mtc0    $t0, C0_CAUSE

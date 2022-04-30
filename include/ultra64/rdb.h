@@ -2,9 +2,9 @@
 #define ULTRA64_RDB_H
 
 /* U64 side address */
-#define RDB_BASE_REG            0xc0000000
+#define RDB_BASE_REG            0xC0000000
 #define RDB_WRITE_INTR_REG      (RDB_BASE_REG + 0x8)
-#define RDB_READ_INTR_REG       (RDB_BASE_REG + 0xc)
+#define RDB_READ_INTR_REG       (RDB_BASE_REG + 0xC)
 #define RDB_BASE_VIRTUAL_ADDR   0x80000000
 
 /* packet type  Have six bits, so can have up to 63 types */
@@ -43,7 +43,7 @@
 #define RDB_DATA_MAX_BLOCK_SIZE     0x8000
 
 /* GIO side address */
-#define GIO_RDB_BASE_REG        0xbf480000
+#define GIO_RDB_BASE_REG        0xBF480000
 #define GIO_RDB_WRITE_INTR_REG  (GIO_RDB_BASE_REG + 0x8)
 #define GIO_RDB_READ_INTR_REG   (GIO_RDB_BASE_REG + 0xc)
 
@@ -68,11 +68,13 @@
 
 #if defined(_LANGUAGE_C) || defined(_LANGUAGE_C_PLUS_PLUS)
 
+#include "types.h"
+
 /* Structure for debug port */
 typedef struct {
-    unsigned type : 6;      /* 0: invalid, 1: print, 2: debug */
-    unsigned length : 2;    /* 1, 2, or 3 */
-    char buf[3];            /* character buffer */
+    u32 type   : 6;     /* 0: invalid, 1: print, 2: debug */
+    u32 length : 2;     /* 1, 2, or 3 */
+    char buf[3];        /* character buffer */
 } rdbPacket;
 
 #endif
