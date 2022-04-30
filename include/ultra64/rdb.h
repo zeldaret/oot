@@ -45,7 +45,7 @@
 /* GIO side address */
 #define GIO_RDB_BASE_REG        0xBF480000
 #define GIO_RDB_WRITE_INTR_REG  (GIO_RDB_BASE_REG + 0x8)
-#define GIO_RDB_READ_INTR_REG   (GIO_RDB_BASE_REG + 0xc)
+#define GIO_RDB_READ_INTR_REG   (GIO_RDB_BASE_REG + 0xC)
 
 /* minor device number */
 #define GIO_RDB_PRINT_MINOR     1
