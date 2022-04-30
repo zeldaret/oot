@@ -208,7 +208,7 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
 
         if (equipment == EQUIP_SWORD) {
             gSaveContext.equips.buttonItems[0] = ITEM_NONE;
-            gSaveContext.infTable[29] = 1;
+            gSaveContext.infTable[INFTABLE_1DX_INDEX] = 1;
         }
 
         Player_SetEquipmentData(globalCtx, player);

@@ -470,7 +470,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
                 Inventory_ChangeEquipment(pauseCtx->cursorY[PAUSE_EQUIP], pauseCtx->cursorX[PAUSE_EQUIP]);
 
                 if (pauseCtx->cursorY[PAUSE_EQUIP] == 0) {
-                    gSaveContext.infTable[29] = 0;
+                    gSaveContext.infTable[INFTABLE_1DX_INDEX] = 0;
                     gSaveContext.equips.buttonItems[0] = cursorItem;
 
                     if ((pauseCtx->cursorX[PAUSE_EQUIP] == 3) && (gSaveContext.bgsFlag != 0)) {
