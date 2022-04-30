@@ -28,7 +28,7 @@ void __osDevMgrMain(void* arg) {
             phi_s2 = ((transfer->transferMode == 2) && (ioMesg->piHandle->transferInfo.cmdType == 0)) ? 1 : 0;
 
             osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
-            __osResetGlobalIntMask(0x00100401);
+            __osResetGlobalIntMask(OS_IM_PI);
             __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x80000000);
 
             while (true) {
@@ -43,8 +43,8 @@ void __osDevMgrMain(void* arg) {
                         __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x1000000);
                     }
                     block->errStatus = 4;
-                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLEAR_INTR;
-                    __osSetGlobalIntMask(0x00100C01);
+                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLR_INTR;
+                    __osSetGlobalIntMask(OS_IM_CART | OS_IM_PI);
                 }
                 osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
 

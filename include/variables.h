@@ -10,7 +10,7 @@ extern u32 osTvType;
 extern u32 osRomBase;
 extern u32 osResetType;
 extern u32 osMemSize;
-extern u8 osAppNmiBuffer[0x40];
+extern u8 osAppNMIBuffer[0x40];
 
 extern u8 D_80009320[];
 extern u8 D_800093F0[];
