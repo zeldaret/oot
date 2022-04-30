@@ -1166,7 +1166,6 @@ OcarinaSongInfo gOcarinaSongNotes[OCARINA_SONG_MAX] = {
     // Lost Woods Memory Game
     { 0, { 0, 0, 0, 0, 0, 0, 0, 0 } },
 };
-// clang-format on
 
 /**
  * BSS

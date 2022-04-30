@@ -498,8 +498,8 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                      TRANS_TRIGGER_START);
 
         if (globalCtx->sceneNum == SCENE_DDAN_BOSS) {
-            if (!Flags_GetEventChkInf(0x25)) {
-                Flags_SetEventChkInf(0x25);
+            if (!Flags_GetEventChkInf(EVENTCHKINF_25)) {
+                Flags_SetEventChkInf(EVENTCHKINF_25);
                 Item_Give(globalCtx, ITEM_GORON_RUBY);
                 globalCtx->nextEntranceIndex = 0x13D;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
@@ -508,9 +508,9 @@ void DoorWarp1_ChildWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_YDAN_BOSS) {
-            if (!Flags_GetEventChkInf(7)) {
-                Flags_SetEventChkInf(7);
-                Flags_SetEventChkInf(9);
+            if (!Flags_GetEventChkInf(EVENTCHKINF_07)) {
+                Flags_SetEventChkInf(EVENTCHKINF_07);
+                Flags_SetEventChkInf(EVENTCHKINF_09);
                 Item_Give(globalCtx, ITEM_KOKIRI_EMERALD);
                 globalCtx->nextEntranceIndex = 0xEE;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
@@ -605,7 +605,7 @@ void DoorWarp1_RutoWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
     this->warpTimer++;
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
-        gSaveContext.eventChkInf[3] |= 0x80;
+        SET_EVENTCHKINF(EVENTCHKINF_37);
         Item_Give(globalCtx, ITEM_ZORA_SAPPHIRE);
         globalCtx->nextEntranceIndex = 0x10E;
         gSaveContext.nextCutsceneIndex = 0xFFF0;
@@ -706,8 +706,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
 
     if (this->warpTimer > sWarpTimerTarget && gSaveContext.nextCutsceneIndex == 0xFFEF) {
         if (globalCtx->sceneNum == SCENE_MORIBOSSROOM) {
-            if (!(gSaveContext.eventChkInf[4] & 0x100)) {
-                gSaveContext.eventChkInf[4] |= 0x100;
+            if (!GET_EVENTCHKINF(EVENTCHKINF_48)) {
+                SET_EVENTCHKINF(EVENTCHKINF_48);
                 Item_Give(globalCtx, ITEM_MEDALLION_FOREST);
                 globalCtx->nextEntranceIndex = 0x6B;
                 gSaveContext.nextCutsceneIndex = 0;
@@ -721,8 +721,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_FIRE_BS) {
-            if (!(gSaveContext.eventChkInf[4] & 0x200)) {
-                gSaveContext.eventChkInf[4] |= 0x200;
+            if (!GET_EVENTCHKINF(EVENTCHKINF_49)) {
+                SET_EVENTCHKINF(EVENTCHKINF_49);
                 Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
                 globalCtx->nextEntranceIndex = 0xDB;
                 gSaveContext.nextCutsceneIndex = 0xFFF3;
@@ -735,8 +735,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.nextCutsceneIndex = 0;
             }
         } else if (globalCtx->sceneNum == SCENE_MIZUSIN_BS) {
-            if (!(gSaveContext.eventChkInf[4] & 0x400)) {
-                gSaveContext.eventChkInf[4] |= 0x400;
+            if (!GET_EVENTCHKINF(EVENTCHKINF_4A)) {
+                SET_EVENTCHKINF(EVENTCHKINF_4A);
                 Item_Give(globalCtx, ITEM_MEDALLION_WATER);
                 globalCtx->nextEntranceIndex = 0x6B;
                 gSaveContext.nextCutsceneIndex = 0;

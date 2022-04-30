@@ -52,7 +52,7 @@ static InitChainEntry sInitChain[] = {
 void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = (EnGuest*)thisx;
 
-    if (gSaveContext.infTable[7] & 0x40) {
+    if (GET_INFTABLE(INFTABLE_76)) {
         Actor_Kill(&this->actor);
     } else {
         this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);

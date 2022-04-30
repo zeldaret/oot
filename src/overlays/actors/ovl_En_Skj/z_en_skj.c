@@ -340,9 +340,9 @@ void EnSkj_CalculateCenter(EnSkj* this) {
 void EnSkj_SetNaviId(EnSkj* this) {
     switch (this->actor.params) {
         case 0:
-            if (gSaveContext.itemGetInf[3] & 0x200) {
+            if (GET_ITEMGETINF(ITEMGETINF_39)) {
                 this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_MASK;
-            } else if (gSaveContext.itemGetInf[1] & 0x40) {
+            } else if (GET_ITEMGETINF(ITEMGETINF_16)) {
                 this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_FRIENDLY;
             } else {
                 this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID; // No Sarias song no skull mask
@@ -711,7 +711,7 @@ void EnSkj_SetupResetFight(EnSkj* this) {
 
 void EnSkj_SariasSongKidIdle(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
-        if (!(gSaveContext.itemGetInf[1] & 0x40) && (this->actor.xzDistToPlayer < 200.0f)) {
+        if (!GET_ITEMGETINF(ITEMGETINF_16) && (this->actor.xzDistToPlayer < 200.0f)) {
             this->backflipFlag = 1;
             EnSkj_Backflip(this);
         } else if (sSmallStumpSkullKid.unk_0 != 0) {
@@ -915,7 +915,7 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
-        if ((Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) && !(gSaveContext.itemGetInf[3] & 0x200)) {
+        if ((Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_39)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             EnSkj_SetupMaskTrade(this);
         } else {
@@ -925,8 +925,8 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         EnSkj_SetupResetFight(this);
     } else {
         player->stateFlags2 |= PLAYER_STATE2_23;
-        if (gSaveContext.itemGetInf[1] & 0x40) {
-            if (gSaveContext.itemGetInf[3] & 0x200) {
+        if (GET_ITEMGETINF(ITEMGETINF_16)) {
+            if (GET_ITEMGETINF(ITEMGETINF_39)) {
                 this->textId = Text_GetFaceReaction(globalCtx, 0x15);
                 if (this->textId == 0) {
                     this->textId = 0x1020;
@@ -952,8 +952,8 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     // Played a song thats not Saria's song
-    if (!(gSaveContext.itemGetInf[1] & 0x40) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
-                                                 (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
+    if (!GET_ITEMGETINF(ITEMGETINF_16) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
+                                           (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         Message_CloseTextbox(globalCtx);
         player->unk_6A8 = &this->actor;
@@ -973,7 +973,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
             EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
             EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE);
         } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-            if (!(gSaveContext.itemGetInf[1] & 0x40)) {
+            if (!GET_ITEMGETINF(ITEMGETINF_16)) {
                 // Saria's song has been played for the first titme
                 globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -992,7 +992,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
         } else {
             if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
                 gSaveContext.sunsSongState = 0;
-                if (gSaveContext.itemGetInf[1] & 0x40) {
+                if (GET_ITEMGETINF(ITEMGETINF_16)) {
                     globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
                     func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
@@ -1031,7 +1031,7 @@ void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
-        if (gSaveContext.itemGetInf[1] & 0x40) {
+        if (GET_ITEMGETINF(ITEMGETINF_16)) {
             EnSkj_SetupWaitInRange(this);
         } else {
             func_80AFFE24(this);
@@ -1060,7 +1060,7 @@ void EnSkj_SetupPostSariasSong(EnSkj* this) {
 
 void EnSkj_ChangeModeAfterSong(EnSkj* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
-        gSaveContext.itemGetInf[1] |= 0x40;
+        SET_ITEMGETINF(ITEMGETINF_16);
         EnSkj_SetNaviId(this);
         EnSkj_SetupWaitInRange(this);
     }
@@ -1156,7 +1156,7 @@ void EnSkj_SetupTakeMask(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_TakeMask(EnSkj* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         Rupees_ChangeBy(10);
-        gSaveContext.itemGetInf[3] |= 0x200;
+        SET_ITEMGETINF(ITEMGETINF_39);
         EnSkj_SetNaviId(this);
         Player_UnsetMask(globalCtx);
         Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -1551,7 +1551,7 @@ void EnSkj_FinishOcarinaGameRound(EnSkj* this, GlobalContext* globalCtx) {
         }
 
         if (ocarinaGameRoundNum == 2) {
-            gSaveContext.itemGetInf[1] |= 0x80;
+            SET_ITEMGETINF(ITEMGETINF_17);
             this->actionFunc = EnSkj_CleanupOcarinaGame;
         } else {
             EnSkj_OfferNextRound(this, globalCtx);
@@ -1604,7 +1604,7 @@ s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2417);
 
-    if ((limbIndex == 11) && (gSaveContext.itemGetInf[3] & 0x200)) {
+    if ((limbIndex == 11) && GET_ITEMGETINF(ITEMGETINF_39)) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);
