@@ -321,8 +321,8 @@ void DemoDu_CsPlaySfx_DaruniaHitsLink(GlobalContext* globalCtx) {
     s32 pad;
 
     func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
-    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                           &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
@@ -336,8 +336,8 @@ void DemoDu_CsPlaySfx_LinkEscapeFromGorons(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 1400) {
         Player* player = GET_PLAYER(globalCtx);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -347,8 +347,8 @@ void DemoDu_CsPlaySfx_LinkSurprised(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 174) {
         Player* player = GET_PLAYER(globalCtx);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -396,7 +396,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
         s32 pad[2];
         s32 i;
         Player* player = GET_PLAYER(globalCtx);
-        Vec3f* headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
+        Vec3f* pos = &player->bodyPartsPos[PLAYER_BODYPART_L_FOREARM];
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 0.3f, 0.0f };
         s32 pad2;
@@ -408,13 +408,13 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
             Vec3f position;
 
             if (Animation_OnFrame(&this->skelAnime, 31.0f)) {
-                position.x = dustPosOffsets[i + 5].x + headPos->x;
-                position.y = dustPosOffsets[i + 5].y + headPos->y;
-                position.z = dustPosOffsets[i + 5].z + headPos->z;
+                position.x = dustPosOffsets[i + 5].x + pos->x;
+                position.y = dustPosOffsets[i + 5].y + pos->y;
+                position.z = dustPosOffsets[i + 5].z + pos->z;
             } else {
-                position.x = dustPosOffsets[i + 0].x + headPos->x;
-                position.y = dustPosOffsets[i + 0].y + headPos->y;
-                position.z = dustPosOffsets[i + 0].z + headPos->z;
+                position.x = dustPosOffsets[i + 0].x + pos->x;
+                position.y = dustPosOffsets[i + 0].y + pos->y;
+                position.z = dustPosOffsets[i + 0].z + pos->z;
             }
 
             colorDelta = Rand_ZeroOne() * 20.0f - 10.0f;

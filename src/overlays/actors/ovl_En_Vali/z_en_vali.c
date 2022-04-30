@@ -128,7 +128,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x18, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BARI, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5000, ICHAIN_STOP),
 };
@@ -734,7 +734,7 @@ void EnVali_DrawBody(EnVali* this, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, gBariInnerHoodDL);
 
     Matrix_Put(&mtx);
-    Matrix_RotateY(-this->actor.shape.rot.y * (M_PI / 32768.0f), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(-this->actor.shape.rot.y), MTXMODE_APPLY);
 
     cos = Math_CosS(this->actor.shape.rot.y);
     sin = Math_SinS(this->actor.shape.rot.y);

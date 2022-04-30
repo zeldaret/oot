@@ -154,7 +154,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = -8000.0f;
     SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
                    this->morphTable, 20);
-    this->actor.naviEnemyId = 0x55;
+    this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
 
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
@@ -479,8 +479,10 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                     if (this->unk_283 == 0) {
                         if ((this->actor.colChkInfo.damageEffect == 0xD) ||
                             ((this->actor.colChkInfo.damageEffect == 0xE) &&
-                             ((player->meleeWeaponAnimation >= 4 && player->meleeWeaponAnimation <= 11) ||
-                              (player->meleeWeaponAnimation == 20 || player->meleeWeaponAnimation == 21)))) {
+                             ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H &&
+                               player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H) ||
+                              (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||
+                               player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT)))) {
                             BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                             this->unk_283 = 1;
                         }

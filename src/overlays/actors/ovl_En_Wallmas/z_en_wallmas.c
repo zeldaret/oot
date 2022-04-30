@@ -11,8 +11,6 @@
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
-#define DEGREE_60_RAD (60.0f * M_PI / 180.0f)
-#define DEGREE_15_RAD (15.0f * M_PI / 180.0f)
 
 #define DAMAGE_EFFECT_BURN 2
 #define DAMAGE_EFFECT_STUN_WHITE 4
@@ -110,9 +108,9 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x30, 1),
-    ICHAIN_F32(targetArrowOffset, 5500, 1),
-    ICHAIN_F32_DIV1000(gravity, -1500, 0),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_WALLMASTER, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -1500, ICHAIN_STOP),
 };
 
 void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -630,8 +628,8 @@ void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
         Matrix_Push();
         Matrix_Translate(1600.0f, -700.0f, -1700.0f, MTXMODE_APPLY);
-        Matrix_RotateY(DEGREE_60_RAD, MTXMODE_APPLY);
-        Matrix_RotateZ(DEGREE_15_RAD, MTXMODE_APPLY);
+        Matrix_RotateY(DEG_TO_RAD(60), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);

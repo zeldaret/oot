@@ -153,7 +153,7 @@ typedef enum {
 } SkullKidAction;
 
 typedef struct {
-    u8 unk0;
+    u8 unk_0;
     EnSkj* skullkid;
 } EnSkjUnkStruct;
 
@@ -330,7 +330,7 @@ void EnSkj_CalculateCenter(EnSkj* this) {
     mult.y = 0.0f;
     mult.z = 120.0f;
 
-    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&mult, &this->center);
 
     this->center.x += this->actor.world.pos.x;
@@ -340,22 +340,22 @@ void EnSkj_CalculateCenter(EnSkj* this) {
 void EnSkj_SetNaviId(EnSkj* this) {
     switch (this->actor.params) {
         case 0:
-            if (gSaveContext.itemGetInf[3] & 0x200) {
-                this->actor.naviEnemyId = 0x41; // Skull kid with skull mask
-            } else if (gSaveContext.itemGetInf[1] & 0x40) {
-                this->actor.naviEnemyId = 0x40; // Skull kid after Saria's song but no mask
+            if (GET_ITEMGETINF(ITEMGETINF_39)) {
+                this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_MASK;
+            } else if (GET_ITEMGETINF(ITEMGETINF_16)) {
+                this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_FRIENDLY;
             } else {
-                this->actor.naviEnemyId = 0x3F; // No Sarias song no skull mask
+                this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID; // No Sarias song no skull mask
             }
             break;
 
         case 1:
         case 2:
-            this->actor.naviEnemyId = 0x3F;
+            this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID;
             break;
 
         default:
-            this->actor.naviEnemyId = 0x36; // Skull kid as adult
+            this->actor.naviEnemyId = NAVI_ENEMY_SKULL_KID_ADULT;
             break;
     }
 }
@@ -370,7 +370,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(thisx, sInitChain);
     switch (type) {
         case 5: // Invisible on the small stump (sarias song))
-            sSmallStumpSkullKid.unk0 = 1;
+            sSmallStumpSkullKid.unk_0 = 1;
             sSmallStumpSkullKid.skullkid = (EnSkj*)thisx;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
@@ -381,7 +381,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case 6: // Invisible on the short stump (ocarina game)
-            sSmallStumpSkullKid.unk0 = 1;
+            sSmallStumpSkullKid.unk_0 = 1;
             sSmallStumpSkullKid.skullkid = (EnSkj*)thisx;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
@@ -420,7 +420,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             if ((type > 0) && (type < 3)) {
                 this->actor.targetMode = 7;
                 this->posCopy = this->actor.world.pos;
-                sOcarinaMinigameSkullKids[type - 1].unk0 = 1;
+                sOcarinaMinigameSkullKids[type - 1].unk_0 = 1;
                 sOcarinaMinigameSkullKids[type - 1].skullkid = this;
                 this->minigameState = 0;
                 this->alpha = 0;
@@ -498,7 +498,7 @@ s32 EnSkj_ShootNeedle(EnSkj* this, GlobalContext* globalCtx) {
     pos.y = 0.0f;
     pos.z = 40.0f;
 
-    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     Matrix_MultVec3f(&pos, &pos2);
 
     pos2.x += this->actor.world.pos.x;
@@ -711,10 +711,10 @@ void EnSkj_SetupResetFight(EnSkj* this) {
 
 void EnSkj_SariasSongKidIdle(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
-        if (!(gSaveContext.itemGetInf[1] & 0x40) && (this->actor.xzDistToPlayer < 200.0f)) {
+        if (!GET_ITEMGETINF(ITEMGETINF_16) && (this->actor.xzDistToPlayer < 200.0f)) {
             this->backflipFlag = 1;
             EnSkj_Backflip(this);
-        } else if (sSmallStumpSkullKid.unk0 != 0) {
+        } else if (sSmallStumpSkullKid.unk_0 != 0) {
             Player* player = GET_PLAYER(globalCtx);
             if (EnSkj_RangeCheck(player, sSmallStumpSkullKid.skullkid)) {
                 EnSkj_SetupWaitInRange(this);
@@ -822,7 +822,7 @@ void EnSkj_Fight(EnSkj* this, GlobalContext* globalCtx) {
         pos1.y = 0.0f;
         pos1.z = -120.0f;
 
-        Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&pos1, &pos2);
         prevPosX = this->actor.world.pos.x;
         prevPosZ = this->actor.world.pos.z;
@@ -915,7 +915,7 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
         player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
         player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
-        if ((Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) && !(gSaveContext.itemGetInf[3] & 0x200)) {
+        if ((Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) && !GET_ITEMGETINF(ITEMGETINF_39)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             EnSkj_SetupMaskTrade(this);
         } else {
@@ -925,8 +925,8 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         EnSkj_SetupResetFight(this);
     } else {
         player->stateFlags2 |= PLAYER_STATE2_23;
-        if (gSaveContext.itemGetInf[1] & 0x40) {
-            if (gSaveContext.itemGetInf[3] & 0x200) {
+        if (GET_ITEMGETINF(ITEMGETINF_16)) {
+            if (GET_ITEMGETINF(ITEMGETINF_39)) {
                 this->textId = Text_GetFaceReaction(globalCtx, 0x15);
                 if (this->textId == 0) {
                     this->textId = 0x1020;
@@ -952,8 +952,8 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     // Played a song thats not Saria's song
-    if (!(gSaveContext.itemGetInf[1] & 0x40) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
-                                                 (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
+    if (!GET_ITEMGETINF(ITEMGETINF_16) && ((globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
+                                           (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
         Message_CloseTextbox(globalCtx);
         player->unk_6A8 = &this->actor;
@@ -973,7 +973,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
             EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
             EnSkj_SetupAction(this, SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE);
         } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-            if (!(gSaveContext.itemGetInf[1] & 0x40)) {
+            if (!GET_ITEMGETINF(ITEMGETINF_16)) {
                 // Saria's song has been played for the first titme
                 globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -992,7 +992,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
         } else {
             if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05) {
                 gSaveContext.sunsSongState = 0;
-                if (gSaveContext.itemGetInf[1] & 0x40) {
+                if (GET_ITEMGETINF(ITEMGETINF_16)) {
                     globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     player->unk_6A8 = &this->actor;
                     func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
@@ -1031,7 +1031,7 @@ void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
-        if (gSaveContext.itemGetInf[1] & 0x40) {
+        if (GET_ITEMGETINF(ITEMGETINF_16)) {
             EnSkj_SetupWaitInRange(this);
         } else {
             func_80AFFE24(this);
@@ -1060,7 +1060,7 @@ void EnSkj_SetupPostSariasSong(EnSkj* this) {
 
 void EnSkj_ChangeModeAfterSong(EnSkj* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
-        gSaveContext.itemGetInf[1] |= 0x40;
+        SET_ITEMGETINF(ITEMGETINF_16);
         EnSkj_SetNaviId(this);
         EnSkj_SetupWaitInRange(this);
     }
@@ -1156,7 +1156,7 @@ void EnSkj_SetupTakeMask(EnSkj* this, GlobalContext* globalCtx) {
 void EnSkj_TakeMask(EnSkj* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         Rupees_ChangeBy(10);
-        gSaveContext.itemGetInf[3] |= 0x200;
+        SET_ITEMGETINF(ITEMGETINF_39);
         EnSkj_SetNaviId(this);
         Player_UnsetMask(globalCtx);
         Item_Give(globalCtx, ITEM_SOLD_OUT);
@@ -1222,7 +1222,7 @@ void EnSkj_OcarinaGameWaitForPlayer(EnSkj* this, GlobalContext* globalCtx) {
 s32 EnSkj_IsLeavingGame(EnSkj* this) {
     s32 paramDecr = this->actor.params - 1;
 
-    if (sOcarinaMinigameSkullKids[paramDecr].unk0 == 2) {
+    if (sOcarinaMinigameSkullKids[paramDecr].unk_0 == 2) {
         EnSkj_SetupLeaveOcarinaGame(this);
         return true;
     }
@@ -1275,7 +1275,7 @@ void EnSkj_SetupLeaveOcarinaGame(EnSkj* this) {
 void EnSkj_LeaveOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
     s32 paramsDecr = this->actor.params - 1;
 
-    sOcarinaMinigameSkullKids[paramsDecr].unk0 = 0;
+    sOcarinaMinigameSkullKids[paramsDecr].unk_0 = 0;
     sOcarinaMinigameSkullKids[paramsDecr].skullkid = NULL;
     this->backflipFlag = 1;
     EnSkj_Backflip(this);
@@ -1551,7 +1551,7 @@ void EnSkj_FinishOcarinaGameRound(EnSkj* this, GlobalContext* globalCtx) {
         }
 
         if (ocarinaGameRoundNum == 2) {
-            gSaveContext.itemGetInf[1] |= 0x80;
+            SET_ITEMGETINF(ITEMGETINF_17);
             this->actionFunc = EnSkj_CleanupOcarinaGame;
         } else {
             EnSkj_OfferNextRound(this, globalCtx);
@@ -1561,15 +1561,15 @@ void EnSkj_FinishOcarinaGameRound(EnSkj* this, GlobalContext* globalCtx) {
 
 void EnSkj_CleanupOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
     if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
-        sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk0 = 2;
+        sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk_0 = 2;
     }
 
     if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
-        sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk0 = 2;
+        sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk_0 = 2;
     }
 
-    if ((sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk0 == 2) &&
-        (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk0 == 2)) {
+    if ((sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk_0 == 2) &&
+        (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk_0 == 2)) {
         func_800F5C2C();
         Actor_Kill(&this->actor);
     }
@@ -1604,7 +1604,7 @@ s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2417);
 
-    if ((limbIndex == 11) && (gSaveContext.itemGetInf[3] & 0x200)) {
+    if ((limbIndex == 11) && GET_ITEMGETINF(ITEMGETINF_39)) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
         Matrix_RotateZYX(-0x4000, 0, 0, MTXMODE_APPLY);

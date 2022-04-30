@@ -192,7 +192,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk_194 = (thisx->params >> 8) & 3;
-    this->actor.naviEnemyId = this->unk_194 + 0x50;
+    this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
     this->unk_195 = (thisx->params >> 0xA) & 3;
     this->unk_196 = 32;
@@ -339,7 +339,7 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
     f32 sp20;
 
     if (this->unk_195 == 0 || this->actionFunc != func_80ADAAA4) {
-        if ((player->meleeWeaponState == 0 || player->meleeWeaponAnimation >= 24) &&
+        if ((player->meleeWeaponState == 0 || player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
             player->actor.world.pos.y - player->actor.floorHeight < 1.0f) {
             Math_StepToF(&this->unk_294, 110.0f, 3.0f);
         } else {

@@ -99,7 +99,7 @@ static Vec3f sDeadEffectVel = { 0.0f, 0.0f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x03, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GOHMA_LARVA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 20, ICHAIN_STOP),
 };
@@ -418,7 +418,8 @@ void EnGoma_Dead(EnGoma* this, GlobalContext* globalCtx) {
 
             parent->childrenGohmaState[this->actor.params] = -1;
         }
-        Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Actor_Kill(&this->actor);
         Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 0x30);
     }
@@ -631,7 +632,7 @@ void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx) {
                         this->actor.velocity.y = 0.0f;
                         this->actor.speedXZ = -5.0f;
                     } else {
-                        Matrix_RotateY(player->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_NEW);
+                        Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;
                     }
@@ -690,8 +691,8 @@ void EnGoma_SetFloorRot(EnGoma* this) {
         nx = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
         ny = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
         nz = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.z);
-        Math_ApproachS(&this->slopePitch, -Math_FAtan2F(-nz * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
-        Math_ApproachS(&this->slopeRoll, Math_FAtan2F(-nx * ny, 1.0f) * (0x8000 / M_PI), 1, 1000);
+        Math_ApproachS(&this->slopePitch, RAD_TO_BINANG(-Math_FAtan2F(-nz * ny, 1.0f)), 1, 1000);
+        Math_ApproachS(&this->slopeRoll, RAD_TO_BINANG(Math_FAtan2F(-nx * ny, 1.0f)), 1, 1000);
     }
 }
 
@@ -787,23 +788,23 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->gomaType) {
         case ENGOMA_NORMAL:
-            this->actor.naviEnemyId = 0x03;
+            this->actor.naviEnemyId = NAVI_ENEMY_GOHMA_LARVA;
             Matrix_Translate(this->actor.world.pos.x,
                              this->actor.world.pos.y + ((this->actor.shape.yOffset * this->actor.scale.y) +
                                                         globalCtx->mainCamera.skyboxOffset.y),
                              this->actor.world.pos.z, MTXMODE_NEW);
-            Matrix_RotateX(this->slopePitch / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ(this->slopeRoll / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateY(this->actor.shape.rot.y / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX(this->actor.shape.rot.x / (f32)0x8000 * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ(this->actor.shape.rot.z / (f32)0x8000 * M_PI, MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->slopePitch), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->slopeRoll), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
             SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw,
                               NULL, this);
             break;
 
         case ENGOMA_EGG:
-            this->actor.naviEnemyId = 0x02;
+            this->actor.naviEnemyId = NAVI_ENEMY_GOHMA_EGG;
             y = (s16)(sinf((this->eggTimer * 5.0f * 3.1415f) / 180.0f) * 31.9f);
             y = (s16)(y + 31);
             gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, y));
@@ -830,11 +831,11 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case ENGOMA_BOSSLIMB:
-            if (this->bossLimbDl != NULL) {
+            if (this->bossLimbDL != NULL) {
                 gSPSegment(POLY_OPA_DISP++, 0x08, EnGoma_NoBackfaceCullingDlist(globalCtx->state.gfxCtx));
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_goma.c", 2114),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDl);
+                gSPDisplayList(POLY_OPA_DISP++, this->bossLimbDL);
             }
             break;
     }

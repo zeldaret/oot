@@ -36,4 +36,11 @@ typedef struct OSMesgQueue {
     /* 0x14 */ OSMesg* msg;
 } OSMesgQueue; // size = 0x18
 
+/* Get count of valid messages in queue */
+#define MQ_GET_COUNT(mq)    ((mq)->validCount)
+
+/* Determine if message queue is empty or full */
+#define MQ_IS_EMPTY(mq)     (MQ_GET_COUNT(mq) == 0)
+#define MQ_IS_FULL(mq)      (MQ_GET_COUNT(mq) >= (mq)->msgCount)
+
 #endif

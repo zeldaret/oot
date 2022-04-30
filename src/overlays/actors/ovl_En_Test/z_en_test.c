@@ -242,8 +242,10 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x1B, ICHAIN_CONTINUE),    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_CONTINUE),
-    ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE), ICHAIN_F32(scale.y, 0, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STALFOS, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
+    ICHAIN_F32(scale.y, 0, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1500, ICHAIN_STOP),
 };
 
@@ -495,7 +497,7 @@ void EnTest_Idle(EnTest* this, GlobalContext* globalCtx) {
             if ((player->meleeWeaponState != 0) && (ABS(yawDiff) >= 0x1F40)) {
                 this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-                if (Rand_ZeroOne() > 0.7f && player->meleeWeaponAnimation != 0x11) {
+                if (Rand_ZeroOne() > 0.7f && player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START) {
                     EnTest_SetupJumpBack(this);
                 } else {
                     func_808627C4(this, globalCtx);
@@ -568,7 +570,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
     f32 checkDist = 0.0f;
     s32 pad1;
     s32 prevFrame;
-    s32 temp_f16;
+    s32 beforeCurFrame;
     f32 playSpeed;
     Player* player = GET_PLAYER(globalCtx);
     s32 absPlaySpeed;
@@ -626,7 +628,7 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             if (ABS(yawDiff) >= 0x1F40) {
                 this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
-                if ((Rand_ZeroOne() > 0.7f) && (player->meleeWeaponAnimation != 0x11)) {
+                if ((Rand_ZeroOne() > 0.7f) && (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
                     EnTest_SetupJumpBack(this);
                 } else {
                     EnTest_SetupStopAndBlock(this);
@@ -636,16 +638,15 @@ void EnTest_WalkAndBlock(EnTest* this, GlobalContext* globalCtx) {
             }
         }
 
-        prevFrame = this->skelAnime.curFrame;
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-
-        temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        absPlaySpeed = (f32)ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            s32 temp_v0_2 = absPlaySpeed + prevFrame;
+            s32 afterPrevFrame = absPlaySpeed + prevFrame;
 
-            if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
+            if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
@@ -719,8 +720,8 @@ void func_80860C24(EnTest* this, GlobalContext* globalCtx) {
     s16 yawChange;
     f32 playSpeed;
     s32 prevFrame;
-    s32 temp1;
-    s32 temp2;
+    s32 beforeCurFrame;
+    s32 afterPrevFrame;
     s32 absPlaySpeed;
 
     if (!EnTest_ReactToProjectile(globalCtx, this)) {
@@ -747,15 +748,15 @@ void func_80860C24(EnTest* this, GlobalContext* globalCtx) {
             this->skelAnime.playSpeed = playSpeed;
         }
 
-        prevFrame = this->skelAnime.curFrame;
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        temp1 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        absPlaySpeed = (f32)ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            temp2 = absPlaySpeed + prevFrame;
+            afterPrevFrame = absPlaySpeed + prevFrame;
 
-            if (((temp2 > 2) && (temp1 <= 0)) || ((temp1 < 7) && (temp2 >= 9))) {
+            if (((afterPrevFrame > 2) && (beforeCurFrame <= 0)) || ((beforeCurFrame < 7) && (afterPrevFrame >= 9))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
@@ -790,7 +791,7 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
     s16 playerYaw180;
     s32 pad;
     s32 prevFrame;
-    s32 temp_f16;
+    s32 beforeCurFrame;
     s16 yawDiff;
     Player* player = GET_PLAYER(globalCtx);
     f32 checkDist = 0.0f;
@@ -862,15 +863,15 @@ void func_80860F84(EnTest* this, GlobalContext* globalCtx) {
 
         this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
 
-        prevFrame = this->skelAnime.curFrame;
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        absPlaySpeed = (f32)ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
         if ((s32)this->skelAnime.curFrame != prevFrame) {
-            s32 temp_v0_2 = absPlaySpeed + prevFrame;
+            s32 afterPrevFrame = absPlaySpeed + prevFrame;
 
-            if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
+            if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
             }
         }
@@ -1239,7 +1240,7 @@ void func_808621D4(EnTest* this, GlobalContext* globalCtx) {
              (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
-                   (player->meleeWeaponAnimation != 0x11)) {
+                   (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
             EnTest_SetupJumpBack(this);
         } else {
             EnTest_SetupStopAndBlock(this);
@@ -1279,7 +1280,7 @@ void func_80862418(EnTest* this, GlobalContext* globalCtx) {
              (this->actor.xzDistToPlayer < 80.0f))) {
             EnTest_SetupJumpUp(this);
         } else if ((Rand_ZeroOne() > 0.7f) && (this->actor.params != STALFOS_TYPE_CEILING) &&
-                   (player->meleeWeaponAnimation != 0x11)) {
+                   (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
             EnTest_SetupJumpBack(this);
         } else {
             EnTest_SetupStopAndBlock(this);
@@ -1325,7 +1326,7 @@ void EnTest_Stunned(EnTest* this, GlobalContext* globalCtx) {
                 ((ABS((s16)(this->actor.wallYaw - this->actor.shape.rot.y)) < 0x38A4) &&
                  (this->actor.xzDistToPlayer < 80.0f))) {
                 EnTest_SetupJumpUp(this);
-            } else if ((Rand_ZeroOne() > 0.7f) && (player->meleeWeaponAnimation != 0x11)) {
+            } else if ((Rand_ZeroOne() > 0.7f) && (player->meleeWeaponAnimation != PLAYER_MWA_JUMPSLASH_START)) {
                 EnTest_SetupJumpBack(this);
             } else {
                 EnTest_SetupStopAndBlock(this);
@@ -1364,7 +1365,7 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 pad1;
     s32 prevFrame;
-    s32 temp_f16;
+    s32 beforeCurFrame;
     s32 pad2;
     f32 checkDist = 0.0f;
     s16 newYaw;
@@ -1437,19 +1438,19 @@ void func_808628C8(EnTest* this, GlobalContext* globalCtx) {
     }
 
     this->skelAnime.playSpeed = this->actor.speedXZ * 0.5f;
-    prevFrame = this->skelAnime.curFrame;
-    SkelAnime_Update(&this->skelAnime);
 
-    temp_f16 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+    prevFrame = (s32)this->skelAnime.curFrame;
+    SkelAnime_Update(&this->skelAnime);
+    beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
     absPlaySpeed = ABS(this->skelAnime.playSpeed);
 
     if ((this->timer % 32) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WARAU);
     }
     if ((s32)this->skelAnime.curFrame != prevFrame) {
-        s32 temp_v0_2 = (s32)absPlaySpeed + prevFrame;
+        s32 afterPrevFrame = (s32)absPlaySpeed + prevFrame;
 
-        if (((temp_v0_2 > 1) && (temp_f16 <= 0)) || ((temp_f16 < 7) && (temp_v0_2 >= 8))) {
+        if (((afterPrevFrame > 1) && (beforeCurFrame < 1)) || ((beforeCurFrame < 7) && (afterPrevFrame > 7))) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_WALK);
         }
     }

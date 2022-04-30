@@ -8,6 +8,8 @@ struct BossDodongo;
 
 typedef void (*BossDodongoActionFunc)(struct BossDodongo*, GlobalContext*);
 
+#define BOSS_DODONGO_EFFECT_COUNT 80
+
 typedef struct {
     /* 0x00 */ Vec3f unk_00;
     /* 0x0C */ Vec3f unk_0C;
@@ -95,7 +97,7 @@ typedef struct BossDodongo {
     /* 0x0434 */ Vec3f cameraAt;
     /* 0x0440 */ ColliderJntSph collider;
     /* 0x0460 */ ColliderJntSphElement items[19];
-    /* 0x0920 */ BossDodongoEffect effects[80];
+    /* 0x0920 */ BossDodongoEffect effects[BOSS_DODONGO_EFFECT_COUNT];
 } BossDodongo; // size = 0x1820
 
 #endif

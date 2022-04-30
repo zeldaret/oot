@@ -156,21 +156,35 @@ static Vec3f sPieceSizes[] = {
     /* POST_LOWER  */ { 200.0f, 500.0f, 0.0f },
 };
 
-static u8 sCutTypes[] = {
-    /* 1H_OVER     */ CUT_VERT_L, /* 2H_OVER     */ CUT_VERT_L,
-    /* 1H_COMBO    */ CUT_DIAG_R, /* 2H_COMBO    */ CUT_DIAG_R,
-    /* 1H_LEFT     */ CUT_HORIZ,  /* 2H_LEFT     */ CUT_HORIZ,
-    /* 1H_COMBO    */ CUT_HORIZ,  /* 2H_COMBO    */ CUT_HORIZ,
-    /* 1H_RIGHT    */ CUT_HORIZ,  /* 2H_RIGHT    */ CUT_HORIZ,
-    /* 1H_COMBO    */ CUT_HORIZ,  /* 2H_COMBO    */ CUT_HORIZ,
-    /* 1H_STAB     */ CUT_POST,   /* 2H_STAB     */ CUT_POST,
-    /* 1H_COMBO    */ CUT_POST,   /* 2H_COMBO    */ CUT_POST,
-    /* FLIP_START  */ CUT_VERT_L, /* JUMP_START  */ CUT_VERT_L,
-    /* FLIP_END    */ CUT_VERT_L, /* JUMP_END    */ CUT_VERT_L,
-    /* BACK_LEFT   */ CUT_HORIZ,  /* BACK_RIGHT  */ CUT_HORIZ,
-    /* OVER_HAMMER */ CUT_POST,   /* SIDE_HAMMER */ CUT_POST,
-    /* 1H_SPIN_ATK */ CUT_POST,   /* 2H_SPIN_ATK */ CUT_POST,
-    /* 1H_BIG_SPIN */ CUT_POST,   /* 2H_BIG_SPIN */ CUT_POST,
+static u8 sCutTypes[PLAYER_MWA_MAX] = {
+    CUT_VERT_L, // PLAYER_MWA_FORWARD_SLASH_1H
+    CUT_VERT_L, // PLAYER_MWA_FORWARD_SLASH_2H
+    CUT_DIAG_R, // PLAYER_MWA_FORWARD_COMBO_1H
+    CUT_DIAG_R, // PLAYER_MWA_FORWARD_COMBO_2H
+    CUT_HORIZ,  // PLAYER_MWA_RIGHT_SLASH_1H
+    CUT_HORIZ,  // PLAYER_MWA_RIGHT_SLASH_2H
+    CUT_HORIZ,  // PLAYER_MWA_RIGHT_COMBO_1H
+    CUT_HORIZ,  // PLAYER_MWA_RIGHT_COMBO_2H
+    CUT_HORIZ,  // PLAYER_MWA_LEFT_SLASH_1H
+    CUT_HORIZ,  // PLAYER_MWA_LEFT_SLASH_2H
+    CUT_HORIZ,  // PLAYER_MWA_LEFT_COMBO_1H
+    CUT_HORIZ,  // PLAYER_MWA_LEFT_COMBO_2H
+    CUT_POST,   // PLAYER_MWA_STAB_1H
+    CUT_POST,   // PLAYER_MWA_STAB_2H
+    CUT_POST,   // PLAYER_MWA_STAB_COMBO_1H
+    CUT_POST,   // PLAYER_MWA_STAB_COMBO_2H
+    CUT_VERT_L, // PLAYER_MWA_FLIPSLASH_START
+    CUT_VERT_L, // PLAYER_MWA_JUMPSLASH_START
+    CUT_VERT_L, // PLAYER_MWA_FLIPSLASH_FINISH
+    CUT_VERT_L, // PLAYER_MWA_JUMPSLASH_FINISH
+    CUT_HORIZ,  // PLAYER_MWA_BACKSLASH_RIGHT
+    CUT_HORIZ,  // PLAYER_MWA_BACKSLASH_LEFT
+    CUT_POST,   // PLAYER_MWA_HAMMER_FORWARD
+    CUT_POST,   // PLAYER_MWA_HAMMER_SIDE
+    CUT_POST,   // PLAYER_MWA_SPIN_ATTACK_1H
+    CUT_POST,   // PLAYER_MWA_SPIN_ATTACK_2H
+    CUT_POST,   // PLAYER_MWA_BIG_SPIN_1H
+    CUT_POST,   // PLAYER_MWA_BIG_SPIN_2H
 };
 
 static u16 sCutFlags[] = {
@@ -357,7 +371,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         piece->pieceType = PIECE_WHOLE_SIGN;
                     }
 
-                    Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+                    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
                     Matrix_MultVec3f(&sPieceOffsets[piece->pieceType], &offset);
                     piece->actor.world.pos.x += offset.x;
                     piece->actor.world.pos.y += offset.y;
@@ -680,7 +694,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                         this->actionState = ENKANBAN_AIR;
                         this->actor.gravity = -1.0f;
-                        this->actor.world.rot.y = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
+                        this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
                         if (this->partCount >= 4) {
                             this->bounceX = (s16)Rand_ZeroFloat(10.0f) + 6;
                             this->bounceZ = (s16)Rand_ZeroFloat(10.0f) + 6;
@@ -717,8 +731,8 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         (globalCtx->msgCtx.unk_E3F2 == OCARINA_SONG_LULLABY)) {
                         this->actionState = ENKANBAN_REPAIR;
                         this->bounceX = 1;
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
                     break;
             }
@@ -736,7 +750,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
             }
 
-            Matrix_RotateY((signpost->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(signpost->actor.shape.rot.y), MTXMODE_NEW);
             Matrix_MultVec3f(&sPieceOffsets[this->pieceType], &offset);
             distX =
                 Math_SmoothStepToF(&this->actor.world.pos.x, signpost->actor.world.pos.x + offset.x, 1.0f, 3.0f, 0.0f);
@@ -801,15 +815,15 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateX(this->floorRot.x, MTXMODE_APPLY);
         Matrix_RotateZ(this->floorRot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, this->actor.shape.yOffset, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
         zShift = fabsf(Math_SinS(this->spinRot.x) * this->pieceHeight);
         zShift2 = fabsf(Math_SinS(this->spinRot.z) * this->pieceWidth);
         zShift = MAX(zShift2, zShift);
         zShift *= -(f32)this->direction;
         Matrix_Translate(0.0f, 0.0f, zShift, MTXMODE_APPLY);
-        Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(this->spinRot.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->spinRot.z), MTXMODE_APPLY);
         Matrix_Translate(this->offset.x, this->offset.y, this->offset.z - 100.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1715),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -874,10 +888,10 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if (this->actionState == ENKANBAN_SIGN) {
                 Matrix_RotateX(-M_PI / 5, MTXMODE_APPLY);
             }
-            Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX((this->spinRot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateY((this->spinRot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->spinRot.x), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->spinRot.z), MTXMODE_APPLY);
             Matrix_Translate(this->offset.x, this->offset.y, this->offset.z, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_kanban.c", 1833),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

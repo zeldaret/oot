@@ -17,13 +17,13 @@ OSPiHandle* __osCurrentHandle[] = {
     &__Dom2SpeedParam,
 };
 
-void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgCnt) {
+void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQueue, OSMesg* cmdBuf, s32 cmdMsgCnt) {
     u32 prevInt;
     OSPri newPri;
     OSPri currentPri;
 
     if (!__osPiDevMgr.initialized) {
-        osCreateMesgQueue(cmdQ, cmdBuf, cmdMsgCnt);
+        osCreateMesgQueue(cmdQueue, cmdBuf, cmdMsgCnt);
         osCreateMesgQueue(&piEventQueue, piEventBuf, 1);
         if (!__osPiAccessQueueEnabled) {
             __osPiCreateAccessQueue();
@@ -39,7 +39,7 @@ void osCreatePiManager(OSPri pri, OSMesgQueue* cmdQ, OSMesg* cmdBuf, s32 cmdMsgC
         prevInt = __osDisableInt();
 
         __osPiDevMgr.initialized = true;
-        __osPiDevMgr.cmdQueue = cmdQ;
+        __osPiDevMgr.cmdQueue = cmdQueue;
         __osPiDevMgr.mgrThread = &piThread;
         __osPiDevMgr.eventQueue = &piEventQueue;
         __osPiDevMgr.acccessQueue = &__osPiAccessQueue;

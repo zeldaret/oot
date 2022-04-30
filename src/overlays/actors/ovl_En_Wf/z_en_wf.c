@@ -236,14 +236,14 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosNormalSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.0075f);
-        thisx->naviEnemyId = 0x4C; // Wolfos
-    } else {                       // WOLFOS_WHITE
+        thisx->naviEnemyId = NAVI_ENEMY_WOLFOS;
+    } else { // WOLFOS_WHITE
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWolfosWhiteSkel, &gWolfosWaitingAnim, this->jointTable,
                            this->morphTable, WOLFOS_LIMB_MAX);
         Actor_SetScale(thisx, 0.01f);
         this->colliderSpheres.elements[0].info.toucher.damage = this->colliderSpheres.elements[1].info.toucher.damage =
             8;
-        thisx->naviEnemyId = 0x57; // White Wolfos
+        thisx->naviEnemyId = NAVI_ENEMY_WHITE_WOLFOS;
     }
 
     EnWf_SetupWaitToAppear(this);
@@ -293,7 +293,7 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 mustChoose) {
     playerYawDiff = ABS(playerYawDiff);
 
     if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x2710, 0x2EE0, this->actor.shape.rot.y)) {
-        if (player->meleeWeaponAnimation == 0x11) {
+        if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnWf_SetupBlocking(this);
             return true;
         }
@@ -311,7 +311,7 @@ s32 EnWf_ChangeAction(GlobalContext* globalCtx, EnWf* this, s16 mustChoose) {
             (this->actor.xzDistToPlayer < 120.0f)) {
             EnWf_SetupSomersaultAndAttack(this);
             return true;
-        } else if (player->meleeWeaponAnimation == 0x11) {
+        } else if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnWf_SetupBlocking(this);
             return true;
         } else if ((this->actor.xzDistToPlayer < 80.0f) && (globalCtx->gameplayFrames % 2) != 0) {
@@ -490,13 +490,13 @@ void EnWf_SetupRunAtPlayer(EnWf* this, GlobalContext* globalCtx) {
 }
 
 void EnWf_RunAtPlayer(EnWf* this, GlobalContext* globalCtx) {
-    s32 animPrevFrame;
-    s32 sp58;
+    s32 prevFrame;
+    s32 beforeCurFrame;
     s32 pad;
     f32 baseRange = 0.0f;
     s16 playerFacingAngleDiff;
     Player* player = GET_PLAYER(globalCtx);
-    s32 playSpeed;
+    s32 absPlaySpeed;
 
     if (!EnWf_DodgeRanged(globalCtx, this)) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x2EE, 0);
@@ -528,10 +528,10 @@ void EnWf_RunAtPlayer(EnWf* this, GlobalContext* globalCtx) {
             }
         }
 
-        animPrevFrame = this->skelAnime.curFrame;
+        prevFrame = (s32)this->skelAnime.curFrame;
         SkelAnime_Update(&this->skelAnime);
-        sp58 = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        playSpeed = (f32)ABS(this->skelAnime.playSpeed);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
         if (!Actor_IsFacingPlayer(&this->actor, 0x11C7)) {
             if (Rand_ZeroOne() > 0.5f) {
@@ -556,7 +556,8 @@ void EnWf_RunAtPlayer(EnWf* this, GlobalContext* globalCtx) {
             if ((globalCtx->gameplayFrames & 95) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
             }
-            if ((animPrevFrame != (s32)this->skelAnime.curFrame) && (sp58 <= 0) && ((playSpeed + animPrevFrame) > 0)) {
+            if ((prevFrame != (s32)this->skelAnime.curFrame) && (beforeCurFrame <= 0) &&
+                ((absPlaySpeed + prevFrame) > 0)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
                 Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
             }
@@ -632,9 +633,9 @@ void EnWf_RunAroundPlayer(EnWf* this, GlobalContext* globalCtx) {
     s16 angle2;
     s32 pad;
     f32 baseRange = 0.0f;
-    s32 animPrevFrame;
-    s32 animFrameSpeedDiff;
-    s32 animSpeed;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    s32 absPlaySpeed;
     Player* player = GET_PLAYER(globalCtx);
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->runAngle, 1, 4000, 1);
@@ -679,15 +680,14 @@ void EnWf_RunAroundPlayer(EnWf* this, GlobalContext* globalCtx) {
         } else {
             this->skelAnime.playSpeed = this->runSpeed * 0.175f;
         }
-
         this->skelAnime.playSpeed = CLAMP(this->skelAnime.playSpeed, -3.0f, 3.0f);
-        animPrevFrame = this->skelAnime.curFrame;
-        SkelAnime_Update(&this->skelAnime);
-        animFrameSpeedDiff = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-        animSpeed = (f32)ABS(this->skelAnime.playSpeed);
 
-        if ((animPrevFrame != (s32)this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
-            (animSpeed + animPrevFrame > 0)) {
+        prevFrame = (s32)this->skelAnime.curFrame;
+        SkelAnime_Update(&this->skelAnime);
+        beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+        absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
+
+        if ((prevFrame != (s32)this->skelAnime.curFrame) && (beforeCurFrame <= 0) && (absPlaySpeed + prevFrame > 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
         }
@@ -1024,7 +1024,7 @@ void EnWf_Blocking(EnWf* this, GlobalContext* globalCtx) {
         if ((ABS(yawDiff) <= 0x4000) && (this->actor.xzDistToPlayer < 60.0f) &&
             (ABS(this->actor.yDistToPlayer) < 50.0f)) {
             if (func_800354B4(globalCtx, &this->actor, 100.0f, 10000, 0x4000, this->actor.shape.rot.y)) {
-                if (player->meleeWeaponAnimation == 0x11) {
+                if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
                     EnWf_SetupBlocking(this);
                 } else if ((globalCtx->gameplayFrames % 2) != 0) {
                     EnWf_SetupBlocking(this);
@@ -1047,7 +1047,7 @@ void EnWf_Blocking(EnWf* this, GlobalContext* globalCtx) {
         }
     } else if (this->actionTimer == 0) {
         if (func_800354B4(globalCtx, &this->actor, 100.0f, 10000, 0x4000, this->actor.shape.rot.y)) {
-            if (player->meleeWeaponAnimation == 0x11) {
+            if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
                 EnWf_SetupBlocking(this);
             } else if ((globalCtx->gameplayFrames % 2) != 0) {
                 EnWf_SetupBlocking(this);
@@ -1091,9 +1091,9 @@ void EnWf_SetupSidestep(EnWf* this, GlobalContext* globalCtx) {
 void EnWf_Sidestep(EnWf* this, GlobalContext* globalCtx) {
     s16 angleDiff1;
     Player* player = GET_PLAYER(globalCtx);
-    s32 animPrevFrame;
-    s32 animFrameSpeedDiff;
-    s32 animSpeed;
+    s32 prevFrame;
+    s32 beforeCurFrame;
+    s32 absPlaySpeed;
     f32 baseRange = 0.0f;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->runAngle, 1, 3000, 1);
@@ -1136,13 +1136,12 @@ void EnWf_Sidestep(EnWf* this, GlobalContext* globalCtx) {
     } else {
         this->skelAnime.playSpeed = this->runSpeed * 0.175f;
     }
-
     this->skelAnime.playSpeed = CLAMP(this->skelAnime.playSpeed, -3.0f, 3.0f);
 
-    animPrevFrame = this->skelAnime.curFrame;
+    prevFrame = (s32)this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
-    animFrameSpeedDiff = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-    animSpeed = (f32)ABS(this->skelAnime.playSpeed);
+    beforeCurFrame = (s32)(this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed));
+    absPlaySpeed = (s32)(f32)ABS(this->skelAnime.playSpeed);
 
     if (!EnWf_ChangeAction(globalCtx, this, false)) {
         this->actionTimer--;
@@ -1169,8 +1168,7 @@ void EnWf_Sidestep(EnWf* this, GlobalContext* globalCtx) {
             }
         }
 
-        if ((animPrevFrame != (s32)this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
-            ((animSpeed + animPrevFrame) > 0)) {
+        if ((prevFrame != (s32)this->skelAnime.curFrame) && (beforeCurFrame <= 0) && ((absPlaySpeed + prevFrame) > 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, true);
         }

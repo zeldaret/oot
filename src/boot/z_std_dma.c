@@ -3,13 +3,13 @@
 
 StackEntry sDmaMgrStackInfo;
 OSMesgQueue sDmaMgrMsgQueue;
-OSMesg sDmaMgrMsgs[0x20];
+OSMesg sDmaMgrMsgBuf[32];
 OSThread sDmaMgrThread;
 STACK(sDmaMgrStack, 0x500);
 const char* sDmaMgrCurFileName;
 s32 sDmaMgrCurFileLine;
 
-u32 D_80009460 = 0;
+u32 gDmaMgrVerbose = 0;
 u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrIsRomCompressed = false;
 
@@ -68,9 +68,9 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
         ioMsg.dramAddr = (void*)ram;
         ioMsg.size = buffSize;
 
-        if (D_80009460 == 10) {
+        if (gDmaMgrVerbose == 10) {
             osSyncPrintf("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
-                         ioMsg.devAddr, ioMsg.size, gPiMgrCmdQ.validCount);
+                         ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
@@ -78,13 +78,15 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
             goto end;
         }
 
-        if (D_80009460 == 10) {
-            osSyncPrintf("%10lld ノーマルＤＭＡ START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
+        if (gDmaMgrVerbose == 10) {
+            osSyncPrintf("%10lld ノーマルＤＭＡ START (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
+                         MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-        if (D_80009460 == 10) {
-            osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
+        if (gDmaMgrVerbose == 10) {
+            osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()),
+                         MQ_GET_COUNT(&gPiMgrCmdQueue));
         }
 
         size -= buffSize;
@@ -100,9 +102,9 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
     ioMsg.dramAddr = (void*)ram;
     ioMsg.size = size;
 
-    if (D_80009460 == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld ノーマルＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), ioMsg.dramAddr,
-                     ioMsg.devAddr, ioMsg.size, gPiMgrCmdQ.validCount);
+                     ioMsg.devAddr, ioMsg.size, MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
     ret = osEPiStartDma(gCartHandle, &ioMsg, OS_READ);
@@ -111,8 +113,8 @@ s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size) {
     }
 
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-    if (D_80009460 == 10) {
-        osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), gPiMgrCmdQ.validCount);
+    if (gDmaMgrVerbose == 10) {
+        osSyncPrintf("%10lld ノーマルＤＭＡ END (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
 end:
@@ -129,9 +131,9 @@ s32 DmaMgr_DmaHandler(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     ASSERT(direction == OS_READ, "direction == OS_READ", "../z_std_dma.c", 531);
     ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
-    if (D_80009460 == 10) {
+    if (gDmaMgrVerbose == 10) {
         osSyncPrintf("%10lld サウンドＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), mb->dramAddr,
-                     mb->devAddr, mb->size, gPiMgrCmdQ.validCount);
+                     mb->devAddr, mb->size, MQ_GET_COUNT(&gPiMgrCmdQueue));
     }
 
     ret = osEPiStartDma(pihandle, mb, direction);
@@ -160,7 +162,6 @@ void DmaMgr_DmaFromDriveRom(u32 ram, u32 rom, u32 size) {
 
     osEPiStartDma(handle, &ioMsg, OS_READ);
     osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
-    return;
 }
 
 void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc) {
@@ -170,7 +171,7 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
     char buff1[80];
     char buff2[80];
 
-    osSyncPrintf("%c", 7);
+    osSyncPrintf("%c", BEL);
     osSyncPrintf(VT_FGCOL(RED));
     osSyncPrintf("DMA致命的エラー(%s)\nROM:%X RAM:%X SIZE:%X %s\n",
                  errorDesc != NULL ? errorDesc : (errorName != NULL ? errorName : "???"), vrom, ram, size,
@@ -280,9 +281,9 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
                                  "圧縮されたセグメントの一部だけをＤＭＡ転送することはできません");
                 }
 
-                osSetThreadPri(NULL, Z_PRIORITY_MAIN);
+                osSetThreadPri(NULL, THREAD_PRI_DMAMGR_LOW);
                 Yaz0_Decompress(romStart, ram, romSize);
-                osSetThreadPri(NULL, Z_PRIORITY_DMAMGR);
+                osSetThreadPri(NULL, THREAD_PRI_DMAMGR);
                 found = true;
 
                 if (0) {
@@ -308,7 +309,7 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
     }
 }
 
-void DmaMgr_ThreadEntry(void* arg0) {
+void DmaMgr_ThreadEntry(void* arg) {
     OSMesg msg;
     DmaRequest* req;
 
@@ -351,19 +352,17 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk
     req->notifyQueue = queue;
     req->notifyMsg = msg;
 
-    if (1) {
-        if ((sDmaMgrQueueFullLogged == 0) && (sDmaMgrMsgQueue.validCount >= sDmaMgrMsgQueue.msgCount)) {
-            sDmaMgrQueueFullLogged++;
-            osSyncPrintf("%c", 7);
-            osSyncPrintf(VT_FGCOL(RED));
-            osSyncPrintf("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。");
-            LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgs),
-                    "../z_std_dma.c", 952);
-            osSyncPrintf(VT_RST);
-        }
+    if (1 && (sDmaMgrQueueFullLogged == 0) && MQ_IS_FULL(&sDmaMgrMsgQueue)) {
+        sDmaMgrQueueFullLogged++;
+        osSyncPrintf("%c", BEL);
+        osSyncPrintf(VT_FGCOL(RED));
+        osSyncPrintf("dmaEntryMsgQが一杯です。キューサイズの再検討をおすすめします。");
+        LOG_NUM("(sizeof(dmaEntryMsgBufs) / sizeof(dmaEntryMsgBufs[0]))", ARRAY_COUNT(sDmaMgrMsgBuf), "../z_std_dma.c",
+                952);
+        osSyncPrintf(VT_RST);
     }
 
-    osSendMesg(&sDmaMgrMsgQueue, req, OS_MESG_BLOCK);
+    osSendMesg(&sDmaMgrMsgQueue, (OSMesg)req, OS_MESG_BLOCK);
     return 0;
 }
 
@@ -421,9 +420,10 @@ void DmaMgr_Init(void) {
         Fault_AddHungupAndCrash("../z_std_dma.c", 1055);
     }
 
-    osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, ARRAY_COUNT(sDmaMgrMsgs));
+    osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgBuf, ARRAY_COUNT(sDmaMgrMsgBuf));
     StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, STACK_TOP(sDmaMgrStack), 0, 0x100, "dmamgr");
-    osCreateThread(&sDmaMgrThread, 0x12, DmaMgr_ThreadEntry, 0, STACK_TOP(sDmaMgrStack), Z_PRIORITY_DMAMGR);
+    osCreateThread(&sDmaMgrThread, THREAD_ID_DMAMGR, DmaMgr_ThreadEntry, NULL, STACK_TOP(sDmaMgrStack),
+                   THREAD_PRI_DMAMGR);
     osStartThread(&sDmaMgrThread);
 }
 

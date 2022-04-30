@@ -283,7 +283,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
-            gSaveContext.itemGetInf[1] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_1F);
         } else {
             // "stick"
             osSyncPrintf("棒 \n");
@@ -292,7 +292,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
-            gSaveContext.itemGetInf[1] |= 0x4000;
+            SET_ITEMGETINF(ITEMGETINF_1E);
         }
         this->actor.textId = 0;
         if ((this->stage != NULL) && (this->stage->actor.update != NULL)) {
@@ -342,7 +342,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     dx = this->flowerPos.x - this->actor.world.pos.x;
     dz = this->flowerPos.z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 1, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 1, 0xBB8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;

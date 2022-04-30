@@ -315,7 +315,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     dx = point->x - this->actor.world.pos.x;
     dz = point->z - this->actor.world.pos.z;
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 10, 1000, 1);
     this->actor.world.rot = this->actor.shape.rot;
 
     if (SQ(dx) + SQ(dz) < 10.0f) {
@@ -338,7 +338,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
         return ret;
     }
 
-    if (gSaveContext.infTable[13] & 0x0200) {
+    if (GET_INFTABLE(INFTABLE_D9)) {
         /* "Do you want me to dig here? ..." */
         return 0x5019;
     } else {
@@ -357,7 +357,7 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
-                gSaveContext.infTable[13] |= 0x0100;
+                SET_INFTABLE(INFTABLE_D8);
             }
             ret = 0;
             break;
@@ -374,11 +374,11 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                 } else {
                     globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
-                    gSaveContext.infTable[13] |= 0x0200;
+                    SET_INFTABLE(INFTABLE_D9);
                     return 2;
                 }
                 Message_ContinueTextbox(globalCtx, thisx->textId);
-                gSaveContext.infTable[13] |= 0x0200;
+                SET_INFTABLE(INFTABLE_D9);
             }
             break;
         case TEXT_STATE_EVENT:
@@ -610,8 +610,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                  * Upgrade the purple rupee reward to the heart piece if this
                  * is the first grand prize dig.
                  */
-                if (!(gSaveContext.itemGetInf[1] & 0x1000)) {
-                    gSaveContext.itemGetInf[1] |= 0x1000;
+                if (!GET_ITEMGETINF(ITEMGETINF_1C)) {
+                    SET_ITEMGETINF(ITEMGETINF_1C);
                     this->currentReward = 4;
                 }
             }
@@ -627,7 +627,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_SY_ERROR);
         } else if (this->currentReward == 4) {
             /* Heart piece */
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
             /* Rupee */
             Audio_PlayActorSound2(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);

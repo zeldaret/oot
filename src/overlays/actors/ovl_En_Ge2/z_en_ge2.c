@@ -215,14 +215,18 @@ s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, 
         return 0;
     }
 
-    if (BgCheck_AnyLineTest1(&globalCtx->colCtx, pos, &player->bodyPartsPos[7], &posResult, &outPoly, 0)) {
+    if (BgCheck_AnyLineTest1(&globalCtx->colCtx, pos, &player->bodyPartsPos[PLAYER_BODYPART_HEAD], &posResult, &outPoly,
+                             0)) {
         return 0;
     }
     return 1;
 }
 
 s32 EnGe2_CheckCarpentersFreed(void) {
-    if ((u8)(gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+    if (CHECK_FLAG_ALL(
+            gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] &
+                (EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK | 0xF0),
+            EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         return 1;
     }
     return 0;
@@ -238,14 +242,14 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[12] & 0x80) {
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
             globalCtx->nextEntranceIndex = 0x5F8;
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
 
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -264,14 +268,14 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[12] & 0x80) {
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
             globalCtx->nextEntranceIndex = 0x5F8;
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
         }
 
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 

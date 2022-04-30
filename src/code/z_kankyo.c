@@ -35,8 +35,8 @@ typedef struct {
 } LightningBolt; // size = 0x20
 
 typedef struct {
-    /* 0x00 */ s32 unk0;
-    /* 0x04 */ s32 unk1;
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
 } Struct_8011FAF0; // size = 0x8
 
 Struct_8011FAF0 D_8011FAF0[] = {
@@ -213,7 +213,7 @@ u8 sGameOverLightsIntensity;
 u16 D_8015FDB0;
 
 s32 func_8006F0A0(s32 a0) {
-    s32 ret = ((a0 >> 4 & 0x7FF) << D_8011FAF0[a0 >> 15 & 7].unk0) + D_8011FAF0[a0 >> 15 & 7].unk1;
+    s32 ret = ((a0 >> 4 & 0x7FF) << D_8011FAF0[a0 >> 15 & 7].unk_00) + D_8011FAF0[a0 >> 15 & 7].unk_04;
 
     return ret;
 }
@@ -281,7 +281,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->skyboxFilterColor[1] = 0;
     envCtx->skyboxFilterColor[2] = 0;
     envCtx->skyboxFilterColor[3] = 0;
-    envCtx->sandstormState = 0;
+    envCtx->sandstormState = SANDSTORM_OFF;
     envCtx->sandstormPrimA = 0;
     envCtx->sandstormEnvA = 0;
 
@@ -292,7 +292,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
 
     sLightningFlashAlpha = 0;
 
-    gSaveContext.unk_1410 = 0;
+    gSaveContext.cutsceneTransitionControl = 0;
 
     envCtx->adjAmbientColor[0] = envCtx->adjAmbientColor[1] = envCtx->adjAmbientColor[2] = envCtx->adjLight1Color[0] =
         envCtx->adjLight1Color[1] = envCtx->adjLight1Color[2] = envCtx->adjFogColor[0] = envCtx->adjFogColor[1] =
@@ -731,11 +731,11 @@ void Environment_UpdateSkybox(u8 skyboxId, EnvironmentContext* envCtx, SkyboxCon
         }
 
         if ((envCtx->skyboxDmaState == SKYBOX_DMA_FILE1_START) || (envCtx->skyboxDmaState == SKYBOX_DMA_FILE2_START)) {
-            if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
+            if (osRecvMesg(&envCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 envCtx->skyboxDmaState++;
             }
         } else if (envCtx->skyboxDmaState >= SKYBOX_DMA_FILE1_DONE) {
-            if (osRecvMesg(&envCtx->loadQueue, 0, OS_MESG_NOBLOCK) == 0) {
+            if (osRecvMesg(&envCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
             }
         }
@@ -879,7 +879,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         if ((pauseCtx->state == 0) && (gameOverCtx->state == GAMEOVER_INACTIVE)) {
             if (((msgCtx->msgLength == 0) && (msgCtx->msgMode == 0)) || (((void)0, gSaveContext.gameMode) == 3)) {
                 if ((envCtx->unk_1A == 0) && !FrameAdvance_IsEnabled(globalCtx) &&
-                    (globalCtx->transitionMode == 0 || ((void)0, gSaveContext.gameMode) != 0)) {
+                    (globalCtx->transitionMode == TRANS_MODE_OFF || ((void)0, gSaveContext.gameMode) != 0)) {
 
                     if (IS_DAY || gTimeIncrement >= 0x190) {
                         gSaveContext.dayTime += gTimeIncrement;
@@ -1408,9 +1408,9 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     dist = Math3D_Vec3f_DistXYZ(&pos, &view->eye) / 12.0f;
 
     // compute a unit vector in the look direction
-    tempX = view->lookAt.x - view->eye.x;
-    tempY = view->lookAt.y - view->eye.y;
-    tempZ = view->lookAt.z - view->eye.z;
+    tempX = view->at.x - view->eye.x;
+    tempY = view->at.y - view->eye.y;
+    tempZ = view->at.z - view->eye.z;
 
     length = sqrtf(SQ(tempX) + SQ(tempY) + SQ(tempZ));
 
@@ -1584,9 +1584,9 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
     if (!(globalCtx->cameraPtrs[0]->unk_14C & 0x100) && (globalCtx->envCtx.unk_EE[2] == 0)) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
-        vec.x = view->lookAt.x - view->eye.x;
-        vec.y = view->lookAt.y - view->eye.y;
-        vec.z = view->lookAt.z - view->eye.z;
+        vec.x = view->at.x - view->eye.x;
+        vec.y = view->at.y - view->eye.y;
+        vec.z = view->at.z - view->eye.z;
 
         length = sqrtf(SQXYZ(vec));
 
@@ -1859,8 +1859,8 @@ void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
     for (i = 0; i < ARRAY_COUNT(sLightningBolts); i++) {
         switch (sLightningBolts[i].state) {
             case LIGHTNING_BOLT_START:
-                dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-                dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+                dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+                dz = globalCtx->view.at.z - globalCtx->view.eye.z;
 
                 x = dx / sqrtf(SQ(dx) + SQ(dz));
                 z = dz / sqrtf(SQ(dx) + SQ(dz));
@@ -1899,8 +1899,8 @@ void Environment_DrawLightning(GlobalContext* globalCtx, s32 unused) {
             Matrix_Translate(sLightningBolts[i].pos.x + sLightningBolts[i].offset.x,
                              sLightningBolts[i].pos.y + sLightningBolts[i].offset.y,
                              sLightningBolts[i].pos.z + sLightningBolts[i].offset.z, MTXMODE_NEW);
-            Matrix_RotateX(sLightningBolts[i].pitch * (M_PI / 180.0f), MTXMODE_APPLY);
-            Matrix_RotateZ(sLightningBolts[i].roll * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_RotateX(DEG_TO_RAD(sLightningBolts[i].pitch), MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(sLightningBolts[i].roll), MTXMODE_APPLY);
             Matrix_Scale(22.0f, 100.0f, 22.0f, MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 128);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, 128);
@@ -2229,7 +2229,7 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
     u16 sp92;
 
     switch (sandstormState) {
-        case 3:
+        case SANDSTORM_ACTIVE:
             if ((globalCtx->sceneNum == SCENE_SPOT13) && (globalCtx->roomCtx.curRoom.num == 0)) {
                 envA1 = 0;
                 primA1 = (globalCtx->envCtx.sandstormEnvA > 128) ? 255 : globalCtx->envCtx.sandstormEnvA >> 1;
@@ -2242,11 +2242,13 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
                 envA1 = 128;
             }
             break;
-        case 1:
+
+        case SANDSTORM_FILL:
             primA1 = 255;
             envA1 = (globalCtx->envCtx.sandstormPrimA >= 255) ? 255 : 128;
             break;
-        case 2:
+
+        case SANDSTORM_UNFILL:
             envA1 = 128;
             if (globalCtx->envCtx.sandstormEnvA > 128) {
                 primA1 = 0xFF;
@@ -2258,15 +2260,16 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
                 primA1 += 73;
             }
             if ((primA1 >= primA) && (primA1 != 255)) {
-                globalCtx->envCtx.sandstormState = 3;
+                globalCtx->envCtx.sandstormState = SANDSTORM_ACTIVE;
             }
             break;
-        case 4:
+
+        case SANDSTORM_DISSIPATE:
             envA1 = 0;
             primA1 = (globalCtx->envCtx.sandstormEnvA > 128) ? 255 : globalCtx->envCtx.sandstormEnvA >> 1;
 
             if (primA == 0) {
-                globalCtx->envCtx.sandstormState = 0;
+                globalCtx->envCtx.sandstormState = SANDSTORM_OFF;
             }
             break;
     }
@@ -2434,25 +2437,25 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gSaveContext.cutsceneIndex = 0;
     gSaveContext.respawnFlag = -3;
     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
-    globalCtx->sceneLoadFlag = 0x14;
-    globalCtx->fadeTransition = 3;
-    gSaveContext.nextTransition = 3;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+    gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (globalCtx->nextEntranceIndex) {
         case 0x147:
-            Flags_SetEventChkInf(0xB9);
+            Flags_SetEventChkInf(EVENTCHKINF_B9);
             break;
         case 0x0102:
-            Flags_SetEventChkInf(0xB1);
+            Flags_SetEventChkInf(EVENTCHKINF_B1);
             break;
         case 0x0123:
-            Flags_SetEventChkInf(0xB8);
+            Flags_SetEventChkInf(EVENTCHKINF_B8);
             break;
         case 0x00E4:
-            Flags_SetEventChkInf(0xB6);
+            Flags_SetEventChkInf(EVENTCHKINF_B6);
             break;
         case 0x0053:
-            Flags_SetEventChkInf(0xA7);
+            Flags_SetEventChkInf(EVENTCHKINF_A7);
             break;
         case 0x00FC:
             break;

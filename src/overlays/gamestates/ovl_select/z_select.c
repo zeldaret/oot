@@ -395,13 +395,15 @@ void Select_UpdateMenu(SelectContext* this) {
             if (this->timerUp == 0) {
                 this->timerUp = 20;
                 this->lockUp = true;
-                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->verticalInput = R_UPDATE_RATE;
             }
         }
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_DUP) && this->timerUp == 0) {
-            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->verticalInput = R_UPDATE_RATE * 3;
         }
 
@@ -412,23 +414,27 @@ void Select_UpdateMenu(SelectContext* this) {
             if (this->timerDown == 0) {
                 this->timerDown = 20;
                 this->lockDown = true;
-                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->verticalInput = -R_UPDATE_RATE;
             }
         }
 
         if (CHECK_BTN_ALL(input->cur.button, BTN_DDOWN) && (this->timerDown == 0)) {
-            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->verticalInput = -R_UPDATE_RATE * 3;
         }
 
         if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) || CHECK_BTN_ALL(input->cur.button, BTN_DLEFT)) {
-            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->verticalInput = R_UPDATE_RATE;
         }
 
         if (CHECK_BTN_ALL(input->press.button, BTN_DRIGHT) || CHECK_BTN_ALL(input->cur.button, BTN_DRIGHT)) {
-            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_IT_SWORD_IMPACT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->verticalInput = -R_UPDATE_RATE;
         }
     }
@@ -643,7 +649,7 @@ void Select_DrawMenu(SelectContext* this) {
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
-    func_800AAA50(&this->view, 0xF);
+    View_Apply(&this->view, VIEW_ALL);
     func_80094140(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
@@ -667,7 +673,7 @@ void Select_DrawLoadingScreen(SelectContext* this) {
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
-    func_800AAA50(&this->view, 0xF);
+    View_Apply(&this->view, VIEW_ALL);
     func_80094140(gfxCtx);
 
     printer = alloca(sizeof(GfxPrint));
@@ -688,7 +694,7 @@ void Select_Draw(SelectContext* this) {
     gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
     func_80095248(gfxCtx, 0, 0, 0);
     SET_FULLSCREEN_VIEWPORT(&this->view);
-    func_800AAA50(&this->view, 0xF);
+    View_Apply(&this->view, VIEW_ALL);
 
     if (!this->state.running) {
         Select_DrawLoadingScreen(this);
@@ -707,7 +713,7 @@ void Select_Main(GameState* thisx) {
 }
 
 void Select_Destroy(GameState* thisx) {
-    osSyncPrintf("%c", '\a'); // ASCII BEL character, plays an alert tone
+    osSyncPrintf("%c", BEL);
     // "view_cleanup will hang, so it won't be called"
     osSyncPrintf("*** view_cleanupはハングアップするので、呼ばない ***\n");
 }
@@ -733,7 +739,7 @@ void Select_Init(GameState* thisx) {
     this->opt = 0;
     this->count = ARRAY_COUNT(sScenes);
     View_Init(&this->view, this->state.gfxCtx);
-    this->view.flags = (0x08 | 0x02);
+    this->view.flags = (VIEW_PROJECTION_ORTHO | VIEW_VIEWPORT);
     this->verticalInputAccumulator = 0;
     this->verticalInput = 0;
     this->timerUp = 0;
