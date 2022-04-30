@@ -494,7 +494,7 @@ s16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
 u16 EnGo2_GetTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
         return GET_INFTABLE(INFTABLE_10F) ? 0x3042 : 0x3041;
-    } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+    } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
         return GET_INFTABLE(INFTABLE_10E) ? 0x3038 : 0x3037;
     } else if (GET_INFTABLE(INFTABLE_10C)) {
         this->unk_20C = 0;
@@ -1158,7 +1158,7 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
         (this->actor.params & 0x1F) == GORON_CITY_STAIRWELL || (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ||
         (this->actor.params & 0x1F) == GORON_MARKET_BAZAAR) {
         return true;
-    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
         return true;
     } else {
         return false;
@@ -1215,7 +1215,7 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
             EnGo2_BiggoronWakingUp(this);
             break;
         case GORON_CITY_LINK:
-            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                 EnGo2_WakingUp(this);
                 break;
             }
@@ -1552,7 +1552,8 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             if (GET_INFTABLE(INFTABLE_109)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
-                if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+                if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) &&
+                    CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                     EnGo2_GetItemAnimation(this, globalCtx);
                 } else {
                     this->actionFunc = EnGo2_CurledUp;

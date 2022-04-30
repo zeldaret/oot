@@ -92,7 +92,7 @@ void KaleidoScope_DrawPlayerWork(GlobalContext* globalCtx) {
         pos.y = -130.0f;
         pos.z = -150.0f;
         scale = 0.046f;
-    } else if (CUR_EQUIP_VALUE(EQUIP_SWORD) != 2) {
+    } else if (CUR_EQUIP_VALUE(EQUIP_TYPE_SWORD) != EQUIP_VALUE_SWORD_MASTER) {
         pos.x = 25.0f;
         pos.y = -228.0f;
         pos.z = 60.0f;
@@ -107,8 +107,10 @@ void KaleidoScope_DrawPlayerWork(GlobalContext* globalCtx) {
     rot.y = 32300;
     rot.x = rot.z = 0;
     Player_DrawPause(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime, &pos, &rot, scale,
-                     CUR_EQUIP_VALUE(EQUIP_SWORD), CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1, CUR_EQUIP_VALUE(EQUIP_SHIELD),
-                     CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1);
+                     SWORD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SWORD)),
+                     TUNIC_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC)),
+                     SHIELD_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD)),
+                     BOOTS_EQUIP_TO_PLAYER(CUR_EQUIP_VALUE(EQUIP_TYPE_BOOTS)));
 }
 
 void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
@@ -420,7 +422,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
         if ((pauseCtx->cursorY[PAUSE_EQUIP] == 0) && (pauseCtx->cursorX[PAUSE_EQUIP] == 3)) {
             if (gSaveContext.bgsFlag != 0) {
                 cursorItem = ITEM_HEART_PIECE_2;
-            } else if (gBitFlags[3] & gSaveContext.inventory.equipment) {
+            } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                 cursorItem = ITEM_SWORD_KNIFE;
             }
         }
@@ -481,7 +483,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
                             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
                         }
                         if ((gSaveContext.equips.buttonItems[0] == ITEM_SWORD_BGS) && (gSaveContext.bgsFlag == 0) &&
-                            (gBitFlags[3] & gSaveContext.inventory.equipment)) {
+                            CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
                             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
                         }
                     }

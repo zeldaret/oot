@@ -447,7 +447,7 @@ void EnInsect_Dig(EnInsect* this, GlobalContext* globalCtx) {
 
     if (this->actionTimer <= 0) {
         if ((this->insectFlags & INSECT_FLAG_FOUND_SOIL) && this->soilActor != NULL &&
-            Math3D_Vec3fDistSq(&this->soilActor->actor.world.pos, &this->actor.world.pos) < 64.0f) {
+            Math3D_Vec3fDistSq(&this->soilActor->actor.world.pos, &this->actor.world.pos) < SQ(8.0f)) {
             this->soilActor->unk_152 = 1;
         }
         Actor_Kill(&this->actor);

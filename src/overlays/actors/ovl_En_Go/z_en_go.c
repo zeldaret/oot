@@ -117,7 +117,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
                 } else {
                     return 0x3041;
                 }
-            } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1) || GET_INFTABLE(INFTABLE_10D)) {
+            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) || GET_INFTABLE(INFTABLE_10D)) {
                 if (GET_INFTABLE(INFTABLE_10E)) {
                     return 0x3038;
                 } else {
@@ -648,7 +648,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xF0) {
         case 0x00:
             Actor_SetScale(&this->actor, 0.008f);
-            if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+            if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                 EnGo_SetMovedPos(this, globalCtx);
                 EnGo_SetupAction(this, EnGo_CurledUp);
             } else {
