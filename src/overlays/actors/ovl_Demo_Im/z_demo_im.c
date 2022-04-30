@@ -722,7 +722,8 @@ void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
         u32 sfxId = SFX_FLAG;
 
         sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -867,8 +868,8 @@ void func_80986B2C(GlobalContext* globalCtx) {
         Player* player = GET_PLAYER(globalCtx);
 
         globalCtx->nextEntranceIndex = 0xCD;
-        globalCtx->fadeTransition = 38;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         func_8002DF54(globalCtx, &player->actor, 8);
     }
 }

@@ -1,9 +1,9 @@
 <Root>
     <File Name="code" OutName="z_fbdemo_circle" RangeStart="0x10ED48" RangeEnd="0x10FF68">
-        <Texture Name="sCircleWipeDefaultTex" Format="i8" Width="16" Height="64" Offset="0x10ED48"/>
-        <Texture Name="sCircleWipeWaveTex" Format="i8" Width="16" Height="64" Offset="0x10F148"/>
-        <Texture Name="sCircleWipeRippleTex" Format="i8" Width="16" Height="64" Offset="0x10F548"/>
-        <Texture Name="sCircleWipeStarburstTex" Format="i8" Width="16" Height="64" Offset="0x10F948"/>
+        <Texture Name="sTransCircleNormalTex" Format="i8" Width="16" Height="64" Offset="0x10ED48"/>
+        <Texture Name="sTransCircleWaveTex" Format="i8" Width="16" Height="64" Offset="0x10F148"/>
+        <Texture Name="sTransCircleRippleTex" Format="i8" Width="16" Height="64" Offset="0x10F548"/>
+        <Texture Name="sTransCircleStarburstTex" Format="i8" Width="16" Height="64" Offset="0x10F948"/>
         <Array Name="sCircleWipeVtx" Count="34" Offset="0x10FD48">
             <Vtx/>
         </Array>

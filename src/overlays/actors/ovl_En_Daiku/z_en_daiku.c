@@ -411,7 +411,7 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
         dx = pointPos->x - this->actor.world.pos.x;
         dz = pointPos->z - this->actor.world.pos.z;
-        this->rotYtowardsPath = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
+        this->rotYtowardsPath = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
         dxz = sqrtf(SQ(dx) + SQ(dz));
         if (dxz > 10.0f) {
             exitLoop = true;
@@ -499,7 +499,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_GE3, this->initPos.x + vec.x, this->initPos.y + vec.y,
-                        this->initPos.z + vec.z, 0, RADF_TO_BINANG(Math_FAtan2F(-vec.x, -vec.z)), 0, 2);
+                        this->initPos.z + vec.z, 0, RAD_TO_BINANG(Math_FAtan2F(-vec.x, -vec.z)), 0, 2);
 
         if (gerudoGuard == NULL) {
             Actor_Kill(&this->actor);
@@ -526,7 +526,7 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
     dx = pointPos->x - this->actor.world.pos.x;
     dz = pointPos->z - this->actor.world.pos.z;
-    ry = RADF_TO_BINANG(Math_FAtan2F(dx, dz));
+    ry = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
     dxz = sqrtf(SQ(dx) + SQ(dz));
     if (dxz <= 20.88f) {
         this->waypoint++;

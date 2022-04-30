@@ -113,22 +113,22 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalConte
         if (gSaveContext.eventInf[0] & 0x40) {
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 6;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
-            globalCtx->fadeTransition = 3;
+            globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             Environment_ForcePlaySequence(NA_BGM_INGO);
         } else {
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 4;
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
             Environment_ForcePlaySequence(NA_BGM_INGO);
-            globalCtx->fadeTransition = 0x2E;
+            globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         }
     } else {
         globalCtx->nextEntranceIndex = 0x558;
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 3;
-        globalCtx->fadeTransition = 0x20;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
         gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0x8000) | 0x8000;
     }
     DREG(25) = 0;
-    globalCtx->sceneLoadFlag = 0x14;
+    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     gSaveContext.timer1State = 0;
 }
 
@@ -151,7 +151,8 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
 
         ingoHorse->inRace = 1;
         this->startFlags |= INGORACE_INGO_MOVE;
-        Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 
     this->startTimer++;
@@ -183,7 +184,8 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
                 this->result = INGORACE_PLAYER_WIN;
                 this->finishTimer = 55;
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HORSE_GOAL);
-                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             for (i = 0; i < 3; i++) {
                 this->playerCheck[i] = 0;
@@ -198,7 +200,8 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
                 this->finishTimer = 70;
                 ingoHorse->stateFlags |= ENHORSE_INGO_WON;
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HORSE_GOAL);
-                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             for (i = 0; i < 3; i++) {
                 this->ingoCheck[i] = 0;
@@ -293,22 +296,22 @@ void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, GlobalCon
     if ((this->result == MALONRACE_SUCCESS) || (this->result == MALONRACE_TIME_UP)) {
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x4CE;
-        globalCtx->fadeTransition = 0x2E;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     } else if (this->result == MALONRACE_FAILURE) {
         gSaveContext.timer1Value = 240;
         gSaveContext.timer1State = 0xF;
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x4CE;
-        globalCtx->fadeTransition = 0x2E;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     } else {
         // "not supported"
         osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
         gSaveContext.cutsceneIndex = 0;
         globalCtx->nextEntranceIndex = 0x157;
-        globalCtx->fadeTransition = 0x2E;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -334,7 +337,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
         horse->inRace = 1;
     } else if ((this->startTimer > 81) && !(this->raceFlags & MALONRACE_START_SFX)) {
         this->raceFlags |= MALONRACE_START_SFX;
-        Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 
     this->startTimer++;
@@ -376,7 +380,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             } else if (this->fenceCheck[15] == 1) {
                 this->lapCount = 2;
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HORSE_GOAL);
-                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->result = MALONRACE_SUCCESS;
                 this->finishTimer = 70;
                 gSaveContext.timer1State = 0xF;

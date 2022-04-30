@@ -769,17 +769,17 @@ void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     temp = mf->xz;
     temp *= temp;
     temp += SQ(mf->zz);
-    rotDest->x = RADF_TO_BINANG(Math_FAtan2F(-mf->yz, sqrtf(temp)));
+    rotDest->x = RAD_TO_BINANG(Math_FAtan2F(-mf->yz, sqrtf(temp)));
 
     if ((rotDest->x == 0x4000) || (rotDest->x == -0x4000)) {
         rotDest->z = 0;
 
-        rotDest->y = RADF_TO_BINANG(Math_FAtan2F(-mf->zx, mf->xx));
+        rotDest->y = RAD_TO_BINANG(Math_FAtan2F(-mf->zx, mf->xx));
     } else {
-        rotDest->y = RADF_TO_BINANG(Math_FAtan2F(mf->xz, mf->zz));
+        rotDest->y = RAD_TO_BINANG(Math_FAtan2F(mf->xz, mf->zz));
 
         if (!flag) {
-            rotDest->z = RADF_TO_BINANG(Math_FAtan2F(mf->yx, mf->yy));
+            rotDest->z = RAD_TO_BINANG(Math_FAtan2F(mf->yx, mf->yy));
         } else {
             temp = mf->xx;
             temp2 = mf->zx;
@@ -804,7 +804,7 @@ void Matrix_MtxFToYXZRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
 
             /* for a rotation matrix, temp == yx and temp2 == yy
              * which is the same as in the !flag branch */
-            rotDest->z = RADF_TO_BINANG(Math_FAtan2F(temp, temp2));
+            rotDest->z = RAD_TO_BINANG(Math_FAtan2F(temp, temp2));
         }
     }
 }
@@ -822,16 +822,16 @@ void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
     temp = mf->xx;
     temp *= temp;
     temp += SQ(mf->yx);
-    rotDest->y = RADF_TO_BINANG(Math_FAtan2F(-mf->zx, sqrtf(temp)));
+    rotDest->y = RAD_TO_BINANG(Math_FAtan2F(-mf->zx, sqrtf(temp)));
 
     if ((rotDest->y == 0x4000) || (rotDest->y == -0x4000)) {
         rotDest->x = 0;
-        rotDest->z = RADF_TO_BINANG(Math_FAtan2F(-mf->xy, mf->yy));
+        rotDest->z = RAD_TO_BINANG(Math_FAtan2F(-mf->xy, mf->yy));
     } else {
-        rotDest->z = RADF_TO_BINANG(Math_FAtan2F(mf->yx, mf->xx));
+        rotDest->z = RAD_TO_BINANG(Math_FAtan2F(mf->yx, mf->xx));
 
         if (!flag) {
-            rotDest->x = RADF_TO_BINANG(Math_FAtan2F(mf->zy, mf->zz));
+            rotDest->x = RAD_TO_BINANG(Math_FAtan2F(mf->zy, mf->zz));
         } else {
             // see Matrix_MtxFToYXZRotS
             temp = mf->xy;
@@ -853,7 +853,7 @@ void Matrix_MtxFToZYXRotS(MtxF* mf, Vec3s* rotDest, s32 flag) {
             temp2 = sqrtf(temp2);
             temp2 = temp3 / temp2;
 
-            rotDest->x = RADF_TO_BINANG(Math_FAtan2F(temp, temp2));
+            rotDest->x = RAD_TO_BINANG(Math_FAtan2F(temp, temp2));
         }
     }
 }
