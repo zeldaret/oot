@@ -112,13 +112,13 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->type != 5) {
-        if (((gSaveContext.dayTime < 0xB888) || IS_DAY) && !(gSaveContext.eventChkInf[8] & 1)) {
+        if (((gSaveContext.dayTime < 0xB888) || IS_DAY) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actionFunc = EnHeishi1_SetupWalk;
         } else {
             Actor_Kill(&this->actor);
         }
     } else {
-        if ((gSaveContext.dayTime >= 0xB889) || !IS_DAY || (gSaveContext.eventChkInf[8] & 1)) {
+        if ((gSaveContext.dayTime >= 0xB889) || !IS_DAY || GET_EVENTCHKINF(EVENTCHKINF_80)) {
             this->actionFunc = EnHeishi1_SetupWaitNight;
         } else {
             Actor_Kill(&this->actor);
@@ -347,7 +347,7 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
         if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
             Message_CloseTextbox(globalCtx);
             if (!this->loadStarted) {
-                gSaveContext.eventChkInf[4] |= 0x4000;
+                SET_EVENTCHKINF(EVENTCHKINF_4E);
                 globalCtx->nextEntranceIndex = 0x4FA;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;

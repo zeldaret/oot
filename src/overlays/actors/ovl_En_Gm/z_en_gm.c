@@ -141,14 +141,14 @@ void EnGm_UpdateEye(EnGm* this) {
 void EnGm_SetTextID(EnGm* this) {
     switch (func_80A3D7C8()) {
         case 0:
-            if (gSaveContext.infTable[11] & 1) {
+            if (GET_INFTABLE(INFTABLE_B0)) {
                 this->actor.textId = 0x304B;
             } else {
                 this->actor.textId = 0x304A;
             }
             break;
         case 1:
-            if (gSaveContext.infTable[11] & 2) {
+            if (GET_INFTABLE(INFTABLE_B1)) {
                 this->actor.textId = 0x304F;
             } else {
                 this->actor.textId = 0x304C;
@@ -202,12 +202,12 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         switch (func_80A3D7C8()) {
             case 0:
-                gSaveContext.infTable[11] |= 1;
+                SET_INFTABLE(INFTABLE_B0);
             case 3:
                 this->actionFunc = func_80A3DD7C;
                 return;
             case 1:
-                gSaveContext.infTable[11] |= 2;
+                SET_INFTABLE(INFTABLE_B1);
             case 2:
                 this->actionFunc = EnGm_ProcessChoiceIndex;
             default:

@@ -191,8 +191,8 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
-        } else if (((this->type != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
-                   ((this->type != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
+                   ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
@@ -240,7 +240,7 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
         switch (this->type) {
             case 1:
                 Flags_SetSwitch(globalCtx, this->switchFlag);
-                gSaveContext.eventChkInf[3] |= 0x200;
+                SET_EVENTCHKINF(EVENTCHKINF_39);
                 break;
             case 2:
                 globalCtx->csCtx.segment = D_80ABF9D0;
@@ -255,7 +255,7 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 globalCtx->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_003C80)
                                                          : SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
-                gSaveContext.eventChkInf[1] |= 0x2000;
+                SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 break;
             default:

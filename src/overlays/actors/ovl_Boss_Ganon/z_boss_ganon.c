@@ -564,7 +564,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
             this->csCamFov = 60.0f;
 
-            if (gSaveContext.eventChkInf[7] & 0x100) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_78)) {
                 // watched cutscene already, skip most of it
                 this->csState = 17;
                 this->csTimer = 0;
@@ -1083,12 +1083,12 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                 gSegments[6] = VIRTUAL_TO_PHYSICAL(
                     globalCtx->objectCtx.status[Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON)].segment);
 
-                if (!(gSaveContext.eventChkInf[7] & 0x100)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_78)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gDorfTitleCardTex), 160, 180, 128, 40);
                 }
 
-                gSaveContext.eventChkInf[7] |= 0x100;
+                SET_EVENTCHKINF(EVENTCHKINF_78);
             }
 
             if (this->csTimer >= 20) {

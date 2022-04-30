@@ -3,11 +3,11 @@
 
 ElfMessage sChildSariaMsgs[] = {
     ELF_MSG_STRENGTH_UPG(SKIP, 3, false, 0),
-    ELF_MSG_FLAG(CHECK, 0x61, false, 0x37), /* eventChkInf[3] & 0x80 */
+    ELF_MSG_FLAG(CHECK, 0x61, false, EVENTCHKINF_37),
     ELF_MSG_END(0x64),
-    ELF_MSG_FLAG(CHECK, 0x62, false, 0x25), /* eventChkInf[2] & 0x20 */
-    ELF_MSG_FLAG(CHECK, 0x63, false, 0x37), /* eventChkInf[3] & 0x80 */
-    ELF_MSG_FLAG(CHECK, 0x65, false, 0x43), /* eventChkInf[4] & 0x8 */
+    ELF_MSG_FLAG(CHECK, 0x62, false, EVENTCHKINF_25),
+    ELF_MSG_FLAG(CHECK, 0x63, false, EVENTCHKINF_37),
+    ELF_MSG_FLAG(CHECK, 0x65, false, EVENTCHKINF_43),
     ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_FOREST),
     ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_FIRE),
     ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_WATER),

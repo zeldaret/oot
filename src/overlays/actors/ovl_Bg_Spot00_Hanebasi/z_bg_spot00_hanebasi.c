@@ -79,7 +79,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if (gSaveContext.sceneSetupIndex != 6) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !(gSaveContext.eventChkInf[8] & 1)) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 this->dyna.actor.shape.rot.x = -0x4000;
             }
         }
@@ -140,7 +140,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
 
     if ((gSaveContext.sceneSetupIndex >= 4) || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) ||
         !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) || !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) ||
-        (gSaveContext.eventChkInf[8] & 1)) {
+        GET_EVENTCHKINF(EVENTCHKINF_80)) {
         if (this->dyna.actor.shape.rot.x != 0) {
             if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && IS_DAY)) {
                 this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
@@ -211,14 +211,14 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         if (globalCtx->sceneNum == SCENE_SPOT00) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !(gSaveContext.eventChkInf[8] & 1) && LINK_IS_CHILD) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
                 Player* player = GET_PLAYER(globalCtx);
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
                     (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f) &&
                     (!(Gameplay_InCsMode(globalCtx)))) {
-                    gSaveContext.eventChkInf[8] |= 1;
-                    Flags_SetEventChkInf(0x82);
+                    SET_EVENTCHKINF(EVENTCHKINF_80);
+                    Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
                     func_8002DF54(globalCtx, &player->actor, 8);
                     globalCtx->nextEntranceIndex = 0x00CD;

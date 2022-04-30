@@ -182,7 +182,7 @@ void BgDodoago_WaitExplosives(BgDodoago* this, GlobalContext* globalCtx) {
             sFirstExplosiveFlag = true;
             sTimer = 50;
         }
-    } else if (Flags_GetEventChkInf(0xB0)) {
+    } else if (Flags_GetEventChkInf(EVENTCHKINF_B0)) {
         Collider_UpdateCylinder(&this->dyna.actor, &this->colliderMain);
         Collider_UpdateCylinder(&this->dyna.actor, &this->colliderLeft);
         Collider_UpdateCylinder(&this->dyna.actor, &this->colliderRight);
@@ -312,7 +312,7 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 672);
 
-    if (Flags_GetEventChkInf(0xB0)) {
+    if (Flags_GetEventChkInf(EVENTCHKINF_B0)) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_dodoago.c", 677),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
