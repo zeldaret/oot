@@ -441,7 +441,7 @@ void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx) {
         if (this->unk_1D0 == 0) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xA0);
         } else {
-            Item_DropCollectible(globalCtx, &this->actor.world.pos, 8);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_ARROWS_SMALL);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NYU_DEAD);
         this->actionFunc = EnNy_Die;

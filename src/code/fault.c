@@ -1107,7 +1107,7 @@ void Fault_DisplayFrameBuffer(void) {
     osViSetSpecialFeatures(OS_VI_GAMMA_OFF | OS_VI_DITHER_FILTER_ON);
     osViBlack(false);
 
-    if (sFaultInstance->fb) {
+    if (sFaultInstance->fb != NULL) {
         fb = sFaultInstance->fb;
     } else {
         fb = osViGetNextFramebuffer();
