@@ -1,7 +1,7 @@
 #include "global.h"
 
 /**
- * @brief Computes one @p x modulo @p y for floats.
+ * Computes one `x` modulo `y` for floats.
  *
  * Acts like the standard C fmodf except does not handle Infinity. See https://en.cppreference.com/w/c/numeric/math/fmod
  * for the details. It summarizes this function as follows:
