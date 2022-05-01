@@ -16,6 +16,7 @@
         <Cutscene Name="gWaterBarrierCs" Offset="0x1EF70"/>
         <Cutscene Name="gShadowBarrierCs" Offset="0x21380"/>
 
+        <Path Name="ganontika_scenePathList_000668" Offset="0x0668" NumPaths="6"/>
         <Scene Name="ganontika_scene" Offset="0x0"/>
     </File>
     <File Name="ganontika_room_0" Segment="3">

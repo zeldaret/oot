@@ -2,9 +2,9 @@
 #include "ultra64/internal.h"
 
 OSThread viThread;
-u8 viThreadStack[0x1000];
+STACK(viThreadStack, 0x1000);
 OSMesgQueue viEventQueue;
-OSMesg viEventBuf[6];
+OSMesg viEventBuf[5];
 OSIoMesg viRetraceMsg;
 OSIoMesg viCounterMsg;
 OSMgrArgs __osViDevMgr = { 0 };
@@ -20,7 +20,7 @@ void osCreateViManager(OSPri pri) {
     if (!__osViDevMgr.initialized) {
         __osTimerServicesInit();
         __additional_scanline = 0;
-        osCreateMesgQueue(&viEventQueue, viEventBuf, 5);
+        osCreateMesgQueue(&viEventQueue, viEventBuf, ARRAY_COUNT(viEventBuf));
         viRetraceMsg.hdr.type = OS_MESG_TYPE_VRETRACE;
         viRetraceMsg.hdr.pri = OS_MESG_PRI_NORMAL;
         viRetraceMsg.hdr.retQueue = NULL;
@@ -45,7 +45,7 @@ void osCreateViManager(OSPri pri) {
         __osViDevMgr.piDmaCallback = NULL;
         __osViDevMgr.epiDmaCallback = NULL;
 
-        osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, viThreadStack + sizeof(viThreadStack), pri);
+        osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, STACK_TOP(viThreadStack), pri);
         __osViInit();
         osStartThread(&viThread);
         __osRestoreInt(prevInt);
@@ -59,7 +59,7 @@ void viMgrMain(void* vargs) {
     static u16 viRetrace;
     OSMgrArgs* args;
     u32 addTime;
-    OSIoMesg* mesg = NULL;
+    OSIoMesg* msg = NULL;
     u32 temp = 0; // always 0
 
     viRetrace = __osViGetCurrentContext()->retraceCount;
@@ -70,8 +70,8 @@ void viMgrMain(void* vargs) {
     args = (OSMgrArgs*)vargs;
 
     while (true) {
-        osRecvMesg(args->eventQueue, (OSMesg)&mesg, OS_MESG_BLOCK);
-        switch (mesg->hdr.type) {
+        osRecvMesg(args->eventQueue, (OSMesg*)&msg, OS_MESG_BLOCK);
+        switch (msg->hdr.type) {
             case OS_MESG_TYPE_VRETRACE:
                 __osViSwapContext();
                 viRetrace--;

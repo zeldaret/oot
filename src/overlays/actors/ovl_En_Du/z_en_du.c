@@ -111,7 +111,7 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
             return 0x301D;
         }
     }
-    if (gSaveContext.infTable[0x11] & 8) {
+    if (GET_INFTABLE(INFTABLE_113)) {
         return 0x301B;
     } else {
         return 0x301A;
@@ -126,13 +126,13 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
         case TEXT_STATE_CLOSING:
             switch (actor->textId) {
                 case 0x301A:
-                    gSaveContext.infTable[0x11] |= 8;
+                    SET_INFTABLE(INFTABLE_113);
                     break;
                 case 0x301C:
                 case 0x301F:
                     return 2;
                 case 0x3020:
-                    gSaveContext.eventChkInf[0x2] |= 4;
+                    SET_EVENTCHKINF(EVENTCHKINF_22);
                     break;
             }
             return 0;
@@ -156,7 +156,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
 s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
-    } else if (globalCtx->sceneNum == SCENE_HIDAN && !(gSaveContext.infTable[0x11] & 0x400) && LINK_IS_ADULT) {
+    } else if (globalCtx->sceneNum == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
         return 1;
     }
     return 0;
@@ -349,7 +349,8 @@ void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
@@ -373,15 +374,7 @@ void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE6CC(EnDu* this, GlobalContext* globalCtx) {
-    s16 phi_v1;
-
-    if (this->unk_1E2 == 0) {
-        phi_v1 = 0;
-    } else {
-        this->unk_1E2--;
-        phi_v1 = this->unk_1E2;
-    }
-    if (phi_v1 == 0) {
+    if (DECR(this->unk_1E2) == 0) {
         this->actor.textId = 0x3039;
         Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->unk_1F4.unk_00 = 1;
@@ -398,15 +391,7 @@ void func_809FE740(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FE798(EnDu* this, GlobalContext* globalCtx) {
-    s32 phi_v0;
-
-    if (this->unk_1E2 == 0) {
-        phi_v0 = 0;
-    } else {
-        this->unk_1E2--;
-        phi_v0 = this->unk_1E2;
-    }
-    if (phi_v0 != 0) {
+    if (DECR(this->unk_1E2) != 0) {
         switch (this->unk_1E2) {
             case 0x50:
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK_B);
@@ -426,7 +411,7 @@ void func_809FE798(EnDu* this, GlobalContext* globalCtx) {
         }
     } else {
         Actor_Kill(&this->actor);
-        gSaveContext.infTable[0x11] |= 0x400;
+        SET_INFTABLE(INFTABLE_11A);
     }
 }
 
@@ -536,6 +521,7 @@ void func_809FEC70(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FECE4);
     } else {
         f32 xzRange = this->actor.xzDistToPlayer + 1.0f;
+
         func_8002F434(&this->actor, globalCtx, GI_BRACELET, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
@@ -571,7 +557,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002D7EC(&this->actor);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if (this->actionFunc != func_809FE4A4) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1F4.unk_00, this->collider.dim.radius + 116.0f, func_809FDC38,
@@ -588,14 +574,14 @@ s32 EnDu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == 16) {
         Matrix_Translate(2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp1C = this->unk_1F4.unk_08;
-        Matrix_RotateX(BINANG_TO_RAD(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(sp1C.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
         Matrix_Translate(-2400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
         sp1C = this->unk_1F4.unk_0E;
-        Matrix_RotateY(BINANG_TO_RAD(sp1C.y), MTXMODE_APPLY);
-        Matrix_RotateX(BINANG_TO_RAD(sp1C.x), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
     }
     return 0;
 }

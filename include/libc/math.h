@@ -8,7 +8,6 @@
 #define FLT_MAX 340282346638528859811704183484516925440.0f
 #define SHT_MAX 32767.0f
 #define SHT_MINV (1.0f / SHT_MAX)
-#define DEGTORAD(x) (x * M_PI / 180.0f)
 
 typedef union {
     struct {

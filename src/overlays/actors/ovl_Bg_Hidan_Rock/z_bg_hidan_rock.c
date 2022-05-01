@@ -240,7 +240,7 @@ void func_8088B69C(BgHidanRock* this, GlobalContext* globalCtx) {
 
 void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
     this->timer--;
-    if (this->dyna.actor.bgCheckFlags & 2) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->type == 0) {
             this->timer = 60;
             this->actionFunc = func_8088B5F4;
@@ -333,7 +333,7 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     if (this->actionFunc == func_8088B79C) {
         Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
     if (this->unk_16C > 0.0f) {

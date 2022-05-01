@@ -38,6 +38,7 @@ beginseg
     include "build/src/libultra/os/dequeuethread.o"
     include "build/src/libultra/os/destroythread.o"
     include "build/asm/bzero.o"
+    include "build/asm/parameters.o"
     include "build/src/libultra/os/createthread.o"
     include "build/asm/__osSetSR.o"
     include "build/asm/__osGetSR.o"
@@ -77,8 +78,7 @@ beginseg
     include "build/asm/__osSetCompare.o"
     include "build/asm/bcopy.o"
     include "build/src/libultra/os/resetglobalintmask.o"
-    include "build/asm/__osDisableInt.o"
-    include "build/asm/__osRestoreInt.o"
+    include "build/asm/interrupt.o"
     include "build/src/libultra/io/vimodentsclan1.o"
     include "build/src/libultra/io/vimodempallan1.o"
     include "build/src/libultra/io/vi.o"
@@ -109,6 +109,9 @@ beginseg
     include "build/src/libultra/os/gethwintrroutine.o"
     include "build/asm/__osSetWatchLo.o"
     include "build/data/rsp_boot.text.o"
+#ifdef COMPILER_GCC
+    include "build/src/gcc_fix/missing_gcc_functions.o"
+#endif
 endseg
 
 beginseg
@@ -506,7 +509,7 @@ beginseg
     include "build/src/libultra/io/spsetpc.o"
     include "build/src/libultra/libc/sqrt.o"
     include "build/src/libultra/libc/absf.o"
-    include "build/src/code/code_801067F0.o"
+    include "build/src/code/fmodf.o"
     include "build/src/code/code_80106860.o"
     include "build/src/code/code_801068B0.o"
     include_data_with_rodata "build/src/code/z_message_PAL.o"

@@ -11,7 +11,7 @@
 
 # Unused
 glabel D_8012ABC0
-    .word func_801067F0 # fmodf?
+    .word fmodf
     .word guScale
     .word guRotate
     .word guTranslate

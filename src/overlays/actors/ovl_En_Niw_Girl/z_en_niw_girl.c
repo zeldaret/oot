@@ -68,7 +68,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->path = ((this->actor.params >> 8) & 0xFF);
     this->actor.gravity = -3.0f;
-    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
     vec2.x = vec2.y = vec2.z = 0.0f;
     vec1.x = vec1.y = 0.0f;
     vec1.z = 50.0;
@@ -123,7 +123,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     }
 
     // Change her angle so that she is always facing the cuckoo
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(xDistBetween, zDistBetween) * (0x8000 / M_PI), 3,
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(xDistBetween, zDistBetween)), 3,
                        this->unk_27C, 0);
     Math_ApproachF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -140,7 +140,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
                      -10.0f);
     this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x7000;
-    if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_80) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
     }
     switch (Player_GetMask(globalCtx)) {
@@ -223,7 +223,8 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 100.0f, 100.0f, 200.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 100.0f, 100.0f, 200.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

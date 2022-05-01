@@ -944,7 +944,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
     EffectBlureElement* elem;
     s32 i;
     s32 j;
-    s32 phi_t2;
+    s32 flag;
 
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1596);
 
@@ -1029,22 +1029,22 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
                 gSPVertex(POLY_XLU_DISP++, vtx, 32, 0);
 
-                phi_t2 = 0;
+                flag = 0;
                 for (i = 0; i < this->numElements; i++) {
                     elem = &this->elements[i];
 
                     if (elem->state == 0) {
-                        phi_t2 = 0;
+                        flag = 0;
                     } else {
-                        if (phi_t2 == 0) {
-                            phi_t2 = 1;
+                        if (flag == 0) {
+                            flag = 1;
                         } else {
                             gSP1Quadrangle(POLY_XLU_DISP++, j - 2, j - 1, j + 1, j, 0);
 
                             if (1) {} // Necessary to match
 
                             if (this->unkFlag == 1) {
-                                phi_t2 = 0;
+                                flag = 0;
                             }
                         }
                         j += 2;

@@ -546,15 +546,15 @@ s16 Math_SmoothStepToS(s16* pValue, s16 target, s16 scale, s16 step, s16 minStep
 /**
  * Changes pValue by step towards target. If step is more than 1/scale of the remaining distance, step by that instead.
  */
-void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 maxStep) {
+void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 step) {
     s16 diff = target - *pValue;
 
     diff /= scale;
 
-    if (diff > maxStep) {
-        *pValue += maxStep;
-    } else if (diff < -maxStep) {
-        *pValue -= maxStep;
+    if (diff > step) {
+        *pValue += step;
+    } else if (diff < -step) {
+        *pValue -= step;
     } else {
         *pValue += diff;
     }
@@ -568,13 +568,16 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src) {
 }
 
 void func_80078884(u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultReverb);
 }
 
 void func_800788CC(u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultReverb);
 }
 
 void func_80078914(Vec3f* arg0, u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, arg0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, arg0, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultReverb);
 }

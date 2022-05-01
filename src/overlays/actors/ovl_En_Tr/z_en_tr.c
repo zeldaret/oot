@@ -125,8 +125,8 @@ void EnTr_CrySpellcast(EnTr* this, GlobalContext* globalCtx) {
     if (this->timer == 11) {
         // Both cry in the title screen cutscene, but only Kotake in the in-game cutscene
         if ((this->actor.params != TR_KOUME) || (gSaveContext.sceneSetupIndex == 6)) {
-            Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_VOICE, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_VOICE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
 
@@ -375,7 +375,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnTr* this = (EnTr*)thisx;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {

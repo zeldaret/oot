@@ -463,9 +463,9 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
 
     Matrix_RotateAxis(rollAngleDiff, &unitRollAxis, MTXMODE_NEW);
-    Matrix_RotateY(this->actor.shape.rot.y * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
-    Matrix_RotateX(this->actor.shape.rot.x * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
-    Matrix_RotateZ(this->actor.shape.rot.z * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD(this->actor.shape.rot.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Get(&mtx);
     Matrix_MtxFToYXZRotS(&mtx, &this->actor.shape.rot, 0);
 }
@@ -643,7 +643,7 @@ void EnGoroiwa_SetupMoveAndFallToGround(EnGoroiwa* this) {
 
 void EnGoroiwa_MoveAndFallToGround(EnGoroiwa* this, GlobalContext* globalCtx) {
     EnGoroiwa_MoveAndFall(this, globalCtx);
-    if ((this->actor.bgCheckFlags & 1) && this->actor.velocity.y < 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y < 0.0f) {
         if ((this->stateFlags & ENGOROIWA_PLAYER_IN_THE_WAY) && (this->actor.home.rot.z & 1) == 1) {
             EnGoroiwa_ReverseDirection(this);
             EnGoroiwa_FaceNextWaypoint(this, globalCtx);
@@ -732,7 +732,8 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         switch ((this->actor.params >> 10) & 1) {
             case 1:
-                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f,
+                                        UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
                 break;
             case 0:
                 this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30,

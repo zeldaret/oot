@@ -130,8 +130,8 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params & 0x1F;
 
-    if ((params > 0) || (params < 0x1A)) {
-        if (params == 6) {
+    if ((params > 0) || (params < ITEM00_MAX)) { // conditional always true. May have been intended to be &&
+        if (params == ITEM00_HEART_PIECE) {
             if (Flags_GetCollectible(globalCtx, (this->actor.params >> 8) & 0x3F)) {
                 params = -1;
             } else {
@@ -210,9 +210,9 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + (118.0f * this->actor.scale.y),
                      this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
-    Matrix_RotateX(this->actor.shape.rot.x * (M_PI / 0x8000), MTXMODE_APPLY);
-    Matrix_RotateZ(this->actor.shape.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD(this->actor.shape.rot.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
 
