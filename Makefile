@@ -192,9 +192,9 @@ build/src/code/fault.o: OPTFLAGS := -O2 -g3
 build/src/code/fault_drawer.o: CFLAGS += -trapuv
 build/src/code/fault_drawer.o: OPTFLAGS := -O2 -g3
 build/src/code/ucode_disas.o: OPTFLAGS := -O2 -g3
-build/src/code/code_801068B0.o: OPTFLAGS := -g
-build/src/code/code_80106860.o: OPTFLAGS := -g
 build/src/code/fmodf.o: OPTFLAGS := -g
+build/src/code/__osMemset.o: OPTFLAGS := -g
+build/src/code/__osMemmove.o: OPTFLAGS := -g
 
 build/src/libultra/libc/absf.o: OPTFLAGS := -O2 -g3
 build/src/libultra/libc/sqrt.o: OPTFLAGS := -O2 -g3
