@@ -77,12 +77,6 @@ sudo apt-get update
 sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
 ```
 
-To install the Python dependencies simply run in a terminal:
-
-```bash
-python3 -m pip install colorama
-```
-
 If you are using GCC as the compiler for Ocarina of Time, you will also need:
 
 * gcc-mips-linux-gnu

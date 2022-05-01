@@ -445,9 +445,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 // Calculate the direction for the Arwing to fly and the rotation for the Arwing
                 // based on the Arwing's direction, and current rotation.
-                worldRotationTargetY = RADF_TO_BINANG(Math_FAtan2F(vectorToTargetX, vectorToTargetZ));
+                worldRotationTargetY = RAD_TO_BINANG(Math_FAtan2F(vectorToTargetX, vectorToTargetZ));
                 worldRotationTargetX =
-                    RADF_TO_BINANG(Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))));
+                    RAD_TO_BINANG(Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))));
                 if ((worldRotationTargetX < 0) && (this->actor.world.pos.y < this->actor.floorHeight + 20.0f)) {
                     worldRotationTargetX = 0;
                 }

@@ -931,8 +931,8 @@
         <Texture Name="gSunEvening1Tex" OutName="sun_evening_1" Format="i4" Width="64" Height="31" Offset="0x4C960"/>
         <Texture Name="gSunEvening2Tex" OutName="sun_evening_2" Format="i4" Width="64" Height="16" Offset="0x4CD40"/>
         <Texture Name="gSunEvening3Tex" OutName="sun_evening_3" Format="i4" Width="64" Height="16" Offset="0x4CF40"/>
-        <DList Name="gKokiriDustMoteTextureLoadDL" Offset="0x4D160"/>
-        <DList Name="gKokiriDustMoteDL" Offset="0x4D1A8"/>
+        <DList Name="gKokiriDustMoteMaterialDL" Offset="0x4D160"/>
+        <DList Name="gKokiriDustMoteModelDL" Offset="0x4D1A8"/>
         <DList Name="gSunDL" Offset="0x4D1C0"/>
         <DList Name="gZTargetLockOnTriangleDL" Offset="0x4D450"/>
         <DList Name="gEffFire1DL" Offset="0x4D4E0"/>

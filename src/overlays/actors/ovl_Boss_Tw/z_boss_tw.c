@@ -514,7 +514,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOTAKE;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_0070E0, &object_tw_Anim_006F28, NULL, NULL, 0);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, globalCtx);
             this->actor.world.pos.x = -600.0f;
@@ -532,7 +532,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOUME;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_01F888, &object_tw_Anim_006F28, NULL, NULL, 0);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, globalCtx);
             this->actor.world.pos.x = 600.0f;
@@ -554,7 +554,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_032020, &object_tw_Anim_0244B4, NULL, NULL, 0);
         Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_0244B4, -3.0f);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupWait(this, globalCtx);
         } else {
@@ -689,9 +689,9 @@ void BossTw_FlyTo(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yawTarget = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    yawTarget = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    pitchTarget = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+    pitchTarget = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
 
     Math_ApproachS(&this->actor.world.rot.x, pitchTarget, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yawTarget, 0xA, this->rotateSpeed);
@@ -1134,11 +1134,13 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                                              &this->unk_54C, &this->actor.projectedW);
 
                 if (this->actor.params == 1) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_54C, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_54C, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_54C, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_54C, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 break;
 
@@ -1164,15 +1166,19 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                                              &this->actor.projectedW);
 
                 if (this->actor.params == 1) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_558, 4U, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG, &this->unk_558, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_558, 4U,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG, &this->unk_558, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_558, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG, &this->unk_558, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_558, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG, &this->unk_558, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 break;
         }
@@ -2221,7 +2227,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_D8 = 0.0f;
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(object_tw_Blob_02E170), 0xA0, 0xB4, 0x80, 0x28);
-                gSaveContext.eventChkInf[7] |= 0x20;
+                SET_EVENTCHKINF(EVENTCHKINF_75);
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             }
 
@@ -2364,8 +2370,8 @@ void BossTw_DeathBall(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
-    Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff)))), 5,
+    yaw = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    Math_ApproachS(&this->actor.world.rot.x, RAD_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff)))), 5,
                    this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 5, this->rotateSpeed);
     func_8002D908(&this->actor);
@@ -3928,10 +3934,10 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
                     // yaw
-                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+                    this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     // pitch
                     distXZ = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, distXZ));
+                    this->actor.world.rot.x = RAD_TO_BINANG(Math_FAtan2F(yDiff, distXZ));
                     this->actor.speedXZ = 20.0f;
 
                     for (i = 0; i < 50; i++) {
@@ -4118,9 +4124,9 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
-                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+                    this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+                    this->actor.world.rot.x = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
                     this->actor.speedXZ = 20.0f;
                     for (i = 0; i < 50; i++) {
                         this->blastTailPos[i] = this->actor.world.pos;
@@ -5387,9 +5393,9 @@ void BossTw_TwinrovaSetupFly(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_TwinrovaFly;
     this->rotateSpeed = 0.0f;
     this->actor.speedXZ = 0.0f;
-    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+    this->actor.world.rot.x = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
     Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_032BF8, -10.0f);
 }
 
@@ -5406,9 +5412,9 @@ void BossTw_TwinrovaFly(BossTw* this, GlobalContext* globalCtx) {
     xDiff = this->targetPos.x - this->actor.world.pos.x;
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
-    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    yaw = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    Math_ApproachS(&this->actor.world.rot.x, (f32)RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist)), 0xA, this->rotateSpeed);
+    Math_ApproachS(&this->actor.world.rot.x, (f32)RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist)), 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.shape.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachF(&this->rotateSpeed, 2000.0f, 1.0f, 100.0f);

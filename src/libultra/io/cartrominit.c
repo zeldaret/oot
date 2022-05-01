@@ -27,8 +27,9 @@ OSPiHandle* osCartRomInit(void) {
     __CartRomHandle.speed = 0;
     bzero(&__CartRomHandle.transferInfo, sizeof(__OSTranxInfo));
 
-    while (status = HW_REG(PI_STATUS_REG, u32), status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
-        ;
+    status = HW_REG(PI_STATUS_REG, u32);
+    while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
+        status = HW_REG(PI_STATUS_REG, u32);
     }
 
     lastLatency = HW_REG(PI_BSD_DOM1_LAT_REG, u32);

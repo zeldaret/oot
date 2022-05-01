@@ -67,15 +67,7 @@ Add the new binutils binaries to your system PATH:
 - Scroll to the bottom and add `PATH=$PATH:/opt/cross/bin` to a new line and save the file
 - Run `source .bashrc` or close and reopen cygwin
 
-## 3. Install required Python packages
-
-To install the Python dependencies simply run in a terminal:
-
-```bash
-python3 -m pip install colorama
-```
-
-## 4. Continue with Linux instructions
+## 3. Continue with Linux instructions
 
 You should be able to continue from step [step 2](../README.md#2-clone-the-repository) of the Linux instructions.
 

@@ -65,7 +65,8 @@ static Vec3f sKakarikoPosList[] = {
 };
 
 static s16 sKakarikoFlagList[] = {
-    0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000,
+    INFTABLE_199_MASK, INFTABLE_19A_MASK, INFTABLE_19B_MASK, INFTABLE_19C_MASK,
+    INFTABLE_19D_MASK, INFTABLE_19E_MASK, INFTABLE_19F_MASK,
 };
 
 static u8 sLowerRiverSpawned = false;
@@ -160,7 +161,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
                 fabsf(this->actor.world.pos.z - sKakarikoPosList[i].z) < 40.0f) {
                 this->unk_2AA = i;
                 osSyncPrintf(VT_FGCOL(YELLOW) " 通常鶏index %d\n" VT_RST, this->unk_2AA);
-                if (gSaveContext.infTable[25] & sKakarikoFlagList[i]) {
+                if (gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] & sKakarikoFlagList[i]) {
                     this->actor.world.pos.x = 300.0f;
                     this->actor.world.pos.y = 100.0f;
                     this->actor.world.pos.z = 1530.0f;
@@ -187,22 +188,22 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
         case 1:
-            if (gSaveContext.eventChkInf[1] & 0x10) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 3:
-            if (!(gSaveContext.eventChkInf[1] & 0x10)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 5:
-            if (gSaveContext.eventChkInf[1] & 0x100) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_18)) {
                 Actor_Kill(&this->actor);
             }
             break;
         case 7:
-            if (!(gSaveContext.eventChkInf[1] & 0x100)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -225,7 +226,7 @@ void EnNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0xD:
         case 0xE:
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit2);
-            if (globalCtx->sceneNum == SCENE_LINK_HOME && !(gSaveContext.eventChkInf[1] & 0x4000)) {
+            if (globalCtx->sceneNum == SCENE_LINK_HOME && !GET_EVENTCHKINF(EVENTCHKINF_1E)) {
                 Actor_Kill(&this->actor);
             }
             break;
@@ -577,7 +578,7 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
             this->unk_29E = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(posY, posZ)), 3, this->unk_300, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(posY, posZ)), 3, this->unk_300, 0);
         Math_ApproachF(&this->unk_300, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -605,7 +606,7 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
         pointPos += this->waypoint;
         pathDiffX = pointPos->x - this->actor.world.pos.x;
         pathDiffZ = pointPos->z - this->actor.world.pos.z;
-        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ));
+        this->unk_2E4 = RAD_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ));
         func_80AB6100(this, globalCtx, 2);
 
         if (fabsf(pathDiffX) < 30.0f && fabsf(pathDiffZ) < 30.0f) {
@@ -839,8 +840,8 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
         }
         this->actionFunc = EnNiw_ResetAction;
     } else {
-        this->unk_2E4 = RADF_TO_BINANG(Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
-                                                    this->actor.world.pos.z - player->actor.world.pos.z));
+        this->unk_2E4 = RAD_TO_BINANG(Math_FAtan2F(this->actor.world.pos.x - player->actor.world.pos.x,
+                                                   this->actor.world.pos.z - player->actor.world.pos.z));
         func_80AB6100(this, globalCtx, 0);
         func_80AB5BF8(this, globalCtx, 2);
     }

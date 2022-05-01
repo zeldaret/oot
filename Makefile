@@ -1,5 +1,9 @@
 MAKEFLAGS += --no-builtin-rules
 
+# Ensure the build fails if a piped command fails
+SHELL = /bin/bash
+.SHELLFLAGS = -o pipefail -c
+
 # Build options can either be changed by modifying the makefile, or by building with 'make SETTING=value'
 
 # If COMPARE is 1, check the output md5sum after building
@@ -32,8 +36,8 @@ endif
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 
 ifeq ($(NON_MATCHING),1)
-  CFLAGS += -DNON_MATCHING
-  CPPFLAGS += -DNON_MATCHING
+  CFLAGS += -DNON_MATCHING -DAVOID_UB
+  CPPFLAGS += -DNON_MATCHING -DAVOID_UB
   COMPARE := 0
 endif
 
@@ -112,10 +116,10 @@ else
   OPTFLAGS := -O2
 endif
 
-ASFLAGS := -march=vr4300 -32 -Iinclude
+ASFLAGS := -march=vr4300 -32 -no-pad-sections -I include
 
 ifeq ($(COMPILER),gcc)
-  CFLAGS += -G 0 -nostdinc $(INC) -DAVOID_UB -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
+  CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
   MIPS_VERSION := -mips3
 else 
   # we support Microsoft extensions such as anonymous structs, which the compiler does support but warns for their usage. Surpress the warnings with -woff.
@@ -124,7 +128,9 @@ else
 endif
 
 ifeq ($(COMPILER),ido)
-  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING $(INC) $(CHECK_WARNINGS)
+  # Have CC_CHECK pretend to be a MIPS compiler
+  MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
+  CC_CHECK  = gcc -fno-builtin -fsyntax-only -funsigned-char -std=gnu90 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS) $(INC) $(CHECK_WARNINGS)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
     export QEMU_GUEST_BASE := 1
@@ -277,7 +283,6 @@ $(O_FILES): | asset_files
 
 .PHONY: o_files asset_files
 
-
 build/$(SPEC): $(SPEC)
 	$(CPP) $(CPPFLAGS) $< > $@
 
@@ -291,7 +296,7 @@ build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 build/asm/%.o: asm/%.s
-	$(AS) $(ASFLAGS) $< -o $@
+	$(CPP) $(CPPFLAGS) -I include $< | $(AS) $(ASFLAGS) -o $@
 
 build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@

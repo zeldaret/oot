@@ -133,7 +133,7 @@ void func_80B5357C(EnZl3* this, GlobalContext* globalCtx) {
     sp20.x = thisPos->x + ((Rand_ZeroOne() - 0.5f) * 10.0f);
     sp20.y = thisPos->y;
     sp20.z = thisPos->z + ((Rand_ZeroOne() - 0.5f) * 10.0f);
-    Item_DropCollectible(globalCtx, &sp20, 3);
+    Item_DropCollectible(globalCtx, &sp20, ITEM00_HEART);
 }
 
 void func_80B53614(EnZl3* this, GlobalContext* globalCtx) {
@@ -1614,7 +1614,7 @@ s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
         f32 xDiff = vec2->x - vec1->x;
         f32 zDiff = vec2->z - vec1->z;
 
-        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     }
     return 0;
 }
@@ -1627,7 +1627,7 @@ s16 func_80B57104(EnZl3* this, s32 arg1) {
         f32 zDiff = point->z - this->actor.world.pos.z;
 
         if ((xDiff != 0.0f) || (zDiff != 0.0f)) {
-            return RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+            return RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
         }
     }
     return 0;
@@ -1741,7 +1741,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
         return 1;
     }
 
-    temp_v0 = (s16)(temp_v1 - RADF_TO_BINANG(Math_FAtan2F(temp_f12, temp_f13)));
+    temp_v0 = (s16)(temp_v1 - RAD_TO_BINANG(Math_FAtan2F(temp_f12, temp_f13)));
 
     if (temp_v0 < 0x1555) {
         return 1;
@@ -1828,7 +1828,7 @@ void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     f32 posZ = vec->z;
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, posX, posY, posZ, 0,
-                RADF_TO_BINANG(Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ)), 0, 5);
+                RAD_TO_BINANG(Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ)), 0, 5);
 }
 
 void func_80B57858(GlobalContext* globalCtx) {
@@ -2570,7 +2570,8 @@ void func_80B59828(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B59A80(EnZl3* this, GlobalContext* globalCtx) {
     if (func_80B59768(this, globalCtx)) {
-        Audio_PlaySoundGeneral(NA_SE_OC_REVENGE, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_OC_REVENGE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -2582,7 +2583,7 @@ void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
     func_80088AA0(180);
     func_80B54EA4(this, globalCtx);
     func_80B53614(this, globalCtx);
-    gSaveContext.eventChkInf[12] &= ~0x80;
+    CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
     func_80B56F10(this, globalCtx);
     gSaveContext.healthAccumulator = 320;
     Magic_Fill(globalCtx);

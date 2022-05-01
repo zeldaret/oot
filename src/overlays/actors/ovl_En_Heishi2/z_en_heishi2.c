@@ -189,8 +189,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_30B = 1;
         this->unk_300 = TEXT_STATE_DONE;
         this->actionFunc = func_80A5475C;
-    } else if ((gSaveContext.eventChkInf[0] & 0x200) && (gSaveContext.eventChkInf[2] & 0x20) &&
-               (gSaveContext.eventChkInf[3] & 0x80)) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_09) && GET_EVENTCHKINF(EVENTCHKINF_25) && GET_EVENTCHKINF(EVENTCHKINF_37)) {
         // "Get all spiritual stones!"
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 全部の精霊石GET！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = TEXT_STATE_DONE;
@@ -209,7 +208,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = TEXT_STATE_DONE;
         this->actor.textId = 0x7099;
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.eventChkInf[1] & 4) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
         if (this->unk_30E == 0) {
             // "Start under the first sleeve!"
             osSyncPrintf(VT_FGCOL(MAGENTA) " ☆☆☆☆☆ １回目袖の下開始！ ☆☆☆☆☆ \n" VT_RST);
@@ -352,8 +351,8 @@ void func_80A5399C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     this->unk_30B = 0;
     var = 0;
-    if (gSaveContext.infTable[7] & 0x40) {
-        if (!(gSaveContext.infTable[7] & 0x80)) {
+    if (GET_INFTABLE(INFTABLE_76)) {
+        if (!GET_INFTABLE(INFTABLE_77)) {
             if (Player_GetMask(globalCtx) == PLAYER_MASK_KEATON) {
                 if (this->unk_309 == 0) {
                     this->actor.textId = 0x200A;
@@ -524,7 +523,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A54038(EnHeishi2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-        gSaveContext.infTable[7] |= 0x40;
+        SET_INFTABLE(INFTABLE_76);
         Message_CloseTextbox(globalCtx);
         func_8002DF54(globalCtx, 0, 7);
         this->actionFunc = func_80A53908;
@@ -539,8 +538,8 @@ void func_80A540C0(EnHeishi2* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x2020;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
                 Player_UnsetMask(globalCtx);
-                gSaveContext.infTable[7] |= 0x80;
-                gSaveContext.itemGetInf[3] |= 0x100;
+                SET_INFTABLE(INFTABLE_77);
+                SET_ITEMGETINF(ITEMGETINF_38);
                 Item_Give(globalCtx, ITEM_SOLD_OUT);
                 if (this->unk_30A != 0) {
                     this->unk_30A = 2;
@@ -848,7 +847,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
-    if ((this->type == 5) && (gSaveContext.infTable[7] & 0x80)) {
+    if ((this->type == 5) && GET_INFTABLE(INFTABLE_77)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);

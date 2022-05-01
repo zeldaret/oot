@@ -332,7 +332,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 this->subCamAt.z = player->actor.world.pos.z;
             }
 
-            if (gSaveContext.eventChkInf[7] & 2) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_71)) {
                 if (this->unk_198 == 100) {
                     this->actor.world.pos.x = -1114.0f;
                     this->actor.world.pos.z = -2804.0f;
@@ -373,7 +373,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
         case 4:
             Math_SmoothStepToF(&this->unk_20C, 0.0f, 1.0f, 0.01f, 0.0f);
 
-            if (gSaveContext.eventChkInf[7] & 2) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_71)) {
                 phi_f0 = -50.0f;
             } else {
                 phi_f0 = 0.0f;
@@ -401,7 +401,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_198 == 0x5A) {
-                if (!(gSaveContext.eventChkInf[7] & 2)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_71)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(&object_kingdodongo_Blob_017410), 0xA0, 0xB4, 0x80,
                                            0x28);
@@ -421,7 +421,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 this->unk_1DA = 50;
                 this->unk_1BC = 0;
                 player->actor.shape.rot.y = -0x4002;
-                gSaveContext.eventChkInf[7] |= 2;
+                SET_EVENTCHKINF(EVENTCHKINF_71);
             }
             break;
     }
@@ -693,7 +693,7 @@ void BossDodongo_Walk(BossDodongo* this, GlobalContext* globalCtx) {
     sp48 = sp4C->x - this->actor.world.pos.x;
     sp44 = sp4C->z - this->actor.world.pos.z;
     Math_SmoothStepToF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 80.0f, 0.0f);
-    Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(sp48, sp44)), 5,
+    Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(sp48, sp44)), 5,
                        (this->unk_1EC * this->unk_1E8), 5);
     Math_SmoothStepToS(&this->unk_1C4, 0, 2, 2000, 0);
 
@@ -770,7 +770,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
     sp4C = sp5C->x - this->actor.world.pos.x;
     sp48 = sp5C->z - this->actor.world.pos.z;
     Math_SmoothStepToF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
-    Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(sp4C, sp48)), 5,
+    Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(sp4C, sp48)), 5,
                        this->unk_1EC * this->unk_1E8, 0);
 
     if (fabsf(sp4C) <= 15.0f && fabsf(sp48) <= 15.0f) {
@@ -1403,7 +1403,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 tempSin = cornerPos->x - this->actor.world.pos.x;
                 tempCos = cornerPos->z - this->actor.world.pos.z;
                 Math_SmoothStepToF(&this->unk_1E8, 1500.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
-                Math_SmoothStepToS(&this->actor.world.rot.y, RADF_TO_BINANG(Math_FAtan2F(tempSin, tempCos)), 5,
+                Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(tempSin, tempCos)), 5,
                                    (this->unk_1EC * this->unk_1E8), 0);
 
                 if ((fabsf(tempSin) <= 15.0f) && (fabsf(tempCos) <= 15.0f)) {

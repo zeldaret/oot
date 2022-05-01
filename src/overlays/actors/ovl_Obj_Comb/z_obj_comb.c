@@ -130,8 +130,8 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params & 0x1F;
 
-    if ((params > 0) || (params < 0x1A)) {
-        if (params == 6) {
+    if ((params > 0) || (params < ITEM00_MAX)) { // conditional always true. May have been intended to be &&
+        if (params == ITEM00_HEART_PIECE) {
             if (Flags_GetCollectible(globalCtx, (this->actor.params >> 8) & 0x3F)) {
                 params = -1;
             } else {

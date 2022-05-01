@@ -123,7 +123,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     }
 
     // Change her angle so that she is always facing the cuckoo
-    Math_SmoothStepToS(&this->actor.shape.rot.y, RADF_TO_BINANG(Math_FAtan2F(xDistBetween, zDistBetween)), 3,
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(xDistBetween, zDistBetween)), 3,
                        this->unk_27C, 0);
     Math_ApproachF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -140,7 +140,7 @@ void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
                      -10.0f);
     this->actor.flags |= ACTOR_FLAG_0;
     this->actor.textId = 0x7000;
-    if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_80) && (this->unk_27A == 0)) {
         this->actor.textId = 0x70EA;
     }
     switch (Player_GetMask(globalCtx)) {

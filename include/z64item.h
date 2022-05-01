@@ -2,11 +2,73 @@
 #define Z64ITEM_H
 
 typedef enum {
-    /* 0x00 */ EQUIP_SWORD,
-    /* 0x01 */ EQUIP_SHIELD,
-    /* 0x02 */ EQUIP_TUNIC,
-    /* 0x03 */ EQUIP_BOOTS
+    /* 0 */ EQUIP_TYPE_SWORD,
+    /* 1 */ EQUIP_TYPE_SHIELD,
+    /* 2 */ EQUIP_TYPE_TUNIC,
+    /* 3 */ EQUIP_TYPE_BOOTS,
+    /* 4 */ EQUIP_TYPE_MAX
 } EquipmentType;
+
+// `EquipInv*` enums are for Inventory.equipment (for example used in the `CHECK_OWNED_EQUIP` macro)
+
+typedef enum {
+    /* 0 */ EQUIP_INV_SWORD_KOKIRI,
+    /* 1 */ EQUIP_INV_SWORD_MASTER,
+    /* 2 */ EQUIP_INV_SWORD_BGS,
+    /* 3 */ EQUIP_INV_SWORD_BROKENGIANTKNIFE
+} EquipInvSword;
+
+typedef enum {
+    /* 0 */ EQUIP_INV_SHIELD_DEKU,
+    /* 1 */ EQUIP_INV_SHIELD_HYLIAN,
+    /* 2 */ EQUIP_INV_SHIELD_MIRROR
+} EquipInvShield;
+
+typedef enum {
+    /* 0 */ EQUIP_INV_TUNIC_KOKIRI,
+    /* 1 */ EQUIP_INV_TUNIC_GORON,
+    /* 2 */ EQUIP_INV_TUNIC_ZORA
+} EquipInvTunic;
+
+typedef enum {
+    /* 0 */ EQUIP_INV_BOOTS_KOKIRI,
+    /* 1 */ EQUIP_INV_BOOTS_IRON,
+    /* 2 */ EQUIP_INV_BOOTS_HOVER
+} EquipInvBoots;
+
+// `EquipValue*` enums are for ItemEquips.equipment (for example used in the `CUR_EQUIP_VALUE` macro)
+
+typedef enum {
+    /* 0 */ EQUIP_VALUE_SWORD_NONE,
+    /* 1 */ EQUIP_VALUE_SWORD_KOKIRI,
+    /* 2 */ EQUIP_VALUE_SWORD_MASTER,
+    /* 3 */ EQUIP_VALUE_SWORD_BGS,
+    /* 4 */ EQUIP_VALUE_SWORD_MAX
+} EquipValueSword;
+
+typedef enum {
+    /* 0 */ EQUIP_VALUE_SHIELD_NONE,
+    /* 1 */ EQUIP_VALUE_SHIELD_DEKU,
+    /* 2 */ EQUIP_VALUE_SHIELD_HYLIAN,
+    /* 3 */ EQUIP_VALUE_SHIELD_MIRROR,
+    /* 4 */ EQUIP_VALUE_SHIELD_MAX
+} EquipValueShield;
+
+typedef enum {
+    /* 0 */ EQUIP_VALUE_TUNIC_NONE,
+    /* 1 */ EQUIP_VALUE_TUNIC_KOKIRI,
+    /* 2 */ EQUIP_VALUE_TUNIC_GORON,
+    /* 3 */ EQUIP_VALUE_TUNIC_ZORA,
+    /* 4 */ EQUIP_VALUE_TUNIC_MAX
+} EquipValueTunic;
+
+typedef enum {
+    /* 0 */ EQUIP_VALUE_BOOTS_NONE,
+    /* 1 */ EQUIP_VALUE_BOOTS_KOKIRI,
+    /* 2 */ EQUIP_VALUE_BOOTS_IRON,
+    /* 3 */ EQUIP_VALUE_BOOTS_HOVER,
+    /* 4 */ EQUIP_VALUE_BOOTS_MAX
+} EquipValueBoots;
 
 typedef enum {
     /* 0x00 */ UPG_QUIVER,
@@ -44,7 +106,7 @@ typedef enum {
     /* 0x15 */ QUEST_STONE_OF_AGONY,
     /* 0x16 */ QUEST_GERUDO_CARD,
     /* 0x17 */ QUEST_SKULL_TOKEN,
-    /* 0x18 */ QUEST_HEART_PIECE
+    /* 0x1C */ QUEST_HEART_PIECE_COUNT = 0x1C
 } QuestItem;
 
 typedef enum {
