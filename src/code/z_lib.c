@@ -1,20 +1,19 @@
 #include "global.h"
 
 /**
- * @brief memset: sets @p len bytes to @p val starting at address @p dest .
+ * memset: sets `len` bytes to `val` starting at address `dest`.
  *
  * Unlike normal memset,
- * - @p dest is a u8* already,
- * - does not return @p dest ,
+ * - `dest` is a `u8*` already,
+ * - does not return `dest`,
  * - the arguments are in a different order,
- * - @p val is a u8 instead of the standard s32.
+ * - `val` is a `u8` instead of the standard `s32`.
  *
- * There are two other memsets in this codebase,
- * @sa __osMemset(), MemSet()
+ * @see There are two other memsets in this codebase, __osMemset(), MemSet()
  *
- * @param[in,out] dest address to start at
- * @param[in] len number of bytes to write
- * @param[in] val value to write
+ * @param dest address to start at
+ * @param len number of bytes to write
+ * @param val value to write
  */
 void Lib_MemSet(u8* dest, size_t len, u8 val) {
     size_t i;

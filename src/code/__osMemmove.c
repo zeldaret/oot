@@ -1,13 +1,13 @@
 #include "global.h"
 
 /**
- * @brief memmove: copies @p size bytes from memory starting at @p src to memory starting at @p dest .
+ * memmove: copies `len` bytes from memory starting at `src` to memory starting at `dest`.
  *
- * Unlike @ref memcpy(), the regions of memory may overlap.
+ * Unlike memcpy(), the regions of memory may overlap.
  *
- * @param[in,out] dest address of start of buffer writing to
- * @param[in] src address of start of buffer to read from
- * @param[in] size number of bytes to copy.
+ * @param dest address of start of buffer to write to
+ * @param src address of start of buffer to read from
+ * @param len number of bytes to copy.
  *
  * @return dest
  */

@@ -1,14 +1,13 @@
 #include "global.h"
 
 /**
- * @brief memset: sets @p len bytes to @p val starting at address @p dest .
+ * memset: sets `len` bytes to `val` starting at address `dest`.
  *
- * There are two other memsets in this codebase,
- * @sa Lib_MemSet(), MemSet()
+ * @see There are two other memsets in this codebase, Lib_MemSet(), MemSet()
  *
- * @param[in,out] dest address to start at
- * @param[in] val value to write (s32, but interpreted as u8)
- * @param[in] len number of bytes to write
+ * @param dest address to start at
+ * @param val value to write (s32, but interpreted as u8)
+ * @param len number of bytes to write
  *
  * @return dest
  */

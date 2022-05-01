@@ -1,14 +1,14 @@
 #include "global.h"
 
 /**
- * @brief memcpy: copies @p len bytes from memory starting at @p src to memory starting at @p dest . Expects the memory
- * specified by @p src and @p dest to not overlap.
+ * memcpy: copies `len` bytes from memory starting at `src` to memory starting at `dest`. Expects the memory
+ * specified by `src` and `dest` to not overlap.
  *
- * @sa libultra also has a memcpy().
+ * @see libultra also has a memcpy().
  *
- * @param[in,out] dest address of start of buffer writing to
- * @param[in] src address of start of buffer to read from
- * @param[in] len number of bytes to copy. (s32 rather than the standard size_t)
+ * @param dest address of start of buffer writing to
+ * @param src address of start of buffer to read from
+ * @param len number of bytes to copy. (`s32` rather than the standard `size_t`)
  *
  * @return dest
  */
@@ -25,15 +25,14 @@ void* MemCpy(void* dest, const void* src, s32 len) {
 }
 
 /**
- * @brief memset: sets @p len bytes to @p val starting at address @p dest .
+ * memset: sets `len` bytes to `val` starting at address `dest`.
  *
- * There are two other memsets in this codebase,
- * @sa Lib_MemSet(), __osMemSet()
+ * @see There are two other memsets in this codebase, Lib_MemSet(), __osMemset().
  * This one is unused.
  *
- * @param[in,out] dest address to start at
- * @param[in] val value to write (s32, but interpreted as u8)
- * @param[in] len number of bytes to write. (s32 rather than the standard size_t)
+ * @param dest address to start at
+ * @param val value to write (`s32`, but interpreted as `u8`)
+ * @param len number of bytes to write. (`s32` rather than the standard `size_t`)
  *
  * @return dest
  */
