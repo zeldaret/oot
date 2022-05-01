@@ -44,7 +44,7 @@ endif
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
 MAKE = make
-CPPFLAGS += -P
+CPPFLAGS += -fno-dollars-in-identifiers -P
 
 ifeq ($(OS),Windows_NT)
     DETECTED_OS=windows
@@ -116,7 +116,7 @@ else
   OPTFLAGS := -O2
 endif
 
-ASFLAGS := -march=vr4300 -32 -no-pad-sections -I include
+ASFLAGS := -march=vr4300 -32 -no-pad-sections -Iinclude
 
 ifeq ($(COMPILER),gcc)
   CFLAGS += -G 0 -nostdinc $(INC) -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses $(CHECK_WARNINGS) -funsigned-char
@@ -296,7 +296,7 @@ build/baserom/%.o: baserom/%
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 build/asm/%.o: asm/%.s
-	$(CPP) $(CPPFLAGS) -I include $< | $(AS) $(ASFLAGS) -o $@
+	$(CPP) $(CPPFLAGS) -Iinclude $< | $(AS) $(ASFLAGS) -o $@
 
 build/data/%.o: data/%.s
 	$(AS) $(ASFLAGS) $< -o $@
