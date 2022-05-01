@@ -158,10 +158,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
         Actor_MountHorse(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
         gSaveContext.horseData.scene = globalCtx->sceneNum;
-    } else if ((globalCtx->sceneNum == SCENE_SPOT20) &&
-               ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
-                (EVENTINF_01_MASK | EVENTINF_02_MASK)) &&
+    } else if ((globalCtx->sceneNum == SCENE_SPOT20) && (GET_EVENTINF_wth_0t3 == VAL_EVENTINF_wth_0t3_6) &&
                !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0)) {
         player->rideActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, 5);
@@ -203,7 +200,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     Vec3f sp54;
                     s32 temp = 0;
 
-                    if ((GET_EVENTINF(EVENTINF_04) >> EVENTINF_04_SHIFT) && D_8011F9B8[i].type == 6) {
+                    if (GET_EVENTINF_wth_04 && D_8011F9B8[i].type == 6) {
                         temp = 0x8000;
                     }
 
@@ -252,10 +249,7 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
                 ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
                   gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
                  (gSaveContext.respawnFlag == 0)) ||
-                ((globalCtx->sceneNum == SCENE_SPOT20) &&
-                 ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                   (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
-                  (EVENTINF_01_MASK | EVENTINF_02_MASK)) &&
+                ((globalCtx->sceneNum == SCENE_SPOT20) && (GET_EVENTINF_wth_0t3 == VAL_EVENTINF_wth_0t3_6) &&
                  !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0))) {
                 func_8006D684(globalCtx, player);
             } else {

@@ -111,33 +111,21 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalConte
     if (this->result == INGORACE_PLAYER_WIN) {
         globalCtx->nextEntranceIndex = 0x4CE;
         if (GET_EVENTINF(EVENTINF_06)) {
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-                (EVENTINF_01_MASK | EVENTINF_02_MASK);
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+            SET_EVENTINF_wth_0t3(VAL_EVENTINF_wth_0t3_6);
+            SET_EVENTINF_wth_0F(1);
             globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             Environment_ForcePlaySequence(NA_BGM_INGO);
         } else {
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-                EVENTINF_02_MASK;
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+            SET_EVENTINF_wth_0t3(VAL_EVENTINF_wth_0t3_4);
+            SET_EVENTINF_wth_0F(1);
             Environment_ForcePlaySequence(NA_BGM_INGO);
             globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         }
     } else {
         globalCtx->nextEntranceIndex = 0x558;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-            (EVENTINF_00_MASK | EVENTINF_01_MASK);
+        SET_EVENTINF_wth_0t3(VAL_EVENTINF_wth_0t3_3);
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+        SET_EVENTINF_wth_0F(1);
     }
     DREG(25) = 0;
     globalCtx->transitionTrigger = TRANS_TRIGGER_START;

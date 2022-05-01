@@ -768,9 +768,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     gSaveContext.unk_13EA = 0;
                     Interface_ChangeAlpha(50);
                 }
-            } else if ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
-                       EVENTINF_00_MASK) {
+            } else if (GET_EVENTINF_wth_0t3 == VAL_EVENTINF_wth_0t3_1) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.equips.buttonItems[0] != ITEM_BOW)) {
@@ -3412,10 +3410,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // Revert any spoiling trade quest items
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
-                    gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
-                        (u16) ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK |
-                                EVENTINF_04_MASK | EVENTINF_05_MASK | EVENTINF_06_MASK | EVENTINF_0F_MASK);
-                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_0X_INDEX]);
+                    gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] &=
+                        (u16) ~(EVENTINF_wth_0t3_MASK | EVENTINF_wth_04_MASK | EVENTINF_05_MASK | EVENTINF_06_MASK |
+                                EVENTINF_wth_0F_MASK);
+                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_wth_0X_INDEX]);
                     globalCtx->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
