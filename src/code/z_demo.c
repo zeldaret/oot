@@ -242,7 +242,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 3:
             if (sp3F != 0) {
                 Flags_SetEnv(globalCtx, 0);
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0_0) {
                     Flags_SetEnv(globalCtx, 2);
                 }
             }
@@ -517,43 +517,43 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
 
         switch (cmd->base) {
             case 1:
-                globalCtx->nextEntranceIndex = 0x00A0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 2:
-                globalCtx->nextEntranceIndex = 0x00A0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 3:
-                globalCtx->nextEntranceIndex = 0x0117;
+                globalCtx->nextEntranceIndex = ENTR_SPOT09_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 4:
-                globalCtx->nextEntranceIndex = 0x013D;
+                globalCtx->nextEntranceIndex = ENTR_SPOT16_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 5:
-                globalCtx->nextEntranceIndex = 0x00EE;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 6:
-                globalCtx->nextEntranceIndex = 0x00A0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 7:
-                globalCtx->nextEntranceIndex = 0x00EE;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_INSTANT;
@@ -563,7 +563,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
                     SET_EVENTCHKINF(EVENTCHKINF_45);
-                    globalCtx->nextEntranceIndex = 0x00A0;
+                    globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF3;
                     globalCtx->transitionType = TRANS_TYPE_INSTANT;
@@ -575,253 +575,253 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                             globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
                         }
                     }
-                    globalCtx->nextEntranceIndex = 0x02CA;
+                    globalCtx->nextEntranceIndex = ENTR_TOKINOMA_2_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 }
                 break;
             case 9:
-                globalCtx->nextEntranceIndex = 0x0117;
+                globalCtx->nextEntranceIndex = ENTR_SPOT09_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FILL_BROWN;
                 break;
             case 10:
-                globalCtx->nextEntranceIndex = 0x00BB;
+                globalCtx->nextEntranceIndex = ENTR_LINK_HOME_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 11:
-                globalCtx->nextEntranceIndex = 0x00EE;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF3;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 12:
-                globalCtx->nextEntranceIndex = 0x047A;
+                globalCtx->nextEntranceIndex = ENTR_SPOT16_5_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 13:
-                globalCtx->nextEntranceIndex = 0x010E;
+                globalCtx->nextEntranceIndex = ENTR_SPOT08_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 14:
-                globalCtx->nextEntranceIndex = 0x0457;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_11_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 15:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 16:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 17:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF6;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 18:
                 SET_EVENTCHKINF(EVENTCHKINF_4F);
-                globalCtx->nextEntranceIndex = 0x0324;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_4_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 19:
-                globalCtx->nextEntranceIndex = 0x013D;
+                globalCtx->nextEntranceIndex = ENTR_SPOT16_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 gSaveContext.cutsceneIndex = 0x8000;
                 break;
             case 21:
-                globalCtx->nextEntranceIndex = 0x0102;
+                globalCtx->nextEntranceIndex = ENTR_SPOT06_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 22:
                 Item_Give(globalCtx, ITEM_SONG_REQUIEM);
-                globalCtx->nextEntranceIndex = 0x0123;
+                globalCtx->nextEntranceIndex = ENTR_SPOT11_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 23:
-                globalCtx->nextEntranceIndex = 0x00A0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF8;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 24:
-                globalCtx->nextEntranceIndex = 0x0028;
+                globalCtx->nextEntranceIndex = ENTR_BDAN_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 25:
                 globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = 0x006B;
+                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 26:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 27:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 28:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF6;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 29:
-                globalCtx->nextEntranceIndex = 0x006B;
+                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.chamberCutsceneNum = 0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 30:
-                globalCtx->nextEntranceIndex = 0x006B;
+                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
                 gSaveContext.chamberCutsceneNum = 1;
                 break;
             case 31:
-                globalCtx->nextEntranceIndex = 0x006B;
+                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.chamberCutsceneNum = 2;
                 break;
             case 32:
                 globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = 0x00CD;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 33:
-                globalCtx->nextEntranceIndex = 0x00CD;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 34:
-                globalCtx->nextEntranceIndex = 0x00A0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF3;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 35:
-                globalCtx->nextEntranceIndex = 0x00CD;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 38:
-                globalCtx->nextEntranceIndex = 0x00A0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 39:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF9;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 40:
                 globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFFA;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 41:
-                globalCtx->nextEntranceIndex = 0x04E6;
+                globalCtx->nextEntranceIndex = ENTR_SPOT06_5_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 42:
-                globalCtx->nextEntranceIndex = 0x00DB;
+                globalCtx->nextEntranceIndex = ENTR_SPOT01_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 43:
-                globalCtx->nextEntranceIndex = 0x0503;
+                globalCtx->nextEntranceIndex = ENTR_HAKASITARELAY_2_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 44:
-                globalCtx->nextEntranceIndex = 0x0320;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_3_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_INSTANT;
                 break;
             case 46:
                 SET_EVENTCHKINF(EVENTCHKINF_4F);
-                globalCtx->nextEntranceIndex = 0x0324;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_4_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 47:
                 Item_Give(globalCtx, ITEM_SONG_NOCTURNE);
                 SET_EVENTCHKINF(EVENTCHKINF_54);
-                globalCtx->nextEntranceIndex = 0x00DB;
+                globalCtx->nextEntranceIndex = ENTR_SPOT01_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 48:
-                globalCtx->nextEntranceIndex = 0x01ED;
+                globalCtx->nextEntranceIndex = ENTR_SPOT11_4_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
                 gSaveContext.nextTransitionType = TRANS_TYPE_SANDSTORM_END;
                 break;
             case 49:
-                globalCtx->nextEntranceIndex = 0x058C;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_5_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 50:
-                globalCtx->nextEntranceIndex = 0x0513;
+                globalCtx->nextEntranceIndex = ENTR_SPOT01_13_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_INSTANT;
                 break;
             case 51:
-                globalCtx->nextEntranceIndex = 0x00CD;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF8;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_WHITE, TCS_SLOW);
                 break;
             case 52:
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF7;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 53:
-                globalCtx->nextEntranceIndex = 0x050F;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_16_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
@@ -829,102 +829,102 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.gameMode = 3;
                 Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = 0x0117;
+                globalCtx->nextEntranceIndex = ENTR_SPOT09_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 55:
-                globalCtx->nextEntranceIndex = 0x0129;
+                globalCtx->nextEntranceIndex = ENTR_SPOT12_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 56:
-                globalCtx->nextEntranceIndex = 0x00DB;
+                globalCtx->nextEntranceIndex = ENTR_SPOT01_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF4;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 57:
-                globalCtx->nextEntranceIndex = 0x013D;
+                globalCtx->nextEntranceIndex = ENTR_SPOT16_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF3;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 58:
-                globalCtx->nextEntranceIndex = 0x014D;
+                globalCtx->nextEntranceIndex = ENTR_SPOT18_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 59:
-                globalCtx->nextEntranceIndex = 0x0102;
+                globalCtx->nextEntranceIndex = ENTR_SPOT06_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 60:
-                globalCtx->nextEntranceIndex = 0x010E;
+                globalCtx->nextEntranceIndex = ENTR_SPOT08_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 61:
-                globalCtx->nextEntranceIndex = 0x0108;
+                globalCtx->nextEntranceIndex = ENTR_SPOT07_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 62:
                 globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = 0x00EE;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF6;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 63:
-                globalCtx->nextEntranceIndex = 0x00EE;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF7;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 64:
-                globalCtx->nextEntranceIndex = 0x00CD;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF5;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 65:
                 globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 66:
-                globalCtx->nextEntranceIndex = 0x0554;
+                globalCtx->nextEntranceIndex = ENTR_SPOT01_14_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 67:
-                globalCtx->nextEntranceIndex = 0x027E;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_9_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 68:
-                globalCtx->nextEntranceIndex = 0x00A0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 69:
-                globalCtx->nextEntranceIndex = 0x05E8;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_12_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 70:
-                globalCtx->nextEntranceIndex = 0x013D;
+                globalCtx->nextEntranceIndex = ENTR_SPOT16_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -936,13 +936,13 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.equips.equipment |= EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4);
                 Player_SetEquipmentData(globalCtx, player);
                 globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = 0x0053;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 72:
-                globalCtx->nextEntranceIndex = 0x0400;
+                globalCtx->nextEntranceIndex = ENTR_NAKANIWA_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -950,13 +950,13 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 73:
                 globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF2;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 74:
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF3;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
@@ -964,27 +964,27 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 75:
                 globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 76:
                 globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 77:
                 globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF6;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 78:
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF7;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -1004,36 +1004,36 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 91:
             case 92:
             case 93:
-                globalCtx->nextEntranceIndex = 0x0157;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 94:
-                globalCtx->nextEntranceIndex = 0x02AE;
+                globalCtx->nextEntranceIndex = ENTR_SPOT20_1_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 95:
                 if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
                     GET_EVENTCHKINF(EVENTCHKINF_4A)) {
-                    globalCtx->nextEntranceIndex = 0x0053;
+                    globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF3;
                     globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 } else {
                     switch (gSaveContext.sceneSetupIndex) {
                         case 8:
-                            globalCtx->nextEntranceIndex = 0x00FC;
+                            globalCtx->nextEntranceIndex = ENTR_SPOT05_0_0;
                             globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                             globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
                         case 9:
-                            globalCtx->nextEntranceIndex = 0x0147;
+                            globalCtx->nextEntranceIndex = ENTR_SPOT17_0_0;
                             globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                             globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
                         case 10:
-                            globalCtx->nextEntranceIndex = 0x0102;
+                            globalCtx->nextEntranceIndex = ENTR_SPOT06_0_0;
                             globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                             gSaveContext.cutsceneIndex = 0xFFF0;
                             globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
@@ -1043,13 +1043,13 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 96:
                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
-                    globalCtx->nextEntranceIndex = 0x006B;
+                    globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF1;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 } else {
                     SET_EVENTCHKINF(EVENTCHKINF_C8);
-                    globalCtx->nextEntranceIndex = 0x0610;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT11_8_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
@@ -1057,48 +1057,48 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 97:
                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
-                    globalCtx->nextEntranceIndex = 0x006B;
+                    globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF1;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x0580;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT02_8_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 }
                 break;
             case 98:
-                globalCtx->nextEntranceIndex = 0x0564;
+                globalCtx->nextEntranceIndex = ENTR_SPOT17_5_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 99:
-                globalCtx->nextEntranceIndex = 0x0608;
+                globalCtx->nextEntranceIndex = ENTR_SPOT05_3_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 100:
-                globalCtx->nextEntranceIndex = 0x00EE;
+                globalCtx->nextEntranceIndex = ENTR_SPOT04_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF8;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 101:
-                globalCtx->nextEntranceIndex = 0x01F5;
+                globalCtx->nextEntranceIndex = ENTR_SPOT11_6_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
                 break;
             case 102:
-                globalCtx->nextEntranceIndex = 0x0590;
+                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_6_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 103:
-                globalCtx->nextEntranceIndex = 0x00CD;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF3;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -1106,21 +1106,21 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 104:
                 switch (sTitleCsState) {
                     case 0:
-                        globalCtx->nextEntranceIndex = 0x008D;
+                        globalCtx->nextEntranceIndex = ENTR_JYASINBOSS_0_0;
                         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF2;
                         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                         sTitleCsState++;
                         break;
                     case 1:
-                        globalCtx->nextEntranceIndex = 0x0147;
+                        globalCtx->nextEntranceIndex = ENTR_SPOT17_0_0;
                         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF1;
                         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                         sTitleCsState++;
                         break;
                     case 2:
-                        globalCtx->nextEntranceIndex = 0x00A0;
+                        globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF6;
                         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
@@ -1129,43 +1129,43 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 }
                 break;
             case 105:
-                globalCtx->nextEntranceIndex = 0x00E4;
+                globalCtx->nextEntranceIndex = ENTR_SPOT02_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 106:
-                globalCtx->nextEntranceIndex = 0x0574;
+                globalCtx->nextEntranceIndex = ENTR_HAKAANA_OUKE_1_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 107:
-                globalCtx->nextEntranceIndex = 0x0538;
+                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_2_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 108:
-                globalCtx->nextEntranceIndex = 0x053C;
+                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_3_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 109:
-                globalCtx->nextEntranceIndex = 0x0540;
+                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_4_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 110:
-                globalCtx->nextEntranceIndex = 0x0544;
+                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_5_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 111:
-                globalCtx->nextEntranceIndex = 0x0548;
+                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_6_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 112:
-                globalCtx->nextEntranceIndex = 0x054C;
+                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_7_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
@@ -1184,23 +1184,23 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 }
                 break;
             case 114:
-                globalCtx->nextEntranceIndex = 0x0185;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_3_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 115:
-                globalCtx->nextEntranceIndex = 0x0594;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_17_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 116:
                 if (GET_EVENTCHKINF(EVENTCHKINF_C8)) {
-                    globalCtx->nextEntranceIndex = 0x0580;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT02_8_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x0610;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT11_8_0;
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 }
@@ -1210,13 +1210,13 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 gSaveContext.gameMode = 3;
                 Audio_SetSoundBanksMute(0x6F);
                 globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = 0x00CD;
+                globalCtx->nextEntranceIndex = ENTR_SPOT00_0_0;
                 gSaveContext.cutsceneIndex = 0xFFF7;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 118:
-                gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = 0x0517;
+                gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_GANON_DEMO_0_0;
                 Gameplay_TriggerVoidOut(globalCtx);
                 gSaveContext.respawnFlag = -2;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
@@ -1224,7 +1224,7 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 119:
                 gSaveContext.dayTime = 0x8000;
                 gSaveContext.skyboxTime = 0x8000;
-                globalCtx->nextEntranceIndex = 0x05F0;
+                globalCtx->nextEntranceIndex = ENTR_NAKANIWA_1_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
@@ -1248,11 +1248,11 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 globalCtx->envCtx.screenFillColor[2] = 160;
                 if (cmd->base == 1) {
                     globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
-                    if ((temp == 0.0f) && (gSaveContext.entranceIndex == 0x006B)) {
+                    if ((temp == 0.0f) && (gSaveContext.entranceIndex == ENTR_KENJYANOMA_0_0)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((temp == 0.0f) &&
-                               ((gSaveContext.entranceIndex == 0x0053) || (gSaveContext.entranceIndex == 0x0138) ||
+                               ((gSaveContext.entranceIndex == ENTR_TOKINOMA_0_0) || (gSaveContext.entranceIndex == 0x0138) ||
                                 (gSaveContext.entranceIndex == 0x0371))) {
                         Audio_PlaySoundGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2079,9 +2079,9 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
         if ((gSaveContext.entranceIndex == 0x01E1) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
             Flags_SetEventChkInf(EVENTCHKINF_AC);
-            gSaveContext.entranceIndex = 0x0123;
+            gSaveContext.entranceIndex = ENTR_SPOT11_0_0;
             gSaveContext.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.entranceIndex == 0x00DB) && LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_48) &&
+        } else if ((gSaveContext.entranceIndex == ENTR_SPOT01_0_0) && LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_48) &&
                    GET_EVENTCHKINF(EVENTCHKINF_49) && GET_EVENTCHKINF(EVENTCHKINF_4A) &&
                    !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
             Flags_SetEventChkInf(EVENTCHKINF_AA);
@@ -2089,18 +2089,18 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
         } else if ((gSaveContext.entranceIndex == 0x05E0) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {
             Flags_SetEventChkInf(EVENTCHKINF_C1);
             Item_Give(globalCtx, ITEM_OCARINA_FAIRY);
-            gSaveContext.entranceIndex = 0x011E;
+            gSaveContext.entranceIndex = ENTR_SPOT10_0_0;
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
                    LINK_IS_ADULT && !Flags_GetEventChkInf(EVENTCHKINF_C4) &&
                    (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_TOKINOMA)) {
             Flags_SetEventChkInf(EVENTCHKINF_C4);
-            gSaveContext.entranceIndex = 0x0053;
+            gSaveContext.entranceIndex = ENTR_TOKINOMA_0_0;
             gSaveContext.cutsceneIndex = 0xFFF8;
         } else if (!Flags_GetEventChkInf(EVENTCHKINF_C7) &&
                    (gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_GANON_DEMO)) {
             Flags_SetEventChkInf(EVENTCHKINF_C7);
-            gSaveContext.entranceIndex = 0x0517;
+            gSaveContext.entranceIndex = ENTR_GANON_DEMO_0_0;
             gSaveContext.cutsceneIndex = 0xFFF0;
         }
     }

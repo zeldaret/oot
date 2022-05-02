@@ -294,10 +294,29 @@ void Sram_InitDebugSave(void) {
         }
     }
 
-    gSaveContext.entranceIndex = 0xCD;
+    gSaveContext.entranceIndex = ENTR_SPOT00_0_0;
     gSaveContext.magicLevel = 0;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
+
+static s16 sDungeonEntrances[] = {
+    ENTR_YDAN_0_0,
+    ENTR_DDAN_0_0,
+    ENTR_BDAN_0_0,
+    ENTR_BMORI1_0_0,
+    ENTR_HIDAN_0_0,
+    ENTR_MIZUSIN_0_0,
+    ENTR_JYASINZOU_0_0,
+    ENTR_HAKADAN_0_0,
+    ENTR_HAKADANCH_0_0,
+    ENTR_ICE_DOUKUTO_0_0,
+    ENTR_GANON_0_0,
+    ENTR_MEN_0_0,
+    ENTR_GERUDOWAY_0_0,
+    ENTR_GANONTIKA_0_0,
+    ENTR_GANON_SONOGO_0_0,
+    ENTR_GANONTIKA_SONOGO_0_0,
+};
 
 /**
  *  Copy save currently on the buffer to Save Context and complete various tasks to open the save.
@@ -310,10 +329,7 @@ void Sram_InitDebugSave(void) {
  *  - Revert any trade items that spoil
  */
 void Sram_OpenSave(SramContext* sramCtx) {
-    static s16 dungeonEntrances[] = {
-        0x0000, 0x0004, 0x0028, 0x0169, 0x0165, 0x0010, 0x0082, 0x0037,
-        0x0098, 0x0088, 0x041B, 0x0008, 0x0486, 0x0467, 0x0179, 0x056C,
-    };
+
     u16 i;
     u16 j;
     u8* ptr;
@@ -343,45 +359,55 @@ void Sram_OpenSave(SramContext* sramCtx) {
         case SCENE_MEN:
         case SCENE_GERUDOWAY:
         case SCENE_GANONTIKA:
-            gSaveContext.entranceIndex = dungeonEntrances[gSaveContext.savedSceneNum];
+            gSaveContext.entranceIndex = sDungeonEntrances[gSaveContext.savedSceneNum];
             break;
+
         case SCENE_YDAN_BOSS:
-            gSaveContext.entranceIndex = 0;
+            gSaveContext.entranceIndex = ENTR_YDAN_0_0;
             break;
+
         case SCENE_DDAN_BOSS:
-            gSaveContext.entranceIndex = 4;
+            gSaveContext.entranceIndex = ENTR_DDAN_0_0;
             break;
+
         case SCENE_BDAN_BOSS:
-            gSaveContext.entranceIndex = 0x28;
+            gSaveContext.entranceIndex = ENTR_BDAN_0_0;
             break;
+
         case SCENE_MORIBOSSROOM:
-            gSaveContext.entranceIndex = 0x169;
+            gSaveContext.entranceIndex = ENTR_BMORI1_0_0;
             break;
+
         case SCENE_FIRE_BS:
-            gSaveContext.entranceIndex = 0x165;
+            gSaveContext.entranceIndex = ENTR_HIDAN_0_0;
             break;
+
         case SCENE_MIZUSIN_BS:
-            gSaveContext.entranceIndex = 0x10;
+            gSaveContext.entranceIndex = ENTR_MIZUSIN_0_0;
             break;
+
         case SCENE_JYASINBOSS:
-            gSaveContext.entranceIndex = 0x82;
+            gSaveContext.entranceIndex = ENTR_JYASINZOU_0_0;
             break;
+
         case SCENE_HAKADAN_BS:
-            gSaveContext.entranceIndex = 0x37;
+            gSaveContext.entranceIndex = ENTR_HAKADAN_0_0;
             break;
+
         case SCENE_GANON_SONOGO:
         case SCENE_GANONTIKA_SONOGO:
         case SCENE_GANON_BOSS:
         case SCENE_GANON_FINAL:
         case SCENE_GANON_DEMO:
-            gSaveContext.entranceIndex = 0x41B;
+            gSaveContext.entranceIndex = ENTR_GANON_0_0;
             break;
 
         default:
             if (gSaveContext.savedSceneNum != SCENE_LINK_HOME) {
-                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? 0xBB : 0x5F4;
+                gSaveContext.entranceIndex =
+                    (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINK_HOME_0_0 : ENTR_TOKINOMA_7_0;
             } else {
-                gSaveContext.entranceIndex = 0xBB;
+                gSaveContext.entranceIndex = ENTR_LINK_HOME_0_0;
             }
             break;
     }
@@ -694,7 +720,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
         Sram_InitDebugSave();
     }
 
-    gSaveContext.entranceIndex = 0xBB;
+    gSaveContext.entranceIndex = ENTR_LINK_HOME_0_0;
     gSaveContext.linkAge = LINK_AGE_CHILD;
     gSaveContext.dayTime = 0x6AAB;
     gSaveContext.cutsceneIndex = 0xFFF1;

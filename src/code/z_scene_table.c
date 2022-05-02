@@ -73,25 +73,24 @@ Gfx sDefaultDisplayList[] = {
     gsSPEndDisplayList(),
 };
 
-// Computes next entrance index based on age and day time to set the fade out transition
-void func_800994A0(GlobalContext* globalCtx) {
-    s16 computedEntranceIndex;
+void Scene_SetTransitionForNextEntrance(GlobalContext* globalCtx) {
+    s16 entranceIndex;
 
     if (!IS_DAY) {
         if (!LINK_IS_ADULT) {
-            computedEntranceIndex = globalCtx->nextEntranceIndex + 1;
+            entranceIndex = globalCtx->nextEntranceIndex + 1;
         } else {
-            computedEntranceIndex = globalCtx->nextEntranceIndex + 3;
+            entranceIndex = globalCtx->nextEntranceIndex + 3;
         }
     } else {
         if (!LINK_IS_ADULT) {
-            computedEntranceIndex = globalCtx->nextEntranceIndex;
+            entranceIndex = globalCtx->nextEntranceIndex;
         } else {
-            computedEntranceIndex = globalCtx->nextEntranceIndex + 2;
+            entranceIndex = globalCtx->nextEntranceIndex + 2;
         }
     }
 
-    globalCtx->transitionType = gEntranceTable[computedEntranceIndex].field & 0x7F; // Fade out
+    globalCtx->transitionType = gEntranceTable[entranceIndex].field & 0x7F; // Fade out
 }
 
 // Scene Draw Config 0

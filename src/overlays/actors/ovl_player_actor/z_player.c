@@ -3802,7 +3802,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
 
             if (sp68) {
                 Gameplay_TriggerRespawn(globalCtx);
-                func_800994A0(globalCtx);
+                Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
                 // Special case for getting crushed in Forest Temple's Checkboard Ceiling Hall or Shadow Temple's
                 // Falling Spike Trap Room, to respawn the player in a specific place
@@ -4139,7 +4139,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
 
             if (sp3C == 0) {
                 Gameplay_TriggerVoidOut(globalCtx);
-                func_800994A0(globalCtx);
+                Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
                 globalCtx->nextEntranceIndex = globalCtx->setupExitList[sp3C - 1];
                 if (globalCtx->nextEntranceIndex == 0x7FFF) {
@@ -4150,7 +4150,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 } else if (globalCtx->nextEntranceIndex >= 0x7FF9) {
                     globalCtx->nextEntranceIndex =
                         D_808544F8[D_80854514[globalCtx->nextEntranceIndex - 0x7FF9] + globalCtx->curSpawn];
-                    func_800994A0(globalCtx);
+                    Scene_SetTransitionForNextEntrance(globalCtx);
                 } else {
                     if (SurfaceType_GetSlope(&globalCtx->colCtx, poly, bgId) == 2) {
                         gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = globalCtx->nextEntranceIndex;
@@ -4158,7 +4158,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                         gSaveContext.respawnFlag = -2;
                     }
                     gSaveContext.unk_13C3 = 1;
-                    func_800994A0(globalCtx);
+                    Scene_SetTransitionForNextEntrance(globalCtx);
                 }
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             }
@@ -12069,7 +12069,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
     } else {
         if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
-                globalCtx->nextEntranceIndex = 0x0123;
+                globalCtx->nextEntranceIndex = ENTR_SPOT11_0_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
@@ -12126,7 +12126,9 @@ void func_8084E368(Player* this, GlobalContext* globalCtx) {
     func_8084AEEC(this, &this->linearVelocity, 0.0f, this->actor.shape.rot.y);
 }
 
-static s16 D_808549D4[] = { 0x0600, 0x04F6, 0x0604, 0x01F1, 0x0568, 0x05F4 };
+static s16 sWarpSongEntrances[] = {
+    ENTR_SPOT05_2_0, ENTR_SPOT17_4_0, ENTR_SPOT06_8_0, ENTR_SPOT11_5_0, ENTR_SPOT02_7_0, ENTR_TOKINOMA_7_0,
+};
 
 void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
@@ -12160,7 +12162,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         this->stateFlags2 &= ~(PLAYER_STATE2_23 | PLAYER_STATE2_24 | PLAYER_STATE2_25);
         this->unk_6A8 = NULL;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.lastPlayedSong];
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = sWarpSongEntrances[globalCtx->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
         gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.lastPlayedSong;
 
@@ -12685,7 +12687,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (globalCtx->sceneNum == 9) {
                 Gameplay_TriggerRespawn(globalCtx);
-                globalCtx->nextEntranceIndex = 0x0088;
+                globalCtx->nextEntranceIndex = ENTR_ICE_DOUKUTO_0_0;
             } else if (this->unk_84F < 0) {
                 Gameplay_TriggerRespawn(globalCtx);
             } else {

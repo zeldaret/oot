@@ -770,7 +770,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             this->talkTimer2++;
             if (this->talkTimer2 == 130) {
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
-                globalCtx->nextEntranceIndex = 0xA0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
