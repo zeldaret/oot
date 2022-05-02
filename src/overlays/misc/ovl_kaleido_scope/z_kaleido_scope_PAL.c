@@ -3372,7 +3372,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         case ENTR_HAKADAN_BS_0_0:
                             gSaveContext.entranceIndex = ENTR_HAKADAN_0_0;
                             break;
-                            
+
                         case ENTR_GANON_BOSS_0_0:
                             gSaveContext.entranceIndex = ENTR_GANON_0_0;
                             break;

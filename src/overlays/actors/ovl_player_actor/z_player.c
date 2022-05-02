@@ -4097,20 +4097,20 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
 }
 
 s16 D_808544F8[] = {
-    0x045B, // DMT from Magic Fairy Fountain
-    0x0482, // DMC from Double Defense Fairy Fountain
-    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
-    0x044B, // Kakariko from Potion Shop
-    0x02A2, // Market (child day) from Potion Shop
-    0x0201, // Kakariko from Bazaar
-    0x03B8, // Market (child day) from Bazaar
-    0x04EE, // Kakariko from House of Skulltulas
-    0x03C0, // Back Alley (day) from Bombchu Shop
-    0x0463, // Kakariko from Shooting Gallery
-    0x01CD, // Market (child day) from Shooting Gallery
-    0x0394, // Zoras Fountain from Farores Wind Fairy Fountain
-    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
-    0x057C, // Desert Colossus from Nayrus Love Fairy Fountain
+    ENTR_SPOT16_4_0,       // DMT from Magic Fairy Fountain
+    ENTR_SPOT17_3_0,       // DMC from Double Defense Fairy Fountain
+    ENTR_SPOT15_2_0,       // Hyrule Castle from Dins Fire Fairy Fountain
+    ENTR_SPOT01_9_0,       // Kakariko from Potion Shop
+    ENTR_MARKET_DAY_5_0,   // Market (child day) from Potion Shop
+    ENTR_SPOT01_3_0,       // Kakariko from Bazaar
+    ENTR_MARKET_DAY_6_0,   // Market (child day) from Bazaar
+    ENTR_SPOT01_11_0,      // Kakariko from House of Skulltulas
+    ENTR_MARKET_ALLEY_2_0, // Back Alley (day) from Bombchu Shop
+    ENTR_SPOT01_10_0,      // Kakariko from Shooting Gallery
+    ENTR_MARKET_DAY_8_0,   // Market (child day) from Shooting Gallery
+    ENTR_SPOT08_5_0,       // Zoras Fountain from Farores Wind Fairy Fountain
+    ENTR_SPOT15_2_0,       // Hyrule Castle from Dins Fire Fairy Fountain
+    ENTR_SPOT11_7_0,       // Desert Colossus from Nayrus Love Fairy Fountain
 };
 
 u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };

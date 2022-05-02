@@ -204,7 +204,7 @@ void Gameplay_Init(GameState* thisx) {
     u8 tempSetupIndex;
     s32 pad[2];
 
-    if (gSaveContext.entranceIndex == -1) {
+    if (gSaveContext.entranceIndex == ENTR_LOAD_OPENING) {
         gSaveContext.entranceIndex = 0;
         globalCtx->state.running = false;
         SET_NEXT_GAMESTATE(&globalCtx->state, Opening_Init, OpeningContext);
@@ -1804,8 +1804,8 @@ void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
         (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO) || (globalCtx->sceneNum == SCENE_GANON_DEMO)) {
         globalCtx->nextEntranceIndex = ENTR_GANON_FINAL_0_0;
         Item_Give(globalCtx, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.entranceIndex == 0x028A) || (gSaveContext.entranceIndex == 0x028E) ||
-               (gSaveContext.entranceIndex == 0x0292) || (gSaveContext.entranceIndex == 0x0476)) {
+    } else if ((gSaveContext.entranceIndex == ENTR_SPOT00_11_0) || (gSaveContext.entranceIndex == ENTR_SPOT00_12_0) ||
+               (gSaveContext.entranceIndex == ENTR_SPOT00_13_0) || (gSaveContext.entranceIndex == ENTR_SPOT00_15_0)) {
         globalCtx->nextEntranceIndex = ENTR_SPOT00_6_0;
     } else {
         globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;

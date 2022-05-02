@@ -31,7 +31,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
-    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
+    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
@@ -219,7 +219,8 @@ static SceneSelectEntry sScenes[] = {
     // "88: Ganon's Basement Dungeon" (Inside Ganon's Castle)
     { "88:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_GANONTIKA_0_0 },
     // "89: Final Battle With Ganon - Cutscene & Battle" (Ganondorf's Death Scene & Tower Escape Exterior)
-    { "89:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ｻｲｼｭｳｾﾝ " GFXP_KATAKANA "ﾃﾞﾓ & ﾊﾞﾄﾙ", Select_LoadGame, ENTR_GANON_DEMO_0_0 },
+    { "89:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ｻｲｼｭｳｾﾝ " GFXP_KATAKANA "ﾃﾞﾓ & ﾊﾞﾄﾙ", Select_LoadGame,
+      ENTR_GANON_DEMO_0_0 },
     // "90: Ganon's Tower Aftermath 1" (Escaping Ganon's Tower 1)
     { "90:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 1", Select_LoadGame, ENTR_GANON_SONOGO_0_0 },
     // "91: Ganon's Tower Aftermath 2" (Escaping Ganon's Tower 2)

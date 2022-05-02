@@ -52,40 +52,40 @@ CutsceneStateHandler sCsStateHandlers2[] = {
 u8 sTitleCsState = 0;
 
 EntranceCutscene sEntranceCutsceneTable[] = {
-    { 0x0185, 2, EVENTCHKINF_A0, gHyruleFieldIntroCs },
-    { 0x013D, 2, EVENTCHKINF_A1, gDMTIntroCs },
-    { 0x00DB, 2, EVENTCHKINF_A3, gKakarikoVillageIntroCs },
-    { 0x0108, 2, EVENTCHKINF_A4, gZorasDomainIntroCs },
-    { 0x0138, 1, EVENTCHKINF_A5, gHyruleCastleIntroCs },
-    { 0x014D, 2, EVENTCHKINF_A6, gGoronCityIntroCs },
-    { 0x0053, 2, EVENTCHKINF_A7, gTempleOfTimeIntroCs },
-    { 0x0000, 2, EVENTCHKINF_A8, gDekuTreeIntroCs },
-    { 0x028A, 0, EVENTCHKINF_18, gHyruleFieldSouthEponaJumpCs },
-    { 0x0292, 0, EVENTCHKINF_18, gHyruleFieldEastEponaJumpCs },
-    { 0x028E, 0, EVENTCHKINF_18, gHyruleFieldWestEponaJumpCs },
-    { 0x0476, 0, EVENTCHKINF_18, gHyruleFieldGateEponaJumpCs },
-    { 0x050F, 1, EVENTCHKINF_A9, gHyruleFieldGetOoTCs },
-    { 0x0102, 2, EVENTCHKINF_B1, gLakeHyliaIntroCs },
-    { 0x0117, 2, EVENTCHKINF_B2, gGerudoValleyIntroCs },
-    { 0x0129, 2, EVENTCHKINF_B3, gGerudoFortressIntroCs },
-    { 0x0157, 2, EVENTCHKINF_B4, gLonLonRanchIntroCs },
-    { 0x0028, 2, EVENTCHKINF_B5, gJabuJabuIntroCs },
-    { 0x00E4, 2, EVENTCHKINF_B6, gGraveyardIntroCs },
-    { 0x0225, 2, EVENTCHKINF_B7, gZorasFountainIntroCs },
-    { 0x0123, 2, EVENTCHKINF_B8, gDesertColossusIntroCs },
-    { 0x0147, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
-    { 0x0138, 0, EVENTCHKINF_BA, gGanonsCastleIntroCs },
-    { 0x0574, 2, EVENTCHKINF_5A, gSunSongGraveSunSongTeachPart2Cs },
-    { 0x0538, 2, EVENTCHKINF_BB, gForestBarrierCs },
-    { 0x053C, 2, EVENTCHKINF_BC, gWaterBarrierCs },
-    { 0x0540, 2, EVENTCHKINF_BD, gShadowBarrierCs },
-    { 0x0544, 2, EVENTCHKINF_BE, gFireBarrierCs },
-    { 0x0548, 2, EVENTCHKINF_BF, gLightBarrierCs },
-    { 0x054C, 2, EVENTCHKINF_AD, gSpiritBarrierCs },
-    { 0x008D, 0, EVENTCHKINF_C0, gSpiritBossNabooruKnuckleIntroCs },
-    { 0x03B4, 0, EVENTCHKINF_C7, gGerudoFortressFirstCaptureCs },
-    { 0x0246, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
-    { 0x05E8, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
+    { ENTR_SPOT00_3_0, 2, EVENTCHKINF_A0, gHyruleFieldIntroCs },
+    { ENTR_SPOT16_0_0, 2, EVENTCHKINF_A1, gDMTIntroCs },
+    { ENTR_SPOT01_0_0, 2, EVENTCHKINF_A3, gKakarikoVillageIntroCs },
+    { ENTR_SPOT07_0_0, 2, EVENTCHKINF_A4, gZorasDomainIntroCs },
+    { ENTR_SPOT15_0_0, 1, EVENTCHKINF_A5, gHyruleCastleIntroCs },
+    { ENTR_SPOT18_0_0, 2, EVENTCHKINF_A6, gGoronCityIntroCs },
+    { ENTR_TOKINOMA_0_0, 2, EVENTCHKINF_A7, gTempleOfTimeIntroCs },
+    { ENTR_YDAN_0_0, 2, EVENTCHKINF_A8, gDekuTreeIntroCs },
+    { ENTR_SPOT00_11_0, 0, EVENTCHKINF_18, gHyruleFieldSouthEponaJumpCs },
+    { ENTR_SPOT00_13_0, 0, EVENTCHKINF_18, gHyruleFieldEastEponaJumpCs },
+    { ENTR_SPOT00_12_0, 0, EVENTCHKINF_18, gHyruleFieldWestEponaJumpCs },
+    { ENTR_SPOT00_15_0, 0, EVENTCHKINF_18, gHyruleFieldGateEponaJumpCs },
+    { ENTR_SPOT00_16_0, 1, EVENTCHKINF_A9, gHyruleFieldGetOoTCs },
+    { ENTR_SPOT06_0_0, 2, EVENTCHKINF_B1, gLakeHyliaIntroCs },
+    { ENTR_SPOT09_0_0, 2, EVENTCHKINF_B2, gGerudoValleyIntroCs },
+    { ENTR_SPOT12_0_0, 2, EVENTCHKINF_B3, gGerudoFortressIntroCs },
+    { ENTR_SPOT20_0_0, 2, EVENTCHKINF_B4, gLonLonRanchIntroCs },
+    { ENTR_BDAN_0_0, 2, EVENTCHKINF_B5, gJabuJabuIntroCs },
+    { ENTR_SPOT02_0_0, 2, EVENTCHKINF_B6, gGraveyardIntroCs },
+    { ENTR_SPOT08_2_0, 2, EVENTCHKINF_B7, gZorasFountainIntroCs },
+    { ENTR_SPOT11_0_0, 2, EVENTCHKINF_B8, gDesertColossusIntroCs },
+    { ENTR_SPOT17_0_0, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
+    { ENTR_SPOT15_0_0, 0, EVENTCHKINF_BA, gGanonsCastleIntroCs },
+    { ENTR_HAKAANA_OUKE_1_0, 2, EVENTCHKINF_5A, gSunSongGraveSunSongTeachPart2Cs },
+    { ENTR_GANONTIKA_2_0, 2, EVENTCHKINF_BB, gForestBarrierCs },
+    { ENTR_GANONTIKA_3_0, 2, EVENTCHKINF_BC, gWaterBarrierCs },
+    { ENTR_GANONTIKA_4_0, 2, EVENTCHKINF_BD, gShadowBarrierCs },
+    { ENTR_GANONTIKA_5_0, 2, EVENTCHKINF_BE, gFireBarrierCs },
+    { ENTR_GANONTIKA_6_0, 2, EVENTCHKINF_BF, gLightBarrierCs },
+    { ENTR_GANONTIKA_7_0, 2, EVENTCHKINF_AD, gSpiritBarrierCs },
+    { ENTR_JYASINBOSS_0_0, 0, EVENTCHKINF_C0, gSpiritBossNabooruKnuckleIntroCs },
+    { ENTR_SPOT12_17_0, 0, EVENTCHKINF_C7, gGerudoFortressFirstCaptureCs },
+    { ENTR_SPOT17_1_0, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
+    { ENTR_SPOT04_12_0, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
 };
 
 // Unused, seems to be an early list of dungeon entrance cutscene locations
@@ -1251,9 +1251,9 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                     if ((temp == 0.0f) && (gSaveContext.entranceIndex == ENTR_KENJYANOMA_0_0)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    } else if ((temp == 0.0f) &&
-                               ((gSaveContext.entranceIndex == ENTR_TOKINOMA_0_0) || (gSaveContext.entranceIndex == 0x0138) ||
-                                (gSaveContext.entranceIndex == 0x0371))) {
+                    } else if ((temp == 0.0f) && ((gSaveContext.entranceIndex == ENTR_TOKINOMA_0_0) ||
+                                                  (gSaveContext.entranceIndex == ENTR_SPOT15_0_0) ||
+                                                  (gSaveContext.entranceIndex == ENTR_YOUSEI_IZUMI_YOKO_0_0))) {
                         Audio_PlaySoundGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     } else if ((temp == 0.0f) && (globalCtx->sceneNum == SCENE_GANONTIKA)) {
@@ -2077,16 +2077,16 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
     osSyncPrintf("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        if ((gSaveContext.entranceIndex == 0x01E1) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
+        if ((gSaveContext.entranceIndex == ENTR_SPOT11_1_0) && !Flags_GetEventChkInf(EVENTCHKINF_AC)) {
             Flags_SetEventChkInf(EVENTCHKINF_AC);
             gSaveContext.entranceIndex = ENTR_SPOT11_0_0;
             gSaveContext.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.entranceIndex == ENTR_SPOT01_0_0) && LINK_IS_ADULT && GET_EVENTCHKINF(EVENTCHKINF_48) &&
-                   GET_EVENTCHKINF(EVENTCHKINF_49) && GET_EVENTCHKINF(EVENTCHKINF_4A) &&
-                   !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
+        } else if ((gSaveContext.entranceIndex == ENTR_SPOT01_0_0) && LINK_IS_ADULT &&
+                   GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
+                   GET_EVENTCHKINF(EVENTCHKINF_4A) && !Flags_GetEventChkInf(EVENTCHKINF_AA)) {
             Flags_SetEventChkInf(EVENTCHKINF_AA);
             gSaveContext.cutsceneIndex = 0xFFF0;
-        } else if ((gSaveContext.entranceIndex == 0x05E0) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {
+        } else if ((gSaveContext.entranceIndex == ENTR_SPOT10_9_0) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {
             Flags_SetEventChkInf(EVENTCHKINF_C1);
             Item_Give(globalCtx, ITEM_OCARINA_FAIRY);
             gSaveContext.entranceIndex = ENTR_SPOT10_0_0;

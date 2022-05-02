@@ -324,6 +324,8 @@ typedef enum {
     /* 0x613 */ ENTR_MAX
 } EntranceIndex;
 
+#define ENTR_LOAD_OPENING -1
+
 #undef DEFINE_ENTRANCE
 
 // Scene commands
