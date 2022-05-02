@@ -13,6 +13,7 @@ beginseg
     name "boot"
     address 0x80000460
     include "build/src/boot/boot_main.o"
+    include "build/data/unk_800093F0.data.o"
     include "build/data/unk_80009410.data.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"

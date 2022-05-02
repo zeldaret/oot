@@ -1858,7 +1858,7 @@ typedef union {
 
 typedef struct {
     /* 0x000 */ JpegTaskData taskData;
-    /* 0x020 */ u64 yieldData[0x200/sizeof(u64)];
+    /* 0x020 */ u64 yieldData[0x200 / sizeof(u64)];
     /* 0x220 */ JpegQuantizationTable qTableY;
     /* 0x2A0 */ JpegQuantizationTable qTableU;
     /* 0x320 */ JpegQuantizationTable qTableV;
