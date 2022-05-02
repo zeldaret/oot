@@ -193,7 +193,7 @@ void FileChoose_UpdateMainMenu(GameState* thisx) {
                 this->newFileNameCharCount = 0;
                 this->nameEntryBoxPosX = 120;
                 this->nameEntryBoxAlpha = 0;
-                MemCopy(&this->fileNames[this->buttonIndex][0], &emptyName, 8);
+                MemCpy(&this->fileNames[this->buttonIndex][0], &emptyName, sizeof(emptyName));
             } else if (this->n64ddFlags[this->buttonIndex] == this->n64ddFlag) {
                 Audio_PlaySoundGeneral(NA_SE_SY_FSEL_DECIDE_L, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
