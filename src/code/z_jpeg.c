@@ -18,47 +18,47 @@
  * Configures and schedules a JPEG decoder task and waits for it to finish.
  */
 void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
-    static OSTask_t sJpegTask = {
-        M_NJPEGTASK,          // type
-        0,                    // flags
-        NULL,                 // ucode_boot
-        0,                    // ucode_boot_size
-        gJpegUCode,           // ucode
-        0x1000,               // ucode_size
-        gJpegUCodeData,       // ucode_data
-        0x800,                // ucode_data_size
-        NULL,                 // dram_stack
-        0,                    // dram_stack_size
-        NULL,                 // output_buff
-        NULL,                 // output_buff_size
-        NULL,                 // data_ptr
-        sizeof(JpegTaskData), // data_size
-        NULL,                 // yield_data_ptr
-        0x200,                // yield_data_size
+    static OSTask sJpegTask = {
+        M_NJPEGTASK,                     // type
+        0,                               // flags
+        NULL,                            // ucode_boot
+        0,                               // ucode_boot_size
+        njpgdspMainTextStart,            // ucode
+        SP_UCODE_SIZE,                   // ucode_size
+        njpgdspMainDataStart,            // ucode_data
+        SP_UCODE_DATA_SIZE,              // ucode_data_size
+        NULL,                            // dram_stack
+        0,                               // dram_stack_size
+        NULL,                            // output_buff
+        NULL,                            // output_buff_size
+        NULL,                            // data_ptr
+        sizeof(JpegTaskData),            // data_size
+        NULL,                            // yield_data_ptr
+        sizeof(ctx->workBuf->yieldData), // yield_data_size
     };
 
     JpegWork* workBuf = ctx->workBuf;
     s32 pad[2];
 
-    workBuf->taskData.address = PHYSICAL_TO_VIRTUAL(&workBuf->data);
+    workBuf->taskData.address = VIRTUAL_TO_PHYSICAL(&workBuf->data);
     workBuf->taskData.mode = ctx->mode;
     workBuf->taskData.mbCount = 4;
-    workBuf->taskData.qTableYPtr = PHYSICAL_TO_VIRTUAL(&workBuf->qTableY);
-    workBuf->taskData.qTableUPtr = PHYSICAL_TO_VIRTUAL(&workBuf->qTableU);
-    workBuf->taskData.qTableVPtr = PHYSICAL_TO_VIRTUAL(&workBuf->qTableV);
+    workBuf->taskData.qTableYPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableY);
+    workBuf->taskData.qTableUPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableU);
+    workBuf->taskData.qTableVPtr = VIRTUAL_TO_PHYSICAL(&workBuf->qTableV);
 
-    sJpegTask.flags = 0;
-    sJpegTask.ucode_boot = SysUcode_GetUCodeBoot();
-    sJpegTask.ucode_boot_size = SysUcode_GetUCodeBootSize();
-    sJpegTask.yield_data_ptr = (u64*)&workBuf->yieldData;
-    sJpegTask.data_ptr = (u64*)&workBuf->taskData;
+    sJpegTask.t.flags = 0;
+    sJpegTask.t.ucode_boot = SysUcode_GetUCodeBoot();
+    sJpegTask.t.ucode_boot_size = SysUcode_GetUCodeBootSize();
+    sJpegTask.t.yield_data_ptr = workBuf->yieldData;
+    sJpegTask.t.data_ptr = (u64*)&workBuf->taskData;
 
     ctx->scTask.next = NULL;
     ctx->scTask.flags = OS_SC_NEEDS_RSP;
     ctx->scTask.msgQueue = &ctx->mq;
     ctx->scTask.msg = NULL;
     ctx->scTask.framebuffer = NULL;
-    ctx->scTask.list.t = sJpegTask;
+    ctx->scTask.list = sJpegTask;
 
     osSendMesg(&gSchedContext.cmdQueue, (OSMesg)&ctx->scTask, OS_MESG_BLOCK);
     Sched_SendEntryMsg(&gSchedContext); // osScKickEntryMsg
