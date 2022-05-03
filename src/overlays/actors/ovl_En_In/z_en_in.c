@@ -919,7 +919,8 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
-        if (this->skelAnime.animation == &object_in_Anim_001BE0 && GET_EVENTINF_HORSES_STATE != EVENTINF_HORSES_STATE_6) {
+        if (this->skelAnime.animation == &object_in_Anim_001BE0 &&
+            GET_EVENTINF_HORSES_STATE != EVENTINF_HORSES_STATE_6) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

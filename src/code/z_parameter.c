@@ -3411,8 +3411,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
                     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
-                        (u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK | EVENTINF_HORSES_06_MASK |
-                                EVENTINF_HORSES_0F_MASK);
+                        (u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK |
+                                EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK);
                     osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
                     globalCtx->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
