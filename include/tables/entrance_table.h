@@ -14,7 +14,7 @@
  * WARNING: Due to how the entrance system is implemented, entries within the same group of scene setups are NOT shiftable.
  *          Groups of scene setups are indicated by line breaks.
  * 
- *          Only the first entrance within a gorup of setups is exepcted to be referenced in code.
+ *          Only the first entrance within a gorup of setups is expected to be referenced in code.
  *          The entrance system will apply the offset on its own to access the correct entrance for a given setup.
  */
 /* 0x000 */ DEFINE_ENTRANCE(ENTR_YDAN_0, SCENE_YDAN, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
@@ -42,7 +42,7 @@
 /* 0x012 */ DEFINE_ENTRANCE(ENTR_MIZUSIN_0_2, SCENE_MIZUSIN, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
 /* 0x013 */ DEFINE_ENTRANCE(ENTR_MIZUSIN_0_3, SCENE_MIZUSIN, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
 
-/* 0x014 */ DEFINE_ENTRANCE(ENTR_UNUSED_6E_0, SCENE_UNUSED_6E, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
+/* 0x014 */ DEFINE_ENTRANCE(ENTR_UNUSED_6E, SCENE_UNUSED_6E, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
 /* 0x015 */ DEFINE_ENTRANCE(ENTR_UNUSED_6E_1, SCENE_UNUSED_6E, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
 /* 0x016 */ DEFINE_ENTRANCE(ENTR_UNUSED_6E_2, SCENE_UNUSED_6E, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
 /* 0x017 */ DEFINE_ENTRANCE(ENTR_UNUSED_6E_3, SCENE_UNUSED_6E, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
