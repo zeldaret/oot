@@ -1,7 +1,7 @@
 /*
  * File: z_door_ana.c
  * Overlay: ovl_Door_Ana
- * Description: Grottos sGrottoEntrances/Exits
+ * Description: Grotto
  */
 
 #include "z_door_ana.h"

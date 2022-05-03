@@ -578,11 +578,13 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(this->unk_150[i].unk_C.x + this->unk_150[i].unk_0.x,
                          this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y,
                          this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z, MTXMODE_NEW);
-        if (gSaveContext.entranceIndex != ENTR_HIRAL_DEMO_0_0) { // Cutscene Map
+
+        if (gSaveContext.entranceIndex != ENTR_HIRAL_DEMO_0_0) {
             Matrix_RotateX(M_PI, MTXMODE_APPLY);
         }
 
         gDPPipeSync(POLY_XLU_DISP++);
+
         if (gSaveContext.entranceIndex == ENTR_SPOT00_0_0) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 255);

@@ -2443,22 +2443,27 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (globalCtx->nextEntranceIndex) {
-        case 0x147:
+        case ENTR_SPOT17_0_0:
             Flags_SetEventChkInf(EVENTCHKINF_B9);
             break;
-        case 0x0102:
+
+        case ENTR_SPOT06_0_0:
             Flags_SetEventChkInf(EVENTCHKINF_B1);
             break;
-        case 0x0123:
+
+        case ENTR_SPOT11_0_0:
             Flags_SetEventChkInf(EVENTCHKINF_B8);
             break;
-        case 0x00E4:
+
+        case ENTR_SPOT02_0_0:
             Flags_SetEventChkInf(EVENTCHKINF_B6);
             break;
-        case 0x0053:
+
+        case ENTR_TOKINOMA_0_0:
             Flags_SetEventChkInf(EVENTCHKINF_A7);
             break;
-        case 0x00FC:
+
+        case ENTR_SPOT05_0_0:
             break;
     }
 }

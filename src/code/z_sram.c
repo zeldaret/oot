@@ -317,7 +317,6 @@ static s16 sDungeonEntrances[] = {
  *  - Revert any trade items that spoil
  */
 void Sram_OpenSave(SramContext* sramCtx) {
-
     u16 i;
     u16 j;
     u8* ptr;
