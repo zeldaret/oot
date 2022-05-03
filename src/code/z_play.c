@@ -1802,11 +1802,11 @@ void Gameplay_LoadToLastEntrance(GlobalContext* globalCtx) {
 
     if ((globalCtx->sceneNum == SCENE_GANON_SONOGO) || (globalCtx->sceneNum == SCENE_GANON_FINAL) ||
         (globalCtx->sceneNum == SCENE_GANONTIKA_SONOGO) || (globalCtx->sceneNum == SCENE_GANON_DEMO)) {
-        globalCtx->nextEntranceIndex = ENTR_GANON_FINAL_0_0;
+        globalCtx->nextEntranceIndex = ENTR_GANON_FINAL_0;
         Item_Give(globalCtx, ITEM_SWORD_MASTER);
-    } else if ((gSaveContext.entranceIndex == ENTR_SPOT00_11_0) || (gSaveContext.entranceIndex == ENTR_SPOT00_12_0) ||
-               (gSaveContext.entranceIndex == ENTR_SPOT00_13_0) || (gSaveContext.entranceIndex == ENTR_SPOT00_15_0)) {
-        globalCtx->nextEntranceIndex = ENTR_SPOT00_6_0;
+    } else if ((gSaveContext.entranceIndex == ENTR_SPOT00_11) || (gSaveContext.entranceIndex == ENTR_SPOT00_12) ||
+               (gSaveContext.entranceIndex == ENTR_SPOT00_13) || (gSaveContext.entranceIndex == ENTR_SPOT00_15)) {
+        globalCtx->nextEntranceIndex = ENTR_SPOT00_6;
     } else {
         globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
     }

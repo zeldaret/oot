@@ -4097,20 +4097,20 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
 }
 
 s16 D_808544F8[] = {
-    ENTR_SPOT16_4_0,       // DMT from Magic Fairy Fountain
-    ENTR_SPOT17_3_0,       // DMC from Double Defense Fairy Fountain
-    ENTR_SPOT15_2_0,       // Hyrule Castle from Dins Fire Fairy Fountain
-    ENTR_SPOT01_9_0,       // Kakariko from Potion Shop
-    ENTR_MARKET_DAY_5_0,   // Market (child day) from Potion Shop
-    ENTR_SPOT01_3_0,       // Kakariko from Bazaar
-    ENTR_MARKET_DAY_6_0,   // Market (child day) from Bazaar
-    ENTR_SPOT01_11_0,      // Kakariko from House of Skulltulas
-    ENTR_MARKET_ALLEY_2_0, // Back Alley (day) from Bombchu Shop
-    ENTR_SPOT01_10_0,      // Kakariko from Shooting Gallery
-    ENTR_MARKET_DAY_8_0,   // Market (child day) from Shooting Gallery
-    ENTR_SPOT08_5_0,       // Zoras Fountain from Farores Wind Fairy Fountain
-    ENTR_SPOT15_2_0,       // Hyrule Castle from Dins Fire Fairy Fountain
-    ENTR_SPOT11_7_0,       // Desert Colossus from Nayrus Love Fairy Fountain
+    ENTR_SPOT16_4,       // DMT from Magic Fairy Fountain
+    ENTR_SPOT17_3,       // DMC from Double Defense Fairy Fountain
+    ENTR_SPOT15_2,       // Hyrule Castle from Dins Fire Fairy Fountain
+    ENTR_SPOT01_9,       // Kakariko from Potion Shop
+    ENTR_MARKET_DAY_5,   // Market (child day) from Potion Shop
+    ENTR_SPOT01_3,       // Kakariko from Bazaar
+    ENTR_MARKET_DAY_6,   // Market (child day) from Bazaar
+    ENTR_SPOT01_11,      // Kakariko from House of Skulltulas
+    ENTR_MARKET_ALLEY_2, // Back Alley (day) from Bombchu Shop
+    ENTR_SPOT01_10,      // Kakariko from Shooting Gallery
+    ENTR_MARKET_DAY_8,   // Market (child day) from Shooting Gallery
+    ENTR_SPOT08_5,       // Zoras Fountain from Farores Wind Fairy Fountain
+    ENTR_SPOT15_2,       // Hyrule Castle from Dins Fire Fairy Fountain
+    ENTR_SPOT11_7,       // Desert Colossus from Nayrus Love Fairy Fountain
 };
 
 u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
@@ -12069,7 +12069,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
     } else {
         if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
-                globalCtx->nextEntranceIndex = ENTR_SPOT11_0_0;
+                globalCtx->nextEntranceIndex = ENTR_SPOT11_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
@@ -12127,7 +12127,7 @@ void func_8084E368(Player* this, GlobalContext* globalCtx) {
 }
 
 static s16 sWarpSongEntrances[] = {
-    ENTR_SPOT05_2_0, ENTR_SPOT17_4_0, ENTR_SPOT06_8_0, ENTR_SPOT11_5_0, ENTR_SPOT02_7_0, ENTR_TOKINOMA_7_0,
+    ENTR_SPOT05_2, ENTR_SPOT17_4, ENTR_SPOT06_8, ENTR_SPOT11_5, ENTR_SPOT02_7, ENTR_TOKINOMA_7,
 };
 
 void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
@@ -12687,7 +12687,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (globalCtx->sceneNum == 9) {
                 Gameplay_TriggerRespawn(globalCtx);
-                globalCtx->nextEntranceIndex = ENTR_ICE_DOUKUTO_0_0;
+                globalCtx->nextEntranceIndex = ENTR_ICE_DOUKUTO_0;
             } else if (this->unk_84F < 0) {
                 Gameplay_TriggerRespawn(globalCtx);
             } else {

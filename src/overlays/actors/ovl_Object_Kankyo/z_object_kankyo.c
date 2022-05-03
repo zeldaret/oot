@@ -134,22 +134,22 @@ void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if (gSaveContext.cutsceneTrigger != 0) {
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_2_0) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_2) {
                     this->effects[0].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_3_0) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_3) {
                     this->effects[1].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_4_0) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_4) {
                     this->effects[2].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_5_0) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_5) {
                     this->effects[3].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_6_0) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_6) {
                     this->effects[4].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_7_0) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_7) {
                     this->effects[5].size = 0.1f;
                 }
             }
@@ -222,7 +222,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->envCtx.unk_EE[3] < 64 && (gSaveContext.entranceIndex != ENTR_SPOT04_0_0 ||
+    if (globalCtx->envCtx.unk_EE[3] < 64 && (gSaveContext.entranceIndex != ENTR_SPOT04_0 ||
                                              gSaveContext.sceneSetupIndex != 4 || globalCtx->envCtx.unk_EE[3])) {
         globalCtx->envCtx.unk_EE[3] += 16;
     }

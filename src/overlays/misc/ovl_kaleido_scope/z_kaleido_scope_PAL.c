@@ -3324,57 +3324,57 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     Gameplay_SaveSceneFlags(globalCtx);
 
                     switch (gSaveContext.entranceIndex) {
-                        case ENTR_YDAN_0_0:
-                        case ENTR_DDAN_0_0:
-                        case ENTR_BDAN_0_0:
-                        case ENTR_BMORI1_0_0:
-                        case ENTR_HIDAN_0_0:
-                        case ENTR_MIZUSIN_0_0:
-                        case ENTR_JYASINZOU_0_0:
-                        case ENTR_HAKADAN_0_0:
-                        case ENTR_GANON_0_0:
-                        case ENTR_MEN_0_0:
-                        case ENTR_ICE_DOUKUTO_0_0:
-                        case ENTR_GERUDOWAY_0_0:
-                        case ENTR_HAKADANCH_0_0:
-                        case ENTR_GANONTIKA_0_0:
-                        case ENTR_GANON_SONOGO_0_0:
+                        case ENTR_YDAN_0:
+                        case ENTR_DDAN_0:
+                        case ENTR_BDAN_0:
+                        case ENTR_BMORI1_0:
+                        case ENTR_HIDAN_0:
+                        case ENTR_MIZUSIN_0:
+                        case ENTR_JYASINZOU_0:
+                        case ENTR_HAKADAN_0:
+                        case ENTR_GANON_0:
+                        case ENTR_MEN_0:
+                        case ENTR_ICE_DOUKUTO_0:
+                        case ENTR_GERUDOWAY_0:
+                        case ENTR_HAKADANCH_0:
+                        case ENTR_GANONTIKA_0:
+                        case ENTR_GANON_SONOGO_0:
                             break;
 
-                        case ENTR_YDAN_BOSS_0_0:
-                            gSaveContext.entranceIndex = ENTR_YDAN_0_0;
+                        case ENTR_YDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_YDAN_0;
                             break;
 
-                        case ENTR_DDAN_BOSS_0_0:
-                            gSaveContext.entranceIndex = ENTR_DDAN_0_0;
+                        case ENTR_DDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_DDAN_0;
                             break;
 
-                        case ENTR_BDAN_BOSS_0_0:
-                            gSaveContext.entranceIndex = ENTR_BDAN_0_0;
+                        case ENTR_BDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_BDAN_0;
                             break;
 
-                        case ENTR_MORIBOSSROOM_0_0:
-                            gSaveContext.entranceIndex = ENTR_BMORI1_0_0;
+                        case ENTR_MORIBOSSROOM_0:
+                            gSaveContext.entranceIndex = ENTR_BMORI1_0;
                             break;
 
-                        case ENTR_FIRE_BS_0_0:
-                            gSaveContext.entranceIndex = ENTR_HIDAN_0_0;
+                        case ENTR_FIRE_BS_0:
+                            gSaveContext.entranceIndex = ENTR_HIDAN_0;
                             break;
 
-                        case ENTR_MIZUSIN_BS_0_0:
-                            gSaveContext.entranceIndex = ENTR_MIZUSIN_0_0;
+                        case ENTR_MIZUSIN_BS_0:
+                            gSaveContext.entranceIndex = ENTR_MIZUSIN_0;
                             break;
 
-                        case ENTR_JYASINBOSS_0_0:
-                            gSaveContext.entranceIndex = ENTR_JYASINZOU_0_0;
+                        case ENTR_JYASINBOSS_0:
+                            gSaveContext.entranceIndex = ENTR_JYASINZOU_0;
                             break;
 
-                        case ENTR_HAKADAN_BS_0_0:
-                            gSaveContext.entranceIndex = ENTR_HAKADAN_0_0;
+                        case ENTR_HAKADAN_BS_0:
+                            gSaveContext.entranceIndex = ENTR_HAKADAN_0;
                             break;
 
-                        case ENTR_GANON_BOSS_0_0:
-                            gSaveContext.entranceIndex = ENTR_GANON_0_0;
+                        case ENTR_GANON_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_GANON_0;
                             break;
                     }
                 } else {
