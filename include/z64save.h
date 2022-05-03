@@ -644,47 +644,50 @@ typedef enum {
  */
 
 // 0x00-0x0F
-#define EVENTINF_wth_0X_INDEX 0
-#define EVENTINF_wth_0t3_SHIFT 0
-#define EVENTINF_wth_04_SHIFT 4
-#define EVENTINF_05_SHIFT 5
-#define EVENTINF_06_SHIFT 6
-#define EVENTINF_08_SHIFT 8
-#define EVENTINF_0A_SHIFT 10
-#define EVENTINF_wth_0F_SHIFT 15
-#define EVENTINF_wth_04_MASK (1 << EVENTINF_wth_04_SHIFT)
-#define EVENTINF_05_MASK (1 << EVENTINF_05_SHIFT)
-#define EVENTINF_06_MASK (1 << EVENTINF_06_SHIFT)
-#define EVENTINF_wth_0F_MASK (1 << EVENTINF_wth_0F_SHIFT)
-#define EVENTINF_05 ((EVENTINF_wth_0X_INDEX << 4) | EVENTINF_05_SHIFT)
-#define EVENTINF_06 ((EVENTINF_wth_0X_INDEX << 4) | EVENTINF_06_SHIFT)
-#define EVENTINF_08 ((EVENTINF_wth_0X_INDEX << 4) | EVENTINF_08_SHIFT)
-#define EVENTINF_0A ((EVENTINF_wth_0X_INDEX << 4) | EVENTINF_0A_SHIFT)
-#define EVENTINF_wth_0t3_MASK (0xF << EVENTINF_wth_0t3_SHIFT)
+// horses related
+#define EVENTINF_HORSES_INDEX 0
+#define EVENTINF_HORSES_STATE_SHIFT 0
+#define EVENTINF_HORSES_HORSETYPE_SHIFT 4
+#define EVENTINF_HORSES_05_SHIFT 5
+#define EVENTINF_HORSES_06_SHIFT 6
+#define EVENTINF_HORSES_08_SHIFT 8
+#define EVENTINF_HORSES_0A_SHIFT 10
+#define EVENTINF_HORSES_0F_SHIFT 15 // unused?
+#define EVENTINF_HORSES_STATE_MASK (0xF << EVENTINF_HORSES_STATE_SHIFT)
+#define EVENTINF_HORSES_HORSETYPE_MASK (1 << EVENTINF_HORSES_HORSETYPE_SHIFT)
+#define EVENTINF_HORSES_05_MASK (1 << EVENTINF_HORSES_05_SHIFT)
+#define EVENTINF_HORSES_06_MASK (1 << EVENTINF_HORSES_06_SHIFT)
+#define EVENTINF_HORSES_0F_MASK (1 << EVENTINF_HORSES_0F_SHIFT)
+#define EVENTINF_HORSES_05 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_05_SHIFT)
+#define EVENTINF_HORSES_06 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
+#define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
+#define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
 typedef enum {
-    /*  0 */ VAL_EVENTINF_wth_0t3_0,
-    /*  1 */ VAL_EVENTINF_wth_0t3_1,
-    /*  2 */ VAL_EVENTINF_wth_0t3_2,
-    /*  3 */ VAL_EVENTINF_wth_0t3_3,
-    /*  4 */ VAL_EVENTINF_wth_0t3_4,
-    /*  5 */ VAL_EVENTINF_wth_0t3_5,
-    /*  6 */ VAL_EVENTINF_wth_0t3_6,
-    /*  7 */ VAL_EVENTINF_wth_0t3_7
-} Values_EVENTINF_wth_0t3;
+    /*  0 */ EVENTINF_HORSES_STATE_0,
+    /*  1 */ EVENTINF_HORSES_STATE_1,
+    /*  2 */ EVENTINF_HORSES_STATE_2,
+    /*  3 */ EVENTINF_HORSES_STATE_3,
+    /*  4 */ EVENTINF_HORSES_STATE_4,
+    /*  5 */ EVENTINF_HORSES_STATE_5,
+    /*  6 */ EVENTINF_HORSES_STATE_6,
+    /*  7 */ EVENTINF_HORSES_STATE_7
+} EventInfHorsesState;
 // "InRaceSeq"
-#define GET_EVENTINF_wth_0t3 \
-    ((gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] & EVENTINF_wth_0t3_MASK) >> EVENTINF_wth_0t3_SHIFT)
-#define SET_EVENTINF_wth_0t3(v)                    \
-    gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] & ~EVENTINF_wth_0t3_MASK) | ((v) << EVENTINF_wth_0t3_SHIFT);
-#define GET_EVENTINF_wth_04 ((gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] & EVENTINF_wth_04_MASK) >> EVENTINF_wth_04_SHIFT)
-#define SET_EVENTINF_wth_04(v)                     \
-    gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] & ~EVENTINF_wth_04_MASK) | ((v) << EVENTINF_wth_04_SHIFT);
-#define GET_EVENTINF_wth_0F ((gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] & EVENTINF_wth_0F_MASK) >> EVENTINF_wth_0F_SHIFT)
-#define SET_EVENTINF_wth_0F(v)                     \
-    gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] = \
-        (gSaveContext.eventInf[EVENTINF_wth_0X_INDEX] & ~EVENTINF_wth_0F_MASK) | ((v) << EVENTINF_wth_0F_SHIFT);
+#define GET_EVENTINF_HORSES_STATE \
+    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_STATE_MASK) >> EVENTINF_HORSES_STATE_SHIFT)
+#define SET_EVENTINF_HORSES_STATE(v)                                                   \
+    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                     \
+        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_STATE_MASK) | \
+        ((v) << EVENTINF_HORSES_STATE_SHIFT);
+#define GET_EVENTINF_HORSES_HORSETYPE \
+    ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_HORSETYPE_MASK) >> EVENTINF_HORSES_HORSETYPE_SHIFT)
+#define SET_EVENTINF_HORSES_HORSETYPE(v)                                                   \
+    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                         \
+        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_HORSETYPE_MASK) | \
+        ((v) << EVENTINF_HORSES_HORSETYPE_SHIFT);
+#define SET_EVENTINF_HORSES_0F(v)                  \
+    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
+        (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT);
 
 #define EVENTINF_10 0x10
 

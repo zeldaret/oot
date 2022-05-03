@@ -110,22 +110,22 @@ void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalConte
     gSaveContext.cutsceneIndex = 0;
     if (this->result == INGORACE_PLAYER_WIN) {
         globalCtx->nextEntranceIndex = 0x4CE;
-        if (GET_EVENTINF(EVENTINF_06)) {
-            SET_EVENTINF_wth_0t3(VAL_EVENTINF_wth_0t3_6);
-            SET_EVENTINF_wth_0F(1);
+        if (GET_EVENTINF(EVENTINF_HORSES_06)) {
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_6);
+            SET_EVENTINF_HORSES_0F(1);
             globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             Environment_ForcePlaySequence(NA_BGM_INGO);
         } else {
-            SET_EVENTINF_wth_0t3(VAL_EVENTINF_wth_0t3_4);
-            SET_EVENTINF_wth_0F(1);
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_4);
+            SET_EVENTINF_HORSES_0F(1);
             Environment_ForcePlaySequence(NA_BGM_INGO);
             globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         }
     } else {
         globalCtx->nextEntranceIndex = 0x558;
-        SET_EVENTINF_wth_0t3(VAL_EVENTINF_wth_0t3_3);
+        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_3);
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
-        SET_EVENTINF_wth_0F(1);
+        SET_EVENTINF_HORSES_0F(1);
     }
     DREG(25) = 0;
     globalCtx->transitionTrigger = TRANS_TRIGGER_START;

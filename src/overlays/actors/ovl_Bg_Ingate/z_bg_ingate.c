@@ -51,7 +51,7 @@ void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_SetScale(&this->dyna.actor, 0.1f);
-    if (((this->dyna.actor.params & 1) != 0) && (GET_EVENTINF_wth_0t3 == VAL_EVENTINF_wth_0t3_6)) {
+    if (((this->dyna.actor.params & 1) != 0) && (GET_EVENTINF_HORSES_STATE == EVENTINF_HORSES_STATE_6)) {
         globalCtx->csCtx.frames = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {
