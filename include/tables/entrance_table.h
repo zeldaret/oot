@@ -14,7 +14,7 @@
  * WARNING: Due to how the entrance system is implemented, entries within the same group of scene setups are NOT shiftable.
  *          Groups of scene setups are indicated by line breaks.
  * 
- *          Only the first entrance within a gorup of setups is expected to be referenced in code.
+ *          Only the first entrance within a group of setups is expected to be referenced in code.
  *          The entrance system will apply the offset on its own to access the correct entrance for a given setup.
  */
 /* 0x000 */ DEFINE_ENTRANCE(ENTR_YDAN_0, SCENE_YDAN, 0, false, true, TRANS_TYPE_FADE_BLACK, TRANS_TYPE_FADE_BLACK)
