@@ -768,7 +768,9 @@ void func_80083108(GlobalContext* globalCtx) {
                     gSaveContext.unk_13EA = 0;
                     Interface_ChangeAlpha(50);
                 }
-            } else if ((gSaveContext.eventInf[0] & 0xF) == 1) {
+            } else if ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
+                       EVENTINF_00_MASK) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.equips.buttonItems[0] != ITEM_BOW)) {
@@ -828,7 +830,8 @@ void func_80083108(GlobalContext* globalCtx) {
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOW) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_NONE)) {
-                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[29] == 0)) {
+                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) ||
+                            (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
                             gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -851,7 +854,8 @@ void func_80083108(GlobalContext* globalCtx) {
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOW) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_BOMBCHU) ||
                         (gSaveContext.equips.buttonItems[0] == ITEM_NONE)) {
-                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[29] == 0)) {
+                        if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) ||
+                            (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
                             gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                             sp28 = true;
 
@@ -1076,14 +1080,12 @@ void Interface_SetSceneRestrictions(GlobalContext* globalCtx) {
     s16 i;
     u8 currentScene;
 
-    // clang-format off
-    interfaceCtx->restrictions.hGauge = interfaceCtx->restrictions.bButton =
-    interfaceCtx->restrictions.aButton = interfaceCtx->restrictions.bottles =
-    interfaceCtx->restrictions.tradeItems = interfaceCtx->restrictions.hookshot =
-    interfaceCtx->restrictions.ocarina = interfaceCtx->restrictions.warpSongs =
-    interfaceCtx->restrictions.sunsSong = interfaceCtx->restrictions.farores =
-    interfaceCtx->restrictions.dinsNayrus = interfaceCtx->restrictions.all = 0;
-    // clang-format on
+    interfaceCtx->restrictions.hGauge = interfaceCtx->restrictions.bButton = interfaceCtx->restrictions.aButton =
+        interfaceCtx->restrictions.bottles = interfaceCtx->restrictions.tradeItems =
+            interfaceCtx->restrictions.hookshot = interfaceCtx->restrictions.ocarina =
+                interfaceCtx->restrictions.warpSongs = interfaceCtx->restrictions.sunsSong =
+                    interfaceCtx->restrictions.farores = interfaceCtx->restrictions.dinsNayrus =
+                        interfaceCtx->restrictions.all = 0;
 
     i = 0;
 
@@ -1151,7 +1153,7 @@ Gfx* Gfx_TextureI8(Gfx* displayListHead, void* texture, s16 textureWidth, s16 te
 
 void Inventory_SwapAgeEquipment(void) {
     s16 i;
-    u16 temp;
+    u16 shieldEquipValue;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         for (i = 0; i < 4; i++) {
@@ -1182,7 +1184,10 @@ void Inventory_SwapAgeEquipment(void) {
             gSaveContext.equips.buttonItems[3] = gSaveContext.inventory.items[SLOT_OCARINA];
             gSaveContext.equips.cButtonSlots[1] = SLOT_BOMB;
             gSaveContext.equips.cButtonSlots[2] = SLOT_OCARINA;
-            gSaveContext.equips.equipment = 0x1122;
+            gSaveContext.equips.equipment = (EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4)) |
+                                            (EQUIP_VALUE_SHIELD_HYLIAN << (EQUIP_TYPE_SHIELD * 4)) |
+                                            (EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4)) |
+                                            (EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4));
         } else {
             for (i = 0; i < 4; i++) {
                 gSaveContext.equips.buttonItems[i] = gSaveContext.adultEquips.buttonItems[i];
@@ -1233,16 +1238,16 @@ void Inventory_SwapAgeEquipment(void) {
             }
 
             gSaveContext.equips.equipment = gSaveContext.childEquips.equipment;
-            gSaveContext.equips.equipment &= 0xFFF0;
-            gSaveContext.equips.equipment |= 0x0001;
+            gSaveContext.equips.equipment &= (u16) ~(0xF << (EQUIP_TYPE_SWORD * 4));
+            gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_KOKIRI << (EQUIP_TYPE_SWORD * 4);
         }
     }
 
-    temp = gEquipMasks[EQUIP_SHIELD] & gSaveContext.equips.equipment;
-    if (temp != 0) {
-        temp >>= gEquipShifts[EQUIP_SHIELD];
-        if (!(gBitFlags[temp + 3] & gSaveContext.inventory.equipment)) {
-            gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_SHIELD];
+    shieldEquipValue = gEquipMasks[EQUIP_TYPE_SHIELD] & gSaveContext.equips.equipment;
+    if (shieldEquipValue != 0) {
+        shieldEquipValue >>= gEquipShifts[EQUIP_TYPE_SHIELD];
+        if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, shieldEquipValue - 1)) {
+            gSaveContext.equips.equipment &= gEquipNegMasks[EQUIP_TYPE_SHIELD];
         }
     }
 }
@@ -1257,10 +1262,10 @@ void Interface_InitHorsebackArchery(GlobalContext* globalCtx) {
 }
 
 void func_800849EC(GlobalContext* globalCtx) {
-    gSaveContext.inventory.equipment |= gBitFlags[2] << gEquipShifts[EQUIP_SWORD];
-    gSaveContext.inventory.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
+    gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS);
+    gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
 
-    if (gBitFlags[3] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KNIFE;
     } else {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
@@ -1303,7 +1308,7 @@ void func_80084BF4(GlobalContext* globalCtx, u16 flag) {
                 Interface_LoadItemIcon1(globalCtx, 0);
             }
         } else if (gSaveContext.equips.buttonItems[0] == ITEM_NONE) {
-            if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[29] == 0)) {
+            if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) || (gSaveContext.infTable[INFTABLE_1DX_INDEX] == 0)) {
                 gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
                 Interface_LoadItemIcon1(globalCtx, 0);
             }
@@ -1387,13 +1392,17 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
-        gSaveContext.inventory.equipment |= gBitFlags[item - ITEM_SWORD_KOKIRI] << gEquipShifts[EQUIP_SWORD];
+        gSaveContext.inventory.equipment |=
+            OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI);
 
         if (item == ITEM_SWORD_BGS) {
             gSaveContext.swordHealth = 8;
 
-            if (ALL_EQUIP_VALUE(EQUIP_SWORD) == 0xF) {
-                gSaveContext.inventory.equipment ^= 8 << gEquipShifts[EQUIP_SWORD];
+            if (ALL_EQUIP_VALUE(EQUIP_TYPE_SWORD) ==
+                ((1 << EQUIP_INV_SWORD_KOKIRI) | (1 << EQUIP_INV_SWORD_MASTER) | (1 << EQUIP_INV_SWORD_BGS) |
+                 (1 << EQUIP_INV_SWORD_BROKENGIANTKNIFE))) {
+                gSaveContext.inventory.equipment ^=
+                    OWNED_EQUIP_FLAG_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE);
                 if (gSaveContext.equips.buttonItems[0] == ITEM_SWORD_KNIFE) {
                     gSaveContext.equips.buttonItems[0] = ITEM_SWORD_BGS;
                     Interface_LoadItemIcon1(globalCtx, 0);
@@ -1401,20 +1410,20 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             }
         } else if (item == ITEM_SWORD_MASTER) {
             gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
-            gSaveContext.equips.equipment &= 0xFFF0;
-            gSaveContext.equips.equipment |= 0x0002;
+            gSaveContext.equips.equipment &= (u16) ~(0xF << (EQUIP_TYPE_SWORD * 4));
+            gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4);
             Interface_LoadItemIcon1(globalCtx, 0);
         }
 
         return ITEM_NONE;
     } else if ((item >= ITEM_SHIELD_DEKU) && (item <= ITEM_SHIELD_MIRROR)) {
-        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_SHIELD_DEKU] << gEquipShifts[EQUIP_SHIELD]);
+        gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SHIELD, item - ITEM_SHIELD_DEKU);
         return ITEM_NONE;
     } else if ((item >= ITEM_TUNIC_KOKIRI) && (item <= ITEM_TUNIC_ZORA)) {
-        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_TUNIC_KOKIRI] << gEquipShifts[EQUIP_TUNIC]);
+        gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_TUNIC, item - ITEM_TUNIC_KOKIRI);
         return ITEM_NONE;
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
-        gSaveContext.inventory.equipment |= (gBitFlags[item - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]);
+        gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_BOOTS, item - ITEM_BOOTS_KOKIRI);
         return ITEM_NONE;
     } else if ((item == ITEM_KEY_BOSS) || (item == ITEM_COMPASS) || (item == ITEM_DUNGEON_MAP)) {
         gSaveContext.inventory.dungeonItems[gSaveContext.mapIndex] |= gBitFlags[item - ITEM_KEY_BOSS];
@@ -1636,8 +1645,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
         }
 
-        if (!(gSaveContext.itemGetInf[1] & 8)) {
-            gSaveContext.itemGetInf[1] |= 8;
+        if (!GET_ITEMGETINF(ITEMGETINF_13)) {
+            SET_ITEMGETINF(ITEMGETINF_13);
             return ITEM_NONE;
         }
 
@@ -1649,8 +1658,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             AMMO(ITEM_SLINGSHOT) = CUR_CAPACITY(UPG_BULLET_BAG);
         }
 
-        if (!(gSaveContext.itemGetInf[1] & 8)) {
-            gSaveContext.itemGetInf[1] |= 8;
+        if (!GET_ITEMGETINF(ITEMGETINF_13)) {
+            SET_ITEMGETINF(ITEMGETINF_13);
             return ITEM_NONE;
         }
 
@@ -1695,8 +1704,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         func_80087708(globalCtx, 12, 5);
 
-        if (!(gSaveContext.infTable[25] & 0x100)) {
-            gSaveContext.infTable[25] |= 0x100;
+        if (!GET_INFTABLE(INFTABLE_198)) {
+            SET_INFTABLE(INFTABLE_198);
             return ITEM_NONE;
         }
 
@@ -1708,8 +1717,8 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
         func_80087708(globalCtx, 24, 5);
 
-        if (!(gSaveContext.infTable[25] & 0x100)) {
-            gSaveContext.infTable[25] |= 0x100;
+        if (!GET_INFTABLE(INFTABLE_198)) {
+            SET_INFTABLE(INFTABLE_198);
             return ITEM_NONE;
         }
 
@@ -1770,7 +1779,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
         }
     } else if ((item >= ITEM_WEIRD_EGG) && (item <= ITEM_CLAIM_CHECK)) {
         if (item == ITEM_SAW) {
-            gSaveContext.itemGetInf[1] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_1F);
         }
 
         temp = INV_CONTENT(item);
@@ -1820,26 +1829,25 @@ u8 Item_CheckObtainability(u8 item) {
     } else if ((item >= ITEM_SWORD_KOKIRI) && (item <= ITEM_SWORD_BGS)) {
         if (item == ITEM_SWORD_BGS) {
             return ITEM_NONE;
-        } else if ((gBitFlags[item - ITEM_SWORD_KOKIRI] << gEquipShifts[EQUIP_SWORD]) &
-                   gSaveContext.inventory.equipment) {
+        } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, item - ITEM_SWORD_KOKIRI + EQUIP_INV_SWORD_KOKIRI)) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_SHIELD_DEKU) && (item <= ITEM_SHIELD_MIRROR)) {
-        if ((gBitFlags[item - ITEM_SHIELD_DEKU] << gEquipShifts[EQUIP_SHIELD]) & gSaveContext.inventory.equipment) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_SHIELD, item - ITEM_SHIELD_DEKU + EQUIP_INV_SHIELD_DEKU)) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_TUNIC_KOKIRI) && (item <= ITEM_TUNIC_ZORA)) {
-        if ((gBitFlags[item - ITEM_TUNIC_KOKIRI] << gEquipShifts[EQUIP_TUNIC]) & gSaveContext.inventory.equipment) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, item - ITEM_TUNIC_KOKIRI + EQUIP_INV_TUNIC_KOKIRI)) {
             return item;
         } else {
             return ITEM_NONE;
         }
     } else if ((item >= ITEM_BOOTS_KOKIRI) && (item <= ITEM_BOOTS_HOVER)) {
-        if ((gBitFlags[item - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) & gSaveContext.inventory.equipment) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, item - ITEM_BOOTS_KOKIRI + EQUIP_INV_BOOTS_KOKIRI)) {
             return item;
         } else {
             return ITEM_NONE;
@@ -1875,7 +1883,7 @@ u8 Item_CheckObtainability(u8 item) {
     } else if (item == ITEM_LONGSHOT) {
         return ITEM_NONE;
     } else if ((item == ITEM_SEEDS) || (item == ITEM_SEEDS_30)) {
-        if (!(gSaveContext.itemGetInf[1] & 0x8)) {
+        if (!GET_ITEMGETINF(ITEMGETINF_13)) {
             return ITEM_NONE;
         } else {
             return ITEM_SEEDS;
@@ -1890,8 +1898,8 @@ u8 Item_CheckObtainability(u8 item) {
         return ITEM_HEART;
     } else if ((item == ITEM_MAGIC_SMALL) || (item == ITEM_MAGIC_LARGE)) {
         // "Magic Pot Get_Inf_Table( 25, 0x0100)=%d"
-        osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", gSaveContext.infTable[25] & 0x100);
-        if (!(gSaveContext.infTable[25] & 0x100)) {
+        osSyncPrintf("魔法の壷 Get_Inf_Table( 25, 0x0100)=%d\n", GET_INFTABLE(INFTABLE_198));
+        if (!GET_INFTABLE(INFTABLE_198)) {
             return ITEM_NONE;
         } else {
             return item;
@@ -2104,7 +2112,9 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState) {
         (globalCtx->csCtx.state == CS_STATE_IDLE)) {
         // clang-format off
         if (naviCallState == 0x1E) { Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &gSfxDefaultPos, 4,
-                                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb); }
+                                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                            &gSfxDefaultReverb);
+        }
         // clang-format on
 
         if (naviCallState == 0x1D) {
@@ -2151,7 +2161,8 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange) {
 
     // clang-format off
     if (healthChange > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4,
-                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                                   &gSfxDefaultReverb);
     } else if (gSaveContext.doubleDefense && (healthChange < 0)) {
         healthChange >>= 1;
         osSyncPrintf("ハート減少半分！！＝%d\n", healthChange); // "Heart decrease halved!!＝%d"
@@ -2639,7 +2650,7 @@ void func_80088AA0(s16 arg0) {
 
 void func_80088AF0(GlobalContext* globalCtx) {
     if (gSaveContext.timer2State != 0) {
-        if (gSaveContext.eventInf[1] & 1) {
+        if (GET_EVENTINF(EVENTINF_10)) {
             gSaveContext.timer2Value = 239;
         } else {
             gSaveContext.timer2Value = 1;
@@ -2910,48 +2921,41 @@ void Interface_InitVertices(GlobalContext* globalCtx) {
 
     interfaceCtx->actionVtx = Graph_Alloc(globalCtx->state.gfxCtx, 8 * sizeof(Vtx));
 
-    // clang-format off
-    interfaceCtx->actionVtx[0].v.ob[0] =
-    interfaceCtx->actionVtx[2].v.ob[0] = -14;
-    interfaceCtx->actionVtx[1].v.ob[0] =
-    interfaceCtx->actionVtx[3].v.ob[0] = interfaceCtx->actionVtx[0].v.ob[0] + 28;
+    interfaceCtx->actionVtx[0].v.ob[0] = interfaceCtx->actionVtx[2].v.ob[0] = -14;
+    interfaceCtx->actionVtx[1].v.ob[0] = interfaceCtx->actionVtx[3].v.ob[0] = interfaceCtx->actionVtx[0].v.ob[0] + 28;
 
-    interfaceCtx->actionVtx[0].v.ob[1] =
-    interfaceCtx->actionVtx[1].v.ob[1] = 14;
-    interfaceCtx->actionVtx[2].v.ob[1] =
-    interfaceCtx->actionVtx[3].v.ob[1] = interfaceCtx->actionVtx[0].v.ob[1] - 28;
+    interfaceCtx->actionVtx[0].v.ob[1] = interfaceCtx->actionVtx[1].v.ob[1] = 14;
+    interfaceCtx->actionVtx[2].v.ob[1] = interfaceCtx->actionVtx[3].v.ob[1] = interfaceCtx->actionVtx[0].v.ob[1] - 28;
 
-    interfaceCtx->actionVtx[4].v.ob[0] =
-    interfaceCtx->actionVtx[6].v.ob[0] = -(XREG(21) / 2);
-    interfaceCtx->actionVtx[5].v.ob[0] =
-    interfaceCtx->actionVtx[7].v.ob[0] = interfaceCtx->actionVtx[4].v.ob[0] + XREG(21);
+    interfaceCtx->actionVtx[4].v.ob[0] = interfaceCtx->actionVtx[6].v.ob[0] = -(XREG(21) / 2);
+    interfaceCtx->actionVtx[5].v.ob[0] = interfaceCtx->actionVtx[7].v.ob[0] =
+        interfaceCtx->actionVtx[4].v.ob[0] + XREG(21);
 
-    interfaceCtx->actionVtx[4].v.ob[1] =
-    interfaceCtx->actionVtx[5].v.ob[1] = XREG(28) / 2;
-    interfaceCtx->actionVtx[6].v.ob[1] =
-    interfaceCtx->actionVtx[7].v.ob[1] = interfaceCtx->actionVtx[4].v.ob[1] - XREG(28);
+    interfaceCtx->actionVtx[4].v.ob[1] = interfaceCtx->actionVtx[5].v.ob[1] = XREG(28) / 2;
+    interfaceCtx->actionVtx[6].v.ob[1] = interfaceCtx->actionVtx[7].v.ob[1] =
+        interfaceCtx->actionVtx[4].v.ob[1] - XREG(28);
 
     for (i = 0; i < 8; i += 4) {
-        interfaceCtx->actionVtx[i].v.ob[2] = interfaceCtx->actionVtx[i+1].v.ob[2] =
-        interfaceCtx->actionVtx[i+2].v.ob[2] = interfaceCtx->actionVtx[i+3].v.ob[2] = 0;
+        interfaceCtx->actionVtx[i].v.ob[2] = interfaceCtx->actionVtx[i + 1].v.ob[2] =
+            interfaceCtx->actionVtx[i + 2].v.ob[2] = interfaceCtx->actionVtx[i + 3].v.ob[2] = 0;
 
-        interfaceCtx->actionVtx[i].v.flag = interfaceCtx->actionVtx[i+1].v.flag =
-        interfaceCtx->actionVtx[i+2].v.flag = interfaceCtx->actionVtx[i+3].v.flag = 0;
+        interfaceCtx->actionVtx[i].v.flag = interfaceCtx->actionVtx[i + 1].v.flag =
+            interfaceCtx->actionVtx[i + 2].v.flag = interfaceCtx->actionVtx[i + 3].v.flag = 0;
 
         interfaceCtx->actionVtx[i].v.tc[0] = interfaceCtx->actionVtx[i].v.tc[1] =
-        interfaceCtx->actionVtx[i+1].v.tc[1] = interfaceCtx->actionVtx[i+2].v.tc[0] = 0;
-        interfaceCtx->actionVtx[i+1].v.tc[0] = interfaceCtx->actionVtx[i+2].v.tc[1] =
-        interfaceCtx->actionVtx[i+3].v.tc[0] = interfaceCtx->actionVtx[i+3].v.tc[1] = 1024;
+            interfaceCtx->actionVtx[i + 1].v.tc[1] = interfaceCtx->actionVtx[i + 2].v.tc[0] = 0;
+        interfaceCtx->actionVtx[i + 1].v.tc[0] = interfaceCtx->actionVtx[i + 2].v.tc[1] =
+            interfaceCtx->actionVtx[i + 3].v.tc[0] = interfaceCtx->actionVtx[i + 3].v.tc[1] = 1024;
 
-        interfaceCtx->actionVtx[i].v.cn[0] = interfaceCtx->actionVtx[i+1].v.cn[0] =
-        interfaceCtx->actionVtx[i+2].v.cn[0] = interfaceCtx->actionVtx[i+3].v.cn[0] =
-        interfaceCtx->actionVtx[i].v.cn[1] = interfaceCtx->actionVtx[i+1].v.cn[1] =
-        interfaceCtx->actionVtx[i+2].v.cn[1] = interfaceCtx->actionVtx[i+3].v.cn[1] =
-        interfaceCtx->actionVtx[i].v.cn[2] = interfaceCtx->actionVtx[i+1].v.cn[2] =
-        interfaceCtx->actionVtx[i+2].v.cn[2] = interfaceCtx->actionVtx[i+3].v.cn[2] = 255;
+        interfaceCtx->actionVtx[i].v.cn[0] = interfaceCtx->actionVtx[i + 1].v.cn[0] =
+            interfaceCtx->actionVtx[i + 2].v.cn[0] = interfaceCtx->actionVtx[i + 3].v.cn[0] =
+                interfaceCtx->actionVtx[i].v.cn[1] = interfaceCtx->actionVtx[i + 1].v.cn[1] =
+                    interfaceCtx->actionVtx[i + 2].v.cn[1] = interfaceCtx->actionVtx[i + 3].v.cn[1] =
+                        interfaceCtx->actionVtx[i].v.cn[2] = interfaceCtx->actionVtx[i + 1].v.cn[2] =
+                            interfaceCtx->actionVtx[i + 2].v.cn[2] = interfaceCtx->actionVtx[i + 3].v.cn[2] = 255;
 
-        interfaceCtx->actionVtx[i].v.cn[3] = interfaceCtx->actionVtx[i+1].v.cn[3] =
-        interfaceCtx->actionVtx[i+2].v.cn[3] = interfaceCtx->actionVtx[i+3].v.cn[3] = 255;
+        interfaceCtx->actionVtx[i].v.cn[3] = interfaceCtx->actionVtx[i + 1].v.cn[3] =
+            interfaceCtx->actionVtx[i + 2].v.cn[3] = interfaceCtx->actionVtx[i + 3].v.cn[3] = 255;
     }
 
     interfaceCtx->actionVtx[5].v.tc[0] = interfaceCtx->actionVtx[7].v.tc[0] = 1536;
@@ -2965,25 +2969,25 @@ void Interface_InitVertices(GlobalContext* globalCtx) {
     interfaceCtx->beatingHeartVtx[2].v.ob[1] = interfaceCtx->beatingHeartVtx[3].v.ob[1] = -8;
 
     interfaceCtx->beatingHeartVtx[0].v.ob[2] = interfaceCtx->beatingHeartVtx[1].v.ob[2] =
-    interfaceCtx->beatingHeartVtx[2].v.ob[2] = interfaceCtx->beatingHeartVtx[3].v.ob[2] = 0;
+        interfaceCtx->beatingHeartVtx[2].v.ob[2] = interfaceCtx->beatingHeartVtx[3].v.ob[2] = 0;
 
     interfaceCtx->beatingHeartVtx[0].v.flag = interfaceCtx->beatingHeartVtx[1].v.flag =
-    interfaceCtx->beatingHeartVtx[2].v.flag = interfaceCtx->beatingHeartVtx[3].v.flag = 0;
+        interfaceCtx->beatingHeartVtx[2].v.flag = interfaceCtx->beatingHeartVtx[3].v.flag = 0;
 
     interfaceCtx->beatingHeartVtx[0].v.tc[0] = interfaceCtx->beatingHeartVtx[0].v.tc[1] =
-    interfaceCtx->beatingHeartVtx[1].v.tc[1] = interfaceCtx->beatingHeartVtx[2].v.tc[0] = 0;
+        interfaceCtx->beatingHeartVtx[1].v.tc[1] = interfaceCtx->beatingHeartVtx[2].v.tc[0] = 0;
     interfaceCtx->beatingHeartVtx[1].v.tc[0] = interfaceCtx->beatingHeartVtx[2].v.tc[1] =
-    interfaceCtx->beatingHeartVtx[3].v.tc[0] = interfaceCtx->beatingHeartVtx[3].v.tc[1] = 512;
+        interfaceCtx->beatingHeartVtx[3].v.tc[0] = interfaceCtx->beatingHeartVtx[3].v.tc[1] = 512;
 
     interfaceCtx->beatingHeartVtx[0].v.cn[0] = interfaceCtx->beatingHeartVtx[1].v.cn[0] =
-    interfaceCtx->beatingHeartVtx[2].v.cn[0] = interfaceCtx->beatingHeartVtx[3].v.cn[0] =
-    interfaceCtx->beatingHeartVtx[0].v.cn[1] = interfaceCtx->beatingHeartVtx[1].v.cn[1] =
-    interfaceCtx->beatingHeartVtx[2].v.cn[1] = interfaceCtx->beatingHeartVtx[3].v.cn[1] =
-    interfaceCtx->beatingHeartVtx[0].v.cn[2] = interfaceCtx->beatingHeartVtx[1].v.cn[2] =
-    interfaceCtx->beatingHeartVtx[2].v.cn[2] = interfaceCtx->beatingHeartVtx[3].v.cn[2] =
-    interfaceCtx->beatingHeartVtx[0].v.cn[3] = interfaceCtx->beatingHeartVtx[1].v.cn[3] =
-    interfaceCtx->beatingHeartVtx[2].v.cn[3] = interfaceCtx->beatingHeartVtx[3].v.cn[3] = 255;
-    // clang-format on
+        interfaceCtx->beatingHeartVtx[2].v.cn[0] = interfaceCtx->beatingHeartVtx[3].v.cn[0] =
+            interfaceCtx->beatingHeartVtx[0].v.cn[1] = interfaceCtx->beatingHeartVtx[1].v.cn[1] =
+                interfaceCtx->beatingHeartVtx[2].v.cn[1] = interfaceCtx->beatingHeartVtx[3].v.cn[1] =
+                    interfaceCtx->beatingHeartVtx[0].v.cn[2] = interfaceCtx->beatingHeartVtx[1].v.cn[2] =
+                        interfaceCtx->beatingHeartVtx[2].v.cn[2] = interfaceCtx->beatingHeartVtx[3].v.cn[2] =
+                            interfaceCtx->beatingHeartVtx[0].v.cn[3] = interfaceCtx->beatingHeartVtx[1].v.cn[3] =
+                                interfaceCtx->beatingHeartVtx[2].v.cn[3] = interfaceCtx->beatingHeartVtx[3].v.cn[3] =
+                                    255;
 }
 
 void func_8008A8B8(GlobalContext* globalCtx, s32 topY, s32 bottomY, s32 leftX, s32 rightX) {
@@ -3408,8 +3412,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // Revert any spoiling trade quest items
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
-                    gSaveContext.eventInf[0] &= 0x7F80;
-                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[0]);
+                    gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
+                        (u16) ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK |
+                                EVENTINF_04_MASK | EVENTINF_05_MASK | EVENTINF_06_MASK | EVENTINF_0F_MASK);
+                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_0X_INDEX]);
                     globalCtx->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
@@ -3719,10 +3725,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                         }
                                     } else {
                                         gSaveContext.timer2Value++;
-                                        if (gSaveContext.eventInf[1] & 1) {
+                                        if (GET_EVENTINF(EVENTINF_10)) {
                                             if (gSaveContext.timer2Value == 240) {
                                                 Message_StartTextbox(globalCtx, 0x6083, NULL);
-                                                gSaveContext.eventInf[1] &= ~1;
+                                                CLEAR_EVENTINF(EVENTINF_10);
                                                 gSaveContext.timer2State = 0;
                                             }
                                         }
@@ -3978,11 +3984,11 @@ void Interface_Update(GlobalContext* globalCtx) {
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {
-        if (CUR_EQUIP_VALUE(EQUIP_TUNIC) == 2) {
+        if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_GORON) {
             D_80125A58 = 0;
         }
     } else if ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) {
-        if (CUR_EQUIP_VALUE(EQUIP_TUNIC) == 3) {
+        if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) == EQUIP_VALUE_TUNIC_ZORA) {
             D_80125A58 = 0;
         }
     }

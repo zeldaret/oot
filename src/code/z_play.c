@@ -292,7 +292,7 @@ void Gameplay_Init(GameState* thisx) {
         }
     } else if ((gEntranceTable[((void)0, gSaveContext.entranceIndex)].scene == SCENE_SPOT04) && LINK_IS_ADULT &&
                gSaveContext.sceneSetupIndex < 4) {
-        gSaveContext.sceneSetupIndex = (gSaveContext.eventChkInf[4] & 0x100) ? 3 : 2;
+        gSaveContext.sceneSetupIndex = GET_EVENTCHKINF(EVENTCHKINF_48) ? 3 : 2;
     }
 
     Gameplay_SpawnScene(

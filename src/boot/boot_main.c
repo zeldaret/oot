@@ -1,10 +1,11 @@
 #include "global.h"
+#include "boot.h"
 
 StackEntry sBootThreadInfo;
 OSThread sIdleThread;
 STACK(sIdleThreadStack, 0x400);
 StackEntry sIdleThreadInfo;
-STACK(sBootThreadStack, 0x400);
+STACK(sBootThreadStack, BOOT_STACK_SIZE);
 
 void cleararena(void) {
     bzero(_dmadataSegmentStart, osMemSize - OS_K0_TO_PHYSICAL(_dmadataSegmentStart));

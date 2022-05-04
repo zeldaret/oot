@@ -75,11 +75,11 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = GET_PLAYER(globalCtx);
     s16* timer1ValuePtr; // weirdness with this necessary to match
 
-    if (!(gSaveContext.infTable[11] & 0x100)) {
+    if (!GET_INFTABLE(INFTABLE_B8)) {
         return 0x2000;
     }
     timer1ValuePtr = &gSaveContext.timer1Value;
-    if (gSaveContext.eventInf[0] & 0x400) {
+    if (GET_EVENTINF(EVENTINF_0A)) {
         gSaveContext.timer1Value = gSaveContext.timer1Value;
         thisx->flags |= ACTOR_FLAG_16;
         if (gSaveContext.timer1Value >= 0xD3) {
@@ -89,7 +89,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
             HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
             gSaveContext.timer1Value = *timer1ValuePtr;
         }
-        if (!(gSaveContext.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_1E) && (gSaveContext.timer1Value < 0x32)) {
             return 0x208F;
         } else if (gSaveContext.timer1Value < HIGH_SCORE(HS_HORSE_RACE)) {
             return 0x2012;
@@ -101,7 +101,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         (Actor_FindNearby(globalCtx, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
-    if (!(gSaveContext.infTable[11] & 0x200)) {
+    if (!GET_INFTABLE(INFTABLE_B9)) {
         return 0x2002;
     } else {
         return 0x2003;
@@ -118,15 +118,15 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                gSaveContext.eventInf[0] |= 0x400;
+                SET_EVENTINF(EVENTINF_0A);
                 gSaveContext.timer1State = 0xF;
             }
             break;
         case TEXT_STATE_CHOICE:
             if (Message_ShouldAdvance(globalCtx)) {
-                gSaveContext.infTable[11] |= 0x200;
+                SET_INFTABLE(INFTABLE_B9);
                 if (globalCtx->msgCtx.choiceIndex == 0) {
-                    if (gSaveContext.eventChkInf[1] & 0x4000) {
+                    if (GET_EVENTCHKINF(EVENTCHKINF_1E)) {
                         Message_ContinueTextbox(globalCtx, 0x2091);
                     } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
                         Message_ContinueTextbox(globalCtx, 0x2092);
@@ -139,26 +139,26 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2000:
-                    gSaveContext.infTable[11] |= 0x100;
+                    SET_INFTABLE(INFTABLE_B8);
                     ret = 0;
                     break;
                 case 0x208F:
-                    gSaveContext.eventChkInf[1] |= 0x4000;
+                    SET_EVENTCHKINF(EVENTCHKINF_1E);
                 case 0x2004:
                 case 0x2012:
                     if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
                         HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
                     }
                 case 0x208E:
-                    gSaveContext.eventInf[0] &= ~0x400;
+                    CLEAR_EVENTINF(EVENTINF_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
                     ret = 0;
                     gSaveContext.timer1State = 0xA;
                     break;
                 case 0x2002:
-                    gSaveContext.infTable[11] |= 0x200;
+                    SET_INFTABLE(INFTABLE_B9);
                 case 0x2003:
-                    if (!(gSaveContext.eventInf[0] & 0x400)) {
+                    if (!GET_EVENTINF(EVENTINF_0A)) {
                         ret = 0;
                     }
                     break;
@@ -197,10 +197,10 @@ s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
     if (LINK_IS_CHILD) {
         return 2;
     }
-    if (!(gSaveContext.eventChkInf[1] & 0x100)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
         return 2;
     }
-    if (gSaveContext.eventInf[0] & 0x400) {
+    if (GET_EVENTINF(EVENTINF_0A)) {
         return 1;
     }
     return 0;

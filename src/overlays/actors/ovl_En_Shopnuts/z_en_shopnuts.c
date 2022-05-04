@@ -68,9 +68,9 @@ void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if (((this->actor.params == 0x0002) && (gSaveContext.itemGetInf[0] & 0x800)) ||
-        ((this->actor.params == 0x0009) && (gSaveContext.infTable[25] & 4)) ||
-        ((this->actor.params == 0x000A) && (gSaveContext.infTable[25] & 8))) {
+    if (((this->actor.params == 0x0002) && GET_ITEMGETINF(ITEMGETINF_0B)) ||
+        ((this->actor.params == 0x0009) && GET_INFTABLE(INFTABLE_192)) ||
+        ((this->actor.params == 0x000A) && GET_INFTABLE(INFTABLE_193))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupWait(this);

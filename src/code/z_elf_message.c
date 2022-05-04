@@ -3,11 +3,11 @@
 
 ElfMessage sChildSariaMsgs[] = {
     ELF_MSG_STRENGTH_UPG(SKIP, 3, false, 0),
-    ELF_MSG_FLAG(CHECK, 0x61, false, 0x37), /* eventChkInf[3] & 0x80 */
+    ELF_MSG_FLAG(CHECK, 0x61, false, EVENTCHKINF_37),
     ELF_MSG_END(0x64),
-    ELF_MSG_FLAG(CHECK, 0x62, false, 0x25), /* eventChkInf[2] & 0x20 */
-    ELF_MSG_FLAG(CHECK, 0x63, false, 0x37), /* eventChkInf[3] & 0x80 */
-    ELF_MSG_FLAG(CHECK, 0x65, false, 0x43), /* eventChkInf[4] & 0x8 */
+    ELF_MSG_FLAG(CHECK, 0x62, false, EVENTCHKINF_25),
+    ELF_MSG_FLAG(CHECK, 0x63, false, EVENTCHKINF_37),
+    ELF_MSG_FLAG(CHECK, 0x65, false, EVENTCHKINF_43),
     ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_FOREST),
     ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_FIRE),
     ELF_MSG_MEDALLION(CHECK, 0x66, false, ITEM_MEDALLION_WATER),
@@ -45,8 +45,8 @@ u32 ElfMessage_CheckCondition(ElfMessage* msg) {
                     return ((msg->byte0 & 1) == 1) == ((msg->byte1 & 0x0F) == CUR_UPG_VALUE(UPG_STRENGTH));
                 case (ELF_MSG_CONDITION_BOOTS << 4):
                     return ((msg->byte0 & 1) == 1) ==
-                           (((gBitFlags[msg->byte3 - ITEM_BOOTS_KOKIRI] << gEquipShifts[EQUIP_BOOTS]) &
-                             gSaveContext.inventory.equipment) != 0);
+                           (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS,
+                                              msg->byte3 - ITEM_BOOTS_KOKIRI + EQUIP_INV_BOOTS_KOKIRI) != 0);
                 case (ELF_MSG_CONDITION_SONG << 4):
                     return ((msg->byte0 & 1) == 1) ==
                            (CHECK_QUEST_ITEM(msg->byte3 - ITEM_SONG_MINUET + QUEST_SONG_MINUET) != 0);

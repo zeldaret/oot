@@ -6793,7 +6793,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     s16 curUID;
     s16 j;
 
-    func_80106860(camera, 0, sizeof(*camera));
+    __osMemset(camera, 0, sizeof(Camera));
     if (sInitRegs) {
         for (i = 0; i < sOREGInitCnt; i++) {
             OREG(i) = sOREGInit[i];

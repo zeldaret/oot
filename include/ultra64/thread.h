@@ -1,8 +1,6 @@
 #ifndef ULTRA64_THREAD_H
 #define ULTRA64_THREAD_H
 
-#include "types.h"
-
 #define OS_PRIORITY_MAX      255
 #define OS_PRIORITY_VIMGR    254
 #define OS_PRIORITY_RMON     250
@@ -21,6 +19,10 @@
 
 #define OS_FLAG_CPU_BREAK   1
 #define OS_FLAG_FAULT       2
+
+#ifdef _LANGUAGE_C
+
+#include "types.h"
 
 typedef s32 OSPri;
 typedef s32 OSId;
@@ -68,5 +70,75 @@ typedef struct {
     OSThread* next;
     OSPri priority;
 } __OSThreadTail; // size = 0x8
+
+#else
+
+// OSThread struct member offsets
+
+#define THREAD_NEXT     0x00
+#define THREAD_PRI      0x04
+#define THREAD_QUEUE    0x08
+#define THREAD_TLNEXT   0x0C
+#define THREAD_STATE    0x10
+#define THREAD_FLAGS    0x12
+#define THREAD_ID       0x14
+#define THREAD_FP       0x18
+#define THREAD_PROFILE  0x1C
+#define THREAD_CONTEXT  0x20
+#define THREAD_AT       (THREAD_CONTEXT + 0x000)
+#define THREAD_V0       (THREAD_CONTEXT + 0x008)
+#define THREAD_V1       (THREAD_CONTEXT + 0x010)
+#define THREAD_A0       (THREAD_CONTEXT + 0x018)
+#define THREAD_A1       (THREAD_CONTEXT + 0x020)
+#define THREAD_A2       (THREAD_CONTEXT + 0x028)
+#define THREAD_A3       (THREAD_CONTEXT + 0x030)
+#define THREAD_T0       (THREAD_CONTEXT + 0x038)
+#define THREAD_T1       (THREAD_CONTEXT + 0x040)
+#define THREAD_T2       (THREAD_CONTEXT + 0x048)
+#define THREAD_T3       (THREAD_CONTEXT + 0x050)
+#define THREAD_T4       (THREAD_CONTEXT + 0x058)
+#define THREAD_T5       (THREAD_CONTEXT + 0x060)
+#define THREAD_T6       (THREAD_CONTEXT + 0x068)
+#define THREAD_T7       (THREAD_CONTEXT + 0x070)
+#define THREAD_S0       (THREAD_CONTEXT + 0x078)
+#define THREAD_S1       (THREAD_CONTEXT + 0x080)
+#define THREAD_S2       (THREAD_CONTEXT + 0x088)
+#define THREAD_S3       (THREAD_CONTEXT + 0x090)
+#define THREAD_S4       (THREAD_CONTEXT + 0x098)
+#define THREAD_S5       (THREAD_CONTEXT + 0x0A0)
+#define THREAD_S6       (THREAD_CONTEXT + 0x0A8)
+#define THREAD_S7       (THREAD_CONTEXT + 0x0B0)
+#define THREAD_T8       (THREAD_CONTEXT + 0x0B8)
+#define THREAD_T9       (THREAD_CONTEXT + 0x0C0)
+#define THREAD_GP       (THREAD_CONTEXT + 0x0C8)
+#define THREAD_SP       (THREAD_CONTEXT + 0x0D0)
+#define THREAD_S8       (THREAD_CONTEXT + 0x0D8)
+#define THREAD_RA       (THREAD_CONTEXT + 0x0E0)
+#define THREAD_LO       (THREAD_CONTEXT + 0x0E8)
+#define THREAD_HI       (THREAD_CONTEXT + 0x0F0)
+#define THREAD_SR       (THREAD_CONTEXT + 0x0F8)
+#define THREAD_PC       (THREAD_CONTEXT + 0x0FC)
+#define THREAD_CAUSE    (THREAD_CONTEXT + 0x100)
+#define THREAD_BADVADDR (THREAD_CONTEXT + 0x104)
+#define THREAD_RCP      (THREAD_CONTEXT + 0x108)
+#define THREAD_FPCSR    (THREAD_CONTEXT + 0x10C)
+#define THREAD_FP0      (THREAD_CONTEXT + 0x110)
+#define THREAD_FP2      (THREAD_CONTEXT + 0x118)
+#define THREAD_FP4      (THREAD_CONTEXT + 0x120)
+#define THREAD_FP6      (THREAD_CONTEXT + 0x128)
+#define THREAD_FP8      (THREAD_CONTEXT + 0x130)
+#define THREAD_FP10     (THREAD_CONTEXT + 0x138)
+#define THREAD_FP12     (THREAD_CONTEXT + 0x140)
+#define THREAD_FP14     (THREAD_CONTEXT + 0x148)
+#define THREAD_FP16     (THREAD_CONTEXT + 0x150)
+#define THREAD_FP18     (THREAD_CONTEXT + 0x158)
+#define THREAD_FP20     (THREAD_CONTEXT + 0x160)
+#define THREAD_FP22     (THREAD_CONTEXT + 0x168)
+#define THREAD_FP24     (THREAD_CONTEXT + 0x170)
+#define THREAD_FP26     (THREAD_CONTEXT + 0x178)
+#define THREAD_FP28     (THREAD_CONTEXT + 0x180)
+#define THREAD_FP30     (THREAD_CONTEXT + 0x188)
+
+#endif
 
 #endif

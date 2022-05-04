@@ -1,15 +1,15 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
+#include "ultra64/r4300.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
 .balign 16
 
-glabel __osGetCause
-/* 008790 80007B90 40026800 */  mfc0  $v0, $13
-/* 008794 80007B94 03E00008 */  jr    $ra
-/* 008798 80007B98 00000000 */   nop   
+LEAF(__osGetCause)
+    mfc0    $v0, C0_CAUSE
+    jr      $ra
+     nop
+END(__osGetCause)

@@ -215,10 +215,10 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, GlobalContext* globalCtx
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->actor.textId) {
             case 0x6061:
-                gSaveContext.infTable[23] |= 0x40;
+                SET_INFTABLE(INFTABLE_176);
                 break;
             case 0x6064:
-                gSaveContext.infTable[23] |= 0x100;
+                SET_INFTABLE(INFTABLE_178);
                 break;
         }
         talkState = 0;

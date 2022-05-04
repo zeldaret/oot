@@ -1577,7 +1577,7 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if (this->timer == 0) {
                 if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
                     globalCtx->nextEntranceIndex = 0x1A5;
-                } else if (gSaveContext.eventChkInf[12] & 0x80) {
+                } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
                     globalCtx->nextEntranceIndex = 0x5F8;
                 } else {
                     globalCtx->nextEntranceIndex = 0x3B4;

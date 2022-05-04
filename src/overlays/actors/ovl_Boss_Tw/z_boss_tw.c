@@ -514,7 +514,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOTAKE;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_0070E0, &object_tw_Anim_006F28, NULL, NULL, 0);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, globalCtx);
             this->actor.world.pos.x = -600.0f;
@@ -532,7 +532,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOUME;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_01F888, &object_tw_Anim_006F28, NULL, NULL, 0);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, globalCtx);
             this->actor.world.pos.x = 600.0f;
@@ -554,7 +554,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_032020, &object_tw_Anim_0244B4, NULL, NULL, 0);
         Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_0244B4, -3.0f);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupWait(this, globalCtx);
         } else {
@@ -2227,7 +2227,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_D8 = 0.0f;
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(object_tw_Blob_02E170), 0xA0, 0xB4, 0x80, 0x28);
-                gSaveContext.eventChkInf[7] |= 0x20;
+                SET_EVENTCHKINF(EVENTCHKINF_75);
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             }
 

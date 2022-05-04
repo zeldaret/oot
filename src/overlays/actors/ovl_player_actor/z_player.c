@@ -3738,7 +3738,7 @@ void func_8083819C(Player* this, GlobalContext* globalCtx) {
     if (this->currentShield == PLAYER_SHIELD_DEKU) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_SHIELD, this->actor.world.pos.x,
                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 1);
-        Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
+        Inventory_DeleteEquipment(globalCtx, EQUIP_TYPE_SHIELD);
         Message_StartTextbox(globalCtx, 0x305F, NULL);
     }
 }
@@ -6047,12 +6047,13 @@ static s32 D_80854598[] = {
 };
 
 void func_8083E4C4(GlobalContext* globalCtx, Player* this, GetItemEntry* giEntry) {
-    s32 sp1C = giEntry->field & 0x1F;
+    s32 dropType = giEntry->field & 0x1F;
 
     if (!(giEntry->field & 0x80)) {
-        Item_DropCollectible(globalCtx, &this->actor.world.pos, sp1C | 0x8000);
-        if ((sp1C != 4) && (sp1C != 8) && (sp1C != 9) && (sp1C != 0xA) && (sp1C != 0) && (sp1C != 1) && (sp1C != 2) &&
-            (sp1C != 0x14) && (sp1C != 0x13)) {
+        Item_DropCollectible(globalCtx, &this->actor.world.pos, dropType | 0x8000);
+        if ((dropType != ITEM00_BOMBS_A) && (dropType != ITEM00_ARROWS_SMALL) && (dropType != ITEM00_ARROWS_MEDIUM) &&
+            (dropType != ITEM00_ARROWS_LARGE) && (dropType != ITEM00_RUPEE_GREEN) && (dropType != ITEM00_RUPEE_BLUE) &&
+            (dropType != ITEM00_RUPEE_RED) && (dropType != ITEM00_RUPEE_PURPLE) && (dropType != ITEM00_RUPEE_ORANGE)) {
             Item_Give(globalCtx, giEntry->itemId);
         }
     } else {
@@ -9314,8 +9315,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
             if ((gSaveContext.sceneSetupIndex < 4) &&
                 (gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneSetupIndex)].field &
                  0x4000) &&
-                ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
-                ((globalCtx->sceneNum != SCENE_NIGHT_SHOP) || (gSaveContext.eventChkInf[2] & 0x20))) {
+                ((globalCtx->sceneNum != SCENE_DDAN) || GET_EVENTCHKINF(EVENTCHKINF_B0)) &&
+                ((globalCtx->sceneNum != SCENE_NIGHT_SHOP) || GET_EVENTCHKINF(EVENTCHKINF_25))) {
                 TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144,
                                         24, 20);
             }
@@ -9330,7 +9331,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 1;
 
     if (globalCtx->sceneNum <= SCENE_GANONTIKA_SONOGO) {
-        gSaveContext.infTable[26] |= gBitFlags[globalCtx->sceneNum];
+        gSaveContext.infTable[INFTABLE_1AX_INDEX] |= gBitFlags[globalCtx->sceneNum];
     }
 
     initMode = (thisx->params & 0xF00) >> 8;
@@ -11158,7 +11159,7 @@ void func_8084BBE4(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) || (this->actor.shape.feetFloorFlags != 0)) {
+        if (CHECK_BTN_ALL(sControlInput->cur.button, BTN_A) || (this->actor.shape.feetFloorFlag != 0)) {
             func_80837B60(this);
             if (this->unk_84F < 0) {
                 this->linearVelocity = -0.8f;
@@ -11750,7 +11751,7 @@ void func_8084D3E4(Player* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         AREG(6) = 0;
 
-        if (Flags_GetEventChkInf(0x18) || (DREG(1) != 0)) {
+        if (Flags_GetEventChkInf(EVENTCHKINF_18) || (DREG(1) != 0)) {
             gSaveContext.horseData.pos.x = rideActor->actor.world.pos.x;
             gSaveContext.horseData.pos.y = rideActor->actor.world.pos.y;
             gSaveContext.horseData.pos.z = rideActor->actor.world.pos.z;
@@ -14092,9 +14093,9 @@ void func_80852648(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
         this->heldItemId = ITEM_NONE;
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
         this->leftHandDLists = D_80125E08;
-        Inventory_ChangeEquipment(EQUIP_SWORD, 2);
+        Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
-        Inventory_DeleteEquipment(globalCtx, 0);
+        Inventory_DeleteEquipment(globalCtx, EQUIP_TYPE_SWORD);
     }
 }
 

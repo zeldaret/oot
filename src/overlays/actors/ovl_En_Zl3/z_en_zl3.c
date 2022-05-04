@@ -133,7 +133,7 @@ void func_80B5357C(EnZl3* this, GlobalContext* globalCtx) {
     sp20.x = thisPos->x + ((Rand_ZeroOne() - 0.5f) * 10.0f);
     sp20.y = thisPos->y;
     sp20.z = thisPos->z + ((Rand_ZeroOne() - 0.5f) * 10.0f);
-    Item_DropCollectible(globalCtx, &sp20, 3);
+    Item_DropCollectible(globalCtx, &sp20, ITEM00_HEART);
 }
 
 void func_80B53614(EnZl3* this, GlobalContext* globalCtx) {
@@ -2583,7 +2583,7 @@ void func_80B59AD0(EnZl3* this, GlobalContext* globalCtx) {
     func_80088AA0(180);
     func_80B54EA4(this, globalCtx);
     func_80B53614(this, globalCtx);
-    gSaveContext.eventChkInf[12] &= ~0x80;
+    CLEAR_EVENTCHKINF(EVENTCHKINF_C7);
     func_80B56F10(this, globalCtx);
     gSaveContext.healthAccumulator = 320;
     Magic_Fill(globalCtx);
