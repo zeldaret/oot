@@ -10,8 +10,6 @@
 
 #define FLAGS 0
 
-#define IS_DROPPED(type) ((type) == INSECT_TYPE_FIRST_DROPPED || (type) == INSECT_TYPE_EXTRA_DROPPED)
-
 void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -207,7 +205,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.flags |= ACTOR_FLAG_4;
     }
 
-    if (IS_DROPPED(type)) {
+    if (type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) {
         if (EnInsect_TryFindNearbySoil(this, globalCtx)) {
             this->insectFlags |= INSECT_FLAG_FOUND_SOIL;
             D_80A7DEB0 = 0.0f;
@@ -246,7 +244,7 @@ void EnInsect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     type = this->actor.params & 3;
     Collider_DestroyJntSph(globalCtx, &this->collider);
-    if (IS_DROPPED(type) && sDroppedCount > 0) {
+    if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) && sDroppedCount > 0) {
         sDroppedCount--;
     }
 }
@@ -277,7 +275,8 @@ void EnInsect_SlowDown(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+        ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
+         (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
          sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
     } else if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
@@ -321,7 +320,8 @@ void EnInsect_Crawl(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
+        ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
+         (this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
          sDroppedCount >= 4)) {
         EnInsect_SetupDig(this);
     } else if ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
@@ -507,7 +507,8 @@ void EnInsect_WalkOnWater(EnInsect* this, GlobalContext* globalCtx) {
     }
 
     if (this->actionTimer <= 0 || ((this->insectFlags & INSECT_FLAG_IS_SHORT_LIVED) && this->lifeTimer <= 0) ||
-        (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) && sDroppedCount >= 4)) {
+        ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
+         (this->insectFlags & INSECT_FLAG_0) && sDroppedCount >= 4)) {
         EnInsect_SetupDrown(this);
     } else if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH)) {
         if (this->insectFlags & INSECT_FLAG_FOUND_SOIL) {
@@ -689,7 +690,7 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
             EnInsect_SetupDig(this);
         } else if (this->actionTimer <= 0 || this->lifeTimer <= 0 ||
                    ((this->insectFlags & INSECT_FLAG_0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-                    sDroppedCount >= 4 && IS_DROPPED(type))) {
+                    sDroppedCount >= 4 && (type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED))) {
             EnInsect_SetupDig(this);
         } else {
             if (distanceSq < SQ(30.0f)) {
@@ -701,8 +702,9 @@ void EnInsect_Dropped(EnInsect* this, GlobalContext* globalCtx) {
         }
     } else if (sp50 != 0) {
         EnInsect_SetupSlowDown(this);
-    } else if (IS_DROPPED(type) && (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 &&
-               this->actionTimer <= 0 && this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
+    } else if ((type == INSECT_TYPE_FIRST_DROPPED || type == INSECT_TYPE_EXTRA_DROPPED) &&
+               (this->insectFlags & INSECT_FLAG_0) && this->lifeTimer <= 0 && this->actionTimer <= 0 &&
+               this->actor.floorHeight < BGCHECK_Y_MIN + 10.0f) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
         // "BG missing? To do Actor_delete"
         osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_mushi.c", 1197);
@@ -764,7 +766,7 @@ void EnInsect_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.parent = NULL;
             tmp = this->actor.params & 3;
 
-            if (IS_DROPPED(tmp)) {
+            if (tmp == INSECT_TYPE_FIRST_DROPPED || tmp == INSECT_TYPE_EXTRA_DROPPED) {
                 Actor_Kill(&this->actor);
             } else {
                 EnInsect_SetupCaught(this);
