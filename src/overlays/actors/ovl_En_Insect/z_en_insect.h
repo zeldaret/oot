@@ -32,7 +32,7 @@ typedef struct EnInsect {
     /* 0x0318 */ s16 unk_318;
     /* 0x031A */ s16 actionTimer;
     /* 0x031C */ s16 lifeTimer;
-    /* 0x031E */ s16 crawlSoundTimer;
+    /* 0x031E */ s16 crawlSoundDelay;
     /* 0x0320 */ ObjMakekinsuta* soilActor;
     /* 0x0324 */ f32 unk_324;
     /* 0x0328 */ s16 unk_328;

@@ -166,16 +166,16 @@ s32 EnInsect_TryFindNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
  * Update the crawl sound timer, and play the crawling sound when it reaches 0.
  */
 void EnInsect_UpdateCrawlSfx(EnInsect* this) {
-    if (this->crawlSoundTimer > 0) {
-        this->crawlSoundTimer--;
+    if (this->crawlSoundDelay > 0) {
+        this->crawlSoundDelay--;
         return;
     }
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MUSI_WALK);
 
-    this->crawlSoundTimer = 3.0f / CLAMP_MIN(this->skelAnime.playSpeed, 0.1f);
-    if (this->crawlSoundTimer < 2) {
-        this->crawlSoundTimer = 2;
+    this->crawlSoundDelay = 3.0f / CLAMP_MIN(this->skelAnime.playSpeed, 0.1f);
+    if (this->crawlSoundDelay < 2) {
+        this->crawlSoundDelay = 2;
     }
 }
 
