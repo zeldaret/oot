@@ -204,8 +204,8 @@ void TransitionCircle_SetColor(void* thisx, u32 color) {
     this->color.rgba = color;
 }
 
-void TransitionCircle_SetEnvColor(void* thisx, u32 envColor) {
+void TransitionCircle_SetUnkColor(void* thisx, u32 unkColor) {
     TransitionCircle* this = (TransitionCircle*)thisx;
 
-    this->envColor.rgba = envColor;
+    this->unkColor.rgba = unkColor;
 }

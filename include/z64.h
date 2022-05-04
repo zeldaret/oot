@@ -1101,8 +1101,7 @@ typedef struct {
         TransitionCircle circle;
         TransitionTriforce triforce;
         TransitionWipe wipe;
-        char data[0x228];
-    };
+    } instanceData;
     /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
@@ -1111,7 +1110,7 @@ typedef struct {
     /* 0x23C */ void  (*start)(void* transition);
     /* 0x240 */ void  (*setType)(void* transition, s32 type);
     /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
     /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 

@@ -1421,7 +1421,7 @@ void TransitionCircle_Draw(void* thisx, Gfx** gfxP);
 s32 TransitionCircle_IsDone(void* thisx);
 void TransitionCircle_SetType(void* thisx, s32 type);
 void TransitionCircle_SetColor(void* thisx, u32 color);
-void TransitionCircle_SetEnvColor(void* thisx, u32 color);
+void TransitionCircle_SetUnkColor(void* thisx, u32 color);
 void TransitionFade_Start(void* this);
 void* TransitionFade_Init(void* this);
 void TransitionFade_Destroy(void* this);
