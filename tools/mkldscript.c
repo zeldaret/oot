@@ -322,6 +322,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
     for (i = 0; i < segment_count; i++)
     {
         const struct Segment *seg = &segments[i];
+        bool isOverlay = strncmp(seg->name, "ovl_", 4) == 0;
 
         /* begin segment */
         if (seg->fields & (1 << STMT_romalign))
@@ -335,33 +336,39 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
         );
 
         /* placement */
-        fprintf(f, "\t..%s ", seg->name);
+        fprintf(f, "\t_%sSegmentStart = ", seg->name);
         if (seg->fields & (1 << STMT_after))
-            fprintf(f, "_%sSegmentEnd ", seg->after);
+            fprintf(f, "_%sSegmentEnd", seg->after);
         else if (seg->fields & (1 << STMT_number))
-            fprintf(f, "0x%02X000000 ", seg->number);
+            fprintf(f, "0x%02X000000", seg->number);
         else if (seg->fields & (1 << STMT_address))
-            fprintf(f, "0x%08X ", seg->address);
-        fprintf(f, ": AT(_%sSegmentRomStart)\n\t{\n", seg->name);
+            fprintf(f, "0x%08X", seg->address);
+        else
+            fprintf(f, ".");
+        fprintf(f, ";\n\n");
+
+        fprintf(f, "\t..%s _%sSegmentStart : AT(_%sSegmentRomStart)\n\t{\n",
+                seg->name, seg->name, seg->name);
     
         /* content sections */
-        fprintf(f, "\t\t_%sSegmentStart = .;\n\n", seg->name);
         fprintf(f, "\t\t%s/%s.o (.text)\n", dir, seg->name);
         fprintf(f, "\t\t%s/%s.o (.data)\n", dir, seg->name);
         fprintf(f, "\t\t%s/%s.o (.rodata)\n", dir, seg->name);
 
         /* overlay relocation section */
-        fprintf(f, "\t\t_%sSegmentOvlStart = .;\n", seg->name);
-
-        if (strncmp(seg->name, "ovl_", 4) == 0)
-            fprintf(f, "\t\t%s/%s.reloc.o (.ovl)\n", dir, seg->name);
-
-        fprintf(f,
-            "\t\t_%sSegmentOvlEnd = .;\n"
-            "\t\t_%sSegmentOvlSize = ABSOLUTE(_%sSegmentOvlEnd - _%sSegmentOvlStart);\n",
-            seg->name,
-            seg->name, seg->name, seg->name
-        );
+        if (isOverlay) {
+            fprintf(f,
+                "\n"
+                "\t\t_%sSegmentOvlStart = .;\n"
+                "\t\t%s/%s.reloc.o (.ovl)\n"
+                "\t\t_%sSegmentOvlEnd = .;\n"
+                "\t\t_%sSegmentOvlSize = ABSOLUTE(_%sSegmentOvlEnd - _%sSegmentOvlStart);\n",
+                seg->name,
+                dir, seg->name,
+                seg->name,
+                seg->name, seg->name, seg->name
+            );
+        }
 
         /* loadable sections done */
         if (seg->fields & (1 << STMT_increment))
@@ -369,11 +376,12 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         fprintf(f,
             "\t}\n"
-            "\t_%sSegmentRomSize = ABSOLUTE(_%sSegmentOvlEnd - _%sSegmentTextStart);\n"
+            "\n"
+            "\t_%sSegmentRomSize = ABSOLUTE(_%sSegment%sEnd - _%sSegmentTextStart);\n"
             "\t_RomSize += _%sSegmentRomSize;\n"
             "\t_%sSegmentRomEndTemp = _RomSize;\n"
             "\t_%sSegmentRomEnd = _%sSegmentRomEndTemp;\n",
-            seg->name, seg->name, seg->name,
+            seg->name, seg->name, isOverlay ? "Ovl": "RoData", seg->name,
             seg->name,
             seg->name,
             seg->name, seg->name
@@ -384,6 +392,7 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         /* .bss sections */
         fprintf(f,
+            "\n"
             "\t..%s.bss (NOLOAD) :\n"
             "\t{\n"
             "\t\t%s/%s.o (.bss)\n"
@@ -394,8 +403,9 @@ static void write_rom_script(const char *dir, const char *fname, const struct Se
 
         /* end segment */
         fprintf(f,
-            "\t\t_%sSegmentEnd = .;\n"
-            "\t\t_%sSegmentSize = ABSOLUTE(_%sSegmentEnd - _%sSegmentStart);\n"
+            "\n"
+            "\t_%sSegmentEnd = .;\n"
+            "\t_%sSegmentSize = ABSOLUTE(_%sSegmentEnd - _%sSegmentStart);\n"
             "\n\n",
             seg->name,
             seg->name, seg->name, seg->name
@@ -417,7 +427,10 @@ static void usage(const char *execname)
         "Ocarina of Time linker script generator\n"
         "usage:\n"
         "\t%s -s <spec-file> <segment-dir> <segment-name>\n"
-        "\t%s -r <spec-file> <segment-dir> <output-file>\n",
+        "\t\tWrite a linker script and dependencies for the specified segment\n"
+        "\t\n"
+        "\t%s -r <spec-file> <segment-dir> <output-file>\n"
+        "\t\tWrite a linker script for linking all the segments together\n",
         execname,
         execname
     );
