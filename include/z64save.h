@@ -662,6 +662,7 @@ typedef enum {
 #define EVENTINF_HORSES_06 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_06_SHIFT)
 #define EVENTINF_HORSES_08 ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_08_SHIFT)
 #define EVENTINF_HORSES_0A ((EVENTINF_HORSES_INDEX << 4) | EVENTINF_HORSES_0A_SHIFT)
+
 typedef enum {
     /* 0 */ EVENTINF_HORSES_STATE_0,
     /* 1 */ EVENTINF_HORSES_STATE_1,
@@ -672,6 +673,7 @@ typedef enum {
     /* 6 */ EVENTINF_HORSES_STATE_6,
     /* 7 */ EVENTINF_HORSES_STATE_7
 } EventInfHorsesState;
+
 // "InRaceSeq"
 #define GET_EVENTINF_HORSES_STATE \
     ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_STATE_MASK) >> EVENTINF_HORSES_STATE_SHIFT)
@@ -679,15 +681,18 @@ typedef enum {
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                     \
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_STATE_MASK) | \
         ((v) << EVENTINF_HORSES_STATE_SHIFT);
+
 #define GET_EVENTINF_HORSES_HORSETYPE \
     ((gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & EVENTINF_HORSES_HORSETYPE_MASK) >> EVENTINF_HORSES_HORSETYPE_SHIFT)
 #define SET_EVENTINF_HORSES_HORSETYPE(v)                                                   \
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =                                         \
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_HORSETYPE_MASK) | \
         ((v) << EVENTINF_HORSES_HORSETYPE_SHIFT);
+
 #define SET_EVENTINF_HORSES_0F(v)                  \
     gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = \
         (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & ~EVENTINF_HORSES_0F_MASK) | ((v) << EVENTINF_HORSES_0F_SHIFT);
+
 
 #define EVENTINF_10 0x10
 
