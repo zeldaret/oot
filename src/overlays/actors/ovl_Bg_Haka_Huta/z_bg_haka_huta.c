@@ -133,7 +133,7 @@ void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {
                         this->dyna.actor.home.pos.y - 40.0f,
                         (this->dyna.actor.home.pos.z - (-25.0f) * (Math_SinS(this->dyna.actor.shape.rot.y)) +
                          Math_CosS(this->dyna.actor.shape.rot.y) * 100.0f),
-                        0, this->dyna.actor.shape.rot.y, 0, (u8)EN_RD_TYPE_GIBDO_RISING_OUT_OF_COFFIN);
+                        0, this->dyna.actor.shape.rot.y, 0, (u8)REDEAD_TYPE_GIBDO_RISING_OUT_OF_COFFIN);
         }
     }
 }
