@@ -4,7 +4,7 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <elf.h>
+#include "mips_elf.h"
 
 #include "vc_vector/vc_vector.h"
 
@@ -18,6 +18,7 @@ typedef enum {
 } VerbosityLevel;
 
 extern VerbosityLevel gVerbosity;
+extern bool gUseElfAlignment;
 
 typedef Elf32_Ehdr FairyFileHeader;
 typedef Elf32_Shdr FairySecHeader;

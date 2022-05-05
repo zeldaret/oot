@@ -86,8 +86,8 @@ void EnMag_Init(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.unk_13E7 = 0;
         this->globalState = MAG_STATE_DISPLAY;
         sDelayTimer = 20;
-        gSaveContext.fadeDuration = 1;
-        gSaveContext.unk_1419 = 255;
+        gSaveContext.transFadeDuration = 1;
+        gSaveContext.transWipeSpeed = 255;
     }
 
     Font_LoadOrderedFont(&this->font);
@@ -111,7 +111,8 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
                 CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
 
-                Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 this->mainAlpha = 210;
                 this->subAlpha = 255;
@@ -129,8 +130,8 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 this->globalState = MAG_STATE_DISPLAY;
                 sDelayTimer = 20;
-                gSaveContext.fadeDuration = 1;
-                gSaveContext.unk_1419 = 255;
+                gSaveContext.transFadeDuration = 1;
+                gSaveContext.transWipeSpeed = 255;
             }
         } else if (this->globalState >= MAG_STATE_DISPLAY) {
             if (sDelayTimer == 0) {
@@ -138,15 +139,15 @@ void EnMag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
                     CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
 
-                    if (globalCtx->sceneLoadFlag != 20) {
+                    if (globalCtx->transitionTrigger != TRANS_TRIGGER_START) {
                         Audio_SetCutsceneFlag(0);
 
-                        Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                         gSaveContext.gameMode = 2;
-                        globalCtx->sceneLoadFlag = 20;
-                        globalCtx->fadeTransition = 2;
+                        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                        globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
                     }
 
                     this->copyrightAlphaStep = 15;
@@ -373,10 +374,10 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     static s16 textAlpha = 0;
     static s16 textFadeDirection = 0;
     static s16 textFadeTimer = 0;
-    static u8 noControllerFontIndexes[] = {
+    static u8 noControllerFontIndices[] = {
         0x17, 0x18, 0x0C, 0x18, 0x17, 0x1D, 0x1B, 0x18, 0x15, 0x15, 0x0E, 0x1B,
     };
-    static u8 pressStartFontIndexes[] = {
+    static u8 pressStartFontIndices[] = {
         0x19, 0x1B, 0x0E, 0x1C, 0x1C, 0x1C, 0x1D, 0x0A, 0x1B, 0x1D,
     };
     static void* effectMaskTextures[] = {
@@ -487,8 +488,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
         rectLeft = VREG(19) + 1;
-        for (i = 0; i < ARRAY_COUNT(noControllerFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+        for (i = 0; i < ARRAY_COUNT(noControllerFontIndices); i++) {
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 172);
             rectLeft += VREG(21);
             if (i == 1) {
@@ -501,8 +502,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, 100, 255, 255, textAlpha);
 
         rectLeft = VREG(19);
-        for (i = 0; i < ARRAY_COUNT(noControllerFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+        for (i = 0; i < ARRAY_COUNT(noControllerFontIndices); i++) {
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + noControllerFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 171);
             rectLeft += VREG(21);
             if (i == 1) {
@@ -523,8 +524,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, textAlpha);
 
         rectLeft = YREG(7) + 1;
-        for (i = 0; i < ARRAY_COUNT(pressStartFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+        for (i = 0; i < ARRAY_COUNT(pressStartFontIndices); i++) {
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 172);
             rectLeft += YREG(8);
             if (i == 4) {
@@ -537,8 +538,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPSetPrimColor(gfx++, 0, 0, YREG(4), YREG(5), YREG(6), textAlpha);
 
         rectLeft = YREG(7);
-        for (i = 0; i < ARRAY_COUNT(pressStartFontIndexes); i++) {
-            EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndexes[i] * FONT_CHAR_TEX_SIZE, rectLeft,
+        for (i = 0; i < ARRAY_COUNT(pressStartFontIndices); i++) {
+            EnMag_DrawCharTexture(&gfx, font->fontBuf + pressStartFontIndices[i] * FONT_CHAR_TEX_SIZE, rectLeft,
                                   YREG(10) + 171);
             rectLeft += YREG(8);
             if (i == 4) {

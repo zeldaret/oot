@@ -144,11 +144,11 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params >= -1) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rd_Skel_00E778, &object_rd_Anim_0087D0,
                            this->jointTable, this->morphTable, 26);
-        thisx->naviEnemyId = 0x2A;
+        thisx->naviEnemyId = NAVI_ENEMY_REDEAD;
     } else {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rd_Skel_003DD8, &object_rd_Anim_0087D0,
                            this->jointTable, this->morphTable, 26);
-        thisx->naviEnemyId = 0x2D;
+        thisx->naviEnemyId = NAVI_ENEMY_GIBDO;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -599,7 +599,7 @@ void func_80AE3A54(EnRd* this, GlobalContext* globalCtx) {
 void func_80AE3A8C(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_0074F0, -6.0f);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -2.0f;
     }
 
@@ -753,7 +753,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
-            Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+            Actor_SetDropFlag(&this->actor, &this->collider.info, true);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }
@@ -811,7 +811,9 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.shape.rot.x == 0) && (this->unk_31B != 8) && (this->actor.speedXZ != 0.0f)) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         }
 
         if (this->unk_31B == 7) {

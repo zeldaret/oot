@@ -117,8 +117,8 @@ void EnNb_UpdatePath(EnNb* this, GlobalContext* globalCtx) {
         this->finalPos.x = pointPos[1].x;
         this->finalPos.y = pointPos[1].y;
         this->finalPos.z = pointPos[1].z;
-        this->pathYaw = (Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) *
-                         (0x8000 / M_PI));
+        this->pathYaw =
+            RAD_TO_BINANG(Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z));
         // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
     } else {
@@ -221,7 +221,7 @@ void func_80AB1210(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB1284(EnNb* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 EnNb_UpdateSkelAnime(EnNb* this) {
@@ -282,7 +282,7 @@ void EnNb_SetInitialCsPosRot(EnNb* this, GlobalContext* globalCtx, s32 npcAction
     }
 }
 
-void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4) {
+void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 morphFrames, s32 arg4) {
     f32 frameCount = Animation_GetLastFrame(animation);
     f32 playbackSpeed;
     f32 unk0;
@@ -298,7 +298,7 @@ void EnNb_SetCurrentAnim(EnNb* this, AnimationHeader* animation, u8 mode, f32 tr
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, mode, transitionRate);
+    Animation_Change(&this->skelAnime, animation, playbackSpeed, unk0, fc, mode, morphFrames);
 }
 
 void EnNb_SetChamberAnim(EnNb* this, GlobalContext* globalCtx) {
@@ -563,7 +563,7 @@ void EnNb_InitKidnap(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &gNabooruTrappedInVortexPushingGroundAnim, 0, 0.0f, 0);
     this->action = NB_KIDNAPPED;
     this->actor.shape.shadowAlpha = 0;
-    gSaveContext.eventChkInf[9] |= 0x20;
+    SET_EVENTCHKINF(EVENTCHKINF_95);
 }
 
 void EnNb_PlayCrySFX(EnNb* this, GlobalContext* globalCtx) {
@@ -1099,11 +1099,11 @@ void EnNb_LookUp(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_CrawlspaceSpawnCheck(EnNb* this, GlobalContext* globalCtx) {
-    if (!(gSaveContext.eventChkInf[9] & 0x20) && LINK_IS_CHILD) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_95) && LINK_IS_CHILD) {
         EnNb_UpdatePath(this, globalCtx);
 
         // looking into crawlspace
-        if (!(gSaveContext.eventChkInf[9] & 0x10)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_94)) {
             EnNb_SetCurrentAnim(this, &gNabooruKneeingAtCrawlspaceAnim, 0, 0.0f, 0);
             this->action = NB_CROUCH_CRAWLSPACE;
             this->drawMode = NB_DRAW_DEFAULT;
@@ -1200,7 +1200,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
     } else {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
-        if (!(gSaveContext.infTable[22] & 0x1000)) {
+        if (!GET_INFTABLE(INFTABLE_16C)) {
             this->actor.textId = 0x601D;
         } else {
             this->actor.textId = 0x6024;
@@ -1212,7 +1212,7 @@ void func_80AB3838(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_SetupPathMovement(EnNb* this, GlobalContext* globalCtx) {
     EnNb_SetCurrentAnim(this, &gNabooruStandingToWalkingTransitionAnim, 2, -8.0f, 0);
-    gSaveContext.eventChkInf[9] |= 0x10;
+    SET_EVENTCHKINF(EVENTCHKINF_94);
     this->action = NB_IN_PATH;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_3);
 }
@@ -1230,7 +1230,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
             EnNb_SetupPathMovement(this, globalCtx);
         } else {
             if (textId == 0x6027) {
-                gSaveContext.infTable[22] |= 0x1000;
+                SET_INFTABLE(INFTABLE_16C);
             }
             this->action = NB_IDLE_CRAWLSPACE;
         }

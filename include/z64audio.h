@@ -716,7 +716,7 @@ typedef struct {
     /* 0x18 */ s32 bytesRemaining;
     /* 0x1C */ s8* isDone;
     /* 0x20 */ SoundFontSample sample;
-    /* 0x30 */ OSMesgQueue msgqueue;
+    /* 0x30 */ OSMesgQueue msgQueue;
     /* 0x48 */ OSMesg msg;
     /* 0x4C */ OSIoMesg ioMesg;
 } AudioSlowLoad; // size = 0x64
@@ -741,7 +741,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ OSTask task;
-    /* 0x40 */ OSMesgQueue* taskQueue;
+    /* 0x40 */ OSMesgQueue* msgQueue;
     /* 0x44 */ void* unk_44; // probably a message that gets unused.
     /* 0x48 */ char unk_48[0x8];
 } AudioTask; // size = 0x50
@@ -779,12 +779,12 @@ typedef struct {
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* 0x1E1C */ OSPiHandle* driveHandle;
     /* 0x1E20 */ OSMesgQueue externalLoadQueue;
-    /* 0x1E38 */ OSMesg externalLoadMesgBuf[0x10];
+    /* 0x1E38 */ OSMesg externalLoadMsgBuf[16];
     /* 0x1E78 */ OSMesgQueue preloadSampleQueue;
-    /* 0x1E90 */ OSMesg preloadSampleMesgBuf[0x10];
+    /* 0x1E90 */ OSMesg preloadSampleMsgBuf[16];
     /* 0x1ED0 */ OSMesgQueue currAudioFrameDmaQueue;
-    /* 0x1EE8 */ OSMesg currAudioFrameDmaMesgBuf[0x40];
-    /* 0x1FE8 */ OSIoMesg currAudioFrameDmaIoMesgBuf[0x40];
+    /* 0x1EE8 */ OSMesg currAudioFrameDmaMsgBuf[64];
+    /* 0x1FE8 */ OSIoMesg currAudioFrameDmaIoMsgBuf[64];
     /* 0x25E8 */ OSMesgQueue syncDmaQueue;
     /* 0x2600 */ OSMesg syncDmaMesg;
     /* 0x2604 */ OSIoMesg syncDmaIoMesg;
@@ -876,9 +876,9 @@ typedef struct {
     /* 0x5BF0 */ OSMesgQueue taskStartQueue;
     /* 0x5C08 */ OSMesgQueue cmdProcQueue;
     /* 0x5C20 */ OSMesgQueue audioResetQueue;
-    /* 0x5C38 */ OSMesg taskStartMsgs[1];
-    /* 0x5C3C */ OSMesg audioResetMesgs[1];
-    /* 0x5C40 */ OSMesg cmdProcMsgs[4];
+    /* 0x5C38 */ OSMesg taskStartMsgBuf[1];
+    /* 0x5C3C */ OSMesg audioResetMsgBuf[1];
+    /* 0x5C40 */ OSMesg cmdProcMsgBuf[4];
     /* 0x5C50 */ AudioCmd cmdBuf[0x100];
 } AudioContext; // size = 0x6450
 

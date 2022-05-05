@@ -1,62 +1,86 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
+#include "ultra64/r4300.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
 .balign 16
 
-glabel __osProbeTLB
-/* 005C40 80005040 40085000 */  mfc0  $t0, $10
-/* 005C44 80005044 310900FF */  andi  $t1, $t0, 0xff
-/* 005C48 80005048 2401E000 */  li    $at, -8192
-/* 005C4C 8000504C 00815024 */  and   $t2, $a0, $at
-/* 005C50 80005050 012A4825 */  or    $t1, $t1, $t2
-/* 005C54 80005054 40895000 */  mtc0  $t1, $10
-/* 005C58 80005058 00000000 */  nop   
-/* 005C5C 8000505C 00000000 */  nop   
-/* 005C60 80005060 00000000 */  nop   
-/* 005C64 80005064 42000008 */  tlbp  
-/* 005C68 80005068 00000000 */  nop   
-/* 005C6C 8000506C 00000000 */  nop   
-/* 005C70 80005070 400B0000 */  mfc0  $t3, $0
-/* 005C74 80005074 3C018000 */  lui   $at, 0x8000
-/* 005C78 80005078 01615824 */  and   $t3, $t3, $at
-/* 005C7C 8000507C 1560001A */  bnez  $t3, .L800050E8
-/* 005C80 80005080 00000000 */   nop   
-/* 005C84 80005084 42000001 */  tlbr  
-/* 005C88 80005088 00000000 */  nop   
-/* 005C8C 8000508C 00000000 */  nop   
-/* 005C90 80005090 00000000 */  nop   
-/* 005C94 80005094 400B2800 */  mfc0  $t3, $5
-/* 005C98 80005098 216B2000 */  addi  $t3, $t3, 0x2000
-/* 005C9C 8000509C 000B5842 */  srl   $t3, $t3, 1
-/* 005CA0 800050A0 01646024 */  and   $t4, $t3, $a0
-/* 005CA4 800050A4 15800004 */  bnez  $t4, .L800050B8
-/* 005CA8 800050A8 216BFFFF */   addi  $t3, $t3, -1
-/* 005CAC 800050AC 40021000 */  mfc0  $v0, $2
-/* 005CB0 800050B0 10000002 */  b     .L800050BC
-/* 005CB4 800050B4 00000000 */   nop   
-.L800050B8:
-/* 005CB8 800050B8 40021800 */  mfc0  $v0, $3
-.L800050BC:
-/* 005CBC 800050BC 304D0002 */  andi  $t5, $v0, 2
-/* 005CC0 800050C0 11A00009 */  beqz  $t5, .L800050E8
-/* 005CC4 800050C4 00000000 */   nop   
-/* 005CC8 800050C8 3C013FFF */  lui   $at, (0x3FFFFFC0 >> 16) # lui $at, 0x3fff
-/* 005CCC 800050CC 3421FFC0 */  ori   $at, (0x3FFFFFC0 & 0xFFFF) # ori $at, $at, 0xffc0
-/* 005CD0 800050D0 00411024 */  and   $v0, $v0, $at
-/* 005CD4 800050D4 00021180 */  sll   $v0, $v0, 6
-/* 005CD8 800050D8 008B6824 */  and   $t5, $a0, $t3
-/* 005CDC 800050DC 004D1020 */  add   $v0, $v0, $t5
-/* 005CE0 800050E0 10000002 */  b     .L800050EC
-/* 005CE4 800050E4 00000000 */   nop   
-.L800050E8:
-/* 005CE8 800050E8 2402FFFF */  li    $v0, -1
-.L800050EC:
-/* 005CEC 800050EC 40885000 */  mtc0  $t0, $10
-/* 005CF0 800050F0 03E00008 */  jr    $ra
-/* 005CF4 800050F4 00000000 */   nop   
+/**
+ *  u32 __osProbeTLB(void* vaddr);
+ *
+ *  Searches the TLB for the physical address associated with
+ *  the virtual address `vaddr`.
+ *
+ *  Returns the physical address if found, or -1 if not found.
+ */
+LEAF(__osProbeTLB)
+    // Set C0_ENTRYHI based on supplied vaddr
+    mfc0    $t0, C0_ENTRYHI
+    andi    $t1, $t0, TLBHI_PIDMASK
+    li      $at, TLBHI_VPN2MASK
+    and     $t2, $a0, $at
+    or      $t1, $t1, $t2
+    mtc0    $t1, C0_ENTRYHI
+    nop
+    nop
+    nop
+    // TLB probe, sets C0_INX to a value matching C0_ENTRYHI.
+    // If no match is found the TLBINX_PROBE bit is set to indicate this.
+    tlbp
+    nop
+    nop
+    // Read result
+    mfc0    $t3, C0_INX
+    li      $at, TLBINX_PROBE
+    and     $t3, $t3, $at
+    // Branch if no match was found
+    bnez    $t3, 3f
+     nop
+    // Read TLB, sets C0_ENTRYHI, C0_ENTRYLO0, C0_ENTRYLO1 and C0_PAGEMASK for the TLB
+    // entry indicated by C0_INX
+    tlbr
+    nop
+    nop
+    nop
+    // Calculate page size = (page mask + 0x2000) >> 1
+    mfc0    $t3, C0_PAGEMASK
+    addi    $t3, $t3, 0x2000
+    srl     $t3, $t3, 1
+    // & with vaddr
+    and     $t4, $t3, $a0
+    // Select C0_ENTRYLO0 or C0_ENTRYLO1
+    bnez    $t4, 1f
+     addi   $t3, $t3, -1 // make bitmask out of page size
+    mfc0    $v0, C0_ENTRYLO0
+    b       2f
+     nop
+1:
+    mfc0    $v0, C0_ENTRYLO1
+2:
+    // Check valid bit and branch if not valid
+    andi    $t5, $v0, TLBLO_V
+    beqz    $t5, 3f
+     nop
+    // Extract the Page Frame Number from the entry
+    li      $at, TLBLO_PFNMASK
+    and     $v0, $v0, $at
+    sll     $v0, $v0, TLBLO_PFNSHIFT
+    // Mask vaddr with page size mask
+    and     $t5, $a0, $t3
+    // Add masked vaddr to pfn to obtain the physical address
+    add     $v0, $v0, $t5
+    b       4f
+     nop
+3:
+    // No physical address for the supplied virtual address was found,
+    // return -1
+    li      $v0, -1
+4:
+    // Restore original C0_ENTRYHI value before returning
+    mtc0    $t0, C0_ENTRYHI
+    jr      $ra
+     nop
+END(__osProbeTLB)

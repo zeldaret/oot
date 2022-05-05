@@ -325,10 +325,10 @@ void EnDog_FollowPath(EnDog* this, GlobalContext* globalCtx) {
         // depending on where he is on his path. En_Hy checks these event flags.
         if (this->waypoint < 9) {
             // Richard is close to her, text says something about his coat
-            gSaveContext.eventInf[3] |= 1;
+            SET_EVENTINF(EVENTINF_30);
         } else {
             // Richard is far, text says something about running fast
-            gSaveContext.eventInf[3] &= ~1;
+            CLEAR_EVENTINF(EVENTINF_30);
         }
     } else {
         frame = globalCtx->state.frames % 3;
@@ -454,7 +454,7 @@ void EnDog_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDog_PlayAnimAndSFX(this);
     SkelAnime_Update(&this->skelAnime);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height * 0.5f, 0.0f,
-                            5);
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     Collider_UpdateCylinder(&this->actor, &this->collider);

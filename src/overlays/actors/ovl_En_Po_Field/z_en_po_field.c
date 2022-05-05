@@ -220,7 +220,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
         this->collider.dim.yShift = 10;
         this->actor.shape.shadowScale = 45.0f;
         this->scaleModifier = 0.014f;
-        this->actor.naviEnemyId = 0x5A;
+        this->actor.naviEnemyId = NAVI_ENEMY_BIG_POE;
     } else {
         this->actor.speedXZ = 0.0f;
         this->collider.dim.radius = D_80AD7080.dim.radius;
@@ -228,7 +228,7 @@ void EnPoField_SetupAppear(EnPoField* this) {
         this->collider.dim.yShift = D_80AD7080.dim.yShift;
         this->actor.shape.shadowScale = 37.0f;
         this->scaleModifier = 0.01f;
-        this->actor.naviEnemyId = 0x5C;
+        this->actor.naviEnemyId = NAVI_ENEMY_POE_WASTELAND;
     }
     this->actionFunc = EnPoField_Appear;
 }
@@ -280,7 +280,7 @@ void EnPoField_SetupDeath(EnPoField* this) {
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.naviEnemyId = 0xFF;
+    this->actor.naviEnemyId = NAVI_ENEMY_NONE;
     if (this->flameTimer >= 20) {
         this->flameTimer = 19;
     }
@@ -606,7 +606,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
     if (this->actionTimer != 0) {
         this->actionTimer--;
     }
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, OBJECT_PO_FIELD, 10,
                                  gPoeFieldLanternDL);
         func_80AD42B0(this);
@@ -614,7 +614,7 @@ void EnPoField_SoulIdle(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupWaitForSpawn(this, globalCtx);
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
 void EnPoField_SoulUpdateProperties(EnPoField* this, s32 arg1) {
@@ -788,7 +788,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
         sp4C = this->flameScale * 85000.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, sp4C);
         Matrix_Translate(this->flamePosition.x, this->flamePosition.y, this->flamePosition.z, MTXMODE_NEW);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000)), MTXMODE_APPLY);
         if (this->flameTimer >= 20) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             Matrix_Scale(this->flameScale, this->flameScale, this->flameScale, MTXMODE_APPLY);
@@ -863,7 +863,7 @@ void EnPoField_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->actionFunc != EnPoField_WaitForSpawn) {
         Actor_SetFocus(&this->actor, 42.0f);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, UPDBGCHECKINFO_FLAG_2);
         func_80AD619C(this);
         func_80AD6330(this);
         Collider_UpdateCylinder(&this->actor, &this->collider);

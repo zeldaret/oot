@@ -4,6 +4,10 @@
 #include "ultra64.h"
 #include "z64cutscene.h"
 
+// these two angle conversion macros are slightly inaccurate
+#define CAM_DEG_TO_BINANG(degrees) (s16)((degrees) * 182.04167f + .5f)
+#define CAM_BINANG_TO_DEG(binang) ((f32)(binang) * (360.0001525f / 65535.0f))
+
 #define CAM_STAT_CUT        0
 #define CAM_STAT_WAIT       1
 #define CAM_STAT_UNK3       3
@@ -789,7 +793,7 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ Linef unk_00;
+    /* 0x00 */ InfiniteLine unk_00;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ f32 unk_20;
@@ -913,7 +917,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f initalPos;
     /* 0x0C */ s16 animTimer;
-    /* 0x10 */ Linef sceneCamPosPlayerLine;
+    /* 0x10 */ InfiniteLine sceneCamPosPlayerLine;
 } Unique0Anim; // size = 0x28
 
 typedef struct {
@@ -1202,8 +1206,8 @@ typedef struct {
     /* 0x14A */ s16 unk_14A;
     /* 0x14C */ s16 unk_14C;
     /* 0x14E */ s16 childCamIdx;
-    /* 0x150 */ s16 unk_150;
-    /* 0x152 */ s16 unk_152;
+    /* 0x150 */ s16 waterDistortionTimer;
+    /* 0x152 */ s16 distortionFlags;
     /* 0x154 */ s16 prevSetting;
     /* 0x156 */ s16 nextCamDataIdx;
     /* 0x158 */ s16 nextBGCheckId;

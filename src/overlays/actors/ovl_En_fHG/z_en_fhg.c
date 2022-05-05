@@ -64,7 +64,7 @@ static EnfHGPainting sPaintings[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x1A, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_PHANTOM_GANON_PHASE_2, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
 };
 
@@ -128,13 +128,13 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             if ((fabsf(player->actor.world.pos.x - (GND_BOSSROOM_CENTER_X + 0.0f)) < 100.0f) &&
                 (fabsf(player->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 315.0f)) < 100.0f)) {
                 this->cutsceneState = INTRO_START;
-                if (gSaveContext.eventChkInf[7] & 4) {
+                if (GET_EVENTCHKINF(EVENTCHKINF_72)) {
                     this->timers[0] = 57;
                 }
             }
             break;
         case INTRO_START:
-            if (gSaveContext.eventChkInf[7] & 4) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_72)) {
                 if (this->timers[0] == 55) {
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER,
                                        GND_BOSSROOM_CENTER_X + 0.0f, GND_BOSSROOM_CENTER_Y - 97.0f,
@@ -159,7 +159,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
             AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
-            gSaveContext.eventChkInf[7] |= 4;
+            SET_EVENTCHKINF(EVENTCHKINF_72);
             Flags_SetSwitch(globalCtx, 0x23);
         case INTRO_FENCE:
             player->actor.world.pos.x = GND_BOSSROOM_CENTER_X + 0.0f;

@@ -13,6 +13,7 @@ beginseg
     name "boot"
     address 0x80000460
     include "build/src/boot/boot_main.o"
+    include "build/data/unk_800093F0.data.o"
     include "build/data/unk_80009410.data.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"
@@ -38,6 +39,7 @@ beginseg
     include "build/src/libultra/os/dequeuethread.o"
     include "build/src/libultra/os/destroythread.o"
     include "build/asm/bzero.o"
+    include "build/asm/parameters.o"
     include "build/src/libultra/os/createthread.o"
     include "build/asm/__osSetSR.o"
     include "build/asm/__osGetSR.o"
@@ -77,8 +79,7 @@ beginseg
     include "build/asm/__osSetCompare.o"
     include "build/asm/bcopy.o"
     include "build/src/libultra/os/resetglobalintmask.o"
-    include "build/asm/__osDisableInt.o"
-    include "build/asm/__osRestoreInt.o"
+    include "build/asm/interrupt.o"
     include "build/src/libultra/io/vimodentsclan1.o"
     include "build/src/libultra/io/vimodempallan1.o"
     include "build/src/libultra/io/vi.o"
@@ -109,6 +110,9 @@ beginseg
     include "build/src/libultra/os/gethwintrroutine.o"
     include "build/asm/__osSetWatchLo.o"
     include "build/data/rsp_boot.text.o"
+#ifdef COMPILER_GCC
+    include "build/src/gcc_fix/missing_gcc_functions.o"
+#endif
 endseg
 
 beginseg
@@ -506,12 +510,13 @@ beginseg
     include "build/src/libultra/io/spsetpc.o"
     include "build/src/libultra/libc/sqrt.o"
     include "build/src/libultra/libc/absf.o"
-    include "build/src/code/code_801067F0.o"
-    include "build/src/code/code_80106860.o"
-    include "build/src/code/code_801068B0.o"
+    include "build/src/code/fmodf.o"
+    include "build/src/code/__osMemset.o"
+    include "build/src/code/__osMemmove.o"
     include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
+    include "build/data/audio_tables.rodata.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
 endseg

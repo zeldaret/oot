@@ -195,7 +195,7 @@ typedef struct {
     /* 0x00 */ Vec3f quad[4];
     /* 0x30 */ Vec3s dcMid; // midpoint of vectors d, c
     /* 0x36 */ Vec3s baMid; // midpoint of vectors b, a
-    /* 0x3C */ f32 acDist; // distance to nearest AC collision this frame.
+    /* 0x3C */ f32 acDistSq; // distance to nearest AC collision this frame, squared.
 } ColliderQuadDim; // size = 0x40
 
 typedef struct {
@@ -252,7 +252,7 @@ typedef enum {
     /* 1 */ COLSHAPE_CYLINDER,
     /* 2 */ COLSHAPE_TRIS,
     /* 3 */ COLSHAPE_QUAD,
-    /* 4 */ COLSHAPE_INVALID
+    /* 4 */ COLSHAPE_MAX
 } ColliderShape;
 
 /**
@@ -271,6 +271,8 @@ typedef enum {
     /* 6 */ ELEMTYPE_UNK6,
     /* 7 */ ELEMTYPE_UNK7
 } ElementType;
+
+#define SAC_ENABLE (1 << 0)
 
 #define AT_NONE 0 // No flags set. Cannot have AT collisions when set as AT
 #define AT_ON (1 << 0) // Can have AT collisions when set as AT

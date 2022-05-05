@@ -115,7 +115,7 @@ static DnsItemEntry* sItemEntries[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4E, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -234,7 +234,7 @@ u32 func_809EF73C(EnDns* this) {
 }
 
 u32 func_809EF800(EnDns* this) {
-    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
         return 1;
     }
     if (gSaveContext.rupees < this->dnsItemEntry->itemPrice) {
@@ -290,7 +290,7 @@ void func_809EFA28(EnDns* this) {
 }
 
 void func_809EFA58(EnDns* this) {
-    gSaveContext.itemGetInf[0] |= 0x800;
+    SET_ITEMGETINF(ITEMGETINF_0B);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 
@@ -303,12 +303,12 @@ void func_809EFACC(EnDns* this) {
 }
 
 void func_809EFAFC(EnDns* this) {
-    gSaveContext.infTable[25] |= 0x4;
+    SET_INFTABLE(INFTABLE_192);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 
 void func_809EFB40(EnDns* this) {
-    gSaveContext.infTable[25] |= 0x8;
+    SET_INFTABLE(INFTABLE_193);
     Rupees_ChangeBy(-this->dnsItemEntry->itemPrice);
 }
 
@@ -483,7 +483,7 @@ void EnDns_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->actionFunc(this, globalCtx);
     if (this->standOnGround) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_2);
     }
     if (this->maintainCollider) {
         Collider_UpdateCylinder(&this->actor, &this->collider);

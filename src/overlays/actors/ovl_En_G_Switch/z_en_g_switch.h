@@ -24,6 +24,8 @@ typedef enum {
     /* 3 */ ENGSWITCH_TARGET_RUPEE
 } EnGSwitchType;
 
+#define EN_GSWITCH_EFFECT_COUNT 100
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 scale;
@@ -54,7 +56,7 @@ typedef struct EnGSwitch {
     /* 0x016C */ Vec3f targetPos;
     /* 0x0178 */ s8 objIndex;
     /* 0x017C */ ColliderCylinder collider;
-    /* 0x01C8 */ EnGSwitchEffect effects[100];
+    /* 0x01C8 */ EnGSwitchEffect effects[EN_GSWITCH_EFFECT_COUNT];
 } EnGSwitch; // size = 0x12F8
 
 #endif

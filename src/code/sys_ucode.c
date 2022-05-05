@@ -1,20 +1,20 @@
 #include "global.h"
 
-u32 D_8012DBA0 = (u32)&D_80155F50;
-u32 D_8012DBA4 = (u32)&D_80157580;
+u64* sDefaultGSPUCodeText = gspF3DZEX2_NoN_PosLight_fifoTextStart;
+u64* sDefaultGSPUCodeData = gspF3DZEX2_NoN_PosLight_fifoDataStart;
 
-u32 SysUcode_GetUCodeBoot(void) {
-    return &D_80009320;
+u64* SysUcode_GetUCodeBoot(void) {
+    return rspbootTextStart;
 }
 
-u32 SysUcode_GetUCodeBootSize(void) {
-    return (u32)&D_800093F0 - (u32)&D_80009320;
+size_t SysUcode_GetUCodeBootSize(void) {
+    return (size_t)((u8*)rspbootTextEnd - (u8*)rspbootTextStart);
 }
 
-u32 SysUcode_GetUCode(void) {
-    return D_8012DBA0;
+u64* SysUcode_GetUCode(void) {
+    return sDefaultGSPUCodeText;
 }
 
-u32 SysUcode_GetUCodeData(void) {
-    return D_8012DBA4;
+u64* SysUcode_GetUCodeData(void) {
+    return sDefaultGSPUCodeData;
 }

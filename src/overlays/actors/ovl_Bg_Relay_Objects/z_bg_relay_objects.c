@@ -55,7 +55,7 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, 3);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
-        if (gSaveContext.eventChkInf[6] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
             thisx->world.rot.y = 0x400;
         } else {
             thisx->world.rot.y = 0x80;
@@ -109,7 +109,7 @@ void BgRelayObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        gSaveContext.eventChkInf[6] &= ~0x20;
+        CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }
 
@@ -180,9 +180,9 @@ void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx) {
 
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 5)) {
-        gSaveContext.eventChkInf[6] |= 0x20;
+        SET_EVENTCHKINF(EVENTCHKINF_65);
     }
-    if (gSaveContext.eventChkInf[6] & 0x20) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
         Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x400, 8);
     } else {
         Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x80, 8);

@@ -165,7 +165,8 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 // Drop rupees
                 for (i = 0; i < 9; i++) {
-                    collectible = Item_DropCollectible(globalCtx, &spawnPos, i % 3);
+                    collectible = Item_DropCollectible(
+                        globalCtx, &spawnPos, (i % (ITEM00_RUPEE_RED - ITEM00_RUPEE_GREEN + 1)) + ITEM00_RUPEE_GREEN);
                     if (collectible != NULL) {
                         collectible->actor.velocity.y = 15.0f;
                         collectible->actor.world.rot.y = this->dyna.actor.shape.rot.y + (i * 0x1C71);
@@ -226,7 +227,7 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y + 235.0f, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Scale(0.07f, 0.04f, 0.07f, MTXMODE_APPLY);
     if (1) {}
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 170, 255, 255);
