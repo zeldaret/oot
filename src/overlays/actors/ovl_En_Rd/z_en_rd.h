@@ -8,9 +8,9 @@ struct EnRd;
 
 typedef void (*EnRdActionFunc)(struct EnRd*, GlobalContext*);
 
-#define EN_RD_GET_FLAGS(thisx) (((thisx)->params & 0xFF00) >> 8)
+#define REDEAD_GET_FLAGS(thisx) (((thisx)->params & 0xFF00) >> 8)
 
-typedef enum GibdoLimbs {
+typedef enum {
     /*  0 */ REDEAD_GIBDO_LIMB_NONE,
     /*  1 */ REDEAD_GIBDO_LIMB_ROOT,
     /*  2 */ REDEAD_GIBDO_LIMB_LEFT_LEG_ROOT,
@@ -38,16 +38,16 @@ typedef enum GibdoLimbs {
     /* 24 */ REDEAD_GIBDO_LIMB_HEAD,
     /* 25 */ REDEAD_GIBDO_LIMB_PELVIS,
     /* 26 */ REDEAD_GIBDO_LIMB_MAX
-} RedeadGibdoLimbs;
+} RedeadGibdoLimb;
 
 typedef enum {
-    /* -3 */ EN_RD_TYPE_GIBDO_RISING_OUT_OF_COFFIN = -3,
-    /* -2 */ EN_RD_TYPE_GIBDO = -2,
-    /* -1 */ EN_RD_TYPE_DOES_NOT_MOURN = -1,
-    /*  0 */ EN_RD_TYPE_DOES_NOT_MOURN_IF_WALKING = 0,
-    /*  1 */ EN_RD_TYPE_REGULAR,
-    /*  2 */ EN_RD_TYPE_CRYING,
-    /*  3 */ EN_RD_TYPE_INVISIBLE
+    /* -3 */ REDEAD_TYPE_GIBDO_RISING_OUT_OF_COFFIN = -3,
+    /* -2 */ REDEAD_TYPE_GIBDO,
+    /* -1 */ REDEAD_TYPE_DOES_NOT_MOURN,
+    /*  0 */ REDEAD_TYPE_DOES_NOT_MOURN_IF_WALKING,
+    /*  1 */ REDEAD_TYPE_REGULAR,
+    /*  2 */ REDEAD_TYPE_CRYING,
+    /*  3 */ REDEAD_TYPE_INVISIBLE
 } EnRdType;
 
 typedef struct EnRd {
@@ -61,11 +61,7 @@ typedef struct EnRd {
     /* 0x0306 */ u8 playerStunWaitTimer; // Cannot stun the player if this is non-zero
     /* 0x0307 */ u8 grabWaitTimer; // Cannot grab the player if this is non-zero
     /* 0x0308 */ EnRdActionFunc actionFunc;
-    /* 0x030C */ union {
-                    s16 animationJudder;
-                    s16 death;
-                    s16 coffinRiseForwardAccel;
-                } timer;
+    /* 0x030C */ s16 timer;
     /* 0x030E */ s16 headYRotation;
     /* 0x0310 */ s16 upperBodyYRotation;
     /* 0x0312 */ s16 rdFlags;
