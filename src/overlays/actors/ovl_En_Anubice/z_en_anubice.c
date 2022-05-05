@@ -120,8 +120,8 @@ void EnAnubice_AimFireball(EnAnubice* this, GlobalContext* globalCtx) {
     z = player->actor.world.pos.z - this->headPos.z;
     xzDist = sqrtf(SQ(x) + SQ(z));
 
-    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzDist));
-    this->fireballRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
+    this->fireballRot.x = -RAD_TO_BINANG(Math_FAtan2F(y, xzDist));
+    this->fireballRot.y = RAD_TO_BINANG(Math_FAtan2F(x, z));
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -135,7 +135,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "☆☆☆☆☆ Anubis occurence ☆☆☆☆☆"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ アヌビス発生 ☆☆☆☆☆ \n" VT_RST);
 
-    this->actor.naviEnemyId = 0x3A;
+    this->actor.naviEnemyId = NAVI_ENEMY_ANUBIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -337,8 +337,8 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     rotX = curFrame * -3000.0f;
     rotX = CLAMP_MIN(rotX, -11000.0f);
 
-    Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
-    Matrix_RotateX(BINANG_TO_RAD(rotX), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD_ALT(rotX), MTXMODE_APPLY);
     baseFireEffectPos.y = Rand_CenteredFloat(10.0f) + 30.0f;
     Matrix_MultVec3f(&baseFireEffectPos, &rotatedFireEffectPos);
     rotatedFireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
@@ -404,7 +404,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 rotatedKnockbackVelocity.y = 0.0f;
                 rotatedKnockbackVelocity.z = 0.0f;
 
-                Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
                 Matrix_MultVec3f(&baseKnockbackVelocity, &rotatedKnockbackVelocity);
 
                 this->actor.velocity.x = rotatedKnockbackVelocity.x;

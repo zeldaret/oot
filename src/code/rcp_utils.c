@@ -7,7 +7,7 @@
     if (x & DPC_STATUS_##name) \
     osSyncPrintf(#name " ")
 
-void RcpUtils_PrintRegisterStatus() {
+void RcpUtils_PrintRegisterStatus(void) {
     u32 spStatus = __osSpGetStatus();
     u32 dpStatus = osDpGetStatus();
 

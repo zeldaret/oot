@@ -100,7 +100,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4D, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MAD_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
 };
@@ -444,7 +444,7 @@ void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx) {
 void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if (this->actor.colChkInfo.mass == 0x32) {
             if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
                 if (this->actor.colChkInfo.damageEffect != 1) {

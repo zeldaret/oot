@@ -22,7 +22,7 @@ void OnePointCutscene_AddVecSphToVec3f(Vec3f* dst, Vec3f* src, VecSph* vecSph) {
 }
 
 s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
-    return DEGF_TO_BINANG(RADF_TO_DEGF(Math_FAtan2F(vec2->x - vec1->x, vec2->z - vec1->z)));
+    return CAM_DEG_TO_BINANG(RAD_TO_DEG(Math_FAtan2F(vec2->x - vec1->x, vec2->z - vec1->z)));
 }
 
 void OnePointCutscene_Vec3sToVec3f(Vec3f* src, Vec3s* dst) {
@@ -75,7 +75,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             if (timer < 20) {
                 timer = 20;
             }
-            D_801208EC[0].atTargetInit = globalCtx->view.lookAt;
+            D_801208EC[0].atTargetInit = globalCtx->view.at;
             D_801208EC[0].eyeTargetInit = globalCtx->view.eye;
             D_801208EC[0].fovTargetInit = globalCtx->view.fovy;
             D_801208EC[1].atTargetInit = mainCam->at;
@@ -91,11 +91,11 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 1030:
-            D_80120964[0].atTargetInit = globalCtx->view.lookAt;
+            D_80120964[0].atTargetInit = globalCtx->view.at;
             D_80120964[0].eyeTargetInit = globalCtx->view.eye;
             D_80120964[0].fovTargetInit = globalCtx->view.fovy;
             OLib_Vec3fDiffToVecSphGeo(&spD0, &mainCam->at, &mainCam->eye);
-            D_80120964[1].eyeTargetInit.y = BINANG_TO_DEGF(spD0.yaw);
+            D_80120964[1].eyeTargetInit.y = CAM_BINANG_TO_DEG(spD0.yaw);
             D_80120964[1].timerInit = timer - 1;
 
             csInfo->keyFrames = D_80120964;
@@ -104,7 +104,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 5000:
-            D_801209B4[0].atTargetInit = D_801209B4[1].atTargetInit = globalCtx->view.lookAt;
+            D_801209B4[0].atTargetInit = D_801209B4[1].atTargetInit = globalCtx->view.at;
             D_801209B4[0].eyeTargetInit = globalCtx->view.eye;
             D_801209B4[0].fovTargetInit = D_801209B4[2].fovTargetInit = globalCtx->view.fovy;
             OLib_Vec3fDiffToVecSphGeo(&spD0, &actor->focus.pos, &mainCam->at);
@@ -232,9 +232,9 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             if ((sp82 > 0) && (sp82 < 320) && (sp7E > 0) && (sp7E < 240) && (sp80 > 0) && (sp80 < 320) && (sp7C > 0) &&
                 (sp7C < 240) &&
                 !OnePointCutscene_BgCheckLineTest(&globalCtx->colCtx, &actor->focus.pos, &player->actor.focus.pos)) {
-                D_80121184[0].atTargetInit.x = (globalCtx->view.lookAt.x + actor->focus.pos.x) * 0.5f;
-                D_80121184[0].atTargetInit.y = (globalCtx->view.lookAt.y + actor->focus.pos.y) * 0.5f;
-                D_80121184[0].atTargetInit.z = (globalCtx->view.lookAt.z + actor->focus.pos.z) * 0.5f;
+                D_80121184[0].atTargetInit.x = (globalCtx->view.at.x + actor->focus.pos.x) * 0.5f;
+                D_80121184[0].atTargetInit.y = (globalCtx->view.at.y + actor->focus.pos.y) * 0.5f;
+                D_80121184[0].atTargetInit.z = (globalCtx->view.at.z + actor->focus.pos.z) * 0.5f;
                 D_80121184[0].eyeTargetInit = globalCtx->view.eye;
                 D_80121184[0].eyeTargetInit.y = player->actor.focus.pos.y + 20.0f;
                 D_80121184[0].fovTargetInit = mainCam->fov * 0.75f;
@@ -310,7 +310,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
         case 2210:
             OLib_Vec3fDiffToVecSphGeo(&spD0, &player->actor.world.pos, &actor->world.pos);
             D_801213B4[0].eyeTargetInit.y = D_801213B4[1].eyeTargetInit.y = D_801213B4[2].eyeTargetInit.y =
-                D_801213B4[2].atTargetInit.y = BINANG_TO_DEGF(spD0.yaw);
+                D_801213B4[2].atTargetInit.y = CAM_BINANG_TO_DEG(spD0.yaw);
             if (Rand_ZeroOne() < 0.0f) {
                 D_801213B4[3].eyeTargetInit.x = -D_801213B4[3].eyeTargetInit.x;
             }
@@ -490,7 +490,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             csCam->unk_14C |= 2;
             break;
         case 3140:
-            D_80121C24[0].atTargetInit = globalCtx->view.lookAt;
+            D_80121C24[0].atTargetInit = globalCtx->view.at;
             D_80121C24[0].eyeTargetInit = globalCtx->view.eye;
             D_80121C24[0].fovTargetInit = globalCtx->view.fovy;
 
@@ -674,7 +674,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             Quake_SetCountdown(i, timer);
             break;
         case 3290:
-            D_80121F1C[0].atTargetInit = globalCtx->view.lookAt;
+            D_80121F1C[0].atTargetInit = globalCtx->view.at;
             D_80121F1C[0].eyeTargetInit = globalCtx->view.eye;
             D_80121F1C[0].fovTargetInit = globalCtx->view.fovy;
             Actor_GetFocus(&spA0, actor);
@@ -691,7 +691,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             Quake_SetCountdown(i, 5);
             break;
         case 3340:
-            D_80121FBC[0].atTargetInit = globalCtx->view.lookAt;
+            D_80121FBC[0].atTargetInit = globalCtx->view.at;
             D_80121FBC[0].eyeTargetInit = globalCtx->view.eye;
             D_80121FBC[0].fovTargetInit = globalCtx->view.fovy;
 
@@ -714,7 +714,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 3350:
-            D_801220D4[0].atTargetInit = globalCtx->view.lookAt;
+            D_801220D4[0].atTargetInit = globalCtx->view.at;
             D_801220D4[0].eyeTargetInit = globalCtx->view.eye;
             D_801220D4[0].fovTargetInit = globalCtx->view.fovy;
             if (actor->world.pos.x > 0.0f) {
@@ -996,7 +996,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             }
             break;
         case 1000:
-            D_801232A4[0].atTargetInit = globalCtx->view.lookAt;
+            D_801232A4[0].atTargetInit = globalCtx->view.at;
             D_801232A4[0].eyeTargetInit = globalCtx->view.eye;
             D_801232A4[0].fovTargetInit = globalCtx->view.fovy;
 
@@ -1057,7 +1057,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 9703:
-            D_80123894[0].atTargetInit = globalCtx->view.lookAt;
+            D_80123894[0].atTargetInit = globalCtx->view.at;
             D_80123894[0].eyeTargetInit = globalCtx->view.eye;
             D_80123894[0].fovTargetInit = globalCtx->view.fovy;
             if (LINK_IS_ADULT) {
@@ -1071,7 +1071,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 9704:
-            D_8012390C[0].atTargetInit = globalCtx->view.lookAt;
+            D_8012390C[0].atTargetInit = globalCtx->view.at;
             D_8012390C[0].eyeTargetInit = globalCtx->view.eye;
             D_8012390C[0].fovTargetInit = globalCtx->view.fovy;
 
@@ -1081,7 +1081,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
             break;
         case 9705:
-            D_8012395C[0].atTargetInit = globalCtx->view.lookAt;
+            D_8012395C[0].atTargetInit = globalCtx->view.at;
             D_8012395C[0].eyeTargetInit = globalCtx->view.eye;
             D_8012395C[0].fovTargetInit = globalCtx->view.fovy;
 
@@ -1178,7 +1178,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     csCam->timer = timer;
     csCam->target = actor;
 
-    csCam->at = globalCtx->view.lookAt;
+    csCam->at = globalCtx->view.at;
     csCam->eye = globalCtx->view.eye;
     csCam->fov = globalCtx->view.fovy;
 

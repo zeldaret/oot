@@ -176,11 +176,11 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params > EN_RD_TYPE_GIBDO) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRedeadSkel, &gGibdoRedeadIdleAnim, this->jointTable,
                            this->morphTable, REDEAD_GIBDO_LIMB_MAX);
-        this->actor.naviEnemyId = 0x2A;
+        this->actor.naviEnemyId = NAVI_ENEMY_REDEAD;
     } else {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGibdoSkel, &gGibdoRedeadIdleAnim, this->jointTable,
                            this->morphTable, REDEAD_GIBDO_LIMB_MAX);
-        this->actor.naviEnemyId = 0x2D;
+        this->actor.naviEnemyId = NAVI_ENEMY_GIBDO;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -815,7 +815,7 @@ void EnRd_UpdateDamage(EnRd* this, GlobalContext* globalCtx) {
         this->damageEffect = this->actor.colChkInfo.damageEffect;
 
         if (this->action != EN_RD_ACTION_RISE_FROM_COFFIN) {
-            Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+            Actor_SetDropFlag(&this->actor, &this->collider.info, true);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }

@@ -123,23 +123,23 @@ void func_80A7BF58(EnInsect* this) {
  */
 s32 EnInsect_FoundNearbySoil(EnInsect* this, GlobalContext* globalCtx) {
     Actor* currentActor;
-    f32 currentDistance;
-    f32 bestDistance;
+    f32 currentDistanceSq;
+    f32 bestDistanceSq;
     s32 ret;
 
     ret = 0;
     currentActor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
-    bestDistance = 6400.0f;
+    bestDistanceSq = 6400.0f;
     this->soilActor = NULL;
 
     while (currentActor != NULL) {
         if (currentActor->id == ACTOR_OBJ_MAKEKINSUTA) {
-            currentDistance = Math3D_Dist2DSq(this->actor.world.pos.x, this->actor.world.pos.z,
-                                              currentActor->world.pos.x, currentActor->world.pos.z);
+            currentDistanceSq = Math3D_Dist2DSq(this->actor.world.pos.x, this->actor.world.pos.z,
+                                                currentActor->world.pos.x, currentActor->world.pos.z);
 
-            if (currentDistance < bestDistance && currentActor->room == this->actor.room) {
+            if (currentDistanceSq < bestDistanceSq && currentActor->room == this->actor.room) {
                 ret = 1;
-                bestDistance = currentDistance;
+                bestDistanceSq = currentDistanceSq;
                 this->soilActor = (ObjMakekinsuta*)currentActor;
             }
         }
@@ -429,7 +429,7 @@ void func_80A7CC3C(EnInsect* this, GlobalContext* globalCtx) {
 
     if (this->unk_31A <= 0) {
         if ((this->unk_314 & 0x10) && this->soilActor != NULL &&
-            Math3D_Vec3fDistSq(&this->soilActor->actor.world.pos, &this->actor.world.pos) < 64.0f) {
+            Math3D_Vec3fDistSq(&this->soilActor->actor.world.pos, &this->actor.world.pos) < SQ(8.0f)) {
             this->soilActor->unk_152 = 1;
         }
         Actor_Kill(&this->actor);

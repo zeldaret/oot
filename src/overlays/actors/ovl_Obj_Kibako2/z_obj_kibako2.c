@@ -109,7 +109,7 @@ void ObjKibako2_SpawnCollectible(ObjKibako2* this, GlobalContext* globalCtx) {
 
     collectibleFlagTemp = this->collectibleFlag;
     itemDropped = this->dyna.actor.home.rot.x;
-    if (itemDropped >= 0 && itemDropped < 0x1A) {
+    if (itemDropped >= 0 && itemDropped < ITEM00_MAX) {
         Item_DropCollectible(globalCtx, &this->dyna.actor.world.pos, itemDropped | (collectibleFlagTemp << 8));
     }
 }

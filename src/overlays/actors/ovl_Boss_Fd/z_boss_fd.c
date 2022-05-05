@@ -60,7 +60,7 @@ const ActorInit Boss_Fd_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_VOLVAGIA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -289,8 +289,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
           this->fwork[BFD_FLY_WOBBLE_AMP];
     dz += Math_SinS((1796.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
           this->fwork[BFD_FLY_WOBBLE_AMP];
-    angleToTarget = (s16)(Math_FAtan2F(dx, dz) * (0x8000 / M_PI));
-    pitchToTarget = (s16)(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI));
+    angleToTarget = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
+    pitchToTarget = RAD_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))));
 
     osSyncPrintf("MODE %d\n", this->work[BFD_ACTION_STATE]);
 
@@ -342,7 +342,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->timers[0] = 0;
                     this->camData.speedMod = 0.0f;
                     this->camData.accel = 0.0f;
-                    if (gSaveContext.eventChkInf[7] & 8) {
+                    if (GET_EVENTCHKINF(EVENTCHKINF_73)) {
                         this->introState = BFD_CS_EMERGE;
                         this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
                         this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
@@ -385,8 +385,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->fogMode = 1;
                 }
                 if (this->timers[0] < 50) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                     this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                     Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
                 }
@@ -406,8 +407,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             case BFD_CS_LOOK_GROUND:
                 this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                 Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
-                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_COLLAPSE;
                     this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f;
@@ -427,8 +428,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 this->camData.accel = 0.005f;
                 this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
                 Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
-                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (this->timers[0] == 100) {
                     this->platformSignal = VBSIMA_COLLAPSE;
                 }
@@ -463,9 +464,10 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 osSyncPrintf("WAY_SPD X = %f\n", this->camData.atVel.x);
                 osSyncPrintf("WAY_SPD Y = %f\n", this->camData.atVel.y);
                 osSyncPrintf("WAY_SPD Z = %f\n", this->camData.atVel.z);
-                if ((this->timers[3] > 190) && !(gSaveContext.eventChkInf[7] & 8)) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 if (this->timers[3] == 190) {
                     this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.05f;
@@ -490,7 +492,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->timers[3] == 160) {
                     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
                 }
-                if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
+                if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
@@ -541,7 +543,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;
                     this->handoffSignal = FD2_SIGNAL_GROUND;
-                    gSaveContext.eventChkInf[7] |= 8;
+                    SET_EVENTCHKINF(EVENTCHKINF_73);
                 }
                 break;
         }
@@ -671,8 +673,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
                     this->fwork[BFD_CEILING_BOUNCE] = -18384.0f;
                     this->timers[1] = 10;
-                    Audio_PlaySoundGeneral(NA_SE_EV_EXPLOSION, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                           &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_EXPLOSION, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                     func_80033E1C(globalCtx, 3, 0xA, 0x7530);
                     this->work[BFD_ROCK_TIMER] = 300;
                 }
@@ -771,8 +774,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                 sp150 = 1;
                 if (this->work[BFD_MOVE_TIMER] & 0x1C) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_BURN - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_BURN - SFX_FLAG, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 for (i1 = 0; i1 < sp150; i1++) {
                     if (sp150) { // Needed for matching
@@ -844,8 +848,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->work[BFD_CEILING_TARGET]++;
                         this->timers[1] = 60;
                         this->work[BFD_CAM_SHAKE_TIMER] = 20;
-                        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_LAND2, &this->actor.projectedPos, 4, &D_801333E0,
-                                               &D_801333E0, &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_LAND2, &this->actor.projectedPos, 4,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultReverb);
                         func_8002DF54(globalCtx, &this->actor, 5);
                         for (i1 = 0; i1 < 15; i1++) {
                             Vec3f sp144 = { 0.0f, 0.0f, 0.0f };
@@ -886,8 +891,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Vec3f sp114 = { 0.0f, 0.0f, 0.0f };
                 Vec3f sp108 = { 0.0f, 0.03f, 0.0f };
 
-                Audio_PlaySoundGeneral(NA_SE_EN_GOMA_LAST - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_GOMA_LAST - SFX_FLAG, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 sp120.x = Rand_CenteredFloat(40.0f) + this->actor.world.pos.x;
                 sp120.y = (Rand_CenteredFloat(10.0f) + this->actor.world.pos.y) - 10.0f;
@@ -950,9 +955,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->bodySegsPos[i4].x = this->actor.world.pos.x;
         this->bodySegsPos[i4].y = this->actor.world.pos.y;
         this->bodySegsPos[i4].z = this->actor.world.pos.z;
-        this->bodySegsRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->bodySegsRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->bodySegsRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
 
         this->work[BFD_LEAD_MANE_SEG]++;
         if (this->work[BFD_LEAD_MANE_SEG] >= 30) {
@@ -963,9 +968,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->rightMane.scale[i4] = (Math_SinS(this->work[BFD_MOVE_TIMER] * 5496.0f) * 0.3f) + 1.0f;
         this->leftMane.scale[i4] = (Math_CosS(this->work[BFD_MOVE_TIMER] * 5696.0f) * 0.3f) + 1.0f;
         this->centerMane.pos[i4] = this->centerMane.head;
-        this->fireManeRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->fireManeRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->fireManeRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
         this->rightMane.pos[i4] = this->rightMane.head;
         this->leftMane.pos[i4] = this->leftMane.head;
 
@@ -1130,8 +1135,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->work[BFD_ROAR_TIMER] != 0) {
         if (this->work[BFD_ROAR_TIMER] == 37) {
-            Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROAR, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROAR, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         jawAngle = 6000.0f;
         jawSpeed = 1300.0f;
@@ -1151,8 +1156,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         Vec3f spawnPos1;
         s32 pad;
 
-        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_APPEAR - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                               &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_APPEAR - SFX_FLAG, &this->actor.projectedPos, 4,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         if (this->work[BFD_SPLASH_TIMER] != 0) {
             this->work[BFD_SPLASH_TIMER]--;
             if ((this->actor.colChkInfo.health == 0) ||
@@ -1229,12 +1234,12 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         this->fogMode = 2;
         spawnSpeed2.z = 30.0f;
 
-        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_FIRE - SFX_FLAG, &sFireAudioVec, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_FIRE - SFX_FLAG, &sFireAudioVec, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         spawnPos2 = this->headPos;
 
-        spawnAngleY = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        spawnAngleX = (((-this->actor.world.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
+        spawnAngleY = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        spawnAngleX = BINANG_TO_RAD_ALT(-this->actor.world.rot.x) + 0.3f;
         Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
         Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
@@ -1292,8 +1297,8 @@ void BossFd_CollisionCheck(BossFd* this, GlobalContext* globalCtx) {
         }
         this->work[BFD_DAMAGE_FLASH_TIMER] = 10;
         this->work[BFD_INVINC_TIMER] = 20;
-        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_DAMAGE1, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_DAMAGE1, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -1433,7 +1438,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     s16 i1;
     s16 i2;
 
-    for (i1 = 0; i1 < 180; i1++, effect++) {
+    for (i1 = 0; i1 < BOSSFD_EFFECT_COUNT; i1++, effect++) {
         if (effect->type != BFD_FX_NONE) {
             effect->timer1++;
 
@@ -1512,19 +1517,19 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
-    u8 flag = false;
+    u8 materialFlag = 0;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     BossFdEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 4023);
 
-    for (i = 0; i < 180; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_EMBER) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
@@ -1539,13 +1544,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DEBRIS) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1560,15 +1565,15 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DUST) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 90, 30, 0, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 90, 30, 0, 0);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1583,14 +1588,14 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_FIRE_BREATH) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 255);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, effect->alpha);
@@ -1606,13 +1611,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_SKULL_PIECE) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1938,7 +1943,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                      MTXMODE_NEW);
     Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
-    Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 0.0f, temp_float, MTXMODE_APPLY);
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 25.0f, MTXMODE_APPLY);

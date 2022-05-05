@@ -21,7 +21,7 @@ u32 strlen(const char* str) {
     return ptr - str;
 }
 
-void* memcpy(void* dst, const void* src, u32 size) {
+void* memcpy(void* dst, const void* src, size_t size) {
     u8* _dst = dst;
     const u8* _src = src;
 

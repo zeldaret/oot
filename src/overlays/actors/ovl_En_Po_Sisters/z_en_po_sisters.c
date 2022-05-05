@@ -192,7 +192,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk_194 = (thisx->params >> 8) & 3;
-    this->actor.naviEnemyId = this->unk_194 + 0x50;
+    this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
     this->unk_195 = (thisx->params >> 0xA) & 3;
     this->unk_196 = 32;
@@ -1133,7 +1133,7 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if (this->unk_195 != 0) {
             ((EnPoSisters*)this->actor.parent)->unk_19C--;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);

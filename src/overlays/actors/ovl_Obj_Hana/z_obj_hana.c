@@ -86,7 +86,7 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
-    if (type == 2 && (gSaveContext.eventChkInf[4] & 1)) {
+    if (type == 2 && GET_EVENTCHKINF(EVENTCHKINF_40)) {
         Actor_Kill(&this->actor);
     }
 }

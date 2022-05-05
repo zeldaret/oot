@@ -21,13 +21,13 @@ export -f add_final_newline
 
 shopt -s globstar
 
-if [ $(command -v clang-format) ]
+if [ $(command -v clang-format-${FORMAT_VER}) ]
 then
-    CLANG_FORMAT="clang-format"
+    CLANG_FORMAT="clang-format-${FORMAT_VER}"
 else
-    if [ $(command -v clang-format-${FORMAT_VER}) ]
+    if [ $(command -v clang-format) ]
     then
-        CLANG_FORMAT="clang-format-${FORMAT_VER}"
+        CLANG_FORMAT="clang-format"
     else
         echo "Neither clang-format nor clang-format-${FORMAT_VER} found. Exiting."
         exit 1

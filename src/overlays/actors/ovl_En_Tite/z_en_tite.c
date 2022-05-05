@@ -149,7 +149,7 @@ static DamageTable sDamageTable[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x45, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_RED_TEKTITE, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(minVelocityY, -40, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
@@ -196,7 +196,7 @@ void EnTite_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params == TEKTITE_BLUE) {
         this->unk_2DC |= UPDBGCHECKINFO_FLAG_6; // Don't use the actor engine's ripple spawning code
         thisx->colChkInfo.health = 4;
-        thisx->naviEnemyId += 1;
+        thisx->naviEnemyId += 1; // NAVI_ENEMY_BLUE_TEKTITE
     }
     EnTite_SetupIdle(this);
 }
@@ -852,7 +852,7 @@ void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (thisx->colChkInfo.damageEffect != 0xE) { // Immune to fire magic
             this->damageEffect = thisx->colChkInfo.damageEffect;
-            Actor_SetDropFlag(thisx, &this->collider.elements[0].info, 0);
+            Actor_SetDropFlag(thisx, &this->collider.elements[0].info, false);
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {

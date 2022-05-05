@@ -187,8 +187,9 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if (interactionType < 0) {
                     if (player->unk_860 == 0) {
                         player->unk_860 = 210;
-                        Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &D_801333E0,
-                                               &D_801333E0, &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultReverb);
                     } else if (player->unk_860 < 200) {
                         player->unk_860 = 200;
                     }
@@ -224,8 +225,8 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         this->litTimer = (litTimeScale * 50) + 110;
                     }
                 }
-                Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_FLAME_IGNITION, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
     }
@@ -293,9 +294,9 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 
         Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000) *
-                           (M_PI / 0x8000),
-                       MTXMODE_APPLY);
+        Matrix_RotateY(
+            BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000)),
+            MTXMODE_APPLY);
         Matrix_Scale(flameScale, flameScale, flameScale, MTXMODE_APPLY);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 745),

@@ -49,7 +49,7 @@ const ActorInit Boss_Dodongo_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x0C, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_KING_DODONGO, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000.0f, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 8200.0f, ICHAIN_STOP),
 };
@@ -130,11 +130,11 @@ void func_808C1554(void* arg0, void* floorTex, s32 arg2, f32 arg3) {
     }
 }
 
-void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 arg5) {
+void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f32 arg4, s16 countLimit) {
     s16 i;
     BossDodongoEffect* eff = (BossDodongoEffect*)globalCtx->specialEffects;
 
-    for (i = 0; i < arg5; i++, eff++) {
+    for (i = 0; i < countLimit; i++, eff++) {
         if (eff->unk_24 == 0) {
             eff->unk_24 = 1;
             eff->unk_00 = *arg1;
@@ -183,7 +183,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     u16* temp_s2;
     u32 temp_v0;
 
-    globalCtx->specialEffects = &this->effects;
+    globalCtx->specialEffects = this->effects;
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 9200.0f, ActorShadow_DrawCircle, 250.0f);
     Actor_SetScale(&this->actor, 0.01f);
@@ -333,7 +333,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 this->cameraAt.z = player->actor.world.pos.z;
             }
 
-            if (gSaveContext.eventChkInf[7] & 2) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_71)) {
                 if (this->unk_198 == 100) {
                     this->actor.world.pos.x = -1114.0f;
                     this->actor.world.pos.z = -2804.0f;
@@ -374,7 +374,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
         case 4:
             Math_SmoothStepToF(&this->unk_20C, 0.0f, 1.0f, 0.01f, 0.0f);
 
-            if (gSaveContext.eventChkInf[7] & 2) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_71)) {
                 phi_f0 = -50.0f;
             } else {
                 phi_f0 = 0.0f;
@@ -402,7 +402,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_198 == 0x5A) {
-                if (!(gSaveContext.eventChkInf[7] & 2)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_71)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                            SEGMENTED_TO_VIRTUAL(&object_kingdodongo_Blob_017410), 0xA0, 0xB4, 0x80,
                                            0x28);
@@ -422,7 +422,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 this->unk_1DA = 50;
                 this->unk_1BC = 0;
                 player->actor.shape.rot.y = -0x4002;
-                gSaveContext.eventChkInf[7] |= 2;
+                SET_EVENTCHKINF(EVENTCHKINF_71);
             }
             break;
     }
@@ -694,7 +694,7 @@ void BossDodongo_Walk(BossDodongo* this, GlobalContext* globalCtx) {
     sp48 = sp4C->x - this->actor.world.pos.x;
     sp44 = sp4C->z - this->actor.world.pos.z;
     Math_SmoothStepToF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 80.0f, 0.0f);
-    Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(sp48, sp44) * (0x8000 / M_PI), 5,
+    Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(sp48, sp44)), 5,
                        (this->unk_1EC * this->unk_1E8), 5);
     Math_SmoothStepToS(&this->unk_1C4, 0, 2, 2000, 0);
 
@@ -771,7 +771,7 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
     sp4C = sp5C->x - this->actor.world.pos.x;
     sp48 = sp5C->z - this->actor.world.pos.z;
     Math_SmoothStepToF(&this->unk_1E8, 2000.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
-    Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(sp4C, sp48) * (0x8000 / M_PI), 5,
+    Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(sp4C, sp48)), 5,
                        this->unk_1EC * this->unk_1E8, 0);
 
     if (fabsf(sp4C) <= 15.0f && fabsf(sp48) <= 15.0f) {
@@ -991,7 +991,8 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 sp54.x = sinf(sp4C) * sp50 + (-890.0f);
                 sp54.y = -1513.76f;
                 sp54.z = cosf(sp4C) * sp50 + (-3304.0f);
-                func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, ((s16)Rand_ZeroFloat(2.0f)) + 6, 0x50);
+                func_808C17C8(globalCtx, &sp54, &sp6C, &sp60, ((s16)Rand_ZeroFloat(2.0f)) + 6,
+                              BOSS_DODONGO_EFFECT_COUNT);
             }
         }
 
@@ -1387,7 +1388,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 sp198.x = Math_SinS(this->unk_19E * 1000) * sp178;
                 sp198.y = sp198.z = 0.0f;
 
-                Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
                 Matrix_MultVec3f(&sp198, &sp184);
 
                 Math_SmoothStepToF(&this->actor.world.pos.x, cornerPos->x + sp184.x, 1.0f, this->unk_1E4, 0.0f);
@@ -1403,7 +1404,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 tempSin = cornerPos->x - this->actor.world.pos.x;
                 tempCos = cornerPos->z - this->actor.world.pos.z;
                 Math_SmoothStepToF(&this->unk_1E8, 1500.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
-                Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(tempSin, tempCos) * (0x8000 / M_PI)), 5,
+                Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(tempSin, tempCos)), 5,
                                    (this->unk_1EC * this->unk_1E8), 0);
 
                 if ((fabsf(tempSin) <= 15.0f) && (fabsf(tempCos) <= 15.0f)) {
@@ -1645,7 +1646,7 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
     s16 colorIndex;
     s16 i;
 
-    for (i = 0; i < 80; i++, eff++) {
+    for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 != 0) {
             eff->unk_00.x += eff->unk_0C.x;
             eff->unk_00.y += eff->unk_0C.y;
@@ -1672,7 +1673,7 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
 void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
     MtxF* unkMtx;
     s16 i;
-    u8 phi_s3 = 0;
+    u8 materialFlag = 0;
     BossDodongoEffect* eff;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
@@ -1683,13 +1684,13 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     unkMtx = &globalCtx->billboardMtxF;
 
-    for (i = 0; i < 80; i++, eff++) {
+    for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {
         if (eff->unk_24 == 1) {
             gDPPipeSync(POLY_XLU_DISP++);
 
-            if (phi_s3 == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_kingdodongo_DL_009D50);
-                phi_s3++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);

@@ -207,10 +207,10 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == 0) {
         thisx->colChkInfo.health += 20;
-        thisx->naviEnemyId = 0x34;
+        thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE_NABOORU;
     } else {
         Actor_SetScale(thisx, 0.012f);
-        thisx->naviEnemyId = 0x35;
+        thisx->naviEnemyId = NAVI_ENEMY_IRON_KNUCKLE;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_ENEMY);
     }
 
@@ -683,7 +683,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     }
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
-    Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
+    Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
     temp_v0_3 = this->actor.colChkInfo.damageEffect;
     this->unk_2FD = temp_v0_3 & 0xFF;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -965,29 +965,29 @@ void EnIk_StartMusic(void) {
 
 void func_80A76C14(EnIk* this) {
     if (Animation_OnFrame(&this->skelAnime, 1.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAKEUP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 33.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 68.0f) || Animation_OnFrame(&this->skelAnime, 80.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 107.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_FINGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 156.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (Animation_OnFrame(&this->skelAnime, 188.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_WAVE_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
 void func_80A76DDC(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
-    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                           &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_TRANSFORM, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 void func_80A76E2C(EnIk* this, GlobalContext* globalCtx, Vec3f* pos) {
@@ -1095,8 +1095,8 @@ void func_80A77264(EnIk* this, GlobalContext* globalCtx, s32 arg2) {
 }
 
 void func_80A772A4(EnIk* this) {
-    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                           &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_STAGGER_DEMO, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
@@ -1105,7 +1105,8 @@ void func_80A772EC(EnIk* this, GlobalContext* globalCtx) {
     f32 wDest;
 
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &this->actor.world.pos, &D_80A78FA0, &wDest);
-    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_DEAD, &D_80A78FA0, 4, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 void func_80A7735C(EnIk* this, GlobalContext* globalCtx) {
@@ -1399,7 +1400,7 @@ void EnIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A780D0(EnIk* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
-        if (!(gSaveContext.eventChkInf[3] & 0x800)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_3B)) {
             this->actor.update = EnIk_Update;
             this->actor.draw = EnIk_Draw;
             Actor_SetScale(&this->actor, 0.01f);
@@ -1415,7 +1416,7 @@ void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
     this->actor.update = func_80A75FA0;
     this->actor.draw = func_80A76798;
     this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
-    gSaveContext.eventChkInf[3] |= 0x800;
+    SET_EVENTCHKINF(EVENTCHKINF_3B);
     Actor_SetScale(&this->actor, 0.012f);
     func_80A7489C(this);
 }
@@ -1429,7 +1430,7 @@ void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
         Cutscene_SetSegment(globalCtx, gSpiritBossNabooruKnuckleDefeatCs);
         gSaveContext.cutsceneTrigger = 1;
         Actor_SetScale(&this->actor, 0.01f);
-        gSaveContext.eventChkInf[3] |= 0x1000;
+        SET_EVENTCHKINF(EVENTCHKINF_3C);
         func_80A7735C(this, globalCtx);
     }
 }
@@ -1438,7 +1439,7 @@ void EnIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
     s32 flag = this->actor.params & 0xFF00;
 
-    if (((this->actor.params & 0xFF) == 0 && (gSaveContext.eventChkInf[3] & 0x1000)) ||
+    if (((this->actor.params & 0xFF) == 0 && GET_EVENTCHKINF(EVENTCHKINF_3C)) ||
         (flag != 0 && Flags_GetSwitch(globalCtx, flag >> 8))) {
         Actor_Kill(&this->actor);
     } else {

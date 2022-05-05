@@ -346,7 +346,7 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
         cyloffsets[i].z *= this->colliderScale;
         Matrix_Push();
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
-        Matrix_RotateY((this->initalYaw / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->initalYaw), MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pop();
         this->colCylinder[i + 3].dim.pos.x = cylPos.x;
@@ -765,7 +765,7 @@ void EnSt_Sway(EnSt* this) {
         amtToTranslate.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
-        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768.0f), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);
         Matrix_MultVec3f(&amtToTranslate, &translatedPos);
         Matrix_Pop();
         this->actor.shape.rot.z = -(rotAngle * 2);
@@ -787,9 +787,9 @@ void EnSt_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags |= ACTOR_FLAG_7;
     }
     if (this->actor.params == 1) {
-        this->actor.naviEnemyId = 0x05;
+        this->actor.naviEnemyId = NAVI_ENEMY_BIG_SKULLTULA;
     } else {
-        this->actor.naviEnemyId = 0x04;
+        this->actor.naviEnemyId = NAVI_ENEMY_SKULLTULA;
     }
     EnSt_CheckCeilingPos(this, globalCtx);
     this->actor.flags |= ACTOR_FLAG_14;

@@ -65,7 +65,7 @@ static s16 sPuzzleCounter = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x0A, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DEKU_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
 };
 
@@ -461,7 +461,7 @@ void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_ColliderCheck(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if (this->collider.base.ac->id != ACTOR_EN_NUTSBALL) {
             EnHintnuts_SetupBurrow(this);
         } else {

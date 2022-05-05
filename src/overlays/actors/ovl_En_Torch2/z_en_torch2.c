@@ -97,9 +97,9 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     sInput.cur.stick_x = sInput.cur.stick_y = 0;
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemActionParam = this->heldItemId = PLAYER_AP_SWORD_MASTER;
-    Player_SetModelGroup(this, 2);
+    Player_SetModelGroup(this, PLAYER_MODELGROUP_SWORD);
     globalCtx->playerInit(this, globalCtx, &gDarkLinkSkel);
-    this->actor.naviEnemyId = 0x26;
+    this->actor.naviEnemyId = NAVI_ENEMY_DARK_LINK;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
     this->meleeWeaponQuads[0].base.atFlags = this->meleeWeaponQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
     this->meleeWeaponQuads[0].base.acFlags = this->meleeWeaponQuads[1].base.acFlags = AC_ON | AC_HARD | AC_TYPE_PLAYER;
@@ -600,7 +600,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_8A8 = 6.0f;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
-                Actor_SetDropFlag(&this->actor, &this->cylinder.info, 1);
+                Actor_SetDropFlag(&this->actor, &this->cylinder.info, true);
                 this->stateFlags3 &= ~PLAYER_STATE3_2;
                 this->stateFlags3 |= PLAYER_STATE3_0;
                 sActionState = ENTORCH2_DAMAGE;
@@ -733,13 +733,13 @@ s32 EnTorch2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
                               Gfx** gfx) {
     Player* this = (Player*)thisx;
 
-    return func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, &this->actor);
+    return Player_OverrideLimbDrawGameplayCommon(globalCtx, limbIndex, dList, pos, rot, &this->actor);
 }
 
 void EnTorch2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Player* this = (Player*)thisx;
 
-    func_80090D20(globalCtx, limbIndex, dList, rot, &this->actor);
+    Player_PostLimbDrawGameplay(globalCtx, limbIndex, dList, rot, &this->actor);
 }
 
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx2) {

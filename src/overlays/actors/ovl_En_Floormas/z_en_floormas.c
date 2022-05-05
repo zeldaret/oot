@@ -114,7 +114,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x31, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_FLOORMASTER, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
@@ -979,7 +979,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
 
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->collider.base.colType != COLTYPE_HARD) {
                 isSmall = 0;
@@ -1095,8 +1095,8 @@ void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     if (limbIndex == 2) {
         Matrix_Push();
         Matrix_Translate(1600.0f, -700.0f, -1700.0f, MTXMODE_APPLY);
-        Matrix_RotateY(DEGTORAD(60.0f), MTXMODE_APPLY);
-        Matrix_RotateZ(DEGTORAD(15.0f), MTXMODE_APPLY);
+        Matrix_RotateY(DEG_TO_RAD(60), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(15), MTXMODE_APPLY);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_LOAD);
         gSPDisplayList((*gfx)++, gWallmasterFingerDL);

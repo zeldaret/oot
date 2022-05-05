@@ -86,7 +86,7 @@ static CollisionCheckInfoInit sColCheckInfoInit = { 1, 15, 80, MASS_HEAVY };
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 1, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x09, ICHAIN_STOP),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_WITHERED_DEKU_BABA, ICHAIN_STOP),
 };
 
 void EnKarebaba_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -521,7 +521,7 @@ void EnKarebaba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    Matrix_RotateY(this->actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.home.rot.y), MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1144),
               G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gDekuBabaBaseLeavesDL);

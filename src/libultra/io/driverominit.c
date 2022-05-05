@@ -22,8 +22,9 @@ OSPiHandle* osDriveRomInit(void) {
     __DriveRomHandle.speed = 0;
     bzero(&__DriveRomHandle.transferInfo, sizeof(__OSTranxInfo));
 
-    while (status = HW_REG(PI_STATUS_REG, u32), status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
-        ;
+    status = HW_REG(PI_STATUS_REG, u32);
+    while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
+        status = HW_REG(PI_STATUS_REG, u32);
     }
 
     HW_REG(PI_BSD_DOM1_LAT_REG, u32) = 0xFF;
