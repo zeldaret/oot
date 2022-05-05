@@ -61,12 +61,8 @@ static s16 sObjectIds[6] = {
 };
 
 static FlexSkeletonHeader* sSkeletons[6] = {
-    /* object_ahg_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
-    /* object_boj_Skel_0000F0 */ 0x060000F0,
+    &object_ahg_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
+    &object_boj_Skel_0000F0, &object_boj_Skel_0000F0, &object_boj_Skel_0000F0,
 };
 
 static AnimationHeader* sAnimations[6] = {
@@ -79,7 +75,7 @@ static EnSthActionFunc sRewardObtainedWaitActions[6] = {
 };
 
 static u16 sEventFlags[6] = {
-    0x0000, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000,
+    0, EVENTCHKINF_DA_MASK, EVENTCHKINF_DB_MASK, EVENTCHKINF_DC_MASK, EVENTCHKINF_DD_MASK, EVENTCHKINF_DE_MASK,
 };
 
 static s16 sGetItemIds[6] = {
@@ -161,7 +157,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
 
     this->eventFlag = sEventFlags[this->actor.params];
     params = &this->actor.params;
-    if (gSaveContext.eventChkInf[13] & this->eventFlag) {
+    if (gSaveContext.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] & this->eventFlag) {
         EnSth_SetupAction(this, sRewardObtainedWaitActions[*params]);
     } else {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedWait);
@@ -261,7 +257,7 @@ void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
-        gSaveContext.eventChkInf[13] |= this->eventFlag;
+        gSaveContext.eventChkInf[EVENTCHKINF_DA_DB_DC_DD_DE_INDEX] |= this->eventFlag;
     } else {
         EnSth_GivePlayerItem(this, globalCtx);
     }
@@ -322,7 +318,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }

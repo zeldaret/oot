@@ -989,7 +989,7 @@ void AudioHeap_Init(void) {
     AudioLoad_InitAsyncLoads();
     gAudioContext.unk_4 = 0x1000;
     AudioLoad_LoadPermanentSamples();
-    intMask = osSetIntMask(1);
+    intMask = osSetIntMask(OS_IM_NONE);
     osWritebackDCacheAll();
     osSetIntMask(intMask);
 }
@@ -1019,9 +1019,12 @@ void* AudioHeap_AllocPermanent(s32 tableType, s32 id, u32 size) {
     gAudioContext.permanentCache[index].tableType = tableType;
     gAudioContext.permanentCache[index].id = id;
     gAudioContext.permanentCache[index].size = size;
+
     //! @bug UB: missing return. "ret" is in v0 at this point, but doing an
-    // explicit return uses an additional register.
-    // return ret;
+    //! explicit return uses an additional register.
+#ifdef AVOID_UB
+    return ret;
+#endif
 }
 
 void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medium, s32 cache) {

@@ -52,7 +52,7 @@ static ColliderCylinderInit sColliderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x5C, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_POE_WASTELAND, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 3200, ICHAIN_STOP),
 };
@@ -132,7 +132,7 @@ void EnPoDesert_UpdateSpeedModifier(EnPoDesert* this) {
 
 void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
-    if (this->actor.xzDistToPlayer < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.unk_03)) {
+    if (this->actor.xzDistToPlayer < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.lensActive)) {
         if (this->currentPathPoint == 2) {
             if (Gameplay_InCsMode(globalCtx)) {
                 this->actor.shape.rot.y += 0x800;
@@ -193,11 +193,11 @@ void EnPoDesert_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     EnPoDesert_UpdateSpeedModifier(this);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetFocus(&this->actor, 42.0f);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    if (globalCtx->actorCtx.unk_03) {
+    if (globalCtx->actorCtx.lensActive) {
         this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_7;
         this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     } else {

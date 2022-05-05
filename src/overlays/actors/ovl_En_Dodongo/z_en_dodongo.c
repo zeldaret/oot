@@ -299,7 +299,7 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x0D, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DODONGO, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2800, ICHAIN_STOP),
 };
@@ -340,7 +340,9 @@ void EnDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     blureInit.calcMode = 2;
 
     Effect_Add(globalCtx, &this->blureIdx, EFFECT_BLURE1, 0, 0, &blureInit);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 60.0f, 70.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 60.0f, 70.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     EnDodongo_SetupIdle(this);
 }
 
@@ -549,13 +551,13 @@ void EnDodongo_Walk(EnDodongo* this, GlobalContext* globalCtx) {
     if ((s32)this->skelAnime.curFrame < 21) {
         if (!this->rightFootStep) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_J_WALK);
-            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->leftFootPos, 10.0f, 3, 2.0f, 200, 15, false);
             this->rightFootStep = true;
         }
     } else {
         if (this->rightFootStep) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_J_WALK);
-            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 10.0f, 3, 2.0f, 0xC8, 0xF, 0);
+            Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->rightFootPos, 10.0f, 3, 2.0f, 200, 15, false);
             this->rightFootStep = false;
         }
     }
@@ -640,11 +642,11 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
         tailPos.x = this->sphElements[1].dim.worldSphere.center.x;
         tailPos.y = this->sphElements[1].dim.worldSphere.center.y;
         tailPos.z = this->sphElements[1].dim.worldSphere.center.z;
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, false);
         tailPos.x = this->sphElements[2].dim.worldSphere.center.x;
         tailPos.y = this->sphElements[2].dim.worldSphere.center.y;
         tailPos.z = this->sphElements[2].dim.worldSphere.center.z;
-        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, 0);
+        Actor_SpawnFloorDustRing(globalCtx, &this->actor, &tailPos, 5.0f, 2, 2.0f, 100, 15, false);
 
         if (this->colliderBody.base.atFlags & AT_HIT) {
             Player* player = GET_PLAYER(globalCtx);
@@ -715,7 +717,7 @@ void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
     } else if ((this->colliderBody.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, 0);
+        Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, false);
         if (this->actor.colChkInfo.damageEffect != 0xE) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
@@ -769,8 +771,10 @@ void EnDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.colChkInfo.damageEffect != 0xE) {
         this->actionFunc(this, globalCtx);
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 60.0f, 70.0f, 0x1D);
-        if (this->actor.bgCheckFlags & 2) {
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 60.0f, 70.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
         }
     }

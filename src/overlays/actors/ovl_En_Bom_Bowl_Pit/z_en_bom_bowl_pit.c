@@ -77,9 +77,9 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 this->unk_1C8.x = this->unk_1C8.y = this->unk_1C8.z = 0.1f;
                 this->unk_1A4.x = this->unk_1A4.y = this->unk_1A4.z = 0.1f;
 
-                this->unk_180.x = this->unk_168.x = globalCtx->view.lookAt.x;
-                this->unk_180.y = this->unk_168.y = globalCtx->view.lookAt.y;
-                this->unk_180.z = this->unk_168.z = globalCtx->view.lookAt.z;
+                this->unk_180.x = this->unk_168.x = globalCtx->view.at.x;
+                this->unk_180.y = this->unk_168.y = globalCtx->view.at.y;
+                this->unk_180.z = this->unk_168.z = globalCtx->view.at.z;
 
                 this->unk_18C.x = this->unk_174.x = globalCtx->view.eye.x;
                 this->unk_18C.y = this->unk_174.y = globalCtx->view.eye.y;
@@ -157,10 +157,10 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->exItemDone != 0) {
         switch (this->prizeIndex) {
             case EXITEM_BOMB_BAG_BOWLING:
-                gSaveContext.itemGetInf[1] |= 2;
+                SET_ITEMGETINF(ITEMGETINF_11);
                 break;
             case EXITEM_HEART_PIECE_BOWLING:
-                gSaveContext.itemGetInf[1] |= 4;
+                SET_ITEMGETINF(ITEMGETINF_12);
                 break;
         }
 
@@ -181,10 +181,10 @@ void EnBomBowlPit_GivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
         this->getItemId = GI_BOMB_BAG_40;
     }
 
-    player->stateFlags1 &= ~0x20000000;
+    player->stateFlags1 &= ~PLAYER_STATE1_29;
     this->actor.parent = NULL;
     func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
-    player->stateFlags1 |= 0x20000000;
+    player->stateFlags1 |= PLAYER_STATE1_29;
     this->actionFunc = EnBomBowlPit_WaitTillPrizeGiven;
 }
 

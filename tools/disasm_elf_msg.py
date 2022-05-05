@@ -204,7 +204,7 @@ def disas_elfmsgs(start):
             assert False , "Encountered unknown type"
 
         ARG_2 = f"{bool(b0 & 1)}".lower()
-    
+
         # Get condition
         condition_type = b0 & 0x1E
 

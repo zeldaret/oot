@@ -302,8 +302,9 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
     KaleidoScope_DrawDigit(globalCtx, spD8[3], 165, 185);
 
     // Heart Pieces (X / 4)
-    KaleidoScope_DrawDigit(globalCtx, ((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> 0x1C, 210,
-                           185);
+    KaleidoScope_DrawDigit(globalCtx,
+                           ((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT,
+                           210, 185);
 
     // Handles navigating the menu to different sections with the D-Pad
     // When the same direction is held, registers the input periodically based on a timer
@@ -394,13 +395,13 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
 
         case 0x5C:
             if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                if ((((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> 0x1C) != 0) {
-                    gSaveContext.inventory.questItems -= 0x10000000;
+                if ((((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT) != 0) {
+                    gSaveContext.inventory.questItems -= (1 << QUEST_HEART_PIECE_COUNT);
                 }
             } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN) ||
                        CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                if ((gSaveContext.inventory.questItems & 0xF0000000) <= 0x40000000) {
-                    gSaveContext.inventory.questItems += 0x10000000;
+                if ((gSaveContext.inventory.questItems & 0xF0000000) <= (4 << QUEST_HEART_PIECE_COUNT)) {
+                    gSaveContext.inventory.questItems += (1 << QUEST_HEART_PIECE_COUNT);
                 }
             }
             break;
@@ -574,18 +575,18 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
                             }
                         }
                     } else {
-                        i = curSection - 0x34;
+                        i = curSection - 0x34; // 0 <= i < 4
                         if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                            gSaveContext.inventory.equipment ^= (1 << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(i, 0);
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
-                            gSaveContext.inventory.equipment ^= (2 << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(i, 1);
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                            gSaveContext.inventory.equipment ^= (4 << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(i, 2);
                         }
                         if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-                            gSaveContext.inventory.equipment ^= (8 << gEquipShifts[i]);
+                            gSaveContext.inventory.equipment ^= OWNED_EQUIP_FLAG_ALT(i, 3);
                         }
                     }
                 } else if (curSection < 0x44) {

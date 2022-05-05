@@ -30,7 +30,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
 
             gSaveContext.timer1State = 0;
             gSaveContext.timer2State = 0;
-            gSaveContext.eventInf[1] &= ~1;
+            CLEAR_EVENTINF(EVENTINF_10);
 
             // search inventory for spoiling items and revert if necessary
             for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {

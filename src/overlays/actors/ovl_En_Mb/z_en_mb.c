@@ -246,7 +246,7 @@ static DamageTable sClubMoblinDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4A, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MOBLIN, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
 };
@@ -308,7 +308,7 @@ void EnMb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
             this->actor.flags &= ~ACTOR_FLAG_0;
-            this->actor.naviEnemyId += 1;
+            this->actor.naviEnemyId += 1; // NAVI_ENEMY_MOBLIN_CLUB
             EnMb_SetupClubWaitPlayerNear(this);
             break;
         default: /* Spear Patrol */
@@ -534,7 +534,7 @@ void EnMb_SetupSpearEndChargeQuick(EnMb* this) {
 void EnMb_SetupSpearPatrolEndCharge(EnMb* this) {
     Animation_PlayOnce(&this->skelAnime, &gEnMbSpearSlowDownAnim);
     this->state = ENMB_STATE_ATTACK_END;
-    this->actor.bgCheckFlags &= ~1;
+    this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->timer1 = 0;
     this->timer3 = 50;
     this->actor.speedXZ = -8.0f;
@@ -601,8 +601,8 @@ void EnMb_SetupStunned(EnMb* this) {
 void EnMb_Stunned(EnMb* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags2 & 0x80) && player->actor.parent == &this->actor) {
-        player->stateFlags2 &= ~0x80;
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
+        player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
         player->unk_850 = 200;
         func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
@@ -718,14 +718,14 @@ void EnMb_SpearPatrolEndCharge(EnMb* this, GlobalContext* globalCtx) {
     s16 relYawFromPlayer;
     s16 yawPlayerToWaypoint;
 
-    if ((player->stateFlags2 & 0x80) && player->actor.parent == &this->actor) {
-        player->stateFlags2 &= ~0x80;
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
+        player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
         player->unk_850 = 200;
         func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
 
         if (this->actor.speedXZ > 1.0f) {
@@ -908,7 +908,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, GlobalContext* globalCtx) {
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
         if (this->attackCollider.base.at == &player->actor) {
-            if (!endCharge && !(player->stateFlags2 & 0x80)) {
+            if (!endCharge && !(player->stateFlags2 & PLAYER_STATE2_7)) {
                 if (player->invincibilityTimer < 0) {
                     if (player->invincibilityTimer < -39) {
                         player->invincibilityTimer = 0;
@@ -930,7 +930,7 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((player->stateFlags2 & 0x80) && player->actor.parent == &this->actor) {
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->actor.world.pos.x = this->actor.world.pos.x + Math_CosS(this->actor.shape.rot.y) * 10.0f +
                                     Math_SinS(this->actor.shape.rot.y) * 89.0f;
         hasHitPlayer = true;
@@ -942,10 +942,10 @@ void EnMb_SpearPatrolPrepareAndCharge(EnMb* this, GlobalContext* globalCtx) {
     }
 
     if (endCharge) {
-        if (hasHitPlayer || (player->stateFlags2 & 0x80)) {
+        if (hasHitPlayer || (player->stateFlags2 & PLAYER_STATE2_7)) {
             this->attackCollider.base.atFlags &= ~AT_HIT;
-            if (player->stateFlags2 & 0x80) {
-                player->stateFlags2 &= ~0x80;
+            if (player->stateFlags2 & PLAYER_STATE2_7) {
+                player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
                 player->unk_850 = 200;
                 func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
@@ -977,7 +977,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, GlobalContext* globalCtx) {
 
     if (this->attackCollider.base.atFlags & AT_HIT) {
         if (this->attackCollider.base.at == &player->actor) {
-            if (!endCharge && !(player->stateFlags2 & 0x80)) {
+            if (!endCharge && !(player->stateFlags2 & PLAYER_STATE2_7)) {
                 if (player->invincibilityTimer < 0) {
                     if (player->invincibilityTimer <= -40) {
                         player->invincibilityTimer = 0;
@@ -999,7 +999,7 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((player->stateFlags2 & 0x80) && player->actor.parent == &this->actor) {
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
         player->actor.world.pos.x = this->actor.world.pos.x + Math_CosS(this->actor.shape.rot.y) * 10.0f +
                                     Math_SinS(this->actor.shape.rot.y) * 89.0f;
         hasHitPlayer = true;
@@ -1011,10 +1011,10 @@ void EnMb_SpearPatrolImmediateCharge(EnMb* this, GlobalContext* globalCtx) {
     }
 
     if (endCharge) {
-        if (hasHitPlayer || (player->stateFlags2 & 0x80)) {
+        if (hasHitPlayer || (player->stateFlags2 & PLAYER_STATE2_7)) {
             this->attackCollider.base.atFlags &= ~AT_HIT;
-            if (player->stateFlags2 & 0x80) {
-                player->stateFlags2 &= ~0x80;
+            if (player->stateFlags2 & PLAYER_STATE2_7) {
+                player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
                 player->unk_850 = 200;
                 func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
@@ -1236,7 +1236,7 @@ void EnMb_ClubWaitPlayerNear(EnMb* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->playerDetectionRange &&
-        !(player->stateFlags1 & 0x4000000) && ABS(relYawFromPlayer) < 0x3E80) {
+        !(player->stateFlags1 & PLAYER_STATE1_26) && ABS(relYawFromPlayer) < 0x3E80) {
         EnMb_SetupClubAttack(this);
     }
 }
@@ -1295,8 +1295,8 @@ void EnMb_SpearDead(EnMb* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
 
-    if ((player->stateFlags2 & 0x80) && player->actor.parent == &this->actor) {
-        player->stateFlags2 &= ~0x80;
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
+        player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
         player->unk_850 = 200;
         func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.world.rot.y, 4.0f);
@@ -1378,8 +1378,8 @@ void EnMb_CheckColliding(EnMb* this, GlobalContext* globalCtx) {
         this->hitbox.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_IGNORE &&
             this->actor.colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
-            if ((player->stateFlags2 & 0x80) && player->actor.parent == &this->actor) {
-                player->stateFlags2 &= ~0x80;
+            if ((player->stateFlags2 & PLAYER_STATE2_7) && player->actor.parent == &this->actor) {
+                player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
                 player->unk_850 = 200;
                 func_8002F71C(globalCtx, &this->actor, 6.0f, this->actor.world.rot.y, 6.0f);
@@ -1422,7 +1422,9 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->colChkInfo.damageEffect != ENMB_DMGEFF_FREEZE) {
         this->actionFunc(this, globalCtx);
         Actor_MoveForward(thisx);
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 40.0f, 40.0f, 70.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 40.0f, 40.0f, 70.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
         Actor_SetFocus(thisx, thisx->scale.x * 4500.0f);
         Collider_UpdateCylinder(thisx, &this->hitbox);
         if (thisx->colChkInfo.health <= 0) {
@@ -1446,7 +1448,7 @@ void EnMb_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f unused = { 1100.0f, -700.0f, 0.0f };
     static Vec3f feetPos = { 0.0f, 0.0f, 0.0f };
-    static Vec3f effSpawnPosModel = { 0.0f, -8000.0f, 0.0f };
+    static Vec3f effSpawnModelPos = { 0.0f, -8000.0f, 0.0f };
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     s32 bodyPart = -1;
     EnMb* this = (EnMb*)thisx;
@@ -1454,7 +1456,7 @@ void EnMb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     if (this->actor.params == ENMB_TYPE_CLUB) {
         if (limbIndex == ENMB_LIMB_LHAND) {
-            Matrix_MultVec3f(&effSpawnPosModel, &this->effSpawnPos);
+            Matrix_MultVec3f(&effSpawnModelPos, &this->effSpawnPos);
             if (this->attack > ENMB_ATTACK_NONE) {
                 EnMb_ClubUpdateAttackCollider(&this->actor, globalCtx);
             }

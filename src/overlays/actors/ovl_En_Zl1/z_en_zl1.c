@@ -92,15 +92,16 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->unk_1E6 = 0;
         this->actionFunc = func_80B4BC78;
-    } else if (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
+    } else if (Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_25) &&
+               Flags_GetEventChkInf(EVENTCHKINF_37)) {
         Actor_Kill(&this->actor);
-    } else if ((Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25)) ||
-               (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x37))) {
+    } else if ((Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_25)) ||
+               (Flags_GetEventChkInf(EVENTCHKINF_09) && Flags_GetEventChkInf(EVENTCHKINF_37))) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703D;
         this->actionFunc = func_80B4AF18;
-    } else if (Flags_GetEventChkInf(0x40)) {
+    } else if (Flags_GetEventChkInf(EVENTCHKINF_40)) {
         frameCount = Animation_GetLastFrame(&gChildZelda1Anim_00438);
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_00438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703C;
@@ -532,7 +533,7 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             if ((Message_GetState(msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
                 this->actor.textId = 0x703C;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
-                Flags_SetEventChkInf(0x40);
+                Flags_SetEventChkInf(EVENTCHKINF_40);
                 this->unk_1E2 = 6;
             }
             break;
@@ -571,7 +572,7 @@ void EnZl1_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actionFunc != func_80B4B8B4) && (this->actionFunc != func_80B4BC78)) {
         SkelAnime_Update(&this->skelAnime);
     }
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     if (this->actionFunc != func_80B4B8B4) {
         Collider_UpdateCylinder(&this->actor, &this->collider);

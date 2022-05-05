@@ -72,7 +72,7 @@ void StackCheck_Cleanup(StackEntry* entry) {
     }
 }
 
-StackStatus StackCheck_GetState(StackEntry* entry) {
+s32 StackCheck_GetState(StackEntry* entry) {
     u32* last;
     u32 used;
     u32 free;

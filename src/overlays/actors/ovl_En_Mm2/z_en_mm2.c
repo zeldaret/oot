@@ -67,14 +67,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 63, 0, { 0, 0, 0 } },
 };
 
-typedef struct {
-    /* 0x00 */ AnimationHeader* animation;
-    /* 0x04 */ f32 playSpeed;
-    /* 0x08 */ u8 mode;
-    /* 0x0C */ f32 morphFrames;
-} EnMm2AnimEntry; // size = 0x10
-
-static EnMm2AnimEntry sAnimationEntries[] = {
+static AnimationSpeedInfo sAnimationInfo[] = {
     { &gRunningManRunAnim, 1.0f, ANIMMODE_LOOP, -7.0f },     { &gRunningManSitStandAnim, -1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSitWaitAnim, 1.0f, ANIMMODE_LOOP, -7.0f }, { &gRunningManSitStandAnim, 1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSprintAnim, 1.0f, ANIMMODE_LOOP, -7.0f },  { &gRunningManExcitedAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
@@ -85,34 +78,33 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-void EnMm2_ChangeAnimation(EnMm2* this, s32 animationIndex, s32* previousAnimation) {
+void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
     f32 phi_f0;
 
-    if ((*previousAnimation < 0) || (animationIndex == *previousAnimation)) {
+    if ((*currentIndex < 0) || (index == *currentIndex)) {
         phi_f0 = 0.0f;
     } else {
-        phi_f0 = sAnimationEntries[animationIndex].morphFrames;
+        phi_f0 = sAnimationInfo[index].morphFrames;
     }
 
-    if (sAnimationEntries[animationIndex].playSpeed >= 0.0f) {
-        Animation_Change(&this->skelAnime, sAnimationEntries[animationIndex].animation,
-                         sAnimationEntries[animationIndex].playSpeed, 0.0f,
-                         (f32)Animation_GetLastFrame(sAnimationEntries[animationIndex].animation),
-                         sAnimationEntries[animationIndex].mode, phi_f0);
+    if (sAnimationInfo[index].playSpeed >= 0.0f) {
+        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].playSpeed, 0.0f,
+                         (f32)Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                         phi_f0);
     } else {
-        Animation_Change(&this->skelAnime, sAnimationEntries[animationIndex].animation,
-                         sAnimationEntries[animationIndex].playSpeed,
-                         (f32)Animation_GetLastFrame(sAnimationEntries[animationIndex].animation), 0.0f,
-                         sAnimationEntries[animationIndex].mode, phi_f0);
+        Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, sAnimationInfo[index].playSpeed,
+                         (f32)Animation_GetLastFrame(sAnimationInfo[index].animation), 0.0f, sAnimationInfo[index].mode,
+                         phi_f0);
     }
-    *previousAnimation = animationIndex;
+    *currentIndex = index;
 }
 
 void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
-    if ((gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
+    if (!CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                        EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         this->actor.textId = 0x6086;
-    } else if (gSaveContext.infTable[23] & 0x8000) {
-        if (gSaveContext.eventInf[1] & 1) {
+    } else if (GET_INFTABLE(INFTABLE_17F)) {
+        if (GET_EVENTINF(EVENTINF_10)) {
             this->actor.textId = 0x6082;
         } else if (gSaveContext.timer2State != 0) {
             this->actor.textId = 0x6076;
@@ -125,7 +117,7 @@ void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x6076;
     } else {
         this->actor.textId = 0x607D;
-        gSaveContext.eventInf[1] &= ~1;
+        CLEAR_EVENTINF(EVENTINF_10);
         HIGH_SCORE(HS_MARATHON) = 158;
     }
 }
@@ -137,9 +129,9 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRunningManSkel, NULL, this->jointTable, this->morphTable, 16);
-    Animation_Change(&this->skelAnime, sAnimationEntries[RM2_ANIM_SIT_WAIT].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[RM2_ANIM_SIT_WAIT].animation),
-                     sAnimationEntries[RM2_ANIM_SIT_WAIT].mode, sAnimationEntries[RM2_ANIM_SIT_WAIT].morphFrames);
+    Animation_Change(&this->skelAnime, sAnimationInfo[RM2_ANIM_SIT_WAIT].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[RM2_ANIM_SIT_WAIT].animation),
+                     sAnimationInfo[RM2_ANIM_SIT_WAIT].mode, sAnimationInfo[RM2_ANIM_SIT_WAIT].morphFrames);
     this->previousAnimation = RM2_ANIM_SIT_WAIT;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -158,7 +150,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
-        if (!(gSaveContext.infTable[23] & 0x8000) || !(gSaveContext.eventInf[1] & 1)) {
+        if (!GET_INFTABLE(INFTABLE_17F) || !GET_EVENTINF(EVENTINF_10)) {
             osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }
@@ -197,13 +189,13 @@ void func_80AAF2BC(EnMm2* this, GlobalContext* globalCtx) {
 void func_80AAF330(EnMm2* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionFunc = func_80AAF2BC;
-        EnMm2_ChangeAnimation(this, 0, &this->previousAnimation);
+        EnMm2_ChangeAnim(this, RM2_ANIM_RUN, &this->previousAnimation);
         this->mouthTexIndex = RM2_MOUTH_OPEN;
         if (!(this->unk_1F4 & 2)) {
             Message_CloseTextbox(globalCtx);
         }
         gSaveContext.timer2State = 0;
-        gSaveContext.eventInf[1] &= ~1;
+        CLEAR_EVENTINF(EVENTINF_10);
     }
 }
 
@@ -218,7 +210,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
                     case 0:
                         Message_ContinueTextbox(globalCtx, 0x607F);
                         this->actor.textId = 0x607F;
-                        gSaveContext.eventInf[1] |= 1;
+                        SET_EVENTINF(EVENTINF_10);
                         break;
                     case 1:
                         Message_ContinueTextbox(globalCtx, 0x6080);
@@ -258,7 +250,7 @@ void func_80AAF57C(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     func_80AAEF70(this, globalCtx);
     if ((func_80AAF224(this, globalCtx, func_80AAF3C0)) && (this->actor.textId == 0x607D)) {
-        gSaveContext.infTable[23] |= 0x8000;
+        SET_INFTABLE(INFTABLE_17F);
     }
 }
 
@@ -266,7 +258,7 @@ void func_80AAF5EC(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->unk_1F4 &= ~1;
-        EnMm2_ChangeAnimation(this, 3, &this->previousAnimation);
+        EnMm2_ChangeAnim(this, RM2_ANIM_STAND, &this->previousAnimation);
         this->actionFunc = func_80AAF330;
     }
 }
@@ -286,11 +278,11 @@ void func_80AAF668(EnMm2* this, GlobalContext* globalCtx) {
             HIGH_SCORE(HS_MARATHON) = gSaveContext.timer2Value;
         }
     } else {
-        LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", gSaveContext.eventInf[1] & 1, "../z_en_mm2.c", 541);
-        if (!(gSaveContext.eventInf[1] & 1)) {
+        LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", GET_EVENTINF(EVENTINF_10), "../z_en_mm2.c", 541);
+        if (!GET_EVENTINF(EVENTINF_10)) {
             this->unk_1F4 |= 2;
             this->unk_1F4 &= ~1;
-            EnMm2_ChangeAnimation(this, 3, &this->previousAnimation);
+            EnMm2_ChangeAnim(this, RM2_ANIM_STAND, &this->previousAnimation);
             this->actionFunc = func_80AAF330;
         }
     }
@@ -312,7 +304,7 @@ void EnMm2_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
 void EnMm2_Draw(Actor* thisx, GlobalContext* globalCtx) {

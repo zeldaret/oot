@@ -70,7 +70,7 @@
         <Texture Name="gGerudoPurpleEyeOpenTex" OutName="gerudo_purple_eye_open" Format="ci8" Width="32" Height="32" Offset="0x4F78" TlutOffset="0x4D08"/>
         <Texture Name="gGerudoPurpleEyeHalfTex" OutName="gerudo_purple_eye_half" Format="ci8" Width="32" Height="32" Offset="0x5578" TlutOffset="0x4D08"/>
         <Texture Name="gGerudoPurpleEyeClosedTex" OutName="gerudo_purple_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5BF8" TlutOffset="0x4D08"/>
-        
+
         <!-- Purple-clothed Gerudo Animations -->
         <Animation Name="gGerudoPurpleUnusedHorizontalSlashAnim" Offset="0x0324"/>
         <Animation Name="gGerudoPurpleUnusedSlashToStandingAnim" Offset="0x0780"/>

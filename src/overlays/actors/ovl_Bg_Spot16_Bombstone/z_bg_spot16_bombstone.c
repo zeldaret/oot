@@ -413,7 +413,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
                 OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
             }
         }
-    } else if (player->stateFlags1 & 0x800) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_11) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
@@ -443,7 +443,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         OnePointCutscene_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
-        gSaveContext.eventChkInf[2] |= 8;
+        SET_EVENTCHKINF(EVENTCHKINF_23);
 
         func_808B5A78(this);
     } else {
@@ -509,7 +509,8 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (actor->bgCheckFlags & 8 || (actor->bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
+    if ((actor->bgCheckFlags & BGCHECKFLAG_WALL) ||
+        ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && actor->velocity.y < 0.0f)) {
         BgSpot16Bombstone_SpawnFragments(this, globalCtx);
         BgSpot16Bombstone_SpawnDust(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);
@@ -517,7 +518,7 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         return;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, 17.5f, 35.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, 17.5f, 35.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {

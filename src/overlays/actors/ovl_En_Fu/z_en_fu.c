@@ -134,7 +134,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     u16 textID = Text_GetFaceReaction(globalCtx, 0xB);
 
     if (textID == 0) {
-        textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
+        textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
     // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
@@ -150,7 +150,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = EnFu_WaitAdult;
-        gSaveContext.eventChkInf[5] |= 0x800;
+        SET_EVENTCHKINF(EVENTCHKINF_5B);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     }
 }
@@ -176,19 +176,19 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
-        gSaveContext.eventChkInf[6] |= 0x20;
+        SET_EVENTCHKINF(EVENTCHKINF_65);
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-        player->stateFlags2 &= ~0x1000000;
+        player->stateFlags2 &= ~PLAYER_STATE2_24;
         this->actionFunc = EnFu_WaitAdult;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
 void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    player->stateFlags2 |= 0x800000;
+    player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 7, player has played back the song
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_STORMS);
@@ -199,7 +199,7 @@ void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
 void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    player->stateFlags2 |= 0x800000;
+    player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
@@ -214,9 +214,9 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if ((gSaveContext.eventChkInf[5] & 0x800)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_5B)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
-    } else if (player->stateFlags2 & 0x1000000) {
+    } else if (player->stateFlags2 & PLAYER_STATE2_24) {
         this->actor.textId = 0x5035;
         Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
@@ -227,7 +227,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
 }
@@ -239,7 +239,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
                          Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);

@@ -111,7 +111,7 @@ void EnXc_SpawnNut(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_BgCheck(EnXc* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 EnXc_AnimIsFinished(EnXc* this) {
@@ -275,7 +275,7 @@ void func_80B3C9EC(EnXc* this) {
 
 void func_80B3CA38(EnXc* this, GlobalContext* globalCtx) {
     // If Player is adult but hasn't learned Minuet of Forest
-    if (!(gSaveContext.eventChkInf[5] & 1) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_50) && LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
@@ -291,7 +291,7 @@ s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
             if (!Gameplay_InCsMode(globalCtx)) {
                 globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
-                gSaveContext.eventChkInf[5] |= 1;
+                SET_EVENTCHKINF(EVENTCHKINF_50);
                 Item_Give(globalCtx, ITEM_SONG_MINUET);
                 return true;
             }
@@ -303,7 +303,7 @@ s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B3CB58(EnXc* this, GlobalContext* globalCtx) {
     // If hasn't learned Bolero and Player is Adult
-    if (!(gSaveContext.eventChkInf[5] & 2) && LINK_IS_ADULT) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_51) && LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
@@ -322,7 +322,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
             !Gameplay_InCsMode(globalCtx)) {
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gDeathMountainCraterBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
-            gSaveContext.eventChkInf[5] |= 2;
+            SET_EVENTCHKINF(EVENTCHKINF_51);
             Item_Give(globalCtx, ITEM_SONG_BOLERO);
             return true;
         }
@@ -333,7 +333,8 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
 
 void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx) {
     // Player is adult and does not have iron boots and has not learned Serenade
-    if ((!CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4)) && LINK_IS_ADULT) {
+    if (!CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
+        LINK_IS_ADULT) {
         this->action = SHEIK_ACTION_SERENADE;
         osSyncPrintf("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
@@ -347,11 +348,11 @@ s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
         Player* player = GET_PLAYER(globalCtx);
         s32 stateFlags = player->stateFlags1;
 
-        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && !(stateFlags & 0x20000000) &&
-            !Gameplay_InCsMode(globalCtx)) {
+        if (CHECK_OWNED_EQUIP(EQUIP_TYPE_BOOTS, EQUIP_INV_BOOTS_IRON) && !GET_EVENTCHKINF(EVENTCHKINF_52) &&
+            !(stateFlags & PLAYER_STATE1_29) && !Gameplay_InCsMode(globalCtx)) {
             Cutscene_SetSegment(globalCtx, &gIceCavernSerenadeCs);
             gSaveContext.cutsceneTrigger = 1;
-            gSaveContext.eventChkInf[5] |= 4; // Learned Serenade of Water Flag
+            SET_EVENTCHKINF(EVENTCHKINF_52); // Learned Serenade of Water Flag
             Item_Give(globalCtx, ITEM_SONG_SERENADE);
             osSyncPrintf("ブーツを取った!!!!!!!!!!!!!!!!!!\n");
             return true;
@@ -371,7 +372,7 @@ void EnXc_SetWalkingSFX(EnXc* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     if (Animation_OnFrame(&this->skelAnime, 11.0f) || Animation_OnFrame(&this->skelAnime, 23.0f)) {
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
@@ -385,7 +386,7 @@ void EnXc_SetNutThrowSFX(EnXc* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     if (Animation_OnFrame(&this->skelAnime, 7.0f)) {
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             sfxId = SFX_FLAG;
             sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
             func_80078914(&this->actor.projectedPos, sfxId);
@@ -2145,18 +2146,18 @@ void EnXc_DrawSquintingEyes(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
-        if (!(gSaveContext.eventChkInf[12] & 0x20)) {
-            gSaveContext.eventChkInf[12] |= 0x20;
+        if (!GET_EVENTCHKINF(EVENTCHKINF_C5)) {
+            SET_EVENTCHKINF(EVENTCHKINF_C5);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimeFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, globalCtx);
-        } else if (!(gSaveContext.eventChkInf[5] & 0x20) && (gSaveContext.eventChkInf[4] & 0x100)) {
-            gSaveContext.eventChkInf[5] |= 0x20;
+        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55) && GET_EVENTCHKINF(EVENTCHKINF_48)) {
+            SET_EVENTCHKINF(EVENTCHKINF_55);
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTempleOfTimePreludeCs);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHEIK_ACTION_30;
-        } else if (!(gSaveContext.eventChkInf[5] & 0x20)) {
+        } else if (!GET_EVENTCHKINF(EVENTCHKINF_55)) {
             func_80B3C9EC(this);
         } else {
             Actor_Kill(&this->actor);

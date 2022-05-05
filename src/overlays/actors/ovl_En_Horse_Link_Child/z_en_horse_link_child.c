@@ -89,8 +89,8 @@ void func_80A693D0(EnHorseLinkChild* this) {
 
     if ((this->skin.skelAnime.curFrame > D_80A6AF5C[this->unk_1F0]) &&
         !((this->unk_1F0 == 0) && (this->skin.skelAnime.curFrame > D_80A6AF5C[1]))) {
-        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->unk_1F0++;
         if (this->unk_1F0 >= ARRAY_COUNT(D_80A6AF5C)) {
             this->unk_1F0 = 0;
@@ -103,15 +103,15 @@ void func_80A6948C(EnHorseLinkChild* this) {
         func_80A693D0(this);
     } else if (this->skin.skelAnime.curFrame == 0.0f) {
         if ((this->animationIdx == 3) || (this->animationIdx == 4)) {
-            Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_RUN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else if (this->animationIdx == 1) {
             if (Rand_ZeroOne() > 0.5f) {
-                Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_GROAN, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
-                Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                       &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
     }
@@ -151,7 +151,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->action = 1;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gChildEponaSkel, &gChildEponaGallopingAnim);
+    Skin_Init(globalCtx, &this->skin, &gChildEponaSkel, &gChildEponaGallopingAnim);
     this->animationIdx = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
@@ -165,11 +165,11 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex > 3) {
         func_80A69EC0(this);
     } else if (globalCtx->sceneNum == SCENE_SPOT20) {
-        if (!Flags_GetEventChkInf(0x14)) {
+        if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {
             Actor_Kill(&this->actor);
             return;
         }
-        this->unk_2A0 = gSaveContext.eventChkInf[1] & 0x40;
+        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
         func_80A69EC0(this);
     } else {
         func_80A69EC0(this);
@@ -181,7 +181,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
     Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
     Collider_DestroyJntSph(globalCtx, &this->headCollider);
 }
@@ -352,23 +352,23 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
     if (gSaveContext.entranceIndex == 0x2AE) {
-        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
         return;
     }
 
-    if (((gSaveContext.eventChkInf[1] & 0x40) && (DREG(53) != 0)) ||
+    if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
-        this->unk_2A0 = gSaveContext.eventChkInf[1] & 0x40;
+        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
     }
 
     newAnimationIdx = this->animationIdx;
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (animationEnded || (this->animationIdx == 1) || (this->animationIdx == 0)) {
-        if (gSaveContext.eventChkInf[1] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
             distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
             distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos);
             if (distLinkFromHome > 250.0f) {
@@ -444,8 +444,8 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     if (DREG(53) != 0) {
         DREG(53) = 0;
-        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         func_80A6A724(this);
     } else {
         this->actor.speedXZ = 0.0f;
@@ -555,7 +555,9 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     if ((globalCtx->sceneNum == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
         this->actor.world.pos.z = -2400.0f;
@@ -578,7 +580,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_80A6948C(this);
 }
 
-void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
+void EnHorseLinkChild_PostDraw(Actor* thisx, GlobalContext* globalCtx, Skin* skin) {
     Vec3f center;
     Vec3f newCenter;
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
@@ -588,7 +590,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
         center.x = this->headCollider.elements[i].dim.modelSphere.center.x;
         center.y = this->headCollider.elements[i].dim.modelSphere.center.y;
         center.z = this->headCollider.elements[i].dim.modelSphere.center.z;
-        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &center, &newCenter);
+        Skin_GetLimbPos(skin, this->headCollider.elements[i].dim.limb, &center, &newCenter);
         this->headCollider.elements[i].dim.worldSphere.center.x = newCenter.x;
         this->headCollider.elements[i].dim.worldSphere.center.y = newCenter.y;
         this->headCollider.elements[i].dim.worldSphere.center.z = newCenter.z;
@@ -600,7 +602,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
 }
 
-s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* arg3) {
+s32 EnHorseLinkChild_OverrideLimbDraw(Actor* thisx, GlobalContext* globalCtx, s32 arg2, Skin* skin) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_link_child.c", 1467);
@@ -620,5 +622,6 @@ void EnHorseLinkChild_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = (EnHorseLinkChild*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    func_800A6360(&this->actor, globalCtx, &this->skin, func_80A6ABF8, func_80A6AD84, 1);
+    func_800A6360(&this->actor, globalCtx, &this->skin, EnHorseLinkChild_PostDraw, EnHorseLinkChild_OverrideLimbDraw,
+                  true);
 }

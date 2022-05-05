@@ -80,13 +80,13 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.params = BONGOFLOOR_REST;
         this->drumPhase = 28;
 
-        if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
+        if (func_8004356C(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
             distFromRim = 600.0f - this->dyna.actor.xzDistToPlayer;
             if (distFromRim > 0.0f) {
                 if (distFromRim > 350.0f) {
                     distFromRim = 350.0f;
                 }
-                player->actor.bgCheckFlags &= ~1;
+                player->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 player->actor.velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
             }
         }
@@ -99,7 +99,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
                     if (distFromRim > 350.0f) {
                         distFromRim = 350.0f;
                     }
-                    item00->bgCheckFlags &= ~3;
+                    item00->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
                     item00->velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
                 }
             }

@@ -9,6 +9,7 @@ This document aims to be a small reference of how to create a compatible xml fil
   - [Basic XML](#basic-xml)
   - [Resources types](#resources-types)
     - [File](#file)
+    - [ExternalFile](#externalfile)
     - [Texture](#texture)
     - [Background](#background)
     - [Blob](#blob)
@@ -33,6 +34,7 @@ This document aims to be a small reference of how to create a compatible xml fil
     - [Array](#array)
     - [Path](#path)
     - [PlayerAnimationData](#playeranimationdata)
+    - [Pointer](#pointer)
 
 ## Basic XML
 
@@ -589,7 +591,7 @@ Vec3s D_04002040[24] = {
 
 The `Array` element is special, because it needs an inner element to work. It will declare an array of its inner element.
 
-Currently, only [`Scalar`](#scalar), [`Vector`](#vector) and [`Vtx`](#vtx) support being wrapped in an array.
+Currently, only [`Pointer`](#pointer), [`Scalar`](#scalar), [`Vector`](#vector) and [`Vtx`](#vtx) support being wrapped in an array.
 
 - Example:
 
@@ -635,5 +637,26 @@ Allows the extraction of the specific data of the player animations which are fo
 
   - `Name`: Required. Suxffixed by `AnimData`.
   - `FrameCount`: Required. The length of the animation in frames. It must be a positive integer.
+
+-------------------------
+
+### Pointer
+
+Allows the extraction of a variable that contains a pointer
+
+- Example:
+
+```xml
+<Array Name="object_hanareyama_obj_DLArray_004638" Count="54" Offset="0x4638">
+    <Pointer Type="Gfx"/>
+</Array>
+```
+
+- Attributes:
+
+  - `Name`: Required.
+  - `Type`: Required. The type of the extracted pointer.
+
+※ Can be wrapped in an [`Array`](#array) tag.
 
 -------------------------

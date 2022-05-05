@@ -98,7 +98,7 @@ void EnDntJiji_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDntJiji_SetFlower(EnDntJiji* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->flowerPos = this->actor.world.pos;
         this->actionFunc = EnDntJiji_SetupWait;
     }
@@ -117,7 +117,7 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
-        !(player->stateFlags1 & 0x800)) {
+        !(player->stateFlags1 & PLAYER_STATE1_11)) {
         OnePointCutscene_Init(globalCtx, 2230, -99, &this->actor, MAIN_CAM);
         this->timer = 0;
         func_8002DF54(globalCtx, NULL, 8);
@@ -180,7 +180,7 @@ void EnDntJiji_Walk(EnDntJiji* this, GlobalContext* globalCtx) {
         this->sfxTimer = 5;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_WALK);
     }
-    if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
         this->actor.speedXZ = 3.0f;
     }
@@ -283,7 +283,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
             osSyncPrintf("実 \n");
-            gSaveContext.itemGetInf[1] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_1F);
         } else {
             // "stick"
             osSyncPrintf("棒 \n");
@@ -292,7 +292,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
             osSyncPrintf("棒 \n");
-            gSaveContext.itemGetInf[1] |= 0x4000;
+            SET_ITEMGETINF(ITEMGETINF_1E);
         }
         this->actor.textId = 0;
         if ((this->stage != NULL) && (this->stage->actor.update != NULL)) {
@@ -342,9 +342,9 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     dx = this->flowerPos.x - this->actor.world.pos.x;
     dz = this->flowerPos.z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 1, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 1, 0xBB8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         this->actor.velocity.y = 9.0f;
         this->actor.speedXZ = 3.0f;
     }
@@ -419,7 +419,9 @@ void EnDntJiji_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     if (this->isSolid != 0) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

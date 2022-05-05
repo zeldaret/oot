@@ -33,7 +33,7 @@ def ReadAllLines(fileName):
 
 def GetFiles(path, ext):
     files = []
-    
+
     for r, d, f in os.walk(path):
         for file in f:
             if file.endswith(ext):

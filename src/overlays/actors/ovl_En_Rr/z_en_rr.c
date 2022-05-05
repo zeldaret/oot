@@ -155,7 +155,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x37, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_LIKE_LIKE, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -295,15 +295,15 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     this->wobbleSizeTarget = 2048.0f;
     tunic = 0;
     shield = 0;
-    if (CUR_EQUIP_VALUE(EQUIP_SHIELD) != 3 /* Mirror shield */) {
-        shield = Inventory_DeleteEquipment(globalCtx, EQUIP_SHIELD);
+    if (CUR_EQUIP_VALUE(EQUIP_TYPE_SHIELD) != EQUIP_VALUE_SHIELD_MIRROR) {
+        shield = Inventory_DeleteEquipment(globalCtx, EQUIP_TYPE_SHIELD);
         if (shield != 0) {
             this->eatenShield = shield;
             this->retreat = true;
         }
     }
-    if (CUR_EQUIP_VALUE(EQUIP_TUNIC) != 1 /* Kokiri tunic */) {
-        tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TUNIC);
+    if (CUR_EQUIP_VALUE(EQUIP_TYPE_TUNIC) != EQUIP_VALUE_TUNIC_KOKIRI) {
+        tunic = Inventory_DeleteEquipment(globalCtx, EQUIP_TYPE_TUNIC);
         if (tunic != 0) {
             this->eatenTunic = tunic;
             this->retreat = true;
@@ -495,7 +495,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
             }
         }
         if ((this->ocTimer == 0) && (this->actor.colorFilterTimer == 0) && (player->invincibilityTimer == 0) &&
-            !(player->stateFlags2 & 0x80) &&
+            !(player->stateFlags2 & PLAYER_STATE2_7) &&
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
             this->collider2.base.ocFlags1 &= ~OC1_HIT;
@@ -623,7 +623,7 @@ void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
     this->ocTimer = 8;
-    if ((this->grabTimer == 0) || !(player->stateFlags2 & 0x80)) {
+    if ((this->grabTimer == 0) || !(player->stateFlags2 & PLAYER_STATE2_7)) {
         EnRr_SetupReleasePlayer(this, globalCtx);
     } else {
         Math_ApproachF(&player->actor.world.pos.x, this->mouthPos.x, 1.0f, 30.0f);
@@ -809,7 +809,8 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider1.base.ocFlags1 &= ~OC1_HIT;
         this->collider1.base.acFlags &= ~AC_HIT;
     }
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     if (!this->stopScroll) {
         Math_ApproachF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
         Math_ApproachF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);

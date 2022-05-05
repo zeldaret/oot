@@ -32,22 +32,24 @@ s32 D_8013338C = 0;
 char D_80133390[] = "SEQ H";
 char D_80133398[] = "    L";
 
-// bss
-extern SoundRequest sSoundRequests[0x100];
-extern SoundBankEntry D_8016BAD0[9];
-extern SoundBankEntry D_8016BC80[12];
-extern SoundBankEntry D_8016BEC0[22];
-extern SoundBankEntry D_8016C2E0[20];
-extern SoundBankEntry D_8016C6A0[8];
-extern SoundBankEntry D_8016C820[3];
-extern SoundBankEntry D_8016C8B0[5];
-extern u8 sSoundBankListEnd[7];
-extern u8 sSoundBankFreeListStart[7];
-extern u8 sSoundBankUnused[7];
-extern u8 sCurSfxPlayerChannelIdx;
-extern UnusedBankLerp sUnusedBankLerp[7];
-
-// data
+SoundBankEntry D_8016BAD0[9];
+SoundBankEntry D_8016BC80[12];
+SoundBankEntry D_8016BEC0[22];
+SoundBankEntry D_8016C2E0[20];
+SoundBankEntry D_8016C6A0[8];
+SoundBankEntry D_8016C820[3];
+SoundBankEntry D_8016C8B0[5];
+SoundRequest sSoundRequests[0x100];
+u8 sSoundBankListEnd[7];
+u8 sSoundBankFreeListStart[7];
+u8 sSoundBankUnused[7];
+ActiveSound gActiveSounds[7][3];
+u8 sCurSfxPlayerChannelIdx;
+u8 gSoundBankMuted[7];
+UnusedBankLerp sUnusedBankLerp[7];
+u16 gAudioSfxSwapSource[10];
+u16 gAudioSfxSwapTarget[10];
+u8 gAudioSfxSwapMode[10];
 
 // sSoundRequests ring buffer endpoints. read index <= write index, wrapping around mod 256.
 u8 sSoundRequestWriteIndex = 0;
@@ -77,13 +79,18 @@ u8 gSfxChannelLayout = 0;
 
 u16 D_801333D0 = 0;
 
-Vec3f D_801333D4 = { 0.0f, 0.0f, 0.0f }; // default pos
+// The center of the screen in projected coordinates.
+// Gives the impression that the sfx has no specific location
+Vec3f gSfxDefaultPos = { 0.0f, 0.0f, 0.0f };
 
-f32 D_801333E0 = 1.0f; // default freqScale
+// Reused as either frequency or volume multiplicative scaling factor
+// Does not alter or change frequency or volume
+f32 gSfxDefaultFreqAndVolScale = 1.0f;
 
 s32 D_801333E4 = 0; // unused
 
-s8 D_801333E8 = 0; // default reverbAdd
+// Adds no reverb to the existing reverb
+s8 gSfxDefaultReverb = 0;
 
 s32 D_801333EC = 0; // unused
 
@@ -368,7 +375,7 @@ void Audio_ChooseActiveSounds(u8 bankId) {
         } else if (gSoundBanks[bankId][entryIndex].state != SFX_STATE_EMPTY) {
             entry = &gSoundBanks[bankId][entryIndex];
 
-            if (&D_801333D4.x == entry[0].posX) {
+            if (&gSfxDefaultPos.x == entry[0].posX) {
                 entry->dist = 0.0f;
             } else {
                 tempf1 = *entry->posY * 1;

@@ -352,7 +352,9 @@ void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
         EnKusa_UpdateVelY(this);
         EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.005f);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                    UPDBGCHECKINFO_FLAG_7);
         this->actor.gravity = -3.2f;
     }
 }
@@ -369,8 +371,8 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f contactPos;
 
-    if (this->actor.bgCheckFlags & 0xB) {
-        if (!(this->actor.bgCheckFlags & 0x20)) {
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
             SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         EnKusa_SpawnFragments(this, globalCtx);
@@ -388,7 +390,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.bgCheckFlags & 0x40) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
         contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.world.pos.z;
@@ -401,7 +403,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         rotSpeedXtarget >>= 1;
         rotSpeedY >>= 1;
         rotSpeedYtarget >>= 1;
-        this->actor.bgCheckFlags &= ~0x40;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
     }
 
@@ -412,7 +414,9 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += rotSpeedY;
     EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.05f);
     func_8002D7EC(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                UPDBGCHECKINFO_FLAG_7);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

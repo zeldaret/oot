@@ -134,7 +134,7 @@ void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->dialogState = TEXT_STATE_EVENT;
 
         // Check for beaten Dodongo's Cavern
-        if ((gSaveContext.eventChkInf[2] & 0x20) || BREG(2)) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_25) || BREG(2)) {
             this->actor.textId = 0xBF;
         } else {
             this->actor.textId = 0x7058;
@@ -164,7 +164,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
 
         // Check for beaten Dodongo's Cavern
-        if (!((gSaveContext.eventChkInf[2] & 0x20) || BREG(2))) {
+        if (!(GET_EVENTCHKINF(EVENTCHKINF_25) || BREG(2))) {
             this->actionFunc = EnBomBowMan_WaitNotBeatenDC;
         } else {
             this->actor.textId = 0x18;
@@ -236,7 +236,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->gameResult = 1; // Won
             this->bowlPit->status = 0;
             // "Center HIT!"
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
 
         if ((globalCtx->bombchuBowlingStatus == -1) &&
@@ -244,7 +244,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             // "Bombchu lost"
-            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
+            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ボムチュウ消化 ☆☆☆☆☆ \n" VT_RST);
         }
     }
 
@@ -389,7 +389,7 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
         switch (this->prizeSelect) {
             case 0:
                 prizeTemp = EXITEM_BOMB_BAG_BOWLING;
-                if (gSaveContext.itemGetInf[1] & 2) {
+                if (GET_ITEMGETINF(ITEMGETINF_11)) {
                     prizeTemp = EXITEM_PURPLE_RUPEE_BOWLING;
                 }
                 break;
@@ -401,7 +401,7 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
                 break;
             case 3:
                 prizeTemp = EXITEM_HEART_PIECE_BOWLING;
-                if (gSaveContext.itemGetInf[1] & 4) {
+                if (GET_ITEMGETINF(ITEMGETINF_12)) {
                     prizeTemp = EXITEM_PURPLE_RUPEE_BOWLING;
                 }
                 break;

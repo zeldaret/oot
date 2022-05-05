@@ -17,26 +17,16 @@ typedef enum {
 } ObjSwitchType;
 
 typedef enum {
-    /* 0 */ OBJSWITCH_SUBTYPE_FLOOR_0,
-    /* 1 */ OBJSWITCH_SUBTYPE_FLOOR_1,
-    /* 2 */ OBJSWITCH_SUBTYPE_FLOOR_2,
-    /* 3 */ OBJSWITCH_SUBTYPE_FLOOR_3
-} ObjSwitchSubTypeFloor;
-
-typedef enum {
-    /* 0 */ OBJSWITCH_SUBTYPE_EYE_0,
-    /* 1 */ OBJSWITCH_SUBTYPE_EYE_1
-} ObjSwitchSubTypeEye;
-
-typedef enum {
-    /* 0 */ OBJSWITCH_SUBTYPE_CRYSTAL_0,
-    /* 1 */ OBJSWITCH_SUBTYPE_CRYSTAL_1,
-    /* 4 */ OBJSWITCH_SUBTYPE_CRYSTAL_4 = 4
-} ObjSwitchSubTypeCrystal;
+    /* 0 */ OBJSWITCH_SUBTYPE_ONCE,             // Switches that can only be turned on (On -> Flag Set)
+    /* 1 */ OBJSWITCH_SUBTYPE_TOGGLE,           // Switches that can be turned on and off (On -> Flag Set, Off -> Flag Cleared)
+    /* 2 */ OBJSWITCH_SUBTYPE_HOLD,             // Floor Types only, released when not stood on (Down -> Flag Set, Up -> Flag Cleared)
+    /* 3 */ OBJSWITCH_SUBTYPE_HOLD_INVERTED,    // Floor Types only, unused, inverted Switch Flag behavior (Down -> Flag Cleared, Up -> Flag Set)
+    /* 4 */ OBJSWITCH_SUBTYPE_SYNC              // Crystal Types only, syncs with the Switch Flag (On -> Flag Set, Off -> Flag Cleared)
+} ObjSwitchSubType;
 
 typedef struct {
     /* 0x00 */ ColliderJntSph col;
-    /* 0x20 */ ColliderJntSphElement items[2];
+    /* 0x20 */ ColliderJntSphElement items[1];
 } ObjSwitchJntSph;
 
 typedef struct {
@@ -47,7 +37,7 @@ typedef struct {
 typedef struct ObjSwitch {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ObjSwitchActionFunc actionFunc;
-    /* 0x0168 */ s16 releaseTimer; // used for SUBTYPE_FLOOR_2 and SUBTYPE_FLOOR_3
+    /* 0x0168 */ s16 releaseTimer; // used for SUBTYPE_HOLD and SUBTYPE_HOLD_INVERTED
     /* 0x016A */ s16 disableAcTimer;
     /* 0x016C */ s16 cooldownTimer;
     /* 0x016E */ u8 cooldownOn;
@@ -58,7 +48,7 @@ typedef struct ObjSwitch {
     /* 0x017A */ u8 x2TexScroll;
     /* 0x017B */ u8 y2TexScroll;
     /* 0x017C */ Color_RGB8 crystalColor;
-    /* 0x017F */ u8 unk_17F; // used for different purposes between floor and eye switch
+    /* 0x017F */ u8 unk_17F;
     union {
         /* 0x0180 */ ObjSwitchJntSph jntSph;
         /* 0x0180 */ ObjSwitchTris tris;

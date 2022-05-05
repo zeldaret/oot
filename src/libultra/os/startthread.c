@@ -4,16 +4,16 @@ void osStartThread(OSThread* thread) {
     register u32 prevInt = __osDisableInt();
 
     switch (thread->state) {
-        case 8:
-            thread->state = 2;
+        case OS_STATE_WAITING:
+            thread->state = OS_STATE_RUNNABLE;
             __osEnqueueThread(&__osRunQueue, thread);
             break;
-        case 1:
+        case OS_STATE_STOPPED:
             if (thread->queue == NULL || thread->queue == &__osRunQueue) {
-                thread->state = 2;
+                thread->state = OS_STATE_RUNNABLE;
                 __osEnqueueThread(&__osRunQueue, thread);
             } else {
-                thread->state = 8;
+                thread->state = OS_STATE_WAITING;
                 __osEnqueueThread(thread->queue, thread);
                 __osEnqueueThread(&__osRunQueue, __osPopThread(thread->queue));
             }
@@ -24,7 +24,7 @@ void osStartThread(OSThread* thread) {
         __osDispatchThread();
     } else {
         if (__osRunningThread->priority < __osRunQueue->priority) {
-            __osRunningThread->state = 2;
+            __osRunningThread->state = OS_STATE_RUNNABLE;
             __osEnqueueAndYield(&__osRunQueue);
         }
     }

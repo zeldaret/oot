@@ -1,61 +1,94 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
+#include "ultra64/r4300.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
 .balign 16
- 
-glabel osInvalDCache
-/* 006E00 80006200 18A0001F */  blez  $a1, .L80006280
-/* 006E04 80006204 00000000 */   nop   
-/* 006E08 80006208 240B2000 */  li    $t3, 8192
-/* 006E0C 8000620C 00AB082B */  sltu  $at, $a1, $t3
-/* 006E10 80006210 1020001D */  beqz  $at, .L80006288
-/* 006E14 80006214 00000000 */   nop   
-/* 006E18 80006218 00804025 */  move  $t0, $a0
-/* 006E1C 8000621C 00854821 */  addu  $t1, $a0, $a1
-/* 006E20 80006220 0109082B */  sltu  $at, $t0, $t1
-/* 006E24 80006224 10200016 */  beqz  $at, .L80006280
-/* 006E28 80006228 00000000 */   nop   
-/* 006E2C 8000622C 310A000F */  andi  $t2, $t0, 0xf
-/* 006E30 80006230 11400007 */  beqz  $t2, .L80006250
-/* 006E34 80006234 2529FFF0 */   addiu $t1, $t1, -0x10
-/* 006E38 80006238 010A4023 */  subu  $t0, $t0, $t2
-/* 006E3C 8000623C BD150000 */  cache 0x15, ($t0)
-/* 006E40 80006240 0109082B */  sltu  $at, $t0, $t1
-/* 006E44 80006244 1020000E */  beqz  $at, .L80006280
-/* 006E48 80006248 00000000 */   nop   
-/* 006E4C 8000624C 25080010 */  addiu $t0, $t0, 0x10
-.L80006250:
-/* 006E50 80006250 312A000F */  andi  $t2, $t1, 0xf
-/* 006E54 80006254 11400006 */  beqz  $t2, .L80006270
-/* 006E58 80006258 00000000 */   nop   
-/* 006E5C 8000625C 012A4823 */  subu  $t1, $t1, $t2
-/* 006E60 80006260 BD350010 */  cache 0x15, 0x10($t1)
-/* 006E64 80006264 0128082B */  sltu  $at, $t1, $t0
-/* 006E68 80006268 14200005 */  bnez  $at, .L80006280
-/* 006E6C 8000626C 00000000 */   nop   
-.L80006270:
-/* 006E70 80006270 BD110000 */  cache 0x11, ($t0)
-/* 006E74 80006274 0109082B */  sltu  $at, $t0, $t1
-/* 006E78 80006278 1420FFFD */  bnez  $at, .L80006270
-/* 006E7C 8000627C 25080010 */   addiu $t0, $t0, 0x10
-.L80006280:
-/* 006E80 80006280 03E00008 */  jr    $ra
-/* 006E84 80006284 00000000 */   nop   
 
-.L80006288:
-/* 006E88 80006288 3C088000 */  lui   $t0, 0x8000
-/* 006E8C 8000628C 010B4821 */  addu  $t1, $t0, $t3
-/* 006E90 80006290 2529FFF0 */  addiu $t1, $t1, -0x10
-.L80006294:
-/* 006E94 80006294 BD010000 */  cache 1, ($t0)
-/* 006E98 80006298 0109082B */  sltu  $at, $t0, $t1
-/* 006E9C 8000629C 1420FFFD */  bnez  $at, .L80006294
-/* 006EA0 800062A0 25080010 */   addiu $t0, 0x10
-/* 006EA4 800062A4 03E00008 */  jr    $ra
-/* 006EA8 800062A8 00000000 */   nop   
+/**
+ *  void osInvalDCache(void* vaddr, s32 nbytes);
+ *
+ *  Invalidates the CPU Data Cache for `nbytes` at `vaddr`.
+ *  The cache is not automatically synced with physical memory, so cache
+ *  lines must be invalidated to ensure old data is not used in place of
+ *  newly available data supplied by an external agent in a DMA operation.
+ *
+ *  If `vaddr` is not aligned to a cache line boundary, or nbytes is not a
+ *  multiple of the data cache line size (16 bytes) a larger region is
+ *  invalidated.
+ *
+ *  If the amount to invalidate is at least the data cache size (DCACHE_SIZE),
+ *  the entire data cache is invalidated.
+ */
+LEAF(osInvalDCache)
+    // If the amount to invalidate is less than or equal to 0, return immediately
+    blez    $a1, 3f
+     nop
+    // If the amount to invalidate is as large as or larger than
+    // the data cache size, invalidate all
+    li      $t3, DCACHE_SIZE
+    sltu    $at, $a1, $t3
+    beqz    $at, 4f
+     nop
+    // Ensure end address doesn't wrap around and end up smaller
+    // than the start address
+    move    $t0, $a0
+    addu    $t1, $a0, $a1
+    sltu    $at, $t0, $t1
+    beqz    $at, 3f
+     nop
+    // Mask start with cache line
+    andi    $t2, $t0, DCACHE_LINEMASK
+    // If mask is not zero, the start is not cache aligned
+    beqz    $t2, 1f
+     addiu  $t1, $t1, -DCACHE_LINESIZE
+    // Subtract mask result to align to cache line
+    subu    $t0, $t0, $t2
+    // Hit-Writeback-Invalidate unaligned part
+    cache   (CACH_PD | C_HWBINV), ($t0)
+    sltu    $at, $t0, $t1
+    // If that's all there is to do, return early
+    beqz    $at, 3f
+     nop
+    addiu   $t0, $t0, DCACHE_LINESIZE
+1:
+    // Mask end with cache line
+    andi    $t2, $t1, DCACHE_LINEMASK
+    // If mask is not zero, the end is not cache aligned
+    beqz    $t2, 1f
+     nop
+    // Subtract mask result to align to cache line
+    subu    $t1, $t1, $t2
+    // Hit-Writeback-Invalidate unaligned part
+    cache   (CACH_PD | C_HWBINV), DCACHE_LINESIZE($t1)
+    sltu    $at, $t1, $t0
+    // If that's all there is to do, return early
+    bnez    $at, 3f
+     nop
+    // Invalidate the rest
+1:
+    // Hit-Invalidate
+    cache   (CACH_PD | C_HINV), ($t0)
+    sltu    $at, $t0, $t1
+    bnez    $at, 1b
+     addiu  $t0, $t0, DCACHE_LINESIZE
+3:
+    jr      $ra
+     nop
+
+4:
+    li      $t0, K0BASE
+    addu    $t1, $t0, $t3
+    addiu   $t1, $t1, -DCACHE_LINESIZE
+5:
+    // Index-Writeback-Invalidate
+    cache   (CACH_PD | C_IWBINV), ($t0)
+    sltu    $at, $t0, $t1
+    bnez    $at, 5b
+     addiu  $t0, DCACHE_LINESIZE
+    jr      $ra
+     nop
+END(osInvalDCache)

@@ -71,7 +71,7 @@ void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode2);
     func_800876C8(globalCtx);
     if ((gSaveContext.nayrusLoveTimer != 0) && (globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].length != 0)) {
-        player->stateFlags3 |= 0x40;
+        player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 
@@ -80,7 +80,9 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
-        if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 && (gSaveContext.eventInf[0] & 0xF) != 1) {
+        if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 &&
+            ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
+              (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) != EVENTINF_00_MASK)) {
             if (globalCtx->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 globalCtx->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;

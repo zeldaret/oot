@@ -87,14 +87,7 @@ static DamageTable sDamageTable = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-typedef struct {
-    AnimationHeader* anim;
-    f32 unk_4;
-    u8 mode;
-    f32 transitionRate;
-} EnToryoAnimation;
-
-static EnToryoAnimation sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
+static AnimationSpeedInfo sEnToryoAnimation = { &object_toryo_Anim_000E50, 1.0f, 0, 0 };
 
 static Vec3f sMultVec = { 800.0f, 1000.0f, 0.0f };
 
@@ -130,10 +123,10 @@ void EnToryo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    Animation_Change(&this->skelAnime, sEnToryoAnimation.anim, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sEnToryoAnimation.anim), sEnToryoAnimation.mode,
-                     sEnToryoAnimation.transitionRate);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+    Animation_Change(&this->skelAnime, sEnToryoAnimation.animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sEnToryoAnimation.animation), sEnToryoAnimation.mode,
+                     sEnToryoAnimation.morphFrames);
     this->stateFlags |= 8;
     this->actor.targetMode = 6;
     this->actionFunc = func_80B20914;
@@ -178,7 +171,7 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 case 0x5028:
                     ret = 1;
                     if (Message_ShouldAdvance(globalCtx)) {
-                        gSaveContext.infTable[23] |= 4;
+                        SET_INFTABLE(INFTABLE_172);
                         ret = 0;
                     }
                     break;
@@ -191,14 +184,14 @@ s32 func_80B203D8(EnToryo* this, GlobalContext* globalCtx) {
                 case 0x606F:
                     ret = 1;
                     if (Message_ShouldAdvance(globalCtx)) {
-                        gSaveContext.infTable[23] |= 2;
+                        SET_INFTABLE(INFTABLE_171);
                         ret = 0;
                     }
                     break;
                 case 0x606A:
                     ret = 1;
                     if (Message_ShouldAdvance(globalCtx)) {
-                        gSaveContext.infTable[23] |= 1;
+                        SET_INFTABLE(INFTABLE_170);
                         ret = 0;
                     }
                     break;
@@ -247,7 +240,7 @@ u32 func_80B20634(EnToryo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0 != 0) {
         if (this->unk_1E0 == 10) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-            if (gSaveContext.infTable[23] & 2) {
+            if (GET_INFTABLE(INFTABLE_171)) {
                 ret = 0x606E;
             } else {
                 ret = 0x606D;
@@ -266,15 +259,16 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
 
     if (textId == 0) {
         if ((this->stateFlags & 1)) {
-            if ((gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+            if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
+                               EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
                 ret = 0x606C;
-            } else if ((gSaveContext.infTable[23] & 1)) {
+            } else if (GET_INFTABLE(INFTABLE_170)) {
                 ret = 0x606B;
             } else {
                 ret = 0x606A;
             }
         } else if ((this->stateFlags & 2)) {
-            if ((gSaveContext.infTable[23] & 4)) {
+            if (GET_INFTABLE(INFTABLE_172)) {
                 ret = 0x5029;
             } else {
                 ret = 0x5028;

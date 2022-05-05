@@ -144,11 +144,11 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params >= -1) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rd_Skel_00E778, &object_rd_Anim_0087D0,
                            this->jointTable, this->morphTable, 26);
-        thisx->naviEnemyId = 0x2A;
+        thisx->naviEnemyId = NAVI_ENEMY_REDEAD;
     } else {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_rd_Skel_003DD8, &object_rd_Anim_0087D0,
                            this->jointTable, this->morphTable, 26);
-        thisx->naviEnemyId = 0x2D;
+        thisx->naviEnemyId = NAVI_ENEMY_GIBDO;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -322,7 +322,9 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
     }
 
     if ((ABS(sp32) < 0x1554) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 150.0f)) {
-        if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80)) {
+        if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+                                     PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
+            !(player->stateFlags2 & PLAYER_STATE2_7)) {
             if (this->unk_306 == 0) {
                 if (!(this->unk_312 & 0x80)) {
                     player->actor.freezeTimer = 40;
@@ -394,7 +396,9 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     SkelAnime_Update(&this->skelAnime);
 
-    if (!(player->stateFlags1 & 0x2C6080) && !(player->stateFlags2 & 0x80) &&
+    if (!(player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_18 |
+                                 PLAYER_STATE1_19 | PLAYER_STATE1_21)) &&
+        !(player->stateFlags2 & PLAYER_STATE2_7) &&
         (Actor_WorldDistXYZToPoint(&player->actor, &this->actor.home.pos) < 150.0f)) {
         this->actor.targetMode = 0;
         func_80AE2B90(this, globalCtx);
@@ -487,7 +491,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x5DC, 0);
             Math_SmoothStepToS(&this->unk_310, 0, 1, 0x5DC, 0);
         case 2:
-            if (!(player->stateFlags2 & 0x80)) {
+            if (!(player->stateFlags2 & PLAYER_STATE2_7)) {
                 Animation_Change(&this->skelAnime, &object_rd_Anim_0046F8, 0.5f, 0.0f,
                                  Animation_GetLastFrame(&object_rd_Anim_0046F8), ANIMMODE_ONCE_INTERP, 0.0f);
                 this->unk_304++;
@@ -595,7 +599,7 @@ void func_80AE3A54(EnRd* this, GlobalContext* globalCtx) {
 void func_80AE3A8C(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_rd_Anim_0074F0, -6.0f);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -2.0f;
     }
 
@@ -749,7 +753,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
-            Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+            Actor_SetDropFlag(&this->actor, &this->collider.info, true);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }
@@ -807,7 +811,9 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->actor.shape.rot.x == 0) && (this->unk_31B != 8) && (this->actor.speedXZ != 0.0f)) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 20.0f, 35.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         }
 
         if (this->unk_31B == 7) {

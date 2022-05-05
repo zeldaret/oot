@@ -108,7 +108,7 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
 void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnViewer* this = (EnViewer*)thisx;
 
-    func_800A6888(globalCtx, &this->skin);
+    Skin_Free(globalCtx, &this->skin);
 }
 
 void EnViewer_InitAnimGanondorfOrZelda(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
@@ -140,7 +140,7 @@ void EnViewer_InitAnimImpa(EnViewer* this, GlobalContext* globalCtx, void* skele
 void EnViewer_InitAnimHorse(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* anim) {
     u8 type;
 
-    func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, anim);
+    Skin_Init(globalCtx, &this->skin, skeletonHeaderSeg, anim);
     type = this->actor.params >> 8;
     if (!(type == ENVIEWER_TYPE_3_GANONDORF || type == ENVIEWER_TYPE_4_HORSE_GANONDORF ||
           type == ENVIEWER_TYPE_7_GANONDORF || type == ENVIEWER_TYPE_8_GANONDORF ||
@@ -225,7 +225,8 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
                 case 380:
                 case 409:
                 case 438:
-                    Audio_PlaySoundGeneral(NA_SE_SY_DEMO_CUT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_SY_DEMO_CUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     break;
             }
         }
@@ -242,8 +243,8 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
             Audio_QueueSeqCmd(SEQ_PLAYER_FANFARE << 24 | NA_BGM_OPENING_GANON);
         }
         if (globalCtx->csCtx.frames == 960) {
-            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     } else if (type == ENVIEWER_TYPE_6_HORSE_GANONDORF) {
         if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 10) {
@@ -429,7 +430,8 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
             case 0:
                 if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL &&
                     globalCtx->csCtx.npcActions[1]->action == 7) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_GANON_LAUGH, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_GANON_LAUGH, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     Animation_MorphToPlayOnce(&this->skin.skelAnime, &object_gndd_Anim_004534, -5.0f);
                     this->state++;
                 }
@@ -576,7 +578,7 @@ void EnViewer_DrawGanondorf(EnViewer* this, GlobalContext* globalCtx) {
 }
 
 void EnViewer_DrawHorse(EnViewer* this, GlobalContext* globalCtx) {
-    func_800A6330(&this->actor, globalCtx, &this->skin, NULL, 1);
+    func_800A6330(&this->actor, globalCtx, &this->skin, NULL, true);
 }
 
 s32 EnViewer_ZeldaOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -724,8 +726,9 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
             if (type == ENVIEWER_TYPE_0_HORSE_ZELDA) {
                 if (!sHorseSfxPlayed) {
                     sHorseSfxPlayed = true;
-                    Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                           &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
             }
@@ -774,7 +777,8 @@ void EnViewer_UpdatePosition(EnViewer* this, GlobalContext* globalCtx) {
             }
         }
         if (type == ENVIEWER_TYPE_5_GANONDORF) {
-            Audio_PlaySoundGeneral(NA_SE_EV_BURNING - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_BURNING - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             EnViewer_DrawFireEffects(this, globalCtx);
         }
     }
@@ -877,7 +881,7 @@ void EnViewer_UpdateGanondorfCape(GlobalContext* globalCtx, EnViewer* this) {
         forearmModelOffset.z = KREG(18) - 10.0f;
         yOscillationPhase += KREG(19) * 0x1000 + 0x2000;
 
-        Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&forearmModelOffset, &forearmWorldOffset);
         sGanondorfCape->rightForearmPos.x = sGanondorfNeckWorldPos.x + forearmWorldOffset.x;
         sGanondorfCape->rightForearmPos.y = sGanondorfNeckWorldPos.y + forearmWorldOffset.y;

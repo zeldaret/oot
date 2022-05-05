@@ -60,7 +60,14 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static struct_D_80AA1678 sAnimationInfo[] = {
+typedef enum {
+    /* 0 */ ENMA1_ANIM_0,
+    /* 1 */ ENMA1_ANIM_1,
+    /* 2 */ ENMA1_ANIM_2,
+    /* 3 */ ENMA1_ANIM_3
+} EnMa1Animation;
+
+static AnimationFrameCountInfo sAnimationInfo[] = {
     { &gMalonChildIdleAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
     { &gMalonChildIdleAnim, 1.0f, ANIMMODE_LOOP, -10.0f },
     { &gMalonChildSingAnim, 1.0f, ANIMMODE_LOOP, 0.0f },
@@ -90,24 +97,24 @@ u16 EnMa1_GetText(GlobalContext* globalCtx, Actor* thisx) {
     if (CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         return 0x204A;
     }
-    if (gSaveContext.eventChkInf[1] & 0x40) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
         return 0x2049;
     }
-    if (gSaveContext.eventChkInf[1] & 0x20) {
-        if ((gSaveContext.infTable[8] & 0x20)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
+        if (GET_INFTABLE(INFTABLE_85)) {
             return 0x2049;
         } else {
             return 0x2048;
         }
     }
-    if (gSaveContext.eventChkInf[1] & 0x10) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 0x2047;
     }
-    if (gSaveContext.eventChkInf[1] & 4) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_12)) {
         return 0x2044;
     }
-    if (gSaveContext.infTable[8] & 0x10) {
-        if (gSaveContext.infTable[8] & 0x800) {
+    if (GET_INFTABLE(INFTABLE_84)) {
+        if (GET_INFTABLE(INFTABLE_8B)) {
             return 0x2043;
         } else {
             return 0x2042;
@@ -123,23 +130,23 @@ s16 func_80AA0778(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x2041:
-                    gSaveContext.infTable[8] |= 0x10;
-                    gSaveContext.eventChkInf[1] |= 1;
+                    SET_INFTABLE(INFTABLE_84);
+                    SET_EVENTCHKINF(EVENTCHKINF_10);
                     ret = 0;
                     break;
                 case 0x2043:
                     ret = 1;
                     break;
                 case 0x2047:
-                    gSaveContext.eventChkInf[1] |= 0x20;
+                    SET_EVENTCHKINF(EVENTCHKINF_15);
                     ret = 0;
                     break;
                 case 0x2048:
-                    gSaveContext.infTable[8] |= 0x20;
+                    SET_INFTABLE(INFTABLE_85);
                     ret = 0;
                     break;
                 case 0x2049:
-                    gSaveContext.eventChkInf[1] |= 0x40;
+                    SET_EVENTCHKINF(EVENTCHKINF_16);
                     ret = 0;
                     break;
                 case 0x2061:
@@ -181,24 +188,24 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
         return 0;
     }
     if (((globalCtx->sceneNum == SCENE_MARKET_NIGHT) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) &&
-        !(gSaveContext.eventChkInf[1] & 0x10) && !(gSaveContext.infTable[8] & 0x800)) {
+        !GET_EVENTCHKINF(EVENTCHKINF_14) && !GET_INFTABLE(INFTABLE_8B)) {
         return 1;
     }
-    if ((globalCtx->sceneNum == SCENE_SPOT15) && !(gSaveContext.eventChkInf[1] & 0x10)) {
-        if (gSaveContext.infTable[8] & 0x800) {
+    if ((globalCtx->sceneNum == SCENE_SPOT15) && !GET_EVENTCHKINF(EVENTCHKINF_14)) {
+        if (GET_INFTABLE(INFTABLE_8B)) {
             return 1;
         } else {
-            gSaveContext.infTable[8] |= 0x800;
+            SET_INFTABLE(INFTABLE_8B);
             return 0;
         }
     }
-    if ((globalCtx->sceneNum == SCENE_SOUKO) && IS_NIGHT && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SOUKO) && IS_NIGHT && GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
     if (globalCtx->sceneNum != SCENE_SPOT20) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 3) && IS_DAY && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((this->actor.shape.rot.z == 3) && IS_DAY && GET_EVENTCHKINF(EVENTCHKINF_14)) {
         return 1;
     }
     return 0;
@@ -214,11 +221,11 @@ void EnMa1_UpdateEyes(EnMa1* this) {
     }
 }
 
-void EnMa1_ChangeAnimation(EnMa1* this, UNK_TYPE idx) {
-    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[idx].animation);
+void EnMa1_ChangeAnim(EnMa1* this, s32 index) {
+    f32 frameCount = Animation_GetLastFrame(sAnimationInfo[index].animation);
 
-    Animation_Change(&this->skelAnime, sAnimationInfo[idx].animation, 1.0f, 0.0f, frameCount, sAnimationInfo[idx].mode,
-                     sAnimationInfo[idx].transitionRate);
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation, 1.0f, 0.0f, frameCount,
+                     sAnimationInfo[index].mode, sAnimationInfo[index].morphFrames);
 }
 
 void func_80AA0AF4(EnMa1* this, GlobalContext* globalCtx) {
@@ -268,17 +275,17 @@ void EnMa1_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     Actor_SetScale(&this->actor, 0.01f);
     this->actor.targetMode = 6;
     this->unk_1E8.unk_00 = 0;
 
-    if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         this->actionFunc = func_80AA0D88;
-        EnMa1_ChangeAnimation(this, 2);
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     } else {
         this->actionFunc = func_80AA0F44;
-        EnMa1_ChangeAnimation(this, 2);
+        EnMa1_ChangeAnim(this, ENMA1_ANIM_2);
     }
 }
 
@@ -292,17 +299,17 @@ void EnMa1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80AA0D88(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnimation(this, 1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnimation(this, 3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
         }
     }
 
-    if ((globalCtx->sceneNum == SCENE_SPOT15) && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if ((globalCtx->sceneNum == SCENE_SPOT15) && GET_EVENTCHKINF(EVENTCHKINF_14)) {
         Actor_Kill(&this->actor);
-    } else if (!(gSaveContext.eventChkInf[1] & 0x10) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
+    } else if (!GET_EVENTCHKINF(EVENTCHKINF_14) || CHECK_QUEST_ITEM(QUEST_SONG_EPONA)) {
         if (this->unk_1E8.unk_00 == 2) {
             this->actionFunc = func_80AA0EA0;
             globalCtx->msgCtx.stateTimer = 4;
@@ -324,7 +331,7 @@ void func_80AA0EFC(EnMa1* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 3) {
         this->unk_1E8.unk_00 = 0;
         this->actionFunc = func_80AA0D88;
-        gSaveContext.eventChkInf[1] |= 4;
+        SET_EVENTCHKINF(EVENTCHKINF_12);
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
@@ -334,17 +341,17 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gMalonChildIdleAnim) {
-            EnMa1_ChangeAnimation(this, 1);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_1);
         }
     } else {
         if (this->skelAnime.animation != &gMalonChildSingAnim) {
-            EnMa1_ChangeAnimation(this, 3);
+            EnMa1_ChangeAnim(this, ENMA1_ANIM_3);
         }
     }
 
-    if (gSaveContext.eventChkInf[1] & 0x40) {
-        if (player->stateFlags2 & 0x1000000) {
-            player->stateFlags2 |= 0x2000000;
+    if (GET_EVENTCHKINF(EVENTCHKINF_16)) {
+        if (player->stateFlags2 & PLAYER_STATE2_24) {
+            player->stateFlags2 |= PLAYER_STATE2_25;
             player->unk_6A8 = &this->actor;
             this->actor.textId = 0x2061;
             Message_StartTextbox(globalCtx, this->actor.textId, NULL);
@@ -352,13 +359,13 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
             this->actor.flags |= ACTOR_FLAG_16;
             this->actionFunc = func_80AA106C;
         } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
 }
 
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
-    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (this->unk_1E8.unk_00 == 2) {
         Audio_OcaSetInstrument(2);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
@@ -368,7 +375,7 @@ void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
-    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
         func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_EPONA);
         this->actionFunc = func_80AA1150;
@@ -376,12 +383,12 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
-    GET_PLAYER(globalCtx)->stateFlags2 |= 0x800000;
+    GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         globalCtx->nextEntranceIndex = 0x157;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
-        globalCtx->fadeTransition = 42;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_WAVE, TCC_WHITE, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         this->actionFunc = EnMa1_DoNothing;
     }
 }
@@ -416,14 +423,14 @@ s32 EnMa1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec = this->unk_1E8.unk_08;
-        Matrix_RotateX((vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(vec.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(vec.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8) {
         vec = this->unk_1E8.unk_0E;
-        Matrix_RotateX((-vec.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((-vec.x / 32768.0f) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-vec.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(-vec.x), MTXMODE_APPLY);
     }
     return false;
 }

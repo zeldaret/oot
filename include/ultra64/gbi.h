@@ -10,7 +10,9 @@
 /* Private macro to wrap other macros in do {...} while (0) */
 #define _DW(macro) do {macro} while (0)
 
-#define F3DEX_GBI_2
+#ifndef F3DEX_GBI
+ #define F3DEX_GBI_2
+#endif
 
 #ifdef    F3DEX_GBI_2
 # ifndef  F3DEX_GBI
@@ -216,6 +218,7 @@
 #define GPACK_RGBA5551(r, g, b, a)  ((((r)<<8) & 0xf800) |      \
                      (((g)<<3) & 0x7c0) |       \
                      (((b)>>2) & 0x3e) | ((a) & 0x1))
+#define GPACK_IA16(i, a) (((i) << 8) | (a))
 #define GPACK_ZDZ(z, dz)        ((z) << 2 | (dz))
 
 /*
@@ -2318,11 +2321,11 @@ _DW({                                   \
         gsSPLoadUcodeEx((uc_start), (uc_dstart), SP_UCODE_DATA_SIZE)
 
 #define gSPLoadUcodeL(pkt, ucode)                   \
-        gSPLoadUcode((pkt), OS_K0_TO_PHYSICAL(&##ucode##TextStart), \
-                    OS_K0_TO_PHYSICAL(&##ucode##DataStart))
+        gSPLoadUcode((pkt), OS_K0_TO_PHYSICAL(& ucode##TextStart), \
+                    OS_K0_TO_PHYSICAL(& ucode##DataStart))
 #define gsSPLoadUcodeL(ucode)                       \
-        gsSPLoadUcode(OS_K0_TO_PHYSICAL(&##ucode##TextStart),       \
-              OS_K0_TO_PHYSICAL(&##ucode##DataStart))
+        gsSPLoadUcode(OS_K0_TO_PHYSICAL(& ucode##TextStart),       \
+              OS_K0_TO_PHYSICAL(& ucode##DataStart))
 #endif
 
 #ifdef  F3DEX_GBI_2

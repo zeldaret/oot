@@ -45,7 +45,7 @@ def get_actor_var_names():
                 if "}" in line:
                     # Reached the end of the actor struct so break out
                     break
-                
+
                 # Parse out the memory address (from the comment) and the variable name
                 regex = r'.*\/\* (.*) \*\/\s+(struct)?\s*.+\s+(.+);.*'
                 actor_var_info = re.match(regex, line)
@@ -66,7 +66,7 @@ def main():
     parser.add_argument('offset', help='ROM offset or symbol of an InitChain')
     parser.add_argument('--names', action="store_true", help='Retrieve variable names from the actor struct')
     args = parser.parse_args()
-    
+
     # Get the ROM address, if the offset is already a ROM address it will just be returned.
     args.offset = get_rom_address(args.offset)
 
@@ -101,7 +101,7 @@ def main():
             var_name = actor_variable_names[var_name]
         else:
             var_name = "unk_" + var_name
-        
+
         print('    {0}({1}, {2}, {3}),'.format(ICHAIN_MACROS[t], var_name, value, ('ICHAIN_CONTINUE' if cont == 1 else 'ICHAIN_STOP')))
         if cont == 0:
             break

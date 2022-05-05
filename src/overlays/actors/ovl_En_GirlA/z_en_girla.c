@@ -316,55 +316,55 @@ void EnGirlA_SetupAction(EnGirlA* this, EnGirlAActionFunc func) {
 s32 EnGirlA_TryChangeShopItem(EnGirlA* this) {
     switch (this->actor.params) {
         case SI_MILK_BOTTLE:
-            if (gSaveContext.itemGetInf[0] & 0x4) {
+            if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.params = SI_HEART;
                 return true;
             }
             break;
         case SI_BOMBCHU_10_2:
-            if (gSaveContext.itemGetInf[0] & 0x40) {
+            if (GET_ITEMGETINF(ITEMGETINF_06)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
             break;
         case SI_BOMBCHU_10_3:
-            if (gSaveContext.itemGetInf[0] & 0x80) {
+            if (GET_ITEMGETINF(ITEMGETINF_07)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
             break;
         case SI_BOMBCHU_20_3:
-            if (gSaveContext.itemGetInf[0] & 0x100) {
+            if (GET_ITEMGETINF(ITEMGETINF_08)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
             break;
         case SI_BOMBCHU_20_4:
-            if (gSaveContext.itemGetInf[0] & 0x200) {
+            if (GET_ITEMGETINF(ITEMGETINF_09)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
             break;
         case SI_BOMBCHU_10_4:
-            if (gSaveContext.itemGetInf[0] & 0x400) {
+            if (GET_ITEMGETINF(ITEMGETINF_0A)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
             break;
         case SI_BOMBCHU_10_1:
-            if (gSaveContext.itemGetInf[0] & 0x8) {
+            if (GET_ITEMGETINF(ITEMGETINF_03)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
             break;
         case SI_BOMBCHU_20_1:
-            if (gSaveContext.itemGetInf[0] & 0x10) {
+            if (GET_ITEMGETINF(ITEMGETINF_04)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
             break;
         case SI_BOMBCHU_20_2:
-            if (gSaveContext.itemGetInf[0] & 0x20) {
+            if (GET_ITEMGETINF(ITEMGETINF_05)) {
                 this->actor.params = SI_SOLD_OUT;
                 return true;
             }
@@ -523,7 +523,8 @@ s32 EnGirlA_CanBuy_BluePotion(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 EnGirlA_CanBuy_Longsword(GlobalContext* globalCtx, EnGirlA* this) {
-    if ((gBitFlags[2] & gSaveContext.inventory.equipment) && !(gBitFlags[3] & gSaveContext.inventory.equipment)) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS) &&
+        !CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -536,7 +537,7 @@ s32 EnGirlA_CanBuy_Longsword(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 EnGirlA_CanBuy_HylianShield(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[5] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_HYLIAN)) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -549,7 +550,7 @@ s32 EnGirlA_CanBuy_HylianShield(GlobalContext* globalCtx, EnGirlA* this) {
 }
 
 s32 EnGirlA_CanBuy_DekuShield(GlobalContext* globalCtx, EnGirlA* this) {
-    if (gBitFlags[4] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SHIELD, EQUIP_INV_SHIELD_DEKU)) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -565,7 +566,7 @@ s32 EnGirlA_CanBuy_GoronTunic(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
-    if (gBitFlags[9] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -581,7 +582,7 @@ s32 EnGirlA_CanBuy_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
-    if (gBitFlags[10] & gSaveContext.inventory.equipment) {
+    if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_ZORA)) {
         return CANBUY_RESULT_CANT_GET_NOW;
     }
     if (gSaveContext.rupees < this->basePrice) {
@@ -842,7 +843,7 @@ void EnGirlA_ItemGive_BottledItem(GlobalContext* globalCtx, EnGirlA* this) {
 
 void EnGirlA_BuyEvent_ShieldDiscount(GlobalContext* globalCtx, EnGirlA* this) {
     if (this->actor.params == SI_HYLIAN_SHIELD) {
-        if (gSaveContext.infTable[7] & 0x40) {
+        if (GET_INFTABLE(INFTABLE_76)) {
             Rupees_ChangeBy(-(this->basePrice - sShieldDiscounts[(s32)Rand_ZeroFloat(7.9f)]));
             return;
         }
@@ -861,28 +862,28 @@ void EnGirlA_BuyEvent_ZoraTunic(GlobalContext* globalCtx, EnGirlA* this) {
 void EnGirlA_BuyEvent_ObtainBombchuPack(GlobalContext* globalCtx, EnGirlA* this) {
     switch (this->actor.params) {
         case SI_BOMBCHU_10_2:
-            gSaveContext.itemGetInf[0] |= 0x40;
+            SET_ITEMGETINF(ITEMGETINF_06);
             break;
         case SI_BOMBCHU_10_3:
-            gSaveContext.itemGetInf[0] |= 0x80;
+            SET_ITEMGETINF(ITEMGETINF_07);
             break;
         case SI_BOMBCHU_20_3:
-            gSaveContext.itemGetInf[0] |= 0x100;
+            SET_ITEMGETINF(ITEMGETINF_08);
             break;
         case SI_BOMBCHU_20_4:
-            gSaveContext.itemGetInf[0] |= 0x200;
+            SET_ITEMGETINF(ITEMGETINF_09);
             break;
         case SI_BOMBCHU_10_4:
-            gSaveContext.itemGetInf[0] |= 0x400;
+            SET_ITEMGETINF(ITEMGETINF_0A);
             break;
         case SI_BOMBCHU_10_1:
-            gSaveContext.itemGetInf[0] |= 0x8;
+            SET_ITEMGETINF(ITEMGETINF_03);
             break;
         case SI_BOMBCHU_20_1:
-            gSaveContext.itemGetInf[0] |= 0x10;
+            SET_ITEMGETINF(ITEMGETINF_04);
             break;
         case SI_BOMBCHU_20_2:
-            gSaveContext.itemGetInf[0] |= 0x20;
+            SET_ITEMGETINF(ITEMGETINF_05);
             break;
     }
     Rupees_ChangeBy(-this->basePrice);
@@ -902,27 +903,27 @@ void EnGirlA_SetItemDescription(GlobalContext* globalCtx, EnGirlA* this) {
         isMaskFreeToBorrow = false;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x100) {
+                if (GET_ITEMGETINF(ITEMGETINF_38)) {
                     isMaskFreeToBorrow = true;
                 }
                 break;
             case SI_SPOOKY_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x400) {
+                if (GET_ITEMGETINF(ITEMGETINF_3A)) {
                     isMaskFreeToBorrow = true;
                 }
                 break;
             case SI_SKULL_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x200) {
+                if (GET_ITEMGETINF(ITEMGETINF_39)) {
                     isMaskFreeToBorrow = true;
                 }
                 break;
             case SI_BUNNY_HOOD:
-                if (gSaveContext.itemGetInf[3] & 0x800) {
+                if (GET_ITEMGETINF(ITEMGETINF_3B)) {
                     isMaskFreeToBorrow = true;
                 }
                 break;
             case SI_MASK_OF_TRUTH:
-                if (gSaveContext.itemGetInf[3] & 0x800) {
+                if (GET_ITEMGETINF(ITEMGETINF_3B)) {
                     isMaskFreeToBorrow = true;
                 }
                 break;
@@ -984,7 +985,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->objBankIndex;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x100) {
+                if (GET_ITEMGETINF(ITEMGETINF_38)) {
                     this->actor.textId = 0x70B6;
                 } else {
                     this->actor.textId = itemEntry->itemDescTextId;
@@ -992,7 +993,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
                 this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
                 break;
             case SI_SPOOKY_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x400) {
+                if (GET_ITEMGETINF(ITEMGETINF_3A)) {
                     this->actor.textId = 0x70B5;
                 } else {
                     this->actor.textId = itemEntry->itemDescTextId;
@@ -1000,7 +1001,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
                 this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
                 break;
             case SI_SKULL_MASK:
-                if (gSaveContext.itemGetInf[3] & 0x200) {
+                if (GET_ITEMGETINF(ITEMGETINF_39)) {
                     this->actor.textId = 0x70B4;
                 } else {
                     this->actor.textId = itemEntry->itemDescTextId;
@@ -1008,7 +1009,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
                 this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
                 break;
             case SI_BUNNY_HOOD:
-                if (gSaveContext.itemGetInf[3] & 0x800) {
+                if (GET_ITEMGETINF(ITEMGETINF_3B)) {
                     this->actor.textId = 0x70B7;
                 } else {
                     this->actor.textId = itemEntry->itemDescTextId;
@@ -1016,7 +1017,7 @@ void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
                 this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
                 break;
             case SI_MASK_OF_TRUTH:
-                if (gSaveContext.itemGetInf[3] & 0x800) {
+                if (GET_ITEMGETINF(ITEMGETINF_3B)) {
                     this->actor.textId = 0x70BB;
                     this->itemBuyPromptTextId = itemEntry->itemBuyPromptTextId;
                 } else {
@@ -1102,7 +1103,7 @@ void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags) {
 void EnGirlA_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = (EnGirlA*)thisx;
 
-    Matrix_RotateY(((this->yRotation * 360.0f) / 65536.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD((this->yRotation * 360.0f) / 65536.0f), MTXMODE_APPLY);
     if (this->hiliteFunc != NULL) {
         this->hiliteFunc(thisx, globalCtx, 0);
     }

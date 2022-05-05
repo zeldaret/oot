@@ -140,7 +140,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
 
     if (this->unk_19A != 0) {
         this->actor.gravity = -1.0f;
-        if (this->unk_19A == 8 && (this->actor.bgCheckFlags & 1)) {
+        if (this->unk_19A == 8 && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
@@ -212,18 +212,18 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
 
             if (absyawTowardsPlayer < 0x4300) {
                 if (!this->unk_194) {
-                    if (player->stateFlags2 & 0x1000000) {
+                    if (player->stateFlags2 & PLAYER_STATE2_24) {
                         this->camId = OnePointCutscene_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
 
                         func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_LONG_RECORDING);
                         this->unk_19A = 0;
                         this->unk_1B8 = 0.0;
-                        player->stateFlags2 |= 0x800000;
+                        player->stateFlags2 |= PLAYER_STATE2_23;
                         this->actionFunc = func_80A8F8D0;
                         return;
                     }
                     if (this->actor.xzDistToPlayer < 80.0f) {
-                        player->stateFlags2 |= 0x800000;
+                        player->stateFlags2 |= PLAYER_STATE2_23;
                     }
                 }
                 func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -252,7 +252,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
         }
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
         func_80A8F320(this, globalCtx, 0);
-        player->stateFlags2 |= 0x800000;
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
@@ -329,7 +329,8 @@ void EnKakasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetFocus(&this->actor, this->height);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

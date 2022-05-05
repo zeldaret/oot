@@ -68,7 +68,7 @@ void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->swimFlag = 0;
     this->actor.targetMode = 6;
 
-    if (gSaveContext.itemGetInf[1] & 1) {
+    if (GET_ITEMGETINF(ITEMGETINF_10)) {
         this->flags |= 4;
     }
 }
@@ -93,7 +93,7 @@ void func_80AACA94(EnMk* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
         func_80088AA0(240);
-        gSaveContext.eventInf[1] &= ~1;
+        CLEAR_EVENTINF(EVENTINF_10);
     } else {
         func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
@@ -194,7 +194,7 @@ void func_80AACFA0(EnMk* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
-        gSaveContext.itemGetInf[1] |= 1;
+        SET_ITEMGETINF(ITEMGETINF_10);
     } else {
         func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
@@ -229,7 +229,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
                 switch (playerExchangeItem) {
                     case EXCH_ITEM_NONE:
                         if (this->swimFlag >= 8) {
-                            if (gSaveContext.itemGetInf[1] & 1) {
+                            if (GET_ITEMGETINF(ITEMGETINF_10)) {
                                 player->actor.textId = 0x4075;
                                 this->actionFunc = func_80AACA40;
                             } else {
@@ -289,7 +289,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
     if ((!(this->flags & 2)) && (SkelAnime_Update(&this->skelAnime))) {
         this->flags |= 2;
@@ -307,13 +307,13 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     player = GET_PLAYER(globalCtx);
 
     if (this->flags & 8) {
-        if (!(player->stateFlags2 & 0x400)) {
+        if (!(player->stateFlags2 & PLAYER_STATE2_10)) {
             this->flags &= ~8;
         }
     } else {
         if (player->currentBoots == PLAYER_BOOTS_IRON) {
             this->flags |= 8;
-        } else if (player->stateFlags2 & 0x400) {
+        } else if (player->stateFlags2 & PLAYER_STATE2_10) {
             swimFlag = player->actor.yDistToWater;
 
             if (swimFlag > 0) {

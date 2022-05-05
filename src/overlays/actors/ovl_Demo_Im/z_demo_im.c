@@ -206,7 +206,8 @@ void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void DemoIm_UpdateBgCheckInfo(DemoIm* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 DemoIm_UpdateSkelAnime(DemoIm* this) {
@@ -275,8 +276,7 @@ void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 transitionRate,
-                       s32 playBackwards) {
+void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode, f32 morphFrames, s32 playBackwards) {
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
     f32 startFrame;
@@ -292,7 +292,7 @@ void DemoIm_ChangeAnim(DemoIm* this, AnimationHeader* animHeaderSeg, u8 animMode
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, startFrame, endFrame, animMode, transitionRate);
+    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, startFrame, endFrame, animMode, morphFrames);
 }
 
 void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
@@ -718,11 +718,12 @@ void func_8098652C(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
-    if (Animation_OnFrame(&this->skelAnime, 7.0f) && (this->actor.bgCheckFlags & 1)) {
+    if (Animation_OnFrame(&this->skelAnime, 7.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         u32 sfxId = SFX_FLAG;
 
         sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
-        Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -867,8 +868,8 @@ void func_80986B2C(GlobalContext* globalCtx) {
         Player* player = GET_PLAYER(globalCtx);
 
         globalCtx->nextEntranceIndex = 0xCD;
-        globalCtx->fadeTransition = 38;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         func_8002DF54(globalCtx, &player->actor, 8);
     }
 }
@@ -889,7 +890,7 @@ void func_80986BE4(DemoIm* this, s32 arg1) {
 }
 
 void func_80986BF8(DemoIm* this, GlobalContext* globalCtx) {
-    if (gSaveContext.eventChkInf[4] & 1) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
         this->action = 24;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -901,14 +902,14 @@ void func_80986C30(DemoIm* this, GlobalContext* globalCtx) {
     if (func_80986A5C(this, globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardLullabyCs);
         gSaveContext.cutsceneTrigger = 1;
-        gSaveContext.eventChkInf[5] |= 0x200;
+        SET_EVENTCHKINF(EVENTCHKINF_59);
         Item_Give(globalCtx, ITEM_SONG_LULLABY);
         func_80985F54(this);
     }
 }
 
 void func_80986CC8(DemoIm* this) {
-    if (gSaveContext.eventChkInf[4] & 1) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
         this->action = 26;
         this->drawConfig = 1;
         this->unk_280 = 1;
@@ -918,7 +919,7 @@ void func_80986CC8(DemoIm* this) {
 
 void func_80986CFC(DemoIm* this, GlobalContext* globalCtx) {
     if (func_80986A5C(this, globalCtx)) {
-        gSaveContext.eventChkInf[4] |= 0x1000;
+        SET_EVENTCHKINF(EVENTCHKINF_4C);
         this->action = 19;
     }
 }
@@ -927,9 +928,9 @@ void func_80986D40(DemoIm* this, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 6) {
         this->action = 19;
         this->drawConfig = 1;
-    } else if (gSaveContext.eventChkInf[8] & 1) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
         Actor_Kill(&this->actor);
-    } else if (!(gSaveContext.eventChkInf[5] & 0x200)) {
+    } else if (!GET_EVENTCHKINF(EVENTCHKINF_59)) {
         this->action = 23;
     } else {
         this->action = 20;

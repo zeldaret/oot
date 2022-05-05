@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     FILE *dmaout;
     void *spec;
     size_t size;
-    
+
     if (argc != 3)
     {
         usage(argv[0]);
@@ -49,6 +49,7 @@ int main(int argc, char **argv)
         util_fatal_error("failed to open file '%s' for writing", argv[2]);
     write_dmadata_table(dmaout);
     fclose(dmaout);
+    free_rom_spec(g_segments, g_segmentsCount);
     free(spec);
 
     return 0;

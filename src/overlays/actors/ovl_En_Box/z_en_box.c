@@ -40,14 +40,14 @@ void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnBox_FallOnSwitchFlag(EnBox*, GlobalContext*);
-void func_809C9700(EnBox*, GlobalContext*);
-void EnBox_AppearOnSwitchFlag(EnBox*, GlobalContext*);
-void EnBox_AppearOnRoomClear(EnBox*, GlobalContext*);
-void EnBox_AppearInit(EnBox*, GlobalContext*);
-void EnBox_AppearAnimation(EnBox*, GlobalContext*);
-void EnBox_WaitOpen(EnBox*, GlobalContext*);
-void EnBox_Open(EnBox*, GlobalContext*);
+void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
+void func_809C9700(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx);
+void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx);
+void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx);
+void EnBox_Open(EnBox* this, GlobalContext* globalCtx);
 
 const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
@@ -232,7 +232,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
 
     this->alpha = 255;
     this->movementFlags &= ~ENBOX_MOVE_IMMOBILE;
-    if (this->dyna.actor.bgCheckFlags & 1) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->movementFlags |= ENBOX_MOVE_UNUSED;
         if (this->movementFlags & ENBOX_MOVE_FALL_ANGLE_SIDE) {
             this->movementFlags &= ~ENBOX_MOVE_FALL_ANGLE_SIDE;
@@ -250,8 +250,8 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
             EnBox_SetupAction(this, EnBox_WaitOpen);
             OnePointCutscene_EndCutscene(globalCtx, this->unk_1AC);
         }
-        Audio_PlaySoundGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         EnBox_SpawnDust(this, globalCtx);
     }
     yDiff = this->dyna.actor.world.pos.y - this->dyna.actor.floorHeight;
@@ -289,12 +289,12 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
         func_8002F5F0(&this->dyna.actor, globalCtx);
     }
 
-    if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &player->actor.world.pos) > 22500.0f) {
+    if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
         this->unk_1FB = ENBOX_STATE_0;
     } else {
         if (this->unk_1FB == ENBOX_STATE_0) {
-            if (!(player->stateFlags2 & 0x1000000)) {
-                player->stateFlags2 |= 0x800000;
+            if (!(player->stateFlags2 & PLAYER_STATE2_24)) {
+                player->stateFlags2 |= PLAYER_STATE2_23;
                 return;
             }
             this->unk_1FB = ENBOX_STATE_1;
@@ -360,8 +360,8 @@ void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx) {
         this->unk_1A8 = 0;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->dyna.actor.home.pos.x,
                     this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0, 0, 0, 0x0011);
-        Audio_PlaySoundGeneral(NA_SE_EV_TRE_BOX_APPEAR, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_TRE_BOX_APPEAR, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -463,7 +463,8 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
         }
 
         if (sfxId != 0) {
-            Audio_PlaySoundGeneral(sfxId, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(sfxId, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
 
         if (this->skelanime.jointTable[3].z > 0) {
@@ -520,7 +521,8 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->movementFlags & ENBOX_MOVE_IMMOBILE)) {
         Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
 
     switch (this->type) {

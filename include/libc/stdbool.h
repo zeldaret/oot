@@ -9,6 +9,6 @@
 #define false   0
 #define true    1
 
-#endif /* __cplusplus */
+#endif
 
-#endif /* STDBOOL */
+#endif

@@ -126,7 +126,8 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if ((this->collider.base.acFlags & AC_HIT) && !Player_InCsMode(globalCtx) &&
-        (player->swordAnimation == 22 || player->swordAnimation == 23)) {
+        (player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_FORWARD ||
+         player->meleeWeaponAnimation == PLAYER_MWA_HAMMER_SIDE)) {
         this->collider.base.acFlags &= ~AC_HIT;
         if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
             (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
@@ -140,8 +141,8 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         this->actionFunc = BgHidanDalm_Shrink;
-        this->dyna.actor.bgCheckFlags &= ~2;
-        this->dyna.actor.bgCheckFlags &= ~8;
+        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
+        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->dyna.actor.speedXZ = 10.0f;
         Flags_SetSwitch(globalCtx, this->switchFlag);
         func_8002F7DC(&GET_PLAYER(globalCtx)->actor, NA_SE_IT_HAMMER_HIT);
@@ -181,7 +182,8 @@ void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 /**

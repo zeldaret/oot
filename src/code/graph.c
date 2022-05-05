@@ -10,21 +10,19 @@ FaultClient sGraphFaultClient;
 CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
 
-// clang-format off
 UCodeInfo D_8012D230[3] = {
-    { UCODE_F3DZEX, D_80155F50 },
+    { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
     { UCODE_UNK, NULL },
-    { UCODE_S2DEX, D_80113070 },
+    { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
 UCodeInfo D_8012D248[3] = {
-    { UCODE_F3DZEX, D_80155F50 },
+    { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
     { UCODE_UNK, NULL },
-    { UCODE_S2DEX, D_80113070 },
+    { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
-// clang-format on
 
-void Graph_FaultClient() {
+void Graph_FaultClient(void) {
     void* nextFb = osViGetNextFramebuffer();
     void* newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
@@ -40,7 +38,7 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
         UCodeDisas_Init(&disassembler);
         disassembler.enableLog = HREG(83);
         UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
-        UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
+        UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
         UCodeDisas_Disassemble(&disassembler, workBuf);
         HREG(93) = disassembler.dlCnt;
         HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
@@ -74,7 +72,7 @@ void Graph_UCodeFaultClient(Gfx* workBuf) {
     UCodeDisas_Init(&disassembler);
     disassembler.enableLog = true;
     UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D248), D_8012D248);
-    UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
+    UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
     UCodeDisas_Disassemble(&disassembler, workBuf);
     UCodeDisas_Destroy(&disassembler);
 }
@@ -134,7 +132,7 @@ void Graph_Init(GraphicsContext* gfxCtx) {
     gfxCtx->yScale = gViConfigYScale;
     osCreateMesgQueue(&gfxCtx->queue, gfxCtx->msgBuff, ARRAY_COUNT(gfxCtx->msgBuff));
     func_800D31F0();
-    Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, 0, 0);
+    Fault_AddClient(&sGraphFaultClient, Graph_FaultClient, NULL, NULL);
 }
 
 void Graph_Destroy(GraphicsContext* gfxCtx) {
@@ -202,21 +200,21 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->ucode_boot_size = SysUcode_GetUCodeBootSize();
     task->ucode = SysUcode_GetUCode();
     task->ucode_data = SysUcode_GetUCodeData();
-    task->ucode_size = 0x1000;
-    task->ucode_data_size = 0x800;
-    task->dram_stack = (u64*)gGfxSPTaskStack;
+    task->ucode_size = SP_UCODE_SIZE;
+    task->ucode_data_size = SP_UCODE_DATA_SIZE;
+    task->dram_stack = gGfxSPTaskStack;
     task->dram_stack_size = sizeof(gGfxSPTaskStack);
     task->output_buff = gGfxSPTaskOutputBuffer;
-    task->output_buff_size = (u64*)((u8*)gGfxSPTaskOutputBuffer + sizeof(gGfxSPTaskOutputBuffer));
+    task->output_buff_size = gGfxSPTaskOutputBuffer + ARRAY_COUNT(gGfxSPTaskOutputBuffer);
     task->data_ptr = (u64*)gfxCtx->workBuffer;
 
     OPEN_DISPS(gfxCtx, "../graph.c", 828);
-    task->data_size = (u32)WORK_DISP - (u32)gfxCtx->workBuffer;
+    task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
     { s32 pad2; } // Necessary to match stack usage
 
-    task->yield_data_ptr = (u64*)gGfxSPTaskYieldBuffer;
+    task->yield_data_ptr = gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
     scTask->next = NULL;
@@ -227,7 +225,7 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         gfxCtx->fbIdx--;
     }
 
-    scTask->msgQ = &gfxCtx->queue;
+    scTask->msgQueue = &gfxCtx->queue;
     scTask->msg = NULL;
 
     cfb = &sGraphCfbInfos[sGraphCfbInfoIdx++];
@@ -245,9 +243,9 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     if (1) {}
 
-    gfxCtx->schedMsgQ = &gSchedContext.cmdQ;
+    gfxCtx->schedMsgQueue = &gSchedContext.cmdQueue;
 
-    osSendMesg(&gSchedContext.cmdQ, scTask, OS_MESG_BLOCK);
+    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
     Sched_SendEntryMsg(&gSchedContext);
 }
 
@@ -323,14 +321,14 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
         if (pool->headMagic != GFXPOOL_HEAD_MAGIC) {
             //! @bug (?) : "problem = true;" may be missing
-            osSyncPrintf("%c", 7);
+            osSyncPrintf("%c", BEL);
             // "Dynamic area head is destroyed"
             osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域先頭が破壊されています\n" VT_RST);
             Fault_AddHungupAndCrash("../graph.c", 1070);
         }
         if (pool->tailMagic != GFXPOOL_TAIL_MAGIC) {
             problem = true;
-            osSyncPrintf("%c", 7);
+            osSyncPrintf("%c", BEL);
             // "Dynamic region tail is destroyed"
             osSyncPrintf(VT_COL(RED, WHITE) "ダイナミック領域末尾が破壊されています\n" VT_RST);
             Fault_AddHungupAndCrash("../graph.c", 1076);
@@ -339,19 +337,19 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
 
     if (THGA_IsCrash(&gfxCtx->polyOpa)) {
         problem = true;
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         // "Zelda 0 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ0は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->polyXlu)) {
         problem = true;
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         // "Zelda 1 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ1は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
     if (THGA_IsCrash(&gfxCtx->overlay)) {
         problem = true;
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         // "Zelda 4 is dead"
         osSyncPrintf(VT_COL(RED, WHITE) "ゼルダ4は死んでしまった(graph_alloc is empty)\n" VT_RST);
     }
@@ -506,7 +504,7 @@ void* Graph_DlistAlloc(Gfx** gfx, u32 size) {
     u8* ptr;
     Gfx* dst;
 
-    size = ((size + 7) & ~7),
+    size = ALIGN8(size);
 
     ptr = (u8*)(*gfx + 1);
 

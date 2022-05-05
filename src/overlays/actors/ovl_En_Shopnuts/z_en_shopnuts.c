@@ -51,7 +51,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 20, 40, 0xFE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4E, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BUSINESS_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
 };
@@ -68,9 +68,9 @@ void EnShopnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    if (((this->actor.params == 0x0002) && (gSaveContext.itemGetInf[0] & 0x800)) ||
-        ((this->actor.params == 0x0009) && (gSaveContext.infTable[25] & 4)) ||
-        ((this->actor.params == 0x000A) && (gSaveContext.infTable[25] & 8))) {
+    if (((this->actor.params == 0x0002) && GET_ITEMGETINF(ITEMGETINF_0B)) ||
+        ((this->actor.params == 0x0009) && GET_INFTABLE(INFTABLE_192)) ||
+        ((this->actor.params == 0x000A) && GET_INFTABLE(INFTABLE_193))) {
         Actor_Kill(&this->actor);
     } else {
         EnShopnuts_SetupWait(this);
@@ -228,7 +228,7 @@ void EnShopnuts_SpawnSalesman(EnShopnuts* this, GlobalContext* globalCtx) {
 void EnShopnuts_ColliderCheck(EnShopnuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         EnShopnuts_SetupSpawnSalesman(this);
     } else if (globalCtx->actorCtx.unk_02 != 0) {
         EnShopnuts_SetupSpawnSalesman(this);
@@ -240,7 +240,8 @@ void EnShopnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     EnShopnuts_ColliderCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
+                            UPDBGCHECKINFO_FLAG_2);
     if (this->collider.base.acFlags & AC_ON) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
