@@ -63,19 +63,16 @@ void TransitionWipe_Destroy(void* thisx) {
 
 void TransitionWipe_Update(void* thisx, s32 updateRate) {
     TransitionWipe* this = (TransitionWipe*)thisx;
-    u8 speed;
 
     if (this->direction != 0) {
-        speed = gSaveContext.transWipeSpeed;
-        this->texY += (speed * 3) / updateRate;
+        this->texY += (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
         if (this->texY >= 0x264) {
             this->texY = 0x264;
             this->isDone = 1;
         }
     } else {
-        speed = gSaveContext.transWipeSpeed;
-        this->texY -= (speed * 3) / updateRate;
-        if (this->texY < 0x14E) {
+        this->texY -= (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
+        if (this->texY <= 0x14D) {
             this->texY = 0x14D;
             this->isDone = 1;
         }
