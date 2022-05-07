@@ -387,8 +387,8 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         if (this->unk_195) {
-            if (!(gSaveContext.eventChkInf[9] & 0x1000)) {
-                gSaveContext.eventChkInf[9] |= 0x1000;
+            if (!GET_EVENTCHKINF(EVENTCHKINF_9C)) {
+                SET_EVENTCHKINF(EVENTCHKINF_9C);
             }
         }
         if (globalCtx->cameraPtrs[this->camId] == NULL) {

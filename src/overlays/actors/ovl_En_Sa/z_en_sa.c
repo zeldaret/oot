@@ -151,25 +151,25 @@ u16 func_80AF55E0(GlobalContext* globalCtx, Actor* thisx) {
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
-        if (gSaveContext.infTable[0] & 0x20) {
+        if (GET_INFTABLE(INFTABLE_05)) {
             return 0x1048;
         } else {
             return 0x1047;
         }
     }
-    if (gSaveContext.eventChkInf[0] & 4) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_02)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
-        if (gSaveContext.infTable[0] & 8) {
+        if (GET_INFTABLE(INFTABLE_03)) {
             return 0x1032;
         } else {
             return 0x1031;
         }
     }
-    if (gSaveContext.infTable[0] & 1) {
+    if (GET_INFTABLE(INFTABLE_00)) {
         this->unk_208 = 0;
         this->unk_209 = TEXT_STATE_NONE;
-        if (gSaveContext.infTable[0] & 2) {
+        if (GET_INFTABLE(INFTABLE_01)) {
             return 0x1003;
         } else {
             return 0x1002;
@@ -186,16 +186,16 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
         case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1002:
-                    gSaveContext.infTable[0] |= 2;
+                    SET_INFTABLE(INFTABLE_01);
                     ret = 0;
                     break;
                 case 0x1031:
-                    gSaveContext.eventChkInf[0] |= 8;
-                    gSaveContext.infTable[0] |= 8;
+                    SET_EVENTCHKINF(EVENTCHKINF_03);
+                    SET_INFTABLE(INFTABLE_03);
                     ret = 0;
                     break;
                 case 0x1047:
-                    gSaveContext.infTable[0] |= 0x20;
+                    SET_INFTABLE(INFTABLE_05);
                     ret = 0;
                     break;
                 default:
@@ -382,14 +382,14 @@ s32 func_80AF5DFC(EnSa* this, GlobalContext* globalCtx) {
         }
     }
     if (globalCtx->sceneNum == SCENE_KOKIRI_HOME5 && !LINK_IS_ADULT &&
-        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !(gSaveContext.eventChkInf[4] & 1)) {
+        INV_CONTENT(ITEM_OCARINA_FAIRY) == ITEM_OCARINA_FAIRY && !GET_EVENTCHKINF(EVENTCHKINF_40)) {
         return 1;
     }
-    if (globalCtx->sceneNum == SCENE_SPOT05 && (gSaveContext.eventChkInf[4] & 1)) {
+    if (globalCtx->sceneNum == SCENE_SPOT05 && GET_EVENTCHKINF(EVENTCHKINF_40)) {
         return CHECK_QUEST_ITEM(QUEST_SONG_SARIA) ? 2 : 5;
     }
     if (globalCtx->sceneNum == SCENE_SPOT04 && !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        if (gSaveContext.infTable[0] & 1) {
+        if (GET_INFTABLE(INFTABLE_00)) {
             return 1;
         }
         return 4;
@@ -585,7 +585,7 @@ void func_80AF6448(EnSa* this, GlobalContext* globalCtx) {
                     break;
             }
         } else if (!CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) &&
-                   ((gSaveContext.infTable[0] & 2) || (gSaveContext.infTable[0] & 8))) {
+                   (GET_INFTABLE(INFTABLE_01) || GET_INFTABLE(INFTABLE_03))) {
             if (this->unk_20B != 3) {
                 func_80AF5CD4(this, 3);
             }
@@ -706,7 +706,7 @@ void func_80AF6B20(EnSa* this, GlobalContext* globalCtx) {
         this->actor.world.pos = this->actor.home.pos;
         this->actor.world.rot = this->unk_21A;
         this->mouthIndex = 0;
-        gSaveContext.infTable[0] |= 1;
+        SET_INFTABLE(INFTABLE_00);
     }
 
     this->actionFunc = func_80AF6448;

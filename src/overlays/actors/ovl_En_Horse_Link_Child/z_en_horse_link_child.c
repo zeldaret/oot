@@ -165,11 +165,11 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex > 3) {
         func_80A69EC0(this);
     } else if (globalCtx->sceneNum == SCENE_SPOT20) {
-        if (!Flags_GetEventChkInf(0x14)) {
+        if (!Flags_GetEventChkInf(EVENTCHKINF_14)) {
             Actor_Kill(&this->actor);
             return;
         }
-        this->unk_2A0 = gSaveContext.eventChkInf[1] & 0x40;
+        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
         func_80A69EC0(this);
     } else {
         func_80A69EC0(this);
@@ -358,17 +358,17 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (((gSaveContext.eventChkInf[1] & 0x40) && (DREG(53) != 0)) ||
+    if ((GET_EVENTCHKINF(EVENTCHKINF_16) && (DREG(53) != 0)) ||
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF1))) {
         func_80A6A4DC(this);
     } else {
-        this->unk_2A0 = gSaveContext.eventChkInf[1] & 0x40;
+        this->unk_2A0 = GET_EVENTCHKINF(EVENTCHKINF_16);
     }
 
     newAnimationIdx = this->animationIdx;
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (animationEnded || (this->animationIdx == 1) || (this->animationIdx == 0)) {
-        if (gSaveContext.eventChkInf[1] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_15)) {
             distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
             distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos);
             if (distLinkFromHome > 250.0f) {

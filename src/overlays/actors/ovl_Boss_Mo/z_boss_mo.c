@@ -359,7 +359,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             MO_WATER_LEVEL(globalCtx) = -500;
             return;
         }
-        if (gSaveContext.eventChkInf[7] & 0x10) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_74)) {
             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
@@ -1280,8 +1280,8 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             dz = this->targetPos.z - this->cameraEye.z;
             tempY = Math_FAtan2F(dx, dz);
             tempX = Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)));
-            Math_ApproachS(&this->actor.world.rot.y, RADF_TO_BINANG(tempY), 5, this->cameraYawRate);
-            Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(tempX), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.y, RAD_TO_BINANG(tempY), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.x, RAD_TO_BINANG(tempX), 5, this->cameraYawRate);
             if (this->work[MO_TENT_MOVE_TIMER] == 150) {
                 this->cameraAtVel.x = fabsf(this->cameraAt.x - player->actor.world.pos.x);
                 this->cameraAtVel.y = fabsf(this->cameraAt.y - player->actor.world.pos.y);
@@ -1424,7 +1424,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
-                gSaveContext.eventChkInf[7] |= 0x10;
+                SET_EVENTCHKINF(EVENTCHKINF_74);
             }
             break;
         case MO_INTRO_FINISH:
@@ -2133,8 +2133,8 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 spDC = this->targetPos.x - this->actor.world.pos.x;
                 spD8 = this->targetPos.y - this->actor.world.pos.y;
                 spD4 = this->targetPos.z - this->actor.world.pos.z;
-                spCC = RADF_TO_BINANG(Math_FAtan2F(spDC, spD4));
-                spD0 = RADF_TO_BINANG(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))));
+                spCC = RAD_TO_BINANG(Math_FAtan2F(spDC, spD4));
+                spD0 = RAD_TO_BINANG(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))));
                 Math_ApproachS(&this->actor.world.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->actor.world.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
                 func_8002D908(&this->actor);

@@ -227,7 +227,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         (this->unk_222 == 0)) {
         if (sp74 != NULL) {
             sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-            sp62 = RADF_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
+            sp62 = RAD_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
         } else {
             sp62 = this->actor.world.rot.y + 0x8000;
         }
@@ -305,7 +305,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
                                         &sp74, 1, 0, 0, 1);
             if (sp64 != 0) {
                 sp74 = SEGMENTED_TO_VIRTUAL(sp74);
-                sp60 = RADF_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
+                sp60 = RAD_TO_BINANG(Math_FAtan2F(sp74->normal.x, sp74->normal.z));
                 if (this->unk_236 != sp60) {
                     if ((s16)(this->actor.yawTowardsPlayer - sp60) >= 0) {
                         this->unk_238 = 0x4000;
@@ -688,7 +688,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                 return;
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->collider2.info, 0);
+            Actor_SetDropFlag(&this->actor, &this->collider2.info, false);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);

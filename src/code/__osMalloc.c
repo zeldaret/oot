@@ -122,7 +122,7 @@ void __osMallocAddBlock(Arena* arena, void* start, s32 size) {
         size2 = (size - diff) & ~0xF;
 
         if (size2 > (s32)sizeof(ArenaNode)) {
-            func_80106860(firstNode, BLOCK_UNINIT_MAGIC, size2); // memset
+            __osMemset(firstNode, BLOCK_UNINIT_MAGIC, size2);
             firstNode->next = NULL;
             firstNode->prev = NULL;
             firstNode->size = size2 - sizeof(ArenaNode);
@@ -151,7 +151,7 @@ void ArenaImpl_RemoveAllBlocks(Arena* arena) {
     iter = arena->head;
     while (iter != NULL) {
         next = ArenaImpl_GetNextBlock(iter);
-        func_80106860(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode)); // memset
+        __osMemset(iter, BLOCK_UNINIT_MAGIC, iter->size + sizeof(ArenaNode));
         iter = next;
     }
 
@@ -228,7 +228,7 @@ void* __osMalloc_NoLockDebug(Arena* arena, u32 size, const char* file, s32 line)
             ArenaImpl_SetDebugInfo(iter, file, line, arena);
             alloc = (void*)((u32)iter + sizeof(ArenaNode));
             if (arena->flag & FILL_ALLOCBLOCK) {
-                func_80106860(alloc, BLOCK_ALLOC_MAGIC, size);
+                __osMemset(alloc, BLOCK_ALLOC_MAGIC, size);
             }
 
             break;
@@ -288,7 +288,7 @@ void* __osMallocRDebug(Arena* arena, u32 size, const char* file, s32 line) {
             ArenaImpl_SetDebugInfo(iter, file, line, arena);
             allocR = (void*)((u32)iter + sizeof(ArenaNode));
             if (arena->flag & FILL_ALLOCBLOCK) {
-                func_80106860(allocR, BLOCK_ALLOC_MAGIC, size);
+                __osMemset(allocR, BLOCK_ALLOC_MAGIC, size);
             }
 
             break;
@@ -339,7 +339,7 @@ void* __osMalloc_NoLock(Arena* arena, u32 size) {
             ArenaImpl_SetDebugInfo(iter, NULL, 0, arena);
             alloc = (void*)((u32)iter + sizeof(ArenaNode));
             if (arena->flag & FILL_ALLOCBLOCK) {
-                func_80106860(alloc, BLOCK_ALLOC_MAGIC, size);
+                __osMemset(alloc, BLOCK_ALLOC_MAGIC, size);
             }
             break;
         }
@@ -398,7 +398,7 @@ void* __osMallocR(Arena* arena, u32 size) {
             ArenaImpl_SetDebugInfo(iter, NULL, 0, arena);
             alloc = (void*)((u32)iter + sizeof(ArenaNode));
             if (arena->flag & FILL_ALLOCBLOCK) {
-                func_80106860(alloc, BLOCK_ALLOC_MAGIC, size);
+                __osMemset(alloc, BLOCK_ALLOC_MAGIC, size);
             }
             break;
         }
@@ -442,7 +442,7 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
     ArenaImpl_SetDebugInfo(node, NULL, 0, arena);
 
     if (arena->flag & FILL_FREEBLOCK) {
-        func_80106860((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
+        __osMemset((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
     }
 
     newNext = next;
@@ -454,7 +454,7 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
 
         node->size += next->size + sizeof(ArenaNode);
         if (arena->flag & FILL_FREEBLOCK) {
-            func_80106860(next, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
+            __osMemset(next, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
         }
         node->next = newNext;
         next = newNext;
@@ -467,7 +467,7 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
         prev->next = next;
         prev->size += node->size + sizeof(ArenaNode);
         if (arena->flag & FILL_FREEBLOCK) {
-            func_80106860(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
+            __osMemset(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
         }
     }
 }
@@ -512,7 +512,7 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
     ArenaImpl_SetDebugInfo(node, file, line, arena);
 
     if (arena->flag & FILL_FREEBLOCK) {
-        func_80106860((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
+        __osMemset((u32)node + sizeof(ArenaNode), BLOCK_FREE_MAGIC, node->size);
     }
 
     newNext = node->next;
@@ -524,7 +524,7 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
 
         node->size += next->size + sizeof(ArenaNode);
         if (arena->flag & FILL_FREEBLOCK) {
-            func_80106860(next, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
+            __osMemset(next, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
         }
         node->next = newNext;
         next = newNext;
@@ -537,7 +537,7 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
         prev->next = next;
         prev->size += node->size + sizeof(ArenaNode);
         if (arena->flag & FILL_FREEBLOCK) {
-            func_80106860(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
+            __osMemset(node, BLOCK_FREE_MAGIC, sizeof(ArenaNode));
         }
     }
 }
@@ -590,7 +590,7 @@ void* __osRealloc(Arena* arena, void* ptr, u32 newSize) {
                 }
                 node->next = newNext;
                 node->size = newSize;
-                func_801068B0(newNext, next, sizeof(ArenaNode)); // memcpy
+                __osMemmove(newNext, next, sizeof(ArenaNode));
             } else {
                 // "Allocate a new memory block and move the contents"
                 osSyncPrintf("新たにメモリブロックを確保して内容を移動します\n");
