@@ -2696,7 +2696,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
             case MSGMODE_MEMORY_GAME_START:
                 AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_DEFAULT);
                 AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_FLUTE);
-                AudioOcarina_MemoryGameSetNumNotes(gSaveContext.ocarinaGameRoundNum);
+                AudioOcarina_MemoryGameInit(gSaveContext.ocarinaGameRoundNum);
                 msgCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
                 msgCtx->ocarinaStaff->pos = sOcarinaButtonIndexBufPos = 0;
                 Message_ResetOcarinaNoteState();
@@ -2773,7 +2773,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                 }
                 msgCtx->stateTimer--;
                 if (msgCtx->stateTimer == 0) {
-                    if (AudioOcarina_MemoryGameGenerateNotes() != 1) {
+                    if (AudioOcarina_MemoryGameNextNote() != 1) {
                         Audio_PlaySoundGeneral(NA_SE_SY_METRONOME, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                                &D_801333E8);
                         msgCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();

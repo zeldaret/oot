@@ -1043,7 +1043,7 @@ s8 sRecordOcarinaBendIndex = 0;
 u8 sRecordOcarinaButtonIndex = 0;
 u8 sPlayedOcarinaSongIndexPlusOne = 0;
 u8 sMusicStaffNumNotesPerTest = 0;
-u8 sIsOcarinaNoteChanged = false;
+u8 sOcarinaDropInputTimer = 0;
 
 OcarinaNote sScarecrowsLongSongNotes[108] = {
     { OCARINA_PITCH_NONE, 0, 0, 0, 0, 0 },
@@ -1556,7 +1556,7 @@ void AudioOcarina_CheckSongsWithMusicStaff(void) {
         if (sAvailOcarinaSongFlags == 0 && sStaffOcarinaPlayingPos >= sMusicStaffNumNotesPerTest) {
             sIsOcarinaInputEnabled = false;
             if ((sOcarinaFlags & 0x4000) && sCurOcarinaPitch == sOcarinaSongNotes[songIndex][0].pitch) {
-                // case never taken, (sOcarinaFlags & 0x4000) mean this entire function isn't called
+                // case never taken, this function is not called if (sOcarinaFlags & 0x4000) is set
                 sPrevOcarinaWithMusicStaffFlags = sOcarinaFlags;
             }
             sOcarinaFlags = 0;
@@ -1645,8 +1645,8 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
     u32 ocarinaBtnsHeld;
 
     // Prevents two different ocarina notes from being played on two consecutive frames
-    if (sOcarinaFlags != 0 && sIsOcarinaNoteChanged) {
-        sIsOcarinaNoteChanged--;
+    if (sOcarinaFlags != 0 && (sOcarinaDropInputTimer != 0)) {
+        sOcarinaDropInputTimer--;
         return;
     }
 
@@ -1731,7 +1731,7 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
             Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &D_801333D4, 4, &sCurOcarinaBendFreq, &sRelativeOcarinaVolume,
                                    &D_801333E8);
         } else if ((sPrevOcarinaPitch != OCARINA_PITCH_NONE) && (sCurOcarinaPitch == OCARINA_PITCH_NONE)) {
-            // cancels ocarina for a non-valid input
+            // cancels ocarina for a non-valid input or no input
             Audio_StopSfxById(NA_SE_OC_OCARINA);
         }
     }
@@ -2161,7 +2161,7 @@ void AudioOcarina_RecordSong(void) {
     }
 }
 
-void AudioOcarina_MemoryGameSetNumNotes(u8 minigameRound) {
+void AudioOcarina_MemoryGameInit(u8 minigameRound) {
     u8 i;
 
     if (minigameRound > 2) {
@@ -2172,16 +2172,16 @@ void AudioOcarina_MemoryGameSetNumNotes(u8 minigameRound) {
     sOcaMemoryGameEndPos = sOcaMemoryGameNumNotes[minigameRound];
 
     for (i = 0; i < 3; i++) {
-        AudioOcarina_MemoryGameGenerateNotes();
+        AudioOcarina_MemoryGameNextNote();
     }
 }
 
-s32 AudioOcarina_MemoryGameGenerateNotes(void) {
+s32 AudioOcarina_MemoryGameNextNote(void) {
     u32 randomButtonIndex;
     u8 randomPitch;
 
     if (sOcaMemoryGameAppendPos == sOcaMemoryGameEndPos) {
-        return true;
+        return 1;
     }
 
     randomButtonIndex = Audio_NextRandom();
@@ -2204,7 +2204,7 @@ s32 AudioOcarina_MemoryGameGenerateNotes(void) {
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos + 1].pitch = OCARINA_PITCH_NONE;
     sOcarinaSongNotes[OCARINA_SONG_MEMORY_GAME][sOcaMemoryGameAppendPos + 1].length = 0;
     if (1) {}
-    return false;
+    return 0;
 }
 
 void AudioOcarina_Update(void) {
@@ -2234,7 +2234,7 @@ void AudioOcarina_Update(void) {
         }
 
         if ((sOcarinaFlags != 0) && (sPrevOcarinaPitch != sCurOcarinaPitch)) {
-            sIsOcarinaNoteChanged = true; // Adds a 1 frame delay to ocarina input
+            sOcarinaDropInputTimer = 1; // Drops ocarina input for 1 frame
         }
 
         sPrevOcarinaPitch = sCurOcarinaPitch;
@@ -2289,7 +2289,7 @@ void AudioOcarina_ResetStaffs(void) {
     sRecordingStaff.buttonIndex = OCARINA_BTN_INVALID;
     sRecordingStaff.state = OCARINA_RECORD_REJECTED;
     sRecordingStaff.pos = 0;
-    sIsOcarinaNoteChanged = false;
+    sOcarinaDropInputTimer = 0;
 }
 
 f32 D_80131C8C = 0.0f;
