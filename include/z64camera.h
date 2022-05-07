@@ -1284,7 +1284,7 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    union {
+    /* 0x00 */ union {
         Normal1 norm1;
         Normal2 norm2;
         Normal3 norm3;
@@ -1324,7 +1324,7 @@ typedef struct {
         Special9 spec9;
         DoorParams doorParams;
     };
-} CamFuncData;
+} CamFuncData; // size = 0x50
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
