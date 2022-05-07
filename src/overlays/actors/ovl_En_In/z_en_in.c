@@ -141,7 +141,7 @@ u16 func_80A79010(GlobalContext* globalCtx) {
     if (IS_NIGHT) {
         return 0x204E;
     }
-    switch (GET_EVENTINF_HORSES_STATE) {
+    switch (GET_EVENTINF_HORSES_STATE()) {
         case EVENTINF_HORSES_STATE_1:
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
@@ -543,7 +543,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
                 break;
             default:
-                switch (GET_EVENTINF_HORSES_STATE) {
+                switch (GET_EVENTINF_HORSES_STATE()) {
                     case EVENTINF_HORSES_STATE_0:
                     case EVENTINF_HORSES_STATE_2:
                     case EVENTINF_HORSES_STATE_3:
@@ -569,7 +569,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                switch (GET_EVENTINF_HORSES_STATE) {
+                switch (GET_EVENTINF_HORSES_STATE()) {
                     case EVENTINF_HORSES_STATE_0:
                     case EVENTINF_HORSES_STATE_2:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
@@ -920,7 +920,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
         if (this->skelAnime.animation == &object_in_Anim_001BE0 &&
-            GET_EVENTINF_HORSES_STATE != EVENTINF_HORSES_STATE_6) {
+            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
