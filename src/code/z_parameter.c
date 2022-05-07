@@ -2289,12 +2289,17 @@ void Magic_Reset(GlobalContext* globalCtx) {
     }
 }
 
-s32 Magic_RequestChange(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
+/**
+ * Request to either increase or consume magic.
+ * amount is the positive-valued amount to either increase or decrease magic
+ * type is how the magic is increased or consumed
+ */
+s32 Magic_RequestChange(GlobalContext* globalCtx, s16 amount, s16 type) {
     if (!gSaveContext.isMagicAcquired) {
         return false;
     }
 
-    if ((changeType != MAGIC_ADD) && (gSaveContext.magic - magicChange) < 0) {
+    if ((type != MAGIC_ADD) && (gSaveContext.magic - amount) < 0) {
         if (gSaveContext.magicCapacityDrawn != 0) {
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -2302,7 +2307,7 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 magicChange, s16 changeTyp
         return false;
     }
 
-    switch (changeType) {
+    switch (type) {
         case MAGIC_CONSUME_NOW:
         case MAGIC_CONSUME_NOW_ALT:
             // Consume magic immediately
@@ -2311,7 +2316,7 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 magicChange, s16 changeTyp
                 if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
                     globalCtx->actorCtx.lensActive = false;
                 }
-                gSaveContext.magicTarget = gSaveContext.magic - magicChange;
+                gSaveContext.magicTarget = gSaveContext.magic - amount;
                 gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
                 return true;
             } else {
@@ -2329,7 +2334,7 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 magicChange, s16 changeTyp
                 if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
                     globalCtx->actorCtx.lensActive = false;
                 }
-                gSaveContext.magicTarget = gSaveContext.magic - magicChange;
+                gSaveContext.magicTarget = gSaveContext.magic - amount;
                 gSaveContext.magicState = MAGIC_STATE_METER_FLASH_3;
                 return true;
             } else {
@@ -2363,7 +2368,7 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 magicChange, s16 changeTyp
                 if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
                     globalCtx->actorCtx.lensActive = false;
                 }
-                gSaveContext.magicTarget = gSaveContext.magic - magicChange;
+                gSaveContext.magicTarget = gSaveContext.magic - amount;
                 gSaveContext.magicState = MAGIC_STATE_METER_FLASH_2;
                 return true;
             } else {
@@ -2375,7 +2380,7 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 magicChange, s16 changeTyp
         case MAGIC_ADD:
             // Sets target for magic to be added to
             if (gSaveContext.magic <= gSaveContext.magicCapacityDrawn) {
-                gSaveContext.magicTarget = gSaveContext.magic + magicChange;
+                gSaveContext.magicTarget = gSaveContext.magic + amount;
 
                 if (gSaveContext.magicTarget >= gSaveContext.magicCapacityDrawn) {
                     gSaveContext.magicTarget = gSaveContext.magicCapacityDrawn;
@@ -2466,7 +2471,6 @@ void Magic_Update(GlobalContext* globalCtx) {
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             }
             // fallthrough (flash border while magic is being consumed)
-
         case MAGIC_STATE_METER_FLASH_1:
         case MAGIC_STATE_METER_FLASH_2:
         case MAGIC_STATE_METER_FLASH_3:

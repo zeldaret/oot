@@ -170,7 +170,7 @@ typedef struct {
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
     /* 0x13F0 */ s16 magicState; // Determines magic meter behavior on each frame
-    /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding for filling magic
+    /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
     /* 0x13F4 */ s16 magicCapacityDrawn; // Only differs from magicCapacity in a new save load, where magicCapacityDrawn is slowly stepped from 0 to magicCapacity
     /* 0x13F6 */ s16 magicCapacity; // Maximum magic available
     /* 0x13F8 */ s16 magicTarget; // Target for magic to step to when adding or consuming magic
