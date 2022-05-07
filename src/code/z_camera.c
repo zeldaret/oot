@@ -8,10 +8,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags);
 s32 Camera_QRegInit(void);
 s32 Camera_UpdateWater(Camera* camera);
 
-#define CAM_GET_RO_DATA(type, camera) &((type*)camera->paramData)->roData // Read-Only Data
-#define CAM_GET_RW_DATA(type, paramData) &((type*)paramData)->rwData      // Read-Write Data
-
-// Camera will reload its paramData. Usually that means setting the read-only data from what is stored in
+// Camera will reload its funcData. Usually that means setting the read-only data from what is stored in
 // CameraModeValue arrays. Although sometimes some read-write data is reset as well
 #define RELOAD_PARAMS(camera) (camera->animState == 0 || camera->animState == 10 || camera->animState == 20)
 
@@ -1442,8 +1439,8 @@ s32 Camera_Normal1(Camera* camera) {
     VecSph atEyeGeo;
     VecSph atEyeNextGeo;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Normal1ReadOnlyData* roData = CAM_GET_RO_DATA(Normal1, camera);
-    Normal1ReadWriteData* rwData = CAM_GET_RW_DATA(Normal1, camera->paramData);
+    Normal1ReadOnlyData* roData = &camera->funcData.norm1.roData;
+    Normal1ReadWriteData* rwData = &camera->funcData.norm1.rwData;
     f32 playerHeight;
     f32 rate = 0.1f;
 
@@ -1674,7 +1671,7 @@ s32 Camera_Normal2(Camera* camera) {
     VecSph atToEyeDir;
     VecSph atToEyeNextDir;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Normal2* norm2 = (Normal2*)camera->paramData;
+    Normal2* norm2 = &camera->funcData.norm2;
     Normal2Anim* anim = &norm2->anim;
     s32 pad;
     Vec3s* bgData;
@@ -1844,7 +1841,7 @@ s32 Camera_Normal3(Camera* camera) {
     f32 temp_f6;
     s16 phi_a0;
     s16 t2;
-    Normal3* norm3 = (Normal3*)camera->paramData;
+    Normal3* norm3 = &camera->funcData.norm3;
     Normal3Anim* anim = &norm3->anim;
     f32 playerHeight;
 
@@ -1994,7 +1991,7 @@ s32 Camera_Parallel1(Camera* camera) {
     CamColChk sp6C;
     s16 sp6A;
     s16 phi_a0;
-    Parallel1* para1 = (Parallel1*)camera->paramData;
+    Parallel1* para1 = &camera->funcData.para1;
     Parallel1Anim* anim = &para1->anim;
     f32 pad2;
     f32 playerHeight;
@@ -2204,7 +2201,7 @@ s32 Camera_Jump1(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     PosRot playerhead;
     s16 tangle;
-    Jump1* jump1 = (Jump1*)camera->paramData;
+    Jump1* jump1 = &camera->funcData.jump1;
     Jump1Anim* anim = &jump1->anim;
     s32 pad;
     f32 playerHeight;
@@ -2357,7 +2354,7 @@ s32 Camera_Jump2(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     s16 yawDiff;
     s16 playerYawRot180;
-    Jump2* jump2 = (Jump2*)camera->paramData;
+    Jump2* jump2 = &camera->funcData.jump2;
     Jump2Anim* anim = &jump2->anim;
     CameraModeValue* values;
     f32 playerHeight;
@@ -2535,7 +2532,7 @@ s32 Camera_Jump3(Camera* camera) {
     Vec3f spB0; // unused
     VecSph eyeDiffSph;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Jump3* jump3 = (Jump3*)camera->paramData;
+    Jump3* jump3 = &camera->funcData.jump3;
     VecSph eyeAtOffset;
     VecSph eyeNextAtOffset;
     s32 pad;
@@ -2751,7 +2748,7 @@ s32 Camera_Battle1(Camera* camera) {
     f32 sp7C;
     f32 sp78;
     f32 fov;
-    Battle1* batt1 = (Battle1*)camera->paramData;
+    Battle1* batt1 = &camera->funcData.batt1;
     Battle1Anim* anim = &batt1->anim;
     s32 pad;
     f32 playerHeight;
@@ -2994,7 +2991,7 @@ s32 Camera_Battle4(Camera* camera) {
     VecSph eyeNextOffset;
     VecSph eyeAtOffset;
     VecSph eyeNextAtOffset;
-    Battle4* batt4 = (Battle4*)camera->paramData;
+    Battle4* batt4 = &camera->funcData.batt4;
     Battle4Anim* anim = &batt4->anim;
     s32 pad;
     f32 playerHeight;
@@ -3093,7 +3090,7 @@ s32 Camera_KeepOn1(Camera* camera) {
     f32 sp84;
     s16 sp82;
     s16 sp80;
-    KeepOn1* keep1 = (KeepOn1*)camera->paramData;
+    KeepOn1* keep1 = &camera->funcData.keep1;
     Keep1Anim* anim = &keep1->anim;
     s16 t3;
     f32 playerHeight;
@@ -3328,7 +3325,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     s16 sp80;
     PosRot playerPosRot;
     PosRot* camPlayerPosRot = &camera->playerPosRot;
-    KeepOn3* keep3 = (KeepOn3*)camera->paramData;
+    KeepOn3* keep3 = &camera->funcData.keep3;
     Keep3Anim* anim = &keep3->anim;
     s32 pad;
     f32 playerHeight;
@@ -3513,7 +3510,7 @@ s32 Camera_KeepOn4(Camera* camera) {
     s16 sp9E;
     s16 sp9C;
     PosRot* playerPosRot = &camera->playerPosRot;
-    KeepOn4* keep4 = (KeepOn4*)camera->paramData;
+    KeepOn4* keep4 = &camera->funcData.keep4;
     KeepOn4_Unk20* unk20 = &keep4->unk_20;
     s32 pad;
     f32 playerHeight;
@@ -3796,7 +3793,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     Vec3f* at = &camera->at;
     VecSph eyeTargetPosOffset;
     VecSph eyeAtOffset;
-    KeepOn0* keep0 = (KeepOn0*)camera->paramData;
+    KeepOn0* keep0 = &camera->funcData.keep0;
     KeepOn0Anim* anim = &keep0->anim;
     s32 pad;
     Vec3s* sceneCamData;
@@ -3866,7 +3863,7 @@ s32 Camera_KeepOn0(Camera* camera) {
 }
 
 s32 Camera_Fixed1(Camera* camera) {
-    Fixed1* fixd1 = (Fixed1*)camera->paramData;
+    Fixed1* fixd1 = &camera->funcData.fixd1;
     Fixed1Anim* anim = &fixd1->anim;
     s32 pad;
     VecSph eyeOffset;
@@ -3946,7 +3943,7 @@ s32 Camera_Fixed2(Camera* camera) {
     Vec3f posOffsetTarget;
     PosRot* playerPosRot = &camera->playerPosRot;
     Vec3s* scenePosData;
-    Fixed2* fixd2 = (Fixed2*)camera->paramData;
+    Fixed2* fixd2 = &camera->funcData.fixd2;
     Fixed2InitParams* initParams = &fixd2->initParams;
     s32 pad;
     f32 playerHeight;
@@ -4026,7 +4023,7 @@ s32 Camera_Fixed3(Camera* camera) {
     VecSph atSph;
     Vec3s* sceneCamData;
     VecSph eyeAtOffset;
-    Fixed3* fixd3 = (Fixed3*)camera->paramData;
+    Fixed3* fixd3 = &camera->funcData.fixd3;
     Fixed3Anim* anim = &fixd3->anim;
     s32 pad;
 
@@ -4103,7 +4100,7 @@ s32 Camera_Fixed4(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     Vec3s* camPosData;
     Vec3f* posOffset = &camera->posOffset;
-    Fixed4* fixed4 = (Fixed4*)camera->paramData;
+    Fixed4* fixed4 = &camera->funcData.fixd4;
     Fixed4Anim* anim = &fixed4->anim;
     f32 playerYOffset;
 
@@ -4195,7 +4192,7 @@ s32 Camera_Subj3(Camera* camera) {
     f32 temp_f0_3;
     s16 sp52;
     s16 sp50;
-    Subj3* subj3 = (Subj3*)camera->paramData;
+    Subj3* subj3 = &camera->funcData.subj3;
     Subj3Anim* anim = &subj3->anim;
     CameraModeValue* values;
     Vec3f* pad2;
@@ -4320,7 +4317,7 @@ s32 Camera_Subj4(Camera* camera) {
     f32 tx;
     Player* player;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Subj4* subj4 = (Subj4*)camera->paramData;
+    Subj4* subj4 = &camera->funcData.subj4;
     Subj4Anim* anim = &subj4->anim;
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
@@ -4452,7 +4449,7 @@ s32 Camera_Data3(Camera* camera) {
 
 s32 Camera_Data4(Camera* camera) {
     s32 pad2[2];
-    Data4* data4 = (Data4*)camera->paramData;
+    Data4* data4 = &camera->funcData.data4;
     VecSph eyeAtOffset;
     VecSph atOffset;
     VecSph eyeNextAtOffset;
@@ -4539,7 +4536,7 @@ s32 Camera_Unique1(Camera* camera) {
     VecSph eyeNextAtOffset;
     PosRot* playerPosRot = &camera->playerPosRot;
     PosRot playerhead;
-    Unique1* uniq1 = (Unique1*)camera->paramData;
+    Unique1* uniq1 = &camera->funcData.uniq1;
     Unique1Anim* anim = &uniq1->anim;
     s32 pad;
     f32 playerHeight;
@@ -4631,7 +4628,7 @@ s32 Camera_Unique2(Camera* camera) {
     VecSph eyeAtOffset;
     s32 pad;
     f32 lerpRateFactor;
-    Unique2* uniq2 = (Unique2*)camera->paramData;
+    Unique2* uniq2 = &camera->funcData.uniq2;
     Unique2Unk10* unk10 = &uniq2->unk_10;
     s32 pad2;
     f32 playerHeight;
@@ -4706,7 +4703,7 @@ s32 Camera_Unique2(Camera* camera) {
 s32 Camera_Unique3(Camera* camera) {
     VecSph sp60;
     f32 playerHeight;
-    Unique3* uniq3 = (Unique3*)camera->paramData;
+    Unique3* uniq3 = &camera->funcData.uniq3;
     Vec3s* temp_v0_2;
     Vec3s sp4C;
     Unique3Anim* anim = &uniq3->anim;
@@ -4825,7 +4822,7 @@ s32 Camera_Unique0(Camera* camera) {
     Vec3s* sceneCamData;
     Vec3s sceneCamRot;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Unique0* uniq0 = (Unique0*)camera->paramData;
+    Unique0* uniq0 = &camera->funcData.uniq0;
     Unique0Params* params = &uniq0->uniq0;
     Unique0Anim* anim = &params->anim;
     Vec3f* eye = &camera->eye;
@@ -4946,7 +4943,7 @@ s32 Camera_Unique5(Camera* camera) {
  * Eye/at positions are updated via Camera_SetParam
  */
 s32 Camera_Unique6(Camera* camera) {
-    Unique6* uniq6 = (Unique6*)camera->paramData;
+    Unique6* uniq6 = &camera->funcData.uniq6;
     CameraModeValue* values;
     Vec3f sp2C;
     PosRot* playerPosRot = &camera->playerPosRot;
@@ -4993,7 +4990,7 @@ s32 Camera_Unique6(Camera* camera) {
  */
 s32 Camera_Unique7(Camera* camera) {
     s32 pad;
-    Unique7* uniq7 = (Unique7*)camera->paramData;
+    Unique7* uniq7 = &camera->funcData.uniq7;
     CameraModeValue* values;
     VecSph playerPosEyeOffset;
     s16 fov;
@@ -5574,7 +5571,7 @@ void Camera_RotateAroundPoint(PosRot* at, Vec3f* pos, Vec3f* dst) {
  */
 s32 Camera_Demo1(Camera* camera) {
     s32 pad;
-    Demo1* demo1 = (Demo1*)camera->paramData;
+    Demo1* demo1 = &camera->funcData.demo1;
     CameraModeValue* values;
     Vec3f* at = &camera->at;
     CutsceneCameraPoint* csAtPoints = (CutsceneCameraPoint*)camera->data0;
@@ -5664,7 +5661,7 @@ s32 Camera_Demo3(Camera* camera) {
     u8 skipUpdateEye = false;
     f32 yOffset = Player_GetHeight(camera->player);
     s16 angle;
-    Demo3* demo3 = (Demo3*)camera->paramData;
+    Demo3* demo3 = &camera->funcData.demo3;
     Demo3Anim* anim = &demo3->anim;
     s32 pad2;
 
@@ -6102,7 +6099,7 @@ s32 Camera_Demo5(Camera* camera) {
  */
 s32 Camera_Demo6(Camera* camera) {
     Camera* mainCam;
-    Demo6Anim* anim = (Demo6Anim*)&((Demo6*)camera->paramData)->anim;
+    Demo6Anim* anim = (Demo6Anim*)&(&camera->funcData.demo6)->anim;
     Vec3f* eyeNext = &camera->eyeNext;
     CameraModeValue* values;
     VecSph eyeOffset;
@@ -6119,7 +6116,7 @@ s32 Camera_Demo6(Camera* camera) {
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
-        ((Demo6*)camera->paramData)->interfaceFlags = GET_NEXT_RO_DATA(values);
+        (&camera->funcData.demo6)->interfaceFlags = GET_NEXT_RO_DATA(values);
     }
 
     if (R_RELOAD_CAM_PARAMS) {
@@ -6198,7 +6195,7 @@ s32 Camera_Demo9(Camera* camera) {
     s32 pad;
     s32 finishAction;
     s16 onePointTimer;
-    Demo9OnePointCs* demo9OnePoint = (Demo9OnePointCs*)camera->paramData;
+    Demo9OnePointCs* demo9OnePoint = &camera->funcData.demo9OnePoint;
     Vec3f csEyeUpdate;
     Vec3f csAtUpdate;
     Vec3f newEye;
@@ -6338,7 +6335,7 @@ s32 Camera_Demo0(Camera* camera) {
 
 s32 Camera_Special0(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
-    Special0* spec0 = (Special0*)camera->paramData;
+    Special0* spec0 = &camera->funcData.spec0;
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -6396,7 +6393,7 @@ s32 Camera_Special4(Camera* camera) {
     PosRot curTargetPosRot;
     s16 sp3A;
     s16* timer = &camera->timer;
-    Special4* spec4 = (Special4*)camera->paramData;
+    Special4* spec4 = &camera->funcData.spec4;
 
     if (camera->animState == 0) {
         sCameraInterfaceFlags = 0x3200;
@@ -6444,7 +6441,7 @@ s32 Camera_Special5(Camera* camera) {
     VecSph sp64;
     VecSph sp5C;
     PosRot* playerPosRot = &camera->playerPosRot;
-    Special5* spec5 = (Special5*)camera->paramData;
+    Special5* spec5 = &camera->funcData.spec5;
     Special5Anim* anim = &spec5->anim;
     f32 temp_f0_2;
     f32 yOffset;
@@ -6522,7 +6519,7 @@ s32 Camera_Special5(Camera* camera) {
  * depending on the player's position
  */
 s32 Camera_Special7(Camera* camera) {
-    Special7* spec7 = (Special7*)camera->paramData;
+    Special7* spec7 = &camera->funcData.spec7;
     PosRot* playerPosRot = &camera->playerPosRot;
     Vec3f atTarget;
     f32 yOffset;
@@ -6592,7 +6589,7 @@ s32 Camera_Special6(Camera* camera) {
     f32 sp54;
     f32 timerF;
     f32 timerDivisor;
-    Special6* spec6 = (Special6*)camera->paramData;
+    Special6* spec6 = &camera->funcData.spec6;
     Special6Anim* anim = &spec6->anim;
     s32 pad;
 
@@ -6696,7 +6693,7 @@ s32 Camera_Special9(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     PosRot adjustedPlayerPosRot;
     f32 yNormal;
-    Special9* spec9 = (Special9*)camera->paramData;
+    Special9* spec9 = &camera->funcData.spec9;
     Special9Params* params = &spec9->params;
     Special9Anim* anim = &params->anim;
     s32 pad4;
@@ -8058,7 +8055,7 @@ s16 func_8005AD1C(Camera* camera, s16 arg1) {
 
 s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 arg3, s16 timer1, s16 timer2,
                          s16 timer3) {
-    DoorParams* doorParams = (DoorParams*)camera->paramData;
+    DoorParams* doorParams = &camera->funcData.doorParams;
 
     if ((camera->setting == CAM_SET_CS_ATTENTION) || (camera->setting == CAM_SET_DOORC)) {
         return 0;

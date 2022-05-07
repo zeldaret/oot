@@ -21,7 +21,7 @@
 #define SUBCAM_NONE -1
 #define SUBCAM_ACTIVE -1
 
-#define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
+#define ONEPOINT_CS_INFO(camera) (&camera->funcData.uniq9CS)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 
@@ -1164,7 +1164,47 @@ typedef struct {
 } CamColChk; // size = 0x28
 
 typedef struct {
-    /* 0x000 */ char paramData[0x50];
+    union {
+        Normal1 norm1;
+        Normal2 norm2;
+        Normal3 norm3;
+        Parallel1 para1;
+        Jump1 jump1;
+        Jump2 jump2;
+        Jump3 jump3;
+        Battle1 batt1;
+        Battle4 batt4;
+        KeepOn0 keep0;
+        KeepOn1 keep1;
+        KeepOn3 keep3;
+        KeepOn4 keep4;
+        Fixed1 fixd1;
+        Fixed2 fixd2;
+        Fixed3 fixd3;
+        Fixed4 fixd4;
+        Subj3 subj3;
+        Subj4 subj4;
+        Data4 data4;
+        Unique0 uniq0;
+        Unique1 uniq1;
+        Unique2 uniq2;
+        Unique3 uniq3;
+        Unique6 uniq6;
+        Unique7 uniq7;
+        Unique9 uniq9;
+        Unique9OnePointCs uniq9CS;
+        Demo1 demo1;
+        Demo3 demo3;
+        Demo6 demo6;
+        Demo9OnePointCs demo9OnePoint;
+        Special0 spec0;
+        Special4 spec4;
+        Special5 spec5;
+        Special6 spec6;
+        Special7 spec7;
+        Special9 spec9;
+        DoorParams doorParams;
+    } funcData;
     /* 0x050 */ Vec3f at;
     /* 0x05C */ Vec3f eye;
     /* 0x068 */ Vec3f up;
