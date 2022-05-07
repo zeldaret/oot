@@ -1036,7 +1036,7 @@ s32 Inventory_ConsumeFairy(GlobalContext* globalCtx);
 void Interface_SetDoAction(GlobalContext* globalCtx, u16 action);
 void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState);
 void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action);
-s32 Health_ChangeBy(GlobalContext* globalCtx, s16 healthChange);
+s32 Health_ChangeBy(GlobalContext* globalCtx, s16 amount);
 void Rupees_ChangeBy(s16 rupeeChange);
 void Inventory_ChangeAmmo(s16 item, s16 ammoChange);
 void Magic_Fill(GlobalContext* globalCtx);
