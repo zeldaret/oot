@@ -2667,7 +2667,7 @@ void* sForestTempleEntranceTextures[] = {
 void func_8009D758(GlobalContext* globalCtx) {
     u32 gameplayFrames;
 
-    if (1) {} // Necessary to match
+    if (0) {} // Necessary to match
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6640);
 

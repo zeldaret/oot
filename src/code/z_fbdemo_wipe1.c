@@ -39,7 +39,7 @@ Gfx sWipeSyncDList[] = {
 void TransitionWipe_Start(void* thisx) {
     TransitionWipe* this = (TransitionWipe*)thisx;
 
-    this->isDone = 0;
+    this->isDone = false;
 
     if (this->direction) {
         this->texY = 0x14D;
@@ -68,13 +68,13 @@ void TransitionWipe_Update(void* thisx, s32 updateRate) {
         this->texY += (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
         if (this->texY >= 0x264) {
             this->texY = 0x264;
-            this->isDone = 1;
+            this->isDone = true;
         }
     } else {
         this->texY -= (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
         if (this->texY <= 0x14D) {
             this->texY = 0x14D;
-            this->isDone = 1;
+            this->isDone = true;
         }
     }
 }
