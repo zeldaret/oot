@@ -169,11 +169,11 @@ typedef struct {
     /* 0x13EA */ u16 unk_13EA; // also alpha type?
     /* 0x13EC */ u16 unk_13EC; // alpha type counter?
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
-    /* 0x13F0 */ s16 magicState; // Determines magic meter behavior on each frame
+    /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
-    /* 0x13F4 */ s16 magicCapacityDrawn; // Only differs from magicCapacity in a new save load, where magicCapacityDrawn is slowly stepped from 0 to magicCapacity
-    /* 0x13F6 */ s16 magicCapacity; // Maximum magic available
-    /* 0x13F8 */ s16 magicTarget; // Target for magic to step to when adding or consuming magic
+    /* 0x13F4 */ s16 magicCapacityDrawn; // only differs from magicCapacity in a new save load, where magicCapacityDrawn is slowly stepped from 0 to magicCapacity
+    /* 0x13F6 */ s16 magicCapacity; // maximum magic available
+    /* 0x13F8 */ s16 magicTarget; // target for magic to step to when adding or consuming magic
     /* 0x13FA */ u16 eventInf[4]; // "event_inf"
     /* 0x1402 */ u16 mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
     /* 0x1404 */ u16 minigameState;
