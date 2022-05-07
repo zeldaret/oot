@@ -11,15 +11,15 @@ CfbInfo sGraphCfbInfos[3];
 FaultClient sGraphUcodeFaultClient;
 
 UCodeInfo D_8012D230[3] = {
-    { UCODE_F3DZEX, D_80155F50 },
+    { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
     { UCODE_UNK, NULL },
-    { UCODE_S2DEX, D_80113070 },
+    { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
 UCodeInfo D_8012D248[3] = {
-    { UCODE_F3DZEX, D_80155F50 },
+    { UCODE_F3DZEX, gspF3DZEX2_NoN_PosLight_fifoTextStart },
     { UCODE_UNK, NULL },
-    { UCODE_S2DEX, D_80113070 },
+    { UCODE_S2DEX, gspS2DEX2d_fifoTextStart },
 };
 
 void Graph_FaultClient(void) {
@@ -38,7 +38,7 @@ void Graph_DisassembleUCode(Gfx* workBuf) {
         UCodeDisas_Init(&disassembler);
         disassembler.enableLog = HREG(83);
         UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
-        UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
+        UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
         UCodeDisas_Disassemble(&disassembler, workBuf);
         HREG(93) = disassembler.dlCnt;
         HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
@@ -72,7 +72,7 @@ void Graph_UCodeFaultClient(Gfx* workBuf) {
     UCodeDisas_Init(&disassembler);
     disassembler.enableLog = true;
     UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D248), D_8012D248);
-    UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
+    UCodeDisas_SetCurUCode(&disassembler, gspF3DZEX2_NoN_PosLight_fifoTextStart);
     UCodeDisas_Disassemble(&disassembler, workBuf);
     UCodeDisas_Destroy(&disassembler);
 }
@@ -200,21 +200,21 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     task->ucode_boot_size = SysUcode_GetUCodeBootSize();
     task->ucode = SysUcode_GetUCode();
     task->ucode_data = SysUcode_GetUCodeData();
-    task->ucode_size = 0x1000;
-    task->ucode_data_size = 0x800;
-    task->dram_stack = (u64*)gGfxSPTaskStack;
+    task->ucode_size = SP_UCODE_SIZE;
+    task->ucode_data_size = SP_UCODE_DATA_SIZE;
+    task->dram_stack = gGfxSPTaskStack;
     task->dram_stack_size = sizeof(gGfxSPTaskStack);
     task->output_buff = gGfxSPTaskOutputBuffer;
-    task->output_buff_size = (u64*)((u8*)gGfxSPTaskOutputBuffer + sizeof(gGfxSPTaskOutputBuffer));
+    task->output_buff_size = gGfxSPTaskOutputBuffer + ARRAY_COUNT(gGfxSPTaskOutputBuffer);
     task->data_ptr = (u64*)gfxCtx->workBuffer;
 
     OPEN_DISPS(gfxCtx, "../graph.c", 828);
-    task->data_size = (u32)WORK_DISP - (u32)gfxCtx->workBuffer;
+    task->data_size = (uintptr_t)WORK_DISP - (uintptr_t)gfxCtx->workBuffer;
     CLOSE_DISPS(gfxCtx, "../graph.c", 830);
 
     { s32 pad2; } // Necessary to match stack usage
 
-    task->yield_data_ptr = (u64*)gGfxSPTaskYieldBuffer;
+    task->yield_data_ptr = gGfxSPTaskYieldBuffer;
     task->yield_data_size = sizeof(gGfxSPTaskYieldBuffer);
 
     scTask->next = NULL;
