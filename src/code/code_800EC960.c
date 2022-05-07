@@ -1645,7 +1645,7 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
     u32 ocarinaBtnsHeld;
 
     // Prevents two different ocarina notes from being played on two consecutive frames
-    if (sOcarinaFlags != 0 && (sOcarinaDropInputTimer != 0)) {
+    if ((sOcarinaFlags != 0) && (sOcarinaDropInputTimer != 0)) {
         sOcarinaDropInputTimer--;
         return;
     }
