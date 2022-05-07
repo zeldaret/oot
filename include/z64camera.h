@@ -1283,47 +1283,45 @@ typedef struct {
     { fov, CAM_DATA_FOV }, \
     { flags, CAM_DATA_FLAGS }
 
-typedef struct {
-    /* 0x00 */ union {
-        Normal1 norm1;
-        Normal2 norm2;
-        Normal3 norm3;
-        Parallel1 para1;
-        Jump1 jump1;
-        Jump2 jump2;
-        Jump3 jump3;
-        Battle1 batt1;
-        Battle4 batt4;
-        KeepOn0 keep0;
-        KeepOn1 keep1;
-        KeepOn3 keep3;
-        KeepOn4 keep4;
-        Fixed1 fixd1;
-        Fixed2 fixd2;
-        Fixed3 fixd3;
-        Fixed4 fixd4;
-        Subj3 subj3;
-        Subj4 subj4;
-        Data4 data4;
-        Unique0 uniq0;
-        Unique1 uniq1;
-        Unique2 uniq2;
-        Unique3 uniq3;
-        Unique6 uniq6;
-        Unique7 uniq7;
-        Unique9 uniq9;
-        Demo1 demo1;
-        Demo3 demo3;
-        Demo6 demo6;
-        Demo9 demo9;
-        Special0 spec0;
-        Special4 spec4;
-        Special5 spec5;
-        Special6 spec6;
-        Special7 spec7;
-        Special9 spec9;
-        DoorParams doorParams;
-    };
+typedef union {
+    Normal1 norm1;
+    Normal2 norm2;
+    Normal3 norm3;
+    Parallel1 para1;
+    Jump1 jump1;
+    Jump2 jump2;
+    Jump3 jump3;
+    Battle1 batt1;
+    Battle4 batt4;
+    KeepOn0 keep0;
+    KeepOn1 keep1;
+    KeepOn3 keep3;
+    KeepOn4 keep4;
+    Fixed1 fixd1;
+    Fixed2 fixd2;
+    Fixed3 fixd3;
+    Fixed4 fixd4;
+    Subj3 subj3;
+    Subj4 subj4;
+    Data4 data4;
+    Unique0 uniq0;
+    Unique1 uniq1;
+    Unique2 uniq2;
+    Unique3 uniq3;
+    Unique6 uniq6;
+    Unique7 uniq7;
+    Unique9 uniq9;
+    Demo1 demo1;
+    Demo3 demo3;
+    Demo6 demo6;
+    Demo9 demo9;
+    Special0 spec0;
+    Special4 spec4;
+    Special5 spec5;
+    Special6 spec6;
+    Special7 spec7;
+    Special9 spec9;
+    DoorParams doorParams;
 } CamFuncData; // size = 0x50
 
 typedef struct {
