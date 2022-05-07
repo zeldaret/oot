@@ -21,7 +21,7 @@
 #define SUBCAM_NONE -1
 #define SUBCAM_ACTIVE -1
 
-#define ONEPOINT_CS_INFO(camera) (&camera->funcData.uniq9.csInfo)
+#define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 
@@ -1322,7 +1322,7 @@ typedef union {
     Special7 spec7;
     Special9 spec9;
     DoorParams doorParams;
-} CamFuncData; // size = 0x50
+} CamParamData; // size = 0x50
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -1333,7 +1333,7 @@ typedef struct {
 } CamColChk; // size = 0x28
 
 typedef struct {
-    /* 0x000 */ CamFuncData funcData;
+    /* 0x000 */ CamParamData paramData;
     /* 0x050 */ Vec3f at;
     /* 0x05C */ Vec3f eye;
     /* 0x068 */ Vec3f up;
