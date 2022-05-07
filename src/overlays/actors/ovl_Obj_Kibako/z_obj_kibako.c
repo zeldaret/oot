@@ -67,7 +67,7 @@ void ObjKibako_SpawnCollectible(ObjKibako* this, GlobalContext* globalCtx) {
     s16 collectible;
 
     collectible = this->actor.params & 0x1F;
-    if ((collectible >= 0) && (collectible <= 0x19)) {
+    if ((collectible >= 0) && (collectible < ITEM00_MAX)) {
         Item_DropCollectible(globalCtx, &this->actor.world.pos,
                              collectible | (((this->actor.params >> 8) & 0x3F) << 8));
     }

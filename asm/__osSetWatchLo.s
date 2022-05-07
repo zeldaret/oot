@@ -1,16 +1,16 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
+#include "ultra64/r4300.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
 .balign 16
 
-glabel __osSetWatchLo
-/* 009F10 80009310 40849000 */  mtc0  $a0, $18
-/* 009F14 80009314 00000000 */  nop   
-/* 009F18 80009318 03E00008 */  jr    $ra
-/* 009F1C 8000931C 00000000 */   nop   
+LEAF(__osSetWatchLo)
+    mtc0    $a0, C0_WATCHLO
+    nop
+    jr      $ra
+     nop
+END(__osSetWatchLo)

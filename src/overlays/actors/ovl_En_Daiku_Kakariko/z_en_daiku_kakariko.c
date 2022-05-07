@@ -215,10 +215,10 @@ s32 EnDaikuKakariko_GetTalkState(EnDaikuKakariko* this, GlobalContext* globalCtx
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->actor.textId) {
             case 0x6061:
-                gSaveContext.infTable[23] |= 0x40;
+                SET_INFTABLE(INFTABLE_176);
                 break;
             case 0x6064:
-                gSaveContext.infTable[23] |= 0x100;
+                SET_INFTABLE(INFTABLE_178);
                 break;
         }
         talkState = 0;
@@ -364,7 +364,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
         pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
         xDist = pathPos->x - this->actor.world.pos.x;
         zDist = pathPos->z - this->actor.world.pos.z;
-        runAngle = RADF_TO_BINANG(Math_FAtan2F(xDist, zDist));
+        runAngle = RAD_TO_BINANG(Math_FAtan2F(xDist, zDist));
         runDist = sqrtf((xDist * xDist) + (zDist * zDist));
 
         run = false;

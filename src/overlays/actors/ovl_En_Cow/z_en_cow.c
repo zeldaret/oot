@@ -121,7 +121,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                if (!(gSaveContext.eventChkInf[1] & 0x4000)) {
+                if (!GET_EVENTCHKINF(EVENTCHKINF_1E)) {
                     Actor_Kill(&this->actor);
                     return;
                 }

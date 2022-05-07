@@ -929,14 +929,89 @@ typedef struct {
     /* 0x4C */ u32 unk_4C;
 } PreRender; // size = 0x50
 
+#define TRANS_TRIGGER_OFF 0 // transition is not active
+#define TRANS_TRIGGER_START 20 // start transition (exiting an area)
+#define TRANS_TRIGGER_END -20 // transition is ending (arriving in a new area)
+
+typedef enum {
+    /*  0 */ TRANS_MODE_OFF,
+    /*  1 */ TRANS_MODE_SETUP,
+    /*  2 */ TRANS_MODE_INSTANCE_INIT,
+    /*  3 */ TRANS_MODE_INSTANCE_RUNNING,
+    /*  4 */ TRANS_MODE_FILL_WHITE_INIT,
+    /*  5 */ TRANS_MODE_FILL_IN,
+    /*  6 */ TRANS_MODE_FILL_OUT,
+    /*  7 */ TRANS_MODE_FILL_BROWN_INIT,
+    /*  8 */ TRANS_MODE_08, // unused
+    /*  9 */ TRANS_MODE_09, // unused
+    /* 10 */ TRANS_MODE_INSTANT,
+    /* 11 */ TRANS_MODE_INSTANCE_WAIT,
+    /* 12 */ TRANS_MODE_SANDSTORM_INIT,
+    /* 13 */ TRANS_MODE_SANDSTORM,
+    /* 14 */ TRANS_MODE_SANDSTORM_END_INIT,
+    /* 15 */ TRANS_MODE_SANDSTORM_END,
+    /* 16 */ TRANS_MODE_CS_BLACK_FILL_INIT,
+    /* 17 */ TRANS_MODE_CS_BLACK_FILL
+} TransitionMode;
+
+typedef enum {
+    /*  0 */ TRANS_TYPE_WIPE,
+    /*  1 */ TRANS_TYPE_TRIFORCE,
+    /*  2 */ TRANS_TYPE_FADE_BLACK,
+    /*  3 */ TRANS_TYPE_FADE_WHITE,
+    /*  4 */ TRANS_TYPE_FADE_BLACK_FAST,
+    /*  5 */ TRANS_TYPE_FADE_WHITE_FAST,
+    /*  6 */ TRANS_TYPE_FADE_BLACK_SLOW,
+    /*  7 */ TRANS_TYPE_FADE_WHITE_SLOW,
+    /*  8 */ TRANS_TYPE_WIPE_FAST,
+    /*  9 */ TRANS_TYPE_FILL_WHITE2, 
+    /* 10 */ TRANS_TYPE_FILL_WHITE,
+    /* 11 */ TRANS_TYPE_INSTANT,
+    /* 12 */ TRANS_TYPE_FILL_BROWN,
+    /* 13 */ TRANS_TYPE_FADE_WHITE_CS_DELAYED,
+    /* 14 */ TRANS_TYPE_SANDSTORM_PERSIST,
+    /* 15 */ TRANS_TYPE_SANDSTORM_END,
+    /* 16 */ TRANS_TYPE_CS_BLACK_FILL,
+    /* 17 */ TRANS_TYPE_FADE_WHITE_INSTANT,
+    /* 18 */ TRANS_TYPE_FADE_GREEN,
+    /* 19 */ TRANS_TYPE_FADE_BLUE,
+    // transition types 20 - 31 are unused
+    // transition types 32 - 55 are constructed using the TRANS_TYPE_CIRCLE macro
+    /* 56 */ TRANS_TYPE_MAX = 56
+} TransitionType;
+
+#define TRANS_NEXT_TYPE_DEFAULT 0xFF // when `nextTransitionType` is set to default, the type will be taken from the entrance table for the ending transition
+
+typedef enum {
+    /* 0 */ TCA_NORMAL,
+    /* 1 */ TCA_WAVE,
+    /* 2 */ TCA_RIPPLE,
+    /* 3 */ TCA_STARBURST
+} TransitionCircleAppearance;
+
+typedef enum {
+    /* 0 */ TCC_BLACK,
+    /* 1 */ TCC_WHITE,
+    /* 2 */ TCC_GRAY,
+    /* 3 */ TCC_SPECIAL // color varies depending on appearance. unused and appears broken
+} TransitionCircleColor;
+
+typedef enum {
+    /* 0 */ TCS_FAST,
+    /* 1 */ TCS_SLOW
+} TransitionCircleSpeed;
+
+#define TC_SET_PARAMS (1 << 7)
+
+#define TRANS_TYPE_CIRCLE(appearance, color, speed) ((1 << 5) | ((color & 3) << 3) | ((appearance & 3) << 1) | (speed & 1))
+
 typedef struct {
     union {
         TransitionFade fade;
         TransitionCircle circle;
         TransitionTriforce triforce;
         TransitionWipe wipe;
-        char data[0x228];
-    };
+    } instanceData;
     /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
@@ -945,7 +1020,7 @@ typedef struct {
     /* 0x23C */ void  (*start)(void* transition);
     /* 0x240 */ void  (*setType)(void* transition, s32 type);
     /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
     /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 
@@ -1139,14 +1214,14 @@ typedef struct GlobalContext {
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
     /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
-    /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
+    /* 0x11E15 */ s8 transitionTrigger; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;
     /* 0x11E18 */ s16 unk_11E18;
     /* 0x11E1A */ s16 nextEntranceIndex;
     /* 0x11E1C */ char unk_11E1C[0x40];
     /* 0x11E5C */ s8 shootingGalleryStatus;
     /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
-    /* 0x11E5E */ u8 fadeTransition;
+    /* 0x11E5E */ u8 transitionType;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
     /* 0x12124 */ PreRender pauseBgPreRender;
@@ -1582,7 +1657,7 @@ typedef struct {
     /* 0x04 */ u32 resetCount;
     /* 0x08 */ OSTime duration;
     /* 0x10 */ OSTime resetTime;
-} PreNmiBuff; // size = 0x18 (actually osAppNmiBuffer is 0x40 bytes large but the rest is unused)
+} PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
 typedef struct {
     /* 0x00 */ s16 unk_00;
@@ -1677,19 +1752,22 @@ typedef struct {
     /* 0x100 */ u16 acCodes[256];
 } JpegHuffmanTableOld; // size = 0x300
 
-typedef struct {
+typedef union {
+    struct {
     /* 0x00 */ u32 address;
     /* 0x04 */ u32 mbCount;
     /* 0x08 */ u32 mode;
     /* 0x0C */ u32 qTableYPtr;
     /* 0x10 */ u32 qTableUPtr;
     /* 0x14 */ u32 qTableVPtr;
-    /* 0x18 */ char unk_18[0x8];
+    /* 0x18 */ u32 mbSize; // This field is used by the microcode to save the macroblock size during a yield
+    };
+    long long int force_structure_alignment;
 } JpegTaskData; // size = 0x20
 
 typedef struct {
     /* 0x000 */ JpegTaskData taskData;
-    /* 0x020 */ char yieldData[0x200];
+    /* 0x020 */ u64 yieldData[0x200 / sizeof(u64)];
     /* 0x220 */ JpegQuantizationTable qTableY;
     /* 0x2A0 */ JpegQuantizationTable qTableU;
     /* 0x320 */ JpegQuantizationTable qTableV;

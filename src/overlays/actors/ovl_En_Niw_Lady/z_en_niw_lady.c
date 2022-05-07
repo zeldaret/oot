@@ -42,7 +42,8 @@ static s16 sMissingCuccoTextIds[] = {
 };
 
 static s16 D_80ABB3B4[] = {
-    0x0200, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000, 0x8000,
+    INFTABLE_199_MASK, INFTABLE_19A_MASK, INFTABLE_19B_MASK, INFTABLE_19C_MASK,
+    INFTABLE_19D_MASK, INFTABLE_19E_MASK, INFTABLE_19F_MASK,
 };
 
 static ColliderCylinderInit sCylinderInit = {
@@ -167,7 +168,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:
-                if (!(gSaveContext.itemGetInf[0] & 0x1000) && !LINK_IS_ADULT) {
+                if (!GET_ITEMGETINF(ITEMGETINF_0C) && !LINK_IS_ADULT) {
                     frames = Animation_GetLastFrame(&gObjOsAnim_A630);
                     Animation_Change(&this->skelAnime, &gObjOsAnim_A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
@@ -206,7 +207,8 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
             if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
                 (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
-                    gSaveContext.infTable[25] |= D_80ABB3B4[currentCucco->unk_2AA];
+                    gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] |=
+                        D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
                         // "GET inside the chicken fence!"
                         osSyncPrintf(VT_FGCOL(GREEN) "☆ 鶏柵内ＧＥＴ！☆ %x\n" VT_RST,
@@ -215,7 +217,7 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
                 }
                 this->cuccosInPen++;
             } else if (this->unk_26C == 0) {
-                gSaveContext.infTable[25] &= ~D_80ABB3B4[currentCucco->unk_2AA];
+                gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &= ~D_80ABB3B4[currentCucco->unk_2AA];
             }
         }
         currentCucco = (EnNiw*)currentCucco->actor.next;
@@ -269,9 +271,13 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
                 this->unk_26C = 1;
                 this->unk_262 = TEXT_STATE_EVENT;
                 this->unk_26A = this->cuccosInPen;
-                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST, gSaveContext.infTable[25]);
-                gSaveContext.infTable[25] &= 0x1FF;
-                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST, gSaveContext.infTable[25]);
+                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更前 ☆☆ %x\n" VT_RST,
+                             gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
+                gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX] &=
+                    (u16) ~(INFTABLE_199_MASK | INFTABLE_19A_MASK | INFTABLE_19B_MASK | INFTABLE_19C_MASK |
+                            INFTABLE_19D_MASK | INFTABLE_19E_MASK | INFTABLE_19F_MASK);
+                osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 柵内BIT変更後 ☆☆ %x\n" VT_RST,
+                             gSaveContext.infTable[INFTABLE_199_19A_19B_19C_19D_19E_19F_INDEX]);
                 osSyncPrintf("\n\n");
                 this->actionFunc = func_80ABA654;
                 return;
@@ -300,7 +306,7 @@ void func_80ABA654(EnNiwLady* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 爆弾   ☆☆☆☆☆ %d\n" VT_RST, this->unk_272);
         osSyncPrintf("\n\n");
         this->unk_26E = 0xB;
-        if (!(gSaveContext.itemGetInf[0] & 0x1000)) {
+        if (!GET_ITEMGETINF(ITEMGETINF_0C)) {
             this->actor.parent = NULL;
             this->getItemId = GI_BOTTLE;
             func_8002F434(&this->actor, globalCtx, GI_BOTTLE, 100.0f, 50.0f);
@@ -324,7 +330,7 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ アダルトメッセージチェック ☆☆☆☆☆ \n" VT_RST);
     this->unk_262 = TEXT_STATE_DONE;
     this->unk_273 = 0;
-    if (!(gSaveContext.itemGetInf[2] & 0x1000)) {
+    if (!GET_ITEMGETINF(ITEMGETINF_2C)) {
         if (this->unk_274 != 0) {
             this->unk_27A = 1;
         } else {
@@ -334,9 +340,9 @@ void func_80ABA778(EnNiwLady* this, GlobalContext* globalCtx) {
         this->unk_262 = TEXT_STATE_CHOICE;
     } else {
         this->unk_27A = 2;
-        if (!(gSaveContext.itemGetInf[2] & 0x4000)) {
+        if (!GET_ITEMGETINF(ITEMGETINF_2E)) {
             this->unk_27A = 3;
-            if (gSaveContext.eventChkInf[6] & 0x400) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_6A)) {
                 this->unk_27A = 9;
                 if (this->unk_277 != 0) {
                     this->unk_27A = 10;
@@ -360,7 +366,7 @@ void func_80ABA878(EnNiwLady* this, GlobalContext* globalCtx) {
     }
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         playerExchangeItemId = func_8002F368(globalCtx);
-        if ((playerExchangeItemId == 6) && (gSaveContext.eventChkInf[6] & 0x400)) {
+        if ((playerExchangeItemId == 6) && GET_EVENTCHKINF(EVENTCHKINF_6A)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             player->actor.textId = sTradeItemTextIds[5];
             this->unk_26E = this->unk_27A + 21;
@@ -437,7 +443,7 @@ void func_80ABAC00(EnNiwLady* this, GlobalContext* globalCtx) {
     } else {
         getItemId = this->getItemId;
         if (LINK_IS_ADULT) {
-            getItemId = !(gSaveContext.itemGetInf[2] & 0x1000) ? GI_POCKET_EGG : GI_COJIRO;
+            getItemId = !GET_ITEMGETINF(ITEMGETINF_2C) ? GI_POCKET_EGG : GI_COJIRO;
         }
         func_8002F434(&this->actor, globalCtx, getItemId, 200.0f, 100.0f);
     }
@@ -449,14 +455,14 @@ void func_80ABAC84(EnNiwLady* this, GlobalContext* globalCtx) {
     }
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
     if (LINK_IS_ADULT) {
-        if (!(gSaveContext.itemGetInf[2] & 0x1000)) {
-            gSaveContext.itemGetInf[2] |= 0x1000;
+        if (!GET_ITEMGETINF(ITEMGETINF_2C)) {
+            SET_ITEMGETINF(ITEMGETINF_2C);
         } else {
-            gSaveContext.itemGetInf[2] |= 0x4000;
+            SET_ITEMGETINF(ITEMGETINF_2E);
         }
         this->actionFunc = func_80ABA778;
     } else {
-        gSaveContext.itemGetInf[0] |= 0x1000;
+        SET_ITEMGETINF(ITEMGETINF_0C);
         this->unk_262 = TEXT_STATE_DONE;
         this->actionFunc = func_80ABA244;
     }
