@@ -1072,12 +1072,10 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
 void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
-    s32 linkAge;
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
         this->unk_194.unk_18 = player->actor.world.pos;
-        linkAge = gSaveContext.linkAge;
-        this->unk_194.unk_14 = D_80A482D8[this->actor.params & 0x1F][linkAge];
+        this->unk_194.unk_14 = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
         func_80034A14(&this->actor, &this->unk_194, 4, this->unk_26E);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
