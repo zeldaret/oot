@@ -1,8 +1,9 @@
 #include "global.h"
 
 s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size) {
-    register s32 status = HW_REG(PI_STATUS_REG, u32);
+    s32 status;
 
+    status = HW_REG(PI_STATUS_REG, u32);
     while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY)) {
         status = HW_REG(PI_STATUS_REG, u32);
     }

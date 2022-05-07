@@ -8,7 +8,7 @@ extern u8 gAmmoItems[];
 extern s16 D_8082AAEC[];
 extern s16 D_8082AB2C[];
 extern u8 gSlotAgeReqs[];
-extern u8 gEquipAgeReqs[][4];
+extern u8 gEquipAgeReqs[EQUIP_TYPE_MAX][4];
 extern u8 gAreaGsFlags[];
 
 void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfxCtx);

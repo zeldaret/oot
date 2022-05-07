@@ -114,22 +114,22 @@ void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             // Check which beams are disabled
-            if (Flags_GetEventChkInf(0xBB)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BB)) {
                 this->effects[0].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBC)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BC)) {
                 this->effects[1].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBD)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BD)) {
                 this->effects[2].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBE)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BE)) {
                 this->effects[3].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBF)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BF)) {
                 this->effects[4].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xAD)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_AD)) {
                 this->effects[5].size = 0.0f;
             }
 
@@ -493,7 +493,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, GlobalContext* globalCtx2) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 807);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
-        gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteTextureLoadDL);
+        gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteMaterialDL);
 
         for (i = 0; i < globalCtx->envCtx.unk_EE[3]; i++) {
             Matrix_Translate(this->effects[i].base.x + this->effects[i].pos.x,
@@ -560,7 +560,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, GlobalContext* globalCtx2) {
             Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(globalCtx->state.frames * 20.0f), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 913), G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteDL);
+            gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteModelDL);
         }
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 922);
     }

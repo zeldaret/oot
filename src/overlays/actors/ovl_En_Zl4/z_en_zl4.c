@@ -374,7 +374,7 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex >= 4) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_TheEnd;
-    } else if (gSaveContext.eventChkInf[4] & 1) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_Idle;
     } else {
@@ -772,8 +772,8 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 globalCtx->nextEntranceIndex = 0xA0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
-                globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->fadeTransition = 3;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             }
             break;
     }
@@ -1180,7 +1180,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             if (EnZl4_CsMakePlan(this, globalCtx)) {
                 func_8002DF54(globalCtx, &this->actor, 7);
                 gSaveContext.unk_13EE = 0x32;
-                gSaveContext.eventChkInf[4] |= 1;
+                SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;
             }
             break;

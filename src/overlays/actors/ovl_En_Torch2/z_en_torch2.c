@@ -532,7 +532,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     // Causes Dark Link to shield in place when Link is using magic attacks other than the spin attack
 
-    if ((gSaveContext.magicState == MAGIC_STATE_BORDER_CHANGE_1) &&
+    if ((gSaveContext.magicState == MAGIC_STATE_METER_FLASH_1) &&
         (player->meleeWeaponState == 0 || !((player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
                                             (player->meleeWeaponAnimation <= PLAYER_MWA_BIG_SPIN_2H)))) {
         sStickTilt = 0.0f;
@@ -600,7 +600,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_8A8 = 6.0f;
                 this->unk_8A4 = 8.0f;
                 this->unk_8A2 = this->actor.yawTowardsPlayer + 0x8000;
-                Actor_SetDropFlag(&this->actor, &this->cylinder.info, 1);
+                Actor_SetDropFlag(&this->actor, &this->cylinder.info, true);
                 this->stateFlags3 &= ~PLAYER_STATE3_2;
                 this->stateFlags3 |= PLAYER_STATE3_0;
                 sActionState = ENTORCH2_DAMAGE;

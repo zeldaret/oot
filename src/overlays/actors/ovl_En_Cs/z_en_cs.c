@@ -186,7 +186,7 @@ s32 EnCs_GetTalkState(EnCs* this, GlobalContext* globalCtx) {
                 if (this->actor.textId == 0x2026) {
                     Player_UnsetMask(globalCtx);
                     Item_Give(globalCtx, ITEM_SOLD_OUT);
-                    gSaveContext.itemGetInf[3] |= 0x400;
+                    SET_ITEMGETINF(ITEMGETINF_3A);
                     Rupees_ChangeBy(30);
                     this->actor.textId = 0x2027;
                     talkState = 2;
@@ -210,7 +210,7 @@ s32 EnCs_GetTextID(EnCs* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 textId = Text_GetFaceReaction(globalCtx, 15);
 
-    if (gSaveContext.itemGetInf[3] & 0x400) {
+    if (GET_ITEMGETINF(ITEMGETINF_3A)) {
         if (textId == 0) {
             textId = 0x2028;
         }
@@ -290,7 +290,7 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
     EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
     xDiff = pathPos.x - this->actor.world.pos.x;
     zDiff = pathPos.z - this->actor.world.pos.z;
-    walkAngle1 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    walkAngle1 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     this->walkAngle = walkAngle1;
     this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
 
@@ -305,7 +305,7 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
         EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
         xDiff = pathPos.x - this->actor.world.pos.x;
         zDiff = pathPos.z - this->actor.world.pos.z;
-        walkAngle2 = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+        walkAngle2 = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
         this->walkAngle = walkAngle2;
         this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
     }
@@ -333,14 +333,14 @@ void EnCs_Walk(EnCs* this, GlobalContext* globalCtx) {
         animIndex = this->currentAnimIndex;
 
         if (this->talkState == 0) {
-            if (gSaveContext.itemGetInf[3] & 0x400) {
+            if (GET_ITEMGETINF(ITEMGETINF_3A)) {
                 rnd = Rand_ZeroOne() * 10.0f;
             } else {
                 rnd = Rand_ZeroOne() * 5.0f;
             }
 
             if (rnd == 0) {
-                if (gSaveContext.itemGetInf[3] & 0x400) {
+                if (GET_ITEMGETINF(ITEMGETINF_3A)) {
                     animIndex = 2.0f * Rand_ZeroOne();
                     animIndex = (animIndex == 0) ? ENCS_ANIM_2 : ENCS_ANIM_1;
                 } else {
@@ -469,7 +469,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnCs_OverrideLimbDraw, EnCs_PostLimbDraw, &this->actor);
 
-    if (gSaveContext.itemGetInf[3] & 0x400) {
+    if (GET_ITEMGETINF(ITEMGETINF_3A)) {
         s32 childLinkObjectIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
 
         // Handle attaching the Spooky Mask to the boy's face
