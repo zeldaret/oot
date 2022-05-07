@@ -198,7 +198,7 @@ void EnEncount1_SpawnTektites(EnEncount1* this, GlobalContext* globalCtx) {
                 }
                 spawnPos.y = floorY;
                 if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_TITE, spawnPos.x,
-                                       spawnPos.y, spawnPos.z, 0, 0, 0, TEKTITE_RED) != NULL) { // Red tektite
+                                       spawnPos.y, spawnPos.z, 0, 0, 0, TEKTITE_RED) != NULL) {
                     this->curNumSpawn++;
                     this->totalNumSpawn++;
                 } else {

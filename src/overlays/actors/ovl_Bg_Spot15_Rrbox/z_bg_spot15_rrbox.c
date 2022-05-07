@@ -109,7 +109,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         }
 
         if (rotY < 0x2000 && rotY > -0x6000) {
-            return gSaveContext.eventChkInf[1] & 0x10;
+            return GET_EVENTCHKINF(EVENTCHKINF_14);
         }
         return true;
     }

@@ -753,7 +753,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
-            Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+            Actor_SetDropFlag(&this->actor, &this->collider.info, true);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }

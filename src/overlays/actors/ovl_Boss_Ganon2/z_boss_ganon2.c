@@ -1793,8 +1793,8 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
         case 20:
             globalCtx->nextEntranceIndex = 0x6B;
             gSaveContext.nextCutsceneIndex = 0xFFF2;
-            globalCtx->sceneLoadFlag = 0x14;
-            globalCtx->fadeTransition = 3;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+            globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
             break;
     }

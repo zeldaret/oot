@@ -1,138 +1,165 @@
-.include    "macro.inc"
+#include "ultra64/asm.h"
 
+.set noreorder
 
-.section    .data
+.section .data
 
-glabel      qNaN0x3FFFFF
-    .word       0x7FBFFFFF
+.balign 16
 
-glabel      qNaN0x10000
-    .word       0x7F810000
+DATA(qNaN0x3FFFFF)
+    .word 0x7FBFFFFF
+ENDDATA(qNaN0x3FFFFF)
 
-glabel      sNaN0x3FFFFF
-    .word       0x7FFFFFFF
+DATA(qNaN0x10000)
+    .word 0x7F810000
+ENDDATA(qNaN0x10000)
 
+DATA(sNaN0x3FFFFF)
+    .word 0x7FFFFFFF
+ENDDATA(sNaN0x3FFFFF)
 
-.section    .text
+.section .text
 
-glabel      floorf
+.balign 16
+
+LEAF(floorf)
     floor.w.s   $f12, $f12
-    cvt.s.w     $f0, $f12
     jr          $ra
+     cvt.s.w    $f0, $f12
+END(floorf)
 
-glabel      floor
+LEAF(floor)
     floor.w.d   $f12, $f12
-    cvt.d.w     $f0, $f12
     jr          $ra
+     cvt.d.w    $f0, $f12
+END(floor)
 
-glabel      lfloorf
+LEAF(lfloorf)
     floor.w.s   $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(lfloorf)
 
-glabel      lfloor
+LEAF(lfloor)
     floor.w.d   $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(lfloor)
 
-glabel      ceilf
+LEAF(ceilf)
     ceil.w.s    $f12, $f12
-    cvt.s.w     $f0, $f12
     jr          $ra
+     cvt.s.w    $f0, $f12
+END(ceilf)
 
-glabel      ceil
+LEAF(ceil)
     ceil.w.d    $f12, $f12
-    cvt.d.w     $f0, $f12
     jr          $ra
+     cvt.d.w    $f0, $f12
+END(ceil)
 
-glabel      lceilf
+LEAF(lceilf)
     ceil.w.s    $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(lceilf)
 
-glabel      lceil
+LEAF(lceil)
     ceil.w.d    $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(lceil)
 
-glabel      truncf
+LEAF(truncf)
     trunc.w.s   $f12, $f12
-    cvt.s.w     $f0, $f12
     jr          $ra
+     cvt.s.w    $f0, $f12
+END(truncf)
 
-glabel      trunc
+LEAF(trunc)
     trunc.w.d   $f12, $f12
-    cvt.d.w     $f0, $f12
     jr          $ra
+     cvt.d.w    $f0, $f12
+END(trunc)
 
-glabel      ltruncf
+LEAF(ltruncf)
     trunc.w.s   $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(ltruncf)
 
-glabel      ltrunc
+LEAF(ltrunc)
     trunc.w.d   $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(ltrunc)
 
-glabel      nearbyintf
+LEAF(nearbyintf)
     round.w.s   $f12, $f12
-    cvt.s.w     $f0, $f12
     jr          $ra
+     cvt.s.w    $f0, $f12
+END(nearbyintf)
 
-glabel      nearbyint
+LEAF(nearbyint)
     round.w.d   $f12, $f12
-    cvt.d.w     $f0, $f12
     jr          $ra
+     cvt.d.w    $f0, $f12
+END(nearbyint)
 
-glabel      lnearbyintf
+LEAF(lnearbyintf)
     round.w.s   $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(lnearbyintf)
 
-glabel      lnearbyint
+LEAF(lnearbyint)
     round.w.d   $f4, $f12
     mfc1        $v0, $f4
-    nop
     jr          $ra
+     nop
+END(lnearbyint)
 
-glabel      roundf
+LEAF(roundf)
     li.s        $f4, 0.5
     nop
     add.s       $f0, $f12, $f4
     floor.w.s   $f0, $f0
-    cvt.s.w     $f0, $f0
     jr          $ra
+     cvt.s.w     $f0, $f0
+END(roundf)
 
-glabel      round
+LEAF(round)
     li.d        $f4, 0.5
     nop
     add.d       $f0, $f12, $f4
     floor.w.d   $f0, $f0
-    cvt.d.w     $f0, $f0
     jr          $ra
+     cvt.d.w     $f0, $f0
+END(round)
 
-glabel      lroundf
+LEAF(lroundf)
     li.s        $f4, 0.5
     nop
     add.s       $f0, $f12, $f4
     floor.w.s   $f0, $f0
     mfc1        $v0, $f0
-    nop
     jr          $ra
+     nop
+END(lroundf)
 
-glabel      lround
+LEAF(lround)
     li.d        $f4, 0.5
     nop
     add.d       $f0, $f12, $f4
     floor.w.d   $f0, $f0
     mfc1        $v0, $f0
-    nop
     jr          $ra
+     nop
+END(lround)

@@ -9,8 +9,8 @@
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
-#define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC collisions
-#define MASS_HEAVY 0xFE // Can only be pushed by OC collisions with IMMOVABLE and HEAVY objects.
+#define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
+#define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
 struct Actor;
 struct GlobalContext;
@@ -96,7 +96,7 @@ typedef struct {
     /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function
     /* 0x10 */ f32 shadowScale; // Changes the size of the shadow
     /* 0x14 */ u8 shadowAlpha; // Default is 255
-    /* 0x15 */ u8 feetFloorFlags; // Set if the actor's foot is clipped under the floor. & 1 is right foot, & 2 is left
+    /* 0x15 */ u8 feetFloorFlag; // 0 if actor or feet aren't on ground, or 1 or 2 depending on feet positions
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
 
@@ -266,6 +266,7 @@ typedef enum {
     /* 0x17 */ ITEM00_TUNIC_ZORA,
     /* 0x18 */ ITEM00_TUNIC_GORON,
     /* 0x19 */ ITEM00_BOMBS_SPECIAL,
+    /* 0x1A */ ITEM00_MAX,
     /* 0xFF */ ITEM00_NONE = 0xFF
 } Item00Type;
 
