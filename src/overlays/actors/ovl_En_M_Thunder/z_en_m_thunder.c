@@ -86,7 +86,7 @@ void EnMThunder_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (!gSaveContext.isMagicAcquired || (gSaveContext.magicState != MAGIC_STATE_IDLE) ||
             (((this->actor.params & 0xFF00) >> 8) &&
-             !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_NOW)))) {
+             !(Magic_RequestChange(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_NOW)))) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4,
@@ -159,7 +159,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         if (player->unk_858 >= 0.1f) {
             if ((gSaveContext.magicState != MAGIC_STATE_IDLE) ||
                 (((this->actor.params & 0xFF00) >> 8) &&
-                 !(Magic_ChangeBy(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_WAIT_PREVIEW)))) {
+                 !(Magic_RequestChange(globalCtx, (this->actor.params & 0xFF00) >> 8, MAGIC_CONSUME_WAIT_PREVIEW)))) {
                 func_80A9F350(this, globalCtx);
                 func_80A9EFE0(this, func_80A9F350);
                 this->unk_1C8 = 0;

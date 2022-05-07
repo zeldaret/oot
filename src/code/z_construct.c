@@ -382,9 +382,9 @@ void func_80111070(void) {
     XREG(45) = 36;
     XREG(46) = 16;
     XREG(47) = 8;
-    R_MAGIC_METER_SMALL_Y = 34;
+    R_MAGIC_METER_Y_HIGHER = 34;
     R_MAGIC_METER_X = 18;
-    R_MAGIC_METER_LARGE_Y = 42;
+    R_MAGIC_METER_Y_LOWER = 42;
     R_MAGIC_FILL_X = 26;
     XREG(52) = 0;
     XREG(53) = 1;

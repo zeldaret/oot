@@ -1705,7 +1705,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             Magic_Fill(globalCtx);
         }
 
-        Magic_ChangeBy(globalCtx, 12, MAGIC_ADD);
+        Magic_RequestChange(globalCtx, 12, MAGIC_ADD);
 
         if (!GET_INFTABLE(INFTABLE_198)) {
             SET_INFTABLE(INFTABLE_198);
@@ -1721,7 +1721,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
             Magic_Fill(globalCtx);
         }
 
-        Magic_ChangeBy(globalCtx, 24, MAGIC_ADD);
+        Magic_RequestChange(globalCtx, 24, MAGIC_ADD);
 
         if (!GET_INFTABLE(INFTABLE_198)) {
             SET_INFTABLE(INFTABLE_198);
@@ -2274,7 +2274,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
 
 void Magic_Fill(GlobalContext* globalCtx) {
     if (gSaveContext.isMagicAcquired) {
-        gSaveContext.magicStateStored = gSaveContext.magicState;
+        gSaveContext.prevMagicState = gSaveContext.magicState;
         gSaveContext.magicCapacity = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_HALF_BAR;
         gSaveContext.magicState = MAGIC_STATE_FILL;
     }
@@ -2283,13 +2283,13 @@ void Magic_Fill(GlobalContext* globalCtx) {
 void Magic_Reset(GlobalContext* globalCtx) {
     if ((gSaveContext.magicState != MAGIC_STATE_GROW_METER) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
         if (gSaveContext.magicState == MAGIC_STATE_ADD) {
-            gSaveContext.magicStateStored = gSaveContext.magicState;
+            gSaveContext.prevMagicState = gSaveContext.magicState;
         }
         gSaveContext.magicState = MAGIC_STATE_RESTORE_IDLE;
     }
 }
 
-s32 Magic_ChangeBy(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
+s32 Magic_RequestChange(GlobalContext* globalCtx, s16 magicChange, s16 changeType) {
     if (!gSaveContext.isMagicAcquired) {
         return false;
     }
@@ -2443,8 +2443,8 @@ void Magic_Update(GlobalContext* globalCtx) {
 
             if (gSaveContext.magic >= gSaveContext.magicCapacity) {
                 gSaveContext.magic = gSaveContext.magicCapacity;
-                gSaveContext.magicState = gSaveContext.magicStateStored;
-                gSaveContext.magicStateStored = MAGIC_STATE_IDLE;
+                gSaveContext.magicState = gSaveContext.prevMagicState;
+                gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
             }
             break;
 
@@ -2581,8 +2581,8 @@ void Magic_Update(GlobalContext* globalCtx) {
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             if (gSaveContext.magic >= gSaveContext.magicTarget) {
                 gSaveContext.magic = gSaveContext.magicTarget;
-                gSaveContext.magicState = gSaveContext.magicStateStored;
-                gSaveContext.magicStateStored = MAGIC_STATE_IDLE;
+                gSaveContext.magicState = gSaveContext.prevMagicState;
+                gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
             }
             break;
 
@@ -2600,9 +2600,9 @@ void Magic_Draw(GlobalContext* globalCtx) {
 
     if (gSaveContext.magicLevel != 0) {
         if (gSaveContext.healthCapacity > 0xA0) {
-            magicMeterY = R_MAGIC_METER_LARGE_Y; // two rows of hearts
+            magicMeterY = R_MAGIC_METER_Y_LOWER; // two rows of hearts
         } else {
-            magicMeterY = R_MAGIC_METER_SMALL_Y; // one row of hearts
+            magicMeterY = R_MAGIC_METER_Y_HIGHER; // one row of hearts
         }
 
         func_80094520(globalCtx->state.gfxCtx);
