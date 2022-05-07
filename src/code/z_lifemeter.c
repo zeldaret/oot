@@ -111,7 +111,7 @@ s16 sBeatingHeartsDDEnv[3];
 s16 sHeartsDDPrim[2][3];
 s16 sHeartsDDEnv[2][3];
 
-void Health_Init(GlobalContext* globalCtx) {
+void Health_InitMeter(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     interfaceCtx->unk_228 = 0x140;
@@ -144,7 +144,7 @@ void Health_Init(GlobalContext* globalCtx) {
     sHeartsDDEnv[0][2] = sHeartsDDEnv[1][2] = HEARTS_DD_ENV_B;
 }
 
-void Health_Update(GlobalContext* globalCtx) {
+void Health_UpdateMeter(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     f32 factor = interfaceCtx->heartColorOscillator * 0.1f;
     f32 ddFactor;
@@ -295,7 +295,7 @@ static void* sHeartDDTextures[] = {
     gDefenseHeartThreeQuarterTex,
 };
 
-void Health_Draw(GlobalContext* globalCtx) {
+void Health_DrawMeter(GlobalContext* globalCtx) {
     s32 pad[5];
     void* heartBgImg;
     u32 curColorSet;
