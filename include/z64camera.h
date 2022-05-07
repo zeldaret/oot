@@ -1284,15 +1284,7 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f norm;
-    /* 0x18 */ CollisionPoly* poly;
-    /* 0x1C */ VecSph sphNorm;
-    /* 0x24 */ s32 bgId;
-} CamColChk; // size = 0x28
-
-typedef struct {
-    /* 0x000*/ union {
+    union {
         Normal1 norm1;
         Normal2 norm2;
         Normal3 norm3;
@@ -1331,7 +1323,19 @@ typedef struct {
         Special7 spec7;
         Special9 spec9;
         DoorParams doorParams;
-    } funcData;
+    };
+} CamFuncData;
+
+typedef struct {
+    /* 0x00 */ Vec3f pos;
+    /* 0x0C */ Vec3f norm;
+    /* 0x18 */ CollisionPoly* poly;
+    /* 0x1C */ VecSph sphNorm;
+    /* 0x24 */ s32 bgId;
+} CamColChk; // size = 0x28
+
+typedef struct {
+    /* 0x000 */ CamFuncData funcData;
     /* 0x050 */ Vec3f at;
     /* 0x05C */ Vec3f eye;
     /* 0x068 */ Vec3f up;
