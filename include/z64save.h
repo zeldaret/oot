@@ -6,7 +6,7 @@
 
 typedef enum {
     /* 0x0 */ MAGIC_STATE_IDLE, // Regular gameplay
-    /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed in which magic border flashes
+    /* 0x1 */ MAGIC_STATE_CONSUME_SETUP, // Sets the speed at which magic border flashes
     /* 0x2 */ MAGIC_STATE_CONSUME, // Consume magic until target is reached or no more magic is available
     /* 0x3 */ MAGIC_STATE_METER_FLASH_1, // Flashes border and freezes Dark Link
     /* 0x4 */ MAGIC_STATE_METER_FLASH_2, // Flashes border and draws yellow magic to preview target consumption
@@ -27,8 +27,8 @@ typedef enum {
     /* 5 */ MAGIC_ADD // Sets a target to add magic
 } MagicChangeType;
 
-#define MAGIC_HALF_BAR 0x30
-#define MAGIC_FULL_BAR (2 * MAGIC_HALF_BAR)
+#define MAGIC_NORMAL_METER 0x30
+#define MAGIC_DOUBLE_METER (2 * MAGIC_NORMAL_METER)
 
 typedef struct {
     /* 0x00 */ u8 buttonItems[4];

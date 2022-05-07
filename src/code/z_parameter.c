@@ -1700,7 +1700,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     } else if (item == ITEM_MAGIC_SMALL) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
-            // Setting the state to FILL gets immediately overwritten in Magic_ChangeBy.
+            // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
             // I.e. magic is added not filled
             Magic_Fill(globalCtx);
         }
@@ -1716,7 +1716,7 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     } else if (item == ITEM_MAGIC_LARGE) {
         if (gSaveContext.magicState != MAGIC_STATE_ADD) {
             // This function is only used to store the magicState.
-            // Setting the state to FILL gets immediately overwritten in Magic_ChangeBy.
+            // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
             // I.e. magic is added not filled.
             Magic_Fill(globalCtx);
         }
@@ -2275,7 +2275,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
 void Magic_Fill(GlobalContext* globalCtx) {
     if (gSaveContext.isMagicAcquired) {
         gSaveContext.prevMagicState = gSaveContext.magicState;
-        gSaveContext.magicCapacity = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_HALF_BAR;
+        gSaveContext.magicCapacity = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
         gSaveContext.magicState = MAGIC_STATE_FILL;
     }
 }
@@ -2291,7 +2291,7 @@ void Magic_Reset(GlobalContext* globalCtx) {
 
 /**
  * Request to either increase or consume magic.
- * amount is the positive-valued amount to either increase or decrease magic
+ * amount is the positive-valued amount to either increase or decrease magic by
  * type is how the magic is increased or consumed
  */
 s32 Magic_RequestChange(GlobalContext* globalCtx, s16 amount, s16 type) {
@@ -2378,7 +2378,7 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 amount, s16 type) {
             }
 
         case MAGIC_ADD:
-            // Sets target for magic to be added to
+            // Sets target for magic to increase to
             if (gSaveContext.magic <= gSaveContext.magicCapacityDrawn) {
                 gSaveContext.magicTarget = gSaveContext.magic + amount;
 
@@ -2416,7 +2416,7 @@ void Magic_Update(GlobalContext* globalCtx) {
         case MAGIC_STATE_GROW_METER:
             // Step magicCapacityDrawn to what is magicCapacity
             // This changes the width of the magic bar drawn
-            temp = gSaveContext.magicLevel * MAGIC_HALF_BAR; // magicCapacity
+            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER; // magicCapacity
             if (gSaveContext.magicCapacityDrawn != temp) {
                 if (gSaveContext.magicCapacityDrawn < temp) {
                     gSaveContext.magicCapacityDrawn += 8;
@@ -2454,7 +2454,7 @@ void Magic_Update(GlobalContext* globalCtx) {
             break;
 
         case MAGIC_STATE_CONSUME_SETUP:
-            // Sets the speed in which magic border flashes
+            // Sets the speed at which magic border flashes
             sMagicBorderRatio = 2;
             gSaveContext.magicState = MAGIC_STATE_CONSUME;
             break;
@@ -2526,7 +2526,7 @@ void Magic_Update(GlobalContext* globalCtx) {
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
                     !globalCtx->actorCtx.lensActive) {
-                    // Force lens off and restore magic bar to idle action
+                    // Force lens off and set magic meter state to idle
                     globalCtx->actorCtx.lensActive = false;
                     Audio_PlaySoundGeneral(NA_SE_SY_GLASSMODE_OFF, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
