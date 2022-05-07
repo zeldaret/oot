@@ -10,7 +10,7 @@ typedef enum {
     /* 0x2 */ MAGIC_STATE_CONSUME, // Consume magic until target is reached or no more magic is available
     /* 0x3 */ MAGIC_STATE_METER_FLASH_1, // Flashes border and freezes Dark Link
     /* 0x4 */ MAGIC_STATE_METER_FLASH_2, // Flashes border and draws yellow magic to preview target consumption
-    /* 0x5 */ MAGIC_STATE_RESTORE_IDLE, // Reset colors and return to idle
+    /* 0x5 */ MAGIC_STATE_RESET, // Reset colors and return to idle
     /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
     /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
     /* 0x8 */ MAGIC_STATE_GROW_METER, // Init magic on a new load, grow from a width of 0 to magicCapacity

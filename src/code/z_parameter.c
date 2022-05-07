@@ -2285,7 +2285,7 @@ void Magic_Reset(GlobalContext* globalCtx) {
         if (gSaveContext.magicState == MAGIC_STATE_ADD) {
             gSaveContext.prevMagicState = gSaveContext.magicState;
         }
-        gSaveContext.magicState = MAGIC_STATE_RESTORE_IDLE;
+        gSaveContext.magicState = MAGIC_STATE_RESET;
     }
 }
 
@@ -2506,7 +2506,7 @@ void Magic_Update(GlobalContext* globalCtx) {
             }
             break;
 
-        case MAGIC_STATE_RESTORE_IDLE:
+        case MAGIC_STATE_RESET:
             sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             gSaveContext.magicState = MAGIC_STATE_IDLE;
             break;
