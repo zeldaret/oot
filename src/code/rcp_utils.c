@@ -2,10 +2,11 @@
 
 #define printSpStatus(x, name) \
     if (x & SP_STATUS_##name)  \
-    osSyncPrintf(#name " ")
+        osSyncPrintf(#name " ")
+
 #define printDpStatus(x, name) \
     if (x & DPC_STATUS_##name) \
-    osSyncPrintf(#name " ")
+        osSyncPrintf(#name " ")
 
 void RcpUtils_PrintRegisterStatus(void) {
     u32 spStatus = __osSpGetStatus();
@@ -44,9 +45,11 @@ void RcpUtils_PrintRegisterStatus(void) {
     osSyncPrintf("\n");
 }
 
-void RcpUtils_Reset() {
+void RcpUtils_Reset(void) {
     RcpUtils_PrintRegisterStatus();
+    // flush the RDP command queue and freeze clock counter
     osDpSetStatus(DPC_SET_FREEZE | DPC_SET_FLUSH);
+    // halt the RSP without triggering an interrupt, set "task done" signal
     __osSpSetStatus(SP_SET_HALT | SP_SET_SIG2 | SP_CLR_INTR_BREAK);
     RcpUtils_PrintRegisterStatus();
 }

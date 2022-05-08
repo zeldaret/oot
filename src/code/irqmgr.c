@@ -2,8 +2,10 @@
  * @file irqmgr.c
  *
  * This file implements a manager for forwarding three key system interrupt events to
- * registered clients. The architecture of this system appears to be derived in part from
- * the libultra sched module.
+ * registered clients.
+ * Together with sched.c, these systems implement the libultra video and task scheduling
+ * model from the libultra "sched" module, with improved functionality in the handling of
+ * Pre-NMI related events.
  *
  * The interrupts the IRQ manager deals with are:
  *  - VI Retrace
@@ -27,6 +29,8 @@
  *      is not to be confused with the hardware NMI interrupt signalled when the CPU is
  *      to fully reset, as by the time that interrupt is received there is no time left
  *      to do anything.
+ *
+ * @see sched.c
  */
 #include "global.h"
 #include "vt.h"

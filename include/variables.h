@@ -17,7 +17,7 @@ extern u8 D_800093F0[];
 extern s8 D_80009430;
 extern u32 gDmaMgrVerbose;
 extern u32 gDmaMgrDmaBuffSize;
-extern vu8 gViConfigUseDefault;
+extern vu8 gViConfigBlack;
 extern u8 gViConfigAdditionalScanLines;
 extern u32 gViConfigFeatures;
 extern f32 gViConfigXScale;

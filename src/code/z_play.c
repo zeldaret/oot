@@ -1187,7 +1187,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                                 gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
-                MsgEvent_SendNullTask();
+                Sched_FlushTaskQueue();
                 PreRender_Calc(&globalCtx->pauseBgPreRender);
                 R_PAUSE_MENU_MODE = 3;
             } else if (R_PAUSE_MENU_MODE >= 4) {

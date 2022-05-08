@@ -24,7 +24,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
 
         audioMgr->audioTask.msg = NULL;
         osSendMesg(&audioMgr->sched->cmdQueue, (OSMesg)&audioMgr->audioTask, OS_MESG_BLOCK);
-        Sched_SendEntryMsg(audioMgr->sched);
+        Sched_Notify(audioMgr->sched);
     }
 
     D_8016A550 = osGetTime();
