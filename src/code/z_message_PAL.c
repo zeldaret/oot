@@ -2783,7 +2783,7 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     msgCtx->stateTimer = 10;
                     globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_03;
-                } else if (msgCtx->ocarinaStaff->state == 0xD) {
+                } else if (msgCtx->ocarinaStaff->state == OCARINA_SONG_MEMORY_GAME) {
                     // "Musical round succeeded！！！！！！！！！"
                     osSyncPrintf("輪唱成功！！！！！！！！！\n");
                     Audio_PlaySoundGeneral(NA_SE_SY_GET_ITEM, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,

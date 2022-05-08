@@ -1641,6 +1641,7 @@ void AudioOcarina_CheckSongsWithoutMusicStaff(void) {
     }
 }
 
+// This unused argument is used in Majora's Mask as a u8
 void AudioOcarina_PlayControllerInput(u8 unused) {
     u32 ocarinaBtnsHeld;
 
