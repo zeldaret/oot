@@ -146,7 +146,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
 
-    HealthMeter_Init(globalCtx);
+    Health_InitMeter(globalCtx);
     Map_Init(globalCtx);
 
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
