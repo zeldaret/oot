@@ -105,11 +105,11 @@ static EnFrPointers sEnFrPointers = {
     },
 };
 
-#define GET_EVENTCHKINF_SONGS_FOR_FROGS(frogSongIndex)             \
+#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                   \
     (gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
      sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
 
-#define SET_EVENTCHKINF_SONGS_FOR_FROGS(frogSongIndex)             \
+#define FROG_SET_SONG_PLAYED(frogSongIndex)                        \
     gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
         sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex];
 
@@ -294,7 +294,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
                                   this->actor.home.pos.z, 255, 255, 255, -1);
         // Check to see if the song for a particular frog has been played.
         // If it has, the frog is larger. If not, the frog is smaller
-        this->scale = GET_EVENTCHKINF_SONGS_FOR_FROGS(sFrogToFrogSongIndex[frogIndex]) ? 270.0f : 150.0f;
+        this->scale = FROG_HAS_SONG_BEEN_PLAYED(sFrogToFrogSongIndex[frogIndex]) ? 270.0f : 150.0f;
         // When the frogs are not active (link doesn't have his ocarina out),
         // Then shrink the frogs down by a factor of 10,000
         Actor_SetScale(&this->actor, this->scale * 0.0001f);
@@ -734,7 +734,7 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
         if (songIndex == FROG_STORMS) {
             this->actor.textId = 0x40AA;
             EnFr_SetupReward(this, globalCtx, false);
-        } else if (!GET_EVENTCHKINF_SONGS_FOR_FROGS(songIndex)) {
+        } else if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
             frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
@@ -947,22 +947,22 @@ void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx) {
     this->actionFunc = EnFr_Deactivate;
     this->reward = GI_NONE;
     if ((songIndex >= FROG_ZL) && (songIndex <= FROG_SOT)) {
-        if (!GET_EVENTCHKINF_SONGS_FOR_FROGS(songIndex)) {
-            SET_EVENTCHKINF_SONGS_FOR_FROGS(songIndex);
+        if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
+            FROG_SET_SONG_PLAYED(songIndex);
             this->reward = GI_RUPEE_PURPLE;
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
     } else if (songIndex == FROG_STORMS) {
-        if (!GET_EVENTCHKINF_SONGS_FOR_FROGS(songIndex)) {
-            SET_EVENTCHKINF_SONGS_FOR_FROGS(songIndex);
+        if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
+            FROG_SET_SONG_PLAYED(songIndex);
             this->reward = GI_HEART_PIECE;
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
     } else if (songIndex == FROG_CHOIR_SONG) {
-        if (!GET_EVENTCHKINF_SONGS_FOR_FROGS(songIndex)) {
-            SET_EVENTCHKINF_SONGS_FOR_FROGS(songIndex);
+        if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
+            FROG_SET_SONG_PLAYED(songIndex);
             this->reward = GI_HEART_PIECE;
         } else {
             this->reward = GI_RUPEE_PURPLE;
