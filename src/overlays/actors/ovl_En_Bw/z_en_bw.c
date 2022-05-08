@@ -688,7 +688,7 @@ void func_809D0584(EnBw* this, GlobalContext* globalCtx) {
                 return;
             }
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->collider2.info, 0);
+            Actor_SetDropFlag(&this->actor, &this->collider2.info, false);
             if ((this->damageEffect == 1) || (this->damageEffect == 0xE)) {
                 if (this->unk_23C == 0) {
                     Actor_ApplyDamage(&this->actor);

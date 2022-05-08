@@ -264,7 +264,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     Vec3f spD4;
     Vec3f spC8;
     Vec3f spBC;
-    u8* temp_s2;
+    u8* shadowTex;
     s32 temp_x;
     s32 temp_z;
     s32 x;
@@ -275,8 +275,8 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     s32 l;
     s16 rotY;
 
-    temp_s2 = ALIGN16((s32)(&this->shadowTexture));
-    Lib_MemSet(temp_s2, 0x1000, 0);
+    shadowTex = COBRA_SHADOW_TEX_PTR(this);
+    Lib_MemSet(shadowTex, COBRA_SHADOW_TEX_SIZE, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
     rotY = !(this->dyna.actor.params & 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
@@ -303,7 +303,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
                     for (l = 0; l < 11; l++) {
                         temp_x = x - 5 + l;
                         if (!(temp_x & ~0x3F)) {
-                            temp_s2[temp_z + temp_x] |= D_8089731C[k][l];
+                            shadowTex[temp_z + temp_x] |= D_8089731C[k][l];
                         }
                         if (1) {}
                     }
@@ -331,7 +331,7 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
                     for (l = 0; l < 3; l++) {
                         temp_x = x - 1 + l;
                         if (!(temp_x & ~0x3F)) {
-                            temp_s2[temp_z + temp_x] |= D_80897398[k][l];
+                            shadowTex[temp_z + temp_x] |= D_80897398[k][l];
                         }
                     }
                 }
@@ -340,13 +340,13 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     }
 
     for (i = 0; i < 0x40; i++) {
-        temp_s2[0 * 0x40 + i] = 0;
-        temp_s2[0x3F * 0x40 + i] = 0;
+        shadowTex[0 * 0x40 + i] = 0;
+        shadowTex[0x3F * 0x40 + i] = 0;
     }
 
     for (j = 1; j < 0x3F; j++) {
-        temp_s2[j * 0x40 + 0] = 0;
-        temp_s2[j * 0x40 + 0x3F] = 0;
+        shadowTex[j * 0x40 + 0] = 0;
+        shadowTex[j * 0x40 + 0x3F] = 0;
     }
     if (D_80897398[0][0]) {}
 }
@@ -360,15 +360,15 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
     s32 j;
     s32 i_copy;
     s32 counter;
-    u8* temp_s0;
+    u8* shadowTex;
     u8* sp40;
 
     for (i = 0; i < 0x40; i++) {
         sp58[i] = SQ(i - 31.5f);
     }
 
-    sp40 = temp_s0 = (u8*)ALIGN16((u32)(&this->shadowTexture));
-    Lib_MemSet(temp_s0, 0x1000, 0);
+    sp40 = shadowTex = COBRA_SHADOW_TEX_PTR(this);
+    Lib_MemSet(shadowTex, COBRA_SHADOW_TEX_SIZE, 0);
 
     for (i = 0; i != 0x40; i++) {
         f32 temp_f12 = sp58[i];
@@ -385,12 +385,12 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
     for (i_copy = 0x780, counter = 0; counter < 4; counter++, i_copy += 0x40) {
         i = i_copy;
         for (j = 4; j < 0x3C; j++) {
-            if (temp_s0[i_copy + j] < D_80897518[counter]) {
-                temp_s0[i_copy + j] = D_80897518[counter];
+            if (shadowTex[i_copy + j] < D_80897518[counter]) {
+                shadowTex[i_copy + j] = D_80897518[counter];
             }
         }
-        temp_s0[i + 0x3C] = 0x20;
-        temp_s0[i + 0x3] = 0x20;
+        shadowTex[i + 0x3C] = 0x20;
+        shadowTex[i + 0x3] = 0x20;
     }
 }
 
@@ -419,7 +419,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // "(jya cobra)"
     osSyncPrintf("(jya コブラ)(arg_data 0x%04x)(act %x)(txt %x)(txt16 %x)\n", this->dyna.actor.params, this,
-                 &this->shadowTexture, ALIGN16((s32)(&this->shadowTexture)));
+                 &this->shadowTextureBuffer, COBRA_SHADOW_TEX_PTR(this));
 }
 
 void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -590,9 +590,9 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 994),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, ALIGN16((s32)(&this->shadowTexture)), G_IM_FMT_I, G_IM_SIZ_8b, 0x40, 0x40, 0,
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                        G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_XLU_DISP++, COBRA_SHADOW_TEX_PTR(this), G_IM_FMT_I, G_IM_SIZ_8b, COBRA_SHADOW_TEX_WIDTH,
+                        COBRA_SHADOW_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     gSPDisplayList(POLY_XLU_DISP++, sShadowDL);
 

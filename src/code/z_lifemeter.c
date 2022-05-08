@@ -111,7 +111,7 @@ s16 sBeatingHeartsDDEnv[3];
 s16 sHeartsDDPrim[2][3];
 s16 sHeartsDDEnv[2][3];
 
-void HealthMeter_Init(GlobalContext* globalCtx) {
+void Health_InitMeter(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     interfaceCtx->unk_228 = 0x140;
@@ -144,7 +144,7 @@ void HealthMeter_Init(GlobalContext* globalCtx) {
     sHeartsDDEnv[0][2] = sHeartsDDEnv[1][2] = HEARTS_DD_ENV_B;
 }
 
-void HealthMeter_Update(GlobalContext* globalCtx) {
+void Health_UpdateMeter(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     f32 factor = interfaceCtx->heartColorOscillator * 0.1f;
     f32 ddFactor;
@@ -295,7 +295,7 @@ static void* sHeartDDTextures[] = {
     gDefenseHeartThreeQuarterTex,
 };
 
-void HealthMeter_Draw(GlobalContext* globalCtx) {
+void Health_DrawMeter(GlobalContext* globalCtx) {
     s32 pad[5];
     void* heartBgImg;
     u32 curColorSet;
@@ -498,7 +498,7 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_lifemeter.c", 606);
 }
 
-void HealthMeter_UpdateBeatingHeart(GlobalContext* globalCtx) {
+void Health_UpdateBeatingHeart(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     if (interfaceCtx->beatingHeartOscillatorDirection != 0) {
@@ -507,7 +507,7 @@ void HealthMeter_UpdateBeatingHeart(GlobalContext* globalCtx) {
             interfaceCtx->beatingHeartOscillator = 0;
             interfaceCtx->beatingHeartOscillatorDirection = 0;
             if (!Player_InCsMode(globalCtx) && (globalCtx->pauseCtx.state == 0) &&
-                (globalCtx->pauseCtx.debugState == 0) && HealthMeter_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
+                (globalCtx->pauseCtx.debugState == 0) && Health_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
         }
@@ -520,7 +520,7 @@ void HealthMeter_UpdateBeatingHeart(GlobalContext* globalCtx) {
     }
 }
 
-u32 HealthMeter_IsCritical(void) {
+u32 Health_IsCritical(void) {
     s32 criticalHealth;
 
     if (gSaveContext.healthCapacity <= 0x50) {

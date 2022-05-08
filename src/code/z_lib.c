@@ -1,10 +1,25 @@
 #include "global.h"
 
-void Lib_MemSet(u8* dest, size_t size, u8 val) {
-    u32 i;
+/**
+ * memset: sets `len` bytes to `val` starting at address `dest`.
+ *
+ * Unlike normal memset,
+ * - `dest` is a `u8*` already,
+ * - does not return `dest`,
+ * - the arguments are in a different order,
+ * - `val` is a `u8` instead of the standard `s32`.
+ *
+ * @see There are two other memsets in this codebase, __osMemset(), MemSet()
+ *
+ * @param dest address to start at
+ * @param len number of bytes to write
+ * @param val value to write
+ */
+void Lib_MemSet(u8* dest, size_t len, u8 val) {
+    size_t i;
 
     // clang-format off
-    for (i = 0; i < size; i++) { *dest++ = val; }
+    for (i = 0; i < len; i++) { *dest++ = val; }
     // clang-format on
 }
 

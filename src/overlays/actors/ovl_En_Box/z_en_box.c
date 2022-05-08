@@ -289,7 +289,7 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
         func_8002F5F0(&this->dyna.actor, globalCtx);
     }
 
-    if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &player->actor.world.pos) > 22500.0f) {
+    if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
         this->unk_1FB = ENBOX_STATE_0;
     } else {
         if (this->unk_1FB == ENBOX_STATE_0) {

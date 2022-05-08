@@ -47,7 +47,7 @@ typedef struct {
 
 typedef struct {
     /* 0x000 */ Color_RGBA8_u32 color;
-    /* 0x004 */ Color_RGBA8_u32 envColor;
+    /* 0x004 */ Color_RGBA8_u32 unkColor;
     /* 0x008 */ s32 texX;
     /* 0x00C */ s32 texY;
     /* 0x010 */ s32 speed;

@@ -1176,8 +1176,7 @@ typedef struct {
         TransitionCircle circle;
         TransitionTriforce triforce;
         TransitionWipe wipe;
-        char data[0x228];
-    };
+    } instanceData;
     /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
@@ -1186,7 +1185,7 @@ typedef struct {
     /* 0x23C */ void  (*start)(void* transition);
     /* 0x240 */ void  (*setType)(void* transition, s32 type);
     /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
     /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 
@@ -1823,7 +1822,7 @@ typedef struct {
     /* 0x04 */ u32 resetCount;
     /* 0x08 */ OSTime duration;
     /* 0x10 */ OSTime resetTime;
-} PreNmiBuff; // size = 0x18 (actually osAppNmiBuffer is 0x40 bytes large but the rest is unused)
+} PreNmiBuff; // size = 0x18 (actually osAppNMIBuffer is 0x40 bytes large but the rest is unused)
 
 typedef struct {
     /* 0x00 */ s16 unk_00;
@@ -1918,19 +1917,22 @@ typedef struct {
     /* 0x100 */ u16 acCodes[256];
 } JpegHuffmanTableOld; // size = 0x300
 
-typedef struct {
+typedef union {
+    struct {
     /* 0x00 */ u32 address;
     /* 0x04 */ u32 mbCount;
     /* 0x08 */ u32 mode;
     /* 0x0C */ u32 qTableYPtr;
     /* 0x10 */ u32 qTableUPtr;
     /* 0x14 */ u32 qTableVPtr;
-    /* 0x18 */ char unk_18[0x8];
+    /* 0x18 */ u32 mbSize; // This field is used by the microcode to save the macroblock size during a yield
+    };
+    long long int force_structure_alignment;
 } JpegTaskData; // size = 0x20
 
 typedef struct {
     /* 0x000 */ JpegTaskData taskData;
-    /* 0x020 */ char yieldData[0x200];
+    /* 0x020 */ u64 yieldData[0x200 / sizeof(u64)];
     /* 0x220 */ JpegQuantizationTable qTableY;
     /* 0x2A0 */ JpegQuantizationTable qTableU;
     /* 0x320 */ JpegQuantizationTable qTableV;
