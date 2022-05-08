@@ -2619,8 +2619,8 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                     osSyncPrintf("録音終了！！！！！！！！！録音終了\n");
                     osSyncPrintf(VT_FGCOL(YELLOW));
                     osSyncPrintf("\n====================================================================\n");
-                    MemCopy(gSaveContext.scarecrowCustomSong, gScarecrowCustomSongPtr,
-                            sizeof(gSaveContext.scarecrowCustomSong));
+                    MemCpy(gSaveContext.scarecrowCustomSong, gScarecrowCustomSongPtr,
+                           sizeof(gSaveContext.scarecrowCustomSong));
                     for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowCustomSong); i++) {
                         osSyncPrintf("%d, ", gSaveContext.scarecrowCustomSong[i]);
                     }
@@ -2682,8 +2682,8 @@ void Message_DrawMain(GlobalContext* globalCtx, Gfx** p) {
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     osSyncPrintf(VT_FGCOL(YELLOW));
                     osSyncPrintf("\n====================================================================\n");
-                    MemCopy(gSaveContext.scarecrowSpawnSong, gScarecrowSpawnSongPtr,
-                            sizeof(gSaveContext.scarecrowSpawnSong));
+                    MemCpy(gSaveContext.scarecrowSpawnSong, gScarecrowSpawnSongPtr,
+                           sizeof(gSaveContext.scarecrowSpawnSong));
                     for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowSpawnSong); i++) {
                         osSyncPrintf("%d, ", gSaveContext.scarecrowSpawnSong[i]);
                     }

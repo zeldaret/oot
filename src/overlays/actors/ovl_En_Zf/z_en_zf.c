@@ -2002,7 +2002,7 @@ void EnZf_UpdateDamage(EnZf* this, GlobalContext* globalCtx) {
              (D_80B4A1B4 != this->actor.params)) &&
             (this->actor.colChkInfo.damageEffect != ENZF_DMGEFF_IMMUNE)) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
-            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 0);
+            Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, false);
 
             if ((this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_STUN) ||
                 (this->actor.colChkInfo.damageEffect == ENZF_DMGEFF_ICE)) {
