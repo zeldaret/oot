@@ -4706,7 +4706,7 @@ s32 Camera_Unique2(Camera* camera) {
 s32 Camera_Unique3(Camera* camera) {
     VecSph sp60;
     f32 playerHeight;
-    DoorParams* doorParams = &camera->paramData.uniq3.doorParams;
+    DoorParams* doorParams = &camera->paramData.doorParams;
     Vec3s* temp_v0_2;
     Vec3s sp4C;
     Unique3ReadWriteData* rwData = &camera->paramData.uniq3.rwData;
@@ -4825,7 +4825,7 @@ s32 Camera_Unique0(Camera* camera) {
     Vec3s* sceneCamData;
     Vec3s sceneCamRot;
     PosRot* playerPosRot = &camera->playerPosRot;
-    DoorParams* doorParams = &camera->paramData.uniq0.doorParams;
+    DoorParams* doorParams = &camera->paramData.doorParams;
     Unique0ReadOnlyData* roData = &camera->paramData.uniq0.roData;
     Unique0ReadWriteData* rwData = &camera->paramData.uniq0.rwData;
     Vec3f* eye = &camera->eye;
@@ -6696,7 +6696,7 @@ s32 Camera_Special9(Camera* camera) {
     PosRot* playerPosRot = &camera->playerPosRot;
     PosRot adjustedPlayerPosRot;
     f32 yNormal;
-    DoorParams* doorParams = &camera->paramData.spec9.doorParams;
+    DoorParams* doorParams = &camera->paramData.doorParams;
     Special9ReadOnlyData* roData = &camera->paramData.spec9.roData;
     Special9ReadWriteData* rwData = &camera->paramData.spec9.rwData;
     s32 pad4;

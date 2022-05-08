@@ -992,10 +992,9 @@ typedef struct {
 } Unique3ReadWriteData; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ DoorParams doorParams;
-    /* 0x0C */ Unique3ReadOnlyData roData;
-    /* 0x18 */ Unique3ReadWriteData rwData;
-} Unique3; // size = 0x20
+    /* 0x00 */ Unique3ReadOnlyData roData;
+    /* 0x0C */ Unique3ReadWriteData rwData;
+} Unique3; // size = 0x14
 
 #define CAM_FUNCDATA_UNIQ3(yOffset, fov, flags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -1013,10 +1012,9 @@ typedef struct {
 } Unique0ReadWriteData; // size = 0x28
 
 typedef struct {
-    /* 0x00 */ DoorParams doorParams;
-    /* 0x0C */ Unique0ReadOnlyData roData;
-    /* 0x10 */ Unique0ReadWriteData rwData;
-} Unique0; // size = 0x38
+    /* 0x00 */ Unique0ReadOnlyData roData;
+    /* 0x04 */ Unique0ReadWriteData rwData;
+} Unique0; // size = 0x2C
 
 typedef struct {
     /* 0x0 */ s16 interfaceFlags;
@@ -1273,10 +1271,9 @@ typedef struct {
 } Special9ReadWriteData; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ DoorParams doorParams;
-    /* 0x0C */ Special9ReadOnlyData roData;
-    /* 0x18 */ Special9ReadWriteData rwData;
-} Special9; // size = 0x1C
+    /* 0x00 */ Special9ReadOnlyData roData;
+    /* 0x0C */ Special9ReadWriteData rwData;
+} Special9; // size = 0x10
 
 #define CAM_FUNCDATA_SPEC9(yOffset, fov, flags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -1304,10 +1301,8 @@ typedef union {
     Subj3 subj3;
     Subj4 subj4;
     Data4 data4;
-    Unique0 uniq0;
     Unique1 uniq1;
     Unique2 uniq2;
-    Unique3 uniq3;
     Unique6 uniq6;
     Unique7 uniq7;
     Unique9 uniq9;
@@ -1320,8 +1315,14 @@ typedef union {
     Special5 spec5;
     Special6 spec6;
     Special7 spec7;
-    Special9 spec9;
-    DoorParams doorParams;
+    struct {
+        /* 0x0 */ DoorParams doorParams;
+        /* 0xC */ union {
+            Unique0 uniq0;
+            Unique3 uniq3;
+            Special9 spec9;
+        };
+    };
 } CamParamData; // size = 0x50
 
 typedef struct {
