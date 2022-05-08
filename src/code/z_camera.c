@@ -5302,7 +5302,7 @@ s32 Camera_Unique9(Camera* camera) {
             camera->roll = anim->rollTarget;
             break;
         case 16:
-            // same as 16, but don't unset bit 0x8 on unk_14C
+            // same as 21, but don't unset bit 0x8 on unk_14C
             if (anim->unk_38 == 0) {
                 anim->unk_38 = 1;
             } else if (camera->unk_14C & 8) {
@@ -6793,7 +6793,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     s16 curUID;
     s16 j;
 
-    func_80106860(camera, 0, sizeof(*camera));
+    __osMemset(camera, 0, sizeof(Camera));
     if (sInitRegs) {
         for (i = 0; i < sOREGInitCnt; i++) {
             OREG(i) = sOREGInit[i];

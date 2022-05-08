@@ -13,6 +13,7 @@ beginseg
     name "boot"
     address 0x80000460
     include "build/src/boot/boot_main.o"
+    include "build/data/unk_800093F0.data.o"
     include "build/data/unk_80009410.data.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"
@@ -510,11 +511,12 @@ beginseg
     include "build/src/libultra/libc/sqrt.o"
     include "build/src/libultra/libc/absf.o"
     include "build/src/code/fmodf.o"
-    include "build/src/code/code_80106860.o"
-    include "build/src/code/code_801068B0.o"
+    include "build/src/code/__osMemset.o"
+    include "build/src/code/__osMemmove.o"
     include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
+    include "build/data/audio_tables.rodata.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
 endseg
