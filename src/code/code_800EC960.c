@@ -1732,7 +1732,7 @@ void AudioOcarina_PlayControllerInput(u8 unused) {
             Audio_PlaySoundGeneral(NA_SE_OC_OCARINA, &gSfxDefaultPos, 4, &sCurOcarinaBendFreq, &sRelativeOcarinaVolume,
                                    &gSfxDefaultReverb);
         } else if ((sPrevOcarinaPitch != OCARINA_PITCH_NONE) && (sCurOcarinaPitch == OCARINA_PITCH_NONE)) {
-            // cancels ocarina for a non-valid input or no input
+            // Stops ocarina sound when transitioning from playing to not playing a note
             Audio_StopSfxById(NA_SE_OC_OCARINA);
         }
     }
