@@ -858,7 +858,7 @@ s32 Collider_DestroyQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim) {
 }
 
 s32 Collider_ResetQuadACDist(GlobalContext* globalCtx, ColliderQuadDim* dim) {
-    dim->acDist = 1.0E38f;
+    dim->acDistSq = 1.0E38f;
     return true;
 }
 
@@ -959,16 +959,16 @@ s32 Collider_ResetQuadOC(GlobalContext* globalCtx, Collider* collider) {
  * otherwise returns false. Used on player AT colliders to prevent multiple collisions from registering.
  */
 s32 Collider_QuadSetNearestAC(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* hitPos) {
-    f32 acDist;
+    f32 acDistSq;
     Vec3f dcMid;
 
     if (!(quad->info.toucherFlags & TOUCH_NEAREST)) {
         return true;
     }
     Math_Vec3s_ToVec3f(&dcMid, &quad->dim.dcMid);
-    acDist = Math3D_Vec3fDistSq(&dcMid, hitPos);
-    if (acDist < quad->dim.acDist) {
-        quad->dim.acDist = acDist;
+    acDistSq = Math3D_Vec3fDistSq(&dcMid, hitPos);
+    if (acDistSq < quad->dim.acDistSq) {
+        quad->dim.acDistSq = acDistSq;
         if (quad->info.atHit != NULL) {
             Collider_ResetACBase(globalCtx, quad->info.atHit);
         }

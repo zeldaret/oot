@@ -7,6 +7,8 @@ typedef struct {
     u32 ins_0C; // nop
 } struct_exceptionPreamble;
 
+void __osExceptionPreamble(void);
+
 u64 osClockRate = OS_CLOCK_RATE;
 s32 osViClock = VI_NTSC_CLOCK;
 u32 __osShutdown = 0;
@@ -58,7 +60,7 @@ void __osInitialize_common(void) {
     osClockRate = (u64)((osClockRate * 3ll) / 4ull);
 
     if (!osResetType) {
-        bzero(osAppNmiBuffer, sizeof(osAppNmiBuffer));
+        bzero(osAppNMIBuffer, sizeof(osAppNMIBuffer));
     }
 
     if (osTvType == OS_TV_PAL) {

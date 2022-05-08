@@ -35,9 +35,6 @@ AudioTask* func_800E4FE0(void) {
     return func_800E5000();
 }
 
-extern u64 rspAspMainDataStart[];
-extern u64 rspAspMainDataEnd[];
-
 AudioTask* func_800E5000(void) {
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
@@ -178,12 +175,12 @@ AudioTask* func_800E5000(void) {
     task = &gAudioContext.currTask->task.t;
     task->type = M_AUDTASK;
     task->flags = 0;
-    task->ucode_boot = D_801120C0;
-    task->ucode_boot_size = 0x1000;
-    task->ucode_data_size = ((rspAspMainDataEnd - rspAspMainDataStart) * sizeof(u64)) - 1;
-    task->ucode = D_801120C0;
-    task->ucode_data = rspAspMainDataStart;
-    task->ucode_size = 0x1000;
+    task->ucode_boot = aspMainTextStart;
+    task->ucode_boot_size = SP_UCODE_SIZE;
+    task->ucode_data_size = (size_t)(aspMainDataEnd - aspMainDataStart) * sizeof(u64) - 1;
+    task->ucode = aspMainTextStart;
+    task->ucode_data = aspMainDataStart;
+    task->ucode_size = SP_UCODE_SIZE;
     task->dram_stack = NULL;
     task->dram_stack_size = 0;
     task->output_buff = NULL;

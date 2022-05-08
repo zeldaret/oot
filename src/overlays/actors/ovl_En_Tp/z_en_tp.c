@@ -578,7 +578,7 @@ void EnTp_UpdateDamage(EnTp* this, GlobalContext* globalCtx) {
         }
 
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlagJntSph(&this->actor, &this->collider, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
         this->damageEffect = this->actor.colChkInfo.damageEffect;
 
         if (this->actor.colChkInfo.damageEffect != TAILPASARAN_DMGEFF_NONE) {

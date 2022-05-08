@@ -85,7 +85,7 @@ static InitChainEntry sInitChain[] = {
 void ObjTsubo_SpawnCollectible(ObjTsubo* this, GlobalContext* globalCtx) {
     s16 dropParams = this->actor.params & 0x1F;
 
-    if ((dropParams >= ITEM00_RUPEE_GREEN) && (dropParams <= ITEM00_BOMBS_SPECIAL)) {
+    if ((dropParams >= 0) && (dropParams < ITEM00_MAX)) {
         Item_DropCollectible(globalCtx, &this->actor.world.pos,
                              (dropParams | (((this->actor.params >> 9) & 0x3F) << 8)));
     }
