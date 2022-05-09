@@ -1098,7 +1098,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
         gAudioContext.aiBufLengths[i] = 0xA0;
     }
 
-    gAudioContext.totalTaskCnt = 0;
+    gAudioContext.totalTaskCount = 0;
     gAudioContext.rspTaskIdx = 0;
     gAudioContext.curAIBufIdx = 0;
     gAudioContext.soundMode = 0;
@@ -1162,7 +1162,7 @@ void AudioLoad_Init(void* heap, u32 heapSize) {
 
     AudioHeap_AllocPoolInit(&gAudioContext.permanentPool, temp_v0_3, D_8014A6C4.permanentPoolSize);
     gAudioContextInitalized = true;
-    osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCnt, OS_MESG_NOBLOCK);
+    osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
 }
 
 void AudioLoad_InitSlowLoads(void) {

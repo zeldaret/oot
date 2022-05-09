@@ -16,6 +16,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Fish/z_en_fish.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
@@ -2778,7 +2779,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
     }
 
     if (func_8084E3C4 == this->func_674) {
-        Audio_OcaSetInstrument(0);
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
         this->stateFlags2 &= ~(PLAYER_STATE2_24 | PLAYER_STATE2_25);
     } else if (func_808507F4 == this->func_674) {
         func_80832340(globalCtx, this);
@@ -2881,34 +2882,25 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
-                return;
-            }
-
-            if (actionParam == PLAYER_AP_LENS) {
+            } else if (actionParam == PLAYER_AP_LENS) {
                 if (func_80087708(globalCtx, 0, 3)) {
                     if (globalCtx->actorCtx.lensActive) {
                         Actor_DisableLens(globalCtx);
                     } else {
                         globalCtx->actorCtx.lensActive = true;
                     }
+
                     func_80078884((globalCtx->actorCtx.lensActive) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            if (actionParam == PLAYER_AP_NUT) {
+            } else if (actionParam == PLAYER_AP_NUT) {
                 if (AMMO(ITEM_NUT) != 0) {
                     func_8083C61C(globalCtx, this);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            temp = Player_ActionToMagicSpell(this, actionParam);
-            if (temp >= 0) {
+            } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
                     ((gSaveContext.unk_13F4 != 0) && (gSaveContext.unk_13F0 == 0) &&
                      (gSaveContext.magic >= sMagicSpellCosts[temp]))) {
@@ -2917,34 +2909,27 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            if (actionParam >= PLAYER_AP_MASK_KEATON) {
+            } else if (actionParam >= PLAYER_AP_MASK_KEATON) {
                 if (this->currentMask != PLAYER_MASK_NONE) {
                     this->currentMask = PLAYER_MASK_NONE;
                 } else {
                     this->currentMask = actionParam - PLAYER_AP_MASK_KEATON + 1;
                 }
-                func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
-                return;
-            }
 
-            if (((actionParam >= PLAYER_AP_OCARINA_FAIRY) && (actionParam <= PLAYER_AP_OCARINA_TIME)) ||
-                (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
+                func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
+            } else if (((actionParam >= PLAYER_AP_OCARINA_FAIRY) && (actionParam <= PLAYER_AP_OCARINA_TIME)) ||
+                       (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((actionParam >= PLAYER_AP_BOTTLE_POTION_RED) && (actionParam <= PLAYER_AP_BOTTLE_FAIRY))) {
                     TitleCard_Clear(globalCtx, &globalCtx->actorCtx.titleCtx);
                     this->unk_6AD = 4;
                     this->itemActionParam = actionParam;
                 }
-                return;
-            }
-
-            if ((actionParam != this->heldItemActionParam) ||
-                ((this->heldActor == 0) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
+            } else if ((actionParam != this->heldItemActionParam) ||
+                       ((this->heldActor == 0) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
                 this->nextModelGroup = Player_ActionToModelGroup(this, actionParam);
                 nextAnimType = gPlayerModelTypes[this->nextModelGroup][PLAYER_MODELGROUPENTRY_ANIM];
+
                 if ((this->heldItemActionParam >= 0) && (Player_ActionToMagicSpell(this, actionParam) < 0) &&
                     (item != this->heldItemId) &&
                     (D_80854164[gPlayerModelTypes[this->modelGroup][PLAYER_MODELGROUPENTRY_ANIM]][nextAnimType] !=
@@ -2956,10 +2941,9 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                     func_808323B4(globalCtx, this);
                     func_80833664(globalCtx, this, actionParam);
                 }
-                return;
+            } else {
+                D_80853614 = D_80853618 = true;
             }
-
-            D_80853614 = D_80853618 = true;
         }
     }
 }
@@ -6910,7 +6894,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
     s32 sp34;
 
     if ((this->unk_664 != NULL) ||
-        (!(heathIsCritical = HealthMeter_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
+        (!(heathIsCritical = Health_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
         this->stateFlags2 &= ~PLAYER_STATE2_28;
         anim = func_80833338(this);
     } else {
@@ -12461,7 +12445,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
 static BottleDropInfo D_80854A28[] = {
     { ACTOR_EN_FISH, FISH_DROPPED },
     { ACTOR_EN_ICE_HONO, 0 },
-    { ACTOR_EN_INSECT, 2 },
+    { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
 };
 
 static struct_80832924 D_80854A34[] = {

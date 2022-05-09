@@ -79,7 +79,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         return 0x2000;
     }
     timer1ValuePtr = &gSaveContext.timer1Value;
-    if (GET_EVENTINF(EVENTINF_0A)) {
+    if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
         gSaveContext.timer1Value = gSaveContext.timer1Value;
         thisx->flags |= ACTOR_FLAG_16;
         if (gSaveContext.timer1Value >= 0xD3) {
@@ -118,7 +118,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 gSaveContext.nextCutsceneIndex = 0xFFF0;
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                SET_EVENTINF(EVENTINF_0A);
+                SET_EVENTINF(EVENTINF_HORSES_0A);
                 gSaveContext.timer1State = 0xF;
             }
             break;
@@ -150,7 +150,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                         HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
                     }
                 case 0x208E:
-                    CLEAR_EVENTINF(EVENTINF_0A);
+                    CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
                     ret = 0;
                     gSaveContext.timer1State = 0xA;
@@ -158,7 +158,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x2002:
                     SET_INFTABLE(INFTABLE_B9);
                 case 0x2003:
-                    if (!GET_EVENTINF(EVENTINF_0A)) {
+                    if (!GET_EVENTINF(EVENTINF_HORSES_0A)) {
                         ret = 0;
                     }
                     break;
@@ -200,7 +200,7 @@ s32 func_80AA2EC8(EnMa3* this, GlobalContext* globalCtx) {
     if (!GET_EVENTCHKINF(EVENTCHKINF_18)) {
         return 2;
     }
-    if (GET_EVENTINF(EVENTINF_0A)) {
+    if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
         return 1;
     }
     return 0;
