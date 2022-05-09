@@ -10,6 +10,7 @@
 #include "z64player.h"
 #include "z64audio.h"
 #include "z64object.h"
+#include "z64ocarina.h"
 #include "z64camera.h"
 #include "z64environment.h"
 #include "z64cutscene.h"
@@ -360,97 +361,6 @@ typedef struct {
 } SkyboxContext; // size = 0x160
 
 typedef enum {
-    /*  0 */ OCARINA_SONG_MINUET,
-    /*  1 */ OCARINA_SONG_BOLERO,
-    /*  2 */ OCARINA_SONG_SERENADE,
-    /*  3 */ OCARINA_SONG_REQUIEM,
-    /*  4 */ OCARINA_SONG_NOCTURNE,
-    /*  5 */ OCARINA_SONG_PRELUDE,
-    /*  6 */ OCARINA_SONG_SARIAS,
-    /*  7 */ OCARINA_SONG_EPONAS,
-    /*  8 */ OCARINA_SONG_LULLABY,
-    /*  9 */ OCARINA_SONG_SUNS,
-    /* 10 */ OCARINA_SONG_TIME,
-    /* 11 */ OCARINA_SONG_STORMS,
-    /* 12 */ OCARINA_SONG_SCARECROW,
-    /* 13 */ OCARINA_SONG_MEMORY_GAME,
-    /* 14 */ OCARINA_SONG_MAX,
-    /* 14 */ OCARINA_SONG_SCARECROW_LONG = OCARINA_SONG_MAX // anything larger than 13 is considered the long scarecrow's song
-} OcarinaSongId;
-
-typedef enum {
-    /* 0x00 */ OCARINA_ACTION_UNK_0, // acts like free play but never set
-    /* 0x01 */ OCARINA_ACTION_FREE_PLAY,
-    /* 0x02 */ OCARINA_ACTION_TEACH_MINUET, // Song demonstrations by teachers
-    /* 0x03 */ OCARINA_ACTION_TEACH_BOLERO,
-    /* 0x04 */ OCARINA_ACTION_TEACH_SERENADE,
-    /* 0x05 */ OCARINA_ACTION_TEACH_REQUIEM,
-    /* 0x06 */ OCARINA_ACTION_TEACH_NOCTURNE,
-    /* 0x07 */ OCARINA_ACTION_TEACH_PRELUDE,
-    /* 0x08 */ OCARINA_ACTION_TEACH_SARIA,
-    /* 0x09 */ OCARINA_ACTION_TEACH_EPONA,
-    /* 0x0A */ OCARINA_ACTION_TEACH_LULLABY,
-    /* 0x0B */ OCARINA_ACTION_TEACH_SUNS,
-    /* 0x0C */ OCARINA_ACTION_TEACH_TIME,
-    /* 0x0D */ OCARINA_ACTION_TEACH_STORMS,
-    /* 0x0E */ OCARINA_ACTION_UNK_E,
-    /* 0x0F */ OCARINA_ACTION_PLAYBACK_MINUET, // Playing back a particular song
-    /* 0x10 */ OCARINA_ACTION_PLAYBACK_BOLERO,
-    /* 0x11 */ OCARINA_ACTION_PLAYBACK_SERENADE,
-    /* 0x12 */ OCARINA_ACTION_PLAYBACK_REQUIEM,
-    /* 0x13 */ OCARINA_ACTION_PLAYBACK_NOCTURNE,
-    /* 0x14 */ OCARINA_ACTION_PLAYBACK_PRELUDE,
-    /* 0x15 */ OCARINA_ACTION_PLAYBACK_SARIA,
-    /* 0x16 */ OCARINA_ACTION_PLAYBACK_EPONA,
-    /* 0x17 */ OCARINA_ACTION_PLAYBACK_LULLABY,
-    /* 0x18 */ OCARINA_ACTION_PLAYBACK_SUNS,
-    /* 0x19 */ OCARINA_ACTION_PLAYBACK_TIME,
-    /* 0x1A */ OCARINA_ACTION_PLAYBACK_STORMS,
-    /* 0x1B */ OCARINA_ACTION_UNK_1B,
-    /* 0x1C */ OCARINA_ACTION_CHECK_MINUET, // Playing songs for check spots
-    /* 0x1D */ OCARINA_ACTION_CHECK_BOLERO,
-    /* 0x1E */ OCARINA_ACTION_CHECK_SERENADE,
-    /* 0x1F */ OCARINA_ACTION_CHECK_REQUIEM,
-    /* 0020 */ OCARINA_ACTION_CHECK_NOCTURNE,
-    /* 0x21 */ OCARINA_ACTION_CHECK_PRELUDE,
-    /* 0x22 */ OCARINA_ACTION_CHECK_SARIA,
-    /* 0x23 */ OCARINA_ACTION_CHECK_EPONA,
-    /* 0x24 */ OCARINA_ACTION_CHECK_LULLABY,
-    /* 0x25 */ OCARINA_ACTION_CHECK_SUNS,
-    /* 0x26 */ OCARINA_ACTION_CHECK_TIME,
-    /* 0x27 */ OCARINA_ACTION_CHECK_STORMS,
-    /* 0x28 */ OCARINA_ACTION_CHECK_SCARECROW, // Playing back the song as adult that was set as child
-    /* 0x29 */ OCARINA_ACTION_FREE_PLAY_DONE,
-    /* 0x2A */ OCARINA_ACTION_SCARECROW_LONG_RECORDING,
-    /* 0x2B */ OCARINA_ACTION_SCARECROW_LONG_PLAYBACK,
-    /* 0x2C */ OCARINA_ACTION_SCARECROW_RECORDING,
-    /* 0x2D */ OCARINA_ACTION_SCARECROW_PLAYBACK,
-    /* 0x2E */ OCARINA_ACTION_MEMORY_GAME,
-    /* 0x2F */ OCARINA_ACTION_FROGS,
-    /* 0x30 */ OCARINA_ACTION_CHECK_NOWARP, // Check for any of sarias - storms
-    /* 0x31 */ OCARINA_ACTION_CHECK_NOWARP_DONE
-} OcarinaSongActionIDs;
-
-typedef enum {
-    /* 0x00 */ OCARINA_MODE_00,
-    /* 0x01 */ OCARINA_MODE_01,
-    /* 0x02 */ OCARINA_MODE_02,
-    /* 0x03 */ OCARINA_MODE_03,
-    /* 0x04 */ OCARINA_MODE_04,
-    /* 0x05 */ OCARINA_MODE_05,
-    /* 0x06 */ OCARINA_MODE_06,
-    /* 0x07 */ OCARINA_MODE_07,
-    /* 0x08 */ OCARINA_MODE_08,
-    /* 0x09 */ OCARINA_MODE_09,
-    /* 0x0A */ OCARINA_MODE_0A,
-    /* 0x0B */ OCARINA_MODE_0B,
-    /* 0x0C */ OCARINA_MODE_0C,
-    /* 0x0D */ OCARINA_MODE_0D,
-    /* 0x0E */ OCARINA_MODE_0E,
-    /* 0x0F */ OCARINA_MODE_0F
-} OcarinaMode;
-
-typedef enum {
     TEXTBOX_ICON_TRIANGLE,
     TEXTBOX_ICON_SQUARE,
     TEXTBOX_ICON_ARROW
@@ -508,11 +418,11 @@ typedef enum {
     /* 0x21 */ MSGMODE_SCARECROW_LONG_RECORDING_START,
     /* 0x22 */ MSGMODE_SCARECROW_LONG_RECORDING_ONGOING,
     /* 0x23 */ MSGMODE_SCARECROW_LONG_PLAYBACK,
-    /* 0x24 */ MSGMODE_SCARECROW_RECORDING_START,
-    /* 0x25 */ MSGMODE_SCARECROW_RECORDING_ONGOING,
-    /* 0x26 */ MSGMODE_SCARECROW_RECORDING_FAILED,
-    /* 0x27 */ MSGMODE_SCARECROW_RECORDING_DONE,
-    /* 0x28 */ MSGMODE_SCARECROW_PLAYBACK,
+    /* 0x24 */ MSGMODE_SCARECROW_SPAWN_RECORDING_START,
+    /* 0x25 */ MSGMODE_SCARECROW_SPAWN_RECORDING_ONGOING,
+    /* 0x26 */ MSGMODE_SCARECROW_SPAWN_RECORDING_FAILED,
+    /* 0x27 */ MSGMODE_SCARECROW_SPAWN_RECORDING_DONE,
+    /* 0x28 */ MSGMODE_SCARECROW_SPAWN_PLAYBACK,
     /* 0x29 */ MSGMODE_MEMORY_GAME_START,
     /* 0x2A */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING,
     /* 0x2B */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT,
@@ -626,7 +536,7 @@ typedef struct {
     /* 0xE408 */ Actor* talkActor;
     /* 0xE40C */ s16    disableWarpSongs; // warp song flag set by scene commands
     /* 0xE40E */ s16    unk_E40E; // ocarina related
-    /* 0xE410 */ u8     lastOcaNoteIdx;
+    /* 0xE410 */ u8     lastOcarinaButtonIndex;
 } MessageContext; // size = 0xE418
 
 typedef enum {
