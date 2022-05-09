@@ -68,7 +68,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
         horseActor->room = -1;
-    } else if ((gSaveContext.entranceIndex == 1230) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    } else if ((gSaveContext.entranceIndex == ENTR_SPOT20_7) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
         Actor* horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
@@ -132,8 +132,8 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
     s32 i;
     Vec3s spawnPos;
 
-    if ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
-         gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
+    if ((gSaveContext.entranceIndex == ENTR_SPOT00_11 || gSaveContext.entranceIndex == ENTR_SPOT00_12 ||
+         gSaveContext.entranceIndex == ENTR_SPOT00_13 || gSaveContext.entranceIndex == ENTR_SPOT00_15) &&
         (gSaveContext.respawnFlag == 0)) {
         Vec3s spawnPositions[] = {
             { -2961, 313, 7700 },
@@ -142,11 +142,11 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             { -2313, 313, 5990 },
         };
 
-        if (gSaveContext.entranceIndex == 0x028A) {
+        if (gSaveContext.entranceIndex == ENTR_SPOT00_11) {
             spawnPos = spawnPositions[0];
-        } else if (gSaveContext.entranceIndex == 0x028E) {
+        } else if (gSaveContext.entranceIndex == ENTR_SPOT00_12) {
             spawnPos = spawnPositions[1];
-        } else if (gSaveContext.entranceIndex == 0x0292) {
+        } else if (gSaveContext.entranceIndex == ENTR_SPOT00_13) {
             spawnPos = spawnPositions[2];
         } else {
             spawnPos = spawnPositions[3];
@@ -247,8 +247,8 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
 
         if (func_8006CFC0(globalCtx->sceneNum)) {
             if ((gSaveContext.sceneSetupIndex > 3) ||
-                ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
-                  gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
+                ((gSaveContext.entranceIndex == ENTR_SPOT00_11 || gSaveContext.entranceIndex == ENTR_SPOT00_12 ||
+                  gSaveContext.entranceIndex == ENTR_SPOT00_13 || gSaveContext.entranceIndex == ENTR_SPOT00_15) &&
                  (gSaveContext.respawnFlag == 0)) ||
                 ((globalCtx->sceneNum == SCENE_SPOT20) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
                  !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0))) {

@@ -3324,48 +3324,57 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     Gameplay_SaveSceneFlags(globalCtx);
 
                     switch (gSaveContext.entranceIndex) {
-                        case 0x0000:
-                        case 0x0004:
-                        case 0x0028:
-                        case 0x0169:
-                        case 0x0165:
-                        case 0x0010:
-                        case 0x0082:
-                        case 0x0037:
-                        case 0x041B:
-                        case 0x0008:
-                        case 0x0088:
-                        case 0x0486:
-                        case 0x0098:
-                        case 0x0467:
-                        case 0x0179:
+                        case ENTR_YDAN_0:
+                        case ENTR_DDAN_0:
+                        case ENTR_BDAN_0:
+                        case ENTR_BMORI1_0:
+                        case ENTR_HIDAN_0:
+                        case ENTR_MIZUSIN_0:
+                        case ENTR_JYASINZOU_0:
+                        case ENTR_HAKADAN_0:
+                        case ENTR_GANON_0:
+                        case ENTR_MEN_0:
+                        case ENTR_ICE_DOUKUTO_0:
+                        case ENTR_GERUDOWAY_0:
+                        case ENTR_HAKADANCH_0:
+                        case ENTR_GANONTIKA_0:
+                        case ENTR_GANON_SONOGO_0:
                             break;
-                        case 0x040F:
-                            gSaveContext.entranceIndex = 0x0000;
+
+                        case ENTR_YDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_YDAN_0;
                             break;
-                        case 0x040B:
-                            gSaveContext.entranceIndex = 0x0004;
+
+                        case ENTR_DDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_DDAN_0;
                             break;
-                        case 0x0301:
-                            gSaveContext.entranceIndex = 0x0028;
+
+                        case ENTR_BDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_BDAN_0;
                             break;
-                        case 0x000C:
-                            gSaveContext.entranceIndex = 0x0169;
+
+                        case ENTR_MORIBOSSROOM_0:
+                            gSaveContext.entranceIndex = ENTR_BMORI1_0;
                             break;
-                        case 0x0305:
-                            gSaveContext.entranceIndex = 0x0165;
+
+                        case ENTR_FIRE_BS_0:
+                            gSaveContext.entranceIndex = ENTR_HIDAN_0;
                             break;
-                        case 0x0417:
-                            gSaveContext.entranceIndex = 0x0010;
+
+                        case ENTR_MIZUSIN_BS_0:
+                            gSaveContext.entranceIndex = ENTR_MIZUSIN_0;
                             break;
-                        case 0x008D:
-                            gSaveContext.entranceIndex = 0x0082;
+
+                        case ENTR_JYASINBOSS_0:
+                            gSaveContext.entranceIndex = ENTR_JYASINZOU_0;
                             break;
-                        case 0x0413:
-                            gSaveContext.entranceIndex = 0x0037;
+
+                        case ENTR_HAKADAN_BS_0:
+                            gSaveContext.entranceIndex = ENTR_HAKADAN_0;
                             break;
-                        case 0x041F:
-                            gSaveContext.entranceIndex = 0x041B;
+
+                        case ENTR_GANON_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_GANON_0;
                             break;
                     }
                 } else {
