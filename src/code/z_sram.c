@@ -47,8 +47,8 @@ typedef struct {
     /* 0x0F18 */ char unk_F18[0x04];
     /* 0x0F1C */ u32 worldMapAreaData; // "area_arrival"
     /* 0x0F20 */ char unk_F20[0x4];
-    /* 0x0F24 */ u8 scarecrowCustomSongSet;
-    /* 0x0F25 */ u8 scarecrowCustomSong[0x360];
+    /* 0x0F24 */ u8 scarecrowLongSongSet;
+    /* 0x0F25 */ u8 scarecrowLongSong[0x360];
     /* 0x1285 */ char unk_1285[0x24];
     /* 0x12A9 */ u8 scarecrowSpawnSongSet;
     /* 0x12AA */ u8 scarecrowSpawnSong[0x80];
@@ -393,14 +393,14 @@ void Sram_OpenSave(SramContext* sramCtx) {
         gSaveContext.health = 0x30;
     }
 
-    if (gSaveContext.scarecrowCustomSongSet) {
+    if (gSaveContext.scarecrowLongSongSet) {
         osSyncPrintf(VT_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCpy(gScarecrowCustomSongPtr, gSaveContext.scarecrowCustomSong, sizeof(gSaveContext.scarecrowCustomSong));
+        MemCpy(gScarecrowLongSongPtr, gSaveContext.scarecrowLongSong, sizeof(gSaveContext.scarecrowLongSong));
 
-        ptr = (u8*)gScarecrowCustomSongPtr;
-        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowCustomSong); i++, ptr++) {
+        ptr = (u8*)gScarecrowLongSongPtr;
+        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowLongSong); i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
 
