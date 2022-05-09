@@ -1576,11 +1576,11 @@ void EnGeldB_Draw(Actor* thisx, GlobalContext* globalCtx) {
             this->timer--;
             if (this->timer == 0) {
                 if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-                    globalCtx->nextEntranceIndex = 0x1A5;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT09_1;
                 } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
-                    globalCtx->nextEntranceIndex = 0x5F8;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT12_18;
                 } else {
-                    globalCtx->nextEntranceIndex = 0x3B4;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT12_17;
                 }
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;

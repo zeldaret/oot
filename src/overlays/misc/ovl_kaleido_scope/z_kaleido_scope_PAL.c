@@ -2927,10 +2927,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 2:
-                    pauseCtx->ocarinaStaff = Audio_OcaGetDisplayingStaff();
+                    pauseCtx->ocarinaStaff = AudioOcarina_GetPlaybackStaff();
                     if (pauseCtx->ocarinaStaff->state == 0) {
                         pauseCtx->unk_1E4 = 4;
-                        Audio_OcaSetInstrument(0);
+                        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                     }
                     break;
 
@@ -2942,10 +2942,10 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 5:
-                    pauseCtx->ocarinaStaff = Audio_OcaGetPlayingStaff();
+                    pauseCtx->ocarinaStaff = AudioOcarina_GetPlayingStaff();
 
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        Audio_OcaSetInstrument(0);
+                        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
@@ -2953,7 +2953,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                         pauseCtx->unk_1E4 = 0;
                         break;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        Audio_OcaSetInstrument(0);
+                        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;
@@ -2986,7 +2986,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     if (D_8082B25C == 0) {
                         pauseCtx->unk_1E4 = D_8082B258;
                         if (pauseCtx->unk_1E4 == 0) {
-                            Audio_OcaSetInstrument(0);
+                            AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         }
                     }
                     break;
@@ -2996,14 +2996,14 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
 
                 case 8:
                     if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-                        Audio_OcaSetInstrument(0);
+                        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         Interface_SetDoAction(globalCtx, DO_ACTION_NONE);
                         pauseCtx->state = 0x12;
                         WREG(2) = -6240;
                         func_800F64E0(0);
                         pauseCtx->unk_1E4 = 0;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_B)) {
-                        Audio_OcaSetInstrument(0);
+                        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
                         pauseCtx->unk_1E4 = 0;
                         pauseCtx->mode = 0;
                         pauseCtx->promptChoice = 0;
@@ -3324,48 +3324,57 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     Gameplay_SaveSceneFlags(globalCtx);
 
                     switch (gSaveContext.entranceIndex) {
-                        case 0x0000:
-                        case 0x0004:
-                        case 0x0028:
-                        case 0x0169:
-                        case 0x0165:
-                        case 0x0010:
-                        case 0x0082:
-                        case 0x0037:
-                        case 0x041B:
-                        case 0x0008:
-                        case 0x0088:
-                        case 0x0486:
-                        case 0x0098:
-                        case 0x0467:
-                        case 0x0179:
+                        case ENTR_YDAN_0:
+                        case ENTR_DDAN_0:
+                        case ENTR_BDAN_0:
+                        case ENTR_BMORI1_0:
+                        case ENTR_HIDAN_0:
+                        case ENTR_MIZUSIN_0:
+                        case ENTR_JYASINZOU_0:
+                        case ENTR_HAKADAN_0:
+                        case ENTR_GANON_0:
+                        case ENTR_MEN_0:
+                        case ENTR_ICE_DOUKUTO_0:
+                        case ENTR_GERUDOWAY_0:
+                        case ENTR_HAKADANCH_0:
+                        case ENTR_GANONTIKA_0:
+                        case ENTR_GANON_SONOGO_0:
                             break;
-                        case 0x040F:
-                            gSaveContext.entranceIndex = 0x0000;
+
+                        case ENTR_YDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_YDAN_0;
                             break;
-                        case 0x040B:
-                            gSaveContext.entranceIndex = 0x0004;
+
+                        case ENTR_DDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_DDAN_0;
                             break;
-                        case 0x0301:
-                            gSaveContext.entranceIndex = 0x0028;
+
+                        case ENTR_BDAN_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_BDAN_0;
                             break;
-                        case 0x000C:
-                            gSaveContext.entranceIndex = 0x0169;
+
+                        case ENTR_MORIBOSSROOM_0:
+                            gSaveContext.entranceIndex = ENTR_BMORI1_0;
                             break;
-                        case 0x0305:
-                            gSaveContext.entranceIndex = 0x0165;
+
+                        case ENTR_FIRE_BS_0:
+                            gSaveContext.entranceIndex = ENTR_HIDAN_0;
                             break;
-                        case 0x0417:
-                            gSaveContext.entranceIndex = 0x0010;
+
+                        case ENTR_MIZUSIN_BS_0:
+                            gSaveContext.entranceIndex = ENTR_MIZUSIN_0;
                             break;
-                        case 0x008D:
-                            gSaveContext.entranceIndex = 0x0082;
+
+                        case ENTR_JYASINBOSS_0:
+                            gSaveContext.entranceIndex = ENTR_JYASINZOU_0;
                             break;
-                        case 0x0413:
-                            gSaveContext.entranceIndex = 0x0037;
+
+                        case ENTR_HAKADAN_BS_0:
+                            gSaveContext.entranceIndex = ENTR_HAKADAN_0;
                             break;
-                        case 0x041F:
-                            gSaveContext.entranceIndex = 0x041B;
+
+                        case ENTR_GANON_BOSS_0:
+                            gSaveContext.entranceIndex = ENTR_GANON_0;
                             break;
                     }
                 } else {

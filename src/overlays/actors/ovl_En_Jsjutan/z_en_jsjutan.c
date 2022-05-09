@@ -147,7 +147,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     i = 1;
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
-    if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
+    if ((gSaveContext.entranceIndex == ENTR_SPOT20_0) && (gSaveContext.sceneSetupIndex == 8)) {
         isInCreditsScene = true;
 
         actorProfessor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;

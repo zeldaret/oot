@@ -81,8 +81,7 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
     } else {
         Actor_Kill(&this->actor);
         if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 &&
-            ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-              (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) != EVENTINF_00_MASK)) {
+            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
             if (globalCtx->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 globalCtx->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;

@@ -152,7 +152,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             // "Horseback archery Gerudo EVENT_INF(0) ="
             osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
 
-            if (GET_EVENTINF(EVENTINF_08)) {
+            if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->actionFunc = EnGe1_TalkAfterGame_Archery;
             } else if (EnGe1_CheckCarpentersFreed()) {
                 this->actionFunc = EnGe1_Wait_Archery;
@@ -230,11 +230,11 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            globalCtx->nextEntranceIndex = 0x1A5;
+            globalCtx->nextEntranceIndex = ENTR_SPOT09_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) { // Caught previously
-            globalCtx->nextEntranceIndex = 0x5F8;
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_18;
         } else {
-            globalCtx->nextEntranceIndex = 0x3B4;
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_17;
         }
 
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
@@ -581,11 +581,11 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnGe1_TalkTooPoor_Archery;
                 } else {
                     Rupees_ChangeBy(-20);
-                    globalCtx->nextEntranceIndex = 0x129;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT12_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
                     globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    SET_EVENTINF(EVENTINF_08);
+                    SET_EVENTINF(EVENTINF_HORSES_08);
                     SET_EVENTCHKINF(EVENTCHKINF_68);
 
                     if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
@@ -627,7 +627,7 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    CLEAR_EVENTINF(EVENTINF_08);
+    CLEAR_EVENTINF(EVENTINF_HORSES_08);
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
     this->actor.flags |= ACTOR_FLAG_16;

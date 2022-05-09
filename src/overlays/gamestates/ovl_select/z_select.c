@@ -31,7 +31,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
-    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
+    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = 0xFF;
     gSaveContext.showTitleCard = true;
@@ -43,257 +43,258 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
 // "Translation" (Actual name)
 static SceneSelectEntry sScenes[] = {
     // "1: SPOT00" (Hyrule Field)
-    { " 1:SPOT00", Select_LoadGame, 0x00CD },
+    { " 1:SPOT00", Select_LoadGame, ENTR_SPOT00_0 },
     // "2: SPOT01" (Kakariko Village)
-    { " 2:SPOT01", Select_LoadGame, 0x00DB },
+    { " 2:SPOT01", Select_LoadGame, ENTR_SPOT01_0 },
     // "3: SPOT02" (Graveyard)
-    { " 3:SPOT02", Select_LoadGame, 0x00E4 },
+    { " 3:SPOT02", Select_LoadGame, ENTR_SPOT02_0 },
     // "4: SPOT03" (Zora's River)
-    { " 4:SPOT03", Select_LoadGame, 0x00EA },
+    { " 4:SPOT03", Select_LoadGame, ENTR_SPOT03_0 },
     // "5: SPOT04" (Kokiri Forest)
-    { " 5:SPOT04", Select_LoadGame, 0x00EE },
+    { " 5:SPOT04", Select_LoadGame, ENTR_SPOT04_0 },
     // "6: SPOT05" (Sacred Forest Meadow)
-    { " 6:SPOT05", Select_LoadGame, 0x00FC },
+    { " 6:SPOT05", Select_LoadGame, ENTR_SPOT05_0 },
     // "7: SPOT06" (Lake Hylia)
-    { " 7:SPOT06", Select_LoadGame, 0x0102 },
+    { " 7:SPOT06", Select_LoadGame, ENTR_SPOT06_0 },
     // "8: SPOT07" (Zora's Domain)
-    { " 8:SPOT07", Select_LoadGame, 0x0108 },
+    { " 8:SPOT07", Select_LoadGame, ENTR_SPOT07_0 },
     // "9: SPOT08" (Zora's Fountain)
-    { " 9:SPOT08", Select_LoadGame, 0x010E },
+    { " 9:SPOT08", Select_LoadGame, ENTR_SPOT08_0 },
     // "10: SPOT09" (Gerudo Valley)
-    { "10:SPOT09", Select_LoadGame, 0x0117 },
+    { "10:SPOT09", Select_LoadGame, ENTR_SPOT09_0 },
     // "11: SPOT10" (Lost Woods)
-    { "11:SPOT10", Select_LoadGame, 0x011E },
+    { "11:SPOT10", Select_LoadGame, ENTR_SPOT10_0 },
     // "12: SPOT11" (Desert Colossus)
-    { "12:SPOT11", Select_LoadGame, 0x0123 },
+    { "12:SPOT11", Select_LoadGame, ENTR_SPOT11_0 },
     // "13: SPOT12" (Gerudo's Fortress)
-    { "13:SPOT12", Select_LoadGame, 0x0129 },
+    { "13:SPOT12", Select_LoadGame, ENTR_SPOT12_0 },
     // "14: SPOT13" (Haunted Wasteland)
-    { "14:SPOT13", Select_LoadGame, 0x0130 },
+    { "14:SPOT13", Select_LoadGame, ENTR_SPOT13_0 },
     // "15: SPOT15" (Hyrule Castle)
-    { "15:SPOT15", Select_LoadGame, 0x0138 },
+    { "15:SPOT15", Select_LoadGame, ENTR_SPOT15_0 },
     // "16: SPOT16" (Death Mountain Trail)
-    { "16:SPOT16", Select_LoadGame, 0x013D },
+    { "16:SPOT16", Select_LoadGame, ENTR_SPOT16_0 },
     // "17: SPOT17" (Death Mountain Crater)
-    { "17:SPOT17", Select_LoadGame, 0x0147 },
+    { "17:SPOT17", Select_LoadGame, ENTR_SPOT17_0 },
     // "18: SPOT18" (Goron City)
-    { "18:SPOT18", Select_LoadGame, 0x014D },
+    { "18:SPOT18", Select_LoadGame, ENTR_SPOT18_0 },
     // "19: SPOT20" (Lon Lon Ranch)
-    { "19:SPOT20", Select_LoadGame, 0x0157 },
+    { "19:SPOT20", Select_LoadGame, ENTR_SPOT20_0 },
     // "20: Chamber of Time" (Temple Of Time)
-    { "20:" GFXP_HIRAGANA "ﾄｷﾉﾏ", Select_LoadGame, 0x0053 },
+    { "20:" GFXP_HIRAGANA "ﾄｷﾉﾏ", Select_LoadGame, ENTR_TOKINOMA_0 },
     // "21: Chamber of the Sages" (Chamber of the Sages)
-    { "21:" GFXP_HIRAGANA "ｹﾝｼﾞｬﾉﾏ", Select_LoadGame, 0x006B },
+    { "21:" GFXP_HIRAGANA "ｹﾝｼﾞｬﾉﾏ", Select_LoadGame, ENTR_KENJYANOMA_0 },
     // "22: Target Range" (Shooting Gallery)
-    { "22:" GFXP_HIRAGANA "ｼｬﾃｷｼﾞｮｳ", Select_LoadGame, 0x003B },
+    { "22:" GFXP_HIRAGANA "ｼｬﾃｷｼﾞｮｳ", Select_LoadGame, ENTR_SYATEKIJYOU_0 },
     // "23: Hyrule Garden Game" (Hyrule Garden Minigame)
-    { "23:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾆﾜ" GFXP_KATAKANA "ｹﾞｰﾑ", Select_LoadGame, 0x007A },
+    { "23:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾆﾜ" GFXP_KATAKANA "ｹﾞｰﾑ", Select_LoadGame, ENTR_HAIRAL_NIWA_0 },
     // "24: Grave Dive Hole" (Grave (Redead))
-    { "24:" GFXP_HIRAGANA "ﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ", Select_LoadGame, 0x031C },
+    { "24:" GFXP_HIRAGANA "ﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ", Select_LoadGame, ENTR_HAKAANA_0 },
     // "25: Grave Dive Hole 2" (Grave (Fairy's Fountain))
-    { "25:" GFXP_HIRAGANA "ﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, 0x004B },
+    { "25:" GFXP_HIRAGANA "ﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, ENTR_HAKAANA2_0 },
     // "26: Royal Family's Grave" (Royal Family's Tomb)
-    { "26:" GFXP_HIRAGANA "ｵｳｹ ﾉ ﾊｶｱﾅ", Select_LoadGame, 0x002D },
+    { "26:" GFXP_HIRAGANA "ｵｳｹ ﾉ ﾊｶｱﾅ", Select_LoadGame, ENTR_HAKAANA_OUKE_0 },
     // "27: Great Fairy's Fountain" (Great Fairy's Fountain (Upgrades))
-    { "27:" GFXP_HIRAGANA "ﾀﾞｲﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x0315 },
+    { "27:" GFXP_HIRAGANA "ﾀﾞｲﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, ENTR_DAIYOUSEI_IZUMI_0 },
     // "28: Fairy Dive Hole" (Fairy's Fountain (Healing Fairies))
-    { "28:" GFXP_HIRAGANA "ﾄﾋﾞｺﾐ ﾖｳｾｲ ｱﾅ", Select_LoadGame, 0x036D },
+    { "28:" GFXP_HIRAGANA "ﾄﾋﾞｺﾐ ﾖｳｾｲ ｱﾅ", Select_LoadGame, ENTR_YOUSEI_IZUMI_TATE_0 },
     // "29: Magic Stone Fairy's Fountain" (Great Fairy's Fountain (Spells))
-    { "29:" GFXP_HIRAGANA "ﾏﾎｳｾｷ ﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x0371 },
+    { "29:" GFXP_HIRAGANA "ﾏﾎｳｾｷ ﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, ENTR_YOUSEI_IZUMI_YOKO_0 },
     // "30: Final Battle With Ganon" (Battle With Ganon)
-    { "30:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ｻｲｼｭｳｾﾝ", Select_LoadGame, 0x043F },
+    { "30:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ｻｲｼｭｳｾﾝ", Select_LoadGame, ENTR_GANON_FINAL_0 },
     // "31: Hyrule Inner Garden" (Castle Courtyard)
-    { "31:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾅｶﾆﾜ", Select_LoadGame, 0x0400 },
+    { "31:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾅｶﾆﾜ", Select_LoadGame, ENTR_NAKANIWA_0 },
     // "32: Fishing" (Fishing Pond)
-    { "32:" GFXP_HIRAGANA "ﾂﾘﾎﾞﾘ", Select_LoadGame, 0x045F },
+    { "32:" GFXP_HIRAGANA "ﾂﾘﾎﾞﾘ", Select_LoadGame, ENTR_TURIBORI_0 },
     // "33: Bombchu Bowling" (Bombchu Bowling Alley)
-    { "33:" GFXP_KATAKANA "ﾎﾞﾑﾁｭｳﾎﾞｰﾘﾝｸﾞ", Select_LoadGame, 0x0507 },
+    { "33:" GFXP_KATAKANA "ﾎﾞﾑﾁｭｳﾎﾞｰﾘﾝｸﾞ", Select_LoadGame, ENTR_BOWLING_0 },
     // "34: Lon Lon Ranch - Storehouse 1" (Talon's House)
-    { "34:" GFXP_KATAKANA "ﾛﾝﾛﾝ" GFXP_HIRAGANA "ﾎﾞｸｼﾞｮｳ ｿｳｺ 1", Select_LoadGame, 0x004F },
+    { "34:" GFXP_KATAKANA "ﾛﾝﾛﾝ" GFXP_HIRAGANA "ﾎﾞｸｼﾞｮｳ ｿｳｺ 1", Select_LoadGame, ENTR_SOUKO_0 },
     // "35: Lon Lon Ranch - Storehouse 2" (Ranch Silo)
-    { "35:" GFXP_KATAKANA "ﾛﾝﾛﾝ" GFXP_HIRAGANA "ﾎﾞｸｼﾞｮｳ ｿｳｺ 2", Select_LoadGame, 0x05D0 },
+    { "35:" GFXP_KATAKANA "ﾛﾝﾛﾝ" GFXP_HIRAGANA "ﾎﾞｸｼﾞｮｳ ｿｳｺ 2", Select_LoadGame, ENTR_SOUKO_1 },
     // "36: Lookout Hut" (Guard House)
-    { "36:" GFXP_HIRAGANA "ﾐﾊﾘ ｺﾞﾔ", Select_LoadGame, 0x007E },
+    { "36:" GFXP_HIRAGANA "ﾐﾊﾘ ｺﾞﾔ", Select_LoadGame, ENTR_MIHARIGOYA_0 },
     // "37: Magic Potion Shop" (Granny's Potion Shop)
-    { "37:" GFXP_HIRAGANA "ﾏﾎｳ ﾉ ｸｽﾘﾔ", Select_LoadGame, 0x0072 },
+    { "37:" GFXP_HIRAGANA "ﾏﾎｳ ﾉ ｸｽﾘﾔ", Select_LoadGame, ENTR_MAHOUYA_0 },
     // "38: Treasure Chest Shop" (Treasure Chest Game)
-    { "38:" GFXP_HIRAGANA "ﾀｶﾗﾊﾞｺﾔ", Select_LoadGame, 0x0063 },
+    { "38:" GFXP_HIRAGANA "ﾀｶﾗﾊﾞｺﾔ", Select_LoadGame, ENTR_TAKARAYA_0 },
     // "39: Gold Skulltula House" (House of Skulltula)
-    { "39:" GFXP_HIRAGANA "ｷﾝ " GFXP_KATAKANA "ｽﾀﾙﾁｭﾗ ﾊｳｽ", Select_LoadGame, 0x0550 },
+    { "39:" GFXP_HIRAGANA "ｷﾝ " GFXP_KATAKANA "ｽﾀﾙﾁｭﾗ ﾊｳｽ", Select_LoadGame, ENTR_KINSUTA_0 },
     // "40: Castle Town - Entrance" (Market Entrance)
-    { "40:" GFXP_HIRAGANA "ｼﾞｮｳｶﾏﾁ ｲﾘｸﾞﾁ", Select_LoadGame, 0x0033 },
+    { "40:" GFXP_HIRAGANA "ｼﾞｮｳｶﾏﾁ ｲﾘｸﾞﾁ", Select_LoadGame, ENTR_ENTRA_0 },
     // "41: Castle Town" (Market)
-    { "41:" GFXP_HIRAGANA "ｼﾞｮｳｶﾏﾁ", Select_LoadGame, 0x00B1 },
+    { "41:" GFXP_HIRAGANA "ｼﾞｮｳｶﾏﾁ", Select_LoadGame, ENTR_MARKET_DAY_0 },
     // "42: Back Alley" (Back Alley)
-    { "42:" GFXP_HIRAGANA "ｳﾗﾛｼﾞ", Select_LoadGame, 0x00AD },
+    { "42:" GFXP_HIRAGANA "ｳﾗﾛｼﾞ", Select_LoadGame, ENTR_MARKET_ALLEY_0 },
     // "43: In Front of the Temple of Time" (Temple of Time Exterior)
-    { "43:" GFXP_HIRAGANA "ﾄｷﾉｼﾝﾃﾞﾝ ﾏｴ", Select_LoadGame, 0x0171 },
+    { "43:" GFXP_HIRAGANA "ﾄｷﾉｼﾝﾃﾞﾝ ﾏｴ", Select_LoadGame, ENTR_SHRINE_0 },
     // "44: Link's House" (Link's House)
-    { "44:" GFXP_HIRAGANA "ﾘﾝｸﾉｲｴ", Select_LoadGame, 0x00BB },
+    { "44:" GFXP_HIRAGANA "ﾘﾝｸﾉｲｴ", Select_LoadGame, ENTR_LINK_HOME_0 },
     // "45: Kakariko Village Row House" (Carpenter Boss's House)
-    { "45:" GFXP_KATAKANA "ｶｶﾘｺ" GFXP_HIRAGANA "ﾑﾗﾉﾅｶﾞﾔ", Select_LoadGame, 0x02FD },
+    { "45:" GFXP_KATAKANA "ｶｶﾘｺ" GFXP_HIRAGANA "ﾑﾗﾉﾅｶﾞﾔ", Select_LoadGame, ENTR_KAKARIKO_0 },
     // "46: Back Alley House" (Back Alley House (Man in Green))
-    { "46:" GFXP_HIRAGANA "ｳﾗﾛｼﾞﾉ ｲｴ", Select_LoadGame, 0x043B },
+    { "46:" GFXP_HIRAGANA "ｳﾗﾛｼﾞﾉ ｲｴ", Select_LoadGame, ENTR_KAKARIKO3_0 },
     // "47: Kokiri Village - Know-It-All Brothers' House" (Know-It-All Brothers' House)
-    { "47:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ ﾓﾉｼﾘｷｮｳﾀﾞｲﾉｲｴ", Select_LoadGame, 0x00C9 },
+    { "47:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ ﾓﾉｼﾘｷｮｳﾀﾞｲﾉｲｴ", Select_LoadGame, ENTR_KOKIRI_HOME_0 },
     // "48: Kokiri Village - Twins' House" (Twins' House)
-    { "48:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ ﾌﾀｺﾞﾉｲｴ", Select_LoadGame, 0x009C },
+    { "48:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ ﾌﾀｺﾞﾉｲｴ", Select_LoadGame, ENTR_KOKIRI_HOME3_0 },
     // "49: Kokiri Village - Mido's House" (Mido's House)
-    { "49:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ " GFXP_KATAKANA "ﾐﾄﾞ" GFXP_HIRAGANA "ﾉｲｴ", Select_LoadGame, 0x0433 },
+    { "49:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ " GFXP_KATAKANA "ﾐﾄﾞ" GFXP_HIRAGANA "ﾉｲｴ", Select_LoadGame, ENTR_KOKIRI_HOME4_0 },
     // "50: Kokiri Village - Saria's House" (Saria's House)
-    { "50:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ " GFXP_KATAKANA "ｻﾘｱ" GFXP_HIRAGANA "ﾉｲｴ", Select_LoadGame, 0x0437 },
+    { "50:" GFXP_HIRAGANA "ｺｷﾘﾉﾑﾗ " GFXP_KATAKANA "ｻﾘｱ" GFXP_HIRAGANA "ﾉｲｴ", Select_LoadGame, ENTR_KOKIRI_HOME5_0 },
     // "51: Stable" (Stable)
-    { "51:" GFXP_HIRAGANA "ｳﾏｺﾞﾔ", Select_LoadGame, 0x02F9 },
+    { "51:" GFXP_HIRAGANA "ｳﾏｺﾞﾔ", Select_LoadGame, ENTR_MALON_STABLE_0 },
     // "52: Grave Keeper's House" (Gravekeeper's Hut)
-    { "52:" GFXP_HIRAGANA "ﾊｶﾓﾘﾉｲｴ", Select_LoadGame, 0x030D },
+    { "52:" GFXP_HIRAGANA "ﾊｶﾓﾘﾉｲｴ", Select_LoadGame, ENTR_HUT_0 },
     // "53: Back Alley - Dog Lady's House" (Back Alley House)
-    { "53:" GFXP_HIRAGANA "ｳﾗﾛｼﾞ ｲﾇｵﾊﾞｻﾝﾉｲｴ", Select_LoadGame, 0x0398 },
+    { "53:" GFXP_HIRAGANA "ｳﾗﾛｼﾞ ｲﾇｵﾊﾞｻﾝﾉｲｴ", Select_LoadGame, ENTR_IMPA_0 },
     // "54: Kakariko Village - Impa's House" (Impa's House)
-    { "54:" GFXP_HIRAGANA "ｶｶﾘｺﾑﾗ " GFXP_KATAKANA "ｲﾝﾊﾟ" GFXP_HIRAGANA "ﾉｲｴ", Select_LoadGame, 0x039C },
+    { "54:" GFXP_HIRAGANA "ｶｶﾘｺﾑﾗ " GFXP_KATAKANA "ｲﾝﾊﾟ" GFXP_HIRAGANA "ﾉｲｴ", Select_LoadGame, ENTR_LABO_0 },
     // "55: Hylia Laboratory" (Lakeside Laboratory)
-    { "55:" GFXP_KATAKANA "ﾊｲﾘｱ" GFXP_HIRAGANA " ｹﾝｷｭｳｼﾞｮ", Select_LoadGame, 0x0043 },
+    { "55:" GFXP_KATAKANA "ﾊｲﾘｱ" GFXP_HIRAGANA " ｹﾝｷｭｳｼﾞｮ", Select_LoadGame, ENTR_HYLIA_LABO_0 },
     // "56: Tent" (Carpenters' Tent)
-    { "56:" GFXP_KATAKANA "ﾃﾝﾄ", Select_LoadGame, 0x03A0 },
+    { "56:" GFXP_KATAKANA "ﾃﾝﾄ", Select_LoadGame, ENTR_TENT_0 },
     // "57: Shield Shop" (Bazaar)
-    { "57:" GFXP_HIRAGANA "ﾀﾃﾉﾐｾ", Select_LoadGame, 0x00B7 },
+    { "57:" GFXP_HIRAGANA "ﾀﾃﾉﾐｾ", Select_LoadGame, ENTR_SHOP1_0 },
     // "58: Kokiri Shop" (Kokiri Shop)
-    { "58:" GFXP_HIRAGANA "ｺｷﾘｿﾞｸﾉﾐｾ", Select_LoadGame, 0x00C1 },
+    { "58:" GFXP_HIRAGANA "ｺｷﾘｿﾞｸﾉﾐｾ", Select_LoadGame, ENTR_KOKIRI_SHOP_0 },
     // "59: Goron Shop" (Goron Shop)
-    { "59:" GFXP_KATAKANA "ｺﾞﾛﾝ" GFXP_HIRAGANA "ﾉﾐｾ", Select_LoadGame, 0x037C },
+    { "59:" GFXP_KATAKANA "ｺﾞﾛﾝ" GFXP_HIRAGANA "ﾉﾐｾ", Select_LoadGame, ENTR_GOLON_0 },
     // "60: Zora Shop" (Zora Shop)
-    { "60:" GFXP_KATAKANA "ｿﾞｰﾗ" GFXP_HIRAGANA "ﾉﾐｾ", Select_LoadGame, 0x0380 },
+    { "60:" GFXP_KATAKANA "ｿﾞｰﾗ" GFXP_HIRAGANA "ﾉﾐｾ", Select_LoadGame, ENTR_ZOORA_0 },
     // "61: Kakariko Village - Potion Shop" (Kakariko Potion Shop)
-    { "61:" GFXP_KATAKANA "ｶｶﾘｺ" GFXP_HIRAGANA "ﾑﾗ  ｸｽﾘﾔ", Select_LoadGame, 0x0384 },
+    { "61:" GFXP_KATAKANA "ｶｶﾘｺ" GFXP_HIRAGANA "ﾑﾗ  ｸｽﾘﾔ", Select_LoadGame, ENTR_DRAG_0 },
     // "62: Castle Town - Potion Shop" (Market Potion Shop)
-    { "62:" GFXP_HIRAGANA "ｼﾞｮｳｶﾏﾁ ｸｽﾘﾔ", Select_LoadGame, 0x0388 },
+    { "62:" GFXP_HIRAGANA "ｼﾞｮｳｶﾏﾁ ｸｽﾘﾔ", Select_LoadGame, ENTR_ALLEY_SHOP_0 },
     // "63: Back Alley - Night Shop" (Bombchu Shop)
-    { "63:" GFXP_HIRAGANA "ｳﾗﾛｼﾞ ﾖﾙﾉﾐｾ", Select_LoadGame, 0x0390 },
+    { "63:" GFXP_HIRAGANA "ｳﾗﾛｼﾞ ﾖﾙﾉﾐｾ", Select_LoadGame, ENTR_NIGHT_SHOP_0 },
     // "64: Mask Shop" (Happy Mask Shop)
-    { "64:" GFXP_HIRAGANA "ｵﾒﾝﾔ", Select_LoadGame, 0x0530 },
+    { "64:" GFXP_HIRAGANA "ｵﾒﾝﾔ", Select_LoadGame, ENTR_FACE_SHOP_0 },
     // "65: Gerudo Training Area" (Gerudo Training Ground)
-    { "65:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾉｼｭｳﾚﾝｼﾞｮｳ", Select_LoadGame, 0x0008 },
+    { "65:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾉｼｭｳﾚﾝｼﾞｮｳ", Select_LoadGame, ENTR_MEN_0 },
     // "66: Fairy Tree Dungeon" (Inside the Deku Tree)
-    { "66:" GFXP_HIRAGANA "ﾖｳｾｲﾉｷﾉ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0000 },
+    { "66:" GFXP_HIRAGANA "ﾖｳｾｲﾉｷﾉ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_YDAN_0 },
     // "67: Fairy Tree Dungeon - Boss" (Gohma's Lair)
-    { "67:" GFXP_HIRAGANA "ﾖｳｾｲﾉｷﾉ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x040F },
+    { "67:" GFXP_HIRAGANA "ﾖｳｾｲﾉｷﾉ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, ENTR_YDAN_BOSS_0 },
     // "68: Dondogo Dungeon" (Dodongo's Cavern)
-    { "68:" GFXP_KATAKANA "ﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0004 },
+    { "68:" GFXP_KATAKANA "ﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_DDAN_0 },
     // "69: Dondogo Dungeon - Boss" (King Dodongo's Lair)
-    { "69:" GFXP_KATAKANA "ﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x040B },
+    { "69:" GFXP_KATAKANA "ﾄﾞﾄﾞﾝｺﾞ ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, ENTR_DDAN_BOSS_0 },
     // "70: Giant Fish Dungeon" (Inside Jabu-Jabu's Belly)
-    { "70:" GFXP_HIRAGANA "ｷｮﾀﾞｲｷﾞｮ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0028 },
+    { "70:" GFXP_HIRAGANA "ｷｮﾀﾞｲｷﾞｮ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_BDAN_0 },
     // "71: Giant Fish Dungeon - Boss" (Barinade's Lair)
-    { "71:" GFXP_HIRAGANA "ｷｮﾀﾞｲｷﾞｮ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x0301 },
+    { "71:" GFXP_HIRAGANA "ｷｮﾀﾞｲｷﾞｮ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, ENTR_BDAN_BOSS_0 },
     // "72: Forest Temple" (Forest Temple)
-    { "72:" GFXP_HIRAGANA "ﾓﾘﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x0169 },
+    { "72:" GFXP_HIRAGANA "ﾓﾘﾉｼﾝﾃﾞﾝ", Select_LoadGame, ENTR_BMORI1_0 },
     // "73: Forest Temple - Boss" (Phantom Ganon's Lair)
-    { "73:" GFXP_HIRAGANA "ﾓﾘﾉｼﾝﾃﾞﾝ " GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, 0x000C },
+    { "73:" GFXP_HIRAGANA "ﾓﾘﾉｼﾝﾃﾞﾝ " GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, ENTR_MORIBOSSROOM_0 },
     // "74: Dungeon Below the Well" (Bottom of the Well)
-    { "74:" GFXP_HIRAGANA "ｲﾄﾞｼﾀ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0098 },
+    { "74:" GFXP_HIRAGANA "ｲﾄﾞｼﾀ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_HAKADANCH_0 },
     // "75: Dungeon Beneath the Graves" (Shadow Temple)
-    { "75:" GFXP_HIRAGANA "ﾊｶｼﾀ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0037 },
+    { "75:" GFXP_HIRAGANA "ﾊｶｼﾀ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_HAKADAN_0 },
     // "76: Dungeon Beneath the Graves - Boss" (Bongo Bongo's Lair)
-    { "76:" GFXP_HIRAGANA "ﾊｶｼﾀ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x0413 },
+    { "76:" GFXP_HIRAGANA "ﾊｶｼﾀ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, ENTR_HAKADAN_BS_0 },
     // "77: Fire Temple" (Fire Temple)
-    { "77:" GFXP_HIRAGANA "ﾋﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x0165 },
+    { "77:" GFXP_HIRAGANA "ﾋﾉｼﾝﾃﾞﾝ", Select_LoadGame, ENTR_HIDAN_0 },
     // "78: Fire Temple - Boss" (Volvagia's Lair)
-    { "78:" GFXP_HIRAGANA "ﾋﾉｼﾝﾃﾞﾝ " GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, 0x0305 },
+    { "78:" GFXP_HIRAGANA "ﾋﾉｼﾝﾃﾞﾝ " GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, ENTR_FIRE_BS_0 },
     // "79: Water Temple" (Water Temple)
-    { "79:" GFXP_HIRAGANA "ﾐｽﾞﾉｼﾝﾃﾞﾝ", Select_LoadGame, 0x0010 },
+    { "79:" GFXP_HIRAGANA "ﾐｽﾞﾉｼﾝﾃﾞﾝ", Select_LoadGame, ENTR_MIZUSIN_0 },
     // "80: Water Temple - Boss" (Morpha's Lair)
-    { "80:" GFXP_HIRAGANA "ﾐｽﾞﾉｼﾝﾃﾞﾝ " GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, 0x0417 },
+    { "80:" GFXP_HIRAGANA "ﾐｽﾞﾉｼﾝﾃﾞﾝ " GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, ENTR_MIZUSIN_BS_0 },
     // "81: Evil Goddess Statue Dungeon" (Spirit Temple)
-    { "81:" GFXP_HIRAGANA "ｼﾞｬｼﾝｿﾞｳ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0082 },
+    { "81:" GFXP_HIRAGANA "ｼﾞｬｼﾝｿﾞｳ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_JYASINZOU_0 },
     // "82: Evil Goddess Statue Dungeon - Iron Knuckle" (Iron Knuckle's Lair)
-    { "82:" GFXP_HIRAGANA "ｼﾞｬｼﾝｿﾞｳ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ｱｲｱﾝﾅｯｸ", Select_LoadGame, 0x008D },
+    { "82:" GFXP_HIRAGANA "ｼﾞｬｼﾝｿﾞｳ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ｱｲｱﾝﾅｯｸ", Select_LoadGame, ENTR_JYASINBOSS_0 },
     // "83: Evil Goddess Statue Dungeon - Boss" (Twinrova's Lair)
-    { "83:" GFXP_HIRAGANA "ｼﾞｬｼﾝｿﾞｳ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, 0x05EC },
+    { "83:" GFXP_HIRAGANA "ｼﾞｬｼﾝｿﾞｳ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ ﾎﾞｽ", Select_LoadGame, ENTR_JYASINBOSS_2 },
     // "84: Ganon's Tower" (Ganon's Tower)
-    { "84:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ", Select_LoadGame, 0x041B },
+    { "84:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ", Select_LoadGame, ENTR_GANON_0 },
     // "85: Ganon's Tower - Boss" (Ganondorf's Lair)
-    { "85:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ" GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, 0x041F },
+    { "85:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ" GFXP_KATAKANA "ﾎﾞｽ", Select_LoadGame, ENTR_GANON_BOSS_0 },
     // "86: Ice Cavern" (Ice Cavern)
-    { "86:" GFXP_HIRAGANA "ｺｵﾘﾉﾄﾞｳｸﾂ", Select_LoadGame, 0x0088 },
+    { "86:" GFXP_HIRAGANA "ｺｵﾘﾉﾄﾞｳｸﾂ", Select_LoadGame, ENTR_ICE_DOUKUTO_0 },
     // "87: Relay Beneath the Graves" (Dampé's Grave)
-    { "87:" GFXP_HIRAGANA "ﾊｶｼﾀ" GFXP_KATAKANA "ﾘﾚｰ", Select_LoadGame, 0x044F },
+    { "87:" GFXP_HIRAGANA "ﾊｶｼﾀ" GFXP_KATAKANA "ﾘﾚｰ", Select_LoadGame, ENTR_HAKASITARELAY_0 },
     // "88: Ganon's Basement Dungeon" (Inside Ganon's Castle)
-    { "88:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, 0x0467 },
+    { "88:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ " GFXP_KATAKANA "ﾀﾞﾝｼﾞｮﾝ", Select_LoadGame, ENTR_GANONTIKA_0 },
     // "89: Final Battle With Ganon - Cutscene & Battle" (Ganondorf's Death Scene & Tower Escape Exterior)
-    { "89:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ｻｲｼｭｳｾﾝ " GFXP_KATAKANA "ﾃﾞﾓ & ﾊﾞﾄﾙ", Select_LoadGame, 0x0517 },
+    { "89:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ｻｲｼｭｳｾﾝ " GFXP_KATAKANA "ﾃﾞﾓ & ﾊﾞﾄﾙ", Select_LoadGame,
+      ENTR_GANON_DEMO_0 },
     // "90: Ganon's Tower Aftermath 1" (Escaping Ganon's Tower 1)
-    { "90:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 1", Select_LoadGame, 0x0179 },
+    { "90:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 1", Select_LoadGame, ENTR_GANON_SONOGO_0 },
     // "91: Ganon's Tower Aftermath 2" (Escaping Ganon's Tower 2)
-    { "91:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 2", Select_LoadGame, 0x01B5 },
+    { "91:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 2", Select_LoadGame, ENTR_GANON_SONOGO_2 },
     // "92: Ganon's Tower Aftermath 3" (Escaping Ganon's Tower 3)
-    { "92:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 3", Select_LoadGame, 0x03DC },
+    { "92:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 3", Select_LoadGame, ENTR_GANON_SONOGO_4 },
     // "93: Ganon's Tower Aftermath 4" (Escaping Ganon's Tower 4)
-    { "93:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 4", Select_LoadGame, 0x03E4 },
+    { "93:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾉﾄｳ ｿﾉｺﾞ 4", Select_LoadGame, ENTR_GANON_SONOGO_6 },
     // "94: Ganon's Basement Aftermath" (Escaping Ganon's Castle)
-    { "94:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ ｿﾉｺﾞ", Select_LoadGame, 0x056C },
+    { "94:" GFXP_KATAKANA "ｶﾞﾉﾝ" GFXP_HIRAGANA "ﾁｶ ｿﾉｺﾞ", Select_LoadGame, ENTR_GANONTIKA_SONOGO_0 },
     // "95: Gerudo Passage 1-2" (Thieves' Hideout 1)
-    { "95:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 1-2", Select_LoadGame, 0x0486 },
+    { "95:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 1-2", Select_LoadGame, ENTR_GERUDOWAY_0 },
     // "96: Gerudo Passage 3-4 9-10" (Thieves' Hideout 2)
-    { "96:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 3-4 9-10", Select_LoadGame, 0x048E },
+    { "96:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 3-4 9-10", Select_LoadGame, ENTR_GERUDOWAY_2 },
     // "97: Gerudo Passage 5-6" (Thieves' Hideout 3)
-    { "97:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 5-6", Select_LoadGame, 0x0496 },
+    { "97:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 5-6", Select_LoadGame, ENTR_GERUDOWAY_4 },
     // "98: Gerudo Passage 7-8" (Thieves' Hideout 4)
-    { "98:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 7-8", Select_LoadGame, 0x049E },
+    { "98:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 7-8", Select_LoadGame, ENTR_GERUDOWAY_6 },
     // "99: Gerudo Passage 11-12" (Thieves' Hideout 5)
-    { "99:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 11-12", Select_LoadGame, 0x04AE },
+    { "99:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 11-12", Select_LoadGame, ENTR_GERUDOWAY_10 },
     // "100: Gerudo Passage 13" (Thieves' Hideout 6)
-    { "100:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 13", Select_LoadGame, 0x0570 },
+    { "100:" GFXP_KATAKANA "ｹﾞﾙﾄﾞ" GFXP_HIRAGANA "ﾂｳﾛ 13", Select_LoadGame, ENTR_GERUDOWAY_12 },
     // "101: Hidden Dive Hole 0" (Grotto 0 - Gossip Stone & Chest)
-    { "101:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 0", Select_LoadGame, 0x003F },
+    { "101:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 0", Select_LoadGame, ENTR_KAKUSIANA_0 },
     // "102: Hidden Dive Hole 1" (Grotto 1 - Skulltula & Gold Skulltula)
-    { "102:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 1", Select_LoadGame, 0x0598 },
+    { "102:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 1", Select_LoadGame, ENTR_KAKUSIANA_1 },
     // "103: Hidden Dive Hole 2" (Grotto 2 - Business Scrub & Heart Piece)
-    { "103:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, 0x059C },
+    { "103:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, ENTR_KAKUSIANA_2 },
     // "104: Hidden Dive Hole 3" (Grotto 3 - Redeads)
-    { "104:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 3", Select_LoadGame, 0x05A0 },
+    { "104:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 3", Select_LoadGame, ENTR_KAKUSIANA_3 },
     // "105: Hidden Dive Hole 4" (Grotto 4 - 3 Business Scrubs)
-    { "105:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 4", Select_LoadGame, 0x05A4 },
+    { "105:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 4", Select_LoadGame, ENTR_KAKUSIANA_4 },
     // "106: Hidden Dive Hole 5" (Grotto 5 - Gossip Stone, Skulltula, Cow)
-    { "106:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 5", Select_LoadGame, 0x05A8 },
+    { "106:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 5", Select_LoadGame, ENTR_KAKUSIANA_5 },
     // "107: Hidden Dive Hole 6" (Grotto 6 - Octorok)
-    { "107:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 6", Select_LoadGame, 0x05AC },
+    { "107:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 6", Select_LoadGame, ENTR_KAKUSIANA_6 },
     // "108: Hidden Dive Hole 7" (Grotto 7 - Business Scrub & Deku Nut Upgrade)
-    { "108:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 7", Select_LoadGame, 0x05B0 },
+    { "108:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 7", Select_LoadGame, ENTR_KAKUSIANA_7 },
     // "109: Hidden Dive Hole 8" (Grotto 8 - 2 Wolfos)
-    { "109:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 8", Select_LoadGame, 0x05B4 },
+    { "109:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 8", Select_LoadGame, ENTR_KAKUSIANA_8 },
     // "110: Hidden Dive Hole 9" (Grotto 9 - Bombable Walls)
-    { "110:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 9", Select_LoadGame, 0x05B8 },
+    { "110:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 9", Select_LoadGame, ENTR_KAKUSIANA_9 },
     // "111: Hidden Dive Hole 10" (Grotto 10 - 2 Business Scrubs)
-    { "111:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 10", Select_LoadGame, 0x05BC },
+    { "111:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 10", Select_LoadGame, ENTR_KAKUSIANA_10 },
     // "112: Hidden Dive Hole 11" (Grotto 11 - Tektite & Heart Piece)
-    { "112:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 11", Select_LoadGame, 0x05C0 },
+    { "112:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 11", Select_LoadGame, ENTR_KAKUSIANA_11 },
     // "113: Hidden Dive Hole 12" (Grotto 12 - Deku Stage)
-    { "113:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 12", Select_LoadGame, 0x05C4 },
+    { "113:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 12", Select_LoadGame, ENTR_KAKUSIANA_12 },
     // "114: Hidden Dive Hole 13" (Grotto 13 - Rupees & Cow)
-    { "114:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 13", Select_LoadGame, 0x05FC },
+    { "114:" GFXP_HIRAGANA "ｶｸｼﾄﾋﾞｺﾐｱﾅ 13", Select_LoadGame, ENTR_KAKUSIANA_13 },
     // "115: Hyrule Cutscenes" (Cutscene Map)
-    { "115:" GFXP_KATAKANA "ﾊｲﾗﾙ ﾃﾞﾓ", Select_LoadGame, 0x00A0 },
+    { "115:" GFXP_KATAKANA "ﾊｲﾗﾙ ﾃﾞﾓ", Select_LoadGame, ENTR_HIRAL_DEMO_0 },
     // "116: Special Room (Treasure Chest Warp)" (Ganondorf Test Room)
-    { "116:" GFXP_HIRAGANA "ﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ" GFXP_KATAKANA "ﾜｰﾌﾟ)", Select_LoadGame, 0x0520 },
+    { "116:" GFXP_HIRAGANA "ﾍﾞｯｼﾂ (ﾀｶﾗﾊﾞｺ" GFXP_KATAKANA "ﾜｰﾌﾟ)", Select_LoadGame, ENTR_BESITU_0 },
     // "117: Sasaki Test" (Sasa Test)
-    { "117:" GFXP_HIRAGANA "ｻｻ" GFXP_KATAKANA "ﾃｽﾄ", Select_LoadGame, 0x0018 },
+    { "117:" GFXP_HIRAGANA "ｻｻ" GFXP_KATAKANA "ﾃｽﾄ", Select_LoadGame, ENTR_SASATEST_0 },
     // "118: Test Map" (Jungle Gym)
-    { "118:" GFXP_KATAKANA "ﾃｽﾄﾏｯﾌﾟ", Select_LoadGame, 0x0094 },
+    { "118:" GFXP_KATAKANA "ﾃｽﾄﾏｯﾌﾟ", Select_LoadGame, ENTR_TEST01_0 },
     // "119: Test Room" (Treasure Chest Room)
-    { "119:" GFXP_KATAKANA "ﾃｽﾄﾙｰﾑ", Select_LoadGame, 0x0024 },
+    { "119:" GFXP_KATAKANA "ﾃｽﾄﾙｰﾑ", Select_LoadGame, ENTR_TESTROOM_0 },
     // "120: Stalfos Miniboss Room" (Stalfos Miniboss Room)
-    { "120:" GFXP_HIRAGANA "ﾁｭｳ" GFXP_KATAKANA "ｽﾀﾛﾌｫｽ" GFXP_HIRAGANA "ﾍﾞﾔ", Select_LoadGame, 0x001C },
+    { "120:" GFXP_HIRAGANA "ﾁｭｳ" GFXP_KATAKANA "ｽﾀﾛﾌｫｽ" GFXP_HIRAGANA "ﾍﾞﾔ", Select_LoadGame, ENTR_SYOTES_0 },
     // "121: Boss Stalfos Room" (Stalfos Boss Room)
-    { "121:" GFXP_KATAKANA "ﾎﾞｽｽﾀﾛﾌｫｽ" GFXP_HIRAGANA "ﾍﾞﾔ", Select_LoadGame, 0x0020 },
+    { "121:" GFXP_KATAKANA "ﾎﾞｽｽﾀﾛﾌｫｽ" GFXP_HIRAGANA "ﾍﾞﾔ", Select_LoadGame, ENTR_SYOTES2_0 },
     // "122: Stal" (Sutaru)
-    { "122:Sutaru", Select_LoadGame, 0x0047 },
+    { "122:Sutaru", Select_LoadGame, ENTR_SUTARU_0 },
     // "123: Test Area" (Shooting Gallery)
-    { "123:jikkenjyou", Select_LoadGame, 0x02EA },
+    { "123:jikkenjyou", Select_LoadGame, ENTR_TEST_SYATEKIJYOU_0 },
     // "124: Depth Test" (Depth Test)
-    { "124:depth" GFXP_KATAKANA "ﾃｽﾄ", Select_LoadGame, 0x00B6 },
+    { "124:depth" GFXP_KATAKANA "ﾃｽﾄ", Select_LoadGame, ENTR_DEPTH_TEST_0 },
     // "125: Hyrule Garden Game 2" (Early Hyrule Garden Game)
-    { "125:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾆﾜ" GFXP_KATAKANA "ｹﾞｰﾑ2", Select_LoadGame, 0x0076 },
+    { "125:" GFXP_KATAKANA "ﾊｲﾗﾙ" GFXP_HIRAGANA "ﾆﾜ" GFXP_KATAKANA "ｹﾞｰﾑ2", Select_LoadGame, ENTR_HAIRAL_NIWA2_0 },
     // "title" (Title Screen)
-    { "title", (void*)Select_LoadTitle, 0x0000 },
+    { "title", (void*)Select_LoadTitle, 0 },
 };
 
 void Select_UpdateMenu(SelectContext* this) {

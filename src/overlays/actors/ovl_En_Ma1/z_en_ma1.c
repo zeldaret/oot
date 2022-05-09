@@ -367,7 +367,7 @@ void func_80AA0F44(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA106C(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (this->unk_1E8.unk_00 == 2) {
-        Audio_OcaSetInstrument(2);
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_MALON);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_EPONA);
         this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = func_80AA10EC;
@@ -385,7 +385,7 @@ void func_80AA10EC(EnMa1* this, GlobalContext* globalCtx) {
 void func_80AA1150(EnMa1* this, GlobalContext* globalCtx) {
     GET_PLAYER(globalCtx)->stateFlags2 |= PLAYER_STATE2_23;
     if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        globalCtx->nextEntranceIndex = 0x157;
+        globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
         gSaveContext.nextCutsceneIndex = 0xFFF1;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_WAVE, TCC_WHITE, TCS_FAST);
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;

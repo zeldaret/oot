@@ -1278,7 +1278,7 @@ void Environment_DrawSunAndMoon(GlobalContext* globalCtx) {
         globalCtx->envCtx.sunPos.z = +(Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
     }
 
-    if (gSaveContext.entranceIndex != 0xCD || ((void)0, gSaveContext.sceneSetupIndex) != 5) {
+    if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneSetupIndex) != 5) {
         Matrix_Translate(globalCtx->view.eye.x + globalCtx->envCtx.sunPos.x,
                          globalCtx->view.eye.y + globalCtx->envCtx.sunPos.y,
                          globalCtx->view.eye.z + globalCtx->envCtx.sunPos.z, MTXMODE_NEW);
@@ -1920,7 +1920,8 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_E0 = 0xFF;
 
     // both lost woods exits on the bridge from kokiri to hyrule field
-    if (((void)0, gSaveContext.entranceIndex) == 0x4DE || ((void)0, gSaveContext.entranceIndex) == 0x5E0) {
+    if (((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_8 ||
+        ((void)0, gSaveContext.entranceIndex) == ENTR_SPOT10_9) {
         Audio_PlayNatureAmbienceSequence(NATURE_ID_KOKIRI_REGION);
     } else if (((void)0, gSaveContext.forcedSeqId) != NA_BGM_GENERAL_SFX) {
         if (!Environment_IsForcedSequenceDisabled()) {
@@ -2442,22 +2443,27 @@ void Environment_WarpSongLeave(GlobalContext* globalCtx) {
     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
 
     switch (globalCtx->nextEntranceIndex) {
-        case 0x147:
+        case ENTR_SPOT17_0:
             Flags_SetEventChkInf(EVENTCHKINF_B9);
             break;
-        case 0x0102:
+
+        case ENTR_SPOT06_0:
             Flags_SetEventChkInf(EVENTCHKINF_B1);
             break;
-        case 0x0123:
+
+        case ENTR_SPOT11_0:
             Flags_SetEventChkInf(EVENTCHKINF_B8);
             break;
-        case 0x00E4:
+
+        case ENTR_SPOT02_0:
             Flags_SetEventChkInf(EVENTCHKINF_B6);
             break;
-        case 0x0053:
+
+        case ENTR_TOKINOMA_0:
             Flags_SetEventChkInf(EVENTCHKINF_A7);
             break;
-        case 0x00FC:
+
+        case ENTR_SPOT05_0:
             break;
     }
 }

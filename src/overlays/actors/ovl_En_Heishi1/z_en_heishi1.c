@@ -348,7 +348,7 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
             Message_CloseTextbox(globalCtx);
             if (!this->loadStarted) {
                 SET_EVENTCHKINF(EVENTCHKINF_4E);
-                globalCtx->nextEntranceIndex = 0x4FA;
+                globalCtx->nextEntranceIndex = ENTR_SPOT15_3;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
