@@ -2018,7 +2018,7 @@ void func_800F8884(u8 bankId, Vec3f* pos);
 void Audio_StopSfxByPosAndBank(u8 bankId, Vec3f* pos);
 void Audio_StopSfxByPos(Vec3f* pos);
 void Audio_StartSequence(u8 playerIdx, u8 seqId, u8 arg2, u16 fadeTimer);
-void Audio_QueueSeqCmd(u32 bgmID);
+void Audio_QueueSeqCmd(u32 cmd);
 void Audio_StopSfxByPosAndId(Vec3f* pos, u16 sfxId);
 void Audio_StopSfxByTokenAndId(u8 token, u16 sfxId);
 void Audio_StopSfxById(u32 sfxId);

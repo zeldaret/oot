@@ -1,8 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-#define Audio_DisableSeq(playerIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)playerIdx << 16), fadeOut)
-
+#define Audio_DisableSeq(playerIndex, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)playerIndex << 16), fadeOut)
 
 typedef struct {
     /* 0x0 */ f32 vol;
@@ -4268,7 +4267,7 @@ void Audio_SplitBgmChannels(s8 volSplit) {
     u8 channelIdx;
     u8 i;
 
-    if ((Audio_GetActiveSequence(SEQ_PLAYER_FANFARE) == NA_BGM_DISABLED) && 
+    if ((Audio_GetActiveSequence(SEQ_PLAYER_FANFARE) == NA_BGM_DISABLED) &&
         (Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON)) {
         for (i = 0; i < ARRAY_COUNT(bgmPlayers); i++) {
             if (i == 0) {
@@ -4418,7 +4417,8 @@ void func_800F574C(f32 arg0, u8 arg2) {
 }
 
 void func_800F5918(void) {
-    if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME && Audio_IsSeqCmdNotQueued(0, 0xF0000000)) {
+    if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME &&
+        Audio_IsSeqCmdNotQueued(0, 0xF0000000)) {
         AudioSeqCmd_SetTempo(SEQ_PLAYER_BGM_MAIN, 5, 210);
     }
 }
@@ -4573,9 +4573,9 @@ void func_800F5CF8(void) {
     }
 }
 
-void func_800F5E18(u8 playerIdx, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4) {
-    AudioSeqCmd_SetPlayerIO(playerIdx, arg3, arg4);
-    AudioSeqCmd_PlaySequence(playerIdx, fadeTimer, 0, seqId);
+void func_800F5E18(u8 playerIndex, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4) {
+    AudioSeqCmd_SetPlayerIO(playerIndex, arg3, arg4);
+    AudioSeqCmd_PlaySequence(playerIndex, fadeTimer, 0, seqId);
 }
 
 void Audio_SetSequenceMode(u8 seqMode) {
@@ -4744,34 +4744,34 @@ void func_800F64E0(u8 arg0) {
 }
 
 void func_800F6584(u8 arg0) {
-    u8 playerIdx;
+    u8 playerIndex;
     u16 sp34;
 
     D_8016B9F2 = arg0;
     if ((Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) & 0xFF) == NA_BGM_LONLON) {
-        playerIdx = SEQ_PLAYER_BGM_MAIN;
+        playerIndex = SEQ_PLAYER_BGM_MAIN;
         sp34 = 0;
     } else if ((Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) & 0xFF) == NA_BGM_LONLON) {
-        playerIdx = SEQ_PLAYER_BGM_SUB;
+        playerIndex = SEQ_PLAYER_BGM_SUB;
         sp34 = 0xFFFC;
     } else {
         return;
     }
 
     if (arg0 != 0) {
-        AudioSeqCmd_SetChannelVol(playerIdx, 1, 0, 0);
-        AudioSeqCmd_SetChannelVol(playerIdx, 1, 1, 0);
-        if (playerIdx == SEQ_PLAYER_BGM_SUB) {
-            AudioSeqCmd_SetActiveChannels(playerIdx, sp34 | 3);
+        AudioSeqCmd_SetChannelVol(playerIndex, 1, 0, 0);
+        AudioSeqCmd_SetChannelVol(playerIndex, 1, 1, 0);
+        if (playerIndex == SEQ_PLAYER_BGM_SUB) {
+            AudioSeqCmd_SetActiveChannels(playerIndex, sp34 | 3);
         }
     } else {
-        if (playerIdx == SEQ_PLAYER_BGM_SUB) {
+        if (playerIndex == SEQ_PLAYER_BGM_SUB) {
             func_800F5E18(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
         }
-        AudioSeqCmd_SetChannelVol(playerIdx, 1, 0, 0x7F);
-        AudioSeqCmd_SetChannelVol(playerIdx, 1, 1, 0x7F);
-        if (playerIdx == SEQ_PLAYER_BGM_SUB) {
-            AudioSeqCmd_SetActiveChannels(playerIdx, sp34);
+        AudioSeqCmd_SetChannelVol(playerIndex, 1, 0, 0x7F);
+        AudioSeqCmd_SetChannelVol(playerIndex, 1, 1, 0x7F);
+        if (playerIndex == SEQ_PLAYER_BGM_SUB) {
+            AudioSeqCmd_SetActiveChannels(playerIndex, sp34);
         }
     }
 }

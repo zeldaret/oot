@@ -2,11 +2,9 @@
 #include "global.h"
 #include "ultra64/abi.h"
 
-
 // direct audio commands (skips the queueing system)
-#define Audio_SetVolScaleNow(playerIdx, volFadeTimer, volScale) \
-    Audio_ProcessSeqCmd(0x40000000 | ((u8)playerIdx << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
-
+#define Audio_SetVolScaleNow(playerIndex, volFadeTimer, volScale) \
+    Audio_ProcessSeqCmd(0x40000000 | ((u8)playerIndex << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
 
 typedef struct {
     u8 seqId;
@@ -26,51 +24,51 @@ u8 sSoundModes[] = { 0, 1, 2, 3 };
 u8 gAudioSpecId = 0;
 u8 D_80133418 = 0;
 
-void Audio_StartSequence(u8 playerIdx, u8 seqId, u8 seqArgs, u16 fadeTimer) {
-    u8 channelIdx;
+void Audio_StartSequence(u8 playerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
+    u8 channelIndex;
     u16 duration;
     s32 pad;
 
-    if (sIsSeqStartDisabled == 0 || playerIdx == 2) {
+    if (sIsSeqStartDisabled == 0 || playerIndex == 2) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
             duration = (fadeTimer >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
-            Audio_QueueCmdS32(0x85000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(seqId, 8, 8), duration);
+            Audio_QueueCmdS32(0x85000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(seqId, 8, 8), duration);
         } else {
-            Audio_QueueCmdS32(0x82000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(seqId, 8, 8),
+            Audio_QueueCmdS32(0x82000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(seqId, 8, 8),
                               (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
         }
 
-        gActiveSeqs[playerIdx].seqId = seqId | (seqArgs << 8);
-        gActiveSeqs[playerIdx].prevSeqId = seqId | (seqArgs << 8);
+        gActiveSeqs[playerIndex].seqId = seqId | (seqArgs << 8);
+        gActiveSeqs[playerIndex].prevSeqId = seqId | (seqArgs << 8);
 
-        if (gActiveSeqs[playerIdx].volCur != 1.0f) {
-            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIdx, 16, 8), gActiveSeqs[playerIdx].volCur);
+        if (gActiveSeqs[playerIndex].volCur != 1.0f) {
+            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIndex, 16, 8), gActiveSeqs[playerIndex].volCur);
         }
 
-        gActiveSeqs[playerIdx].tempoDuration = 0;
-        gActiveSeqs[playerIdx].tempoPrev = 0;
-        gActiveSeqs[playerIdx].tempoCmd = 0;
+        gActiveSeqs[playerIndex].tempoDuration = 0;
+        gActiveSeqs[playerIndex].tempoPrev = 0;
+        gActiveSeqs[playerIndex].tempoCmd = 0;
 
-        for (channelIdx = 0; channelIdx < 16; channelIdx++) {
-            gActiveSeqs[playerIdx].channelData[channelIdx].volCur = 1.0f;
-            gActiveSeqs[playerIdx].channelData[channelIdx].volDuration = 0;
-            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur = 1.0f;
-            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration = 0;
+        for (channelIndex = 0; channelIndex < 16; channelIndex++) {
+            gActiveSeqs[playerIndex].channelData[channelIndex].volCur = 1.0f;
+            gActiveSeqs[playerIndex].channelData[channelIndex].volDuration = 0;
+            gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleCur = 1.0f;
+            gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleDuration = 0;
         }
 
-        gActiveSeqs[playerIdx].freqScaleChannelFlags = 0;
-        gActiveSeqs[playerIdx].volChannelFlags = 0;
+        gActiveSeqs[playerIndex].freqScaleChannelFlags = 0;
+        gActiveSeqs[playerIndex].volChannelFlags = 0;
     }
 }
 
-void Audio_StopSequenceNow(u8 playerIdx, u16 fadeTimer) {
-    Audio_QueueCmdS32(0x83000000 | ((u8)playerIdx << 16),
+void Audio_StopSequenceNow(u8 playerIndex, u16 fadeTimer) {
+    Audio_QueueCmdS32(0x83000000 | ((u8)playerIndex << 16),
                       (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
-    gActiveSeqs[playerIdx].seqId = NA_BGM_DISABLED;
+    gActiveSeqs[playerIndex].seqId = NA_BGM_DISABLED;
 }
 
-void Audio_ProcessSeqCmd(u32 cmd) { 
+void Audio_ProcessSeqCmd(u32 cmd) {
     s32 importance;
     s32 channelMaskN;
     u16 channelMask;
@@ -80,13 +78,13 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     u8 spec;
     u8 op;
     u8 subOp;
-    u8 playerIdx;
+    u8 playerIndex;
     u8 seqId;
     u8 seqArgs;
     u8 found;
     u8 port;
     u8 duration;
-    u8 channelIdx;
+    u8 channelIndex;
     u8 i;
     f32 freqScaleTarget;
     s32 pad;
@@ -97,7 +95,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     }
 
     op = cmd >> 28;
-    playerIdx = (cmd & 0xF000000) >> 24;
+    playerIndex = (cmd & 0xF000000) >> 24;
 
     switch (op) {
         case SEQ_CMD_START:
@@ -105,15 +103,15 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
             fadeTimer = (cmd & 0xFF0000) >> 13;
-            if (!gActiveSeqs[playerIdx].isWaitingForFonts && (seqArgs < 0x80)) {
-                Audio_StartSequence(playerIdx, seqId, seqArgs, fadeTimer);
+            if (!gActiveSeqs[playerIndex].isWaitingForFonts && (seqArgs < 0x80)) {
+                Audio_StartSequence(playerIndex, seqId, seqArgs, fadeTimer);
             }
             break;
 
         case SEQ_CMD_STOP:
             // disable seq player
             fadeTimer = (cmd & 0xFF0000) >> 13;
-            Audio_StopSequenceNow(playerIdx, fadeTimer);
+            Audio_StopSequenceNow(playerIndex, fadeTimer);
             break;
 
         case SEQ_CMD_QUEUE:
@@ -125,10 +123,10 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
             // Checks if the requested sequence is first in the list of requested
             // If it is already queued and first in the list, then play the sequence immediately
-            for (i = 0; i < sNumSeqRequests[playerIdx]; i++) {
-                if (sSeqRequests[playerIdx][i].seqId == seqId) {
+            for (i = 0; i < sNumSeqRequests[playerIndex]; i++) {
+                if (sSeqRequests[playerIndex][i].seqId == seqId) {
                     if (i == 0) {
-                        Audio_StartSequence(playerIdx, seqId, seqArgs, fadeTimer);
+                        Audio_StartSequence(playerIndex, seqId, seqArgs, fadeTimer);
                     }
                     return;
                 }
@@ -136,31 +134,31 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
             // Searches the sequence requests for the first request that does not have a higher priority
             // than the current incoming request
-            found = sNumSeqRequests[playerIdx];
-            for (i = 0; i < sNumSeqRequests[playerIdx]; i++) {
-                if (sSeqRequests[playerIdx][i].importance <= importance) {
+            found = sNumSeqRequests[playerIndex];
+            for (i = 0; i < sNumSeqRequests[playerIndex]; i++) {
+                if (sSeqRequests[playerIndex][i].importance <= importance) {
                     found = i;
-                    i = sNumSeqRequests[playerIdx]; // "break;"
+                    i = sNumSeqRequests[playerIndex]; // "break;"
                 }
             }
 
             // Check if the queue is full
-            if (sNumSeqRequests[playerIdx] < 5) {
-                sNumSeqRequests[playerIdx]++;
+            if (sNumSeqRequests[playerIndex] < 5) {
+                sNumSeqRequests[playerIndex]++;
             }
 
-            for (i = sNumSeqRequests[playerIdx] - 1; i != found; i--) {
+            for (i = sNumSeqRequests[playerIndex] - 1; i != found; i--) {
                 // Move all requests of lower importance backwards 1 place in the queue
-                sSeqRequests[playerIdx][i].importance = sSeqRequests[playerIdx][i - 1].importance;
-                sSeqRequests[playerIdx][i].seqId = sSeqRequests[playerIdx][i - 1].seqId;
+                sSeqRequests[playerIndex][i].importance = sSeqRequests[playerIndex][i - 1].importance;
+                sSeqRequests[playerIndex][i].seqId = sSeqRequests[playerIndex][i - 1].seqId;
             }
 
             // Fill the newly freed space in the queue with the new request
-            sSeqRequests[playerIdx][found].importance = seqArgs;
-            sSeqRequests[playerIdx][found].seqId = seqId;
+            sSeqRequests[playerIndex][found].importance = seqArgs;
+            sSeqRequests[playerIndex][found].seqId = seqId;
 
             if (found == 0) {
-                Audio_StartSequence(playerIdx, seqId, seqArgs, fadeTimer);
+                Audio_StartSequence(playerIndex, seqId, seqArgs, fadeTimer);
             }
             break;
 
@@ -168,28 +166,29 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // unqueue sequence. If sequence is active, stop sequence and play next sequence in queue
             fadeTimer = (cmd & 0xFF0000) >> 13;
 
-            found = sNumSeqRequests[playerIdx];
-            for (i = 0; i < sNumSeqRequests[playerIdx]; i++) {
+            found = sNumSeqRequests[playerIndex];
+            for (i = 0; i < sNumSeqRequests[playerIndex]; i++) {
                 seqId = cmd & 0xFF;
-                if (sSeqRequests[playerIdx][i].seqId == seqId) {
+                if (sSeqRequests[playerIndex][i].seqId == seqId) {
                     found = i;
-                    i = sNumSeqRequests[playerIdx]; // "break;"
+                    i = sNumSeqRequests[playerIndex]; // "break;"
                 }
             }
 
-            if (found != sNumSeqRequests[playerIdx]) {
+            if (found != sNumSeqRequests[playerIndex]) {
                 // Move all requests of lower importance forward 1 place in the queue
-                for (i = found; i < sNumSeqRequests[playerIdx] - 1; i++) {
-                    sSeqRequests[playerIdx][i].importance = sSeqRequests[playerIdx][i + 1].importance;
-                    sSeqRequests[playerIdx][i].seqId = sSeqRequests[playerIdx][i + 1].seqId;
+                for (i = found; i < sNumSeqRequests[playerIndex] - 1; i++) {
+                    sSeqRequests[playerIndex][i].importance = sSeqRequests[playerIndex][i + 1].importance;
+                    sSeqRequests[playerIndex][i].seqId = sSeqRequests[playerIndex][i + 1].seqId;
                 }
-                sNumSeqRequests[playerIdx]--;
+                sNumSeqRequests[playerIndex]--;
             }
 
             if (found == 0) {
-                Audio_StopSequenceNow(playerIdx, fadeTimer);
-                if (sNumSeqRequests[playerIdx] != 0) {
-                    Audio_StartSequence(playerIdx, sSeqRequests[playerIdx][0].seqId, sSeqRequests[playerIdx][0].importance, fadeTimer);
+                Audio_StopSequenceNow(playerIndex, fadeTimer);
+                if (sNumSeqRequests[playerIndex] != 0) {
+                    Audio_StartSequence(playerIndex, sSeqRequests[playerIndex][0].seqId,
+                                        sSeqRequests[playerIndex][0].importance, fadeTimer);
                 }
             }
             break;
@@ -201,11 +200,11 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             if (duration == 0) {
                 duration++;
             }
-            gActiveSeqs[playerIdx].volTarget = (f32)val / 127.0f;
-            if (gActiveSeqs[playerIdx].volCur != gActiveSeqs[playerIdx].volTarget) {
-                gActiveSeqs[playerIdx].volVelocity =
-                    (gActiveSeqs[playerIdx].volCur - gActiveSeqs[playerIdx].volTarget) / (f32)duration;
-                gActiveSeqs[playerIdx].volDuration = duration;
+            gActiveSeqs[playerIndex].volTarget = (f32)val / 127.0f;
+            if (gActiveSeqs[playerIndex].volCur != gActiveSeqs[playerIndex].volTarget) {
+                gActiveSeqs[playerIndex].volVelocity =
+                    (gActiveSeqs[playerIndex].volCur - gActiveSeqs[playerIndex].volTarget) / (f32)duration;
+                gActiveSeqs[playerIndex].volDuration = duration;
             }
             break;
 
@@ -218,45 +217,47 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             freqScaleTarget = (f32)val / 1000.0f;
             for (i = 0; i < 16; i++) {
-                gActiveSeqs[playerIdx].channelData[i].freqScaleTarget = freqScaleTarget;
-                gActiveSeqs[playerIdx].channelData[i].freqScaleDuration = duration;
-                gActiveSeqs[playerIdx].channelData[i].freqScaleVelocity =
-                    (gActiveSeqs[playerIdx].channelData[i].freqScaleCur - freqScaleTarget) / (f32)duration;
+                gActiveSeqs[playerIndex].channelData[i].freqScaleTarget = freqScaleTarget;
+                gActiveSeqs[playerIndex].channelData[i].freqScaleDuration = duration;
+                gActiveSeqs[playerIndex].channelData[i].freqScaleVelocity =
+                    (gActiveSeqs[playerIndex].channelData[i].freqScaleCur - freqScaleTarget) / (f32)duration;
             }
-            gActiveSeqs[playerIdx].freqScaleChannelFlags = 0xFFFF;
+            gActiveSeqs[playerIndex].freqScaleChannelFlags = 0xFFFF;
             break;
 
         case SEQ_CMD_SET_CHANNEL_FREQ:
             // transition freq scale
             duration = (cmd & 0xFF0000) >> 15;
-            channelIdx = (cmd & 0xF000) >> 12;
+            channelIndex = (cmd & 0xF000) >> 12;
             val = cmd & 0xFFF;
             if (duration == 0) {
                 duration++;
             }
             freqScaleTarget = (f32)val / 1000.0f;
-            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleTarget = freqScaleTarget;
-            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleVelocity =
-                (gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur - freqScaleTarget) / (f32)duration;
-            gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration = duration;
-            gActiveSeqs[playerIdx].freqScaleChannelFlags |= 1 << channelIdx;
+            gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleTarget = freqScaleTarget;
+            gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleVelocity =
+                (gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleCur - freqScaleTarget) / (f32)duration;
+            gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleDuration = duration;
+            gActiveSeqs[playerIndex].freqScaleChannelFlags |= 1 << channelIndex;
             break;
 
         case SEQ_CMD_SET_CHANNEL_VOL:
             // transition volume for a specific channel
             duration = (cmd & 0xFF0000) >> 15;
-            channelIdx = (cmd & 0xF00) >> 8;
+            channelIndex = (cmd & 0xF00) >> 8;
             val = cmd & 0xFF;
             if (duration == 0) {
                 duration++;
             }
-            gActiveSeqs[playerIdx].channelData[channelIdx].volTarget = (f32)val / 127.0f;
-            if (gActiveSeqs[playerIdx].channelData[channelIdx].volCur != gActiveSeqs[playerIdx].channelData[channelIdx].volTarget) {
-                gActiveSeqs[playerIdx].channelData[channelIdx].volVelocity =
-                    (gActiveSeqs[playerIdx].channelData[channelIdx].volCur - gActiveSeqs[playerIdx].channelData[channelIdx].volTarget) /
+            gActiveSeqs[playerIndex].channelData[channelIndex].volTarget = (f32)val / 127.0f;
+            if (gActiveSeqs[playerIndex].channelData[channelIndex].volCur !=
+                gActiveSeqs[playerIndex].channelData[channelIndex].volTarget) {
+                gActiveSeqs[playerIndex].channelData[channelIndex].volVelocity =
+                    (gActiveSeqs[playerIndex].channelData[channelIndex].volCur -
+                     gActiveSeqs[playerIndex].channelData[channelIndex].volTarget) /
                     (f32)duration;
-                gActiveSeqs[playerIdx].channelData[channelIdx].volDuration = duration;
-                gActiveSeqs[playerIdx].volChannelFlags |= 1 << channelIdx;
+                gActiveSeqs[playerIndex].channelData[channelIndex].volDuration = duration;
+                gActiveSeqs[playerIndex].volChannelFlags |= 1 << channelIndex;
             }
             break;
 
@@ -264,23 +265,23 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // set global io port
             port = (cmd & 0xFF0000) >> 16;
             val = cmd & 0xFF;
-            Audio_QueueCmdS8(0x46000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(port, 0, 8), val);
+            Audio_QueueCmdS8(0x46000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(port, 0, 8), val);
             break;
 
         case SEQ_CMD_SET_CHANNEL_IO:
             // set io port if channel masked
-            channelIdx = (cmd & 0xF00) >> 8;
+            channelIndex = (cmd & 0xF00) >> 8;
             port = (cmd & 0xFF0000) >> 16;
             val = cmd & 0xFF;
-            if ((gActiveSeqs[playerIdx].channelPortMask & (1 << channelIdx)) == 0) {
-                Audio_QueueCmdS8(0x06000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(channelIdx, 8, 8) | _SHIFTL(port, 0, 8),
-                                 val);
+            if ((gActiveSeqs[playerIndex].channelPortMask & (1 << channelIndex)) == 0) {
+                Audio_QueueCmdS8(
+                    0x06000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8) | _SHIFTL(port, 0, 8), val);
             }
             break;
 
         case SEQ_CMD_SET_CHANNEL_IO_MASK:
             // set channel mask for command 0x8
-            gActiveSeqs[playerIdx].channelPortMask = cmd & 0xFFFF;
+            gActiveSeqs[playerIndex].channelPortMask = cmd & 0xFFFF;
             break;
 
         case SEQ_CMD_SET_ACTIVE_CHANNELS:
@@ -288,37 +289,37 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             channelMask = cmd & 0xFFFF;
             if (channelMask != 0) {
                 // with channel mask channelMask...
-                Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIdx, 16, 8), channelMask);
+                Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIndex, 16, 8), channelMask);
                 // stop channels
-                Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIdx, 16, 8) | 0xFF00, 1);
+                Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIndex, 16, 8) | 0xFF00, 1);
             }
             channelMaskN = (channelMask ^ 0xFFFF);
             if (channelMaskN != 0) {
                 // with channel mask ~channelMask...
-                Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIdx, 16, 8), channelMaskN);
+                Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIndex, 16, 8), channelMaskN);
                 // unstop channels
-                Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIdx, 16, 8) | 0xFF00, 0);
+                Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIndex, 16, 8) | 0xFF00, 0);
             }
             break;
 
         case SEQ_CMD_TEMPO_CMD:
             // update tempo using a command
-            gActiveSeqs[playerIdx].tempoCmd = cmd;
+            gActiveSeqs[playerIndex].tempoCmd = cmd;
             break;
 
         case SEQ_CMD_SETUP_CMD:
             // start sequence with setup commands
             subOp = (cmd & 0xF00000) >> 20;
             if (subOp != 0xF) {
-                if (gActiveSeqs[playerIdx].setupCmdNum < 7) {
-                    found = gActiveSeqs[playerIdx].setupCmdNum++;
+                if (gActiveSeqs[playerIndex].setupCmdNum < 7) {
+                    found = gActiveSeqs[playerIndex].setupCmdNum++;
                     if (found < 8) {
-                        gActiveSeqs[playerIdx].setupCmd[found] = cmd;
-                        gActiveSeqs[playerIdx].setupCmdTimer = 2;
+                        gActiveSeqs[playerIndex].setupCmd[found] = cmd;
+                        gActiveSeqs[playerIndex].setupCmdTimer = 2;
                     }
                 }
             } else {
-                gActiveSeqs[playerIdx].setupCmdNum = 0;
+                gActiveSeqs[playerIndex].setupCmdNum = 0;
             }
             break;
 
@@ -360,11 +361,11 @@ void Audio_ProcessSeqCmds(void) {
     }
 }
 
-u16 Audio_GetActiveSequence(u8 playerIdx) {
-    if (!gAudioContext.seqPlayers[playerIdx].enabled) {
+u16 Audio_GetActiveSequence(u8 playerIndex) {
+    if (!gAudioContext.seqPlayers[playerIndex].enabled) {
         return NA_BGM_DISABLED;
     }
-    return gActiveSeqs[playerIdx].seqId;
+    return gActiveSeqs[playerIndex].seqId;
 }
 
 s32 Audio_IsSeqCmdNotQueued(u32 cmdVal, u32 cmdMask) {
@@ -380,38 +381,38 @@ s32 Audio_IsSeqCmdNotQueued(u32 cmdVal, u32 cmdMask) {
 }
 
 // Unused
-void Audio_ResetSequenceRequests(u8 playerIdx) {
-    sNumSeqRequests[playerIdx] = 0;
+void Audio_ResetSequenceRequests(u8 playerIndex) {
+    sNumSeqRequests[playerIndex] = 0;
 }
 
 // Unused
-void Audio_DisableSeqCmdSetupOp(u8 playerIdx, u8 setupOpDisabled) {
+void Audio_DisableSeqCmdSetupOp(u8 playerIndex, u8 setupOpDisabled) {
     u8 i;
 
-    for (i = 0; i < gActiveSeqs[playerIdx].setupCmdNum; i++) {
-        u8 setupOp = (gActiveSeqs[playerIdx].setupCmd[i] & 0xF00000) >> 20;
+    for (i = 0; i < gActiveSeqs[playerIndex].setupCmdNum; i++) {
+        u8 setupOp = (gActiveSeqs[playerIndex].setupCmd[i] & 0xF00000) >> 20;
 
         if (setupOp == setupOpDisabled) {
-            gActiveSeqs[playerIdx].setupCmd[i] = 0xFF000000;
+            gActiveSeqs[playerIndex].setupCmd[i] = 0xFF000000;
         }
     }
 }
 
-void Audio_SetVolumeScale(u8 playerIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
+void Audio_SetVolumeScale(u8 playerIndex, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
     f32 volScale;
     u8 i;
 
-    gActiveSeqs[playerIdx].volScales[scaleIdx] = targetVol & 0x7F;
+    gActiveSeqs[playerIndex].volScales[scaleIdx] = targetVol & 0x7F;
 
     if (volFadeTimer != 0) {
-        gActiveSeqs[playerIdx].fadeVolUpdate = 1;
-        gActiveSeqs[playerIdx].volFadeTimer = volFadeTimer;
+        gActiveSeqs[playerIndex].fadeVolUpdate = 1;
+        gActiveSeqs[playerIndex].volFadeTimer = volFadeTimer;
     } else {
         for (i = 0, volScale = 1.0f; i < 4; i++) {
-            volScale *= gActiveSeqs[playerIdx].volScales[i] / 127.0f;
+            volScale *= gActiveSeqs[playerIndex].volScales[i] / 127.0f;
         }
 
-        Audio_SetVolScaleNow(playerIdx, volFadeTimer, volScale);
+        Audio_SetVolScaleNow(playerIndex, volFadeTimer, volScale);
     }
 }
 
@@ -424,68 +425,68 @@ void Audio_UpdateActiveSequences(void) {
     u16 tempoPrev;
     u16 tempoTarget;
     u8 setupOp;
-    u8 setupPlayerIdx;
+    u8 setupPlayerIndex;
     u8 setupVal2;
     u8 setupVal1;
     u16 seqId;
     s32 pad[2];
-    u16 channelMask; 
+    u16 channelMask;
     u32 dummy;
     f32 volume;
     u8 tempoDuration;
-    u8 playerIdx;
+    u8 playerIndex;
     u8 j;
-    u8 channelIdx;
+    u8 channelIndex;
 
-    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
+    for (playerIndex = 0; playerIndex < 4; playerIndex++) {
 
         // The setup for this block of code (within this single if-statement) was not implemented until Majora's Mask
         // Check if the requested sequences is waiting for fonts to load
-        if (gActiveSeqs[playerIdx].isWaitingForFonts) {
+        if (gActiveSeqs[playerIndex].isWaitingForFonts) {
             switch (func_800E5E20(&dummy)) {
                 case 1:
                 case 2:
                 case 3:
                 case 4:
                     // The fonts have been loaded successfully.
-                    gActiveSeqs[playerIdx].isWaitingForFonts = false;
+                    gActiveSeqs[playerIndex].isWaitingForFonts = false;
                     // Queue the same command that was stored previously
-                    Audio_ProcessSeqCmd(gActiveSeqs[playerIdx].startSeqCmd);
+                    Audio_ProcessSeqCmd(gActiveSeqs[playerIndex].startSeqCmd);
                     break;
             }
         }
 
-        if (gActiveSeqs[playerIdx].fadeVolUpdate) {
+        if (gActiveSeqs[playerIndex].fadeVolUpdate) {
             volume = 1.0f;
             for (j = 0; j < 4; j++) {
-                volume *= (gActiveSeqs[playerIdx].volScales[j] / 127.0f);
+                volume *= (gActiveSeqs[playerIndex].volScales[j] / 127.0f);
             }
-            AudioSeqCmd_SetPlayerVol(playerIdx, gActiveSeqs[playerIdx].volFadeTimer, (u8)(volume * 127.0f));
-            gActiveSeqs[playerIdx].fadeVolUpdate = 0;
+            AudioSeqCmd_SetPlayerVol(playerIndex, gActiveSeqs[playerIndex].volFadeTimer, (u8)(volume * 127.0f));
+            gActiveSeqs[playerIndex].fadeVolUpdate = 0;
         }
 
-        if (gActiveSeqs[playerIdx].volDuration != 0) {
-            gActiveSeqs[playerIdx].volDuration--;
+        if (gActiveSeqs[playerIndex].volDuration != 0) {
+            gActiveSeqs[playerIndex].volDuration--;
 
-            if (gActiveSeqs[playerIdx].volDuration != 0) {
-                gActiveSeqs[playerIdx].volCur -= gActiveSeqs[playerIdx].volVelocity;
+            if (gActiveSeqs[playerIndex].volDuration != 0) {
+                gActiveSeqs[playerIndex].volCur -= gActiveSeqs[playerIndex].volVelocity;
             } else {
-                gActiveSeqs[playerIdx].volCur = gActiveSeqs[playerIdx].volTarget;
+                gActiveSeqs[playerIndex].volCur = gActiveSeqs[playerIndex].volTarget;
             }
 
-            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIdx, 16, 8), gActiveSeqs[playerIdx].volCur);
+            Audio_QueueCmdF32(0x41000000 | _SHIFTL(playerIndex, 16, 8), gActiveSeqs[playerIndex].volCur);
         }
 
-        if (gActiveSeqs[playerIdx].tempoCmd != 0) {
-            tempoCmd = gActiveSeqs[playerIdx].tempoCmd;
+        if (gActiveSeqs[playerIndex].tempoCmd != 0) {
+            tempoCmd = gActiveSeqs[playerIndex].tempoCmd;
             tempoDuration = (tempoCmd & 0xFF0000) >> 15;
             tempoTarget = tempoCmd & 0xFFF;
             if (tempoDuration == 0) {
                 tempoDuration++;
             }
 
-            if (gAudioContext.seqPlayers[playerIdx].enabled) {
-                tempoPrev = gAudioContext.seqPlayers[playerIdx].tempo / 0x30;
+            if (gAudioContext.seqPlayers[playerIndex].enabled) {
+                tempoPrev = gAudioContext.seqPlayers[playerIndex].tempo / 0x30;
                 tempoOp = (tempoCmd & 0xF000) >> 12;
                 switch (tempoOp) {
                     case TEMPO_CMD_SPEED_UP:
@@ -499,13 +500,13 @@ void Audio_UpdateActiveSequences(void) {
                         }
                         break;
                     case TEMPO_CMD_SCALE:
-                        // scale tempo 
+                        // scale tempo
                         tempoTarget = tempoPrev * (tempoTarget / 100.0f);
                         break;
                     case TEMPO_CMD_RESET:
                         // reset tempo to previous tempo
-                        if (gActiveSeqs[playerIdx].tempoPrev) {
-                            tempoTarget = gActiveSeqs[playerIdx].tempoPrev;
+                        if (gActiveSeqs[playerIndex].tempoPrev) {
+                            tempoTarget = gActiveSeqs[playerIndex].tempoPrev;
                         } else {
                             tempoTarget = tempoPrev;
                         }
@@ -520,122 +521,128 @@ void Audio_UpdateActiveSequences(void) {
                     tempoTarget = 300;
                 }
 
-                if (gActiveSeqs[playerIdx].tempoPrev == 0) {
-                    gActiveSeqs[playerIdx].tempoPrev = tempoPrev;
+                if (gActiveSeqs[playerIndex].tempoPrev == 0) {
+                    gActiveSeqs[playerIndex].tempoPrev = tempoPrev;
                 }
 
-                gActiveSeqs[playerIdx].tempoTarget = tempoTarget;
-                gActiveSeqs[playerIdx].tempoCur = gAudioContext.seqPlayers[playerIdx].tempo / 0x30;
-                gActiveSeqs[playerIdx].tempoVelocity = (gActiveSeqs[playerIdx].tempoCur - gActiveSeqs[playerIdx].tempoTarget) / tempoDuration;
-                gActiveSeqs[playerIdx].tempoDuration = tempoDuration;
-                gActiveSeqs[playerIdx].tempoCmd = 0;
+                gActiveSeqs[playerIndex].tempoTarget = tempoTarget;
+                gActiveSeqs[playerIndex].tempoCur = gAudioContext.seqPlayers[playerIndex].tempo / 0x30;
+                gActiveSeqs[playerIndex].tempoVelocity =
+                    (gActiveSeqs[playerIndex].tempoCur - gActiveSeqs[playerIndex].tempoTarget) / tempoDuration;
+                gActiveSeqs[playerIndex].tempoDuration = tempoDuration;
+                gActiveSeqs[playerIndex].tempoCmd = 0;
             }
         }
 
-        if (gActiveSeqs[playerIdx].tempoDuration != 0) {
-            gActiveSeqs[playerIdx].tempoDuration--;
-            if (gActiveSeqs[playerIdx].tempoDuration != 0) {
-                gActiveSeqs[playerIdx].tempoCur -= gActiveSeqs[playerIdx].tempoVelocity;
+        if (gActiveSeqs[playerIndex].tempoDuration != 0) {
+            gActiveSeqs[playerIndex].tempoDuration--;
+            if (gActiveSeqs[playerIndex].tempoDuration != 0) {
+                gActiveSeqs[playerIndex].tempoCur -= gActiveSeqs[playerIndex].tempoVelocity;
             } else {
-                gActiveSeqs[playerIdx].tempoCur = gActiveSeqs[playerIdx].tempoTarget;
+                gActiveSeqs[playerIndex].tempoCur = gActiveSeqs[playerIndex].tempoTarget;
             }
             // set tempo
-            Audio_QueueCmdS32(0x47000000 | _SHIFTL(playerIdx, 16, 8), gActiveSeqs[playerIdx].tempoCur);
+            Audio_QueueCmdS32(0x47000000 | _SHIFTL(playerIndex, 16, 8), gActiveSeqs[playerIndex].tempoCur);
         }
 
-        if (gActiveSeqs[playerIdx].volChannelFlags != 0) {
-            for (channelIdx = 0; channelIdx < 16; channelIdx++) {
-                if (gActiveSeqs[playerIdx].channelData[channelIdx].volDuration != 0) {
-                    gActiveSeqs[playerIdx].channelData[channelIdx].volDuration--;
-                    if (gActiveSeqs[playerIdx].channelData[channelIdx].volDuration != 0) {
-                        gActiveSeqs[playerIdx].channelData[channelIdx].volCur -= gActiveSeqs[playerIdx].channelData[channelIdx].volVelocity;
+        if (gActiveSeqs[playerIndex].volChannelFlags != 0) {
+            for (channelIndex = 0; channelIndex < 16; channelIndex++) {
+                if (gActiveSeqs[playerIndex].channelData[channelIndex].volDuration != 0) {
+                    gActiveSeqs[playerIndex].channelData[channelIndex].volDuration--;
+                    if (gActiveSeqs[playerIndex].channelData[channelIndex].volDuration != 0) {
+                        gActiveSeqs[playerIndex].channelData[channelIndex].volCur -=
+                            gActiveSeqs[playerIndex].channelData[channelIndex].volVelocity;
                     } else {
-                        gActiveSeqs[playerIdx].channelData[channelIdx].volCur = gActiveSeqs[playerIdx].channelData[channelIdx].volTarget;
-                        gActiveSeqs[playerIdx].volChannelFlags ^= (1 << channelIdx);
+                        gActiveSeqs[playerIndex].channelData[channelIndex].volCur =
+                            gActiveSeqs[playerIndex].channelData[channelIndex].volTarget;
+                        gActiveSeqs[playerIndex].volChannelFlags ^= (1 << channelIndex);
                     }
-                    // CHAN_UPD_VOL_SCALE (playerIdx = seq, channelIdx = chan)
-                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(channelIdx, 8, 8),
-                                      gActiveSeqs[playerIdx].channelData[channelIdx].volCur);
+                    // CHAN_UPD_VOL_SCALE (playerIndex = seq, channelIndex = chan)
+                    Audio_QueueCmdF32(0x01000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8),
+                                      gActiveSeqs[playerIndex].channelData[channelIndex].volCur);
                 }
             }
         }
 
-        if (gActiveSeqs[playerIdx].freqScaleChannelFlags != 0) {
-            for (channelIdx = 0; channelIdx < 16; channelIdx++) {
-                if (gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration != 0) {
-                    gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration--;
-                    if (gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleDuration != 0) {
-                        gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur -= gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleVelocity;
+        if (gActiveSeqs[playerIndex].freqScaleChannelFlags != 0) {
+            for (channelIndex = 0; channelIndex < 16; channelIndex++) {
+                if (gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleDuration != 0) {
+                    gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleDuration--;
+                    if (gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleDuration != 0) {
+                        gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleCur -=
+                            gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleVelocity;
                     } else {
-                        gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur = gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleTarget;
-                        gActiveSeqs[playerIdx].freqScaleChannelFlags ^= (1 << channelIdx);
+                        gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleCur =
+                            gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleTarget;
+                        gActiveSeqs[playerIndex].freqScaleChannelFlags ^= (1 << channelIndex);
                     }
                     // CHAN_UPD_FREQ_SCALE
-                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(playerIdx, 16, 8) | _SHIFTL(channelIdx, 8, 8),
-                                      gActiveSeqs[playerIdx].channelData[channelIdx].freqScaleCur);
+                    Audio_QueueCmdF32(0x04000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8),
+                                      gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleCur);
                 }
             }
         }
 
         // Process setup commands
-        if (gActiveSeqs[playerIdx].setupCmdNum != 0) {
+        if (gActiveSeqs[playerIndex].setupCmdNum != 0) {
             // If there is any "Audio_SeqCmdF" queued, drop all setup commands
             if (!Audio_IsSeqCmdNotQueued(0xF0000000, 0xF0000000)) {
-                gActiveSeqs[playerIdx].setupCmdNum = 0;
+                gActiveSeqs[playerIndex].setupCmdNum = 0;
                 return;
             }
 
             // Only process setup commands once the timer reaches zero
-            if (gActiveSeqs[playerIdx].setupCmdTimer != 0) {
-                gActiveSeqs[playerIdx].setupCmdTimer--;
+            if (gActiveSeqs[playerIndex].setupCmdTimer != 0) {
+                gActiveSeqs[playerIndex].setupCmdTimer--;
                 continue;
             }
 
             // Do not process setup commands if the seqPlayer is already enabled
-            if (gAudioContext.seqPlayers[playerIdx].enabled) {
+            if (gAudioContext.seqPlayers[playerIndex].enabled) {
                 continue;
             }
 
-            for (j = 0; j < gActiveSeqs[playerIdx].setupCmdNum; j++) {
-                setupOp = (gActiveSeqs[playerIdx].setupCmd[j] & 0x00F00000) >> 20;
-                setupPlayerIdx = (gActiveSeqs[playerIdx].setupCmd[j] & 0x000F0000) >> 16;
-                setupVal2 = (gActiveSeqs[playerIdx].setupCmd[j] & 0xFF00) >> 8;
-                setupVal1 = gActiveSeqs[playerIdx].setupCmd[j] & 0xFF;
+            for (j = 0; j < gActiveSeqs[playerIndex].setupCmdNum; j++) {
+                setupOp = (gActiveSeqs[playerIndex].setupCmd[j] & 0x00F00000) >> 20;
+                setupPlayerIndex = (gActiveSeqs[playerIndex].setupCmd[j] & 0x000F0000) >> 16;
+                setupVal2 = (gActiveSeqs[playerIndex].setupCmd[j] & 0xFF00) >> 8;
+                setupVal1 = gActiveSeqs[playerIndex].setupCmd[j] & 0xFF;
 
                 switch (setupOp) {
                     case SETUP_CMD_SET_VOLUME:
-                        Audio_SetVolumeScale(setupPlayerIdx, 1, 0x7F, setupVal1);
+                        Audio_SetVolumeScale(setupPlayerIndex, 1, 0x7F, setupVal1);
                         break;
                     case SETUP_CMD_SET_VOLUME_IF_QUEUED:
-                        if (sNumSeqRequests[playerIdx] == setupVal1) {
-                            Audio_SetVolumeScale(setupPlayerIdx, 1, 0x7F, setupVal2);
+                        if (sNumSeqRequests[playerIndex] == setupVal1) {
+                            Audio_SetVolumeScale(setupPlayerIndex, 1, 0x7F, setupVal2);
                         }
                         break;
                     case SETUP_CMD_SEQ_UNQUEUE:
-                        AudioSeqCmd_UnqueueSequence(playerIdx, gActiveSeqs[playerIdx].seqId);
+                        AudioSeqCmd_UnqueueSequence(playerIndex, gActiveSeqs[playerIndex].seqId);
                         break;
                     case SETUP_CMD_SEQ_START:
-                        AudioSeqCmd_PlaySequence(setupPlayerIdx, 1, 0, gActiveSeqs[setupPlayerIdx].seqId);
-                        gActiveSeqs[setupPlayerIdx].fadeVolUpdate = 1;
-                        gActiveSeqs[setupPlayerIdx].volScales[1] = 0x7F;
+                        AudioSeqCmd_PlaySequence(setupPlayerIndex, 1, 0, gActiveSeqs[setupPlayerIndex].seqId);
+                        gActiveSeqs[setupPlayerIndex].fadeVolUpdate = 1;
+                        gActiveSeqs[setupPlayerIndex].volScales[1] = 0x7F;
                         break;
                     case SETUP_CMD_TEMPO_SCALE:
-                        AudioSeqCmd_ScaleTempo(setupPlayerIdx, setupVal2, setupVal1);
+                        AudioSeqCmd_ScaleTempo(setupPlayerIndex, setupVal2, setupVal1);
                         break;
                     case SETUP_CMD_TEMPO_RESET:
-                        AudioSeqCmd_ResetTempo(setupPlayerIdx, setupVal1);
+                        AudioSeqCmd_ResetTempo(setupPlayerIndex, setupVal1);
                         break;
                     case SETUP_CMD_SEQ_START_WITH_FADE:
-                        seqId = gActiveSeqs[playerIdx].setupCmd[j] & 0xFFFF;
-                        AudioSeqCmd_PlaySequence(setupPlayerIdx, gActiveSeqs[setupPlayerIdx].setupFadeTimer, 0, seqId);
-                        Audio_SetVolumeScale(setupPlayerIdx, 1, 0x7F, 0);
-                        gActiveSeqs[setupPlayerIdx].setupFadeTimer = 0;
+                        seqId = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
+                        AudioSeqCmd_PlaySequence(setupPlayerIndex, gActiveSeqs[setupPlayerIndex].setupFadeTimer, 0,
+                                                 seqId);
+                        Audio_SetVolumeScale(setupPlayerIndex, 1, 0x7F, 0);
+                        gActiveSeqs[setupPlayerIndex].setupFadeTimer = 0;
                         break;
                     case SETUP_CMD_SET_FADE_TIMER:
-                        gActiveSeqs[playerIdx].setupFadeTimer = setupVal2;
+                        gActiveSeqs[playerIndex].setupFadeTimer = setupVal2;
                         break;
                     case SETUP_CMD_SET_VOLUME_WITH_FADE:
-                        Audio_SetVolumeScale(setupPlayerIdx, setupVal2, 0x7F, setupVal1);
+                        Audio_SetVolumeScale(setupPlayerIndex, setupVal2, 0x7F, setupVal1);
                         break;
                     case SETUP_CMD_POP_CACHE:
                         if (setupVal1 & 1) {
@@ -649,16 +656,16 @@ void Audio_UpdateActiveSequences(void) {
                         }
                         break;
                     case SETUP_CMD_SEQ_ACTIVE_CHANNELS:
-                        channelMask = gActiveSeqs[playerIdx].setupCmd[j] & 0xFFFF;
-                        AudioSeqCmd_SetActiveChannels(setupPlayerIdx, channelMask);
+                        channelMask = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
+                        AudioSeqCmd_SetActiveChannels(setupPlayerIndex, channelMask);
                         break;
                     case SETUP_CMD_SET_PLAYER_FREQ:
-                        AudioSeqCmd_SetPlayerFreq(setupPlayerIdx, setupVal2, (setupVal1 * 10) & 0xFFFF);
+                        AudioSeqCmd_SetPlayerFreq(setupPlayerIndex, setupVal2, (setupVal1 * 10) & 0xFFFF);
                         break;
                 }
             }
 
-            gActiveSeqs[playerIdx].setupCmdNum = 0;
+            gActiveSeqs[playerIndex].setupCmdNum = 0;
         }
     }
 }
@@ -683,41 +690,41 @@ u8 func_800FAD34(void) {
 }
 
 void Audio_ResetSequences(void) {
-    u8 playerIdx;
+    u8 playerIndex;
     u8 j;
 
-    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
-        sNumSeqRequests[playerIdx] = 0;
+    for (playerIndex = 0; playerIndex < 4; playerIndex++) {
+        sNumSeqRequests[playerIndex] = 0;
 
-        gActiveSeqs[playerIdx].seqId = NA_BGM_DISABLED;
-        gActiveSeqs[playerIdx].prevSeqId = NA_BGM_DISABLED;
-        gActiveSeqs[playerIdx].tempoDuration = 0;
-        gActiveSeqs[playerIdx].tempoPrev = 0;
-        gActiveSeqs[playerIdx].tempoCmd = 0;
-        gActiveSeqs[playerIdx].channelPortMask = 0;
-        gActiveSeqs[playerIdx].setupCmdNum = 0;
-        gActiveSeqs[playerIdx].setupFadeTimer = 0;
-        gActiveSeqs[playerIdx].freqScaleChannelFlags = 0;
-        gActiveSeqs[playerIdx].volChannelFlags = 0;
+        gActiveSeqs[playerIndex].seqId = NA_BGM_DISABLED;
+        gActiveSeqs[playerIndex].prevSeqId = NA_BGM_DISABLED;
+        gActiveSeqs[playerIndex].tempoDuration = 0;
+        gActiveSeqs[playerIndex].tempoPrev = 0;
+        gActiveSeqs[playerIndex].tempoCmd = 0;
+        gActiveSeqs[playerIndex].channelPortMask = 0;
+        gActiveSeqs[playerIndex].setupCmdNum = 0;
+        gActiveSeqs[playerIndex].setupFadeTimer = 0;
+        gActiveSeqs[playerIndex].freqScaleChannelFlags = 0;
+        gActiveSeqs[playerIndex].volChannelFlags = 0;
         for (j = 0; j < 4; j++) {
-            gActiveSeqs[playerIdx].volScales[j] = 0x7F;
+            gActiveSeqs[playerIndex].volScales[j] = 0x7F;
         }
 
-        gActiveSeqs[playerIdx].volFadeTimer = 1;
-        gActiveSeqs[playerIdx].fadeVolUpdate = 1;
+        gActiveSeqs[playerIndex].volFadeTimer = 1;
+        gActiveSeqs[playerIndex].fadeVolUpdate = 1;
     }
 }
 
 void Audio_ResetSequencesAndVolume(void) {
-    u8 playerIdx;
+    u8 playerIndex;
     u8 j;
 
-    for (playerIdx = 0; playerIdx < 4; playerIdx++) {
-        gActiveSeqs[playerIdx].volCur = 1.0f;
-        gActiveSeqs[playerIdx].volDuration = 0;
-        gActiveSeqs[playerIdx].fadeVolUpdate = 0;
+    for (playerIndex = 0; playerIndex < 4; playerIndex++) {
+        gActiveSeqs[playerIndex].volCur = 1.0f;
+        gActiveSeqs[playerIndex].volDuration = 0;
+        gActiveSeqs[playerIndex].fadeVolUpdate = 0;
         for (j = 0; j < 4; j++) {
-            gActiveSeqs[playerIdx].volScales[j] = 0x7F;
+            gActiveSeqs[playerIndex].volScales[j] = 0x7F;
         }
     }
     Audio_ResetSequences();
