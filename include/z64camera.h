@@ -21,7 +21,7 @@
 #define SUBCAM_NONE -1
 #define SUBCAM_ACTIVE -1
 
-#define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
+#define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 
@@ -240,16 +240,6 @@ typedef struct {
 } SwingAnimation; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ SwingAnimation swing;
-    /* 0x1C */ f32 yOffset;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ s16 slopePitchAdj;
-    /* 0x26 */ s16 swingYawTarget;
-    /* 0x28 */ s16 unk_28;
-    /* 0x2A */ s16 startSwingTimer;
-} Normal1Anim; // size = 0x2C
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distMin;
     /* 0x08 */ f32 distMax;
@@ -260,7 +250,21 @@ typedef struct {
     /* 0x1C */ f32 atLERPScaleMax;
     /* 0x20 */ s16 pitchTarget;
     /* 0x22 */ s16 interfaceFlags;
-    /* 0x24 */ Normal1Anim anim;
+} Normal1ReadOnlyData; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ SwingAnimation swing;
+    /* 0x1C */ f32 yOffset;
+    /* 0x20 */ f32 unk_20;
+    /* 0x24 */ s16 slopePitchAdj;
+    /* 0x26 */ s16 swingYawTarget;
+    /* 0x28 */ s16 unk_28;
+    /* 0x2A */ s16 startSwingTimer;
+} Normal1ReadWriteData; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ Normal1ReadOnlyData roData;
+    /* 0x24 */ Normal1ReadWriteData rwData;
 } Normal1; // size = 0x50
 
 #define CAM_FUNCDATA_NORM1(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
@@ -288,17 +292,6 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ Vec3f unk_00;
-    /* 0x0C */ Vec3f unk_0C;
-    /* 0x18 */ f32 unk_18;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ s16 unk_20;
-    /* 0x22 */ s16 unk_22;
-    /* 0x24 */ f32 unk_24;
-    /* 0x28 */ s16 unk_28;
-} Normal2Anim; // size = 0x2A
-
-typedef struct {
     /* 0x00 */ f32 unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
@@ -308,8 +301,23 @@ typedef struct {
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ s16 unk_1C;
     /* 0x1E */ s16 interfaceFlags;
-    /* 0x20 */ Normal2Anim anim;
-} Normal2; // size = 0x4A
+} Normal2ReadOnlyData; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ Vec3f unk_00;
+    /* 0x0C */ Vec3f unk_0C;
+    /* 0x18 */ f32 unk_18;
+    /* 0x1C */ f32 unk_1C;
+    /* 0x20 */ s16 unk_20;
+    /* 0x22 */ s16 unk_22;
+    /* 0x24 */ f32 unk_24;
+    /* 0x28 */ s16 unk_28;
+} Normal2ReadWriteData; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ Normal2ReadOnlyData roData;
+    /* 0x20 */ Normal2ReadWriteData rwData;
+} Normal2; // size = 0x4C
 
 #define CAM_FUNCDATA_NORM2(yOffset, eyeDist, eyeDistNext, unk_23, yawUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -323,16 +331,6 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ SwingAnimation swing;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ f32 unk_20;
-    /* 0x24 */ s16 curPitch;
-    /* 0x26 */ s16 yawUpdAmt;
-    /* 0x28 */ s16 yawTimer;
-    /* 0x2A */ s16 distTimer;
-} Normal3Anim; // size = 0x2C
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distMin;
     /* 0x08 */ f32 distMax;
@@ -342,7 +340,21 @@ typedef struct {
     /* 0x18 */ f32 maxAtLERPScale;
     /* 0x1C */ s16 pitchTarget;
     /* 0x1E */ s16 interfaceFlags;
-    /* 0x20 */ Normal3Anim anim;
+} Normal3ReadOnlyData; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ SwingAnimation swing;
+    /* 0x1C */ f32 unk_1C;
+    /* 0x20 */ f32 unk_20;
+    /* 0x24 */ s16 curPitch;
+    /* 0x26 */ s16 yawUpdAmt;
+    /* 0x28 */ s16 yawTimer;
+    /* 0x2A */ s16 distTimer;
+} Normal3ReadWriteData; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ Normal3ReadOnlyData roData;
+    /* 0x20 */ Normal3ReadWriteData rwData;
 } Normal3; // size = 0x4C
 
 #define CAM_FUNCDATA_NORM3(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, flags) \
@@ -357,16 +369,6 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ Vec3f unk_00;
-    /* 0x0C */ f32 yTarget;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 yawTarget;
-    /* 0x14 */ s16 pitchTarget;
-    /* 0x16 */ s16 unk_16;
-    /* 0x18 */ s16 animTimer;
-} Parallel1Anim; // size = 0x1A
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distTarget;
     /* 0x08 */ f32 unk_08;
@@ -378,8 +380,22 @@ typedef struct {
     /* 0x20 */ s16 pitchTarget;
     /* 0x22 */ s16 yawTarget;
     /* 0x24 */ s16 interfaceFlags;
-    /* 0x28 */ Parallel1Anim anim;
-} Parallel1; // size = 0x42
+} Parallel1ReadOnlyData; // size = 0x28
+
+typedef struct {
+    /* 0x00 */ Vec3f unk_00;
+    /* 0x0C */ f32 yTarget;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 yawTarget;
+    /* 0x14 */ s16 pitchTarget;
+    /* 0x16 */ s16 unk_16;
+    /* 0x18 */ s16 animTimer;
+} Parallel1ReadWriteData; // size = 0x1C
+
+typedef struct {
+    /* 0x00 */ Parallel1ReadOnlyData roData;
+    /* 0x28 */ Parallel1ReadWriteData rwData;
+} Parallel1; // size = 0x44
 
 #define CAM_FUNCDATA_PARA1(yOffset, eyeDist, pitchTarget, yawTarget, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, flags, groundYOffset, groundAtLerpStepScale) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -395,12 +411,6 @@ typedef struct {
     { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
 
 typedef struct {
-    /* 0x00 */ SwingAnimation swing;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ VecSph unk_20;
-} Jump1Anim; // size = 0x28
-
-typedef struct {
     /* 0x00 */ f32 atYOffset;
     /* 0x04 */ f32 distMin;
     /* 0x08 */ f32 distMax;
@@ -409,7 +419,17 @@ typedef struct {
     /* 0x14 */ f32 unk_14; // never used.
     /* 0x18 */ f32 atLERPScaleMax;
     /* 0x1C */ s16 interfaceFlags;
-    /* 0x20 */ Jump1Anim anim;
+} Jump1ReadOnlyData; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ SwingAnimation swing;
+    /* 0x1C */ f32 unk_1C;
+    /* 0x20 */ VecSph unk_20;
+} Jump1ReadWriteData; // size = 0x28
+
+typedef struct {
+    /* 0x00 */ Jump1ReadOnlyData roData;
+    /* 0x20 */ Jump1ReadWriteData rwData;
 } Jump1; // size = 0x48
 
 #define CAM_FUNCDATA_JUMP1(yOffset, eyeDist, eyeDistNext, yawUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
@@ -423,15 +443,6 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x0 */ f32 floorY;
-    /* 0x4 */ s16 yawTarget;
-    /* 0x6 */ s16 initYawDiff; // unused, set but not read.
-    /* 0x8 */ s16 yawAdj;
-    /* 0xA */ s16 onFloor; // unused, set but not read
-    /* 0xC */ s16 animTimer;
-} Jump2Anim; // size = 0x10
-
-typedef struct {
     /* 0x00 */ f32 atYOffset;
     /* 0x04 */ f32 minDist;
     /* 0x08 */ f32 maxDist;
@@ -441,7 +452,20 @@ typedef struct {
     /* 0x18 */ f32 fovTarget;
     /* 0x1C */ f32 atLERPStepScale;
     /* 0x20 */ s16 interfaceFlags;
-    /* 0x24 */ Jump2Anim anim;
+} Jump2ReadOnlyData; // size = 0x24
+
+typedef struct {
+    /* 0x0 */ f32 floorY;
+    /* 0x4 */ s16 yawTarget;
+    /* 0x6 */ s16 initYawDiff; // unused, set but not read.
+    /* 0x8 */ s16 yawAdj;
+    /* 0xA */ s16 onFloor; // unused, set but not read
+    /* 0xC */ s16 animTimer;
+} Jump2ReadWriteData; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Jump2ReadOnlyData roData;
+    /* 0x24 */ Jump2ReadWriteData rwData;
 } Jump2; // size = 0x34
 
 #define CAM_FUNCDATA_JUMP2(yOffset, eyeDist, eyeDistNext, minMaxDistFactor, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, flags) \
@@ -456,13 +480,6 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ SwingAnimation swing;
-    /* 0x1C */ f32 unk_1C;
-    /* 0x20 */ s16 animTimer;
-    /* 0x22 */ s16 mode;
-} Jump3Anim; // size = 0x24
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distMin;
     /* 0x08 */ f32 distMax;
@@ -473,7 +490,18 @@ typedef struct {
     /* 0x1C */ f32 unk_1C;
     /* 0x20 */ s16 pitchTarget;
     /* 0x22 */ s16 interfaceFlags;
-    /* 0x24 */ Jump3Anim anim;
+} Jump3ReadOnlyData; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ SwingAnimation swing;
+    /* 0x1C */ f32 unk_1C;
+    /* 0x20 */ s16 animTimer;
+    /* 0x22 */ s16 mode;
+} Jump3ReadWriteData; // size = 0x24
+
+typedef struct {
+    /* 0x00 */ Jump3ReadOnlyData roData;
+    /* 0x24 */ Jump3ReadWriteData rwData;
 } Jump3; // size = 0x48
 
 #define CAM_FUNCDATA_JUMP3(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, flags) \
@@ -489,19 +517,6 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ f32 initialEyeToAtDist;
-    /* 0x04 */ f32 roll;
-    /* 0x08 */ f32 yPosOffset;
-    /* 0x0C */ Actor* target;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ s16 unk_14; // unused
-    /* 0x16 */ s16 initialEyeToAtYaw;
-    /* 0x18 */ s16 initialEyeToAtPitch;
-    /* 0x1A */ s16 animTimer;
-    /* 0x1C */ s16 chargeTimer;
-} Battle1Anim; // size = 0x1E
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distance;
     /* 0x08 */ f32 swingYawInitial;
@@ -514,7 +529,24 @@ typedef struct {
     /* 0x24 */ f32 yOffsetOffGround;
     /* 0x28 */ f32 atLERPScaleOffGround;
     /* 0x2C */ s16 flags;
-    /* 0x30 */ Battle1Anim anim;
+} Battle1ReadOnlyData; // size = 0x30
+
+typedef struct {
+    /* 0x00 */ f32 initialEyeToAtDist;
+    /* 0x04 */ f32 roll;
+    /* 0x08 */ f32 yPosOffset;
+    /* 0x0C */ Actor* target;
+    /* 0x10 */ f32 unk_10;
+    /* 0x14 */ s16 unk_14; // unused
+    /* 0x16 */ s16 initialEyeToAtYaw;
+    /* 0x18 */ s16 initialEyeToAtPitch;
+    /* 0x1A */ s16 animTimer;
+    /* 0x1C */ s16 chargeTimer;
+} Battle1ReadWriteData; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ Battle1ReadOnlyData roData;
+    /* 0x30 */ Battle1ReadWriteData rwData;
 } Battle1; // size = 0x50
 
 #define CAM_FUNCDATA_BATT1(yOffset, eyeDist, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, flags, groundYOffset, groundAtLerpStepScale) \
@@ -532,10 +564,6 @@ typedef struct {
     { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
 
 typedef struct {
-    /* 0x0 */ s16 animTimer;
-} Battle4Anim; // size = 0x2
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 rTarget;
     /* 0x08 */ s16 pitchTarget;
@@ -544,7 +572,15 @@ typedef struct {
     /* 0x14 */ f32 atLERPTarget;
     /* 0x18 */ s16 interfaceFlags;
     /* 0x1A */ s16 unk_1A;
-    /* 0x1C */ Battle4Anim anim;
+} Battle4ReadOnlyData; // size = 0x1C
+
+typedef struct {
+    /* 0x0 */ s16 animTimer;
+} Battle4ReadWriteData; // size = 0x4
+
+typedef struct {
+    /* 0x00 */ Battle4ReadOnlyData roData;
+    /* 0x1C */ Battle4ReadWriteData rwData;
 } Battle4; // size = 0x20
 
 #define CAM_FUNCDATA_BATT4(yOffset, eyeDist, pitchTarget, yawUpdateRateTarget, fov, atLerpStepScale, flags) \
@@ -560,17 +596,6 @@ typedef struct {
     /* 0x00 */ f32 unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
-    /* 0x0C */ Actor* unk_0C;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-    /* 0x16 */ s16 unk_16;
-} Keep1Anim; // size = 0x18
-
-typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
     /* 0x14 */ f32 unk_14;
@@ -581,7 +606,22 @@ typedef struct {
     /* 0x28 */ f32 unk_28;
     /* 0x2C */ f32 unk_2C;
     /* 0x30 */ s16 interfaceFlags;
-    /* 0x34 */ Keep1Anim anim;
+} KeepOn1ReadOnlyData; // size = 0x34
+
+typedef struct {
+    /* 0x00 */ f32 unk_00;
+    /* 0x04 */ f32 unk_04;
+    /* 0x08 */ f32 unk_08;
+    /* 0x0C */ Actor* unk_0C;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 unk_12;
+    /* 0x14 */ s16 unk_14;
+    /* 0x16 */ s16 unk_16;
+} KeepOn1ReadWriteData; // size = 0x18
+
+typedef struct {
+    /* 0x00 */ KeepOn1ReadOnlyData roData;
+    /* 0x34 */ KeepOn1ReadWriteData rwData;
 } KeepOn1; // size = 0x4C
 
 #define CAM_FUNCDATA_KEEP1(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, flags, groundYOffset, groundAtLerpStepScale) \
@@ -600,13 +640,6 @@ typedef struct {
     { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
 
 typedef struct {
-    /* 0x00 */ Vec3f eyeToAtTarget; // esentially a VecSph, but all floats.
-    /* 0x0C */ Actor* target;
-    /* 0x10 */ Vec3f atTarget;
-    /* 0x1C */ s16 animTimer;
-} Keep3Anim; // size = 0x20
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 minDist;
     /* 0x08 */ f32 maxDist;
@@ -619,7 +652,18 @@ typedef struct {
     /* 0x24 */ f32 atLERPScaleMax;
     /* 0x28 */ s16 initTimer;
     /* 0x2A */ s16 flags;
-    /* 0x2C */ Keep3Anim anim;
+} KeepOn3ReadOnlyData; // size = 0x2C
+
+typedef struct {
+    /* 0x00 */ Vec3f eyeToAtTarget; // esentially a VecSph, but all floats.
+    /* 0x0C */ Actor* target;
+    /* 0x10 */ Vec3f atTarget;
+    /* 0x1C */ s16 animTimer;
+} KeepOn3ReadWriteData; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ KeepOn3ReadOnlyData roData;
+    /* 0x2C */ KeepOn3ReadWriteData rwData;
 } KeepOn3; // size = 0x4C
 
 #define CAM_FUNCDATA_KEEP3(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, yawUpdateRateTarget, flags) \
@@ -640,25 +684,29 @@ typedef struct {
     /* 0x00 */ f32 unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
-    /* 0x0C */ s16 unk_0C;
-    /* 0x0E */ s16 unk_0E;
-    /* 0x10 */ s16 unk_10;
-    /* 0x12 */ s16 unk_12;
-    /* 0x14 */ s16 unk_14;
-} KeepOn4_Unk20; // size = 0x14
-
-typedef struct {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ f32 unk_10;
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ s16 unk_1C;
     /* 0x1E */ s16 unk_1E;
-    /* 0x20 */ KeepOn4_Unk20 unk_20;
-} KeepOn4; // size = 0x34
+} KeepOn4ReadOnlyData; // size = 0x20
+
+typedef struct {
+    /* 0x00 */ f32 unk_00;
+    /* 0x04 */ f32 unk_04;
+    /* 0x08 */ f32 unk_08;
+    /* 0x0C */ s16 unk_0C;
+    /* 0x0E */ s16 unk_0E;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 unk_12;
+    /* 0x14 */ s16 unk_14;
+} KeepOn4ReadWriteData; // size = 0x18
+
+typedef struct {
+    /* 0x00 */ KeepOn4ReadOnlyData roData;
+    /* 0x20 */ KeepOn4ReadWriteData rwData;
+} KeepOn4; // size = 0x38
 
 #define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetZ, fov, flags, yawUpdateRateTarget, unk_22) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -672,16 +720,20 @@ typedef struct {
     { unk_22, CAM_DATA_UNK_22 }
 
 typedef struct {
-    /* 0x0 */ f32 fovTarget;
-    /* 0x4 */ s16 animTimer;
-} KeepOn0Anim; // size = 0x8
-
-typedef struct {
     /* 0x00 */ f32 fovScale;
     /* 0x04 */ f32 yawScale;
     /* 0x08 */ s16 timerInit;
     /* 0x0A */ s16 interfaceFlags;
-    /* 0x0C */ KeepOn0Anim anim;
+} KeepOn0ReadOnlyData; // size = 0x0C
+
+typedef struct {
+    /* 0x0 */ f32 fovTarget;
+    /* 0x4 */ s16 animTimer;
+} KeepOn0ReadWriteData; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ KeepOn0ReadOnlyData roData;
+    /* 0x0C */ KeepOn0ReadWriteData rwData;
 } KeepOn0; // size = 0x14
 
 #define CAM_FUNCDATA_KEEP0(fovScale, yawScale, yawUpdateRateTarget, flags) \
@@ -691,16 +743,20 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x00 */ PosRot eyePosRotTarget;
-    /* 0x14 */ s16 fov;
-} Fixed1Anim; // size = 0x18
-
-typedef struct {
     /* 0x00 */ f32 unk_00; // seems to be unused?
     /* 0x04 */ f32 lerpStep;
     /* 0x08 */ f32 fov;
     /* 0x0C */ s16 interfaceFlags;
-    /* 0x10 */ Fixed1Anim anim;
+} Fixed1ReadOnlyData; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ PosRot eyePosRotTarget;
+    /* 0x14 */ s16 fov;
+} Fixed1ReadWriteData; // size = 0x18
+
+typedef struct {
+    /* 0x00 */ Fixed1ReadOnlyData roData;
+    /* 0x10 */ Fixed1ReadWriteData rwData;
 } Fixed1; // size = 0x28
 
 #define CAM_FUNCDATA_FIXD1(yOffset, yawUpdateRateTarget, fov, flags) \
@@ -710,17 +766,21 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x0 */ Vec3f eye;
-    /* 0xC */ s16 fov;
-} Fixed2InitParams; // size = 0x10
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 eyeStepScale;
     /* 0x08 */ f32 posStepScale;
     /* 0x0C */ f32 fov;
     /* 0x10 */ s16 interfaceFlags;
-    /* 0x14 */ Fixed2InitParams initParams;
+} Fixed2ReadOnlyData; // size = 0x14
+
+typedef struct {
+    /* 0x0 */ Vec3f eye;
+    /* 0xC */ s16 fov;
+} Fixed2ReadWriteData; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Fixed2ReadOnlyData roData;
+    /* 0x14 */ Fixed2ReadWriteData rwData;
 } Fixed2; // size = 0x24
 
 #define CAM_FUNCDATA_FIXD2(yOffset, yawUpdateRateTarget, xzUpdateRateTarget, fov, flags) \
@@ -731,21 +791,20 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
+    /* 0x0 */ s16 interfaceFlags;
+} Fixed3ReadOnlyData; // size = 0x4
+
+typedef struct {
     /* 0x0 */ Vec3s rot;
     /* 0x6 */ s16 fov;
     /* 0x8 */ s16 updDirTimer;
     /* 0xA */ s16 jfifId;
-} Fixed3Anim; // size = 0xC
+} Fixed3ReadWriteData; // size = 0xC
 
 typedef struct {
-    /* 0x0 */ s16 interfaceFlags;
-    /* 0x4 */ Fixed3Anim anim;
+    /* 0x0 */ Fixed3ReadOnlyData roData;
+    /* 0x4 */ Fixed3ReadWriteData rwData;
 } Fixed3; // size = 0x10
-
-typedef struct {
-    /* 0x0 */ Vec3f eyeTarget;
-    /* 0xC */ f32 followSpeed;
-} Fixed4Anim; // size = 0x10
 
 typedef struct {
     /* 0x00 */ f32 yOffset;
@@ -753,7 +812,16 @@ typedef struct {
     /* 0x08 */ f32 followSpeed;
     /* 0x0C */ f32 fov;
     /* 0x10 */ s16 interfaceFlags;
-    /* 0x14 */ Fixed4Anim anim;
+} Fixed4ReadOnlyData; // size = 0x14
+
+typedef struct {
+    /* 0x0 */ Vec3f eyeTarget;
+    /* 0xC */ f32 followSpeed;
+} Fixed4ReadWriteData; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Fixed4ReadOnlyData roData;
+    /* 0x14 */ Fixed4ReadWriteData rwData;
 } Fixed4; // size = 0x24
 
 #define CAM_FUNCDATA_FIXD4(yOffset, yawUpdateRateTarget, xzUpdateRateTarget, fov, flags) \
@@ -764,13 +832,6 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x0 */ f32 r;
-    /* 0x4 */ s16 yaw;
-    /* 0x6 */ s16 pitch;
-    /* 0x8 */ s16 animTimer;
-} Subj3Anim; // size = 0xC
-
-typedef struct {
     /* 0x00 */ f32 eyeNextYOffset;
     /* 0x04 */ f32 eyeDist;
     /* 0x08 */ f32 eyeNextDist;
@@ -778,7 +839,18 @@ typedef struct {
     /* 0x10 */ Vec3f atOffset;
     /* 0x1C */ f32 fovTarget;
     /* 0x20 */ s16 interfaceFlags;
-    /* 0x24 */ Subj3Anim anim;
+} Subj3ReadOnlyData; // size = 0x24
+
+typedef struct {
+    /* 0x0 */ f32 r;
+    /* 0x4 */ s16 yaw;
+    /* 0x6 */ s16 pitch;
+    /* 0x8 */ s16 animTimer;
+} Subj3ReadWriteData; // size = 0xC
+
+typedef struct {
+    /* 0x00 */ Subj3ReadOnlyData roData;
+    /* 0x24 */ Subj3ReadWriteData rwData;
 } Subj3; // size = 0x30
 
 #define CAM_FUNCDATA_SUBJ3(yOffset, eyeDist, eyeDistNext, yawUpdateRateTarget, atOffsetX, atOffsetY, atOffsetZ, fov, flags) \
@@ -793,6 +865,10 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
+    /* 0x0 */ s16 interfaceFlags;
+} Subj4ReadOnlyData; // size = 0x4
+
+typedef struct {
     /* 0x00 */ InfiniteLine unk_00;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C;
@@ -803,11 +879,11 @@ typedef struct {
     /* 0x2E */ s16 unk_2E;
     /* 0x30 */ s16 unk_30;
     /* 0x32 */ s16 unk_32;
-} Subj4Anim; // size = 0x34
+} Subj4ReadWriteData; // size = 0x34
 
 typedef struct {
-    /* 0x0 */ s16 interfaceFlags;
-    /* 0x4 */ Subj4Anim anim;
+    /* 0x00 */ Subj4ReadOnlyData roData;
+    /* 0x04 */ Subj4ReadWriteData rwData;
 } Subj4; // size = 0x38
 
 #define CAM_FUNCDATA_SUBJ4(yOffset, eyeDist, eyeDistNext, yawUpdateRateTarget, fov, flags) \
@@ -819,30 +895,27 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
+    /* 0x0 */ f32 yOffset;
+    /* 0x4 */ f32 fov;
+    /* 0x8 */ s16 interfaceFlags;
+} Data4ReadOnlyData; // size = 0xC
+
+typedef struct {
     /* 0x00 */ PosRot eyePosRot;
     /* 0x14 */ char unk_14[0x8];
     /* 0x1C */ s16 fov;
     /* 0x1E */ s16 jfifId;
-} Data4InitParams; // size = 0x20
+} Data4ReadWriteData; // size = 0x20
 
 typedef struct {
-    /* 0x0 */ f32 yOffset;
-    /* 0x4 */ f32 fov;
-    /* 0x8 */ s16 interfaceFlags;
-    /* 0xC */ Data4InitParams initParams;
+    /* 0x00 */ Data4ReadOnlyData roData;
+    /* 0x0C */ Data4ReadWriteData rwData;
 } Data4; // size = 0x2C
 
 #define CAM_FUNCDATA_DATA4(yOffset, fov, flags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
     { fov, CAM_DATA_FOV }, \
     { flags, CAM_DATA_FLAGS }
-
-typedef struct {
-    /* 0x0 */ f32 unk_00; // unused
-    /* 0x4 */ s16 yawTarget;
-    /* 0x6 */ s16 yawTargetAdj;
-    /* 0x8 */ s16 timer;
-} Unique1Anim; // size = 0xC
 
 typedef struct {
     /* 0x00 */ f32 yOffset;
@@ -853,7 +926,18 @@ typedef struct {
     /* 0x14 */ f32 atLERPScaleMax;
     /* 0x18 */ s16 pitchTarget;
     /* 0x1A */ s16 interfaceFlags;
-    /* 0x1C */ Unique1Anim anim;
+} Unique1ReadOnlyData; // size = 0x1C
+
+typedef struct {
+    /* 0x0 */ f32 unk_00; // unused
+    /* 0x4 */ s16 yawTarget;
+    /* 0x6 */ s16 yawTargetAdj;
+    /* 0x8 */ s16 timer;
+} Unique1ReadWriteData; // size = 0xC
+
+typedef struct {
+    /* 0x00 */ Unique1ReadOnlyData roData;
+    /* 0x1C */ Unique1ReadWriteData rwData;
 } Unique1; // size = 0x28
 
 #define CAM_FUNCDATA_UNIQ1(yOffset, eyeDist, eyeDistNext, pitchTarget, fov, atLerpStepScale, flags) \
@@ -866,16 +950,20 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x0 */ f32 unk_00;
-    /* 0x4 */ s16 unk_04;
-} Unique2Unk10; // size = 0x8
-
-typedef struct {
     /* 0x00 */ f32 yOffset;
     /* 0x04 */ f32 distTarget;
     /* 0x08 */ f32 fovTarget;
     /* 0x0C */ s16 interfaceFlags;
-    /* 0x10 */ Unique2Unk10 unk_10; // unused, values set but not read.
+} Unique2ReadOnlyData; // size = 0x10
+
+typedef struct {
+    /* 0x0 */ f32 unk_00;
+    /* 0x4 */ s16 unk_04;
+} Unique2ReadWriteData; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ Unique2ReadOnlyData roData;
+    /* 0x10 */ Unique2ReadWriteData rwData;
 } Unique2; // size = 0x18
 
 #define CAM_FUNCDATA_UNIQ2(yOffset, eyeDist, fov, flags) \
@@ -883,17 +971,6 @@ typedef struct {
     { eyeDist, CAM_DATA_EYE_DIST }, \
     { fov, CAM_DATA_FOV }, \
     { flags, CAM_DATA_FLAGS }
-
-typedef struct {
-    /* 0x0 */ f32 initialFov;
-    /* 0x4 */ f32 initialDist;
-} Unique3Anim; // size = 0x8
-
-typedef struct {
-    /* 0x0 */ f32 yOffset;
-    /* 0x4 */ f32 fov;
-    /* 0x8 */ s16 interfaceFlags;
-} Unique3Params; // size = 0xC
 
 typedef struct {
     /* 0x0 */ struct Actor* doorActor;
@@ -904,10 +981,20 @@ typedef struct {
 } DoorParams; // size = 0xC
 
 typedef struct {
-    /* 0x00 */ DoorParams doorParams;
-    /* 0x0C */ Unique3Params params;
-    /* 0x18 */ Unique3Anim anim;
-} Unique3; // size = 0x20
+    /* 0x0 */ f32 yOffset;
+    /* 0x4 */ f32 fov;
+    /* 0x8 */ s16 interfaceFlags;
+} Unique3ReadOnlyData; // size = 0xC
+
+typedef struct {
+    /* 0x0 */ f32 initialFov;
+    /* 0x4 */ f32 initialDist;
+} Unique3ReadWriteData; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ Unique3ReadOnlyData roData;
+    /* 0x0C */ Unique3ReadWriteData rwData;
+} Unique3; // size = 0x14
 
 #define CAM_FUNCDATA_UNIQ3(yOffset, fov, flags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -915,34 +1002,41 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
+    /* 0x0 */ s16 interfaceFlags;
+} Unique0ReadOnlyData; // size = 0x4
+
+typedef struct {
     /* 0x00 */ Vec3f initalPos;
     /* 0x0C */ s16 animTimer;
     /* 0x10 */ InfiniteLine sceneCamPosPlayerLine;
-} Unique0Anim; // size = 0x28
+} Unique0ReadWriteData; // size = 0x28
+
+typedef struct {
+    /* 0x00 */ Unique0ReadOnlyData roData;
+    /* 0x04 */ Unique0ReadWriteData rwData;
+} Unique0; // size = 0x2C
 
 typedef struct {
     /* 0x0 */ s16 interfaceFlags;
-    /* 0x4 */ Unique0Anim anim;
-} Unique0Params; // size = 0x2C
+} Unique6ReadOnlyData; // size = 0x4
 
 typedef struct {
-    /* 0x0 */ DoorParams doorParams;
-    /* 0xC */ Unique0Params uniq0;
-} Unique0; // size = 0x38
-
-typedef struct {
-    /* 0x0 */ s16 interfaceFlags;
+    /* 0x0 */ Unique6ReadOnlyData roData;
 } Unique6; // size = 0x4
-
-typedef union {
-    /* 0x0 */ Vec3s unk_00;
-} Unique7Unk8; // size = 0x8
 
 typedef struct {
     /* 0x0 */ f32 fov;
     /* 0x4 */ s16 interfaceFlags;
     /* 0x6 */ s16 align;
-    /* 0x8 */ Unique7Unk8 unk_08; // unk_08 goes unused.
+} Unique7ReadOnlyData; // size = 0x8
+
+typedef struct {
+    /* 0x0 */ Vec3s unk_00;
+} Unique7ReadWriteData; // size = 0x8
+
+typedef struct {
+    /* 0x00 */ Unique7ReadOnlyData roData;
+    /* 0x08 */ Unique7ReadWriteData rwData;
 } Unique7; // size = 0x10
 
 #define CAM_FUNCDATA_UNIQ7(fov, flags) \
@@ -972,7 +1066,16 @@ typedef struct {
     /* 0x0C */ f32 lerpStepScale;
     /* 0x10 */ Vec3f atTargetInit;
     /* 0x1C */ Vec3f eyeTargetInit;
-} OnePointCsFull; /* size = 0x28 */
+} OnePointCsFull; // size = 0x28
+
+typedef struct {
+    /* 0x0 */ s32 keyFrameCnt;
+    /* 0x4 */ OnePointCsFull* keyFrames;
+} OnePointCsInfo; // size = 0x8
+
+typedef struct {
+    /* 0x0 */ s16 interfaceFlags;
+} Unique9ReadOnlyData; // size = 0x40
 
 typedef struct {
     /* 0x00 */ OnePointCsFull* curKeyFrame;
@@ -986,41 +1089,44 @@ typedef struct {
     /* 0x38 */ s16 unk_38;
     /* 0x3A */ s16 isNewKeyFrame;
     /* 0x3C */ s16 keyFrameTimer;
-} Unique9Anim; // size = 0x3E
+} Unique9ReadWriteData; // size = 0x40
+
+typedef struct {
+    /* 0x00 */ OnePointCsInfo csInfo;
+    /* 0x08 */ Unique9ReadOnlyData roData;
+    /* 0x0C */ Unique9ReadWriteData rwData;
+} Unique9; // size = 0x4C
 
 typedef struct {
     /* 0x0 */ s16 interfaceFlags;
-    /* 0x4 */ Unique9Anim anim;
-} Unique9; // size = 0x40
-
-typedef struct {
-    /* 0x0 */ s32 keyFrameCnt;
-    /* 0x4 */ OnePointCsFull* keyFrames;
-    /* 0x8 */ Unique9 uniq9;
-} Unique9OnePointCs; // size = 0x48
+} Demo1ReadOnlyData; // size = 0x4
 
 typedef struct {
     /* 0x0 */ f32 curFrame;
     /* 0x4 */ s16 keyframe;
-} Demo1Anim; // size = 0x14
+} Demo1ReadWriteData; // size = 0x14
 
 typedef struct {
-    /* 0x0 */ s16 interfaceFlags;
-    /* 0x4 */ Demo1Anim anim;
+    /* 0x00 */ Demo1ReadOnlyData roData;
+    /* 0x04 */ Demo1ReadWriteData rwData;
 } Demo1; // size = 0x18
+
+typedef struct {
+    /* 0x0 */ f32 fov;
+    /* 0x4 */ f32 unk_04; // unused
+    /* 0x8 */ s16 interfaceFlags;
+} Demo3ReadOnlyData; // size = 0xC
 
 typedef struct {
     /* 0x00 */ Vec3f initialAt;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ s16 animFrame;
     /* 0x12 */ s16 yawDir;
-} Demo3Anim; // size = 0x14
+} Demo3ReadWriteData; // size = 0x14
 
 typedef struct {
-    /* 0x0 */ f32 fov;
-    /* 0x4 */ f32 unk_04; // unused
-    /* 0x8 */ s16 interfaceFlags;
-    /* 0xC */ Demo3Anim anim;
+    /* 0x00 */ Demo3ReadOnlyData roData;
+    /* 0x0C */ Demo3ReadWriteData rwData;
 } Demo3; // size = 0x20
 
 #define CAM_FUNCDATA_DEMO3(fov, atLerpStepScale, flags) \
@@ -1029,15 +1135,30 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
+    /* 0x0 */ s16 interfaceFlags;
+    /* 0x2 */ s16 unk_02;
+} Demo6ReadOnlyData; // size = 0x4
+
+typedef struct {
     /* 0x0 */ s16 animTimer;
     /* 0x4 */ Vec3f atTarget;
-} Demo6Anim; // size = 0x10
+} Demo6ReadWriteData; // size = 0x10
+
+typedef struct {
+    /* 0x00 */ Demo6ReadOnlyData roData;
+    /* 0x04 */ Demo6ReadWriteData rwData;
+} Demo6; // size = 0x14
+
+typedef struct {
+    /* 0x0 */ CutsceneCameraPoint* atPoints;
+    /* 0x4 */ CutsceneCameraPoint* eyePoints;
+    /* 0x8 */ s16 actionParameters;
+    /* 0xA */ s16 initTimer;
+} OnePointCamData; // size = 0xC
 
 typedef struct {
     /* 0x0 */ s16 interfaceFlags;
-    /* 0x2 */ s16 unk_02;
-    /* 0x4 */ Demo6Anim anim;
-} Demo6; // size = 0x14
+} Demo9ReadOnlyData; // size = 0x4
 
 typedef struct {
     /* 0x0 */ f32 curFrame;
@@ -1045,28 +1166,21 @@ typedef struct {
     /* 0x6 */ s16 doLERPAt;
     /* 0x8 */ s16 finishAction;
     /* 0xA */ s16 animTimer;
-} Demo9Anim; // size = 0xC
+} Demo9ReadWriteData; // size = 0xC
 
 typedef struct {
-    /* 0x0 */ s16 interfaceFlags;
-    /* 0x4 */ Demo9Anim anim;
-} Demo9; // size = 0x10
-
-typedef struct {
-    /* 0x0 */ CutsceneCameraPoint* atPoints;
-    /* 0x4 */ CutsceneCameraPoint* eyePoints;
-    /* 0x8 */ s16 actionParameters;
-    /* 0xA */ s16 initTimer;
-} OnePointCsCamera; // size = 0xC
-
-typedef struct {
-    /* 0x0 */ OnePointCsCamera onePointCs;
-    /* 0xC */ Demo9 demo9;
-} Demo9OnePointCs; // size = 0x1C
+    /* 0x00 */ OnePointCamData onePointCamData;
+    /* 0x0C */ Demo9ReadOnlyData roData;
+    /* 0x10 */ Demo9ReadWriteData rwData;
+} Demo9; // size = 0x1C
 
 typedef struct {
     /* 0x0 */ f32 lerpAtScale;
     /* 0x4 */ s16 interfaceFlags;
+} Special0ReadOnlyData; // size = 0x8
+
+typedef struct {
+    /* 0x0 */ Special0ReadOnlyData roData;
 } Special0; // size = 0x8
 
 #define CAM_FUNCDATA_SPEC0(yawUpdateRateTarget, flags) \
@@ -1075,11 +1189,11 @@ typedef struct {
 
 typedef struct {
     /* 0x0 */ s16 initalTimer;
-} Special4; // size = 0x4
+} Special4ReadWriteData; // size = 0x4
 
 typedef struct {
-    /* 0x0 */ s16 animTimer;
-} Special5Anim; // size = 0x4
+    /* 0x0 */ Special4ReadWriteData rwData;
+} Special4; // size = 0x4
 
 typedef struct {
     /* 0x00 */ f32 yOffset;
@@ -1091,7 +1205,15 @@ typedef struct {
     /* 0x16 */ s16 pitch;
     /* 0x18 */ s16 interfaceFlags;
     /* 0x1A */ s16 unk_1A;
-    /* 0x1C */ Special5Anim anim;
+} Special5ReadOnlyData; // size = 0x1C
+
+typedef struct {
+    /* 0x0 */ s16 animTimer;
+} Special5ReadWriteData; // size = 0x4
+
+typedef struct {
+    /* 0x00 */ Special5ReadOnlyData roData;
+    /* 0x1C */ Special5ReadWriteData rwData;
 } Special5; // size = 0x20
 
 #define CAM_FUNCDATA_SPEC5(yOffset, eyeDist, eyeDistNext, unk_22, pitchTarget, fov, atLerpStepScale, flags) \
@@ -1116,40 +1238,92 @@ typedef struct {
     { flags, CAM_DATA_FLAGS }
 
 typedef struct {
-    /* 0x0 */ s16 idx;
+    /* 0x0 */ s16 index;
+} Special7ReadWriteData; // size = 0x4
+
+typedef struct {
+    /* 0x0 */ Special7ReadWriteData rwData;
 } Special7; // size = 0x4
+
+typedef struct {
+    /* 0x0 */ s16 interfaceFlags;
+} Special6ReadOnlyData; // size = 0x4
 
 typedef struct {
     /* 0x0 */ f32 initalPlayerY;
     /* 0x4 */ s16 animTimer;
-} Special6Anim; // size = 0x8
+} Special6ReadWriteData; // size = 0x8
 
 typedef struct {
-    /* 0x0 */ s16 interfaceFlags;
-    /* 0x4 */ Special6Anim anim;
+    /* 0x0 */ Special6ReadOnlyData roData;
+    /* 0x4 */ Special6ReadWriteData rwData;
 } Special6; // size = 0xC
-
-typedef struct {
-    /* 0x0 */ s16 targetYaw;
-} Special9Anim; // size = 0x2
 
 typedef struct {
     /* 0x0 */ f32 yOffset;
     /* 0x4 */ f32 unk_04;
     /* 0x8 */ s16 interfaceFlags;
     /* 0xA */ s16 unk_0A;
-    /* 0xC */ Special9Anim anim;
-} Special9Params; // size = 0x10
+} Special9ReadOnlyData; // size = 0xC
 
 typedef struct {
-    /* 0x0 */ DoorParams doorParams;
-    /* 0xC */ Special9Params params;
-} Special9; // size = 0x1C
+    /* 0x0 */ s16 targetYaw;
+} Special9ReadWriteData; // size = 0x4
+
+typedef struct {
+    /* 0x00 */ Special9ReadOnlyData roData;
+    /* 0x0C */ Special9ReadWriteData rwData;
+} Special9; // size = 0x10
 
 #define CAM_FUNCDATA_SPEC9(yOffset, fov, flags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
     { fov, CAM_DATA_FOV }, \
     { flags, CAM_DATA_FLAGS }
+
+typedef union {
+    Normal1 norm1;
+    Normal2 norm2;
+    Normal3 norm3;
+    Parallel1 para1;
+    Jump1 jump1;
+    Jump2 jump2;
+    Jump3 jump3;
+    Battle1 batt1;
+    Battle4 batt4;
+    KeepOn0 keep0;
+    KeepOn1 keep1;
+    KeepOn3 keep3;
+    KeepOn4 keep4;
+    Fixed1 fixd1;
+    Fixed2 fixd2;
+    Fixed3 fixd3;
+    Fixed4 fixd4;
+    Subj3 subj3;
+    Subj4 subj4;
+    Data4 data4;
+    Unique1 uniq1;
+    Unique2 uniq2;
+    Unique6 uniq6;
+    Unique7 uniq7;
+    Unique9 uniq9;
+    Demo1 demo1;
+    Demo3 demo3;
+    Demo6 demo6;
+    Demo9 demo9;
+    Special0 spec0;
+    Special4 spec4;
+    Special5 spec5;
+    Special6 spec6;
+    Special7 spec7;
+    struct {
+        /* 0x0 */ DoorParams doorParams;
+        /* 0xC */ union {
+            Unique0 uniq0;
+            Unique3 uniq3;
+            Special9 spec9;
+        };
+    };
+} CamParamData; // size = 0x50
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -1160,7 +1334,7 @@ typedef struct {
 } CamColChk; // size = 0x28
 
 typedef struct {
-    /* 0x000 */ char paramData[0x50];
+    /* 0x000 */ CamParamData paramData;
     /* 0x050 */ Vec3f at;
     /* 0x05C */ Vec3f eye;
     /* 0x068 */ Vec3f up;
