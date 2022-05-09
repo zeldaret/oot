@@ -118,11 +118,11 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
                     extendedMapIndex = 0x15;
                 }
             } else if (globalCtx->sceneNum == SCENE_SPOT09) {
-                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL) {
+                if ((LINK_AGE_IN_YEARS == YEARS_ADULT) && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                     extendedMapIndex = 0x16;
                 }
             } else if (globalCtx->sceneNum == SCENE_SPOT12) {
-                if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL) {
+                if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                     extendedMapIndex = 0x17;
                 }
             }

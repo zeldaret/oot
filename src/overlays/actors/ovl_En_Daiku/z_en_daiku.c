@@ -496,7 +496,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
-    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL) {
+    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
         Matrix_RotateY(BINANG_TO_RAD(this->initRot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =

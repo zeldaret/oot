@@ -63,7 +63,7 @@ s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
         return this->dyna.actor.params == 0;
     }
 
-    carpentersRescued = GET_EVENTCHKINF_CARPENTERS_FREE_ALL;
+    carpentersRescued = GET_EVENTCHKINF_CARPENTERS_FREE_ALL();
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
         switch (this->dyna.actor.params) {

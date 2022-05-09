@@ -100,7 +100,7 @@ void EnMm2_ChangeAnim(EnMm2* this, s32 index, s32* currentIndex) {
 }
 
 void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
-    if (!GET_EVENTCHKINF_CARPENTERS_FREE_ALL) {
+    if (!GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
         this->actor.textId = 0x6086;
     } else if (GET_INFTABLE(INFTABLE_17F)) {
         if (GET_EVENTINF(EVENTINF_10)) {

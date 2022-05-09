@@ -461,7 +461,7 @@ s32 EnHorse_BgCheckBridgeJumpPoint(EnHorse* this, GlobalContext* globalCtx) {
     if (this->actor.speedXZ < 12.8f) {
         return false;
     }
-    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL) {
+    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
         return false;
     }
 
@@ -3579,7 +3579,7 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->stateFlags &= ~ENHORSE_FLAG_24;
         }
 
-        if (globalCtx->sceneNum == SCENE_SPOT09 && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL) {
+        if (globalCtx->sceneNum == SCENE_SPOT09 && !GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
             EnHorse_CheckBridgeJumps(this, globalCtx);
         }
 

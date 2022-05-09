@@ -259,7 +259,7 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
 
     if (textId == 0) {
         if ((this->stateFlags & 1)) {
-            if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL) {
+            if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                 ret = 0x606C;
             } else if (GET_INFTABLE(INFTABLE_170)) {
                 ret = 0x606B;
