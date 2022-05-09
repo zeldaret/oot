@@ -716,8 +716,8 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                     }
                 }
 
-                temp_f2 = gNoteFrequencies[semitone2] * tuning;
-                temp_f14 = gNoteFrequencies[layer->portamentoTargetNote] * tuning;
+                temp_f2 = gPitchFrequencies[semitone2] * tuning;
+                temp_f14 = gPitchFrequencies[layer->portamentoTargetNote] * tuning;
 
                 switch (PORTAMENTO_MODE(*portamento)) {
                     case PORTAMENTO_MODE_1:
@@ -767,10 +767,10 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                 sound = Audio_InstrumentGetSound(instrument, semitone);
                 sameSound = (sound == layer->sound);
                 layer->sound = sound;
-                layer->freqScale = gNoteFrequencies[semitone2] * sound->tuning;
+                layer->freqScale = gPitchFrequencies[semitone2] * sound->tuning;
             } else {
                 layer->sound = NULL;
-                layer->freqScale = gNoteFrequencies[semitone2];
+                layer->freqScale = gPitchFrequencies[semitone2];
                 if (instOrWave >= 0xC0) {
                     layer->sound = &gAudioContext.synthesisReverbs[instOrWave - 0xC0].sound;
                 }

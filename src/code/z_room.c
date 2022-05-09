@@ -336,8 +336,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
         }
 
         if (drawBg) {
-            // gSPLoadUcodeL(POLY_OPA_DISP++, rspS2DEX)?
-            gSPLoadUcodeEx(POLY_OPA_DISP++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
+            gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
                 Vec3f sp60;
@@ -350,8 +349,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
                 POLY_OPA_DISP = spA8;
             }
 
-            // gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
-            gSPLoadUcodeEx(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
+            gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
         }
     }
 
@@ -432,8 +430,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
         }
 
         if (drawBg) {
-            // gSPLoadUcodeL(POLY_OPA_DISP++, rspS2DEX)?
-            gSPLoadUcodeEx(POLY_OPA_DISP++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
+            gSPLoadUcodeL(POLY_OPA_DISP++, gspS2DEX2d_fifo);
 
             {
                 Vec3f skyboxOffset;
@@ -447,8 +444,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
                 POLY_OPA_DISP = gfx;
             }
 
-            // gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
-            gSPLoadUcodeEx(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
+            gSPLoadUcode(POLY_OPA_DISP++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
         }
     }
 
@@ -569,7 +565,7 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
 
 s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
     if (roomCtx->status == 1) {
-        if (!osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK)) {
+        if (osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             roomCtx->status = 0;
             roomCtx->curRoom.segment = roomCtx->unk_34;
             gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);

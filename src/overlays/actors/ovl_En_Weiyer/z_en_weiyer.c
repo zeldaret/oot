@@ -94,8 +94,9 @@ static DamageTable sDamageTable = {
     /* Hammer jump   */ DMG_ENTRY(4, 0x0),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
+
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x19, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STINGER, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 3, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
 };
@@ -561,7 +562,7 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
 void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {

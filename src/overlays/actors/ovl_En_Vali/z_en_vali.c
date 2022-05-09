@@ -128,7 +128,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x18, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BARI, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5000, ICHAIN_STOP),
 };
@@ -496,7 +496,7 @@ void EnVali_ReturnToLurk(EnVali* this, GlobalContext* globalCtx) {
 void EnVali_UpdateDamage(EnVali* this, GlobalContext* globalCtx) {
     if (this->bodyCollider.base.acFlags & AC_HIT) {
         this->bodyCollider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
 
         if ((this->actor.colChkInfo.damageEffect != BARI_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {

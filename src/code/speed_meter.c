@@ -70,12 +70,12 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     }
 
     View_Init(&view, gfxCtx);
-    view.flags = 0xA;
+    view.flags = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHO;
 
     SET_FULLSCREEN_VIEWPORT(&view);
 
     gfx = OVERLAY_DISP;
-    func_800AB9EC(&view, 0xF, &gfx);
+    View_ApplyTo(&view, VIEW_ALL, &gfx);
 
     gDPPipeSync(gfx++);
     gDPSetOtherMode(gfx++,
@@ -126,12 +126,12 @@ void SpeedMeter_DrawAllocEntry(SpeedMeterAllocEntry* this, GraphicsContext* gfxC
         OPEN_DISPS(gfxCtx, "../speed_meter.c", 318);
 
         View_Init(&view, gfxCtx);
-        view.flags = 0xA;
+        view.flags = VIEW_VIEWPORT | VIEW_PROJECTION_ORTHO;
 
         SET_FULLSCREEN_VIEWPORT(&view);
 
         gfx = OVERLAY_DISP;
-        func_800AB9EC(&view, 0xF, &gfx);
+        View_ApplyTo(&view, VIEW_ALL, &gfx);
 
         gDPPipeSync(gfx++);
         gDPSetOtherMode(gfx++,

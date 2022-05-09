@@ -98,7 +98,7 @@ static u32 sDeathCount = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x58, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GUAY, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
 };
@@ -412,7 +412,7 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
 void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) { // Deku Nuts
                 EnCrow_SetupTurnAway(this);

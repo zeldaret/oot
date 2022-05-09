@@ -266,7 +266,8 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (((thisx->params & 0xE000) >> 0xD) >= 3) {
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 
     switch ((thisx->params & 0xE000) >> 0xD) {
@@ -280,13 +281,13 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.scale.x = 0.0f;
         case 1:
             this->collider.elements[0].info.toucher.damage *= 2;
-            this->actor.naviEnemyId = 0x20;
+            this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;
             this->actor.colChkInfo.health *= 2;
             this->actor.flags &= ~ACTOR_FLAG_0;
             break;
         default:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ENEMY);
-            this->actor.naviEnemyId = 0x1F;
+            this->actor.naviEnemyId = NAVI_ENEMY_SKULLWALLTULA;
             break;
     }
 
@@ -609,7 +610,8 @@ void func_80B0D878(EnSw* this, GlobalContext* globalCtx) {
     this->actor.shape.rot = this->actor.world.rot;
 
     if ((this->unk_394 == 0) && (this->unk_392 == 0)) {
-        Audio_PlaySoundGeneral(NA_SE_SY_KINSTA_MARK_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_KINSTA_MARK_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         x = (this->unk_364.x * 10.0f);
         y = (this->unk_364.y * 10.0f);
         z = (this->unk_364.z * 10.0f);
@@ -739,7 +741,7 @@ s32 func_80B0DFFC(EnSw* this, GlobalContext* globalCtx) {
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, true,
                                 false, false, true, &sp5C)) {
-        this->actor.wallYaw = RADF_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
+        this->actor.wallYaw = RAD_TO_BINANG(Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z));
         this->actor.world.pos = sp50;
         this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
         this->actor.world.pos.z += 6.0f * Math_CosS(this->actor.world.rot.y);

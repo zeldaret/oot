@@ -1,7 +1,7 @@
 /*
  * File: z_door_ana.c
  * Overlay: ovl_Door_Ana
- * Description: Grottos Entrances/Exits
+ * Description: Grotto
  */
 
 #include "z_door_ana.h"
@@ -50,10 +50,10 @@ static ColliderCylinderInit sCylinderInit = {
     { 50, 10, 0, { 0 } },
 };
 
-// array of entrance table entries to grotto destinations
-static s16 entrances[] = {
-    0x036D, 0x003F, 0x0598, 0x059C, 0x05A0, 0x05A4, 0x05A8, 0x05AC,
-    0x05B0, 0x05B4, 0x05B8, 0x05BC, 0x05C0, 0x05C4, 0x05FC,
+static s16 sGrottoEntrances[] = {
+    ENTR_YOUSEI_IZUMI_TATE_0, ENTR_KAKUSIANA_0,  ENTR_KAKUSIANA_1,  ENTR_KAKUSIANA_2,  ENTR_KAKUSIANA_3,
+    ENTR_KAKUSIANA_4,         ENTR_KAKUSIANA_5,  ENTR_KAKUSIANA_6,  ENTR_KAKUSIANA_7,  ENTR_KAKUSIANA_8,
+    ENTR_KAKUSIANA_9,         ENTR_KAKUSIANA_10, ENTR_KAKUSIANA_11, ENTR_KAKUSIANA_12, ENTR_KAKUSIANA_13,
 };
 
 void DoorAna_SetupAction(DoorAna* this, DoorAnaActionFunc actionFunc) {
@@ -115,7 +115,8 @@ void DoorAna_WaitClosed(DoorAna* this, GlobalContext* globalCtx) {
     if (openGrotto) {
         this->actor.params &= ~0x0300;
         DoorAna_SetupAction(this, DoorAna_WaitOpen);
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     func_8002F5F0(&this->actor, globalCtx);
 }
@@ -127,7 +128,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
 
     player = GET_PLAYER(globalCtx);
     if (Math_StepToF(&this->actor.scale.x, 0.01f, 0.001f)) {
-        if ((this->actor.targetMode != 0) && (globalCtx->sceneLoadFlag == 0) &&
+        if ((this->actor.targetMode != 0) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (player->stateFlags1 & PLAYER_STATE1_31) && (player->unk_84F == 0)) {
             destinationIdx = ((this->actor.params >> 0xC) & 7) - 1;
             Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_RETURN, 0x4FF);
@@ -137,7 +138,7 @@ void DoorAna_WaitOpen(DoorAna* this, GlobalContext* globalCtx) {
             if (destinationIdx < 0) {
                 destinationIdx = this->actor.home.rot.z + 1;
             }
-            globalCtx->nextEntranceIndex = entrances[destinationIdx];
+            globalCtx->nextEntranceIndex = sGrottoEntrances[destinationIdx];
             DoorAna_SetupAction(this, DoorAna_GrabPlayer);
         } else {
             if (!Player_InCsMode(globalCtx) && !(player->stateFlags1 & (PLAYER_STATE1_23 | PLAYER_STATE1_27)) &&

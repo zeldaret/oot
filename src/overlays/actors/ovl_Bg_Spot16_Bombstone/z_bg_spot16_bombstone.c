@@ -443,7 +443,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         OnePointCutscene_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
-        gSaveContext.eventChkInf[2] |= 8;
+        SET_EVENTCHKINF(EVENTCHKINF_23);
 
         func_808B5A78(this);
     } else {

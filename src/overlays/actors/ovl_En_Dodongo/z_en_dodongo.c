@@ -299,7 +299,7 @@ void EnDodongo_SpawnBombSmoke(EnDodongo* this, GlobalContext* globalCtx) {
 }
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x0D, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DODONGO, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2800, ICHAIN_STOP),
 };
@@ -717,7 +717,7 @@ void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
     } else if ((this->colliderBody.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, 0);
+        Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, false);
         if (this->actor.colChkInfo.damageEffect != 0xE) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {

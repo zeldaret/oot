@@ -45,6 +45,8 @@ typedef enum {
     /* 0x69 */ TW_DEATHBALL_KOUME
 } TwinrovaType;
 
+#define BOSS_TW_EFFECT_COUNT 150
+
 typedef struct {
     /* 0x0000 */ u8 type;
     /* 0x0001 */ u8 frame;
@@ -229,7 +231,7 @@ static u8 D_8094C878;
 static s16 D_8094C87A;
 static s16 D_8094C87C;
 static u8 D_8094C87E;
-static BossTwEffect sTwEffects[150];
+static BossTwEffect sEffects[BOSS_TW_EFFECT_COUNT];
 
 void BossTw_AddDotEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale,
                          s16 args, s16 countLimit) {
@@ -272,11 +274,11 @@ void BossTw_AddDmgCloud(GlobalContext* globalCtx, s16 type, Vec3f* initialPos, V
 }
 
 void BossTw_AddRingEffect(GlobalContext* globalCtx, Vec3f* initalPos, f32 scale, f32 arg3, s16 alpha, s16 args,
-                          s16 arg6, s16 arg7) {
+                          s16 arg6, s16 countLimit) {
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < arg7; i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < countLimit; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_RING;
             eff->pos = *initalPos;
@@ -298,7 +300,7 @@ void BossTw_AddPlayerFreezeEffect(GlobalContext* globalCtx, Actor* target) {
     BossTwEffect* eff;
     s16 i;
 
-    for (eff = globalCtx->specialEffects, i = 0; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (eff = globalCtx->specialEffects, i = 0; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_PLYR_FRZ;
             eff->curSpeed = sZeroVector;
@@ -323,7 +325,7 @@ void BossTw_AddFlameEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* in
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_FLAME;
             eff->pos = *initalPos;
@@ -343,7 +345,7 @@ void BossTw_AddMergeFlameEffect(GlobalContext* globalCtx, Vec3f* initialPos, f32
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_MERGEFLAME;
             eff->pos = *initialPos;
@@ -366,7 +368,7 @@ void BossTw_AddShieldBlastEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec
     s16 i;
     BossTwEffect* eff;
 
-    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTwEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < BOSS_TW_EFFECT_COUNT; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_SHLD_BLST;
             eff->pos = *initalPos;
@@ -393,7 +395,7 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
-        for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTwEffects); j++, eff++) {
+        for (eff = globalCtx->specialEffects, j = 0; j < BOSS_TW_EFFECT_COUNT; j++, eff++) {
             if (eff->type == TWEFF_NONE) {
                 eff->type = TWEFF_SHLD_DEFL;
                 eff->pos = sShieldHitPos;
@@ -423,7 +425,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     sShieldHitYaw = player->actor.shape.rot.y;
 
     for (i = 0; i < 8; i++) {
-        for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTwEffects); j++, eff++) {
+        for (eff = globalCtx->specialEffects, j = 0; j < BOSS_TW_EFFECT_COUNT; j++, eff++) {
             if (eff->type == TWEFF_NONE) {
                 eff->type = TWEFF_SHLD_HIT;
                 eff->pos = sShieldHitPos;
@@ -500,19 +502,19 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         D_8094C858 = D_8094C854 = 0.0f;
         sFixedBlastType = Rand_ZeroFloat(1.99f);
-        globalCtx->specialEffects = sTwEffects;
+        globalCtx->specialEffects = sEffects;
 
-        for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
-            sTwEffects[i].type = TWEFF_NONE;
+        for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
+            sEffects[i].type = TWEFF_NONE;
         }
     }
 
     if (this->actor.params == TW_KOTAKE) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
-        this->actor.naviEnemyId = 0x33;
+        this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOTAKE;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_0070E0, &object_tw_Anim_006F28, NULL, NULL, 0);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, globalCtx);
             this->actor.world.pos.x = -600.0f;
@@ -527,10 +529,10 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->visible = true;
     } else if (this->actor.params == TW_KOUME) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
-        this->actor.naviEnemyId = 0x32;
+        this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA_KOUME;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_01F888, &object_tw_Anim_006F28, NULL, NULL, 0);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupFlyTo(this, globalCtx);
             this->actor.world.pos.x = 600.0f;
@@ -545,14 +547,14 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         // Twinrova
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitTwinrova);
-        this->actor.naviEnemyId = 0x5B;
+        this->actor.naviEnemyId = NAVI_ENEMY_TWINROVA;
         this->actor.colChkInfo.health = 24;
         this->actor.update = BossTw_TwinrovaUpdate;
         this->actor.draw = BossTw_TwinrovaDraw;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_tw_Skel_032020, &object_tw_Anim_0244B4, NULL, NULL, 0);
         Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_0244B4, -3.0f);
 
-        if (gSaveContext.eventChkInf[7] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_75)) {
             // began twinrova battle
             BossTw_SetupWait(this, globalCtx);
         } else {
@@ -687,9 +689,9 @@ void BossTw_FlyTo(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yawTarget = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    yawTarget = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    pitchTarget = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+    pitchTarget = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
 
     Math_ApproachS(&this->actor.world.rot.x, pitchTarget, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yawTarget, 0xA, this->rotateSpeed);
@@ -734,7 +736,7 @@ void BossTw_SpawnGroundBlast(BossTw* this, GlobalContext* globalCtx, s16 blastTy
     Vec3f velocity;
     Vec3f accel;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         velocity.x = Rand_CenteredFloat(20.0f);
         velocity.y = Rand_ZeroFloat(10.0f);
         velocity.z = Rand_CenteredFloat(20.0f);
@@ -1097,7 +1099,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                         Vec3f velocity;
                         Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
-                        for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+                        for (i = 0; i < 150; i++) {
                             velocity.x = Rand_CenteredFloat(15.0f);
                             velocity.y = Rand_CenteredFloat(15.0f);
                             velocity.z = Rand_CenteredFloat(15.0f);
@@ -1132,11 +1134,13 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                                              &this->unk_54C, &this->actor.projectedW);
 
                 if (this->actor.params == 1) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_54C, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_54C, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_54C, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_54C, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 break;
 
@@ -1151,7 +1155,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                     Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z, 1.0f, 400.0f);
                     if ((this->work[CS_TIMER_1] % 4) == 0) {
                         BossTw_AddRingEffect(globalCtx, &player->bodyPartsPos[PLAYER_BODYPART_R_HAND], 0.5f, 3.0f, 0xFF,
-                                             this->actor.params, 1, 150);
+                                             this->actor.params, 1, BOSS_TW_EFFECT_COUNT);
                     }
                 } else {
                     this->beamShootState = 0;
@@ -1162,15 +1166,19 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                                              &this->actor.projectedW);
 
                 if (this->actor.params == 1) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_558, 4U, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG, &this->unk_558, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FIRE - SFX_FLAG, &this->unk_558, 4U,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FIRE - SFX_FLAG, &this->unk_558, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_558, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
-                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG, &this->unk_558, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_SHOOT_FREEZE - SFX_FLAG, &this->unk_558, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
+                    Audio_PlaySoundGeneral(NA_SE_EN_TWINROBA_REFL_FREEZE - SFX_FLAG, &this->unk_558, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 break;
         }
@@ -1284,7 +1292,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         }
 
         if (BossTw_BeamReflHitCheck(this, &this->actor.world.pos) && (this->work[CS_TIMER_1] % 4) == 0) {
-            BossTw_AddRingEffect(globalCtx, &this->unk_530, 0.5f, 3.0f, 255, this->actor.params, 1, 150);
+            BossTw_AddRingEffect(globalCtx, &this->unk_530, 0.5f, 3.0f, 255, this->actor.params, 1,
+                                 BOSS_TW_EFFECT_COUNT);
         }
 
         if (BossTw_BeamReflHitCheck(this, &otherTw->actor.world.pos) && otherTw->actionFunc != BossTw_HitByBeam) {
@@ -2218,7 +2227,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 globalCtx->envCtx.unk_D8 = 0.0f;
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(object_tw_Blob_02E170), 0xA0, 0xB4, 0x80, 0x28);
-                gSaveContext.eventChkInf[7] |= 0x20;
+                SET_EVENTCHKINF(EVENTCHKINF_75);
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             }
 
@@ -2361,8 +2370,8 @@ void BossTw_DeathBall(BossTw* this, GlobalContext* globalCtx) {
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
 
-    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
-    Math_ApproachS(&this->actor.world.rot.x, RADF_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff)))), 5,
+    yaw = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    Math_ApproachS(&this->actor.world.rot.x, RAD_TO_BINANG(Math_FAtan2F(yDiff, sqrtf(SQ(xDiff) + SQ(zDiff)))), 5,
                    this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 5, this->rotateSpeed);
     func_8002D908(&this->actor);
@@ -3925,10 +3934,10 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
                     // yaw
-                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+                    this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     // pitch
                     distXZ = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, distXZ));
+                    this->actor.world.rot.x = RAD_TO_BINANG(Math_FAtan2F(yDiff, distXZ));
                     this->actor.speedXZ = 20.0f;
 
                     for (i = 0; i < 50; i++) {
@@ -4115,9 +4124,9 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
                     yDiff = (player->actor.world.pos.y + 30.0f) - this->actor.world.pos.y;
                     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
-                    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+                    this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
                     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-                    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+                    this->actor.world.rot.x = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
                     this->actor.speedXZ = 20.0f;
                     for (i = 0; i < 50; i++) {
                         this->blastTailPos[i] = this->actor.world.pos;
@@ -4581,7 +4590,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
     f32 phi_f0;
     Actor* unk44;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         if (eff->type != 0) {
             eff->pos.x += eff->curSpeed.x;
             eff->pos.y += eff->curSpeed.y;
@@ -4897,7 +4906,7 @@ f32 BossTw_RandZeroOne(void) {
 }
 
 void BossTw_DrawEffects(GlobalContext* globalCtx) {
-    u8 sp18F = 0;
+    u8 materialFlag = 0;
     s16 i;
     s16 j;
     s32 pad;
@@ -4913,11 +4922,11 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         if (currentEffect->type == 1) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, object_tw_DL_01A528);
-                sp18F++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, currentEffect->color.r, currentEffect->color.g,
@@ -4933,14 +4942,14 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         if (currentEffect->type == 3) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_tw_DL_01A998));
-                sp18F++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, currentEffect->alpha);
@@ -4957,15 +4966,15 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         if (currentEffect->type == 2) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 215, 255, 128);
-                sp18F++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, currentEffect->alpha);
@@ -4983,13 +4992,13 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         if (currentEffect->type == 4) {
-            if (sp18F == 0) {
-                sp18F++;
+            if (materialFlag == 0) {
+                materialFlag++;
             }
 
             gSPSegment(POLY_XLU_DISP++, 0xD,
@@ -5028,20 +5037,20 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         Actor* actor;
         Vec3f off;
 
         if (currentEffect->type == TWEFF_PLYR_FRZ) {
-            if (sp18F == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(object_tw_DL_01AA50));
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, 255);
                 gSPSegment(POLY_XLU_DISP++, 8,
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, 0, 0x20, 0x20));
-                sp18F++;
+                materialFlag++;
                 BossTw_InitRand(1, 0x71AC, 0x263A);
             }
 
@@ -5074,10 +5083,10 @@ void BossTw_DrawEffects(GlobalContext* globalCtx) {
         currentEffect++;
     }
 
-    sp18F = 0;
+    materialFlag = 0;
     currentEffect = effectHead;
 
-    for (i = 0; i < ARRAY_COUNT(sTwEffects); i++) {
+    for (i = 0; i < BOSS_TW_EFFECT_COUNT; i++) {
         if (currentEffect->type >= 6) {
             if (currentEffect->work[EFF_ARGS] == 0) {
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, currentEffect->alpha);
@@ -5384,9 +5393,9 @@ void BossTw_TwinrovaSetupFly(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = BossTw_TwinrovaFly;
     this->rotateSpeed = 0.0f;
     this->actor.speedXZ = 0.0f;
-    this->actor.world.rot.y = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    this->actor.world.rot.y = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    this->actor.world.rot.x = RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
+    this->actor.world.rot.x = RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist));
     Animation_MorphToLoop(&this->skelAnime, &object_tw_Anim_032BF8, -10.0f);
 }
 
@@ -5403,9 +5412,9 @@ void BossTw_TwinrovaFly(BossTw* this, GlobalContext* globalCtx) {
     xDiff = this->targetPos.x - this->actor.world.pos.x;
     yDiff = this->targetPos.y - this->actor.world.pos.y;
     zDiff = this->targetPos.z - this->actor.world.pos.z;
-    yaw = RADF_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
+    yaw = RAD_TO_BINANG(Math_FAtan2F(xDiff, zDiff));
     xzDist = sqrtf(SQ(xDiff) + SQ(zDiff));
-    Math_ApproachS(&this->actor.world.rot.x, (f32)RADF_TO_BINANG(Math_FAtan2F(yDiff, xzDist)), 0xA, this->rotateSpeed);
+    Math_ApproachS(&this->actor.world.rot.x, (f32)RAD_TO_BINANG(Math_FAtan2F(yDiff, xzDist)), 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.world.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachS(&this->actor.shape.rot.y, yaw, 0xA, this->rotateSpeed);
     Math_ApproachF(&this->rotateSpeed, 2000.0f, 1.0f, 100.0f);

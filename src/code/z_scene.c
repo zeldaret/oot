@@ -91,7 +91,7 @@ void Object_UpdateBank(ObjectContext* objectCtx) {
                 osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, status->segment);
                 DmaMgr_SendRequest2(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
                                     &status->loadQueue, NULL, "../z_scene.c", 266);
-            } else if (!osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK)) {
+            } else if (osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 status->id = -status->id;
             }
         }
@@ -376,7 +376,7 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
 
     if (((globalCtx->envCtx.timeIncrement == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
-        (gSaveContext.entranceIndex == 0x0604)) {
+        (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
         if ((gSaveContext.skyboxTime >= 0x2AAC) && (gSaveContext.skyboxTime < 0x4555)) {
             gSaveContext.skyboxTime = 0x3556;

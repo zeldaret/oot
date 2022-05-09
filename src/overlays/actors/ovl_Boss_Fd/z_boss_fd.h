@@ -36,6 +36,8 @@ typedef enum {
     /* 6 */ BFD_CS_EMERGE
 } BossFdCutsceneState;
 
+#define BOSSFD_EFFECT_COUNT 180
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
@@ -50,8 +52,6 @@ typedef struct {
     /* 0x34 */ f32 bFdFxFloat1;
     /* 0x38 */ f32 bFdFxFloat2;
 } BossFdEffect; // size = 0x3C
-
-#define BOSSFD_EFFECT_COUNT 180
 
 #define vFdFxRotX bFdFxFloat1
 #define vFdFxScaleMod bFdFxFloat1
@@ -179,7 +179,7 @@ typedef struct BossFd {
     /* 0x1408 */ BossFdCam camData;
     /* 0x1490 */ ColliderJntSph collider;
     /* 0x14B0 */ ColliderJntSphElement elements[19];
-    /* 0x1970 */ BossFdEffect effects[180];
+    /* 0x1970 */ BossFdEffect effects[BOSSFD_EFFECT_COUNT];
 } BossFd; // size = 0x43A0
 
 #endif

@@ -111,7 +111,7 @@ u16 func_809FDC38(GlobalContext* globalCtx, Actor* actor) {
             return 0x301D;
         }
     }
-    if (gSaveContext.infTable[0x11] & 8) {
+    if (GET_INFTABLE(INFTABLE_113)) {
         return 0x301B;
     } else {
         return 0x301A;
@@ -126,13 +126,13 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
         case TEXT_STATE_CLOSING:
             switch (actor->textId) {
                 case 0x301A:
-                    gSaveContext.infTable[0x11] |= 8;
+                    SET_INFTABLE(INFTABLE_113);
                     break;
                 case 0x301C:
                 case 0x301F:
                     return 2;
                 case 0x3020:
-                    gSaveContext.eventChkInf[0x2] |= 4;
+                    SET_EVENTCHKINF(EVENTCHKINF_22);
                     break;
             }
             return 0;
@@ -156,7 +156,7 @@ s16 func_809FDCDC(GlobalContext* globalCtx, Actor* actor) {
 s32 func_809FDDB4(EnDu* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum == SCENE_SPOT18 && LINK_IS_CHILD) {
         return 1;
-    } else if (globalCtx->sceneNum == SCENE_HIDAN && !(gSaveContext.infTable[0x11] & 0x400) && LINK_IS_ADULT) {
+    } else if (globalCtx->sceneNum == SCENE_HIDAN && !GET_INFTABLE(INFTABLE_11A) && LINK_IS_ADULT) {
         return 1;
     }
     return 0;
@@ -349,7 +349,8 @@ void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE890);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
@@ -410,7 +411,7 @@ void func_809FE798(EnDu* this, GlobalContext* globalCtx) {
         }
     } else {
         Actor_Kill(&this->actor);
-        gSaveContext.infTable[0x11] |= 0x400;
+        SET_INFTABLE(INFTABLE_11A);
     }
 }
 

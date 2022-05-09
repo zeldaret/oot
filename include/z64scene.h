@@ -309,7 +309,24 @@ typedef enum {
     /* 0x6E */ SCENE_ID_MAX
 } SceneID;
 
+// this define exists to preserve shiftability for an unused scene that is
+// listed in the entrance table
+#define SCENE_UNUSED_6E SCENE_ID_MAX
+
 #undef DEFINE_SCENE
+
+
+// Entrance Index Enum
+#define DEFINE_ENTRANCE(enum, _1, _2, _3, _4, _5, _6) enum,
+
+typedef enum {
+    #include "tables/entrance_table.h"
+    /* 0x613 */ ENTR_MAX
+} EntranceIndex;
+
+#define ENTR_LOAD_OPENING -1
+
+#undef DEFINE_ENTRANCE
 
 // Scene commands
 

@@ -86,6 +86,8 @@
 #define R_ITEM_ICON_X(i)            ZREG(82 + i)
 #define R_ITEM_ICON_Y(i)            ZREG(86 + i)
 #define R_ITEM_ICON_DD(i)           ZREG(90 + i)
+#define R_TRANS_DBG_ENABLED         CREG(11)
+#define R_TRANS_DBG_TYPE            CREG(12)
 #define R_ENV_WIND_DIR(i)           CREG(16 + i)
 #define R_ENV_WIND_SPEED            CREG(19)
 #define R_A_BTN_Y                   XREG(16)
@@ -157,9 +159,9 @@
 #define R_TEXTBOX_BG_YPOS           XREG(61)
 #define R_TEXTBOX_CLEF_XPOS         VREG(7)
 #define R_TEXTBOX_CLEF_YPOS         VREG(8)
-#define R_OCARINA_NOTES_XPOS        VREG(28)
-#define R_OCARINA_NOTES_YPOS(note)  VREG(45 + (note))
-#define R_OCARINA_NOTES_XPOS_OFFSET VREG(29)
-#define R_OCARINA_NOTES_YPOS_OFFSET VREG(51)
+#define R_OCARINA_BUTTONS_XPOS        VREG(28)
+#define R_OCARINA_BUTTONS_YPOS(note)  VREG(45 + (note))
+#define R_OCARINA_BUTTONS_XPOS_OFFSET VREG(29)
+#define R_OCARINA_BUTTONS_YPOS_OFFSET VREG(51)
 
 #endif

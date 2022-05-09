@@ -248,7 +248,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sBigDekuBabaDamageTable, &sColChkInfoInit);
         this->actor.colChkInfo.health = 4;
-        this->actor.naviEnemyId = 0x08; // Big Deku Baba
+        this->actor.naviEnemyId = NAVI_ENEMY_BIG_DEKU_BABA;
         this->actor.targetMode = 2;
     } else {
         this->size = 1.0f;
@@ -262,7 +262,7 @@ void EnDekubaba_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDekuBabaDamageTable, &sColChkInfoInit);
-        this->actor.naviEnemyId = 0x07; // Deku Baba
+        this->actor.naviEnemyId = NAVI_ENEMY_DEKU_BABA;
         this->actor.targetMode = 1;
     }
 
@@ -1032,7 +1032,7 @@ void EnDekubaba_UpdateDamage(EnDekubaba* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlagJntSph(&this->actor, &this->collider, 1);
+        Actor_SetDropFlagJntSph(&this->actor, &this->collider, true);
 
         if ((this->collider.base.colType != COLTYPE_HARD) &&
             ((this->actor.colChkInfo.damageEffect != DEKUBABA_DMGEFF_NONE) || (this->actor.colChkInfo.damage != 0))) {

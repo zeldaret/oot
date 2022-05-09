@@ -134,7 +134,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     u16 textID = Text_GetFaceReaction(globalCtx, 0xB);
 
     if (textID == 0) {
-        textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
+        textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
     // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
@@ -150,7 +150,7 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = EnFu_WaitAdult;
-        gSaveContext.eventChkInf[5] |= 0x800;
+        SET_EVENTCHKINF(EVENTCHKINF_5B);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     }
 }
@@ -176,7 +176,7 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
         globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
-        gSaveContext.eventChkInf[6] |= 0x20;
+        SET_EVENTCHKINF(EVENTCHKINF_65);
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
         player->stateFlags2 &= ~PLAYER_STATE2_24;
         this->actionFunc = EnFu_WaitAdult;
@@ -203,7 +203,8 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
-        Audio_OcaSetInstrument(4); // seems to be related to setting instrument type
+        // Ocarina is set to harp here but is immediately overwritten to the grind organ in the message system
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_HARP);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }
@@ -214,7 +215,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if ((gSaveContext.eventChkInf[5] & 0x800)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_5B)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & PLAYER_STATE2_24) {
         this->actor.textId = 0x5035;

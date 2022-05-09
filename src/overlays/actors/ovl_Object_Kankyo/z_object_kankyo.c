@@ -114,42 +114,42 @@ void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             // Check which beams are disabled
-            if (Flags_GetEventChkInf(0xBB)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BB)) {
                 this->effects[0].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBC)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BC)) {
                 this->effects[1].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBD)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BD)) {
                 this->effects[2].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBE)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BE)) {
                 this->effects[3].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xBF)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_BF)) {
                 this->effects[4].size = 0.0f;
             }
-            if (Flags_GetEventChkInf(0xAD)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_AD)) {
                 this->effects[5].size = 0.0f;
             }
 
             if (gSaveContext.cutsceneTrigger != 0) {
-                if (gSaveContext.entranceIndex == 0x0538) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_2) {
                     this->effects[0].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x053C) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_3) {
                     this->effects[1].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x0540) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_4) {
                     this->effects[2].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x0544) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_5) {
                     this->effects[3].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x0548) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_6) {
                     this->effects[4].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x054C) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_7) {
                     this->effects[5].size = 0.1f;
                 }
             }
@@ -209,7 +209,7 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
                 break;
 
             case 583:
-                func_800F4524(&D_801333D4, NA_SE_VO_NA_HELLO_2, 32);
+                func_800F4524(&gSfxDefaultPos, NA_SE_VO_NA_HELLO_2, 32);
                 break;
 
             case 763:
@@ -222,16 +222,16 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->envCtx.unk_EE[3] < 64 &&
-        (gSaveContext.entranceIndex != 0x00EE || gSaveContext.sceneSetupIndex != 4 || globalCtx->envCtx.unk_EE[3])) {
+    if (globalCtx->envCtx.unk_EE[3] < 64 && (gSaveContext.entranceIndex != ENTR_SPOT04_0 ||
+                                             gSaveContext.sceneSetupIndex != 4 || globalCtx->envCtx.unk_EE[3])) {
         globalCtx->envCtx.unk_EE[3] += 16;
     }
 
     for (i = 0; i < globalCtx->envCtx.unk_EE[3]; i++) {
         // spawn in front of the camera
-        dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+        dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+        dz = globalCtx->view.at.z - globalCtx->view.eye.z;
         dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
         viewForwards.x = dx / dist;
@@ -493,7 +493,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, GlobalContext* globalCtx2) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 807);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
-        gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteTextureLoadDL);
+        gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteMaterialDL);
 
         for (i = 0; i < globalCtx->envCtx.unk_EE[3]; i++) {
             Matrix_Translate(this->effects[i].base.x + this->effects[i].pos.x,
@@ -560,7 +560,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, GlobalContext* globalCtx2) {
             Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(globalCtx->state.frames * 20.0f), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 913), G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteDL);
+            gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteModelDL);
         }
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 922);
     }
@@ -600,9 +600,9 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, GlobalContext* globalCtx2) {
             switch (this->effects[i].state) {
                 case 0:
                     // spawn in front of the camera
-                    dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-                    dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-                    dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+                    dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+                    dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+                    dz = globalCtx->view.at.z - globalCtx->view.eye.z;
                     dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
                     // fake
@@ -624,9 +624,9 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, GlobalContext* globalCtx2) {
                     break;
 
                 case 1:
-                    dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-                    dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-                    dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+                    dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+                    dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+                    dz = globalCtx->view.at.z - globalCtx->view.eye.z;
                     dist = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
                     baseX = globalCtx->view.eye.x + dx / dist * 80.0f;

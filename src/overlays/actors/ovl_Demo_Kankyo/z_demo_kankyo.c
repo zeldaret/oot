@@ -232,7 +232,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DEMOKANKYO_DOOR_OF_TIME:
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             this->unk_150[0].unk_18 = 0.0f;
-            if (!(gSaveContext.eventChkInf[4] & 0x800)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_TOKI,
                                    this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                    0x0000);
@@ -254,7 +254,8 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                Audio_PlaySoundGeneral(NA_SE_EV_SARIA_MELODY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_SARIA_MELODY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case DEMOKANKYO_SPARKLES:
@@ -410,7 +411,7 @@ void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, GlobalContext* globalCtx) {
     this->unk_150[0].unk_18 += 1.0f;
     if (this->unk_150[0].unk_18 >= 102.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONEDOOR_STOP);
-        gSaveContext.eventChkInf[4] |= 0x800;
+        SET_EVENTCHKINF(EVENTCHKINF_4B);
         Actor_Kill(this->actor.child);
         DemoKankyo_SetupAction(this, DemoKankyo_KillDoorOfTimeCollision);
     }
@@ -526,9 +527,9 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
     for (i = 0; i < 30; i++) {
         s32 pad[2];
 
-        dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+        dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+        dz = globalCtx->view.at.z - globalCtx->view.eye.z;
         norm = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
         if (globalCtx->sceneNum != SCENE_TOKINOMA) {
@@ -540,7 +541,7 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
         switch (this->unk_150[i].unk_22) {
             case 0:
                 func_80989B54(thisx, globalCtx, i);
-                if (gSaveContext.entranceIndex == 0x00A0) { // Cutscene Map
+                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * 500.0f;
                 } else {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * -500.0f;
@@ -549,16 +550,16 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
                 break;
             case 1:
                 temp_f12_2 = globalCtx->view.eye.y + (dy / norm) * 150.0f;
-                if (gSaveContext.entranceIndex == 0x00A0) { // Cutscene Map
+                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     this->unk_150[i].unk_0.y -= this->unk_150[i].unk_18;
                 } else {
                     this->unk_150[i].unk_0.y += this->unk_150[i].unk_18;
                 }
-                if (gSaveContext.entranceIndex == 0x00A0) { // Cutscene Map
+                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     if (this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y < temp_f12_2 - 300.0f) {
                         this->unk_150[i].unk_22++;
                     }
-                } else if (gSaveContext.entranceIndex == 0x00CD) { // Hyrule Field
+                } else if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
                     if (temp_f12_2 + 300.0f < this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y) {
                         this->unk_150[i].unk_22++;
                     }
@@ -577,12 +578,14 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(this->unk_150[i].unk_C.x + this->unk_150[i].unk_0.x,
                          this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y,
                          this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z, MTXMODE_NEW);
-        if (gSaveContext.entranceIndex != 0x00A0) { // Cutscene Map
+
+        if (gSaveContext.entranceIndex != ENTR_HIRAL_DEMO_0) {
             Matrix_RotateX(M_PI, MTXMODE_APPLY);
         }
 
         gDPPipeSync(POLY_XLU_DISP++);
-        if (gSaveContext.entranceIndex == 0x00CD) { // Hyrule Field
+
+        if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 255);
         } else {
@@ -798,8 +801,9 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                         this->unk_150[i].unk_22++;
                     }
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                           &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;

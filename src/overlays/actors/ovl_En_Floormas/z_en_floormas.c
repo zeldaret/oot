@@ -114,7 +114,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x31, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_FLOORMASTER, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5500, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_STOP),
 };
@@ -979,7 +979,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, GlobalContext* globalCtx) {
 
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->collider.base.colType != COLTYPE_HARD) {
                 isSmall = 0;

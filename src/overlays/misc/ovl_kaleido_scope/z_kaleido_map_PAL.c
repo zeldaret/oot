@@ -145,7 +145,8 @@ void KaleidoScope_DrawDungeonMap(GlobalContext* globalCtx, GraphicsContext* gfxC
                 pauseCtx->cursorX[PAUSE_MAP] = 0;
                 j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
                 KaleidoScope_SetCursorVtx(pauseCtx, j, pauseCtx->mapPageVtx);
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else {
             if (pauseCtx->stickRelX < -30) {
@@ -175,12 +176,14 @@ void KaleidoScope_DrawDungeonMap(GlobalContext* globalCtx, GraphicsContext* gfxC
                 osSyncPrintf("kscope->cursor_point====%d\n", pauseCtx->cursorPoint[PAUSE_MAP]);
                 j = 72 + (pauseCtx->cursorSlot[PAUSE_MAP] * 4);
                 KaleidoScope_SetCursorVtx(pauseCtx, j, pauseCtx->mapPageVtx);
-                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_MAP]) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
 
@@ -455,7 +458,8 @@ void KaleidoScope_DrawWorldMap(GlobalContext* globalCtx, GraphicsContext* gfxCtx
                     pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP] + 0x1F;
                     KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     D_8082A6D4 = 0;
                 }
             } else {
@@ -470,7 +474,8 @@ void KaleidoScope_DrawWorldMap(GlobalContext* globalCtx, GraphicsContext* gfxCtx
                     pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     pauseCtx->cursorSlot[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP] + 0x1F;
                     KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_MAP] * 4, pauseCtx->mapPageVtx);
-                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     D_8082A6D4 = 0;
                 }
             }
@@ -481,7 +486,8 @@ void KaleidoScope_DrawWorldMap(GlobalContext* globalCtx, GraphicsContext* gfxCtx
         }
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_WORLD_MAP]) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
     }
 
@@ -523,14 +529,12 @@ void KaleidoScope_DrawWorldMap(GlobalContext* globalCtx, GraphicsContext* gfxCtx
         Gfx* sp1CC = POLY_OPA_DISP;
         void* mapImage = gWorldMapImageTex;
 
-        // gSPLoadUcodeL(sp1CC++, rspS2DEX)?
-        gSPLoadUcodeEx(sp1CC++, OS_K0_TO_PHYSICAL(D_80113070), OS_K0_TO_PHYSICAL(D_801579A0), 0x800);
+        gSPLoadUcodeL(sp1CC++, gspS2DEX2d_fifo);
 
         func_8009638C(&sp1CC, mapImage, gWorldMapImageTLUT, 216, 128, G_IM_FMT_CI, G_IM_SIZ_8b, 0x8000, 256,
                       HREG(13) / 100.0f, HREG(14) / 100.0f);
 
-        // gSPLoadUcode(sp1CC++, SysUcode_GetUCode(), SysUcode_GetUCodeData())?
-        gSPLoadUcodeEx(sp1CC++, SysUcode_GetUCode(), SysUcode_GetUCodeData(), 0x800);
+        gSPLoadUcode(sp1CC++, SysUcode_GetUCode(), SysUcode_GetUCodeData());
 
         POLY_OPA_DISP = sp1CC;
     }

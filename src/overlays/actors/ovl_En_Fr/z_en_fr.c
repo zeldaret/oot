@@ -105,13 +105,26 @@ static EnFrPointers sEnFrPointers = {
     },
 };
 
-// Flags for gSaveContext.eventChkInf[13]
-static u16 sSongIndex[] = {
-    0x0002, 0x0004, 0x0010, 0x0008, 0x0020, 0x0040, 0x0001, 0x0000,
+#define FROG_HAS_SONG_BEEN_PLAYED(frogSongIndex)                   \
+    (gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] & \
+     sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex])
+
+#define FROG_SET_SONG_PLAYED(frogSongIndex)                        \
+    gSaveContext.eventChkInf[EVENTCHKINF_SONGS_FOR_FROGS_INDEX] |= \
+        sFrogSongIndexToEventChkInfSongsForFrogsMask[frogSongIndex];
+
+static u16 sFrogSongIndexToEventChkInfSongsForFrogsMask[] = {
+    EVENTCHKINF_SONGS_FOR_FROGS_ZL_MASK,     // FROG_ZL
+    EVENTCHKINF_SONGS_FOR_FROGS_EPONA_MASK,  // FROG_EPONA
+    EVENTCHKINF_SONGS_FOR_FROGS_SARIA_MASK,  // FROG_SARIA
+    EVENTCHKINF_SONGS_FOR_FROGS_SUNS_MASK,   // FROG_SUNS
+    EVENTCHKINF_SONGS_FOR_FROGS_SOT_MASK,    // FROG_SOT
+    EVENTCHKINF_SONGS_FOR_FROGS_STORMS_MASK, // FROG_STORMS
+    EVENTCHKINF_SONGS_FOR_FROGS_CHOIR_MASK,  // FROG_CHOIR_SONG
+    0,                                       // FROG_NO_SONG
 };
 
-// Frog to Index for Song Flag (sSongIndex) Mapping
-static u8 sFrogToSongIndex[] = {
+static u8 sFrogToFrogSongIndex[] = {
     FROG_SARIA, FROG_SUNS, FROG_SOT, FROG_ZL, FROG_EPONA,
 };
 
@@ -195,7 +208,7 @@ static u8 sJumpOrder[] = {
 };
 
 static u8 sOcarinaNotes[] = {
-    OCARINA_NOTE_A, OCARINA_NOTE_C_DOWN, OCARINA_NOTE_C_RIGHT, OCARINA_NOTE_C_LEFT, OCARINA_NOTE_C_UP,
+    OCARINA_BTN_A, OCARINA_BTN_C_DOWN, OCARINA_BTN_C_RIGHT, OCARINA_BTN_C_LEFT, OCARINA_BTN_C_UP,
 };
 
 void EnFr_OrientUnderwater(EnFr* this) {
@@ -210,7 +223,7 @@ void EnFr_OrientUnderwater(EnFr* this) {
     this->actor.world.pos.z = this->posLogSpot.z + vec2.z;
     this->actor.world.pos.y = sLogSpotToFromWater[this->actor.params].yDist + this->posLogSpot.y;
     this->actor.world.rot.y = this->actor.shape.rot.y =
-        RADF_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw) + 0x8000;
+        RAD_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw) + 0x8000;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = 0.0f;
@@ -281,7 +294,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
                                   this->actor.home.pos.z, 255, 255, 255, -1);
         // Check to see if the song for a particular frog has been played.
         // If it has, the frog is larger. If not, the frog is smaller
-        this->scale = gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogIndex]] ? 270.0f : 150.0f;
+        this->scale = FROG_HAS_SONG_BEEN_PLAYED(sFrogToFrogSongIndex[frogIndex]) ? 270.0f : 150.0f;
         // When the frogs are not active (link doesn't have his ocarina out),
         // Then shrink the frogs down by a factor of 10,000
         Actor_SetScale(&this->actor, this->scale * 0.0001f);
@@ -445,7 +458,7 @@ void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
 
 void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == 12) {
-        this->actor.world.rot.y = RADF_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw);
+        this->actor.world.rot.y = RAD_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw);
         Animation_Change(&this->skelAnime, &object_fr_Anim_0007BC, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_fr_Anim_0007BC), ANIMMODE_ONCE, 0.0f);
         this->actionFunc = EnFr_JumpingBackIntoWater;
@@ -629,12 +642,9 @@ void EnFr_Activate(EnFr* this, GlobalContext* globalCtx) {
 void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
     if (sEnFrPointers.flags == 11) {
         // Check if all 6 child songs have been played for the frogs
-        if ((gSaveContext.eventChkInf[13] & 0x2)        // ZL
-            && (gSaveContext.eventChkInf[13] & 0x4)     // Epona
-            && (gSaveContext.eventChkInf[13] & 0x10)    // Saria
-            && (gSaveContext.eventChkInf[13] & 0x8)     // Suns
-            && (gSaveContext.eventChkInf[13] & 0x20)    // SoT
-            && (gSaveContext.eventChkInf[13] & 0x40)) { // SoS
+        if (GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_ZL) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_EPONA) &&
+            GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SARIA) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SUNS) &&
+            GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SOT) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_STORMS)) {
             this->actionFunc = EnFr_TalkBeforeFrogSong;
             this->songIndex = FROG_CHOIR_SONG;
             Message_StartTextbox(globalCtx, 0x40AB, &this->actor);
@@ -686,21 +696,22 @@ void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx) {
         case OCARINA_MODE_04:
             EnFr_OcarinaMistake(this, globalCtx);
             break;
-        case OCARINA_MODE_01:                           // Ocarina note played, but no song played
-            switch (globalCtx->msgCtx.lastOcaNoteIdx) { // Jumping frogs in open ocarina based on ocarina note played
-                case OCARINA_NOTE_A:
+        case OCARINA_MODE_01: // Ocarina note played, but no song played
+            switch (globalCtx->msgCtx.lastOcarinaButtonIndex) {
+                // Jumping frogs in open ocarina based on ocarina note played
+                case OCARINA_BTN_A:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
                     break;
-                case OCARINA_NOTE_C_DOWN:
+                case OCARINA_BTN_C_DOWN:
                     EnFr_SetupJumpingUp(this, FROG_YELLOW);
                     break;
-                case OCARINA_NOTE_C_RIGHT:
+                case OCARINA_BTN_C_RIGHT:
                     EnFr_SetupJumpingUp(this, FROG_RED);
                     break;
-                case OCARINA_NOTE_C_LEFT:
+                case OCARINA_BTN_C_LEFT:
                     EnFr_SetupJumpingUp(this, FROG_PURPLE);
                     break;
-                case OCARINA_NOTE_C_UP:
+                case OCARINA_BTN_C_UP:
                     EnFr_SetupJumpingUp(this, FROG_WHITE);
                     break;
             }
@@ -724,7 +735,7 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
         if (songIndex == FROG_STORMS) {
             this->actor.textId = 0x40AA;
             EnFr_SetupReward(this, globalCtx, false);
-        } else if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
+        } else if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
             frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
@@ -798,7 +809,7 @@ void EnFr_DeactivateButterfly() {
 }
 
 u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
-    if (!(gSaveContext.eventChkInf[13] & 1)) {
+    if (!GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_CHOIR)) {
         return gFrogsSongPtr[ocarinaNoteIndex];
     } else {
         return sOcarinaNotes[(s32)Rand_ZeroFloat(60.0f) % 5];
@@ -824,7 +835,7 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     u8 ocarinaNoteIndex;
 
-    if (this->ocarinaNote == (*msgCtx).lastOcaNoteIdx) { // required to match, possibly an array?
+    if (this->ocarinaNote == (*msgCtx).lastOcarinaButtonIndex) { // required to match, possibly an array?
         this->ocarinaNoteIndex++;
         ocarinaNoteIndex = this->ocarinaNoteIndex;
         if (1) {}
@@ -846,7 +857,7 @@ void EnFr_OcarinaMistake(EnFr* this, GlobalContext* globalCtx) {
     Message_CloseTextbox(globalCtx);
     this->reward = GI_NONE;
     func_80078884(NA_SE_SY_OCARINA_ERROR);
-    Audio_OcaSetInstrument(0);
+    AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
     sEnFrPointers.flags = 12;
     EnFr_DeactivateButterfly();
     this->actionFunc = EnFr_Deactivate;
@@ -879,20 +890,20 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
 
         if (globalCtx->msgCtx.msgMode == MSGMODE_FROGS_WAITING) {
             globalCtx->msgCtx.msgMode = MSGMODE_FROGS_START;
-            switch (globalCtx->msgCtx.lastOcaNoteIdx) {
-                case OCARINA_NOTE_A:
+            switch (globalCtx->msgCtx.lastOcarinaButtonIndex) {
+                case OCARINA_BTN_A:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
                     break;
-                case OCARINA_NOTE_C_DOWN:
+                case OCARINA_BTN_C_DOWN:
                     EnFr_SetupJumpingUp(this, FROG_YELLOW);
                     break;
-                case OCARINA_NOTE_C_RIGHT:
+                case OCARINA_BTN_C_RIGHT:
                     EnFr_SetupJumpingUp(this, FROG_RED);
                     break;
-                case OCARINA_NOTE_C_LEFT:
+                case OCARINA_BTN_C_LEFT:
                     EnFr_SetupJumpingUp(this, FROG_PURPLE);
                     break;
-                case OCARINA_NOTE_C_UP:
+                case OCARINA_BTN_C_UP:
                     EnFr_SetupJumpingUp(this, FROG_WHITE);
             }
             if (EnFr_IsFrogSongComplete(this, globalCtx)) {
@@ -911,7 +922,7 @@ void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
 
-    Audio_OcaSetInstrument(0);
+    AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
     globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
     this->actionFunc = EnFr_PrintTextBox;
 }
@@ -937,22 +948,22 @@ void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx) {
     this->actionFunc = EnFr_Deactivate;
     this->reward = GI_NONE;
     if ((songIndex >= FROG_ZL) && (songIndex <= FROG_SOT)) {
-        if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
-            gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
+        if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
+            FROG_SET_SONG_PLAYED(songIndex);
             this->reward = GI_RUPEE_PURPLE;
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
     } else if (songIndex == FROG_STORMS) {
-        if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
-            gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
+        if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
+            FROG_SET_SONG_PLAYED(songIndex);
             this->reward = GI_HEART_PIECE;
         } else {
             this->reward = GI_RUPEE_BLUE;
         }
     } else if (songIndex == FROG_CHOIR_SONG) {
-        if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
-            gSaveContext.eventChkInf[13] |= sSongIndex[songIndex];
+        if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
+            FROG_SET_SONG_PLAYED(songIndex);
             this->reward = GI_HEART_PIECE;
         } else {
             this->reward = GI_RUPEE_PURPLE;
