@@ -29,8 +29,8 @@ char D_80133344[] = VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr
 s32 D_8013338C = 0;
 
 // rodata for Audio_ProcessSeqCmd (code_800F9280.c)
-char D_80133390[] = "SEQ H";
-char D_80133398[] = "    L";
+char gAudioDebugTextSeqCmdHighBits[] = "SEQ H";
+char gAudioDebugTextSeqCmdLowBits[] = "    L";
 
 SoundBankEntry D_8016BAD0[9];
 SoundBankEntry D_8016BC80[12];

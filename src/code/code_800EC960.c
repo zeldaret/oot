@@ -3422,7 +3422,7 @@ void AudioDebug_ProcessInput(void) {
             if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
                 sAudioSndContWork[5] ^= 1;
                 AudioSeqCmd_DisableNewSequences(SEQ_PLAYER_BGM_MAIN, sAudioSndContWork[5]);
-                if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) != NA_BGM_NATURE_AMBIENCE) {
+                if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_NATURE_AMBIENCE) {
                     AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
                 }
                 AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, 0);
@@ -3468,7 +3468,7 @@ void AudioDebug_ProcessInput(void) {
             break;
     }
 
-    D_8013340C = sAudioScrPrtWork[10];
+    gAudioDebugPrintSeqCmd = sAudioScrPrtWork[10];
 }
 
 void Audio_UpdateRiverSoundVolumes(void);
@@ -4267,8 +4267,8 @@ void Audio_SplitBgmChannels(s8 volSplit) {
     u8 channelIdx;
     u8 i;
 
-    if ((Audio_GetActiveSequence(SEQ_PLAYER_FANFARE) == NA_BGM_DISABLED) &&
-        (Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON)) {
+    if ((Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE) == NA_BGM_DISABLED) &&
+        (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON)) {
         for (i = 0; i < ARRAY_COUNT(bgmPlayers); i++) {
             if (i == 0) {
                 // Main Bgm SeqPlayer
@@ -4360,8 +4360,8 @@ void func_800F5550(u16 seqId) {
     u8 sp27 = 0;
     u16 nv;
 
-    if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
-        if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) == NA_BGM_LONLON) {
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
+        if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == NA_BGM_LONLON) {
             Audio_StopSequenceNow(SEQ_PLAYER_BGM_SUB, 0);
             Audio_QueueCmdS32(0xF8000000, 0);
         }
@@ -4390,7 +4390,7 @@ void func_800F56A8(void) {
     u16 temp_v0;
     u8 bvar;
 
-    temp_v0 = Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN);
+    temp_v0 = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
     bvar = temp_v0 & 0xFF;
     if ((temp_v0 != NA_BGM_DISABLED) && (sSeqFlags[bvar] & 0x10)) {
         if (D_8013062C != 0xC0) {
@@ -4402,7 +4402,7 @@ void func_800F56A8(void) {
 }
 
 void func_800F5718(void) {
-    if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_WINDMILL) {
         AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_WINDMILL);
     }
 }
@@ -4417,8 +4417,7 @@ void func_800F574C(f32 arg0, u8 arg2) {
 }
 
 void func_800F5918(void) {
-    if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME &&
-        Audio_IsSeqCmdNotQueued(0, 0xF0000000)) {
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME && Audio_IsSeqCmdNotQueued(0, 0xF0000000)) {
         AudioSeqCmd_SetTempo(SEQ_PLAYER_BGM_MAIN, 5, 210);
     }
 }
@@ -4458,7 +4457,7 @@ s32 func_800F5A58(u8 arg0) {
         phi_a1 = 1;
     }
 
-    if (arg0 == (u8)Audio_GetActiveSequence(phi_a1)) {
+    if (arg0 == (u8)Audio_GetActiveSeqId(phi_a1)) {
         return 1;
     } else {
         return 0;
@@ -4470,7 +4469,7 @@ s32 func_800F5A58(u8 arg0) {
  * Designed for the mini-boss sequence, but also used by mini-game 2 sequence
  */
 void func_800F5ACC(u16 seqId) {
-    u16 curSeqId = Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN);
+    u16 curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
     if ((curSeqId & 0xFF) != NA_BGM_GANON_TOWER && (curSeqId & 0xFF) != NA_BGM_ESCAPE && curSeqId != seqId) {
         Audio_SetSequenceMode(SEQ_MODE_IGNORE);
@@ -4488,8 +4487,8 @@ void func_800F5ACC(u16 seqId) {
  * Restores the previous sequence to the main bgm player before func_800F5ACC was called
  */
 void func_800F5B58(void) {
-    if ((Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
-        (sSeqFlags[Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) & 0xFF] & 8)) {
+    if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) != NA_BGM_DISABLED) && (sPrevMainBgmSeqId != NA_BGM_DISABLED) &&
+        (sSeqFlags[Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF] & 8)) {
         if (sPrevMainBgmSeqId == NA_BGM_DISABLED) {
             AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
         } else {
@@ -4504,7 +4503,7 @@ void func_800F5B58(void) {
  * Plays the nature ambience sequence on the main bgm player, but stores the previous sequence to return to later
  */
 void func_800F5BF0(u8 natureAmbienceId) {
-    u16 curSeqId = Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN);
+    u16 curSeqId = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
 
     if (curSeqId != NA_BGM_NATURE_AMBIENCE) {
         sPrevMainBgmSeqId = curSeqId;
@@ -4529,7 +4528,7 @@ void Audio_PlayFanfare(u16 seqId) {
     u8* sp1C;
     u8* sp18;
 
-    sp26 = Audio_GetActiveSequence(SEQ_PLAYER_FANFARE);
+    sp26 = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
     sp1C = func_800E5E84(sp26 & 0xFF, &sp20);
     sp18 = func_800E5E84(seqId & 0xFF, &sp20);
     if ((sp26 == NA_BGM_DISABLED) || (*sp1C == *sp18)) {
@@ -4551,9 +4550,9 @@ void func_800F5CF8(void) {
         if (D_8016B9F4 == 0) {
             Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
             Audio_QueueCmdS32(0xE3000000, FONT_TABLE);
-            Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN);
-            sp26 = Audio_GetActiveSequence(SEQ_PLAYER_FANFARE);
-            sp22 = Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB);
+            Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
+            sp26 = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
+            sp22 = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB);
             if (sp26 == NA_BGM_DISABLED) {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 1, 0, 5);
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 1, 0, 5);
@@ -4591,7 +4590,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
 
         seqId = gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId;
 
-        if (seqId == NA_BGM_FIELD_LOGIC && Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) == (NA_BGM_ENEMY | 0x800)) {
+        if (seqId == NA_BGM_FIELD_LOGIC && Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) == (NA_BGM_ENEMY | 0x800)) {
             seqMode = SEQ_MODE_IGNORE;
         }
 
@@ -4685,7 +4684,7 @@ void func_800F6268(f32 dist, u16 arg1) {
     sAudioHasMalonBgm = true;
     sAudioMalonBgmDist = dist;
     if (D_8016B9F2 == 0) {
-        temp_a0 = (s8)(Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) & 0xFF);
+        temp_a0 = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF);
         if (temp_a0 == (arg1 & 0xFF)) {
             if ((arg1 & 0xFF) == NA_BGM_LONLON) {
 
@@ -4705,7 +4704,7 @@ void func_800F6268(f32 dist, u16 arg1) {
                 }
             }
         } else if ((temp_a0 == NA_BGM_NATURE_AMBIENCE) && ((arg1 & 0xFF) == NA_BGM_LONLON)) {
-            temp_a0 = (s8)(Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) & 0xFF);
+            temp_a0 = (s8)(Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF);
             if ((temp_a0 != (arg1 & 0xFF)) && (D_8016B9D8 < 10)) {
                 func_800F5E18(SEQ_PLAYER_BGM_SUB, NA_BGM_LONLON, 0, 0, 0);
                 AudioSeqCmd_SetActiveChannels(SEQ_PLAYER_BGM_SUB, 0xFFFC);
@@ -4748,10 +4747,10 @@ void func_800F6584(u8 arg0) {
     u16 sp34;
 
     D_8016B9F2 = arg0;
-    if ((Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) & 0xFF) == NA_BGM_LONLON) {
+    if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) & 0xFF) == NA_BGM_LONLON) {
         playerIndex = SEQ_PLAYER_BGM_MAIN;
         sp34 = 0;
-    } else if ((Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) & 0xFF) == NA_BGM_LONLON) {
+    } else if ((Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) & 0xFF) == NA_BGM_LONLON) {
         playerIndex = SEQ_PLAYER_BGM_SUB;
         sp34 = 0xFFFC;
     } else {
@@ -4962,7 +4961,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val) {
 
     // channelIdxRange = 01 on port 1
     if (((channelIdxRange << 8) + port) == ((NATURE_CHANNEL_CRITTER_0 << 8) + CHANNEL_IO_PORT_1)) {
-        if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON) {
+        if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB) != NA_BGM_LONLON) {
             D_8016B9D8 = 0;
         }
     }
@@ -4982,7 +4981,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val) {
 void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     u8 channelIdx;
 
-    if (Audio_GetActiveSequence(SEQ_PLAYER_BGM_MAIN) == NA_BGM_WINDMILL) {
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_WINDMILL) {
         func_800F3F3C(0xF);
         return;
     }

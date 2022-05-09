@@ -19,7 +19,7 @@ ActiveSeq gActiveSeqs[4];
 u8 sSeqCmdWritePos = 0;
 u8 sSeqCmdReadPos = 0;
 u8 sIsSeqStartDisabled = 0;
-u8 D_8013340C = 1;
+u8 gAudioDebugPrintSeqCmd = true;
 u8 sSoundModes[] = { 0, 1, 2, 3 };
 u8 gAudioSpecId = 0;
 u8 D_80133418 = 0;
@@ -29,7 +29,7 @@ void Audio_StartSequence(u8 playerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
     u16 duration;
     s32 pad;
 
-    if (sIsSeqStartDisabled == 0 || playerIndex == 2) {
+    if ((sIsSeqStartDisabled == 0) || (playerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
             duration = (fadeTimer >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
@@ -89,9 +89,11 @@ void Audio_ProcessSeqCmd(u32 cmd) {
     f32 freqScaleTarget;
     s32 pad;
 
-    if (D_8013340C && (cmd & 0xF0000000) != 0x70000000) {
-        AudioDebug_ScrPrt((const s8*)D_80133390, (cmd >> 16) & 0xFFFF); // "SEQ H"
-        AudioDebug_ScrPrt((const s8*)D_80133398, cmd & 0xFFFF);         // "    L"
+    if (gAudioDebugPrintSeqCmd && ((cmd & 0xF0000000) != (SEQ_CMD_SET_PLAYER_IO << 28))) {
+        // print cmd high-bits, "SEQ H"
+        AudioDebug_ScrPrt((const s8*)gAudioDebugTextSeqCmdHighBits, (cmd >> 16) & 0xFFFF);
+        // pring cmd low-bits, "    L"
+        AudioDebug_ScrPrt((const s8*)gAudioDebugTextSeqCmdLowBits, cmd & 0xFFFF);
     }
 
     op = cmd >> 28;
@@ -331,6 +333,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                     // set sound mode
                     Audio_QueueCmdS32(0xF0000000, sSoundModes[val]);
                     break;
+
                 case SUB_CMD_DISABLE_NEW_SEQUENCES:
                     // disable the starting of new sequences
                     sIsSeqStartDisabled = val & 1;
@@ -361,7 +364,7 @@ void Audio_ProcessSeqCmds(void) {
     }
 }
 
-u16 Audio_GetActiveSequence(u8 playerIndex) {
+u16 Audio_GetActiveSeqId(u8 playerIndex) {
     if (!gAudioContext.seqPlayers[playerIndex].enabled) {
         return NA_BGM_DISABLED;
     }
@@ -398,11 +401,11 @@ void Audio_DisableSeqCmdSetupOp(u8 playerIndex, u8 setupOpDisabled) {
     }
 }
 
-void Audio_SetVolumeScale(u8 playerIndex, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
+void Audio_SetVolumeScale(u8 playerIndex, u8 scaleIndex, u8 targetVol, u8 volFadeTimer) {
     f32 volScale;
     u8 i;
 
-    gActiveSeqs[playerIndex].volScales[scaleIdx] = targetVol & 0x7F;
+    gActiveSeqs[playerIndex].volScales[scaleIndex] = targetVol & 0x7F;
 
     if (volFadeTimer != 0) {
         gActiveSeqs[playerIndex].fadeVolUpdate = 1;
@@ -493,16 +496,19 @@ void Audio_UpdateActiveSequences(void) {
                         // speed up tempo by "tempoTarget" amount
                         tempoTarget += tempoPrev;
                         break;
+
                     case TEMPO_CMD_SLOW_DOWN:
                         // slow down tempo by "tempoTarget" amount
                         if (tempoTarget < tempoPrev) {
                             tempoTarget = tempoPrev - tempoTarget;
                         }
                         break;
+
                     case TEMPO_CMD_SCALE:
                         // scale tempo
                         tempoTarget = tempoPrev * (tempoTarget / 100.0f);
                         break;
+
                     case TEMPO_CMD_RESET:
                         // reset tempo to previous tempo
                         if (gActiveSeqs[playerIndex].tempoPrev) {
@@ -511,6 +517,7 @@ void Audio_UpdateActiveSequences(void) {
                             tempoTarget = tempoPrev;
                         }
                         break;
+
                     default:
                         // TEMPO_CMD_SET
                         // tempoTarget is the new tempo
@@ -585,7 +592,7 @@ void Audio_UpdateActiveSequences(void) {
 
         // Process setup commands
         if (gActiveSeqs[playerIndex].setupCmdNum != 0) {
-            // If there is any "Audio_SeqCmdF" queued, drop all setup commands
+            // If there is a SeqCmd to change the audio spec queued, then drop all setup commands
             if (!Audio_IsSeqCmdNotQueued(0xF0000000, 0xF0000000)) {
                 gActiveSeqs[playerIndex].setupCmdNum = 0;
                 return;
@@ -612,25 +619,31 @@ void Audio_UpdateActiveSequences(void) {
                     case SETUP_CMD_SET_VOLUME:
                         Audio_SetVolumeScale(setupPlayerIndex, 1, 0x7F, setupVal1);
                         break;
+
                     case SETUP_CMD_SET_VOLUME_IF_QUEUED:
                         if (sNumSeqRequests[playerIndex] == setupVal1) {
                             Audio_SetVolumeScale(setupPlayerIndex, 1, 0x7F, setupVal2);
                         }
                         break;
+
                     case SETUP_CMD_SEQ_UNQUEUE:
                         AudioSeqCmd_UnqueueSequence(playerIndex, gActiveSeqs[playerIndex].seqId);
                         break;
+
                     case SETUP_CMD_SEQ_START:
                         AudioSeqCmd_PlaySequence(setupPlayerIndex, 1, 0, gActiveSeqs[setupPlayerIndex].seqId);
                         gActiveSeqs[setupPlayerIndex].fadeVolUpdate = 1;
                         gActiveSeqs[setupPlayerIndex].volScales[1] = 0x7F;
                         break;
+
                     case SETUP_CMD_TEMPO_SCALE:
                         AudioSeqCmd_ScaleTempo(setupPlayerIndex, setupVal2, setupVal1);
                         break;
+
                     case SETUP_CMD_TEMPO_RESET:
                         AudioSeqCmd_ResetTempo(setupPlayerIndex, setupVal1);
                         break;
+
                     case SETUP_CMD_SEQ_START_WITH_FADE:
                         seqId = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
                         AudioSeqCmd_PlaySequence(setupPlayerIndex, gActiveSeqs[setupPlayerIndex].setupFadeTimer, 0,
@@ -638,12 +651,15 @@ void Audio_UpdateActiveSequences(void) {
                         Audio_SetVolumeScale(setupPlayerIndex, 1, 0x7F, 0);
                         gActiveSeqs[setupPlayerIndex].setupFadeTimer = 0;
                         break;
+
                     case SETUP_CMD_SET_FADE_TIMER:
                         gActiveSeqs[playerIndex].setupFadeTimer = setupVal2;
                         break;
+
                     case SETUP_CMD_SET_VOLUME_WITH_FADE:
                         Audio_SetVolumeScale(setupPlayerIndex, setupVal2, 0x7F, setupVal1);
                         break;
+
                     case SETUP_CMD_POP_CACHE:
                         if (setupVal1 & 1) {
                             Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
@@ -655,10 +671,12 @@ void Audio_UpdateActiveSequences(void) {
                             Audio_QueueCmdS32(0xE3000000, SAMPLE_TABLE);
                         }
                         break;
+
                     case SETUP_CMD_SEQ_ACTIVE_CHANNELS:
                         channelMask = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
                         AudioSeqCmd_SetActiveChannels(setupPlayerIndex, channelMask);
                         break;
+
                     case SETUP_CMD_SET_PLAYER_FREQ:
                         AudioSeqCmd_SetPlayerFreq(setupPlayerIndex, setupVal2, (setupVal1 * 10) & 0xFFFF);
                         break;
