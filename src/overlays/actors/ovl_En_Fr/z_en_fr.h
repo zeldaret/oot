@@ -10,22 +10,22 @@ typedef void (*EnFrActionFunc)(struct EnFr*, GlobalContext*);
 typedef void (*EnFrBlinkFunc)(struct EnFr*);
 
 typedef enum {
-    /* 00 */ FROG_YELLOW,   // Middle
-    /* 01 */ FROG_BLUE,     // Front Left
-    /* 02 */ FROG_RED,      // Front Right
-    /* 03 */ FROG_PURPLE,   // Back Left
-    /* 04 */ FROG_WHITE     // Back Right
+    /* 0 */ FROG_YELLOW,   // Middle
+    /* 1 */ FROG_BLUE,     // Front Left
+    /* 2 */ FROG_RED,      // Front Right
+    /* 3 */ FROG_PURPLE,   // Back Left
+    /* 4 */ FROG_WHITE     // Back Right
 } FrogType;
 
 typedef enum {
-    /* 00 */ FROG_ZL,
-    /* 01 */ FROG_EPONA,
-    /* 02 */ FROG_SARIA,
-    /* 03 */ FROG_SUNS,
-    /* 04 */ FROG_SOT,
-    /* 05 */ FROG_STORMS,
-    /* 06 */ FROG_CHOIR_SONG,
-    /* 07 */ FROG_NO_SONG
+    /* 0 */ FROG_ZL,
+    /* 1 */ FROG_EPONA,
+    /* 2 */ FROG_SARIA,
+    /* 3 */ FROG_SUNS,
+    /* 4 */ FROG_SOT,
+    /* 5 */ FROG_STORMS,
+    /* 6 */ FROG_CHOIR_SONG,
+    /* 7 */ FROG_NO_SONG
 } FrogSongType;
 
 typedef struct EnFr {
