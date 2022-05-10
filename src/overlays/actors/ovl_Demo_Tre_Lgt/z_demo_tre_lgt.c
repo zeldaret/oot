@@ -149,10 +149,11 @@ s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 448);
 
     //! @bug missing return
-    // If the return value ends up being false (0), the limb won't draw (meaning no limb at all will draw).
-    // - In debug versions, `Graph_CloseDisps` has the last instruction writing to v0 before this function ends.
-    // - In retail versions, the `gDPSetPrimColor` has the last one.
-    // In both cases, that instruction sets v0 to a non-NULL pointer, which is "true", so the limbs get drawn.
+    //! If the returned value (i.e. the contents of v0) ends up being false (0), the limb won't draw. Therefore what
+    //! matters is what was last written to v0 before the end of the function.
+    //! - In debug versions, the last instruction that does this is in `Graph_CloseDisps`.
+    //! - In retail versions, `gDPSetPrimColor` writes to it last.
+    //! In both cases, that instruction sets v0 to a non-NULL pointer, which is "true", so the limb happens to be drawn.
 #ifdef AVOID_UB
     return true;
 #endif
@@ -170,7 +171,7 @@ void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
-    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, thisx);
+    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, &this->actor);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_tre_lgt.c", 476);
 }

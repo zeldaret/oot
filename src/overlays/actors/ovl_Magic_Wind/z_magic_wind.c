@@ -141,7 +141,7 @@ void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
-    MagicWind* this = (MagicWind*)thisx;
+    s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
 
@@ -173,7 +173,7 @@ void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actionFunc != MagicWind_WaitForTimer) {
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
-        SkelCurve_Draw(thisx, globalCtx, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
+        SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_magic_wind.c", 673);

@@ -1,6 +1,6 @@
 /**
- * File: z_fcurve_data_skelanime.c
- * Description: Curve skeleton animation system
+ * @file z_fcurve_data_skelanime.c
+ * @brief Curve skeleton animation system
  *
  * A curve skeleton has a fixed number of limbs, each of which has 9 properties that may be changed by the animation:
  * - 3 scales,
@@ -85,7 +85,6 @@ typedef enum {
 } SkelCurveVecType;
 
 #define SKELCURVE_SCALE_SCALE 1024.0f
-#define SKELCURVE_SCALE_ROTATION (0x8000 / 180.0f)
 #define SKELCURVE_SCALE_POSITION 100
 
 /**
@@ -139,7 +138,7 @@ s32 SkelCurve_Update(GlobalContext* globalCtx, SkelCurve* skelCurve) {
                         *jointData = transformValue * SKELCURVE_SCALE_SCALE;
                     } else if (vecType == SKELCURVE_VEC_TYPE_ROTATION) {
                         // Convert value from degrees to a binary angle
-                        *jointData = transformValue * SKELCURVE_SCALE_ROTATION;
+                        *jointData = DEG_TO_BINANG(transformValue);
                     } else { // SKELCURVE_VEC_TYPE_POSIITON
                         // Model to world scale conversion
                         *jointData = transformValue * SKELCURVE_SCALE_POSITION;
@@ -235,7 +234,6 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelCurve* skel
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
 
-// The first and last arguments are used inconsistently in different actors.
 void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelCurve* skelCurve,
                     OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     if (skelCurve->jointTable != NULL) {
