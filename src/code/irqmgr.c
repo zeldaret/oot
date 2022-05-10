@@ -8,14 +8,14 @@
  * Pre-NMI related events.
  *
  * The interrupts the IRQ manager deals with are:
- *  - VI Retrace
+ *  - Vertical Retrace
  *      This event is sent to the IRQ manager by the OS VI manager which only supports
  *      the forwarding of VI events to a single message queue. The IRQ manager will
- *      forward these events to every registered client. VI retrace events are received
- *      when the Video Interface has reached the start of the vertical blanking interval,
- *      happening at approximately 60Hz on NTSC and 50Hz on PAL. Many threads sit idle
- *      until a VI Retrace event wakes them up, at which point they will perform their
- *      task and then return to idle to await the next retrace.
+ *      forward these events to every registered client. Vertical retrace events are
+ *      received when the Video Interface has reached the start of the vertical blanking
+ *      interval, happening at approximately 60Hz on NTSC and 50Hz on PAL. Many threads
+ *      sit idle until a vertical retrace event wakes them up, at which point they will
+ *      perform their task and then return to idle to await the next retrace.
  *
  *  - Pre-NMI
  *      This event is sent to the IRQ manager by the OS Interrupt Handler when the reset
@@ -221,8 +221,10 @@ void IrqMgr_HandlePRENMI500(IrqMgr* irqMgr) {
 }
 
 /**
- * Runs on each VI retrace, measures the time elapsed between the first and second VI retrace
- * and dispatches VI retrace messages to each registered Irq Client
+ * Runs on each vertical retrace
+ *
+ * Measures the time elapsed between the first and second vertical retrace and
+ * dispatches vertical retrace messages to each registered Irq Client
  */
 void IrqMgr_HandleRetrace(IrqMgr* irqMgr) {
     if (gIrqMgrRetraceTime == 0) {

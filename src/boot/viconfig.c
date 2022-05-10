@@ -6,7 +6,8 @@ OSPiHandle* gCartHandle = NULL;
 
 void ViConfig_UpdateVi(u32 black) {
     if (black) {
-        // Black the screen on next call to ViConfig_UpdateBlack
+        // Black the screen on next call to ViConfig_UpdateBlack, skip most VI configuration
+
         osSyncPrintf(VT_COL(YELLOW, BLACK) "osViSetYScale1(%f);\n" VT_RST, 1.0f);
 
         if (osTvType == OS_TV_PAL) {

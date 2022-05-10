@@ -101,7 +101,7 @@ void Sched_SwapFrameBuffer(CfbInfo* cfbInfo) {
 }
 
 /**
- * Routine to carry out framebuffer swap on VI retrace and task completion
+ * Routine to carry out framebuffer swap on vertical retrace and task completion
  */
 void Sched_RetraceSwapBuffer(SchedContext* sc, CfbInfo* cfbInfo) {
     if (sc->firstSwap) {
@@ -577,7 +577,7 @@ void Sched_HandleRDPDone(SchedContext* sc) {
 /**
  * Called by other threads in order to wake the scheduler up immediately to enqueue and
  * possibly run a task that has been sent to the task queue. Otherwise, any pending tasks
- * will be enqueued at VI retrace.
+ * will be enqueued on next vertical retrace.
  *
  * Original name: osScKickEntryMsg
  */
@@ -627,7 +627,7 @@ void Sched_ThreadEntry(void* arg) {
         }
         switch (((OSScMsg*)msg)->type) {
             case OS_SC_RETRACE_MSG:
-                // VI retrace
+                // Vertical retrace
                 Sched_HandleRetrace(sc);
                 continue;
             case OS_SC_PRE_NMI_MSG:
