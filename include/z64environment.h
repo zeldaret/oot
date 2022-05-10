@@ -16,6 +16,12 @@
 
 #define LIGHT_SETTING_MAX 31
 #define LIGHT_SETTING_OVERRIDE_NONE 0xFF
+
+// This mode disables the updating of both indoor and outdoor lights.
+// With this mode enabled, the only way lights can change is via the adjustment arrays.
+// This mode is not used in the original game.
+#define LIGHT_SETTING_OVERRIDE_FULL_CONTROL 0xFE
+
 #define LIGHT_BLENDRATE_OVERRIDE_NONE 0xFFFF
 #define LIGHT_BLEND_OVERRIDE_NONE 0
 #define LIGHT_BLEND_OVERRIDE_ON 1
@@ -25,6 +31,7 @@
 // With this mode active, the light system will no longer save the current setting when switching to a new one,
 // and the user is expected to manually set both settings and the light blend.
 #define LIGHT_BLEND_OVERRIDE_FULL_CONTROL 2
+
 
 typedef enum {
     /*  0 */ SKYBOX_DMA_INACTIVE,

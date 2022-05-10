@@ -975,7 +975,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
             envCtx->lightBlend = 0.0f;
         }
 
-        if (envCtx->lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE - 1) {
+        if (envCtx->lightSettingOverride != LIGHT_SETTING_OVERRIDE_FULL_CONTROL) {
             if (!envCtx->indoors && (envCtx->lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE)) {
                 for (i = 0; i < ARRAY_COUNT(sTimeBasedLightConfigs[envCtx->lightConfig]); i++) {
                     if ((gSaveContext.skyboxTime >= sTimeBasedLightConfigs[envCtx->lightConfig][i].startTime) &&
