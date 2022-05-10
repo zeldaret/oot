@@ -35,9 +35,9 @@ AudioTask* func_800E4FE0(void) {
     return func_800E5000();
 }
 
-extern u64 rspAspMainDataStart[];
-extern u64 rspAspMainDataEnd[];
-
+/**
+ * This is Audio_Update for the audio thread
+ */
 AudioTask* func_800E5000(void) {
     static s32 sMaxAbiCmdCnt = 0x80;
     static AudioTask* sWaitingAudioTask = NULL;
@@ -53,13 +53,13 @@ AudioTask* func_800E5000(void) {
     s32 sp48;
     s32 i;
 
-    gAudioContext.totalTaskCnt++;
-    if (gAudioContext.totalTaskCnt % (gAudioContext.audioBufferParameters.specUnk4) != 0) {
+    gAudioContext.totalTaskCount++;
+    if (gAudioContext.totalTaskCount % (gAudioContext.audioBufferParameters.specUnk4) != 0) {
         if (D_801755D0 != NULL) {
             D_801755D0();
         }
 
-        if ((gAudioContext.totalTaskCnt % gAudioContext.audioBufferParameters.specUnk4) + 1 ==
+        if ((gAudioContext.totalTaskCount % gAudioContext.audioBufferParameters.specUnk4) + 1 ==
             gAudioContext.audioBufferParameters.specUnk4) {
             return sWaitingAudioTask;
         } else {
@@ -67,7 +67,7 @@ AudioTask* func_800E5000(void) {
         }
     }
 
-    osSendMesg(gAudioContext.taskStartQueueP, gAudioContext.totalTaskCnt, OS_MESG_NOBLOCK);
+    osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
     gAudioContext.rspTaskIdx ^= 1;
     gAudioContext.curAIBufIdx++;
     gAudioContext.curAIBufIdx %= 3;
@@ -99,7 +99,7 @@ AudioTask* func_800E5000(void) {
         }
     }
 
-    sp48 = gAudioContext.currAudioFrameDmaQueue.validCount;
+    sp48 = MQ_GET_COUNT(&gAudioContext.currAudioFrameDmaQueue);
     if (sp48 != 0) {
         for (i = 0; i < sp48; i++) {
             osRecvMesg(&gAudioContext.currAudioFrameDmaQueue, NULL, OS_MESG_NOBLOCK);
@@ -114,7 +114,8 @@ AudioTask* func_800E5000(void) {
     if (gAudioContext.resetStatus != 0) {
         if (AudioHeap_ResetStep() == 0) {
             if (gAudioContext.resetStatus == 0) {
-                osSendMesg(gAudioContext.audioResetQueueP, gAudioContext.audioResetSpecIdToLoad, OS_MESG_NOBLOCK);
+                osSendMesg(gAudioContext.audioResetQueueP, (OSMesg)(u32)gAudioContext.audioResetSpecIdToLoad,
+                           OS_MESG_NOBLOCK);
             }
 
             sWaitingAudioTask = NULL;
@@ -165,24 +166,24 @@ AudioTask* func_800E5000(void) {
 
     gAudioContext.curAbiCmdBuf =
         AudioSynth_Update(gAudioContext.curAbiCmdBuf, &abiCmdCnt, currAiBuffer, gAudioContext.aiBufLengths[index]);
-    gAudioContext.audioRandom = (gAudioContext.audioRandom + gAudioContext.totalTaskCnt) * osGetCount();
+    gAudioContext.audioRandom = (gAudioContext.audioRandom + gAudioContext.totalTaskCount) * osGetCount();
     gAudioContext.audioRandom =
-        gAudioContext.aiBuffers[index][gAudioContext.totalTaskCnt & 0xFF] + gAudioContext.audioRandom;
+        gAudioContext.aiBuffers[index][gAudioContext.totalTaskCount & 0xFF] + gAudioContext.audioRandom;
     gWaveSamples[8] = (s16*)(((u8*)func_800E4FE0) + (gAudioContext.audioRandom & 0xFFF0));
 
     index = gAudioContext.rspTaskIdx;
-    gAudioContext.currTask->taskQueue = NULL;
+    gAudioContext.currTask->msgQueue = NULL;
     gAudioContext.currTask->unk_44 = NULL;
 
     task = &gAudioContext.currTask->task.t;
     task->type = M_AUDTASK;
     task->flags = 0;
-    task->ucode_boot = D_801120C0;
-    task->ucode_boot_size = 0x1000;
-    task->ucode_data_size = ((rspAspMainDataEnd - rspAspMainDataStart) * sizeof(u64)) - 1;
-    task->ucode = D_801120C0;
-    task->ucode_data = rspAspMainDataStart;
-    task->ucode_size = 0x1000;
+    task->ucode_boot = aspMainTextStart;
+    task->ucode_boot_size = SP_UCODE_SIZE;
+    task->ucode_data_size = (size_t)(aspMainDataEnd - aspMainDataStart) * sizeof(u64) - 1;
+    task->ucode = aspMainTextStart;
+    task->ucode_data = aspMainDataStart;
+    task->ucode_size = SP_UCODE_SIZE;
     task->dram_stack = NULL;
     task->dram_stack_size = 0;
     task->output_buff = NULL;
@@ -348,11 +349,12 @@ void Audio_InitMesgQueuesInternal(void) {
     gAudioContext.taskStartQueueP = &gAudioContext.taskStartQueue;
     gAudioContext.cmdProcQueueP = &gAudioContext.cmdProcQueue;
     gAudioContext.audioResetQueueP = &gAudioContext.audioResetQueue;
-    osCreateMesgQueue(gAudioContext.taskStartQueueP, gAudioContext.taskStartMsgs,
-                      ARRAY_COUNT(gAudioContext.taskStartMsgs));
-    osCreateMesgQueue(gAudioContext.cmdProcQueueP, gAudioContext.cmdProcMsgs, ARRAY_COUNT(gAudioContext.cmdProcMsgs));
-    osCreateMesgQueue(gAudioContext.audioResetQueueP, gAudioContext.audioResetMesgs,
-                      ARRAY_COUNT(gAudioContext.audioResetMesgs));
+    osCreateMesgQueue(gAudioContext.taskStartQueueP, gAudioContext.taskStartMsgBuf,
+                      ARRAY_COUNT(gAudioContext.taskStartMsgBuf));
+    osCreateMesgQueue(gAudioContext.cmdProcQueueP, gAudioContext.cmdProcMsgBuf,
+                      ARRAY_COUNT(gAudioContext.cmdProcMsgBuf));
+    osCreateMesgQueue(gAudioContext.audioResetQueueP, gAudioContext.audioResetMsgBuf,
+                      ARRAY_COUNT(gAudioContext.audioResetMsgBuf));
 }
 
 void Audio_QueueCmd(u32 opArgs, void** data) {
@@ -398,7 +400,7 @@ s32 Audio_ScheduleProcessCmds(void) {
 
     ret =
         osSendMesg(gAudioContext.cmdProcQueueP,
-                   (void*)(((gAudioContext.cmdRdPos & 0xFF) << 8) | (gAudioContext.cmdWrPos & 0xFF)), OS_MESG_NOBLOCK);
+                   (OSMesg)(((gAudioContext.cmdRdPos & 0xFF) << 8) | (gAudioContext.cmdWrPos & 0xFF)), OS_MESG_NOBLOCK);
     if (ret != -1) {
         gAudioContext.cmdRdPos = gAudioContext.cmdWrPos;
         ret = 0;
@@ -514,7 +516,7 @@ s32 func_800E5EDC(void) {
 void func_800E5F34(void) {
     // macro?
     // clang-format off
-    s32 chk = -1; s32 sp28; do {} while (osRecvMesg(gAudioContext.audioResetQueueP, (OSMesg*)&sp28, OS_MESG_NOBLOCK) != chk);
+    s32 chk = -1; OSMesg msg; do {} while (osRecvMesg(gAudioContext.audioResetQueueP, &msg, OS_MESG_NOBLOCK) != chk);
     // clang-format on
 }
 
@@ -810,7 +812,7 @@ s32 func_800E66C0(s32 arg0) {
 u32 Audio_NextRandom(void) {
     static u32 audRand = 0x12345678;
 
-    audRand = ((osGetCount() + 0x1234567) * (audRand + gAudioContext.totalTaskCnt));
+    audRand = ((osGetCount() + 0x1234567) * (audRand + gAudioContext.totalTaskCount));
     audRand += gAudioContext.audioRandom;
     return audRand;
 }

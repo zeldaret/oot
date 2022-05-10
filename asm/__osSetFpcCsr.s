@@ -1,16 +1,16 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
+#include "ultra64/r4300.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
 .balign 16
- 
-glabel __osSetFpcCsr
-/* 008670 80007A70 4442F800 */  cfc1  $v0, $31
-/* 008674 80007A74 44C4F800 */  ctc1  $a0, $31
-/* 008678 80007A78 03E00008 */  jr    $ra
-/* 00867C 80007A7C 00000000 */   nop   
+
+LEAF(__osSetFpcCsr)
+    cfc1    $v0, C1_FPCSR
+    ctc1    $a0, C1_FPCSR
+    jr      $ra
+     nop
+END(__osSetFpcCsr)

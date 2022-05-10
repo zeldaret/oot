@@ -46,7 +46,7 @@ static const void *get_section_contents(struct Elf32 *e, int secnum)
 {
     size_t secoffset = e->shoff + secnum * 0x28;
     size_t dataoffset;
-    
+
     if (secnum >= e->shnum || secoffset >= e->dataSize)
         return NULL;
     dataoffset = e->read32(e->data + secoffset + 0x10);
@@ -102,14 +102,14 @@ bool elf32_init(struct Elf32 *e, const void *data, size_t size)
     e->shentsize = e->read16(e->data + 0x2E);
     e->shnum     = e->read16(e->data + 0x30);
     e->shstrndx  = e->read16(e->data + 0x32);
-    
+
     // find symbol table section
     e->symtabndx = -1;
     for (i = 0; i < e->shnum; i++)
     {
         const uint8_t *sechdr = get_section_header(e, i);
         uint32_t type = e->read32(sechdr + 0x04);
-        
+
         if (type == SHT_SYMTAB)
         {
             e->symtabndx = i;
@@ -123,12 +123,12 @@ bool elf32_init(struct Elf32 *e, const void *data, size_t size)
     {
         const uint8_t *sechdr = get_section_header(e, i);
         uint32_t type = e->read32(sechdr + 0x04);
-        
+
         if (type == SHT_STRTAB)
         {
             const char *strings = get_section_contents(e, e->shstrndx);
             const char *secname = strings + e->read32(sechdr + 0);
-            
+
             if (strcmp(secname, ".strtab") == 0)
             {
                 e->strtabndx = i;
@@ -136,19 +136,19 @@ bool elf32_init(struct Elf32 *e, const void *data, size_t size)
             }
         }
     }
-    
+
     e->numsymbols = 0;
     if (e->symtabndx != -1)
     {
         const uint8_t *sechdr = get_section_header(e, e->symtabndx);
         //const uint8_t *symtab = get_section_contents(e, e->symtabndx);
-        
+
         e->numsymbols = e->read32(sechdr + 0x14) / e->read32(sechdr + 0x24);
     }
 
     if (e->shoff + e->shstrndx * 0x28 >= e->dataSize)
         return false;
-    
+
     return true;
 }
 

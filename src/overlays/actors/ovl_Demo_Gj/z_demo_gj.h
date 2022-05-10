@@ -39,7 +39,7 @@ typedef enum {
     /* 14 */ DEMOGJ_TYPE_RUBBLE_PILE_7,
     /* 16 */ DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1 = 16,   // This three rubbles are the ones that Ganon can destroy and drop collectables.
     /* 17 */ DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2,        // They are spawned as soon as the others, but they have collision and are rendered only when Ganondorf has transformed into Ganon.
-    /* 22 */ DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL = 22 //
+    /* 22 */ DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL = 22
 } DemoGjType;
 
 #endif

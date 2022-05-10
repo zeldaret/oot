@@ -104,7 +104,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Vec3f center;
     s16 i;
 
-    if (this->isFalling || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < 4900.0f))) {
+    if (this->isFalling || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
         osSyncPrintf("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
@@ -218,11 +218,11 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->dropTimer == 1) {
-            Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
-                                   &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
@@ -291,8 +291,8 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                  platform->dyna.actor.world.pos.z, MTXMODE_NEW);
                 phi_s1 = NULL;
                 if (platform->isFalling) {
-                    Matrix_RotateX((platform->dyna.actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-                    Matrix_RotateZ((platform->dyna.actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+                    Matrix_RotateX(BINANG_TO_RAD_ALT(platform->dyna.actor.shape.rot.x), MTXMODE_APPLY);
+                    Matrix_RotateZ(BINANG_TO_RAD_ALT(platform->dyna.actor.shape.rot.z), MTXMODE_APPLY);
                     if (camera->eye.y > platform->dyna.actor.world.pos.y) {
                         phi_s1 = sPlatformBottomDL;
                     } else {

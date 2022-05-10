@@ -8,27 +8,28 @@
 /*
 FLAGS
 
-gSaveContext.eventChkInf[2] & 0x8 - DC entrance boulder blown up as child
+EVENTCHKINF_23 - DC entrance boulder blown up as child
 
 InfTable
 
-gSaveContext.infTable[11] & 0x10
-gSaveContext.infTable[14] & 0x1 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
-gSaveContext.infTable[14] & 0x8 - Talked to GC Goron in bottom level stairwell
-gSaveContext.infTable[14] & 0x40 - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
-gSaveContext.infTable[14] & 0x800 - Talked to DMT Goron at Bomb Flower with goron bracelet
-gSaveContext.infTable[15] & 0x1 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
-gSaveContext.infTable[15] & 0x10 - Talked to Goron at GC Island (Before goron ruby is obtained)
-gSaveContext.infTable[15] & 0x100 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
-before getting goron bracelet) gSaveContext.infTable[16] & 0x200 - Obtained Fire Tunic from Goron Link
-gSaveContext.infTable[16] & 0x400 - (not on cloud modding)
-gSaveContext.infTable[16] & 0x800 - Spoke to Goron Link About Volvagia
-gSaveContext.infTable[16] & 0x1000 - Stopped Goron Link's Rolling
-gSaveContext.infTable[16] & 0x2000 - EnGo Exclusive
-gSaveContext.infTable[16] & 0x4000 - Spoke to Goron Link
-gSaveContext.infTable[16] & 0x8000 - (not on cloud modding)
+INFTABLE_B4
+INFTABLE_E0 - Talked to DMT Goron at DC entrance (Before DC is opened as child)
+INFTABLE_E3 - Talked to GC Goron in bottom level stairwell
+INFTABLE_E6 - Talked to GC Goron at LW entrance (Before LW shortcut is opened)
+INFTABLE_EB - Talked to DMT Goron at Bomb Flower with goron bracelet
+INFTABLE_F0 - Talked to Goron at GC Entrance (Before goron ruby is obtained)
+INFTABLE_F4 - Talked to Goron at GC Island (Before goron ruby is obtained)
+INFTABLE_F8 - (not on cloud modding) Talked to GC Goron outside Darunias door (after opening door,
+before getting goron bracelet)
+INFTABLE_109 - Obtained Fire Tunic from Goron Link
+INFTABLE_10A - (not on cloud modding)
+INFTABLE_10B - Spoke to Goron Link About Volvagia
+INFTABLE_10C - Stopped Goron Link's Rolling
+INFTABLE_10D - EnGo Exclusive
+INFTABLE_10E - Spoke to Goron Link
+INFTABLE_10F - (not on cloud modding)
 
-gSaveContext.infTable[17] & 0x4000 - Bomb bag upgrade obtained from rolling Goron
+INFTABLE_11E - Bomb bag upgrade obtained from rolling Goron
 
 EnGo
 pathIndex: this->actor.params & 0xF
@@ -168,12 +169,13 @@ static EnGo2DustEffectData sDustEffectData[2][4] = {
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
-void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo2_SpawnEffectDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
+                           f32 scaleStep) {
+    EnGoEffect* dustEffect = this->effects;
     s16 i;
     s16 timer;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
@@ -190,12 +192,12 @@ void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 in
     }
 }
 
-void EnGo2_UpdateDust(EnGo2* this) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo2_UpdateEffects(EnGo2* this) {
+    EnGoEffect* dustEffect = this->effects;
     f32 randomNumber;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             dustEffect->timer--;
             if (dustEffect->timer == 0) {
@@ -215,26 +217,26 @@ void EnGo2_UpdateDust(EnGo2* this) {
     }
 }
 
-void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo2_DrawEffects(EnGo2* this, GlobalContext* globalCtx) {
+    EnGoEffect* dustEffect = this->effects;
     s16 alpha;
-    s16 firstDone;
+    s16 materialFlag;
     s16 index;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 111);
 
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
@@ -270,7 +272,7 @@ s32 EnGo2_SpawnDust(EnGo2* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 
         accel.y += Rand_ZeroOne() * yAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
-        EnGo2_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
+        EnGo2_SpawnEffectDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
     }
@@ -321,7 +323,7 @@ u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
-    if (gSaveContext.infTable[17] & 0x4000) {
+    if (GET_INFTABLE(INFTABLE_11E)) {
         return 0x3013;
     } else if (CUR_CAPACITY(UPG_BOMB_BAG) >= 20 && this->waypoint > 7 && this->waypoint < 12) {
         return 0x3012;
@@ -343,7 +345,7 @@ s16 EnGo2_GetStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
                     bombBagUpgrade = CUR_CAPACITY(UPG_BOMB_BAG) == 30 ? GI_BOMB_BAG_40 : GI_BOMB_BAG_30;
                     EnGo2_GetItem(this, globalCtx, bombBagUpgrade);
                     Message_CloseTextbox(globalCtx);
-                    gSaveContext.infTable[17] |= 0x4000;
+                    SET_INFTABLE(INFTABLE_11E);
                     return 2;
                 } else {
                     return 2;
@@ -362,8 +364,8 @@ u16 EnGo2_GetTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
 s16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     switch (Message_GetState(&globalCtx->msgCtx)) {
         case TEXT_STATE_CLOSING:
-            if ((this->actor.textId == 0x300B) && (gSaveContext.infTable[14] & 0x800) == 0) {
-                gSaveContext.infTable[14] |= 0x800;
+            if ((this->actor.textId == 0x300B) && !GET_INFTABLE(INFTABLE_EB)) {
+                SET_INFTABLE(INFTABLE_EB);
                 return 2;
             } else {
                 return 0;
@@ -390,7 +392,7 @@ u16 EnGo2_GetTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return (gSaveContext.eventChkInf[2] & 0x8) ? 0x3026 : 0x3009;
+        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3026 : 0x3009;
     }
 }
 
@@ -408,14 +410,14 @@ u16 EnGo2_GetTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return gSaveContext.eventChkInf[2] & 0x8 ? 0x3021 : gSaveContext.infTable[14] & 0x1 ? 0x302A : 0x3008;
+        return GET_EVENTCHKINF(EVENTCHKINF_23) ? 0x3021 : GET_INFTABLE(INFTABLE_E0) ? 0x302A : 0x3008;
     }
 }
 
 s16 EnGo2_GetStateGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3008) {
-            gSaveContext.infTable[14] |= 0x1;
+            SET_INFTABLE(INFTABLE_E0);
         }
         return 0;
     } else {
@@ -429,14 +431,14 @@ u16 EnGo2_GetTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return gSaveContext.infTable[15] & 0x1 ? 0x3015 : 0x3014;
+        return GET_INFTABLE(INFTABLE_F0) ? 0x3015 : 0x3014;
     }
 }
 
 s16 EnGo2_GetStateGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3014) {
-            gSaveContext.infTable[15] |= 0x1;
+            SET_INFTABLE(INFTABLE_F0);
         }
         return 0;
     } else {
@@ -450,14 +452,14 @@ u16 EnGo2_GetTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3067;
     } else {
-        return gSaveContext.infTable[15] & 0x10 ? 0x3017 : 0x3016;
+        return GET_INFTABLE(INFTABLE_F4) ? 0x3017 : 0x3016;
     }
 }
 
 s16 EnGo2_GetStateGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3016) {
-            gSaveContext.infTable[15] |= 0x10;
+            SET_INFTABLE(INFTABLE_F4);
         }
         return 0;
     } else {
@@ -473,7 +475,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     } else {
         return CUR_UPG_VALUE(UPG_STRENGTH) != 0    ? 0x302C
                : !Flags_GetSwitch(globalCtx, 0x1B) ? 0x3017
-               : gSaveContext.infTable[15] & 0x100 ? 0x3019
+               : GET_INFTABLE(INFTABLE_F8)         ? 0x3019
                                                    : 0x3018;
     }
 }
@@ -481,7 +483,7 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
 s16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3018) {
-            gSaveContext.infTable[15] |= 0x100;
+            SET_INFTABLE(INFTABLE_F8);
         }
         return 0;
     } else {
@@ -491,13 +493,13 @@ s16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
 
 u16 EnGo2_GetTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
-        return gSaveContext.infTable[16] & 0x8000 ? 0x3042 : 0x3041;
-    } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
-        return gSaveContext.infTable[16] & 0x4000 ? 0x3038 : 0x3037;
-    } else if (gSaveContext.infTable[16] & 0x1000) {
+        return GET_INFTABLE(INFTABLE_10F) ? 0x3042 : 0x3041;
+    } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
+        return GET_INFTABLE(INFTABLE_10E) ? 0x3038 : 0x3037;
+    } else if (GET_INFTABLE(INFTABLE_10C)) {
         this->unk_20C = 0;
         this->dialogState = TEXT_STATE_NONE;
-        return gSaveContext.infTable[16] & 0x400 ? 0x3033 : 0x3032;
+        return GET_INFTABLE(INFTABLE_10A) ? 0x3033 : 0x3032;
     } else {
         return 0x3030;
     }
@@ -512,7 +514,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
                     this->actionFunc = EnGo2_SetupGetItem;
                     return 2;
                 case 0x3037:
-                    gSaveContext.infTable[16] |= 0x4000;
+                    SET_INFTABLE(INFTABLE_10E);
                 default:
                     return 0;
             }
@@ -520,12 +522,12 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
             if (Message_ShouldAdvance(globalCtx)) {
                 if (this->actor.textId == 0x3034) {
                     if (globalCtx->msgCtx.choiceIndex == 0) {
-                        this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3033 : 0x3035;
+                        this->actor.textId = GET_INFTABLE(INFTABLE_10B) ? 0x3033 : 0x3035;
                         if (this->actor.textId == 0x3035) {
                             Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
                     } else {
-                        this->actor.textId = gSaveContext.infTable[16] & 0x800 ? 0x3036 : 0x3033;
+                        this->actor.textId = GET_INFTABLE(INFTABLE_10B) ? 0x3036 : 0x3033;
                         if (this->actor.textId == 0x3036) {
                             Audio_StopSfxById(NA_SE_EN_GOLON_CRY);
                         }
@@ -541,7 +543,7 @@ s16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
             if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x3035:
-                        gSaveContext.infTable[16] |= 0x800;
+                        SET_INFTABLE(INFTABLE_10B);
                     case 0x3032:
                     case 0x3033:
                         this->actor.textId = 0x3034;
@@ -598,12 +600,12 @@ s16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
                     }
                 case 0x3059:
                     if (dialogState == TEXT_STATE_NONE) {
-                        func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
+                        func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
                     }
                 case 0x3054:
                     if (dialogState == TEXT_STATE_NONE) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
             }
             return 1;
@@ -659,13 +661,13 @@ s16 EnGo2_GetStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 u16 EnGo2_GetTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
-    return !LINK_IS_ADULT ? gSaveContext.infTable[14] & 0x8 ? 0x3022 : 0x300E : 0x3043;
+    return !LINK_IS_ADULT ? GET_INFTABLE(INFTABLE_E3) ? 0x3022 : 0x300E : 0x3043;
 }
 
 s16 EnGo2_GetStateGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x300E) {
-            gSaveContext.infTable[14] |= 0x8;
+            SET_INFTABLE(INFTABLE_E3);
         }
         return 0;
     } else {
@@ -691,7 +693,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
         if (Flags_GetSwitch(globalCtx, 0x1C)) {
             return 0x302F;
         } else {
-            return gSaveContext.infTable[14] & 0x40 ? 0x3025 : 0x3024;
+            return GET_INFTABLE(INFTABLE_E6) ? 0x3025 : 0x3024;
         }
     } else {
         return 0x3043;
@@ -701,7 +703,7 @@ u16 EnGo2_GetTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
 s16 EnGo2_GetStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         if (this->actor.textId == 0x3024) {
-            gSaveContext.infTable[14] |= 0x40;
+            SET_INFTABLE(INFTABLE_E6);
         }
         return 0;
     } else {
@@ -873,7 +875,8 @@ s32 func_80A44AB0(EnGo2* this, GlobalContext* globalCtx) {
             return false;
         } else {
             if (this->collider.base.acFlags & 2) {
-                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->actor.flags &= ~ACTOR_FLAG_24;
                 this->collider.base.acFlags &= ~0x2;
                 EnGo2_StopRolling(this, globalCtx);
@@ -969,7 +972,7 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
 }
 
 s32 EnGo2_IsRollingOnGround(EnGo2* this, s16 arg1, f32 arg2, s16 arg3) {
-    if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
     }
 
@@ -1050,7 +1053,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_SWORD_BROKEN) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
-                if (gSaveContext.infTable[11] & 0x10) {
+                if (GET_INFTABLE(INFTABLE_B4)) {
                     textId = 0x3055;
                 } else {
                     textId = 0x3054;
@@ -1069,12 +1072,10 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
 
 void func_80A45288(EnGo2* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
-    s32 linkAge;
 
     if (this->actionFunc != EnGo2_GoronFireGenericAction) {
         this->unk_194.unk_18 = player->actor.world.pos;
-        linkAge = gSaveContext.linkAge;
-        this->unk_194.unk_14 = D_80A482D8[this->actor.params & 0x1F][linkAge];
+        this->unk_194.unk_14 = D_80A482D8[this->actor.params & 0x1F][((void)0, gSaveContext.linkAge)];
         func_80034A14(&this->actor, &this->unk_194, 4, this->unk_26E);
     }
     if ((this->actionFunc != EnGo2_SetGetItem) && (this->isAwake == true)) {
@@ -1155,7 +1156,7 @@ s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
         (this->actor.params & 0x1F) == GORON_CITY_STAIRWELL || (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ||
         (this->actor.params & 0x1F) == GORON_MARKET_BAZAAR) {
         return true;
-    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
         return true;
     } else {
         return false;
@@ -1212,7 +1213,7 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
             EnGo2_BiggoronWakingUp(this);
             break;
         case GORON_CITY_LINK:
-            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+            if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                 EnGo2_WakingUp(this);
                 break;
             }
@@ -1256,7 +1257,7 @@ void EnGo2_SitDownAnimation(EnGo2* this) {
             if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_SIT_DOWN);
             } else {
-                func_800F4524(&D_801333D4, NA_SE_EN_GOLON_SIT_DOWN, 60);
+                func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_SIT_DOWN, 60);
             }
         }
         if (this->skelAnime.playSpeed < 0.0f) {
@@ -1299,7 +1300,7 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
         if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOLON_WAKE_UP);
         } else {
-            func_800F4524(&D_801333D4, NA_SE_EN_GOLON_WAKE_UP, 60);
+            func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
         }
     }
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
@@ -1325,7 +1326,7 @@ void EnGo2_GetItemAnimation(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_SetupRolling(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG || (this->actor.params & 0x1F) == GORON_CITY_LINK) {
         this->collider.info.bumperFlags = 1;
-        this->actor.speedXZ = gSaveContext.infTable[17] & 0x4000 ? 6.0f : 3.6000001f;
+        this->actor.speedXZ = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
     } else {
         this->actor.speedXZ = 6.0f;
     }
@@ -1483,7 +1484,7 @@ void EnGo2_BiggoronAnimation(EnGo2* this) {
         (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
         if (DECR(this->animTimer) == 0) {
             this->animTimer = Rand_S16Offset(30, 30);
-            func_800F4524(&D_801333D4, NA_SE_EN_GOLON_EYE_BIG, 60);
+            func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_EYE_BIG, 60);
         }
     }
 }
@@ -1546,16 +1547,17 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnGo2_GetItemAnimation(this, globalCtx);
             break;
         case GORON_CITY_LINK:
-            if ((gSaveContext.infTable[16] & 0x200)) {
+            if (GET_INFTABLE(INFTABLE_109)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
-                if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+                if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) &&
+                    CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                     EnGo2_GetItemAnimation(this, globalCtx);
                 } else {
                     this->actionFunc = EnGo2_CurledUp;
                 }
             } else {
-                gSaveContext.infTable[16] &= ~0x1000;
+                CLEAR_INFTABLE(INFTABLE_10C);
                 this->collider.dim.height = (D_80A4816C[this->actor.params & 0x1F].height * 0.6f);
                 EnGo2_SetupRolling(this, globalCtx);
                 this->isAwake = true;
@@ -1586,7 +1588,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = EnGo2_CurledUp;
             break;
         case GORON_DMT_BOMB_FLOWER:
-            if (gSaveContext.infTable[14] & 0x800) {
+            if (GET_INFTABLE(INFTABLE_EB)) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
             }
@@ -1780,7 +1782,7 @@ void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
                 EnGo2_GetItemAnimation(this, globalCtx);
                 return;
             case GI_TUNIC_GORON:
-                gSaveContext.infTable[16] |= 0x200;
+                SET_INFTABLE(INFTABLE_109);
                 EnGo2_GetItemAnimation(this, globalCtx);
                 return;
             case GI_SWORD_BGS:
@@ -1814,10 +1816,10 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             if (DECR(this->animTimer)) {
                 if (this->animTimer == 60 || this->animTimer == 120) {
                     func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
-                    func_800F4524(&D_801333D4, NA_SE_EV_GORON_WATER_DROP, 60);
+                    func_800F4524(&gSfxDefaultPos, NA_SE_EV_GORON_WATER_DROP, 60);
                 }
             } else {
-                func_800F4524(&D_801333D4, NA_SE_EN_GOLON_GOOD_BIG, 60);
+                func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_GOOD_BIG, 60);
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_6);
                 Message_ContinueTextbox(globalCtx, 0x305A);
                 this->eyeMouthTexState = 3;
@@ -1864,7 +1866,7 @@ void EnGo2_GoronLinkStopRolling(EnGo2* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_CLOSING) {
         player->actor.freezeTimer = 10;
     } else {
-        gSaveContext.infTable[16] |= 0x1000;
+        SET_INFTABLE(INFTABLE_10C);
         this->unk_26E = 1;
         this->unk_211 = false;
         this->isAwake = false;
@@ -1952,7 +1954,7 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     EnGo2_RollForward(this);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f,
-                            (f32)this->collider.dim.radius * 0.6f, 0.0f, 5);
+                            (f32)this->collider.dim.radius * 0.6f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     if (this->unk_194.unk_00 == 0) {
         func_80A44AB0(this, globalCtx);
     }
@@ -2004,17 +2006,17 @@ s32 EnGo2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_194.unk_08;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limb == 10) {
         vec1 = this->unk_194.unk_0E;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
     if ((limb == 10) || (limb == 11) || (limb == 14)) {
@@ -2040,9 +2042,9 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     void* eyeTextures[] = { gGoronCsEyeClosed2Tex, gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
     void* mouthTextures[] = { gGoronCsMouthNeutralTex, gGoronCsMouthSmileTex };
 
-    EnGo2_UpdateDust(this);
+    EnGo2_UpdateEffects(this);
     Matrix_Push();
-    EnGo2_DrawDust(this, globalCtx);
+    EnGo2_DrawEffects(this, globalCtx);
     Matrix_Pop();
 
     if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.playSpeed == 0.0f) &&

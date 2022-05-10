@@ -53,11 +53,11 @@
         <Animation Name="gOwlGlideAnim" Offset="0xC1C4"/>
         <Animation Name="gOwlUnfoldWingsAnim" Offset="0xC684"/>
         <Animation Name="gOwlPerchAnim" Offset="0xC8A0"/>
-        
-        <!-- Owl Perching Skeleton -->
-        <Skeleton Name="gOwlPerchingSkel" Type="Flex" LimbType="Standard" Offset="0x100B0"/>  
 
-        <!-- Eye Textures -->      
+        <!-- Owl Perching Skeleton -->
+        <Skeleton Name="gOwlPerchingSkel" Type="Flex" LimbType="Standard" Offset="0x100B0"/>
+
+        <!-- Eye Textures -->
         <Texture Name="gObjOwlEyeOpenTex" OutName="owl_eye_open" Format="ci8" Width="32" Height="32" Offset="0x89A8"/>
         <Texture Name="gObjOwlEyeHalfTex" OutName="owl_eye_half" Format="ci8" Width="32" Height="32" Offset="0x8DA8"/>
         <Texture Name="gObjOwlEyeClosedTex" OutName="owl_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x91A8"/>

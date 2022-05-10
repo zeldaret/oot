@@ -96,7 +96,7 @@ void func_80A90E28(EnKakasi3* this) {
 
 void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
     s16 currentFrame;
-    s16 ocarinaNote = globalCtx->msgCtx.lastOcaNoteIdx;
+    s16 ocarinaNote = globalCtx->msgCtx.lastOcarinaButtonIndex;
 
     if (arg != 0) {
         if (this->unk_19C[3] == 0) {
@@ -108,30 +108,30 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
         ocarinaNote = this->unk_1A6;
     }
     switch (ocarinaNote) {
-        case OCARINA_NOTE_A:
+        case OCARINA_BTN_A:
             this->unk_19A++;
             if (this->unk_1A4 == 0) {
                 this->unk_1A4 = 1;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_ROLL);
             }
             break;
-        case OCARINA_NOTE_C_DOWN:
+        case OCARINA_BTN_C_DOWN:
             this->unk_19A++;
             this->unk_1B8 = 1.0f;
             break;
-        case OCARINA_NOTE_C_RIGHT:
+        case OCARINA_BTN_C_RIGHT:
             this->unk_19A++;
             if (this->unk_1AE == 0x0) {
                 this->unk_1AE = 0x1388;
             }
             break;
-        case OCARINA_NOTE_C_LEFT:
+        case OCARINA_BTN_C_LEFT:
             this->unk_19A++;
             if (this->unk_1AA == 0x0) {
                 this->unk_1AA = 0x1388;
             }
             break;
-        case OCARINA_NOTE_C_UP:
+        case OCARINA_BTN_C_UP:
             this->unk_19A++;
             this->unk_1B8 = 2.0f;
             break;
@@ -143,7 +143,7 @@ void func_80A90EBC(EnKakasi3* this, GlobalContext* globalCtx, s32 arg) {
 
     if (this->unk_19A != 0) {
         this->actor.gravity = -1.0f;
-        if (this->unk_19A == 8 && (this->actor.bgCheckFlags & 1)) {
+        if (this->unk_19A == 8 && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->actor.velocity.y = 3.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_KAKASHI_JUMP);
         }
@@ -269,7 +269,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
 void func_80A915B8(EnKakasi3* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_RECORDING);
+        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_SPAWN_RECORDING);
         this->actionFunc = func_80A91620;
     }
 }
@@ -312,7 +312,7 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
-        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_PLAYBACK);
+        func_8010BD58(globalCtx, OCARINA_ACTION_SCARECROW_SPAWN_PLAYBACK);
         this->actionFunc = func_80A917FC;
         this->camId = OnePointCutscene_Init(globalCtx, 2280, -99, &this->actor, MAIN_CAM);
     }
@@ -333,7 +333,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
 void func_80A9187C(EnKakasi3* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
-        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SCARECROW);
+        func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_SCARECROW_SPAWN);
         this->actionFunc = func_80A918E4;
     }
 }
@@ -343,7 +343,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (BREG(3) != 0) {
         // "No way!"
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.ocarinaMode);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ まさか！ ☆☆☆☆☆ %d\n" VT_RST, globalCtx->msgCtx.ocarinaMode);
     }
     if ((globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04 ||
          (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_05 && globalCtx->msgCtx.ocarinaMode < OCARINA_MODE_0B)) &&
@@ -387,8 +387,8 @@ void func_80A91A90(EnKakasi3* this, GlobalContext* globalCtx) {
 
     if (this->dialogState == Message_GetState(&globalCtx->msgCtx) && Message_ShouldAdvance(globalCtx)) {
         if (this->unk_195) {
-            if (!(gSaveContext.eventChkInf[9] & 0x1000)) {
-                gSaveContext.eventChkInf[9] |= 0x1000;
+            if (!GET_EVENTCHKINF(EVENTCHKINF_9C)) {
+                SET_EVENTCHKINF(EVENTCHKINF_9C);
             }
         }
         if (globalCtx->cameraPtrs[this->camId] == NULL) {
@@ -426,7 +426,8 @@ void EnKakasi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetFocus(&this->actor, 60.0f);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

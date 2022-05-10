@@ -97,6 +97,14 @@ typedef enum {
     /*  0xFF */ TIMESEQ_DISABLED = 0xFF
 } TimeBasedSeqState;
 
+typedef enum {
+    /* 0 */ SANDSTORM_OFF,
+    /* 1 */ SANDSTORM_FILL,
+    /* 2 */ SANDSTORM_UNFILL,
+    /* 3 */ SANDSTORM_ACTIVE,
+    /* 4 */ SANDSTORM_DISSIPATE
+} SandstormState;
+
 typedef struct {
     /* 0x00 */ u8 state;
     /* 0x01 */ u8 flashRed;

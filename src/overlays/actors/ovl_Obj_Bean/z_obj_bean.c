@@ -290,7 +290,7 @@ s32 ObjBean_CheckForHorseTrample(ObjBean* this, GlobalContext* globalCtx) {
 
     while (currentActor != NULL) {
         if ((currentActor->id == ACTOR_EN_HORSE) &&
-            (Math3D_Vec3fDistSq(&currentActor->world.pos, &this->dyna.actor.world.pos) < 10000.0f)) {
+            (Math3D_Vec3fDistSq(&currentActor->world.pos, &this->dyna.actor.world.pos) < SQ(100.0f))) {
             return true;
         }
         currentActor = currentActor->next;
@@ -465,7 +465,6 @@ void ObjBean_Grown(ObjBean* this) {
 
 void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 path;
-    s32 linkAge;
     ObjBean* this = (ObjBean*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -914,7 +913,7 @@ void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx) {
 void ObjBean_DrawSoftSoilSpot(ObjBean* this, GlobalContext* globalCtx) {
     Matrix_Translate(this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.home.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.home.rot.y), MTXMODE_APPLY);
     Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalCtx, gMagicBeanSoftSoilDL);
 }
@@ -922,7 +921,7 @@ void ObjBean_DrawSoftSoilSpot(ObjBean* this, GlobalContext* globalCtx) {
 void ObjBean_DrawBeanstalk(ObjBean* this, GlobalContext* globalCtx) {
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Scale(0.1f, this->stalkSizeMultiplier, 0.1f, MTXMODE_APPLY);
     Gfx_DrawDListOpa(globalCtx, gMagicBeanStemDL);
 }

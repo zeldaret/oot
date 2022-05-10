@@ -60,7 +60,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = 0.0f;
 
             // If you haven't won the diving game before, you will always get 5 rupees
-            if (!(gSaveContext.eventChkInf[3] & 0x100)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
                 this->rupeeValue = 5;
                 this->colorIdx = 1;
             } else {
@@ -213,7 +213,7 @@ void EnExRuppy_DropIntoWater(EnExRuppy* this, GlobalContext* globalCtx) {
     func_80078884(NA_SE_EV_RAINBOW_SHOWER - SFX_FLAG);
     divingGame = (EnDivingGame*)this->actor.parent;
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) &&
-        ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & 0x20) || (this->timer == 0))) {
+        ((divingGame->unk_296 == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) || (this->timer == 0))) {
         this->invisible = true;
         this->actor.speedXZ = 0.0f;
         this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
@@ -232,7 +232,7 @@ void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
         this->actor.world.pos.x = ((Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
         this->actor.world.pos.y = ((Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
         temp_f2 = this->unk_15A * -50.0f;
-        if (!(gSaveContext.eventChkInf[3] & 0x100)) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_38)) {
             temp_f2 += -500.0f;
             this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + temp_f2;
         } else {
@@ -249,7 +249,7 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s32 pad;
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         pos = this->actor.world.pos;
         pos.y += this->actor.yDistToWater;
         this->actor.velocity.y = -1.0f;
@@ -371,7 +371,8 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 }
 
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {

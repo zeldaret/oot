@@ -202,12 +202,12 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx) &&
         (this->respawnFlag == 0)) {
-        gSaveContext.eventChkInf[4] |= 0x4000;
-        globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
-        globalCtx->sceneLoadFlag = 0x14;
+        SET_EVENTCHKINF(EVENTCHKINF_4E);
+        globalCtx->nextEntranceIndex = ENTR_SPOT15_4;
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;
-        globalCtx->fadeTransition = 0x2E;
-        gSaveContext.nextTransition = 0x2E;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+        gSaveContext.nextTransitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
     }
 }
 
@@ -223,7 +223,8 @@ void EnHeishi3_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     this->actor.shape.rot = this->actor.world.rot;
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

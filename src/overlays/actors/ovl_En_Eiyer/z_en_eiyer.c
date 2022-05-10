@@ -105,7 +105,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x19, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STINGER, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 5, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
 };
@@ -429,7 +429,7 @@ void EnEiyer_Glide(EnEiyer* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 1.5f, 0.03f);
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->targetYaw = this->actor.wallYaw;
     }
 
@@ -477,7 +477,7 @@ void EnEiyer_DiveAttack(EnEiyer* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
     this->actor.speedXZ *= 1.1f;
 
-    if (this->actor.bgCheckFlags & 8 || this->actor.bgCheckFlags & 1) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         EnEiyer_SetupLand(this);
     }
 
@@ -494,11 +494,11 @@ void EnEiyer_Land(EnEiyer* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 7.0f, 1.0f);
 
     if (this->timer == -1) {
-        if (this->actor.bgCheckFlags & 8 || this->actor.bgCheckFlags & 1) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->timer = 10;
             SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_SINK);
 
-            if (this->actor.bgCheckFlags & 1) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 700);
             }
         }
@@ -525,7 +525,7 @@ void EnEiyer_Hurt(EnEiyer* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->basePos.y, this->actor.floorHeight + 80.0f + 5.0f, 0.5f, this->actor.speedXZ);
     this->actor.world.pos.y = this->basePos.y - 5.0f;
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->targetYaw = this->actor.wallYaw;
     } else {
         this->targetYaw = this->actor.yawTowardsPlayer + 0x8000;
@@ -561,7 +561,7 @@ void EnEiyer_Die(EnEiyer* this, GlobalContext* globalCtx) {
 
     this->actor.world.rot.x = -this->actor.shape.rot.x;
 
-    if (this->timer == 0 || this->actor.bgCheckFlags & 0x10) {
+    if (this->timer == 0 || this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
         EnEiyer_SetupDead(this);
     }
 }
@@ -588,7 +588,7 @@ void EnEiyer_Stunned(EnEiyer* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_FLUTTER);
     }
 
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
@@ -603,7 +603,7 @@ void EnEiyer_Stunned(EnEiyer* this, GlobalContext* globalCtx) {
 void EnEiyer_UpdateDamage(EnEiyer* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
 
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -650,7 +650,8 @@ void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc == EnEiyer_Glide || this->actionFunc == EnEiyer_DiveAttack ||
         this->actionFunc == EnEiyer_Stunned || this->actionFunc == EnEiyer_Die || this->actionFunc == EnEiyer_Hurt ||
         (this->actionFunc == EnEiyer_Land && this->timer == -1)) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 27.0f, 30.0f, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 27.0f, 30.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     }
 
     if (this->actor.params == 0xA ||

@@ -1,62 +1,65 @@
-.include "macro.inc"
+#include "ultra64/asm.h"
 
-# assembler directives
-.set noat      # allow manual use of $at
-.set noreorder # don't insert nops after branches
-.set gp=64     # allow use of 64-bit general purpose registers
+.set noat
+.set noreorder
 
 .section .text
 
 .balign 16
 
-glabel Mio0_Decompress
-/* 0031B0 800025B0 8C870008 */  lw    $a3, 8($a0)
-/* 0031B4 800025B4 8C99000C */  lw    $t9, 0xc($a0)
-/* 0031B8 800025B8 8C980004 */  lw    $t8, 4($a0)
-/* 0031BC 800025BC 00E43820 */  add   $a3, $a3, $a0
-/* 0031C0 800025C0 0324C820 */  add   $t9, $t9, $a0
-/* 0031C4 800025C4 00003025 */  move  $a2, $zero
-/* 0031C8 800025C8 20840010 */  addi  $a0, $a0, 0x10
-/* 0031CC 800025CC 0305C020 */  add   $t8, $t8, $a1
-.L800025D0:
-/* 0031D0 800025D0 14C00004 */  bnez  $a2, .L800025E4
-/* 0031D4 800025D4 00000000 */   nop   
-/* 0031D8 800025D8 8C880000 */  lw    $t0, ($a0)
-/* 0031DC 800025DC 24060020 */  li    $a2, 32
-/* 0031E0 800025E0 20840004 */  addi  $a0, $a0, 4
-.L800025E4:
-/* 0031E4 800025E4 0100482A */  slt   $t1, $t0, $zero
-/* 0031E8 800025E8 11200006 */  beqz  $t1, .L80002604
-/* 0031EC 800025EC 00000000 */   nop   
-/* 0031F0 800025F0 832A0000 */  lb    $t2, ($t9)
-/* 0031F4 800025F4 23390001 */  addi  $t9, $t9, 1
-/* 0031F8 800025F8 20A50001 */  addi  $a1, $a1, 1
-/* 0031FC 800025FC 1000000E */  b     .L80002638
-/* 003200 80002600 A0AAFFFF */   sb    $t2, -1($a1)
-.L80002604:
-/* 003204 80002604 94EA0000 */  lhu   $t2, ($a3)
-/* 003208 80002608 20E70002 */  addi  $a3, $a3, 2
-/* 00320C 8000260C 000A5B02 */  srl   $t3, $t2, 0xc
-/* 003210 80002610 314A0FFF */  andi  $t2, $t2, 0xfff
-/* 003214 80002614 1160000D */  beqz  $t3, .L8000264C
-/* 003218 80002618 00AA4822 */   sub   $t1, $a1, $t2
-/* 00321C 8000261C 216B0002 */  addi  $t3, $t3, 2
-.L80002620:
-/* 003220 80002620 812AFFFF */  lb    $t2, -1($t1)
-/* 003224 80002624 216BFFFF */  addi  $t3, $t3, -1
-/* 003228 80002628 21290001 */  addi  $t1, $t1, 1
-/* 00322C 8000262C 20A50001 */  addi  $a1, $a1, 1
-/* 003230 80002630 1560FFFB */  bnez  $t3, .L80002620
-/* 003234 80002634 A0AAFFFF */   sb    $t2, -1($a1)
-.L80002638:
-/* 003238 80002638 00084040 */  sll   $t0, $t0, 1
-/* 00323C 8000263C 14B8FFE4 */  bne   $a1, $t8, .L800025D0
-/* 003240 80002640 20C6FFFF */   addi  $a2, $a2, -1
-/* 003244 80002644 03E00008 */  jr    $ra
-/* 003248 80002648 00000000 */   nop   
-.L8000264C:
-/* 00324C 8000264C 932B0000 */  lbu   $t3, ($t9)
-/* 003250 80002650 23390001 */  addi  $t9, $t9, 1
-/* 003254 80002654 1000FFF2 */  b     .L80002620
-/* 003258 80002658 216B0012 */   addi  $t3, $t3, 0x12
-/* 00325C 8000265C 00000000 */  nop   
+/**
+ *  void Mio0_Decompress(void* src, void* dst);
+ *
+ *  Decompress Mio0 chunk
+ */
+LEAF(Mio0_Decompress)
+    lw      $a3, 8($a0)     // compressed offset
+    lw      $t9, 0xC($a0)   // uncompressed offset
+    lw      $t8, 4($a0)     // decompressed length
+    add     $a3, $a3, $a0   // compressed start
+    add     $t9, $t9, $a0   // uncompressed start
+    move    $a2, $zero      // 0
+    addi    $a0, $a0, 0x10  // move past header
+    add     $t8, $t8, $a1   // dst + decompressed length = end
+mainloop:
+    bnez    $a2, 1f
+     nop
+    lw      $t0, ($a0)
+    li      $a2, 32
+    addi    $a0, $a0, 4
+1:
+    slt     $t1, $t0, $zero
+    beqz    $t1, read_comp
+     nop
+    lb      $t2, ($t9)      // read 1 byte from uncompressed data
+    addi    $t9, $t9, 1     // advance uncompressed start
+    addi    $a1, $a1, 1
+    b       next_iter
+     sb     $t2, -1($a1)    // store uncompressed byte
+read_comp:
+    lhu     $t2, ($a3)      // read 2 bytes from compressed data
+    addi    $a3, $a3, 2     // advance compressed start
+    srl     $t3, $t2, 0xC
+    andi    $t2, $t2, 0xFFF
+    beqz    $t3, 3f
+     sub    $t1, $a1, $t2
+    addi    $t3, $t3, 2
+2:
+    lb      $t2, -1($t1)
+    addi    $t3, $t3, -1
+    addi    $t1, $t1, 1
+    addi    $a1, $a1, 1
+    bnez    $t3, 2b
+     sb     $t2, -1($a1)
+next_iter:
+    sll     $t0, $t0, 1
+    bne     $a1, $t8, mainloop // continue until decompressed length is reached
+     addi   $a2, $a2, -1
+    jr      $ra
+     nop
+3:
+    lbu     $t3, ($t9)
+    addi    $t9, $t9, 1
+    b       2b
+     addi   $t3, $t3, 0x12
+END(Mio0_Decompress)

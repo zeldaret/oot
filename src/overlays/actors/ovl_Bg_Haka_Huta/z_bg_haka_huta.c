@@ -6,6 +6,7 @@
 
 #include "z_bg_haka_huta.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
+#include "overlays/actors/ovl_En_Rd/z_en_rd.h"
 
 #define FLAGS ACTOR_FLAG_4
 
@@ -132,7 +133,7 @@ void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {
                         this->dyna.actor.home.pos.y - 40.0f,
                         (this->dyna.actor.home.pos.z - (-25.0f) * (Math_SinS(this->dyna.actor.shape.rot.y)) +
                          Math_CosS(this->dyna.actor.shape.rot.y) * 100.0f),
-                        0, this->dyna.actor.shape.rot.y, 0, 0xFD);
+                        0, this->dyna.actor.shape.rot.y, 0, (u8)REDEAD_TYPE_GIBDO_RISING_OUT_OF_COFFIN);
         }
     }
 }
@@ -191,7 +192,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (D_8087D958.x > 30.0f) {
         D_8087D958.x = 30.0f;
     }
-    Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
     Matrix_RotateAxis(this->counter * (191 * M_PI / 3750), &D_8087D964, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_8087D958, &vec);
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + vec.x;

@@ -118,7 +118,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (((this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
          ((this->collider.base.ocFlags1 & OC1_HIT) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
-        ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & 8))) {
+        ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL))) {
         this->collider.base.atFlags &= ~AT_HIT;
         this->collider.base.acFlags &= ~AC_HIT;
         this->collider.base.ocFlags1 &= ~OC1_HIT;
@@ -131,7 +131,8 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
         this->actor.flags |= ACTOR_FLAG_24;

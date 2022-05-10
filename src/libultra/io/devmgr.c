@@ -15,7 +15,7 @@ void __osDevMgrMain(void* arg) {
     ioMesg = NULL;
 
     while (true) {
-        osRecvMesg(arg0->cmdQueue, (OSMesg)&ioMesg, OS_MESG_BLOCK);
+        osRecvMesg(arg0->cmdQueue, (OSMesg*)&ioMesg, OS_MESG_BLOCK);
         if ((ioMesg->piHandle != NULL) && (ioMesg->piHandle->type == DEVICE_TYPE_64DD) &&
             ((ioMesg->piHandle->transferInfo.cmdType == 0) || (ioMesg->piHandle->transferInfo.cmdType == 1))) {
             transfer = &ioMesg->piHandle->transferInfo;
@@ -28,7 +28,7 @@ void __osDevMgrMain(void* arg) {
             phi_s2 = ((transfer->transferMode == 2) && (ioMesg->piHandle->transferInfo.cmdType == 0)) ? 1 : 0;
 
             osRecvMesg(arg0->acccessQueue, &sp6C, OS_MESG_BLOCK);
-            __osResetGlobalIntMask(0x00100401);
+            __osResetGlobalIntMask(OS_IM_PI);
             __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x80000000);
 
             while (true) {
@@ -43,10 +43,10 @@ void __osDevMgrMain(void* arg) {
                         __osEPiRawWriteIo(ioMesg->piHandle, 0x05000510, transfer->bmCtlShadow | 0x1000000);
                     }
                     block->errStatus = 4;
-                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLEAR_INTR;
-                    __osSetGlobalIntMask(0x00100C01);
+                    HW_REG(PI_STATUS_REG, u32) = PI_STATUS_CLR_INTR;
+                    __osSetGlobalIntMask(OS_IM_CART | OS_IM_PI);
                 }
-                osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);
+                osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
 
                 if ((phi_s2 != 1) || (ioMesg->piHandle->transferInfo.block[0].errStatus != 0)) {
                     break;
@@ -55,7 +55,7 @@ void __osDevMgrMain(void* arg) {
                 phi_s2 = 0;
             }
 
-            osSendMesg(arg0->acccessQueue, 0, OS_MESG_NOBLOCK);
+            osSendMesg(arg0->acccessQueue, NULL, OS_MESG_NOBLOCK);
             if (ioMesg->piHandle->transferInfo.blockNum == 1) {
                 osYieldThread();
             }
@@ -80,7 +80,7 @@ void __osDevMgrMain(void* arg) {
                                                   ioMesg->size);
                     break;
                 case OS_MESG_TYPE_LOOPBACK:
-                    osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);
+                    osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
                     phi_s0 = -1;
                     break;
                 default:
@@ -90,7 +90,7 @@ void __osDevMgrMain(void* arg) {
 
             if (phi_s0 == 0) {
                 osRecvMesg(arg0->eventQueue, &sp70, OS_MESG_BLOCK);
-                osSendMesg(ioMesg->hdr.retQueue, ioMesg, OS_MESG_NOBLOCK);
+                osSendMesg(ioMesg->hdr.retQueue, (OSMesg)ioMesg, OS_MESG_NOBLOCK);
                 osSendMesg(arg0->acccessQueue, NULL, OS_MESG_NOBLOCK);
             }
         }

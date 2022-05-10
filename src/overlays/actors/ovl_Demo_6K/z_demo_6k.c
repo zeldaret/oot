@@ -667,12 +667,12 @@ void func_8096865C(Actor* thisx, GlobalContext* globalCtx) {
                        sEnvColors[this->unk_293].b, 255);
         Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
         Matrix_Push();
-        Matrix_RotateZ((f32)(this->timer2 * 6) * (M_PI / 180.0f), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(this->timer2 * 6), MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1230),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, displayList);
         Matrix_Pop();
-        Matrix_RotateZ(-(f32)(this->timer2 * 6) * (M_PI / 180.0f), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(-(f32)(this->timer2 * 6)), MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_6k.c", 1236),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, displayList);
@@ -693,7 +693,7 @@ void func_809688C4(Actor* thisx, GlobalContext* globalCtx2) {
 
         func_80093D84(globalCtx->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 255, 255);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000)), MTXMODE_APPLY);
 
         for (i = 0; i < 16; i++) {
             gDPPipeSync(POLY_XLU_DISP++);

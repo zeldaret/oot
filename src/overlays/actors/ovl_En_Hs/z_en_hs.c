@@ -77,7 +77,7 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
         // "chicken shop (adult era)"
         osSyncPrintf(VT_FGCOL(CYAN) " ヒヨコの店(大人の時) \n" VT_RST);
         func_80A6E3A0(this, func_80A6E9AC);
-        if (gSaveContext.itemGetInf[3] & 1) {
+        if (GET_ITEMGETINF(ITEMGETINF_30)) {
             // "chicken shop closed"
             osSyncPrintf(VT_FGCOL(CYAN) " ヒヨコ屋閉店 \n" VT_RST);
             Actor_Kill(&this->actor);
@@ -128,7 +128,7 @@ void func_80A6E630(EnHs* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         func_80088AA0(180);
         func_80A6E3A0(this, func_80A6E6B0);
-        gSaveContext.eventInf[1] &= ~1;
+        CLEAR_EVENTINF(EVENTINF_10);
     }
 
     this->unk_2A8 |= 1;
@@ -233,7 +233,7 @@ void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }

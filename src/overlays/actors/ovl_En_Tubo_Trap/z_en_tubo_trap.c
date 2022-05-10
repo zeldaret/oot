@@ -72,10 +72,10 @@ void EnTuboTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnTuboTrap_DropCollectible(EnTuboTrap* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
-    s16 param3FF = (params >> 6) & 0x3FF;
+    s16 dropType = (params >> 6) & 0x3FF;
 
-    if (param3FF >= 0 && param3FF < 0x1A) {
-        Item_DropCollectible(globalCtx, &this->actor.world.pos, param3FF | ((params & 0x3F) << 8));
+    if (dropType >= 0 && dropType < ITEM00_MAX) {
+        Item_DropCollectible(globalCtx, &this->actor.world.pos, dropType | ((params & 0x3F) << 8));
     }
 }
 
@@ -170,7 +170,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     Player* player2 = GET_PLAYER(globalCtx);
 
-    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.yDistToWater > 15.0f)) {
         EnTuboTrap_SpawnEffectsInWater(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_BOMB_DROP_WATER);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -210,7 +210,7 @@ void EnTuboTrap_HandleImpact(EnTuboTrap* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         EnTuboTrap_SpawnEffectsOnLand(this, globalCtx);
         SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_POT_BROKEN);
         EnTuboTrap_DropCollectible(this, globalCtx);
@@ -277,7 +277,9 @@ void EnTuboTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 20.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     Actor_SetFocus(&this->actor, 0.0f);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

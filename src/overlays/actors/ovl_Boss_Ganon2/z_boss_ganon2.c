@@ -26,8 +26,8 @@ void func_80900580(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900650(BossGanon2* this, GlobalContext* globalCtx);
 void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
-void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
-void func_809060E8(GlobalContext* globalCtx);
+void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx);
+void BossGanon2_DrawEffects(GlobalContext* globalCtx);
 void BossGanon2_GenShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, GlobalContext* globalCtx);
 
@@ -92,25 +92,25 @@ void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32
 }
 
 void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1) {
-    BossGanon2Effect* effect = globalCtx->specialEffects;
+    BossGanon2Effect* effects = globalCtx->specialEffects;
 
-    effect->type = 1;
-    effect->position = *arg1;
-    effect->unk_2E = 0;
-    effect->unk_01 = 0;
-    effect->velocity.x = 25.0f;
-    effect->velocity.y = 15.0f;
-    effect->velocity.z = 0.0f;
-    effect->accel.x = 0.0f;
-    effect->accel.y = -1.0f;
-    effect->accel.z = 0.0f;
+    effects[0].type = 1;
+    effects[0].position = *arg1;
+    effects[0].unk_2E = 0;
+    effects[0].unk_01 = 0;
+    effects[0].velocity.x = 25.0f;
+    effects[0].velocity.y = 15.0f;
+    effects[0].velocity.z = 0.0f;
+    effects[0].accel.x = 0.0f;
+    effects[0].accel.y = -1.0f;
+    effects[0].accel.z = 0.0f;
 }
 
 void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 scale) {
     BossGanon2Effect* effect = globalCtx->specialEffects;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 0) {
             effect->type = 2;
             effect->position = *position;
@@ -132,10 +132,10 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s16 i;
 
-    globalCtx->specialEffects = sParticles;
+    globalCtx->specialEffects = sEffects;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++) {
-        sParticles[i].type = 0;
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++) {
+        sEffects[i].type = 0;
     }
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -147,7 +147,7 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2_SetObjectSegment(this, globalCtx, OBJECT_GANON, false);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDorfSkel, NULL, NULL, NULL, 0);
     func_808FD5C4(this, globalCtx);
-    this->actor.naviEnemyId = 0x3E;
+    this->actor.naviEnemyId = NAVI_ENEMY_GANON;
     this->actor.gravity = 0.0f;
 }
 
@@ -737,12 +737,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         case 24:
             SkelAnime_Update(&this->skelAnime);
             if (1) {
-                BossGanon2Effect* effect = globalCtx->specialEffects;
+                BossGanon2Effect* effects = globalCtx->specialEffects;
 
-                this->unk_3B0 = effect->position;
-                this->unk_3A4.x = effect->position.x + 70.0f;
-                this->unk_3A4.y = effect->position.y - 30.0f;
-                this->unk_3A4.z = effect->position.z + 70.0f;
+                this->unk_3B0 = effects[0].position;
+                this->unk_3A4.x = effects[0].position.x + 70.0f;
+                this->unk_3A4.y = effects[0].position.y - 30.0f;
+                this->unk_3A4.z = effects[0].position.z + 70.0f;
             }
             if ((this->unk_398 & 3) == 0) {
                 func_80078884(NA_SE_IT_SWORD_SWING);
@@ -762,15 +762,15 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = ((player->actor.world.pos.y + 10.0f + 60.0f) - 20.0f) - 3.0f;
             this->unk_3B0.z = (player->actor.world.pos.z - 40.0f) - 10.0f;
             if (this->unk_398 == 10) {
-                BossGanon2Effect* effect = globalCtx->specialEffects;
+                BossGanon2Effect* effects = globalCtx->specialEffects;
 
-                effect->unk_2E = 1;
-                effect->position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
-                effect->position.y = sZelda->actor.world.pos.y + 350.0f;
-                effect->position.z = sZelda->actor.world.pos.z - 25.0f;
-                effect->velocity.x = 0.0f;
-                effect->velocity.z = 0.0f;
-                effect->velocity.y = -30.0f;
+                effects[0].unk_2E = 1;
+                effects[0].position.x = sZelda->actor.world.pos.x + 50.0f + 10.0f;
+                effects[0].position.y = sZelda->actor.world.pos.y + 350.0f;
+                effects[0].position.z = sZelda->actor.world.pos.z - 25.0f;
+                effects[0].velocity.x = 0.0f;
+                effects[0].velocity.z = 0.0f;
+                effects[0].velocity.y = -30.0f;
                 this->unk_39C = 26;
                 this->unk_398 = 0;
             } else {
@@ -908,7 +908,7 @@ void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
                         s32 pad;
                         Vec3f sp28;
 
-                        Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.5f, MTXMODE_NEW);
+                        Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y) + 0.5f, MTXMODE_NEW);
                         sp28.x = 0.0f;
                         sp28.y = 0.0f;
                         sp28.z = 1.0f;
@@ -1021,7 +1021,7 @@ void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
         Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
-    } else if ((this->actor.bgCheckFlags & 8) && func_808FFA24(this, globalCtx)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) && func_808FFA24(this, globalCtx)) {
         this->unk_311 = false;
         func_80900580(this, globalCtx);
         Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
@@ -1300,7 +1300,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_1A2[1] == 50) {
                 func_80078884(NA_SE_EN_MGANON_WALK);
             }
-            Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.3f, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y) + 0.3f, MTXMODE_NEW);
             sp5C.x = 0.0f;
             sp5C.y = 0.0f;
             sp5C.z = 250.0f;
@@ -1624,7 +1624,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             temp_f12 = this->unk_1B8.z - player->actor.world.pos.z;
             temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
             if ((ABS(temp_a0_2) < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) &&
-                (player->swordState != 0) && (player->heldItemActionParam == PLAYER_AP_SWORD_MASTER)) {
+                (player->meleeWeaponState != 0) && (player->heldItemActionParam == PLAYER_AP_SWORD_MASTER)) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
                 Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
@@ -1791,11 +1791,11 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 break;
             }
         case 20:
-            globalCtx->nextEntranceIndex = 0x6B;
+            globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0;
             gSaveContext.nextCutsceneIndex = 0xFFF2;
-            globalCtx->sceneLoadFlag = 0x14;
-            globalCtx->fadeTransition = 3;
-            globalCtx->linkAgeOnLoad = 1;
+            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+            globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+            globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
             break;
     }
 
@@ -1853,7 +1853,7 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
         temp_f12 = -200.0f - player->actor.world.pos.z;
 
         if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 784.0f) {
-            for (j = 0; j < ARRAY_COUNT(player->flameTimers); j++) {
+            for (j = 0; j < PLAYER_BODYPART_MAX; j++) {
                 player->flameTimers[j] = Rand_S16Offset(0, 200);
             }
 
@@ -1985,8 +1985,9 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     this->actor.shape.rot = this->actor.world.rot;
     if (this->unk_335 != 0) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 60.0f, 60.0f, 100.0f, 5);
-        if (this->actor.bgCheckFlags & 1) {
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 60.0f, 60.0f, 100.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             if (this->actor.velocity.y < -5.0f) {
                 func_80033E88(&this->actor, globalCtx, 5, 20);
                 func_80078884(NA_SE_IT_BOMB_EXPLOSION);
@@ -2163,7 +2164,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (D_80906D78 != 0) {
         D_80906D78 = 0;
 
-        for (i2 = 0; i2 < ARRAY_COUNT(sParticles); i2++) {
+        for (i2 = 0; i2 < 100; i2++) {
             angle = Rand_ZeroFloat(2 * M_PI);
             sp44 = Rand_ZeroFloat(40.0f) + 10.0f;
             sp58 = this->actor.world.pos;
@@ -2177,7 +2178,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->unk_388 += 0.15f;
-    func_80905DA8(this, globalCtx);
+    BossGanon2_UpdateEffects(this, globalCtx);
 }
 
 void func_809034E4(Vec3f* arg0, Vec3f* arg1) {
@@ -2811,17 +2812,17 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5983);
 
-    func_809060E8(globalCtx);
+    BossGanon2_DrawEffects(globalCtx);
 }
 
-void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
+void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad[5];
     Player* player = GET_PLAYER(globalCtx);
     BossGanon2Effect* effect = globalCtx->specialEffects;
     Vec3f sp78;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type != 0) {
             effect->position.x += effect->velocity.x;
             effect->position.y += effect->velocity.y;
@@ -2876,9 +2877,9 @@ void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809060E8(GlobalContext* globalCtx) {
+void BossGanon2_DrawEffects(GlobalContext* globalCtx) {
     s16 alpha;
-    u8 usingObjectGEff = false;
+    u8 objectFlag = 0;
     BossGanon2Effect* effect;
     s16 i;
     BossGanon2Effect* effects;
@@ -2929,11 +2930,11 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     effect = effects;
 
-    for (i = 0; i < ARRAY_COUNT(sParticles); i++, effect++) {
+    for (i = 0; i < BOSS_GANON2_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 2) {
-            if (!usingObjectGEff) {
+            if (objectFlag == 0) {
                 BossGanon2_SetObjectSegment(NULL, globalCtx, OBJECT_GEFF, true);
-                usingObjectGEff++;
+                objectFlag++;
             }
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);

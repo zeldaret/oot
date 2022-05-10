@@ -94,8 +94,9 @@ static DamageTable sDamageTable = {
     /* Hammer jump   */ DMG_ENTRY(4, 0x0),
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
+
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x19, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_STINGER, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 3, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2500, ICHAIN_STOP),
 };
@@ -248,7 +249,7 @@ void func_80B328E8(EnWeiyer* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 1.3f, 0.03f);
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->unk_196 = this->actor.wallYaw;
         this->unk_194 = 30;
     }
@@ -280,7 +281,7 @@ void func_80B328E8(EnWeiyer* this, GlobalContext* globalCtx) {
     } else {
         Player* player = GET_PLAYER(globalCtx);
 
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->unk_280 =
                 this->actor.home.pos.y - Rand_ZeroOne() * ((this->actor.home.pos.y - this->actor.floorHeight) / 2.0f);
         } else if (sp34 && (Rand_ZeroOne() < 0.1f)) {
@@ -316,7 +317,7 @@ void func_80B32C2C(EnWeiyer* this, GlobalContext* globalCtx) {
             }
 
             func_80B32538(this);
-        } else if (this->actor.bgCheckFlags & 1) {
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             func_80B32494(this);
         }
     }
@@ -415,7 +416,7 @@ void func_80B33018(EnWeiyer* this, GlobalContext* globalCtx) {
         this->unk_194--;
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->unk_196 = this->actor.wallYaw;
     }
 
@@ -443,7 +444,7 @@ void func_80B331CC(EnWeiyer* this, GlobalContext* globalCtx) {
         this->unk_194--;
     }
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->unk_196 = this->actor.wallYaw;
     } else {
         this->unk_196 = this->actor.yawTowardsPlayer + 0x8000;
@@ -469,7 +470,7 @@ void func_80B332B4(EnWeiyer* this, GlobalContext* globalCtx) {
         this->unk_194--;
     }
 
-    if ((this->unk_194 == 0) || (this->actor.bgCheckFlags & 0x10)) {
+    if ((this->unk_194 == 0) || (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING)) {
         func_80B327B0(this);
     }
 }
@@ -498,7 +499,7 @@ void func_80B333B8(EnWeiyer* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_EIER_FLUTTER);
         }
 
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
     }
@@ -546,9 +547,9 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, phi_a1, 0x400);
         }
 
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             func_80B32434(this);
-        } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.shape.rot.x > 0)) {
+        } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->actor.shape.rot.x > 0)) {
             EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 400);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
             func_80B32538(this);
@@ -561,7 +562,7 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
 void func_80B3368C(EnWeiyer* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) {
@@ -596,7 +597,8 @@ void EnWeiyer_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002D97C(&this->actor);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 30.0f, 45.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 30.0f, 45.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     Actor_SetFocus(&this->actor, 0.0f);
 
     if (this->collider.base.atFlags & AT_HIT) {

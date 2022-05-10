@@ -123,7 +123,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
-    if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > 22500.0f) {
+    if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
         this->unk_1A4 = 0;
     } else {
         if (this->unk_1A4 == 0) {
@@ -181,9 +181,10 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     } else {
         if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.dayTime >= CLOCK_TIME(6, 30) &&
             gSaveContext.dayTime < CLOCK_TIME(7, 30)) {
-            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.sunPos.x * (1.0f / 6.0f);
-            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.sunPos.y * (1.0f / 6.0f);
-            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.sunPos.z * (1.0f / 6.0f);
+            cylinderPos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + globalCtx->envCtx.sunPos.x * (1.0f / 6.0f);
+            cylinderPos.y =
+                player->bodyPartsPos[PLAYER_BODYPART_HEAD].y - 30.0f + globalCtx->envCtx.sunPos.y * (1.0f / 6.0f);
+            cylinderPos.z = player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + globalCtx->envCtx.sunPos.z * (1.0f / 6.0f);
 
             this->hitboxPos = cylinderPos;
 

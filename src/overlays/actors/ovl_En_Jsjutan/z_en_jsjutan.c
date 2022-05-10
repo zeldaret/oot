@@ -72,7 +72,7 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
         } else {
             this->dyna.actor.world.pos.x = oddVtx->v.ob[0] * 0.02f + actorPos.x;
             this->dyna.actor.world.pos.z = oddVtx->v.ob[2] * 0.02f + actorPos.z;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 10.0f, 10.0f, 4);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 10.0f, 10.0f, UPDBGCHECKINFO_FLAG_2);
             oddVtx->v.ob[1] = evenVtx->v.ob[1] = this->dyna.actor.floorHeight;
             this->dyna.actor.world.pos = actorPos;
         }
@@ -147,7 +147,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     i = 1;
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
-    if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
+    if ((gSaveContext.entranceIndex == ENTR_SPOT20_0) && (gSaveContext.sceneSetupIndex == 8)) {
         isInCreditsScene = true;
 
         actorProfessor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;

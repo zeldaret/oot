@@ -6,7 +6,7 @@
         <Texture Name="gWolfosWhiteTongueTex" OutName="wolfos_white_tongue" Format="rgba16" Width="8" Height="8" Offset="0x200"/>
         <Texture Name="gWolfosWhiteNostrilTex" OutName="wolfos_white_nostril" Format="rgba16" Width="8" Height="8" Offset="0x280"/>
         <Texture Name="gWolfosWhiteEyeOpenTex" OutName="wolfos_white_eye_open" Format="rgba16" Width="16" Height="16" Offset="0x300"/>
-        
+
         <DList Name="gWolfosWhiteAbdomenDL" Offset="0x1A20"/>
         <DList Name="gWolfosWhiteBackRightThighDL" Offset="0x1AE8"/>
         <DList Name="gWolfosWhiteBackRightShinDL" Offset="0x1BD8"/>
@@ -21,10 +21,10 @@
         <DList Name="gWolfosWhiteFrontLeftLowerLegDL" Offset="0x2490"/>
         <DList Name="gWolfosWhiteFrontRightUpperLegDL" Offset="0x25A0"/>
         <DList Name="gWolfosWhiteFrontRightLowerLegDL" Offset="0x26C8"/>
-        
+
         <Texture Name="gWolfosWhiteEyeHalfTex" OutName="wolfos_white_eye_half" Format="rgba16" Width="16" Height="16" Offset="0x27D8"/>
         <Texture Name="gWolfosWhiteEyeNarrowTex" OutName="wolfos_white_eye_narrow" Format="rgba16" Width="16" Height="16" Offset="0x29D8"/>
-        
+
         <DList Name="gWolfosWhiteTailDL" Offset="0x3488"/>
         <DList Name="gWolfosWhiteFrontLeftClawDL" Offset="0x3528"/>
         <DList Name="gWolfosWhiteFrontRightClawDL" Offset="0x35F0"/>

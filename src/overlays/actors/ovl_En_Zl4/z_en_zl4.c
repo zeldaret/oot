@@ -374,11 +374,11 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex >= 4) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_TheEnd;
-    } else if (gSaveContext.eventChkInf[4] & 1) {
+    } else if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_Idle;
     } else {
-        if (gSaveContext.entranceIndex != 0x5F0) {
+        if (gSaveContext.entranceIndex != ENTR_NAKANIWA_1) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_21);
             this->csState = ZL4_CS_WAIT;
             this->talkState = 0;
@@ -770,10 +770,10 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             this->talkTimer2++;
             if (this->talkTimer2 == 130) {
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
-                globalCtx->nextEntranceIndex = 0xA0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
-                globalCtx->sceneLoadFlag = 0x14;
-                globalCtx->fadeTransition = 3;
+                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             }
             break;
     }
@@ -1180,7 +1180,7 @@ void EnZl4_Cutscene(EnZl4* this, GlobalContext* globalCtx) {
             if (EnZl4_CsMakePlan(this, globalCtx)) {
                 func_8002DF54(globalCtx, &this->actor, 7);
                 gSaveContext.unk_13EE = 0x32;
-                gSaveContext.eventChkInf[4] |= 1;
+                SET_EVENTCHKINF(EVENTCHKINF_40);
                 this->actionFunc = EnZl4_Idle;
             }
             break;
@@ -1242,7 +1242,7 @@ void EnZl4_Update(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Update(&this->skelAnime);
     }
     EnZl4_UpdateFace(this);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -1255,14 +1255,14 @@ s32 EnZl4_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == 17) {
         sp1C = this->unk_1E0.unk_08;
         Matrix_Translate(900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateX((sp1C.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((sp1C.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 10) {
         sp1C = this->unk_1E0.unk_0E;
-        Matrix_RotateY((sp1C.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateX((sp1C.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(sp1C.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp1C.x), MTXMODE_APPLY);
     }
     if ((limbIndex >= 3) && (limbIndex < 7)) {
         *dList = NULL;

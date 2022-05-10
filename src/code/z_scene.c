@@ -91,7 +91,7 @@ void Object_UpdateBank(ObjectContext* objectCtx) {
                 osSyncPrintf("OBJECT EXCHANGE BANK-%2d SIZE %8.3fK SEG=%08x\n", i, size / 1024.0f, status->segment);
                 DmaMgr_SendRequest2(&status->dmaRequest, status->segment, objectFile->vromStart, size, 0,
                                     &status->loadQueue, NULL, "../z_scene.c", 266);
-            } else if (!osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK)) {
+            } else if (osRecvMesg(&status->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
                 status->id = -status->id;
             }
         }
@@ -166,11 +166,11 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
         osSyncPrintf("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
                      sceneCmd->base.data2);
 
-        if (cmdCode == 0x14) {
+        if (cmdCode == SCENE_CMD_ID_END) {
             break;
         }
 
-        if (cmdCode <= 0x19) {
+        if (cmdCode < ARRAY_COUNT(gSceneCmdHandlers)) {
             gSceneCmdHandlers[cmdCode](globalCtx, sceneCmd);
         } else {
             osSyncPrintf(VT_FGCOL(RED));
@@ -182,6 +182,7 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     return 0;
 }
 
+// Scene Command 0x00: Spawn List
 void func_80098508(GlobalContext* globalCtx, SceneCmd* cmd) {
     ActorEntry* linkEntry = globalCtx->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
                                                         globalCtx->setupEntranceList[globalCtx->curSpawn].spawn;
@@ -375,7 +376,7 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
     if (((globalCtx->envCtx.timeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
-        (gSaveContext.entranceIndex == 0x0604)) {
+        (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
         if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0) + 1) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
             gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
@@ -443,7 +444,7 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
 
         if (altHeader != NULL) {
             Scene_ExecuteCommands(globalCtx, SEGMENTED_TO_VIRTUAL(altHeader));
-            (cmd + 1)->base.code = 0x14;
+            (cmd + 1)->base.code = SCENE_CMD_ID_END;
         } else {
             // "Coughh! There is no specified dataaaaa!"
             osSyncPrintf("\nげぼはっ！ 指定されたデータがないでええっす！");
@@ -457,7 +458,7 @@ void func_800991A0(GlobalContext* globalCtx, SceneCmd* cmd) {
 
                 if (altHeader != NULL) {
                     Scene_ExecuteCommands(globalCtx, SEGMENTED_TO_VIRTUAL(altHeader));
-                    (cmd + 1)->base.code = 0x14;
+                    (cmd + 1)->base.code = SCENE_CMD_ID_END;
                 }
             }
         }
@@ -491,7 +492,7 @@ void func_800993C0(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 }
 
-void (*gSceneCmdHandlers[])(GlobalContext*, SceneCmd*) = {
+void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(GlobalContext*, SceneCmd*) = {
     func_80098508, func_800985DC, func_80098630, func_80098674, func_800987A4, func_80099090, func_800987F8,
     func_8009883C, func_80098904, func_80099134, func_80098958, func_8009899C, func_80098B74, func_80098C24,
     func_80098C68, func_80098CC8, func_80098D80, func_80098D1C, func_80098D5C, func_800990F0, NULL,

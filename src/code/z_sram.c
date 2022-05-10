@@ -47,8 +47,8 @@ typedef struct {
     /* 0x0F18 */ char unk_F18[0x04];
     /* 0x0F1C */ u32 worldMapAreaData; // "area_arrival"
     /* 0x0F20 */ char unk_F20[0x4];
-    /* 0x0F24 */ u8 scarecrowCustomSongSet;
-    /* 0x0F25 */ u8 scarecrowCustomSong[0x360];
+    /* 0x0F24 */ u8 scarecrowLongSongSet;
+    /* 0x0F25 */ u8 scarecrowLongSong[0x360];
     /* 0x1285 */ char unk_1285[0x24];
     /* 0x12A9 */ u8 scarecrowSpawnSongSet;
     /* 0x12AA */ u8 scarecrowSpawnSong[0x80];
@@ -59,7 +59,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ s32 entranceIndex;
-    /* 0x04 */ s32 linkAge; // 0: Adult; 1: Child
+    /* 0x04 */ s32 linkAge;
     /* 0x08 */ s32 cutsceneIndex;
     /* 0x0C */ u16 dayTime; // "zelda_time"
     /* 0x10 */ s32 nightFlag;
@@ -74,13 +74,13 @@ typedef struct {
 #define SLOT_SIZE (sizeof(SaveContext) + 0x28)
 #define CHECKSUM_SIZE (sizeof(Save) / 2)
 
-#define DEATHS OFFSETOF(SaveContext, deaths)
-#define NAME OFFSETOF(SaveContext, playerName)
-#define N64DD OFFSETOF(SaveContext, n64ddFlag)
-#define HEALTH_CAP OFFSETOF(SaveContext, healthCapacity)
-#define QUEST OFFSETOF(SaveContext, inventory.questItems)
-#define DEFENSE OFFSETOF(SaveContext, inventory.defenseHearts)
-#define HEALTH OFFSETOF(SaveContext, health)
+#define DEATHS offsetof(SaveContext, deaths)
+#define NAME offsetof(SaveContext, playerName)
+#define N64DD offsetof(SaveContext, n64ddFlag)
+#define HEALTH_CAP offsetof(SaveContext, healthCapacity)
+#define QUEST offsetof(SaveContext, inventory.questItems)
+#define DEFENSE offsetof(SaveContext, inventory.defenseHearts)
+#define HEALTH offsetof(SaveContext, health)
 
 #define SLOT_OFFSET(index) (SRAM_HEADER_SIZE + 0x10 + (index * SLOT_SIZE))
 
@@ -139,10 +139,12 @@ static Inventory sNewSaveInventory = {
     { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
       0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }, // items
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },                         // ammo
-    0x1100,                                                                     // equipment
-    0,                                                                          // upgrades
-    0,                                                                          // questItems
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },             // dungeonItems
+    // equipment
+    (((1 << EQUIP_INV_TUNIC_KOKIRI) << (EQUIP_TYPE_TUNIC * 4)) |
+     ((1 << EQUIP_INV_BOOTS_KOKIRI) << (EQUIP_TYPE_BOOTS * 4))),
+    0,                                                              // upgrades
+    0,                                                              // questItems
+    { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // dungeonItems
     {
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
@@ -175,7 +177,7 @@ void Sram_InitNewSave(void) {
     gSaveContext.horseData.pos.z = 5497;
     gSaveContext.horseData.angle = -0x6AD9;
     gSaveContext.magicLevel = 0;
-    gSaveContext.infTable[29] = 1;
+    gSaveContext.infTable[INFTABLE_1DX_INDEX] = 1;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
 
@@ -215,7 +217,9 @@ static SavePlayerData sDebugSavePlayerData = {
 static ItemEquips sDebugSaveEquips = {
     { ITEM_SWORD_MASTER, ITEM_BOW, ITEM_BOMB, ITEM_OCARINA_FAIRY }, // buttonItems
     { SLOT_BOW, SLOT_BOMB, SLOT_OCARINA },                          // cButtonSlots
-    0x1122,                                                         // equipment
+    // equipment
+    (EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4)) | (EQUIP_VALUE_SHIELD_HYLIAN << (EQUIP_TYPE_SHIELD * 4)) |
+        (EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4)) | (EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4)),
 };
 
 static Inventory sDebugSaveInventory = {
@@ -224,9 +228,21 @@ static Inventory sDebugSaveInventory = {
         ITEM_SLINGSHOT, ITEM_OCARINA_FAIRY, ITEM_BOMBCHU,      ITEM_HOOKSHOT,    ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
         ITEM_BOOMERANG, ITEM_LENS,          ITEM_BEAN,         ITEM_HAMMER,      ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
         ITEM_BOTTLE,    ITEM_POTION_RED,    ITEM_POTION_GREEN, ITEM_POTION_BLUE, ITEM_POCKET_EGG,  ITEM_WEIRD_EGG,
-    },                                                              // items
-    { 50, 50, 10, 30, 1, 1, 30, 1, 50, 1, 1, 1, 1, 1, 1, 1 },       // ammo
-    0x7777,                                                         // equipment
+    },                                                        // items
+    { 50, 50, 10, 30, 1, 1, 30, 1, 50, 1, 1, 1, 1, 1, 1, 1 }, // ammo
+    // equipment
+    ((((1 << EQUIP_INV_SWORD_KOKIRI) << (EQUIP_TYPE_SWORD * 4)) |
+      ((1 << EQUIP_INV_SWORD_MASTER) << (EQUIP_TYPE_SWORD * 4)) |
+      ((1 << EQUIP_INV_SWORD_BGS) << (EQUIP_TYPE_SWORD * 4))) |
+     (((1 << EQUIP_INV_SHIELD_DEKU) << (EQUIP_TYPE_SHIELD * 4)) |
+      ((1 << EQUIP_INV_SHIELD_HYLIAN) << (EQUIP_TYPE_SHIELD * 4)) |
+      ((1 << EQUIP_INV_SHIELD_MIRROR) << (EQUIP_TYPE_SHIELD * 4))) |
+     (((1 << EQUIP_INV_TUNIC_KOKIRI) << (EQUIP_TYPE_TUNIC * 4)) |
+      ((1 << EQUIP_INV_TUNIC_GORON) << (EQUIP_TYPE_TUNIC * 4)) |
+      ((1 << EQUIP_INV_TUNIC_ZORA) << (EQUIP_TYPE_TUNIC * 4))) |
+     (((1 << EQUIP_INV_BOOTS_KOKIRI) << (EQUIP_TYPE_BOOTS * 4)) |
+      ((1 << EQUIP_INV_BOOTS_IRON) << (EQUIP_TYPE_BOOTS * 4)) |
+      ((1 << EQUIP_INV_BOOTS_HOVER) << (EQUIP_TYPE_BOOTS * 4)))),
     0x125249,                                                       // upgrades
     0x1E3FFFF,                                                      // questItems
     { 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, // dungeonItems
@@ -265,23 +281,29 @@ void Sram_InitDebugSave(void) {
     gSaveContext.horseData.angle = -0x6AD9;
     gSaveContext.infTable[0] |= 0x5009;
     gSaveContext.eventChkInf[0] |= 0x123F;
-    gSaveContext.eventChkInf[8] |= 1;
-    gSaveContext.eventChkInf[12] |= 0x10;
+    SET_EVENTCHKINF(EVENTCHKINF_80);
+    SET_EVENTCHKINF(EVENTCHKINF_C4);
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_KOKIRI;
-        Inventory_ChangeEquipment(EQUIP_SWORD, 1);
+        Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_KOKIRI);
         if (gSaveContext.fileNum == 0xFF) {
             gSaveContext.equips.buttonItems[1] = ITEM_SLINGSHOT;
             gSaveContext.equips.cButtonSlots[0] = SLOT_SLINGSHOT;
-            Inventory_ChangeEquipment(EQUIP_SHIELD, 1);
+            Inventory_ChangeEquipment(EQUIP_TYPE_SHIELD, EQUIP_VALUE_SHIELD_DEKU);
         }
     }
 
-    gSaveContext.entranceIndex = 0xCD;
+    gSaveContext.entranceIndex = ENTR_SPOT00_0;
     gSaveContext.magicLevel = 0;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
+
+static s16 sDungeonEntrances[] = {
+    ENTR_YDAN_0,      ENTR_DDAN_0,      ENTR_BDAN_0,         ENTR_BMORI1_0,           ENTR_HIDAN_0, ENTR_MIZUSIN_0,
+    ENTR_JYASINZOU_0, ENTR_HAKADAN_0,   ENTR_HAKADANCH_0,    ENTR_ICE_DOUKUTO_0,      ENTR_GANON_0, ENTR_MEN_0,
+    ENTR_GERUDOWAY_0, ENTR_GANONTIKA_0, ENTR_GANON_SONOGO_0, ENTR_GANONTIKA_SONOGO_0,
+};
 
 /**
  *  Copy save currently on the buffer to Save Context and complete various tasks to open the save.
@@ -294,10 +316,6 @@ void Sram_InitDebugSave(void) {
  *  - Revert any trade items that spoil
  */
 void Sram_OpenSave(SramContext* sramCtx) {
-    static s16 dungeonEntrances[] = {
-        0x0000, 0x0004, 0x0028, 0x0169, 0x0165, 0x0010, 0x0082, 0x0037,
-        0x0098, 0x0088, 0x041B, 0x0008, 0x0486, 0x0467, 0x0179, 0x056C,
-    };
     u16 i;
     u16 j;
     u8* ptr;
@@ -306,7 +324,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
     i = gSramSlotOffsets[gSaveContext.fileNum];
     osSyncPrintf("ぽいんと＝%x(%d)\n", i, gSaveContext.fileNum); // "Point="
 
-    MemCopy(&gSaveContext, sramCtx->readBuff + i, sizeof(Save));
+    MemCpy(&gSaveContext, sramCtx->readBuff + i, sizeof(Save));
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     osSyncPrintf("SCENE_DATA_ID = %d   SceneNo = %d\n", gSaveContext.savedSceneNum,
@@ -327,45 +345,54 @@ void Sram_OpenSave(SramContext* sramCtx) {
         case SCENE_MEN:
         case SCENE_GERUDOWAY:
         case SCENE_GANONTIKA:
-            gSaveContext.entranceIndex = dungeonEntrances[gSaveContext.savedSceneNum];
+            gSaveContext.entranceIndex = sDungeonEntrances[gSaveContext.savedSceneNum];
             break;
+
         case SCENE_YDAN_BOSS:
-            gSaveContext.entranceIndex = 0;
+            gSaveContext.entranceIndex = ENTR_YDAN_0;
             break;
+
         case SCENE_DDAN_BOSS:
-            gSaveContext.entranceIndex = 4;
+            gSaveContext.entranceIndex = ENTR_DDAN_0;
             break;
+
         case SCENE_BDAN_BOSS:
-            gSaveContext.entranceIndex = 0x28;
+            gSaveContext.entranceIndex = ENTR_BDAN_0;
             break;
+
         case SCENE_MORIBOSSROOM:
-            gSaveContext.entranceIndex = 0x169;
+            gSaveContext.entranceIndex = ENTR_BMORI1_0;
             break;
+
         case SCENE_FIRE_BS:
-            gSaveContext.entranceIndex = 0x165;
+            gSaveContext.entranceIndex = ENTR_HIDAN_0;
             break;
+
         case SCENE_MIZUSIN_BS:
-            gSaveContext.entranceIndex = 0x10;
+            gSaveContext.entranceIndex = ENTR_MIZUSIN_0;
             break;
+
         case SCENE_JYASINBOSS:
-            gSaveContext.entranceIndex = 0x82;
+            gSaveContext.entranceIndex = ENTR_JYASINZOU_0;
             break;
+
         case SCENE_HAKADAN_BS:
-            gSaveContext.entranceIndex = 0x37;
+            gSaveContext.entranceIndex = ENTR_HAKADAN_0;
             break;
+
         case SCENE_GANON_SONOGO:
         case SCENE_GANONTIKA_SONOGO:
         case SCENE_GANON_BOSS:
         case SCENE_GANON_FINAL:
         case SCENE_GANON_DEMO:
-            gSaveContext.entranceIndex = 0x41B;
+            gSaveContext.entranceIndex = ENTR_GANON_0;
             break;
 
         default:
             if (gSaveContext.savedSceneNum != SCENE_LINK_HOME) {
-                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? 0xBB : 0x5F4;
+                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINK_HOME_0 : ENTR_TOKINOMA_7;
             } else {
-                gSaveContext.entranceIndex = 0xBB;
+                gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
             }
             break;
     }
@@ -377,14 +404,14 @@ void Sram_OpenSave(SramContext* sramCtx) {
         gSaveContext.health = 0x30;
     }
 
-    if (gSaveContext.scarecrowCustomSongSet) {
+    if (gSaveContext.scarecrowLongSongSet) {
         osSyncPrintf(VT_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCopy(gScarecrowCustomSongPtr, gSaveContext.scarecrowCustomSong, sizeof(gSaveContext.scarecrowCustomSong));
+        MemCpy(gScarecrowLongSongPtr, gSaveContext.scarecrowLongSong, sizeof(gSaveContext.scarecrowLongSong));
 
-        ptr = (u8*)gScarecrowCustomSongPtr;
-        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowCustomSong); i++, ptr++) {
+        ptr = (u8*)gScarecrowLongSongPtr;
+        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowLongSong); i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
 
@@ -396,7 +423,7 @@ void Sram_OpenSave(SramContext* sramCtx) {
         osSyncPrintf(VT_FGCOL(GREEN));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCopy(gScarecrowSpawnSongPtr, gSaveContext.scarecrowSpawnSong, sizeof(gSaveContext.scarecrowSpawnSong));
+        MemCpy(gScarecrowSpawnSongPtr, gSaveContext.scarecrowSpawnSong, sizeof(gSaveContext.scarecrowSpawnSong));
 
         ptr = gScarecrowSpawnSongPtr;
         for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowSpawnSong); i++, ptr++) {
@@ -408,9 +435,9 @@ void Sram_OpenSave(SramContext* sramCtx) {
     }
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
-    if ((gSaveContext.eventChkInf[4] & 1) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-        i = gSaveContext.eventChkInf[4] & ~1;
-        gSaveContext.eventChkInf[4] = i;
+    if (GET_EVENTCHKINF(EVENTCHKINF_40) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
+        i = gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] & ~EVENTCHKINF_40_MASK;
+        gSaveContext.eventChkInf[EVENTCHKINF_40_INDEX] = i;
 
         INV_CONTENT(ITEM_LETTER_ZELDA) = ITEM_CHICKEN;
 
@@ -421,12 +448,12 @@ void Sram_OpenSave(SramContext* sramCtx) {
         }
     }
 
-    // check for owning kokiri sword.. to restore master sword? bug or debug feature?
-    if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_SWORD, 1)) {
-        gSaveContext.inventory.equipment |= gBitFlags[1] << gEquipShifts[EQUIP_SWORD];
+    // check for owning master sword.. to restore master sword? bug or debug feature?
+    if (LINK_AGE_IN_YEARS == YEARS_ADULT && !CHECK_OWNED_EQUIP(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER)) {
+        gSaveContext.inventory.equipment |= OWNED_EQUIP_FLAG(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
-        gSaveContext.equips.equipment &= ~0xF;
-        gSaveContext.equips.equipment |= 2;
+        gSaveContext.equips.equipment &= ~(0xF << (EQUIP_TYPE_SWORD * 4));
+        gSaveContext.equips.equipment |= EQUIP_VALUE_SWORD_MASTER << (EQUIP_TYPE_SWORD * 4);
     }
 
     for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {
@@ -521,7 +548,7 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
     for (slotNum = 0; slotNum < 3; slotNum++) {
         offset = gSramSlotOffsets[slotNum];
         osSyncPrintf("ぽいんと＝%x(%d)    SAVE_MAX=%d\n", offset, gSaveContext.fileNum, sizeof(Save));
-        MemCopy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
+        MemCpy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
         oldChecksum = gSaveContext.checksum;
         gSaveContext.checksum = 0;
@@ -539,7 +566,7 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
             // checksum didnt match, try backup save
             osSyncPrintf("ＥＲＲＯＲ！！！ ＝ %x(%d)\n", gSramSlotOffsets[slotNum], slotNum);
             offset = gSramSlotOffsets[slotNum + 3];
-            MemCopy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
+            MemCpy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
             oldChecksum = gSaveContext.checksum;
             gSaveContext.checksum = 0;
@@ -619,48 +646,45 @@ void Sram_VerifyAndLoadAllSaves(FileChooseContext* fileChooseCtx, SramContext* s
     osSyncPrintf("SAVECT=%x, NAME=%x, LIFE=%x, ITEM=%x,  64DD=%x,  HEART=%x\n", DEATHS, NAME, HEALTH_CAP, QUEST, N64DD,
                  DEFENSE);
 
-    MemCopy(&fileChooseCtx->deaths[0], sramCtx->readBuff + SLOT_OFFSET(0) + DEATHS, sizeof(fileChooseCtx->deaths[0]));
-    MemCopy(&fileChooseCtx->deaths[1], sramCtx->readBuff + SLOT_OFFSET(1) + DEATHS, sizeof(fileChooseCtx->deaths[0]));
-    MemCopy(&fileChooseCtx->deaths[2], sramCtx->readBuff + SLOT_OFFSET(2) + DEATHS, sizeof(fileChooseCtx->deaths[0]));
+    MemCpy(&fileChooseCtx->deaths[0], sramCtx->readBuff + SLOT_OFFSET(0) + DEATHS, sizeof(fileChooseCtx->deaths[0]));
+    MemCpy(&fileChooseCtx->deaths[1], sramCtx->readBuff + SLOT_OFFSET(1) + DEATHS, sizeof(fileChooseCtx->deaths[0]));
+    MemCpy(&fileChooseCtx->deaths[2], sramCtx->readBuff + SLOT_OFFSET(2) + DEATHS, sizeof(fileChooseCtx->deaths[0]));
 
-    MemCopy(&fileChooseCtx->fileNames[0], sramCtx->readBuff + SLOT_OFFSET(0) + NAME,
-            sizeof(fileChooseCtx->fileNames[0]));
-    MemCopy(&fileChooseCtx->fileNames[1], sramCtx->readBuff + SLOT_OFFSET(1) + NAME,
-            sizeof(fileChooseCtx->fileNames[0]));
-    MemCopy(&fileChooseCtx->fileNames[2], sramCtx->readBuff + SLOT_OFFSET(2) + NAME,
-            sizeof(fileChooseCtx->fileNames[0]));
+    MemCpy(&fileChooseCtx->fileNames[0], sramCtx->readBuff + SLOT_OFFSET(0) + NAME,
+           sizeof(fileChooseCtx->fileNames[0]));
+    MemCpy(&fileChooseCtx->fileNames[1], sramCtx->readBuff + SLOT_OFFSET(1) + NAME,
+           sizeof(fileChooseCtx->fileNames[0]));
+    MemCpy(&fileChooseCtx->fileNames[2], sramCtx->readBuff + SLOT_OFFSET(2) + NAME,
+           sizeof(fileChooseCtx->fileNames[0]));
 
-    MemCopy(&fileChooseCtx->healthCapacities[0], sramCtx->readBuff + SLOT_OFFSET(0) + HEALTH_CAP,
-            sizeof(fileChooseCtx->healthCapacities[0]));
-    MemCopy(&fileChooseCtx->healthCapacities[1], sramCtx->readBuff + SLOT_OFFSET(1) + HEALTH_CAP,
-            sizeof(fileChooseCtx->healthCapacities[0]));
-    MemCopy(&fileChooseCtx->healthCapacities[2], sramCtx->readBuff + SLOT_OFFSET(2) + HEALTH_CAP,
-            sizeof(fileChooseCtx->healthCapacities[0]));
+    MemCpy(&fileChooseCtx->healthCapacities[0], sramCtx->readBuff + SLOT_OFFSET(0) + HEALTH_CAP,
+           sizeof(fileChooseCtx->healthCapacities[0]));
+    MemCpy(&fileChooseCtx->healthCapacities[1], sramCtx->readBuff + SLOT_OFFSET(1) + HEALTH_CAP,
+           sizeof(fileChooseCtx->healthCapacities[0]));
+    MemCpy(&fileChooseCtx->healthCapacities[2], sramCtx->readBuff + SLOT_OFFSET(2) + HEALTH_CAP,
+           sizeof(fileChooseCtx->healthCapacities[0]));
 
-    MemCopy(&fileChooseCtx->questItems[0], sramCtx->readBuff + SLOT_OFFSET(0) + QUEST,
-            sizeof(fileChooseCtx->questItems[0]));
-    MemCopy(&fileChooseCtx->questItems[1], sramCtx->readBuff + SLOT_OFFSET(1) + QUEST,
-            sizeof(fileChooseCtx->questItems[0]));
-    MemCopy(&fileChooseCtx->questItems[2], sramCtx->readBuff + SLOT_OFFSET(2) + QUEST,
-            sizeof(fileChooseCtx->questItems[0]));
+    MemCpy(&fileChooseCtx->questItems[0], sramCtx->readBuff + SLOT_OFFSET(0) + QUEST,
+           sizeof(fileChooseCtx->questItems[0]));
+    MemCpy(&fileChooseCtx->questItems[1], sramCtx->readBuff + SLOT_OFFSET(1) + QUEST,
+           sizeof(fileChooseCtx->questItems[0]));
+    MemCpy(&fileChooseCtx->questItems[2], sramCtx->readBuff + SLOT_OFFSET(2) + QUEST,
+           sizeof(fileChooseCtx->questItems[0]));
 
-    MemCopy(&fileChooseCtx->n64ddFlags[0], sramCtx->readBuff + SLOT_OFFSET(0) + N64DD,
-            sizeof(fileChooseCtx->n64ddFlags[0]));
-    MemCopy(&fileChooseCtx->n64ddFlags[1], sramCtx->readBuff + SLOT_OFFSET(1) + N64DD,
-            sizeof(fileChooseCtx->n64ddFlags[0]));
-    MemCopy(&fileChooseCtx->n64ddFlags[2], sramCtx->readBuff + SLOT_OFFSET(2) + N64DD,
-            sizeof(fileChooseCtx->n64ddFlags[0]));
+    MemCpy(&fileChooseCtx->n64ddFlags[0], sramCtx->readBuff + SLOT_OFFSET(0) + N64DD,
+           sizeof(fileChooseCtx->n64ddFlags[0]));
+    MemCpy(&fileChooseCtx->n64ddFlags[1], sramCtx->readBuff + SLOT_OFFSET(1) + N64DD,
+           sizeof(fileChooseCtx->n64ddFlags[0]));
+    MemCpy(&fileChooseCtx->n64ddFlags[2], sramCtx->readBuff + SLOT_OFFSET(2) + N64DD,
+           sizeof(fileChooseCtx->n64ddFlags[0]));
 
-    MemCopy(&fileChooseCtx->defense[0], sramCtx->readBuff + SLOT_OFFSET(0) + DEFENSE,
-            sizeof(fileChooseCtx->defense[0]));
-    MemCopy(&fileChooseCtx->defense[1], sramCtx->readBuff + SLOT_OFFSET(1) + DEFENSE,
-            sizeof(fileChooseCtx->defense[0]));
-    MemCopy(&fileChooseCtx->defense[2], sramCtx->readBuff + SLOT_OFFSET(2) + DEFENSE,
-            sizeof(fileChooseCtx->defense[0]));
+    MemCpy(&fileChooseCtx->defense[0], sramCtx->readBuff + SLOT_OFFSET(0) + DEFENSE, sizeof(fileChooseCtx->defense[0]));
+    MemCpy(&fileChooseCtx->defense[1], sramCtx->readBuff + SLOT_OFFSET(1) + DEFENSE, sizeof(fileChooseCtx->defense[0]));
+    MemCpy(&fileChooseCtx->defense[2], sramCtx->readBuff + SLOT_OFFSET(2) + DEFENSE, sizeof(fileChooseCtx->defense[0]));
 
-    MemCopy(&fileChooseCtx->health[0], sramCtx->readBuff + SLOT_OFFSET(0) + HEALTH, sizeof(fileChooseCtx->health[0]));
-    MemCopy(&fileChooseCtx->health[1], sramCtx->readBuff + SLOT_OFFSET(1) + HEALTH, sizeof(fileChooseCtx->health[0]));
-    MemCopy(&fileChooseCtx->health[2], sramCtx->readBuff + SLOT_OFFSET(2) + HEALTH, sizeof(fileChooseCtx->health[0]));
+    MemCpy(&fileChooseCtx->health[0], sramCtx->readBuff + SLOT_OFFSET(0) + HEALTH, sizeof(fileChooseCtx->health[0]));
+    MemCpy(&fileChooseCtx->health[1], sramCtx->readBuff + SLOT_OFFSET(1) + HEALTH, sizeof(fileChooseCtx->health[0]));
+    MemCpy(&fileChooseCtx->health[2], sramCtx->readBuff + SLOT_OFFSET(2) + HEALTH, sizeof(fileChooseCtx->health[0]));
 
     osSyncPrintf("f_64dd=%d, %d, %d\n", fileChooseCtx->n64ddFlags[0], fileChooseCtx->n64ddFlags[1],
                  fileChooseCtx->n64ddFlags[2]);
@@ -681,8 +705,8 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
         Sram_InitDebugSave();
     }
 
-    gSaveContext.entranceIndex = 0xBB;
-    gSaveContext.linkAge = 1;
+    gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
+    gSaveContext.linkAge = LINK_AGE_CHILD;
     gSaveContext.dayTime = CLOCK_TIME(10, 0) + 1;
     gSaveContext.cutsceneIndex = 0xFFF1;
 
@@ -725,11 +749,11 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
 
     offset = gSramSlotOffsets[gSaveContext.fileNum];
     osSyncPrintf("I=%x no=%d\n", offset, gSaveContext.fileNum);
-    MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
+    MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
     offset = gSramSlotOffsets[gSaveContext.fileNum + 3];
     osSyncPrintf("I=%x no=%d\n", offset, gSaveContext.fileNum + 3);
-    MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
+    MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_WRITE);
 
@@ -739,20 +763,20 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
 
     j = gSramSlotOffsets[gSaveContext.fileNum];
 
-    MemCopy(&fileChooseCtx->deaths[gSaveContext.fileNum], sramCtx->readBuff + j + DEATHS,
-            sizeof(fileChooseCtx->deaths[0]));
-    MemCopy(&fileChooseCtx->fileNames[gSaveContext.fileNum], sramCtx->readBuff + j + NAME,
-            sizeof(fileChooseCtx->fileNames[0]));
-    MemCopy(&fileChooseCtx->healthCapacities[gSaveContext.fileNum], sramCtx->readBuff + j + HEALTH_CAP,
-            sizeof(fileChooseCtx->healthCapacities[0]));
-    MemCopy(&fileChooseCtx->questItems[gSaveContext.fileNum], sramCtx->readBuff + j + QUEST,
-            sizeof(fileChooseCtx->questItems[0]));
-    MemCopy(&fileChooseCtx->n64ddFlags[gSaveContext.fileNum], sramCtx->readBuff + j + N64DD,
-            sizeof(fileChooseCtx->n64ddFlags[0]));
-    MemCopy(&fileChooseCtx->defense[gSaveContext.fileNum], sramCtx->readBuff + j + DEFENSE,
-            sizeof(fileChooseCtx->defense[0]));
-    MemCopy(&fileChooseCtx->health[gSaveContext.fileNum], sramCtx->readBuff + j + HEALTH,
-            sizeof(fileChooseCtx->health[0]));
+    MemCpy(&fileChooseCtx->deaths[gSaveContext.fileNum], sramCtx->readBuff + j + DEATHS,
+           sizeof(fileChooseCtx->deaths[0]));
+    MemCpy(&fileChooseCtx->fileNames[gSaveContext.fileNum], sramCtx->readBuff + j + NAME,
+           sizeof(fileChooseCtx->fileNames[0]));
+    MemCpy(&fileChooseCtx->healthCapacities[gSaveContext.fileNum], sramCtx->readBuff + j + HEALTH_CAP,
+           sizeof(fileChooseCtx->healthCapacities[0]));
+    MemCpy(&fileChooseCtx->questItems[gSaveContext.fileNum], sramCtx->readBuff + j + QUEST,
+           sizeof(fileChooseCtx->questItems[0]));
+    MemCpy(&fileChooseCtx->n64ddFlags[gSaveContext.fileNum], sramCtx->readBuff + j + N64DD,
+           sizeof(fileChooseCtx->n64ddFlags[0]));
+    MemCpy(&fileChooseCtx->defense[gSaveContext.fileNum], sramCtx->readBuff + j + DEFENSE,
+           sizeof(fileChooseCtx->defense[0]));
+    MemCpy(&fileChooseCtx->health[gSaveContext.fileNum], sramCtx->readBuff + j + HEALTH,
+           sizeof(fileChooseCtx->health[0]));
 
     osSyncPrintf("f_64dd[%d]=%d\n", gSaveContext.fileNum, fileChooseCtx->n64ddFlags[gSaveContext.fileNum]);
     osSyncPrintf("heart_status[%d]=%d\n", gSaveContext.fileNum, fileChooseCtx->defense[gSaveContext.fileNum]);
@@ -765,14 +789,14 @@ void Sram_EraseSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
     Sram_InitNewSave();
 
     offset = gSramSlotOffsets[fileChooseCtx->selectedFileIndex];
-    MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
+    MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
-    MemCopy(&fileChooseCtx->n64ddFlags[fileChooseCtx->selectedFileIndex], sramCtx->readBuff + offset + N64DD,
-            sizeof(fileChooseCtx->n64ddFlags[0]));
+    MemCpy(&fileChooseCtx->n64ddFlags[fileChooseCtx->selectedFileIndex], sramCtx->readBuff + offset + N64DD,
+           sizeof(fileChooseCtx->n64ddFlags[0]));
 
     offset = gSramSlotOffsets[fileChooseCtx->selectedFileIndex + 3];
-    MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
+    MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000) + offset, &gSaveContext, SLOT_SIZE, OS_WRITE);
 
     osSyncPrintf("ＣＬＥＡＲ終了\n");
@@ -786,32 +810,32 @@ void Sram_CopySave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
                  gSramSlotOffsets[fileChooseCtx->copyDestFileIndex]);
 
     offset = gSramSlotOffsets[fileChooseCtx->selectedFileIndex];
-    MemCopy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
+    MemCpy(&gSaveContext, sramCtx->readBuff + offset, sizeof(Save));
 
     offset = gSramSlotOffsets[fileChooseCtx->copyDestFileIndex];
-    MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
+    MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
     offset = gSramSlotOffsets[fileChooseCtx->copyDestFileIndex + 3];
-    MemCopy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
+    MemCpy(sramCtx->readBuff + offset, &gSaveContext, sizeof(Save));
 
     SsSram_ReadWrite(OS_K1_TO_PHYSICAL(0xA8000000), sramCtx->readBuff, SRAM_SIZE, OS_WRITE);
 
     offset = gSramSlotOffsets[fileChooseCtx->copyDestFileIndex];
 
-    MemCopy(&fileChooseCtx->deaths[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + DEATHS,
-            sizeof(fileChooseCtx->deaths[0]));
-    MemCopy(&fileChooseCtx->fileNames[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + NAME,
-            sizeof(fileChooseCtx->fileNames[0]));
-    MemCopy(&fileChooseCtx->healthCapacities[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + HEALTH_CAP,
-            sizeof(fileChooseCtx->healthCapacities[0]));
-    MemCopy(&fileChooseCtx->questItems[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + QUEST,
-            sizeof(fileChooseCtx->questItems[0]));
-    MemCopy(&fileChooseCtx->n64ddFlags[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + N64DD,
-            sizeof(fileChooseCtx->n64ddFlags[0]));
-    MemCopy(&fileChooseCtx->defense[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + DEFENSE,
-            sizeof(fileChooseCtx->defense[0]));
-    MemCopy(&fileChooseCtx->health[fileChooseCtx->copyDestFileIndex], (sramCtx->readBuff + offset) + HEALTH,
-            sizeof(fileChooseCtx->health[0]));
+    MemCpy(&fileChooseCtx->deaths[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + DEATHS,
+           sizeof(fileChooseCtx->deaths[0]));
+    MemCpy(&fileChooseCtx->fileNames[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + NAME,
+           sizeof(fileChooseCtx->fileNames[0]));
+    MemCpy(&fileChooseCtx->healthCapacities[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + HEALTH_CAP,
+           sizeof(fileChooseCtx->healthCapacities[0]));
+    MemCpy(&fileChooseCtx->questItems[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + QUEST,
+           sizeof(fileChooseCtx->questItems[0]));
+    MemCpy(&fileChooseCtx->n64ddFlags[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + N64DD,
+           sizeof(fileChooseCtx->n64ddFlags[0]));
+    MemCpy(&fileChooseCtx->defense[fileChooseCtx->copyDestFileIndex], sramCtx->readBuff + offset + DEFENSE,
+           sizeof(fileChooseCtx->defense[0]));
+    MemCpy(&fileChooseCtx->health[fileChooseCtx->copyDestFileIndex], (sramCtx->readBuff + offset) + HEALTH,
+           sizeof(fileChooseCtx->health[0]));
 
     osSyncPrintf("f_64dd[%d]=%d\n", gSaveContext.fileNum, fileChooseCtx->n64ddFlags[gSaveContext.fileNum]);
     osSyncPrintf("heart_status[%d]=%d\n", gSaveContext.fileNum, fileChooseCtx->defense[gSaveContext.fileNum]);
@@ -835,7 +859,7 @@ void Sram_InitSram(GameState* gameState, SramContext* sramCtx) {
         if (sZeldaMagic[i + SRAM_HEADER_MAGIC] != sramCtx->readBuff[i + SRAM_HEADER_MAGIC]) {
             osSyncPrintf("ＳＲＡＭ破壊！！！！！！\n"); // "SRAM destruction! ! ! ! ! !"
             gSaveContext.language = sramCtx->readBuff[SRAM_HEADER_LANGUAGE];
-            MemCopy(sramCtx->readBuff, sZeldaMagic, sizeof(sZeldaMagic));
+            MemCpy(sramCtx->readBuff, sZeldaMagic, sizeof(sZeldaMagic));
             sramCtx->readBuff[SRAM_HEADER_LANGUAGE] = gSaveContext.language;
             Sram_WriteSramHeader(sramCtx);
         }

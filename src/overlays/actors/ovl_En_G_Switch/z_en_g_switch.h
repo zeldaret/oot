@@ -24,6 +24,8 @@ typedef enum {
     /* 3 */ ENGSWITCH_TARGET_RUPEE
 } EnGSwitchType;
 
+#define EN_GSWITCH_EFFECT_COUNT 100
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 scale;
@@ -44,7 +46,7 @@ typedef struct EnGSwitch {
     /* 0x0158 */ s16 colorIdx;
     /* 0x015A */ s16 broken;
     /* 0x015C */ s16 numEffects;
-    /* 0x015E */ s16 objId; 
+    /* 0x015E */ s16 objId;
     /* 0x0160 */ s16 index; // first or second rupee in two-rupee patterns
     /* 0x0162 */ s16 delayTimer; // delay between the two blue rupees appearing
     /* 0x0164 */ s16 waitTimer; // time rupee waits before retreating
@@ -54,7 +56,7 @@ typedef struct EnGSwitch {
     /* 0x016C */ Vec3f targetPos;
     /* 0x0178 */ s8 objIndex;
     /* 0x017C */ ColliderCylinder collider;
-    /* 0x01C8 */ EnGSwitchEffect effects[100];
+    /* 0x01C8 */ EnGSwitchEffect effects[EN_GSWITCH_EFFECT_COUNT];
 } EnGSwitch; // size = 0x12F8
 
 #endif

@@ -1,10 +1,25 @@
 #include "global.h"
 
-void Lib_MemSet(u8* dest, size_t size, u8 val) {
-    u32 i;
+/**
+ * memset: sets `len` bytes to `val` starting at address `dest`.
+ *
+ * Unlike normal memset,
+ * - `dest` is a `u8*` already,
+ * - does not return `dest`,
+ * - the arguments are in a different order,
+ * - `val` is a `u8` instead of the standard `s32`.
+ *
+ * @see There are two other memsets in this codebase, __osMemset(), MemSet()
+ *
+ * @param dest address to start at
+ * @param len number of bytes to write
+ * @param val value to write
+ */
+void Lib_MemSet(u8* dest, size_t len, u8 val) {
+    size_t i;
 
     // clang-format off
-    for (i = 0; i < size; i++) { *dest++ = val; }
+    for (i = 0; i < len; i++) { *dest++ = val; }
     // clang-format on
 }
 
@@ -546,15 +561,15 @@ s16 Math_SmoothStepToS(s16* pValue, s16 target, s16 scale, s16 step, s16 minStep
 /**
  * Changes pValue by step towards target. If step is more than 1/scale of the remaining distance, step by that instead.
  */
-void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 maxStep) {
+void Math_ApproachS(s16* pValue, s16 target, s16 scale, s16 step) {
     s16 diff = target - *pValue;
 
     diff /= scale;
 
-    if (diff > maxStep) {
-        *pValue += maxStep;
-    } else if (diff < -maxStep) {
-        *pValue -= maxStep;
+    if (diff > step) {
+        *pValue += step;
+    } else if (diff < -step) {
+        *pValue -= step;
     } else {
         *pValue += diff;
     }
@@ -568,13 +583,16 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src) {
 }
 
 void func_80078884(u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultReverb);
 }
 
 void func_800788CC(u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultReverb);
 }
 
 void func_80078914(Vec3f* arg0, u16 sfxId) {
-    Audio_PlaySoundGeneral(sfxId, arg0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(sfxId, arg0, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultReverb);
 }

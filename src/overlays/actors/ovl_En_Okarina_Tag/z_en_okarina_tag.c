@@ -67,7 +67,7 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Type index"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 種類インデックス ☆☆☆☆☆ %d\n" VT_RST, this->type);
     // "Correct answer information"
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" VT_RST, this->ocarinaSong);
+    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" VT_RST, this->ocarinaSong);
     // "Range information"
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" VT_RST, this->actor.world.rot.z);
     // "Processing range information"
@@ -191,8 +191,8 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
     if ((this->ocarinaSong != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
         if ((this->switchFlag >= 0) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
-        } else if (((this->type != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
-                   ((this->type != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
+        } else if (((this->type != 4) || !GET_EVENTCHKINF(EVENTCHKINF_4B)) &&
+                   ((this->type != 6) || !GET_EVENTCHKINF(EVENTCHKINF_1D)) &&
                    (this->actor.xzDistToPlayer < (90.0f + this->interactRange)) &&
                    (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
             if (player->stateFlags2 & PLAYER_STATE2_24) {
@@ -240,7 +240,7 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
         switch (this->type) {
             case 1:
                 Flags_SetSwitch(globalCtx, this->switchFlag);
-                gSaveContext.eventChkInf[3] |= 0x200;
+                SET_EVENTCHKINF(EVENTCHKINF_39);
                 break;
             case 2:
                 globalCtx->csCtx.segment = D_80ABF9D0;
@@ -255,7 +255,7 @@ void func_80ABF4C8(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 globalCtx->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_003C80)
                                                          : SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
-                gSaveContext.eventChkInf[1] |= 0x2000;
+                SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 break;
             default:
@@ -301,7 +301,7 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
 
 void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx) {
     // "Open sesame sesame!"
-    osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n" VT_RST, Message_GetState(&globalCtx->msgCtx));
+    osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 開けゴマゴマゴマ！ ☆☆☆☆☆ %d\n" VT_RST, Message_GetState(&globalCtx->msgCtx));
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);

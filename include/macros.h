@@ -8,13 +8,6 @@
 #define VIRTUAL_TO_PHYSICAL(addr) (u32)((u8*)(addr) - 0x80000000)
 #define SEGMENTED_TO_VIRTUAL(addr) PHYSICAL_TO_VIRTUAL(gSegments[SEGMENT_NUMBER(addr)] + SEGMENT_OFFSET(addr))
 
-#define ALIGN16(val) (((val) + 0xF) & ~0xF)
-#define ALIGN32(val) (((val) + 0x1F) & ~0x1F)
-#define ALIGN64(val) (((val) + 0x3F) & ~0x3F)
-#define ALIGN256(val) (((val) + 0xFF) & ~0xFF)
-
-#define OFFSETOF(structure, member) ((size_t)&(((structure*)0)->member))
-
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
 #define DECR(x) ((x) == 0 ? 0 : --(x))
@@ -31,8 +24,8 @@
 
 #define GET_ACTIVE_CAM(globalCtx) ((globalCtx)->cameraPtrs[(globalCtx)->activeCamera])
 
-#define LINK_IS_ADULT (gSaveContext.linkAge == 0)
-#define LINK_IS_CHILD (gSaveContext.linkAge == 1)
+#define LINK_IS_ADULT (gSaveContext.linkAge == LINK_AGE_ADULT)
+#define LINK_IS_CHILD (gSaveContext.linkAge == LINK_AGE_CHILD)
 
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
@@ -50,7 +43,15 @@
 
 #define ALL_EQUIP_VALUE(equip) ((s32)(gSaveContext.inventory.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
 #define CUR_EQUIP_VALUE(equip) ((s32)(gSaveContext.equips.equipment & gEquipMasks[equip]) >> gEquipShifts[equip])
-#define CHECK_OWNED_EQUIP(equip, value) ((gBitFlags[value] << gEquipShifts[equip]) & gSaveContext.inventory.equipment)
+#define OWNED_EQUIP_FLAG(equip, value) (gBitFlags[value] << gEquipShifts[equip])
+#define OWNED_EQUIP_FLAG_ALT(equip, value) ((1 << (value)) << gEquipShifts[equip])
+#define CHECK_OWNED_EQUIP(equip, value) (OWNED_EQUIP_FLAG(equip, value) & gSaveContext.inventory.equipment)
+#define CHECK_OWNED_EQUIP_ALT(equip, value) (gBitFlags[(value) + (equip) * 4] & gSaveContext.inventory.equipment)
+
+#define SWORD_EQUIP_TO_PLAYER(swordEquip) (swordEquip)
+#define SHIELD_EQUIP_TO_PLAYER(shieldEquip) (shieldEquip)
+#define TUNIC_EQUIP_TO_PLAYER(tunicEquip) ((tunicEquip) - 1)
+#define BOOTS_EQUIP_TO_PLAYER(bootsEquip) ((bootsEquip) - 1)
 
 #define CUR_UPG_VALUE(upg) ((s32)(gSaveContext.inventory.upgrades & gUpgradeMasks[upg]) >> gUpgradeShifts[upg])
 #define CAPACITY(upg, value) gUpgradeCapacities[upg][value]
@@ -65,6 +66,21 @@
     (gSaveContext.gsFlags[(index) >> 2] |= (value) << gGsFlagsShifts[(index) & 3])
 
 #define HIGH_SCORE(score) (gSaveContext.highScores[score])
+
+#define GET_EVENTCHKINF(flag) (gSaveContext.eventChkInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_EVENTCHKINF(flag) (gSaveContext.eventChkInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+#define CLEAR_EVENTCHKINF(flag) (gSaveContext.eventChkInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
+
+#define GET_ITEMGETINF(flag) (gSaveContext.itemGetInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_ITEMGETINF(flag) (gSaveContext.itemGetInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+
+#define GET_INFTABLE(flag) (gSaveContext.infTable[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_INFTABLE(flag) (gSaveContext.infTable[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+#define CLEAR_INFTABLE(flag) (gSaveContext.infTable[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
+
+#define GET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] & (1 << ((flag) & 0xF)))
+#define SET_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] |= (1 << ((flag) & 0xF)))
+#define CLEAR_EVENTINF(flag) (gSaveContext.eventInf[(flag) >> 4] &= ~(1 << ((flag) & 0xF)))
 
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
@@ -169,11 +185,5 @@ extern GraphicsContext* __gfxCtx;
         gDPSetTileSize(pkt, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,                                \
                        ((height)-1) << G_TEXTURE_IMAGE_FRAC);                                                          \
     } while (0)
-
-#ifdef __GNUC__
-#define ALIGNED8 __attribute__ ((aligned (8)))
-#else
-#define ALIGNED8
-#endif
 
 #endif
