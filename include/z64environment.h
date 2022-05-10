@@ -106,6 +106,15 @@ typedef enum {
 } SandstormState;
 
 typedef struct {
+    /* 0x00 */ u8 state;
+    /* 0x01 */ u8 flashRed;
+    /* 0x02 */ u8 flashGreen;
+    /* 0x03 */ u8 flashBlue;
+    /* 0x04 */ u8 flashAlphaTarget;
+    /* 0x08 */ f32 delayTimer;
+} LightningStrike; // size = 0xC
+
+typedef struct {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
     /* 0x04 */ u8 changeSkybox;

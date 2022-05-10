@@ -199,13 +199,8 @@ typedef struct {
 
 LightningBolt sLightningBolts[3];
 
-u8 gLightningStrikeState;
+LightningStrike gLightningStrike;
 
-u8 sLightningFlashR;
-u8 sLightningFlashG;
-u8 sLightningFlashB;
-u8 sLightningFlashAlphaTarget;
-f32 sLightningStrikeDelayTimer;
 s16 sLightningFlashAlpha;
 
 s16 sSunDepthTestX;
@@ -313,10 +308,10 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->sandstormPrimA = 0;
     envCtx->sandstormEnvA = 0;
 
-    gLightningStrikeState = LIGHTNING_STRIKE_WAIT;
-    sLightningFlashR = 0;
-    sLightningFlashG = 0;
-    sLightningFlashB = 0;
+    gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
+    gLightningStrike.flashRed = 0;
+    gLightningStrike.flashGreen = 0;
+    gLightningStrike.flashBlue = 0;
 
     sLightningFlashAlpha = 0;
 
@@ -1863,32 +1858,32 @@ void Environment_DrawLightningFlash(GlobalContext* globalCtx, u8 red, u8 green, 
 
 void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
     if (globalCtx->envCtx.lightningState != LIGHTNING_OFF) {
-        switch (gLightningStrikeState) {
+        switch (gLightningStrike.state) {
             case LIGHTNING_STRIKE_WAIT:
                 // every frame theres a 10% chance of the timer advancing 50 units
                 if (Rand_ZeroOne() < 0.1f) {
-                    sLightningStrikeDelayTimer += 50.0f;
+                    gLightningStrike.delayTimer += 50.0f;
                 }
 
-                sLightningStrikeDelayTimer += Rand_ZeroOne();
+                gLightningStrike.delayTimer += Rand_ZeroOne();
 
-                if (sLightningStrikeDelayTimer > 500.0f) {
-                    sLightningFlashR = 200;
-                    sLightningFlashG = 200;
-                    sLightningFlashB = 255;
-                    sLightningFlashAlphaTarget = 200;
+                if (gLightningStrike.delayTimer > 500.0f) {
+                    gLightningStrike.flashRed = 200;
+                    gLightningStrike.flashGreen = 200;
+                    gLightningStrike.flashBlue = 255;
+                    gLightningStrike.flashAlphaTarget = 200;
 
-                    sLightningStrikeDelayTimer = 0.0f;
+                    gLightningStrike.delayTimer = 0.0f;
                     Environment_AddLightningBolts(globalCtx,
                                                   (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
                     sLightningFlashAlpha = 0;
-                    gLightningStrikeState++;
+                    gLightningStrike.state++;
                 }
                 break;
             case LIGHTNING_STRIKE_START:
-                sLightningFlashR = 200;
-                sLightningFlashG = 200;
-                sLightningFlashB = 255;
+                gLightningStrike.flashRed = 200;
+                gLightningStrike.flashGreen = 200;
+                gLightningStrike.flashBlue = 255;
 
                 globalCtx->envCtx.adjAmbientColor[0] += 80;
                 globalCtx->envCtx.adjAmbientColor[1] += 80;
@@ -1896,10 +1891,10 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
 
                 sLightningFlashAlpha += 100;
 
-                if (sLightningFlashAlpha >= sLightningFlashAlphaTarget) {
+                if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
                     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
-                    gLightningStrikeState++;
-                    sLightningFlashAlphaTarget = 0;
+                    gLightningStrike.state++;
+                    gLightningStrike.flashAlphaTarget = 0;
                 }
                 break;
             case LIGHTNING_STRIKE_END:
@@ -1914,12 +1909,12 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
 
                 sLightningFlashAlpha -= 10;
 
-                if (sLightningFlashAlpha <= sLightningFlashAlphaTarget) {
+                if (sLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
                     globalCtx->envCtx.adjAmbientColor[0] = 0;
                     globalCtx->envCtx.adjAmbientColor[1] = 0;
                     globalCtx->envCtx.adjAmbientColor[2] = 0;
 
-                    gLightningStrikeState = LIGHTNING_STRIKE_WAIT;
+                    gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
 
                     if (globalCtx->envCtx.lightningState == LIGHTNING_LAST) {
                         globalCtx->envCtx.lightningState = LIGHTNING_OFF;
@@ -1929,9 +1924,9 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
         }
     }
 
-    if (gLightningStrikeState != LIGHTNING_STRIKE_WAIT) {
-        Environment_DrawLightningFlash(globalCtx, sLightningFlashR, sLightningFlashG,
-                                       sLightningFlashB, sLightningFlashAlpha);
+    if (gLightningStrike.state != LIGHTNING_STRIKE_WAIT) {
+        Environment_DrawLightningFlash(globalCtx, gLightningStrike.flashRed, gLightningStrike.flashGreen,
+                                       gLightningStrike.flashBlue, sLightningFlashAlpha);
     }
 }
 
