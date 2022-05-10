@@ -4091,31 +4091,31 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
  * The spawn value (`GlobalContext.curSpawn`) is set to a different value depending on the entrance used to enter the
  * scene, which allows these dynamic "exit entrances" to link back to the previous scene.
  *
- * Note: grottos and normal fairy fountains use `ENTR_EXIT_GROTTO`
+ * Note: grottos and normal fairy fountains use `ENTR_RETURN_GROTTO`
  */
 s16 sExitEntrancesGroupsData[] = {
-    // ENTR_EXIT_DAIYOUSEI_IZUMI
+    // ENTR_RETURN_DAIYOUSEI_IZUMI
     /*  0 */ ENTR_SPOT16_4, // DMT from Magic Fairy Fountain
     /*  1 */ ENTR_SPOT17_3, // DMC from Double Defense Fairy Fountain
     /*  2 */ ENTR_SPOT15_2, // Hyrule Castle from Dins Fire Fairy Fountain
 
-    // ENTR_EXIT_2
+    // ENTR_RETURN_2
     /*  3 */ ENTR_SPOT01_9,     // Kakariko from Potion Shop
     /*  4 */ ENTR_MARKET_DAY_5, // Market (child day) from Potion Shop
 
-    // ENTR_EXIT_SHOP1
+    // ENTR_RETURN_SHOP1
     /*  5 */ ENTR_SPOT01_3,     // Kakariko from Bazaar
     /*  6 */ ENTR_MARKET_DAY_6, // Market (child day) from Bazaar
 
-    // ENTR_EXIT_4
+    // ENTR_RETURN_4
     /*  7 */ ENTR_SPOT01_11,      // Kakariko from House of Skulltulas
     /*  8 */ ENTR_MARKET_ALLEY_2, // Back Alley (day) from Bombchu Shop
 
-    // ENTR_EXIT_SYATEKIJYOU
+    // ENTR_RETURN_SYATEKIJYOU
     /*  9 */ ENTR_SPOT01_10,    // Kakariko from Shooting Gallery
     /* 10 */ ENTR_MARKET_DAY_8, // Market (child day) from Shooting Gallery
 
-    // ENTR_EXIT_YOUSEI_IZUMI_YOKO
+    // ENTR_RETURN_YOUSEI_IZUMI_YOKO
     /* 11 */ ENTR_SPOT08_5, // Zoras Fountain from Farores Wind Fairy Fountain
     /* 12 */ ENTR_SPOT15_2, // Hyrule Castle from Dins Fire Fairy Fountain
     /* 13 */ ENTR_SPOT11_7, // Desert Colossus from Nayrus Love Fairy Fountain
@@ -4125,12 +4125,12 @@ s16 sExitEntrancesGroupsData[] = {
  * The values are indices into `sExitEntrancesGroupsData` marking the start of each group
  */
 u8 sExitEntrancesGroupsIndices[] = {
-    11, // ENTR_EXIT_YOUSEI_IZUMI_YOKO
-    9,  // ENTR_EXIT_SYATEKIJYOU
-    3,  // ENTR_EXIT_2
-    5,  // ENTR_EXIT_SHOP1
-    7,  // ENTR_EXIT_4
-    0,  // ENTR_EXIT_DAIYOUSEI_IZUMI
+    11, // ENTR_RETURN_YOUSEI_IZUMI_YOKO
+    9,  // ENTR_RETURN_SYATEKIJYOU
+    3,  // ENTR_RETURN_2
+    5,  // ENTR_RETURN_SHOP1
+    7,  // ENTR_RETURN_4
+    0,  // ENTR_RETURN_DAIYOUSEI_IZUMI
 };
 
 s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u32 bgId) {
@@ -4161,15 +4161,15 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
                 globalCtx->nextEntranceIndex = globalCtx->setupExitList[exitIndex - 1];
-                if (globalCtx->nextEntranceIndex == ENTR_EXIT_GROTTO) {
+                if (globalCtx->nextEntranceIndex == ENTR_RETURN_GROTTO) {
                     gSaveContext.respawnFlag = 2;
                     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
-                } else if (globalCtx->nextEntranceIndex >= ENTR_EXIT_YOUSEI_IZUMI_YOKO) {
+                } else if (globalCtx->nextEntranceIndex >= ENTR_RETURN_YOUSEI_IZUMI_YOKO) {
                     globalCtx->nextEntranceIndex =
                         sExitEntrancesGroupsData[sExitEntrancesGroupsIndices[globalCtx->nextEntranceIndex -
-                                                                             ENTR_EXIT_YOUSEI_IZUMI_YOKO] +
+                                                                             ENTR_RETURN_YOUSEI_IZUMI_YOKO] +
                                                  globalCtx->curSpawn];
                     Scene_SetTransitionForNextEntrance(globalCtx);
                 } else {

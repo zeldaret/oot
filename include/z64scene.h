@@ -327,13 +327,13 @@ typedef enum {
 #define ENTR_LOAD_OPENING -1
 
 typedef enum {
-    /* 0x7FF9 */ ENTR_EXIT_YOUSEI_IZUMI_YOKO = 0x7FF9, // Great Fairy Fountain (spells)
-    /* 0x7FFA */ ENTR_EXIT_SYATEKIJYOU, // Shooting gallery
-    /* 0x7FFB */ ENTR_EXIT_2, // unused
-    /* 0x7FFC */ ENTR_EXIT_SHOP1, // Bazaar
-    /* 0x7FFD */ ENTR_EXIT_4, // unused
-    /* 0x7FFE */ ENTR_EXIT_DAIYOUSEI_IZUMI, // Great Fairy Fountain (magic, double magic, double defense)
-    /* 0x7FFF */ ENTR_EXIT_GROTTO // Grottos and normal Fairy Fountain
+    /* 0x7FF9 */ ENTR_RETURN_YOUSEI_IZUMI_YOKO = 0x7FF9, // Great Fairy Fountain (spells)
+    /* 0x7FFA */ ENTR_RETURN_SYATEKIJYOU, // Shooting gallery
+    /* 0x7FFB */ ENTR_RETURN_2, // unused
+    /* 0x7FFC */ ENTR_RETURN_SHOP1, // Bazaar
+    /* 0x7FFD */ ENTR_RETURN_4, // unused
+    /* 0x7FFE */ ENTR_RETURN_DAIYOUSEI_IZUMI, // Great Fairy Fountain (magic, double magic, double defense)
+    /* 0x7FFF */ ENTR_RETURN_GROTTO // Grottos and normal Fairy Fountain
 } ExitEntranceIndex;
 
 #undef DEFINE_ENTRANCE
