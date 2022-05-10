@@ -92,7 +92,7 @@ void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808BC65C(BgTreemouth* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
-    if ((globalCtx->csCtx.state != CS_STATE_IDLE)) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[0];
         if (npcAction != NULL) {
             if (npcAction->action == 2) {
