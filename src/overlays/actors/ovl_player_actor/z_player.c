@@ -4081,19 +4081,19 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
 }
 
 /**
- * The actual entrances each "exit entrance" value can map to.
+ * The actual entrances each "return entrance" value can map to.
  * This is used by scenes that are shared between locations, like child/adult Shooting Gallery or Great Fairy Fountains.
  *
  * This 1D array is split into groups of entrances.
- * The start of each group is indexed by `sExitEntrancesGroupsIndices` values.
+ * The start of each group is indexed by `sReturnEntrancesGroupsIndices` values.
  * The resulting groups are then indexed by the spawn value.
  *
  * The spawn value (`GlobalContext.curSpawn`) is set to a different value depending on the entrance used to enter the
- * scene, which allows these dynamic "exit entrances" to link back to the previous scene.
+ * scene, which allows these dynamic "return entrances" to link back to the previous scene.
  *
  * Note: grottos and normal fairy fountains use `ENTR_RETURN_GROTTO`
  */
-s16 sExitEntrancesGroupsData[] = {
+s16 sReturnEntrancesGroupsData[] = {
     // ENTR_RETURN_DAIYOUSEI_IZUMI
     /*  0 */ ENTR_SPOT16_4, // DMT from Magic Fairy Fountain
     /*  1 */ ENTR_SPOT17_3, // DMC from Double Defense Fairy Fountain
@@ -4122,9 +4122,9 @@ s16 sExitEntrancesGroupsData[] = {
 };
 
 /**
- * The values are indices into `sExitEntrancesGroupsData` marking the start of each group
+ * The values are indices into `sReturnEntrancesGroupsData` marking the start of each group
  */
-u8 sExitEntrancesGroupsIndices[] = {
+u8 sReturnEntrancesGroupsIndices[] = {
     11, // ENTR_RETURN_YOUSEI_IZUMI_YOKO
     9,  // ENTR_RETURN_SYATEKIJYOU
     3,  // ENTR_RETURN_2
@@ -4168,9 +4168,9 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 } else if (globalCtx->nextEntranceIndex >= ENTR_RETURN_YOUSEI_IZUMI_YOKO) {
                     globalCtx->nextEntranceIndex =
-                        sExitEntrancesGroupsData[sExitEntrancesGroupsIndices[globalCtx->nextEntranceIndex -
-                                                                             ENTR_RETURN_YOUSEI_IZUMI_YOKO] +
-                                                 globalCtx->curSpawn];
+                        sReturnEntrancesGroupsData[sReturnEntrancesGroupsIndices[globalCtx->nextEntranceIndex -
+                                                                                 ENTR_RETURN_YOUSEI_IZUMI_YOKO] +
+                                                   globalCtx->curSpawn];
                     Scene_SetTransitionForNextEntrance(globalCtx);
                 } else {
                     if (SurfaceType_GetSlope(&globalCtx->colCtx, poly, bgId) == 2) {

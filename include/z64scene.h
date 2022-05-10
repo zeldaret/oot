@@ -334,7 +334,7 @@ typedef enum {
     /* 0x7FFD */ ENTR_RETURN_4, // unused
     /* 0x7FFE */ ENTR_RETURN_DAIYOUSEI_IZUMI, // Great Fairy Fountain (magic, double magic, double defense)
     /* 0x7FFF */ ENTR_RETURN_GROTTO // Grottos and normal Fairy Fountain
-} ExitEntranceIndex;
+} ReturnEntranceIndex;
 
 #undef DEFINE_ENTRANCE
 
