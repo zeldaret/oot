@@ -32,9 +32,11 @@ void Audio_StartSequence(u8 playerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
     if ((sIsSeqStartDisabled == 0) || (playerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
+            // fadeTimer is interpreted as seconds (60 fps * updatesPerFrame)
             duration = (fadeTimer >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
             Audio_QueueCmdS32(0x85000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(seqId, 8, 8), duration);
         } else {
+            // fadeTimer is interpreated as number of frames at 30 fps
             Audio_QueueCmdS32(0x82000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(seqId, 8, 8),
                               (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
         }
@@ -104,6 +106,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // play sequence immediately
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
+            // fadeTimer is only shifted 13 bytes instead of 16 bytes.
+            // The remaining bytes are shifted in Audio_StartSequence
             fadeTimer = (cmd & 0xFF0000) >> 13;
             if (!gActiveSeqs[playerIndex].isWaitingForFonts && (seqArgs < 0x80)) {
                 Audio_StartSequence(playerIndex, seqId, seqArgs, fadeTimer);
@@ -123,7 +127,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             fadeTimer = (cmd & 0xFF0000) >> 13;
             importance = seqArgs;
 
-            // Checks if the requested sequence is first in the list of requested
+            // Checks if the requested sequence is first in the list of requests
             // If it is already queued and first in the list, then play the sequence immediately
             for (i = 0; i < sNumSeqRequests[playerIndex]; i++) {
                 if (sSeqRequests[playerIndex][i].seqId == seqId) {
@@ -138,7 +142,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // than the current incoming request
             found = sNumSeqRequests[playerIndex];
             for (i = 0; i < sNumSeqRequests[playerIndex]; i++) {
-                if (sSeqRequests[playerIndex][i].importance <= importance) {
+                if (importance >= sSeqRequests[playerIndex][i].importance) {
                     found = i;
                     i = sNumSeqRequests[playerIndex]; // "break;"
                 }

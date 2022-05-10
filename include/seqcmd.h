@@ -1,6 +1,8 @@
 #ifndef SEQCMD_H
 #define SEQCMD_H
 
+// ==== Primary commands ====
+
 typedef enum {
     /* 0x0 */ SEQ_CMD_START,
     /* 0x1 */ SEQ_CMD_STOP,
@@ -22,6 +24,7 @@ typedef enum {
 
 // ==== Secondary commands ====
 
+// Subset of SEQ_CMD_TEMPO_CMD
 typedef enum {
     /* 0x0 */ TEMPO_CMD_SET,
     /* 0x1 */ TEMPO_CMD_SPEED_UP,
@@ -30,6 +33,7 @@ typedef enum {
     /* 0x4 */ TEMPO_CMD_RESET
 } TempoCmdType;
 
+// Subset of SEQ_CMD_SETUP_CMD
 typedef enum {
     /* 0x0 */ SETUP_CMD_SET_VOLUME,
     /* 0x1 */ SETUP_CMD_SEQ_UNQUEUE,
@@ -46,6 +50,7 @@ typedef enum {
     /* 0xF */ SETUP_CMD_RESET_SETUP_CMDS
 } SetupCmdType;
 
+// Subset of SEQ_CMD_SUB_CMD
 typedef enum {
     /* 0x0 */ SUB_CMD_SET_SOUND_MODE,
     /* 0x1 */ SUB_CMD_DISABLE_NEW_SEQUENCES
@@ -62,17 +67,17 @@ typedef enum {
  *   0pttaass
  *
  * DESCRIPTION
- *   Request a sequence to be played (seqId) on the specified player (playerIndex).
- *
- *   The sequence will gradually fade in over the course of (fadeTimer) frames
- *
- *   seqArgs = 8 and seqArgs = 9 have unknown functionality
- *
- *   seqArgs = 0x7F will scale the fadeTimer differently
- *
- *   seqArgs >= 0x80 has an incomplete implementation and is not functional in Ocarina of Time.
- *   No sequence will play as a result. The code and purpose for seqArgs >= 0x80 was completed
- *   and is functional in Majora's Mask.
+ *   Request a sequence (seqId) to be played on the specified player (playerIndex).
+ *   The sequence will gradually fade in over the course of (fadeTimer).
+ *   How (fadeTimer) is interpreted depends on (seqArgs)
+ * 
+ *   seqArgs = 8 and seqArgs = 9 appear to have no functionality (the only non-zero seqArgs used)
+ *   unused commands may suggest these were intended to be a an importance for an unimplemented priority system
+ *   ((seqArgs & 0x7F) != 0x7F) will interpret fadeTimer as number of frames at 30 fps
+ *   ((seqArgs & 0x7F) == 0x7F) will interpret fadeTimer as number of seconds and will skip ticks
+ *   (seqArgs & 0x80) i.e. (seqArgs >= 0x80) has an incomplete implementation 
+ *   and is not functional in Ocarina of Time. No sequence will play as a result. 
+ *   The code and purpose for seqArgs >= 0x80 was completed and is functional in Majora's Mask.
  */
 #define AudioSeqCmd_PlaySequence(playerIndex, fadeTimer, seqArgs, seqId)                            \
     Audio_QueueSeqCmd((SEQ_CMD_START << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | \
@@ -87,25 +92,29 @@ typedef enum {
  *   1pttUUFF
  *
  * DESCRIPTION
- *   Request a sequence to be stopped on the specified player (playerIndex).
- *
- *   The sequence will gradually fade out over the course of (fadeTimer) frames
- *
- *   Note: The 0x000000FF in the command is not read from at all, but is common in all StopSequence Commands
+ *   Request the active sequence to be stopped on the specified player (playerIndex).
+ *   The sequence will gradually fade out over the course of (fadeTimer) frames at a rate of 30 fps.
+ *   Note: The 0xFF in the command is not read from at all, but is common in all StopSequence Commands
  */
 #define AudioSeqCmd_StopSequence(playerIndex, fadeTimer) \
     Audio_QueueSeqCmd((SEQ_CMD_STOP << 28) | 0xFF | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16))
 
 /**
  * ARGS
- *   playerIndex (p), fadeTimer (t), importance (i), seqId (s)
+ *   playerIndex (p), fadeTimer (t), importance/seqArgs (i), seqId (s)
  *
  * FORMAT
  *   Captial U is unused
  *   2pttiiss
  *
  * DESCRIPTION
- *
+ *   Request a sequence (seqId) be added to a queue for a specified player (playerIndex).
+ *   The request will be queued based on (importance).
+ *   Higher values have higher importance and will be queued to play sooner
+ *   The sequence will gradually fade in over the course of (fadeTimer).
+ *   How (fadeTimer) is interpreted depends on (seqArgs), see AudioSeqCmd_PlaySequence
+ * 
+ *   The sequence that will be playing will be the 1st entry of the queue
  */
 #define AudioSeqCmd_QueueSequence(playerIndex, fadeTimer, importance, seqId)                        \
     Audio_QueueSeqCmd((SEQ_CMD_QUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | \
@@ -121,7 +130,9 @@ typedef enum {
  *
  *
  * DESCRIPTION
- *
+ *   Request the active sequence to be stopped on the specified player (playerIndex).
+ *   Start the next sequence in the queue and move all requests forward  place in the queue.
+ *   The sequence will gradually fade out over the course of (fadeTimer) frames at a rate of 30 fps.
  */
 #define AudioSeqCmd_UnqueueSequence(playerIndex, fadeTimer, seqId) \
     Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | (seqId))
