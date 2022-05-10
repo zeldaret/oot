@@ -1433,7 +1433,7 @@ typedef struct {
     /* 0x2C */ s16*  owMinimapPosX;
     /* 0x30 */ s16*  owMinimapPosY;
     /* 0x34 */ s16 (*owCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
-    /* 0x38 */ s16*  dgnMinimapTexIndexBase; // dungeon minimap texture index base
+    /* 0x38 */ s16*  dgnTexIndexBase; // dungeon texture index base
     /* 0x3C */ s16 (*dgnCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
     /* 0x40 */ s16*  owMinimapWidth;
     /* 0x44 */ s16*  owMinimapHeight;

@@ -871,9 +871,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->rider =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_IN, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, 1, 1);
-        if (this->rider == NULL) {
-            __assert("this->race.rider != NULL", "../z_en_horse.c", 3077);
-        }
+        ASSERT(this->rider != NULL, "this->race.rider != NULL", "../z_en_horse.c", 3077);
         if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
             this->ingoHorseMaxSpeed = 12.07f;
         } else {
