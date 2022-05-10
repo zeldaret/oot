@@ -25,6 +25,130 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 
+#define CAM_SHRINKWINVAL_NONE (0x0000)
+#define CAM_SHRINKWINVAL_SMALL (0x1000)
+#define CAM_SHRINKWINVAL_MEDIUM (0x2000)
+#define CAM_SHRINKWINVAL_LARGE (0x3000)
+#define CAM_SHRINKWINVAL_PREV (0xF000)
+
+#define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
+
+#define NORM1_FLG_1 (1 << 0)
+#define NORM1_FLG_2 (1 << 1)
+#define NORM1_FLG_4 (1 << 2)
+#define NORM1_FLG_10 (1 << 4)
+#define NORM1_FLG_20 (1 << 5)
+#define NORM1_FLG_80 (1 << 7)
+
+#define NORM2_FLG_1 (1 << 0)
+#define NORM2_FLG_4 (1 << 2)
+#define NORM2_FLG_10 (1 << 4)
+#define NORM2_FLG_80 (1 << 7)
+
+#define PARA1_FLG_1 (1 << 0)
+#define PARA1_FLG_2 (1 << 1)
+#define PARA1_FLG_4 (1 << 2)
+#define PARA1_FLG_8 (1 << 3)
+#define PARA1_FLG_10 (1 << 4)
+#define PARA1_FLG_20 (1 << 5)
+#define PARA1_FLG_40 (1 << 6)
+#define PARA1_FLG_80 (1 << 7)
+
+#define PARA3_FLG_1 (1 << 0)
+#define PARA3_FLG_2 (1 << 1)
+
+#define JUMP1_FLG_4 (1 << 2)
+#define JUMP1_FLG_10 (1 << 4)
+
+#define JUMP2_FLG_2 (1 << 1)
+#define JUMP2_FLG_4 (1 << 2)
+
+#define JUMP3_FLG_1 (1 << 0)
+#define JUMP3_FLG_4 (1 << 2)
+#define JUMP3_FLG_10 (1 << 4)
+
+#define BATT1_FLG_1 (1 << 0)
+#define BATT1_FLG_2 (1 << 1)
+#define BATT1_FLG_80 (1 << 7)
+
+#define KEEP1_FLG_1 (1 << 0)
+#define KEEP1_FLG_2 (1 << 1)
+
+#define KEEP3_FLG_10 (1 << 4)
+#define KEEP3_FLG_20 (1 << 5)
+#define KEEP3_FLG_80 (1 << 7)
+
+#define KEEP4_FLG_1 (1 << 0)
+#define KEEP4_FLG_2 (1 << 1)
+#define KEEP4_FLG_4 (1 << 2)
+#define KEEP4_FLG_8 (1 << 3)
+#define KEEP4_FLG_10 (1 << 4)
+#define KEEP4_FLG_20 (1 << 5)
+#define KEEP4_FLG_40 (1 << 6)
+#define KEEP4_FLG_80 (1 << 7)
+
+#define FIXD2_FLG_1 (1 << 0)
+
+#define FIXD4_FLG_4 (1 << 2)
+
+#define UNIQ2_FLG_1 (1 << 0)
+#define UNIQ2_FLG_2 (1 << 1)
+#define UNIQ2_FLG_10 (1 << 4)
+
+#define UNIQ3_FLG_2 (1 << 1)
+#define UNIQ3_FLG_4 (1 << 2)
+
+#define UNIQ0_FLG_1 (1 << 0)
+
+#define UNIQ6_FLG_1 (1 << 0)
+
+#define DEMO9_FLG_2 (1 << 1)
+#define DEMO9_FLG_10 (1 << 4)
+
+#define SPEC9_FLG_1 (1 << 0)
+#define SPEC9_FLG_2 (1 << 1)
+#define SPEC9_FLG_8 (1 << 3)
+
+// Camera flags1. Flags spcifically for settings, modes, and scene/bg/cs camData
+// Used to store current state, but not read from with only 1 exception (possibly read from outside of camera)
+// Setting (0x1, 0x10)
+#define CAM_STATE1_1 (1 << 0)
+#define CAM_STATE1_10 (1 << 4)
+// Mode (0x2, 0x20)
+#define CAM_STATE1_2 (1 << 1)
+#define CAM_STATE1_20 (1 << 5)
+// scene Data (0x4, 0x40)
+#define CAM_STATE1_4 (1 << 2)
+#define CAM_STATE1_40 (1 << 6)
+
+// Camera flags2. Variety of generic flags
+#define CAM_STATE2_1 (1 << 0) // Must be set for the camera to change settings based on the bg surface
+#define CAM_STATE2_2 (1 << 1) // Must be set for Camera_CheckWater to run
+#define CAM_STATE2_4 (1 << 2)
+#define CAM_STATE2_8 (1 << 3) // Customizable flag for functions (Ex. Finished talking to an NPC)
+#define CAM_STATE2_10 (1 << 4)
+#define CAM_STATE2_20 (1 << 5)
+#define CAM_STATE2_40 (1 << 6)
+#define CAM_STATE2_80 (1 << 7) // Set in play, unused
+#define CAM_STATE2_100 (1 << 8) // Camera (eye) is underwater
+#define CAM_STATE2_200 (1 << 9)
+#define CAM_STATE2_400 (1 << 0xA) // Surpresses the camera from changing settings based on the bg surface
+#define CAM_STATE2_800 (1 << 0xB) // unused
+#define CAM_STATE2_1000 (1 << 0xC) // Set in Camera_Demo7, but Camera_Demo7 is never called
+#define CAM_STATE2_2000 (1 << 0xD) // unused
+#define CAM_STATE2_4000 (1 << 0xE) // isInitialized. Turned on in Camera Init, never used or changed
+#define CAM_STATE2_8000 ((s16)(1 << 0xF))
+#define CAM_STATE2_ALL (0xFF)
+
+// Camera flags3. Each corresponds to a struct member from the camera struct
+#define CAM_STATE3_1 (1 << 0) // camera->at
+#define CAM_STATE3_2 (1 << 1) // camera->eye and camera->eyeNext
+#define CAM_STATE3_4 (1 << 2) // camera->up
+#define CAM_STATE3_8 (1 << 3) // camera->target
+#define CAM_STATE3_10 (1 << 4) // camera->targetPosRot.pos
+#define CAM_STATE3_20 (1 << 5) // camera->fov
+#define CAM_STATE3_40 (1 << 6) // camera->roll
+
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,
@@ -1377,8 +1501,8 @@ typedef struct {
     /* 0x144 */ s16 mode;
     /* 0x146 */ s16 bgCheckId;
     /* 0x148 */ s16 camDataIdx;
-    /* 0x14A */ s16 unk_14A;
-    /* 0x14C */ s16 unk_14C;
+    /* 0x14A */ s16 stateFlags1; // "info"
+    /* 0x14C */ s16 stateFlags2; // "engine"
     /* 0x14E */ s16 childCamIdx;
     /* 0x150 */ s16 waterDistortionTimer;
     /* 0x152 */ s16 distortionFlags;
@@ -1386,7 +1510,7 @@ typedef struct {
     /* 0x156 */ s16 nextCamDataIdx;
     /* 0x158 */ s16 nextBGCheckId;
     /* 0x15A */ s16 roll;
-    /* 0x15C */ s16 paramFlags;
+    /* 0x15C */ s16 stateFlags3;
     /* 0x15E */ s16 animState;
     /* 0x160 */ s16 timer;
     /* 0x162 */ s16 parentCamIdx;

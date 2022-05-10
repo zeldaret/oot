@@ -4981,7 +4981,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                     func_80835EA4(globalCtx, (this->unk_6A8 != NULL) ? 0x5B : 0x5A);
                     if (this->unk_6A8 != NULL) {
                         this->stateFlags2 |= PLAYER_STATE2_25;
-                        Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->unk_6A8);
+                        Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), CAM_STATE3_8, this->unk_6A8);
                     }
                 }
             } else if (func_8083AD4C(globalCtx, this)) {
@@ -8837,8 +8837,8 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
 
             temp = func_80845BA0(globalCtx, this, &sp34, sp30);
 
-            if ((this->unk_850 == 0) ||
-                ((temp == 0) && (this->linearVelocity == 0.0f) && (Gameplay_GetCamera(globalCtx, 0)->unk_14C & 0x10))) {
+            if ((this->unk_850 == 0) || ((temp == 0) && (this->linearVelocity == 0.0f) &&
+                                         (Gameplay_GetCamera(globalCtx, 0)->stateFlags2 & CAM_STATE2_10))) {
 
                 func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
                 func_80845C68(globalCtx, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
@@ -9862,7 +9862,7 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
         } else if (!(this->stateFlags1 & PLAYER_STATE1_20)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_7)) {
                 camMode = CAM_MODE_HOOKSHOT;
-                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->actor.parent);
+                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), CAM_STATE3_8, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
                 camMode = CAM_MODE_STILL;
             } else if (this->stateFlags2 & PLAYER_STATE2_8) {
@@ -9879,12 +9879,12 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
                 } else {
                     camMode = CAM_MODE_BATTLE;
                 }
-                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, unk_664);
+                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), CAM_STATE3_8, unk_664);
             } else if (this->stateFlags1 & PLAYER_STATE1_12) {
                 camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & PLAYER_STATE1_25) {
                 camMode = CAM_MODE_FOLLOWBOOMERANG;
-                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->boomerangActor);
+                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), CAM_STATE3_8, this->boomerangActor);
             } else if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                 if (func_80833B2C(this)) {
                     camMode = CAM_MODE_HANGZ;
@@ -12152,7 +12152,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         this->stateFlags1 &= ~PLAYER_STATE1_29;
 
         func_80852FFC(globalCtx, NULL, 8);
-        globalCtx->mainCamera.unk_14C &= ~8;
+        globalCtx->mainCamera.stateFlags2 &= ~CAM_STATE2_8;
 
         this->stateFlags1 |= PLAYER_STATE1_28 | PLAYER_STATE1_29;
         this->stateFlags2 |= PLAYER_STATE2_27;

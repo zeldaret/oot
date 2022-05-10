@@ -475,7 +475,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
         case 3120:
             csInfo->keyFrames = D_80121954[-(timer + 101)];
             csCam->timer = 100;
-            csCam->unk_14C |= 2;
+            csCam->stateFlags2 |= CAM_STATE2_2;
             csInfo->keyFrameCnt = 2;
 
             func_8002DF54(globalCtx, NULL, 8);
@@ -487,7 +487,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Act
 
             func_8002DF54(globalCtx, NULL, 8);
             func_800C0808(globalCtx, camIdx, player, CAM_SET_CS_C);
-            csCam->unk_14C |= 2;
+            csCam->stateFlags2 |= CAM_STATE2_2;
             break;
         case 3140:
             D_80121C24[0].atTargetInit = globalCtx->view.at;

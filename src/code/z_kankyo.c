@@ -1581,7 +1581,7 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
     Vec3f windDirection = { 0.0f, 0.0f, 0.0f };
     Player* player = GET_PLAYER(globalCtx);
 
-    if (!(globalCtx->cameraPtrs[0]->unk_14C & 0x100) && (globalCtx->envCtx.unk_EE[2] == 0)) {
+    if (!(globalCtx->cameraPtrs[0]->stateFlags2 & CAM_STATE2_100) && (globalCtx->envCtx.unk_EE[2] == 0)) {
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 2799);
 
         vec.x = view->at.x - view->eye.x;
