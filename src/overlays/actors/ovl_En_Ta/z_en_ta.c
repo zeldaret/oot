@@ -663,7 +663,7 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
     func_80B15308(this);
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-        globalCtx->nextEntranceIndex = 0x5E4;
+        globalCtx->nextEntranceIndex = ENTR_SOUKO_2;
 
         if (GET_EVENTINF(EVENTINF_HORSES_08)) {
             globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);

@@ -424,7 +424,7 @@ void func_80A79AB4(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A79BAC(EnIn* this, GlobalContext* globalCtx, s32 index, u32 transitionType) {
-    s16 entrances[] = { 0x0558, 0x04CA, 0x0157 };
+    s16 entrances[] = { ENTR_SPOT20_8, ENTR_SPOT20_6, ENTR_SPOT20_0 };
 
     globalCtx->nextEntranceIndex = entrances[index];
     if (index == 2) {
@@ -870,7 +870,7 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
     pos.z += 90.0f * Math_CosS(this->actor.shape.rot.y);
     yaw = Math_Vec3f_Yaw(&pos, &player->actor.world.pos);
     if (ABS(yaw) > 0x4000) {
-        globalCtx->nextEntranceIndex = 0x0476;
+        globalCtx->nextEntranceIndex = ENTR_SPOT00_15;
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
         this->actionFunc = func_80A7B018;

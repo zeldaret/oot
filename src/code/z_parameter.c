@@ -3029,7 +3029,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     };
     static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
     static s16 rupeeDigitsCount[] = { 2, 3, 3 };
-    static s16 spoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
+    static s16 spoilingItemEntrances[] = { ENTR_SPOT10_2, ENTR_SPOT07_3, ENTR_SPOT07_3 };
     static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
     static s16 D_80125B5C[] = { 91, 91 };         // unused
     static s16 D_8015FFE0;

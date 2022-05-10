@@ -1458,7 +1458,7 @@ void FileChoose_LoadGame(GameState* thisx) {
         this->state.running = false;
     }
 
-    gSaveContext.respawn[0].entranceIndex = -1;
+    gSaveContext.respawn[0].entranceIndex = ENTR_LOAD_OPENING;
     gSaveContext.respawnFlag = 0;
     gSaveContext.seqId = (u8)NA_BGM_DISABLED;
     gSaveContext.natureAmbienceId = 0xFF;

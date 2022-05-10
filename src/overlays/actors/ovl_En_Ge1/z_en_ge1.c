@@ -230,11 +230,11 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            globalCtx->nextEntranceIndex = 0x1A5;
+            globalCtx->nextEntranceIndex = ENTR_SPOT09_1;
         } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) { // Caught previously
-            globalCtx->nextEntranceIndex = 0x5F8;
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_18;
         } else {
-            globalCtx->nextEntranceIndex = 0x3B4;
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_17;
         }
 
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
@@ -581,7 +581,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                     this->actionFunc = EnGe1_TalkTooPoor_Archery;
                 } else {
                     Rupees_ChangeBy(-20);
-                    globalCtx->nextEntranceIndex = 0x129;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT12_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
                     globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
