@@ -28,7 +28,7 @@ char D_80133344[] = VT_COL(RED, WHITE) "<INAGAKI CHECK> dist over! flag:%04X ptr
 // file padding
 s32 D_8013338C = 0;
 
-// rodata for Audio_ProcessSeqCmd (code_800F9280.c)
+// rodata for Audio_ProcessSeqCmd (audio_seqcmd.c)
 char gAudioDebugTextSeqCmdHighBits[] = "SEQ H";
 char gAudioDebugTextSeqCmdLowBits[] = "    L";
 

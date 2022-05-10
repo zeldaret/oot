@@ -42,7 +42,8 @@ typedef enum {
     /* 0x8 */ SETUP_CMD_SET_VOLUME_WITH_FADE,
     /* 0x9 */ SETUP_CMD_SEQ_ACTIVE_CHANNELS,
     /* 0xA */ SETUP_CMD_SET_PLAYER_FREQ,
-    /* 0xE */ SETUP_CMD_POP_CACHE = 0xE
+    /* 0xE */ SETUP_CMD_POP_CACHE = 0xE,
+    /* 0xF */ SETUP_CMD_RESET_SETUP_CMDS
 } SetupCmdType;
 
 typedef enum {
@@ -50,11 +51,7 @@ typedef enum {
     /* 0x1 */ SUB_CMD_DISABLE_NEW_SEQUENCES
 } SubCmdType;
 
-
-
 // ==== Audio Sequence Primary Commands ====
-
-
 
 /**
  * ARGS
@@ -67,16 +64,15 @@ typedef enum {
  * DESCRIPTION
  *   Request a sequence to be played (seqId) on the specified player (playerIndex).
  *
- *   The sequence will gradually fade in over the course of (8 * fadeTimer) frames
- *   Note: the byte containing fadeTimer is compressed down by a factor of 8
+ *   The sequence will gradually fade in over the course of (fadeTimer) frames
+ *
+ *   seqArgs = 8 and seqArgs = 9 have unknown functionality
+ *
+ *   seqArgs = 0x7F will scale the fadeTimer differently
  *
  *   seqArgs >= 0x80 has an incomplete implementation and is not functional in Ocarina of Time.
  *   No sequence will play as a result. The code and purpose for seqArgs >= 0x80 was completed
  *   and is functional in Majora's Mask.
- *
- *   seqArgs = 0x7F will scale the fadeTimer differently
- *
- *   seqArgs = 8 and seqArgs = 9 has unknown functionality
  */
 #define AudioSeqCmd_PlaySequence(playerIndex, fadeTimer, seqArgs, seqId)                            \
     Audio_QueueSeqCmd((SEQ_CMD_START << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | \
@@ -93,412 +89,441 @@ typedef enum {
  * DESCRIPTION
  *   Request a sequence to be stopped on the specified player (playerIndex).
  *
- *   The sequence will gradually fade out over the course of (8 * fadeTimer) frames
- *   Note: the byte containing fadeTimer is compressed down by a factor of 8
+ *   The sequence will gradually fade out over the course of (fadeTimer) frames
+ *
+ *   Note: The 0x000000FF in the command is not read from at all, but is common in all StopSequence Commands
  */
 #define AudioSeqCmd_StopSequence(playerIndex, fadeTimer) \
     Audio_QueueSeqCmd((SEQ_CMD_STOP << 28) | 0xFF | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), fadeTimer (t), importance (i), seqId (s)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   2pttiiss
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_QueueSequence(playerIndex, fadeTimer, importance, seqId)                                      \
-    Audio_QueueSeqCmd((SEQ_CMD_QUEUE << 28) | ((playerIndex) << 24) | ((fadeTimer) << 16) | ((importance) << 8) | \
-                      (seqId))
+#define AudioSeqCmd_QueueSequence(playerIndex, fadeTimer, importance, seqId)                        \
+    Audio_QueueSeqCmd((SEQ_CMD_QUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | \
+                      ((u8)(importance) << 8) | (u8)(seqId))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), fadeTimer (t), seqId (s)
  *
  * FORMAT
  *   Captial U is unused
+ *   3pttUUss
  *
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_UnqueueSequence(playerIndex, fadeTimer) \
-    Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28) | ((playerIndex) << 24) | (fadeTimer))
+#define AudioSeqCmd_UnqueueSequence(playerIndex, fadeTimer, seqId) \
+    Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | (seqId))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), volume (v)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   4pddUUvv
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetPlayerVol(playerIndex, duration, volume) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_VOL << 28) | ((playerIndex) << 24) | ((duration) << 16) | (volume))
+    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_VOL << 28) | ((u8)(playerIndex) << 24) | ((duration) << 16) | (volume))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), freq (f)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   5pddffff
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetPlayerFreq(playerIndex, duration, freq) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_FREQ << 28) | ((playerIndex) << 24) | ((duration) << 16) | (freq))
+    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_FREQ << 28) | ((u8)(playerIndex) << 24) | ((duration) << 16) | (freq))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), channelIndex (c), freq (f)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Dpddcfff
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetChannelFreq(playerIndex, duration, channelIdx, freq)                           \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_FREQ << 28) | ((playerIndex) << 24) | ((duration) << 16) | \
-                      ((channelIdx) << 12) | (freq))
+#define AudioSeqCmd_SetChannelFreq(playerIndex, duration, channelIndex, freq)                             \
+    Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_FREQ << 28) | ((u8)(playerIndex) << 24) | ((duration) << 16) | \
+                      ((channelIndex) << 12) | (freq))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), channelIndex (c), volume (v)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   6pddUcvv
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetChannelVol(playerIndex, duration, channelIdx, volume)                                 \
+#define AudioSeqCmd_SetChannelVol(playerIndex, duration, channelIndex, volume)                               \
     Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_VOL << 28) | ((u8)(playerIndex) << 24) | ((u8)(duration) << 16) | \
-                      ((u8)(channelIdx) << 8) | ((u8)volume))
+                      ((u8)(channelIndex) << 8) | ((u8)volume))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), port (t), val (v)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   7pttUUvv
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetPlayerIO(playerIndex, port, val) \
     Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | (u8)(val))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), port (t), channelIndex (c), val (v)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   8pttUcvv
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetChannelIO(playerIndex, port, channelIdx, val)                                    \
+#define AudioSeqCmd_SetChannelIO(playerIndex, port, channelIndex, val)                                  \
     Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | \
-                      ((u8)(channelIdx) << 8) | (u8)(val))
+                      ((u8)(channelIndex) << 8) | (u8)(val))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), mask (m)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   9pUUmmmm
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetChannelIOMask(playerIndex, mask) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO_MASK << 28) | ((playerIndex) << 24) | (mask))
+    Audio_QueueSeqCmd(_SHIFTL(SEQ_CMD_SET_CHANNEL_IO_MASK, 28, 4) | ((u8)(playerIndex) << 24) | (u16)(mask))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), channelMask (m)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   ApUUmmmm
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetActiveChannels(playerIndex, channelMask) \
     Audio_QueueSeqCmd((SEQ_CMD_SET_ACTIVE_CHANNELS << 28) | ((u8)(playerIndex) << 24) | (u16)(channelMask))
 
-/**
- * ARGS
- *   playerIndex (p),
- *
- * FORMAT
- *   Captial U is unused
- *
- *
- * DESCRIPTION
- */
-#define AudioSeqCmd_SetSpec(sfxChannelLayout, spec) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_SPEC << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(spec))
-
-
-
 // ==== Audio Sequence Tempo Commands ====
 
-
-
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), tempoTarget (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Bpdd0ttt
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetTempo(playerIndex, duration, tempoTarget)                                      \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SET << 12) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(duration) << 16) | (u8)(tempoTarget))
+                      ((u8)(duration) << 16) | (u16)(tempoTarget))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), tempoIncrease (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Bpdd1ttt
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SpeedUpTempo(playerIndex, duration, tempoIncrease)                                     \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SPEED_UP << 12) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(duration) << 16) | (u8)(tempoIncrease))
+                      ((u8)(duration) << 16) | (u16)(tempoIncrease))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), tempoDecrease (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Bpdd2ttt
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SlowDownTempo(playerIndex, duration, tempoDecrease)                                     \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SLOW_DOWN << 12) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(duration) << 16) | (u8)(tempoDecrease))
+                      ((u8)(duration) << 16) | (u16)(tempoDecrease))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d), tempoScale (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Bpdd3ttt
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_ScaleTempo(playerIndex, duration, tempoScale)                                       \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_SCALE << 12) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(duration) << 16) | (u8)(tempoScale))
+                      ((u8)(duration) << 16) | (u16)(tempoScale))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), duration (d)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Bpdd4UUU
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_ResetTempo(playerIndex, duration)                                                   \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (TEMPO_CMD_RESET << 12) | ((u8)(playerIndex) << 24) | \
                       ((u8)(duration) << 16))
 
-
-
 // ==== Audio Sequence Setup Commands (secondary commands to SEQ_CMD_SETUP_CMD) ====
 
-
-
-#define AudioSeqCmd_SetupSetPlayerVol(playerIndex, PlayerIndexToSet, volume)                                 \
-    Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_VOLUME << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | (u8)(volume))
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), fadeTimer (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp0sUUtt
  *
  * DESCRIPTION
+ *
+ */
+#define AudioSeqCmd_SetupSetPlayerVolTimer(playerIndex, playerIndexToSet, fadeTimer)                         \
+    Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_VOLUME << 20) | ((u8)(playerIndex) << 24) | \
+                      ((u8)(playerIndexToSet) << 16) | (u8)(fadeTimer))
+/**
+ * ARGS
+ *   playerIndex (p)
+ *
+ * FORMAT
+ *   Captial U is unused
+ *   Cp1UUUUU
+ *
+ * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetupUnqueueSequence(playerIndex) \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_UNQUEUE << 20) | ((u8)(playerIndex) << 24))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToStart (s),
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp2sUUUU
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupStartSequence(playerIndex, PlayerIndexToStart)                                     \
+#define AudioSeqCmd_SetupStartSequence(playerIndex, playerIndexToStart)                                     \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_START << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToStart) << 16))
+                      ((u8)(playerIndexToStart) << 16))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), duration (d), tempoScale (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp3sddtt
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupScaleTempo(playerIndex, PlayerIndexToSet, duration, tempoScale)                      \
+#define AudioSeqCmd_SetupScaleTempo(playerIndex, playerIndexToSet, duration, tempoScale)                      \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_TEMPO_SCALE << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | ((u8)(duration) << 8) | (u8)(tempoScale))
+                      ((u8)(playerIndexToSet) << 16) | ((u8)(duration) << 8) | (u8)(tempoScale))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), duration (d)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp4sUUdd
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupResetTempo(playerIndex, PlayerIndexToSet, duration)                                  \
+#define AudioSeqCmd_SetupResetTempo(playerIndex, playerIndexToSet, duration)                                  \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_TEMPO_RESET << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | (u8)(duration))
+                      ((u8)(playerIndexToSet) << 16) | (u8)(duration))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), seqId (i)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp5siiii
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupStartSequenceWithFade(playerIndex, PlayerIndexToSet, seqId)                                  \
+#define AudioSeqCmd_SetupStartSequenceWithFade(playerIndex, playerIndexToSet, seqId)                                  \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_START_WITH_FADE << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | (u8)(seqId))
+                      ((u8)(playerIndexToSet) << 16) | (u16)(seqId))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), fadeTimer (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp6sttUU
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupSetFadeTimer(playerIndex, PlayerIndexToSet, fadeTimer)                                  \
+#define AudioSeqCmd_SetupSetFadeTimer(playerIndex, playerIndexToSet, fadeTimer)                                  \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_FADE_TIMER << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | ((u8)(fadeTimer) << 8))
+                      ((u8)(playerIndexToSet) << 16) | ((u8)(fadeTimer) << 8))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), fadeTimer (t), numSeqRequests (n)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp7sttnn
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupSetPlayerVolumeIfQueued(playerIndex, PlayerIndexToSet, fadeTimer, numSeqRequests)             \
+#define AudioSeqCmd_SetupSetPlayerVolumeIfQueued(playerIndex, playerIndexToSet, fadeTimer, numSeqRequests)             \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_VOLUME_IF_QUEUED << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | ((u8)(fadeTimer) << 8) | (u8)(numSeqRequests))
+                      ((u8)(playerIndexToSet) << 16) | ((u8)(fadeTimer) << 8) | (u8)(numSeqRequests))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), scaleIndex (i), fadeTimer (t)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp8siitt
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupSetPlayerVolumeWithFade(playerIndex, PlayerIndexToSet, scaleIdx, fadeTimer)                   \
+#define AudioSeqCmd_SetupSetPlayerVolumeWithFade(playerIndex, playerIndexToSet, scaleIndex, fadeTimer)                 \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_VOLUME_WITH_FADE << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | ((u8)(scaleIdx) << 8) | (u8)(fadeTimer))
+                      ((u8)(playerIndexToSet) << 16) | ((u8)(scaleIndex) << 8) | (u8)(fadeTimer))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), channelMask (m),
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   Cp9smmmm
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupSetActiveChannels(playerIndex, PlayerIndexToSet, channelMask)                                \
+#define AudioSeqCmd_SetupSetActiveChannels(playerIndex, playerIndexToSet, channelMask)                                \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_ACTIVE_CHANNELS << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | (u8)(channelMask))
+                      ((u8)(playerIndexToSet) << 16) | (u16)(channelMask))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), duration (d), freq (f)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   CpAsddff
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupSetPlayerFreq(playerIndex, PlayerIndexToSet, duration, freq)                             \
+#define AudioSeqCmd_SetupSetPlayerFreq(playerIndex, playerIndexToSet, duration, freq)                             \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SET_PLAYER_FREQ << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | ((u8)(duration) << 8) | (u8)(freq))
+                      ((u8)(playerIndexToSet) << 16) | ((u8)(duration) << 8) | (u8)(freq))
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), playerIndexToSet (s), tableTypeFlag (f)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   CpEsUUff
  *
  * DESCRIPTION
+ *
  */
-#define AudioSeqCmd_SetupPopCache(playerIndex, PlayerIndexToSet, tableTypeFlag)                             \
+#define AudioSeqCmd_SetupPopCache(playerIndex, playerIndexToSet, tableTypeFlag)                             \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_POP_CACHE << 20) | ((u8)(playerIndex) << 24) | \
-                      ((u8)(PlayerIndexToSet) << 16) | ((u8)tableTypeFlag))
+                      ((u8)(playerIndexToSet) << 16) | ((u8)tableTypeFlag))
 
-
+/**
+ * ARGS
+ *   playerIndex (p)
+ *
+ * FORMAT
+ *   Captial U is unused
+ *   CpFUUUUU
+ *
+ * DESCRIPTION
+ *
+ */
+#define AudioSeqCmd_ResetSetupCmds(playerIndex) \
+    Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_RESET_SETUP_CMDS << 20) | ((u8)(playerIndex) << 24)
 
 // ==== Audio Sequence Sub Commands ====
 
-
-
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), soundMode (s)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   EpUUU0ss
  *
  * DESCRIPTION
+ *
  */
 #define AudioSeqCmd_SetSoundMode(playerIndex, soundMode)                                                    \
     Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_SET_SOUND_MODE << 8) | ((u8)(playerIndex) << 24) | \
@@ -506,16 +531,32 @@ typedef enum {
 
 /**
  * ARGS
- *   playerIndex (p),
+ *   playerIndex (p), isDisabled (d)
  *
  * FORMAT
  *   Captial U is unused
- *
+ *   EpUUU1dd
  *
  * DESCRIPTION
+ *
+ * isDisabled should be a (u8) but is required to be (u16) for matching
  */
 #define AudioSeqCmd_DisableNewSequences(playerIndex, isDisabled)                                                   \
     Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_DISABLE_NEW_SEQUENCES << 8) | ((u8)(playerIndex) << 24) | \
                       (u16)(isDisabled))
+
+/**
+ * ARGS
+ *   playerIndex (p), sfxChannelLayout (c), spec (s)
+ *
+ * FORMAT
+ *   Captial U is unused
+ *   FpUUccss
+ *
+ * DESCRIPTION
+ *
+ */
+#define AudioSeqCmd_SetSpec(sfxChannelLayout, spec) \
+    Audio_QueueSeqCmd((SEQ_CMD_SET_SPEC << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(spec))
 
 #endif

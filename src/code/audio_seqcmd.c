@@ -312,7 +312,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
         case SEQ_CMD_SETUP_CMD:
             // start sequence with setup commands
             subOp = (cmd & 0xF00000) >> 20;
-            if (subOp != 0xF) {
+            if (subOp != SETUP_CMD_RESET_SETUP_CMDS) {
                 if (gActiveSeqs[playerIndex].setupCmdNum < 7) {
                     found = gActiveSeqs[playerIndex].setupCmdNum++;
                     if (found < 8) {
@@ -627,7 +627,7 @@ void Audio_UpdateActiveSequences(void) {
                         break;
 
                     case SETUP_CMD_SEQ_UNQUEUE:
-                        AudioSeqCmd_UnqueueSequence(playerIndex, gActiveSeqs[playerIndex].seqId);
+                        AudioSeqCmd_UnqueueSequence(playerIndex, 0, gActiveSeqs[playerIndex].seqId);
                         break;
 
                     case SETUP_CMD_SEQ_START:
