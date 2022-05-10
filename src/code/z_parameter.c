@@ -4162,7 +4162,7 @@ void Interface_Update(GlobalContext* globalCtx) {
                 gSaveContext.sunsSongState = SUNSSONG_SPEED_TIME;
                 sPrevTimeSpeed = gTimeSpeed;
                 gTimeSpeed = 400;
-            } else if (D_80125B60 == 0) {
+            } else if (!D_80125B60) {
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 1)) {
                     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
                     gTimeSpeed = sPrevTimeSpeed;

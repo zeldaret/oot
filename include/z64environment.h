@@ -20,9 +20,8 @@
 #define LIGHT_BLEND_OVERRIDE_NONE 0
 #define LIGHT_BLEND_OVERRIDE_ON 1
 
-// This mode disables the light system's automatic setting switching,
-// and gives full control to the user. This is a bit of a hack used only by 
-// bosses in the original game.
+// This mode disables the light system's automatic setting switching, and gives full control to the user.
+// This is a bit of a hack used only by bosses in the original game.
 // With this mode active, the light system will no longer save the current setting when switching to a new one,
 // and the user is expected to manually set both settings and the light blend.
 #define LIGHT_BLEND_OVERRIDE_FULL_CONTROL 2
@@ -70,7 +69,8 @@ typedef enum {
     /* 1 */ PRECIP_RAIN_CUR, // current number of rain drops being drawn on screen 
     /* 2 */ PRECIP_SNOW_CUR, // current number of snowflakes being drawn on screen
     /* 3 */ PRECIP_SNOW_MAX, // max number of snowflakes that can draw
-    /* 4 */ PRECIP_SOS_MAX // max number of rain drops requested from song of storms specifically
+    /* 4 */ PRECIP_SOS_MAX, // max number of rain drops requested from song of storms specifically
+    /* 5 */ PRECIP_MAX
 } PrecipitationData;
 
 typedef enum {
@@ -106,15 +106,6 @@ typedef enum {
 } SandstormState;
 
 typedef struct {
-    /* 0x00 */ u8 state;
-    /* 0x01 */ u8 flashRed;
-    /* 0x02 */ u8 flashGreen;
-    /* 0x03 */ u8 flashBlue;
-    /* 0x04 */ u8 flashAlphaTarget;
-    /* 0x08 */ f32 delayTimer;
-} LightningStrike; // size = 0xC
-
-typedef struct {
     /* 0x00 */ u16 startTime;
     /* 0x02 */ u16 endTime;
     /* 0x04 */ u8 changeSkybox;
@@ -135,7 +126,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
-    /* 0x02 */ u16 timeSpeed; // how many units of time that pass every update
+    /* 0x02 */ u16 timeSpeed;
     /* 0x04 */ Vec3f sunPos; // moon position can be found by negating the sun position
     /* 0x10 */ u8 skybox1Index;
     /* 0x11 */ u8 skybox2Index;
@@ -193,7 +184,7 @@ typedef struct {
     /* 0xE8 */ u8 sandstormEnvA;
     /* 0xE9 */ u8 customSkyboxFilter;
     /* 0xEA */ u8 skyboxFilterColor[4];
-    /* 0xEE */ u8 precipitation[5];
+    /* 0xEE */ u8 precipitation[PRECIP_MAX];
     /* 0xF6 */ char unk_F6[0x09];
 } EnvironmentContext; // size = 0xFC
 

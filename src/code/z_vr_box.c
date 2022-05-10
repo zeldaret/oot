@@ -381,7 +381,7 @@ void Skybox_Setup(GlobalContext* globalCtx, SkyboxContext* skyboxCtx, s16 skybox
     switch (skyboxId) {
         case SKYBOX_NORMAL_SKY:
             skyboxConfig = 0;
-            if (gSaveContext.applyWeatherOnInit && gSaveContext.sceneSetupIndex < 4 &&
+            if (gSaveContext.retainWeatherMode && gSaveContext.sceneSetupIndex < 4 &&
                 gWeatherMode > WEATHER_MODE_CLEAR && gWeatherMode <= WEATHER_MODE_HEAVY_RAIN) {
                 skyboxConfig = 1;
             }

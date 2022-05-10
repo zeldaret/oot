@@ -236,7 +236,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
                 Environment_AddLightningBolts(globalCtx, 3);
-                gLightningStrike.state = LIGHTNING_STRIKE_START;
+                gLightningStrikeState = LIGHTNING_STRIKE_START;
             }
             break;
         case 3:

@@ -30,6 +30,7 @@ u8 gInterruptSongOfStorms = false;
 // Indicates whether the skybox is changing to a different index of the same config (based on time)
 u8 gSkyboxIsChanging = false;
 
+// how many units of time that pass every update
 u16 gTimeSpeed = 0;
 
 u16 sSunScreenDepth = GPACK_ZDZ(G_MAXFBZ, 0);
@@ -197,7 +198,14 @@ typedef struct {
 } LightningBolt; // size = 0x20
 
 LightningBolt sLightningBolts[3];
-LightningStrike gLightningStrike;
+
+u8 gLightningStrikeState;
+
+u8 sLightningFlashR;
+u8 sLightningFlashG;
+u8 sLightningFlashB;
+u8 sLightningFlashAlphaTarget;
+f32 sLightningStrikeDelayTimer;
 s16 sLightningFlashAlpha;
 
 s16 sSunDepthTestX;
@@ -305,10 +313,10 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->sandstormPrimA = 0;
     envCtx->sandstormEnvA = 0;
 
-    gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
-    gLightningStrike.flashRed = 0;
-    gLightningStrike.flashGreen = 0;
-    gLightningStrike.flashBlue = 0;
+    gLightningStrikeState = LIGHTNING_STRIKE_WAIT;
+    sLightningFlashR = 0;
+    sLightningFlashG = 0;
+    sLightningFlashB = 0;
 
     sLightningFlashAlpha = 0;
 
@@ -343,7 +351,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 0;
     globalCtx->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
 
-    if (gSaveContext.applyWeatherOnInit) {
+    if (gSaveContext.retainWeatherMode) {
         if (((void)0, gSaveContext.sceneSetupIndex) < 4) {
             switch (gWeatherMode) {
                 case WEATHER_MODE_CLOUDY_CONFIG3:
@@ -399,7 +407,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     gInterruptSongOfStorms = false;
     gSavedNextLightConfig = 0;
     gSkyboxIsChanging = false;
-    gSaveContext.applyWeatherOnInit = false;
+    gSaveContext.retainWeatherMode = false;
 
     R_ENV_LIGHT1_DIR(0) = 80;
     R_ENV_LIGHT1_DIR(1) = 80;
@@ -1855,32 +1863,32 @@ void Environment_DrawLightningFlash(GlobalContext* globalCtx, u8 red, u8 green, 
 
 void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
     if (globalCtx->envCtx.lightningState != LIGHTNING_OFF) {
-        switch (gLightningStrike.state) {
+        switch (gLightningStrikeState) {
             case LIGHTNING_STRIKE_WAIT:
                 // every frame theres a 10% chance of the timer advancing 50 units
                 if (Rand_ZeroOne() < 0.1f) {
-                    gLightningStrike.delayTimer += 50.0f;
+                    sLightningStrikeDelayTimer += 50.0f;
                 }
 
-                gLightningStrike.delayTimer += Rand_ZeroOne();
+                sLightningStrikeDelayTimer += Rand_ZeroOne();
 
-                if (gLightningStrike.delayTimer > 500.0f) {
-                    gLightningStrike.flashRed = 200;
-                    gLightningStrike.flashGreen = 200;
-                    gLightningStrike.flashBlue = 255;
-                    gLightningStrike.flashAlphaTarget = 200;
+                if (sLightningStrikeDelayTimer > 500.0f) {
+                    sLightningFlashR = 200;
+                    sLightningFlashG = 200;
+                    sLightningFlashB = 255;
+                    sLightningFlashAlphaTarget = 200;
 
-                    gLightningStrike.delayTimer = 0.0f;
+                    sLightningStrikeDelayTimer = 0.0f;
                     Environment_AddLightningBolts(globalCtx,
                                                   (u8)(Rand_ZeroOne() * (ARRAY_COUNT(sLightningBolts) - 0.1f)) + 1);
                     sLightningFlashAlpha = 0;
-                    gLightningStrike.state++;
+                    gLightningStrikeState++;
                 }
                 break;
             case LIGHTNING_STRIKE_START:
-                gLightningStrike.flashRed = 200;
-                gLightningStrike.flashGreen = 200;
-                gLightningStrike.flashBlue = 255;
+                sLightningFlashR = 200;
+                sLightningFlashG = 200;
+                sLightningFlashB = 255;
 
                 globalCtx->envCtx.adjAmbientColor[0] += 80;
                 globalCtx->envCtx.adjAmbientColor[1] += 80;
@@ -1888,10 +1896,10 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
 
                 sLightningFlashAlpha += 100;
 
-                if (sLightningFlashAlpha >= gLightningStrike.flashAlphaTarget) {
+                if (sLightningFlashAlpha >= sLightningFlashAlphaTarget) {
                     Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
-                    gLightningStrike.state++;
-                    gLightningStrike.flashAlphaTarget = 0;
+                    gLightningStrikeState++;
+                    sLightningFlashAlphaTarget = 0;
                 }
                 break;
             case LIGHTNING_STRIKE_END:
@@ -1906,12 +1914,12 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
 
                 sLightningFlashAlpha -= 10;
 
-                if (sLightningFlashAlpha <= gLightningStrike.flashAlphaTarget) {
+                if (sLightningFlashAlpha <= sLightningFlashAlphaTarget) {
                     globalCtx->envCtx.adjAmbientColor[0] = 0;
                     globalCtx->envCtx.adjAmbientColor[1] = 0;
                     globalCtx->envCtx.adjAmbientColor[2] = 0;
 
-                    gLightningStrike.state = LIGHTNING_STRIKE_WAIT;
+                    gLightningStrikeState = LIGHTNING_STRIKE_WAIT;
 
                     if (globalCtx->envCtx.lightningState == LIGHTNING_LAST) {
                         globalCtx->envCtx.lightningState = LIGHTNING_OFF;
@@ -1921,9 +1929,9 @@ void Environment_UpdateLightningStrike(GlobalContext* globalCtx) {
         }
     }
 
-    if (gLightningStrike.state != LIGHTNING_STRIKE_WAIT) {
-        Environment_DrawLightningFlash(globalCtx, gLightningStrike.flashRed, gLightningStrike.flashGreen,
-                                       gLightningStrike.flashBlue, sLightningFlashAlpha);
+    if (gLightningStrikeState != LIGHTNING_STRIKE_WAIT) {
+        Environment_DrawLightningFlash(globalCtx, sLightningFlashR, sLightningFlashG,
+                                       sLightningFlashB, sLightningFlashAlpha);
     }
 }
 

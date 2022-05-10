@@ -4143,7 +4143,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                         gSaveContext.respawnFlag = -2;
                     }
 
-                    gSaveContext.applyWeatherOnInit = true;
+                    gSaveContext.retainWeatherMode = true;
                     Scene_SetTransitionForNextEntrance(globalCtx);
                 }
 
