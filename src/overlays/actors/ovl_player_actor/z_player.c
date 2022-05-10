@@ -2792,7 +2792,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
         func_8008EC70(this);
     }
 
-    if (!(flags & 1) && (!(this->stateFlags1 & PLAYER_STATE1_11))) {
+    if (!(flags & 1) && !(this->stateFlags1 & PLAYER_STATE1_11)) {
         func_80834644(globalCtx, this);
         this->stateFlags1 &= ~PLAYER_STATE1_22;
     }
