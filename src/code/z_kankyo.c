@@ -275,7 +275,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->lightConfig = 0;
     envCtx->changeLightNextConfig = 0;
 
-    envCtx->lensFlareFillAlpha = 0.0f;
+    envCtx->glareAlpha = 0.0f;
     envCtx->lensFlareAlphaScale = 0.0f;
 
     envCtx->lightSetting = 0;
@@ -965,7 +965,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         if ((envCtx->lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE) &&
             (envCtx->lightBlendOverride != LIGHT_BLEND_OVERRIDE_FULL_CONTROL) &&
             (envCtx->lightSetting != envCtx->lightSettingOverride) && (envCtx->lightBlend >= 1.0f) &&
-            (envCtx->lightSettingOverride <= LIGHT_SETTING_MAX + 1)) {
+            (envCtx->lightSettingOverride <= LIGHT_SETTING_MAX)) {
+
             envCtx->prevLightSetting = envCtx->lightSetting;
             envCtx->lightSetting = envCtx->lightSettingOverride;
             envCtx->lightBlend = 0.0f;
@@ -1464,7 +1465,7 @@ typedef enum {
 
 void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
                                GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
-                               s16 screenFillAlpha, u8 isSun) {
+                               s16 glareStrength, u8 isSun) {
     s16 i;
     f32 tempX;
     f32 tempY;
@@ -1485,14 +1486,14 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     f32 halfPosZ;
     f32 cosAngle;
     s32 pad;
-    f32 alphaScaleTarget;
+    f32 lensFlareAlphaScaleTarget;
     u32 isOffScreen = false;
     f32 alpha;
     f32 adjScale;
     Vec3f screenPos;
     f32 fogInfluence;
     f32 temp;
-    f32 alphaScale;
+    f32 glareAlphaScale;
     Color_RGB8 lensFlareColors[] = {
         { 155, 205, 255 }, // blue
         { 255, 255, 205 }, // yellow
@@ -1548,11 +1549,11 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     cosAngle = (lookDirX * posDirX + lookDirY * posDirY + lookDirZ * posDirZ) /
                sqrtf((SQ(lookDirX) + SQ(lookDirY) + SQ(lookDirZ)) * (SQ(posDirX) + SQ(posDirY) + SQ(posDirZ)));
 
-    alphaScaleTarget = cosAngle * 3.5f;
-    alphaScaleTarget = CLAMP_MAX(alphaScaleTarget, 1.0f);
+    lensFlareAlphaScaleTarget = cosAngle * 3.5f;
+    lensFlareAlphaScaleTarget = CLAMP_MAX(lensFlareAlphaScaleTarget, 1.0f);
 
     if (!isSun) {
-        alphaScaleTarget = cosAngle;
+        lensFlareAlphaScaleTarget = cosAngle;
     }
 
     if (cosAngle < 0.0f) {
@@ -1600,7 +1601,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
             if (1) {}
 
             if (!(isOffScreen ^ 0)) {
-                Math_SmoothStepToF(&envCtx->lensFlareAlphaScale, alphaScaleTarget, 0.5f, 0.05f, 0.001f);
+                Math_SmoothStepToF(&envCtx->lensFlareAlphaScale, lensFlareAlphaScaleTarget, 0.5f, 0.05f, 0.001f);
             } else {
                 Math_SmoothStepToF(&envCtx->lensFlareAlphaScale, 0.0f, 0.5f, 0.05f, 0.001f);
             }
@@ -1627,15 +1628,15 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
             }
         }
 
-        alphaScale = cosAngle - (1.5f - cosAngle);
+        glareAlphaScale = cosAngle - (1.5f - cosAngle);
 
-        if (screenFillAlpha != 0) {
-            if (alphaScale > 0.0f) {
+        if (glareStrength != 0) {
+            if (glareAlphaScale > 0.0f) {
                 POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
 
                 alpha = colorIntensity / 10.0f;
                 alpha = CLAMP_MAX(alpha, 1.0f);
-                alpha = alpha * screenFillAlpha;
+                alpha = alpha * glareStrength;
                 alpha = CLAMP_MIN(alpha, 0.0f);
 
                 fogInfluence = (996 - globalCtx->lightCtx.fogNear) / 50.0f;
@@ -1648,19 +1649,19 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
                 gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
 
                 if (!(isOffScreen ^ 0)) {
-                    Math_SmoothStepToF(&envCtx->lensFlareFillAlpha, alpha * alphaScale, 0.5f, 50.0f, 0.1f);
+                    Math_SmoothStepToF(&envCtx->glareAlpha, alpha * glareAlphaScale, 0.5f, 50.0f, 0.1f);
                 } else {
-                    Math_SmoothStepToF(&envCtx->lensFlareFillAlpha, 0.0f, 0.5f, 50.0f, 0.1f);
+                    Math_SmoothStepToF(&envCtx->glareAlpha, 0.0f, 0.5f, 50.0f, 0.1f);
                 }
 
                 temp = colorIntensity / 120.0f;
                 temp = CLAMP_MIN(temp, 0.0f);
 
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, (u8)(temp * 75.0f) + 180, (u8)(temp * 155.0f) + 100,
-                                (u8)envCtx->lensFlareFillAlpha);
+                                (u8)envCtx->glareAlpha);
                 gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
             } else {
-                envCtx->lensFlareFillAlpha = 0.0f;
+                envCtx->glareAlpha = 0.0f;
             }
         }
     }
@@ -1781,7 +1782,7 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
 void Environment_ChangeLightSetting(GlobalContext* globalCtx, u32 lightSetting) {
     if ((globalCtx->envCtx.lightSetting != lightSetting) && (globalCtx->envCtx.lightBlend >= 1.0f) &&
         (globalCtx->envCtx.lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE)) {
-        if (lightSetting > LIGHT_SETTING_MAX) {
+        if (lightSetting >= LIGHT_SETTING_MAX) {
             lightSetting = 0;
         }
 

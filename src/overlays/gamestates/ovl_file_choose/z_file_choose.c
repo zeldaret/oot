@@ -1846,7 +1846,7 @@ void FileChoose_InitContext(GameState* thisx) {
     envCtx->skyboxConfig = 2;
     envCtx->skyboxDisabled = 0;
     envCtx->skyboxBlend = 0;
-    envCtx->lensFlareFillAlpha = 0.0f;
+    envCtx->glareAlpha = 0.0f;
     envCtx->lensFlareAlphaScale = 0.0f;
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);

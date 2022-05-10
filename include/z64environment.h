@@ -9,12 +9,12 @@
 #define FILL_SCREEN_XLU (1 << 1)
 
 #define NEXT_TIME_NONE 0xFFFF
-#define NEXT_TIME_DAY CLOCK_TIME(12, 0) + 1
+#define NEXT_TIME_DAY (CLOCK_TIME(12, 0) + 1)
 #define NEXT_TIME_NIGHT CLOCK_TIME(0, 0)
 #define NEXT_TIME_DAY_SET 0xFFFE
 #define NEXT_TIME_NIGHT_SET 0xFFFD
 
-#define LIGHT_SETTING_MAX 30
+#define LIGHT_SETTING_MAX 31
 #define LIGHT_SETTING_OVERRIDE_NONE 0xFF
 #define LIGHT_BLENDRATE_OVERRIDE_NONE 0xFFFF
 #define LIGHT_BLEND_OVERRIDE_NONE 0
@@ -23,7 +23,7 @@
 // This mode disables the light system's automatic setting switching,
 // and gives full control to the user. This is a bit of a hack used only by 
 // bosses in the original game.
-// The light system will no longer save the current setting when switching to a new one,
+// With this mode active, the light system will no longer save the current setting when switching to a new one,
 // and the user is expected to manually set both settings and the light blend.
 #define LIGHT_BLEND_OVERRIDE_FULL_CONTROL 2
 
@@ -162,7 +162,7 @@ typedef struct {
     /* 0x48 */ DmaRequest dmaRequest;
     /* 0x68 */ OSMesgQueue loadQueue;
     /* 0x80 */ OSMesg loadMsg;
-    /* 0x84 */ f32 lensFlareFillAlpha;
+    /* 0x84 */ f32 glareAlpha;
     /* 0x88 */ f32 lensFlareAlphaScale;
     /* 0x8C */ s16 adjAmbientColor[3];
     /* 0x92 */ s16 adjLight1Color[3];
@@ -175,8 +175,8 @@ typedef struct {
     /* 0xB4 */ u8 numLightSettings;
     /* 0xB8 */ EnvLightSettings* lightSettingsList; // list of light settings from the scene file
     /* 0xBC */ u8 blendIndoorLights; // when true, blend between indoor light settings when switching
-    /* 0xBD */ u8 lightSetting;
-    /* 0xBE */ u8 prevLightSetting;
+    /* 0xBD */ u8 lightSetting; // only used indoors or on override
+    /* 0xBE */ u8 prevLightSetting; // only used indoors or on override
     /* 0xBF */ u8 lightSettingOverride;
     /* 0xC0 */ EnvLightSettings lightSettings;
     /* 0xD6 */ u16 lightBlendRateOverride;
