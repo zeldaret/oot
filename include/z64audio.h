@@ -101,7 +101,7 @@ typedef struct NotePool {
     /* 0x10 */ AudioListItem decaying;
     /* 0x20 */ AudioListItem releasing;
     /* 0x30 */ AudioListItem active;
-} NotePool;
+} NotePool; // size = 0x40
 
 // Pitch sliding by up to one octave in the positive direction. Negative
 // direction is "supported" by setting extent to be negative. The code
@@ -218,8 +218,8 @@ typedef struct {
     /* 0x01 */ u8 pan;
     /* 0x02 */ u8 loaded;
     /* 0x04 */ SoundFontSound sound;
-    /* 0x14 */ AdsrEnvelope* envelope;
-} Drum; // size = 0x14
+    /* 0x0C */ AdsrEnvelope* envelope;
+} Drum; // size = 0x10
 
 typedef struct {
     /* 0x00 */ u8 numInstruments;
@@ -309,7 +309,7 @@ typedef struct {
     /* 0x14 */ f32 target;
     /* 0x18 */ char unk_18[4];
     /* 0x1C */ AdsrEnvelope* envelope;
-} AdsrState;
+} AdsrState; // size = 0x20
 
 typedef struct {
     /* 0x00 */ u8 unused : 2;
@@ -318,12 +318,12 @@ typedef struct {
     /* 0x00 */ u8 strongLeft : 1;
     /* 0x00 */ u8 stereoHeadsetEffects : 1;
     /* 0x00 */ u8 usesHeadsetPanEffects : 1;
-} StereoData;
+} StereoData; // size = 0x1
 
 typedef union {
     /* 0x00 */ StereoData s;
     /* 0x00 */ u8 asByte;
-} Stereo;
+} Stereo; // size = 0x1
 
 typedef struct {
     /* 0x00 */ u8 reverb;
@@ -500,8 +500,8 @@ typedef struct {
     /* 0x18 */ SequenceLayer* wantedParentLayer;
     /* 0x1C */ NoteAttributes attributes;
     /* 0x40 */ AdsrState adsr;
-    // may contain portamento, vibratoState, if those are not part of Note itself
-} NotePlaybackState;
+    // Majora's Mask suggests this struct contain portamento, vibratoState
+} NotePlaybackState; // size = 0x60
 
 typedef struct {
     struct {
@@ -613,7 +613,7 @@ typedef struct {
     /* 0x1C */ f32 updatesPerFrameInv;
     /* 0x20 */ f32 unkUpdatesPerFrameScaled;
     /* 0x24 */ f32 unk_24;
-} AudioBufferParameters;
+} AudioBufferParameters; // size = 0x28
 
 /**
  * Meta-data associated with a pool (contain withing the Audio Heap)
@@ -676,20 +676,20 @@ typedef struct {
 } AudioCache; // size = 0x110
 
 typedef struct {
-    u32 persistentCommonPoolSize;
-    u32 temporaryCommonPoolSize;
+    /* 0x0 */ u32 persistentCommonPoolSize;
+    /* 0x4 */ u32 temporaryCommonPoolSize;
 } AudioCachePoolSplit; // size = 0x8
 
 typedef struct {
-    u32 seqCacheSize;
-    u32 fontCacheSize;
-    u32 sampleBankCacheSize;
+    /* 0x0 */ u32 seqCacheSize;
+    /* 0x4 */ u32 fontCacheSize;
+    /* 0x8 */ u32 sampleBankCacheSize;
 } AudioCommonPoolSplit; // size = 0xC
 
 typedef struct {
-    u32 miscPoolSize;
-    u32 unkSizes[2];
-    u32 cachePoolSize;
+    /* 0x0 */ u32 miscPoolSize;
+    /* 0x4 */ u32 unkSizes[2];
+    /* 0xC */ u32 cachePoolSize;
 } AudioSessionPoolSplit; // size = 0x10
 
 typedef struct {
@@ -700,8 +700,11 @@ typedef struct {
     /* 0x10 */ s32 isFree;
 } AudioPreloadReq; // size = 0x14
 
+/**
+ * Audio commands used to transfer audio requests from the graph thread to the audio thread
+ */
 typedef struct {
-    union{
+    /* 0x0 */ union{
         u32 opArgs;
         struct {
             u8 op;
@@ -710,7 +713,7 @@ typedef struct {
             u8 arg2;
         };
     };
-    union {
+    /* 0x4 */ union {
         void* data;
         f32 asFloat;
         s32 asInt;
@@ -719,7 +722,7 @@ typedef struct {
         u8 asUbyte;
         u32 asUInt;
     };
-} AudioCmd;
+} AudioCmd; // size = 0x8
 
 typedef struct {
     /* 0x00 */ s8 status;
