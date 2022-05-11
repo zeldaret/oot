@@ -303,6 +303,7 @@ void func_800E5584(AudioCmd* cmd) {
             gAudioContext.resetStatus = 5;
             gAudioContext.audioResetSpecIdToLoad = cmd->asUInt;
             break;
+
         case 0xFB:
             D_801755D0 = (void (*)(void))cmd->asUInt;
             break;
