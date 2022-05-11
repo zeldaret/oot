@@ -203,7 +203,8 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
-        Audio_OcaSetInstrument(4); // seems to be related to setting instrument type
+        // Ocarina is set to harp here but is immediately overwritten to the grind organ in the message system
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_HARP);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }

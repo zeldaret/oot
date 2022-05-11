@@ -92,7 +92,7 @@ void func_80A8F28C(EnKakasi* this) {
 }
 
 void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
-    s16 ocarinaNote = globalCtx->msgCtx.lastOcaNoteIdx;
+    s16 ocarinaNote = globalCtx->msgCtx.lastOcarinaButtonIndex;
     s16 currentFrame;
 
     if (arg != 0) {
@@ -105,30 +105,30 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
         ocarinaNote = this->unk_1A6;
     }
     switch (ocarinaNote) {
-        case OCARINA_NOTE_A:
+        case OCARINA_BTN_A:
             this->unk_19A++;
             if (this->unk_1A4 == 0) {
                 this->unk_1A4 = 1;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_KAKASHI_ROLL);
             }
             break;
-        case OCARINA_NOTE_C_DOWN:
+        case OCARINA_BTN_C_DOWN:
             this->unk_19A++;
             this->unk_1B8 = 1.0f;
             break;
-        case OCARINA_NOTE_C_RIGHT:
+        case OCARINA_BTN_C_RIGHT:
             this->unk_19A++;
             if (this->unk_1AC == 0) {
                 this->unk_1AC = 0x1388;
             }
             break;
-        case OCARINA_NOTE_C_LEFT:
+        case OCARINA_BTN_C_LEFT:
             this->unk_19A++;
             if (this->unk_1A8 == 0) {
                 this->unk_1A8 = 0x1388;
             }
             break;
-        case OCARINA_NOTE_C_UP:
+        case OCARINA_BTN_C_UP:
             this->unk_19A++;
             this->unk_1B8 = 2.0f;
             break;
@@ -178,13 +178,13 @@ void func_80A8F660(EnKakasi* this, GlobalContext* globalCtx) {
     this->unk_196 = TEXT_STATE_DONE;
     if (!LINK_IS_ADULT) {
         this->unk_194 = false;
-        if (gSaveContext.scarecrowCustomSongSet) {
+        if (gSaveContext.scarecrowLongSongSet) {
             this->actor.textId = 0x407A;
             this->unk_196 = TEXT_STATE_EVENT;
         }
     } else {
         this->unk_194 = true;
-        if (gSaveContext.scarecrowCustomSongSet) {
+        if (gSaveContext.scarecrowLongSongSet) {
             this->actor.textId = 0x4079;
             this->unk_196 = TEXT_STATE_EVENT;
         }
@@ -341,7 +341,7 @@ void EnKakasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(3) != 0) {
         osSyncPrintf("\n\n");
         // "flag!"
-        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowCustomSongSet);
+        osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowLongSongSet);
     }
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
