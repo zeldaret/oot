@@ -291,7 +291,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
-    if (!(this->flags & 2) && (SkelAnime_Update(&this->skelAnime))) {
+    if (!(this->flags & 2) && SkelAnime_Update(&this->skelAnime)) {
         this->flags |= 2;
     }
 
