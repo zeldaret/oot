@@ -236,7 +236,7 @@ typedef struct {
     /* 0x000 */ u8 fontDmaInProgress : 1;
     /* 0x000 */ u8 recalculateVolume : 1;
     /* 0x000 */ u8 stopScript : 1;
-    /* 0x000 */ u8 unk_0b1 : 1;
+    /* 0x000 */ u8 applyBend : 1;
     /* 0x001 */ u8 state;
     /* 0x002 */ u8 noteAllocPolicy;
     /* 0x003 */ u8 muteBehavior;
@@ -258,7 +258,7 @@ typedef struct {
     /* 0x028 */ f32 muteVolumeScale;
     /* 0x02C */ f32 fadeVolumeScale;
     /* 0x030 */ f32 appliedFadeVolume;
-    /* 0x034 */ f32 unk_34;
+    /* 0x034 */ f32 bend;
     /* 0x038 */ struct SequenceChannel* channels[16];
     /* 0x078 */ SeqScriptState scriptState;
     /* 0x094 */ u8* shortNoteVelocityTable;
@@ -314,7 +314,7 @@ typedef union {
 
 typedef struct {
     /* 0x00 */ u8 reverb;
-    /* 0x01 */ u8 unk_1;
+    /* 0x01 */ u8 gain;
     /* 0x02 */ u8 pan;
     /* 0x03 */ Stereo stereo;
     /* 0x04 */ u8 unk_4;
@@ -353,7 +353,7 @@ typedef struct SequenceChannel {
     /* 0x09 */ u8 bookOffset;
     /* 0x0A */ u8 newPan;
     /* 0x0B */ u8 panChannelWeight;  // proportion of pan that comes from the channel (0..128)
-    /* 0x0C */ u8 unk_0C;
+    /* 0x0C */ u8 gain;
     /* 0x0D */ u8 velocityRandomVariance;
     /* 0x0E */ u8 gateTimeRandomVariance;
     /* 0x0F */ u8 unk_0F;
@@ -419,7 +419,7 @@ typedef struct SequenceLayer {
     /* 0x20 */ Portamento portamento;
     /* 0x2C */ struct Note* note;
     /* 0x30 */ f32 freqScale;
-    /* 0x34 */ f32 unk_34;
+    /* 0x34 */ f32 bend;
     /* 0x38 */ f32 velocitySquare2;
     /* 0x3C */ f32 velocitySquare; // not sure which one of those corresponds to the sm64 original
     /* 0x40 */ f32 noteVelocity;
@@ -475,7 +475,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 priority;
     /* 0x01 */ u8 waveId;
-    /* 0x02 */ u8 sampleCountIndex;
+    /* 0x02 */ u8 harmonicIndex;
     /* 0x03 */ u8 fontId;
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 stereoHeadsetEffects;
@@ -508,7 +508,7 @@ typedef struct {
         /* 0x01 */ u8 hasTwoParts : 1;
         /* 0x01 */ u8 usesHeadsetPanEffects2 : 1;
     } bitField1;
-    /* 0x02 */ u8 unk_2;
+    /* 0x02 */ u8 gain;
     /* 0x03 */ u8 headsetPanRight;
     /* 0x04 */ u8 headsetPanLeft;
     /* 0x05 */ u8 reverbVol;
@@ -884,7 +884,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8 reverbVol;
-    /* 0x01 */ u8 unk_1;
+    /* 0x01 */ u8 gain;
     /* 0x02 */ u8 pan;
     /* 0x03 */ Stereo stereo;
     /* 0x04 */ f32 frequency;

@@ -4,6 +4,7 @@
 #define DEFAULT_LEN_1CH 0x1A0
 #define DEFAULT_LEN_2CH 0x340
 
+// Data Memory Addresses for the RSP
 #define DMEM_TEMP 0x3C0
 #define DMEM_UNCOMPRESSED_NOTE 0x580
 #define DMEM_NOTE_PAN_TEMP 0x5C0
@@ -30,10 +31,10 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 Acmd* AudioSynth_FinalResample(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem,
                                s32 resampleFlags);
 
-u32 D_801304A0 = 0x13000000;
-u32 D_801304A4 = 0x5CAEC8E2;
-u32 D_801304A8 = 0x945CC8E2;
-u32 D_801304AC = 0x94AEC8E2;
+u32 D_801304A0 = _SHIFTL(A_ENVMIXER, 24, 8);
+u32 D_801304A4 = CMD_BBBB(DMEM_NOTE_PAN_TEMP >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+u32 D_801304A8 = CMD_BBBB(DMEM_LEFT_CH >> 4, DMEM_NOTE_PAN_TEMP >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
+u32 D_801304AC = CMD_BBBB(DMEM_LEFT_CH >> 4, DMEM_RIGHT_CH >> 4, DMEM_WET_LEFT_CH >> 4, DMEM_WET_RIGHT_CH >> 4);
 
 u16 D_801304B0[] = {
     0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
@@ -47,7 +48,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
     SynthesisReverb* reverb = &gAudioContext.synthesisReverbs[reverbIndex];
     s32 temp_a0_2;
     s32 temp_a0_4;
-    s32 sampleCnt;
+    s32 sampleCount;
     s32 extraSamples;
     s32 i;
     s32 j;
@@ -70,22 +71,22 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
     }
 
     bufItem = &reverb->items[reverb->curFrame][bufIndex];
-    sampleCnt = chunkLen / reverb->downsampleRate;
-    extraSamples = (sampleCnt + reverb->nextRingBufPos) - reverb->bufSizePerChan;
+    sampleCount = chunkLen / reverb->downsampleRate;
+    extraSamples = (sampleCount + reverb->nextRingBufPos) - reverb->bufSizePerChan;
     temp_a0_2 = reverb->nextRingBufPos;
     if (extraSamples < 0) {
-        bufItem->lengthA = sampleCnt * 2;
+        bufItem->lengthA = sampleCount * 2;
         bufItem->lengthB = 0;
         bufItem->startPos = reverb->nextRingBufPos;
-        reverb->nextRingBufPos += sampleCnt;
+        reverb->nextRingBufPos += sampleCount;
     } else {
-        bufItem->lengthA = (sampleCnt - extraSamples) * 2;
+        bufItem->lengthA = (sampleCount - extraSamples) * 2;
         bufItem->lengthB = extraSamples * 2;
         bufItem->startPos = reverb->nextRingBufPos;
         reverb->nextRingBufPos = extraSamples;
     }
 
-    bufItem->numSamplesAfterDownsampling = sampleCnt;
+    bufItem->numSamplesAfterDownsampling = sampleCount;
     bufItem->chunkLen = chunkLen;
 
     if (reverb->unk_14 != 0) {
@@ -94,18 +95,18 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
             temp_a0_4 -= reverb->bufSizePerChan;
         }
         bufItem = &reverb->items2[reverb->curFrame][bufIndex];
-        sampleCnt = chunkLen / reverb->downsampleRate;
-        extraSamples = (temp_a0_4 + sampleCnt) - reverb->bufSizePerChan;
+        sampleCount = chunkLen / reverb->downsampleRate;
+        extraSamples = (temp_a0_4 + sampleCount) - reverb->bufSizePerChan;
         if (extraSamples < 0) {
-            bufItem->lengthA = sampleCnt * 2;
+            bufItem->lengthA = sampleCount * 2;
             bufItem->lengthB = 0;
             bufItem->startPos = temp_a0_4;
         } else {
-            bufItem->lengthA = (sampleCnt - extraSamples) * 2;
+            bufItem->lengthA = (sampleCount - extraSamples) * 2;
             bufItem->lengthB = extraSamples * 2;
             bufItem->startPos = temp_a0_4;
         }
-        bufItem->numSamplesAfterDownsampling = sampleCnt;
+        bufItem->numSamplesAfterDownsampling = sampleCount;
         bufItem->chunkLen = chunkLen;
     }
 }
@@ -675,7 +676,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     u16 resamplingRateFixedPoint;
     s32 nSamplesInFirstFrame;
     s32 nTrailingSamplesToIgnore;
-    s32 phi_a1_2;
+    s32 gain;
     s32 frameIndex;
     s32 skipBytes;
     s32 temp_v1_6;
@@ -835,16 +836,19 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         skipInitialSamples = 16;
                         sampleDataStart = 0;
                         break;
+
                     case CODEC_SMALL_ADPCM:
                         frameSize = 5;
                         skipInitialSamples = 16;
                         sampleDataStart = 0;
                         break;
+
                     case CODEC_S8:
                         frameSize = 16;
                         skipInitialSamples = 16;
                         sampleDataStart = 0;
                         break;
+
                     case CODEC_S16_INMEMORY:
                         AudioSynth_ClearBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, (samplesLenAdjusted * 2) + 0x20);
                         flags = A_CONTINUE;
@@ -852,6 +856,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         nSamplesProcessed = samplesLenAdjusted;
                         s5 = samplesLenAdjusted;
                         goto skip;
+
                     case CODEC_S16:
                         AudioSynth_ClearBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, (samplesLenAdjusted * 2) + 0x20);
                         flags = A_CONTINUE;
@@ -859,6 +864,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         nSamplesProcessed = samplesLenAdjusted;
                         s5 = samplesLenAdjusted;
                         goto skip;
+
                     case CODEC_REVERB:
                         break;
                 }
@@ -902,6 +908,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 } else {
                     phi_s4 = ALIGN16(s5 + 16);
                 }
+
                 switch (audioFontSample->codec) {
                     case CODEC_ADPCM:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
@@ -910,6 +917,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                                    nSamplesToDecode * 2);
                         aADPCMdec(cmd++, flags, synthState->synthesisBuffers->adpcmdecState);
                         break;
+
                     case CODEC_SMALL_ADPCM:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
@@ -917,6 +925,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                                    nSamplesToDecode * 2);
                         aADPCMdec(cmd++, flags | 4, synthState->synthesisBuffers->adpcmdecState);
                         break;
+
                     case CODEC_S8:
                         aligned = ALIGN16((nFramesToDecode * frameSize) + 0x10);
                         addr = DMEM_COMPRESSED_ADPCM_DATA - aligned;
@@ -938,9 +947,11 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                         skipBytes = 0x20;
                         s5 = (nSamplesToDecode + 0x10) * 2;
                         break;
+
                     case A_LOOP:
                         s5 = nSamplesInThisIteration * 2 + s5;
                         break;
+
                     default:
                         if (s5 != 0) {
                             s5 = nSamplesInThisIteration * 2 + s5;
@@ -974,6 +985,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 case 1:
                     noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + skipBytes;
                     break;
+
                 case 2:
                     switch (curPart) {
                         case 0:
@@ -986,6 +998,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                                                        samplesLenAdjusted + 0x10);
                             }
                             break;
+
                         case 1:
                             AudioSynth_InterL(cmd++, DMEM_UNCOMPRESSED_NOTE + skipBytes,
                                               DMEM_TEMP + 0x20 + resampledTempLen, ALIGN8(samplesLenAdjusted / 2));
@@ -1014,12 +1027,13 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         AudioSynth_UnkCmd3(cmd++, DMEM_TEMP, DMEM_TEMP, aiBufLen * 2);
     }
 
-    phi_a1_2 = noteSubEu->unk_2;
-    if (phi_a1_2 != 0) {
-        if (phi_a1_2 < 0x10) {
-            phi_a1_2 = 0x10;
+    gain = noteSubEu->gain;
+    if (gain != 0) {
+        // A gain of 0x10 means no change
+        if (gain < 0x10) {
+            gain = 0x10;
         }
-        AudioSynth_HiLoGain(cmd++, phi_a1_2, DMEM_TEMP, 0, (aiBufLen * 2) + 0x20);
+        AudioSynth_HiLoGain(cmd++, gain, DMEM_TEMP, 0, (aiBufLen * 2) + 0x20);
     }
 
     filter = noteSubEu->filter;

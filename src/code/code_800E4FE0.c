@@ -624,6 +624,7 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
                     seqPlayer->fadeVolume = seqPlayer->volume;
                 } else {
                     s32 tmp = cmd->asInt;
+
                     seqPlayer->state = 0;
                     seqPlayer->fadeTimer = tmp;
                     seqPlayer->fadeVelocity = (seqPlayer->volume - seqPlayer->fadeVolume) / tmp;
@@ -631,11 +632,11 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
             }
             return;
         case 0x4D:
-            seqPlayer->unk_34 = cmd->asFloat;
-            if (seqPlayer->unk_34 == 1.0f) {
-                seqPlayer->unk_0b1 = 0;
+            seqPlayer->bend = cmd->asFloat;
+            if (seqPlayer->bend == 1.0f) {
+                seqPlayer->applyBend = false;
             } else {
-                seqPlayer->unk_0b1 = 1;
+                seqPlayer->applyBend = true;
             }
     }
 }
