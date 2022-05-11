@@ -80,6 +80,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
         bufItem->startPos = reverb->nextRingBufPos;
         reverb->nextRingBufPos += sampleCount;
     } else {
+        // End of the buffer is reach. Loop back around
         bufItem->lengthA = (sampleCount - extraSamples) * 2;
         bufItem->lengthB = extraSamples * 2;
         bufItem->startPos = reverb->nextRingBufPos;
@@ -102,6 +103,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
             bufItem->lengthB = 0;
             bufItem->startPos = temp_a0_4;
         } else {
+            // End of the buffer is reach. Loop back around
             bufItem->lengthA = (sampleCount - extraSamples) * 2;
             bufItem->lengthB = extraSamples * 2;
             bufItem->startPos = temp_a0_4;
@@ -111,13 +113,13 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
     }
 }
 
-void func_800DB03C(s32 arg0) {
+void func_800DB03C(s32 updateIndex) {
     NoteSubEu* subEu;
     NoteSubEu* subEu2;
     s32 baseIndex;
     s32 i;
 
-    baseIndex = gAudioContext.numNotes * arg0;
+    baseIndex = gAudioContext.numNotes * updateIndex;
     for (i = 0; i < gAudioContext.numNotes; i++) {
         subEu = &gAudioContext.notes[i].noteSubEu;
         subEu2 = &gAudioContext.noteSubsEu[baseIndex + i];
@@ -147,6 +149,7 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
 
     aiBufP = aiStart;
     gAudioContext.curLoadedBook = NULL;
+
     for (i = gAudioContext.audioBufferParameters.updatesPerFrame; i > 0; i--) {
         if (i == 1) {
             chunkLen = aiBufLen;
@@ -181,14 +184,14 @@ Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen)
     return cmdP;
 }
 
-void func_800DB2C0(s32 updateIndexStart, s32 noteIndex) {
-    NoteSubEu* temp_v1;
+void func_800DB2C0(s32 updateIndex, s32 noteIndex) {
+    NoteSubEu* noteSubEu;
     s32 i;
 
-    for (i = updateIndexStart + 1; i < gAudioContext.audioBufferParameters.updatesPerFrame; i++) {
-        temp_v1 = &gAudioContext.noteSubsEu[(gAudioContext.numNotes * i) + noteIndex];
-        if (!temp_v1->bitField0.needsInit) {
-            temp_v1->bitField0.enabled = 0;
+    for (i = updateIndex + 1; i < gAudioContext.audioBufferParameters.updatesPerFrame; i++) {
+        noteSubEu = &gAudioContext.noteSubsEu[(gAudioContext.numNotes * i) + noteIndex];
+        if (!noteSubEu->bitField0.needsInit) {
+            noteSubEu->bitField0.enabled = false;
         } else {
             break;
         }
@@ -217,8 +220,10 @@ Acmd* AudioSynth_SaveRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 b
     return cmd;
 }
 
+/**
+ * Leak some audio from the left reverb channel into the right reverb channel and vice versa (pan)
+ */
 Acmd* AudioSynth_LeakReverb(Acmd* cmd, SynthesisReverb* reverb) {
-    // Leak some audio from the left reverb channel into the right reverb channel and vice versa (pan)
     aDMEMMove(cmd++, DMEM_WET_LEFT_CH, DMEM_WET_SCRATCH, DEFAULT_LEN_1CH);
     aMix(cmd++, 0x1A, reverb->leakRtl, DMEM_WET_RIGHT_CH, DMEM_WET_LEFT_CH);
     aMix(cmd++, 0x1A, reverb->leakLtr, DMEM_WET_SCRATCH, DMEM_WET_RIGHT_CH);
@@ -290,8 +295,10 @@ Acmd* func_800DB828(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
     return cmd;
 }
 
+/**
+ * Apply a filter (convolution) to each reverb channel.
+ */
 Acmd* AudioSynth_FilterReverb(Acmd* cmd, s32 count, SynthesisReverb* reverb) {
-    // Apply a filter (convolution) to each reverb channel.
     if (reverb->filterLeft != NULL) {
         aFilter(cmd++, 2, count, reverb->filterLeft);
         aFilter(cmd++, reverb->resampleFlags, DMEM_WET_LEFT_CH, reverb->filterLeftState);
@@ -505,7 +512,7 @@ Acmd* AudioSynth_MaybeLoadRingBuffer2(Acmd* cmd, s32 arg1, SynthesisReverb* reve
     return cmd;
 }
 
-Acmd* func_800DC164(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
+Acmd* AudioSynth_LoadReverbSamples(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
     // Sets DMEM_WET_{LEFT,RIGHT}_CH, clobbers DMEM_TEMP
     if (reverb->downsampleRate == 1) {
         if (reverb->unk_18 != 0) {
@@ -595,24 +602,36 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
     }
 
     aClearBuffer(cmd++, DMEM_LEFT_CH, DEFAULT_LEN_2CH);
+
     i = 0;
     for (reverbIndex = 0; reverbIndex < gAudioContext.numSynthesisReverbs; reverbIndex++) {
         reverb = &gAudioContext.synthesisReverbs[reverbIndex];
         useReverb = reverb->useReverb;
         if (useReverb) {
-            cmd = func_800DC164(cmd, aiBufLen, reverb, updateIndex);
-            aMix(cmd++, 0x34, reverb->unk_0A, DMEM_WET_LEFT_CH, DMEM_LEFT_CH);
+
+            // Loads reverb samples from DRAM (ringBuffer) into DMEM (DMEM_WET_LEFT_CH)
+            cmd = AudioSynth_LoadReverbSamples(cmd, aiBufLen, reverb, updateIndex);
+
+            // Mixes reverb sample into the main dry channel
+            // reverb->vol is always set to 0x7FFF (audio spec), and DMEM_LEFT_CH is cleared before reverbs.
+            // So this is essentially a DMEMmove from DMEM_WET_LEFT_CH to DMEM_LEFT_CH
+            aMix(cmd++, 0x34, reverb->vol, DMEM_WET_LEFT_CH, DMEM_LEFT_CH);
+
             unk14 = reverb->unk_14;
             if (unk14) {
                 aDMEMMove(cmd++, DMEM_WET_LEFT_CH, DMEM_WET_TEMP, DEFAULT_LEN_2CH);
             }
 
-            aMix(cmd++, 0x34, reverb->unk_0C + 0x8000, DMEM_WET_LEFT_CH, DMEM_WET_LEFT_CH);
+            // Decays reverb over time (reverb->decay + 0x8000 is simply -reverb->decay)
+            aMix(cmd++, 0x34, reverb->decay + 0x8000, DMEM_WET_LEFT_CH, DMEM_WET_LEFT_CH);
+
+            // Leak reverb between the left and right channels
             if (reverb->leakRtl != 0 || reverb->leakLtr != 0) {
                 cmd = AudioSynth_LeakReverb(cmd, reverb);
             }
 
             if (unk14) {
+                // Saves the wet channel sample from DMEM (DMEM_WET_LEFT_CH) into (ringBuffer) DRAM for future use
                 cmd = AudioSynth_SaveReverbSamples(cmd, reverb, updateIndex);
                 if (reverb->unk_05 != -1) {
                     cmd = AudioSynth_MaybeMixRingBuffer1(cmd, reverb, updateIndex);
@@ -638,6 +657,8 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             if (reverb->filterLeft != NULL || reverb->filterRight != NULL) {
                 cmd = AudioSynth_FilterReverb(cmd, aiBufLen * 2, reverb);
             }
+
+            // Saves the wet channel sample from DMEM (DMEM_WET_LEFT_CH) into (ringBuffer) DRAM for future use
             if (unk14) {
                 cmd = AudioSynth_SaveRingBuffer2(cmd, reverb, updateIndex);
             } else {
@@ -1029,7 +1050,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
     gain = noteSubEu->gain;
     if (gain != 0) {
-        // A gain of 0x10 means no change
+        // A gain of 0x10 (a UQ4.4 number) is equivalent to 1.0 and represents no volume change
         if (gain < 0x10) {
             gain = 0x10;
         }

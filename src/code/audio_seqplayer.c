@@ -301,10 +301,10 @@ void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     seqPlayer->finished = true;
 
     if (AudioLoad_IsSeqLoadComplete(seqPlayer->seqId)) {
-        AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 3);
+        AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, LOAD_STATUS_3);
     }
     if (AudioLoad_IsFontLoadComplete(seqPlayer->defaultFont)) {
-        AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, 4);
+        AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, LOAD_STATUS_4);
     }
 
     if (seqPlayer->defaultFont == gAudioContext.fontCache.temporary.entries[0].id) {
@@ -1552,8 +1552,8 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         return;
     }
 
-    AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 2);
-    AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, 2);
+    AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, LOAD_STATUS_2);
+    AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, LOAD_STATUS_2);
 
     if (seqPlayer->muted && (seqPlayer->muteBehavior & 0x80)) {
         return;
@@ -1906,7 +1906,7 @@ void AudioSeq_InitSequencePlayerChannels(s32 playerIdx) {
     s32 i, j;
 
     for (i = 0; i < 0x10; i++) {
-        seqPlayer->channels[i] = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, sizeof(SequenceChannel));
+        seqPlayer->channels[i] = AudioHeap_AllocZeroed(&gAudioContext.miscPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
             seqPlayer->channels[i] = &gAudioContext.sequenceChannelNone;
         } else {

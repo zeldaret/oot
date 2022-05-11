@@ -1839,8 +1839,8 @@ void* AudioLoad_DmaSampleData(u32 devAddr, u32 size, s32 arg2, u8* dmaIndexRef, 
 void AudioLoad_InitSampleDmaBuffers(s32 arg0);
 s32 AudioLoad_IsFontLoadComplete(s32 fontId);
 s32 AudioLoad_IsSeqLoadComplete(s32 seqId);
-void AudioLoad_SetFontLoadStatus(s32 fontId, s32 status);
-void AudioLoad_SetSeqLoadStatus(s32 seqId, s32 status);
+void AudioLoad_SetFontLoadStatus(s32 fontId, s32 loadStatus);
+void AudioLoad_SetSeqLoadStatus(s32 seqId, s32 loadStatus);
 void AudioLoad_SyncLoadSeqParts(s32 seqId, s32 arg1);
 s32 AudioLoad_SyncLoadInstrument(s32 fontId, s32 instId, s32 drumId);
 void AudioLoad_AsyncLoadSeq(s32 seqId, s32 arg1, s32 retData, OSMesgQueue* retQueue);

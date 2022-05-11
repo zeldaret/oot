@@ -931,6 +931,6 @@ void Audio_NoteInitAll(void) {
         note->portamento.speed = 0;
         note->playbackState.stereoHeadsetEffects = false;
         note->unk_BC = 0;
-        note->synthesisState.synthesisBuffers = AudioHeap_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 0x1E0);
+        note->synthesisState.synthesisBuffers = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, 0x1E0);
     }
 }

@@ -68,10 +68,10 @@ AudioTask* func_800E5000(void) {
     }
 
     osSendMesg(gAudioContext.taskStartQueueP, (OSMesg)gAudioContext.totalTaskCount, OS_MESG_NOBLOCK);
-    gAudioContext.rspTaskIdx ^= 1;
-    gAudioContext.curAIBufIdx++;
-    gAudioContext.curAIBufIdx %= 3;
-    index = (gAudioContext.curAIBufIdx - 2 + 3) % 3;
+    gAudioContext.rspTaskIndex ^= 1;
+    gAudioContext.curAiBufIndex++;
+    gAudioContext.curAiBufIndex %= 3;
+    index = (gAudioContext.curAiBufIndex - 2 + 3) % 3;
     samplesRemainingInAi = osAiGetLength() / 4;
 
     if (gAudioContext.resetTimer < 16) {
@@ -130,10 +130,10 @@ AudioTask* func_800E5000(void) {
         gAudioContext.resetTimer++;
     }
 
-    gAudioContext.currTask = &gAudioContext.rspTask[gAudioContext.rspTaskIdx];
-    gAudioContext.curAbiCmdBuf = gAudioContext.abiCmdBufs[gAudioContext.rspTaskIdx];
+    gAudioContext.curTask = &gAudioContext.rspTask[gAudioContext.rspTaskIndex];
+    gAudioContext.curAbiCmdBuf = gAudioContext.abiCmdBufs[gAudioContext.rspTaskIndex];
 
-    index = gAudioContext.curAIBufIdx;
+    index = gAudioContext.curAiBufIndex;
     currAiBuffer = gAudioContext.aiBuffers[index];
 
     gAudioContext.aiBufLengths[index] =
@@ -171,11 +171,11 @@ AudioTask* func_800E5000(void) {
         gAudioContext.aiBuffers[index][gAudioContext.totalTaskCount & 0xFF] + gAudioContext.audioRandom;
     gWaveSamples[8] = (s16*)(((u8*)func_800E4FE0) + (gAudioContext.audioRandom & 0xFFF0));
 
-    index = gAudioContext.rspTaskIdx;
-    gAudioContext.currTask->msgQueue = NULL;
-    gAudioContext.currTask->unk_44 = NULL;
+    index = gAudioContext.rspTaskIndex;
+    gAudioContext.curTask->msgQueue = NULL;
+    gAudioContext.curTask->unk_44 = NULL;
 
-    task = &gAudioContext.currTask->task.t;
+    task = &gAudioContext.curTask->task.t;
     task->type = M_AUDTASK;
     task->flags = 0;
     task->ucode_boot = aspMainTextStart;
@@ -199,9 +199,9 @@ AudioTask* func_800E5000(void) {
     }
 
     if (gAudioContext.audioBufferParameters.specUnk4 == 1) {
-        return gAudioContext.currTask;
+        return gAudioContext.curTask;
     } else {
-        sWaitingAudioTask = gAudioContext.currTask;
+        sWaitingAudioTask = gAudioContext.curTask;
         return NULL;
     }
 }
@@ -296,7 +296,7 @@ void func_800E5584(AudioCmd* cmd) {
             break;
 
         case 0x90:
-            gAudioContext.unk_5BDC[cmd->arg0] = cmd->asUShort;
+            gAudioContext.activeChannelsFlags[cmd->arg0] = cmd->asUShort;
             break;
 
         case 0xF9:
@@ -353,6 +353,7 @@ void func_800E5958(s32 playerIdx, s32 fadeTimer) {
 // SetFadeInTimer
 void func_800E59AC(s32 playerIdx, s32 fadeTimer) {
     SequencePlayer* seqPlayer;
+
     if (fadeTimer != 0) {
         seqPlayer = &gAudioContext.seqPlayers[playerIdx];
         seqPlayer->state = 1;
@@ -439,7 +440,7 @@ void Audio_ResetCmdQueue(void) {
 
 void Audio_ProcessCmd(AudioCmd* cmd) {
     SequencePlayer* seqPlayer;
-    u16 phi_v0;
+    u16 activeChannelsFlags;
     s32 i;
 
     if ((cmd->op & 0xF0) == 0xF0) {
@@ -463,12 +464,12 @@ void Audio_ProcessCmd(AudioCmd* cmd) {
             return;
         }
         if (cmd->arg1 == 0xFF) {
-            phi_v0 = gAudioContext.unk_5BDC[cmd->arg0];
-            for (i = 0; i < 0x10; i++) {
-                if (phi_v0 & 1) {
+            activeChannelsFlags = gAudioContext.activeChannelsFlags[cmd->arg0];
+            for (i = 0; i < 16; i++) {
+                if (activeChannelsFlags & 1) {
                     func_800E6300(seqPlayer->channels[i], cmd);
                 }
-                phi_v0 = phi_v0 >> 1;
+                activeChannelsFlags = activeChannelsFlags >> 1;
             }
         }
     }
@@ -586,16 +587,16 @@ s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
     }
 }
 
-s8 func_800E60C4(s32 playerIdx, s32 arg1) {
-    return gAudioContext.seqPlayers[playerIdx].soundScriptIO[arg1];
+s8 func_800E60C4(s32 playerIdx, s32 port) {
+    return gAudioContext.seqPlayers[playerIdx].soundScriptIO[port];
 }
 
-void Audio_InitExternalPool(void* mem, u32 size) {
-    AudioHeap_AllocPoolInit(&gAudioContext.externalPool, mem, size);
+void Audio_InitExternalPool(void* ramAddr, u32 size) {
+    AudioHeap_AllocPoolInit(&gAudioContext.externalPool, ramAddr, size);
 }
 
 void Audio_DestroyExternalPool(void) {
-    gAudioContext.externalPool.start = NULL;
+    gAudioContext.externalPool.startRamAddr = NULL;
 }
 
 void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
@@ -641,11 +642,11 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
                 if (cmd->asInt == 0) {
                     seqPlayer->fadeVolume = fadeVolume;
                 } else {
-                    s32 tmp = cmd->asInt;
+                    s32 fadeTimer = cmd->asInt;
 
                     seqPlayer->state = 0;
-                    seqPlayer->fadeTimer = tmp;
-                    seqPlayer->fadeVelocity = (fadeVolume - seqPlayer->fadeVolume) / tmp;
+                    seqPlayer->fadeTimer = fadeTimer;
+                    seqPlayer->fadeVelocity = (fadeVolume - seqPlayer->fadeVolume) / fadeTimer;
                 }
             }
             break;
@@ -655,11 +656,11 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
                 if (cmd->asInt == 0) {
                     seqPlayer->fadeVolume = seqPlayer->volume;
                 } else {
-                    s32 tmp = cmd->asInt;
+                    s32 fadeTimer = cmd->asInt;
 
                     seqPlayer->state = 0;
-                    seqPlayer->fadeTimer = tmp;
-                    seqPlayer->fadeVelocity = (seqPlayer->volume - seqPlayer->fadeVolume) / tmp;
+                    seqPlayer->fadeTimer = fadeTimer;
+                    seqPlayer->fadeVelocity = (seqPlayer->volume - seqPlayer->fadeVolume) / fadeTimer;
                 }
             }
             break;
