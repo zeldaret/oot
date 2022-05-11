@@ -39,8 +39,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
 
     if (gOverlayLogSeverity >= 3) {
         // "DMA transfer of TEXT, DATA, RODATA + rel (%08x-%08x)"
-        osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedVRamAddr,
-                     end);
+        osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedVRamAddr, end);
     }
 
     DmaMgr_SendRequest0((u32)allocatedVRamAddr, vRomStart, size);
