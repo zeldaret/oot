@@ -42,20 +42,20 @@ void AudioHeap_ResetLoadStatus(void) {
     s32 i;
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.fontLoadStatus[i] != LOAD_STATUS_5) {
-            gAudioContext.fontLoadStatus[i] = LOAD_STATUS_0;
+        if (gAudioContext.fontLoadStatus[i] != LOAD_STATUS_PERMANENTLY_LOADED) {
+            gAudioContext.fontLoadStatus[i] = LOAD_STATUS_NOT_LOADED;
         }
     }
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.sampleFontLoadStatus[i] != LOAD_STATUS_5) {
-            gAudioContext.sampleFontLoadStatus[i] = LOAD_STATUS_0;
+        if (gAudioContext.sampleFontLoadStatus[i] != LOAD_STATUS_PERMANENTLY_LOADED) {
+            gAudioContext.sampleFontLoadStatus[i] = LOAD_STATUS_NOT_LOADED;
         }
     }
 
     for (i = 0; i < 0x80; i++) {
-        if (gAudioContext.seqLoadStatus[i] != LOAD_STATUS_5) {
-            gAudioContext.seqLoadStatus[i] = LOAD_STATUS_0;
+        if (gAudioContext.seqLoadStatus[i] != LOAD_STATUS_PERMANENTLY_LOADED) {
+            gAudioContext.seqLoadStatus[i] = LOAD_STATUS_NOT_LOADED;
         }
     }
 }
@@ -113,7 +113,7 @@ void AudioHeap_WritebackDCache(void* ramAddr, u32 size) {
 }
 
 /**
- * Attempt to allocated space on an external device. If no external device is available,
+ * Attempt to allocated space externally to the audio heap. If no external pool is available,
  * then allocate space on the pool provided in the argument.
  * Afterwards, zero all data pool the new allocated space
  */
@@ -262,7 +262,7 @@ void AudioHeap_PopCache(s32 tableType) {
         AudioHeap_DiscardFont(persistent->entries[persistent->numEntries - 1].id);
     }
 
-    loadStatus[persistent->entries[persistent->numEntries - 1].id] = LOAD_STATUS_0;
+    loadStatus[persistent->entries[persistent->numEntries - 1].id] = LOAD_STATUS_NOT_LOADED;
     persistent->numEntries--;
 }
 
@@ -362,12 +362,12 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
         }
 
         loadStatusEntry0 =
-            (temporaryCache->entries[0].id == -1) ? LOAD_STATUS_0 : loadStatus[temporaryCache->entries[0].id];
+            (temporaryCache->entries[0].id == -1) ? LOAD_STATUS_NOT_LOADED : loadStatus[temporaryCache->entries[0].id];
         loadStatusEntry1 =
-            (temporaryCache->entries[1].id == -1) ? LOAD_STATUS_0 : loadStatus[temporaryCache->entries[1].id];
+            (temporaryCache->entries[1].id == -1) ? LOAD_STATUS_NOT_LOADED : loadStatus[temporaryCache->entries[1].id];
 
         if (tableType == FONT_TABLE) {
-            if (loadStatusEntry0 == LOAD_STATUS_4) {
+            if (loadStatusEntry0 == LOAD_STATUS_MAYBE_DISCARDABLE) {
                 for (i = 0; i < gAudioContext.numNotes; i++) {
                     if (gAudioContext.notes[i].playbackState.fontId == temporaryCache->entries[0].id &&
                         gAudioContext.notes[i].noteSubEu.bitField0.enabled) {
@@ -376,12 +376,12 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                 }
 
                 if (i == gAudioContext.numNotes) {
-                    AudioLoad_SetFontLoadStatus(temporaryCache->entries[0].id, LOAD_STATUS_3);
-                    loadStatusEntry0 = LOAD_STATUS_3;
+                    AudioLoad_SetFontLoadStatus(temporaryCache->entries[0].id, LOAD_STATUS_DISCARDABLE);
+                    loadStatusEntry0 = LOAD_STATUS_DISCARDABLE;
                 }
             }
 
-            if (loadStatusEntry1 == LOAD_STATUS_4) {
+            if (loadStatusEntry1 == LOAD_STATUS_MAYBE_DISCARDABLE) {
                 for (i = 0; i < gAudioContext.numNotes; i++) {
                     if (gAudioContext.notes[i].playbackState.fontId == temporaryCache->entries[1].id &&
                         gAudioContext.notes[i].noteSubEu.bitField0.enabled) {
@@ -390,26 +390,26 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                 }
 
                 if (i == gAudioContext.numNotes) {
-                    AudioLoad_SetFontLoadStatus(temporaryCache->entries[1].id, LOAD_STATUS_3);
-                    loadStatusEntry1 = LOAD_STATUS_3;
+                    AudioLoad_SetFontLoadStatus(temporaryCache->entries[1].id, LOAD_STATUS_DISCARDABLE);
+                    loadStatusEntry1 = LOAD_STATUS_DISCARDABLE;
                 }
             }
         }
 
-        if (loadStatusEntry0 == LOAD_STATUS_0) {
+        if (loadStatusEntry0 == LOAD_STATUS_NOT_LOADED) {
             temporaryCache->nextSide = 0;
-        } else if (loadStatusEntry1 == LOAD_STATUS_0) {
+        } else if (loadStatusEntry1 == LOAD_STATUS_NOT_LOADED) {
             temporaryCache->nextSide = 1;
-        } else if (loadStatusEntry0 == LOAD_STATUS_3 && loadStatusEntry1 == LOAD_STATUS_3) {
+        } else if (loadStatusEntry0 == LOAD_STATUS_DISCARDABLE && loadStatusEntry1 == LOAD_STATUS_DISCARDABLE) {
             // Use the opposite side from last time.
-        } else if (loadStatusEntry0 == LOAD_STATUS_3) {
+        } else if (loadStatusEntry0 == LOAD_STATUS_DISCARDABLE) {
             temporaryCache->nextSide = 0;
-        } else if (loadStatusEntry1 == LOAD_STATUS_3) {
+        } else if (loadStatusEntry1 == LOAD_STATUS_DISCARDABLE) {
             temporaryCache->nextSide = 1;
         } else {
             // Check if there is a side which isn't in active use, if so, evict that one.
             if (tableType == SEQUENCE_TABLE) {
-                if (loadStatusEntry0 == LOAD_STATUS_2) {
+                if (loadStatusEntry0 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                         if (gAudioContext.seqPlayers[i].enabled &&
                             gAudioContext.seqPlayers[i].seqId == temporaryCache->entries[0].id) {
@@ -423,7 +423,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                     }
                 }
 
-                if (loadStatusEntry1 == LOAD_STATUS_2) {
+                if (loadStatusEntry1 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                         if (gAudioContext.seqPlayers[i].enabled &&
                             gAudioContext.seqPlayers[i].seqId == temporaryCache->entries[1].id) {
@@ -437,7 +437,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                     }
                 }
             } else if (tableType == FONT_TABLE) {
-                if (loadStatusEntry0 == LOAD_STATUS_2) {
+                if (loadStatusEntry0 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioContext.numNotes; i++) {
                         if (gAudioContext.notes[i].playbackState.fontId == temporaryCache->entries[0].id &&
                             gAudioContext.notes[i].noteSubEu.bitField0.enabled) {
@@ -450,7 +450,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                     }
                 }
 
-                if (loadStatusEntry1 == LOAD_STATUS_2) {
+                if (loadStatusEntry1 == LOAD_STATUS_COMPLETE) {
                     for (i = 0; i < gAudioContext.numNotes; i++) {
                         if (gAudioContext.notes[i].playbackState.fontId == temporaryCache->entries[1].id &&
                             gAudioContext.notes[i].noteSubEu.bitField0.enabled) {
@@ -467,15 +467,15 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
             // No such luck. Evict the side that wasn't chosen last time, except
             // if it is being loaded into.
             if (temporaryCache->nextSide == 0) {
-                if (loadStatusEntry0 == LOAD_STATUS_1) {
-                    if (loadStatusEntry1 == LOAD_STATUS_1) {
+                if (loadStatusEntry0 == LOAD_STATUS_IN_PROGRESS) {
+                    if (loadStatusEntry1 == LOAD_STATUS_IN_PROGRESS) {
                         goto fail;
                     }
                     temporaryCache->nextSide = 1;
                 }
             } else {
-                if (loadStatusEntry1 == LOAD_STATUS_1) {
-                    if (loadStatusEntry0 == LOAD_STATUS_1) {
+                if (loadStatusEntry1 == LOAD_STATUS_IN_PROGRESS) {
+                    if (loadStatusEntry0 == LOAD_STATUS_IN_PROGRESS) {
                         goto fail;
                     }
                     temporaryCache->nextSide = 0;
@@ -497,7 +497,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                 AudioHeap_DiscardSampleBank(temporaryCache->entries[side].id);
             }
 
-            loadStatus[temporaryCache->entries[side].id] = LOAD_STATUS_0;
+            loadStatus[temporaryCache->entries[side].id] = LOAD_STATUS_NOT_LOADED;
 
             if (tableType == FONT_TABLE) {
                 AudioHeap_DiscardFont(temporaryCache->entries[side].id);
@@ -517,7 +517,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                         AudioHeap_DiscardSampleBank(temporaryCache->entries[1].id);
                     }
 
-                    loadStatus[temporaryCache->entries[1].id] = LOAD_STATUS_0;
+                    loadStatus[temporaryCache->entries[1].id] = LOAD_STATUS_NOT_LOADED;
 
                     switch (tableType) {
                         case SEQUENCE_TABLE:
@@ -547,7 +547,7 @@ void* AudioHeap_AllocCached(s32 tableType, s32 size, s32 cache, s32 id) {
                         AudioHeap_DiscardSampleBank(temporaryCache->entries[0].id);
                     }
 
-                    loadStatus[temporaryCache->entries[0].id] = LOAD_STATUS_0;
+                    loadStatus[temporaryCache->entries[0].id] = LOAD_STATUS_NOT_LOADED;
                     switch (tableType) {
                         case SEQUENCE_TABLE:
                             AudioHeap_DiscardSequence(temporaryCache->entries[0].id);
@@ -974,7 +974,7 @@ void AudioHeap_Init(void) {
         reverb->downsampleRate = settings->downsampleRate;
         reverb->windowSize = settings->windowSize * 64;
         reverb->windowSize /= reverb->downsampleRate;
-        reverb->decay = settings->decay;
+        reverb->decayRate = settings->decayRate;
         reverb->vol = settings->vol;
         reverb->unk_14 = settings->unk_6 * 64;
         reverb->unk_16 = settings->unk_8;

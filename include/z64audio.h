@@ -60,13 +60,17 @@ typedef enum {
 } AudioCacheType;
 
 typedef enum {
-    /* 0 */ LOAD_STATUS_0,
-    /* 1 */ LOAD_STATUS_1,
-    /* 2 */ LOAD_STATUS_2, // Samples/Seqplayer loaded
-    /* 3 */ LOAD_STATUS_3, // Sequences loaded
-    /* 4 */ LOAD_STATUS_4, // SoundFonts loaded
-    /* 5 */ LOAD_STATUS_5  // Permanent loaded
+    /* 0 */ LOAD_STATUS_NOT_LOADED,
+    /* 1 */ LOAD_STATUS_IN_PROGRESS,
+    /* 2 */ LOAD_STATUS_COMPLETE,
+    /* 3 */ LOAD_STATUS_DISCARDABLE,
+    /* 4 */ LOAD_STATUS_MAYBE_DISCARDABLE,
+    /* 5 */ LOAD_STATUS_PERMANENTLY_LOADED
 } AudioLoadStatus;
+
+#define IS_SAMPLE_FONT_LOAD_COMPLETE(fontId) (gAudioContext.sampleFontLoadStatus[fontId] >= LOAD_STATUS_COMPLETE)
+#define IS_FONT_LOAD_COMPLETE(fontId) (gAudioContext.fontLoadStatus[fontId] >= LOAD_STATUS_COMPLETE)
+#define IS_SEQ_LOAD_COMPLETE(seqId) (gAudioContext.seqLoadStatus[seqId] >= LOAD_STATUS_COMPLETE)
 
 typedef s32 (*DmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction);
 
@@ -168,7 +172,7 @@ typedef struct {
     /* 0x006 */ u16 windowSize;
     /* 0x008 */ s16 unk_08;
     /* 0x00A */ s16 vol;
-    /* 0x00C */ u16 decay;
+    /* 0x00C */ u16 decayRate; // determines how fast reverb dissipates
     /* 0x00E */ u16 unk_0E;
     /* 0x010 */ s16 leakRtl;
     /* 0x012 */ s16 leakLtr;
@@ -549,7 +553,7 @@ typedef struct Note {
 typedef struct {
     /* 0x00 */ u8 downsampleRate;
     /* 0x02 */ u16 windowSize;
-    /* 0x04 */ u16 decay;
+    /* 0x04 */ u16 decayRate; // determines how fast reverb dissipates
     /* 0x06 */ u16 unk_6;
     /* 0x08 */ u16 unk_8;
     /* 0x0A */ u16 vol;
@@ -742,9 +746,9 @@ typedef struct {
     /* 0x08 */ s32 curDevAddr;
     /* 0x0C */ u8* curRamAddr;
     /* 0x10 */ u8* ramAddr;
-    /* 0x14 */ s32 status1; // status for external use
+    /* 0x14 */ s32 state;
     /* 0x18 */ s32 bytesRemaining;
-    /* 0x1C */ s8* status2; // status for interal use
+    /* 0x1C */ s8* status; // write-only
     /* 0x20 */ SoundFontSample sample;
     /* 0x30 */ OSMesgQueue msgQueue;
     /* 0x48 */ OSMesg msg;
@@ -862,7 +866,7 @@ typedef struct {
     /* 0x2984 */ volatile u32 resetTimer;
     /* 0x2988 */ char unk_2988[0x8];
     /* 0x2990 */ AudioAllocPool audioSessionPool; // A sub-pool to main pool, contains all sub-pools and data that changes every audio reset
-    /* 0x29A0 */ AudioAllocPool externalPool; // pool allocated on an external device. Never used in game
+    /* 0x29A0 */ AudioAllocPool externalPool; // pool allocated externally to the audio heap. Never used in game
     /* 0x29B0 */ AudioAllocPool audioInitPool;// A sub-pool to the main pool, contains all sub-pools and data that persists every audio reset
     /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool.
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools

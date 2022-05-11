@@ -42,7 +42,7 @@ u16 D_801304B0[] = {
 
 u8 D_801304C0[] = { 0x40, 0x20, 0x10, 0x8 };
 
-void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
+void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
     s32 pad[3];
     SynthesisReverb* reverb = &gAudioContext.synthesisReverbs[reverbIndex];
@@ -55,7 +55,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
 
     if (reverb->downsampleRate >= 2) {
         if (reverb->framesToIgnore == 0) {
-            bufItem = &reverb->items[reverb->curFrame][bufIndex];
+            bufItem = &reverb->items[reverb->curFrame][updateIndex];
             Audio_InvalDCache(bufItem->toDownsampleLeft, DEFAULT_LEN_2CH);
 
             for (j = 0, i = 0; i < bufItem->lengthA / 2; j += reverb->downsampleRate, i++) {
@@ -70,7 +70,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
         }
     }
 
-    bufItem = &reverb->items[reverb->curFrame][bufIndex];
+    bufItem = &reverb->items[reverb->curFrame][updateIndex];
     sampleCount = chunkLen / reverb->downsampleRate;
     extraSamples = (sampleCount + reverb->nextRingBufPos) - reverb->bufSizePerChan;
     temp_a0_2 = reverb->nextRingBufPos;
@@ -95,7 +95,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 bufIndex, s32 reverbIndex) {
         if (temp_a0_4 >= reverb->bufSizePerChan) {
             temp_a0_4 -= reverb->bufSizePerChan;
         }
-        bufItem = &reverb->items2[reverb->curFrame][bufIndex];
+        bufItem = &reverb->items2[reverb->curFrame][updateIndex];
         sampleCount = chunkLen / reverb->downsampleRate;
         extraSamples = (temp_a0_4 + sampleCount) - reverb->bufSizePerChan;
         if (extraSamples < 0) {
@@ -198,8 +198,8 @@ void func_800DB2C0(s32 updateIndex, s32 noteIndex) {
     }
 }
 
-Acmd* AudioSynth_LoadRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 bufIndex) {
-    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][bufIndex];
+Acmd* AudioSynth_LoadRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
     cmd = AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_TEMP, bufItem->startPos, bufItem->lengthA, reverb);
     if (bufItem->lengthB != 0) {
@@ -209,8 +209,8 @@ Acmd* AudioSynth_LoadRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 b
     return cmd;
 }
 
-Acmd* AudioSynth_SaveRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 bufIndex) {
-    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][bufIndex];
+Acmd* AudioSynth_SaveRingBuffer1AtTemp(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
     cmd = AudioSynth_SaveRingBufferPart(cmd, DMEM_WET_TEMP, bufItem->startPos, bufItem->lengthA, reverb);
     if (bufItem->lengthB != 0) {
@@ -230,8 +230,8 @@ Acmd* AudioSynth_LeakReverb(Acmd* cmd, SynthesisReverb* reverb) {
     return cmd;
 }
 
-Acmd* func_800DB4E4(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
-    ReverbRingBufferItem* item = &reverb->items[reverb->curFrame][arg3];
+Acmd* func_800DB4E4(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* item = &reverb->items[reverb->curFrame][updateIndex];
     s16 offsetA;
     s16 offsetB;
 
@@ -242,15 +242,15 @@ Acmd* func_800DB4E4(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
         // Ring buffer wrapped
         cmd = AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_TEMP + offsetB, 0, DEFAULT_LEN_1CH - offsetB, reverb);
     }
-    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + offsetA, DMEM_WET_LEFT_CH, arg1 * 2);
+    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + offsetA, DMEM_WET_LEFT_CH, aiBufLen * 2);
     aResample(cmd++, reverb->resampleFlags, reverb->unk_0E, reverb->unk_30);
-    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + DEFAULT_LEN_1CH + offsetA, DMEM_WET_RIGHT_CH, arg1 * 2);
+    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + DEFAULT_LEN_1CH + offsetA, DMEM_WET_RIGHT_CH, aiBufLen * 2);
     aResample(cmd++, reverb->resampleFlags, reverb->unk_0E, reverb->unk_34);
     return cmd;
 }
 
-Acmd* func_800DB680(Acmd* cmd, SynthesisReverb* reverb, s16 bufIndex) {
-    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][bufIndex];
+Acmd* func_800DB680(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
     aSetBuffer(cmd++, 0, DMEM_WET_LEFT_CH, DMEM_WET_SCRATCH, bufItem->unk_18 * 2);
     aResample(cmd++, reverb->resampleFlags, bufItem->unk_16, reverb->unk_38);
@@ -274,23 +274,23 @@ Acmd* func_800DB680(Acmd* cmd, SynthesisReverb* reverb, s16 bufIndex) {
     return cmd;
 }
 
-Acmd* func_800DB828(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
-    ReverbRingBufferItem* item = &reverb->items[reverb->curFrame][arg3];
+Acmd* func_800DB828(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* item = &reverb->items[reverb->curFrame][updateIndex];
     s16 offsetA;
     s16 offsetB;
 
-    item->unk_14 = (item->unk_18 << 0xF) / arg1;
+    item->unk_14 = (item->unk_18 << 0xF) / aiBufLen;
     offsetA = (item->startPos & 7) * 2;
-    item->unk_16 = (arg1 << 0xF) / item->unk_18;
+    item->unk_16 = (aiBufLen << 0xF) / item->unk_18;
     offsetB = ALIGN16(offsetA + item->lengthA);
     cmd = AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_TEMP, item->startPos - (offsetA / 2), DEFAULT_LEN_1CH, reverb);
     if (item->lengthB != 0) {
         // Ring buffer wrapped
         cmd = AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_TEMP + offsetB, 0, DEFAULT_LEN_1CH - offsetB, reverb);
     }
-    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + offsetA, DMEM_WET_LEFT_CH, arg1 * 2);
+    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + offsetA, DMEM_WET_LEFT_CH, aiBufLen * 2);
     aResample(cmd++, reverb->resampleFlags, item->unk_14, reverb->unk_30);
-    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + DEFAULT_LEN_1CH + offsetA, DMEM_WET_RIGHT_CH, arg1 * 2);
+    aSetBuffer(cmd++, 0, DMEM_WET_TEMP + DEFAULT_LEN_1CH + offsetA, DMEM_WET_RIGHT_CH, aiBufLen * 2);
     aResample(cmd++, reverb->resampleFlags, item->unk_14, reverb->unk_34);
     return cmd;
 }
@@ -311,14 +311,14 @@ Acmd* AudioSynth_FilterReverb(Acmd* cmd, s32 count, SynthesisReverb* reverb) {
     return cmd;
 }
 
-Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 arg2) {
+Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 updateIndex) {
     SynthesisReverb* temp_a3;
 
     temp_a3 = &gAudioContext.synthesisReverbs[reverb->unk_05];
     if (temp_a3->downsampleRate == 1) {
-        cmd = AudioSynth_LoadRingBuffer1AtTemp(cmd, temp_a3, arg2);
+        cmd = AudioSynth_LoadRingBuffer1AtTemp(cmd, temp_a3, updateIndex);
         aMix(cmd++, 0x34, reverb->unk_08, DMEM_WET_LEFT_CH, DMEM_WET_TEMP);
-        cmd = AudioSynth_SaveRingBuffer1AtTemp(cmd, temp_a3, arg2);
+        cmd = AudioSynth_SaveRingBuffer1AtTemp(cmd, temp_a3, updateIndex);
     }
     return cmd;
 }
@@ -462,8 +462,8 @@ void AudioSynth_LoadFilterCount(Acmd* cmd, s32 count, s32 addr) {
     aFilter(cmd, 2, count, addr);
 }
 
-Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 bufIndex) {
-    ReverbRingBufferItem* ringBufferItem = &reverb->items[reverb->curFrame][bufIndex];
+Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* ringBufferItem = &reverb->items[reverb->curFrame][updateIndex];
 
     cmd =
         AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_LEFT_CH, ringBufferItem->startPos, ringBufferItem->lengthA, reverb);
@@ -476,8 +476,8 @@ Acmd* AudioSynth_LoadRingBuffer1(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s
     return cmd;
 }
 
-Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 bufIndex) {
-    ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][bufIndex];
+Acmd* AudioSynth_LoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][updateIndex];
 
     cmd = AudioSynth_LoadRingBufferPart(cmd, DMEM_WET_LEFT_CH, bufItem->startPos, bufItem->lengthA, reverb);
     if (bufItem->lengthB != 0) {
@@ -504,34 +504,34 @@ Acmd* AudioSynth_SaveBufferOffset(Acmd* cmd, u16 dmem, u16 offset, s32 length, s
     return cmd;
 }
 
-Acmd* AudioSynth_MaybeLoadRingBuffer2(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 bufIndex) {
+Acmd* AudioSynth_MaybeLoadRingBuffer2(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     if (reverb->downsampleRate == 1) {
-        cmd = AudioSynth_LoadRingBuffer2(cmd, arg1, reverb, bufIndex);
+        cmd = AudioSynth_LoadRingBuffer2(cmd, aiBufLen, reverb, updateIndex);
     }
 
     return cmd;
 }
 
-Acmd* AudioSynth_LoadReverbSamples(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
+Acmd* AudioSynth_LoadReverbSamples(Acmd* cmd, s32 aiBufLen, SynthesisReverb* reverb, s16 updateIndex) {
     // Sets DMEM_WET_{LEFT,RIGHT}_CH, clobbers DMEM_TEMP
     if (reverb->downsampleRate == 1) {
         if (reverb->unk_18 != 0) {
-            cmd = func_800DB828(cmd, arg1, reverb, arg3);
+            cmd = func_800DB828(cmd, aiBufLen, reverb, updateIndex);
         } else {
-            cmd = AudioSynth_LoadRingBuffer1(cmd, arg1, reverb, arg3);
+            cmd = AudioSynth_LoadRingBuffer1(cmd, aiBufLen, reverb, updateIndex);
         }
     } else {
-        cmd = func_800DB4E4(cmd, arg1, reverb, arg3);
+        cmd = func_800DB4E4(cmd, aiBufLen, reverb, updateIndex);
     }
     return cmd;
 }
 
-Acmd* AudioSynth_SaveReverbSamples(Acmd* cmd, SynthesisReverb* reverb, s16 bufIndex) {
-    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][bufIndex];
+Acmd* AudioSynth_SaveReverbSamples(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][updateIndex];
 
     if (reverb->downsampleRate == 1) {
         if (reverb->unk_18 != 0) {
-            cmd = func_800DB680(cmd, reverb, bufIndex);
+            cmd = func_800DB680(cmd, reverb, updateIndex);
         } else {
             // Put the oldest samples in the ring buffer into the wet channels
             cmd = AudioSynth_SaveRingBufferPart(cmd, DMEM_WET_LEFT_CH, bufItem->startPos, bufItem->lengthA, reverb);
@@ -545,15 +545,15 @@ Acmd* AudioSynth_SaveReverbSamples(Acmd* cmd, SynthesisReverb* reverb, s16 bufIn
         // Downsampling is done later by CPU when RSP is done, therefore we need to have
         // double buffering. Left and right buffers are adjacent in memory.
         AudioSynth_SaveBuffer(cmd++, DMEM_WET_LEFT_CH, DEFAULT_LEN_2CH,
-                              reverb->items[reverb->curFrame][bufIndex].toDownsampleLeft);
+                              reverb->items[reverb->curFrame][updateIndex].toDownsampleLeft);
     }
 
     reverb->resampleFlags = 0;
     return cmd;
 }
 
-Acmd* AudioSynth_SaveRingBuffer2(Acmd* cmd, SynthesisReverb* reverb, s16 bufIndex) {
-    ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][bufIndex];
+Acmd* AudioSynth_SaveRingBuffer2(Acmd* cmd, SynthesisReverb* reverb, s16 updateIndex) {
+    ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][updateIndex];
 
     cmd = AudioSynth_SaveRingBufferPart(cmd, DMEM_WET_LEFT_CH, bufItem->startPos, bufItem->lengthA, reverb);
     if (bufItem->lengthB != 0) {
@@ -622,8 +622,8 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
                 aDMEMMove(cmd++, DMEM_WET_LEFT_CH, DMEM_WET_TEMP, DEFAULT_LEN_2CH);
             }
 
-            // Decays reverb over time (reverb->decay + 0x8000 is simply -reverb->decay)
-            aMix(cmd++, 0x34, reverb->decay + 0x8000, DMEM_WET_LEFT_CH, DMEM_WET_LEFT_CH);
+            // Decays reverb over time. The (+ 0x8000) here is -100%
+            aMix(cmd++, 0x34, reverb->decayRate + 0x8000, DMEM_WET_LEFT_CH, DMEM_WET_LEFT_CH);
 
             // Leak reverb between the left and right channels
             if (reverb->leakRtl != 0 || reverb->leakLtr != 0) {
