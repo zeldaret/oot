@@ -219,14 +219,17 @@ void func_800E5584(AudioCmd* cmd) {
     switch (cmd->op) {
         case 0x81:
             AudioLoad_SyncLoadSeqParts(cmd->arg1, cmd->arg2);
-            return;
+            break;
+
         case 0x82:
             AudioLoad_SyncInitSeqPlayer(cmd->arg0, cmd->arg1, cmd->arg2);
             func_800E59AC(cmd->arg0, cmd->data);
-            return;
+            break;
+
         case 0x85:
             AudioLoad_SyncInitSeqPlayerSkipTicks(cmd->arg0, cmd->arg1, cmd->data);
-            return;
+            break;
+
         case 0x83:
             if (gAudioContext.seqPlayers[cmd->arg0].enabled) {
                 if (cmd->asInt == 0) {
@@ -235,22 +238,27 @@ void func_800E5584(AudioCmd* cmd) {
                     func_800E5958(cmd->arg0, cmd->asInt);
                 }
             }
-            return;
+            break;
+
         case 0xF0:
             gAudioContext.soundMode = cmd->asUInt;
-            return;
+            break;
+
         case 0xF1:
             for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                 SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
+
                 seqPlayer->muted = 1;
                 seqPlayer->recalculateVolume = 1;
             }
-            return;
+            break;
+
         case 0xF2:
             if (cmd->asUInt == 1) {
                 for (i = 0; i < gAudioContext.numNotes; i++) {
                     Note* note = &gAudioContext.notes[i];
                     NoteSubEu* subEu = &note->noteSubEu;
+
                     if (subEu->bitField0.enabled && note->playbackState.unk_04 == 0) {
                         if (note->playbackState.parentLayer->channel->muteBehavior & 8) {
                             subEu->bitField0.finished = 1;
@@ -261,58 +269,70 @@ void func_800E5584(AudioCmd* cmd) {
 
             for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                 SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
+
                 seqPlayer->muted = 0;
                 seqPlayer->recalculateVolume = 1;
             }
+            break;
 
-            return;
         case 0xF3:
             AudioLoad_SyncLoadInstrument(cmd->arg0, cmd->arg1, cmd->arg2);
-            return;
+            break;
+
         case 0xF4:
             AudioLoad_AsyncLoadSampleBank(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
-            return;
+            break;
+
         case 0xF5:
             AudioLoad_AsyncLoadFont(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
-            return;
+            break;
+
         case 0xFC:
             AudioLoad_AsyncLoadSeq(cmd->arg0, cmd->arg1, cmd->arg2, &gAudioContext.externalLoadQueue);
-            return;
+            break;
+
         case 0xF6:
             AudioLoad_DiscardSeqFonts(cmd->arg1);
-            return;
+            break;
+
         case 0x90:
             gAudioContext.unk_5BDC[cmd->arg0] = cmd->asUShort;
-            return;
+            break;
+
         case 0xF9:
             gAudioContext.resetStatus = 5;
             gAudioContext.audioResetSpecIdToLoad = cmd->asUInt;
-            return;
+            break;
         case 0xFB:
             D_801755D0 = (void (*)(void))cmd->asUInt;
-            return;
+            break;
+
         case 0xE0:
         case 0xE1:
         case 0xE2:
             Audio_SetFontInstrument(cmd->op - 0xE0, cmd->arg0, cmd->arg1, cmd->data);
-            return;
+            break;
+
         case 0xFE:
             temp_t7 = cmd->asUInt;
             if (temp_t7 == 1) {
                 for (i = 0; i < gAudioContext.audioBufferParameters.numSequencePlayers; i++) {
                     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
+
                     if (seqPlayer->enabled) {
                         AudioSeq_SequencePlayerDisableAsFinished(seqPlayer);
                     }
                 }
             }
             func_800E66C0(temp_t7);
-            return;
+            break;
+
         case 0xE3:
             AudioHeap_PopCache(cmd->asInt);
-            return;
+            break;
+
         default:
-            return;
+            break;
     }
 }
 
@@ -556,6 +576,7 @@ void Audio_PreNMIInternal(void) {
 s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
     SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     SequenceChannel* channel;
+
     if (seqPlayer->enabled) {
         channel = seqPlayer->channels[channelIdx];
         return channel->soundScriptIO[scriptIdx];
@@ -578,31 +599,39 @@ void Audio_DestroyExternalPool(void) {
 
 void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
     f32 fadeVolume;
+
     switch (cmd->op) {
         case 0x41:
             if (seqPlayer->fadeVolumeScale != cmd->asFloat) {
                 seqPlayer->fadeVolumeScale = cmd->asFloat;
                 seqPlayer->recalculateVolume = 1;
             }
-            return;
+            break;
+
         case 0x47:
             seqPlayer->tempo = cmd->asInt * 0x30;
-            return;
+            break;
+
         case 0x49:
             seqPlayer->unk_0C = cmd->asInt * 0x30;
-            return;
+            break;
+
         case 0x4E:
             seqPlayer->unk_0C = cmd->asInt;
-            return;
+            break;
+
         case 0x48:
             seqPlayer->transposition = cmd->asSbyte;
-            return;
+            break;
+
         case 0x46:
             seqPlayer->soundScriptIO[cmd->arg2] = cmd->asSbyte;
-            return;
+            break;
+
         case 0x4A:
             fadeVolume = (s32)cmd->arg1 / 127.0f;
             goto block_11;
+
         case 0x4B:
             fadeVolume = ((s32)cmd->arg1 / 100.0f) * seqPlayer->fadeVolume;
         block_11:
@@ -612,12 +641,14 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
                     seqPlayer->fadeVolume = fadeVolume;
                 } else {
                     s32 tmp = cmd->asInt;
+
                     seqPlayer->state = 0;
                     seqPlayer->fadeTimer = tmp;
                     seqPlayer->fadeVelocity = (fadeVolume - seqPlayer->fadeVolume) / tmp;
                 }
             }
-            return;
+            break;
+
         case 0x4C:
             if (seqPlayer->state != 2) {
                 if (cmd->asInt == 0) {
@@ -630,7 +661,8 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
                     seqPlayer->fadeVelocity = (seqPlayer->volume - seqPlayer->fadeVolume) / tmp;
                 }
             }
-            return;
+            break;
+
         case 0x4D:
             seqPlayer->bend = cmd->asFloat;
             if (seqPlayer->bend == 1.0f) {
@@ -638,6 +670,10 @@ void func_800E6128(SequencePlayer* seqPlayer, AudioCmd* cmd) {
             } else {
                 seqPlayer->applyBend = true;
             }
+            break;
+
+        default:
+            break;
     }
 }
 
@@ -648,64 +684,80 @@ void func_800E6300(SequenceChannel* channel, AudioCmd* cmd) {
                 channel->volumeScale = cmd->asFloat;
                 channel->changes.s.volume = 1;
             }
-            return;
+            break;
+
         case CHAN_UPD_VOL:
             if (channel->volume != cmd->asFloat) {
                 channel->volume = cmd->asFloat;
                 channel->changes.s.volume = 1;
             }
-            return;
+            break;
+
         case CHAN_UPD_PAN_SIGNED:
             if (channel->newPan != cmd->asSbyte) {
                 channel->newPan = cmd->asSbyte;
                 channel->changes.s.pan = 1;
             }
-            return;
+            break;
+
         case CHAN_UPD_PAN_UNSIGNED:
             if (channel->newPan != cmd->asSbyte) {
                 channel->panChannelWeight = cmd->asSbyte;
                 channel->changes.s.pan = 1;
             }
-            return;
+            break;
+
         case CHAN_UPD_FREQ_SCALE:
             if (channel->freqScale != cmd->asFloat) {
                 channel->freqScale = cmd->asFloat;
                 channel->changes.s.freqScale = 1;
             }
-            return;
+            break;
+
         case CHAN_UPD_REVERB:
             if (channel->reverb != cmd->asSbyte) {
                 channel->reverb = cmd->asSbyte;
             }
-            return;
+            break;
+
         case CHAN_UPD_SCRIPT_IO:
             if (cmd->arg2 < 8) {
                 channel->soundScriptIO[cmd->arg2] = cmd->asSbyte;
             }
-            return;
+            break;
+
         case CHAN_UPD_STOP_SOMETHING2:
             channel->stopSomething2 = cmd->asSbyte;
-            return;
+            break;
+
         case CHAN_UPD_MUTE_BEHAVE:
             channel->muteBehavior = cmd->asSbyte;
-            return;
+            break;
+
         case CHAN_UPD_VIBE_X8:
             channel->vibratoExtentTarget = cmd->asUbyte * 8;
             channel->vibratoExtentChangeDelay = 1;
-            return;
+            break;
+
         case CHAN_UPD_VIBE_X32:
             channel->vibratoRateTarget = cmd->asUbyte * 32;
             channel->vibratoRateChangeDelay = 1;
-            return;
+            break;
+
         case CHAN_UPD_UNK_0F:
             channel->unk_0F = cmd->asUbyte;
-            return;
+            break;
+
         case CHAN_UPD_UNK_20:
             channel->unk_20 = cmd->asUShort;
-            return;
+            break;
+
         case CHAN_UPD_STEREO:
             channel->stereo.asByte = cmd->asUbyte;
-            return;
+            break;
+
+        default:
+            break;
     }
 }
 
