@@ -48,7 +48,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) 
     SynthesisReverb* reverb = &gAudioContext.synthesisReverbs[reverbIndex];
     s32 temp_a0_2;
     s32 temp_a0_4;
-    s32 sampleCount;
+    s32 numSamples;
     s32 extraSamples;
     s32 i;
     s32 j;
@@ -71,23 +71,23 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) 
     }
 
     bufItem = &reverb->items[reverb->curFrame][updateIndex];
-    sampleCount = chunkLen / reverb->downsampleRate;
-    extraSamples = (sampleCount + reverb->nextRingBufPos) - reverb->bufSizePerChan;
+    numSamples = chunkLen / reverb->downsampleRate;
+    extraSamples = (numSamples + reverb->nextRingBufPos) - reverb->bufSizePerChan;
     temp_a0_2 = reverb->nextRingBufPos;
     if (extraSamples < 0) {
-        bufItem->lengthA = sampleCount * 2;
+        bufItem->lengthA = numSamples * 2;
         bufItem->lengthB = 0;
         bufItem->startPos = reverb->nextRingBufPos;
-        reverb->nextRingBufPos += sampleCount;
+        reverb->nextRingBufPos += numSamples;
     } else {
         // End of the buffer is reach. Loop back around
-        bufItem->lengthA = (sampleCount - extraSamples) * 2;
+        bufItem->lengthA = (numSamples - extraSamples) * 2;
         bufItem->lengthB = extraSamples * 2;
         bufItem->startPos = reverb->nextRingBufPos;
         reverb->nextRingBufPos = extraSamples;
     }
 
-    bufItem->numSamplesAfterDownsampling = sampleCount;
+    bufItem->numSamplesAfterDownsampling = numSamples;
     bufItem->chunkLen = chunkLen;
 
     if (reverb->unk_14 != 0) {
@@ -96,19 +96,19 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) 
             temp_a0_4 -= reverb->bufSizePerChan;
         }
         bufItem = &reverb->items2[reverb->curFrame][updateIndex];
-        sampleCount = chunkLen / reverb->downsampleRate;
-        extraSamples = (temp_a0_4 + sampleCount) - reverb->bufSizePerChan;
+        numSamples = chunkLen / reverb->downsampleRate;
+        extraSamples = (temp_a0_4 + numSamples) - reverb->bufSizePerChan;
         if (extraSamples < 0) {
-            bufItem->lengthA = sampleCount * 2;
+            bufItem->lengthA = numSamples * 2;
             bufItem->lengthB = 0;
             bufItem->startPos = temp_a0_4;
         } else {
             // End of the buffer is reach. Loop back around
-            bufItem->lengthA = (sampleCount - extraSamples) * 2;
+            bufItem->lengthA = (numSamples - extraSamples) * 2;
             bufItem->lengthB = extraSamples * 2;
             bufItem->startPos = temp_a0_4;
         }
-        bufItem->numSamplesAfterDownsampling = sampleCount;
+        bufItem->numSamplesAfterDownsampling = numSamples;
         bufItem->chunkLen = chunkLen;
     }
 }
