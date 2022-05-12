@@ -187,7 +187,7 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808A3E54;
 
         mainCamChildId = globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId;
-        if ((mainCamChildId != SUB_CAM_ID_DONE) &&
+        if ((mainCamChildId != CAM_ID_MAIN) &&
             (globalCtx->cameraPtrs[mainCamChildId]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildId);
         }
