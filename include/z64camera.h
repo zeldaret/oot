@@ -16,9 +16,13 @@
 
 #define NUM_CAMS 4
 #define CAM_ID_MAIN 0
-#define SUB_CAM_ID_DONE 0
+// first camera id for sub cameras
 #define CAM_ID_SUB_FIRST 1
+// if a camera is requested, will default to the active camera
 #define CAM_ID_NONE -1
+
+// describes the state of the subCamera and is no longer in use
+#define SUB_CAM_ID_DONE 0
 
 #define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
