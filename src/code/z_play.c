@@ -1043,7 +1043,7 @@ skip:
         LOG_NUM("1", 1, "../z_play.c", 3801);
     }
 
-    if ((sp80 == 0) || (gDbgCamEnabled)) {
+    if ((sp80 == 0) || gDbgCamEnabled) {
         s32 pad3[5];
         s32 i;
 

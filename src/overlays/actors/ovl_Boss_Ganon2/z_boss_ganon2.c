@@ -2869,7 +2869,7 @@ void BossGanon2_UpdateEffects(BossGanon2* this, GlobalContext* globalCtx) {
                             effect->type = 0;
                         }
                     }
-                } else if ((effect->position.y < 0.0f)) {
+                } else if (effect->position.y < 0.0f) {
                     effect->type = 0;
                 }
             }

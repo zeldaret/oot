@@ -2986,7 +2986,7 @@ void EnHorse_CheckFloors(EnHorse* this, GlobalContext* globalCtx) {
         if (ny < 0.81915206f || // cos(35 degrees)
             SurfaceType_IsHorseBlocked(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId) ||
             func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId) == 7) {
-            if ((this->actor.speedXZ >= 0.0f)) {
+            if (this->actor.speedXZ >= 0.0f) {
                 EnHorse_ObstructMovement(this, globalCtx, 4, galloping);
             } else {
                 EnHorse_ObstructMovement(this, globalCtx, 5, galloping);

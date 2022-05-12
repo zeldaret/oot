@@ -287,7 +287,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             if (atTouched && (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
                 hitActor = this->collider.base.at;
 
-                if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & AT_BOUNCED)) &&
+                if ((hitActor->update != NULL) && !(this->collider.base.atFlags & AT_BOUNCED) &&
                     (hitActor->flags & ACTOR_FLAG_14)) {
                     this->hitActor = hitActor;
                     EnArrow_CarryActor(this, globalCtx);

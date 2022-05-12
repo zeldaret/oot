@@ -4523,7 +4523,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
         xzDist = (this->unk_1C2 == 0xC) ? -65.0f : 0.0f;
 
         if ((fabsf(this->actor.world.pos.x) > (465.0f + xzDist)) ||
-            (fabsf(this->actor.world.pos.z) > (465.0f + xzDist)) || ((this->actor.world.pos.y < 0.0f)) ||
+            (fabsf(this->actor.world.pos.z) > (465.0f + xzDist)) || (this->actor.world.pos.y < 0.0f) ||
             (this->actor.world.pos.y > 450.0f)) {
             this->unk_1C2 = 1;
             this->actor.speedXZ = 0.0f;
