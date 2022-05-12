@@ -636,7 +636,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
         (this->dyna.actor.xzDistToPlayer < 50.0f)) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
-        OnePointCutscene_Init(globalCtx, 2210, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 2210, -99, &this->dyna.actor, CAM_ID_MAIN);
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         return;
     }
@@ -753,9 +753,9 @@ void ObjBean_WaitForPlayer(ObjBean* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) { // Player is standing on
         ObjBean_SetupFly(this);
         if (globalCtx->sceneNum == SCENE_SPOT10) { // Lost woods
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_LOST_WOODS);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_GENERIC);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
         }
     }
     ObjBean_UpdatePosition(this);
@@ -769,7 +769,7 @@ void ObjBean_SetupFly(ObjBean* this) {
 }
 
 void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
-    Camera* camera;
+    Camera* mainCam;
 
     ObjBean_FollowPath(this, globalCtx);
     if (this->currentPointIndex == this->pathCount) {
@@ -778,10 +778,10 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         ObjBean_SetupWaitForStepOff(this);
 
         this->dyna.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
-        camera = globalCtx->cameraPtrs[MAIN_CAM];
+        mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
-        if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
 
     } else if (func_8004356C(&this->dyna) != 0) { // Player is on top
@@ -789,15 +789,15 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
         if (globalCtx->sceneNum == SCENE_SPOT10) {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_LOST_WOODS);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_GENERIC);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
         }
     } else if (this->stateFlags & BEAN_STATE_PLAYER_ON_TOP) {
-        camera = globalCtx->cameraPtrs[MAIN_CAM];
+        mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
-        if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
     }
 

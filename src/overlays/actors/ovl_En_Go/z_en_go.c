@@ -420,7 +420,7 @@ void func_80A3F0E4(EnGo* this) {
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     f32 xyzDistSq;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
+    Camera* mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
     if (fabsf(yawDiff) > 10920.0f) {
         return 0;
@@ -428,13 +428,13 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
 
     xyzDistSq = (this->actor.scale.x / 0.01f) * 10000.0f;
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
+        Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
         xyzDistSq *= 4.8f;
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDistSq) {
-        if (camera->setting == CAM_SET_DIRECTED_YAW) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if (mainCam->setting == CAM_SET_DIRECTED_YAW) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
         return 0;
     } else {
@@ -774,7 +774,7 @@ void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
-            OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, CAM_ID_MAIN);
         }
     }
 }
@@ -866,7 +866,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.timer2State = 0;
-                OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);

@@ -97,7 +97,7 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         // "jiji jiji jiji jiji jiji" [onomatopoeia for the scrub sound?]
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
-    this->subCamera = 0;
+    this->subCamId = SUB_CAM_ID_DONE;
     this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnDntDemo_Judge;
 }
@@ -124,8 +124,8 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDntDemo_Results;
     } else if ((this->actor.xzDistToPlayer > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
         this->debugArrowTimer++;
-        if (this->subCamera != SUBCAM_FREE) {
-            this->subCamera = SUBCAM_FREE;
+        if (this->subCamId != SUB_CAM_ID_DONE) {
+            this->subCamId = SUB_CAM_ID_DONE;
         }
         if (this->judgeTimer != 0) {
             for (i = 0; i < 9; i++) {
@@ -134,8 +134,8 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             this->judgeTimer = 0;
         }
     } else {
-        if ((Player_GetMask(globalCtx) != 0) && (this->subCamera == SUBCAM_FREE)) {
-            this->subCamera = OnePointCutscene_Init(globalCtx, 2220, -99, &this->scrubs[3]->actor, MAIN_CAM);
+        if ((Player_GetMask(globalCtx) != 0) && (this->subCamId == SUB_CAM_ID_DONE)) {
+            this->subCamId = OnePointCutscene_Init(globalCtx, 2220, -99, &this->scrubs[3]->actor, CAM_ID_MAIN);
         }
         this->debugArrowTimer = 0;
         if (this->judgeTimer == 40) {
@@ -169,10 +169,10 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         reaction = DNT_SIGNAL_LOOK;
-                        if (this->subCamera != SUBCAM_FREE) {
-                            this->subCamera = SUBCAM_FREE;
+                        if (this->subCamId != SUB_CAM_ID_DONE) {
+                            this->subCamId = SUB_CAM_ID_DONE;
                             reaction = DNT_SIGNAL_LOOK;
-                            OnePointCutscene_Init(globalCtx, 2340, -99, &this->leader->actor, MAIN_CAM);
+                            OnePointCutscene_Init(globalCtx, 2340, -99, &this->leader->actor, CAM_ID_MAIN);
                         }
                         break;
                     }
@@ -209,9 +209,9 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_COURTYARD);
                                 break;
                             case DNT_ACTION_ATTACK:
-                                if (this->subCamera != SUBCAM_FREE) {
-                                    this->subCamera = SUBCAM_FREE;
-                                    OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, MAIN_CAM);
+                                if (this->subCamId != SUB_CAM_ID_DONE) {
+                                    this->subCamId = SUB_CAM_ID_DONE;
+                                    OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, CAM_ID_MAIN);
                                 }
                                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
                                 break;

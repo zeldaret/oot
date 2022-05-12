@@ -23,22 +23,6 @@ typedef struct {
     /* 0x190 */ Vec3f head;
 } BossFd2Mane; // size = 0x19C
 
-typedef struct {
-    /* 0x00 */ Vec3f eye;
-    /* 0x0C */ Vec3f at;
-    /* 0x18 */ Vec3f pad[2];
-    /* 0x30 */ Vec3f eyeVel;
-    /* 0x3C */ Vec3f atVel;
-    /* 0x48 */ Vec3f nextEye;
-    /* 0x54 */ Vec3f eyeMaxVel;
-    /* 0x60 */ Vec3f nextAt;
-    /* 0x6C */ Vec3f atMaxVel;
-    /* 0x78 */ f32 speedMod;
-    /* 0x7C */ f32 accel;
-    /* 0x80 */ f32 yMod;
-    /* 0x84 */ f32 shake;
-} BossFd2Cam; // size = 0x88
-
 typedef enum {
     /* 0 */ FD2_TURN_TO_LINK,
     /* 1 */ FD2_ACTION_STATE,
@@ -83,8 +67,21 @@ typedef struct BossFd2 {
     /* 0x1388 */ char unk_1388[4];
     /* 0x138C */ f32 jawOpening;
     /* 0x1390 */ s16 deathState;
-    /* 0x1392 */ s16 deathCamera;
-    /* 0x1394 */ BossFd2Cam camData;
+    /* 0x1392 */ s16 subCamId;
+    /* 0x1394 */ Vec3f subCamEye;
+    /* 0x13A0 */ Vec3f subCamAt;
+    /* 0x13AC */ Vec3f subCamUp;
+    /* 0x13B8 */ Vec3f pad;
+    /* 0x13C4 */ Vec3f subCamEyeVel;
+    /* 0x13D0 */ Vec3f subCamAtVel;
+    /* 0x13DC */ Vec3f subCamEyeNext;
+    /* 0x13E8 */ Vec3f subCamEyeMaxVelFrac;
+    /* 0x13F4 */ Vec3f subCamAtNext;
+    /* 0x1400 */ Vec3f subCamAtMaxVelFrac;
+    /* 0x140C */ f32 subCamVelFactor;
+    /* 0x1410 */ f32 subCamAccel;
+    /* 0x1414 */ f32 subCamAtYOffset;
+    /* 0x1418 */ f32 subCamShake;
     /* 0x141C */ ColliderJntSph collider;
     /* 0x143C */ ColliderJntSphElement elements[9];
 } BossFd2; // size = 0x167C

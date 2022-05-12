@@ -352,14 +352,14 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
     static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     EnMa3* this = (EnMa3*)thisx;
-    Camera* camera;
+    Camera* activeCam;
     f32 someFloat;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
+    activeCam = GET_ACTIVE_CAM(globalCtx);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
     func_800F6268(someFloat, NA_BGM_LONLON);
     func_80093D18(globalCtx->state.gfxCtx);
 

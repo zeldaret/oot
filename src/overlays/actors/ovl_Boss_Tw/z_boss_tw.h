@@ -121,11 +121,11 @@ typedef struct BossTw {
     /* 0x0624 */ Vec3f subCamEye2;
     /* 0x0630 */ Vec3f subCamAt2;
     /* 0x063C */ char unused_63C[0x18];
-    /* 0x0654 */ Vec3f subCamEyeStep;
-    /* 0x0660 */ Vec3f subCamAtStep;
-    /* 0x066C */ Vec3f subCamEyeTarget;
+    /* 0x0654 */ Vec3f subCamEyeVel;
+    /* 0x0660 */ Vec3f subCamAtVel;
+    /* 0x066C */ Vec3f subCamEyeNext;
     /* 0x0678 */ char unused_678[0xC];
-    /* 0x0684 */ Vec3f subCamAtTarget;
+    /* 0x0684 */ Vec3f subCamAtNext;
     /* 0x0690 */ char unused_690[0xC];
     /* 0x069C */ f32 subCamUpdateRate;
     /* 0x06A0 */ f32 subCamDistStep;

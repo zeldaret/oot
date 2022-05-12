@@ -722,7 +722,7 @@ void Camera_CopyDataToRegs(Camera* camera, s16 mode) {
     s32 i;
 
     if (PREG(82)) {
-        osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->thisIdx, camera->setting, mode);
+        osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->camId, camera->setting, mode);
     }
 
     values = sCameraSettings[camera->setting].cameraModes[mode].values;
@@ -3345,7 +3345,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     if (RELOAD_PARAMS(camera)) {
         if (camera->globalCtx->view.unk_124 == 0) {
             camera->unk_14C |= 0x20;
-            camera->globalCtx->view.unk_124 = camera->thisIdx | 0x50;
+            camera->globalCtx->view.unk_124 = camera->camId | 0x50;
             return 1;
         }
         camera->unk_14C &= ~0x20;
@@ -3525,7 +3525,7 @@ s32 Camera_KeepOn4(Camera* camera) {
         if (camera->globalCtx->view.unk_124 == 0) {
             camera->unk_14C |= 0x20;
             camera->unk_14C &= ~(0x4 | 0x2);
-            camera->globalCtx->view.unk_124 = camera->thisIdx | 0x50;
+            camera->globalCtx->view.unk_124 = camera->camId | 0x50;
             return 1;
         }
         rwData->unk_14 = *temp_s0;
@@ -3538,7 +3538,7 @@ s32 Camera_KeepOn4(Camera* camera) {
         camera->animState = 20;
         camera->unk_14C |= 0x20;
         camera->unk_14C &= ~(0x4 | 0x2);
-        camera->globalCtx->view.unk_124 = camera->thisIdx | 0x50;
+        camera->globalCtx->view.unk_124 = camera->camId | 0x50;
         return 1;
     }
 
@@ -4205,7 +4205,7 @@ s32 Camera_Subj3(Camera* camera) {
     playerHeight = Player_GetHeight(camera->player);
 
     if (camera->globalCtx->view.unk_124 == 0) {
-        camera->globalCtx->view.unk_124 = camera->thisIdx | 0x50;
+        camera->globalCtx->view.unk_124 = camera->camId | 0x50;
         return true;
     }
 
@@ -4334,7 +4334,7 @@ s32 Camera_Subj4(Camera* camera) {
     }
 
     if (camera->globalCtx->view.unk_124 == 0) {
-        camera->globalCtx->view.unk_124 = (camera->thisIdx | 0x50);
+        camera->globalCtx->view.unk_124 = (camera->camId | 0x50);
         rwData->unk_24 = camera->xzSpeed;
         return true;
     }
@@ -5137,7 +5137,7 @@ s32 Camera_Unique9(Camera* camera) {
             }
         } else {
             // We've gone through all the keyframes.
-            if (camera->thisIdx != MAIN_CAM) {
+            if (camera->camId != CAM_ID_MAIN) {
                 camera->timer = 0;
             }
             return true;
@@ -5475,20 +5475,20 @@ s32 Camera_Unique9(Camera* camera) {
             break;
         case 19: {
             // Change the parent camera (or default)'s mode to normal
-            s32 camIdx = camera->parentCamIdx <= SUBCAM_NONE ? MAIN_CAM : camera->parentCamIdx;
+            s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
 
             Camera_ChangeModeFlags(camera->globalCtx->cameraPtrs[camIdx], CAM_MODE_NORMAL, 1);
         }
         case 18: {
             // copy the current camera to the parent (or default)'s camera.
-            s32 camIdx = camera->parentCamIdx <= SUBCAM_NONE ? MAIN_CAM : camera->parentCamIdx;
+            s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
             Camera* cam = camera->globalCtx->cameraPtrs[camIdx];
 
             *eye = *eyeNext;
             Camera_Copy(cam, camera);
         }
         default:
-            if (camera->thisIdx != MAIN_CAM) {
+            if (camera->camId != CAM_ID_MAIN) {
                 camera->timer = 0;
             }
     }
@@ -5911,7 +5911,7 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D6AC[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D6AC;
             ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
-            if (camera->parentCamIdx != MAIN_CAM) {
+            if (camera->parentCamId != CAM_ID_MAIN) {
                 ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D6AC[2].timerInit;
@@ -5921,7 +5921,7 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D724[1].timerInit = camera->timer - 1;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D724;
             ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D724);
-            if (camera->parentCamIdx != MAIN_CAM) {
+            if (camera->parentCamId != CAM_ID_MAIN) {
                 ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D724[2].timerInit;
@@ -5944,7 +5944,7 @@ s32 Camera_Demo5(Camera* camera) {
 
         D_8011D79C[1].timerInit = camera->timer - 1;
 
-        if (camera->parentCamIdx != MAIN_CAM) {
+        if (camera->parentCamId != CAM_ID_MAIN) {
             ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
@@ -5955,7 +5955,7 @@ s32 Camera_Demo5(Camera* camera) {
         D_8011D83C[0].timerInit = camera->timer;
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D83C;
         ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
-        if (camera->parentCamIdx != MAIN_CAM) {
+        if (camera->parentCamId != CAM_ID_MAIN) {
             ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
         } else {
             camera->timer += D_8011D83C[1].timerInit;
@@ -5969,7 +5969,7 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D88C[0].timerInit = camera->timer;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D88C;
             ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
-            if (camera->parentCamIdx != MAIN_CAM) {
+            if (camera->parentCamId != CAM_ID_MAIN) {
                 ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D88C[1].timerInit;
@@ -5987,7 +5987,7 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D8DC[1].timerInit = (s16)(eyeTargetDist * 0.005f) + 8;
             ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D8DC;
             ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
-            if (camera->parentCamIdx != MAIN_CAM) {
+            if (camera->parentCamId != CAM_ID_MAIN) {
                 ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
             } else {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
@@ -6024,7 +6024,7 @@ s32 Camera_Demo5(Camera* camera) {
         }
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D954;
         ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D954);
-        if (camera->parentCamIdx != MAIN_CAM) {
+        if (camera->parentCamId != CAM_ID_MAIN) {
             ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
@@ -6049,7 +6049,7 @@ s32 Camera_Demo5(Camera* camera) {
         }
         ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D9F4;
         ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
-        if (camera->parentCamIdx != MAIN_CAM) {
+        if (camera->parentCamId != CAM_ID_MAIN) {
             if (camera->globalCtx->state.frames & 1) {
                 D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
                 D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
@@ -6111,7 +6111,7 @@ s32 Camera_Demo6(Camera* camera) {
     s16 stateTimers[4];
     Demo6ReadWriteData* rwData = &camera->paramData.demo6.rwData;
 
-    mainCam = Gameplay_GetCamera(camera->globalCtx, MAIN_CAM);
+    mainCam = Gameplay_GetCamera(camera->globalCtx, CAM_ID_MAIN);
     camFocus = camera->target;
     stateTimers[1] = 0x37;
     stateTimers[2] = 0x46;
@@ -6216,7 +6216,7 @@ s32 Camera_Demo9(Camera* camera) {
     f32* camFOV = &camera->fov;
     Demo9ReadWriteData* rwData = &camera->paramData.demo9.rwData;
 
-    mainCam = Gameplay_GetCamera(camera->globalCtx, MAIN_CAM);
+    mainCam = Gameplay_GetCamera(camera->globalCtx, CAM_ID_MAIN);
     mainCamPlayerPosRot = &mainCam->playerPosRot;
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -6306,7 +6306,7 @@ s32 Camera_Demo9(Camera* camera) {
                     if (rwData->finishAction == 0x2000) {
                         // finish action = 0x2000, run OnePointCs 0x3FC (Dramatic Return to Link)
                         onePointTimer = onePointCamData->initTimer < 50 ? 5 : onePointCamData->initTimer / 5;
-                        OnePointCutscene_Init(camera->globalCtx, 1020, onePointTimer, NULL, camera->parentCamIdx);
+                        OnePointCutscene_Init(camera->globalCtx, 1020, onePointTimer, NULL, camera->parentCamId);
                     }
                 } else {
                     // finish action = 0x1000, copy the current camera's values to the
@@ -7019,7 +7019,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     Camera_QRegInit();
     osSyncPrintf(VT_FGCOL(BLUE) "camera: personalize ---" VT_RST "\n");
 
-    if (camera->thisIdx == MAIN_CAM) {
+    if (camera->camId == CAM_ID_MAIN) {
         Camera_UpdateWater(camera);
     }
 }
@@ -7035,7 +7035,7 @@ s16 Camera_ChangeStatus(Camera* camera, s16 status) {
     }
 
     if (PREG(82)) {
-        osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->thisIdx, camera->setting, camera->mode);
+        osSyncPrintf("camera: res: stat (%d/%d/%d)\n", camera->camId, camera->setting, camera->mode);
     }
 
     if (status == CAM_STAT_ACTIVE && camera->status != CAM_STAT_ACTIVE) {
@@ -7058,7 +7058,7 @@ void Camera_PrintSettings(Camera* camera) {
     char sp48[8];
     s32 i;
 
-    if ((OREG(0) & 1) && (camera->globalCtx->activeCamera == camera->thisIdx) && !gDbgCamEnabled) {
+    if ((OREG(0) & 1) && (camera->globalCtx->activeCamId == camera->camId) && !gDbgCamEnabled) {
         for (i = 0; i < NUM_CAMS; i++) {
             if (camera->globalCtx->cameraPtrs[i] == NULL) {
                 sp58[i] = '-';
@@ -7090,7 +7090,7 @@ void Camera_PrintSettings(Camera* camera) {
         sp58[i] = '\0';
         sp48[i] = '\0';
 
-        sp48[camera->globalCtx->activeCamera] = 'a';
+        sp48[camera->globalCtx->activeCamId] = 'a';
         func_8006376C(3, 0x16, 5, sp58);
         func_8006376C(3, 0x16, 1, sp48);
         func_8006376C(3, 0x17, 5, "S:");
@@ -7260,7 +7260,7 @@ s32 Camera_UpdateHotRoom(Camera* camera) {
 s32 Camera_DbgChangeMode(Camera* camera) {
     s32 changeDir = 0;
 
-    if (!gDbgCamEnabled && camera->globalCtx->activeCamera == MAIN_CAM) {
+    if (!gDbgCamEnabled && camera->globalCtx->activeCamId == CAM_ID_MAIN) {
         if (CHECK_BTN_ALL(D_8015BD7C->state.input[2].press.button, BTN_CUP)) {
             osSyncPrintf("attention sound URGENCY\n");
             func_80078884(NA_SE_SY_ATTENTION_URGENCY);
@@ -7387,7 +7387,7 @@ Vec3s Camera_Update(Camera* camera) {
     QuakeCamCalc quake;
     Player* player;
 
-    player = camera->globalCtx->cameraPtrs[MAIN_CAM]->player;
+    player = camera->globalCtx->cameraPtrs[CAM_ID_MAIN]->player;
 
     if (R_DBG_CAM_UPDATE) {
         osSyncPrintf("camera: in %x\n", camera);
@@ -7494,7 +7494,7 @@ Vec3s Camera_Update(Camera* camera) {
         if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3)) {
             sCameraInterfaceFlags = 0;
             Camera_UpdateInterface(sCameraInterfaceFlags);
-        } else if ((D_8011D3F0 != 0) && (camera->thisIdx == MAIN_CAM)) {
+        } else if ((D_8011D3F0 != 0) && (camera->camId == CAM_ID_MAIN)) {
             D_8011D3F0--;
             sCameraInterfaceFlags = 0x3200;
             Camera_UpdateInterface(sCameraInterfaceFlags);
@@ -7626,13 +7626,13 @@ Vec3s Camera_Update(Camera* camera) {
  * When the camera's timer is 0, change the camera to its parent
  */
 void Camera_Finish(Camera* camera) {
-    Camera* mainCam = camera->globalCtx->cameraPtrs[MAIN_CAM];
+    Camera* mainCam = camera->globalCtx->cameraPtrs[CAM_ID_MAIN];
     Player* player = GET_PLAYER(camera->globalCtx);
 
     if (camera->timer == 0) {
-        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, CAM_STAT_ACTIVE);
+        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STAT_ACTIVE);
 
-        if ((camera->parentCamIdx == MAIN_CAM) && (camera->csId != 0)) {
+        if ((camera->parentCamId == CAM_ID_MAIN) && (camera->csId != 0)) {
             player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~PLAYER_STATE1_29;
 
@@ -7644,23 +7644,23 @@ void Camera_Finish(Camera* camera) {
             mainCam->unk_14C |= 8;
         }
 
-        if (CHILD_CAM(camera)->parentCamIdx == camera->thisIdx) {
-            CHILD_CAM(camera)->parentCamIdx = camera->parentCamIdx;
+        if (CHILD_CAM(camera)->parentCamId == camera->camId) {
+            CHILD_CAM(camera)->parentCamId = camera->parentCamId;
         }
 
-        if (PARENT_CAM(camera)->childCamIdx == camera->thisIdx) {
-            PARENT_CAM(camera)->childCamIdx = camera->childCamIdx;
+        if (PARENT_CAM(camera)->childCamId == camera->camId) {
+            PARENT_CAM(camera)->childCamId = camera->childCamId;
         }
 
-        if (PARENT_CAM(camera)->thisIdx == MAIN_CAM) {
+        if (PARENT_CAM(camera)->camId == CAM_ID_MAIN) {
             PARENT_CAM(camera)->animState = 0;
         }
 
-        camera->childCamIdx = camera->parentCamIdx = SUBCAM_FREE;
+        camera->childCamId = camera->parentCamId = CAM_ID_MAIN;
         camera->timer = -1;
         camera->globalCtx->envCtx.fillScreen = false;
 
-        Gameplay_ClearCamera(camera->globalCtx, camera->thisIdx);
+        Gameplay_ClearCamera(camera->globalCtx, camera->camId);
     }
 }
 
@@ -7871,7 +7871,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
     }
 
     osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: change camera[%d] set %s\n", camera->globalCtx->state.frames,
-                 camera->thisIdx, sCameraSettingNames[camera->setting]);
+                 camera->camId, sCameraSettingNames[camera->setting]);
 
     return setting;
 }
@@ -7901,7 +7901,7 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
             //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
             // camDataIdx would make more sense.
             osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, camDataIdx,
-                         camera->thisIdx, 0x32, newCameraSetting);
+                         camera->camId, 0x32, newCameraSetting);
         }
         return 0x80000000 | camDataIdx;
     }
@@ -8197,10 +8197,10 @@ s32 func_8005B198(void) {
 s16 func_8005B1A4(Camera* camera) {
     camera->unk_14C |= 0x8;
 
-    if ((camera->thisIdx == MAIN_CAM) && (camera->globalCtx->activeCamera != MAIN_CAM)) {
+    if ((camera->camId == CAM_ID_MAIN) && (camera->globalCtx->activeCamId != CAM_ID_MAIN)) {
         GET_ACTIVE_CAM(camera->globalCtx)->unk_14C |= 0x8;
-        return camera->globalCtx->activeCamera;
+        return camera->globalCtx->activeCamId;
     }
 
-    return camera->thisIdx;
+    return camera->camId;
 }
