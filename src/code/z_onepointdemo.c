@@ -1165,7 +1165,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
 
     vChildCamId = globalCtx->cameraPtrs[parentCamId]->childCamId;
     vSubCamStatus = CAM_STAT_ACTIVE;
-    if (vChildCamId >= SUB_CAM_ID_FIRST) {
+    if (vChildCamId >= CAM_ID_SUB_FIRST) {
         OnePointCutscene_SetAsChild(globalCtx, vChildCamId, subCamId);
         vSubCamStatus = CAM_STAT_WAIT;
     } else {
@@ -1196,7 +1196,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     vCurCamId = subCamId;
     vNextCamId = globalCtx->cameraPtrs[subCamId]->childCamId;
 
-    while (vNextCamId >= SUB_CAM_ID_FIRST) {
+    while (vNextCamId >= CAM_ID_SUB_FIRST) {
         s16 nextCsId = globalCtx->cameraPtrs[vNextCamId]->csId;
         s16 thisCsId = globalCtx->cameraPtrs[subCamId]->csId;
 

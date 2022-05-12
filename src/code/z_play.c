@@ -1547,7 +1547,7 @@ void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
     s16 i;
 
-    for (i = SUB_CAM_ID_FIRST; i < NUM_CAMS; i++) {
+    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] == NULL) {
             break;
         }
@@ -1562,7 +1562,7 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
                      CYAN) " " VT_RST "\n",
                  i);
 
-    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - SUB_CAM_ID_FIRST];
+    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - CAM_ID_SUB_FIRST];
     Camera_Init(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
     globalCtx->cameraPtrs[i]->camId = i;
 
@@ -1604,7 +1604,7 @@ void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx) {
     s16 subCamId;
 
-    for (subCamId = SUB_CAM_ID_FIRST; subCamId < NUM_CAMS; subCamId++) {
+    for (subCamId = CAM_ID_SUB_FIRST; subCamId < NUM_CAMS; subCamId++) {
         if (globalCtx->cameraPtrs[subCamId] != NULL) {
             Gameplay_ClearCamera(globalCtx, subCamId);
         }
@@ -1715,7 +1715,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
 
     Gameplay_ClearCamera(globalCtx, camIdx);
 
-    for (i = SUB_CAM_ID_FIRST; i < NUM_CAMS; i++) {
+    for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] != NULL) {
             osSyncPrintf(
                 VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,

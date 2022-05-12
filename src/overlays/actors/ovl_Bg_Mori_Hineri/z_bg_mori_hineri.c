@@ -213,7 +213,7 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
             sSubCamId = CAM_ID_NONE;
         }
     }
-    if ((sSubCamId >= SUB_CAM_ID_FIRST) &&
+    if ((sSubCamId >= CAM_ID_SUB_FIRST) &&
         ((GET_ACTIVE_CAM(globalCtx)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
