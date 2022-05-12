@@ -345,7 +345,7 @@ void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
 void func_80098D1C(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->skyboxId = cmd->skyboxSettings.skyboxId;
     globalCtx->envCtx.skyboxConfig = globalCtx->envCtx.changeSkyboxNextConfig = cmd->skyboxSettings.unk_05;
-    globalCtx->envCtx.indoors = cmd->skyboxSettings.unk_06;
+    globalCtx->envCtx.lightMode = cmd->skyboxSettings.unk_06;
 }
 
 // Scene Command 0x12: Skybox Disables

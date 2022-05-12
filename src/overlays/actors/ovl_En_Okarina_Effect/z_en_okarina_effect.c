@@ -75,7 +75,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
          (globalCtx->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(globalCtx)) &&
          ((globalCtx->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != 0))) ||
         (this->timer >= 250)) {
-        if (globalCtx->envCtx.indoors || globalCtx->envCtx.lightConfig != 1) {
+        if ((globalCtx->envCtx.lightMode != LIGHT_MODE_TIME) || globalCtx->envCtx.lightConfig != 1) {
             this->timer--;
         }
         osSyncPrintf("\nthis->timer=[%d]", this->timer);

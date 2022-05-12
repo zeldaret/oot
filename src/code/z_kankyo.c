@@ -23,7 +23,7 @@ ZBufValConversionEntry sZBufValConversionTable[1 << 3] = {
 
 u8 gWeatherMode = WEATHER_MODE_CLEAR; // "E_wether_flg"
 
-u8 gSavedNextLightConfig = 0;
+u8 gLightConfigAfterUnderwater = 0;
 
 u8 gInterruptSongOfStorms = false;
 
@@ -329,7 +329,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->windDirection.y = 80;
     envCtx->windDirection.z = 80;
 
-    envCtx->blendIndoorLights = false;
+    envCtx->lightBlendEnabled = false;
     envCtx->lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
     envCtx->lightBlendRateOverride = LIGHT_BLENDRATE_OVERRIDE_NONE;
 
@@ -400,7 +400,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     }
 
     gInterruptSongOfStorms = false;
-    gSavedNextLightConfig = 0;
+    gLightConfigAfterUnderwater = 0;
     gSkyboxIsChanging = false;
     gSaveContext.retainWeatherMode = false;
 
@@ -599,7 +599,7 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
                     envCtx->changeLightEnabled = true;
                     envCtx->lightConfig = 0;
                     envCtx->changeLightNextConfig = 2;
-                    gSavedNextLightConfig = 2;
+                    gLightConfigAfterUnderwater = 2;
                     envCtx->changeLightTimer = envCtx->changeDuration = 100;
                     envCtx->stormState++;
                 }
@@ -615,7 +615,7 @@ void Environment_UpdateStorm(EnvironmentContext* envCtx, u8 unused) {
                     envCtx->changeLightEnabled = true;
                     envCtx->lightConfig = 2;
                     envCtx->changeLightNextConfig = 0;
-                    gSavedNextLightConfig = 0;
+                    gLightConfigAfterUnderwater = 0;
                     envCtx->changeLightTimer = envCtx->changeDuration = 100;
                     envCtx->precipitation[PRECIP_RAIN_MAX] = 0;
                     envCtx->stormRequest = STORM_REQUEST_NONE;
@@ -790,25 +790,25 @@ void Environment_EnableUnderwaterLights(GlobalContext* globalCtx, s32 waterLight
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n水ポリゴンデータに水中カラーが設定されておりません!" VT_RST);
     }
 
-    if (!globalCtx->envCtx.indoors) {
-        gSavedNextLightConfig = globalCtx->envCtx.changeLightNextConfig;
+    if (globalCtx->envCtx.lightMode == LIGHT_MODE_TIME) {
+        gLightConfigAfterUnderwater = globalCtx->envCtx.changeLightNextConfig;
 
         if (globalCtx->envCtx.lightConfig != waterLightsIndex) {
             globalCtx->envCtx.lightConfig = waterLightsIndex;
             globalCtx->envCtx.changeLightNextConfig = waterLightsIndex;
         }
     } else {
-        globalCtx->envCtx.blendIndoorLights = false; // instantly switch to water lights
+        globalCtx->envCtx.lightBlendEnabled = false; // instantly switch to water lights
         globalCtx->envCtx.lightSettingOverride = waterLightsIndex;
     }
 }
 
 void Environment_DisableUnderwaterLights(GlobalContext* globalCtx) {
-    if (!globalCtx->envCtx.indoors) {
-        globalCtx->envCtx.lightConfig = gSavedNextLightConfig;
-        globalCtx->envCtx.changeLightNextConfig = gSavedNextLightConfig;
+    if (globalCtx->envCtx.lightMode == LIGHT_MODE_TIME) {
+        globalCtx->envCtx.lightConfig = gLightConfigAfterUnderwater;
+        globalCtx->envCtx.changeLightNextConfig = gLightConfigAfterUnderwater;
     } else {
-        globalCtx->envCtx.blendIndoorLights = false; // instantly switch to previous lights
+        globalCtx->envCtx.lightBlendEnabled = false; // instantly switch to previous lights
         globalCtx->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
         globalCtx->envCtx.lightBlend = 1.0f;
     }
@@ -977,7 +977,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         }
 
         if (envCtx->lightSettingOverride != LIGHT_SETTING_OVERRIDE_FULL_CONTROL) {
-            if (!envCtx->indoors && (envCtx->lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE)) {
+            if ((envCtx->lightMode == LIGHT_MODE_TIME) &&
+                (envCtx->lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE)) {
                 for (i = 0; i < ARRAY_COUNT(sTimeBasedLightConfigs[envCtx->lightConfig]); i++) {
                     if ((gSaveContext.skyboxTime >= sTimeBasedLightConfigs[envCtx->lightConfig][i].startTime) &&
                         ((gSaveContext.skyboxTime < sTimeBasedLightConfigs[envCtx->lightConfig][i].endTime) ||
@@ -1131,7 +1132,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
                     }
                 }
             } else {
-                if (!envCtx->blendIndoorLights) {
+                if (!envCtx->lightBlendEnabled) {
                     for (i = 0; i < 3; i++) {
                         envCtx->lightSettings.ambientColor[i] = lightSettingsList[envCtx->lightSetting].ambientColor[i];
                         envCtx->lightSettings.light1Dir[i] = lightSettingsList[envCtx->lightSetting].light1Dir[i];
@@ -1202,7 +1203,7 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
             }
         }
 
-        envCtx->blendIndoorLights = true;
+        envCtx->lightBlendEnabled = true;
 
         // Apply lighting adjustments
         for (i = 0; i < 3; i++) {
@@ -2197,8 +2198,8 @@ void Environment_DrawCustomLensFlare(GlobalContext* globalCtx) {
         pos.z = gCustomLensFlarePos.z;
 
         Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos,
-                                  gLensFlareUnused, gLensFlareScale, gLensFlareColorIntensity,
-                                  gLensFlareGlareStrength, false);
+                                  gLensFlareUnused, gLensFlareScale, gLensFlareColorIntensity, gLensFlareGlareStrength,
+                                  false);
     }
 }
 
@@ -2440,7 +2441,8 @@ void Environment_DrawSandstorm(GlobalContext* globalCtx, u8 sandstormState) {
         sp98 = 6.0f;
     }
 
-    if (globalCtx->envCtx.indoors || (globalCtx->envCtx.lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE)) {
+    if ((globalCtx->envCtx.lightMode != LIGHT_MODE_TIME) ||
+        (globalCtx->envCtx.lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE)) {
         primColor.r = sSandstormPrimColors[1].r;
         primColor.g = sSandstormPrimColors[1].g;
         primColor.b = sSandstormPrimColors[1].b;

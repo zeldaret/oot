@@ -17,7 +17,7 @@
 #define LIGHT_SETTING_MAX 31
 #define LIGHT_SETTING_OVERRIDE_NONE 0xFF
 
-// This mode disables the updating of both indoor and outdoor lights.
+// This mode disables the updating of lights in both light modes.
 // With this mode enabled, the only way lights can change is via the adjustment arrays.
 // This mode is not used in the original game.
 #define LIGHT_SETTING_OVERRIDE_FULL_CONTROL 0xFE
@@ -26,10 +26,15 @@
 #define LIGHT_BLEND_OVERRIDE_NONE 0
 #define LIGHT_BLEND_OVERRIDE_ON 1
 
-// This mode disables the light system's automatic updating of the
-// blend between light settings when indoors (or using a light setting override).
+// This mode disables the light system's automatic blending between 
+// light settings for `LIGHT_MODE_SETTINGS` (or using a light setting override).
 // This is a bit of a hack used only by bosses in the original game.
 #define LIGHT_BLEND_OVERRIDE_FULL_CONTROL 2
+
+typedef enum { 
+    /* 0 */ LIGHT_MODE_TIME, // environment lights use `lightConfig` and change based on time of day
+    /* 1 */ LIGHT_MODE_SETTINGS // environment lights use `lightSetting` and change based on time of day
+} LightMode;
 
 typedef enum {
     /*  0 */ SKYBOX_DMA_INACTIVE,
@@ -149,20 +154,20 @@ typedef struct {
     /* 0x14 */ char unk_14[0x01];
     /* 0x15 */ u8 skyboxDisabled;
     /* 0x16 */ u8 sunMoonDisabled;
-    /* 0x17 */ u8 skyboxConfig; // only used outdoors
-    /* 0x18 */ u8 changeSkyboxNextConfig; // only used outdoors
+    /* 0x17 */ u8 skyboxConfig; // only used for `LIGHT_MODE_TIME`
+    /* 0x18 */ u8 changeSkyboxNextConfig;
     /* 0x19 */ u8 changeSkyboxState;
     /* 0x1A */ u16 changeSkyboxTimer;
     /* 0x1C */ char unk_1C[0x02];
-    /* 0x1E */ u8 indoors; // when true, day time has no effect on lighting
-    /* 0x1F */ u8 lightConfig; // only used outdoors
-    /* 0x20 */ u8 changeLightNextConfig; // only used outdoors
+    /* 0x1E */ u8 lightMode; // when true, day time has no effect on lighting
+    /* 0x1F */ u8 lightConfig; // only used for `LIGHT_MODE_TIME`
+    /* 0x20 */ u8 changeLightNextConfig;
     /* 0x21 */ u8 changeLightEnabled;
     /* 0x22 */ u16 changeLightTimer;
     /* 0x24 */ u16 changeDuration; // total time to change skybox and light configs
     /* 0x26 */ char unk_26[0x02];
-    /* 0x28 */ LightInfo dirLight1; // used for sunlight outdoors
-    /* 0x36 */ LightInfo dirLight2; // used for moonlight outdoors
+    /* 0x28 */ LightInfo dirLight1; // used as sunlight for `LIGHT_MODE_TIME`
+    /* 0x36 */ LightInfo dirLight2; // used as moonlight `LIGHT_MODE_TIME`
     /* 0x44 */ s8 skyboxDmaState;
     /* 0x48 */ DmaRequest dmaRequest;
     /* 0x68 */ OSMesgQueue loadQueue;
@@ -179,11 +184,11 @@ typedef struct {
     /* 0xB0 */ f32 windSpeed;
     /* 0xB4 */ u8 numLightSettings;
     /* 0xB8 */ EnvLightSettings* lightSettingsList; // list of light settings from the scene file
-    /* 0xBC */ u8 blendIndoorLights; // when true, blend between indoor light settings when switching
-    /* 0xBD */ u8 lightSetting; // only used indoors or on override
-    /* 0xBE */ u8 prevLightSetting; // only used indoors or on override
+    /* 0xBC */ u8 lightBlendEnabled; // only used with `LIGHT_MODE_SETTINGS` or on override
+    /* 0xBD */ u8 lightSetting; // only used with `LIGHT_MODE_SETTINGS` or on override
+    /* 0xBE */ u8 prevLightSetting;
     /* 0xBF */ u8 lightSettingOverride;
-    /* 0xC0 */ EnvLightSettings lightSettings;
+    /* 0xC0 */ EnvLightSettings lightSettings; // settings for the currently "live" lights
     /* 0xD6 */ u16 lightBlendRateOverride;
     /* 0xD8 */ f32 lightBlend;
     /* 0xDC */ u8 lightBlendOverride;

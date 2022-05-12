@@ -135,12 +135,12 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
     Player* player = GET_PLAYER(globalCtx);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
-        if (globalCtx->envCtx.indoors || !gSkyboxIsChanging ||
+        if ((globalCtx->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY &&
              globalCtx->envCtx.lightConfig == globalCtx->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
             if (globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE &&
-                (globalCtx->envCtx.indoors ||
+                ((globalCtx->envCtx.lightMode != LIGHT_MODE_TIME) ||
                  (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLightEnabled))) {
                 gInterruptSongOfStorms = false;
                 if (gWeatherMode != weatherMode) {
@@ -153,7 +153,7 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, GlobalContext* global
                         globalCtx->envCtx.changeLightEnabled = true;
                         globalCtx->envCtx.lightConfig = lightConfig;
                         globalCtx->envCtx.changeLightNextConfig = changeLightNextConfig;
-                        gSavedNextLightConfig = changeLightNextConfig;
+                        gLightConfigAfterUnderwater = changeLightNextConfig;
                         globalCtx->envCtx.changeDuration = changeDuration;
                         globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.changeDuration;
                     }
@@ -178,12 +178,12 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
     Player* player = GET_PLAYER(globalCtx);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
-        if (globalCtx->envCtx.indoors || !gSkyboxIsChanging ||
+        if ((globalCtx->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging ||
             (globalCtx->skyboxId != SKYBOX_NORMAL_SKY &&
              globalCtx->envCtx.lightConfig == globalCtx->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
             if ((globalCtx->envCtx.stormRequest == STORM_REQUEST_NONE) &&
-                (globalCtx->envCtx.indoors ||
+                ((globalCtx->envCtx.lightMode != LIGHT_MODE_TIME) ||
                  (globalCtx->envCtx.lightConfig != 1 && !globalCtx->envCtx.changeLightEnabled))) {
                 gInterruptSongOfStorms = false;
                 gWeatherMode = WEATHER_MODE_CLEAR;
@@ -194,7 +194,7 @@ u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, GlobalContext* globalCtx, 
                 globalCtx->envCtx.changeLightEnabled = true;
                 globalCtx->envCtx.lightConfig = lightConfig;
                 globalCtx->envCtx.changeLightNextConfig = changeLightNextConfig;
-                gSavedNextLightConfig = changeLightNextConfig;
+                gLightConfigAfterUnderwater = changeLightNextConfig;
                 globalCtx->envCtx.changeDuration = changeDuration;
                 globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.changeDuration;
 
