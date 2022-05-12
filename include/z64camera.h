@@ -16,6 +16,7 @@
 
 #define NUM_CAMS 4
 
+// Camera IDs are indices into `GlobalContext.cameraPtrs`
 #define CAM_ID_MAIN 0 // The index of the main camera
 #define CAM_ID_SUB_FIRST 1 // The index sub cameras start at
 #define CAM_ID_NONE -1 // Used to indicate no camera. Can be used to default to the active camera in some scenarios
