@@ -378,7 +378,7 @@ void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_0);
         this->actionFunc = EnZl4_Idle;
     } else {
-        if (gSaveContext.entranceIndex != 0x5F0) {
+        if (gSaveContext.entranceIndex != ENTR_NAKANIWA_1) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_21);
             this->csState = ZL4_CS_WAIT;
             this->talkState = 0;
@@ -770,7 +770,7 @@ s32 EnZl4_CsAskName(EnZl4* this, GlobalContext* globalCtx) {
             this->talkTimer2++;
             if (this->talkTimer2 == 130) {
                 globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
-                globalCtx->nextEntranceIndex = 0xA0;
+                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
                 gSaveContext.nextCutsceneIndex = 0xFFF7;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;

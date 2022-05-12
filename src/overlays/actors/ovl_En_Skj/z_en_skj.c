@@ -1440,7 +1440,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                         sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState =
                             SKULL_KID_OCARINA_PLAY_NOTES;
                     }
-                    Message_UpdateOcarinaGame(globalCtx);
+                    Message_UpdateOcarinaMemoryGame(globalCtx);
                 }
                 break;
             case MSGMODE_MEMORY_GAME_RIGHT_SKULLKID_WAIT:
@@ -1448,7 +1448,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                     sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->minigameState = SKULL_KID_OCARINA_WAIT;
                 }
                 if (!Audio_IsSfxPlaying(NA_SE_SY_METRONOME)) {
-                    Message_UpdateOcarinaGame(globalCtx);
+                    Message_UpdateOcarinaMemoryGame(globalCtx);
                     this->songFailTimer = 160;
                 }
                 break;
@@ -1472,8 +1472,8 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                             SKULL_KID_OCARINA_PLAY_NOTES;
                     }
                     this->songFailTimer = 160;
-                    Audio_OcaSetInstrument(6); // related instrument sound (flute?)
-                    Audio_OcaSetSongPlayback(OCARINA_SONG_MEMORY_GAME + 1, 1);
+                    AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_FLUTE);
+                    AudioOcarina_SetPlaybackSong(OCARINA_SONG_MEMORY_GAME + 1, 1);
                     globalCtx->msgCtx.msgMode = MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING;
                     globalCtx->msgCtx.stateTimer = 2;
                 }

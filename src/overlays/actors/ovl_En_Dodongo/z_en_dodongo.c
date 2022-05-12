@@ -717,7 +717,7 @@ void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
     } else if ((this->colliderBody.base.acFlags & AC_HIT) && (this->actionState > DODONGO_DEATH)) {
         this->colliderBody.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, 0);
+        Actor_SetDropFlagJntSph(&this->actor, &this->colliderBody, false);
         if (this->actor.colChkInfo.damageEffect != 0xE) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {

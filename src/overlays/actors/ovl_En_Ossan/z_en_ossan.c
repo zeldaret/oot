@@ -917,7 +917,7 @@ void EnOssan_State_StartConversation(EnOssan* this, GlobalContext* globalCtx, Pl
                 EnOssan_TryPaybackMask(this, globalCtx);
                 return;
             case OSSAN_HAPPY_STATE_ANGRY:
-                globalCtx->nextEntranceIndex = 0x1D1;
+                globalCtx->nextEntranceIndex = ENTR_MARKET_DAY_9;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
                 return;

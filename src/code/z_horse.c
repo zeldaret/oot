@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "src/overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 s32 func_8006CFC0(s32 scene) {
     s32 validScenes[] = { SCENE_SPOT00, SCENE_SPOT06, SCENE_SPOT09, SCENE_SPOT12, SCENE_SPOT20 };
@@ -67,7 +68,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
         horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
         horseActor->room = -1;
-    } else if ((gSaveContext.entranceIndex == 1230) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
+    } else if ((gSaveContext.entranceIndex == ENTR_SPOT20_7) && GET_EVENTCHKINF(EVENTCHKINF_18)) {
         Actor* horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         ASSERT(horseActor != NULL, "horse_actor != NULL", "../z_horse.c", 389);
@@ -131,8 +132,8 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
     s32 i;
     Vec3s spawnPos;
 
-    if ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
-         gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
+    if ((gSaveContext.entranceIndex == ENTR_SPOT00_11 || gSaveContext.entranceIndex == ENTR_SPOT00_12 ||
+         gSaveContext.entranceIndex == ENTR_SPOT00_13 || gSaveContext.entranceIndex == ENTR_SPOT00_15) &&
         (gSaveContext.respawnFlag == 0)) {
         Vec3s spawnPositions[] = {
             { -2961, 313, 7700 },
@@ -141,11 +142,11 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             { -2313, 313, 5990 },
         };
 
-        if (gSaveContext.entranceIndex == 0x028A) {
+        if (gSaveContext.entranceIndex == ENTR_SPOT00_11) {
             spawnPos = spawnPositions[0];
-        } else if (gSaveContext.entranceIndex == 0x028E) {
+        } else if (gSaveContext.entranceIndex == ENTR_SPOT00_12) {
             spawnPos = spawnPositions[1];
-        } else if (gSaveContext.entranceIndex == 0x0292) {
+        } else if (gSaveContext.entranceIndex == ENTR_SPOT00_13) {
             spawnPos = spawnPositions[2];
         } else {
             spawnPos = spawnPositions[3];
@@ -158,10 +159,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
         Actor_MountHorse(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
         gSaveContext.horseData.scene = globalCtx->sceneNum;
-    } else if ((globalCtx->sceneNum == SCENE_SPOT20) &&
-               ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
-                (EVENTINF_01_MASK | EVENTINF_02_MASK)) &&
+    } else if ((globalCtx->sceneNum == SCENE_SPOT20) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
                !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0)) {
         player->rideActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 894.0f, 0.0f, -2084.0f, 0, -0x7FFF, 0, 5);
@@ -203,7 +201,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     Vec3f sp54;
                     s32 temp = 0;
 
-                    if ((GET_EVENTINF(EVENTINF_04) >> EVENTINF_04_SHIFT) && D_8011F9B8[i].type == 6) {
+                    if (GET_EVENTINF_HORSES_HORSETYPE() != HORSE_EPONA && D_8011F9B8[i].type == 6) {
                         temp = 0x8000;
                     }
 
@@ -249,13 +247,10 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
 
         if (func_8006CFC0(globalCtx->sceneNum)) {
             if ((gSaveContext.sceneSetupIndex > 3) ||
-                ((gSaveContext.entranceIndex == 0x028A || gSaveContext.entranceIndex == 0x028E ||
-                  gSaveContext.entranceIndex == 0x0292 || gSaveContext.entranceIndex == 0x0476) &&
+                ((gSaveContext.entranceIndex == ENTR_SPOT00_11 || gSaveContext.entranceIndex == ENTR_SPOT00_12 ||
+                  gSaveContext.entranceIndex == ENTR_SPOT00_13 || gSaveContext.entranceIndex == ENTR_SPOT00_15) &&
                  (gSaveContext.respawnFlag == 0)) ||
-                ((globalCtx->sceneNum == SCENE_SPOT20) &&
-                 ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                   (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
-                  (EVENTINF_01_MASK | EVENTINF_02_MASK)) &&
+                ((globalCtx->sceneNum == SCENE_SPOT20) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6) &&
                  !Flags_GetEventChkInf(EVENTCHKINF_18) && (DREG(1) == 0))) {
                 func_8006D684(globalCtx, player);
             } else {

@@ -867,7 +867,7 @@ void func_80986B2C(GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         Player* player = GET_PLAYER(globalCtx);
 
-        globalCtx->nextEntranceIndex = 0xCD;
+        globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         func_8002DF54(globalCtx, &player->actor, 8);

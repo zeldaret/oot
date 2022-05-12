@@ -48,7 +48,7 @@ f32 OnePointCutscene_RaycastFloor(CollisionContext* colCtx, Vec3f* pos) {
 
 void OnePointCutscene_SetCsCamPoints(Camera* camera, s16 actionParameters, s16 initTimer, CutsceneCameraPoint* atPoints,
                                      CutsceneCameraPoint* eyePoints) {
-    OnePointCsCamera* onePointCamData = (OnePointCsCamera*)&camera->paramData;
+    OnePointCamData* onePointCamData = &camera->paramData.demo9.onePointCamData;
 
     onePointCamData->atPoints = atPoints;
     onePointCamData->eyePoints = eyePoints;
@@ -68,7 +68,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
     PosRot spA0;
     PosRot sp8C;
     f32 tempRand;
-    Unique9OnePointCs* csInfo = ONEPOINT_CS_INFO(subCam);
+    OnePointCsInfo* csInfo = &subCam->paramData.uniq9.csInfo;
 
     switch (csId) {
         case 1020:

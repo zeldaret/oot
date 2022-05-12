@@ -12,8 +12,6 @@ extern u32 osResetType;
 extern u32 osMemSize;
 extern u8 osAppNMIBuffer[0x40];
 
-extern u8 D_80009320[];
-extern u8 D_800093F0[];
 extern s8 D_80009430;
 extern u32 gDmaMgrVerbose;
 extern u32 gDmaMgrDmaBuffSize;
@@ -56,9 +54,6 @@ extern u32 __osBaseCounter;
 extern u32 __osViIntrCount;
 extern u32 __osTimerCounter;
 extern DmaEntry gDmaDataTable[0x60C];
-extern u64 D_801120C0[];
-extern u8 D_80113070[];
-extern u64 gJpegUCode[];
 extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
 extern Gfx D_80116280[];
 extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
@@ -100,7 +95,7 @@ extern void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(GlobalContext*, SceneCmd*);
 extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
-extern EntranceInfo gEntranceTable[1556];
+extern EntranceInfo gEntranceTable[ENTR_MAX];
 extern SceneTableEntry gSceneTable[SCENE_ID_MAX];
 extern u16 gSramSlotOffsets[];
 // 4 16-colors palettes
@@ -120,7 +115,7 @@ extern volatile OSTime gIrqMgrRetraceTime;
 extern s16* gWaveSamples[9];
 extern f32 gBendPitchOneOctaveFrequencies[256];
 extern f32 gBendPitchTwoSemitonesFrequencies[256];
-extern f32 gNoteFrequencies[];
+extern f32 gPitchFrequencies[];
 extern u8 gDefaultShortNoteVelocityTable[16];
 extern u8 gDefaultShortNoteGateTimeTable[16];
 extern AdsrEnvelope gDefaultEnvelope[4];
@@ -139,9 +134,9 @@ extern u8 gChannelsPerBank[4][7];
 extern u8 gUsedChannelsPerBank[4][7];
 extern u8 gMorphaTransposeTable[16];
 extern u8* gFrogsSongPtr;
-extern OcarinaNote* gScarecrowCustomSongPtr;
+extern OcarinaNote* gScarecrowLongSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
-extern OcarinaSongInfo gOcarinaSongNotes[];
+extern OcarinaSongButtons gOcarinaSongButtons[];
 extern SoundParams* gSoundParams[7];
 extern char D_80133390[];
 extern char D_80133398[];
@@ -170,10 +165,6 @@ extern u8 gSoundFontTable[];
 extern u8 gSequenceFontTable[];
 extern u8 gSequenceTable[];
 extern u8 gSampleBankTable[];
-extern u8 D_80155F50[];
-extern u8 D_80157580[];
-extern u8 D_801579A0[];
-extern u64 gJpegUCodeData[];
 
 extern SaveContext gSaveContext;
 extern GameInfo* gGameInfo;
@@ -229,8 +220,8 @@ extern __OSInode __osPfsInodeCache;
 extern OSPifRam gPifMempakBuf;
 extern u16 gZBuffer[SCREEN_HEIGHT][SCREEN_WIDTH]; // 0x25800 bytes
 extern u64 gGfxSPTaskOutputBuffer[0x3000]; // 0x18000 bytes
-extern u8 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE]; // 0xC00 bytes
-extern u8 gGfxSPTaskStack[0x400]; // 0x400 bytes
+extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)]; // 0xC00 bytes
+extern u64 gGfxSPTaskStack[SP_DRAM_STACK_SIZE64]; // 0x400 bytes
 extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 extern u8 gSystemHeap[];

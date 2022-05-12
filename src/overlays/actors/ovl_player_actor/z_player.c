@@ -16,6 +16,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Fish/z_en_fish.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
@@ -2779,7 +2780,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
     }
 
     if (func_8084E3C4 == this->func_674) {
-        Audio_OcaSetInstrument(0);
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
         this->stateFlags2 &= ~(PLAYER_STATE2_24 | PLAYER_STATE2_25);
     } else if (func_808507F4 == this->func_674) {
         func_80832340(globalCtx, this);
@@ -2882,34 +2883,25 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
-                return;
-            }
-
-            if (actionParam == PLAYER_AP_LENS) {
+            } else if (actionParam == PLAYER_AP_LENS) {
                 if (func_80087708(globalCtx, 0, 3)) {
                     if (globalCtx->actorCtx.lensActive) {
                         Actor_DisableLens(globalCtx);
                     } else {
                         globalCtx->actorCtx.lensActive = true;
                     }
+
                     func_80078884((globalCtx->actorCtx.lensActive) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            if (actionParam == PLAYER_AP_NUT) {
+            } else if (actionParam == PLAYER_AP_NUT) {
                 if (AMMO(ITEM_NUT) != 0) {
                     func_8083C61C(globalCtx, this);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            temp = Player_ActionToMagicSpell(this, actionParam);
-            if (temp >= 0) {
+            } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
                     ((gSaveContext.unk_13F4 != 0) && (gSaveContext.unk_13F0 == 0) &&
                      (gSaveContext.magic >= sMagicSpellCosts[temp]))) {
@@ -2918,34 +2910,27 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            if (actionParam >= PLAYER_AP_MASK_KEATON) {
+            } else if (actionParam >= PLAYER_AP_MASK_KEATON) {
                 if (this->currentMask != PLAYER_MASK_NONE) {
                     this->currentMask = PLAYER_MASK_NONE;
                 } else {
                     this->currentMask = actionParam - PLAYER_AP_MASK_KEATON + 1;
                 }
-                func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
-                return;
-            }
 
-            if (((actionParam >= PLAYER_AP_OCARINA_FAIRY) && (actionParam <= PLAYER_AP_OCARINA_TIME)) ||
-                (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
+                func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
+            } else if (((actionParam >= PLAYER_AP_OCARINA_FAIRY) && (actionParam <= PLAYER_AP_OCARINA_TIME)) ||
+                       (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((actionParam >= PLAYER_AP_BOTTLE_POTION_RED) && (actionParam <= PLAYER_AP_BOTTLE_FAIRY))) {
                     TitleCard_Clear(globalCtx, &globalCtx->actorCtx.titleCtx);
                     this->unk_6AD = 4;
                     this->itemActionParam = actionParam;
                 }
-                return;
-            }
-
-            if ((actionParam != this->heldItemActionParam) ||
-                ((this->heldActor == 0) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
+            } else if ((actionParam != this->heldItemActionParam) ||
+                       ((this->heldActor == 0) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
                 this->nextModelGroup = Player_ActionToModelGroup(this, actionParam);
                 nextAnimType = gPlayerModelTypes[this->nextModelGroup][PLAYER_MODELGROUPENTRY_ANIM];
+
                 if ((this->heldItemActionParam >= 0) && (Player_ActionToMagicSpell(this, actionParam) < 0) &&
                     (item != this->heldItemId) &&
                     (D_80854164[gPlayerModelTypes[this->modelGroup][PLAYER_MODELGROUPENTRY_ANIM]][nextAnimType] !=
@@ -2957,10 +2942,9 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                     func_808323B4(globalCtx, this);
                     func_80833664(globalCtx, this, actionParam);
                 }
-                return;
+            } else {
+                D_80853614 = D_80853618 = true;
             }
-
-            D_80853614 = D_80853618 = true;
         }
     }
 }
@@ -3803,7 +3787,7 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
 
             if (sp68) {
                 Gameplay_TriggerRespawn(globalCtx);
-                func_800994A0(globalCtx);
+                Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
                 // Special case for getting crushed in Forest Temple's Checkboard Ceiling Hall or Shadow Temple's
                 // Falling Spike Trap Room, to respawn the player in a specific place
@@ -4098,20 +4082,20 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
 }
 
 s16 D_808544F8[] = {
-    0x045B, // DMT from Magic Fairy Fountain
-    0x0482, // DMC from Double Defense Fairy Fountain
-    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
-    0x044B, // Kakariko from Potion Shop
-    0x02A2, // Market (child day) from Potion Shop
-    0x0201, // Kakariko from Bazaar
-    0x03B8, // Market (child day) from Bazaar
-    0x04EE, // Kakariko from House of Skulltulas
-    0x03C0, // Back Alley (day) from Bombchu Shop
-    0x0463, // Kakariko from Shooting Gallery
-    0x01CD, // Market (child day) from Shooting Gallery
-    0x0394, // Zoras Fountain from Farores Wind Fairy Fountain
-    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
-    0x057C, // Desert Colossus from Nayrus Love Fairy Fountain
+    ENTR_SPOT16_4,       // DMT from Magic Fairy Fountain
+    ENTR_SPOT17_3,       // DMC from Double Defense Fairy Fountain
+    ENTR_SPOT15_2,       // Hyrule Castle from Dins Fire Fairy Fountain
+    ENTR_SPOT01_9,       // Kakariko from Potion Shop
+    ENTR_MARKET_DAY_5,   // Market (child day) from Potion Shop
+    ENTR_SPOT01_3,       // Kakariko from Bazaar
+    ENTR_MARKET_DAY_6,   // Market (child day) from Bazaar
+    ENTR_SPOT01_11,      // Kakariko from House of Skulltulas
+    ENTR_MARKET_ALLEY_2, // Back Alley (day) from Bombchu Shop
+    ENTR_SPOT01_10,      // Kakariko from Shooting Gallery
+    ENTR_MARKET_DAY_8,   // Market (child day) from Shooting Gallery
+    ENTR_SPOT08_5,       // Zoras Fountain from Farores Wind Fairy Fountain
+    ENTR_SPOT15_2,       // Hyrule Castle from Dins Fire Fairy Fountain
+    ENTR_SPOT11_7,       // Desert Colossus from Nayrus Love Fairy Fountain
 };
 
 u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
@@ -4140,7 +4124,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
 
             if (sp3C == 0) {
                 Gameplay_TriggerVoidOut(globalCtx);
-                func_800994A0(globalCtx);
+                Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
                 globalCtx->nextEntranceIndex = globalCtx->setupExitList[sp3C - 1];
                 if (globalCtx->nextEntranceIndex == 0x7FFF) {
@@ -4151,7 +4135,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 } else if (globalCtx->nextEntranceIndex >= 0x7FF9) {
                     globalCtx->nextEntranceIndex =
                         D_808544F8[D_80854514[globalCtx->nextEntranceIndex - 0x7FF9] + globalCtx->curSpawn];
-                    func_800994A0(globalCtx);
+                    Scene_SetTransitionForNextEntrance(globalCtx);
                 } else {
                     if (SurfaceType_GetSlope(&globalCtx->colCtx, poly, bgId) == 2) {
                         gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = globalCtx->nextEntranceIndex;
@@ -4159,7 +4143,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                         gSaveContext.respawnFlag = -2;
                     }
                     gSaveContext.unk_13C3 = 1;
-                    func_800994A0(globalCtx);
+                    Scene_SetTransitionForNextEntrance(globalCtx);
                 }
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             }
@@ -6911,7 +6895,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
     s32 sp34;
 
     if ((this->unk_664 != NULL) ||
-        (!(heathIsCritical = HealthMeter_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
+        (!(heathIsCritical = Health_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
         this->stateFlags2 &= ~PLAYER_STATE2_28;
         anim = func_80833338(this);
     } else {
@@ -12071,7 +12055,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
     } else {
         if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
-                globalCtx->nextEntranceIndex = 0x0123;
+                globalCtx->nextEntranceIndex = ENTR_SPOT11_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
@@ -12128,7 +12112,9 @@ void func_8084E368(Player* this, GlobalContext* globalCtx) {
     func_8084AEEC(this, &this->linearVelocity, 0.0f, this->actor.shape.rot.y);
 }
 
-static s16 D_808549D4[] = { 0x0600, 0x04F6, 0x0604, 0x01F1, 0x0568, 0x05F4 };
+static s16 sWarpSongEntrances[] = {
+    ENTR_SPOT05_2, ENTR_SPOT17_4, ENTR_SPOT06_8, ENTR_SPOT11_5, ENTR_SPOT02_7, ENTR_TOKINOMA_7,
+};
 
 void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
@@ -12162,7 +12148,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         this->stateFlags2 &= ~(PLAYER_STATE2_23 | PLAYER_STATE2_24 | PLAYER_STATE2_25);
         this->unk_6A8 = NULL;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.lastPlayedSong];
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = sWarpSongEntrances[globalCtx->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
         gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.lastPlayedSong;
 
@@ -12461,7 +12447,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
 static BottleDropInfo D_80854A28[] = {
     { ACTOR_EN_FISH, FISH_DROPPED },
     { ACTOR_EN_ICE_HONO, 0 },
-    { ACTOR_EN_INSECT, 2 },
+    { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
 };
 
 static struct_80832924 D_80854A34[] = {
@@ -12687,7 +12673,7 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F != 0) {
             if (globalCtx->sceneNum == 9) {
                 Gameplay_TriggerRespawn(globalCtx);
-                globalCtx->nextEntranceIndex = 0x0088;
+                globalCtx->nextEntranceIndex = ENTR_ICE_DOUKUTO_0;
             } else if (this->unk_84F < 0) {
                 Gameplay_TriggerRespawn(globalCtx);
             } else {
