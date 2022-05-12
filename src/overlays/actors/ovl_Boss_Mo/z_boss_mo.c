@@ -1445,7 +1445,8 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->csState = this->subCamId = MO_BATTLE | SUB_CAM_ID_DONE;
+                // MO_BATTLE / SUB_CAM_ID_DONE
+                this->csState = this->subCamId = 0;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }

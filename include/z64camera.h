@@ -15,13 +15,15 @@
 #define CAM_STAT_UNK100     0x100
 
 #define NUM_CAMS 4
-#define CAM_ID_MAIN 0
-// first camera id for sub cameras
-#define CAM_ID_SUB_FIRST 1
-// if a camera is requested, will default to the active camera
-#define CAM_ID_NONE -1
 
-// describes the state of the subCamera and is no longer in use
+// Camera IDs are indices into `GlobalContext.cameraPtrs`
+// The main camera is at index 0
+#define CAM_ID_MAIN 0
+// The sub cameras start at index 1
+#define CAM_ID_SUB_FIRST 1
+// -1 is used to indicate "no camera"
+#define CAM_ID_NONE -1
+// 0 is also used for variables holding sub camera IDs to indicate "no camera"
 #define SUB_CAM_ID_DONE 0
 
 #define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)

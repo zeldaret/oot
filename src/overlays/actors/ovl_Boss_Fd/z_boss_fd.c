@@ -538,8 +538,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
                     func_800C08AC(globalCtx, this->subCamId, 0);
-                    this->introState = this->introFlyState = this->subCamId =
-                        BFD_CS_NONE | BOSSFD_FLY_MAIN | SUB_CAM_ID_DONE;
+                    // BFD_CS_NONE / BOSSFD_FLY_MAIN / SUB_CAM_ID_DONE
+                    this->introState = this->introFlyState = this->subCamId = 0;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;
