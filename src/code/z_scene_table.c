@@ -999,7 +999,7 @@ void func_8009DA30(GlobalContext* globalCtx) {
 
     gSPSegment(POLY_XLU_DISP++, 0x0A, displayListHead);
 
-    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0) + 1) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
+    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
         gSPEndDisplayList(displayListHead);
     } else {
         if (gSaveContext.dayTime > CLOCK_TIME(18, 30)) {
@@ -1354,7 +1354,7 @@ void func_8009F5D4(GlobalContext* globalCtx) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, displayListHead);
 
-    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0) + 1) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0))) {
+    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0))) {
         gSPEndDisplayList(displayListHead);
     } else {
         if (gSaveContext.dayTime > CLOCK_TIME(18, 0)) {

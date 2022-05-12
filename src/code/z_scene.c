@@ -378,15 +378,15 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     if (((globalCtx->envCtx.timeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
-        if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0) + 1) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
+        if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
             gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 30)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
-        } else if ((gSaveContext.skyboxTime > CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
             gSaveContext.skyboxTime = CLOCK_TIME(17, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) &&
-                   (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0) + 1)) {
-            gSaveContext.skyboxTime = CLOCK_TIME(19, 0) + 2;
+                   (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(19, 0) + 1;
         }
     }
 }

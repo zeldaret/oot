@@ -247,8 +247,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             dayTime = gSaveContext.dayTime;
 
-            if ((dayTime > CLOCK_TIME(4, 0) + 1) && (dayTime < CLOCK_TIME(4, 30)) &&
-                (gSaveContext.sceneSetupIndex == 5)) {
+            if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) && (gSaveContext.sceneSetupIndex == 5)) {
                 gTimeSpeed = 0;
             }
         }

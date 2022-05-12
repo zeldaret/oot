@@ -44,96 +44,96 @@ typedef struct {
 
 TimeBasedLightEntry sTimeBasedLightConfigs[][7] = {
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 3, 3 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(6, 0), 3, 0 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, 3, 3 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(6, 0), 3, 0 },
         { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, 0, 1 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, 1, 1 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, 1, 2 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 2, 2, 3 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, 3, 3 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), 1, 1 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, 1, 2 },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 1, 2, 3 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, 3, 3 },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 7, 7 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(6, 0), 7, 4 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, 7, 7 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(6, 0), 7, 4 },
         { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, 4, 5 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, 5, 5 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, 5, 6 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 2, 6, 7 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, 7, 7 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), 5, 5 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, 5, 6 },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 1, 6, 7 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, 7, 7 },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 11, 11 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(6, 0), 11, 8 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, 11, 11 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(6, 0), 11, 8 },
         { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, 8, 9 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, 9, 9 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, 9, 10 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 2, 10, 11 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, 11, 11 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), 9, 9 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, 9, 10 },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 1, 10, 11 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, 11, 11 },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 15, 15 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(6, 0), 15, 12 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, 15, 15 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(6, 0), 15, 12 },
         { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, 12, 13 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, 13, 13 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, 13, 14 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 2, 14, 15 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, 15, 15 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), 13, 13 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, 13, 14 },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 1, 14, 15 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, 15, 15 },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, 23, 23 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(6, 0), 23, 20 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, 23, 23 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(6, 0), 23, 20 },
         { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, 20, 21 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, 21, 21 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, 21, 22 },
-        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 2, 22, 23 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, 23, 23 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), 21, 21 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, 21, 22 },
+        { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(19, 0) + 1, 22, 23 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, 23, 23 },
     },
 };
 
 TimeBasedSkyboxEntry gTimeBasedSkyboxConfigs[][9] = {
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, false, 3, 3 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(5, 0) + 1, true, 3, 0 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, false, 3, 3 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(5, 0) + 1, true, 3, 0 },
         { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), false, 0, 0 },
         { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, true, 0, 1 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, false, 1, 1 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, true, 1, 2 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, 1, 1 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, 1, 2 },
         { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, 2, 2 },
-        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 2, true, 2, 3 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, false, 3, 3 },
+        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, 2, 3 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, 3, 3 },
     },
     {
-        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 2, false, 7, 7 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(5, 0) + 1, true, 7, 4 },
+        { CLOCK_TIME(0, 0), CLOCK_TIME(4, 0) + 1, false, 7, 7 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(5, 0) + 1, true, 7, 4 },
         { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), false, 4, 4 },
         { CLOCK_TIME(6, 0), CLOCK_TIME(8, 0) + 1, true, 4, 5 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, false, 5, 5 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, true, 5, 6 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, 5, 5 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, 5, 6 },
         { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, 6, 6 },
-        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 2, true, 6, 7 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, false, 7, 7 },
+        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, 6, 7 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, 7, 7 },
     },
     {
         { CLOCK_TIME(0, 0), CLOCK_TIME(2, 0) + 1, false, 3, 3 },
-        { CLOCK_TIME(2, 0) + 1, CLOCK_TIME(4, 0) + 2, true, 3, 0 },
-        { CLOCK_TIME(4, 0) + 2, CLOCK_TIME(8, 0) + 1, false, 0, 0 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(10, 0) + 1, true, 0, 1 },
-        { CLOCK_TIME(10, 0) + 1, CLOCK_TIME(14, 0) + 1, false, 1, 1 },
-        { CLOCK_TIME(14, 0) + 1, CLOCK_TIME(16, 0) + 1, true, 1, 2 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(20, 0) + 1, false, 2, 2 },
-        { CLOCK_TIME(20, 0) + 1, CLOCK_TIME(22, 0) + 1, true, 2, 3 },
-        { CLOCK_TIME(22, 0) + 1, CLOCK_TIME(24, 0) - 1, false, 3, 3 },
+        { CLOCK_TIME(2, 0) + 1, CLOCK_TIME(4, 0) + 1, true, 3, 0 },
+        { CLOCK_TIME(4, 0) + 1, CLOCK_TIME(8, 0) + 1, false, 0, 0 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(10, 0), true, 0, 1 },
+        { CLOCK_TIME(10, 0), CLOCK_TIME(14, 0) + 1, false, 1, 1 },
+        { CLOCK_TIME(14, 0) + 1, CLOCK_TIME(16, 0), true, 1, 2 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(20, 0) + 1, false, 2, 2 },
+        { CLOCK_TIME(20, 0) + 1, CLOCK_TIME(22, 0), true, 2, 3 },
+        { CLOCK_TIME(22, 0), CLOCK_TIME(24, 0) - 1, false, 3, 3 },
     },
     {
         { CLOCK_TIME(0, 0), CLOCK_TIME(5, 0) + 1, false, 11, 11 },
         { CLOCK_TIME(5, 0) + 1, CLOCK_TIME(6, 0), true, 11, 8 },
-        { CLOCK_TIME(6, 0), CLOCK_TIME(7, 0) + 1, false, 8, 8 },
-        { CLOCK_TIME(7, 0) + 1, CLOCK_TIME(8, 0) + 1, true, 8, 9 },
-        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0) + 1, false, 9, 9 },
-        { CLOCK_TIME(16, 0) + 1, CLOCK_TIME(17, 0) + 1, true, 9, 10 },
+        { CLOCK_TIME(6, 0), CLOCK_TIME(7, 0), false, 8, 8 },
+        { CLOCK_TIME(7, 0), CLOCK_TIME(8, 0) + 1, true, 8, 9 },
+        { CLOCK_TIME(8, 0) + 1, CLOCK_TIME(16, 0), false, 9, 9 },
+        { CLOCK_TIME(16, 0), CLOCK_TIME(17, 0) + 1, true, 9, 10 },
         { CLOCK_TIME(17, 0) + 1, CLOCK_TIME(18, 0) + 1, false, 10, 10 },
-        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 2, true, 10, 11 },
-        { CLOCK_TIME(19, 0) + 2, CLOCK_TIME(24, 0) - 1, false, 11, 11 },
+        { CLOCK_TIME(18, 0) + 1, CLOCK_TIME(19, 0) + 1, true, 10, 11 },
+        { CLOCK_TIME(19, 0) + 1, CLOCK_TIME(24, 0) - 1, false, 11, 11 },
     },
 };
 
@@ -936,7 +936,8 @@ void Environment_Update(GlobalContext* globalCtx, EnvironmentContext* envCtx, Li
         //! @bug `gTimeSpeed` is unsigned, it can't be negative
         if (((((void)0, gSaveContext.sceneSetupIndex) >= 5 || gTimeSpeed != 0) &&
              ((void)0, gSaveContext.dayTime) > gSaveContext.skyboxTime) ||
-            (((void)0, gSaveContext.dayTime) <= CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
+            (((void)0, gSaveContext.dayTime) < CLOCK_TIME(1, 0) || gTimeSpeed < 0)) {
+
             gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
         }
 
@@ -2056,7 +2057,7 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
         if (((void)0, gSaveContext.seqId) != globalCtx->sequenceCtx.seqId) {
             func_800F5550(globalCtx->sequenceCtx.seqId);
         }
-    } else if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(7, 0) &&
+    } else if (((void)0, gSaveContext.dayTime) >= CLOCK_TIME(7, 0) &&
                ((void)0, gSaveContext.dayTime) <= CLOCK_TIME(17, 10)) {
         if (((void)0, gSaveContext.seqId) != globalCtx->sequenceCtx.seqId) {
             func_800F5550(globalCtx->sequenceCtx.seqId);
@@ -2069,9 +2070,9 @@ void Environment_PlaySceneSequence(GlobalContext* globalCtx) {
         }
 
         if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(17, 10) &&
-            ((void)0, gSaveContext.dayTime) < CLOCK_TIME(19, 0) + 2) {
+            ((void)0, gSaveContext.dayTime) <= CLOCK_TIME(19, 0)) {
             globalCtx->envCtx.timeSeqState = TIMESEQ_EARLY_NIGHT_CRITTERS;
-        } else if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(19, 0) + 2 ||
+        } else if (((void)0, gSaveContext.dayTime) > CLOCK_TIME(19, 0) + 1 ||
                    ((void)0, gSaveContext.dayTime) < CLOCK_TIME(6, 30)) {
             globalCtx->envCtx.timeSeqState = TIMESEQ_NIGHT_CRITTERS;
         } else {
@@ -2132,7 +2133,7 @@ void Environment_PlayTimeBasedSequence(GlobalContext* globalCtx) {
             break;
 
         case TIMESEQ_NIGHT_DELAY:
-            if (gSaveContext.dayTime > CLOCK_TIME(19, 0) + 1) {
+            if (gSaveContext.dayTime > CLOCK_TIME(19, 0)) {
                 globalCtx->envCtx.timeSeqState++;
             }
             break;
@@ -2150,7 +2151,7 @@ void Environment_PlayTimeBasedSequence(GlobalContext* globalCtx) {
             break;
 
         case TIMESEQ_DAY_BEGIN_SFX:
-            if ((gSaveContext.dayTime <= CLOCK_TIME(19, 0) + 1) && (gSaveContext.dayTime > CLOCK_TIME(6, 30))) {
+            if ((gSaveContext.dayTime <= CLOCK_TIME(19, 0)) && (gSaveContext.dayTime > CLOCK_TIME(6, 30))) {
                 gSaveContext.totalDays++;
                 gSaveContext.bgsDayCount++;
                 gSaveContext.dogIsLost = true;
@@ -2180,7 +2181,7 @@ void Environment_PlayTimeBasedSequence(GlobalContext* globalCtx) {
             break;
 
         case TIMESEQ_DAY_DELAY:
-            if (gSaveContext.dayTime > CLOCK_TIME(7, 0) + 1) {
+            if (gSaveContext.dayTime > CLOCK_TIME(7, 0)) {
                 globalCtx->envCtx.timeSeqState = 0;
             }
             break;

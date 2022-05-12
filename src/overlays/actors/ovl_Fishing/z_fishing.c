@@ -3100,7 +3100,8 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
-                if ((gSaveContext.dayTime >= CLOCK_TIME(5, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(5, 30) + 27)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(5, 30) - 1) &&
+                    (gSaveContext.dayTime < CLOCK_TIME(5, 30) + 27)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
@@ -3351,9 +3352,9 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 multiplier = 1.0f;
             }
 
-            if ((gSaveContext.dayTime >= CLOCK_TIME(17, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(19, 0))) {
+            if ((gSaveContext.dayTime >= CLOCK_TIME(17, 0)) && (gSaveContext.dayTime < CLOCK_TIME(19, 0))) {
                 multiplier *= 1.75f;
-            } else if ((gSaveContext.dayTime >= CLOCK_TIME(5, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(7, 0))) {
+            } else if ((gSaveContext.dayTime >= CLOCK_TIME(5, 0)) && (gSaveContext.dayTime < CLOCK_TIME(7, 0))) {
                 multiplier *= 1.5f;
             } else if (D_80B7E076 != 0) {
                 multiplier *= 1.5f;

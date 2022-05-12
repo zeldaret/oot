@@ -327,7 +327,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 18:
             globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
             globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
-            if (gSaveContext.dayTime <= CLOCK_TIME(7, 0)) {
+            if (gSaveContext.dayTime < CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
             if (globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
@@ -361,15 +361,15 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 25:
             gSaveContext.dayTime += 30;
-            if ((gSaveContext.dayTime) > CLOCK_TIME(19, 0)) {
-                gSaveContext.dayTime = CLOCK_TIME(19, 0);
+            if ((gSaveContext.dayTime) >= CLOCK_TIME(19, 0)) {
+                gSaveContext.dayTime = CLOCK_TIME(19, 0) - 1;
             }
             break;
         case 26:
             if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
-                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(16, 0))) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime < CLOCK_TIME(16, 0))) {
                     globalCtx->envCtx.lightSettingOverride = 1;
-                } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0) + 1) &&
+                } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0)) &&
                            (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
                     globalCtx->envCtx.lightSettingOverride = 2;
                 } else {
