@@ -45,7 +45,7 @@ LEAF(Kanji_OffsetFromShiftJIS)
     // Get byte2 and adjust so starts at 0
     andi    $a3, $a0, 0xFF
     addi    $a3, $a3, -0x40
-    slti    $at, $a3, (0x7F + 1 - 0x40)
+    slti    $at, $a3, (0x80 - 0x40)
     mflo    $a2
     // 0x__7F is always empty and elided in the file, so decrement if larger
     bnezl   $at, .kanji_lower_halfblock
