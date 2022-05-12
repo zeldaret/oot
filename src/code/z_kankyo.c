@@ -1638,10 +1638,10 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
 
         // draw droplet rings on the ground
         if (player->actor.world.pos.y < view->eye.y) {
-            u8 materialFlag = 0;
+            u8 materialFlag = false;
 
             for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
-                if (materialFlag == 0) {
+                if (!materialFlag) {
                     func_80093D84(gfxCtx);
                     gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 120);
