@@ -1406,8 +1406,11 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->actionFunc(this, globalCtx);
         thisx->shape.rot.y = this->unk_2BC;
-        nREG(80) = HIGH_SCORE(HS_HBA);
 
+        // `gSaveContext.sceneFlags[127].chest` (like in the debug string) instead of `HIGH_SCORE(HS_HBA)` matches too,
+        // but is an out-of-bounds read in the `sceneFlags` array.
+        // There is another occurrence of this.
+        nREG(80) = HIGH_SCORE(HS_HBA);
         if ((nREG(81) != 0) && (HIGH_SCORE(HS_HBA) != 0)) {
             LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_elf.c", 2595);
         }
