@@ -9,7 +9,7 @@
 .balign 16
 
 /**
- * s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint);
+ * s32 Kanji_OffsetFromShiftJIS(s32 sjis);
  *
  * Returns the offset of the glyph texture data in the file `kanji` corresponding
  * to a given 2-byte Shift-JIS codepoint. No range validity check is carried out.
@@ -17,8 +17,11 @@
  * A nice Shift-JIS codepoint table: https://uic.io/en/charset/show/shift_jis/
  * The file `kanji` contains the 'Level 1' kanji (0x889F-0x9872), and a reworked
  * version of the non-kanji section that includes extra English and Hylian glyphs.
+ * 
+ * @note This function assumes that its argument is a valid Shift-JIS codepoint;
+ * there is no range protection at all.
  *
- * @param shiftJISCodepoint Codepoint of glyph.
+ * @param sjis Shift-JIS Codepoint of glyph.
  * @return s32 offset into `kanji` file.
  *
  * @remark Original name: "LeoGetKadr"
@@ -89,31 +92,20 @@ END(Kanji_OffsetFromShiftJIS)
  *
  * extern u16 sKanjiNonKanjiIndices[];
  *
- * s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint) {
- *     u32 byte1;
- *     u32 byte2;
+ * s32 Kanji_OffsetFromShiftJIS(s32 sjis) {
+ *     u32 byte1 = (u32)sjis >> 8;
+ *     u32 byte2 = sjis & 0xFF;
  *
- *     if (shiftJISCodepoint >= 0x8800) {
- *         byte1 = shiftJISCodepoint >> 8;
+ *     byte2 -= 0x40;
+ *     if (byte2 >= 0x40) {
+ *         byte2--;
+ *     }
+ * 
+ *     if (sjis >= 0x8800) {
  *         byte1 -= 0x88;
- *
- *         byte2 = (shiftJISCodepoint & 0xFF);
- *         byte2 -= 0x40;
- *         if (byte2 >= 0x40) {
- *             byte2--;
- *         }
- *
  *         return (0x30A + byte2 + byte1 * 0xBC) * FONT_CHAR_TEX_SIZE;
  *     } else {
- *         byte1 = shiftJISCodepoint >> 8;
  *         byte1 -= 0x81;
- *
- *         byte2 = (shiftJISCodepoint & 0xFF);
- *         byte2 -= 0x40;
- *         if (byte2 >= 0x40) {
- *             byte2--;
- *         }
- *
  *         return sKanjiNonKanjiIndices[byte2 + byte1 * 0xBC] * FONT_CHAR_TEX_SIZE;
  *     }
  * }
