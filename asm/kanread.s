@@ -1,28 +1,28 @@
-.include "macro.inc"
 #include "ultra64/asm.h"
 
 // assembler directives
 .set noat
 .set noreorder
-.set gp=64
 
 .section .text
 
 .balign 16
 
-//! s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint);
-//! 
-//! Returns the offset of the glyph texture data in the file `kanji` corresponding
-//! to a given 2-byte Shift-JIS codepoint. No range validity check is carried out.
-//!
-//! A nice Shift-JIS codepoint table: https://uic.io/en/charset/show/shift_jis/
-//! The file `kanji` contains the 'Level 1' kanji (0x889F-0x9872), and a reworked
-//! version of the non-kanji section that includes extra English and Hylian glyphs.
-//!
-//! @param shiftJISCodepoint Codepoint of glyph.
-//! return s32 offset into `kanji` file.
-//!
-//! @remark Original name: "LeoGetKadr"
+/**
+ * s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint);
+ *
+ * Returns the offset of the glyph texture data in the file `kanji` corresponding
+ * to a given 2-byte Shift-JIS codepoint. No range validity check is carried out.
+ *
+ * A nice Shift-JIS codepoint table: https://uic.io/en/charset/show/shift_jis/
+ * The file `kanji` contains the 'Level 1' kanji (0x889F-0x9872), and a reworked
+ * version of the non-kanji section that includes extra English and Hylian glyphs.
+ *
+ * @param shiftJISCodepoint Codepoint of glyph.
+ * return s32 offset into `kanji` file.
+ *
+ * @remark Original name: "LeoGetKadr"
+ */
 LEAF(Kanji_OffsetFromShiftJIS)
     // Characters with codepoints >= 0x8800 are kanji. Arrangement is regular, 
     // so convert index directly.
@@ -84,7 +84,7 @@ LEAF(Kanji_OffsetFromShiftJIS)
      // returns sKanjiNonKanjiIndices[(adjusted byte2) + (adjusted byte1) * 0xBC] * FONT_CHAR_TEX_SIZE
 END(Kanji_OffsetFromShiftJIS)
 
-// C pseudocode:
+// Nearly equivalent C code (Equivalent for all valid input, will behave differently on overflow due to the use of `add` in the original):
 // s32 Kanji_OffsetFromShiftJIS(s32 shiftJISCodepoint) {
 //     s32 byte1;
 //     s32 byte2;
