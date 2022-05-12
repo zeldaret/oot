@@ -578,17 +578,17 @@ typedef struct {
     /* 0x08 */ u8 unk_08; // unused, set to zero
     /* 0x09 */ u8 numReverbs;
     /* 0x0C */ ReverbSettings* reverbSettings;
-    /* 0x10 */ u16 sampleDmaBufSize1;
-    /* 0x12 */ u16 sampleDmaBufSize2;
+    /* 0x10 */ u16 sampleDmaBufSize1; // size of buffer in the audio misc pool to store small snippets of indivisual samples. Stored short-lived.
+    /* 0x12 */ u16 sampleDmaBufSize2; // size of buffer in the audio misc pool to store small snippets of indivisual samples. Stored long-lived.
     /* 0x14 */ u16 unk_14;
-    /* 0x18 */ u32 persistentSeqCacheSize;        // size of cache on audio pool to store sequences persistently// size of cache on audio pool to store sequences persistently
-    /* 0x1C */ u32 persistentFontCacheSize;       // size of cache on audio pool to store soundFonts persistently
+    /* 0x18 */ u32 persistentSeqCacheSize;  // size of cache on audio pool to store sequences persistently
+    /* 0x1C */ u32 persistentFontCacheSize; // size of cache on audio pool to store soundFonts persistently
     /* 0x20 */ u32 persistentSampleBankCacheSize; // size of cache on audio pool to store entire sample banks persistently
-    /* 0x24 */ u32 temporarySeqCacheSize;         // size of cache on audio pool to store sequences temporarily
-    /* 0x28 */ u32 temporaryFontCacheSize;        // size of cache on audio pool to store soundFonts temporarily
-    /* 0x2C */ u32 temporarySampleBankCacheSize;  // size of cache on audio pool to store entire sample banks temporarily
-    /* 0x30 */ s32 persistentSampleCacheSize;     // size of cache on audio pool to store individual samples persistently
-    /* 0x34 */ s32 temporarySampleCacheSize;      // size of cache on audio pool to store individual samples temporarily
+    /* 0x24 */ u32 temporarySeqCacheSize;  // size of cache on audio pool to store sequences temporarily
+    /* 0x28 */ u32 temporaryFontCacheSize; // size of cache on audio pool to store soundFonts temporarily
+    /* 0x2C */ u32 temporarySampleBankCacheSize; // size of cache on audio pool to store entire sample banks temporarily
+    /* 0x30 */ s32 persistentSampleCacheSize; // size of cache in the audio misc pool to store individual samples persistently
+    /* 0x34 */ s32 temporarySampleCacheSize; // size of cache in the audio misc pool to store individual samples temporarily
 } AudioSpec; // size = 0x38
 
 /**
@@ -831,10 +831,10 @@ typedef struct {
     /* 0x2628 */ s32 unused2628;
     /* 0x262C */ u8 sampleDmaReuseQueue1[0x100]; // read pos <= write pos, wrapping mod 256
     /* 0x272C */ u8 sampleDmaReuseQueue2[0x100];
-    /* 0x282C */ u8 sampleDmaReuseQueue1RdPos; // Read position for dma 1
-    /* 0x282D */ u8 sampleDmaReuseQueue2RdPos; // Read position for dma 2
-    /* 0x282E */ u8 sampleDmaReuseQueue1WrPos; // Write position for dma 1
-    /* 0x282F */ u8 sampleDmaReuseQueue2WrPos; // Write position for dma 2
+    /* 0x282C */ u8 sampleDmaReuseQueue1RdPos; // Read position for short-lived sampleDma
+    /* 0x282D */ u8 sampleDmaReuseQueue2RdPos; // Read position for long-lived sampleDma
+    /* 0x282E */ u8 sampleDmaReuseQueue1WrPos; // Write position for short-lived sampleDma
+    /* 0x282F */ u8 sampleDmaReuseQueue2WrPos; // Write position for long-lived sampleDma
     /* 0x2830 */ AudioTable* sequenceTable;
     /* 0x2834 */ AudioTable* soundFontTable;
     /* 0x2838 */ AudioTable* sampleBankTable;
@@ -855,8 +855,8 @@ typedef struct {
     /* 0x28A0 */ s32 curAudioFrameDmaCount;
     /* 0x28A4 */ s32 rspTaskIndex;
     /* 0x28A8 */ s32 curAiBufIndex;
-    /* 0x28AC */ Acmd* abiCmdBufs[2]; // Pointer to audio heap where the audio binary interface command lists are stored. Two lists that alternative every frame
-    /* 0x28B4 */ Acmd* curAbiCmdBuf;
+    /* 0x28AC */ Acmd* abiCmdBufs[2]; // Pointer to audio heap where the audio binary interface command lists (for the rsp) are stored. Two lists that alternative every frame
+    /* 0x28B4 */ Acmd* curAbiCmdBuf; // Pointer to the currently active abiCmdBufs
     /* 0x28B8 */ AudioTask* curTask;
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
@@ -871,7 +871,7 @@ typedef struct {
     /* 0x2990 */ AudioAllocPool audioSessionPool; // A sub-pool to main pool, contains all sub-pools and data that changes every audio reset
     /* 0x29A0 */ AudioAllocPool externalPool; // pool allocated externally to the audio heap. Never used in game
     /* 0x29B0 */ AudioAllocPool audioInitPool;// A sub-pool to the main pool, contains all sub-pools and data that persists every audio reset
-    /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool.
+    /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool. 
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
     /* 0x29F0 */ AudioAllocPool cachePool; // The common pool for all cache entries
     /* 0x2A00 */ AudioAllocPool persistentCommonPool; // A sub-pool to the cache pool, contains all caches for data stored persistently

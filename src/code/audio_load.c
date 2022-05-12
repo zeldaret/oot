@@ -11,7 +11,7 @@ typedef enum {
     /* 1 */ SLOW_LOAD_STATE_START,
     /* 2 */ SLOW_LOAD_STATE_LOADING,
     /* 3 */ SLOW_LOAD_STATE_DONE
-} SlowLoadStatus;
+} SlowLoadState;
 
 typedef struct {
     /* 0x00 */ s32 sampleBankId1;

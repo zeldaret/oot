@@ -80,7 +80,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) 
         bufItem->startPos = reverb->nextRingBufPos;
         reverb->nextRingBufPos += numSamples;
     } else {
-        // End of the buffer is reach. Loop back around
+        // End of the buffer is reached. Loop back around
         bufItem->lengthA = (numSamples - extraSamples) * 2;
         bufItem->lengthB = extraSamples * 2;
         bufItem->startPos = reverb->nextRingBufPos;
@@ -103,7 +103,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) 
             bufItem->lengthB = 0;
             bufItem->startPos = temp_a0_4;
         } else {
-            // End of the buffer is reach. Loop back around
+            // End of the buffer is reached. Loop back around
             bufItem->lengthA = (numSamples - extraSamples) * 2;
             bufItem->lengthB = extraSamples * 2;
             bufItem->startPos = temp_a0_4;
