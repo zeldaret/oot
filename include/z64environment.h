@@ -33,7 +33,7 @@
 
 typedef enum { 
     /* 0 */ LIGHT_MODE_TIME, // environment lights use `lightConfig` and change based on time of day
-    /* 1 */ LIGHT_MODE_SETTINGS // environment lights use `lightSetting` and change based on time of day
+    /* 1 */ LIGHT_MODE_SETTINGS // environment lights use `lightSetting`
 } LightMode;
 
 typedef enum {
