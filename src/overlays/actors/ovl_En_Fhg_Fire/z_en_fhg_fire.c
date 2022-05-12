@@ -369,7 +369,7 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
     gCustomLensFlarePos = this->actor.world.pos;
     gLensFlareScale = this->lensFlareScale;
     gLensFlareColorIntensity = 10.0f;
-    gLensFlareScreenFillAlpha = 0;
+    gLensFlareGlareStrength = 0;
 }
 
 void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx) {

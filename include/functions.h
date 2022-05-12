@@ -884,7 +884,7 @@ void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* 
                                   GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
 void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
                                GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
-                               s16 screenFillAlpha, u8 isSun);
+                               s16 glareStrength, u8 isSun);
 void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx);
 void Environment_ChangeLightSetting(GlobalContext* globalCtx, u32 lightSetting);
 void Environment_DrawSkyboxFilters(GlobalContext* globalCtx);

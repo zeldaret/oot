@@ -3170,7 +3170,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
         gLensFlareScale = this->lensFlareScale;
         gLensFlareColorIntensity = 10.0f;
-        gLensFlareScreenFillAlpha = 0;
+        gLensFlareGlareStrength = 0;
     } else {
         gCustomLensFlareOn = false;
     }

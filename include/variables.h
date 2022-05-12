@@ -176,7 +176,7 @@ extern u8 gCustomLensFlareOn;
 extern Vec3f gCustomLensFlarePos;
 extern s16 gLensFlareScale;
 extern f32 gLensFlareColorIntensity;
-extern s16 gLensFlareScreenFillAlpha;
+extern s16 gLensFlareGlareStrength;
 extern LightningStrike gLightningStrike;
 extern MapData* gMapData;
 extern f32 gBossMarkScale;

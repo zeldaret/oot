@@ -185,7 +185,7 @@ Vec3f gCustomLensFlarePos;
 s16 gLensFlareUnused;
 s16 gLensFlareScale;
 f32 gLensFlareColorIntensity;
-s16 gLensFlareScreenFillAlpha;
+s16 gLensFlareGlareStrength;
 
 typedef struct {
     /* 0x00 */ u8 state;
@@ -2198,7 +2198,7 @@ void Environment_DrawCustomLensFlare(GlobalContext* globalCtx) {
 
         Environment_DrawLensFlare(globalCtx, &globalCtx->envCtx, &globalCtx->view, globalCtx->state.gfxCtx, pos,
                                   gLensFlareUnused, gLensFlareScale, gLensFlareColorIntensity,
-                                  gLensFlareScreenFillAlpha, false);
+                                  gLensFlareGlareStrength, false);
     }
 }
 
