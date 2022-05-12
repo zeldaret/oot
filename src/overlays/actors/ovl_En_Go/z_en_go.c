@@ -546,7 +546,7 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
     } else if (this->unk_1E0.unk_00 != 0) {
         return true;
     } else if (DECR(this->unk_21C)) {
-        if ((this->unk_21C & 1)) {
+        if (this->unk_21C & 1) {
             this->actor.world.pos.y += 1.5f;
         } else {
             this->actor.world.pos.y -= 1.5f;

@@ -89,7 +89,7 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < 0.5f) {
             heightBool = true;
         }
-        if (func_80043590(&this->dyna) && (heightBool)) {
+        if (func_80043590(&this->dyna) && heightBool) {
             this->actionFunc = func_808870D8;
         } else if (!heightBool) {
             this->actionFunc = func_8088706C;

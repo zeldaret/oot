@@ -1604,7 +1604,7 @@ s32 Camera_Normal1(Camera* camera) {
     }
 
     Camera_Vec3fVecSphGeoAdd(eyeNext, at, &eyeAdjustment);
-    if ((camera->status == CAM_STAT_ACTIVE) && (!(roData->interfaceFlags & 0x10))) {
+    if ((camera->status == CAM_STAT_ACTIVE) && !(roData->interfaceFlags & 0x10)) {
         rwData->swingYawTarget = BINANG_ROT180(camera->playerPosRot.rot.y);
         if (rwData->startSwingTimer > 0) {
             func_80046E20(camera, &eyeAdjustment, roData->distMin, roData->unk_0C, &sp98, &rwData->swing);
@@ -4881,7 +4881,7 @@ s32 Camera_Unique0(Camera* camera) {
         if (rwData->animTimer > 0) {
             rwData->animTimer--;
             rwData->initalPos = playerPosRot->pos;
-        } else if ((!(player->stateFlags1 & PLAYER_STATE1_29)) &&
+        } else if (!(player->stateFlags1 & PLAYER_STATE1_29) &&
                    ((OLib_Vec3fDistXZ(&playerPosRot->pos, &rwData->initalPos) >= 10.0f) ||
                     CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
                     CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
@@ -4909,7 +4909,7 @@ s32 Camera_Unique0(Camera* camera) {
             rwData->initalPos = playerPosRot->pos;
         }
 
-        if ((!(player->stateFlags1 & PLAYER_STATE1_29)) &&
+        if (!(player->stateFlags1 & PLAYER_STATE1_29) &&
             ((0.001f < camera->xzSpeed) || CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_A) ||
              CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_B) ||
              CHECK_BTN_ALL(D_8015BD7C->state.input[0].press.button, BTN_CLEFT) ||
@@ -7444,7 +7444,7 @@ Vec3s Camera_Update(Camera* camera) {
                 camera->nextCamDataIdx = -1;
             }
 
-            if ((camera->unk_14C & 1) && (camera->unk_14C & 4) && (!(camera->unk_14C & 0x400)) &&
+            if ((camera->unk_14C & 1) && (camera->unk_14C & 4) && !(camera->unk_14C & 0x400) &&
                 (!(camera->unk_14C & 0x200) || (player->currentBoots == PLAYER_BOOTS_IRON)) &&
                 (!(camera->unk_14C & (s16)0x8000)) && (playerGroundY != BGCHECK_Y_MIN)) {
                 camDataIdx = Camera_GetDataIdxForPoly(camera, &bgId, playerFloorPoly);
@@ -7833,7 +7833,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
         return -99;
     }
 
-    if ((setting == camera->setting) && (!(flags & 1))) {
+    if ((setting == camera->setting) && !(flags & 1)) {
         camera->unk_14A |= 0x10;
         if (!(flags & 2)) {
             camera->unk_14A |= 1;

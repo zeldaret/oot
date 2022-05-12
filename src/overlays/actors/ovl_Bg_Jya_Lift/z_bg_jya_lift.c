@@ -137,7 +137,7 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
         Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
-    } else if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) &&
+    } else if (((this->dyna.unk_160 & 4) == 0) && (this->unk_16B & 4) &&
                (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
         Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }

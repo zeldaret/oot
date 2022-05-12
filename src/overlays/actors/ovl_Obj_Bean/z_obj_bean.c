@@ -175,15 +175,15 @@ void ObjBean_UpdatePosition(ObjBean* this) {
 
     Math_StepToF(&this->unk_1E4, 2.0f, 0.1f);
     temp_f20 = Math_SinS(this->unk_1B6.x * 3);
-    this->posOffsetX = (Math_SinS(((this->unk_1B6.y * 3))) + temp_f20) * this->unk_1E4;
+    this->posOffsetX = (Math_SinS(this->unk_1B6.y * 3) + temp_f20) * this->unk_1E4;
     temp_f20 = Math_CosS(this->unk_1B6.x * 4);
-    this->posOffsetZ = (Math_CosS((this->unk_1B6.y * 4)) + temp_f20) * this->unk_1E4;
+    this->posOffsetZ = (Math_CosS(this->unk_1B6.y * 4) + temp_f20) * this->unk_1E4;
     temp_f20 = Math_SinS(this->unk_1B6.z * 5);
 
     this->dyna.actor.scale.x = this->dyna.actor.scale.z =
-        ((Math_SinS((this->unk_1B6.y * 8)) * 0.01f) + (temp_f20 * 0.06f) + 1.07f) * 0.1f;
+        ((Math_SinS(this->unk_1B6.y * 8) * 0.01f) + (temp_f20 * 0.06f) + 1.07f) * 0.1f;
 
-    this->dyna.actor.scale.y = ((Math_CosS(((this->unk_1B6.z * 10))) * 0.2f) + 1.0f) * 0.1f;
+    this->dyna.actor.scale.y = ((Math_CosS(this->unk_1B6.z * 10) * 0.2f) + 1.0f) * 0.1f;
     temp_f20 = Math_SinS(this->unk_1B6.x * 3);
     this->dyna.actor.shape.rot.y =
         (Math_SinS((s16)(this->unk_1B6.z * 2)) * 2100.0f) + ((f32)this->dyna.actor.home.rot.y + (temp_f20 * 1000.0f));

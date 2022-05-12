@@ -208,7 +208,7 @@ void FileChoose_SelectCopyDest(GameState* thisx) {
             if (this->stickRelY >= 30) {
                 this->buttonIndex--;
 
-                if ((this->buttonIndex == this->selectedFileIndex)) {
+                if (this->buttonIndex == this->selectedFileIndex) {
                     this->buttonIndex--;
 
                     if (this->buttonIndex < FS_BTN_COPY_FILE_1) {
