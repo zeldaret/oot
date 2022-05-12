@@ -3711,7 +3711,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
                                         } else if (gSaveContext.timer2Value > 10) {
-                                            if ((timerDigits[4] & 1)) {
+                                            if (timerDigits[4] & 1) {
                                                 Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                                        &gSfxDefaultFreqAndVolScale,
                                                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);

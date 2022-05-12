@@ -148,7 +148,7 @@ void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.home.rot.z == 0) &&
         ((this->dyna.actor.home.pos.y - 5.0f) <= GET_PLAYER(globalCtx)->actor.world.pos.y)) {
         BgMoriBigst_SetupFall(this, globalCtx);
-        OnePointCutscene_Init(globalCtx, 3220, 72, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3220, 72, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
@@ -162,7 +162,7 @@ void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         BgMoriBigst_SetupLanding(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-        OnePointCutscene_Init(globalCtx, 1020, 8, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 1020, 8, &this->dyna.actor, CAM_ID_MAIN);
         func_8002DF38(globalCtx, NULL, 0x3C);
     }
 }

@@ -1510,7 +1510,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 0x39);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->subCamDist = 800.0f;
             this->subCamYaw = M_PI;
@@ -1568,7 +1568,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != 0) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         if (this->unk_5F9 == 0) {
             Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
         } else {
@@ -1715,13 +1715,13 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->timers[2] == 1) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-                cam->eye = this->subCamEye;
-                cam->eyeNext = this->subCamEye;
-                cam->at = this->subCamAt;
+                mainCam->eye = this->subCamEye;
+                mainCam->eyeNext = this->subCamEye;
+                mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = 0;
+                this->subCamId = SUB_CAM_ID_DONE;
                 this->csState2 = this->subCamId;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
@@ -1778,7 +1778,7 @@ void BossTw_TwinrovaSetupIntroCS(BossTw* this, GlobalContext* globalCtx) {
 }
 
 void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
-    u8 updateCam = 0;
+    u8 updateCam = false;
     s16 i;
     Vec3f sp90;
     Vec3f sp84;
@@ -1806,30 +1806,30 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 0x39);
                 this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                 this->subCamEye.x = 0.0f;
                 this->subCamEye.y = 350;
                 this->subCamEye.z = 200;
 
-                this->subCamEyeTarget.x = 450;
-                this->subCamEyeTarget.y = 900;
+                this->subCamEyeNext.x = 450;
+                this->subCamEyeNext.y = 900;
 
                 this->subCamAt.x = 0;
                 this->subCamAt.y = 270;
                 this->subCamAt.z = 0;
 
-                this->subCamAtTarget.x = 0;
-                this->subCamAtTarget.y = 240;
-                this->subCamAtTarget.z = 140;
+                this->subCamAtNext.x = 0;
+                this->subCamAtNext.y = 240;
+                this->subCamAtNext.z = 140;
 
-                this->subCamEyeTarget.z = 530;
-                this->subCamEyeStep.x = fabsf(this->subCamEyeTarget.x - this->subCamEye.x);
-                this->subCamEyeStep.y = fabsf(this->subCamEyeTarget.y - this->subCamEye.y);
-                this->subCamEyeStep.z = fabsf(this->subCamEyeTarget.z - this->subCamEye.z);
-                this->subCamAtStep.x = fabsf(this->subCamAtTarget.x - this->subCamAt.x);
-                this->subCamAtStep.y = fabsf(this->subCamAtTarget.y - this->subCamAt.y);
-                this->subCamAtStep.z = fabsf(this->subCamAtTarget.z - this->subCamAt.z);
+                this->subCamEyeNext.z = 530;
+                this->subCamEyeVel.x = fabsf(this->subCamEyeNext.x - this->subCamEye.x);
+                this->subCamEyeVel.y = fabsf(this->subCamEyeNext.y - this->subCamEye.y);
+                this->subCamEyeVel.z = fabsf(this->subCamEyeNext.z - this->subCamEye.z);
+                this->subCamAtVel.x = fabsf(this->subCamAtNext.x - this->subCamAt.x);
+                this->subCamAtVel.y = fabsf(this->subCamAtNext.y - this->subCamAt.y);
+                this->subCamAtVel.z = fabsf(this->subCamAtNext.z - this->subCamAt.z);
 
                 this->subCamDistStep = 0.05f;
                 this->work[CS_TIMER_1] = 0;
@@ -1837,7 +1837,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            updateCam = 1;
+            updateCam = true;
 
             if (this->work[CS_TIMER_1] == 30) {
                 Message_StartTextbox(globalCtx, 0x6048, NULL);
@@ -1891,20 +1891,20 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             if (this->work[CS_TIMER_1] > 50) {
                 this->csState2 = 3;
 
-                this->subCamEyeTarget.x = -30;
-                this->subCamEyeTarget.y = 260;
-                this->subCamEyeTarget.z = 530;
+                this->subCamEyeNext.x = -30;
+                this->subCamEyeNext.y = 260;
+                this->subCamEyeNext.z = 530;
 
-                this->subCamAtTarget.x = 0.0f;
-                this->subCamAtTarget.y = 265;
-                this->subCamAtTarget.z = 580;
+                this->subCamAtNext.x = 0.0f;
+                this->subCamAtNext.y = 265;
+                this->subCamAtNext.z = 580;
 
-                this->subCamEyeStep.x = fabsf(this->subCamEyeTarget.x - this->subCamEye.x);
-                this->subCamEyeStep.y = fabsf(this->subCamEyeTarget.y - this->subCamEye.y);
-                this->subCamEyeStep.z = fabsf(this->subCamEyeTarget.z - this->subCamEye.z);
-                this->subCamAtStep.x = fabsf(this->subCamAtTarget.x - this->subCamAt.x);
-                this->subCamAtStep.y = fabsf(this->subCamAtTarget.y - this->subCamAt.y);
-                this->subCamAtStep.z = fabsf(this->subCamAtTarget.z - this->subCamAt.z);
+                this->subCamEyeVel.x = fabsf(this->subCamEyeNext.x - this->subCamEye.x);
+                this->subCamEyeVel.y = fabsf(this->subCamEyeNext.y - this->subCamEye.y);
+                this->subCamEyeVel.z = fabsf(this->subCamEyeNext.z - this->subCamEye.z);
+                this->subCamAtVel.x = fabsf(this->subCamAtNext.x - this->subCamAt.x);
+                this->subCamAtVel.y = fabsf(this->subCamAtNext.y - this->subCamAt.y);
+                this->subCamAtVel.z = fabsf(this->subCamAtNext.z - this->subCamAt.z);
                 this->subCamUpdateRate = 0;
                 this->subCamDistStep = 0.1f;
                 this->work[CS_TIMER_1] = 0;
@@ -1913,7 +1913,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
         case 3:
             SkelAnime_Update(&sKoumePtr->skelAnime);
-            updateCam = 1;
+            updateCam = true;
             Math_ApproachF(&sKoumePtr->actor.world.pos.y, 240.0f, 0.05f, 5.0f);
             Math_ApproachF(&this->subCamUpdateRate, 1.0f, 1.0f, 0.02f);
 
@@ -1925,20 +1925,20 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 this->csState2 = 4;
                 this->actor.speedXZ = 0;
 
-                this->subCamEyeTarget.x = -80.0f;
-                this->subCamEyeTarget.y = 260.0f;
-                this->subCamEyeTarget.z = 430.0f;
+                this->subCamEyeNext.x = -80.0f;
+                this->subCamEyeNext.y = 260.0f;
+                this->subCamEyeNext.z = 430.0f;
 
-                this->subCamAtTarget.x = sKoumePtr->actor.world.pos.x;
-                this->subCamAtTarget.y = sKoumePtr->actor.world.pos.y + 20.0f;
-                this->subCamAtTarget.z = sKoumePtr->actor.world.pos.z;
+                this->subCamAtNext.x = sKoumePtr->actor.world.pos.x;
+                this->subCamAtNext.y = sKoumePtr->actor.world.pos.y + 20.0f;
+                this->subCamAtNext.z = sKoumePtr->actor.world.pos.z;
 
-                this->subCamEyeStep.x = fabsf(this->subCamEyeTarget.x - this->subCamEye.x);
-                this->subCamEyeStep.y = fabsf(this->subCamEyeTarget.y - this->subCamEye.y);
-                this->subCamEyeStep.z = fabsf(this->subCamEyeTarget.z - this->subCamEye.z);
-                this->subCamAtStep.x = fabsf(this->subCamAtTarget.x - this->subCamAt.x);
-                this->subCamAtStep.y = fabsf(this->subCamAtTarget.y - this->subCamAt.y);
-                this->subCamAtStep.z = fabsf(this->subCamAtTarget.z - this->subCamAt.z);
+                this->subCamEyeVel.x = fabsf(this->subCamEyeNext.x - this->subCamEye.x);
+                this->subCamEyeVel.y = fabsf(this->subCamEyeNext.y - this->subCamEye.y);
+                this->subCamEyeVel.z = fabsf(this->subCamEyeNext.z - this->subCamEye.z);
+                this->subCamAtVel.x = fabsf(this->subCamAtNext.x - this->subCamAt.x);
+                this->subCamAtVel.y = fabsf(this->subCamAtNext.y - this->subCamAt.y);
+                this->subCamAtVel.z = fabsf(this->subCamAtNext.z - this->subCamAt.z);
                 this->subCamUpdateRate = 0.0f;
                 this->subCamDistStep = 0.05f;
                 Animation_MorphToPlayOnce(&sKoumePtr->skelAnime, &object_tw_Anim_000AAC, 0.0f);
@@ -1948,9 +1948,9 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             break;
 
         case 4:
-            updateCam = 1;
+            updateCam = true;
             SkelAnime_Update(&sKoumePtr->skelAnime);
-            this->subCamAtTarget.y = 20.0f + sKoumePtr->actor.world.pos.y;
+            this->subCamAtNext.y = 20.0f + sKoumePtr->actor.world.pos.y;
             Math_ApproachF(&sKoumePtr->actor.world.pos.y, 350, 0.1f, this->actor.speedXZ);
             Math_ApproachF(&this->actor.speedXZ, 9.0f, 1.0f, 0.9f);
             Math_ApproachF(&this->subCamUpdateRate, 1.0f, 1.0f, 0.02f);
@@ -2057,18 +2057,18 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
             if (this->work[CS_TIMER_1] >= 0x33) {
                 this->csState2 = 11;
-                this->subCamEyeTarget.x = -30;
-                this->subCamEyeTarget.y = 260;
-                this->subCamEyeTarget.z = -530;
-                this->subCamAtTarget.x = 0;
-                this->subCamAtTarget.y = 265;
-                this->subCamAtTarget.z = -580;
-                this->subCamEyeStep.x = fabsf(this->subCamEyeTarget.x - this->subCamEye.x);
-                this->subCamEyeStep.y = fabsf(this->subCamEyeTarget.y - this->subCamEye.y);
-                this->subCamEyeStep.z = fabsf(this->subCamEyeTarget.z - this->subCamEye.z);
-                this->subCamAtStep.x = fabsf(this->subCamAtTarget.x - this->subCamAt.x);
-                this->subCamAtStep.y = fabsf(this->subCamAtTarget.y - this->subCamAt.y);
-                this->subCamAtStep.z = fabsf(this->subCamAtTarget.z - this->subCamAt.z);
+                this->subCamEyeNext.x = -30;
+                this->subCamEyeNext.y = 260;
+                this->subCamEyeNext.z = -530;
+                this->subCamAtNext.x = 0;
+                this->subCamAtNext.y = 265;
+                this->subCamAtNext.z = -580;
+                this->subCamEyeVel.x = fabsf(this->subCamEyeNext.x - this->subCamEye.x);
+                this->subCamEyeVel.y = fabsf(this->subCamEyeNext.y - this->subCamEye.y);
+                this->subCamEyeVel.z = fabsf(this->subCamEyeNext.z - this->subCamEye.z);
+                this->subCamAtVel.x = fabsf(this->subCamAtNext.x - this->subCamAt.x);
+                this->subCamAtVel.y = fabsf(this->subCamAtNext.y - this->subCamAt.y);
+                this->subCamAtVel.z = fabsf(this->subCamAtNext.z - this->subCamAt.z);
                 this->subCamUpdateRate = 0;
                 this->subCamDistStep = 0.1f;
                 this->work[CS_TIMER_1] = 0;
@@ -2077,7 +2077,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
         case 11:
             SkelAnime_Update(&sKotakePtr->skelAnime);
-            updateCam = 1;
+            updateCam = true;
             Math_ApproachF(&sKotakePtr->actor.world.pos.y, 240.0f, 0.05f, 5.0f);
             Math_ApproachF(&this->subCamUpdateRate, 1.0f, 1.0f, 0.02f);
 
@@ -2089,20 +2089,20 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 this->csState2 = 12;
                 this->actor.speedXZ = 0;
 
-                this->subCamEyeTarget.y = 260.0f;
-                this->subCamEyeTarget.x = -80.0f;
-                this->subCamEyeTarget.z = -430.0f;
+                this->subCamEyeNext.y = 260.0f;
+                this->subCamEyeNext.x = -80.0f;
+                this->subCamEyeNext.z = -430.0f;
 
-                this->subCamAtTarget.x = sKotakePtr->actor.world.pos.x;
-                this->subCamAtTarget.y = sKotakePtr->actor.world.pos.y + 20.0f;
-                this->subCamAtTarget.z = sKotakePtr->actor.world.pos.z;
+                this->subCamAtNext.x = sKotakePtr->actor.world.pos.x;
+                this->subCamAtNext.y = sKotakePtr->actor.world.pos.y + 20.0f;
+                this->subCamAtNext.z = sKotakePtr->actor.world.pos.z;
 
-                this->subCamEyeStep.x = fabsf(this->subCamEyeTarget.x - this->subCamEye.x);
-                this->subCamEyeStep.y = fabsf(this->subCamEyeTarget.y - this->subCamEye.y);
-                this->subCamEyeStep.z = fabsf(this->subCamEyeTarget.z - this->subCamEye.z);
-                this->subCamAtStep.x = fabsf(this->subCamAtTarget.x - this->subCamAt.x);
-                this->subCamAtStep.y = fabsf(this->subCamAtTarget.y - this->subCamAt.y);
-                this->subCamAtStep.z = fabsf(this->subCamAtTarget.z - this->subCamAt.z);
+                this->subCamEyeVel.x = fabsf(this->subCamEyeNext.x - this->subCamEye.x);
+                this->subCamEyeVel.y = fabsf(this->subCamEyeNext.y - this->subCamEye.y);
+                this->subCamEyeVel.z = fabsf(this->subCamEyeNext.z - this->subCamEye.z);
+                this->subCamAtVel.x = fabsf(this->subCamAtNext.x - this->subCamAt.x);
+                this->subCamAtVel.y = fabsf(this->subCamAtNext.y - this->subCamAt.y);
+                this->subCamAtVel.z = fabsf(this->subCamAtNext.z - this->subCamAt.z);
                 this->subCamUpdateRate = 0;
                 this->subCamDistStep = 0.05f;
                 Animation_MorphToPlayOnce(&sKotakePtr->skelAnime, &object_tw_Anim_000AAC, 0);
@@ -2112,9 +2112,9 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             break;
 
         case 12:
-            updateCam = 1;
+            updateCam = true;
             SkelAnime_Update(&sKotakePtr->skelAnime);
-            this->subCamAtTarget.y = sKotakePtr->actor.world.pos.y + 20.0f;
+            this->subCamAtNext.y = sKotakePtr->actor.world.pos.y + 20.0f;
             Math_ApproachF(&sKotakePtr->actor.world.pos.y, 350, 0.1f, this->actor.speedXZ);
             Math_ApproachF(&this->actor.speedXZ, 9.0f, 1.0f, 0.9f);
             Math_ApproachF(&this->subCamUpdateRate, 1.0f, 1.0f, 0.02f);
@@ -2189,7 +2189,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                         this->workf[UNK_F9] = -M_PI / 2.0f;
                         this->workf[UNK_F10] = 0.0f;
 
-                        this->subCamEyeStep.x = 0.0f;
+                        this->subCamEyeVel.x = 0.0f;
                         this->spawnPortalAlpha = 0.0f;
                     }
                 } else {
@@ -2233,14 +2233,14 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
             if (this->work[CS_TIMER_1] >= 160) {
                 if (this->work[CS_TIMER_1] == 160) {
-                    this->subCamEyeStep.x = 0.0f;
+                    this->subCamEyeVel.x = 0.0f;
                 }
-                Math_ApproachF(&this->subCamEye.x, 0.0f, 0.05f, this->subCamEyeStep.x * 0.5f);
-                Math_ApproachF(&this->subCamEye.z, 1000.0f, 0.05f, this->subCamEyeStep.x);
-                Math_ApproachF(&this->subCamEyeStep.x, 40.0f, 1.0f, 1);
+                Math_ApproachF(&this->subCamEye.x, 0.0f, 0.05f, this->subCamEyeVel.x * 0.5f);
+                Math_ApproachF(&this->subCamEye.z, 1000.0f, 0.05f, this->subCamEyeVel.x);
+                Math_ApproachF(&this->subCamEyeVel.x, 40.0f, 1.0f, 1);
             } else {
-                Math_ApproachF(&this->subCamEye.x, 300.0f, 0.05f, this->subCamEyeStep.x);
-                Math_ApproachF(&this->subCamEyeStep.x, 5.0f, 1.0f, 0.5f);
+                Math_ApproachF(&this->subCamEye.x, 300.0f, 0.05f, this->subCamEyeVel.x);
+                Math_ApproachF(&this->subCamEyeVel.x, 5.0f, 1.0f, 0.5f);
             }
 
             if (this->work[CS_TIMER_1] < 200) {
@@ -2280,13 +2280,13 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->work[CS_TIMER_1] == 260) {
-                Camera* cam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-                cam->eye = this->subCamEye;
-                cam->eyeNext = this->subCamEye;
-                cam->at = this->subCamAt;
+                mainCam->eye = this->subCamEye;
+                mainCam->eyeNext = this->subCamEye;
+                mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = 0;
+                this->subCamId = SUB_CAM_ID_DONE;
                 this->csState2 = this->subCamId;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
@@ -2295,20 +2295,20 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != 0) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         if (updateCam) {
-            Math_ApproachF(&this->subCamEye.x, this->subCamEyeTarget.x, this->subCamDistStep,
-                           this->subCamEyeStep.x * this->subCamUpdateRate);
-            Math_ApproachF(&this->subCamEye.y, this->subCamEyeTarget.y, this->subCamDistStep,
-                           this->subCamEyeStep.y * this->subCamUpdateRate);
-            Math_ApproachF(&this->subCamEye.z, this->subCamEyeTarget.z, this->subCamDistStep,
-                           this->subCamEyeStep.z * this->subCamUpdateRate);
-            Math_ApproachF(&this->subCamAt.x, this->subCamAtTarget.x, this->subCamDistStep,
-                           this->subCamAtStep.x * this->subCamUpdateRate);
-            Math_ApproachF(&this->subCamAt.y, this->subCamAtTarget.y, this->subCamDistStep,
-                           this->subCamAtStep.y * this->subCamUpdateRate);
-            Math_ApproachF(&this->subCamAt.z, this->subCamAtTarget.z, this->subCamDistStep,
-                           this->subCamAtStep.z * this->subCamUpdateRate);
+            Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamDistStep,
+                           this->subCamEyeVel.x * this->subCamUpdateRate);
+            Math_ApproachF(&this->subCamEye.y, this->subCamEyeNext.y, this->subCamDistStep,
+                           this->subCamEyeVel.y * this->subCamUpdateRate);
+            Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamDistStep,
+                           this->subCamEyeVel.z * this->subCamUpdateRate);
+            Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamDistStep,
+                           this->subCamAtVel.x * this->subCamUpdateRate);
+            Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamDistStep,
+                           this->subCamAtVel.y * this->subCamUpdateRate);
+            Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamDistStep,
+                           this->subCamAtVel.z * this->subCamUpdateRate);
         }
 
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
@@ -2618,7 +2618,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f spD0;
     Player* player = GET_PLAYER(globalCtx);
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
     SkelAnime_Update(&this->skelAnime);
     this->work[UNK_S8] += 20;
@@ -2697,7 +2697,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->subCamEye = mainCam->eye;
             this->subCamAt = mainCam->at;
@@ -2815,13 +2815,13 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             Actor_SetScale(&sKoumePtr->actor, sKoumePtr->actor.scale.x);
             Actor_SetScale(&sKotakePtr->actor, sKoumePtr->actor.scale.x);
             if (this->work[CS_TIMER_2] >= 1020) {
-                mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
                 this->csState2 = 4;
-                this->subCamId = 0;
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
@@ -2840,7 +2840,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         if (1) {}
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }

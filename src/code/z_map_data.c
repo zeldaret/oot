@@ -213,7 +213,7 @@ static s16 sOwCompassInfo[24][4] = {
     { 6, 6, 890, -800 },    { 13, 13, 1080, -260 }, { 11, 11, 1060, -680 }, { 9, 9, 850, -830 },
 };
 
-static s16 sDgnMinimapTexIndexBase[10] = {
+static s16 sDgnTexIndexBase[10] = {
     0, 10, 14, 18, 26, 36, 44, 52, 60, 66,
 };
 
@@ -341,7 +341,7 @@ MapData gMapDataTable = {
     sMaxPaletteCount,     sPaletteRoom,        sRoomCompassOffsetX,
     sRoomCompassOffsetY,  sDgnMinimapCount,    sDgnMinimapTexIndexOffset,
     sOwMinimapTexSize,    sOwMinimapTexOffset, sOwMinimapPosX,
-    sOwMinimapPosY,       sOwCompassInfo,      sDgnMinimapTexIndexBase,
+    sOwMinimapPosY,       sOwCompassInfo,      sDgnTexIndexBase,
     sDgnCompassInfo,      sOwMinimapWidth,     sOwMinimapHeight,
     sOwEntranceIconPosX,  sOwEntranceIconPosY, sOwEntranceFlag,
     sFloorCoordY,         sSwitchEntryCount,   sSwitchFromRoom,

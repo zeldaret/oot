@@ -249,7 +249,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
             if (!LINK_IS_ADULT && !GET_ITEMGETINF(ITEMGETINF_1D)) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {
-                    OnePointCutscene_Init(globalCtx, 4140, -99, &this->actor, MAIN_CAM);
+                    OnePointCutscene_Init(globalCtx, 4140, -99, &this->actor, CAM_ID_MAIN);
                     func_8002DF54(globalCtx, &this->actor, 1);
                     this->timer4 = 50;
                     this->actionFunc = EnDntNomal_SetupTargetUnburrow;

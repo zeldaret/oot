@@ -70,7 +70,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx) {
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
             this->state = WATERFALL_OPENING_ANIMATED;
             this->timer = 40;
-            OnePointCutscene_Init(globalCtx, 4100, -99, NULL, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 4100, -99, NULL, CAM_ID_MAIN);
         }
     } else if (this->state == WATERFALL_OPENING_IDLE) {
         this->timer--;

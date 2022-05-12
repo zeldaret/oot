@@ -140,33 +140,33 @@ void BossFd_SpawnFireBreath(BossFdEffect* effect, Vec3f* position, Vec3f* veloci
     }
 }
 
-void BossFd_SetCameraSpeed(BossFd* this, f32 speedMod) {
-    this->camData.eyeVel.x = fabsf(this->camData.eye.x - this->camData.nextEye.x) * speedMod;
-    this->camData.eyeVel.y = fabsf(this->camData.eye.y - this->camData.nextEye.y) * speedMod;
-    this->camData.eyeVel.z = fabsf(this->camData.eye.z - this->camData.nextEye.z) * speedMod;
-    this->camData.atVel.x = fabsf(this->camData.at.x - this->camData.nextAt.x) * speedMod;
-    this->camData.atVel.y = fabsf(this->camData.at.y - this->camData.nextAt.y) * speedMod;
-    this->camData.atVel.z = fabsf(this->camData.at.z - this->camData.nextAt.z) * speedMod;
+void BossFd_SetCameraSpeed(BossFd* this, f32 velFactor) {
+    this->subCamEyeVel.x = fabsf(this->subCamEye.x - this->subCamEyeNext.x) * velFactor;
+    this->subCamEyeVel.y = fabsf(this->subCamEye.y - this->subCamEyeNext.y) * velFactor;
+    this->subCamEyeVel.z = fabsf(this->subCamEye.z - this->subCamEyeNext.z) * velFactor;
+    this->subCamAtVel.x = fabsf(this->subCamAt.x - this->subCamAtNext.x) * velFactor;
+    this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * velFactor;
+    this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * velFactor;
 }
 
 void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
-    if (this->introCamera != SUBCAM_FREE) {
-        Math_ApproachF(&this->camData.eye.x, this->camData.nextEye.x, this->camData.eyeMaxVel.x,
-                       this->camData.eyeVel.x * this->camData.speedMod);
-        Math_ApproachF(&this->camData.eye.y, this->camData.nextEye.y, this->camData.eyeMaxVel.y,
-                       this->camData.eyeVel.y * this->camData.speedMod);
-        Math_ApproachF(&this->camData.eye.z, this->camData.nextEye.z, this->camData.eyeMaxVel.z,
-                       this->camData.eyeVel.z * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.x, this->camData.nextAt.x, this->camData.atMaxVel.x,
-                       this->camData.atVel.x * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.y, this->camData.nextAt.y, this->camData.atMaxVel.y,
-                       this->camData.atVel.y * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.z, this->camData.nextAt.z, this->camData.atMaxVel.z,
-                       this->camData.atVel.z * this->camData.speedMod);
-        Math_ApproachF(&this->camData.speedMod, 1.0f, 1.0f, this->camData.accel);
-        this->camData.at.y += this->camData.yMod;
-        Gameplay_CameraSetAtEye(globalCtx, this->introCamera, &this->camData.at, &this->camData.eye);
-        Math_ApproachZeroF(&this->camData.yMod, 1.0f, 0.1f);
+    if (this->subCamId != SUB_CAM_ID_DONE) {
+        Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x,
+                       this->subCamEyeVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.y, this->subCamEyeNext.y, this->subCamEyeMaxVelFrac.y,
+                       this->subCamEyeVel.y * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z,
+                       this->subCamEyeVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x,
+                       this->subCamAtVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y,
+                       this->subCamAtVel.y * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamAtMaxVelFrac.z,
+                       this->subCamAtVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
+        this->subCamAt.y += this->subCamAtYOffset;
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Math_ApproachZeroF(&this->subCamAtYOffset, 1.0f, 0.1f);
     }
 }
 
@@ -300,7 +300,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->introState != BFD_CS_NONE) {
         Player* player2 = GET_PLAYER(globalCtx);
-        Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
         switch (this->introState) {
             case BFD_CS_WAIT:
@@ -316,44 +316,44 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->introState = BFD_CS_START;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
-                    this->introCamera = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->introCamera, CAM_STAT_ACTIVE);
+                    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     player2->actor.world.pos.x = 380.0f;
                     player2->actor.world.pos.y = 100.0f;
                     player2->actor.world.pos.z = 0.0f;
                     player2->actor.shape.rot.y = player2->actor.world.rot.y = -0x4000;
                     player2->actor.speedXZ = 0.0f;
-                    this->camData.eye.x = player2->actor.world.pos.x - 70.0f;
-                    this->camData.eye.y = player2->actor.world.pos.y + 40.0f;
-                    this->camData.eye.z = player2->actor.world.pos.z + 70.0f;
-                    this->camData.at.x = player2->actor.world.pos.x;
-                    this->camData.at.y = player2->actor.world.pos.y + 30.0f;
-                    this->camData.at.z = player2->actor.world.pos.z;
-                    this->camData.nextEye.x = player2->actor.world.pos.x - 50.0f + 18.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 40;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 50.0f - 18.0f;
-                    this->camData.nextAt.x = player2->actor.world.pos.x;
-                    this->camData.nextAt.y = player2->actor.world.pos.y + 50.0f;
-                    this->camData.nextAt.z = player2->actor.world.pos.z;
+                    this->subCamEye.x = player2->actor.world.pos.x - 70.0f;
+                    this->subCamEye.y = player2->actor.world.pos.y + 40.0f;
+                    this->subCamEye.z = player2->actor.world.pos.z + 70.0f;
+                    this->subCamAt.x = player2->actor.world.pos.x;
+                    this->subCamAt.y = player2->actor.world.pos.y + 30.0f;
+                    this->subCamAt.z = player2->actor.world.pos.z;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x - 50.0f + 18.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 40;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 50.0f - 18.0f;
+                    this->subCamAtNext.x = player2->actor.world.pos.x;
+                    this->subCamAtNext.y = player2->actor.world.pos.y + 50.0f;
+                    this->subCamAtNext.z = player2->actor.world.pos.z;
                     BossFd_SetCameraSpeed(this, 1.0f);
-                    this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.05f;
-                    this->camData.eyeMaxVel.x = this->camData.eyeMaxVel.y = this->camData.eyeMaxVel.z = 0.05f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.05f;
+                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.05f;
                     this->timers[0] = 0;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.accel = 0.0f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamAccel = 0.0f;
                     if (GET_EVENTCHKINF(EVENTCHKINF_73)) {
                         this->introState = BFD_CS_EMERGE;
-                        this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
-                        this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
-                        this->camData.nextEye.z = player2->actor.world.pos.z + 200.0f - 150.0f;
-                        this->camData.nextAt.x = 0.0f;
-                        this->camData.nextAt.y = 120.0f;
-                        this->camData.nextAt.z = 0.0f;
+                        this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
+                        this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f - 50.0f;
+                        this->subCamEyeNext.z = player2->actor.world.pos.z + 200.0f - 150.0f;
+                        this->subCamAtNext.x = 0.0f;
+                        this->subCamAtNext.y = 120.0f;
+                        this->subCamAtNext.z = 0.0f;
                         BossFd_SetCameraSpeed(this, 0.5f);
-                        this->camData.eyeMaxVel.x = this->camData.eyeMaxVel.y = this->camData.eyeMaxVel.z = 0.1f;
-                        this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.1f;
-                        this->camData.accel = 0.005f;
+                        this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
+                        this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+                        this->subCamAccel = 0.005f;
                         this->timers[0] = 0;
                         this->holeIndex = 1;
                         this->targetPosition.x = sHoleLocations[this->holeIndex].x;
@@ -371,7 +371,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 break;
             case BFD_CS_START:
                 if (this->timers[0] == 0) {
-                    this->camData.accel = 0.0010000002f;
+                    this->subCamAccel = 0.0010000002f;
                     this->timers[0] = 100;
                     this->introState = BFD_CS_LOOK_LINK;
                 }
@@ -388,46 +388,46 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultReverb);
-                    this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
-                    Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
+                    this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                    Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 }
                 if (this->timers[0] == 40) {
                     func_8002DF54(globalCtx, &this->actor, 0x13);
                 }
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_LOOK_GROUND;
-                    this->camData.nextAt.y = player2->actor.world.pos.y + 10.0f;
-                    this->camData.atMaxVel.y = 0.2f;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.accel = 0.02f;
+                    this->subCamAtNext.y = player2->actor.world.pos.y + 10.0f;
+                    this->subCamAtMaxVelFrac.y = 0.2f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamAccel = 0.02f;
                     this->timers[0] = 70;
                     this->work[BFD_MOVE_TIMER] = 0;
                 }
                 break;
             case BFD_CS_LOOK_GROUND:
-                this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
-                Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
+                this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_COLLAPSE;
-                    this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 200.0f;
-                    this->camData.nextAt.x = player2->actor.world.pos.x;
-                    this->camData.nextAt.y = player2->actor.world.pos.y - 150.0f;
-                    this->camData.nextAt.z = player2->actor.world.pos.z - 50.0f;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 200.0f;
+                    this->subCamAtNext.x = player2->actor.world.pos.x;
+                    this->subCamAtNext.y = player2->actor.world.pos.y - 150.0f;
+                    this->subCamAtNext.z = player2->actor.world.pos.z - 50.0f;
                     BossFd_SetCameraSpeed(this, 0.1f);
                     this->timers[0] = 170;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.accel = 0.0f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamAccel = 0.0f;
                     func_8002DF54(globalCtx, &this->actor, 0x14);
                 }
                 break;
             case BFD_CS_COLLAPSE:
-                this->camData.accel = 0.005f;
-                this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
-                Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
+                this->subCamAccel = 0.005f;
+                this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (this->timers[0] == 100) {
@@ -435,17 +435,17 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_EMERGE;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 200.0f - 150.0f;
-                    this->camData.nextAt.x = 0.0f;
-                    this->camData.nextAt.y = 120.0f;
-                    this->camData.nextAt.z = 0.0f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f - 50.0f;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 200.0f - 150.0f;
+                    this->subCamAtNext.x = 0.0f;
+                    this->subCamAtNext.y = 120.0f;
+                    this->subCamAtNext.z = 0.0f;
                     BossFd_SetCameraSpeed(this, 0.5f);
-                    this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.1f;
-                    this->camData.eyeMaxVel.x = this->camData.eyeMaxVel.y = this->camData.eyeMaxVel.z = 0.1f;
-                    this->camData.accel = 0.005f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
+                    this->subCamAccel = 0.005f;
                     this->timers[0] = 0;
                     this->holeIndex = 1;
                     this->targetPosition.x = sHoleLocations[this->holeIndex].x;
@@ -461,24 +461,24 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 break;
             case BFD_CS_EMERGE:
-                osSyncPrintf("WAY_SPD X = %f\n", this->camData.atVel.x);
-                osSyncPrintf("WAY_SPD Y = %f\n", this->camData.atVel.y);
-                osSyncPrintf("WAY_SPD Z = %f\n", this->camData.atVel.z);
+                osSyncPrintf("WAY_SPD X = %f\n", this->subCamAtVel.x);
+                osSyncPrintf("WAY_SPD Y = %f\n", this->subCamAtVel.y);
+                osSyncPrintf("WAY_SPD Z = %f\n", this->subCamAtVel.z);
                 if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
                     Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultReverb);
                 }
                 if (this->timers[3] == 190) {
-                    this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.05f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.05f;
                     this->platformSignal = VBSIMA_KILL;
                     func_8002DF54(globalCtx, &this->actor, 1);
                 }
                 if (this->actor.world.pos.y > 120.0f) {
-                    this->camData.nextAt = this->actor.world.pos;
-                    this->camData.atVel.x = 190.0f;
-                    this->camData.atVel.y = 85.56f;
-                    this->camData.atVel.z = 25.0f;
+                    this->subCamAtNext = this->actor.world.pos;
+                    this->subCamAtVel.x = 190.0f;
+                    this->subCamAtVel.y = 85.56f;
+                    this->subCamAtVel.z = 25.0f;
                 } else {
                     // the following `temp` stuff is probably fake but is required to match
                     // it's optimized to 1.0f because sp1CF is false at this point, but the 0.1f ends up in rodata
@@ -486,8 +486,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     if (!sp1CF) {
                         temp = 1.0f;
                     }
-                    Math_ApproachF(&this->camData.shake, 2.0f, temp, 0.1 * 0.08f);
-                    this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
+                    Math_ApproachF(&this->subCamShake, 2.0f, temp, 0.1 * 0.08f);
+                    this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
                 }
                 if (this->timers[3] == 160) {
                     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
@@ -497,10 +497,10 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                                            SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
                 if (this->timers[3] <= 100) {
-                    this->camData.eyeVel.x = this->camData.eyeVel.y = this->camData.eyeVel.z = 2.0f;
-                    this->camData.nextEye.x = player2->actor.world.pos.x + 50.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 50.0f;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 50.0f;
+                    this->subCamEyeVel.x = this->subCamEyeVel.y = this->subCamEyeVel.z = 2.0f;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x + 50.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 50.0f;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 50.0f;
                 }
                 if (this->work[BFD_ACTION_STATE] == BOSSFD_FLY_HOLE) {
                     switch (this->introFlyState) {
@@ -514,7 +514,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                             }
                             break;
                         case INTRO_FLY_CAMERA:
-                            this->targetPosition = this->camData.eye;
+                            this->targetPosition = this->subCamEye;
                             if (this->timers[5] == 0) {
                                 this->timers[0] = 0;
                                 this->holeIndex = 7;
@@ -534,11 +534,12 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 osSyncPrintf("this->timer[2] = %d\n", this->timers[2]);
                 osSyncPrintf("this->timer[5] = %d\n", this->timers[5]);
                 if (this->timers[2] == 0) {
-                    mainCam->eye = this->camData.eye;
-                    mainCam->eyeNext = this->camData.eye;
-                    mainCam->at = this->camData.at;
-                    func_800C08AC(globalCtx, this->introCamera, 0);
-                    this->introState = this->introFlyState = this->introCamera = BFD_CS_NONE;
+                    mainCam->eye = this->subCamEye;
+                    mainCam->eyeNext = this->subCamEye;
+                    mainCam->at = this->subCamAt;
+                    func_800C08AC(globalCtx, this->subCamId, 0);
+                    // BFD_CS_NONE / BOSSFD_FLY_MAIN / SUB_CAM_ID_DONE
+                    this->introState = this->introFlyState = this->subCamId = 0;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;

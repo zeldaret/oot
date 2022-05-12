@@ -108,7 +108,7 @@ void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) && !Player_InCsMode(globalCtx)) {
         this->counter = 25;
         this->actionFunc = BgHakaHuta_Open;
-        OnePointCutscene_Init(globalCtx, 6001, 999, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 6001, 999, &this->dyna.actor, CAM_ID_MAIN);
         if (this->unk_16A == 2) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY,
                         (this->dyna.actor.world.pos.x + (-25.0f) * Math_CosS(this->dyna.actor.shape.rot.y) +
