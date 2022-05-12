@@ -498,7 +498,7 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
-        Gameplay_ClearCamera(globalCtx, this->cameraId);
+        Gameplay_ClearCamera(globalCtx, this->subCamId);
         Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         if (this->unk_30A != 2) {
             if (this->unk_30A == 0) {
