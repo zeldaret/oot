@@ -16,9 +16,9 @@
 
 #define NUM_CAMS 4
 #define CAM_ID_MAIN 0
-#define CAM_ID_SUB_FIRST 1
+#define SUB_CAM_ID_DONE 0
+#define SUB_CAM_ID_FIRST 1
 #define CAM_ID_NONE -1
-#define CAM_ID_ACTIVE -1
 
 #define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])

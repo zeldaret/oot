@@ -1152,7 +1152,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     s16 subCamId;
     Camera* subCam;
 
-    if (parentCamId == CAM_ID_ACTIVE) {
+    if (parentCamId == CAM_ID_NONE) {
         parentCamId = globalCtx->activeCamId;
     }
     subCamId = Gameplay_CreateSubCamera(globalCtx);
@@ -1165,7 +1165,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
 
     vChildCamId = globalCtx->cameraPtrs[parentCamId]->childCamId;
     vSubCamStatus = CAM_STAT_ACTIVE;
-    if (vChildCamId >= CAM_ID_SUB_FIRST) {
+    if (vChildCamId >= SUB_CAM_ID_FIRST) {
         OnePointCutscene_SetAsChild(globalCtx, vChildCamId, subCamId);
         vSubCamStatus = CAM_STAT_WAIT;
     } else {
@@ -1196,7 +1196,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     vCurCamId = subCamId;
     vNextCamId = globalCtx->cameraPtrs[subCamId]->childCamId;
 
-    while (vNextCamId >= CAM_ID_SUB_FIRST) {
+    while (vNextCamId >= SUB_CAM_ID_FIRST) {
         s16 nextCsId = globalCtx->cameraPtrs[vNextCamId]->csId;
         s16 thisCsId = globalCtx->cameraPtrs[subCamId]->csId;
 
@@ -1223,7 +1223,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
  *  Ends the cutscene in subCamId by setting its timer to 0. For attention cutscenes, it is set to 5 instead.
  */
 s16 OnePointCutscene_EndCutscene(GlobalContext* globalCtx, s16 subCamId) {
-    if (subCamId == CAM_ID_ACTIVE) {
+    if (subCamId == CAM_ID_NONE) {
         subCamId = globalCtx->activeCamId;
     }
     if (globalCtx->cameraPtrs[subCamId] != NULL) {

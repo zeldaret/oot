@@ -319,7 +319,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 camera->eyeNext = this->subCamEye;
                 camera->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_MAIN;
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 5;
@@ -866,7 +866,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 camera->eyeNext = this->subCamEye;
                 camera->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_MAIN;
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 0;
@@ -883,7 +883,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BODY_SPARK - SFX_FLAG);
     }
 
-    if (this->subCamId != CAM_ID_MAIN) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         // fake, tricks the compiler into putting some pointers on the stack
         if (zero) {
             osSyncPrintf(NULL, 0, 0);
@@ -894,7 +894,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
 }
 
 void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
-    if ((this->unk_312 != 0) && (this->subCamId == CAM_ID_MAIN)) {
+    if ((this->unk_312 != 0) && (this->subCamId == SUB_CAM_ID_DONE)) {
         Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
 
         while (actor != NULL) {
@@ -1336,7 +1336,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_MAIN;
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 3;
@@ -1368,14 +1368,14 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
                 mainCam3->at = this->subCamAt;
                 this->unk_39C = 3;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_MAIN;
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }
             break;
     }
 
-    if (this->subCamId != CAM_ID_MAIN) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 
@@ -1613,7 +1613,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
                 func_800C08AC(globalCtx, this->subCamId, 0);
-                this->subCamId = CAM_ID_MAIN;
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 this->unk_39C = 6;
@@ -1800,7 +1800,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->subCamId != CAM_ID_MAIN) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         Gameplay_CameraSetAtEyeUp(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
     }
 
@@ -2057,7 +2057,7 @@ void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_424.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
-        if (this->subCamId == CAM_ID_MAIN) {
+        if (this->subCamId == SUB_CAM_ID_DONE) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk_444.base);
         }
     }

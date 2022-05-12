@@ -339,7 +339,7 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos)) {
         Audio_SetExtraFilter(0);
     }
-    if (this->subCamId != CAM_ID_MAIN) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x,
                        this->subCamEyeVel.x * this->subCamVelFactor);
         Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z,

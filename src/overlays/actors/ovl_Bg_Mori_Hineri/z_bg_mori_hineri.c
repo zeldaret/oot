@@ -187,7 +187,7 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->actionFunc = func_808A3E54;
 
         mainCamChildId = globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId;
-        if ((mainCamChildId != CAM_ID_MAIN) &&
+        if ((mainCamChildId != SUB_CAM_ID_DONE) &&
             (globalCtx->cameraPtrs[mainCamChildId]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
             OnePointCutscene_EndCutscene(globalCtx, mainCamChildId);
         }
@@ -200,12 +200,12 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
     s8 objBankIndex;
 
     if (globalCtx->activeCamId == sSubCamId) {
-        if (sSubCamId != CAM_ID_MAIN) {
+        if (sSubCamId != SUB_CAM_ID_DONE) {
             objBankIndex = this->dyna.actor.objBankIndex;
             this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
             this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
-            sSubCamId = CAM_ID_MAIN;
+            sSubCamId = SUB_CAM_ID_DONE;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             this->dyna.actor.draw = NULL;
@@ -213,7 +213,7 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
             sSubCamId = CAM_ID_NONE;
         }
     }
-    if ((sSubCamId >= CAM_ID_SUB_FIRST) &&
+    if ((sSubCamId >= SUB_CAM_ID_FIRST) &&
         ((GET_ACTIVE_CAM(globalCtx)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
