@@ -159,7 +159,7 @@ typedef struct {
     /* 0x19 */ u8 changeSkyboxState;
     /* 0x1A */ u16 changeSkyboxTimer;
     /* 0x1C */ char unk_1C[0x02];
-    /* 0x1E */ u8 lightMode; // when true, day time has no effect on lighting
+    /* 0x1E */ u8 lightMode;
     /* 0x1F */ u8 lightConfig; // only used for `LIGHT_MODE_TIME`
     /* 0x20 */ u8 changeLightNextConfig;
     /* 0x21 */ u8 changeLightEnabled;
@@ -190,7 +190,7 @@ typedef struct {
     /* 0xBF */ u8 lightSettingOverride;
     /* 0xC0 */ EnvLightSettings lightSettings; // settings for the currently "live" lights
     /* 0xD6 */ u16 lightBlendRateOverride;
-    /* 0xD8 */ f32 lightBlend;
+    /* 0xD8 */ f32 lightBlend; // only used with `LIGHT_MODE_SETTINGS` or on setting override
     /* 0xDC */ u8 lightBlendOverride;
     /* 0xDD */ u8 stormRequest; // "rain_evt_trg"
     /* 0xDE */ u8 stormState;
