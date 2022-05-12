@@ -16,15 +16,11 @@
 
 #define NUM_CAMS 4
 
-// Camera IDs are indices into `GlobalContext.cameraPtrs`
-// The main camera is at index 0
-#define CAM_ID_MAIN 0
-// The sub cameras start at index 1
-#define CAM_ID_SUB_FIRST 1
-// -1 is used to indicate "no camera"
-#define CAM_ID_NONE -1
-// 0 is also used for variables holding sub camera IDs to indicate "no camera"
-#define SUB_CAM_ID_DONE 0
+#define CAM_ID_MAIN 0 // The index of the main camera
+#define CAM_ID_SUB_FIRST 1 // The index sub cameras start at
+#define CAM_ID_NONE -1 // Used to indicate no camera. Can be used to default to the active camera in some scenarios
+
+#define SUB_CAM_ID_DONE 0 // Used in some actors for variables holding sub camera IDs to indicate "subcam is finished"
 
 #define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
