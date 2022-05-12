@@ -26,12 +26,10 @@
 #define LIGHT_BLEND_OVERRIDE_NONE 0
 #define LIGHT_BLEND_OVERRIDE_ON 1
 
-// This mode disables the light system's automatic setting switching, and gives full control to the user.
+// This mode disables the light system's automatic updating of the
+// blend between light settings when indoors (or using a light setting override).
 // This is a bit of a hack used only by bosses in the original game.
-// With this mode active, the light system will no longer save the current setting when switching to a new one,
-// and the user is expected to manually set both settings and the light blend.
 #define LIGHT_BLEND_OVERRIDE_FULL_CONTROL 2
-
 
 typedef enum {
     /*  0 */ SKYBOX_DMA_INACTIVE,
