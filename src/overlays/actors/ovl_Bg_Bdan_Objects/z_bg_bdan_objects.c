@@ -430,7 +430,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
-        // passing `CAM_ID_NONE` forces it to default to the active camera
+        // Using `CAM_ID_NONE` here defaults to the active camera
         Gameplay_CopyCamera(globalCtx, CAM_ID_MAIN, CAM_ID_NONE);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
