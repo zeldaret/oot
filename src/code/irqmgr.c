@@ -187,7 +187,7 @@ void IrqMgr_CheckStacks(void) {
     }
 }
 
-void IrqMgr_HandlePRENMI450(IrqMgr* irqMgr) {
+void IrqMgr_HandlePreNMI450(IrqMgr* irqMgr) {
     u64 nmi = IRQ_RESET_STATUS_NMI; // required to match
 
     gIrqMgrResetStatus = nmi;
@@ -199,7 +199,7 @@ void IrqMgr_HandlePRENMI450(IrqMgr* irqMgr) {
     IrqMgr_SendMesgToClients(irqMgr, (OSMesg)&irqMgr->nmiMsg);
 }
 
-void IrqMgr_HandlePRENMI480(IrqMgr* irqMgr) {
+void IrqMgr_HandlePreNMI480(IrqMgr* irqMgr) {
     u32 result;
 
     // Schedule a PRENMI500 message to be handled in 20ms
@@ -216,7 +216,7 @@ void IrqMgr_HandlePRENMI480(IrqMgr* irqMgr) {
     }
 }
 
-void IrqMgr_HandlePRENMI500(IrqMgr* irqMgr) {
+void IrqMgr_HandlePreNMI500(IrqMgr* irqMgr) {
     IrqMgr_CheckStacks();
 }
 
@@ -263,20 +263,20 @@ void IrqMgr_ThreadEntry(void* arg) {
                 osSyncPrintf("PRENMI450_MSG\n");
                 // "Scheduler: Receives PRENMI450 message"
                 osSyncPrintf("スケジューラ：PRENMI450メッセージを受信\n");
-                IrqMgr_HandlePRENMI450(irqMgr);
+                IrqMgr_HandlePreNMI450(irqMgr);
                 break;
             case IRQ_PRENMI480_MSG:
                 osSyncPrintf("PRENMI480_MSG\n");
                 // "Scheduler: Receives PRENMI480 message"
                 osSyncPrintf("スケジューラ：PRENMI480メッセージを受信\n");
-                IrqMgr_HandlePRENMI480(irqMgr);
+                IrqMgr_HandlePreNMI480(irqMgr);
                 break;
             case IRQ_PRENMI500_MSG:
                 osSyncPrintf("PRENMI500_MSG\n");
                 // "Scheduler: Receives PRENMI500 message"
                 osSyncPrintf("スケジューラ：PRENMI500メッセージを受信\n");
                 exit = true;
-                IrqMgr_HandlePRENMI500(irqMgr);
+                IrqMgr_HandlePreNMI500(irqMgr);
                 break;
             default:
                 // "Unexpected message received"

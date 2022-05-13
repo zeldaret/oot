@@ -42,7 +42,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     audioMgr->rspTask = rspTask;
 }
 
-void AudioMgr_HandlePRENMI(AudioMgr* audioMgr) {
+void AudioMgr_HandlePreNMI(AudioMgr* audioMgr) {
     // "Audio manager received OS_SC_PRE_NMI_MSG"
     osSyncPrintf("オーディオマネージャが OS_SC_PRE_NMI_MSG を受け取りました\n");
     Audio_PreNMI();
@@ -71,13 +71,13 @@ void AudioMgr_ThreadEntry(void* arg0) {
                         case OS_SC_RETRACE_MSG:
                             break;
                         case OS_SC_PRE_NMI_MSG:
-                            AudioMgr_HandlePRENMI(audioMgr);
+                            AudioMgr_HandlePreNMI(audioMgr);
                             break;
                     }
                 }
                 break;
             case OS_SC_PRE_NMI_MSG:
-                AudioMgr_HandlePRENMI(audioMgr);
+                AudioMgr_HandlePreNMI(audioMgr);
                 break;
         }
     }

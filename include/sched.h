@@ -11,10 +11,10 @@
 #define OS_SC_LAST_TASK     0x0020  // Unimplemented
 #define OS_SC_SWAPBUFFER    0x0040  // Swap framebuffer when done
 
-#define OS_SC_DP        0x0001  // Task is using the RDP
-#define OS_SC_SP        0x0002  // Task is using the RSP
-#define OS_SC_YIELD     0x0010  // Task has been asked to yield
-#define OS_SC_YIELDED   0x0020  // Task has yielded
+#define OS_SC_DP        OS_SC_NEEDS_RDP // Task is using the RDP
+#define OS_SC_SP        OS_SC_NEEDS_RSP // Task is using the RSP
+#define OS_SC_YIELD     0x0010          // Task has been asked to yield
+#define OS_SC_YIELDED   0x0020          // Task has yielded
 
 #define OS_SC_RCP_MASK  (OS_SC_NEEDS_RDP | OS_SC_NEEDS_RSP)
 #define OS_SC_TYPE_MASK (OS_SC_NEEDS_RDP | OS_SC_NEEDS_RSP | OS_SC_DRAM_DLIST)
@@ -26,7 +26,7 @@ typedef struct {
     /* 0x0C */ u32 viFeatures;
     /* 0x10 */ u8 unk_10;           // set to 0, never read
     /* 0x11 */ s8 updateRate;       // how many VIs should elapse before next swap
-    /* 0x12 */ s8 updateTimer;      // counts down from updateRate to 0, swaps the framebuffer at 0
+    /* 0x12 */ s8 updateTimer;      // counts down (in VIs) from updateRate to 0, swaps the framebuffer at 0
     /* 0x14 */ f32 xScale;
     /* 0x18 */ f32 yScale;
 } CfbInfo; // size = 0x1C
@@ -39,8 +39,8 @@ typedef struct OSScTask {
     /* 0x10 */ OSTask list;
     /* 0x50 */ OSMesgQueue* msgQueue;   // Notification queue, will receive a message when the task completes
     /* 0x54 */ OSMesg msg;
-    /* 0x58 */ OSTime startTime;        // These last two fields are a guess based on the original libultra OSScTask and
-    /* 0x60 */ OSTime totalTime;        //  padding in other structures, they are unused.
+    /* 0x58 */ OSTime startTime;        // These last two fields are a guess based on the original libultra OSScTask and padding in other structures, they are unused.
+    /* 0x60 */ OSTime totalTime;
 } OSScTask; // size = 0x68
 
 typedef struct {
@@ -60,7 +60,7 @@ typedef struct {
     /* 0x0240 */ CfbInfo*     curBuf;           // current framebuffer (taken from buffer 1)
     /* 0x0244 */ CfbInfo*     pendingSwapBuf1;  // buffer 1 (next buffer)
     /* 0x0220 */ CfbInfo*     pendingSwapBuf2;  // buffer 2 (always NULL)
-    /* 0x0220 */ s32          firstSwap;
+    /* 0x0220 */ s32          isFirstSwap;
     /* 0x0250 */ IrqMgrClient irqClient;
 } SchedContext; // size = 0x258
 
