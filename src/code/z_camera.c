@@ -6683,7 +6683,7 @@ s32 Camera_Special6(Camera* camera) {
     } else {
         // Camera following link on the x axis.
         // Overwrite interface alpha to 0
-        sCameraInterfaceFlags &= (u16)~CAM_IFACE_ALPHA_MASK | CAM_IFACE_ALPHA(0);
+        sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_IFACE_ALPHA_MASK) | CAM_IFACE_ALPHA(0);
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
         eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;
