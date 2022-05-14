@@ -654,7 +654,7 @@ typedef struct {
     /* 0x20 */ f32 atLERPScaleOnGround;
     /* 0x24 */ f32 yOffsetOffGround;
     /* 0x28 */ f32 atLERPScaleOffGround;
-    /* 0x2C */ s16 flags;
+    /* 0x2C */ s16 interfaceFlags;
 } Battle1ReadOnlyData; // size = 0x30
 
 typedef struct {
@@ -777,7 +777,7 @@ typedef struct {
     /* 0x20 */ f32 fovTarget;
     /* 0x24 */ f32 atLERPScaleMax;
     /* 0x28 */ s16 initTimer;
-    /* 0x2A */ s16 flags;
+    /* 0x2A */ s16 interfaceFlags;
 } KeepOn3ReadOnlyData; // size = 0x2C
 
 typedef struct {
@@ -814,7 +814,7 @@ typedef struct {
     /* 0x10 */ f32 unk_10;
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 unk_18;
-    /* 0x1C */ s16 unk_1C;
+    /* 0x1C */ s16 interfaceFlags;
     /* 0x1E */ s16 unk_1E;
 } KeepOn4ReadOnlyData; // size = 0x20
 
