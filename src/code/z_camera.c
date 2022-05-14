@@ -755,7 +755,7 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
 void Camera_UpdateInterface(s16 flags) {
     s16 interfaceAlpha;
 
-    if ((flags & CAM_SHRINKWIN_MASK) != CAM_SHRINKWINVAL_PREV) {
+    if ((flags & CAM_SHRINKWIN_MASK) != CAM_SHRINKWINVAL_IGNORE) {
         switch (flags & CAM_SHRINKWINVAL_MASK) {
             case CAM_SHRINKWINVAL_SMALL:
                 sCameraShrinkWindowVal = 26;

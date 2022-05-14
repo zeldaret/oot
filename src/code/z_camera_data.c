@@ -165,12 +165,12 @@ CameraModeValue sSetNormal0ModeFreeFallData[] = {
 };
 
 CameraModeValue sSetNormal0ModeChargeData[] = {
-    CAM_FUNCDATA_BATT4(-20, 300, 50, 2, 80, 20, CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0)),
+    CAM_FUNCDATA_BATT4(-20, 300, 50, 2, 80, 20, CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0)),
 };
 
 CameraModeValue sSetNormal0ModeStillData[] = {
     CAM_FUNCDATA_NORM1(-20, 200, 300, 10, 100, 10, 100, 60, 5,
-                       CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
+                       CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
 };
 
 CameraModeValue sSetNormal0ModePushPullData[] = {
@@ -233,7 +233,7 @@ CameraModeValue sSetNormal1ModeClimbZData[] = {
 };
 
 CameraModeValue sSetNormal1ModeChargeData[] = {
-    CAM_FUNCDATA_BATT4(0, 300, 50, 2, 80, 20, CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0)),
+    CAM_FUNCDATA_BATT4(0, 300, 50, 2, 80, 20, CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0)),
 };
 
 CameraModeValue sSetNormal1ModeHangData[] = {
@@ -246,7 +246,7 @@ CameraModeValue sSetNormal1ModeHangZData[] = {
 
 CameraModeValue sSetNormal1ModeStillData[] = {
     CAM_FUNCDATA_NORM1(0, 200, 400, 10, 100, 20, 100, 60, 5,
-                       CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
+                       CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
 };
 
 /**
@@ -293,7 +293,7 @@ CameraModeValue sSetDungeon0ModeClimbZData[] = {
 };
 
 CameraModeValue sSetDungeon0ModeChargeData[] = {
-    CAM_FUNCDATA_BATT4(-10, 300, 50, 2, 80, 20, CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0)),
+    CAM_FUNCDATA_BATT4(-10, 300, 50, 2, 80, 20, CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0)),
 };
 
 CameraModeValue sSetDungeon0ModeHangData[] = {
@@ -306,7 +306,7 @@ CameraModeValue sSetDungeon0ModeHangZData[] = {
 
 CameraModeValue sSetDungeon0ModeStillData[] = {
     CAM_FUNCDATA_NORM1(-10, 150, 250, 5, 100, 5, 100, 60, 5,
-                       CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
+                       CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
 };
 
 /**
@@ -342,7 +342,7 @@ CameraModeValue sSetDungeon1ModeClimbZData[] = {
 };
 
 CameraModeValue sSetDungeon1ModeChargeData[] = {
-    CAM_FUNCDATA_BATT4(-40, 200, 50, 2, 80, 20, CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0)),
+    CAM_FUNCDATA_BATT4(-40, 200, 50, 2, 80, 20, CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0)),
 };
 
 CameraModeValue sSetDungeon1ModeHangData[] = {
@@ -355,7 +355,7 @@ CameraModeValue sSetDungeon1ModeHangZData[] = {
 
 CameraModeValue sSetDungeon1ModeStillData[] = {
     CAM_FUNCDATA_NORM1(-40, 150, 150, 0, 100, 5, 100, 60, 5,
-                       CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
+                       CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
 };
 
 CameraModeValue sSetDungeon1ModePushPullData[] = {
@@ -568,7 +568,7 @@ CameraModeValue sSetBossGanondorfModeNormalData[] = {
 };
 
 CameraModeValue sSetBossGanondorfModeChargeData[] = {
-    CAM_FUNCDATA_BATT4(-40, 250, 0, 2, 80, 20, CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0)),
+    CAM_FUNCDATA_BATT4(-40, 250, 0, 2, 80, 20, CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0)),
 };
 
 /**
@@ -763,7 +763,7 @@ CameraModeValue sSetStart1ModeNormalData[] = {
  */
 
 CameraModeValue sSetFree0ModeNormalData[] = {
-    CAM_FUNCDATA_FLAGS(CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0xF)),
+    CAM_FUNCDATA_FLAGS(CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0xF)),
 };
 
 /**
@@ -773,7 +773,7 @@ CameraModeValue sSetFree0ModeNormalData[] = {
  */
 
 CameraModeValue sSetFree1ModeNormalData[] = {
-    CAM_FUNCDATA_FLAGS(CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0xF) | UNIQ6_FLAG_1),
+    CAM_FUNCDATA_FLAGS(CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0xF) | UNIQ6_FLAG_1),
 };
 
 /**
@@ -876,7 +876,7 @@ CameraModeValue sSetBeanGenericModeHangZData[] = {
 
 CameraModeValue sSetBeanGenericModeStillData[] = {
     CAM_FUNCDATA_NORM1(-20, 300, 350, 50, 100, 10, 100, 70, 30,
-                       CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2),
+                       CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2),
 };
 
 /**
@@ -909,7 +909,7 @@ CameraModeValue sSetBeanLostWoodsModeHangZData[] = {
 
 CameraModeValue sSetBeanLostWoodsModeStillData[] = {
     CAM_FUNCDATA_NORM1(-20, 200, 250, 20, 100, 10, 100, 60, 30,
-                       CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2),
+                       CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2),
 };
 
 /**
@@ -1185,7 +1185,7 @@ CameraModeValue sSetDungeon2ModeHangZData[] = {
 
 CameraModeValue sSetDungeon2ModeStillData[] = {
     CAM_FUNCDATA_NORM1(-10, 350, 350, 20, 100, 5, 100, 60, 5,
-                       CAM_SHRINKWINVAL_PREV | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
+                       CAM_SHRINKWINVAL_IGNORE | CAM_IFACE_ALPHA(0) | NORM1_FLAG_2 | NORM1_FLAG_1),
 };
 
 CameraModeValue sSetDungeon2ModePushPullData[] = {

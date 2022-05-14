@@ -38,10 +38,10 @@
 
 #define CAM_SHRINKWIN_CURVAL (0x8000) // Bit to determine whether set the current value directy (on), or to set the shink-value target (off) 
 
-#define CAM_SHRINKWINVAL_PREV (0xF000) // No change in shrink window, keep the previous values
+#define CAM_SHRINKWINVAL_IGNORE (0xF000) // No change in shrink window, keep the previous values
 
 // Interface Alpha (hiding certain hud icons)
-// A value of 0 in camera is translated to an alpha of 50, which is the value to restore all hud icons to the screen
+// A value of 0 in camera is translated to an interface alpha of 50, which is the value to restore all hud icons to the screen
 // A value of 0xF in camera results in no change in the alpha
 #define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
 #define CAM_IFACE_ALPHA_MASK (0x0F00)
