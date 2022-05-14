@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="08 Kakariko Village (Child)" Index="8">
+    <Soundfont Name="08_Kakariko_Village_(Child)" Index="8">
         <Instruments>
             <Instrument Name="Fiddle" Enum="FIDDLE"/>
             <Instrument Name="Guitar 1" Enum="GUITAR_0"/>

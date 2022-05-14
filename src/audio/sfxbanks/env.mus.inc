@@ -1,4074 +1,4070 @@
-.table_env:
-entry .env_door_open
-entry .env_door_close
-entry .env_explosion
-entry .env_horse_trot
-entry .env_horse_gallop
-entry .env_horse_neigh
-entry .env_river
-entry .env_waterfall_large
-entry .env_zora_surface
-entry .env_zora_dive
-entry .env_block_push
-entry .env_lava_bubbling_old
-entry .env_drawbridge_lower
-entry .env_drawbridge_raise
-entry .env_drawbridge_lowered
-entry .env_drawbridge_raised
-entry .env_bwall_break
-entry .env_cucco_cluck
-entry .env_cucco_attack
-entry .env_cucco_crow
-entry .env_door_slide_open
-entry .env_switch_press
-entry .env_horse_snort
-entry .env_bomb_hit_water
-entry .env_horse_jump
-entry .env_horse_land
-entry .env_horse_slip
-entry .env_fairy_awake
-entry .env_door_slide_close
-entry .env_door_stone_close
-entry .env_door_time_open
-entry .env_treasure_unlock
-entry .env_treasure_open
-entry .env_timer_tick
-entry .env_torch_light
-entry .env_guard_attention
-entry .env_elevator_move
-entry .env_warp_circle
-entry .env_warp_circle_enter
-entry .env_stairs_lower
-entry .env_waterfall_small
-entry .env_river_slow
-entry .env_river_fast
-entry .env_horse_phantom_gallop
-entry .env_horse_stop_sand
-entry .env_electric_charge
-entry .env_thunder_bolt_crash
-entry .env_bomb_rebound
-entry .env_water_drip
-entry .env_fire_crackle
-entry .env_lava_bubbling
-entry .env_flame_jet
-entry .env_flame_wall
-entry .env_block_lock
-entry .env_door_metal_open_unused
-entry .env_door_slide_unlock_unused
-entry .env_block_shake
-entry .env_crate_break
-entry .env_switch_hammer
-entry .env_lava_bubbling_eerie
-entry .env_fence_raise
-entry .env_horse_ganon_neigh
-entry .env_horse_ganon_snort
-entry .env_phantom_warp
-entry .env_witch_warp
-entry .env_water_fountain
-entry .env_horse_kid_trot
-entry .env_horse_kid_gallop
-entry .env_horse_kid_neigh
-entry .env_horse_kid_snort
-entry .env_barrier_node_fadeout
-entry .env_barrier_dispell
-entry .env_tree_cut
-entry .env_volcano_erupt
-entry .env_guillotine_rise
-entry .env_guillotine_fall
-entry .env_scythe_spin
-entry .env_guillotine_chain
-entry .env_plant_break
-entry .env_ship_bell
-entry .env_flag_flutter
-entry .env_unused
-entry .env_rock_break
-entry .env_phantom_warp2
-entry .env_phantom_warp_loop
-entry .env_coffin_open
-entry .env_coffin_close
-entry .env_fan_spin
-entry .env_trap_wall_slide
-entry .env_door_slide_lock
-entry .env_door_slide_unlock
-entry .env_flame_jet_low
-entry .env_ganon_block_sink
-entry .env_crowd_chatter
-entry .env_water_change
-entry .env_fairy_hide
-entry .env_ladder_land
-entry .env_web_bend
-entry .env_web_break
-entry .env_unused2
-entry .env_door_jabu_open
-entry .env_door_jabu_close
-entry .env_door_wood_creak_unused
-entry .env_gate_open
-entry .env_bottle_scoop_water
-entry .env_fish_flop
-entry .env_scarecrow_sway
-entry .env_scarecrow_spin
-entry .env_bottle_open
-entry .env_jabu_inhale
-entry .env_stone_resonate
-entry .env_triforce_flash
-entry .env_ruto_trip
-entry .env_fairy_fly
-entry .env_fairy_crash
-entry .env_spear_ready
-entry .env_unused3
-entry .env_water_drip_unused
-entry .env_windmill_gear
-entry .env_bush_sway
-entry .env_horse_demo_gallop
-entry .env_elevator_geared_move
-entry .env_elevator_geared_stop
-entry .env_treasure_warp
-entry .env_door_unlock
-entry .env_trap_blade_move
-entry .env_fairy_heal_old
-entry .env_great_fairy_appear
-entry .env_great_fairy_vanish
-entry .env_trap_eye_fire
-entry .env_gears_unused
-entry .env_wall_move_unused
-entry .env_treasure_flash
-entry .env_windmill_blade
-entry .env_warp_unused
-entry .env_pot_break
-entry .env_pot_drop
-entry .player_large_splash
-entry .player_small_splash
-entry .env_goddess_fly
-entry .env_triforce_aura
-entry .env_triforce_glow
-entry .env_deku_tree_death
-entry .env_jabu_platform_rise
-entry .env_jabu_platform_fall
-entry .env_door_jabu_unlock
-entry .env_door_jabu_lock
-entry .env_door_time_stop
-entry .env_stone_restore
-entry .env_medal_acquire
-entry .env_unused4
-entry .env_light_arrow_acquire
-entry .env_earthquake
-entry .env_trap_crystal
-entry .env_sage_warp
-entry .env_sage_charge
-entry .env_sage_charge
-entry .env_time_travel_end
-entry .env_jabu_platform_rise_stop
-entry .env_jabu_platform_fall_stop
-entry .env_goron_fall
-entry .env_spell_fire_stance
-entry .env_ice_melt
-entry .env_fire_pillar
-entry .env_unused5
-entry .env_magic_vanish
-entry .env_ocarina_warp
-entry .env_ocarina_arrive
-entry .env_fairy_heal
-entry .env_door_boss_unlock
-entry .env_crate_small_break
-entry .env_crate_small_drop
-entry .env_ruto_rebound_jabu
-entry .env_door_creak_rumble
-entry .env_night_howl
-entry .env_jabu_groan
-entry .item_sword_swing
-entry .env_frog_jump
-entry .env_ice_freeze_old
-entry .env_fire_wall
-entry .env_wood_rebound
-entry .env_water_drip_unused2
-entry .env_jabu_breathe
-entry .env_dalm_block_hit
-entry .env_boulder_roll
-entry .env_elevator_groan_unused
-entry .env_diamond_switch_on
-entry .env_kakariko_fire
-entry .env_rainbow_bridge_appear
-entry .env_flying_old
-entry .env_flying_end_old
-entry .env_deku_sprout_grow
-entry .env_desert_storm
-entry .env_triforce_mark
-entry .env_grave_explode
-entry .player_swim
-entry .player_lift_pot
-entry .env_obj_drop_water
-entry .env_obj_lift_water
-entry .env_ganondorf_cloak
-entry .env_dig
-entry .env_unused6
-entry .env_lab_bubbles
-entry .env_ice_break_old
-entry .env_frog_grow
-entry .env_water_flow
-entry .env_gate_large_open
-entry .env_goddess_face_break
-entry .env_goddess_face_explode
-entry .env_goddess_face_crumble
-entry .env_trap_blade_move_old
-entry .system_minigame_bell
-entry .env_unused7
-entry .env_warp_lower
-entry .env_sage_chamber_ambient
-entry .env_sage_chamber_energy
-entry .env_dog_bark
-entry .env_zelda_cast_spell
-entry .env_rain
-entry .env_door_metal_open
-entry .env_door_metal_close
-entry .env_whirlpool
-entry .env_tower_break
-entry .env_cow_moo
-entry .env_obj_break_unused
-entry .env_rock_barrier_hit
-entry .env_deku_sprout_grow
-entry .env_frog_croak_leave
-entry .env_frog_croak_grow
-entry .env_cow_moo_distant
-entry .env_door_ranch_close
-entry .env_butterfly_transform
-entry .system_silver_rupee
-entry .env_gossip_stretch
-entry .env_gossip_launch
-entry .env_door_slide_close
-entry .env_spike_log_roll
-entry .env_barrier_energy
-entry .env_barrier_hum
-entry .env_kid_walk
-entry .env_guard_walk
-entry .env_pillar_stop
-entry .env_deku_sprout_grow
-entry .env_frog_croak_leave
-entry .env_frog_croak_grow
-entry .env_cow_moo_distant
-entry .env_door_ranch_close
-entry .env_butterfly_transform
-
-.env_door_open_oca:
-chan_setreverbindex 1
-chan_setval 0
-chan_iowriteval 1
-
-.env_door_open:
-chan_setlayer 0, .layer_18CE
-chan_end
-
-.layer_18CE:
-layer_setinstr FONT00_INSTR_DOOR_WOOD
-layer_note1 PITCH_A3, 0x30, 100
-layer_setinstr FONT00_INSTR_CREAK
-layer_note1 PITCH_A3, 0x30, 75
-layer_end
-
-.env_door_close:
-chan_setlayer 0, .layer_18DD
-chan_end
-
-.layer_18DD:
-layer_setinstr FONT00_INSTR_DOOR_WOOD
-layer_transpose 48
-layer_note1 PITCH_A3, 0x60, 100
-layer_end
-
-.env_explosion:
-chan_setlayer 0, .layer_18E9
-chan_end
-
-.layer_18E9:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_65E8, 251
-layer_note1 PITCH_A4, 0xc, 110
-layer_note1 PITCH_A3, 0x7f, 110
-layer_end
-
-.env_horse_trot:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setlayer 0, .layer_18FC
-chan_end
-
-.layer_18FC:
-layer_note1 PITCH_G3, 0x18, 110
-layer_end
-
-.env_horse_gallop:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setlayer 0, .layer_1906
-chan_end
-
-.layer_1906:
-layer_note1 PITCH_C4, 0x25, 110
-layer_end
-
-.env_horse_neigh:
-chan_setinstr FONT00_INSTR_HORSE_VOCALS
-chan_setlayer 0, .layer_1910
-chan_end
-
-.layer_1910:
-layer_note1 PITCH_C4, 0xaf, 110
-layer_end
-
-.env_river:
-chan_setinstr FONT00_INSTR_WATER_FLOWING
-chan_setpanmix 48
-chan_setlayer 0, .layer_1922
-chan_setlayer 1, .layer_1920
-chan_end
-
-.layer_1920:
-layer_transpose 7
-
-.layer_1922:
-layer_enablelegato
-.layer_1923:
-layer_note1 PITCH_C3, 0x7d00, 75
-layer_jumprel .layer_1923
-
-.env_waterfall_large:
-chan_setpanmix 48
-chan_setlayer 0, .layer_1936
-chan_setlayer 1, .layer_1932
-chan_end
-
-.layer_1932:
-layer_transpose 54
-layer_jumprel .layer_1938
-
-.layer_1936:
-layer_transpose 48
-.layer_1938:
-layer_setinstr FONT00_INSTR_WATER_FLOWING
-layer_setenvelope .envelope_66F4, 220
-layer_enablelegato
-.layer_193F:
-layer_note1 PITCH_C4, 0x7d00, 92
-layer_jumprel .layer_193F
-
-.env_zora_surface:
-chan_setinstr FONT00_INSTR_WATER_SPLASH
-chan_setenvelope .envelope_6610
-chan_setlayer 0, .layer_194E
-chan_end
-
-.layer_194E:
-layer_note1 PITCH_B4, 0x6, 100
-layer_portamento 0x81, 48, 200
-layer_note1 PITCH_E4, 0x48, 90
-layer_end
-
-.env_zora_dive:
-chan_setlayer 0, .layer_195D
-chan_end
-
-.layer_195D:
-layer_setinstr FONT00_INSTR_WATER_SPLASH
-layer_setenvelope .envelope_65FC, 127
-layer_portamento 0x81, 36, 200
-layer_note1 PITCH_A2, 0x7f, 90
-layer_end
-
-.env_block_push:
-chan_setlayer 0, .layer_196F
-chan_end
-
-.layer_196F:
-layer_setinstr FONT00_INSTR_ROLL_BOULDER
-layer_setreleaserate 245
-layer_enablelegato
-layer_portamento 0x1, 15, 0x30
-.layer_1978:
-layer_note1 PITCH_C3, 32700, 100
-layer_jumprel .layer_1978
-
-.env_lava_bubbling_old:
-chan_setinstr FONT00_INSTR_LAVA
-chan_setpanmix 48
-chan_setdecayrelease 112
-chan_setlayer 0, .layer_1988
-chan_end
-
-.layer_1988:
-layer_enablelegato
-.layer_1989:
-layer_note1 PITCH_E3, 32700, 100
-layer_jumprel .layer_1989
-
-.env_drawbridge_lower:
-chan_setlayer 0, .layer_1996
-chan_setlayer 1, .layer_19B0
-chan_end
-
-.layer_1996:
-layer_setinstr FONT00_INSTR_CHAIN
-layer_setreleaserate 235
-layer_note0 PITCH_F3, 0x19, 56, 10
-layer_note0 PITCH_G3, 0x17, 56, 10
-layer_note0 PITCH_A3, 0x15, 56, 10
-layer_note0 PITCH_BF3, 0x13, 56, 10
-.layer_19AA:
-layer_note0 PITCH_C4, 0x13, 56, 10
-layer_jumprel .layer_19AA
-
-.layer_19B0:
-layer_setinstr FONT00_INSTR_CHAIN_RETRACT
-layer_enablelegato
-layer_portamento 0x85, 18, 255
-layer_note1 PITCH_BF2, 0x14, 90
-layer_note1 PITCH_EF3, 0xa, 90
-.layer_19BD:
-layer_note1 PITCH_EF3, 32700, 90
-layer_jumprel .layer_19BD
-
-.env_drawbridge_raise:
-chan_setinstr FONT00_INSTR_CHAIN_RETRACT
-chan_setlayer 0, .layer_19CC
-chan_setlayer 1, .layer_19DD
-chan_end
-
-.layer_19CC:
-layer_enablelegato
-layer_portamento 0x85, 20, 255
-layer_note1 PITCH_A2, 0x1e, 90
-layer_note1 PITCH_E3, 0xf, 90
-.layer_19D7:
-layer_note1 PITCH_E3, 32700, 90
-layer_jumprel .layer_19D7
-
-.layer_19DD:
-layer_setinstr FONT00_INSTR_CHAIN
-layer_setreleaserate 235
-layer_note0 PITCH_G3, 0x19, 56, 10
-layer_note0 PITCH_A3, 0x17, 56, 10
-layer_note0 PITCH_B3, 0x15, 56, 10
-layer_note0 PITCH_C4, 0x13, 56, 10
-.layer_19F1:
-layer_note0 PITCH_D4, 0x11, 56, 10
-layer_jumprel .layer_19F1
-
-.env_drawbridge_lowered:
-chan_setenvelope .envelope_65E8
-chan_setlayer 0, .layer_1A07
-chan_setlayer 1, .layer_1A01
-chan_end
-
-.layer_1A01:
-layer_setinstr FONT00_INSTR_SLAM_HEAVY
-layer_note1 PITCH_B2, 0x64, 75
-layer_end
-
-.layer_1A07:
-layer_setinstr FONT00_INSTR_STONE_STRIKE
-layer_note1 PITCH_D1, 0xb4, 110
-layer_end
-
-.env_drawbridge_raised:
-chan_setenvelope .envelope_65E8
-chan_setlayer 0, .layer_1A1E
-chan_setlayer 1, .layer_1A18
-chan_end
-
-.layer_1A18:
-layer_setinstr FONT00_INSTR_SLAM_HEAVY
-layer_note1 PITCH_B2, 0x64, 75
-layer_end
-
-.layer_1A1E:
-layer_setinstr FONT00_INSTR_STONE_STRIKE
-layer_note1 PITCH_AF1, 0xb4, 110
-layer_end
-
-.env_bwall_break:
-chan_setlayer 0, .layer_1A36
-chan_setlayer 1, .layer_1B41
-chan_end
-.chan_1A2C:
-chan_setlayer 1, .layer_1A34
-chan_end
-
-.layer_1A30:
-layer_transpose -12
-layer_jumprel .layer_1A36
-
-.layer_1A34:
-layer_transpose -24
-
-.layer_1A36:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_6688, 230
-layer_portamento 0x81, 58, 127
-layer_note1 PITCH_C4, 0x52, 95
-layer_portamento 0x81, 51, 127
-layer_note1 PITCH_F3, 0xb9, 70
-layer_end
-
-.env_cucco_cluck:
-chan_setinstr FONT00_INSTR_ANIMALS_0
-chan_setlayer 0, .layer_1A52
-chan_end
-
-.layer_1A52:
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_DF4, 0xa0, 105
-layer_end
-
-.env_cucco_attack:
-chan_setlayer 0, .layer_1A5F
-chan_end
-
-.layer_1A5F:
-layer_setinstr FONT00_INSTR_ANIMALS_1
-layer_note0 PITCH_AF3, 0xc, 95, 10
-layer_setinstr FONT00_INSTR_ANIMALS_0
-layer_setenvelope .envelope_65D8, 251
-layer_portamento 0x81, 51, 127
-layer_note1 PITCH_E4, 0x48, 105
-layer_end
-
-.env_cucco_crow:
-chan_setinstr FONT00_INSTR_ANIMALS_1
-chan_setlayer 0, .layer_1A79
-chan_end
-
-.layer_1A79:
-layer_note1 PITCH_C4, 0xa6, 105
-layer_end
-
-.env_door_slide_open:
-chan_setinstr FONT00_INSTR_DOOR_METAL
-chan_setenvelope .envelope_6610
-chan_setlayer 0, .layer_1A87
-chan_end
-
-.layer_1A87:
-layer_portamento 0x81, 32, 175
-layer_note1 PITCH_B3, 0x30, 115
-layer_end
-
-.env_switch_press:
-chan_setlayer 0, .layer_1A96
-chan_setlayer 1, .layer_1AA5
-chan_end
-
-.layer_1A96:
-layer_setinstr FONT00_INSTR_STICK_ATTACK
-layer_note1 PITCH_C4, 0x4, 105
-layer_setinstr FONT00_INSTR_STONE_STRIKE
-layer_setenvelope .envelope_664C, 255
-layer_note1 PITCH_BF1, 0x28, 105
-layer_end
-
-.layer_1AA5:
-layer_setinstr FONT00_INSTR_STONE_STRIKE
-layer_setenvelope .envelope_664C, 251
-layer_note0 PITCH_C3, 0x4, 102, 96
-layer_note1 PITCH_BF1, 0x28, 102
-layer_end
-
-.env_horse_snort:
-chan_setlayer 0, .layer_1AB7
-chan_end
-
-.layer_1AB7:
-layer_transpose 48
-.layer_1AB9:
-layer_setinstr FONT00_INSTR_HORSE_VOCALS
-layer_enablelegato
-layer_portamento 0x85, 34, 255
-layer_note1 PITCH_AF3, 0x6, 85
-layer_note1 PITCH_EF3, 0x8, 85
-layer_note1 PITCH_B2, 0x73, 85
-layer_end
-
-.env_bomb_hit_water:
-chan_setlayer 0, .layer_1AD0
-chan_end
-
-.layer_1ACE:
-layer_transpose 6
-
-.layer_1AD0:
-layer_setinstr FONT00_INSTR_WATER_SPLISH
-layer_note1 PITCH_F4, 0x5c, 115
-layer_end
-
-.env_horse_jump:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setlayer 0, .layer_1ADC
-chan_end
-
-.layer_1ADC:
-layer_note1 PITCH_D4, 0x8, 110
-layer_note1 PITCH_E4, 0xf, 110
-layer_end
-
-.env_horse_land:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setlayer 0, .layer_1AE9
-chan_end
-
-.layer_1AE9:
-layer_note1 PITCH_F4, 0xa, 110
-layer_note1 PITCH_D4, 0x12, 110
-layer_end
-
-.env_horse_slip:
-chan_setinstr FONT00_INSTR_SLIDE_BLOCK
-chan_setenvelope .envelope_667C
-chan_setlayer 0, .layer_1AF9
-chan_end
-
-.layer_1AF9:
-layer_portamento 0x81, 38, 255
-layer_note1 PITCH_C3, 0x3c, 80
-layer_end
-
-.env_fairy_awake:
-chan_setlayer 0, .layer_1B05
-chan_end
-
-.layer_1B05:
-layer_setinstr FONT00_INSTR_FAIRY_MAGIC
-layer_setenvelope .envelope_6794, 251
-layer_portamento 0x1, 52, 0x100
-layer_note1 PITCH_B5, 0x48, 65
-layer_end
-
-.env_door_slide_close:
-chan_setinstr FONT00_INSTR_DOOR_METAL
-chan_setenvelope .envelope_6610
-chan_setlayer 0, .layer_1B1D
-chan_end
-
-.layer_1B1D:
-layer_portamento 0x81, 38, 175
-layer_note1 PITCH_F3, 0x30, 115
-layer_end
-
-.env_door_stone_close:
-chan_sethilogain 20
-chan_setlayer 0, .layer_1B2E
-chan_setlayer 1, .layer_1B41
-chan_end
-
-.layer_1B2E:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setreleaserate 160
-layer_note1 PITCH_E4, 0x32, 102
-.layer_1B35:
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_setenvelope .envelope_6740, 245
-layer_note1 PITCH_E2, 0x64, 80
-layer_end
-
-.layer_1B3F:
-layer_transpose 4
-
-.layer_1B41:
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_note1 PITCH_E3, 0x64, 110
-layer_end
-
-.env_door_time_open:
-chan_setinstr FONT00_INSTR_DOOR_METAL
-chan_setenvelope .envelope_6674
-chan_setlayer 0, .layer_1B57
-chan_setlayer 1, .layer_1B53
-chan_end
-
-.layer_1B53:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_transpose 22
-
-.layer_1B57:
-layer_enablelegato
-layer_portamento 0x81, 34, 175
-.layer_1B5C:
-layer_note1 PITCH_A2, 0x60, 115
-layer_jumprel .layer_1B5C
-
-.env_treasure_unlock:
-chan_setlayer 0, .layer_1B71
-chan_setlayer 1, .layer_1B68
-chan_end
-
-.layer_1B68:
-layer_setinstr FONT00_INSTR_DOOR_WOOD
-layer_note1 PITCH_A4, 0x3, 115
-layer_note1 PITCH_E5, 0x6, 115
-layer_end
-
-.layer_1B71:
-layer_delay 0x19
-layer_setinstr FONT00_INSTR_CREAK
-layer_portamento 0x81, 31, 255
-layer_note1 PITCH_G3, 0x18, 100
-layer_end
-
-.env_treasure_open:
-chan_setlayer 0, .layer_1B81
-chan_end
-
-.layer_1B81:
-layer_setinstr FONT00_INSTR_CREAK
-layer_setenvelope .envelope_65FC, 250
-layer_portamento 0x83, 32, 255
-layer_note0 PITCH_D3, 0x18, 100, 127
-layer_note1 PITCH_C4, 0x48, 100
-layer_end
-
-.env_timer_tick:
-chan_setinstr FONT00_INSTR_BOW
-chan_setval 7
-chan_call .delay_varyingvol
-chan_setnoteallocationpolicy 2
-chan_reservenotes 2
-chan_setlayer 0, .layer_1BBA
-.chan_1BA1:
-chan_ioreadval 6
-chan_bitand 3
-chan_readseq .addr_1BB6
-chan_writeseq 0, .layer_fn_1BE6+1
-chan_writeseq_nextinstr 8, 1
-chan_setval 48
-chan_call .delay_varyingvol
-chan_jumprel .chan_1BA1
-
-.addr_1BB6:
-.byte 0x20
-.byte 0xe
-.byte 0x5
-.byte 0x20
-
-.layer_1BBA:
-layer_transpose 48
-.layer_1BBC:
-layer_note0 PITCH_B3, 0x2, 70, 127
-layer_note1 PITCH_C3, 0x2, 70
-layer_call .layer_fn_1BE6
-layer_note0 PITCH_F3, 0x2, 70, 127
-layer_note1 PITCH_GF2, 0x2, 70
-layer_call .layer_fn_1BE6
-layer_note0 PITCH_B4, 0x2, 70, 127
-layer_note1 PITCH_C4, 0x2, 70
-layer_call .layer_fn_1BE6
-layer_note0 PITCH_F4, 0x2, 70, 127
-layer_note1 PITCH_GF3, 0x2, 70
-layer_call .layer_fn_1BE6
-layer_jumprel .layer_1BBC
-
-.layer_fn_1BE6:
-layer_delay 0x14
-layer_end
-
-.env_torch_light:
-chan_sethilogain 15
-chan_setlayer 0, .layer_1BEF
-chan_end
-
-.layer_1BEF:
-layer_setinstr FONT00_INSTR_IGNITE
-layer_portamento 0x81, 27, 152
-layer_note1 PITCH_C4, 0x3c, 100
-layer_end
-
-.env_guard_attention:
-chan_setinstr FONT00_INSTR_SWORD_STRIKE
-chan_setlayer 0, .layer_1C05
-chan_setlayer 1, .layer_1C0B
-chan_setlayer 2, .layer_1C0F
-chan_end
-
-.layer_1C05:
-layer_delay 0x2
-layer_note1 PITCH_C4, 0x1e, 90
-layer_end
-
-.layer_1C0B:
-layer_note1 PITCH_E4, 0x1e, 90
-layer_end
-
-.layer_1C0F:
-layer_transpose -12
-layer_jump .layer_12E7
-
-.env_elevator_move:
-chan_setlayer 0, .layer_1C1D
-chan_setlayer 1, .layer_1C1B
-chan_end
-
-.layer_1C1B:
-layer_transpose -12
-
-.layer_1C1D:
-layer_setinstr FONT00_INSTR_DOOR_METAL
-layer_setenvelope .envelope_6674, 251
-layer_enablelegato
-layer_portamento 0x1, 26, 0x3c
-.layer_1C28:
-layer_note1 PITCH_A3, 32700, 95
-layer_jumprel .layer_1C28
-
-.env_warp_circle:
-chan_setinstr FONT00_INSTR_WARP
-chan_setdecayrelease 182
-chan_setlayer 0, .layer_1C65
-chan_setlayer 1, .layer_1C6F
-chan_setlayer 2, .layer_1C61
-.chan_1C3B:
-chan_ioreadval 3
-chan_bitand 240
-chan_beqzrel .chan_1C4E
-chan_setvallarge 0x0
-chan_writeseqlarge .envelope_1C7E+2
-chan_setvallarge 32700
-chan_writeseqlarge .envelope_1C8A+2
-chan_jumprel .chan_1C5A
-.chan_1C4E:
-chan_setvallarge 0x0
-chan_writeseqlarge .envelope_1C8A+2
-chan_setvallarge 32700
-chan_writeseqlarge .envelope_1C7E+2
-.chan_1C5A:
-chan_setval 1
-chan_call .delay
-chan_jumprel .chan_1C3B
-
-.layer_1C61:
-layer_setstereo 20
-layer_jumprel .layer_1C65
-
-.layer_1C65:
-layer_enablelegato
-layer_note1 PITCH_AF4, 0xc, 75
-.layer_1C69:
-layer_note1 PITCH_BF4, 32700, 75
-layer_jumprel .layer_1C69
-
-.layer_1C6F:
-layer_enablelegato
-layer_note1 PITCH_D5, 0xc, 75
-.layer_1C73:
-layer_note1 PITCH_D5, 32700, 75
-layer_jumprel .layer_1C73
-
-.balign 2
-
-.envelope_unused_1C7A:
-envelope_line 1 32700
-.envelope_1C7E:
-envelope_line 80 32700
-envelope_goto 1
-
-.envelope_unused_1C86:
-envelope_line 1 0
-.envelope_1C8A:
-envelope_line 80 32700
-envelope_goto 1
-
-.envelope_unused_1C92:
-envelope_line 1 32700
-envelope_line 80 32700
-envelope_goto 1
-
-.env_warp_circle_enter:
-chan_setinstr FONT00_INSTR_WARP
-chan_setpanmix 48
-chan_setval 25
-chan_iowriteval 1
-chan_setenvelope .envelope_6750
-chan_setdecayrelease 232
-chan_setlayer 0, .layer_1CB4
-chan_setlayer 1, .layer_1CCB
-chan_setlayer 2, .layer_1CE7
-chan_end
-
-.layer_1CB4:
-layer_setpan 24
-layer_transpose 12
-layer_note1 PITCH_D4, 0x18, 75
-layer_enablelegato
-layer_setreleaserate 251
-layer_portamento 0x85, 53, 255
-layer_note1 PITCH_D5, 0x190, 90
-layer_note1 PITCH_E5, 500, 90
-layer_end
-
-.layer_1CCB:
-layer_setpan 64
-layer_transpose 12
-layer_note1 PITCH_D4, 0x18, 75
-layer_note1 PITCH_D5, 0x190, 75
-layer_transpose 0
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_6778, 251
-layer_portamento 0x81, 57, 255
-layer_note1 PITCH_BF5, 500, 50
-layer_end
-
-.layer_1CE7:
-layer_setpan 104
-layer_transpose 24
-layer_note1 PITCH_BF3, 0x18, 75
-layer_enablelegato
-layer_setreleaserate 251
-layer_portamento 0x85, 49, 255
-layer_note1 PITCH_BF4, 0x190, 90
-layer_note1 PITCH_C5, 500, 90
-layer_end
-
-.env_stairs_lower:
-chan_setinstr FONT00_INSTR_EXPLOSION_0
-chan_setpanmix 72
-chan_setlayer 0, .layer_1D0C
-chan_setlayer 1, .layer_1D70
-chan_setlayer 2, .layer_1D44
-chan_end
-
-.layer_1D0C:
-layer_setenvelope .envelope_65E8, 200
-layer_transpose -8
-.layer_1D12:
-layer_setpan 34
-layer_note1 PITCH_A4, 0x8, 100
-layer_note1 PITCH_A3, 0x18, 100
-layer_setpan 74
-layer_note1 PITCH_B4, 0x6, 85
-layer_note1 PITCH_B3, 0x15, 85
-layer_setpan 54
-layer_note1 PITCH_F4, 0x9, 91
-layer_note1 PITCH_G3, 0x1a, 91
-layer_setpan 94
-layer_note1 PITCH_A4, 0x7, 102
-layer_note1 PITCH_F3, 0xb, 102
-layer_setpan 44
-layer_note1 PITCH_G4, 0x9, 86
-layer_note1 PITCH_F3, 0x1d, 86
-layer_setpan 64
-layer_note1 PITCH_G4, 0x5, 88
-layer_note1 PITCH_A3, 0x1b, 88
-layer_jumprel .layer_1D12
-
-.layer_1D44:
-layer_setenvelope .envelope_65E8, 127
-layer_transpose -8
-.layer_1D4A:
-layer_note1 PITCH_G3, 0x9, 73
-layer_note1 PITCH_F2, 0x22, 73
-layer_note1 PITCH_A3, 0x9, 79
-layer_note1 PITCH_F2, 0x1d, 79
-layer_note1 PITCH_A3, 0x9, 87
-layer_note1 PITCH_F2, 0x1b, 87
-layer_note1 PITCH_E3, 0x7, 81
-layer_note1 PITCH_D2, 0xf, 81
-layer_note1 PITCH_A3, 0x9, 68
-layer_note1 PITCH_C2, 0x18, 68
-layer_note1 PITCH_G3, 0x5, 70
-layer_note1 PITCH_C2, 0x21, 70
-layer_jumprel .layer_1D4A
-
-.layer_1D70:
-layer_setinstr FONT00_INSTR_DOOR_METAL
-.layer_1D72:
-layer_note1 PITCH_DF3, 0x1c, 102
-layer_jumprel .layer_1D72
-
-.env_waterfall_small:
-chan_setinstr FONT00_INSTR_WATER_FLOWING
-chan_setpanmix 48
-chan_setdecayrelease 211
-chan_setlayer 0, .layer_1D86
-chan_setlayer 1, .layer_1D84
-chan_end
-
-.layer_1D84:
-layer_transpose 10
-
-.layer_1D86:
-layer_enablelegato
-.layer_1D87:
-layer_note1 PITCH_A3, 0x7d00, 75
-layer_jumprel .layer_1D87
-
-.env_river_slow:
-chan_setinstr FONT00_INSTR_WATER_FLOWING
-chan_setpanmix 64
-chan_setlayer 0, .layer_1D9A
-chan_setlayer 1, .layer_1D98
-chan_end
-
-.layer_1D98:
-layer_transpose 4
-
-.layer_1D9A:
-layer_enablelegato
-.layer_1D9B:
-layer_note1 PITCH_G2, 0x7d00, 60
-layer_jumprel .layer_1D9B
-
-.env_river_fast:
-chan_setinstr FONT00_INSTR_WATER_FLOWING
-chan_setpanmix 64
-chan_setlayer 0, .layer_1DAE
-chan_setlayer 1, .layer_1DAC
-chan_end
-
-.layer_1DAC:
-layer_transpose 7
-
-.layer_1DAE:
-layer_enablelegato
-.layer_1DAF:
-layer_note1 PITCH_G3, 0x7d00, 75
-layer_jumprel .layer_1DAF
-
-.env_horse_phantom_gallop:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setlayer 0, .layer_1DBB
-chan_end
-
-.layer_1DBB:
-layer_note1 PITCH_B3, 0x12, 110
-layer_end
-
-.env_horse_stop_sand:
-chan_setinstr FONT00_INSTR_SLIDE_BLOCK
-chan_setenvelope .envelope_667C
-chan_setlayer 0, .layer_1DC8
-chan_end
-
-.layer_1DC8:
-layer_portamento 0x81, 38, 255
-layer_note1 PITCH_C4, 0x20, 80
-layer_end
-
-.env_electric_charge:
-chan_setinstr FONT00_INSTR_POTTERY_ELECTRIC
-chan_setval 32
-chan_iowriteval 1
-chan_setdecayrelease 245
-chan_setlayer 0, .layer_1DE6
-chan_setlayer 1, .layer_1DDE
-chan_end
-
-.layer_1DDE:
-layer_portamento 0x81, 22, 255
-layer_note1 PITCH_G3, 0x78, 70
-layer_end
-
-.layer_1DE6:
-layer_portamento 0x1, 34, 0x30
-layer_note1 PITCH_G4, 0x78, 70
-layer_end
-
-.env_thunder_bolt_crash:
-chan_sethilogain 15
-chan_setlayer 0, .layer_1DFE
-chan_setlayer 1, .layer_1DFA
-chan_setlayer 2, .layer_1E0A
-chan_end
-
-.layer_1DFA:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_jumprel .layer_1E02
-
-.layer_1DFE:
-layer_transpose 42
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-.layer_1E02:
-layer_setenvelope .envelope_65FC, 200
-layer_note1 PITCH_DF4, 0x0, 110
-layer_end
-
-.layer_1E0A:
-layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
-layer_note1 PITCH_G3, 0x32, 50
-layer_end
-
-.env_bomb_rebound:
-chan_setlayer 0, .layer_1E14
-chan_end
-
-.layer_1E14:
-layer_setinstr FONT00_INSTR_SLAM_HEAVY
-layer_setenvelope .envelope_6660, 251
-layer_enablelegato
-layer_portamento 0x85, 48, 255
-layer_note1 PITCH_C3, 0x4, 95
-layer_note1 PITCH_BF3, 0x5, 95
-layer_end
-
-.env_water_drip:
-chan_setinstr FONT00_INSTR_WATER_DRIP
-chan_setenvelope .envelope_6624
-chan_setdecayrelease 201
-chan_setval 20
-chan_iowriteval 1
-chan_setpanmix 0
-chan_setlayer 0, .layer_1E3C
-chan_setlayer 1, .layer_1E57
-chan_setlayer 2, .layer_1E74
-chan_end
-
-.layer_1E3C:
-layer_setpan 74
-layer_call .layer_fn_1E7F
-layer_setpan 84
-layer_call .layer_fn_1E88
-layer_setpan 89
-layer_call .layer_fn_1E91
-layer_setpan 69
-layer_call .layer_fn_1E96
-layer_setpan 78
-layer_call .layer_fn_1E9F
-layer_jumprel .layer_1E3C
-
-.layer_1E57:
-layer_delay 0x44
-layer_setpan 34
-layer_call .layer_fn_1E9F
-layer_setpan 44
-layer_call .layer_fn_1E96
-layer_setpan 54
-layer_call .layer_fn_1E91
-layer_setpan 47
-layer_call .layer_fn_1E88
-layer_setpan 41
-layer_call .layer_fn_1E7F
-layer_jumprel .layer_1E57
-
-.layer_1E74:
-layer_call .layer_fn_1EA8
-layer_delay_long 0x64
-layer_call .layer_fn_1E7F
-layer_jumprel .layer_1E57
-
-.layer_fn_1E7F:
-layer_note1 PITCH_C4, 0x172, 98
-layer_note1 PITCH_AF3, 0x10c, 56
-layer_end
-
-.layer_fn_1E88:
-layer_note1 PITCH_A3, 0x113, 65
-layer_note1 PITCH_BF3, 0x140, 92
-layer_end
-
-.layer_fn_1E91:
-layer_note1 PITCH_B3, 0x159, 76
-layer_end
-
-.layer_fn_1E96:
-layer_note1 PITCH_G3, 0xd7, 98
-layer_note1 PITCH_D4, 0x1cc, 106
-layer_end
-
-.layer_fn_1E9F:
-layer_note1 PITCH_A3, 0x120, 92
-layer_note1 PITCH_BF3, 0x13b, 88
-layer_end
-
-.layer_fn_1EA8:
-layer_setstereo 20
-layer_end
-
-.env_fire_crackle:
-chan_setinstr FONT00_INSTR_FIRE_COW
-chan_sethilogain 10
-chan_setlayer 0, .layer_1EB3
-chan_end
-
-.layer_1EB3:
-layer_enablelegato
-.layer_1EB4:
-layer_note1 PITCH_BF3, 32700, 100
-layer_jumprel .layer_1EB4
-
-.env_lava_bubbling:
-chan_setpanmix 48
-chan_setlayer 0, .layer_1EC3
-chan_setlayer 1, .layer_1ED4
-chan_end
-
-.layer_1EC3:
-layer_setinstr FONT00_INSTR_LAVA
-layer_enablelegato
-layer_portamento 0x85, 32, 200
-.layer_1ECA:
-layer_note1 PITCH_A3, 500, 105
-layer_note1 PITCH_F3, 500, 105
-layer_jumprel .layer_1ECA
-
-.layer_1ED4:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_667C, 221
-.layer_1EDA:
-layer_portamento 0x81, 27, 255
-layer_note1 PITCH_F2, 0x190, 65
-layer_portamento 0x81, 27, 255
-layer_note1 PITCH_F4, 0x2bc, 65
-layer_jumprel .layer_1EDA
-
-.env_flame_jet:
-chan_setlayer 0, .layer_1EF0
-chan_end
-
-.layer_1EF0:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setreleaserate 240
-layer_enablelegato
-layer_portamento 0x1, 24, 0x28
-.layer_1EF9:
-layer_note1 PITCH_F3, 32700, 100
-layer_jumprel .layer_1EF9
-
-.env_flame_wall:
-chan_setlayer 0, .layer_1F03
-chan_end
-
-.layer_1F03:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setenvelope .envelope_667C, 240
-layer_enablelegato
-layer_portamento 0x85, 32, 255
-layer_note1 PITCH_C4, 0x60, 100
-.layer_1F11:
-layer_note1 PITCH_B3, 0x60, 100
-layer_jumprel .layer_1F11
-
-.env_block_lock:
-chan_setlayer 0, .layer_1F1C
-chan_end
-
-.layer_1F1A:
-layer_transpose -4
-
-.layer_1F1C:
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_setreleaserate 241
-layer_note1 PITCH_GF4, 0x6, 110
-layer_note1 PITCH_EF3, 0x64, 110
-layer_end
-
-.env_door_metal_open_unused:
-chan_setlayer 0, .layer_1F2B
-chan_end
-
-.layer_1F2B:
-layer_setinstr FONT00_INSTR_MECH_ROTATE
-layer_setreleaserate 240
-layer_enablelegato
-layer_portamento 0x85, 25, 255
-layer_note1 PITCH_D3, 0x28, 75
-.layer_1F37:
-layer_note1 PITCH_E3, 0x141, 75
-layer_jumprel .layer_1F37
-
-.env_door_slide_unlock_unused:
-chan_setlayer 0, .layer_1F43
-chan_end
-
-.layer_1F41:
-layer_transpose -6
-
-.layer_1F43:
-layer_setinstr FONT00_INSTR_SLAM_LIGHT
-layer_setreleaserate 241
-layer_note1 PITCH_A3, 0x5e, 95
-layer_end
-
-.env_block_shake:
-chan_setinstr FONT00_INSTR_BLOCK_LOCK
-chan_setenvelope .envelope_6660
-chan_setlayer 0, .layer_1F57
-chan_setlayer 1, .layer_1F5F
-chan_end
-
-.layer_1F57:
-layer_portamento 0x81, 43, 200
-layer_note1 PITCH_C3, 0x14, 110
-layer_end
-
-.layer_1F5F:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_note1 PITCH_A2, 0x14, 100
-layer_end
-
-.env_crate_break:
-chan_sethilogain 10
-chan_setlayer 0, .layer_1F6E
-chan_setlayer 1, .layer_1F7B
-chan_end
-
-.layer_1F6E:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_6610, 251
-layer_note1 PITCH_C5, 0xf, 94
-layer_note1 PITCH_EF4, 0x60, 99
-layer_end
-
-.layer_1F7B:
-layer_setinstr FONT00_INSTR_STICK_ATTACK
-layer_setenvelope .envelope_65E8, 180
-layer_note1 PITCH_GF4, 0x8, 92
-layer_note1 PITCH_EF4, 0x6, 85
-layer_note1 PITCH_BF3, 0x5, 94
-layer_note1 PITCH_GF3, 0xa, 89
-layer_note1 PITCH_BF2, 0x50, 95
-layer_end
-
-.env_switch_hammer:
-chan_setlayer 0, .layer_1F98
-chan_setlayer 1, .layer_1FA2
-chan_end
-
-.layer_1F98:
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_note0 PITCH_DF5, 0x12, 95, 127
-layer_note1 PITCH_DF4, 0x41, 95
-layer_end
-
-.layer_1FA2:
-layer_setinstr FONT00_INSTR_STONE_STRIKE
-layer_note1 PITCH_C4, 0x12, 80
-layer_note1 PITCH_C3, 0x41, 80
-layer_end
-
-.env_lava_bubbling_eerie:
-chan_setpanmix 48
-chan_setlayer 0, .layer_1FB4
-chan_setlayer 1, .layer_1FC5
-chan_end
-
-.layer_1FB4:
-layer_setinstr FONT00_INSTR_LAVA
-layer_enablelegato
-layer_portamento 0x85, 38, 200
-.layer_1FBB:
-layer_note1 PITCH_EF4, 0x19a, 110
-layer_note1 PITCH_B3, 0x17c, 110
-layer_jumprel .layer_1FBB
-
-.layer_1FC5:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_667C, 221
-.layer_1FCB:
-layer_portamento 0x81, 32, 255
-layer_note1 PITCH_B2, 0x136, 80
-layer_portamento 0x81, 32, 255
-layer_note1 PITCH_B4, 0x226, 80
-layer_jumprel .layer_1FCB
-
-.env_fence_raise:
-chan_setlayer 0, .layer_1FF1
-chan_setlayer 1, .layer_1FE4
-chan_end
-
-.layer_1FE4:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_664C, 240
-layer_note1 PITCH_F5, 0x3, 70
-layer_note1 PITCH_F3, 0x4, 64
-layer_end
-
-.layer_1FF1:
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_transpose 48
-layer_note0 PITCH_D2, 0x3, 100, 127
-layer_note1 PITCH_E3, 0x30, 100
-layer_end
-
-.env_horse_ganon_neigh:
-chan_setinstr FONT00_INSTR_HORSE_VOCALS
-chan_setlayer 0, .layer_2003
-chan_end
-
-.layer_2003:
-layer_enablelegato
-layer_portamento 0x85, 38, 127
-layer_note1 PITCH_D4, 0x50, 110
-layer_note1 PITCH_G3, 0x73, 110
-layer_end
-
-.env_horse_ganon_snort:
-chan_setlayer 0, .layer_2013
-chan_end
-
-.layer_2013:
-layer_setinstr FONT00_INSTR_HORSE_VOCALS
-layer_transpose 48
-layer_enablelegato
-layer_portamento 0x85, 32, 255
-layer_note1 PITCH_BF3, 0x6, 85
-layer_note1 PITCH_EF3, 0x10, 85
-layer_note1 PITCH_A2, 0x73, 85
-layer_end
-
-.env_phantom_warp:
-chan_setlayer 0, .layer_2065
-chan_setlayer 1, .layer_203C
-chan_setvibratorate 255
-chan_setvibratoextentlinear 50, 80, 100
-chan_setval 255
-chan_call .delay_varyingvol
-chan_setvibratoextentlinear 80, 10, 100
-chan_end
-
-.layer_203C:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setenvelope .envelope_6694, 231
-layer_enablelegato
-layer_portamento 0x85, 3, 255
-layer_note1 PITCH_F2, 0x60, 100
-layer_note1 PITCH_C4, 0x96, 100
-layer_disablelegato
-layer_enablelegato
-layer_disableportamento
-layer_setenvelope .envelope_66EC, 231
-layer_portamento 0x81, 15, 255
-layer_note1 PITCH_C4, 0xc8, 100
-layer_end
-
-.layer_unused_205E:
-layer_transpose -30
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_jump .layer_2069
-
-.layer_2065:
-layer_transpose 12
-layer_setinstr FONT00_INSTR_WARP
-.layer_2069:
-layer_setenvelope .envelope_6688, 251
-layer_enablelegato
-layer_portamento 0x85, 15, 255
-layer_note1 PITCH_F3, 0x60, 74
-layer_note1 PITCH_C5, 0xc8, 74
-layer_note1 PITCH_A5, 0x96, 74
-layer_end
-
-.env_witch_warp:
-chan_setlayer 0, .layer_20A3
-chan_setlayer 1, .layer_208C
-chan_setlayer 2, .layer_209C
-chan_setvibratorate 255
-chan_setvibratoextent 50
-chan_end
-
-.layer_208C:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setenvelope .envelope_667C, 211
-layer_enablelegato
-layer_portamento 0x85, 3, 255
-.layer_2097:
-layer_note1 PITCH_F2, 0x60, 100
-layer_jumprel .layer_2097
-
-.layer_209C:
-layer_transpose -18
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_jump .layer_20A7
-
-.layer_20A3:
-layer_setinstr FONT00_INSTR_WARP
-layer_transpose 12
-.layer_20A7:
-layer_setenvelope .envelope_667C, 211
-layer_enablelegato
-layer_portamento 0x85, 15, 255
-.layer_20B0:
-layer_note1 PITCH_F3, 0x60, 74
-layer_jumprel .layer_20B0
-
-.env_water_fountain:
-chan_setlayer 0, .layer_20BC
-chan_setlayer 1, .layer_20C7
-chan_end
-
-.layer_20BC:
-layer_setinstr FONT00_INSTR_WATER_FLOWING
-layer_transpose 48
-.layer_20C0:
-layer_enablelegato
-.layer_20C1:
-layer_note1 PITCH_GF4, 32700, 64
-layer_jumprel .layer_20C1
-
-.layer_20C7:
-layer_setinstr FONT00_INSTR_WATER_FLOWING
-layer_jumprel .layer_20C0
-
-.env_horse_kid_trot:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setdecayrelease 245
-chan_setlayer 0, .layer_20D3
-chan_end
-
-.layer_20D3:
-layer_note1 PITCH_C4, 0x9, 110
-layer_end
-
-.env_horse_kid_gallop:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setlayer 0, .layer_20DD
-chan_end
-
-.layer_20DD:
-layer_note1 PITCH_E4, 0x18, 110
-layer_end
-
-.env_horse_kid_neigh:
-chan_setinstr FONT00_INSTR_HORSE_VOCALS
-chan_setlayer 0, .layer_20E7
-chan_end
-
-.layer_20E7:
-layer_note1 PITCH_E4, 0x91, 110
-layer_end
-
-.env_horse_kid_snort:
-chan_setlayer 0, .layer_20F0
-chan_end
-
-.layer_20F0:
-layer_transpose 52
-layer_jump .layer_1AB9
-
-.env_barrier_node_fadeout:
-chan_sethilogain 15
-chan_setlayer 0, .layer_20FE
-chan_setlayer 1, .layer_210B
-chan_end
-
-.layer_20FE:
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_67F4, 221
-layer_transpose 24
-layer_note1 PITCH_C4, 0xf8, 75
-layer_end
-
-.layer_210B:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_67F4, 221
-layer_transpose 36
-layer_note1 PITCH_C4, 0xf8, 100
-layer_end
-
-.env_barrier_dispell:
-chan_setinstr FONT00_INSTR_WARP
-chan_setlayer 0, .layer_2130
-chan_setlayer 1, .layer_2124
-chan_setlayer 2, .layer_2147
-chan_end
-
-.layer_2124:
-layer_transpose 27
-layer_jumprel .layer_2132
-
-.layer_unused_2128:
-layer_transpose 33
-layer_setenvelope .envelope_65FC, 240
-layer_jumprel .layer_2132
-
-.layer_2130:
-layer_transpose 24
-.layer_2132:
-layer_enablelegato
-layer_portamento 0x81, 40, 255
-.layer_2137:
-layer_note1_long 41, 0x30, 80
-layer_jumprel .layer_2137
-
-.layer_unused_213D:
-layer_transpose 32
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_65FC, 240
-layer_jumprel .layer_214F
-
-.layer_2147:
-layer_transpose 48
-.layer_2149:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_66FC, 240
-.layer_214F:
-layer_enablelegato
-.layer_2150:
-layer_note1 PITCH_C5, 0x7d00, 50
-layer_jumprel .layer_2150
-
-.env_tree_cut:
-chan_setlayer 0, .layer_215D
-chan_setlayer 1, .layer_216D
-chan_end
-
-.layer_215D:
-layer_delay 0x6
-layer_enablelegato
-layer_setinstr FONT00_INSTR_STEP_GRASS
-layer_portamento 0x85, 32, 255
-layer_note1 PITCH_A3, 0x18, 80
-layer_note1 PITCH_G2, 0x32, 80
-layer_end
-
-.layer_216D:
-layer_setinstr FONT00_INSTR_WOOD_BREAK
-layer_note0 PITCH_E3, 0xa, 93, 127
-layer_note1 PITCH_GF2, 0x1f, 90
-layer_end
-
-.env_volcano_erupt:
-chan_setpanmix 96
-chan_setlayer 0, .layer_2185
-chan_setlayer 1, .layer_2190
-chan_setlayer 2, .layer_2183
-chan_end
-
-.layer_2183:
-layer_transpose -6
-
-.layer_2185:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setreleaserate 221
-layer_enablelegato
-.layer_218A:
-layer_note1 PITCH_F4, 0x7d00, 90
-layer_jumprel .layer_218A
-
-.layer_2190:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_6674, 221
-.layer_2196:
-layer_setpan 64
-layer_note1 PITCH_B4, 0x50, 85
-layer_setpan 45
-layer_note1 PITCH_G4, 0x50, 85
-layer_setpan 97
-layer_note1 PITCH_F4, 0x40, 85
-layer_setpan 74
-layer_note1 PITCH_A4, 0x31, 85
-layer_setpan 82
-layer_note1 PITCH_D5, 0x3a, 85
-layer_setpan 37
-layer_note1 PITCH_A4, 0x25, 85
-layer_setpan 54
-layer_note1 PITCH_F4, 0x3d, 85
-layer_setpan 29
-layer_note1 PITCH_C5, 0x20, 85
-layer_jumprel .layer_2196
-
-.env_guillotine_rise:
-chan_setlayer 0, .layer_21C7
-chan_setlayer 1, .layer_21CD
-chan_end
-
-.layer_21C7:
-layer_setinstr FONT00_INSTR_CHAIN
-layer_note1 PITCH_E4, 0x18, 80
-layer_end
-
-.layer_21CD:
-layer_setinstr FONT00_INSTR_SWORD_DRAW
-layer_portamento 0x81, 28, 255
-layer_note1 PITCH_EF3, 0x18, 95
-layer_end
-
-.env_guillotine_fall:
-chan_setlayer 0, .layer_21ED
-chan_setlayer 1, .layer_21DE
-chan_end
-
-.layer_21DE:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_AF2, 0x8, 70
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_note1 PITCH_E3, 0x8, 90
-layer_end
-
-.layer_21ED:
-layer_setinstr FONT00_INSTR_CHAIN
-layer_note1 PITCH_A4, 0x6, 80
-layer_setinstr FONT00_INSTR_SWORD_DRAW
-layer_portamento 0x81, 38, 255
-layer_note1 PITCH_F3, 0xe, 95
-layer_end
-
-.env_scythe_spin:
-chan_setlayer 0, .layer_2200
-chan_end
-
-.layer_2200:
-layer_setinstr FONT00_INSTR_MECH_ROTATE
-layer_setreleaserate 240
-.layer_2204:
-layer_portamento 0x81, 27, 255
-layer_note1 PITCH_A2, 0x40, 72
-layer_jumprel .layer_2204
-
-.env_guillotine_chain:
-chan_setinstr FONT00_INSTR_CHAIN
-chan_setlayer 0, .layer_221A
-chan_setlayer 1, .layer_2216
-chan_end
-
-.layer_2216:
-layer_setinstr FONT00_INSTR_CHAIN_RETRACT
-layer_transpose -2
-
-.layer_221A:
-layer_enablelegato
-layer_portamento 0x1, 40, 0x74
-.layer_221F:
-layer_note1 PITCH_G4, 32700, 76
-layer_jumprel .layer_221F
-
-.env_plant_break:
-chan_setlayer 0, .layer_2232
-chan_setlayer 1, .layer_222C
-chan_end
-
-.layer_222C:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_note1 PITCH_G3, 0x14, 100
-layer_end
-
-.layer_2232:
-layer_setinstr FONT00_INSTR_STEP_GRASS
-layer_note0 PITCH_E3, 0x6, 90, 127
-layer_note0 PITCH_BF3, 0x6, 90, 127
-layer_note1 PITCH_E4, 0x2a, 90
-layer_end
-
-.env_ship_bell:
-chan_setinstr FONT00_INSTR_FAIL_BELLS
-chan_setenvelope .envelope_6624
-chan_setval 32
-chan_iowriteval 1
-chan_setlayer 0, .layer_2253
-chan_setlayer 1, .layer_224F
-chan_end
-
-.layer_224F:
-layer_transpose 60
-layer_jumprel .layer_2257
-
-.layer_2253:
-layer_transpose 48
-layer_delay 0x5
-.layer_2257:
-layer_note1 PITCH_A3, 0x9, 80
-layer_note1 PITCH_GF3, 0x53, 80
-layer_delay 0x64
-layer_jumprel .layer_2257
-
-.env_flag_flutter:
-chan_setval 96
-chan_writeseq 0, .chan_2287+1
-.chan_2267:
-chan_setinstr FONT00_INSTR_CLOAK
-chan_setenvelope .envelope_66EC
-chan_setdecayrelease 231
-chan_setval 4
-chan_iowriteval 6
-chan_setlayer 0, .layer_2298
-.chan_2274:
-chan_rand 31
-chan_writeseq 14, .layer_2298+1
-chan_writeseq 14, .chan_2291+1
-chan_writeseq 45, .layer_2298+2
-chan_rand 8
-chan_ioreadvalsub 6
-chan_bitand 7
-.chan_2287:
-chan_writeseq 96, .layer_2298
-chan_ioreadval 6
-chan_subtract 252
-chan_bitand 4
-chan_iowriteval 6
-.chan_2291:
-chan_setval 1
-chan_call .delay_varyingvol
-chan_jumprel .chan_2274
-
-.layer_2298:
-layer_note1 PITCH_C4, 0x47, 80
-layer_jumprel .layer_2298
-
-.env_unused:
-chan_setlayer 0, .layer_1F43
-chan_setlayer 1, .layer_1F1C
-chan_end
-
-.env_rock_break:
-chan_sethilogain 18
-chan_setlayer 0, .layer_22AA
-chan_end
-
-.layer_22AA:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_6624, 246
-layer_note0 PITCH_EF4, 0x9, 105, 192
-layer_setenvelope .envelope_6610, 220
-layer_note1 PITCH_B2, 0x0, 105
-layer_end
-
-.env_phantom_warp2:
-chan_setinstr FONT00_INSTR_OCARINA_0
-chan_setenvelope .envelope_6674
-chan_setlayer 0, .layer_22CB
-chan_setvibratoextent 255
-chan_setvibratoratelinear 4, 64, 100
-chan_end
-
-.layer_22CB:
-layer_note1 PITCH_D2, 0x1c2, 80
-layer_end
-
-.env_phantom_warp_loop:
-chan_setinstr FONT00_INSTR_OCARINA_0
-chan_setenvelope .envelope_6674
-chan_setlayer 0, .layer_22DF
-chan_setvibratoextent 255
-chan_setvibratoratelinear 2, 7, 25
-chan_end
-
-.layer_22DF:
-layer_enablelegato
-.layer_22E0:
-layer_note1 PITCH_C2, 32700, 80
-layer_jumprel .layer_22E0
-
-.env_coffin_open:
-chan_setlayer 0, .layer_22EA
-chan_end
-
-.layer_22EA:
-layer_setinstr FONT00_INSTR_DOOR_WOOD
-layer_note1 PITCH_C3, 0x13, 105
-layer_setinstr FONT00_INSTR_CREAK
-layer_note1 PITCH_B1, 0x49, 103
-layer_end
-
-.env_coffin_close:
-chan_setinstr FONT00_INSTR_STICK_ATTACK
-chan_setlayer 0, .layer_22FB
-chan_end
-
-.layer_22FB:
-layer_note1 PITCH_DF2, 0x8, 100
-layer_note1 PITCH_D3, 0x18, 100
-layer_end
-
-.env_fan_spin:
-chan_setlayer 0, .layer_230B
-chan_setlayer 1, .layer_2309
-chan_end
-
-.layer_2309:
-layer_transpose 5
-
-.layer_230B:
-layer_enablelegato
-layer_setinstr FONT00_INSTR_WIND_HOWL_S
-layer_setenvelope .envelope_6674, 200
-layer_portamento 0x1, 56, 0x7f
-.layer_2316:
-layer_note1 PITCH_B5, 32700, 85
-layer_jumprel .layer_2316
-
-.env_trap_wall_slide:
-chan_setlayer 0, .layer_2327
-chan_setlayer 1, .layer_2325
-chan_sethilogain 24
-chan_end
-
-.layer_2325:
-layer_transpose 4
-
-.layer_2327:
-layer_setinstr FONT00_INSTR_CREAK
-layer_portamento 0x84, 19, 127
-.layer_232D:
-layer_note1 PITCH_D1, 0x9, 110
-layer_jumprel .layer_232D
-
-.env_door_slide_lock:
-chan_setinstr FONT00_INSTR_MECH_ROTATE
-chan_setlayer 0, .layer_2338
-chan_end
-
-.layer_2338:
-layer_portamento 0x81, 32, 175
-layer_note1 PITCH_B3, 0x30, 80
-layer_end
-
-.env_door_slide_unlock:
-chan_setinstr FONT00_INSTR_MECH_ROTATE
-chan_setlayer 0, .layer_2346
-chan_end
-
-.layer_2346:
-layer_portamento 0x81, 38, 175
-layer_note1 PITCH_F3, 0x30, 80
-layer_end
-
-.env_flame_jet_low:
-chan_sethilogain 10
-chan_setlayer 0, .layer_2357
-chan_setlayer 1, .layer_2366
-chan_end
-
-.layer_2357:
-layer_setinstr FONT00_INSTR_FIRE_COW
-layer_setreleaserate 221
-layer_enablelegato
-layer_portamento 0x81, 52, 255
-.layer_2360:
-layer_note1 PITCH_F4, 0xc8, 110
-layer_jumprel .layer_2360
-
-.layer_2366:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setreleaserate 221
-layer_enablelegato
-layer_portamento 0x81, 16, 255
-.layer_236F:
-layer_note1 PITCH_F2, 0x7f, 72
-layer_jumprel .layer_236F
-
-.env_ganon_block_sink:
-chan_setlayer 0, .layer_237B
-chan_setlayer 1, .layer_2185
-chan_end
-
-.layer_237B:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setenvelope .envelope_6660, 247
-.layer_2381:
-layer_note1 PITCH_F5, 0x3, 95
-layer_note1 PITCH_F4, 0x5, 95
-layer_jumprel .layer_2381
-
-.env_crowd_chatter:
-chan_setpanmix 0
-chan_setlayer 0, .layer_2398
-chan_setlayer 1, .layer_2392
-chan_end
-
-.layer_2392:
-layer_transpose 1
-layer_setpan 0
-layer_jumprel .layer_239A
-
-.layer_2398:
-layer_setpan 127
-.layer_239A:
-layer_setinstr FONT00_INSTR_CHATTER
-layer_setenvelope .envelope_66F4, 225
-.layer_23A0:
-layer_note1 PITCH_C4, 0x7d00, 64
-layer_jumprel .layer_23A0
-
-.env_water_change:
-chan_setlayer 0, .layer_23CB
-chan_setlayer 1, .layer_23B1
-chan_end
-
-.layer_23AD:
-layer_transpose 18
-layer_jumprel .layer_23B3
-
-.layer_23B1:
-layer_transpose 11
-.layer_23B3:
-layer_setinstr FONT00_INSTR_WATER_BUBBLES
-layer_jumprel .layer_23BD
-
-.layer_23B7:
-layer_setinstr FONT00_INSTR_WATER_BUBBLES
-layer_setenvelope .envelope_6824, 225
-.layer_23BD:
-layer_setreleaserate 225
-.layer_23BF:
-layer_note1 PITCH_C2, 0x7d00, 70
-layer_jumprel .layer_23BF
-
-.layer_23C5:
-layer_transpose 6
-layer_jumprel .layer_23CB
-
-.layer_23C9:
-layer_transpose -2
-
-.layer_23CB:
-layer_setinstr FONT00_INSTR_SLIDE_LINK
-layer_setreleaserate 225
-.layer_23CF:
-layer_note1 PITCH_F3, 0x7d00, 74
-layer_jumprel .layer_23CF
-
-.env_fairy_hide:
-chan_setlayer 0, .layer_23D9
-chan_end
-
-.layer_23D9:
-layer_setinstr FONT00_INSTR_FAIRY_MAGIC
-layer_setenvelope .envelope_66B8, 251
-layer_enablelegato
-layer_portamento 0x85, 27, 255
-layer_note1 PITCH_F5, 0x9, 65
-layer_note1 PITCH_A4, 0x2c, 65
-layer_end
-
-.env_ladder_land:
-chan_setlayer 1, .layer_14A4
-chan_setlayer 0, .layer_23F2
-chan_end
-
-.layer_23F2:
-layer_setinstr FONT00_INSTR_STICK_ATTACK
-layer_transpose 48
-layer_note1 PITCH_EF2, 0x5, 88
-layer_setinstr FONT00_INSTR_STONE_STRIKE
-layer_transpose 0
-layer_note1 PITCH_A3, 0xc, 50
-layer_end
-
-.env_web_bend:
-chan_setinstr FONT00_INSTR_CLOTH_TEAR
-chan_setenvelope .envelope_6688
-chan_setlayer 0, .layer_240A
-chan_end
-
-.layer_240A:
-layer_enablelegato
-layer_portamento 0x85, 24, 255
-layer_note1 PITCH_F2, 0x18, 100
-layer_note1 PITCH_AF2, 0x30, 100
-layer_end
-
-.env_web_break:
-chan_setinstr FONT00_INSTR_CLOTH_TEAR
-chan_setenvelope .envelope_6688
-chan_setlayer 0, .layer_2422
-chan_setlayer 1, .layer_2432
-chan_end
-
-.layer_2422:
-layer_enablelegato
-layer_delay 0x28
-layer_portamento 0x85, 58, 255
-layer_note1_long 22, 0x12, 105
-layer_note1_long 46, 0x1e, 105
-layer_end
-
-.layer_2432:
-layer_portamento 0x81, 20, 255
-layer_note1 PITCH_B2, 0x60, 100
-layer_end
-
-.env_unused2:
-chan_setlayer 0, .layer_2451
-chan_setlayer 1, .layer_2445
-chan_setvibratorate 220
-chan_setvibratoextent 53
-chan_end
-
-.layer_2445:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setenvelope .envelope_667C, 247
-layer_enablelegato
-.layer_244C:
-layer_note1 PITCH_A1, 0x60, 108
-layer_jumprel .layer_244C
-
-.layer_2451:
-layer_transpose -18
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_setenvelope .envelope_667C, 247
-layer_enablelegato
-.layer_245A:
-layer_note1 PITCH_EF3, 0x60, 90
-layer_jumprel .layer_245A
-
-.env_door_jabu_open:
-chan_setlayer 0, .layer_2466
-chan_setlayer 1, .layer_2475
-chan_end
-
-.layer_2466:
-layer_setinstr FONT00_INSTR_CLOTH_TEAR
-layer_setenvelope .envelope_6694, 251
-layer_portamento 0x81, 10, 255
-layer_note1_long 22, 0x24, 82
-layer_end
-
-.layer_2475:
-layer_setinstr FONT00_INSTR_STEP_WATER
-layer_portamento 0x81, 8, 255
-layer_note1_long 15, 0x24, 105
-layer_end
-
-.env_door_jabu_close:
-chan_setlayer 0, .layer_2487
-chan_setlayer 1, .layer_2496
-chan_end
-
-.layer_2487:
-layer_setinstr FONT00_INSTR_CLOTH_TEAR
-layer_setenvelope .envelope_6694, 251
-layer_portamento 0x81, 22, 255
-layer_note1_long 3, 0x24, 90
-layer_end
-
-.layer_2496:
-layer_setinstr FONT00_INSTR_STEP_WATER
-layer_portamento 0x81, 20, 255
-layer_note1_long 3, 0x24, 95
-layer_end
-
-.env_door_wood_creak_unused:
-chan_setlayer 0, .layer_24A7
-chan_end
-
-.layer_24A5:
-layer_transpose 8
-
-.layer_24A7:
-layer_setinstr FONT00_INSTR_CREAK
-layer_note1 PITCH_B1, 0x0, 103
-layer_end
-
-.env_gate_open:
-chan_setlayer 0, .layer_24B1
-chan_end
-
-.layer_24B1:
-layer_setinstr FONT00_INSTR_MECH_ROTATE
-layer_setreleaserate 240
-layer_note1 PITCH_E3, 0x3c, 75
-.layer_24B8:
-layer_note1 PITCH_GF3, 0x38, 75
-layer_jumprel .layer_24B8
-
-.env_bottle_scoop_water:
-chan_setinstr FONT00_INSTR_WATER_SPLISH
-chan_setlayer 0, .layer_24C3
-chan_end
-
-.layer_24C3:
-layer_portamento 0x82, 39, 127
-layer_note1 PITCH_A3, 0x7f, 100
-layer_end
-
-.env_fish_flop:
-chan_setinstr FONT00_INSTR_WATER_SPLISH
-chan_delayshort 7
-chan_setlayer 0, .layer_24D2
-chan_end
-
-.layer_24D2:
-layer_note1 PITCH_A4, 0x7, 76
-layer_setinstr FONT00_INSTR_STEP_JABU
-layer_portamento 0x81, 39, 127
-layer_note1 PITCH_B5, 0x18, 100
-layer_end
-
-.env_scarecrow_sway:
-chan_setlayer 0, .layer_24E9
-
-.chan_fn_24E2:
-chan_setinstr FONT00_INSTR_STEP_GRASS
-chan_setvibratoextent 36
-chan_setvibratorate 255
-chan_end
-
-.layer_24E9:
-layer_note1 PITCH_F3, 0xa, 90
-layer_note1 PITCH_C4, 0x1e, 90
-layer_end
-
-.env_scarecrow_spin:
-chan_setlayer 0, .layer_24F7
-chan_call .chan_fn_24E2
-chan_end
-
-.layer_24F7:
-layer_note1 PITCH_D4, 0xa, 100
-layer_portamento 0x81, 43, 255
-layer_note1 PITCH_E3, 0x5a, 100
-layer_end
-
-.env_bottle_open:
-chan_setlayer 0, .layer_2506
-chan_end
-
-.layer_2506:
-layer_setinstr FONT00_INSTR_WHIP_CORK
-layer_transpose 48
-layer_note1 PITCH_A3, 0x0, 110
-layer_end
-
-.env_jabu_inhale:
-chan_setlayer 0, .layer_2517
-chan_setlayer 1, .layer_2528
-chan_setpanmix 48
-chan_end
-
-.layer_2517:
-layer_setinstr FONT00_INSTR_WIND_HOWL_S
-layer_setenvelope .envelope_6674, 232
-layer_enablelegato
-layer_portamento 0x85, 46, 255
-.layer_2522:
-layer_note1 PITCH_C5, 0x3e8, 105
-layer_jumprel .layer_2522
-
-.layer_2528:
-layer_setinstr FONT00_INSTR_ROAR_BARK
-layer_note1 PITCH_C3, 0x8, 105
-layer_note1 PITCH_G2, 0x0, 105
-layer_end
-
-.env_stone_resonate:
-chan_setlayer 0, .layer_2545
-chan_setlayer 1, .layer_2538
-chan_end
-
-.layer_2538:
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_67D8, 240
-layer_enablelegato
-.layer_253F:
-layer_note1 PITCH_AF3, 0x7d00, 32
-layer_jumprel .layer_253F
-
-.layer_2545:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_67E4, 240
-layer_transpose 15
-layer_enablelegato
-.layer_254E:
-layer_note1 PITCH_A4, 0x7d00, 64
-layer_jumprel .layer_254E
-
-.env_triforce_flash:
-chan_setlayer 0, .layer_255B
-chan_setlayer 1, .layer_2568
-chan_end
-
-.layer_255B:
-layer_transpose 24
-layer_setinstr FONT00_INSTR_SYNTH_BUZZ
-layer_setenvelope .envelope_67CC, 241
-layer_note1 PITCH_EF5, 0x120, 42
-layer_end
-
-.layer_2568:
-layer_jump .layer_210B
-
-.env_ruto_trip:
-chan_call .player_slip_jabu
-chan_setlayer 1, .layer_2572
-chan_end
-
-.layer_2572:
-layer_setinstr FONT00_INSTR_STEP_JABU
-layer_portamento 0x84, 27, 255
-layer_note1 PITCH_A3, 0xf, 93
-layer_note1 PITCH_F3, 0x10, 93
-layer_note1 PITCH_D3, 0x11, 93
-layer_end
-
-.env_fairy_fly:
-chan_setinstr FONT00_INSTR_FAIRY_MAGIC
-chan_setenvelope .envelope_67D8
-chan_setpanmix 0
-chan_setlayer 0, .layer_258D
-chan_end
-
-.layer_258D:
-layer_enablelegato
-layer_portamento 0x81, 48, 255
-.layer_2592:
-layer_note1 PITCH_D5, 0x20, 50
-layer_jumprel .layer_2592
-
-.env_fairy_crash:
-chan_setlayer 0, .layer_25A7
-chan_setlayer 1, .layer_25BC
-chan_delayshort 4
-chan_setvibratorate 127
-chan_setvibratoextentlinear 25, 80, 100
-chan_delay 0x32
-chan_end
-
-.layer_25A7:
-layer_setinstr FONT00_INSTR_STEP_WOOD
-layer_setreleaserate 210
-layer_note1 PITCH_A3, 0x4, 95
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_setenvelope .envelope_6674, 235
-layer_portamento 0x85, 7, 255
-layer_note1 PITCH_G3, 0x38, 70
-layer_end
-
-.layer_25BC:
-layer_setinstr FONT00_INSTR_DOOR_WOOD
-layer_setreleaserate 216
-layer_note1 PITCH_C3, 0x4, 95
-layer_jump .layer_23D9
-
-.env_spear_ready:
-chan_setlayer 0, .layer_25CA
-chan_end
-
-.layer_25CA:
-layer_setinstr FONT00_INSTR_STICK_ATTACK
-layer_transpose 48
-layer_setreleaserate 245
-layer_note1 PITCH_AF2, 0xd, 90
-layer_end
-
-.env_unused3:
-chan_setlayer 0, .layer_25EC
-chan_setlayer 1, .layer_25DB
-chan_end
-
-.layer_25DB:
-layer_setinstr FONT00_INSTR_WATER_BUBBLES
-layer_setenvelope .envelope_66F4, 160
-layer_enablelegato
-layer_portamento 0x85, 26, 255
-.layer_25E6:
-layer_note1 PITCH_GF3, 0x3e8, 80
-layer_jumprel .layer_25E6
-
-.layer_25EC:
-layer_setinstr FONT00_INSTR_WATER_FLOWING
-layer_setenvelope .envelope_66F4, 160
-layer_transpose 48
-layer_enablelegato
-layer_portamento 0x85, 36, 255
-.layer_25F9:
-layer_note1 PITCH_F4, 0x3e8, 75
-layer_jumprel .layer_25F9
-
-.env_water_drip_unused:
-chan_setlayer 0, .layer_2608
-chan_setlayer 1, .layer_2606
-chan_end
-
-.layer_2606:
-layer_transpose 5
-
-.layer_2608:
-layer_setinstr FONT00_INSTR_WATER_DRIP
-layer_setenvelope .envelope_66F4, 211
-layer_enablelegato
-layer_portamento 0x81, 27, 255
-.layer_2613:
-layer_note1 PITCH_G4, 500, 80
-layer_jumprel .layer_2613
-
-.env_windmill_gear:
-chan_setinstr FONT00_INSTR_CREAK
-chan_setpanmix 64
-chan_setlayer 0, .layer_2621
-chan_end
-
-.layer_2621:
-layer_portamento 0x83, 10, 255
-.layer_2625:
-layer_note1 PITCH_C2, 0x20, 96
-layer_jumprel .layer_2625
-
-.env_bush_sway:
-chan_setlayer 0, .layer_2638
-chan_setlayer 1, .layer_2631
-chan_end
-
-.layer_2631:
-layer_setinstr FONT00_INSTR_CREAK
-layer_note1 PITCH_E3, 0x18, 65
-layer_transpose 18
-
-.layer_2638:
-layer_setinstr FONT00_INSTR_STEP_GRASS
-layer_setenvelope .envelope_6688, 251
-layer_note1 PITCH_B2, 0xe, 95
-layer_note1 PITCH_C4, 0x14, 100
-layer_note1 PITCH_BF2, 0x11, 102
-layer_note1 PITCH_BF3, 0x50, 103
-layer_end
-
-.env_horse_demo_gallop:
-chan_setinstr FONT00_INSTR_HORSE_GALLOP
-chan_setlayer 0, .layer_2651
-chan_end
-
-.layer_2651:
-layer_note1 PITCH_C4, 0x27, 110
-layer_jumprel .layer_2651
-
-.env_elevator_geared_move:
-chan_setinstr FONT00_INSTR_MECH_CHARGE
-chan_sethilogain 20
-chan_setlayer 0, .layer_265E
-chan_end
-
-.layer_265E:
-layer_transpose 48
-layer_enablelegato
-.layer_2661:
-layer_note1 PITCH_E3, 0x7d00, 100
-layer_jumprel .layer_2661
-
-.env_elevator_geared_stop:
-chan_setlayer 0, .layer_2671
-chan_setlayer 1, .layer_2677
-chan_setlayer 2, .layer_2685
-chan_end
-
-.layer_2671:
-layer_setinstr FONT00_INSTR_SLAM_LIGHT
-layer_note1 PITCH_F3, 0x40, 95
-layer_end
-
-.layer_2677:
-layer_setinstr FONT00_INSTR_SLAM_GUNSHOT
-layer_setenvelope .envelope_66B0, 250
-layer_portamento 0x81, 31, 200
-layer_note1 PITCH_C3, 0x3c, 100
-layer_end
-
-.layer_2685:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_transpose 48
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_GF2, 0x34, 96
-layer_end
-
-.env_treasure_warp:
-chan_setlayer 0, .layer_269B
-chan_setlayer 1, .layer_26B3
-chan_setlayer 2, .layer_26C2
-chan_end
-
-.layer_269B:
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_6694, 235
-layer_portamento 0x83, 39, 255
-layer_loop 7
-layer_note1 PITCH_G4, 0x40, 64
-layer_loopend
-layer_portamento 0x81, 41, 255
-layer_note1 PITCH_A4, 0x70, 64
-layer_end
-
-.layer_26B3:
-layer_transpose 16
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_6694, 235
-layer_loop 7
-layer_note1 PITCH_GF5, 0x40, 50
-layer_loopend
-layer_end
-
-.layer_26C2:
-layer_delay 0x109
-layer_setinstr FONT00_INSTR_SYNTH
-layer_setenvelope .envelope_67CC, 235
-layer_note1 PITCH_D3, 0x7f, 105
-layer_end
-
-.env_door_unlock:
-chan_sethilogain 20
-chan_setlayer 0, .layer_26D8
-chan_setlayer 1, .layer_26DE
-chan_end
-
-.layer_26D8:
-layer_setinstr FONT00_INSTR_CHAIN
-layer_note1 PITCH_GF4, 0x4c, 50
-layer_end
-
-.layer_26DE:
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_note1 PITCH_E2, 0x8, 84
-layer_setinstr FONT00_INSTR_SWORD_SHEATHE
-layer_note1 PITCH_DF4, 0x14, 105
-layer_end
-
-.env_trap_blade_move:
-chan_setlayer 0, .layer_26F0
-chan_setlayer 1, .layer_26FA
-chan_end
-
-.layer_26F0:
-layer_setinstr FONT00_INSTR_SWORD_DRAW
-layer_portamento 0x81, 12, 64
-layer_note1 PITCH_BF2, 0x7f, 85
-layer_end
-
-.layer_26FA:
-layer_setinstr FONT00_INSTR_CHAIN
-layer_note1 PITCH_D3, 0x30, 81
-layer_end
-
-.env_fairy_heal_old:
-chan_setinstr FONT00_INSTR_SHIMMER
-chan_setenvelope .envelope_66F4
-chan_setdecayrelease 221
-chan_setlayer 0, .layer_2713
-chan_setlayer 1, .layer_2711
-chan_setlayer 2, .layer_271E
-chan_end
-
-.layer_2711:
-layer_transpose 4
-
-.layer_2713:
-layer_enablelegato
-layer_portamento 0x81, 43, 255
-.layer_2718:
-layer_note1 PITCH_F4, 0x190, 48
-layer_jumprel .layer_2718
-
-.layer_271E:
-layer_transpose 48
-layer_setenvelope .envelope_67D8, 221
-layer_enablelegato
-layer_portamento 0x81, 50, 255
-.layer_2729:
-layer_note1 PITCH_C5, 0x190, 64
-layer_jumprel .layer_2729
-
-.env_great_fairy_appear:
-chan_setval 129
-.chan_2731:
-chan_writeseq 0, .layer_2745+1
-chan_setinstr FONT00_INSTR_FAIRY
-chan_setenvelope .envelope_66FC
-chan_setdecayrelease 221
-chan_setlayer 0, .layer_2743
-chan_setlayer 1, .layer_2745
-chan_end
-
-.layer_2743:
-layer_transpose 24
-
-.layer_2745:
-layer_portamento 0x81, 31, 255
-layer_note1 PITCH_G3, 0xf0, 80
-layer_end
-
-.env_great_fairy_vanish:
-chan_setval 130
-chan_jumprel .chan_2731
-
-.env_trap_eye_fire:
-chan_setlayer 0, .layer_2756
-chan_end
-
-.layer_2756:
-layer_setinstr FONT00_INSTR_SYNTH
-layer_setenvelope .envelope_67CC, 245
-layer_portamento 0x81, 19, 80
-layer_note1 PITCH_AF3, 0x6e, 105
-layer_end
-
-.env_gears_unused:
-chan_setinstr FONT00_INSTR_DOOR_METAL
-chan_setenvelope .envelope_6674
-chan_setpanmix 72
-chan_setlayer 0, .layer_276F
-chan_end
-
-.layer_276F:
-layer_enablelegato
-.layer_2770:
-layer_note1 PITCH_F3, 0x7d00, 88
-layer_jumprel .layer_2770
-
-.env_wall_move_unused:
-chan_setinstr FONT00_INSTR_DOOR_METAL
-chan_setlayer 0, .layer_2781
-chan_setlayer 1, .layer_277F
-chan_end
-
-.layer_277F:
-layer_transpose -6
-
-.layer_2781:
-layer_enablelegato
-layer_portamento 0x1, 15, 0x30
-.layer_2786:
-layer_note1 PITCH_E3, 32700, 75
-layer_jumprel .layer_2786
-
-.env_treasure_flash:
-chan_setlayer 0, .layer_2790
-chan_end
-
-.layer_2790:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_6638, 251
-layer_transpose 36
-layer_note1 PITCH_D3, 0xd, 98
-layer_note1 PITCH_D4, 0x64, 98
-layer_end
-
-.env_windmill_blade:
-chan_setinstr FONT00_INSTR_CREAK
-chan_setlayer 0, .layer_27A5
-chan_end
-
-.layer_27A5:
-layer_enablelegato
-layer_transpose 48
-layer_note1 PITCH_C2, 32700, 100
-layer_jumprel .layer_27A5
-
-.env_grotto_exit:
-chan_setreverbindex 1
-
-.env_warp_unused:
-chan_setval 129
-.chan_27B2:
-chan_writeseq 0, .layer_27D3+1
-chan_setpanmix 64
-chan_setlayer 0, .layer_27CC
-chan_setlayer 1, .layer_27C8
-chan_setlayer 2, .layer_27C2
-chan_end
-
-.layer_27C2:
-layer_transpose 8
-layer_setpan 104
-layer_jumprel .layer_27CC
-
-.layer_27C8:
-layer_transpose 4
-layer_setpan 24
-
-.layer_27CC:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_66F4, 230
-layer_enablelegato
-.layer_27D3:
-layer_portamento 0x81, 58, 255
-.layer_27D7:
-layer_note1 PITCH_A5, 0x7d0, 75
-layer_jumprel .layer_27D7
-
-.env_pot_break:
-chan_setlayer 0, .layer_27E4
-chan_setlayer 1, .layer_27E8
-chan_end
-
-.layer_27E4:
-layer_transpose 36
-layer_jumprel .layer_27EA
-
-.layer_27E8:
-layer_transpose 48
-.layer_27EA:
-layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
-layer_note1 PITCH_BF3, 0x0, 75
-layer_end
-
-.env_pot_drop:
-chan_setlayer 0, .layer_27F7
-chan_setlayer 1, .layer_998
-chan_end
-
-.layer_27F7:
-layer_transpose 48
-layer_jump .layer_992
-
-.env_goddess_fly:
-chan_call .chan_fn_2823
-chan_setlayer 0, .layer_280A
-chan_setlayer 1, .layer_2816
-chan_setvibratorate 128
-chan_setvibratoextent 16
-chan_end
-
-.layer_280A:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setenvelope .envelope_6674, 245
-.layer_2810:
-layer_note1 PITCH_D5, 0x7d00, 60
-layer_jumprel .layer_2810
-
-.layer_2816:
-layer_setinstr FONT00_INSTR_WIND_HOWL_S
-layer_setenvelope .envelope_66F4, 245
-layer_enablelegato
-.layer_281D:
-layer_note1 PITCH_DF4, 0x7d00, 75
-layer_jumprel .layer_281D
-
-.chan_fn_2823:
-chan_sethilogain 12
-chan_setval 25
-chan_iowriteval 1
-chan_end
-
-.env_triforce_aura:
-chan_setinstr FONT00_INSTR_SHIMMER
-chan_setlayer 0, .layer_2832
-chan_setlayer 1, .layer_283C
-chan_end
-
-.layer_2832:
-layer_setenvelope .envelope_67D8, 230
-.layer_2836:
-layer_note1 PITCH_AF4, 0x7d00, 50
-layer_jumprel .layer_2836
-
-.layer_283C:
-layer_transpose 48
-layer_setenvelope .envelope_67D8, 230
-.layer_2842:
-layer_note1 PITCH_A3, 0x7d00, 32
-layer_jumprel .layer_2842
-
-.env_triforce_glow:
-chan_setlayer 0, .layer_2853
-chan_setlayer 1, .layer_284F
-chan_end
-
-.layer_284F:
-layer_transpose 16
-layer_jumprel .layer_2855
-
-.layer_2853:
-layer_transpose 12
-.layer_2855:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_66F4, 230
-layer_enablelegato
-.layer_285C:
-layer_note1 PITCH_F5, 0x7d00, 35
-layer_jumprel .layer_285C
-
-.env_deku_tree_death:
-chan_sethilogain 15
-chan_setlayer 0, .layer_286D
-chan_setlayer 1, .layer_287C
-chan_end
-
-.layer_286B:
-layer_transpose 4
-
-.layer_286D:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setenvelope .envelope_66FC, 170
-layer_portamento 0x81, 32, 145
-layer_note1 PITCH_D3, 0x244, 105
-layer_end
-
-.layer_287C:
-layer_setinstr FONT00_INSTR_CLOTH_TEAR
-layer_setenvelope .envelope_66FC, 170
-layer_portamento 0x81, 5, 145
-layer_note1 PITCH_B0, 0x244, 110
-layer_end
-
-.env_jabu_platform_rise:
-chan_setval 129
-chan_writeseq 0, .layer_28AA+1
-.chan_2891:
-chan_setlayer 0, .layer_28A3
-chan_setlayer 1, .layer_289C
-chan_setvibratorate 111
-chan_setvibratoextent 10
-chan_end
-
-.layer_289C:
-layer_transpose -12
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_jump .layer_28A5
-
-.layer_28A3:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-.layer_28A5:
-layer_setenvelope .envelope_667C, 231
-layer_enablelegato
-.layer_28AA:
-layer_portamento 0x81, 12, 25
-.layer_28AE:
-layer_note1 PITCH_D3, 0xcb2, 74
-layer_jumprel .layer_28AE
-
-.env_jabu_platform_fall:
-chan_setval 130
-chan_writeseq 0, .layer_28AA+1
-chan_jumprel .chan_2891
-
-.env_door_jabu_unlock:
-chan_setval 129
-.chan_28BE:
-chan_writeseq 0, .layer_28D2+1
-chan_setinstr FONT00_INSTR_SYNTH
-chan_setenvelope .envelope_6688
-chan_setlayer 0, .layer_28D2
-chan_setlayer 1, .layer_28D0
-chan_delay 0x14
-chan_end
-
-.layer_28D0:
-layer_setinstr FONT00_INSTR_STEP_WATER
-
-.layer_28D2:
-layer_portamento 0x81, 17, 255
-layer_setreleaserate 251
-layer_note1 PITCH_D1, 0x14, 80
-layer_end
-
-.env_door_jabu_lock:
-chan_setval 130
-chan_jumprel .chan_28BE
-
-.env_door_time_stop:
-chan_setlayer 0, .layer_1B2E
-chan_setlayer 1, .layer_1F1A
-chan_end
-
-.env_stone_restore:
-chan_setinstr FONT00_INSTR_WARP
-chan_setlayer 0, .layer_2913
-chan_setlayer 1, .layer_2900
-chan_setlayer 2, .layer_2922
-chan_setvibratorate 128
-chan_setvibratoextentlinear 32, 0, 55
-chan_setval 1
-chan_call .delay_varyingvol
-chan_setvibratoextent 0
-chan_end
-
-.layer_2900:
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_67E4, 200
-layer_portamento 0x81, 38, 180
-layer_note1 PITCH_C4, 0x384, 32
-layer_end
-
-.layer_290F:
-layer_transpose 27
-layer_jumprel .layer_2915
-
-.layer_2913:
-layer_transpose 15
-.layer_2915:
-layer_setenvelope .envelope_67E4, 200
-layer_portamento 0x81, 50, 180
-layer_note1 PITCH_C5, 0x384, 80
-layer_end
-
-.layer_2922:
-layer_setreleaserate 200
-layer_note1 PITCH_C3, 0x258, 64
-layer_transpose 27
-layer_setenvelope .envelope_66F4, 221
-layer_note1 PITCH_C5, 0x12c, 70
-layer_end
-
-.env_medal_acquire:
-chan_setlayer 0, .layer_2937
-chan_end
-
-.layer_2937:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_6808, 240
-layer_transpose 48
-layer_enablelegato
-layer_portamento 0x85, 46, 255
-layer_note1 PITCH_GF4, 0x50, 80
-layer_note1 PITCH_C4, 0xd2, 80
-.layer_294B:
-layer_note1 PITCH_C4, 0x113, 80
-layer_jumprel .layer_294B
-
-.env_unused4:
-chan_setlayer 0, .layer_2958
-chan_setlayer 1, .layer_54B
-chan_end
-
-.layer_2958:
-layer_setinstr FONT00_INSTR_SLAM_GUNSHOT
-layer_setenvelope .envelope_66B0, 250
-layer_portamento 0x83, 38, 200
-layer_note1 PITCH_AF2, 0x3, 95
-layer_note0 PITCH_BF2, 0x9, 95, 100
-layer_end
-
-.env_light_arrow_acquire:
-chan_setlayer 0, .layer_296E
-chan_end
-
-.layer_296E:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_6800, 240
-layer_transpose 48
-layer_enablelegato
-layer_portamento 0x85, 32, 255
-layer_note1 PITCH_F3, 0x50, 80
-layer_note1 PITCH_G4, 0x50, 80
-layer_note1 PITCH_G4, 0x208, 80
-layer_note1 PITCH_C4, 0xd2, 80
-.layer_2989:
-layer_note1 PITCH_F3, 0x64, 80
-layer_jumprel .layer_2989
-
-.env_earthquake:
-chan_setlayer 0, .layer_299C
-chan_setlayer 1, .layer_2998
-chan_setlayer 2, .layer_29AD
-chan_end
-
-.layer_2998:
-layer_setstereo 20
-
-.layer_299A:
-layer_transpose -6
-
-.layer_299C:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setenvelope .envelope_66FC, 211
-layer_enablelegato
-layer_portamento 0x81, 46, 255
-.layer_29A7:
-layer_note1 PITCH_A4, 0xc8, 77
-layer_jumprel .layer_29A7
-
-.layer_29AD:
-layer_delay 0x64
-
-.layer_29AF:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_66FC, 221
-layer_note1 PITCH_A2, 0xcf, 72
-.layer_29B9:
-layer_note1 PITCH_F3, 0x6f, 80
-layer_note1 PITCH_C3, 0xa8, 84
-layer_note1 PITCH_D3, 0x61, 68
-layer_jumprel .layer_29B9
-
-.env_trap_crystal:
-chan_setval 40
-chan_iowriteval 1
-chan_setlayer 0, .layer_29E3
-chan_setlayer 1, .layer_29D2
-chan_setlayer 2, .layer_29D4
-chan_end
-
-.layer_29D2:
-layer_transpose -4
-
-.layer_29D4:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_66F4, 241
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_EF3, 0xc6, 90
-layer_end
-
-.layer_29E3:
-layer_delay 0xbc
-layer_setinstr FONT00_INSTR_SYNTH
-layer_portamento 0x81, 3, 32
-layer_note1 PITCH_C2, 0x40, 105
-layer_end
-
-.env_sage_warp:
-chan_setinstr FONT00_INSTR_WARP
-chan_setlayer 0, .layer_29FC
-chan_setlayer 1, .layer_2124
-chan_setlayer 2, .layer_2A01
-chan_end
-
-.layer_29FC:
-layer_transpose 30
-layer_jump .layer_2132
-
-.layer_2A01:
-layer_transpose 51
-layer_jump .layer_2149
-.layer_2A06:
-layer_setinstr FONT00_INSTR_EYE_OF_TRUTH
-layer_setreleaserate 221
-layer_portamento 0x84, 22, 127
-layer_note1 PITCH_A4, 0x60, 85
-layer_note1 PITCH_B4, 0x7f, 95
-layer_end
-
-.env_sage_charge:
-chan_setinstr FONT00_INSTR_SHIMMER
-chan_setlayer 0, .layer_2A27
-chan_setlayer 1, .layer_2A36
-chan_setlayer 2, .layer_2A3F
-chan_setvibratoextent 40
-chan_setvibratoratelinear 148, 240, 100
-chan_end
-
-.layer_2A27:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setenvelope .envelope_66F4, 221
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_B5, 0x2e4, 95
-layer_end
-
-.layer_2A36:
-layer_portamento 0x81, 27, 255
-layer_note1 PITCH_B4, 0x2e4, 65
-layer_end
-
-.layer_2A3F:
-layer_transpose 48
-layer_setreleaserate 180
-layer_portamento 0x81, 27, 255
-layer_note1 PITCH_B4, 0x21c, 62
-layer_transpose 0
-layer_setinstr FONT00_INSTR_SLIDE_LINK
-layer_setenvelope .envelope_66F4, 221
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_B5, 0xc8, 85
-layer_end
-
-.env_time_travel_end:
-chan_setval 30
-chan_iowriteval 1
-chan_setlayer 0, .layer_2A6D
-chan_setlayer 1, .layer_2A7B
-chan_setlayer 2, .layer_2A8A
-chan_setvibratorate 251
-chan_setvibratoextent 6
-chan_end
-
-.layer_2A6D:
-layer_setinstr FONT00_INSTR_WARP
-layer_transpose 24
-layer_setenvelope .envelope_66F4, 230
-.layer_2A75:
-layer_note1 PITCH_A4, 0x7d00, 64
-layer_jumprel .layer_2A75
-
-.layer_2A7B:
-layer_setinstr FONT00_INSTR_WATER_FLOWING
-layer_transpose 48
-layer_enablelegato
-layer_setenvelope .envelope_66F4, 180
-.layer_2A84:
-layer_note1 PITCH_F5, 0x7d00, 40
-layer_jumprel .layer_2A84
-
-.layer_2A8A:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_66F4, 180
-layer_enablelegato
-.layer_2A91:
-layer_note1 PITCH_C5, 0x7d00, 64
-layer_jumprel .layer_2A91
-
-.env_jabu_platform_rise_stop:
-chan_sethilogain 20
-chan_setlayer 0, .layer_2AA8
-chan_setlayer 1, .layer_2AA0
-chan_end
-
-.layer_2AA0:
-layer_setinstr FONT00_INSTR_STEP_WATER
-layer_note1 PITCH_G1, 0x1e, 80
-layer_jump .layer_1B35
-
-.layer_2AA8:
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_portamento 0x81, 32, 127
-layer_note1 PITCH_A3, 0x64, 110
-layer_end
-
-.env_jabu_platform_fall_stop:
-chan_sethilogain 10
-chan_setlayer 0, .layer_1B2E
-chan_setlayer 1, .layer_2AC6
-chan_setlayer 2, .layer_2ABE
-chan_end
-
-.layer_2ABE:
-layer_setinstr FONT00_INSTR_STEP_WATER
-layer_note1 PITCH_D1, 0x32, 80
-layer_jump .layer_1B35
-
-.layer_2AC6:
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_note1 PITCH_D3, 0x78, 110
-layer_end
-
-.env_goron_fall:
-chan_setlayer 0, .layer_2AD4
-chan_setvibratoextent 4
-chan_setvibratorate 58
-chan_end
-
-.layer_2AD4:
-layer_transpose 12
-layer_setinstr INSTR_WV_SINE
-layer_setenvelope .envelope_66D0, 248
-layer_portamento 0x81, 56, 255
-layer_note1 PITCH_F3, 0x7f, 60
-layer_end
-
-.env_spell_fire_stance:
-chan_setlayer 0, .layer_3E5
-chan_setlayer 1, .layer_747
-chan_end
-
-.env_ice_melt:
-chan_setlayer 0, .layer_2B01
-chan_setlayer 1, .layer_2AF2
-chan_end
-
-.layer_2AF2:
-layer_setinstr FONT00_INSTR_SLIDE_BLOCK
-layer_setenvelope .envelope_66FC, 225
-layer_portamento 0x81, 62, 255
-layer_note1 PITCH_C5, 0xaa, 96
-layer_end
-
-.layer_2B01:
-layer_setinstr FONT00_INSTR_BOMB
-layer_setenvelope .envelope_66FC, 225
-layer_portamento 0x81, 51, 255
-layer_note1 PITCH_A2, 0xaa, 96
-layer_end
-
-.env_fire_pillar:
-chan_setlayer 0, .layer_2C60
-chan_end
-
-.env_unused5:
-chan_setinstr FONT00_INSTR_DOOR_METAL
-chan_setenvelope .envelope_6610
-chan_setlayer 0, .layer_2B1D
-chan_end
-
-.layer_2B1D:
-layer_note1 PITCH_GF3, 0x9, 110
-layer_loop 32
-layer_note1 PITCH_AF3, 0x8, 115
-layer_loopend
-layer_note1 PITCH_BF3, 0xb, 115
-layer_end
-
-.env_magic_vanish:
-chan_setlayer 0, .layer_2B31
-chan_setlayer 1, .layer_2B39
-chan_end
-
-.layer_2B31:
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_66FC, 195
-layer_jumprel .layer_2B41
-
-.layer_2B39:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_66FC, 195
-layer_transpose 48
-.layer_2B41:
-layer_portamento 0x81, 44, 255
-layer_note1 PITCH_E5, 0x64, 85
-layer_end
-
-.env_ocarina_warp:
-chan_setval 129
-chan_writeseq 0, .layer_2B95+1
-chan_writeseq 0, .layer_2BA6+1
-chan_setlayer 0, .layer_2B5D
-chan_setlayer 1, .layer_2B9F
-chan_setlayer 2, .layer_2B86
-chan_end
-
-.layer_2B5D:
-layer_delay 0x172
-layer_end
-
-.env_ocarina_arrive:
-chan_setval 130
-chan_writeseq 0, .layer_2B95+1
-chan_writeseq 0, .layer_2BA6+1
-chan_setlayer 0, .layer_2B5D
-chan_setlayer 1, .layer_2B9F
-chan_setlayer 2, .layer_2B86
-chan_end
-
-.env_fairy_heal:
-chan_setval 129
-chan_writeseq 0, .layer_2B95+1
-chan_writeseq 0, .layer_2BA6+1
-chan_setlayer 0, .layer_2B8C
-chan_setlayer 1, .layer_2B9F
-chan_end
-
-.layer_2B86:
-layer_setinstr FONT00_INSTR_FAIRY_MAGIC
-layer_transpose -12
-layer_jumprel .layer_2B90
-
-.layer_2B8C:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_transpose 48
-.layer_2B90:
-layer_enablelegato
-layer_setenvelope .envelope_67D8, 221
-.layer_2B95:
-layer_portamento 0x81, 27, 255
-.layer_2B99:
-layer_note1 PITCH_C5, 500, 85
-layer_jumprel .layer_2B99
-
-.layer_2B9F:
-layer_setinstr FONT00_INSTR_FAIRY_MAGIC
-layer_enablelegato
-layer_setenvelope .envelope_67D8, 221
-.layer_2BA6:
-layer_portamento 0x81, 51, 255
-.layer_2BAA:
-layer_note1 PITCH_B5, 500, 85
-layer_jumprel .layer_2BAA
-
-.env_door_boss_unlock:
-chan_sethilogain 20
-chan_setlayer 0, .layer_2BC7
-chan_setlayer 1, .layer_2BBC
-chan_setlayer 2, .layer_26D8
-chan_end
-
-.layer_2BBC:
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_note1 PITCH_E2, 0xf, 84
-layer_setinstr FONT00_INSTR_CHAIN
-layer_note1 PITCH_C4, 0x3d, 66
-layer_end
-
-.layer_2BC7:
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_note1 PITCH_E1, 0x8, 84
-layer_transpose 48
-layer_note1 PITCH_EF2, 0x0, 80
-layer_end
-
-.env_crate_small_break:
-chan_setlayer 0, .layer_2BD9
-chan_setlayer 1, .layer_1F7B
-chan_end
-
-.layer_2BD9:
-layer_transpose -12
-layer_jump .layer_1F6E
-
-.env_unused6:
-chan_setlayer 1, .layer_1F1C
-
-.env_crate_small_drop:
-chan_setlayer 0, .layer_2BE5
-chan_end
-
-.layer_2BE5:
-layer_setinstr FONT00_INSTR_STICK_ATTACK
-layer_note1 PITCH_C3, 0x4, 100
-layer_note1 PITCH_G2, 0x8, 100
-layer_end
-
-.env_ruto_rebound_jabu:
-chan_setlayer 0, .layer_561
-chan_setlayer 1, .layer_2958
-chan_end
-
-.env_door_creak_rumble:
-chan_sethilogain 15
-chan_setlayer 0, .layer_286B
-chan_setlayer 1, .layer_24A5
-chan_end
-
-.env_night_howl:
-chan_setval 25
-chan_iowriteval 1
-chan_setlayer 0, .layer_2C05
-chan_end
-
-.layer_2C05:
-layer_setinstr FONT00_INSTR_ANIMALS_1
-layer_transpose 48
-layer_note1 PITCH_G3, 0x0, 70
-layer_end
-
-.env_jabu_groan:
-chan_setlayer 0, .layer_137D
-chan_setlayer 1, .layer_1361
-chan_setlayer 2, .layer_299C
-chan_jump .chan_135C
-
-.env_frog_jump:
-chan_setlayer 0, .layer_2C20
-chan_setlayer 1, .layer_2C2A
-chan_end
-
-.layer_2C20:
-layer_setinstr FONT00_INSTR_ANIMALS_0
-layer_transpose 48
-layer_setreleaserate 241
-layer_note1 PITCH_C3, 0x2b, 100
-layer_end
-
-.layer_2C2A:
-layer_setinstr INSTR_WV_SQUARE
-layer_setenvelope .envelope_65D8, 251
-layer_portamento 0x81, 15, 255
-layer_note1 PITCH_C5, 0x28, 45
-layer_end
-
-.env_ice_freeze_old:
-chan_setlayer 0, .layer_2C47
-chan_setlayer 1, .layer_2C3F
-chan_end
-
-.layer_2C3F:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_667C, 240
-layer_jumprel .layer_2C4E
-
-.layer_2C47:
-layer_setinstr FONT00_INSTR_FIRE_WIND
-layer_enablelegato
-layer_portamento 0x81, 32, 255
-.layer_2C4E:
-layer_note1 PITCH_C2, 0x190, 105
-layer_jumprel .layer_2C4E
-
-.env_fire_wall:
-chan_setlayer 1, .layer_2C62
-chan_setval 88
-chan_writeseq 0, .chan_2287+1
-chan_jump .chan_2267
-
-.layer_2C60:
-layer_transpose 6
-
-.layer_2C62:
-layer_setinstr FONT00_INSTR_FIRE_WALL
-layer_setenvelope .envelope_667C, 230
-layer_enablelegato
-layer_portamento 0x85, 3, 255
-.layer_2C6D:
-layer_note1 PITCH_E1, 0x55, 80
-layer_note1 PITCH_C1, 0x20, 80
-layer_jumprel .layer_2C6D
-
-.env_wood_rebound:
-chan_setinstr FONT00_INSTR_STICK_ATTACK
-chan_setlayer 0, .layer_2C7E
-chan_setlayer 1, .layer_13EE
-chan_end
-
-.layer_2C7E:
-layer_note1 PITCH_GF3, 0xd, 100
-layer_note1 PITCH_A2, 0x0, 72
-layer_end
-
-.env_water_drip_unused2:
-chan_setval 80
-chan_iowriteval 1
-chan_setlayer 0, .layer_2C91
-chan_setlayer 1, .layer_2C8F
-chan_end
-
-.layer_2C8F:
-layer_transpose -1
-
-.layer_2C91:
-layer_delay 0x30
-layer_setinstr FONT00_INSTR_WATER_DRIP
-layer_note1 PITCH_GF3, 0x40, 105
-layer_end
-
-.env_jabu_breathe:
-chan_setlayer 0, .layer_2C9D
-chan_end
-
-.layer_2C9D:
-layer_setinstr FONT00_INSTR_ROAR_BARK
-layer_setreleaserate 240
-layer_portamento 0x83, 8, 255
-layer_note0 PITCH_C2, 0xa8, 85, 5
-layer_note1 PITCH_C1, 0x96, 85
-layer_end
-
-.env_dalm_block_hit:
-chan_sethilogain 10
-chan_setlayer 0, .layer_1F6E
-chan_setlayer 1, .layer_1F7B
-chan_setlayer 2, .layer_2B31
-chan_end
-
-.env_boulder_roll:
-chan_setlayer 0, .layer_2CC8
-chan_setlayer 1, .layer_2CC2
-chan_end
-
-.layer_2CC2:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_transpose 15
-layer_jumprel .layer_2CCA
-
-.layer_2CC8:
-layer_setinstr FONT00_INSTR_ROLL_BOULDER
-.layer_2CCA:
-layer_enablelegato
-layer_setreleaserate 235
-layer_portamento 0x81, 22, 175
-.layer_2CD1:
-layer_note1 PITCH_C3, 0x60, 95
-layer_jumprel .layer_2CD1
-
-.env_elevator_groan_unused:
-chan_setlayer 0, .layer_2CDF
-chan_setlayer 1, .layer_2CDD
-chan_end
-
-.layer_2CDD:
-layer_transpose -24
-
-.layer_2CDF:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setenvelope .envelope_6674, 251
-layer_enablelegato
-layer_portamento 0x1, 36, 0x7f
-.layer_2CEA:
-layer_note1 PITCH_F5, 32700, 95
-layer_jumprel .layer_2CEA
-
-.env_diamond_switch_on:
-chan_call .env_guard_attention
-chan_jump .env_treasure_flash
-
-.env_kakariko_fire:
-chan_setpanmix 48
-chan_setlayer 2, .layer_2357
-chan_jump .env_fire_wall
-
-.env_rainbow_bridge_appear:
-chan_call .env_triforce_aura
-.chan_2D01:
-chan_setlayer 1, .layer_2937
-chan_setval 100
-chan_call .delay_varyingvol
-chan_setlayer 2, .layer_2937
-chan_setval 100
-chan_call .delay_varyingvol
-chan_jumprel .chan_2D01
-
-.env_flying_old:
-chan_setlayer 1, .layer_2D25
-chan_setlayer 2, .layer_2D23
-chan_setval 102
-chan_writeseq 0, .chan_2287+1
-chan_jump .chan_2267
-chan_end
-
-.layer_2D23:
-layer_transpose -9
-
-.layer_2D25:
-layer_enablelegato
-layer_setinstr FONT00_INSTR_WIND_HOWL_S
-layer_setenvelope .envelope_6818, 241
-layer_portamento 0x1, 44, 0x7f
-.layer_2D30:
-layer_note1 PITCH_B4, 32700, 80
-layer_jumprel .layer_2D30
-
-.env_flying_end_old:
-chan_setlayer 0, .layer_2D3A
-chan_end
-
-.layer_2D3A:
-layer_transpose 12
-layer_enablelegato
-layer_setinstr FONT00_INSTR_WIND_HOWL_S
-layer_setenvelope .envelope_6694, 221
-layer_portamento 0x85, 48, 255
-layer_note1 PITCH_D4, 0x24, 105
-layer_note1 PITCH_G5, 0x64, 105
-layer_end
-
-.env_deku_sprout_grow:
-chan_setlayer 0, .layer_2D55
-chan_setlayer 1, .layer_599
-chan_end
-
-.layer_2D55:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_6688, 230
-layer_portamento 0x81, 10, 255
-layer_note1 PITCH_A4, 0x46, 95
-layer_end
-
-.env_desert_storm:
-chan_setlayer 0, .layer_2D6E
-chan_setlayer 1, .layer_2D6A
-chan_end
-
-.layer_2D6A:
-layer_transpose 27
-layer_jumprel .layer_2D70
-
-.layer_2D6E:
-layer_transpose 36
-.layer_2D70:
-layer_enablelegato
-layer_setinstr FONT00_INSTR_FIRE_WIND
-layer_setenvelope .envelope_6674, 200
-layer_portamento 0x85, 56, 255
-.layer_2D7B:
-layer_note1 PITCH_B5, 500, 58
-layer_note1 PITCH_E5, 350, 58
-layer_jumprel .layer_2D7B
-
-.env_triforce_mark:
-chan_setlayer 0, .layer_255B
-chan_setlayer 1, .layer_2D8F
-chan_setlayer 2, .layer_2790
-chan_end
-
-.layer_2D8F:
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_66FC, 195
-layer_portamento 0x81, 0, 255
-layer_note1 PITCH_F2, 0x7f, 85
-layer_end
-
-.env_grave_explode:
-chan_sethilogain 20
-chan_setlayer 0, .layer_1A36
-chan_setlayer 1, .layer_1F6E
-chan_setlayer 2, .layer_1F7B
-chan_end
-
-.env_obj_drop_water:
-chan_setlayer 0, .layer_1ACE
-chan_end
-
-.env_obj_lift_water:
-chan_setlayer 0, .layer_2DB1
-chan_end
-
-.layer_2DB1:
-layer_setinstr FONT00_INSTR_WATER_SPLISH
-layer_note1 PITCH_B4, 0x9, 100
-layer_setinstr FONT00_INSTR_WATER_SPLASH
-layer_setenvelope .envelope_664C, 240
-layer_note1 PITCH_A4, 0x6, 90
-layer_note1 PITCH_B4, 0x22, 80
-layer_end
-
-.env_ganondorf_cloak:
-chan_setinstr FONT00_INSTR_CLOAK
-chan_setlayer 0, .layer_2DC9
-chan_end
-
-.layer_2DC9:
-layer_portamento 0x81, 27, 127
-layer_note1 PITCH_F3, 0x64, 100
-layer_end
-
-.env_dig:
-chan_setlayer 0, .layer_3CC
-chan_setlayer 1, .layer_599
-chan_end
-
-.env_lab_bubbles:
-chan_setlayer 0, .layer_2DDC
-chan_end
-
-.layer_2DDC:
-layer_setinstr FONT00_INSTR_WATER_BUBBLES
-layer_setreleaserate 200
-layer_note1 PITCH_G3, 0x40, 55
-layer_end
-
-.env_ice_break_old:
-chan_setinstr FONT00_INSTR_CHATTER
-chan_setenvelope .envelope_65D8
-chan_setlayer 0, .layer_2DF0
-chan_setlayer 1, .layer_2DF6
-chan_end
-
-.layer_2DF0:
-layer_transpose 48
-layer_note1 PITCH_C4, 0x48, 94
-layer_end
-
-.layer_2DF6:
-layer_transpose 48
-layer_note1 PITCH_B4, 0x48, 112
-layer_end
-
-.env_frog_grow:
-chan_setlayer 0, .layer_2E00
-chan_end
-
-.layer_2E00:
-layer_setinstr INSTR_WV_BELL
-layer_setenvelope .envelope_6610, 251
-layer_portamento 0x83, 0, 255
-layer_note1 PITCH_AF2, 0x2c, 60
-layer_note1 PITCH_D3, 0x2c, 60
-layer_note1 PITCH_G3, 0x2c, 60
-layer_end
-
-.env_water_flow:
-chan_setpanmix 48
-chan_setlayer 0, .layer_23C9
-chan_setlayer 1, .layer_23B7
-chan_end
-
-.env_gate_large_open:
-chan_setlayer 0, .layer_2E21
-chan_end
-
-.layer_2E21:
-layer_setinstr FONT00_INSTR_DOOR_METAL
-layer_transpose 48
-layer_note1 PITCH_C3, 0x0, 110
-layer_end
-
-.env_goddess_face_break:
-chan_call .env_bwall_break
-chan_setlayer 2, .layer_1A30
-chan_end
-
-.env_goddess_face_explode:
-chan_setlayer 0, .layer_1A36
-chan_setlayer 1, .layer_299A
-chan_end
-
-.env_goddess_face_crumble:
-chan_setlayer 0, .layer_29AD
-chan_setlayer 1, .layer_29AF
-chan_end
-
-.env_trap_blade_move_old:
-chan_setlayer 0, .layer_2E45
-chan_setlayer 1, .layer_26FA
-chan_end
-
-.layer_2E45:
-layer_setinstr FONT00_INSTR_SWORD_DRAW
-layer_portamento 0x81, 24, 64
-layer_note1 PITCH_G2, 0x7f, 85
-layer_end
-
-.env_unused7:
-chan_setinstr FONT00_INSTR_CHATTER
-chan_setlayer 0, .layer_2E55
-chan_end
-
-.layer_2E55:
-layer_transpose 48
-layer_note1 PITCH_A3, 0xa, 94
-layer_end
-
-.env_warp_lower:
-chan_setval 130
-chan_jump .chan_27B2
-
-.env_sage_chamber_ambient:
-chan_setval 32
-chan_iowriteval 1
-chan_setlayer 0, .layer_2E67
-chan_end
-
-.layer_2E67:
-layer_setinstr FONT00_INSTR_WATER_DRIP
-.layer_2E69:
-layer_note1 PITCH_B0, 0x0, 70
-layer_jumprel .layer_2E69
-
-.env_sage_chamber_energy:
-chan_setval 32
-chan_iowriteval 1
-chan_setlayer 0, .layer_2E75
-chan_end
-
-.layer_2E75:
-layer_setinstr FONT00_INSTR_WIND_HOWL_S
-layer_setenvelope .envelope_6710, 251
-layer_enablelegato
-layer_portamento 0x81, 39, 255
-.layer_2E80:
-layer_note1 PITCH_C3, 0xfa, 110
-layer_jumprel .layer_2E80
-
-.env_dog_bark:
-chan_setlayer 0, .layer_2E8A
-chan_end
-
-.layer_2E8A:
-layer_setinstr FONT00_INSTR_ROAR_BARK
-layer_transpose 48
-layer_note1 PITCH_C4, 0x0, 100
-layer_end
-
-.env_zelda_cast_spell:
-chan_setinstr FONT00_INSTR_WARP
-chan_sethilogain 15
-chan_setlayer 1, .layer_290F
-chan_setlayer 0, .layer_2EA0
-chan_setlayer 2, .layer_2EAF
-chan_end
-
-.layer_2EA0:
-layer_setinstr FONT00_INSTR_FAIRY
-layer_setenvelope .envelope_67E4, 200
-layer_portamento 0x81, 50, 180
-layer_note1 PITCH_C5, 0xc8, 110
-layer_end
-
-.layer_2EAF:
-layer_setreleaserate 200
-layer_note1 PITCH_C4, 0xc8, 115
-layer_end
-
-.env_rain:
-chan_setinstr INSTR_DRUM
-chan_setpanmix 0
-chan_setlayer 0, .layer_2EC1
-chan_setlayer 1, .layer_2EC8
-chan_end
-
-.layer_2EC1:
-layer_enablelegato
-.layer_2EC2:
-layer_note1 FONT00_DRUM_RAIN_1, 32700, 80
-layer_jumprel .layer_2EC2
-
-.layer_2EC8:
-layer_enablelegato
-.layer_2EC9:
-layer_note1 FONT00_DRUM_RAIN_0, 32700, 80
-layer_jumprel .layer_2EC9
-
-.env_door_metal_open:
-chan_setlayer 0, .layer_2ED3
-chan_end
-
-.layer_2ED3:
-layer_setinstr FONT00_INSTR_DOOR_METAL
-layer_transpose 48
-layer_note1 PITCH_D4, 0x0, 110
-layer_end
-
-.env_door_metal_close:
-chan_setlayer 0, .layer_2EDF
-chan_end
-
-.layer_2EDF:
-layer_setinstr FONT00_INSTR_DOOR_METAL
-layer_transpose 48
-layer_note1 PITCH_G3, 0x0, 110
-layer_end
-
-.env_whirlpool:
-chan_setlayer 0, .layer_23C5
-chan_setlayer 1, .layer_23AD
-chan_end
-
-.env_tower_break:
-chan_sethilogain 10
-chan_setlayer 0, .layer_2EFA
-chan_setlayer 1, .layer_2F0A
-chan_setlayer 2, .layer_1F41
-chan_end
-
-.layer_2EFA:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setreleaserate 221
-layer_note1 PITCH_C4, 0xc, 82
-layer_portamento 0x81, 27, 255
-layer_note1 PITCH_F2, 0x91, 105
-layer_end
-
-.layer_2F0A:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setreleaserate 221
-layer_note1 PITCH_C5, 0xc, 82
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_F3, 0x91, 105
-layer_end
-
-.env_cow_moo:
-chan_setinstr FONT00_INSTR_FIRE_COW
-chan_setlayer 0, .layer_2F20
-chan_end
-
-.layer_2F20:
-layer_transpose 48
-layer_note1 PITCH_C4, 0x0, 100
-layer_end
-
-.env_obj_break_unused:
-chan_setlayer 0, .layer_2F2D
-chan_setlayer 1, .layer_2F38
-chan_end
-
-.layer_2F2D:
-layer_setinstr FONT00_INSTR_DOOR_METAL
-layer_transpose 48
-layer_note1 PITCH_G5, 0xd, 66
-layer_note1 PITCH_D5, 0x1a, 66
-layer_end
-
-.layer_2F38:
-layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
-layer_transpose 48
-layer_note1 PITCH_A3, 0x0, 68
-layer_note1 PITCH_C4, 0x0, 68
-layer_end
-
-.env_rock_barrier_hit:
-chan_setlayer 3, .layer_1E0A
-chan_call .env_grave_explode
-chan_end
-
-.env_frog_croak_leave:
-chan_setlayer 0, .layer_2F4E
-chan_end
-
-.layer_2F4E:
-layer_setinstr FONT00_INSTR_ANIMALS_0
-layer_transpose 48
-layer_note1 PITCH_F3, 0x8, 85
-layer_note1 PITCH_D3, 0x8, 85
-layer_portamento 0x81, 27, 127
-layer_note1 PITCH_A3, 0x18, 85
-layer_end
-
-.env_frog_croak_grow:
-chan_setlayer 0, .layer_2F64
-chan_end
-
-.layer_2F64:
-layer_setinstr FONT00_INSTR_ANIMALS_0
-layer_transpose 48
-layer_note1 PITCH_F3, 0x8, 85
-layer_note1 PITCH_A3, 0x8, 85
-layer_portamento 0x81, 34, 127
-layer_note1 PITCH_C3, 0x18, 85
-layer_end
-
-.env_cow_moo_distant:
-chan_setinstr FONT00_INSTR_FIRE_COW
-chan_setdecayrelease 180
-chan_setval 20
-chan_iowriteval 1
-.chan_2F7D:
-chan_setlayer 0, .layer_2FB2
-chan_setval 255
-chan_call .delay_varyingvol
-chan_rand 2
-chan_writeseq 47, .layer_2FAB+1
-chan_randrangelarge 106, 150
-chan_writeseqlarge .addr_2FB6
-chan_setval 1
-chan_readseq .addr_2FB6
-chan_writeseq 0, .chan_2F9F+1
-chan_setlayer 0, .layer_2FAB
-.chan_2F9F:
-chan_setval 1
-chan_call .delay_varyingvol
-chan_setval 255
-chan_call .delay_varyingvol
-chan_jumprel .chan_2F7D
-
-.layer_2FAB:
-layer_transpose 48
-layer_note1 PITCH_C4, 0x93, 60
-layer_end
-
-.layer_2FB2:
-layer_delay 0x7d00
-layer_end
-
-.addr_2FB6:
-.byte 0x0
-.byte 0x0
-
-.env_door_ranch_close:
-chan_setlayer 0, .layer_2FBF
-chan_setlayer 1, .layer_2BC7
-chan_end
-
-.layer_2FBF:
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_note1 PITCH_E2, 0x0, 84
-layer_end
-
-.env_butterfly_transform:
-chan_setlayer 0, .layer_2FCC
-chan_setlayer 1, .layer_2FDC
-chan_end
-
-.layer_2FCC:
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_transpose 48
-layer_setenvelope .envelope_6638, 251
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_C5, 0x64, 80
-layer_end
-
-.layer_2FDC:
-layer_setinstr FONT00_INSTR_FAIRY_MAGIC
-layer_setenvelope .envelope_6638, 251
-layer_portamento 0x81, 39, 255
-layer_note1 PITCH_C5, 0x64, 80
-layer_end
-
-.env_gossip_stretch:
-chan_setlayer 0, .layer_2FEE
-chan_end
-
-.layer_2FEE:
-layer_setinstr INSTR_WV_BELL
-layer_setenvelope .envelope_6610, 251
-layer_portamento 0x83, 0, 255
-layer_note1 PITCH_AF3, 0x3c, 60
-layer_end
-
-.env_gossip_launch:
-chan_setlayer 0, .layer_1F03
-chan_jump .chan_1A2C
-
-.env_spike_log_roll:
-chan_setlayer 0, .layer_3006
-chan_end
-
-.layer_3006:
-layer_setinstr FONT00_INSTR_CHAIN_RETRACT
-layer_enablelegato
-.layer_3009:
-layer_note1 PITCH_DF3, 32700, 80
-layer_jumprel .layer_3009
-
-.env_barrier_energy:
-chan_setlayer 0, .layer_3016
-chan_setlayer 1, .layer_3029
-chan_end
-
-.layer_3016:
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_setenvelope .envelope_6674, 251
-layer_enablelegato
-layer_portamento 0x85, 15, 255
-.layer_3021:
-layer_note1 PITCH_C3, 0x64, 55
-layer_note1 PITCH_C2, 0x64, 55
-layer_jumprel .layer_3021
-
-.layer_3029:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_6674, 251
-layer_enablelegato
-layer_portamento 0x85, 27, 255
-.layer_3034:
-layer_note1 PITCH_C4, 0x32, 65
-layer_note1 PITCH_C3, 0x32, 65
-layer_jumprel .layer_3034
-
-.env_barrier_hum:
-chan_setlayer 0, .layer_3046
-chan_setlayer 1, .layer_3059
-chan_setlayer 2, .layer_306C
-chan_end
-
-.layer_3046:
-layer_setinstr INSTR_WV_SINE
-layer_setenvelope .envelope_6674, 251
-layer_enablelegato
-layer_portamento 0x85, 3, 255
-.layer_3051:
-layer_note1 PITCH_G1, 0x2d, 40
-layer_note1 PITCH_C1, 0x2d, 40
-layer_jumprel .layer_3051
-
-.layer_3059:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_6674, 251
-layer_enablelegato
-layer_portamento 0x85, 34, 255
-.layer_3064:
-layer_note1 PITCH_G4, 0x5a, 65
-layer_note1 PITCH_G3, 0x5a, 65
-layer_jumprel .layer_3064
-
-.layer_306C:
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_setenvelope .envelope_6674, 251
-layer_enablelegato
-layer_portamento 0x85, 7, 255
-.layer_3077:
-layer_note1 PITCH_E2, 0xb4, 55
-layer_note1 PITCH_E1, 0xb4, 55
-layer_jumprel .layer_3077
-
-.env_kid_walk:
-chan_setlayer 0, .layer_3085
-chan_end
-
-.layer_3085:
-layer_setinstr FONT00_INSTR_STEP_GROUND
-layer_portamento 0x81, 43, 255
-layer_note1 PITCH_E2, 0xe, 60
-layer_end
-
-.env_guard_walk:
-chan_setlayer 0, .layer_30A0
-chan_setlayer 1, .layer_3096
-chan_end
-
-.layer_3096:
-layer_setinstr FONT00_INSTR_STEP_GROUND
-layer_portamento 0x81, 32, 127
-layer_note1 PITCH_F3, 0xa, 76
-layer_end
-
-.layer_30A0:
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_note1 PITCH_F4, 0x6, 48
-layer_setinstr FONT00_INSTR_STEP_FIRE
-layer_note1 PITCH_C4, 0xa, 48
-layer_end
-
-.env_pillar_stop:
-chan_setlayer 0, .layer_30AF
-chan_end
-
-.layer_30AF:
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_setreleaserate 241
-layer_note1 PITCH_GF4, 0x6, 75
-layer_note1 PITCH_F3, 0x64, 75
-layer_end
-
-.balign 16
-
-.filter_env0:
+.table table_env
+entry env_door_open
+entry env_door_close
+entry env_explosion
+entry env_horse_trot
+entry env_horse_gallop
+entry env_horse_neigh
+entry env_river
+entry env_waterfall_large
+entry env_zora_surface
+entry env_zora_dive
+entry env_block_push
+entry env_lava_bubbling_old
+entry env_drawbridge_lower
+entry env_drawbridge_raise
+entry env_drawbridge_lowered
+entry env_drawbridge_raised
+entry env_bwall_break
+entry env_cucco_cluck
+entry env_cucco_attack
+entry env_cucco_crow
+entry env_door_slide_open
+entry env_switch_press
+entry env_horse_snort
+entry env_bomb_hit_water
+entry env_horse_jump
+entry env_horse_land
+entry env_horse_slip
+entry env_fairy_awake
+entry env_door_slide_close
+entry env_door_stone_close
+entry env_door_time_open
+entry env_treasure_unlock
+entry env_treasure_open
+entry env_timer_tick
+entry env_torch_light
+entry env_guard_attention
+entry env_elevator_move
+entry env_warp_circle
+entry env_warp_circle_enter
+entry env_stairs_lower
+entry env_waterfall_small
+entry env_river_slow
+entry env_river_fast
+entry env_horse_phantom_gallop
+entry env_horse_stop_sand
+entry env_electric_charge
+entry env_thunder_bolt_crash
+entry env_bomb_rebound
+entry env_water_drip
+entry env_fire_crackle
+entry env_lava_bubbling
+entry env_flame_jet
+entry env_flame_wall
+entry env_block_lock
+entry env_door_metal_open_unused
+entry env_door_slide_unlock_unused
+entry env_block_shake
+entry env_crate_break
+entry env_switch_hammer
+entry env_lava_bubbling_eerie
+entry env_fence_raise
+entry env_horse_ganon_neigh
+entry env_horse_ganon_snort
+entry env_phantom_warp
+entry env_witch_warp
+entry env_water_fountain
+entry env_horse_kid_trot
+entry env_horse_kid_gallop
+entry env_horse_kid_neigh
+entry env_horse_kid_snort
+entry env_barrier_node_fadeout
+entry env_barrier_dispell
+entry env_tree_cut
+entry env_volcano_erupt
+entry env_guillotine_rise
+entry env_guillotine_fall
+entry env_scythe_spin
+entry env_guillotine_chain
+entry env_plant_break
+entry env_ship_bell
+entry env_flag_flutter
+entry env_unused
+entry env_rock_break
+entry env_phantom_warp2
+entry env_phantom_warp_loop
+entry env_coffin_open
+entry env_coffin_close
+entry env_fan_spin
+entry env_trap_wall_slide
+entry env_door_slide_lock
+entry env_door_slide_unlock
+entry env_flame_jet_low
+entry env_ganon_block_sink
+entry env_crowd_chatter
+entry env_water_change
+entry env_fairy_hide
+entry env_ladder_land
+entry env_web_bend
+entry env_web_break
+entry env_unused2
+entry env_door_jabu_open
+entry env_door_jabu_close
+entry env_door_wood_creak_unused
+entry env_gate_open
+entry env_bottle_scoop_water
+entry env_fish_flop
+entry env_scarecrow_sway
+entry env_scarecrow_spin
+entry env_bottle_open
+entry env_jabu_inhale
+entry env_stone_resonate
+entry env_triforce_flash
+entry env_ruto_trip
+entry env_fairy_fly
+entry env_fairy_crash
+entry env_spear_ready
+entry env_unused3
+entry env_water_drip_unused
+entry env_windmill_gear
+entry env_bush_sway
+entry env_horse_demo_gallop
+entry env_elevator_geared_move
+entry env_elevator_geared_stop
+entry env_treasure_warp
+entry env_door_unlock
+entry env_trap_blade_move
+entry env_fairy_heal_old
+entry env_great_fairy_appear
+entry env_great_fairy_vanish
+entry env_trap_eye_fire
+entry env_gears_unused
+entry env_wall_move_unused
+entry env_treasure_flash
+entry env_windmill_blade
+entry env_warp_unused
+entry env_pot_break
+entry env_pot_drop
+entry player_large_splash
+entry player_small_splash
+entry env_goddess_fly
+entry env_triforce_aura
+entry env_triforce_glow
+entry env_deku_tree_death
+entry env_jabu_platform_rise
+entry env_jabu_platform_fall
+entry env_door_jabu_unlock
+entry env_door_jabu_lock
+entry env_door_time_stop
+entry env_stone_restore
+entry env_medal_acquire
+entry env_unused4
+entry env_light_arrow_acquire
+entry env_earthquake
+entry env_trap_crystal
+entry env_sage_warp
+entry env_sage_charge
+entry env_sage_charge
+entry env_time_travel_end
+entry env_jabu_platform_rise_stop
+entry env_jabu_platform_fall_stop
+entry env_goron_fall
+entry env_spell_fire_stance
+entry env_ice_melt
+entry env_fire_pillar
+entry env_unused5
+entry env_magic_vanish
+entry env_ocarina_warp
+entry env_ocarina_arrive
+entry env_fairy_heal
+entry env_door_boss_unlock
+entry env_crate_small_break
+entry env_crate_small_drop
+entry env_ruto_rebound_jabu
+entry env_door_creak_rumble
+entry env_night_howl
+entry env_jabu_groan
+entry item_sword_swing
+entry env_frog_jump
+entry env_ice_freeze_old
+entry env_fire_wall
+entry env_wood_rebound
+entry env_water_drip_unused2
+entry env_jabu_breathe
+entry env_dalm_block_hit
+entry env_boulder_roll
+entry env_elevator_groan_unused
+entry env_diamond_switch_on
+entry env_kakariko_fire
+entry env_rainbow_bridge_appear
+entry env_flying_old
+entry env_flying_end_old
+entry env_deku_sprout_grow
+entry env_desert_storm
+entry env_triforce_mark
+entry env_grave_explode
+entry player_swim
+entry player_lift_pot
+entry env_obj_drop_water
+entry env_obj_lift_water
+entry env_ganondorf_cloak
+entry env_dig
+entry env_unused6
+entry env_lab_bubbles
+entry env_ice_break_old
+entry env_frog_grow
+entry env_water_flow
+entry env_gate_large_open
+entry env_goddess_face_break
+entry env_goddess_face_explode
+entry env_goddess_face_crumble
+entry env_trap_blade_move_old
+entry system_minigame_bell
+entry env_unused7
+entry env_warp_lower
+entry env_sage_chamber_ambient
+entry env_sage_chamber_energy
+entry env_dog_bark
+entry env_zelda_cast_spell
+entry env_rain
+entry env_door_metal_open
+entry env_door_metal_close
+entry env_whirlpool
+entry env_tower_break
+entry env_cow_moo
+entry env_obj_break_unused
+entry env_rock_barrier_hit
+entry env_deku_sprout_grow
+entry env_frog_croak_leave
+entry env_frog_croak_grow
+entry env_cow_moo_distant
+entry env_door_ranch_close
+entry env_butterfly_transform
+entry system_silver_rupee
+entry env_gossip_stretch
+entry env_gossip_launch
+entry env_door_slide_close
+entry env_spike_log_roll
+entry env_barrier_energy
+entry env_barrier_hum
+entry env_kid_walk
+entry env_guard_walk
+entry env_pillar_stop
+entry env_deku_sprout_grow
+entry env_frog_croak_leave
+entry env_frog_croak_grow
+entry env_cow_moo_distant
+entry env_door_ranch_close
+entry env_butterfly_transform
+
+.channel env_door_open_oca
+rvrbidx 1
+ldi 0
+stio 1
+
+.channel env_door_open
+ldlayer 0, layer_18CE
+end
+
+.layer layer_18CE
+instr FONT00_INSTR_DOOR_WOOD
+notedv PITCH_A3, 0x30, 100
+instr FONT00_INSTR_CREAK
+notedv PITCH_A3, 0x30, 75
+end
+
+.channel env_door_close
+ldlayer 0, layer_18DD
+end
+
+.layer layer_18DD
+instr FONT00_INSTR_DOOR_WOOD
+transpose 48
+notedv PITCH_A3, 0x60, 100
+end
+
+.channel env_explosion
+ldlayer 0, layer_18E9
+end
+
+.layer layer_18E9
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_65E8, 251
+notedv PITCH_A4, 0xc, 110
+notedv PITCH_A3, 0x7f, 110
+end
+
+.channel env_horse_trot
+instr FONT00_INSTR_HORSE_GALLOP
+ldlayer 0, layer_18FC
+end
+
+.layer layer_18FC
+notedv PITCH_G3, 0x18, 110
+end
+
+.channel env_horse_gallop
+instr FONT00_INSTR_HORSE_GALLOP
+ldlayer 0, layer_1906
+end
+
+.layer layer_1906
+notedv PITCH_C4, 0x25, 110
+end
+
+.channel env_horse_neigh
+instr FONT00_INSTR_HORSE_VOCALS
+ldlayer 0, layer_1910
+end
+
+.layer layer_1910
+notedv PITCH_C4, 0xaf, 110
+end
+
+.channel env_river
+instr FONT00_INSTR_WATER_FLOWING
+panweight 48
+ldlayer 0, layer_1922
+ldlayer 1, layer_1920
+end
+
+.layer layer_1920
+transpose 7
+
+.layer layer_1922
+legato
+.layer layer_1923
+notedv PITCH_C3, 0x7d00, 75
+rjump layer_1923
+
+.channel env_waterfall_large
+panweight 48
+ldlayer 0, layer_1936
+ldlayer 1, layer_1932
+end
+
+.layer layer_1932
+transpose 54
+rjump layer_1938
+
+.layer layer_1936
+transpose 48
+.layer layer_1938
+instr FONT00_INSTR_WATER_FLOWING
+env envelope_66F4, 220
+legato
+.layer layer_193F
+notedv PITCH_C4, 0x7d00, 92
+rjump layer_193F
+
+.channel env_zora_surface
+instr FONT00_INSTR_WATER_SPLASH
+env envelope_6610
+ldlayer 0, layer_194E
+end
+
+.layer layer_194E
+notedv PITCH_B4, 0x6, 100
+portamento 0x81, 48, 200
+notedv PITCH_E4, 0x48, 90
+end
+
+.channel env_zora_dive
+ldlayer 0, layer_195D
+end
+
+.layer layer_195D
+instr FONT00_INSTR_WATER_SPLASH
+env envelope_65FC, 127
+portamento 0x81, 36, 200
+notedv PITCH_A2, 0x7f, 90
+end
+
+.channel env_block_push
+ldlayer 0, layer_196F
+end
+
+.layer layer_196F
+instr FONT00_INSTR_ROLL_BOULDER
+releaserate 245
+legato
+portamento 0x1, 15, 0x30
+.layer layer_1978
+notedv PITCH_C3, 32700, 100
+rjump layer_1978
+
+.channel env_lava_bubbling_old
+instr FONT00_INSTR_LAVA
+panweight 48
+releaserate 112
+ldlayer 0, layer_1988
+end
+
+.layer layer_1988
+legato
+.layer layer_1989
+notedv PITCH_E3, 32700, 100
+rjump layer_1989
+
+.channel env_drawbridge_lower
+ldlayer 0, layer_1996
+ldlayer 1, layer_19B0
+end
+
+.layer layer_1996
+instr FONT00_INSTR_CHAIN
+releaserate 235
+notedvg PITCH_F3, 0x19, 56, 10
+notedvg PITCH_G3, 0x17, 56, 10
+notedvg PITCH_A3, 0x15, 56, 10
+notedvg PITCH_BF3, 0x13, 56, 10
+.layer layer_19AA
+notedvg PITCH_C4, 0x13, 56, 10
+rjump layer_19AA
+
+.layer layer_19B0
+instr FONT00_INSTR_CHAIN_RETRACT
+legato
+portamento 0x85, 18, 255
+notedv PITCH_BF2, 0x14, 90
+notedv PITCH_EF3, 0xa, 90
+.layer layer_19BD
+notedv PITCH_EF3, 32700, 90
+rjump layer_19BD
+
+.channel env_drawbridge_raise
+instr FONT00_INSTR_CHAIN_RETRACT
+ldlayer 0, layer_19CC
+ldlayer 1, layer_19DD
+end
+
+.layer layer_19CC
+legato
+portamento 0x85, 20, 255
+notedv PITCH_A2, 0x1e, 90
+notedv PITCH_E3, 0xf, 90
+.layer layer_19D7
+notedv PITCH_E3, 32700, 90
+rjump layer_19D7
+
+.layer layer_19DD
+instr FONT00_INSTR_CHAIN
+releaserate 235
+notedvg PITCH_G3, 0x19, 56, 10
+notedvg PITCH_A3, 0x17, 56, 10
+notedvg PITCH_B3, 0x15, 56, 10
+notedvg PITCH_C4, 0x13, 56, 10
+.layer layer_19F1
+notedvg PITCH_D4, 0x11, 56, 10
+rjump layer_19F1
+
+.channel env_drawbridge_lowered
+env envelope_65E8
+ldlayer 0, layer_1A07
+ldlayer 1, layer_1A01
+end
+
+.layer layer_1A01
+instr FONT00_INSTR_SLAM_HEAVY
+notedv PITCH_B2, 0x64, 75
+end
+
+.layer layer_1A07
+instr FONT00_INSTR_STONE_STRIKE
+notedv PITCH_D1, 0xb4, 110
+end
+
+.channel env_drawbridge_raised
+env envelope_65E8
+ldlayer 0, layer_1A1E
+ldlayer 1, layer_1A18
+end
+
+.layer layer_1A18
+instr FONT00_INSTR_SLAM_HEAVY
+notedv PITCH_B2, 0x64, 75
+end
+
+.layer layer_1A1E
+instr FONT00_INSTR_STONE_STRIKE
+notedv PITCH_AF1, 0xb4, 110
+end
+
+.channel env_bwall_break
+ldlayer 0, layer_1A36
+ldlayer 1, layer_1B41
+end
+.channel chan_1A2C
+ldlayer 1, layer_1A34
+end
+
+.layer layer_1A30
+transpose -12
+rjump layer_1A36
+
+.layer layer_1A34
+transpose -24
+
+.layer layer_1A36
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_6688, 230
+portamento 0x81, 58, 127
+notedv PITCH_C4, 0x52, 95
+portamento 0x81, 51, 127
+notedv PITCH_F3, 0xb9, 70
+end
+
+.channel env_cucco_cluck
+instr FONT00_INSTR_ANIMALS_0
+ldlayer 0, layer_1A52
+end
+
+.layer layer_1A52
+portamento 0x81, 39, 255
+notedv PITCH_DF4, 0xa0, 105
+end
+
+.channel env_cucco_attack
+ldlayer 0, layer_1A5F
+end
+
+.layer layer_1A5F
+instr FONT00_INSTR_ANIMALS_1
+notedvg PITCH_AF3, 0xc, 95, 10
+instr FONT00_INSTR_ANIMALS_0
+env envelope_65D8, 251
+portamento 0x81, 51, 127
+notedv PITCH_E4, 0x48, 105
+end
+
+.channel env_cucco_crow
+instr FONT00_INSTR_ANIMALS_1
+ldlayer 0, layer_1A79
+end
+
+.layer layer_1A79
+notedv PITCH_C4, 0xa6, 105
+end
+
+.channel env_door_slide_open
+instr FONT00_INSTR_DOOR_METAL
+env envelope_6610
+ldlayer 0, layer_1A87
+end
+
+.layer layer_1A87
+portamento 0x81, 32, 175
+notedv PITCH_B3, 0x30, 115
+end
+
+.channel env_switch_press
+ldlayer 0, layer_1A96
+ldlayer 1, layer_1AA5
+end
+
+.layer layer_1A96
+instr FONT00_INSTR_STICK_ATTACK
+notedv PITCH_C4, 0x4, 105
+instr FONT00_INSTR_STONE_STRIKE
+env envelope_664C, 255
+notedv PITCH_BF1, 0x28, 105
+end
+
+.layer layer_1AA5
+instr FONT00_INSTR_STONE_STRIKE
+env envelope_664C, 251
+notedvg PITCH_C3, 0x4, 102, 96
+notedv PITCH_BF1, 0x28, 102
+end
+
+.channel env_horse_snort
+ldlayer 0, layer_1AB7
+end
+
+.layer layer_1AB7
+transpose 48
+.layer layer_1AB9
+instr FONT00_INSTR_HORSE_VOCALS
+legato
+portamento 0x85, 34, 255
+notedv PITCH_AF3, 0x6, 85
+notedv PITCH_EF3, 0x8, 85
+notedv PITCH_B2, 0x73, 85
+end
+
+.channel env_bomb_hit_water
+ldlayer 0, layer_1AD0
+end
+
+.layer layer_1ACE
+transpose 6
+
+.layer layer_1AD0
+instr FONT00_INSTR_WATER_SPLISH
+notedv PITCH_F4, 0x5c, 115
+end
+
+.channel env_horse_jump
+instr FONT00_INSTR_HORSE_GALLOP
+ldlayer 0, layer_1ADC
+end
+
+.layer layer_1ADC
+notedv PITCH_D4, 0x8, 110
+notedv PITCH_E4, 0xf, 110
+end
+
+.channel env_horse_land
+instr FONT00_INSTR_HORSE_GALLOP
+ldlayer 0, layer_1AE9
+end
+
+.layer layer_1AE9
+notedv PITCH_F4, 0xa, 110
+notedv PITCH_D4, 0x12, 110
+end
+
+.channel env_horse_slip
+instr FONT00_INSTR_SLIDE_BLOCK
+env envelope_667C
+ldlayer 0, layer_1AF9
+end
+
+.layer layer_1AF9
+portamento 0x81, 38, 255
+notedv PITCH_C3, 0x3c, 80
+end
+
+.channel env_fairy_awake
+ldlayer 0, layer_1B05
+end
+
+.layer layer_1B05
+instr FONT00_INSTR_FAIRY_MAGIC
+env envelope_6794, 251
+portamento 0x1, 52, 0x100
+notedv PITCH_B5, 0x48, 65
+end
+
+.channel env_door_slide_close
+instr FONT00_INSTR_DOOR_METAL
+env envelope_6610
+ldlayer 0, layer_1B1D
+end
+
+.layer layer_1B1D
+portamento 0x81, 38, 175
+notedv PITCH_F3, 0x30, 115
+end
+
+.channel env_door_stone_close
+gain 20
+ldlayer 0, layer_1B2E
+ldlayer 1, layer_1B41
+end
+
+.layer layer_1B2E
+instr FONT00_INSTR_MECH_CHARGE
+releaserate 160
+notedv PITCH_E4, 0x32, 102
+.layer layer_1B35
+instr FONT00_INSTR_BLOCK_LOCK
+env envelope_6740, 245
+notedv PITCH_E2, 0x64, 80
+end
+
+.layer layer_1B3F
+transpose 4
+
+.layer layer_1B41
+instr FONT00_INSTR_BLOCK_LOCK
+notedv PITCH_E3, 0x64, 110
+end
+
+.channel env_door_time_open
+instr FONT00_INSTR_DOOR_METAL
+env envelope_6674
+ldlayer 0, layer_1B57
+ldlayer 1, layer_1B53
+end
+
+.layer layer_1B53
+instr FONT00_INSTR_MECH_CHARGE
+transpose 22
+
+.layer layer_1B57
+legato
+portamento 0x81, 34, 175
+.layer layer_1B5C
+notedv PITCH_A2, 0x60, 115
+rjump layer_1B5C
+
+.channel env_treasure_unlock
+ldlayer 0, layer_1B71
+ldlayer 1, layer_1B68
+end
+
+.layer layer_1B68
+instr FONT00_INSTR_DOOR_WOOD
+notedv PITCH_A4, 0x3, 115
+notedv PITCH_E5, 0x6, 115
+end
+
+.layer layer_1B71
+ldelay 0x19
+instr FONT00_INSTR_CREAK
+portamento 0x81, 31, 255
+notedv PITCH_G3, 0x18, 100
+end
+
+.channel env_treasure_open
+ldlayer 0, layer_1B81
+end
+
+.layer layer_1B81
+instr FONT00_INSTR_CREAK
+env envelope_65FC, 250
+portamento 0x83, 32, 255
+notedvg PITCH_D3, 0x18, 100, 127
+notedv PITCH_C4, 0x48, 100
+end
+
+.channel env_timer_tick
+instr FONT00_INSTR_BOW
+ldi 7
+call delay_varyingvol
+notealloc 2
+allocnotelist 2
+ldlayer 0, layer_1BBA
+.channel chan_1BA1
+ldio 6
+and 3
+ldseq addr_1BB6
+stseq 0, layer_fn_1BE6+1
+stseq 8, @+1
+ldi 48
+call delay_varyingvol
+rjump chan_1BA1
+
+.array addr_1BB6
+byte 0x20
+byte 0xe
+byte 0x5
+byte 0x20
+
+.layer layer_1BBA
+transpose 48
+.layer layer_1BBC
+notedvg PITCH_B3, 0x2, 70, 127
+notedv PITCH_C3, 0x2, 70
+call layer_fn_1BE6
+notedvg PITCH_F3, 0x2, 70, 127
+notedv PITCH_GF2, 0x2, 70
+call layer_fn_1BE6
+notedvg PITCH_B4, 0x2, 70, 127
+notedv PITCH_C4, 0x2, 70
+call layer_fn_1BE6
+notedvg PITCH_F4, 0x2, 70, 127
+notedv PITCH_GF3, 0x2, 70
+call layer_fn_1BE6
+rjump layer_1BBC
+
+.layer layer_fn_1BE6
+ldelay 0x14
+end
+
+.channel env_torch_light
+gain 15
+ldlayer 0, layer_1BEF
+end
+
+.layer layer_1BEF
+instr FONT00_INSTR_IGNITE
+portamento 0x81, 27, 152
+notedv PITCH_C4, 0x3c, 100
+end
+
+.channel env_guard_attention
+instr FONT00_INSTR_SWORD_STRIKE
+ldlayer 0, layer_1C05
+ldlayer 1, layer_1C0B
+ldlayer 2, layer_1C0F
+end
+
+.layer layer_1C05
+ldelay 0x2
+notedv PITCH_C4, 0x1e, 90
+end
+
+.layer layer_1C0B
+notedv PITCH_E4, 0x1e, 90
+end
+
+.layer layer_1C0F
+transpose -12
+jump layer_12E7
+
+.channel env_elevator_move
+ldlayer 0, layer_1C1D
+ldlayer 1, layer_1C1B
+end
+
+.layer layer_1C1B
+transpose -12
+
+.layer layer_1C1D
+instr FONT00_INSTR_DOOR_METAL
+env envelope_6674, 251
+legato
+portamento 0x1, 26, 0x3c
+.layer layer_1C28
+notedv PITCH_A3, 32700, 95
+rjump layer_1C28
+
+.channel env_warp_circle
+instr FONT00_INSTR_WARP
+releaserate 182
+ldlayer 0, layer_1C65
+ldlayer 1, layer_1C6F
+ldlayer 2, layer_1C61
+.channel chan_1C3B
+ldio 3
+and 240
+rbeqz chan_1C4E
+ldptr 0x0
+stptrtoseq envelope_1C7E+2
+ldptr 32700
+stptrtoseq envelope_1C8A+2
+rjump chan_1C5A
+.channel chan_1C4E
+ldptr 0x0
+stptrtoseq envelope_1C8A+2
+ldptr 32700
+stptrtoseq envelope_1C7E+2
+.channel chan_1C5A
+ldi 1
+call delay
+rjump chan_1C3B
+
+.layer layer_1C61
+stereo 20
+rjump layer_1C65
+
+.layer layer_1C65
+legato
+notedv PITCH_AF4, 0xc, 75
+.layer layer_1C69
+notedv PITCH_BF4, 32700, 75
+rjump layer_1C69
+
+.layer layer_1C6F
+legato
+notedv PITCH_D5, 0xc, 75
+.layer layer_1C73
+notedv PITCH_D5, 32700, 75
+rjump layer_1C73
+
+.envelope envelope_unused_1C7A
+point 1, 32700
+.envelope envelope_1C7E
+point 80, 32700
+goto 1
+
+.envelope envelope_unused_1C86
+point 1, 0
+.envelope envelope_1C8A
+point 80, 32700
+goto 1
+
+.envelope envelope_unused_1C92
+point 1, 32700
+point 80, 32700
+goto 1
+
+.channel env_warp_circle_enter
+instr FONT00_INSTR_WARP
+panweight 48
+ldi 25
+stio 1
+env envelope_6750
+releaserate 232
+ldlayer 0, layer_1CB4
+ldlayer 1, layer_1CCB
+ldlayer 2, layer_1CE7
+end
+
+.layer layer_1CB4
+notepan 24
+transpose 12
+notedv PITCH_D4, 0x18, 75
+legato
+releaserate 251
+portamento 0x85, 53, 255
+notedv PITCH_D5, 0x190, 90
+notedv PITCH_E5, 500, 90
+end
+
+.layer layer_1CCB
+notepan 64
+transpose 12
+notedv PITCH_D4, 0x18, 75
+notedv PITCH_D5, 0x190, 75
+transpose 0
+instr FONT00_INSTR_FAIRY
+env envelope_6778, 251
+portamento 0x81, 57, 255
+notedv PITCH_BF5, 500, 50
+end
+
+.layer layer_1CE7
+notepan 104
+transpose 24
+notedv PITCH_BF3, 0x18, 75
+legato
+releaserate 251
+portamento 0x85, 49, 255
+notedv PITCH_BF4, 0x190, 90
+notedv PITCH_C5, 500, 90
+end
+
+.channel env_stairs_lower
+instr FONT00_INSTR_EXPLOSION_0
+panweight 72
+ldlayer 0, layer_1D0C
+ldlayer 1, layer_1D70
+ldlayer 2, layer_1D44
+end
+
+.layer layer_1D0C
+env envelope_65E8, 200
+transpose -8
+.layer layer_1D12
+notepan 34
+notedv PITCH_A4, 0x8, 100
+notedv PITCH_A3, 0x18, 100
+notepan 74
+notedv PITCH_B4, 0x6, 85
+notedv PITCH_B3, 0x15, 85
+notepan 54
+notedv PITCH_F4, 0x9, 91
+notedv PITCH_G3, 0x1a, 91
+notepan 94
+notedv PITCH_A4, 0x7, 102
+notedv PITCH_F3, 0xb, 102
+notepan 44
+notedv PITCH_G4, 0x9, 86
+notedv PITCH_F3, 0x1d, 86
+notepan 64
+notedv PITCH_G4, 0x5, 88
+notedv PITCH_A3, 0x1b, 88
+rjump layer_1D12
+
+.layer layer_1D44
+env envelope_65E8, 127
+transpose -8
+.layer layer_1D4A
+notedv PITCH_G3, 0x9, 73
+notedv PITCH_F2, 0x22, 73
+notedv PITCH_A3, 0x9, 79
+notedv PITCH_F2, 0x1d, 79
+notedv PITCH_A3, 0x9, 87
+notedv PITCH_F2, 0x1b, 87
+notedv PITCH_E3, 0x7, 81
+notedv PITCH_D2, 0xf, 81
+notedv PITCH_A3, 0x9, 68
+notedv PITCH_C2, 0x18, 68
+notedv PITCH_G3, 0x5, 70
+notedv PITCH_C2, 0x21, 70
+rjump layer_1D4A
+
+.layer layer_1D70
+instr FONT00_INSTR_DOOR_METAL
+.layer layer_1D72
+notedv PITCH_DF3, 0x1c, 102
+rjump layer_1D72
+
+.channel env_waterfall_small
+instr FONT00_INSTR_WATER_FLOWING
+panweight 48
+releaserate 211
+ldlayer 0, layer_1D86
+ldlayer 1, layer_1D84
+end
+
+.layer layer_1D84
+transpose 10
+
+.layer layer_1D86
+legato
+.layer layer_1D87
+notedv PITCH_A3, 0x7d00, 75
+rjump layer_1D87
+
+.channel env_river_slow
+instr FONT00_INSTR_WATER_FLOWING
+panweight 64
+ldlayer 0, layer_1D9A
+ldlayer 1, layer_1D98
+end
+
+.layer layer_1D98
+transpose 4
+
+.layer layer_1D9A
+legato
+.layer layer_1D9B
+notedv PITCH_G2, 0x7d00, 60
+rjump layer_1D9B
+
+.channel env_river_fast
+instr FONT00_INSTR_WATER_FLOWING
+panweight 64
+ldlayer 0, layer_1DAE
+ldlayer 1, layer_1DAC
+end
+
+.layer layer_1DAC
+transpose 7
+
+.layer layer_1DAE
+legato
+.layer layer_1DAF
+notedv PITCH_G3, 0x7d00, 75
+rjump layer_1DAF
+
+.channel env_horse_phantom_gallop
+instr FONT00_INSTR_HORSE_GALLOP
+ldlayer 0, layer_1DBB
+end
+
+.layer layer_1DBB
+notedv PITCH_B3, 0x12, 110
+end
+
+.channel env_horse_stop_sand
+instr FONT00_INSTR_SLIDE_BLOCK
+env envelope_667C
+ldlayer 0, layer_1DC8
+end
+
+.layer layer_1DC8
+portamento 0x81, 38, 255
+notedv PITCH_C4, 0x20, 80
+end
+
+.channel env_electric_charge
+instr FONT00_INSTR_POTTERY_ELECTRIC
+ldi 32
+stio 1
+releaserate 245
+ldlayer 0, layer_1DE6
+ldlayer 1, layer_1DDE
+end
+
+.layer layer_1DDE
+portamento 0x81, 22, 255
+notedv PITCH_G3, 0x78, 70
+end
+
+.layer layer_1DE6
+portamento 0x1, 34, 0x30
+notedv PITCH_G4, 0x78, 70
+end
+
+.channel env_thunder_bolt_crash
+gain 15
+ldlayer 0, layer_1DFE
+ldlayer 1, layer_1DFA
+ldlayer 2, layer_1E0A
+end
+
+.layer layer_1DFA
+instr FONT00_INSTR_EXPLOSION_0
+rjump layer_1E02
+
+.layer layer_1DFE
+transpose 42
+instr FONT00_INSTR_FLAME_THUNDER
+.layer layer_1E02
+env envelope_65FC, 200
+notedv PITCH_DF4, 0x0, 110
+end
+
+.layer layer_1E0A
+instr FONT00_INSTR_POTTERY_ELECTRIC
+notedv PITCH_G3, 0x32, 50
+end
+
+.channel env_bomb_rebound
+ldlayer 0, layer_1E14
+end
+
+.layer layer_1E14
+instr FONT00_INSTR_SLAM_HEAVY
+env envelope_6660, 251
+legato
+portamento 0x85, 48, 255
+notedv PITCH_C3, 0x4, 95
+notedv PITCH_BF3, 0x5, 95
+end
+
+.channel env_water_drip
+instr FONT00_INSTR_WATER_DRIP
+env envelope_6624
+releaserate 201
+ldi 20
+stio 1
+panweight 0
+ldlayer 0, layer_1E3C
+ldlayer 1, layer_1E57
+ldlayer 2, layer_1E74
+end
+
+.layer layer_1E3C
+notepan 74
+call layer_fn_1E7F
+notepan 84
+call layer_fn_1E88
+notepan 89
+call layer_fn_1E91
+notepan 69
+call layer_fn_1E96
+notepan 78
+call layer_fn_1E9F
+rjump layer_1E3C
+
+.layer layer_1E57
+ldelay 0x44
+notepan 34
+call layer_fn_1E9F
+notepan 44
+call layer_fn_1E96
+notepan 54
+call layer_fn_1E91
+notepan 47
+call layer_fn_1E88
+notepan 41
+call layer_fn_1E7F
+rjump layer_1E57
+
+.layer layer_1E74
+call layer_fn_1EA8
+lldelay 0x64
+call layer_fn_1E7F
+rjump layer_1E57
+
+.layer layer_fn_1E7F
+notedv PITCH_C4, 0x172, 98
+notedv PITCH_AF3, 0x10c, 56
+end
+
+.layer layer_fn_1E88
+notedv PITCH_A3, 0x113, 65
+notedv PITCH_BF3, 0x140, 92
+end
+
+.layer layer_fn_1E91
+notedv PITCH_B3, 0x159, 76
+end
+
+.layer layer_fn_1E96
+notedv PITCH_G3, 0xd7, 98
+notedv PITCH_D4, 0x1cc, 106
+end
+
+.layer layer_fn_1E9F
+notedv PITCH_A3, 0x120, 92
+notedv PITCH_BF3, 0x13b, 88
+end
+
+.layer layer_fn_1EA8
+stereo 20
+end
+
+.channel env_fire_crackle
+instr FONT00_INSTR_FIRE_COW
+gain 10
+ldlayer 0, layer_1EB3
+end
+
+.layer layer_1EB3
+legato
+.layer layer_1EB4
+notedv PITCH_BF3, 32700, 100
+rjump layer_1EB4
+
+.channel env_lava_bubbling
+panweight 48
+ldlayer 0, layer_1EC3
+ldlayer 1, layer_1ED4
+end
+
+.layer layer_1EC3
+instr FONT00_INSTR_LAVA
+legato
+portamento 0x85, 32, 200
+.layer layer_1ECA
+notedv PITCH_A3, 500, 105
+notedv PITCH_F3, 500, 105
+rjump layer_1ECA
+
+.layer layer_1ED4
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_667C, 221
+.layer layer_1EDA
+portamento 0x81, 27, 255
+notedv PITCH_F2, 0x190, 65
+portamento 0x81, 27, 255
+notedv PITCH_F4, 0x2bc, 65
+rjump layer_1EDA
+
+.channel env_flame_jet
+ldlayer 0, layer_1EF0
+end
+
+.layer layer_1EF0
+instr FONT00_INSTR_FLAME_THUNDER
+releaserate 240
+legato
+portamento 0x1, 24, 0x28
+.layer layer_1EF9
+notedv PITCH_F3, 32700, 100
+rjump layer_1EF9
+
+.channel env_flame_wall
+ldlayer 0, layer_1F03
+end
+
+.layer layer_1F03
+instr FONT00_INSTR_FLAME_THUNDER
+env envelope_667C, 240
+legato
+portamento 0x85, 32, 255
+notedv PITCH_C4, 0x60, 100
+.layer layer_1F11
+notedv PITCH_B3, 0x60, 100
+rjump layer_1F11
+
+.channel env_block_lock
+ldlayer 0, layer_1F1C
+end
+
+.layer layer_1F1A
+transpose -4
+
+.layer layer_1F1C
+instr FONT00_INSTR_BLOCK_LOCK
+releaserate 241
+notedv PITCH_GF4, 0x6, 110
+notedv PITCH_EF3, 0x64, 110
+end
+
+.channel env_door_metal_open_unused
+ldlayer 0, layer_1F2B
+end
+
+.layer layer_1F2B
+instr FONT00_INSTR_MECH_ROTATE
+releaserate 240
+legato
+portamento 0x85, 25, 255
+notedv PITCH_D3, 0x28, 75
+.layer layer_1F37
+notedv PITCH_E3, 0x141, 75
+rjump layer_1F37
+
+.channel env_door_slide_unlock_unused
+ldlayer 0, layer_1F43
+end
+
+.layer layer_1F41
+transpose -6
+
+.layer layer_1F43
+instr FONT00_INSTR_SLAM_LIGHT
+releaserate 241
+notedv PITCH_A3, 0x5e, 95
+end
+
+.channel env_block_shake
+instr FONT00_INSTR_BLOCK_LOCK
+env envelope_6660
+ldlayer 0, layer_1F57
+ldlayer 1, layer_1F5F
+end
+
+.layer layer_1F57
+portamento 0x81, 43, 200
+notedv PITCH_C3, 0x14, 110
+end
+
+.layer layer_1F5F
+instr FONT00_INSTR_EXPLOSION_0
+notedv PITCH_A2, 0x14, 100
+end
+
+.channel env_crate_break
+gain 10
+ldlayer 0, layer_1F6E
+ldlayer 1, layer_1F7B
+end
+
+.layer layer_1F6E
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_6610, 251
+notedv PITCH_C5, 0xf, 94
+notedv PITCH_EF4, 0x60, 99
+end
+
+.layer layer_1F7B
+instr FONT00_INSTR_STICK_ATTACK
+env envelope_65E8, 180
+notedv PITCH_GF4, 0x8, 92
+notedv PITCH_EF4, 0x6, 85
+notedv PITCH_BF3, 0x5, 94
+notedv PITCH_GF3, 0xa, 89
+notedv PITCH_BF2, 0x50, 95
+end
+
+.channel env_switch_hammer
+ldlayer 0, layer_1F98
+ldlayer 1, layer_1FA2
+end
+
+.layer layer_1F98
+instr FONT00_INSTR_BLOCK_LOCK
+notedvg PITCH_DF5, 0x12, 95, 127
+notedv PITCH_DF4, 0x41, 95
+end
+
+.layer layer_1FA2
+instr FONT00_INSTR_STONE_STRIKE
+notedv PITCH_C4, 0x12, 80
+notedv PITCH_C3, 0x41, 80
+end
+
+.channel env_lava_bubbling_eerie
+panweight 48
+ldlayer 0, layer_1FB4
+ldlayer 1, layer_1FC5
+end
+
+.layer layer_1FB4
+instr FONT00_INSTR_LAVA
+legato
+portamento 0x85, 38, 200
+.layer layer_1FBB
+notedv PITCH_EF4, 0x19a, 110
+notedv PITCH_B3, 0x17c, 110
+rjump layer_1FBB
+
+.layer layer_1FC5
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_667C, 221
+.layer layer_1FCB
+portamento 0x81, 32, 255
+notedv PITCH_B2, 0x136, 80
+portamento 0x81, 32, 255
+notedv PITCH_B4, 0x226, 80
+rjump layer_1FCB
+
+.channel env_fence_raise
+ldlayer 0, layer_1FF1
+ldlayer 1, layer_1FE4
+end
+
+.layer layer_1FE4
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_664C, 240
+notedv PITCH_F5, 0x3, 70
+notedv PITCH_F3, 0x4, 64
+end
+
+.layer layer_1FF1
+instr FONT00_INSTR_SWORD_STRIKE
+transpose 48
+notedvg PITCH_D2, 0x3, 100, 127
+notedv PITCH_E3, 0x30, 100
+end
+
+.channel env_horse_ganon_neigh
+instr FONT00_INSTR_HORSE_VOCALS
+ldlayer 0, layer_2003
+end
+
+.layer layer_2003
+legato
+portamento 0x85, 38, 127
+notedv PITCH_D4, 0x50, 110
+notedv PITCH_G3, 0x73, 110
+end
+
+.channel env_horse_ganon_snort
+ldlayer 0, layer_2013
+end
+
+.layer layer_2013
+instr FONT00_INSTR_HORSE_VOCALS
+transpose 48
+legato
+portamento 0x85, 32, 255
+notedv PITCH_BF3, 0x6, 85
+notedv PITCH_EF3, 0x10, 85
+notedv PITCH_A2, 0x73, 85
+end
+
+.channel env_phantom_warp
+ldlayer 0, layer_2065
+ldlayer 1, layer_203C
+vibfreq 255
+vibdepthgrad 50, 80, 100
+ldi 255
+call delay_varyingvol
+vibdepthgrad 80, 10, 100
+end
+
+.layer layer_203C
+instr FONT00_INSTR_FLAME_THUNDER
+env envelope_6694, 231
+legato
+portamento 0x85, 3, 255
+notedv PITCH_F2, 0x60, 100
+notedv PITCH_C4, 0x96, 100
+nolegato
+legato
+noportamento
+env envelope_66EC, 231
+portamento 0x81, 15, 255
+notedv PITCH_C4, 0xc8, 100
+end
+
+.layer layer_unused_205E
+transpose -30
+instr FONT00_INSTR_OCARINA_0
+jump layer_2069
+
+.layer layer_2065
+transpose 12
+instr FONT00_INSTR_WARP
+.layer layer_2069
+env envelope_6688, 251
+legato
+portamento 0x85, 15, 255
+notedv PITCH_F3, 0x60, 74
+notedv PITCH_C5, 0xc8, 74
+notedv PITCH_A5, 0x96, 74
+end
+
+.channel env_witch_warp
+ldlayer 0, layer_20A3
+ldlayer 1, layer_208C
+ldlayer 2, layer_209C
+vibfreq 255
+vibdepth 50
+end
+
+.layer layer_208C
+instr FONT00_INSTR_FLAME_THUNDER
+env envelope_667C, 211
+legato
+portamento 0x85, 3, 255
+.layer layer_2097
+notedv PITCH_F2, 0x60, 100
+rjump layer_2097
+
+.layer layer_209C
+transpose -18
+instr FONT00_INSTR_OCARINA_0
+jump layer_20A7
+
+.layer layer_20A3
+instr FONT00_INSTR_WARP
+transpose 12
+.layer layer_20A7
+env envelope_667C, 211
+legato
+portamento 0x85, 15, 255
+.layer layer_20B0
+notedv PITCH_F3, 0x60, 74
+rjump layer_20B0
+
+.channel env_water_fountain
+ldlayer 0, layer_20BC
+ldlayer 1, layer_20C7
+end
+
+.layer layer_20BC
+instr FONT00_INSTR_WATER_FLOWING
+transpose 48
+.layer layer_20C0
+legato
+.layer layer_20C1
+notedv PITCH_GF4, 32700, 64
+rjump layer_20C1
+
+.layer layer_20C7
+instr FONT00_INSTR_WATER_FLOWING
+rjump layer_20C0
+
+.channel env_horse_kid_trot
+instr FONT00_INSTR_HORSE_GALLOP
+releaserate 245
+ldlayer 0, layer_20D3
+end
+
+.layer layer_20D3
+notedv PITCH_C4, 0x9, 110
+end
+
+.channel env_horse_kid_gallop
+instr FONT00_INSTR_HORSE_GALLOP
+ldlayer 0, layer_20DD
+end
+
+.layer layer_20DD
+notedv PITCH_E4, 0x18, 110
+end
+
+.channel env_horse_kid_neigh
+instr FONT00_INSTR_HORSE_VOCALS
+ldlayer 0, layer_20E7
+end
+
+.layer layer_20E7
+notedv PITCH_E4, 0x91, 110
+end
+
+.channel env_horse_kid_snort
+ldlayer 0, layer_20F0
+end
+
+.layer layer_20F0
+transpose 52
+jump layer_1AB9
+
+.channel env_barrier_node_fadeout
+gain 15
+ldlayer 0, layer_20FE
+ldlayer 1, layer_210B
+end
+
+.layer layer_20FE
+instr FONT00_INSTR_FAIRY
+env envelope_67F4, 221
+transpose 24
+notedv PITCH_C4, 0xf8, 75
+end
+
+.layer layer_210B
+instr FONT00_INSTR_WARP
+env envelope_67F4, 221
+transpose 36
+notedv PITCH_C4, 0xf8, 100
+end
+
+.channel env_barrier_dispell
+instr FONT00_INSTR_WARP
+ldlayer 0, layer_2130
+ldlayer 1, layer_2124
+ldlayer 2, layer_2147
+end
+
+.layer layer_2124
+transpose 27
+rjump layer_2132
+
+.layer layer_unused_2128
+transpose 33
+env envelope_65FC, 240
+rjump layer_2132
+
+.layer layer_2130
+transpose 24
+.layer layer_2132
+legato
+portamento 0x81, 40, 255
+.layer layer_2137
+noteldv PITCH_D4, 0x30, 80
+rjump layer_2137
+
+.layer layer_unused_213D
+transpose 32
+instr FONT00_INSTR_SHIMMER
+env envelope_65FC, 240
+rjump layer_214F
+
+.layer layer_2147
+transpose 48
+.layer layer_2149
+instr FONT00_INSTR_SHIMMER
+env envelope_66FC, 240
+.layer layer_214F
+legato
+.layer layer_2150
+notedv PITCH_C5, 0x7d00, 50
+rjump layer_2150
+
+.channel env_tree_cut
+ldlayer 0, layer_215D
+ldlayer 1, layer_216D
+end
+
+.layer layer_215D
+ldelay 0x6
+legato
+instr FONT00_INSTR_STEP_GRASS
+portamento 0x85, 32, 255
+notedv PITCH_A3, 0x18, 80
+notedv PITCH_G2, 0x32, 80
+end
+
+.layer layer_216D
+instr FONT00_INSTR_WOOD_BREAK
+notedvg PITCH_E3, 0xa, 93, 127
+notedv PITCH_GF2, 0x1f, 90
+end
+
+.channel env_volcano_erupt
+panweight 96
+ldlayer 0, layer_2185
+ldlayer 1, layer_2190
+ldlayer 2, layer_2183
+end
+
+.layer layer_2183
+transpose -6
+
+.layer layer_2185
+instr FONT00_INSTR_MECH_CHARGE
+releaserate 221
+legato
+.layer layer_218A
+notedv PITCH_F4, 0x7d00, 90
+rjump layer_218A
+
+.layer layer_2190
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_6674, 221
+.layer layer_2196
+notepan 64
+notedv PITCH_B4, 0x50, 85
+notepan 45
+notedv PITCH_G4, 0x50, 85
+notepan 97
+notedv PITCH_F4, 0x40, 85
+notepan 74
+notedv PITCH_A4, 0x31, 85
+notepan 82
+notedv PITCH_D5, 0x3a, 85
+notepan 37
+notedv PITCH_A4, 0x25, 85
+notepan 54
+notedv PITCH_F4, 0x3d, 85
+notepan 29
+notedv PITCH_C5, 0x20, 85
+rjump layer_2196
+
+.channel env_guillotine_rise
+ldlayer 0, layer_21C7
+ldlayer 1, layer_21CD
+end
+
+.layer layer_21C7
+instr FONT00_INSTR_CHAIN
+notedv PITCH_E4, 0x18, 80
+end
+
+.layer layer_21CD
+instr FONT00_INSTR_SWORD_DRAW
+portamento 0x81, 28, 255
+notedv PITCH_EF3, 0x18, 95
+end
+
+.channel env_guillotine_fall
+ldlayer 0, layer_21ED
+ldlayer 1, layer_21DE
+end
+
+.layer layer_21DE
+instr FONT00_INSTR_EXPLOSION_0
+portamento 0x81, 39, 255
+notedv PITCH_AF2, 0x8, 70
+instr FONT00_INSTR_SWORD_STRIKE
+notedv PITCH_E3, 0x8, 90
+end
+
+.layer layer_21ED
+instr FONT00_INSTR_CHAIN
+notedv PITCH_A4, 0x6, 80
+instr FONT00_INSTR_SWORD_DRAW
+portamento 0x81, 38, 255
+notedv PITCH_F3, 0xe, 95
+end
+
+.channel env_scythe_spin
+ldlayer 0, layer_2200
+end
+
+.layer layer_2200
+instr FONT00_INSTR_MECH_ROTATE
+releaserate 240
+.layer layer_2204
+portamento 0x81, 27, 255
+notedv PITCH_A2, 0x40, 72
+rjump layer_2204
+
+.channel env_guillotine_chain
+instr FONT00_INSTR_CHAIN
+ldlayer 0, layer_221A
+ldlayer 1, layer_2216
+end
+
+.layer layer_2216
+instr FONT00_INSTR_CHAIN_RETRACT
+transpose -2
+
+.layer layer_221A
+legato
+portamento 0x1, 40, 0x74
+.layer layer_221F
+notedv PITCH_G4, 32700, 76
+rjump layer_221F
+
+.channel env_plant_break
+ldlayer 0, layer_2232
+ldlayer 1, layer_222C
+end
+
+.layer layer_222C
+instr FONT00_INSTR_EXPLOSION_0
+notedv PITCH_G3, 0x14, 100
+end
+
+.layer layer_2232
+instr FONT00_INSTR_STEP_GRASS
+notedvg PITCH_E3, 0x6, 90, 127
+notedvg PITCH_BF3, 0x6, 90, 127
+notedv PITCH_E4, 0x2a, 90
+end
+
+.channel env_ship_bell
+instr FONT00_INSTR_FAIL_BELLS
+env envelope_6624
+ldi 32
+stio 1
+ldlayer 0, layer_2253
+ldlayer 1, layer_224F
+end
+
+.layer layer_224F
+transpose 60
+rjump layer_2257
+
+.layer layer_2253
+transpose 48
+ldelay 0x5
+.layer layer_2257
+notedv PITCH_A3, 0x9, 80
+notedv PITCH_GF3, 0x53, 80
+ldelay 0x64
+rjump layer_2257
+
+.channel env_flag_flutter
+ldi 96
+stseq 0, chan_2287+1
+.channel chan_2267
+instr FONT00_INSTR_CLOAK
+env envelope_66EC
+releaserate 231
+ldi 4
+stio 6
+ldlayer 0, layer_2298
+.channel chan_2274
+rand 31
+stseq 14, layer_2298+1
+stseq 14, chan_2291+1
+stseq 45, layer_2298+2
+rand 8
+subio 6
+and 7
+.channel chan_2287
+stseq 96, layer_2298
+ldio 6
+sub 252
+and 4
+stio 6
+.channel chan_2291
+ldi 1
+call delay_varyingvol
+rjump chan_2274
+
+.layer layer_2298
+notedv PITCH_C4, 0x47, 80
+rjump layer_2298
+
+.channel env_unused
+ldlayer 0, layer_1F43
+ldlayer 1, layer_1F1C
+end
+
+.channel env_rock_break
+gain 18
+ldlayer 0, layer_22AA
+end
+
+.layer layer_22AA
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_6624, 246
+notedvg PITCH_EF4, 0x9, 105, 192
+env envelope_6610, 220
+notedv PITCH_B2, 0x0, 105
+end
+
+.channel env_phantom_warp2
+instr FONT00_INSTR_OCARINA_0
+env envelope_6674
+ldlayer 0, layer_22CB
+vibdepth 255
+vibfreqgrad 4, 64, 100
+end
+
+.layer layer_22CB
+notedv PITCH_D2, 0x1c2, 80
+end
+
+.channel env_phantom_warp_loop
+instr FONT00_INSTR_OCARINA_0
+env envelope_6674
+ldlayer 0, layer_22DF
+vibdepth 255
+vibfreqgrad 2, 7, 25
+end
+
+.layer layer_22DF
+legato
+.layer layer_22E0
+notedv PITCH_C2, 32700, 80
+rjump layer_22E0
+
+.channel env_coffin_open
+ldlayer 0, layer_22EA
+end
+
+.layer layer_22EA
+instr FONT00_INSTR_DOOR_WOOD
+notedv PITCH_C3, 0x13, 105
+instr FONT00_INSTR_CREAK
+notedv PITCH_B1, 0x49, 103
+end
+
+.channel env_coffin_close
+instr FONT00_INSTR_STICK_ATTACK
+ldlayer 0, layer_22FB
+end
+
+.layer layer_22FB
+notedv PITCH_DF2, 0x8, 100
+notedv PITCH_D3, 0x18, 100
+end
+
+.channel env_fan_spin
+ldlayer 0, layer_230B
+ldlayer 1, layer_2309
+end
+
+.layer layer_2309
+transpose 5
+
+.layer layer_230B
+legato
+instr FONT00_INSTR_WIND_HOWL_S
+env envelope_6674, 200
+portamento 0x1, 56, 0x7f
+.layer layer_2316
+notedv PITCH_B5, 32700, 85
+rjump layer_2316
+
+.channel env_trap_wall_slide
+ldlayer 0, layer_2327
+ldlayer 1, layer_2325
+gain 24
+end
+
+.layer layer_2325
+transpose 4
+
+.layer layer_2327
+instr FONT00_INSTR_CREAK
+portamento 0x84, 19, 127
+.layer layer_232D
+notedv PITCH_D1, 0x9, 110
+rjump layer_232D
+
+.channel env_door_slide_lock
+instr FONT00_INSTR_MECH_ROTATE
+ldlayer 0, layer_2338
+end
+
+.layer layer_2338
+portamento 0x81, 32, 175
+notedv PITCH_B3, 0x30, 80
+end
+
+.channel env_door_slide_unlock
+instr FONT00_INSTR_MECH_ROTATE
+ldlayer 0, layer_2346
+end
+
+.layer layer_2346
+portamento 0x81, 38, 175
+notedv PITCH_F3, 0x30, 80
+end
+
+.channel env_flame_jet_low
+gain 10
+ldlayer 0, layer_2357
+ldlayer 1, layer_2366
+end
+
+.layer layer_2357
+instr FONT00_INSTR_FIRE_COW
+releaserate 221
+legato
+portamento 0x81, 52, 255
+.layer layer_2360
+notedv PITCH_F4, 0xc8, 110
+rjump layer_2360
+
+.layer layer_2366
+instr FONT00_INSTR_FLAME_THUNDER
+releaserate 221
+legato
+portamento 0x81, 16, 255
+.layer layer_236F
+notedv PITCH_F2, 0x7f, 72
+rjump layer_236F
+
+.channel env_ganon_block_sink
+ldlayer 0, layer_237B
+ldlayer 1, layer_2185
+end
+
+.layer layer_237B
+instr FONT00_INSTR_MECH_CHARGE
+env envelope_6660, 247
+.layer layer_2381
+notedv PITCH_F5, 0x3, 95
+notedv PITCH_F4, 0x5, 95
+rjump layer_2381
+
+.channel env_crowd_chatter
+panweight 0
+ldlayer 0, layer_2398
+ldlayer 1, layer_2392
+end
+
+.layer layer_2392
+transpose 1
+notepan 0
+rjump layer_239A
+
+.layer layer_2398
+notepan 127
+.layer layer_239A
+instr FONT00_INSTR_CHATTER
+env envelope_66F4, 225
+.layer layer_23A0
+notedv PITCH_C4, 0x7d00, 64
+rjump layer_23A0
+
+.channel env_water_change
+ldlayer 0, layer_23CB
+ldlayer 1, layer_23B1
+end
+
+.layer layer_23AD
+transpose 18
+rjump layer_23B3
+
+.layer layer_23B1
+transpose 11
+.layer layer_23B3
+instr FONT00_INSTR_WATER_BUBBLES
+rjump layer_23BD
+
+.layer layer_23B7
+instr FONT00_INSTR_WATER_BUBBLES
+env envelope_6824, 225
+.layer layer_23BD
+releaserate 225
+.layer layer_23BF
+notedv PITCH_C2, 0x7d00, 70
+rjump layer_23BF
+
+.layer layer_23C5
+transpose 6
+rjump layer_23CB
+
+.layer layer_23C9
+transpose -2
+
+.layer layer_23CB
+instr FONT00_INSTR_SLIDE_LINK
+releaserate 225
+.layer layer_23CF
+notedv PITCH_F3, 0x7d00, 74
+rjump layer_23CF
+
+.channel env_fairy_hide
+ldlayer 0, layer_23D9
+end
+
+.layer layer_23D9
+instr FONT00_INSTR_FAIRY_MAGIC
+env envelope_66B8, 251
+legato
+portamento 0x85, 27, 255
+notedv PITCH_F5, 0x9, 65
+notedv PITCH_A4, 0x2c, 65
+end
+
+.channel env_ladder_land
+ldlayer 1, layer_14A4
+ldlayer 0, layer_23F2
+end
+
+.layer layer_23F2
+instr FONT00_INSTR_STICK_ATTACK
+transpose 48
+notedv PITCH_EF2, 0x5, 88
+instr FONT00_INSTR_STONE_STRIKE
+transpose 0
+notedv PITCH_A3, 0xc, 50
+end
+
+.channel env_web_bend
+instr FONT00_INSTR_CLOTH_TEAR
+env envelope_6688
+ldlayer 0, layer_240A
+end
+
+.layer layer_240A
+legato
+portamento 0x85, 24, 255
+notedv PITCH_F2, 0x18, 100
+notedv PITCH_AF2, 0x30, 100
+end
+
+.channel env_web_break
+instr FONT00_INSTR_CLOTH_TEAR
+env envelope_6688
+ldlayer 0, layer_2422
+ldlayer 1, layer_2432
+end
+
+.layer layer_2422
+legato
+ldelay 0x28
+portamento 0x85, 58, 255
+noteldv PITCH_G2, 0x12, 105
+noteldv PITCH_G4, 0x1e, 105
+end
+
+.layer layer_2432
+portamento 0x81, 20, 255
+notedv PITCH_B2, 0x60, 100
+end
+
+.channel env_unused2
+ldlayer 0, layer_2451
+ldlayer 1, layer_2445
+vibfreq 220
+vibdepth 53
+end
+
+.layer layer_2445
+instr FONT00_INSTR_FLAME_THUNDER
+env envelope_667C, 247
+legato
+.layer layer_244C
+notedv PITCH_A1, 0x60, 108
+rjump layer_244C
+
+.layer layer_2451
+transpose -18
+instr FONT00_INSTR_OCARINA_0
+env envelope_667C, 247
+legato
+.layer layer_245A
+notedv PITCH_EF3, 0x60, 90
+rjump layer_245A
+
+.channel env_door_jabu_open
+ldlayer 0, layer_2466
+ldlayer 1, layer_2475
+end
+
+.layer layer_2466
+instr FONT00_INSTR_CLOTH_TEAR
+env envelope_6694, 251
+portamento 0x81, 10, 255
+noteldv PITCH_G2, 0x24, 82
+end
+
+.layer layer_2475
+instr FONT00_INSTR_STEP_WATER
+portamento 0x81, 8, 255
+noteldv PITCH_C2, 0x24, 105
+end
+
+.channel env_door_jabu_close
+ldlayer 0, layer_2487
+ldlayer 1, layer_2496
+end
+
+.layer layer_2487
+instr FONT00_INSTR_CLOTH_TEAR
+env envelope_6694, 251
+portamento 0x81, 22, 255
+noteldv PITCH_C1, 0x24, 90
+end
+
+.layer layer_2496
+instr FONT00_INSTR_STEP_WATER
+portamento 0x81, 20, 255
+noteldv PITCH_C1, 0x24, 95
+end
+
+.channel env_door_wood_creak_unused
+ldlayer 0, layer_24A7
+end
+
+.layer layer_24A5
+transpose 8
+
+.layer layer_24A7
+instr FONT00_INSTR_CREAK
+notedv PITCH_B1, 0x0, 103
+end
+
+.channel env_gate_open
+ldlayer 0, layer_24B1
+end
+
+.layer layer_24B1
+instr FONT00_INSTR_MECH_ROTATE
+releaserate 240
+notedv PITCH_E3, 0x3c, 75
+.layer layer_24B8
+notedv PITCH_GF3, 0x38, 75
+rjump layer_24B8
+
+.channel env_bottle_scoop_water
+instr FONT00_INSTR_WATER_SPLISH
+ldlayer 0, layer_24C3
+end
+
+.layer layer_24C3
+portamento 0x82, 39, 127
+notedv PITCH_A3, 0x7f, 100
+end
+
+.channel env_fish_flop
+instr FONT00_INSTR_WATER_SPLISH
+cdelay 7
+ldlayer 0, layer_24D2
+end
+
+.layer layer_24D2
+notedv PITCH_A4, 0x7, 76
+instr FONT00_INSTR_STEP_JABU
+portamento 0x81, 39, 127
+notedv PITCH_B5, 0x18, 100
+end
+
+.channel env_scarecrow_sway
+ldlayer 0, layer_24E9
+
+.channel chan_fn_24E2
+instr FONT00_INSTR_STEP_GRASS
+vibdepth 36
+vibfreq 255
+end
+
+.layer layer_24E9
+notedv PITCH_F3, 0xa, 90
+notedv PITCH_C4, 0x1e, 90
+end
+
+.channel env_scarecrow_spin
+ldlayer 0, layer_24F7
+call chan_fn_24E2
+end
+
+.layer layer_24F7
+notedv PITCH_D4, 0xa, 100
+portamento 0x81, 43, 255
+notedv PITCH_E3, 0x5a, 100
+end
+
+.channel env_bottle_open
+ldlayer 0, layer_2506
+end
+
+.layer layer_2506
+instr FONT00_INSTR_WHIP_CORK
+transpose 48
+notedv PITCH_A3, 0x0, 110
+end
+
+.channel env_jabu_inhale
+ldlayer 0, layer_2517
+ldlayer 1, layer_2528
+panweight 48
+end
+
+.layer layer_2517
+instr FONT00_INSTR_WIND_HOWL_S
+env envelope_6674, 232
+legato
+portamento 0x85, 46, 255
+.layer layer_2522
+notedv PITCH_C5, 0x3e8, 105
+rjump layer_2522
+
+.layer layer_2528
+instr FONT00_INSTR_ROAR_BARK
+notedv PITCH_C3, 0x8, 105
+notedv PITCH_G2, 0x0, 105
+end
+
+.channel env_stone_resonate
+ldlayer 0, layer_2545
+ldlayer 1, layer_2538
+end
+
+.layer layer_2538
+instr FONT00_INSTR_FAIRY
+env envelope_67D8, 240
+legato
+.layer layer_253F
+notedv PITCH_AF3, 0x7d00, 32
+rjump layer_253F
+
+.layer layer_2545
+instr FONT00_INSTR_WARP
+env envelope_67E4, 240
+transpose 15
+legato
+.layer layer_254E
+notedv PITCH_A4, 0x7d00, 64
+rjump layer_254E
+
+.channel env_triforce_flash
+ldlayer 0, layer_255B
+ldlayer 1, layer_2568
+end
+
+.layer layer_255B
+transpose 24
+instr FONT00_INSTR_SYNTH_BUZZ
+env envelope_67CC, 241
+notedv PITCH_EF5, 0x120, 42
+end
+
+.layer layer_2568
+jump layer_210B
+
+.channel env_ruto_trip
+call player_slip_jabu
+ldlayer 1, layer_2572
+end
+
+.layer layer_2572
+instr FONT00_INSTR_STEP_JABU
+portamento 0x84, 27, 255
+notedv PITCH_A3, 0xf, 93
+notedv PITCH_F3, 0x10, 93
+notedv PITCH_D3, 0x11, 93
+end
+
+.channel env_fairy_fly
+instr FONT00_INSTR_FAIRY_MAGIC
+env envelope_67D8
+panweight 0
+ldlayer 0, layer_258D
+end
+
+.layer layer_258D
+legato
+portamento 0x81, 48, 255
+.layer layer_2592
+notedv PITCH_D5, 0x20, 50
+rjump layer_2592
+
+.channel env_fairy_crash
+ldlayer 0, layer_25A7
+ldlayer 1, layer_25BC
+cdelay 4
+vibfreq 127
+vibdepthgrad 25, 80, 100
+delay 0x32
+end
+
+.layer layer_25A7
+instr FONT00_INSTR_STEP_WOOD
+releaserate 210
+notedv PITCH_A3, 0x4, 95
+instr FONT00_INSTR_OCARINA_0
+env envelope_6674, 235
+portamento 0x85, 7, 255
+notedv PITCH_G3, 0x38, 70
+end
+
+.layer layer_25BC
+instr FONT00_INSTR_DOOR_WOOD
+releaserate 216
+notedv PITCH_C3, 0x4, 95
+jump layer_23D9
+
+.channel env_spear_ready
+ldlayer 0, layer_25CA
+end
+
+.layer layer_25CA
+instr FONT00_INSTR_STICK_ATTACK
+transpose 48
+releaserate 245
+notedv PITCH_AF2, 0xd, 90
+end
+
+.channel env_unused3
+ldlayer 0, layer_25EC
+ldlayer 1, layer_25DB
+end
+
+.layer layer_25DB
+instr FONT00_INSTR_WATER_BUBBLES
+env envelope_66F4, 160
+legato
+portamento 0x85, 26, 255
+.layer layer_25E6
+notedv PITCH_GF3, 0x3e8, 80
+rjump layer_25E6
+
+.layer layer_25EC
+instr FONT00_INSTR_WATER_FLOWING
+env envelope_66F4, 160
+transpose 48
+legato
+portamento 0x85, 36, 255
+.layer layer_25F9
+notedv PITCH_F4, 0x3e8, 75
+rjump layer_25F9
+
+.channel env_water_drip_unused
+ldlayer 0, layer_2608
+ldlayer 1, layer_2606
+end
+
+.layer layer_2606
+transpose 5
+
+.layer layer_2608
+instr FONT00_INSTR_WATER_DRIP
+env envelope_66F4, 211
+legato
+portamento 0x81, 27, 255
+.layer layer_2613
+notedv PITCH_G4, 500, 80
+rjump layer_2613
+
+.channel env_windmill_gear
+instr FONT00_INSTR_CREAK
+panweight 64
+ldlayer 0, layer_2621
+end
+
+.layer layer_2621
+portamento 0x83, 10, 255
+.layer layer_2625
+notedv PITCH_C2, 0x20, 96
+rjump layer_2625
+
+.channel env_bush_sway
+ldlayer 0, layer_2638
+ldlayer 1, layer_2631
+end
+
+.layer layer_2631
+instr FONT00_INSTR_CREAK
+notedv PITCH_E3, 0x18, 65
+transpose 18
+
+.layer layer_2638
+instr FONT00_INSTR_STEP_GRASS
+env envelope_6688, 251
+notedv PITCH_B2, 0xe, 95
+notedv PITCH_C4, 0x14, 100
+notedv PITCH_BF2, 0x11, 102
+notedv PITCH_BF3, 0x50, 103
+end
+
+.channel env_horse_demo_gallop
+instr FONT00_INSTR_HORSE_GALLOP
+ldlayer 0, layer_2651
+end
+
+.layer layer_2651
+notedv PITCH_C4, 0x27, 110
+rjump layer_2651
+
+.channel env_elevator_geared_move
+instr FONT00_INSTR_MECH_CHARGE
+gain 20
+ldlayer 0, layer_265E
+end
+
+.layer layer_265E
+transpose 48
+legato
+.layer layer_2661
+notedv PITCH_E3, 0x7d00, 100
+rjump layer_2661
+
+.channel env_elevator_geared_stop
+ldlayer 0, layer_2671
+ldlayer 1, layer_2677
+ldlayer 2, layer_2685
+end
+
+.layer layer_2671
+instr FONT00_INSTR_SLAM_LIGHT
+notedv PITCH_F3, 0x40, 95
+end
+
+.layer layer_2677
+instr FONT00_INSTR_SLAM_GUNSHOT
+env envelope_66B0, 250
+portamento 0x81, 31, 200
+notedv PITCH_C3, 0x3c, 100
+end
+
+.layer layer_2685
+instr FONT00_INSTR_MECH_CHARGE
+transpose 48
+portamento 0x81, 39, 255
+notedv PITCH_GF2, 0x34, 96
+end
+
+.channel env_treasure_warp
+ldlayer 0, layer_269B
+ldlayer 1, layer_26B3
+ldlayer 2, layer_26C2
+end
+
+.layer layer_269B
+instr FONT00_INSTR_FAIRY
+env envelope_6694, 235
+portamento 0x83, 39, 255
+loop 7
+notedv PITCH_G4, 0x40, 64
+loopend
+portamento 0x81, 41, 255
+notedv PITCH_A4, 0x70, 64
+end
+
+.layer layer_26B3
+transpose 16
+instr FONT00_INSTR_WARP
+env envelope_6694, 235
+loop 7
+notedv PITCH_GF5, 0x40, 50
+loopend
+end
+
+.layer layer_26C2
+ldelay 0x109
+instr FONT00_INSTR_SYNTH
+env envelope_67CC, 235
+notedv PITCH_D3, 0x7f, 105
+end
+
+.channel env_door_unlock
+gain 20
+ldlayer 0, layer_26D8
+ldlayer 1, layer_26DE
+end
+
+.layer layer_26D8
+instr FONT00_INSTR_CHAIN
+notedv PITCH_GF4, 0x4c, 50
+end
+
+.layer layer_26DE
+instr FONT00_INSTR_SWORD_STRIKE
+notedv PITCH_E2, 0x8, 84
+instr FONT00_INSTR_SWORD_SHEATHE
+notedv PITCH_DF4, 0x14, 105
+end
+
+.channel env_trap_blade_move
+ldlayer 0, layer_26F0
+ldlayer 1, layer_26FA
+end
+
+.layer layer_26F0
+instr FONT00_INSTR_SWORD_DRAW
+portamento 0x81, 12, 64
+notedv PITCH_BF2, 0x7f, 85
+end
+
+.layer layer_26FA
+instr FONT00_INSTR_CHAIN
+notedv PITCH_D3, 0x30, 81
+end
+
+.channel env_fairy_heal_old
+instr FONT00_INSTR_SHIMMER
+env envelope_66F4
+releaserate 221
+ldlayer 0, layer_2713
+ldlayer 1, layer_2711
+ldlayer 2, layer_271E
+end
+
+.layer layer_2711
+transpose 4
+
+.layer layer_2713
+legato
+portamento 0x81, 43, 255
+.layer layer_2718
+notedv PITCH_F4, 0x190, 48
+rjump layer_2718
+
+.layer layer_271E
+transpose 48
+env envelope_67D8, 221
+legato
+portamento 0x81, 50, 255
+.layer layer_2729
+notedv PITCH_C5, 0x190, 64
+rjump layer_2729
+
+.channel env_great_fairy_appear
+ldi 129
+.channel chan_2731
+stseq 0, layer_2745+1
+instr FONT00_INSTR_FAIRY
+env envelope_66FC
+releaserate 221
+ldlayer 0, layer_2743
+ldlayer 1, layer_2745
+end
+
+.layer layer_2743
+transpose 24
+
+.layer layer_2745
+portamento 0x81, 31, 255
+notedv PITCH_G3, 0xf0, 80
+end
+
+.channel env_great_fairy_vanish
+ldi 130
+rjump chan_2731
+
+.channel env_trap_eye_fire
+ldlayer 0, layer_2756
+end
+
+.layer layer_2756
+instr FONT00_INSTR_SYNTH
+env envelope_67CC, 245
+portamento 0x81, 19, 80
+notedv PITCH_AF3, 0x6e, 105
+end
+
+.channel env_gears_unused
+instr FONT00_INSTR_DOOR_METAL
+env envelope_6674
+panweight 72
+ldlayer 0, layer_276F
+end
+
+.layer layer_276F
+legato
+.layer layer_2770
+notedv PITCH_F3, 0x7d00, 88
+rjump layer_2770
+
+.channel env_wall_move_unused
+instr FONT00_INSTR_DOOR_METAL
+ldlayer 0, layer_2781
+ldlayer 1, layer_277F
+end
+
+.layer layer_277F
+transpose -6
+
+.layer layer_2781
+legato
+portamento 0x1, 15, 0x30
+.layer layer_2786
+notedv PITCH_E3, 32700, 75
+rjump layer_2786
+
+.channel env_treasure_flash
+ldlayer 0, layer_2790
+end
+
+.layer layer_2790
+instr FONT00_INSTR_WARP
+env envelope_6638, 251
+transpose 36
+notedv PITCH_D3, 0xd, 98
+notedv PITCH_D4, 0x64, 98
+end
+
+.channel env_windmill_blade
+instr FONT00_INSTR_CREAK
+ldlayer 0, layer_27A5
+end
+
+.layer layer_27A5
+legato
+transpose 48
+notedv PITCH_C2, 32700, 100
+rjump layer_27A5
+
+.channel env_grotto_exit
+rvrbidx 1
+
+.channel env_warp_unused
+ldi 129
+.channel chan_27B2
+stseq 0, layer_27D3+1
+panweight 64
+ldlayer 0, layer_27CC
+ldlayer 1, layer_27C8
+ldlayer 2, layer_27C2
+end
+
+.layer layer_27C2
+transpose 8
+notepan 104
+rjump layer_27CC
+
+.layer layer_27C8
+transpose 4
+notepan 24
+
+.layer layer_27CC
+instr FONT00_INSTR_WARP
+env envelope_66F4, 230
+legato
+.layer layer_27D3
+portamento 0x81, 58, 255
+.layer layer_27D7
+notedv PITCH_A5, 0x7d0, 75
+rjump layer_27D7
+
+.channel env_pot_break
+ldlayer 0, layer_27E4
+ldlayer 1, layer_27E8
+end
+
+.layer layer_27E4
+transpose 36
+rjump layer_27EA
+
+.layer layer_27E8
+transpose 48
+.layer layer_27EA
+instr FONT00_INSTR_POTTERY_ELECTRIC
+notedv PITCH_BF3, 0x0, 75
+end
+
+.channel env_pot_drop
+ldlayer 0, layer_27F7
+ldlayer 1, layer_998
+end
+
+.layer layer_27F7
+transpose 48
+jump layer_992
+
+.channel env_goddess_fly
+call chan_fn_2823
+ldlayer 0, layer_280A
+ldlayer 1, layer_2816
+vibfreq 128
+vibdepth 16
+end
+
+.layer layer_280A
+instr FONT00_INSTR_MECH_CHARGE
+env envelope_6674, 245
+.layer layer_2810
+notedv PITCH_D5, 0x7d00, 60
+rjump layer_2810
+
+.layer layer_2816
+instr FONT00_INSTR_WIND_HOWL_S
+env envelope_66F4, 245
+legato
+.layer layer_281D
+notedv PITCH_DF4, 0x7d00, 75
+rjump layer_281D
+
+.channel chan_fn_2823
+gain 12
+ldi 25
+stio 1
+end
+
+.channel env_triforce_aura
+instr FONT00_INSTR_SHIMMER
+ldlayer 0, layer_2832
+ldlayer 1, layer_283C
+end
+
+.layer layer_2832
+env envelope_67D8, 230
+.layer layer_2836
+notedv PITCH_AF4, 0x7d00, 50
+rjump layer_2836
+
+.layer layer_283C
+transpose 48
+env envelope_67D8, 230
+.layer layer_2842
+notedv PITCH_A3, 0x7d00, 32
+rjump layer_2842
+
+.channel env_triforce_glow
+ldlayer 0, layer_2853
+ldlayer 1, layer_284F
+end
+
+.layer layer_284F
+transpose 16
+rjump layer_2855
+
+.layer layer_2853
+transpose 12
+.layer layer_2855
+instr FONT00_INSTR_WARP
+env envelope_66F4, 230
+legato
+.layer layer_285C
+notedv PITCH_F5, 0x7d00, 35
+rjump layer_285C
+
+.channel env_deku_tree_death
+gain 15
+ldlayer 0, layer_286D
+ldlayer 1, layer_287C
+end
+
+.layer layer_286B
+transpose 4
+
+.layer layer_286D
+instr FONT00_INSTR_MECH_CHARGE
+env envelope_66FC, 170
+portamento 0x81, 32, 145
+notedv PITCH_D3, 0x244, 105
+end
+
+.layer layer_287C
+instr FONT00_INSTR_CLOTH_TEAR
+env envelope_66FC, 170
+portamento 0x81, 5, 145
+notedv PITCH_B0, 0x244, 110
+end
+
+.channel env_jabu_platform_rise
+ldi 129
+stseq 0, layer_28AA+1
+.channel chan_2891
+ldlayer 0, layer_28A3
+ldlayer 1, layer_289C
+vibfreq 111
+vibdepth 10
+end
+
+.layer layer_289C
+transpose -12
+instr FONT00_INSTR_OCARINA_0
+jump layer_28A5
+
+.layer layer_28A3
+instr FONT00_INSTR_FLAME_THUNDER
+.layer layer_28A5
+env envelope_667C, 231
+legato
+.layer layer_28AA
+portamento 0x81, 12, 25
+.layer layer_28AE
+notedv PITCH_D3, 0xcb2, 74
+rjump layer_28AE
+
+.channel env_jabu_platform_fall
+ldi 130
+stseq 0, layer_28AA+1
+rjump chan_2891
+
+.channel env_door_jabu_unlock
+ldi 129
+.channel chan_28BE
+stseq 0, layer_28D2+1
+instr FONT00_INSTR_SYNTH
+env envelope_6688
+ldlayer 0, layer_28D2
+ldlayer 1, layer_28D0
+delay 0x14
+end
+
+.layer layer_28D0
+instr FONT00_INSTR_STEP_WATER
+
+.layer layer_28D2
+portamento 0x81, 17, 255
+releaserate 251
+notedv PITCH_D1, 0x14, 80
+end
+
+.channel env_door_jabu_lock
+ldi 130
+rjump chan_28BE
+
+.channel env_door_time_stop
+ldlayer 0, layer_1B2E
+ldlayer 1, layer_1F1A
+end
+
+.channel env_stone_restore
+instr FONT00_INSTR_WARP
+ldlayer 0, layer_2913
+ldlayer 1, layer_2900
+ldlayer 2, layer_2922
+vibfreq 128
+vibdepthgrad 32, 0, 55
+ldi 1
+call delay_varyingvol
+vibdepth 0
+end
+
+.layer layer_2900
+instr FONT00_INSTR_FAIRY
+env envelope_67E4, 200
+portamento 0x81, 38, 180
+notedv PITCH_C4, 0x384, 32
+end
+
+.layer layer_290F
+transpose 27
+rjump layer_2915
+
+.layer layer_2913
+transpose 15
+.layer layer_2915
+env envelope_67E4, 200
+portamento 0x81, 50, 180
+notedv PITCH_C5, 0x384, 80
+end
+
+.layer layer_2922
+releaserate 200
+notedv PITCH_C3, 0x258, 64
+transpose 27
+env envelope_66F4, 221
+notedv PITCH_C5, 0x12c, 70
+end
+
+.channel env_medal_acquire
+ldlayer 0, layer_2937
+end
+
+.layer layer_2937
+instr FONT00_INSTR_SHIMMER
+env envelope_6808, 240
+transpose 48
+legato
+portamento 0x85, 46, 255
+notedv PITCH_GF4, 0x50, 80
+notedv PITCH_C4, 0xd2, 80
+.layer layer_294B
+notedv PITCH_C4, 0x113, 80
+rjump layer_294B
+
+.channel env_unused4
+ldlayer 0, layer_2958
+ldlayer 1, layer_54B
+end
+
+.layer layer_2958
+instr FONT00_INSTR_SLAM_GUNSHOT
+env envelope_66B0, 250
+portamento 0x83, 38, 200
+notedv PITCH_AF2, 0x3, 95
+notedvg PITCH_BF2, 0x9, 95, 100
+end
+
+.channel env_light_arrow_acquire
+ldlayer 0, layer_296E
+end
+
+.layer layer_296E
+instr FONT00_INSTR_SHIMMER
+env envelope_6800, 240
+transpose 48
+legato
+portamento 0x85, 32, 255
+notedv PITCH_F3, 0x50, 80
+notedv PITCH_G4, 0x50, 80
+notedv PITCH_G4, 0x208, 80
+notedv PITCH_C4, 0xd2, 80
+.layer layer_2989
+notedv PITCH_F3, 0x64, 80
+rjump layer_2989
+
+.channel env_earthquake
+ldlayer 0, layer_299C
+ldlayer 1, layer_2998
+ldlayer 2, layer_29AD
+end
+
+.layer layer_2998
+stereo 20
+
+.layer layer_299A
+transpose -6
+
+.layer layer_299C
+instr FONT00_INSTR_MECH_CHARGE
+env envelope_66FC, 211
+legato
+portamento 0x81, 46, 255
+.layer layer_29A7
+notedv PITCH_A4, 0xc8, 77
+rjump layer_29A7
+
+.layer layer_29AD
+ldelay 0x64
+
+.layer layer_29AF
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_66FC, 221
+notedv PITCH_A2, 0xcf, 72
+.layer layer_29B9
+notedv PITCH_F3, 0x6f, 80
+notedv PITCH_C3, 0xa8, 84
+notedv PITCH_D3, 0x61, 68
+rjump layer_29B9
+
+.channel env_trap_crystal
+ldi 40
+stio 1
+ldlayer 0, layer_29E3
+ldlayer 1, layer_29D2
+ldlayer 2, layer_29D4
+end
+
+.layer layer_29D2
+transpose -4
+
+.layer layer_29D4
+instr FONT00_INSTR_SHIMMER
+env envelope_66F4, 241
+portamento 0x81, 39, 255
+notedv PITCH_EF3, 0xc6, 90
+end
+
+.layer layer_29E3
+ldelay 0xbc
+instr FONT00_INSTR_SYNTH
+portamento 0x81, 3, 32
+notedv PITCH_C2, 0x40, 105
+end
+
+.channel env_sage_warp
+instr FONT00_INSTR_WARP
+ldlayer 0, layer_29FC
+ldlayer 1, layer_2124
+ldlayer 2, layer_2A01
+end
+
+.layer layer_29FC
+transpose 30
+jump layer_2132
+
+.layer layer_2A01
+transpose 51
+jump layer_2149
+.layer layer_2A06
+instr FONT00_INSTR_EYE_OF_TRUTH
+releaserate 221
+portamento 0x84, 22, 127
+notedv PITCH_A4, 0x60, 85
+notedv PITCH_B4, 0x7f, 95
+end
+
+.channel env_sage_charge
+instr FONT00_INSTR_SHIMMER
+ldlayer 0, layer_2A27
+ldlayer 1, layer_2A36
+ldlayer 2, layer_2A3F
+vibdepth 40
+vibfreqgrad 148, 240, 100
+end
+
+.layer layer_2A27
+instr FONT00_INSTR_FLAME_THUNDER
+env envelope_66F4, 221
+portamento 0x81, 39, 255
+notedv PITCH_B5, 0x2e4, 95
+end
+
+.layer layer_2A36
+portamento 0x81, 27, 255
+notedv PITCH_B4, 0x2e4, 65
+end
+
+.layer layer_2A3F
+transpose 48
+releaserate 180
+portamento 0x81, 27, 255
+notedv PITCH_B4, 0x21c, 62
+transpose 0
+instr FONT00_INSTR_SLIDE_LINK
+env envelope_66F4, 221
+portamento 0x81, 39, 255
+notedv PITCH_B5, 0xc8, 85
+end
+
+.channel env_time_travel_end
+ldi 30
+stio 1
+ldlayer 0, layer_2A6D
+ldlayer 1, layer_2A7B
+ldlayer 2, layer_2A8A
+vibfreq 251
+vibdepth 6
+end
+
+.layer layer_2A6D
+instr FONT00_INSTR_WARP
+transpose 24
+env envelope_66F4, 230
+.layer layer_2A75
+notedv PITCH_A4, 0x7d00, 64
+rjump layer_2A75
+
+.layer layer_2A7B
+instr FONT00_INSTR_WATER_FLOWING
+transpose 48
+legato
+env envelope_66F4, 180
+.layer layer_2A84
+notedv PITCH_F5, 0x7d00, 40
+rjump layer_2A84
+
+.layer layer_2A8A
+instr FONT00_INSTR_SHIMMER
+env envelope_66F4, 180
+legato
+.layer layer_2A91
+notedv PITCH_C5, 0x7d00, 64
+rjump layer_2A91
+
+.channel env_jabu_platform_rise_stop
+gain 20
+ldlayer 0, layer_2AA8
+ldlayer 1, layer_2AA0
+end
+
+.layer layer_2AA0
+instr FONT00_INSTR_STEP_WATER
+notedv PITCH_G1, 0x1e, 80
+jump layer_1B35
+
+.layer layer_2AA8
+instr FONT00_INSTR_BLOCK_LOCK
+portamento 0x81, 32, 127
+notedv PITCH_A3, 0x64, 110
+end
+
+.channel env_jabu_platform_fall_stop
+gain 10
+ldlayer 0, layer_1B2E
+ldlayer 1, layer_2AC6
+ldlayer 2, layer_2ABE
+end
+
+.layer layer_2ABE
+instr FONT00_INSTR_STEP_WATER
+notedv PITCH_D1, 0x32, 80
+jump layer_1B35
+
+.layer layer_2AC6
+instr FONT00_INSTR_BLOCK_LOCK
+notedv PITCH_D3, 0x78, 110
+end
+
+.channel env_goron_fall
+ldlayer 0, layer_2AD4
+vibdepth 4
+vibfreq 58
+end
+
+.layer layer_2AD4
+transpose 12
+instr FONTANY_INSTR_SINE
+env envelope_66D0, 248
+portamento 0x81, 56, 255
+notedv PITCH_F3, 0x7f, 60
+end
+
+.channel env_spell_fire_stance
+ldlayer 0, layer_3E5
+ldlayer 1, layer_747
+end
+
+.channel env_ice_melt
+ldlayer 0, layer_2B01
+ldlayer 1, layer_2AF2
+end
+
+.layer layer_2AF2
+instr FONT00_INSTR_SLIDE_BLOCK
+env envelope_66FC, 225
+portamento 0x81, 62, 255
+notedv PITCH_C5, 0xaa, 96
+end
+
+.layer layer_2B01
+instr FONT00_INSTR_BOMB
+env envelope_66FC, 225
+portamento 0x81, 51, 255
+notedv PITCH_A2, 0xaa, 96
+end
+
+.channel env_fire_pillar
+ldlayer 0, layer_2C60
+end
+
+.channel env_unused5
+instr FONT00_INSTR_DOOR_METAL
+env envelope_6610
+ldlayer 0, layer_2B1D
+end
+
+.layer layer_2B1D
+notedv PITCH_GF3, 0x9, 110
+loop 32
+notedv PITCH_AF3, 0x8, 115
+loopend
+notedv PITCH_BF3, 0xb, 115
+end
+
+.channel env_magic_vanish
+ldlayer 0, layer_2B31
+ldlayer 1, layer_2B39
+end
+
+.layer layer_2B31
+instr FONT00_INSTR_FAIRY
+env envelope_66FC, 195
+rjump layer_2B41
+
+.layer layer_2B39
+instr FONT00_INSTR_SHIMMER
+env envelope_66FC, 195
+transpose 48
+.layer layer_2B41
+portamento 0x81, 44, 255
+notedv PITCH_E5, 0x64, 85
+end
+
+.channel env_ocarina_warp
+ldi 129
+stseq 0, layer_2B95+1
+stseq 0, layer_2BA6+1
+ldlayer 0, layer_2B5D
+ldlayer 1, layer_2B9F
+ldlayer 2, layer_2B86
+end
+
+.layer layer_2B5D
+ldelay 0x172
+end
+
+.channel env_ocarina_arrive
+ldi 130
+stseq 0, layer_2B95+1
+stseq 0, layer_2BA6+1
+ldlayer 0, layer_2B5D
+ldlayer 1, layer_2B9F
+ldlayer 2, layer_2B86
+end
+
+.channel env_fairy_heal
+ldi 129
+stseq 0, layer_2B95+1
+stseq 0, layer_2BA6+1
+ldlayer 0, layer_2B8C
+ldlayer 1, layer_2B9F
+end
+
+.layer layer_2B86
+instr FONT00_INSTR_FAIRY_MAGIC
+transpose -12
+rjump layer_2B90
+
+.layer layer_2B8C
+instr FONT00_INSTR_SHIMMER
+transpose 48
+.layer layer_2B90
+legato
+env envelope_67D8, 221
+.layer layer_2B95
+portamento 0x81, 27, 255
+.layer layer_2B99
+notedv PITCH_C5, 500, 85
+rjump layer_2B99
+
+.layer layer_2B9F
+instr FONT00_INSTR_FAIRY_MAGIC
+legato
+env envelope_67D8, 221
+.layer layer_2BA6
+portamento 0x81, 51, 255
+.layer layer_2BAA
+notedv PITCH_B5, 500, 85
+rjump layer_2BAA
+
+.channel env_door_boss_unlock
+gain 20
+ldlayer 0, layer_2BC7
+ldlayer 1, layer_2BBC
+ldlayer 2, layer_26D8
+end
+
+.layer layer_2BBC
+instr FONT00_INSTR_SWORD_STRIKE
+notedv PITCH_E2, 0xf, 84
+instr FONT00_INSTR_CHAIN
+notedv PITCH_C4, 0x3d, 66
+end
+
+.layer layer_2BC7
+instr FONT00_INSTR_SWORD_STRIKE
+notedv PITCH_E1, 0x8, 84
+transpose 48
+notedv PITCH_EF2, 0x0, 80
+end
+
+.channel env_crate_small_break
+ldlayer 0, layer_2BD9
+ldlayer 1, layer_1F7B
+end
+
+.layer layer_2BD9
+transpose -12
+jump layer_1F6E
+
+.channel env_unused6
+ldlayer 1, layer_1F1C
+
+.channel env_crate_small_drop
+ldlayer 0, layer_2BE5
+end
+
+.layer layer_2BE5
+instr FONT00_INSTR_STICK_ATTACK
+notedv PITCH_C3, 0x4, 100
+notedv PITCH_G2, 0x8, 100
+end
+
+.channel env_ruto_rebound_jabu
+ldlayer 0, layer_561
+ldlayer 1, layer_2958
+end
+
+.channel env_door_creak_rumble
+gain 15
+ldlayer 0, layer_286B
+ldlayer 1, layer_24A5
+end
+
+.channel env_night_howl
+ldi 25
+stio 1
+ldlayer 0, layer_2C05
+end
+
+.layer layer_2C05
+instr FONT00_INSTR_ANIMALS_1
+transpose 48
+notedv PITCH_G3, 0x0, 70
+end
+
+.channel env_jabu_groan
+ldlayer 0, layer_137D
+ldlayer 1, layer_1361
+ldlayer 2, layer_299C
+jump chan_135C
+
+.channel env_frog_jump
+ldlayer 0, layer_2C20
+ldlayer 1, layer_2C2A
+end
+
+.layer layer_2C20
+instr FONT00_INSTR_ANIMALS_0
+transpose 48
+releaserate 241
+notedv PITCH_C3, 0x2b, 100
+end
+
+.layer layer_2C2A
+instr FONTANY_INSTR_SQUARE
+env envelope_65D8, 251
+portamento 0x81, 15, 255
+notedv PITCH_C5, 0x28, 45
+end
+
+.channel env_ice_freeze_old
+ldlayer 0, layer_2C47
+ldlayer 1, layer_2C3F
+end
+
+.layer layer_2C3F
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_667C, 240
+rjump layer_2C4E
+
+.layer layer_2C47
+instr FONT00_INSTR_FIRE_WIND
+legato
+portamento 0x81, 32, 255
+.layer layer_2C4E
+notedv PITCH_C2, 0x190, 105
+rjump layer_2C4E
+
+.channel env_fire_wall
+ldlayer 1, layer_2C62
+ldi 88
+stseq 0, chan_2287+1
+jump chan_2267
+
+.layer layer_2C60
+transpose 6
+
+.layer layer_2C62
+instr FONT00_INSTR_FIRE_WALL
+env envelope_667C, 230
+legato
+portamento 0x85, 3, 255
+.layer layer_2C6D
+notedv PITCH_E1, 0x55, 80
+notedv PITCH_C1, 0x20, 80
+rjump layer_2C6D
+
+.channel env_wood_rebound
+instr FONT00_INSTR_STICK_ATTACK
+ldlayer 0, layer_2C7E
+ldlayer 1, layer_13EE
+end
+
+.layer layer_2C7E
+notedv PITCH_GF3, 0xd, 100
+notedv PITCH_A2, 0x0, 72
+end
+
+.channel env_water_drip_unused2
+ldi 80
+stio 1
+ldlayer 0, layer_2C91
+ldlayer 1, layer_2C8F
+end
+
+.layer layer_2C8F
+transpose -1
+
+.layer layer_2C91
+ldelay 0x30
+instr FONT00_INSTR_WATER_DRIP
+notedv PITCH_GF3, 0x40, 105
+end
+
+.channel env_jabu_breathe
+ldlayer 0, layer_2C9D
+end
+
+.layer layer_2C9D
+instr FONT00_INSTR_ROAR_BARK
+releaserate 240
+portamento 0x83, 8, 255
+notedvg PITCH_C2, 0xa8, 85, 5
+notedv PITCH_C1, 0x96, 85
+end
+
+.channel env_dalm_block_hit
+gain 10
+ldlayer 0, layer_1F6E
+ldlayer 1, layer_1F7B
+ldlayer 2, layer_2B31
+end
+
+.channel env_boulder_roll
+ldlayer 0, layer_2CC8
+ldlayer 1, layer_2CC2
+end
+
+.layer layer_2CC2
+instr FONT00_INSTR_MECH_CHARGE
+transpose 15
+rjump layer_2CCA
+
+.layer layer_2CC8
+instr FONT00_INSTR_ROLL_BOULDER
+.layer layer_2CCA
+legato
+releaserate 235
+portamento 0x81, 22, 175
+.layer layer_2CD1
+notedv PITCH_C3, 0x60, 95
+rjump layer_2CD1
+
+.channel env_elevator_groan_unused
+ldlayer 0, layer_2CDF
+ldlayer 1, layer_2CDD
+end
+
+.layer layer_2CDD
+transpose -24
+
+.layer layer_2CDF
+instr FONT00_INSTR_MECH_CHARGE
+env envelope_6674, 251
+legato
+portamento 0x1, 36, 0x7f
+.layer layer_2CEA
+notedv PITCH_F5, 32700, 95
+rjump layer_2CEA
+
+.channel env_diamond_switch_on
+call env_guard_attention
+jump env_treasure_flash
+
+.channel env_kakariko_fire
+panweight 48
+ldlayer 2, layer_2357
+jump env_fire_wall
+
+.channel env_rainbow_bridge_appear
+call env_triforce_aura
+.channel chan_2D01
+ldlayer 1, layer_2937
+ldi 100
+call delay_varyingvol
+ldlayer 2, layer_2937
+ldi 100
+call delay_varyingvol
+rjump chan_2D01
+
+.channel env_flying_old
+ldlayer 1, layer_2D25
+ldlayer 2, layer_2D23
+ldi 102
+stseq 0, chan_2287+1
+jump chan_2267
+end
+
+.layer layer_2D23
+transpose -9
+
+.layer layer_2D25
+legato
+instr FONT00_INSTR_WIND_HOWL_S
+env envelope_6818, 241
+portamento 0x1, 44, 0x7f
+.layer layer_2D30
+notedv PITCH_B4, 32700, 80
+rjump layer_2D30
+
+.channel env_flying_end_old
+ldlayer 0, layer_2D3A
+end
+
+.layer layer_2D3A
+transpose 12
+legato
+instr FONT00_INSTR_WIND_HOWL_S
+env envelope_6694, 221
+portamento 0x85, 48, 255
+notedv PITCH_D4, 0x24, 105
+notedv PITCH_G5, 0x64, 105
+end
+
+.channel env_deku_sprout_grow
+ldlayer 0, layer_2D55
+ldlayer 1, layer_599
+end
+
+.layer layer_2D55
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_6688, 230
+portamento 0x81, 10, 255
+notedv PITCH_A4, 0x46, 95
+end
+
+.channel env_desert_storm
+ldlayer 0, layer_2D6E
+ldlayer 1, layer_2D6A
+end
+
+.layer layer_2D6A
+transpose 27
+rjump layer_2D70
+
+.layer layer_2D6E
+transpose 36
+.layer layer_2D70
+legato
+instr FONT00_INSTR_FIRE_WIND
+env envelope_6674, 200
+portamento 0x85, 56, 255
+.layer layer_2D7B
+notedv PITCH_B5, 500, 58
+notedv PITCH_E5, 350, 58
+rjump layer_2D7B
+
+.channel env_triforce_mark
+ldlayer 0, layer_255B
+ldlayer 1, layer_2D8F
+ldlayer 2, layer_2790
+end
+
+.layer layer_2D8F
+instr FONT00_INSTR_FAIRY
+env envelope_66FC, 195
+portamento 0x81, 0, 255
+notedv PITCH_F2, 0x7f, 85
+end
+
+.channel env_grave_explode
+gain 20
+ldlayer 0, layer_1A36
+ldlayer 1, layer_1F6E
+ldlayer 2, layer_1F7B
+end
+
+.channel env_obj_drop_water
+ldlayer 0, layer_1ACE
+end
+
+.channel env_obj_lift_water
+ldlayer 0, layer_2DB1
+end
+
+.layer layer_2DB1
+instr FONT00_INSTR_WATER_SPLISH
+notedv PITCH_B4, 0x9, 100
+instr FONT00_INSTR_WATER_SPLASH
+env envelope_664C, 240
+notedv PITCH_A4, 0x6, 90
+notedv PITCH_B4, 0x22, 80
+end
+
+.channel env_ganondorf_cloak
+instr FONT00_INSTR_CLOAK
+ldlayer 0, layer_2DC9
+end
+
+.layer layer_2DC9
+portamento 0x81, 27, 127
+notedv PITCH_F3, 0x64, 100
+end
+
+.channel env_dig
+ldlayer 0, layer_3CC
+ldlayer 1, layer_599
+end
+
+.channel env_lab_bubbles
+ldlayer 0, layer_2DDC
+end
+
+.layer layer_2DDC
+instr FONT00_INSTR_WATER_BUBBLES
+releaserate 200
+notedv PITCH_G3, 0x40, 55
+end
+
+.channel env_ice_break_old
+instr FONT00_INSTR_CHATTER
+env envelope_65D8
+ldlayer 0, layer_2DF0
+ldlayer 1, layer_2DF6
+end
+
+.layer layer_2DF0
+transpose 48
+notedv PITCH_C4, 0x48, 94
+end
+
+.layer layer_2DF6
+transpose 48
+notedv PITCH_B4, 0x48, 112
+end
+
+.channel env_frog_grow
+ldlayer 0, layer_2E00
+end
+
+.layer layer_2E00
+instr FONTANY_INSTR_BELL
+env envelope_6610, 251
+portamento 0x83, 0, 255
+notedv PITCH_AF2, 0x2c, 60
+notedv PITCH_D3, 0x2c, 60
+notedv PITCH_G3, 0x2c, 60
+end
+
+.channel env_water_flow
+panweight 48
+ldlayer 0, layer_23C9
+ldlayer 1, layer_23B7
+end
+
+.channel env_gate_large_open
+ldlayer 0, layer_2E21
+end
+
+.layer layer_2E21
+instr FONT00_INSTR_DOOR_METAL
+transpose 48
+notedv PITCH_C3, 0x0, 110
+end
+
+.channel env_goddess_face_break
+call env_bwall_break
+ldlayer 2, layer_1A30
+end
+
+.channel env_goddess_face_explode
+ldlayer 0, layer_1A36
+ldlayer 1, layer_299A
+end
+
+.channel env_goddess_face_crumble
+ldlayer 0, layer_29AD
+ldlayer 1, layer_29AF
+end
+
+.channel env_trap_blade_move_old
+ldlayer 0, layer_2E45
+ldlayer 1, layer_26FA
+end
+
+.layer layer_2E45
+instr FONT00_INSTR_SWORD_DRAW
+portamento 0x81, 24, 64
+notedv PITCH_G2, 0x7f, 85
+end
+
+.channel env_unused7
+instr FONT00_INSTR_CHATTER
+ldlayer 0, layer_2E55
+end
+
+.layer layer_2E55
+transpose 48
+notedv PITCH_A3, 0xa, 94
+end
+
+.channel env_warp_lower
+ldi 130
+jump chan_27B2
+
+.channel env_sage_chamber_ambient
+ldi 32
+stio 1
+ldlayer 0, layer_2E67
+end
+
+.layer layer_2E67
+instr FONT00_INSTR_WATER_DRIP
+.layer layer_2E69
+notedv PITCH_B0, 0x0, 70
+rjump layer_2E69
+
+.channel env_sage_chamber_energy
+ldi 32
+stio 1
+ldlayer 0, layer_2E75
+end
+
+.layer layer_2E75
+instr FONT00_INSTR_WIND_HOWL_S
+env envelope_6710, 251
+legato
+portamento 0x81, 39, 255
+.layer layer_2E80
+notedv PITCH_C3, 0xfa, 110
+rjump layer_2E80
+
+.channel env_dog_bark
+ldlayer 0, layer_2E8A
+end
+
+.layer layer_2E8A
+instr FONT00_INSTR_ROAR_BARK
+transpose 48
+notedv PITCH_C4, 0x0, 100
+end
+
+.channel env_zelda_cast_spell
+instr FONT00_INSTR_WARP
+gain 15
+ldlayer 1, layer_290F
+ldlayer 0, layer_2EA0
+ldlayer 2, layer_2EAF
+end
+
+.layer layer_2EA0
+instr FONT00_INSTR_FAIRY
+env envelope_67E4, 200
+portamento 0x81, 50, 180
+notedv PITCH_C5, 0xc8, 110
+end
+
+.layer layer_2EAF
+releaserate 200
+notedv PITCH_C4, 0xc8, 115
+end
+
+.channel env_rain
+instr FONTANY_INSTR_DRUM
+panweight 0
+ldlayer 0, layer_2EC1
+ldlayer 1, layer_2EC8
+end
+
+.layer layer_2EC1
+legato
+.layer layer_2EC2
+notedv FONT00_DRUM_RAIN_1, 32700, 80
+rjump layer_2EC2
+
+.layer layer_2EC8
+legato
+.layer layer_2EC9
+notedv FONT00_DRUM_RAIN_0, 32700, 80
+rjump layer_2EC9
+
+.channel env_door_metal_open
+ldlayer 0, layer_2ED3
+end
+
+.layer layer_2ED3
+instr FONT00_INSTR_DOOR_METAL
+transpose 48
+notedv PITCH_D4, 0x0, 110
+end
+
+.channel env_door_metal_close
+ldlayer 0, layer_2EDF
+end
+
+.layer layer_2EDF
+instr FONT00_INSTR_DOOR_METAL
+transpose 48
+notedv PITCH_G3, 0x0, 110
+end
+
+.channel env_whirlpool
+ldlayer 0, layer_23C5
+ldlayer 1, layer_23AD
+end
+
+.channel env_tower_break
+gain 10
+ldlayer 0, layer_2EFA
+ldlayer 1, layer_2F0A
+ldlayer 2, layer_1F41
+end
+
+.layer layer_2EFA
+instr FONT00_INSTR_EXPLOSION_0
+releaserate 221
+notedv PITCH_C4, 0xc, 82
+portamento 0x81, 27, 255
+notedv PITCH_F2, 0x91, 105
+end
+
+.layer layer_2F0A
+instr FONT00_INSTR_MECH_CHARGE
+releaserate 221
+notedv PITCH_C5, 0xc, 82
+portamento 0x81, 39, 255
+notedv PITCH_F3, 0x91, 105
+end
+
+.channel env_cow_moo
+instr FONT00_INSTR_FIRE_COW
+ldlayer 0, layer_2F20
+end
+
+.layer layer_2F20
+transpose 48
+notedv PITCH_C4, 0x0, 100
+end
+
+.channel env_obj_break_unused
+ldlayer 0, layer_2F2D
+ldlayer 1, layer_2F38
+end
+
+.layer layer_2F2D
+instr FONT00_INSTR_DOOR_METAL
+transpose 48
+notedv PITCH_G5, 0xd, 66
+notedv PITCH_D5, 0x1a, 66
+end
+
+.layer layer_2F38
+instr FONT00_INSTR_POTTERY_ELECTRIC
+transpose 48
+notedv PITCH_A3, 0x0, 68
+notedv PITCH_C4, 0x0, 68
+end
+
+.channel env_rock_barrier_hit
+ldlayer 3, layer_1E0A
+call env_grave_explode
+end
+
+.channel env_frog_croak_leave
+ldlayer 0, layer_2F4E
+end
+
+.layer layer_2F4E
+instr FONT00_INSTR_ANIMALS_0
+transpose 48
+notedv PITCH_F3, 0x8, 85
+notedv PITCH_D3, 0x8, 85
+portamento 0x81, 27, 127
+notedv PITCH_A3, 0x18, 85
+end
+
+.channel env_frog_croak_grow
+ldlayer 0, layer_2F64
+end
+
+.layer layer_2F64
+instr FONT00_INSTR_ANIMALS_0
+transpose 48
+notedv PITCH_F3, 0x8, 85
+notedv PITCH_A3, 0x8, 85
+portamento 0x81, 34, 127
+notedv PITCH_C3, 0x18, 85
+end
+
+.channel env_cow_moo_distant
+instr FONT00_INSTR_FIRE_COW
+releaserate 180
+ldi 20
+stio 1
+.channel chan_2F7D
+ldlayer 0, layer_2FB2
+ldi 255
+call delay_varyingvol
+rand 2
+stseq 47, layer_2FAB+1
+randptr 106, 150
+stptrtoseq addr_2FB6
+ldi 1
+ldseq addr_2FB6
+stseq 0, chan_2F9F+1
+ldlayer 0, layer_2FAB
+.channel chan_2F9F
+ldi 1
+call delay_varyingvol
+ldi 255
+call delay_varyingvol
+rjump chan_2F7D
+
+.layer layer_2FAB
+transpose 48
+notedv PITCH_C4, 0x93, 60
+end
+
+.layer layer_2FB2
+ldelay 0x7d00
+end
+
+.array addr_2FB6
+byte 0x0
+byte 0x0
+
+.channel env_door_ranch_close
+ldlayer 0, layer_2FBF
+ldlayer 1, layer_2BC7
+end
+
+.layer layer_2FBF
+instr FONT00_INSTR_SWORD_STRIKE
+notedv PITCH_E2, 0x0, 84
+end
+
+.channel env_butterfly_transform
+ldlayer 0, layer_2FCC
+ldlayer 1, layer_2FDC
+end
+
+.layer layer_2FCC
+instr FONT00_INSTR_SHIMMER
+transpose 48
+env envelope_6638, 251
+portamento 0x81, 39, 255
+notedv PITCH_C5, 0x64, 80
+end
+
+.layer layer_2FDC
+instr FONT00_INSTR_FAIRY_MAGIC
+env envelope_6638, 251
+portamento 0x81, 39, 255
+notedv PITCH_C5, 0x64, 80
+end
+
+.channel env_gossip_stretch
+ldlayer 0, layer_2FEE
+end
+
+.layer layer_2FEE
+instr FONTANY_INSTR_BELL
+env envelope_6610, 251
+portamento 0x83, 0, 255
+notedv PITCH_AF3, 0x3c, 60
+end
+
+.channel env_gossip_launch
+ldlayer 0, layer_1F03
+jump chan_1A2C
+
+.channel env_spike_log_roll
+ldlayer 0, layer_3006
+end
+
+.layer layer_3006
+instr FONT00_INSTR_CHAIN_RETRACT
+legato
+.layer layer_3009
+notedv PITCH_DF3, 32700, 80
+rjump layer_3009
+
+.channel env_barrier_energy
+ldlayer 0, layer_3016
+ldlayer 1, layer_3029
+end
+
+.layer layer_3016
+instr FONT00_INSTR_OCARINA_0
+env envelope_6674, 251
+legato
+portamento 0x85, 15, 255
+.layer layer_3021
+notedv PITCH_C3, 0x64, 55
+notedv PITCH_C2, 0x64, 55
+rjump layer_3021
+
+.layer layer_3029
+instr FONT00_INSTR_WARP
+env envelope_6674, 251
+legato
+portamento 0x85, 27, 255
+.layer layer_3034
+notedv PITCH_C4, 0x32, 65
+notedv PITCH_C3, 0x32, 65
+rjump layer_3034
+
+.channel env_barrier_hum
+ldlayer 0, layer_3046
+ldlayer 1, layer_3059
+ldlayer 2, layer_306C
+end
+
+.layer layer_3046
+instr FONTANY_INSTR_SINE
+env envelope_6674, 251
+legato
+portamento 0x85, 3, 255
+.layer layer_3051
+notedv PITCH_G1, 0x2d, 40
+notedv PITCH_C1, 0x2d, 40
+rjump layer_3051
+
+.layer layer_3059
+instr FONT00_INSTR_WARP
+env envelope_6674, 251
+legato
+portamento 0x85, 34, 255
+.layer layer_3064
+notedv PITCH_G4, 0x5a, 65
+notedv PITCH_G3, 0x5a, 65
+rjump layer_3064
+
+.layer layer_306C
+instr FONT00_INSTR_OCARINA_0
+env envelope_6674, 251
+legato
+portamento 0x85, 7, 255
+.layer layer_3077
+notedv PITCH_E2, 0xb4, 55
+notedv PITCH_E1, 0xb4, 55
+rjump layer_3077
+
+.channel env_kid_walk
+ldlayer 0, layer_3085
+end
+
+.layer layer_3085
+instr FONT00_INSTR_STEP_GROUND
+portamento 0x81, 43, 255
+notedv PITCH_E2, 0xe, 60
+end
+
+.channel env_guard_walk
+ldlayer 0, layer_30A0
+ldlayer 1, layer_3096
+end
+
+.layer layer_3096
+instr FONT00_INSTR_STEP_GROUND
+portamento 0x81, 32, 127
+notedv PITCH_F3, 0xa, 76
+end
+
+.layer layer_30A0
+instr FONT00_INSTR_SWORD_STRIKE
+notedv PITCH_F4, 0x6, 48
+instr FONT00_INSTR_STEP_FIRE
+notedv PITCH_C4, 0xa, 48
+end
+
+.channel env_pillar_stop
+ldlayer 0, layer_30AF
+end
+
+.layer layer_30AF
+instr FONT00_INSTR_BLOCK_LOCK
+releaserate 241
+notedv PITCH_GF4, 0x6, 75
+notedv PITCH_F3, 0x64, 75
+end
+
+.filter filter_env0
 filter 0, 0, 0, 0, 0, 0, 0, 0
 
-.filter_env1:
+.filter filter_env1
 filter 0, 0, 0, 0, 0, 0, 0, 0
 
-.filter_env2:
+.filter filter_env2
 filter 0, 0, 0, 0, 0, 0, 0, 0

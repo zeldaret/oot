@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="27 Gerudo Valley" Index="27">
+    <Soundfont Name="27_Gerudo_Valley" Index="27">
         <Instruments>
             <Instrument Name="Trumpet" Enum="TRUMPET"/>
             <Instrument Name="Trombone" Enum="TROMBONE"/>

@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="36 Kaepora Gaebora Theme" Index="36">
+    <Soundfont Name="36_Kaepora_Gaebora_Theme" Index="36">
         <Instruments>
             <Instrument/>
             <Instrument Name="Oboe" Enum="OBOE"/>

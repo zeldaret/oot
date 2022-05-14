@@ -459,14 +459,14 @@ def linkFontToBank(font):
             mybank = banks[bidx]
             font.bankIdx1 = bidx
             if not mybank:
-                print(f"WARNING: Could not find bank match {bname} for font: {font.name}")
+                print(f"WARNING: Could not find bank match {bname} for font: {font.name}", file=sys.stderr)
                 return
         else:
-            print(f"WARNING: Could not find bank match {bname} for font: {font.name}")
+            print(f"WARNING: Could not find bank match {bname} for font: {font.name}", file=sys.stderr)
             return
 
     if not mybank:
-        print(f"WARNING: Could not find bank match {bname} for font: {font.name}")
+        print(f"WARNING: Could not find bank match {bname} for font: {font.name}", file=sys.stderr)
         return
 
     # Check for apparent bank if in match mode
@@ -483,9 +483,9 @@ def linkFontToBank(font):
                 abank = banks[abidx]
                 font.bankIdx1 = abidx
                 if not abank:
-                    print(f"WARNING: Could not find bank match {abname} for font: {font.name}")
+                    print(f"WARNING: Could not find bank match {abname} for font: {font.name}", file=sys.stderr)
             else:
-                print(f"WARNING: Could not find bank match {abname} for font: {font.name}")
+                print(f"WARNING: Could not find bank match {abname} for font: {font.name}", file=sys.stderr)
 
     # Link bank and samples 
     font.bank1 = mybank
@@ -538,7 +538,7 @@ def readFont(filepath):
     if xmlroot.tag == "Soundfont":
         sfnode = xmlroot
     else:
-        sfnode = xmlroot.find("Soundfont")	
+        sfnode = xmlroot.find("Soundfont")
 
     if sfnode is None:
         print(f"ERROR - could not find Soundfont definition in: {filename}", file=sys.stderr)
@@ -548,13 +548,10 @@ def readFont(filepath):
 
     # Resolve font name, and index if part of name
     if fontname[0:1].isnumeric():
-        firstspace = fontname.find(' ')
-        if firstspace >= 0:
-            myfont.idx = int(fontname[:firstspace])
-            fontname = fontname[firstspace + 1:]
-            nextspace = fontname.find(' ')
-            if nextspace >= 0:
-                fontname = fontname[nextspace + 1:]
+        spaceidx = fontname.find(' ')
+        if spaceidx >= 0:
+            myfont.idx = int(fontname[:spaceidx])
+            fontname = fontname[spaceidx + 1:]
 
     font_lookup[fontname] = myfont
     myfont.name = fontname
@@ -629,7 +626,7 @@ def processBanks(sampledir, builddir, tabledir):
     else:
         e_banks = xmlroot.find("SampleBanks")
     if e_banks is None:
-        print("Banks.xml does not appear to be valid")
+        print("Banks.xml does not appear to be valid", file=sys.stderr)
         return
     elist_bank = e_banks.findall("SampleBank")
 
@@ -642,11 +639,13 @@ def processBanks(sampledir, builddir, tabledir):
             bankname = f"{i} - REF"
             mybank = bank_lookup[e_bank.get("Reference")]
             bank_lookup[bankname] = mybank
-            print("Bank reference discovered:", bankname)
+            if not quiet:
+                print("Bank reference discovered:", bankname)
             audiotable_paths.append(None)
             banks.append(mybank)
         else:
-            print("Bank discovered:", bankname)
+            if not quiet:
+                print("Bank discovered:", bankname)
             mybank = Soundbank()
             banks.append(mybank)
             mybank.name = bankname
@@ -669,7 +668,7 @@ def processBanks(sampledir, builddir, tabledir):
                     samplename = tup[1]
                     mysample = SampleHeader()
                     if samplename in mybank.samplesByName:
-                        print("WARNING: Duplicate sample key found:", samplename)
+                        print("WARNING: Duplicate sample key found:", samplename, file=sys.stderr)
                     mybank.samplesByName[samplename] = mysample
                     mysample.name = samplename
                     mysample.idx = si
@@ -730,7 +729,8 @@ def processBanks(sampledir, builddir, tabledir):
 
             # Now, assign offsets/calculate sizes for samples
             sorted_samples = mybank.samples
-            print(f"Bank {mybank.idx}: {len(sorted_samples)} samples found")
+            if not quiet:
+                print(f"Bank {mybank.idx}: {len(sorted_samples)} samples found")
 
             binpath = None
             opath = None
@@ -756,7 +756,8 @@ def processBanks(sampledir, builddir, tabledir):
                     offset += padding
 
                     if output is not None:
-                        print("Writing sample:", sample.name)
+                        if not quiet:
+                            print("Writing sample:", sample.name)
                         aifc_path = os.path.join(bankdir, sample.fileName)
                         syms.append(
                             (
@@ -873,36 +874,35 @@ def processBanks(sampledir, builddir, tabledir):
 
     Path(banktable_path).unlink(missing_ok=True)
 
-def write_soundfont_header(font, fontcount, filename):
+def write_soundfont_define(font, fontcount, filename):
     width = int(math.log10(fontcount)) + 1
     index = str(font.idx).zfill(width)
 
     with open(filename, "w") as file:
-        file.write("/*\n")
-        file.write("   Soundfont file constants\n")
-        file.write(f"   ID: {font.idx}\n")
-        file.write(f"   Name: {font.name}\n")
-        file.write("*/\n\n/**** INSTRUMENTS ****/\n")
+        file.write("#   Soundfont file constants\n")
+        file.write(f"#   ID: {font.idx}\n")
+        file.write(f"#   Name: {font.name}\n")
+        file.write("\n##### INSTRUMENTS #####\n")
 
         for instrument in font.instruments:
             if instrument is None:
                 continue
 
-            file.write(f"#define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
+            file.write(f".define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
         
-        file.write("\n/**** DRUMS ****/\n")
+        file.write("\n##### DRUMS #####\n")
         for drum in font.percussion:
             if drum is None:
                 continue
 
-            file.write(f"#define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
+            file.write(f".define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
         
-        file.write("\n/**** EFFECTS ****/\n")
+        file.write("\n##### EFFECTS #####\n")
         for effect in font.soundEffects:
             if effect is None:
                 continue
 
-            file.write(f"#define FONT{index}_EFFECT_{effect.enum} {effect.idx}\n")
+            file.write(f".define FONT{index}_EFFECT_{effect.enum} {effect.idx}\n")
 
 def main(args):
     global debug_mode
@@ -911,6 +911,7 @@ def main(args):
     global target_64
     global machine
     global packspecs
+    global quiet
 
     if args.little_endian:
         target_le = True
@@ -921,10 +922,11 @@ def main(args):
     if args.machine:
         machine = parse_machine(args.machine)
 
-    if args.debug:
+    if args.debug and not args.quiet:
         debug_mode = True
     if args.match and not target_64 and not target_le:
         match_mode = args.match
+    quiet = args.quiet
 
     outpath = args.outpath
     inpath = args.inpath
@@ -937,18 +939,18 @@ def main(args):
         print("Sample Directory:", sampledir)
         print("Match Mode:", match_mode)
 
-    # Check for directories' existance
+    # Check for directories' existence
     if args.single:
         if not os.path.isfile(inpath):
-            print(f"ERROR: Input file \"{inpath}\" does not exist!")
+            print(f"ERROR: Input file \"{inpath}\" does not exist!", file=sys.stderr)
             return 1
     else:
         if not os.path.isdir(inpath):
-            print(f"ERROR: Input path \"{inpath}\" is not a valid directory!")
+            print(f"ERROR: Input path \"{inpath}\" is not a valid directory!", file=sys.stderr)
             return 1
 
     if not os.path.isdir(sampledir):
-        print(f"ERROR: Sample path \"{sampledir}\" is not a valid directory!")
+        print(f"ERROR: Sample path \"{sampledir}\" is not a valid directory!", file=sys.stderr)
         return 1
 
     if not os.path.isdir(outpath):
@@ -1043,7 +1045,8 @@ def main(args):
 
         if match_mode and font.idx == (font_count - 1):
             if match_mode not in last_font_match_sizes:
-                print(f"Match string \'{match_mode}\' not recognized! Ignoring...")
+                if not quiet:
+                    print(f"Match string \'{match_mode}\' not recognized! Ignoring...")
             else:
                 target_size = last_font_match_sizes[match_mode]
                 current_size = os.path.getsize(fontpaths[font.idx])
@@ -1067,8 +1070,8 @@ def main(args):
                 elffile.write(bytes(elf))
 
         os.makedirs(args.outinclude, exist_ok=True)
-        h_filename = os.path.join(args.outinclude, f"{font.idx}.h")
-        write_soundfont_header(font, font_count, h_filename)
+        inc_filename = os.path.join(args.outinclude, f"{font.idx}.inc")
+        write_soundfont_define(font, font_count, inc_filename)
 
     # load table for matching
     og_font_dat = None
@@ -1148,10 +1151,11 @@ if __name__ == "__main__":
     parser.add_argument("--match", help="Aim to build match to original ROM (less efficient, more bookkeeping). Recognized values: ocarina, ocarina1_0, majora")
     parser.add_argument("--debug", action="store_true", help="Flag for debug mode (increased verbosity, output matching)")
     parser.add_argument("--single", action="store_true", help="Use this flag if only want to build a single font (inputting one xml file)")
-    parser.add_argument("--buildbank", action="store_true", help="Use this flag to build bank files as well as fonts. Highly recommended.")
+    parser.add_argument("--build-bank", action="store_true", help="Use this flag to build bank files as well as fonts. Highly recommended.")
     parser.add_argument("--little-endian", action="store_true", help="Use this flag if building for Little-Endian target. Overrides --match and --debug")
     parser.add_argument("--arch64", action="store_true", help="Use this flag if building for 64-bit target. (Importantly, this does NOT include N64 itself). Overrides --match and --debug")
     parser.add_argument("--machine", nargs=1, required=False, default="mips", help="The machine type to use for the output ELF files.")
+    parser.add_argument("--quiet", "-q", action="store_true", help="Suppresses output to standard out.")
     parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
     args = parser.parse_args()
     main(args)

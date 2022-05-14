@@ -1,4 +1,4 @@
-# Sequence Macro Language
+# Music Macro Language
 
 Ocarina of Time contains a number of files known as **sequences**.  These sequences typically represent the music that plays during regular gameplay, such as Hyrule Field's theme or the Fire Temple background music.  These sequences are comparable to General MIDI version 1 with some noticeable differences, but the language that composes these sequences is much more complex and can support more programmatic uses.  Ocarina of Time in particular uses this language in innovative ways, which are described later in this document.
 
@@ -18,7 +18,7 @@ Sequences may contain primitives, such as text and integers, which can be used a
 
 **Integers**: Numerical values without a fractional component.  For most usages, the integer must be within a certain supported range (as documented).  An integer can be written in decimal, hexadecimal, or binary, whichever feels most appropriate.  For example: `123`, `0x7B`, or `0b01111011`.
 
-**Labels** allow you to provide a label for a certain subsection of the track code or data values.  They are defined using a related metacommand (documented in the next section), which specifies the label type.  Labels may consist of a series of unicode letters or numbers, as well as underscores and periods.  You may then reference that label in your track code or data where the label type is accepted (as documented).  You can also use relative offsets around a label if you want to adjust where you're pointing to relative to the location of the label.
+**Labels** allow you to provide a label for a certain subsection of the track code or data values.  They are defined using a related metacommand (documented in the next section), which specifies the label type.  Labels may consist of a series of Unicode letters or numbers, as well as underscores and periods.  You may then reference that label in your track code or data where the label type is accepted (as documented).  You can also use relative offsets around a label if you want to adjust where you're pointing to relative to the location of the label.
 
 All label names must be unique.  If you define the same label in multiple locations of the sequence, this will result in an error.  Note that this applies across label types; for example, a channel label called `percussion` prevents a note layer label from being called `percussion`.
 
@@ -292,6 +292,12 @@ stio 0
 **ldres** *IO*, *type*, *index*
 
 **Description:** Loads an audio resource into memory asynchronously.  The type of resource is specified via *type*, where 0 is a sequence, 1 is a soundfont, and 2 is a sample bank.  The IO parameter is used to track the status of the loading process.  The audio subsystem will update this value to 0 once the resource has been loaded.  Note that the IO port doesn't change this value to anything but 0 first, so it's recommended to set the IO port to a non-zero value prior to using `ldres`.
+
+Unlike the dedicated `ldseq` command, this does not assign the loaded sequence to a sequence player for playback.  This was likely intended to be paired with `runseq`, since the sequence would be loaded into the pool and ready for playback immediately and wouldn't introduce any processing lag.  Unfortunately, with the way the pools are designed, this is suboptimal and could introduce issues.
+
+As a best practice, if you want to do dynamic sequence changes, allocate a buffer inside your sequence and use `ldseq` to load it into the buffer and call it as a sequence function.  If you want to change the sequence being played by another sequence player, you must use the `ldres` and `runseq` commands.
+
+You do not need to use this command to load sample banks or soundfonts.  There are no commands to allow a sequence to use an arbitrary soundfont, and any soundfonts assigned to a sequence are preemptively loaded into the pool prior to the sequence player initializing.  The engine also already handles loading sample banks and samples automatically, so there are no useful situations where you would need to use this command with sample banks.
 
 **Parameters:**
 * `IO` [integer: 0-7] - The IO port to use for tracking the asynchronous load status.
@@ -906,3 +912,78 @@ freenotelist      # Releases the reserved notes.
 delay 500         # Now the player may not be able to play notes if there aren't enough in the
                   # global pool.
 ```
+
+#### Channel Subsections
+
+##### Channel Registers
+
+Every channel contains two registers that commands can use for mathematical calculations, loading and storing values, and referencing data sections.  Like the sequence player, there is an eight-bit `$V` register that's used mainly for loading and storing values, and a sixteen-bit `$P` register used as an offset pointer for indirect references within the channel script.
+
+##### IO Ports
+
+Similar to the sequence player, each channel contains its own dedicated eight IO ports that are one byte wide.  These ports can be used to store or communicate values across different portions of the channel script.
+
+Channels also have access to the sequence player's IO ports, allowing values to be sent across different levels as needed.  Keep in mind that since each channel's script runs in parallel, you will want to ensure that channels do not write back to the same IO port on the sequence player in a destructive fashion.  (These commands are executed in a single thread, so it is safe for different channels to modify the same IO port if, for example, the script was configured to modify one bit while leaving the rest unmodified.)
+
+##### Metacommands
+
+**.channel** *label name*
+
+**Description:** Defines a label for the following subsection of channel commands.  Note that it is considered an error if a channel label is proceeded with anything that is not a channel command.
+
+**Example:**
+```
+.channel loop_start
+ldlayer 1, legatobar
+delay 500
+jump loop_start        # Plays the same melody indefinitely.
+```
+
+##### Commands
+
+|    |   00   | 10        | 20     | 30    |  40   |  50   |  60  |  70      |  80       |   90       | A0 |  B0         |    C0        |     D0      | E0           |      F0       |
+| -- | ------ | --------- | ------ | ----- | ----- | ----- | ---- | -------- | --------- | ---------- | -- | ----------- | ------------ | ----------- | ------------ | ------------- |
+| 00 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | filter      |              | effects     | volexp       | freenotelist  |
+| 01 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | freefilter  | instr        | notealloc   | vibfreqgrad  | allocnotelist |
+| 02 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | ldseqtoptr  | dyntbl       | sustain     | vibdepthgrad | *rbltz        |
+| 03 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | ldfilter    | short        | bend        | vibdelay     | *rbeqz        |
+| 04 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | ptrtodyntbl | noshort      | reverb      | dyncall      | *rjump        |
+| 05 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | dyntbltoptr | dyntbllookup |             | rvrbidx      | *bgez         |
+| 06 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | dyntblv     | font         |             | samplbook    | *break        |
+| 07 | cdelay | sample    | ldchan | stcio | ldcio | subio | ldio | stio     | testlayer | freelayer  |    | randtoptr   | stseq        | vibfreq     | ldparams     | *loopend      |
+| 08 | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randvel     | sub          | vibdepth    | params       | *loop         |
+| 09 | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randgate    | and          | releaserate | notepri      | *bltz         |
+| 0A | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    |             | mutebhv      | env         | stop         | *beqz         |
+| 0B | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | ptradd      | ldseq        | transpose   | fontinstr    | *jump         |
+| 0C | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | randptr     | ldi          | panweight   | reset        | *call         |
+| 0D | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    | instr       | stopchan     | pan         | gain         | *delay        |
+| 0E | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    |             | lditoptr     | preqscale   | bendfine     | *delay1       |
+| 0F | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    |             | stptrtoseq   | vol         |              | *end          |
+
+Commands marked with an asterisk (\*) are documented in the section *Branching Commands*.
+
+**cdelay** *ticks*
+
+**Description:** Delays processing of the channel script by the provided number of ticks (up to 16).  A delay of 0 is effectively a no-op.
+
+This command is functionally identical to `delay`, with a reduced range and encoded as a single byte for better script compression.
+
+**Parameters:**
+* `ticks` [integer: 0-15] - The number of ticks to delay further processing.
+
+**Example:**
+```
+ldlayer 1, melody
+ldlayer 2, harmony
+vol 30             # Gradually fade in
+cdelay 14
+vol 45
+cdelay 14
+vol 60
+cdelay 14
+vol 75
+```
+
+**sample** *IO*
+
+**Description:** Loads 

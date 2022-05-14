@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="16 Spirit Temple" Index="16">
+    <Soundfont Name="16_Spirit_Temple" Index="16">
         <Instruments>
             <Instrument Name="Windchimes" Enum="CHIMES"/>
             <Instrument Name="Warm Synth 1" Enum="WARM_SYNTH_0"/>

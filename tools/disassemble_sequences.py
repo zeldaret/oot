@@ -2,11 +2,17 @@
 import argparse
 from pathlib import Path
 import subprocess
+import tempfile
+from xml.dom import minidom
 import xml.etree.ElementTree as XmlTree
 import os
 import json
 import struct
 import sys
+
+from audio_common import toCachePolicy, toMedium
+
+refseqs = {}
 
 class SequenceEntry:
     def __init__(self, data):
@@ -21,18 +27,18 @@ def parse_seq_def_data(seqdef_data, seq_data):
     for index in range(len(entries)):
         entry = entries[index]
         if entry.length == 0:
-            entries[index] = entries[entry.offset]
+            refseqs[index] = entry
         else:
             entry.sequence = seq_data[entry.offset:entry.offset + entry.length]
     return entries
 
-def convert_aseq_to_mus(aseq_name, mus_name, font_path):
-    seqdecode = os.path.join(os.path.dirname(__file__), "seq_decoder.py")
+def convert_aseq_to_mus(aseq_name, mus_name, font_path, seqinc):
+    seqdecode = os.path.join(os.path.dirname(__file__), "disassemble_sequence.py")
     common_dir = os.getcwd()
     rel_seqdecode = "./" + os.path.relpath(seqdecode, common_dir).replace("\\", "/")
     output_file = open(mus_name, "w", encoding="utf8")
     try:
-        subprocess.run(["python3", rel_seqdecode, aseq_name, font_path], check=True, stdout=output_file)
+        subprocess.run(["python3", rel_seqdecode, aseq_name, font_path, seqinc], check=True, stdout=output_file)
     except subprocess.CalledProcessError:
         print(f"failed to convert {aseq_name} to mus format (header was {os.path.basename(font_path)})", file=sys.stderr)
         exit(1)
@@ -54,8 +60,8 @@ def main(args):
     # code file
     code_data = args.code.read()
     seq_data = args.audioseq.read()
-    seq_def_path = args.seqdef
-    soundfont_header_path = args.soundfonts
+    seq_def = args.seqdef
+    soundfont_inc_path = args.fontinc
     midi_out_dir = args.output
 
     def check_offset(offset, type):
@@ -74,13 +80,8 @@ def main(args):
     seqdef_data = code_data[seqdef_offset:seqdef_offset + seqdef_length]
     seqmap_data = code_data[seqmap_offset:seqmap_offset + seqmap_length]
 
-    asset_input_xml_path = os.path.join(seq_def_path, "Sequences.xml")
-    if not os.path.exists(asset_input_xml_path):
-        print(f"Could not find {asset_input_xml_path}.", file=sys.stderr)
-        sys.exit(1)
-
     # Import sequence names
-    xml = XmlTree.parse(asset_input_xml_path)
+    xml = XmlTree.parse(seq_def)
     sequence_names = xml.findall("./Sequence")
 
     # Export sequences
@@ -96,22 +97,48 @@ def main(args):
         font_id = get_soundfont_ids_for_seq(idx, seqmap_data)
         dir = os.path.join(midi_out_dir)
         os.makedirs(dir, exist_ok=True)
+        aseq_dir = tempfile.mkdtemp(prefix=f"{version}_", suffix="_aseq")
         seq_name = name.get("Name") if name.get("Name") else f"{sequence.offset:08x}"
-        with open(os.path.join(midi_out_dir, f"{seq_name}.aseq"), "wb") as aseq:
+        with open(os.path.join(aseq_dir, f"{seq_name}.aseq"), "wb") as aseq:
             aseq.write(sequence.sequence)
             aseq.flush()
             mus_file = os.path.join(dir, f"{seq_name}.mus")
             if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
-                convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_header_path, f"{font_id}.h"))
+                convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_inc_path, f"{font_id}.inc"), args.seqinc)
 
             f"Usage: {sys.argv[0]} <version> <code file> <Audioseq file> <sequence defs path> <soundfont assets path> <sequences output dir>"
+
+    if len(refseqs.keys()) > 0:
+        with open(os.path.join(midi_out_dir, "References.xml"), "w") as refxml:
+            root = XmlTree.Element("References")
+
+            for k, v in refseqs.items():
+                seqentry = sequence_names[k]
+                targetentry = sequence_names[v.offset]
+                target_name = targetentry.get("Name") if targetentry.get("Name") else f"{v.offset:08x}"
+                sequence_name = seqentry.get("Name") if seqentry.get("Name") else f"{k:08x}"
+                XmlTree.SubElement(
+                    root,
+                    "Reference",
+                    {
+                        "Name": sequence_name,
+                        "Target": f"{target_name}.mus",
+                        "Medium": toMedium(v.medium),
+                        "CachePolicy": toCachePolicy(v.cache)
+                    }
+                )
+
+            xmlstring = XmlTree.tostring(root, "unicode")
+            prettyxml = minidom.parseString(xmlstring).toprettyxml(indent="\t")
+            refxml.write(prettyxml)
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("version", metavar="<version>", help="The version of Ocarina of Time being disassembled.")
 parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
 parser.add_argument("audioseq", metavar="<Audioseq file>", type=argparse.FileType("rb"), help="Path to the 'Audioseq' file, usually in baserom.")
-parser.add_argument("seqdef", metavar="<sequence defs path>", type=Path, help="The asset XML path where the sequence definitions are stored.")
-parser.add_argument("soundfonts", metavar="<soundfont assets path>", type=Path, help="The path to the soundfont assets.")
+parser.add_argument("seqdef", metavar="<sequence defs XML>", type=argparse.FileType("r"), help="The asset XML where the sequence definitions are stored.")
+parser.add_argument("fontinc", metavar="<soundfont include path>", type=Path, help="The path to the soundfont inc files.")
+parser.add_argument("seqinc", metavar="<sequence.inc file>", type=Path, help="The path to the sequence.inc file.")
 parser.add_argument("output", metavar="<sequences output dir>", type=Path, help="The output path for sequences.")
 parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
 args = parser.parse_args()

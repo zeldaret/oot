@@ -7,6 +7,7 @@ from makeelf.elf import EM
 # Common Class Definitions
 class StructPackSpec:
     def __init__(self, archLE=False, arch64=False):
+        self.le = archLE
         self.byte_order_char = ">"
         if archLE:
             self.byte_order_char = "<"

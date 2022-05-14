@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="18 Warp Songs" Index="18">
+    <Soundfont Name="18_Warp_Songs" Index="18">
         <Instruments>
             <Instrument Name="Harp 1" Enum="HARP_0"/>
             <Instrument Name="Harp 2" Enum="HARP_1"/>

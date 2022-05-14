@@ -1,5 +1,7 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
+CPPFLAGS := -Wall -Wextra -pedantic -std=c++20 -g -O2
 PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis aifc_decode
+CPP_PROGRAMS := assemble_sequence
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
   CC := clang
@@ -35,11 +37,22 @@ makeromfs_SOURCES   := makeromfs.c n64chksum.c util.c
 vtxdis_SOURCES	    := vtxdis.c
 aifc_decode_SOURCES := aifc_decode.c
 
+assemble_sequence_SOURCES := assemble_sequence.cpp
+
 aifc_decode_LIBRARIES := -lm
+
+assemble_sequence_LIBRARIES := -lstdc++
 
 define COMPILE =
 $(1): $($1_SOURCES)
 	$(CC) $(CFLAGS) -o $$@ $$^ $($1_LIBRARIES)
 endef
 
+define CPPCOMPILE =
+$(1): $($1_SOURCES)
+	$(CC) $(CPPFLAGS) -o $$@ $$^ $($1_LIBRARIES)
+endef
+
 $(foreach p,$(PROGRAMS),$(eval $(call COMPILE,$(p))))
+
+$(foreach p,$(CPP_PROGRAMS),$(eval $(call CPPCOMPILE,$(p))))

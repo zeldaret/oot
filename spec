@@ -117,7 +117,6 @@ endseg
 
 beginseg
     name "Audiobank"
-    address 0x10 // fake RAM address to avoid map lookup inaccuracies
     include "build/assets/soundfonts/audiobank_0.o"
     include "build/assets/soundfonts/audiobank_1.o"
     include "build/assets/soundfonts/audiobank_2.o"
@@ -269,11 +268,11 @@ beginseg
     include "build/assets/sequences/106_Ending_Credits_5.o"
     include "build/assets/sequences/107_Dodongo_and_Volvagia_Battle.o"
     include "build/assets/sequences/108_Timed_Minigame.o"
-    include "build/src/audio/109_Unknown.o"
-    include "build/assets/sequences/110_Trip_to_Skye.o"
+    include "build/src/audio/109_Cutscene_Effects.o"
+    /*include "build/assets/sequences/110_Trip_to_Skye.o"
     include "build/assets/sequences/111_Lothlorien.o"
     include "build/assets/sequences/112_FF6_Overworld.o"
-    include "build/assets/sequences/113_FF7_Airship.o"
+    include "build/assets/sequences/113_FF7_Airship.o"*/
 endseg
 
 beginseg

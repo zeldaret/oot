@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="30 Ganon's Castle (Organ)" Index="30">
+    <Soundfont Name="30_Ganon's_Castle_(Organ)" Index="30">
         <Instruments>
             <Instrument Name="Organ 1" Enum="ORGAN_0"/>
             <Instrument Name="Organ 2" Enum="ORGAN_1"/>

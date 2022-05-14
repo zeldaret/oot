@@ -1,1166 +1,1145 @@
-.meta title Cutscene Sounds
-.meta author Koji Kondo
-.meta type program
+.desc title "Cutscene Sounds"
+.desc author "Koji Kondo"
+.desc type "program"
 .usefont SOUNDFONT_SFX_1
 .usefont SOUNDFONT_SFX_2
 
-.sequence
-seq_setmutebhv 0x60
-seq_setmutescale 0
-seq_setvol 127
-seq_settempo 120
-seq_initchannels 0x1
-seq_startchannel 0, .chan_13
-.seq_E:
-seq_delay1
-seq_testchdisabled 0
-seq_beqzrel .seq_E
-seq_end
-
-.chan_13:
-chan_largenoteson
-chan_setmutebhv 0x20
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_setfont SOUNDFONT_SFX_1
-chan_setreverb 15
-chan_setpanmix 127
-chan_setdyntable .table_646
-chan_ioreadval 0
-chan_bltzrel .chan_2D
-chan_dyncall
-.chan_29:
-chan_delay1
-chan_testlayerfinished 0
-chan_beqzrel .chan_29
-.chan_2D:
-chan_end
-
-.chan_2E:
-chan_setreverb 30
-chan_setpanmix 118
-chan_setlayer 0, .layer_45
-chan_setlayer 1, .layer_58
-chan_setlayer 2, .layer_71
-chan_delayshort 1
-chan_setvibratoextentlinear 60, 0, 18
-chan_setvibratoratelinear 240, 20, 18
-chan_end
-
-.layer_45:
-layer_setpan 127
-layer_setinstr FONT00_INSTR_WARP
-layer_transpose 24
-layer_setenvelope .envelope_78A, 230
-layer_note1 PITCH_A4, 0x10e, 80
-layer_note1 PITCH_A5, 0x12c, 80
-layer_end
-
-.layer_58:
-layer_setpan 0
-layer_delay 0x1
-layer_setinstr FONT00_INSTR_WATER_FLOWING
-layer_transpose 48
-layer_setenvelope .envelope_78A, 180
-layer_portamento 0x81, 56, 255
-layer_note1 PITCH_F5, 0xfa, 72
-layer_note1 PITCH_A5, 0x140, 72
-layer_end
-
-.layer_71:
-layer_delay 0x1
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_78A, 230
-layer_portamento 0x1, 15, 0x5c8
-layer_note1 PITCH_C5, 0x23a, 64
-layer_end
-
-.chan_83:
-chan_setlayer 0, .layer_99
-chan_setlayer 1, .layer_A6
-chan_setlayer 2, .layer_B7
-chan_delayshort 1
-chan_setvibratoratelinear 127, 255, 40
-chan_setvibratoextentlinear 20, 127, 40
-chan_delayshort 1
-chan_setvibratoextent 0
-chan_end
-
-.layer_99:
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_8D2, 221
-layer_transpose 24
-layer_note1 PITCH_C5, 0x190, 105
-layer_end
-
-.layer_A6:
-layer_delay 0x1
-layer_setinstr FONT00_INSTR_FAIRY_MAGIC
-layer_setenvelope .envelope_90A, 224
-layer_portamento 0x81, 3, 255
-layer_note1 PITCH_E3, 0x12c, 65
-layer_end
-
-.layer_B7:
-layer_setinstr FONT00_INSTR_SYNTH
-layer_portamento 0x81, 24, 25
-layer_note1 PITCH_D3, 0x46, 85
-layer_delay 0xc8
-layer_setenvelope .envelope_916, 221
-layer_portamento 0x81, 27, 25
-layer_note1 PITCH_F3, 0x96, 85
-layer_end
-
-.chan_D0:
-chan_setlayer 0, .layer_F7
-chan_setlayer 1, .layer_DE
-chan_setlayer 2, .layer_EF
-chan_setvibratorate 255
-chan_setvibratoextent 40
-chan_end
-
-.layer_DE:
-layer_transpose 48
-layer_setinstr FONT00_INSTR_EYE_OF_TRUTH
-layer_setreleaserate 221
-layer_portamento 0x84, 22, 127
-layer_note1 PITCH_A4, 0x60, 85
-layer_note1 PITCH_B4, 0x7f, 95
-layer_end
-
-.layer_EF:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_72A, 221
-layer_jumprel .layer_FD
-
-.layer_F7:
-layer_setinstr FONT00_INSTR_SLIDE_LINK
-layer_transpose 36
-layer_setreleaserate 221
-.layer_FD:
-layer_portamento 0x85, 46, 255
-layer_note1 PITCH_A2, 0x3c, 90
-layer_setenvelope .envelope_712, 221
-layer_note1 PITCH_A3, 0x24, 90
-layer_portamento 0x85, 51, 255
-layer_note1 PITCH_C3, 0x7f, 90
-layer_end
-
-.chan_113:
-chan_setlayer 0, .layer_127
-chan_setlayer 1, .layer_11A
-chan_end
-
-.layer_11A:
-layer_transpose 36
-layer_setinstr FONT00_INSTR_SHIMMER
-layer_setenvelope .envelope_87A, 180
-layer_note1 PITCH_E4, 0x226, 70
-layer_end
-
-.layer_127:
-layer_transpose 30
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_87A, 221
-layer_note1 PITCH_F3, 0x9b, 100
-layer_note1 PITCH_F4, 0x7f, 100
-layer_transpose 36
-layer_setinstr FONT00_INSTR_WARP
-layer_setenvelope .envelope_88A, 221
-layer_note1 PITCH_C4, 0xf8, 100
-layer_end
-
-.chan_143:
-chan_setlayer 0, .layer_14D
-chan_setlayer 1, .layer_127
-chan_setlayer 2, .layer_11A
-chan_end
-
-.layer_14D:
-layer_delay 0x190
-layer_end
-
-.chan_151:
-chan_setreverb 30
-chan_setlayer 1, .layer_172
-
-.chan_156:
-chan_setinstr FONT00_INSTR_DISTORTION
-chan_setlayer 0, .layer_165
-chan_setlayer 2, .layer_182
-chan_setvibratorate 160
-chan_setvibratoextentlinear 0, 48, 9
-chan_end
-
-.layer_165:
-layer_setenvelope .envelope_78A, 231
-layer_portamento 0x81, 38, 255
-layer_note1 PITCH_F3, 0x24e, 75
-layer_end
-
-.layer_172:
-layer_delay 0x15e
-layer_setenvelope .envelope_792, 231
-layer_portamento 0x81, 3, 255
-layer_note1 PITCH_C3, 0xf0, 100
-layer_end
-
-.layer_182:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setenvelope .envelope_792, 231
-layer_note1 PITCH_AF3, 0x208, 92
-layer_end
-
-.chan_18D:
-chan_startchannel 1, .chan_251
-chan_setlayer 0, .layer_1D4
-chan_setlayer 1, .layer_1E9
-chan_setlayer 2, .layer_243
-chan_setpan 58
-chan_delay 0x30
-chan_transpose 1
-chan_setlayer 0, .layer_1D4
-chan_setlayer 1, .layer_1E9
-chan_setlayer 2, .layer_24A
-chan_setpan 70
-chan_delay 0x47
-chan_transpose 2
-chan_setlayer 0, .layer_1D4
-chan_setlayer 1, .layer_1E9
-chan_setlayer 2, .layer_1FA
-chan_setpan 64
-chan_delay 0x8e
-chan_transpose 0
-chan_setlayer 0, .layer_201
-chan_setlayer 1, .layer_210
-chan_setlayer 2, .layer_21B
-chan_setlayer 3, .layer_236
-chan_sethilogain 25
-chan_delay 0x64
-chan_sethilogain 0
-chan_delay 0x1e0
-chan_end
-
-.layer_1D4:
-layer_setinstr FONT00_INSTR_SWORD_SWING
-layer_setenvelope .envelope_75E, 251
-layer_portamento 0x81, 55, 127
-layer_note1 PITCH_DF1, 0x8, 115
-layer_portamento 0x81, 6, 255
-layer_note1 PITCH_AF3, 0xb, 105
-layer_end
-
-.layer_1E9:
-layer_setinstr FONT00_INSTR_WHISTLE_AIR
-layer_portamento 0x81, 49, 222
-layer_note1 PITCH_BF2, 0x8, 115
-layer_portamento 0x81, 19, 255
-layer_note1 PITCH_F3, 0xc, 115
-layer_end
-
-.layer_1FA:
-layer_setinstr INSTR_SFX
-layer_note0 FONT00_EFFECT_LINK_OLD_FALL_0, 0x0, 100, 0
-layer_end
-
-.layer_201:
-layer_setinstr FONT00_INSTR_SLAM_GUNSHOT
-layer_setenvelope .envelope_746, 250
-layer_portamento 0x81, 38, 200
-layer_note0 PITCH_BF3, 0x24, 115, 100
-layer_end
-
-.layer_210:
-layer_setinstr FONT00_INSTR_STEP_CARPET_0
-layer_note1 PITCH_E4, 0xa, 75
-layer_note1 PITCH_G3, 0xa, 75
-layer_delay 0x7
-layer_end
-
-.layer_21B:
-layer_delay 0x7
-layer_setinstr FONT00_INSTR_SWORD_HIT_SHIELD
-layer_setenvelope .envelope_6F6, 250
-layer_note0 PITCH_C5, 0x6, 39, 127
-layer_setinstr FONT00_INSTR_SWORD_STRIKE
-layer_note0 PITCH_D4, 0x4, 49, 127
-layer_setinstr FONT00_INSTR_STEP_FIRE
-layer_note1 PITCH_B3, 0x5, 39
-layer_note1 PITCH_F3, 0x5, 39
-layer_end
-
-.layer_236:
-layer_setinstr INSTR_SFX
-layer_note0 FONT00_EFFECT_LINK_OLD_HURT_4, 0x0, 95, 0
-layer_delay 0x14
-layer_note0 FONT00_EFFECT_LINK_OLD_HURT_4, 0xf, 90, 0
-layer_end
-
-.layer_243:
-layer_setinstr INSTR_SFX
-layer_note0 FONT00_EFFECT_LINK_OLD_HURT_1, 0x0, 100, 0
-layer_end
-
-.layer_24A:
-layer_setinstr INSTR_SFX
-layer_note0 FONT00_EFFECT_LINK_OLD_HURT_3, 0x0, 110, 0
-layer_end
-
-.chan_251:
-chan_largenoteson
-chan_setmutebhv 0x20
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_setreverb 15
-chan_setfont SOUNDFONT_SFX_2
-chan_setlayer 0, .layer_2AE
-chan_setlayer 2, .layer_2C3
-chan_setvibratorate 96
-chan_setvibratoextent 84
-chan_delay 0x17c
-chan_delayshort 10
-chan_setpan 60
-chan_delayshort 10
-chan_setpan 56
-chan_delayshort 10
-chan_setpan 52
-chan_delayshort 10
-chan_setpan 48
-chan_delayshort 10
-chan_setpan 52
-chan_delayshort 10
-chan_setpan 56
-chan_delayshort 10
-chan_setpan 60
-chan_delayshort 10
-chan_setpan 64
-chan_delayshort 10
-chan_setpan 68
-chan_delayshort 10
-chan_setpan 72
-chan_delayshort 10
-chan_setpan 76
-chan_delayshort 10
-chan_setpan 80
-chan_delayshort 10
-chan_setpan 86
-chan_delayshort 10
-chan_setpan 94
-chan_delayshort 10
-chan_setpan 104
-chan_delayshort 10
-chan_setpan 116
-chan_delayshort 10
-chan_setpan 127
-chan_delayshort 10
-chan_setpan 124
-chan_delayshort 10
-chan_setpan 120
-chan_delayshort 10
-chan_setpan 116
-chan_delayshort 10
-chan_setpan 112
-chan_delay 0x118
-chan_end
-
-.layer_2AE:
-layer_transpose -4
-layer_setinstr FONT01_INSTR_DINO_INHALE
-layer_setenvelope .envelope_8C2, 251
-.layer_2B6:
-layer_enablelegato
-layer_portamento 0x85, 24, 255
-.layer_2BB:
-layer_note1 PITCH_A3, 0x64, 90
-layer_note1 PITCH_A2, 0x64, 90
-layer_jumprel .layer_2BB
-
-.layer_2C3:
-layer_transpose 4
-layer_setinstr FONT01_INSTR_BOULDER
-layer_setenvelope .envelope_8C2, 251
-.layer_2CB:
-layer_enablelegato
-layer_portamento 0x85, 48, 255
-.layer_2D0:
-layer_note1 PITCH_A5, 0x32, 76
-layer_note1 PITCH_A4, 0x32, 76
-layer_jumprel .layer_2D0
-
-.chan_2D8:
-chan_setlayer 0, .layer_2E8
-chan_setlayer 1, .layer_2EC
-chan_setlayer 2, .layer_2F6
-chan_setfont SOUNDFONT_SFX_2
-chan_setvibratorate 96
-chan_setvibratoextent 84
-chan_end
-
-.layer_2E8:
-layer_delay 0x750
-layer_end
-
-.layer_2EC:
-layer_transpose -4
-layer_setinstr FONT01_INSTR_DINO_INHALE
-layer_setenvelope .envelope_8EA, 251
-layer_jumprel .layer_2B6
-
-.layer_2F6:
-layer_transpose 4
-layer_setinstr FONT01_INSTR_BOULDER
-layer_setenvelope .envelope_8EA, 251
-layer_jumprel .layer_2CB
-
-.chan_300:
-chan_setfont SOUNDFONT_SFX_2
-chan_startchannel 1, .chan_344
-chan_delay 0x102
-chan_setlayer 0, .layer_312
-chan_setlayer 1, .layer_32C
-chan_delay 0x47e
-chan_end
-
-.layer_312:
-layer_setinstr FONT01_INSTR_MONSTER_ROAR
-layer_setenvelope .envelope_916, 221
-layer_note0 PITCH_GF4, 0x64, 90, 50
-layer_portamento 0x81, 48, 255
-layer_note1 PITCH_C4, 0x64, 90
-layer_portamento 0x81, 50, 100
-layer_note1 PITCH_C2, 0x1f4, 90
-layer_end
-
-.layer_32C:
-layer_setinstr FONT01_INSTR_THUNDER_HURT
-layer_setreleaserate 221
-layer_note0 PITCH_E4, 0x64, 90, 50
-layer_portamento 0x81, 46, 255
-layer_note1 PITCH_B3, 0x64, 90
-layer_portamento 0x81, 48, 100
-layer_note1 PITCH_B1, 0x1f4, 90
-layer_end
-
-.chan_344:
-chan_largenoteson
-chan_setmutebhv 0x20
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_setreverb 15
-chan_setlayer 0, .layer_36A
-chan_setlayer 1, .layer_375
-chan_setfont SOUNDFONT_SFX_2
-chan_setvibratorate 96
-chan_setvibratoextent 84
-chan_transpose -12
-chan_delay 0x102
-chan_transpose 4
-chan_delay 0x47e
-.chan_365:
-chan_delay1
-chan_testlayerfinished 0
-chan_beqzrel .chan_365
-chan_end
-
-.layer_36A:
-layer_transpose -4
-layer_setinstr FONT01_INSTR_DINO_INHALE
-layer_setenvelope .envelope_91E, 200
-layer_jump .layer_2B6
-
-.layer_375:
-layer_transpose 4
-layer_setinstr FONT01_INSTR_BOULDER
-layer_setenvelope .envelope_91E, 200
-layer_jump .layer_2CB
-
-.chan_380:
-chan_setreverb 40
-chan_setlayer 0, .layer_38E
-chan_setlayer 1, .layer_38C
-chan_setlayer 2, .layer_39D
-chan_end
-
-.layer_38C:
-layer_transpose -4
-
-.layer_38E:
-layer_setinstr FONT00_INSTR_WIND_HOWL_S
-layer_setenvelope .envelope_78A, 241
-layer_portamento 0x81, 3, 224
-layer_note1 PITCH_B4, 0xc6, 80
-layer_end
-
-.layer_39D:
-layer_setinstr FONT00_INSTR_SLIDE_HEAVY
-layer_setenvelope .envelope_86E, 221
-layer_transpose 12
-layer_portamento 0x81, 2, 255
-layer_note1 PITCH_B5, 0xfa, 85
-layer_end
-
-.chan_3AE:
-chan_setinstr FONT00_INSTR_SHIMMER
-chan_setreverb 40
-chan_setlayer 0, .layer_3C5
-chan_setlayer 1, .layer_3D7
-chan_setlayer 2, .layer_3DB
-chan_setlayer 3, .layer_3EC
-chan_setvibratoextentlinear 255, 60, 10
-chan_setvibratorate 150
-chan_end
-
-.layer_3C5:
-layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
-layer_setenvelope .envelope_6CE, 245
-layer_portamento 0x82, 27, 255
-layer_note1 PITCH_C4, 0x96, 80
-layer_delay 0x96
-layer_end
-
-.layer_3D7:
-layer_note1 PITCH_C3, 0x64, 85
-layer_end
-
-.layer_3DB:
-layer_transpose 24
-layer_setinstr FONT00_INSTR_SLIDE_BLOCK
-layer_setenvelope .envelope_78A, 200
-layer_portamento 0x82, 51, 180
-layer_note1 PITCH_B5, 0xb4, 75
-layer_end
-
-.layer_3EC:
-layer_setinstr FONT00_INSTR_SYNTH_BUZZ
-layer_portamento 0x81, 34, 208
-layer_note1 PITCH_D3, 0xf0, 105
-layer_end
-
-.layer_unused_3F7:
-layer_setinstr FONT00_INSTR_WHOOSH
-layer_portamento 0x81, 10, 44
-layer_note1 PITCH_G2, 0x8c, 75
-layer_end
-
-.chan_402:
-chan_setpanmix 48
-chan_setvol 78
-chan_setreverb 55
-chan_startchannel 1, .chan_467
-chan_setlayer 0, .layer_44C
-chan_setlayer 1, .layer_424
-chan_setlayer 2, .layer_445
-chan_setlayer 3, .layer_43B
-chan_setvibratorate 20
-chan_setvibratoextent 70
-chan_delay 0x60
-chan_setvibratoratelinear 20, 150, 60
-chan_setvibratoextent 70
-chan_end
-
-.layer_424:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setenvelope .envelope_78A, 211
-layer_enablelegato
-layer_portamento 0x85, 3, 255
-layer_note1 PITCH_F2, 0x60, 100
-layer_note1 PITCH_F2, 0xc8, 100
-layer_note1 PITCH_F3, 0x12c, 74
-layer_end
-
-.layer_43B:
-layer_setinstr FONT00_INSTR_FLUTE
-layer_transpose 24
-layer_setpan 88
-layer_delay 0x4
-layer_jumprel .layer_452
-
-.layer_445:
-layer_transpose -18
-layer_setinstr FONT00_INSTR_OCARINA_0
-layer_jump .layer_452
-
-.layer_44C:
-layer_setinstr FONT00_INSTR_WARP
-layer_transpose 12
-layer_setpan 40
-.layer_452:
-layer_setenvelope .envelope_78A, 211
-layer_enablelegato
-layer_portamento 0x85, 15, 255
-layer_note1 PITCH_F3, 0x60, 74
-layer_note1 PITCH_F3, 0xc8, 74
-layer_note1 PITCH_F4, 0x12c, 74
-layer_end
-
-.chan_467:
-chan_largenoteson
-chan_setmutebhv 0x20
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_setreverb 40
-chan_setfont SOUNDFONT_SFX_1
-chan_call .chan_156
-chan_delay 0x60
-chan_call .chan_156
-chan_setlayer 1, .layer_486
-chan_setlayer 3, .layer_498
-chan_delay 0x3e8
-chan_end
-
-.layer_486:
-layer_setinstr FONT00_INSTR_SLIDE_BLOCK
-layer_setenvelope .envelope_78A, 231
-layer_delay 0x96
-layer_portamento 0x81, 27, 255
-layer_note1 PITCH_C5, 0x1b8, 45
-layer_end
-
-.layer_498:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_792, 231
-layer_delay 0xdc
-layer_portamento 0x81, 15, 255
-layer_note1 PITCH_C3, 0x172, 110
-layer_end
-
-.chan_4AA:
-chan_startchannel 1, .chan_4BC
-chan_setvol 105
-chan_setlayer 0, .layer_545
-chan_setlayer 1, .layer_536
-chan_setlayer 2, .layer_571
-chan_setlayer 3, .layer_566
-chan_end
-
-.chan_4BC:
-chan_largenoteson
-chan_setmutebhv 0x20
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_setreverb 40
-chan_setvol 105
-chan_setpanmix 64
-chan_setlayer 0, .layer_4F5
-chan_setlayer 1, .layer_4DB
-chan_setlayer 2, .layer_514
-chan_setlayer 3, .layer_50E
-chan_delay 0x1388
-chan_end
-
-.layer_4DB:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_792, 221
-layer_setstereo 20
-layer_setpan 84
-layer_note1 PITCH_F2, 0x91, 72
-.layer_4E9:
-layer_note1 PITCH_D3, 0x5a, 70
-layer_note1 PITCH_F3, 0xe1, 74
-layer_note1 PITCH_A2, 0x61, 68
-layer_jumprel .layer_4E9
-
-.layer_4F5:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_792, 221
-layer_setstereo 20
-layer_setpan 44
-layer_note1 PITCH_D3, 0x10b, 72
-.layer_503:
-layer_note1 PITCH_C3, 0x5e, 40
-layer_note1 PITCH_D3, 0x7c, 44
-layer_note1 PITCH_B2, 0x30, 68
-layer_jumprel .layer_503
-
-.layer_50E:
-layer_transpose -12
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_jumprel .layer_51A
-
-.layer_514:
-layer_setinstr FONT00_INSTR_EXPLOSION_0
-layer_setenvelope .envelope_71E, 230
-.layer_51A:
-layer_delay 0xa82
-layer_portamento 0x81, 55, 60
-layer_note1 PITCH_C2, 0xc0, 100
-layer_portamento 0x81, 58, 60
-layer_note1 PITCH_E2, 0xc0, 100
-layer_portamento 0x81, 62, 45
-layer_note1 PITCH_G2, 0x1f4, 100
-layer_end
-
-.layer_536:
-layer_transpose -6
-layer_call .layer_fn_552
-layer_disablelegato
-layer_disableportamento
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_delay 0x14
-layer_transpose -3
-layer_jumprel .layer_589
-
-.layer_545:
-layer_call .layer_fn_552
-layer_disablelegato
-layer_disableportamento
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_delay 0xa
-layer_transpose 10
-layer_jumprel .layer_589
-
-.layer_fn_552:
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_setenvelope .envelope_792, 211
-layer_enablelegato
-layer_portamento 0x85, 51, 255
-layer_note1 PITCH_E5, 0xc8, 90
-layer_note1 PITCH_G5, 0x979, 80
-layer_end
-
-.layer_566:
-layer_transpose 5
-layer_call .layer_fn_581
-layer_delay 0x14
-layer_setinstr FONT00_INSTR_MECH_CHARGE
-layer_jumprel .layer_589
-
-.layer_571:
-layer_call .layer_fn_581
-layer_setinstr FONT00_INSTR_BLOCK_LOCK
-layer_jumprel .layer_589
-
-.layer_unused_578:
-layer_setenvelope .envelope_792, 200
-layer_enablelegato
-layer_portamento 0x81, 17, 255
-
-.layer_fn_581:
-layer_setinstr FONT00_INSTR_DOOR_METAL
-layer_note1 PITCH_A2, 0xa41, 65
-layer_disablelegato
-layer_end
-.layer_589:
-layer_note1 PITCH_E3, 0xc0, 120
-layer_note1 PITCH_G3, 0xc0, 120
-layer_setreleaserate 160
-layer_note1 PITCH_A3, 0xc0, 120
-layer_end
-
-.chan_598:
-chan_setvol 110
-chan_setinstr INSTR_SFX
-chan_setfilter .filter_5B0
-chan_loadfilter 64
-chan_setreverb 40
-chan_sethilogain 25
-chan_setlayer 0, .layer_5A9
-chan_end
-
-.layer_5A9:
-layer_note1 FONT00_EFFECT_LINK_KID_FALL_1, 0x0, 110
-layer_end
-
-.balign 16
-
-.filter_5B0:
+.sequence sequence_start
+mutebhv 0x60
+mutescale 0
+vol 127
+tempo 120
+initchan 0x1
+ldchan 0, chan_13
+.sequence seq_E
+delay1
+testchan 0
+rbeqz seq_E
+end
+
+.channel chan_13
+noshort
+mutebhv 0x20
+effects 128
+notepri 14
+rvrbidx 1
+font SOUNDFONT_SFX_1
+reverb 15
+panweight 127
+dyntbl table_646
+ldio 0
+rbltz chan_2D
+dyncall
+.channel chan_29
+delay1
+testlayer 0
+rbeqz chan_29
+.channel chan_2D
+end
+
+.channel sword_glow
+reverb 30
+panweight 118
+ldlayer 0, layer_45
+ldlayer 1, layer_58
+ldlayer 2, layer_71
+cdelay 1
+vibdepthgrad 60, 0, 18
+vibfreqgrad 240, 20, 18
+end
+
+.layer layer_45
+notepan 127
+instr FONT00_INSTR_WARP
+transpose 24
+env envelope_78A, 230
+notedv PITCH_A4, 0x10e, 80
+notedv PITCH_A5, 0x12c, 80
+end
+
+.layer layer_58
+notepan 0
+ldelay 0x1
+instr FONT00_INSTR_WATER_FLOWING
+transpose 48
+env envelope_78A, 180
+portamento 0x81, 56, 255
+notedv PITCH_F5, 0xfa, 72
+notedv PITCH_A5, 0x140, 72
+end
+
+.layer layer_71
+ldelay 0x1
+instr FONT00_INSTR_SHIMMER
+env envelope_78A, 230
+portamento 0x1, 15, 0x5c8
+notedv PITCH_C5, 0x23a, 64
+end
+
+.channel sheik_transform
+ldlayer 0, layer_99
+ldlayer 1, layer_A6
+ldlayer 2, layer_B7
+cdelay 1
+vibfreqgrad 127, 255, 40
+vibdepthgrad 20, 127, 40
+cdelay 1
+vibdepth 0
+end
+
+.layer layer_99
+instr FONT00_INSTR_WARP
+env envelope_8D2, 221
+transpose 24
+notedv PITCH_C5, 0x190, 105
+end
+
+.layer layer_A6
+ldelay 0x1
+instr FONT00_INSTR_FAIRY_MAGIC
+env envelope_90A, 224
+portamento 0x81, 3, 255
+notedv PITCH_E3, 0x12c, 65
+end
+
+.layer layer_B7
+instr FONT00_INSTR_SYNTH
+portamento 0x81, 24, 25
+notedv PITCH_D3, 0x46, 85
+ldelay 0xc8
+env envelope_916, 221
+portamento 0x81, 27, 25
+notedv PITCH_F3, 0x96, 85
+end
+
+.channel sage_seal
+ldlayer 0, layer_F7
+ldlayer 1, layer_DE
+ldlayer 2, layer_EF
+vibfreq 255
+vibdepth 40
+end
+
+.layer layer_DE
+transpose 48
+instr FONT00_INSTR_EYE_OF_TRUTH
+releaserate 221
+portamento 0x84, 22, 127
+notedv PITCH_A4, 0x60, 85
+notedv PITCH_B4, 0x7f, 95
+end
+
+.layer layer_EF
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_72A, 221
+rjump layer_FD
+
+.layer layer_F7
+instr FONT00_INSTR_SLIDE_LINK
+transpose 36
+releaserate 221
+.layer layer_FD
+portamento 0x85, 46, 255
+notedv PITCH_A2, 0x3c, 90
+env envelope_712, 221
+notedv PITCH_A3, 0x24, 90
+portamento 0x85, 51, 255
+notedv PITCH_C3, 0x7f, 90
+end
+
+.channel nayru_magic
+ldlayer 0, layer_127
+ldlayer 1, layer_11A
+end
+
+.layer layer_11A
+transpose 36
+instr FONT00_INSTR_SHIMMER
+env envelope_87A, 180
+notedv PITCH_E4, 0x226, 70
+end
+
+.layer layer_127
+transpose 30
+instr FONT00_INSTR_WARP
+env envelope_87A, 221
+notedv PITCH_F3, 0x9b, 100
+notedv PITCH_F4, 0x7f, 100
+transpose 36
+instr FONT00_INSTR_WARP
+env envelope_88A, 221
+notedv PITCH_C4, 0xf8, 100
+end
+
+.channel farore_magic
+ldlayer 0, layer_14D
+ldlayer 1, layer_127
+ldlayer 2, layer_11A
+end
+
+.layer layer_14D
+ldelay 0x190
+end
+
+.channel din_magic
+reverb 30
+ldlayer 1, layer_172
+
+.channel lava_erupt
+instr FONT00_INSTR_DISTORTION
+ldlayer 0, layer_165
+ldlayer 2, layer_182
+vibfreq 160
+vibdepthgrad 0, 48, 9
+end
+
+.layer layer_165
+env envelope_78A, 231
+portamento 0x81, 38, 255
+notedv PITCH_F3, 0x24e, 75
+end
+
+.layer layer_172
+ldelay 0x15e
+env envelope_792, 231
+portamento 0x81, 3, 255
+notedv PITCH_C3, 0xf0, 100
+end
+
+.layer layer_182
+instr FONT00_INSTR_MECH_CHARGE
+env envelope_792, 231
+notedv PITCH_AF3, 0x208, 92
+end
+
+.channel bongo_hurl_link
+ldchan 1, chan_251
+ldlayer 0, layer_1D4
+ldlayer 1, layer_1E9
+ldlayer 2, layer_243
+pan 58
+delay 0x30
+transpose 1
+ldlayer 0, layer_1D4
+ldlayer 1, layer_1E9
+ldlayer 2, layer_24A
+pan 70
+delay 0x47
+transpose 2
+ldlayer 0, layer_1D4
+ldlayer 1, layer_1E9
+ldlayer 2, layer_1FA
+pan 64
+delay 0x8e
+transpose 0
+ldlayer 0, layer_201
+ldlayer 1, layer_210
+ldlayer 2, layer_21B
+ldlayer 3, layer_236
+gain 25
+delay 0x64
+gain 0
+delay 0x1e0
+end
+
+.layer layer_1D4
+instr FONT00_INSTR_SWORD_SWING
+env envelope_75E, 251
+portamento 0x81, 55, 127
+notedv PITCH_DF1, 0x8, 115
+portamento 0x81, 6, 255
+notedv PITCH_AF3, 0xb, 105
+end
+
+.layer layer_1E9
+instr FONT00_INSTR_WHISTLE_AIR
+portamento 0x81, 49, 222
+notedv PITCH_BF2, 0x8, 115
+portamento 0x81, 19, 255
+notedv PITCH_F3, 0xc, 115
+end
+
+.layer layer_1FA
+instr FONTANY_INSTR_SFX
+notedvg FONT00_EFFECT_LINK_OLD_FALL_0, 0x0, 100, 0
+end
+
+.layer layer_201
+instr FONT00_INSTR_SLAM_GUNSHOT
+env envelope_746, 250
+portamento 0x81, 38, 200
+notedvg PITCH_BF3, 0x24, 115, 100
+end
+
+.layer layer_210
+instr FONT00_INSTR_STEP_CARPET_0
+notedv PITCH_E4, 0xa, 75
+notedv PITCH_G3, 0xa, 75
+ldelay 0x7
+end
+
+.layer layer_21B
+ldelay 0x7
+instr FONT00_INSTR_SWORD_HIT_SHIELD
+env envelope_6F6, 250
+notedvg PITCH_C5, 0x6, 39, 127
+instr FONT00_INSTR_SWORD_STRIKE
+notedvg PITCH_D4, 0x4, 49, 127
+instr FONT00_INSTR_STEP_FIRE
+notedv PITCH_B3, 0x5, 39
+notedv PITCH_F3, 0x5, 39
+end
+
+.layer layer_236
+instr FONTANY_INSTR_SFX
+notedvg FONT00_EFFECT_LINK_OLD_HURT_4, 0x0, 95, 0
+ldelay 0x14
+notedvg FONT00_EFFECT_LINK_OLD_HURT_4, 0xf, 90, 0
+end
+
+.layer layer_243
+instr FONTANY_INSTR_SFX
+notedvg FONT00_EFFECT_LINK_OLD_HURT_1, 0x0, 100, 0
+end
+
+.layer layer_24A
+instr FONTANY_INSTR_SFX
+notedvg FONT00_EFFECT_LINK_OLD_HURT_3, 0x0, 110, 0
+end
+
+.channel chan_251
+noshort
+mutebhv 0x20
+effects 128
+notepri 14
+rvrbidx 1
+reverb 15
+font SOUNDFONT_SFX_2
+ldlayer 0, layer_2AE
+ldlayer 2, layer_2C3
+vibfreq 96
+vibdepth 84
+delay 0x17c
+cdelay 10
+pan 60
+cdelay 10
+pan 56
+cdelay 10
+pan 52
+cdelay 10
+pan 48
+cdelay 10
+pan 52
+cdelay 10
+pan 56
+cdelay 10
+pan 60
+cdelay 10
+pan 64
+cdelay 10
+pan 68
+cdelay 10
+pan 72
+cdelay 10
+pan 76
+cdelay 10
+pan 80
+cdelay 10
+pan 86
+cdelay 10
+pan 94
+cdelay 10
+pan 104
+cdelay 10
+pan 116
+cdelay 10
+pan 127
+cdelay 10
+pan 124
+cdelay 10
+pan 120
+cdelay 10
+pan 116
+cdelay 10
+pan 112
+delay 0x118
+end
+
+.layer layer_2AE
+transpose -4
+instr FONT01_INSTR_DINO_INHALE
+env envelope_8C2, 251
+.layer layer_2B6
+legato
+portamento 0x85, 24, 255
+.layer layer_2BB
+notedv PITCH_A3, 0x64, 90
+notedv PITCH_A2, 0x64, 90
+rjump layer_2BB
+
+.layer layer_2C3
+transpose 4
+instr FONT01_INSTR_BOULDER
+env envelope_8C2, 251
+.layer layer_2CB
+legato
+portamento 0x85, 48, 255
+.layer layer_2D0
+notedv PITCH_A5, 0x32, 76
+notedv PITCH_A4, 0x32, 76
+rjump layer_2D0
+
+.channel bongo_hover
+ldlayer 0, layer_2E8
+ldlayer 1, layer_2EC
+ldlayer 2, layer_2F6
+font SOUNDFONT_SFX_2
+vibfreq 96
+vibdepth 84
+end
+
+.layer layer_2E8
+ldelay 0x750
+end
+
+.layer layer_2EC
+transpose -4
+instr FONT01_INSTR_DINO_INHALE
+env envelope_8EA, 251
+rjump layer_2B6
+
+.layer layer_2F6
+transpose 4
+instr FONT01_INSTR_BOULDER
+env envelope_8EA, 251
+rjump layer_2CB
+
+.channel bongo_death
+font SOUNDFONT_SFX_2
+ldchan 1, chan_344
+delay 0x102
+ldlayer 0, layer_312
+ldlayer 1, layer_32C
+delay 0x47e
+end
+
+.layer layer_312
+instr FONT01_INSTR_MONSTER_ROAR
+env envelope_916, 221
+notedvg PITCH_GF4, 0x64, 90, 50
+portamento 0x81, 48, 255
+notedv PITCH_C4, 0x64, 90
+portamento 0x81, 50, 100
+notedv PITCH_C2, 0x1f4, 90
+end
+
+.layer layer_32C
+instr FONT01_INSTR_THUNDER_HURT
+releaserate 221
+notedvg PITCH_E4, 0x64, 90, 50
+portamento 0x81, 46, 255
+notedv PITCH_B3, 0x64, 90
+portamento 0x81, 48, 100
+notedv PITCH_B1, 0x1f4, 90
+end
+
+.channel chan_344
+noshort
+mutebhv 0x20
+effects 128
+notepri 14
+rvrbidx 1
+reverb 15
+ldlayer 0, layer_36A
+ldlayer 1, layer_375
+font SOUNDFONT_SFX_2
+vibfreq 96
+vibdepth 84
+transpose -12
+delay 0x102
+transpose 4
+delay 0x47e
+.channel chan_365
+delay1
+testlayer 0
+rbeqz chan_365
+end
+
+.layer layer_36A
+transpose -4
+instr FONT01_INSTR_DINO_INHALE
+env envelope_91E, 200
+jump layer_2B6
+
+.layer layer_375
+transpose 4
+instr FONT01_INSTR_BOULDER
+env envelope_91E, 200
+jump layer_2CB
+
+.channel trial_warp
+reverb 40
+ldlayer 0, layer_38E
+ldlayer 1, layer_38C
+ldlayer 2, layer_39D
+end
+
+.layer layer_38C
+transpose -4
+
+.layer layer_38E
+instr FONT00_INSTR_WIND_HOWL_S
+env envelope_78A, 241
+portamento 0x81, 3, 224
+notedv PITCH_B4, 0xc6, 80
+end
+
+.layer layer_39D
+instr FONT00_INSTR_SLIDE_HEAVY
+env envelope_86E, 221
+transpose 12
+portamento 0x81, 2, 255
+notedv PITCH_B5, 0xfa, 85
+end
+
+.channel trial_destroy
+instr FONT00_INSTR_SHIMMER
+reverb 40
+ldlayer 0, layer_3C5
+ldlayer 1, layer_3D7
+ldlayer 2, layer_3DB
+ldlayer 3, layer_3EC
+vibdepthgrad 255, 60, 10
+vibfreq 150
+end
+
+.layer layer_3C5
+instr FONT00_INSTR_POTTERY_ELECTRIC
+env envelope_6CE, 245
+portamento 0x82, 27, 255
+notedv PITCH_C4, 0x96, 80
+ldelay 0x96
+end
+
+.layer layer_3D7
+notedv PITCH_C3, 0x64, 85
+end
+
+.layer layer_3DB
+transpose 24
+instr FONT00_INSTR_SLIDE_BLOCK
+env envelope_78A, 200
+portamento 0x82, 51, 180
+notedv PITCH_B5, 0xb4, 75
+end
+
+.layer layer_3EC
+instr FONT00_INSTR_SYNTH_BUZZ
+portamento 0x81, 34, 208
+notedv PITCH_D3, 0xf0, 105
+end
+
+.layer layer_unused_3F7
+instr FONT00_INSTR_WHOOSH
+portamento 0x81, 10, 44
+notedv PITCH_G2, 0x8c, 75
+end
+
+.channel dispel_barrier
+panweight 48
+vol 78
+reverb 55
+ldchan 1, chan_467
+ldlayer 0, layer_44C
+ldlayer 1, layer_424
+ldlayer 2, layer_445
+ldlayer 3, layer_43B
+vibfreq 20
+vibdepth 70
+delay 0x60
+vibfreqgrad 20, 150, 60
+vibdepth 70
+end
+
+.layer layer_424
+instr FONT00_INSTR_FLAME_THUNDER
+env envelope_78A, 211
+legato
+portamento 0x85, 3, 255
+notedv PITCH_F2, 0x60, 100
+notedv PITCH_F2, 0xc8, 100
+notedv PITCH_F3, 0x12c, 74
+end
+
+.layer layer_43B
+instr FONT00_INSTR_FLUTE
+transpose 24
+notepan 88
+ldelay 0x4
+rjump layer_452
+
+.layer layer_445
+transpose -18
+instr FONT00_INSTR_OCARINA_0
+jump layer_452
+
+.layer layer_44C
+instr FONT00_INSTR_WARP
+transpose 12
+notepan 40
+.layer layer_452
+env envelope_78A, 211
+legato
+portamento 0x85, 15, 255
+notedv PITCH_F3, 0x60, 74
+notedv PITCH_F3, 0xc8, 74
+notedv PITCH_F4, 0x12c, 74
+end
+
+.channel chan_467
+noshort
+mutebhv 0x20
+effects 128
+notepri 14
+rvrbidx 1
+reverb 40
+font SOUNDFONT_SFX_1
+call lava_erupt
+delay 0x60
+call lava_erupt
+ldlayer 1, layer_486
+ldlayer 3, layer_498
+delay 0x3e8
+end
+
+.layer layer_486
+instr FONT00_INSTR_SLIDE_BLOCK
+env envelope_78A, 231
+ldelay 0x96
+portamento 0x81, 27, 255
+notedv PITCH_C5, 0x1b8, 45
+end
+
+.layer layer_498
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_792, 231
+ldelay 0xdc
+portamento 0x81, 15, 255
+notedv PITCH_C3, 0x172, 110
+end
+
+.channel tower_collapse
+ldchan 1, chan_4BC
+vol 105
+ldlayer 0, layer_545
+ldlayer 1, layer_536
+ldlayer 2, layer_571
+ldlayer 3, layer_566
+end
+
+.channel chan_4BC
+noshort
+mutebhv 0x20
+effects 128
+notepri 14
+rvrbidx 1
+reverb 40
+vol 105
+panweight 64
+ldlayer 0, layer_4F5
+ldlayer 1, layer_4DB
+ldlayer 2, layer_514
+ldlayer 3, layer_50E
+delay 0x1388
+end
+
+.layer layer_4DB
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_792, 221
+stereo 20
+notepan 84
+notedv PITCH_F2, 0x91, 72
+.layer layer_4E9
+notedv PITCH_D3, 0x5a, 70
+notedv PITCH_F3, 0xe1, 74
+notedv PITCH_A2, 0x61, 68
+rjump layer_4E9
+
+.layer layer_4F5
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_792, 221
+stereo 20
+notepan 44
+notedv PITCH_D3, 0x10b, 72
+.layer layer_503
+notedv PITCH_C3, 0x5e, 40
+notedv PITCH_D3, 0x7c, 44
+notedv PITCH_B2, 0x30, 68
+rjump layer_503
+
+.layer layer_50E
+transpose -12
+instr FONT00_INSTR_MECH_CHARGE
+rjump layer_51A
+
+.layer layer_514
+instr FONT00_INSTR_EXPLOSION_0
+env envelope_71E, 230
+.layer layer_51A
+ldelay 0xa82
+portamento 0x81, 55, 60
+notedv PITCH_C2, 0xc0, 100
+portamento 0x81, 58, 60
+notedv PITCH_E2, 0xc0, 100
+portamento 0x81, 62, 45
+notedv PITCH_G2, 0x1f4, 100
+end
+
+.layer layer_536
+transpose -6
+call layer_fn_552
+nolegato
+noportamento
+instr FONT00_INSTR_BLOCK_LOCK
+ldelay 0x14
+transpose -3
+rjump layer_589
+
+.layer layer_545
+call layer_fn_552
+nolegato
+noportamento
+instr FONT00_INSTR_MECH_CHARGE
+ldelay 0xa
+transpose 10
+rjump layer_589
+
+.layer layer_fn_552
+instr FONT00_INSTR_MECH_CHARGE
+env envelope_792, 211
+legato
+portamento 0x85, 51, 255
+notedv PITCH_E5, 0xc8, 90
+notedv PITCH_G5, 0x979, 80
+end
+
+.layer layer_566
+transpose 5
+call layer_fn_581
+ldelay 0x14
+instr FONT00_INSTR_MECH_CHARGE
+rjump layer_589
+
+.layer layer_571
+call layer_fn_581
+instr FONT00_INSTR_BLOCK_LOCK
+rjump layer_589
+
+.layer layer_unused_578
+env envelope_792, 200
+legato
+portamento 0x81, 17, 255
+
+.layer layer_fn_581
+instr FONT00_INSTR_DOOR_METAL
+notedv PITCH_A2, 0xa41, 65
+nolegato
+end
+.layer layer_589
+notedv PITCH_E3, 0xc0, 120
+notedv PITCH_G3, 0xc0, 120
+releaserate 160
+notedv PITCH_A3, 0xc0, 120
+end
+
+.channel link_scream
+vol 110
+instr FONTANY_INSTR_SFX
+ldfilter filter_5B0
+filter 64
+reverb 40
+gain 25
+ldlayer 0, layer_5A9
+end
+
+.layer layer_5A9
+notedv FONT00_EFFECT_LINK_KID_FALL_1, 0x0, 110
+end
+
+.filter filter_5B0
 filter 0, 0, 0, 0, 0, 0, 0, 0
 
-.chan_5C0:
-chan_setinstr INSTR_DRUM
-chan_setenvelope .envelope_90A
-chan_setdecayrelease 200
-chan_setpanmix 0
-chan_setlayer 0, .layer_5DA
-chan_setlayer 1, .layer_5E0
-chan_startchannel 1, .chan_5E6
-chan_delay 0x708
-chan_freelayer 0
-chan_freelayer 1
-chan_delay 0x64
-chan_end
+.channel rainfall
+instr FONTANY_INSTR_DRUM
+env envelope_90A
+releaserate 200
+panweight 0
+ldlayer 0, layer_5DA
+ldlayer 1, layer_5E0
+ldchan 1, chan_5E6
+delay 0x708
+dellayer 0
+dellayer 1
+delay 0x64
+end
 
-.layer_5DA:
-layer_enablelegato
-.layer_5DB:
-layer_note1 FONT00_DRUM_RAIN_1, 0x64, 80
-layer_jumprel .layer_5DB
+.layer layer_5DA
+legato
+.layer layer_5DB
+notedv FONT00_DRUM_RAIN_1, 0x64, 80
+rjump layer_5DB
 
-.layer_5E0:
-layer_enablelegato
-.layer_5E1:
-layer_note1 FONT00_DRUM_RAIN_0, 0x64, 80
-layer_jumprel .layer_5E1
+.layer layer_5E0
+legato
+.layer layer_5E1
+notedv FONT00_DRUM_RAIN_0, 0x64, 80
+rjump layer_5E1
 
-.chan_5E6:
-chan_largenoteson
-chan_setmutebhv 0x20
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_setreverb 20
-chan_setvol 100
-chan_sethilogain 15
-chan_delay 0x240
-chan_setlayer 0, .layer_633
-chan_setlayer 1, .layer_62F
-chan_setlayer 2, .layer_63F
-chan_setvol 75
-chan_delay 0xc8
-chan_setlayer 0, .layer_633
-chan_setlayer 1, .layer_62F
-chan_setlayer 2, .layer_63F
-chan_setvol 110
-chan_delay 0x87
-chan_setlayer 0, .layer_633
-chan_setlayer 1, .layer_62F
-chan_setlayer 2, .layer_63F
-chan_setvol 95
-chan_delay 0x156
-chan_setlayer 0, .layer_633
-chan_setlayer 1, .layer_62F
-chan_setlayer 2, .layer_63F
-chan_delay 0xfa
-chan_end
+.channel chan_5E6
+noshort
+mutebhv 0x20
+effects 128
+notepri 14
+rvrbidx 1
+reverb 20
+vol 100
+gain 15
+delay 0x240
+ldlayer 0, layer_633
+ldlayer 1, layer_62F
+ldlayer 2, layer_63F
+vol 75
+delay 0xc8
+ldlayer 0, layer_633
+ldlayer 1, layer_62F
+ldlayer 2, layer_63F
+vol 110
+delay 0x87
+ldlayer 0, layer_633
+ldlayer 1, layer_62F
+ldlayer 2, layer_63F
+vol 95
+delay 0x156
+ldlayer 0, layer_633
+ldlayer 1, layer_62F
+ldlayer 2, layer_63F
+delay 0xfa
+end
 
-.layer_62F:
-layer_transpose 36
-layer_jumprel .layer_635
+.layer layer_62F
+transpose 36
+rjump layer_635
 
-.layer_633:
-layer_transpose 48
-.layer_635:
-layer_setinstr FONT00_INSTR_FLAME_THUNDER
-layer_setenvelope .envelope_692, 200
-layer_note1 PITCH_G4, 0x0, 110
-layer_end
+.layer layer_633
+transpose 48
+.layer layer_635
+instr FONT00_INSTR_FLAME_THUNDER
+env envelope_692, 200
+notedv PITCH_G4, 0x0, 110
+end
 
-.layer_63F:
-layer_setinstr FONT00_INSTR_POTTERY_ELECTRIC
-layer_note1 PITCH_G3, 0x32, 50
-layer_end
+.layer layer_63F
+instr FONT00_INSTR_POTTERY_ELECTRIC
+notedv PITCH_G3, 0x32, 50
+end
 
-.unused_645:
-.byte 0x0
+.array unused_645
+byte 0x0
 
-.table_646:
-entry .chan_2E   // FX0: Master sword glow
-entry .chan_83   // FX1: Sheik's transformation to Zelda
-entry .chan_D0   // FX2: Sages accumulating their power
-entry .chan_113  // FX3: Nayru's magic establishing order
-entry .chan_143  // FX4: Farore's magic creating life
-entry .chan_151  // FX5: Din's building of the earth
-entry .chan_156  // FX6: Lava erupting from Volvagia's pit
-entry .chan_18D  // FX7: Link screaming while attacked by invisible Bongo Bongo
-entry .chan_2D8  // FX8: Bongo Bongo hovering menacingly
-entry .chan_300  // FX9: Bongo Bongo disintegrating
-entry .chan_380  // FXA: Warping from trial barrier
-entry .chan_3AE  // FXB: Destroying the trial barrier
-entry .chan_402  // FXC: Dispelling the Tower barrier
-entry .chan_4AA  // FXD: Ganon's Tower's collapse
-entry .chan_598  // FXE: Child Link screaming (unused)
-entry .chan_5C0  // FXF: Rain with thunder effects
+.table table_646
+entry sword_glow        # FX0: Master sword glow
+entry sheik_transform   # FX1: Sheik's transformation to Zelda
+entry sage_seal         # FX2: Sages accumulating their power
+entry nayru_magic       # FX3: Nayru's magic establishing order
+entry farore_magic      # FX4: Farore's magic creating life
+entry din_magic         # FX5: Din's building of the earth
+entry lava_erupt        # FX6: Lava erupting from Volvagia's pit
+entry bongo_hurl_link   # FX7: Link screaming while attacked by invisible Bongo Bongo
+entry bongo_hover       # FX8: Bongo Bongo hovering menacingly
+entry bongo_death       # FX9: Bongo Bongo disintegrating
+entry trial_warp        # FXA: Warping from trial barrier
+entry trial_destroy     # FXB: Destroying the trial barrier
+entry dispel_barrier    # FXC: Dispelling the Tower barrier
+entry tower_collapse    # FXD: Ganon's Tower's collapse
+entry link_scream       # FXE: Child Link screaming (unused)
+entry rainfall          # FXF: Rain with thunder effects
 
-.envelopes
+.envelope envelope_unused_666
+point 1, 32700
+hang
 
-.envelope_unused_666:
-envelope_point 1 32700
-envelope_hang
+.envelope envelope_unused_66E
+point 1, 32700
+point 100, 30000
+point 200, 5000
+hang
 
-.envelope_unused_66E:
-envelope_point 1 32700
-envelope_point 100 30000
-envelope_point 200 5000
-envelope_hang
+.envelope envelope_unused_67E
+point 1, 32700
+point 25, 25000
+point 100, 25000
+point 200, 5000
+hang
 
-.envelope_unused_67E:
-envelope_point 1 32700
-envelope_point 25 25000
-envelope_point 100 25000
-envelope_point 200 5000
-envelope_hang
+.envelope envelope_692
+point 1, 32700
+point 100, 30000
+point 250, 30000
+point 200, 5000
+hang
 
-.envelope_692:
-envelope_point 1 32700
-envelope_point 100 30000
-envelope_point 250 30000
-envelope_point 200 5000
-envelope_hang
+.envelope envelope_unused_6A6
+point 1, 32700
+point 50, 30000
+point 100, 10000
+point 100, 0
+hang
 
-.envelope_unused_6A6:
-envelope_point 1 32700
-envelope_point 50 30000
-envelope_point 100 10000
-envelope_point 100 0
-envelope_hang
+.envelope envelope_unused_6BA
+point 1, 32700
+point 30, 30000
+point 50, 10000
+point 50, 0
+hang
 
-.envelope_unused_6BA:
-envelope_point 1 32700
-envelope_point 30 30000
-envelope_point 50 10000
-envelope_point 50 0
-envelope_hang
+.envelope envelope_6CE
+point 1, 32700
+point 70, 30000
+point 120, 10000
+point 120, 0
+hang
 
-.envelope_6CE:
-envelope_point 1 32700
-envelope_point 70 30000
-envelope_point 120 10000
-envelope_point 120 0
-envelope_hang
+.envelope envelope_unused_6E2
+point 1, 32700
+point 15, 32700
+point 15, 22000
+point 100, 15000
+hang
 
-.envelope_unused_6E2:
-envelope_point 1 32700
-envelope_point 15 32700
-envelope_point 15 22000
-envelope_point 100 15000
-envelope_hang
+.envelope envelope_6F6
+point 1, 32700
+point 8, 32700
+point 8, 22000
+point 100, 15000
+hang
 
-.envelope_6F6:
-envelope_point 1 32700
-envelope_point 8 32700
-envelope_point 8 22000
-envelope_point 100 15000
-envelope_hang
+.envelope envelope_unused_70A
+point 10, 32700
+hang
 
-.envelope_unused_70A:
-envelope_point 10 32700
-envelope_hang
+.envelope envelope_712
+point 30, 10000
+point 30, 32700
+hang
 
-.envelope_712:
-envelope_point 30 10000
-envelope_point 30 32700
-envelope_hang
+.envelope envelope_71E
+point 20, 15000
+point 10, 32700
+hang
 
-.envelope_71E:
-envelope_point 20 15000
-envelope_point 10 32700
-envelope_hang
+.envelope envelope_72A
+point 48, 10000
+point 32, 32700
+hang
 
-.envelope_72A:
-envelope_point 48 10000
-envelope_point 32 32700
-envelope_hang
+.envelope envelope_unused_736
+point 47, 15000
+point 13, 32700
+point 72, 10000
+hang
 
-.envelope_unused_736:
-envelope_point 47 15000
-envelope_point 13 32700
-envelope_point 72 10000
-envelope_hang
+.envelope envelope_746
+point 6, 32700
+hang
 
-.envelope_746:
-envelope_point 6 32700
-envelope_hang
+.envelope envelope_unused_74E
+point 20, 32700
+point 50, 10000
+point 40, 0
+hang
 
-.envelope_unused_74E:
-envelope_point 20 32700
-envelope_point 50 10000
-envelope_point 40 0
-envelope_hang
+.envelope envelope_75E
+point 18, 32700
+hang
 
-.envelope_75E:
-envelope_point 18 32700
-envelope_hang
+.envelope envelope_unused_766
+point 10, 32700
+point 240, 31000
+point 150, 2000
+hang
 
-.envelope_unused_766:
-envelope_point 10 32700
-envelope_point 240 31000
-envelope_point 150 2000
-envelope_hang
+.envelope envelope_unused_776
+point 14, 15000
+point 13, 32700
+hang
 
-.envelope_unused_776:
-envelope_point 14 15000
-envelope_point 13 32700
-envelope_hang
+.envelope envelope_unused_782
+point 40, 32700
+hang
 
-.envelope_unused_782:
-envelope_point 40 32700
-envelope_hang
+.envelope envelope_78A
+point 400, 32700
+hang
 
-.envelope_78A:
-envelope_point 400 32700
-envelope_hang
+.envelope envelope_792
+point 100, 32700
+hang
 
-.envelope_792:
-envelope_point 100 32700
-envelope_hang
+.envelope envelope_unused_79A
+point 225, 32700
+point 30, 30000
+hang
 
-.envelope_unused_79A:
-envelope_point 225 32700
-envelope_point 30 30000
-envelope_hang
+.envelope envelope_unused_7A6
+point 200, 32700
+hang
 
-.envelope_unused_7A6:
-envelope_point 200 32700
-envelope_hang
+.envelope envelope_unused_7AE
+point 3, 32700
+hang
 
-.envelope_unused_7AE:
-envelope_point 3 32700
-envelope_hang
+.envelope envelope_unused_7B6
+point 12, 32700
+point 40, 5000
+hang
 
-.envelope_unused_7B6:
-envelope_point 12 32700
-envelope_point 40 5000
-envelope_hang
+.envelope envelope_unused_7C2
+point 10, 32700
+point 4, 20000
+point 4, 10000
+point 50, 2000
+hang
 
-.envelope_unused_7C2:
-envelope_point 10 32700
-envelope_point 4 20000
-envelope_point 4 10000
-envelope_point 50 2000
-envelope_hang
+.envelope envelope_unused_7D6
+point 40, 32700
+point 150, 32700
+point 300, 0
+hang
 
-.envelope_unused_7D6:
-envelope_point 40 32700
-envelope_point 150 32700
-envelope_point 300 0
-envelope_hang
+.envelope envelope_unused_7E6
+point 40, 32700
+point 800, 32700
+point 100, 16000
+point 100, 32700
+point 100, 16000
+point 100, 32700
+point 100, 16000
+point 100, 32700
+point 600, 0
+hang
 
-.envelope_unused_7E6:
-envelope_point 40 32700
-envelope_point 800 32700
-envelope_point 100 16000
-envelope_point 100 32700
-envelope_point 100 16000
-envelope_point 100 32700
-envelope_point 100 16000
-envelope_point 100 32700
-envelope_point 600 0
-envelope_hang
+.envelope envelope_unused_80E
+point 200, 32700
+point 100, 16000
+point 100, 32700
+point 100, 16000
+point 100, 32700
+point 600, 0
+hang
 
-.envelope_unused_80E:
-envelope_point 200 32700
-envelope_point 100 16000
-envelope_point 100 32700
-envelope_point 100 16000
-envelope_point 100 32700
-envelope_point 600 0
-envelope_hang
+.envelope envelope_unused_82A
+point 35, 32700
+point 40, 32700
+point 105, 0
+hang
 
-.envelope_unused_82A:
-envelope_point 35 32700
-envelope_point 40 32700
-envelope_point 105 0
-envelope_hang
+.envelope envelope_unused_83A
+point 1, 25000
+point 12, 32700
+point 40, 32700
+point 60, 15000
+point 80, 5000
+hang
 
-.envelope_unused_83A:
-envelope_point 1 25000
-envelope_point 12 32700
-envelope_point 40 32700
-envelope_point 60 15000
-envelope_point 80 5000
-envelope_hang
+.envelope envelope_unused_852
+point 10, 32700
+point 50, 32700
+point 60, 5000
+hang
 
-.envelope_unused_852:
-envelope_point 10 32700
-envelope_point 50 32700
-envelope_point 60 5000
-envelope_hang
+.envelope envelope_unused_862
+point 200, 32700
+point 340, 0
+hang
 
-.envelope_unused_862:
-envelope_point 200 32700
-envelope_point 340 0
-envelope_hang
+.envelope envelope_86E
+point 400, 32700
+point 400, 20000
+goto 0
 
-.envelope_86E:
-envelope_point 400 32700
-envelope_point 400 20000
-envelope_goto 0
+.envelope envelope_87A
+point 1400, 32700
+point 400, 14000
+point 400, 32700
+goto 1
 
-.envelope_87A:
-envelope_point 1400 32700
-envelope_point 400 14000
-envelope_point 400 32700
-envelope_goto 1
+.envelope envelope_88A
+point 25, 32700
+point 490, 12000
+hang
 
-.envelope_88A:
-envelope_point 25 32700
-envelope_point 490 12000
-envelope_hang
+.envelope envelope_unused_896
+point 100, 32700
+point 450, 32700
+point 150, 32700
+point 1200, 32700
+point 400, 20000
+hang
 
-.envelope_unused_896:
-envelope_point 100 32700
-envelope_point 450 32700
-envelope_point 150 32700
-envelope_point 1200 32700
-envelope_point 400 20000
-envelope_hang
+.envelope envelope_unused_8AE
+point 200, 32700
+point 200, 20000
+goto 0
 
-.envelope_unused_8AE:
-envelope_point 200 32700
-envelope_point 200 20000
-envelope_goto 0
+.envelope envelope_unused_8BA
+point 2, 25000
+hang
 
-.envelope_unused_8BA:
-envelope_point 2 25000
-envelope_hang
+.envelope envelope_8C2
+point 1, 32700
+point 712, 32700
+point 900, 0
+hang
 
-.envelope_8C2:
-envelope_point 1 32700
-envelope_point 712 32700
-envelope_point 900 0
-envelope_hang
+.envelope envelope_8D2
+point 1, 32700
+point 200, 32700
+point 200, 16000
+point 200, 32700
+point 600, 0
+hang
 
-.envelope_8D2:
-envelope_point 1 32700
-envelope_point 200 32700
-envelope_point 200 16000
-envelope_point 200 32700
-envelope_point 600 0
-envelope_hang
+.envelope envelope_8EA
+point 140, 20000
+point 2540, 10000
+point 200, 32700
+point 720, 20000
+point 240, 27000
+point 20, 16000
+point 940, 32700
+hang
 
-.envelope_8EA:
-envelope_point 140 20000
-envelope_point 2540 10000
-envelope_point 200 32700
-envelope_point 720 20000
-envelope_point 240 27000
-envelope_point 20 16000
-envelope_point 940 32700
-envelope_hang
+.envelope envelope_90A
+point 100, 20000
+point 400, 32700
+hang
 
-.envelope_90A:
-envelope_point 100 20000
-envelope_point 400 32700
-envelope_hang
+.envelope envelope_916
+point 50, 32700
+hang
 
-.envelope_916:
-envelope_point 50 32700
-envelope_hang
+.envelope envelope_91E
+point 500, 25000
+point 675, 30000
+point 800, 25000
+point 20, 20000
+hang
 
-.envelope_91E:
-envelope_point 500 25000
-envelope_point 675 30000
-envelope_point 800 25000
-envelope_point 20 20000
-envelope_hang
+# It's impossible to tell if these were unused filters, envelopes only containing
+# ADSR_DISABLE, or a buffer of size 0x20.  Unused filters seems the most likely, so
+# that's how this is represented here.
+.filter unused_filter_940
+filter 0, 0, 0, 0, 0, 0, 0, 0
 
-.unused_932:
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
-envelope_disable
+.filter unused_filter_950
+filter 0, 0, 0, 0, 0, 0, 0, 0

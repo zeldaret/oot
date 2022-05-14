@@ -107,7 +107,7 @@ ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f)
 
 # source files
-MUS_FILES     := $(foreach dir,$(SRC_DIRS) $(MUSIC_BIN_DIR),$(wildcard $(dir)/*.mus))
+#MUS_FILES     := $(foreach dir,$(SRC_DIRS) $(MUSIC_BIN_DIR),$(wildcard $(dir)/*.mus))
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
@@ -177,6 +177,8 @@ $(ELF): $(TEXTURE_FILES_OUT) $(ASSET_FILES_OUT) $(O_FILES) build/ldscript.txt bu
 	$(LD) -T build/undefined_syms.txt -T build/ldscript.txt --no-check-sections --accept-unknown-input-arch --emit-relocs -Map build/z64.map -o $@
 
 build/ldscript.txt: $(SPEC)
+	python3 tools/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank
+	python3 tools/assemble_sequences.py src/audio assets/sequences build/include build
 	$(CPP) $(CPPFLAGS) $< > build/spec
 	$(MKLDSCRIPT) build/spec $@
 
@@ -201,7 +203,7 @@ setup:
 	python3 extract_baserom.py
 	python3 extract_assets.py
 	python3 tools/disassemble_sound.py MQDebug baserom/code baserom/Audiotable baserom/Audiobank assets/xml assets/samples assets/soundfonts
-	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences assets/soundfonts assets/sequences
+	python3 tools/disassemble_sequences.py MQDebug baserom/code baserom/Audioseq assets/xml/sequences/Sequences.xml build/include include/sequence.inc assets/sequences
 
 resources: $(ASSET_FILES_OUT)
 test: $(ROM)
@@ -235,9 +237,6 @@ build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(CC_CHECK) $<
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
-
-build/%.o: %.mus
-	$(CC_CHECK) -xc -E $< | $(AS) -I include -o $@
 
 build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<

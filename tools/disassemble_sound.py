@@ -127,7 +127,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
     for xmlfile in os.listdir(xml_dir):
         if xmlfile.endswith(".xml"):
             bankname = os.path.splitext(xmlfile)[0]
-            index = int(bankname.split(" ")[0])
+            index = int(bankname.split("_")[0])
             results[index] = bankname
             root = XmlTree.parse(os.path.join(xml_dir, xmlfile))
             for sample in root.findall("Sample"):

@@ -1,1006 +1,1002 @@
-// TODO: format second arg to note1 as decimal
-#include "sequence.h"
-#include "soundfonts/0.h"
-#include "soundfonts/1.h"
-.include "include/seq_macros.inc"
-.section .rodata
-.balign 1
-
-sequence_start:
-seq_setmutebhv 0x60
-seq_setmutescale 0
-seq_setvol 127
-seq_settempo 120
-seq_initchannels 0xfff
-seq_startchannel 0, .channel_player0
-seq_startchannel 1, .channel_player1
-seq_startchannel 2, .channel_player2
-seq_startchannel 3, .channel_item0
-seq_startchannel 4, .channel_item1
-seq_startchannel 5, .channel_env0
-seq_startchannel 6, .channel_env1
-seq_startchannel 7, .channel_env2
-seq_startchannel 8, .channel_enemy0
-seq_startchannel 9, .channel_enemy1
-seq_startchannel 10, .channel_enemy2
-seq_startchannel 11, .channel_system
-seq_startchannel 12, .channel_system
-seq_startchannel 13, .channel_ocarina
-seq_startchannel 14, .channel_voice0
-seq_startchannel 15, .channel_voice1
-.seq_loop:
-seq_delay 32720
-seq_jumprel .seq_loop
-
-// Delay for a number of ticks (1-255) in an interruptible manner.
-.delay:
-chan_writeseq_nextinstr 0, 1
-chan_loop 20
-chan_jumprel .delay_iter
-
-// Delay for a number of ticks (1-255) in an interruptible manner,
-// with volume controlled by io port 2 and filter by port 3.
-.delay_varyingvol:
-chan_writeseq_nextinstr 0, 1
-chan_loop 20
-chan_ioreadval 3
-chan_writeseq_nextinstr 0, 1
-chan_loadfilter 0
-chan_ioreadval 2
-chan_bltzrel .delay_iter
-chan_writeseq_nextinstr 0, 1
-chan_setvol 127
-.delay_iter:
-chan_delay1
-chan_ioreadval 0
-chan_iowriteval 0  // ports 0 and 1 are reset to -1 when read; restore the value
-chan_subtract 255
-chan_beqzrel .delay_skip
-chan_jumprel .delay_interrupt
-.delay_skip:
-chan_loopend
-chan_end
-.delay_interrupt:
-chan_ioreadval 0
-chan_iowriteval 0  // ports 0 and 1 are reset to -1 when read; restore the value
-chan_break  // break out of the loop
-chan_break  // force the caller to return immediately
-chan_freelayer 0
-chan_freelayer 1
-chan_freelayer 2
-chan_freelayer 3
-chan_end
-
-.setup_chan_common:
-chan_largenoteson
-chan_setmutebhv 0x20
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_end
-
-.start_playing_common:
-chan_freelayer 0
-chan_freelayer 1
-chan_setval 0
-chan_sethilogain 0
-chan_iowriteval 1  // set status = 0 (playing)
-chan_end
-
-.varyvol:
-chan_ioreadval 2
-chan_bltzrel .varyvol_skip
-chan_writeseq_nextinstr 0, 1
-chan_setvol 127
-.varyvol_skip:
-chan_end
-
-// Main loop for BANK_PLAYER
-.channel_player0:
-chan_setfilter .filter_player0
-chan_jumprel .channel_player
-
-.channel_player1:
-chan_setfilter .filter_player1
-chan_jumprel .channel_player
-
-.channel_player2:
-chan_setfilter .filter_player2
-
-.channel_player:
-chan_call .setup_chan_common
-chan_loadfilter 0
-chan_setfont SOUNDFONT_SFX_1
-chan_setpanmix 127
-
-.main_loop_player:
-chan_delay1
-chan_ioreadval 0
-chan_subtract 1
-chan_beqz .start_playing_player
-chan_jump .main_loop_player
-
-.start_playing_player:
-chan_call .start_playing_common
-chan_freelayer 2
-chan_setvibratoextent 0
-chan_ioreadval 4  // read sound id from port 4
-chan_bgez .part1_player
-chan_bitand 127
-chan_setdyntable .table_player+0x100
-chan_jump .use_table_player
-
-.part1_player:
-chan_setdyntable .table_player
-
-.use_table_player:
-chan_dyncall
-
-.poll_player:
-chan_ioreadval 3
-chan_writeseq_nextinstr 0, 1
-chan_loadfilter 15
-chan_call .varyvol
-chan_delay1
-chan_ioreadval 0
-chan_beqzrel .force_stop_player  // told to stop
-chan_bltzrel .skip_player
-chan_jumprel .start_playing_player  // told to play something else
-
-.skip_player:
-chan_testlayerfinished 0
-chan_beqzrel .poll_player  // if layer 0 hasn't finished, keep polling
-chan_setval 255
-chan_iowriteval 1  // set status = -1 (stopped)
-
-.force_stop_player:
-chan_freelayer 0
-chan_freelayer 1
-chan_freelayer 2
-chan_jumprel .main_loop_player
-
-#include "sfxbanks/player.mus.inc"
-
-// Main loop for BANK_ITEM
-.channel_item0:
-chan_setfilter .filter_item0
-chan_jumprel .channel_item
-
-.channel_item1:
-chan_setfilter .filter_item1
-
-.channel_item:
-chan_setdyntable .table_item
-chan_call .setup_chan_common
-chan_setfont SOUNDFONT_SFX_1
-chan_setpanmix 127
-chan_loadfilter 0
-
-.main_loop_item:
-chan_delay1
-chan_ioreadval 0
-chan_subtract 1
-chan_beqzrel .start_playing_item
-chan_jumprel .main_loop_item
-
-.start_playing_item:
-chan_call .start_playing_common
-chan_freelayer 2
-chan_setvibratoextent 0
-chan_ioreadval 4
-chan_dyncall
-
-.poll_item:
-chan_ioreadval 3
-chan_writeseq_nextinstr 0, 1
-chan_loadfilter 15
-chan_call .varyvol
-chan_delay1
-chan_ioreadval 0
-chan_beqzrel .force_stop_item
-chan_bltzrel .skip_item
-chan_jumprel .start_playing_item
-
-.skip_item:
-chan_testlayerfinished 0
-chan_beqzrel .poll_item
-chan_setval 255
-chan_iowriteval 1
-
-.force_stop_item:
-chan_freelayer 0
-chan_freelayer 1
-chan_freelayer 2
-chan_setval 0
-chan_jumprel .main_loop_item
-
-#include "sfxbanks/item.mus.inc"
-
-// Main loop for BANK_ENV
-.channel_env0:
-chan_setfilter .filter_env0
-chan_jumprel .channel_env
-
-.channel_env1:
-chan_setfilter .filter_env1
-chan_jumprel .channel_env
-
-.channel_env2:
-chan_setfilter .filter_env2
-
-.channel_env:
-chan_call .setup_chan_common
-chan_setfont SOUNDFONT_SFX_1
-chan_loadfilter 0
-chan_setvibratodelay 0
-
-.main_loop_env:
-chan_delay1
-chan_ioreadval 0
-chan_subtract 1
-chan_beqzrel .start_playing_env
-chan_jumprel .main_loop_env
-
-.start_playing_env:
-chan_setvibratoextent 0
-chan_setnoteallocationpolicy 0
-chan_unreservenotes
-chan_setpanmix 127
-chan_call .start_playing_common
-chan_freelayer 2
-chan_ioreadval 4
-chan_bgez .part1_env
-chan_bitand 127
-chan_setdyntable .table_env+0x100
-chan_jumprel .use_table_env
-
-.part1_env:
-chan_setdyntable .table_env
-
-.use_table_env:
-chan_dyncall
-
-.poll_env:
-chan_ioreadval 3
-chan_writeseq_nextinstr 0, 1
-chan_loadfilter 0
-chan_call .varyvol
-chan_delay1
-chan_ioreadval 0
-chan_beqzrel .force_stop_env
-chan_bltzrel .skip_env
-chan_jumprel .start_playing_env
-
-.skip_env:
-chan_testlayerfinished 0
-chan_beqzrel .poll_env
-chan_setval 255
-chan_iowriteval 1
-
-.force_stop_env:
-chan_freelayer 0
-chan_freelayer 1
-chan_freelayer 2
-chan_jumprel .main_loop_env
-
-#include "sfxbanks/env.mus.inc"
-
-// Main loop for BANK_ENEMY
-.channel_enemy0:
-chan_setfilter .filter_enemy0
-chan_jumprel .channel_enemy
-
-.channel_enemy1:
-chan_setfilter .filter_enemy1
-chan_jumprel .channel_enemy
-
-.channel_enemy2:
-chan_setfilter .filter_enemy2
-
-.channel_enemy:
-chan_call .setup_chan_common
-chan_setfont SOUNDFONT_SFX_2
-chan_loadfilter 0
-
-.main_loop_enemy:
-chan_delay1
-chan_ioreadval 0
-chan_subtract 1
-chan_beqz .start_playing_enemy
-chan_jump .main_loop_enemy
-
-.start_playing_enemy:
-chan_call .start_playing_common
-chan_freelayer 2
-chan_freelayer 3
-chan_setvibratoextent 0
-chan_sethilogain 0
-chan_setpanmix 127
-chan_ioreadval 5
-chan_subtract 1
-chan_beqzrel .part3or4_enemy
-chan_ioreadval 4
-chan_bgez .part1_enemy
-chan_bitand 127
-chan_setdyntable .table_enemy+0x100
-chan_jumprel .use_table_enemy
-
-.part3or4_enemy:
-chan_setdyntable .table_enemy+0x200
-chan_ioreadval 4
-chan_bgez .use_table_enemy
-chan_bitand 127
-chan_setdyntable .table_enemy+0x300
-chan_jumprel .use_table_enemy
-
-.part1_enemy:
-chan_setdyntable .table_enemy
-
-.use_table_enemy:
-chan_setenvelope .envelope_6A7C
-chan_setdecayrelease 251
-chan_dyncall
-
-.poll_enemy:
-chan_ioreadval 3
-chan_writeseq_nextinstr 0, 1
-chan_loadfilter 15
-chan_call .varyvol
-chan_delay1
-chan_ioreadval 0
-chan_beqzrel .force_stop_enemy
-chan_bltzrel .skip_enemy
-chan_jumprel .start_playing_enemy
-
-.skip_enemy:
-chan_testlayerfinished 0
-chan_beqzrel .poll_enemy
-chan_setval 255
-chan_iowriteval 1
-
-.force_stop_enemy:
-chan_freelayer 0
-chan_freelayer 1
-chan_freelayer 2
-chan_freelayer 3
-chan_jumprel .main_loop_enemy
-
-#include "sfxbanks/enemy.mus.inc"
-
-// Main loop for BANK_SYSTEM
-.channel_system:
-chan_setdyntable .table_system
-chan_largenoteson
-chan_setmutebhv 0x0
-chan_setnotepriority 14
-chan_setreverbindex 1
-chan_stereoheadseteffects 0
-chan_setfont SOUNDFONT_SFX_1
-chan_setpanmix 0
-.main_loop_system:
-chan_delay1
-chan_ioreadval 0
-chan_subtract 1
-chan_beqz .start_playing_system
-chan_jump .main_loop_system
-
-.start_playing_system:
-chan_setreverb 0
-chan_call .start_playing_common
-chan_freelayer 2
-chan_ioreadval 4
-chan_dyncall
-
-.poll_system:
-chan_call .varyvol
-chan_delay1
-chan_ioreadval 0
-chan_beqzrel .force_stop_system
-chan_bltzrel .skip_system
-chan_jumprel .start_playing_system
-
-.skip_system:
-chan_testlayerfinished 0
-chan_beqz .poll_system
-chan_setval 255
-chan_iowriteval 1
-
-.force_stop_system:
-chan_freelayer 0
-chan_freelayer 1
-chan_freelayer 2
-chan_jumprel .main_loop_system
-
-#include "sfxbanks/system.mus.inc"
-
-// Main loop for BANK_OCARINA
-.channel_ocarina:
-chan_setdyntable .table_ocarina
-chan_largenoteson
-chan_setfont SOUNDFONT_SFX_1
-chan_setpanmix 127
-chan_setmutebhv 0x0
-chan_stereoheadseteffects 128
-chan_setnotepriority 14
-
-.main_loop_ocarina:
-chan_delay1
-chan_ioreadval 1
-chan_bltzrel .reservenotes_skip_ocarina  // -1 => maintain old reservation status
-chan_beqzrel .unreservenotes_ocarina  // 0 => unreserve notes
-chan_reservenotes 1  // 1 => reserve notes
-chan_setnoteallocationpolicy 2
-chan_jumprel .reservenotes_skip_ocarina
-
-.unreservenotes_ocarina:
-chan_unreservenotes
-chan_setnoteallocationpolicy 0
-
-.reservenotes_skip_ocarina:
-chan_ioreadval 0
-chan_subtract 1
-chan_beqzrel .start_playing_ocarina
-chan_jumprel .main_loop_ocarina
-
-.start_playing_ocarina:
-chan_setvibratoextent 0
-chan_setreverbindex 0
-chan_freelayer 0
-chan_setval 0
-chan_iowriteval 6
-chan_ioreadval 4
-chan_dyncall
-
-.poll_ocarina:
-chan_ioreadval 2
-chan_bltzrel .changevol_skip_ocarina
-chan_writeseq_nextinstr 0, 1
-chan_setvol 127
-
-.changevol_skip_ocarina:
-chan_delay1
-chan_ioreadval 0
-chan_beqzrel .force_stop_ocarina
-chan_bltzrel .skip_ocarina
-chan_jumprel .start_playing_ocarina
-
-.skip_ocarina:
-chan_testlayerfinished 0
-chan_beqzrel .poll_ocarina
-chan_setval 255
-chan_iowriteval 1  // set status = -1 (finished)
-
-.force_stop_ocarina:
-chan_freelayer 0
-chan_jumprel .main_loop_ocarina
-
-#include "sfxbanks/ocarina.mus.inc"
-
-// Main loop for BANK_VOICE
-.channel_voice0:
-chan_setfilter .filter_voice0
-chan_jumprel .channel_voice
-
-.channel_voice1:
-chan_setfilter .filter_voice1
-
-.channel_voice:
-chan_call .setup_chan_common
-chan_setinstr INSTR_SFX
-chan_setenvelope .envelope_65D0
-chan_setdecayrelease 251
-chan_pitchbend 0
-chan_loadfilter 0
-chan_stereoheadseteffects 128
-chan_reservenotes 1
-
-.main_loop_voice:
-chan_delay1
-chan_ioreadval 0
-chan_subtract 1
-chan_beqzrel .start_playing_voice
-chan_jumprel .main_loop_voice
-
-.start_playing_voice:
-chan_freelayer 0
-chan_freelayer 1
-chan_setval 0
-chan_iowriteval 1  // set status = 0 (playing)
-chan_ioreadval 4  // read sound id from port 4
-chan_bgez .part1_voice
-chan_bitand 127
-chan_setdyntable .table_voice+0x100
-chan_jumprel .use_table_voice
-
-.part1_voice:
-chan_setdyntable .table_voice
-
-.use_table_voice:
-chan_dyncall
-
-.poll_voice:
-chan_ioreadval 3
-chan_writeseq_nextinstr 0, 1
-chan_loadfilter 15
-chan_call .varyvol
-chan_delay1
-chan_ioreadval 0
-chan_beqzrel .force_stop_voice
-chan_bltzrel .skip_voice
-chan_jumprel .start_playing_voice
-
-.skip_voice:
-chan_testlayerfinished 0
-chan_beqzrel .poll_voice
-chan_setval 255
-chan_iowriteval 1  // set status = -1 (finished)
-
-.force_stop_voice:
-chan_freelayer 0
-chan_freelayer 1
-chan_jumprel .main_loop_voice
-
-#include "sfxbanks/voice.mus.inc"
-
-.balign 2
-
-.envelope_65D0:
-envelope_line 1 32700
-envelope_hang 0
-
-.envelope_65D8:
-envelope_line 1 32700
-envelope_line 100 30000
-envelope_line 200 5000
-envelope_hang 0
-
-.envelope_65E8:
-envelope_line 1 32700
-envelope_line 25 25000
-envelope_line 100 25000
-envelope_line 200 5000
-envelope_hang 0
-
-.envelope_65FC:
-envelope_line 1 32700
-envelope_line 100 30000
-envelope_line 250 30000
-envelope_line 200 5000
-envelope_hang 0
-
-.envelope_6610:
-envelope_line 1 32700
-envelope_line 50 30000
-envelope_line 100 10000
-envelope_line 100 0
-envelope_hang 0
-
-.envelope_6624:
-envelope_line 1 32700
-envelope_line 30 30000
-envelope_line 50 10000
-envelope_line 50 0
-envelope_hang 0
-
-.envelope_6638:
-envelope_line 1 32700
-envelope_line 70 30000
-envelope_line 120 10000
-envelope_line 120 0
-envelope_hang 0
-
-.envelope_664C:
-envelope_line 1 32700
-envelope_line 15 32700
-envelope_line 15 22000
-envelope_line 100 15000
-envelope_hang 0
-
-.envelope_6660:
-envelope_line 1 32700
-envelope_line 8 32700
-envelope_line 8 22000
-envelope_line 100 15000
-envelope_hang 0
-
-.envelope_6674:
-envelope_line 10 32700
-envelope_hang 0
-
-.envelope_667C:
-envelope_line 30 10000
-envelope_line 30 32700
-envelope_hang 0
-
-.envelope_6688:
-envelope_line 20 15000
-envelope_line 10 32700
-envelope_hang 0
-
-.envelope_6694:
-envelope_line 48 10000
-envelope_line 32 32700
-envelope_hang 0
-
-.envelope_66A0:
-envelope_line 47 15000
-envelope_line 13 32700
-envelope_line 72 10000
-envelope_hang 0
-
-.envelope_66B0:
-envelope_line 6 32700
-envelope_hang 0
-
-.envelope_66B8:
-envelope_line 20 32700
-envelope_line 50 10000
-envelope_line 40 0
-envelope_hang 0
-
-.envelope_66C8:
-envelope_line 18 32700
-envelope_hang 0
-
-.envelope_66D0:
-envelope_line 10 32700
-envelope_line 240 31000
-envelope_line 150 2000
-envelope_hang 0
-
-.envelope_66E0:
-envelope_line 14 15000
-envelope_line 13 32700
-envelope_hang 0
-
-.envelope_66EC:
-envelope_line 40 32700
-envelope_hang 0
-
-.envelope_66F4:
-envelope_line 400 32700
-envelope_hang 0
-
-.envelope_66FC:
-envelope_line 100 32700
-envelope_hang 0
-
-.envelope_6704:
-envelope_line 225 32700
-envelope_line 30 30000
-envelope_hang 0
-
-.envelope_6710:
-envelope_line 200 32700
-envelope_hang 0
-
-.envelope_6718:
-envelope_line 3 32700
-envelope_hang 0
-
-.envelope_6720:
-envelope_line 12 32700
-envelope_line 40 5000
-envelope_hang 0
-
-.envelope_unused_672C:
-envelope_line 10 32700
-envelope_line 4 20000
-envelope_line 4 10000
-envelope_line 50 2000
-envelope_hang 0
-
-.envelope_6740:
-envelope_line 40 32700
-envelope_line 150 32700
-envelope_line 300 0
-envelope_hang 0
-
-.envelope_6750:
-envelope_line 40 32700
-envelope_line 800 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 600 0
-envelope_hang 0
-
-.envelope_6778:
-envelope_line 200 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 100 16000
-envelope_line 100 32700
-envelope_line 600 0
-envelope_hang 0
-
-.envelope_6794:
-envelope_line 35 32700
-envelope_line 40 32700
-envelope_line 105 0
-envelope_hang 0
-
-.envelope_67A4:
-envelope_line 1 25000
-envelope_line 12 32700
-envelope_line 40 32700
-envelope_line 60 15000
-envelope_line 80 5000
-envelope_hang 0
-
-.envelope_67BC:
-envelope_line 10 32700
-envelope_line 50 32700
-envelope_line 60 5000
-envelope_hang 0
-
-.envelope_67CC:
-envelope_line 200 32700
-envelope_line 340 0
-envelope_hang 0
-
-.envelope_67D8:
-envelope_line 400 32700
-envelope_line 400 20000
-envelope_goto 0
-
-.envelope_67E4:
-envelope_line 1400 32700
-envelope_line 400 14000
-envelope_line 400 32700
-envelope_goto 1
-
-.envelope_67F4:
-envelope_line 25 32700
-envelope_line 490 12000
-envelope_hang 0
-
-.envelope_6800:
-envelope_line 100 32700
-envelope_line 450 32700
-
-.envelope_6808:
-envelope_line 150 32700
-envelope_line 1200 32700
-envelope_line 400 20000
-envelope_hang 0
-
-.envelope_6818:
-envelope_line 200 32700
-envelope_line 200 20000
-envelope_goto 0
-
-.envelope_6824:
-envelope_line 2 25000
-envelope_hang 0
-
-.envelope_682C:
-envelope_line 1 32700
-envelope_line 100 30000
-envelope_line 200 5000
-envelope_hang 0
-
-.envelope_683C:
-envelope_line 1 32700
-envelope_line 100 30000
-envelope_line 100 0
-envelope_hang 0
-
-.envelope_684C:
-envelope_line 50 32700
-envelope_line 160 30000
-envelope_line 100 0
-envelope_hang 0
-
-.envelope_unused_685C:
-envelope_line 50 32700
-envelope_line 100 30000
-envelope_line 200 20000
-envelope_hang 0
-
-.envelope_686C:
-envelope_line 20 32700
-envelope_line 100 30000
-envelope_line 200 20000
-envelope_hang 0
-
-.envelope_687C:
-envelope_line 1 32700
-envelope_line 100 30000
-envelope_line 200 20000
-envelope_hang 0
-
-.envelope_688C:
-envelope_line 10 32700
-envelope_line 250 32700
-envelope_line 100 20000
-envelope_hang 0
-
-.envelope_unused_689C:
-envelope_line 15 32700
-envelope_line 55 20000
-envelope_line 15 5000
-envelope_hang 0
-
-.envelope_68AC:
-envelope_line 150 32700
-envelope_hang 0
-
-.envelope_68B4:
-envelope_line 120 32700
-envelope_hang 0
-
-.envelope_68BC:
-envelope_line 60 32700
-envelope_line 250 32700
-envelope_line 100 20000
-envelope_hang 0
-
-.envelope_68CC:
-envelope_line 25 32700
-envelope_line 100 32700
-envelope_line 20 2000
-envelope_hang 0
-
-.envelope_68DC:
-envelope_line 1 32700
-envelope_line 50 32700
-envelope_line 25 16000
-envelope_hang 0
-
-.envelope_68EC:
-envelope_line 1 32700
-envelope_line 80 32700
-envelope_line 25 16000
-envelope_hang 0
-
-.envelope_68FC:
-envelope_line 1 32700
-envelope_line 20 32700
-envelope_line 7 16000
-envelope_hang 0
-
-.envelope_690C:
-envelope_line 1 32700
-envelope_line 19 32700
-envelope_line 5 2000
-envelope_hang 0
-
-.envelope_unused_691C:
-envelope_line 1 32700
-envelope_line 50 32700
-envelope_line 25 10000
-envelope_hang 0
-
-.envelope_692C:
-envelope_line 1 32700
-envelope_line 50 32700
-envelope_line 20 1000
-envelope_hang 0
-
-.envelope_unused_693C:
-envelope_line 1 32700
-envelope_line 40 32700
-envelope_line 10 1000
-envelope_hang 0
-
-.envelope_694C:
-envelope_line 1 32700
-envelope_line 70 32700
-envelope_line 10 5000
-envelope_hang 0
-
-.envelope_695C:
-envelope_line 1 32700
-envelope_line 19 32700
-envelope_line 5 3000
-envelope_hang 0
-
-.envelope_696C:
-envelope_line 1 32700
-envelope_line 65 32700
-envelope_line 20 1000
-envelope_hang 0
-
-.envelope_697C:
-envelope_line 1 32700
-envelope_line 15 32700
-envelope_line 2 1000
-envelope_hang 0
-
-.envelope_698C:
-envelope_line 1 32700
-envelope_line 250 32700
-envelope_line 60 16000
-envelope_hang 0
-
-.envelope_699C:
-envelope_line 1 32700
-envelope_line 200 32700
-envelope_line 50 16000
-envelope_hang 0
-
-.envelope_69AC:
-envelope_line 1 32700
-envelope_line 260 32700
-envelope_line 60 16000
-envelope_hang 0
-
-.envelope_69BC:
-envelope_line 1 32700
-envelope_line 300 32700
-envelope_line 60 16000
-envelope_hang 0
-
-.envelope_69CC:
-envelope_line 1 32700
-envelope_line 350 32700
-envelope_line 150 16000
-envelope_hang 0
-
-.envelope_69DC:
-envelope_line 1 32700
-envelope_line 150 32700
-envelope_line 100 16000
-envelope_hang 0
-
-.envelope_unused_69EC:
-envelope_line 1 32700
-envelope_line 100 32700
-envelope_line 40 3000
-envelope_hang 0
-
-.envelope_69FC:
-envelope_line 1 32700
-envelope_line 210 32700
-envelope_line 60 16000
-envelope_hang 0
-
-.envelope_6A0C:
-envelope_line 1 32700
-envelope_line 100 32700
-envelope_line 100 10000
-envelope_hang 0
-
-.envelope_6A1C:
-envelope_line 1 32700
-envelope_line 250 32700
-envelope_line 30 16000
-envelope_hang 0
-
-.envelope_6A2C:
-envelope_line 1 32700
-envelope_line 650 32700
-envelope_line 150 16000
-envelope_hang 0
-
-.envelope_6A3C:
-envelope_line 1 32700
-envelope_line 500 32700
-envelope_line 150 16000
-envelope_hang 0
-
-.envelope_6A4C:
-envelope_line 1 32700
-envelope_line 500 32700
-envelope_line 200 26000
-envelope_hang 0
-
-.envelope_6A5C:
-envelope_line 1 32700
-envelope_line 800 32700
-envelope_line 200 16000
-envelope_hang 0
-
-.envelope_unused_6A6C:
-envelope_line 1 32700
-envelope_line 900 32700
-envelope_line 200 30000
-envelope_hang 0
-
-.envelope_6A7C:
-envelope_line 1 32700
-envelope_hang 0
+.desc title "Sound Effects"
+.desc author "Koji Kondo"
+.desc type "program"
+.usefont SOUNDFONT_SFX_2
+.usefont SOUNDFONT_SFX_1
+
+.sequence sequence_start
+mutebhv 0x60
+mutescale 0
+vol 127
+tempo 120
+initchan 0xfff
+ldchan 0, channel_player0
+ldchan 1, channel_player1
+ldchan 2, channel_player2
+ldchan 3, channel_item0
+ldchan 4, channel_item1
+ldchan 5, channel_env0
+ldchan 6, channel_env1
+ldchan 7, channel_env2
+ldchan 8, channel_enemy0
+ldchan 9, channel_enemy1
+ldchan 10, channel_enemy2
+ldchan 11, channel_system
+ldchan 12, channel_system
+ldchan 13, channel_ocarina
+ldchan 14, channel_voice0
+ldchan 15, channel_voice1
+.sequence seq_loop
+delay 32720
+rjump seq_loop
+
+# Delay for a number of ticks (1-255) in an interruptible manner.
+.channel delay
+stseq 0, @+1
+loop 20
+rjump delay_iter
+
+# Delay for a number of ticks (1-255) in an interruptible manner,
+# with volume controlled by io port 2 and filter by port 3.
+.channel delay_varyingvol
+stseq 0, @+1
+loop 20
+ldio 3
+stseq 0, @+1
+filter 0
+ldio 2
+rbltz delay_iter
+stseq 0, @+1
+vol 127
+.channel delay_iter
+delay1
+ldio 0
+stio 0  # ports 0 and 1 are reset to -1 when read; restore the value
+sub 255
+rbeqz delay_skip
+rjump delay_interrupt
+.channel delay_skip
+loopend
+end
+.channel delay_interrupt
+ldio 0
+stio 0  # ports 0 and 1 are reset to -1 when read; restore the value
+break   # break out of the loop
+break   # force the caller to return immediately
+dellayer 0
+dellayer 1
+dellayer 2
+dellayer 3
+end
+
+.channel setup_chan_common
+noshort
+mutebhv 0x20
+effects 128
+notepri 14
+rvrbidx 1
+end
+
+.channel start_playing_common
+dellayer 0
+dellayer 1
+ldi 0
+gain 0
+stio 1  # set status = 0 (playing)
+end
+
+.channel varyvol
+ldio 2
+rbltz varyvol_skip
+stseq 0, @+1
+vol 127
+.channel varyvol_skip
+end
+
+# Main loop for BANK_PLAYER
+.channel channel_player0
+ldfilter filter_player0
+rjump channel_player
+
+.channel channel_player1
+ldfilter filter_player1
+rjump channel_player
+
+.channel channel_player2
+ldfilter filter_player2
+
+.channel channel_player
+call setup_chan_common
+filter 0
+font SOUNDFONT_SFX_1
+panweight 127
+
+.channel main_loop_player
+delay1
+ldio 0
+sub 1
+beqz start_playing_player
+jump main_loop_player
+
+.channel start_playing_player
+call start_playing_common
+dellayer 2
+vibdepth 0
+ldio 4  # read sound id from port 4
+bgez part1_player
+and 127
+dyntbl table_player_old
+jump use_table_player
+
+.channel part1_player
+dyntbl table_player_kid
+
+.channel use_table_player
+dyncall
+
+.channel poll_player
+ldio 3
+stseq 0, @+1
+filter 15
+call varyvol
+delay1
+ldio 0
+rbeqz force_stop_player  # told to stop
+rbltz skip_player
+rjump start_playing_player  # told to play something else
+
+.channel skip_player
+testlayer 0
+rbeqz poll_player  # if layer 0 hasn't finished, keep polling
+ldi 255
+stio 1  # set status = -1 (stopped)
+
+.channel force_stop_player
+dellayer 0
+dellayer 1
+dellayer 2
+rjump main_loop_player
+
+.include "sfxbanks/player.mus.inc"
+
+# Main loop for BANK_ITEM
+.channel channel_item0
+ldfilter filter_item0
+rjump channel_item
+
+.channel channel_item1
+ldfilter filter_item1
+
+.channel channel_item
+dyntbl table_item
+call setup_chan_common
+font SOUNDFONT_SFX_1
+panweight 127
+filter 0
+
+.channel main_loop_item
+delay1
+ldio 0
+sub 1
+rbeqz start_playing_item
+rjump main_loop_item
+
+.channel start_playing_item
+call start_playing_common
+dellayer 2
+vibdepth 0
+ldio 4
+dyncall
+
+.channel poll_item
+ldio 3
+stseq 0, @+1
+filter 15
+call varyvol
+delay1
+ldio 0
+rbeqz force_stop_item
+rbltz skip_item
+rjump start_playing_item
+
+.channel skip_item
+testlayer 0
+rbeqz poll_item
+ldi 255
+stio 1
+
+.channel force_stop_item
+dellayer 0
+dellayer 1
+dellayer 2
+ldi 0
+rjump main_loop_item
+
+.include "sfxbanks/item.mus.inc"
+
+# Main loop for BANK_ENV
+.channel channel_env0
+ldfilter filter_env0
+rjump channel_env
+
+.channel channel_env1
+ldfilter filter_env1
+rjump channel_env
+
+.channel channel_env2
+ldfilter filter_env2
+
+.channel channel_env
+call setup_chan_common
+font SOUNDFONT_SFX_1
+filter 0
+vibdelay 0
+
+.channel main_loop_env
+delay1
+ldio 0
+sub 1
+rbeqz start_playing_env
+rjump main_loop_env
+
+.channel start_playing_env
+vibdepth 0
+notealloc 0
+freenotelist
+panweight 127
+call start_playing_common
+dellayer 2
+ldio 4
+bgez part1_env
+and 127
+dyntbl table_env+0x100
+rjump use_table_env
+
+.channel part1_env
+dyntbl table_env
+
+.channel use_table_env
+dyncall
+
+.channel poll_env
+ldio 3
+stseq 0, @+1
+filter 0
+call varyvol
+delay1
+ldio 0
+rbeqz force_stop_env
+rbltz skip_env
+rjump start_playing_env
+
+.channel skip_env
+testlayer 0
+rbeqz poll_env
+ldi 255
+stio 1
+
+.channel force_stop_env
+dellayer 0
+dellayer 1
+dellayer 2
+rjump main_loop_env
+
+.include "sfxbanks/env.mus.inc"
+
+# Main loop for BANK_ENEMY
+.channel channel_enemy0
+ldfilter filter_enemy0
+rjump channel_enemy
+
+.channel channel_enemy1
+ldfilter filter_enemy1
+rjump channel_enemy
+
+.channel channel_enemy2
+ldfilter filter_enemy2
+
+.channel channel_enemy
+call setup_chan_common
+font SOUNDFONT_SFX_2
+filter 0
+
+.channel main_loop_enemy
+delay1
+ldio 0
+sub 1
+beqz start_playing_enemy
+jump main_loop_enemy
+
+.channel start_playing_enemy
+call start_playing_common
+dellayer 2
+dellayer 3
+vibdepth 0
+gain 0
+panweight 127
+ldio 5
+sub 1
+rbeqz part3or4_enemy
+ldio 4
+bgez part1_enemy
+and 127
+dyntbl table_enemy+0x100
+rjump use_table_enemy
+
+.channel part3or4_enemy
+dyntbl table_enemy+0x200
+ldio 4
+bgez use_table_enemy
+and 127
+dyntbl table_enemy+0x300
+rjump use_table_enemy
+
+.channel part1_enemy
+dyntbl table_enemy
+
+.channel use_table_enemy
+env envelope_6A7C
+releaserate 251
+dyncall
+
+.channel poll_enemy
+ldio 3
+stseq 0, @+1
+filter 15
+call varyvol
+delay1
+ldio 0
+rbeqz force_stop_enemy
+rbltz skip_enemy
+rjump start_playing_enemy
+
+.channel skip_enemy
+testlayer 0
+rbeqz poll_enemy
+ldi 255
+stio 1
+
+.channel force_stop_enemy
+dellayer 0
+dellayer 1
+dellayer 2
+dellayer 3
+rjump main_loop_enemy
+
+.include "sfxbanks/enemy.mus.inc"
+
+# Main loop for BANK_SYSTEM
+.channel channel_system
+dyntbl table_system
+noshort
+mutebhv 0x0
+notepri 14
+rvrbidx 1
+effects 0
+font SOUNDFONT_SFX_1
+panweight 0
+.channel main_loop_system
+delay1
+ldio 0
+sub 1
+beqz start_playing_system
+jump main_loop_system
+
+.channel start_playing_system
+reverb 0
+call start_playing_common
+dellayer 2
+ldio 4
+dyncall
+
+.channel poll_system
+call varyvol
+delay1
+ldio 0
+rbeqz force_stop_system
+rbltz skip_system
+rjump start_playing_system
+
+.channel skip_system
+testlayer 0
+beqz poll_system
+ldi 255
+stio 1
+
+.channel force_stop_system
+dellayer 0
+dellayer 1
+dellayer 2
+rjump main_loop_system
+
+.include "sfxbanks/system.mus.inc"
+
+# Main loop for BANK_OCARINA
+.channel channel_ocarina
+dyntbl table_ocarina
+noshort
+font SOUNDFONT_SFX_1
+panweight 127
+mutebhv 0x0
+effects 128
+notepri 14
+
+.channel main_loop_ocarina
+delay1
+ldio 1
+rbltz reservenotes_skip_ocarina  # -1 => maintain old reservation status
+rbeqz unreservenotes_ocarina  # 0 => unreserve notes
+allocnotelist 1  # 1 => reserve notes
+notealloc 2
+rjump reservenotes_skip_ocarina
+
+.channel unreservenotes_ocarina
+freenotelist
+notealloc 0
+
+.channel reservenotes_skip_ocarina
+ldio 0
+sub 1
+rbeqz start_playing_ocarina
+rjump main_loop_ocarina
+
+.channel start_playing_ocarina
+vibdepth 0
+rvrbidx 0
+dellayer 0
+ldi 0
+stio 6
+ldio 4
+dyncall
+
+.channel poll_ocarina
+ldio 2
+rbltz changevol_skip_ocarina
+stseq 0, @+1
+vol 127
+
+.channel changevol_skip_ocarina
+delay1
+ldio 0
+rbeqz force_stop_ocarina
+rbltz skip_ocarina
+rjump start_playing_ocarina
+
+.channel skip_ocarina
+testlayer 0
+rbeqz poll_ocarina
+ldi 255
+stio 1  # set status = -1 (finished)
+
+.channel force_stop_ocarina
+dellayer 0
+rjump main_loop_ocarina
+
+.include "sfxbanks/ocarina.mus.inc"
+
+# Main loop for BANK_VOICE
+.channel channel_voice0
+ldfilter filter_voice0
+rjump channel_voice
+
+.channel channel_voice1
+ldfilter filter_voice1
+
+.channel channel_voice
+call setup_chan_common
+instr FONTANY_INSTR_SFX
+env envelope_65D0
+releaserate 251
+bend 0
+filter 0
+effects 128
+allocnotelist 1
+
+.channel main_loop_voice
+delay1
+ldio 0
+sub 1
+rbeqz start_playing_voice
+rjump main_loop_voice
+
+.channel start_playing_voice
+dellayer 0
+dellayer 1
+ldi 0
+stio 1  # set status = 0 (playing)
+ldio 4  # read sound id from port 4
+bgez part1_voice
+and 127
+dyntbl table_voice+0x100
+rjump use_table_voice
+
+.channel part1_voice
+dyntbl table_voice
+
+.channel use_table_voice
+dyncall
+
+.channel poll_voice
+ldio 3
+stseq 0, @+1
+filter 15
+call varyvol
+delay1
+ldio 0
+rbeqz force_stop_voice
+rbltz skip_voice
+rjump start_playing_voice
+
+.channel skip_voice
+testlayer 0
+rbeqz poll_voice
+ldi 255
+stio 1  # set status = -1 (finished)
+
+.channel force_stop_voice
+dellayer 0
+dellayer 1
+rjump main_loop_voice
+
+.include "sfxbanks/voice.mus.inc"
+
+.envelope envelope_65D0
+point 1, 32700
+hang
+
+.envelope envelope_65D8
+point 1, 32700
+point 100, 30000
+point 200, 5000
+hang
+
+.envelope envelope_65E8
+point 1, 32700
+point 25, 25000
+point 100, 25000
+point 200, 5000
+hang
+
+.envelope envelope_65FC
+point 1, 32700
+point 100, 30000
+point 250, 30000
+point 200, 5000
+hang
+
+.envelope envelope_6610
+point 1, 32700
+point 50, 30000
+point 100, 10000
+point 100, 0
+hang
+
+.envelope envelope_6624
+point 1, 32700
+point 30, 30000
+point 50, 10000
+point 50, 0
+hang
+
+.envelope envelope_6638
+point 1, 32700
+point 70, 30000
+point 120, 10000
+point 120, 0
+hang
+
+.envelope envelope_664C
+point 1, 32700
+point 15, 32700
+point 15, 22000
+point 100, 15000
+hang
+
+.envelope envelope_6660
+point 1, 32700
+point 8, 32700
+point 8, 22000
+point 100, 15000
+hang
+
+.envelope envelope_6674
+point 10, 32700
+hang
+
+.envelope envelope_667C
+point 30, 10000
+point 30, 32700
+hang
+
+.envelope envelope_6688
+point 20, 15000
+point 10, 32700
+hang
+
+.envelope envelope_6694
+point 48, 10000
+point 32, 32700
+hang
+
+.envelope envelope_66A0
+point 47, 15000
+point 13, 32700
+point 72, 10000
+hang
+
+.envelope envelope_66B0
+point 6, 32700
+hang
+
+.envelope envelope_66B8
+point 20, 32700
+point 50, 10000
+point 40, 0
+hang
+
+.envelope envelope_66C8
+point 18, 32700
+hang
+
+.envelope envelope_66D0
+point 10, 32700
+point 240, 31000
+point 150, 2000
+hang
+
+.envelope envelope_66E0
+point 14, 15000
+point 13, 32700
+hang
+
+.envelope envelope_66EC
+point 40, 32700
+hang
+
+.envelope envelope_66F4
+point 400, 32700
+hang
+
+.envelope envelope_66FC
+point 100, 32700
+hang
+
+.envelope envelope_6704
+point 225, 32700
+point 30, 30000
+hang
+
+.envelope envelope_6710
+point 200, 32700
+hang
+
+.envelope envelope_6718
+point 3, 32700
+hang
+
+.envelope envelope_6720
+point 12, 32700
+point 40, 5000
+hang
+
+.envelope envelope_unused_672C
+point 10, 32700
+point 4, 20000
+point 4, 10000
+point 50, 2000
+hang
+
+.envelope envelope_6740
+point 40, 32700
+point 150, 32700
+point 300, 0
+hang
+
+.envelope envelope_6750
+point 40, 32700
+point 800, 32700
+point 100, 16000
+point 100, 32700
+point 100, 16000
+point 100, 32700
+point 100, 16000
+point 100, 32700
+point 600, 0
+hang
+
+.envelope envelope_6778
+point 200, 32700
+point 100, 16000
+point 100, 32700
+point 100, 16000
+point 100, 32700
+point 600, 0
+hang
+
+.envelope envelope_6794
+point 35, 32700
+point 40, 32700
+point 105, 0
+hang
+
+.envelope envelope_67A4
+point 1, 25000
+point 12, 32700
+point 40, 32700
+point 60, 15000
+point 80, 5000
+hang
+
+.envelope envelope_67BC
+point 10, 32700
+point 50, 32700
+point 60, 5000
+hang
+
+.envelope envelope_67CC
+point 200, 32700
+point 340, 0
+hang
+
+.envelope envelope_67D8
+point 400, 32700
+point 400, 20000
+goto 0
+
+.envelope envelope_67E4
+point 1400, 32700
+point 400, 14000
+point 400, 32700
+goto 1
+
+.envelope envelope_67F4
+point 25, 32700
+point 490, 12000
+hang
+
+.envelope envelope_6800
+point 100, 32700
+point 450, 32700
+
+.envelope envelope_6808
+point 150, 32700
+point 1200, 32700
+point 400, 20000
+hang
+
+.envelope envelope_6818
+point 200, 32700
+point 200, 20000
+goto 0
+
+.envelope envelope_6824
+point 2, 25000
+hang
+
+.envelope envelope_682C
+point 1, 32700
+point 100, 30000
+point 200, 5000
+hang
+
+.envelope envelope_683C
+point 1, 32700
+point 100, 30000
+point 100, 0
+hang
+
+.envelope envelope_684C
+point 50, 32700
+point 160, 30000
+point 100, 0
+hang
+
+.envelope envelope_unused_685C
+point 50, 32700
+point 100, 30000
+point 200, 20000
+hang
+
+.envelope envelope_686C
+point 20, 32700
+point 100, 30000
+point 200, 20000
+hang
+
+.envelope envelope_687C
+point 1, 32700
+point 100, 30000
+point 200, 20000
+hang
+
+.envelope envelope_688C
+point 10, 32700
+point 250, 32700
+point 100, 20000
+hang
+
+.envelope envelope_unused_689C
+point 15, 32700
+point 55, 20000
+point 15, 5000
+hang
+
+.envelope envelope_68AC
+point 150, 32700
+hang
+
+.envelope envelope_68B4
+point 120, 32700
+hang
+
+.envelope envelope_68BC
+point 60, 32700
+point 250, 32700
+point 100, 20000
+hang
+
+.envelope envelope_68CC
+point 25, 32700
+point 100, 32700
+point 20, 2000
+hang
+
+.envelope envelope_68DC
+point 1, 32700
+point 50, 32700
+point 25, 16000
+hang
+
+.envelope envelope_68EC
+point 1, 32700
+point 80, 32700
+point 25, 16000
+hang
+
+.envelope envelope_68FC
+point 1, 32700
+point 20, 32700
+point 7, 16000
+hang
+
+.envelope envelope_690C
+point 1, 32700
+point 19, 32700
+point 5, 2000
+hang
+
+.envelope envelope_unused_691C
+point 1, 32700
+point 50, 32700
+point 25, 10000
+hang
+
+.envelope envelope_692C
+point 1, 32700
+point 50, 32700
+point 20, 1000
+hang
+
+.envelope envelope_unused_693C
+point 1, 32700
+point 40, 32700
+point 10, 1000
+hang
+
+.envelope envelope_694C
+point 1, 32700
+point 70, 32700
+point 10, 5000
+hang
+
+.envelope envelope_695C
+point 1, 32700
+point 19, 32700
+point 5, 3000
+hang
+
+.envelope envelope_696C
+point 1, 32700
+point 65, 32700
+point 20, 1000
+hang
+
+.envelope envelope_697C
+point 1, 32700
+point 15, 32700
+point 2, 1000
+hang
+
+.envelope envelope_698C
+point 1, 32700
+point 250, 32700
+point 60, 16000
+hang
+
+.envelope envelope_699C
+point 1, 32700
+point 200, 32700
+point 50, 16000
+hang
+
+.envelope envelope_69AC
+point 1, 32700
+point 260, 32700
+point 60, 16000
+hang
+
+.envelope envelope_69BC
+point 1, 32700
+point 300, 32700
+point 60, 16000
+hang
+
+.envelope envelope_69CC
+point 1, 32700
+point 350, 32700
+point 150, 16000
+hang
+
+.envelope envelope_69DC
+point 1, 32700
+point 150, 32700
+point 100, 16000
+hang
+
+.envelope envelope_unused_69EC
+point 1, 32700
+point 100, 32700
+point 40, 3000
+hang
+
+.envelope envelope_69FC
+point 1, 32700
+point 210, 32700
+point 60, 16000
+hang
+
+.envelope envelope_6A0C
+point 1, 32700
+point 100, 32700
+point 100, 10000
+hang
+
+.envelope envelope_6A1C
+point 1, 32700
+point 250, 32700
+point 30, 16000
+hang
+
+.envelope envelope_6A2C
+point 1, 32700
+point 650, 32700
+point 150, 16000
+hang
+
+.envelope envelope_6A3C
+point 1, 32700
+point 500, 32700
+point 150, 16000
+hang
+
+.envelope envelope_6A4C
+point 1, 32700
+point 500, 32700
+point 200, 26000
+hang
+
+.envelope envelope_6A5C
+point 1, 32700
+point 800, 32700
+point 200, 16000
+hang
+
+.envelope envelope_unused_6A6C
+point 1, 32700
+point 900, 32700
+point 200, 30000
+hang
+
+.envelope envelope_6A7C
+point 1, 32700
+hang
