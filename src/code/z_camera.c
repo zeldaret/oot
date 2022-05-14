@@ -6647,7 +6647,7 @@ s32 Camera_Special6(Camera* camera) {
         // Change "screens"
         camera->player->actor.freezeTimer = 12;
         // Overwrite interface alpha to 3
-        sCameraInterfaceFlags = (sCameraInterfaceFlags & 0xF0FF) | 0x300;
+        sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_IFACE_ALPHA_MASK) | CAM_IFACE_ALPHA(3);
         rwData->initalPlayerY = playerPosRot->pos.y;
         rwData->animTimer = 12;
         *eyeNext = sceneCamPos;
@@ -6683,7 +6683,7 @@ s32 Camera_Special6(Camera* camera) {
     } else {
         // Camera following link on the x axis.
         // Overwrite interface alpha to 0
-        sCameraInterfaceFlags &= 0xF0FF;
+        sCameraInterfaceFlags &= (u16)~CAM_IFACE_ALPHA_MASK | CAM_IFACE_ALPHA(0);
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
         eyePosCalc.y += (playerPosRot->pos.y - rwData->initalPlayerY) * 0.2f;

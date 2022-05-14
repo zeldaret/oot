@@ -27,6 +27,8 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
+#define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
+
 /**
  * useShrinkWindowNow: boolean - if true, set shrinkbox immediately. if false, set target. see CAM_SHRINKWIN_CURVAL
  * shinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums
@@ -36,7 +38,7 @@
  * funcFlags: Custom flags for functions
  */
 #define CAM_INTERFACE_FLAGS(useShrinkWindowNow, shinkWindowFlag, interfaceAlpha, funcFlags) \
-    ((useShrinkWindowNow << 15) | (shinkWindowFlag) | ((interfaceAlpha) << 8) | (funcFlags))
+    ((useShrinkWindowNow << 15) | (shinkWindowFlag) | CAM_IFACE_ALPHA(interfaceAlpha) | (funcFlags))
 
 // Shrinking the window from the top and bottom with a black box (letterboxing)
 #define CAM_SHRINKWIN_MASK (0xF000)
