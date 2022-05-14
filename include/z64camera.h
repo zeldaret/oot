@@ -27,12 +27,15 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
+// Shrinking the window from the top and bottom with a black box (letterboxing)
 #define CAM_SHRINKWINVAL_NONE (0x0000)
 #define CAM_SHRINKWINVAL_SMALL (0x1000)
 #define CAM_SHRINKWINVAL_MEDIUM (0x2000)
 #define CAM_SHRINKWINVAL_LARGE (0x3000)
 #define CAM_SHRINKWINVAL_PREV (0xF000)
 
+// Interface Alpha (hiding certain hud icons)
+// A value of 0 in camera is translated to an alpha of 50, which is the value to restore all hud icons to the screen
 #define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
 
 // Camera behaviorFlags. Flags spcifically for settings, modes, and scene/bg/cs camData
