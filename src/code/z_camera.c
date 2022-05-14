@@ -5144,7 +5144,7 @@ s32 Camera_Unique9(Camera* camera) {
                     D_8011D3AC = rwData->curKeyFrame->unk_01 & 0xF;
                 } else if ((rwData->curKeyFrame->unk_01 & 0xF0) == 0xC0) {
                     Camera_UpdateInterface(
-                        CAM_INTERFACE_FLAGS(false, CAM_SHRINKWINVAL_IGNORE, rwData->curKeyFrame->unk_01 & 0xF, 0));
+                        CAM_INTERFACE_FLAGS(false, CAM_SHRINKWINVAL_IGNORE, rwData->curKeyFrame->unk_01, 0));
                 } else if (camera->player->stateFlags1 & PLAYER_STATE1_27 &&
                            player->currentBoots != PLAYER_BOOTS_IRON) {
                     func_8002DF38(camera->globalCtx, camera->target, 8);

@@ -38,7 +38,7 @@
  * funcFlags: Custom flags for functions
  */
 #define CAM_INTERFACE_FLAGS(useShrinkWindowNow, shinkWindowFlag, interfaceAlpha, funcFlags) \
-    ((useShrinkWindowNow << 15) | (shinkWindowFlag) | CAM_IFACE_ALPHA(interfaceAlpha) | (funcFlags))
+    ((useShrinkWindowNow << 15) | ((shinkWindowFlag) & CAM_SHRINKWIN_MASK) | CAM_IFACE_ALPHA((interfaceAlpha) & 0xF) | ((funcFlags) & 0xFF))
 
 // Shrinking the window from the top and bottom with a black box (letterboxing)
 #define CAM_SHRINKWIN_MASK (0xF000)
