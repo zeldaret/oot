@@ -273,7 +273,7 @@ void func_80883000(BgHakaZou* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.params == STA_GIANT_BIRD_STATUE) {
             this->timer = 20;
             this->actionFunc = func_80883144;
-            OnePointCutscene_Init(globalCtx, 3400, 999, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3400, 999, &this->dyna.actor, CAM_ID_MAIN);
         } else if (this->dyna.actor.params == 2) {
             func_80882E54(this, globalCtx);
             this->dyna.actor.draw = NULL;

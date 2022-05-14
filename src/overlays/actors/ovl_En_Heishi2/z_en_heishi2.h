@@ -18,12 +18,12 @@ typedef struct EnHeishi2 {
     /* 0x0260 */ Vec3s unk_260;
     /* 0x0266 */ char unk_266[0x06];
     /* 0x026C */ Vec3s unk_26C; // padding inbetween these
-    /* 0x0274 */ Vec3f unk_274;
-    /* 0x0280 */ Vec3f unk_280; // camera related
-    /* 0x028C */ Vec3f unk_28C; // camera related
-    /* 0x0298 */ Vec3f unk_298; // camera related
+    /* 0x0274 */ Vec3f unk_274; 
+    /* 0x0280 */ Vec3f subCamEye;
+    /* 0x028C */ Vec3f subCamAt;
+    /* 0x0298 */ Vec3f subCamAtInit;
     /* 0x02A4 */ char unk_2A4[0x18];
-    /* 0x02BC */ Vec3f unk_2BC; // camera related
+    /* 0x02BC */ Vec3f subCamEyeInit;
     /* 0x02C8 */ char unk_2C8[0x18];
     /* 0x02E0 */ f32 unk_2E0;
     /* 0x02E4 */ f32 unk_2E4;
@@ -42,7 +42,7 @@ typedef struct EnHeishi2 {
     /* 0x030C */ u8 unk_30C;
     /* 0x030D */ char unk_30D;
     /* 0x030E */ s16 unk_30E;
-    /* 0x0310 */ s16 cameraId;
+    /* 0x0310 */ s16 subCamId;
     /* 0x0314 */ Actor* gate; // first BgGateShutter that can be found in the actor list
     /* 0x0318 */ char unk_318[0x18];
     /* 0x0330 */ MtxF mtxf_330;

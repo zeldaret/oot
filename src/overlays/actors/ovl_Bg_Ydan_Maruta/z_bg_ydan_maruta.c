@@ -150,7 +150,7 @@ void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, this->switchFlag);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_808BF108;
-        OnePointCutscene_Init(globalCtx, 3010, 50, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3010, 50, &this->dyna.actor, CAM_ID_MAIN);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
