@@ -7997,29 +7997,35 @@ s32 Camera_SetViewParam(Camera* camera, s32 viewFlag, void* param) {
                 camera->viewFlags &= ~(CAM_VIEW_AT | CAM_VIEW_TARGET | CAM_VIEW_TARGET_POS);
                 camera->at = *(Vec3f*)param;
                 break;
+
             case CAM_VIEW_TARGET_POS:
                 camera->viewFlags &= ~(CAM_VIEW_AT | CAM_VIEW_TARGET | CAM_VIEW_TARGET_POS);
                 camera->targetPosRot.pos = *(Vec3f*)param;
                 break;
+
             case CAM_VIEW_TARGET:
-                if (camera->setting == CAM_SET_CS_C || camera->setting == CAM_SET_CS_ATTENTION) {
-                    break;
+                if (camera->setting != CAM_SET_CS_C && camera->setting != CAM_SET_CS_ATTENTION) {
+                    camera->target = (Actor*)param;
+                    camera->viewFlags &= ~(CAM_VIEW_AT | CAM_VIEW_TARGET | CAM_VIEW_TARGET_POS);
                 }
-                camera->target = (Actor*)param;
-                camera->viewFlags &= ~(CAM_VIEW_AT | CAM_VIEW_TARGET | CAM_VIEW_TARGET_POS);
                 break;
+
             case CAM_VIEW_EYE:
                 camera->eye = camera->eyeNext = *(Vec3f*)param;
                 break;
+
             case CAM_VIEW_UP:
                 camera->up = *(Vec3f*)param;
                 break;
+
             case CAM_VIEW_ROLL:
                 camera->roll = CAM_DEG_TO_BINANG(*(f32*)param);
                 break;
+
             case CAM_VIEW_FOV:
                 camera->fov = *(f32*)param;
                 break;
+
             default:
                 return false;
         }

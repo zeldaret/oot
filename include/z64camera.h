@@ -36,14 +36,14 @@
 #define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
 
 // Camera behaviorFlags. Flags spcifically for settings, modes, and scene/bg/cs camData
-// Used to store current state, but not read from with only 1 exception (possibly read from outside of camera)
+// Used to store current state, only CAM_FLAG_SET_1 and CAM_FLAG_BG_1 are read from and used in logic
 // Setting (0x1, 0x10)
 #define CAM_FLAG_SET_1 (1 << 0)
 #define CAM_FLAG_SET_2 (1 << 4)
 // Mode (0x2, 0x20)
 #define CAM_FLAG_MODE_1 (1 << 1)
 #define CAM_FLAG_MODE_2 (1 << 5)
-// scene Data (0x4, 0x40)
+// Bg Scene Data (0x4, 0x40)
 #define CAM_FLAG_BG_1 (1 << 2)
 #define CAM_FLAG_BG_2 (1 << 6)
 
