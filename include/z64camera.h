@@ -49,9 +49,9 @@
 
 // Camera stateFlags. Variety of generic flags
 #define CAM_STATE_1 (1 << 0) // Must be set for the camera to change settings based on the bg surface
-#define CAM_STATE_2 (1 << 1) // Must be set for Camera_CheckWater to run
+#define CAM_STATE_2 (1 << 1) // Must be set for Camera_UpdateWater to run
 #define CAM_STATE_4 (1 << 2)
-#define CAM_STATE_8 (1 << 3) // Customizable flag for functions (Ex. Finished talking to an NPC)
+#define CAM_STATE_8 (1 << 3) // Customizable flag for different functions
 #define CAM_STATE_10 (1 << 4)
 #define CAM_STATE_20 (1 << 5)
 #define CAM_STATE_40 (1 << 6)
@@ -64,7 +64,6 @@
 #define CAM_STATE_2000 (1 << 0xD) // unused
 #define CAM_STATE_4000 (1 << 0xE) // isInitialized. Turned on in Camera Init, never used or changed
 #define CAM_STATE_8000 ((s16)(1 << 0xF))
-#define CAM_STATE_FF (CAM_STATE_1 | CAM_STATE_2 | CAM_STATE_4 | CAM_STATE_8 | CAM_STATE_10 | CAM_STATE_20 | CAM_STATE_40 | CAM_STATE_80)
 
 // Camera viewFlags. Set params related to view
 #define CAM_VIEW_AT (1 << 0) // camera->at

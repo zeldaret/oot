@@ -1752,7 +1752,7 @@ void EnHorse_Inactive(EnHorse* this, GlobalContext* globalCtx2) {
             gSaveContext.horseData.scene = globalCtx->sceneNum;
 
             // Focus the camera on Epona
-            Camera_SetParam(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, this);
+            Camera_SetViewParam(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, this);
             Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
             Camera_SetCameraData(globalCtx->cameraPtrs[CAM_ID_MAIN], 4, NULL, NULL, 0x51, 0, 0);
         }
@@ -1826,7 +1826,7 @@ void EnHorse_Idle(EnHorse* this, GlobalContext* globalCtx) {
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->followTimer = 0;
                 EnHorse_SetFollowAnimation(this, globalCtx);
-                Camera_SetParam(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, this);
+                Camera_SetViewParam(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_VIEW_TARGET, this);
                 Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
                 Camera_SetCameraData(globalCtx->cameraPtrs[CAM_ID_MAIN], 4, NULL, NULL, 0x51, 0, 0);
             }

@@ -4961,7 +4961,7 @@ s32 Camera_Unique5(Camera* camera) {
 
 /**
  * This function doesn't really update much.
- * Eye/at positions are updated via Camera_SetParam
+ * Eye/at positions are updated via Camera_SetViewParam
  */
 s32 Camera_Unique6(Camera* camera) {
     Unique6ReadOnlyData* roData = &camera->paramData.uniq6.roData;
@@ -7988,55 +7988,55 @@ s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown) {
     return 1;
 }
 
-s32 Camera_SetParam(Camera* camera, s32 param, void* value) {
+s32 Camera_SetViewParam(Camera* camera, s32 viewFlag, void* param) {
     s32 pad[3];
 
-    if (value != NULL) {
-        switch (param) {
+    if (param != NULL) {
+        switch (viewFlag) {
             case CAM_VIEW_AT:
                 camera->viewFlags &= ~(CAM_VIEW_AT | CAM_VIEW_TARGET | CAM_VIEW_TARGET_POS);
-                camera->at = *(Vec3f*)value;
+                camera->at = *(Vec3f*)param;
                 break;
             case CAM_VIEW_TARGET_POS:
                 camera->viewFlags &= ~(CAM_VIEW_AT | CAM_VIEW_TARGET | CAM_VIEW_TARGET_POS);
-                camera->targetPosRot.pos = *(Vec3f*)value;
+                camera->targetPosRot.pos = *(Vec3f*)param;
                 break;
             case CAM_VIEW_TARGET:
                 if (camera->setting == CAM_SET_CS_C || camera->setting == CAM_SET_CS_ATTENTION) {
                     break;
                 }
-                camera->target = (Actor*)value;
+                camera->target = (Actor*)param;
                 camera->viewFlags &= ~(CAM_VIEW_AT | CAM_VIEW_TARGET | CAM_VIEW_TARGET_POS);
                 break;
             case CAM_VIEW_EYE:
-                camera->eye = camera->eyeNext = *(Vec3f*)value;
+                camera->eye = camera->eyeNext = *(Vec3f*)param;
                 break;
             case CAM_VIEW_UP:
-                camera->up = *(Vec3f*)value;
+                camera->up = *(Vec3f*)param;
                 break;
             case CAM_VIEW_ROLL:
-                camera->roll = CAM_DEG_TO_BINANG(*(f32*)value);
+                camera->roll = CAM_DEG_TO_BINANG(*(f32*)param);
                 break;
             case CAM_VIEW_FOV:
-                camera->fov = *(f32*)value;
+                camera->fov = *(f32*)param;
                 break;
             default:
                 return false;
         }
-        camera->viewFlags |= param;
+        camera->viewFlags |= viewFlag;
     } else {
         return false;
     }
     return true;
 }
 
-s32 Camera_UnsetParam(Camera* camera, s16 param) {
-    camera->viewFlags &= ~param;
+s32 Camera_UnsetViewFlags(Camera* camera, s16 viewFlags) {
+    camera->viewFlags &= ~viewFlags;
     return true;
 }
 
-s32 func_8005AC48(Camera* camera, s16 arg1) {
-    camera->stateFlags = arg1;
+s32 Camera_OverwriteStateFlags(Camera* camera, s16 stateFlags) {
+    camera->stateFlags = stateFlags;
     return true;
 }
 
@@ -8066,13 +8066,13 @@ s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCa
     return 1;
 }
 
-s16 func_8005ACFC(Camera* camera, s16 arg1) {
-    camera->stateFlags |= arg1;
+s16 Camera_SetStateFlags(Camera* camera, s16 stateFlags) {
+    camera->stateFlags |= stateFlags;
     return camera->stateFlags;
 }
 
-s16 func_8005AD1C(Camera* camera, s16 arg1) {
-    camera->stateFlags &= ~arg1;
+s16 Camera_UnsetStateFlags(Camera* camera, s16 stateFlags) {
+    camera->stateFlags &= ~stateFlags;
     return camera->stateFlags;
 }
 

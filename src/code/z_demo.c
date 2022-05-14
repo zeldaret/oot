@@ -1429,7 +1429,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
                 sp28 = csCtx->subCamLookAtPoints->cameraRoll * 1.40625f;
-                Camera_SetParam(subCam, CAM_VIEW_ROLL, &sp28);
+                Camera_SetViewParam(subCam, CAM_VIEW_ROLL, &sp28);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
                 sp3C.y = csCtx->subCamLookAtPoints->pos.y;
                 sp3C.z = csCtx->subCamLookAtPoints->pos.z;

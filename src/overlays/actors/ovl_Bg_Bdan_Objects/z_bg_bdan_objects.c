@@ -354,7 +354,7 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (func_8004356C(&this->dyna)) {
             this->cameraSetting = globalCtx->cameraPtrs[CAM_ID_MAIN]->setting;
             Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
-            func_8005AD1C(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_STATE_4);
+            Camera_UnsetStateFlags(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_STATE_4);
             this->switchFlag = 10;
         }
     } else {
@@ -367,7 +367,7 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->switchFlag == 0) {
             if (1) {}
             Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], this->cameraSetting);
-            func_8005ACFC(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_STATE_4);
+            Camera_SetStateFlags(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_STATE_4);
         }
     }
     this->dyna.actor.world.pos.y =
