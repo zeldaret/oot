@@ -28,15 +28,23 @@
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
 // Shrinking the window from the top and bottom with a black box (letterboxing)
+#define CAM_SHRINKWIN_MASK (0xF000)
+
+#define CAM_SHRINKWINVAL_MASK (0x7000)
 #define CAM_SHRINKWINVAL_NONE (0x0000)
 #define CAM_SHRINKWINVAL_SMALL (0x1000)
 #define CAM_SHRINKWINVAL_MEDIUM (0x2000)
 #define CAM_SHRINKWINVAL_LARGE (0x3000)
-#define CAM_SHRINKWINVAL_PREV (0xF000)
+
+#define CAM_SHRINKWIN_CURVAL (0x8000) // Bit to determine whether set the current value directy (on), or to set the shink-value target (off) 
+
+#define CAM_SHRINKWINVAL_PREV (0xF000) // No change in shrink window, keep the previous values
 
 // Interface Alpha (hiding certain hud icons)
 // A value of 0 in camera is translated to an alpha of 50, which is the value to restore all hud icons to the screen
+// A value of 0xF in camera results in no change in the alpha
 #define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
+#define CAM_IFACE_ALPHA_MASK (0x0F00)
 
 // Camera behaviorFlags. Flags spcifically for settings, modes, and scene/bg/cs camData
 // Used to store current state, only CAM_FLAG_SET_1 and CAM_FLAG_BG_1 are read from and used in logic

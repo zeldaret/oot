@@ -752,41 +752,39 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
     return true;
 }
 
-#define SHRINKWIN_MASK (0xF000)
-#define SHRINKWINVAL_MASK (0x7000)
-#define SHRINKWIN_CURVAL (0x8000)
-#define IFACE_ALPHA_MASK (0x0F00)
-
 void Camera_UpdateInterface(s16 flags) {
     s16 interfaceAlpha;
 
-    if ((flags & SHRINKWIN_MASK) != SHRINKWIN_MASK) {
-        switch (flags & SHRINKWINVAL_MASK) {
-            case 0x1000:
-                sCameraShrinkWindowVal = 0x1A;
+    if ((flags & CAM_SHRINKWIN_MASK) != CAM_SHRINKWINVAL_PREV) {
+        switch (flags & CAM_SHRINKWINVAL_MASK) {
+            case CAM_SHRINKWINVAL_SMALL:
+                sCameraShrinkWindowVal = 26;
                 break;
-            case 0x2000:
-                sCameraShrinkWindowVal = 0x1B;
+
+            case CAM_SHRINKWINVAL_MEDIUM:
+                sCameraShrinkWindowVal = 27;
                 break;
-            case 0x3000:
-                sCameraShrinkWindowVal = 0x20;
+
+            case CAM_SHRINKWINVAL_LARGE:
+                sCameraShrinkWindowVal = 32;
                 break;
+
             default:
                 sCameraShrinkWindowVal = 0;
                 break;
         }
 
-        if (flags & SHRINKWIN_CURVAL) {
+        if (flags & CAM_SHRINKWIN_CURVAL) {
             ShrinkWindow_SetCurrentVal(sCameraShrinkWindowVal);
         } else {
             ShrinkWindow_SetVal(sCameraShrinkWindowVal);
         }
     }
 
-    if ((flags & IFACE_ALPHA_MASK) != IFACE_ALPHA_MASK) {
-        interfaceAlpha = (flags & IFACE_ALPHA_MASK) >> 8;
+    if ((flags & CAM_IFACE_ALPHA_MASK) != CAM_IFACE_ALPHA_MASK) {
+        interfaceAlpha = (flags & CAM_IFACE_ALPHA_MASK) >> 8;
         if (interfaceAlpha == 0) {
-            interfaceAlpha = 0x32;
+            interfaceAlpha = 50;
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
             sCameraInterfaceAlpha = interfaceAlpha;
