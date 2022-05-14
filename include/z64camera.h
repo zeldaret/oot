@@ -27,6 +27,17 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
+/**
+ * useShrinkWindowNow: boolean - if true, set shrinkbox immediately. if false, set target. see CAM_SHRINKWIN_CURVAL
+ * shinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums
+ * interfaceAlpha: hides certain hud icons
+ *    - A value of 0 in camera is translated to an interface alpha of 50, which is the value to restore all hud icons to the screen
+ *    - A value of 0xF in camera results in no change in the alpha
+ * funcFlags: Custom flags for functions
+ */
+#define CAM_INTERFACE_FLAGS(useShrinkWindowNow, shinkWindowFlag, interfaceAlpha, funcFlags) \
+    ((useShrinkWindowNow << 15) | (shinkWindowFlag) | ((interfaceAlpha) << 8) | (funcFlags))
+
 // Shrinking the window from the top and bottom with a black box (letterboxing)
 #define CAM_SHRINKWIN_MASK (0xF000)
 
@@ -36,14 +47,10 @@
 #define CAM_SHRINKWINVAL_MEDIUM (0x2000)
 #define CAM_SHRINKWINVAL_LARGE (0x3000)
 
-#define CAM_SHRINKWIN_CURVAL (0x8000) // Bit to determine whether set the current value directy (on), or to set the shink-value target (off) 
+#define CAM_SHRINKWIN_CURVAL (0x8000) // Bit to determine whether set the current value directy (on), or to set the shrink-value target (off) 
 
 #define CAM_SHRINKWINVAL_IGNORE (0xF000) // No change in shrink window, keep the previous values
 
-// Interface Alpha (hiding certain hud icons)
-// A value of 0 in camera is translated to an interface alpha of 50, which is the value to restore all hud icons to the screen
-// A value of 0xF in camera results in no change in the alpha
-#define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
 #define CAM_IFACE_ALPHA_MASK (0x0F00)
 
 // Camera behaviorFlags. Flags spcifically for settings, modes, and scene/bg/cs camData
