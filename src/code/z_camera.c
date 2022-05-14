@@ -6941,7 +6941,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     camera->up.z = camera->up.x = 0.0f;
     camera->skyboxOffset.x = camera->skyboxOffset.y = camera->skyboxOffset.z = 0;
     camera->atLERPStepScale = 1;
-    sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(false, CAM_SHRINKWINVAL_IGNORE, 0xFF, 0);
+    sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(false, CAM_SHRINKWINVAL_IGNORE, 0xF, 0);
     sDbgModeIdx = -1;
     D_8011D3F0 = 3;
     osSyncPrintf(VT_FGCOL(BLUE) "camera: initialize --- " VT_RST " UID %d\n", camera->uid);
