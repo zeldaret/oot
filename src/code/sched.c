@@ -204,7 +204,7 @@ void Sched_Yield(SchedContext* sc) {
 }
 
 /**
- * Check if the fraembuffer the gfx task wants to use is allowed
+ * Check if the framebuffer the gfx task wants to use is allowed
  */
 OSScTask* Sched_GfxTaskFramebufferValid(SchedContext* sc, OSScTask* task) {
     if (task == NULL) {
