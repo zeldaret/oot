@@ -233,7 +233,7 @@ void Gameplay_Init(GameState* thisx) {
     globalCtx->cameraPtrs[CAM_ID_MAIN] = &globalCtx->mainCamera;
     globalCtx->cameraPtrs[CAM_ID_MAIN]->uid = 0;
     globalCtx->activeCamId = CAM_ID_MAIN;
-    func_8005AC48(&globalCtx->mainCamera, CAM_STATE2_ALL);
+    func_8005AC48(&globalCtx->mainCamera, CAM_STATE_FF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
     Message_Init(globalCtx);
@@ -1625,9 +1625,9 @@ s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, CAM_STATE3_1, at);
+    ret |= Camera_SetParam(camera, CAM_VIEW_AT, at);
     ret <<= 1;
-    ret |= Camera_SetParam(camera, CAM_STATE3_2, eye);
+    ret |= Camera_SetParam(camera, CAM_VIEW_EYE, eye);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1651,11 +1651,11 @@ s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Ve
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
-    ret |= Camera_SetParam(camera, CAM_STATE3_1, at);
+    ret |= Camera_SetParam(camera, CAM_VIEW_AT, at);
     ret <<= 1;
-    ret |= Camera_SetParam(camera, CAM_STATE3_2, eye);
+    ret |= Camera_SetParam(camera, CAM_VIEW_EYE, eye);
     ret <<= 1;
-    ret |= Camera_SetParam(camera, CAM_STATE3_4, up);
+    ret |= Camera_SetParam(camera, CAM_VIEW_UP, up);
 
     camera->dist = Math3D_Vec3f_DistXYZ(at, eye);
 
@@ -1674,7 +1674,7 @@ s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Ve
 }
 
 s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov) {
-    s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], CAM_STATE3_20, &fov) & 1;
+    s32 ret = Camera_SetParam(globalCtx->cameraPtrs[camId], CAM_VIEW_FOV, &fov) & 1;
 
     if (1) {}
     return ret;
