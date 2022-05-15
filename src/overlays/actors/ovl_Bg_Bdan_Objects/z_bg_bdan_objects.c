@@ -178,7 +178,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
             BgBdanObjects_SetContactRu1(this, 1);
             this->timer = 20;
-            OnePointCutscene_Init(globalCtx, 3070, -99, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3070, -99, &this->dyna.actor, CAM_ID_MAIN);
             player->actor.world.pos.x = -1130.0f;
             player->actor.world.pos.y = -1025.0f;
             player->actor.world.pos.z = -3300.0f;
@@ -255,7 +255,7 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
         this->actionFunc = func_8086C5BC;
-        OnePointCutscene_Init(globalCtx, 3080, -99, this->dyna.actor.child, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3080, -99, this->dyna.actor.child, CAM_ID_MAIN);
         player->actor.world.pos.x = -1130.0f;
         player->actor.world.pos.y = -1025.0f;
         player->actor.world.pos.z = -3500.0f;
@@ -328,7 +328,7 @@ void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) {
         if (this->dyna.actor.xzDistToPlayer < 120.0f) {
             this->actionFunc = func_8086C7D0;
-            OnePointCutscene_Init(globalCtx, 3090, -99, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3090, -99, &this->dyna.actor, CAM_ID_MAIN);
         }
     }
 }
@@ -352,13 +352,13 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (this->switchFlag == 0) {
         if (func_8004356C(&this->dyna)) {
-            this->cameraSetting = globalCtx->cameraPtrs[MAIN_CAM]->setting;
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_NORMAL2);
-            func_8005AD1C(globalCtx->cameraPtrs[MAIN_CAM], 4);
+            this->cameraSetting = globalCtx->cameraPtrs[CAM_ID_MAIN]->setting;
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
+            func_8005AD1C(globalCtx->cameraPtrs[CAM_ID_MAIN], 4);
             this->switchFlag = 10;
         }
     } else {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_NORMAL2);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_NORMAL2);
         if (!func_8004356C(&this->dyna)) {
             if (this->switchFlag != 0) {
                 this->switchFlag--;
@@ -366,8 +366,8 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
         if (this->switchFlag == 0) {
             if (1) {}
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], this->cameraSetting);
-            func_8005ACFC(globalCtx->cameraPtrs[MAIN_CAM], 4);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], this->cameraSetting);
+            func_8005ACFC(globalCtx->cameraPtrs[CAM_ID_MAIN], 4);
         }
     }
     this->dyna.actor.world.pos.y =
@@ -416,7 +416,7 @@ void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->timer = 50;
         this->actionFunc = func_8086CB8C;
         this->dyna.actor.home.pos.y -= 200.0f;
-        OnePointCutscene_Init(globalCtx, 3100, 51, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3100, 51, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
@@ -430,7 +430,8 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
-        Gameplay_CopyCamera(globalCtx, MAIN_CAM, SUBCAM_ACTIVE);
+        // Using `CAM_ID_NONE` here defaults to the active camera
+        Gameplay_CopyCamera(globalCtx, CAM_ID_MAIN, CAM_ID_NONE);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
     }

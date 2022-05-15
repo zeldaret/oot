@@ -363,36 +363,36 @@ void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
-    Vec3f unused = { 0.0f, 0.0f, 0.0f };
-    Vec3f pos;
-    Vec3f initPos;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    Vec3f subCamAt;
+    Vec3f subCamEye;
 
-    this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
-    this->gameplayCamera = globalCtx->activeCamera;
-    Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, CAM_STAT_ACTIVE);
-    pos = this->actor.world.pos;
-    initPos = this->actor.home.pos;
-    pos.y += 60.0f;
-    initPos.y += -100.0f;
-    initPos.z += 260.0f;
-    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+    this->returnToCamId = globalCtx->activeCamId;
+    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    subCamAt = this->actor.world.pos;
+    subCamEye = this->actor.home.pos;
+    subCamAt.y += 60.0f;
+    subCamEye.y += -100.0f;
+    subCamEye.z += 260.0f;
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     func_8002DF54(globalCtx, &this->actor, 8);
     this->actor.speedXZ = 0.1f;
     this->actionFunc = EnKz_Mweep;
 }
 
 void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
-    Vec3f unused = { 0.0f, 0.0f, 0.0f };
-    Vec3f pos;
-    Vec3f initPos;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
+    Vec3f subCamAt;
+    Vec3f subCamEye;
 
-    pos = this->actor.world.pos;
-    initPos = this->actor.home.pos;
-    pos.y += 60.0f;
-    initPos.y += -100.0f;
-    initPos.z += 260.0f;
-    Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &pos, &initPos);
+    subCamAt = this->actor.world.pos;
+    subCamEye = this->actor.home.pos;
+    subCamAt.y += 60.0f;
+    subCamEye.y += -100.0f;
+    subCamEye.z += 260.0f;
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     if ((EnKz_FollowPath(this, globalCtx) == 1) && (this->waypoint == 0)) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
@@ -407,8 +407,8 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->cutsceneCamera);
+    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
+    Gameplay_ClearCamera(globalCtx, this->subCamId);
     func_8002DF54(globalCtx, &this->actor, 7);
     this->actionFunc = EnKz_Wait;
 }
