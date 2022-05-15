@@ -284,8 +284,6 @@ void Scene_CommandObjectList(GlobalContext* globalCtx, SceneCmd* cmd) {
     ASSERT(cmd->objectList.num <= OBJECT_EXCHANGE_BANK_MAX, "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX",
            "../z_scene.c", 705);
 
-    if (1) {}
-
     while (k < cmd->objectList.num) {
         nextPtr = func_800982FC(&globalCtx->objectCtx, i, *objectEntry);
         if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
@@ -355,8 +353,8 @@ void Scene_CommandTimeSettings(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     globalCtx->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    globalCtx->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    globalCtx->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+    globalCtx->envCtx.sunPos.y = Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f * 25.0f;
+    globalCtx->envCtx.sunPos.z = Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f * 25.0f;
 
     if (((globalCtx->envCtx.timeIncrement == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
