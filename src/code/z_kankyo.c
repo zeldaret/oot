@@ -1638,14 +1638,14 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
 
         // draw droplet rings on the ground
         if (player->actor.world.pos.y < view->eye.y) {
-            u8 firstDone = false;
+            u8 materialFlag = false;
 
             for (i = 0; i < globalCtx->envCtx.unk_EE[1]; i++) {
-                if (!firstDone) {
+                if (!materialFlag) {
                     Gfx_SetupDL25Xlu(gfxCtx);
                     gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 120);
-                    firstDone++;
+                    materialFlag++;
                 }
 
                 Matrix_Translate(func_800746DC() * 280.0f + x280, player->actor.world.pos.y + 2.0f,
