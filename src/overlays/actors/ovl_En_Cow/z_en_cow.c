@@ -167,7 +167,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
                          Animation_GetLastFrame(&gCowBodyChewAnim), ANIMMODE_ONCE, 1.0f);
     }
 
-    if ((this->actor.xzDistToPlayer < 150.0f) && (!(this->unk_276 & 2))) {
+    if ((this->actor.xzDistToPlayer < 150.0f) && !(this->unk_276 & 2)) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &gCowBodyChewAnim) {
             this->unk_278 = 0;
@@ -284,7 +284,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.xzDistToPlayer < 150.0f) &&
-        (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) >= 0x61A9) && (!(this->unk_276 & 2))) {
+        (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) >= 0x61A9) && !(this->unk_276 & 2)) {
         this->unk_276 |= 2;
         if (this->skelAnime.animation == &gCowTailIdleAnim) {
             this->unk_278 = 0;

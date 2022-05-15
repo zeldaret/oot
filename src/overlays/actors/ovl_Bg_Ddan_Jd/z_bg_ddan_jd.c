@@ -91,7 +91,7 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {
         this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
         this->idleTimer = 0;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
-        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
     if (this->idleTimer == 0) {
         this->idleTimer = IDLE_FRAMES;
@@ -160,7 +160,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
         this->idleTimer = 0;
         this->actionFunc = BgDdanJd_Idle;
-        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, CAM_ID_MAIN);
     } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->targetY, this->ySpeed)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;

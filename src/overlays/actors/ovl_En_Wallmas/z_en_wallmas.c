@@ -260,7 +260,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
     this->yTarget = this->actor.yDistToPlayer;
     func_8002DF38(globalCtx, &this->actor, 0x25);
-    OnePointCutscene_Init(globalCtx, 9500, 9999, &this->actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 9500, 9999, &this->actor, CAM_ID_MAIN);
 }
 
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {

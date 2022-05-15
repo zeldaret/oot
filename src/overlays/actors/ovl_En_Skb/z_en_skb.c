@@ -527,7 +527,7 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == 11) {
         if ((this->unk_283 & 2) == 0) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 972);
-            color = ABS((s16)(Math_SinS((globalCtx->gameplayFrames * 0x1770)) * 95.0f)) + 160;
+            color = ABS((s16)(Math_SinS(globalCtx->gameplayFrames * 0x1770) * 95.0f)) + 160;
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetEnvColor(POLY_OPA_DISP++, color, color, color, 255);
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 978);

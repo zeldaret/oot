@@ -459,7 +459,7 @@ void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
 
 void func_80B14B6C(EnTa* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) {
-        OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, CAM_ID_MAIN);
         func_80B13AA0(this, func_80B14AF4, func_80B167C0);
         this->unk_2CC = 5;
         SET_EVENTCHKINF(EVENTCHKINF_14);
@@ -519,28 +519,28 @@ s32 func_80B14DD8(void) {
 }
 
 void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
-    Vec3f b;
-    Vec3f a;
+    Vec3f subCamEye;
+    Vec3f subCamAt;
 
-    this->unk_2D0 = Gameplay_CreateSubCamera(globalCtx);
-    this->unk_2D2 = globalCtx->activeCamera;
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D0, CAM_STAT_ACTIVE);
+    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+    this->returnToCamId = globalCtx->activeCamId;
+    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
-    b.x = 1053.0f;
-    b.y = 11.0f;
-    b.z = 22.0f;
+    subCamEye.x = 1053.0f;
+    subCamEye.y = 11.0f;
+    subCamEye.z = 22.0f;
 
-    a.x = 1053.0f;
-    a.y = 45.0f;
-    a.z = -40.0f;
+    subCamAt.x = 1053.0f;
+    subCamAt.y = 45.0f;
+    subCamAt.z = -40.0f;
 
-    Gameplay_CameraSetAtEye(globalCtx, this->unk_2D0, &a, &b);
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
 }
 
 void func_80B14EDC(EnTa* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->unk_2D0);
+    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
+    Gameplay_ClearCamera(globalCtx, this->subCamId);
 }
 
 void func_80B14F20(EnTa* this, EnTaActionFunc arg1) {
