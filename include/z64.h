@@ -865,13 +865,18 @@ typedef union {
     PolygonType2 polygon2;
 } Mesh; // "Ground Shape"
 
+typedef enum {
+    /* 0 */ LENS_ACTORS_MODE_SEETHROUGH, // lens actors are visible by default and hidden by using lens (for example, fake walls)
+    /* 1 */ LENS_ACTORS_MODE_REVEAL // lens actors are invisible by default and revealed by using lens (for example, invisible enemies)
+} LensActorsMode;
+
 typedef struct {
     /* 0x00 */ s8   num;
     /* 0x01 */ u8   unk_01;
     /* 0x02 */ u8   behaviorType2;
     /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
-    /* 0x05 */ u8   showInvisActors;
+    /* 0x05 */ u8   lensActorsMode;
     /* 0x08 */ Mesh* mesh; // original name: "ground_shape"
     /* 0x0C */ void* segment;
     /* 0x10 */ char unk_10[0x4];
