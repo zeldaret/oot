@@ -177,7 +177,7 @@ void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
-    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     s16 i;
 
     switch (this->work[FHGFIRE_FIRE_MODE]) {
@@ -187,7 +187,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
         case STRIKE_BURST:
             this->actor.shape.rot.y =
-                Camera_GetInputDirYaw(camera) + 0x8000 * (this->work[FHGFIRE_VARIANCE_TIMER] & 0xFF);
+                Camera_GetInputDirYaw(mainCam) + 0x8000 * (this->work[FHGFIRE_VARIANCE_TIMER] & 0xFF);
             Math_ApproachF(&this->fwork[FHGFIRE_SCALE], 1.0f, 1.0f, 0.2f);
 
             if (this->work[FHGFIRE_TIMER] == 0) {
@@ -218,7 +218,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
             break;
         case STRIKE_TRAILS:
             this->actor.shape.rot.y =
-                Camera_GetInputDirYaw(camera) + (this->work[FHGFIRE_VARIANCE_TIMER] & 0xFF) * 0x8000;
+                Camera_GetInputDirYaw(mainCam) + (this->work[FHGFIRE_VARIANCE_TIMER] & 0xFF) * 0x8000;
 
             Math_ApproachF(&this->fwork[FHGFIRE_SCALE], 0.0f, 1.0f, 0.2f);
             if (this->work[FHGFIRE_TIMER] == 30) {

@@ -26,7 +26,7 @@ typedef struct EnKakasi {
     /* 0x01B4 */ f32 height;
     /* 0x01B8 */ f32 unk_1B8;
     /* 0x01BC */ ColliderCylinder collider;
-    /* 0x0208 */ s16 camId;
+    /* 0x0208 */ s16 subCamId;
 } EnKakasi; // size = 0x020C
 
 #endif

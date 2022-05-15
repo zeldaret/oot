@@ -1,7 +1,7 @@
 #include "z_en_zl1.h"
 #include "z64cutscene_commands.h"
 
-static CutsceneCameraAngle D_80B4D5C0[] = {
+static CutsceneCameraDirection D_80B4D5C0[] = {
     { { -440.0f, 117.0f, 0.0f }, { -490.0f, 120.0f, 0.0f }, 0, 45 },
     { { -484.0f, 122.0f, -29.0f }, { -480.0f, 116.0f, 18.0f }, 0, 80 },
     { { -413.0f, 136.0f, -72.0f }, { -403.0f, 141.0f, -89.0f }, 0, 25 },
