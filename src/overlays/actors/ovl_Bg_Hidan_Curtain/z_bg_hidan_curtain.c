@@ -127,11 +127,11 @@ void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain* this, GlobalContext* globalC
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         if (this->type == 1) {
             this->actionFunc = BgHidanCurtain_WaitForCutscene;
-            OnePointCutscene_Init(globalCtx, 3350, -99, &this->actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3350, -99, &this->actor, CAM_ID_MAIN);
             this->timer = 50;
         } else if (this->type == 3) {
             this->actionFunc = BgHidanCurtain_WaitForCutscene;
-            OnePointCutscene_Init(globalCtx, 3360, 60, &this->actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3360, 60, &this->actor, CAM_ID_MAIN);
             this->timer = 30;
         } else {
             this->actionFunc = BgHidanCurtain_TurnOff;
@@ -205,8 +205,8 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
     f32 riseProgress;
 
-    if ((globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_SLOW_CHEST_CS) ||
-        (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_TURN_AROUND)) {
+    if ((globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_SLOW_CHEST_CS) ||
+        (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_TURN_AROUND)) {
         this->collider.base.atFlags &= ~AT_HIT;
     } else {
         if (this->collider.base.atFlags & AT_HIT) {

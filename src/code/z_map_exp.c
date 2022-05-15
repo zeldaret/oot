@@ -306,7 +306,7 @@ void Map_Init(GlobalContext* globalCtx) {
                 R_COMPASS_SCALE_Y = gMapData->dgnCompassInfo[mapIndex][1];
                 R_COMPASS_OFFSET_X = gMapData->dgnCompassInfo[mapIndex][2];
                 R_COMPASS_OFFSET_Y = gMapData->dgnCompassInfo[mapIndex][3];
-                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE = gMapData->dgnMinimapTexIndexBase[mapIndex];
+                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE = gMapData->dgnTexIndexBase[mapIndex];
                 Map_InitRoomData(globalCtx, globalCtx->roomCtx.curRoom.num);
                 MapMark_Init(globalCtx);
             }

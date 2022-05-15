@@ -150,7 +150,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) &&
         (player->actor.world.pos.z < 1020.0f) && (player->actor.world.pos.z > 700.0f) && (sPlayerCaught == 0)) {
         if (this->unk_278 == 1) {
-            if ((player->actor.world.pos.x < -290.0f)) {
+            if (player->actor.world.pos.x < -290.0f) {
                 return;
             }
         } else {

@@ -118,7 +118,7 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
         !(player->stateFlags1 & PLAYER_STATE1_11)) {
-        OnePointCutscene_Init(globalCtx, 2230, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 2230, -99, &this->actor, CAM_ID_MAIN);
         this->timer = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnDntJiji_SetupUnburrow;

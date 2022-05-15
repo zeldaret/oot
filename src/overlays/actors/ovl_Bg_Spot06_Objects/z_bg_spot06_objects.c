@@ -315,7 +315,7 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         Flags_SetSwitch(globalCtx, this->switchFlag);
-        OnePointCutscene_Init(globalCtx, 4120, 170, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4120, 170, &this->dyna.actor, CAM_ID_MAIN);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }

@@ -131,7 +131,7 @@ void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
                 Matrix_RotateX(BINANG_TO_RAD(this->rPitch + this->actor->shape.rot.x), MTXMODE_APPLY);
                 Matrix_MultVec3f(&this->vec, &this->pos);
             } else {
-                if ((this->rFlags & 0x8000)) {
+                if (this->rFlags & 0x8000) {
                     this->pos.x = ((FireActorS*)this->actor)->firePos[this->rBodyPart].x;
                     this->pos.y = ((FireActorS*)this->actor)->firePos[this->rBodyPart].y;
                     this->pos.z = ((FireActorS*)this->actor)->firePos[this->rBodyPart].z;

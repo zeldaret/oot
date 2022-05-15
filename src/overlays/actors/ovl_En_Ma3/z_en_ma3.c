@@ -97,7 +97,7 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
             return 0x2004;
         }
     }
-    if ((!(player->stateFlags1 & PLAYER_STATE1_23)) &&
+    if (!(player->stateFlags1 & PLAYER_STATE1_23) &&
         (Actor_FindNearby(globalCtx, thisx, ACTOR_EN_HORSE, 1, 1200.0f) == NULL)) {
         return 0x2001;
     }
@@ -352,14 +352,14 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sMouthTextures[] = { gMalonAdultMouthNeutralTex, gMalonAdultMouthSadTex, gMalonAdultMouthHappyTex };
     static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
     EnMa3* this = (EnMa3*)thisx;
-    Camera* camera;
+    Camera* activeCam;
     f32 someFloat;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
+    activeCam = GET_ACTIVE_CAM(globalCtx);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
     func_800F6268(someFloat, NA_BGM_LONLON);
     Gfx_SetupDL25Opa(globalCtx->state.gfxCtx);
 

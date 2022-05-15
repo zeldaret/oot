@@ -93,7 +93,7 @@ void BgMizuShutter_Destroy(BgMizuShutter* thisx, GlobalContext* globalCtx) {
 void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
         if (ABS(this->dyna.actor.world.rot.x) > 0x2C60) {
-            OnePointCutscene_Init(globalCtx, 4510, -99, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 4510, -99, &this->dyna.actor, CAM_ID_MAIN);
         } else {
             OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         }

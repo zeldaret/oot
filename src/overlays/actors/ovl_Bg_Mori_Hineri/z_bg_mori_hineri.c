@@ -27,7 +27,7 @@ void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx
 void BgMoriHineri_DoNothing(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx);
 
-static s16 sNextCamIdx = SUBCAM_NONE;
+static s16 sSubCamId = CAM_ID_NONE;
 
 const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
@@ -170,14 +170,14 @@ void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
 
     f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
-    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON1);
+    Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.shape.rot.z = -this->dyna.actor.shape.rot.z;
     }
 }
 
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
-    s16 mainCamChildIdx;
+    s16 mainCamChildId;
 
     if ((Flags_GetSwitch(globalCtx, this->switchFlag) &&
          (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
@@ -186,34 +186,34 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
-        mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
-        if ((mainCamChildIdx != SUBCAM_FREE) &&
-            (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
-            OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
+        mainCamChildId = globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId;
+        if ((mainCamChildId != CAM_ID_MAIN) &&
+            (globalCtx->cameraPtrs[mainCamChildId]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
+            OnePointCutscene_EndCutscene(globalCtx, mainCamChildId);
         }
-        OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
-        sNextCamIdx = OnePointCutscene_Init(globalCtx, 3261, 40, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, CAM_ID_MAIN);
+        sSubCamId = OnePointCutscene_Init(globalCtx, 3261, 40, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
 void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
     s8 objBankIndex;
 
-    if (globalCtx->activeCamera == sNextCamIdx) {
-        if (sNextCamIdx != MAIN_CAM) {
+    if (globalCtx->activeCamId == sSubCamId) {
+        if (sSubCamId != SUB_CAM_ID_DONE) {
             objBankIndex = this->dyna.actor.objBankIndex;
             this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
             this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
-            sNextCamIdx = MAIN_CAM;
+            sSubCamId = SUB_CAM_ID_DONE;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             this->dyna.actor.draw = NULL;
             this->actionFunc = func_808A3D58;
-            sNextCamIdx = SUBCAM_NONE;
+            sSubCamId = CAM_ID_NONE;
         }
     }
-    if ((sNextCamIdx >= SUBCAM_FIRST) &&
+    if ((sSubCamId >= CAM_ID_SUB_FIRST) &&
         ((GET_ACTIVE_CAM(globalCtx)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }

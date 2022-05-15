@@ -393,11 +393,11 @@ static u8 D_80B7FDA8;
 static Vec3f sSinkingLurePos[SINKING_LURE_SEG_COUNT];
 static s16 D_80B7FEA0;
 static f32 sProjectedW;
-static Vec3f sCameraEye;
-static Vec3f sCameraAt;
-static s16 sCameraId;
+static Vec3f sSubCamEye;
+static Vec3f sSubCamAt;
+static s16 sSubCamId;
 static f32 D_80B7FEC8;
-static f32 D_80B7FECC;
+static f32 sSubCamVelFactor;
 static f32 D_80B7FED0;
 static Vec3f sSinkingLureBasePos;
 static f32 D_80B7FEE4;
@@ -2914,7 +2914,8 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
         sp118 = (player->actor.speedXZ * 0.3f) + 0.25f;
     }
 
-    if ((D_80B7E0B0 != 0) || (sCameraId != 0) || ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
+    if ((D_80B7E0B0 != 0) || (sSubCamId != SUB_CAM_ID_DONE) ||
+        ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
         this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
         this->actor.flags |= ACTOR_FLAG_0;
@@ -3845,17 +3846,17 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 sp10C.z = 50.0f;
             }
             Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
-            Matrix_MultVec3f(&sp10C, &sCameraEye);
+            Matrix_MultVec3f(&sp10C, &sSubCamEye);
 
-            sCameraEye.x += player->actor.world.pos.x;
-            sCameraEye.y += player->actor.world.pos.y;
-            sCameraEye.z += player->actor.world.pos.z;
+            sSubCamEye.x += player->actor.world.pos.x;
+            sSubCamEye.y += player->actor.world.pos.y;
+            sSubCamEye.z += player->actor.world.pos.z;
 
-            sCameraAt = player->actor.world.pos;
+            sSubCamAt = player->actor.world.pos;
             if (sLinkAge != LINK_AGE_CHILD) {
-                sCameraAt.y += 40.0f;
+                sSubCamAt.y += 40.0f;
             } else {
-                sCameraAt.y += 25.0f;
+                sSubCamAt.y += 25.0f;
             }
 
             if (this->unk_17A[0] == 90) {
@@ -4380,7 +4381,7 @@ void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
         prop++;
     }
 
-    if (sCameraId == 0) {
+    if (sSubCamId == SUB_CAM_ID_DONE) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &sFishingMain->collider.base);
     }
 }
@@ -5088,7 +5089,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     s16 headRotTarget;
     s16 playerShadowAlpha;
     f32 target;
-    f32 camAtFraction;
+    f32 subCamAtMaxVelFrac;
     f32 lureDistXZ;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
@@ -5232,21 +5233,21 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case 1: {
-            Camera* camera;
+            Camera* mainCam;
 
-            sCameraId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sCameraId, CAM_STAT_ACTIVE);
-            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-            sCameraEye.x = camera->eye.x;
-            sCameraEye.y = camera->eye.y;
-            sCameraEye.z = camera->eye.z;
-            sCameraAt.x = camera->at.x;
-            sCameraAt.y = camera->at.y;
-            sCameraAt.z = camera->at.z;
+            sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            sSubCamEye.x = mainCam->eye.x;
+            sSubCamEye.y = mainCam->eye.y;
+            sSubCamEye.z = mainCam->eye.z;
+            sSubCamAt.x = mainCam->at.x;
+            sSubCamAt.y = mainCam->at.y;
+            sSubCamAt.z = mainCam->at.z;
             D_80B7A6CC = 2;
             Interface_ChangeAlpha(12);
-            D_80B7FECC = 0.0f;
+            sSubCamVelFactor = 0.0f;
             // fallthrough
         }
 
@@ -5255,7 +5256,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
             spFC.x = sLurePos.x - player->actor.world.pos.x;
             spFC.z = sLurePos.z - player->actor.world.pos.z;
-            lureDistXZ = sqrtf(SQ(spFC.x) + SQ(spFC.z));
+            lureDistXZ = sqrtf(SQXZ(spFC));
             Matrix_RotateY(Math_Atan2F(spFC.z, spFC.x), MTXMODE_NEW);
 
             sp114.x = 0.0f;
@@ -5264,14 +5265,14 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_MultVec3f(&sp114, &spFC);
 
             if (D_80B7A694 == 1) {
-                camAtFraction = 0.2f;
+                subCamAtMaxVelFrac = 0.2f;
             } else {
-                camAtFraction = 0.1f;
+                subCamAtMaxVelFrac = 0.1f;
             }
 
-            Math_ApproachF(&sCameraAt.x, sLurePos.x, camAtFraction, fabsf(spFC.x) * D_80B7FECC);
-            Math_ApproachF(&sCameraAt.y, sLurePos.y, camAtFraction, 50.0f * D_80B7FECC);
-            Math_ApproachF(&sCameraAt.z, sLurePos.z, camAtFraction, fabsf(spFC.z) * D_80B7FECC);
+            Math_ApproachF(&sSubCamAt.x, sLurePos.x, subCamAtMaxVelFrac, fabsf(spFC.x) * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamAt.y, sLurePos.y, subCamAtMaxVelFrac, 50.0f * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamAt.z, sLurePos.z, subCamAtMaxVelFrac, fabsf(spFC.z) * sSubCamVelFactor);
 
             sp114.x = 0.0f - D_80B7FED0;
             if (sLinkAge != LINK_AGE_CHILD) {
@@ -5339,21 +5340,21 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             sp114.z = 100.0f;
             Matrix_MultVec3f(&sp114, &spFC);
 
-            Math_ApproachF(&sCameraEye.x, sp108.x, 0.3f, fabsf(spFC.x) * D_80B7FECC);
-            Math_ApproachF(&sCameraEye.y, sp108.y, 0.3f, 20.0f * D_80B7FECC);
-            Math_ApproachF(&sCameraEye.z, sp108.z, 0.3f, fabsf(spFC.z) * D_80B7FECC);
+            Math_ApproachF(&sSubCamEye.x, sp108.x, 0.3f, fabsf(spFC.x) * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamEye.y, sp108.y, 0.3f, 20.0f * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamEye.z, sp108.z, 0.3f, fabsf(spFC.z) * sSubCamVelFactor);
             break;
 
         case 3: {
-            Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+            Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-            camera->eye = sCameraEye;
-            camera->eyeNext = sCameraEye;
-            camera->at = sCameraAt;
-            func_800C08AC(globalCtx, sCameraId, 0);
+            mainCam->eye = sSubCamEye;
+            mainCam->eyeNext = sSubCamEye;
+            mainCam->at = sSubCamAt;
+            func_800C08AC(globalCtx, sSubCamId, 0);
             func_80064534(globalCtx, &globalCtx->csCtx);
             D_80B7A6CC = 0;
-            sCameraId = 0;
+            sSubCamId = SUB_CAM_ID_DONE;
             Environment_EnableUnderwaterLights(globalCtx, 0);
             globalCtx->envCtx.adjFogNear = 0;
             player->unk_860 = -5;
@@ -5362,20 +5363,20 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         case 10: {
-            Camera* camera;
+            Camera* mainCam;
 
             func_80064520(globalCtx, &globalCtx->csCtx);
-            sCameraId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sCameraId, CAM_STAT_ACTIVE);
+            sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
-            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-            sCameraEye.x = camera->eye.x;
-            sCameraEye.y = camera->eye.y;
-            sCameraEye.z = camera->eye.z;
-            sCameraAt.x = camera->at.x;
-            sCameraAt.y = camera->at.y;
-            sCameraAt.z = camera->at.z;
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            sSubCamEye.x = mainCam->eye.x;
+            sSubCamEye.y = mainCam->eye.y;
+            sSubCamEye.z = mainCam->eye.z;
+            sSubCamAt.x = mainCam->at.x;
+            sSubCamAt.y = mainCam->at.y;
+            sSubCamAt.z = mainCam->at.z;
             Message_StartTextbox(globalCtx, 0x409E, NULL);
             D_80B7A6CC = 11;
             func_800A9F6C(0.0f, 150, 10, 10);
@@ -5387,16 +5388,16 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             player->actor.speedXZ = 0.0f;
 
             if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
-                Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-                camera->eye = sCameraEye;
-                camera->eyeNext = sCameraEye;
-                camera->at = sCameraAt;
-                func_800C08AC(globalCtx, sCameraId, 0);
+                mainCam->eye = sSubCamEye;
+                mainCam->eyeNext = sSubCamEye;
+                mainCam->at = sSubCamAt;
+                func_800C08AC(globalCtx, sSubCamId, 0);
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 D_80B7A6CC = 0;
-                sCameraId = 0;
+                sSubCamId = SUB_CAM_ID_DONE;
                 D_80B7A6D0 = 30;
                 Environment_EnableUnderwaterLights(globalCtx, 0);
                 globalCtx->envCtx.adjFogNear = 0;
@@ -5404,20 +5405,20 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case 20: {
-            Camera* camera;
+            Camera* mainCam;
 
             func_80064520(globalCtx, &globalCtx->csCtx);
-            sCameraId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sCameraId, CAM_STAT_ACTIVE);
+            sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
-            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-            sCameraEye.x = camera->eye.x;
-            sCameraEye.y = camera->eye.y;
-            sCameraEye.z = camera->eye.z;
-            sCameraAt.x = camera->at.x;
-            sCameraAt.y = camera->at.y;
-            sCameraAt.z = camera->at.z;
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            sSubCamEye.x = mainCam->eye.x;
+            sSubCamEye.y = mainCam->eye.y;
+            sSubCamEye.z = mainCam->eye.z;
+            sSubCamAt.x = mainCam->at.x;
+            sSubCamAt.y = mainCam->at.y;
+            sSubCamAt.z = mainCam->at.z;
             Message_StartTextbox(globalCtx, 0x409A, NULL);
             D_80B7A6CC = 21;
             D_80B7FEC8 = 45.0f;
@@ -5469,23 +5470,23 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                 sp114.z = -35.0f;
             }
 
-            Matrix_MultVec3f(&sp114, &sCameraEye);
-            sCameraEye.x += player->actor.world.pos.x;
-            sCameraEye.y += player->actor.world.pos.y;
-            sCameraEye.z += player->actor.world.pos.z;
+            Matrix_MultVec3f(&sp114, &sSubCamEye);
+            sSubCamEye.x += player->actor.world.pos.x;
+            sSubCamEye.y += player->actor.world.pos.y;
+            sSubCamEye.z += player->actor.world.pos.z;
 
-            sCameraAt = player->actor.world.pos;
+            sSubCamAt = player->actor.world.pos;
             if (sLinkAge != LINK_AGE_CHILD) {
-                sCameraAt.y += 62.0f;
+                sSubCamAt.y += 62.0f;
             } else {
-                sCameraAt.y += 40.0f;
+                sSubCamAt.y += 40.0f;
             }
 
             if (D_80B7A6D0 == 0) {
                 if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) ||
                     (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
                     if (Message_ShouldAdvance(globalCtx)) {
-                        Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
                         Message_CloseTextbox(globalCtx);
                         if (globalCtx->msgCtx.choiceIndex == 0) {
@@ -5493,14 +5494,14 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                             D_80B7E082 = 0;
                         }
 
-                        camera->eye = sCameraEye;
-                        camera->eyeNext = sCameraEye;
-                        camera->at = sCameraAt;
-                        func_800C08AC(globalCtx, sCameraId, 0);
+                        mainCam->eye = sSubCamEye;
+                        mainCam->eyeNext = sSubCamEye;
+                        mainCam->at = sSubCamAt;
+                        func_800C08AC(globalCtx, sSubCamId, 0);
                         func_80064534(globalCtx, &globalCtx->csCtx);
                         func_8002DF54(globalCtx, &this->actor, 7);
                         D_80B7A6CC = 0;
-                        sCameraId = 0;
+                        sSubCamId = SUB_CAM_ID_DONE;
                         player->unk_860 = -5;
                         D_80B7E0B0 = 5;
                         D_80B7A6D4 = 0;
@@ -5516,11 +5517,11 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             break;
     }
 
-    if (sCameraId != 0) {
-        Gameplay_CameraSetAtEye(globalCtx, sCameraId, &sCameraAt, &sCameraEye);
-        Math_ApproachF(&D_80B7FECC, 1.0f, 1.0f, 0.02f);
+    if (sSubCamId != SUB_CAM_ID_DONE) {
+        Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Math_ApproachF(&sSubCamVelFactor, 1.0f, 1.0f, 0.02f);
 
-        if (sCameraEye.y <= (WATER_SURFACE_Y(globalCtx) + 1.0f)) {
+        if (sSubCamEye.y <= (WATER_SURFACE_Y(globalCtx) + 1.0f)) {
             Environment_EnableUnderwaterLights(globalCtx, 1);
             if (D_80B7E076 != 0) {
                 globalCtx->envCtx.adjFogNear = -0xB2;
@@ -5645,7 +5646,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((u8)D_80B7A650 > 0) {
         s32 pad;
-        Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
         s16 i;
         s32 pad1;
         Vec3f pos;
@@ -5655,7 +5656,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;
-        rot.z = (Camera_GetInputDirYaw(camera) * -(M_PI / 0x8000)) + rot.y;
+        rot.z = (Camera_GetInputDirYaw(mainCam) * -(M_PI / 0x8000)) + rot.y;
 
         for (i = 0; i < (u8)D_80B7A650; i++) {
             pos.x = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.x;

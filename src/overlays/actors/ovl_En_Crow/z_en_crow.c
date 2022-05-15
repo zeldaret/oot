@@ -259,7 +259,7 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
         this->aimRotX = 0x800 + (Rand_ZeroOne() * 0x800);
     }
 
-    if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && (skelanimeUpdated) &&
+    if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && skelanimeUpdated &&
         (Rand_ZeroOne() < 0.1f)) {
         if (this->actor.home.pos.y < this->actor.world.pos.y) {
             this->aimRotX -= (0x400 * Rand_ZeroOne()) + 0x400;

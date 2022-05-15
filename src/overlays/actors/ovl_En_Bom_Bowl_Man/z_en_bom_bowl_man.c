@@ -307,7 +307,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx)
                         this->actor.textId = 0x1B;
                         Message_ContinueTextbox(globalCtx, this->actor.textId);
                         this->dialogState = TEXT_STATE_EVENT;
-                        OnePointCutscene_Init(globalCtx, 8010, -99, NULL, MAIN_CAM);
+                        OnePointCutscene_Init(globalCtx, 8010, -99, NULL, CAM_ID_MAIN);
                         func_8002DF54(globalCtx, NULL, 8);
                         this->actionFunc = EnBomBowMan_SetupChooseShowPrize;
                     }
@@ -343,7 +343,7 @@ void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x1B;
             Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->dialogState = TEXT_STATE_EVENT;
-            OnePointCutscene_Init(globalCtx, 8010, -99, NULL, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 8010, -99, NULL, CAM_ID_MAIN);
             func_8002DF54(globalCtx, NULL, 8);
             this->actionFunc = EnBomBowMan_SetupChooseShowPrize;
         } else {

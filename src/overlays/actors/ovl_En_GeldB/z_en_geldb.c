@@ -1171,7 +1171,7 @@ void EnGeldB_Block(EnGeldB* this, GlobalContext* globalCtx) {
         if (player->meleeWeaponAnimation == PLAYER_MWA_JUMPSLASH_START) {
             EnGeldB_SetupSpinDodge(this, globalCtx);
         } else if (!EnGeldB_DodgeRanged(globalCtx, this)) {
-            if ((globalCtx->gameplayFrames & 1)) {
+            if (globalCtx->gameplayFrames & 1) {
                 if ((this->actor.xzDistToPlayer < 100.0f) && (Rand_ZeroOne() > 0.7f)) {
                     EnGeldB_SetupJump(this);
                 } else {

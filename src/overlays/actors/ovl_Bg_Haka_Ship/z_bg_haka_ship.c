@@ -94,7 +94,7 @@ void BgHakaShip_WaitForSong(BgHakaShip* this, GlobalContext* globalCtx) {
             this->counter = 130;
             this->actionFunc = BgHakaShip_CutsceneStationary;
             osSyncPrintf("シーン 外輪船 ...  アァクション！！\n");
-            OnePointCutscene_Init(globalCtx, 3390, 999, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3390, 999, &this->dyna.actor, CAM_ID_MAIN);
         }
     }
 }

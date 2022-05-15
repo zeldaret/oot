@@ -1140,15 +1140,15 @@ f32 EnGo2_GetTargetXZSpeed(EnGo2* this) {
 }
 
 s32 EnGo2_IsCameraModified(EnGo2* this, GlobalContext* globalCtx) {
-    Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
+    Camera* mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
         if (EnGo2_IsWakingUp(this)) {
-            Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
-            func_8005AD1C(camera, 4);
-        } else if (!EnGo2_IsWakingUp(this) && (camera->setting == CAM_SET_DIRECTED_YAW)) {
-            Camera_ChangeSetting(camera, CAM_SET_DUNGEON1);
-            func_8005ACFC(camera, 4);
+            Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
+            func_8005AD1C(mainCam, 4);
+        } else if (!EnGo2_IsWakingUp(this) && (mainCam->setting == CAM_SET_DIRECTED_YAW)) {
+            Camera_ChangeSetting(mainCam, CAM_SET_DUNGEON1);
+            func_8005ACFC(mainCam, 4);
         }
     }
 
@@ -1304,7 +1304,7 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
         }
     }
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, CAM_ID_MAIN);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_10);
         this->skelAnime.playSpeed = 0.5f;
     } else {
@@ -1460,23 +1460,23 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_GoronFireCamera(EnGo2* this, GlobalContext* globalCtx) {
     s16 yaw;
 
-    this->camId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
-    Path_CopyLastPoint(this->path, &this->at);
-    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->at) + 0xE38;
-    this->eye.x = Math_SinS(yaw) * 100.0f + this->actor.world.pos.x;
-    this->eye.z = Math_CosS(yaw) * 100.0f + this->actor.world.pos.z;
-    this->eye.y = this->actor.world.pos.y + 20.0f;
-    this->at.x = this->actor.world.pos.x;
-    this->at.y = this->actor.world.pos.y + 40.0f;
-    this->at.z = this->actor.world.pos.z;
-    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->at, &this->eye);
+    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    Path_CopyLastPoint(this->path, &this->subCamAt);
+    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->subCamAt) + 0xE38;
+    this->subCamEye.x = Math_SinS(yaw) * 100.0f + this->actor.world.pos.x;
+    this->subCamEye.z = Math_CosS(yaw) * 100.0f + this->actor.world.pos.z;
+    this->subCamEye.y = this->actor.world.pos.y + 20.0f;
+    this->subCamAt.x = this->actor.world.pos.x;
+    this->subCamAt.y = this->actor.world.pos.y + 40.0f;
+    this->subCamAt.z = this->actor.world.pos.z;
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 }
 
 void EnGo2_GoronFireClearCamera(EnGo2* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->camId);
+    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+    Gameplay_ClearCamera(globalCtx, this->subCamId);
 }
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {
@@ -1810,7 +1810,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             this->unk_20C = 0;
             this->goronState++;
             func_800F483C(0x28, 5);
-            OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, CAM_ID_MAIN);
             break;
         case 1:
             if (DECR(this->animTimer)) {

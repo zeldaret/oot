@@ -238,14 +238,13 @@ void BossDodongo_SetupIntroCutscene(BossDodongo* this, GlobalContext* globalCtx)
 
 void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     f32 phi_f0;
-    Camera* camera;
-    Player* player;
-    Vec3f sp60;
-    Vec3f sp54;
-    Vec3f sp48;
+    Camera* mainCam;
+    Player* player = GET_PLAYER(globalCtx);
+    Vec3f subCamEye;
+    Vec3f subCamAt;
+    Vec3f subCamUp;
 
-    player = GET_PLAYER(globalCtx);
-    camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
     if (this->unk_196 != 0) {
         this->unk_196--;
@@ -272,14 +271,14 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             Gameplay_ClearAllSubCameras(globalCtx);
-            this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
+            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->csState = 2;
             this->unk_196 = 0x3C;
             this->unk_198 = 160;
             player->actor.world.pos.y = -1023.76f;
-            this->cameraEye.y = player->actor.world.pos.y - 480.0f + 50.0f;
+            this->subCamEye.y = player->actor.world.pos.y - 480.0f + 50.0f;
         case 2:
             if (this->unk_198 >= 131) {
                 player->actor.world.pos.x = -890.0f;
@@ -288,12 +287,12 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 player->actor.speedXZ = 0.0f;
                 player->actor.shape.rot.y = player->actor.world.rot.y = 0x3FFF;
 
-                this->cameraEye.x = -890.0f;
-                this->cameraEye.z = player->actor.world.pos.z - 100.0f;
+                this->subCamEye.x = -890.0f;
+                this->subCamEye.z = player->actor.world.pos.z - 100.0f;
 
-                this->cameraAt.x = player->actor.world.pos.x;
-                this->cameraAt.y = player->actor.world.pos.y + 20.0f;
-                this->cameraAt.z = player->actor.world.pos.z;
+                this->subCamAt.x = player->actor.world.pos.x;
+                this->subCamAt.y = player->actor.world.pos.y + 20.0f;
+                this->subCamAt.z = player->actor.world.pos.z;
             }
 
             if (this->unk_198 == 110) {
@@ -323,14 +322,14 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_196 == 0) {
-                Math_SmoothStepToF(&this->cameraEye.x, this->vec.x + 30.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
-                Math_SmoothStepToF(&this->cameraEye.y, this->vec.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
-                Math_SmoothStepToF(&this->cameraEye.z, this->vec.z + 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                Math_SmoothStepToF(&this->subCamEye.x, this->vec.x + 30.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                Math_SmoothStepToF(&this->subCamEye.y, this->vec.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                Math_SmoothStepToF(&this->subCamEye.z, this->vec.z + 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
                 Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
             } else {
-                this->cameraAt.x = player->actor.world.pos.x;
-                this->cameraAt.y = player->actor.world.pos.y + 20.0f;
-                this->cameraAt.z = player->actor.world.pos.z;
+                this->subCamAt.x = player->actor.world.pos.x;
+                this->subCamAt.y = player->actor.world.pos.y + 20.0f;
+                this->subCamAt.z = player->actor.world.pos.z;
             }
 
             if (GET_EVENTCHKINF(EVENTCHKINF_71)) {
@@ -357,10 +356,10 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
         case 3:
             BossDodongo_Walk(this, globalCtx);
             Math_SmoothStepToF(&this->unk_20C, sinf(this->unk_19E * 0.05f) * 0.1f, 1.0f, 0.01f, 0.0f);
-            Math_SmoothStepToF(&this->cameraEye.x, this->vec.x + 90.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraEye.y, this->vec.y + 50.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraEye.z, this->vec.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.y, this->vec.y - 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamEye.x, this->vec.x + 90.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamEye.y, this->vec.y + 50.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamEye.z, this->vec.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.y, this->vec.y - 10.0f, 0.2f, this->unk_204 * 20.0f, 0.0f);
             Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
             if (fabsf(player->actor.world.pos.x - this->actor.world.pos.x) < 200.0f) {
                 this->csState = 4;
@@ -380,16 +379,16 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 phi_f0 = 0.0f;
             }
 
-            Math_SmoothStepToF(&this->cameraEye.x, player->actor.world.pos.x + phi_f0 + 70.0f, 0.2f,
+            Math_SmoothStepToF(&this->subCamEye.x, player->actor.world.pos.x + phi_f0 + 70.0f, 0.2f,
                                this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraEye.y, player->actor.world.pos.y + 10.0f, 0.2f, this->unk_204 * 20.0f,
+            Math_SmoothStepToF(&this->subCamEye.y, player->actor.world.pos.y + 10.0f, 0.2f, this->unk_204 * 20.0f,
                                0.0f);
-            Math_SmoothStepToF(&this->cameraEye.z, player->actor.world.pos.z - 60.0f, 0.2f, this->unk_204 * 20.0f,
+            Math_SmoothStepToF(&this->subCamEye.z, player->actor.world.pos.z - 60.0f, 0.2f, this->unk_204 * 20.0f,
                                0.0f);
 
-            Math_SmoothStepToF(&this->cameraAt.x, this->vec.x, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.y, this->vec.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.z, this->vec.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.x, this->vec.x, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.y, this->vec.y, 0.2f, this->unk_204 * 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.z, this->vec.z, 0.2f, this->unk_204 * 20.0f, 0.0f);
             Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
 
             if (this->unk_196 == 0) {
@@ -411,11 +410,11 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_198 == 0) {
-                camera->eye = this->cameraEye;
-                camera->eyeNext = this->cameraEye;
-                camera->at = this->cameraAt;
-                func_800C08AC(globalCtx, this->cutsceneCamera, 0);
-                this->cutsceneCamera = 0;
+                mainCam->eye = this->subCamEye;
+                mainCam->eyeNext = this->subCamEye;
+                mainCam->at = this->subCamAt;
+                func_800C08AC(globalCtx, this->subCamId, 0);
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 BossDodongo_SetupWalk(this);
@@ -427,26 +426,26 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (this->cutsceneCamera != 0) {
+    if (this->subCamId != SUB_CAM_ID_DONE) {
         if (this->unk_1B6 != 0) {
             this->unk_1B6--;
         }
 
-        sp60.x = this->cameraEye.x;
+        subCamEye.x = this->subCamEye.x;
         phi_f0 = sinf((this->unk_1B6 * 3.1415f * 90.0f) / 180.0f);
-        sp60.y = (this->unk_1B6 * phi_f0 * 0.7f) + this->cameraEye.y;
-        sp60.z = this->cameraEye.z;
+        subCamEye.y = (this->unk_1B6 * phi_f0 * 0.7f) + this->subCamEye.y;
+        subCamEye.z = this->subCamEye.z;
 
-        sp54.x = this->cameraAt.x;
+        subCamAt.x = this->subCamAt.x;
         phi_f0 = sinf((this->unk_1B6 * 3.1415f * 90.0f) / 180.0f);
-        sp54.y = (this->unk_1B6 * phi_f0 * 0.7f) + this->cameraAt.y;
-        sp54.z = this->cameraAt.z;
+        subCamAt.y = (this->unk_1B6 * phi_f0 * 0.7f) + this->subCamAt.y;
+        subCamAt.z = this->subCamAt.z;
 
-        sp48.x = this->unk_20C;
-        sp48.y = 1.0f;
-        sp48.z = this->unk_20C;
+        subCamUp.x = this->unk_20C;
+        subCamUp.y = 1.0f;
+        subCamUp.z = this->unk_20C;
 
-        Gameplay_CameraSetAtEyeUp(globalCtx, this->cutsceneCamera, &sp54, &sp60, &sp48);
+        Gameplay_CameraSetAtEyeUp(globalCtx, this->subCamId, &subCamAt, &subCamEye, &subCamUp);
     }
 }
 
@@ -676,7 +675,7 @@ void BossDodongo_Walk(BossDodongo* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_WALK);
             }
 
-            if (this->cutsceneCamera == 0) {
+            if (this->subCamId == SUB_CAM_ID_DONE) {
                 func_80033E88(&this->actor, globalCtx, 4, 10);
             } else {
                 this->unk_1B6 = 10;
@@ -1295,7 +1294,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
     f32 sp178;
     s16 i;
     Vec3f effectPos;
-    Camera* camera;
+    Camera* mainCam;
     Player* player = GET_PLAYER(globalCtx);
 
     SkelAnime_Update(&this->skelAnime);
@@ -1305,16 +1304,16 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             this->csState = 5;
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
-            this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_UNK3);
-            Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, CAM_STAT_ACTIVE);
-            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-            this->cameraEye.x = camera->eye.x;
-            this->cameraEye.y = camera->eye.y;
-            this->cameraEye.z = camera->eye.z;
-            this->cameraAt.x = camera->at.x;
-            this->cameraAt.y = camera->at.y;
-            this->cameraAt.z = camera->at.z;
+            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
+            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            this->subCamEye.x = mainCam->eye.x;
+            this->subCamEye.y = mainCam->eye.y;
+            this->subCamEye.z = mainCam->eye.z;
+            this->subCamAt.x = mainCam->at.x;
+            this->subCamAt.y = mainCam->at.y;
+            this->subCamAt.z = mainCam->at.z;
             break;
         case 5:
             tempSin = Math_SinS(this->actor.shape.rot.y - 0x1388) * 150.0f;
@@ -1324,12 +1323,12 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&this->unk_208, 0.07f, 1.0f, 0.005f, 0.0f);
             tempSin = Math_SinS(this->actor.world.rot.y) * 230.0f;
             tempCos = Math_CosS(this->actor.world.rot.y) * 230.0f;
-            Math_SmoothStepToF(&this->cameraEye.x, this->actor.world.pos.x + tempSin, 0.2f, 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraEye.y, this->actor.world.pos.y + 20.0f, 0.2f, 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraEye.z, this->actor.world.pos.z + tempCos, 0.2f, 50.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraAt.y, this->actor.focus.pos.y - 70.0f, 0.2f, 30.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamEye.x, this->actor.world.pos.x + tempSin, 0.2f, 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamEye.y, this->actor.world.pos.y + 20.0f, 0.2f, 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamEye.z, this->actor.world.pos.z + tempCos, 0.2f, 50.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.y, this->actor.focus.pos.y - 70.0f, 0.2f, 30.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.1f);
             if (Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&object_kingdodongo_Anim_002D0C))) {
                 Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_003CF8, 1.0f, 0.0f,
                                  Animation_GetLastFrame(&object_kingdodongo_Anim_003CF8), ANIMMODE_ONCE, -1.0f);
@@ -1339,9 +1338,9 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
             break;
         case 6:
-            Math_SmoothStepToF(&this->cameraAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraAt.y, (this->actor.world.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.y, (this->actor.world.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.1f);
 
             if (Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&object_kingdodongo_Anim_003CF8))) {
                 Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_00DF38, 1.0f, 30.0f, 59.0f, ANIMMODE_ONCE,
@@ -1356,11 +1355,11 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             break;
         case 7:
             this->unk_1C4 += 0x7D0;
-            Math_SmoothStepToF(&this->cameraAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.y, (this->actor.world.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraEye.x, -890.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
-            Math_SmoothStepToF(&this->cameraEye.z, -3304.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.y, (this->actor.world.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamEye.x, -890.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
+            Math_SmoothStepToF(&this->subCamEye.z, -3304.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
             Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.1f, 0.0f);
             if (this->unk_1DA == 1) {
                 this->csState = 8;
@@ -1436,8 +1435,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             if (this->unk_1DA == 884) {
                 Animation_Change(&this->skelAnime, &object_kingdodongo_Anim_0042A8, 1.0f, 0.0f,
                                  (f32)Animation_GetLastFrame(&object_kingdodongo_Anim_0042A8), ANIMMODE_LOOP, -20.0f);
-                tempSin = this->cameraEye.x - this->actor.world.pos.x;
-                tempCos = this->cameraEye.z - this->actor.world.pos.z;
+                tempSin = this->subCamEye.x - this->actor.world.pos.x;
+                tempCos = this->subCamEye.z - this->actor.world.pos.z;
                 this->unk_22C = sqrtf(SQ(tempSin) + SQ(tempCos));
                 this->unk_230 = Math_FAtan2F(tempSin, tempCos);
                 this->unk_1DC = 350;
@@ -1542,9 +1541,9 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 Math_SmoothStepToF(&this->unk_238, 0.0f, 0.05f, 40.0f, 0.0f);
             }
             Math_SmoothStepToF(&this->unk_234, 0.0f, 0.2f, 17.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.y, (this->actor.world.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.0f);
-            Math_SmoothStepToF(&this->cameraAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.x, this->actor.world.pos.x, 0.2f, 30.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.y, (this->actor.world.pos.y - 70.0f) + 130.0f, 0.2f, 20.0f, 0.0f);
+            Math_SmoothStepToF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.0f);
             if (this->csState == 9) {
                 if (this->unk_1DA < 0x2C6) {
                     Vec3f spAC[] = { { -390.0f, 0.0f, -3304.0f },
@@ -1565,10 +1564,10 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                         sp78 = &sp7C[this->unk_1A0];
                     }
 
-                    Math_SmoothStepToF(&this->cameraEye.x, sp78->x, 0.2f, this->unk_204 * 20.0f, 0.0f);
-                    Math_SmoothStepToF(&this->cameraEye.y, player->actor.world.pos.y + 30.0f, 0.1f,
+                    Math_SmoothStepToF(&this->subCamEye.x, sp78->x, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                    Math_SmoothStepToF(&this->subCamEye.y, player->actor.world.pos.y + 30.0f, 0.1f,
                                        this->unk_204 * 20.0f, 0.0f);
-                    Math_SmoothStepToF(&this->cameraEye.z, sp78->z, 0.1f, this->unk_204 * 20.0f, 0.0f);
+                    Math_SmoothStepToF(&this->subCamEye.z, sp78->z, 0.1f, this->unk_204 * 20.0f, 0.0f);
                     Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
                 } else {
                     if (this->unk_1A2 == 0) {
@@ -1579,9 +1578,9 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                     Math_SmoothStepToF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
                     tempSin = sinf(this->unk_230) * (*this).unk_22C;
                     tempCos = cosf(this->unk_230) * (*this).unk_22C;
-                    Math_SmoothStepToF(&this->cameraEye.x, this->actor.world.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
-                    Math_SmoothStepToF(&this->cameraEye.y, this->actor.world.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
-                    Math_SmoothStepToF(&this->cameraEye.z, this->actor.world.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
+                    Math_SmoothStepToF(&this->subCamEye.x, this->actor.world.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
+                    Math_SmoothStepToF(&this->subCamEye.y, this->actor.world.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
+                    Math_SmoothStepToF(&this->subCamEye.z, this->actor.world.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
                     Math_SmoothStepToF(&this->unk_23C, 0.0f, 0.2f, 0.01f, 0.0f);
                 }
             } else {
@@ -1592,8 +1591,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                     Math_SmoothStepToF(&this->unk_23C, 0.5f, 0.2f, 0.05f, 0.0f);
                 }
 
-                Math_SmoothStepToF(&this->cameraEye.x, -890.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
-                Math_SmoothStepToF(&this->cameraEye.z, -3304.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
+                Math_SmoothStepToF(&this->subCamEye.x, -890.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
+                Math_SmoothStepToF(&this->subCamEye.z, -3304.0f, 0.1f, this->unk_204 * 5.0f, 0.1f);
                 Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.05f, 0.0f);
             }
 
@@ -1605,15 +1604,15 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                             Math_CosS(this->actor.shape.rot.y) * -50.0f + this->actor.world.pos.z, 0, 0, 0, 0);
             }
             if (this->unk_1DA == 600) {
-                camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-                camera->eye = this->cameraEye;
-                camera->eyeNext = this->cameraEye;
-                camera->at = this->cameraAt;
-                func_800C08AC(globalCtx, this->cutsceneCamera, 0);
+                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam->eye = this->subCamEye;
+                mainCam->eyeNext = this->subCamEye;
+                mainCam->at = this->subCamAt;
+                func_800C08AC(globalCtx, this->subCamId, 0);
                 this->unk_1BC = 0;
-                this->cutsceneCamera = MAIN_CAM;
+                this->subCamId = SUB_CAM_ID_DONE;
                 this->csState = 100;
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, -890.0f, -1523.76f,
@@ -1635,8 +1634,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
             break;
     }
-    if (this->cutsceneCamera != MAIN_CAM) {
-        Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
+    if (this->subCamId != SUB_CAM_ID_DONE) {
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 

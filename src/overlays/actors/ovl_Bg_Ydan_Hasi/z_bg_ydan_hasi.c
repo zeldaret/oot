@@ -139,7 +139,7 @@ void BgYdanHasi_SetupThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
         this->timer = 260;
         this->dyna.actor.draw = BgYdanHasi_Draw;
         this->actionFunc = BgYdanHasi_UpdateThreeBlocks;
-        OnePointCutscene_Init(globalCtx, 3040, 30, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3040, 30, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 

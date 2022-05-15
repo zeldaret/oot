@@ -1406,13 +1406,10 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->actionFunc(this, globalCtx);
         thisx->shape.rot.y = this->unk_2BC;
-        nREG(80) = gSaveContext.sceneFlags[127].chest;
+        nREG(80) = HIGH_SCORE(HS_HBA);
 
-        if (nREG(81) != 0) {
-            if (gSaveContext.sceneFlags[127].chest) {
-                LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.sceneFlags[127].chest,
-                        "../z_en_elf.c", 2595);
-            }
+        if ((nREG(81) != 0) && (HIGH_SCORE(HS_HBA) != 0)) {
+            LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_elf.c", 2595);
         }
 
         if (!Gameplay_InCsMode(globalCtx)) {
