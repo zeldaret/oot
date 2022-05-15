@@ -795,13 +795,10 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8    type;
-    /* 0x01 */ u8    num; // number of dlist entries
-    /* 0x04 */ void* start;
-    /* 0x08 */ void* end;
-} Polygon; // size = 0xC
+} PolygonBase;
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    num; // number of dlist entries
     /* 0x04 */ void* start;
     /* 0x08 */ void* end;
@@ -822,7 +819,7 @@ typedef struct {
 } BgImage; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
     /* 0x04 */ Gfx*  dlist;
     union {
@@ -852,14 +849,14 @@ typedef struct {
 } PolygonDlist2; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    num; // number of dlist entries
     /* 0x04 */ void* start;
     /* 0x08 */ void* end;
 } PolygonType2; // size = 0xC
 
 typedef union {
-    Polygon      polygon;
+    PolygonBase  base;
     PolygonType0 polygon0;
     PolygonType1 polygon1;
     PolygonType2 polygon2;

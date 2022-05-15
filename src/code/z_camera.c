@@ -6929,7 +6929,7 @@ void func_80057FC4(Camera* camera) {
     if (camera != &camera->globalCtx->mainCamera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
-    } else if (camera->globalCtx->roomCtx.curRoom.meshHeader->polygon.type != 1) {
+    } else if (camera->globalCtx->roomCtx.curRoom.meshHeader->base.type != 1) {
         switch (camera->globalCtx->roomCtx.curRoom.behaviorType1) {
             case ROOM_BEHAVIOR_TYPE1_1:
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
