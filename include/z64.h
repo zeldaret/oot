@@ -863,7 +863,7 @@ typedef union {
     PolygonType0 polygon0;
     PolygonType1 polygon1;
     PolygonType2 polygon2;
-} Mesh; // "Ground Shape"
+} MeshHeader; // "Ground Shape"
 
 typedef enum {
     /* 0 */ LENS_ACTORS_MODE_SEETHROUGH, // lens actors are visible by default and hidden by using lens (for example, fake walls)
@@ -896,7 +896,7 @@ typedef struct {
     /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
     /* 0x05 */ u8   lensActorsMode;
-    /* 0x08 */ Mesh* mesh; // original name: "ground_shape"
+    /* 0x08 */ MeshHeader* meshHeader; // original name: "ground_shape"
     /* 0x0C */ void* segment;
     /* 0x10 */ char unk_10[0x4];
 } Room; // size = 0x14

@@ -244,7 +244,7 @@ void Scene_CommandRoomBehavior(GlobalContext* globalCtx, SceneCmd* cmd) {
 }
 
 void Scene_CommandMeshHeader(GlobalContext* globalCtx, SceneCmd* cmd) {
-    globalCtx->roomCtx.curRoom.mesh = SEGMENTED_TO_VIRTUAL(cmd->mesh.segment);
+    globalCtx->roomCtx.curRoom.meshHeader = SEGMENTED_TO_VIRTUAL(cmd->mesh.segment);
 }
 
 void Scene_CommandObjectList(GlobalContext* globalCtx, SceneCmd* cmd) {
