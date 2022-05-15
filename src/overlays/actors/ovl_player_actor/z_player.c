@@ -4162,7 +4162,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
                 globalCtx->nextEntranceIndex = globalCtx->setupExitList[exitIndex - 1];
-                
+
                 if (globalCtx->nextEntranceIndex == ENTR_RETURN_GROTTO) {
                     gSaveContext.respawnFlag = 2;
                     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
