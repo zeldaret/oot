@@ -15,15 +15,17 @@
 #define CAM_STAT_UNK100     0x100
 
 #define NUM_CAMS 4
-#define MAIN_CAM 0
-#define SUBCAM_FIRST 1
-#define SUBCAM_FREE 0
-#define SUBCAM_NONE -1
-#define SUBCAM_ACTIVE -1
+
+// Camera IDs are indices into `GlobalContext.cameraPtrs`
+#define CAM_ID_MAIN 0 // The index of the main camera
+#define CAM_ID_SUB_FIRST 1 // The index sub cameras start at
+#define CAM_ID_NONE -1 // Used to indicate no camera. Can be used to default to the active camera in some scenarios
+
+#define SUB_CAM_ID_DONE 0 // Used in some actors for variables holding sub camera IDs to indicate "subcam is finished"
 
 #define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)
-#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
-#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
+#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
+#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
@@ -1379,7 +1381,7 @@ typedef struct {
     /* 0x148 */ s16 camDataIdx;
     /* 0x14A */ s16 unk_14A;
     /* 0x14C */ s16 unk_14C;
-    /* 0x14E */ s16 childCamIdx;
+    /* 0x14E */ s16 childCamId;
     /* 0x150 */ s16 waterDistortionTimer;
     /* 0x152 */ s16 distortionFlags;
     /* 0x154 */ s16 prevSetting;
@@ -1389,8 +1391,8 @@ typedef struct {
     /* 0x15C */ s16 paramFlags;
     /* 0x15E */ s16 animState;
     /* 0x160 */ s16 timer;
-    /* 0x162 */ s16 parentCamIdx;
-    /* 0x164 */ s16 thisIdx;
+    /* 0x162 */ s16 parentCamId;
+    /* 0x164 */ s16 camId;
     /* 0x166 */ s16 prevCamDataIdx;
     /* 0x168 */ s16 csId;
     /* 0x16A */ s16 unk_16A;

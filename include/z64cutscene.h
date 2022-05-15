@@ -23,7 +23,7 @@ typedef struct {
     /* 0x0C */ Vec3f eye;
     /* 0x18 */ s16 roll;
     /* 0x1A */ s16 fov;
-} CutsceneCameraAngle; // size = 0x1C
+} CutsceneCameraDirection; // size = 0x1C
 
 typedef struct {
     /* 0x0 */ CutsceneCameraPoint* atPoints;
