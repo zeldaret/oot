@@ -1207,7 +1207,7 @@ typedef struct GlobalContext {
     /* 0x11DF0 */ RomFile* roomList;
     /* 0x11DF4 */ ActorEntry* linkActorEntry;
     /* 0x11DF8 */ ActorEntry* setupActorList;
-    /* 0x11DFC */ UNK_PTR unk_11DFC;
+    /* 0x11DFC */ void* unk_11DFC;
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
