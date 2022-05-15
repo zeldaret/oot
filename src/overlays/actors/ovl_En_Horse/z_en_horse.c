@@ -870,9 +870,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->rider =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_IN, this->actor.world.pos.x, this->actor.world.pos.y,
                         this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, 1, 1);
-        if (this->rider == NULL) {
-            __assert("this->race.rider != NULL", "../z_en_horse.c", 3077);
-        }
+        ASSERT(this->rider != NULL, "this->race.rider != NULL", "../z_en_horse.c", 3077);
         if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
             this->ingoHorseMaxSpeed = 12.07f;
         } else {
@@ -1753,9 +1751,9 @@ void EnHorse_Inactive(EnHorse* this, GlobalContext* globalCtx2) {
             gSaveContext.horseData.scene = globalCtx->sceneNum;
 
             // Focus the camera on Epona
-            Camera_SetParam(globalCtx->cameraPtrs[0], 8, this);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x38);
-            Camera_SetCameraData(globalCtx->cameraPtrs[0], 4, NULL, NULL, 0x51, 0, 0);
+            Camera_SetParam(globalCtx->cameraPtrs[CAM_ID_MAIN], 8, this);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
+            Camera_SetCameraData(globalCtx->cameraPtrs[CAM_ID_MAIN], 4, NULL, NULL, 0x51, 0, 0);
         }
     }
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
@@ -1827,9 +1825,9 @@ void EnHorse_Idle(EnHorse* this, GlobalContext* globalCtx) {
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->followTimer = 0;
                 EnHorse_SetFollowAnimation(this, globalCtx);
-                Camera_SetParam(globalCtx->cameraPtrs[0], 8, this);
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x38);
-                Camera_SetCameraData(globalCtx->cameraPtrs[0], 4, NULL, NULL, 0x51, 0, 0);
+                Camera_SetParam(globalCtx->cameraPtrs[CAM_ID_MAIN], 8, this);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_TURN_AROUND);
+                Camera_SetCameraData(globalCtx->cameraPtrs[CAM_ID_MAIN], 4, NULL, NULL, 0x51, 0, 0);
             }
         } else {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -2987,7 +2985,7 @@ void EnHorse_CheckFloors(EnHorse* this, GlobalContext* globalCtx) {
         if (ny < 0.81915206f || // cos(35 degrees)
             SurfaceType_IsHorseBlocked(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId) ||
             func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId) == 7) {
-            if ((this->actor.speedXZ >= 0.0f)) {
+            if (this->actor.speedXZ >= 0.0f) {
                 EnHorse_ObstructMovement(this, globalCtx, 4, galloping);
             } else {
                 EnHorse_ObstructMovement(this, globalCtx, 5, galloping);

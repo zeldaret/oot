@@ -307,7 +307,7 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
 
 // Room Draw Polygon Type 1 - Single Format
 void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
-    Camera* camera;
+    Camera* activeCam;
     Gfx* spA8;
     PolygonType1* polygon1;
     PolygonDlist* polygonDlist;
@@ -318,8 +318,8 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    isFixedCamera = camera->setting == CAM_SET_PREREND_FIXED;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
+    isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     drawBg = (flags & 1) && isFixedCamera && polygon1->single.source && !(SREG(25) & 1);
@@ -341,7 +341,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
             {
                 Vec3f sp60;
                 spA8 = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&sp60, camera);
+                Camera_GetSkyboxOffset(&sp60, activeCam);
                 func_8009638C(&spA8, polygon1->single.source, polygon1->single.tlut, polygon1->single.width,
                               polygon1->single.height, polygon1->single.fmt, polygon1->single.siz,
                               polygon1->single.mode0, polygon1->single.tlutCount,
@@ -364,34 +364,33 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 }
 
 BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
-    Camera* camera;
-    s32 camId;
-    s16 camId2;
+    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
+    s32 camDataIdx;
+    s16 camDataIdx2;
     Player* player;
     BgImage* bgImage;
     s32 i;
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    camId = camera->camDataIdx;
+    camDataIdx = activeCam->camDataIdx;
     // jfifid
-    camId2 = func_80041C10(&globalCtx->colCtx, camId, BGCHECK_SCENE)[2].y;
-    if (camId2 >= 0) {
-        camId = camId2;
+    camDataIdx2 = func_80041C10(&globalCtx->colCtx, camDataIdx, BGCHECK_SCENE)[2].y;
+    if (camDataIdx2 >= 0) {
+        camDataIdx = camDataIdx2;
     }
 
     player = GET_PLAYER(globalCtx);
-    player->actor.params = (player->actor.params & 0xFF00) | camId;
+    player->actor.params = (player->actor.params & 0xFF00) | camDataIdx;
 
     bgImage = SEGMENTED_TO_VIRTUAL(polygon1->multi.list);
     for (i = 0; i < polygon1->multi.count; i++) {
-        if (bgImage->id == camId) {
+        if (bgImage->id == camDataIdx) {
             return bgImage;
         }
         bgImage++;
     }
 
     // "z_room.c: Data consistent with camera id does not exist camid=%d"
-    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, camId);
+    osSyncPrintf(VT_COL(RED, WHITE) "z_room.c:カメラＩＤに一致するデータが存在しません camid=%d\n" VT_RST, camDataIdx);
     LogUtils_HungupThread("../z_room.c", 726);
 
     return NULL;
@@ -399,7 +398,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
 
 // Room Draw Polygon Type 1 - Multi Format
 void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
-    Camera* camera;
+    Camera* activeCam;
     Gfx* gfx;
     PolygonType1* polygon1;
     BgImage* bgImage;
@@ -411,8 +410,8 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    isFixedCamera = camera->setting == CAM_SET_PREREND_FIXED;
+    activeCam = GET_ACTIVE_CAM(globalCtx);
+    isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
@@ -436,7 +435,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
                 Vec3f skyboxOffset;
 
                 gfx = POLY_OPA_DISP;
-                Camera_GetSkyboxOffset(&skyboxOffset, camera);
+                Camera_GetSkyboxOffset(&skyboxOffset, activeCam);
                 func_8009638C(&gfx, bgImage->source, bgImage->tlut, bgImage->width, bgImage->height, bgImage->fmt,
                               bgImage->siz, bgImage->mode0, bgImage->tlutCount,
                               (skyboxOffset.x + skyboxOffset.z) * 1.2f + skyboxOffset.y * 0.6f,

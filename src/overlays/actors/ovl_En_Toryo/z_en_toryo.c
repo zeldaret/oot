@@ -258,7 +258,7 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
     s32 ret = textId;
 
     if (textId == 0) {
-        if ((this->stateFlags & 1)) {
+        if (this->stateFlags & 1) {
             if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
                 ret = 0x606C;
             } else if (GET_INFTABLE(INFTABLE_170)) {
@@ -266,7 +266,7 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
             } else {
                 ret = 0x606A;
             }
-        } else if ((this->stateFlags & 2)) {
+        } else if (this->stateFlags & 2) {
             if (GET_INFTABLE(INFTABLE_172)) {
                 ret = 0x5029;
             } else {
@@ -274,7 +274,7 @@ s32 func_80B206A0(EnToryo* this, GlobalContext* globalCtx) {
             }
         } else {
             ret = textId;
-            if ((this->stateFlags & 4)) {
+            if (this->stateFlags & 4) {
                 ret = 0x506C;
             }
         }
@@ -357,12 +357,12 @@ void EnToryo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    if ((this->stateFlags & 8)) {
+    if (this->stateFlags & 8) {
         this->unk_1EC.unk_18.x = player->actor.focus.pos.x;
         this->unk_1EC.unk_18.y = player->actor.focus.pos.y;
         this->unk_1EC.unk_18.z = player->actor.focus.pos.z;
 
-        if ((this->stateFlags & 0x10)) {
+        if (this->stateFlags & 0x10) {
             func_80034A14(thisx, &this->unk_1EC, 0, 4);
             return;
         }
@@ -388,7 +388,7 @@ s32 EnToryo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
                              void* thisx) {
     EnToryo* this = (EnToryo*)thisx;
 
-    if ((this->stateFlags & 8)) {
+    if (this->stateFlags & 8) {
         switch (limbIndex) {
             case 8:
                 rot->x += this->unk_1EC.unk_0E.y;

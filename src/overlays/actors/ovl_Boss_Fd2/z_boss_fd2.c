@@ -616,23 +616,23 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
-    if (this->deathCamera != SUBCAM_FREE) {
-        Math_ApproachF(&this->camData.eye.x, this->camData.nextEye.x, this->camData.eyeMaxVel.x,
-                       this->camData.eyeVel.x * this->camData.speedMod);
-        Math_ApproachF(&this->camData.eye.y, this->camData.nextEye.y, this->camData.eyeMaxVel.y,
-                       this->camData.eyeVel.y * this->camData.speedMod);
-        Math_ApproachF(&this->camData.eye.z, this->camData.nextEye.z, this->camData.eyeMaxVel.z,
-                       this->camData.eyeVel.z * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.x, this->camData.nextAt.x, this->camData.atMaxVel.x,
-                       this->camData.atVel.x * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.y, this->camData.nextAt.y, this->camData.atMaxVel.y,
-                       this->camData.atVel.y * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.z, this->camData.nextAt.z, this->camData.atMaxVel.z,
-                       this->camData.atVel.z * this->camData.speedMod);
-        Math_ApproachF(&this->camData.speedMod, 1.0f, 1.0f, this->camData.accel);
-        this->camData.at.y += this->camData.yMod;
-        Gameplay_CameraSetAtEye(globalCtx, this->deathCamera, &this->camData.at, &this->camData.eye);
-        Math_ApproachF(&this->camData.yMod, 0.0f, 1.0f, 0.1f);
+    if (this->subCamId != SUB_CAM_ID_DONE) {
+        Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x,
+                       this->subCamEyeVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.y, this->subCamEyeNext.y, this->subCamEyeMaxVelFrac.y,
+                       this->subCamEyeVel.y * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z,
+                       this->subCamEyeVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x,
+                       this->subCamAtVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y,
+                       this->subCamAtVel.y * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamAtMaxVelFrac.z,
+                       this->subCamAtVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
+        this->subCamAt.y += this->subCamAtYOffset;
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Math_ApproachF(&this->subCamAtYOffset, 0.0f, 1.0f, 0.1f);
     }
 }
 
@@ -641,7 +641,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
     Vec3f sp70;
     Vec3f sp64;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     f32 pad3;
     f32 pad2;
     f32 pad1;
@@ -654,26 +654,26 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             this->deathState = DEATH_RETREAT;
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
-            this->deathCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->deathCamera, CAM_STAT_ACTIVE);
-            this->camData.eye = mainCam->eye;
-            this->camData.at = mainCam->at;
-            this->camData.eyeVel.x = 100.0f;
-            this->camData.eyeVel.y = 100.0f;
-            this->camData.eyeVel.z = 100.0f;
-            this->camData.atVel.x = 100.0f;
-            this->camData.atVel.y = 100.0f;
-            this->camData.atVel.z = 100.0f;
-            this->camData.accel = 0.02f;
+            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            this->subCamEye = mainCam->eye;
+            this->subCamAt = mainCam->at;
+            this->subCamEyeVel.x = 100.0f;
+            this->subCamEyeVel.y = 100.0f;
+            this->subCamEyeVel.z = 100.0f;
+            this->subCamAtVel.x = 100.0f;
+            this->subCamAtVel.y = 100.0f;
+            this->subCamAtVel.z = 100.0f;
+            this->subCamAccel = 0.02f;
             this->timers[0] = 0;
             this->work[FD2_HOLE_COUNTER] = 0;
-            this->camData.eyeMaxVel.x = 0.1f;
-            this->camData.eyeMaxVel.y = 0.1f;
-            this->camData.eyeMaxVel.z = 0.1f;
-            this->camData.atMaxVel.x = 0.1f;
-            this->camData.atMaxVel.y = 0.1f;
-            this->camData.atMaxVel.z = 0.1f;
+            this->subCamEyeMaxVelFrac.x = 0.1f;
+            this->subCamEyeMaxVelFrac.y = 0.1f;
+            this->subCamEyeMaxVelFrac.z = 0.1f;
+            this->subCamAtMaxVelFrac.x = 0.1f;
+            this->subCamAtMaxVelFrac.y = 0.1f;
+            this->subCamAtMaxVelFrac.z = 0.1f;
         case DEATH_RETREAT:
             this->work[FD2_HOLE_COUNTER]++;
             if (this->work[FD2_HOLE_COUNTER] < 15) {
@@ -697,13 +697,13 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             sp70.y = 0.0f;
             sp70.z = 250.0f;
             Matrix_MultVec3f(&sp70, &sp64);
-            this->camData.nextEye.x = this->actor.world.pos.x + sp64.x;
-            this->camData.nextEye.y = 140.0f;
-            this->camData.nextEye.z = this->actor.world.pos.z + sp64.z;
+            this->subCamEyeNext.x = this->actor.world.pos.x + sp64.x;
+            this->subCamEyeNext.y = 140.0f;
+            this->subCamEyeNext.z = this->actor.world.pos.z + sp64.z;
             if (this->actor.focus.pos.y >= 90.0f) {
-                this->camData.nextAt.y = this->actor.focus.pos.y;
-                this->camData.nextAt.x = this->actor.focus.pos.x;
-                this->camData.nextAt.z = this->actor.focus.pos.z;
+                this->subCamAtNext.y = this->actor.focus.pos.y;
+                this->subCamAtNext.x = this->actor.focus.pos.x;
+                this->subCamAtNext.z = this->actor.focus.pos.z;
             }
             if (this->timers[0] == 0) {
                 if (Animation_OnFrame(skelAnime, 20.0f)) {
@@ -723,7 +723,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 this->deathState = DEATH_FD_BODY;
                 bossFd->handoffSignal = FD2_SIGNAL_DEATH;
                 this->work[FD2_ACTION_STATE] = 0;
-                this->camData.speedMod = 0.0f;
+                this->subCamVelFactor = 0.0f;
             } else {
                 Math_ApproachF(&this->actor.world.pos.y, -100.0f, 1.0f, 5.0f);
             }
@@ -731,54 +731,54 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
         case DEATH_FD_BODY:
             if (bossFd->actor.world.pos.y < 80.0f) {
                 if (bossFd->actor.world.rot.x > 0x3000) {
-                    this->camData.nextAt = bossFd->actor.world.pos;
-                    this->camData.nextAt.y = 80.0f;
-                    this->camData.nextEye.x = bossFd->actor.world.pos.x;
-                    this->camData.nextEye.y = 150.0f;
-                    this->camData.nextEye.z = bossFd->actor.world.pos.z + 300.0f;
+                    this->subCamAtNext = bossFd->actor.world.pos;
+                    this->subCamAtNext.y = 80.0f;
+                    this->subCamEyeNext.x = bossFd->actor.world.pos.x;
+                    this->subCamEyeNext.y = 150.0f;
+                    this->subCamEyeNext.z = bossFd->actor.world.pos.z + 300.0f;
                 }
             } else {
-                this->camData.nextAt = bossFd->actor.world.pos;
-                this->camData.nextEye.x = this->actor.world.pos.x;
-                Math_ApproachF(&this->camData.nextEye.y, 200.0f, 1.0f, 2.0f);
-                Math_ApproachF(&this->camData.nextEye.z, bossFd->actor.world.pos.z + 200.0f, 1.0f, 3.0f);
+                this->subCamAtNext = bossFd->actor.world.pos;
+                this->subCamEyeNext.x = this->actor.world.pos.x;
+                Math_ApproachF(&this->subCamEyeNext.y, 200.0f, 1.0f, 2.0f);
+                Math_ApproachF(&this->subCamEyeNext.z, bossFd->actor.world.pos.z + 200.0f, 1.0f, 3.0f);
                 if (this->work[FD2_ACTION_STATE] == 0) {
                     this->work[FD2_ACTION_STATE]++;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.accel = 0.02f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamAccel = 0.02f;
                     func_8002DF54(globalCtx, &bossFd->actor, 1);
                 }
             }
             if ((bossFd->work[BFD_ACTION_STATE] == BOSSFD_BONES_FALL) && (bossFd->timers[0] == 5)) {
                 this->deathState = DEATH_FD_SKULL;
-                this->camData.speedMod = 0.0f;
-                this->camData.accel = 0.02f;
-                this->camData.nextEye.y = 150.0f;
-                this->camData.nextEye.z = bossFd->actor.world.pos.z + 300.0f;
+                this->subCamVelFactor = 0.0f;
+                this->subCamAccel = 0.02f;
+                this->subCamEyeNext.y = 150.0f;
+                this->subCamEyeNext.z = bossFd->actor.world.pos.z + 300.0f;
             }
             break;
         case DEATH_FD_SKULL:
-            Math_ApproachF(&this->camData.nextAt.y, 100.0, 1.0f, 100.0f);
-            this->camData.nextAt.x = 0.0f;
-            this->camData.nextAt.z = 0.0f;
-            this->camData.nextEye.x = 0.0f;
-            this->camData.nextEye.y = 140.0f;
-            Math_ApproachF(&this->camData.nextEye.z, 220.0f, 0.5f, 1.15f);
+            Math_ApproachF(&this->subCamAtNext.y, 100.0, 1.0f, 100.0f);
+            this->subCamAtNext.x = 0.0f;
+            this->subCamAtNext.z = 0.0f;
+            this->subCamEyeNext.x = 0.0f;
+            this->subCamEyeNext.y = 140.0f;
+            Math_ApproachF(&this->subCamEyeNext.z, 220.0f, 0.5f, 1.15f);
             if (bossFd->work[BFD_CAM_SHAKE_TIMER] != 0) {
                 bossFd->work[BFD_CAM_SHAKE_TIMER]--;
                 cameraShake = bossFd->work[BFD_CAM_SHAKE_TIMER] / 0.5f;
                 if (cameraShake >= 20.0f) {
                     cameraShake = 20.0f;
                 }
-                this->camData.yMod = (bossFd->work[BFD_CAM_SHAKE_TIMER] & 1) ? cameraShake : -cameraShake;
+                this->subCamAtYOffset = (bossFd->work[BFD_CAM_SHAKE_TIMER] & 1) ? cameraShake : -cameraShake;
             }
             if (bossFd->work[BFD_ACTION_STATE] == BOSSFD_SKULL_BURN) {
                 this->deathState = DEATH_FINISH;
-                mainCam->eye = this->camData.eye;
-                mainCam->eyeNext = this->camData.eye;
-                mainCam->at = this->camData.at;
-                func_800C08AC(globalCtx, this->deathCamera, 0);
-                this->deathCamera = 0;
+                mainCam->eye = this->subCamEye;
+                mainCam->eyeNext = this->subCamEye;
+                mainCam->at = this->subCamAt;
+                func_800C08AC(globalCtx, this->subCamId, 0);
+                this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
