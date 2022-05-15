@@ -470,20 +470,20 @@ void Scene_CommandMiscSettings(GlobalContext* globalCtx, SceneCmd* cmd) {
 void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(GlobalContext*, SceneCmd*) = {
     Scene_CommandSpawnList,           // SCENE_CMD_ID_SPAWN_LIST
     Scene_CommandActorList,           // SCENE_CMD_ID_ACTOR_LIST
-    Scene_CommandUnused2,             // SCENE_CMD_ID_UNUSED_02
-    Scene_CommandCollisionHeader,     // SCENE_CMD_ID_COL_HEADER
+    Scene_CommandUnused2,             // SCENE_CMD_ID_UNUSED_2
+    Scene_CommandCollisionHeader,     // SCENE_CMD_ID_COLLISION_HEADER
     Scene_CommandRoomList,            // SCENE_CMD_ID_ROOM_LIST
     Scene_CommandWindSettings,        // SCENE_CMD_ID_WIND_SETTINGS
     Scene_CommandEntranceList,        // SCENE_CMD_ID_ENTRANCE_LIST
     Scene_CommandSpecialFiles,        // SCENE_CMD_ID_SPECIAL_FILES
     Scene_CommandRoomBehavior,        // SCENE_CMD_ID_ROOM_BEHAVIOR
-    Scene_CommandUndefined9,          // SCENE_CMD_ID_UNK_09
-    Scene_CommandMeshHeader,          // SCENE_CMD_ID_MESH
+    Scene_CommandUndefined9,          // SCENE_CMD_ID_UNDEFINED_9
+    Scene_CommandMeshHeader,          // SCENE_CMD_ID_MESH_HEADER
     Scene_CommandObjectList,          // SCENE_CMD_ID_OBJECT_LIST
     Scene_CommandLightList,           // SCENE_CMD_ID_LIGHT_LIST
     Scene_CommandPathList,            // SCENE_CMD_ID_PATH_LIST
-    Scene_CommandTransitionActorList, // SCENE_CMD_ID_TRANSI_ACTOR_LIST
-    Scene_CommandLightSettingsList,   // SCENE_CMD_ID_ENV_LIGHT_SETTINGS
+    Scene_CommandTransitionActorList, // SCENE_CMD_ID_TRANSITION_ACTOR_LIST
+    Scene_CommandLightSettingsList,   // SCENE_CMD_ID_LIGHT_SETTINGS_LIST
     Scene_CommandTimeSettings,        // SCENE_CMD_ID_TIME_SETTINGS
     Scene_CommandSkyboxSettings,      // SCENE_CMD_ID_SKYBOX_SETTINGS
     Scene_CommandSkyboxDisables,      // SCENE_CMD_ID_SKYBOX_DISABLES
