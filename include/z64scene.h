@@ -321,7 +321,7 @@ typedef enum {
 
 typedef enum {
     #include "tables/entrance_table.h"
-    /* 0x613 */ ENTR_MAX
+    /* 0x614 */ ENTR_MAX
 } EntranceIndex;
 
 #define ENTR_LOAD_OPENING -1
