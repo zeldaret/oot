@@ -612,7 +612,7 @@ void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
             break;
     }
 
-    if ((globalCtx->roomCtx.curRoom.unk_03 == 1) && (interfaceCtx->minimapAlpha >= 255)) {
+    if ((globalCtx->roomCtx.curRoom.behaviorType1 == 1) && (interfaceCtx->minimapAlpha >= 255)) {
         interfaceCtx->minimapAlpha = 255;
     }
 }
@@ -4173,7 +4173,7 @@ void Interface_Update(GlobalContext* globalCtx) {
                 gTimeIncrement = sPrevTimeIncrement;
                 globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
-        } else if ((globalCtx->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
+        } else if ((globalCtx->roomCtx.curRoom.behaviorType1 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
             if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {
                 gSaveContext.nextDayTime = 0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;

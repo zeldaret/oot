@@ -6930,7 +6930,7 @@ void func_80057FC4(Camera* camera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
     } else if (camera->globalCtx->roomCtx.curRoom.mesh->polygon.type != 1) {
-        switch (camera->globalCtx->roomCtx.curRoom.unk_03) {
+        switch (camera->globalCtx->roomCtx.curRoom.behaviorType1) {
             case 1:
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_DUNGEON0;
@@ -6941,7 +6941,8 @@ void func_80057FC4(Camera* camera) {
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 break;
             default:
-                osSyncPrintf("camera: room type: default set etc (%d)\n", camera->globalCtx->roomCtx.curRoom.unk_03);
+                osSyncPrintf("camera: room type: default set etc (%d)\n",
+                             camera->globalCtx->roomCtx.curRoom.behaviorType1);
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 camera->unk_14C |= 4;
@@ -7250,7 +7251,7 @@ s32 Camera_UpdateWater(Camera* camera) {
 
 s32 Camera_UpdateHotRoom(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
-    if (camera->globalCtx->roomCtx.curRoom.unk_02 == 3) {
+    if (camera->globalCtx->roomCtx.curRoom.behaviorType2 == 3) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
     }
 
@@ -7776,7 +7777,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
                     func_80078884(0);
                     break;
                 case 2:
-                    if (camera->globalCtx->roomCtx.curRoom.unk_03 == 1) {
+                    if (camera->globalCtx->roomCtx.curRoom.behaviorType1 == 1) {
                         func_80078884(NA_SE_SY_ATTENTION_URGENCY);
                     } else {
                         func_80078884(NA_SE_SY_ATTENTION_ON);

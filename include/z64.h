@@ -868,8 +868,8 @@ typedef union {
 typedef struct {
     /* 0x00 */ s8   num;
     /* 0x01 */ u8   unk_01;
-    /* 0x02 */ u8   unk_02;
-    /* 0x03 */ u8   unk_03;
+    /* 0x02 */ u8   behaviorType2;
+    /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
     /* 0x05 */ u8   showInvisActors;
     /* 0x08 */ Mesh* mesh; // original name: "ground_shape"
