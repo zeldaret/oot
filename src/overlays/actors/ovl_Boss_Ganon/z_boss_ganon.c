@@ -560,7 +560,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
             this->csCamFov = 60.0f;
 
@@ -1122,7 +1122,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             }
 
             if (this->csTimer == 120) {
-                mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam->eye = this->csCamEye;
                 mainCam->eyeNext = this->csCamEye;
                 mainCam->at = this->csCamAt;
@@ -1236,7 +1236,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
 
             this->actor.world.pos.x = 0.0f;
@@ -1498,7 +1498,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
 
             if (this->csTimer == 180) {
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->nextEntranceIndex = 0x43F;
+                globalCtx->nextEntranceIndex = ENTR_GANON_FINAL_0;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
             }
             break;
@@ -1507,7 +1507,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
             Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_00ADDC, 0.0f);
             this->fwork[1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_00EA00);
@@ -1782,7 +1782,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             this->csCamAt.z = (sZelda->actor.world.pos.z - 25.0f) + 80.0f;
 
             if (this->csTimer > 50) {
-                mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 mainCam->eye = this->csCamEye;
                 mainCam->eyeNext = this->csCamEye;
@@ -4523,7 +4523,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
         xzDist = (this->unk_1C2 == 0xC) ? -65.0f : 0.0f;
 
         if ((fabsf(this->actor.world.pos.x) > (465.0f + xzDist)) ||
-            (fabsf(this->actor.world.pos.z) > (465.0f + xzDist)) || ((this->actor.world.pos.y < 0.0f)) ||
+            (fabsf(this->actor.world.pos.z) > (465.0f + xzDist)) || (this->actor.world.pos.y < 0.0f) ||
             (this->actor.world.pos.y > 450.0f)) {
             this->unk_1C2 = 1;
             this->actor.speedXZ = 0.0f;
@@ -4708,7 +4708,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                 }
             } else if (eff->type == GDF_EFF_LIGHTNING) {
                 if (eff->unk_3C == 0.0f) {
-                    eff->unk_44 = BINANG_TO_RAD_ALT(Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, MAIN_CAM)));
+                    eff->unk_44 = BINANG_TO_RAD_ALT(Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN)));
                 } else {
                     eff->unk_44 = M_PI / 2;
                 }

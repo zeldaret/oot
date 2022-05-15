@@ -161,25 +161,25 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad2;
     s32 pad3;
     s32 pad;
-    Vec3f vec1 = { -460.0f, 118.0f, 0.0f };
-    Vec3f vec2 = { -406.0f, 110.0f, 0.0f };
+    Vec3f subCamAt = { -460.0f, 118.0f, 0.0f };
+    Vec3f subCamEye = { -406.0f, 110.0f, 0.0f };
     Vec3f playerPos = { -398.0f, 84.0f, 0.0f };
     s16 rotDiff;
 
     if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         Animation_Change(&this->skelAnime, &gChildZelda1Anim_10B38, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gChildZelda1Anim_10B38), ANIMMODE_ONCE_INTERP, -10.0f);
-        this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
-        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-        Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STAT_ACTIVE);
-        func_800C0808(globalCtx, this->unk_1E8, player, CAM_SET_FREE0);
+        this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+        Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+        func_800C0808(globalCtx, this->subCamId, player, CAM_SET_FREE0);
         globalCtx->envCtx.screenFillColor[0] = 255;
         globalCtx->envCtx.screenFillColor[1] = 255;
         globalCtx->envCtx.screenFillColor[2] = 255;
         globalCtx->envCtx.screenFillColor[3] = 24;
         globalCtx->envCtx.fillScreen = true;
-        Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &vec1, &vec2);
-        Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 30.0f);
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+        Gameplay_CameraSetFov(globalCtx, this->subCamId, 30.0f);
         ShrinkWindow_SetVal(0x20);
         Interface_ChangeAlpha(2);
         player->actor.world.pos = playerPos;
@@ -197,8 +197,8 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
 }
 
 void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
-    Vec3f sp74 = { -427.0f, 108.0, 26.0 };
-    Vec3f sp68 = { -340.0f, 108.0f, 98.0f };
+    Vec3f subCamAt = { -427.0f, 108.0, 26.0 };
+    Vec3f subCamEye = { -340.0f, 108.0f, 98.0f };
     s32 pad;
     Vec3f sp58 = { -434.0f, 84.0f, 0.0f };
     u8 sp54[] = { 0x00, 0x00, 0x02 };
@@ -232,8 +232,8 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 1:
             if ((Message_GetState(msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
                 globalCtx->envCtx.fillScreen = false;
-                Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp74, &sp68);
-                Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 25.0f);
+                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+                Gameplay_CameraSetFov(globalCtx, this->subCamId, 25.0f);
                 player->actor.world.pos = sp58;
                 this->actor.textId = 0x702F;
                 Message_ContinueTextbox(globalCtx, this->actor.textId);
@@ -365,8 +365,8 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
     u8 spA4[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
     };
-    Vec3f sp98 = { -421.0f, 143.0f, -5.0f };
-    Vec3f sp8C = { -512.0f, 105.0f, -4.0f };
+    Vec3f subCamAt = { -421.0f, 143.0f, -5.0f };
+    Vec3f subCamEye = { -512.0f, 105.0f, -4.0f };
     s32 pad2;
     f32 actionLength;
     CsCmdActorAction* npcAction;
@@ -411,8 +411,8 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
             this->actor.velocity.z = (sp68.z - sp74.z) / actionLength;
         }
         func_80038290(globalCtx, &this->actor, &this->unk_200, &this->unk_206, this->actor.focus.pos);
-        Gameplay_CameraSetAtEye(globalCtx, this->unk_1E8, &sp98, &sp8C);
-        Gameplay_CameraSetFov(globalCtx, this->unk_1E8, 70.0f);
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+        Gameplay_CameraSetFov(globalCtx, this->subCamId, 70.0f);
     }
 }
 
@@ -520,9 +520,9 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
             }
         case 2:
             if (Actor_HasParent(&this->actor, globalCtx)) {
-                Gameplay_CopyCamera(globalCtx, MAIN_CAM, this->unk_1E8);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
-                Gameplay_ClearCamera(globalCtx, this->unk_1E8);
+                Gameplay_CopyCamera(globalCtx, CAM_ID_MAIN, this->subCamId);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+                Gameplay_ClearCamera(globalCtx, this->subCamId);
                 this->actor.parent = NULL;
                 this->unk_1E2++;
             } else {

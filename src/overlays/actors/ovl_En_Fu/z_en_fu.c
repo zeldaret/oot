@@ -203,7 +203,8 @@ void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2, start song demonstration
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
-        Audio_OcaSetInstrument(4); // seems to be related to setting instrument type
+        // Ocarina is set to harp here but is immediately overwritten to the grind organ in the message system
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_HARP);
         func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }
@@ -240,12 +241,12 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
+    if (!(this->behaviorFlags & FU_WAIT) && (SkelAnime_Update(&this->skelanime) != 0)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
                          Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);
     }
     this->actionFunc(this, globalCtx);
-    if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
+    if (this->behaviorFlags & FU_RESET_LOOK_ANGLE) {
         Math_SmoothStepToS(&this->lookAngleOffset.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->lookAngleOffset.y, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);

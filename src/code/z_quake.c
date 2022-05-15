@@ -148,13 +148,13 @@ s16 Quake_GetFreeIndex(void) {
     return ret;
 }
 
-QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx) {
+QuakeRequest* Quake_AddImpl(Camera* camera, u32 callbackIdx) {
     s16 idx = Quake_GetFreeIndex();
     QuakeRequest* req = &sQuakeRequest[idx];
 
     __osMemset(req, 0, sizeof(QuakeRequest));
-    req->cam = cam;
-    req->camPtrIdx = cam->thisIdx;
+    req->cam = camera;
+    req->camPtrIdx = camera->camId;
     req->callbackIdx = callbackIdx;
     req->unk_1C = 1;
     req->randIdx = ((s16)(Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
@@ -291,8 +291,8 @@ void Quake_Init(void) {
     sQuakeRequestCount = 0;
 }
 
-s16 Quake_Add(Camera* cam, u32 callbackIdx) {
-    return Quake_AddImpl(cam, callbackIdx)->randIdx;
+s16 Quake_Add(Camera* camera, u32 callbackIdx) {
+    return Quake_AddImpl(camera, callbackIdx)->randIdx;
 }
 
 u32 Quake_RemoveFromIdx(s16 idx) {
@@ -347,8 +347,8 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
                              req->camPtrIdx);
                 Quake_Remove(req);
             } else {
-                temp = &camera->thisIdx;
-                eq = req->cam->thisIdx != *temp;
+                temp = &camera->camId;
+                eq = req->cam->camId != *temp;
                 absSpeedDiv = ABS(req->speed) / (f32)0x8000;
                 if (sQuakeCallbacks[req->callbackIdx](req, &shake) == 0) {
                     Quake_Remove(req);

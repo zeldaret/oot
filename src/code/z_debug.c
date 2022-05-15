@@ -67,7 +67,7 @@ void func_8006376C(u8 x, u8 y, u8 colorId, const char* text) {
 
         i = 0;
         bufText = buf->text;
-        while ((*bufText++ = *text++)) {
+        while ((*bufText++ = *text++) != '\0') {
             if (i++ > 0x14) {
                 break;
             }

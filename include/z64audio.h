@@ -814,7 +814,7 @@ typedef struct {
     /* 0x2894 */ s32 numNotes;
     /* 0x2898 */ s16 tempoInternalToExternal;
     /* 0x289A */ s8 soundMode;
-    /* 0x289C */ s32 totalTaskCnt;
+    /* 0x289C */ s32 totalTaskCount;
     /* 0x28A0 */ s32 curAudioFrameDmaCount;
     /* 0x28A4 */ s32 rspTaskIdx;
     /* 0x28A8 */ s32 curAIBufIdx;
@@ -1010,35 +1010,5 @@ typedef struct {
     u8 importance;
     u16 params;
 } SoundParams;
-
-typedef struct {
-    /* 0x0000 */ u8 noteIdx;
-    /* 0x0001 */ u8 unk_01;
-    /* 0x0002 */ u16 unk_02;
-    /* 0x0004 */ u8 volume;
-    /* 0x0005 */ u8 vibrato;
-    /* 0x0006 */ s8 tone;
-    /* 0x0007 */ u8 semitone;
-} OcarinaNote;  // size = 0x8
-
-typedef struct {
-    u8 len;
-    u8 notesIdx[8];
-} OcarinaSongInfo;
-
-typedef struct {
-    u8 noteIdx;
-    u8 state;   // original name: "status"
-    u8 pos;     // original name: "locate"
-} OcarinaStaff;
-
-typedef enum {
-    /*  0 */ OCARINA_NOTE_A,
-    /*  1 */ OCARINA_NOTE_C_DOWN,
-    /*  2 */ OCARINA_NOTE_C_RIGHT,
-    /*  3 */ OCARINA_NOTE_C_LEFT,
-    /*  4 */ OCARINA_NOTE_C_UP,
-    /* -1 */ OCARINA_NOTE_INVALID = 0xFF
-} OcarinaNoteIdx;
 
 #endif

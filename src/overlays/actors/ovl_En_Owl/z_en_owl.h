@@ -30,7 +30,7 @@ typedef struct EnOwl {
     /* 0x03FC */ u16 actionFlags;
     /* 0x03FE */ u16 unk_3FE;
     /* 0x0400 */ s16 unk_400;
-    /* 0x0402 */ s16 cameraIdx;
+    /* 0x0402 */ s16 subCamId;
     /* 0x0404 */ u8 unk_404;
     /* 0x0405 */ u8 unk_405;
     /* 0x0406 */ u8 unk_406;

@@ -833,7 +833,7 @@ void func_8096F2B0(DemoEc* this, GlobalContext* globalCtx, s32 arg2) {
 
     if (npcAction != NULL) {
         sp18 = npcAction->action;
-        if ((sp18 != this->npcAction)) {
+        if (sp18 != this->npcAction) {
             if (this->npcAction) {}
             if (sp18 == 2) {
                 func_8096F224(this, globalCtx);
@@ -906,7 +906,7 @@ void func_8096F578(DemoEc* this, GlobalContext* globalCtx, s32 arg2) {
     npcAction = DemoEc_GetNpcAction(globalCtx, arg2);
     if (npcAction != NULL) {
         sp18 = npcAction->action;
-        if ((sp18 != this->npcAction)) {
+        if (sp18 != this->npcAction) {
             if (this->npcAction) {}
             if (sp18 == 2) {
                 func_8096F4FC(this, globalCtx);
