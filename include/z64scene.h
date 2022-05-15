@@ -321,10 +321,20 @@ typedef enum {
 
 typedef enum {
     #include "tables/entrance_table.h"
-    /* 0x613 */ ENTR_MAX
+    /* 0x614 */ ENTR_MAX
 } EntranceIndex;
 
 #define ENTR_LOAD_OPENING -1
+
+typedef enum {
+    /* 0x7FF9 */ ENTR_RETURN_YOUSEI_IZUMI_YOKO = 0x7FF9, // Great Fairy Fountain (spells)
+    /* 0x7FFA */ ENTR_RETURN_SYATEKIJYOU, // Shooting gallery
+    /* 0x7FFB */ ENTR_RETURN_2, // unused
+    /* 0x7FFC */ ENTR_RETURN_SHOP1, // Bazaar
+    /* 0x7FFD */ ENTR_RETURN_4, // unused
+    /* 0x7FFE */ ENTR_RETURN_DAIYOUSEI_IZUMI, // Great Fairy Fountain (magic, double magic, double defense)
+    /* 0x7FFF */ ENTR_RETURN_GROTTO // Grottos and normal Fairy Fountain
+} ReturnEntranceIndex;
 
 #undef DEFINE_ENTRANCE
 

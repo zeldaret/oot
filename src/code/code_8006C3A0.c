@@ -3,7 +3,7 @@
 void Flags_UnsetAllEnv(GlobalContext* globalCtx) {
     u8 i;
 
-    for (i = 0; i < 20; i++) {
+    for (i = 0; i < ARRAY_COUNT(globalCtx->envFlags); i++) {
         globalCtx->envFlags[i] = 0;
     }
 }
