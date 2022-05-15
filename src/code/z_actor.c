@@ -1009,7 +1009,7 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
 }
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
-    if ((globalCtx->roomCtx.curRoom.behaviorType1 != 4) && func_800C0CB8(globalCtx)) {
+    if ((globalCtx->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_4) && func_800C0CB8(globalCtx)) {
         Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_SET_HORSE);
     }
 }
