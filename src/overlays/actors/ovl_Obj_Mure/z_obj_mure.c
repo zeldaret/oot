@@ -5,10 +5,9 @@
  */
 
 #include "z_obj_mure.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((ObjMure*)thisx)
+#define FLAGS 0
 
 void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -52,7 +51,7 @@ static s32 sMaxChildSpawns[] = { 12, 9, 8, 0 };
 
 static s16 sSpawnActorIds[] = { ACTOR_EN_KUSA, 0, ACTOR_EN_FISH, ACTOR_EN_INSECT, ACTOR_EN_BUTTE };
 
-static s16 sSpawnParams[] = { 0, 2, -1, 0, -1 };
+static s16 sSpawnParams[] = { 0, 2, -1, INSECT_TYPE_PERMANENT, -1 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
@@ -61,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 s32 ObjMure_SetCullingImpl(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure* this = THIS;
+    ObjMure* this = (ObjMure*)thisx;
     s32 result;
 
     switch (this->type) {
@@ -88,7 +87,7 @@ s32 ObjMure_SetCulling(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure* this = THIS;
+    ObjMure* this = (ObjMure*)thisx;
 
     this->chNum = (thisx->params >> 0xC) & 0x0F;
     this->ptn = (thisx->params >> 8) & 0x07;
@@ -156,7 +155,7 @@ void ObjMure_SpawnActors0(ObjMure* this, GlobalContext* globalCtx) {
                     Actor_Spawn(ac, globalCtx, sSpawnActorIds[this->type], pos.x, pos.y, pos.z, this->actor.world.rot.x,
                                 this->actor.world.rot.y, this->actor.world.rot.z, sSpawnParams[this->type]);
                 if (this->children[i] != NULL) {
-                    this->children[i]->flags |= 0x800;
+                    this->children[i]->flags |= ACTOR_FLAG_ENKUSA_CUT;
                     this->children[i]->room = this->actor.room;
                 } else {
                     osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 359);
@@ -256,7 +255,7 @@ void ObjMure_CheckChildren(ObjMure* this, GlobalContext* globalCtx) {
         if (this->children[i] != NULL) {
             if (this->childrenStates[i] == OBJMURE_CHILD_STATE_0) {
                 if (this->children[i]->update != NULL) {
-                    if (this->children[i]->flags & 0x800) {
+                    if (this->children[i]->flags & ACTOR_FLAG_ENKUSA_CUT) {
                         this->childrenStates[i] = OBJMURE_CHILD_STATE_2;
                     }
                 } else {
@@ -278,7 +277,7 @@ void ObjMure_InitialAction(ObjMure* this, GlobalContext* globalCtx) {
 void ObjMure_CulledState(ObjMure* this, GlobalContext* globalCtx) {
     if (fabsf(this->actor.projectedPos.z) < sZClip[this->type]) {
         this->actionFunc = ObjMure_ActiveState;
-        this->actor.flags |= 0x10;
+        this->actor.flags |= ACTOR_FLAG_4;
         ObjMure_SpawnActors(this, globalCtx);
     }
 }
@@ -401,7 +400,7 @@ void ObjMure_ActiveState(ObjMure* this, GlobalContext* globalCtx) {
     ObjMure_CheckChildren(this, globalCtx);
     if (sZClip[this->type] + 40.0f <= fabsf(this->actor.projectedPos.z)) {
         this->actionFunc = ObjMure_CulledState;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         ObjMure_KillActors(this, globalCtx);
     } else if (sTypeGroupBehaviorFunc[this->type] != NULL) {
         sTypeGroupBehaviorFunc[this->type](this, globalCtx);
@@ -409,7 +408,7 @@ void ObjMure_ActiveState(ObjMure* this, GlobalContext* globalCtx) {
 }
 
 void ObjMure_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjMure* this = THIS;
+    ObjMure* this = (ObjMure*)thisx;
 
     if (this->unk_1A4 > 0) {
         this->unk_1A4--;

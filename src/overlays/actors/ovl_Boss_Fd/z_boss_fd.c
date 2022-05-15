@@ -12,9 +12,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((BossFd*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0 */ INTRO_FLY_EMERGE,
@@ -62,7 +60,7 @@ const ActorInit Boss_Fd_InitVars = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x21, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_VOLVAGIA, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
@@ -142,39 +140,39 @@ void BossFd_SpawnFireBreath(BossFdEffect* effect, Vec3f* position, Vec3f* veloci
     }
 }
 
-void BossFd_SetCameraSpeed(BossFd* this, f32 speedMod) {
-    this->camData.eyeVel.x = fabsf(this->camData.eye.x - this->camData.nextEye.x) * speedMod;
-    this->camData.eyeVel.y = fabsf(this->camData.eye.y - this->camData.nextEye.y) * speedMod;
-    this->camData.eyeVel.z = fabsf(this->camData.eye.z - this->camData.nextEye.z) * speedMod;
-    this->camData.atVel.x = fabsf(this->camData.at.x - this->camData.nextAt.x) * speedMod;
-    this->camData.atVel.y = fabsf(this->camData.at.y - this->camData.nextAt.y) * speedMod;
-    this->camData.atVel.z = fabsf(this->camData.at.z - this->camData.nextAt.z) * speedMod;
+void BossFd_SetCameraSpeed(BossFd* this, f32 velFactor) {
+    this->subCamEyeVel.x = fabsf(this->subCamEye.x - this->subCamEyeNext.x) * velFactor;
+    this->subCamEyeVel.y = fabsf(this->subCamEye.y - this->subCamEyeNext.y) * velFactor;
+    this->subCamEyeVel.z = fabsf(this->subCamEye.z - this->subCamEyeNext.z) * velFactor;
+    this->subCamAtVel.x = fabsf(this->subCamAt.x - this->subCamAtNext.x) * velFactor;
+    this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * velFactor;
+    this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * velFactor;
 }
 
 void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
-    if (this->introCamera != SUBCAM_FREE) {
-        Math_ApproachF(&this->camData.eye.x, this->camData.nextEye.x, this->camData.eyeMaxVel.x,
-                       this->camData.eyeVel.x * this->camData.speedMod);
-        Math_ApproachF(&this->camData.eye.y, this->camData.nextEye.y, this->camData.eyeMaxVel.y,
-                       this->camData.eyeVel.y * this->camData.speedMod);
-        Math_ApproachF(&this->camData.eye.z, this->camData.nextEye.z, this->camData.eyeMaxVel.z,
-                       this->camData.eyeVel.z * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.x, this->camData.nextAt.x, this->camData.atMaxVel.x,
-                       this->camData.atVel.x * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.y, this->camData.nextAt.y, this->camData.atMaxVel.y,
-                       this->camData.atVel.y * this->camData.speedMod);
-        Math_ApproachF(&this->camData.at.z, this->camData.nextAt.z, this->camData.atMaxVel.z,
-                       this->camData.atVel.z * this->camData.speedMod);
-        Math_ApproachF(&this->camData.speedMod, 1.0f, 1.0f, this->camData.accel);
-        this->camData.at.y += this->camData.yMod;
-        Gameplay_CameraSetAtEye(globalCtx, this->introCamera, &this->camData.at, &this->camData.eye);
-        Math_ApproachZeroF(&this->camData.yMod, 1.0f, 0.1f);
+    if (this->subCamId != SUB_CAM_ID_DONE) {
+        Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x,
+                       this->subCamEyeVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.y, this->subCamEyeNext.y, this->subCamEyeMaxVelFrac.y,
+                       this->subCamEyeVel.y * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z,
+                       this->subCamEyeVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x,
+                       this->subCamAtVel.x * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y,
+                       this->subCamAtVel.y * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamAtMaxVelFrac.z,
+                       this->subCamAtVel.z * this->subCamVelFactor);
+        Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
+        this->subCamAt.y += this->subCamAtYOffset;
+        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Math_ApproachZeroF(&this->subCamAtYOffset, 1.0f, 0.1f);
     }
 }
 
 void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
     s16 i;
 
     Flags_SetSwitch(globalCtx, 0x14);
@@ -190,7 +188,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
                    0);
     this->introState = BFD_CS_WAIT;
     if (this->introState == BFD_CS_NONE) {
-        Audio_QueueSeqCmd(NA_BGM_FIRE_BOSS);
+        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
     }
 
     this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
@@ -230,7 +228,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     SkelAnime_Free(&this->skelAnimeHead, globalCtx);
     SkelAnime_Free(&this->skelAnimeRightArm, globalCtx);
@@ -291,8 +289,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
           this->fwork[BFD_FLY_WOBBLE_AMP];
     dz += Math_SinS((1796.0f + this->fwork[BFD_FLY_WOBBLE_RATE]) * this->work[BFD_MOVE_TIMER]) *
           this->fwork[BFD_FLY_WOBBLE_AMP];
-    angleToTarget = (s16)(Math_FAtan2F(dx, dz) * (0x8000 / M_PI));
-    pitchToTarget = (s16)(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI));
+    angleToTarget = RAD_TO_BINANG(Math_FAtan2F(dx, dz));
+    pitchToTarget = RAD_TO_BINANG(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))));
 
     osSyncPrintf("MODE %d\n", this->work[BFD_ACTION_STATE]);
 
@@ -302,7 +300,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->introState != BFD_CS_NONE) {
         Player* player2 = GET_PLAYER(globalCtx);
-        Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
         switch (this->introState) {
             case BFD_CS_WAIT:
@@ -318,44 +316,44 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->introState = BFD_CS_START;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
-                    this->introCamera = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->introCamera, CAM_STAT_ACTIVE);
+                    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     player2->actor.world.pos.x = 380.0f;
                     player2->actor.world.pos.y = 100.0f;
                     player2->actor.world.pos.z = 0.0f;
                     player2->actor.shape.rot.y = player2->actor.world.rot.y = -0x4000;
                     player2->actor.speedXZ = 0.0f;
-                    this->camData.eye.x = player2->actor.world.pos.x - 70.0f;
-                    this->camData.eye.y = player2->actor.world.pos.y + 40.0f;
-                    this->camData.eye.z = player2->actor.world.pos.z + 70.0f;
-                    this->camData.at.x = player2->actor.world.pos.x;
-                    this->camData.at.y = player2->actor.world.pos.y + 30.0f;
-                    this->camData.at.z = player2->actor.world.pos.z;
-                    this->camData.nextEye.x = player2->actor.world.pos.x - 50.0f + 18.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 40;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 50.0f - 18.0f;
-                    this->camData.nextAt.x = player2->actor.world.pos.x;
-                    this->camData.nextAt.y = player2->actor.world.pos.y + 50.0f;
-                    this->camData.nextAt.z = player2->actor.world.pos.z;
+                    this->subCamEye.x = player2->actor.world.pos.x - 70.0f;
+                    this->subCamEye.y = player2->actor.world.pos.y + 40.0f;
+                    this->subCamEye.z = player2->actor.world.pos.z + 70.0f;
+                    this->subCamAt.x = player2->actor.world.pos.x;
+                    this->subCamAt.y = player2->actor.world.pos.y + 30.0f;
+                    this->subCamAt.z = player2->actor.world.pos.z;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x - 50.0f + 18.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 40;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 50.0f - 18.0f;
+                    this->subCamAtNext.x = player2->actor.world.pos.x;
+                    this->subCamAtNext.y = player2->actor.world.pos.y + 50.0f;
+                    this->subCamAtNext.z = player2->actor.world.pos.z;
                     BossFd_SetCameraSpeed(this, 1.0f);
-                    this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.05f;
-                    this->camData.eyeMaxVel.x = this->camData.eyeMaxVel.y = this->camData.eyeMaxVel.z = 0.05f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.05f;
+                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.05f;
                     this->timers[0] = 0;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.accel = 0.0f;
-                    if (gSaveContext.eventChkInf[7] & 8) {
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamAccel = 0.0f;
+                    if (GET_EVENTCHKINF(EVENTCHKINF_73)) {
                         this->introState = BFD_CS_EMERGE;
-                        this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
-                        this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
-                        this->camData.nextEye.z = player2->actor.world.pos.z + 200.0f - 150.0f;
-                        this->camData.nextAt.x = 0.0f;
-                        this->camData.nextAt.y = 120.0f;
-                        this->camData.nextAt.z = 0.0f;
+                        this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
+                        this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f - 50.0f;
+                        this->subCamEyeNext.z = player2->actor.world.pos.z + 200.0f - 150.0f;
+                        this->subCamAtNext.x = 0.0f;
+                        this->subCamAtNext.y = 120.0f;
+                        this->subCamAtNext.z = 0.0f;
                         BossFd_SetCameraSpeed(this, 0.5f);
-                        this->camData.eyeMaxVel.x = this->camData.eyeMaxVel.y = this->camData.eyeMaxVel.z = 0.1f;
-                        this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.1f;
-                        this->camData.accel = 0.005f;
+                        this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
+                        this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+                        this->subCamAccel = 0.005f;
                         this->timers[0] = 0;
                         this->holeIndex = 1;
                         this->targetPosition.x = sHoleLocations[this->holeIndex].x;
@@ -373,7 +371,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 break;
             case BFD_CS_START:
                 if (this->timers[0] == 0) {
-                    this->camData.accel = 0.0010000002f;
+                    this->subCamAccel = 0.0010000002f;
                     this->timers[0] = 100;
                     this->introState = BFD_CS_LOOK_LINK;
                 }
@@ -387,66 +385,67 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->fogMode = 1;
                 }
                 if (this->timers[0] < 50) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
-                    this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
-                    Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
+                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
+                    this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                    Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
                 }
                 if (this->timers[0] == 40) {
                     func_8002DF54(globalCtx, &this->actor, 0x13);
                 }
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_LOOK_GROUND;
-                    this->camData.nextAt.y = player2->actor.world.pos.y + 10.0f;
-                    this->camData.atMaxVel.y = 0.2f;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.accel = 0.02f;
+                    this->subCamAtNext.y = player2->actor.world.pos.y + 10.0f;
+                    this->subCamAtMaxVelFrac.y = 0.2f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamAccel = 0.02f;
                     this->timers[0] = 70;
                     this->work[BFD_MOVE_TIMER] = 0;
                 }
                 break;
             case BFD_CS_LOOK_GROUND:
-                this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
-                Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
-                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
+                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_COLLAPSE;
-                    this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 200.0f;
-                    this->camData.nextAt.x = player2->actor.world.pos.x;
-                    this->camData.nextAt.y = player2->actor.world.pos.y - 150.0f;
-                    this->camData.nextAt.z = player2->actor.world.pos.z - 50.0f;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 200.0f;
+                    this->subCamAtNext.x = player2->actor.world.pos.x;
+                    this->subCamAtNext.y = player2->actor.world.pos.y - 150.0f;
+                    this->subCamAtNext.z = player2->actor.world.pos.z - 50.0f;
                     BossFd_SetCameraSpeed(this, 0.1f);
                     this->timers[0] = 170;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.accel = 0.0f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamAccel = 0.0f;
                     func_8002DF54(globalCtx, &this->actor, 0x14);
                 }
                 break;
             case BFD_CS_COLLAPSE:
-                this->camData.accel = 0.005f;
-                this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
-                Math_ApproachF(&this->camData.shake, 2.0f, 1.0f, 0.8 * 0.01f);
-                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                this->subCamAccel = 0.005f;
+                this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
+                Math_ApproachF(&this->subCamShake, 2.0f, 1.0f, 0.8 * 0.01f);
+                Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 if (this->timers[0] == 100) {
                     this->platformSignal = VBSIMA_COLLAPSE;
                 }
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_EMERGE;
-                    this->camData.speedMod = 0.0f;
-                    this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 200.0f - 150.0f;
-                    this->camData.nextAt.x = 0.0f;
-                    this->camData.nextAt.y = 120.0f;
-                    this->camData.nextAt.z = 0.0f;
+                    this->subCamVelFactor = 0.0f;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 100.0f - 50.0f;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 200.0f - 150.0f;
+                    this->subCamAtNext.x = 0.0f;
+                    this->subCamAtNext.y = 120.0f;
+                    this->subCamAtNext.z = 0.0f;
                     BossFd_SetCameraSpeed(this, 0.5f);
-                    this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.1f;
-                    this->camData.eyeMaxVel.x = this->camData.eyeMaxVel.y = this->camData.eyeMaxVel.z = 0.1f;
-                    this->camData.accel = 0.005f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+                    this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
+                    this->subCamAccel = 0.005f;
                     this->timers[0] = 0;
                     this->holeIndex = 1;
                     this->targetPosition.x = sHoleLocations[this->holeIndex].x;
@@ -462,23 +461,24 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 }
                 break;
             case BFD_CS_EMERGE:
-                osSyncPrintf("WAY_SPD X = %f\n", this->camData.atVel.x);
-                osSyncPrintf("WAY_SPD Y = %f\n", this->camData.atVel.y);
-                osSyncPrintf("WAY_SPD Z = %f\n", this->camData.atVel.z);
-                if ((this->timers[3] > 190) && !(gSaveContext.eventChkInf[7] & 8)) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                osSyncPrintf("WAY_SPD X = %f\n", this->subCamAtVel.x);
+                osSyncPrintf("WAY_SPD Y = %f\n", this->subCamAtVel.y);
+                osSyncPrintf("WAY_SPD Z = %f\n", this->subCamAtVel.z);
+                if ((this->timers[3] > 190) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
+                    Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_ROLL - SFX_FLAG, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 if (this->timers[3] == 190) {
-                    this->camData.atMaxVel.x = this->camData.atMaxVel.y = this->camData.atMaxVel.z = 0.05f;
+                    this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.05f;
                     this->platformSignal = VBSIMA_KILL;
                     func_8002DF54(globalCtx, &this->actor, 1);
                 }
                 if (this->actor.world.pos.y > 120.0f) {
-                    this->camData.nextAt = this->actor.world.pos;
-                    this->camData.atVel.x = 190.0f;
-                    this->camData.atVel.y = 85.56f;
-                    this->camData.atVel.z = 25.0f;
+                    this->subCamAtNext = this->actor.world.pos;
+                    this->subCamAtVel.x = 190.0f;
+                    this->subCamAtVel.y = 85.56f;
+                    this->subCamAtVel.z = 25.0f;
                 } else {
                     // the following `temp` stuff is probably fake but is required to match
                     // it's optimized to 1.0f because sp1CF is false at this point, but the 0.1f ends up in rodata
@@ -486,21 +486,21 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     if (!sp1CF) {
                         temp = 1.0f;
                     }
-                    Math_ApproachF(&this->camData.shake, 2.0f, temp, 0.1 * 0.08f);
-                    this->camData.yMod = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->camData.shake;
+                    Math_ApproachF(&this->subCamShake, 2.0f, temp, 0.1 * 0.08f);
+                    this->subCamAtYOffset = Math_CosS(this->work[BFD_MOVE_TIMER] * 0x8000) * this->subCamShake;
                 }
                 if (this->timers[3] == 160) {
-                    Audio_QueueSeqCmd(NA_BGM_FIRE_BOSS);
+                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
                 }
-                if ((this->timers[3] == 130) && !(gSaveContext.eventChkInf[7] & 8)) {
+                if ((this->timers[3] == 130) && !GET_EVENTCHKINF(EVENTCHKINF_73)) {
                     TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(&gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
+                                           SEGMENTED_TO_VIRTUAL(gVolvagiaBossTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
                 if (this->timers[3] <= 100) {
-                    this->camData.eyeVel.x = this->camData.eyeVel.y = this->camData.eyeVel.z = 2.0f;
-                    this->camData.nextEye.x = player2->actor.world.pos.x + 50.0f;
-                    this->camData.nextEye.y = player2->actor.world.pos.y + 50.0f;
-                    this->camData.nextEye.z = player2->actor.world.pos.z + 50.0f;
+                    this->subCamEyeVel.x = this->subCamEyeVel.y = this->subCamEyeVel.z = 2.0f;
+                    this->subCamEyeNext.x = player2->actor.world.pos.x + 50.0f;
+                    this->subCamEyeNext.y = player2->actor.world.pos.y + 50.0f;
+                    this->subCamEyeNext.z = player2->actor.world.pos.z + 50.0f;
                 }
                 if (this->work[BFD_ACTION_STATE] == BOSSFD_FLY_HOLE) {
                     switch (this->introFlyState) {
@@ -514,7 +514,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                             }
                             break;
                         case INTRO_FLY_CAMERA:
-                            this->targetPosition = this->camData.eye;
+                            this->targetPosition = this->subCamEye;
                             if (this->timers[5] == 0) {
                                 this->timers[0] = 0;
                                 this->holeIndex = 7;
@@ -534,16 +534,17 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 osSyncPrintf("this->timer[2] = %d\n", this->timers[2]);
                 osSyncPrintf("this->timer[5] = %d\n", this->timers[5]);
                 if (this->timers[2] == 0) {
-                    mainCam->eye = this->camData.eye;
-                    mainCam->eyeNext = this->camData.eye;
-                    mainCam->at = this->camData.at;
-                    func_800C08AC(globalCtx, this->introCamera, 0);
-                    this->introState = this->introFlyState = this->introCamera = BFD_CS_NONE;
+                    mainCam->eye = this->subCamEye;
+                    mainCam->eyeNext = this->subCamEye;
+                    mainCam->at = this->subCamAt;
+                    func_800C08AC(globalCtx, this->subCamId, 0);
+                    // BFD_CS_NONE / BOSSFD_FLY_MAIN / SUB_CAM_ID_DONE
+                    this->introState = this->introFlyState = this->subCamId = 0;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
                     this->actionFunc = BossFd_Wait;
                     this->handoffSignal = FD2_SIGNAL_GROUND;
-                    gSaveContext.eventChkInf[7] |= 8;
+                    SET_EVENTCHKINF(EVENTCHKINF_73);
                 }
                 break;
         }
@@ -667,14 +668,15 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->work[BFD_CEILING_TARGET] = 0;
                 }
             }
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 2);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, UPDBGCHECKINFO_FLAG_1);
             if (this->timers[1] == 0) {
                 osSyncPrintf("BGCHECKKKKKKKKKKKKKKKKKKKKKKK\n");
-                if (this->actor.bgCheckFlags & 0x10) {
+                if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
                     this->fwork[BFD_CEILING_BOUNCE] = -18384.0f;
                     this->timers[1] = 10;
-                    Audio_PlaySoundGeneral(NA_SE_EV_EXPLOSION, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                           &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_EXPLOSION, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                     func_80033E1C(globalCtx, 3, 0xA, 0x7530);
                     this->work[BFD_ROCK_TIMER] = 300;
                 }
@@ -689,7 +691,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
             }
             break;
         case BOSSFD_FLY_CHASE:
-            this->actor.flags |= 0x1000000;
+            this->actor.flags |= ACTOR_FLAG_24;
             temp_y = Math_SinS(this->work[BFD_MOVE_TIMER] * 2396.0f) * 30.0f + this->fwork[BFD_TARGET_Y_OFFSET];
             this->targetPosition.x = player->actor.world.pos.x;
             this->targetPosition.y = player->actor.world.pos.y + temp_y + 30.0f;
@@ -745,7 +747,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->skinSegments != 0) {
                     this->skinSegments--;
                     if (this->skinSegments == 0) {
-                        Audio_QueueSeqCmd(NA_BGM_BOSS_CLEAR);
+                        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
                     }
                 } else {
                     this->work[BFD_ACTION_STATE] = BOSSFD_BONES_FALL;
@@ -773,8 +775,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
                 sp150 = 1;
                 if (this->work[BFD_MOVE_TIMER] & 0x1C) {
-                    Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_BURN - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                           &D_801333E0, &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_BURN - SFX_FLAG, &this->actor.projectedPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                 }
                 for (i1 = 0; i1 < sp150; i1++) {
                     if (sp150) { // Needed for matching
@@ -846,8 +849,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->work[BFD_CEILING_TARGET]++;
                         this->timers[1] = 60;
                         this->work[BFD_CAM_SHAKE_TIMER] = 20;
-                        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_LAND2, &this->actor.projectedPos, 4, &D_801333E0,
-                                               &D_801333E0, &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_LAND2, &this->actor.projectedPos, 4,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultReverb);
                         func_8002DF54(globalCtx, &this->actor, 5);
                         for (i1 = 0; i1 < 15; i1++) {
                             Vec3f sp144 = { 0.0f, 0.0f, 0.0f };
@@ -888,8 +892,8 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Vec3f sp114 = { 0.0f, 0.0f, 0.0f };
                 Vec3f sp108 = { 0.0f, 0.03f, 0.0f };
 
-                Audio_PlaySoundGeneral(NA_SE_EN_GOMA_LAST - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_GOMA_LAST - SFX_FLAG, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
                 sp120.x = Rand_CenteredFloat(40.0f) + this->actor.world.pos.x;
                 sp120.y = (Rand_CenteredFloat(10.0f) + this->actor.world.pos.y) - 10.0f;
@@ -952,9 +956,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->bodySegsPos[i4].x = this->actor.world.pos.x;
         this->bodySegsPos[i4].y = this->actor.world.pos.y;
         this->bodySegsPos[i4].z = this->actor.world.pos.z;
-        this->bodySegsRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->bodySegsRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->bodySegsRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->bodySegsRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->bodySegsRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
 
         this->work[BFD_LEAD_MANE_SEG]++;
         if (this->work[BFD_LEAD_MANE_SEG] >= 30) {
@@ -965,9 +969,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
         this->rightMane.scale[i4] = (Math_SinS(this->work[BFD_MOVE_TIMER] * 5496.0f) * 0.3f) + 1.0f;
         this->leftMane.scale[i4] = (Math_CosS(this->work[BFD_MOVE_TIMER] * 5696.0f) * 0.3f) + 1.0f;
         this->centerMane.pos[i4] = this->centerMane.head;
-        this->fireManeRot[i4].x = (this->actor.world.rot.x / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].y = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        this->fireManeRot[i4].z = (this->actor.world.rot.z / (f32)0x8000) * M_PI;
+        this->fireManeRot[i4].x = BINANG_TO_RAD_ALT(this->actor.world.rot.x);
+        this->fireManeRot[i4].y = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        this->fireManeRot[i4].z = BINANG_TO_RAD_ALT(this->actor.world.rot.z);
         this->rightMane.pos[i4] = this->rightMane.head;
         this->leftMane.pos[i4] = this->leftMane.head;
 
@@ -1132,8 +1136,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->work[BFD_ROAR_TIMER] != 0) {
         if (this->work[BFD_ROAR_TIMER] == 37) {
-            Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROAR, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROAR, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         jawAngle = 6000.0f;
         jawSpeed = 1300.0f;
@@ -1153,8 +1157,8 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         Vec3f spawnPos1;
         s32 pad;
 
-        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_APPEAR - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                               &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_APPEAR - SFX_FLAG, &this->actor.projectedPos, 4,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         if (this->work[BFD_SPLASH_TIMER] != 0) {
             this->work[BFD_SPLASH_TIMER]--;
             if ((this->actor.colChkInfo.health == 0) ||
@@ -1231,12 +1235,12 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         this->fogMode = 2;
         spawnSpeed2.z = 30.0f;
 
-        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_FIRE - SFX_FLAG, &sFireAudioVec, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_FIRE - SFX_FLAG, &sFireAudioVec, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         spawnPos2 = this->headPos;
 
-        spawnAngleY = (this->actor.world.rot.y / (f32)0x8000) * M_PI;
-        spawnAngleX = (((-this->actor.world.rot.x) / (f32)0x8000) * M_PI) + 0.3f;
+        spawnAngleY = BINANG_TO_RAD_ALT(this->actor.world.rot.y);
+        spawnAngleX = BINANG_TO_RAD_ALT(-this->actor.world.rot.x) + 0.3f;
         Matrix_RotateY(spawnAngleY, MTXMODE_NEW);
         Matrix_RotateX(spawnAngleX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed2, &spawnVel2);
@@ -1272,9 +1276,9 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.world.pos.y < 90.0f) || (700.0f < this->actor.world.pos.y) || (this->actionFunc == BossFd_Wait)) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
 }
 
@@ -1294,14 +1298,14 @@ void BossFd_CollisionCheck(BossFd* this, GlobalContext* globalCtx) {
         }
         this->work[BFD_DAMAGE_FLASH_TIMER] = 10;
         this->work[BFD_INVINC_TIMER] = 20;
-        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_DAMAGE1, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_DAMAGE1, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
 void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
     f32 headGlow;
     f32 rManeGlow;
     f32 lManeGlow;
@@ -1435,7 +1439,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     s16 i1;
     s16 i2;
 
-    for (i1 = 0; i1 < 180; i1++, effect++) {
+    for (i1 = 0; i1 < BOSSFD_EFFECT_COUNT; i1++, effect++) {
         if (effect->type != BFD_FX_NONE) {
             effect->timer1++;
 
@@ -1478,7 +1482,7 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
                     if (player->isBurning == false) {
-                        for (i2 = 0; i2 < ARRAY_COUNT(player->flameTimers); i2++) {
+                        for (i2 = 0; i2 < PLAYER_BODYPART_MAX; i2++) {
                             player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }
                         player->isBurning = true;
@@ -1514,24 +1518,24 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     static void* dustTex[] = {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
-    u8 flag = false;
+    u8 materialFlag = 0;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 i;
     BossFdEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 4023);
 
-    for (i = 0; i < 180; i++, effect++) {
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_EMBER) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaEmberMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4046),
@@ -1541,13 +1545,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DEBRIS) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_OPA_DISP++, gVolvagiaDebrisMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1562,20 +1566,20 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_DUST) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 90, 30, 0, 255);
                 gDPSetEnvColor(POLY_XLU_DISP++, 90, 30, 0, 0);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1585,20 +1589,20 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_FIRE_BREATH) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaDustMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, 255);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, effect->alpha);
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_fd.c", 4154),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1608,13 +1612,13 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = false;
-    for (i = 0; i < 180; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < BOSSFD_EFFECT_COUNT; i++, effect++) {
         if (effect->type == BFD_FX_SKULL_PIECE) {
-            if (!flag) {
+            if (materialFlag == 0) {
                 func_80093D84(globalCtx->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gVolvagiaSkullPieceMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1633,7 +1637,7 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
 
 void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     osSyncPrintf("FD DRAW START\n");
     if (this->actionFunc != BossFd_Wait) {
@@ -1655,7 +1659,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -1678,7 +1682,7 @@ s32 BossFd_OverrideRightArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 
 s32 BossFd_OverrideLeftArmDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx) {
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -1768,7 +1772,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
 }
 
 s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
         case 5:
@@ -1797,7 +1801,7 @@ s32 BossFd_OverrideHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 void BossFd_PostHeadDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f targetMod = { 4500.0f, 0.0f, 0.0f };
     static Vec3f headMod = { 4000.0f, 0.0f, 0.0f };
-    BossFd* this = THIS;
+    BossFd* this = (BossFd*)thisx;
 
     if (limbIndex == 5) {
         Matrix_MultVec3f(&targetMod, &this->actor.focus.pos);
@@ -1940,7 +1944,7 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
                      MTXMODE_NEW);
     Matrix_RotateY(this->bodySegsRot[segIndex].y, MTXMODE_APPLY);
     Matrix_RotateX(-this->bodySegsRot[segIndex].x, MTXMODE_APPLY);
-    Matrix_RotateZ((this->actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 0.0f, temp_float, MTXMODE_APPLY);
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 25.0f, MTXMODE_APPLY);

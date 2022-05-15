@@ -1,9 +1,7 @@
 #include "z_bg_mori_elevator.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgMoriElevator*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -84,7 +82,7 @@ void func_808A18FC(BgMoriElevator* this, f32 distTo) {
 }
 
 void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -115,7 +113,7 @@ void BgMoriElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     if (this->unk_172 == 0) {
         // "Forest Temple elevator DT"
@@ -170,8 +168,8 @@ void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, GlobalContext* globalCt
 
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx) {
     this->actionFunc = BgMoriElevator_MoveAboveGround;
-    OnePointCutscene_Init(globalCtx, 3230, 70, &this->dyna.actor, MAIN_CAM);
-    OnePointCutscene_Init(globalCtx, 1020, 15, &this->dyna.actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 3230, 70, &this->dyna.actor, CAM_ID_MAIN);
+    OnePointCutscene_Init(globalCtx, 1020, 15, &this->dyna.actor, CAM_ID_MAIN);
 }
 
 void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalCtx) {
@@ -242,7 +240,7 @@ void func_808A2008(BgMoriElevator* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->unk_170 = this->dyna.unk_160;
@@ -251,7 +249,7 @@ void BgMoriElevator_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriElevator_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriElevator* this = THIS;
+    BgMoriElevator* this = (BgMoriElevator*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_elevator.c", 575);
 

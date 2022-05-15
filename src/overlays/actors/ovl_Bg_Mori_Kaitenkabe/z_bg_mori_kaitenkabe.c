@@ -7,9 +7,7 @@
 #include "z_bg_mori_kaitenkabe.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgMoriKaitenkabe*)thisx)
+#define FLAGS 0
 
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -49,7 +47,7 @@ void BgMoriKaitenkabe_CrossProduct(Vec3f* dest, Vec3f* v1, Vec3f* v2) {
 
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
     CollisionHeader* colHeader = NULL;
 
     // "Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears"
@@ -70,7 +68,7 @@ void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -113,7 +111,7 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
 
@@ -146,21 +144,21 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
     Math_Vec3f_Copy(&player->actor.world.pos, &this->lockedPlayerPos);
 }
 
 void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMoriKaitenkabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriKaitenkabe* this = THIS;
+    BgMoriKaitenkabe* this = (BgMoriKaitenkabe*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_kaitenkabe.c", 347);
     func_80093D18(globalCtx->state.gfxCtx);

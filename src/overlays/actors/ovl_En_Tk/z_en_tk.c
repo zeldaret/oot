@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_tk/object_tk.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnTk*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnTk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTk_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -80,7 +78,7 @@ void EnTkEff_Update(EnTk* this) {
 
 void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
     static void* dustTextures[] = {
-        &gDust8Tex, &gDust7Tex, &gDust6Tex, &gDust5Tex, &gDust4Tex, &gDust3Tex, &gDust2Tex, &gDust1Tex,
+        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
 
     EnTkEff* eff = this->eff;
@@ -111,7 +109,7 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
 
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(eff->size, eff->size, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -212,7 +210,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.xyzDistToPlayerSq > 10000.0f) {
+    if (this->actor.xyzDistToPlayerSq > SQ(100.0f)) {
         return 0;
     }
 
@@ -317,7 +315,7 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     dx = point->x - this->actor.world.pos.x;
     dz = point->z - this->actor.world.pos.z;
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, RAD_TO_BINANG(Math_FAtan2F(dx, dz)), 10, 1000, 1);
     this->actor.world.rot = this->actor.shape.rot;
 
     if (SQ(dx) + SQ(dz) < 10.0f) {
@@ -340,7 +338,7 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
         return ret;
     }
 
-    if (gSaveContext.infTable[13] & 0x0200) {
+    if (GET_INFTABLE(INFTABLE_D9)) {
         /* "Do you want me to dig here? ..." */
         return 0x5019;
     } else {
@@ -352,21 +350,21 @@ u16 func_80B1C54C(GlobalContext* globalCtx, Actor* thisx) {
 s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
     s32 ret = 1;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
             break;
-        case 2:
+        case TEXT_STATE_CLOSING:
             /* "I am the boss of the carpenters ..." (wtf?) */
             if (thisx->textId == 0x5028) {
-                gSaveContext.infTable[13] |= 0x0100;
+                SET_INFTABLE(INFTABLE_D8);
             }
             ret = 0;
             break;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             break;
-        case 4:
-            if (func_80106BC8(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x5018 || thisx->textId == 0x5019)) {
                 if (globalCtx->msgCtx.choiceIndex == 1) {
                     /* "Thanks a lot!" */
                     thisx->textId = 0x0084;
@@ -374,25 +372,25 @@ s16 func_80B1C5A0(GlobalContext* globalCtx, Actor* thisx) {
                     /* "You don't have enough Rupees!" */
                     thisx->textId = 0x0085;
                 } else {
-                    globalCtx->msgCtx.msgMode = 0x37;
+                    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                     Rupees_ChangeBy(-10);
-                    gSaveContext.infTable[13] |= 0x0200;
+                    SET_INFTABLE(INFTABLE_D9);
                     return 2;
                 }
-                func_8010B720(globalCtx, thisx->textId);
-                gSaveContext.infTable[13] |= 0x0200;
+                Message_ContinueTextbox(globalCtx, thisx->textId);
+                SET_INFTABLE(INFTABLE_D9);
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
-                func_80106CCC(globalCtx);
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx) && (thisx->textId == 0x0084 || thisx->textId == 0x0085)) {
+                Message_CloseTextbox(globalCtx);
                 ret = 0;
             }
             break;
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             break;
     }
 
@@ -479,7 +477,7 @@ void EnTk_DigEff(EnTk* this) {
 }
 
 void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTk* this = THIS;
+    EnTk* this = (EnTk*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 24.0f);
@@ -509,7 +507,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTk* this = THIS;
+    EnTk* this = (EnTk*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -540,7 +538,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
                       func_80B1C5A0);
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
         v1 = this->actor.yawTowardsPlayer - v1;
@@ -612,8 +610,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
                  * Upgrade the purple rupee reward to the heart piece if this
                  * is the first grand prize dig.
                  */
-                if (!(gSaveContext.itemGetInf[1] & 0x1000)) {
-                    gSaveContext.itemGetInf[1] |= 0x1000;
+                if (!GET_ITEMGETINF(ITEMGETINF_1C)) {
+                    SET_ITEMGETINF(ITEMGETINF_1C);
                     this->currentReward = 4;
                 }
             }
@@ -629,7 +627,8 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_SY_ERROR);
         } else if (this->currentReward == 4) {
             /* Heart piece */
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
             /* Rupee */
             Audio_PlayActorSound2(&this->actor, NA_SE_SY_TRE_BOX_APPEAR);
@@ -640,9 +639,9 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         if (this->currentReward < 0) {
             /* "Nope, nothing here!" */
-            func_8010B680(globalCtx, 0x501A, NULL);
+            Message_StartTextbox(globalCtx, 0x501A, NULL);
         } else {
-            func_80106CCC(globalCtx);
+            Message_CloseTextbox(globalCtx);
         }
 
         EnTk_RestAnim(this, globalCtx);
@@ -654,7 +653,7 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
 }
 
 void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTk* this = THIS;
+    EnTk* this = (EnTk*)thisx;
     s32 pad;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -664,7 +663,7 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_MoveForward(&this->actor);
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     this->actionFunc(this, globalCtx);
 
@@ -682,7 +681,7 @@ void func_80B1D200(GlobalContext* globalCtx) {
 }
 
 s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnTk* this = THIS;
+    EnTk* this = (EnTk*)thisx;
 
     switch (limbIndex) {
         /* Limb 15 - Head */
@@ -700,7 +699,7 @@ s32 EnTk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnTk* this = THIS;
+    EnTk* this = (EnTk*)thisx;
     Vec3f sp28 = { 0.0f, 0.0f, 4600.0f };
     Vec3f sp1C = { 0.0f, 0.0f, 0.0f };
 
@@ -722,7 +721,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDampeEyeHalfTex,
         gDampeEyeClosedTex,
     };
-    EnTk* this = THIS;
+    EnTk* this = (EnTk*)thisx;
 
     Matrix_Push();
     EnTkEff_Draw(this, globalCtx);

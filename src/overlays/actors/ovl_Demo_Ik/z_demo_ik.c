@@ -2,9 +2,7 @@
 #include "vt.h"
 #include "objects/object_ik/object_ik.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoIk*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void DemoIk_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,8 @@ void DemoIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoIk_BgCheck(DemoIk* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
@@ -92,20 +91,20 @@ void DemoIk_Type1PlaySound(DemoIk* this) {
     switch (this->actor.params) {
         case 0:
             if (Animation_OnFrame(&this->skelAnime, 5.0f)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND1_DEMO, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND1_DEMO, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case 1:
             if (Animation_OnFrame(&this->skelAnime, 10.0f)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND3_DEMO, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND3_DEMO, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case 2:
             if (Animation_OnFrame(&this->skelAnime, 9.0f)) {
-                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND2_DEMO, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_LAND2_DEMO, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
     }
@@ -258,7 +257,7 @@ void DemoIk_Type1Action2(DemoIk* this, GlobalContext* globalCtx) {
 }
 
 void DemoIk_Type1PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_ik_inArmer.c", 385);
@@ -326,8 +325,8 @@ void DemoIk_Type2Init(DemoIk* this, GlobalContext* globalCtx) {
 
 void DemoIk_Type2PlaySoundOnFrame(DemoIk* this, f32 frame) {
     if (Animation_OnFrame(&this->skelAnime, frame)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_IRONNACK_ARMOR_OFF_DEMO, &this->actor.projectedPos, 4,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -406,7 +405,7 @@ void DemoIk_Type2Action2(DemoIk* this, GlobalContext* globalCtx) {
 
 s32 DemoIk_Type2OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if ((limbIndex == 1) && (DemoIk_GetCurFrame(this) < 30.0f)) {
         *dList = NULL;
@@ -415,7 +414,7 @@ s32 DemoIk_Type2OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 void DemoIk_Type2PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32 frame = DemoIk_GetCurFrame(this);
 
@@ -471,7 +470,7 @@ static DemoIkActionFunc sActionFuncs[] = {
 
 void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
@@ -493,7 +492,7 @@ static DemoIkDrawFunc sDrawFuncs[] = {
 
 void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
         // "The draw mode is strange"
@@ -517,7 +516,7 @@ const ActorInit Demo_Ik_InitVars = {
 
 void DemoIk_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    DemoIk* this = THIS;
+    DemoIk* this = (DemoIk*)thisx;
 
     if (this->actor.params == 0 || this->actor.params == 1 || this->actor.params == 2) {
         DemoIk_Type1Init(this, globalCtx);

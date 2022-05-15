@@ -13,8 +13,8 @@ Gfx sWipeDList[] = {
     gsDPSetCombineLERP(TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, COMBINED, 0,
                        PRIMITIVE, 0, COMBINED, 0, PRIMITIVE, 0),
     gsDPSetPrimDepth(0, 0),
-    gsDPLoadTextureBlock_4b(sWipe1Tex, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 6,
-                            6, 11, G_TX_NOLOD),
+    gsDPLoadTextureBlock_4b(sWipe1Tex, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 6, 6,
+                            11, G_TX_NOLOD),
     gsDPLoadMultiBlock_4b(sWipe1Tex, 0x0100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                           G_TX_MIRROR | G_TX_WRAP, 6, 6, 11, 1),
     gsDPSetTextureLUT(G_TT_NONE),
@@ -36,12 +36,10 @@ Gfx sWipeSyncDList[] = {
     gsSPEndDisplayList(),
 };
 
-#define THIS ((TransitionWipe*)thisx)
-
 void TransitionWipe_Start(void* thisx) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
-    this->isDone = 0;
+    this->isDone = false;
 
     if (this->direction) {
         this->texY = 0x14D;
@@ -54,7 +52,7 @@ void TransitionWipe_Start(void* thisx) {
 }
 
 void* TransitionWipe_Init(void* thisx) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     bzero(this, sizeof(*this));
     return this;
@@ -64,22 +62,19 @@ void TransitionWipe_Destroy(void* thisx) {
 }
 
 void TransitionWipe_Update(void* thisx, s32 updateRate) {
-    TransitionWipe* this = THIS;
-    u8 unk1419;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     if (this->direction != 0) {
-        unk1419 = gSaveContext.unk_1419;
-        this->texY += (unk1419 * 3) / updateRate;
+        this->texY += (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
         if (this->texY >= 0x264) {
             this->texY = 0x264;
-            this->isDone = 1;
+            this->isDone = true;
         }
     } else {
-        unk1419 = gSaveContext.unk_1419;
-        this->texY -= (unk1419 * 3) / updateRate;
-        if (this->texY < 0x14E) {
+        this->texY -= (((void)0, gSaveContext.transWipeSpeed) * 3) / updateRate;
+        if (this->texY <= 0x14D) {
             this->texY = 0x14D;
-            this->isDone = 1;
+            this->isDone = true;
         }
     }
 }
@@ -87,7 +82,7 @@ void TransitionWipe_Update(void* thisx, s32 updateRate) {
 void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
     s32 pad[4];
     Gfx* tex;
 
@@ -113,13 +108,13 @@ void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
 }
 
 s32 TransitionWipe_IsDone(void* thisx) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     return this->isDone;
 }
 
 void TransitionWipe_SetType(void* thisx, s32 type) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     if (type == 1) {
         this->direction = 1;
@@ -135,13 +130,13 @@ void TransitionWipe_SetType(void* thisx, s32 type) {
 }
 
 void TransitionWipe_SetColor(void* thisx, u32 color) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     this->color.rgba = color;
 }
 
 void TransitionWipe_SetEnvColor(void* thisx, u32 color) {
-    TransitionWipe* this = THIS;
+    TransitionWipe* this = (TransitionWipe*)thisx;
 
     this->envColor.rgba = color;
 }

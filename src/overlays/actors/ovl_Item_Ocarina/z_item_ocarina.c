@@ -7,9 +7,7 @@
 #include "z_item_ocarina.h"
 #include "scenes/overworld/spot00/spot00_scene.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ItemOcarina*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx);
 void ItemOcarina_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ void ItemOcarina_SetupAction(ItemOcarina* this, ItemOcarinaActionFunc actionFunc
 }
 
 void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
     s32 params = thisx->params;
 
     ActorShape_Init(&this->actor.shape, 0, 0, 0);
@@ -59,7 +57,7 @@ void ItemOcarina_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case 3:
             ItemOcarina_SetupAction(this, ItemOcarina_WaitInWater);
-            if (!(gSaveContext.eventChkInf[8] & 1) || (gSaveContext.eventChkInf[4] & 8)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_80) || GET_EVENTCHKINF(EVENTCHKINF_43)) {
                 Actor_Kill(thisx);
                 return;
             }
@@ -169,7 +167,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gHyruleFieldZeldaSongOfTimeCs);
         gSaveContext.cutsceneTrigger = 1;
     }
@@ -177,7 +175,7 @@ void ItemOcarina_StartSoTCutscene(ItemOcarina* this, GlobalContext* globalCtx) {
 
 void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
-        gSaveContext.eventChkInf[4] |= 8;
+        SET_EVENTCHKINF(EVENTCHKINF_43);
         Flags_SetSwitch(globalCtx, 3);
         this->actionFunc = ItemOcarina_StartSoTCutscene;
         this->actor.draw = NULL;
@@ -191,13 +189,13 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
 }
 
 void ItemOcarina_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    ItemOcarina* this = THIS;
+    ItemOcarina* this = (ItemOcarina*)thisx;
 
     func_8002EBCC(thisx, globalCtx, 0);
     func_8002ED80(thisx, globalCtx, 0);

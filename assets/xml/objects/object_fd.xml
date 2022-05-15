@@ -47,7 +47,7 @@
         <DList Name="gVolvagiaBodySeg16DL" Offset="0x8038"/>
         <DList Name="gVolvagiaBodySeg17DL" Offset="0x8080"/>
         <DList Name="gVolvagiaBodySeg18DL" Offset="0x80D8"/>
-        
+
         <!-- Particle display lists -->
         <DList Name="gVolvagiaEmberMaterialDL" Offset="0xA880"/>
         <DList Name="gVolvagiaEmberModelDL" Offset="0xA900"/>

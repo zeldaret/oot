@@ -7,9 +7,7 @@
 #include "z_oceff_spot.h"
 #include "vt.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((OceffSpot*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx);
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -43,7 +41,7 @@ void OceffSpot_SetupAction(OceffSpot* this, OceffSpotActionFunc actionFunc) {
 
 void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     OceffSpot_SetupAction(this, OceffSpot_GrowCylinder);
@@ -66,14 +64,14 @@ void OceffSpot_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffSpot_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode1);
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode2);
     func_800876C8(globalCtx);
     if ((gSaveContext.nayrusLoveTimer != 0) && (globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].length != 0)) {
-        player->stateFlags3 |= 0x40;
+        player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 
@@ -82,8 +80,10 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
-        if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 && (gSaveContext.eventInf[0] & 0xF) != 1) {
-            if (globalCtx->msgCtx.unk_E3F0 != 0x31 || globalCtx->msgCtx.unk_E3EE != 8) {
+        if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 &&
+            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
+            if (globalCtx->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
+                globalCtx->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 // "Sun's Song Flag"
@@ -91,7 +91,7 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
                 osSyncPrintf(VT_RST);
             }
         } else {
-            globalCtx->msgCtx.unk_E3EE = 4;
+            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
             osSyncPrintf(VT_FGCOL(YELLOW));
             // "Ocarina End"
             osSyncPrintf("z_oceff_spot  オカリナ終了\n");
@@ -118,7 +118,7 @@ void OceffSpot_GrowCylinder(OceffSpot* this, GlobalContext* globalCtx) {
 }
 
 void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
     f32 temp;
@@ -147,7 +147,7 @@ void OceffSpot_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void OceffSpot_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    OceffSpot* this = THIS;
+    OceffSpot* this = (OceffSpot*)thisx;
     u32 scroll = globalCtx->state.frames & 0xFFFF;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_spot.c", 466);

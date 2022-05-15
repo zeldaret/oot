@@ -7,9 +7,7 @@
 #include "z_bg_hidan_sima.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgHidanSima*)thisx)
+#define FLAGS 0
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -83,7 +81,7 @@ static void* sFireballsTexs[] = {
 };
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 i;
@@ -109,7 +107,7 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -119,7 +117,7 @@ void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
-    if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
+    if (func_8004356C(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
         this->timer = 20;
         this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4000;
         if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
@@ -208,12 +206,13 @@ void func_8088E90C(BgHidanSima* this) {
 }
 
 void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
 
     this->actionFunc(this, globalCtx);
     if (this->dyna.actor.params != 0) {
         s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
+
         if (this->actionFunc == func_8088E7A8) {
             temp += 20;
         }
@@ -277,7 +276,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
 }
 
 void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSima* this = THIS;
+    BgHidanSima* this = (BgHidanSima*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
     func_80093D18(globalCtx->state.gfxCtx);

@@ -9,9 +9,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000011
-
-#define THIS ((EnVm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4)
 
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -134,7 +132,7 @@ void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
 }
 
 void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &gBeamosSkel, &gBeamosAnim, this->jointTable, this->morphTable, 11);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
@@ -146,7 +144,7 @@ void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->colliderQuad2, thisx, &sQuadInit2);
     this->beamSightRange = (thisx->params >> 8) * 40.0f;
     thisx->params &= 0xFF;
-    thisx->naviEnemyId = 0x39;
+    thisx->naviEnemyId = NAVI_ENEMY_BEAMOS;
 
     if (thisx->params == BEAMOS_LARGE) {
         thisx->colChkInfo.health = 2;
@@ -160,7 +158,7 @@ void EnVm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnVm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->colliderCylinder);
 }
@@ -418,7 +416,7 @@ void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
 }
 
 void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
     CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
 
     if (this->actor.colChkInfo.health != 0) {
@@ -451,7 +449,7 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
 
     if (limbIndex == 2) {
         rot->x += this->beamRot.x;
@@ -466,7 +464,7 @@ s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
     Vec3f sp80 = D_80B2EAF8;
     Vec3f sp74 = D_80B2EB04;
     Vec3f sp68 = D_80B2EB10;
@@ -517,7 +515,7 @@ void EnVm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx2) {
-    EnVm* this = THIS;
+    EnVm* this = (EnVm*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Vec3f actorPos;
 
@@ -548,7 +546,7 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     }
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, this->beamTexScroll));
     Matrix_Translate(this->beamPos1.x, this->beamPos1.y, this->beamPos1.z, MTXMODE_NEW);
-    Matrix_RotateRPY(this->beamRot.x, this->beamRot.y, this->beamRot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->beamRot.x, this->beamRot.y, this->beamRot.z, MTXMODE_APPLY);
     Matrix_Scale(this->beamScale.x * 0.1f, this->beamScale.x * 0.1f, this->beamScale.z * 0.0015f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1063),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

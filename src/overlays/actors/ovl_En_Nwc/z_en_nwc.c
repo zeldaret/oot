@@ -7,9 +7,7 @@
 #include "z_en_nwc.h"
 #include "objects/object_nwc/object_nwc.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnNwc*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNwc_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -171,7 +169,7 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
         if (chick->type != CHICK_NONE) {
             Mtx* mtx;
 
-            func_800D1694(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
+            Matrix_SetTranslateRotateYXZ(chick->pos.x, chick->pos.y + chick->height, chick->pos.z, &chick->rot);
             Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 346);
             gDPSetEnvColor(dList1++, 0, 100, 255, 255);
@@ -193,7 +191,7 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
         if ((chick->type != CHICK_NONE) && (chick->floorPoly != NULL)) {
             func_80038A28(chick->floorPoly, chick->pos.x, chick->floorY, chick->pos.z, &floorMat);
             Matrix_Put(&floorMat);
-            Matrix_RotateY(chick->rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD(chick->rot.y), MTXMODE_APPLY);
             Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_nwc.c", 388),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -205,7 +203,7 @@ void EnNwc_DrawChicks(EnNwc* this, GlobalContext* globalCtx) {
 
 void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNwc* this = THIS;
+    EnNwc* this = (EnNwc*)thisx;
     ColliderJntSphElementInit elementInits[16];
     ColliderJntSphElementInit* element;
     EnNwcChick* chick;
@@ -232,7 +230,7 @@ void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNwc_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNwc* this = THIS;
+    EnNwc* this = (EnNwc*)thisx;
 
     Collider_FreeJntSph(globalCtx, &this->collider);
 }
@@ -243,7 +241,7 @@ void EnNwc_Idle(EnNwc* this, GlobalContext* globalCtx) {
 
 void EnNwc_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNwc* this = THIS;
+    EnNwc* this = (EnNwc*)thisx;
 
     this->updateFunc(this, globalCtx);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -251,7 +249,7 @@ void EnNwc_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNwc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNwc* this = THIS;
+    EnNwc* this = (EnNwc*)thisx;
 
     EnNwc_DrawChicks(this, globalCtx);
 }

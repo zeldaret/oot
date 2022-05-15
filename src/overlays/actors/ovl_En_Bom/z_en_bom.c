@@ -8,9 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnBom*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -90,7 +88,7 @@ void EnBom_SetupAction(EnBom* this, EnBomActionFunc actionFunc) {
 }
 
 void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawCircle, 16.0f);
@@ -114,7 +112,7 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBom_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->explosionCollider);
     Collider_DestroyCylinder(globalCtx, &this->bombCollider);
@@ -128,29 +126,29 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((this->actor.velocity.y > 0.0f) && (this->actor.bgCheckFlags & 0x10)) {
+    if ((this->actor.velocity.y > 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING)) {
         this->actor.velocity.y = -this->actor.velocity.y;
     }
 
     // rebound bomb off the wall it hits
-    if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
+    if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         if (ABS((s16)(this->actor.wallYaw - this->actor.world.rot.y)) > 0x4000) {
             this->actor.world.rot.y = ((this->actor.wallYaw - this->actor.world.rot.y) + this->actor.wallYaw) - 0x8000;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_BOUND);
         Actor_MoveForward(&this->actor);
         this->actor.speedXZ *= 0.7f;
-        this->actor.bgCheckFlags &= ~8;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
     }
 
-    if (!(this->actor.bgCheckFlags & 1)) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         Math_StepToF(&this->actor.speedXZ, 0.0f, 0.08f);
     } else {
         Math_StepToF(&this->actor.speedXZ, 0.0f, 1.0f);
-        if ((this->actor.bgCheckFlags & 2) && (this->actor.velocity.y < -3.0f)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) && (this->actor.velocity.y < -3.0f)) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.3f;
-            this->actor.bgCheckFlags &= ~2;
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         } else if (this->timer >= 4) {
             func_8002F580(&this->actor, globalCtx);
         }
@@ -171,7 +169,7 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
     if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
-        this->actor.flags |= 0x20;
+        this->actor.flags |= ACTOR_FLAG_5;
         func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
@@ -208,11 +206,11 @@ void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         player = GET_PLAYER(globalCtx);
 
-        if ((player->stateFlags1 & 0x800) && (player->heldActor == &this->actor)) {
+        if ((player->stateFlags1 & PLAYER_STATE1_11) && (player->heldActor == &this->actor)) {
             player->actor.child = NULL;
             player->heldActor = NULL;
             player->interactRangeActor = NULL;
-            player->stateFlags1 &= ~0x800;
+            player->stateFlags1 &= ~PLAYER_STATE1_11;
         }
 
         Actor_Kill(&this->actor);
@@ -228,7 +226,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Color_RGBA8 dustColor = { 255, 255, 255, 255 };
     s32 pad;
     GlobalContext* globalCtx = globalCtx2;
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     thisx->gravity = -1.2f;
 
@@ -247,7 +245,9 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->actionFunc(this, globalCtx);
 
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 15.0f, 0x1F);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 15.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2 |
+                                UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 
     if (thisx->params == BOMB_BODY) {
         if (this->timer < 63) {
@@ -325,7 +325,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
-            thisx->flags |= 0x20;
+            thisx->flags |= ACTOR_FLAG_5;
             EnBom_SetupAction(this, EnBom_Explode);
         }
     }
@@ -350,8 +350,8 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_Kill(thisx);
             return;
         }
-        if (thisx->bgCheckFlags & 0x40) {
-            thisx->bgCheckFlags &= ~0x40;
+        if (thisx->bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
+            thisx->bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
             Audio_PlayActorSound2(thisx, NA_SE_EV_BOMB_DROP_WATER);
         }
     }
@@ -359,7 +359,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBom* this = THIS;
+    EnBom* this = (EnBom*)thisx;
 
     if (1) {}
 
@@ -367,13 +367,13 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (thisx->params == BOMB_BODY) {
         func_80093D18(globalCtx->state.gfxCtx);
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
         func_8002EBCC(thisx, globalCtx, 0);
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gBombCapDL);
-        Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_OPA_DISP++);

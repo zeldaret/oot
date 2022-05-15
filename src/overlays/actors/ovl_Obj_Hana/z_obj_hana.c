@@ -7,9 +7,7 @@
 #include "z_obj_hana.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((ObjHana*)thisx)
+#define FLAGS 0
 
 void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -72,7 +70,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHana* this = THIS;
+    ObjHana* this = (ObjHana*)thisx;
     s16 type = this->actor.params & 3;
     HanaParams* params = &sHanaParams[type];
 
@@ -88,13 +86,13 @@ void ObjHana_Init(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     }
 
-    if (type == 2 && (gSaveContext.eventChkInf[4] & 1)) {
+    if (type == 2 && GET_EVENTCHKINF(EVENTCHKINF_40)) {
         Actor_Kill(&this->actor);
     }
 }
 
 void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHana* this = THIS;
+    ObjHana* this = (ObjHana*)thisx;
 
     if (sHanaParams[this->actor.params & 3].radius >= 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -102,7 +100,7 @@ void ObjHana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjHana_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjHana* this = THIS;
+    ObjHana* this = (ObjHana*)thisx;
 
     if (sHanaParams[this->actor.params & 3].radius >= 0 && this->actor.xzDistToPlayer < 400.0f) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

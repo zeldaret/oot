@@ -6,10 +6,9 @@
 
 #include "z_bg_haka_huta.h"
 #include "objects/object_hakach_objects/object_hakach_objects.h"
+#include "overlays/actors/ovl_En_Rd/z_en_rd.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHakaHuta*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +40,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaHuta* this = THIS;
+    BgHakaHuta* this = (BgHakaHuta*)thisx;
     s16 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -60,7 +59,7 @@ void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaHuta* this = THIS;
+    BgHakaHuta* this = (BgHakaHuta*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -102,14 +101,14 @@ void BgHakaHuta_PlaySound(BgHakaHuta* this, GlobalContext* globalCtx, u16 sfx) {
                                                 : this->dyna.actor.world.pos.z - 120.0f;
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y;
-    Audio_PlaySoundAtPosition(globalCtx, &pos, 30, sfx);
+    SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &pos, 30, sfx);
 }
 
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) && !Player_InCsMode(globalCtx)) {
         this->counter = 25;
         this->actionFunc = BgHakaHuta_Open;
-        OnePointCutscene_Init(globalCtx, 6001, 999, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 6001, 999, &this->dyna.actor, CAM_ID_MAIN);
         if (this->unk_16A == 2) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY,
                         (this->dyna.actor.world.pos.x + (-25.0f) * Math_CosS(this->dyna.actor.shape.rot.y) +
@@ -134,7 +133,7 @@ void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {
                         this->dyna.actor.home.pos.y - 40.0f,
                         (this->dyna.actor.home.pos.z - (-25.0f) * (Math_SinS(this->dyna.actor.shape.rot.y)) +
                          Math_CosS(this->dyna.actor.shape.rot.y) * 100.0f),
-                        0, this->dyna.actor.shape.rot.y, 0, 0xFD);
+                        0, this->dyna.actor.shape.rot.y, 0, (u8)REDEAD_TYPE_GIBDO_RISING_OUT_OF_COFFIN);
         }
     }
 }
@@ -193,7 +192,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (D_8087D958.x > 30.0f) {
         D_8087D958.x = 30.0f;
     }
-    Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.world.rot.y), MTXMODE_NEW);
     Matrix_RotateAxis(this->counter * (191 * M_PI / 3750), &D_8087D964, MTXMODE_APPLY);
     Matrix_MultVec3f(&D_8087D958, &vec);
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + vec.x;
@@ -207,7 +206,7 @@ void BgHakaHuta_DoNothing(BgHakaHuta* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaHuta* this = THIS;
+    BgHakaHuta* this = (BgHakaHuta*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

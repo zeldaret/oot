@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_po_sisters/object_po_sisters.h"
 
-#define FLAGS 0x00005215
-
-#define THIS ((EnPoSisters*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_9 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -176,7 +174,7 @@ static Color_RGBA8 D_80ADD7E8[4] = {
 static Vec3f D_80ADD7F8 = { 1000.0f, -1700.0f, 0.0f };
 
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -194,7 +192,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk_194 = (thisx->params >> 8) & 3;
-    this->actor.naviEnemyId = this->unk_194 + 0x50;
+    this->actor.naviEnemyId = this->unk_194 + NAVI_ENEMY_POE_SISTER_MEG;
     if (1) {}
     this->unk_195 = (thisx->params >> 0xA) & 3;
     this->unk_196 = 32;
@@ -202,7 +200,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_198 = 1;
     this->unk_199 = 32;
     this->unk_294 = 110.0f;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->actor.params & 0x1000) {
         func_80ADA094(this, globalCtx);
     } else if (this->unk_194 == 0) {
@@ -210,7 +208,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
             func_80AD9AA8(this, globalCtx);
         } else {
-            this->actor.flags &= ~0x00004200;
+            this->actor.flags &= ~(ACTOR_FLAG_9 | ACTOR_FLAG_14);
             this->collider.info.elemType = ELEMTYPE_UNK4;
             this->collider.info.bumper.dmgFlags |= 1;
             this->collider.base.ocFlags1 = OC1_NONE;
@@ -223,7 +221,7 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPoSisters_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     if (this->unk_194 == 0 && this->unk_195 == 0) {
@@ -341,7 +339,7 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
     f32 sp20;
 
     if (this->unk_195 == 0 || this->actionFunc != func_80ADAAA4) {
-        if ((player->swordState == 0 || player->swordAnimation >= 24) &&
+        if ((player->meleeWeaponState == 0 || player->meleeWeaponAnimation >= PLAYER_MWA_SPIN_ATTACK_1H) &&
             player->actor.world.pos.y - player->actor.floorHeight < 1.0f) {
             Math_StepToF(&this->unk_294, 110.0f, 3.0f);
         } else {
@@ -378,10 +376,10 @@ void func_80AD99D4(EnPoSisters* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     this->actor.world.pos.y += 42.0f;
     this->actor.shape.yOffset = -6000.0f;
-    this->actor.flags &= -2;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_199 = 0;
     this->actionFunc = func_80ADAFC0;
-    OnePointCutscene_Init(globalCtx, 3190, 999, &this->actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 3190, 999, &this->actor, CAM_ID_MAIN);
 }
 
 void func_80AD9A54(EnPoSisters* this, GlobalContext* globalCtx) {
@@ -428,7 +426,7 @@ void func_80AD9C24(EnPoSisters* this, GlobalContext* globalCtx) {
     Vec3f vec;
 
     this->actor.draw = NULL;
-    this->actor.flags &= -2;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->unk_19C = 100;
     this->unk_199 = 32;
     this->collider.base.colType = COLTYPE_HIT3;
@@ -462,7 +460,7 @@ void func_80AD9DF0(EnPoSisters* this, GlobalContext* globalCtx) {
     this->unk_198 = 1;
     this->unk_199 &= ~0x80;
     this->actionFunc = func_80ADB4B0;
-    OnePointCutscene_Init(globalCtx, 3180, 156, &this->actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 3180, 156, &this->actor, CAM_ID_MAIN);
 }
 
 void func_80AD9E60(EnPoSisters* this) {
@@ -487,7 +485,7 @@ void func_80AD9F1C(EnPoSisters* this) {
     this->unk_19A = 300;
     this->unk_19C = 3;
     this->unk_199 |= 9;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = func_80ADB770;
 }
 
@@ -509,7 +507,7 @@ void func_80ADA028(EnPoSisters* this) {
     Animation_MorphToLoop(&this->skelAnime, &gPoeSistersSwayAnim, -3.0f);
     this->unk_22E.a = 255;
     this->unk_199 |= 0x15;
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     this->actionFunc = func_80ADBBF4;
     this->actor.speedXZ = 0.0f;
 }
@@ -619,7 +617,7 @@ void func_80ADA530(EnPoSisters* this, GlobalContext* globalCtx) {
     } else if (this->unk_19A == 0 && Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f) != 0) {
         func_80AD9368(this);
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_ScaledStepToS(&this->actor.world.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
                            0x71C);
     } else if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 300.0f) {
@@ -701,7 +699,7 @@ void func_80ADA9E8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80ADAAA4(EnPoSisters* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & 0x8000)) {
+    if (SkelAnime_Update(&this->skelAnime) && !(this->actor.flags & ACTOR_FLAG_15)) {
         if (this->actor.colChkInfo.health != 0) {
             if (this->unk_194 != 0) {
                 func_80AD96A4(this);
@@ -731,7 +729,7 @@ void func_80ADAC70(EnPoSisters* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.0f) && this->unk_19A != 0) {
         this->unk_19A--;
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.world.rot.y = this->actor.shape.rot.y;
         this->unk_199 |= 2;
         func_80AD9718(this);
@@ -813,7 +811,7 @@ void func_80ADB17C(EnPoSisters* this, GlobalContext* globalCtx) {
     this->unk_19A++;
     if (this->unk_19A == 64) {
         Flags_SetSwitch(globalCtx, this->actor.params);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 30, NA_SE_EV_FLAME_IGNITION);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 30, NA_SE_EV_FLAME_IGNITION);
         if (this->unk_194 == 0) {
             Flags_UnsetSwitch(globalCtx, 0x1B);
         }
@@ -977,6 +975,7 @@ void func_80ADB770(EnPoSisters* this, GlobalContext* globalCtx) {
         }
     } else if (this->unk_195 != 0) {
         EnPoSisters* realMeg = (EnPoSisters*)this->actor.parent;
+
         if (realMeg->actionFunc == func_80ADAAA4) {
             func_80AD95D8(this);
         }
@@ -997,7 +996,7 @@ void func_80ADB9F0(EnPoSisters* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_22E.a = 255;
         if (this->unk_194 == 3) {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
             this->actor.home.pos.x = 1992.0f;
             this->actor.home.pos.z = -1440.0f;
             this->unk_199 |= 0x18;
@@ -1040,7 +1039,7 @@ void func_80ADBC88(EnPoSisters* this, GlobalContext* globalCtx) {
         }
         if (this->unk_19A == 30) {
             if (this->unk_194 == 0) {
-                OnePointCutscene_Init(globalCtx, 3140, 999, NULL, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 3140, 999, NULL, CAM_ID_MAIN);
             }
             D_80ADD784 = 1;
         }
@@ -1100,7 +1099,7 @@ void func_80ADBF58(EnPoSisters* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->actor.speedXZ, 5.0f, 0.2f);
     }
     if (this->unk_19A == -70 && this->unk_194 == 1) {
-        Audio_PlaySoundAtPosition(globalCtx, &D_80ADD7BC, 40, NA_SE_EN_PO_LAUGH);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &D_80ADD7BC, 40, NA_SE_EN_PO_LAUGH);
     }
     if (this->unk_19A < -120) {
         Actor_Kill(&this->actor);
@@ -1134,7 +1133,7 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if (this->unk_195 != 0) {
             ((EnPoSisters*)this->actor.parent)->unk_19C--;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_LAUGH2);
@@ -1173,7 +1172,7 @@ void func_80ADC10C(EnPoSisters* this, GlobalContext* globalCtx) {
 
 void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     s16 temp;
 
     if (this->collider.base.atFlags & AT_HIT) {
@@ -1192,10 +1191,11 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
 
         if (this->unk_199 & 0x10) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         } else {
             Vec3f vec;
-            UNK_TYPE sp34;
+            s32 sp34;
 
             vec.x = this->actor.world.pos.x;
             vec.y = this->actor.world.pos.y + 10.0f;
@@ -1213,7 +1213,7 @@ void EnPoSisters_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_198 = CLAMP_MIN(temp, 1);
         }
         if (this->actionFunc == func_80ADA8C0) {
-            this->actor.flags |= 0x01000000;
+            this->actor.flags |= ACTOR_FLAG_24;
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
         if (this->unk_199 & 1) {
@@ -1269,7 +1269,7 @@ void func_80ADC55C(EnPoSisters* this) {
 
 s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx, Gfx** gfxP) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     Color_RGBA8* color;
 
     if (limbIndex == 1 && (this->unk_199 & 0x40)) {
@@ -1297,7 +1297,7 @@ s32 EnPoSisters_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 
 void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
                               Gfx** gfxP) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     s32 i;
     s32 pad;
 
@@ -1339,7 +1339,7 @@ void EnPoSisters_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPoSisters* this = THIS;
+    EnPoSisters* this = (EnPoSisters*)thisx;
     u8 phi_s5;
     f32 phi_f20;
     s32 i;
@@ -1405,7 +1405,7 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, temp_s7->r, temp_s7->g, temp_s7->b, phi_s5);
         Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
-        Matrix_RotateRPY(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000), 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000), 0, MTXMODE_APPLY);
         if (this->actionFunc == func_80ADAFC0) {
             phi_f20 = (this->unk_19A - i) * 0.025f + 0.5f;
             phi_f20 = CLAMP(phi_f20, 0.5f, 0.8f) * 0.007f;

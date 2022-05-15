@@ -7,9 +7,7 @@
 #include "z_en_ge3.h"
 #include "objects/object_geldb/object_geldb.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnGe3*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -66,7 +64,7 @@ void EnGe3_ChangeAction(EnGe3* this, s32 i) {
 }
 
 void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -88,7 +86,7 @@ void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void EnGe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -126,10 +124,10 @@ void EnGe3_LookAtPlayer(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_Wait(EnGe3* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_WaitLookAtPlayer;
         this->actor.update = EnGe3_UpdateWhenNotTalking;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     EnGe3_TurnToFacePlayer(this, globalCtx);
 }
@@ -148,16 +146,16 @@ void EnGe3_WaitTillCardGiven(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_GiveCard(EnGe3* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
-        this->actor.flags &= ~0x10000;
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe3_WaitTillCardGiven;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
 }
 
 void EnGe3_ForceTalk(EnGe3* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_GiveCard;
     } else {
         if (!(this->unk_30C & 4)) {
@@ -165,7 +163,7 @@ void EnGe3_ForceTalk(EnGe3* this, GlobalContext* globalCtx) {
             this->unk_30C |= 4;
         }
         this->actor.textId = 0x6004;
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0);
     }
     EnGe3_LookAtPlayer(this, globalCtx);
@@ -177,7 +175,8 @@ void EnGe3_UpdateCollision(EnGe3* this, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (!(this->unk_30C & 2) && SkelAnime_Update(&this->skelAnime)) {
         this->unk_30C |= 2;
@@ -200,12 +199,12 @@ void EnGe3_MoveAndBlink(EnGe3* this, GlobalContext* globalCtx) {
 }
 
 void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     EnGe3_UpdateCollision(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe3_Wait;
         this->actor.update = EnGe3_Update;
     } else {
@@ -219,7 +218,7 @@ void EnGe3_UpdateWhenNotTalking(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     EnGe3_UpdateCollision(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -227,7 +226,7 @@ void EnGe3_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
 
     switch (limbIndex) {
         // Hide swords and veil from object_geldb
@@ -268,7 +267,7 @@ s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnGe3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
     Vec3f D_80A351C8 = { 600.0f, 700.0f, 0.0f };
 
     if (limbIndex == GELDB_LIMB_HEAD) {
@@ -278,11 +277,11 @@ void EnGe3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnGe3_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     static void* eyeTextures[] = {
-        0x06005FE8, // Half-open
-        0x060065A8, // Quarter-open
-        0x06006D28, // Closed
+        gGerudoRedEyeOpenTex,
+        gGerudoRedEyeHalfTex,
+        gGerudoRedEyeShutTex,
     };
-    EnGe3* this = THIS;
+    EnGe3* this = (EnGe3*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge3.c", 614);

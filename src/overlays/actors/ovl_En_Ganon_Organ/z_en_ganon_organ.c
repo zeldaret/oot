@@ -7,9 +7,7 @@
 #include "z_en_ganon_organ.h"
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnGanonOrgan*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -33,7 +31,7 @@ static u64 sForceAlignment = 0;
 #include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
 void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
-    thisx->flags &= ~1;
+    thisx->flags &= ~ACTOR_FLAG_0;
 }
 
 void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -45,7 +43,7 @@ void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("ORGAN MOVE 1\n");
     if (thisx->params == 1) {
         dorf = (BossGanon*)thisx->parent;
-        if (dorf->organFadeTimer == 0) {
+        if (dorf->organAlpha == 0) {
             Actor_Kill(thisx);
         }
     }
@@ -69,7 +67,7 @@ Gfx* func_80A280BC(GraphicsContext* gfxCtx, BossGanon* dorf) {
     gDPPipeSync(displayListHead++);
     if (1) {}
     if (1) {}
-    gDPSetEnvColor(displayListHead++, 25, 20, 0, dorf->organFadeTimer);
+    gDPSetEnvColor(displayListHead++, 25, 20, 0, dorf->organAlpha);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;
@@ -85,7 +83,7 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
     gDPPipeSync(displayListHead++);
     if (1) {}
     if (1) {}
-    gDPSetEnvColor(displayListHead++, 0, 0, 0, dorf->organFadeTimer);
+    gDPSetEnvColor(displayListHead++, 0, 0, 0, dorf->organAlpha);
     gDPSetRenderMode(displayListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gSPEndDisplayList(displayListHead);
     return displayList;
@@ -98,7 +96,7 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("ORGAN DRAW  1\n");
     func_80093D18(globalCtx->state.gfxCtx);
-    if ((thisx->params == 1) && (dorf->organFadeTimer != 255)) {
+    if ((thisx->params == 1) && (dorf->organAlpha != 255)) {
         gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
         gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));
     } else {

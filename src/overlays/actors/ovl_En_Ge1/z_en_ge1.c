@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_ge1/object_ge1.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnGe1*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 #define GE1_STATE_TALKING (1 << 0)
 #define GE1_STATE_GIVE_QUIVER (1 << 1)
@@ -89,7 +87,7 @@ static void* sEyeTextures[] = {
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoWhiteSkel, &gGerudoWhiteIdleAnim, this->jointTable,
@@ -154,7 +152,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             // "Horseback archery Gerudo EVENT_INF(0) ="
             osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
 
-            if (gSaveContext.eventInf[0] & 0x100) {
+            if (GET_EVENTINF(EVENTINF_HORSES_08)) {
                 this->actionFunc = EnGe1_TalkAfterGame_Archery;
             } else if (EnGe1_CheckCarpentersFreed()) {
                 this->actionFunc = EnGe1_Wait_Archery;
@@ -178,13 +176,13 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 arg3, EnGe1ActionFunc actionFunc) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
@@ -211,9 +209,10 @@ void EnGe1_SetAnimationIdle(EnGe1* this) {
 }
 
 s32 EnGe1_CheckCarpentersFreed(void) {
-    u16 carpenterFlags = gSaveContext.eventChkInf[9];
+    u16 carpenterFlags = gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX];
 
-    if (!((carpenterFlags & 1) && (carpenterFlags & 2) && (carpenterFlags & 4) && (carpenterFlags & 8))) {
+    if (!((carpenterFlags & EVENTCHKINF_90_MASK) && (carpenterFlags & EVENTCHKINF_91_MASK) &&
+          (carpenterFlags & EVENTCHKINF_92_MASK) && (carpenterFlags & EVENTCHKINF_93_MASK))) {
         return 0;
     }
     return 1;
@@ -231,15 +230,15 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[12] & 0x80) { // Caught previously
-            globalCtx->nextEntranceIndex = 0x5F8;
+            globalCtx->nextEntranceIndex = ENTR_SPOT09_1;
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) { // Caught previously
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_18;
         } else {
-            globalCtx->nextEntranceIndex = 0x3B4;
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_17;
         }
 
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -248,7 +247,7 @@ void EnGe1_SpotPlayer(EnGe1* this, GlobalContext* globalCtx) {
     this->actionFunc = EnGe1_KickPlayer;
     func_8002DF54(globalCtx, &this->actor, 0x5F);
     func_80078884(NA_SE_SY_FOUND);
-    func_8010B680(globalCtx, 0x6000, &this->actor);
+    Message_StartTextbox(globalCtx, 0x6000, &this->actor);
 }
 
 void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
@@ -268,7 +267,7 @@ void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_ChooseActionFromTextId(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         switch (this->actor.textId) {
             case 0x6001:
                 this->actionFunc = EnGe1_SetNormalText;
@@ -335,14 +334,14 @@ void EnGe1_Open_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
         this->actionFunc = EnGe1_WaitTillOpened_GTGGuard;
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         this->cutsceneTimer = 50;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
     }
 }
 
 void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = EnGe1_Open_GTGGuard;
         Animation_Change(&this->skelAnime, &gGerudoWhiteClapAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gGerudoWhiteClapAnim), ANIMMODE_ONCE, -3.0f);
@@ -353,7 +352,7 @@ void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->actionFunc = EnGe1_CheckForCard_GTGGuard;
         EnGe1_SetAnimationIdle(this);
     }
@@ -361,17 +360,17 @@ void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
 
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.rupees < 10) {
-                    func_8010B720(globalCtx, 0x6016);
+                    Message_ContinueTextbox(globalCtx, 0x6016);
                     this->actionFunc = EnGe1_RefuseEntryTooPoor_GTGGuard;
                 } else {
                     Rupees_ChangeBy(-10);
-                    func_8010B720(globalCtx, 0x6015);
+                    Message_ContinueTextbox(globalCtx, 0x6015);
                     this->actionFunc = EnGe1_SetupOpen_GTGGuard;
                 }
                 break;
@@ -385,7 +384,7 @@ void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_CheckForCard_GTGGuard;
         EnGe1_SetAnimationIdle(this);
     }
@@ -406,8 +405,8 @@ void EnGe1_CheckForCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_WaitGateOpen_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnGe1_CheckGate_GateOp;
         EnGe1_SetAnimationIdle(this);
     }
@@ -428,7 +427,7 @@ void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
         this->actionFunc = EnGe1_WaitUntilGateOpened_GateOp;
         Flags_SetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F);
         this->cutsceneTimer = 50;
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
     } else if ((this->skelAnime.curFrame == 15.0f) || (this->skelAnime.curFrame == 19.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_HAND_CLAP);
     }
@@ -437,7 +436,7 @@ void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = EnGe1_OpenGate_GateOp;
         Animation_Change(&this->skelAnime, &gGerudoWhiteClapAnim, 1.0f, 0.0f,
                          Animation_GetLastFrame(&gGerudoWhiteClapAnim), ANIMMODE_ONCE, -3.0f);
@@ -460,7 +459,7 @@ void EnGe1_CheckGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_Talk_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_GetReaction_GateGuard;
         EnGe1_SetAnimationIdle(this);
     }
@@ -486,7 +485,7 @@ void EnGe1_GetReaction_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
 // Archery functions
 
 void EnGe1_SetupWait_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
     }
@@ -498,9 +497,9 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_SetupWait_Archery;
         if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
-            gSaveContext.itemGetInf[0] |= 0x8000;
+            SET_ITEMGETINF(ITEMGETINF_0F);
         } else {
-            gSaveContext.infTable[25] |= 1;
+            SET_INFTABLE(INFTABLE_190);
         }
     } else {
         if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
@@ -523,8 +522,8 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
-    if (func_8002F334(&this->actor, globalCtx)) {
-        this->actor.flags &= ~0x10000;
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
 
@@ -549,17 +548,17 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_BeginGiveItem_Archery;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 200.0f);
     }
 }
 
 void EnGe1_TalkTooPoor_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
     }
@@ -572,24 +571,24 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     Actor* horse;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
-        this->actor.flags &= ~0x10000;
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+        this->actor.flags &= ~ACTOR_FLAG_16;
 
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 if (gSaveContext.rupees < 20) {
-                    func_8010B720(globalCtx, 0x85);
+                    Message_ContinueTextbox(globalCtx, 0x85);
                     this->actionFunc = EnGe1_TalkTooPoor_Archery;
                 } else {
                     Rupees_ChangeBy(-20);
-                    globalCtx->nextEntranceIndex = 0x129;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT12_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF0;
-                    globalCtx->fadeTransition = 0x26;
-                    globalCtx->sceneLoadFlag = 0x14;
-                    gSaveContext.eventInf[0] |= 0x100;
-                    gSaveContext.eventChkInf[6] |= 0x100;
+                    globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                    SET_EVENTINF(EVENTINF_HORSES_08);
+                    SET_EVENTCHKINF(EVENTCHKINF_68);
 
-                    if (!(player->stateFlags1 & 0x800000)) {
+                    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                         func_8002DF54(globalCtx, &this->actor, 1);
                     } else {
                         horse = Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_HORSE, ACTORCAT_BG, 1200.0f);
@@ -606,21 +605,21 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
             case 1:
                 this->actionFunc = EnGe1_Wait_Archery;
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 break;
         }
     }
 }
 
 void EnGe1_TalkOfferPlay_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
-        func_8010B720(globalCtx, 0x6041);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x6041);
         this->actionFunc = EnGe1_BeginGame_Archery;
     }
 }
 
 void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_TalkOfferPlay_Archery;
     } else {
         func_8002F2CC(&this->actor, globalCtx, 300.0f);
@@ -628,27 +627,26 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    gSaveContext.eventInf[0] &= ~0x100;
+    CLEAR_EVENTINF(EVENTINF_HORSES_08);
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
-    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.highScores[HS_HBA], "../z_en_ge1.c",
-            1111);
-    this->actor.flags |= 0x10000;
+    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
+    this->actor.flags |= ACTOR_FLAG_16;
 
-    if (gSaveContext.highScores[HS_HBA] < gSaveContext.minigameScore) {
-        gSaveContext.highScores[HS_HBA] = gSaveContext.minigameScore;
+    if (HIGH_SCORE(HS_HBA) < gSaveContext.minigameScore) {
+        HIGH_SCORE(HS_HBA) = gSaveContext.minigameScore;
     }
 
     if (gSaveContext.minigameScore < 1000) {
         this->actor.textId = 0x6045;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
-    } else if (!(gSaveContext.infTable[25] & 1)) {
+    } else if (!GET_INFTABLE(INFTABLE_190)) {
         this->actor.textId = 0x6046;
         this->actionFunc = EnGe1_TalkWinPrize_Archery;
         this->stateFlags &= ~GE1_STATE_GIVE_QUIVER;
     } else if (gSaveContext.minigameScore < 1500) {
         this->actor.textId = 0x6047;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
-    } else if (gSaveContext.itemGetInf[0] & 0x8000) {
+    } else if (GET_ITEMGETINF(ITEMGETINF_0F)) {
         this->actor.textId = 0x6047;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
     } else {
@@ -660,7 +658,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_TalkNoHorse_Archery(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
     }
@@ -670,11 +668,11 @@ void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     u16 textId;
 
-    if (!(player->stateFlags1 & 0x800000)) {
+    if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
         EnGe1_SetTalkAction(this, globalCtx, 0x603F, 100.0f, EnGe1_TalkNoHorse_Archery);
     } else {
-        if (gSaveContext.eventChkInf[6] & 0x100) {
-            if (gSaveContext.infTable[25] & 1) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_68)) {
+            if (GET_INFTABLE(INFTABLE_190)) {
                 textId = 0x6042;
             } else {
                 textId = 0x6043;
@@ -721,12 +719,13 @@ void EnGe1_LookAtPlayer(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     this->animFunc(this);
     this->actionFunc(this, globalCtx);
 
@@ -767,7 +766,7 @@ void EnGe1_StopFidget(EnGe1* this) {
 
 s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     if (limbIndex == GE1_LIMB_HEAD) {
         rot->x += this->headRot.y;
@@ -789,7 +788,7 @@ s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
 
@@ -803,7 +802,7 @@ void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe1* this = THIS;
+    EnGe1* this = (EnGe1*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1442);
 

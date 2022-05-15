@@ -8,9 +8,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_spot11_obj/object_spot11_obj.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot11Oasis*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -83,7 +81,7 @@ s32 func_808B280C(GlobalContext* globalCtx) {
 }
 
 void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Oasis* this = THIS;
+    BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808B2970(this);
@@ -97,7 +95,7 @@ void func_808B2970(BgSpot11Oasis* this) {
 
 void func_808B2980(BgSpot11Oasis* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 5) && func_808B280C(globalCtx)) {
-        OnePointCutscene_Init(globalCtx, 4150, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4150, -99, &this->actor, CAM_ID_MAIN);
         func_808B29E0(this);
     }
 }
@@ -124,7 +122,7 @@ void func_808B2AB8(BgSpot11Oasis* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot11Oasis* this = THIS;
+    BgSpot11Oasis* this = (BgSpot11Oasis*)thisx;
     s32 pad;
     u32 gameplayFrames;
     Vec3f sp30;

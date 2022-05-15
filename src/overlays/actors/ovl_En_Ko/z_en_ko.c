@@ -7,11 +7,12 @@
 #include "z_en_ko.h"
 #include "objects/object_fa/object_fa.h"
 #include "objects/object_os_anime/object_os_anime.h"
+#include "objects/object_km1/object_km1.h"
+#include "objects/object_kw1/object_kw1.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-#define THIS ((EnKo*)thisx)
 #define ENKO_TYPE (this->actor.params & 0xFF)
 #define ENKO_PATH ((this->actor.params & 0xFF00) >> 8)
 
@@ -64,8 +65,7 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static void* sFaEyes[] = { gFaEyeOpenTex, gFaEyeHalfTex, gFaEyeClosedTex, NULL };
-static void* sKw1Eyes[] = { /* gKw1EyeOpenTex */ 0x06000F4C, /* gKw1EyeHalfTex */ 0x06001A0C,
-                            /* gKw1EyeClosedTex */ 0x06001E0C, NULL };
+static void* sKw1Eyes[] = { gKw1EyeOpenTex, gKw1EyeHalfTex, gKw1EyeClosedTex, NULL };
 
 typedef struct {
     /* 0x0 */ s16 objectId;
@@ -74,8 +74,8 @@ typedef struct {
 } EnKoHead; // size = 0xC
 
 static EnKoHead sHead[] = {
-    { OBJECT_KM1, /* gKm1DL */ 0x06001890, NULL },
-    { OBJECT_KW1, /* object_kw1_DL_002C10 */ 0x06002C10, sKw1Eyes },
+    { OBJECT_KM1, gKm1DL, NULL },
+    { OBJECT_KW1, object_kw1_DL_002C10, sKw1Eyes },
     { OBJECT_FA, gFaDL, sFaEyes },
 };
 
@@ -85,61 +85,98 @@ typedef struct {
 } EnKoSkeleton; // size = 0x8
 
 static EnKoSkeleton sSkeleton[2] = {
-    { OBJECT_KM1, /* gKm1Skel */ 0x060000F0 },
-    { OBJECT_KW1, /* gKw1Skel */ 0x060000F0 },
+    { OBJECT_KM1, &gKm1Skel },
+    { OBJECT_KW1, &gKw1Skel },
 };
 
-static struct_80034EC0_Entry sOsAnimeTable[] = {
-    { 0x06008F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { 0x06008F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
-    { 0x06009B64, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x06009B64, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x06009B64, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x060062DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060062DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06005808, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06007830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06008178, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060065E0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x0600879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007FFC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060080B4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060091AC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06006F9C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007064, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007120, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007F38, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06006EE0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060098EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060090EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x0600982C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06009274, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x060099A4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06009028, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007E64, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06007454, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
-    { 0x06008F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
-    { 0x06007D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { 0x0600879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { 0x06006A60, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
-    { 0x06007830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+typedef enum {
+    /*  0 */ ENKO_ANIM_0,
+    /*  1 */ ENKO_ANIM_1,
+    /*  2 */ ENKO_ANIM_2,
+    /*  3 */ ENKO_ANIM_3,
+    /*  4 */ ENKO_ANIM_4,
+    /*  5 */ ENKO_ANIM_5,
+    /*  6 */ ENKO_ANIM_6,
+    /*  7 */ ENKO_ANIM_7,
+    /*  8 */ ENKO_ANIM_8,
+    /*  9 */ ENKO_ANIM_9,
+    /* 10 */ ENKO_ANIM_10,
+    /* 11 */ ENKO_ANIM_11,
+    /* 12 */ ENKO_ANIM_12,
+    /* 13 */ ENKO_ANIM_13,
+    /* 14 */ ENKO_ANIM_14,
+    /* 15 */ ENKO_ANIM_15,
+    /* 16 */ ENKO_ANIM_16,
+    /* 17 */ ENKO_ANIM_17,
+    /* 18 */ ENKO_ANIM_18,
+    /* 19 */ ENKO_ANIM_19,
+    /* 20 */ ENKO_ANIM_20,
+    /* 21 */ ENKO_ANIM_21,
+    /* 22 */ ENKO_ANIM_22,
+    /* 23 */ ENKO_ANIM_23,
+    /* 24 */ ENKO_ANIM_24,
+    /* 25 */ ENKO_ANIM_25,
+    /* 26 */ ENKO_ANIM_26,
+    /* 27 */ ENKO_ANIM_27,
+    /* 28 */ ENKO_ANIM_28,
+    /* 29 */ ENKO_ANIM_29,
+    /* 30 */ ENKO_ANIM_30,
+    /* 31 */ ENKO_ANIM_31,
+    /* 32 */ ENKO_ANIM_32,
+    /* 33 */ ENKO_ANIM_33
+} EnKoAnimation;
+
+static AnimationInfo sAnimationInfo[] = {
+    { &gObjOsAnim_8F6C, 1.0f, 2.0f, 14.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gObjOsAnim_8F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, 0.0f },
+    { &gObjOsAnim_9B64, 0.0f, 0.0f, 0.0f, ANIMMODE_ONCE, 0.0f },
+    { &gObjOsAnim_9B64, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gObjOsAnim_9B64, 0.0f, 2.0f, 2.0f, ANIMMODE_ONCE, 0.0f },
+    { &gObjOsAnim_62DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_62DC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gObjOsAnim_5808, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gObjOsAnim_7830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_8178, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_65E0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7FFC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_80B4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_91AC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_6F9C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7064, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7120, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7F38, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_6EE0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_98EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_90EC, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_982C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_9274, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_99A4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_9028, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7E64, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_7454, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &gObjOsAnim_8F6C, 0.0f, 1.0f, 1.0f, ANIMMODE_LOOP_PARTIAL, -8.0f },
+    { &gObjOsAnim_7D94, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gObjOsAnim_879C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gObjOsAnim_6A60, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &gObjOsAnim_7830, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 static u8 sOsAnimeLookup[13][5] = {
-    /* ENKO_TYPE_CHILD_0    */ { 0x08, 0x09, 0x09, 0x0E, 0x0B },
-    /* ENKO_TYPE_CHILD_1    */ { 0x02, 0x0C, 0x02, 0x0D, 0x0D },
-    /* ENKO_TYPE_CHILD_2    */ { 0x0B, 0x0B, 0x0B, 0x0F, 0x09 },
-    /* ENKO_TYPE_CHILD_3    */ { 0x00, 0x10, 0x10, 0x11, 0x12 },
-    /* ENKO_TYPE_CHILD_4    */ { 0x13, 0x13, 0x14, 0x0A, 0x09 },
-    /* ENKO_TYPE_CHILD_5    */ { 0x03, 0x03, 0x03, 0x03, 0x03 },
-    /* ENKO_TYPE_CHILD_6    */ { 0x04, 0x16, 0x16, 0x04, 0x17 },
-    /* ENKO_TYPE_CHILD_7    */ { 0x18, 0x10, 0x10, 0x19, 0x10 },
-    /* ENKO_TYPE_CHILD_8    */ { 0x1A, 0x0F, 0x0F, 0x1A, 0x0F },
-    /* ENKO_TYPE_CHILD_9    */ { 0x03, 0x03, 0x03, 0x1B, 0x1B },
-    /* ENKO_TYPE_CHILD_10   */ { 0x02, 0x02, 0x02, 0x02, 0x16 },
-    /* ENKO_TYPE_CHILD_11   */ { 0x0E, 0x0E, 0x0E, 0x0E, 0x0E },
-    /* ENKO_TYPE_CHILD_FADO */ { 0x05, 0x05, 0x05, 0x05, 0x05 },
+    /* ENKO_TYPE_CHILD_0    */ { ENKO_ANIM_8, ENKO_ANIM_9, ENKO_ANIM_9, ENKO_ANIM_14, ENKO_ANIM_11 },
+    /* ENKO_TYPE_CHILD_1    */ { ENKO_ANIM_2, ENKO_ANIM_12, ENKO_ANIM_2, ENKO_ANIM_13, ENKO_ANIM_13 },
+    /* ENKO_TYPE_CHILD_2    */ { ENKO_ANIM_11, ENKO_ANIM_11, ENKO_ANIM_11, ENKO_ANIM_15, ENKO_ANIM_9 },
+    /* ENKO_TYPE_CHILD_3    */ { ENKO_ANIM_0, ENKO_ANIM_16, ENKO_ANIM_16, ENKO_ANIM_17, ENKO_ANIM_18 },
+    /* ENKO_TYPE_CHILD_4    */ { ENKO_ANIM_19, ENKO_ANIM_19, ENKO_ANIM_20, ENKO_ANIM_10, ENKO_ANIM_9 },
+    /* ENKO_TYPE_CHILD_5    */ { ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3 },
+    /* ENKO_TYPE_CHILD_6    */ { ENKO_ANIM_4, ENKO_ANIM_22, ENKO_ANIM_22, ENKO_ANIM_4, ENKO_ANIM_23 },
+    /* ENKO_TYPE_CHILD_7    */ { ENKO_ANIM_24, ENKO_ANIM_16, ENKO_ANIM_16, ENKO_ANIM_25, ENKO_ANIM_16 },
+    /* ENKO_TYPE_CHILD_8    */ { ENKO_ANIM_26, ENKO_ANIM_15, ENKO_ANIM_15, ENKO_ANIM_26, ENKO_ANIM_15 },
+    /* ENKO_TYPE_CHILD_9    */ { ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_3, ENKO_ANIM_27, ENKO_ANIM_27 },
+    /* ENKO_TYPE_CHILD_10   */ { ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_2, ENKO_ANIM_22 },
+    /* ENKO_TYPE_CHILD_11   */ { ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14, ENKO_ANIM_14 },
+    /* ENKO_TYPE_CHILD_FADO */ { ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5, ENKO_ANIM_5 },
 };
 
 typedef struct {
@@ -245,18 +282,18 @@ s32 EnKo_IsOsAnimeLoaded(EnKo* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     switch (ENKO_TYPE) {
         case ENKO_TYPE_CHILD_FADO:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x10DA;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x10D9;
             }
-            return (gSaveContext.infTable[11] & 0x80) ? 0x10D8 : 0x10D7;
+            return GET_INFTABLE(INFTABLE_B7) ? 0x10D8 : 0x10D7;
         case ENKO_TYPE_CHILD_0:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x1025;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -264,62 +301,62 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
             }
             return 0x1004;
         case ENKO_TYPE_CHILD_1:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x1023;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
-            if (gSaveContext.infTable[1] & 0x4000) {
+            if (GET_INFTABLE(INFTABLE_1E)) {
                 return 0x1006;
             }
             return 0x1005;
         case ENKO_TYPE_CHILD_2:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x1022;
             }
             return 0x1007;
         case ENKO_TYPE_CHILD_3:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x1021;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1044;
             }
-            if (gSaveContext.infTable[2] & 4) {
+            if (GET_INFTABLE(INFTABLE_22)) {
                 return 0x1009;
             }
             return 0x1008;
         case ENKO_TYPE_CHILD_4:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x1097;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1042;
             }
-            if (gSaveContext.infTable[2] & 0x10) {
+            if (GET_INFTABLE(INFTABLE_24)) {
                 return 0x100B;
             }
             return 0x100A;
         case ENKO_TYPE_CHILD_5:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x10B0;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
-            if (gSaveContext.infTable[2] & 0x40) {
+            if (GET_INFTABLE(INFTABLE_26)) {
                 return 0x100D;
             }
             return 0x100C;
         case ENKO_TYPE_CHILD_6:
-            if (gSaveContext.eventChkInf[4] & 1) {
+            if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
                 return 0x10B5;
             }
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
                 return 0x1043;
             }
-            if (gSaveContext.infTable[2] & 0x100) {
+            if (GET_INFTABLE(INFTABLE_28)) {
                 return 0x1019;
             }
             return 0x100E;
@@ -345,7 +382,7 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
 
 u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = GET_PLAYER(globalCtx);
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
     switch (ENKO_TYPE) {
         case ENKO_TYPE_CHILD_FADO:
@@ -355,7 +392,7 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1072;
             }
-            if (gSaveContext.infTable[4] & 2) {
+            if (GET_INFTABLE(INFTABLE_41)) {
                 return 0x1056;
             }
             return 0x1055;
@@ -368,7 +405,7 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1074;
             }
-            if (gSaveContext.infTable[4] & 0x80) {
+            if (GET_INFTABLE(INFTABLE_47)) {
                 return 0x105E;
             }
             return 0x105D;
@@ -388,7 +425,7 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x1077;
             }
-            if (gSaveContext.infTable[5] & 2) {
+            if (GET_INFTABLE(INFTABLE_51)) {
                 return 0x1059;
             }
             return 0x1058;
@@ -401,7 +438,7 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107A;
             }
-            if (gSaveContext.infTable[5] & 0x200) {
+            if (GET_INFTABLE(INFTABLE_59)) {
                 return 0x1050;
             }
             return 0x104F;
@@ -419,7 +456,7 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
                 return 0x107C;
             }
-            if (gSaveContext.infTable[6] & 2) {
+            if (GET_INFTABLE(INFTABLE_61)) {
                 return 0x1054;
             }
             return 0x1053;
@@ -430,7 +467,7 @@ u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx) {
 
 u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     u16 faceReaction;
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
     if (ENKO_TYPE == ENKO_TYPE_CHILD_0 || ENKO_TYPE == ENKO_TYPE_CHILD_2 || ENKO_TYPE == ENKO_TYPE_CHILD_3 ||
         ENKO_TYPE == ENKO_TYPE_CHILD_4 || ENKO_TYPE == ENKO_TYPE_CHILD_7 || ENKO_TYPE == ENKO_TYPE_CHILD_8 ||
@@ -454,78 +491,78 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 2:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x1005:
-                    gSaveContext.infTable[1] |= 0x4000;
+                    SET_INFTABLE(INFTABLE_1E);
                     break;
                 case 0x1008:
-                    gSaveContext.infTable[2] |= 0x4;
+                    SET_INFTABLE(INFTABLE_22);
                     break;
                 case 0x100A:
-                    gSaveContext.infTable[2] |= 0x10;
+                    SET_INFTABLE(INFTABLE_24);
                     break;
                 case 0x100C:
-                    gSaveContext.infTable[2] |= 0x40;
+                    SET_INFTABLE(INFTABLE_26);
                     break;
                 case 0x100E:
-                    gSaveContext.infTable[2] |= 0x100;
+                    SET_INFTABLE(INFTABLE_28);
                     break;
                 case 0x104F:
-                    gSaveContext.infTable[5] |= 0x200;
+                    SET_INFTABLE(INFTABLE_59);
                     break;
                 case 0x1053:
-                    gSaveContext.infTable[6] |= 2;
+                    SET_INFTABLE(INFTABLE_61);
                     break;
                 case 0x1055:
-                    gSaveContext.infTable[4] |= 2;
+                    SET_INFTABLE(INFTABLE_41);
                     break;
                 case 0x1058:
-                    gSaveContext.infTable[5] |= 2;
+                    SET_INFTABLE(INFTABLE_51);
                     break;
                 case 0x105D:
-                    gSaveContext.infTable[4] |= 0x80;
+                    SET_INFTABLE(INFTABLE_47);
                     break;
                 case 0x10D7:
-                    gSaveContext.infTable[11] |= 0x80;
+                    SET_INFTABLE(INFTABLE_B7);
                     break;
                 case 0x10BA:
                     return 1;
             }
             return 0;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x10B7:
                 case 0x10B8:
                     if (this->unk_210 == 0) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->unk_210 = 1;
                     }
             }
             return 1;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (this->actor.textId) {
                     case 0x1035:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x1036 : 0x1037;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x1038:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex != 0)
                                                  ? (globalCtx->msgCtx.choiceIndex == 1) ? 0x103A : 0x103B
                                                  : 0x1039;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x103E:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x103F : 0x1040;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        Message_ContinueTextbox(globalCtx, this->actor.textId);
                         break;
                     case 0x10B7:
-                        gSaveContext.infTable[11] |= 0x1000;
+                        SET_INFTABLE(INFTABLE_BC);
 
                     case 0x10B8:
                         this->actor.textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
@@ -534,8 +571,8 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                 return 1;
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx) != 0) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 return 3;
             }
     }
@@ -544,9 +581,10 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
 
 s32 EnKo_GetForestQuestState(EnKo* this) {
     s32 result;
+
     if (!LINK_IS_ADULT) {
         // Obtained Zelda's Letter
-        if (gSaveContext.eventChkInf[4] & 1) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_40)) {
             return ENKO_FQS_CHILD_SARIA;
         }
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
@@ -627,12 +665,12 @@ s32 func_80A97D68(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_6A60) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x20);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_32);
         }
         arg3 = 2;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7830) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x21);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_33);
         }
         arg3 = 1;
     }
@@ -680,13 +718,13 @@ s32 func_80A97F70(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1D);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         arg3 = 2;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_7D94) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1E);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_30);
         }
         arg3 = 1;
     }
@@ -700,14 +738,14 @@ s32 func_80A98034(EnKo* this, GlobalContext* globalCtx) {
 
     if (this->unk_1E8.unk_00 != 0) {
         if ((this->skelAnime.animation == &gObjOsAnim_8F6C) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1D);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_29);
         }
         func_80034F54(globalCtx, this->unk_2E4, this->unk_304, 16);
         result = EnKo_IsWithinTalkAngle(this);
         arg3 = (result == true) ? 2 : 1;
     } else {
         if ((this->skelAnime.animation == &gObjOsAnim_879C) == false) {
-            func_80034EC0(&this->skelAnime, sOsAnimeTable, 0x1F);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_31);
         }
         arg3 = 1;
         result = EnKo_IsWithinTalkAngle(this);
@@ -913,7 +951,7 @@ void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
         this->actor.textId = INV_CONTENT(ITEM_TRADE_ADULT) > ITEM_ODD_POTION ? 0x10B9 : 0x10DF;
 
         if (func_8002F368(globalCtx) == ENKO_TYPE_CHILD_9) {
-            this->actor.textId = (gSaveContext.infTable[11] & 0x1000) ? 0x10B8 : 0x10B7;
+            this->actor.textId = GET_INFTABLE(INFTABLE_BC) ? 0x10B8 : 0x10B7;
             this->unk_210 = 0;
         }
         player->actor.textId = this->actor.textId;
@@ -1022,7 +1060,7 @@ s32 EnKo_GetForestQuestState2(EnKo* this) {
         return CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST) ? ENKO_FQS_ADULT_SAVED : ENKO_FQS_ADULT_ENEMY;
     }
     if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) {
-        return (gSaveContext.eventChkInf[4] & 1) ? ENKO_FQS_CHILD_SARIA : ENKO_FQS_CHILD_STONE;
+        return GET_EVENTCHKINF(EVENTCHKINF_40) ? ENKO_FQS_CHILD_SARIA : ENKO_FQS_CHILD_STONE;
     }
     return ENKO_FQS_CHILD_START;
 }
@@ -1042,9 +1080,9 @@ void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->modelAlpha, (this->appearDist < dist) ? 0.0f : 255.0f, 0.3f, 40.0f, 1.0f);
     if (this->modelAlpha < 10.0f) {
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
 }
 
@@ -1067,7 +1105,7 @@ s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void EnKo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
 
     if (ENKO_TYPE >= ENKO_TYPE_CHILD_MAX || !EnKo_IsOsAnimeAvailable(this, globalCtx) ||
         !EnKo_AreObjectsAvailable(this, globalCtx)) {
@@ -1080,13 +1118,13 @@ void EnKo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
     if (EnKo_IsOsAnimeLoaded(this, globalCtx) && EnKo_AreObjectsLoaded(this, globalCtx)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objBankIndex = this->legsObjectBankIdx;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader,
@@ -1113,7 +1151,7 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
             this->collider.base.ocFlags1 |= 0x40;
         }
         this->forestQuestState = EnKo_GetForestQuestState2(this);
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, sOsAnimeLookup[ENKO_TYPE][this->forestQuestState]);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sOsAnimeLookup[ENKO_TYPE][this->forestQuestState]);
         Actor_SetScale(&this->actor, 0.01f);
         func_80A98CD8(this);
         this->modelAlpha = 0.0f;
@@ -1134,23 +1172,23 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
 
 void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 != 0 && this->actor.textId == 0x10B9) {
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, 7);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_7);
         this->actionFunc = func_80A99438;
     } else if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
         this->actionFunc = func_80A99504;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     }
 }
 
 void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
     if (ENKO_TYPE == ENKO_TYPE_CHILD_FADO && this->unk_1E8.unk_00 == 2) {
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99504;
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else if (this->unk_1E8.unk_00 == 0 || this->actor.textId != 0x10B9) {
-        func_80034EC0(&this->skelAnime, sOsAnimeTable, 6);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENKO_ANIM_6);
         this->actionFunc = func_80A99384;
     }
 }
@@ -1167,9 +1205,9 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx) {
 void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 == 3) {
         this->actor.textId = 0x10B9;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E8.unk_00 = 1;
-        gSaveContext.itemGetInf[3] |= 2;
+        SET_ITEMGETINF(ITEMGETINF_31);
         this->actionFunc = func_80A99384;
     }
 }
@@ -1201,7 +1239,7 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
 
 void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     s32 pad;
 
     if (this->actionFunc != func_80A99048) {
@@ -1218,7 +1256,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
     }
     if (func_80A97C7C(this)) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->actor.gravity = -1.0f;
     } else {
         this->actor.gravity = 0.0f;
@@ -1232,7 +1270,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                           Gfx** gfx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     void* eyeTexture;
     Vec3s sp40;
     u8 headId;
@@ -1252,14 +1290,14 @@ s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
     if (limbIndex == 8) {
         sp40 = this->unk_1E8.unk_0E;
-        Matrix_RotateX(BINANG_TO_RAD(-sp40.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp40.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
     }
     if (limbIndex == 15) {
         Matrix_Translate(1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp40 = this->unk_1E8.unk_08;
-        Matrix_RotateX(BINANG_TO_RAD(sp40.y), MTXMODE_APPLY);
-        Matrix_RotateZ(BINANG_TO_RAD(sp40.x), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp40.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp40.x), MTXMODE_APPLY);
         Matrix_Translate(-1200.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
     if (limbIndex == 8 || limbIndex == 9 || limbIndex == 12) {
@@ -1271,7 +1309,7 @@ s32 EnKo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnKo_PostLimbDraw(GlobalContext* globalCtx2, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     GlobalContext* globalCtx = globalCtx2;
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     Vec3f D_80A9A774 = { 0.0f, 0.0f, 0.0f };
 
     if (limbIndex == 7) {
@@ -1292,7 +1330,7 @@ Gfx* EnKo_SetEnvColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 }
 
 void EnKo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnKo* this = THIS;
+    EnKo* this = (EnKo*)thisx;
     Color_RGBA8 tunicColor = sModelInfo[ENKO_TYPE].tunicColor;
     Color_RGBA8 bootsColor = sModelInfo[ENKO_TYPE].bootsColor;
 

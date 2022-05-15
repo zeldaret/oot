@@ -18,11 +18,11 @@
         <DList Name="gPoSistersAmyFaceDL" Offset="0x4020"/>
         <DList Name="gPoSistersBurnDL" Offset="0x46E0"/>
         <Skeleton Name="gPoeSistersSkel" Type="Normal" LimbType="Standard" Offset="0x65C8"/>
-        <DList Name="gPoSistersJoellePaintingDL" Offset="0x6830"/> 
-        <DList Name="gPoSistersBethPaintingDL" Offset="0x6D60"/> 
-        <DList Name="gPoSistersAmyPaintingDL" Offset="0x7230"/> 
-        <DList Name="gPoSistersAmyBlockDL" Offset="0x75A0"/> 
+        <DList Name="gPoSistersJoellePaintingDL" Offset="0x6830"/>
+        <DList Name="gPoSistersBethPaintingDL" Offset="0x6D60"/>
+        <DList Name="gPoSistersAmyPaintingDL" Offset="0x7230"/>
+        <DList Name="gPoSistersAmyBlockDL" Offset="0x75A0"/>
         <Collision Name="gPoSistersAmyBlockCol" Offset="0x7860"/>
-        <DList Name="gPoSistersAmyBethBlockDL" Offset="0x79E0"/> 
+        <DList Name="gPoSistersAmyBethBlockDL" Offset="0x79E0"/>
     </File>
 </Root>

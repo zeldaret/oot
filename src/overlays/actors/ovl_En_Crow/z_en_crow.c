@@ -1,9 +1,7 @@
 #include "z_en_crow.h"
 #include "objects/object_crow/object_crow.h"
 
-#define FLAGS 0x00005005
-
-#define THIS ((EnCrow*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +98,7 @@ static u32 sDeathCount = 0;
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 3000, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 0x58, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_GUAY, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -200, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
 };
@@ -108,7 +106,7 @@ static InitChainEntry sInitChain[] = {
 static Vec3f sHeadVec = { 2500.0f, 0.0f, 0.0f };
 
 void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
@@ -122,7 +120,7 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -153,7 +151,7 @@ void EnCrow_SetupDamaged(EnCrow* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &gGuayFlyAnim, 0.4f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     scale = this->actor.scale.x * 100.0f;
     this->actor.world.pos.y += 20.0f * scale;
-    this->actor.bgCheckFlags &= ~1;
+    this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
     this->actor.shape.yOffset = 0.0f;
     this->actor.targetArrowOffset = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_DEAD);
@@ -177,12 +175,12 @@ void EnCrow_SetupDamaged(EnCrow* this, GlobalContext* globalCtx) {
         Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
     }
 
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         this->actor.speedXZ = 0.0f;
     }
 
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 
     this->actionFunc = EnCrow_Damaged;
 }
@@ -236,7 +234,7 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
     skelanimeUpdated = Animation_OnFrame(&this->skelAnime, 0.0f);
     this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 3.0f;
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->aimRotY = this->actor.wallYaw;
     } else if (Actor_WorldDistXZToPoint(&this->actor, &this->actor.home.pos) > 300.0f) {
         this->aimRotY = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
@@ -261,7 +259,7 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
         this->aimRotX = 0x800 + (Rand_ZeroOne() * 0x800);
     }
 
-    if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && (skelanimeUpdated) &&
+    if ((Math_SmoothStepToS(&this->actor.shape.rot.x, this->aimRotX, 10, 0x100, 8) == 0) && skelanimeUpdated &&
         (Rand_ZeroOne() < 0.1f)) {
         if (this->actor.home.pos.y < this->actor.world.pos.y) {
             this->aimRotX -= (0x400 * Rand_ZeroOne()) + 0x400;
@@ -271,14 +269,14 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
         this->aimRotX = CLAMP(this->aimRotX, -0x1000, 0x1000);
     }
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         Math_ScaledStepToS(&this->actor.shape.rot.x, -0x100, 0x400);
     }
 
     if (this->timer != 0) {
         this->timer--;
     }
-    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & 0x00800000) &&
+    if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23) &&
         (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
         EnCrow_SetupDiveAttack(this);
     }
@@ -315,8 +313,9 @@ void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
     }
 
     if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) ||
-        (this->collider.base.atFlags & AT_HIT) || (this->actor.bgCheckFlags & 9) ||
-        (player->stateFlags1 & 0x00800000) || (this->actor.yDistToWater > -40.0f)) {
+        (this->collider.base.atFlags & AT_HIT) ||
+        (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
+        (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
             this->collider.base.atFlags &= ~AT_HIT;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_ATTACK);
@@ -330,12 +329,12 @@ void EnCrow_Damaged(EnCrow* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
-    if (!(this->actor.flags & 0x8000)) {
+    if (!(this->actor.flags & ACTOR_FLAG_15)) {
         if (this->actor.colorFilterParams & 0x4000) {
             Math_ScaledStepToS(&this->actor.shape.rot.x, 0x4000, 0x200);
             this->actor.shape.rot.z += 0x1780;
         }
-        if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
             EffectSsDeadDb_Spawn(globalCtx, &this->actor.world.pos, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);
@@ -368,7 +367,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
 void EnCrow_TurnAway(EnCrow* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->aimRotY = this->actor.wallYaw;
     } else {
         this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
@@ -401,8 +400,8 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
             target = 0.01f;
         }
         if (Math_StepToF(&this->actor.scale.x, target, target * 0.1f)) {
-            this->actor.flags |= 1;
-            this->actor.flags &= ~0x10;
+            this->actor.flags |= ACTOR_FLAG_0;
+            this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.colChkInfo.health = 1;
             EnCrow_SetupFlyIdle(this);
         }
@@ -413,13 +412,13 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
 void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actor.colChkInfo.damageEffect == 1) { // Deku Nuts
                 EnCrow_SetupTurnAway(this);
             } else {
                 Actor_ApplyDamage(&this->actor);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 EnCrow_SetupDamaged(this, globalCtx);
             }
@@ -428,7 +427,7 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
 }
 
 void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
     f32 pad;
     f32 height;
     f32 scale;
@@ -447,7 +446,8 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
             height = 0.0f;
             Actor_MoveForward(&this->actor);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     } else {
         height = 0.0f;
     }
@@ -476,7 +476,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     if (this->actor.colChkInfo.health != 0) {
         if (limbIndex == 7) {
@@ -489,7 +489,7 @@ s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
     Vec3f* vec;
 
     if (limbIndex == 2) {
@@ -503,7 +503,7 @@ void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 }
 
 void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnCrow* this = THIS;
+    EnCrow* this = (EnCrow*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

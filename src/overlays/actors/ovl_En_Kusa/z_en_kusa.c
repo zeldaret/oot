@@ -5,15 +5,14 @@
  */
 
 #include "z_en_kusa.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "objects/object_kusa/object_kusa.h"
 #include "vt.h"
 
-#define FLAGS 0x00800010
-
-#define THIS ((EnKusa*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_23)
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -212,7 +211,8 @@ void EnKusa_SpawnBugs(EnKusa* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 3; i++) {
         Actor* bug = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
-                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, Rand_ZeroOne() * 0xFFFF, 0, 1);
+                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, Rand_ZeroOne() * 0xFFFF, 0,
+                                 INSECT_TYPE_SPAWNED);
 
         if (bug == NULL) {
             break;
@@ -221,7 +221,7 @@ void EnKusa_SpawnBugs(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -229,7 +229,7 @@ void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -267,7 +267,7 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKusa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -278,7 +278,7 @@ void EnKusa_SetupWaitObject(EnKusa* this) {
 
 void EnKusa_WaitObject(EnKusa* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        if (this->actor.flags & 0x800) {
+        if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
             EnKusa_SetupCut(this);
         } else {
             EnKusa_SetupMain(this);
@@ -286,13 +286,13 @@ void EnKusa_WaitObject(EnKusa* this, GlobalContext* globalCtx) {
 
         this->actor.draw = EnKusa_Draw;
         this->actor.objBankIndex = this->objBankIndex;
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
     }
 }
 
 void EnKusa_SetupMain(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_Main);
-    this->actor.flags &= ~0x10;
+    this->actor.flags &= ~ACTOR_FLAG_4;
 }
 
 void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
@@ -300,12 +300,12 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnKusa_SetupLiftedUp(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
     } else if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
         if ((this->actor.params >> 4) & 1) {
             EnKusa_SpawnBugs(this, globalCtx);
@@ -317,7 +317,7 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
         }
 
         EnKusa_SetupCut(this);
-        this->actor.flags |= 0x800;
+        this->actor.flags |= ACTOR_FLAG_ENKUSA_CUT;
     } else {
         if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
             this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
@@ -340,7 +340,7 @@ void EnKusa_Main(EnKusa* this, GlobalContext* globalCtx) {
 void EnKusa_SetupLiftedUp(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_LiftedUp);
     this->actor.room = -1;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
@@ -354,7 +354,9 @@ void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
         EnKusa_UpdateVelY(this);
         EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.005f);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                    UPDBGCHECKINFO_FLAG_7);
         this->actor.gravity = -3.2f;
     }
 }
@@ -371,9 +373,9 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f contactPos;
 
-    if (this->actor.bgCheckFlags & 0xB) {
-        if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_WALL)) {
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
@@ -390,7 +392,7 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.bgCheckFlags & 0x40) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
         contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.world.pos.z;
@@ -403,8 +405,8 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
         rotSpeedXtarget >>= 1;
         rotSpeedY >>= 1;
         rotSpeedYtarget >>= 1;
-        this->actor.bgCheckFlags &= ~0x40;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
     }
 
     EnKusa_UpdateVelY(this);
@@ -414,7 +416,9 @@ void EnKusa_Fall(EnKusa* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += rotSpeedY;
     EnKusa_RandScaleVecToZero(&this->actor.velocity, 0.05f);
     func_8002D7EC(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                UPDBGCHECKINFO_FLAG_7);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
@@ -462,7 +466,7 @@ void EnKusa_SetupRegrow(EnKusa* this) {
     EnKusa_SetupAction(this, EnKusa_Regrow);
     EnKusa_SetScaleSmall(this);
     this->actor.shape.rot = this->actor.home.rot;
-    this->actor.flags &= ~0x800;
+    this->actor.flags &= ~ACTOR_FLAG_ENKUSA_CUT;
 }
 
 void EnKusa_Regrow(EnKusa* this, GlobalContext* globalCtx) {
@@ -480,13 +484,13 @@ void EnKusa_Regrow(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
     this->timer++;
 
     this->actionFunc(this, globalCtx);
 
-    if (this->actor.flags & 0x800) {
+    if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
         this->actor.shape.yOffset = -6.25f;
     } else {
         this->actor.shape.yOffset = 0.0f;
@@ -495,9 +499,9 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* dLists[] = { gFieldBushDL, object_kusa_DL_000140, object_kusa_DL_000140 };
-    EnKusa* this = THIS;
+    EnKusa* this = (EnKusa*)thisx;
 
-    if (this->actor.flags & 0x800) {
+    if (this->actor.flags & ACTOR_FLAG_ENKUSA_CUT) {
         Gfx_DrawDListOpa(globalCtx, object_kusa_DL_0002E0);
     } else {
         Gfx_DrawDListOpa(globalCtx, dLists[thisx->params & 3]);

@@ -7,9 +7,7 @@
 #include "z_en_mk.h"
 #include "objects/object_mk/object_mk.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnMk*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnMk_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -51,7 +49,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
     s32 swimFlag;
 
     this->actor.minVelocityY = -4.0f;
@@ -70,20 +68,20 @@ void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->swimFlag = 0;
     this->actor.targetMode = 6;
 
-    if (gSaveContext.itemGetInf[1] & 1) {
+    if (GET_ITEMGETINF(ITEMGETINF_10)) {
         this->flags |= 4;
     }
 }
 
 void EnMk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 void func_80AACA40(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
-        this->actor.flags &= 0xFFFEFFFF;
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnMk_Wait;
     }
 
@@ -95,21 +93,21 @@ void func_80AACA94(EnMk* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
         func_80088AA0(240);
-        gSaveContext.eventInf[1] &= ~1;
+        CLEAR_EVENTINF(EVENTINF_10);
     } else {
         func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB14(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACA94;
         func_8002F434(&this->actor, globalCtx, GI_EYEDROPS, 10000.0f, 50.0f);
     }
 }
 
 void func_80AACB6C(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACB14;
     }
 
@@ -122,7 +120,7 @@ void func_80AACBAC(EnMk* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y -= 0x800;
     } else {
         this->actionFunc = func_80AACB6C;
-        func_8010B720(globalCtx, 0x4030);
+        Message_ContinueTextbox(globalCtx, 0x4030);
     }
 }
 
@@ -154,10 +152,10 @@ void func_80AACCA0(EnMk* this, GlobalContext* globalCtx) {
 void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
         this->actionFunc = func_80AACCA0;
-        globalCtx->msgCtx.msgMode = 0x37;
+        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
         player->exchangeItemId = EXCH_ITEM_NONE;
         this->timer = 16;
         Animation_Change(&this->skelAnime, &object_mk_Anim_000D88, 1.0f, 0.0f,
@@ -169,8 +167,8 @@ void func_80AACD48(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_8010B720(globalCtx, 0x4001);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x4001);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_ONCE, -4.0f);
         this->flags &= ~2;
@@ -181,8 +179,8 @@ void func_80AACE2C(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACEE8(EnMk* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_8010B720(globalCtx, 0x4000);
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_ContinueTextbox(globalCtx, 0x4000);
         Animation_Change(&this->skelAnime, &object_mk_Anim_000AC0, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_mk_Anim_000AC0), ANIMMODE_LOOP, -4.0f);
         this->flags &= ~2;
@@ -196,14 +194,14 @@ void func_80AACFA0(EnMk* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
-        gSaveContext.itemGetInf[1] |= 1;
+        SET_ITEMGETINF(ITEMGETINF_10);
     } else {
         func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
 }
 
 void func_80AAD014(EnMk* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = func_80AACFA0;
         func_8002F434(&this->actor, globalCtx, GI_HEART_PIECE, 10000.0f, 50.0f);
     }
@@ -217,7 +215,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     s32 playerExchangeItem;
 
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         playerExchangeItem = func_8002F368(globalCtx);
 
         if (this->actor.textId != 0x4018) {
@@ -231,7 +229,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
                 switch (playerExchangeItem) {
                     case EXCH_ITEM_NONE:
                         if (this->swimFlag >= 8) {
-                            if (gSaveContext.itemGetInf[1] & 1) {
+                            if (GET_ITEMGETINF(ITEMGETINF_10)) {
                                 player->actor.textId = 0x4075;
                                 this->actionFunc = func_80AACA40;
                             } else {
@@ -282,7 +280,7 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
     s32 pad;
     Vec3s vec;
     Player* player;
@@ -291,9 +289,9 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
-    if ((!(this->flags & 2)) && (SkelAnime_Update(&this->skelAnime))) {
+    if (!(this->flags & 2) && SkelAnime_Update(&this->skelAnime)) {
         this->flags |= 2;
     }
 
@@ -309,13 +307,13 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     player = GET_PLAYER(globalCtx);
 
     if (this->flags & 8) {
-        if (!(player->stateFlags2 & 0x400)) {
+        if (!(player->stateFlags2 & PLAYER_STATE2_10)) {
             this->flags &= ~8;
         }
     } else {
         if (player->currentBoots == PLAYER_BOOTS_IRON) {
             this->flags |= 8;
-        } else if (player->stateFlags2 & 0x400) {
+        } else if (player->stateFlags2 & PLAYER_STATE2_10) {
             swimFlag = player->actor.yDistToWater;
 
             if (swimFlag > 0) {
@@ -334,7 +332,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
                 if (this->swimFlag < swimFlag) {
                     this->swimFlag = swimFlag;
 
-                    if ((!(this->flags & 4)) && (this->swimFlag >= 8)) {
+                    if (!(this->flags & 4) && (this->swimFlag >= 8)) {
                         this->flags |= 4;
                         func_80078884(NA_SE_SY_CORRECT_CHIME);
                     }
@@ -345,7 +343,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnMk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     if (limbIndex == 11) {
         rot->y -= this->headRotation.y;
@@ -357,7 +355,7 @@ s32 EnMk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80AAD64C = { 1000.0f, -100.0f, 0.0f };
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     if (limbIndex == 11) {
         Matrix_MultVec3f(&D_80AAD64C, &this->actor.focus.pos);
@@ -365,7 +363,7 @@ void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnMk_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnMk* this = THIS;
+    EnMk* this = (EnMk*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

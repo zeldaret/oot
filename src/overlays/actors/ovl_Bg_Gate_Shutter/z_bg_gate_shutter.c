@@ -8,9 +8,7 @@
 #include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgGateShutter*)thisx)
+#define FLAGS 0
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
 };
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
@@ -45,8 +43,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if (((gSaveContext.infTable[7] & 0x40) || (gSaveContext.eventChkInf[4] & 0x20)) &&
-        (globalCtx->sceneNum == SCENE_SPOT01)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (globalCtx->sceneNum == SCENE_SPOT01)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }
@@ -59,13 +56,13 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
-    if (this->openingState == 1 && !(gSaveContext.infTable[7] & 0x40)) {
+    if (this->openingState == 1 && !GET_INFTABLE(INFTABLE_76)) {
         this->unk_178 = 2;
         this->actionFunc = func_80878300;
     } else if (this->openingState == 2) {
@@ -116,7 +113,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
 }
 
 void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGateShutter* this = THIS;
+    BgGateShutter* this = (BgGateShutter*)thisx;
 
     if (this->unk_178 != 0) {
         this->unk_178 -= 1;

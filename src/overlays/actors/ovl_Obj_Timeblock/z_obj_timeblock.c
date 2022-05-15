@@ -7,9 +7,7 @@
 #include "z_obj_timeblock.h"
 #include "objects/object_timeblock/object_timeblock.h"
 
-#define FLAGS 0x0A000011
-
-#define THIS ((ObjTimeblock*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_4 | ACTOR_FLAG_25 | ACTOR_FLAG_27)
 
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -70,10 +68,12 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
             return this->unk_175;
         } else {
             u8 temp = ((this->dyna.actor.params >> 15) & 1) ? true : false;
+
             if (this->unk_177 == 1) {
                 return this->unk_174 ^ temp;
             } else {
                 u8 linkIsYoung = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? true : false;
+
                 return this->unk_174 ^ temp ^ linkIsYoung;
             }
         }
@@ -97,7 +97,7 @@ void ObjTimeblock_ToggleSwitchFlag(GlobalContext* globalCtx, s32 flag) {
 }
 
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTimeblock* this = THIS;
+    ObjTimeblock* this = (ObjTimeblock*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -141,7 +141,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ObjTimeblock* this = THIS;
+    ObjTimeblock* this = (ObjTimeblock*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -170,21 +170,21 @@ s32 ObjTimeblock_WaitForOcarina(ObjTimeblock* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (ObjTimeblock_PlayerIsInRange(this, globalCtx)) {
-        if (player->stateFlags2 & 0x1000000) {
-            func_8010BD58(globalCtx, 1);
+        if (player->stateFlags2 & PLAYER_STATE2_24) {
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->songObserverFunc = ObjTimeblock_WaitForSong;
         } else {
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
     return false;
 }
 
 s32 ObjTimeblock_WaitForSong(ObjTimeblock* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.unk_E3EE == 4) {
+    if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
         this->songObserverFunc = ObjTimeblock_WaitForOcarina;
     }
-    if (globalCtx->msgCtx.unk_E3EC == 10) {
+    if (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_TIME) {
         if (this->unk_172 == 254) {
             this->songEndTimer = 110;
         } else {
@@ -229,7 +229,7 @@ void ObjTimeblock_Normal(ObjTimeblock* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+    this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
     if (this->demoEffectFirstPartTimer > 0) {
         this->demoEffectFirstPartTimer--;
         if (this->demoEffectFirstPartTimer == 0) {
@@ -254,7 +254,8 @@ void ObjTimeblock_Normal(ObjTimeblock* this, GlobalContext* globalCtx) {
 
 void func_80BA06AC(ObjTimeblock* this, GlobalContext* globalCtx) {
     s32 switchFlag = this->dyna.actor.params & 0x3F;
-    this->unk_172 = globalCtx->msgCtx.unk_E3EC;
+
+    this->unk_172 = globalCtx->msgCtx.lastPlayedSong;
 
     if (this->demoEffectFirstPartTimer > 0 && --this->demoEffectFirstPartTimer == 0) {
         this->unk_174 = (Flags_GetSwitch(globalCtx, switchFlag)) ? true : false;
@@ -314,7 +315,7 @@ void ObjTimeblock_AltBehaviourNotVisible(ObjTimeblock* this, GlobalContext* glob
 }
 
 void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjTimeblock* this = THIS;
+    ObjTimeblock* this = (ObjTimeblock*)thisx;
 
     this->actionFunc(this, globalCtx);
 

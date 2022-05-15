@@ -7,9 +7,7 @@
 #include "z_bg_ydan_maruta.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgYdanMaruta*)thisx)
+#define FLAGS 0
 
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -78,7 +76,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
     Vec3f sp4C[3];
     s32 i;
     f32 sinRotY;
@@ -129,7 +127,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     Collider_DestroyTris(globalCtx, &this->collider);
     if (this->dyna.actor.params == 1) {
@@ -152,7 +150,7 @@ void func_808BF078(BgYdanMaruta* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, this->switchFlag);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_808BF108;
-        OnePointCutscene_Init(globalCtx, 3010, 50, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3010, 50, &this->dyna.actor, CAM_ID_MAIN);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
@@ -195,13 +193,13 @@ void BgYdanMaruta_DoNothing(BgYdanMaruta* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgYdanMaruta* this = THIS;
+    BgYdanMaruta* this = (BgYdanMaruta*)thisx;
 
     if (this->dyna.actor.params == 0) {
         Gfx_DrawDListOpa(globalCtx, gDTRollingSpikeTrapDL);

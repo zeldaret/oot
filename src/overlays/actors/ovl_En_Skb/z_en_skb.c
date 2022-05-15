@@ -2,9 +2,7 @@
 #include "overlays/actors/ovl_En_Encount1/z_en_encount1.h"
 #include "objects/object_skb/object_skb.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnSkb*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -143,20 +141,20 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s16 paramOffsetBody;
     s16 paramOffsetArm;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 0.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
     SkelAnime_Init(globalCtx, &this->skelAnime, &gStalchildSkel, &gStalchildUncurlingAnim, this->jointTable,
                    this->morphTable, 20);
-    this->actor.naviEnemyId = 0x55;
+    this->actor.naviEnemyId = NAVI_ENEMY_STALCHILD;
 
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
@@ -175,7 +173,8 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
+
     if (this->actor.parent != NULL) {
         EnEncount1* spawner = (EnEncount1*)this->actor.parent;
 
@@ -202,7 +201,7 @@ void func_80AFCD60(EnSkb* this) {
 void func_80AFCDF8(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &gStalchildUncurlingAnim, 1.0f);
     this->unk_280 = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_APPEAR);
     EnSkb_SetupAction(this, func_80AFCE5C);
 }
@@ -212,7 +211,7 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
     }
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 800.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 25.0f, 1.0f, 2.5f, 0.0f);
@@ -229,7 +228,7 @@ void func_80AFCF48(EnSkb* this) {
                      Animation_GetLastFrame(&gStalchildUncurlingAnim), 0.0f, ANIMMODE_ONCE, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, func_80AFCFF0);
@@ -337,7 +336,7 @@ void func_80AFD508(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void EnSkb_SetupStunned(EnSkb* this) {
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = 0.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
@@ -347,15 +346,15 @@ void EnSkb_SetupStunned(EnSkb* this) {
 }
 
 void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         this->actor.speedXZ = 0.0f;
     }
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (this->actor.speedXZ < 0.0f) {
             this->actor.speedXZ += 0.05f;
         }
     }
-    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
+    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
         if (this->actor.colChkInfo.health == 0) {
             func_80AFD7B4(this, globalCtx);
         } else {
@@ -366,7 +365,7 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD644(EnSkb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDamagedAnim, -4.0f);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -4.0f;
     }
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -378,22 +377,23 @@ void func_80AFD644(EnSkb* this) {
 void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
     // this cast is likely not real, but allows for a match
     u8* new_var;
+
     new_var = &this->unk_283;
     if ((this->unk_283 != 1) || BodyBreak_SpawnParts(&this->actor, &this->bodyBreak, globalCtx, 1)) {
         if ((*new_var) != 0) {
             this->unk_283 = (*new_var) | 2;
         }
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             this->actor.speedXZ = 0;
         }
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             if (this->actor.speedXZ < 0.0f) {
                 this->actor.speedXZ += 0.05f;
             }
         }
 
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x1194, 0);
-        if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & 1)) {
+        if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             func_80AFCD60(this);
         }
     }
@@ -403,11 +403,11 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gStalchildDyingAnim, -4.0f);
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -6.0f;
     }
     this->unk_280 = 1;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     BodyBreak_Alloc(&this->bodyBreak, 18, globalCtx);
     this->unk_283 |= 4;
     EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_STALKID_DEAD, 1, 1, 0x28);
@@ -439,7 +439,8 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
     s16 phi_v1;
     Player* player;
 
-    if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & 0x60) && (this->actor.yDistToWater >= 40.0f)) {
+    if ((this->unk_280 != 1) && (this->actor.bgCheckFlags & (BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH)) &&
+        (this->actor.yDistToWater >= 40.0f)) {
         this->actor.colChkInfo.health = 0;
         this->unk_281 = 0;
         func_80AFD7B4(this, globalCtx);
@@ -448,7 +449,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
             this->collider.base.acFlags &= ~2;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_282 = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, 1);
+                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
                 this->unk_281 = 0;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->unk_280 != 6) {
@@ -478,8 +479,10 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                     if (this->unk_283 == 0) {
                         if ((this->actor.colChkInfo.damageEffect == 0xD) ||
                             ((this->actor.colChkInfo.damageEffect == 0xE) &&
-                             ((player->swordAnimation >= 4 && player->swordAnimation <= 11) ||
-                              (player->swordAnimation == 20 || player->swordAnimation == 21)))) {
+                             ((player->meleeWeaponAnimation >= PLAYER_MWA_RIGHT_SLASH_1H &&
+                               player->meleeWeaponAnimation <= PLAYER_MWA_LEFT_COMBO_2H) ||
+                              (player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_RIGHT ||
+                               player->meleeWeaponAnimation == PLAYER_MWA_BACKSLASH_LEFT)))) {
                             BodyBreak_Alloc(&this->bodyBreak, 2, globalCtx);
                             this->unk_283 = 1;
                         }
@@ -492,12 +495,14 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
 }
 
 void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s32 pad;
 
     func_80AFD968(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     this->actionFunc(this, globalCtx);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += (3000.0f * this->actor.scale.y);
@@ -515,14 +520,14 @@ void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     s16 color;
     s16 pad[2];
 
     if (limbIndex == 11) {
         if ((this->unk_283 & 2) == 0) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 972);
-            color = ABS((s16)(Math_SinS((globalCtx->gameplayFrames * 0x1770)) * 95.0f)) + 160;
+            color = ABS((s16)(Math_SinS(globalCtx->gameplayFrames * 0x1770) * 95.0f)) + 160;
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetEnvColor(POLY_OPA_DISP++, color, color, color, 255);
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 978);
@@ -536,7 +541,7 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
@@ -548,7 +553,7 @@ void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSkb* this = THIS;
+    EnSkb* this = (EnSkb*)thisx;
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSkb_OverrideLimbDraw,
                       EnSkb_PostLimbDraw, &this->actor);

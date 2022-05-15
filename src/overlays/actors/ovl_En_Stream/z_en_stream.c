@@ -7,9 +7,7 @@
 #include "z_en_stream.h"
 #include "objects/object_stream/object_stream.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnStream*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnStream_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -38,7 +36,7 @@ void EnStream_SetupAction(EnStream* this, EnStreamActionFunc actionFunc) {
 }
 
 void EnStream_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnStream* this = THIS;
+    EnStream* this = (EnStream*)thisx;
 
     this->unk_150 = thisx->params & 0xFF;
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -93,18 +91,18 @@ void EnStream_SuckPlayer(EnStream* this, GlobalContext* globalCtx) {
     if (func_80B0B81C(&this->actor.world.pos, &player->actor.world.pos, &posDifference, this->actor.scale.y) != 0) {
         xzDist = sqrtf(SQ(posDifference.x) + SQ(posDifference.z));
         yDistWithOffset = player->actor.world.pos.y - (this->actor.world.pos.y - 90.0f);
-        player->windDirection = Math_FAtan2F(-posDifference.x, -posDifference.z) * (0x8000 / M_PI);
+        player->pushedYaw = RAD_TO_BINANG(Math_FAtan2F(-posDifference.x, -posDifference.z));
         if (xzDist > 3.0f) {
-            Math_SmoothStepToF(&player->windSpeed, 3.0f, 0.5f, xzDist, 0.0f);
+            Math_SmoothStepToF(&player->pushedSpeed, 3.0f, 0.5f, xzDist, 0.0f);
         } else {
-            player->windSpeed = 0.0f;
+            player->pushedSpeed = 0.0f;
             Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x, 0.5f, 3.0f, 0.0f);
             Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z, 0.5f, 3.0f, 0.0f);
         }
         if (yDistWithOffset > 0.0f) {
             Math_SmoothStepToF(&player->actor.velocity.y, -3.0f, 0.7f, yDistWithOffset, 0.0f);
             if (posDifference.y < -70.0f) {
-                player->stateFlags2 |= 0x80000000;
+                player->stateFlags2 |= PLAYER_STATE2_31;
             }
         }
     } else {
@@ -123,7 +121,7 @@ void EnStream_WaitForPlayer(EnStream* this, GlobalContext* globalCtx) {
 }
 
 void EnStream_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnStream* this = THIS;
+    EnStream* this = (EnStream*)thisx;
 
     this->actionFunc(this, globalCtx);
     func_8002F948(thisx, NA_SE_EV_WHIRLPOOL - SFX_FLAG);

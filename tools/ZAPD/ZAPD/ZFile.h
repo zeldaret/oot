@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Utils/Directory.h>
 #include <string>
 #include <vector>
 
@@ -46,6 +45,7 @@ public:
 	~ZFile();
 
 	std::string GetName() const;
+	std::string GetOutName() const;
 	ZFileMode GetMode() const;
 	const fs::path& GetXmlFilePath() const;
 	const std::vector<uint8_t>& GetRawData() const;
@@ -133,5 +133,5 @@ protected:
 
 	std::string ProcessTextureIntersections(const std::string& prefix);
 	void HandleUnaccountedData();
-	bool HandleUnaccountedAddress(uint32_t currentAddress, uint32_t lastAddr, uint32_t& lastSize);
+	bool HandleUnaccountedAddress(offset_t currentAddress, offset_t lastAddr, uint32_t& lastSize);
 };

@@ -8,9 +8,7 @@
 #include "overlays/actors/ovl_En_Dh/z_en_dh.h"
 #include "objects/object_dh/object_dh.h"
 
-#define FLAGS 0x00000015
-
-#define THIS ((EnDha*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -144,7 +142,7 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x2E, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DEAD_HANDS_HAND, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
@@ -154,7 +152,7 @@ void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
 }
 
 void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -168,14 +166,14 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->limbAngleX[0] = -0x4000;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
 
     EnDha_SetupWait(this);
 }
 
 void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -229,7 +227,7 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
                 this->timer += 0x1194;
                 this->limbAngleY = Math_SinS(this->timer) * 1820.0f;
 
-                if (!(player->stateFlags2 & 0x80)) {
+                if (!(player->stateFlags2 & PLAYER_STATE2_7)) {
                     this->unk_1CC = 0;
                     EnDha_SetupTakeDamage(this);
                     return;
@@ -244,8 +242,8 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
             this->handAngle.y -= this->actor.shape.rot.y + this->limbAngleY;
             this->handAngle.x -= this->actor.shape.rot.x + this->limbAngleX[0] + this->limbAngleX[1];
         } else {
-            if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
-                player->stateFlags2 &= ~0x80;
+            if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
+                player->stateFlags2 &= ~PLAYER_STATE2_7;
                 player->actor.parent = NULL;
                 player->unk_850 = 200;
             }
@@ -264,11 +262,11 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
 
         func_80035844(&this->armPos, &this->handPos[0], &angle, 0);
         Matrix_Translate(this->handPos[0].x, this->handPos[0].y, this->handPos[0].z, MTXMODE_NEW);
-        Matrix_RotateRPY(angle.x, angle.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(angle.x, angle.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&armPosMultiplier2, &this->armPos);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         func_80035844(&this->actor.world.pos, &this->armPos, &angle, 0);
-        Matrix_RotateRPY(angle.x, angle.y, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(angle.x, angle.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&armPosMultiplier1, &this->armPos);
         this->limbAngleX[0] = Math_Vec3f_Pitch(&this->actor.world.pos, &this->armPos);
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->armPos) - this->actor.shape.rot.y;
@@ -284,8 +282,8 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
             this->limbAngleX[1] *= -2;
         }
     } else {
-        if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
-            player->stateFlags2 &= ~0x80;
+        if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
+            player->stateFlags2 &= ~PLAYER_STATE2_7;
             player->actor.parent = NULL;
             player->unk_850 = 200;
         }
@@ -305,8 +303,8 @@ void EnDha_SetupTakeDamage(EnDha* this) {
 void EnDha_TakeDamage(EnDha* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
-        player->stateFlags2 &= ~0x80;
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
+        player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
@@ -343,8 +341,8 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     Vec3f vec;
     Player* player = GET_PLAYER(globalCtx);
 
-    if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
-        player->stateFlags2 &= ~0x80;
+    if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
+        player->stateFlags2 &= ~PLAYER_STATE2_7;
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
@@ -405,7 +403,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
 
 void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     if (this->actor.parent == NULL) {
         this->actor.parent = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORCAT_ENEMY, 10000.0f);
@@ -418,7 +416,7 @@ void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     if (limbIndex == 1) {
         rot->y = -(s16)(this->limbAngleX[0] + 0x4000);
@@ -434,10 +432,10 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return false;
 }
 
-void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnDha_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f handVec = { 1100.0f, 0.0f, 0.0f };
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -459,9 +457,9 @@ void EnDha_OverridePostDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 
 void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDha* this = THIS;
+    EnDha* this = (EnDha*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          EnDha_OverrideLimbDraw, EnDha_OverridePostDraw, this);
+                          EnDha_OverrideLimbDraw, EnDha_PostLimbDraw, this);
 }

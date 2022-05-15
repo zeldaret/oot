@@ -7,9 +7,7 @@
 #include "z_bg_spot01_idomizu.h"
 #include "objects/object_spot01_objects/object_spot01_objects.h"
 
-#define FLAGS 0x00000020
-
-#define THIS ((BgSpot01Idomizu*)thisx)
+#define FLAGS ACTOR_FLAG_5
 
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,10 +33,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot01Idomizu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idomizu* this = THIS;
+    BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    if (gSaveContext.eventChkInf[6] & 0x80 || LINK_AGE_IN_YEARS == YEARS_ADULT) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_67) || LINK_AGE_IN_YEARS == YEARS_ADULT) {
         this->waterHeight = -550.0f;
     } else {
         this->waterHeight = 52.0f;
@@ -51,19 +49,19 @@ void BgSpot01Idomizu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808ABB84(BgSpot01Idomizu* this, GlobalContext* globalCtx) {
-    if (gSaveContext.eventChkInf[6] & 0x80) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_67)) {
         this->waterHeight = -550.0f;
     }
     globalCtx->colCtx.colHeader->waterBoxes[0].ySurface = this->actor.world.pos.y;
     if (this->waterHeight < this->actor.world.pos.y) {
-        Audio_PlaySoundGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     Math_ApproachF(&this->actor.world.pos.y, this->waterHeight, 1.0f, 2.0f);
 }
 
 void BgSpot01Idomizu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot01Idomizu* this = THIS;
+    BgSpot01Idomizu* this = (BgSpot01Idomizu*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

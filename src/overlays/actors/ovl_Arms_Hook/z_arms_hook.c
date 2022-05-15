@@ -1,8 +1,7 @@
 #include "z_arms_hook.h"
+#include "objects/object_link_boy/object_link_boy.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((ArmsHook*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx);
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -59,15 +58,12 @@ static Vec3f D_80865B94 = { 0.0f, -500.0f, -3000.0f };
 static Vec3f D_80865BA0 = { 0.0f, 500.0f, 1200.0f };
 static Vec3f D_80865BAC = { 0.0f, -500.0f, 1200.0f };
 
-extern Gfx D_0602B288[];
-extern Gfx D_0602AFF0[];
-
 void ArmsHook_SetupAction(ArmsHook* this, ArmsHookActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     Collider_InitQuad(globalCtx, &this->collider);
     Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
@@ -76,10 +72,10 @@ void ArmsHook_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArmsHook_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     if (this->grabbed != NULL) {
-        this->grabbed->flags &= ~0x2000;
+        this->grabbed->flags &= ~ACTOR_FLAG_13;
     }
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
@@ -115,7 +111,7 @@ s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
 
 void ArmsHook_DetachHookFromActor(ArmsHook* this) {
     if (this->grabbed != NULL) {
-        this->grabbed->flags &= ~0x2000;
+        this->grabbed->flags &= ~ACTOR_FLAG_13;
         this->grabbed = NULL;
     }
 }
@@ -124,8 +120,8 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
     Player* player = (Player*)this->actor.parent;
 
     if (Player_HoldsHookshot(player)) {
-        if ((player->itemActionParam != player->heldItemActionParam) || ((player->actor.flags & 0x100)) ||
-            ((player->stateFlags1 & 0x4000080))) {
+        if ((player->itemActionParam != player->heldItemActionParam) || (player->actor.flags & ACTOR_FLAG_8) ||
+            ((player->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_26)))) {
             this->timer = 0;
             ArmsHook_DetachHookFromActor(this);
             Math_Vec3f_Copy(&this->actor.world.pos, &player->unk_3C8);
@@ -136,7 +132,7 @@ s32 ArmsHook_CheckForCancel(ArmsHook* this) {
 }
 
 void ArmsHook_AttachHookToActor(ArmsHook* this, Actor* actor) {
-    actor->flags |= 0x2000;
+    actor->flags |= ACTOR_FLAG_13;
     this->grabbed = actor;
     Math_Vec3f_Diff(&actor->world.pos, &this->actor.world.pos, &this->grabbedDistDiff);
 }
@@ -150,16 +146,16 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     f32 bodyDistDiff;
     f32 phi_f16;
     DynaPolyActor* dynaPolyActor;
-    f32 sp94;
-    f32 sp90;
+    f32 curGrabbedDist;
+    f32 grabbedDist;
     s32 pad;
     CollisionPoly* poly;
     s32 bgId;
-    Vec3f sp78;
+    Vec3f intersectPos;
     Vec3f prevFrameDiff;
     Vec3f sp60;
-    f32 sp5C;
-    f32 sp58;
+    f32 polyNormalX;
+    f32 polyNormalZ;
     f32 velocity;
     s32 pad1;
 
@@ -175,28 +171,29 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     if ((this->timer != 0) && (this->collider.base.atFlags & AT_HIT) &&
         (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
         touchedActor = this->collider.base.at;
-        if ((touchedActor->update != NULL) && (touchedActor->flags & 0x600)) {
+        if ((touchedActor->update != NULL) && (touchedActor->flags & (ACTOR_FLAG_9 | ACTOR_FLAG_10))) {
             if (this->collider.info.atHitInfo->bumperFlags & BUMP_HOOKABLE) {
                 ArmsHook_AttachHookToActor(this, touchedActor);
-                if ((touchedActor->flags & 0x400) == 0x400) {
+                if (CHECK_FLAG_ALL(touchedActor->flags, ACTOR_FLAG_10)) {
                     func_80865044(this);
                 }
             }
         }
         this->timer = 0;
-        Audio_PlaySoundGeneral(NA_SE_IT_ARROW_STICK_CRE, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_IT_ARROW_STICK_CRE, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (DECR(this->timer) == 0) {
         grabbed = this->grabbed;
         if (grabbed != NULL) {
-            if ((grabbed->update == NULL) || (grabbed->flags & 0x2000) != 0x2000) {
+            if ((grabbed->update == NULL) || !CHECK_FLAG_ALL(grabbed->flags, ACTOR_FLAG_13)) {
                 grabbed = NULL;
                 this->grabbed = NULL;
             } else if (this->actor.child != NULL) {
-                sp94 = Actor_WorldDistXYZToActor(&this->actor, grabbed);
-                sp90 = sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
+                curGrabbedDist = Actor_WorldDistXYZToActor(&this->actor, grabbed);
+                grabbedDist =
+                    sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
                 Math_Vec3f_Diff(&grabbed->world.pos, &this->grabbedDistDiff, &this->actor.world.pos);
-                if (50.0f < (sp94 - sp90)) {
+                if ((curGrabbedDist - grabbedDist) > 50.0f) {
                     ArmsHook_DetachHookFromActor(this);
                     grabbed = NULL;
                 }
@@ -260,14 +257,14 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
         sp60.x = this->unk_1F4.x - (this->unk_1E8.x - this->unk_1F4.x);
         sp60.y = this->unk_1F4.y - (this->unk_1E8.y - this->unk_1F4.y);
         sp60.z = this->unk_1F4.z - (this->unk_1E8.z - this->unk_1F4.z);
-        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &sp78, &poly, true, true, true, true,
-                                    &bgId) &&
-            !func_8002F9EC(globalCtx, &this->actor, poly, bgId, &sp78)) {
-            sp5C = COLPOLY_GET_NORMAL(poly->normal.x);
-            sp58 = COLPOLY_GET_NORMAL(poly->normal.z);
-            Math_Vec3f_Copy(&this->actor.world.pos, &sp78);
-            this->actor.world.pos.x += 10.0f * sp5C;
-            this->actor.world.pos.z += 10.0f * sp58;
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &this->unk_1E8, &intersectPos, &poly, true, true, true,
+                                    true, &bgId) &&
+            !func_8002F9EC(globalCtx, &this->actor, poly, bgId, &intersectPos)) {
+            polyNormalX = COLPOLY_GET_NORMAL(poly->normal.x);
+            polyNormalZ = COLPOLY_GET_NORMAL(poly->normal.z);
+            Math_Vec3f_Copy(&this->actor.world.pos, &intersectPos);
+            this->actor.world.pos.x += 10.0f * polyNormalX;
+            this->actor.world.pos.z += 10.0f * polyNormalZ;
             this->timer = 0;
             if (SurfaceType_IsHookshotSurface(&globalCtx->colCtx, poly, bgId)) {
                 if (bgId != BGCHECK_SCENE) {
@@ -277,12 +274,12 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                     }
                 }
                 func_80865044(this);
-                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_STICK_OBJ, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_STICK_OBJ, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             } else {
                 CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &this->actor.world.pos);
-                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4, &D_801333E0,
-                                       &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_IT_HOOKSHOT_REFLECT, &this->actor.projectedPos, 4,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
         } else if (CHECK_BTN_ANY(globalCtx->state.input[0].press.button,
                                  (BTN_A | BTN_B | BTN_R | BTN_CUP | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN))) {
@@ -292,7 +289,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
 }
 
 void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->unk_1F4 = this->unk_1E8;
@@ -300,33 +297,33 @@ void ArmsHook_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    ArmsHook* this = THIS;
+    ArmsHook* this = (ArmsHook*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f sp78;
-    Vec3f sp6C;
-    Vec3f sp60;
+    Vec3f hookNewTip;
+    Vec3f hookNewBase;
     f32 sp5C;
     f32 sp58;
 
-    if ((player->actor.draw != NULL) && (player->rightHandType == 15)) {
+    if ((player->actor.draw != NULL) && (player->rightHandType == PLAYER_MODELTYPE_RH_HOOKSHOT)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arms_hook.c", 850);
 
         if ((ArmsHook_Shoot != this->actionFunc) || (this->timer <= 0)) {
             Matrix_MultVec3f(&D_80865B70, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865B88, &sp6C);
-            Matrix_MultVec3f(&D_80865B94, &sp60);
+            Matrix_MultVec3f(&D_80865B88, &hookNewTip);
+            Matrix_MultVec3f(&D_80865B94, &hookNewBase);
             this->hookInfo.active = 0;
         } else {
             Matrix_MultVec3f(&D_80865B7C, &this->unk_1E8);
-            Matrix_MultVec3f(&D_80865BA0, &sp6C);
-            Matrix_MultVec3f(&D_80865BAC, &sp60);
+            Matrix_MultVec3f(&D_80865BA0, &hookNewTip);
+            Matrix_MultVec3f(&D_80865BAC, &hookNewBase);
         }
 
-        func_80090480(globalCtx, &this->collider, &this->hookInfo, &sp6C, &sp60);
+        func_80090480(globalCtx, &this->collider, &this->hookInfo, &hookNewTip, &hookNewBase);
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 895),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_0602B288);
+        gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotTipDL);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         Math_Vec3f_Diff(&player->unk_3C8, &this->actor.world.pos, &sp78);
         sp58 = SQ(sp78.x) + SQ(sp78.z);
@@ -336,7 +333,7 @@ void ArmsHook_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.015f, 0.015f, sqrtf(SQ(sp78.y) + sp58) * 0.01f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arms_hook.c", 910),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_0602AFF0);
+        gSPDisplayList(POLY_OPA_DISP++, gLinkAdultHookshotChainDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arms_hook.c", 913);
     }

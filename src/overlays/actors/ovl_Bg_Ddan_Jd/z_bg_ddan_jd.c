@@ -7,9 +7,7 @@
 #include "z_bg_ddan_jd.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgDdanJd*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -54,7 +52,7 @@ typedef enum {
 
 void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -76,7 +74,7 @@ void BgDdanJd_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -93,7 +91,7 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {
         this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
         this->idleTimer = 0;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
-        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
     if (this->idleTimer == 0) {
         this->idleTimer = IDLE_FRAMES;
@@ -162,7 +160,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
         this->idleTimer = 0;
         this->actionFunc = BgDdanJd_Idle;
-        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3060, -99, &this->dyna.actor, CAM_ID_MAIN);
     } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->targetY, this->ySpeed)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;
@@ -171,7 +169,7 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanJd_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgDdanJd* this = THIS;
+    BgDdanJd* this = (BgDdanJd*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

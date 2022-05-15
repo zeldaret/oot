@@ -1,6 +1,6 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
+PROGRAMS := aifc_decode elf2rom makeromfs mkdmadata mkldscript reloc_prereq vtxdis yaz0
 CPPFLAGS := -Wall -Wextra -pedantic -std=c++20 -g -O2
-PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis aifc_decode
 CPP_PROGRAMS := assemble_sequence
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
@@ -20,27 +20,29 @@ ifneq ($(LLD),0)
 endif
 
 all: $(PROGRAMS)
-	cd ZAPD && $(MAKE)
+	$(MAKE) -C ZAPD
+	$(MAKE) -C fado
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
 	$(MAKE) -C ZAPD clean
+	$(MAKE) -C fado clean
 
 distclean: clean
 
 .PHONY: all clean distclean
 
-mkldscript_SOURCES  := mkldscript.c util.c
-elf2rom_SOURCES     := elf2rom.c elf32.c n64chksum.c util.c
-yaz0_SOURCES        := yaz0tool.c yaz0.c util.c
-makeromfs_SOURCES   := makeromfs.c n64chksum.c util.c
-vtxdis_SOURCES	    := vtxdis.c
-aifc_decode_SOURCES := aifc_decode.c
-
+aifc_decode_SOURCES       := aifc_decode.c
 assemble_sequence_SOURCES := assemble_sequence.cpp
+elf2rom_SOURCES           := elf2rom.c elf32.c n64chksum.c util.c
+makeromfs_SOURCES         := makeromfs.c n64chksum.c util.c
+mkdmadata_SOURCES         := mkdmadata.c spec.c util.c
+mkldscript_SOURCES        := mkldscript.c spec.c util.c
+reloc_prereq_SOURCES      := reloc_prereq.c spec.c util.c
+vtxdis_SOURCES            := vtxdis.c
+yaz0_SOURCES              := yaz0tool.c yaz0.c util.c
 
-aifc_decode_LIBRARIES := -lm
-
+aifc_decode_LIBRARIES       := -lm
 assemble_sequence_LIBRARIES := -lstdc++
 
 define COMPILE =

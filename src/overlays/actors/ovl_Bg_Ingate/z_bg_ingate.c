@@ -7,9 +7,7 @@
 #include "z_bg_ingate.h"
 #include "objects/object_ingate/object_ingate.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgInGate*)thisx)
+#define FLAGS 0
 
 void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ void BgInGate_SetupAction(BgInGate* this, BgInGateActionFunc actionFunc) {
 }
 
 void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgInGate* this = THIS;
+    BgInGate* this = (BgInGate*)thisx;
 
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -47,13 +45,13 @@ void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if ((globalCtx->sceneNum != SCENE_SPOT20 || !LINK_IS_ADULT) ||
-        (((gSaveContext.eventChkInf[1] & 0x100)) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
+        (GET_EVENTCHKINF(EVENTCHKINF_18) && (gSaveContext.cutsceneIndex != 0xFFF0))) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
 
     Actor_SetScale(&this->dyna.actor, 0.1f);
-    if (((this->dyna.actor.params & 1) != 0) && ((gSaveContext.eventInf[0] & 0xF) == 6)) {
+    if (((this->dyna.actor.params & 1) != 0) && (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_6)) {
         globalCtx->csCtx.frames = 0;
         BgInGate_SetupAction(this, func_80892890);
     } else {
@@ -62,7 +60,7 @@ void BgInGate_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgInGate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgInGate* this = THIS;
+    BgInGate* this = (BgInGate*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -78,7 +76,7 @@ void func_80892890(BgInGate* this, GlobalContext* globalCtx) {
             phi0 = -0x4000;
         }
         this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
-        BgInGate_SetupAction(this, &BgInGate_DoNothing);
+        BgInGate_SetupAction(this, BgInGate_DoNothing);
     } else if (globalCtx->csCtx.frames >= 10) {
         csFrames = globalCtx->csCtx.frames - 10;
         csFrames *= 400;
@@ -99,7 +97,7 @@ void BgInGate_DoNothing(BgInGate* this, GlobalContext* globalCtx) {
 }
 
 void BgInGate_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgInGate* this = THIS;
+    BgInGate* this = (BgInGate*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

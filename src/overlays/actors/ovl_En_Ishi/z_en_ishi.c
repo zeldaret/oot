@@ -5,14 +5,13 @@
  */
 
 #include "z_en_ishi.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #include "vt.h"
 
-#define FLAGS 0x00800000
-
-#define THIS ((EnIshi*)thisx)
+#define FLAGS ACTOR_FLAG_23
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -104,7 +103,7 @@ static ColliderCylinderInit sCylinderInits[] = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 void EnIshi_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInits[this->actor.params & 1]);
@@ -147,11 +146,11 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() * 5.0f) + 5.0f;
         pos.z = this->actor.world.pos.z + (Rand_ZeroOne() - 0.5f) * 8.0f;
         Math_Vec3f_Copy(&velocity, &this->actor.velocity);
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             velocity.x *= 0.8f;
             velocity.y *= -0.8f;
             velocity.z *= 0.8f;
-        } else if (this->actor.bgCheckFlags & 8) {
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             velocity.x *= -0.8f;
             velocity.y *= 0.8f;
             velocity.z *= -0.8f;
@@ -187,11 +186,11 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + (Rand_ZeroOne() * 40.0f) + 5.0f;
         pos.z = this->actor.world.pos.z + (Math_CosS(angle) * rand);
         Math_Vec3f_Copy(&velocity, &thisx->velocity);
-        if (thisx->bgCheckFlags & 1) {
+        if (thisx->bgCheckFlags & BGCHECKFLAG_GROUND) {
             velocity.x *= 0.9f;
             velocity.y *= -0.8f;
             velocity.z *= 0.9f;
-        } else if (thisx->bgCheckFlags & 8) {
+        } else if (thisx->bgCheckFlags & BGCHECKFLAG_WALL) {
             velocity.x *= -0.9f;
             velocity.y *= 0.8f;
             velocity.z *= -0.9f;
@@ -219,11 +218,11 @@ void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     Math_Vec3f_Copy(&pos, &this->actor.world.pos);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         pos.x += 2.0f * this->actor.velocity.x;
         pos.y -= 2.0f * this->actor.velocity.y;
         pos.z += 2.0f * this->actor.velocity.z;
-    } else if (this->actor.bgCheckFlags & 8) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         pos.x -= 2.0f * this->actor.velocity.x;
         pos.y += 2.0f * this->actor.velocity.y;
         pos.z -= 2.0f * this->actor.velocity.z;
@@ -235,11 +234,11 @@ void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
     Math_Vec3f_Copy(&pos, &this->actor.world.pos);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         pos.x += 2.0f * this->actor.velocity.x;
         pos.y -= 2.0f * this->actor.velocity.y;
         pos.z += 2.0f * this->actor.velocity.z;
-    } else if (this->actor.bgCheckFlags & 8) {
+    } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         pos.x -= 2.0f * this->actor.velocity.x;
         pos.y += 2.0f * this->actor.velocity.y;
         pos.z -= 2.0f * this->actor.velocity.z;
@@ -281,7 +280,8 @@ void EnIshi_SpawnBugs(EnIshi* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 3; i++) {
         Actor* bug = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
-                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, Rand_ZeroOne() * 0xFFFF, 0, 1);
+                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, Rand_ZeroOne() * 0xFFFF, 0,
+                                 INSECT_TYPE_SPAWNED);
 
         if (bug == NULL) {
             break;
@@ -307,7 +307,7 @@ static InitChainEntry sInitChains[][5] = {
 };
 
 void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
     s16 type = this->actor.params & 1;
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
@@ -335,7 +335,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnIshi_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -351,14 +351,15 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnIshi_SetupLiftedUp(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, liftSounds[type]);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20, liftSounds[type]);
         if ((this->actor.params >> 4) & 1) {
             EnIshi_SpawnBugs(this, globalCtx);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
                this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000048) {
         EnIshi_DropCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type], sBreakSounds[type]);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
+                                           sBreakSounds[type]);
         sFragmentSpawnFuncs[type](this, globalCtx);
         sDustSpawnFuncs[type](this, globalCtx);
         Actor_Kill(&this->actor);
@@ -383,7 +384,7 @@ void EnIshi_Wait(EnIshi* this, GlobalContext* globalCtx) {
 void EnIshi_SetupLiftedUp(EnIshi* this) {
     this->actionFunc = EnIshi_LiftedUp;
     this->actor.room = -1;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
 }
 
 void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
@@ -396,7 +397,9 @@ void EnIshi_LiftedUp(EnIshi* this, GlobalContext* globalCtx) {
         EnIshi_Fall(this);
         func_80A7ED94(&this->actor.velocity, D_80A7FA28[this->actor.params & 1]);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                    UPDBGCHECKINFO_FLAG_7);
     }
 }
 
@@ -421,12 +424,12 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     s32 quakeIdx;
     Vec3f contactPos;
 
-    if (this->actor.bgCheckFlags & 9) {
+    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
         EnIshi_DropCollectible(this, globalCtx);
         sFragmentSpawnFuncs[type](this, globalCtx);
-        if (!(this->actor.bgCheckFlags & 0x20)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
-                                      sBreakSounds[type]);
+        if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER)) {
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, sBreakSoundDurations[type],
+                                               sBreakSounds[type]);
             sDustSpawnFuncs[type](this, globalCtx);
         }
         if (type == ROCK_LARGE) {
@@ -439,7 +442,7 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (this->actor.bgCheckFlags & 0x40) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER_TOUCH) {
         contactPos.x = this->actor.world.pos.x;
         contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
         contactPos.z = this->actor.world.pos.z;
@@ -456,8 +459,8 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
         this->actor.minVelocityY = -6.0f;
         sRotSpeedX >>= 2;
         sRotSpeedY >>= 2;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
-        this->actor.bgCheckFlags &= ~0x40;
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER_TOUCH;
     }
     Math_StepToF(&this->actor.shape.yOffset, 0.0f, 2.0f);
     EnIshi_Fall(this);
@@ -465,13 +468,15 @@ void EnIshi_Fly(EnIshi* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
     this->actor.shape.rot.x += sRotSpeedX;
     this->actor.shape.rot.y += sRotSpeedY;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6 |
+                                UPDBGCHECKINFO_FLAG_7);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
@@ -495,7 +500,7 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
 static EnIshiDrawFunc sDrawFuncs[] = { EnIshi_DrawSmall, EnIshi_DrawLarge };
 
 void EnIshi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnIshi* this = THIS;
+    EnIshi* this = (EnIshi*)thisx;
 
     sDrawFuncs[this->actor.params & 1](this, globalCtx);
 }

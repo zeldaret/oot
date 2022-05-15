@@ -9,8 +9,8 @@
 #define ACTOR_NUMBER_MAX 200
 #define INVISIBLE_ACTOR_MAX 20
 #define AM_FIELD_SIZE 0x27A0
-#define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC collisions
-#define MASS_HEAVY 0xFE // Can only be pushed by OC collisions with IMMOVABLE and HEAVY objects.
+#define MASS_IMMOVABLE 0xFF // Cannot be pushed by OC colliders
+#define MASS_HEAVY 0xFE // Can only be pushed by OC colliders from actors with IMMOVABLE or HEAVY mass.
 
 struct Actor;
 struct GlobalContext;
@@ -77,7 +77,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ DamageTable* damageTable;
-    /* 0x04 */ Vec3f displacement; // Amount to correct velocity (0x5C) by when colliding into a body
+    /* 0x04 */ Vec3f displacement; // Amount to correct actor velocity by when colliding into a body
     /* 0x10 */ s16 cylRadius; // Used for various purposes
     /* 0x12 */ s16 cylHeight; // Used for various purposes
     /* 0x14 */ s16 cylYShift; // Unused. Purpose inferred from Cylinder16 and CollisionCheck_CylSideVsLineSeg
@@ -96,9 +96,49 @@ typedef struct {
     /* 0x0C */ ActorShadowFunc shadowDraw; // Shadow draw function
     /* 0x10 */ f32 shadowScale; // Changes the size of the shadow
     /* 0x14 */ u8 shadowAlpha; // Default is 255
-    /* 0x15 */ u8 feetFloorFlags; // Set if the actor's foot is clipped under the floor. & 1 is right foot, & 2 is left
+    /* 0x15 */ u8 feetFloorFlag; // 0 if actor or feet aren't on ground, or 1 or 2 depending on feet positions
     /* 0x18 */ Vec3f feetPos[2]; // Update by using `Actor_SetFeetPos` in PostLimbDraw
 } ActorShape; // size = 0x30
+
+#define ACTOR_FLAG_0 (1 << 0)
+#define ACTOR_FLAG_2 (1 << 2)
+#define ACTOR_FLAG_3 (1 << 3)
+#define ACTOR_FLAG_4 (1 << 4)
+#define ACTOR_FLAG_5 (1 << 5)
+#define ACTOR_FLAG_6 (1 << 6)
+#define ACTOR_FLAG_7 (1 << 7)
+#define ACTOR_FLAG_8 (1 << 8)
+#define ACTOR_FLAG_9 (1 << 9)
+#define ACTOR_FLAG_10 (1 << 10)
+#define ACTOR_FLAG_ENKUSA_CUT (1 << 11)
+#define ACTOR_FLAG_12 (1 << 12)
+#define ACTOR_FLAG_13 (1 << 13)
+#define ACTOR_FLAG_14 (1 << 14)
+#define ACTOR_FLAG_15 (1 << 15)
+#define ACTOR_FLAG_16 (1 << 16)
+#define ACTOR_FLAG_17 (1 << 17)
+#define ACTOR_FLAG_18 (1 << 18)
+#define ACTOR_FLAG_19 (1 << 19)
+#define ACTOR_FLAG_20 (1 << 20)
+#define ACTOR_FLAG_21 (1 << 21)
+#define ACTOR_FLAG_22 (1 << 22)
+#define ACTOR_FLAG_23 (1 << 23)
+#define ACTOR_FLAG_24 (1 << 24)
+#define ACTOR_FLAG_25 (1 << 25)
+#define ACTOR_FLAG_26 (1 << 26)
+#define ACTOR_FLAG_27 (1 << 27)
+#define ACTOR_FLAG_28 (1 << 28)
+
+#define BGCHECKFLAG_GROUND (1 << 0) // Standing on the ground
+#define BGCHECKFLAG_GROUND_TOUCH (1 << 1) // Has touched the ground (only active for 1 frame)
+#define BGCHECKFLAG_GROUND_LEAVE (1 << 2) // Has left the ground (only active for 1 frame)
+#define BGCHECKFLAG_WALL (1 << 3) // Touching a wall
+#define BGCHECKFLAG_CEILING (1 << 4) // Touching a ceiling
+#define BGCHECKFLAG_WATER (1 << 5) // In water
+#define BGCHECKFLAG_WATER_TOUCH (1 << 6) // Has touched water (reset when leaving water)
+#define BGCHECKFLAG_GROUND_STRICT (1 << 7) // Strictly on ground (BGCHECKFLAG_GROUND has some leeway)
+#define BGCHECKFLAG_CRUSHED (1 << 8) // Crushed between a floor and ceiling (triggers a void for player)
+#define BGCHECKFLAG_PLAYER_WALL_INTERACT (1 << 9) // Only set/used by player, related to interacting with walls
 
 typedef struct Actor {
     /* 0x000 */ s16 id; // Actor ID
@@ -125,9 +165,9 @@ typedef struct Actor {
     /* 0x07E */ s16 wallYaw; // Y rotation of the wall polygon the actor is touching
     /* 0x080 */ f32 floorHeight; // Y position of the floor polygon directly below the actor
     /* 0x084 */ f32 yDistToWater; // Distance to the surface of active waterbox. Negative value means above water
-    /* 0x088 */ u16 bgCheckFlags; // See comments below actor struct for wip docs. TODO: macros for these flags
+    /* 0x088 */ u16 bgCheckFlags; // Flags indicating how the actor is interacting with collision
     /* 0x08A */ s16 yawTowardsPlayer; // Y rotation difference between the actor and the player
-    /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player in the x,y,z axis
+    /* 0x08C */ f32 xyzDistToPlayerSq; // Squared distance between the actor and the player
     /* 0x090 */ f32 xzDistToPlayer; // Distance between the actor and the player in the XZ plane
     /* 0x094 */ f32 yDistToPlayer; // Dist is negative if the actor is above the player
     /* 0x098 */ CollisionCheckInfo colChkInfo; // Variables related to the Collision Check system
@@ -163,20 +203,6 @@ typedef enum {
     /* 0 */ FOOT_LEFT,
     /* 1 */ FOOT_RIGHT
 } ActorFootIndex;
-
-/*
-BgCheckFlags WIP documentation:
-& 0x001 : Standing on the ground
-& 0x002 : Has touched the ground (only active for 1 frame)
-& 0x004 : Has left the ground (only active for 1 frame)
-& 0x008 : Touching a wall
-& 0x010 : Touching a ceiling
-& 0x020 : On or below water surface
-& 0x040 : Has touched water (actor is responsible for unsetting this the frame it touches the water)
-& 0x080 : Similar to & 0x1 but with no velocity check and is cleared every frame
-& 0x100 : Crushed between a floor and ceiling (triggers a void for player)
-& 0x200 : Unknown (only set/used by player so far)
-*/
 
 /*
 colorFilterParams WIP documentation
@@ -239,7 +265,9 @@ typedef enum {
     /* 0x16 */ ITEM00_SHIELD_HYLIAN,
     /* 0x17 */ ITEM00_TUNIC_ZORA,
     /* 0x18 */ ITEM00_TUNIC_GORON,
-    /* 0x19 */ ITEM00_BOMBS_SPECIAL
+    /* 0x19 */ ITEM00_BOMBS_SPECIAL,
+    /* 0x1A */ ITEM00_MAX,
+    /* 0xFF */ ITEM00_NONE = 0xFF
 } Item00Type;
 
 struct EnItem00;
@@ -305,7 +333,8 @@ typedef enum {
     /* 0x08 */ ACTORCAT_MISC,
     /* 0x09 */ ACTORCAT_BOSS,
     /* 0x0A */ ACTORCAT_DOOR,
-    /* 0x0B */ ACTORCAT_CHEST
+    /* 0x0B */ ACTORCAT_CHEST,
+    /* 0x0C */ ACTORCAT_MAX
 } ActorCategory;
 
 #define DEFINE_ACTOR(_0, enum, _2) enum,
@@ -320,5 +349,117 @@ typedef enum {
 #undef DEFINE_ACTOR
 #undef DEFINE_ACTOR_INTERNAL
 #undef DEFINE_ACTOR_UNSET
+
+typedef enum {
+    DOORLOCK_NORMAL,
+    DOORLOCK_BOSS,
+    DOORLOCK_NORMAL_SPIRIT
+} DoorLockType;
+
+typedef enum {
+    /* 0x00 */ NAVI_ENEMY_DEFAULT,
+    /* 0x01 */ NAVI_ENEMY_GOHMA,
+    /* 0x02 */ NAVI_ENEMY_GOHMA_EGG,
+    /* 0x03 */ NAVI_ENEMY_GOHMA_LARVA,
+    /* 0x04 */ NAVI_ENEMY_SKULLTULA,
+    /* 0x05 */ NAVI_ENEMY_BIG_SKULLTULA,
+    /* 0x06 */ NAVI_ENEMY_TAILPASARAN,
+    /* 0x07 */ NAVI_ENEMY_DEKU_BABA,
+    /* 0x08 */ NAVI_ENEMY_BIG_DEKU_BABA,
+    /* 0x09 */ NAVI_ENEMY_WITHERED_DEKU_BABA,
+    /* 0x0A */ NAVI_ENEMY_DEKU_SCRUB,
+    /* 0x0B */ NAVI_ENEMY_UNUSED_B,
+    /* 0x0C */ NAVI_ENEMY_KING_DODONGO,
+    /* 0x0D */ NAVI_ENEMY_DODONGO,
+    /* 0x0E */ NAVI_ENEMY_BABY_DODONGO,
+    /* 0x0F */ NAVI_ENEMY_LIZALFOS,
+    /* 0x10 */ NAVI_ENEMY_DINOLFOS,
+    /* 0x11 */ NAVI_ENEMY_FIRE_KEESE,
+    /* 0x12 */ NAVI_ENEMY_KEESE,
+    /* 0x13 */ NAVI_ENEMY_ARMOS,
+    /* 0x14 */ NAVI_ENEMY_BARINADE,
+    /* 0x15 */ NAVI_ENEMY_PARASITIC_TENTACLE,
+    /* 0x16 */ NAVI_ENEMY_SHABOM,
+    /* 0x17 */ NAVI_ENEMY_BIRI,
+    /* 0x18 */ NAVI_ENEMY_BARI,
+    /* 0x19 */ NAVI_ENEMY_STINGER,
+    /* 0x1A */ NAVI_ENEMY_PHANTOM_GANON_PHASE_2,
+    /* 0x1B */ NAVI_ENEMY_STALFOS,
+    /* 0x1C */ NAVI_ENEMY_BLUE_BUBBLE,
+    /* 0x1D */ NAVI_ENEMY_WHITE_BUBBLE,
+    /* 0x1E */ NAVI_ENEMY_GREEN_BUBBLE,
+    /* 0x1F */ NAVI_ENEMY_SKULLWALLTULA,
+    /* 0x20 */ NAVI_ENEMY_GOLD_SKULLTULA,
+    /* 0x21 */ NAVI_ENEMY_VOLVAGIA,
+    /* 0x22 */ NAVI_ENEMY_FLARE_DANCER,
+    /* 0x23 */ NAVI_ENEMY_TORCH_SLUG,
+    /* 0x24 */ NAVI_ENEMY_RED_BUBBLE,
+    /* 0x25 */ NAVI_ENEMY_MORPHA,
+    /* 0x26 */ NAVI_ENEMY_DARK_LINK,
+    /* 0x27 */ NAVI_ENEMY_SHELL_BLADE,
+    /* 0x28 */ NAVI_ENEMY_SPIKE,
+    /* 0x29 */ NAVI_ENEMY_BONGO_BONGO,
+    /* 0x2A */ NAVI_ENEMY_REDEAD,
+    /* 0x2B */ NAVI_ENEMY_PHANTOM_GANON_PHASE_1,
+    /* 0x2C */ NAVI_ENEMY_UNUSED_2C,
+    /* 0x2D */ NAVI_ENEMY_GIBDO,
+    /* 0x2E */ NAVI_ENEMY_DEAD_HANDS_HAND,
+    /* 0x2F */ NAVI_ENEMY_DEAD_HAND,
+    /* 0x30 */ NAVI_ENEMY_WALLMASTER,
+    /* 0x31 */ NAVI_ENEMY_FLOORMASTER,
+    /* 0x32 */ NAVI_ENEMY_TWINROVA_KOUME,
+    /* 0x33 */ NAVI_ENEMY_TWINROVA_KOTAKE,
+    /* 0x34 */ NAVI_ENEMY_IRON_KNUCKLE_NABOORU,
+    /* 0x35 */ NAVI_ENEMY_IRON_KNUCKLE,
+    /* 0x36 */ NAVI_ENEMY_SKULL_KID_ADULT,
+    /* 0x37 */ NAVI_ENEMY_LIKE_LIKE,
+    /* 0x38 */ NAVI_ENEMY_UNUSED_38,
+    /* 0x39 */ NAVI_ENEMY_BEAMOS,
+    /* 0x3A */ NAVI_ENEMY_ANUBIS,
+    /* 0x3B */ NAVI_ENEMY_FREEZARD,
+    /* 0x3C */ NAVI_ENEMY_UNUSED_3C,
+    /* 0x3D */ NAVI_ENEMY_GANONDORF,
+    /* 0x3E */ NAVI_ENEMY_GANON,
+    /* 0x3F */ NAVI_ENEMY_SKULL_KID,
+    /* 0x40 */ NAVI_ENEMY_SKULL_KID_FRIENDLY,
+    /* 0x41 */ NAVI_ENEMY_SKULL_KID_MASK,
+    /* 0x42 */ NAVI_ENEMY_OCTOROK,
+    /* 0x43 */ NAVI_ENEMY_POE_COMPOSER,
+    /* 0x44 */ NAVI_ENEMY_POE,
+    /* 0x45 */ NAVI_ENEMY_RED_TEKTITE,
+    /* 0x46 */ NAVI_ENEMY_BLUE_TEKTITE,
+    /* 0x47 */ NAVI_ENEMY_LEEVER,
+    /* 0x48 */ NAVI_ENEMY_PEAHAT,
+    /* 0x49 */ NAVI_ENEMY_PEAHAT_LARVA,
+    /* 0x4A */ NAVI_ENEMY_MOBLIN,
+    /* 0x4B */ NAVI_ENEMY_MOBLIN_CLUB,
+    /* 0x4C */ NAVI_ENEMY_WOLFOS,
+    /* 0x4D */ NAVI_ENEMY_MAD_SCRUB,
+    /* 0x4E */ NAVI_ENEMY_BUSINESS_SCRUB,
+    /* 0x4F */ NAVI_ENEMY_DAMPES_GHOST,
+    /* 0x50 */ NAVI_ENEMY_POE_SISTER_MEG,
+    /* 0x51 */ NAVI_ENEMY_POE_SISTER_JOELLE,
+    /* 0x52 */ NAVI_ENEMY_POE_SISTER_BETH,
+    /* 0x53 */ NAVI_ENEMY_POE_SISTER_AMY,
+    /* 0x54 */ NAVI_ENEMY_GERUDO_THIEF,
+    /* 0x55 */ NAVI_ENEMY_STALCHILD,
+    /* 0x56 */ NAVI_ENEMY_ICE_KEESE,
+    /* 0x57 */ NAVI_ENEMY_WHITE_WOLFOS,
+    /* 0x58 */ NAVI_ENEMY_GUAY,
+    /* 0x59 */ NAVI_ENEMY_BIGOCTO,
+    /* 0x5A */ NAVI_ENEMY_BIG_POE,
+    /* 0x5B */ NAVI_ENEMY_TWINROVA,
+    /* 0x5C */ NAVI_ENEMY_POE_WASTELAND,
+    /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
+} NaviEnemy;
+
+#define UPDBGCHECKINFO_FLAG_0 (1 << 0) // check wall
+#define UPDBGCHECKINFO_FLAG_1 (1 << 1) // check ceiling
+#define UPDBGCHECKINFO_FLAG_2 (1 << 2) // check floor and water
+#define UPDBGCHECKINFO_FLAG_3 (1 << 3)
+#define UPDBGCHECKINFO_FLAG_4 (1 << 4)
+#define UPDBGCHECKINFO_FLAG_5 (1 << 5) // unused
+#define UPDBGCHECKINFO_FLAG_6 (1 << 6) // disable water ripples
+#define UPDBGCHECKINFO_FLAG_7 (1 << 7) // alternate wall check?
 
 #endif

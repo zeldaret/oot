@@ -1,9 +1,7 @@
 #include "z_en_bubble.h"
 #include "objects/object_bubble/object_bubble.h"
 
-#define FLAGS 0x00000001
-
-#define THIS ((EnBubble*)thisx)
+#define FLAGS ACTOR_FLAG_0
 
 void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -80,7 +78,7 @@ void EnBubble_SetDimensions(EnBubble* this, f32 dim) {
     f32 c;
     f32 d;
 
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     Actor_SetScale(&this->actor, 1.0f);
     this->actor.shape.yOffset = 16.0f;
     this->graphicRotSpeed = 16.0f;
@@ -149,7 +147,7 @@ s32 EnBubble_Explosion(EnBubble* this, GlobalContext* globalCtx) {
                                           &sEffectEnvColor, Rand_S16Offset(100, 50), 0x19, 0);
     }
     Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 0x50);
-    this->actor.flags &= ~0x1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     return Rand_S16Offset(90, 60);
 }
 
@@ -172,7 +170,7 @@ s32 func_809CC020(EnBubble* this) {
     return true;
 }
 
-void EnBubble_Vec3fNormalizedRelfect(Vec3f* vec1, Vec3f* vec2, Vec3f* ret) {
+void EnBubble_Vec3fNormalizedReflect(Vec3f* vec1, Vec3f* vec2, Vec3f* ret) {
     f32 norm;
 
     Math3D_Vec3fReflect(vec1, vec2, ret);
@@ -199,7 +197,7 @@ void EnBubble_Vec3fNormalize(Vec3f* vec) {
 }
 
 void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
-    CollisionPoly* sp94;
+    CollisionPoly* poly;
     Actor* bumpActor;
     Vec3f sp84;
     Vec3f sp78;
@@ -235,11 +233,11 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
     sp6C.x += (sp54.x * 24.0f);
     sp6C.y += (sp54.y * 24.0f);
     sp6C.z += (sp54.z * 24.0f);
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &sp94, true, true, true, false, &bgId)) {
-        sp60.x = COLPOLY_GET_NORMAL(sp94->normal.x);
-        sp60.y = COLPOLY_GET_NORMAL(sp94->normal.y);
-        sp60.z = COLPOLY_GET_NORMAL(sp94->normal.z);
-        EnBubble_Vec3fNormalizedRelfect(&sp54, &sp60, &sp54);
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp78, &sp6C, &sp84, &poly, true, true, true, false, &bgId)) {
+        sp60.x = COLPOLY_GET_NORMAL(poly->normal.x);
+        sp60.y = COLPOLY_GET_NORMAL(poly->normal.y);
+        sp60.z = COLPOLY_GET_NORMAL(poly->normal.z);
+        EnBubble_Vec3fNormalizedReflect(&sp54, &sp60, &sp54);
         this->bounceDirection = sp54;
         bounceCount = this->bounceCount;
         this->bounceCount = ++bounceCount;
@@ -255,10 +253,10 @@ void EnBubble_Fly(EnBubble* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_AWA_BOUND);
         this->graphicRotSpeed = 128.0f;
         this->graphicEccentricity = 0.48f;
-    } else if (this->actor.bgCheckFlags & 0x20 && sp54.y < 0.0f) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && sp54.y < 0.0f) {
         sp60.x = sp60.z = 0.0f;
         sp60.y = 1.0f;
-        EnBubble_Vec3fNormalizedRelfect(&sp54, &sp60, &sp54);
+        EnBubble_Vec3fNormalizedReflect(&sp54, &sp60, &sp54);
         this->bounceDirection = sp54;
         bounceCount = this->bounceCount;
         this->bounceCount = ++bounceCount;
@@ -332,14 +330,14 @@ void func_809CC774(EnBubble* this) {
 }
 
 void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
     u32 pad;
 
     ActorShape_Init(&this->actor.shape, 16.0f, ActorShadow_DrawCircle, 0.2f);
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
     Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, this->colliderSphereItems);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(9), &sColChkInfoInit2);
-    this->actor.naviEnemyId = 0x16;
+    this->actor.naviEnemyId = NAVI_ENEMY_SHABOM;
     this->bounceDirection.x = Rand_ZeroOne();
     this->bounceDirection.y = Rand_ZeroOne();
     this->bounceDirection.z = Rand_ZeroOne();
@@ -352,7 +350,7 @@ void EnBubble_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBubble_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->colliderSphere);
 }
@@ -371,7 +369,7 @@ void EnBubble_Wait(EnBubble* this, GlobalContext* globalCtx) {
 
 void EnBubble_Pop(EnBubble* this, GlobalContext* globalCtx) {
     if (EnBubble_Explosion(this, globalCtx) >= 0) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 60, NA_SE_EN_AWA_BREAK);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 60, NA_SE_EN_AWA_BREAK);
         Actor_Kill(&this->actor);
     }
 }
@@ -398,16 +396,17 @@ void EnBubble_Regrow(EnBubble* this, GlobalContext* globalCtx) {
 }
 
 void EnBubble_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
 
     func_8002D7EC(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 16.0f, 16.0f, 0.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 16.0f, 16.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     Actor_SetFocus(&this->actor, this->actor.shape.yOffset);
 }
 
 void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBubble* this = THIS;
+    EnBubble* this = (EnBubble*)thisx;
     u32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1175);
@@ -416,12 +415,12 @@ void EnBubble_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         Math_SmoothStepToF(&this->graphicRotSpeed, 16.0f, 0.2f, 1000.0f, 0.0f);
         Math_SmoothStepToF(&this->graphicEccentricity, 0.08f, 0.2f, 1000.0f, 0.0f);
-        func_800D1FD4(&globalCtx->mf_11DA0);
+        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
         Matrix_Scale(this->expansionWidth + 1.0f, this->expansionHeight + 1.0f, 1.0f, MTXMODE_APPLY);
-        Matrix_RotateZ(((f32)globalCtx->state.frames * (M_PI / 180.0f)) * this->graphicRotSpeed, MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD((f32)globalCtx->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
         Matrix_Scale(this->graphicEccentricity + 1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
-        Matrix_RotateZ((-(f32)globalCtx->state.frames * (M_PI / 180.0f)) * this->graphicRotSpeed, MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(-(f32)globalCtx->state.frames) * this->graphicRotSpeed, MTXMODE_APPLY);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bubble.c", 1220),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

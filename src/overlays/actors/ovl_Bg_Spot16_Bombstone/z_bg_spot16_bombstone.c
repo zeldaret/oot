@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_En_Bombf/z_en_bombf.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot16Bombstone*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -233,7 +231,7 @@ s32 func_808B4E58(BgSpot16Bombstone* this, GlobalContext* globalctx) {
 }
 
 void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
     s16 shouldLive;
 
     func_808B4C30(this);
@@ -267,7 +265,7 @@ void BgSpot16Bombstone_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot16Bombstone_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
 
     if (this->actor.params == 0xFF) {
         // Boulder is intact so remove its collider
@@ -412,10 +410,10 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
                 sTimer = currentBomb->timer + 20;
-                OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, CAM_ID_MAIN);
             }
         }
-    } else if (player->stateFlags1 & 0x800) {
+    } else if (player->stateFlags1 & PLAYER_STATE1_11) {
         playerHeldActor = player->heldActor;
         if (playerHeldActor != NULL && playerHeldActor->category == ACTORCAT_EXPLOSIVE &&
             playerHeldActor->id == ACTOR_EN_BOMBF) {
@@ -442,10 +440,10 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
         func_808B561C(this, globalCtx);
 
-        OnePointCutscene_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4180, 50, NULL, CAM_ID_MAIN);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
-        gSaveContext.eventChkInf[2] |= 8;
+        SET_EVENTCHKINF(EVENTCHKINF_23);
 
         func_808B5A78(this);
     } else {
@@ -511,19 +509,20 @@ void func_808B5B6C(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (actor->bgCheckFlags & 8 || (actor->bgCheckFlags & 1 && actor->velocity.y < 0.0f)) {
+    if ((actor->bgCheckFlags & BGCHECKFLAG_WALL) ||
+        ((actor->bgCheckFlags & BGCHECKFLAG_GROUND) && actor->velocity.y < 0.0f)) {
         BgSpot16Bombstone_SpawnFragments(this, globalCtx);
         BgSpot16Bombstone_SpawnDust(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &actor->world.pos, 20, NA_SE_EV_ROCK_BROKEN);
         Actor_Kill(actor);
         return;
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, actor, 17.5f, 35.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, actor, 17.5f, 35.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
 
     this->unk_154++;
     if (this->actionFunc != NULL) {
@@ -532,7 +531,7 @@ void BgSpot16Bombstone_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot16Bombstone_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot16Bombstone* this = THIS;
+    BgSpot16Bombstone* this = (BgSpot16Bombstone*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot16_bombstone.c", 1253);

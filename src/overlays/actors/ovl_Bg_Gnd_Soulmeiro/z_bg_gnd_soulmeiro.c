@@ -8,9 +8,7 @@
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "global.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgGndSoulmeiro*)thisx)
+#define FLAGS 0
 
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgGndSoulmeiro* this = THIS;
+    BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actionFunc = NULL;
@@ -96,7 +94,7 @@ void BgGndSoulmeiro_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGndSoulmeiro_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndSoulmeiro* this = THIS;
+    BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     if ((this->actor.params & 0xFF) == 0) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -164,7 +162,8 @@ void func_8087B284(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
     if (!Flags_GetSwitch(globalCtx, (this->actor.params >> 8) & 0x3F)) {
         this->actor.draw = BgGndSoulmeiro_Draw;
         if (this->collider.base.acFlags & AC_HIT) {
-            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             this->unk_198 = 40;
             this->actionFunc = func_8087AF38;
         } else {
@@ -183,7 +182,7 @@ void func_8087B350(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
 }
 
 void BgGndSoulmeiro_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGndSoulmeiro* this = THIS;
+    BgGndSoulmeiro* this = (BgGndSoulmeiro*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

@@ -6,9 +6,7 @@
 
 #include "z_magic_wind.h"
 
-#define FLAGS 0x02000010
-
-#define THIS ((MagicWind*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx);
 void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -44,7 +42,7 @@ void MagicWind_SetupAction(MagicWind* this, MagicWindFunc actionFunc) {
 }
 
 void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
-    MagicWind* this = THIS;
+    MagicWind* this = (MagicWind*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     if (SkelCurve_Init(globalCtx, &this->skelCurve, &sSkel, &sAnim) == 0) {
@@ -69,7 +67,7 @@ void MagicWind_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MagicWind_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    MagicWind* this = THIS;
+    MagicWind* this = (MagicWind*)thisx;
     SkelCurve_Destroy(globalCtx, &this->skelCurve);
     func_800876C8(globalCtx);
     // "wipe out"
@@ -132,8 +130,9 @@ void MagicWind_Shrink(MagicWind* this, GlobalContext* globalCtx) {
 }
 
 void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx) {
-    MagicWind* this = THIS;
-    if (globalCtx->msgCtx.msgMode == 0xD || globalCtx->msgCtx.msgMode == 0x11) {
+    MagicWind* this = (MagicWind*)thisx;
+    if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
+        globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
         Actor_Kill(thisx);
         return;
     }
@@ -142,7 +141,7 @@ void MagicWind_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
-    MagicWind* this = THIS;
+    MagicWind* this = (MagicWind*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 615);
 
@@ -168,7 +167,7 @@ s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCur
 
 void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    MagicWind* this = THIS;
+    MagicWind* this = (MagicWind*)thisx;
 
     OPEN_DISPS(gfxCtx, "../z_magic_wind.c", 661);
 

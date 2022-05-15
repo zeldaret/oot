@@ -1,9 +1,7 @@
 #include "z_en_dh.h"
 #include "objects/object_dh/object_dh.h"
 
-#define FLAGS 0x00000415
-
-#define THIS ((EnDh*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_10)
 
 typedef enum {
     /* 0 */ DH_WAIT,
@@ -128,7 +126,7 @@ static DamageTable D_809EC620 = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x2F, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_DEAD_HAND, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
@@ -139,18 +137,18 @@ void EnDh_SetupAction(EnDh* this, EnDhActionFunc actionFunc) {
 }
 
 void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &D_809EC620;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dh_Skel_007E88, &object_dh_Anim_005880, this->jointTable,
                        this->limbRotTable, 16);
-    ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 64.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = LINK_IS_ADULT ? 14 : 20;
     this->alpha = this->unk_258 = 255;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Collider_InitCylinder(globalCtx, &this->collider1);
     Collider_SetCylinder(globalCtx, &this->collider1, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->collider2);
@@ -160,7 +158,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     func_800F5B58();
     Collider_DestroyCylinder(globalCtx, &this->collider1);
@@ -194,7 +192,7 @@ void EnDh_SetupWait(EnDh* this) {
     this->actor.shape.yOffset = -15000.0f;
     this->dirtWaveSpread = this->actor.speedXZ = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
-    this->actor.flags |= 0x80;
+    this->actor.flags |= ACTOR_FLAG_7;
     this->dirtWavePhase = this->actionState = this->actor.params = ENDH_WAIT_UNDERGROUND;
     EnDh_SetupAction(this, EnDh_Wait);
 }
@@ -209,9 +207,9 @@ void EnDh_Wait(EnDh* this, GlobalContext* globalCtx) {
     if ((this->actor.params >= ENDH_START_ATTACK_GRAB) || (this->actor.params <= ENDH_HANDS_KILLED_4)) {
         switch (this->actionState) {
             case 0:
-                this->actor.flags |= 1;
+                this->actor.flags |= ACTOR_FLAG_0;
                 this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
-                this->actor.flags &= ~0x80;
+                this->actor.flags &= ~ACTOR_FLAG_7;
                 this->actionState++;
                 this->drawDirtWave++;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
@@ -365,7 +363,7 @@ void EnDh_SetupBurrow(EnDh* this) {
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->dirtWavePhase = 0;
     this->actionState = 0;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
     EnDh_SetupAction(this, EnDh_Burrow);
 }
@@ -402,7 +400,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_SetupDamage(EnDh* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_003D6C, -6.0f);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->actor.speedXZ = -1.0f;
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
@@ -435,7 +433,7 @@ void EnDh_SetupDeath(EnDh* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &object_dh_Anim_0032BC, -1.0f);
     this->curAction = DH_DEATH;
     this->timer = 300;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actor.speedXZ = 0.0f;
     func_800F5B58();
     this->actor.params = ENDH_DEATH;
@@ -502,14 +500,16 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
 
 void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad40;
 
     EnDh_CollisionCheck(this, globalCtx);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 45.0f, 45.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 45.0f, 45.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
     this->actor.focus.pos = this->headPos;
     Collider_UpdateCylinder(&this->actor, &this->collider1);
     if (this->actor.colChkInfo.health > 0) {
@@ -533,7 +533,7 @@ void EnDh_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     Vec3f headOffset = { 2000.0f, 1000.0f, 0.0f };
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     if (limbIndex == 13) {
         Matrix_MultVec3f(&headOffset, &this->headPos);
@@ -546,7 +546,7 @@ void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnDh_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDh* this = THIS;
+    EnDh* this = (EnDh*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dh.c", 1099);
     if (this->alpha == 255) {

@@ -10,9 +10,7 @@
 #include "objects/object_fish/object_fish.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((Fishing*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 #define WATER_SURFACE_Y(globalCtx) globalCtx->colCtx.colHeader->waterBoxes->ySurface
 
@@ -30,8 +28,6 @@ typedef struct {
     /* 0x0C */ f32 unk_0C;
 } FishingFishInit; // size = 0x10
 
-#define EFFECT_COUNT 130
-
 typedef enum {
     /* 0x00 */ FS_EFF_NONE,
     /* 0x01 */ FS_EFF_RIPPLE,
@@ -43,6 +39,8 @@ typedef enum {
     /* 0x07 */ FS_EFF_RAIN_RIPPLE,
     /* 0x08 */ FS_EFF_RAIN_SPLASH
 } FishingEffectType;
+
+#define FISHING_EFFECT_COUNT 130
 
 typedef struct {
     /* 0x00 */ Vec3f pos;
@@ -395,11 +393,11 @@ static u8 D_80B7FDA8;
 static Vec3f sSinkingLurePos[SINKING_LURE_SEG_COUNT];
 static s16 D_80B7FEA0;
 static f32 sProjectedW;
-static Vec3f sCameraEye;
-static Vec3f sCameraAt;
-static s16 sCameraId;
+static Vec3f sSubCamEye;
+static Vec3f sSubCamAt;
+static s16 sSubCamId;
 static f32 D_80B7FEC8;
-static f32 D_80B7FECC;
+static f32 sSubCamVelFactor;
 static f32 D_80B7FED0;
 static Vec3f sSinkingLureBasePos;
 static f32 D_80B7FEE4;
@@ -411,7 +409,7 @@ static FishingGroupFish sGroupFishes[GROUP_FISH_COUNT];
 static f32 sFishGroupAngle1;
 static f32 sFishGroupAngle2;
 static f32 sFishGroupAngle3;
-static FishingEffect sFishingEffects[EFFECT_COUNT];
+static FishingEffect sEffects[FISHING_EFFECT_COUNT];
 static Vec3f sStreamSoundProjectedPos;
 
 void Fishing_SetColliderElement(s32 index, ColliderJntSph* collider, Vec3f* pos, f32 scale) {
@@ -581,7 +579,7 @@ void Fishing_SpawnRainDrop(FishingEffect* effect, Vec3f* pos, Vec3f* rot) {
 
     effect += 30;
 
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_NONE) {
             effect->type = FS_EFF_RAIN_DROP;
             effect->pos = *pos;
@@ -768,7 +766,7 @@ void Fishing_InitPondProps(Fishing* this, GlobalContext* globalCtx) {
         if (prop->type == FS_PROP_REED) {
             prop->scale = (Fishing_RandZeroOne() * 0.25f) + 0.75f;
             prop->reedAngle = Rand_ZeroFloat(2 * M_PI);
-            if (sLinkAge == 1) {
+            if (sLinkAge == LINK_AGE_CHILD) {
                 prop->scale *= 0.6f;
             }
             prop->drawDistance = 1200.0f;
@@ -781,7 +779,7 @@ void Fishing_InitPondProps(Fishing* this, GlobalContext* globalCtx) {
         } else if (prop->type == FS_PROP_LILY_PAD) {
             prop->scale = (Fishing_RandZeroOne() * 0.3f) + 0.5f;
             prop->rotY = Rand_ZeroFloat(2 * M_PI);
-            if (sLinkAge == 1) {
+            if (sLinkAge == LINK_AGE_CHILD) {
                 if ((i % 4) != 0) {
                     prop->scale *= 0.6f;
                 } else {
@@ -815,7 +813,7 @@ static InitChainEntry sInitChain[] = {
 
 void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     u16 fishCount;
     s16 i;
 
@@ -823,7 +821,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
 
     if (KREG(5) != 0) {
-        sLinkAge = 1;
+        sLinkAge = LINK_AGE_CHILD;
     } else {
         sLinkAge = gSaveContext.linkAge;
     }
@@ -851,9 +849,9 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         thisx->focus.pos = thisx->world.pos;
         thisx->focus.pos.y += 75.0f;
-        thisx->flags |= 9;
+        thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
 
-        if (sLinkAge != 1) {
+        if (sLinkAge != LINK_AGE_CHILD) {
             if (HIGH_SCORE(HS_FISHING) & 0x1000) {
                 D_80B7A688 = 0;
             } else {
@@ -864,14 +862,14 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         D_80B7A684 = 20;
-        globalCtx->specialEffects = sFishingEffects;
+        globalCtx->specialEffects = sEffects;
         gTimeIncrement = 1;
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
 
-        Audio_QueueSeqCmd(0x100100FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0100FF);
 
-        if (sLinkAge == 1) {
+        if (sLinkAge == LINK_AGE_CHILD) {
             if ((HIGH_SCORE(HS_FISHING) & 0x7F) != 0) {
                 D_80B7E078 = HIGH_SCORE(HS_FISHING) & 0x7F;
             } else {
@@ -905,8 +903,8 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
             D_80B7E077 = 0;
         }
 
-        for (i = 0; i < EFFECT_COUNT; i++) {
-            sFishingEffects[i].type = FS_EFF_NONE;
+        for (i = 0; i < FISHING_EFFECT_COUNT; i++) {
+            sEffects[i].type = FS_EFF_NONE;
         }
 
         for (i = 0; i < POND_PROP_COUNT; i++) {
@@ -941,7 +939,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
             fish->unk_3E = 0;
             fish->unk_40 = 0;
 
-            if (sLinkAge != 1) {
+            if (sLinkAge != LINK_AGE_CHILD) {
                 if (((i >= 15) && (i < 20)) || ((i >= 35) && (i < 40)) || ((i >= 55) && (i < 60))) {
                     fish->type = FS_GROUP_FISH_NONE;
                 }
@@ -954,7 +952,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_FISHING, 0.0f, 0.0f, 0.0f, 0, 0, 0, 200);
 
         if ((KREG(1) == 1) || ((D_80B7E07D & 3) == 3)) {
-            if (sLinkAge != 1) {
+            if (sLinkAge != LINK_AGE_CHILD) {
                 fishCount = 16;
             } else {
                 fishCount = 17;
@@ -982,7 +980,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_158 = 100;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             thisx->targetMode = 0;
-            thisx->flags |= 9;
+            thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         } else {
             this->unk_158 = 10;
@@ -1002,7 +1000,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_1AC = KREG(6) + 80.0f;
             }
 
-            if (sLinkAge == 1) {
+            if (sLinkAge == LINK_AGE_CHILD) {
                 this->unk_1AC *= 0.73f;
             }
         }
@@ -1011,7 +1009,7 @@ void Fishing_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
 void Fishing_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 
@@ -1026,7 +1024,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     f32 rippleY;
     s16 i;
 
-    for (i = 0; i < EFFECT_COUNT; i++) {
+    for (i = 0; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type) {
             effect->timer++;
             effect->pos.x += effect->vel.x;
@@ -1151,12 +1149,12 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
                 }
 
                 if (effect->unk_2C == 30) {
-                    func_8010B680(globalCtx, 0x40B3, NULL);
+                    Message_StartTextbox(globalCtx, 0x40B3, NULL);
                 }
 
-                if ((effect->unk_2C >= 100) && (func_8010BDBC(&globalCtx->msgCtx) == 5)) {
-                    if ((func_80106BC8(globalCtx) != 0) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                        func_80106CCC(globalCtx);
+                if ((effect->unk_2C >= 100) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT)) {
+                    if (Message_ShouldAdvance(globalCtx) || (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                        Message_CloseTextbox(globalCtx);
                         Rupees_ChangeBy(-50);
                         effect->unk_2C = -1;
                     }
@@ -1169,7 +1167,7 @@ void Fishing_UpdateEffects(FishingEffect* effect, GlobalContext* globalCtx) {
 }
 
 void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     f32 rotY;
     s16 i;
     s32 pad;
@@ -1183,10 +1181,10 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
 
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, effect->alpha);
@@ -1203,19 +1201,19 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_DUST_SPLASH) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingDustSplashMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 200, 0);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 180, 180, 180, effect->alpha);
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2346),
@@ -1227,13 +1225,13 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_WATER_DUST) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingWaterDustMaterialDL);
                 gDPSetEnvColor(POLY_OPA_DISP++, 40, 90, 80, 128);
-                flag++;
+                materialFlag++;
             }
 
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 40, 90, 80, effect->alpha);
@@ -1243,7 +1241,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
                                         (effect->timer + (i * 3)) * 5, 32, 64, 1, 0, 0, 32, 32));
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2394),
@@ -1255,18 +1253,18 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect;
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < 100; i++) {
         if (effect->type == FS_EFF_BUBBLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingBubbleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 150, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 2423),
@@ -1278,14 +1276,14 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect + 30;
-    flag = 0;
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    materialFlag = 0;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_DROP) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
                 gDPSetCombineMode(POLY_XLU_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 150, 255, 255, 30);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1305,14 +1303,14 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     effect = firstEffect + 30;
-    flag = 0;
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    materialFlag = 0;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_RIPPLE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRippleMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 130);
-                flag++;
+                materialFlag++;
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
@@ -1327,13 +1325,13 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     }
 
     effect = firstEffect + 30;
-    flag = 0;
-    for (i = 30; i < EFFECT_COUNT; i++) {
+    materialFlag = 0;
+    for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_SPLASH) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingRainSplashMaterialDL);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, KREG(19) + 80);
-                flag++;
+                materialFlag++;
             }
 
             if (Rand_ZeroOne() < 0.5f) {
@@ -1343,7 +1341,7 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
             }
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_RotateY(rotY, MTXMODE_APPLY);
             Matrix_Scale(effect->unk_30, effect->unk_30, 1.0f, MTXMODE_APPLY);
 
@@ -1358,9 +1356,9 @@ void Fishing_DrawEffects(FishingEffect* effect, GlobalContext* globalCtx) {
     effect = firstEffect;
     if (effect->type == FS_EFF_OWNER_HAT) {
         Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
-        Matrix_RotateY((sEffOwnerHatRot.y * M_PI) / 32768, MTXMODE_APPLY);
-        Matrix_RotateX((sEffOwnerHatRot.x * M_PI) / 32768, MTXMODE_APPLY);
-        Matrix_RotateZ((sEffOwnerHatRot.z * M_PI) / 32768, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT2(sEffOwnerHatRot.y), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT2(sEffOwnerHatRot.x), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT2(sEffOwnerHatRot.z), MTXMODE_APPLY);
         Matrix_Scale(effect->unk_30, effect->unk_30, effect->unk_30, MTXMODE_APPLY);
         Matrix_Translate(-1250.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2, MTXMODE_APPLY);
@@ -1693,7 +1691,7 @@ void Fishing_UpdateSinkingLure(GlobalContext* globalCtx) {
     }
 
     if (D_80B7A694 == 5) {
-        Matrix_RotateY(player->actor.shape.rot.y * (M_PI / 32768), MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD(player->actor.shape.rot.y), MTXMODE_NEW);
         sp94.x = 5.0f;
         sp94.y = 0.0f;
         sp94.z = 3.0f;
@@ -1751,7 +1749,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
                 Matrix_Translate(sSinkingLurePos[i].x, sSinkingLurePos[i].y, sSinkingLurePos[i].z, MTXMODE_NEW);
                 scale = sSinkingLureSizes[i + D_80B7FEA0] * 0.04f;
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                func_800D1FD4(&globalCtx->mf_11DA0);
+                Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3239),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1768,7 +1766,7 @@ void Fishing_DrawSinkingLure(GlobalContext* globalCtx) {
                 Matrix_Translate(sSinkingLurePos[i].x, sSinkingLurePos[i].y, sSinkingLurePos[i].z, MTXMODE_NEW);
                 scale = sSinkingLureSizes[i + D_80B7FEA0] * 0.04f;
                 Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-                func_800D1FD4(&globalCtx->mf_11DA0);
+                Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 3265),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1805,7 +1803,7 @@ void Fishing_DrawLureAndLine(GlobalContext* globalCtx, Vec3f* linePos, Vec3f* li
         sLurePos = sFishingHookedFish->fishMouthPos;
 
         if ((D_80B7A694 == 5) && (D_80B7E0B6 == 2)) {
-            Matrix_RotateY(player->actor.shape.rot.y * (M_PI / 32768), MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD(player->actor.shape.rot.y), MTXMODE_NEW);
             posSrc.x = 2.0f;
             posSrc.y = 0.0f;
             posSrc.z = 0.0f;
@@ -2032,7 +2030,7 @@ void Fishing_DrawRod(GlobalContext* globalCtx) {
 
     Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
 
-    if (sLinkAge != 1) {
+    if (sLinkAge != LINK_AGE_CHILD) {
         Matrix_Translate(0.0f, 400.0f, 0.0f, MTXMODE_APPLY);
     } else {
         Matrix_Translate(0.0f, 230.0f, 0.0f, MTXMODE_APPLY);
@@ -2155,8 +2153,8 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
         D_80B7E082 = 0;
         D_80B7E0B6 = 0;
 
-        if (((sLinkAge == 1) && (HIGH_SCORE(HS_FISHING) & 0x400)) ||
-            ((sLinkAge != 1) && (HIGH_SCORE(HS_FISHING) & 0x800))) {
+        if (((sLinkAge == LINK_AGE_CHILD) && (HIGH_SCORE(HS_FISHING) & 0x400)) ||
+            ((sLinkAge != LINK_AGE_CHILD) && (HIGH_SCORE(HS_FISHING) & 0x800))) {
             sSinkingLureLocation = (u8)Rand_ZeroFloat(3.999f) + 1;
         }
 
@@ -2176,7 +2174,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sLurePos, &D_80B7AF94, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sLurePos, &D_80B7AF94, &sProjectedW);
 
     if (D_80B7A694 == 0) {
         Math_ApproachF(&D_80B7E108, -800.0f, 1.0f, 20.0f);
@@ -2198,7 +2196,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
 
             Math_ApproachF(&D_80B7E144, 195.0f, 1.0f, 1.0f);
 
-            if (player->stateFlags1 & 0x8000000) {
+            if (player->stateFlags1 & PLAYER_STATE1_27) {
                 D_80B7E0B4 = 0;
                 player->unk_860 = 0;
             }
@@ -2206,7 +2204,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
             if (D_80B7E0B4 == 0) {
                 if ((D_80B7E0B0 == 0) && (player->unk_860 == 1)) {
                     D_80B7E0B4 = 37;
-                    func_80106CCC(globalCtx);
+                    Message_CloseTextbox(globalCtx);
                 }
             } else {
                 sLureRot.x = sReelLineRot[LINE_SEG_COUNT - 2].x + M_PI;
@@ -2215,7 +2213,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
                 if (D_80B7E0B4 == 18) {
                     D_80B7A694 = 1;
                     sLurePos = sRodTipPos;
-                    Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+                    Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
                     sp90.x = 0.0f;
                     sp90.y = 0.0f;
                     sp90.z = 25.0f;
@@ -2276,13 +2274,14 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
                     (sLurePos.z > 1350.0f) || (sLurePos.z < 1100.0f) || (sLurePos.y < 45.0f)) {
                     sp80 = this->actor.world.pos;
                     this->actor.prevPos = this->actor.world.pos = sLurePos;
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f, 0x43);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f,
+                                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_6);
                     this->actor.world.pos = sp80;
 
-                    if (this->actor.bgCheckFlags & 0x10) {
+                    if (this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) {
                         D_80B7E0E8.y = -0.5f;
                     }
-                    if (this->actor.bgCheckFlags & 8) {
+                    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                         if (D_80B7E0E8.y > 0.0f) {
                             D_80B7E0E8.y = 0.0f;
                         }
@@ -2494,7 +2493,7 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
             Math_ApproachZeroF(&D_80B7E138, 1.0f, 0.3f);
             Math_ApproachS(&D_80B7E13C, (D_80B7E134 * 32768.0f) / M_PI, 3, spDC);
 
-            sLureRot.y = (D_80B7E13C / 32768.0f) * M_PI;
+            sLureRot.y = BINANG_TO_RAD_ALT(D_80B7E13C);
 
             sp90.x = 0.0f;
             sp90.y = 0.0f;
@@ -2526,7 +2525,8 @@ void Fishing_UpdateLure(Fishing* this, GlobalContext* globalCtx) {
                 if (D_80B7E0B6 == 2) {
                     sp58 = this->actor.world.pos;
                     this->actor.prevPos = this->actor.world.pos = sLurePos;
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f, 0x44);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 15.0f, 30.0f, 30.0f,
+                                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6);
                     this->actor.world.pos = sp58;
 
                     D_80B7E128.y += -0.5f;
@@ -2746,7 +2746,7 @@ void func_80B70ED4(Fishing* this, Input* input) {
     sp24 = SQ(sp34.x) + SQ(sp34.y) + SQ(sp34.z);
 
     if ((D_80B7A694 == 3) && (this->unk_1A2 == 0) && (D_80B7A68C == 0)) {
-        Matrix_RotateY((-this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(-this->actor.shape.rot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&sp34, &sp28);
 
         if ((sp28.z > 0.0f) || (this->unk_1AC < 40.0f)) {
@@ -2825,7 +2825,7 @@ void func_80B71278(Fishing* this, u8 arg1) {
 }
 
 void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
-    if (sLinkAge == 1) {
+    if (sLinkAge == LINK_AGE_CHILD) {
         if ((HIGH_SCORE(HS_FISHING) & 0x7F) != 0) {
             if (HIGH_SCORE(HS_FISHING) & 0x80) {
                 this->actor.textId = 0x40B1;
@@ -2849,9 +2849,9 @@ void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
 
     if (this->unk_1D3 == 0) {
         if (this->unk_1D4 == 0) {
-            this->actor.flags |= 1;
+            this->actor.flags |= ACTOR_FLAG_0;
 
-            if (func_8002F194(&this->actor, globalCtx)) {
+            if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
                 D_80B7A678 = D_80B7E078;
                 this->unk_1D3 = 1;
             } else {
@@ -2859,9 +2859,9 @@ void Fishing_HandleAquariumDialog(Fishing* this, GlobalContext* globalCtx) {
             }
         } else {
             this->unk_1D4--;
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
         }
-    } else if (func_8002F334(&this->actor, globalCtx)) {
+    } else if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->unk_1D3 = 0;
         this->unk_1D4 = 20;
     }
@@ -2888,7 +2888,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
     s16 spF2;
     s16 spF0;
     s16 spEE;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     Player* player = GET_PLAYER(globalCtx);
     Input* input = &globalCtx->state.input[0];
@@ -2914,10 +2914,11 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
         sp118 = (player->actor.speedXZ * 0.3f) + 0.25f;
     }
 
-    if ((D_80B7E0B0 != 0) || (sCameraId != 0) || ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
-        this->actor.flags &= ~1;
+    if ((D_80B7E0B0 != 0) || (sSubCamId != SUB_CAM_ID_DONE) ||
+        ((player->actor.world.pos.z > 1150.0f) && (this->unk_158 != 100))) {
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         if (D_80B7A694 != 0) {
             if (D_80B7E0B2 == 0) {
                 this->actor.focus.pos = sLurePos;
@@ -3095,7 +3096,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_17A[1] = 50;
             }
 
-            if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
                 if ((gSaveContext.dayTime >= 0xC000) && (gSaveContext.dayTime <= 0xC01B)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
@@ -3134,7 +3135,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             if (D_80B7E0B6 == 2) {
                 func_80B70ED4(this, input);
             } else {
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             break;
 
@@ -3171,7 +3172,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 if (D_80B7E0B6 == 2) {
                     func_80B70ED4(this, input);
                 } else {
-                    this->actor.flags &= ~1;
+                    this->actor.flags &= ~ACTOR_FLAG_0;
                 }
             }
             break;
@@ -3215,7 +3216,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 this->unk_1B4.z = Rand_ZeroFloat(50.0f);
             }
 
-            this->actor.flags &= ~1;
+            this->actor.flags &= ~ACTOR_FLAG_0;
             break;
 
         case -2:
@@ -3254,7 +3255,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                 }
 
                 Math_ApproachF(&this->unk_1B0, 2048.0f, 1.0f, 128.0f);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
             break;
 
@@ -3586,7 +3587,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                     this->unk_198 = 1.7f;
                     this->unk_19C = 7000.0f;
                     D_80B7E124 = 1;
-                    Audio_QueueSeqCmd(NA_BGM_ENEMY | 0x800);
+                    Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
                     D_80B7E0A6 = 0;
 
                     if (this->unk_150 == 1) {
@@ -3640,7 +3641,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
                         for (spA2 = 0; spA2 < 100; spA2++) {
                             Matrix_RotateY(Rand_CenteredFloat(3.0f * M_PI / 4.0f) +
-                                               (((this->actor.yawTowardsPlayer + 0x8000) / 32768.0f) * M_PI),
+                                               BINANG_TO_RAD_ALT(this->actor.yawTowardsPlayer + 0x8000),
                                            MTXMODE_NEW);
                             Matrix_MultVec3f(&sp10C, &sp100);
 
@@ -3784,14 +3785,14 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
                 if ((D_80B7E122 == 0) && (D_80B7E124 == 0)) {
                     D_80B7E086 = 0x4081;
-                    if (((sLinkAge == 1) && (HIGH_SCORE(HS_FISHING) & 0x400)) ||
-                        ((sLinkAge != 1) && (HIGH_SCORE(HS_FISHING) & 0x800))) {
+                    if (((sLinkAge == LINK_AGE_CHILD) && (HIGH_SCORE(HS_FISHING) & 0x400)) ||
+                        ((sLinkAge != LINK_AGE_CHILD) && (HIGH_SCORE(HS_FISHING) & 0x800))) {
                         D_80B7A67C = 0;
                     }
                 } else {
                     D_80B7E086 = 0x4082;
                     func_800A9F6C(0.0f, 1, 3, 1);
-                    Audio_QueueSeqCmd(0x100A00FF);
+                    Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x0A00FF);
                 }
 
                 this->unk_158 = this->unk_15A = 0;
@@ -3837,29 +3838,29 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             Math_ApproachF(&D_80B7FEC8, 15.0f, 0.05f, 0.75f);
 
             sp10C.x = D_80B7FEC8;
-            if (sLinkAge != 1) {
+            if (sLinkAge != LINK_AGE_CHILD) {
                 sp10C.y = 30.0f;
                 sp10C.z = 55.0f;
             } else {
                 sp10C.y = 10.0f;
                 sp10C.z = 50.0f;
             }
-            Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
-            Matrix_MultVec3f(&sp10C, &sCameraEye);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
+            Matrix_MultVec3f(&sp10C, &sSubCamEye);
 
-            sCameraEye.x += player->actor.world.pos.x;
-            sCameraEye.y += player->actor.world.pos.y;
-            sCameraEye.z += player->actor.world.pos.z;
+            sSubCamEye.x += player->actor.world.pos.x;
+            sSubCamEye.y += player->actor.world.pos.y;
+            sSubCamEye.z += player->actor.world.pos.z;
 
-            sCameraAt = player->actor.world.pos;
-            if (sLinkAge != 1) {
-                sCameraAt.y += 40.0f;
+            sSubCamAt = player->actor.world.pos;
+            if (sLinkAge != LINK_AGE_CHILD) {
+                sSubCamAt.y += 40.0f;
             } else {
-                sCameraAt.y += 25.0f;
+                sSubCamAt.y += 25.0f;
             }
 
             if (this->unk_17A[0] == 90) {
-                Audio_QueueSeqCmd(NA_BGM_HEART_GET | 0x900);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_HEART_GET | 0x900);
                 D_80B7A67C = 40;
 
                 if (this->unk_150 == 0) {
@@ -3888,18 +3889,22 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             sp10C.y = -10.0f;
             sp10C.z = 5.0f;
             Matrix_MultVec3f(&sp10C, &sp100);
-            Math_ApproachF(&this->actor.world.pos.x, player->bodyPartsPos[15].x + sp100.x, 1.0f, 6.0f);
-            Math_ApproachF(&this->actor.world.pos.y, player->bodyPartsPos[15].y + sp100.y, 1.0f, 6.0f);
-            Math_ApproachF(&this->actor.world.pos.z, player->bodyPartsPos[15].z + sp100.z, 1.0f, 6.0f);
+            Math_ApproachF(&this->actor.world.pos.x, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].x + sp100.x, 1.0f,
+                           6.0f);
+            Math_ApproachF(&this->actor.world.pos.y, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].y + sp100.y, 1.0f,
+                           6.0f);
+            Math_ApproachF(&this->actor.world.pos.z, player->bodyPartsPos[PLAYER_BODYPART_R_HAND].z + sp100.z, 1.0f,
+                           6.0f);
 
             D_80B7E144 = 188.0f;
 
             if (this->unk_17A[0] <= 50) {
                 switch (this->unk_1D5) {
                     case 0:
-                        if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                            if (func_80106BC8(globalCtx) != 0) {
-                                func_80106CCC(globalCtx);
+                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) ||
+                            (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                            if (Message_ShouldAdvance(globalCtx)) {
+                                Message_CloseTextbox(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex == 0) {
                                     if (D_80B7A670 == 0.0f) {
                                         D_80B7A670 = this->unk_1AC;
@@ -3910,7 +3915,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                                                ((s16)this->unk_1AC < (s16)D_80B7A670)) {
                                         this->unk_1D5 = 1;
                                         this->unk_17A[0] = 0x3C;
-                                        func_8010B680(globalCtx, 0x4098, NULL);
+                                        Message_StartTextbox(globalCtx, 0x4098, NULL);
                                     } else {
                                         f32 temp1 = D_80B7A670;
                                         s16 temp2 = D_80B7E07C;
@@ -3928,9 +3933,10 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
                         }
                         break;
                     case 1:
-                        if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                            if (func_80106BC8(globalCtx) != 0) {
-                                func_80106CCC(globalCtx);
+                        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) ||
+                            (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                            if (Message_ShouldAdvance(globalCtx)) {
+                                Message_CloseTextbox(globalCtx);
                                 if (globalCtx->msgCtx.choiceIndex != 0) {
                                     f32 temp1 = D_80B7A670;
                                     s16 temp2 = D_80B7E07C;
@@ -3969,7 +3975,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
                 D_80B7E148 = 520.0f;
                 D_80B7E144 = 195.0f;
-                Audio_QueueSeqCmd(0x100A00FF);
+                Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xA00FF);
                 D_80B7E0A6 = 20;
                 D_80B7A6CC = 3;
             }
@@ -4132,17 +4138,18 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.world.pos.y -= spD8;
             this->actor.prevPos.y -= spD8;
             this->actor.velocity.y = -1.0f;
-            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 100.0f, 0x45);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 30.0f, 100.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_6);
             this->actor.world.pos.y += spD8;
             this->actor.prevPos.y += spD8;
 
             this->actor.velocity.y = velocityY;
 
-            if (this->actor.bgCheckFlags & 8) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
                 this->unk_1A0 = 20;
             }
 
-            if (this->actor.bgCheckFlags & 1) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 if (this->actor.world.pos.y > WATER_SURFACE_Y(globalCtx)) {
                     this->unk_184 = Rand_ZeroFloat(3.0f) + 3.0f;
                     this->actor.velocity.x = this->actor.world.pos.x * -0.003f;
@@ -4203,7 +4210,7 @@ void Fishing_UpdateFish(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 Fishing_FishOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 0xD) {
         rot->z -= this->unk_170 - 11000;
@@ -4225,7 +4232,7 @@ s32 Fishing_FishOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
 }
 
 void Fishing_FishPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 0xD) {
         Matrix_MultVec3f(&sFishMouthOffset, &this->fishMouthPos);
@@ -4234,7 +4241,7 @@ void Fishing_FishPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 
 s32 Fishing_LoachOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 3) {
         rot->y += this->unk_1CC[0];
@@ -4249,7 +4256,7 @@ s32 Fishing_LoachOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
 void Fishing_LoachPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sLoachMouthOffset = { 500.0f, 500.0f, 0.0f };
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 0xB) {
         Matrix_MultVec3f(&sLoachMouthOffset, &this->fishMouthPos);
@@ -4257,25 +4264,25 @@ void Fishing_LoachPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void Fishing_DrawFish(Actor* thisx, GlobalContext* globalCtx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     func_80093D18(globalCtx->state.gfxCtx);
 
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-    Matrix_RotateY(((this->unk_162 + this->actor.shape.rot.y) / 32768.0f) * M_PI, MTXMODE_APPLY);
-    Matrix_RotateX(((this->unk_160 + this->actor.shape.rot.x) / 32768.0f) * M_PI, MTXMODE_APPLY);
-    Matrix_RotateZ(((this->unk_164 + this->actor.shape.rot.z) / 32768.0f) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD_ALT(this->unk_162 + this->actor.shape.rot.y), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD_ALT(this->unk_160 + this->actor.shape.rot.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD_ALT(this->unk_164 + this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
 
     if (this->unk_150 == 0) {
-        Matrix_RotateY((this->unk_16C * (M_PI / 32768)) - (M_PI / 2), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->unk_16C) - (M_PI / 2), MTXMODE_APPLY);
         Matrix_Translate(0.0f, 0.0f, this->unk_16C * 10.0f * 0.01f, MTXMODE_APPLY);
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, Fishing_FishOverrideLimbDraw, Fishing_FishPostLimbDraw, this);
     } else {
         Matrix_Translate(0.0f, 0.0f, 3000.0f, MTXMODE_APPLY);
-        Matrix_RotateY(this->unk_16C * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->unk_16C), MTXMODE_APPLY);
         Matrix_Translate(0.0f, 0.0f, -3000.0f, MTXMODE_APPLY);
         Matrix_RotateY(-(M_PI / 2), MTXMODE_APPLY);
 
@@ -4328,7 +4335,7 @@ void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
             prop->shouldDraw = false;
             prop->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &prop->pos, &prop->projectedPos, &sProjectedW);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &prop->pos, &prop->projectedPos, &sProjectedW);
 
             if ((prop->projectedPos.z < prop->drawDistance) &&
                 (fabsf(prop->projectedPos.x) < (100.0f + prop->projectedPos.z))) {
@@ -4374,13 +4381,13 @@ void Fishing_UpdatePondProps(GlobalContext* globalCtx) {
         prop++;
     }
 
-    if (sCameraId == 0) {
+    if (sSubCamId == SUB_CAM_ID_DONE) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &sFishingMain->collider.base);
     }
 }
 
 void Fishing_DrawPondProps(GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     FishingProp* prop = &sPondProps[0];
     s16 i;
     s32 pad;
@@ -4391,9 +4398,9 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
 
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_REED) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingReedMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
@@ -4413,12 +4420,12 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     }
 
     prop = &sPondProps[0];
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_WOOD_POST) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingWoodPostMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
@@ -4435,18 +4442,18 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     }
 
     prop = &sPondProps[0];
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_LILY_PAD) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gFishingLilyPadMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
                 Matrix_Translate(prop->pos.x, prop->pos.y, prop->pos.z, MTXMODE_NEW);
                 Matrix_Scale(prop->scale, 1.0f, prop->scale, MTXMODE_APPLY);
-                Matrix_RotateY(prop->lilyPadAngle * (M_PI / 32768), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(prop->lilyPadAngle), MTXMODE_APPLY);
                 Matrix_Translate(0.0f, 0.0f, 20.0f, MTXMODE_APPLY);
                 Matrix_RotateY(prop->rotY, MTXMODE_APPLY);
 
@@ -4460,12 +4467,12 @@ void Fishing_DrawPondProps(GlobalContext* globalCtx) {
     }
 
     prop = &sPondProps[0];
-    flag = 0;
+    materialFlag = 0;
     for (i = 0; i < POND_PROP_COUNT; i++) {
         if (prop->type == FS_PROP_ROCK) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingRockMaterialDL);
-                flag++;
+                materialFlag++;
             }
 
             if (prop->shouldDraw) {
@@ -4566,7 +4573,7 @@ void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
         Math_ApproachF(&sFishGroupAngle3, 4.6f, 1.0f, 0.001f);
     }
 
-    if (sLinkAge == 1) {
+    if (sLinkAge == LINK_AGE_CHILD) {
         spD8 = 0.8f;
     } else {
         spD8 = 1.0f;
@@ -4576,7 +4583,7 @@ void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
         if (fish->type != FS_GROUP_FISH_NONE) {
             fish->timer++;
 
-            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &fish->pos, &fish->projectedPos, &sProjectedW);
+            SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &fish->pos, &fish->projectedPos, &sProjectedW);
 
             if ((fish->projectedPos.z < 400.0f) && (fabsf(fish->projectedPos.x) < (100.0f + fish->projectedPos.z))) {
                 fish->shouldDraw = true;
@@ -4674,13 +4681,13 @@ void Fishing_UpdateGroupFishes(GlobalContext* globalCtx) {
 }
 
 void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
-    u8 flag = 0;
+    u8 materialFlag = 0;
     FishingGroupFish* fish = &sGroupFishes[0];
     f32 scale;
     s16 i;
     s32 pad;
 
-    if (sLinkAge == 1) {
+    if (sLinkAge == LINK_AGE_CHILD) {
         scale = 0.003325f;
     } else {
         scale = 0.00475f;
@@ -4692,16 +4699,16 @@ void Fishing_DrawGroupFishes(GlobalContext* globalCtx) {
 
     for (i = 0; i < GROUP_FISH_COUNT; i++) {
         if (fish->type != FS_GROUP_FISH_NONE) {
-            if (flag == 0) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_OPA_DISP++, gFishingGroupFishMaterialDL);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 155, 155, 155, 255);
-                flag++;
+                materialFlag++;
             }
 
             if (fish->shouldDraw) {
                 Matrix_Translate(fish->pos.x, fish->pos.y, fish->pos.z, MTXMODE_NEW);
-                Matrix_RotateY(((f32)fish->unk_3E * M_PI) / 32768.0f, MTXMODE_APPLY);
-                Matrix_RotateX((-(f32)fish->unk_3C * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD_ALT2((f32)fish->unk_3E), MTXMODE_APPLY);
+                Matrix_RotateX(BINANG_TO_RAD_ALT2(-(f32)fish->unk_3C), MTXMODE_APPLY);
                 Matrix_Scale(fish->unk_2C * scale, scale, scale, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_fishing.c", 8093),
@@ -4721,7 +4728,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
     switch (this->unk_15C) {
         case 0:
             if (D_80B7E0AC == 0) {
-                if (sLinkAge != 1) {
+                if (sLinkAge != LINK_AGE_CHILD) {
                     if ((HIGH_SCORE(HS_FISHING) & 0x100) && !(HIGH_SCORE(HS_FISHING) & 0x200)) {
                         this->actor.textId = 0x4093;
                     } else {
@@ -4736,10 +4743,10 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x4097;
             }
 
-            if (func_8002F194(&this->actor, globalCtx) != 0) {
+            if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
                 if (D_80B7E0AC == 0) {
                     this->unk_15C = 1;
-                    if (sLinkAge != 1) {
+                    if (sLinkAge != LINK_AGE_CHILD) {
                         HIGH_SCORE(HS_FISHING) |= 0x200;
                     } else {
                         HIGH_SCORE(HS_FISHING) |= 0x100;
@@ -4753,8 +4760,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 1:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
                     case 0:
@@ -4765,15 +4772,15 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                             } else {
                                 this->actor.textId = 0x407D;
                             }
-                            func_8010B720(globalCtx, this->actor.textId);
+                            Message_ContinueTextbox(globalCtx, this->actor.textId);
                             this->unk_15C = 2;
                         } else {
-                            func_8010B720(globalCtx, 0x407E);
+                            Message_ContinueTextbox(globalCtx, 0x407E);
                             this->unk_15C = 3;
                         }
                         break;
                     case 1:
-                        func_8010B720(globalCtx, 0x2D);
+                        Message_ContinueTextbox(globalCtx, 0x2D);
                         this->unk_15C = 3;
                         break;
                 }
@@ -4781,43 +4788,43 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 2:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-                func_80106CCC(globalCtx);
-                func_8010B720(globalCtx, 0x407F);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
+                Message_ContinueTextbox(globalCtx, 0x407F);
                 this->unk_15C = 4;
             }
             break;
 
         case 3:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
                 this->unk_15C = 0;
             }
-            if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) {
                 this->unk_15C = 0;
             }
             break;
 
         case 4:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
                     case 0:
                         D_80B7A678 = D_80B7E078;
-                        func_8010B720(globalCtx, 0x4080);
+                        Message_ContinueTextbox(globalCtx, 0x4080);
                         this->unk_15C = 5;
                         break;
                     case 1:
-                        func_8010B720(globalCtx, 0x407F);
+                        Message_ContinueTextbox(globalCtx, 0x407F);
                         break;
                 }
             }
             break;
 
         case 5:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 globalCtx->interfaceCtx.unk_260 = 1;
                 globalCtx->startPlayerFishing(globalCtx);
@@ -4833,12 +4840,12 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
 
         case 10:
             if (D_80B7A68C != 0) {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                    func_80106CCC(globalCtx);
+                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                    Message_CloseTextbox(globalCtx);
 
                     switch (globalCtx->msgCtx.choiceIndex) {
                         case 0:
-                            func_8010B720(globalCtx, 0x40B2);
+                            Message_ContinueTextbox(globalCtx, 0x40B2);
                             D_80B7A688 = 1;
                             D_80B7A68C = 0;
                             this->unk_15C = 20;
@@ -4849,8 +4856,8 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                     }
                 }
             } else {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                    func_80106CCC(globalCtx);
+                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                    Message_CloseTextbox(globalCtx);
 
                     switch (globalCtx->msgCtx.choiceIndex) {
                         case 0:
@@ -4874,12 +4881,12 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                                 this->actor.textId = 0x409B;
                                 this->unk_15C = 11;
                             }
-                            func_8010B720(globalCtx, this->actor.textId);
+                            Message_ContinueTextbox(globalCtx, this->actor.textId);
                             break;
                         case 1:
                             if (D_80B7A680 > 36000) {
                                 D_80B7A680 = 30000;
-                                func_8010B720(globalCtx, 0x4088);
+                                Message_ContinueTextbox(globalCtx, 0x4088);
                             } else {
                                 if (D_80B7E076 == 0) {
                                     if (D_80B7E082 == 0) {
@@ -4888,14 +4895,14 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                                 }
 
                                 if ((D_80B7E0B6 == 2) && (D_80B7AFB8[D_80B7E082] == 0x408D)) {
-                                    func_8010B720(globalCtx, 0x40AF);
+                                    Message_ContinueTextbox(globalCtx, 0x40AF);
                                 } else {
-                                    func_8010B720(globalCtx, D_80B7AFB8[D_80B7E082]);
+                                    Message_ContinueTextbox(globalCtx, D_80B7AFB8[D_80B7E082]);
                                 }
 
                                 D_80B7E082++;
 
-                                if (sLinkAge != 1) {
+                                if (sLinkAge != LINK_AGE_CHILD) {
                                     if (D_80B7E082 >= 6) {
                                         D_80B7E082 = 0;
                                     }
@@ -4909,9 +4916,9 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                             break;
                         case 2:
                             if (D_80B7E084 == 0) {
-                                func_8010B720(globalCtx, 0x4085);
-                            } else if (sLinkAge == 1) {
-                                func_8010B720(globalCtx, 0x4092);
+                                Message_ContinueTextbox(globalCtx, 0x4085);
+                            } else if (sLinkAge == LINK_AGE_CHILD) {
+                                Message_ContinueTextbox(globalCtx, 0x4092);
                             }
                             this->unk_15C = 22;
                             break;
@@ -4921,17 +4928,18 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 11:
-            if (((func_8010BDBC(&globalCtx->msgCtx) == 5) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) &&
-                (func_80106BC8(globalCtx) != 0)) {
+            if (((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) ||
+                 (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) &&
+                Message_ShouldAdvance(globalCtx)) {
                 s32 getItemId;
 
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
 
                 if (D_80B7E07C == 0) {
                     D_80B7E078 = D_80B7A670;
                     D_80B7A670 = 0.0f;
 
-                    if (sLinkAge == 1) {
+                    if (sLinkAge == LINK_AGE_CHILD) {
                         f32 temp;
 
                         HIGH_SCORE(HS_FISHING) &= 0xFFFFFF00;
@@ -4973,7 +4981,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                         getItemId = GI_RUPEE_GREEN;
                     }
 
-                    if (sLinkAge == 1) {
+                    if (sLinkAge == LINK_AGE_CHILD) {
                         if ((D_80B7E078 >= 50.0f) && !(HIGH_SCORE(HS_FISHING) & 0x400)) {
                             HIGH_SCORE(HS_FISHING) |= 0x400;
                             getItemId = GI_HEART_PIECE;
@@ -4998,15 +5006,15 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
             break;
 
         case 20:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
                 this->unk_15C = 0;
             }
             break;
 
         case 21:
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
-                func_80106CCC(globalCtx);
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
+                Message_CloseTextbox(globalCtx);
 
                 switch (globalCtx->msgCtx.choiceIndex) {
                     case 0:
@@ -5014,9 +5022,9 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
                         break;
                     case 1:
                         if (D_80B7E084 == 0) {
-                            func_8010B720(globalCtx, 0x4085);
-                        } else if (sLinkAge == 1) {
-                            func_8010B720(globalCtx, 0x4092);
+                            Message_ContinueTextbox(globalCtx, 0x4085);
+                        } else if (sLinkAge == LINK_AGE_CHILD) {
+                            Message_ContinueTextbox(globalCtx, 0x4092);
                         }
                         this->unk_15C = 22;
                         break;
@@ -5027,7 +5035,7 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
         case 22:
             if (globalCtx) {}
 
-            if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
                 this->unk_15C = 0;
                 if (D_80B7A68C != 0) {
                     D_80B7A688 = 1;
@@ -5049,11 +5057,11 @@ void Fishing_HandleOwnerDialog(Fishing* this, GlobalContext* globalCtx) {
 
         case 24:
             D_80B7A674 = false;
-            if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+            if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
                 if (D_80B7E07C == 0) {
                     this->unk_15C = 0;
                 } else {
-                    func_8010B680(globalCtx, 0x409C, NULL);
+                    Message_StartTextbox(globalCtx, 0x409C, NULL);
                     this->unk_15C = 20;
                 }
             }
@@ -5074,14 +5082,14 @@ static Vec3s sSinkingLureLocationPos[] = {
 
 void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     Vec3f sp114;
     Vec3f sp108;
     Vec3f spFC;
     s16 headRotTarget;
     s16 playerShadowAlpha;
     f32 target;
-    f32 camAtFraction;
+    f32 subCamAtMaxVelFrac;
     f32 lureDistXZ;
     s32 pad;
     Player* player = GET_PLAYER(globalCtx);
@@ -5108,13 +5116,13 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((D_80B7A684 != 0) || (func_8010BDBC(&globalCtx->msgCtx) != 0)) {
-        this->actor.flags &= ~1;
+    if ((D_80B7A684 != 0) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
+        this->actor.flags &= ~ACTOR_FLAG_0;
     } else {
-        this->actor.flags |= 0x21;
+        this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_5;
     }
 
-    if ((this->actor.xzDistToPlayer < 120.0f) || (func_8010BDBC(&globalCtx->msgCtx) != 0)) {
+    if ((this->actor.xzDistToPlayer < 120.0f) || (Message_GetState(&globalCtx->msgCtx) != TEXT_STATE_NONE)) {
         headRotTarget = this->actor.shape.rot.y - this->actor.yawTowardsPlayer;
     } else {
         headRotTarget = 0;
@@ -5151,7 +5159,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             KREG(77) = 0;
             D_80B7A688 = 0;
             D_80B7A68C = 1;
-            func_8010B680(globalCtx, 0x4087, NULL);
+            Message_StartTextbox(globalCtx, 0x4087, NULL);
         }
     }
 
@@ -5169,7 +5177,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
     if (D_80B7A67C != 0) {
         D_80B7A67C--;
         if (D_80B7A67C == 0) {
-            func_8010B680(globalCtx, D_80B7E086, NULL);
+            Message_StartTextbox(globalCtx, D_80B7E086, NULL);
         }
     }
 
@@ -5204,7 +5212,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7A6CC = 20;
         func_800A9F6C(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x101400FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
     }
 
     if (KREG(0) != 0) {
@@ -5213,7 +5221,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7A6CC = 20;
         func_800A9F6C(0.0f, 150, 10, 10);
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
-        Audio_QueueSeqCmd(0x101400FF);
+        Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x1400FF);
     }
 
     if (D_80B7A6D0 != 0) {
@@ -5225,21 +5233,21 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case 1: {
-            Camera* camera;
+            Camera* mainCam;
 
-            sCameraId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sCameraId, CAM_STAT_ACTIVE);
-            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-            sCameraEye.x = camera->eye.x;
-            sCameraEye.y = camera->eye.y;
-            sCameraEye.z = camera->eye.z;
-            sCameraAt.x = camera->at.x;
-            sCameraAt.y = camera->at.y;
-            sCameraAt.z = camera->at.z;
+            sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            sSubCamEye.x = mainCam->eye.x;
+            sSubCamEye.y = mainCam->eye.y;
+            sSubCamEye.z = mainCam->eye.z;
+            sSubCamAt.x = mainCam->at.x;
+            sSubCamAt.y = mainCam->at.y;
+            sSubCamAt.z = mainCam->at.z;
             D_80B7A6CC = 2;
             Interface_ChangeAlpha(12);
-            D_80B7FECC = 0.0f;
+            sSubCamVelFactor = 0.0f;
             // fallthrough
         }
 
@@ -5248,7 +5256,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
             spFC.x = sLurePos.x - player->actor.world.pos.x;
             spFC.z = sLurePos.z - player->actor.world.pos.z;
-            lureDistXZ = sqrtf(SQ(spFC.x) + SQ(spFC.z));
+            lureDistXZ = sqrtf(SQXZ(spFC));
             Matrix_RotateY(Math_Atan2F(spFC.z, spFC.x), MTXMODE_NEW);
 
             sp114.x = 0.0f;
@@ -5257,17 +5265,17 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_MultVec3f(&sp114, &spFC);
 
             if (D_80B7A694 == 1) {
-                camAtFraction = 0.2f;
+                subCamAtMaxVelFrac = 0.2f;
             } else {
-                camAtFraction = 0.1f;
+                subCamAtMaxVelFrac = 0.1f;
             }
 
-            Math_ApproachF(&sCameraAt.x, sLurePos.x, camAtFraction, fabsf(spFC.x) * D_80B7FECC);
-            Math_ApproachF(&sCameraAt.y, sLurePos.y, camAtFraction, 50.0f * D_80B7FECC);
-            Math_ApproachF(&sCameraAt.z, sLurePos.z, camAtFraction, fabsf(spFC.z) * D_80B7FECC);
+            Math_ApproachF(&sSubCamAt.x, sLurePos.x, subCamAtMaxVelFrac, fabsf(spFC.x) * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamAt.y, sLurePos.y, subCamAtMaxVelFrac, 50.0f * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamAt.z, sLurePos.z, subCamAtMaxVelFrac, fabsf(spFC.z) * sSubCamVelFactor);
 
             sp114.x = 0.0f - D_80B7FED0;
-            if (sLinkAge != 1) {
+            if (sLinkAge != LINK_AGE_CHILD) {
                 sp114.y = 80.0f;
             } else {
                 sp114.y = 55.0f;
@@ -5332,21 +5340,21 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             sp114.z = 100.0f;
             Matrix_MultVec3f(&sp114, &spFC);
 
-            Math_ApproachF(&sCameraEye.x, sp108.x, 0.3f, fabsf(spFC.x) * D_80B7FECC);
-            Math_ApproachF(&sCameraEye.y, sp108.y, 0.3f, 20.0f * D_80B7FECC);
-            Math_ApproachF(&sCameraEye.z, sp108.z, 0.3f, fabsf(spFC.z) * D_80B7FECC);
+            Math_ApproachF(&sSubCamEye.x, sp108.x, 0.3f, fabsf(spFC.x) * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamEye.y, sp108.y, 0.3f, 20.0f * sSubCamVelFactor);
+            Math_ApproachF(&sSubCamEye.z, sp108.z, 0.3f, fabsf(spFC.z) * sSubCamVelFactor);
             break;
 
         case 3: {
-            Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+            Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-            camera->eye = sCameraEye;
-            camera->eyeNext = sCameraEye;
-            camera->at = sCameraAt;
-            func_800C08AC(globalCtx, sCameraId, 0);
+            mainCam->eye = sSubCamEye;
+            mainCam->eyeNext = sSubCamEye;
+            mainCam->at = sSubCamAt;
+            func_800C08AC(globalCtx, sSubCamId, 0);
             func_80064534(globalCtx, &globalCtx->csCtx);
             D_80B7A6CC = 0;
-            sCameraId = 0;
+            sSubCamId = SUB_CAM_ID_DONE;
             Environment_EnableUnderwaterLights(globalCtx, 0);
             globalCtx->envCtx.adjFogNear = 0;
             player->unk_860 = -5;
@@ -5355,21 +5363,21 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         case 10: {
-            Camera* camera;
+            Camera* mainCam;
 
             func_80064520(globalCtx, &globalCtx->csCtx);
-            sCameraId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sCameraId, CAM_STAT_ACTIVE);
+            sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
-            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-            sCameraEye.x = camera->eye.x;
-            sCameraEye.y = camera->eye.y;
-            sCameraEye.z = camera->eye.z;
-            sCameraAt.x = camera->at.x;
-            sCameraAt.y = camera->at.y;
-            sCameraAt.z = camera->at.z;
-            func_8010B680(globalCtx, 0x409E, NULL);
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            sSubCamEye.x = mainCam->eye.x;
+            sSubCamEye.y = mainCam->eye.y;
+            sSubCamEye.z = mainCam->eye.z;
+            sSubCamAt.x = mainCam->at.x;
+            sSubCamAt.y = mainCam->at.y;
+            sSubCamAt.z = mainCam->at.z;
+            Message_StartTextbox(globalCtx, 0x409E, NULL);
             D_80B7A6CC = 11;
             func_800A9F6C(0.0f, 150, 10, 10);
             // fallthrough
@@ -5379,17 +5387,17 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             player->actor.world.pos.z = 1360.0f;
             player->actor.speedXZ = 0.0f;
 
-            if (func_8010BDBC(&globalCtx->msgCtx) == 0) {
-                Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+            if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
+                Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-                camera->eye = sCameraEye;
-                camera->eyeNext = sCameraEye;
-                camera->at = sCameraAt;
-                func_800C08AC(globalCtx, sCameraId, 0);
+                mainCam->eye = sSubCamEye;
+                mainCam->eyeNext = sSubCamEye;
+                mainCam->at = sSubCamAt;
+                func_800C08AC(globalCtx, sSubCamId, 0);
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 D_80B7A6CC = 0;
-                sCameraId = 0;
+                sSubCamId = SUB_CAM_ID_DONE;
                 D_80B7A6D0 = 30;
                 Environment_EnableUnderwaterLights(globalCtx, 0);
                 globalCtx->envCtx.adjFogNear = 0;
@@ -5397,21 +5405,21 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case 20: {
-            Camera* camera;
+            Camera* mainCam;
 
             func_80064520(globalCtx, &globalCtx->csCtx);
-            sCameraId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sCameraId, CAM_STAT_ACTIVE);
+            sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
             func_8002DF54(globalCtx, &this->actor, 5);
-            camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
-            sCameraEye.x = camera->eye.x;
-            sCameraEye.y = camera->eye.y;
-            sCameraEye.z = camera->eye.z;
-            sCameraAt.x = camera->at.x;
-            sCameraAt.y = camera->at.y;
-            sCameraAt.z = camera->at.z;
-            func_8010B680(globalCtx, 0x409A, NULL);
+            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            sSubCamEye.x = mainCam->eye.x;
+            sSubCamEye.y = mainCam->eye.y;
+            sSubCamEye.z = mainCam->eye.z;
+            sSubCamAt.x = mainCam->at.x;
+            sSubCamAt.y = mainCam->at.y;
+            sSubCamAt.z = mainCam->at.z;
+            Message_StartTextbox(globalCtx, 0x409A, NULL);
             D_80B7A6CC = 21;
             D_80B7FEC8 = 45.0f;
             D_80B7A6D0 = 10;
@@ -5419,7 +5427,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         case 21:
-            if ((D_80B7A6D0 == 0) && (func_80106BC8(globalCtx) != 0)) {
+            if ((D_80B7A6D0 == 0) && Message_ShouldAdvance(globalCtx)) {
                 D_80B7A6CC = 22;
                 D_80B7A6D0 = 40;
                 func_8002DF54(globalCtx, &this->actor, 0x1C);
@@ -5429,18 +5437,18 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         case 22:
             if (D_80B7A6D0 == 30) {
-                Audio_QueueSeqCmd(NA_BGM_ITEM_GET | 0x900);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ITEM_GET | 0x900);
             }
 
             D_80B7A6D4 = 1;
 
             Math_ApproachF(&D_80B7FEE4, 71.0f, 0.5f, 3.0f);
-            Matrix_RotateY((player->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(player->actor.shape.rot.y), MTXMODE_NEW);
 
             sp114.x = Math_SinS(globalCtx->gameplayFrames * 0x1000);
             sp114.y = D_80B7FEE4;
             sp114.z = -5.0f;
-            if (sLinkAge == 1) {
+            if (sLinkAge == LINK_AGE_CHILD) {
                 sp114.y -= 20.0f;
             }
 
@@ -5454,7 +5462,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
             sp114.x = D_80B7FEC8 - 15.0f;
 
-            if (sLinkAge != 1) {
+            if (sLinkAge != LINK_AGE_CHILD) {
                 sp114.y = 60.0f;
                 sp114.z = -30.0f;
             } else {
@@ -5462,37 +5470,38 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
                 sp114.z = -35.0f;
             }
 
-            Matrix_MultVec3f(&sp114, &sCameraEye);
-            sCameraEye.x += player->actor.world.pos.x;
-            sCameraEye.y += player->actor.world.pos.y;
-            sCameraEye.z += player->actor.world.pos.z;
+            Matrix_MultVec3f(&sp114, &sSubCamEye);
+            sSubCamEye.x += player->actor.world.pos.x;
+            sSubCamEye.y += player->actor.world.pos.y;
+            sSubCamEye.z += player->actor.world.pos.z;
 
-            sCameraAt = player->actor.world.pos;
-            if (sLinkAge != 1) {
-                sCameraAt.y += 62.0f;
+            sSubCamAt = player->actor.world.pos;
+            if (sLinkAge != LINK_AGE_CHILD) {
+                sSubCamAt.y += 62.0f;
             } else {
-                sCameraAt.y += 40.0f;
+                sSubCamAt.y += 40.0f;
             }
 
             if (D_80B7A6D0 == 0) {
-                if ((func_8010BDBC(&globalCtx->msgCtx) == 4) || (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
-                    if (func_80106BC8(globalCtx) != 0) {
-                        Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+                if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE) ||
+                    (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE)) {
+                    if (Message_ShouldAdvance(globalCtx)) {
+                        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
 
-                        func_80106CCC(globalCtx);
+                        Message_CloseTextbox(globalCtx);
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             D_80B7E0B6 = 2;
                             D_80B7E082 = 0;
                         }
 
-                        camera->eye = sCameraEye;
-                        camera->eyeNext = sCameraEye;
-                        camera->at = sCameraAt;
-                        func_800C08AC(globalCtx, sCameraId, 0);
+                        mainCam->eye = sSubCamEye;
+                        mainCam->eyeNext = sSubCamEye;
+                        mainCam->at = sSubCamAt;
+                        func_800C08AC(globalCtx, sSubCamId, 0);
                         func_80064534(globalCtx, &globalCtx->csCtx);
                         func_8002DF54(globalCtx, &this->actor, 7);
                         D_80B7A6CC = 0;
-                        sCameraId = 0;
+                        sSubCamId = SUB_CAM_ID_DONE;
                         player->unk_860 = -5;
                         D_80B7E0B0 = 5;
                         D_80B7A6D4 = 0;
@@ -5508,11 +5517,11 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             break;
     }
 
-    if (sCameraId != 0) {
-        Gameplay_CameraSetAtEye(globalCtx, sCameraId, &sCameraAt, &sCameraEye);
-        Math_ApproachF(&D_80B7FECC, 1.0f, 1.0f, 0.02f);
+    if (sSubCamId != SUB_CAM_ID_DONE) {
+        Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Math_ApproachF(&sSubCamVelFactor, 1.0f, 1.0f, 0.02f);
 
-        if (sCameraEye.y <= (WATER_SURFACE_Y(globalCtx) + 1.0f)) {
+        if (sSubCamEye.y <= (WATER_SURFACE_Y(globalCtx) + 1.0f)) {
             Environment_EnableUnderwaterLights(globalCtx, 1);
             if (D_80B7E076 != 0) {
                 globalCtx->envCtx.adjFogNear = -0xB2;
@@ -5591,7 +5600,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         D_80B7E077--;
     }
 
-    if ((D_80B7E077 == 1) && (func_8010BDBC(&globalCtx->msgCtx) == 0) && ((D_80B7A680 & 0xFFF) == 0xFFF)) {
+    if ((D_80B7E077 == 1) && (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) &&
+        ((D_80B7A680 & 0xFFF) == 0xFFF)) {
         D_80B7E077 = 200;
 
         if (Rand_ZeroOne() < 0.5f) {
@@ -5636,7 +5646,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     if ((u8)D_80B7A650 > 0) {
         s32 pad;
-        Camera* camera = Gameplay_GetCamera(globalCtx, MAIN_CAM);
+        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
         s16 i;
         s32 pad1;
         Vec3f pos;
@@ -5646,7 +5656,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
         rot.x = M_PI / 2.0f + 0.1f;
         rot.y = 1.0f;
-        rot.z = (Camera_GetInputDirYaw(camera) * -(M_PI / 32768)) + rot.y;
+        rot.z = (Camera_GetInputDirYaw(mainCam) * -(M_PI / 0x8000)) + rot.y;
 
         for (i = 0; i < (u8)D_80B7A650; i++) {
             pos.x = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.x;
@@ -5654,7 +5664,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
             pos.z = Rand_CenteredFloat(700.0f) + globalCtx->view.eye.z;
 
             if (pos.z < 1160.0f) {
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &projectedPos, &sProjectedW);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &pos, &projectedPos, &sProjectedW);
 
                 if (projectedPos.z < 0.0f) {
                     i--;
@@ -5665,7 +5675,8 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sStreamSoundPos, &sStreamSoundProjectedPos, &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &sStreamSoundPos, &sStreamSoundProjectedPos,
+                                 &sProjectedW);
 
     func_80078914(&sStreamSoundProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
 
@@ -5673,7 +5684,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (BREG(26) != 0) {
         BREG(26) = 0;
-        func_8010B680(globalCtx, 0x407B + BREG(27), NULL);
+        Message_StartTextbox(globalCtx, 0x407B + BREG(27), NULL);
     }
 
     osSyncPrintf("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
@@ -5681,7 +5692,7 @@ void Fishing_UpdateOwner(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 Fishing_OwnerOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                   void* thisx) {
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 8) { // Head
         rot->x -= this->unk_164;
@@ -5713,7 +5724,7 @@ static void* sFishingOwnerEyeTexs[] = {
 
 void Fishing_DrawOwner(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    Fishing* this = THIS;
+    Fishing* this = (Fishing*)thisx;
     Input* input = &globalCtx->state.input[0];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_fishing.c", 9156);
@@ -5739,16 +5750,16 @@ void Fishing_DrawOwner(Actor* thisx, GlobalContext* globalCtx) {
         D_80B7E0A6--;
 
         if (D_80B7E0A6 == 0) {
-            if (sLinkAge != 1) {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_ADULT);
+            if (sLinkAge != LINK_AGE_CHILD) {
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_KID);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
             }
 
-            if (sLinkAge != 1) {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_ADULT);
+            if (sLinkAge != LINK_AGE_CHILD) {
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_ADULT);
             } else {
-                Audio_QueueSeqCmd(NA_BGM_KAKARIKO_KID);
+                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_KAKARIKO_KID);
             }
         }
     }

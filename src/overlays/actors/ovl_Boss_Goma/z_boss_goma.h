@@ -117,7 +117,7 @@ typedef struct BossGoma {
     /* 0x01B6 */ s16 doNotMoveThisFrame;
     /* 0x01B8 */ s16 visualState;
     /* 0x01BA */ s16 invincibilityFrames;
-    /* 0x01BC */ s16 subCameraId;
+    /* 0x01BC */ s16 subCamId;
     /* 0x01BE */ s16 disableGameplayLogic;
     /* 0x01C0 */ s16 decayingProgress; // when defeated, textures are progressively cleared
     /* 0x01C2 */ s16 noBackfaceCulling;
@@ -136,7 +136,7 @@ typedef struct BossGoma {
     /* 0x0204 */ f32 mainEnvColor[3];
     /* 0x0210 */ f32 eyeEnvColor[3];
     /* 0x021C */ f32 currentAnimFrameCount; // not used consistently
-    /* 0x0220 */ f32 subCameraFollowSpeed;
+    /* 0x0220 */ f32 subCamFollowSpeed;
     /* 0x0224 */ f32 eyeIrisScaleY;
     /* 0x0228 */ f32 defeatedCameraEyeDist;
     /* 0x022C */ f32 defeatedCameraEyeAngle;
@@ -145,8 +145,8 @@ typedef struct BossGoma {
     /* 0x026C */ Vec3f firstTailLimbWorldPos;
     /* 0x0278 */ Vec3f rightHandBackLimbWorldPos;
     /* 0x0284 */ Vec3f leftHandBackLimbWorldPos;
-    /* 0x0290 */ Vec3f subCameraEye;
-    /* 0x029C */ Vec3f subCameraAt;
+    /* 0x0290 */ Vec3f subCamEye;
+    /* 0x029C */ Vec3f subCamAt;
     /* 0x02A8 */ Vec3f defeatedLimbPositions[100]; // only 85/86 first indices actually used
     /* 0x0758 */ u8 deadLimbsState[100]; // only 85/90 first indices actually used
     /* 0x07BC */ ColliderJntSph collider;

@@ -9,9 +9,7 @@
 #include "objects/object_gm/object_gm.h"
 #include "vt.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnGm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -65,7 +63,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
@@ -86,7 +84,7 @@ void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -94,9 +92,9 @@ void EnGm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s32 func_80A3D7C8(void) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         return 0;
-    } else if (!(gBitFlags[2] & gSaveContext.inventory.equipment)) {
+    } else if (!CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BGS)) {
         return 1;
-    } else if (gBitFlags[3] & gSaveContext.inventory.equipment) {
+    } else if (CHECK_OWNED_EQUIP_ALT(EQUIP_TYPE_SWORD, EQUIP_INV_SWORD_BROKENGIANTKNIFE)) {
         return 2;
     } else {
         return 3;
@@ -105,7 +103,7 @@ s32 func_80A3D7C8(void) {
 
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
-        this->actor.flags &= ~0x10;
+        this->actor.flags &= ~ACTOR_FLAG_4;
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGoronSkel, NULL, this->jointTable, this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
         Animation_Change(&this->skelAnime, &object_gm_Anim_0002B8, 1.0f, 0.0f,
@@ -143,14 +141,14 @@ void EnGm_UpdateEye(EnGm* this) {
 void EnGm_SetTextID(EnGm* this) {
     switch (func_80A3D7C8()) {
         case 0:
-            if (gSaveContext.infTable[11] & 1) {
+            if (GET_INFTABLE(INFTABLE_B0)) {
                 this->actor.textId = 0x304B;
             } else {
                 this->actor.textId = 0x304A;
             }
             break;
         case 1:
-            if (gSaveContext.infTable[11] & 2) {
+            if (GET_INFTABLE(INFTABLE_B1)) {
                 this->actor.textId = 0x304F;
             } else {
                 this->actor.textId = 0x304C;
@@ -176,7 +174,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80A3DBF4;
     } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -185,7 +183,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DBF4(EnGm* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80A3DB04;
     }
 }
@@ -201,15 +199,15 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
     dx = this->talkPos.x - player->actor.world.pos.x;
     dz = this->talkPos.z - player->actor.world.pos.z;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         switch (func_80A3D7C8()) {
             case 0:
-                gSaveContext.infTable[11] |= 1;
+                SET_INFTABLE(INFTABLE_B0);
             case 3:
                 this->actionFunc = func_80A3DD7C;
                 return;
             case 1:
-                gSaveContext.infTable[11] |= 2;
+                SET_INFTABLE(INFTABLE_B1);
             case 2:
                 this->actionFunc = EnGm_ProcessChoiceIndex;
             default:
@@ -225,23 +223,23 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DD7C(EnGm* this, GlobalContext* globalCtx) {
-    u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
+    u8 dialogState = Message_GetState(&globalCtx->msgCtx);
 
-    if ((dialogState == 6 || dialogState == 5) && func_80106BC8(globalCtx)) {
+    if ((dialogState == TEXT_STATE_DONE || dialogState == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
         this->actionFunc = func_80A3DC44;
-        if (dialogState == 5) {
-            globalCtx->msgCtx.msgMode = 0x36;
-            globalCtx->msgCtx.unk_E3E7 = 4;
+        if (dialogState == TEXT_STATE_EVENT) {
+            globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
+            globalCtx->msgCtx.stateTimer = 4;
         }
     }
 }
 
 void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
-                    func_8010B720(globalCtx, 0xC8);
+                    Message_ContinueTextbox(globalCtx, 0xC8);
                     this->actionFunc = func_80A3DD7C;
                 } else {
                     func_8002F434(&this->actor, globalCtx, GI_SWORD_KNIFE, 415.0f, 10.0f);
@@ -249,7 +247,7 @@ void EnGm_ProcessChoiceIndex(EnGm* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x3050);
+                Message_ContinueTextbox(globalCtx, 0x3050);
                 this->actionFunc = func_80A3DD7C;
                 break;
         }
@@ -266,7 +264,7 @@ void func_80A3DF00(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void func_80A3DF60(EnGm* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         Rupees_ChangeBy(-200);
         this->actionFunc = func_80A3DC44;
     }
@@ -285,7 +283,7 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
 }
 
 void EnGm_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
 
     this->updateFunc(this, globalCtx);
 }
@@ -296,7 +294,7 @@ void func_80A3E090(EnGm* this) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 2600.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &vec2);
     this->collider.dim.pos.x = vec2.x;
@@ -305,12 +303,12 @@ void func_80A3E090(EnGm* this) {
     Matrix_Pop();
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 4300.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &this->talkPos);
     Matrix_Pop();
     Matrix_Translate(0.0f, 0.0f, 3800.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
+    Matrix_RotateZYX(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &this->actor.focus.pos);
     this->actor.focus.pos.y += 100.0f;
@@ -318,7 +316,7 @@ void func_80A3E090(EnGm* this) {
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gGoronCsEyeOpenTex, gGoronCsEyeHalfTex, gGoronCsEyeClosedTex };
-    EnGm* this = THIS;
+    EnGm* this = (EnGm*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_gm.c", 613);

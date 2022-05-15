@@ -7,9 +7,7 @@
 #include "z_bg_mori_hashira4.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgMoriHashira4*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -70,7 +68,7 @@ void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx,
 
 void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashira4* this = THIS;
+    BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     this->switchFlag = (this->dyna.actor.params >> 8) & 0x3F;
     this->dyna.actor.params &= 0xFF;
@@ -102,7 +100,7 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashira4* this = THIS;
+    BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -138,7 +136,7 @@ void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx) {
         if (this->gateTimer > 30) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_OPEN);
             BgMoriHashira4_SetupAction(this, BgMoriHashira4_GateOpen);
-            OnePointCutscene_Init(globalCtx, 6010, 20, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 6010, 20, &this->dyna.actor, CAM_ID_MAIN);
             sUnkTimer++;
         }
     }
@@ -152,7 +150,7 @@ void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx) {
 
 void BgMoriHashira4_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashira4* this = THIS;
+    BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
@@ -161,7 +159,7 @@ void BgMoriHashira4_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHashira4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriHashira4* this = THIS;
+    BgMoriHashira4* this = (BgMoriHashira4*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashira4.c", 339);
     func_80093D18(globalCtx->state.gfxCtx);

@@ -8,9 +8,7 @@
 #include "overlays/actors/ovl_Boss_Ganon/z_boss_ganon.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgGanonOtyuka*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 typedef enum {
     /* 0x00 */ FLASH_NONE,
@@ -68,7 +66,7 @@ static f32 sSideAngles[] = { M_PI / 2, -M_PI / 2, 0.0f, M_PI };
 #include "overlays/ovl_Bg_Ganon_Otyuka/ovl_Bg_Ganon_Otyuka.c"
 
 void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     CollisionHeader* colHeader = NULL;
 
@@ -86,9 +84,9 @@ void BgGanonOtyuka_Init(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BgGanonOtyuka_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     GlobalContext* globalCtx = globalCtx2;
-    
+
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -106,7 +104,7 @@ void BgGanonOtyuka_WaitToFall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
     Vec3f center;
     s16 i;
 
-    if (this->isFalling || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < 4900.0f))) {
+    if (this->isFalling || ((globalCtx->actorCtx.unk_02 != 0) && (this->dyna.actor.xyzDistToPlayerSq < SQ(70.0f)))) {
         osSyncPrintf("OTC O 1\n");
 
         for (i = 0; i < ARRAY_COUNT(D_80876A68); i++) {
@@ -214,17 +212,17 @@ void BgGanonOtyuka_Fall(BgGanonOtyuka* this, GlobalContext* globalCtx) {
                 }
 
                 func_80033DB8(globalCtx, 10, 15);
-                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 0x28, NA_SE_EV_BOX_BREAK);
+                SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_BOX_BREAK);
             }
             Actor_Kill(&this->dyna.actor);
         }
     } else {
         if (this->dropTimer == 1) {
-            Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                                   &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_STONEDOOR_STOP, &this->dyna.actor.projectedPos, 4,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         } else {
-            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
-                                   &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
         Math_ApproachF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, this->dyna.actor.speedXZ);
         Math_ApproachF(&this->dyna.actor.speedXZ, 100.0f, 1.0f, 0.1f);
@@ -236,7 +234,7 @@ void BgGanonOtyuka_DoNothing(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->flashTimer++;
@@ -246,11 +244,11 @@ void BgGanonOtyuka_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgGanonOtyuka* this = THIS;
+    BgGanonOtyuka* this = (BgGanonOtyuka*)thisx;
     s16 i;
     Gfx* phi_s2;
     Gfx* phi_s1;
-    Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
     Actor* actor;
     BgGanonOtyuka* platform;
     BossGanon* ganondorf;
@@ -284,7 +282,7 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
             platform = (BgGanonOtyuka*)actor;
 
             if (platform->dyna.actor.projectedPos.z > spBC) {
-                if (camera->eye.y > platform->dyna.actor.world.pos.y) {
+                if (mainCam->eye.y > platform->dyna.actor.world.pos.y) {
                     phi_s2 = sPlatformTopDL;
                 } else {
                     phi_s2 = sPlatformBottomDL;
@@ -293,9 +291,9 @@ void BgGanonOtyuka_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                  platform->dyna.actor.world.pos.z, MTXMODE_NEW);
                 phi_s1 = NULL;
                 if (platform->isFalling) {
-                    Matrix_RotateX((platform->dyna.actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-                    Matrix_RotateZ((platform->dyna.actor.shape.rot.z / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-                    if (camera->eye.y > platform->dyna.actor.world.pos.y) {
+                    Matrix_RotateX(BINANG_TO_RAD_ALT(platform->dyna.actor.shape.rot.x), MTXMODE_APPLY);
+                    Matrix_RotateZ(BINANG_TO_RAD_ALT(platform->dyna.actor.shape.rot.z), MTXMODE_APPLY);
+                    if (mainCam->eye.y > platform->dyna.actor.world.pos.y) {
                         phi_s1 = sPlatformBottomDL;
                     } else {
                         phi_s1 = sPlatformTopDL;

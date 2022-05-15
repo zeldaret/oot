@@ -1,10 +1,8 @@
 #ifndef ULTRA64_CONTROLLER_H
 #define ULTRA64_CONTROLLER_H
 
-#include "ultra64.h"
-#include "ultra64/message.h"
+#include "message.h"
 
-#define SIAccessQueueSize 2
 #define BLOCKSIZE 32
 #define MAXCONTROLLERS  4
 #define PFS_ONE_PAGE 8
@@ -97,13 +95,16 @@
 #define BTN_B           0x4000
 #define BTN_A           0x8000
 
-typedef struct {
+typedef union {
+    struct {
     /* 0x00 */ u32 ram[15];
     /* 0x3C */ u32 status;
+    };
+    u64 force_structure_alignment;
 } OSPifRam; // size = 0x40
 
 typedef struct {
-    /* 0x00 */ u16 type; 
+    /* 0x00 */ u16 type;
     /* 0x02 */ u8 status;
     /* 0x03 */ u8 errno;
 } OSContStatus; // size = 0x04

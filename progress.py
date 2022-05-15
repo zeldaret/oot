@@ -33,7 +33,7 @@ def ReadAllLines(fileName):
 
 def GetFiles(path, ext):
     files = []
-    
+
     for r, d, f in os.walk(path):
         for file in f:
             if file.endswith(ext):
@@ -60,12 +60,21 @@ def GetNonMatchingSize(path):
 
 
 mapFile = ReadAllLines("build/z64.map")
+curSegment = None
 src = 0
 code = 0
 boot = 0
 ovl = 0
 
 for line in mapFile:
+
+    if "_codeSegmentStart" in line:
+        curSegment = "code"
+    elif "_bootSegmentStart" in line:
+        curSegment = "boot"
+    elif "_codeSegmentEnd" in line or "_bootSegmentEnd" in line:
+        curSegment = None
+
     lineSplit =  list(filter(None, line.split(" ")))
 
     if (len(lineSplit) == 4 and lineSplit[0].startswith(".")):
@@ -77,9 +86,9 @@ for line in mapFile:
             if (objFile.startswith("build/src")):
                 src += size
 
-            if (objFile.startswith("build/src/code") or objFile.startswith("build/src/libultra_code")):
+            if (objFile.startswith("build/src/code") or (objFile.startswith("build/src/libultra/") and curSegment == "code")):
                 code += size
-            elif (objFile.startswith("build/src/boot") or objFile.startswith("build/src/libultra_boot")):
+            elif (objFile.startswith("build/src/boot") or (objFile.startswith("build/src/libultra/") and curSegment == "boot")):
                 boot += size
             elif (objFile.startswith("build/src/overlays")):
                 ovl += size
@@ -95,7 +104,7 @@ boot -= nonMatchingASMBoot
 ovl -= nonMatchingASMOvl
 
 bootSize = 31408 # decompilable code only
-codeSize = 1000000 # decompilable code only (1.00mb)
+codeSize = 999984 # decompilable code only
 ovlSize = 2812000 # .text sections
 
 total = src + nonMatchingASM
@@ -104,14 +113,14 @@ codePct = 100 * code / codeSize
 bootPct = 100 * boot / bootSize
 ovlPct = 100 * ovl / ovlSize
 
-bytesPerHeartPiece = total / 80
+bytesPerHeartPiece = total // 80
 
 if args.format == 'csv':
-    version = 1
+    csv_version = 2
     git_object = git.Repo().head.object
     timestamp = str(git_object.committed_date)
     git_hash = git_object.hexsha
-    csv_list = [str(version), timestamp, git_hash, str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(src), str(nonMatchingASM), str(len(nonMatchingFunctions))]
+    csv_list = [str(csv_version), timestamp, git_hash, str(src), str(total), str(code), str(codeSize), str(boot), str(bootSize), str(ovl), str(ovlSize), str(nonMatchingASM), str(len(nonMatchingFunctions))]
     print(",".join(csv_list))
 elif args.format == 'shield-json':
     # https://shields.io/endpoint
@@ -119,7 +128,7 @@ elif args.format == 'shield-json':
         "schemaVersion": 1,
         "label": "progress",
         "message": f"{srcPct:.3g}%",
-        "color": 'yellow',
+        "color": 'yellow' if srcPct < 100 else 'brightgreen',
     }))
 elif args.format == 'text':
     adjective = "decompiled" if not args.matching else "matched"

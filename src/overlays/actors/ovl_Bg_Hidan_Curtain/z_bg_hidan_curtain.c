@@ -7,9 +7,7 @@
 #include "z_bg_hidan_curtain.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHidanCurtain*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ const ActorInit Bg_Hidan_Curtain_InitVars = {
 
 void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams;
 
     osSyncPrintf("Curtain (arg_data 0x%04x)\n", this->actor.params);
@@ -120,7 +118,7 @@ void BgHidanCurtain_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanCurtain_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -129,11 +127,11 @@ void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain* this, GlobalContext* globalC
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         if (this->type == 1) {
             this->actionFunc = BgHidanCurtain_WaitForCutscene;
-            OnePointCutscene_Init(globalCtx, 3350, -99, &this->actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3350, -99, &this->actor, CAM_ID_MAIN);
             this->timer = 50;
         } else if (this->type == 3) {
             this->actionFunc = BgHidanCurtain_WaitForCutscene;
-            OnePointCutscene_Init(globalCtx, 3360, 60, &this->actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3360, 60, &this->actor, CAM_ID_MAIN);
             this->timer = 30;
         } else {
             this->actionFunc = BgHidanCurtain_TurnOff;
@@ -203,12 +201,12 @@ void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, GlobalContext* globalCtx)
 
 void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
     BgHidanCurtainParams* hcParams = &sHCParams[this->size];
     f32 riseProgress;
 
-    if ((globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_SLOW_CHEST_CS) ||
-        (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_TURN_AROUND)) {
+    if ((globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_SLOW_CHEST_CS) ||
+        (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_TURN_AROUND)) {
         this->collider.base.atFlags &= ~AT_HIT;
     } else {
         if (this->collider.base.atFlags & AT_HIT) {
@@ -241,7 +239,7 @@ void BgHidanCurtain_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void BgHidanCurtain_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanCurtain* this = THIS;
+    BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_curtain.c", 685);
     func_80093D84(globalCtx->state.gfxCtx);

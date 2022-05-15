@@ -17,7 +17,7 @@ void GameState_FaultPrint(void) {
     FaultDrawer_DrawText(120, 180, "%08x", sLastButtonPressed);
     for (i = 0; i < ARRAY_COUNT(sBtnChars); i++) {
         if (sLastButtonPressed & (1 << i)) {
-            FaultDrawer_DrawText((i * 8) + 0x78, 0xBE, "%c", sBtnChars[i]);
+            FaultDrawer_DrawText((i * 8) + 120, 190, "%c", sBtnChars[i]);
         }
     }
 }
@@ -84,11 +84,11 @@ void func_800C4344(GameState* gameState) {
         HREG(95) = CHECK_BTN_ALL(selectedInput->press.button, hReg82);
     }
 
-    if (D_8012DBC0 != 0) {
+    if (gIsCtrlr2Valid) {
         func_8006390C(&gameState->input[1]);
     }
 
-    D_80009460 = HREG(60);
+    gDmaMgrVerbose = HREG(60);
     gDmaMgrDmaBuffSize = SREG(21) != 0 ? ALIGN16(SREG(21)) : 0x2000;
     gSystemArenaLogSeverity = HREG(61);
     gZeldaArenaLogSeverity = HREG(62);
@@ -346,7 +346,7 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     osSyncPrintf("ハイラル一時解放!!\n"); // "Hyrule temporarily released!!"
     SystemArena_GetSizes(&systemMaxFree, &systemFree, &systemAlloc);
     if ((systemMaxFree - 0x10) < size) {
-        osSyncPrintf("%c", 7);
+        osSyncPrintf("%c", BEL);
         osSyncPrintf(VT_FGCOL(RED));
 
         // "Not enough memory. Change the hyral size to the largest possible value"
@@ -418,7 +418,7 @@ void GameState_Init(GameState* gameState, GameStateFunc init, GraphicsContext* g
     // "Other initialization processing time %d us"
     osSyncPrintf("その他初期化 処理時間 %d us\n", OS_CYCLES_TO_USEC(endTime - startTime));
 
-    Fault_AddClient(&sGameFaultClient, &GameState_FaultPrint, NULL, NULL);
+    Fault_AddClient(&sGameFaultClient, GameState_FaultPrint, NULL, NULL);
 
     osSyncPrintf("game コンストラクタ終了\n"); // "game constructor end"
 }

@@ -8,9 +8,7 @@
 #include "objects/object_gjyo_objects/object_gjyo_objects.h"
 #include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgGjyoBridge*)thisx)
+#define FLAGS 0
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -39,7 +37,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
     s32 pad;
     CollisionHeader* colHeader;
 
@@ -51,7 +49,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
-    if (gSaveContext.eventChkInf[4] & 0x2000) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_4D)) {
         this->actionFunc = func_808787A4;
     } else {
         this->dyna.actor.draw = NULL;
@@ -61,7 +59,7 @@ void BgGjyoBridge_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgGjyoBridge_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -88,18 +86,18 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx) {
         (globalCtx->csCtx.npcActions[2]->action == 2)) {
         this->dyna.actor.draw = BgGjyoBridge_Draw;
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-        gSaveContext.eventChkInf[4] |= 0x2000;
+        SET_EVENTCHKINF(EVENTCHKINF_4D);
     }
 }
 
 void BgGjyoBridge_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgGjyoBridge_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgGjyoBridge* this = THIS;
+    BgGjyoBridge* this = (BgGjyoBridge*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gjyo_bridge.c", 260);
 

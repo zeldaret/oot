@@ -12,10 +12,8 @@ static Gfx sRCPSetupFade[] = {
     gsSPEndDisplayList(),
 };
 
-#define THIS ((TransitionFade*)thisx)
-
 void TransitionFade_Start(void* thisx) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     switch (this->fadeType) {
         case 0:
@@ -28,11 +26,11 @@ void TransitionFade_Start(void* thisx) {
             this->fadeColor.a = 0;
             break;
     }
-    this->isDone = 0;
+    this->isDone = false;
 }
 
 void* TransitionFade_Init(void* thisx) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     bzero(this, sizeof(*this));
     return this;
@@ -44,23 +42,23 @@ void TransitionFade_Destroy(void* thisx) {
 void TransitionFade_Update(void* thisx, s32 updateRate) {
     s32 alpha;
     s16 newAlpha;
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     switch (this->fadeType) {
         case 0:
             break;
         case 1:
             this->fadeTimer += updateRate;
-            if (this->fadeTimer >= gSaveContext.fadeDuration) {
-                this->fadeTimer = gSaveContext.fadeDuration;
-                this->isDone = 1;
+            if (this->fadeTimer >= gSaveContext.transFadeDuration) {
+                this->fadeTimer = gSaveContext.transFadeDuration;
+                this->isDone = true;
             }
-            if (!gSaveContext.fadeDuration) {
+            if (!gSaveContext.transFadeDuration) {
                 // "Divide by 0! Zero is included in ZCommonGet fade_speed"
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
 
-            alpha = (255.0f * this->fadeTimer) / ((void)0, gSaveContext.fadeDuration);
+            alpha = (255.0f * this->fadeTimer) / ((void)0, gSaveContext.transFadeDuration);
             this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
             break;
         case 2:
@@ -74,7 +72,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
                     Math_StepToS(&iREG(50), 20, 60);
                     if (Math_StepToS(&newAlpha, 0, iREG(50))) {
                         iREG(50) = 0;
-                        this->isDone = 1;
+                        this->isDone = true;
                     }
                 }
             }
@@ -84,7 +82,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
 }
 
 void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
     Gfx* gfx;
     Color_RGBA8_u32* color = &this->fadeColor;
 
@@ -99,19 +97,19 @@ void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
 }
 
 s32 TransitionFade_IsDone(void* thisx) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     return this->isDone;
 }
 
 void TransitionFade_SetColor(void* thisx, u32 color) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     this->fadeColor.rgba = color;
 }
 
 void TransitionFade_SetType(void* thisx, s32 type) {
-    TransitionFade* this = THIS;
+    TransitionFade* this = (TransitionFade*)thisx;
 
     if (type == 1) {
         this->fadeType = 1;

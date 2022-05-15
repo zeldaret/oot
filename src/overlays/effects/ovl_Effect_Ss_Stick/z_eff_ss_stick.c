@@ -5,6 +5,8 @@
  */
 
 #include "z_eff_ss_stick.h"
+#include "objects/object_link_boy/object_link_boy.h"
+#include "objects/object_link_child/object_link_child.h"
 
 #define rObjBankIdx regs[0]
 #define rYaw regs[1]
@@ -25,8 +27,8 @@ typedef struct {
 
 u32 EffectSsStick_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     StickDrawInfo drawInfo[] = {
-        { OBJECT_LINK_BOY, 0x0602BA38 },   // adult, broken sword
-        { OBJECT_LINK_CHILD, 0x06006CC0 }, // child, broken stick
+        { OBJECT_LINK_BOY, gLinkAdultBrokenGiantsKnifeBladeDL }, // adult, broken sword
+        { OBJECT_LINK_CHILD, gLinkChildLinkDekuStickDL },        // child, broken stick
     };
     StickDrawInfo* ageInfoEntry = gSaveContext.linkAge + drawInfo;
     EffectSsStickInitParams* initParams = (EffectSsStickInitParams*)initParamsx;
@@ -56,10 +58,10 @@ void EffectSsStick_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (!LINK_IS_ADULT) {
         Matrix_Scale(0.01f, 0.0025f, 0.01f, MTXMODE_APPLY);
-        Matrix_RotateRPY(0, this->rYaw, 0, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, this->rYaw, 0, MTXMODE_APPLY);
     } else {
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
-        Matrix_RotateRPY(0, this->rYaw, globalCtx->state.frames * 10000, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, this->rYaw, globalCtx->state.frames * 10000, MTXMODE_APPLY);
     }
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stick.c", 176),

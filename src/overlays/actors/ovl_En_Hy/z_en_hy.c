@@ -15,9 +15,7 @@
 #include "objects/object_cob/object_cob.h"
 #include "objects/object_os_anime/object_os_anime.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnHy*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -69,12 +67,12 @@ static ColliderCylinderInit sColCylInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 // NULL-terminated arrays of eye textures
-static void* sEyeTexturesAOB[] = { 0x060005C8, 0x06000DC8, 0x060015C8, NULL };
-static void* sEyeTexturesAHG7[] = { 0x0600057C, 0x0600067C, 0x0600077C, NULL };
-static void* sEyeTexturesBBA[] = { 0x060004C8, NULL };
-static void* sEyeTexturesBJI13[] = { 0x060005FC, 0x060009FC, 0x06000DFC, NULL };
-static void* sEyeTexturesBOJ2[] = { 0x060005FC, 0x060006FC, 0x060007FC, NULL };
-static void* sEyeTexturesBOB[] = { 0x060007C8, 0x06000FC8, 0x060017C8, NULL };
+static void* sEyeTexturesAOB[] = { gDogLadyEyeOpenTex, gDogLadyEyeHalfTex, gDogLadyEyeClosedTex, NULL };
+static void* sEyeTexturesAHG7[] = { object_ahg_Tex_00057C, object_ahg_Tex_00067C, object_ahg_Tex_00077C, NULL };
+static void* sEyeTexturesBBA[] = { object_bba_Tex_0004C8, NULL };
+static void* sEyeTexturesBJI13[] = { object_bji_Tex_0005FC, object_bji_Tex_0009FC, object_bji_Tex_000DFC, NULL };
+static void* sEyeTexturesBOJ2[] = { object_boj_Tex_0005FC, object_boj_Tex_0006FC, object_boj_Tex_0007FC, NULL };
+static void* sEyeTexturesBOB[] = { object_bob_Tex_0007C8, object_bob_Tex_000FC8, object_bob_Tex_0017C8, NULL };
 
 typedef struct {
     /* 0x00 */ s16 objectId;
@@ -104,18 +102,18 @@ typedef enum {
 static EnHyHeadInfo sHeadInfo[] = {
     /* ENHY_HEAD_AOB */ { OBJECT_AOB, gDogLadyHeadDL, sEyeTexturesAOB },
     /* ENHY_HEAD_BOB */ { OBJECT_BOB, object_bob_DL_003B78, sEyeTexturesBOB },
-    /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, 0x060026F0, sEyeTexturesBOJ2 },
+    /* ENHY_HEAD_BOJ_2 */ { OBJECT_BOJ, object_boj_DL_0026F0, sEyeTexturesBOJ2 },
     /* ENHY_HEAD_BOJ_3 */ { OBJECT_BOJ, object_boj_DL_0052E0, NULL },
     /* ENHY_HEAD_BOJ_4 */ { OBJECT_BOJ, object_boj_DL_005528, NULL },
     /* ENHY_HEAD_BOJ_5 */ { OBJECT_BOJ, object_boj_DL_005738, NULL },
     /* ENHY_HEAD_BOJ_6 */ { OBJECT_BOJ, object_boj_DL_0059B0, NULL },
-    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, 0x060030F0, sEyeTexturesAHG7 },
+    /* ENHY_HEAD_AHG_7 */ { OBJECT_AHG, object_ahg_DL_0030F0, sEyeTexturesAHG7 },
     /* ENHY_HEAD_AHG_8 */ { OBJECT_AHG, object_ahg_DL_005508, NULL },
     /* ENHY_HEAD_AHG_9 */ { OBJECT_AHG, object_ahg_DL_005728, NULL },
     /* ENHY_HEAD_BBA */ { OBJECT_BBA, object_bba_DL_002948, sEyeTexturesBBA },
-    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, 0x06001300, NULL },
+    /* ENHY_HEAD_CNE_11 */ { OBJECT_CNE, object_cne_DL_001300, NULL },
     /* ENHY_HEAD_CNE_12 */ { OBJECT_CNE, object_cne_DL_002860, NULL },
-    /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, 0x06002560, sEyeTexturesBJI13 },
+    /* ENHY_HEAD_BJI_13 */ { OBJECT_BJI, object_bji_DL_002560, sEyeTexturesBJI13 },
     /* ENHY_HEAD_BJI_14 */ { OBJECT_BJI, object_bji_DL_003F68, NULL },
     /* ENHY_HEAD_COB */ { OBJECT_COB, object_cob_DL_001300, NULL },
 };
@@ -139,11 +137,11 @@ typedef enum {
 static EnHySkeletonInfo sSkeletonInfo[] = {
     /* ENHY_SKEL_AOB */ { OBJECT_AOB, &gDogLadySkel },
     /* ENHY_SKEL_BOB */ { OBJECT_BOB, &object_bob_Skel_0000F0 },
-    /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, 0x060000F0 },
-    /* ENHY_SKEL_AHG */ { OBJECT_AHG, 0x060000F0 },
+    /* ENHY_SKEL_BOJ */ { OBJECT_BOJ, &object_boj_Skel_0000F0 },
+    /* ENHY_SKEL_AHG */ { OBJECT_AHG, &object_ahg_Skel_0000F0 },
     /* ENHY_SKEL_BBA */ { OBJECT_BBA, &object_bba_Skel_0000F0 },
-    /* ENHY_SKEL_CNE */ { OBJECT_CNE, 0x060000F0 },
-    /* ENHY_SKEL_BJI */ { OBJECT_BJI, 0x060000F0 },
+    /* ENHY_SKEL_CNE */ { OBJECT_CNE, &object_cne_Skel_0000F0 },
+    /* ENHY_SKEL_BJI */ { OBJECT_BJI, &object_bji_Skel_0000F0 },
     /* ENHY_SKEL_COB */ { OBJECT_COB, &object_cob_Skel_0021F8 },
 };
 
@@ -177,7 +175,7 @@ typedef enum {
     /* 26 */ ENHY_ANIM_26
 } EnHyAnimationIndex;
 
-static struct_80034EC0_Entry sAnimationInfo[] = {
+static AnimationInfo sAnimationInfo[] = {
     /* ENHY_ANIM_0 */ { &gObjOsAnim_092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
     /* ENHY_ANIM_1 */ { &gObjOsAnim_0228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
     /* ENHY_ANIM_2 */ { &gObjOsAnim_4CF4, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
@@ -209,9 +207,9 @@ static struct_80034EC0_Entry sAnimationInfo[] = {
 
 typedef struct {
     /* 0x00 */ u8 headInfoIndex;  // EnHyHeadIndex
-    /* 0x01 */ u8 skelInfoIndex2; // EnHySkeletonIndex, see EnHy#objBankIndexSkel2
+    /* 0x01 */ u8 skelInfoIndex2; // EnHySkeletonIndex, see EnHy.objBankIndexSkel2
     /* 0x02 */ Color_RGBA8 envColorSeg8;
-    /* 0x06 */ u8 skelInfoIndex1; // EnHySkeletonIndex, see EnHy#objBankIndexSkel1
+    /* 0x06 */ u8 skelInfoIndex1; // EnHySkeletonIndex, see EnHy.objBankIndexSkel1
     /* 0x07 */ Color_RGBA8 envColorSeg9;
     /* 0x0B */ u8 animInfoIndex; // EnHyAnimationIndex
 } EnHyModelInfo;                 // size = 0xC
@@ -418,7 +416,7 @@ void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
 
 u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = GET_PLAYER(globalCtx);
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     u16 textId = Text_GetFaceReaction(globalCtx, (this->actor.params & 0x7F) + 37);
 
     if (textId != 0) {
@@ -431,9 +429,9 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-                return (this->unk_330 & 0x800) ? 0x508D : ((gSaveContext.infTable[12] & 0x800) ? 0x508C : 0x508B);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
             } else if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
-                return (gSaveContext.eventInf[3] & 1) ? 0x709B : 0x709C;
+                return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
                 s16 followingDog = (gSaveContext.dogParams & 0xF00) >> 8;
 
@@ -447,77 +445,73 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return 0x70A0;
             }
         case ENHY_TYPE_COB:
-            if (gSaveContext.eventChkInf[8] & 1) {
-                return (gSaveContext.infTable[12] & 2) ? 0x7017 : 0x7045;
+            if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+                return GET_INFTABLE(INFTABLE_C1) ? 0x7017 : 0x7045;
             } else {
-                return (gSaveContext.infTable[12] & 1) ? 0x7017 : 0x7016;
+                return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
             }
         case ENHY_TYPE_AHG_2:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
                 return 0x5086;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return 0x5085;
-            } else if (gSaveContext.eventChkInf[8] & 1) {
-                return (gSaveContext.infTable[12] & 8) ? 0x701A : 0x7047;
-            } else if (gSaveContext.eventChkInf[1] & 0x10) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+                return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_14)) {
                 return 0x701A;
-            } else if (gSaveContext.eventChkInf[1] & 1) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_10)) {
                 return 0x701B;
-            } else if (gSaveContext.infTable[12] & 4) {
+            } else if (GET_INFTABLE(INFTABLE_C2)) {
                 return 0x701C;
             } else {
                 return 0x701A;
             }
         case ENHY_TYPE_BOJ_3:
-            return (gSaveContext.eventChkInf[8] & 1) ? ((gSaveContext.infTable[12] & 0x10) ? 0x7001 : 0x70EB) : 0x7001;
+            return GET_EVENTCHKINF(EVENTCHKINF_80) ? (GET_INFTABLE(INFTABLE_C4) ? 0x7001 : 0x70EB) : 0x7001;
         case ENHY_TYPE_AHG_4:
-            return (gSaveContext.eventChkInf[8] & 1) ? 0x704B : ((gSaveContext.infTable[12] & 0x20) ? 0x7024 : 0x7023);
+            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704B : (GET_INFTABLE(INFTABLE_C5) ? 0x7024 : 0x7023);
         case ENHY_TYPE_BOJ_5:
             player->exchangeItemId = EXCH_ITEM_BLUE_FIRE;
             return 0x700C;
         case ENHY_TYPE_BBA:
-            return (gSaveContext.eventChkInf[8] & 1) ? 0x704A : ((gSaveContext.infTable[12] & 0x40) ? 0x7022 : 0x7021);
+            return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
         case ENHY_TYPE_BJI_7:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
                 return 0x5088;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return 0x5087;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x704D
-                                                         : ((gSaveContext.infTable[12] & 0x80) ? 0x7028 : 0x7027);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
             }
         case ENHY_TYPE_CNE_8:
-            if (gSaveContext.eventChkInf[8] & 1) {
-                return (gSaveContext.infTable[12] & 0x200) ? 0x701E : 0x7048;
+            if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
+                return GET_INFTABLE(INFTABLE_C9) ? 0x701E : 0x7048;
             } else {
-                return (gSaveContext.infTable[12] & 0x100) ? 0x701E : 0x701D;
+                return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
             if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-                return (gSaveContext.eventChkInf[10] & 0x400) ? 0x5082 : 0x5081;
+                return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x5082 : 0x5081;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x7049
-                                                         : ((gSaveContext.infTable[12] & 0x400) ? 0x7020 : 0x701F);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
             if (globalCtx->sceneNum == SCENE_LABO) {
-                return (gSaveContext.eventChkInf[10] & 0x400) ? 0x507E : 0x507D;
+                return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x507E : 0x507D;
             } else if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x7046
-                                                         : ((gSaveContext.infTable[12] & 0x2000) ? 0x7019 : 0x7018);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
             }
         case ENHY_TYPE_CNE_11:
-            return (gSaveContext.infTable[8] & 0x800) ? ((gSaveContext.infTable[12] & 0x1000) ? 0x7014 : 0x70A4)
-                                                      : 0x7014;
+            return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
         case ENHY_TYPE_BOJ_12:
             if (globalCtx->sceneNum == SCENE_SPOT01) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x7044 : 0x7015;
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7044 : 0x7015;
             }
         case ENHY_TYPE_AHG_13:
             return 0x7055;
@@ -530,20 +524,20 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
         case ENHY_TYPE_AHG_17:
             if (!LINK_IS_ADULT) {
                 if (IS_DAY) {
-                    return (gSaveContext.infTable[22] & 1) ? 0x5058 : 0x5057;
+                    return GET_INFTABLE(INFTABLE_160) ? 0x5058 : 0x5057;
                 } else {
-                    return (gSaveContext.infTable[22] & 2) ? 0x505A : 0x5059;
+                    return GET_INFTABLE(INFTABLE_161) ? 0x505A : 0x5059;
                 }
             } else if (IS_DAY) {
-                return (gSaveContext.infTable[22] & 4) ? 0x505C : 0x505B;
+                return GET_INFTABLE(INFTABLE_162) ? 0x505C : 0x505B;
             } else {
                 return 0x5058;
             }
         case ENHY_TYPE_BOB_18:
             if (!LINK_IS_ADULT) {
-                return (gSaveContext.eventChkInf[8] & 1) ? 0x505F : ((gSaveContext.infTable[22] & 8) ? 0x505E : 0x505D);
+                return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x505F : (GET_INFTABLE(INFTABLE_163) ? 0x505E : 0x505D);
             } else {
-                return (this->unk_330 & 0x800) ? 0x5062 : ((gSaveContext.infTable[22] & 0x10) ? 0x5061 : 0x5060);
+                return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x5062 : (GET_INFTABLE(INFTABLE_164) ? 0x5061 : 0x5060);
             }
         case ENHY_TYPE_BJI_19:
             return 0x7120;
@@ -555,26 +549,27 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 4:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
-        case 3:
+        case TEXT_STATE_DONE_FADING:
             switch (this->actor.textId) {
                 case 0x709E:
                 case 0x709F:
                     if (!this->unk_215) {
                         Audio_PlaySoundGeneral(this->actor.textId == 0x709F ? NA_SE_SY_CORRECT_CHIME : NA_SE_SY_ERROR,
-                                               &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                                               &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->unk_215 = true;
                     }
                     break;
@@ -583,90 +578,90 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F2:
                 case 0x70F3:
                     if (this->skelAnime.animation != &gObjOsAnim_33B4) {
-                        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_23);
-                        func_800F5C64(NA_BGM_ITEM_GET | 0x900);
+                        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_23);
+                        Audio_PlayFanfare(NA_BGM_ITEM_GET | 0x900);
                     }
                     break;
             }
             return 1;
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x70F0:
                 case 0x70F1:
                 case 0x70F2:
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
-                    func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
+                    Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
                     Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
                     break;
                 case 0x7016:
-                    gSaveContext.infTable[12] |= 1;
+                    SET_INFTABLE(INFTABLE_C0);
                     break;
                 case 0x7045:
-                    gSaveContext.infTable[12] |= 2;
+                    SET_INFTABLE(INFTABLE_C1);
                     break;
                 case 0x701B:
-                    gSaveContext.infTable[12] |= 4;
+                    SET_INFTABLE(INFTABLE_C2);
                     break;
                 case 0x7047:
-                    gSaveContext.infTable[12] |= 8;
+                    SET_INFTABLE(INFTABLE_C3);
                     break;
                 case 0x70EB:
-                    gSaveContext.infTable[12] |= 0x10;
+                    SET_INFTABLE(INFTABLE_C4);
                     break;
                 case 0x7023:
-                    gSaveContext.infTable[12] |= 0x20;
+                    SET_INFTABLE(INFTABLE_C5);
                     break;
                 case 0x7021:
-                    gSaveContext.infTable[12] |= 0x40;
+                    SET_INFTABLE(INFTABLE_C6);
                     break;
                 case 0x7027:
-                    gSaveContext.infTable[12] |= 0x80;
+                    SET_INFTABLE(INFTABLE_C7);
                     break;
                 case 0x701D:
-                    gSaveContext.infTable[12] |= 0x100;
+                    SET_INFTABLE(INFTABLE_C8);
                     break;
                 case 0x7048:
-                    gSaveContext.infTable[12] |= 0x200;
+                    SET_INFTABLE(INFTABLE_C9);
                     break;
                 case 0x701F:
-                    gSaveContext.infTable[12] |= 0x400;
+                    SET_INFTABLE(INFTABLE_CA);
                     break;
                 case 0x7018:
-                    gSaveContext.infTable[12] |= 0x2000;
+                    SET_INFTABLE(INFTABLE_CD);
                     break;
                 case 0x70A4:
-                    gSaveContext.infTable[12] |= 0x1000;
+                    SET_INFTABLE(INFTABLE_CC);
                     break;
                 case 0x5057:
-                    gSaveContext.infTable[22] |= 1;
+                    SET_INFTABLE(INFTABLE_160);
                     break;
                 case 0x5059:
-                    gSaveContext.infTable[22] |= 2;
+                    SET_INFTABLE(INFTABLE_161);
                     break;
                 case 0x505B:
-                    gSaveContext.infTable[22] |= 4;
+                    SET_INFTABLE(INFTABLE_162);
                     break;
                 case 0x505D:
-                    gSaveContext.infTable[22] |= 8;
+                    SET_INFTABLE(INFTABLE_163);
                     break;
                 case 0x5060:
-                    gSaveContext.infTable[22] |= 0x10;
+                    SET_INFTABLE(INFTABLE_164);
                     break;
                 case 0x508B:
-                    gSaveContext.infTable[12] |= 0x800;
+                    SET_INFTABLE(INFTABLE_CB);
                     break;
                 case 0x709E:
                     gSaveContext.dogParams = 0;
                     break;
                 case 0x709F:
-                    func_80A6F7CC(this, globalCtx, (gSaveContext.infTable[25] & 2) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
+                    func_80A6F7CC(this, globalCtx, GET_INFTABLE(INFTABLE_191) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
                     this->actionFunc = func_80A714C4;
                     break;
             }
             return 0;
-        case 5:
-            if (!func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            if (!Message_ShouldAdvance(globalCtx)) {
                 return 1;
             } else {
                 return 2;
@@ -855,7 +850,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             } else if (IS_NIGHT) {
                 return false;
-            } else if ((gSaveContext.eventChkInf[8] & 1) && !(gSaveContext.eventChkInf[4] & 0x20)) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_80) && !GET_EVENTCHKINF(EVENTCHKINF_45)) {
                 return false;
             } else {
                 return true;
@@ -873,7 +868,7 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void EnHy_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
 
     if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, globalCtx) ||
         !EnHy_FindSkelAndHeadObjects(this, globalCtx)) {
@@ -888,7 +883,7 @@ void EnHy_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -906,15 +901,15 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-        func_80034EC0(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
         if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
-            this->actor.flags &= ~0x10;
+            this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.uncullZoneScale = 0.0f;
         }
 
         if (globalCtx->sceneNum == SCENE_KAKARIKO) {
-            this->unk_330 = gSaveContext.eventChkInf[6];
+            this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_6B_INDEX];
         }
 
         EnHy_InitSetProperties(this);
@@ -969,14 +964,14 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
 void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
-            func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
         }
-    } else if (gSaveContext.eventInf[3] & 1) {
+    } else if (GET_EVENTINF(EVENTINF_30)) {
         if (this->skelAnime.animation != &gObjOsAnim_0FE4) {
-            func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_25);
+            Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_25);
         }
     } else if (this->skelAnime.animation != &gObjOsAnim_12E8) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_24);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_24);
     }
 }
 
@@ -1005,7 +1000,7 @@ void EnHy_DoNothing(EnHy* this, GlobalContext* globalCtx) {
 
 void func_80A712C0(EnHy* this, GlobalContext* globalCtx) {
     if ((this->actor.xzDistToPlayer <= 100.0f) && (this->path != NULL)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
         this->actor.speedXZ = 0.4f;
         this->actionFunc = func_80A7134C;
     }
@@ -1018,11 +1013,11 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
     f32 distSq;
 
     if ((this->skelAnime.animation == &gObjOsAnim_2160) && (this->unk_1E8.unk_00 != 0)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_8);
     }
 
     if ((this->skelAnime.animation == &gObjOsAnim_265C) && (this->unk_1E8.unk_00 == 0)) {
-        func_80034EC0(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
+        Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
     }
 
     this->actor.speedXZ = 0.4f;
@@ -1057,12 +1052,12 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         switch (this->unkGetItemId) {
             case GI_HEART_PIECE:
                 gSaveContext.dogParams = 0;
                 gSaveContext.dogIsLost = false;
-                gSaveContext.infTable[25] |= 2;
+                SET_INFTABLE(INFTABLE_191);
                 break;
             case GI_RUPEE_BLUE:
                 Rupees_ChangeBy(5);
@@ -1076,7 +1071,7 @@ void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
 
     if (this->actionFunc != EnHy_InitImpl) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
@@ -1087,7 +1082,7 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_MoveForward(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
     this->actionFunc(this, globalCtx);
@@ -1096,7 +1091,7 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     s32 pad;
     Vec3s sp48;
     u8 i;
@@ -1123,15 +1118,15 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     if (limbIndex == 15) {
         Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         sp48 = this->unk_1E8.unk_08;
-        Matrix_RotateX((sp48.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((sp48.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(sp48.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
         Matrix_Translate(-1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limbIndex == 8) {
         sp48 = this->unk_1E8.unk_0E;
-        Matrix_RotateX((-sp48.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
-        Matrix_RotateZ((sp48.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD_ALT(-sp48.y), MTXMODE_APPLY);
+        Matrix_RotateZ(BINANG_TO_RAD_ALT(sp48.x), MTXMODE_APPLY);
     }
 
     if ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12)) {
@@ -1145,7 +1140,7 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnHy_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     s32 pad;
     Vec3f sp3C = { 400.0f, 0.0f, 0.0f };
 
@@ -1178,7 +1173,7 @@ Gfx* EnHy_SetEnvColor(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB, u8 
 }
 
 void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnHy* this = THIS;
+    EnHy* this = (EnHy*)thisx;
     Color_RGBA8 envColorSeg8;
     Color_RGBA8 envColorSeg9;
     Color_RGBA8 envColorSeg10;

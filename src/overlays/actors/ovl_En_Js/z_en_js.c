@@ -7,9 +7,7 @@
 #include "z_en_js.h"
 #include "objects/object_js/object_js.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnJs*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnJs_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ void En_Js_SetupAction(EnJs* this, EnJsActionFunc actionFunc) {
 }
 
 void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
@@ -74,7 +72,7 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -82,7 +80,7 @@ void EnJs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
     s16 yawDiff;
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         return 1;
     } else {
         this->actor.textId = textId;
@@ -103,14 +101,14 @@ void func_80A89008(EnJs* this) {
 }
 
 void func_80A89078(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         func_80A89008(this);
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
 }
 
 void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         En_Js_SetupAction(this, func_80A89078);
     } else {
         func_8002F2CC(&this->actor, globalCtx, 1000.0f);
@@ -118,10 +116,10 @@ void func_80A890C0(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A8910C(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actor.textId = 0x6078;
         En_Js_SetupAction(this, func_80A890C0);
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
     }
 }
 
@@ -135,11 +133,11 @@ void func_80A89160(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80106BC8(globalCtx)) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CHOICE && Message_ShouldAdvance(globalCtx)) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // yes
                 if (gSaveContext.rupees < 200) {
-                    func_8010B720(globalCtx, 0x6075);
+                    Message_ContinueTextbox(globalCtx, 0x6075);
                     func_80A89008(this);
                 } else {
                     Rupees_ChangeBy(-200);
@@ -147,7 +145,7 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1: // no
-                func_8010B720(globalCtx, 0x6074);
+                Message_ContinueTextbox(globalCtx, 0x6074);
                 func_80A89008(this);
         }
     }
@@ -166,16 +164,16 @@ void func_80A89304(EnJs* this, GlobalContext* globalCtx) {
 }
 
 void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
     s32 pad;
     s32 pad2;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         if (SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId) == 1) {
             Math_ApproachF(&this->actor.shape.yOffset, sREG(80) + -2000.0f, 1.0f, (sREG(81) / 10.0f) + 50.0f);
         }
@@ -208,7 +206,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     if (limbIndex == 12) {
         rot->y -= this->unk_278.y;
@@ -218,14 +216,14 @@ s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
 void EnJs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A896DC = { 0.0f, 0.0f, 0.0f };
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     if (limbIndex == 12) {
         Matrix_MultVec3f(&D_80A896DC, &this->actor.focus.pos);
     }
 }
 void EnJs_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnJs* this = THIS;
+    EnJs* this = (EnJs*)thisx;
 
     func_800943C8(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

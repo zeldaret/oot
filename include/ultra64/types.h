@@ -26,7 +26,11 @@ typedef double f64;
 typedef long int Mtx_t[4][4];
 typedef union {
     Mtx_t m;
-    long long int forc_structure_alignment;
+    struct {
+        u16 intPart[4][4];
+        u16 fracPart[4][4];
+    };
+    long long int force_structure_alignment;
 } Mtx;
 
 typedef float MtxF_t[4][4];

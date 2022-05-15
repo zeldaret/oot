@@ -1,8 +1,6 @@
 #include "z_en_clear_tag.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((EnClearTag*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -80,7 +78,7 @@ static ColliderCylinderInit sLaserCylinderInit = {
 static UNK_TYPE4 D_809D5C98 = 0; // unused
 static UNK_TYPE4 D_809D5C9C = 0; // unused
 
-static EnClearTagEffect sClearTagEffects[CLEAR_TAG_EFFECT_MAX_COUNT];
+static EnClearTagEffect sEffects[CLEAR_TAG_EFFECT_COUNT];
 
 #include "overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
 
@@ -94,7 +92,7 @@ void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx, Vec3f* position, Ve
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a Debris effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->type = CLEAR_TAG_EFFECT_DEBRIS;
 
@@ -128,7 +126,7 @@ void EnClearTag_CreateFireEffect(GlobalContext* globalCtx, Vec3f* pos, f32 scale
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a fire effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->random = (s16)Rand_ZeroFloat(100.0f);
             effect->type = CLEAR_TAG_EFFECT_FIRE;
@@ -156,7 +154,7 @@ void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx, Vec3f* position, f32
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a smoke effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->random = (s16)Rand_ZeroFloat(100.0f);
             effect->type = CLEAR_TAG_EFFECT_SMOKE;
@@ -192,7 +190,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a flash effect to.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->type = CLEAR_TAG_EFFECT_FLASH;
 
@@ -218,7 +216,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
  * This just destroys the collider.
  */
 void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -228,7 +226,7 @@ void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * This allocates a collider, initializes effects, and sets up ClearTag instance data.
  */
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
     s32 defaultCutsceneTimer = 100;
     s16 i;
     s16 j;
@@ -254,7 +252,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sLaserCylinderInit);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
     } else { // Initialize the Arwing.
-        this->actor.flags |= 1;
+        this->actor.flags |= ACTOR_FLAG_0;
         this->actor.targetMode = 5;
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sArwingCylinderInit);
         this->actor.colChkInfo.health = 3;
@@ -273,9 +271,9 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         // Initialize all effects to available if effects have not been initialized.
         if (!sIsEffectsInitialized) {
             sIsEffectsInitialized = true;
-            globalCtx->specialEffects = &sClearTagEffects[0];
-            for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++) {
-                sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
+            globalCtx->specialEffects = sEffects;
+            for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++) {
+                sEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
             }
             this->drawMode = CLEAR_TAG_DRAW_MODE_ALL;
         }
@@ -318,7 +316,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
     s16 xRotationTarget;
     s16 rotationScale;
     GlobalContext* globalCtx = globalCtx2;
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     this->frameCounter++;
@@ -447,9 +445,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 // Calculate the direction for the Arwing to fly and the rotation for the Arwing
                 // based on the Arwing's direction, and current rotation.
-                worldRotationTargetY = Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * (0x8000 / M_PI);
+                worldRotationTargetY = RAD_TO_BINANG(Math_FAtan2F(vectorToTargetX, vectorToTargetZ));
                 worldRotationTargetX =
-                    Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) * (0x8000 / M_PI);
+                    RAD_TO_BINANG(Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))));
                 if ((worldRotationTargetX < 0) && (this->actor.world.pos.y < this->actor.floorHeight + 20.0f)) {
                     worldRotationTargetX = 0;
                 }
@@ -513,7 +511,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
                 if (this->timers[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] == 0) {
-                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f, 5);
+                    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 30.0f, 100.0f,
+                                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
                     EnClearTag_CalculateFloorTangent(this);
                 }
 
@@ -528,14 +527,14 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_BREATH - SFX_FLAG);
 
-                    // Check if the Arwing has hit the ground.
-                    if (this->actor.bgCheckFlags & 9) {
+                    // Check if the Arwing has hit the ground or a wall.
+                    if (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) {
                         this->shouldExplode = true;
 
                         if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
                             this->drawMode = CLEAR_TAG_DRAW_MODE_EFFECT;
                             this->deathTimer = 70;
-                            this->actor.flags &= ~1;
+                            this->actor.flags &= ~ACTOR_FLAG_0;
                         } else {
                             Actor_Kill(&this->actor);
                         }
@@ -557,15 +556,18 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->collider.dim.yShift = -10;
                 Collider_UpdateCylinder(&this->actor, &this->collider);
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f, 5);
+                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 80.0f, 100.0f,
+                                        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-                // Check if the laser has hit a target, timed out, or hit the ground.
-                if (this->actor.bgCheckFlags & 9 || hasAtHit || this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
+                // Check if the laser has hit a target, timed out, or hit the ground or a wall.
+                if ((this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) || hasAtHit ||
+                    this->timers[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
                     // Kill the laser.
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.
                     if (this->timers[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
-                        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_FANTOM_THUNDER_GND);
+                        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 20,
+                                                           NA_SE_EN_FANTOM_THUNDER_GND);
                     }
                 }
                 break;
@@ -574,51 +576,51 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
         if (this->state < CLEAR_TAG_STATE_LASER) {
             // Play the Arwing cutscene.
             osSyncPrintf("DEMO_MODE %d\n", this->cutsceneMode);
-            osSyncPrintf("CAMERA_NO %d\n", this->cameraId);
+            osSyncPrintf("CAMERA_NO %d\n", this->subCamId);
 
             if (this->cutsceneMode != CLEAR_TAG_CUTSCENE_MODE_NONE) {
-                f32 cutsceneCameraCircleX;
-                f32 cutsceneCameraCircleZ;
+                f32 subCamCircleX;
+                f32 subCamCircleZ;
                 s16 cutsceneTimer;
-                Vec3f cutsceneCameraAtTarget;
-                Vec3f cutsceneCameraEyeTarget;
+                Vec3f subCamEyeNext;
+                Vec3f subCamAtNext;
 
                 switch (this->cutsceneMode) {
                     case CLEAR_TAG_CUTSCENE_MODE_SETUP:
                         // Initializes Arwing cutscene camera data.
                         this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_PLAY;
                         func_80064520(globalCtx, &globalCtx->csCtx);
-                        this->cameraId = Gameplay_CreateSubCamera(globalCtx);
-                        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                        Gameplay_ChangeCameraStatus(globalCtx, this->cameraId, CAM_STAT_ACTIVE);
+                        this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+                        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                        Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     case CLEAR_TAG_CUTSCENE_MODE_PLAY:
                         // Update the Arwing cutscene camera to spin around in a circle.
                         cutsceneTimer = this->frameCounter * 128;
-                        cutsceneCameraCircleX = Math_SinS(cutsceneTimer) * 200.0f;
-                        cutsceneCameraCircleZ = Math_CosS(cutsceneTimer) * 200.0f;
-                        cutsceneCameraAtTarget.x = this->actor.world.pos.x + cutsceneCameraCircleX;
-                        cutsceneCameraAtTarget.y = 200.0f;
-                        cutsceneCameraAtTarget.z = this->actor.world.pos.z + cutsceneCameraCircleZ;
-                        cutsceneCameraEyeTarget = this->actor.world.pos;
+                        subCamCircleX = Math_SinS(cutsceneTimer) * 200.0f;
+                        subCamCircleZ = Math_CosS(cutsceneTimer) * 200.0f;
+                        subCamEyeNext.x = this->actor.world.pos.x + subCamCircleX;
+                        subCamEyeNext.y = 200.0f;
+                        subCamEyeNext.z = this->actor.world.pos.z + subCamCircleZ;
+                        subCamAtNext = this->actor.world.pos;
                         break;
                 }
 
                 // Make the Arwing cutscene camera approach the target.
-                if (this->cameraId != SUBCAM_FREE) {
-                    Math_ApproachF(&this->cutsceneCameraAt.x, cutsceneCameraAtTarget.x, 0.1f, 500.0f);
-                    Math_ApproachF(&this->cutsceneCameraAt.y, cutsceneCameraAtTarget.y, 0.1f, 500.0f);
-                    Math_ApproachF(&this->cutsceneCameraAt.z, cutsceneCameraAtTarget.z, 0.1f, 500.0f);
-                    Math_ApproachF(&this->cutsceneCameraEye.x, cutsceneCameraEyeTarget.x, 0.2f, 500.0f);
-                    Math_ApproachF(&this->cutsceneCameraEye.y, cutsceneCameraEyeTarget.y, 0.2f, 500.0f);
-                    Math_ApproachF(&this->cutsceneCameraEye.z, cutsceneCameraEyeTarget.z, 0.2f, 500.0f);
-                    Gameplay_CameraSetAtEye(globalCtx, this->cameraId, &this->cutsceneCameraEye,
-                                            &this->cutsceneCameraAt);
+                if (this->subCamId != SUB_CAM_ID_DONE) {
+                    Math_ApproachF(&this->subCamEye.x, subCamEyeNext.x, 0.1f, 500.0f);
+                    Math_ApproachF(&this->subCamEye.y, subCamEyeNext.y, 0.1f, 500.0f);
+                    Math_ApproachF(&this->subCamEye.z, subCamEyeNext.z, 0.1f, 500.0f);
+                    Math_ApproachF(&this->subCamAt.x, subCamAtNext.x, 0.2f, 500.0f);
+                    Math_ApproachF(&this->subCamAt.y, subCamAtNext.y, 0.2f, 500.0f);
+                    Math_ApproachF(&this->subCamAt.z, subCamAtNext.z, 0.2f, 500.0f);
+                    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 }
 
                 // Cutscene has finished.
                 if (this->cutsceneTimer == 1) {
-                    func_800C08AC(globalCtx, this->cameraId, 0);
-                    this->cutsceneMode = this->cameraId = SUBCAM_FREE;
+                    func_800C08AC(globalCtx, this->subCamId, 0);
+                    // CLEAR_TAG_CUTSCENE_MODE_NONE / SUB_CAM_ID_DONE
+                    this->cutsceneMode = this->subCamId = 0;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                 }
             }
@@ -632,7 +634,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
         Vec3f debrisEffectAcceleration;
 
         this->shouldExplode = false;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
 
         // Spawn flash effect.
         crashEffectLocation.x = this->actor.world.pos.x;
@@ -681,7 +683,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
  */
 void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnClearTag* this = THIS;
+    EnClearTag* this = (EnClearTag*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_clear_tag.c", 983);
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
@@ -721,7 +723,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
             // Draw the Arwing Backfire
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(2.5f, 1.3f, 0.0f, MTXMODE_APPLY);
             if ((this->frameCounter % 2) != 0) {
                 Matrix_Scale(1.15f, 1.15f, 1.15f, MTXMODE_APPLY);
@@ -739,9 +741,9 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateX(this->floorTangent.x, MTXMODE_APPLY);
             Matrix_RotateZ(this->floorTangent.z, MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x + 0.35f, 0.0f, this->actor.scale.z + 0.35f, MTXMODE_APPLY);
-            Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateX((this->actor.shape.rot.x / 32768.0f) * M_PI, MTXMODE_APPLY);
-            Matrix_RotateZ((this->actor.shape.rot.z / 32768.0f) * M_PI, MTXMODE_APPLY);
+            Matrix_RotateY(BINANG_TO_RAD_ALT(this->actor.shape.rot.y), MTXMODE_APPLY);
+            Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
             if (this->crashingTimer != 0) {
                 f32 xRotation;
                 f32 yRotation;
@@ -778,7 +780,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
     f32 originalYPosition;
     Vec3f sphereCenter;
 
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type != CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->random++;
 
@@ -889,7 +891,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
 void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     s16 i;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u8 isMaterialApplied = false;
+    u8 materialFlag = 0;
     EnClearTagEffect* effect = (EnClearTagEffect*)globalCtx->specialEffects;
     EnClearTagEffect* firstEffect = effect;
 
@@ -898,11 +900,11 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     // Draw all Debris effects.
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_DEBRIS) {
             // Apply the debris effect material if it has not already been applied.
-            if (!isMaterialApplied) {
-                isMaterialApplied++;
+            if (materialFlag == 0) {
+                materialFlag++;
                 gSPDisplayList(POLY_OPA_DISP++, gArwingDebrisEffectMaterialDL);
             }
 
@@ -919,14 +921,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all ground flash effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash ground effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the ground flash effect.
@@ -943,13 +945,13 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all smoke effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_SMOKE) {
             // Apply the smoke effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectMaterialDL);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the smoke effect.
@@ -961,7 +963,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             gSPSegment(POLY_XLU_DISP++, 8,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, effect->random * -5, 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             Matrix_Translate(0.0f, 20.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1392),
@@ -972,14 +974,14 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all fire effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
             // Apply the fire effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gSPDisplayList(POLY_XLU_DISP++, gArwingFireEffectMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 215, 255, 128);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the fire effect.
@@ -988,7 +990,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0,
                                         32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1439),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -998,20 +1000,20 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all flash billboard effects.
     effect = firstEffect;
-    isMaterialApplied = false;
-    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+    materialFlag = 0;
+    for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash billboard effect material if it has not already been applied.
-            if (!isMaterialApplied) {
+            if (materialFlag == 0) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
-                isMaterialApplied++;
+                materialFlag++;
             }
 
             // Draw the flash billboard effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, (s8)effect->primColor.a);
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1470),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

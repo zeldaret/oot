@@ -9,13 +9,19 @@
 #define PORTAMENTO_MODE_4 4
 #define PORTAMENTO_MODE_5 5
 
-extern u8 D_80130470[];
-
 u8 AudioSeq_ScriptReadU8(SeqScriptState* state);
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state);
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state);
 
 u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** instOut, AdsrSettings* adsr);
+
+u8 D_80130520[] = {
+    0x81, 0x00, 0x81, 0x01, 0x00, 0x00, 0x00, 0x81, 0x01, 0x01, 0x01, 0x42, 0x81, 0xC2, 0x00, 0x00,
+    0x00, 0x01, 0x81, 0x00, 0x00, 0x00, 0x01, 0x42, 0x01, 0x01, 0x01, 0x81, 0x01, 0x01, 0x81, 0x81,
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81, 0x01, 0x01, 0x01, 0x81, 0x01,
+    0x01, 0x03, 0x03, 0x01, 0x00, 0x01, 0x01, 0x81, 0x03, 0x01, 0x00, 0x02, 0x00, 0x01, 0x01, 0x82,
+    0x00, 0x01, 0x01, 0x01, 0x01, 0x81, 0x00, 0x00, 0x01, 0x81, 0x81, 0x81, 0x81, 0x00, 0x00, 0x00,
+};
 
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 arg1) {
     u8 temp_v0 = D_80130520[arg1 - 0xB0];
@@ -354,12 +360,14 @@ u8 AudioSeq_ScriptReadU8(SeqScriptState* state) {
 
 s16 AudioSeq_ScriptReadS16(SeqScriptState* state) {
     s16 ret = *(state->pc++) << 8;
+
     ret = *(state->pc++) | ret;
     return ret;
 }
 
 u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state) {
     u16 ret = *(state->pc++);
+
     if (ret & 0x80) {
         ret = (ret << 8) & 0x7F00;
         ret = *(state->pc++) | ret;
@@ -471,6 +479,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
         }
         if (cmd >= 0xF2) {
             u16 arg = AudioSeq_GetScriptControlFlowArgument(state, cmd);
+
             if (AudioSeq_HandleScriptFlowControl(seqPlayer, state, cmd, arg) == 0) {
                 continue;
             }
@@ -483,6 +492,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
             case 0xCA: // layer_setpan
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC1) {
                     layer->velocitySquare = (f32)(tempByte * tempByte) / 16129.0f;
                 } else {
@@ -495,6 +505,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
             case 0xC2: // layer_transpose; set transposition in semitones
             {
                 u8 tempByte = *(state->pc++);
+
                 if (cmd == 0xC9) {
                     layer->gateTime = tempByte;
                 } else {
@@ -705,8 +716,8 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                     }
                 }
 
-                temp_f2 = gNoteFrequencies[semitone2] * tuning;
-                temp_f14 = gNoteFrequencies[layer->portamentoTargetNote] * tuning;
+                temp_f2 = gPitchFrequencies[semitone2] * tuning;
+                temp_f14 = gPitchFrequencies[layer->portamentoTargetNote] * tuning;
 
                 switch (PORTAMENTO_MODE(*portamento)) {
                     case PORTAMENTO_MODE_1:
@@ -756,10 +767,10 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                 sound = Audio_InstrumentGetSound(instrument, semitone);
                 sameSound = (sound == layer->sound);
                 layer->sound = sound;
-                layer->freqScale = gNoteFrequencies[semitone2] * sound->tuning;
+                layer->freqScale = gPitchFrequencies[semitone2] * sound->tuning;
             } else {
                 layer->sound = NULL;
-                layer->freqScale = gNoteFrequencies[semitone2];
+                layer->freqScale = gPitchFrequencies[semitone2];
                 if (instOrWave >= 0xC0) {
                     layer->sound = &gAudioContext.synthesisReverbs[instOrWave - 0xC0].sound;
                 }
@@ -1302,8 +1313,8 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                         command = parameters[0];
 
                         if (channel->filter != NULL) {
-                            lowBits = (command >> 4) & 0xF;
-                            command &= 0xF;
+                            lowBits = (command >> 4) & 0xF; // LowPassCutoff
+                            command &= 0xF;                 // HighPassCutoff
                             AudioHeap_LoadFilter(channel->filter, lowBits, command);
                         }
                         break;

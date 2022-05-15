@@ -7,9 +7,7 @@
 #include "z_bg_relay_objects.h"
 #include "objects/object_relay_objects/object_relay_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgRelayObjects*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0 */ WINDMILL_ROTATING_GEAR,
@@ -47,7 +45,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u32 D_808A9508 = 0;
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -57,14 +55,14 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, 3);
     if (thisx->params == WINDMILL_ROTATING_GEAR) {
         CollisionHeader_GetVirtual(&gWindmillRotatingPlatformCol, &colHeader);
-        if (gSaveContext.eventChkInf[6] & 0x20) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
             thisx->world.rot.y = 0x400;
         } else {
             thisx->world.rot.y = 0x80;
         }
         func_800F5718();
         thisx->room = -1;
-        thisx->flags |= 0x20;
+        thisx->flags |= ACTOR_FLAG_5;
         if (D_808A9508 & 2) {
             thisx->params = 0xFF;
             Actor_Kill(thisx);
@@ -107,11 +105,11 @@ void BgRelayObjects_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgRelayObjects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     if ((this->dyna.actor.params == WINDMILL_ROTATING_GEAR) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
-        gSaveContext.eventChkInf[6] &= ~0x20;
+        CLEAR_EVENTCHKINF(EVENTCHKINF_65);
     }
 }
 
@@ -156,7 +154,7 @@ void func_808A9234(BgRelayObjects* this, GlobalContext* globalCtx) {
             return;
         }
         Flags_UnsetSwitch(globalCtx, this->switchFlag);
-        this->dyna.actor.flags &= ~0x10;
+        this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         if (globalCtx->roomCtx.curRoom.num == 4) {
             gSaveContext.timer1State = 0xF;
         }
@@ -182,9 +180,9 @@ void func_808A932C(BgRelayObjects* this, GlobalContext* globalCtx) {
 
 void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 5)) {
-        gSaveContext.eventChkInf[6] |= 0x20;
+        SET_EVENTCHKINF(EVENTCHKINF_65);
     }
-    if (gSaveContext.eventChkInf[6] & 0x20) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_65)) {
         Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x400, 8);
     } else {
         Math_ScaledStepToS(&this->dyna.actor.world.rot.y, 0x80, 8);
@@ -195,13 +193,13 @@ void func_808A939C(BgRelayObjects* this, GlobalContext* globalCtx) {
 }
 
 void BgRelayObjects_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgRelayObjects_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgRelayObjects* this = THIS;
+    BgRelayObjects* this = (BgRelayObjects*)thisx;
 
     if (this->dyna.actor.params == WINDMILL_ROTATING_GEAR) {
         Gfx_DrawDListOpa(globalCtx, gWindmillRotatingPlatformDL);

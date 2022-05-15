@@ -2,9 +2,7 @@
 #include "overlays/actors/ovl_En_Box/z_en_box.h"
 #include "objects/object_box/object_box.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoTreLgt*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -48,7 +46,7 @@ static DemoTreLgtActionFunc sActionFuncs[] = {
 };
 
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sTransformUpdIdx[0])) {
         // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
@@ -64,7 +62,7 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoTreLgt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     SkelCurve_Destroy(globalCtx, &this->skelCurve);
 }
@@ -119,8 +117,8 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
     }
     if ((currentFrame > 30.0f) && !(this->status & 1)) {
         this->status |= 1;
-        Audio_PlaySoundGeneral(NA_SE_EV_TRE_BOX_FLASH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_TRE_BOX_FLASH, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
         Actor_Kill(&this->actor);
@@ -128,14 +126,14 @@ void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
 }
 
 void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     sActionFuncs[this->action](this, globalCtx);
 }
 
-s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
+s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 423);
     gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -149,11 +147,16 @@ s32 DemoTreLgt_PostLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 448);
+
+    //! @bug missing return
+    // If the return value ends up being false (0), the limb won't draw (meaning no limb at all will draw).
+    // In MQ Debug, `Graph_CloseDisps` has the last instruction writing to v0 before this function ends.
+    // That instruction sets v0 to a non-NULL pointer, which is "true", so the limbs get drawn.
 }
 
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    DemoTreLgt* this = THIS;
+    DemoTreLgt* this = (DemoTreLgt*)thisx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_tre_lgt.c", 461);
 
@@ -163,7 +166,7 @@ void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
-    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_PostLimbDraw, NULL, 1, thisx);
+    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, thisx);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_tre_lgt.c", 476);
 }

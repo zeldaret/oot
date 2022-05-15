@@ -7,9 +7,7 @@
 #include "z_bg_mori_bigst.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgMoriBigst*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -69,7 +67,7 @@ void BgMoriBigst_InitDynapoly(BgMoriBigst* this, GlobalContext* globalCtx, Colli
 
 void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     // "mori (bigST.keyceiling)"
     osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
@@ -97,7 +95,7 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriBigst_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -150,7 +148,7 @@ void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.home.rot.z == 0) &&
         ((this->dyna.actor.home.pos.y - 5.0f) <= GET_PLAYER(globalCtx)->actor.world.pos.y)) {
         BgMoriBigst_SetupFall(this, globalCtx);
-        OnePointCutscene_Init(globalCtx, 3220, 72, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3220, 72, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
@@ -164,7 +162,7 @@ void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         BgMoriBigst_SetupLanding(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-        OnePointCutscene_Init(globalCtx, 1020, 8, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 1020, 8, &this->dyna.actor, CAM_ID_MAIN);
         func_8002DF38(globalCtx, NULL, 0x3C);
     }
 }
@@ -227,7 +225,7 @@ void BgMoriBigst_SetupDone(BgMoriBigst* this, GlobalContext* globalCtx) {
 
 void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     Actor_SetFocus(&this->dyna.actor, 50.0f);
     if (this->waitTimer > 0) {
@@ -243,7 +241,7 @@ void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriBigst_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriBigst* this = THIS;
+    BgMoriBigst* this = (BgMoriBigst*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_bigst.c", 541);
     func_80093D18(globalCtx->state.gfxCtx);

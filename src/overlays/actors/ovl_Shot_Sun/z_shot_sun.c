@@ -9,9 +9,7 @@
 #include "scenes/overworld/spot06/spot06_scene.h"
 #include "vt.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((ShotSun*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx);
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -55,7 +53,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ShotSun* this = THIS;
+    ShotSun* this = (ShotSun*)thisx;
     s32 params;
 
     // "Ocarina secret occurrence"
@@ -63,20 +61,20 @@ void ShotSun_Init(Actor* thisx, GlobalContext* globalCtx) {
     params = this->actor.params & 0xFF;
     if (params == 0x40 || params == 0x41) {
         this->unk_1A4 = 0;
-        this->actor.flags |= 0x10;
-        this->actor.flags |= 0x2000000;
+        this->actor.flags |= ACTOR_FLAG_4;
+        this->actor.flags |= ACTOR_FLAG_25;
         this->actionFunc = func_80BADF0C;
-        this->actor.flags |= 0x8000000;
+        this->actor.flags |= ACTOR_FLAG_27;
     } else {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         this->actionFunc = ShotSun_UpdateHyliaSun;
-        this->actor.flags &= ~1;
+        this->actor.flags &= ~ACTOR_FLAG_0;
     }
 }
 
 void ShotSun_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ShotSun* this = THIS;
+    ShotSun* this = (ShotSun*)thisx;
     s32 params = this->actor.params & 0xFF;
 
     if (params != 0x40 && params != 0x41) {
@@ -125,23 +123,23 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
-    if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > 22500.0f) {
+    if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
         this->unk_1A4 = 0;
     } else {
         if (this->unk_1A4 == 0) {
-            if (!(player->stateFlags2 & 0x1000000)) {
-                player->stateFlags2 |= 0x800000;
+            if (!(player->stateFlags2 & PLAYER_STATE2_24)) {
+                player->stateFlags2 |= PLAYER_STATE2_23;
                 return;
             } else {
                 this->unk_1A4 = 1;
             }
         }
         if (this->unk_1A4 == 1) {
-            func_8010BD58(globalCtx, 1);
+            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
             this->unk_1A4 = 2;
-        } else if (this->unk_1A4 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
-            if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
-                (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
+        } else if (this->unk_1A4 == 2 && globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            if ((params == 0x40 && globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS) ||
+                (params == 0x41 && globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_STORMS)) {
                 this->actionFunc = ShotSun_TriggerFairy;
                 OnePointCutscene_Attention(globalCtx, &this->actor);
                 this->timer = 0;
@@ -182,9 +180,10 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
-            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.sunPos.x * (1.0f / 6.0f);
-            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.sunPos.y * (1.0f / 6.0f);
-            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.sunPos.z * (1.0f / 6.0f);
+            cylinderPos.x = player->bodyPartsPos[PLAYER_BODYPART_HEAD].x + globalCtx->envCtx.sunPos.x * (1.0f / 6.0f);
+            cylinderPos.y =
+                player->bodyPartsPos[PLAYER_BODYPART_HEAD].y - 30.0f + globalCtx->envCtx.sunPos.y * (1.0f / 6.0f);
+            cylinderPos.z = player->bodyPartsPos[PLAYER_BODYPART_HEAD].z + globalCtx->envCtx.sunPos.z * (1.0f / 6.0f);
 
             this->hitboxPos = cylinderPos;
 
@@ -195,7 +194,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
 }
 
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ShotSun* this = THIS;
+    ShotSun* this = (ShotSun*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

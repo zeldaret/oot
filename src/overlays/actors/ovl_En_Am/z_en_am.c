@@ -8,9 +8,7 @@
 #include "objects/object_am/object_am.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
-#define FLAGS 0x04000015
-
-#define THIS ((EnAm*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_26)
 
 void EnAm_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -158,7 +156,7 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x13, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_ARMOS, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
 };
@@ -192,9 +190,9 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     this->dyna.actor.world.pos.x += sin;
     this->dyna.actor.world.pos.z += cos;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->dyna.actor.world.pos = curPos;
-    ret = this->dyna.actor.bgCheckFlags & 1;
+    ret = this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND;
 
     if (!ret && (this->dyna.actor.floorHeight >= (this->dyna.actor.home.pos.y - 20.0f))) {
         ret = true;
@@ -208,7 +206,7 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
 void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
@@ -244,7 +242,7 @@ void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->hurtCollider);
@@ -270,7 +268,7 @@ void EnAm_SpawnEffects(EnAm* this, GlobalContext* globalCtx) {
     }
 
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WALK);
-    Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 0x12C, 0xF, 0);
+    Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 4.0f, 3, 8.0f, 300, 15, false);
 }
 
 void EnAm_SetupSleep(EnAm* this) {
@@ -287,7 +285,7 @@ void EnAm_SetupStatue(EnAm* this) {
     f32 lastFrame = Animation_GetLastFrame(&gArmosRicochetAnim);
 
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
-    this->dyna.actor.flags &= ~1;
+    this->dyna.actor.flags &= ~ACTOR_FLAG_0;
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
     EnAm_SetupAction(this, EnAm_Statue);
@@ -388,7 +386,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
         if (this->textureBlend >= 240) {
             this->attackTimer = 200;
             this->textureBlend = 255;
-            this->dyna.actor.flags |= 1;
+            this->dyna.actor.flags |= ACTOR_FLAG_0;
             this->dyna.actor.shape.yOffset = 0.0f;
             EnAm_SetupLunge(this);
         } else {
@@ -409,7 +407,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
             this->textureBlend -= 10;
         } else {
             this->textureBlend = 0;
-            this->dyna.actor.flags &= ~1;
+            this->dyna.actor.flags &= ~ACTOR_FLAG_0;
 
             if (this->dyna.bgId < 0) {
                 this->unk_264 = 0;
@@ -441,7 +439,7 @@ void EnAm_RotateToHome(EnAm* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->dyna.actor.world.rot.y, yawToHome, 1, 0x1F40, 0);
         this->dyna.actor.velocity.y = 12.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
-        if (!(this->dyna.actor.bgCheckFlags & 1)) {
+        if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
         } else {
             EnAm_SpawnEffects(this, globalCtx);
@@ -476,7 +474,7 @@ void EnAm_RotateToInit(EnAm* this, GlobalContext* globalCtx) {
         this->unk_258 = 2;
         this->dyna.actor.velocity.y = 12.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
-        if (!(this->dyna.actor.bgCheckFlags & 1)) {
+        if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
         } else {
             this->unk_258 = 1;
@@ -512,12 +510,12 @@ void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx) {
         this->dyna.actor.velocity.y = 12.0f;
         this->dyna.actor.speedXZ = 6.0f;
     } else if (this->skelAnime.curFrame > 11.0f) {
-        if (!(this->dyna.actor.bgCheckFlags & 1)) {
+        if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
             this->skelAnime.curFrame = 11;
         } else {
             Math_SmoothStepToS(&this->dyna.actor.world.rot.y, yawToHome, 1, 0xBB8, 0);
 
-            if (this->dyna.actor.bgCheckFlags & 2) {
+            if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
                 this->unk_258--;
             }
 
@@ -533,7 +531,7 @@ void EnAm_MoveToHome(EnAm* this, GlobalContext* globalCtx) {
     }
 
     // turn away from a wall if touching one
-    if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
+    if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.wallYaw;
         Actor_MoveForward(&this->dyna.actor);
     }
@@ -575,7 +573,7 @@ void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->dyna.actor.world.rot.y, this->dyna.actor.yawTowardsPlayer, 1, 0x1F40, 0);
             this->dyna.actor.velocity.y = 12.0f;
         } else if (this->skelAnime.curFrame > 11.0f) {
-            if (!(this->dyna.actor.bgCheckFlags & 1)) {
+            if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 this->skelAnime.curFrame = 11;
             } else {
                 if (yawDiff < 3500) {
@@ -616,12 +614,12 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
             this->unk_264 = 1;
             this->hitCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         } else if (this->skelAnime.curFrame > 11.0f) {
-            if (!(this->dyna.actor.bgCheckFlags & 1)) {
+            if (!(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
                 this->skelAnime.curFrame = 11;
             } else {
                 Math_SmoothStepToS(&this->dyna.actor.world.rot.y, this->dyna.actor.yawTowardsPlayer, 1, 0x1770, 0);
 
-                if (this->dyna.actor.bgCheckFlags & 2) {
+                if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
                     this->unk_258--;
                 }
 
@@ -640,11 +638,11 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
         }
 
         // turn and move away from a wall if contact is made with one
-        if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 8)) {
+        if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
             this->dyna.actor.world.rot.y =
                 (this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw;
             Actor_MoveForward(&this->dyna.actor);
-            this->dyna.actor.bgCheckFlags &= ~8;
+            this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         }
 
         SkelAnime_Update(&this->skelAnime);
@@ -685,13 +683,14 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             moveDir = Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->hurtCollider.base.oc->world.pos) - temp158f;
         }
 
-        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) || !(this->dyna.actor.bgCheckFlags & 1) ||
+        if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) ||
+            !(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
             !func_800435D8(globalCtx, &this->dyna, 0x14,
                            (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA) ||
             ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
-            player->stateFlags2 &= ~0x151;
+            player->stateFlags2 &= ~(PLAYER_STATE2_0 | PLAYER_STATE2_4 | PLAYER_STATE2_6 | PLAYER_STATE2_8);
             player->actor.speedXZ = 0.0f;
             this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
         }
@@ -700,7 +699,7 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
         this->dyna.actor.speedXZ = Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f);
     }
 
-    if (this->dyna.actor.bgCheckFlags & 2) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     }
 
@@ -771,7 +770,7 @@ void EnAm_TransformSwordHitbox(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f D_809B0080 = { -2500.0f, 0.0f, 0.0f };
     static Vec3f D_809B008C = { 2500.0f, 7000.0f, 4000.0f };
     static Vec3f D_809B0098 = { -2500.0f, 0.0f, 4000.0f };
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     Matrix_MultVec3f(&D_809B0074, &this->hitCollider.dim.quad[1]);
     Matrix_MultVec3f(&D_809B0080, &this->hitCollider.dim.quad[0]);
@@ -800,7 +799,7 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
             if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                 this->unk_264 = 0;
                 this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.info, 0);
+                Actor_SetDropFlag(&this->dyna.actor, &this->hurtCollider.info, false);
 
                 if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                     (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
@@ -834,7 +833,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Color_RGBA8 dustPrimColor = { 150, 150, 150, 255 };
     static Color_RGBA8 dustEnvColor = { 100, 100, 100, 150 };
     s32 pad;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
     EnBom* bomb;
     Vec3f dustPos;
     s32 i;
@@ -888,7 +887,9 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
     }
 
     Collider_UpdateCylinder(&this->dyna.actor, &this->hurtCollider);
@@ -929,7 +930,7 @@ static Vec3f sUnused1 = { 1100.0f, -700.0f, 0.0f };
 static Vec3f sUnused2 = { 0.0f, 0.0f, 0.0f };
 
 void EnAm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     if ((limbIndex == 1) && (this->unk_264 != 0)) {
         EnAm_TransformSwordHitbox(&this->dyna.actor, globalCtx);
@@ -945,7 +946,7 @@ static Vec3f sIcePosOffsets[] = {
 void EnAm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f sp68;
-    EnAm* this = THIS;
+    EnAm* this = (EnAm*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_am.c", 1580);
 

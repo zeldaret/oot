@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_fhg/object_fhg.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoExt*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* 0x00 */ EXT_WAIT,
@@ -32,7 +30,7 @@ void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
 
     this->scrollIncr[0] = 25;
     this->scrollIncr[1] = 40;
@@ -47,8 +45,8 @@ void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void DemoExt_PlayVortexSFX(DemoExt* this) {
     if (this->alphaTimer <= (kREG(35) + 40.0f) - 15.0f) {
-        Audio_PlaySoundGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
-                               &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -170,7 +168,7 @@ static DemoExtActionFunc sActionFuncs[] = {
 };
 
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
 
     if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
         // "Main mode is abnormal!"
@@ -184,7 +182,7 @@ void DemoExt_DrawNothing(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
     Mtx* mtx;
     GraphicsContext* gfxCtx;
     s16* curScroll;
@@ -197,7 +195,7 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
     Matrix_Push();
     Matrix_Scale(scale->x, scale->y, scale->z, MTXMODE_APPLY);
-    Matrix_RotateRPY((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
+    Matrix_RotateZYX((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
     Matrix_Translate(kREG(22), kREG(23), kREG(24), MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
     Matrix_Pop();
@@ -224,7 +222,7 @@ static DemoExtDrawFunc sDrawFuncs[] = {
 };
 
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoExt* this = THIS;
+    DemoExt* this = (DemoExt*)thisx;
 
     if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
         sDrawFuncs[this->drawMode] == NULL) {

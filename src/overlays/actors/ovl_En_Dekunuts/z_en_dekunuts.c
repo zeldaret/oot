@@ -8,9 +8,7 @@
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 #include "objects/object_dekunuts/object_dekunuts.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnDekunuts*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 #define DEKUNUTS_FLOWER 10
 
@@ -102,18 +100,18 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x4D, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_MAD_SCRUB, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2600, ICHAIN_STOP),
 };
 
 void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     if (thisx->params == DEKUNUTS_FLOWER) {
-        thisx->flags &= ~0x5;
+        thisx->flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     } else {
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         SkelAnime_Init(globalCtx, &this->skelAnime, &gDekuNutsSkel, &gDekuNutsStandAnim, this->jointTable,
@@ -133,7 +131,7 @@ void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDekunuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
 
     if (this->actor.params != DEKUNUTS_FLOWER) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -361,9 +359,9 @@ void EnDekunuts_Run(EnDekunuts* this, GlobalContext* globalCtx) {
 
     Math_StepToF(&this->actor.speedXZ, 7.5f, 1.0f);
     if (Math_SmoothStepToS(&this->actor.world.rot.y, this->runDirection, 1, 0xE38, 0xB6) == 0) {
-        if (this->actor.bgCheckFlags & 0x20) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
             this->runDirection = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
-        } else if (this->actor.bgCheckFlags & 8) {
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             this->runDirection = this->actor.wallYaw;
         } else if (this->runAwayCount == 0) {
             diffRotInit = Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos);
@@ -446,7 +444,7 @@ void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx) {
 void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if (this->actor.colChkInfo.mass == 0x32) {
             if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
                 if (this->actor.colChkInfo.damageEffect != 1) {
@@ -470,7 +468,7 @@ void EnDekunuts_ColliderCheck(EnDekunuts* this, GlobalContext* globalCtx) {
 }
 
 void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     s32 pad;
 
     if (this->actor.params != DEKUNUTS_FLOWER) {
@@ -478,7 +476,8 @@ void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         Actor_MoveForward(&this->actor);
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, this->collider.dim.radius, this->collider.dim.height,
-                                0x1D);
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         if (this->collider.base.acFlags & AC_ON) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -497,7 +496,7 @@ void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnDekunuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
     f32 x;
     f32 y;
     f32 z;
@@ -527,7 +526,7 @@ s32 EnDekunuts_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
 }
 
 void EnDekunuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnDekunuts* this = THIS;
+    EnDekunuts* this = (EnDekunuts*)thisx;
 
     if (this->actor.params == DEKUNUTS_FLOWER) {
         Gfx_DrawDListOpa(globalCtx, gDekuNutsFlowerDL);

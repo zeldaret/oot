@@ -4,9 +4,7 @@
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoDu*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
 typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);
@@ -41,7 +39,7 @@ static void* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGrinning
 #define CS_CREDITS_SUBSCENE(x) (24 + (x))           // DEMO_DU_CS_CREDITS
 
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -100,7 +98,8 @@ s32 DemoDu_UpdateSkelAnime(DemoDu* this) {
 }
 
 void DemoDu_UpdateBgCheckInfo(DemoDu* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 CsCmdActorAction* DemoDu_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
@@ -322,8 +321,8 @@ void DemoDu_CsPlaySfx_DaruniaHitsLink(GlobalContext* globalCtx) {
     s32 pad;
 
     func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
-    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                           &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
@@ -337,8 +336,8 @@ void DemoDu_CsPlaySfx_LinkEscapeFromGorons(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 1400) {
         Player* player = GET_PLAYER(globalCtx);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -348,8 +347,8 @@ void DemoDu_CsPlaySfx_LinkSurprised(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 174) {
         Player* player = GET_PLAYER(globalCtx);
 
-        Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
@@ -397,7 +396,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
         s32 pad[2];
         s32 i;
         Player* player = GET_PLAYER(globalCtx);
-        Vec3f* headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
+        Vec3f* pos = &player->bodyPartsPos[PLAYER_BODYPART_L_FOREARM];
         Vec3f velocity = { 0.0f, 0.0f, 0.0f };
         Vec3f accel = { 0.0f, 0.3f, 0.0f };
         s32 pad2;
@@ -409,13 +408,13 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
             Vec3f position;
 
             if (Animation_OnFrame(&this->skelAnime, 31.0f)) {
-                position.x = dustPosOffsets[i + 5].x + headPos->x;
-                position.y = dustPosOffsets[i + 5].y + headPos->y;
-                position.z = dustPosOffsets[i + 5].z + headPos->z;
+                position.x = dustPosOffsets[i + 5].x + pos->x;
+                position.y = dustPosOffsets[i + 5].y + pos->y;
+                position.z = dustPosOffsets[i + 5].z + pos->z;
             } else {
-                position.x = dustPosOffsets[i + 0].x + headPos->x;
-                position.y = dustPosOffsets[i + 0].y + headPos->y;
-                position.z = dustPosOffsets[i + 0].z + headPos->z;
+                position.x = dustPosOffsets[i + 0].x + pos->x;
+                position.y = dustPosOffsets[i + 0].y + pos->y;
+                position.z = dustPosOffsets[i + 0].z + pos->z;
             }
 
             colorDelta = Rand_ZeroOne() * 20.0f - 10.0f;
@@ -798,7 +797,7 @@ void DemoDu_UpdateCs_AG_02(DemoDu* this, GlobalContext* globalCtx) {
 // Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.
 void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
@@ -812,7 +811,7 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
-    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&gDaruniaNoseSeriousTex));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(gDaruniaNoseSeriousTex));
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->shadowAlpha);
 
@@ -954,7 +953,7 @@ static DemoDuActionFunc sUpdateFuncs[] = {
 };
 
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
         // "The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -965,7 +964,7 @@ void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     switch (this->actor.params) {
@@ -993,7 +992,7 @@ void DemoDu_Draw_NoDraw(Actor* thisx, GlobalContext* globalCtx2) {
 // Similar to DemoDu_Draw_02, but this uses POLY_OPA_DISP. Sets the env color to 255.
 void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
     s16 eyeTexIndex = this->eyeTexIndex;
     void* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
@@ -1007,7 +1006,7 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&gDaruniaNoseSeriousTex));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(gDaruniaNoseSeriousTex));
 
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
@@ -1026,7 +1025,7 @@ static DemoDuDrawFunc sDrawFuncs[] = {
 };
 
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoDu* this = THIS;
+    DemoDu* this = (DemoDu*)thisx;
 
     if (this->drawIndex < 0 || this->drawIndex >= 3 || sDrawFuncs[this->drawIndex] == NULL) {
         // "The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!"

@@ -1,9 +1,7 @@
 #include "z_en_ny.h"
 #include "objects/object_ny/object_ny.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnNy*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnNy_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,13 +98,13 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x28, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_SPIKE, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
@@ -147,7 +145,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
@@ -190,7 +188,7 @@ void func_80ABCE38(EnNy* this) {
 }
 
 void func_80ABCE50(EnNy* this, GlobalContext* globalCtx) {
-    if (this->actor.xyzDistToPlayerSq <= 25600.0f) {
+    if (this->actor.xyzDistToPlayerSq <= SQ(160.0f)) {
         func_80ABCD94(this);
     }
 }
@@ -253,11 +251,11 @@ void EnNy_TurnToStone(EnNy* this, GlobalContext* globalCtx) {
     phi_f0 -= 2.0f;
     if (phi_f0 <= 0.25f) {
         phi_f0 = 0.25f;
-        if (this->actor.bgCheckFlags & 2) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
             if (!(this->unk_1F0 < this->actor.yDistToWater)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
             }
-            this->actor.bgCheckFlags &= ~2;
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
             this->actor.speedXZ = 0.0f;
             this->actor.world.rot.y = this->actor.shape.rot.y;
             func_80ABCE38(this);
@@ -332,7 +330,7 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
             this->stoneTimer = 0;
             if (this->actor.colChkInfo.health == 0) {
                 this->actor.shape.shadowAlpha = 0;
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
                 this->unk_1D0 = sp3F;
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
                 return 1;
@@ -366,7 +364,7 @@ void func_80ABD3B8(EnNy* this, f32 arg1, f32 arg2) {
 }
 
 void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     f32 temp_f20;
     f32 temp_f22;
     s32 i;
@@ -387,7 +385,8 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     this->actor.prevPos.y -= temp_f22;
     this->actor.world.pos.y -= temp_f22;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     this->unk_1F0 = temp_f22;
     this->actor.world.pos.y += temp_f22;
     if (EnNy_CollisionCheck(this, globalCtx) != 0) {
@@ -442,7 +441,7 @@ void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx) {
         if (this->unk_1D0 == 0) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xA0);
         } else {
-            Item_DropCollectible(globalCtx, &this->actor.world.pos, 8);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_ARROWS_SMALL);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NYU_DEAD);
         this->actionFunc = EnNy_Die;
@@ -482,7 +481,7 @@ void EnNy_Die(EnNy* this, GlobalContext* globalCtx) {
 }
 
 void EnNy_UpdateDeath(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
 
     this->timer++;
     if (this->unk_1CA != 0) {
@@ -492,7 +491,7 @@ void EnNy_UpdateDeath(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     f32 sp3C;
     f32 temp_f0;
@@ -505,7 +504,8 @@ void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.prevPos.y -= temp_f0;
     this->actor.world.pos.y -= temp_f0;
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     this->unk_1F0 = temp_f0;
     this->actor.world.pos.y += temp_f0;
 
@@ -523,7 +523,7 @@ static Vec3f sFireOffsets[] = {
 
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 837);
     Collider_UpdateSpheres(0, &this->collider);
@@ -552,6 +552,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f tempVec;
         Vec3f* fireOffset;
         s16 temp;
+
         temp = this->unk_1CA - 1;
         this->actor.colorFilterTimer++;
         if (temp == 0) {
@@ -565,7 +566,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* globalCtx) {
-    EnNy* this = THIS;
+    EnNy* this = (EnNy*)thisx;
     Vec3f* temp;
     f32 scale;
     s32 i;

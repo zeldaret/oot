@@ -6,9 +6,7 @@
 
 #include "z_obj_roomtimer.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((ObjRoomtimer*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjRoomtimer_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ const ActorInit Obj_Roomtimer_InitVars = {
 };
 
 void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx) {
-    ObjRoomtimer* this = THIS;
+    ObjRoomtimer* this = (ObjRoomtimer*)thisx;
     s16 params = this->actor.params;
 
     this->switchFlag = (params >> 10) & 0x3F;
@@ -49,7 +47,7 @@ void ObjRoomtimer_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjRoomtimer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    ObjRoomtimer* this = THIS;
+    ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
     if ((this->actor.params != 0x3FF) && (gSaveContext.timer1Value > 0)) {
         gSaveContext.timer1State = 10;
@@ -76,7 +74,8 @@ void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         if ((this->actor.params != 0x3FF) && (gSaveContext.timer1Value == 0)) {
-            Audio_PlaySoundGeneral(NA_SE_OC_ABYSS, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            Audio_PlaySoundGeneral(NA_SE_OC_ABYSS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Gameplay_TriggerVoidOut(globalCtx);
             Actor_Kill(&this->actor);
         }
@@ -84,7 +83,7 @@ void func_80B9D0B0(ObjRoomtimer* this, GlobalContext* globalCtx) {
 }
 
 void ObjRoomtimer_Update(Actor* thisx, GlobalContext* globalCtx) {
-    ObjRoomtimer* this = THIS;
+    ObjRoomtimer* this = (ObjRoomtimer*)thisx;
 
     this->actionFunc(this, globalCtx);
 }

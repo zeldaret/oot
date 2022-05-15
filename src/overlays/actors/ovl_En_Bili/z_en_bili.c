@@ -7,9 +7,7 @@
 #include "z_en_bili.h"
 #include "objects/object_bl/object_bl.h"
 
-#define FLAGS 0x00005005
-
-#define THIS ((EnBili*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -109,12 +107,12 @@ static DamageTable sDamageTable = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x17, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_BIRI, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_STOP),
 };
 
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 17.0f);
@@ -134,7 +132,7 @@ void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -221,7 +219,7 @@ void EnBili_SetupBurnt(EnBili* this) {
     this->timer = 20;
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0x2000, 0x14);
     this->actionFunc = EnBili_Burnt;
@@ -229,7 +227,7 @@ void EnBili_SetupBurnt(EnBili* this) {
 
 void EnBili_SetupDie(EnBili* this) {
     this->timer = 18;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnBili_Die;
     this->actor.speedXZ = 0.0f;
 }
@@ -252,7 +250,7 @@ void EnBili_SetupFrozen(EnBili* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f effectPos;
 
-    if (!(this->actor.flags & 0x8000)) {
+    if (!(this->actor.flags & ACTOR_FLAG_15)) {
         this->actor.gravity = -1.0f;
     }
 
@@ -318,7 +316,7 @@ void EnBili_UpdateFloating(EnBili* this) {
     this->actor.world.pos.y = this->actor.home.pos.y + (sinf(this->timer * (M_PI / 16)) * 3.0f);
 
     // Turn around if touching wall
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->actor.world.rot.y = this->actor.wallYaw;
     }
 }
@@ -457,7 +455,7 @@ void EnBili_Recoil(EnBili* this, GlobalContext* globalCtx) {
 void EnBili_Burnt(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         this->actor.colorFilterTimer = 20;
     } else {
         if (this->timer != 0) {
@@ -478,7 +476,7 @@ void EnBili_Die(EnBili* this, GlobalContext* globalCtx) {
     s32 i;
 
     if (this->actor.draw != NULL) {
-        if (this->actor.flags & 0x8000) {
+        if (this->actor.flags & ACTOR_FLAG_15) {
             return;
         }
         this->actor.draw = NULL;
@@ -511,7 +509,7 @@ void EnBili_Die(EnBili* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 14) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BIRI_BUBLE);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_BIRI_BUBLE);
     }
 }
 
@@ -520,7 +518,7 @@ void EnBili_Stunned(EnBili* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (this->actor.bgCheckFlags & 2) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
     }
 
@@ -534,11 +532,11 @@ void EnBili_Frozen(EnBili* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    if (!(this->actor.flags & 0x8000)) {
+    if (!(this->actor.flags & ACTOR_FLAG_15)) {
         this->actor.gravity = -1.0f;
     }
 
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
         this->actor.colorFilterTimer = 0;
         EnBili_SetupDie(this);
     } else {
@@ -551,13 +549,13 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
 
     if ((this->actor.colChkInfo.health != 0) && (this->collider.base.acFlags & AC_HIT)) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_BIRI_DEAD);
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
 
             damageEffect = this->actor.colChkInfo.damageEffect;
@@ -589,7 +587,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
             }
 
             if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F820) { // DMG_ARROW
-                this->actor.flags |= 0x10;
+                this->actor.flags |= ACTOR_FLAG_4;
             }
         }
     }
@@ -597,7 +595,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
 
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT;
@@ -626,7 +624,8 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
             Actor_MoveForward(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, this->collider.dim.radius, this->collider.dim.height,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
         Collider_UpdateCylinder(&this->actor, &this->collider);
 
         if (this->collider.base.atFlags & AT_ON) {
@@ -725,7 +724,7 @@ void EnBili_PulseLimb4(EnBili* this, f32 frame, Vec3f* arg2) {
 
 s32 EnBili_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                             Gfx** gfx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
     Vec3f limbScale = { 1.0f, 1.0f, 1.0f };
     f32 curFrame = this->skelAnime.curFrame;
 
@@ -750,7 +749,7 @@ static void* sTentaclesTextures[] = {
 #include "overlays/ovl_En_Bili/ovl_En_Bili.c"
 
 void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnBili* this = THIS;
+    EnBili* this = (EnBili*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_bili.c", 1521);
     func_80093D84(globalCtx->state.gfxCtx);
@@ -766,6 +765,6 @@ void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                                   &EnBili_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
+                                   EnBili_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bili.c", 1552);
 }

@@ -9,9 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnButte*)thisx)
+#define FLAGS 0
 
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -124,18 +122,18 @@ void EnButte_DrawTransformationEffect(EnButte* this, GlobalContext* globalCtx) {
     alpha = CLAMP(alpha, 0, 255);
 
     Camera_GetCamDir(&camDir, GET_ACTIVE_CAM(globalCtx));
-    Matrix_RotateY(camDir.y * (M_PI / 0x8000), MTXMODE_NEW);
-    Matrix_RotateX(camDir.x * (M_PI / 0x8000), MTXMODE_APPLY);
-    Matrix_RotateZ(camDir.z * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(camDir.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD(camDir.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(camDir.z), MTXMODE_APPLY);
     Matrix_MultVec3f(&D_809CE3C4, &sp5C);
-    func_800D1694(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y, this->actor.focus.pos.z + sp5C.z,
-                  &camDir);
+    Matrix_SetTranslateRotateYXZ(this->actor.focus.pos.x + sp5C.x, this->actor.focus.pos.y + sp5C.y,
+                                 this->actor.focus.pos.z + sp5C.z, &camDir);
     Matrix_Scale(sTransformationEffectScale, sTransformationEffectScale, sTransformationEffectScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_choo.c", 317),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 180, alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 200, 210, 255);
-    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&gEffFlash1DL));
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFlash1DL));
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_choo.c", 326);
 }
@@ -148,7 +146,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if (this->actor.params == -1) {
         this->actor.params = 0;
@@ -178,7 +176,7 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnButte_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -307,9 +305,9 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
     minAnimSpeed = 0.0f;
 
     if ((this->flightParamsIdx != 0) && (this->timer < 12)) {
-        swordTip.x = player->swordInfo[0].tip.x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
-        swordTip.y = player->swordInfo[0].tip.y;
-        swordTip.z = player->swordInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.x = player->meleeWeaponInfo[0].tip.x + Math_SinS(player->actor.shape.rot.y) * 10.0f;
+        swordTip.y = player->meleeWeaponInfo[0].tip.y;
+        swordTip.z = player->meleeWeaponInfo[0].tip.z + Math_CosS(player->actor.shape.rot.y) * 10.0f;
 
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &swordTip) + (s16)(Rand_ZeroOne() * D_809CE410);
         if (Math_ScaledStepToS(&this->actor.world.rot.y, yaw, 2000) != 0) {
@@ -321,7 +319,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, player->swordInfo[0].tip.y);
+    this->posYTarget = MAX(player->actor.world.pos.y + 30.0f, player->meleeWeaponInfo[0].tip.y);
 
     EnButte_Turn(this);
 
@@ -341,7 +339,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
           (this->swordDownTimer <= 0) && (distSqFromHome < SQ(320.0f)))) {
         EnButte_SetupFlyAround(this);
     } else if (distSqFromHome > SQ(240.0f)) {
-        distSqFromSword = Math3D_Dist2DSq(player->swordInfo[0].tip.x, player->swordInfo[0].tip.z,
+        distSqFromSword = Math3D_Dist2DSq(player->meleeWeaponInfo[0].tip.x, player->meleeWeaponInfo[0].tip.z,
                                           this->actor.world.pos.x, this->actor.world.pos.z);
         if (distSqFromSword < SQ(60.0f)) {
             EnButte_SetupTransformIntoFairy(this);
@@ -351,7 +349,7 @@ void EnButte_FollowLink(EnButte* this, GlobalContext* globalCtx) {
 
 void EnButte_SetupTransformIntoFairy(EnButte* this) {
     this->timer = 9;
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->skelAnime.playSpeed = 1.0f;
     EnButte_ResetTransformationEffect();
     this->actionFunc = EnButte_TransformIntoFairy;
@@ -362,7 +360,7 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx) {
     EnButte_UpdateTransformationEffect();
 
     if (this->timer == 5) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 60, NA_SE_EV_BUTTERFRY_TO_FAIRY);
     } else if (this->timer == 4) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.focus.pos.x, this->actor.focus.pos.y,
                     this->actor.focus.pos.z, 0, this->actor.shape.rot.y, 0, FAIRY_HEAL_TIMED);
@@ -385,7 +383,7 @@ void EnButte_WaitToDie(EnButte* this, GlobalContext* globalCtx) {
 }
 
 void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (this->actor.child != &this->actor)) {
         this->actor.child = NULL;
@@ -400,7 +398,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_260 += 0x600;
 
     if ((this->actor.params & 1) == 1) {
-        if (GET_PLAYER(globalCtx)->swordState == 0) {
+        if (GET_PLAYER(globalCtx)->meleeWeaponState == 0) {
             if (this->swordDownTimer > 0) {
                 this->swordDownTimer--;
             }
@@ -422,7 +420,7 @@ void EnButte_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnButte_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnButte* this = THIS;
+    EnButte* this = (EnButte*)thisx;
 
     if (this->drawSkelAnime) {
         func_80093D18(globalCtx->state.gfxCtx);

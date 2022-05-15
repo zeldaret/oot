@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_syokudai/object_syokudai.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgPoSyokudai*)thisx)
+#define FLAGS 0
 
 typedef enum {
     POE_FLAME_PURPLE, // Meg
@@ -77,7 +75,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -122,7 +120,7 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
 
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -133,7 +131,7 @@ void BgPoSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     s32 pad;
 
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -145,7 +143,7 @@ void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgPoSyokudai* this = THIS;
+    BgPoSyokudai* this = (BgPoSyokudai*)thisx;
     f32 lightBrightness;
     u8 red;
     u8 green;
@@ -179,9 +177,9 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, envColor->r, envColor->g, envColor->b, 255);
 
         Matrix_Translate(0.0f, 52.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000) *
-                           (M_PI / 0x8000),
-                       MTXMODE_APPLY);
+        Matrix_RotateY(
+            BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000)),
+            MTXMODE_APPLY);
         Matrix_Scale(0.0027f, 0.0027f, 0.0027f, MTXMODE_APPLY);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),

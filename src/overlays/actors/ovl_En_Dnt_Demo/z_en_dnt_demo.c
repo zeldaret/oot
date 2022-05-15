@@ -10,9 +10,7 @@
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
 #include "vt.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnDntDemo*)thisx)
+#define FLAGS 0
 
 typedef enum {
     /* 0 */ DNT_LIKE,
@@ -72,7 +70,7 @@ void EnDntDemo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
     s32 i;
     s32 pad;
 
@@ -99,8 +97,8 @@ void EnDntDemo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         // "jiji jiji jiji jiji jiji" [onomatopoeia for the scrub sound?]
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ じじじじじじじじじじい ☆☆☆☆☆ %x\n" VT_RST, this->leader);
     }
-    this->subCamera = 0;
-    this->actor.flags &= ~1;
+    this->subCamId = SUB_CAM_ID_DONE;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionFunc = EnDntDemo_Judge;
 }
 
@@ -126,8 +124,8 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         this->actionFunc = EnDntDemo_Results;
     } else if ((this->actor.xzDistToPlayer > 30.0f) || (Player_GetMask(globalCtx) == 0)) {
         this->debugArrowTimer++;
-        if (this->subCamera != SUBCAM_FREE) {
-            this->subCamera = SUBCAM_FREE;
+        if (this->subCamId != SUB_CAM_ID_DONE) {
+            this->subCamId = SUB_CAM_ID_DONE;
         }
         if (this->judgeTimer != 0) {
             for (i = 0; i < 9; i++) {
@@ -136,8 +134,8 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             this->judgeTimer = 0;
         }
     } else {
-        if ((Player_GetMask(globalCtx) != 0) && (this->subCamera == SUBCAM_FREE)) {
-            this->subCamera = OnePointCutscene_Init(globalCtx, 2220, -99, &this->scrubs[3]->actor, MAIN_CAM);
+        if ((Player_GetMask(globalCtx) != 0) && (this->subCamId == SUB_CAM_ID_DONE)) {
+            this->subCamId = OnePointCutscene_Init(globalCtx, 2220, -99, &this->scrubs[3]->actor, CAM_ID_MAIN);
         }
         this->debugArrowTimer = 0;
         if (this->judgeTimer == 40) {
@@ -158,23 +156,23 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
             delay = 0;
             switch (Player_GetMask(globalCtx)) {
                 case PLAYER_MASK_SKULL:
-                    if (!(gSaveContext.itemGetInf[1] & 0x4000)) {
+                    if (!GET_ITEMGETINF(ITEMGETINF_1E)) {
                         reaction = DNT_SIGNAL_CELEBRATE;
                         this->prize = DNT_PRIZE_STICK;
-                        Audio_QueueSeqCmd(NA_BGM_SARIA_THEME);
+                        Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SARIA_THEME);
                         break;
                     }
                 case PLAYER_MASK_TRUTH:
-                    if (!(gSaveContext.itemGetInf[1] & 0x8000) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
-                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                               &D_801333E8);
+                    if (!GET_ITEMGETINF(ITEMGETINF_1F) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
+                        Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         this->prize = DNT_PRIZE_NUTS;
                         this->leader->stageSignal = DNT_LEADER_SIGNAL_UP;
                         reaction = DNT_SIGNAL_LOOK;
-                        if (this->subCamera != SUBCAM_FREE) {
-                            this->subCamera = SUBCAM_FREE;
+                        if (this->subCamId != SUB_CAM_ID_DONE) {
+                            this->subCamId = SUB_CAM_ID_DONE;
                             reaction = DNT_SIGNAL_LOOK;
-                            OnePointCutscene_Init(globalCtx, 2340, -99, &this->leader->actor, MAIN_CAM);
+                            OnePointCutscene_Init(globalCtx, 2340, -99, &this->leader->actor, CAM_ID_MAIN);
                         }
                         break;
                     }
@@ -198,7 +196,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                             // "This is dangerous!"
                             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
-                            osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
+                            osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ ヤバいよこれ！ ☆☆☆☆☆ \n" VT_RST);
                             maskIdx = Rand_ZeroFloat(7.99f);
                         }
@@ -208,17 +206,17 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         this->action = sResultValues[resultIdx][1];
                         switch (this->action) {
                             case DNT_ACTION_LOW_RUPEES:
-                                Audio_QueueSeqCmd(NA_BGM_COURTYARD);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_COURTYARD);
                                 break;
                             case DNT_ACTION_ATTACK:
-                                if (this->subCamera != SUBCAM_FREE) {
-                                    this->subCamera = SUBCAM_FREE;
-                                    OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, MAIN_CAM);
+                                if (this->subCamId != SUB_CAM_ID_DONE) {
+                                    this->subCamId = SUB_CAM_ID_DONE;
+                                    OnePointCutscene_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, CAM_ID_MAIN);
                                 }
-                                Audio_QueueSeqCmd(NA_BGM_ENEMY | 0x800);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_ENEMY | 0x800);
                                 break;
                             case DNT_ACTION_DANCE:
-                                Audio_QueueSeqCmd(NA_BGM_SHOP);
+                                Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_SHOP);
                                 break;
                         }
                         osSyncPrintf("\n\n");
@@ -232,7 +230,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         // "What kind of evaluation?"
                         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ どういう評価？  ☆☆☆☆☆☆ %d\n" VT_RST, reaction);
                         // "What kind of action?"
-                        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
+                        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ どういうアクション？  ☆☆☆ %d\n" VT_RST, this->action);
                         osSyncPrintf("\n\n");
                         break;
                     }
@@ -315,7 +313,7 @@ void EnDntDemo_Prize(EnDntDemo* this, GlobalContext* globalCtx) {
 
 void EnDntDemo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnDntDemo* this = THIS;
+    EnDntDemo* this = (EnDntDemo*)thisx;
 
     if (this->unkTimer2 != 0) {
         this->unkTimer2--;

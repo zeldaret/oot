@@ -2,9 +2,7 @@
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnAObj*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -87,7 +85,7 @@ void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
 void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad;
-    EnAObj* this = THIS;
+    EnAObj* this = (EnAObj*)thisx;
     f32 shadowScale = 6.0f;
 
     this->textId = (thisx->params >> 8) & 0xFF;
@@ -141,9 +139,9 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnAObj_SetupBlockRot(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:
-            // clang-format off
-            thisx->flags |= 0x1; this->dyna.bgId = 5; this->focusYoffset = 10.0f;
-            // clang-format on
+            this->focusYoffset = 10.0f;
+            thisx->flags |= ACTOR_FLAG_0;
+            this->dyna.bgId = 5;
             thisx->gravity = -2.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
             break;
@@ -155,9 +153,8 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
             thisx->textId = (this->textId & 0xFF) | 0x300;
-            // clang-format off
-            thisx->flags |= 0x1 | 0x8; thisx->targetArrowOffset = 500.0f;
-            // clang-format on
+            thisx->targetArrowOffset = 500.0f;
+            thisx->flags |= ACTOR_FLAG_0 | ACTOR_FLAG_3;
             this->focusYoffset = 45.0f;
             EnAObj_SetupWaitTalk(this, thisx->params);
             Collider_InitCylinder(globalCtx, &this->collider);
@@ -186,7 +183,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnAObj* this = THIS;
+    EnAObj* this = (EnAObj*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
@@ -199,7 +196,7 @@ void EnAObj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAObj_WaitFinishedTalking(EnAObj* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->dyna.actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->dyna.actor, globalCtx)) {
         EnAObj_SetupWaitTalk(this, this->dyna.actor.params);
     }
 }
@@ -215,7 +212,7 @@ void EnAObj_WaitTalk(EnAObj* this, GlobalContext* globalCtx) {
         relYawTowardsPlayer = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
         if (ABS(relYawTowardsPlayer) < 0x2800 ||
             (this->dyna.actor.params == A_OBJ_SIGNPOST_ARROW && ABS(relYawTowardsPlayer) > 0x5800)) {
-            if (func_8002F194(&this->dyna.actor, globalCtx)) {
+            if (Actor_ProcessTalkRequest(&this->dyna.actor, globalCtx)) {
                 EnAObj_SetupAction(this, EnAObj_WaitFinishedTalking);
             } else {
                 func_8002F2F4(&this->dyna.actor, globalCtx);
@@ -280,18 +277,18 @@ void EnAObj_BoulderFragment(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x >> 1;
     this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z >> 1;
 
-    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & 0x8) {
+    if (this->dyna.actor.speedXZ != 0.0f && this->dyna.actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         this->dyna.actor.world.rot.y =
             this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y + this->dyna.actor.wallYaw - 0x8000;
         if (1) {}
-        this->dyna.actor.bgCheckFlags &= ~0x8;
+        this->dyna.actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
     }
 
-    if (this->dyna.actor.bgCheckFlags & 0x2) {
+    if (this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH) {
         if (this->dyna.actor.velocity.y < -8.0f) {
             this->dyna.actor.velocity.y *= -0.6f;
             this->dyna.actor.speedXZ *= 0.6f;
-            this->dyna.actor.bgCheckFlags &= ~0x3;
+            this->dyna.actor.bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
         } else {
             Actor_Kill(&this->dyna.actor);
         }
@@ -320,16 +317,20 @@ void EnAObj_Block(EnAObj* this, GlobalContext* globalCtx) {
 }
 
 void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnAObj* this = THIS;
+    EnAObj* this = (EnAObj*)thisx;
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);
 
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_BOULDER_FRAGMENT) {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         } else {
-            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f,
+                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                        UPDBGCHECKINFO_FLAG_4);
         }
     }
 

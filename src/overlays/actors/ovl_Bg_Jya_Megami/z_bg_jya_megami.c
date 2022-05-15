@@ -1,10 +1,14 @@
+/*
+ * File: z_bg_jya_megami.c
+ * Overlay: ovl_Bg_Jya_Megami
+ * Description: Face of Spirit Temple Goddess Statue
+ */
+
 #include "z_bg_jya_megami.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgJyaMegami*)thisx)
+#define FLAGS 0
 
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -153,7 +157,7 @@ void BgJyaMegami_SetupSpawnEffect(BgJyaMegami* this, GlobalContext* globalCtx, f
 }
 
 void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     BgJyaMegami_InitDynaPoly(this, globalCtx, &GMegamiCol, DPM_UNK);
     BgJyaMegami_InitCollider(this, globalCtx);
@@ -167,7 +171,7 @@ void BgJyaMegami_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->collider);
@@ -193,8 +197,8 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
     if (this->lightTimer > 40) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         BgJyaMegami_SetupExplode(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
-        OnePointCutscene_Init(globalCtx, 3440, -99, &this->dyna.actor, MAIN_CAM);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
+        OnePointCutscene_Init(globalCtx, 3440, -99, &this->dyna.actor, CAM_ID_MAIN);
     } else {
         if (this->lightTimer < 8) {
             this->crumbleIndex = 0;
@@ -232,7 +236,7 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
 
     this->explosionTimer++;
     if (this->explosionTimer == 30) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
+        SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_BREAKDOWN);
     }
 
     for (i = 0; i < ARRAY_COUNT(this->pieces); i++) {
@@ -282,19 +286,19 @@ void BgJyaMegami_Explode(BgJyaMegami* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 static void* sRightSideCrumbles[] = {
-    gMeagmiRightCrumble1Tex, gMeagmiRightCrumble2Tex, gMeagmiRightCrumble3Tex,
-    gMeagmiRightCrumble4Tex, gMeagmiRightCrumble5Tex,
+    gMegamiRightCrumble1Tex, gMegamiRightCrumble2Tex, gMegamiRightCrumble3Tex,
+    gMegamiRightCrumble4Tex, gMegamiRightCrumble5Tex,
 };
 
 static void* sLeftSideCrumbles[] = {
-    gMeagmiLeftCrumble1Tex, gMeagmiLeftCrumble2Tex, gMeagmiLeftCrumble3Tex,
-    gMeagmiLeftCrumble4Tex, gMeagmiLeftCrumble5Tex,
+    gMegamiLeftCrumble1Tex, gMegamiLeftCrumble2Tex, gMegamiLeftCrumble3Tex,
+    gMegamiLeftCrumble4Tex, gMegamiLeftCrumble5Tex,
 };
 
 void BgJyaMegami_DrawFace(BgJyaMegami* this, GlobalContext* globalCtx) {
@@ -329,8 +333,8 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
         piece = &this->pieces[i];
         Matrix_Translate(piece->pos.x + sPiecesInit[i].unk_00.x, piece->pos.y + sPiecesInit[i].unk_00.y,
                          piece->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
-        Matrix_RotateY(piece->rotVelY * (M_PI / 0x8000), MTXMODE_APPLY);
-        Matrix_RotateX(piece->rotVelX * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(piece->rotVelY), MTXMODE_APPLY);
+        Matrix_RotateX(BINANG_TO_RAD(piece->rotVelX), MTXMODE_APPLY);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         Matrix_Translate(sPiecesInit[i].unk_00.x * -10.0f, sPiecesInit[i].unk_00.y * -10.0f,
                          sPiecesInit[i].unk_00.z * -10.0f, MTXMODE_APPLY);
@@ -344,7 +348,7 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaMegami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaMegami* this = THIS;
+    BgJyaMegami* this = (BgJyaMegami*)thisx;
 
     Collider_UpdateSpheres(0, &this->collider);
     if (this->actionFunc == BgJyaMegami_Explode) {

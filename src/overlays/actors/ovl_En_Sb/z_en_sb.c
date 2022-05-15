@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_sb/object_sb.h"
 
-#define FLAGS 0x00000005
-
-#define THIS ((EnSb*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)
 
 void EnSb_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -87,7 +85,7 @@ static DamageTable sDamageTable[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_S8(naviEnemyId, 0x27, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, NAVI_ENEMY_SHELL_BLADE, ICHAIN_CONTINUE),
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
@@ -108,7 +106,7 @@ typedef enum {
 } ShellbladeBehavior;
 
 void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = sDamageTable;
@@ -129,7 +127,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -275,11 +273,11 @@ void EnSb_TurnAround(EnSb* this, GlobalContext* globalCtx) {
 
 void EnSb_Lunge(EnSb* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.2f);
-    if ((this->actor.velocity.y <= -0.1f) || ((this->actor.bgCheckFlags & 2))) {
+    if ((this->actor.velocity.y <= -0.1f) || (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND_TOUCH)) {
         if (!(this->actor.yDistToWater > 0.0f)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         }
-        this->actor.bgCheckFlags = this->actor.bgCheckFlags & ~2;
+        this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
         EnSb_SetupBounce(this);
     }
 }
@@ -308,8 +306,8 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
             }
             EnSb_SpawnBubbles(globalCtx, this);
             EnSb_SetupLunge(this);
-        } else if (this->actor.bgCheckFlags & 1) {
-            this->actor.bgCheckFlags &= ~2;
+        } else if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND_TOUCH;
             this->actor.speedXZ = 0.0f;
             this->timer = 1;
             EnSb_SetupWaitClosed(this);
@@ -321,13 +319,13 @@ void EnSb_Bounce(EnSb* this, GlobalContext* globalCtx) {
 void EnSb_Cooldown(EnSb* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
-        if (this->actor.bgCheckFlags & 1) {
-            this->actor.bgCheckFlags &= ~1;
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             this->actor.speedXZ = 0.0f;
         }
     } else {
-        if (this->actor.bgCheckFlags & 1) {
-            this->actor.bgCheckFlags &= ~1;
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
             this->actionFunc = EnSb_WaitClosed;
             this->actor.speedXZ = 0.0f;
         }
@@ -373,13 +371,13 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
     u8 hitByWindArrow;
 
     // hit box collided, switch to cool down
-    if ((this->collider.base.atFlags & AT_HIT)) {
+    if (this->collider.base.atFlags & AT_HIT) {
         EnSb_SetupCooldown(this, 1);
         return 1;
     }
 
     // hurt box collided, take damage if appropriate
-    if ((this->collider.base.acFlags & AC_HIT)) {
+    if (this->collider.base.acFlags & AC_HIT) {
         hitByWindArrow = false;
         tookDamage = false;
         this->collider.base.acFlags &= ~AC_HIT;
@@ -425,7 +423,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             BodyBreak_Alloc(&this->bodyBreak, 8, globalCtx);
             this->isDead = true;
             Enemy_StartFinishingBlow(globalCtx, &this->actor);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->actor.world.pos, 40, NA_SE_EN_SHELL_DEAD);
             return 1;
         }
 
@@ -442,7 +440,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
 }
 
 void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
     s32 pad;
 
     if (this->isDead) {
@@ -455,7 +453,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (!this->hitByWindArrow) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x80);
             } else {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, 8);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_ARROWS_SMALL);
             }
             Actor_Kill(&this->actor);
         }
@@ -464,7 +462,8 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 0.006f);
         Actor_MoveForward(&this->actor);
         this->actionFunc(this, globalCtx);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         EnSb_UpdateDamage(this, globalCtx);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -475,13 +474,13 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
 
     BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_DEFAULT);
 }
 
 void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnSb* this = THIS;
+    EnSb* this = (EnSb*)thisx;
     Vec3f flamePos;
     Vec3f* offset;
     s16 fireDecr;

@@ -8,9 +8,7 @@
 #include "objects/object_spot04_objects/object_spot04_objects.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgTreemouth*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -62,7 +60,7 @@ void BgTreemouth_SetupAction(BgTreemouth* this, BgTreemouthActionFunc actionFunc
 
 void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -86,7 +84,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -94,13 +92,14 @@ void BgTreemouth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808BC65C(BgTreemouth* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
-    if ((globalCtx->csCtx.state != CS_STATE_IDLE)) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         npcAction = globalCtx->csCtx.npcActions[0];
         if (npcAction != NULL) {
             if (npcAction->action == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (npcAction->action == 3) {
-                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }
@@ -140,20 +139,20 @@ void func_808BC864(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
-    if ((!(Flags_GetEventChkInf(5))) || LINK_IS_ADULT) {
+    if (!Flags_GetEventChkInf(EVENTCHKINF_05) || LINK_IS_ADULT) {
         if (!LINK_IS_ADULT) {
-            if (Flags_GetEventChkInf(0xC)) {
+            if (Flags_GetEventChkInf(EVENTCHKINF_0C)) {
                 if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x7530)) {
-                    this->dyna.actor.flags |= 1;
+                    this->dyna.actor.flags |= ACTOR_FLAG_0;
                     if (this->dyna.actor.isTargeted) {
-                        this->dyna.actor.flags &= ~1;
+                        this->dyna.actor.flags &= ~ACTOR_FLAG_0;
                         globalCtx->csCtx.segment = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
                         BgTreemouth_SetupAction(this, func_808BC9EC);
                     }
                 }
             } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 1658.0f, 0x4E20)) {
-                Flags_SetEventChkInf(0xC);
+                Flags_SetEventChkInf(EVENTCHKINF_0C);
                 globalCtx->csCtx.segment = D_808BCE20;
                 gSaveContext.cutsceneTrigger = 1;
                 BgTreemouth_SetupAction(this, func_808BC9EC);
@@ -185,7 +184,7 @@ void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
 
         if (globalCtx->msgCtx.choiceIndex == 0) {
             globalCtx->csCtx.segment = D_808BD520;
-            Flags_SetEventChkInf(5);
+            Flags_SetEventChkInf(EVENTCHKINF_05);
             BgTreemouth_SetupAction(this, func_808BCAF0);
         } else {
             globalCtx->csCtx.segment = D_808BD790;
@@ -204,7 +203,8 @@ void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx) {
             if (npcAction->action == 2) {
                 BgTreemouth_SetupAction(this, func_808BC80C);
             } else if (npcAction->action == 3) {
-                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_WOODDOOR_OPEN, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 BgTreemouth_SetupAction(this, func_808BC6F8);
             }
         }
@@ -215,7 +215,7 @@ void BgTreemouth_DoNothing(BgTreemouth* this, GlobalContext* globalCtx) {
 }
 
 void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgTreemouth* this = THIS;
+    BgTreemouth* this = (BgTreemouth*)thisx;
     f32 unk_168;
 
     this->actionFunc(this, globalCtx);
@@ -234,7 +234,7 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if ((gSaveContext.sceneSetupIndex < 4) || LINK_IS_ADULT) {
-        if (gSaveContext.eventChkInf[0] & 0x80) {
+        if (GET_EVENTCHKINF(EVENTCHKINF_07)) {
             alpha = 2150;
         }
     } else { // neeeded to match
@@ -247,7 +247,7 @@ void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 128, 128, 128, alpha * 0.1f);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 932),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &gDekuTreeMouthDL);
+    gSPDisplayList(POLY_OPA_DISP++, gDekuTreeMouthDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_treemouth.c", 937);
 }

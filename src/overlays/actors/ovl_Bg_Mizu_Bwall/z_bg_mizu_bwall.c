@@ -8,9 +8,7 @@
 #include "overlays/actors/ovl_Bg_Mizu_Water/z_bg_mizu_water.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgMizuBwall*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -158,7 +156,7 @@ static CollisionHeader* sColHeaders[] = {
     &gObjectMizuObjectsBwallCol_001DE8, &gObjectMizuObjectsBwallCol_001DE8,
 };
 
-static InitChainEntry D_8089D854[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
@@ -173,10 +171,10 @@ void BgMizuBwall_RotateVec3f(Vec3f* out, Vec3f* in, f32 sin, f32 cos) {
 
 void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_8089D854);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->yRot = this->dyna.actor.world.pos.y;
     this->dList = sDLists[(u16)this->dyna.actor.params & 0xF];
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
@@ -374,7 +372,7 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
@@ -476,7 +474,8 @@ void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx) {
         this->dList = NULL;
         BgMizuBwall_SpawnDebris(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
-        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->actionFunc = BgMizuBwall_Break;
     } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -496,13 +495,13 @@ void BgMizuBwall_DoNothing(BgMizuBwall* this, GlobalContext* globalCtx) {
 
 void BgMizuBwall_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMizuBwall_Draw(Actor* thisx, GlobalContext* globalCtx2) {
-    BgMizuBwall* this = THIS;
+    BgMizuBwall* this = (BgMizuBwall*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     u32 frames;
 

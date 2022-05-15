@@ -65,12 +65,14 @@ typedef struct EnClearTag {
     /* 0x0188 */ Vec3f floorTangent;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ u8 cutsceneMode;
-    /* 0x01E2 */ s16 cameraId;
-    /* 0x01E4 */ Vec3f cutsceneCameraAt;
-    /* 0x01F0 */ Vec3f cutsceneCameraEye;
+    /* 0x01E2 */ s16 subCamId;
+    /* 0x01E4 */ Vec3f subCamEye;
+    /* 0x01F0 */ Vec3f subCamAt;
     /* 0x01FC */ s16 cutsceneTimer;
     /* 0x01FE */ char unk_1FE[0x06];
 } EnClearTag; // size = 0x0204
+
+#define CLEAR_TAG_EFFECT_COUNT 100
 
 typedef struct EnClearTagEffect {
     /* 0x0000 */ u8 type;
@@ -89,7 +91,5 @@ typedef struct EnClearTagEffect {
     /* 0x005C */ f32 floorHeight;
     /* 0x0060 */ Vec3f floorTangent;
 } EnClearTagEffect; // size = 0x6C
-
-#define CLEAR_TAG_EFFECT_MAX_COUNT 100
 
 #endif

@@ -7,9 +7,7 @@
 #include "z_bg_sst_floor.h"
 #include "objects/object_sst/object_sst.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgSstFloor*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgSstFloor_Init(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);
@@ -36,7 +34,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -47,14 +45,14 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
 
 void BgSstFloor_Destroy(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&gBongoDrumCol);
 
@@ -63,9 +61,9 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     if (1) {}
 
     if (func_80043590(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BOSS_BONGO);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BOSS_BONGO);
     } else {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
 
     if (func_8004356C(&this->dyna) && (player->fallDistance > 1000.0f)) {
@@ -82,13 +80,13 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.params = BONGOFLOOR_REST;
         this->drumPhase = 28;
 
-        if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
+        if (func_8004356C(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
             distFromRim = 600.0f - this->dyna.actor.xzDistToPlayer;
             if (distFromRim > 0.0f) {
                 if (distFromRim > 350.0f) {
                     distFromRim = 350.0f;
                 }
-                player->actor.bgCheckFlags &= ~1;
+                player->actor.bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 player->actor.velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
             }
         }
@@ -101,7 +99,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
                     if (distFromRim > 350.0f) {
                         distFromRim = 350.0f;
                     }
-                    item00->bgCheckFlags &= ~3;
+                    item00->bgCheckFlags &= ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH);
                     item00->velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
                 }
             }
@@ -123,7 +121,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSstFloor_Draw(BgSstFloor* thisx, GlobalContext* globalCtx) {
-    BgSstFloor* this = THIS;
+    BgSstFloor* this = (BgSstFloor*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 277);
     func_80093D18(globalCtx->state.gfxCtx);

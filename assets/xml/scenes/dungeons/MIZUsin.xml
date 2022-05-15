@@ -1,5 +1,6 @@
 <Root>
     <File Name="MIZUsin_scene" Segment="2">
+        <Path Name="MIZUsin_scenePathList_000384" Offset="0x0384" NumPaths="2"/>
         <Texture Name="gWaterTempleDayEntranceTex" OutName="day_entrance" Format="ia16" Width="8" Height="64" Offset="0x14C30"/>
         <Texture Name="gWaterTempleNightEntranceTex" OutName="night_entrance" Format="ia16" Width="8" Height="64" Offset="0x15830"/>
         <Scene Name="MIZUsin_scene" Offset="0x0"/>

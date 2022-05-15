@@ -106,7 +106,7 @@ void AudioHeap_DiscardSequence(s32 seqId) {
 }
 
 void AudioHeap_WritebackDCache(void* mem, u32 size) {
-    Audio_osWritebackDCache(mem, size);
+    Audio_WritebackDCache(mem, size);
 }
 
 void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size) {
@@ -802,7 +802,7 @@ void AudioHeap_Init(void) {
     s32 temporaryMem;
     s32 totalMem;
     s32 wantMisc;
-    u32 intMask;
+    OSIntMask intMask;
     s32 i;
     s32 j;
     s32 pad2;
@@ -989,7 +989,7 @@ void AudioHeap_Init(void) {
     AudioLoad_InitAsyncLoads();
     gAudioContext.unk_4 = 0x1000;
     AudioLoad_LoadPermanentSamples();
-    intMask = osSetIntMask(1);
+    intMask = osSetIntMask(OS_IM_NONE);
     osWritebackDCacheAll();
     osSetIntMask(intMask);
 }
@@ -1019,9 +1019,12 @@ void* AudioHeap_AllocPermanent(s32 tableType, s32 id, u32 size) {
     gAudioContext.permanentCache[index].tableType = tableType;
     gAudioContext.permanentCache[index].id = id;
     gAudioContext.permanentCache[index].size = size;
+
     //! @bug UB: missing return. "ret" is in v0 at this point, but doing an
-    // explicit return uses an additional register.
-    // return ret;
+    //! explicit return uses an additional register.
+#ifdef AVOID_UB
+    return ret;
+#endif
 }
 
 void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medium, s32 cache) {
@@ -1276,6 +1279,7 @@ void AudioHeap_ChangeStorage(StorageChange* change, SoundFontSample* sample) {
     if (sample != NULL) {
         u32 start = change->oldAddr;
         u32 end = change->oldAddr + change->size;
+
         if (start <= (u32)sample->sampleAddr && (u32)sample->sampleAddr < end) {
             sample->sampleAddr = sample->sampleAddr - start + change->newAddr;
             sample->medium = change->newMedium;

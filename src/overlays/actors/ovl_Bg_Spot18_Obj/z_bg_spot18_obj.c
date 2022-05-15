@@ -8,9 +8,7 @@
 #include "z_bg_spot18_obj.h"
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgSpot18Obj*)thisx)
+#define FLAGS 0
 
 void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -182,7 +180,7 @@ s32 func_808B8CC8(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     osSyncPrintf("Spot18 Object [arg_data : 0x%04x]\n", this->dyna.actor.params);
     if (!func_808B8B38(this, globalCtx)) {
@@ -193,7 +191,7 @@ void BgSpot18Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -206,7 +204,8 @@ void func_808B8DD0(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void func_808B8DDC(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
 }
 
 void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {
@@ -214,7 +213,7 @@ void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {
 
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
     }
 }
 
@@ -252,12 +251,12 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     func_808B8DDC(this, globalCtx);
 
     if (Math3D_Dist2DSq(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.x,
-                        this->dyna.actor.home.pos.z) >= 6400.0f) {
+                        this->dyna.actor.home.pos.z) >= SQ(80.0f)) {
         func_808B9030(this);
         this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
         this->dyna.unk_150 = 0.0f;
-        player->stateFlags2 &= ~0x10;
+        player->stateFlags2 &= ~PLAYER_STATE2_4;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
@@ -275,7 +274,7 @@ void func_808B9040(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Obj_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Obj* this = THIS;
+    BgSpot18Obj* this = (BgSpot18Obj*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168 -= 1;

@@ -11,9 +11,7 @@
 
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((DemoSa*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -100,7 +98,7 @@ const ActorInit Demo_Sa_InitVars = {
 };
 
 void DemoSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
@@ -153,10 +151,11 @@ void func_8098E554(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void func_8098E5C8(DemoSa* this, GlobalContext* globalCtx) {
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
-s32 DemoSa_FrameUpdateMatrix(DemoSa* this) {
+s32 DemoSa_UpdateSkelAnime(DemoSa* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -196,7 +195,7 @@ void func_8098E6EC(DemoSa* this, GlobalContext* globalCtx, s32 actionIdx) {
     }
 }
 
-void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 transitionRate, s32 arg4) {
+void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 morphFrames, s32 arg4) {
     s32 pad[2];
     f32 frameCount = Animation_GetLastFrame(animHeaderSeg);
     f32 playbackSpeed;
@@ -213,7 +212,7 @@ void func_8098E76C(DemoSa* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 tr
         playbackSpeed = -1.0f;
     }
 
-    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, unk0, fc, arg2, transitionRate);
+    Animation_Change(&this->skelAnime, animHeaderSeg, playbackSpeed, unk0, fc, arg2, morphFrames);
 }
 
 void func_8098E7FC(DemoSa* this, GlobalContext* globalCtx) {
@@ -325,30 +324,30 @@ void func_8098EBD8(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098EBF8(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E944(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EA3C(this);
 }
 
 void func_8098EC28(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EA68(this, globalCtx);
 }
 
 void func_8098EC60(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    func_8098EB00(this, DemoSa_FrameUpdateMatrix(this));
+    func_8098EB00(this, DemoSa_UpdateSkelAnime(this));
 }
 
 void func_8098EC94(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EB6C(this, globalCtx);
 }
 
 void func_8098ECCC(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
 }
 
 void func_8098ECF4(DemoSa* this, GlobalContext* globalCtx) {
@@ -442,7 +441,7 @@ void func_8098F0E8(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F118(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098EEFC(this, globalCtx);
     func_8098E554(this, globalCtx);
@@ -450,7 +449,7 @@ void func_8098F118(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F16C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098EDB0(this);
     func_8098F050(this, globalCtx);
     func_8098E554(this, globalCtx);
@@ -489,7 +488,7 @@ void func_8098F390(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F3F0(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
 }
 
@@ -578,7 +577,7 @@ void func_8098F714(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F734(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F480(this);
     func_8098F544(this);
@@ -586,14 +585,14 @@ void func_8098F734(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098F77C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F654(this, globalCtx);
 }
 
 void func_8098F7BC(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F654(this, globalCtx);
 }
@@ -602,7 +601,7 @@ void func_8098F7FC(DemoSa* this, GlobalContext* globalCtx) {
     s32 sp1C;
 
     func_8098E5C8(this, globalCtx);
-    sp1C = DemoSa_FrameUpdateMatrix(this);
+    sp1C = DemoSa_UpdateSkelAnime(this);
     func_8098E480(this);
     func_8098F610(this, sp1C);
 }
@@ -726,31 +725,31 @@ void func_8098FC44(DemoSa* this, GlobalContext* globalCtx) {
 
 void func_8098FC64(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098F8F8(this);
     func_8098FA2C(this);
 }
 
 void func_8098FC9C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098FB68(this, globalCtx);
 }
 
 void func_8098FCD4(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    DemoSa_FrameUpdateMatrix(this);
+    DemoSa_UpdateSkelAnime(this);
     func_8098FB68(this, globalCtx);
 }
 
 void func_8098FD0C(DemoSa* this, GlobalContext* globalCtx) {
     func_8098E5C8(this, globalCtx);
-    func_8098FB34(this, DemoSa_FrameUpdateMatrix(this));
+    func_8098FB34(this, DemoSa_UpdateSkelAnime(this));
     func_8098FB68(this, globalCtx);
 }
 
 void DemoSa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     if (this->action < 0 || this->action >= 21 || sActionFuncs[this->action] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
@@ -760,7 +759,7 @@ void DemoSa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
 
@@ -783,7 +782,7 @@ void DemoSa_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     if ((limbIndex == 15) && (this->unk_1B0 != 0)) {
         *dList = gSariaRightHandAndOcarinaDL;
@@ -820,7 +819,7 @@ void DemoSa_DrawOpa(DemoSa* this, GlobalContext* globalCtx) {
 }
 
 void DemoSa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoSa* this = THIS;
+    DemoSa* this = (DemoSa*)thisx;
 
     if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);

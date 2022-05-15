@@ -9,7 +9,7 @@
         <Skeleton Name="gBarinadeStumpSkel" Type="Flex" LimbType="Standard" Offset="0x18870"/>
         <Skeleton Name="gBarinadeBariSkel" Type="Normal" LimbType="Standard" Offset="0x4E70"/>
         <Skeleton Name="gBarinadeCutSupportSkel" Type="Flex" LimbType="Standard" Offset="0x17FC8"/>
-        
+
         <Animation Name="gBarinadeBodyAnim" Offset="0x5184"/> <!-- Body anim 1-->
         <Animation Name="gBarinadeSupportAttachedAnim" Offset="0x166A8"/> <!-- Support anim 1 -->
         <Animation Name="gBarinadeZapperIdleAnim" Offset="0x18D18"/> <!-- Zapper anim 1 -->
@@ -48,7 +48,7 @@
         <!-- small spark -->
         <DList Name="gBarinadeDL_008F08" Offset="0x8F08"/>
         <DList Name="gBarinadeDL_008F70" Offset="0x8F70"/>
-        
+
         <Texture Name="gBarinadeSparkBall1Tex" Format="i8" Width="64" Height="64" Offset="0x96F8"/>
         <Texture Name="gBarinadeSparkBall2Tex" Format="i8" Width="64" Height="64" Offset="0xA6F8"/>
         <Texture Name="gBarinadeSparkBall3Tex" Format="i8" Width="64" Height="64" Offset="0xB6F8"/>

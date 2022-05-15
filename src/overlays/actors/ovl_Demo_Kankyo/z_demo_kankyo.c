@@ -4,9 +4,7 @@
 #include "objects/object_efc_star_field/object_efc_star_field.h"
 #include "objects/object_toki_objects/object_toki_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((DemoKankyo*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -181,7 +179,7 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 }
 
 void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
     s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjIds[this->actor.params]);
 
@@ -234,7 +232,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DEMOKANKYO_DOOR_OF_TIME:
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             this->unk_150[0].unk_18 = 0.0f;
-            if (!(gSaveContext.eventChkInf[4] & 0x800)) {
+            if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_TOKI,
                                    this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                    0x0000);
@@ -250,13 +248,14 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
         case DEMOKANKYO_WARP_OUT:
         case DEMOKANKYO_WARP_IN:
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
-            this->actor.flags |= 0x2000000;
+            this->actor.flags |= ACTOR_FLAG_25;
             this->actor.room = -1;
             this->warpTimer = 35;
             this->sparkleCounter = 0;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 1.0f;
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                Audio_PlaySoundGeneral(NA_SE_EV_SARIA_MELODY, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_EV_SARIA_MELODY, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             }
             break;
         case DEMOKANKYO_SPARKLES:
@@ -412,7 +411,7 @@ void DemoKankyo_UpdateDoorOfTime(DemoKankyo* this, GlobalContext* globalCtx) {
     this->unk_150[0].unk_18 += 1.0f;
     if (this->unk_150[0].unk_18 >= 102.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_STONEDOOR_STOP);
-        gSaveContext.eventChkInf[4] |= 0x800;
+        SET_EVENTCHKINF(EVENTCHKINF_4B);
         Actor_Kill(this->actor.child);
         DemoKankyo_SetupAction(this, DemoKankyo_KillDoorOfTimeCollision);
     }
@@ -423,12 +422,12 @@ void DemoKankyo_KillDoorOfTimeCollision(DemoKankyo* this, GlobalContext* globalC
 }
 
 void DemoKankyo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     this->actionFunc(this, globalCtx);
 }
 
 void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
 
     if (this->actor.objBankIndex == this->objBankIndex) {
         switch (this->actor.params) {
@@ -485,7 +484,7 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 // transform relating to blue rain
 void func_80989B54(Actor* thisx, GlobalContext* globalCtx, s16 i) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
 
     switch (globalCtx->sceneNum) {
         case SCENE_HIRAL_DEMO:
@@ -511,7 +510,7 @@ void func_80989B54(Actor* thisx, GlobalContext* globalCtx, s16 i) {
 }
 
 void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     f32 temp_f12_2;
     s16 i;
     f32 dx;
@@ -528,9 +527,9 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
     for (i = 0; i < 30; i++) {
         s32 pad[2];
 
-        dx = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-        dy = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-        dz = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        dx = globalCtx->view.at.x - globalCtx->view.eye.x;
+        dy = globalCtx->view.at.y - globalCtx->view.eye.y;
+        dz = globalCtx->view.at.z - globalCtx->view.eye.z;
         norm = sqrtf(SQ(dx) + SQ(dy) + SQ(dz));
 
         if (globalCtx->sceneNum != SCENE_TOKINOMA) {
@@ -542,7 +541,7 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
         switch (this->unk_150[i].unk_22) {
             case 0:
                 func_80989B54(thisx, globalCtx, i);
-                if (gSaveContext.entranceIndex == 0x00A0) { // Cutscene Map
+                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * 500.0f;
                 } else {
                     this->unk_150[i].unk_0.y = Rand_ZeroOne() * -500.0f;
@@ -551,16 +550,16 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
                 break;
             case 1:
                 temp_f12_2 = globalCtx->view.eye.y + (dy / norm) * 150.0f;
-                if (gSaveContext.entranceIndex == 0x00A0) { // Cutscene Map
+                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     this->unk_150[i].unk_0.y -= this->unk_150[i].unk_18;
                 } else {
                     this->unk_150[i].unk_0.y += this->unk_150[i].unk_18;
                 }
-                if (gSaveContext.entranceIndex == 0x00A0) { // Cutscene Map
+                if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
                     if (this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y < temp_f12_2 - 300.0f) {
                         this->unk_150[i].unk_22++;
                     }
-                } else if (gSaveContext.entranceIndex == 0x00CD) { // Hyrule Field
+                } else if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
                     if (temp_f12_2 + 300.0f < this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y) {
                         this->unk_150[i].unk_22++;
                     }
@@ -579,12 +578,14 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(this->unk_150[i].unk_C.x + this->unk_150[i].unk_0.x,
                          this->unk_150[i].unk_C.y + this->unk_150[i].unk_0.y,
                          this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z, MTXMODE_NEW);
-        if (gSaveContext.entranceIndex != 0x00A0) { // Cutscene Map
+
+        if (gSaveContext.entranceIndex != ENTR_HIRAL_DEMO_0) {
             Matrix_RotateX(M_PI, MTXMODE_APPLY);
         }
 
         gDPPipeSync(POLY_XLU_DISP++);
-        if (gSaveContext.entranceIndex == 0x00CD) { // Hyrule Field
+
+        if (gSaveContext.entranceIndex == ENTR_SPOT00_0) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 255);
         } else {
@@ -630,7 +631,7 @@ void DemoKankyo_DrawRain(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawRock(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1376);
@@ -651,7 +652,7 @@ void DemoKankyo_DrawRock(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
     s32 pad;
     f32 dx;
@@ -688,7 +689,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawDoorOfTime(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1487);
@@ -707,7 +708,7 @@ void DemoKankyo_DrawDoorOfTime(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DemoKankyo_DrawLightPlane(Actor* thisx, GlobalContext* globalCtx) {
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1514);
@@ -763,7 +764,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
 
     s16 i;
     f32 temp_f22;
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     Gfx* disp;
     Player* player = GET_PLAYER(globalCtx);
     Vec3f camPos;
@@ -800,8 +801,9 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                         this->unk_150[i].unk_22++;
                     }
                 } else {
-                    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
-                                           &D_801333E8);
+                    Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP_OUT - SFX_FLAG, &gSfxDefaultPos, 4,
+                                           &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
+                                           &gSfxDefaultReverb);
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpInCameraPoints, &this->unk_150[i].unk_20,
                                       &this->unk_150[i].unk_1C) != 0) {
                         this->unk_150[i].unk_22++;
@@ -858,7 +860,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->unk_150[i].unk_22 < 2) {
             disp = (u32)gEffFlash1DL;
-            if (linkAge != 0) {
+            if (linkAge != LINK_AGE_ADULT) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
                 if (translateY) {}
@@ -868,16 +870,17 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                          this->unk_150[i].unk_18 * (0.018f * temp_f22), MTXMODE_APPLY);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 255, 255);
             if (this->actor.params == DEMOKANKYO_WARP_OUT) {
-                gDPSetEnvColor(POLY_XLU_DISP++, sWarpSparkleEnvColors[globalCtx->msgCtx.unk_E3EC].r,
-                               sWarpSparkleEnvColors[globalCtx->msgCtx.unk_E3EC].g,
-                               sWarpSparkleEnvColors[globalCtx->msgCtx.unk_E3EC].b, 255);
+                gDPSetEnvColor(POLY_XLU_DISP++, sWarpSparkleEnvColors[globalCtx->msgCtx.lastPlayedSong].r,
+                               sWarpSparkleEnvColors[globalCtx->msgCtx.lastPlayedSong].g,
+                               sWarpSparkleEnvColors[globalCtx->msgCtx.lastPlayedSong].b, 255);
             } else {
                 s8 respawnData = gSaveContext.respawn[1].data;
+
                 gDPSetEnvColor(POLY_XLU_DISP++, sWarpSparkleEnvColors[respawnData].r,
                                sWarpSparkleEnvColors[respawnData].g, sWarpSparkleEnvColors[respawnData].b, 255);
             }
             func_80093D84(globalCtx->state.gfxCtx);
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this->unk_150[i].unk_24), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 2011),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -898,7 +901,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
     static u32 D_8098CFB4;
     static Vec3f D_8098CFB8;
 
-    DemoKankyo* this = THIS;
+    DemoKankyo* this = (DemoKankyo*)thisx;
     f32 translateX;
     f32 translateY;
     f32 translateZ;
@@ -979,7 +982,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, sSparkleEnvColors[3].r, sSparkleEnvColors[3].g, sSparkleEnvColors[3].b,
                            255);
             func_80093D84(globalCtx->state.gfxCtx);
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(this->unk_150[i].unk_24), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 2572),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -3,9 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"
 
-#define FLAGS 0x00000039
-
-#define THIS ((EnGo*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -31,9 +29,10 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx);
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx);
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx);
 
-void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep);
-void EnGo_UpdateDust(EnGo* this);
-void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx);
+void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
+                          f32 scaleStep);
+void EnGo_UpdateEffects(EnGo* this);
+void EnGo_DrawEffects(EnGo* this, GlobalContext* globalCtx);
 
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
@@ -71,14 +70,14 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-typedef struct {
-    AnimationHeader* animation;
-    f32 playSpeed;
-    u8 mode;
-    f32 morphRate;
+typedef enum {
+    /* 0 */ ENGO_ANIM_0,
+    /* 1 */ ENGO_ANIM_1,
+    /* 2 */ ENGO_ANIM_2,
+    /* 3 */ ENGO_ANIM_3
 } EnGoAnimation;
 
-static EnGoAnimation sAnimationEntries[] = {
+static AnimationSpeedInfo sAnimationInfo[] = {
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &gGoronAnim_004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
     { &gGoronAnim_0029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
@@ -113,20 +112,20 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
             }
         case 0x00:
             if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
-                if (gSaveContext.infTable[16] & 0x8000) {
+                if (GET_INFTABLE(INFTABLE_10F)) {
                     return 0x3042;
                 } else {
                     return 0x3041;
                 }
-            } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1) || (gSaveContext.infTable[16] & 0x2000)) {
-                if (gSaveContext.infTable[16] & 0x4000) {
+            } else if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON) || GET_INFTABLE(INFTABLE_10D)) {
+                if (GET_INFTABLE(INFTABLE_10E)) {
                     return 0x3038;
                 } else {
                     return 0x3037;
                 }
             } else {
-                if (gSaveContext.infTable[16] & 0x200) {
-                    if (gSaveContext.infTable[16] & 0x400) {
+                if (GET_INFTABLE(INFTABLE_109)) {
+                    if (GET_INFTABLE(INFTABLE_10A)) {
                         return 0x3033;
                     } else {
                         return 0x3032;
@@ -144,9 +143,9 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x20:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3021;
-            } else if (gSaveContext.infTable[14] & 0x1) {
+            } else if (GET_INFTABLE(INFTABLE_E0)) {
                 return 0x302A;
             } else {
                 return 0x3008;
@@ -154,7 +153,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x30:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3026;
             } else {
                 return 0x3009;
@@ -162,7 +161,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x40:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.eventChkInf[2] & 0x8) {
+            } else if (GET_EVENTCHKINF(EVENTCHKINF_23)) {
                 return 0x3026;
             } else {
                 return 0x300A;
@@ -170,7 +169,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x50:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.infTable[15] & 1) {
+            } else if (GET_INFTABLE(INFTABLE_F0)) {
                 return 0x3015;
             } else {
                 return 0x3014;
@@ -178,7 +177,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x60:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.infTable[15] & 0x10) {
+            } else if (GET_INFTABLE(INFTABLE_F4)) {
                 return 0x3017;
             } else {
                 return 0x3016;
@@ -186,7 +185,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
         case 0x70:
             if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
                 return 0x3027;
-            } else if (gSaveContext.infTable[15] & 0x100) {
+            } else if (GET_INFTABLE(INFTABLE_F8)) {
                 return 0x3019;
             } else {
                 return 0x3018;
@@ -202,41 +201,41 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
 
     xzRange = thisx->xzDistToPlayer + 1.0f;
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&globalCtx->msgCtx)) {
         if (globalCtx) {}
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (thisx->textId) {
                 case 0x3008:
-                    gSaveContext.infTable[14] |= 1;
+                    SET_INFTABLE(INFTABLE_E0);
                     unkState = 0;
                     break;
                 case 0x300B:
-                    gSaveContext.infTable[14] |= 0x800;
+                    SET_INFTABLE(INFTABLE_EB);
                     unkState = 0;
                     break;
                 case 0x3014:
-                    gSaveContext.infTable[15] |= 1;
+                    SET_INFTABLE(INFTABLE_F0);
                     unkState = 0;
                     break;
                 case 0x3016:
-                    gSaveContext.infTable[15] |= 0x10;
+                    SET_INFTABLE(INFTABLE_F4);
                     unkState = 0;
                     break;
                 case 0x3018:
-                    gSaveContext.infTable[15] |= 0x100;
+                    SET_INFTABLE(INFTABLE_F8);
                     unkState = 0;
                     break;
                 case 0x3036:
                     func_8002F434(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
-                    gSaveContext.infTable[16] |= 0x2000; // EnGo exclusive flag
+                    SET_INFTABLE(INFTABLE_10D); // EnGo exclusive flag
                     unkState = 2;
                     break;
                 case 0x3037:
-                    gSaveContext.infTable[16] |= 0x4000;
+                    SET_INFTABLE(INFTABLE_10E);
                     unkState = 0;
                     break;
                 case 0x3041:
-                    gSaveContext.infTable[16] |= 0x8000;
+                    SET_INFTABLE(INFTABLE_10F);
                     unkState = 0;
                     break;
                 case 0x3059:
@@ -256,12 +255,12 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                     break;
             }
             break;
-        case 4:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_CHOICE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
-                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || (gSaveContext.infTable[14] & 0x800)) {
+                            if (CUR_UPG_VALUE(UPG_STRENGTH) != 0 || GET_INFTABLE(INFTABLE_EB)) {
                                 thisx->textId = 0x300B;
                             } else {
                                 thisx->textId = 0x300C;
@@ -269,22 +268,22 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                         } else {
                             thisx->textId = 0x300D;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3034:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
-                            if (gSaveContext.infTable[16] & 0x800) {
+                            if (GET_INFTABLE(INFTABLE_10B)) {
                                 thisx->textId = 0x3033;
                             } else {
                                 thisx->textId = 0x3035;
                             }
-                        } else if (gSaveContext.infTable[16] & 0x800) {
+                        } else if (GET_INFTABLE(INFTABLE_10B)) {
                             thisx->textId = 0x3036;
                         } else {
                             thisx->textId = 0x3033;
                         }
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3054:
@@ -293,23 +292,23 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                             unkState = 2;
                         } else {
                             thisx->textId = 0x3056;
-                            func_8010B720(globalCtx, thisx->textId);
+                            Message_ContinueTextbox(globalCtx, thisx->textId);
                             unkState = 1;
                         }
-                        gSaveContext.infTable[11] |= 0x10;
+                        SET_INFTABLE(INFTABLE_B4);
                         break;
                 }
             }
             break;
-        case 5:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_EVENT:
+            if (Message_ShouldAdvance(globalCtx)) {
                 switch (thisx->textId) {
                     case 0x3035:
-                        gSaveContext.infTable[16] |= 0x800;
+                        SET_INFTABLE(INFTABLE_10B);
                     case 0x3032:
                     case 0x3033:
                         thisx->textId = 0x3034;
-                        func_8010B720(globalCtx, thisx->textId);
+                        Message_ContinueTextbox(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     default:
@@ -318,16 +317,16 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
                 }
             }
             break;
-        case 6:
-            if (func_80106BC8(globalCtx)) {
+        case TEXT_STATE_DONE:
+            if (Message_ShouldAdvance(globalCtx)) {
                 unkState = 3;
             }
             break;
-        case 0:
-        case 1:
-        case 3:
-        case 7:
-        case 9:
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_9:
             break;
     }
     return unkState;
@@ -338,7 +337,7 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     if (arg2->unk_00) {
         arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
         return false;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         arg2->unk_00 = 1;
         return true;
     } else if (!func_8002F2CC(&this->actor, globalCtx, arg3)) {
@@ -349,11 +348,11 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     }
 }
 
-void EnGo_ChangeAnimation(EnGo* this, s32 animIndex) {
-    Animation_Change(&this->skelAnime, sAnimationEntries[animIndex].animation,
-                     sAnimationEntries[animIndex].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
-                     Animation_GetLastFrame(sAnimationEntries[animIndex].animation), sAnimationEntries[animIndex].mode,
-                     sAnimationEntries[animIndex].morphRate);
+void EnGo_ChangeAnim(EnGo* this, s32 index) {
+    Animation_Change(&this->skelAnime, sAnimationInfo[index].animation,
+                     sAnimationInfo[index].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
+                     Animation_GetLastFrame(sAnimationInfo[index].animation), sAnimationInfo[index].mode,
+                     sAnimationInfo[index].morphFrames);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
@@ -419,23 +418,23 @@ void func_80A3F0E4(EnGo* this) {
 }
 
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
-    f32 xyzDist;
+    f32 xyzDistSq;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
+    Camera* mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
     if (fabsf(yawDiff) > 10920.0f) {
         return 0;
     }
 
-    xyzDist = (this->actor.scale.x / 0.01f) * 10000.0f;
+    xyzDistSq = (this->actor.scale.x / 0.01f) * 10000.0f;
     if ((this->actor.params & 0xF0) == 0x90) {
-        Camera_ChangeSetting(camera, CAM_SET_DIRECTED_YAW);
-        xyzDist *= 4.8f;
+        Camera_ChangeSetting(mainCam, CAM_SET_DIRECTED_YAW);
+        xyzDistSq *= 4.8f;
     }
 
-    if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
-        if (camera->setting == CAM_SET_DIRECTED_YAW) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+    if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDistSq) {
+        if (mainCam->setting == CAM_SET_DIRECTED_YAW) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
         return 0;
     } else {
@@ -478,7 +477,7 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
     zDist = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0x8000 / M_PI)), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, RAD_TO_BINANG(Math_FAtan2F(xDist, zDist)), 10, 1000, 1);
 
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;
@@ -534,7 +533,7 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
         accel.z = (Rand_ZeroOne() - 0.5f) * xzAccel;
         pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
         pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
-        EnGo_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
+        EnGo_SpawnEffectDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
     }
@@ -542,12 +541,12 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
 }
 
 s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
-    if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
+    if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || this->actor.velocity.y > 0.0f) {
         return false;
     } else if (this->unk_1E0.unk_00 != 0) {
         return true;
     } else if (DECR(this->unk_21C)) {
-        if ((this->unk_21C & 1)) {
+        if (this->unk_21C & 1) {
             this->actor.world.pos.y += 1.5f;
         } else {
             this->actor.world.pos.y -= 1.5f;
@@ -596,7 +595,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
                 if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
-                    if (gSaveContext.infTable[11] & 0x10) {
+                    if (GET_INFTABLE(INFTABLE_B4)) {
                         this->actor.textId = 0x3055;
                     } else {
                         this->actor.textId = 0x3054;
@@ -620,7 +619,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     s32 pad;
     Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
@@ -637,11 +636,11 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actor.params & 0xF0) && ((this->actor.params & 0xF0) != 0x90)) {
-        this->actor.flags &= ~0x10;
-        this->actor.flags &= ~0x20;
+        this->actor.flags &= ~ACTOR_FLAG_4;
+        this->actor.flags &= ~ACTOR_FLAG_5;
     }
 
-    EnGo_ChangeAnimation(this, 0);
+    EnGo_ChangeAnim(this, ENGO_ANIM_0);
     this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
     this->actor.gravity = -1.0f;
@@ -649,7 +648,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xF0) {
         case 0x00:
             Actor_SetScale(&this->actor, 0.008f);
-            if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
+            if (CHECK_OWNED_EQUIP(EQUIP_TYPE_TUNIC, EQUIP_INV_TUNIC_GORON)) {
                 EnGo_SetMovedPos(this, globalCtx);
                 EnGo_SetupAction(this, EnGo_CurledUp);
             } else {
@@ -664,7 +663,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnGo_SetupAction(this, EnGo_FireGenericActionFunc);
             break;
         case 0x40:
-            if (gSaveContext.infTable[14] & 0x800) {
+            if (GET_INFTABLE(INFTABLE_EB)) {
                 EnGo_SetMovedPos(this, globalCtx);
             }
             Actor_SetScale(&this->actor, 0.015f);
@@ -693,7 +692,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -752,7 +751,7 @@ void EnGo_GoronLinkRolling(EnGo* this, GlobalContext* globalCtx) {
         (this->unk_218 == 0)) {
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
-        gSaveContext.infTable[16] |= 0x200;
+        SET_INFTABLE(INFTABLE_109);
     }
 
     this->actor.shape.rot = this->actor.world.rot;
@@ -767,15 +766,15 @@ void EnGo_FireGenericActionFunc(EnGo* this, GlobalContext* globalCtx) {
 
 void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
     if ((DECR(this->unk_210) == 0) && EnGo_IsCameraModified(this, globalCtx)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_GOLON_WAKE_UP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 
         this->skelAnime.playSpeed = 0.1f;
         this->skelAnime.playSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
-            OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, CAM_ID_MAIN);
         }
     }
 }
@@ -802,8 +801,8 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
     }
 
     if (DECR(this->unk_212) == 0) {
-        Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         EnGo_SetupAction(this, func_80A405CC);
     } else if (!EnGo_IsCameraModified(this, globalCtx)) {
         EnGo_ReverseAnimation(this);
@@ -821,8 +820,8 @@ void func_80A40494(EnGo* this, GlobalContext* globalCtx) {
     frame += this->skelAnime.playSpeed;
 
     if (!(frame >= 0.0f)) {
-        Audio_PlaySoundGeneral(NA_SE_EN_DODO_M_GND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_DODO_M_GND, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         EnGo_SpawnDust(this, 10, 0.4f, 0.1f, 16, 26.0f, 2.0f);
         EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
@@ -847,7 +846,7 @@ void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
         this->unk_212 = Rand_S16Offset(30, 30);
-        if (((this->actor.params & 0xF0) == 0x40) && ((gSaveContext.infTable[14] & 0x800) == 0)) {
+        if (((this->actor.params & 0xF0) == 0x40) && !GET_INFTABLE(INFTABLE_EB)) {
             EnGo_SetupAction(this, func_80A40B1C);
         } else {
             EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -861,24 +860,24 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
             this->unk_1E0.unk_00 = 0;
         } else {
             if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
-                EnGo_ChangeAnimation(this, 2);
+                EnGo_ChangeAnim(this, ENGO_ANIM_2);
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
-                globalCtx->msgCtx.msgMode = 0x37;
+                globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
                 gSaveContext.timer2State = 0;
-                OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, CAM_ID_MAIN);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
-                func_80106CCC(globalCtx);
+                Message_CloseTextbox(globalCtx);
                 EnGo_GetItem(this, globalCtx);
             }
         }
     } else if (((this->actor.params & 0xF0) == 0) && (this->unk_1E0.unk_00 == 2)) {
         EnGo_SetupAction(this, EnGo_GetItem);
-        globalCtx->msgCtx.unk_E3E7 = 4;
-        globalCtx->msgCtx.msgMode = 0x36;
+        globalCtx->msgCtx.stateTimer = 4;
+        globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
     } else {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
             EnGo_ReverseAnimation(this);
@@ -913,8 +912,8 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
         EnGo_SetupAction(this, func_80A40494);
     } else if (EnGo_IsCameraModified(this, globalCtx)) {
         EnGo_ReverseAnimation(this);
-        Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         this->skelAnime.playSpeed = 0.0f;
         EnGo_SetupAction(this, func_80A405CC);
     }
@@ -926,7 +925,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -934,8 +933,8 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
-    if (gSaveContext.infTable[14] & 0x800) {
-        EnGo_ChangeAnimation(this, 3);
+    if (GET_INFTABLE(INFTABLE_EB)) {
+        EnGo_ChangeAnim(this, ENGO_ANIM_3);
         EnGo_SetupAction(this, func_80A40A54);
     } else {
         EnGo_BiggoronActionFunc(this, globalCtx);
@@ -986,11 +985,11 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
             gSaveContext.bgsFlag = true;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
         } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
-            func_8010B720(globalCtx, this->actor.textId);
+            Message_ContinueTextbox(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
             Environment_ClearBgsDayCount();
         }
@@ -1000,7 +999,7 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
 void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_21E) == 0) {
         this->actor.textId = 0x305A;
-        func_8010B720(globalCtx, this->actor.textId);
+        Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_1E0.unk_00 = 1;
         EnGo_SetupAction(this, func_80A40DCC);
     }
@@ -1008,9 +1007,9 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        EnGo_ChangeAnimation(this, 1);
+        EnGo_ChangeAnim(this, ENGO_ANIM_1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&gGoronAnim_004930);
-        func_80106CCC(globalCtx);
+        Message_CloseTextbox(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
         EnGo_GetItem(this, globalCtx);
     }
@@ -1018,7 +1017,7 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
 
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -1035,7 +1034,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_MoveForward(&this->actor);
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     func_80A3F0E4(this);
     func_80A3F908(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -1068,7 +1067,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
 
     Matrix_Push();
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_RotateRPY((s16)(globalCtx->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
+    Matrix_RotateZYX((s16)(globalCtx->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1080,25 +1079,25 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
 }
 
 s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3s vec1;
     f32 float1;
 
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_1E0.unk_08;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limb == 10) {
         vec1 = this->unk_1E0.unk_0E;
-        float1 = (vec1.y / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.y);
         Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0x8000) * M_PI;
+        float1 = BINANG_TO_RAD_ALT(vec1.x);
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
 
@@ -1113,7 +1112,7 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
 }
 
 void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
     Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
@@ -1122,13 +1121,13 @@ void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnGo* this = THIS;
+    EnGo* this = (EnGo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2479);
 
-    EnGo_UpdateDust(this);
+    EnGo_UpdateEffects(this);
     Matrix_Push();
-    EnGo_DrawDust(this, globalCtx);
+    EnGo_DrawEffects(this, globalCtx);
     Matrix_Pop();
 
     if (this->actionFunc == EnGo_CurledUp) {
@@ -1147,16 +1146,17 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2525);
-        EnGo_DrawDust(this, globalCtx);
+        EnGo_DrawEffects(this, globalCtx);
     }
 }
 
-void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo_SpawnEffectDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale,
+                          f32 scaleStep) {
+    EnGoEffect* dustEffect = this->effects;
     s16 i;
     s16 timer;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type != 1) {
             dustEffect->scale = scale;
             dustEffect->scaleStep = scaleStep;
@@ -1173,12 +1173,12 @@ void EnGo_AddDust(EnGo* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 init
     }
 }
 
-void EnGo_UpdateDust(EnGo* this) {
-    EnGoEffect* dustEffect = this->dustEffects;
+void EnGo_UpdateEffects(EnGo* this) {
+    EnGoEffect* dustEffect = this->effects;
     f32 randomNumber;
     s16 i;
 
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             dustEffect->timer--;
             if (dustEffect->timer == 0) {
@@ -1199,32 +1199,32 @@ void EnGo_UpdateDust(EnGo* this) {
     }
 }
 
-void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
+void EnGo_DrawEffects(EnGo* this, GlobalContext* globalCtx) {
     static void* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
-    EnGoEffect* dustEffect = this->dustEffects;
+    EnGoEffect* dustEffect = this->effects;
     s16 alpha;
-    s16 firstDone;
+    s16 materialFlag;
     s16 index;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2626);
-    firstDone = false;
+    materialFlag = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
-    for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
+    for (i = 0; i < EN_GO_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
-            if (!firstDone) {
+            if (!materialFlag) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
-                firstDone = true;
+                materialFlag = true;
             }
 
             alpha = dustEffect->timer * (255.0f / dustEffect->initialTimer);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 170, 130, 90, alpha);
             gDPPipeSync(POLY_XLU_DISP++);
             Matrix_Translate(dustEffect->pos.x, dustEffect->pos.y, dustEffect->pos.z, MTXMODE_NEW);
-            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
             Matrix_Scale(dustEffect->scale, dustEffect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2664),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

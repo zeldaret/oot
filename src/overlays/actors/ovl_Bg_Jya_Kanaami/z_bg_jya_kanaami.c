@@ -7,9 +7,7 @@
 #include "z_bg_jya_kanaami.h"
 #include "objects/object_jya_obj/object_jya_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgJyaKanaami*)thisx)
+#define FLAGS 0
 
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -56,7 +54,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, Col
 }
 
 void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -69,7 +67,7 @@ void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -82,7 +80,7 @@ void func_80899880(BgJyaKanaami* this) {
 void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || this->unk_16A > 0) {
         if (this->dyna.actor.world.pos.x > -1000.0f && this->unk_16A == 0) {
-            OnePointCutscene_Init(globalCtx, 3450, -99, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3450, -99, &this->dyna.actor, CAM_ID_MAIN);
         }
         this->unk_16A += 1;
         if (this->unk_16A >= 0xA) {
@@ -117,7 +115,7 @@ void func_80899A08(BgJyaKanaami* this) {
 }
 
 void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgJyaKanaami* this = THIS;
+    BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

@@ -8,9 +8,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_haka_objects/object_haka_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHakaTubo*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -79,7 +77,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
@@ -97,7 +95,7 @@ void BgHakaTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyCylinder(globalCtx, &this->potCollider);
@@ -129,7 +127,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             pos.z = this->dyna.actor.world.pos.z;
             pos.y = this->dyna.actor.world.pos.y + 80.0f;
             EffectSsBomb2_SpawnLayered(globalCtx, &pos, &sZeroVector, &sZeroVector, 100, 45);
-            Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 50, NA_SE_EV_BOX_BREAK);
+            SoundSource_PlaySfxAtFixedWorldPos(globalCtx, &this->dyna.actor.world.pos, 50, NA_SE_EV_BOX_BREAK);
             EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40,
                                      gEffFragments2DL);
             this->dropTimer = 5;
@@ -167,7 +165,8 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
                 func_80078884(NA_SE_SY_CORRECT_CHIME);
                 // Drop rupees
                 for (i = 0; i < 9; i++) {
-                    collectible = Item_DropCollectible(globalCtx, &spawnPos, i % 3);
+                    collectible = Item_DropCollectible(
+                        globalCtx, &spawnPos, (i % (ITEM00_RUPEE_RED - ITEM00_RUPEE_GREEN + 1)) + ITEM00_RUPEE_GREEN);
                     if (collectible != NULL) {
                         collectible->actor.velocity.y = 15.0f;
                         collectible->actor.world.rot.y = this->dyna.actor.shape.rot.y + (i * 0x1C71);
@@ -214,7 +213,7 @@ void BgHakaTubo_DropCollectible(BgHakaTubo* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
 
     this->actionFunc(this, globalCtx);
     this->fireScroll++;
@@ -228,7 +227,7 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y + 235.0f, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateY(this->dyna.actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->dyna.actor.shape.rot.y), MTXMODE_APPLY);
     Matrix_Scale(0.07f, 0.04f, 0.07f, MTXMODE_APPLY);
     if (1) {}
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 170, 255, 255);
@@ -244,7 +243,7 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaTubo_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgHakaTubo* this = THIS;
+    BgHakaTubo* this = (BgHakaTubo*)thisx;
 
     Gfx_DrawDListOpa(globalCtx, object_haka_objects_DL_00FE40);
     BgHakaTubo_DrawFlameCircle(this, globalCtx);

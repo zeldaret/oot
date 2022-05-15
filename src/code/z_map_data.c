@@ -213,7 +213,7 @@ static s16 sOwCompassInfo[24][4] = {
     { 6, 6, 890, -800 },    { 13, 13, 1080, -260 }, { 11, 11, 1060, -680 }, { 9, 9, 850, -830 },
 };
 
-static s16 sDgnMinimapTexIndexBase[10] = {
+static s16 sDgnTexIndexBase[10] = {
     0, 10, 14, 18, 26, 36, 44, 52, 60, 66,
 };
 
@@ -239,8 +239,26 @@ static s16 sOwEntranceIconPosY[24] = {
 };
 
 static u16 sOwEntranceFlag[20] = {
-    0xFFFF, 0x0008, 0x0007, 0xFFFF, 0x0000, 0x0003, 0x0005, 0xFFFF, 0x0002, 0xFFFF,
-    0xFFFF, 0x0006, 0x000B, 0xFFFF, 0xFFFF, 0x0001, 0x0004, 0xFFFF, 0xFFFF, 0x000D,
+    0xFFFF,
+    INFTABLE_1A8_SHIFT,
+    INFTABLE_1A7_SHIFT,
+    0xFFFF,
+    INFTABLE_1A0_SHIFT,
+    INFTABLE_1A3_SHIFT,
+    INFTABLE_1A5_SHIFT,
+    0xFFFF,
+    INFTABLE_1A2_SHIFT,
+    0xFFFF,
+    0xFFFF,
+    INFTABLE_1A6_SHIFT,
+    INFTABLE_1AB_SHIFT,
+    0xFFFF,
+    0xFFFF,
+    INFTABLE_1A1_SHIFT,
+    INFTABLE_1A4_SHIFT,
+    0xFFFF,
+    0xFFFF,
+    INFTABLE_1AD_SHIFT,
 };
 
 static f32 sFloorCoordY[10][8] = {
@@ -302,15 +320,15 @@ static u8 sSwitchToRoom[10][51] = {
 
 static u8 sFloorID[10][8] = {
     /* clang-format off */
-    {    0,    0,    0, F_3F, F_2F, F_1F, F_B1, F_B2 }, 
+    {    0,    0,    0, F_3F, F_2F, F_1F, F_B1, F_B2 },
     {    0,    0,    0,    0,    0,    0, F_2F, F_1F },
-    {    0,    0,    0,    0,    0,    0, F_1F, F_B1 },          
+    {    0,    0,    0,    0,    0,    0, F_1F, F_B1 },
     {    0,    0,    0,    0, F_2F, F_1F, F_B1, F_B2 },
-    {    0,    0,    0, F_5F, F_4F, F_3F, F_2F, F_1F }, 
+    {    0,    0,    0, F_5F, F_4F, F_3F, F_2F, F_1F },
     {    0,    0,    0,    0, F_3F, F_2F, F_1F, F_B1 },
-    {    0,    0,    0,    0, F_4F, F_3F, F_2F, F_1F },    
+    {    0,    0,    0,    0, F_4F, F_3F, F_2F, F_1F },
     {    0,    0,    0,    0, F_B1, F_B2, F_B3, F_B4 },
-    {    0,    0,    0,    0,    0, F_B1, F_B2, F_B3 },       
+    {    0,    0,    0,    0,    0, F_B1, F_B2, F_B3 },
     {    0,    0,    0,    0,    0,    0,    0, F_1F },
 }; /* clang-format on */
 
@@ -323,7 +341,7 @@ MapData gMapDataTable = {
     sMaxPaletteCount,     sPaletteRoom,        sRoomCompassOffsetX,
     sRoomCompassOffsetY,  sDgnMinimapCount,    sDgnMinimapTexIndexOffset,
     sOwMinimapTexSize,    sOwMinimapTexOffset, sOwMinimapPosX,
-    sOwMinimapPosY,       sOwCompassInfo,      sDgnMinimapTexIndexBase,
+    sOwMinimapPosY,       sOwCompassInfo,      sDgnTexIndexBase,
     sDgnCompassInfo,      sOwMinimapWidth,     sOwMinimapHeight,
     sOwEntranceIconPosX,  sOwEntranceIconPosY, sOwEntranceFlag,
     sFloorCoordY,         sSwitchEntryCount,   sSwitchFromRoom,

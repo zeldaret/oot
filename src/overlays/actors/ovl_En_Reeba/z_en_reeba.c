@@ -10,9 +10,7 @@
 #include "vt.h"
 #include "objects/object_reeba/object_reeba.h"
 
-#define FLAGS 0x08000015
-
-#define THIS ((EnReeba*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_27)
 
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -101,10 +99,10 @@ static ColliderCylinderInit sCylinderInit = {
 
 void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
     s32 surfaceType;
 
-    this->actor.naviEnemyId = 0x47;
+    this->actor.naviEnemyId = NAVI_ENEMY_LEEVER;
     this->actor.targetMode = 3;
     this->actor.gravity = -3.5f;
     this->actor.focus.pos = this->actor.world.pos;
@@ -131,7 +129,9 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = this->unk_284 = this->scale * -27500.0f;
     ActorShape_Init(&this->actor.shape, this->actor.shape.yOffset, ActorShadow_DrawCircle, 0.0f);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
@@ -145,7 +145,7 @@ void EnReeba_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnReeba_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 
@@ -180,7 +180,7 @@ void func_80AE4F40(EnReeba* this, GlobalContext* globalCtx) {
         this->unk_278 = 20;
     }
 
-    this->actor.flags &= ~0x08000000;
+    this->actor.flags &= ~ACTOR_FLAG_27;
     this->actor.world.pos.y = this->actor.floorHeight;
 
     if (this->isBig) {
@@ -200,7 +200,7 @@ void func_80AE5054(EnReeba* this, GlobalContext* globalCtx) {
 
     if ((globalCtx->gameplayFrames % 4) == 0) {
         Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
-                                 8.0f, 500, 10, 1);
+                                 8.0f, 500, 10, true);
     }
 
     if (this->unk_278 == 0) {
@@ -257,7 +257,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         this->actionfunc = func_80AE5688;
     } else if ((this->unk_272 == 0) || (this->actor.xzDistToPlayer < 30.0f) || (this->actor.xzDistToPlayer > 400.0f) ||
-               (this->actor.bgCheckFlags & 8)) {
+               (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else if (this->unk_274 == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIVA_MOVE);
@@ -266,7 +266,7 @@ void func_80AE5270(EnReeba* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE538C(EnReeba* this, GlobalContext* globalCtx) {
-    this->actor.flags |= 5;
+    this->actor.flags |= ACTOR_FLAG_0 | ACTOR_FLAG_2;
     this->actionfunc = func_80AE53AC;
 }
 
@@ -285,7 +285,7 @@ void func_80AE53AC(EnReeba* this, GlobalContext* globalCtx) {
     surfaceType = func_80041D4C(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
 
     if (((surfaceType != 4) && (surfaceType != 7)) || (this->actor.xzDistToPlayer > 400.0f) ||
-        (this->actor.bgCheckFlags & 8)) {
+        (this->actor.bgCheckFlags & BGCHECKFLAG_WALL)) {
         this->actionfunc = func_80AE5688;
     } else {
         if ((this->actor.xzDistToPlayer < 70.0f) && (this->unk_270 == 0)) {
@@ -328,8 +328,8 @@ void func_80AE561C(EnReeba* this, GlobalContext* globalCtx) {
 void func_80AE5688(EnReeba* this, GlobalContext* globalCtx) {
     this->unk_27E = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
-    this->actor.flags |= 0x8000000;
-    this->actor.flags &= ~5;
+    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = func_80AE56E0;
 }
 
@@ -341,7 +341,7 @@ void func_80AE56E0(EnReeba* this, GlobalContext* globalCtx) {
     if ((this->unk_284 + 10.0f) <= this->actor.shape.yOffset) {
         if ((globalCtx->gameplayFrames % 4) == 0) {
             Actor_SpawnFloorDustRing(globalCtx, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
-                                     8.0f, 500, 10, 1);
+                                     8.0f, 500, 10, true);
         }
 
         Math_ApproachF(&this->actor.shape.yOffset, this->unk_284, 1.0f, this->unk_288);
@@ -380,8 +380,8 @@ void func_80AE58EC(EnReeba* this, GlobalContext* globalCtx) {
     this->unk_278 = 14;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actor.speedXZ = -8.0f;
-    this->actor.flags |= 0x8000000;
-    this->actor.flags &= ~5;
+    this->actor.flags |= ACTOR_FLAG_27;
+    this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->actionfunc = func_80AE5938;
 }
 
@@ -448,7 +448,7 @@ void func_80AE5BC4(EnReeba* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
     this->unk_278 = 14;
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->actionfunc = func_80AE5C38;
 }
 
@@ -576,7 +576,7 @@ void func_80AE5EDC(EnReeba* this, GlobalContext* globalCtx) {
 
 void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
     Player* player = GET_PLAYER(globalCtx);
 
     func_80AE5EDC(this, globalCtx);
@@ -604,7 +604,9 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 35.0f, 60.0f, 60.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                UPDBGCHECKINFO_FLAG_4);
 
     if (this->collider.base.atFlags & AT_BOUNCED) {
         this->collider.base.atFlags &= ~AT_BOUNCED;
@@ -651,7 +653,7 @@ void EnReeba_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnReeba_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnReeba* this = THIS;
+    EnReeba* this = (EnReeba*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_reeba.c", 1062);
 

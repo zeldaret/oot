@@ -7,9 +7,7 @@
 #include "z_bg_spot12_gate.h"
 #include "objects/object_spot12_obj/object_spot12_obj.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((BgSpot12Gate*)thisx)
+#define FLAGS 0
 
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -59,7 +57,7 @@ void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, GlobalContext* globalCtx, Col
 }
 
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Gate* this = THIS;
+    BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     BgSpot12Gate_InitDynaPoly(this, globalCtx, &gGerudoFortressWastelandGateCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -72,7 +70,7 @@ void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Gate* this = THIS;
+    BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -85,7 +83,7 @@ void func_808B30C0(BgSpot12Gate* this) {
 void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B3134(this);
-        OnePointCutscene_Init(globalCtx, 4160, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4160, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
@@ -131,7 +129,7 @@ void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot12Gate* this = THIS;
+    BgSpot12Gate* this = (BgSpot12Gate*)thisx;
 
     if (this->unk_168 > 0) {
         this->unk_168--;

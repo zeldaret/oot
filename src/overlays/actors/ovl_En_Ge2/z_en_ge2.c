@@ -8,9 +8,7 @@
 #include "vt.h"
 #include "objects/object_gla/object_gla.h"
 
-#define FLAGS 0x00000019
-
-#define THIS ((EnGe2*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
 #define GE2_STATE_ANIMCOMPLETE (1 << 1)
 #define GE2_STATE_KO (1 << 2)
@@ -115,7 +113,7 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
 
 void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable, 22);
@@ -171,7 +169,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -217,14 +215,18 @@ s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, 
         return 0;
     }
 
-    if (BgCheck_AnyLineTest1(&globalCtx->colCtx, pos, &player->bodyPartsPos[7], &posResult, &outPoly, 0)) {
+    if (BgCheck_AnyLineTest1(&globalCtx->colCtx, pos, &player->bodyPartsPos[PLAYER_BODYPART_HEAD], &posResult, &outPoly,
+                             0)) {
         return 0;
     }
     return 1;
 }
 
 s32 EnGe2_CheckCarpentersFreed(void) {
-    if ((u8)(gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
+    if (CHECK_FLAG_ALL(
+            gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] &
+                (EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK | 0xF0),
+            EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
         return 1;
     }
     return 0;
@@ -239,15 +241,15 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[12] & 0x80) {
-            globalCtx->nextEntranceIndex = 0x5F8;
+            globalCtx->nextEntranceIndex = ENTR_SPOT09_1;
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_18;
         } else {
-            globalCtx->nextEntranceIndex = 0x3B4;
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_17;
         }
 
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -265,15 +267,15 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
         func_8006D074(globalCtx);
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
-            globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[12] & 0x80) {
-            globalCtx->nextEntranceIndex = 0x5F8;
+            globalCtx->nextEntranceIndex = ENTR_SPOT09_1;
+        } else if (GET_EVENTCHKINF(EVENTCHKINF_C7)) {
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_18;
         } else {
-            globalCtx->nextEntranceIndex = 0x3B4;
+            globalCtx->nextEntranceIndex = ENTR_SPOT12_17;
         }
 
-        globalCtx->fadeTransition = 0x26;
-        globalCtx->sceneLoadFlag = 0x14;
+        globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
+        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }
 }
 
@@ -296,7 +298,7 @@ void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx) {
     s32 effectAngle;
     Vec3f effectPos;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
         effectAngle = (globalCtx->state.frames) * 0x2800;
         effectPos.x = this->actor.focus.pos.x + (Math_CosS(effectAngle) * 5.0f);
@@ -422,7 +424,7 @@ void EnGe2_LookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
 
         switch (this->actor.params & 0xFF) {
             case GE2_TYPE_PATROLLING:
@@ -436,7 +438,7 @@ void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
                 break;
         }
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
     }
     EnGe2_TurnToFacePlayer(this, globalCtx);
 }
@@ -455,9 +457,9 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
-        this->actor.flags &= ~0x10000;
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
+        this->actor.flags &= ~ACTOR_FLAG_16;
         this->actionFunc = EnGe2_WaitTillCardGiven;
         func_8002F434(&this->actor, globalCtx, GI_GERUDO_CARD, 10000.0f, 50.0f);
     }
@@ -465,11 +467,11 @@ void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
 
 void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnGe2_GiveCard;
     } else {
         this->actor.textId = 0x6004;
-        this->actor.flags |= 0x10000;
+        this->actor.flags |= ACTOR_FLAG_16;
         func_8002F1C4(&this->actor, globalCtx, 300.0f, 300.0f, 0);
     }
     EnGe2_LookAtPlayer(this, globalCtx);
@@ -481,7 +483,7 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, GlobalContext* globalCtx) {
     EnGe2_ChangeAction(this, GE2_ACTION_CAPTURETURN);
     func_8002DF54(globalCtx, &this->actor, 95);
     func_80078884(NA_SE_SY_FOUND);
-    func_8010B680(globalCtx, 0x6000, &this->actor);
+    Message_StartTextbox(globalCtx, 0x6000, &this->actor);
 }
 
 void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx) {
@@ -490,7 +492,8 @@ void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (!(this->stateFlags & GE2_STATE_ANIMCOMPLETE) && SkelAnime_Update(&this->skelAnime)) {
         this->stateFlags |= GE2_STATE_ANIMCOMPLETE;
@@ -513,12 +516,12 @@ void EnGe2_MoveAndBlink(EnGe2* this, GlobalContext* globalCtx) {
 // Update functions
 
 void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
     this->actionFunc(this, globalCtx);
 
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         if ((this->actor.params & 0xFF) == GE2_TYPE_PATROLLING) {
             this->actor.speedXZ = 0.0f;
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
@@ -536,7 +539,7 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     this->stateFlags |= GE2_STATE_TALKED;
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
@@ -545,7 +548,7 @@ void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
     s32 paramsType;
 
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
@@ -597,11 +600,12 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if ((this->collider.base.acFlags & 2) &&
         ((this->collider.info.acHitInfo == NULL) || !(this->collider.info.acHitInfo->toucher.dmgFlags & 0x80))) {
@@ -624,7 +628,7 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 s32 EnGe2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     if (limbIndex == 3) {
         rot->x += this->headRot.y;
@@ -635,7 +639,7 @@ s32 EnGe2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
 void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80A343B0 = { 600.0f, 700.0f, 0.0f };
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     if (limbIndex == 6) {
         Matrix_MultVec3f(&D_80A343B0, &this->actor.focus.pos);
@@ -645,7 +649,7 @@ void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* eyeTextures[] = { gGerudoPurpleEyeOpenTex, gGerudoPurpleEyeHalfTex, gGerudoPurpleEyeClosedTex };
     s32 pad;
-    EnGe2* this = THIS;
+    EnGe2* this = (EnGe2*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge2.c", 1274);
 

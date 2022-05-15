@@ -2,9 +2,7 @@
 #include "objects/object_spot18_obj/object_spot18_obj.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot18Basket*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -77,7 +75,7 @@ static ColliderJntSphInit sJntSphInit = {
 static s16 D_808B85C8[] = { 0x8000, 0x2AAA, 0xD555, 0x0000 };
 
 void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Basket* this = THIS;
+    BgSpot18Basket* this = (BgSpot18Basket*)thisx;
 
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
     Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, this->ColliderJntSphElements);
@@ -132,7 +130,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSpot18Basket* this = THIS;
+    BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK3);
@@ -166,7 +164,7 @@ void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Basket_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Basket* this = THIS;
+    BgSpot18Basket* this = (BgSpot18Basket*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyJntSph(globalCtx, &this->colliderJntSph);
@@ -178,7 +176,7 @@ void func_808B7AEC(BgSpot18Basket* this) {
 
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
-        OnePointCutscene_Init(globalCtx, 4220, 80, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4220, 80, &this->dyna.actor, CAM_ID_MAIN);
         func_808B7B58(this);
     }
 }
@@ -226,7 +224,7 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
                 if (Math3D_Dist2DSq(colliderBaseAc->world.pos.z, this->colliderJntSph.base.ac->world.pos.x,
                                     this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) < SQ(32.0f)) {
-                    OnePointCutscene_Init(globalCtx, 4210, 240, &this->dyna.actor, MAIN_CAM);
+                    OnePointCutscene_Init(globalCtx, 4210, 240, &this->dyna.actor, CAM_ID_MAIN);
                     func_808B7D38(this);
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 }
@@ -429,7 +427,7 @@ void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx) {
 
 void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgSpot18Basket* this = THIS;
+    BgSpot18Basket* this = (BgSpot18Basket*)thisx;
     s32 bgId;
 
     this->unk_216++;
@@ -446,7 +444,7 @@ void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot18Basket* this = THIS;
+    BgSpot18Basket* this = (BgSpot18Basket*)thisx;
 
     Collider_UpdateSpheres(0, &this->colliderJntSph);
     Collider_UpdateSpheres(1, &this->colliderJntSph);

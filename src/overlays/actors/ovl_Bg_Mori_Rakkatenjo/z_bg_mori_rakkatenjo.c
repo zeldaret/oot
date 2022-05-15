@@ -7,9 +7,7 @@
 #include "z_bg_mori_rakkatenjo.h"
 #include "objects/object_mori_objects/object_mori_objects.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgMoriRakkatenjo*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -27,7 +25,7 @@ void BgMoriRakkatenjo_Rest(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 
-static s16 sCamSetting = 0;
+static s16 sCamSetting = CAM_SET_NONE;
 
 const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     ACTOR_BG_MORI_RAKKATENJO,
@@ -49,7 +47,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
@@ -76,12 +74,12 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&gMoriRakkatenjoCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     BgMoriRakkatenjo_SetupWaitForMoriTex(this);
-    sCamSetting = 0;
+    sCamSetting = CAM_SET_NONE;
 }
 
 void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -199,7 +197,7 @@ void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
 
 void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     if (this->timer > 0) {
         this->timer--;
@@ -208,20 +206,20 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BgMoriRakkatenjo_IsLinkUnder(this, globalCtx)) {
         if (sCamSetting == CAM_SET_NONE) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
-            sCamSetting = globalCtx->cameraPtrs[MAIN_CAM]->setting;
-            Camera_SetCameraData(globalCtx->cameraPtrs[MAIN_CAM], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_FOREST_BIRDS_EYE);
+            sCamSetting = globalCtx->cameraPtrs[CAM_ID_MAIN]->setting;
+            Camera_SetCameraData(globalCtx->cameraPtrs[CAM_ID_MAIN], 1, &this->dyna.actor, NULL, 0, 0, 0);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_FOREST_BIRDS_EYE);
         }
     } else if (sCamSetting != CAM_SET_NONE) {
         osSyncPrintf("camera changed (previous) ... \n");
-        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON1);
-        sCamSetting = 0;
+        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
+        sCamSetting = CAM_SET_NONE;
     }
 }
 
 void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    BgMoriRakkatenjo* this = THIS;
+    BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 497);
     func_80093D18(globalCtx->state.gfxCtx);

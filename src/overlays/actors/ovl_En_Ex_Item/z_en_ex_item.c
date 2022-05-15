@@ -9,9 +9,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((EnExItem*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -51,9 +49,9 @@ void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnExItem* this = THIS;
+    EnExItem* this = (EnExItem*)thisx;
 
-    this->actor.flags &= ~1;
+    this->actor.flags &= ~ACTOR_FLAG_0;
     this->type = this->actor.params & 0xFF;
     this->unusedParam = (this->actor.params >> 8) & 0xFF;
     osSyncPrintf("\n\n");
@@ -112,7 +110,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
             // "What?"
             osSyncPrintf("なにみの？ %d\n", this->actor.params);
             // "bank is funny"
-            osSyncPrintf(VT_FGCOL(PURPLE) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
+            osSyncPrintf(VT_FGCOL(MAGENTA) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             return;
         }
         this->actionFunc = EnExItem_WaitForObject;
@@ -127,7 +125,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(BLUE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
-        osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
+        osSyncPrintf(VT_FGCOL(MAGENTA) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n\n" VT_RST, this->actor.params, this);
         this->actor.objBankIndex = this->objectIdx;
         this->actor.draw = EnExItem_Draw;
@@ -281,9 +279,9 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
             if (this->type == EXITEM_BOMBCHUS_BOWLING) {
                 sp3C = 220.0f;
             }
-            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.lookAt.z + sp3C - globalCtx->view.eye.z;
+            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.at.y - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.at.z + sp3C - globalCtx->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;
@@ -364,9 +362,9 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
 
     if (this->timer != 0) {
         if (this->prizeRotateTimer != 0) {
-            tmpf1 = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.lookAt.y - 10.0f - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.lookAt.z + 10.0f - globalCtx->view.eye.z;
+            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
+            tmpf2 = globalCtx->view.at.y - 10.0f - globalCtx->view.eye.y;
+            tmpf3 = globalCtx->view.at.z + 10.0f - globalCtx->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;
@@ -410,17 +408,17 @@ void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx) {
 }
 
 void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         // "Successful completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-        gSaveContext.itemGetInf[1] |= 0x2000;
+        SET_ITEMGETINF(ITEMGETINF_1D);
         Actor_Kill(&this->actor);
     }
 }
 
 void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnExItem* this = THIS;
+    EnExItem* this = (EnExItem*)thisx;
 
     if (this->timer != 0) {
         this->timer--;
@@ -436,7 +434,7 @@ void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnExItem* this = THIS;
+    EnExItem* this = (EnExItem*)thisx;
     s32 magicType;
 
     Actor_SetScale(&this->actor, this->scale);
@@ -490,14 +488,14 @@ void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx) {
 }
 
 void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex) {
-    static s16 sgiDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
+    static s16 giDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
 
     func_8002ED80(&this->actor, globalCtx, 0);
-    GetItem_Draw(globalCtx, sgiDrawIds[magicIndex]);
+    GetItem_Draw(globalCtx, giDrawIds[magicIndex]);
 }
 
 void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
-    static s32 keySegments[] = { 0x0403F140 };
+    static void* keySegments[] = { gDropKeySmallTex };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 880);
 

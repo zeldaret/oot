@@ -2,9 +2,7 @@
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnBomChu*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 #define BOMBCHU_SCALE 0.01f
 
@@ -66,7 +64,7 @@ void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
     static u8 p2StartColor[] = { 200, 0, 0, 130 };
     static u8 p1EndColor[] = { 150, 0, 0, 100 };
     static u8 p2EndColor[] = { 100, 0, 0, 50 };
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
     EffectBlureInit1 blureInit;
     s32 i;
 
@@ -96,7 +94,7 @@ void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
 
     Effect_Delete(globalCtx, this->blure1Index);
     Effect_Delete(globalCtx, this->blure2Index);
@@ -214,7 +212,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
 
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.world.pos = player->actor.world.pos;
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->actor.shape.rot.y = player->actor.shape.rot.y;
 
         // rot.y = 0 -> +z (forwards in model space)
@@ -236,7 +234,7 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
         //! @bug there is no NULL check on the floor poly.  If the player is out of bounds the floor poly will be NULL
         //! and will cause a crash inside this function.
         EnBomChu_UpdateFloorPoly(this, this->actor.floorPoly, globalCtx);
-        this->actor.flags |= 1; // make chu targetable
+        this->actor.flags |= ACTOR_FLAG_0; // make chu targetable
         func_8002F850(globalCtx, &this->actor);
         this->actionFunc = EnBomChu_Move;
     }
@@ -359,17 +357,17 @@ void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx) {
 
 /**
  * Transform coordinates from model space to world space, according to current orientation.
- * `posModel` is expected to already be at world scale (1/100 compared to model scale)
+ * `modelPos` is expected to already be at world scale (1/100 compared to model scale)
  */
-void EnBomChu_ModelToWorld(EnBomChu* this, Vec3f* posModel, Vec3f* dest) {
-    f32 x = posModel->x + this->visualJitter;
+void EnBomChu_ModelToWorld(EnBomChu* this, Vec3f* modelPos, Vec3f* dest) {
+    f32 x = modelPos->x + this->visualJitter;
 
-    dest->x = this->actor.world.pos.x + (this->axisLeft.x * x) + (this->axisUp.x * posModel->y) +
-              (this->axisForwards.x * posModel->z);
-    dest->y = this->actor.world.pos.y + (this->axisLeft.y * x) + (this->axisUp.y * posModel->y) +
-              (this->axisForwards.y * posModel->z);
-    dest->z = this->actor.world.pos.z + (this->axisLeft.z * x) + (this->axisUp.z * posModel->y) +
-              (this->axisForwards.z * posModel->z);
+    dest->x = this->actor.world.pos.x + (this->axisLeft.x * x) + (this->axisUp.x * modelPos->y) +
+              (this->axisForwards.x * modelPos->z);
+    dest->y = this->actor.world.pos.y + (this->axisLeft.y * x) + (this->axisUp.y * modelPos->y) +
+              (this->axisForwards.y * modelPos->z);
+    dest->z = this->actor.world.pos.z + (this->axisLeft.z * x) + (this->axisUp.z * modelPos->y) +
+              (this->axisForwards.z * modelPos->z);
 }
 
 void EnBomChu_SpawnRipples(EnBomChu* this, GlobalContext* globalCtx, f32 y) {
@@ -389,7 +387,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     static Vec3f blureP2LeftModel = { 12.0f, 0.0f, -5.0f };
     static Vec3f blureP2RightModel = { -12.0f, 0.0f, -5.0f };
     GlobalContext* globalCtx = globalCtx2;
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
     s16 yaw;
     f32 sin;
     f32 cos;
@@ -457,22 +455,22 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->actor.yDistToWater = waterY - this->actor.world.pos.y;
 
             if (this->actor.yDistToWater < 0.0f) {
-                if (this->actor.bgCheckFlags & 0x20) {
+                if (this->actor.bgCheckFlags & BGCHECKFLAG_WATER) {
                     EnBomChu_SpawnRipples(this, globalCtx, waterY);
                 }
 
-                this->actor.bgCheckFlags &= ~0x20;
+                this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER;
             } else {
-                if (!(this->actor.bgCheckFlags & 0x20) && (this->timer != 120)) {
+                if (!(this->actor.bgCheckFlags & BGCHECKFLAG_WATER) && (this->timer != 120)) {
                     EnBomChu_SpawnRipples(this, globalCtx, waterY);
                 } else {
                     EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 3.0f, 15.0f, 0.25f);
                 }
 
-                this->actor.bgCheckFlags |= 0x20;
+                this->actor.bgCheckFlags |= BGCHECKFLAG_WATER;
             }
         } else {
-            this->actor.bgCheckFlags &= ~0x20;
+            this->actor.bgCheckFlags &= ~BGCHECKFLAG_WATER;
             this->actor.yDistToWater = BGCHECK_Y_MIN;
         }
     }
@@ -480,7 +478,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnBomChu* this = THIS;
+    EnBomChu* this = (EnBomChu*)thisx;
     f32 colorIntensity;
     s32 blinkHalfPeriod;
     s32 blinkTime;

@@ -10,9 +10,7 @@
 #include "objects/object_efc_tw/object_efc_tw.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((DemoEffect*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -178,7 +176,7 @@ void DemoEffect_InitGetItem(DemoEffect* this) {
  */
 void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType;
     s32 lightEffect;
     s32 objectIndex;
@@ -290,7 +288,8 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     this->primXluColor[1] = 255;
                     this->primXluColor[2] = 255;
                     // clang-format off
-                    this->envXluColor[0] = 200; this->envXluColor[1] = 50; this->envXluColor[2] = 255; // Sameline prevents reordering
+                    // Sameline prevents reordering
+                    this->envXluColor[0] = 200; this->envXluColor[1] = 50; this->envXluColor[2] = 255;
                     // clang-format on
                     break;
 
@@ -329,7 +328,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_NAYRU:
-            if (gSaveContext.entranceIndex == 0x013D) {
+            if (gSaveContext.entranceIndex == ENTR_SPOT16_0) {
                 Actor_SetScale(&this->actor, 1.0f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -350,7 +349,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_FARORE:
-            if (gSaveContext.entranceIndex == 0x00EE) {
+            if (gSaveContext.entranceIndex == ENTR_SPOT04_0) {
                 Actor_SetScale(&this->actor, 2.4f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -459,7 +458,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE:
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL:
-            this->actor.flags |= 0x2000000;
+            this->actor.flags |= ACTOR_FLAG_25;
         case DEMO_EFFECT_TIMEWARP_MASTERSWORD:
             this->initDrawFunc = DemoEffect_DrawTimeWarp;
             this->initUpdateFunc = DemoEffect_InitTimeWarp;
@@ -493,7 +492,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTOR_EN_DOOR);
-            if ((globalCtx->sceneNum == SCENE_BDAN) && (gSaveContext.infTable[20] & 0x20)) {
+            if ((globalCtx->sceneNum == SCENE_BDAN) && GET_INFTABLE(INFTABLE_145)) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -519,7 +518,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
  * Main Actor Destroy function
  */
 void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_MASTERSWORD || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE ||
@@ -632,7 +631,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
 
         Actor_SetScale(thisx, 0.20f);
 
-        if (gSaveContext.entranceIndex == 0x0053) {
+        if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
             switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
                 case 2:
                     DemoEffect_MedalSparkle(this, globalCtx, 0);
@@ -644,7 +643,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
         }
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -659,7 +658,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
                 if (this->getItem.drawId != GID_ARROW_LIGHT) {
                     this->actor.shape.rot.y += this->getItem.rotation;
                 }
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -698,7 +697,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
     } else if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
-               (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & 0x200)))) {
+               (gSaveContext.entranceIndex == ENTR_TOKINOMA_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -761,8 +760,8 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
     this->timeWarp.shrinkTimer++;
 
     if (this->timeWarp.shrinkTimer > 250) {
-        if (gSaveContext.entranceIndex == 0x0324) {
-            gSaveContext.eventChkInf[12] |= 0x200;
+        if (gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
+            SET_EVENTCHKINF(EVENTCHKINF_C9);
         }
 
         Actor_Kill(&this->actor);
@@ -853,7 +852,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0 && gSaveContext.sceneSetupIndex == 6 &&
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0 && gSaveContext.sceneSetupIndex == 6 &&
             globalCtx->csCtx.frames == 143) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
@@ -1134,7 +1133,7 @@ void DemoEffect_UpdateLgtShower(DemoEffect* this, GlobalContext* globalCtx) {
  * Update action for the God Lgt Din Actor.
  * This is the Goddess Din.
  * This function moves God Lgt Din based on the current cutscene command.
- * This function also spawns a Fireball Actor and sets it's update function to the special InitCreationFireball.
+ * This function also spawns a Fireball Actor and sets its update function to the special InitCreationFireball.
  * The spawned Fireball Actor is also scaled to be smaller than regular by this function.
  */
 void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
@@ -1154,7 +1153,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 288) {
@@ -1209,7 +1208,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 298) {
@@ -1231,7 +1230,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x013D && gSaveContext.sceneSetupIndex == 4) {
+        if (gSaveContext.entranceIndex == ENTR_SPOT16_0 && gSaveContext.sceneSetupIndex == 4) {
             if (globalCtx->csCtx.frames == 72) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
@@ -1269,7 +1268,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
             func_800F3F3C(3);
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 315) {
@@ -1411,21 +1410,21 @@ void DemoEffect_MoveJewelSpherical(f32 degrees, f32 frameDivisor, Vec3f startPos
 
     distance = frameDivisor * sqrtf(SQ(endPos.x - startPos.x) + SQ(endPos.y - startPos.y) + SQ(endPos.z - startPos.z));
 
-    this->actor.world.pos.x = radius * cosf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.x = radius * cosf(DEG_TO_RAD(degrees));
     this->actor.world.pos.y = distance;
-    this->actor.world.pos.z = radius * sinf(degrees * (M_PI / 180.0f));
+    this->actor.world.pos.z = radius * sinf(DEG_TO_RAD(degrees));
 
     xPos = this->actor.world.pos.x;
-    ySpherical = (this->actor.world.pos.y * cosf(rotation.x * (M_PI / 0x8000))) -
-                 (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.world.pos.z);
-    xzSpherical = (this->actor.world.pos.z * cosf(rotation.x * (M_PI / 0x8000))) +
-                  (sinf(rotation.x * (M_PI / 0x8000)) * this->actor.world.pos.y);
+    ySpherical = (this->actor.world.pos.y * cosf(BINANG_TO_RAD(rotation.x))) -
+                 (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.z);
+    xzSpherical = (this->actor.world.pos.z * cosf(BINANG_TO_RAD(rotation.x))) +
+                  (sinf(BINANG_TO_RAD(rotation.x)) * this->actor.world.pos.y);
 
     this->actor.world.pos.x =
-        (xPos * cosf(rotation.y * (M_PI / 0x8000))) - (sinf(rotation.y * (M_PI / 0x8000)) * xzSpherical);
+        (xPos * cosf(BINANG_TO_RAD(rotation.y))) - (sinf(BINANG_TO_RAD(rotation.y)) * xzSpherical);
     this->actor.world.pos.y = ySpherical;
     this->actor.world.pos.z =
-        (xzSpherical * cosf(rotation.y * (M_PI / 0x8000))) + (sinf(rotation.y * (M_PI / 0x8000)) * xPos);
+        (xzSpherical * cosf(BINANG_TO_RAD(rotation.y))) + (sinf(BINANG_TO_RAD(rotation.y)) * xPos);
 
     this->actor.world.pos.x += startPos.x;
     this->actor.world.pos.y += startPos.y;
@@ -1473,7 +1472,7 @@ void DemoEffect_MoveJewelActivateDoorOfTime(DemoEffect* this, GlobalContext* glo
     }
 
     if (startPos.x != endPos.x || startPos.y != endPos.y || startPos.z != endPos.z) {
-        this->jewelCsRotation.x = Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)) * (0x8000 / M_PI);
+        this->jewelCsRotation.x = RAD_TO_BINANG(Math_Atan2F(endPos.z - startPos.z, -(endPos.x - startPos.x)));
         this->jewelCsRotation.y = Math_Vec3f_Yaw(&startPos, &endPos);
     }
 
@@ -1562,8 +1561,8 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId]) {
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 3:
-                if (gSaveContext.eventChkInf[4] & 0x800) {
-                    gSaveContext.eventChkInf[4] |= 0x800;
+                if (GET_EVENTCHKINF(EVENTCHKINF_4B)) {
+                    SET_EVENTCHKINF(EVENTCHKINF_4B);
                 }
                 DemoEffect_MoveJewelActivateDoorOfTime(this, globalCtx);
                 if ((globalCtx->gameplayFrames & 1) == 0) {
@@ -1588,15 +1587,15 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
                 return;
             default:
                 DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                 }
                 break;
         }
     }
 
-    if (gSaveContext.entranceIndex == 0x0053) {
-        if (!(gSaveContext.eventChkInf[4] & 0x800)) {
+    if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
+        if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
                 this->effectFlags |= 0x1;
@@ -1646,7 +1645,7 @@ void DemoEffect_UpdateDust(DemoEffect* this, GlobalContext* globalCtx) {
  * This is the main Actor Update Function.
  */
 void DemoEffect_Update(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     this->updateFunc(this, globalCtx);
 }
 
@@ -1666,7 +1665,7 @@ s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csA
  * Draw function for the Jewel Actor.
  */
 void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx2) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     u32 frames = this->jewel.timer;
 
@@ -1728,7 +1727,7 @@ void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx2) {
  * Draw function for the Crystal Light Actor.
  */
 void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     DemoEffect* parent = (DemoEffect*)this->actor.parent;
     u32 frames = globalCtx->gameplayFrames & 0xFFFF;
 
@@ -1747,23 +1746,23 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
                                 512 - ((frames * 2) % 512) - 1, 0, 64, 64));
     Matrix_Push();
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2661),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
-    Matrix_RotateY((2.0f * M_PI) / 3.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD(120), MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2672),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
-    Matrix_RotateY((4.0f * M_PI) / 3.0f, MTXMODE_APPLY);
-    Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD(240), MTXMODE_APPLY);
+    Matrix_RotateX(DEG_TO_RAD(11), MTXMODE_APPLY);
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2683),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1776,7 +1775,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
  * Draw function for the Fire Ball Actor.
  */
 void DemoEffect_DrawFireBall(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     u32 frames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2701);
@@ -1785,7 +1784,7 @@ void DemoEffect_DrawFireBall(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2709),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPMatrix(POLY_XLU_DISP++, globalCtx->unk_11DE0, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, globalCtx->billboardMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
     gSPSegment(
         POLY_XLU_DISP++, 8,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 128 - ((frames * 20) % 128) - 1, 32, 32));
@@ -1798,14 +1797,14 @@ void DemoEffect_DrawFireBall(Actor* thisx, GlobalContext* globalCtx) {
  * This draws either Din, Nayru, or Farore based on the colors set in the DemoEffect struct.
  */
 void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     s32 pad;
     u32 frames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2737);
 
     if (!DemoEffect_CheckCsAction(this, globalCtx, 2)) {
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             if (gSaveContext.sceneSetupIndex == 4) {
                 if (globalCtx->csCtx.frames <= 680) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
@@ -1841,7 +1840,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
             if (1) {}
         }
 
-        Matrix_RotateZ((((s32)this->godLgt.rotation) * 3.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
+        Matrix_RotateZ(DEG_TO_RAD(((s32)this->godLgt.rotation) * 3.0f), MTXMODE_APPLY);
         Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -140.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
@@ -1857,7 +1856,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
  * Draw function for the Light Effect Actor.
  */
 void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     u8* alpha;
     Gfx* disp;
 
@@ -1877,15 +1876,15 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(((this->light.scaleFlag & 1) * 0.05f) + 1.0f, ((this->light.scaleFlag & 1) * 0.05f) + 1.0f,
                          ((this->light.scaleFlag & 1) * 0.05f) + 1.0f, MTXMODE_APPLY);
             Matrix_Push();
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2866),
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             if (disp) {};
             gSPDisplayList(POLY_XLU_DISP++, disp);
             Matrix_Pop();
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-            Matrix_RotateZ(-(f32)this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
+            Matrix_RotateZ(DEG_TO_RAD(-(f32)this->light.rotation), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2874),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, disp);
@@ -1899,15 +1898,15 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
  * Draw function for the Blue Orb Actor.
  */
 void DemoEffect_DrawBlueOrb(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     s32 pad2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2892);
     gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 188, 255, 255, this->blueOrb.alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, 255);
     func_80093D84(globalCtx->state.gfxCtx);
-    Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-    Matrix_RotateZ(this->blueOrb.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(this->blueOrb.rotation), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2901),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->blueOrb.rotation += 0x01F4;
@@ -1919,7 +1918,7 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, GlobalContext* globalCtx) {
  * Draw function for the Lgt Shower Actor.
  */
 void DemoEffect_DrawLgtShower(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     s32 pad;
     u32 frames = globalCtx->gameplayFrames;
 
@@ -1940,7 +1939,7 @@ void DemoEffect_DrawLgtShower(Actor* thisx, GlobalContext* globalCtx) {
  * Draw function for the Light Ring Actor.
  */
 void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx2) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     GlobalContext* globalCtx = globalCtx2;
     u32 frames = this->lightRing.timer;
 
@@ -1963,13 +1962,13 @@ void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx2) {
  * Draw function for the Triforce Spot Actor.
  */
 void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     s32 pad;
     Vtx* vertices = SEGMENTED_TO_VIRTUAL(gTriforceVtx);
     u32 frames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2994);
-    if (gSaveContext.entranceIndex != 0x0400 || globalCtx->csCtx.frames < 885) {
+    if (gSaveContext.entranceIndex != ENTR_NAKANIWA_0 || globalCtx->csCtx.frames < 885) {
         func_80093D84(globalCtx->state.gfxCtx);
 
         if (this->triforceSpot.lightColumnOpacity > 0) {
@@ -1998,7 +1997,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002ED80(&this->actor, globalCtx, 0);
                 func_80093D84(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
-                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->triforceSpot.rotation), MTXMODE_APPLY);
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3053),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_XLU_DISP++, 8,
@@ -2010,7 +2009,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                 func_8002EBCC(&this->actor, globalCtx, 0);
                 func_80093D18(globalCtx->state.gfxCtx);
                 gDPSetRenderMode(POLY_OPA_DISP++, G_RM_PASS, G_RM_AA_ZB_OPA_SURF2);
-                Matrix_RotateY(this->triforceSpot.rotation * (M_PI / 0x8000), MTXMODE_APPLY);
+                Matrix_RotateY(BINANG_TO_RAD(this->triforceSpot.rotation), MTXMODE_APPLY);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3085),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPSegment(POLY_OPA_DISP++, 8,
@@ -2029,7 +2028,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
  * This is either Medals or Light Arrows based on the drawId.
  */
 void DemoEffect_DrawGetItem(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     if (!DemoEffect_CheckCsAction(this, globalCtx, 1) && !DemoEffect_CheckCsAction(this, globalCtx, 4)) {
         if (!this->getItem.isLoaded) {
             this->getItem.isLoaded = 1;
@@ -2046,7 +2045,7 @@ void DemoEffect_DrawGetItem(Actor* thisx, GlobalContext* globalCtx) {
  */
 s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelCuve, s32 limbIndex, void* thisx) {
     s32 pad;
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     u32 frames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 3154);
@@ -2072,12 +2071,13 @@ s32 DemoEffect_DrawTimewarpLimbs(GlobalContext* globalCtx, SkelAnimeCurve* skelC
  * Draw function for the Time Warp Actors.
  */
 void DemoEffect_DrawTimeWarp(Actor* thisx, GlobalContext* globalCtx) {
-    DemoEffect* this = THIS;
+    DemoEffect* this = (DemoEffect*)thisx;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        Flags_GetEnv(globalCtx, 1) || gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == 0x0324) {
+        Flags_GetEnv(globalCtx, 1) || gSaveContext.sceneSetupIndex >= 4 ||
+        gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
@@ -2095,8 +2095,8 @@ void DemoEffect_FaceToCsEndpoint(DemoEffect* this, Vec3f startPos, Vec3f endPos)
     f32 z = endPos.z - startPos.z;
     f32 xzDistance = sqrtf(SQ(x) + SQ(z));
 
-    this->actor.shape.rot.y = Math_FAtan2F(x, z) * (32768.0f / M_PI);
-    this->actor.shape.rot.x = Math_FAtan2F(-(endPos.y - startPos.y), xzDistance) * (32768.0f / M_PI);
+    this->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(x, z));
+    this->actor.shape.rot.x = RAD_TO_BINANG(Math_FAtan2F(-(endPos.y - startPos.y), xzDistance));
 }
 
 /**

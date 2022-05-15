@@ -10,7 +10,7 @@ PauseMapMarksData* gLoadedPauseMarkDataTable;
 extern void KaleidoScope_Update(GlobalContext* globalCtx);
 extern void KaleidoScope_Draw(GlobalContext* globalCtx);
 
-void KaleidoScopeCall_LoadPlayer() {
+void KaleidoScopeCall_LoadPlayer(void) {
     KaleidoMgrOverlay* playerActorOvl = &gKaleidoMgrOverlayTable[KALEIDO_OVL_PLAYER_ACTOR];
 
     if (gKaleidoMgrCurOvl != playerActorOvl) {

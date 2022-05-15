@@ -1,9 +1,7 @@
 #include "z_en_ssh.h"
 #include "objects/object_ssh/object_ssh.h"
 
-#define FLAGS 0x00000035
-
-#define THIS ((EnSsh*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 #define SSH_STATE_STUNNED (1 << 0)
 #define SSH_STATE_GROUND_START (1 << 2)
@@ -422,7 +420,7 @@ void EnSsh_Sway(EnSsh* this) {
         swayVecBase.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
-        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_APPLY);
         Matrix_MultVec3f(&swayVecBase, &swayVec);
         Matrix_Pop();
         this->actor.shape.rot.z = -(swayAngle * 2);
@@ -575,7 +573,7 @@ s32 EnSsh_SetCylinderOC(EnSsh* this, GlobalContext* globalCtx) {
         cyloffsets[i].z *= this->colliderScale;
         Matrix_Push();
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
-        Matrix_RotateY((this->initialYaw / (f32)0x8000) * M_PI, MTXMODE_APPLY);
+        Matrix_RotateY(BINANG_TO_RAD_ALT(this->initialYaw), MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
         Matrix_Pop();
         this->colCylinder[i + 3].dim.pos.x = cylPos.x;
@@ -604,7 +602,7 @@ void EnSsh_SetColliders(EnSsh* this, GlobalContext* globalCtx) {
 void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     frameCount = Animation_GetLastFrame(&object_ssh_Anim_000304);
     if (this->actor.params == ENSSH_FATHER) {
@@ -636,7 +634,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnSsh_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
     s32 i;
 
     Effect_Delete(globalCtx, this->blureIdx);
@@ -657,23 +655,23 @@ void EnSsh_Wait(EnSsh* this, GlobalContext* globalCtx) {
 
 void EnSsh_Talk(EnSsh* this, GlobalContext* globalCtx) {
     EnSsh_Bob(this, globalCtx);
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnSsh_Idle;
     }
 }
 
 void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx) {
     if (1) {}
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = EnSsh_Talk;
         if (this->actor.params == ENSSH_FATHER) {
-            gSaveContext.eventChkInf[9] |= 0x40;
+            SET_EVENTCHKINF(EVENTCHKINF_96);
         }
         if ((this->actor.textId == 0x26) || (this->actor.textId == 0x27)) {
-            gSaveContext.infTable[25] |= 0x40;
+            SET_INFTABLE(INFTABLE_196);
         }
         if ((this->actor.textId == 0x24) || (this->actor.textId == 0x25)) {
-            gSaveContext.infTable[25] |= 0x80;
+            SET_INFTABLE(INFTABLE_197);
         }
     } else {
         if ((this->unkTimer != 0) && (DECR(this->unkTimer) == 0)) {
@@ -698,13 +696,13 @@ void EnSsh_Idle(EnSsh* this, GlobalContext* globalCtx) {
                         if (gSaveContext.inventory.gsTokens >= 50) {
                             this->actor.textId = 0x29;
                         } else if (gSaveContext.inventory.gsTokens >= 10) {
-                            if (gSaveContext.infTable[25] & 0x80) {
+                            if (GET_INFTABLE(INFTABLE_197)) {
                                 this->actor.textId = 0x24;
                             } else {
                                 this->actor.textId = 0x25;
                             }
                         } else {
-                            if (gSaveContext.infTable[25] & 0x40) {
+                            if (GET_INFTABLE(INFTABLE_196)) {
                                 this->actor.textId = 0x27;
                             } else {
                                 this->actor.textId = 0x26;
@@ -804,7 +802,7 @@ void EnSsh_Start(EnSsh* this, GlobalContext* globalCtx) {
 
 void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     EnSsh_UpdateColliderScale(this);
     if (EnSsh_CollisionCheck(this, globalCtx)) {
@@ -815,7 +813,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         SkelAnime_Update(&this->skelAnime);
         func_8002D7EC(&this->actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, globalCtx);
     }
     EnSsh_UpdateYaw(this, globalCtx);
@@ -831,7 +829,7 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     switch (limbIndex) {
         case 1:
@@ -863,15 +861,19 @@ s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
 
 void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u32* blinkTex[] = { 0x060007E0, 0x06000C60, 0x06001060 };
+    static void* blinkTex[] = {
+        object_ssh_Tex_0007E0,
+        object_ssh_Tex_000C60,
+        object_ssh_Tex_001060,
+    };
     s32 pad;
-    EnSsh* this = THIS;
+    EnSsh* this = (EnSsh*)thisx;
 
     EnSsh_CheckBodyStickHit(this, globalCtx);
     EnSsh_Sway(this);

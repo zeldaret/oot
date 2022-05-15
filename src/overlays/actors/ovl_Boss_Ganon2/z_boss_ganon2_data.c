@@ -2,6 +2,8 @@
 #include "overlays/actors/ovl_En_Zl3/z_en_zl3.h"
 #include "objects/object_ganon2/object_ganon2.h"
 
+#define BOSS_GANON2_EFFECT_COUNT 100
+
 typedef struct {
     /* 0x00 */ u8 type;
     /* 0x01 */ u8 unk_01;
@@ -340,7 +342,7 @@ static Actor* D_8090EB30;
 // unused
 static UNK_TYPE D_8090EB34;
 
-static BossGanon2Effect sParticles[100];
+static BossGanon2Effect sEffects[BOSS_GANON2_EFFECT_COUNT];
 
 static s32 sSeed1;
 static s32 sSeed2;

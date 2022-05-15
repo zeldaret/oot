@@ -3,9 +3,7 @@
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnBomBowlPit*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomBowlPit_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -35,7 +33,7 @@ const ActorInit En_Bom_Bowl_Pit_InitVars = {
 };
 
 void EnBomBowlPit_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomBowlPit* this = THIS;
+    EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
     this->actionFunc = EnBomBowlPit_SetupDetectHit;
 }
@@ -54,7 +52,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     EnBomChu* chu;
     Vec3f chuPosDiff;
 
-    if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_CHU_BOWLING) {
+    if (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_CHU_BOWLING) {
         chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
         while (chu != NULL) {
@@ -72,41 +70,41 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, NULL, 8);
                 chu->timer = 1;
 
-                this->camId = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
+                this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
-                this->unk_1C8.x = this->unk_1C8.y = this->unk_1C8.z = 0.1f;
-                this->unk_1A4.x = this->unk_1A4.y = this->unk_1A4.z = 0.1f;
+                this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
+                this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
 
-                this->unk_180.x = this->unk_168.x = globalCtx->view.lookAt.x;
-                this->unk_180.y = this->unk_168.y = globalCtx->view.lookAt.y;
-                this->unk_180.z = this->unk_168.z = globalCtx->view.lookAt.z;
+                this->subCamAt.x = this->viewAt.x = globalCtx->view.at.x;
+                this->subCamAt.y = this->viewAt.y = globalCtx->view.at.y;
+                this->subCamAt.z = this->viewAt.z = globalCtx->view.at.z;
 
-                this->unk_18C.x = this->unk_174.x = globalCtx->view.eye.x;
-                this->unk_18C.y = this->unk_174.y = globalCtx->view.eye.y;
-                this->unk_18C.z = this->unk_174.z = globalCtx->view.eye.z;
+                this->subCamEye.x = this->viewEye.x = globalCtx->view.eye.x;
+                this->subCamEye.y = this->viewEye.y = globalCtx->view.eye.y;
+                this->subCamEye.z = this->viewEye.z = globalCtx->view.eye.z;
 
-                this->unk_1BC.x = 20.0f;
-                this->unk_1BC.y = 100.0f;
-                this->unk_1BC.z = -800.0f;
+                this->subCamAtNext.x = 20.0f;
+                this->subCamAtNext.y = 100.0f;
+                this->subCamAtNext.z = -800.0f;
 
-                this->unk_198.x = 20.0f;
-                this->unk_198.y = 50.0f;
-                this->unk_198.z = -485.0f;
+                this->subCamEyeNext.x = 20.0f;
+                this->subCamEyeNext.y = 50.0f;
+                this->subCamEyeNext.z = -485.0f;
 
-                this->unk_1B0.x = fabsf(this->unk_18C.x - this->unk_198.x) * 0.02f;
-                this->unk_1B0.y = fabsf(this->unk_18C.y - this->unk_198.y) * 0.02f;
-                this->unk_1B0.z = fabsf(this->unk_18C.z - this->unk_198.z) * 0.02f;
+                this->subCamEyeVel.x = fabsf(this->subCamEye.x - this->subCamEyeNext.x) * 0.02f;
+                this->subCamEyeVel.y = fabsf(this->subCamEye.y - this->subCamEyeNext.y) * 0.02f;
+                this->subCamEyeVel.z = fabsf(this->subCamEye.z - this->subCamEyeNext.z) * 0.02f;
 
-                this->unk_1D4.x = fabsf(this->unk_180.x - this->unk_1BC.x) * 0.02f;
-                this->unk_1D4.y = fabsf(this->unk_180.y - this->unk_1BC.y) * 0.02f;
-                this->unk_1D4.z = fabsf(this->unk_180.z - this->unk_1BC.z) * 0.02f;
+                this->subCamAtVel.x = fabsf(this->subCamAt.x - this->subCamAtNext.x) * 0.02f;
+                this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * 0.02f;
+                this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * 0.02f;
 
-                Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
+                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 this->actor.textId = 0xF;
-                func_8010B680(globalCtx, this->actor.textId, NULL);
-                this->unk_154 = 5;
+                Message_StartTextbox(globalCtx, this->actor.textId, NULL);
+                this->unk_154 = TEXT_STATE_EVENT;
                 func_80078884(NA_SE_EV_HIT_SOUND);
                 func_8002DF54(globalCtx, NULL, 8);
                 this->status = 1;
@@ -120,25 +118,28 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->camId != SUBCAM_FREE) {
-        Math_ApproachF(&this->unk_180.x, this->unk_1BC.x, this->unk_1C8.x, this->unk_1D4.x);
-        Math_ApproachF(&this->unk_180.y, this->unk_1BC.y, this->unk_1C8.y, this->unk_1D4.y);
-        Math_ApproachF(&this->unk_180.z, this->unk_1BC.z, this->unk_1C8.z, this->unk_1D4.z);
-        Math_ApproachF(&this->unk_18C.x, this->unk_198.x, this->unk_1A4.x, this->unk_1B0.x);
-        Math_ApproachF(&this->unk_18C.y, this->unk_198.y, this->unk_1A4.y, this->unk_1B0.y);
-        Math_ApproachF(&this->unk_18C.z, this->unk_198.z, this->unk_1A4.z, this->unk_1B0.z);
+    if (this->subCamId != SUB_CAM_ID_DONE) {
+        Math_ApproachF(&this->subCamAt.x, this->subCamAtNext.x, this->subCamAtMaxVelFrac.x, this->subCamAtVel.x);
+        Math_ApproachF(&this->subCamAt.y, this->subCamAtNext.y, this->subCamAtMaxVelFrac.y, this->subCamAtVel.y);
+        Math_ApproachF(&this->subCamAt.z, this->subCamAtNext.z, this->subCamAtMaxVelFrac.z, this->subCamAtVel.z);
+        Math_ApproachF(&this->subCamEye.x, this->subCamEyeNext.x, this->subCamEyeMaxVelFrac.x, this->subCamEyeVel.x);
+        Math_ApproachF(&this->subCamEye.y, this->subCamEyeNext.y, this->subCamEyeMaxVelFrac.y, this->subCamEyeVel.y);
+        Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z, this->subCamEyeVel.z);
     }
 
-    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->unk_180, &this->unk_18C);
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 
-    if ((this->unk_154 == func_8010BDBC(&globalCtx->msgCtx)) && (func_80106BC8(globalCtx) != 0)) {
-        func_80106CCC(globalCtx);
+    if ((this->unk_154 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
+        Message_CloseTextbox(globalCtx);
     }
 
-    if ((fabsf(this->unk_18C.x - this->unk_198.x) < 5.0f) && (fabsf(this->unk_18C.y - this->unk_198.y) < 5.0f) &&
-        (fabsf(this->unk_18C.z - this->unk_198.z) < 5.0f) && (fabsf(this->unk_180.x - this->unk_1BC.x) < 5.0f) &&
-        (fabsf(this->unk_180.y - this->unk_1BC.y) < 5.0f) && (fabsf(this->unk_180.z - this->unk_1BC.z) < 5.0f)) {
-        func_80106CCC(globalCtx);
+    if ((fabsf(this->subCamEye.x - this->subCamEyeNext.x) < 5.0f) &&
+        (fabsf(this->subCamEye.y - this->subCamEyeNext.y) < 5.0f) &&
+        (fabsf(this->subCamEye.z - this->subCamEyeNext.z) < 5.0f) &&
+        (fabsf(this->subCamAt.x - this->subCamAtNext.x) < 5.0f) &&
+        (fabsf(this->subCamAt.y - this->subCamAtNext.y) < 5.0f) &&
+        (fabsf(this->subCamAt.z - this->subCamAtNext.z) < 5.0f)) {
+        Message_CloseTextbox(globalCtx);
         this->timer = 30;
         this->actionFunc = EnBomBowlPit_SpawnPrize;
     }
@@ -159,15 +160,15 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->exItemDone != 0) {
         switch (this->prizeIndex) {
             case EXITEM_BOMB_BAG_BOWLING:
-                gSaveContext.itemGetInf[1] |= 2;
+                SET_ITEMGETINF(ITEMGETINF_11);
                 break;
             case EXITEM_HEART_PIECE_BOWLING:
-                gSaveContext.itemGetInf[1] |= 4;
+                SET_ITEMGETINF(ITEMGETINF_12);
                 break;
         }
 
-        Gameplay_ClearCamera(globalCtx, this->camId);
-        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
+        Gameplay_ClearCamera(globalCtx, this->subCamId);
+        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnBomBowlPit_GivePrize;
     }
@@ -183,10 +184,10 @@ void EnBomBowlPit_GivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
         this->getItemId = GI_BOMB_BAG_40;
     }
 
-    player->stateFlags1 &= ~0x20000000;
+    player->stateFlags1 &= ~PLAYER_STATE1_29;
     this->actor.parent = NULL;
     func_8002F434(&this->actor, globalCtx, this->getItemId, 2000.0f, 1000.0f);
-    player->stateFlags1 |= 0x20000000;
+    player->stateFlags1 |= PLAYER_STATE1_29;
     this->actionFunc = EnBomBowlPit_WaitTillPrizeGiven;
 }
 
@@ -199,7 +200,7 @@ void EnBomBowlPit_WaitTillPrizeGiven(EnBomBowlPit* this, GlobalContext* globalCt
 }
 
 void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
+    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
         // "Normal termination"/"completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         if (this->getItemId == GI_HEART_PIECE) {
@@ -214,7 +215,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnBomBowlPit* this = THIS;
+    EnBomBowlPit* this = (EnBomBowlPit*)thisx;
 
     this->actionFunc(this, globalCtx);
 

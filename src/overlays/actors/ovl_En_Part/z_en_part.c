@@ -8,9 +8,7 @@
 #include "objects/object_tite/object_tite.h"
 #include "objects/object_ik/object_ik.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnPart*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnPart_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPart_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -106,9 +104,11 @@ void func_80ACE13C(EnPart* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
     if ((this->actor.params == 12) || (this->actor.params == 13)) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x1D);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
+                                    UPDBGCHECKINFO_FLAG_4);
 
-        if ((this->actor.bgCheckFlags & 1) || (this->actor.world.pos.y <= this->actor.floorHeight)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.world.pos.y <= this->actor.floorHeight)) {
             this->action = 4;
             this->actor.speedXZ = 0.0f;
             this->actor.gravity = 0.0f;
@@ -183,6 +183,7 @@ void func_80ACE5C8(EnPart* this, GlobalContext* globalCtx) {
 
         if (sqrt(this->actor.xyzDistToPlayerSq) <= 40.0f) {
             u8 prevInvincibilityTimer = player->invincibilityTimer;
+
             if (player->invincibilityTimer <= 0) {
                 if (player->invincibilityTimer <= -40) {
                     player->invincibilityTimer = 0;
@@ -217,6 +218,7 @@ void func_80ACE7E8(EnPart* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         f32 diffsSum = Math_SmoothStepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f, 5.0f, 0.0f);
+
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f, 5.0f, 0.0f);
         diffsSum += Math_SmoothStepToF(&this->rotZ, 0.0f, 1.0f, 0.25f, 0.0f);
@@ -239,16 +241,17 @@ void EnPart_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_80ACDDE8, func_80ACE13C, func_80ACE5B8, func_80ACE5C8, func_80ACE7E8,
     };
 
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     Actor_MoveForward(&this->actor);
 
     if ((this->actor.params > 4 && this->actor.params < 9) || this->actor.params < 0) {
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f,
+                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         if (this->actor.params >= 0) {
             Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
-            if (thisx->bgCheckFlags & 1) {
-                thisx->bgCheckFlags &= ~1;
+            if (thisx->bgCheckFlags & BGCHECKFLAG_GROUND) {
+                thisx->bgCheckFlags &= ~BGCHECKFLAG_GROUND;
                 thisx->velocity.y = 6.0f;
             }
         }
@@ -273,7 +276,7 @@ Gfx* func_80ACEAC0(GraphicsContext* gfxCtx, u8 primR, u8 primG, u8 primB, u8 env
 }
 
 void EnPart_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnPart* this = THIS;
+    EnPart* this = (EnPart*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_part.c", 647);
 

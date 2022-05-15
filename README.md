@@ -5,8 +5,8 @@
 [jenkins]: https://jenkins.deco.mp/job/OOT/job/master
 [jenkins-badge]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.deco.mp%2Fjob%2FOOT%2Fjob%2Fmaster
 
-[progress]: https://zelda64.dev/progress.html
-[progress-badge]: https://img.shields.io/endpoint?url=https://zelda64.dev/reports/progress_shield.json
+[progress]: https://zelda64.dev/games/oot
+[progress-badge]: https://img.shields.io/endpoint?url=https://zelda64.dev/assets/csv/progress-oot-shield.json
 
 [contributors]: https://github.com/zeldaret/oot/graphs/contributors
 [contributors-badge]: https://img.shields.io/github/contributors/zeldaret/oot
@@ -39,37 +39,24 @@ It builds the following ROM:
 
 ## Installation
 
+We recommend using WSL on Windows, or native Linux, which the rest of this readme describes. We currently have instructions for
+
+* [Windows](#Windows), with and without WSL
+* [macOS](docs/BUILDING_MACOS.md)
+* [Linux](#Linux-Native-or-under-WSL--VM), natively or using WSL / VM
+* [Docker](docs/BUILDING_DOCKER.md)
+
+(These will also depend on the Linux instructions.)
+Some of these may also be out of date or unmaintained; usually our contributors use WSL, Linux, and macOS, so these instructions should be up to date.
+
 ### Windows
 
-For Windows 10, install WSL and a distribution by following this
-[Windows Subsystem for Linux Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
-We recommend using Debian or Ubuntu 18.04 Linux distributions.
+For Windows 10 or 11, install WSL and a distribution by following this
+[WSL Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install).
+We recommend using Ubuntu 20.04 as the Linux distribution.
 
-For older versions of Windows, install a Linux VM or refer to either [Cygwin](#Cygwin) or [Docker](#Docker) instructions.
+For older versions of Windows, install a Linux VM or refer to either [Cygwin](docs/BUILDING_CYGWIN.md) or [Docker](docs/BUILDING_DOCKER.md) instructions.
 
-### macOS
-
-For macOS, use homebrew to install the following dependencies:
-
-* coreutils
-* make
-* python3
-* md5sha1sum
-* libpng
-
-You can install them with the following commands:
-
-```bash
-brew update
-brew install coreutils make python3 md5sha1sum libpng
-```
-
-You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
-
-Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
-The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
-
-You should now be able to continue from [step 2](#2-clone-the-repository) of the Linux instructions.
 
 ### Linux (Native or under WSL / VM)
 
@@ -90,12 +77,25 @@ sudo apt-get update
 sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libpng-dev
 ```
 
+If you are using GCC as the compiler for Ocarina of Time, you will also need:
+
+* gcc-mips-linux-gnu
+
 #### 2. Clone the repository
+
+**N.B.** If using WSL, we strongly encourage you to clone into WSL's Linux filesystem using Linux's `git`.
+Cloning into the Windows filesystem will result in much slower read/write speeds, and often causes issues when Windows copies the files with the wrong line endings, which the compiler IDO cannot handle correctly.
 
 Clone `https://github.com/zeldaret/oot.git` where you wish to have the project, with a command such as:
 
 ```bash
 git clone https://github.com/zeldaret/oot.git
+```
+
+This will copy the GitHub repository contents into a new folder in the current directory called `oot`. Change into this directory before doing anything else:
+
+```bash
+cd oot
 ```
 
 #### 3. Prepare a base ROM
@@ -139,62 +139,12 @@ md5sum: WARNING: 1 computed checksum did NOT match
 This means that the built ROM isn't the same as the base one, so something went wrong or some part of the code doesn't match.
 
 **NOTE:** to speed up the build, you can either:
+
 * pass `-jN` to `make setup` and `make`, where N is the number of threads to use in the build. The generally-accepted wisdom is to use the number of virtual cores your computer has.
 * pass `-j` to `make setup` and `make`, to use as many threads as possible, but beware that this can use too much memory on lower-end systems.
 
 Both of these have the disadvantage that the ordering of the terminal output is scrambled, so for debugging it is best to stick to one thread (i.e. not pass `-j` or `-jN`).
 
-### Cygwin
-
-If you want to use Cygwin, you will need to:
-
-* Download and install [Git Bash](https://git-scm.com/download/win).
-* Download and install [Cygwin](https://cygwin.com).
-* [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
-
-Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
-
-* libiconv
-* dos2unix
-* python3
-* libpng-devel
-
-Then you can continue from step [step 2](#2-clone-the-repository) of the Linux instructions.
-
-Note that, before building anything, you will need to run the following commands to fix line endings:
-
-```bash
-dos2unix fixle.sh
-./fixle.sh
-```
-
-### Docker
-
-#### 1. Setup requirements
-
-To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
-
-You'll also need to prepare a local version of the project with a copied base ROM (see steps [2](#2-clone-the-repository) and [3](#3-prepare-a-base-rom) of the Linux instructions).
-
-#### 2. Create the docker image
-
-From inside your local project, run the following command:
-
-```bash
-docker build . -t oot
-```
-
-#### 3. Start the container
-
-To start the container, you can mount your local filesystem into the docker container and run an interactive bash session.
-
-```bash
-docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/bash
-```
-
-#### 4. Setup and Build the ROM
-
-Once inside the container, you can follow steps [4](#4-setup-the-rom-and-build-process) and [5](#5-build-the-rom) of the Linux instructions to setup and build the ROM, or run any other command you need.
 
 ## Contributing
 

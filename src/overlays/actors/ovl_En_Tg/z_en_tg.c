@@ -7,9 +7,7 @@
 #include "z_en_tg.h"
 #include "objects/object_mu/object_mu.h"
 
-#define FLAGS 0x00000009
-
-#define THIS ((EnTg*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
 void EnTg_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -53,7 +51,7 @@ const ActorInit En_Tg_InitVars = {
 };
 
 u16 EnTg_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
-    EnTg* this = THIS;
+    EnTg* this = (EnTg*)thisx;
     u16 temp;
     u32 phi;
 
@@ -81,20 +79,20 @@ u16 EnTg_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 s16 EnTg_OnTextComplete(GlobalContext* globalCtx, Actor* thisx) {
-    EnTg* this = THIS;
+    EnTg* this = (EnTg*)thisx;
 
-    switch (func_8010BDBC(&globalCtx->msgCtx)) {
-        case 0:
-        case 1:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+    switch (Message_GetState(&globalCtx->msgCtx)) {
+        case TEXT_STATE_NONE:
+        case TEXT_STATE_DONE_HAS_NEXT:
+        case TEXT_STATE_DONE_FADING:
+        case TEXT_STATE_CHOICE:
+        case TEXT_STATE_EVENT:
+        case TEXT_STATE_DONE:
+        case TEXT_STATE_SONG_DEMO_DONE:
+        case TEXT_STATE_8:
+        case TEXT_STATE_9:
             return 1;
-        case 2:
+        case TEXT_STATE_CLOSING:
             switch (this->actor.textId) {
                 case 0x5089:
                 case 0x508A:
@@ -113,7 +111,7 @@ s16 EnTg_OnTextComplete(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnTg* this = THIS;
+    EnTg* this = (EnTg*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDancingCoupleSkel, &gDancingCoupleAnim, NULL, NULL, 0);
@@ -127,7 +125,7 @@ void EnTg_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnTg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnTg* this = THIS;
+    EnTg* this = (EnTg*)thisx;
 
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
@@ -140,7 +138,7 @@ void EnTg_SpinIfNotTalking(EnTg* this, GlobalContext* globalCtx) {
 }
 
 void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnTg* this = THIS;
+    EnTg* this = (EnTg*)thisx;
     s32 pad;
     f32 temp;
     Vec3s sp2C;
@@ -151,7 +149,7 @@ void EnTg_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.dim.pos = sp2C;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     this->actionFunc(this, globalCtx);
     temp = this->collider.dim.radius + 30.0f;
     func_800343CC(globalCtx, &this->actor, &this->isTalking, temp, EnTg_GetTextId, EnTg_OnTextComplete);
@@ -162,7 +160,7 @@ s32 EnTg_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnTg_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnTg* this = THIS;
+    EnTg* this = (EnTg*)thisx;
     Vec3f targetOffset = { 0.0f, 800.0f, 0.0f };
 
     if (limbIndex == 9) {
@@ -180,7 +178,7 @@ Gfx* EnTg_SetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 }
 
 void EnTg_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnTg* this = THIS;
+    EnTg* this = (EnTg*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tg.c", 462);
     Matrix_Translate(0.0f, 0.0f, -560.0f, MTXMODE_APPLY);

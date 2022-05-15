@@ -8,9 +8,7 @@
 #include "objects/object_fu/object_fu.h"
 #include "scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 
-#define FLAGS 0x02000019
-
-#define THIS ((EnFu*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
 #define FU_RESET_LOOK_ANGLE (1 << 0)
 #define FU_WAIT (1 << 1)
@@ -75,7 +73,7 @@ typedef enum {
 
 void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &gWindmillManSkel, &gWindmillManPlayStillAnim, this->jointTable,
@@ -98,15 +96,14 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
 s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFunc actionFunc) {
     s16 yawDiff;
 
-    // func_8002F194 returns 1 if actor flags & 0x100 is set and unsets it
-    if (func_8002F194(&this->actor, globalCtx)) {
+    if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         return true;
     }
@@ -122,7 +119,7 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
 }
 
 void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->behaviorFlags &= ~FU_WAIT;
         this->actionFunc = EnFu_WaitChild;
 
@@ -137,10 +134,10 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     u16 textID = Text_GetFaceReaction(globalCtx, 0xB);
 
     if (textID == 0) {
-        textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
+        textID = GET_EVENTCHKINF(EVENTCHKINF_67) ? 0x5033 : 0x5032;
     }
 
-    // if actor flags & 0x100 is set and textID is 0x5033, change animation
+    // if ACTOR_FLAG_8 is set and textID is 0x5033, change animation
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
@@ -153,14 +150,13 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
 void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = EnFu_WaitAdult;
-        gSaveContext.eventChkInf[5] |= 0x800;
-        globalCtx->msgCtx.unk_E3EE = 4;
+        SET_EVENTCHKINF(EVENTCHKINF_5B);
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
     }
 }
 
 void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
-    // if dialog state is 2 set action to WaitAdult
-    if (func_8002F334(&this->actor, globalCtx)) {
+    if (Actor_TextboxIsClosing(&this->actor, globalCtx)) {
         this->actionFunc = EnFu_WaitAdult;
     }
 }
@@ -168,34 +164,34 @@ void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
 void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    if (globalCtx->msgCtx.unk_E3EE >= 4) {
+    if (globalCtx->msgCtx.ocarinaMode >= OCARINA_MODE_04) {
         this->actionFunc = EnFu_WaitAdult;
-        globalCtx->msgCtx.unk_E3EE = 4;
-        this->actor.flags &= ~0x10000;
-    } else if (globalCtx->msgCtx.unk_E3EE == 3) {
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+        this->actor.flags &= ~ACTOR_FLAG_16;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_03) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         this->actionFunc = func_80A1DB60;
-        this->actor.flags &= ~0x10000;
+        this->actor.flags &= ~ACTOR_FLAG_16;
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gSongOfStormsCs);
         gSaveContext.cutsceneTrigger = 1;
         Item_Give(globalCtx, ITEM_SONG_STORMS);
-        globalCtx->msgCtx.unk_E3EE = 0;
-        gSaveContext.eventChkInf[6] |= 0x20;
-    } else if (globalCtx->msgCtx.unk_E3EE == 2) {
-        player->stateFlags2 &= ~0x1000000;
+        globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
+        SET_EVENTCHKINF(EVENTCHKINF_65);
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
+        player->stateFlags2 &= ~PLAYER_STATE2_24;
         this->actionFunc = EnFu_WaitAdult;
-    } else if (globalCtx->msgCtx.unk_E3EE == 1) {
-        player->stateFlags2 |= 0x800000;
+    } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_01) {
+        player->stateFlags2 |= PLAYER_STATE2_23;
     }
 }
 
 void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    player->stateFlags2 |= 0x800000;
+    player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 7, player has played back the song
-    if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
-        func_8010BD58(globalCtx, 0x1A);
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_SONG_DEMO_DONE) {
+        func_8010BD58(globalCtx, OCARINA_ACTION_PLAYBACK_STORMS);
         this->actionFunc = func_80A1DBD4;
     }
 }
@@ -203,12 +199,13 @@ void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
 void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
-    player->stateFlags2 |= 0x800000;
+    player->stateFlags2 |= PLAYER_STATE2_23;
     // if dialog state is 2, start song demonstration
-    if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
+    if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         this->behaviorFlags &= ~FU_WAIT;
-        func_800ED858(4);              // seems to be related to setting instrument type
-        func_8010BD58(globalCtx, 0xD); // play song demonstration, song 0xD = SoS
+        // Ocarina is set to harp here but is immediately overwritten to the grind organ in the message system
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_HARP);
+        func_8010BD58(globalCtx, OCARINA_ACTION_TEACH_STORMS);
         this->actionFunc = EnFu_WaitForPlayback;
     }
 }
@@ -218,38 +215,38 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if ((gSaveContext.eventChkInf[5] & 0x800)) {
+    if (GET_EVENTCHKINF(EVENTCHKINF_5B)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
-    } else if (player->stateFlags2 & 0x1000000) {
+    } else if (player->stateFlags2 & PLAYER_STATE2_24) {
         this->actor.textId = 0x5035;
-        func_8010B680(globalCtx, this->actor.textId, NULL);
+        Message_StartTextbox(globalCtx, this->actor.textId, NULL);
         this->actionFunc = EnFu_TeachSong;
         this->behaviorFlags |= FU_WAIT;
-    } else if (func_8002F194(&this->actor, globalCtx)) {
+    } else if (Actor_ProcessTalkRequest(&this->actor, globalCtx)) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
         if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
-            player->stateFlags2 |= 0x800000;
+            player->stateFlags2 |= PLAYER_STATE2_23;
         }
     }
 }
 
 void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+    if (!(this->behaviorFlags & FU_WAIT) && (SkelAnime_Update(&this->skelanime) != 0)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
                          Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);
     }
     this->actionFunc(this, globalCtx);
-    if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
+    if (this->behaviorFlags & FU_RESET_LOOK_ANGLE) {
         Math_SmoothStepToS(&this->lookAngleOffset.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->lookAngleOffset.y, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
@@ -261,7 +258,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
     s32 pad;
 
     if (limbIndex == FU_LIMB_UNK) {
@@ -288,7 +285,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 }
 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     if (limbIndex == FU_LIMB_HEAD) {
         Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
@@ -299,7 +296,7 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyesSegments[] = { gWindmillManEyeClosedTex, gWindmillManEyeAngryTex };
     static void* sMouthSegments[] = { gWindmillManMouthOpenTex, gWindmillManMouthAngryTex };
     s32 pad;
-    EnFu* this = THIS;
+    EnFu* this = (EnFu*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 773);
 

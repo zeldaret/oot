@@ -13,9 +13,7 @@
 #include "objects/object_mori_hineri2a/object_mori_hineri2a.h"
 #include "objects/object_mori_tex/object_mori_tex.h"
 
-#define FLAGS 0x00000030
-
-#define THIS ((BgMoriHineri*)thisx)
+#define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -29,7 +27,7 @@ void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx
 void BgMoriHineri_DoNothing(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx);
 
-static s16 sNextCamIdx = SUBCAM_NONE;
+static s16 sSubCamId = CAM_ID_NONE;
 
 const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
@@ -48,14 +46,14 @@ static InitChainEntry sInitChain[] = {
 };
 
 static Gfx* sDLists[] = {
-    0x060024E0,
-    0x06001980,
-    0x060020F0,
-    0x06002B70,
+    object_mori_hineri1_DL_0024E0,
+    object_mori_hineri1a_DL_001980,
+    object_mori_hineri2_DL_0020F0,
+    object_mori_hineri2a_DL_002B70,
 };
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     s8 moriHineriObjIdx;
     u32 switchFlagParam;
     s32 t6;
@@ -108,7 +106,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -172,14 +170,14 @@ void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
 
     f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
-    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON1);
+    Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON1);
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.shape.rot.z = -this->dyna.actor.shape.rot.z;
     }
 }
 
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
-    s16 mainCamChildIdx;
+    s16 mainCamChildId;
 
     if ((Flags_GetSwitch(globalCtx, this->switchFlag) &&
          (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
@@ -188,46 +186,47 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
-        mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
-        if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
-            OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
+        mainCamChildId = globalCtx->cameraPtrs[CAM_ID_MAIN]->childCamId;
+        if ((mainCamChildId != CAM_ID_MAIN) &&
+            (globalCtx->cameraPtrs[mainCamChildId]->setting == CAM_SET_CS_TWISTED_HALLWAY)) {
+            OnePointCutscene_EndCutscene(globalCtx, mainCamChildId);
         }
-        OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
-        sNextCamIdx = OnePointCutscene_Init(globalCtx, 3261, 40, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, CAM_ID_MAIN);
+        sSubCamId = OnePointCutscene_Init(globalCtx, 3261, 40, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 
 void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
     s8 objBankIndex;
 
-    if (globalCtx->activeCamera == sNextCamIdx) {
-        if (sNextCamIdx != MAIN_CAM) {
+    if (globalCtx->activeCamId == sSubCamId) {
+        if (sSubCamId != SUB_CAM_ID_DONE) {
             objBankIndex = this->dyna.actor.objBankIndex;
             this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
             this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
-            sNextCamIdx = MAIN_CAM;
+            sSubCamId = SUB_CAM_ID_DONE;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             this->dyna.actor.draw = NULL;
             this->actionFunc = func_808A3D58;
-            sNextCamIdx = SUBCAM_NONE;
+            sSubCamId = CAM_ID_NONE;
         }
     }
-    if ((sNextCamIdx >= SUBCAM_FIRST) &&
+    if ((sSubCamId >= CAM_ID_SUB_FIRST) &&
         ((GET_ACTIVE_CAM(globalCtx)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }
 
 void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
 
     this->actionFunc(this, globalCtx);
 }
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
-    BgMoriHineri* this = THIS;
+    BgMoriHineri* this = (BgMoriHineri*)thisx;
     s8 objIndex;
     MtxF mtx;
 
@@ -248,14 +247,14 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             Matrix_Translate(1999.0f, 1278.0f, -1821.0f, MTXMODE_NEW);
         }
-        Matrix_RotateRPY(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
+        Matrix_RotateZYX(0, -0x8000, this->dyna.actor.shape.rot.z, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
     if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
-        (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
+        Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)) {
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->boxObjIdx].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
@@ -268,7 +267,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Put(&mtx);
         Matrix_Translate(167.0f, -218.0f, -453.0f, MTXMODE_APPLY);
         if (Flags_GetTreasure(globalCtx, 0xE)) {
-            Matrix_RotateZ(0x3500 * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateZ(BINANG_TO_RAD(0x3500), MTXMODE_APPLY);
         } else {
             Matrix_RotateZ(M_PI, MTXMODE_APPLY);
         }

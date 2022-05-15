@@ -7,9 +7,7 @@
 #include "z_en_pu_box.h"
 #include "objects/object_pu_box/object_pu_box.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnPubox*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -30,7 +28,7 @@ const ActorInit En_Pu_box_InitVars = {
 
 void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
-    EnPubox* this = THIS;
+    EnPubox* this = (EnPubox*)thisx;
 
     switch (thisx->params) {
         case 0:
@@ -62,27 +60,28 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnPubox* this = THIS;
+    EnPubox* this = (EnPubox*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnPubox* this = THIS;
+    EnPubox* this = (EnPubox*)thisx;
 
     thisx->speedXZ += this->dyna.unk_150;
     thisx->world.rot.y = this->dyna.unk_158;
     thisx->speedXZ = (thisx->speedXZ < -2.5f) ? -2.5f : ((thisx->speedXZ > 2.5f) ? 2.5f : thisx->speedXZ);
     Math_SmoothStepToF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speedXZ != 0.0f) {
-        Audio_PlaySoundGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &D_801333E0, &D_801333E0,
-                               &D_801333E8);
+        Audio_PlaySoundGeneral(NA_SE_EV_ROCK_SLIDE - SFX_FLAG, &thisx->projectedPos, 4, &gSfxDefaultFreqAndVolScale,
+                               &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;
     Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
-                            thisx->colChkInfo.cylRadius, 0x1D);
+    Actor_UpdateBgCheckInfo(
+        globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius, thisx->colChkInfo.cylRadius,
+        UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     thisx->focus.pos = thisx->world.pos;
 }
 

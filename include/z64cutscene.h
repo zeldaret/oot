@@ -23,7 +23,7 @@ typedef struct {
     /* 0x0C */ Vec3f eye;
     /* 0x18 */ s16 roll;
     /* 0x1A */ s16 fov;
-} CutsceneCameraAngle; // size = 0x1C
+} CutsceneCameraDirection; // size = 0x1C
 
 typedef struct {
     /* 0x0 */ CutsceneCameraPoint* atPoints;
@@ -106,12 +106,12 @@ typedef enum {
 
 typedef enum {
     CS_CMD_00 = 0x0000,
-    CS_CMD_CAMERA_POS = 0x0001,
-    CS_CMD_CAMERA_FOCUS = 0x0002,
+    CS_CMD_CAM_EYE = 0x0001,
+    CS_CMD_CAM_AT = 0x0002,
     CS_CMD_MISC = 0x0003,
     CS_CMD_SET_LIGHTING = 0x0004,
-    CS_CMD_CAMERA_POS_PLAYER = 0x0005,
-    CS_CMD_CAMERA_FOCUS_PLAYER = 0x0006,
+    CS_CMD_CAM_EYE_REL_TO_PLAYER = 0x0005,
+    CS_CMD_CAM_AT_REL_TO_PLAYER = 0x0006,
     CS_CMD_07 = 0x0007,
     CS_CMD_08 = 0x0008,
     CS_CMD_09 = 0x0009,
@@ -139,14 +139,14 @@ typedef enum {
 
 /**
  * Special type for blocks of cutscene data, asm-processor checks
- * arrays for CutsceneData type and converts floats within the array 
- * to their IEEE-754 representation. The array must close with }; 
+ * arrays for CutsceneData type and converts floats within the array
+ * to their IEEE-754 representation. The array must close with };
  * on its own line.
- * 
+ *
  * Files that contain this type that are included in other C files
  * must include an 'EARLY' qualifier to inform asm-processor that it
  * must recursively process that include.
- * 
+ *
  * Example: #include "file.c" EARLY
  */
 typedef union CutsceneData {
@@ -158,36 +158,6 @@ typedef union CutsceneData {
 
 #define CS_CMD_CONTINUE 0
 #define CS_CMD_STOP -1
-
-typedef enum {
-    /* 0x00 */ OCARINA_ACTION_UNK_0,
-    /* 0x01 */ OCARINA_ACTION_FREE_PLAY_OCARINA,
-    /* 0x02 */ OCARINA_ACTION_MINUET,
-    /* 0x03 */ OCARINA_ACTION_BOLERO,
-    /* 0x04 */ OCARINA_ACTION_SERENADE,
-    /* 0x05 */ OCARINA_ACTION_REQUIEM,
-    /* 0x06 */ OCARINA_ACTION_NOCTURNE,
-    /* 0x07 */ OCARINA_ACTION_PRELUDE,
-    /* 0x08 */ OCARINA_ACTION_SARIAS_SONG,
-    /* 0x09 */ OCARINA_ACTION_EPONAS_SONG,
-    /* 0x0A */ OCARINA_ACTION_ZELDAS_LULLABY,
-    /* 0x0B */ OCARINA_ACTION_SUNS_SONG,
-    /* 0x0C */ OCARINA_ACTION_SONG_OF_TIME,
-    /* 0x0D */ OCARINA_ACTION_SONG_OF_STORMS,
-    /* 0x0E */ OCARINA_ACTION_OCARINA_ACTION_UNK_E,
-    /* 0x0F */ OCARINA_ACTION_MINUET_PLAYBACK,
-    /* 0x10 */ OCARINA_ACTION_BOLERO_PLAYBACK,
-    /* 0x11 */ OCARINA_ACTION_SERENADE_PLAYBACK,
-    /* 0x12 */ OCARINA_ACTION_REQUIEM_PLAYBACK,
-    /* 0013 */ OCARINA_ACTION_NOCTURNE_PLAYBACK,
-    /* 0x14 */ OCARINA_ACTION_PRELUDE_PLAYBACK,
-    /* 0x15 */ OCARINA_ACTION_SARIAS_SONG_PLAYBACK,
-    /* 0x16 */ OCARINA_ACTION_EPONAS_SONG_PLAYBACK,
-    /* 0x17 */ OCARINA_ACTION_ZELDAS_LULLABY_PLAYBACK,
-    /* 0x18 */ OCARINA_ACTION_SUNS_SONG_PLAYBACK,
-    /* 0x19 */ OCARINA_ACTION_SONG_OF_TIME_PLAYBACK,
-    /* 0x1A */ OCARINA_ACTION_SONG_OF_STORMS_PLAYBACK
-} OcarinaSongActionIDs;
 
 // TODO confirm correctness, clarify names
 typedef enum {

@@ -10,9 +10,7 @@
 #include "objects/object_goroiwa/object_goroiwa.h"
 #include "vt.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((EnGoroiwa*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef s32 (*EnGoroiwaUnkFunc1)(EnGoroiwa* this, GlobalContext* globalCtx);
 typedef void (*EnGoroiwaUnkFunc2)(EnGoroiwa* this);
@@ -465,9 +463,9 @@ void EnGoroiwa_UpdateRotation(EnGoroiwa* this, GlobalContext* globalCtx) {
     }
 
     Matrix_RotateAxis(rollAngleDiff, &unitRollAxis, MTXMODE_NEW);
-    Matrix_RotateY(this->actor.shape.rot.y * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
-    Matrix_RotateX(this->actor.shape.rot.x * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
-    Matrix_RotateZ(this->actor.shape.rot.z * (2.0f * M_PI / 0x10000), MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_APPLY);
+    Matrix_RotateX(BINANG_TO_RAD(this->actor.shape.rot.x), MTXMODE_APPLY);
+    Matrix_RotateZ(BINANG_TO_RAD(this->actor.shape.rot.z), MTXMODE_APPLY);
     Matrix_Get(&mtx);
     Matrix_MtxFToYXZRotS(&mtx, &this->actor.shape.rot, 0);
 }
@@ -531,7 +529,7 @@ static InitChainEntry sInitChain[] = {
 
 void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     static f32 yOffsets[] = { 0.0f, 595.0f };
-    EnGoroiwa* this = THIS;
+    EnGoroiwa* this = (EnGoroiwa*)thisx;
     s32 pathIdx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -567,7 +565,7 @@ void EnGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGoroiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
-    EnGoroiwa* this = THIS;
+    EnGoroiwa* this = (EnGoroiwa*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -645,7 +643,7 @@ void EnGoroiwa_SetupMoveAndFallToGround(EnGoroiwa* this) {
 
 void EnGoroiwa_MoveAndFallToGround(EnGoroiwa* this, GlobalContext* globalCtx) {
     EnGoroiwa_MoveAndFall(this, globalCtx);
-    if ((this->actor.bgCheckFlags & 1) && this->actor.velocity.y < 0.0f) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && this->actor.velocity.y < 0.0f) {
         if ((this->stateFlags & ENGOROIWA_PLAYER_IN_THE_WAY) && (this->actor.home.rot.z & 1) == 1) {
             EnGoroiwa_ReverseDirection(this);
             EnGoroiwa_FaceNextWaypoint(this, globalCtx);
@@ -722,19 +720,20 @@ void EnGoroiwa_MoveDown(EnGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnGoroiwa* this = THIS;
+    EnGoroiwa* this = (EnGoroiwa*)thisx;
     Player* player = GET_PLAYER(globalCtx);
     s32 pad;
-    UNK_TYPE sp30;
+    s32 sp30;
 
-    if (!(player->stateFlags1 & 0x300000C0)) {
+    if (!(player->stateFlags1 & (PLAYER_STATE1_6 | PLAYER_STATE1_7 | PLAYER_STATE1_28 | PLAYER_STATE1_29))) {
         if (this->collisionDisabledTimer > 0) {
             this->collisionDisabledTimer--;
         }
         this->actionFunc(this, globalCtx);
         switch ((this->actor.params >> 10) & 1) {
             case 1:
-                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+                Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f,
+                                        UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
                 break;
             case 0:
                 this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30,

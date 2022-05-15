@@ -8,9 +8,7 @@
 #include "objects/object_firefly/object_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
-#define FLAGS 0x00005005
-
-#define THIS ((EnFirefly*)thisx)
+#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -123,7 +121,7 @@ void EnFirefly_Extinguish(EnFirefly* this) {
     this->collider.elements[0].info.toucher.effect = 0; // None
     this->auraType = KEESE_AURA_NONE;
     this->onFire = false;
-    this->actor.naviEnemyId = 0x12; // Keese
+    this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
 }
 
 void EnFirefly_Ignite(EnFirefly* this) {
@@ -135,11 +133,11 @@ void EnFirefly_Ignite(EnFirefly* this) {
     this->collider.elements[0].info.toucher.effect = 1; // Fire
     this->auraType = KEESE_AURA_FIRE;
     this->onFire = true;
-    this->actor.naviEnemyId = 0x11; // Fire Keese
+    this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
 }
 
 void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
@@ -150,7 +148,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
 
     if ((this->actor.params & 0x8000) != 0) {
-        this->actor.flags |= 0x80;
+        this->actor.flags |= ACTOR_FLAG_7;
         if (1) {}
         this->actor.draw = EnFirefly_DrawInvisible;
         this->actor.params &= 0x7FFF;
@@ -167,7 +165,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->timer = Rand_S16Offset(20, 60);
         this->actor.shape.rot.x = 0x1554;
         this->auraType = KEESE_AURA_FIRE;
-        this->actor.naviEnemyId = 0x11; // Fire Keese
+        this->actor.naviEnemyId = NAVI_ENEMY_FIRE_KEESE;
         this->maxAltitude = this->actor.home.pos.y;
     } else {
         if (this->actor.params == KEESE_NORMAL_PERCH) {
@@ -178,10 +176,10 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->actor.params == KEESE_ICE_FLY) {
             this->collider.elements[0].info.toucher.effect = 2; // Ice
-            this->actor.naviEnemyId = 0x56;                     // Ice Keese
+            this->actor.naviEnemyId = NAVI_ENEMY_ICE_KEESE;
         } else {
             this->collider.elements[0].info.toucher.effect = 0; // Nothing
-            this->actor.naviEnemyId = 0x12;                     // Keese
+            this->actor.naviEnemyId = NAVI_ENEMY_KEESE;
         }
 
         this->maxAltitude = this->actor.home.pos.y + 100.0f;
@@ -197,7 +195,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
@@ -216,7 +214,7 @@ void EnFirefly_SetupFall(EnFirefly* this) {
     this->actor.velocity.y = 0.0f;
     Animation_Change(&this->skelAnime, &gKeeseFlyAnim, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 40);
     this->actionFunc = EnFirefly_Fall;
 }
@@ -263,7 +261,7 @@ void EnFirefly_SetupFrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f iceParticlePos;
 
-    this->actor.flags |= 0x10;
+    this->actor.flags |= ACTOR_FLAG_4;
     this->auraType = KEESE_AURA_NONE;
     this->actor.speedXZ = 0.0f;
     Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xFF);
@@ -400,15 +398,16 @@ void EnFirefly_FlyIdle(EnFirefly* this, GlobalContext* globalCtx) {
                 this->targetPitch = 0x2154;
             }
         } else {
-            if (this->actor.bgCheckFlags & 1) {
+            if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                 this->targetPitch = 0x954;
-            } else if ((this->actor.bgCheckFlags & 0x10) || (this->maxAltitude < this->actor.world.pos.y)) {
+            } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) ||
+                       (this->maxAltitude < this->actor.world.pos.y)) {
                 this->targetPitch = 0x2154;
             }
         }
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
     }
     if ((this->timer == 0) && (this->actor.xzDistToPlayer < 200.0f) &&
@@ -425,7 +424,7 @@ void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
     this->actor.colorFilterTimer = 40;
     SkelAnime_Update(&this->skelAnime);
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
-    if (this->actor.flags & 0x8000) {
+    if (this->actor.flags & ACTOR_FLAG_15) {
         this->actor.colorFilterTimer = 40;
     } else {
         Math_ScaledStepToS(&this->actor.shape.rot.x, 0x6800, 0x200);
@@ -433,7 +432,7 @@ void EnFirefly_Fall(EnFirefly* this, GlobalContext* globalCtx) {
         if (this->timer != 0) {
             this->timer--;
         }
-        if ((this->actor.bgCheckFlags & 1) || (this->timer == 0)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->timer == 0)) {
             EnFirefly_SetupDie(this);
         }
     }
@@ -461,7 +460,7 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
         this->timer--;
     }
     Math_StepToF(&this->actor.speedXZ, 4.0f, 0.5f);
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
         Math_ScaledStepToS(&this->actor.shape.rot.x, this->targetPitch, 0x100);
     } else if (Actor_IsFacingPlayer(&this->actor, 0x2800)) {
@@ -480,10 +479,10 @@ void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
         if (this->actor.xzDistToPlayer > 80.0f) {
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xC00, 0x300);
         }
-        if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
             this->targetPitch = 0x954;
         }
-        if ((this->actor.bgCheckFlags & 0x10) || (this->maxAltitude < this->actor.world.pos.y)) {
+        if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->maxAltitude < this->actor.world.pos.y)) {
             this->targetPitch = 0x2154;
         } else {
             this->targetPitch = 0x954;
@@ -522,14 +521,14 @@ void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
         return;
     }
     Math_StepToF(&this->actor.speedXZ, 3.0f, 0.3f);
-    if (this->actor.bgCheckFlags & 1) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
         this->targetPitch = 0x954;
-    } else if ((this->actor.bgCheckFlags & 0x10) || (this->maxAltitude < this->actor.world.pos.y)) {
+    } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_CEILING) || (this->maxAltitude < this->actor.world.pos.y)) {
         this->targetPitch = 0x2154;
     } else {
         this->targetPitch = 0x954;
     }
-    if (this->actor.bgCheckFlags & 8) {
+    if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.wallYaw, 2, 0xC00, 0x300);
     } else {
         Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos),
@@ -556,7 +555,7 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_FrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 1) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
+    if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
         this->actor.colorFilterTimer = 0;
         EnFirefly_SetupDie(this);
     } else {
@@ -623,12 +622,12 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
 
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                this->actor.flags &= ~1;
+                this->actor.flags &= ~ACTOR_FLAG_0;
             }
 
             damageEffect = this->actor.colChkInfo.damageEffect;
@@ -666,7 +665,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
     GlobalContext* globalCtx = globalCtx2;
 
     if (this->collider.base.atFlags & AT_HIT) {
@@ -684,7 +683,7 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->actionFunc(this, globalCtx);
 
-    if (!(this->actor.flags & 0x8000)) {
+    if (!(this->actor.flags & ACTOR_FLAG_15)) {
         if ((this->actor.colChkInfo.health == 0) || (this->actionFunc == EnFirefly_Stunned)) {
             Actor_MoveForward(&this->actor);
         } else {
@@ -695,7 +694,8 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 15.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 15.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     this->collider.elements[0].dim.worldSphere.center.x = this->actor.world.pos.x;
     this->collider.elements[0].dim.worldSphere.center.y = this->actor.world.pos.y + 10.0f;
     this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
@@ -722,9 +722,9 @@ void EnFirefly_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 s32 EnFirefly_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                void* thisx, Gfx** gfx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
-    if ((this->actor.draw == EnFirefly_DrawInvisible) && (globalCtx->actorCtx.unk_03 == 0)) {
+    if ((this->actor.draw == EnFirefly_DrawInvisible) && !globalCtx->actorCtx.lensActive) {
         *dList = NULL;
     } else if (limbIndex == 1) {
         pos->y += 2300.0f;
@@ -747,7 +747,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     MtxF mtx;
     s16 effScaleStep;
     s16 effLife;
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     if (!this->onFire && (limbIndex == 27)) {
         gSPDisplayList((*gfx)++, gKeeseEyesDL);
@@ -803,7 +803,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1733);
     func_80093D18(globalCtx->state.gfxCtx);
@@ -820,7 +820,7 @@ void EnFirefly_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFirefly_DrawInvisible(Actor* thisx, GlobalContext* globalCtx) {
-    EnFirefly* this = THIS;
+    EnFirefly* this = (EnFirefly*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_firefly.c", 1775);
     func_80093D84(globalCtx->state.gfxCtx);

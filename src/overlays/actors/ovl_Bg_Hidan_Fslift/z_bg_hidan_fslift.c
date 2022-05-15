@@ -7,9 +7,7 @@
 #include "z_bg_hidan_fslift.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgHidanFslift*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -41,7 +39,7 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
-    BgHidanFslift* this = THIS;
+    BgHidanFslift* this = (BgHidanFslift*)thisx;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
@@ -69,7 +67,7 @@ void func_80886F24(BgHidanFslift* this) {
 }
 
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFslift* this = THIS;
+    BgHidanFslift* this = (BgHidanFslift*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -91,7 +89,7 @@ void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < 0.5f) {
             heightBool = true;
         }
-        if (func_80043590(&this->dyna) && (heightBool)) {
+        if (func_80043590(&this->dyna) && heightBool) {
             this->actionFunc = func_808870D8;
         } else if (!heightBool) {
             this->actionFunc = func_8088706C;
@@ -124,17 +122,17 @@ void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
 }
 
 void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFslift* this = THIS;
+    BgHidanFslift* this = (BgHidanFslift*)thisx;
 
     this->actionFunc(this, globalCtx);
     if (func_8004356C(&this->dyna)) {
         if (this->unk_16A == 0) {
             this->unk_16A = 3;
         }
-        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_FIRE_PLATFORM);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
     } else if (!func_8004356C(&this->dyna)) {
         if (this->unk_16A != 0) {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
         this->unk_16A = 0;
     }

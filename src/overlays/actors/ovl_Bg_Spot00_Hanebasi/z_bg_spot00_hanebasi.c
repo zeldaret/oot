@@ -8,9 +8,7 @@
 #include "objects/object_spot00_objects/object_spot00_objects.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000010
-
-#define THIS ((BgSpot00Hanebasi*)thisx)
+#define FLAGS ACTOR_FLAG_4
 
 typedef enum {
     /* -1 */ DT_DRAWBRIDGE = -1,
@@ -49,7 +47,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Hanebasi* this = THIS;
+    BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
     s32 pad;
     Vec3f chainPos;
     CollisionHeader* colHeader = NULL;
@@ -81,7 +79,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if (gSaveContext.sceneSetupIndex != 6) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !(gSaveContext.eventChkInf[8] & 1)) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 this->dyna.actor.shape.rot.x = -0x4000;
             }
         }
@@ -128,7 +126,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot00Hanebasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Hanebasi* this = THIS;
+    BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 
@@ -142,9 +140,9 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
 
     if ((gSaveContext.sceneSetupIndex >= 4) || !CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) ||
         !CHECK_QUEST_ITEM(QUEST_GORON_RUBY) || !CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) ||
-        (gSaveContext.eventChkInf[8] & 1)) {
+        GET_EVENTCHKINF(EVENTCHKINF_80)) {
         if (this->dyna.actor.shape.rot.x != 0) {
-            if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && (gSaveContext.nightFlag == 0))) {
+            if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && IS_DAY)) {
                 this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
                 this->destAngle = 0;
                 child->destAngle = 0;
@@ -153,8 +151,7 @@ void BgSpot00Hanebasi_DrawbridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
 
             if (this) {} // required to match
         }
-        if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT &&
-            (gSaveContext.nightFlag != 0)) {
+        if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && !LINK_IS_ADULT && !IS_DAY) {
             this->actionFunc = BgSpot00Hanebasi_DrawbridgeRiseAndFall;
             this->destAngle = -0x4000;
             child->destAngle = -0xFE0;
@@ -206,7 +203,7 @@ void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* g
 }
 
 void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
-    BgSpot00Hanebasi* this = THIS;
+    BgSpot00Hanebasi* this = (BgSpot00Hanebasi*)thisx;
     s32 pad;
 
     this->actionFunc(this, globalCtx);
@@ -214,20 +211,20 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         if (globalCtx->sceneNum == SCENE_SPOT00) {
             if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY) &&
-                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !(gSaveContext.eventChkInf[8] & 1) && LINK_IS_CHILD) {
+                CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE) && !GET_EVENTCHKINF(EVENTCHKINF_80) && LINK_IS_CHILD) {
                 Player* player = GET_PLAYER(globalCtx);
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
                     (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f) &&
                     (!(Gameplay_InCsMode(globalCtx)))) {
-                    gSaveContext.eventChkInf[8] |= 1;
-                    Flags_SetEventChkInf(0x82);
+                    SET_EVENTCHKINF(EVENTCHKINF_80);
+                    Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
                     func_8002DF54(globalCtx, &player->actor, 8);
-                    globalCtx->nextEntranceIndex = 0x00CD;
+                    globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
-                    globalCtx->sceneLoadFlag = 0x14;
-                    globalCtx->fadeTransition = 4;
+                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                    globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
                     globalCtx->envCtx.gloomySkyMode = 1;
                 }
@@ -272,7 +269,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, GlobalContext* globalCtx2) {
         sTorchFlameScale = ((thisx->shape.rot.x * -1) - 0x2000) * (1.0f / 1024000.0f);
     }
 
-    angle = (s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000) * (M_PI / 32768.0f);
+    angle = BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x8000));
     gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 0, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
 

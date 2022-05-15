@@ -7,9 +7,7 @@
 #include "z_en_ice_hono.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-#define FLAGS 0x00000000
-
-#define THIS ((EnIceHono*)thisx)
+#define FLAGS 0
 
 void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -103,11 +101,11 @@ f32 EnIceHono_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
 }
 
 void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChainCapturableFlame);
     Actor_SetScale(&this->actor, 0.0074f);
-    this->actor.flags |= 1;
+    this->actor.flags |= ACTOR_FLAG_0;
     Actor_SetFocus(&this->actor, 10.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -119,7 +117,7 @@ void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_InitDroppedFlame(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChainDroppedFlame);
     this->actor.scale.x = this->actor.scale.z = this->actor.scale.y = 0.00002f;
@@ -140,7 +138,7 @@ void EnIceHono_InitDroppedFlame(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_InitSmallFlame(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChainSmallFlame);
     this->actor.scale.x = this->actor.scale.z = this->actor.scale.y = 0.0008f;
@@ -152,7 +150,7 @@ void EnIceHono_InitSmallFlame(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
     s16 params = this->actor.params;
 
     switch (this->actor.params) {
@@ -179,7 +177,7 @@ void EnIceHono_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
 
     if ((this->actor.params == -1) || (this->actor.params == 0)) {
         LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
@@ -233,7 +231,7 @@ void EnIceHono_SetupActionDroppedFlame(EnIceHono* this) {
 }
 
 void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
-    u32 bgFlag = this->actor.bgCheckFlags & 1;
+    u32 bgFlag = this->actor.bgCheckFlags & BGCHECKFLAG_GROUND;
 
     Math_StepToF(&this->actor.scale.x, 0.0017f, 0.00008f);
     this->actor.scale.z = this->actor.scale.x;
@@ -249,7 +247,8 @@ void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
         EnIceHono_SetupActionSpreadFlames(this);
     }
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f,
+                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = this->actor.scale.x * 4000.0f;
@@ -277,7 +276,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
     }
     this->actor.scale.z = this->actor.scale.x;
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     if (this->timer < 25) {
         this->alpha -= 10;
         this->alpha = CLAMP(this->alpha, 0, 255);
@@ -328,7 +327,7 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
     this->actor.scale.z = this->actor.scale.x;
     Math_StepToF(&this->actor.speedXZ, 0, 0.06f);
     Actor_MoveForward(&this->actor);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
     if (this->timer < 25) {
         this->alpha -= 10;
@@ -340,7 +339,7 @@ void EnIceHono_SmallFlameMove(EnIceHono* this, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
     s32 pad1;
     f32 intensity;
     s32 pad2;
@@ -373,7 +372,7 @@ void EnIceHono_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    EnIceHono* this = THIS;
+    EnIceHono* this = (EnIceHono*)thisx;
     u32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 695);
@@ -387,9 +386,9 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 0);
 
-    Matrix_RotateY((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000) *
-                       (M_PI / 0x8000),
-                   MTXMODE_APPLY);
+    Matrix_RotateY(
+        BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) - this->actor.shape.rot.y + 0x8000)),
+        MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

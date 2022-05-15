@@ -20,6 +20,7 @@ typedef bool (*ExporterSetFuncBool)(ZFileMode fileMode);
 typedef void (*ExporterSetFuncVoid)(int argc, char* argv[], int& i);
 typedef void (*ExporterSetFuncVoid2)(const std::string& buildMode, ZFileMode& fileMode);
 typedef void (*ExporterSetFuncVoid3)();
+typedef void (*ExporterSetResSave)(ZResource* res, BinaryWriter& writer);
 
 class ExporterSet
 {
@@ -34,6 +35,7 @@ public:
 	ExporterSetFunc endFileFunc = nullptr;
 	ExporterSetFuncVoid3 beginXMLFunc = nullptr;
 	ExporterSetFuncVoid3 endXMLFunc = nullptr;
+	ExporterSetResSave resSaveFunc = nullptr;
 };
 
 class Globals
@@ -53,17 +55,14 @@ public:
 	TextureType texType;
 	ZGame game;
 	GameConfig cfg;
-	bool warnUnaccounted = false;
-	bool warnNoOffset = false;
-	bool errorNoOffset = false;
 	bool verboseUnaccounted = false;
 	bool gccCompat = false;
 	bool forceStatic = false;
+	bool forceUnaccountedStatic = false;
 
 	std::vector<ZFile*> files;
 	std::vector<ZFile*> externalFiles;
 	std::vector<int32_t> segments;
-	std::map<uint32_t, std::string> symbolMap;
 
 	std::string currentExporter;
 	static std::map<std::string, ExporterSet*>& GetExporterMap();
