@@ -39,21 +39,21 @@ void Object_InitContext(GlobalContext* globalCtx, ObjectContext* objectCtx) {
     s32 i;
 
     if (globalCtx2->sceneNum == SCENE_SPOT00) {
-        spaceSize = 1024000;
+        spaceSize = OBJECT_SPACE_SIZE_BASE;
     } else if (globalCtx2->sceneNum == SCENE_GANON_DEMO) {
         if (gSaveContext.sceneSetupIndex != 4) {
-            spaceSize = 1177600;
+            spaceSize = OBJECT_SPACE_SIZE_BASE + (150 * 1024);
         } else {
-            spaceSize = 1024000;
+            spaceSize = OBJECT_SPACE_SIZE_BASE;
         }
     } else if (globalCtx2->sceneNum == SCENE_JYASINBOSS) {
-        spaceSize = 1075200;
+        spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
     } else if (globalCtx2->sceneNum == SCENE_KENJYANOMA) {
-        spaceSize = 1075200;
+        spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
     } else if (globalCtx2->sceneNum == SCENE_GANON_BOSS) {
-        spaceSize = 1075200;
+        spaceSize = OBJECT_SPACE_SIZE_BASE + (50 * 1024);
     } else {
-        spaceSize = 1024000;
+        spaceSize = OBJECT_SPACE_SIZE_BASE;
     }
 
     objectCtx->num = objectCtx->unk_09 = 0;
