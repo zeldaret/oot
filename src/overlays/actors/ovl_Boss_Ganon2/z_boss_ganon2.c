@@ -79,13 +79,13 @@ void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32
     s32 pad;
     s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[objectIdx].segment);
 
     if (setRSPSegment) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 790);
 
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objectIdx].segment);
-        gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.status[objectIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objectIdx].segment);
+        gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objectIdx].segment);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 799);
     }
@@ -1034,7 +1034,7 @@ void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
     s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON2);
 
     if (Object_IsLoaded(&globalCtx->objectCtx, objectIdx)) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[objectIdx].segment);
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[objectIdx].segment);
         Animation_MorphToLoop(&this->skelAnime, &object_ganon2_Anim_00FFE4, -10.0f);
         this->actionFunc = func_808FFEBC;
 

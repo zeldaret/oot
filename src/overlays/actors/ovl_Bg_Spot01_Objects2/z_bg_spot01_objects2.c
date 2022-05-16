@@ -94,7 +94,7 @@ void func_808AC2BC(BgSpot01Objects2* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         // "---- Successful bank switching!!"
         osSyncPrintf("-----バンク切り換え成功！！\n");
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->objBankIndex].segment);
 
         this->dyna.actor.objBankIndex = this->objBankIndex;
         DynaPolyActor_Init(&this->dyna, DPM_PLAYER);

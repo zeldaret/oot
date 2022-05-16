@@ -170,7 +170,7 @@ void EnDntNomal_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDntNomal_WaitForObject(EnDntNomal* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objIndex)) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objIndex].segment);
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[this->objIndex].segment);
         this->actor.objBankIndex = this->objIndex;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actor.gravity = -2.0f;

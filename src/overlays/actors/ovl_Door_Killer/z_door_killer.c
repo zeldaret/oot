@@ -459,9 +459,9 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
 void DoorKiller_UpdateTexture(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->doorObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->doorObjBankIndex].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[thisx->objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[thisx->objBankIndex].segment);
 }
 
 /**

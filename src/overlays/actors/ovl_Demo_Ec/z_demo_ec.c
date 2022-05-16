@@ -319,8 +319,8 @@ void DemoEc_UseDrawObject(DemoEc* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_demo_ec.c", 662);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[drawObjBankIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[drawObjBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[drawObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[drawObjBankIndex].segment);
     if (!globalCtx) {}
 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 670);
@@ -329,7 +329,7 @@ void DemoEc_UseDrawObject(DemoEc* this, GlobalContext* globalCtx) {
 void DemoEc_UseAnimationObject(DemoEc* this, GlobalContext* globalCtx) {
     s32 animObjBankIndex = this->animObjBankIndex;
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[animObjBankIndex].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[animObjBankIndex].segment);
 }
 
 CsCmdActorAction* DemoEc_GetNpcAction(GlobalContext* globalCtx, s32 actionIndex) {

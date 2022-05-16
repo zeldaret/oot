@@ -776,7 +776,7 @@ typedef struct {
     /* 0x08 */ DmaRequest  dmaRequest;
     /* 0x28 */ OSMesgQueue loadQueue;
     /* 0x40 */ OSMesg   loadMsg;
-} ObjectStatus; // size = 0x44
+} ObjectLoadEntry; // size = 0x44
 
 // 1000 kilobytes
 #define OBJECT_SPACE_SIZE_BASE (1000 * 1024)
@@ -788,7 +788,7 @@ typedef struct {
     /* 0x0009 */ u8     unk_09;
     /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in bank
     /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in bank
-    /* 0x000C */ ObjectStatus status[19];
+    /* 0x000C */ ObjectLoadEntry loadEntries[19];
 } ObjectContext; // size = 0x518
 
 typedef struct {

@@ -198,7 +198,7 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
 
 void EnGSwitch_WaitForObject(EnGSwitch* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objIndex)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->objIndex].segment);
         this->actor.objBankIndex = this->objIndex;
         this->actor.draw = EnGSwitch_DrawPot;
         this->actionFunc = EnGSwitch_ArcheryPot;
