@@ -24,12 +24,12 @@ u32 EffectSsIceSmoke_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
     s32 pad;
     s32 objBankIdx;
-    void* oldSeg6;
+    void* prevSeg6;
 
     objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
     if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
-        oldSeg6 = gSegments[6];
+        prevSeg6 = gSegments[6];
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIdx].segment);
         Math_Vec3f_Copy(&this->pos, &initParams->pos);
         Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
@@ -40,7 +40,7 @@ u32 EffectSsIceSmoke_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
         this->life = 50;
         this->draw = EffectSsIceSmoke_Draw;
         this->update = EffectSsIceSmoke_Update;
-        gSegments[6] = oldSeg6;
+        gSegments[6] = prevSeg6;
 
         return 1;
     }
@@ -52,12 +52,12 @@ u32 EffectSsIceSmoke_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 
 void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
-    void* object;
+    void* objectPtr;
     Mtx* mtx;
     f32 scale;
     s32 objBankIdx;
 
-    object = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 155);
 
@@ -66,8 +66,8 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
         gDPPipeSync(POLY_XLU_DISP++);
         func_80093D84(globalCtx->state.gfxCtx);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-        gSPSegment(POLY_XLU_DISP++, 0x06, object);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+        gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gFreezardSteamStartDL));
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 235, 235, this->rAlpha);

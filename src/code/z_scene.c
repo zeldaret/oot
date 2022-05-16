@@ -149,7 +149,6 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
 
     nextPtr = (void*)ALIGN16((s32)loadEntry->segment + size);
-    if (1) {} // Necessary to match
 
     ASSERT(nextPtr < objectCtx->spaceEnd, "nextptr < this->endSegment", "../z_scene.c", 381);
 
@@ -294,8 +293,6 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     ASSERT(cmd->objectList.num <= ARRAY_COUNT(globalCtx->objectCtx.loadEntries),
            "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
-
-    if (1) {}
 
     while (k < cmd->objectList.num) {
         nextPtr = func_800982FC(&globalCtx->objectCtx, i, *objectEntry);

@@ -65,17 +65,17 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     MtxF mfResult;
     MtxF mfTrans11DA0;
     s32 pad;
-    void* object;
+    void* objectPtr;
     Mtx* mtx;
     f32 scale;
 
-    object = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) > -1) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-        gSPSegment(POLY_XLU_DISP++, 0x06, object);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+        gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         scale = this->rScale / 100.0f;
         SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
         SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
@@ -90,7 +90,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
             gSPDisplayList(POLY_XLU_DISP++, this->gfx);
         }

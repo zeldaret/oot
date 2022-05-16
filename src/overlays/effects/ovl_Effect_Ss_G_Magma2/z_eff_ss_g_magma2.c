@@ -75,17 +75,17 @@ void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     f32 scale;
-    void* object;
+    void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    object = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 261);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_g_magma2.c", 282),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 

@@ -34,13 +34,13 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     s32 objBankIdx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
-    void* oldSeg6;
+    void* prevSeg6;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
         objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FHG);
 
         if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
-            oldSeg6 = gSegments[6];
+            prevSeg6 = gSegments[6];
             gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIdx].segment);
             this->rObjBankIdx = objBankIdx;
             this->pos = initParams->pos;
@@ -53,7 +53,7 @@ u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
             this->draw = EffectSsFhgFlash_DrawLightBall;
             this->update = EffectSsFhgFlash_UpdateLightBall;
             this->gfx = SEGMENTED_TO_VIRTUAL(gPhantomEnergyBallDL);
-            gSegments[6] = oldSeg6;
+            gSegments[6] = prevSeg6;
         } else {
             osSyncPrintf("Effect_Ss_Fhg_Flash_ct():pffd->modeエラー\n");
             return 0;
@@ -88,17 +88,17 @@ void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectS
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad;
     f32 scale;
-    void* object;
+    void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    object = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->rAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, sColors[this->rParam].r, sColors[this->rParam].g, sColors[this->rParam].b, 0);

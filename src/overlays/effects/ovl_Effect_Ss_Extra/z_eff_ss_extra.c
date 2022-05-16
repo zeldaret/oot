@@ -61,12 +61,12 @@ static void* sTextures[] = {
 void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     f32 scale = this->rScale / 100.0f;
-    void* object = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    void* objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_extra.c", 168);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-    gSPSegment(POLY_XLU_DISP++, 0x06, object);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
+    gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     func_80093D84(globalCtx->state.gfxCtx);
