@@ -92,7 +92,7 @@ void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
         this->dyna.actor.objBankIndex = this->objBankIndex;
         this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        if (globalCtx->roomCtx.curRoom.lensActorMode != LENS_ACTOR_MODE_SEETHROUGH) {
+        if (globalCtx->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
             this->actionFunc = func_8087DBF0;
             collision = sCollisionHeaders[this->dyna.actor.params];
             if (collision != NULL) {

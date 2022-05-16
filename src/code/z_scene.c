@@ -239,7 +239,7 @@ void Scene_CommandSpecialFiles(GlobalContext* globalCtx, SceneCmd* cmd) {
 void Scene_CommandRoomBehavior(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->roomCtx.curRoom.behaviorType1 = cmd->roomBehavior.gpFlag1;
     globalCtx->roomCtx.curRoom.behaviorType2 = cmd->roomBehavior.gpFlag2 & 0xFF;
-    globalCtx->roomCtx.curRoom.lensActorMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
+    globalCtx->roomCtx.curRoom.lensMode = (cmd->roomBehavior.gpFlag2 >> 8) & 1;
     globalCtx->msgCtx.disableWarpSongs = (cmd->roomBehavior.gpFlag2 >> 0xA) & 1;
 }
 
