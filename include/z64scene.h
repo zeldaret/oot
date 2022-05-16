@@ -56,7 +56,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x02 */ s8 pad[2];
+    /* 0x02 */ char pad[2];
     /* 0x04 */ u8  x;
     /* 0x05 */ u8  y;
     /* 0x06 */ u8  z;
@@ -120,7 +120,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x02 */ s8 pad[2];
+    /* 0x02 */ char pad[2];
     /* 0x04 */ u8  hour;
     /* 0x05 */ u8  min;
     /* 0x06 */ u8  unk_06;
@@ -129,7 +129,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x02 */ s8 pad[2];
+    /* 0x02 */ char pad[2];
     /* 0x04 */ u8  skyboxId;
     /* 0x05 */ u8  unk_05;
     /* 0x06 */ u8  unk_06;
@@ -138,7 +138,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x02 */ s8 pad[2];
+    /* 0x02 */ char pad[2];
     /* 0x04 */ u8  unk_04;
     /* 0x05 */ u8  unk_05;
 } SCmdSkyboxDisables;
@@ -158,7 +158,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  specId;
-    /* 0x02 */ s8 pad[4];
+    /* 0x02 */ char pad[4];
     /* 0x06 */ u8  natureAmbienceId;
     /* 0x07 */ u8  seqId;
 } SCmdSoundSettings;
@@ -166,7 +166,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8  code;
     /* 0x01 */ u8  data1;
-    /* 0x02 */ s8 pad[5];
+    /* 0x02 */ char pad[5];
     /* 0x07 */ u8  echo;
 } SCmdEchoSettings;
 
