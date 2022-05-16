@@ -86,13 +86,13 @@ void func_80977EA8(GlobalContext* globalCtx, Gfx* dlist) {
 
 void func_80977F80(DemoGeff* this, GlobalContext* globalCtx) {
     s32 pad[2];
-    s32 objBankIndex = this->objBankIndex;
+    s32 objectLoadEntryIndex = this->objectLoadEntryIndex;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_demo_geff.c", 204);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objBankIndex].segment);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
 
     // Necessary to match
     if (!globalCtx) {}
@@ -189,16 +189,16 @@ void func_809783D4(DemoGeff* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     s32 params = thisx->params;
     s16 objectId = sObjectIDs[params];
-    s32 objBankIndex = Object_GetIndex(objCtx, objectId);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(objCtx, objectId);
     s32 pad;
 
-    if (objBankIndex < 0) {
+    if (objectLoadEntryIndex < 0) {
         osSyncPrintf(VT_FGCOL(RED) "Demo_Geff_main_bank:バンクを読めない arg_data = %d!\n" VT_RST, params);
         Actor_Kill(thisx);
         return;
     }
-    if (Object_IsLoaded(objCtx, objBankIndex)) {
-        this->objBankIndex = objBankIndex;
+    if (Object_IsLoadEntryLoaded(objCtx, objectLoadEntryIndex)) {
+        this->objectLoadEntryIndex = objectLoadEntryIndex;
         func_80978370(this, globalCtx);
     }
 }

@@ -251,7 +251,8 @@ void DoorShutter_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         this->dyna.actor.room = -1;
     }
-    if (this->requiredObjBankIndex = objectIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectInfo[phi_a3].objectId),
+    if (this->waitObjectLoadEntryIndex = objectIndex =
+            Object_GetLoadEntryIndex(&globalCtx->objectCtx, sObjectInfo[phi_a3].objectId),
         (s8)objectIndex < 0) {
         Actor_Kill(&this->dyna.actor);
         return;
@@ -285,8 +286,8 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
-        this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         if (this->doorType == SHUTTER_PG_BARS || this->doorType == SHUTTER_GOHMA_BLOCK) {
             // Init dynapoly for shutters of the type that uses it
             CollisionHeader* colHeader = NULL;
@@ -692,7 +693,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DoorShutter* this = (DoorShutter*)thisx;
 
     //! @bug This actor is not fully initialized until the required object dependency is loaded.
-    //! In most cases, the check for objBankIndex to equal requiredObjBankIndex prevents the actor
+    //! In most cases, the check for objectLoadEntryIndex to equal waitObjectLoadEntryIndex prevents the actor
     //! from drawing until initialization is complete. However if the required object is the same as the
     //! object dependency listed in init vars (gameplay_keep in this case), the check will pass even though
     //! initialization has not completed. When this happens, it will try to draw the display list of the
@@ -703,7 +704,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
     //! The best way to fix this issue (and what was done in Majora's Mask) is to null out the draw function in
     //! the init vars for the actor, and only set draw after initialization is complete.
 
-    if (this->dyna.actor.objBankIndex == this->requiredObjBankIndex &&
+    if (this->dyna.actor.objectLoadEntryIndex == this->waitObjectLoadEntryIndex &&
         (this->unk_16B == 0 || func_80997A34(this, globalCtx) != 0)) {
         s32 pad[2];
         ShutterInfo* sp70 = &sShutterInfo[this->unk_16C];

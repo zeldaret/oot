@@ -560,9 +560,9 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 void func_80B4FCCC(EnZl2* this, GlobalContext* globalCtx) {
-    s32 unk_274 = this->unk_274;
+    s32 objectLoadEntryIndex = this->zl2Anime1ObjectLoadEntryIndex;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[unk_274].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
 }
 
 void func_80B4FD00(EnZl2* this, AnimationHeader* animation, u8 arg2, f32 morphFrames, s32 arg4) {
@@ -1570,16 +1570,16 @@ void func_80B52114(EnZl2* this, GlobalContext* globalCtx) {
 void func_80B521A0(EnZl2* this, GlobalContext* globalCtx) {
     s32 pad;
     ObjectContext* objectCtx = &globalCtx->objectCtx;
-    s32 bankIndex = Object_GetIndex(objectCtx, OBJECT_ZL2_ANIME1);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(objectCtx, OBJECT_ZL2_ANIME1);
     s32 pad2;
 
-    if (bankIndex < 0) {
+    if (objectLoadEntryIndex < 0) {
         osSyncPrintf(VT_FGCOL(RED) "En_Zl2_main_bankアニメーションのバンクを読めない!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    if (Object_IsLoaded(objectCtx, bankIndex)) {
-        this->unk_274 = bankIndex;
+    if (Object_IsLoadEntryLoaded(objectCtx, objectLoadEntryIndex)) {
+        this->zl2Anime1ObjectLoadEntryIndex = objectLoadEntryIndex;
         func_80B4FCCC(this, globalCtx);
         this->unk_278 = Animation_GetLastFrame(&gZelda2Anime1Anim_0022D0);
         func_80B52114(this, globalCtx);

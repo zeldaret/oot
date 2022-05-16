@@ -117,8 +117,8 @@ void BgJyaBigmirror_SetBombiwaFlag(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
-    static s16 sMirRayParamss[] = { 0x0005, 0x0007, 0x0008 };
-    static Vec3f sMirRayPoss[] = {
+    static s16 sMirRayParamsVals[] = { 0x0005, 0x0007, 0x0008 };
+    static Vec3f sMirRayPositions[] = {
         { 60.0f, 1802.0f, -1102.0f },
         { -560.0f, 1800.0f, -310.0f },
         { 60.0f, 1800.0f, -310.0f },
@@ -127,11 +127,11 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
     s32 puzzleSolved;
     s32 lightBeamToggles[3];
     s32 i;
-    s32 objBankIndex;
+    s32 mirRayObjectLoadEntryIndex;
 
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MIR_RAY);
+    mirRayObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MIR_RAY);
 
-    if ((objBankIndex < 0) || (objBankIndex != this->mirRayObjIndex)) {
+    if ((mirRayObjectLoadEntryIndex < 0) || (mirRayObjectLoadEntryIndex != this->mirRayObjectLoadEntryIndex)) {
         this->lightBeams[2] = NULL;
         this->lightBeams[1] = NULL;
         this->lightBeams[0] = NULL;
@@ -152,9 +152,12 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
 
         for (i = 0; i < 3; i++) {
             if (lightBeamToggles[i]) {
-                if ((this->lightBeams[i] == NULL) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
-                    this->lightBeams[i] = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, sMirRayPoss[i].x,
-                                                      sMirRayPoss[i].y, sMirRayPoss[i].z, 0, 0, 0, sMirRayParamss[i]);
+                if ((this->lightBeams[i] == NULL) &&
+                    Object_IsLoadEntryLoaded(&globalCtx->objectCtx, mirRayObjectLoadEntryIndex)) {
+
+                    this->lightBeams[i] =
+                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, sMirRayPositions[i].x,
+                                    sMirRayPositions[i].y, sMirRayPositions[i].z, 0, 0, 0, sMirRayParamsVals[i]);
 
                     if (this->lightBeams[i] == NULL) {
                         // "Mir Ray generation failed"
@@ -169,7 +172,7 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
-    this->mirRayObjIndex = objBankIndex;
+    this->mirRayObjectLoadEntryIndex = mirRayObjectLoadEntryIndex;
 }
 
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -186,7 +189,7 @@ void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.room = -1;
     sIsSpawned = true;
     this->spawned = true;
-    this->mirRayObjIndex = -1;
+    this->mirRayObjectLoadEntryIndex = -1;
 
     // "jya Bigmirror"
     osSyncPrintf("(jya 大鏡)(arg_data 0x%04x)\n", this->actor.params);

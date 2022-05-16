@@ -63,8 +63,8 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
         // "The set Angle has changed. Let's fix the program."
         osSyncPrintf("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
     }
-    this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
-    if (this->moriTexObjIndex < 0) {
+    this->moriTexObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
+    if (this->moriTexObjectLoadEntryIndex < 0) {
         // "Forest Temple obj Falling Ceiling Bank Danger!"
         osSyncPrintf("Error : 森の神殿 obj 落下天井 バンク危険！(%s %d)\n", "../z_bg_mori_rakkatenjo.c", 205);
         Actor_Kill(&this->dyna.actor);
@@ -101,7 +101,7 @@ void BgMoriRakkatenjo_SetupWaitForMoriTex(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_WaitForMoriTex(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->moriTexObjectLoadEntryIndex)) {
         BgMoriRakkatenjo_SetupWait(this);
         this->dyna.actor.draw = BgMoriRakkatenjo_Draw;
     }
@@ -224,7 +224,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 497);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.loadEntries[this->moriTexObjIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.loadEntries[this->moriTexObjectLoadEntryIndex].segment);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 502),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

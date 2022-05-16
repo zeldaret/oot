@@ -1866,7 +1866,7 @@ void EnTest_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     s32 pad;
     Vec3f sp50;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 60, 60, dList, BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT);
 
     if (limbIndex == STALFOS_LIMB_SWORD) {
         Matrix_MultVec3f(&D_8086467C, &this->swordCollider.dim.quad[1]);

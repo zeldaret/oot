@@ -77,15 +77,15 @@ void func_808FD080(s32 idx, ColliderJntSph* collider, Vec3f* arg2) {
 
 void BossGanon2_SetObjectSegment(BossGanon2* this, GlobalContext* globalCtx, s32 objectId, u8 setRSPSegment) {
     s32 pad;
-    s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, objectId);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[objectIdx].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
 
     if (setRSPSegment) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 790);
 
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objectIdx].segment);
-        gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objectIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+        gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 799);
     }
@@ -182,7 +182,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
     s16 pad;
     u8 sp8D;
     Player* player;
-    s32 objectIdx;
+    s32 objectLoadEntryIndex;
     s32 zero = 0;
     s32 pad2;
 
@@ -192,8 +192,8 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
 
     switch (this->unk_39C) {
         case 0:
-            objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON_ANIME3);
-            if (Object_IsLoaded(&globalCtx->objectCtx, objectIdx)) {
+            objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_GANON_ANIME3);
+            if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
                 this->subCamId = Gameplay_CreateSubCamera(globalCtx);
@@ -1031,10 +1031,10 @@ void func_808FFCFC(BossGanon2* this, GlobalContext* globalCtx) {
 
 void func_808FFDB0(BossGanon2* this, GlobalContext* globalCtx) {
     s32 sp28;
-    s32 objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GANON2);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_GANON2);
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, objectIdx)) {
-        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[objectIdx].segment);
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
+        gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
         Animation_MorphToLoop(&this->skelAnime, &object_ganon2_Anim_00FFE4, -10.0f);
         this->actionFunc = func_808FFEBC;
 

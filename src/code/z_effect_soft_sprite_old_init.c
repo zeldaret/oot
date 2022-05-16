@@ -49,7 +49,7 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* textur
     MtxF mfTrans11DA0;
     s32 pad1;
     Mtx* mtx;
-    void* objectPtr = globalCtx->objectCtx.loadEntries[this->rgObjBankIdx].segment;
+    void* objectPtr = globalCtx->objectCtx.loadEntries[this->rgObjectLoadEntryIndex].segment;
 
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 

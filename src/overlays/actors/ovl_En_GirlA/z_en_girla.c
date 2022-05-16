@@ -15,7 +15,7 @@ void EnGirlA_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void EnGirlA_SetItemOutOfStock(GlobalContext* globalCtx, EnGirlA* this);
 void EnGirlA_UpdateStockedItem(GlobalContext* globalCtx, EnGirlA* this);
-void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx);
+void EnGirlA_WaitForObject(EnGirlA* this, GlobalContext* globalCtx);
 void EnGirlA_Update2(EnGirlA* this, GlobalContext* globalCtx);
 void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags);
 void EnGirlA_Draw(Actor* thisx, GlobalContext* globalCtx);
@@ -387,9 +387,9 @@ void EnGirlA_InitItem(EnGirlA* this, GlobalContext* globalCtx) {
         return;
     }
 
-    this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, shopItemEntries[params].objID);
+    this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, shopItemEntries[params].objID);
 
-    if (this->objBankIndex < 0) {
+    if (this->waitObjectLoadEntryIndex < 0) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("バンクが無いよ！！(%s)\n", sShopItemDescriptions[params]);
@@ -399,7 +399,7 @@ void EnGirlA_InitItem(EnGirlA* this, GlobalContext* globalCtx) {
     }
 
     this->actor.params = params;
-    this->actionFunc2 = EnGirlA_InitializeItemAction;
+    this->actionFunc2 = EnGirlA_WaitForObject;
 }
 
 void EnGirlA_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -976,13 +976,13 @@ s32 EnGirlA_TrySetMaskItemDescription(EnGirlA* this, GlobalContext* globalCtx) {
     return false;
 }
 
-void EnGirlA_InitializeItemAction(EnGirlA* this, GlobalContext* globalCtx) {
+void EnGirlA_WaitForObject(EnGirlA* this, GlobalContext* globalCtx) {
     s16 params = this->actor.params;
     ShopItemEntry* itemEntry = &shopItemEntries[params];
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
-        this->actor.objBankIndex = this->objBankIndex;
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         switch (this->actor.params) {
             case SI_KEATON_MASK:
                 if (GET_ITEMGETINF(ITEMGETINF_38)) {

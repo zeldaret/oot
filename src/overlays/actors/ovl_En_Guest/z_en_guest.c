@@ -55,8 +55,8 @@ void EnGuest_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (GET_INFTABLE(INFTABLE_76)) {
         Actor_Kill(&this->actor);
     } else {
-        this->osAnimeBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
-        if (this->osAnimeBankIndex < 0) {
+        this->osAnimeObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
+        if (this->osAnimeObjectLoadEntryIndex < 0) {
             osSyncPrintf(VT_COL(RED, WHITE));
             // "No such bank!!"
             osSyncPrintf("%s[%d] : バンクが無いよ！！\n", "../z_en_guest.c", 129);
@@ -76,13 +76,13 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGuest* this = (EnGuest*)thisx;
     s32 pad;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->osAnimeBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->osAnimeObjectLoadEntryIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         Actor_ProcessInitChain(&this->actor, sInitChain);
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_boj_Skel_0000F0, NULL, this->jointTable,
                            this->morphTable, 16);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->osAnimeBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
         Animation_Change(&this->skelAnime, &gObjOsAnim_42AC, 1.0f, 0.0f, Animation_GetLastFrame(&gObjOsAnim_42AC),
                          ANIMMODE_LOOP, 0.0f);
 
@@ -160,7 +160,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80034F54(globalCtx, this->unk_2CC, this->unk_2EC, 16);
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->osAnimeBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
 
     SkelAnime_Update(&this->skelAnime);
     Actor_SetFocus(&this->actor, 60.0f);

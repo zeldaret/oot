@@ -17,7 +17,7 @@
 #define rReg8 regs[8]
 #define rReg9 regs[9]
 #define rObjId regs[10]
-#define rObjBankIdx regs[11]
+#define rObjectLoadEntryIndex regs[11]
 #define rColorIdx regs[12]
 
 u32 EffectSsKakera_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -100,9 +100,9 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (this->rObjId != KAKERA_OBJECT_DEFAULT) {
         if ((((this->rReg4 >> 7) & 1) << 7) == 0x80) {
-            gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment);
+            gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment);
         } else {
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment);
         }
     }
 
@@ -137,9 +137,10 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void func_809A9BA8(EffectSs* this, GlobalContext* globalCtx) {
-    this->rObjBankIdx = Object_GetIndex(&globalCtx->objectCtx, this->rObjId);
+    this->rObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, this->rObjId);
 
-    if ((this->rObjBankIdx < 0) || !Object_IsLoaded(&globalCtx->objectCtx, this->rObjBankIdx)) {
+    if ((this->rObjectLoadEntryIndex < 0) ||
+        !Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->rObjectLoadEntryIndex)) {
         this->life = 0;
         this->draw = NULL;
     }

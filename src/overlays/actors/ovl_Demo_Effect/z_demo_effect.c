@@ -28,7 +28,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_DrawTimeWarp(Actor* thisx, GlobalContext* globalCtx);
 void DemoEffect_DrawJewel(Actor* thisx, GlobalContext* globalCtx);
 
-void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx);
+void DemoEffect_WaitForObject(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx);
 void DemoEffect_InitCreationFireball(DemoEffect* this, GlobalContext* globalCtx);
@@ -179,7 +179,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     DemoEffect* this = (DemoEffect*)thisx;
     s32 effectType;
     s32 lightEffect;
-    s32 objectIndex;
+    s32 objectLoadEntryIndex;
     DemoEffect* crystalLight;
     DemoEffect* lightRing;
 
@@ -188,16 +188,16 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     osSyncPrintf(VT_FGCOL(CYAN) " no = %d\n" VT_RST, effectType);
 
-    objectIndex = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
-                      ? 0
-                      : Object_GetIndex(&globalCtx->objectCtx, sEffectTypeObjects[effectType]);
+    objectLoadEntryIndex = sEffectTypeObjects[effectType] == OBJECT_GAMEPLAY_KEEP
+                               ? 0
+                               : Object_GetLoadEntryIndex(&globalCtx->objectCtx, sEffectTypeObjects[effectType]);
 
-    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectIndex);
+    osSyncPrintf(VT_FGCOL(CYAN) " bank_ID = %d\n" VT_RST, objectLoadEntryIndex);
 
-    if (objectIndex < 0) {
+    if (objectLoadEntryIndex < 0) {
         ASSERT(0, "0", "../z_demo_effect.c", 723);
     } else {
-        this->initObjectBankIndex = objectIndex;
+        this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     }
 
     this->effectFlags = 0;
@@ -511,7 +511,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    DemoEffect_SetupUpdate(this, DemoEffect_Wait);
+    DemoEffect_SetupUpdate(this, DemoEffect_WaitForObject);
 }
 
 /**
@@ -533,9 +533,9 @@ void DemoEffect_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * They are copied to actor.draw and updateFunc.
  * initUpdateFunc/initDrawFunc are set during initialization and are NOT executed.
  */
-void DemoEffect_Wait(DemoEffect* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->initObjectBankIndex)) {
-        this->actor.objBankIndex = this->initObjectBankIndex;
+void DemoEffect_WaitForObject(DemoEffect* this, GlobalContext* globalCtx) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->actor.draw = this->initDrawFunc;
         this->updateFunc = this->initUpdateFunc;
 

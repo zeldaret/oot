@@ -230,16 +230,16 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if (this->actor.params < EN_POH_SHARP) {
-        this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_POH);
+        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_POH);
         this->infoIdx = EN_POH_INFO_NORMAL;
         this->actor.naviEnemyId = NAVI_ENEMY_POE;
     } else {
-        this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_PO_COMPOSER);
+        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_PO_COMPOSER);
         this->infoIdx = EN_POH_INFO_COMPOSER;
         this->actor.naviEnemyId = NAVI_ENEMY_POE_COMPOSER;
     }
     this->info = &sPoeInfo[this->infoIdx];
-    if (this->objectIdx < 0) {
+    if (this->waitObjectLoadEntryIndex < 0) {
         Actor_Kill(&this->actor);
     }
 }
@@ -714,14 +714,14 @@ void func_80ADF894(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void EnPoh_Death(EnPoh* this, GlobalContext* globalCtx) {
-    s32 objId;
+    s32 objectID;
 
     if (this->unk_198 != 0) {
         this->unk_198--;
     }
     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
-        objId = (this->infoIdx == EN_POH_INFO_COMPOSER) ? OBJECT_PO_COMPOSER : OBJECT_POH;
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, objId, 10,
+        objectID = (this->infoIdx == EN_POH_INFO_COMPOSER) ? OBJECT_PO_COMPOSER : OBJECT_POH;
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, objectID, 10,
                                  this->info->lanternDisplayList);
         func_80ADE6D4(this);
     } else if (this->unk_198 == 0) {
@@ -908,8 +908,8 @@ void EnPoh_UpdateVisibility(EnPoh* this) {
 void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPoh* this = (EnPoh*)thisx;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx)) {
-        this->actor.objBankIndex = this->objectIdx;
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->actor.update = EnPoh_UpdateLiving;
         Actor_SetObjectDependency(globalCtx, &this->actor);
         if (this->infoIdx == EN_POH_INFO_NORMAL) {

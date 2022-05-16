@@ -10538,7 +10538,7 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (func_8084FCAC(this, globalCtx)) {
         if (gSaveContext.dogParams < 0) {
-            if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DOG) < 0) {
+            if (Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_DOG) < 0) {
                 gSaveContext.dogParams = 0;
             } else {
                 gSaveContext.dogParams &= 0x7FFF;

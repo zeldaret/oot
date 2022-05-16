@@ -54,12 +54,13 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
 
 void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMjin* this = (BgMjin*)thisx;
-    s8 objBankIndex;
+    s8 objectLoadEntryIndex;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
-    this->objBankIndex = objBankIndex;
-    if (objBankIndex < 0) {
+    objectLoadEntryIndex =
+        Object_GetLoadEntryIndex(&globalCtx->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
+    this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
+    if (objectLoadEntryIndex < 0) {
         Actor_Kill(thisx);
     } else {
         BgMjin_SetupAction(this, func_808A0850);
@@ -76,10 +77,10 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
         colHeader = NULL;
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
-        this->dyna.actor.objBankIndex = this->objBankIndex;
+        this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
@@ -106,10 +107,10 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
+        s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
 
-        if (objBankIndex >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIndex].segment);
+        if (objectLoadEntryIndex >= 0) {
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));

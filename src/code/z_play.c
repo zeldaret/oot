@@ -835,7 +835,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3561);
             }
 
-            Object_UpdateBank(&globalCtx->objectCtx);
+            Object_UpdateLoadEntries(&globalCtx->objectCtx);
 
             if (1 && HREG(63)) {
                 LOG_NUM("1", 1, "../z_play.c", 3577);

@@ -15,7 +15,7 @@
 #define rPrimColorA regs[5]
 #define rFadeDelay regs[6]
 #define rScaleStep regs[9]
-#define rObjBankIdx regs[10]
+#define rObjectLoadEntryIndex regs[10]
 #define rYAccelStep regs[11] // has no effect due to how it's implemented
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -29,9 +29,9 @@ EffectSsInit Effect_Ss_D_Fire_InitVars = {
 
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDFireInitParams* initParams = (EffectSsDFireInitParams*)initParamsx;
-    s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_DODONGO);
 
-    if (objBankIndex >= 0) {
+    if (objectLoadEntryIndex >= 0) {
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
@@ -40,7 +40,7 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->rScale = initParams->scale;
         this->rScaleStep = initParams->scaleStep;
         this->rYAccelStep = 0;
-        this->rObjBankIdx = objBankIndex;
+        this->rObjectLoadEntryIndex = objectLoadEntryIndex;
         this->draw = EffectSsDFire_Draw;
         this->update = EffectSsDFire_Update;
         this->rTexIdx = ((s16)(globalCtx->state.frames % 4) ^ 3);
@@ -69,11 +69,11 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     Mtx* mtx;
     f32 scale;
 
-    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_d_fire.c", 276);
 
-    if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) > -1) {
+    if (Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_DODONGO) >= 0) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
         gSPSegment(POLY_XLU_DISP++, 0x06, objectPtr);
         scale = this->rScale / 100.0f;

@@ -759,21 +759,21 @@ void ObjectKankyo_DrawLightning(ObjectKankyo* this, GlobalContext* globalCtx) {
 }
 
 void ObjectKankyo_SunGraveSparkInit(ObjectKankyo* this, GlobalContext* globalCtx) {
-    s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_SPOT02_OBJECTS);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_SPOT02_OBJECTS);
 
-    if (objBankIndex < 0) {
+    if (objectLoadEntryIndex < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1251);
     } else {
-        this->requiredObjBankIndex = objBankIndex;
+        this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForSunGraveSparkObject);
 }
 
 void ObjectKankyo_WaitForSunGraveSparkObject(ObjectKankyo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
         this->requiredObjectLoaded = true;
         this->effects[0].alpha = 0;
-        this->actor.objBankIndex = this->requiredObjBankIndex;
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->effects[0].size = 7.0f;
         ObjectKankyo_SetupAction(this, ObjectKankyo_SunGraveSpark);
     }
@@ -860,20 +860,20 @@ void ObjectKankyo_DrawSunGraveSpark(ObjectKankyo* this2, GlobalContext* globalCt
 }
 
 void ObjectKankyo_InitBeams(ObjectKankyo* this, GlobalContext* globalCtx) {
-    s32 objectIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_DEMO_KEKKAI);
+    s32 objectIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_DEMO_KEKKAI);
 
     if (objectIndex < 0) {
         ASSERT(0, "0", "../z_object_kankyo.c", 1449);
     } else {
-        this->requiredObjBankIndex = objectIndex;
+        this->waitObjectLoadEntryIndex = objectIndex;
     }
     ObjectKankyo_SetupAction(this, ObjectKankyo_WaitForBeamObject);
 }
 
 void ObjectKankyo_WaitForBeamObject(ObjectKankyo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
         this->requiredObjectLoaded = true;
-        this->actor.objBankIndex = this->requiredObjBankIndex;
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         ObjectKankyo_SetupAction(this, ObjectKankyo_Beams);
     }
 }

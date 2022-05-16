@@ -799,7 +799,7 @@ void Actor_SetScale(Actor* actor, f32 scale) {
 }
 
 void Actor_SetObjectDependency(GlobalContext* globalCtx, Actor* actor) {
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[actor->objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[actor->objectLoadEntryIndex].segment);
 }
 
 void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
@@ -818,7 +818,7 @@ void Actor_Init(Actor* actor, GlobalContext* globalCtx) {
     CollisionCheck_InitInfo(&actor->colChkInfo);
     actor->floorBgId = BGCHECK_SCENE;
     ActorShape_Init(&actor->shape, 0.0f, NULL, 0.0f);
-    if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, actor->objectLoadEntryIndex)) {
         Actor_SetObjectDependency(globalCtx, actor);
         actor->init(actor, globalCtx);
         actor->init = NULL;
@@ -2068,13 +2068,13 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
             actor->sfx = 0;
 
             if (actor->init != NULL) {
-                if (Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
+                if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, actor->objectLoadEntryIndex)) {
                     Actor_SetObjectDependency(globalCtx, actor);
                     actor->init(actor, globalCtx);
                     actor->init = NULL;
                 }
                 actor = actor->next;
-            } else if (!Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
+            } else if (!Object_IsLoadEntryLoaded(&globalCtx->objectCtx, actor->objectLoadEntryIndex)) {
                 Actor_Kill(actor);
                 actor = actor->next;
             } else if ((unkFlag && !(actor->flags & unkFlag)) ||
@@ -2196,8 +2196,8 @@ void Actor_Draw(GlobalContext* globalCtx, Actor* actor) {
     Matrix_Scale(actor->scale.x, actor->scale.y, actor->scale.z, MTXMODE_APPLY);
     Actor_SetObjectDependency(globalCtx, actor);
 
-    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[actor->objBankIndex].segment);
-    gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.loadEntries[actor->objBankIndex].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[actor->objectLoadEntryIndex].segment);
+    gSPSegment(POLY_XLU_DISP++, 0x06, globalCtx->objectCtx.loadEntries[actor->objectLoadEntryIndex].segment);
 
     if (actor->colorFilterTimer != 0) {
         Color_RGBA8 color = { 0, 0, 0, 255 };
@@ -2484,14 +2484,14 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 6563);
 }
 
-void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx) {
+void Actor_KillActorsWithUnloadedObject(GlobalContext* globalCtx, ActorContext* actorCtx) {
     Actor* actor;
-    s32 i;
+    s32 category;
 
-    for (i = 0; i < ARRAY_COUNT(actorCtx->actorLists); i++) {
-        actor = actorCtx->actorLists[i].head;
+    for (category = 0; category < ARRAY_COUNT(actorCtx->actorLists); category++) {
+        actor = actorCtx->actorLists[category].head;
         while (actor != NULL) {
-            if (!Object_IsLoaded(&globalCtx->objectCtx, actor->objBankIndex)) {
+            if (!Object_IsLoadEntryLoaded(&globalCtx->objectCtx, actor->objectLoadEntryIndex)) {
                 Actor_Kill(actor);
             }
             actor = actor->next;
@@ -2663,7 +2663,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     s32 pad;
     Actor* actor;
     ActorInit* actorInit;
-    s32 objBankIndex;
+    s32 objectLoadEntryIndex;
     ActorOverlay* overlayEntry;
     u32 temp;
     char* name;
@@ -2742,13 +2742,13 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
                                      : NULL);
     }
 
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, actorInit->objectId);
+    objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, actorInit->objectId);
 
-    if ((objBankIndex < 0) ||
+    if ((objectLoadEntryIndex < 0) ||
         ((actorInit->category == ACTORCAT_ENEMY) && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num))) {
         // "No data bank!! <data bank＝%d> (profilep->bank=%d)"
         osSyncPrintf(VT_COL(RED, WHITE) "データバンク無し！！<データバンク＝%d>(profilep->bank=%d)\n" VT_RST,
-                     objBankIndex, actorInit->objectId);
+                     objectLoadEntryIndex, actorInit->objectId);
         Actor_FreeOverlay(overlayEntry);
         return NULL;
     }
@@ -2778,10 +2778,10 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     actor->flags = actorInit->flags;
 
     if (actorInit->id == ACTOR_EN_PART) {
-        actor->objBankIndex = rotZ;
+        actor->objectLoadEntryIndex = rotZ;
         rotZ = 0;
     } else {
-        actor->objBankIndex = objBankIndex;
+        actor->objectLoadEntryIndex = objectLoadEntryIndex;
     }
 
     actor->init = actorInit->init;
@@ -3069,7 +3069,7 @@ s16 func_80032D60(s16* arg0, s16 arg1, s16 arg2, s16 arg3) {
 void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) {
     u32 matricesSize;
     u32 dListsSize;
-    u32 objectIdsSize;
+    u32 objectLoadEntryIndicesSize;
 
     matricesSize = (count + 1) * sizeof(*bodyBreak->matrices);
     bodyBreak->matrices = ZeldaArena_MallocDebug(matricesSize, "../z_actor.c", 7540);
@@ -3079,13 +3079,14 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) 
         bodyBreak->dLists = ZeldaArena_MallocDebug(dListsSize, "../z_actor.c", 7543);
 
         if (bodyBreak->dLists != NULL) {
-            objectIdsSize = (count + 1) * sizeof(*bodyBreak->objectIds);
-            bodyBreak->objectIds = ZeldaArena_MallocDebug(objectIdsSize, "../z_actor.c", 7546);
+            objectLoadEntryIndicesSize = (count + 1) * sizeof(*bodyBreak->objectLoadEntryIndices);
+            bodyBreak->objectLoadEntryIndices =
+                ZeldaArena_MallocDebug(objectLoadEntryIndicesSize, "../z_actor.c", 7546);
 
-            if (bodyBreak->objectIds != NULL) {
+            if (bodyBreak->objectLoadEntryIndices != NULL) {
                 Lib_MemSet((u8*)bodyBreak->matrices, matricesSize, 0);
                 Lib_MemSet((u8*)bodyBreak->dLists, dListsSize, 0);
-                Lib_MemSet((u8*)bodyBreak->objectIds, objectIdsSize, 0);
+                Lib_MemSet((u8*)bodyBreak->objectLoadEntryIndices, objectLoadEntryIndicesSize, 0);
                 bodyBreak->val = 1;
                 return;
             }
@@ -3100,20 +3101,20 @@ void BodyBreak_Alloc(BodyBreak* bodyBreak, s32 count, GlobalContext* globalCtx) 
         ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7561);
     }
 
-    if (bodyBreak->objectIds != NULL) {
-        ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7564);
+    if (bodyBreak->objectLoadEntryIndices != NULL) {
+        ZeldaArena_FreeDebug(bodyBreak->objectLoadEntryIndices, "../z_actor.c", 7564);
     }
 }
 
 void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s32 maxLimbIndex, u32 count, Gfx** dList,
-                       s16 objectId) {
+                       s16 objectLoadEntryIndex) {
     GlobalContext* globalCtx = Effect_GetGlobalCtx();
 
     if ((globalCtx->actorCtx.freezeFlashTimer == 0) && (bodyBreak->val > 0)) {
         if ((limbIndex >= minLimbIndex) && (limbIndex <= maxLimbIndex) && (*dList != NULL)) {
             bodyBreak->dLists[bodyBreak->val] = *dList;
             Matrix_Get(&bodyBreak->matrices[bodyBreak->val]);
-            bodyBreak->objectIds[bodyBreak->val] = objectId;
+            bodyBreak->objectLoadEntryIndices[bodyBreak->val] = objectLoadEntryIndex;
             bodyBreak->val++;
         }
 
@@ -3133,7 +3134,7 @@ void BodyBreak_SetInfo(BodyBreak* bodyBreak, s32 limbIndex, s32 minLimbIndex, s3
 s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* globalCtx, s16 type) {
     EnPart* spawnedEnPart;
     MtxF* mtx;
-    s16 objBankIndex;
+    s16 objectLoadEntryIndex;
 
     if (bodyBreak->val != BODYBREAK_STATUS_READY) {
         return false;
@@ -3145,17 +3146,17 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
         Matrix_Get(&bodyBreak->matrices[bodyBreak->count]);
 
         if (1) {
-            if (bodyBreak->objectIds[bodyBreak->count] >= 0) {
-                objBankIndex = bodyBreak->objectIds[bodyBreak->count];
+            if (bodyBreak->objectLoadEntryIndices[bodyBreak->count] > BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT) {
+                objectLoadEntryIndex = bodyBreak->objectLoadEntryIndices[bodyBreak->count];
             } else {
-                objBankIndex = actor->objBankIndex;
+                objectLoadEntryIndex = actor->objectLoadEntryIndex;
             }
         }
 
         mtx = &bodyBreak->matrices[bodyBreak->count];
 
         spawnedEnPart = (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, mtx->xw,
-                                                    mtx->yw, mtx->zw, 0, 0, objBankIndex, type);
+                                                    mtx->yw, mtx->zw, 0, 0, objectLoadEntryIndex, type);
 
         if (spawnedEnPart != NULL) {
             Matrix_MtxFToYXZRotS(&bodyBreak->matrices[bodyBreak->count], &spawnedEnPart->actor.shape.rot, 0);
@@ -3170,7 +3171,7 @@ s32 BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, GlobalContext* glob
 
     ZeldaArena_FreeDebug(bodyBreak->matrices, "../z_actor.c", 7678);
     ZeldaArena_FreeDebug(bodyBreak->dLists, "../z_actor.c", 7679);
-    ZeldaArena_FreeDebug(bodyBreak->objectIds, "../z_actor.c", 7680);
+    ZeldaArena_FreeDebug(bodyBreak->objectLoadEntryIndices, "../z_actor.c", 7680);
 
     return true;
 }
@@ -4146,7 +4147,7 @@ Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, 
 
     spawnedEnPart =
         (EnPart*)Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_EN_PART, spawnPos->x, spawnPos->y,
-                                    spawnPos->z, spawnRot->x, spawnRot->y, actor->objBankIndex, params);
+                                    spawnPos->z, spawnRot->x, spawnRot->y, actor->objectLoadEntryIndex, params);
     if (spawnedEnPart != NULL) {
         spawnedEnPart->actor.scale = actor->scale;
         spawnedEnPart->actor.speedXZ = arg3[0];

@@ -546,9 +546,9 @@ void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     Collider_UpdateSpheres(limbIndex, &this->collider);
 
     if ((this->unk_283 ^ 1) == 0) {
-        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_DEFAULT);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 11, 12, 18, dList, BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT);
     } else if ((this->unk_283 ^ (this->unk_283 | 4)) == 0) {
-        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_DEFAULT);
+        BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 18, 18, dList, BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT);
     }
 }
 

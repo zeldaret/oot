@@ -102,11 +102,11 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->requiredObjBankIndex = (thisx->params == STA_BOMBABLE_RUBBLE)
-                                     ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS)
-                                     : Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
+    this->waitObjectLoadEntryIndex = (thisx->params == STA_BOMBABLE_RUBBLE)
+                                         ? Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS)
+                                         : Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
 
-    if (this->requiredObjBankIndex < 0) {
+    if (this->waitObjectLoadEntryIndex < 0) {
         Actor_Kill(thisx);
     } else if ((thisx->params != STA_UNKNOWN) && Flags_GetSwitch(globalCtx, this->switchFlag)) {
         if (thisx->params != STA_GIANT_BIRD_STATUE) {
@@ -158,8 +158,8 @@ void func_808828F4(BgHakaZou* this, GlobalContext* globalCtx) {
 void BgHakaZou_Wait(BgHakaZou* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->requiredObjBankIndex)) {
-        this->dyna.actor.objBankIndex = this->requiredObjBankIndex;
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->dyna.actor.draw = BgHakaZou_Draw;
 
         if (this->dyna.actor.params == STA_UNKNOWN) {

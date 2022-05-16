@@ -236,7 +236,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->scale = 0.01f;
             break;
         case ITEM00_SHIELD_DEKU:
-            this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_1);
+            this->actor.objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_1);
             Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -245,7 +245,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.world.rot.x = 0x4000;
             break;
         case ITEM00_SHIELD_HYLIAN:
-            this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_2);
+            this->actor.objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_GI_SHIELD_2);
             Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -255,7 +255,7 @@ void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case ITEM00_TUNIC_ZORA:
         case ITEM00_TUNIC_GORON:
-            this->actor.objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_CLOTHES);
+            this->actor.objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_GI_CLOTHES);
             Actor_SetObjectDependency(globalCtx, &this->actor);
             Actor_SetScale(&this->actor, 0.5f);
             this->scale = 0.5f;
@@ -764,10 +764,10 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
             case ITEM00_HEART:
                 if (this->unk_15A < 0) {
                     if (this->unk_15A == -1) {
-                        s8 bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GI_HEART);
+                        s8 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_GI_HEART);
 
-                        if (Object_IsLoaded(&globalCtx->objectCtx, bankIndex)) {
-                            this->actor.objBankIndex = bankIndex;
+                        if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
+                            this->actor.objectLoadEntryIndex = objectLoadEntryIndex;
                             Actor_SetObjectDependency(globalCtx, &this->actor);
                             this->unk_15A = -2;
                         }

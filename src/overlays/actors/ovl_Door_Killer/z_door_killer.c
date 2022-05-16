@@ -25,7 +25,7 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx);
-void DoorKiller_SetProperties(DoorKiller* this, GlobalContext* globalCtx);
+void DoorKiller_WaitForObject(DoorKiller* this, GlobalContext* globalCtx);
 void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx);
 void DoorKiller_DrawRubble(Actor* thisx, GlobalContext* globalCtx);
 
@@ -99,18 +99,19 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     f32 randF;
     DoorKiller* this = (DoorKiller*)thisx;
-    s32 bankIndex;
+    s32 objectLoadEntryIndex;
     s32 i;
 
     // Look in the object bank for one of the four objects containing door textures
-    bankIndex = -1;
-    for (i = 0; bankIndex < 0; i++) {
-        bankIndex = Object_GetIndex(&globalCtx->objectCtx, sDoorTextures[i].objectId);
+    objectLoadEntryIndex = -1;
+    //! @bug If no object is loaded, `sDoorTextures` will be read out of bounds
+    for (i = 0; objectLoadEntryIndex < 0; i++) {
+        objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, sDoorTextures[i].objectId);
         this->textureEntryIndex = i;
     }
-    osSyncPrintf("bank_ID = %d\n", bankIndex);
+    osSyncPrintf("bank_ID = %d\n", objectLoadEntryIndex);
     osSyncPrintf("status = %d\n", this->textureEntryIndex);
-    this->doorObjBankIndex = bankIndex;
+    this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     this->texture = sDoorTextures[this->textureEntryIndex].texture;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
@@ -126,8 +127,8 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
             // play any animations it does not cause problems, but it would need to be changed otherwise.
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_door_killer_Skel_001BC8, NULL, this->jointTable,
                                this->jointTable, 9);
-            this->actionFunc = DoorKiller_SetProperties;
-            DoorKiller_SetProperties(this, globalCtx);
+            this->actionFunc = DoorKiller_WaitForObject;
+            DoorKiller_WaitForObject(this, globalCtx);
 
             // manually set the overall rotation of the door
             this->jointTable[1].x = this->jointTable[1].z = 0x4000;
@@ -152,8 +153,8 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx2) {
         case DOOR_KILLER_RUBBLE_PIECE_2:
         case DOOR_KILLER_RUBBLE_PIECE_3:
         case DOOR_KILLER_RUBBLE_PIECE_4:
-            this->actionFunc = DoorKiller_SetProperties;
-            DoorKiller_SetProperties(this, globalCtx);
+            this->actionFunc = DoorKiller_WaitForObject;
+            DoorKiller_WaitForObject(this, globalCtx);
 
             this->actor.gravity = -0.6f;
             this->actor.minVelocityY = -6.0f;
@@ -459,17 +460,17 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
 void DoorKiller_UpdateTexture(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = (DoorKiller*)thisx;
 
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->doorObjBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
     this->texture = SEGMENTED_TO_VIRTUAL(this->texture);
-    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[thisx->objBankIndex].segment);
+    gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
 }
 
 /**
  * Gets the correct door texture, defines the appropriate draw fucntion and action function based on type behaviour
  * (door or rubble).
  */
-void DoorKiller_SetProperties(DoorKiller* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->doorObjBankIndex)) {
+void DoorKiller_WaitForObject(DoorKiller* this, GlobalContext* globalCtx) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
         DoorKiller_UpdateTexture(&this->actor, globalCtx);
         switch (this->actor.params & 0xFF) {
             case DOOR_KILLER_DOOR:

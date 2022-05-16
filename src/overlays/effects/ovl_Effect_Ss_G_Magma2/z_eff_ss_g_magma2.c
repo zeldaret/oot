@@ -17,7 +17,7 @@
 #define rTimer regs[7]
 #define rUpdateRate regs[8]
 #define rDrawMode regs[9]
-#define rObjBankIdx regs[10]
+#define rObjectLoadEntryIndex regs[10]
 #define rScale regs[11]
 
 u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -38,15 +38,15 @@ EffectSsInit Effect_Ss_G_Magma2_InitVars = {
 };
 
 u32 EffectSsGMagma2_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
-    s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_KINGDODONGO);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_KINGDODONGO);
     s32 pad;
 
-    if ((objBankIndex >= 0) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
+    if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
         EffectSsGMagma2InitParams* initParams = (EffectSsGMagma2InitParams*)initParamsx;
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIndex].segment);
-        this->rObjBankIdx = objBankIndex;
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+        this->rObjectLoadEntryIndex = objectLoadEntryIndex;
         this->pos = initParams->pos;
         this->velocity = zeroVec;
         this->accel = zeroVec;
@@ -78,7 +78,7 @@ void EffectSsGMagma2_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_ss_g_magma2.c", 261);
 

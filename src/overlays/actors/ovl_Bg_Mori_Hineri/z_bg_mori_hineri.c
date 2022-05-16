@@ -54,7 +54,7 @@ static Gfx* sDLists[] = {
 
 void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHineri* this = (BgMoriHineri*)thisx;
-    s8 moriHineriObjIdx;
+    s8 objectLoadEntryIndex;
     u32 switchFlagParam;
     s32 t6;
 
@@ -78,27 +78,27 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.actor.params = 3;
         }
     }
-    this->boxObjIdx = -1;
+    this->boxObjectLoadEntryIndex = -1;
     if (this->dyna.actor.params == 0) {
-        this->moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
+        this->moriHineriObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
         if (t6 == 0) {
-            this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX);
+            this->boxObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_BOX);
         }
     } else {
         if (this->dyna.actor.params == 1) {
-            moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1A);
+            objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1A);
         } else {
-            moriHineriObjIdx = (this->dyna.actor.params == 2)
-                                   ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2)
-                                   : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A);
+            objectLoadEntryIndex = (this->dyna.actor.params == 2)
+                                       ? Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2)
+                                       : Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A);
         }
-        this->moriHineriObjIdx = moriHineriObjIdx;
+        this->moriHineriObjectLoadEntryIndex = objectLoadEntryIndex;
     }
-    this->moriTexObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
+    this->moriTexObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (t6 != 0) {
         this->dyna.actor.params += 4;
     }
-    if ((this->moriHineriObjIdx < 0) || (this->moriTexObjIdx < 0)) {
+    if ((this->moriHineriObjectLoadEntryIndex < 0) || (this->moriTexObjectLoadEntryIndex < 0)) {
         Actor_Kill(&this->dyna.actor);
     } else {
         this->actionFunc = func_808A39FC;
@@ -113,22 +113,26 @@ void BgMoriHineri_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_808A39FC(BgMoriHineri* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->moriHineriObjIdx) &&
-        Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIdx) &&
-        ((this->boxObjIdx < 0) || Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {
-        this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->moriHineriObjectLoadEntryIndex) &&
+        Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->moriTexObjectLoadEntryIndex) &&
+        ((this->boxObjectLoadEntryIndex < 0) ||
+         Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->boxObjectLoadEntryIndex))) {
+        this->dyna.actor.objectLoadEntryIndex = this->moriHineriObjectLoadEntryIndex;
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
             if (this->dyna.actor.params == 0) {
-                this->moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1A);
+                this->moriHineriObjectLoadEntryIndex =
+                    Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1A);
             } else if (this->dyna.actor.params == 1) {
-                this->moriHineriObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
+                this->moriHineriObjectLoadEntryIndex =
+                    Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI1);
             } else {
-                this->moriHineriObjIdx = (this->dyna.actor.params == 2)
-                                             ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A)
-                                             : Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2);
+                this->moriHineriObjectLoadEntryIndex =
+                    (this->dyna.actor.params == 2)
+                        ? Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2A)
+                        : Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_MORI_HINERI2);
             }
-            if (this->moriHineriObjIdx < 0) {
+            if (this->moriHineriObjectLoadEntryIndex < 0) {
                 Actor_Kill(&this->dyna.actor);
             } else {
                 this->actionFunc = func_808A3D58;
@@ -197,13 +201,13 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
 }
 
 void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
-    s8 objBankIndex;
+    s8 objectLoadEntryIndex;
 
     if (globalCtx->activeCamId == sSubCamId) {
         if (sSubCamId != SUB_CAM_ID_DONE) {
-            objBankIndex = this->dyna.actor.objBankIndex;
-            this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
-            this->moriHineriObjIdx = objBankIndex;
+            objectLoadEntryIndex = this->dyna.actor.objectLoadEntryIndex;
+            this->dyna.actor.objectLoadEntryIndex = this->moriHineriObjectLoadEntryIndex;
+            this->moriHineriObjectLoadEntryIndex = objectLoadEntryIndex;
             this->dyna.actor.params ^= 1;
             sSubCamId = SUB_CAM_ID_DONE;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
@@ -227,17 +231,17 @@ void BgMoriHineri_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
     BgMoriHineri* this = (BgMoriHineri*)thisx;
-    s8 objIndex;
+    s32 pad;
     MtxF mtx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 611);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.loadEntries[this->moriTexObjIdx].segment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, globalCtx->objectCtx.loadEntries[this->moriTexObjectLoadEntryIndex].segment);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 618),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sDLists[this->dyna.actor.params]);
-    if (this->boxObjIdx > 0) {
+    if (this->boxObjectLoadEntryIndex > 0) {
         Matrix_Get(&mtx);
     }
     if ((this->actionFunc == func_808A3C8C) && (this->dyna.actor.shape.rot.z != 0)) {
@@ -253,9 +257,10 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gDungeonDoorDL);
     }
-    if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
-        Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx)) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->boxObjIdx].segment);
+    if ((this->boxObjectLoadEntryIndex > 0) &&
+        ((this->boxObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
+        Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->boxObjectLoadEntryIndex)) {
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->boxObjectLoadEntryIndex].segment);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, MTXMODE_APPLY);

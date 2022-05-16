@@ -476,7 +476,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
 void EnSb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSb* this = (EnSb*)thisx;
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 6, 8, dList, BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT);
 }
 
 void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {

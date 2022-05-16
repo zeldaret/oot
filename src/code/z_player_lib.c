@@ -1361,7 +1361,7 @@ void Player_DrawHookshotReticle(GlobalContext* globalCtx, Player* this, f32 arg2
 
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(OVERLAY_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->actor.objBankIndex].segment);
+        gSPSegment(OVERLAY_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
         gSPDisplayList(OVERLAY_DISP++, gLinkAdultHookshotReticleDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2592);

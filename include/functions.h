@@ -461,7 +461,7 @@ void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry*
 void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx);
 s32 func_800314D4(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3);
 void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx);
-void func_80031A28(GlobalContext* globalCtx, ActorContext* actorCtx);
+void Actor_KillActorsWithUnloadedObject(GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031B14(GlobalContext* globalCtx, ActorContext* actorCtx);
 void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx);
 Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId, f32 posX, f32 posY, f32 posZ,
@@ -1191,11 +1191,11 @@ void Sample_Init(GameState* thisx);
 void Inventory_ChangeEquipment(s16 equipment, u16 value);
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment);
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
-s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId);
+s32 Object_SpawnPersistent(ObjectContext* objectCtx, s16 objectId);
 void Object_InitContext(GlobalContext* globalCtx, ObjectContext* objectCtx);
-void Object_UpdateBank(ObjectContext* objectCtx);
-s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId);
-s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex);
+void Object_UpdateLoadEntries(ObjectContext* objectCtx);
+s32 Object_GetLoadEntryIndex(ObjectContext* objectCtx, s16 objectId);
+s32 Object_IsLoadEntryLoaded(ObjectContext* objectCtx, s32 loadEntryIndex);
 void func_800981B8(ObjectContext* objectCtx);
 s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd);
 void TransitionActor_InitContext(GameState* state, TransitionActorContext* transiActorCtx);

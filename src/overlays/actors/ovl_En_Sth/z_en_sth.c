@@ -17,7 +17,7 @@ void EnSth_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnSth_WaitForObjectLoaded(EnSth* this, GlobalContext* globalCtx);
+void EnSth_WaitForObject(EnSth* this, GlobalContext* globalCtx);
 void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx);
 void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx);
 void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx);
@@ -97,7 +97,7 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     s16 objectId;
     s32 params = this->actor.params;
-    s32 objectBankIdx;
+    s32 objectLoadEntryIndex;
 
     osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params); // "Gold Skulltula Shop"
     if (this->actor.params == 0) {
@@ -116,19 +116,19 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     objectId = sObjectIds[params];
     if (objectId != 1) {
-        objectBankIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
+        objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, objectId);
     } else {
-        objectBankIdx = 0;
+        objectLoadEntryIndex = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objectBankIdx);
-    if (objectBankIdx < 0) {
+    osSyncPrintf("bank_ID = %d\n", objectLoadEntryIndex);
+    if (objectLoadEntryIndex < 0) {
         ASSERT(0, "0", "../z_en_sth.c", 1564);
     }
-    this->objectBankIdx = objectBankIdx;
+    this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     this->drawFunc = EnSth_Draw;
     Actor_SetScale(&this->actor, 0.01f);
-    EnSth_SetupAction(this, EnSth_WaitForObjectLoaded);
+    EnSth_SetupAction(this, EnSth_WaitForObject);
     this->actor.draw = NULL;
     this->unk_2B2 = 0;
     this->actor.targetMode = 6;
@@ -150,7 +150,7 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
     s16* params;
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, globalCtx);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[this->objectBankIdx].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable,
                        this->morphTable, 16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
@@ -170,9 +170,9 @@ void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void EnSth_WaitForObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectBankIdx)) {
-        this->actor.objBankIndex = this->objectBankIdx;
+void EnSth_WaitForObject(EnSth* this, GlobalContext* globalCtx) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->actionFunc = EnSth_SetupAfterObjectLoaded;
     }
 }
@@ -389,7 +389,7 @@ void EnSth_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2133);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[this->objectBankIdx].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
     func_800943C8(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,

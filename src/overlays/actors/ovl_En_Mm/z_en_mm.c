@@ -179,7 +179,7 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 2;
     this->actor.gravity = -1.0f;
     this->speedXZ = 3.0f;
-    this->unk_204 = this->actor.objBankIndex;
+    this->unk_204 = this->actor.objectLoadEntryIndex;
 
     if (func_80AADA70() == 1) {
         this->mouthTexIndex = RM_MOUTH_OPEN;
@@ -524,9 +524,9 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
                           EnMm_OverrideLimbDraw, EnMm_PostLimbDraw, this);
 
     if (GET_ITEMGETINF(ITEMGETINF_3B)) {
-        s32 linkChildObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
+        s32 linkChildObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
 
-        if (linkChildObjBankIndex >= 0) {
+        if (linkChildObjectLoadEntryIndex >= 0) {
             Mtx* mtx;
             Vec3s sp50;
             Mtx* mtx2;
@@ -536,7 +536,7 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Put(&this->unk_208);
             mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_mm.c", 1111);
 
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[linkChildObjBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[linkChildObjectLoadEntryIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0B, mtx);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx2 - 7);
 
@@ -555,7 +555,8 @@ void EnMm_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_ToMtx(mtx, "../z_en_mm.c", 1131);
 
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildBunnyHoodDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->actor.objBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06,
+                       globalCtx->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
         }
     }
 

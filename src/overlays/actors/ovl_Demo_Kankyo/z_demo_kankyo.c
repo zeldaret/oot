@@ -52,7 +52,7 @@ const ActorInit Demo_Kankyo_InitVars = {
     (ActorFunc)DemoKankyo_Draw,
 };
 
-static s16 sObjIds[] = {
+static s16 sObjectIDs[] = {
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD,
     OBJECT_EFC_STAR_FIELD, OBJECT_EFC_STAR_FIELD, OBJECT_GAMEPLAY_KEEP,  OBJECT_GI_MELODY,      OBJECT_GI_MELODY,
     OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_GI_MELODY,      OBJECT_TOKI_OBJECTS,   OBJECT_TOKI_OBJECTS,
@@ -181,13 +181,13 @@ void DemoKankyo_SetupAction(DemoKankyo* this, DemoKankyoActionFunc actionFunc) {
 void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoKankyo* this = (DemoKankyo*)thisx;
     s16 i;
-    s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjIds[this->actor.params]);
+    s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, sObjectIDs[this->actor.params]);
 
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
-    if (objBankIndex < 0) {
+    osSyncPrintf("bank_ID = %d\n", objectLoadEntryIndex);
+    if (objectLoadEntryIndex < 0) {
         ASSERT(0, "0", "../z_demo_kankyo.c", 521);
     } else {
-        this->objBankIndex = objBankIndex;
+        this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     }
 
     switch (this->actor.params) {
@@ -280,7 +280,7 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     f32 temp;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->actor.objectLoadEntryIndex == this->waitObjectLoadEntryIndex) {
         switch (this->actor.params) {
             case DEMOKANKYO_ROCK_1:
             case DEMOKANKYO_ROCK_2:
@@ -429,7 +429,7 @@ void DemoKankyo_Update(Actor* thisx, GlobalContext* globalCtx) {
 void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoKankyo* this = (DemoKankyo*)thisx;
 
-    if (this->actor.objBankIndex == this->objBankIndex) {
+    if (this->actor.objectLoadEntryIndex == this->waitObjectLoadEntryIndex) {
         switch (this->actor.params) {
             case DEMOKANKYO_BLUE_RAIN:
             case DEMOKANKYO_BLUE_RAIN_2:
@@ -477,8 +477,8 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 break;
         }
     }
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
     }
 }
 

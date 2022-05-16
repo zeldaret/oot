@@ -66,12 +66,12 @@ void BgHakaMegane_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     if (thisx->params < 3) {
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS);
+        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_HAKACH_OBJECTS);
     } else {
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
+        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_HAKA_OBJECTS);
     }
 
-    if (this->objBankIndex < 0) {
+    if (this->waitObjectLoadEntryIndex < 0) {
         Actor_Kill(thisx);
     } else {
         this->actionFunc = func_8087DB24;
@@ -88,8 +88,8 @@ void func_8087DB24(BgHakaMegane* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->dyna.actor.objBankIndex = this->objBankIndex;
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->dyna.actor.draw = BgHakaMegane_Draw;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         if (globalCtx->roomCtx.curRoom.showInvisActors) {

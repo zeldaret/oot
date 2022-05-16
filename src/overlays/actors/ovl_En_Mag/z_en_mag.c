@@ -393,7 +393,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     u16 rectLeft;
     u16 rectTop;
 
-    gSPSegment(gfx++, 0x06, globalCtx->objectCtx.loadEntries[this->actor.objBankIndex].segment);
+    gSPSegment(gfx++, 0x06, globalCtx->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
 
     func_8009457C(&gfx);
 

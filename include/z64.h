@@ -784,10 +784,10 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ void*  spaceStart;
     /* 0x0004 */ void*  spaceEnd; // original name: "endSegment"
-    /* 0x0008 */ u8     num; // number of objects in bank
-    /* 0x0009 */ u8     unk_09;
-    /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in bank
-    /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in bank
+    /* 0x0008 */ u8     loadEntriesCount; // total amount of used load entries
+    /* 0x0009 */ u8     persistentLoadEntriesCount; // amount of load entries that won't be reused when loading a new object list (when loading a new room)
+    /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in loadEntries
+    /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in loadEntries
     /* 0x000C */ ObjectLoadEntry loadEntries[19];
 } ObjectContext; // size = 0x518
 

@@ -250,8 +250,8 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
-        if (this->objBankIndex < 0) {
+        this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
+        if (this->waitObjectLoadEntryIndex < 0) {
             Actor_Kill(&this->actor);
             osSyncPrintf(VT_COL(RED, WHITE));
             // "There is no bank!!"
@@ -277,7 +277,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 frogIndex;
     s32 pad2;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;

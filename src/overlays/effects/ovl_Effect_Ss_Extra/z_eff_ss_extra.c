@@ -7,7 +7,7 @@
 #include "z_eff_ss_extra.h"
 #include "objects/object_yabusame_point/object_yabusame_point.h"
 
-#define rObjBankIdx regs[0]
+#define rObjectLoadEntryIndex regs[0]
 #define rTimer regs[1]
 #define rScoreIdx regs[2]
 #define rScale regs[3]
@@ -26,14 +26,14 @@ EffectSsInit Effect_Ss_Extra_InitVars = {
 u32 EffectSsExtra_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsExtraInitParams* initParams = (EffectSsExtraInitParams*)initParamsx;
     s32 pad;
-    s32 objBankIndex;
+    s32 objectLoadEntryIndex;
     u32 oldSeg6;
 
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_YABUSAME_POINT);
+    objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_YABUSAME_POINT);
 
-    if ((objBankIndex >= 0) && Object_IsLoaded(&globalCtx->objectCtx, objBankIndex)) {
+    if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
         oldSeg6 = gSegments[6];
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIndex].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
@@ -43,7 +43,7 @@ u32 EffectSsExtra_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->rScoreIdx = initParams->scoreIdx;
         this->rScale = initParams->scale;
         this->rTimer = 5;
-        this->rObjBankIdx = objBankIndex;
+        this->rObjectLoadEntryIndex = objectLoadEntryIndex;
         gSegments[6] = oldSeg6;
 
         return 1;
@@ -61,7 +61,7 @@ static void* sTextures[] = {
 void EffectSsExtra_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     s32 pad;
     f32 scale = this->rScale / 100.0f;
-    void* objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    void* objectPtr = globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_extra.c", 168);
 

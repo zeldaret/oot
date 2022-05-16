@@ -136,12 +136,12 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
             this->collider.info.bumper.dmgFlags = 0x1F820;
-            this->objId = OBJECT_TSUBO;
-            this->objIndex = Object_GetIndex(&globalCtx->objectCtx, this->objId);
-            if (this->objIndex < 0) {
+            this->objectID = OBJECT_TSUBO;
+            this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, this->objectID);
+            if (this->waitObjectLoadEntryIndex < 0) {
                 Actor_Kill(&this->actor);
                 // "what?"
-                osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->objIndex);
+                osSyncPrintf(VT_FGCOL(MAGENTA) " なにみの？ %d\n" VT_RST "\n", this->waitObjectLoadEntryIndex);
                 // "bank is funny"
                 osSyncPrintf(VT_FGCOL(CYAN) " バンクおかしいしぞ！%d\n" VT_RST "\n", this->actor.params);
             }
@@ -197,9 +197,9 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
 }
 
 void EnGSwitch_WaitForObject(EnGSwitch* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objIndex)) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->objIndex].segment);
-        this->actor.objBankIndex = this->objIndex;
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->actor.draw = EnGSwitch_DrawPot;
         this->actionFunc = EnGSwitch_ArcheryPot;
     }

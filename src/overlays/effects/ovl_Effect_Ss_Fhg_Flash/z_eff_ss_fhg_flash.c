@@ -9,7 +9,7 @@
 #include "objects/object_fhg/object_fhg.h"
 
 #define rAlpha regs[0]
-#define rObjBankIdx regs[2]
+#define rObjectLoadEntryIndex regs[2]
 #define rXZRot regs[3]
 #define rParam regs[4]
 #define rScale regs[8]
@@ -31,18 +31,18 @@ static Gfx D_809A5100[15];
 u32 EffectSsFhgFlash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFhgFlashInitParams* initParams = (EffectSsFhgFlashInitParams*)initParamsx;
     s32 pad;
-    s32 objBankIdx;
+    s32 objectLoadEntryIndex;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f sp34 = { 0.0f, -1000.0f, 0.0f };
     void* prevSeg6;
 
     if (initParams->type == FHGFLASH_LIGHTBALL) {
-        objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FHG);
+        objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_FHG);
 
-        if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
+        if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
             prevSeg6 = gSegments[6];
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIdx].segment);
-            this->rObjBankIdx = objBankIdx;
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+            this->rObjectLoadEntryIndex = objectLoadEntryIndex;
             this->pos = initParams->pos;
             this->velocity = initParams->velocity;
             this->accel = initParams->accel;
@@ -91,7 +91,7 @@ void EffectSsFhgFlash_DrawLightBall(GlobalContext* globalCtx, u32 index, EffectS
     void* objectPtr;
 
     scale = this->rScale / 100.0f;
-    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
 
     OPEN_DISPS(gfxCtx, "../z_eff_fhg_flash.c", 268);
 

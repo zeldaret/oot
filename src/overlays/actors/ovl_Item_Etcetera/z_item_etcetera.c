@@ -14,7 +14,7 @@ void ItemEtcetera_Update(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx);
 void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx);
+void ItemEtcetera_WaitForObject(ItemEtcetera* this, GlobalContext* globalCtx);
 void func_80B85824(ItemEtcetera* this, GlobalContext* globalCtx);
 void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx);
 void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx);
@@ -60,23 +60,23 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     ItemEtcetera* this = (ItemEtcetera*)thisx;
     s32 pad;
     s32 type;
-    s32 objBankIndex;
+    s32 objectLoadEntryIndex;
 
     type = this->actor.params & 0xFF;
     osSyncPrintf("no = %d\n", type);
-    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[type]);
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
-    if (objBankIndex < 0) {
+    objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, sObjectIds[type]);
+    osSyncPrintf("bank_ID = %d\n", objectLoadEntryIndex);
+    if (objectLoadEntryIndex < 0) {
         ASSERT(0, "0", "../z_item_etcetera.c", 241);
     } else {
-        this->objBankIndex = objBankIndex;
+        this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     }
     this->giDrawId = sDrawItemIndices[type];
     this->getItemId = sGetItemIds[type];
     this->futureActionFunc = func_80B85824;
     this->drawFunc = ItemEtcetera_Draw;
     Actor_SetScale(&this->actor, 0.25f);
-    ItemEtcetera_SetupAction(this, func_80B857D0);
+    ItemEtcetera_SetupAction(this, ItemEtcetera_WaitForObject);
     switch (type) {
         case ITEM_ETC_LETTER:
             Actor_SetScale(&this->actor, 0.5f);
@@ -108,9 +108,9 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ItemEtcetera_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-void func_80B857D0(ItemEtcetera* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
+void ItemEtcetera_WaitForObject(ItemEtcetera* this, GlobalContext* globalCtx) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->futureActionFunc;
     }

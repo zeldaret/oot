@@ -980,7 +980,7 @@ void EnTite_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** limbDLis
             break;
     }
 
-    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_DEFAULT);
+    BodyBreak_SetInfo(&this->bodyBreak, limbIndex, 0, 24, 24, limbDList, BODYBREAK_OBJECT_LOAD_ENTRY_DEFAULT);
 }
 
 void EnTite_Draw(Actor* thisx, GlobalContext* globalCtx) {

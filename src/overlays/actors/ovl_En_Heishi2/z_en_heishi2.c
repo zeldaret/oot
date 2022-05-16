@@ -839,7 +839,7 @@ void EnHeishi2_DrawKingGuard(Actor* thisx, GlobalContext* globalCtx) {
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = (EnHeishi2*)thisx;
     Mtx* mtx;
-    s32 linkObjBankIndex;
+    s32 linkChildObjectLoadEntryIndex;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1792);
 
@@ -848,17 +848,18 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
     if ((this->type == 5) && GET_INFTABLE(INFTABLE_77)) {
-        linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
-        if (linkObjBankIndex >= 0) {
+        linkChildObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
+        if (linkChildObjectLoadEntryIndex >= 0) {
             Matrix_Put(&this->mtxf_330);
             Matrix_Translate(-570.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             Matrix_RotateZ(DEG_TO_RAD(70), MTXMODE_APPLY);
             mtx = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1820) - 7;
 
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[linkObjBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[linkChildObjectLoadEntryIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildKeatonMaskDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->actor.objBankIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06,
+                       globalCtx->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
         }
     }
 

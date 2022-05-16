@@ -9,7 +9,7 @@ void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A79FB0(EnIn* this, GlobalContext* globalCtx);
+void EnIn_WaitForObject(EnIn* this, GlobalContext* globalCtx);
 void func_80A7A304(EnIn* this, GlobalContext* globalCtx);
 void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx);
 void func_80A7A568(EnIn* this, GlobalContext* globalCtx);
@@ -481,8 +481,8 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     RespawnData* respawn = &gSaveContext.respawn[RESPAWN_MODE_DOWN];
     Vec3f respawnPos;
 
-    this->ingoObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_IN);
-    if (this->ingoObjBankIndex < 0 && this->actor.params > 0) {
+    this->waitObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_IN);
+    if (this->waitObjectLoadEntryIndex < 0 && this->actor.params > 0) {
         this->actionFunc = NULL;
         Actor_Kill(&this->actor);
         return;
@@ -493,21 +493,23 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
         gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
         D_80A7B998 = 1;
     }
-    this->actionFunc = func_80A79FB0;
+    this->actionFunc = EnIn_WaitForObject;
 }
 
 void EnIn_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIn* this = (EnIn*)thisx;
 
-    if (this->actionFunc != NULL && this->actionFunc != func_80A79FB0) {
+    if (this->actionFunc != NULL && this->actionFunc != EnIn_WaitForObject) {
         Collider_DestroyCylinder(globalCtx, &this->collider);
     }
 }
 
-void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
+// This function does not actually wait since it waits for OBJECT_IN,
+// but the object is already loaded at this point from being set in the ActorInit data
+void EnIn_WaitForObject(EnIn* this, GlobalContext* globalCtx) {
     s32 sp3C = 0;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gIngoSkel, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
@@ -910,7 +912,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     ColliderCylinder* collider;
     EnIn* this = (EnIn*)thisx;
 
-    if (this->actionFunc == func_80A79FB0) {
+    if (this->actionFunc == EnIn_WaitForObject) {
         this->actionFunc(this, globalCtx);
         return;
     }
@@ -998,7 +1000,7 @@ void EnIn_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnIn* this = (EnIn*)thisx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_in.c", 2384);
-    if (this->actionFunc != func_80A79FB0) {
+    if (this->actionFunc != EnIn_WaitForObject) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gIngoHeadGradient2Tex));

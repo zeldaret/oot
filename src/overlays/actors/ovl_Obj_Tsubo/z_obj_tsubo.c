@@ -136,8 +136,9 @@ void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->objTsuboBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
-    if (this->objTsuboBankIndex < 0) {
+    this->waitObjectLoadEntryIndex =
+        Object_GetLoadEntryIndex(&globalCtx->objectCtx, sObjectIds[(this->actor.params >> 8) & 1]);
+    if (this->waitObjectLoadEntryIndex < 0) {
         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 410);
         Actor_Kill(&this->actor);
     } else {
@@ -222,9 +223,9 @@ void ObjTsubo_SetupWaitForObject(ObjTsubo* this) {
 }
 
 void ObjTsubo_WaitForObject(ObjTsubo* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objTsuboBankIndex)) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
         this->actor.draw = ObjTsubo_Draw;
-        this->actor.objBankIndex = this->objTsuboBankIndex;
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         ObjTsubo_SetupIdle(this);
         this->actor.flags &= ~ACTOR_FLAG_4;
     }

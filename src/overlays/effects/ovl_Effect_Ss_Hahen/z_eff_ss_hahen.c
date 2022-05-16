@@ -12,7 +12,7 @@
 #define rUnused regs[2]
 #define rScale regs[3]
 #define rObjId regs[4]
-#define rObjBankIdx regs[5]
+#define rObjectLoadEntryIndex regs[5]
 #define rMinLife regs[6]
 
 u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
@@ -26,8 +26,8 @@ EffectSsInit Effect_Ss_Hahen_InitVars = {
 };
 
 void EffectSsHahen_CheckForObject(EffectSs* this, GlobalContext* globalCtx) {
-    if (((this->rObjBankIdx = Object_GetIndex(&globalCtx->objectCtx, this->rObjId)) < 0) ||
-        !Object_IsLoaded(&globalCtx->objectCtx, this->rObjBankIdx)) {
+    if (((this->rObjectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, this->rObjId)) < 0) ||
+        !Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->rObjectLoadEntryIndex)) {
         this->life = -1;
         this->draw = NULL;
     }
@@ -74,7 +74,7 @@ void EffectSsHahen_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_hahen.c", 208);
 
     if (this->rObjId != -1) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment);
     }
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
@@ -98,7 +98,7 @@ void EffectSsHahen_DrawGray(GlobalContext* globalCtx, u32 index, EffectSs* this)
     OPEN_DISPS(gfxCtx, "../z_eff_hahen.c", 253);
 
     if (this->rObjId != -1) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment);
     }
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);

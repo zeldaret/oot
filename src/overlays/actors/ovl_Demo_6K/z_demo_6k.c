@@ -17,7 +17,7 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Update(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80966DB0(Demo6K* this, GlobalContext* globalCtx);
+void Demo6K_WaitForObject(Demo6K* this, GlobalContext* globalCtx);
 void func_80966E04(Demo6K* this, GlobalContext* globalCtx);
 void func_80966E98(Demo6K* this, GlobalContext* globalCtx);
 void func_80966F84(Demo6K* this, GlobalContext* globalCtx);
@@ -69,26 +69,26 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx) {
     Demo6K* this = (Demo6K*)thisx;
     s32 pad;
     s32 params = this->actor.params;
-    s32 objBankIndex;
+    s32 objectLoadEntryIndex;
     s32 i;
 
     osSyncPrintf("no = %d\n", params);
 
     if (sObjectIds[params] != OBJECT_GAMEPLAY_KEEP) {
-        objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[params]);
+        objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, sObjectIds[params]);
     } else {
-        objBankIndex = 0;
+        objectLoadEntryIndex = 0;
     }
 
-    osSyncPrintf("bank_ID = %d\n", objBankIndex);
+    osSyncPrintf("bank_ID = %d\n", objectLoadEntryIndex);
 
-    if (objBankIndex < 0) {
+    if (objectLoadEntryIndex < 0) {
         ASSERT(0, "0", "../z_demo_6k.c", 334);
     } else {
-        this->objBankIndex = objBankIndex;
+        this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     }
 
-    Demo6K_SetupAction(this, func_80966DB0);
+    Demo6K_SetupAction(this, Demo6K_WaitForObject);
     this->timer1 = 0;
     this->flags = 0;
     this->timer2 = 0;
@@ -197,9 +197,9 @@ void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
 }
 
-void func_80966DB0(Demo6K* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
-        this->actor.objBankIndex = this->objBankIndex;
+void Demo6K_WaitForObject(Demo6K* this, GlobalContext* globalCtx) {
+    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+        this->actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
         this->actor.draw = this->drawFunc;
         this->actionFunc = this->initActionFunc;
     }

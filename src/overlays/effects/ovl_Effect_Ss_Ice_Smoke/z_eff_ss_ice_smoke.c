@@ -7,7 +7,7 @@
 #include "z_eff_ss_ice_smoke.h"
 #include "objects/object_fz/object_fz.h"
 
-#define rObjBankIdx regs[0]
+#define rObjectLoadEntryIndex regs[0]
 #define rAlpha regs[1]
 #define rScale regs[2]
 
@@ -23,18 +23,18 @@ EffectSsInit Effect_Ss_Ice_Smoke_InitVars = {
 u32 EffectSsIceSmoke_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsIceSmokeInitParams* initParams = (EffectSsIceSmokeInitParams*)initParamsx;
     s32 pad;
-    s32 objBankIdx;
+    s32 objectLoadEntryIndex;
     void* prevSeg6;
 
-    objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
+    objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
-    if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
+    if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
         prevSeg6 = gSegments[6];
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objBankIdx].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
         Math_Vec3f_Copy(&this->pos, &initParams->pos);
         Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
         Math_Vec3f_Copy(&this->accel, &initParams->accel);
-        this->rObjBankIdx = objBankIdx;
+        this->rObjectLoadEntryIndex = objectLoadEntryIndex;
         this->rAlpha = 0;
         this->rScale = initParams->scale;
         this->life = 50;
@@ -55,15 +55,15 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     void* objectPtr;
     Mtx* mtx;
     f32 scale;
-    s32 objBankIdx;
+    s32 objectLoadEntryIndex;
 
-    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjBankIdx].segment;
+    objectPtr = globalCtx->objectCtx.loadEntries[this->rObjectLoadEntryIndex].segment;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_ice_smoke.c", 155);
 
-    objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
+    objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
-    if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
+    if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
         gDPPipeSync(POLY_XLU_DISP++);
         func_80093D84(globalCtx->state.gfxCtx);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(objectPtr);
@@ -93,11 +93,11 @@ void EffectSsIceSmoke_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
 }
 
 void EffectSsIceSmoke_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    s32 objBankIdx;
+    s32 objectLoadEntryIndex;
 
-    objBankIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_FZ);
+    objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, OBJECT_FZ);
 
-    if ((objBankIdx > -1) && Object_IsLoaded(&globalCtx->objectCtx, objBankIdx)) {
+    if ((objectLoadEntryIndex >= 0) && Object_IsLoadEntryLoaded(&globalCtx->objectCtx, objectLoadEntryIndex)) {
         if (this->rAlpha < 100) {
             this->rAlpha += 10;
         }
