@@ -788,7 +788,7 @@ typedef struct {
     /* 0x0009 */ u8     unk_09;
     /* 0x000A */ u8     mainKeepIndex; // "gameplay_keep" index in bank
     /* 0x000B */ u8     subKeepIndex; // "gameplay_field_keep" or "gameplay_dangeon_keep" index in bank
-    /* 0x000C */ ObjectStatus status[OBJECT_EXCHANGE_BANK_MAX];
+    /* 0x000C */ ObjectStatus status[19];
 } ObjectContext; // size = 0x518
 
 typedef struct {

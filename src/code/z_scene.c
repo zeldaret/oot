@@ -14,7 +14,7 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[objectCtx->num].segment + size,
                  objectCtx->spaceEnd);
 
-    ASSERT(((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
+    ASSERT(((objectCtx->num < ARRAY_COUNT(objectCtx->status)) &&
             (((s32)objectCtx->status[objectCtx->num].segment + size) < (u32)objectCtx->spaceEnd)),
            "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
            "../z_scene.c", 142);
@@ -22,7 +22,7 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     DmaMgr_SendRequest1(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
                         "../z_scene.c", 145);
 
-    if (objectCtx->num < OBJECT_EXCHANGE_BANK_MAX - 1) {
+    if (objectCtx->num < (ARRAY_COUNT(objectCtx->status) - 1)) {
         objectCtx->status[objectCtx->num + 1].segment =
             (void*)ALIGN16((s32)objectCtx->status[objectCtx->num].segment + size);
     }
@@ -59,7 +59,7 @@ void Object_InitContext(GlobalContext* globalCtx, ObjectContext* objectCtx) {
     objectCtx->num = objectCtx->unk_09 = 0;
     objectCtx->mainKeepIndex = objectCtx->subKeepIndex = 0;
 
-    for (i = 0; i < OBJECT_EXCHANGE_BANK_MAX; i++) {
+    for (i = 0; i < ARRAY_COUNT(objectCtx->status); i++) {
         objectCtx->status[i].id = OBJECT_INVALID;
     }
 
@@ -291,14 +291,14 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
         status++;
     }
 
-    ASSERT(cmd->objectList.num <= OBJECT_EXCHANGE_BANK_MAX, "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX",
-           "../z_scene.c", 705);
+    ASSERT(cmd->objectList.num <= ARRAY_COUNT(globalCtx->objectCtx.status),
+           "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
 
     if (1) {}
 
     while (k < cmd->objectList.num) {
         nextPtr = func_800982FC(&globalCtx->objectCtx, i, *objectEntry);
-        if (i < OBJECT_EXCHANGE_BANK_MAX - 1) {
+        if (i < (ARRAY_COUNT(globalCtx->objectCtx.status) - 1)) {
             firstStatus[i + 1].segment = nextPtr;
         }
         i++;

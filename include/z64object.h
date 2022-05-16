@@ -1,8 +1,6 @@
 #ifndef Z64OBJECT_H
 #define Z64OBJECT_H
 
-#define OBJECT_EXCHANGE_BANK_MAX 19
-
 #define DEFINE_OBJECT(_0, enum) enum,
 #define DEFINE_OBJECT_NULL(_0, enum) enum,
 #define DEFINE_OBJECT_UNSET(enum) enum,
