@@ -629,6 +629,8 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
+    // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
+    // see the other occurrence of this for more details.
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
     this->actor.flags |= ACTOR_FLAG_16;
 

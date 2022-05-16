@@ -8913,7 +8913,7 @@ void func_80845EF8(Player* this, GlobalContext* globalCtx) {
                 func_80097534(globalCtx, &globalCtx->roomCtx);
             }
             func_8005B1A4(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN));
-            Gameplay_SetupRespawnPoint(globalCtx, 0, 0xDFF);
+            Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0xDFF);
         }
         return;
     }
@@ -9296,8 +9296,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
     s32 initMode;
-    s32 sp50;
-    s32 sp4C;
+    s32 respawnFlag;
+    s32 respawnMode;
 
     globalCtx->shootingGalleryStatus = globalCtx->bombchuBowlingStatus = 0;
 
@@ -9322,34 +9322,34 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player_InitCommon(this, globalCtx, gPlayerSkelHeaders[((void)0, gSaveContext.linkAge)]);
     this->giObjectSegment = (void*)(((u32)ZeldaArena_MallocDebug(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
 
-    sp50 = gSaveContext.respawnFlag;
+    respawnFlag = gSaveContext.respawnFlag;
 
-    if (sp50 != 0) {
-        if (sp50 == -3) {
+    if (respawnFlag != 0) {
+        if (respawnFlag == -3) {
             thisx->params = gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams;
         } else {
-            if ((sp50 == 1) || (sp50 == -1)) {
+            if ((respawnFlag == 1) || (respawnFlag == -1)) {
                 this->unk_A86 = -2;
             }
 
-            if (sp50 < 0) {
-                sp4C = 0;
+            if (respawnFlag < 0) {
+                respawnMode = RESPAWN_MODE_DOWN;
             } else {
-                sp4C = sp50 - 1;
-                Math_Vec3f_Copy(&thisx->world.pos, &gSaveContext.respawn[sp50 - 1].pos);
+                respawnMode = respawnFlag - 1;
+                Math_Vec3f_Copy(&thisx->world.pos, &gSaveContext.respawn[respawnMode].pos);
                 Math_Vec3f_Copy(&thisx->home.pos, &thisx->world.pos);
                 Math_Vec3f_Copy(&thisx->prevPos, &thisx->world.pos);
                 this->fallStartHeight = thisx->world.pos.y;
-                this->currentYaw = thisx->shape.rot.y = gSaveContext.respawn[sp4C].yaw;
-                thisx->params = gSaveContext.respawn[sp4C].playerParams;
+                this->currentYaw = thisx->shape.rot.y = gSaveContext.respawn[respawnMode].yaw;
+                thisx->params = gSaveContext.respawn[respawnMode].playerParams;
             }
 
-            globalCtx->actorCtx.flags.tempSwch = gSaveContext.respawn[sp4C].tempSwchFlags & 0xFFFFFF;
-            globalCtx->actorCtx.flags.tempCollect = gSaveContext.respawn[sp4C].tempCollectFlags;
+            globalCtx->actorCtx.flags.tempSwch = gSaveContext.respawn[respawnMode].tempSwchFlags & 0xFFFFFF;
+            globalCtx->actorCtx.flags.tempCollect = gSaveContext.respawn[respawnMode].tempCollectFlags;
         }
     }
 
-    if ((sp50 == 0) || (sp50 < -1)) {
+    if ((respawnFlag == 0) || (respawnFlag < -1)) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
             if ((gSaveContext.sceneSetupIndex < 4) &&
@@ -9364,7 +9364,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
         gSaveContext.showTitleCard = true;
     }
 
-    if (func_80845C68(globalCtx, (sp50 == 2) ? 1 : 0) == 0) {
+    if (func_80845C68(globalCtx, (respawnFlag == 2) ? 1 : 0) == 0) {
         gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = (thisx->params & 0xFF) | 0xD00;
     }
 
