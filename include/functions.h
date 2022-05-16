@@ -1192,7 +1192,7 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value);
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment);
 void Inventory_ChangeUpgrade(s16 upgrade, s16 value);
 s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId);
-void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx);
+void Object_InitContext(GlobalContext* globalCtx, ObjectContext* objectCtx);
 void Object_UpdateBank(ObjectContext* objectCtx);
 s32 Object_GetIndex(ObjectContext* objectCtx, s16 objectId);
 s32 Object_IsLoaded(ObjectContext* objectCtx, s32 bankIndex);

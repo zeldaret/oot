@@ -33,8 +33,8 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     return objectCtx->num - 1;
 }
 
-void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
-    GlobalContext* globalCtx2 = globalCtx; // Needs to be a new variable to match (possibly a sub struct?)
+void Object_InitContext(GlobalContext* globalCtx, ObjectContext* objectCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
     u32 spaceSize;
     s32 i;
 

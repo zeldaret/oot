@@ -1499,7 +1499,7 @@ void Gameplay_InitScene(GlobalContext* globalCtx, s32 spawn) {
     globalCtx->cUpElfMsgs = NULL;
     globalCtx->setupPathList = NULL;
     globalCtx->numSetupActors = 0;
-    Object_InitBank(globalCtx, &globalCtx->objectCtx);
+    Object_InitContext(globalCtx, &globalCtx->objectCtx);
     LightContext_Init(globalCtx, &globalCtx->lightCtx);
     TransitionActor_InitContext(&globalCtx->state, &globalCtx->transiActorCtx);
     func_80096FD4(globalCtx, &globalCtx->roomCtx.curRoom);
