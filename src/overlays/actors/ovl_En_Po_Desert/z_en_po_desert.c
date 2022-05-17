@@ -134,7 +134,7 @@ void EnPoDesert_WaitForPlayer(EnPoDesert* this, GlobalContext* globalCtx) {
     func_8002F974(&this->actor, NA_SE_EN_PO_FLY - SFX_FLAG);
     if (this->actor.xzDistToPlayer < 200.0f && (this->currentPathPoint != 2 || globalCtx->actorCtx.lensActive)) {
         if (this->currentPathPoint == 2) {
-            if (Gameplay_InCsMode(globalCtx)) {
+            if (Play_InCsMode(globalCtx)) {
                 this->actor.shape.rot.y += 0x800;
                 return;
             }

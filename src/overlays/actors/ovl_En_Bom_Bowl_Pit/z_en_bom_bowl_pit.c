@@ -70,9 +70,9 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, NULL, 8);
                 chu->timer = 1;
 
-                this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                this->subCamId = Play_CreateSubCamera(globalCtx);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
                 this->subCamAtMaxVelFrac.x = this->subCamAtMaxVelFrac.y = this->subCamAtMaxVelFrac.z = 0.1f;
                 this->subCamEyeMaxVelFrac.x = this->subCamEyeMaxVelFrac.y = this->subCamEyeMaxVelFrac.z = 0.1f;
@@ -101,7 +101,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * 0.02f;
                 this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * 0.02f;
 
-                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+                Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 this->actor.textId = 0xF;
                 Message_StartTextbox(globalCtx, this->actor.textId, NULL);
                 this->unk_154 = TEXT_STATE_EVENT;
@@ -127,7 +127,7 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->subCamEye.z, this->subCamEyeNext.z, this->subCamEyeMaxVelFrac.z, this->subCamEyeVel.z);
     }
 
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
 
     if ((this->unk_154 == Message_GetState(&globalCtx->msgCtx)) && Message_ShouldAdvance(globalCtx)) {
         Message_CloseTextbox(globalCtx);
@@ -167,8 +167,8 @@ void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        Gameplay_ClearCamera(globalCtx, this->subCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+        Play_ClearCamera(globalCtx, this->subCamId);
+        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnBomBowlPit_GivePrize;
     }
