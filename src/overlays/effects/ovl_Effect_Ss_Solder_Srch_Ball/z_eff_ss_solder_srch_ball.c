@@ -8,15 +8,15 @@
 
 #define rUnused regs[1]
 
-u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
-void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this);
+u32 EffectSsSolderSrchBall_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx);
+void EffectSsSolderSrchBall_Update(PlayState* play, u32 index, EffectSs* this);
 
 EffectSsInit Effect_Ss_Solder_Srch_Ball_InitVars = {
     EFFECT_SS_SOLDER_SRCH_BALL,
     EffectSsSolderSrchBall_Init,
 };
 
-u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
+u32 EffectSsSolderSrchBall_Init(PlayState* play, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsSolderSrchBallInitParams* initParams = (EffectSsSolderSrchBallInitParams*)initParamsx;
 
     this->pos = initParams->pos;
@@ -29,13 +29,13 @@ u32 EffectSsSolderSrchBall_Init(GlobalContext* globalCtx, u32 index, EffectSs* t
     return 1;
 }
 
-void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
+void EffectSsSolderSrchBall_Update(PlayState* play, u32 index, EffectSs* this) {
     s32 pad;
     f32 playerPosDiffX;
     f32 playerPosDiffY;
     f32 playerPosDiffZ;
     s16* linkDetected;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
 
     linkDetected = this->actor;
 
@@ -43,7 +43,7 @@ void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs
     playerPosDiffY = player->actor.world.pos.y - this->pos.y;
     playerPosDiffZ = player->actor.world.pos.z - this->pos.z;
 
-    if (!BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->pos, 30.0f)) {
+    if (!BgCheck_SphVsFirstPoly(&play->colCtx, &this->pos, 30.0f)) {
         if (sqrtf(SQ(playerPosDiffX) + SQ(playerPosDiffY) + SQ(playerPosDiffZ)) < 70.0f) {
             *linkDetected = true;
         }

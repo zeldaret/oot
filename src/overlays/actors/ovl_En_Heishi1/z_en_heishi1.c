@@ -10,24 +10,24 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi1_Init(Actor* thisx, PlayState* play);
+void EnHeishi1_Destroy(Actor* thisx, PlayState* play);
+void EnHeishi1_Update(Actor* thisx, PlayState* play);
+void EnHeishi1_Draw(Actor* thisx, PlayState* play);
 
-void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_SetupWait(EnHeishi1* this, PlayState* play);
+void EnHeishi1_SetupWalk(EnHeishi1* this, PlayState* play);
+void EnHeishi1_SetupMoveToLink(EnHeishi1* this, PlayState* play);
+void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, PlayState* play);
+void EnHeishi1_SetupKick(EnHeishi1* this, PlayState* play);
+void EnHeishi1_SetupWaitNight(EnHeishi1* this, PlayState* play);
 
-void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx);
-void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx);
+void EnHeishi1_Wait(EnHeishi1* this, PlayState* play);
+void EnHeishi1_Walk(EnHeishi1* this, PlayState* play);
+void EnHeishi1_MoveToLink(EnHeishi1* this, PlayState* play);
+void EnHeishi1_TurnTowardLink(EnHeishi1* this, PlayState* play);
+void EnHeishi1_Kick(EnHeishi1* this, PlayState* play);
+void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play);
 
 static s32 sPlayerIsCaught = false;
 
@@ -63,15 +63,14 @@ static s32 sCamDataIdxs[] = {
 
 static s16 sWaypoints[] = { 0, 4, 1, 5, 2, 6, 3, 7 };
 
-void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnHeishi1_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f rupeePos;
     s32 i;
 
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable,
-                   17);
+    SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable, 17);
 
     this->type = (this->actor.params >> 8) & 0xFF;
     this->path = this->actor.params & 0xFF;
@@ -106,7 +105,7 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->path == 3) {
         for (i = 0; i < ARRAY_COUNT(sRupeePositions); i++) {
             rupeePos = sRupeePositions[i];
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY, rupeePos.x, rupeePos.y,
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_RUPPY, rupeePos.x, rupeePos.y,
                                rupeePos.z, 0, 0, 0, 3);
         }
     }
@@ -126,10 +125,10 @@ void EnHeishi1_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnHeishi1_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupWalk(EnHeishi1* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiWalkAnim);
 
     Animation_Change(&this->skelAnime, &gEnHeishiWalkAnim, this->animSpeed, 0.0f, (s16)frameCount, ANIMMODE_LOOP,
@@ -140,7 +139,7 @@ void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
     this->actionFunc = EnHeishi1_Walk;
 }
 
-void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_Walk(EnHeishi1* this, PlayState* play) {
     Path* path;
     Vec3s* pointPos;
     f32 pathDiffX;
@@ -154,7 +153,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
     }
 
     if (!sPlayerIsCaught) {
-        path = &globalCtx->setupPathList[this->path];
+        path = &play->setupPathList[this->path];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
 
@@ -213,19 +212,19 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupMoveToLink(EnHeishi1* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiWalkAnim);
 
     Animation_Change(&this->skelAnime, &gEnHeishiWalkAnim, 3.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -3.0f);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
-    Message_StartTextbox(globalCtx, 0x702D, &this->actor);
-    Interface_SetDoAction(globalCtx, DO_ACTION_STOP);
+    Message_StartTextbox(play, 0x702D, &this->actor);
+    Interface_SetDoAction(play, DO_ACTION_STOP);
     this->actionFunc = EnHeishi1_MoveToLink;
 }
 
-void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void EnHeishi1_MoveToLink(EnHeishi1* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachF(&this->actor.world.pos.x, player->actor.world.pos.x, 1.0f, this->moveSpeed);
@@ -240,7 +239,7 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupWait(EnHeishi1* this, PlayState* play) {
     s16 rand;
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
@@ -253,7 +252,7 @@ void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     this->actionFunc = EnHeishi1_Wait;
 }
 
-void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_Wait(EnHeishi1* this, PlayState* play) {
     s16 randOffset;
     s32 i;
 
@@ -311,7 +310,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
@@ -319,7 +318,7 @@ void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
     this->actionFunc = EnHeishi1_TurnTowardLink;
 }
 
-void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_TurnTowardLink(EnHeishi1* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->type != 5) {
@@ -333,57 +332,57 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupKick(EnHeishi1* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnHeishi1_Kick;
 }
 
-void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_Kick(EnHeishi1* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
     if (!this->loadStarted) {
         // if dialog state is 5 and textbox has been advanced, kick player out
-        if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-            Message_CloseTextbox(globalCtx);
+        if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
+            Message_CloseTextbox(play);
             if (!this->loadStarted) {
                 SET_EVENTCHKINF(EVENTCHKINF_4E);
-                globalCtx->nextEntranceIndex = ENTR_SPOT15_3;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT15_3;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 this->loadStarted = true;
                 sPlayerIsCaught = false;
-                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
+                play->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
                 gSaveContext.nextTransitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
             }
         }
     }
 }
 
-void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_SetupWaitNight(EnHeishi1* this, PlayState* play) {
     f32 frameCount = Animation_GetLastFrame(&gEnHeishiIdleAnim);
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnHeishi1_WaitNight;
 }
 
-void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
+void EnHeishi1_WaitNight(EnHeishi1* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.xzDistToPlayer < 100.0f) {
-        Message_StartTextbox(globalCtx, 0x702D, &this->actor);
+        Message_StartTextbox(play, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST); // "Discovered!"
-        func_8002DF54(globalCtx, &this->actor, 1);
+        func_8002DF54(play, &this->actor, 1);
         this->actionFunc = EnHeishi1_SetupKick;
     }
 }
 
-void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnHeishi1_Update(Actor* thisx, PlayState* play) {
     EnHeishi1* this = (EnHeishi1*)thisx;
     s16 path;
     u8 i;
     s32 pad;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
     s32 pad2;
     Camera* activeCam;
 
@@ -399,11 +398,11 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->waypointTimer--;
     }
 
-    activeCam = GET_ACTIVE_CAM(globalCtx);
+    activeCam = GET_ACTIVE_CAM(play);
 
     if (player->actor.freezeTimer == 0) {
 
-        this->actionFunc(this, globalCtx);
+        this->actionFunc(this, play);
 
         this->actor.uncullZoneForward = 550.0f;
         this->actor.uncullZoneScale = 350.0f;
@@ -429,7 +428,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
                         Matrix_Pop();
 
-                        EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
+                        EffectSsSolderSrchBall_Spawn(play, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
                                                      &this->linkDetected);
 
                         if (this->actor.xzDistToPlayer < 60.0f) {
@@ -457,7 +456,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                                     func_80078884(NA_SE_SY_FOUND);
                                     // "Discovered!"
                                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
-                                    func_8002DF54(globalCtx, &this->actor, 1);
+                                    func_8002DF54(play, &this->actor, 1);
                                     sPlayerIsCaught = true;
                                     this->actionFunc = EnHeishi1_SetupMoveToLink;
                                 }
@@ -470,8 +469,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               void* thisx) {
+s32 EnHeishi1_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHeishi1* this = (EnHeishi1*)thisx;
 
     // turn the guards head to match the direction he is looking
@@ -482,19 +480,19 @@ s32 EnHeishi1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     return false;
 }
 
-void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnHeishi1_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnHeishi1* this = (EnHeishi1*)thisx;
     Vec3f matrixScale = { 0.3f, 0.3f, 0.3f };
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi1_OverrideLimbDraw, NULL,
+    func_80093D18(play->state.gfxCtx);
+    SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi1_OverrideLimbDraw, NULL,
                       this);
-    func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, globalCtx);
+    func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, play);
 
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y + 100.0f, this->actor.world.pos.z,
                                17000, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
-                               255, 4, globalCtx->state.gfxCtx);
+                               255, 4, play->state.gfxCtx);
     }
 }

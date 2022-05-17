@@ -6,7 +6,7 @@
 
 struct EnEncount2;
 
-typedef void (*EnEncount2ActionFunc)(struct EnEncount2*, GlobalContext*);
+typedef void (*EnEncount2ActionFunc)(struct EnEncount2*, PlayState*);
 
 #define EN_ENCOUNT2_EFFECT_COUNT 50
 
