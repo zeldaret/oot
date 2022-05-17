@@ -340,7 +340,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 
                 case SUB_CMD_DISABLE_NEW_SEQUENCES:
                     // disable the starting of new sequences
-                    sIsSeqStartDisabled = val & 1;
+                    sNewSeqDisabled = val & 1;
                     break;
             }
             break;
@@ -597,7 +597,7 @@ void Audio_UpdateActiveSequences(void) {
         // Process setup commands
         if (gActiveSeqs[playerIndex].setupCmdNum != 0) {
             // If there is a SeqCmd to change the audio spec queued, then drop all setup commands
-            if (!Audio_IsSeqCmdNotQueued(0xF0000000, 0xF0000000)) {
+            if (!Audio_IsSeqCmdNotQueued(SEQ_CMD_SET_SPEC << 28, SEQ_CMD_MASK)) {
                 gActiveSeqs[playerIndex].setupCmdNum = 0;
                 return;
             }

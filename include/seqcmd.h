@@ -3,6 +3,8 @@
 
 // ==== Primary commands ====
 
+#define SEQ_CMD_MASK 0xF0000000
+
 typedef enum {
     /* 0x0 */ SEQ_CMD_START,
     /* 0x1 */ SEQ_CMD_STOP,

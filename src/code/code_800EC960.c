@@ -4616,7 +4616,8 @@ void func_800F574C(f32 arg0, u8 arg2) {
 }
 
 void func_800F5918(void) {
-    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME && Audio_IsSeqCmdNotQueued(0, 0xF0000000)) {
+    if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME &&
+        Audio_IsSeqCmdNotQueued(SEQ_CMD_START << 28, SEQ_CMD_MASK)) {
         AudioSeqCmd_SetTempo(SEQ_PLAYER_BGM_MAIN, 5, 210);
     }
 }
@@ -5089,7 +5090,7 @@ void func_800F6AB0(u16 arg0) {
 }
 
 void func_800F6B3C(void) {
-    Audio_StartSequence(2, 0, 0xFF, 5);
+    Audio_StartSequence(SEQ_PLAYER_SFX, 0, 0xFF, 5);
 }
 
 void Audio_DisableAllSeq(void) {
@@ -5153,7 +5154,8 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 val) {
     u8 lastChannelIdx;
     u8 channelIdx;
 
-    if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) && Audio_IsSeqCmdNotQueued(1, 0xF00000FF)) {
+    if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) &&
+        Audio_IsSeqCmdNotQueued(1, SEQ_CMD_MASK | 0xFF)) {
         sAudioNatureFailed = true;
         return;
     }
@@ -5190,9 +5192,9 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     AudioSeqCmd_SetPlayerIO(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 0, 0x7F, 1);
 
-    channelIdx = 0;
+    channelIdx = false;
     if (sNewSeqDisabled) {
-        channelIdx = 1;
+        channelIdx = true;
         AudioSeqCmd_DisableNewSequences(false);
     }
 
@@ -5220,6 +5222,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
 
         Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
                                           sNatureAmbienceDataIO[natureAmbienceId].channelMask);
+                                          
         while ((sNatureAmbienceDataIO[natureAmbienceId].channelIO[i] != 0xFF) && (i < 100)) {
             channelIdx = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
             port = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
