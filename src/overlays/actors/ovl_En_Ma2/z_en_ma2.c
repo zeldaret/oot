@@ -373,14 +373,14 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static void* sEyeTextures[] = { gMalonAdultEyeOpenTex, gMalonAdultEyeHalfTex, gMalonAdultEyeClosedTex };
 
     EnMa2* this = (EnMa2*)thisx;
-    Camera* camera;
+    Camera* activeCam;
     f32 someFloat;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 955);
 
-    camera = GET_ACTIVE_CAM(globalCtx);
-    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
+    activeCam = GET_ACTIVE_CAM(globalCtx);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
     func_800F6268(someFloat, NA_BGM_LONLON);
     func_80093D18(globalCtx->state.gfxCtx);
 

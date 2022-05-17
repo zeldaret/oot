@@ -11,26 +11,67 @@ u32 gBitFlags[] = {
     (1 << 24), (1 << 25), (1 << 26), (1 << 27), (1 << 28), (1 << 29), (1 << 30), (1 << 31),
 };
 
-u16 gEquipMasks[] = { 0x000F, 0x00F0, 0x0F00, 0xF000 };
-u16 gEquipNegMasks[] = { 0xFFF0, 0xFF0F, 0xF0FF, 0x0FFF };
-u32 gUpgradeMasks[] = {
-    0x00000007, 0x00000038, 0x000001C0, 0x00000E00, 0x00003000, 0x0001C000, 0x000E0000, 0x00700000,
+u16 gEquipMasks[EQUIP_TYPE_MAX] = {
+    0xF << (EQUIP_TYPE_SWORD * 4),  // EQUIP_TYPE_SWORD
+    0xF << (EQUIP_TYPE_SHIELD * 4), // EQUIP_TYPE_SHIELD
+    0xF << (EQUIP_TYPE_TUNIC * 4),  // EQUIP_TYPE_TUNIC
+    0xF << (EQUIP_TYPE_BOOTS * 4),  // EQUIP_TYPE_BOOTS
 };
-u32 gUpgradeNegMasks[] = {
-    0xFFFFFFF8, 0xFFFFFFC7, 0xFFFFFE3F, 0xFFFFF1FF, 0xFFFFCFFF, 0xFFFE3FFF, 0xFFF1FFFF, 0xFF8FFFFF,
+u16 gEquipNegMasks[EQUIP_TYPE_MAX] = {
+    (u16) ~(0xF << (EQUIP_TYPE_SWORD * 4)),  // EQUIP_TYPE_SWORD
+    (u16) ~(0xF << (EQUIP_TYPE_SHIELD * 4)), // EQUIP_TYPE_SHIELD
+    (u16) ~(0xF << (EQUIP_TYPE_TUNIC * 4)),  // EQUIP_TYPE_TUNIC
+    (u16) ~(0xF << (EQUIP_TYPE_BOOTS * 4)),  // EQUIP_TYPE_BOOTS
 };
-u8 gEquipShifts[] = { 0, 4, 8, 12 };
-u8 gUpgradeShifts[] = { 0, 3, 6, 9, 12, 14, 17, 20 };
 
-u16 gUpgradeCapacities[][4] = {
-    { 0, 30, 40, 50 },     // Quivers
-    { 0, 20, 30, 40 },     // Bomb Bags
-    { 0, 0, 0, 0 },        // Unused (Scale)
-    { 0, 0, 0, 0 },        // Unused (Strength)
-    { 99, 200, 500, 500 }, // Wallets
-    { 0, 30, 40, 50 },     // Deku Seed Bullet Bags
-    { 0, 10, 20, 30 },     // Deku Stick Upgrades
-    { 0, 20, 30, 40 },     // Deku Nut Upgrades
+u32 gUpgradeMasks[UPG_MAX] = {
+    0x00000007, // UPG_QUIVER
+    0x00000038, // UPG_BOMB_BAG
+    0x000001C0, // UPG_STRENGTH
+    0x00000E00, // UPG_SCALE
+    0x00003000, // UPG_WALLET
+    0x0001C000, // UPG_BULLET_BAG
+    0x000E0000, // UPG_STICKS
+    0x00700000, // UPG_NUTS
+};
+u32 gUpgradeNegMasks[UPG_MAX] = {
+    ~0x00000007, // UPG_QUIVER
+    ~0x00000038, // UPG_BOMB_BAG
+    ~0x000001C0, // UPG_STRENGTH
+    ~0x00000E00, // UPG_SCALE
+    ~0x00003000, // UPG_WALLET
+    ~0x0001C000, // UPG_BULLET_BAG
+    ~0x000E0000, // UPG_STICKS
+    ~0x00700000, // UPG_NUTS
+};
+
+u8 gEquipShifts[EQUIP_TYPE_MAX] = {
+    EQUIP_TYPE_SWORD * 4,  // EQUIP_TYPE_SWORD
+    EQUIP_TYPE_SHIELD * 4, // EQUIP_TYPE_SHIELD
+    EQUIP_TYPE_TUNIC * 4,  // EQUIP_TYPE_TUNIC
+    EQUIP_TYPE_BOOTS * 4,  // EQUIP_TYPE_BOOTS
+};
+
+u8 gUpgradeShifts[UPG_MAX] = {
+    0,  // UPG_QUIVER
+    3,  // UPG_BOMB_BAG
+    6,  // UPG_STRENGTH
+    9,  // UPG_SCALE
+    12, // UPG_WALLET
+    14, // UPG_BULLET_BAG
+    17, // UPG_STICKS
+    20, // UPG_NUTS
+};
+
+u16 gUpgradeCapacities[UPG_MAX][4] = {
+    { 0, 30, 40, 50 },     // UPG_QUIVER
+    { 0, 20, 30, 40 },     // UPG_BOMB_BAG
+    { 0, 0, 0, 0 },        // UPG_STRENGTH (unused)
+    { 0, 0, 0, 0 },        // UPG_SCALE (unused)
+    { 99, 200, 500, 500 }, // UPG_WALLET
+    { 0, 30, 40, 50 },     // UPG_BULLET_BAG
+    { 0, 10, 20, 30 },     // UPG_STICKS
+    { 0, 20, 30, 40 },     // UPG_NUTS
 };
 
 u32 gGsFlagsMasks[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };

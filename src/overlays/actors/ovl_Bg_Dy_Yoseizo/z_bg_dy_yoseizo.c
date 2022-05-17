@@ -292,9 +292,9 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_BF = 2;
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        OnePointCutscene_Init(globalCtx, 8603, -99, NULL, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 8603, -99, NULL, CAM_ID_MAIN);
     } else {
-        OnePointCutscene_Init(globalCtx, 8604, -99, NULL, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 8604, -99, NULL, CAM_ID_MAIN);
     };
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);

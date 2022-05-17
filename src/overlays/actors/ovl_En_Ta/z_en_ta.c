@@ -71,8 +71,8 @@ void func_80B13AA0(EnTa* this, EnTaActionFunc arg1, EnTaUnkFunc arg2) {
 void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 24);
 
-    if (GET_EVENTINF(EVENTINF_0A)) {
-        if (GET_EVENTINF(EVENTINF_08)) {
+    if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
+        if (GET_EVENTINF(EVENTINF_HORSES_08)) {
             if (GET_ITEMGETINF(ITEMGETINF_02)) {
                 this->actor.textId = 0x2088;
             } else {
@@ -81,7 +81,7 @@ void func_80B13AAC(EnTa* this, GlobalContext* globalCtx) {
         } else {
             this->actor.textId = 0x2085;
         }
-        CLEAR_EVENTINF(EVENTINF_08);
+        CLEAR_EVENTINF(EVENTINF_HORSES_08);
     } else if (faceReaction == 0) {
         if (GET_INFTABLE(INFTABLE_7E)) {
             if (GET_ITEMGETINF(ITEMGETINF_02)) {
@@ -193,12 +193,12 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                             this->actor.world.pos.y + 40.0f, this->actor.world.pos.z - 30.0f, 0, 0, 0, 0xD);
                         func_80B13AAC(this, globalCtx);
 
-                        if (GET_EVENTINF(EVENTINF_0A)) {
+                        if (GET_EVENTINF(EVENTINF_HORSES_0A)) {
                             func_80B13AA0(this, func_80B16608, func_80B16938);
                             Animation_Change(&this->skelAnime, &gTalonSitWakeUpAnim, 1.0f,
                                              Animation_GetLastFrame(&gTalonSitWakeUpAnim) - 1.0f,
                                              Animation_GetLastFrame(&gTalonSitWakeUpAnim), ANIMMODE_ONCE, 0.0f);
-                            CLEAR_EVENTINF(EVENTINF_0A);
+                            CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                         } else {
                             func_80B13AA0(this, func_80B16504, func_80B16854);
                             this->eyeIndex = 0;
@@ -459,7 +459,7 @@ void func_80B14AF4(EnTa* this, GlobalContext* globalCtx) {
 
 void func_80B14B6C(EnTa* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) {
-        OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4175, -99, &this->actor, CAM_ID_MAIN);
         func_80B13AA0(this, func_80B14AF4, func_80B167C0);
         this->unk_2CC = 5;
         SET_EVENTCHKINF(EVENTCHKINF_14);
@@ -519,28 +519,28 @@ s32 func_80B14DD8(void) {
 }
 
 void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
-    Vec3f b;
-    Vec3f a;
+    Vec3f subCamEye;
+    Vec3f subCamAt;
 
-    this->unk_2D0 = Gameplay_CreateSubCamera(globalCtx);
-    this->unk_2D2 = globalCtx->activeCamera;
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D0, CAM_STAT_ACTIVE);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    this->returnToCamId = globalCtx->activeCamId;
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
-    b.x = 1053.0f;
-    b.y = 11.0f;
-    b.z = 22.0f;
+    subCamEye.x = 1053.0f;
+    subCamEye.y = 11.0f;
+    subCamEye.z = 22.0f;
 
-    a.x = 1053.0f;
-    a.y = 45.0f;
-    a.z = -40.0f;
+    subCamAt.x = 1053.0f;
+    subCamAt.y = 45.0f;
+    subCamAt.z = -40.0f;
 
-    Gameplay_CameraSetAtEye(globalCtx, this->unk_2D0, &a, &b);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
 }
 
 void func_80B14EDC(EnTa* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->unk_2D2, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->unk_2D0);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
+    Play_ClearCamera(globalCtx, this->subCamId);
 }
 
 void func_80B14F20(EnTa* this, EnTaActionFunc arg1) {
@@ -663,9 +663,9 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
     func_80B15308(this);
 
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-        globalCtx->nextEntranceIndex = 0x5E4;
+        globalCtx->nextEntranceIndex = ENTR_SOUKO_2;
 
-        if (GET_EVENTINF(EVENTINF_08)) {
+        if (GET_EVENTINF(EVENTINF_HORSES_08)) {
             globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
             gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
         } else {
@@ -674,7 +674,7 @@ void func_80B15424(EnTa* this, GlobalContext* globalCtx) {
         }
 
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-        SET_EVENTINF(EVENTINF_0A);
+        SET_EVENTINF(EVENTINF_HORSES_0A);
         this->actionFunc = func_80B153D4;
         this->unk_2CC = 22;
     }
@@ -708,7 +708,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
                                              -10.0f);
                             this->unk_2E0 &= ~0x10;
                             this->unk_2E0 &= ~0x100;
-                            SET_EVENTINF(EVENTINF_08);
+                            SET_EVENTINF(EVENTINF_HORSES_08);
                             Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
                             this->unk_2E0 &= ~0x200;
                             Audio_PlayFanfare(NA_BGM_SMALL_ITEM_GET);
@@ -737,7 +737,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
         func_800F5918();
     }
 
-    if (gSaveContext.timer1Value == 0 && !Gameplay_InCsMode(globalCtx)) {
+    if (gSaveContext.timer1Value == 0 && !Play_InCsMode(globalCtx)) {
         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);
@@ -746,7 +746,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
         Message_StartTextbox(globalCtx, 0x2081, &this->actor);
         this->actionFunc = func_80B15424;
         func_80B14E28(this, globalCtx);
-        CLEAR_EVENTINF(EVENTINF_08);
+        CLEAR_EVENTINF(EVENTINF_HORSES_08);
         this->unk_2E0 |= 0x80;
         Animation_Change(&this->skelAnime, &gTalonSitHandsUpAnim, 1.0f, 8.0f, 29.0f, ANIMMODE_ONCE, -10.0f);
         this->unk_2E0 &= ~0x10;

@@ -56,7 +56,7 @@ void ViMode_Configure(ViMode* viMode, s32 mode, s32 type, s32 unk_70, s32 unk_74
     unk_top &= ~1;
     unk_bottom &= ~1;
 
-    yScaleLo = (cond_4C ? 2 : 1) * (((height << 11)) / (SCREEN_HEIGHT * 2 + unk_bottom - unk_top) / (unk_70 ? 1 : 2));
+    yScaleLo = (cond_4C ? 2 : 1) * ((height << 11) / (SCREEN_HEIGHT * 2 + unk_bottom - unk_top) / (unk_70 ? 1 : 2));
 
     yScaleHi0 = not_78 ? (cond_40 ? 0x1000000 : 0x2000000) : 0;
     yScaleHi1 = not_78 ? (cond_40 ? 0x3000000 : 0x2000000) : 0;

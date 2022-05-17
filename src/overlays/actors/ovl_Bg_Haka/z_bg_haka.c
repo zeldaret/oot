@@ -71,7 +71,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
         if (globalCtx->sceneNum == SCENE_SPOT02 && !LINK_IS_ADULT && IS_DAY) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~PLAYER_STATE2_4;
-            if (!Gameplay_InCsMode(globalCtx)) {
+            if (!Play_InCsMode(globalCtx)) {
                 Message_StartTextbox(globalCtx, 0x5073, NULL);
                 this->dyna.actor.params = 100;
                 this->actionFunc = func_8087BAE4;

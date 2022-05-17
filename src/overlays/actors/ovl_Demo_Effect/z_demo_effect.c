@@ -328,7 +328,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_NAYRU:
-            if (gSaveContext.entranceIndex == 0x013D) {
+            if (gSaveContext.entranceIndex == ENTR_SPOT16_0) {
                 Actor_SetScale(&this->actor, 1.0f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -349,7 +349,7 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx2) {
             break;
 
         case DEMO_EFFECT_GOD_LGT_FARORE:
-            if (gSaveContext.entranceIndex == 0x00EE) {
+            if (gSaveContext.entranceIndex == ENTR_SPOT04_0) {
                 Actor_SetScale(&this->actor, 2.4f);
             } else {
                 Actor_SetScale(&this->actor, 0.1f);
@@ -631,7 +631,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
 
         Actor_SetScale(thisx, 0.20f);
 
-        if (gSaveContext.entranceIndex == 0x0053) {
+        if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
             switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
                 case 2:
                     DemoEffect_MedalSparkle(this, globalCtx, 0);
@@ -643,7 +643,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
         }
         switch (globalCtx->csCtx.npcActions[this->csActionId]->action) {
             case 2:
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -658,7 +658,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
                 if (this->getItem.drawId != GID_ARROW_LIGHT) {
                     this->actor.shape.rot.y += this->getItem.rotation;
                 }
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     Audio_PlayActorSound2(thisx, NA_SE_EV_MEDAL_APPEAR_L - SFX_FLAG);
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
@@ -697,7 +697,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 84 * 0.001f);
         }
     } else if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
-               (gSaveContext.entranceIndex == 0x0324 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
+               (gSaveContext.entranceIndex == ENTR_TOKINOMA_4 && !GET_EVENTCHKINF(EVENTCHKINF_C9))) {
         SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
@@ -760,7 +760,7 @@ void DemoEffect_UpdateTimeWarpReturnFromChamberOfSages(DemoEffect* this, GlobalC
     this->timeWarp.shrinkTimer++;
 
     if (this->timeWarp.shrinkTimer > 250) {
-        if (gSaveContext.entranceIndex == 0x0324) {
+        if (gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
             SET_EVENTCHKINF(EVENTCHKINF_C9);
         }
 
@@ -852,7 +852,7 @@ void DemoEffect_UpdateTriforceSpot(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0 && gSaveContext.sceneSetupIndex == 6 &&
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0 && gSaveContext.sceneSetupIndex == 6 &&
             globalCtx->csCtx.frames == 143) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_RING_EXPLOSION);
         }
@@ -1153,7 +1153,7 @@ void DemoEffect_UpdateGodLgtDin(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 288) {
@@ -1208,7 +1208,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 298) {
@@ -1230,7 +1230,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (gSaveContext.entranceIndex == 0x013D && gSaveContext.sceneSetupIndex == 4) {
+        if (gSaveContext.entranceIndex == ENTR_SPOT16_0 && gSaveContext.sceneSetupIndex == 4) {
             if (globalCtx->csCtx.frames == 72) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
@@ -1268,7 +1268,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, GlobalContext* globalCtx) {
             func_800F3F3C(3);
         }
 
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             switch (gSaveContext.sceneSetupIndex) {
                 case 4:
                     if (globalCtx->csCtx.frames == 315) {
@@ -1587,14 +1587,14 @@ void DemoEffect_UpdateJewelChild(DemoEffect* this, GlobalContext* globalCtx) {
                 return;
             default:
                 DemoEffect_MoveToCsEndpoint(this, globalCtx, this->csActionId, 0);
-                if (gSaveContext.entranceIndex == 0x0053) {
+                if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
                     DemoEffect_MoveJewelSplit(&thisx->world, this);
                 }
                 break;
         }
     }
 
-    if (gSaveContext.entranceIndex == 0x0053) {
+    if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
         if (!GET_EVENTCHKINF(EVENTCHKINF_4B)) {
             hasCmdAction = globalCtx->csCtx.state && globalCtx->csCtx.npcActions[this->csActionId];
             if (!hasCmdAction) {
@@ -1804,7 +1804,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2737);
 
     if (!DemoEffect_CheckCsAction(this, globalCtx, 2)) {
-        if (gSaveContext.entranceIndex == 0x00A0) {
+        if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {
             if (gSaveContext.sceneSetupIndex == 4) {
                 if (globalCtx->csCtx.frames <= 680) {
                     func_80078914(&this->actor.projectedPos, NA_SE_EV_GOD_FLYING - SFX_FLAG);
@@ -1968,7 +1968,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
     u32 frames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2994);
-    if (gSaveContext.entranceIndex != 0x0400 || globalCtx->csCtx.frames < 885) {
+    if (gSaveContext.entranceIndex != ENTR_NAKANIWA_0 || globalCtx->csCtx.frames < 885) {
         func_80093D84(globalCtx->state.gfxCtx);
 
         if (this->triforceSpot.lightColumnOpacity > 0) {
@@ -2076,7 +2076,8 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, GlobalContext* globalCtx) {
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        Flags_GetEnv(globalCtx, 1) || gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == 0x0324) {
+        Flags_GetEnv(globalCtx, 1) || gSaveContext.sceneSetupIndex >= 4 ||
+        gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);

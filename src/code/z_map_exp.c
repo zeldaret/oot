@@ -306,7 +306,7 @@ void Map_Init(GlobalContext* globalCtx) {
                 R_COMPASS_SCALE_Y = gMapData->dgnCompassInfo[mapIndex][1];
                 R_COMPASS_OFFSET_X = gMapData->dgnCompassInfo[mapIndex][2];
                 R_COMPASS_OFFSET_Y = gMapData->dgnCompassInfo[mapIndex][3];
-                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE = gMapData->dgnMinimapTexIndexBase[mapIndex];
+                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE = gMapData->dgnTexIndexBase[mapIndex];
                 Map_InitRoomData(globalCtx, globalCtx->roomCtx.curRoom.num);
                 MapMark_Init(globalCtx);
             }
@@ -406,8 +406,8 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     }
                 }
 
-                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
-                    osSyncPrintf("Game_play_demo_mode_check=%d\n", Gameplay_InCsMode(globalCtx));
+                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Play_InCsMode(globalCtx)) {
+                    osSyncPrintf("Game_play_demo_mode_check=%d\n", Play_InCsMode(globalCtx));
                     // clang-format off
                     if (!R_MINIMAP_DISABLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
                                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -493,7 +493,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                 }
 
-                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Gameplay_InCsMode(globalCtx)) {
+                if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L) && !Play_InCsMode(globalCtx)) {
                     // clang-format off
                     if (!R_MINIMAP_DISABLED) { Audio_PlaySoundGeneral(NA_SE_SY_CAMERA_ZOOM_UP, &gSfxDefaultPos, 4,
                                                                       &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,

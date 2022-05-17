@@ -134,22 +134,22 @@ void ObjectKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if (gSaveContext.cutsceneTrigger != 0) {
-                if (gSaveContext.entranceIndex == 0x0538) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_2) {
                     this->effects[0].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x053C) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_3) {
                     this->effects[1].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x0540) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_4) {
                     this->effects[2].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x0544) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_5) {
                     this->effects[3].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x0548) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_6) {
                     this->effects[4].size = 0.1f;
                 }
-                if (gSaveContext.entranceIndex == 0x054C) {
+                if (gSaveContext.entranceIndex == ENTR_GANONTIKA_7) {
                     this->effects[5].size = 0.1f;
                 }
             }
@@ -222,8 +222,8 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->envCtx.unk_EE[3] < 64 &&
-        (gSaveContext.entranceIndex != 0x00EE || gSaveContext.sceneSetupIndex != 4 || globalCtx->envCtx.unk_EE[3])) {
+    if (globalCtx->envCtx.unk_EE[3] < 64 && (gSaveContext.entranceIndex != ENTR_SPOT04_0 ||
+                                             gSaveContext.sceneSetupIndex != 4 || globalCtx->envCtx.unk_EE[3])) {
         globalCtx->envCtx.unk_EE[3] += 16;
     }
 
@@ -489,7 +489,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, GlobalContext* globalCtx2) {
     Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
-    if (!(globalCtx->cameraPtrs[0]->unk_14C & 0x100)) {
+    if (!(globalCtx->cameraPtrs[CAM_ID_MAIN]->unk_14C & 0x100)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 807);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
@@ -584,7 +584,7 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, GlobalContext* globalCtx2) {
     s32 pad;
     s32 pad2;
 
-    if (!(globalCtx->cameraPtrs[0]->unk_14C & 0x100)) {
+    if (!(globalCtx->cameraPtrs[CAM_ID_MAIN]->unk_14C & 0x100)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_object_kankyo.c", 958);
         if (globalCtx->envCtx.unk_EE[2] < globalCtx->envCtx.unk_EE[3]) {
             if (globalCtx->state.frames % 16 == 0) {

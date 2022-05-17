@@ -109,35 +109,23 @@ s32 EnHorseGameCheck_DestroyIngoRace(EnHorseGameCheckBase* base, GlobalContext* 
 void EnHorseGameCheck_FinishIngoRace(EnHorseGameCheckIngoRace* this, GlobalContext* globalCtx) {
     gSaveContext.cutsceneIndex = 0;
     if (this->result == INGORACE_PLAYER_WIN) {
-        globalCtx->nextEntranceIndex = 0x4CE;
-        if (GET_EVENTINF(EVENTINF_06)) {
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-                (EVENTINF_01_MASK | EVENTINF_02_MASK);
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+        globalCtx->nextEntranceIndex = ENTR_SPOT20_7;
+        if (GET_EVENTINF(EVENTINF_HORSES_06)) {
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_6);
+            SET_EVENTINF_HORSES_0F(1);
             globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
             Environment_ForcePlaySequence(NA_BGM_INGO);
         } else {
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-                EVENTINF_02_MASK;
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_4);
+            SET_EVENTINF_HORSES_0F(1);
             Environment_ForcePlaySequence(NA_BGM_INGO);
             globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         }
     } else {
-        globalCtx->nextEntranceIndex = 0x558;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-            (EVENTINF_00_MASK | EVENTINF_01_MASK);
+        globalCtx->nextEntranceIndex = ENTR_SPOT20_8;
+        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_3);
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+        SET_EVENTINF_HORSES_0F(1);
     }
     DREG(25) = 0;
     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
@@ -307,21 +295,21 @@ s32 EnHorseGameCheck_DestroyMalonRace(EnHorseGameCheckBase* base, GlobalContext*
 void EnHorseGameCheck_FinishMalonRace(EnHorseGameCheckMalonRace* this, GlobalContext* globalCtx) {
     if ((this->result == MALONRACE_SUCCESS) || (this->result == MALONRACE_TIME_UP)) {
         gSaveContext.cutsceneIndex = 0;
-        globalCtx->nextEntranceIndex = 0x4CE;
+        globalCtx->nextEntranceIndex = ENTR_SPOT20_7;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     } else if (this->result == MALONRACE_FAILURE) {
         gSaveContext.timer1Value = 240;
         gSaveContext.timer1State = 0xF;
         gSaveContext.cutsceneIndex = 0;
-        globalCtx->nextEntranceIndex = 0x4CE;
+        globalCtx->nextEntranceIndex = ENTR_SPOT20_7;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     } else {
         // "not supported"
         osSyncPrintf("En_HGC_Spot20_Ta_end():対応せず\n");
         gSaveContext.cutsceneIndex = 0;
-        globalCtx->nextEntranceIndex = 0x157;
+        globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
     }

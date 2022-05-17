@@ -150,7 +150,7 @@ void EnHeishi3_StandSentinelInCastle(EnHeishi3* this, GlobalContext* globalCtx) 
         (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 100.0f) &&
         (player->actor.world.pos.z < 1020.0f) && (player->actor.world.pos.z > 700.0f) && (sPlayerCaught == 0)) {
         if (this->unk_278 == 1) {
-            if ((player->actor.world.pos.x < -290.0f)) {
+            if (player->actor.world.pos.x < -290.0f) {
                 return;
             }
         } else {
@@ -203,7 +203,7 @@ void func_80A55D00(EnHeishi3* this, GlobalContext* globalCtx) {
     if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx) &&
         (this->respawnFlag == 0)) {
         SET_EVENTCHKINF(EVENTCHKINF_4E);
-        globalCtx->nextEntranceIndex = 0x47E; // Hyrule Castle from Guard Capture (outside)
+        globalCtx->nextEntranceIndex = ENTR_SPOT15_4;
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         this->respawnFlag = 1;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_WHITE, TCS_FAST);

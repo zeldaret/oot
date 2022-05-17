@@ -245,7 +245,7 @@ void func_80A9F408(EnMThunder* this, GlobalContext* globalCtx) {
         func_800F4254(&player->actor.projectedPos, 0);
     }
 
-    if (Gameplay_InCsMode(globalCtx)) {
+    if (Play_InCsMode(globalCtx)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -295,7 +295,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
 
     func_80A9F938(this, globalCtx);
 
-    if (Gameplay_InCsMode(globalCtx)) {
+    if (Play_InCsMode(globalCtx)) {
         Actor_Kill(&this->actor);
     }
 }

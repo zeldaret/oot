@@ -65,9 +65,9 @@ typedef struct EnClearTag {
     /* 0x0188 */ Vec3f floorTangent;
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ u8 cutsceneMode;
-    /* 0x01E2 */ s16 cameraId;
-    /* 0x01E4 */ Vec3f cutsceneCameraAt;
-    /* 0x01F0 */ Vec3f cutsceneCameraEye;
+    /* 0x01E2 */ s16 subCamId;
+    /* 0x01E4 */ Vec3f subCamEye;
+    /* 0x01F0 */ Vec3f subCamAt;
     /* 0x01FC */ s16 cutsceneTimer;
     /* 0x01FE */ char unk_1FE[0x06];
 } EnClearTag; // size = 0x0204
