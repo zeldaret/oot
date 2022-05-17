@@ -249,7 +249,7 @@ typedef enum {
  * DESCRIPTION
  *
  */
-#define AudioSeqCmd_SetActiveChannels(playerIndex, channelMask) \
+#define AudioSeqCmd_DisableChannels(playerIndex, channelMask) \
     Audio_QueueSeqCmd((SEQ_CMD_SET_ACTIVE_CHANNELS << 28) | ((u8)(playerIndex) << 24) | (u16)(channelMask))
 
 // ==== Audio Sequence Tempo Commands ====
@@ -475,7 +475,7 @@ typedef enum {
  * DESCRIPTION
  *
  */
-#define AudioSeqCmd_SetupSetActiveChannels(playerIndex, playerIndexToSet, channelMask)                                \
+#define AudioSeqCmd_SetupDisableChannels(playerIndex, playerIndexToSet, channelMask)                                \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_SEQ_ACTIVE_CHANNELS << 20) | ((u8)(playerIndex) << 24) | \
                       ((u8)(playerIndexToSet) << 16) | (u16)(channelMask))
 
@@ -521,53 +521,53 @@ typedef enum {
  *
  */
 #define AudioSeqCmd_ResetSetupCmds(playerIndex) \
-    Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_RESET_SETUP_CMDS << 20) | ((u8)(playerIndex) << 24)
+    Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SETUP_CMD_RESET_SETUP_CMDS << 20) | ((u8)(playerIndex) << 24))
 
 // ==== Audio Sequence Sub Commands ====
 
 /**
  * ARGS
- *   playerIndex (p), soundMode (s)
+ *   soundMode (s)
  *
  * FORMAT
  *   Captial U is unused
- *   EpUUU0ss
+ *   EUUUU0ss
  *
  * DESCRIPTION
  *
  */
-#define AudioSeqCmd_SetSoundMode(playerIndex, soundMode)                                                    \
-    Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_SET_SOUND_MODE << 8) | ((u8)(playerIndex) << 24) | \
+#define AudioSeqCmd_SetSoundMode(soundMode)                                                    \
+    Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_SET_SOUND_MODE << 8) | \
                       (u8)(soundMode))
 
 /**
  * ARGS
- *   playerIndex (p), isDisabled (d)
+ *   isDisabled (d)
  *
  * FORMAT
  *   Captial U is unused
- *   EpUUU1dd
+ *   EUUUU1dd
  *
  * DESCRIPTION
  *
  * isDisabled should be a (u8) but is required to be (u16) for matching
  */
-#define AudioSeqCmd_DisableNewSequences(playerIndex, isDisabled)                                                   \
-    Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_DISABLE_NEW_SEQUENCES << 8) | ((u8)(playerIndex) << 24) | \
+#define AudioSeqCmd_DisableNewSequences(isDisabled)                                                   \
+    Audio_QueueSeqCmd((SEQ_CMD_SUB_CMD << 28) | (SUB_CMD_DISABLE_NEW_SEQUENCES << 8) | \
                       (u16)(isDisabled))
 
 /**
  * ARGS
- *   playerIndex (p), sfxChannelLayout (c), spec (s)
+ *   sfxChannelLayout (c), spec (s)
  *
  * FORMAT
  *   Captial U is unused
- *   FpUUccss
+ *   FUUUccss
  *
  * DESCRIPTION
  *
  */
-#define AudioSeqCmd_SetSpec(sfxChannelLayout, spec) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_SPEC << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(spec))
+#define AudioSeqCmd_SetSpec(sfxChannelLayout, specId) \
+    Audio_QueueSeqCmd((SEQ_CMD_SET_SPEC << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(specId))
 
 #endif

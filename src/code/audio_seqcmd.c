@@ -18,7 +18,7 @@ ActiveSeq gActiveSeqs[4];
 
 u8 sSeqCmdWritePos = 0;
 u8 sSeqCmdReadPos = 0;
-u8 sIsSeqStartDisabled = 0;
+u8 sNewSeqDisabled = false;
 u8 gAudioDebugPrintSeqCmd = true;
 u8 sSoundModes[] = { 0, 1, 2, 3 };
 u8 gAudioSpecId = 0;
@@ -29,7 +29,7 @@ void Audio_StartSequence(u8 playerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
     u16 duration;
     s32 pad;
 
-    if ((sIsSeqStartDisabled == 0) || (playerIndex == SEQ_PLAYER_SFX)) {
+    if (!sNewSeqDisabled || (playerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
             // fadeTimer is interpreted as seconds (60 fps * updatesPerFrame)
@@ -678,7 +678,7 @@ void Audio_UpdateActiveSequences(void) {
 
                     case SETUP_CMD_SEQ_ACTIVE_CHANNELS:
                         channelMask = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
-                        AudioSeqCmd_SetActiveChannels(setupPlayerIndex, channelMask);
+                        AudioSeqCmd_DisableChannels(setupPlayerIndex, channelMask);
                         break;
 
                     case SETUP_CMD_SET_PLAYER_FREQ:
