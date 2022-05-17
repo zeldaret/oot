@@ -467,7 +467,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0x1E) {
         func_80078884(NA_SE_OC_ABYSS);
-        Gameplay_TriggerRespawn(globalCtx);
+        Play_TriggerRespawn(globalCtx);
     }
 }
 

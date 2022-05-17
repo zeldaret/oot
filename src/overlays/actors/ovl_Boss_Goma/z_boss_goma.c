@@ -621,16 +621,16 @@ void BossGoma_UpdateCeilingMovement(BossGoma* this, GlobalContext* globalCtx, f3
 
 void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     Player* player;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
 
     player = GET_PLAYER(globalCtx);
     this->actionState = 4;
     this->actor.flags |= ACTOR_FLAG_0;
     func_80064520(globalCtx, &globalCtx->csCtx);
     func_8002DF54(globalCtx, &this->actor, 1);
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     Animation_Change(&this->skelanime, &gGohmaEyeRollAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaEyeRollAnim),
                      ANIMMODE_ONCE, 0.0f);
     this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaEyeRollAnim);
@@ -692,10 +692,10 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 
         case 1: // player entered the room
             func_80064520(globalCtx, &globalCtx->csCtx);
-            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+            this->subCamId = Play_CreateSubCamera(globalCtx);
             osSyncPrintf("MAKE CAMERA !!!   1   !!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->actionState = 2;
             // ceiling center
             this->actor.world.pos.x = -150.0f;
@@ -742,7 +742,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 this->subCamAt.z = player->actor.world.pos.z;
             }
 
-            Gameplay_CameraSetAtEye(globalCtx, CAM_ID_MAIN, &this->subCamAt, &this->subCamEye);
+            Play_CameraSetAtEye(globalCtx, CAM_ID_MAIN, &this->subCamAt, &this->subCamEye);
 
             if (this->frameCount == 176) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
@@ -759,7 +759,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             }
 
             if (this->frameCount >= 228) {
-                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
@@ -942,7 +942,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             if (this->framesUntilNextAction == 0) {
                 this->framesUntilNextAction = 30;
                 this->actionState = 150;
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
             }
             break;
 
@@ -953,7 +953,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&this->subCamEye.z, this->actor.world.pos.z + 220.0f, 0.2f, 100.0f, 0.1f);
 
             if (this->framesUntilNextAction == 0) {
-                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
@@ -969,7 +969,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
     }
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -1054,10 +1054,10 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
             this->actionState = 1;
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
-            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
-            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
-            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            this->subCamId = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
+            Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
             this->subCamEye.x = mainCam->eye.x;
             this->subCamEye.y = mainCam->eye.y;
             this->subCamEye.z = mainCam->eye.z;
@@ -1113,7 +1113,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
             if (this->timer == 0) {
                 this->actionState = 2;
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
                 this->timer = 70;
                 this->decayingProgress = 0;
                 this->subCamFollowSpeed = 0.0f;
@@ -1123,7 +1123,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
             break;
 
         case 2:
-            mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+            mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
             Math_SmoothStepToF(&this->subCamEye.x, mainCam->eye.x, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
             Math_SmoothStepToF(&this->subCamEye.y, mainCam->eye.y, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
             Math_SmoothStepToF(&this->subCamEye.z, mainCam->eye.z, 0.2f, this->subCamFollowSpeed * 50.0f, 0.1f);
@@ -1174,7 +1174,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
 
             if (this->timer == 0) {
                 if (Math_SmoothStepToF(&this->actor.scale.y, 0, 1.0f, 0.00075f, 0.0f) <= 0.001f) {
-                    mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                    mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                     mainCam->eye = this->subCamEye;
                     mainCam->eyeNext = this->subCamEye;
                     mainCam->at = this->subCamAt;
@@ -1191,7 +1191,7 @@ void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx) {
     }
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 
     if (this->blinkTimer != 0) {

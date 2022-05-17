@@ -446,16 +446,16 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     Vec3f subCamEye;
     Vec3s zeroVec = { 0, 0, 0 };
 
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     subCamAt.x = this->actor.world.pos.x;
     subCamAt.y = this->actor.world.pos.y + 60.0f;
     subCamAt.z = this->actor.world.pos.z;
     subCamEye.x = subCamAt.x;
     subCamEye.y = subCamAt.y - 22.0f;
     subCamEye.z = subCamAt.z + 40.0f;
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &subCamEye);
     this->unk_308.unk_08 = zeroVec;
     this->unk_308.unk_0E = zeroVec;
@@ -762,10 +762,10 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
     Vec3f subCamAt;
     Vec3f subCamEye;
 
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
     this->returnToCamId = globalCtx->activeCamId;
-    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
     this->subCamAtOffset.x = 0.0f;
     this->subCamAtOffset.y = 50.0f;
@@ -785,7 +785,7 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
     subCamEye.y += this->subCamEyeOffset.y;
     subCamEye.z += this->subCamEyeOffset.z;
 
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     this->actor.textId = 0x203B;
     Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->unk_308.unk_00 = 1;
@@ -849,13 +849,13 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
         subCamEye.x += this->subCamEyeOffset.x;
         subCamEye.y += this->subCamEyeOffset.y;
         subCamEye.z += this->subCamEyeOffset.z;
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     }
 }
 
 void func_80A7AE84(EnIn* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->subCamId);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
+    Play_ClearCamera(globalCtx, this->subCamId);
     func_8002DF54(globalCtx, &this->actor, 7);
     Interface_ChangeAlpha(0x32);
     this->actionFunc = func_80A7AEF0;
