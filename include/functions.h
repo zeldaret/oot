@@ -92,7 +92,7 @@ void __osDispatchThread(void);
 void __osCleanupThread(void);
 void __osDequeueThread(OSThread** queue, OSThread* thread);
 void osDestroyThread(OSThread* thread);
-void bzero(void* __s, u32 __n);
+void bzero(void* __s, s32 __n);
 void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri);
 void __osSetSR(u32);
 u32 __osGetSR(void);

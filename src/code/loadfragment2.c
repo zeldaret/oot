@@ -5,7 +5,8 @@ void* Overlay_AllocateAndLoad(u32 vRomStart, u32 vRomEnd, void* vRamStart, void*
 
     if (gOverlayLogSeverity >= 3) {
         osSyncPrintf("OVL:SPEC(%08x-%08x) REAL(%08x-%08x) OFFSET(%08x)\n", vRamStart, vRamEnd, allocatedVRamAddr,
-                     ((u32)vRamEnd - (u32)vRamStart) + (u32)allocatedVRamAddr, (u32)vRamStart - (u32)allocatedVRamAddr);
+                     ((uintptr_t)vRamEnd - (uintptr_t)vRamStart) + (uintptr_t)allocatedVRamAddr,
+                     (uintptr_t)vRamStart - (uintptr_t)allocatedVRamAddr);
     }
 
     if (allocatedVRamAddr != NULL) {

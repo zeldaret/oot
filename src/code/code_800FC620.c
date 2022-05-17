@@ -21,16 +21,14 @@ char D_80134488[0x18] = {
 };
 
 s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, void* allocatedVRamAddr) {
-    s32 pad;
-    u32 end;
-    u32 bssSize;
+    s32 pad[3];
+    uintptr_t end;
     OverlayRelocationSection* ovl;
-    u32 relocCnt;
-    u32 ovlOffset;
-    u32 size;
+    uintptr_t ovlOffset;
+    size_t size;
 
     size = vRomEnd - vRomStart;
-    end = (u32)allocatedVRamAddr + size;
+    end = (uintptr_t)allocatedVRamAddr + size;
 
     if (gOverlayLogSeverity >= 3) {
         // "Start loading dynamic link function"
@@ -42,11 +40,11 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
         osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedVRamAddr, end);
     }
 
-    DmaMgr_SendRequest0((u32)allocatedVRamAddr, vRomStart, size);
+    DmaMgr_SendRequest0(allocatedVRamAddr, vRomStart, size);
 
     ovlOffset = ((s32*)end)[-1];
 
-    ovl = (OverlayRelocationSection*)((u32)end - ovlOffset);
+    ovl = (OverlayRelocationSection*)(end - ovlOffset);
     if (gOverlayLogSeverity >= 3) {
         osSyncPrintf("TEXT(%08x), DATA(%08x), RODATA(%08x), BSS(%08x)\n", ovl->textSize, ovl->dataSize, ovl->rodataSize,
                      ovl->bssSize);
@@ -58,29 +56,23 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
 
     Overlay_Relocate(allocatedVRamAddr, ovl, vRamStart);
 
-    bssSize = ovl->bssSize;
-    if (bssSize != 0) {
+    if (ovl->bssSize != 0) {
         if (gOverlayLogSeverity >= 3) {
             // "Clear BSS area (% 08x-% 08x)"
             osSyncPrintf("BSS領域をクリアします(%08x-%08x)\n", end, end + ovl->bssSize);
         }
-
-        size = ovl->bssSize;
-        bssSize = size;
-        bzero((void*)end, bssSize);
-        relocCnt = ovl->nRelocations;
-        (void)relocCnt; // suppresses set but unused warning
+        bzero(end, ovl->bssSize);
     }
 
-    size = (u32)&ovl->relocations[ovl->nRelocations] - (u32)ovl;
+    size = (uintptr_t)&ovl->relocations[ovl->nRelocations] - (uintptr_t)ovl;
     if (gOverlayLogSeverity >= 3) {
         // "Clear REL area (%08x-%08x)"
-        osSyncPrintf("REL領域をクリアします(%08x-%08x)\n", ovl, (u32)ovl + size);
+        osSyncPrintf("REL領域をクリアします(%08x-%08x)\n", ovl, (uintptr_t)ovl + size);
     }
 
     bzero(ovl, size);
 
-    size = (u32)vRamEnd - (u32)vRamStart;
+    size = (uintptr_t)vRamEnd - (uintptr_t)vRamStart;
     osWritebackDCache(allocatedVRamAddr, size);
     osInvalICache(allocatedVRamAddr, size);
 
