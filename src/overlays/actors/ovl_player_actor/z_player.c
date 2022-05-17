@@ -6486,7 +6486,7 @@ s32 func_8083F524(GlobalContext* globalCtx, Player* this) {
  * Two exit walls are placed at each end of the crawlspace, separate to the two entrance wall used to enter the
  * crawlspace These front and back exit walls are slightly more interior in the crawlspace relative to the front and
  * back entrance walls When player interacts with either of these two interior exit walls, start the leaving-crawlspace
- * cutscene and return true Else, return false
+ * cutscene and return true. Else, return false
  */
 s32 Player_IsLeavingCrawlspace(Player* this, GlobalContext* globalCtx) {
     s16 yawToWall;
@@ -11459,7 +11459,6 @@ static struct_80832924 D_808548B4[] = {
 /**
  * Update player's animation while entering the crawlspace.
  * Once inside, stop all player animations and update player's movement.
- *
  */
 void Player_UpdateInsideCrawlspace(Player* this, GlobalContext* globalCtx) {
     this->stateFlags2 |= PLAYER_STATE2_6;

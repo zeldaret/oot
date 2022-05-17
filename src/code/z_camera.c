@@ -486,9 +486,9 @@ s32 Camera_GetDataIdxForPoly(Camera* camera, s32* bgId, CollisionPoly* poly) {
 /**
  * Returns the scene camera info for the floor under the player.
  * If there is no floor then there is no camera data, returns the number of
- * pieces of data there are in `dataCnt`
+ * pieces of data there are in `numVec3sData`
  */
-Vec3s* Camera_GetCamBgDataUnderPlayer(Camera* camera, u16* dataCnt) {
+Vec3s* Camera_GetCamBgDataUnderPlayer(Camera* camera, u16* numVec3sData) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
@@ -501,7 +501,7 @@ Vec3s* Camera_GetCamBgDataUnderPlayer(Camera* camera, u16* dataCnt) {
         // no floor
         return NULL;
     }
-    *dataCnt = SurfaceType_GetCameraNumVec3sData(&camera->globalCtx->colCtx, floorPoly, bgId);
+    *numVec3sData = SurfaceType_GetCameraNumVec3sData(&camera->globalCtx->colCtx, floorPoly, bgId);
     return SurfaceType_GetCameraVec3sData(&camera->globalCtx->colCtx, floorPoly, bgId);
 }
 

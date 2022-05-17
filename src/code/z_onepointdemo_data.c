@@ -43,7 +43,7 @@ static CutsceneCameraPoint sCrawlspaceForwardsEyePoints[9] = {
     { CS_CMD_CONTINUE, 0, 0, 60.0f, { 0, 63, 119 } }, { CS_CMD_STOP, 0, 0, 60.0f, { 0, 62, 119 } },
     { CS_CMD_STOP, 0, 0, 60.0f, { 0, 62, 119 } },
 };
-static s16 D_80120428 = 9;
+static s16 sCrawlspaceUnused = 9;
 static s16 sCrawlspaceTimer = 90;
 static s16 sCrawlspaceActionParam = 1;
 static CutsceneCameraPoint sCrawlspaceBackwardsEyePoints[10] = {
