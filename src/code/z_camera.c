@@ -445,35 +445,35 @@ f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, s32* bgId) {
 }
 
 /**
- * Returns the CameraSettingType of the camera at index `bgCamDataId`
+ * Returns the CameraSettingType of the camera at index `bgCamDataIndex`
  */
-s16 Camera_GetSurfaceBgCamDataSetting(Camera* camera, s32 bgCamDataId) {
-    return SurfaceType_GetCameraSettingImpl(&camera->globalCtx->colCtx, bgCamDataId, BGCHECK_SCENE);
+s16 Camera_GetSurfaceBgCamDataSetting(Camera* camera, s32 bgCamDataIndex) {
+    return SurfaceType_GetCameraSettingImpl(&camera->globalCtx->colCtx, bgCamDataIndex, BGCHECK_SCENE);
 }
 
 /**
  * Returns the scene camera info for the current camera data index
  */
 Vec3s* Camera_GetSurfaceBgCamData(Camera* camera) {
-    return SurfaceType_GetCameraVec3sImpl(&camera->globalCtx->colCtx, camera->bgCamDataId, BGCHECK_SCENE);
+    return SurfaceType_GetCameraVec3sImpl(&camera->globalCtx->colCtx, camera->bgCamDataIndex, BGCHECK_SCENE);
 }
 
 /**
  * Gets the scene's camera index for the poly `poly`, returns -1 if
  * there is no camera data for that poly.
  */
-s32 Camera_GetSurfaceBgCamDataId(Camera* camera, s32* bgId, CollisionPoly* poly) {
-    s32 bgCamDataId;
+s32 Camera_GetSurfaceBgCamDataIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
+    s32 bgCamDataIndex;
     PosRot playerPosRot;
     s32 ret;
 
     Actor_GetWorldPosShapeRot(&playerPosRot, &camera->player->actor); // unused.
-    bgCamDataId = SurfaceType_GetBgCamDataId(&camera->globalCtx->colCtx, poly, *bgId);
+    bgCamDataIndex = SurfaceType_GetBgCamDataIndex(&camera->globalCtx->colCtx, poly, *bgId);
 
-    if (SurfaceType_GetCameraSettingImpl(&camera->globalCtx->colCtx, bgCamDataId, *bgId) == CAM_SET_NONE) {
+    if (SurfaceType_GetCameraSettingImpl(&camera->globalCtx->colCtx, bgCamDataIndex, *bgId) == CAM_SET_NONE) {
         ret = -1;
     } else {
-        ret = bgCamDataId;
+        ret = bgCamDataIndex;
     }
     return ret;
 }
@@ -508,10 +508,10 @@ Vec3s* Camera_GetSurfaceBgCamDataAndNumData(Camera* camera, u16* bgCamDataNumDat
  * Returns -2 if there is no camera index for the water box.
  * Returns the camera data index otherwise.
  */
-s32 Camera_GetWaterBoxBgCamDataId(Camera* camera, f32* waterY) {
+s32 Camera_GetWaterBoxBgCamDataIndex(Camera* camera, f32* waterY) {
     PosRot playerPosShape;
     WaterBox* waterBox;
-    s32 bgCamDataId;
+    s32 bgCamDataIndex;
 
     Actor_GetWorldPosShapeRot(&playerPosShape, &camera->player->actor);
     *waterY = playerPosShape.pos.y;
@@ -529,13 +529,13 @@ s32 Camera_GetWaterBoxBgCamDataId(Camera* camera, f32* waterY) {
         return -1;
     }
 
-    bgCamDataId = WaterBox_GetBgCamDataId(&camera->globalCtx->colCtx, waterBox);
-    if ((bgCamDataId <= 0) || (WaterBox_GetCameraSetting(&camera->globalCtx->colCtx, waterBox) <= CAM_SET_NONE)) {
+    bgCamDataIndex = WaterBox_GetBgCamDataIndex(&camera->globalCtx->colCtx, waterBox);
+    if ((bgCamDataIndex <= 0) || (WaterBox_GetCameraSetting(&camera->globalCtx->colCtx, waterBox) <= CAM_SET_NONE)) {
         // no camera data index, or no CameraSettingType
         return -2;
     }
 
-    return bgCamDataId;
+    return bgCamDataIndex;
 }
 
 /**
@@ -1671,7 +1671,7 @@ s32 Camera_Normal2(Camera* camera) {
     Normal2ReadOnlyData* roData = &camera->paramData.norm2.roData;
     Normal2ReadWriteData* rwData = &camera->paramData.norm2.rwData;
     s32 pad;
-    SubBgCamData* bgData;
+    SubBgCamData* bgCamData;
     f32 playerHeight;
     f32 yNormal;
 
@@ -1708,16 +1708,16 @@ s32 Camera_Normal2(Camera* camera) {
         case 10:
         case 20:
         case 25:
-            bgData = (SubBgCamData*)Camera_GetSurfaceBgCamData(camera);
-            Camera_Vec3sToVec3f(&rwData->unk_00, &bgData->pos);
-            rwData->unk_20 = bgData->rot.x;
-            rwData->unk_22 = bgData->rot.y;
+            bgCamData = (SubBgCamData*)Camera_GetSurfaceBgCamData(camera);
+            Camera_Vec3sToVec3f(&rwData->unk_00, &bgCamData->pos);
+            rwData->unk_20 = bgCamData->rot.x;
+            rwData->unk_22 = bgCamData->rot.y;
             rwData->unk_24 = playerPosRot->pos.y;
-            rwData->unk_1C = bgData->fov == -1      ? roData->unk_14
-                             : bgData->fov >= 0x169 ? CAM_DATA_SCALED(bgData->fov)
-                                                    : bgData->fov;
+            rwData->unk_1C = bgCamData->fov == -1   ? roData->unk_14
+                             : bgCamData->fov > 360 ? CAM_DATA_SCALED(bgCamData->fov)
+                                                    : bgCamData->fov;
 
-            rwData->unk_28 = bgData->flags == -1 ? 0 : bgData->flags;
+            rwData->unk_28 = bgCamData->flags == -1 ? 0 : bgCamData->flags;
 
             rwData->unk_18 = 0.0f;
 
@@ -3767,11 +3767,11 @@ s32 Camera_KeepOn4(Camera* camera) {
             sCameraInterfaceFlags = 0;
             camera->unk_14C |= (0x4 | 0x2);
             camera->unk_14C &= ~8;
-            if (camera->prevBgCamDataId < 0) {
+            if (camera->prevBgCamDataIndex < 0) {
                 Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
             } else {
-                Camera_ChangeBgCamDataId(camera, camera->prevBgCamDataId);
-                camera->prevBgCamDataId = -1;
+                Camera_ChangeBgCamDataIndex(camera, camera->prevBgCamDataIndex);
+                camera->prevBgCamDataIndex = -1;
             }
         }
     }
@@ -3885,6 +3885,7 @@ s32 Camera_Fixed1(Camera* camera) {
         Camera_Vec3sToVec3f(&rwData->eyePosRotTarget.pos, &bgCamData->pos);
         rwData->eyePosRotTarget.rot = bgCamData->rot;
         rwData->fov = bgCamData->fov;
+
         roData->unk_00 = GET_NEXT_SCALED_RO_DATA(values) * playerHeight;
         roData->lerpStep = GET_NEXT_SCALED_RO_DATA(values);
         roData->fov = GET_NEXT_RO_DATA(values);
@@ -3964,7 +3965,6 @@ s32 Camera_Fixed2(Camera* camera) {
         rwData->fov = roData->fov * 100.0f;
 
         bgCamData = (SubBgCamData*)Camera_GetSurfaceBgCamData(camera);
-
         if (bgCamData != NULL) {
             Camera_Vec3sToVec3f(&rwData->eye, &bgCamData->pos);
             if (bgCamData->fov != -1) {
@@ -4105,7 +4105,9 @@ s32 Camera_Fixed4(Camera* camera) {
     Vec3f* posOffset = &camera->posOffset;
     Fixed4ReadOnlyData* roData = &camera->paramData.fixd4.roData;
     Fixed4ReadWriteData* rwData = &camera->paramData.fixd4.rwData;
-    f32 playerYOffset = Player_GetHeight(camera->player);
+    f32 playerYOffset;
+
+    playerYOffset = Player_GetHeight(camera->player);
 
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         CameraModeValue* values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -5823,11 +5825,11 @@ s32 Camera_Demo3(Camera* camera) {
         default:
             camera->unk_14C |= 0x14;
             camera->unk_14C &= ~8;
-            if (camera->prevBgCamDataId < 0) {
+            if (camera->prevBgCamDataIndex < 0) {
                 Camera_ChangeSettingFlags(camera, camera->prevSetting, 2);
             } else {
-                Camera_ChangeBgCamDataId(camera, camera->prevBgCamDataId);
-                camera->prevBgCamDataId = -1;
+                Camera_ChangeBgCamDataIndex(camera, camera->prevBgCamDataIndex);
+                camera->prevBgCamDataIndex = -1;
             }
             sCameraInterfaceFlags = 0;
         skipeyeUpdate:
@@ -6914,7 +6916,7 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     sCameraInterfaceAlpha = 0;
     camera->unk_14C = 0;
     camera->setting = camera->prevSetting = CAM_SET_FREE0;
-    camera->bgCamDataId = camera->prevBgCamDataId = -1;
+    camera->bgCamDataIndex = camera->prevBgCamDataIndex = -1;
     camera->mode = 0;
     camera->bgId = BGCHECK_SCENE;
     camera->csId = 0x7FFF;
@@ -7006,8 +7008,8 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
         camera->bgId = bgId;
     }
 
-    camera->waterPrevCamIdx = -1;
-    camera->waterPrevCamSetting = -1;
+    camera->waterBgCamDataIndex = -1;
+    camera->waterCamSetting = -1;
     camera->unk_14C |= 4;
 
     if (camera == &camera->globalCtx->mainCamera) {
@@ -7019,7 +7021,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     func_80057FC4(camera);
     camera->unk_14A = 0;
     camera->paramFlags = 0;
-    camera->nextBgCamDataId = -1;
+    camera->nextBgCamDataIndex = -1;
     camera->atLERPStepScale = 1.0f;
     Camera_CopyDataToRegs(camera, camera->mode);
     Camera_QRegInit();
@@ -7108,17 +7110,17 @@ void Camera_PrintSettings(Camera* camera) {
                       sCameraFunctionNames[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx]);
 
         i = 0;
-        if (camera->bgCamDataId < 0) {
+        if (camera->bgCamDataIndex < 0) {
             sp50[i++] = '-';
         }
 
-        //! @bug: this code was clearly meaning to print `abs(camera->bgCamDataId)` as a
+        //! @bug: this code was clearly meaning to print `abs(camera->bgCamDataIndex)` as a
         //! one-or-two-digit number, instead of `i`.
         // "sp50[i++] = ..." matches here, but is undefined behavior due to conflicting
         // reads/writes between sequence points, triggering warnings. Work around by
         // putting i++ afterwards while on the same line.
         // clang-format off
-        if (camera->bgCamDataId / 10 != 0) {
+        if (camera->bgCamDataIndex / 10 != 0) {
             sp50[i] = i / 10 + '0'; i++;
         }
         sp50[i] = i % 10 + '0'; i++;
@@ -7138,8 +7140,8 @@ s32 Camera_UpdateWater(Camera* camera) {
     f32 waterY;
     s16 newQuakeId;
     s32 waterLightsIndex;
-    s32* waterPrevCamSetting = &camera->waterPrevCamSetting;
-    s16 waterCamIdx;
+    s32* waterCamSetting = &camera->waterCamSetting;
+    s16 waterBgCamDataIndex;
     s16* quakeId = (s16*)&camera->waterQuakeId;
     Player* player = camera->player;
     s16 prevBgId;
@@ -7153,40 +7155,40 @@ s32 Camera_UpdateWater(Camera* camera) {
             Camera_ChangeSettingFlags(camera, CAM_SET_PIVOT_WATER_SURFACE, 6);
             camera->unk_14C |= (s16)0x8000;
         } else if (camera->unk_14C & (s16)0x8000) {
-            Camera_ChangeSettingFlags(camera, *waterPrevCamSetting, 6);
+            Camera_ChangeSettingFlags(camera, *waterCamSetting, 6);
             camera->unk_14C &= ~((s16)0x8000);
         }
     }
     if (!(camera->unk_14C & (s16)0x8000)) {
-        if (waterCamIdx = Camera_GetWaterBoxBgCamDataId(camera, &waterY), waterCamIdx == -2) {
+        if (waterBgCamDataIndex = Camera_GetWaterBoxBgCamDataIndex(camera, &waterY), waterBgCamDataIndex == -2) {
             // No camera data index
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
-                camera->waterPrevCamIdx = camera->bgCamDataId;
+                camera->waterBgCamDataIndex = camera->bgCamDataIndex;
                 *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
                 prevBgId = camera->bgId;
                 camera->bgId = BGCHECK_SCENE;
                 Camera_ChangeSettingFlags(camera, CAM_SET_NORMAL3, 2);
-                *waterPrevCamSetting = camera->setting;
+                *waterCamSetting = camera->setting;
                 camera->bgId = prevBgId;
-                camera->bgCamDataId = -2;
+                camera->bgCamDataIndex = -2;
             }
-        } else if (waterCamIdx != -1) {
+        } else if (waterBgCamDataIndex != -1) {
             // player is in a water box
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
-                camera->waterPrevCamIdx = camera->bgCamDataId;
+                camera->waterBgCamDataIndex = camera->bgCamDataIndex;
                 *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
                 prevBgId = camera->bgId;
                 camera->bgId = BGCHECK_SCENE;
-                Camera_ChangeBgCamDataId(camera, waterCamIdx);
-                *waterPrevCamSetting = camera->setting;
+                Camera_ChangeBgCamDataIndex(camera, waterBgCamDataIndex);
+                *waterCamSetting = camera->setting;
                 camera->bgId = prevBgId;
             }
         } else if (camera->unk_14C & 0x200) {
@@ -7195,11 +7197,11 @@ s32 Camera_UpdateWater(Camera* camera) {
             camera->unk_14C &= ~0x200;
             prevBgId = camera->bgId;
             camera->bgId = BGCHECK_SCENE;
-            if (camera->waterPrevCamIdx < 0) {
+            if (camera->waterBgCamDataIndex < 0) {
                 func_80057FC4(camera);
-                camera->bgCamDataId = -1;
+                camera->bgCamDataIndex = -1;
             } else {
-                Camera_ChangeBgCamDataId(camera, camera->waterPrevCamIdx);
+                Camera_ChangeBgCamDataIndex(camera, camera->waterBgCamDataIndex);
             }
             camera->bgId = prevBgId;
         }
@@ -7388,7 +7390,7 @@ Vec3s Camera_Update(Camera* camera) {
     f32 playerGroundY;
     f32 playerXZSpeed;
     VecSph eyeAtAngle;
-    s16 bgCamDataId;
+    s16 bgCamDataIndex;
     PosRot curPlayerPosRot;
     QuakeCamCalc quake;
     Player* player;
@@ -7447,26 +7449,26 @@ Vec3s Camera_Update(Camera* camera) {
             }
 
             if (!(camera->unk_14C & 4)) {
-                camera->nextBgCamDataId = -1;
+                camera->nextBgCamDataIndex = -1;
             }
 
             if ((camera->unk_14C & 1) && (camera->unk_14C & 4) && !(camera->unk_14C & 0x400) &&
                 (!(camera->unk_14C & 0x200) || (player->currentBoots == PLAYER_BOOTS_IRON)) &&
                 (!(camera->unk_14C & (s16)0x8000)) && (playerGroundY != BGCHECK_Y_MIN)) {
-                bgCamDataId = Camera_GetSurfaceBgCamDataId(camera, &bgId, playerFloorPoly);
-                if (bgCamDataId != -1) {
+                bgCamDataIndex = Camera_GetSurfaceBgCamDataIndex(camera, &bgId, playerFloorPoly);
+                if (bgCamDataIndex != -1) {
                     camera->nextBgId = bgId;
                     if (bgId == BGCHECK_SCENE) {
-                        camera->nextBgCamDataId = bgCamDataId;
+                        camera->nextBgCamDataIndex = bgCamDataIndex;
                     }
                 }
             }
 
-            if (camera->nextBgCamDataId != -1 && (fabsf(curPlayerPosRot.pos.y - playerGroundY) < 2.0f) &&
+            if (camera->nextBgCamDataIndex != -1 && (fabsf(curPlayerPosRot.pos.y - playerGroundY) < 2.0f) &&
                 (!(camera->unk_14C & 0x200) || (player->currentBoots == PLAYER_BOOTS_IRON))) {
                 camera->bgId = camera->nextBgId;
-                Camera_ChangeBgCamDataId(camera, camera->nextBgCamDataId);
-                camera->nextBgCamDataId = -1;
+                Camera_ChangeBgCamDataIndex(camera, camera->nextBgCamDataIndex);
+                camera->nextBgCamDataIndex = -1;
             }
         }
     }
@@ -7861,13 +7863,13 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
 
     if (flags & 8) {
         if (1) {}
-        camera->bgCamDataId = camera->prevBgCamDataId;
-        camera->prevBgCamDataId = -1;
+        camera->bgCamDataIndex = camera->prevBgCamDataIndex;
+        camera->prevBgCamDataIndex = -1;
     } else if (!(flags & 4)) {
         if (!(sCameraSettings[camera->setting].unk_00 & 0x40000000)) {
-            camera->prevBgCamDataId = camera->bgCamDataId;
+            camera->prevBgCamDataIndex = camera->bgCamDataIndex;
         }
-        camera->bgCamDataId = -1;
+        camera->bgCamDataIndex = -1;
     }
 
     camera->setting = setting;
@@ -7886,30 +7888,30 @@ s32 Camera_ChangeSetting(Camera* camera, s16 setting) {
     return Camera_ChangeSettingFlags(camera, setting, 0);
 }
 
-s32 Camera_ChangeBgCamDataId(Camera* camera, s32 bgCamDataId) {
+s32 Camera_ChangeBgCamDataIndex(Camera* camera, s32 bgCamDataIndex) {
     s16 newCameraSetting;
     s16 settingChangeSuccessful;
 
-    if (bgCamDataId == -1 || bgCamDataId == camera->bgCamDataId) {
+    if (bgCamDataIndex == -1 || bgCamDataIndex == camera->bgCamDataIndex) {
         camera->unk_14A |= 0x40;
         return -1;
     }
 
     if (!(camera->unk_14A & 0x40)) {
-        newCameraSetting = Camera_GetSurfaceBgCamDataSetting(camera, bgCamDataId);
+        newCameraSetting = Camera_GetSurfaceBgCamDataSetting(camera, bgCamDataIndex);
         camera->unk_14A |= 0x40;
         settingChangeSuccessful = Camera_ChangeSettingFlags(camera, newCameraSetting, 5) >= 0;
         if (settingChangeSuccessful || sCameraSettings[camera->setting].unk_00 & 0x80000000) {
-            camera->bgCamDataId = bgCamDataId;
+            camera->bgCamDataIndex = bgCamDataIndex;
             camera->unk_14A |= 4;
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
             //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
-            // bgCamDataId would make more sense.
-            osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST, bgCamDataId,
-                         camera->camId, BGCHECK_SCENE, newCameraSetting);
+            // bgCamDataIndex would make more sense.
+            osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera ID (%d) !! (%d|%d|%d)\n" VT_RST,
+                         bgCamDataIndex, camera->camId, BGCHECK_SCENE, newCameraSetting);
         }
-        return 0x80000000 | bgCamDataId;
+        return 0x80000000 | bgCamDataIndex;
     }
 }
 
@@ -8044,7 +8046,7 @@ s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCa
         Actor_GetWorldPosShapeRot(&playerPosRot, &player->actor);
         camera->playerPosRot = playerPosRot;
 
-        camera->nextBgCamDataId = -1;
+        camera->nextBgCamDataIndex = -1;
         camera->xzSpeed = 0.0f;
         camera->speedRatio = 0.0f;
     }
@@ -8062,7 +8064,12 @@ s16 func_8005AD1C(Camera* camera, s16 arg1) {
     return camera->unk_14C;
 }
 
-s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamDataId, f32 arg3, s16 timer1, s16 timer2,
+/**
+ * A bgCamDataIndex of -99 will save the door params without changine the camera setting
+ * A bgCamDataIndex of -1 uses the default door camera setting (CAM_SET_DOORC)
+ * Otherwise, change the door camera setting by reading the bg surface data indexed at bgCamDataIndex
+ */
+s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamDataIndex, f32 arg3, s16 timer1, s16 timer2,
                          s16 timer3) {
     DoorParams* doorParams = &camera->paramData.doorParams;
 
@@ -8074,27 +8081,27 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamDataId, f32 
     doorParams->timer1 = timer1;
     doorParams->timer2 = timer2;
     doorParams->timer3 = timer3;
-    doorParams->bgCamDataId = bgCamDataId;
+    doorParams->bgCamDataIndex = bgCamDataIndex;
 
-    if (bgCamDataId == -99) {
+    if (bgCamDataIndex == -99) {
         Camera_CopyDataToRegs(camera, camera->mode);
         return -99;
     }
 
-    if (bgCamDataId == -1) {
+    if (bgCamDataIndex == -1) {
         Camera_ChangeSetting(camera, CAM_SET_DOORC);
         osSyncPrintf(".... change default door camera (set %d)\n", CAM_SET_DOORC);
     } else {
-        s32 setting = Camera_GetSurfaceBgCamDataSetting(camera, bgCamDataId);
+        s32 setting = Camera_GetSurfaceBgCamDataSetting(camera, bgCamDataIndex);
 
         camera->unk_14A |= 0x40;
 
         if (Camera_ChangeSetting(camera, setting) >= 0) {
-            camera->bgCamDataId = bgCamDataId;
+            camera->bgCamDataIndex = bgCamDataIndex;
             camera->unk_14A |= 4;
         }
 
-        osSyncPrintf("....change door camera ID %d (set %d)\n", camera->bgCamDataId, camera->setting);
+        osSyncPrintf("....change door camera ID %d (set %d)\n", camera->bgCamDataIndex, camera->setting);
     }
 
     Camera_CopyDataToRegs(camera, camera->mode);

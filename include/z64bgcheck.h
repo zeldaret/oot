@@ -57,10 +57,10 @@ typedef struct {
     /* 0x0C */ s16 fov;
     /* 0x0E */ union {
                 s16 jfifId;
-                s16 flags;
                 s16 timer;
+                s16 flags;
     };
-    /* 0x10 */ s16 unk_10;
+    /* 0x10 */ s16 unk_10; // unused
 } SubBgCamData;
 
 /**
@@ -77,7 +77,7 @@ typedef struct {
  *      data[0]   // Position
  *      data[1]   // Rotation
  *      data[2].x // Field of View
- *      data[2].y // Jfif Id or flags
+ *      data[2].y // Jfif Id, timer, flags
  *      data[2].z // unused
  * 
  * numData = 6: Crawlspaces only (CAM_SET_CRAWLSPACE), entirely position data
@@ -93,7 +93,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u16 setting;
     /* 0x02 */ s16 numData;
-    /* 0x04 */ Vec3s* data; // may contain positions, rotations, fov, Jfif Id, flags, or timers
+    /* 0x04 */ Vec3s* data; // may contain positions, rotations, fov, Jfif Id, timer, or flags
 } BgCamData;
 
 typedef BgCamData CamData; // Todo: Zapd compatibility
