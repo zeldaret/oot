@@ -2155,6 +2155,9 @@ void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action) {
     interfaceCtx->unk_1FA = true;
 }
 
+/**
+ * Returns false if player is out of health
+ */
 s32 Health_ChangeBy(GlobalContext* globalCtx, s16 amount) {
     u16 heartCount;
     u16 healthLevel;
@@ -2279,7 +2282,7 @@ void Magic_Fill(GlobalContext* globalCtx) {
 }
 
 void Magic_Reset(GlobalContext* globalCtx) {
-    if ((gSaveContext.magicState != MAGIC_STATE_GROW_METER) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
+    if ((gSaveContext.magicState != MAGIC_STATE_SYNC_METER_WIDTH) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
         if (gSaveContext.magicState == MAGIC_STATE_ADD) {
             gSaveContext.prevMagicState = gSaveContext.magicState;
         }
@@ -2290,7 +2293,8 @@ void Magic_Reset(GlobalContext* globalCtx) {
 /**
  * Request to either increase or consume magic.
  * amount is the positive-valued amount to either increase or decrease magic by
- * type is how the magic is increased or consumed
+ * type is how the magic is increased or consumed.
+ * Returns false if the request failed
  */
 s32 Magic_RequestChange(GlobalContext* globalCtx, s16 amount, s16 type) {
     if (!gSaveContext.isMagicAcquired) {
@@ -2397,8 +2401,8 @@ void Magic_Update(GlobalContext* globalCtx) {
     static s16 sMagicBorderColors[][3] = {
         { 255, 255, 255 },
         { 150, 150, 150 },
-        { 255, 255, 150 }, // unused color
-        { 255, 255, 50 },  // unused color
+        { 255, 255, 150 }, // unused
+        { 255, 255, 50 },  // unused
     };
     static s16 sMagicBorderIndices[] = { 0, 1, 1, 0 };
     static s16 sMagicBorderRatio = 2;
@@ -2411,7 +2415,7 @@ void Magic_Update(GlobalContext* globalCtx) {
     s16 temp; // magicCapacity or magicBorderIndex
 
     switch (gSaveContext.magicState) {
-        case MAGIC_STATE_GROW_METER:
+        case MAGIC_STATE_SYNC_METER_WIDTH:
             // Step magicCapacityDrawn to what is magicCapacity
             // This changes the width of the magic bar drawn
             temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER; // magicCapacity
@@ -2594,7 +2598,7 @@ void Magic_Update(GlobalContext* globalCtx) {
     }
 }
 
-void Magic_Draw(GlobalContext* globalCtx) {
+void Magic_DrawMeter(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 magicMeterY;
 
@@ -3197,7 +3201,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                               16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
         }
 
-        Magic_Draw(globalCtx);
+        Magic_DrawMeter(globalCtx);
         Minimap_Draw(globalCtx);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
@@ -4121,7 +4125,7 @@ void Interface_Update(GlobalContext* globalCtx) {
 
         if (gSaveContext.isMagicAcquired && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.isDoubleMagicAcquired + 1;
-            gSaveContext.magicState = MAGIC_STATE_GROW_METER;
+            gSaveContext.magicState = MAGIC_STATE_SYNC_METER_WIDTH;
             osSyncPrintf(VT_FGCOL(YELLOW));
             osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
