@@ -1,8 +1,27 @@
+/**
+ * @file audio_seqcmd.c
+ *
+ * This file implements a set of audio sequence commands that allow sequences to be modified in real-time.
+ * These commands are intended to interface external to the audio library.
+ *
+ * These commands are generated using (Audio_QueueSeqCmd), and a user-friendly interface for this function
+ * can be found in (seqcmd.h)
+ *
+ * These commands change sequences by generating internal audio commands (Audio_QueueCmd) which allows these
+ * sequence requests to be passed onto the audio thread. It is worth noting all functions in this file are
+ * called from the graph thread.
+ *
+ * These commands are not to be confused with the sequence commands used by the sequences themselves
+ * which are a midi-based scripting language.
+ *
+ * Nor are these commands to be confused with the internal audio commands used to transfer requests from
+ * the graph thread to the audio thread.
+ */
 #include "ultra64.h"
 #include "global.h"
 #include "ultra64/abi.h"
 
-// direct audio commands (skips the queueing system)
+// Direct audio command (skips the queueing system)
 #define Audio_SetVolScaleNow(playerIndex, volFadeTimer, volScale)                                             \
     Audio_ProcessSeqCmd((SEQ_CMD_SET_PLAYER_VOL << 28) | ((u8)playerIndex << 24) | ((u8)volFadeTimer << 16) | \
                         ((u8)(volScale * 127.0f)));
