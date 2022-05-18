@@ -26,7 +26,7 @@ void TransitionFade_Start(void* thisx) {
             this->fadeColor.a = 0;
             break;
     }
-    this->isDone = 0;
+    this->isDone = false;
 }
 
 void* TransitionFade_Init(void* thisx) {
@@ -51,7 +51,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
             this->fadeTimer += updateRate;
             if (this->fadeTimer >= gSaveContext.transFadeDuration) {
                 this->fadeTimer = gSaveContext.transFadeDuration;
-                this->isDone = 1;
+                this->isDone = true;
             }
             if (!gSaveContext.transFadeDuration) {
                 // "Divide by 0! Zero is included in ZCommonGet fade_speed"
@@ -72,7 +72,7 @@ void TransitionFade_Update(void* thisx, s32 updateRate) {
                     Math_StepToS(&iREG(50), 20, 60);
                     if (Math_StepToS(&newAlpha, 0, iREG(50))) {
                         iREG(50) = 0;
-                        this->isDone = 1;
+                        this->isDone = true;
                     }
                 }
             }

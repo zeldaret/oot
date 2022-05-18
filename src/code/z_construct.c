@@ -146,7 +146,7 @@ void func_801109B0(GlobalContext* globalCtx) {
 
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300); // "Parameter Area = %x"
 
-    HealthMeter_Init(globalCtx);
+    Health_InitMeter(globalCtx);
     Map_Init(globalCtx);
 
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
@@ -533,8 +533,8 @@ void func_80111070(void) {
     VREG(25) = 0;
     VREG(26) = 0;
     VREG(27) = 0;
-    R_OCARINA_NOTES_XPOS = 98;
-    R_OCARINA_NOTES_XPOS_OFFSET = 18;
+    R_OCARINA_BUTTONS_XPOS = 98;
+    R_OCARINA_BUTTONS_XPOS_OFFSET = 18;
     VREG(30) = 0;
     VREG(31) = 0;
     VREG(32) = 0;
@@ -551,13 +551,13 @@ void func_80111070(void) {
     VREG(42) = 250;
     VREG(43) = 440;
     VREG(44) = 10;
-    R_OCARINA_NOTES_YPOS(0) = 190;
-    R_OCARINA_NOTES_YPOS(1) = 184;
-    R_OCARINA_NOTES_YPOS(2) = 176;
-    R_OCARINA_NOTES_YPOS(3) = 172;
-    R_OCARINA_NOTES_YPOS(4) = 170;
+    R_OCARINA_BUTTONS_YPOS(0) = 190;
+    R_OCARINA_BUTTONS_YPOS(1) = 184;
+    R_OCARINA_BUTTONS_YPOS(2) = 176;
+    R_OCARINA_BUTTONS_YPOS(3) = 172;
+    R_OCARINA_BUTTONS_YPOS(4) = 170;
     VREG(50) = 30;
-    R_OCARINA_NOTES_YPOS_OFFSET = 0;
+    R_OCARINA_BUTTONS_YPOS_OFFSET = 0;
     VREG(52) = -16;
     VREG(53) = 230;
     VREG(54) = 230;

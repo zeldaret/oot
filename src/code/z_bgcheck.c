@@ -2920,7 +2920,7 @@ void func_8003F8EC(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* 
     s32 i;
 
     for (i = 0; i < BG_ACTOR_MAX; i++) {
-        if ((dyna->bgActorFlags[i] & 1)) {
+        if (dyna->bgActorFlags[i] & 1) {
             dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, i);
             if (dynaActor != NULL && &dynaActor->actor == actor) {
                 func_800434A0((DynaPolyActor*)actor);
@@ -4245,7 +4245,7 @@ s32 WaterBox_GetSurface2(GlobalContext* globalCtx, CollisionContext* colCtx, Vec
         if (!(room == globalCtx->roomCtx.curRoom.num || room == 0x3F)) {
             continue;
         }
-        if ((waterBox->properties & 0x80000)) {
+        if (waterBox->properties & 0x80000) {
             continue;
         }
         if (!(waterBox->xMin < pos->x && pos->x < waterBox->xMin + waterBox->xLength)) {

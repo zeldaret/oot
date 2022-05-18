@@ -768,9 +768,7 @@ void func_80083108(GlobalContext* globalCtx) {
                     gSaveContext.unk_13EA = 0;
                     Interface_ChangeAlpha(50);
                 }
-            } else if ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) ==
-                       EVENTINF_00_MASK) {
+            } else if (GET_EVENTINF_HORSES_STATE() == EVENTINF_HORSES_STATE_1) {
                 if (player->stateFlags1 & PLAYER_STATE1_23) {
                     if ((gSaveContext.equips.buttonItems[0] != ITEM_NONE) &&
                         (gSaveContext.equips.buttonItems[0] != ITEM_BOW)) {
@@ -2520,7 +2518,7 @@ void Magic_Update(GlobalContext* globalCtx) {
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
                 (msgCtx->msgMode == MSGMODE_NONE) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
                 (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) && (globalCtx->transitionMode == TRANS_MODE_OFF) &&
-                !Gameplay_InCsMode(globalCtx)) {
+                !Play_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -3066,7 +3064,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     };
     static s16 rupeeDigitsFirst[] = { 1, 0, 0 };
     static s16 rupeeDigitsCount[] = { 2, 3, 3 };
-    static s16 spoilingItemEntrances[] = { 0x01AD, 0x0153, 0x0153 };
+    static s16 spoilingItemEntrances[] = { ENTR_SPOT10_2, ENTR_SPOT07_3, ENTR_SPOT07_3 };
     static f32 D_80125B54[] = { -40.0f, -35.0f }; // unused
     static s16 D_80125B5C[] = { 91, 91 };         // unused
     static s16 D_8015FFE0;
@@ -3095,7 +3093,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
     if (pauseCtx->debugState == 0) {
         Interface_InitVertices(globalCtx);
         func_8008A994(interfaceCtx);
-        HealthMeter_Draw(globalCtx);
+        Health_DrawMeter(globalCtx);
 
         func_80094520(globalCtx->state.gfxCtx);
 
@@ -3447,10 +3445,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
             // Revert any spoiling trade quest items
             for (svar1 = 0; svar1 < ARRAY_COUNT(gSpoilingItems); svar1++) {
                 if (INV_CONTENT(ITEM_TRADE_ADULT) == gSpoilingItems[svar1]) {
-                    gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
-                        (u16) ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK |
-                                EVENTINF_04_MASK | EVENTINF_05_MASK | EVENTINF_06_MASK | EVENTINF_0F_MASK);
-                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_0X_INDEX]);
+                    gSaveContext.eventInf[EVENTINF_HORSES_INDEX] &=
+                        (u16) ~(EVENTINF_HORSES_STATE_MASK | EVENTINF_HORSES_HORSETYPE_MASK | EVENTINF_HORSES_05_MASK |
+                                EVENTINF_HORSES_06_MASK | EVENTINF_HORSES_0F_MASK);
+                    osSyncPrintf("EVENT_INF=%x\n", gSaveContext.eventInf[EVENTINF_HORSES_INDEX]);
                     globalCtx->nextEntranceIndex = spoilingItemEntrances[svar1];
                     INV_CONTENT(gSpoilingItemReverts[svar1]) = gSpoilingItemReverts[svar1];
 
@@ -3467,7 +3465,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
             (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == MSGMODE_NONE) &&
             !(player->stateFlags2 & PLAYER_STATE2_24) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) &&
-            (globalCtx->transitionMode == TRANS_MODE_OFF) && !Gameplay_InCsMode(globalCtx) &&
+            (globalCtx->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(globalCtx) &&
             (gSaveContext.minigameState != 1) && (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
             svar6 = 0;
@@ -3748,7 +3746,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                                                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                                             }
                                         } else if (gSaveContext.timer2Value > 10) {
-                                            if ((timerDigits[4] & 1)) {
+                                            if (timerDigits[4] & 1) {
                                                 Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &gSfxDefaultPos, 4,
                                                                        &gSfxDefaultFreqAndVolScale,
                                                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -4015,7 +4013,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    HealthMeter_UpdateBeatingHeart(globalCtx);
+    Health_UpdateBeatingHeart(globalCtx);
     D_80125A58 = func_8008F2F8(globalCtx);
 
     if (D_80125A58 == 1) {
@@ -4028,12 +4026,12 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
     }
 
-    HealthMeter_Update(globalCtx);
+    Health_UpdateMeter(globalCtx);
 
     if ((gSaveContext.timer1State >= 3) && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.debugState == 0) &&
         (msgCtx->msgMode == MSGMODE_NONE) && !(player->stateFlags2 & PLAYER_STATE2_24) &&
         (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) && (globalCtx->transitionMode == TRANS_MODE_OFF) &&
-        !Gameplay_InCsMode(globalCtx)) {}
+        !Play_InCsMode(globalCtx)) {}
 
     if (gSaveContext.rupeeAccumulator != 0) {
         if (gSaveContext.rupeeAccumulator > 0) {

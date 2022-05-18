@@ -291,7 +291,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
 
-    if ((!(this->flags & 2)) && (SkelAnime_Update(&this->skelAnime))) {
+    if (!(this->flags & 2) && SkelAnime_Update(&this->skelAnime)) {
         this->flags |= 2;
     }
 
@@ -332,7 +332,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
                 if (this->swimFlag < swimFlag) {
                     this->swimFlag = swimFlag;
 
-                    if ((!(this->flags & 4)) && (this->swimFlag >= 8)) {
+                    if (!(this->flags & 4) && (this->swimFlag >= 8)) {
                         this->flags |= 4;
                         func_80078884(NA_SE_SY_CORRECT_CHIME);
                     }

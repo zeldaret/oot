@@ -99,7 +99,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
             this->actionFunc = func_808B9698;
         } else {
             this->actionFunc = func_808B971C;
-            OnePointCutscene_Init(globalCtx, 4221, 140, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 4221, 140, &this->dyna.actor, CAM_ID_MAIN);
         }
     }
 }

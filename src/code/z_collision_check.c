@@ -846,7 +846,7 @@ s32 Collider_InitQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim) {
         { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } },
         { 0, 0, 0 },
         { 0, 0, 0 },
-        1.0E38f,
+        1.0e38f,
     };
 
     *dim = init;
@@ -858,7 +858,7 @@ s32 Collider_DestroyQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim) {
 }
 
 s32 Collider_ResetQuadACDist(GlobalContext* globalCtx, ColliderQuadDim* dim) {
-    dim->acDistSq = 1.0E38f;
+    dim->acDistSq = 1.0e38f;
     return true;
 }
 

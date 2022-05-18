@@ -83,7 +83,7 @@ void func_808B357C(BgSpot12Saku* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B35E4(this);
         this->timer = 20;
-        OnePointCutscene_Init(globalCtx, 4170, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4170, -99, &this->dyna.actor, CAM_ID_MAIN);
     }
 }
 

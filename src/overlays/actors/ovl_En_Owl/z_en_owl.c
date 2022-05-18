@@ -271,7 +271,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
                 this->actionFlags &= ~0x40;
             }
         }
-        this->cameraIdx = OnePointCutscene_Init(globalCtx, 8700, timer, &this->actor, MAIN_CAM);
+        this->subCamId = OnePointCutscene_Init(globalCtx, 8700, timer, &this->actor, CAM_ID_MAIN);
         return true;
     } else {
         this->actor.textId = textId;
@@ -928,7 +928,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (this->actor.xzDistToPlayer < 50.0f) {
-        if (!Gameplay_InCsMode(globalCtx)) {
+        if (!Play_InCsMode(globalCtx)) {
             owlType = (this->actor.params & 0xFC0) >> 6;
             osSyncPrintf(VT_FGCOL(CYAN));
             osSyncPrintf("%dのフクロウ\n", owlType); // "%d owl"
