@@ -180,8 +180,8 @@ typedef struct {
     /* 0x050 */ ActiveSeqChannelData channelData[16];
     /* 0x250 */ u16 freqScaleChannelFlags;
     /* 0x252 */ u16 volChannelFlags;
-    /* 0x254 */ u16 seqId;
-    /* 0x256 */ u16 prevSeqId;
+    /* 0x254 */ u16 seqId; // active seqId currently playing. Resets when sequence stops
+    /* 0x256 */ u16 prevSeqId; // last seqId played on a player. Does not reset when sequence stops
     /* 0x258 */ u16 channelPortMask;
     /* 0x25C */ u32 startSeqCmd; // This name comes from MM
     /* 0x260 */ u8 isWaitingForFonts; // This name comes from MM

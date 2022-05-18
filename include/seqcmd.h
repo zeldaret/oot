@@ -15,7 +15,7 @@ typedef enum {
     /* 0x6 */ SEQ_CMD_SET_CHANNEL_VOL,
     /* 0x7 */ SEQ_CMD_SET_PLAYER_IO,
     /* 0x8 */ SEQ_CMD_SET_CHANNEL_IO,
-    /* 0x9 */ SEQ_CMD_SET_CHANNEL_IO_MASK,
+    /* 0x9 */ SEQ_CMD_DISABLE_CHANNEL_IO,
     /* 0xA */ SEQ_CMD_DISABLE_CHANNELS,
     /* 0xB */ SEQ_CMD_TEMPO_CMD,
     /* 0xC */ SEQ_CMD_SETUP_CMD,
@@ -65,7 +65,7 @@ typedef enum {
  *   playerIndex (p), fadeInTimer (t), seqArgs (a), seqId (s)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   0pttaass
  *
  * DESCRIPTION
@@ -90,7 +90,7 @@ typedef enum {
  *   playerIndex (p), fadeOutTimer (t)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   1pttUUFF
  *
  * DESCRIPTION
@@ -106,7 +106,7 @@ typedef enum {
  *   playerIndex (p), fadeInTimer (t), priority/seqArgs (i), seqId (s)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   2pttiiss
  *
  * DESCRIPTION
@@ -127,7 +127,7 @@ typedef enum {
  *   playerIndex (p), fadeOutTimer (t), seqId (s)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   3pttUUss
  *
  *
@@ -144,7 +144,7 @@ typedef enum {
  *   playerIndex (p), duration (d), volume (v)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   4pddUUvv
  *
  * DESCRIPTION
@@ -158,7 +158,7 @@ typedef enum {
  *   playerIndex (p), duration (d), freq (f)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   5pddffff
  *
  * DESCRIPTION
@@ -175,7 +175,7 @@ typedef enum {
  *   playerIndex (p), duration (d), channelIndex (c), freq (f)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Dpddcfff
  *
  * DESCRIPTION
@@ -193,7 +193,7 @@ typedef enum {
  *   playerIndex (p), duration (d), channelIndex (c), volume (v)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   6pddUcvv
  *
  * DESCRIPTION
@@ -208,60 +208,62 @@ typedef enum {
  *   playerIndex (p), port (t), value (v)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   7pttUUvv
  *
  * DESCRIPTION
- *   Set a (value) that will be read as io (port) directly by the sequence script on (playerIndex).
- *   This will be set to the global port, and how the sequence responds to the (value) will entirely depend on the
+ *   Set a value (ioData) that will be read as io (port) directly by the sequence script on (playerIndex).
+ *   This will be set to the global port, and how the sequence responds to the (ioData) will entirely depend on the
  *   customized sequence scripts for each sequence.
  *   Note: There are only a maximum of 8 ports indexed 0-7
  *   i.e. the sequence can only read 8 different io values at once)
  */
-#define AudioSeqCmd_SetPlayerIO(playerIndex, port, value) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | (u8)(value))
+#define AudioSeqCmd_SetPlayerIO(playerIndex, port, ioData) \
+    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | (u8)(ioData))
 
 /**
  * ARGS
  *   playerIndex (p), port (t), channelIndex (c), value (v)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   8pttUcvv
  *
  * DESCRIPTION
  *   Set a (value) that will be read as io (port) directly by the sequence script on (playerIndex).
- *   This will be set to a specific channel (channelIndex), and how the sequence responds to the (value)
+ *   This will be set to a specific channel (channelIndex), and how the sequence responds to the (ioData)
  *   will entirely depend on the customized sequence scripts for each sequence.
  *   Note: There are only a maximum of 8 ports indexed 0-7
  *   i.e. the sequence can only read 8 different io values at once)
  */
-#define AudioSeqCmd_SetChannelIO(playerIndex, port, channelIndex, value)                                  \
+#define AudioSeqCmd_SetChannelIO(playerIndex, port, channelIndex, ioData)                                  \
     Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | \
-                      ((u8)(channelIndex) << 8) | (u8)(value))
+                      ((u8)(channelIndex) << 8) | (u8)(ioData))
 
 /**
  * ARGS
  *   playerIndex (p), channelMask (m)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   9pUUmmmm
  *
  * DESCRIPTION
  *   Disable (or reenable) specific channel from receiving io of (playerIndex).
+ *   Only disables channel io set by (AudioSeqCmd_SetChannelIO). 
+ *   i.e. calling Audio_QueueCmdS8 0x6 directy will still work.
  *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex).
  *   bit-on (1) disables a channel from receiving io, bit-off (0) reenables a channel receiving io.
  */
-#define AudioSeqCmd_SetChannelIOMask(playerIndex, channelMask) \
-    Audio_QueueSeqCmd(_SHIFTL(SEQ_CMD_SET_CHANNEL_IO_MASK, 28, 4) | ((u8)(playerIndex) << 24) | (u16)(channelMask))
+#define AudioSeqCmd_DisableChannelIO(playerIndex, channelMask) \
+    Audio_QueueSeqCmd(_SHIFTL(SEQ_CMD_DISABLE_CHANNEL_IO, 28, 4) | ((u8)(playerIndex) << 24) | (u16)(channelMask))
 
 /**
  * ARGS
  *   playerIndex (p), channelMask (m)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   ApUUmmmm
  *
  * DESCRIPTION
@@ -279,7 +281,7 @@ typedef enum {
  *   playerIndex (p), duration (d), tempoTarget (t)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Bpdd0ttt
  *
  * DESCRIPTION
@@ -294,7 +296,7 @@ typedef enum {
  *   playerIndex (p), duration (d), tempoIncrease (t)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Bpdd1ttt
  *
  * DESCRIPTION
@@ -310,7 +312,7 @@ typedef enum {
  *   playerIndex (p), duration (d), tempoDecrease (t)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Bpdd2ttt
  *
  * DESCRIPTION
@@ -326,7 +328,7 @@ typedef enum {
  *   playerIndex (p), duration (d), tempoScale (t)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Bpdd3ttt
  *
  * DESCRIPTION
@@ -344,7 +346,7 @@ typedef enum {
  *   playerIndex (p), duration (d)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Bpdd4UUU
  *
  * DESCRIPTION
@@ -368,7 +370,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), duration (d)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp0sUUdd
  *
  * DESCRIPTION
@@ -383,12 +385,16 @@ typedef enum {
  *   playerIndex (p)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp1UUUUU
  *
  * DESCRIPTION
- *    Queue a request to have (playerIndex) unqueued once once (playerIndex) is no longer playing.
+ *    Queue a request to have (playerIndex) unqueued once (playerIndex) is no longer playing.
  *    This allows the next sequence in the sequence queue to start playing.
+ *    Note: this command does not work as intended as unqueueing the seqeuence relies on gActiveSeqs[playerIndex].seqId
+ *    However, gActiveSeqs[playerIndex].seqId is reset before the sequence is no longer playing, 
+ *    i.e. before this command can run.
+ *    A simple fix would have been to unqueue based on gActiveSeqs[playerIndex].prevSeqId instead
  */
 #define AudioSeqCmd_SetupUnqueueSequence(playerIndex) \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_SEQ_UNQUEUE << 20) | ((u8)(playerIndex) << 24))
@@ -398,7 +404,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s),
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp2sUUUU
  *
  * DESCRIPTION
@@ -413,7 +419,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), duration (d), tempoScale (t)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp3sddtt
  *
  * DESCRIPTION
@@ -431,7 +437,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), duration (d)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp4sUUdd
  *
  * DESCRIPTION
@@ -447,7 +453,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), seqId (i)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp5siiii
  *
  * DESCRIPTION
@@ -460,11 +466,11 @@ typedef enum {
 
 /**
  * ARGS
- *   playerIndex (p), playerIndexTarget (s), fadeInTimer (t)
+ *   playerIndex (p), fadeInTimer (t)
  *
  * FORMAT
- *   Captial U is unused
- *   Cp6sttUU
+ *   Capital U is unused
+ *   Cp6UttUU
  *
  * DESCRIPTION
  *   This command is paired with (AudioSeqCmd_SetupPlaySequence) above.
@@ -479,7 +485,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), duration (d), numSeqRequests (n)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp7sddnn
  *
  * DESCRIPTION
@@ -497,7 +503,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), scaleIndex (i), duration (d)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp8siidd
  *
  * DESCRIPTION
@@ -514,7 +520,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), channelMask (m),
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   Cp9smmmm
  *
  * DESCRIPTION
@@ -531,13 +537,15 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), duration (d), freq (f)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   CpAsddff
  *
  * DESCRIPTION
- * Queue a request to scale the player frequency (playerIndexTarget) once (playerIndex) is no longer playing.
- * The scaling factor (freq) is relative to 100. I.e. freq = 200 with double the pitch and freq = 50 will half the
- * pitch. Apply the frequency shift over (duration)
+ *   Queue a request to scale the player frequency (playerIndexTarget) once (playerIndex) is no longer playing.
+ *   The scaling factor (freq) is relative to 100. I.e. freq = 200 with double the pitch and freq = 50 will half the
+ *   pitch. Apply the frequency shift over (duration)
+ *   Note: Carefully observe that the base level freq is 100, which is 10 times smaller than other freq commands,
+ *   which are based on a freq relative to 1000
  */
 #define AudioSeqCmd_SetupSetPlayerFreq(playerIndex, playerIndexTarget, duration, freq)                      \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_SET_PLAYER_FREQ << 20) |               \
@@ -549,7 +557,7 @@ typedef enum {
  *   playerIndex (p), playerIndexTarget (s), tableTypeFlag (f)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   CpEsUUff
  *
  * DESCRIPTION
@@ -569,11 +577,11 @@ typedef enum {
  *   playerIndex (p)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   CpFUUUUU
  *
  * DESCRIPTION
- *   Discard all setup command requests on (playerIndex) by reseting the setup command queue.
+ *   Discard all setup command requests on (playerIndex) by resetting the setup command queue.
  */
 #define AudioSeqCmd_ResetSetupCmds(playerIndex)                                                \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESET_SETUP_CMDS << 20) | \
@@ -582,7 +590,7 @@ typedef enum {
 /**
  * ==== Audio Sequence Global Commands ====
  *
- * The global commands will apply to the entire audio system and all 4 audio players
+ * The global commands will apply to the entire audio system and all 4 sequence players
  */
 
 /**
@@ -590,7 +598,7 @@ typedef enum {
  *   soundMode (s)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   EUUUU0ss
  *
  * DESCRIPTION
@@ -608,13 +616,14 @@ typedef enum {
  *   isDisabled (d)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   EUUUU1dd
  *
  * DESCRIPTION
  *   Disables new sequences from started when (isDisabled) is set to true.
  *   Set (isDisabled) to false to reenable new sequences to play.
- *   Note: isDisabled should be a (u8) but is required to be (u16) for matching
+ *   Note: this does not disabled the sfx player as there is a bypass for that channel specifically.
+ *   Note: isDisabled should be a (u8) to prevent interfering with the SUB_CMD, but is required to be (u16) for matching
  */
 #define AudioSeqCmd_DisableNewSequences(isDisabled) \
     Audio_QueueSeqCmd((SEQ_CMD_GLOBAL_CMD << 28) | (SEQ_SUB_CMD_GLOBAL_DISABLE_NEW_SEQUENCES << 8) | (u16)(isDisabled))
@@ -624,7 +633,7 @@ typedef enum {
  *   sfxChannelLayout (c), specId (s)
  *
  * FORMAT
- *   Captial U is unused
+ *   Capital U is unused
  *   FUUUccss
  *
  * DESCRIPTION

@@ -4742,7 +4742,7 @@ void Audio_PlayFanfare(u16 seqId) {
 }
 
 void func_800F5CF8(void) {
-    u16 seqIdBgmFanfare;
+    u16 seqIdFanfare;
     u16 seqIdBgmMain;
     u16 seqIdBgmSub;
 
@@ -4753,11 +4753,11 @@ void func_800F5CF8(void) {
             Audio_QueueCmdS32(0xE3000000, FONT_TABLE);
 
             seqIdBgmMain = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
-            seqIdBgmFanfare = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
+            seqIdFanfare = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
             seqIdBgmSub = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB);
 
             (void)seqIdBgmMain; // suppresses set but unused warning
-            if (seqIdBgmFanfare == NA_BGM_DISABLED) {
+            if (seqIdFanfare == NA_BGM_DISABLED) {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 5);
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 5);
                 AudioSeqCmd_SetupRestorePlayerVolumeWithScale(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
@@ -4778,8 +4778,8 @@ void func_800F5CF8(void) {
     }
 }
 
-void func_800F5E18(u8 playerIndex, u16 seqId, u8 fadeTimer, s8 arg3, s8 arg4) {
-    AudioSeqCmd_SetPlayerIO(playerIndex, arg3, arg4);
+void func_800F5E18(u8 playerIndex, u16 seqId, u8 fadeTimer, s8 port, s8 ioData) {
+    AudioSeqCmd_SetPlayerIO(playerIndex, port, ioData);
     AudioSeqCmd_PlaySequence(playerIndex, fadeTimer, 0, seqId);
 }
 
@@ -5203,7 +5203,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, 0x7F, 1);
 
     channelIdx = false;
-    if (sNewSeqDisabled) {
+    if (gNewSeqDisabled) {
         channelIdx = true;
         AudioSeqCmd_DisableNewSequences(false);
     }
