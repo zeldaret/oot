@@ -8,10 +8,10 @@
 
 typedef struct {
     u8 seqId;
-    u8 importance;
-} BgmRequest;
+    u8 priority; // higher values have higher priority
+} SeqRequest;
 
-BgmRequest sSeqRequests[4][5];
+SeqRequest sSeqRequests[4][5];
 u8 sNumSeqRequests[4];
 u32 sAudioSeqCmds[0x100];
 ActiveSeq gActiveSeqs[4];
@@ -71,7 +71,7 @@ void Audio_StopSequenceNow(u8 playerIndex, u16 fadeTimer) {
 }
 
 void Audio_ProcessSeqCmd(u32 cmd) {
-    s32 importance;
+    s32 priority;
     s32 channelMaskEnable;
     u16 channelMaskDisable;
     u16 fadeTimer;
@@ -125,7 +125,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
             fadeTimer = (cmd & 0xFF0000) >> 13;
-            importance = seqArgs;
+            priority = seqArgs;
 
             // Checks if the requested sequence is first in the list of requests
             // If it is already queued and first in the list, then play the sequence immediately
@@ -142,7 +142,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // than the current incoming request
             found = sNumSeqRequests[playerIndex];
             for (i = 0; i < sNumSeqRequests[playerIndex]; i++) {
-                if (importance >= sSeqRequests[playerIndex][i].importance) {
+                if (priority >= sSeqRequests[playerIndex][i].priority) {
                     found = i;
                     i = sNumSeqRequests[playerIndex]; // "break;"
                 }
@@ -154,13 +154,13 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
 
             for (i = sNumSeqRequests[playerIndex] - 1; i != found; i--) {
-                // Move all requests of lower importance backwards 1 place in the queue
-                sSeqRequests[playerIndex][i].importance = sSeqRequests[playerIndex][i - 1].importance;
+                // Move all requests of lower priority backwards 1 place in the queue
+                sSeqRequests[playerIndex][i].priority = sSeqRequests[playerIndex][i - 1].priority;
                 sSeqRequests[playerIndex][i].seqId = sSeqRequests[playerIndex][i - 1].seqId;
             }
 
             // Fill the newly freed space in the queue with the new request
-            sSeqRequests[playerIndex][found].importance = seqArgs;
+            sSeqRequests[playerIndex][found].priority = seqArgs;
             sSeqRequests[playerIndex][found].seqId = seqId;
 
             if (found == 0) {
@@ -182,9 +182,9 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
 
             if (found != sNumSeqRequests[playerIndex]) {
-                // Move all requests of lower importance forward 1 place in the queue
+                // Move all requests of lower priority forward 1 place in the queue
                 for (i = found; i < sNumSeqRequests[playerIndex] - 1; i++) {
-                    sSeqRequests[playerIndex][i].importance = sSeqRequests[playerIndex][i + 1].importance;
+                    sSeqRequests[playerIndex][i].priority = sSeqRequests[playerIndex][i + 1].priority;
                     sSeqRequests[playerIndex][i].seqId = sSeqRequests[playerIndex][i + 1].seqId;
                 }
                 sNumSeqRequests[playerIndex]--;
@@ -194,7 +194,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                 Audio_StopSequenceNow(playerIndex, fadeTimer);
                 if (sNumSeqRequests[playerIndex] != 0) {
                     Audio_StartSequence(playerIndex, sSeqRequests[playerIndex][0].seqId,
-                                        sSeqRequests[playerIndex][0].importance, fadeTimer);
+                                        sSeqRequests[playerIndex][0].priority, fadeTimer);
                 }
             }
             break;

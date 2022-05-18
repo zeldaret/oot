@@ -62,7 +62,7 @@ typedef enum {
 
 /**
  * ARGS
- *   playerIndex (p), fadeTimer (t), seqArgs (a), seqId (s)
+ *   playerIndex (p), fadeInTimer (t), seqArgs (a), seqId (s)
  *
  * FORMAT
  *   Captial U is unused
@@ -70,24 +70,24 @@ typedef enum {
  *
  * DESCRIPTION
  *   Request a sequence (seqId) to be played on the specified player (playerIndex).
- *   The sequence will gradually fade in over the course of (fadeTimer).
- *   How (fadeTimer) is interpreted depends on (seqArgs)
+ *   The sequence will gradually fade in over the course of (fadeInTimer).
+ *   How (fadeInTimer) is interpreted depends on (seqArgs)
  *
  *   seqArgs = 8 and seqArgs = 9 appear to have no functionality (the only non-zero seqArgs used)
- *   unused commands may suggest these were intended to be a an importance for an unimplemented priority system
- *   ((seqArgs & 0x7F) != 0x7F) will interpret fadeTimer as number of frames at 30 fps
- *   ((seqArgs & 0x7F) == 0x7F) will interpret fadeTimer as number of seconds and will skip ticks
+ *   unused commands may suggest these were intended to be a an priority for an unimplemented priority system
+ *   ((seqArgs & 0x7F) != 0x7F) will interpret fadeInTimer as number of frames at 30 fps
+ *   ((seqArgs & 0x7F) == 0x7F) will interpret fadeInTimer as number of seconds and will skip ticks
  *   (seqArgs & 0x80) i.e. (seqArgs >= 0x80) has an incomplete implementation
  *   and is not functional in Ocarina of Time. No sequence will play as a result.
  *   The code and purpose for seqArgs >= 0x80 was completed and is functional in Majora's Mask.
  */
-#define AudioSeqCmd_PlaySequence(playerIndex, fadeTimer, seqArgs, seqId)                           \
-    Audio_QueueSeqCmd((SEQ_CMD_PLAY << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | \
+#define AudioSeqCmd_PlaySequence(playerIndex, fadeInTimer, seqArgs, seqId)                           \
+    Audio_QueueSeqCmd((SEQ_CMD_PLAY << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeInTimer) << 16) | \
                       ((u8)(seqArgs) << 8) | (u16)(seqId))
 
 /**
  * ARGS
- *   playerIndex (p), fadeTimer (t)
+ *   playerIndex (p), fadeOutTimer (t)
  *
  * FORMAT
  *   Captial U is unused
@@ -95,15 +95,15 @@ typedef enum {
  *
  * DESCRIPTION
  *   Request the active sequence to be stopped on the specified player (playerIndex).
- *   The sequence will gradually fade out over the course of (fadeTimer) frames at a rate of 30 fps.
+ *   The sequence will gradually fade out over the course of (fadeOutTimer) frames at a rate of 30 fps.
  *   Note: The 0xFF in the command is not read from at all, but is common in all StopSequence Commands
  */
-#define AudioSeqCmd_StopSequence(playerIndex, fadeTimer) \
-    Audio_QueueSeqCmd((SEQ_CMD_STOP << 28) | 0xFF | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16))
+#define AudioSeqCmd_StopSequence(playerIndex, fadeOutTimer) \
+    Audio_QueueSeqCmd((SEQ_CMD_STOP << 28) | 0xFF | ((u8)(playerIndex) << 24) | ((u8)(fadeOutTimer) << 16))
 
 /**
  * ARGS
- *   playerIndex (p), fadeTimer (t), importance/seqArgs (i), seqId (s)
+ *   playerIndex (p), fadeInTimer (t), priority/seqArgs (i), seqId (s)
  *
  * FORMAT
  *   Captial U is unused
@@ -111,20 +111,20 @@ typedef enum {
  *
  * DESCRIPTION
  *   Request a sequence (seqId) be added to a queue for a specified player (playerIndex).
- *   The request will be queued based on (importance).
- *   Higher values have higher importance and will be queued to play sooner
- *   The sequence will gradually fade in over the course of (fadeTimer).
- *   How (fadeTimer) is interpreted depends on (seqArgs), see AudioSeqCmd_PlaySequence
+ *   The request will be queued based on (priority).
+ *   Higher values have higher priority and will be queued to play sooner
+ *   The sequence will gradually fade in over the course of (fadeInTimer).
+ *   How (fadeInTimer) is interpreted depends on (seqArgs), see AudioSeqCmd_PlaySequence
  *
  *   The sequence that will be playing will be the 1st entry of the queue
  */
-#define AudioSeqCmd_QueueSequence(playerIndex, fadeTimer, importance, seqId)                        \
-    Audio_QueueSeqCmd((SEQ_CMD_QUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | \
-                      ((u8)(importance) << 8) | (u8)(seqId))
+#define AudioSeqCmd_QueueSequence(playerIndex, fadeInTimer, priority, seqId)                        \
+    Audio_QueueSeqCmd((SEQ_CMD_QUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeInTimer) << 16) | \
+                      ((u8)(priority) << 8) | (u8)(seqId))
 
 /**
  * ARGS
- *   playerIndex (p), fadeTimer (t), seqId (s)
+ *   playerIndex (p), fadeOutTimer (t), seqId (s)
  *
  * FORMAT
  *   Captial U is unused
@@ -134,10 +134,10 @@ typedef enum {
  * DESCRIPTION
  *   Request the active sequence to be stopped on the specified player (playerIndex).
  *   Start the next sequence in the queue and move all requests forward  place in the queue.
- *   The sequence will gradually fade out over the course of (fadeTimer) frames at a rate of 30 fps.
+ *   The sequence will gradually fade out over the course of (fadeOutTimer) frames at a rate of 30 fps.
  */
-#define AudioSeqCmd_UnqueueSequence(playerIndex, fadeTimer, seqId) \
-    Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 16) | (seqId))
+#define AudioSeqCmd_UnqueueSequence(playerIndex, fadeOutTimer, seqId) \
+    Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeOutTimer) << 16) | (seqId))
 
 /**
  * ARGS
@@ -365,19 +365,19 @@ typedef enum {
 
 /**
  * ARGS
- *   playerIndex (p), playerIndexTarget (s), fadeTimer (t)
+ *   playerIndex (p), playerIndexTarget (s), duration (d)
  *
  * FORMAT
  *   Captial U is unused
- *   Cp0sUUtt
+ *   Cp0sUUdd
  *
  * DESCRIPTION
  *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing. 
- *   Restores volume over the duration (fadeTimer)
+ *   Restores volume over the (duration)
  */
-#define AudioSeqCmd_SetupRestorePlayerVolume(playerIndex, playerIndexTarget, fadeTimer)      \
+#define AudioSeqCmd_SetupRestorePlayerVolume(playerIndex, playerIndexTarget, duration)      \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME << 20) | \
-                      ((u8)(playerIndex) << 24) | ((u8)(playerIndexTarget) << 16) | (u8)(fadeTimer))
+                      ((u8)(playerIndex) << 24) | ((u8)(playerIndexTarget) << 16) | (u8)(duration))
 /**
  * ARGS
  *   playerIndex (p)
@@ -452,7 +452,7 @@ typedef enum {
  *
  * DESCRIPTION
  *   Queue a request to play a (seqId) on (playerIndexTarget) once (playerIndex) is no longer playing.
- *   To set the fadeTimer of this sequence, use the command (AudioSeqCmd_SetupSetFadeTimer) below.
+ *   To set the fadeInTimer of this sequence, use the command (AudioSeqCmd_SetupSetFadeInTimer) below.
  */
 #define AudioSeqCmd_SetupPlaySequence(playerIndex, playerIndexTarget, seqId)                                       \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_PLAY_SEQ << 20) | ((u8)(playerIndex) << 24) | \
@@ -460,7 +460,7 @@ typedef enum {
 
 /**
  * ARGS
- *   playerIndex (p), playerIndexTarget (s), fadeTimer (t)
+ *   playerIndex (p), playerIndexTarget (s), fadeInTimer (t)
  *
  * FORMAT
  *   Captial U is unused
@@ -468,46 +468,46 @@ typedef enum {
  *
  * DESCRIPTION
  *   This command is paired with (AudioSeqCmd_SetupPlaySequence) above.
- *   It will set the (fadeTimer) used by (AudioSeqCmd_SetupPlaySequence) when called on (playerIndex)
+ *   It will set the (fadeInTimer) used by (AudioSeqCmd_SetupPlaySequence) when called on (playerIndex)
  */
-#define AudioSeqCmd_SetupSetFadeTimer(playerIndex, fadeTimer)                                \
+#define AudioSeqCmd_SetupSetFadeInTimer(playerIndex, fadeInTimer)                                \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_SET_FADE_TIMER << 20) | \
-                      ((u8)(playerIndex) << 24) | ((u8)(fadeTimer) << 8))
+                      ((u8)(playerIndex) << 24) | ((u8)(fadeInTimer) << 8))
 
 /**
  * ARGS
- *   playerIndex (p), playerIndexTarget (s), fadeTimer (t), numSeqRequests (n)
+ *   playerIndex (p), playerIndexTarget (s), duration (d), numSeqRequests (n)
  *
  * FORMAT
  *   Captial U is unused
- *   Cp7sttnn
+ *   Cp7sddnn
  *
  * DESCRIPTION
  *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing.
  *   Note: will only restore volume if the number of queue requests on (playerIndex) matches (numSeqRequests). 
- *   If restored, will volume over the duration (fadeTimer)
+ *   If restored, will volume over the (duration)
  */
-#define AudioSeqCmd_SetupRestorePlayerVolumeIfQueued(playerIndex, playerIndexTarget, fadeTimer, numSeqRequests) \
+#define AudioSeqCmd_SetupRestorePlayerVolumeIfQueued(playerIndex, playerIndexTarget, duration, numSeqRequests) \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_IF_QUEUED << 20) |          \
-                      ((u8)(playerIndex) << 24) | ((u8)(playerIndexTarget) << 16) | ((u8)(fadeTimer) << 8) |    \
+                      ((u8)(playerIndex) << 24) | ((u8)(playerIndexTarget) << 16) | ((u8)(duration) << 8) |    \
                       (u8)(numSeqRequests))
 
 /**
  * ARGS
- *   playerIndex (p), playerIndexTarget (s), scaleIndex (i), fadeTimer (t)
+ *   playerIndex (p), playerIndexTarget (s), scaleIndex (i), duration (d)
  *
  * FORMAT
  *   Captial U is unused
- *   Cp8siitt
+ *   Cp8siidd
  *
  * DESCRIPTION
  *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing.
- *   Restores volume with a (scaleIndex) over the duration (fadeTimer)
+ *   Restores volume with a (scaleIndex) over the duration (duration)
  */
-#define AudioSeqCmd_SetupRestorePlayerVolumeWithScale(playerIndex, playerIndexTarget, scaleIndex, fadeTimer)  \
+#define AudioSeqCmd_SetupRestorePlayerVolumeWithScale(playerIndex, playerIndexTarget, scaleIndex, duration)  \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_WITH_SCALE << 20) |       \
                       ((u8)(playerIndex) << 24) | ((u8)(playerIndexTarget) << 16) | ((u8)(scaleIndex) << 8) | \
-                      (u8)(fadeTimer))
+                      (u8)(duration))
 
 /**
  * ARGS
