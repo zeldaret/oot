@@ -1150,7 +1150,7 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->dmgEffect = this->actor.colChkInfo.damageEffect;
-        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, 0);
+        Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, false);
         switch (this->dmgEffect) {
             case 7:
                 this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;

@@ -449,7 +449,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
             this->collider.base.acFlags &= ~2;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_282 = this->actor.colChkInfo.damageEffect;
-                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, 1);
+                Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
                 this->unk_281 = 0;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->unk_280 != 6) {
@@ -527,7 +527,7 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == 11) {
         if ((this->unk_283 & 2) == 0) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 972);
-            color = ABS((s16)(Math_SinS((globalCtx->gameplayFrames * 0x1770)) * 95.0f)) + 160;
+            color = ABS((s16)(Math_SinS(globalCtx->gameplayFrames * 0x1770) * 95.0f)) + 160;
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetEnvColor(POLY_OPA_DISP++, color, color, color, 255);
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 978);

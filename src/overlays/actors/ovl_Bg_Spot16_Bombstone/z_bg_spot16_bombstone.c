@@ -410,7 +410,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
                 sTimer = currentBomb->timer + 20;
-                OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, CAM_ID_MAIN);
             }
         }
     } else if (player->stateFlags1 & PLAYER_STATE1_11) {
@@ -440,7 +440,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
         func_808B561C(this, globalCtx);
 
-        OnePointCutscene_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 4180, 50, NULL, CAM_ID_MAIN);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
         SET_EVENTCHKINF(EVENTCHKINF_23);

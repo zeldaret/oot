@@ -845,7 +845,7 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(17) + 130.0f) < playerPosX) && (!Gameplay_InCsMode(globalCtx))) {
+    if ((thisPosX - (kREG(17) + 130.0f) < playerPosX) && (!Play_InCsMode(globalCtx))) {
         return true;
     } else {
         return false;
@@ -867,7 +867,7 @@ void func_80986B2C(GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
         Player* player = GET_PLAYER(globalCtx);
 
-        globalCtx->nextEntranceIndex = 0xCD;
+        globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
         globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST);
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         func_8002DF54(globalCtx, &player->actor, 8);

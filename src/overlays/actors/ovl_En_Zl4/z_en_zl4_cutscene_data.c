@@ -1,6 +1,6 @@
 #include "z_en_zl4.h"
 
-static CutsceneCameraAngle sCsCameraAngle[] = {
+static CutsceneCameraDirection sCamDirections[] = {
     { { -490.0f, 120.0f, 0.0f }, { -440.0f, 117.0f, 0.0f }, 0, 45 },
     { { -484.0f, 122.0f, -29.0f }, { -480.0f, 116.0f, 18.0f }, 0, 80 },
     { { -413.0f, 136.0f, -72.0f }, { -403.0f, 141.0f, -89.0f }, 0, 25 },
@@ -178,7 +178,7 @@ static CutsceneCameraPoint D_80B5FA10[] = {
     { -1, 0, 0, 20.799965f, { -549, 124, 29 } }, { -1, 0, 0, 20.799965f, { -549, 124, 29 } },
 };
 
-static CutsceneCameraMove sCsCameraMove[] = {
+static CutsceneCameraMove sCamMove[] = {
     { D_80B5EC70, D_80B5ECF0, 0 }, { D_80B5ED70, D_80B5EE10, 0 }, { D_80B5EEB0, D_80B5EF90, 0 },
     { D_80B5F070, D_80B5F100, 0 }, { D_80B5F190, D_80B5F280, 0 }, { D_80B5F370, D_80B5F450, 0 },
     { D_80B5F530, D_80B5F5D0, 0 }, { D_80B5F670, D_80B5F700, 0 }, { D_80B5F790, D_80B5F810, 0 },

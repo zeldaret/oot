@@ -16,6 +16,7 @@
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/actors/ovl_En_Fish/z_en_fish.h"
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
+#include "overlays/actors/ovl_En_Insect/z_en_insect.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_link_child/object_link_child.h"
@@ -1343,13 +1344,13 @@ void func_80832318(Player* this) {
 }
 
 void func_80832340(GlobalContext* globalCtx, Player* this) {
-    Camera* camera;
+    Camera* subCam;
 
-    if (this->unk_46C != SUBCAM_NONE) {
-        camera = globalCtx->cameraPtrs[this->unk_46C];
-        if ((camera != NULL) && (camera->csId == 1100)) {
-            OnePointCutscene_EndCutscene(globalCtx, this->unk_46C);
-            this->unk_46C = SUBCAM_NONE;
+    if (this->subCamId != CAM_ID_NONE) {
+        subCam = globalCtx->cameraPtrs[this->subCamId];
+        if ((subCam != NULL) && (subCam->csId == 1100)) {
+            OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
+            this->subCamId = CAM_ID_NONE;
         }
     }
 
@@ -1389,7 +1390,7 @@ void func_80832440(GlobalContext* globalCtx, Player* this) {
     this->unk_6AD = 0;
 
     func_80832340(globalCtx, this);
-    func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+    func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
 
     this->stateFlags1 &= ~(PLAYER_STATE1_13 | PLAYER_STATE1_14 | PLAYER_STATE1_20 | PLAYER_STATE1_21);
     this->stateFlags2 &= ~(PLAYER_STATE2_4 | PLAYER_STATE2_7 | PLAYER_STATE2_18);
@@ -2136,7 +2137,7 @@ void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & PLAYER_STATE1_8) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & PLAYER_STATE1_22)) &&
         (gSaveContext.health != 0) && (globalCtx->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
-        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == MAIN_CAM) &&
+        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamId == CAM_ID_MAIN) &&
         (globalCtx->transitionTrigger != TRANS_TRIGGER_START) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
     }
@@ -2426,7 +2427,8 @@ s32 func_80834E7C(GlobalContext* globalCtx) {
 
 s32 func_80834EB8(Player* this, GlobalContext* globalCtx) {
     if ((this->unk_6AD == 0) || (this->unk_6AD == 2)) {
-        if (func_80833BCC(this) || (Camera_CheckValidMode(Gameplay_GetCamera(globalCtx, 0), 7) == 0)) {
+        if (func_80833BCC(this) ||
+            (Camera_CheckValidMode(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_BOWARROW) == 0)) {
             return 1;
         }
         this->unk_6AD = 2;
@@ -2778,7 +2780,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
     }
 
     if (func_8084E3C4 == this->func_674) {
-        Audio_OcaSetInstrument(0);
+        AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
         this->stateFlags2 &= ~(PLAYER_STATE2_24 | PLAYER_STATE2_25);
     } else if (func_808507F4 == this->func_674) {
         func_80832340(globalCtx, this);
@@ -2791,7 +2793,7 @@ s32 func_80835C58(GlobalContext* globalCtx, Player* this, PlayerFunc674 func, s3
         func_8008EC70(this);
     }
 
-    if (!(flags & 1) && (!(this->stateFlags1 & PLAYER_STATE1_11))) {
+    if (!(flags & 1) && !(this->stateFlags1 & PLAYER_STATE1_11)) {
         func_80834644(globalCtx, this);
         this->stateFlags1 &= ~PLAYER_STATE1_22;
     }
@@ -2836,13 +2838,13 @@ void func_80835E44(GlobalContext* globalCtx, s16 camSetting) {
             Interface_ChangeAlpha(2);
         }
     } else {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), camSetting);
+        Camera_ChangeSetting(Play_GetCamera(globalCtx, CAM_ID_MAIN), camSetting);
     }
 }
 
 void func_80835EA4(GlobalContext* globalCtx, s32 arg1) {
     func_80835E44(globalCtx, CAM_SET_TURN_AROUND);
-    Camera_SetCameraData(Gameplay_GetCamera(globalCtx, 0), 4, 0, 0, arg1, 0, 0);
+    Camera_SetCameraData(Play_GetCamera(globalCtx, CAM_ID_MAIN), 4, 0, 0, arg1, 0, 0);
 }
 
 void func_80835EFC(Player* this) {
@@ -2881,34 +2883,25 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                   ((temp >= 0) && ((AMMO(sExplosiveInfos[temp].itemId) == 0) ||
                                    (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length >= 3)))))) {
                 func_80078884(NA_SE_SY_ERROR);
-                return;
-            }
-
-            if (actionParam == PLAYER_AP_LENS) {
+            } else if (actionParam == PLAYER_AP_LENS) {
                 if (func_80087708(globalCtx, 0, 3)) {
                     if (globalCtx->actorCtx.lensActive) {
                         Actor_DisableLens(globalCtx);
                     } else {
                         globalCtx->actorCtx.lensActive = true;
                     }
+
                     func_80078884((globalCtx->actorCtx.lensActive) ? NA_SE_SY_GLASSMODE_ON : NA_SE_SY_GLASSMODE_OFF);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            if (actionParam == PLAYER_AP_NUT) {
+            } else if (actionParam == PLAYER_AP_NUT) {
                 if (AMMO(ITEM_NUT) != 0) {
                     func_8083C61C(globalCtx, this);
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            temp = Player_ActionToMagicSpell(this, actionParam);
-            if (temp >= 0) {
+            } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
                     ((gSaveContext.unk_13F4 != 0) && (gSaveContext.unk_13F0 == 0) &&
                      (gSaveContext.magic >= sMagicSpellCosts[temp]))) {
@@ -2917,34 +2910,27 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                 } else {
                     func_80078884(NA_SE_SY_ERROR);
                 }
-                return;
-            }
-
-            if (actionParam >= PLAYER_AP_MASK_KEATON) {
+            } else if (actionParam >= PLAYER_AP_MASK_KEATON) {
                 if (this->currentMask != PLAYER_MASK_NONE) {
                     this->currentMask = PLAYER_MASK_NONE;
                 } else {
                     this->currentMask = actionParam - PLAYER_AP_MASK_KEATON + 1;
                 }
-                func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
-                return;
-            }
 
-            if (((actionParam >= PLAYER_AP_OCARINA_FAIRY) && (actionParam <= PLAYER_AP_OCARINA_TIME)) ||
-                (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
+                func_808328EC(this, NA_SE_PL_CHANGE_ARMS);
+            } else if (((actionParam >= PLAYER_AP_OCARINA_FAIRY) && (actionParam <= PLAYER_AP_OCARINA_TIME)) ||
+                       (actionParam >= PLAYER_AP_BOTTLE_FISH)) {
                 if (!func_8008E9C4(this) ||
                     ((actionParam >= PLAYER_AP_BOTTLE_POTION_RED) && (actionParam <= PLAYER_AP_BOTTLE_FAIRY))) {
                     TitleCard_Clear(globalCtx, &globalCtx->actorCtx.titleCtx);
                     this->unk_6AD = 4;
                     this->itemActionParam = actionParam;
                 }
-                return;
-            }
-
-            if ((actionParam != this->heldItemActionParam) ||
-                ((this->heldActor == 0) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
+            } else if ((actionParam != this->heldItemActionParam) ||
+                       ((this->heldActor == 0) && (Player_ActionToExplosive(this, actionParam) >= 0))) {
                 this->nextModelGroup = Player_ActionToModelGroup(this, actionParam);
                 nextAnimType = gPlayerModelTypes[this->nextModelGroup][PLAYER_MODELGROUPENTRY_ANIM];
+
                 if ((this->heldItemActionParam >= 0) && (Player_ActionToMagicSpell(this, actionParam) < 0) &&
                     (item != this->heldItemId) &&
                     (D_80854164[gPlayerModelTypes[this->modelGroup][PLAYER_MODELGROUPENTRY_ANIM]][nextAnimType] !=
@@ -2956,10 +2942,9 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                     func_808323B4(globalCtx, this);
                     func_80833664(globalCtx, this, actionParam);
                 }
-                return;
+            } else {
+                D_80853614 = D_80853618 = true;
             }
-
-            D_80853614 = D_80853618 = true;
         }
     }
 }
@@ -2995,7 +2980,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             gSaveContext.natureAmbienceId = NATURE_ID_DISABLED;
         }
 
-        OnePointCutscene_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, CAM_ID_MAIN);
         ShrinkWindow_SetVal(0x20);
     }
 }
@@ -3801,8 +3786,8 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
             func_80832698(this, NA_SE_VO_LI_DAMAGE_S);
 
             if (sp68) {
-                Gameplay_TriggerRespawn(globalCtx);
-                func_800994A0(globalCtx);
+                Play_TriggerRespawn(globalCtx);
+                Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
                 // Special case for getting crushed in Forest Temple's Checkboard Ceiling Hall or Shadow Temple's
                 // Falling Spike Trap Room, to respawn the player in a specific place
@@ -3818,12 +3803,12 @@ s32 func_808382DC(Player* this, GlobalContext* globalCtx) {
                         respawnInfo = &fallingSpikeTrapRespawn;
                     }
 
-                    Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0xDFF);
+                    Play_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0xDFF);
                     gSaveContext.respawn[RESPAWN_MODE_DOWN].pos = respawnInfo->pos;
                     gSaveContext.respawn[RESPAWN_MODE_DOWN].yaw = respawnInfo->yaw;
                 }
 
-                Gameplay_TriggerVoidOut(globalCtx);
+                Play_TriggerVoidOut(globalCtx);
             }
 
             func_80832698(this, NA_SE_VO_LI_TAKEN_AWAY);
@@ -4081,7 +4066,7 @@ void func_80838F5C(GlobalContext* globalCtx, Player* this) {
 
     this->stateFlags1 |= PLAYER_STATE1_29 | PLAYER_STATE1_31;
 
-    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_FREE0);
+    Camera_ChangeSetting(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_SET_FREE0);
 }
 
 s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
@@ -4096,38 +4081,73 @@ s32 func_80838FB8(GlobalContext* globalCtx, Player* this) {
     return 0;
 }
 
-s16 D_808544F8[] = {
-    0x045B, // DMT from Magic Fairy Fountain
-    0x0482, // DMC from Double Defense Fairy Fountain
-    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
-    0x044B, // Kakariko from Potion Shop
-    0x02A2, // Market (child day) from Potion Shop
-    0x0201, // Kakariko from Bazaar
-    0x03B8, // Market (child day) from Bazaar
-    0x04EE, // Kakariko from House of Skulltulas
-    0x03C0, // Back Alley (day) from Bombchu Shop
-    0x0463, // Kakariko from Shooting Gallery
-    0x01CD, // Market (child day) from Shooting Gallery
-    0x0394, // Zoras Fountain from Farores Wind Fairy Fountain
-    0x0340, // Hyrule Castle from Dins Fire Fairy Fountain
-    0x057C, // Desert Colossus from Nayrus Love Fairy Fountain
+/**
+ * The actual entrances each "return entrance" value can map to.
+ * This is used by scenes that are shared between locations, like child/adult Shooting Gallery or Great Fairy Fountains.
+ *
+ * This 1D array is split into groups of entrances.
+ * The start of each group is indexed by `sReturnEntranceGroupIndices` values.
+ * The resulting groups are then indexed by the spawn value.
+ *
+ * The spawn value (`GlobalContext.curSpawn`) is set to a different value depending on the entrance used to enter the
+ * scene, which allows these dynamic "return entrances" to link back to the previous scene.
+ *
+ * Note: grottos and normal fairy fountains use `ENTR_RETURN_GROTTO`
+ */
+s16 sReturnEntranceGroupData[] = {
+    // ENTR_RETURN_DAIYOUSEI_IZUMI
+    /*  0 */ ENTR_SPOT16_4, // DMT from Magic Fairy Fountain
+    /*  1 */ ENTR_SPOT17_3, // DMC from Double Defense Fairy Fountain
+    /*  2 */ ENTR_SPOT15_2, // Hyrule Castle from Dins Fire Fairy Fountain
+
+    // ENTR_RETURN_2
+    /*  3 */ ENTR_SPOT01_9,     // Kakariko from Potion Shop
+    /*  4 */ ENTR_MARKET_DAY_5, // Market (child day) from Potion Shop
+
+    // ENTR_RETURN_SHOP1
+    /*  5 */ ENTR_SPOT01_3,     // Kakariko from Bazaar
+    /*  6 */ ENTR_MARKET_DAY_6, // Market (child day) from Bazaar
+
+    // ENTR_RETURN_4
+    /*  7 */ ENTR_SPOT01_11,      // Kakariko from House of Skulltulas
+    /*  8 */ ENTR_MARKET_ALLEY_2, // Back Alley (day) from Bombchu Shop
+
+    // ENTR_RETURN_SYATEKIJYOU
+    /*  9 */ ENTR_SPOT01_10,    // Kakariko from Shooting Gallery
+    /* 10 */ ENTR_MARKET_DAY_8, // Market (child day) from Shooting Gallery
+
+    // ENTR_RETURN_YOUSEI_IZUMI_YOKO
+    /* 11 */ ENTR_SPOT08_5, // Zoras Fountain from Farores Wind Fairy Fountain
+    /* 12 */ ENTR_SPOT15_2, // Hyrule Castle from Dins Fire Fairy Fountain
+    /* 13 */ ENTR_SPOT11_7, // Desert Colossus from Nayrus Love Fairy Fountain
 };
 
-u8 D_80854514[] = { 11, 9, 3, 5, 7, 0 };
+/**
+ * The values are indices into `sReturnEntranceGroupData` marking the start of each group
+ */
+u8 sReturnEntranceGroupIndices[] = {
+    11, // ENTR_RETURN_YOUSEI_IZUMI_YOKO
+    9,  // ENTR_RETURN_SYATEKIJYOU
+    3,  // ENTR_RETURN_2
+    5,  // ENTR_RETURN_SHOP1
+    7,  // ENTR_RETURN_4
+    0,  // ENTR_RETURN_DAIYOUSEI_IZUMI
+};
 
 s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u32 bgId) {
-    s32 sp3C;
+    s32 exitIndex;
     s32 temp;
     s32 sp34;
     f32 linearVel;
     s32 yaw;
 
     if (this->actor.category == ACTORCAT_PLAYER) {
-        sp3C = 0;
+        exitIndex = 0;
 
         if (!(this->stateFlags1 & PLAYER_STATE1_7) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF) &&
             (this->csMode == 0) && !(this->stateFlags1 & PLAYER_STATE1_0) &&
-            (((poly != NULL) && (sp3C = SurfaceType_GetSceneExitIndex(&globalCtx->colCtx, poly, bgId), sp3C != 0)) ||
+            (((poly != NULL) &&
+              (exitIndex = SurfaceType_GetSceneExitIndex(&globalCtx->colCtx, poly, bgId), exitIndex != 0)) ||
              (func_8083816C(D_808535E4) && (this->unk_A7A == 12)))) {
 
             sp34 = this->unk_A84 - (s32)this->actor.world.pos.y;
@@ -4137,28 +4157,30 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
                 return 0;
             }
 
-            if (sp3C == 0) {
-                Gameplay_TriggerVoidOut(globalCtx);
-                func_800994A0(globalCtx);
+            if (exitIndex == 0) {
+                Play_TriggerVoidOut(globalCtx);
+                Scene_SetTransitionForNextEntrance(globalCtx);
             } else {
-                globalCtx->nextEntranceIndex = globalCtx->setupExitList[sp3C - 1];
-                if (globalCtx->nextEntranceIndex == 0x7FFF) {
+                globalCtx->nextEntranceIndex = globalCtx->setupExitList[exitIndex - 1];
+                if (globalCtx->nextEntranceIndex == ENTR_RETURN_GROTTO) {
                     gSaveContext.respawnFlag = 2;
                     globalCtx->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
                     globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
-                } else if (globalCtx->nextEntranceIndex >= 0x7FF9) {
+                } else if (globalCtx->nextEntranceIndex >= ENTR_RETURN_YOUSEI_IZUMI_YOKO) {
                     globalCtx->nextEntranceIndex =
-                        D_808544F8[D_80854514[globalCtx->nextEntranceIndex - 0x7FF9] + globalCtx->curSpawn];
-                    func_800994A0(globalCtx);
+                        sReturnEntranceGroupData[sReturnEntranceGroupIndices[globalCtx->nextEntranceIndex -
+                                                                             ENTR_RETURN_YOUSEI_IZUMI_YOKO] +
+                                                 globalCtx->curSpawn];
+                    Scene_SetTransitionForNextEntrance(globalCtx);
                 } else {
                     if (SurfaceType_GetSlope(&globalCtx->colCtx, poly, bgId) == 2) {
                         gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = globalCtx->nextEntranceIndex;
-                        Gameplay_TriggerVoidOut(globalCtx);
+                        Play_TriggerVoidOut(globalCtx);
                         gSaveContext.respawnFlag = -2;
                     }
                     gSaveContext.unk_13C3 = 1;
-                    func_800994A0(globalCtx);
+                    Scene_SetTransitionForNextEntrance(globalCtx);
                 }
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
             }
@@ -4202,7 +4224,7 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
 
             this->stateFlags1 |= PLAYER_STATE1_0 | PLAYER_STATE1_29;
 
-            func_80835E44(globalCtx, 0x2F);
+            func_80835E44(globalCtx, CAM_SET_SCENE_TRANSITION);
 
             return 1;
         } else {
@@ -4216,9 +4238,9 @@ s32 func_80839034(GlobalContext* globalCtx, Player* this, CollisionPoly* poly, u
 
                     if (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) {
                         if (this->unk_A7A == 5) {
-                            Gameplay_TriggerRespawn(globalCtx);
+                            Play_TriggerRespawn(globalCtx);
                         } else {
-                            Gameplay_TriggerVoidOut(globalCtx);
+                            Play_TriggerVoidOut(globalCtx);
                         }
                         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                         func_80078884(NA_SE_OC_ABYSS);
@@ -4422,7 +4444,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                             gSaveContext.entranceSound = NA_SE_OC_DOOR_OPEN;
                         }
                     } else {
-                        Camera_ChangeDoorCam(Gameplay_GetCamera(globalCtx, 0), doorActor,
+                        Camera_ChangeDoorCam(Play_GetCamera(globalCtx, CAM_ID_MAIN), doorActor,
                                              globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
                                                  .effects,
@@ -4812,7 +4834,7 @@ s32 func_8083AD4C(GlobalContext* globalCtx, Player* this) {
         cameraMode = CAM_MODE_FIRSTPERSON;
     }
 
-    return Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), cameraMode);
+    return Camera_ChangeMode(Play_GetCamera(globalCtx, CAM_ID_MAIN), cameraMode);
 }
 
 s32 func_8083ADD4(GlobalContext* globalCtx, Player* this) {
@@ -4855,7 +4877,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayerAnim_002D28, 0.83f);
 
     if (magicSpell == 5) {
-        this->unk_46C = OnePointCutscene_Init(globalCtx, 1100, -101, NULL, MAIN_CAM);
+        this->subCamId = OnePointCutscene_Init(globalCtx, 1100, -101, NULL, CAM_ID_MAIN);
     } else {
         func_80835EA4(globalCtx, 10);
     }
@@ -4997,7 +5019,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                     func_80835EA4(globalCtx, (this->unk_6A8 != NULL) ? 0x5B : 0x5A);
                     if (this->unk_6A8 != NULL) {
                         this->stateFlags2 |= PLAYER_STATE2_25;
-                        Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->unk_6A8);
+                        Camera_SetParam(Play_GetCamera(globalCtx, CAM_ID_MAIN), 8, this->unk_6A8);
                     }
                 }
             } else if (func_8083AD4C(globalCtx, this)) {
@@ -5104,7 +5126,7 @@ s32 func_8083B644(Player* this, GlobalContext* globalCtx) {
 
 s32 func_8083B8F4(Player* this, GlobalContext* globalCtx) {
     if (!(this->stateFlags1 & (PLAYER_STATE1_11 | PLAYER_STATE1_23)) &&
-        Camera_CheckValidMode(Gameplay_GetCamera(globalCtx, 0), 6)) {
+        Camera_CheckValidMode(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_FIRSTPERSON)) {
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
             (func_808332B8(this) && (this->actor.yDistToWater < this->ageProperties->unk_2C))) {
             this->unk_6AD = 1;
@@ -6146,7 +6168,7 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                     func_808322D0(globalCtx, this, this->ageProperties->unk_98);
                     func_80832F54(globalCtx, this, 0x28F);
                     chest->unk_1F4 = 1;
-                    Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_SLOW_CHEST_CS);
+                    Camera_ChangeSetting(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_SET_SLOW_CHEST_CS);
                 } else {
                     func_80832264(globalCtx, this, &gPlayerAnim_002DF8);
                     chest->unk_1F4 = -1;
@@ -6465,13 +6487,13 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(globalCtx, this, &gPlayerAnim_002700);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointCutscene_Init(globalCtx, 9601, 999, NULL, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 9601, 999, NULL, CAM_ID_MAIN);
             } else {
                 this->actor.shape.rot.y = this->actor.wallYaw;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &gPlayerAnim_002708, -1.0f,
                                      Animation_GetLastFrame(&gPlayerAnim_002708), 0.0f, ANIMMODE_ONCE, 0.0f);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointCutscene_Init(globalCtx, 9602, 999, NULL, MAIN_CAM);
+                OnePointCutscene_Init(globalCtx, 9602, 999, NULL, CAM_ID_MAIN);
             }
 
             this->currentYaw = this->actor.shape.rot.y;
@@ -6910,7 +6932,7 @@ void func_808409CC(GlobalContext* globalCtx, Player* this) {
     s32 sp34;
 
     if ((this->unk_664 != NULL) ||
-        (!(heathIsCritical = HealthMeter_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
+        (!(heathIsCritical = Health_IsCritical()) && ((this->unk_6AC = (this->unk_6AC + 1) & 1) != 0))) {
         this->stateFlags2 &= ~PLAYER_STATE2_28;
         anim = func_80833338(this);
     } else {
@@ -7599,7 +7621,7 @@ void func_8084279C(Player* this, GlobalContext* globalCtx) {
         }
 
         this->actor.flags &= ~ACTOR_FLAG_8;
-        func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+        func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
     }
 }
 
@@ -7630,7 +7652,7 @@ s32 func_80842964(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_808429B4(GlobalContext* globalCtx, s32 speed, s32 y, s32 countdown) {
-    s32 quakeIdx = Quake_Add(Gameplay_GetCamera(globalCtx, 0), 3);
+    s32 quakeIdx = Quake_Add(Play_GetCamera(globalCtx, CAM_ID_MAIN), 3);
 
     Quake_SetSpeed(quakeIdx, speed);
     Quake_SetQuakeValues(quakeIdx, y, 0, 0, 0);
@@ -8062,7 +8084,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         this->unk_850 = 60;
         Player_SpawnFairy(globalCtx, this, &this->actor.world.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
-        OnePointCutscene_Init(globalCtx, 9908, 125, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 9908, 125, &this->actor, CAM_ID_MAIN);
     } else if (globalCtx->gameOverCtx.state == GAMEOVER_DEATH_WAIT_GROUND) {
         globalCtx->gameOverCtx.state = GAMEOVER_DEATH_DELAY_MENU;
     }
@@ -8802,7 +8824,7 @@ s32 func_80845BA0(GlobalContext* arg0, Player* arg1, f32* arg2, s32 arg3) {
 
 s32 func_80845C68(GlobalContext* globalCtx, s32 arg1) {
     if (arg1 == 0) {
-        Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0xDFF);
+        Play_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0xDFF);
     }
     gSaveContext.respawn[RESPAWN_MODE_DOWN].data = 0;
     return arg1;
@@ -8853,10 +8875,10 @@ void func_80845CA4(Player* this, GlobalContext* globalCtx) {
 
             temp = func_80845BA0(globalCtx, this, &sp34, sp30);
 
-            if ((this->unk_850 == 0) ||
-                ((temp == 0) && (this->linearVelocity == 0.0f) && (Gameplay_GetCamera(globalCtx, 0)->unk_14C & 0x10))) {
+            if ((this->unk_850 == 0) || ((temp == 0) && (this->linearVelocity == 0.0f) &&
+                                         (Play_GetCamera(globalCtx, CAM_ID_MAIN)->unk_14C & 0x10))) {
 
-                func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+                func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
                 func_80845C68(globalCtx, gSaveContext.respawn[RESPAWN_MODE_DOWN].data);
 
                 if (!func_8083B644(this, globalCtx)) {
@@ -8890,8 +8912,8 @@ void func_80845EF8(Player* this, GlobalContext* globalCtx) {
             if (globalCtx->roomCtx.prevRoom.num >= 0) {
                 func_80097534(globalCtx, &globalCtx->roomCtx);
             }
-            func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
-            Gameplay_SetupRespawnPoint(globalCtx, 0, 0xDFF);
+            func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
+            Play_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0xDFF);
         }
         return;
     }
@@ -9194,7 +9216,7 @@ void func_808468E8(GlobalContext* globalCtx, Player* this) {
     func_80835C58(globalCtx, this, func_8084F9C0, 0);
     this->stateFlags1 |= PLAYER_STATE1_29;
     this->fallStartHeight = this->actor.world.pos.y;
-    OnePointCutscene_Init(globalCtx, 5110, 40, &this->actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 5110, 40, &this->actor, CAM_ID_MAIN);
 }
 
 void func_80846978(GlobalContext* globalCtx, Player* this) {
@@ -9248,7 +9270,8 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
 
     Effect_Add(globalCtx, &this->meleeWeaponEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
-    this->unk_46C = SUBCAM_NONE;
+    this->subCamId = CAM_ID_NONE;
+
     Collider_InitCylinder(globalCtx, &this->cylinder);
     Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &D_80854624);
     Collider_InitQuad(globalCtx, &this->meleeWeaponQuads[0]);
@@ -9273,8 +9296,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     SceneTableEntry* scene = globalCtx->loadedScene;
     u32 titleFileSize;
     s32 initMode;
-    s32 sp50;
-    s32 sp4C;
+    s32 respawnFlag;
+    s32 respawnMode;
 
     globalCtx->shootingGalleryStatus = globalCtx->bombchuBowlingStatus = 0;
 
@@ -9299,34 +9322,34 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player_InitCommon(this, globalCtx, gPlayerSkelHeaders[((void)0, gSaveContext.linkAge)]);
     this->giObjectSegment = (void*)(((u32)ZeldaArena_MallocDebug(0x3008, "../z_player.c", 17175) + 8) & ~0xF);
 
-    sp50 = gSaveContext.respawnFlag;
+    respawnFlag = gSaveContext.respawnFlag;
 
-    if (sp50 != 0) {
-        if (sp50 == -3) {
+    if (respawnFlag != 0) {
+        if (respawnFlag == -3) {
             thisx->params = gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams;
         } else {
-            if ((sp50 == 1) || (sp50 == -1)) {
+            if ((respawnFlag == 1) || (respawnFlag == -1)) {
                 this->unk_A86 = -2;
             }
 
-            if (sp50 < 0) {
-                sp4C = 0;
+            if (respawnFlag < 0) {
+                respawnMode = RESPAWN_MODE_DOWN;
             } else {
-                sp4C = sp50 - 1;
-                Math_Vec3f_Copy(&thisx->world.pos, &gSaveContext.respawn[sp50 - 1].pos);
+                respawnMode = respawnFlag - 1;
+                Math_Vec3f_Copy(&thisx->world.pos, &gSaveContext.respawn[respawnMode].pos);
                 Math_Vec3f_Copy(&thisx->home.pos, &thisx->world.pos);
                 Math_Vec3f_Copy(&thisx->prevPos, &thisx->world.pos);
                 this->fallStartHeight = thisx->world.pos.y;
-                this->currentYaw = thisx->shape.rot.y = gSaveContext.respawn[sp4C].yaw;
-                thisx->params = gSaveContext.respawn[sp4C].playerParams;
+                this->currentYaw = thisx->shape.rot.y = gSaveContext.respawn[respawnMode].yaw;
+                thisx->params = gSaveContext.respawn[respawnMode].playerParams;
             }
 
-            globalCtx->actorCtx.flags.tempSwch = gSaveContext.respawn[sp4C].tempSwchFlags & 0xFFFFFF;
-            globalCtx->actorCtx.flags.tempCollect = gSaveContext.respawn[sp4C].tempCollectFlags;
+            globalCtx->actorCtx.flags.tempSwch = gSaveContext.respawn[respawnMode].tempSwchFlags & 0xFFFFFF;
+            globalCtx->actorCtx.flags.tempCollect = gSaveContext.respawn[respawnMode].tempCollectFlags;
         }
     }
 
-    if ((sp50 == 0) || (sp50 < -1)) {
+    if ((respawnFlag == 0) || (respawnFlag < -1)) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
             if ((gSaveContext.sceneSetupIndex < 4) &&
@@ -9341,7 +9364,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
         gSaveContext.showTitleCard = true;
     }
 
-    if (func_80845C68(globalCtx, (sp50 == 2) ? 1 : 0) == 0) {
+    if (func_80845C68(globalCtx, (respawnFlag == 2) ? 1 : 0) == 0) {
         gSaveContext.respawn[RESPAWN_MODE_DOWN].playerParams = (thisx->params & 0xFF) | 0xD00;
     }
 
@@ -9874,11 +9897,11 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
         seqMode = SEQ_MODE_DEFAULT;
 
         if (this->csMode != 0) {
-            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_NORMAL);
+            Camera_ChangeMode(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_NORMAL);
         } else if (!(this->stateFlags1 & PLAYER_STATE1_20)) {
             if ((this->actor.parent != NULL) && (this->stateFlags3 & PLAYER_STATE3_7)) {
                 camMode = CAM_MODE_HOOKSHOT;
-                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->actor.parent);
+                Camera_SetParam(Play_GetCamera(globalCtx, CAM_ID_MAIN), 8, this->actor.parent);
             } else if (func_8084377C == this->func_674) {
                 camMode = CAM_MODE_STILL;
             } else if (this->stateFlags2 & PLAYER_STATE2_8) {
@@ -9895,12 +9918,12 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
                 } else {
                     camMode = CAM_MODE_BATTLE;
                 }
-                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, unk_664);
+                Camera_SetParam(Play_GetCamera(globalCtx, CAM_ID_MAIN), 8, unk_664);
             } else if (this->stateFlags1 & PLAYER_STATE1_12) {
                 camMode = CAM_MODE_CHARGE;
             } else if (this->stateFlags1 & PLAYER_STATE1_25) {
                 camMode = CAM_MODE_FOLLOWBOOMERANG;
-                Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, this->boomerangActor);
+                Camera_SetParam(Play_GetCamera(globalCtx, CAM_ID_MAIN), 8, this->boomerangActor);
             } else if (this->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14)) {
                 if (func_80833B2C(this)) {
                     camMode = CAM_MODE_HANGZ;
@@ -9935,7 +9958,7 @@ void Player_UpdateCamAndSeqModes(GlobalContext* globalCtx, Player* this) {
                 }
             }
 
-            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), camMode);
+            Camera_ChangeMode(Play_GetCamera(globalCtx, CAM_ID_MAIN), camMode);
         } else {
             // First person mode
             seqMode = SEQ_MODE_STILL;
@@ -10713,7 +10736,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         Player_DrawGameplay(globalCtx, this, lod, gCullBackDList, overrideLimbDraw);
 
         if (this->invincibilityTimer > 0) {
-            POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
+            POLY_OPA_DISP = Play_SetFog(globalCtx, POLY_OPA_DISP);
         }
 
         if (this->stateFlags2 & PLAYER_STATE2_14) {
@@ -10954,7 +10977,7 @@ void func_8084B530(Player* this, GlobalContext* globalCtx) {
             this->stateFlags2 &= ~PLAYER_STATE2_13;
         }
 
-        func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+        func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
 
         if (!func_8084B4D4(globalCtx, this) && !func_8084B3CC(globalCtx, this) && !func_8083ADD4(globalCtx, this)) {
             if ((this->targetActor != this->interactRangeActor) || !func_8083E5A8(this, globalCtx)) {
@@ -11775,7 +11798,7 @@ void func_8084D3E4(Player* this, GlobalContext* globalCtx) {
             gSaveContext.horseData.angle = rideActor->actor.shape.rot.y;
         }
     } else {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_NORMAL0);
+        Camera_ChangeSetting(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_SET_NORMAL0);
 
         if (this->mountSide < 0) {
             D_808549C4[0].field = 0x2828;
@@ -12024,7 +12047,7 @@ void func_8084DF6C(GlobalContext* globalCtx, Player* this) {
     this->unk_862 = 0;
     this->stateFlags1 &= ~(PLAYER_STATE1_10 | PLAYER_STATE1_11);
     this->getItemId = GI_NONE;
-    func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+    func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
 }
 
 void func_8084DFAC(GlobalContext* globalCtx, Player* this) {
@@ -12069,7 +12092,7 @@ s32 func_8084DFF4(GlobalContext* globalCtx, Player* this) {
     } else {
         if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
             if (this->getItemId == GI_GAUNTLETS_SILVER) {
-                globalCtx->nextEntranceIndex = 0x0123;
+                globalCtx->nextEntranceIndex = ENTR_SPOT11_0;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.nextCutsceneIndex = 0xFFF1;
                 globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
@@ -12126,7 +12149,9 @@ void func_8084E368(Player* this, GlobalContext* globalCtx) {
     func_8084AEEC(this, &this->linearVelocity, 0.0f, this->actor.shape.rot.y);
 }
 
-static s16 D_808549D4[] = { 0x0600, 0x04F6, 0x0604, 0x01F1, 0x0568, 0x05F4 };
+static s16 sWarpSongEntrances[] = {
+    ENTR_SPOT05_2, ENTR_SPOT17_4, ENTR_SPOT06_8, ENTR_SPOT11_5, ENTR_SPOT02_7, ENTR_TOKINOMA_7,
+};
 
 void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
@@ -12145,7 +12170,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-        func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+        func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
 
         if ((this->targetActor != NULL) && (this->targetActor == this->unk_6A8)) {
             func_80853148(globalCtx, this->targetActor);
@@ -12160,7 +12185,7 @@ void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
         this->stateFlags2 &= ~(PLAYER_STATE2_23 | PLAYER_STATE2_24 | PLAYER_STATE2_25);
         this->unk_6A8 = NULL;
     } else if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_02) {
-        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = D_808549D4[globalCtx->msgCtx.lastPlayedSong];
+        gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex = sWarpSongEntrances[globalCtx->msgCtx.lastPlayedSong];
         gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams = 0x5FF;
         gSaveContext.respawn[RESPAWN_MODE_RETURN].data = globalCtx->msgCtx.lastPlayedSong;
 
@@ -12355,7 +12380,7 @@ void func_8084EAC0(Player* this, GlobalContext* globalCtx) {
         }
 
         func_8083C0E8(this, globalCtx);
-        func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+        func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
     } else if (this->unk_850 == 1) {
         if ((gSaveContext.healthAccumulator == 0) && (gSaveContext.unk_13F0 != 9)) {
             func_80832B78(globalCtx, this, &gPlayerAnim_002660);
@@ -12392,7 +12417,7 @@ void func_8084ECA4(Player* this, GlobalContext* globalCtx) {
                 this->unk_850 = 1;
             } else if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_CLOSING) {
                 this->unk_84F = 0;
-                func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+                func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
             }
         } else {
             func_8083C0E8(this, globalCtx);
@@ -12442,7 +12467,7 @@ static Vec3f D_80854A1C = { 0.0f, 0.0f, 5.0f };
 void func_8084EED8(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         func_8083C0E8(this, globalCtx);
-        func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+        func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
         return;
     }
 
@@ -12459,7 +12484,7 @@ void func_8084EED8(Player* this, GlobalContext* globalCtx) {
 static BottleDropInfo D_80854A28[] = {
     { ACTOR_EN_FISH, FISH_DROPPED },
     { ACTOR_EN_ICE_HONO, 0 },
-    { ACTOR_EN_INSECT, 2 },
+    { ACTOR_EN_INSECT, INSECT_TYPE_FIRST_DROPPED },
 };
 
 static struct_80832924 D_80854A34[] = {
@@ -12472,7 +12497,7 @@ void func_8084EFC0(Player* this, GlobalContext* globalCtx) {
 
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {
         func_8083C0E8(this, globalCtx);
-        func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+        func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
         return;
     }
 
@@ -12540,7 +12565,7 @@ void func_8084F104(Player* this, GlobalContext* globalCtx) {
                     func_8083C0E8(this, globalCtx);
                 }
 
-                func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+                func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
             }
         }
     } else if (this->unk_850 >= 0) {
@@ -12684,12 +12709,12 @@ void func_8084F88C(Player* this, GlobalContext* globalCtx) {
 
         if (this->unk_84F != 0) {
             if (globalCtx->sceneNum == 9) {
-                Gameplay_TriggerRespawn(globalCtx);
-                globalCtx->nextEntranceIndex = 0x0088;
+                Play_TriggerRespawn(globalCtx);
+                globalCtx->nextEntranceIndex = ENTR_ICE_DOUKUTO_0;
             } else if (this->unk_84F < 0) {
-                Gameplay_TriggerRespawn(globalCtx);
+                Play_TriggerRespawn(globalCtx);
             } else {
-                Gameplay_TriggerVoidOut(globalCtx);
+                Play_TriggerVoidOut(globalCtx);
             }
 
             globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
@@ -12788,7 +12813,7 @@ s32 func_8084FCAC(Player* this, GlobalContext* globalCtx) {
         D_808535D0 ^= 1;
 
         if (D_808535D0) {
-            Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), CAM_MODE_BOWARROWZ);
+            Camera_ChangeMode(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_MODE_BOWARROWZ);
         }
     }
 
@@ -13034,7 +13059,7 @@ void func_8085063C(Player* this, GlobalContext* globalCtx) {
         }
 
         func_80853080(this, globalCtx);
-        func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+        func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
     }
 }
 
@@ -13100,7 +13125,7 @@ void func_808507F4(Player* this, GlobalContext* globalCtx) {
         if (this->unk_84F < 0) {
             if ((this->itemActionParam == PLAYER_AP_NAYRUS_LOVE) || (gSaveContext.unk_13F0 == 0)) {
                 func_80839FFC(this, globalCtx);
-                func_8005B1A4(Gameplay_GetCamera(globalCtx, 0));
+                func_8005B1A4(Play_GetCamera(globalCtx, CAM_ID_MAIN));
             }
         } else {
             if (this->unk_850 == 0) {
@@ -13130,7 +13155,7 @@ void func_808507F4(Player* this, GlobalContext* globalCtx) {
 
             if (this->unk_850 == 0) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 1;
-                Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_TOP, 0x6FF);
+                Play_SetupRespawnPoint(globalCtx, RESPAWN_MODE_TOP, 0x6FF);
                 gSaveContext.fw.set = 1;
                 gSaveContext.fw.pos.x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x;
                 gSaveContext.fw.pos.y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y;

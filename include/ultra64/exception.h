@@ -1,10 +1,9 @@
 #ifndef ULTRA64_EXCEPTION_H
 #define ULTRA64_EXCEPTION_H
 
-#include "types.h"
-
 // Interrupt masks
 #define OS_IM_NONE      0x00000001
+#define OS_IM_RCP       0x00000401
 #define OS_IM_SW1       0x00000501
 #define OS_IM_SW2       0x00000601
 #define OS_IM_CART      0x00000C01
@@ -24,6 +23,13 @@
 #define RCP_IMASK       0x003F0000
 #define RCP_IMASKSHIFT  16
 
+// OSHWIntr values
+#define OS_INTR_CART    1
+
+#ifdef _LANGUAGE_C
+
+#include "types.h"
+
 typedef u32 OSIntMask;
 typedef u32 OSHWIntr;
 
@@ -41,5 +47,16 @@ void __osSetGlobalIntMask(OSHWIntr mask);
 void __osResetGlobalIntMask(OSHWIntr mask);
 
 extern __osHwInt __osHwIntTable[];
+
+#else
+
+// __osHwInt struct member offsets
+#define HWINT_CALLBACK 0x00
+#define HWINT_SP       0x04
+
+// __osHwInt struct size
+#define HWINT_SIZE     0x8
+
+#endif
 
 #endif

@@ -260,7 +260,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
     this->yTarget = this->actor.yDistToPlayer;
     func_8002DF38(globalCtx, &this->actor, 0x25);
-    OnePointCutscene_Init(globalCtx, 9500, 9999, &this->actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 9500, 9999, &this->actor, CAM_ID_MAIN);
 }
 
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
@@ -467,7 +467,7 @@ void EnWallmas_TakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0x1E) {
         func_80078884(NA_SE_OC_ABYSS);
-        Gameplay_TriggerRespawn(globalCtx);
+        Play_TriggerRespawn(globalCtx);
     }
 }
 
@@ -503,7 +503,7 @@ void EnWallmas_Stun(EnWallmas* this, GlobalContext* globalCtx) {
 void EnWallmas_ColUpdate(EnWallmas* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         this->collider.base.acFlags &= ~AC_HIT;
-        Actor_SetDropFlag(&this->actor, &this->collider.info, 1);
+        Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 Enemy_StartFinishingBlow(globalCtx, &this->actor);

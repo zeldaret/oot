@@ -94,7 +94,7 @@ void BgHakaShip_WaitForSong(BgHakaShip* this, GlobalContext* globalCtx) {
             this->counter = 130;
             this->actionFunc = BgHakaShip_CutsceneStationary;
             osSyncPrintf("シーン 外輪船 ...  アァクション！！\n");
-            OnePointCutscene_Init(globalCtx, 3390, 999, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3390, 999, &this->dyna.actor, CAM_ID_MAIN);
         }
     }
 }
@@ -127,7 +127,7 @@ void BgHakaShip_Move(BgHakaShip* this, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x - 7650.0f;
         this->dyna.actor.speedXZ = 0.0f;
     }
-    if (distanceFromHome > 7600.0f && !Gameplay_InCsMode(globalCtx)) {
+    if (distanceFromHome > 7600.0f && !Play_InCsMode(globalCtx)) {
         this->counter = 40;
         this->dyna.actor.speedXZ = 0.0f;
         Message_StartTextbox(globalCtx, 0x5071, NULL);
@@ -179,7 +179,7 @@ void BgHakaShip_CrashFall(BgHakaShip* this, GlobalContext* globalCtx) {
     } else {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
         if ((this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 500.0f) && func_8004356C(&this->dyna)) {
-            Gameplay_TriggerVoidOut(globalCtx);
+            Play_TriggerVoidOut(globalCtx);
         }
     }
 }

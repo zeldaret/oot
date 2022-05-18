@@ -141,9 +141,8 @@ u16 func_80A79010(GlobalContext* globalCtx) {
     if (IS_NIGHT) {
         return 0x204E;
     }
-    switch (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-            (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) {
-        case EVENTINF_00_MASK:
+    switch (GET_EVENTINF_HORSES_STATE()) {
+        case EVENTINF_HORSES_STATE_1:
             if (!(player->stateFlags1 & PLAYER_STATE1_23)) {
                 return 0x2036;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_1B)) {
@@ -155,20 +154,20 @@ u16 func_80A79010(GlobalContext* globalCtx) {
             } else {
                 return 0x2037;
             }
-        case EVENTINF_00_MASK | EVENTINF_01_MASK:
-            if (GET_EVENTINF(EVENTINF_06) || GET_EVENTINF(EVENTINF_05)) {
+        case EVENTINF_HORSES_STATE_3:
+            if (GET_EVENTINF(EVENTINF_HORSES_06) || GET_EVENTINF(EVENTINF_HORSES_05)) {
                 return 0x203E;
             } else {
                 return 0x203D;
             }
-        case EVENTINF_02_MASK:
+        case EVENTINF_HORSES_STATE_4:
             return 0x203A;
-        case EVENTINF_00_MASK | EVENTINF_02_MASK:
-        case EVENTINF_01_MASK | EVENTINF_02_MASK:
+        case EVENTINF_HORSES_STATE_5:
+        case EVENTINF_HORSES_STATE_6:
             return 0x203C;
-        case EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK:
+        case EVENTINF_HORSES_STATE_7:
             return 0x205B;
-        case EVENTINF_01_MASK:
+        case EVENTINF_HORSES_STATE_2:
         default:
             if (GET_INFTABLE(INFTABLE_9A)) {
                 return 0x2031;
@@ -258,10 +257,9 @@ s16 func_80A7924C(GlobalContext* globalCtx, Actor* thisx) {
                 sp18 = 2;
             } else {
                 Message_ContinueTextbox(globalCtx, this->actor.textId = 0x2039);
-                gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
-                    ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
-                CLEAR_EVENTINF(EVENTINF_05);
-                CLEAR_EVENTINF(EVENTINF_06);
+                SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+                CLEAR_EVENTINF(EVENTINF_HORSES_05);
+                CLEAR_EVENTINF(EVENTINF_HORSES_06);
                 this->actionFunc = func_80A7A4C8;
             }
             break;
@@ -426,7 +424,7 @@ void func_80A79AB4(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A79BAC(EnIn* this, GlobalContext* globalCtx, s32 index, u32 transitionType) {
-    s16 entrances[] = { 0x0558, 0x04CA, 0x0157 };
+    s16 entrances[] = { ENTR_SPOT20_8, ENTR_SPOT20_6, ENTR_SPOT20_0 };
 
     globalCtx->nextEntranceIndex = entrances[index];
     if (index == 2) {
@@ -444,21 +442,21 @@ void func_80A79BAC(EnIn* this, GlobalContext* globalCtx, s32 index, u32 transiti
 
 void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
-    Vec3f sp48;
-    Vec3f sp3C;
+    Vec3f subCamAt;
+    Vec3f subCamEye;
     Vec3s zeroVec = { 0, 0, 0 };
 
-    this->camId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
-    sp48.x = this->actor.world.pos.x;
-    sp48.y = this->actor.world.pos.y + 60.0f;
-    sp48.z = this->actor.world.pos.z;
-    sp3C.x = sp48.x;
-    sp3C.y = sp48.y - 22.0f;
-    sp3C.z = sp48.z + 40.0f;
-    Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp48, &sp3C);
-    this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &sp3C);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    subCamAt.x = this->actor.world.pos.x;
+    subCamAt.y = this->actor.world.pos.y + 60.0f;
+    subCamAt.z = this->actor.world.pos.z;
+    subCamEye.x = subCamAt.x;
+    subCamEye.y = subCamAt.y - 22.0f;
+    subCamEye.z = subCamAt.z + 40.0f;
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+    this->actor.shape.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, &subCamEye);
     this->unk_308.unk_08 = zeroVec;
     this->unk_308.unk_0E = zeroVec;
     Message_StartTextbox(globalCtx, 0x2025, NULL);
@@ -492,7 +490,7 @@ void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     respawnPos = respawn->pos;
     // hardcoded coords for lon lon entrance
     if (D_80A7B998 == 0 && respawnPos.x == 1107.0f && respawnPos.y == 0.0f && respawnPos.z == -3740.0f) {
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] = 0;
+        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
         D_80A7B998 = 1;
     }
     this->actionFunc = func_80A79FB0;
@@ -516,7 +514,7 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (func_80A7975C(this, globalCtx)) {
-            CLEAR_EVENTINF(EVENTINF_0F);
+            SET_EVENTINF_HORSES_0F(0);
             return;
         }
         Actor_SetScale(&this->actor, 0.01f);
@@ -545,24 +543,23 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
                 break;
             default:
-                switch (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) {
-                    case 0:
-                    case EVENTINF_01_MASK:
-                    case EVENTINF_00_MASK | EVENTINF_01_MASK:
-                    case EVENTINF_02_MASK:
-                    case EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK:
+                switch (GET_EVENTINF_HORSES_STATE()) {
+                    case EVENTINF_HORSES_STATE_0:
+                    case EVENTINF_HORSES_STATE_2:
+                    case EVENTINF_HORSES_STATE_3:
+                    case EVENTINF_HORSES_STATE_4:
+                    case EVENTINF_HORSES_STATE_7:
                         if (this->actor.params == 2) {
                             sp3C = 1;
                         }
                         break;
-                    case EVENTINF_00_MASK:
+                    case EVENTINF_HORSES_STATE_1:
                         if (this->actor.params == 3) {
                             sp3C = 1;
                         }
                         break;
-                    case EVENTINF_00_MASK | EVENTINF_02_MASK:
-                    case EVENTINF_01_MASK | EVENTINF_02_MASK:
+                    case EVENTINF_HORSES_STATE_5:
+                    case EVENTINF_HORSES_STATE_6:
                         if (this->actor.params == 4) {
                             sp3C = 1;
                         }
@@ -572,37 +569,36 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
                     Actor_Kill(&this->actor);
                     return;
                 }
-                switch (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                        (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) {
-                    case 0:
-                    case EVENTINF_01_MASK:
+                switch (GET_EVENTINF_HORSES_STATE()) {
+                    case EVENTINF_HORSES_STATE_0:
+                    case EVENTINF_HORSES_STATE_2:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A4C8;
-                        gSaveContext.eventInf[EVENTINF_0X_INDEX] = 0;
+                        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] = 0;
                         break;
-                    case EVENTINF_00_MASK:
+                    case EVENTINF_HORSES_STATE_1:
                         this->actor.targetMode = 3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A568;
                         func_80088B34(0x3C);
                         break;
-                    case EVENTINF_00_MASK | EVENTINF_01_MASK:
+                    case EVENTINF_HORSES_STATE_3:
                         EnIn_ChangeAnim(this, ENIN_ANIM_4);
                         this->actionFunc = func_80A7A770;
                         break;
-                    case EVENTINF_02_MASK:
+                    case EVENTINF_HORSES_STATE_4:
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7A940;
                         break;
-                    case EVENTINF_00_MASK | EVENTINF_02_MASK:
-                    case EVENTINF_01_MASK | EVENTINF_02_MASK:
+                    case EVENTINF_HORSES_STATE_5:
+                    case EVENTINF_HORSES_STATE_6:
                         this->actor.targetMode = 3;
                         EnIn_ChangeAnim(this, ENIN_ANIM_6);
                         this->unk_1EC = 8;
                         this->actionFunc = func_80A7AA40;
                         break;
-                    case EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK:
+                    case EVENTINF_HORSES_STATE_7:
                         EnIn_ChangeAnim(this, ENIN_ANIM_2);
                         this->actionFunc = func_80A7A848;
                         break;
@@ -643,12 +639,8 @@ void func_80A7A4BC(EnIn* this, GlobalContext* globalCtx) {
 void func_80A7A4C8(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
         func_80A79BAC(this, globalCtx, 1, TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST));
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-            EVENTINF_00_MASK;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_1);
+        SET_EVENTINF_HORSES_0F(1);
         CLEAR_INFTABLE(INFTABLE_A2);
         Environment_ForcePlaySequence(NA_BGM_HORSE);
         globalCtx->msgCtx.stateTimer = 0;
@@ -679,13 +671,8 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                 this->unk_308.unk_00 = 0;
                 return;
             }
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_04_MASK) |
-                (((EnHorse*)GET_PLAYER(globalCtx)->rideActor)->type << EVENTINF_04_SHIFT);
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-                EVENTINF_01_MASK;
+            SET_EVENTINF_HORSES_HORSETYPE(((EnHorse*)GET_PLAYER(globalCtx)->rideActor)->type);
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
             phi_a2 = 2;
             transitionType = TRANS_TYPE_FADE_BLACK;
         } else {
@@ -697,15 +684,13 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                     SET_INFTABLE(INFTABLE_AB);
                 }
             }
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
-                ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             phi_a2 = 0;
             transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_BLACK, TCS_FAST);
         }
         func_80A79BAC(this, globalCtx, phi_a2, transitionType);
         globalCtx->msgCtx.stateTimer = 0;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+        SET_EVENTINF_HORSES_0F(1);
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
     }
@@ -719,14 +704,11 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         EnIn_ChangeAnim(this, ENIN_ANIM_3);
         this->actionFunc = func_80A7A848;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-            (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK);
+        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_7);
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & 0xFFFF) | EVENTINF_05_MASK;
-        if (!GET_EVENTINF(EVENTINF_06)) {
+        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_05_MASK;
+        if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
             globalCtx->msgCtx.stateTimer = 4;
             globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
@@ -736,23 +718,18 @@ void func_80A7A770(EnIn* this, GlobalContext* globalCtx) {
 void func_80A7A848(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
         if ((globalCtx->msgCtx.choiceIndex == 0 && gSaveContext.rupees < 50) || globalCtx->msgCtx.choiceIndex == 1) {
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] &=
-                ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
             this->actionFunc = func_80A7A4C8;
         } else {
             func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-                 ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-                EVENTINF_01_MASK;
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-                (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+            SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
+            SET_EVENTINF_HORSES_0F(1);
             globalCtx->msgCtx.stateTimer = 0;
             globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         }
         this->unk_308.unk_00 = 0;
-        CLEAR_EVENTINF(EVENTINF_05);
-        CLEAR_EVENTINF(EVENTINF_06);
+        CLEAR_EVENTINF(EVENTINF_HORSES_05);
+        CLEAR_EVENTINF(EVENTINF_HORSES_06);
     }
 }
 
@@ -770,49 +747,45 @@ void func_80A7A940(EnIn* this, GlobalContext* globalCtx) {
     if (this->unk_308.unk_00 == 2) {
         this->actor.flags &= ~ACTOR_FLAG_16;
         func_80A79BAC(this, globalCtx, 2, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-             ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) |
-            EVENTINF_01_MASK;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_2);
+        SET_EVENTINF_HORSES_0F(1);
         globalCtx->msgCtx.stateTimer = 0;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & 0xFFFF) | EVENTINF_06_MASK;
+        gSaveContext.eventInf[EVENTINF_HORSES_INDEX] =
+            (gSaveContext.eventInf[EVENTINF_HORSES_INDEX] & 0xFFFF) | EVENTINF_HORSES_06_MASK;
     }
 }
 
 void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    Vec3f sp30;
-    Vec3f sp24;
+    Vec3f subCamAt;
+    Vec3f subCamEye;
 
-    this->camId = Gameplay_CreateSubCamera(globalCtx);
-    this->activeCamId = globalCtx->activeCamera;
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    this->returnToCamId = globalCtx->activeCamId;
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
-    this->unk_2F0 = 0.0f;
-    this->unk_2F4 = 50.0f;
-    this->unk_2F8 = 0.0f;
-    this->unk_2FC = 0.0f;
-    this->unk_300 = 50.0f;
-    this->unk_304 = 50.0f;
+    this->subCamAtOffset.x = 0.0f;
+    this->subCamAtOffset.y = 50.0f;
+    this->subCamAtOffset.z = 0.0f;
+    this->subCamEyeOffset.x = 0.0f;
+    this->subCamEyeOffset.y = 50.0f;
+    this->subCamEyeOffset.z = 50.0f;
 
-    sp30 = this->actor.world.pos;
-    sp24 = this->actor.world.pos;
+    subCamAt = this->actor.world.pos;
+    subCamEye = this->actor.world.pos;
 
-    sp30.x += this->unk_2F0;
-    sp30.y += this->unk_2F4;
-    sp30.z += this->unk_2F8;
+    subCamAt.x += this->subCamAtOffset.x;
+    subCamAt.y += this->subCamAtOffset.y;
+    subCamAt.z += this->subCamAtOffset.z;
 
-    sp24.x += this->unk_2FC;
-    sp24.y += this->unk_300;
-    sp24.z += this->unk_304;
+    subCamEye.x += this->subCamEyeOffset.x;
+    subCamEye.y += this->subCamEyeOffset.y;
+    subCamEye.z += this->subCamEyeOffset.z;
 
-    Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp30, &sp24);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     this->actor.textId = 0x203B;
     Message_StartTextbox(globalCtx, this->actor.textId, NULL);
     this->unk_308.unk_00 = 1;
@@ -825,8 +798,8 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
-    Vec3f sp48;
-    Vec3f sp3C;
+    Vec3f subCamAt;
+    Vec3f subCamEye;
 
     if (player->rideActor != NULL) {
         player->rideActor->freezeTimer = 10;
@@ -860,29 +833,29 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
         if (globalCtx->csCtx.frames == 44) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_RONRON_DOOR_CLOSE);
         }
-        Math_SmoothStepToF(&this->unk_2F0, 0.0f, 0.06f, 10000.0f, 0.0f);
-        Math_SmoothStepToF(&this->unk_2F4, 50.0f, 0.06f, 10000.0f, 0.0f);
-        Math_SmoothStepToF(&this->unk_2F8, 0.0f, 0.06f, 10000.0f, 0.0f);
-        Math_SmoothStepToF(&this->unk_2FC, 0.0f, 0.06f, 10000.0f, 0.0f);
-        Math_SmoothStepToF(&this->unk_300, 150.0f, 0.06f, 10000.0f, 0.0f);
-        Math_SmoothStepToF(&this->unk_304, 300.0f, 0.06f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->subCamAtOffset.x, 0.0f, 0.06f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->subCamAtOffset.y, 50.0f, 0.06f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->subCamAtOffset.z, 0.0f, 0.06f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->subCamEyeOffset.x, 0.0f, 0.06f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->subCamEyeOffset.y, 150.0f, 0.06f, 10000.0f, 0.0f);
+        Math_SmoothStepToF(&this->subCamEyeOffset.z, 300.0f, 0.06f, 10000.0f, 0.0f);
 
-        sp48 = this->actor.world.pos;
-        sp3C = this->actor.world.pos;
+        subCamAt = this->actor.world.pos;
+        subCamEye = this->actor.world.pos;
 
-        sp48.x += this->unk_2F0;
-        sp48.y += this->unk_2F4;
-        sp48.z += this->unk_2F8;
-        sp3C.x += this->unk_2FC;
-        sp3C.y += this->unk_300;
-        sp3C.z += this->unk_304;
-        Gameplay_CameraSetAtEye(globalCtx, this->camId, &sp48, &sp3C);
+        subCamAt.x += this->subCamAtOffset.x;
+        subCamAt.y += this->subCamAtOffset.y;
+        subCamAt.z += this->subCamAtOffset.z;
+        subCamEye.x += this->subCamEyeOffset.x;
+        subCamEye.y += this->subCamEyeOffset.y;
+        subCamEye.z += this->subCamEyeOffset.z;
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     }
 }
 
 void func_80A7AE84(EnIn* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->camId);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
+    Play_ClearCamera(globalCtx, this->subCamId);
     func_8002DF54(globalCtx, &this->actor, 7);
     Interface_ChangeAlpha(0x32);
     this->actionFunc = func_80A7AEF0;
@@ -897,7 +870,7 @@ void func_80A7AEF0(EnIn* this, GlobalContext* globalCtx) {
     pos.z += 90.0f * Math_CosS(this->actor.shape.rot.y);
     yaw = Math_Vec3f_Yaw(&pos, &player->actor.world.pos);
     if (ABS(yaw) > 0x4000) {
-        globalCtx->nextEntranceIndex = 0x0476;
+        globalCtx->nextEntranceIndex = ENTR_SPOT00_15;
         globalCtx->transitionTrigger = TRANS_TRIGGER_START;
         globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
         this->actionFunc = func_80A7B018;
@@ -925,11 +898,8 @@ void func_80A7B024(EnIn* this, GlobalContext* globalCtx) {
             SET_INFTABLE(INFTABLE_AB);
         }
         func_80A79BAC(this, globalCtx, 0, TRANS_TYPE_CIRCLE(TCA_STARBURST, TCC_BLACK, TCS_FAST));
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-            ~(EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK);
-        gSaveContext.eventInf[EVENTINF_0X_INDEX] =
-            (gSaveContext.eventInf[EVENTINF_0X_INDEX] & ~EVENTINF_0F_MASK) | EVENTINF_0F_MASK;
+        SET_EVENTINF_HORSES_STATE(EVENTINF_HORSES_STATE_0);
+        SET_EVENTINF_HORSES_0F(1);
         globalCtx->msgCtx.stateTimer = 4;
         globalCtx->msgCtx.msgMode = MSGMODE_TEXT_CLOSING;
         this->unk_308.unk_00 = 0;
@@ -950,9 +920,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);
         if (this->skelAnime.animation == &object_in_Anim_001BE0 &&
-            ((gSaveContext.eventInf[EVENTINF_0X_INDEX] &
-              (EVENTINF_00_MASK | EVENTINF_01_MASK | EVENTINF_02_MASK | EVENTINF_03_MASK)) !=
-             (EVENTINF_01_MASK | EVENTINF_02_MASK))) {
+            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_6) {
             func_80A79690(&this->skelAnime, this, globalCtx);
         }
         Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);

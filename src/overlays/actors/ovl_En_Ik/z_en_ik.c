@@ -723,7 +723,7 @@ void EnIk_UpdateDamage(EnIk* this, GlobalContext* globalCtx) {
     }
     sp38 = this->actor.world.pos;
     sp38.y += 50.0f;
-    Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, 1);
+    Actor_SetDropFlag(&this->actor, &this->bodyCollider.info, true);
     damageEffect = this->actor.colChkInfo.damageEffect;
     this->damageEffect = damageEffect & 0xFF;
     this->bodyCollider.base.acFlags &= ~AC_HIT;
@@ -1487,7 +1487,7 @@ void EnIk_CsAdvanceTo04(EnIk* this, GlobalContext* globalCtx) {
 void EnIk_CheckCsMode(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
 
-    if (!Gameplay_InCsMode(globalCtx)) {
+    if (!Play_InCsMode(globalCtx)) {
         this->actor.update = EnIk_Update;
         this->actor.draw = EnIk_Draw;
         Cutscene_SetSegment(globalCtx, gSpiritBossNabooruKnuckleDefeatCs);
