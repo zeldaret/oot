@@ -130,10 +130,9 @@ typedef enum {
  *   Capital U is unused
  *   3pttUUss
  *
- *
  * DESCRIPTION
  *   Request the active sequence to be stopped on the specified player (playerIndex).
- *   Start the next sequence in the queue and move all requests forward  place in the queue.
+ *   Start the next sequence in the queue and move all requests forward place in the queue.
  *   The sequence will gradually fade out over the course of (fadeOutTimer) frames at a rate of 30 fps.
  */
 #define AudioSeqCmd_UnqueueSequence(playerIndex, fadeOutTimer, seqId) \
@@ -638,7 +637,7 @@ typedef enum {
  *
  * DESCRIPTION
  *   This will reset the entire audio heap and rebuild it from 
- *   scratch  using the new audio specs indexed by (specId).
+ *   scratch using the audio specs defined in gAudioSpecs indexed by (specId).
  * 
  *   It will also change how the 16 channels for sequence NA_BGM_GENERAL_SFX are allocated
  *   to the 7 sfx banks using (sfxChannelLayout). There are 4 possible layouts indexed by 0-3.
