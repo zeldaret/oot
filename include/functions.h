@@ -1971,7 +1971,7 @@ void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax);
 void Audio_ClearSariaBgm2(void);
 void func_800F5510(u16 seqId);
 void func_800F5550(u16 seqId);
-void func_800F574C(f32 arg0, u8 arg2);
+void func_800F574C(f32 scaleTempoAndFreq, u8 duration);
 void func_800F5718(void);
 void func_800F5918(void);
 void func_800F595C(u16);

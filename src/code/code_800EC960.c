@@ -3146,7 +3146,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 AudioSeqCmd_DisableNewSequences(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 6:
-                AudioSeqCmd_SetSpec(0, sAudioSndContWork[sAudioSndContSel]);
+                AudioSeqCmd_RebuildAudioHeap(0, sAudioSndContWork[sAudioSndContSel]);
                 sAudioSubTrackInfoSpec = sAudioSndContWork[6];
                 if (sAudioSubTrackInfoPlayerSel > gAudioSpecs[sAudioSubTrackInfoSpec].numSequencePlayers - 1) {
                     sAudioSubTrackInfoPlayerSel = gAudioSpecs[sAudioSubTrackInfoSpec].numSequencePlayers - 1;
@@ -4606,18 +4606,19 @@ void func_800F5718(void) {
     }
 }
 
-void func_800F574C(f32 arg0, u8 arg2) {
-    if (arg0 == 1.0f) {
-        AudioSeqCmd_ResetTempo(SEQ_PLAYER_BGM_MAIN, arg2);
+void func_800F574C(f32 scaleTempoAndFreq, u8 duration) {
+    if (scaleTempoAndFreq == 1.0f) {
+        AudioSeqCmd_ResetTempo(SEQ_PLAYER_BGM_MAIN, duration);
     } else {
-        AudioSeqCmd_SetupScaleTempo(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, arg2, arg0 * 100.0f);
+        AudioSeqCmd_SetupScaleTempo(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
     }
-    AudioSeqCmd_SetupSetPlayerFreq(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, arg2, arg0 * 100.0f);
+
+    AudioSeqCmd_SetupSetPlayerFreq(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, duration, scaleTempoAndFreq * 100.0f);
 }
 
 void func_800F5918(void) {
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_TIMED_MINI_GAME &&
-        Audio_IsSeqCmdNotQueued(SEQ_CMD_START << 28, SEQ_CMD_MASK)) {
+        Audio_IsSeqCmdNotQueued(SEQ_CMD_PLAY << 28, SEQ_CMD_MASK)) {
         AudioSeqCmd_SetTempo(SEQ_PLAYER_BGM_MAIN, 5, 210);
     }
 }
@@ -4741,31 +4742,34 @@ void Audio_PlayFanfare(u16 seqId) {
 }
 
 void func_800F5CF8(void) {
-    u16 sp26;
-    u16 pad;
-    u16 sp22;
+    u16 seqIdBgmFanfare;
+    u16 seqIdBgmMain;
+    u16 seqIdBgmSub;
 
     if (D_8016B9F4 != 0) {
         D_8016B9F4--;
         if (D_8016B9F4 == 0) {
             Audio_QueueCmdS32(0xE3000000, SEQUENCE_TABLE);
             Audio_QueueCmdS32(0xE3000000, FONT_TABLE);
-            Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
-            sp26 = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
-            sp22 = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB);
-            if (sp26 == NA_BGM_DISABLED) {
+
+            seqIdBgmMain = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN);
+            seqIdBgmFanfare = Audio_GetActiveSeqId(SEQ_PLAYER_FANFARE);
+            seqIdBgmSub = Audio_GetActiveSeqId(SEQ_PLAYER_BGM_SUB);
+
+            (void)seqIdBgmMain; // suppresses set but unused warning
+            if (seqIdBgmFanfare == NA_BGM_DISABLED) {
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 1, 0, 5);
                 Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 1, 0, 5);
-                AudioSeqCmd_SetupSetPlayerVolumeWithFade(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 1, 10);
-                AudioSeqCmd_SetupSetPlayerVolumeWithFade(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 1, 10);
+                AudioSeqCmd_SetupRestorePlayerVolumeWithScale(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 1, 10);
+                AudioSeqCmd_SetupRestorePlayerVolumeWithScale(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 1, 10);
                 AudioSeqCmd_SetupDisableChannels(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 0);
-                if (sp22 != NA_BGM_LONLON) {
+                if (seqIdBgmSub != NA_BGM_LONLON) {
                     AudioSeqCmd_SetupDisableChannels(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
                 }
             }
             AudioSeqCmd_PlaySequence(SEQ_PLAYER_FANFARE, 1, 0, D_8016B9F6);
             AudioSeqCmd_DisableChannels(SEQ_PLAYER_BGM_MAIN, 0xFFFF);
-            if (sp22 != NA_BGM_LONLON) {
+            if (seqIdBgmSub != NA_BGM_LONLON) {
                 AudioSeqCmd_DisableChannels(SEQ_PLAYER_BGM_SUB, 0xFFFF);
             }
         }
@@ -5222,7 +5226,7 @@ void Audio_PlayNatureAmbienceSequence(u8 natureAmbienceId) {
 
         Audio_StartNatureAmbienceSequence(sNatureAmbienceDataIO[natureAmbienceId].playerIO,
                                           sNatureAmbienceDataIO[natureAmbienceId].channelMask);
-                                          
+
         while ((sNatureAmbienceDataIO[natureAmbienceId].channelIO[i] != 0xFF) && (i < 100)) {
             channelIdx = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
             port = sNatureAmbienceDataIO[natureAmbienceId].channelIO[i++];
