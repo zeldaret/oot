@@ -1033,7 +1033,7 @@ s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
 
     player->csMode = csMode;
     player->unk_448 = actor;
-    player->unk_46A = 0;
+    player->doorBgCamDataIndex = 0;
 
     return true;
 }
@@ -1042,7 +1042,7 @@ s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
     Player* player = GET_PLAYER(globalCtx);
 
     func_8002DF38(globalCtx, actor, csMode);
-    player->unk_46A = 1;
+    player->doorBgCamDataIndex = 1;
 
     return true;
 }

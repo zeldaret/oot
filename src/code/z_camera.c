@@ -8065,7 +8065,7 @@ s16 func_8005AD1C(Camera* camera, s16 arg1) {
 }
 
 /**
- * A bgCamDataIndex of -99 will save the door params without changine the camera setting
+ * A bgCamDataIndex of -99 will save the door params without changing the camera setting
  * A bgCamDataIndex of -1 uses the default door camera setting (CAM_SET_DOORC)
  * Otherwise, change the door camera setting by reading the bg surface data indexed at bgCamDataIndex
  */

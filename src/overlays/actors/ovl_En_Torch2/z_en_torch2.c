@@ -565,7 +565,7 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if ((this->actor.colChkInfo.health == 0) && sDeathFlag) {
         this->csMode = 0x18;
         this->unk_448 = &player->actor;
-        this->unk_46A = 1;
+        this->doorBgCamDataIndex = 1;
         sDeathFlag = false;
     }
     if ((this->invincibilityTimer == 0) && (this->actor.colChkInfo.health != 0) &&

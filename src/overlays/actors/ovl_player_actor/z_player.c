@@ -4373,9 +4373,9 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 }
 
                 if (doorShutter->dyna.actor.category == ACTORCAT_DOOR) {
-                    this->unk_46A = globalCtx->transiActorCtx.list[(u16)doorShutter->dyna.actor.params >> 10]
-                                        .sides[(doorDirection > 0) ? 0 : 1]
-                                        .effects;
+                    this->doorBgCamDataIndex = globalCtx->transiActorCtx.list[(u16)doorShutter->dyna.actor.params >> 10]
+                                                   .sides[(doorDirection > 0) ? 0 : 1]
+                                                   .bgCamDataIndex;
 
                     Actor_DisableLens(globalCtx);
                 }
@@ -4447,7 +4447,7 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                         Camera_ChangeDoorCam(Play_GetCamera(globalCtx, CAM_ID_MAIN), doorActor,
                                              globalCtx->transiActorCtx.list[(u16)doorActor->params >> 10]
                                                  .sides[(doorDirection > 0) ? 0 : 1]
-                                                 .effects,
+                                                 .bgCamDataIndex,
                                              0, 38.0f * D_808535EC, 26.0f * D_808535EC, 10.0f * D_808535EC);
                     }
                 }
@@ -4840,7 +4840,7 @@ s32 func_8083AD4C(GlobalContext* globalCtx, Player* this) {
 s32 func_8083ADD4(GlobalContext* globalCtx, Player* this) {
     if (this->unk_6AD == 3) {
         func_80835C58(globalCtx, this, func_80852E14, 0);
-        if (this->unk_46A != 0) {
+        if (this->doorBgCamDataIndex != 0) {
             this->stateFlags1 |= PLAYER_STATE1_29;
         }
         func_80832318(this);
