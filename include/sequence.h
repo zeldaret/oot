@@ -144,7 +144,8 @@ typedef enum {
     /* 0 */ VOL_SCALE_INDEX_BGM_MAIN,
     /* 1 */ VOL_SCALE_INDEX_FANFARE,
     /* 2 */ VOL_SCALE_INDEX_SFX,
-    /* 3 */ VOL_SCALE_INDEX_BGM_SUB
+    /* 3 */ VOL_SCALE_INDEX_BGM_SUB,
+    /* 4 */ VOL_SCALE_INDEX_MAX
 } VolumeScaleIndex;
 
 typedef struct {
@@ -163,7 +164,7 @@ typedef struct {
     /* 0x004 */ f32 volTarget;
     /* 0x008 */ f32 volVelocity;
     /* 0x00C */ u16 volDuration;
-    /* 0x00E */ u8 volScales[0x4];
+    /* 0x00E */ u8 volScales[VOL_SCALE_INDEX_MAX];
     /* 0x012 */ u8 volFadeTimer;
     /* 0x013 */ u8 fadeVolUpdate;
     /* 0x014 */ u32 tempoCmd;

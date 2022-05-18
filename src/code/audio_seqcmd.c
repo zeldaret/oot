@@ -423,7 +423,7 @@ void Audio_SetVolumeScale(u8 playerIndex, u8 scaleIndex, u8 targetVol, u8 volFad
         gActiveSeqs[playerIndex].fadeVolUpdate = 1;
         gActiveSeqs[playerIndex].volFadeTimer = volFadeTimer;
     } else {
-        for (i = 0, volScale = 1.0f; i < 4; i++) {
+        for (i = 0, volScale = 1.0f; i < VOL_SCALE_INDEX_MAX; i++) {
             volScale *= gActiveSeqs[playerIndex].volScales[i] / 127.0f;
         }
 
@@ -473,7 +473,7 @@ void Audio_UpdateActiveSequences(void) {
 
         if (gActiveSeqs[playerIndex].fadeVolUpdate) {
             volume = 1.0f;
-            for (j = 0; j < 4; j++) {
+            for (j = 0; j < VOL_SCALE_INDEX_MAX; j++) {
                 volume *= (gActiveSeqs[playerIndex].volScales[j] / 127.0f);
             }
             AudioSeqCmd_SetPlayerVol(playerIndex, gActiveSeqs[playerIndex].volFadeTimer, (u8)(volume * 127.0f));
@@ -645,7 +645,7 @@ void Audio_UpdateActiveSequences(void) {
                     case SEQ_SUB_CMD_SETUP_RESTART_SEQ:
                         AudioSeqCmd_PlaySequence(setupPlayerIndex, 1, 0, gActiveSeqs[setupPlayerIndex].seqId);
                         gActiveSeqs[setupPlayerIndex].fadeVolUpdate = 1;
-                        gActiveSeqs[setupPlayerIndex].volScales[1] = 0x7F;
+                        gActiveSeqs[setupPlayerIndex].volScales[VOL_SCALE_INDEX_FANFARE] = 0x7F;
                         break;
 
                     case SEQ_SUB_CMD_SETUP_TEMPO_SCALE:
@@ -736,7 +736,7 @@ void Audio_ResetSequences(void) {
         gActiveSeqs[playerIndex].setupFadeTimer = 0;
         gActiveSeqs[playerIndex].freqScaleChannelFlags = 0;
         gActiveSeqs[playerIndex].volChannelFlags = 0;
-        for (j = 0; j < 4; j++) {
+        for (j = 0; j < VOL_SCALE_INDEX_MAX; j++) {
             gActiveSeqs[playerIndex].volScales[j] = 0x7F;
         }
 
@@ -753,7 +753,7 @@ void Audio_ResetSequencesAndVolume(void) {
         gActiveSeqs[playerIndex].volCur = 1.0f;
         gActiveSeqs[playerIndex].volDuration = 0;
         gActiveSeqs[playerIndex].fadeVolUpdate = 0;
-        for (j = 0; j < 4; j++) {
+        for (j = 0; j < VOL_SCALE_INDEX_MAX; j++) {
             gActiveSeqs[playerIndex].volScales[j] = 0x7F;
         }
     }
