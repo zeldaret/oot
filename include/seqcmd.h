@@ -407,7 +407,7 @@ typedef enum {
  *   Cp2sUUUU
  *
  * DESCRIPTION
- *    Queue a request to restart (playerIndexTarget) to play its previous seqId once (playerIndex) is no longer playing.
+ *    Queue a request to restart (playerIndexTarget) to play its active seqId once (playerIndex) is no longer playing.
  */
 #define AudioSeqCmd_SetupRestartSequence(playerIndex, playerIndexTarget)                                              \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTART_SEQ << 20) | ((u8)(playerIndex) << 24) | \
@@ -473,11 +473,11 @@ typedef enum {
  *
  * DESCRIPTION
  *   This command is paired with (AudioSeqCmd_SetupPlaySequence) above.
- *   It will set the (fadeInTimer) used by (AudioSeqCmd_SetupPlaySequence) when called on (playerIndex)
+ *   It will set the (fadeInTimer) used by (AudioSeqCmd_SetupPlaySequence) when called on (playerIndexTarget)
  */
-#define AudioSeqCmd_SetupSetFadeInTimer(playerIndex, fadeInTimer)                                \
+#define AudioSeqCmd_SetupSetFadeInTimer(playerIndexTarget, fadeInTimer)                      \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_SET_FADE_TIMER << 20) | \
-                      ((u8)(playerIndex) << 24) | ((u8)(fadeInTimer) << 8))
+                      ((u8)(playerIndexTarget) << 24) | ((u8)(fadeInTimer) << 8))
 
 /**
  * ARGS
@@ -489,8 +489,8 @@ typedef enum {
  *
  * DESCRIPTION
  *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing.
- *   Note: will only restore volume if the number of queue requests on (playerIndex) matches (numSeqRequests). 
- *   If restored, will volume over the (duration)
+ *   Specifically, it will only restore volume if the number of queued requests on (playerIndex) matches (numSeqRequests). 
+ *   Restores volume over the (duration)
  */
 #define AudioSeqCmd_SetupRestorePlayerVolumeIfQueued(playerIndex, playerIndexTarget, duration, numSeqRequests) \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_IF_QUEUED << 20) |          \
@@ -619,9 +619,9 @@ typedef enum {
  *   EUUUU1dd
  *
  * DESCRIPTION
- *   Disables new sequences from started when (isDisabled) is set to true.
- *   Set (isDisabled) to false to reenable new sequences to play.
- *   Note: this does not disabled the sfx player as there is a bypass for that channel specifically.
+ *   Disable new sequences from starting when (isDisabled) is set to true.
+ *   Set (isDisabled) to false to reenable new sequences being able to start.
+ *   Note: this does not disabled the sfx player as there is a bypass for that playerIndex specifically.
  *   Note: isDisabled should be a (u8) to prevent interfering with the SUB_CMD, but is required to be (u16) for matching
  */
 #define AudioSeqCmd_DisableNewSequences(isDisabled) \
@@ -636,14 +636,14 @@ typedef enum {
  *   FUUUccss
  *
  * DESCRIPTION
- *   This will reset the entire audio heap and rebuild it from 
- *   scratch using the audio specs defined in gAudioSpecs indexed by (specId).
+ *   This will reset the entire audio heap and rebuild it from scratch
+ *   using the audio specification defined in gAudioSpecs indexed by (specId).
  * 
  *   It will also change how the 16 channels for sequence NA_BGM_GENERAL_SFX are allocated
  *   to the 7 sfx banks using (sfxChannelLayout). There are 4 possible layouts indexed by 0-3.
  *   However, only (sfxChannelLayout = 0) is properly implemented. (sfxChannelLayout = 1) and
- *   (sfxChannelLayout = 2) lead to bug-filled sfxs, and (sfxChannelLayout = 3) quickly leads
- *   to softlocking.
+ *   (sfxChannelLayout = 2) lead to bug-filled sfxs, and (sfxChannelLayout = 3) commonly leads
+ *   to softlocking based on testing.
  */
 #define AudioSeqCmd_ResetAudioHeap(sfxChannelLayout, specId) \
     Audio_QueueSeqCmd((SEQ_CMD_RESET_HEAP << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(specId))
