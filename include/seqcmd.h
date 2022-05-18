@@ -76,7 +76,7 @@ typedef enum {
  *   seqArgs = 8 and seqArgs = 9 appear to have no functionality (the only non-zero seqArgs used)
  *   unused commands may suggest these were intended to be a an priority for an unimplemented priority system
  *   ((seqArgs & 0x7F) != 0x7F) will interpret fadeInTimer as number of frames at 30 fps
- *   ((seqArgs & 0x7F) == 0x7F) will interpret fadeInTimer as number of seconds and will skip ticks
+ *   ((seqArgs & 0x7F) == 0x7F) will interpret fadeInTimer as skip ticks
  *   (seqArgs & 0x80) i.e. (seqArgs >= 0x80) has an incomplete implementation
  *   and is not functional in Ocarina of Time. No sequence will play as a result.
  *   The code and purpose for seqArgs >= 0x80 was completed and is functional in Majora's Mask.
