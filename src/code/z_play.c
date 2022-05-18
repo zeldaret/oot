@@ -16,7 +16,7 @@ u64 D_801614D0[0xA00];
 void Play_SpawnScene(GlobalContext* this, s32 sceneNum, s32 spawn);
 
 void func_800BC450(GlobalContext* this) {
-    Camera_ChangeDataIdx(GET_ACTIVE_CAM(this), this->unk_1242B - 1);
+    Camera_ChangeBgCamDataId(GET_ACTIVE_CAM(this), this->unk_1242B - 1);
 }
 
 void func_800BC490(GlobalContext* this, s16 point) {
@@ -392,7 +392,7 @@ void Play_Init(GameState* thisx) {
     playerStartCamId = player->actor.params & 0xFF;
     if (playerStartCamId != 0xFF) {
         osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartCamId);
-        Camera_ChangeDataIdx(&this->mainCamera, playerStartCamId);
+        Camera_ChangeBgCamDataId(&this->mainCamera, playerStartCamId);
     }
 
     if (YREG(15) == 32) {

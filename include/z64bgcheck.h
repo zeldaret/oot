@@ -52,10 +52,51 @@ typedef struct {
 } CollisionPoly; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ u16 cameraSType;
-    /* 0x02 */ s16 numCameras;
-    /* 0x04 */ Vec3s* camPosData;
-} CamData;
+    /* 0x00 */ Vec3s pos;
+    /* 0x06 */ Vec3s rot;
+    /* 0x0C */ s16 fov;
+    /* 0x0E */ union {
+                s16 jfifId;
+                s16 flags;
+                s16 timer;
+    };
+    /* 0x10 */ s16 unk_10;
+} SubBgCamData;
+
+/**
+ * BgCamData Summary:
+ * 
+ * setting - camera setting described by CameraSettingType enum
+ * numData - The total count of Vec3s data in the collision
+ * data - data stored in Vec3s with various purposes summarized below:
+ * 
+ * numData = 0:
+ *      data unused
+ * 
+ * numData = 3: data organized in SubBgCamData struct
+ *      data[0]   // Position
+ *      data[1]   // Rotation
+ *      data[2].x // Field of View
+ *      data[2].y // Jfif Id or flags
+ *      data[2].z // unused
+ * 
+ * numData = 6: Crawlspaces only (CAM_SET_CRAWLSPACE), entirely position data
+ *      data[1] // Front entrance coordinates to crawlspace
+ *      data[4] // Back entrance coordinates to crawlspace
+ *      data[0], data[2], data[3], data[5] // Unused coordinates along crawlspace line
+ * 
+ * numData = 9: Testroom scene & crawlspace only, entirely position data
+ *      data[1] // Front entrance coordinates to crawlspace
+ *      data[7] // Back entrance coordinates to crawlspace
+ *      data[0], data[2] to data[6], data[8], // Unused coordinates along crawlspace line
+ */
+typedef struct {
+    /* 0x00 */ u16 setting;
+    /* 0x02 */ s16 numData;
+    /* 0x04 */ Vec3s* data; // may contain positions, rotations, fov, Jfif Id, flags, or timers
+} BgCamData;
+
+typedef BgCamData CamData; // Todo: Zapd compatibility
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -68,7 +109,7 @@ typedef struct {
     // 0x0008_0000 = ?
     // 0x0007_E000 = Room Index, 0x3F = all rooms
     // 0x0000_1F00 = Lighting Settings Index
-    // 0x0000_00FF = CamData index
+    // 0x0000_00FF = BgCamData index
 } WaterBox; // size = 0x10
 
 typedef struct {
@@ -86,7 +127,7 @@ typedef struct {
     /* 0x14 */ u16 numPolygons;
     /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* surfaceTypeList;
-    /* 0x20 */ CamData* cameraDataList;
+    /* 0x20 */ BgCamData* bgCamDataList;
     /* 0x24 */ u16 numWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo
