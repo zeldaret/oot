@@ -556,10 +556,10 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->rutoWarpState == WARP_BLUE_RUTO_STATE_3) {
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-        sRutoWarpSubCamId = Gameplay_CreateSubCamera(globalCtx);
+        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+        sRutoWarpSubCamId = Play_CreateSubCamera(globalCtx);
 
-        Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_ACTIVE);
+        Play_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_ACTIVE);
         at.x = this->actor.world.pos.x;
         at.y = 49.0f;
         at.z = this->actor.world.pos.z;
@@ -567,8 +567,8 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
         eye.y = 43.0f;
         eye.z = player->actor.world.pos.z;
 
-        Gameplay_CameraSetAtEye(globalCtx, sRutoWarpSubCamId, &at, &eye);
-        Gameplay_CameraSetFov(globalCtx, sRutoWarpSubCamId, 90.0f);
+        Play_CameraSetAtEye(globalCtx, sRutoWarpSubCamId, &at, &eye);
+        Play_CameraSetFov(globalCtx, sRutoWarpSubCamId, 90.0f);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_TALKING;
         Message_StartTextbox(globalCtx, 0x4022, NULL);
         DoorWarp1_SetupAction(this, func_80999FE4);
@@ -581,8 +581,8 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, CAM_ID_MAIN);
         // Using `CAM_ID_NONE` here defaults to the active camera
-        Gameplay_CopyCamera(globalCtx, CAM_ID_NONE, sRutoWarpSubCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_WAIT);
+        Play_CopyCamera(globalCtx, CAM_ID_NONE, sRutoWarpSubCamId);
+        Play_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_WAIT);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_WARPING;
         DoorWarp1_SetupAction(this, DoorWarp1_RutoWarpOut);
     }

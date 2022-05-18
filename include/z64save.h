@@ -38,6 +38,19 @@ typedef struct {
     /* 0x08 */ s16 angle;
 } HorseData; // size = 0x0A
 
+/**
+ * The respawn mode names refer to the perceived player movement when respawning
+ * "down": being on ground
+ * "return": coming from the ground
+ * "top": coming from the air
+ */
+typedef enum {
+    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
+    /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
+    /* 0x02 */ RESPAWN_MODE_TOP,    /* Farore's Wind */
+    /* 0x03 */ RESPAWN_MODE_MAX
+} RespawnMode;
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yaw;
@@ -117,7 +130,7 @@ typedef struct {
     /* 0x135C */ s32 gameMode;
     /* 0x1360 */ s32 sceneSetupIndex;
     /* 0x1364 */ s32 respawnFlag; // "restart_flag"
-    /* 0x1368 */ RespawnData respawn[3]; // "restart_data"
+    /* 0x1368 */ RespawnData respawn[RESPAWN_MODE_MAX]; // "restart_data"
     /* 0x13BC */ f32 entranceSpeed;
     /* 0x13C0 */ u16 entranceSound;
     /* 0x13C2 */ char unk_13C2[0x0001];
@@ -174,12 +187,6 @@ typedef struct {
     /* 0x1422 */ s16 sunsSongState; // controls the effects of suns song
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
-
-typedef enum {
-    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
-    /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
-    /* 0x02 */ RESPAWN_MODE_TOP     /* Farore's Wind */
-} RespawnMode;
 
 typedef enum {
     /* 0x00 */ BTN_ENABLED,

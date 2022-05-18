@@ -6111,7 +6111,7 @@ s32 Camera_Demo6(Camera* camera) {
     s16 stateTimers[4];
     Demo6ReadWriteData* rwData = &camera->paramData.demo6.rwData;
 
-    mainCam = Gameplay_GetCamera(camera->globalCtx, CAM_ID_MAIN);
+    mainCam = Play_GetCamera(camera->globalCtx, CAM_ID_MAIN);
     camFocus = camera->target;
     stateTimers[1] = 0x37;
     stateTimers[2] = 0x46;
@@ -6216,7 +6216,7 @@ s32 Camera_Demo9(Camera* camera) {
     f32* camFOV = &camera->fov;
     Demo9ReadWriteData* rwData = &camera->paramData.demo9.rwData;
 
-    mainCam = Gameplay_GetCamera(camera->globalCtx, CAM_ID_MAIN);
+    mainCam = Play_GetCamera(camera->globalCtx, CAM_ID_MAIN);
     mainCamPlayerPosRot = &mainCam->playerPosRot;
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -7630,7 +7630,7 @@ void Camera_Finish(Camera* camera) {
     Player* player = GET_PLAYER(camera->globalCtx);
 
     if (camera->timer == 0) {
-        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STAT_ACTIVE);
+        Play_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STAT_ACTIVE);
 
         if ((camera->parentCamId == CAM_ID_MAIN) && (camera->csId != 0)) {
             player->actor.freezeTimer = 0;
@@ -7660,7 +7660,7 @@ void Camera_Finish(Camera* camera) {
         camera->timer = -1;
         camera->globalCtx->envCtx.fillScreen = false;
 
-        Gameplay_ClearCamera(camera->globalCtx, camera->camId);
+        Play_ClearCamera(camera->globalCtx, camera->camId);
     }
 }
 

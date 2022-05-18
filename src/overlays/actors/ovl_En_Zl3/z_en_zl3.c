@@ -1786,7 +1786,7 @@ void func_80B5764C(EnZl3* this, GlobalContext* globalCtx) {
     if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
         s32 unk_314 = this->unk_314 + 1;
 
-        if ((unk_314 == 1) && !Gameplay_InCsMode(globalCtx)) {
+        if ((unk_314 == 1) && !Play_InCsMode(globalCtx)) {
             OnePointCutscene_Init(globalCtx, 1000, 40, &this->actor, CAM_ID_MAIN);
         }
     }
@@ -2019,7 +2019,7 @@ void func_80B57F1C(EnZl3* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80B57F84(EnZl3* this, GlobalContext* globalCtx) {
-    if (func_80B575D0(this, globalCtx) && func_80B57C7C(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
+    if (func_80B575D0(this, globalCtx) && func_80B57C7C(this, globalCtx) && !Play_InCsMode(globalCtx)) {
         func_80B54E14(this, &gZelda2Anime2Anim_009FBC, 0, -8.0f, 0);
         this->action = 36;
         this->unk_2EC = 0.0f;
@@ -2041,7 +2041,7 @@ void func_80B58014(EnZl3* this, GlobalContext* globalCtx) {
     } else if (func_80B57C8C(this) && func_80B57F84(this, globalCtx)) {
         OnePointCutscene_Init(globalCtx, 4000, -99, &this->actor, CAM_ID_MAIN);
         this->unk_3D0 = 0;
-    } else if (func_80B576C8(this, globalCtx) && func_80B575B0(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
+    } else if (func_80B576C8(this, globalCtx) && func_80B575B0(this, globalCtx) && !Play_InCsMode(globalCtx)) {
         this->action = 0x1F;
         this->unk_3CC = 0.0f;
         func_80B537E8(this);
@@ -2116,7 +2116,7 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
     Actor* nearbyEnTest = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_TEST, ACTORCAT_ENEMY, 8000.0f);
 
     if (D_80B5A4BC == 0) {
-        if ((nearbyEnTest == NULL) && (!Gameplay_InCsMode(globalCtx))) {
+        if ((nearbyEnTest == NULL) && (!Play_InCsMode(globalCtx))) {
             this->action = 33;
             OnePointCutscene_Init(globalCtx, 4011, -99, &this->actor, CAM_ID_MAIN);
         } else if (invincibilityTimer > 0) {
@@ -2125,7 +2125,7 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
             func_80B56DC8(this);
         }
     } else {
-        if ((nearbyEnTest == NULL) && (!Gameplay_InCsMode(globalCtx))) {
+        if ((nearbyEnTest == NULL) && (!Play_InCsMode(globalCtx))) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -12.0f, 0);
             D_80B5A4BC = 0;
             this->action = 33;
