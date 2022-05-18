@@ -1377,7 +1377,7 @@ typedef struct {
     /* 0x140 */ s16 status;
     /* 0x142 */ s16 setting;
     /* 0x144 */ s16 mode;
-    /* 0x146 */ s16 bgId; // bgId currently interacting with
+    /* 0x146 */ s16 bgId; // bgId the camera is currently interacting with
     /* 0x148 */ s16 bgCamDataIndex;
     /* 0x14A */ s16 unk_14A;
     /* 0x14C */ s16 unk_14C;

@@ -1034,7 +1034,7 @@ typedef struct {
 typedef struct {
     struct {
         s8 room;    // Room to switch to
-        s8 bgCamDataIndex; // How the camera reacts during the transition
+        s8 bgCamDataIndex; // How the camera reacts during the transition. -1 for generic door. 0+ will index BgCamData from the scene
     } /* 0x00 */ sides[2]; // 0 = front, 1 = back
     /* 0x04 */ s16   id;
     /* 0x06 */ Vec3s pos;
