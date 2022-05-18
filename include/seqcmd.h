@@ -205,40 +205,40 @@ typedef enum {
 
 /**
  * ARGS
- *   playerIndex (p), port (t), val (v)
+ *   playerIndex (p), port (t), value (v)
  *
  * FORMAT
  *   Captial U is unused
  *   7pttUUvv
  *
  * DESCRIPTION
- *   Set a value (val) that will be read as io (port) directly by the sequence script on (playerIndex).
- *   This will be set to the global port, and how the sequence responds to the val will entirely depend on the
+ *   Set a (value) that will be read as io (port) directly by the sequence script on (playerIndex).
+ *   This will be set to the global port, and how the sequence responds to the (value) will entirely depend on the
  *   customized sequence scripts for each sequence.
  *   Note: There are only a maximum of 8 ports indexed 0-7
  *   i.e. the sequence can only read 8 different io values at once)
  */
 #define AudioSeqCmd_SetPlayerIO(playerIndex, port, val) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | (u8)(val))
+    Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | (u8)(value))
 
 /**
  * ARGS
- *   playerIndex (p), port (t), channelIndex (c), val (v)
+ *   playerIndex (p), port (t), channelIndex (c), value (v)
  *
  * FORMAT
  *   Captial U is unused
  *   8pttUcvv
  *
  * DESCRIPTION
- *   Set a value (val) that will be read as io (port) directly by the sequence script on (playerIndex).
- *   This will be set to a specific channel (channelIndex), and how the sequence responds to the val
+ *   Set a (value) that will be read as io (port) directly by the sequence script on (playerIndex).
+ *   This will be set to a specific channel (channelIndex), and how the sequence responds to the (value)
  *   will entirely depend on the customized sequence scripts for each sequence.
  *   Note: There are only a maximum of 8 ports indexed 0-7
  *   i.e. the sequence can only read 8 different io values at once)
  */
-#define AudioSeqCmd_SetChannelIO(playerIndex, port, channelIndex, val)                                  \
+#define AudioSeqCmd_SetChannelIO(playerIndex, port, channelIndex, value)                                  \
     Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | \
-                      ((u8)(channelIndex) << 8) | (u8)(val))
+                      ((u8)(channelIndex) << 8) | (u8)(value))
 
 /**
  * ARGS

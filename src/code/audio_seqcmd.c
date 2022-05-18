@@ -3,8 +3,9 @@
 #include "ultra64/abi.h"
 
 // direct audio commands (skips the queueing system)
-#define Audio_SetVolScaleNow(playerIndex, volFadeTimer, volScale) \
-    Audio_ProcessSeqCmd(0x40000000 | ((u8)playerIndex << 24) | ((u8)volFadeTimer << 16) | ((u8)(volScale * 127.0f)));
+#define Audio_SetVolScaleNow(playerIndex, volFadeTimer, volScale)                                             \
+    Audio_ProcessSeqCmd((SEQ_CMD_SET_PLAYER_VOL << 28) | ((u8)playerIndex << 24) | ((u8)volFadeTimer << 16) | \
+                        ((u8)(volScale * 127.0f)));
 
 typedef struct {
     u8 seqId;
@@ -455,17 +456,19 @@ void Audio_UpdateActiveSequences(void) {
 
     for (playerIndex = 0; playerIndex < 4; playerIndex++) {
 
-        // The setup for this block of code (within this single if-statement) was not implemented until Majora's Mask
-        // Check if the requested sequences is waiting for fonts to load
+        // The setup for this block of code (within this single if-statement) was not fully implemented until Majora's
+        // Mask. The intent was to load soundfonts asyncronously before playing a sequence in Audio_StartSequence but
+        // with (seqArgs & 0x80). Check if the requested sequences is finished loading fonts
         if (gActiveSeqs[playerIndex].isWaitingForFonts) {
             switch (func_800E5E20(&dummy)) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
+                case SEQ_PLAYER_BGM_MAIN + 1:
+                case SEQ_PLAYER_FANFARE + 1:
+                case SEQ_PLAYER_SFX + 1:
+                case SEQ_PLAYER_BGM_SUB + 1:
                     // The fonts have been loaded successfully.
                     gActiveSeqs[playerIndex].isWaitingForFonts = false;
                     // Queue the same command that was stored previously
+                    // The code to store this command is missing in OoT, so no command is executed
                     Audio_ProcessSeqCmd(gActiveSeqs[playerIndex].startSeqCmd);
                     break;
             }
@@ -721,7 +724,7 @@ u8 func_800FAD34(void) {
 
 void Audio_ResetSequences(void) {
     u8 playerIndex;
-    u8 j;
+    u8 scaleIndex;
 
     for (playerIndex = 0; playerIndex < 4; playerIndex++) {
         sNumSeqRequests[playerIndex] = 0;
@@ -736,8 +739,8 @@ void Audio_ResetSequences(void) {
         gActiveSeqs[playerIndex].setupFadeTimer = 0;
         gActiveSeqs[playerIndex].freqScaleChannelFlags = 0;
         gActiveSeqs[playerIndex].volChannelFlags = 0;
-        for (j = 0; j < VOL_SCALE_INDEX_MAX; j++) {
-            gActiveSeqs[playerIndex].volScales[j] = 0x7F;
+        for (scaleIndex = 0; scaleIndex < VOL_SCALE_INDEX_MAX; scaleIndex++) {
+            gActiveSeqs[playerIndex].volScales[scaleIndex] = 0x7F;
         }
 
         gActiveSeqs[playerIndex].volFadeTimer = 1;
@@ -747,14 +750,14 @@ void Audio_ResetSequences(void) {
 
 void Audio_ResetSequencesAndVolume(void) {
     u8 playerIndex;
-    u8 j;
+    u8 scaleIndex;
 
     for (playerIndex = 0; playerIndex < 4; playerIndex++) {
         gActiveSeqs[playerIndex].volCur = 1.0f;
         gActiveSeqs[playerIndex].volDuration = 0;
         gActiveSeqs[playerIndex].fadeVolUpdate = 0;
-        for (j = 0; j < VOL_SCALE_INDEX_MAX; j++) {
-            gActiveSeqs[playerIndex].volScales[j] = 0x7F;
+        for (scaleIndex = 0; scaleIndex < VOL_SCALE_INDEX_MAX; scaleIndex++) {
+            gActiveSeqs[playerIndex].volScales[scaleIndex] = 0x7F;
         }
     }
     Audio_ResetSequences();
