@@ -465,7 +465,7 @@ void DoorWarp1_ChildWarpIdle(DoorWarp1* this, GlobalContext* globalCtx) {
 
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        OnePointCutscene_Init(globalCtx, 0x25E7, 999, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 0x25E7, 999, &this->actor, CAM_ID_MAIN);
         func_8002DF54(globalCtx, &this->actor, 10);
 
         player->unk_450.x = this->actor.world.pos.x;
@@ -556,10 +556,10 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
 
     if (this->rutoWarpState == WARP_BLUE_RUTO_STATE_3) {
-        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
-        sRutoWarpSubCamId = Gameplay_CreateSubCamera(globalCtx);
+        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+        sRutoWarpSubCamId = Play_CreateSubCamera(globalCtx);
 
-        Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_ACTIVE);
+        Play_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_ACTIVE);
         at.x = this->actor.world.pos.x;
         at.y = 49.0f;
         at.z = this->actor.world.pos.z;
@@ -567,8 +567,8 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
         eye.y = 43.0f;
         eye.z = player->actor.world.pos.z;
 
-        Gameplay_CameraSetAtEye(globalCtx, sRutoWarpSubCamId, &at, &eye);
-        Gameplay_CameraSetFov(globalCtx, sRutoWarpSubCamId, 90.0f);
+        Play_CameraSetAtEye(globalCtx, sRutoWarpSubCamId, &at, &eye);
+        Play_CameraSetFov(globalCtx, sRutoWarpSubCamId, 90.0f);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_TALKING;
         Message_StartTextbox(globalCtx, 0x4022, NULL);
         DoorWarp1_SetupAction(this, func_80999FE4);
@@ -579,9 +579,10 @@ void func_80999FE4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_NONE) {
         Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, MAIN_CAM);
-        Gameplay_CopyCamera(globalCtx, -1, sRutoWarpSubCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_WAIT);
+        OnePointCutscene_Init(globalCtx, 0x25E9, 999, &this->actor, CAM_ID_MAIN);
+        // Using `CAM_ID_NONE` here defaults to the active camera
+        Play_CopyCamera(globalCtx, CAM_ID_NONE, sRutoWarpSubCamId);
+        Play_ChangeCameraStatus(globalCtx, sRutoWarpSubCamId, CAM_STAT_WAIT);
         this->rutoWarpState = WARP_BLUE_RUTO_STATE_WARPING;
         DoorWarp1_SetupAction(this, DoorWarp1_RutoWarpOut);
     }
@@ -648,7 +649,7 @@ void DoorWarp1_AdultWarpIdle(DoorWarp1* this, GlobalContext* globalCtx) {
     if (DoorWarp1_PlayerInRange(this, globalCtx)) {
         player = GET_PLAYER(globalCtx);
 
-        OnePointCutscene_Init(globalCtx, 0x25E8, 999, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 0x25E8, 999, &this->actor, CAM_ID_MAIN);
         func_8002DF54(globalCtx, &this->actor, 10);
         player->unk_450.x = this->actor.world.pos.x;
         player->unk_450.z = this->actor.world.pos.z;

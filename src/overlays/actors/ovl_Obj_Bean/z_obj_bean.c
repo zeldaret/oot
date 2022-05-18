@@ -175,15 +175,15 @@ void ObjBean_UpdatePosition(ObjBean* this) {
 
     Math_StepToF(&this->unk_1E4, 2.0f, 0.1f);
     temp_f20 = Math_SinS(this->unk_1B6.x * 3);
-    this->posOffsetX = (Math_SinS(((this->unk_1B6.y * 3))) + temp_f20) * this->unk_1E4;
+    this->posOffsetX = (Math_SinS(this->unk_1B6.y * 3) + temp_f20) * this->unk_1E4;
     temp_f20 = Math_CosS(this->unk_1B6.x * 4);
-    this->posOffsetZ = (Math_CosS((this->unk_1B6.y * 4)) + temp_f20) * this->unk_1E4;
+    this->posOffsetZ = (Math_CosS(this->unk_1B6.y * 4) + temp_f20) * this->unk_1E4;
     temp_f20 = Math_SinS(this->unk_1B6.z * 5);
 
     this->dyna.actor.scale.x = this->dyna.actor.scale.z =
-        ((Math_SinS((this->unk_1B6.y * 8)) * 0.01f) + (temp_f20 * 0.06f) + 1.07f) * 0.1f;
+        ((Math_SinS(this->unk_1B6.y * 8) * 0.01f) + (temp_f20 * 0.06f) + 1.07f) * 0.1f;
 
-    this->dyna.actor.scale.y = ((Math_CosS(((this->unk_1B6.z * 10))) * 0.2f) + 1.0f) * 0.1f;
+    this->dyna.actor.scale.y = ((Math_CosS(this->unk_1B6.z * 10) * 0.2f) + 1.0f) * 0.1f;
     temp_f20 = Math_SinS(this->unk_1B6.x * 3);
     this->dyna.actor.shape.rot.y =
         (Math_SinS((s16)(this->unk_1B6.z * 2)) * 2100.0f) + ((f32)this->dyna.actor.home.rot.y + (temp_f20 * 1000.0f));
@@ -636,7 +636,7 @@ void ObjBean_WaitForWater(ObjBean* this, GlobalContext* globalCtx) {
         (this->dyna.actor.xzDistToPlayer < 50.0f)) {
         ObjBean_SetupGrowWaterPhase1(this);
         D_80B90E30 = this;
-        OnePointCutscene_Init(globalCtx, 2210, -99, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 2210, -99, &this->dyna.actor, CAM_ID_MAIN);
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         return;
     }
@@ -753,9 +753,9 @@ void ObjBean_WaitForPlayer(ObjBean* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) { // Player is standing on
         ObjBean_SetupFly(this);
         if (globalCtx->sceneNum == SCENE_SPOT10) { // Lost woods
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_LOST_WOODS);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_GENERIC);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
         }
     }
     ObjBean_UpdatePosition(this);
@@ -769,7 +769,7 @@ void ObjBean_SetupFly(ObjBean* this) {
 }
 
 void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
-    Camera* camera;
+    Camera* mainCam;
 
     ObjBean_FollowPath(this, globalCtx);
     if (this->currentPointIndex == this->pathCount) {
@@ -778,10 +778,10 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         ObjBean_SetupWaitForStepOff(this);
 
         this->dyna.actor.flags &= ~ACTOR_FLAG_4; // Never stop updating (disable)
-        camera = globalCtx->cameraPtrs[MAIN_CAM];
+        mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
-        if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
 
     } else if (func_8004356C(&this->dyna) != 0) { // Player is on top
@@ -789,15 +789,15 @@ void ObjBean_Fly(ObjBean* this, GlobalContext* globalCtx) {
         func_8002F974(&this->dyna.actor, NA_SE_PL_PLANT_MOVE - SFX_FLAG);
 
         if (globalCtx->sceneNum == SCENE_SPOT10) {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_LOST_WOODS);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_LOST_WOODS);
         } else {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_BEAN_GENERIC);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BEAN_GENERIC);
         }
     } else if (this->stateFlags & BEAN_STATE_PLAYER_ON_TOP) {
-        camera = globalCtx->cameraPtrs[MAIN_CAM];
+        mainCam = globalCtx->cameraPtrs[CAM_ID_MAIN];
 
-        if ((camera->setting == CAM_SET_BEAN_LOST_WOODS) || (camera->setting == CAM_SET_BEAN_GENERIC)) {
-            Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
+        if ((mainCam->setting == CAM_SET_BEAN_LOST_WOODS) || (mainCam->setting == CAM_SET_BEAN_GENERIC)) {
+            Camera_ChangeSetting(mainCam, CAM_SET_NORMAL0);
         }
     }
 

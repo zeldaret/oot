@@ -31,7 +31,7 @@ void DoorShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8099803C(GlobalContext* globalCtx, s16 y, s16 countdown, s16 arg3);
+void func_8099803C(GlobalContext* globalCtx, s16 y, s16 countdown, s16 camId);
 void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996A54(DoorShutter* this, GlobalContext* globalCtx);
 void func_80996B00(DoorShutter* this, GlobalContext* globalCtx);
@@ -416,7 +416,8 @@ void func_80996C60(DoorShutter* this, GlobalContext* globalCtx) {
         DoorShutter_SetupAction(this, func_80997004);
         this->unk_16C = sp38;
         this->unk_170 = 0.0f;
-        Camera_ChangeDoorCam(globalCtx->cameraPtrs[MAIN_CAM], &this->dyna.actor, player->unk_46A, 0.0f, 12, sp34, 10);
+        Camera_ChangeDoorCam(globalCtx->cameraPtrs[CAM_ID_MAIN], &this->dyna.actor, player->unk_46A, 0.0f, 12, sp34,
+                             10);
     }
 }
 
@@ -548,7 +549,7 @@ void func_80997220(DoorShutter* this, GlobalContext* globalCtx) {
             globalCtx->roomCtx.unk_30 ^= 1;
         }
         func_80097534(globalCtx, &globalCtx->roomCtx);
-        Gameplay_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0x0EFF);
+        Play_SetupRespawnPoint(globalCtx, RESPAWN_MODE_DOWN, 0x0EFF);
     }
     this->unk_164 = 0;
     this->dyna.actor.velocity.y = 0.0f;
@@ -571,7 +572,7 @@ void func_809973E8(DoorShutter* this, GlobalContext* globalCtx) {
                                      10, false);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-        quakeId = Quake_Add(Gameplay_GetCamera(globalCtx, 0), 3);
+        quakeId = Quake_Add(Play_GetCamera(globalCtx, CAM_ID_MAIN), 3);
         Quake_SetSpeed(quakeId, -32536);
         Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
         Quake_SetCountdown(quakeId, 10);
@@ -603,7 +604,7 @@ void func_809975C0(DoorShutter* this, GlobalContext* globalCtx) {
 
             this->unk_164 = 10;
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
-            func_8099803C(globalCtx, 2, 10, parent->subCameraId);
+            func_8099803C(globalCtx, 2, 10, parent->subCamId);
             Actor_SpawnFloorDustRing(globalCtx, &this->dyna.actor, &this->dyna.actor.world.pos, 70.0f, 20, 8.0f, 500,
                                      10, true);
         }
@@ -766,7 +767,7 @@ void DoorShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8099803C(GlobalContext* globalCtx, s16 y, s16 countdown, s16 camId) {
-    s16 quakeId = Quake_Add(Gameplay_GetCamera(globalCtx, camId), 3);
+    s16 quakeId = Quake_Add(Play_GetCamera(globalCtx, camId), 3);
 
     func_800A9F6C(0.0f, 180, 20, 100);
     Quake_SetSpeed(quakeId, 20000);

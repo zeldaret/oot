@@ -21,7 +21,7 @@ static DebugDispObjectInfo sDebugObjectInfoTable[] = {
     { 0, gDebugCursorTex }, { 1, gDebugArrowDL },  { 1, gDebugCameraDL },
 };
 
-static Lights1 sDebugObjectLights = gdSPDefLights1(0x80, 0x80, 0x80, 0xFF, 0xFF, 0xFF, 0x49, 0x49, 0x49);
+static Lights1 sDebugObjectLights = gdSPDefLights1(128, 128, 128, 255, 255, 255, 73, 73, 73);
 
 static DebugDispObject* sDebugObjectListHead;
 
