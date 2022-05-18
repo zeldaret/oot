@@ -2167,9 +2167,8 @@ s32 Health_ChangeBy(GlobalContext* globalCtx, s16 amount) {
                  gSaveContext.healthCapacity);
 
     // clang-format off
-    if (amount > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4,
-                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                   &gSfxDefaultReverb);
+    if (amount > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     } else if (gSaveContext.doubleDefense && (amount < 0)) {
         amount >>= 1;
         osSyncPrintf("ハート減少半分！！＝%d\n", amount); // "Heart decrease halved!!＝%d"
