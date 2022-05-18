@@ -680,7 +680,7 @@ void Audio_UpdateActiveSequences(void) {
                         // Restore playerIndexTarget volume back to normal levels,
                         // but only if the number of sequence queue requests from sSeqRequests
                         // exactly matches the argument to the command
-                        if (sNumSeqRequests[playerIndex] == setupVal1) {
+                        if (setupVal1 == sNumSeqRequests[playerIndex]) {
                             Audio_SetVolumeScale(playerIndexTarget, VOL_SCALE_INDEX_FANFARE, 0x7F, setupVal2);
                         }
                         break;

@@ -73,8 +73,9 @@ typedef enum {
  *   The sequence will gradually fade in over the course of (fadeInTimer).
  *   How (fadeInTimer) is interpreted depends on (seqArgs)
  *
- *   seqArgs = 8 and seqArgs = 9 appear to have no functionality (the only non-zero seqArgs used)
- *   unused commands may suggest these were intended to be a an priority for an unimplemented priority system
+ *   seqArgs = 8 and seqArgs = 9 (commonly used arguments) appear to have no functionality, 
+ *   although unused commands may suggest  these were intended to be a an priority for an unimplemented priority system.
+ *   
  *   ((seqArgs & 0x7F) != 0x7F) will interpret fadeInTimer as number of frames at 30 fps
  *   ((seqArgs & 0x7F) == 0x7F) will interpret fadeInTimer as skip ticks
  *   (seqArgs & 0x80) i.e. (seqArgs >= 0x80) has an incomplete implementation
