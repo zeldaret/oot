@@ -3146,7 +3146,7 @@ void AudioDebug_ProcessInput_SndCont(void) {
                 AudioSeqCmd_DisableNewSequences(sAudioSndContWork[sAudioSndContSel]);
                 break;
             case 6:
-                AudioSeqCmd_RebuildAudioHeap(0, sAudioSndContWork[sAudioSndContSel]);
+                AudioSeqCmd_ResetAudioHeap(0, sAudioSndContWork[sAudioSndContSel]);
                 sAudioSubTrackInfoSpec = sAudioSndContWork[6];
                 if (sAudioSubTrackInfoPlayerSel > gAudioSpecs[sAudioSubTrackInfoSpec].numSequencePlayers - 1) {
                     sAudioSubTrackInfoPlayerSel = gAudioSpecs[sAudioSubTrackInfoSpec].numSequencePlayers - 1;
@@ -4235,17 +4235,17 @@ void Audio_StepFreqLerp(FreqLerp* lerp) {
 }
 
 void func_800F47BC(void) {
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 1, 0, 10);
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 1, 0, 10);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 10);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 10);
 }
 
 void func_800F47FC(void) {
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 1, 0x7F, 3);
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 1, 0x7F, 3);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0x7F, 3);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0x7F, 3);
 }
 
 void func_800F483C(u8 targetVol, u8 volFadeTimer) {
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 0, targetVol, volFadeTimer);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, targetVol, volFadeTimer);
 }
 
 /**
@@ -4287,7 +4287,7 @@ s32 Audio_SetGanonsTowerBgmVolume(u8 targetVol) {
 
     if (sGanonsTowerVol != targetVol) {
         // Sets the volume
-        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 0, targetVol, 2);
+        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, targetVol, 2);
 
         // Sets the filter cutoff of the form (lowPassFilterCutoff << 4) | (highPassFilter & 0xF). highPassFilter is
         // always set to 0
@@ -4341,14 +4341,14 @@ void Audio_UpdateRiverSoundVolumes(void) {
     if (sRiverSoundMainBgmLower == true) {
         if (sRiverSoundMainBgmCurrentVol != sRiverSoundMainBgmVol) {
             // lowers the volume for 1 frame
-            Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 0, sRiverSoundMainBgmVol, 0xA);
+            Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, sRiverSoundMainBgmVol, 10);
             sRiverSoundMainBgmCurrentVol = sRiverSoundMainBgmVol;
             sRiverSoundMainBgmRestore = true;
         }
         sRiverSoundMainBgmLower = false;
     } else if (sRiverSoundMainBgmRestore == true && D_80130608 == 0) {
         // restores the volume every frame
-        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 0, 0x7F, 0xA);
+        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, 0x7F, 10);
         sRiverSoundMainBgmCurrentVol = 0x7F;
         sRiverSoundMainBgmRestore = false;
     }
@@ -4542,8 +4542,8 @@ void Audio_PlaySariaBgm(Vec3f* pos, u16 seqId, u16 distMax) {
         Audio_SplitBgmChannels(vol);
     }
 
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 3, vol, 0);
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 3, 0x7F - vol, 0);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_BGM_SUB, vol, 0);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, 0x7F - vol, 0);
 }
 
 void Audio_ClearSariaBgm2(void) {
@@ -4758,10 +4758,12 @@ void func_800F5CF8(void) {
 
             (void)seqIdBgmMain; // suppresses set but unused warning
             if (seqIdBgmFanfare == NA_BGM_DISABLED) {
-                Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 1, 0, 5);
-                Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 1, 0, 5);
-                AudioSeqCmd_SetupRestorePlayerVolumeWithScale(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 1, 10);
-                AudioSeqCmd_SetupRestorePlayerVolumeWithScale(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 1, 10);
+                Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0, 5);
+                Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_FANFARE, 0, 5);
+                AudioSeqCmd_SetupRestorePlayerVolumeWithScale(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN,
+                                                              VOL_SCALE_INDEX_FANFARE, 10);
+                AudioSeqCmd_SetupRestorePlayerVolumeWithScale(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB,
+                                                              VOL_SCALE_INDEX_FANFARE, 10);
                 AudioSeqCmd_SetupDisableChannels(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_MAIN, 0);
                 if (seqIdBgmSub != NA_BGM_LONLON) {
                     AudioSeqCmd_SetupDisableChannels(SEQ_PLAYER_FANFARE, SEQ_PLAYER_BGM_SUB, 0);
@@ -4809,11 +4811,13 @@ void Audio_SetSequenceMode(u8 seqMode) {
                         volumeFadeInTimer = gActiveSeqs[SEQ_PLAYER_BGM_SUB].volScales[1] - sAudioEnemyVol;
                     }
 
-                    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 3, sAudioEnemyVol, volumeFadeInTimer);
+                    Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_BGM_SUB, sAudioEnemyVol,
+                                         volumeFadeInTimer);
                     AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_SUB, 10, 8, NA_BGM_ENEMY);
 
                     if (seqId != NA_BGM_NATURE_AMBIENCE) {
-                        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 3, (0x7F - sAudioEnemyVol) & 0xFF, 0xA);
+                        Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB,
+                                             (0x7F - sAudioEnemyVol) & 0xFF, 0xA);
                         Audio_SplitBgmChannels(sAudioEnemyVol);
                     }
                 } else if ((sPrevSeqMode & 0x7F) == SEQ_MODE_ENEMY) {
@@ -4825,7 +4829,7 @@ void Audio_SetSequenceMode(u8 seqMode) {
                         volumeFadeOutTimer = 10;
                     }
 
-                    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 3, 0x7F, volumeFadeOutTimer);
+                    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, 0x7F, volumeFadeOutTimer);
                     Audio_SplitBgmChannels(0);
                 }
 
@@ -4868,9 +4872,9 @@ void Audio_SetBgmEnemyVolume(f32 dist) {
             }
 
             sAudioEnemyVol = ((350.0f - adjDist) * 127.0f) / 350.0f;
-            Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, 3, sAudioEnemyVol, 10);
+            Audio_SetVolumeScale(SEQ_PLAYER_BGM_SUB, VOL_SCALE_INDEX_BGM_SUB, sAudioEnemyVol, 10);
             if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) {
-                Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 3, (0x7F - sAudioEnemyVol), 10);
+                Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, (0x7F - sAudioEnemyVol), 10);
             }
         }
         if (gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) {
@@ -5089,8 +5093,8 @@ void func_800F6AB0(u16 arg0) {
     AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, arg0);
     AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, arg0);
     AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_SUB, arg0);
-    Audio_SetVolumeScale(0, 3, 0x7F, 0);
-    Audio_SetVolumeScale(0, 1, 0x7F, 0);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_SUB, 0x7F, 0);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_FANFARE, 0x7F, 0);
 }
 
 void func_800F6B3C(void) {
@@ -5194,7 +5198,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     AudioSeqCmd_SetPlayerIO(SEQ_PLAYER_BGM_MAIN, 0, 1);
     AudioSeqCmd_SetPlayerIO(SEQ_PLAYER_BGM_MAIN, 4, playerIO >> 8);
     AudioSeqCmd_SetPlayerIO(SEQ_PLAYER_BGM_MAIN, 5, playerIO & 0xFF);
-    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, 0, 0x7F, 1);
+    Audio_SetVolumeScale(SEQ_PLAYER_BGM_MAIN, VOL_SCALE_INDEX_BGM_MAIN, 0x7F, 1);
 
     channelIdx = false;
     if (sNewSeqDisabled) {

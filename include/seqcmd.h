@@ -21,7 +21,7 @@ typedef enum {
     /* 0xC */ SEQ_CMD_SETUP_CMD,
     /* 0xD */ SEQ_CMD_SET_CHANNEL_FREQ,
     /* 0xE */ SEQ_CMD_GLOBAL_CMD,
-    /* 0xF */ SEQ_CMD_SET_SPEC
+    /* 0xF */ SEQ_CMD_RESET_HEAP
 } SeqCmdType;
 
 // ==== Secondary commands ====
@@ -249,7 +249,7 @@ typedef enum {
  *   9pUUmmmm
  *
  * DESCRIPTION
- *   Disable (or renable) specific channel from receiving io of (playerIndex).
+ *   Disable (or reenable) specific channel from receiving io of (playerIndex).
  *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex).
  *   bit-on (1) disables a channel from receiving io, bit-off (0) reenables a channel receiving io.
  */
@@ -265,7 +265,7 @@ typedef enum {
  *   ApUUmmmm
  *
  * DESCRIPTION
- *   Disable (or renable) specific channels of (playerIndex).
+ *   Disable (or reenable) specific channels of (playerIndex).
  *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex).
  *   bit-on (1) disables a channel, bit-off (0) reenables a channel.
  */
@@ -518,7 +518,7 @@ typedef enum {
  *   Cp9smmmm
  *
  * DESCRIPTION
- *   Queue a request to disable (or renable) specific channels of (playerIndexTarget) once (playerIndex) is no longer playing.
+ *   Queue a request to disable (or reenable) specific channels of (playerIndexTarget) once (playerIndex) is no longer playing.
  *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex). 
  *   bit-on (1) disables a channel, bit-off (0) reenables a channel.
  */
@@ -633,7 +633,7 @@ typedef enum {
  *   It will also change how the 16 channels for sequence NA_BGM_GENERAL_SFX are allocated
  *   to the 7 sfx banks using (sfxChannelLayout). There are 4 possible layouts indexed by 0-3.
  */
-#define AudioSeqCmd_RebuildAudioHeap(sfxChannelLayout, specId) \
-    Audio_QueueSeqCmd((SEQ_CMD_SET_SPEC << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(specId))
+#define AudioSeqCmd_ResetAudioHeap(sfxChannelLayout, specId) \
+    Audio_QueueSeqCmd((SEQ_CMD_RESET_HEAP << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(specId))
 
 #endif

@@ -141,6 +141,52 @@ typedef enum {
 } ChannelIOPort;
 
 typedef enum {
+    /* 0 */ VOL_SCALE_INDEX_BGM_MAIN,
+    /* 1 */ VOL_SCALE_INDEX_FANFARE,
+    /* 2 */ VOL_SCALE_INDEX_SFX,
+    /* 3 */ VOL_SCALE_INDEX_BGM_SUB
+} VolumeScaleIndex;
+
+typedef struct {
+    /* 0x00 */ f32 volCur;
+    /* 0x04 */ f32 volTarget;
+    /* 0x08 */ f32 volVelocity;
+    /* 0x0C */ u16 volDuration;
+    /* 0x10 */ f32 freqScaleCur;
+    /* 0x14 */ f32 freqScaleTarget;
+    /* 0x18 */ f32 freqScaleVelocity;
+    /* 0x1C */ u16 freqScaleDuration;
+} ActiveSeqChannelData; // size = 0x20
+
+typedef struct {
+    /* 0x000 */ f32 volCur;
+    /* 0x004 */ f32 volTarget;
+    /* 0x008 */ f32 volVelocity;
+    /* 0x00C */ u16 volDuration;
+    /* 0x00E */ u8 volScales[0x4];
+    /* 0x012 */ u8 volFadeTimer;
+    /* 0x013 */ u8 fadeVolUpdate;
+    /* 0x014 */ u32 tempoCmd;
+    /* 0x018 */ u16 tempoPrev;
+    /* 0x01C */ f32 tempoCur;
+    /* 0x020 */ f32 tempoTarget;
+    /* 0x024 */ f32 tempoVelocity;
+    /* 0x028 */ u16 tempoDuration;
+    /* 0x02C */ u32 setupCmd[8]; // a queue of cmds to execute once the player is disabled
+    /* 0x04C */ u8 setupCmdTimer; // only execute setup commands when the timer is at 0.
+    /* 0x04D */ u8 setupCmdNum; // number of setup commands requested once the player is disabled
+    /* 0x04E */ u8 setupFadeTimer;
+    /* 0x050 */ ActiveSeqChannelData channelData[16];
+    /* 0x250 */ u16 freqScaleChannelFlags;
+    /* 0x252 */ u16 volChannelFlags;
+    /* 0x254 */ u16 seqId;
+    /* 0x256 */ u16 prevSeqId;
+    /* 0x258 */ u16 channelPortMask;
+    /* 0x25C */ u32 startSeqCmd; // This name comes from MM
+    /* 0x260 */ u8 isWaitingForFonts; // This name comes from MM
+} ActiveSeq; // size = 0x264
+
+typedef enum {
     /* 0x0 */ NATURE_CHANNEL_STREAM_0,
     /* 0x1 */ NATURE_CHANNEL_CRITTER_0,
     /* 0x2 */ NATURE_CHANNEL_CRITTER_1,
