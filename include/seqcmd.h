@@ -218,7 +218,7 @@ typedef enum {
  *   Note: There are only a maximum of 8 ports indexed 0-7
  *   i.e. the sequence can only read 8 different io values at once)
  */
-#define AudioSeqCmd_SetPlayerIO(playerIndex, port, val) \
+#define AudioSeqCmd_SetPlayerIO(playerIndex, port, value) \
     Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_IO << 28) | ((u8)(playerIndex) << 24) | ((u8)(port) << 16) | (u8)(value))
 
 /**
@@ -536,7 +536,7 @@ typedef enum {
  *
  * DESCRIPTION
  * Queue a request to scale the player frequency (playerIndexTarget) once (playerIndex) is no longer playing.
- * The scaling factor (freq) is relative to 1000. I.e. freq = 2000 with double the pitch and freq = 500 will half the
+ * The scaling factor (freq) is relative to 100. I.e. freq = 200 with double the pitch and freq = 50 will half the
  * pitch. Apply the frequency shift over (duration)
  */
 #define AudioSeqCmd_SetupSetPlayerFreq(playerIndex, playerIndexTarget, duration, freq)                      \
