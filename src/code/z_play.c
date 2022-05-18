@@ -1515,7 +1515,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     scene->unk_13 = 0;
     globalCtx->loadedScene = scene;
     globalCtx->sceneNum = sceneNum;
-    globalCtx->sceneConfig = scene->config;
+    globalCtx->sceneDrawConfig = scene->drawConfig;
 
     osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 

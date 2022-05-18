@@ -12,7 +12,7 @@ typedef struct {
     /* 0x00 */ RomFile sceneFile;
     /* 0x08 */ RomFile titleFile;
     /* 0x10 */ u8  unk_10;
-    /* 0x11 */ u8  config;
+    /* 0x11 */ u8  drawConfig;
     /* 0x12 */ u8  unk_12;
     /* 0x13 */ u8  unk_13;
 } SceneTableEntry; // size = 0x14
@@ -337,6 +337,63 @@ typedef enum {
 } ReturnEntranceIndex;
 
 #undef DEFINE_ENTRANCE
+
+typedef enum {
+    /*  0 */ SCENE_DRAW_CONFIG_0,
+    /*  1 */ SCENE_DRAW_CONFIG_SPOT00,
+    /*  2 */ SCENE_DRAW_CONFIG_SPOT01,
+    /*  3 */ SCENE_DRAW_CONFIG_SPOT03,
+    /*  4 */ SCENE_DRAW_CONFIG_SPOT04,
+    /*  5 */ SCENE_DRAW_CONFIG_SPOT06,
+    /*  6 */ SCENE_DRAW_CONFIG_SPOT07,
+    /*  7 */ SCENE_DRAW_CONFIG_SPOT08,
+    /*  8 */ SCENE_DRAW_CONFIG_SPOT09,
+    /*  9 */ SCENE_DRAW_CONFIG_SPOT10,
+    /* 10 */ SCENE_DRAW_CONFIG_SPOT11,
+    /* 11 */ SCENE_DRAW_CONFIG_SPOT12,
+    /* 12 */ SCENE_DRAW_CONFIG_SPOT13,
+    /* 13 */ SCENE_DRAW_CONFIG_SPOT15,
+    /* 14 */ SCENE_DRAW_CONFIG_SPOT16,
+    /* 15 */ SCENE_DRAW_CONFIG_SPOT17,
+    /* 16 */ SCENE_DRAW_CONFIG_SPOT18,
+    /* 17 */ SCENE_DRAW_CONFIG_SPOT20,
+    /* 18 */ SCENE_DRAW_CONFIG_HIDAN, // used for Fire Temple and its boss scene
+    /* 19 */ SCENE_DRAW_CONFIG_YDAN,
+    /* 20 */ SCENE_DRAW_CONFIG_DDAN,
+    /* 21 */ SCENE_DRAW_CONFIG_BDAN, // used for Jabu-Jabu and its boss scene
+    /* 22 */ SCENE_DRAW_CONFIG_BMORI1,
+    /* 23 */ SCENE_DRAW_CONFIG_MIZUSIN,
+    /* 24 */ SCENE_DRAW_CONFIG_HAKADAN, // used for Bottom Of The Well, Shadow Temple and its boss scene
+    /* 25 */ SCENE_DRAW_CONFIG_JYASINZOU,
+    /* 26 */ SCENE_DRAW_CONFIG_GANONTIKA,
+    /* 27 */ SCENE_DRAW_CONFIG_MEN,
+    /* 28 */ SCENE_DRAW_CONFIG_YDAN_BOSS,
+    /* 29 */ SCENE_DRAW_CONFIG_MIZUSIN_BS,
+    /* 30 */ SCENE_DRAW_CONFIG_TOKINOMA,
+    /* 31 */ SCENE_DRAW_CONFIG_KAKUSIANA,
+    /* 32 */ SCENE_DRAW_CONFIG_KENJYANOMA,
+    /* 33 */ SCENE_DRAW_CONFIG_GREAT_FAIRY_FOUNTAIN, // used for both Great Fairy Fountains scenes
+    /* 34 */ SCENE_DRAW_CONFIG_SYATEKIJYOU,
+    /* 35 */ SCENE_DRAW_CONFIG_HAIRAL_NIWA, // used for Castle Courtyard (with the hedges) (day, night and debug scenes)
+    /* 36 */ SCENE_DRAW_CONFIG_36,
+    /* 37 */ SCENE_DRAW_CONFIG_ICE_DOUKUTO,
+    /* 38 */ SCENE_DRAW_CONFIG_GANON_FINAL,
+    /* 39 */ SCENE_DRAW_CONFIG_FAIRY_FOUNTAIN, // used for both Fairy Fountains scenes
+    /* 40 */ SCENE_DRAW_CONFIG_GERUDOWAY,
+    /* 41 */ SCENE_DRAW_CONFIG_BOWLING,
+    /* 42 */ SCENE_DRAW_CONFIG_HAKAANA_OUKE,
+    /* 43 */ SCENE_DRAW_CONFIG_HYLIA_LABO,
+    /* 44 */ SCENE_DRAW_CONFIG_SOUKO,
+    /* 45 */ SCENE_DRAW_CONFIG_MIHARIGOYA,
+    /* 46 */ SCENE_DRAW_CONFIG_MAHOUYA,
+    /* 47 */ SCENE_DRAW_CONFIG_47,
+    /* 48 */ SCENE_DRAW_CONFIG_48,
+    /* 49 */ SCENE_DRAW_CONFIG_BESITU,
+    /* 50 */ SCENE_DRAW_CONFIG_TURIBORI,
+    /* 51 */ SCENE_DRAW_CONFIG_GANON_SONOGO,
+    /* 52 */ SCENE_DRAW_CONFIG_GANONTIKA_SONOGO,
+    /* 53 */ SCENE_DRAW_CONFIG_MAX
+} SceneDrawConfig;
 
 // Scene commands
 
