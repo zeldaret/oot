@@ -628,10 +628,14 @@ typedef enum {
  *   FUUUccss
  *
  * DESCRIPTION
- *   Applies a new audio specification to use for audio. This will reset the entire audio heap
- *   and rebuild it from scratch using the new audio specs indexed by (specId).
+ *   This will reset the entire audio heap and rebuild it from 
+ *   scratch  using the new audio specs indexed by (specId).
+ * 
  *   It will also change how the 16 channels for sequence NA_BGM_GENERAL_SFX are allocated
  *   to the 7 sfx banks using (sfxChannelLayout). There are 4 possible layouts indexed by 0-3.
+ *   However, only (sfxChannelLayout = 0) is properly implemented. (sfxChannelLayout = 1) and
+ *   (sfxChannelLayout = 2) lead to bug-filled sfxs, and (sfxChannelLayout = 3) quickly leads
+ *   to softlocking.
  */
 #define AudioSeqCmd_ResetAudioHeap(sfxChannelLayout, specId) \
     Audio_QueueSeqCmd((SEQ_CMD_RESET_HEAP << 28) | ((u8)(sfxChannelLayout) << 8) | (u8)(specId))
