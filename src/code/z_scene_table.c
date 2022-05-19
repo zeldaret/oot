@@ -93,7 +93,7 @@ void Scene_SetTransitionForNextEntrance(GlobalContext* globalCtx) {
     globalCtx->transitionType = gEntranceTable[entranceIndex].field & 0x7F; // Fade out
 }
 
-void Scene_DrawConfig0(GlobalContext* globalCtx) {
+void Scene_DrawConfigNone(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4725);
 
     gSPDisplayList(POLY_OPA_DISP++, sDefaultDisplayList);
@@ -536,13 +536,13 @@ void Scene_DrawConfigHairalNiwa(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5876);
 }
 
-void Scene_DrawConfig36(GlobalContext* globalCtx) {
+void Scene_DrawConfigGanonCastleExterior(GlobalContext* globalCtx) {
     u32 gameplayFrames;
     s8 sp83;
 
     if (1) {} // Necessary to match
 
-    sp83 = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
+    sp83 = coss(globalCtx->gameplayFrames * 1500) >> 8;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5894);
 
@@ -1563,59 +1563,59 @@ void Scene_DrawConfigBesitu(GlobalContext* globalCtx) {
 }
 
 void (*sSceneDrawConfigs[SCENE_DRAW_CONFIG_MAX])(GlobalContext*) = {
-    Scene_DrawConfig0,                  // SCENE_DRAW_CONFIG_0
-    Scene_DrawConfigSpot00,             // SCENE_DRAW_CONFIG_SPOT00
-    Scene_DrawConfigSpot01,             // SCENE_DRAW_CONFIG_SPOT01
-    Scene_DrawConfigSpot03,             // SCENE_DRAW_CONFIG_SPOT03
-    Scene_DrawConfigSpot04,             // SCENE_DRAW_CONFIG_SPOT04
-    Scene_DrawConfigSpot06,             // SCENE_DRAW_CONFIG_SPOT06
-    Scene_DrawConfigSpot07,             // SCENE_DRAW_CONFIG_SPOT07
-    Scene_DrawConfigSpot08,             // SCENE_DRAW_CONFIG_SPOT08
-    Scene_DrawConfigSpot09,             // SCENE_DRAW_CONFIG_SPOT09
-    Scene_DrawConfigSpot10,             // SCENE_DRAW_CONFIG_SPOT10
-    Scene_DrawConfigSpot11,             // SCENE_DRAW_CONFIG_SPOT11
-    Scene_DrawConfigSpot12,             // SCENE_DRAW_CONFIG_SPOT12
-    Scene_DrawConfigSpot13,             // SCENE_DRAW_CONFIG_SPOT13
-    Scene_DrawConfigSpot15,             // SCENE_DRAW_CONFIG_SPOT15
-    Scene_DrawConfigSpot16,             // SCENE_DRAW_CONFIG_SPOT16
-    Scene_DrawConfigSpot17,             // SCENE_DRAW_CONFIG_SPOT17
-    Scene_DrawConfigSpot18,             // SCENE_DRAW_CONFIG_SPOT18
-    Scene_DrawConfigSpot20,             // SCENE_DRAW_CONFIG_SPOT20
-    Scene_DrawConfigHidan,              // SCENE_DRAW_CONFIG_HIDAN
-    Scene_DrawConfigYdan,               // SCENE_DRAW_CONFIG_YDAN
-    Scene_DrawConfigDdan,               // SCENE_DRAW_CONFIG_DDAN
-    Scene_DrawConfigBdan,               // SCENE_DRAW_CONFIG_BDAN
-    Scene_DrawConfigBmori1,             // SCENE_DRAW_CONFIG_BMORI1
-    Scene_DrawConfigMizusin,            // SCENE_DRAW_CONFIG_MIZUSIN
-    Scene_DrawConfigHakadan,            // SCENE_DRAW_CONFIG_HAKADAN
-    Scene_DrawConfigJyasinzou,          // SCENE_DRAW_CONFIG_JYASINZOU
-    Scene_DrawConfigGanontika,          // SCENE_DRAW_CONFIG_GANONTIKA
-    Scene_DrawConfigMen,                // SCENE_DRAW_CONFIG_MEN
-    Scene_DrawConfigYdanBoss,           // SCENE_DRAW_CONFIG_YDAN_BOSS
-    Scene_DrawConfigMizusinBs,          // SCENE_DRAW_CONFIG_MIZUSIN_BS
-    Scene_DrawConfigTokinoma,           // SCENE_DRAW_CONFIG_TOKINOMA
-    Scene_DrawConfigKakusiana,          // SCENE_DRAW_CONFIG_KAKUSIANA
-    Scene_DrawConfigKenjyanoma,         // SCENE_DRAW_CONFIG_KENJYANOMA
-    Scene_DrawConfigGreatFairyFountain, // SCENE_DRAW_CONFIG_GREAT_FAIRY_FOUNTAIN
-    Scene_DrawConfigSyatekijyou,        // SCENE_DRAW_CONFIG_SYATEKIJYOU
-    Scene_DrawConfigHairalNiwa,         // SCENE_DRAW_CONFIG_HAIRAL_NIWA
-    Scene_DrawConfig36,                 // SCENE_DRAW_CONFIG_36
-    Scene_DrawConfigIceDoukuto,         // SCENE_DRAW_CONFIG_ICE_DOUKUTO
-    Scene_DrawConfigGanonFinal,         // SCENE_DRAW_CONFIG_GANON_FINAL
-    Scene_DrawConfigFairyFountain,      // SCENE_DRAW_CONFIG_FAIRY_FOUNTAIN
-    Scene_DrawConfigGerudoway,          // SCENE_DRAW_CONFIG_GERUDOWAY
-    Scene_DrawConfigBowling,            // SCENE_DRAW_CONFIG_BOWLING
-    Scene_DrawConfigHakaanaOuke,        // SCENE_DRAW_CONFIG_HAKAANA_OUKE
-    Scene_DrawConfigHyliaLabo,          // SCENE_DRAW_CONFIG_HYLIA_LABO
-    Scene_DrawConfigSouko,              // SCENE_DRAW_CONFIG_SOUKO
-    Scene_DrawConfigMiharigoya,         // SCENE_DRAW_CONFIG_MIHARIGOYA
-    Scene_DrawConfigMahouya,            // SCENE_DRAW_CONFIG_MAHOUYA
-    Scene_DrawConfig47,                 // SCENE_DRAW_CONFIG_47
-    Scene_DrawConfig48,                 // SCENE_DRAW_CONFIG_48
-    Scene_DrawConfigBesitu,             // SCENE_DRAW_CONFIG_BESITU
-    Scene_DrawConfigTuribori,           // SCENE_DRAW_CONFIG_TURIBORI
-    Scene_DrawConfigGanonSonogo,        // SCENE_DRAW_CONFIG_GANON_SONOGO
-    Scene_DrawConfigGanontikaSonogo,    // SCENE_DRAW_CONFIG_GANONTIKA_SONOGO
+    Scene_DrawConfigNone,                // SCENE_DRAW_CONFIG_NONE
+    Scene_DrawConfigSpot00,              // SCENE_DRAW_CONFIG_SPOT00
+    Scene_DrawConfigSpot01,              // SCENE_DRAW_CONFIG_SPOT01
+    Scene_DrawConfigSpot03,              // SCENE_DRAW_CONFIG_SPOT03
+    Scene_DrawConfigSpot04,              // SCENE_DRAW_CONFIG_SPOT04
+    Scene_DrawConfigSpot06,              // SCENE_DRAW_CONFIG_SPOT06
+    Scene_DrawConfigSpot07,              // SCENE_DRAW_CONFIG_SPOT07
+    Scene_DrawConfigSpot08,              // SCENE_DRAW_CONFIG_SPOT08
+    Scene_DrawConfigSpot09,              // SCENE_DRAW_CONFIG_SPOT09
+    Scene_DrawConfigSpot10,              // SCENE_DRAW_CONFIG_SPOT10
+    Scene_DrawConfigSpot11,              // SCENE_DRAW_CONFIG_SPOT11
+    Scene_DrawConfigSpot12,              // SCENE_DRAW_CONFIG_SPOT12
+    Scene_DrawConfigSpot13,              // SCENE_DRAW_CONFIG_SPOT13
+    Scene_DrawConfigSpot15,              // SCENE_DRAW_CONFIG_SPOT15
+    Scene_DrawConfigSpot16,              // SCENE_DRAW_CONFIG_SPOT16
+    Scene_DrawConfigSpot17,              // SCENE_DRAW_CONFIG_SPOT17
+    Scene_DrawConfigSpot18,              // SCENE_DRAW_CONFIG_SPOT18
+    Scene_DrawConfigSpot20,              // SCENE_DRAW_CONFIG_SPOT20
+    Scene_DrawConfigHidan,               // SCENE_DRAW_CONFIG_HIDAN
+    Scene_DrawConfigYdan,                // SCENE_DRAW_CONFIG_YDAN
+    Scene_DrawConfigDdan,                // SCENE_DRAW_CONFIG_DDAN
+    Scene_DrawConfigBdan,                // SCENE_DRAW_CONFIG_BDAN
+    Scene_DrawConfigBmori1,              // SCENE_DRAW_CONFIG_BMORI1
+    Scene_DrawConfigMizusin,             // SCENE_DRAW_CONFIG_MIZUSIN
+    Scene_DrawConfigHakadan,             // SCENE_DRAW_CONFIG_HAKADAN
+    Scene_DrawConfigJyasinzou,           // SCENE_DRAW_CONFIG_JYASINZOU
+    Scene_DrawConfigGanontika,           // SCENE_DRAW_CONFIG_GANONTIKA
+    Scene_DrawConfigMen,                 // SCENE_DRAW_CONFIG_MEN
+    Scene_DrawConfigYdanBoss,            // SCENE_DRAW_CONFIG_YDAN_BOSS
+    Scene_DrawConfigMizusinBs,           // SCENE_DRAW_CONFIG_MIZUSIN_BS
+    Scene_DrawConfigTokinoma,            // SCENE_DRAW_CONFIG_TOKINOMA
+    Scene_DrawConfigKakusiana,           // SCENE_DRAW_CONFIG_KAKUSIANA
+    Scene_DrawConfigKenjyanoma,          // SCENE_DRAW_CONFIG_KENJYANOMA
+    Scene_DrawConfigGreatFairyFountain,  // SCENE_DRAW_CONFIG_GREAT_FAIRY_FOUNTAIN
+    Scene_DrawConfigSyatekijyou,         // SCENE_DRAW_CONFIG_SYATEKIJYOU
+    Scene_DrawConfigHairalNiwa,          // SCENE_DRAW_CONFIG_HAIRAL_NIWA
+    Scene_DrawConfigGanonCastleExterior, // SCENE_DRAW_CONFIG_GANON_CASTLE_EXTERIOR
+    Scene_DrawConfigIceDoukuto,          // SCENE_DRAW_CONFIG_ICE_DOUKUTO
+    Scene_DrawConfigGanonFinal,          // SCENE_DRAW_CONFIG_GANON_FINAL
+    Scene_DrawConfigFairyFountain,       // SCENE_DRAW_CONFIG_FAIRY_FOUNTAIN
+    Scene_DrawConfigGerudoway,           // SCENE_DRAW_CONFIG_GERUDOWAY
+    Scene_DrawConfigBowling,             // SCENE_DRAW_CONFIG_BOWLING
+    Scene_DrawConfigHakaanaOuke,         // SCENE_DRAW_CONFIG_HAKAANA_OUKE
+    Scene_DrawConfigHyliaLabo,           // SCENE_DRAW_CONFIG_HYLIA_LABO
+    Scene_DrawConfigSouko,               // SCENE_DRAW_CONFIG_SOUKO
+    Scene_DrawConfigMiharigoya,          // SCENE_DRAW_CONFIG_MIHARIGOYA
+    Scene_DrawConfigMahouya,             // SCENE_DRAW_CONFIG_MAHOUYA
+    Scene_DrawConfig47,                  // SCENE_DRAW_CONFIG_47
+    Scene_DrawConfig48,                  // SCENE_DRAW_CONFIG_48
+    Scene_DrawConfigBesitu,              // SCENE_DRAW_CONFIG_BESITU
+    Scene_DrawConfigTuribori,            // SCENE_DRAW_CONFIG_TURIBORI
+    Scene_DrawConfigGanonSonogo,         // SCENE_DRAW_CONFIG_GANON_SONOGO
+    Scene_DrawConfigGanontikaSonogo,     // SCENE_DRAW_CONFIG_GANONTIKA_SONOGO
 };
 
 void Scene_Draw(GlobalContext* globalCtx) {

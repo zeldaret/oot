@@ -339,7 +339,7 @@ typedef enum {
 #undef DEFINE_ENTRANCE
 
 typedef enum {
-    /*  0 */ SCENE_DRAW_CONFIG_0,
+    /*  0 */ SCENE_DRAW_CONFIG_NONE,
     /*  1 */ SCENE_DRAW_CONFIG_SPOT00,
     /*  2 */ SCENE_DRAW_CONFIG_SPOT01,
     /*  3 */ SCENE_DRAW_CONFIG_SPOT03,
@@ -375,7 +375,7 @@ typedef enum {
     /* 33 */ SCENE_DRAW_CONFIG_GREAT_FAIRY_FOUNTAIN, // used for both Great Fairy Fountains scenes
     /* 34 */ SCENE_DRAW_CONFIG_SYATEKIJYOU,
     /* 35 */ SCENE_DRAW_CONFIG_HAIRAL_NIWA, // used for Castle Courtyard (with the hedges) (day, night and debug scenes)
-    /* 36 */ SCENE_DRAW_CONFIG_36,
+    /* 36 */ SCENE_DRAW_CONFIG_GANON_CASTLE_EXTERIOR, // used for two scenes
     /* 37 */ SCENE_DRAW_CONFIG_ICE_DOUKUTO,
     /* 38 */ SCENE_DRAW_CONFIG_GANON_FINAL,
     /* 39 */ SCENE_DRAW_CONFIG_FAIRY_FOUNTAIN, // used for both Fairy Fountains scenes
