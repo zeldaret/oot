@@ -387,7 +387,7 @@ typedef enum {
     /* 45 */ SCENE_DRAW_CONFIG_MIHARIGOYA,
     /* 46 */ SCENE_DRAW_CONFIG_MAHOUYA,
     /* 47 */ SCENE_DRAW_CONFIG_47,
-    /* 48 */ SCENE_DRAW_CONFIG_48,
+    /* 48 */ SCENE_DRAW_CONFIG_GRAVE_EXIT_LIGHT_SHINING, // used for one grave scene and the Dampé race scene
     /* 49 */ SCENE_DRAW_CONFIG_BESITU,
     /* 50 */ SCENE_DRAW_CONFIG_TURIBORI,
     /* 51 */ SCENE_DRAW_CONFIG_GANON_SONOGO,
