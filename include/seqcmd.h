@@ -250,13 +250,13 @@ typedef enum {
  *
  * DESCRIPTION
  *   Disable (or reenable) specific channel from receiving io of (playerIndex).
- *   Only disables channel io set by (AudioSeqCmd_SetChannelIO). 
+ *   Only disables channel io set by (AudioSeqCmd_SetChannelIO).
  *   i.e. calling Audio_QueueCmdS8 0x6 directy will still work.
  *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex).
  *   bit-on (1) disables a channel from receiving io, bit-off (0) reenables a channel receiving io.
  */
 #define AudioSeqCmd_DisableChannelIO(playerIndex, channelMask) \
-    Audio_QueueSeqCmd(_SHIFTL(SEQ_CMD_DISABLE_CHANNEL_IO, 28, 4) | ((u8)(playerIndex) << 24) | (u16)(channelMask))
+    Audio_QueueSeqCmd((SEQ_CMD_DISABLE_CHANNEL_IO << 28) | ((u8)(playerIndex) << 24) | (u16)(channelMask))
 
 /**
  * ARGS
