@@ -1,7 +1,7 @@
 /**
  * @file audio_seqcmd.c
  *
- * This file implements a set of high-levelaudio sequence commands that allow sequences to be modified in real-time.
+ * This file implements a set of high-level audio sequence commands that allow sequences to be modified in real-time.
  * These commands are intended to interface external to the audio library.
  *
  * These commands are generated using (Audio_QueueSeqCmd), and a user-friendly interface for this function
