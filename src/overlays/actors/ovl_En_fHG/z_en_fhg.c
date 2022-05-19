@@ -142,7 +142,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 }
                 if (this->timers[0] == 51) {
                     Audio_PlayActorSound2(this->actor.child, NA_SE_EV_SPEAR_FENCE);
-                    AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
+                    SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
                 }
                 if (this->timers[0] == 0) {
                     EnfHG_SetupApproach(this, globalCtx, Rand_ZeroOne() * 5.99f);
@@ -158,7 +158,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
-            AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
+            SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
             SET_EVENTCHKINF(EVENTCHKINF_72);
             Flags_SetSwitch(globalCtx, 0x23);
         case INTRO_FENCE:
@@ -194,7 +194,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 9);
             }
             if (this->timers[0] == 1) {
-                AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_OPENING_GANON);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_OPENING_GANON);
             }
             Math_ApproachF(&this->subCamEye.x, GND_BOSSROOM_CENTER_X + 40.0f, 0.05f, this->subCamVelFactor * 20.0f);
             Math_ApproachF(&this->subCamEye.y, GND_BOSSROOM_CENTER_Y + 37.0f, 0.05f, this->subCamVelFactor * 20.0f);
@@ -282,7 +282,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 this->bossGndSignal = FHG_RIDE;
             }
             if (this->timers[0] == 130) {
-                AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 80);
+                SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 80);
             }
             if (this->timers[0] == 30) {
                 bossGnd->work[GND_EYE_STATE] = GND_EYESTATE_BRIGHTEN;
@@ -295,7 +295,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
-                AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
+                SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
             if (this->timers[0] == 2) {
                 this->subCamVelFactor = 0.0f;

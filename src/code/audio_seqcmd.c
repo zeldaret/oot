@@ -519,7 +519,7 @@ void Audio_UpdateActiveSequences(void) {
             for (j = 0; j < VOL_SCALE_INDEX_MAX; j++) {
                 volume *= (gActiveSeqs[playerIndex].volScales[j] / 127.0f);
             }
-            AUDIO_SEQCMD_SET_PLAYER_VOLUME(playerIndex, gActiveSeqs[playerIndex].volFadeTimer, (u8)(volume * 127.0f));
+            SEQCMD_SET_PLAYER_VOLUME(playerIndex, gActiveSeqs[playerIndex].volFadeTimer, (u8)(volume * 127.0f));
             gActiveSeqs[playerIndex].fadeVolUpdate = 0;
         }
 
@@ -695,33 +695,33 @@ void Audio_UpdateActiveSequences(void) {
                         // However, gActiveSeqs[playerIndex].seqId is reset before the sequence on (playerIndex)
                         // is no longer playing, i.e. before this command can run.
                         // A simple fix would have been to unqueue based on gActiveSeqs[playerIndex].prevSeqId instead
-                        AUDIO_SEQCMD_UNQUEUE_SEQUENCE(playerIndex, 0, gActiveSeqs[playerIndex].seqId);
+                        SEQCMD_UNQUEUE_SEQUENCE(playerIndex, 0, gActiveSeqs[playerIndex].seqId);
                         break;
 
                     case SEQ_SUB_CMD_SETUP_RESTART_SEQ:
                         // Restart the currently active sequence on playerIndexTarget with full volume.
                         // Sequence on playerIndexTarget must still be active to play (can be muted)
-                        AUDIO_SEQCMD_PLAY_SEQUENCE(playerIndexTarget, 1, 0, gActiveSeqs[playerIndexTarget].seqId);
+                        SEQCMD_PLAY_SEQUENCE(playerIndexTarget, 1, 0, gActiveSeqs[playerIndexTarget].seqId);
                         gActiveSeqs[playerIndexTarget].fadeVolUpdate = 1;
                         gActiveSeqs[playerIndexTarget].volScales[VOL_SCALE_INDEX_FANFARE] = 0x7F;
                         break;
 
                     case SEQ_SUB_CMD_SETUP_TEMPO_SCALE:
                         // Scale tempo by a multiplicative factor
-                        AUDIO_SEQCMD_SCALE_TEMPO(playerIndexTarget, setupVal2, setupVal1);
+                        SEQCMD_SCALE_TEMPO(playerIndexTarget, setupVal2, setupVal1);
                         break;
 
                     case SEQ_SUB_CMD_SETUP_TEMPO_RESET:
                         // Reset tempo to previous tempo
-                        AUDIO_SEQCMD_RESET_TEMPO(playerIndexTarget, setupVal1);
+                        SEQCMD_RESET_TEMPO(playerIndexTarget, setupVal1);
                         break;
 
                     case SEQ_SUB_CMD_SETUP_PLAY_SEQ:
                         // Play the requested sequence
                         // Uses the fade timer set by SEQ_SUB_CMD_SETUP_SET_FADE_TIMER
                         seqId = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
-                        AUDIO_SEQCMD_PLAY_SEQUENCE(playerIndexTarget, gActiveSeqs[playerIndexTarget].setupFadeTimer, 0,
-                                                   seqId);
+                        SEQCMD_PLAY_SEQUENCE(playerIndexTarget, gActiveSeqs[playerIndexTarget].setupFadeTimer, 0,
+                                             seqId);
                         Audio_SetVolumeScale(playerIndexTarget, VOL_SCALE_INDEX_FANFARE, 0x7F, 0);
                         gActiveSeqs[playerIndexTarget].setupFadeTimer = 0;
                         break;
@@ -754,12 +754,12 @@ void Audio_UpdateActiveSequences(void) {
                     case SEQ_SUB_CMD_SETUP_DISABLE_CHANNELS:
                         // Disable (or reenable) specific channels of playerIndexTarget
                         channelMask = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
-                        AUDIO_SEQCMD_DISABLE_CHANNELS(playerIndexTarget, channelMask);
+                        SEQCMD_DISABLE_CHANNELS(playerIndexTarget, channelMask);
                         break;
 
                     case SEQ_SUB_CMD_SETUP_SET_PLAYER_FREQ:
                         // Scale all channels of playerIndexTarget
-                        AUDIO_SEQCMD_SET_PLAYER_FREQ(playerIndexTarget, setupVal2, (setupVal1 * 10) & 0xFFFF);
+                        SEQCMD_SET_PLAYER_FREQ(playerIndexTarget, setupVal2, (setupVal1 * 10) & 0xFFFF);
                         break;
                 }
             }

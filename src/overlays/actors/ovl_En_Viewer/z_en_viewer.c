@@ -240,7 +240,7 @@ void EnViewer_UpdateImpl(EnViewer* this, GlobalContext* globalCtx) {
             }
         }
         if (globalCtx->csCtx.frames == 1020) {
-            AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 0, 0, NA_BGM_OPENING_GANON);
+            SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_FANFARE, 0, 0, NA_BGM_OPENING_GANON);
         }
         if (globalCtx->csCtx.frames == 960) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_GROAN, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
