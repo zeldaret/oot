@@ -110,7 +110,7 @@
 #define NA_BGM_STAFF_4 0x6A          // End Credits IV
 #define NA_BGM_FIRE_BOSS 0x6B        // King Dodongo & Volvagia Boss Battle "NA_BGM_BOSS01"
 #define NA_BGM_TIMED_MINI_GAME 0x6C  // Mini-Game
-#define NA_BGM_VARIOUS_SFX 0x6D      // A small collection of various sound effects
+#define NA_BGM_CUTSCENE_EFFECTS 0x6D // A small collection of various cutscene sounds
 #define NA_BGM_NO_MUSIC 0x7F         // No bgm music is played
 #define NA_BGM_NATURE_SFX_RAIN 0x80  // Related to rain
 #define NA_BGM_DISABLED 0xFFFF
