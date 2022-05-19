@@ -211,7 +211,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                 sNumSeqRequests[playerIndex]--;
             }
 
-            // If the sequence was first in queue (it was currently playing),
+            // If the sequence was first in queue (it is currently playing),
             // Then stop the sequence and play the next sequence in the queue.
             if (found == 0) {
                 Audio_StopSequenceNow(playerIndex, fadeTimer);
@@ -546,7 +546,7 @@ void Audio_UpdateActiveSequences(void) {
 
             // Process tempo commands
             if (gAudioContext.seqPlayers[playerIndex].enabled) {
-                tempoPrev = gAudioContext.seqPlayers[playerIndex].tempo / 0x30;
+                tempoPrev = gAudioContext.seqPlayers[playerIndex].tempo / TATUMS_PER_BEAT;
                 tempoOp = (tempoCmd & 0xF000) >> 12;
                 switch (tempoOp) {
                     case SEQ_SUB_CMD_TEMPO_SPEED_UP:
@@ -587,7 +587,7 @@ void Audio_UpdateActiveSequences(void) {
                 }
 
                 gActiveSeqs[playerIndex].tempoTarget = tempoTarget;
-                gActiveSeqs[playerIndex].tempoCur = gAudioContext.seqPlayers[playerIndex].tempo / 0x30;
+                gActiveSeqs[playerIndex].tempoCur = gAudioContext.seqPlayers[playerIndex].tempo / TATUMS_PER_BEAT;
                 gActiveSeqs[playerIndex].tempoVelocity =
                     (gActiveSeqs[playerIndex].tempoCur - gActiveSeqs[playerIndex].tempoTarget) / tempoDuration;
                 gActiveSeqs[playerIndex].tempoDuration = tempoDuration;
