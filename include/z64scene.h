@@ -339,7 +339,7 @@ typedef enum {
 #undef DEFINE_ENTRANCE
 
 typedef enum {
-    /*  0 */ SCENE_DRAW_CONFIG_NONE,
+    /*  0 */ SCENE_DRAW_CONFIG_DEFAULT,
     /*  1 */ SCENE_DRAW_CONFIG_SPOT00,
     /*  2 */ SCENE_DRAW_CONFIG_SPOT01,
     /*  3 */ SCENE_DRAW_CONFIG_SPOT03,

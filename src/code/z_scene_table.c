@@ -93,7 +93,7 @@ void Scene_SetTransitionForNextEntrance(GlobalContext* globalCtx) {
     globalCtx->transitionType = gEntranceTable[entranceIndex].field & 0x7F; // Fade out
 }
 
-void Scene_DrawConfigNone(GlobalContext* globalCtx) {
+void Scene_DrawConfigDefault(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4725);
 
     gSPDisplayList(POLY_OPA_DISP++, sDefaultDisplayList);
@@ -1563,7 +1563,7 @@ void Scene_DrawConfigBesitu(GlobalContext* globalCtx) {
 }
 
 void (*sSceneDrawConfigs[SCENE_DRAW_CONFIG_MAX])(GlobalContext*) = {
-    Scene_DrawConfigNone,                  // SCENE_DRAW_CONFIG_NONE
+    Scene_DrawConfigDefault,               // SCENE_DRAW_CONFIG_DEFAULT
     Scene_DrawConfigSpot00,                // SCENE_DRAW_CONFIG_SPOT00
     Scene_DrawConfigSpot01,                // SCENE_DRAW_CONFIG_SPOT01
     Scene_DrawConfigSpot03,                // SCENE_DRAW_CONFIG_SPOT03
