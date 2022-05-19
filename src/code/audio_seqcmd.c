@@ -497,7 +497,7 @@ void Audio_UpdateActiveSequences(void) {
         // The setup for this block of code was not fully implemented until Majora's Mask.
         // The intent was to load soundfonts asyncronously before playing a
         // sequence in Audio_StartSequence using (seqArgs & 0x80).
-        // Checks if the requested sequences is finished loading fonts
+        // Checks if the requested sequence is finished loading fonts
         if (gActiveSeqs[playerIndex].isWaitingForFonts) {
             switch (func_800E5E20(&retMsg)) {
                 case SEQ_PLAYER_BGM_MAIN + 1:
@@ -620,7 +620,7 @@ void Audio_UpdateActiveSequences(void) {
                             gActiveSeqs[playerIndex].channelData[channelIndex].volTarget;
                         gActiveSeqs[playerIndex].volChannelFlags ^= (1 << channelIndex);
                     }
-                    // CHAN_UPD_VOL_SCALE (playerIndex = seq, channelIndex = chan)
+                    // CHAN_UPD_VOL_SCALE
                     Audio_QueueCmdF32(0x01000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8),
                                       gActiveSeqs[playerIndex].channelData[channelIndex].volCur);
                 }
@@ -661,7 +661,8 @@ void Audio_UpdateActiveSequences(void) {
                 continue;
             }
 
-            // Do not process setup commands if the seqPlayer is already enabled
+            // Only process setup commands if the playerIndex if no longer playing
+            // i.e. the seqPlayer is no longer enabled
             if (gAudioContext.seqPlayers[playerIndex].enabled) {
                 continue;
             }
@@ -698,7 +699,7 @@ void Audio_UpdateActiveSequences(void) {
                         break;
 
                     case SEQ_SUB_CMD_SETUP_RESTART_SEQ:
-                        // Resart the currently active sequence on playerIndexTarget with full volume.
+                        // Restart the currently active sequence on playerIndexTarget with full volume.
                         // Sequence on playerIndexTarget must still be active to play (can be muted)
                         AudioSeqCmd_PlaySequence(playerIndexTarget, 1, 0, gActiveSeqs[playerIndexTarget].seqId);
                         gActiveSeqs[playerIndexTarget].fadeVolUpdate = 1;
@@ -757,7 +758,7 @@ void Audio_UpdateActiveSequences(void) {
                         break;
 
                     case SEQ_SUB_CMD_SETUP_SET_PLAYER_FREQ:
-                        // Scale all chsnnels of playerIndexTarget
+                        // Scale all channels of playerIndexTarget
                         AudioSeqCmd_SetPlayerFreq(playerIndexTarget, setupVal2, (setupVal1 * 10) & 0xFFFF);
                         break;
                 }
