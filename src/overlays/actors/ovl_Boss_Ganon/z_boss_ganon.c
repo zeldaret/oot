@@ -576,7 +576,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                 this->unk_198 = 2;
                 this->timers[2] = 110;
                 gSaveContext.healthAccumulator = 0x140;
-                AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
+                AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
             } else {
                 this->useOpenHand = true;
                 BossGanon_SetIntroCsCamera(this, 0);
@@ -809,7 +809,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             BossGanon_SetIntroCsCamera(this, 9);
 
             if (this->csTimer == 30) {
-                AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
+                AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
                 this->fwork[GDF_FWORK_1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_004F64);
                 Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_004F64, -5.0f);
             }
@@ -1076,7 +1076,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                 sCape->attachShouldersTimer = 18.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_MANTLE);
                 this->unk_198 = 0;
-                AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_GANONDORF_BOSS);
+                AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_GANONDORF_BOSS);
             }
 
             if (this->csTimer == 50) {
@@ -2739,7 +2739,7 @@ void BossGanon_UpdateDamage(BossGanon* this, GlobalContext* globalCtx) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_DEAD);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_DD_THUNDER);
                     func_80078914(&sZeroVec, NA_SE_EN_LAST_DAMAGE);
-                    AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
+                    AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
                     this->screenFlashTimer = 4;
                 } else {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_DAMAGE2);

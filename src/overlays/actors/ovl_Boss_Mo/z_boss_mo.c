@@ -360,7 +360,7 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
         if (GET_EVENTCHKINF(EVENTCHKINF_74)) {
-            AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
+            AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             this->tentMaxAngle = 5.0f;
             this->timers[0] = 50;
         } else {
@@ -1104,7 +1104,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                        WARP_DUNGEON_ADULT);
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
                                 -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
-                    AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
+                    AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
                     Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
                 }
             }
@@ -1238,7 +1238,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->actor.world.rot.y = 0x721A;
                 sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
-                AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 50);
+                AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 50);
                 Message_CloseTextbox(globalCtx);
             } else {
                 break;
@@ -1419,7 +1419,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 this->subCamAccel = 0.01f;
             }
             if (this->timers[2] == 150) {
-                AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
+                AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
@@ -1775,7 +1775,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                         ((sMorphaTent1->subCamId == SUB_CAM_ID_DONE) && (sMorphaTent2 != NULL) &&
                          (sMorphaTent2->subCamId == SUB_CAM_ID_DONE))) {
                         Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                        AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
+                        AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
                         this->csState = MO_DEATH_START;
                         sMorphaTent1->drawActor = false;
                         sMorphaTent1->work[MO_TENT_ACTION_STATE] = MO_TENT_DEATH_START;
@@ -3577,11 +3577,11 @@ void BossMo_Unknown(void) {
 
     if (BREG(32) != 0) {
         BREG(32)--;
-        AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
+        AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
         func_80078914(&zeroVec, unkSfx[BREG(33)]);
     }
     if (BREG(34) != 0) {
         BREG(34) = 0;
-        AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, BREG(35));
+        AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, BREG(35));
     }
 }

@@ -456,9 +456,9 @@ void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         fadeTimer = cmd->endFrame - cmd->startFrame;
 
         if (cmd->type == 3) {
-            AudioSeqCmd_StopSequence(SEQ_PLAYER_FANFARE, fadeTimer);
+            AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_FANFARE, fadeTimer);
         } else {
-            AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, fadeTimer);
+            AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, fadeTimer);
         }
     }
 }

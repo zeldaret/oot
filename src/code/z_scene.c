@@ -418,7 +418,7 @@ void func_80099140(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->sequenceCtx.natureAmbienceId = cmd->soundSettings.natureAmbienceId;
 
     if (gSaveContext.seqId == (u8)NA_BGM_DISABLED) {
-        AudioSeqCmd_ResetAudioHeap(0, cmd->soundSettings.specId);
+        AUDIO_SEQCMD_RESET_AUDIO_HEAP(0, cmd->soundSettings.specId);
     }
 }
 

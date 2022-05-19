@@ -318,7 +318,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             BossDodongo_Walk(this, globalCtx);
 
             if (this->unk_196 == 1) {
-                AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
+                AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
             }
 
             if (this->unk_196 == 0) {
@@ -406,7 +406,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                                            SEGMENTED_TO_VIRTUAL(&object_kingdodongo_Blob_017410), 0xA0, 0xB4, 0x80,
                                            0x28);
                 }
-                AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
+                AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_FIRE_BOSS);
             }
 
             if (this->unk_198 == 0) {
@@ -1282,7 +1282,7 @@ void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
     this->csState = 0;
     this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_2);
     this->unk_1BC = 1;
-    AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 1);
+    AUDIO_SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 1);
 }
 
 void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
@@ -1597,7 +1597,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
 
             if (this->unk_1DA == 820) {
-                AudioSeqCmd_PlaySequence(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
+                AUDIO_SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS_CLEAR);
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART,
                             Math_SinS(this->actor.shape.rot.y) * -50.0f + this->actor.world.pos.x,
                             this->actor.world.pos.y,
