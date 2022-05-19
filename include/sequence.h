@@ -168,7 +168,7 @@ typedef struct {
     /* 0x012 */ u8 volFadeTimer;
     /* 0x013 */ u8 fadeVolUpdate;
     /* 0x014 */ u32 tempoCmd;
-    /* 0x018 */ u16 tempoPrev;
+    /* 0x018 */ u16 tempoOriginal; // stores the original tempo before modifying it (to reset back to)
     /* 0x01C */ f32 tempoCur;
     /* 0x020 */ f32 tempoTarget;
     /* 0x024 */ f32 tempoVelocity;

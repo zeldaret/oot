@@ -466,11 +466,11 @@ typedef enum {
 
 /**
  * ARGS
- *   playerIndex (p), fadeInTimer (t)
+ *   playerIndexTarget (s), fadeInTimer (t)
  *
  * FORMAT
  *   Capital U is unused
- *   Cp6UttUU
+ *   Cs6UttUU
  *
  * DESCRIPTION
  *   This command is paired with (AudioSeqCmd_SetupPlaySequence) above.
@@ -508,7 +508,7 @@ typedef enum {
  *
  * DESCRIPTION
  *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing.
- *   Restores volume with a (scaleIndex) over the duration (duration)
+ *   Restores volume with a (scaleIndex, see VolumeScaleIndex enum) over the duration (duration)
  */
 #define AudioSeqCmd_SetupRestorePlayerVolumeWithScale(playerIndex, playerIndexTarget, scaleIndex, duration)  \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_WITH_SCALE << 20) |       \

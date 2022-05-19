@@ -1,7 +1,7 @@
 /**
  * @file audio_seqcmd.c
  *
- * This file implements a set of audio sequence commands that allow sequences to be modified in real-time.
+ * This file implements a set of high-levelaudio sequence commands that allow sequences to be modified in real-time.
  * These commands are intended to interface external to the audio library.
  *
  * These commands are generated using (Audio_QueueSeqCmd), and a user-friendly interface for this function
@@ -69,7 +69,7 @@ void Audio_StartSequence(u8 playerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
         }
 
         gActiveSeqs[playerIndex].tempoDuration = 0;
-        gActiveSeqs[playerIndex].tempoPrev = 0;
+        gActiveSeqs[playerIndex].tempoOriginal = 0;
         gActiveSeqs[playerIndex].tempoCmd = 0;
 
         for (channelIndex = 0; channelIndex < 16; channelIndex++) {
@@ -229,6 +229,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             if (duration == 0) {
                 duration++;
             }
+            // Volume is scaled relative to 127
             gActiveSeqs[playerIndex].volTarget = (f32)val / 127.0f;
             if (gActiveSeqs[playerIndex].volCur != gActiveSeqs[playerIndex].volTarget) {
                 gActiveSeqs[playerIndex].volVelocity =
@@ -244,6 +245,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             if (duration == 0) {
                 duration++;
             }
+            // Frequency is scaled relative to 1000
             freqScaleTarget = (f32)val / 1000.0f;
             for (i = 0; i < 16; i++) {
                 gActiveSeqs[playerIndex].channelData[i].freqScaleTarget = freqScaleTarget;
@@ -262,6 +264,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             if (duration == 0) {
                 duration++;
             }
+            // Frequency is scaled relative to 100
             freqScaleTarget = (f32)val / 1000.0f;
             gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleTarget = freqScaleTarget;
             gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleVelocity =
@@ -278,6 +281,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             if (duration == 0) {
                 duration++;
             }
+            // Volume is scaled relative to 127
             gActiveSeqs[playerIndex].channelData[channelIndex].volTarget = (f32)val / 127.0f;
             if (gActiveSeqs[playerIndex].channelData[channelIndex].volCur !=
                 gActiveSeqs[playerIndex].channelData[channelIndex].volTarget) {
@@ -302,7 +306,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             channelIndex = (cmd & 0xF00) >> 8;
             port = (cmd & 0xFF0000) >> 16;
             val = cmd & 0xFF;
-            if ((gActiveSeqs[playerIndex].channelPortMask & (1 << channelIndex)) == 0) {
+            if (!(gActiveSeqs[playerIndex].channelPortMask & (1 << channelIndex))) {
                 Audio_QueueCmdS8(
                     0x06000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8) | _SHIFTL(port, 0, 8), val);
             }
@@ -467,7 +471,7 @@ void Audio_SetVolumeScale(u8 playerIndex, u8 scaleIndex, u8 targetVol, u8 volFad
 }
 
 /**
- * Apply various high-level commands to the active sequences
+ * Update different commands and requests for active sequences
  */
 void Audio_UpdateActiveSequences(void) {
     u32 tempoCmd;
@@ -481,7 +485,7 @@ void Audio_UpdateActiveSequences(void) {
     u16 seqId;
     s32 pad[2];
     u16 channelMask;
-    u32 dummy;
+    u32 retMsg;
     f32 volume;
     u8 tempoDuration;
     u8 playerIndex;
@@ -490,11 +494,12 @@ void Audio_UpdateActiveSequences(void) {
 
     for (playerIndex = 0; playerIndex < 4; playerIndex++) {
 
-        // The setup for this block of code (within this single if-statement) was not fully implemented until Majora's
-        // Mask. The intent was to load soundfonts asyncronously before playing a sequence in Audio_StartSequence but
-        // with (seqArgs & 0x80). Check if the requested sequences is finished loading fonts
+        // The setup for this block of code was not fully implemented until Majora's Mask.
+        // The intent was to load soundfonts asyncronously before playing a
+        // sequence in Audio_StartSequence using (seqArgs & 0x80).
+        // Checks if the requested sequences is finished loading fonts
         if (gActiveSeqs[playerIndex].isWaitingForFonts) {
-            switch (func_800E5E20(&dummy)) {
+            switch (func_800E5E20(&retMsg)) {
                 case SEQ_PLAYER_BGM_MAIN + 1:
                 case SEQ_PLAYER_FANFARE + 1:
                 case SEQ_PLAYER_SFX + 1:
@@ -562,16 +567,13 @@ void Audio_UpdateActiveSequences(void) {
                         break;
 
                     case SEQ_SUB_CMD_TEMPO_RESET:
-                        // Reset tempo to previous tempo
-                        if (gActiveSeqs[playerIndex].tempoPrev) {
-                            tempoTarget = gActiveSeqs[playerIndex].tempoPrev;
-                        } else {
-                            tempoTarget = tempoPrev;
-                        }
+                        // Reset tempo to original tempo
+                        tempoTarget = (gActiveSeqs[playerIndex].tempoOriginal != 0)
+                                          ? gActiveSeqs[playerIndex].tempoOriginal
+                                          : tempoPrev;
                         break;
 
-                    default:
-                        // SEQ_SUB_CMD_TEMPO_SET
+                    default: // SEQ_SUB_CMD_TEMPO_SET
                         // tempoTarget is the new tempo
                         break;
                 }
@@ -580,8 +582,8 @@ void Audio_UpdateActiveSequences(void) {
                     tempoTarget = 300;
                 }
 
-                if (gActiveSeqs[playerIndex].tempoPrev == 0) {
-                    gActiveSeqs[playerIndex].tempoPrev = tempoPrev;
+                if (gActiveSeqs[playerIndex].tempoOriginal == 0) {
+                    gActiveSeqs[playerIndex].tempoOriginal = tempoPrev;
                 }
 
                 gActiveSeqs[playerIndex].tempoTarget = tempoTarget;
@@ -795,7 +797,7 @@ void Audio_ResetSequences(void) {
         gActiveSeqs[playerIndex].seqId = NA_BGM_DISABLED;
         gActiveSeqs[playerIndex].prevSeqId = NA_BGM_DISABLED;
         gActiveSeqs[playerIndex].tempoDuration = 0;
-        gActiveSeqs[playerIndex].tempoPrev = 0;
+        gActiveSeqs[playerIndex].tempoOriginal = 0;
         gActiveSeqs[playerIndex].tempoCmd = 0;
         gActiveSeqs[playerIndex].channelPortMask = 0;
         gActiveSeqs[playerIndex].setupCmdNum = 0;
