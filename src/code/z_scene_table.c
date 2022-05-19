@@ -714,7 +714,7 @@ void Scene_DrawConfigHyliaLabo(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6232);
 }
 
-void Scene_DrawConfig47(GlobalContext* globalCtx) {
+void Scene_DrawConfigCalmWater(GlobalContext* globalCtx) {
     u32 gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 6249);
@@ -1610,7 +1610,7 @@ void (*sSceneDrawConfigs[SCENE_DRAW_CONFIG_MAX])(GlobalContext*) = {
     Scene_DrawConfigSouko,                 // SCENE_DRAW_CONFIG_SOUKO
     Scene_DrawConfigMiharigoya,            // SCENE_DRAW_CONFIG_MIHARIGOYA
     Scene_DrawConfigMahouya,               // SCENE_DRAW_CONFIG_MAHOUYA
-    Scene_DrawConfig47,                    // SCENE_DRAW_CONFIG_47
+    Scene_DrawConfigCalmWater,             // SCENE_DRAW_CONFIG_CALM_WATER
     Scene_DrawConfigGraveExitLightShining, // SCENE_DRAW_CONFIG_GRAVE_EXIT_LIGHT_SHINING
     Scene_DrawConfigBesitu,                // SCENE_DRAW_CONFIG_BESITU
     Scene_DrawConfigTuribori,              // SCENE_DRAW_CONFIG_TURIBORI

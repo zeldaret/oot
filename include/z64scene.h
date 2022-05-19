@@ -386,7 +386,7 @@ typedef enum {
     /* 44 */ SCENE_DRAW_CONFIG_SOUKO,
     /* 45 */ SCENE_DRAW_CONFIG_MIHARIGOYA,
     /* 46 */ SCENE_DRAW_CONFIG_MAHOUYA,
-    /* 47 */ SCENE_DRAW_CONFIG_47,
+    /* 47 */ SCENE_DRAW_CONFIG_CALM_WATER, // used for Castle Courtyard (with Zelda), Sacred Forest Meadow, and debug Jungle Gym
     /* 48 */ SCENE_DRAW_CONFIG_GRAVE_EXIT_LIGHT_SHINING, // used for one grave scene and the Dampé race scene
     /* 49 */ SCENE_DRAW_CONFIG_BESITU,
     /* 50 */ SCENE_DRAW_CONFIG_TURIBORI,
