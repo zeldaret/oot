@@ -5165,7 +5165,7 @@ void Audio_SetNatureAmbienceChannelIO(u8 channelIdxRange, u8 port, u8 ioData) {
     u8 channelIdx;
 
     if ((gActiveSeqs[SEQ_PLAYER_BGM_MAIN].seqId != NA_BGM_NATURE_AMBIENCE) &&
-        Audio_IsSeqCmdNotQueued(1, SEQ_CMD_MASK | 0xFF)) {
+        Audio_IsSeqCmdNotQueued(SEQ_CMD_PLAY << 28 | NA_BGM_NATURE_AMBIENCE, SEQ_CMD_MASK | 0xFF)) {
         sAudioNatureFailed = true;
         return;
     }
