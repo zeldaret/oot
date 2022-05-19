@@ -165,7 +165,7 @@ void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
                        this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         this->subCamAt.y += this->subCamAtYOffset;
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
         Math_ApproachZeroF(&this->subCamAtYOffset, 1.0f, 0.1f);
     }
 }
@@ -300,7 +300,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->introState != BFD_CS_NONE) {
         Player* player2 = GET_PLAYER(globalCtx);
-        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+        Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
 
         switch (this->introState) {
             case BFD_CS_WAIT:
@@ -316,9 +316,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->introState = BFD_CS_START;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
-                    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                    this->subCamId = Play_CreateSubCamera(globalCtx);
+                    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     player2->actor.world.pos.x = 380.0f;
                     player2->actor.world.pos.y = 100.0f;
                     player2->actor.world.pos.z = 0.0f;
@@ -1648,7 +1648,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         BossFd_DrawBody(globalCtx, this);
-        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Play_SetFog(globalCtx, POLY_OPA_DISP);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4243);
     }
 

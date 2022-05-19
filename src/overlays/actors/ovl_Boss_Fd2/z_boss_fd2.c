@@ -631,7 +631,7 @@ void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
                        this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         this->subCamAt.y += this->subCamAtYOffset;
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
         Math_ApproachF(&this->subCamAtYOffset, 0.0f, 1.0f, 0.1f);
     }
 }
@@ -641,7 +641,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
     Vec3f sp70;
     Vec3f sp64;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
     f32 pad3;
     f32 pad2;
     f32 pad1;
@@ -654,9 +654,9 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             this->deathState = DEATH_RETREAT;
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
-            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            this->subCamId = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->subCamEye = mainCam->eye;
             this->subCamAt = mainCam->at;
             this->subCamEyeVel.x = 100.0f;
@@ -1211,7 +1211,7 @@ void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, globalCtx);
-        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Play_SetFog(globalCtx, POLY_OPA_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2688);
 }

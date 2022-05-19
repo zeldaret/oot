@@ -216,7 +216,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
                     (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f) &&
-                    (!(Gameplay_InCsMode(globalCtx)))) {
+                    (!(Play_InCsMode(globalCtx)))) {
                     SET_EVENTCHKINF(EVENTCHKINF_80);
                     Flags_SetEventChkInf(EVENTCHKINF_82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;

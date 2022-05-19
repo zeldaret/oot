@@ -1418,7 +1418,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
             LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_elf.c", 2595);
         }
 
-        if (!Gameplay_InCsMode(globalCtx)) {
+        if (!Play_InCsMode(globalCtx)) {
             if (gSaveContext.naviTimer < 25800) {
                 gSaveContext.naviTimer++;
             } else if (!(this->fairyFlags & 0x80)) {

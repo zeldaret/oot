@@ -220,7 +220,7 @@ void func_80A4E910(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1EC = 0.0f;
     } else if ((this->unk_19F == 1) && (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200,
                                                       0.8f, 0.007f, 0.001f, 7, 0) == 0.0f)) {
-        if (!Gameplay_InCsMode(globalCtx)) {
+        if (!Play_InCsMode(globalCtx)) {
             Message_StartTextbox(globalCtx, 0x71B1, NULL);
         }
         this->unk_19C = 0;
