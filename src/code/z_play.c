@@ -256,12 +256,12 @@ void Play_Init(GameState* thisx) {
         gSaveContext.cutsceneIndex = 0;
     }
 
-    if (gSaveContext.nextDayTime != 0xFFFF) {
+    if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
         gSaveContext.dayTime = gSaveContext.nextDayTime;
         gSaveContext.skyboxTime = gSaveContext.nextDayTime;
     }
 
-    if (gSaveContext.dayTime > 0xC000 || gSaveContext.dayTime < 0x4555) {
+    if (gSaveContext.dayTime > CLOCK_TIME(18, 0) || gSaveContext.dayTime < CLOCK_TIME(6, 30)) {
         gSaveContext.nightFlag = 1;
     } else {
         gSaveContext.nightFlag = 0;
@@ -315,8 +315,8 @@ void Play_Init(GameState* thisx) {
     KaleidoScopeCall_Init(this);
     func_801109B0(this);
 
-    if (gSaveContext.nextDayTime != 0xFFFF) {
-        if (gSaveContext.nextDayTime == 0x8001) {
+    if (gSaveContext.nextDayTime != NEXT_TIME_NONE) {
+        if (gSaveContext.nextDayTime == NEXT_TIME_DAY) {
             gSaveContext.totalDays++;
             gSaveContext.bgsDayCount++;
             gSaveContext.dogIsLost = true;
@@ -324,9 +324,9 @@ void Play_Init(GameState* thisx) {
                 Inventory_ReplaceItem(this, ITEM_POCKET_EGG, ITEM_POCKET_CUCCO)) {
                 Message_StartTextbox(this, 0x3066, NULL);
             }
-            gSaveContext.nextDayTime = 0xFFFE;
+            gSaveContext.nextDayTime = NEXT_TIME_DAY_SET;
         } else {
-            gSaveContext.nextDayTime = 0xFFFD;
+            gSaveContext.nextDayTime = NEXT_TIME_NIGHT_SET;
         }
     }
 
@@ -1256,7 +1256,7 @@ void Play_Draw(GlobalContext* this) {
                     }
                 }
 
-                if (this->envCtx.unk_EE[1] != 0) {
+                if (this->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
                     Environment_DrawRain(this, &this->view, gfxCtx);
                 }
 
@@ -1515,17 +1515,17 @@ void Play_SpawnScene(GlobalContext* this, s32 sceneNum, s32 spawn) {
     osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(this, &this->roomCtx) / 1024.0f);
 }
 
-void func_800C016C(GlobalContext* this, Vec3f* src, Vec3f* dest) {
-    f32 temp;
+void Play_GetScreenPos(GlobalContext* this, Vec3f* src, Vec3f* dest) {
+    f32 w;
 
     Matrix_Mult(&this->viewProjectionMtxF, MTXMODE_NEW);
     Matrix_MultVec3f(src, dest);
 
-    temp = this->viewProjectionMtxF.ww + (this->viewProjectionMtxF.wx * src->x + this->viewProjectionMtxF.wy * src->y +
-                                          this->viewProjectionMtxF.wz * src->z);
+    w = this->viewProjectionMtxF.ww + (this->viewProjectionMtxF.wx * src->x + this->viewProjectionMtxF.wy * src->y +
+                                       this->viewProjectionMtxF.wz * src->z);
 
-    dest->x = 160.0f + ((dest->x / temp) * 160.0f);
-    dest->y = 120.0f - ((dest->y / temp) * 120.0f);
+    dest->x = (SCREEN_WIDTH / 2) + ((dest->x / w) * (SCREEN_WIDTH / 2));
+    dest->y = (SCREEN_HEIGHT / 2) - ((dest->y / w) * (SCREEN_HEIGHT / 2));
 }
 
 s16 Play_CreateSubCamera(GlobalContext* this) {

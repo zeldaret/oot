@@ -1139,14 +1139,14 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         vel.z = this->actor.world.pos.z - this->actor.prevPos.z;
         if (bodyDecayLevel < 10) {
             if (this->work[GND_DEATH_ENV_TIMER] == 0) {
-                if (globalCtx->envCtx.unk_BF == 0) {
-                    globalCtx->envCtx.unk_BF = 3;
+                if (globalCtx->envCtx.lightSettingOverride == 0) {
+                    globalCtx->envCtx.lightSettingOverride = 3;
                     this->work[GND_DEATH_ENV_TIMER] = (s16)Rand_ZeroFloat(5.0f) + 4.0f;
-                    globalCtx->envCtx.unk_D6 = 0x28;
+                    globalCtx->envCtx.lightBlendRateOverride = 40;
                 } else {
-                    globalCtx->envCtx.unk_BF = 0;
+                    globalCtx->envCtx.lightSettingOverride = 0;
                     this->work[GND_DEATH_ENV_TIMER] = (s16)Rand_ZeroFloat(2.0f) + 2.0f;
-                    globalCtx->envCtx.unk_D6 = 0x14;
+                    globalCtx->envCtx.lightBlendRateOverride = 20;
                 }
             } else {
                 this->work[GND_DEATH_ENV_TIMER]--;
@@ -1178,8 +1178,8 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            globalCtx->envCtx.unk_BF = 0;
-            globalCtx->envCtx.unk_D6 = 0x14;
+            globalCtx->envCtx.lightSettingOverride = 0;
+            globalCtx->envCtx.lightBlendRateOverride = 20;
         }
 
         this->work[GND_BODY_DECAY_FLAG] = true;
