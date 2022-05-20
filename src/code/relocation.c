@@ -43,7 +43,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
         switch (RELOC_TYPE(reloc)) {
             case R_MIPS_32 << 24:
                 // Handles 32-bit address relocation, used for things such as jump tables and pointers in data.
-                // Just relocate the full address
+                // Just relocate the full address.
 
                 // Check address is valid for relocation
                 if ((*relocDataP & 0xF000000) == 0) {
