@@ -649,16 +649,16 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
                     globalCtx->envCtx.screenFillColor[2] = 0xBE;
                     globalCtx->envCtx.screenFillColor[3] = 0xD2;
                     func_80064520(globalCtx, &globalCtx->csCtx);
-                    sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+                    sSubCamId = Play_CreateSubCamera(globalCtx);
+                    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                    Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
                     sSubCamEyeNext.x = sSubCamEye.x = 140.0f;
                     sSubCamEyeNext.y = sSubCamEye.y = 205.0f;
                     sSubCamEyeNext.z = sSubCamEye.z = -20.0f;
                     sSubCamAtNext.x = sSubCamAt.x = 10.0f;
                     sSubCamAtNext.y = sSubCamAt.y = 50.0f;
                     sSubCamAtNext.z = sSubCamAt.z = -220.0f;
-                    Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+                    Play_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
                     this->timer = 20;
 
                     for (i = BOSSVA_BARI_LOWER_5; i >= BOSSVA_BARI_UPPER_1; i--) {
@@ -791,10 +791,10 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
         case INTRO_LOOK_DOOR:
             func_80064520(globalCtx, &globalCtx->csCtx);
             if (sSubCamId == SUB_CAM_ID_DONE) {
-                sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+                sSubCamId = Play_CreateSubCamera(globalCtx);
             }
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
 
             sSubCamEyeNext.x = sSubCamEye.x = 13.0f;
             sSubCamEyeNext.y = sSubCamEye.y = 124.0f;
@@ -833,10 +833,10 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
         case INTRO_SPAWN_BARI:
             func_80064520(globalCtx, &globalCtx->csCtx);
             if (sSubCamId == SUB_CAM_ID_DONE) {
-                sSubCamId = Gameplay_CreateSubCamera(globalCtx);
+                sSubCamId = Play_CreateSubCamera(globalCtx);
             }
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
 
             sSubCamEyeNext.x = sSubCamEye.x = 13.0f;
             sSubCamEyeNext.y = sSubCamEye.y = 124.0f;
@@ -1011,10 +1011,10 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
         case INTRO_FINISH:
             this->timer--;
             if (this->timer == 0) {
-                Gameplay_ClearCamera(globalCtx, sSubCamId);
+                Play_ClearCamera(globalCtx, sSubCamId);
                 sSubCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 sCsState++;
                 SET_EVENTCHKINF(EVENTCHKINF_76);
@@ -1042,7 +1042,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&sSubCamAt.x, sSubCamAtNext.x, 0.3f, sSubCamAtMaxVelFrac.x, 0.075f);
         Math_SmoothStepToF(&sSubCamAt.y, sSubCamAtNext.y, 0.3f, sSubCamAtMaxVelFrac.y, 0.075f);
         Math_SmoothStepToF(&sSubCamAt.z, sSubCamAtNext.z, 0.3f, sSubCamAtMaxVelFrac.z, 0.075f);
-        Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 }
 
@@ -1526,7 +1526,7 @@ void BossVa_SetupBodyDeath(BossVa* this, GlobalContext* globalCtx) {
 
 void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
     s32 sp7C;
     Player* player = GET_PLAYER(globalCtx);
     s16 tmp16;
@@ -1535,9 +1535,9 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
         case DEATH_START:
             func_8002DF54(globalCtx, &this->actor, 1);
             func_80064520(globalCtx, &globalCtx->csCtx);
-            sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+            sSubCamId = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
 
             sSubCamAtNext.x = this->actor.world.pos.x;
             sSubCamAtNext.y = this->actor.world.pos.y;
@@ -1628,10 +1628,10 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
 
             this->timer--;
             if (this->timer == 0) {
-                Gameplay_ClearCamera(globalCtx, sSubCamId);
+                Play_ClearCamera(globalCtx, sSubCamId);
                 sSubCamId = SUB_CAM_ID_DONE;
                 func_80064534(globalCtx, &globalCtx->csCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
 
                 mainCam->eyeNext = mainCam->eye = sSubCamEye;
 
@@ -1666,7 +1666,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&sSubCamAt.x, sSubCamAtNext.x, 0.3f, sSubCamAtMaxVelFrac.x, 0.15f);
         Math_SmoothStepToF(&sSubCamAt.y, sSubCamAtNext.y, 0.3f, sSubCamAtMaxVelFrac.y, 0.15f);
         Math_SmoothStepToF(&sSubCamAt.z, sSubCamAtNext.z, 0.3f, sSubCamAtMaxVelFrac.z, 0.15f);
-        Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 
     SkelAnime_Update(&this->skelAnime);
@@ -3511,7 +3511,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, GlobalContext* globalCtx) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u8 materialFlag = 0;
     BossVaEffect* effectHead = effect;
-    Camera* subCam = Gameplay_GetCamera(globalCtx, sSubCamId);
+    Camera* subCam = Play_GetCamera(globalCtx, sSubCamId);
 
     OPEN_DISPS(gfxCtx, "../z_boss_va.c", 4953);
 

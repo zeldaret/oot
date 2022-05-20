@@ -1565,7 +1565,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
         // don't draw lens flare
     } else {
         if (isSun) {
-            Gameplay_GetScreenPos(globalCtx, &pos, &screenPos);
+            Play_GetScreenPos(globalCtx, &pos, &screenPos);
             sSunDepthTestX = (s16)screenPos.x;
             sSunDepthTestY = (s16)screenPos.y - 5.0f;
             if (sSunScreenDepth != GPACK_ZDZ(G_MAXFBZ, 0) || screenPos.x < 0.0f || screenPos.y < 0.0f ||

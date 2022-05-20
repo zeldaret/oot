@@ -1509,9 +1509,9 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             this->csState2 = 1;
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 0x39);
-            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            this->subCamId = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->subCamDist = 800.0f;
             this->subCamYaw = M_PI;
             sKoumePtr->actor.world.rot.x = 0;
@@ -1570,9 +1570,9 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
         if (this->unk_5F9 == 0) {
-            Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+            Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
         } else {
-            Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt2, &this->subCamEye2);
+            Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt2, &this->subCamEye2);
         }
     }
 
@@ -1715,7 +1715,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->timers[2] == 1) {
-                Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
@@ -1805,9 +1805,9 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                 this->csState2 = 1;
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 0x39);
-                this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                this->subCamId = Play_CreateSubCamera(globalCtx);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                 this->subCamEye.x = 0.0f;
                 this->subCamEye.y = 350;
                 this->subCamEye.z = 200;
@@ -2280,7 +2280,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->work[CS_TIMER_1] == 260) {
-                Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
@@ -2311,7 +2311,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                            this->subCamAtVel.z * this->subCamUpdateRate);
         }
 
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -2618,7 +2618,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     Vec3f spD0;
     Player* player = GET_PLAYER(globalCtx);
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
 
     SkelAnime_Update(&this->skelAnime);
     this->work[UNK_S8] += 20;
@@ -2696,9 +2696,9 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             this->csState2 = 1;
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            this->subCamId = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->subCamEye = mainCam->eye;
             this->subCamAt = mainCam->at;
             Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
@@ -2815,7 +2815,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
             Actor_SetScale(&sKoumePtr->actor, sKoumePtr->actor.scale.x);
             Actor_SetScale(&sKotakePtr->actor, sKoumePtr->actor.scale.x);
             if (this->work[CS_TIMER_2] >= 1020) {
-                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam->eye = this->subCamEye;
                 mainCam->eyeNext = this->subCamEye;
                 mainCam->at = this->subCamAt;
@@ -2842,7 +2842,7 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
 
     if (this->subCamId != SUB_CAM_ID_DONE) {
         if (1) {}
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 
@@ -3538,7 +3538,7 @@ void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, BossTw_OverrideLimbDraw, BossTw_PostLimbDraw, this);
         Matrix_Pop();
-        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Play_SetFog(globalCtx, POLY_OPA_DISP);
     }
 
     if (this->actor.params == TW_KOTAKE) {
