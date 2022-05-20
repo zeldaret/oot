@@ -6,15 +6,15 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
     u32 dbg;
     u32 relocOffset;
     u32 relocData;
-    u32 unrelocatedAddress;
+    uintptr_t unrelocatedAddress;
     u32 i;
     u32* relocDataP;
     u32* luiRefs[32];
     u32 luiVals[32];
-    u32 relocatedAddress;
+    uintptr_t relocatedAddress;
     u32 reloc;
     u32* luiInstRef;
-    u32 allocu32 = (u32)allocatedVRamAddress;
+    uintptr_t allocu32 = (uintptr_t)allocatedVRamAddress;
     u32* regValP;
     u32 isLoNeg;
     s32 pad;
@@ -110,7 +110,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
             case R_MIPS_LO16 << 24:
                 if (gOverlayLogSeverity >= 3) {
                     osSyncPrintf("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
-                    osSyncPrintf(" %08x %08x %08x %08x\n", ((uintptr_t)relocDataP + (uintptr_t)vRamStart) - allocu32,
+                    osSyncPrintf(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + (uintptr_t)vRamStart - allocu32,
                                  relocData, unrelocatedAddress, relocOffset);
                 }
         }

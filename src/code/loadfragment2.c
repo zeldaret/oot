@@ -1,6 +1,6 @@
 #include "global.h"
 
-void* Overlay_AllocateAndLoad(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd) {
+void* Overlay_AllocateAndLoad(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* vRamEnd) {
     void* allocatedVRamAddr = SystemArena_MallocRDebug((s32)vRamEnd - (s32)vRamStart, "../loadfragment2.c", 31);
 
     if (gOverlayLogSeverity >= 3) {
