@@ -15,6 +15,7 @@
 #include "z64environment.h"
 #include "z64cutscene.h"
 #include "z64collision_check.h"
+#include "z64curve.h"
 #include "z64scene.h"
 #include "z64effect.h"
 #include "z64item.h"

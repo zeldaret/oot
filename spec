@@ -322,7 +322,7 @@ beginseg
     include "build/src/code/z_elf_message.o"
     include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
-    include "build/src/code/code_8006C510.o"
+    include "build/src/code/z_fcurve_data.o"
     include "build/src/code/z_fcurve_data_skelanime.o"
     include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
