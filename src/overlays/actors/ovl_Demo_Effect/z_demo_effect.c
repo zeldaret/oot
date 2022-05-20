@@ -2082,7 +2082,8 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, GlobalContext* globalCtx) {
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
-        SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoEffect_OverrideLimbDrawTimeWarp, NULL, 1, &this->actor);
+        SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoEffect_OverrideLimbDrawTimeWarp, NULL, 1,
+                       &this->actor);
 
         CLOSE_DISPS(gfxCtx, "../z_demo_effect.c", 3216);
     }

@@ -145,7 +145,7 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ char unk_00[0x02];
-    /* 0x02 */ u16 timeSpeed;
+    /* 0x02 */ u16 sceneTimeSpeed; // time speed value from the scene file
     /* 0x04 */ Vec3f sunPos; // moon position can be found by negating the sun position
     /* 0x10 */ u8 skybox1Index;
     /* 0x11 */ u8 skybox2Index;
@@ -167,7 +167,7 @@ typedef struct {
     /* 0x24 */ u16 changeDuration; // total time to change skybox and light configs
     /* 0x26 */ char unk_26[0x02];
     /* 0x28 */ LightInfo dirLight1; // used as sunlight for `LIGHT_MODE_TIME`
-    /* 0x36 */ LightInfo dirLight2; // used as moonlight `LIGHT_MODE_TIME`
+    /* 0x36 */ LightInfo dirLight2; // used as moonlight for `LIGHT_MODE_TIME`
     /* 0x44 */ s8 skyboxDmaState;
     /* 0x48 */ DmaRequest dmaRequest;
     /* 0x68 */ OSMesgQueue loadQueue;
@@ -204,7 +204,7 @@ typedef struct {
     /* 0xE9 */ u8 customSkyboxFilter;
     /* 0xEA */ u8 skyboxFilterColor[4];
     /* 0xEE */ u8 precipitation[PRECIP_MAX];
-    /* 0xF6 */ char unk_F6[0x09];
+    /* 0xF3 */ char unk_F3[0x09];
 } EnvironmentContext; // size = 0xFC
 
 #endif

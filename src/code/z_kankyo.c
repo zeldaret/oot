@@ -333,7 +333,7 @@ void Environment_Init(GlobalContext* globalCtx2, EnvironmentContext* envCtx, s32
     envCtx->lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
     envCtx->lightBlendRateOverride = LIGHT_BLENDRATE_OVERRIDE_NONE;
 
-    R_ENV_TIME_SPEED = gTimeSpeed = envCtx->timeSpeed = 0;
+    R_ENV_TIME_SPEED_OLD = gTimeSpeed = envCtx->sceneTimeSpeed = 0;
     R_ENV_DISABLE_DBG = true;
 
     if (CREG(3) != 0) {
@@ -1674,7 +1674,7 @@ void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* env
     CLOSE_DISPS(gfxCtx, "../z_kankyo.c", 2750);
 }
 
-f32 Environment_RandCentred(void) {
+f32 Environment_RandCentered(void) {
     return Rand_ZeroOne() - 0.5f;
 }
 
@@ -1764,8 +1764,8 @@ void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext*
                     materialFlag++;
                 }
 
-                Matrix_Translate(Environment_RandCentred() * 280.0f + x280, player->actor.world.pos.y + 2.0f,
-                                 Environment_RandCentred() * 280.0f + z280, MTXMODE_NEW);
+                Matrix_Translate(Environment_RandCentered() * 280.0f + x280, player->actor.world.pos.y + 2.0f,
+                                 Environment_RandCentered() * 280.0f + z280, MTXMODE_NEW);
 
                 if ((LINK_IS_ADULT && ((player->actor.world.pos.y + 2.0f - view->eye.y) > -48.0f)) ||
                     (!LINK_IS_ADULT && ((player->actor.world.pos.y + 2.0f - view->eye.y) > -30.0f))) {

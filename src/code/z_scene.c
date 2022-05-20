@@ -362,20 +362,20 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     if (cmd->timeSettings.unk_06 != 0xFF) {
-        globalCtx->envCtx.timeSpeed = cmd->timeSettings.unk_06;
+        globalCtx->envCtx.sceneTimeSpeed = cmd->timeSettings.unk_06;
     } else {
-        globalCtx->envCtx.timeSpeed = 0;
+        globalCtx->envCtx.sceneTimeSpeed = 0;
     }
 
     if (gSaveContext.sunsSongState == SUNSSONG_INACTIVE) {
-        gTimeSpeed = globalCtx->envCtx.timeSpeed;
+        gTimeSpeed = globalCtx->envCtx.sceneTimeSpeed;
     }
 
     globalCtx->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     globalCtx->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
     globalCtx->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((globalCtx->envCtx.timeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
+    if (((globalCtx->envCtx.sceneTimeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
         if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {

@@ -4152,7 +4152,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         }
 
         // handle suns song in areas where time moves
-        if (globalCtx->envCtx.timeSpeed != 0) {
+        if (globalCtx->envCtx.sceneTimeSpeed != 0) {
             if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = false;
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 1)) {
