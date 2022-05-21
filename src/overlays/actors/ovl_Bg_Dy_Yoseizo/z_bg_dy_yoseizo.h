@@ -8,7 +8,7 @@
 
 struct BgDyYoseizo;
 
-typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, GlobalContext*);
+typedef void (*BgDyYoseizoActionFunc)(struct BgDyYoseizo*, PlayState*);
 
 #define BG_DY_YOSEIZO_EFFECT_COUNT 200
 

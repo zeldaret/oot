@@ -12,13 +12,13 @@ For this tutorial we will first look at the `EnJj` draw function, `EnJj_Draw`, t
 Unless it is completely invisible, an actor usually has a draw function as one of the main four actor functions. Hence its prototype looks like
 
 ```C
-EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
+EnJj_Draw(Actor* thisx, PlayState* play);
 ```
 
 As in Init, Destroy and Update, it is much more convenient to feed mips2c the fake prototype
 
 ```C
-EnJj_Draw(EnJj* this, GlobalContext* globalCtx);
+EnJj_Draw(EnJj* this, PlayState* play);
 ```
 
 so that it fills out the struct fields from the actuar actor; we then put a
@@ -29,7 +29,7 @@ EnJj* this = THIS;
 
 in the declarations as before. From now on, the process is rather different from the decompilation process used for the other functions. Here is the output of mips2c after sorting out the actor struct from Init, and with the arguments set back to `Actor* thisx`:
 ```C
-void EnJj_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void EnJj_Draw(Actor *thisx, PlayState *play) {
     EnJj* this = THIS;
 
     GraphicsContext *sp4C;
@@ -39,10 +39,10 @@ void EnJj_Draw(Actor *thisx, GlobalContext *globalCtx) {
     GraphicsContext *temp_a1;
     s32 temp_a0;
 
-    temp_a1 = globalCtx->state.gfxCtx;
+    temp_a1 = play->state.gfxCtx;
     sp4C = temp_a1;
     Graph_OpenDisps(&sp3C, temp_a1, (const char *) "../z_en_jj.c", 0x36F);
-    func_800943C8(globalCtx->state.gfxCtx);
+    func_800943C8(play->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * 0.076624215f) * 10.0f) - 10.0f, 0.0f, (u8)1U);
     Matrix_Scale(10.0f, 10.0f, 10.0f, (u8)1U);
     temp_v1 = temp_a1->polyOpa.p;
@@ -51,8 +51,8 @@ void EnJj_Draw(Actor *thisx, GlobalContext *globalCtx) {
     temp_a0 = *(&D_80A88CFC + (this->unk_30E * 4));
     temp_v1->words.w1 = (temp_a0 & 0xFFFFFF) + gSegments[(u32) (temp_a0 * 0x10) >> 0x1C] + 0x80000000;
     sp18 = this;
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, (s32) this->skelAnime.dListCount, 0, 0);
-    Graph_CloseDisps(&sp3C, globalCtx->state.gfxCtx, (const char *) "../z_en_jj.c", 0x382);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, (s32) this->skelAnime.dListCount, 0, 0);
+    Graph_CloseDisps(&sp3C, play->state.gfxCtx, (const char *) "../z_en_jj.c", 0x382);
 }
 ```
 
@@ -131,7 +131,7 @@ OPEN_DISPS(temp_a1, "../z_en_jj.c", 879);
 ```
 (the last argument is a line number, so should be in decimal).
 
-The function may or may not use a temp for `globalCtx->state.gfxCtx`: you have to work it out using the diff.
+The function may or may not use a temp for `play->state.gfxCtx`: you have to work it out using the diff.
 
 Once you've replaced all the blocks and the open and close with macros, you proceed with the function as usual.
 
@@ -141,21 +141,21 @@ Two last things: the last argument of the matrix functions tells the compiler wh
 
 After all that, it turns out that
 ```C
-void EnJj_Draw(Actor *thisx, GlobalContext *globalCtx) {
+void EnJj_Draw(Actor *thisx, PlayState *play) {
     EnJj *this = THIS;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 879);
-    func_800943C8(globalCtx->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_jj.c", 879);
+    func_800943C8(play->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * (M_PI/41.0f)) * 10.0f) - 10.0f, 0.0f, 1);
     Matrix_Scale(10.0f, 10.0f, 10.0f, 1);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A88CFC[this->unk_30E]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
      this->skelAnime.dListCount, 0, 0, this);
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 898);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_jj.c", 898);
 }
 ```
 
-matches apart from a couple of stack differences. This can be resolved by giving it `GlobalContext* globalCtx = globalCtx2;` at the top of the function and changing the second argument to `globalCtx2` as usual.
+matches apart from a couple of stack differences. This can be resolved by giving it `PlayState* play = play2;` at the top of the function and changing the second argument to `play2` as usual.
 
 We have enums for the last argument of the matrix functions: `0` is `MTXMODE_NEW`, `1` is `MTXMODE_APPLY`.
 
@@ -169,7 +169,7 @@ For more examples of graphics macros and the structure of Draw functions, we loo
 The mips2c output for
 
 ```C
-void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
+void func_809F5A6C(Actor *thisx, PlayState *play) {
     ? sp60;
     Gfx *sp48;
     Gfx *sp38;
@@ -187,17 +187,17 @@ void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
     sp60.unk0 = (s32) D_809F5E94.unk0;
     sp60.unk4 = (s32) D_809F5E94.unk4;
     sp60.unk8 = (s32) D_809F5E94.unk8;
-    temp_a1 = globalCtx->state.gfxCtx;
+    temp_a1 = play->state.gfxCtx;
     temp_s0 = temp_a1;
     Graph_OpenDisps(&sp48, temp_a1, (const char *) "../z_en_dnt_nomal.c", 0x6FE);
-    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(play->state.gfxCtx);
     temp_v0 = temp_s0->polyOpa.p;
     temp_s0->polyOpa.p = temp_v0 + 8;
     temp_v0->words.w0 = 0xDB060020;
     temp_a0 = *(&D_809F5EA0 + (thisx->unk268 * 4));
     temp_v0->words.w1 = (temp_a0 & 0xFFFFFF) + gSegments[(u32) (temp_a0 * 0x10) >> 0x1C] + 0x80000000;
     sp14 = thisx;
-    SkelAnime_DrawOpa(globalCtx, thisx->unk150, thisx->unk16C, &func_809F58E4, &func_809F59E4);
+    SkelAnime_DrawOpa(play, thisx->unk150, thisx->unk16C, &func_809F58E4, &func_809F59E4);
     Matrix_Translate(thisx->unk21C, thisx->unk220, (bitwise f32) thisx->unk224, (u8)0U);
     Matrix_Scale(0.01f, 0.01f, 0.01f, (u8)1U);
     temp_v0_2 = temp_s0->polyOpa.p;
@@ -213,14 +213,14 @@ void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
     temp_s0->polyOpa.p = temp_v0_4 + 8;
     temp_v0_4->words.w0 = 0xDA380003;
     sp38 = temp_v0_4;
-    sp38->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_en_dnt_nomal.c", 0x716);
+    sp38->words.w1 = Matrix_NewMtx(play->state.gfxCtx, (char *) "../z_en_dnt_nomal.c", 0x716);
     temp_v0_5 = temp_s0->polyOpa.p;
     temp_s0->polyOpa.p = temp_v0_5 + 8;
     temp_v0_5->words.w1 = (u32) &D_06001B00;
     temp_v0_5->words.w0 = 0xDE000000;
-    Graph_CloseDisps(&sp48, globalCtx->state.gfxCtx, (const char *) "../z_en_dnt_nomal.c", 0x719);
+    Graph_CloseDisps(&sp48, play->state.gfxCtx, (const char *) "../z_en_dnt_nomal.c", 0x719);
     if (&func_809F49A4 == thisx->unk214) {
-        func_80033C30((Vec3f *) &thisx->world, (Vec3f *) &sp60, (u8)0xFFU, globalCtx);
+        func_80033C30((Vec3f *) &thisx->world, (Vec3f *) &sp60, (u8)0xFFU, play);
     }
 }
 ```
@@ -328,7 +328,7 @@ temp_v0_4 = temp_s0->polyOpa.p;
 temp_s0->polyOpa.p = temp_v0_4 + 8;
 temp_v0_4->words.w0 = 0xDA380003;
 sp38 = temp_v0_4;
-sp38->words.w1 = Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_en_dnt_nomal.c", 0x716);
+sp38->words.w1 = Matrix_NewMtx(play->state.gfxCtx, (char *) "../z_en_dnt_nomal.c", 0x716);
 ```
 The macro is
 ```
@@ -337,7 +337,7 @@ gSPMatrix(POLY_OPA_DISP++, 0x12345678, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVI
 ```
 and the second argument is filled by the `Matrix_NewMtx` function:
 ```C
-gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1814), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 ```
 
 Lastly,
@@ -359,7 +359,7 @@ gSPDisplayList(POLY_OPA_DISP++, D_06001B00);
 
 Putting this all together
 ```C
-void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
+void func_809F5A6C(Actor *thisx, PlayState *play) {
     EnDntNormal *this = THIS;
     ? sp60;
     Actor *sp14;
@@ -369,26 +369,26 @@ void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
     sp60.unk4 = (s32) D_809F5E94.unk4;
     sp60.unk8 = (s32) D_809F5E94.unk8;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1790);
-    func_80093D18(globalCtx->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1790);
+    func_80093D18(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809F5EA0[this->unk_268]));
 
     sp14 = this;
-    SkelAnime_DrawOpa(globalCtx, thisx->unk150, thisx->unk16C, &func_809F58E4, &func_809F59E4);
+    SkelAnime_DrawOpa(play, thisx->unk150, thisx->unk16C, &func_809F58E4, &func_809F59E4);
     Matrix_Translate(thisx->unk21C, thisx->unk220, (bitwise f32) thisx->unk224, (u8)0U);
     Matrix_Scale(0.01f, 0.01f, 0.01f, (u8)1U);
 
     gDPPipeSync(POLY_OPA_DISP++);
     temp_v1 = D_809F5E4C[this->unk_26A - 1];
     gDPSetEnvColor(POLY_OPA_DISP++, temp_v1.r, temp_v1.g, temp_v1.r, 0xFF);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1814), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1814), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_06001B00);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1817);
 
     if (&func_809F49A4 == this->unk214) {
-        func_80033C30((Vec3f *) &this.actor->world, (Vec3f *) &sp60, (u8)0xFFU, globalCtx);
+        func_80033C30((Vec3f *) &this.actor->world, (Vec3f *) &sp60, (u8)0xFFU, play);
     }
 }
 ```
@@ -398,23 +398,23 @@ void func_809F5A6C(Actor *thisx, GlobalContext *globalCtx) {
 Some more general tidying up can be done here (`sp60` and so `D_809F5E94` are `Vec3f`, for example, and under normal circumstances we'd know that ), but the big remaining issue is
 ```C
 sp14 = this;
-SkelAnime_DrawOpa(globalCtx, thisx->unk150, thisx->unk16C, func_809F58E4, func_809F59E4);
+SkelAnime_DrawOpa(play, thisx->unk150, thisx->unk16C, func_809F58E4, func_809F59E4);
 ```
 If we look at the definition of `SkelAnime_DrawOpa`, we find that it's missing the last argument. This is mips2c not noticing why `this` has been put on the stack: this code should actually be
 ```C
-SkelAnime_DrawOpa(globalCtx, thisx->unk150, thisx->unk16C, func_809F58E4, func_809F59E4, this);
+SkelAnime_DrawOpa(play, thisx->unk150, thisx->unk16C, func_809F58E4, func_809F59E4, this);
 ```
 mips2c doing this is not especially unusual, so bear it in mind.
 
 The other thing this tells us is that `func_809F58E4` is of type `OverrideLimbDraw`, and `func_809F59E4` of type `PostLimbDraw`. Their names are fairly self-explanatory. Filling in the prototypes as
 ```C
-s32 func_809F58E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
-void func_809F59E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+s32 func_809F58E4(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+void func_809F59E4(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 ```
 and running mips2c gives
 
 ```C
-s32 func_809F58E4(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx) {
+s32 func_809F58E4(PlayState *play, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx) {
     GraphicsContext *sp38;
     Gfx *sp28;
     Gfx *temp_v1;
@@ -423,7 +423,7 @@ s32 func_809F58E4(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
     void *temp_v0;
 
     if ((limbIndex == 1) || (limbIndex == 3) || (limbIndex == 4) || (limbIndex == 5) || (limbIndex == 6)) {
-        temp_a1 = globalCtx->state.gfxCtx;
+        temp_a1 = play->state.gfxCtx;
         sp38 = temp_a1;
         Graph_OpenDisps(&sp28, temp_a1, (const char *) "../z_en_dnt_nomal.c", 0x6C5);
         temp_v1 = sp38->polyOpa.p;
@@ -435,12 +435,12 @@ s32 func_809F58E4(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *p
         temp_v1_2->words.w0 = 0xFB000000;
         temp_v0 = (thisx->unk26A * 4) + &D_809F5E4C;
         temp_v1_2->words.w1 = (temp_v0->unk-2 << 8) | (temp_v0->unk-4 << 0x18) | (temp_v0->unk-3 << 0x10) | 0xFF;
-        Graph_CloseDisps(&sp28, globalCtx->state.gfxCtx, (const char *) "../z_en_dnt_nomal.c", 0x6CF);
+        Graph_CloseDisps(&sp28, play->state.gfxCtx, (const char *) "../z_en_dnt_nomal.c", 0x6CF);
     }
     return 0;
 }
 
-void func_809F59E4(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *rot, void *thisx) {
+void func_809F59E4(PlayState *play, s32 limbIndex, Gfx **dList, Vec3s *rot, void *thisx) {
     ? sp18;
 
     sp18.unk0 = (s32) D_809F5E88.unk0;
@@ -459,14 +459,14 @@ void func_809F59E4(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *
 
 This structure is pretty typical: both edit what certain limbs do. Both also usually need a `ActorName *this = THIS;` at the top. We have seen both of the macros in the former before: applying the usual procedure, we find that it becomes
 ```C
-s32 func_809F58E4(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx) {
+s32 func_809F58E4(PlayState *play, s32 limbIndex, Gfx **dList, Vec3f *pos, Vec3s *rot, void *thisx) {
     EnDntNormal *this = THIS;
 
     if ((limbIndex == 1) || (limbIndex == 3) || (limbIndex == 4) || (limbIndex == 5) || (limbIndex == 6)) {
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1733);
+        OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1733);
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, D_809F5E4C[this->type - 1].r, D_809F5E4C[this->type - 1].g, D_809F5E4C[this->type - 1].b, 255);
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_dnt_nomal.c", 1743);
+        CLOSE_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1743);
     }
     return 0;
 }

@@ -35,19 +35,19 @@ typedef enum {
     ENBOX_STATE_2  // waiting for something message context-related
 } EnBoxStateUnk1FB;
 
-void EnBox_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnBox_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnBox_Init(Actor* thisx, PlayState* play);
+void EnBox_Destroy(Actor* thisx, PlayState* play);
+void EnBox_Update(Actor* thisx, PlayState* play);
+void EnBox_Draw(Actor* thisx, PlayState* play);
 
-void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
-void func_809C9700(EnBox* this, GlobalContext* globalCtx);
-void EnBox_AppearOnSwitchFlag(EnBox* this, GlobalContext* globalCtx);
-void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx);
-void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx);
-void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx);
-void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx);
-void EnBox_Open(EnBox* this, GlobalContext* globalCtx);
+void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play);
+void func_809C9700(EnBox* this, PlayState* play);
+void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play);
+void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play);
+void EnBox_AppearInit(EnBox* this, PlayState* play);
+void EnBox_AppearAnimation(EnBox* this, PlayState* play);
+void EnBox_WaitOpen(EnBox* this, PlayState* play);
+void EnBox_Open(EnBox* this, PlayState* play);
 
 const ActorInit En_Box_InitVars = {
     ACTOR_EN_BOX,
@@ -74,7 +74,7 @@ void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_ClipToGround(EnBox* this, PlayState* play) {
     f32 newY;
     CollisionPoly* poly;
     s32 bgId;
@@ -82,14 +82,14 @@ void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
 
     pos = this->dyna.actor.world.pos;
     pos.y += 1.0f;
-    newY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &poly, &bgId, &this->dyna.actor, &pos);
+    newY = BgCheck_EntityRaycastFloor4(&play->colCtx, &poly, &bgId, &this->dyna.actor, &pos);
     if (newY != BGCHECK_Y_MIN) {
         this->dyna.actor.world.pos.y = newY;
     }
 }
 
-void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
+void EnBox_Init(Actor* thisx, PlayState* play2) {
+    PlayState* play = play2;
     EnBox* this = (EnBox*)thisx;
     AnimationHeader* anim;
     CollisionHeader* colHeader;
@@ -104,8 +104,8 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&gTreasureChestCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    func_8003ECA8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    func_8003ECA8(play, &play->colCtx.dyna, this->dyna.bgId);
 
     this->movementFlags = 0;
     this->type = thisx->params >> 12 & 0xF;
@@ -115,17 +115,17 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->switchFlag = this->dyna.actor.world.rot.z;
     this->dyna.actor.minVelocityY = -50.0f;
 
-    if (globalCtx) {} // helps the compiler store globalCtx2 into s1
+    if (play) {} // helps the compiler store play2 into s1
 
-    if (Flags_GetTreasure(globalCtx, this->dyna.actor.params & 0x1F)) {
+    if (Flags_GetTreasure(play, this->dyna.actor.params & 0x1F)) {
         this->alpha = 255;
         this->iceSmokeTimer = 100;
         EnBox_SetupAction(this, EnBox_Open);
         this->movementFlags |= ENBOX_MOVE_STICK_TO_GROUND;
         animFrameStart = endFrame;
     } else if ((this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_BIG || this->type == ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL) &&
-               !Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+               !Flags_GetSwitch(play, this->switchFlag)) {
+        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
         if (Rand_ZeroOne() < 0.5f) {
             this->movementFlags |= ENBOX_MOVE_FALL_ANGLE_SIDE;
         }
@@ -135,9 +135,9 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.flags |= ACTOR_FLAG_4;
     } else if ((this->type == ENBOX_TYPE_ROOM_CLEAR_BIG || this->type == ENBOX_TYPE_ROOM_CLEAR_SMALL) &&
-               !Flags_GetClear(globalCtx, this->dyna.actor.room)) {
+               !Flags_GetClear(play, this->dyna.actor.room)) {
         EnBox_SetupAction(this, EnBox_AppearOnRoomClear);
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
@@ -145,14 +145,14 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else if (this->type == ENBOX_TYPE_9 || this->type == ENBOX_TYPE_10) {
         EnBox_SetupAction(this, func_809C9700);
         this->dyna.actor.flags |= ACTOR_FLAG_25;
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
         this->dyna.actor.flags |= ACTOR_FLAG_4;
-    } else if (this->type == ENBOX_TYPE_SWITCH_FLAG_BIG && !Flags_GetSwitch(globalCtx, this->switchFlag)) {
+    } else if (this->type == ENBOX_TYPE_SWITCH_FLAG_BIG && !Flags_GetSwitch(play, this->switchFlag)) {
         EnBox_SetupAction(this, EnBox_AppearOnSwitchFlag);
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        func_8003EBF8(play, &play->colCtx.dyna, this->dyna.bgId);
         this->movementFlags |= ENBOX_MOVE_IMMOBILE;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 50.0f;
         this->alpha = 0;
@@ -169,7 +169,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->dyna.actor.world.rot.y += 0x8000;
     this->dyna.actor.home.rot.z = this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    SkelAnime_Init(globalCtx, &this->skelanime, &gTreasureChestSkel, anim, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(play, &this->skelanime, &gTreasureChestSkel, anim, this->jointTable, this->morphTable, 5);
     Animation_Change(&this->skelanime, anim, 1.5f, animFrameStart, endFrame, ANIMMODE_ONCE, 0.0f);
 
     switch (this->type) {
@@ -186,10 +186,10 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-void EnBox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnBox_Destroy(Actor* thisx, PlayState* play) {
     EnBox* this = (EnBox*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnBox_RandomDustKinematic(EnBox* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel) {
@@ -212,7 +212,7 @@ void EnBox_RandomDustKinematic(EnBox* this, Vec3f* pos, Vec3f* velocity, Vec3f* 
 /**
  * Spawns dust randomly around the chest when the chest hits the ground after falling (FALL types)
  */
-void EnBox_SpawnDust(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_SpawnDust(EnBox* this, PlayState* play) {
     s32 i;
     Vec3f pos;
     Vec3f velocity;
@@ -220,14 +220,14 @@ void EnBox_SpawnDust(EnBox* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 20; i++) {
         EnBox_RandomDustKinematic(this, &pos, &velocity, &accel);
-        func_8002873C(globalCtx, &pos, &velocity, &accel, 100, 30, 15);
+        func_8002873C(play, &pos, &velocity, &accel, 100, 30, 15);
     }
 }
 
 /**
  * Used while the chest is falling (FALL types)
  */
-void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_Fall(EnBox* this, PlayState* play) {
     f32 yDiff;
 
     this->alpha = 255;
@@ -248,11 +248,11 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
             this->dyna.actor.shape.rot.z = 0;
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             EnBox_SetupAction(this, EnBox_WaitOpen);
-            OnePointCutscene_EndCutscene(globalCtx, this->subCamId);
+            OnePointCutscene_EndCutscene(play, this->subCamId);
         }
         Audio_PlaySoundGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        EnBox_SpawnDust(this, globalCtx);
+        EnBox_SpawnDust(this, play);
     }
     yDiff = this->dyna.actor.world.pos.y - this->dyna.actor.floorHeight;
     if (this->movementFlags & ENBOX_MOVE_FALL_ANGLE_SIDE) {
@@ -262,31 +262,31 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_FallOnSwitchFlag(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, globalCtx);
+        func_8002F5F0(&this->dyna.actor, play);
     }
 
     if (this->unk_1A8 >= 0) {
         EnBox_SetupAction(this, EnBox_Fall);
-        this->subCamId = OnePointCutscene_Init(globalCtx, 4500, 9999, &this->dyna.actor, CAM_ID_MAIN);
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        this->subCamId = OnePointCutscene_Init(play, 4500, 9999, &this->dyna.actor, CAM_ID_MAIN);
+        func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
     } else if (this->unk_1A8 >= -11) {
         this->unk_1A8++;
-    } else if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
+    } else if (Flags_GetSwitch(play, this->switchFlag)) {
         this->unk_1A8++;
     }
 }
 
 // used for types 9, 10
-void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
+void func_809C9700(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, globalCtx);
+        func_8002F5F0(&this->dyna.actor, play);
     }
 
     if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &player->actor.world.pos) > SQ(150.0f)) {
@@ -301,14 +301,14 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_1FB == ENBOX_STATE_1) {
-            func_8010BD58(globalCtx, OCARINA_ACTION_FREE_PLAY);
+            func_8010BD58(play, OCARINA_ACTION_FREE_PLAY);
             this->unk_1FB = ENBOX_STATE_2;
-        } else if (this->unk_1FB == ENBOX_STATE_2 && globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-            if ((globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_LULLABY && this->type == ENBOX_TYPE_9) ||
-                (globalCtx->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS && this->type == ENBOX_TYPE_10)) {
+        } else if (this->unk_1FB == ENBOX_STATE_2 && play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            if ((play->msgCtx.lastPlayedSong == OCARINA_SONG_LULLABY && this->type == ENBOX_TYPE_9) ||
+                (play->msgCtx.lastPlayedSong == OCARINA_SONG_SUNS && this->type == ENBOX_TYPE_10)) {
                 this->dyna.actor.flags &= ~ACTOR_FLAG_25;
                 EnBox_SetupAction(this, EnBox_AppearInit);
-                OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
+                OnePointCutscene_Attention(play, &this->dyna.actor);
                 this->unk_1A8 = 0;
                 this->unk_1FB = ENBOX_STATE_0;
             } else {
@@ -318,32 +318,32 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBox_AppearOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_AppearOnSwitchFlag(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, globalCtx);
+        func_8002F5F0(&this->dyna.actor, play);
     }
 
-    if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
+    if (Flags_GetSwitch(play, this->switchFlag)) {
+        OnePointCutscene_Attention(play, &this->dyna.actor);
         EnBox_SetupAction(this, EnBox_AppearInit);
         this->unk_1A8 = -30;
     }
 }
 
-void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_AppearOnRoomClear(EnBox* this, PlayState* play) {
     s32 treasureFlag = this->dyna.actor.params & 0x1F;
 
     if (treasureFlag >= ENBOX_TREASURE_FLAG_UNK_MIN && treasureFlag < ENBOX_TREASURE_FLAG_UNK_MAX) {
-        func_8002F5F0(&this->dyna.actor, globalCtx);
+        func_8002F5F0(&this->dyna.actor, play);
     }
 
-    if (Flags_GetTempClear(globalCtx, this->dyna.actor.room) && !Player_InCsMode(globalCtx)) {
-        Flags_SetClear(globalCtx, this->dyna.actor.room);
+    if (Flags_GetTempClear(play, this->dyna.actor.room) && !Player_InCsMode(play)) {
+        Flags_SetClear(play, this->dyna.actor.room);
         EnBox_SetupAction(this, EnBox_AppearInit);
-        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
-        if (OnePointCutscene_CheckForCategory(globalCtx, this->dyna.actor.category)) {
+        OnePointCutscene_Attention(play, &this->dyna.actor);
+        if (OnePointCutscene_CheckForCategory(play, this->dyna.actor.category)) {
             this->unk_1A8 = 0;
         } else {
             this->unk_1A8 = -30;
@@ -354,19 +354,19 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
 /**
  * The chest is ready to appear, possibly waiting for camera/cutscene-related stuff to happen
  */
-void EnBox_AppearInit(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_AppearInit(EnBox* this, PlayState* play) {
     if (func_8005B198() == this->dyna.actor.category || this->unk_1A8 != 0) {
         EnBox_SetupAction(this, EnBox_AppearAnimation);
         this->unk_1A8 = 0;
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->dyna.actor.home.pos.x,
-                    this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0, 0, 0, 0x0011);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_KANKYO, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
+                    this->dyna.actor.home.pos.z, 0, 0, 0, 0x0011);
         Audio_PlaySoundGeneral(NA_SE_EV_TRE_BOX_APPEAR, &this->dyna.actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
     }
 }
 
-void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx) {
-    func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+void EnBox_AppearAnimation(EnBox* this, PlayState* play) {
+    func_8003EC50(play, &play->colCtx.dyna, this->dyna.bgId);
 
     if (this->unk_1A8 < 0) {
         this->unk_1A8++;
@@ -385,7 +385,7 @@ void EnBox_AppearAnimation(EnBox* this, GlobalContext* globalCtx) {
 /**
  * Chest is ready to be open
  */
-void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_WaitOpen(EnBox* this, PlayState* play) {
     f32 frameCount;
     AnimationHeader* anim;
     s32 linkAge;
@@ -409,7 +409,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
                 case ENBOX_TYPE_SWITCH_FLAG_FALL_SMALL:
                     break;
                 default:
-                    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_DEMO_TRE_LGT,
+                    Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_DEMO_TRE_LGT,
                                        this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
                                        this->dyna.actor.world.pos.z, this->dyna.actor.shape.rot.x,
                                        this->dyna.actor.shape.rot.y, this->dyna.actor.shape.rot.z, 0xFFFF);
@@ -417,15 +417,15 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
             }
         }
         osSyncPrintf("Actor_Environment_Tbox_On() %d\n", this->dyna.actor.params & 0x1F);
-        Flags_SetTreasure(globalCtx, this->dyna.actor.params & 0x1F);
+        Flags_SetTreasure(play, this->dyna.actor.params & 0x1F);
     } else {
-        player = GET_PLAYER(globalCtx);
+        player = GET_PLAYER(play);
         func_8002DBD0(&this->dyna.actor, &sp4C, &player->actor.world.pos);
         if (sp4C.z > -50.0f && sp4C.z < 0.0f && fabsf(sp4C.y) < 10.0f && fabsf(sp4C.x) < 20.0f &&
-            Player_IsFacingActor(&this->dyna.actor, 0x3000, globalCtx)) {
-            func_8002F554(&this->dyna.actor, globalCtx, 0 - (this->dyna.actor.params >> 5 & 0x7F));
+            Player_IsFacingActor(&this->dyna.actor, 0x3000, play)) {
+            func_8002F554(&this->dyna.actor, play, 0 - (this->dyna.actor.params >> 5 & 0x7F));
         }
-        if (Flags_GetTreasure(globalCtx, this->dyna.actor.params & 0x1F)) {
+        if (Flags_GetTreasure(play, this->dyna.actor.params & 0x1F)) {
             EnBox_SetupAction(this, EnBox_Open);
         }
     }
@@ -434,7 +434,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
 /**
  * Plays an animation to its end, playing sounds at key points
  */
-void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_Open(EnBox* this, PlayState* play) {
     u16 sfxId;
 
     this->dyna.actor.flags &= ~ACTOR_FLAG_7;
@@ -478,7 +478,7 @@ void EnBox_Open(EnBox* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnBox_SpawnIceSmoke(EnBox* this, GlobalContext* globalCtx) {
+void EnBox_SpawnIceSmoke(EnBox* this, PlayState* play) {
     Vec3f pos;
     Vec3f vel = { 0.0f, 1.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
@@ -505,23 +505,23 @@ void EnBox_SpawnIceSmoke(EnBox* this, GlobalContext* globalCtx) {
             vel.y = 1.8f;
             vel.z = f0 * 1.6f * Math_CosS(this->dyna.actor.world.rot.y);
         }
-        EffectSsIceSmoke_Spawn(globalCtx, &pos, &vel, &accel, 150);
+        EffectSsIceSmoke_Spawn(play, &pos, &vel, &accel, 150);
     }
 }
 
-void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnBox_Update(Actor* thisx, PlayState* play) {
     EnBox* this = (EnBox*)thisx;
 
     if (this->movementFlags & ENBOX_MOVE_STICK_TO_GROUND) {
         this->movementFlags &= ~ENBOX_MOVE_STICK_TO_GROUND;
-        EnBox_ClipToGround(this, globalCtx);
+        EnBox_ClipToGround(this, play);
     }
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 
     if (!(this->movementFlags & ENBOX_MOVE_IMMOBILE)) {
         Actor_MoveForward(&this->dyna.actor);
-        Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f,
+        Actor_UpdateBgCheckInfo(play, &this->dyna.actor, 0.0f, 0.0f, 0.0f,
                                 UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     }
 
@@ -538,16 +538,16 @@ void EnBox_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->dyna.actor.params >> 5 & 0x7F) == 0x7C && this->actionFunc == EnBox_Open &&
         this->skelanime.curFrame > 45 && this->iceSmokeTimer < 100) {
-        EnBox_SpawnIceSmoke(this, globalCtx);
+        EnBox_SpawnIceSmoke(this, play);
     }
 }
 
-void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+void EnBox_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnBox* this = (EnBox*)thisx;
     s32 pad;
 
     if (limbIndex == 1) {
-        gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1492),
+        gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_box.c", 1492),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
             gSPDisplayList((*gfx)++, gTreasureChestChestFrontDL);
@@ -555,7 +555,7 @@ void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
             gSPDisplayList((*gfx)++, gTreasureChestBossKeyChestFrontDL);
         }
     } else if (limbIndex == 3) {
-        gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1502),
+        gSPMatrix((*gfx)++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_box.c", 1502),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
             gSPDisplayList((*gfx)++, gTreasureChestChestSideAndLidDL);
@@ -614,10 +614,10 @@ Gfx* func_809CA518(GraphicsContext* gfxCtx) {
     return dList;
 }
 
-void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnBox_Draw(Actor* thisx, PlayState* play) {
     EnBox* this = (EnBox*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_box.c", 1581);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_box.c", 1581);
 
     /*
     this->dyna.actor.flags & ACTOR_FLAG_7 is set by Init (if type is 4 or 6)
@@ -628,22 +628,22 @@ void EnBox_Draw(Actor* thisx, GlobalContext* globalCtx) {
          (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6))) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnBox_EmptyDList(globalCtx->state.gfxCtx));
-        func_80093D18(globalCtx->state.gfxCtx);
-        POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnBox_EmptyDList(play->state.gfxCtx));
+        func_80093D18(play->state.gfxCtx);
+        POLY_OPA_DISP = SkelAnime_Draw(play, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
                                        EnBox_PostLimbDraw, this, POLY_OPA_DISP);
     } else if (this->alpha != 0) {
         gDPPipeSync(POLY_XLU_DISP++);
-        func_80093D84(globalCtx->state.gfxCtx);
+        func_80093D84(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         if (this->type == ENBOX_TYPE_4 || this->type == ENBOX_TYPE_6) {
-            gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA518(globalCtx->state.gfxCtx));
+            gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA518(play->state.gfxCtx));
         } else {
-            gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA4A0(globalCtx->state.gfxCtx));
+            gSPSegment(POLY_XLU_DISP++, 0x08, func_809CA4A0(play->state.gfxCtx));
         }
-        POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
+        POLY_XLU_DISP = SkelAnime_Draw(play, this->skelanime.skeleton, this->skelanime.jointTable, NULL,
                                        EnBox_PostLimbDraw, this, POLY_XLU_DISP);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_box.c", 1639);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_box.c", 1639);
 }

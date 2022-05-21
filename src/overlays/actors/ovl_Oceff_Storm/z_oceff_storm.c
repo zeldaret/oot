@@ -8,15 +8,15 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5 | ACTOR_FLAG_25)
 
-void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx);
-void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx);
-void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx);
+void OceffStorm_Init(Actor* thisx, PlayState* play);
+void OceffStorm_Destroy(Actor* thisx, PlayState* play);
+void OceffStorm_Update(Actor* thisx, PlayState* play);
+void OceffStorm_Draw(Actor* thisx, PlayState* play);
 
-void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx);
+void OceffStorm_Draw2(Actor* thisx, PlayState* play);
 
-void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx);
-void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx);
+void OceffStorm_DefaultAction(OceffStorm* this, PlayState* play);
+void OceffStorm_UnkAction(OceffStorm* this, PlayState* play);
 
 const ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
@@ -34,7 +34,7 @@ void OceffStorm_SetupAction(OceffStorm* this, OceffStormActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
+void OceffStorm_Init(Actor* thisx, PlayState* play) {
     OceffStorm* this = (OceffStorm*)thisx;
     OceffStorm_SetupAction(this, OceffStorm_DefaultAction);
     this->posYOffAdd = 0;
@@ -50,22 +50,22 @@ void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
         OceffStorm_SetupAction(this, OceffStorm_UnkAction);
         this->actor.draw = OceffStorm_Draw2;
     } else {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_OKARINA_EFFECT, this->actor.world.pos.x,
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_OKARINA_EFFECT, this->actor.world.pos.x,
                     this->actor.world.pos.y - 30.0f, this->actor.world.pos.z, 0, 0, 0, 1);
     }
 }
 
-void OceffStorm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void OceffStorm_Destroy(Actor* thisx, PlayState* play) {
     OceffStorm* this = (OceffStorm*)thisx;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
 
-    func_800876C8(globalCtx);
+    func_800876C8(play);
     if (gSaveContext.nayrusLoveTimer != 0) {
         player->stateFlags3 |= PLAYER_STATE3_6;
     }
 }
 
-void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
+void OceffStorm_DefaultAction(OceffStorm* this, PlayState* play) {
     if (this->counter < 20) {
         this->primColorAlpha = (s8)(this->counter * 5.0f);
     } else if (this->counter > 80) {
@@ -104,29 +104,29 @@ void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
     }
 }
 
-void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx) {
+void OceffStorm_UnkAction(OceffStorm* this, PlayState* play) {
     if (this->primColorAlpha < 100) {
         this->primColorAlpha += 5;
     }
     //! @bug Actor_Kill is never called so the actor will stay alive forever
 }
 
-void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx) {
+void OceffStorm_Update(Actor* thisx, PlayState* play) {
     OceffStorm* this = (OceffStorm*)thisx;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
 
     this->actor.world.pos = player->actor.world.pos;
-    this->actor.shape.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx));
-    this->actionFunc(this, globalCtx);
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play));
+    this->actionFunc(this, play);
 }
 
 #include "overlays/ovl_Oceff_Storm/ovl_Oceff_Storm.c"
 
-void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
-    u32 scroll = globalCtx->state.frames & 0xFFF;
+void OceffStorm_Draw2(Actor* thisx, PlayState* play) {
+    u32 scroll = play->state.frames & 0xFFF;
     OceffStorm* this = (OceffStorm*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 449);
+    OPEN_DISPS(play->state.gfxCtx, "../z_oceff_storm.c", 449);
 
     gDPPipeSync(POLY_XLU_DISP++);
 
@@ -137,22 +137,22 @@ void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 200, 200, 150, this->primColorAlpha);
     gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 8, scroll * 4, 64, 64, 1,
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 8, scroll * 4, 64, 64, 1,
                                                      scroll * 4, scroll * 4, 64, 64));
     gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, (SCREEN_WIDTH << 2), (SCREEN_HEIGHT << 2), G_TX_RENDERTILE, 0, 0, 140,
                         (1 << 15) | (31 << 10) | 884);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 477);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_storm.c", 477);
 }
 
-void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    u32 scroll = globalCtx->state.frames & 0xFFF;
+void OceffStorm_Draw(Actor* thisx, PlayState* play) {
+    u32 scroll = play->state.frames & 0xFFF;
     OceffStorm* this = (OceffStorm*)thisx;
     Vtx* vtxPtr = sCylinderVtx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 486);
+    OPEN_DISPS(play->state.gfxCtx, "../z_oceff_storm.c", 486);
 
-    func_80093D84(globalCtx->state.gfxCtx);
+    func_80093D84(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 150, 150, 0, 128);
@@ -162,15 +162,15 @@ void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     vtxPtr[0].v.cn[3] = vtxPtr[6].v.cn[3] = vtxPtr[16].v.cn[3] = vtxPtr[25].v.cn[3] = this->vtxAlpha >> 1;
     vtxPtr[10].v.cn[3] = vtxPtr[22].v.cn[3] = this->vtxAlpha;
 
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 498),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_storm.c", 498),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 4, (0 - scroll) * 8, 32, 32,
-                                                     1, scroll * 8, (0 - scroll) * 12, 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 4, (0 - scroll) * 8, 32, 32, 1,
+                                                     scroll * 8, (0 - scroll) * 12, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sCylinderModelDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 512);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_storm.c", 512);
 
-    OceffStorm_Draw2(&this->actor, globalCtx);
+    OceffStorm_Draw2(&this->actor, play);
 }

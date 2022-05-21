@@ -29,20 +29,19 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
     u32 ovlOffset;
     u32 size;
 
+    size = vRomEnd - vRomStart;
+    end = (u32)allocatedVRamAddr + size;
+
     if (gOverlayLogSeverity >= 3) {
         // "Start loading dynamic link function"
         osSyncPrintf("\nダイナミックリンクファンクションのロードを開始します\n");
     }
 
     if (gOverlayLogSeverity >= 3) {
-        size = vRomEnd - vRomStart;
         // "DMA transfer of TEXT, DATA, RODATA + rel (%08x-%08x)"
-        osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedVRamAddr,
-                     (u32)allocatedVRamAddr + size);
+        osSyncPrintf("TEXT,DATA,RODATA+relをＤＭＡ転送します(%08x-%08x)\n", allocatedVRamAddr, end);
     }
 
-    size = vRomEnd - vRomStart;
-    end = (u32)allocatedVRamAddr + size;
     DmaMgr_SendRequest0((u32)allocatedVRamAddr, vRomStart, size);
 
     ovlOffset = ((s32*)end)[-1];
@@ -101,7 +100,7 @@ void* func_800FC800(u32 size) {
     return __osMallocDebug(&gSystemArena, size, sNew, 0);
 }
 
-// possible some kind of delete() function
+// possibly some kind of delete() function
 void func_800FC83C(void* ptr) {
     if (ptr != NULL) {
         __osFree(&gSystemArena, ptr);
@@ -144,25 +143,18 @@ void* func_800FC948(void* blk, u32 nBlk, u32 blkSize, arg3_800FC948 arg3) {
 void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg4) {
     u32 pos;
     u32 end;
-    s32 masked_arg2;
 
     if (blk == 0) {
         return;
     }
     if (arg3 != 0) {
         end = (u32)blk;
-        masked_arg2 = (s32)(blkSize & ~0);
         pos = (u32)end + (nBlk * blkSize);
 
-        if (masked_arg2) {}
-
         while (pos > end) {
-            pos -= masked_arg2;
+            pos -= (s32)(blkSize & ~0);
             arg3((void*)pos, 2);
-            if (1) {}
         }
-
-        if (!masked_arg2) {}
     }
 
     if (arg4 != 0) {

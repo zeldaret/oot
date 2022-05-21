@@ -321,10 +321,20 @@ typedef enum {
 
 typedef enum {
     #include "tables/entrance_table.h"
-    /* 0x613 */ ENTR_MAX
+    /* 0x614 */ ENTR_MAX
 } EntranceIndex;
 
 #define ENTR_LOAD_OPENING -1
+
+typedef enum {
+    /* 0x7FF9 */ ENTR_RETURN_YOUSEI_IZUMI_YOKO = 0x7FF9, // Great Fairy Fountain (spells)
+    /* 0x7FFA */ ENTR_RETURN_SYATEKIJYOU, // Shooting gallery
+    /* 0x7FFB */ ENTR_RETURN_2, // unused
+    /* 0x7FFC */ ENTR_RETURN_SHOP1, // Bazaar
+    /* 0x7FFD */ ENTR_RETURN_4, // unused
+    /* 0x7FFE */ ENTR_RETURN_DAIYOUSEI_IZUMI, // Great Fairy Fountain (magic, double magic, double defense)
+    /* 0x7FFF */ ENTR_RETURN_GROTTO // Grottos and normal Fairy Fountain
+} ReturnEntranceIndex;
 
 #undef DEFINE_ENTRANCE
 
@@ -333,20 +343,20 @@ typedef enum {
 typedef enum {
     /* 0x00 */ SCENE_CMD_ID_SPAWN_LIST,
     /* 0x01 */ SCENE_CMD_ID_ACTOR_LIST,
-    /* 0x02 */ SCENE_CMD_ID_UNUSED_02,
-    /* 0x03 */ SCENE_CMD_ID_COL_HEADER,
+    /* 0x02 */ SCENE_CMD_ID_UNUSED_2,
+    /* 0x03 */ SCENE_CMD_ID_COLLISION_HEADER,
     /* 0x04 */ SCENE_CMD_ID_ROOM_LIST,
     /* 0x05 */ SCENE_CMD_ID_WIND_SETTINGS,
     /* 0x06 */ SCENE_CMD_ID_ENTRANCE_LIST,
     /* 0x07 */ SCENE_CMD_ID_SPECIAL_FILES,
     /* 0x08 */ SCENE_CMD_ID_ROOM_BEHAVIOR,
-    /* 0x09 */ SCENE_CMD_ID_UNK_09,
-    /* 0x0A */ SCENE_CMD_ID_MESH,
+    /* 0x09 */ SCENE_CMD_ID_UNDEFINED_9,
+    /* 0x0A */ SCENE_CMD_ID_MESH_HEADER,
     /* 0x0B */ SCENE_CMD_ID_OBJECT_LIST,
     /* 0x0C */ SCENE_CMD_ID_LIGHT_LIST,
     /* 0x0D */ SCENE_CMD_ID_PATH_LIST,
-    /* 0x0E */ SCENE_CMD_ID_TRANSI_ACTOR_LIST,
-    /* 0x0F */ SCENE_CMD_ID_ENV_LIGHT_SETTINGS,
+    /* 0x0E */ SCENE_CMD_ID_TRANSITION_ACTOR_LIST,
+    /* 0x0F */ SCENE_CMD_ID_LIGHT_SETTINGS_LIST,
     /* 0x10 */ SCENE_CMD_ID_TIME_SETTINGS,
     /* 0x11 */ SCENE_CMD_ID_SKYBOX_SETTINGS,
     /* 0x12 */ SCENE_CMD_ID_SKYBOX_DISABLES,
@@ -367,10 +377,10 @@ typedef enum {
     { SCENE_CMD_ID_ACTOR_LIST, numActors, CMD_PTR(actorList) }
 
 #define SCENE_CMD_UNUSED_02(unk, data) \
-    { SCENE_CMD_ID_UNUSED_02, unk, CMD_PTR(data) }
+    { SCENE_CMD_ID_UNUSED_2, unk, CMD_PTR(data) }
 
 #define SCENE_CMD_COL_HEADER(colHeader) \
-    { SCENE_CMD_ID_COL_HEADER, 0, CMD_PTR(colHeader) }
+    { SCENE_CMD_ID_COLLISION_HEADER, 0, CMD_PTR(colHeader) }
 
 #define SCENE_CMD_ROOM_LIST(numRooms, roomList) \
     { SCENE_CMD_ID_ROOM_LIST, numRooms, CMD_PTR(roomList) }
@@ -389,10 +399,10 @@ typedef enum {
         curRoomUnk2 | _SHIFTL(showInvisActors, 8, 1) | _SHIFTL(disableWarpSongs, 10, 1) }
 
 #define SCENE_CMD_UNK_09() \
-    { SCENE_CMD_ID_UNK_09, 0, CMD_W(0) }
+    { SCENE_CMD_ID_UNDEFINED_9, 0, CMD_W(0) }
 
 #define SCENE_CMD_MESH(meshHeader) \
-    { SCENE_CMD_ID_MESH, 0, CMD_PTR(meshHeader) }
+    { SCENE_CMD_ID_MESH_HEADER, 0, CMD_PTR(meshHeader) }
 
 #define SCENE_CMD_OBJECT_LIST(numObjects, objectList) \
     { SCENE_CMD_ID_OBJECT_LIST, numObjects, CMD_PTR(objectList) }
@@ -404,10 +414,10 @@ typedef enum {
     { SCENE_CMD_ID_PATH_LIST, 0, CMD_PTR(pathList) }
 
 #define SCENE_CMD_TRANSITION_ACTOR_LIST(numActors, list) \
-    { SCENE_CMD_ID_TRANSI_ACTOR_LIST, numActors, CMD_PTR(list) }
+    { SCENE_CMD_ID_TRANSITION_ACTOR_LIST, numActors, CMD_PTR(list) }
 
 #define SCENE_CMD_ENV_LIGHT_SETTINGS(numLightSettings, lightSettingsList) \
-    { SCENE_CMD_ID_ENV_LIGHT_SETTINGS, numLightSettings, CMD_PTR(lightSettingsList) }
+    { SCENE_CMD_ID_LIGHT_SETTINGS_LIST, numLightSettings, CMD_PTR(lightSettingsList) }
 
 #define SCENE_CMD_TIME_SETTINGS(hour, min, speed) \
     { SCENE_CMD_ID_TIME_SETTINGS, 0, CMD_BBBB(hour, min, speed, 0) }
