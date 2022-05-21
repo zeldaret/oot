@@ -344,8 +344,8 @@ void func_80098CC8(GlobalContext* globalCtx, SceneCmd* cmd) {
 // Scene Command 0x11: Skybox Settings
 void func_80098D1C(GlobalContext* globalCtx, SceneCmd* cmd) {
     globalCtx->skyboxId = cmd->skyboxSettings.skyboxId;
-    globalCtx->envCtx.unk_17 = globalCtx->envCtx.unk_18 = cmd->skyboxSettings.unk_05;
-    globalCtx->envCtx.indoors = cmd->skyboxSettings.unk_06;
+    globalCtx->envCtx.skyboxConfig = globalCtx->envCtx.changeSkyboxNextConfig = cmd->skyboxSettings.unk_05;
+    globalCtx->envCtx.lightMode = cmd->skyboxSettings.unk_06;
 }
 
 // Scene Command 0x12: Skybox Disables
@@ -362,30 +362,31 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     if (cmd->timeSettings.unk_06 != 0xFF) {
-        globalCtx->envCtx.timeIncrement = cmd->timeSettings.unk_06;
+        globalCtx->envCtx.sceneTimeSpeed = cmd->timeSettings.unk_06;
     } else {
-        globalCtx->envCtx.timeIncrement = 0;
+        globalCtx->envCtx.sceneTimeSpeed = 0;
     }
 
     if (gSaveContext.sunsSongState == SUNSSONG_INACTIVE) {
-        gTimeIncrement = globalCtx->envCtx.timeIncrement;
+        gTimeSpeed = globalCtx->envCtx.sceneTimeSpeed;
     }
 
-    globalCtx->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    globalCtx->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 120.0f) * 25.0f;
-    globalCtx->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - 0x8000) * 20.0f) * 25.0f;
+    globalCtx->envCtx.sunPos.x = -(Math_SinS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    globalCtx->envCtx.sunPos.y = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f) * 25.0f;
+    globalCtx->envCtx.sunPos.z = (Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 20.0f) * 25.0f;
 
-    if (((globalCtx->envCtx.timeIncrement == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
+    if (((globalCtx->envCtx.sceneTimeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
-        if ((gSaveContext.skyboxTime >= 0x2AAC) && (gSaveContext.skyboxTime < 0x4555)) {
-            gSaveContext.skyboxTime = 0x3556;
-        } else if ((gSaveContext.skyboxTime >= 0x4555) && (gSaveContext.skyboxTime < 0x5556)) {
-            gSaveContext.skyboxTime = 0x5556;
-        } else if ((gSaveContext.skyboxTime >= 0xAAAB) && (gSaveContext.skyboxTime < 0xB556)) {
-            gSaveContext.skyboxTime = 0xB556;
-        } else if ((gSaveContext.skyboxTime >= 0xC001) && (gSaveContext.skyboxTime < 0xCAAC)) {
-            gSaveContext.skyboxTime = 0xCAAC;
+        if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 30)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(8, 0) + 1;
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(16, 0)) && (gSaveContext.skyboxTime <= CLOCK_TIME(17, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(17, 0) + 1;
+        } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(18, 0) + 1) &&
+                   (gSaveContext.skyboxTime <= CLOCK_TIME(19, 0))) {
+            gSaveContext.skyboxTime = CLOCK_TIME(19, 0) + 1;
         }
     }
 }
