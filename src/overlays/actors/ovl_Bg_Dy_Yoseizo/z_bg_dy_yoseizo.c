@@ -720,7 +720,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 }
                 gSaveContext.isDoubleMagicAcquired = true;
                 gSaveContext.magicCapacityTarget = MAGIC_DOUBLE_METER;
-                gSaveContext.magicLevel = 0;
+                gSaveContext.magicLevel = 0; // Setting magicLevel to 0 triggers magicCapacity to step to magicCapacityTarget
                 Interface_ChangeAlpha(9);
                 break;
             case FAIRY_UPGRADE_HALF_DAMAGE:
