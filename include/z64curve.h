@@ -4,7 +4,7 @@
 #include "ultra64/types.h"
 #include "z64math.h"
 
-struct GlobalContext;
+struct PlayState;
 
 typedef struct {
     /* 0x0 */ u16 flags;         // Only the bottom two bits are used, although others are set in objects

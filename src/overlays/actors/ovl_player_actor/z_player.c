@@ -5222,7 +5222,8 @@ void func_8083BCD0(Player* this, PlayState* play, s32 arg2) {
 s32 func_8083BDBC(Player* this, PlayState* play) {
     s32 sp2C;
 
-    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) && (play->roomCtx.curRoom.unk_03 != 2) && (D_808535E4 != 7) &&
+    if (CHECK_BTN_ALL(sControlInput->press.button, BTN_A) &&
+        (play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && (D_808535E4 != 7) &&
         (SurfaceType_GetSlope(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId) != 1)) {
         sp2C = this->unk_84B[this->unk_846];
 
@@ -5410,8 +5411,8 @@ s32 func_8083C544(Player* this, PlayState* play) {
 }
 
 s32 func_8083C61C(PlayState* play, Player* this) {
-    if ((play->roomCtx.curRoom.unk_03 != 2) && (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) &&
-        (AMMO(ITEM_NUT) != 0)) {
+    if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
+        (this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) && (AMMO(ITEM_NUT) != 0)) {
         func_80835C58(play, this, func_8084E604, 0);
         func_80832264(play, this, &gPlayerAnim_003048);
         this->unk_6AD = 0;
@@ -6935,7 +6936,7 @@ void func_808409CC(PlayState* play, Player* this) {
         if (this->stateFlags1 & PLAYER_STATE1_11) {
             anim = func_80833338(this);
         } else {
-            sp38 = play->roomCtx.curRoom.unk_02;
+            sp38 = play->roomCtx.curRoom.behaviorType2;
             if (heathIsCritical) {
                 if (this->unk_6AC >= 0) {
                     sp38 = 7;
@@ -8089,7 +8090,7 @@ static struct_80832924 D_808545F0[] = {
 
 void func_80843CEC(Player* this, PlayState* play) {
     if (this->currentTunic != PLAYER_TUNIC_GORON) {
-        if ((play->roomCtx.curRoom.unk_02 == 3) || (D_808535E4 == 9) ||
+        if ((play->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) || (D_808535E4 == 9) ||
             ((func_80838144(D_808535E4) >= 0) &&
              !SurfaceType_IsWallDamage(&play->colCtx, this->actor.floorPoly, this->actor.floorBgId))) {
             func_8083821C(this);
@@ -9538,10 +9539,11 @@ void func_808473D4(PlayState* play, Player* this) {
                     if ((!(this->stateFlags1 & PLAYER_STATE1_14) && (sp20 <= 0) &&
                          (func_8008E9C4(this) ||
                           ((D_808535E4 != 7) &&
-                           (func_80833B2C(this) || ((play->roomCtx.curRoom.unk_03 != 2) &&
+                           (func_80833B2C(this) || ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) &&
                                                     !(this->stateFlags1 & PLAYER_STATE1_22) && (sp20 == 0))))))) {
                         doAction = DO_ACTION_ATTACK;
-                    } else if ((play->roomCtx.curRoom.unk_03 != 2) && func_80833BCC(this) && (sp20 > 0)) {
+                    } else if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_2) && func_80833BCC(this) &&
+                               (sp20 > 0)) {
                         doAction = DO_ACTION_JUMP;
                     } else if ((this->heldItemActionParam >= PLAYER_AP_SWORD_MASTER) ||
                                ((this->stateFlags2 & PLAYER_STATE2_20) &&

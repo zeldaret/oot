@@ -1008,7 +1008,7 @@ void func_8002DE04(PlayState* play, Actor* actorA, Actor* actorB) {
 }
 
 void func_8002DE74(PlayState* play, Player* player) {
-    if ((play->roomCtx.curRoom.unk_03 != 4) && func_800C0CB8(play)) {
+    if ((play->roomCtx.curRoom.behaviorType1 != ROOM_BEHAVIOR_TYPE1_4) && func_800C0CB8(play)) {
         Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), CAM_SET_HORSE);
     }
 }
@@ -2287,7 +2287,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
 
     gDPPipeSync(POLY_XLU_DISP++);
 
-    if (play->roomCtx.curRoom.showInvisActors == 0) {
+    if (play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) {
         // Update both the color frame buffer and the z-buffer
         gDPSetOtherMode(POLY_XLU_DISP++,
                         G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
@@ -2336,7 +2336,7 @@ void Actor_DrawLensActors(PlayState* play, s32 numInvisibleActors, Actor** invis
     // "Magic lens invisible Actor display END"
     gDPNoOpString(POLY_OPA_DISP++, "魔法のメガネ 見えないＡcｔｏｒ表示 END", numInvisibleActors);
 
-    if (play->roomCtx.curRoom.showInvisActors != 0) {
+    if (play->roomCtx.curRoom.lensMode != LENS_MODE_HIDE_ACTORS) {
         // Draw the lens overlay to the color frame buffer
 
         gDPNoOpString(POLY_OPA_DISP++, "青い眼鏡(外側)", 0); // "Blue spectacles (exterior)"
@@ -2429,7 +2429,7 @@ void func_800315AC(PlayState* play, ActorContext* actorCtx) {
             if ((HREG(64) != 1) || ((HREG(65) != -1) && (HREG(65) != HREG(66))) || (HREG(71) == 0)) {
                 if ((actor->init == NULL) && (actor->draw != NULL) && (actor->flags & (ACTOR_FLAG_5 | ACTOR_FLAG_6))) {
                     if ((actor->flags & ACTOR_FLAG_7) &&
-                        ((play->roomCtx.curRoom.showInvisActors == 0) || play->actorCtx.lensActive ||
+                        ((play->roomCtx.curRoom.lensMode == LENS_MODE_HIDE_ACTORS) || play->actorCtx.lensActive ||
                          (actor->room != play->roomCtx.curRoom.num))) {
                         ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
                                "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
