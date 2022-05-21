@@ -18,9 +18,9 @@ void func_80ABD11C(EnNy* this, PlayState* play);
 void func_80ABCE50(EnNy* this, PlayState* play);
 void func_80ABCE90(EnNy* this, PlayState* play);
 void func_80ABCEEC(EnNy* this, PlayState* play);
-void EnNy_UpdateDeath(Actor* thisx, PlayState* PlayState);
+void EnNy_UpdateDeath(Actor* thisx, PlayState* play);
 void EnNy_SetupDie(EnNy* this, PlayState* play);
-void EnNy_DrawDeathEffect(Actor* thisx, PlayState* PlayState);
+void EnNy_DrawDeathEffect(Actor* thisx, PlayState* play);
 void func_80ABD3B8(EnNy* this, f32, f32);
 
 const ActorInit En_Ny_InitVars = {
