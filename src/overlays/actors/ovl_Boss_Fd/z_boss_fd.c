@@ -165,7 +165,7 @@ void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
                        this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         this->subCamAt.y += this->subCamAtYOffset;
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
         Math_ApproachZeroF(&this->subCamAtYOffset, 1.0f, 0.1f);
     }
 }
@@ -300,7 +300,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->introState != BFD_CS_NONE) {
         Player* player2 = GET_PLAYER(globalCtx);
-        Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+        Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
 
         switch (this->introState) {
             case BFD_CS_WAIT:
@@ -316,9 +316,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     this->introState = BFD_CS_START;
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
-                    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                    this->subCamId = Play_CreateSubCamera(globalCtx);
+                    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     player2->actor.world.pos.x = 380.0f;
                     player2->actor.world.pos.y = 100.0f;
                     player2->actor.world.pos.z = 0.0f;
@@ -769,7 +769,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 s16 sp150;
 
                 if (this->fogMode == 0) {
-                    globalCtx->envCtx.unk_D8 = 0;
+                    globalCtx->envCtx.lightBlend = 0;
                 }
                 this->fogMode = 0xA;
 
@@ -1081,36 +1081,36 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
     if (1) {} // Needed for match
 
     if (this->fogMode == 0) {
-        globalCtx->envCtx.unk_BF = 0;
-        globalCtx->envCtx.unk_D8 = 0.5f + 0.5f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x500);
-        globalCtx->envCtx.unk_DC = 2;
-        globalCtx->envCtx.unk_BD = 1;
-        globalCtx->envCtx.unk_BE = 0;
+        globalCtx->envCtx.lightSettingOverride = 0;
+        globalCtx->envCtx.lightBlend = 0.5f + 0.5f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x500);
+        globalCtx->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        globalCtx->envCtx.lightSetting = 1;
+        globalCtx->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 3) {
-        globalCtx->envCtx.unk_BF = 0;
-        globalCtx->envCtx.unk_DC = 2;
-        globalCtx->envCtx.unk_BD = 2;
-        globalCtx->envCtx.unk_BE = 0;
-        Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+        globalCtx->envCtx.lightSettingOverride = 0;
+        globalCtx->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        globalCtx->envCtx.lightSetting = 2;
+        globalCtx->envCtx.prevLightSetting = 0;
+        Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.05f);
     } else if (this->fogMode == 2) {
         this->fogMode--;
-        globalCtx->envCtx.unk_BF = 0;
-        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.55f + 0.05f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x3E00), 1.0f,
-                       0.15f);
-        globalCtx->envCtx.unk_DC = 2;
-        globalCtx->envCtx.unk_BD = 3;
-        globalCtx->envCtx.unk_BE = 0;
+        globalCtx->envCtx.lightSettingOverride = 0;
+        Math_ApproachF(&globalCtx->envCtx.lightBlend, 0.55f + 0.05f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x3E00),
+                       1.0f, 0.15f);
+        globalCtx->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        globalCtx->envCtx.lightSetting = 3;
+        globalCtx->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 10) {
         this->fogMode = 1;
-        globalCtx->envCtx.unk_BF = 0;
-        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.21f + 0.07f * Math_SinS(this->work[BFD_VAR_TIMER] * 0xC00), 1.0f,
-                       0.05f);
-        globalCtx->envCtx.unk_DC = 2;
-        globalCtx->envCtx.unk_BD = 3;
-        globalCtx->envCtx.unk_BE = 0;
+        globalCtx->envCtx.lightSettingOverride = 0;
+        Math_ApproachF(&globalCtx->envCtx.lightBlend, 0.21f + 0.07f * Math_SinS(this->work[BFD_VAR_TIMER] * 0xC00),
+                       1.0f, 0.05f);
+        globalCtx->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        globalCtx->envCtx.lightSetting = 3;
+        globalCtx->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 1) {
-        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.0f, 1.0f, 0.03f);
-        if (globalCtx->envCtx.unk_D8 <= 0.01f) {
+        Math_ApproachF(&globalCtx->envCtx.lightBlend, 0.0f, 1.0f, 0.03f);
+        if (globalCtx->envCtx.lightBlend <= 0.01f) {
             this->fogMode = 0;
         }
     }
@@ -1164,7 +1164,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
             if ((this->actor.colChkInfo.health == 0) ||
                 ((this->introState == BFD_CS_EMERGE) && (this->actor.world.rot.x > 0x3000))) {
                 if ((u8)this->fogMode == 0) {
-                    globalCtx->envCtx.unk_D8 = 0.0f;
+                    globalCtx->envCtx.lightBlend = 0.0f;
                 }
                 this->fogMode = 2;
             }
@@ -1648,7 +1648,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         BossFd_DrawBody(globalCtx, this);
-        POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
+        POLY_OPA_DISP = Play_SetFog(globalCtx, POLY_OPA_DISP);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4243);
     }
 

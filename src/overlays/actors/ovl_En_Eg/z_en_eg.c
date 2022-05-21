@@ -50,7 +50,7 @@ void EnEg_Init(Actor* thisx, GlobalContext* globalCtx) {
 void func_809FFDC8(EnEg* this, GlobalContext* globalCtx) {
     if (!voided && (gSaveContext.timer2Value < 1) && Flags_GetSwitch(globalCtx, 0x36) && (kREG(0) == 0)) {
         // Void the player out
-        Gameplay_TriggerRespawn(globalCtx);
+        Play_TriggerRespawn(globalCtx);
         gSaveContext.respawnFlag = -2;
         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;

@@ -232,7 +232,7 @@ void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->waitTimer--;
     }
     if (func_80043590(&this->dyna)) {
-        func_80074CE8(globalCtx, 6);
+        Environment_ChangeLightSetting(globalCtx, 6);
     }
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);

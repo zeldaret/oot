@@ -119,7 +119,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             break;
         case 5010:
             func_800C0808(globalCtx, subCamId, player, CAM_SET_CS_ATTENTION);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &mainCam->at, &mainCam->eye);
+            Play_CameraSetAtEye(globalCtx, subCamId, &mainCam->at, &mainCam->eye);
             subCam->roll = 0;
             break;
         case 9500:
@@ -255,7 +255,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
                 csInfo->keyFrames = D_801211D4;
                 csInfo->keyFrameCnt = 2;
             }
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_UNK3);
             func_800C0808(globalCtx, subCamId, player, CAM_SET_CS_C);
         } break;
         case 2290: {
@@ -298,8 +298,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spD0.pitch = 0x3E8;
 
             OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             func_8002DF54(globalCtx, NULL, 8);
             subCam->roll = 0;
             subCam->fov = 50.0f;
@@ -322,19 +322,19 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             func_800C0808(globalCtx, subCamId, player, CAM_SET_CS_C);
             break;
         case 1010:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &childCam->at, &childCam->eye);
-            Gameplay_CameraSetFov(globalCtx, subCamId, childCam->fov);
-            Gameplay_SetCameraRoll(globalCtx, subCamId, childCam->roll);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &childCam->at, &childCam->eye);
+            Play_CameraSetFov(globalCtx, subCamId, childCam->fov);
+            Play_SetCameraRoll(globalCtx, subCamId, childCam->roll);
             break;
         case 9601:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
-            Gameplay_CameraChangeSetting(globalCtx, CAM_ID_MAIN, mainCam->prevSetting);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
+            Play_CameraChangeSetting(globalCtx, CAM_ID_MAIN, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
             break;
         case 9602:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
-            Gameplay_CameraChangeSetting(globalCtx, CAM_ID_MAIN, mainCam->prevSetting);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
+            Play_CameraChangeSetting(globalCtx, CAM_ID_MAIN, mainCam->prevSetting);
             OnePointCutscene_SetCsCamPoints(subCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
             break;
         case 4175:
@@ -350,8 +350,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spB4.x = -1979.0f;
             spB4.y = 703.0f;
             spB4.z = -269.0f;
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 6;
             subCam->fov = 75.0f;
             func_8002DF54(globalCtx, NULL, 8);
@@ -422,7 +422,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             Actor_GetFocus(&spA0, actor);
             spC0 = spA0.pos;
             func_800C0808(globalCtx, subCamId, player, CAM_SET_PIVOT_VERTICAL);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 0;
             subCam->fov = 70.0f;
             func_8002DF54(globalCtx, NULL, 8);
@@ -448,7 +448,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             func_800C0808(globalCtx, subCamId, player, CAM_SET_CS_C);
             break;
         case 3050:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
             func_8002DF54(globalCtx, &player->actor, 5);
             OnePointCutscene_SetCsCamPoints(subCam, D_80120304 | 0x2000, D_80120300, D_8012013C, D_8012021C);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -506,8 +506,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spB4.x = 1729.0f;
             spB4.y = 995.0f;
             spB4.z = -1405.0f;
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 0x50;
             subCam->fov = 55.0f;
             func_8002DF38(globalCtx, &player->actor, 8);
@@ -521,9 +521,9 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             Actor_GetWorld(&spA0, &player->actor);
             spD0.yaw = OnePointCutscene_Vec3fYaw(&spC0, &spA0.pos) - 0x7D0;
             OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
-            Gameplay_CopyCamera(globalCtx, CAM_ID_MAIN, subCamId);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CopyCamera(globalCtx, CAM_ID_MAIN, subCamId);
             subCam->roll = -1;
             subCam->fov = 55.0f;
             func_8002DF38(globalCtx, actor, 1);
@@ -535,8 +535,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spD0.yaw = spA0.rot.y;
             spD0.r = 150.0f;
             OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 0;
             subCam->fov = 55.0f;
             func_8002DF38(globalCtx, &player->actor, 8);
@@ -549,14 +549,14 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spD0.yaw = spA0.rot.y;
             spD0.pitch = -0xAF0;
             OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 0;
             subCam->fov = 60.0f;
             func_8002DF38(globalCtx, actor, 1);
             break;
         case 3190:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FOREST_DEFEAT_POE);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FOREST_DEFEAT_POE);
             Camera_ChangeMode(mainCam, CAM_MODE_NORMAL);
             func_8002DF38(globalCtx, actor, 0xC);
             break;
@@ -567,8 +567,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spB4.x = 80.0f;
             spB4.y = 445.0f;
             spB4.z = -1425.0f;
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 0x1E;
             subCam->fov = 75.0f;
             func_8002DF38(globalCtx, &player->actor, 8);
@@ -581,7 +581,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spD0.pitch = 0x5DC;
             spD0.r = 120.0f;
             OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
-            Gameplay_CameraSetAtEye(globalCtx, CAM_ID_MAIN, &spC0, &spB4);
+            Play_CameraSetAtEye(globalCtx, CAM_ID_MAIN, &spC0, &spB4);
 
             i = Quake_Add(subCam, 3);
             Quake_SetSpeed(i, 22000);
@@ -596,8 +596,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spD0.yaw = spA0.rot.y + 0x7FFF;
             spD0.r = 300.0f;
             OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 0;
             subCam->fov = 45.0f;
             func_8002DF38(globalCtx, &player->actor, 8);
@@ -612,7 +612,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             spD0.r = 400.0f;
             OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             spB4.y = spA0.pos.y + 60.0f;
-            Gameplay_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
+            Play_CameraSetAtEye(globalCtx, subCamId, &spC0, &spB4);
             subCam->roll = 0;
             subCam->fov = 75.0f;
             player->actor.shape.rot.y = player->actor.world.rot.y = player->currentYaw = spD0.yaw + 0x7FFF;
@@ -628,7 +628,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             func_800C0808(globalCtx, subCamId, player, CAM_SET_CS_C);
             break;
         case 6001:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
             func_8002DF54(globalCtx, NULL, 8);
             Actor_GetWorld(&spA0, actor);
             if (spA0.pos.z > -750.0f) {
@@ -643,7 +643,7 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             Quake_SetCountdown(i, D_801208E4 - 10);
             break;
         case 3400:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_CS_3);
             func_8002DF38(globalCtx, &player->actor, 8);
             OnePointCutscene_SetCsCamPoints(subCam, D_8012069C | 0x2000, D_80120698, D_801204D4, D_801205B4);
             OnePointCutscene_Vec3sToVec3f(&mainCam->eye, &D_801205B4[D_80120694 - 2].pos);
@@ -664,9 +664,9 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
             func_800C0808(globalCtx, subCamId, player, CAM_SET_CS_C);
             break;
         case 3310:
-            Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FIRE_STAIRCASE);
+            Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FIRE_STAIRCASE);
             func_8002DF54(globalCtx, NULL, 8);
-            Gameplay_CopyCamera(globalCtx, subCamId, CAM_ID_MAIN);
+            Play_CopyCamera(globalCtx, subCamId, CAM_ID_MAIN);
 
             i = Quake_Add(subCam, 1);
             Quake_SetSpeed(i, 32000);
@@ -958,8 +958,8 @@ s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 subCamId, s16 csId, A
                 func_800C0808(globalCtx, subCamId, player, CAM_SET_TURN_AROUND);
                 subCam->data2 = 0xC;
             } else {
-                Gameplay_CopyCamera(globalCtx, subCamId, CAM_ID_MAIN);
-                Gameplay_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
+                Play_CopyCamera(globalCtx, subCamId, CAM_ID_MAIN);
+                Play_CameraChangeSetting(globalCtx, subCamId, CAM_SET_FREE2);
             }
             break;
         case 9908:
@@ -1132,7 +1132,7 @@ s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 subCamId) {
     subCam->parentCamId = CAM_ID_MAIN;
     subCam->childCamId = subCam->parentCamId;
     subCam->timer = -1;
-    Gameplay_ClearCamera(subCam->globalCtx, subCam->camId);
+    Play_ClearCamera(subCam->globalCtx, subCam->camId);
     return nextCamId;
 }
 
@@ -1155,7 +1155,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     if (parentCamId == CAM_ID_NONE) {
         parentCamId = globalCtx->activeCamId;
     }
-    subCamId = Gameplay_CreateSubCamera(globalCtx);
+    subCamId = Play_CreateSubCamera(globalCtx);
     if (subCamId == CAM_ID_NONE) {
         osSyncPrintf(VT_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" VT_RST, csId);
         return CAM_ID_NONE;
@@ -1185,12 +1185,12 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
     subCam->csId = csId;
 
     if (parentCamId == CAM_ID_MAIN) {
-        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_UNK3);
+        Play_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_UNK3);
     } else {
-        Gameplay_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_WAIT);
+        Play_ChangeCameraStatus(globalCtx, parentCamId, CAM_STAT_WAIT);
     }
     OnePointCutscene_SetInfo(globalCtx, subCamId, csId, actor, timer);
-    Gameplay_ChangeCameraStatus(globalCtx, subCamId, vSubCamStatus);
+    Play_ChangeCameraStatus(globalCtx, subCamId, vSubCamStatus);
 
     // Removes all lower priority cutscenes in front of this cutscene from the queue.
     vCurCamId = subCamId;
@@ -1205,7 +1205,7 @@ s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* 
                          vNextCamId, nextCsId, thisCsId);
             if (globalCtx->cameraPtrs[vNextCamId]->csId != 5010) {
                 if ((vNextCamId = OnePointCutscene_RemoveCamera(globalCtx, vNextCamId)) != CAM_ID_NONE) {
-                    Gameplay_ChangeCameraStatus(globalCtx, vNextCamId, CAM_STAT_ACTIVE);
+                    Play_ChangeCameraStatus(globalCtx, vNextCamId, CAM_STAT_ACTIVE);
                 }
             } else {
                 vCurCamId = vNextCamId;

@@ -1010,7 +1010,7 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     if ((globalCtx->roomCtx.curRoom.unk_03 != 4) && func_800C0CB8(globalCtx)) {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN), CAM_SET_HORSE);
+        Camera_ChangeSetting(Play_GetCamera(globalCtx, CAM_ID_MAIN), CAM_SET_HORSE);
     }
 }
 
@@ -2564,7 +2564,7 @@ void func_80031C3C(ActorContext* actorCtx, GlobalContext* globalCtx) {
         actorCtx->absoluteSpace = NULL;
     }
 
-    Gameplay_SaveSceneFlags(globalCtx);
+    Play_SaveSceneFlags(globalCtx);
     func_80030488(globalCtx);
     ActorOverlayTable_Cleanup();
 }
@@ -2874,7 +2874,7 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
 
     if ((player != NULL) && (actor == player->unk_664)) {
         func_8008EDF0(player);
-        Camera_ChangeMode(Gameplay_GetCamera(globalCtx, Gameplay_GetActiveCamId(globalCtx)), 0);
+        Camera_ChangeMode(Play_GetCamera(globalCtx, Play_GetActiveCamId(globalCtx)), 0);
     }
 
     if (actor == actorCtx->targetCtx.arrowPointedActor) {
@@ -4519,7 +4519,7 @@ u32 func_80035BFC(GlobalContext* globalCtx, s16 arg1) {
                 retTextId = 0x7002;
             } else if (Flags_GetInfTable(INFTABLE_6A)) {
                 retTextId = 0x7004;
-            } else if ((gSaveContext.dayTime >= 0x4000) && (gSaveContext.dayTime < 0xC556)) {
+            } else if ((gSaveContext.dayTime >= CLOCK_TIME(6, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
                 retTextId = 0x7002;
             } else {
                 retTextId = 0x7003;

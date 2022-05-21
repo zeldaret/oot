@@ -125,7 +125,7 @@ void EnDivingGame_SpawnRuppy(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCtx) {
-    if (gSaveContext.timer1State == 10 && !Gameplay_InCsMode(globalCtx)) {
+    if (gSaveContext.timer1State == 10 && !Play_InCsMode(globalCtx)) {
         // Failed.
         gSaveContext.timer1State = 0;
         func_800F5B58();
@@ -297,9 +297,9 @@ void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     this->spawnRuppyTimer = 10;
     this->subCamAtNext.x = -210.0f;
     this->subCamAtNext.y = -80.0f;
@@ -326,8 +326,8 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) 
     this->subCamAtVel.x = fabsf(this->subCamAt.x - this->subCamAtNext.x) * 0.04f;
     this->subCamAtVel.y = fabsf(this->subCamAt.y - this->subCamAtNext.y) * 0.04f;
     this->subCamAtVel.z = fabsf(this->subCamAt.z - this->subCamAtNext.z) * 0.04f;
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
-    Gameplay_CameraSetFov(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_CameraSetFov(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
     this->subCamTimer = 60;
     this->actionFunc = EnDivingGame_RupeeThrow;
     this->subCamVelFactor = 0.0f;
@@ -352,7 +352,7 @@ void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
                        this->subCamAtVel.z * this->subCamVelFactor);
         Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.02f);
     }
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     if (!this->allRupeesThrown && this->spawnRuppyTimer == 0) {
         this->spawnRuppyTimer = 5;
         EnDivingGame_SpawnRuppy(this, globalCtx);
@@ -403,8 +403,8 @@ void EnDivingGame_SetupUnderwaterViewCs(EnDivingGame* this, GlobalContext* globa
 void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->subCamTimer == 0) {
-        Gameplay_ClearCamera(globalCtx, this->subCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+        Play_ClearCamera(globalCtx, this->subCamId);
+        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         this->actor.textId = 0x405A;
         Message_ContinueTextbox(globalCtx, this->actor.textId);
         this->unk_292 = TEXT_STATE_EVENT;
