@@ -957,7 +957,7 @@ void BossVa_BodyIntro(BossVa* this, GlobalContext* globalCtx) {
             sSubCamEyeMaxVelFrac.z = sSubCamEyeMaxVelFrac.x;
             sSubCamAtMaxVelFrac = sSubCamEyeMaxVelFrac;
             if (this->timer >= 45000) {
-                globalCtx->envCtx.unk_BF = 1;
+                globalCtx->envCtx.lightSettingOverride = 1;
                 func_8002DF54(globalCtx, &this->actor, 8);
             } else if (this->timer >= 35000) {
                 SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_BOSS);

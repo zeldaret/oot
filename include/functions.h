@@ -840,16 +840,6 @@ void Flags_UnsetAllEnv(GlobalContext* globalCtx);
 void Flags_SetEnv(GlobalContext* globalCtx, s16 flag);
 void Flags_UnsetEnv(GlobalContext* globalCtx, s16 flag);
 s32 Flags_GetEnv(GlobalContext* globalCtx, s16 flag);
-f32 func_8006C5A8(f32 target, TransformData* transData, s32 refIdx);
-void SkelCurve_Clear(SkelAnimeCurve* skelCurve);
-s32 SkelCurve_Init(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, SkelCurveLimbList* limbListSeg,
-                   TransformUpdateIndex* transUpdIdx);
-void SkelCurve_Destroy(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
-void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpdIdx, f32 arg2, f32 animFinalFrame,
-                       f32 animCurFrame, f32 animSpeed);
-s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
-void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
-                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
 s32 func_8006CFC0(s32 scene);
 void func_8006D074(GlobalContext* globalCtx);
 void func_8006D0AC(GlobalContext* globalCtx);
@@ -865,7 +855,7 @@ void func_8006EE50(Font* font, u16 arg1, u16 arg2);
 void Font_LoadChar(Font* font, u8 character, u16 codePointIndex);
 void Font_LoadMessageBoxIcon(Font* font, u16 icon);
 void Font_LoadOrderedFont(Font* font);
-s32 func_8006F0A0(s32 arg0);
+s32 Environment_ZBufValToFixedPoint(s32 zBufferVal);
 u16 Environment_GetPixelDepth(s32 x, s32 y);
 void Environment_GraphCallback(GraphicsContext* gfxCtx, void* param);
 void Environment_Init(GlobalContext* globalCtx, EnvironmentContext* envCtx, s32 unused);
@@ -884,9 +874,9 @@ void Environment_DrawSunLensFlare(GlobalContext* globalCtx, EnvironmentContext* 
                                   GraphicsContext* gfxCtx, Vec3f pos, s32 unused);
 void Environment_DrawLensFlare(GlobalContext* globalCtx, EnvironmentContext* envCtx, View* view,
                                GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
-                               s16 screenFillAlpha, u8 arg9);
+                               s16 glareStrength, u8 isSun);
 void Environment_DrawRain(GlobalContext* globalCtx, View* view, GraphicsContext* gfxCtx);
-void func_80074CE8(GlobalContext* globalCtx, u32 arg1);
+void Environment_ChangeLightSetting(GlobalContext* globalCtx, u32 lightSetting);
 void Environment_DrawSkyboxFilters(GlobalContext* globalCtx);
 void Environment_UpdateLightningStrike(GlobalContext* globalCtx);
 void Environment_AddLightningBolts(GlobalContext* globalCtx, u8 num);
@@ -1501,7 +1491,7 @@ void Play_Main(GameState* thisx);
 s32 Play_InCsMode(GlobalContext* globalCtx);
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec);
 void* Play_LoadFile(GlobalContext* globalCtx, RomFile* file);
-void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest);
+void Play_GetScreenPos(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest);
 s16 Play_CreateSubCamera(GlobalContext* globalCtx);
 s16 Play_GetActiveCamId(GlobalContext* globalCtx);
 s16 Play_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status);

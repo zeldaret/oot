@@ -209,13 +209,11 @@ void EnGe1_SetAnimationIdle(EnGe1* this) {
 }
 
 s32 EnGe1_CheckCarpentersFreed(void) {
-    u16 carpenterFlags = gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX];
-
-    if (!((carpenterFlags & EVENTCHKINF_90_MASK) && (carpenterFlags & EVENTCHKINF_91_MASK) &&
-          (carpenterFlags & EVENTCHKINF_92_MASK) && (carpenterFlags & EVENTCHKINF_93_MASK))) {
-        return 0;
+    if (!(GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1)) &&
+          GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3)))) {
+        return false;
     }
-    return 1;
+    return true;
 }
 
 /**

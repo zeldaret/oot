@@ -272,8 +272,8 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                                  -10.0f);
             }
             if (this->timers[0] == 90) {
-                globalCtx->envCtx.unk_BF = 2;
-                globalCtx->envCtx.unk_D6 = 0x14;
+                globalCtx->envCtx.lightSettingOverride = 2;
+                globalCtx->envCtx.lightBlendRateOverride = 20;
             }
             if (this->timers[0] == 100) {
                 this->bossGndSignal = FHG_LIGHTNING;
@@ -374,8 +374,8 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 50.0f);
             osSyncPrintf("TIME %d-------------------------------------------------\n", this->timers[0]);
             if (fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f)) < 1.0f) {
-                globalCtx->envCtx.unk_BF = 0;
-                globalCtx->envCtx.unk_D6 = 0x14;
+                globalCtx->envCtx.lightSettingOverride = 0;
+                globalCtx->envCtx.lightBlendRateOverride = 20;
                 this->cutsceneState = INTRO_FINISH;
                 Animation_MorphToLoop(&this->skin.skelAnime, &gPhantomHorseRunningAnim, -3.0f);
                 this->bossGndSignal = FHG_START_FIGHT;
