@@ -703,8 +703,8 @@ s16 Camera_GetCamDirYaw(Camera* camera);
 s32 Camera_AddQuake(Camera* camera, s32 arg1, s16 y, s32 countdown);
 s32 Camera_SetViewParam(Camera* camera, s32 viewFlag, void* param);
 s32 Camera_OverwriteStateFlags(Camera* camera, s16 stateFlags);
-s16 Camera_SetStateFlags(Camera* camera, s16 stateFlags);
-s16 Camera_UnsetStateFlags(Camera* camera, s16 stateFlags);
+s16 Camera_SetStateFlag(Camera* camera, s16 stateFlags);
+s16 Camera_ClearStateFlag(Camera* camera, s16 stateFlags);
 s32 Camera_ResetAnim(Camera* camera);
 s32 Camera_SetCSParams(Camera* camera, CutsceneCameraPoint* atPoints, CutsceneCameraPoint* eyePoints, Player* player,
                        s16 relativeToPlayer);

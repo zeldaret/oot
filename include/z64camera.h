@@ -27,7 +27,23 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
 
-#define CAM_IFACE_ALPHA(alpha) ((alpha) << 8)
+#define CAM_HUD_ALPHA(alpha) (((alpha) & 0xF) << 8)
+
+#define CAM_HUD_ALPHA_50 0x000
+#define CAM_HUD_ALPHA_1 CAM_HUD_ALPHA(1)
+#define CAM_HUD_ALPHA_2 CAM_HUD_ALPHA(2)
+#define CAM_HUD_ALPHA_3 CAM_HUD_ALPHA(3)
+#define CAM_HUD_ALPHA_4 CAM_HUD_ALPHA(4)
+#define CAM_HUD_ALPHA_5 CAM_HUD_ALPHA(5)
+#define CAM_HUD_ALPHA_6 CAM_HUD_ALPHA(6)
+#define CAM_HUD_ALPHA_7 CAM_HUD_ALPHA(7)
+#define CAM_HUD_ALPHA_8 CAM_HUD_ALPHA(8)
+#define CAM_HUD_ALPHA_9 CAM_HUD_ALPHA(9)
+#define CAM_HUD_ALPHA_A CAM_HUD_ALPHA(10)
+#define CAM_HUD_ALPHA_B CAM_HUD_ALPHA(11)
+#define CAM_HUD_ALPHA_C CAM_HUD_ALPHA(12)
+#define CAM_HUD_ALPHA_D CAM_HUD_ALPHA(13)
+#define CAM_HUD_ALPHA_IGNORE CAM_HUD_ALPHA(0xF)
 
 /**
  * useShrinkWindowNow: boolean - if true, set shrinkbox immediately. if false, set target. see CAM_SHRINKWIN_CURVAL
@@ -37,8 +53,8 @@
  *    - A value of 0xF in camera results in no change in the alpha
  * funcFlags: Custom flags for functions
  */
-#define CAM_INTERFACE_FLAGS(useShrinkWindowNow, shinkWindowFlag, interfaceAlpha, funcFlags) \
-    ((useShrinkWindowNow << 15) | ((shinkWindowFlag) & CAM_SHRINKWIN_MASK) | CAM_IFACE_ALPHA((interfaceAlpha) & 0xF) | ((funcFlags) & 0xFF))
+#define CAM_INTERFACE_FLAGS(shinkWindowFlag, interfaceAlpha, funcFlags) \
+    (((shinkWindowFlag) & CAM_SHRINKWIN_MASK) | (interfaceAlpha) | ((funcFlags) & 0xFF))
 
 // Shrinking the window from the top and bottom with a black box (letterboxing)
 #define CAM_SHRINKWIN_MASK (0xF000)
@@ -53,7 +69,7 @@
 
 #define CAM_SHRINKWINVAL_IGNORE (0xF000) // No change in shrink window, keep the previous values
 
-#define CAM_IFACE_ALPHA_MASK (0x0F00)
+#define CAM_HUD_ALPHA_MASK (0x0F00)
 
 // Camera behaviorFlags. Flags spcifically for settings, modes, and scene/bg/cs camData
 // Used to store current state, only CAM_FLAG_SET_1 and CAM_FLAG_BG_1 are read from and used in logic
