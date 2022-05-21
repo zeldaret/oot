@@ -47,7 +47,7 @@
 
 /**
  * shinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums.
- *                  Can also add on the flag ` | CAM_SHRINKWIN_CURVAL to make the window shrink immediately
+ *                  Can also add on the flag ( | CAM_SHRINKWIN_CURVAL) to make the window shrink immediately
  * interfaceAlpha: hides certain hud icons
  *    - A value of 0 in camera is translated to an interface alpha of 50, which is the value to restore all hud icons to the screen
  *    - A value of 0xF in camera results in no change in the alpha
