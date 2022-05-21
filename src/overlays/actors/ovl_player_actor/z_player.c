@@ -2903,7 +2903,7 @@ void func_80835F44(GlobalContext* globalCtx, Player* this, s32 item) {
                 }
             } else if ((temp = Player_ActionToMagicSpell(this, actionParam)) >= 0) {
                 if (((actionParam == PLAYER_AP_FARORES_WIND) && (gSaveContext.respawn[RESPAWN_MODE_TOP].data > 0)) ||
-                    ((gSaveContext.magicCapacityDrawn != 0) && (gSaveContext.magicState == MAGIC_STATE_IDLE) &&
+                    ((gSaveContext.magicCapacity != 0) && (gSaveContext.magicState == MAGIC_STATE_IDLE) &&
                      (gSaveContext.magic >= sMagicSpellCosts[temp]))) {
                     this->itemActionParam = actionParam;
                     this->unk_6AD = 4;

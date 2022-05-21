@@ -467,8 +467,7 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
         this->refillTimer = 200;
     }
 
-    if (((gSaveContext.healthCapacity == gSaveContext.health) &&
-         (gSaveContext.magic == gSaveContext.magicCapacityDrawn)) ||
+    if (((gSaveContext.healthCapacity == gSaveContext.health) && (gSaveContext.magic == gSaveContext.magicCapacity)) ||
         (this->refillTimer == 1)) {
         this->healingTimer--;
         if (this->healingTimer == 90) {
@@ -712,7 +711,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         switch (actionIndex) {
             case FAIRY_UPGRADE_MAGIC:
                 gSaveContext.isMagicAcquired = true;
-                gSaveContext.magicCapacity = MAGIC_NORMAL_METER;
+                gSaveContext.magicCapacityTarget = MAGIC_NORMAL_METER;
                 Interface_ChangeAlpha(9);
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
@@ -720,7 +719,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                     gSaveContext.isMagicAcquired = true;
                 }
                 gSaveContext.isDoubleMagicAcquired = true;
-                gSaveContext.magicCapacity = MAGIC_DOUBLE_METER;
+                gSaveContext.magicCapacityTarget = MAGIC_DOUBLE_METER;
                 gSaveContext.magicLevel = 0;
                 Interface_ChangeAlpha(9);
                 break;

@@ -15,7 +15,7 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
     if (pauseCtx->state == 0 && pauseCtx->debugState == 0 && globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE &&
         globalCtx->transitionTrigger == TRANS_TRIGGER_OFF && globalCtx->transitionMode == TRANS_MODE_OFF &&
         gSaveContext.cutsceneIndex < 0xFFF0 && gSaveContext.nextCutsceneIndex < 0xFFF0 && !Play_InCsMode(globalCtx) &&
-        globalCtx->shootingGalleryStatus <= 1 && gSaveContext.magicState != MAGIC_STATE_SYNC_METER_WIDTH &&
+        globalCtx->shootingGalleryStatus <= 1 && gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY &&
         gSaveContext.magicState != MAGIC_STATE_FILL &&
         (globalCtx->sceneNum != SCENE_BOWLING || !Flags_GetSwitch(globalCtx, 0x38))) {
 

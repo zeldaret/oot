@@ -13,7 +13,7 @@ typedef enum {
     /* 0x5 */ MAGIC_STATE_RESET, // Reset colors and return to idle
     /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
     /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
-    /* 0x8 */ MAGIC_STATE_SYNC_METER_WIDTH, // Init magic on a new load, grow from a width of 0 to magicCapacity
+    /* 0x8 */ MAGIC_STATE_STEP_CAPACITY, // step magicCapacity to magicCapacityTarget
     /* 0x9 */ MAGIC_STATE_FILL, // Add magic until full capacity is reached
     /* 0xA */ MAGIC_STATE_ADD // Add requested magic
 } MagicState;
@@ -184,8 +184,8 @@ typedef struct {
     /* 0x13EE */ u16 unk_13EE; // previous alpha type?
     /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
-    /* 0x13F4 */ s16 magicCapacityDrawn; // only differs from magicCapacity in a new save load, where magicCapacityDrawn is gradually increased from 0 to magicCapacity to show the meter size growing to its actual maximum value.
-    /* 0x13F6 */ s16 magicCapacity; // maximum magic available
+    /* 0x13F4 */ s16 magicCapacity; // maximum magic available. Determines magic bar width. Reset to 0 on save and quit, brought back to full width by stepping to magicCapacityTarget
+    /* 0x13F6 */ s16 magicCapacityTarget; // target for maximum magic available. Target is set when obtaining magic, filling magic full, and on save and quit.
     /* 0x13F8 */ s16 magicTarget; // target for magic to step to when adding or consuming magic
     /* 0x13FA */ u16 eventInf[4]; // "event_inf"
     /* 0x1402 */ u16 mapIndex; // intended for maps/minimaps but commonly used as the dungeon index

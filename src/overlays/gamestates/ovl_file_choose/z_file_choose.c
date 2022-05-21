@@ -1488,13 +1488,13 @@ void FileChoose_LoadGame(GameState* thisx) {
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
-        gSaveContext.magicCapacityDrawn = 0;
+        gSaveContext.magicCapacity = 0;
 
-    gSaveContext.magicCapacity = gSaveContext.magic;
+    gSaveContext.magicCapacityTarget = gSaveContext.magic;
     gSaveContext.magicLevel = gSaveContext.magic = 0;
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicCapacity), gSaveContext.magic);
+    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicCapacityTarget), gSaveContext.magic);
     osSyncPrintf(VT_RST);
 
     gSaveContext.naviTimer = 0;

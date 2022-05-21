@@ -2275,13 +2275,13 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
 void Magic_Fill(GlobalContext* globalCtx) {
     if (gSaveContext.isMagicAcquired) {
         gSaveContext.prevMagicState = gSaveContext.magicState;
-        gSaveContext.magicCapacity = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
+        gSaveContext.magicCapacityTarget = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
         gSaveContext.magicState = MAGIC_STATE_FILL;
     }
 }
 
 void Magic_Reset(GlobalContext* globalCtx) {
-    if ((gSaveContext.magicState != MAGIC_STATE_SYNC_METER_WIDTH) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
+    if ((gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
         if (gSaveContext.magicState == MAGIC_STATE_ADD) {
             gSaveContext.prevMagicState = gSaveContext.magicState;
         }
@@ -2301,7 +2301,7 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 amount, s16 type) {
     }
 
     if ((type != MAGIC_ADD) && (gSaveContext.magic - amount) < 0) {
-        if (gSaveContext.magicCapacityDrawn != 0) {
+        if (gSaveContext.magicCapacity != 0) {
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
@@ -2380,11 +2380,11 @@ s32 Magic_RequestChange(GlobalContext* globalCtx, s16 amount, s16 type) {
 
         case MAGIC_ADD:
             // Sets target for magic to increase to
-            if (gSaveContext.magic <= gSaveContext.magicCapacityDrawn) {
+            if (gSaveContext.magic <= gSaveContext.magicCapacity) {
                 gSaveContext.magicTarget = gSaveContext.magic + amount;
 
-                if (gSaveContext.magicTarget >= gSaveContext.magicCapacityDrawn) {
-                    gSaveContext.magicTarget = gSaveContext.magicCapacityDrawn;
+                if (gSaveContext.magicTarget >= gSaveContext.magicCapacity) {
+                    gSaveContext.magicTarget = gSaveContext.magicCapacity;
                 }
 
                 gSaveContext.magicState = MAGIC_STATE_ADD;
@@ -2411,23 +2411,23 @@ void Magic_Update(GlobalContext* globalCtx) {
     s16 borderChangeR;
     s16 borderChangeG;
     s16 borderChangeB;
-    s16 temp; // magicCapacity or magicBorderIndex
+    s16 temp; // magicCapacityTarget or magicBorderIndex
 
     switch (gSaveContext.magicState) {
-        case MAGIC_STATE_SYNC_METER_WIDTH:
-            // Step magicCapacityDrawn to what is magicCapacity
+        case MAGIC_STATE_STEP_CAPACITY:
+            // Step magicCapacity to what is magicCapacityTarget
             // This changes the width of the magic bar drawn
-            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER; // magicCapacity
-            if (gSaveContext.magicCapacityDrawn != temp) {
-                if (gSaveContext.magicCapacityDrawn < temp) {
-                    gSaveContext.magicCapacityDrawn += 8;
-                    if (gSaveContext.magicCapacityDrawn > temp) {
-                        gSaveContext.magicCapacityDrawn = temp;
+            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER; // magicCapacityTarget
+            if (gSaveContext.magicCapacity != temp) {
+                if (gSaveContext.magicCapacity < temp) {
+                    gSaveContext.magicCapacity += 8;
+                    if (gSaveContext.magicCapacity > temp) {
+                        gSaveContext.magicCapacity = temp;
                     }
                 } else {
-                    gSaveContext.magicCapacityDrawn -= 8;
-                    if (gSaveContext.magicCapacityDrawn <= temp) {
-                        gSaveContext.magicCapacityDrawn = temp;
+                    gSaveContext.magicCapacity -= 8;
+                    if (gSaveContext.magicCapacity <= temp) {
+                        gSaveContext.magicCapacity = temp;
                     }
                 }
             } else {
@@ -2445,10 +2445,10 @@ void Magic_Update(GlobalContext* globalCtx) {
             }
 
             // "Storage  MAGIC_NOW=%d (%d)"
-            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicCapacity);
+            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicCapacityTarget);
 
-            if (gSaveContext.magic >= gSaveContext.magicCapacity) {
-                gSaveContext.magic = gSaveContext.magicCapacity;
+            if (gSaveContext.magic >= gSaveContext.magicCapacityTarget) {
+                gSaveContext.magic = gSaveContext.magicCapacityTarget;
                 gSaveContext.magicState = gSaveContext.prevMagicState;
                 gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
             }
@@ -2619,14 +2619,14 @@ void Magic_DrawMeter(GlobalContext* globalCtx) {
                                       1 << 10, 1 << 10);
 
         OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gMagicMeterMidTex, 24, 16, R_MAGIC_METER_X + 8, magicMeterY,
-                                      gSaveContext.magicCapacityDrawn, 16, 1 << 10, 1 << 10);
+                                      gSaveContext.magicCapacity, 16, 1 << 10, 1 << 10);
 
         gDPLoadTextureBlock(OVERLAY_DISP++, gMagicMeterEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 16, 0,
                             G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, ((R_MAGIC_METER_X + gSaveContext.magicCapacityDrawn) + 8) << 2,
-                            magicMeterY << 2, ((R_MAGIC_METER_X + gSaveContext.magicCapacityDrawn) + 16) << 2,
-                            (magicMeterY + 16) << 2, G_TX_RENDERTILE, 256, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, ((R_MAGIC_METER_X + gSaveContext.magicCapacity) + 8) << 2, magicMeterY << 2,
+                            ((R_MAGIC_METER_X + gSaveContext.magicCapacity) + 16) << 2, (magicMeterY + 16) << 2,
+                            G_TX_RENDERTILE, 256, 0, 1 << 10, 1 << 10);
 
         gDPPipeSync(OVERLAY_DISP++);
         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, PRIMITIVE,
@@ -4124,13 +4124,13 @@ void Interface_Update(GlobalContext* globalCtx) {
 
         if (gSaveContext.isMagicAcquired && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.isDoubleMagicAcquired + 1;
-            gSaveContext.magicState = MAGIC_STATE_SYNC_METER_WIDTH;
+            gSaveContext.magicState = MAGIC_STATE_STEP_CAPACITY;
             osSyncPrintf(VT_FGCOL(YELLOW));
             osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
             osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.magic);
-            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicCapacity);
-            osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.magicCapacityDrawn);
+            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicCapacityTarget);
+            osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.magicCapacity);
             osSyncPrintf(VT_RST);
         }
 
