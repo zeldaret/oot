@@ -5,49 +5,49 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
-void EnFr_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnFr_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnFr_UpdateIdle(Actor* thisx, GlobalContext* globalCtx);
-void EnFr_UpdateActive(Actor* thisx, GlobalContext* globalCtx);
-void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnFr_Init(Actor* thisx, PlayState* play);
+void EnFr_Destroy(Actor* thisx, PlayState* play);
+void EnFr_Update(Actor* thisx, PlayState* play);
+void EnFr_UpdateIdle(Actor* thisx, PlayState* play);
+void EnFr_UpdateActive(Actor* thisx, PlayState* play);
+void EnFr_Draw(Actor* thisx, PlayState* play);
 
 // Animation Functions
-void EnFr_SetupJumpingOutOfWater(EnFr* this, GlobalContext* globalCtx);
-void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx);
-void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx);
-void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx);
-void EnFr_JumpingUp(EnFr* this, GlobalContext* globalCtx);
-void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx);
+void EnFr_SetupJumpingOutOfWater(EnFr* this, PlayState* play);
+void EnFr_JumpingOutOfWater(EnFr* this, PlayState* play);
+void EnFr_OrientOnLogSpot(EnFr* this, PlayState* play);
+void EnFr_ChooseJumpFromLogSpot(EnFr* this, PlayState* play);
+void EnFr_JumpingUp(EnFr* this, PlayState* play);
+void EnFr_JumpingBackIntoWater(EnFr* this, PlayState* play);
 void EnFr_DecrementBlinkTimerUpdate(EnFr* this);
 
 // Activation
-void EnFr_Idle(EnFr* this, GlobalContext* globalCtx);
-void EnFr_Activate(EnFr* this, GlobalContext* globalCtx);
-void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx);
+void EnFr_Idle(EnFr* this, PlayState* play);
+void EnFr_Activate(EnFr* this, PlayState* play);
+void EnFr_ActivateCheckFrogSong(EnFr* this, PlayState* play);
 
 // Listening for Child Songs
-void func_80A1BE98(EnFr* this, GlobalContext* globalCtx);
-void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx);
-void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx);
-void EnFr_ChildSongFirstTime(EnFr* this, GlobalContext* globalCtx);
+void func_80A1BE98(EnFr* this, PlayState* play);
+void EnFr_ListeningToOcarinaNotes(EnFr* this, PlayState* play);
+void EnFr_ChildSong(EnFr* this, PlayState* play);
+void EnFr_ChildSongFirstTime(EnFr* this, PlayState* play);
 
 // Frog Song for HP Functions
-void EnFr_TalkBeforeFrogSong(EnFr* this, GlobalContext* globalCtx);
-void EnFr_SetupFrogSong(EnFr* this, GlobalContext* globalCtx);
-void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx);
-void EnFr_OcarinaMistake(EnFr* this, GlobalContext* globalCtx);
+void EnFr_TalkBeforeFrogSong(EnFr* this, PlayState* play);
+void EnFr_SetupFrogSong(EnFr* this, PlayState* play);
+void EnFr_ContinueFrogSong(EnFr* this, PlayState* play);
+void EnFr_OcarinaMistake(EnFr* this, PlayState* play);
 
 // Reward Functions
-void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition);
-void EnFr_PrintTextBox(EnFr* this, GlobalContext* globalCtx);
-void EnFr_TalkBeforeReward(EnFr* this, GlobalContext* globalCtx);
-void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx);
+void EnFr_SetupReward(EnFr* this, PlayState* play, u8 unkCondition);
+void EnFr_PrintTextBox(EnFr* this, PlayState* play);
+void EnFr_TalkBeforeReward(EnFr* this, PlayState* play);
+void EnFr_SetReward(EnFr* this, PlayState* play);
 
 // Deactivate
-void EnFr_Deactivate(EnFr* this, GlobalContext* globalCtx);
-void EnFr_GiveReward(EnFr* this, GlobalContext* globalCtx);
-void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx);
+void EnFr_Deactivate(EnFr* this, PlayState* play);
+void EnFr_GiveReward(EnFr* this, PlayState* play);
+void EnFr_SetIdle(EnFr* this, PlayState* play);
 
 /*
 Frogs params WIP docs
@@ -229,7 +229,7 @@ void EnFr_OrientUnderwater(EnFr* this) {
     this->actor.gravity = 0.0f;
 }
 
-void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnFr_Init(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
     if (this->actor.params == 0) {
@@ -238,7 +238,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.update = EnFr_UpdateIdle;
         this->actor.flags &= ~(ACTOR_FLAG_0 | ACTOR_FLAG_4);
         this->actor.flags &= ~0;
-        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
+        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;
     } else {
@@ -250,7 +250,7 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
             ASSERT(0, "0", "../z_en_fr.c", 372);
         }
 
-        this->objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
+        this->objBankIndex = Object_GetIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP);
         if (this->objBankIndex < 0) {
             Actor_Kill(&this->actor);
             osSyncPrintf(VT_COL(RED, WHITE));
@@ -271,25 +271,25 @@ void EnFr_DrawActive(EnFr* this) {
     this->actor.draw = EnFr_Draw;
 }
 
-void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnFr_Update(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
     s32 pad;
     s32 frogIndex;
     s32 pad2;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
+    if (Object_IsLoaded(&play->objectCtx, this->objBankIndex)) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         frogIndex = this->actor.params - 1;
         sEnFrPointers.frogs[frogIndex] = this;
         Actor_ProcessInitChain(&this->actor, sInitChain);
         // frog
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_fr_Skel_00B498, &object_fr_Anim_001534,
-                           this->jointTable, this->morphTable, 24);
+        SkelAnime_InitFlex(play, &this->skelAnime, &object_fr_Skel_00B498, &object_fr_Anim_001534, this->jointTable,
+                           this->morphTable, 24);
         // butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
-                       this->jointTableButterfly, this->morphTableButterfly, 8);
+        SkelAnime_Init(play, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim, this->jointTableButterfly,
+                       this->morphTableButterfly, 8);
         // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
-        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+        this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
                                   this->actor.home.pos.z, 255, 255, 255, -1);
         // Check to see if the song for a particular frog has been played.
@@ -325,24 +325,24 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnFr_Destroy(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
-    LightContext_RemoveLight(globalCtx, &globalCtx->lightCtx, this->lightNode);
+    LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
 }
 
-void EnFr_IsDivingIntoWater(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_IsDivingIntoWater(EnFr* this, PlayState* play) {
     WaterBox* waterBox;
     f32 waterSurface;
 
-    if (WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                &waterSurface, &waterBox)) {
+    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
+                                &waterBox)) {
         this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent;
         this->isBelowWaterSurfaceCurrent = this->actor.world.pos.y <= waterSurface ? true : false;
     }
 }
 
-void EnFr_DivingIntoWater(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_DivingIntoWater(EnFr* this, PlayState* play) {
     Vec3f vec;
 
     // Jumping into or out of water
@@ -350,7 +350,7 @@ void EnFr_DivingIntoWater(EnFr* this, GlobalContext* globalCtx) {
         vec.x = this->actor.world.pos.x;
         vec.y = this->actor.world.pos.y - 10.0f;
         vec.z = this->actor.world.pos.z;
-        EffectSsGSplash_Spawn(globalCtx, &vec, NULL, NULL, 1, 1);
+        EffectSsGSplash_Spawn(play, &vec, NULL, NULL, 1, 1);
 
         if (this->isBelowWaterSurfaceCurrent == false) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_DIVE_INTO_WATER_L);
@@ -400,7 +400,7 @@ void EnFr_DecrementBlinkTimerUpdate(EnFr* this) {
     }
 }
 
-void EnFr_SetupJumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_SetupJumpingOutOfWater(EnFr* this, PlayState* play) {
     if (sEnFrPointers.flags == sTimerJumpingOutOfWater[this->actor.params - 1]) {
         Animation_Change(&this->skelAnime, &object_fr_Anim_0007BC, 1.0f, 0.0f,
                          Animation_GetLastFrame(&object_fr_Anim_0007BC), ANIMMODE_ONCE, 0.0f);
@@ -409,7 +409,7 @@ void EnFr_SetupJumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_JumpingOutOfWater(EnFr* this, PlayState* play) {
     Vec3f vec1;
     Vec3f vec2;
 
@@ -443,7 +443,7 @@ void EnFr_JumpingOutOfWater(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_OrientOnLogSpot(EnFr* this, PlayState* play) {
     s16 rotYRemaining = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 10000, 100);
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -456,7 +456,7 @@ void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_ChooseJumpFromLogSpot(EnFr* this, PlayState* play) {
     if (sEnFrPointers.flags == 12) {
         this->actor.world.rot.y = RAD_TO_BINANG(sLogSpotToFromWater[this->actor.params].yaw);
         Animation_Change(&this->skelAnime, &object_fr_Anim_0007BC, 1.0f, 0.0f,
@@ -469,7 +469,7 @@ void EnFr_ChooseJumpFromLogSpot(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_JumpingUp(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_JumpingUp(EnFr* this, PlayState* play) {
     f32 yDistToLogSpot;
 
     if (this->skelAnime.curFrame == 6.0f) {
@@ -494,7 +494,7 @@ void EnFr_JumpingUp(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_JumpingBackIntoWater(EnFr* this, PlayState* play) {
     f32 yUnderwater = sLogSpotToFromWater[this->actor.params].yDist + this->posLogSpot.y;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 10000, 100);
@@ -517,7 +517,7 @@ void EnFr_JumpingBackIntoWater(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_SetScaleActive(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_SetScaleActive(EnFr* this, PlayState* play) {
     switch (this->isGrowing) {
         case false:
             Math_ApproachF(&this->scale, sGrowingScale[this->growingScaleIndex], 2.0f, 25.0f);
@@ -545,7 +545,7 @@ void EnFr_SetScaleActive(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_ButterflyPath(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_ButterflyPath(EnFr* this, PlayState* play) {
     s16 rotY = this->actor.shape.rot.y;
     f32 sin;
     Vec3f vec1;
@@ -569,23 +569,23 @@ void EnFr_ButterflyPath(EnFr* this, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&vec1, &this->posButterflyLight);
 }
 
-void EnFr_UpdateActive(Actor* thisx, GlobalContext* globalCtx) {
+void EnFr_UpdateActive(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
     this->jumpCounter++;
     Actor_SetScale(&this->actor, this->scale * 0.0001f);
 
     if (this->isActive) {
-        EnFr_SetScaleActive(this, globalCtx);
+        EnFr_SetScaleActive(this, play);
     } else {
         Actor_SetFocus(&this->actor, 10.0f);
         this->blinkFunc(this);
-        this->actionFunc(this, globalCtx);
-        EnFr_IsDivingIntoWater(this, globalCtx);
-        EnFr_DivingIntoWater(this, globalCtx);
+        this->actionFunc(this, play);
+        EnFr_IsDivingIntoWater(this, play);
+        EnFr_DivingIntoWater(this, play);
         SkelAnime_Update(&this->skelAnime);
         SkelAnime_Update(&this->skelAnimeButterfly);
-        EnFr_ButterflyPath(this, globalCtx);
+        EnFr_ButterflyPath(this, play);
         Actor_MoveForward(&this->actor);
     }
 }
@@ -607,16 +607,16 @@ s32 EnFr_SetupJumpingUp(EnFr* this, s32 frogIndex) {
     }
 }
 
-void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void EnFr_Idle(EnFr* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     if (player->stateFlags2 & PLAYER_STATE2_25) {
-        if (globalCtx->msgCtx.ocarinaMode == OCARINA_MODE_04) {
-            globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_00;
+        if (play->msgCtx.ocarinaMode == OCARINA_MODE_04) {
+            play->msgCtx.ocarinaMode = OCARINA_MODE_00;
         }
 
-        OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, CAM_ID_MAIN);
-        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+        OnePointCutscene_Init(play, 4110, ~0x62, &this->actor, CAM_ID_MAIN);
+        play->msgCtx.msgMode = MSGMODE_PAUSED;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f
         player->actor.world.pos.z = this->actor.world.pos.z; // z = -1220.0f
@@ -628,18 +628,18 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_Activate(EnFr* this, GlobalContext* globalCtx) {
-    if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_PLAYING) {
-        globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+void EnFr_Activate(EnFr* this, PlayState* play) {
+    if (play->msgCtx.msgMode == MSGMODE_OCARINA_PLAYING) {
+        play->msgCtx.msgMode = MSGMODE_PAUSED;
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
-    } else if (globalCtx->msgCtx.msgMode == MSGMODE_PAUSED) { // Goes to Frogs 2 Song
+    } else if (play->msgCtx.msgMode == MSGMODE_PAUSED) { // Goes to Frogs 2 Song
         sEnFrPointers.flags = 1;
         this->actionFunc = EnFr_ActivateCheckFrogSong;
     }
 }
 
-void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_ActivateCheckFrogSong(EnFr* this, PlayState* play) {
     if (sEnFrPointers.flags == 11) {
         // Check if all 6 child songs have been played for the frogs
         if (GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_ZL) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_EPONA) &&
@@ -647,7 +647,7 @@ void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
             GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_SOT) && GET_EVENTCHKINF(EVENTCHKINF_SONGS_FOR_FROGS_STORMS)) {
             this->actionFunc = EnFr_TalkBeforeFrogSong;
             this->songIndex = FROG_CHOIR_SONG;
-            Message_StartTextbox(globalCtx, 0x40AB, &this->actor);
+            Message_StartTextbox(play, 0x40AB, &this->actor);
         } else {
             this->songIndex = FROG_ZL;
             this->actionFunc = func_80A1BE98;
@@ -655,7 +655,7 @@ void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A1BE98(EnFr* this, GlobalContext* globalCtx) {
+void func_80A1BE98(EnFr* this, PlayState* play) {
     EnFr* frog;
     s32 frogIndex;
 
@@ -668,13 +668,13 @@ void func_80A1BE98(EnFr* this, GlobalContext* globalCtx) {
         }
     }
 
-    func_8010BD58(globalCtx, OCARINA_ACTION_CHECK_NOWARP);
+    func_8010BD58(play, OCARINA_ACTION_CHECK_NOWARP);
     this->actionFunc = EnFr_ListeningToOcarinaNotes;
 }
 
-void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_ListeningToOcarinaNotes(EnFr* this, PlayState* play) {
     this->songIndex = FROG_NO_SONG;
-    switch (globalCtx->msgCtx.ocarinaMode) { // Ocarina Song played
+    switch (play->msgCtx.ocarinaMode) { // Ocarina Song played
         case OCARINA_MODE_07:
             this->songIndex = FROG_ZL;
             break;
@@ -694,10 +694,10 @@ void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx) {
             this->songIndex = FROG_STORMS;
             break;
         case OCARINA_MODE_04:
-            EnFr_OcarinaMistake(this, globalCtx);
+            EnFr_OcarinaMistake(this, play);
             break;
         case OCARINA_MODE_01: // Ocarina note played, but no song played
-            switch (globalCtx->msgCtx.lastOcarinaButtonIndex) {
+            switch (play->msgCtx.lastOcarinaButtonIndex) {
                 // Jumping frogs in open ocarina based on ocarina note played
                 case OCARINA_BTN_A:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
@@ -722,7 +722,7 @@ void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_ChildSong(EnFr* this, PlayState* play) {
     EnFr* frog;
     u8 songIndex;
 
@@ -734,7 +734,7 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
         songIndex = this->songIndex;
         if (songIndex == FROG_STORMS) {
             this->actor.textId = 0x40AA;
-            EnFr_SetupReward(this, globalCtx, false);
+            EnFr_SetupReward(this, play, false);
         } else if (!FROG_HAS_SONG_BEEN_PLAYED(songIndex)) {
             frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
             func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -748,23 +748,23 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
             }
         } else {
             this->actor.textId = 0x40A9;
-            EnFr_SetupReward(this, globalCtx, true);
+            EnFr_SetupReward(this, play, true);
         }
     }
 }
 
-void EnFr_ChildSongFirstTime(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_ChildSongFirstTime(EnFr* this, PlayState* play) {
     EnFr* frog = sEnFrPointers.frogs[sSongToFrog[this->songIndex]];
 
     if (frog->isActive == false) {
         this->actor.textId = 0x40A9;
-        EnFr_SetupReward(this, globalCtx, true);
+        EnFr_SetupReward(this, play, true);
     }
 }
 
-void EnFr_TalkBeforeFrogSong(EnFr* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
-        Message_CloseTextbox(globalCtx);
+void EnFr_TalkBeforeFrogSong(EnFr* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
+        Message_CloseTextbox(play);
         this->frogSongTimer = 2;
         this->actionFunc = EnFr_SetupFrogSong;
     }
@@ -816,23 +816,23 @@ u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
     }
 }
 
-void EnFr_SetupFrogSong(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_SetupFrogSong(EnFr* this, PlayState* play) {
     if (this->frogSongTimer != 0) {
         this->frogSongTimer--;
     } else {
         this->frogSongTimer = 40;
         this->ocarinaNoteIndex = 0;
-        func_8010BD58(globalCtx, OCARINA_ACTION_FROGS);
+        func_8010BD58(play, OCARINA_ACTION_FROGS);
         this->ocarinaNote = EnFr_GetNextNoteFrogSong(this->ocarinaNoteIndex);
         EnFr_CheckOcarinaInputFrogSong(this->ocarinaNote);
         this->actionFunc = EnFr_ContinueFrogSong;
     }
 }
 
-s32 EnFr_IsFrogSongComplete(EnFr* this, GlobalContext* globalCtx) {
+s32 EnFr_IsFrogSongComplete(EnFr* this, PlayState* play) {
     u8 index;
     u8 ocarinaNote;
-    MessageContext* msgCtx = &globalCtx->msgCtx;
+    MessageContext* msgCtx = &play->msgCtx;
     u8 ocarinaNoteIndex;
 
     if (this->ocarinaNote == (*msgCtx).lastOcarinaButtonIndex) { // required to match, possibly an array?
@@ -853,8 +853,8 @@ s32 EnFr_IsFrogSongComplete(EnFr* this, GlobalContext* globalCtx) {
     return false;
 }
 
-void EnFr_OcarinaMistake(EnFr* this, GlobalContext* globalCtx) {
-    Message_CloseTextbox(globalCtx);
+void EnFr_OcarinaMistake(EnFr* this, PlayState* play) {
+    Message_CloseTextbox(play);
     this->reward = GI_NONE;
     func_80078884(NA_SE_SY_OCARINA_ERROR);
     AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
@@ -863,16 +863,16 @@ void EnFr_OcarinaMistake(EnFr* this, GlobalContext* globalCtx) {
     this->actionFunc = EnFr_Deactivate;
 }
 
-void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_ContinueFrogSong(EnFr* this, PlayState* play) {
     s32 counter;
     EnFr* frog;
     s32 i;
 
     if (this->frogSongTimer == 0) {
-        EnFr_OcarinaMistake(this, globalCtx);
+        EnFr_OcarinaMistake(this, play);
     } else {
         this->frogSongTimer--;
-        if (globalCtx->msgCtx.msgMode == MSGMODE_FROGS_PLAYING) {
+        if (play->msgCtx.msgMode == MSGMODE_FROGS_PLAYING) {
             counter = 0;
             for (i = 0; i < ARRAY_COUNT(sEnFrPointers.frogs); i++) {
                 frog = sEnFrPointers.frogs[i];
@@ -882,15 +882,15 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
                     counter++;
                 }
             }
-            if (counter == 0 && CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B)) {
-                EnFr_OcarinaMistake(this, globalCtx);
+            if (counter == 0 && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B)) {
+                EnFr_OcarinaMistake(this, play);
                 return;
             }
         }
 
-        if (globalCtx->msgCtx.msgMode == MSGMODE_FROGS_WAITING) {
-            globalCtx->msgCtx.msgMode = MSGMODE_FROGS_START;
-            switch (globalCtx->msgCtx.lastOcarinaButtonIndex) {
+        if (play->msgCtx.msgMode == MSGMODE_FROGS_WAITING) {
+            play->msgCtx.msgMode = MSGMODE_FROGS_START;
+            switch (play->msgCtx.lastOcarinaButtonIndex) {
                 case OCARINA_BTN_A:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
                     break;
@@ -906,15 +906,15 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
                 case OCARINA_BTN_C_UP:
                     EnFr_SetupJumpingUp(this, FROG_WHITE);
             }
-            if (EnFr_IsFrogSongComplete(this, globalCtx)) {
+            if (EnFr_IsFrogSongComplete(this, play)) {
                 this->actor.textId = 0x40AC;
-                EnFr_SetupReward(this, globalCtx, false);
+                EnFr_SetupReward(this, play, false);
             }
         }
     }
 }
 
-void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition) {
+void EnFr_SetupReward(EnFr* this, PlayState* play, u8 unkCondition) {
     EnFr_DeactivateButterfly();
     if (unkCondition) {
         func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
@@ -923,24 +923,24 @@ void EnFr_SetupReward(EnFr* this, GlobalContext* globalCtx, u8 unkCondition) {
     }
 
     AudioOcarina_SetInstrument(OCARINA_INSTRUMENT_OFF);
-    globalCtx->msgCtx.msgMode = MSGMODE_PAUSED;
+    play->msgCtx.msgMode = MSGMODE_PAUSED;
     this->actionFunc = EnFr_PrintTextBox;
 }
 
-void EnFr_PrintTextBox(EnFr* this, GlobalContext* globalCtx) {
-    Message_StartTextbox(globalCtx, this->actor.textId, &this->actor);
+void EnFr_PrintTextBox(EnFr* this, PlayState* play) {
+    Message_StartTextbox(play, this->actor.textId, &this->actor);
     this->actionFunc = EnFr_TalkBeforeReward;
 }
 
-void EnFr_TalkBeforeReward(EnFr* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(globalCtx)) {
+void EnFr_TalkBeforeReward(EnFr* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
         this->frogSongTimer = 100;
-        Message_CloseTextbox(globalCtx);
+        Message_CloseTextbox(play);
         this->actionFunc = EnFr_SetReward;
     }
 }
 
-void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_SetReward(EnFr* this, PlayState* play) {
     u16 songIndex;
 
     sEnFrPointers.flags = 12;
@@ -971,7 +971,7 @@ void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnFr_Deactivate(EnFr* this, GlobalContext* globalCtx) {
+void EnFr_Deactivate(EnFr* this, PlayState* play) {
     EnFr* frogLoop1;
     EnFr* frogLoop2;
     s32 frogIndex;
@@ -1008,66 +1008,66 @@ void EnFr_Deactivate(EnFr* this, GlobalContext* globalCtx) {
         frogLoop2->isDeactivating = false;
     }
 
-    globalCtx->msgCtx.ocarinaMode = OCARINA_MODE_04;
+    play->msgCtx.ocarinaMode = OCARINA_MODE_04;
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FROG_CRY_0);
     if (this->reward == GI_NONE) {
         this->actionFunc = EnFr_Idle;
     } else {
         this->actionFunc = EnFr_GiveReward;
-        func_8002F434(&this->actor, globalCtx, this->reward, 30.0f, 100.0f);
+        func_8002F434(&this->actor, play, this->reward, 30.0f, 100.0f);
     }
 }
 
-void EnFr_GiveReward(EnFr* this, GlobalContext* globalCtx) {
-    if (Actor_HasParent(&this->actor, globalCtx)) {
+void EnFr_GiveReward(EnFr* this, PlayState* play) {
+    if (Actor_HasParent(&this->actor, play)) {
         this->actor.parent = NULL;
         this->actionFunc = EnFr_SetIdle;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->reward, 30.0f, 100.0f);
+        func_8002F434(&this->actor, play, this->reward, 30.0f, 100.0f);
     }
 }
 
-void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+void EnFr_SetIdle(EnFr* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         this->actionFunc = EnFr_Idle;
     }
 }
 
-void EnFr_UpdateIdle(Actor* thisx, GlobalContext* globalCtx) {
+void EnFr_UpdateIdle(Actor* thisx, PlayState* play) {
     EnFr* this = (EnFr*)thisx;
 
     if (BREG(0)) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
-                               1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
+                               1.0f, 255, 0, 0, 255, 4, play->state.gfxCtx);
     }
     this->jumpCounter++;
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-s32 EnFr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnFr_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if ((limbIndex == 7) || (limbIndex == 8)) {
         *dList = NULL;
     }
     return 0;
 }
 
-void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnFr_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFr* this = (EnFr*)thisx;
 
     if ((limbIndex == 7) || (limbIndex == 8)) {
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1735);
+        OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1735);
         Matrix_Push();
-        Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fr.c", 1738),
+        Matrix_ReplaceRotation(&play->billboardMtxF);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_fr.c", 1738),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pop();
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1741);
+        CLOSE_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1741);
     }
 }
 
-void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnFr_Draw(Actor* thisx, PlayState* play) {
     static void* eyeTextures[] = {
         object_fr_Tex_0059A0,
         object_fr_Tex_005BA0,
@@ -1076,8 +1076,8 @@ void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFr* this = (EnFr*)thisx;
     s16 frogIndex = this->actor.params - 1;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1754);
-    func_80093D18(globalCtx->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1754);
+    func_80093D18(play->state.gfxCtx);
     // For the frogs 2 HP, the frog with the next note and the butterfly lights up
     lightRadius = this->isButterflyDrawn ? 95 : -1;
     gDPPipeSync(POLY_OPA_DISP++);
@@ -1087,14 +1087,14 @@ void EnFr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, sEnFrColor[frogIndex].r, sEnFrColor[frogIndex].g, sEnFrColor[frogIndex].b, 255);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFr_OverrideLimbDraw, EnFr_PostLimbDraw, this);
     if (this->isButterflyDrawn) {
         Matrix_Translate(this->posButterfly.x, this->posButterfly.y, this->posButterfly.z, MTXMODE_NEW);
         Matrix_Scale(0.015f, 0.015f, 0.015f, MTXMODE_APPLY);
         Matrix_RotateZYX(this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, MTXMODE_APPLY);
-        SkelAnime_DrawOpa(globalCtx, this->skelAnimeButterfly.skeleton, this->skelAnimeButterfly.jointTable, NULL, NULL,
+        SkelAnime_DrawOpa(play, this->skelAnimeButterfly.skeleton, this->skelAnimeButterfly.jointTable, NULL, NULL,
                           NULL);
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1816);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_fr.c", 1816);
 }

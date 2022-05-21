@@ -3,18 +3,18 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_12 | ACTOR_FLAG_14)
 
-void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnCrow_Init(Actor* thisx, PlayState* play);
+void EnCrow_Destroy(Actor* thisx, PlayState* play);
+void EnCrow_Update(Actor* thisx, PlayState* play);
+void EnCrow_Draw(Actor* thisx, PlayState* play);
 
 void EnCrow_SetupFlyIdle(EnCrow* this);
-void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_TurnAway(EnCrow* this, GlobalContext* globalCtx);
-void EnCrow_Damaged(EnCrow* this, GlobalContext* globalCtx);
+void EnCrow_FlyIdle(EnCrow* this, PlayState* play);
+void EnCrow_Respawn(EnCrow* this, PlayState* play);
+void EnCrow_DiveAttack(EnCrow* this, PlayState* play);
+void EnCrow_Die(EnCrow* this, PlayState* play);
+void EnCrow_TurnAway(EnCrow* this, PlayState* play);
+void EnCrow_Damaged(EnCrow* this, PlayState* play);
 
 static Vec3f sZeroVecAccel = { 0.0f, 0.0f, 0.0f };
 
@@ -105,13 +105,13 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f sHeadVec = { 2500.0f, 0.0f, 0.0f };
 
-void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnCrow_Init(Actor* thisx, PlayState* play) {
     EnCrow* this = (EnCrow*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
-    Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gGuaySkel, &gGuayFlyAnim, this->jointTable, this->morphTable, 9);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     this->collider.elements[0].dim.worldSphere.radius = sJntSphInit.elements[0].dim.modelSphere.radius;
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     ActorShape_Init(&this->actor.shape, 2000.0f, ActorShadow_DrawCircle, 20.0f);
@@ -119,10 +119,10 @@ void EnCrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnCrow_SetupFlyIdle(this);
 }
 
-void EnCrow_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnCrow_Destroy(Actor* thisx, PlayState* play) {
     EnCrow* this = (EnCrow*)thisx;
 
-    Collider_DestroyJntSph(globalCtx, &this->collider);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
 // Setup Action functions
@@ -141,7 +141,7 @@ void EnCrow_SetupDiveAttack(EnCrow* this) {
     this->actionFunc = EnCrow_DiveAttack;
 }
 
-void EnCrow_SetupDamaged(EnCrow* this, GlobalContext* globalCtx) {
+void EnCrow_SetupDamaged(EnCrow* this, PlayState* play) {
     s32 i;
     f32 scale;
     Vec3f iceParticlePos;
@@ -162,14 +162,14 @@ void EnCrow_SetupDamaged(EnCrow* this, GlobalContext* globalCtx) {
             iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.x;
             iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.y;
             iceParticlePos.z = ((i & 4 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.z;
-            EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
+            EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &iceParticlePos, 150, 150, 150, 250, 235, 245, 255,
                                            ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
     } else if (this->actor.colChkInfo.damageEffect == 2) { // Fire arrows and Din's Fire
         Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
 
         for (i = 0; i < 4; i++) {
-            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.world.pos, 50.0f * scale, 0, 0, i);
+            EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, 50.0f * scale, 0, 0, i);
         }
     } else {
         Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
@@ -225,8 +225,8 @@ void EnCrow_SetupRespawn(EnCrow* this) {
 
 // Action functions
 
-void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void EnCrow_FlyIdle(EnCrow* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
     s32 skelanimeUpdated;
     s16 var;
 
@@ -277,13 +277,13 @@ void EnCrow_FlyIdle(EnCrow* this, GlobalContext* globalCtx) {
         this->timer--;
     }
     if ((this->timer == 0) && (this->actor.xzDistToPlayer < 300.0f) && !(player->stateFlags1 & PLAYER_STATE1_23) &&
-        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(globalCtx) != PLAYER_MASK_SKULL)) {
+        (this->actor.yDistToWater < -40.0f) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
         EnCrow_SetupDiveAttack(this);
     }
 }
 
-void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void EnCrow_DiveAttack(EnCrow* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
     s32 facingPlayer;
     Vec3f pos;
     s16 target;
@@ -312,8 +312,7 @@ void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 4, 0xC00);
     }
 
-    if ((this->timer == 0) || (Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) ||
-        (this->collider.base.atFlags & AT_HIT) ||
+    if ((this->timer == 0) || (Player_GetMask(play) == PLAYER_MASK_SKULL) || (this->collider.base.atFlags & AT_HIT) ||
         (this->actor.bgCheckFlags & (BGCHECKFLAG_GROUND | BGCHECKFLAG_WALL)) ||
         (player->stateFlags1 & PLAYER_STATE1_23) || (this->actor.yDistToWater > -40.0f)) {
         if (this->collider.base.atFlags & AT_HIT) {
@@ -325,7 +324,7 @@ void EnCrow_DiveAttack(EnCrow* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnCrow_Damaged(EnCrow* this, GlobalContext* globalCtx) {
+void EnCrow_Damaged(EnCrow* this, PlayState* play) {
     Math_StepToF(&this->actor.speedXZ, 0.0f, 0.5f);
     this->actor.colorFilterTimer = 40;
 
@@ -335,14 +334,14 @@ void EnCrow_Damaged(EnCrow* this, GlobalContext* globalCtx) {
             this->actor.shape.rot.z += 0x1780;
         }
         if ((this->actor.bgCheckFlags & BGCHECKFLAG_GROUND) || (this->actor.floorHeight == BGCHECK_Y_MIN)) {
-            EffectSsDeadDb_Spawn(globalCtx, &this->actor.world.pos, &sZeroVecAccel, &sZeroVecAccel,
+            EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &sZeroVecAccel, &sZeroVecAccel,
                                  this->actor.scale.x * 10000.0f, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             EnCrow_SetupDie(this);
         }
     }
 }
 
-void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
+void EnCrow_Die(EnCrow* this, PlayState* play) {
     f32 step;
 
     if (this->actor.params != 0) {
@@ -354,9 +353,9 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
     if (Math_StepToF(&this->actor.scale.x, 0.0f, step)) {
         if (this->actor.params == 0) {
             sDeathCount++;
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0);
+            Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0);
         } else {
-            Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_RUPEE_RED);
+            Item_DropCollectible(play, &this->actor.world.pos, ITEM00_RUPEE_RED);
         }
         EnCrow_SetupRespawn(this);
     }
@@ -364,7 +363,7 @@ void EnCrow_Die(EnCrow* this, GlobalContext* globalCtx) {
     this->actor.scale.z = this->actor.scale.y = this->actor.scale.x;
 }
 
-void EnCrow_TurnAway(EnCrow* this, GlobalContext* globalCtx) {
+void EnCrow_TurnAway(EnCrow* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
@@ -384,7 +383,7 @@ void EnCrow_TurnAway(EnCrow* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
+void EnCrow_Respawn(EnCrow* this, PlayState* play) {
     f32 target;
 
     if (this->timer != 0) {
@@ -409,7 +408,7 @@ void EnCrow_Respawn(EnCrow* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
+void EnCrow_UpdateDamage(EnCrow* this, PlayState* play) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.elements[0].info, true);
@@ -419,21 +418,21 @@ void EnCrow_UpdateDamage(EnCrow* this, GlobalContext* globalCtx) {
             } else {
                 Actor_ApplyDamage(&this->actor);
                 this->actor.flags &= ~ACTOR_FLAG_0;
-                Enemy_StartFinishingBlow(globalCtx, &this->actor);
-                EnCrow_SetupDamaged(this, globalCtx);
+                Enemy_StartFinishingBlow(play, &this->actor);
+                EnCrow_SetupDamaged(this, play);
             }
         }
     }
 }
 
-void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnCrow_Update(Actor* thisx, PlayState* play) {
     EnCrow* this = (EnCrow*)thisx;
     f32 pad;
     f32 height;
     f32 scale;
 
-    EnCrow_UpdateDamage(this, globalCtx);
-    this->actionFunc(this, globalCtx);
+    EnCrow_UpdateDamage(this, play);
+    this->actionFunc(this, play);
     scale = this->actor.scale.x * 100.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.world.rot.x = -this->actor.shape.rot.x;
@@ -446,7 +445,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
             height = 0.0f;
             Actor_MoveForward(&this->actor);
         }
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale,
+        Actor_UpdateBgCheckInfo(play, &this->actor, 12.0f * scale, 25.0f * scale, 50.0f * scale,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_1 | UPDBGCHECKINFO_FLAG_2);
     } else {
         height = 0.0f;
@@ -457,15 +456,15 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.elements[0].dim.worldSphere.center.z = this->actor.world.pos.z;
 
     if (this->actionFunc == EnCrow_DiveAttack) {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
     }
 
     if (this->collider.base.acFlags & AC_ON) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 
     if (this->actionFunc != EnCrow_Respawn) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     }
 
     Actor_SetFocus(&this->actor, height);
@@ -475,7 +474,7 @@ void EnCrow_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnCrow_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCrow* this = (EnCrow*)thisx;
 
     if (this->actor.colChkInfo.health != 0) {
@@ -488,7 +487,7 @@ s32 EnCrow_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     return false;
 }
 
-void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnCrow_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnCrow* this = (EnCrow*)thisx;
     Vec3f* vec;
 
@@ -502,10 +501,10 @@ void EnCrow_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
     }
 }
 
-void EnCrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnCrow_Draw(Actor* thisx, PlayState* play) {
     EnCrow* this = (EnCrow*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+    func_80093D18(play->state.gfxCtx);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnCrow_OverrideLimbDraw, EnCrow_PostLimbDraw, this);
 }
