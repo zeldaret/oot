@@ -226,7 +226,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
                     globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                     globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 } else if (Actor_IsFacingAndNearPlayer(&this->dyna.actor, 3000.0f, 0x7530)) {
-                    globalCtx->envCtx.gloomySkyMode = 1;
+                    globalCtx->envCtx.stormRequest = STORM_REQUEST_START;
                 }
             }
         }
@@ -235,20 +235,20 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
             u16 dayTime;
             s32 tmp;
 
-            if (gTimeIncrement == 50) {
-                tmp = 0xD556;
+            if (gTimeSpeed == 50) {
+                tmp = CLOCK_TIME(20, 0) + 1;
 
-                if (gSaveContext.dayTime >= 0xD557) {
-                    tmp = 0x1D556;
+                if (gSaveContext.dayTime > CLOCK_TIME(20, 0) + 1) {
+                    tmp = CLOCK_TIME(20, 0) + 1 + 0x10000;
                 }
 
-                gTimeIncrement = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
+                gTimeSpeed = (tmp - gSaveContext.dayTime) * (1.0f / 350.0f);
             }
 
             dayTime = gSaveContext.dayTime;
 
-            if ((dayTime >= 0x2AAC) && (dayTime < 0x3000) && (gSaveContext.sceneSetupIndex == 5)) {
-                gTimeIncrement = 0;
+            if ((dayTime > CLOCK_TIME(4, 0)) && (dayTime < CLOCK_TIME(4, 30)) && (gSaveContext.sceneSetupIndex == 5)) {
+                gTimeSpeed = 0;
             }
         }
     }

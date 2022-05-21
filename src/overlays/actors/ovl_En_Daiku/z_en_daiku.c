@@ -152,13 +152,13 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 noKill = true;
     s32 isFree = false;
 
-    if ((this->actor.params & 3) == 0 && GET_EVENTCHKINF(EVENTCHKINF_90)) {
+    if ((this->actor.params & 3) == 0 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 1 && GET_EVENTCHKINF(EVENTCHKINF_91)) {
+    } else if ((this->actor.params & 3) == 1 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 2 && GET_EVENTCHKINF(EVENTCHKINF_92)) {
+    } else if ((this->actor.params & 3) == 2 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2))) {
         isFree = true;
-    } else if ((this->actor.params & 3) == 3 && GET_EVENTCHKINF(EVENTCHKINF_93)) {
+    } else if ((this->actor.params & 3) == 3 && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3))) {
         isFree = true;
     }
 
@@ -271,8 +271,8 @@ void EnDaiku_UpdateText(EnDaiku* this, GlobalContext* globalCtx) {
                 if (this->stateFlags & ENDAIKU_STATEFLAG_GERUDODEFEATED) {
                     freedCount = 0;
                     for (carpenterType = 0; carpenterType < 4; carpenterType++) {
-                        if (gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] &
-                            (1 << (carpenterType + EVENTCHKINF_90_SHIFT))) {
+                        if (gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
+                            EVENTCHKINF_CARPENTERS_FREE_MASK(carpenterType)) {
                             freedCount++;
                         }
                     }
@@ -400,7 +400,8 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     EnDaiku_ChangeAnim(this, ENDAIKU_ANIM_RUN, &this->currentAnimIndex);
     this->stateFlags &= ~(ENDAIKU_STATEFLAG_1 | ENDAIKU_STATEFLAG_2);
 
-    gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] |= 1 << ((this->actor.params & 3) + EVENTCHKINF_90_SHIFT);
+    gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] |=
+        EVENTCHKINF_CARPENTERS_FREE_MASK(this->actor.params & 3);
 
     this->actor.gravity = -1.0f;
     this->escapeSubCamTimer = sEscapeSubCamParams[this->actor.params & 3].maxFramesActive;
@@ -495,8 +496,7 @@ void EnDaiku_EscapeSuccess(EnDaiku* this, GlobalContext* globalCtx) {
     Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
     this->subCamActive = false;
 
-    if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX],
-                       EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
+    if (GET_EVENTCHKINF_CARPENTERS_FREE_ALL()) {
         Matrix_RotateY(BINANG_TO_RAD(this->initRot.y), MTXMODE_NEW);
         Matrix_MultVec3f(&D_809E4148, &vec);
         gerudoGuard =

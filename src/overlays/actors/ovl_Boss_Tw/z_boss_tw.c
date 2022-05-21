@@ -491,10 +491,10 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (!sTwInitalized) {
         sTwInitalized = true;
-        globalCtx->envCtx.unk_BF = 1;
-        globalCtx->envCtx.unk_BE = 1;
-        globalCtx->envCtx.unk_BD = 1;
-        globalCtx->envCtx.unk_D8 = 0.0f;
+        globalCtx->envCtx.lightSettingOverride = 1;
+        globalCtx->envCtx.prevLightSetting = 1;
+        globalCtx->envCtx.lightSetting = 1;
+        globalCtx->envCtx.lightBlend = 0.0f;
 
         D_8094C874 = D_8094C876 = D_8094C878 = D_8094C87A = D_8094C87C = D_8094C87E = D_8094C870 = D_8094C86F =
             D_8094C872 = sBeamDivertTimer = sEnvType = sGroundBlastType = sFreezeState = sTwinrovaBlastType =
@@ -880,7 +880,7 @@ s32 BossTw_CheckBeamReflection(BossTw* this, GlobalContext* globalCtx) {
                 // beam hit the shield, normal shield equipped,
                 // divert the beam backwards from link's Y rotation
                 BossTw_AddShieldDeflectEffect(globalCtx, 10.0f, this->actor.params);
-                globalCtx->envCtx.unk_D8 = 1.0f;
+                globalCtx->envCtx.lightBlend = 1.0f;
                 this->timers[0] = 10;
                 func_80078884(NA_SE_IT_SHIELD_REFLECT_MG2);
             }
@@ -1001,8 +1001,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         if (this->timers[1] < 50) {
             if (this->timers[1] < 10) {
                 if (this->timers[1] == 9) {
-                    globalCtx->envCtx.unk_D8 = 0.5f;
-                    globalCtx->envCtx.unk_BD = 3 - this->actor.params;
+                    globalCtx->envCtx.lightBlend = 0.5f;
+                    globalCtx->envCtx.lightSetting = 3 - this->actor.params;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MASIC_SET);
                 }
 
@@ -1118,7 +1118,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                         this->groundBlastPos.x = 0.0f;
                         this->groundBlastPos.y = 0.0f;
                         this->groundBlastPos.z = 0.0f;
-                        globalCtx->envCtx.unk_D8 = 1.0f;
+                        globalCtx->envCtx.lightBlend = 1.0f;
                         func_800AA000(0.0f, 0x64, 5, 4);
                     } else if (beamReflection == 0) {
                         BossTw_BeamHitPlayerCheck(this, globalCtx);
@@ -1278,7 +1278,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                         }
 
                         this->beamReflectionDist = sp130.z;
-                        Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.8f, 1.0f, 0.2f);
+                        Math_ApproachF(&globalCtx->envCtx.lightBlend, 0.8f, 1.0f, 0.2f);
                     }
                     break;
                 }
@@ -1320,7 +1320,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 
             BossTw_SetupHitByBeam(otherTw, globalCtx);
             Audio_PlayActorSound2(&otherTw->actor, NA_SE_EN_TWINROBA_DAMAGE_VOICE);
-            globalCtx->envCtx.unk_D8 = 1.0f;
+            globalCtx->envCtx.lightBlend = 1.0f;
             otherTw->actor.colChkInfo.health++;
         }
     }
@@ -1664,8 +1664,8 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             }
 
             sEnvType = -1;
-            globalCtx->envCtx.unk_BD = 4;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1, 1, 0.1f);
+            globalCtx->envCtx.lightSetting = 4;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1, 1, 0.1f);
             // fallthrough
         case 2:
             SkelAnime_Update(&this->skelAnime);
@@ -1711,7 +1711,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             }
             if (this->timers[2] == 4) {
                 sEnvType = 0;
-                globalCtx->envCtx.unk_BE = 5;
+                globalCtx->envCtx.prevLightSetting = 5;
             }
 
             if (this->timers[2] == 1) {
@@ -1846,8 +1846,8 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->subCamUpdateRate, 0.01f, 1.0f, 0.0001f);
 
             if (this->work[CS_TIMER_1] > 100) {
-                globalCtx->envCtx.unk_BD = 0;
-                Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.03f);
+                globalCtx->envCtx.lightSetting = 0;
+                Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.03f);
             }
 
             if (this->work[CS_TIMER_1] == 180) {
@@ -1957,11 +1957,11 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
             if (this->work[CS_TIMER_1] >= 30) {
                 if (this->work[CS_TIMER_1] < 45) {
-                    globalCtx->envCtx.unk_BE = 0;
-                    globalCtx->envCtx.unk_BD = 2;
-                    globalCtx->envCtx.unk_D8 = 1.0f;
+                    globalCtx->envCtx.prevLightSetting = 0;
+                    globalCtx->envCtx.lightSetting = 2;
+                    globalCtx->envCtx.lightBlend = 1.0f;
                 } else {
-                    Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
+                    Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.1f);
                 }
 
                 if (this->work[CS_TIMER_1] == 30) {
@@ -1980,7 +1980,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                     }
 
                     Audio_PlayActorSound2(&sKoumePtr->actor, NA_SE_EN_TWINROBA_TRANSFORM);
-                    globalCtx->envCtx.unk_D8 = 0;
+                    globalCtx->envCtx.lightBlend = 0;
                 }
 
                 if (this->work[CS_TIMER_1] >= 35) {
@@ -2121,10 +2121,10 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
             if (this->work[CS_TIMER_1] >= 30) {
                 if (this->work[CS_TIMER_1] < 45) {
-                    globalCtx->envCtx.unk_BD = 3;
-                    globalCtx->envCtx.unk_D8 = 1.0f;
+                    globalCtx->envCtx.lightSetting = 3;
+                    globalCtx->envCtx.lightBlend = 1.0f;
                 } else {
-                    Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
+                    Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.1f);
                 }
 
                 if (this->work[CS_TIMER_1] == 30) {
@@ -2142,7 +2142,7 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
                     }
 
                     Audio_PlayActorSound2(&sKotakePtr->actor, NA_SE_EN_TWINROBA_TRANSFORM);
-                    globalCtx->envCtx.unk_D8 = 0.0f;
+                    globalCtx->envCtx.lightBlend = 0.0f;
                 }
 
                 if (this->work[CS_TIMER_1] >= 35) {
@@ -2212,8 +2212,8 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
         case 20:
             if (this->work[CS_TIMER_1] > 20 && this->work[CS_TIMER_1] < 120) {
-                globalCtx->envCtx.unk_BD = 1;
-                Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.015f);
+                globalCtx->envCtx.lightSetting = 1;
+                Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.015f);
             }
 
             if (this->work[CS_TIMER_1] == 90) {
@@ -2222,9 +2222,9 @@ void BossTw_TwinrovaIntroCS(BossTw* this, GlobalContext* globalCtx) {
 
             if (this->work[CS_TIMER_1] == 120) {
                 sEnvType = 0;
-                globalCtx->envCtx.unk_BE = 1;
-                globalCtx->envCtx.unk_BD = 1;
-                globalCtx->envCtx.unk_D8 = 0.0f;
+                globalCtx->envCtx.prevLightSetting = 1;
+                globalCtx->envCtx.lightSetting = 1;
+                globalCtx->envCtx.lightBlend = 0.0f;
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
                                        SEGMENTED_TO_VIRTUAL(object_tw_Blob_02E170), 0xA0, 0xB4, 0x80, 0x28);
                 SET_EVENTCHKINF(EVENTCHKINF_75);
@@ -2642,13 +2642,13 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
 
             if (this->work[CS_TIMER_1] >= 55) {
                 if (this->work[CS_TIMER_1] == 55) {
-                    globalCtx->envCtx.unk_D8 = 0;
+                    globalCtx->envCtx.lightBlend = 0;
                 }
 
                 sEnvType = -1;
-                globalCtx->envCtx.unk_BE = 5;
-                globalCtx->envCtx.unk_BD = 0;
-                Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.015f);
+                globalCtx->envCtx.prevLightSetting = 5;
+                globalCtx->envCtx.lightSetting = 0;
+                Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.015f);
                 Math_ApproachF(&this->actor.scale.x, 0.00024999998f, 0.1f, 0.00005f);
                 this->actor.shape.rot.y += (s16)this->actor.speedXZ;
                 this->workf[UNK_F13] += this->actor.speedXZ;
@@ -2785,13 +2785,13 @@ void BossTw_TwinrovaDeathCS(BossTw* this, GlobalContext* globalCtx) {
         case 3:
             BossTw_DeathCSMsgSfx(this, globalCtx);
             if (this->work[CS_TIMER_2] < 150) {
-                globalCtx->envCtx.unk_BE = 1;
-                globalCtx->envCtx.unk_BD = 0;
-                Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.1f);
+                globalCtx->envCtx.prevLightSetting = 1;
+                globalCtx->envCtx.lightSetting = 0;
+                Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.1f);
             } else {
-                globalCtx->envCtx.unk_BE = 1;
-                globalCtx->envCtx.unk_BD = 6;
-                Math_ApproachF(&globalCtx->envCtx.unk_D8, (Math_SinS(this->work[CS_TIMER_2] * 4096) / 4.0f) + 0.75f,
+                globalCtx->envCtx.prevLightSetting = 1;
+                globalCtx->envCtx.lightSetting = 6;
+                Math_ApproachF(&globalCtx->envCtx.lightBlend, (Math_SinS(this->work[CS_TIMER_2] * 4096) / 4.0f) + 0.75f,
                                1.0f, 0.1f);
             }
 
@@ -3138,33 +3138,33 @@ void BossTw_TwinrovaUpdate(Actor* thisx, GlobalContext* globalCtx2) {
     osSyncPrintf("OooooooooooooooooooooooooooooooooCC\n");
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-    globalCtx->envCtx.unk_DC = 2;
+    globalCtx->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
 
     switch (sEnvType) {
         case 0:
-            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.02f);
+            Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.02f);
             break;
         case 1:
-            globalCtx->envCtx.unk_BD = 3;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.5f, 1.0f, 0.05f);
+            globalCtx->envCtx.lightSetting = 3;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 0.5f, 1.0f, 0.05f);
             break;
         case 2:
-            globalCtx->envCtx.unk_BD = 2;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, (Math_SinS(this->work[CS_TIMER_1] * 0x3000) * 0.03f) + 0.5f, 1.0f,
-                           0.05f);
+            globalCtx->envCtx.lightSetting = 2;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, (Math_SinS(this->work[CS_TIMER_1] * 0x3000) * 0.03f) + 0.5f,
+                           1.0f, 0.05f);
             break;
         case 3:
-            globalCtx->envCtx.unk_BD = 3;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
+            globalCtx->envCtx.lightSetting = 3;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.1f);
             break;
         case 4:
-            globalCtx->envCtx.unk_BD = 2;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, (Math_SinS(this->work[CS_TIMER_1] * 0x3E00) * 0.05f) + 0.95f,
+            globalCtx->envCtx.lightSetting = 2;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, (Math_SinS(this->work[CS_TIMER_1] * 0x3E00) * 0.05f) + 0.95f,
                            1.0f, 0.1f);
             break;
         case 5:
-            globalCtx->envCtx.unk_BD = 0;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+            globalCtx->envCtx.lightSetting = 0;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.05f);
             break;
         case -1:
             break;
@@ -3969,7 +3969,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                         if (this->timers[0] == 50) {
                             D_8094C86F = 10;
                             D_8094C872 = 7;
-                            globalCtx->envCtx.unk_D8 = 1.0f;
+                            globalCtx->envCtx.lightBlend = 1.0f;
                         }
 
                         if (this->timers[0] <= 50) {
@@ -4019,7 +4019,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                                                       Rand_ZeroFloat(10.0f) + 25.0f, this->blastType);
                             }
 
-                            globalCtx->envCtx.unk_D8 = 0.5f;
+                            globalCtx->envCtx.lightBlend = 0.5f;
                         }
 
                         this->csState1 = 2;
@@ -4159,7 +4159,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                         if (this->timers[0] == 50) {
                             D_8094C86F = 10;
                             D_8094C872 = 7;
-                            globalCtx->envCtx.unk_D8 = 1.0f;
+                            globalCtx->envCtx.lightBlend = 1.0f;
                         }
 
                         if (this->timers[0] <= 50) {
@@ -4209,7 +4209,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                                                       Rand_ZeroFloat(10.0f) + 25.0f, this->blastType);
                             }
 
-                            globalCtx->envCtx.unk_D8 = 0.5f;
+                            globalCtx->envCtx.lightBlend = 0.5f;
                         }
 
                         this->csState1 = 2;
@@ -4345,7 +4345,7 @@ s32 BossTw_BlastShieldCheck(BossTw* this, GlobalContext* globalCtx) {
 
             if (info->toucher.dmgFlags & DMG_SHIELD) {
                 this->work[INVINC_TIMER] = 7;
-                globalCtx->envCtx.unk_D8 = 1.0f;
+                globalCtx->envCtx.lightBlend = 1.0f;
                 func_800AA000(0.0f, 100, 5, 4);
 
                 if (Player_HasMirrorShieldEquipped(globalCtx)) {
@@ -4683,7 +4683,7 @@ void BossTw_UpdateEffects(GlobalContext* globalCtx) {
                         }
 
                         sTwinrovaPtr->twinrovaStun = 1;
-                        globalCtx->envCtx.unk_D8 = 1.0f;
+                        globalCtx->envCtx.lightBlend = 1.0f;
                         eff->type = TWEFF_NONE;
                     }
                 }

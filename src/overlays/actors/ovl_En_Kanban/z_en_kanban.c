@@ -865,7 +865,7 @@ void EnKanban_Draw(Actor* thisx, GlobalContext* globalCtx) {
             u16 dayTime = gSaveContext.dayTime;
             f32 shadowAlpha;
 
-            if (dayTime >= 0x8000) {
+            if (dayTime >= CLOCK_TIME(12, 0)) {
                 dayTime = 0xFFFF - dayTime;
             }
             shadowAlpha = (dayTime * 0.00275f) + 10.0f;
