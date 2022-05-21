@@ -314,12 +314,12 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y += 0x1000;
 
     if (this->work[FHGFIRE_FX_TIMER] == 49) {
-        globalCtx->envCtx.unk_BF = 1;
-        globalCtx->envCtx.unk_D6 = 0xFF;
+        globalCtx->envCtx.lightSettingOverride = 1;
+        globalCtx->envCtx.lightBlendRateOverride = 255;
     }
     if (this->work[FHGFIRE_FX_TIMER] == 31) {
-        globalCtx->envCtx.unk_BF = 0x00;
-        globalCtx->envCtx.unk_D6 = 0x14;
+        globalCtx->envCtx.lightSettingOverride = 0;
+        globalCtx->envCtx.lightBlendRateOverride = 20;
     }
     if (this->work[FHGFIRE_FX_TIMER] >= 48) {
         globalCtx->envCtx.screenFillColor[0] = globalCtx->envCtx.screenFillColor[1] =
@@ -369,7 +369,7 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
     gCustomLensFlarePos = this->actor.world.pos;
     gLensFlareScale = this->lensFlareScale;
     gLensFlareColorIntensity = 10.0f;
-    gLensFlareScreenFillAlpha = 0;
+    gLensFlareGlareStrength = 0;
 }
 
 void EnFhgFire_SpearLight(EnFhgFire* this, GlobalContext* globalCtx) {

@@ -80,7 +80,7 @@ void OceffSpot_End(OceffSpot* this, GlobalContext* globalCtx) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
-        if (gTimeIncrement != 400 && globalCtx->msgCtx.unk_E40E == 0 &&
+        if (gTimeSpeed != 400 && globalCtx->msgCtx.unk_E40E == 0 &&
             GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
             if (globalCtx->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 globalCtx->msgCtx.ocarinaMode != OCARINA_MODE_08) {

@@ -45,7 +45,7 @@
 #define R_ENV_FOG_COLOR(i)          REG(10 + i)
 #define R_ENV_FOG_FAR               REG(13)
 #define R_ENV_FOG_NEAR              REG(14)
-#define R_ENV_TIME_INCREMENT        REG(15)
+#define R_ENV_TIME_SPEED_OLD        REG(15) // Most likely used during development. Unused in the final game.
 #define R_RUN_SPEED_LIMIT           REG(45)
 #define R_ENABLE_ARENA_DBG          SREG(0)
 #define R_UPDATE_RATE               SREG(30)

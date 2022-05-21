@@ -38,7 +38,7 @@ const ActorInit Demo_Tre_Lgt_InitVars = {
     (ActorFunc)DemoTreLgt_Draw,
 };
 
-static TransformUpdateIndex* sTransformUpdIdx[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
+static CurveAnimationHeader* sAnimations[] = { &gTreasureChestCurveAnim_4B60, &gTreasureChestCurveAnim_4F70 };
 
 static DemoTreLgtActionFunc sActionFuncs[] = {
     func_8099375C,
@@ -48,7 +48,7 @@ static DemoTreLgtActionFunc sActionFuncs[] = {
 void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
-    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sTransformUpdIdx[0])) {
+    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTreasureChestCurveSkel, sAnimations[0])) {
         // "Demo_Tre_Lgt_Actor_ct (); Construct failed"
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
@@ -74,25 +74,25 @@ void func_80993754(DemoTreLgt* this) {
 void func_8099375C(DemoTreLgt* this, GlobalContext* globalCtx) {
     EnBox* treasureChest = (EnBox*)this->actor.parent;
 
-    if (treasureChest != NULL && Animation_OnFrame(&treasureChest->skelanime, 10.0f)) {
+    if ((treasureChest != NULL) && Animation_OnFrame(&treasureChest->skelanime, 10.0f)) {
         func_809937B4(this, globalCtx, treasureChest->skelanime.curFrame);
     }
 }
 
 void func_809937B4(DemoTreLgt* this, GlobalContext* globalCtx, f32 currentFrame) {
-    SkelAnimeCurve* skelCurve = &this->skelCurve;
+    SkelCurve* skelCurve = &this->skelCurve;
     s32 pad[2];
 
     this->action = DEMO_TRE_LGT_ACTION_ANIMATE;
 
-    SkelCurve_SetAnim(skelCurve, sTransformUpdIdx[gSaveContext.linkAge], 1.0f,
+    SkelCurve_SetAnim(skelCurve, sAnimations[gSaveContext.linkAge], 1.0f,
                       sDemoTreLgtInfo[gSaveContext.linkAge].endFrame + sDemoTreLgtInfo[gSaveContext.linkAge].unk_08,
                       currentFrame, 1.0f);
     SkelCurve_Update(globalCtx, skelCurve);
 }
 
 void func_80993848(DemoTreLgt* this, GlobalContext* globalCtx) {
-    f32 currentFrame = this->skelCurve.animCurFrame;
+    f32 currentFrame = this->skelCurve.curFrame;
 
     if (currentFrame < sDemoTreLgtInfo[((void)0, gSaveContext.linkAge)].endFrame) {
         this->unk_170 = 255;
@@ -131,7 +131,7 @@ void DemoTreLgt_Update(Actor* thisx, GlobalContext* globalCtx) {
     sActionFuncs[this->action](this, globalCtx);
 }
 
-s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
+s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
     s32 pad;
     DemoTreLgt* this = (DemoTreLgt*)thisx;
 
@@ -149,9 +149,14 @@ s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCu
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_tre_lgt.c", 448);
 
     //! @bug missing return
-    // If the return value ends up being false (0), the limb won't draw (meaning no limb at all will draw).
-    // In MQ Debug, `Graph_CloseDisps` has the last instruction writing to v0 before this function ends.
-    // That instruction sets v0 to a non-NULL pointer, which is "true", so the limbs get drawn.
+    //! If the returned value (i.e. the contents of v0) ends up being false (0), the limb won't draw. Therefore what
+    //! matters is what was last written to v0 before the end of the function.
+    //! - In debug versions, the last instruction that does this is in `Graph_CloseDisps`.
+    //! - In retail versions, `gDPSetPrimColor` writes to it last.
+    //! In both cases, that instruction sets v0 to a non-NULL pointer, which is "true", so the limb happens to be drawn.
+#ifdef AVOID_UB
+    return true;
+#endif
 }
 
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -166,7 +171,7 @@ void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 0);
-    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, thisx);
+    SkelCurve_Draw(&this->actor, globalCtx, &this->skelCurve, DemoTreLgt_OverrideLimbDraw, NULL, 1, &this->actor);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_tre_lgt.c", 476);
 }
