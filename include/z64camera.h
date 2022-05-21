@@ -29,7 +29,7 @@
 
 #define CAM_HUD_ALPHA(alpha) (((alpha) & 0xF) << 8)
 
-#define CAM_HUD_ALPHA_50 0x000
+#define CAM_HUD_ALPHA_50 CAM_HUD_ALPHA(0)
 #define CAM_HUD_ALPHA_1 CAM_HUD_ALPHA(1)
 #define CAM_HUD_ALPHA_2 CAM_HUD_ALPHA(2)
 #define CAM_HUD_ALPHA_3 CAM_HUD_ALPHA(3)
@@ -46,8 +46,8 @@
 #define CAM_HUD_ALPHA_IGNORE CAM_HUD_ALPHA(0xF)
 
 /**
- * useShrinkWindowNow: boolean - if true, set shrinkbox immediately. if false, set target. see CAM_SHRINKWIN_CURVAL
- * shinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums
+ * shinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums.
+ *                  Can also add on the flag ` | CAM_SHRINKWIN_CURVAL to make the window shrink immediately
  * interfaceAlpha: hides certain hud icons
  *    - A value of 0 in camera is translated to an interface alpha of 50, which is the value to restore all hud icons to the screen
  *    - A value of 0xF in camera results in no change in the alpha
