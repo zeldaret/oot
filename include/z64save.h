@@ -38,6 +38,19 @@ typedef struct {
     /* 0x08 */ s16 angle;
 } HorseData; // size = 0x0A
 
+/**
+ * The respawn mode names refer to the perceived player movement when respawning
+ * "down": being on ground
+ * "return": coming from the ground
+ * "top": coming from the air
+ */
+typedef enum {
+    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
+    /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
+    /* 0x02 */ RESPAWN_MODE_TOP,    /* Farore's Wind */
+    /* 0x03 */ RESPAWN_MODE_MAX
+} RespawnMode;
+
 typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yaw;
@@ -117,11 +130,11 @@ typedef struct {
     /* 0x135C */ s32 gameMode;
     /* 0x1360 */ s32 sceneSetupIndex;
     /* 0x1364 */ s32 respawnFlag; // "restart_flag"
-    /* 0x1368 */ RespawnData respawn[3]; // "restart_data"
+    /* 0x1368 */ RespawnData respawn[RESPAWN_MODE_MAX]; // "restart_data"
     /* 0x13BC */ f32 entranceSpeed;
     /* 0x13C0 */ u16 entranceSound;
     /* 0x13C2 */ char unk_13C2[0x0001];
-    /* 0x13C3 */ u8 unk_13C3;
+    /* 0x13C3 */ u8 retainWeatherMode;
     /* 0x13C4 */ s16 dogParams;
     /* 0x13C6 */ u8 textTriggerFlags;
     /* 0x13C7 */ u8 showTitleCard;
@@ -174,12 +187,6 @@ typedef struct {
     /* 0x1422 */ s16 sunsSongState; // controls the effects of suns song
     /* 0x1424 */ s16 healthAccumulator;
 } SaveContext; // size = 0x1428
-
-typedef enum {
-    /* 0x00 */ RESPAWN_MODE_DOWN,   /* Normal Void Outs */
-    /* 0x01 */ RESPAWN_MODE_RETURN, /* Grotto Returnpoints */
-    /* 0x02 */ RESPAWN_MODE_TOP     /* Farore's Wind */
-} RespawnMode;
 
 typedef enum {
     /* 0x00 */ BTN_ENABLED,
@@ -331,19 +338,18 @@ typedef enum {
 #define EVENTCHKINF_8F 0x8F
 
 // 0x90-0x93
-#define EVENTCHKINF_90_91_92_93_INDEX 9
-#define EVENTCHKINF_90_SHIFT 0
-#define EVENTCHKINF_91_SHIFT 1
-#define EVENTCHKINF_92_SHIFT 2
-#define EVENTCHKINF_93_SHIFT 3
-#define EVENTCHKINF_90_MASK (1 << EVENTCHKINF_90_SHIFT)
-#define EVENTCHKINF_91_MASK (1 << EVENTCHKINF_91_SHIFT)
-#define EVENTCHKINF_92_MASK (1 << EVENTCHKINF_92_SHIFT)
-#define EVENTCHKINF_93_MASK (1 << EVENTCHKINF_93_SHIFT)
-#define EVENTCHKINF_90 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_90_SHIFT)
-#define EVENTCHKINF_91 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_91_SHIFT)
-#define EVENTCHKINF_92 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_92_SHIFT)
-#define EVENTCHKINF_93 ((EVENTCHKINF_90_91_92_93_INDEX << 4) | EVENTCHKINF_93_SHIFT)
+// carpenters freed from the gerudo
+#define EVENTCHKINF_CARPENTERS_FREE_INDEX 9
+#define EVENTCHKINF_CARPENTERS_FREE_SHIFT(n) (0 + (n))
+#define EVENTCHKINF_CARPENTERS_FREE_MASK(n) (1 << EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
+#define EVENTCHKINF_CARPENTERS_FREE(n) ((EVENTCHKINF_CARPENTERS_FREE_INDEX << 4) | EVENTCHKINF_CARPENTERS_FREE_SHIFT(n))
+#define EVENTCHKINF_CARPENTERS_FREE_MASK_ALL (\
+      EVENTCHKINF_CARPENTERS_FREE_MASK(0)     \
+    | EVENTCHKINF_CARPENTERS_FREE_MASK(1)     \
+    | EVENTCHKINF_CARPENTERS_FREE_MASK(2)     \
+    | EVENTCHKINF_CARPENTERS_FREE_MASK(3)    )
+#define GET_EVENTCHKINF_CARPENTERS_FREE_ALL() \
+    CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX], EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)
 
 #define EVENTCHKINF_94 0x94
 #define EVENTCHKINF_95 0x95

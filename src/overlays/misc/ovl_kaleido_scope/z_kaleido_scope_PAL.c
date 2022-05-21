@@ -3056,7 +3056,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                             Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4,
                                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                                                    &gSfxDefaultReverb);
-                            Gameplay_SaveSceneFlags(globalCtx);
+                            Play_SaveSceneFlags(globalCtx);
                             gSaveContext.savedSceneNum = globalCtx->sceneNum;
                             Sram_WriteSave(&globalCtx->sramCtx);
                             pauseCtx->unk_1EC = 4;
@@ -3294,7 +3294,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     pauseCtx->promptChoice = 0;
-                    Gameplay_SaveSceneFlags(globalCtx);
+                    Play_SaveSceneFlags(globalCtx);
                     gSaveContext.savedSceneNum = globalCtx->sceneNum;
                     Sram_WriteSave(&globalCtx->sramCtx);
                     pauseCtx->state = 0xF;
@@ -3321,7 +3321,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                 if (pauseCtx->promptChoice == 0) {
                     Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    Gameplay_SaveSceneFlags(globalCtx);
+                    Play_SaveSceneFlags(globalCtx);
 
                     switch (gSaveContext.entranceIndex) {
                         case ENTR_YDAN_0:
@@ -3397,7 +3397,7 @@ void KaleidoScope_Update(GlobalContext* globalCtx) {
                     func_800981B8(&globalCtx->objectCtx);
                     func_800418D0(&globalCtx->colCtx, globalCtx);
                     if (pauseCtx->promptChoice == 0) {
-                        Gameplay_TriggerRespawn(globalCtx);
+                        Play_TriggerRespawn(globalCtx);
                         gSaveContext.respawnFlag = -2;
                         gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                         gSaveContext.health = 0x30;
