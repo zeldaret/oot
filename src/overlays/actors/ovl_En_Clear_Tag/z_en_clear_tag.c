@@ -590,9 +590,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                         // Initializes Arwing cutscene camera data.
                         this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_PLAY;
                         func_80064520(globalCtx, &globalCtx->csCtx);
-                        this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                        Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                        this->subCamId = Play_CreateSubCamera(globalCtx);
+                        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                        Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     case CLEAR_TAG_CUTSCENE_MODE_PLAY:
                         // Update the Arwing cutscene camera to spin around in a circle.
                         cutsceneTimer = this->frameCounter * 128;
@@ -613,7 +613,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     Math_ApproachF(&this->subCamAt.x, subCamAtNext.x, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.y, subCamAtNext.y, 0.2f, 500.0f);
                     Math_ApproachF(&this->subCamAt.z, subCamAtNext.z, 0.2f, 500.0f);
-                    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+                    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 }
 
                 // Cutscene has finished.

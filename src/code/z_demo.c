@@ -229,7 +229,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_4, 0x3F);
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 1);
-                globalCtx->envCtx.unk_EE[0] = 20;
+                globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 20;
             }
             break;
         case 2:
@@ -254,14 +254,14 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 7:
             if (sp3F != 0) {
-                globalCtx->envCtx.unk_19 = 1;
-                globalCtx->envCtx.unk_17 = 1;
-                globalCtx->envCtx.unk_18 = 0;
-                globalCtx->envCtx.unk_1A = 0x3C;
-                globalCtx->envCtx.unk_21 = 1;
-                globalCtx->envCtx.unk_1F = 0;
-                globalCtx->envCtx.unk_20 = 1;
-                globalCtx->envCtx.unk_22 = globalCtx->envCtx.unk_24 = 0x3C;
+                globalCtx->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
+                globalCtx->envCtx.skyboxConfig = 1;
+                globalCtx->envCtx.changeSkyboxNextConfig = 0;
+                globalCtx->envCtx.changeSkyboxTimer = 60;
+                globalCtx->envCtx.changeLightEnabled = true;
+                globalCtx->envCtx.lightConfig = 0;
+                globalCtx->envCtx.changeLightNextConfig = 1;
+                globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.changeDuration = 60;
             }
             break;
         case 8:
@@ -270,7 +270,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 9:
-            globalCtx->envCtx.unk_EE[3] = 16;
+            globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
             break;
         case 10:
             Flags_SetEnv(globalCtx, 1);
@@ -325,13 +325,13 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 18:
-            globalCtx->envCtx.unk_EE[0] = 0;
-            globalCtx->envCtx.gloomySkyMode = 2;
-            if (gSaveContext.dayTime < 0x4AAB) {
+            globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
+            globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
+            if (gSaveContext.dayTime < CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
-            if (globalCtx->envCtx.unk_EE[1] == 0) {
-                gWeatherMode = 0;
+            if (globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
+                gWeatherMode = WEATHER_MODE_CLEAR;
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
             }
             break;
@@ -361,18 +361,19 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 25:
             gSaveContext.dayTime += 30;
-            if ((gSaveContext.dayTime) > 0xCAAA) {
-                gSaveContext.dayTime = 0xCAAA;
+            if ((gSaveContext.dayTime) >= CLOCK_TIME(19, 0)) {
+                gSaveContext.dayTime = CLOCK_TIME(19, 0) - 1;
             }
             break;
         case 26:
-            if ((gSaveContext.dayTime < 0x3000) || (gSaveContext.dayTime >= 0x4555)) {
-                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xAAAB)) {
-                    globalCtx->envCtx.unk_BF = 1;
-                } else if ((gSaveContext.dayTime >= 0xAAAB) && (gSaveContext.dayTime < 0xC556)) {
-                    globalCtx->envCtx.unk_BF = 2;
+            if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime < CLOCK_TIME(16, 0))) {
+                    globalCtx->envCtx.lightSettingOverride = 1;
+                } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0)) &&
+                           (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
+                    globalCtx->envCtx.lightSettingOverride = 2;
                 } else {
-                    globalCtx->envCtx.unk_BF = 3;
+                    globalCtx->envCtx.lightSettingOverride = 3;
                 }
             }
             break;
@@ -414,9 +415,9 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             break;
         case 34:
             if (IS_DAY) {
-                gSaveContext.dayTime -= gTimeIncrement;
+                gSaveContext.dayTime -= gTimeSpeed;
             } else {
-                gSaveContext.dayTime -= gTimeIncrement * 2;
+                gSaveContext.dayTime -= gTimeSpeed * 2;
             }
             break;
         case 35:
@@ -429,8 +430,8 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
 // Command 4: Set Environment Lighting
 void Cutscene_Command_SetLighting(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        globalCtx->envCtx.unk_BF = cmd->setting - 1;
-        globalCtx->envCtx.unk_D8 = 1.0f;
+        globalCtx->envCtx.lightSettingOverride = cmd->setting - 1;
+        globalCtx->envCtx.lightBlend = 1.0f;
     }
 }
 
@@ -1217,13 +1218,13 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 break;
             case 118:
                 gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_GANON_DEMO_0;
-                Gameplay_TriggerVoidOut(globalCtx);
+                Play_TriggerVoidOut(globalCtx);
                 gSaveContext.respawnFlag = -2;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 119:
-                gSaveContext.dayTime = 0x8000;
-                gSaveContext.skyboxTime = 0x8000;
+                gSaveContext.dayTime = CLOCK_TIME(12, 0);
+                gSaveContext.skyboxTime = CLOCK_TIME(12, 0);
                 globalCtx->nextEntranceIndex = ENTR_NAKANIWA_1;
                 globalCtx->transitionTrigger = TRANS_TRIGGER_START;
                 globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
@@ -1346,11 +1347,11 @@ s32 Cutscene_Command_CameraEyePoints(GlobalContext* globalCtx, CutsceneContext* 
         if (csCtx->unk_1A != 0) {
             csCtx->unk_18 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_CS_0);
-                Gameplay_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
+                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_CS_0);
+                Play_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Camera_ResetAnim(Play_GetCamera(globalCtx, csCtx->subCamId));
+                Camera_SetCSParams(Play_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
                                    csCtx->subCamEyePoints, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
@@ -1383,11 +1384,11 @@ s32 Cutscene_Command_CameraLookAtPoints(GlobalContext* globalCtx, CutsceneContex
         if (csCtx->unk_1B != 0) {
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_CS_0);
-                Gameplay_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Camera_ResetAnim(Gameplay_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Gameplay_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
+                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_CS_0);
+                Play_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Camera_ResetAnim(Play_GetCamera(globalCtx, csCtx->subCamId));
+                Camera_SetCSParams(Play_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
                                    csCtx->subCamEyePoints, GET_PLAYER(globalCtx), relativeToLink);
             }
         }
@@ -1423,11 +1424,11 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
         if (csCtx->unk_1A != 0) {
             D_8015FCC2 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                subCam = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
+                subCam = Play_GetCamera(globalCtx, csCtx->subCamId);
                 subCam->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
                 sp28 = csCtx->subCamLookAtPoints->cameraRoll * 1.40625f;
                 Camera_SetParam(subCam, 64, &sp28);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
@@ -1436,8 +1437,8 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 sp30.x = csCtx->subCamEyePoints->pos.x;
                 sp30.y = csCtx->subCamEyePoints->pos.y;
                 sp30.z = csCtx->subCamEyePoints->pos.z;
-                Gameplay_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
-                Gameplay_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
+                Play_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
+                Play_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }
@@ -1466,19 +1467,19 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
         if (csCtx->unk_1B != 0) {
             D_8015FCC4 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                subCam = Gameplay_GetCamera(globalCtx, csCtx->subCamId);
+                subCam = Play_GetCamera(globalCtx, csCtx->subCamId);
                 subCam->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Gameplay_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
                 sp3C.y = csCtx->subCamLookAtPoints->pos.y;
                 sp3C.z = csCtx->subCamLookAtPoints->pos.z;
                 sp30.x = csCtx->subCamEyePoints->pos.x;
                 sp30.y = csCtx->subCamEyePoints->pos.y;
                 sp30.z = csCtx->subCamEyePoints->pos.z;
-                Gameplay_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
-                Gameplay_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
+                Play_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
+                Play_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }
@@ -1967,11 +1968,11 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                 case 0x028E:
                 case 0x0292:
                 case 0x0476:
-                    Gameplay_CopyCamera(globalCtx, sReturnToCamId, csCtx->subCamId);
+                    Play_CopyCamera(globalCtx, sReturnToCamId, csCtx->subCamId);
             }
 
-            Gameplay_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_ACTIVE);
-            Gameplay_ClearCamera(globalCtx, csCtx->subCamId);
+            Play_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_ACTIVE);
+            Play_ClearCamera(globalCtx, csCtx->subCamId);
             func_8005B1A4(globalCtx->cameraPtrs[sReturnToCamId]);
         }
 
@@ -2014,7 +2015,7 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             sReturnToCamId = globalCtx->activeCamId;
 
             if (D_8015FCC8 != 0) {
-                csCtx->subCamId = Gameplay_CreateSubCamera(globalCtx);
+                csCtx->subCamId = Play_CreateSubCamera(globalCtx);
             }
 
             if (gSaveContext.cutsceneTrigger == 0) {

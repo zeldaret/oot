@@ -491,7 +491,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
-    if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !!LINK_IS_ADULT ||
+    if (gSaveContext.dayTime <= CLOCK_TIME(18, 0) || gSaveContext.dayTime >= CLOCK_TIME(21, 0) || !!LINK_IS_ADULT ||
         globalCtx->sceneNum != SCENE_SPOT02) {
         Actor_Kill(&this->actor);
         return;

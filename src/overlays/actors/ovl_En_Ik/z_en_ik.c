@@ -1424,7 +1424,7 @@ void func_80A78160(EnIk* this, GlobalContext* globalCtx) {
 void func_80A781CC(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = (EnIk*)thisx;
 
-    if (!Gameplay_InCsMode(globalCtx)) {
+    if (!Play_InCsMode(globalCtx)) {
         this->actor.update = EnIk_Update;
         this->actor.draw = EnIk_Draw;
         Cutscene_SetSegment(globalCtx, gSpiritBossNabooruKnuckleDefeatCs);
