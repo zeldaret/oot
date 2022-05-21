@@ -3827,7 +3827,7 @@ void Interface_Draw(PlayState* play) {
 
 void Interface_Update(PlayState* play) {
     static u8 D_80125B60 = false;
-    static s16 sPrevTimeIncrement = 0;
+    static s16 sPrevTimeSpeed = 0;
     MessageContext* msgCtx = &play->msgCtx;
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
     Player* player = GET_PLAYER(play);
@@ -4149,35 +4149,35 @@ void Interface_Update(PlayState* play) {
         }
 
         // handle suns song in areas where time moves
-        if (play->envCtx.timeIncrement != 0) {
+        if (play->envCtx.sceneTimeSpeed != 0) {
             if (gSaveContext.sunsSongState != SUNSSONG_SPEED_TIME) {
                 D_80125B60 = false;
-                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 1)) {
                     D_80125B60 = true;
                 }
 
                 gSaveContext.sunsSongState = SUNSSONG_SPEED_TIME;
-                sPrevTimeIncrement = gTimeIncrement;
-                gTimeIncrement = 400;
+                sPrevTimeSpeed = gTimeSpeed;
+                gTimeSpeed = 400;
             } else if (!D_80125B60) {
-                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime <= 0xC001)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 1)) {
                     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-                    gTimeIncrement = sPrevTimeIncrement;
+                    gTimeSpeed = sPrevTimeSpeed;
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                 }
-            } else if (gSaveContext.dayTime > 0xC001) {
+            } else if (gSaveContext.dayTime > CLOCK_TIME(18, 0) + 1) {
                 gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-                gTimeIncrement = sPrevTimeIncrement;
+                gTimeSpeed = sPrevTimeSpeed;
                 play->msgCtx.ocarinaMode = OCARINA_MODE_04;
             }
         } else if ((play->roomCtx.curRoom.unk_03 != 1) && (interfaceCtx->restrictions.sunsSong != 3)) {
-            if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xC001)) {
-                gSaveContext.nextDayTime = 0;
+            if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime < CLOCK_TIME(18, 0) + 1)) {
+                gSaveContext.nextDayTime = NEXT_TIME_NIGHT;
                 play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 play->unk_11DE9 = true;
             } else {
-                gSaveContext.nextDayTime = 0x8001;
+                gSaveContext.nextDayTime = NEXT_TIME_DAY;
                 play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 play->unk_11DE9 = true;

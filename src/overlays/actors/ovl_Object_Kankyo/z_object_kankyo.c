@@ -222,12 +222,13 @@ void ObjectKankyo_Fairies(ObjectKankyo* this, PlayState* play) {
         }
     }
 
-    if (play->envCtx.unk_EE[3] < 64 &&
-        (gSaveContext.entranceIndex != ENTR_SPOT04_0 || gSaveContext.sceneSetupIndex != 4 || play->envCtx.unk_EE[3])) {
-        play->envCtx.unk_EE[3] += 16;
+    if (play->envCtx.precipitation[PRECIP_SNOW_MAX] < 64 &&
+        (gSaveContext.entranceIndex != ENTR_SPOT04_0 || gSaveContext.sceneSetupIndex != 4 ||
+         play->envCtx.precipitation[PRECIP_SNOW_MAX])) {
+        play->envCtx.precipitation[PRECIP_SNOW_MAX] += 16;
     }
 
-    for (i = 0; i < play->envCtx.unk_EE[3]; i++) {
+    for (i = 0; i < play->envCtx.precipitation[PRECIP_SNOW_MAX]; i++) {
         // spawn in front of the camera
         dx = play->view.at.x - play->view.eye.x;
         dy = play->view.at.y - play->view.eye.y;
@@ -495,7 +496,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2) {
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
         gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteMaterialDL);
 
-        for (i = 0; i < play->envCtx.unk_EE[3]; i++) {
+        for (i = 0; i < play->envCtx.precipitation[PRECIP_SNOW_MAX]; i++) {
             Matrix_Translate(this->effects[i].base.x + this->effects[i].pos.x,
                              this->effects[i].base.y + this->effects[i].pos.y,
                              this->effects[i].base.z + this->effects[i].pos.z, MTXMODE_NEW);
@@ -586,17 +587,17 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, PlayState* play2) {
 
     if (!(play->cameraPtrs[CAM_ID_MAIN]->unk_14C & 0x100)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 958);
-        if (play->envCtx.unk_EE[2] < play->envCtx.unk_EE[3]) {
+        if (play->envCtx.precipitation[PRECIP_SNOW_CUR] < play->envCtx.precipitation[PRECIP_SNOW_MAX]) {
             if (play->state.frames % 16 == 0) {
-                play->envCtx.unk_EE[2] += 2;
+                play->envCtx.precipitation[PRECIP_SNOW_CUR] += 2;
             }
-        } else if (play->envCtx.unk_EE[2] > play->envCtx.unk_EE[3]) {
+        } else if (play->envCtx.precipitation[PRECIP_SNOW_CUR] > play->envCtx.precipitation[PRECIP_SNOW_MAX]) {
             if (play->state.frames % 16 == 0) {
-                play->envCtx.unk_EE[2] -= 2;
+                play->envCtx.precipitation[PRECIP_SNOW_CUR] -= 2;
             }
         }
 
-        for (i = 0; i < play->envCtx.unk_EE[2]; i++) {
+        for (i = 0; i < play->envCtx.precipitation[PRECIP_SNOW_CUR]; i++) {
             switch (this->effects[i].state) {
                 case 0:
                     // spawn in front of the camera

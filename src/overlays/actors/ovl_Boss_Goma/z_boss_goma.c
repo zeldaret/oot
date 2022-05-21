@@ -419,8 +419,8 @@ void BossGoma_SetupEncounter(BossGoma* this, PlayState* play) {
     this->actionFunc = BossGoma_Encounter;
     this->actionState = 0;
     this->disableGameplayLogic = true;
-    play->envCtx.unk_BF = 4;
-    play->envCtx.unk_D6 = 0xFF;
+    play->envCtx.lightSettingOverride = 4;
+    play->envCtx.lightBlendRateOverride = 255;
 }
 
 /**
@@ -750,8 +750,8 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             }
 
             if (this->frameCount == 176) {
-                play->envCtx.unk_BF = 3;
-                play->envCtx.unk_D6 = 0xFFFF;
+                play->envCtx.lightSettingOverride = 3;
+                play->envCtx.lightBlendRateOverride = LIGHT_BLENDRATE_OVERRIDE_NONE;
             }
 
             if (this->frameCount == 190) {
@@ -804,7 +804,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
                 Math_ApproachF(&this->subCamAt.z, this->actor.world.pos.z, 0.2f, 100.0f);
 
                 if (this->framesUntilNextAction == 30) {
-                    play->envCtx.unk_BF = 4;
+                    play->envCtx.lightSettingOverride = 4;
                 }
 
                 if (this->framesUntilNextAction < 20) {

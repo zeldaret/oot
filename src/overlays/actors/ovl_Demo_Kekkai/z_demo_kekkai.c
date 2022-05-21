@@ -118,7 +118,7 @@ void DemoKekkai_Init(Actor* thisx, PlayState* play) {
     }
     if (DemoKekkai_CheckEventFlag(thisx->params)) {
         if (thisx->params == KEKKAI_TOWER) {
-            play->envCtx.unk_BF = 1;
+            play->envCtx.lightSettingOverride = 1;
         }
         Actor_Kill(thisx);
     }

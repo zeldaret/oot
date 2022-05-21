@@ -863,7 +863,7 @@ void Fishing_Init(Actor* thisx, PlayState* play2) {
 
         D_80B7A684 = 20;
         play->specialEffects = sEffects;
-        gTimeIncrement = 1;
+        gTimeSpeed = 1;
         D_80B7E0AC = 0;
         D_80B7E0A6 = 10;
 
@@ -3096,11 +3096,12 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             }
 
             if (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) {
-                if ((gSaveContext.dayTime >= 0xC000) && (gSaveContext.dayTime <= 0xC01B)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(18, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0) + 27)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
-                if ((gSaveContext.dayTime >= 0x3AAA) && (gSaveContext.dayTime <= 0x3AC5)) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(5, 30) - 1) &&
+                    (gSaveContext.dayTime < CLOCK_TIME(5, 30) + 27)) {
                     this->unk_158 = 7;
                     this->unk_17A[3] = (s16)Rand_ZeroFloat(150.0f) + 200;
                 }
@@ -3350,9 +3351,9 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 multiplier = 1.0f;
             }
 
-            if ((gSaveContext.dayTime >= 0xB555) && (gSaveContext.dayTime <= 0xCAAA)) {
+            if ((gSaveContext.dayTime >= CLOCK_TIME(17, 0)) && (gSaveContext.dayTime < CLOCK_TIME(19, 0))) {
                 multiplier *= 1.75f;
-            } else if ((gSaveContext.dayTime >= 0x3555) && (gSaveContext.dayTime <= 0x4AAA)) {
+            } else if ((gSaveContext.dayTime >= CLOCK_TIME(5, 0)) && (gSaveContext.dayTime < CLOCK_TIME(7, 0))) {
                 multiplier *= 1.5f;
             } else if (D_80B7E076 != 0) {
                 multiplier *= 1.5f;
@@ -5567,9 +5568,9 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     if (sREG(15) != 0) {
         if (D_80B7A654 != (sREG(15) - 1)) {
             if (D_80B7A654 == 0) {
-                play->envCtx.gloomySkyMode = 1;
+                play->envCtx.stormRequest = STORM_REQUEST_START;
             } else {
-                play->envCtx.gloomySkyMode = 2;
+                play->envCtx.stormRequest = STORM_REQUEST_STOP;
             }
         }
 
@@ -5577,10 +5578,10 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     }
 
     if (sREG(14) == 1) {
-        play->envCtx.gloomySkyMode = 1;
+        play->envCtx.stormRequest = STORM_REQUEST_START;
     }
     if (sREG(14) == -1) {
-        play->envCtx.gloomySkyMode = 2;
+        play->envCtx.stormRequest = STORM_REQUEST_STOP;
     }
 
     sREG(14) = 0;
@@ -5598,10 +5599,10 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
 
         if (Rand_ZeroOne() < 0.5f) {
             D_80B7A654 = (u8)Rand_ZeroFloat(10.0f) + 5;
-            play->envCtx.gloomySkyMode = 1;
+            play->envCtx.stormRequest = STORM_REQUEST_START;
         } else {
             D_80B7A654 = 0;
-            play->envCtx.gloomySkyMode = 2;
+            play->envCtx.stormRequest = STORM_REQUEST_STOP;
         }
     }
 

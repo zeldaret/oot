@@ -815,7 +815,7 @@ void func_80ADB17C(EnPoSisters* this, PlayState* play) {
         if (this->unk_194 == 0) {
             Flags_UnsetSwitch(play, 0x1B);
         }
-        play->envCtx.unk_BF = 0xFF;
+        play->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->actor);
     } else if (this->unk_19A < 32) {
@@ -1093,7 +1093,7 @@ void func_80ADBF58(EnPoSisters* this, PlayState* play) {
     this->unk_19A--;
     Math_ScaledStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 0x500);
     if (this->unk_19A == 0 && this->unk_194 == 0) {
-        play->envCtx.unk_BF = 4;
+        play->envCtx.lightSettingOverride = 4;
     }
     if (this->unk_19A < 0) {
         Math_StepToF(&this->actor.speedXZ, 5.0f, 0.2f);

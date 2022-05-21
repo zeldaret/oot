@@ -229,7 +229,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             if (sp3F != 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_4, 0x3F);
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 1);
-                play->envCtx.unk_EE[0] = 20;
+                play->envCtx.precipitation[PRECIP_RAIN_MAX] = 20;
             }
             break;
         case 2:
@@ -254,14 +254,14 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 7:
             if (sp3F != 0) {
-                play->envCtx.unk_19 = 1;
-                play->envCtx.unk_17 = 1;
-                play->envCtx.unk_18 = 0;
-                play->envCtx.unk_1A = 0x3C;
-                play->envCtx.unk_21 = 1;
-                play->envCtx.unk_1F = 0;
-                play->envCtx.unk_20 = 1;
-                play->envCtx.unk_22 = play->envCtx.unk_24 = 0x3C;
+                play->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
+                play->envCtx.skyboxConfig = 1;
+                play->envCtx.changeSkyboxNextConfig = 0;
+                play->envCtx.changeSkyboxTimer = 60;
+                play->envCtx.changeLightEnabled = true;
+                play->envCtx.lightConfig = 0;
+                play->envCtx.changeLightNextConfig = 1;
+                play->envCtx.changeLightTimer = play->envCtx.changeDuration = 60;
             }
             break;
         case 8:
@@ -270,7 +270,7 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
         case 9:
-            play->envCtx.unk_EE[3] = 16;
+            play->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
             break;
         case 10:
             Flags_SetEnv(play, 1);
@@ -324,13 +324,13 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             }
             break;
         case 18:
-            play->envCtx.unk_EE[0] = 0;
-            play->envCtx.gloomySkyMode = 2;
-            if (gSaveContext.dayTime < 0x4AAB) {
+            play->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
+            play->envCtx.stormRequest = STORM_REQUEST_STOP;
+            if (gSaveContext.dayTime < CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
-            if (play->envCtx.unk_EE[1] == 0) {
-                gWeatherMode = 0;
+            if (play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
+                gWeatherMode = WEATHER_MODE_CLEAR;
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
             }
             break;
@@ -360,18 +360,19 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 25:
             gSaveContext.dayTime += 30;
-            if ((gSaveContext.dayTime) > 0xCAAA) {
-                gSaveContext.dayTime = 0xCAAA;
+            if ((gSaveContext.dayTime) >= CLOCK_TIME(19, 0)) {
+                gSaveContext.dayTime = CLOCK_TIME(19, 0) - 1;
             }
             break;
         case 26:
-            if ((gSaveContext.dayTime < 0x3000) || (gSaveContext.dayTime >= 0x4555)) {
-                if ((gSaveContext.dayTime >= 0x4555) && (gSaveContext.dayTime < 0xAAAB)) {
-                    play->envCtx.unk_BF = 1;
-                } else if ((gSaveContext.dayTime >= 0xAAAB) && (gSaveContext.dayTime < 0xC556)) {
-                    play->envCtx.unk_BF = 2;
+            if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
+                if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime < CLOCK_TIME(16, 0))) {
+                    play->envCtx.lightSettingOverride = 1;
+                } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0)) &&
+                           (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
+                    play->envCtx.lightSettingOverride = 2;
                 } else {
-                    play->envCtx.unk_BF = 3;
+                    play->envCtx.lightSettingOverride = 3;
                 }
             }
             break;
@@ -413,9 +414,9 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
             break;
         case 34:
             if (IS_DAY) {
-                gSaveContext.dayTime -= gTimeIncrement;
+                gSaveContext.dayTime -= gTimeSpeed;
             } else {
-                gSaveContext.dayTime -= gTimeIncrement * 2;
+                gSaveContext.dayTime -= gTimeSpeed * 2;
             }
             break;
         case 35:
@@ -428,8 +429,8 @@ void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
 // Command 4: Set Environment Lighting
 void Cutscene_Command_SetLighting(PlayState* play, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        play->envCtx.unk_BF = cmd->setting - 1;
-        play->envCtx.unk_D8 = 1.0f;
+        play->envCtx.lightSettingOverride = cmd->setting - 1;
+        play->envCtx.lightBlend = 1.0f;
     }
 }
 
@@ -1221,8 +1222,8 @@ void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdB
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 119:
-                gSaveContext.dayTime = 0x8000;
-                gSaveContext.skyboxTime = 0x8000;
+                gSaveContext.dayTime = CLOCK_TIME(12, 0);
+                gSaveContext.skyboxTime = CLOCK_TIME(12, 0);
                 play->nextEntranceIndex = ENTR_NAKANIWA_1;
                 play->transitionTrigger = TRANS_TRIGGER_START;
                 play->transitionType = TRANS_TYPE_FADE_WHITE;

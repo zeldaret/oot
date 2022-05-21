@@ -1139,14 +1139,14 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
         vel.z = this->actor.world.pos.z - this->actor.prevPos.z;
         if (bodyDecayLevel < 10) {
             if (this->work[GND_DEATH_ENV_TIMER] == 0) {
-                if (play->envCtx.unk_BF == 0) {
-                    play->envCtx.unk_BF = 3;
+                if (play->envCtx.lightSettingOverride == 0) {
+                    play->envCtx.lightSettingOverride = 3;
                     this->work[GND_DEATH_ENV_TIMER] = (s16)Rand_ZeroFloat(5.0f) + 4.0f;
-                    play->envCtx.unk_D6 = 0x28;
+                    play->envCtx.lightBlendRateOverride = 40;
                 } else {
-                    play->envCtx.unk_BF = 0;
+                    play->envCtx.lightSettingOverride = 0;
                     this->work[GND_DEATH_ENV_TIMER] = (s16)Rand_ZeroFloat(2.0f) + 2.0f;
-                    play->envCtx.unk_D6 = 0x14;
+                    play->envCtx.lightBlendRateOverride = 20;
                 }
             } else {
                 this->work[GND_DEATH_ENV_TIMER]--;
@@ -1177,8 +1177,8 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
                 }
             }
         } else {
-            play->envCtx.unk_BF = 0;
-            play->envCtx.unk_D6 = 0x14;
+            play->envCtx.lightSettingOverride = 0;
+            play->envCtx.lightBlendRateOverride = 20;
         }
 
         this->work[GND_BODY_DECAY_FLAG] = true;

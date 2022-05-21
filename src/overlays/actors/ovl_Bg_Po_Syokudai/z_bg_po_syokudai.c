@@ -101,7 +101,7 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
         Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_RED) && !Flags_GetSwitch(play, thisx->params)) {
 
         Actor_Spawn(&play->actorCtx, play, ACTOR_EN_PO_SISTERS, 119.0f, 225.0f, -1566.0f, 0, 0, 0, thisx->params);
-        play->envCtx.unk_BF = 0x4;
+        play->envCtx.lightSettingOverride = 4;
 
     } else if (!Flags_GetSwitch(play, POE_TORCH_FLAG + POE_FLAME_PURPLE) && !Flags_GetSwitch(play, 0x1B)) {
 
@@ -109,8 +109,8 @@ void BgPoSyokudai_Init(Actor* thisx, PlayState* play) {
                     thisx->world.pos.z, 0, 0, 0, (this->flameColor << 8) + thisx->params + 0x1000);
 
     } else if (!Flags_GetSwitch(play, thisx->params)) {
-        if (play->envCtx.unk_BF == 0xFF) {
-            play->envCtx.unk_BF = 4;
+        if (play->envCtx.lightSettingOverride == LIGHT_SETTING_OVERRIDE_NONE) {
+            play->envCtx.lightSettingOverride = 4;
         }
     }
 
@@ -123,8 +123,8 @@ void BgPoSyokudai_Destroy(Actor* thisx, PlayState* play) {
     LightContext_RemoveLight(play, &play->lightCtx, this->lightNode);
     Collider_DestroyCylinder(play, &this->collider);
 
-    if (play->envCtx.unk_BF != 0xFF) {
-        play->envCtx.unk_BF = 0xFF;
+    if (play->envCtx.lightSettingOverride != LIGHT_SETTING_OVERRIDE_NONE) {
+        play->envCtx.lightSettingOverride = LIGHT_SETTING_OVERRIDE_NONE;
     }
 }
 

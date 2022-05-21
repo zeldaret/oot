@@ -35,12 +35,13 @@ void EnOkarinaEffect_SetupAction(EnOkarinaEffect* this, EnOkarinaEffectActionFun
 void EnOkarinaEffect_Destroy(Actor* thisx, PlayState* play) {
     EnOkarinaEffect* this = (EnOkarinaEffect*)thisx;
 
-    play->envCtx.unk_F2[0] = 0;
-    if ((gWeatherMode != 4) && (gWeatherMode != 5) && (play->envCtx.gloomySkyMode == 1)) {
-        play->envCtx.gloomySkyMode = 2; // end gloomy sky
+    play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
+    if ((gWeatherMode != WEATHER_MODE_RAIN) && (gWeatherMode != WEATHER_MODE_HEAVY_RAIN) &&
+        (play->envCtx.stormRequest == STORM_REQUEST_START)) {
+        play->envCtx.stormRequest = STORM_REQUEST_STOP;
         Environment_StopStormNatureAmbience(play);
     }
-    play->envCtx.lightningMode = LIGHTNING_MODE_LAST;
+    play->envCtx.lightningState = LIGHTNING_LAST;
 }
 
 void EnOkarinaEffect_Init(Actor* thisx, PlayState* play) {
@@ -50,20 +51,20 @@ void EnOkarinaEffect_Init(Actor* thisx, PlayState* play) {
     // "Ocarina Storm Effect"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ オカリナあらし効果ビカビカビカ〜 ☆☆☆☆☆ \n" VT_RST);
     osSyncPrintf("\n\n");
-    if (play->envCtx.unk_EE[1] != 0) {
+    if (play->envCtx.precipitation[PRECIP_RAIN_CUR] != 0) {
         Actor_Kill(&this->actor);
     }
     EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_TriggerStorm);
 }
 
 void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, PlayState* play) {
-    this->timer = 400;              // 20 seconds
-    play->envCtx.unk_F2[0] = 20;    // rain intensity target
-    play->envCtx.gloomySkyMode = 1; // start gloomy sky
-    if ((gWeatherMode != 0) || play->envCtx.unk_17 != 0) {
-        play->envCtx.unk_DE = 1;
+    this->timer = 400; // 20 seconds
+    play->envCtx.precipitation[PRECIP_SOS_MAX] = 20;
+    play->envCtx.stormRequest = STORM_REQUEST_START;
+    if ((gWeatherMode != WEATHER_MODE_CLEAR) || play->envCtx.skyboxConfig != 0) {
+        play->envCtx.stormState = STORM_STATE_ON;
     }
-    play->envCtx.lightningMode = LIGHTNING_MODE_ON;
+    play->envCtx.lightningState = LIGHTNING_ON;
     Environment_PlayStormNatureAmbience(play);
     EnOkarinaEffect_SetupAction(this, EnOkarinaEffect_ManageStorm);
 }
@@ -74,7 +75,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
          (play->msgCtx.msgLength == 0) && (!FrameAdvance_IsEnabled(play)) &&
          ((play->transitionMode == TRANS_MODE_OFF) || (gSaveContext.gameMode != 0))) ||
         (this->timer >= 250)) {
-        if (play->envCtx.indoors || play->envCtx.unk_1F != 1) {
+        if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || play->envCtx.lightConfig != 1) {
             this->timer--;
         }
         osSyncPrintf("\nthis->timer=[%d]", this->timer);
@@ -84,12 +85,12 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
         }
     }
 
-    if (D_8011FB38 != 0) {
+    if (gInterruptSongOfStorms) {
         this->timer = 0;
     }
 
     if (this->timer == 0) {
-        play->envCtx.unk_F2[0] = 0;
+        play->envCtx.precipitation[PRECIP_SOS_MAX] = 0;
         if (play->csCtx.state == CS_STATE_IDLE) {
             Environment_StopStormNatureAmbience(play);
         } else if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_NATURE_AMBIENCE) {
@@ -97,14 +98,14 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, PlayState* play) {
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
         }
         osSyncPrintf("\n\n\nE_wether_flg=[%d]", gWeatherMode);
-        osSyncPrintf("\nrain_evt_trg=[%d]\n\n", play->envCtx.gloomySkyMode);
-        if (gWeatherMode == 0 && (play->envCtx.gloomySkyMode == 1)) {
-            play->envCtx.gloomySkyMode = 2; // end gloomy sky
+        osSyncPrintf("\nrain_evt_trg=[%d]\n\n", play->envCtx.stormRequest);
+        if (gWeatherMode == WEATHER_MODE_CLEAR && (play->envCtx.stormRequest == STORM_REQUEST_START)) {
+            play->envCtx.stormRequest = STORM_REQUEST_STOP;
         } else {
-            play->envCtx.gloomySkyMode = 0;
-            play->envCtx.unk_DE = 0;
+            play->envCtx.stormRequest = STORM_REQUEST_NONE;
+            play->envCtx.stormState = STORM_STATE_OFF;
         }
-        play->envCtx.lightningMode = LIGHTNING_MODE_LAST;
+        play->envCtx.lightningState = LIGHTNING_LAST;
         Actor_Kill(&this->actor);
     }
 }

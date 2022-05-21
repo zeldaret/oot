@@ -219,7 +219,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 player->actor.world.pos.z = -186.0f;
                 player->actor.shape.rot.y = -0x5000;
                 Animation_MorphToLoop(&this->skelAnime, &object_ganon_anime3_Anim_002168, 0.0f);
-                play->envCtx.unk_D8 = 0.0f;
+                play->envCtx.lightBlend = 0.0f;
                 // fake, tricks the compiler into allocating more stack
                 if (zero) {
                     this->subCamEye.x *= 2.0;
@@ -229,7 +229,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
             }
         case 1:
             if (this->unk_398 < 70) {
-                play->envCtx.unk_D8 = 0.0f;
+                play->envCtx.lightBlend = 0.0f;
             }
             this->unk_339 = 3;
             Math_ApproachF(&this->subCamEye.x, 1500.0f, 0.1f, this->unk_410.x * 1500.0f);
@@ -245,7 +245,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 this->unk_39C = 2;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
-                play->envCtx.unk_D8 = 1.0f;
+                play->envCtx.lightBlend = 1.0f;
             } else {
                 break;
             }
@@ -360,7 +360,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 this->unk_339 = 5;
                 if (this->unk_398 == 20) {
                     this->unk_33C = 0.0f;
-                    play->envCtx.unk_D8 = 0.0f;
+                    play->envCtx.lightBlend = 0.0f;
                 }
             } else {
                 this->unk_339 = 4;
@@ -414,8 +414,8 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 this->subCamEye.z = -200.0f;
                 this->subCamAt.x = this->subCamAt.z = -200.0f;
                 this->subCamAt.y = this->actor.world.pos.y + 70.0f;
-                play->envCtx.unk_D8 = 0.0f;
-                play->envCtx.unk_BE = play->envCtx.unk_BD = 0;
+                play->envCtx.lightBlend = 0.0f;
+                play->envCtx.prevLightSetting = play->envCtx.lightSetting = 0;
                 this->unk_339 = 0;
             } else {
                 break;
@@ -506,7 +506,7 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime3_Anim_003754, 0.0f);
                 this->unk_194 = Animation_GetLastFrame(&object_ganon_anime3_Anim_003754);
                 this->unk_339 = 55;
-                play->envCtx.unk_D8 = 1.0f;
+                play->envCtx.lightBlend = 1.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_CASBREAK);
             } else {
                 break;
@@ -728,8 +728,8 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                     sp68 = player->actor.world.pos;
                     sp68.y += 60.0f;
                     func_808FD210(play, &sp68);
-                    play->envCtx.unk_D8 = 0.0f;
-                    play->envCtx.unk_BE = 0;
+                    play->envCtx.lightBlend = 0.0f;
+                    play->envCtx.prevLightSetting = 0;
                     this->unk_339 = 0;
                 }
             }
@@ -1296,7 +1296,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
             this->subCamAt = mainCam1->at;
             this->unk_1A2[0] = 300;
             this->unk_1A2[1] = 100;
-            play->envCtx.unk_D8 = 0.0f;
+            play->envCtx.lightBlend = 0.0f;
         case 1:
             if (this->unk_1A2[1] == 50) {
                 func_80078884(NA_SE_EN_MGANON_WALK);
@@ -1326,7 +1326,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
             this->subCamAt.y = sZelda->actor.world.pos.y + 30.0f;
             this->subCamAt.z = sZelda->actor.world.pos.z - 10.0f;
             Math_ApproachZeroF(&this->unk_324, 1.0f, 5.0f);
-            Math_ApproachF(&play->envCtx.unk_D8, 1.0f, 1.0f, 1.0f / 51);
+            Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 1.0f / 51);
             if (this->unk_1A2[1] == 80) {
                 Message_StartTextbox(play, 0x70D7, NULL);
             }
@@ -1406,7 +1406,7 @@ void func_80900890(BossGanon2* this, PlayState* play) {
             break;
         case 2:
             Math_ApproachF(&this->unk_324, 255.0f, 1.0f, 10.0f);
-            Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 2.0f / 51.0f);
+            Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 2.0f / 51.0f);
             if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
                 func_808FFDB0(this, play);
                 if (this->unk_334 == 0) {
@@ -1484,14 +1484,14 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             this->unk_324 = 0.0f;
             this->actor.speedXZ = 0.0f;
             this->unk_31A = this->unk_31C;
-            play->envCtx.unk_D8 = 0.0f;
+            play->envCtx.lightBlend = 0.0f;
         case 1:
             if (this->unk_398 < 90) {
                 this->unk_339 = 20;
-                Math_ApproachF(&play->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
+                Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 0.1f);
             } else if (this->unk_398 >= 90) {
                 this->unk_339 = 21;
-                Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 0.08f);
+                Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 0.08f);
             }
             if (this->unk_398 == 50) {
                 func_80078884(NA_SE_EN_MGANON_WALK);
@@ -1533,7 +1533,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             break;
         case 2:
             this->unk_339 = 22;
-            Math_ApproachF(&play->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
+            Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 0.1f);
             func_80078884(NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
             this->subCamEye.x = 250;
             this->subCamEye.y = 1150.0f;
@@ -1570,7 +1570,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
                     sZelda->unk_3C8 = 10;
                 }
                 this->unk_339 = 23;
-                Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 0.05f);
+                Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 0.05f);
             } else {
                 this->unk_339 = 22;
             }
@@ -1639,7 +1639,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             }
         case 7:
             this->unk_339 = 23;
-            Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 0.2f);
+            Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 0.2f);
             player->actor.world.pos.x = 250.0f;
             player->actor.shape.rot.y = -0x4000;
             player->actor.world.pos.z = 30.0f;
@@ -1650,7 +1650,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             if ((this->unk_398 == 22) || (this->unk_398 == 35) || (this->unk_398 == 72) || (this->unk_398 == 45)) {
                 func_80078884(NA_SE_EN_MGANON_DAMAGE);
                 func_80078884(NA_SE_IT_SHIELD_BOUND);
-                play->envCtx.unk_D8 = 1.0f;
+                play->envCtx.lightBlend = 1.0f;
             }
             if ((this->unk_398 == 22) || (this->unk_398 == 35) || (this->unk_398 == 72) || (this->unk_398 == 45)) {
                 func_8090109C(this, play);
@@ -1711,15 +1711,15 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             if (this->unk_398 >= 1000) {
                 if (this->unk_398 < 1040) {
                     this->unk_339 = 23;
-                    Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 0.2f);
+                    Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 0.2f);
                 }
             }
             if (this->unk_398 == 1040) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DEAD2);
                 this->unk_336 = 2;
                 this->unk_339 = 0;
-                play->envCtx.unk_BE = 0;
-                play->envCtx.unk_D8 = 0.0f;
+                play->envCtx.prevLightSetting = 0;
+                play->envCtx.lightBlend = 0.0f;
             }
             if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
                 Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon2_Anim_008EB8, 0.0f);
@@ -1741,7 +1741,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
                 sZelda->unk_3C8 = 11;
                 Message_StartTextbox(play, 0x70D9, NULL);
                 this->unk_336 = 0;
-                play->envCtx.unk_D8 = 0.0f;
+                play->envCtx.lightBlend = 0.0f;
             }
             break;
         case 9:
@@ -1764,7 +1764,7 @@ void func_8090120C(BossGanon2* this, PlayState* play) {
             Math_ApproachF(&this->subCamEye.y, 1130.0f, 0.05f, this->unk_410.x * 0.25f);
             Math_ApproachF(&this->subCamEye.z, -260.0f, 0.05f, this->unk_410.x * 1.25f);
             if ((this->unk_398 >= 40) && (this->unk_398 <= 110)) {
-                Math_ApproachF(&play->envCtx.unk_D8, 1.0f, 1.0f, 0.02f);
+                Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 0.02f);
                 Math_ApproachF(&this->unk_384, 10.0f, 0.1f, 0.2f);
                 Audio_PlayActorSound2(&sZelda->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
             } else {
@@ -2067,9 +2067,9 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
             this->unk_332 = (s16)Rand_ZeroFloat(60.0f) + 0xA;
         }
         this->unk_339 = 0;
-        play->envCtx.unk_BE = 0;
-        play->envCtx.unk_BD = (s8)Rand_ZeroFloat(1.9f) + 1;
-        play->envCtx.unk_D8 = 1.0f;
+        play->envCtx.prevLightSetting = 0;
+        play->envCtx.lightSetting = (s8)Rand_ZeroFloat(1.9f) + 1;
+        play->envCtx.lightBlend = 1.0f;
         D_8090EB20.y = 0.0f;
         D_8090EB20.x = D_8090EB20.y;
         D_8090EB20.z = D_8090EB20.x;
@@ -2084,73 +2084,73 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
     } else if (this->unk_332 != 0) {
         this->unk_332--;
     }
-    if ((play->envCtx.unk_D8 > 0.0f) && (this->unk_336 != 0)) {
+    if ((play->envCtx.lightBlend > 0.0f) && (this->unk_336 != 0)) {
         play->envCtx.customSkyboxFilter = 1;
         play->envCtx.skyboxFilterColor[0] = 255;
         play->envCtx.skyboxFilterColor[1] = 255;
         play->envCtx.skyboxFilterColor[2] = 255;
-        play->envCtx.skyboxFilterColor[3] = (s16)(play->envCtx.unk_D8 * 200.0f);
+        play->envCtx.skyboxFilterColor[3] = (s16)(play->envCtx.lightBlend * 200.0f);
     } else {
         play->envCtx.customSkyboxFilter = 0;
     }
-    play->envCtx.unk_BF = 0;
-    play->envCtx.unk_DC = 2;
+    play->envCtx.lightSettingOverride = 0;
+    play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
 
     switch (this->unk_339) {
         case 0:
-            Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 0.1f);
+            Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 0.1f);
             break;
         case 3:
-            play->envCtx.unk_BE = 3;
-            play->envCtx.unk_BD = 4;
-            Math_ApproachF(&play->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
+            play->envCtx.prevLightSetting = 3;
+            play->envCtx.lightSetting = 4;
+            Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 0.0125f);
             break;
         case 4:
-            play->envCtx.unk_BE = 5;
-            play->envCtx.unk_BD = 6;
-            Math_ApproachF(&play->envCtx.unk_D8, 1.0f, 1.0f, 0.0125f);
+            play->envCtx.prevLightSetting = 5;
+            play->envCtx.lightSetting = 6;
+            Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 0.0125f);
             break;
         case 5:
-            play->envCtx.unk_BE = 6;
-            play->envCtx.unk_BD = 7;
+            play->envCtx.prevLightSetting = 6;
+            play->envCtx.lightSetting = 7;
             Math_ApproachF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
-            play->envCtx.unk_D8 = (Math_SinS(play->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
+            play->envCtx.lightBlend = (Math_SinS(play->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
             break;
         case 55:
-            play->envCtx.unk_BE = 2;
-            play->envCtx.unk_BD = 0;
-            Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 0.05f);
+            play->envCtx.prevLightSetting = 2;
+            play->envCtx.lightSetting = 0;
+            Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 0.05f);
             break;
         case 6:
-            play->envCtx.unk_BE = 2;
-            play->envCtx.unk_BD = 8;
+            play->envCtx.prevLightSetting = 2;
+            play->envCtx.lightSetting = 8;
             Math_ApproachF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
-            play->envCtx.unk_D8 = (Math_SinS(play->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
+            play->envCtx.lightBlend = (Math_SinS(play->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
             break;
         case 7:
-            play->envCtx.unk_BE = 0;
-            play->envCtx.unk_BD = 8;
-            Math_ApproachZeroF(&play->envCtx.unk_D8, 1.0f, 0.02f);
+            play->envCtx.prevLightSetting = 0;
+            play->envCtx.lightSetting = 8;
+            Math_ApproachZeroF(&play->envCtx.lightBlend, 1.0f, 0.02f);
             break;
         case 20:
-            play->envCtx.unk_BE = 0;
-            play->envCtx.unk_BD = 9;
+            play->envCtx.prevLightSetting = 0;
+            play->envCtx.lightSetting = 9;
             break;
         case 21:
-            play->envCtx.unk_BE = 0xA;
-            play->envCtx.unk_BD = 9;
+            play->envCtx.prevLightSetting = 10;
+            play->envCtx.lightSetting = 9;
             break;
         case 22:
-            play->envCtx.unk_BE = 0xA;
-            play->envCtx.unk_BD = 0xB;
+            play->envCtx.prevLightSetting = 10;
+            play->envCtx.lightSetting = 11;
             break;
         case 23:
-            play->envCtx.unk_BE = 9;
-            play->envCtx.unk_BD = 0xB;
+            play->envCtx.prevLightSetting = 9;
+            play->envCtx.lightSetting = 11;
             break;
         case 24:
-            play->envCtx.unk_BE = 0;
-            play->envCtx.unk_BD = 0xC;
+            play->envCtx.prevLightSetting = 0;
+            play->envCtx.lightSetting = 12;
             break;
         case -1:
             break;
@@ -2906,8 +2906,8 @@ void BossGanon2_DrawEffects(PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x08,
                        Gfx_TexScroll(play->state.gfxCtx, 0, 0 - (play->gameplayFrames & 0x7F), 32, 32));
             gSPDisplayList(POLY_OPA_DISP++, ovl_Boss_Ganon2_DL_0103A8);
-            if ((play->envCtx.unk_BD == 1) || (play->envCtx.unk_BD == 2)) {
-                alpha = (s16)(play->envCtx.unk_D8 * 150.0f) + 50;
+            if ((play->envCtx.lightSetting == 1) || (play->envCtx.lightSetting == 2)) {
+                alpha = (s16)(play->envCtx.lightBlend * 150.0f) + 50;
                 angle = M_PI / 5.0f;
             } else {
                 alpha = 100;
@@ -3047,8 +3047,8 @@ void BossGanon2_DrawShadowTexture(void* shadowTexture, BossGanon2* this, PlaySta
 
     func_80093D18(play->state.gfxCtx);
 
-    if ((play->envCtx.unk_BD == 1) || (play->envCtx.unk_BD == 2)) {
-        alpha = (s16)(play->envCtx.unk_D8 * 180.0f) + 30;
+    if ((play->envCtx.lightSetting == 1) || (play->envCtx.lightSetting == 2)) {
+        alpha = (s16)(play->envCtx.lightBlend * 180.0f) + 30;
     } else {
         alpha = 120;
     }

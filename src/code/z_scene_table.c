@@ -247,7 +247,7 @@ void func_80099BD8(PlayState* play) {
         gCustomLensFlarePos.z = -684.0f;
         gLensFlareScale = 10;
         gLensFlareColorIntensity = 8.0f;
-        gLensFlareScreenFillAlpha = 200;
+        gLensFlareGlareStrength = 200;
     }
 }
 
@@ -990,14 +990,14 @@ void func_8009DA30(PlayState* play) {
 
     gSPSegment(POLY_XLU_DISP++, 0x0A, displayListHead);
 
-    if ((gSaveContext.dayTime >= 0x4AAC) && (gSaveContext.dayTime <= 0xC555)) {
+    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.dayTime > 0xC555) {
+        if (gSaveContext.dayTime > CLOCK_TIME(18, 30)) {
             if (play->roomCtx.unk_74[0] != 255) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 255, 5);
             }
-        } else if (gSaveContext.dayTime >= 0x4000) {
+        } else if (gSaveContext.dayTime >= CLOCK_TIME(6, 0)) {
             if (play->roomCtx.unk_74[0] != 0) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 0, 10);
             }
@@ -1344,14 +1344,14 @@ void func_8009F5D4(PlayState* play) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, displayListHead);
 
-    if ((gSaveContext.dayTime >= 0x4AAC) && (gSaveContext.dayTime <= 0xC000)) {
+    if ((gSaveContext.dayTime > CLOCK_TIME(7, 0)) && (gSaveContext.dayTime <= CLOCK_TIME(18, 0))) {
         gSPEndDisplayList(displayListHead);
     } else {
-        if (gSaveContext.dayTime > 0xC000) {
+        if (gSaveContext.dayTime > CLOCK_TIME(18, 0)) {
             if (play->roomCtx.unk_74[0] != 255) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 255, 5);
             }
-        } else if (gSaveContext.dayTime >= 0x4000) {
+        } else if (gSaveContext.dayTime >= CLOCK_TIME(6, 0)) {
             if (play->roomCtx.unk_74[0] != 0) {
                 Math_StepToS(&play->roomCtx.unk_74[0], 0, 10);
             }

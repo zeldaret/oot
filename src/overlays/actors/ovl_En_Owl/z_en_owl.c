@@ -954,7 +954,7 @@ void func_80ACC00C(EnOwl* this, PlayState* play) {
             this->actionFunc = EnOwl_WaitDefault;
             this->unk_40A = 0;
             this->actionFlags |= 0x80;
-            gTimeIncrement = 0;
+            gTimeSpeed = 0;
         }
     }
 

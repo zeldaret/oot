@@ -45,7 +45,7 @@ void MagicWind_Init(Actor* thisx, PlayState* play) {
     MagicWind* this = (MagicWind*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if (SkelCurve_Init(play, &this->skelCurve, &sSkel, &sAnim) == 0) {
+    if (!SkelCurve_Init(play, &this->skelCurve, &sSkel, &sAnim)) {
         // "Magic_Wind_Actor_ct (): Construct failed"
         osSyncPrintf("Magic_Wind_Actor_ct():コンストラクト失敗\n");
     }
@@ -139,8 +139,8 @@ void MagicWind_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 }
 
-s32 MagicWind_OverrideLimbDraw(PlayState* play, SkelAnimeCurve* skelCurve, s32 limbIndex, void* thisx) {
-    MagicWind* this = (MagicWind*)thisx;
+s32 MagicWind_OverrideLimbDraw(PlayState* play, SkelCurve* skelCurve, s32 limbIndex, void* thisx) {
+    s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_magic_wind.c", 615);
 
@@ -172,7 +172,7 @@ void MagicWind_Draw(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != MagicWind_WaitForTimer) {
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);
-        SkelCurve_Draw(thisx, play, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
+        SkelCurve_Draw(&this->actor, play, &this->skelCurve, MagicWind_OverrideLimbDraw, NULL, 1, NULL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_magic_wind.c", 673);

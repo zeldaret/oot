@@ -766,7 +766,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 s16 sp150;
 
                 if (this->fogMode == 0) {
-                    play->envCtx.unk_D8 = 0;
+                    play->envCtx.lightBlend = 0;
                 }
                 this->fogMode = 0xA;
 
@@ -1078,35 +1078,36 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
     if (1) {} // Needed for match
 
     if (this->fogMode == 0) {
-        play->envCtx.unk_BF = 0;
-        play->envCtx.unk_D8 = 0.5f + 0.5f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x500);
-        play->envCtx.unk_DC = 2;
-        play->envCtx.unk_BD = 1;
-        play->envCtx.unk_BE = 0;
+        play->envCtx.lightSettingOverride = 0;
+        play->envCtx.lightBlend = 0.5f + 0.5f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x500);
+        play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        play->envCtx.lightSetting = 1;
+        play->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 3) {
-        play->envCtx.unk_BF = 0;
-        play->envCtx.unk_DC = 2;
-        play->envCtx.unk_BD = 2;
-        play->envCtx.unk_BE = 0;
-        Math_ApproachF(&play->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+        play->envCtx.lightSettingOverride = 0;
+        play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        play->envCtx.lightSetting = 2;
+        play->envCtx.prevLightSetting = 0;
+        Math_ApproachF(&play->envCtx.lightBlend, 1.0f, 1.0f, 0.05f);
     } else if (this->fogMode == 2) {
         this->fogMode--;
-        play->envCtx.unk_BF = 0;
-        Math_ApproachF(&play->envCtx.unk_D8, 0.55f + 0.05f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x3E00), 1.0f,
+        play->envCtx.lightSettingOverride = 0;
+        Math_ApproachF(&play->envCtx.lightBlend, 0.55f + 0.05f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x3E00), 1.0f,
                        0.15f);
-        play->envCtx.unk_DC = 2;
-        play->envCtx.unk_BD = 3;
-        play->envCtx.unk_BE = 0;
+        play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        play->envCtx.lightSetting = 3;
+        play->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 10) {
         this->fogMode = 1;
-        play->envCtx.unk_BF = 0;
-        Math_ApproachF(&play->envCtx.unk_D8, 0.21f + 0.07f * Math_SinS(this->work[BFD_VAR_TIMER] * 0xC00), 1.0f, 0.05f);
-        play->envCtx.unk_DC = 2;
-        play->envCtx.unk_BD = 3;
-        play->envCtx.unk_BE = 0;
+        play->envCtx.lightSettingOverride = 0;
+        Math_ApproachF(&play->envCtx.lightBlend, 0.21f + 0.07f * Math_SinS(this->work[BFD_VAR_TIMER] * 0xC00), 1.0f,
+                       0.05f);
+        play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
+        play->envCtx.lightSetting = 3;
+        play->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 1) {
-        Math_ApproachF(&play->envCtx.unk_D8, 0.0f, 1.0f, 0.03f);
-        if (play->envCtx.unk_D8 <= 0.01f) {
+        Math_ApproachF(&play->envCtx.lightBlend, 0.0f, 1.0f, 0.03f);
+        if (play->envCtx.lightBlend <= 0.01f) {
             this->fogMode = 0;
         }
     }
@@ -1160,7 +1161,7 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
             if ((this->actor.colChkInfo.health == 0) ||
                 ((this->introState == BFD_CS_EMERGE) && (this->actor.world.rot.x > 0x3000))) {
                 if ((u8)this->fogMode == 0) {
-                    play->envCtx.unk_D8 = 0.0f;
+                    play->envCtx.lightBlend = 0.0f;
                 }
                 this->fogMode = 2;
             }

@@ -4158,6 +4158,7 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                 Scene_SetTransitionForNextEntrance(play);
             } else {
                 play->nextEntranceIndex = play->setupExitList[exitIndex - 1];
+
                 if (play->nextEntranceIndex == ENTR_RETURN_GROTTO) {
                     gSaveContext.respawnFlag = 2;
                     play->nextEntranceIndex = gSaveContext.respawn[RESPAWN_MODE_RETURN].entranceIndex;
@@ -4175,9 +4176,11 @@ s32 func_80839034(PlayState* play, Player* this, CollisionPoly* poly, u32 bgId) 
                         Play_TriggerVoidOut(play);
                         gSaveContext.respawnFlag = -2;
                     }
-                    gSaveContext.unk_13C3 = 1;
+
+                    gSaveContext.retainWeatherMode = true;
                     Scene_SetTransitionForNextEntrance(play);
                 }
+
                 play->transitionTrigger = TRANS_TRIGGER_START;
             }
 
@@ -9684,7 +9687,8 @@ void func_80847BA0(PlayState* play, Player* this) {
             Audio_SetCodeReverb(SurfaceType_GetEcho(&play->colCtx, floorPoly, this->actor.floorBgId));
 
             if (this->actor.floorBgId == BGCHECK_SCENE) {
-                func_80074CE8(play, SurfaceType_GetLightSettingIndex(&play->colCtx, floorPoly, this->actor.floorBgId));
+                Environment_ChangeLightSetting(
+                    play, SurfaceType_GetLightSettingIndex(&play->colCtx, floorPoly, this->actor.floorBgId));
             } else {
                 func_80043508(&play->colCtx, this->actor.floorBgId);
             }
