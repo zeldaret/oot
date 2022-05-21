@@ -185,7 +185,7 @@ typedef struct {
     /* 0x13F0 */ s16 magicState; // determines magic meter behavior on each frame
     /* 0x13F2 */ s16 prevMagicState; // used to resume the previous state after adding or filling magic
     /* 0x13F4 */ s16 magicCapacity; // maximum magic available. Determines magic bar width. Reset to 0 on save and quit, brought back to full width by stepping to magicCapacityTarget
-    /* 0x13F6 */ s16 magicCapacityTarget; // target for maximum magic available. Target is set when obtaining magic, filling magic full, and on save and quit.
+    /* 0x13F6 */ s16 magicCapacityTarget; // target for maximum magic available. Target is set when upgrading magic, filling magic, and on save and quit.
     /* 0x13F8 */ s16 magicTarget; // target for magic to step to when adding or consuming magic
     /* 0x13FA */ u16 eventInf[4]; // "event_inf"
     /* 0x1402 */ u16 mapIndex; // intended for maps/minimaps but commonly used as the dungeon index
