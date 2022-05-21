@@ -352,8 +352,8 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
         Collider_SetCylinder(play, &this->coreCollider, &this->actor, &sCylinderInit);
         if (Flags_GetClear(play, play->roomCtx.curRoom.num)) {
             Actor_Kill(&this->actor);
-            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0,
-                               0, 0, WARP_DUNGEON_ADULT);
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, -280.0f, 0.0f, 0, 0, 0,
+                               WARP_DUNGEON_ADULT);
             Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, -200.0f, -280.0f, 0.0f, 0, 0, 0, 0);
             play->roomCtx.unk_74[0] = 0xFF;
             MO_WATER_LEVEL(play) = -500;
@@ -369,9 +369,9 @@ void BossMo_Init(Actor* thisx, PlayState* play2) {
             this->actor.world.pos.x = 1000.0f;
             this->timers[0] = 60;
         }
-        sMorphaTent1 = (BossMo*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_MO,
-                                                   this->actor.world.pos.x, this->actor.world.pos.y,
-                                                   this->actor.world.pos.z, 0, 0, 0, BOSSMO_TENTACLE);
+        sMorphaTent1 =
+            (BossMo*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_MO, this->actor.world.pos.x,
+                                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, BOSSMO_TENTACLE);
         this->actor.draw = BossMo_DrawCore;
         this->actor.update = BossMo_UpdateCore;
         Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_BOSS);
@@ -1099,11 +1099,10 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
                         BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)play->specialEffects, &spD4, &spE0,
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
-                    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1,
-                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0,
-                                       WARP_DUNGEON_ADULT);
-                    Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
-                                -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
+                    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, this->actor.world.pos.x,
+                                       -280.0f, this->actor.world.pos.z, 0, 0, 0, WARP_DUNGEON_ADULT);
+                    Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f, -280.0f,
+                                this->actor.world.pos.z, 0, 0, 0, 0);
                     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS_CLEAR);
                     Flags_SetClear(play, play->roomCtx.curRoom.num);
                 }
@@ -1422,8 +1421,8 @@ void BossMo_IntroCs(BossMo* this, PlayState* play) {
                 Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_BOSS);
             }
             if (this->timers[2] == 130) {
-                TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
-                                       SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
+                TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gMorphaTitleCardTex), 0xA0,
+                                       0xB4, 0x80, 0x28);
                 SET_EVENTCHKINF(EVENTCHKINF_74);
             }
             break;
@@ -1838,7 +1837,7 @@ void BossMo_Core(BossMo* this, PlayState* play) {
         0.1f, 0.15f, 0.2f, 0.3f, 0.4f, 0.43f, 0.4f, 0.3f, 0.2f, 0.15f, 0.1f,
     };
     u8 nearLand;
-    s16 i;                                  // not on stack
+    s16 i;                             // not on stack
     Player* player = GET_PLAYER(play); // not on stack
     f32 spDC;
     f32 spD8;
@@ -2053,8 +2052,8 @@ void BossMo_Core(BossMo* this, PlayState* play) {
                 effectPos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
                 effectPos.y = Rand_CenteredFloat(20.0f) + this->actor.world.pos.y;
                 effectPos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
-                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)play->specialEffects, &effectPos,
-                                    &effectVelocity, Rand_ZeroFloat(0.02f) + 0.05f);
+                BossMo_SpawnDroplet(MO_FX_DROPLET, (BossMoEffect*)play->specialEffects, &effectPos, &effectVelocity,
+                                    Rand_ZeroFloat(0.02f) + 0.05f);
             };
 
             if (nearLand) {
@@ -2239,8 +2238,7 @@ void BossMo_UpdateCore(Actor* thisx, PlayState* play) {
     BossMo_Core(this, play);
     Collider_UpdateCylinder(&this->actor, &this->coreCollider);
     CollisionCheck_SetAC(play, &play->colChkCtx, &this->coreCollider.base);
-    if ((this->work[MO_TENT_ACTION_STATE] != MO_CORE_STUNNED) ||
-        (this->actor.world.pos.y < MO_WATER_LEVEL(play))) {
+    if ((this->work[MO_TENT_ACTION_STATE] != MO_CORE_STUNNED) || (this->actor.world.pos.y < MO_WATER_LEVEL(play))) {
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->coreCollider.base);
     } else {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->coreCollider.base);
@@ -2340,8 +2338,8 @@ void BossMo_UpdateTent(Actor* thisx, PlayState* play) {
                 pos = this->tentPos[38];
             }
         }
-        BossMo_SpawnRipple(play->specialEffects, &pos, rippleScale, rippleScale * 3.0f, this->baseAlpha * 0.6666f,
-                           300, MO_FX_BIG_RIPPLE);
+        BossMo_SpawnRipple(play->specialEffects, &pos, rippleScale, rippleScale * 3.0f, this->baseAlpha * 0.6666f, 300,
+                           MO_FX_BIG_RIPPLE);
     }
     if (this->baseBubblesTimer != 0) {
         Vec3f sp88;
@@ -2609,8 +2607,8 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
                                     sMorphaTent1->work[MO_TENT_VAR_TIMER] * -3,
                                     sMorphaTent1->work[MO_TENT_VAR_TIMER] * -3, 32, 32));
         gSPSegment(POLY_XLU_DISP++, 0x09,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, sMorphaTent1->work[MO_TENT_VAR_TIMER] * 5, 0, 32, 32, 1,
-                                    0, sMorphaTent1->work[MO_TENT_VAR_TIMER] * -10, 32, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, sMorphaTent1->work[MO_TENT_VAR_TIMER] * 5, 0, 32, 32, 1, 0,
+                                    sMorphaTent1->work[MO_TENT_VAR_TIMER] * -10, 32, 32));
 
         Matrix_RotateX(this->work[MO_TENT_MOVE_TIMER] * 0.5f, MTXMODE_APPLY);
         Matrix_RotateZ(this->work[MO_TENT_MOVE_TIMER] * 0.8f, MTXMODE_APPLY);
@@ -2679,9 +2677,8 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->fwork[MO_CORE_INTRO_WATER_ALPHA]);
 
         gSPSegment(POLY_XLU_DISP++, 0x0D,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (s16)sMorphaTent1->waterTex1x,
-                                    (s16)sMorphaTent1->waterTex1y, 32, 32, 1, (s16)sMorphaTent1->waterTex2x,
-                                    (s16)sMorphaTent1->waterTex2y, 32, 32));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, (s16)sMorphaTent1->waterTex1x, (s16)sMorphaTent1->waterTex1y,
+                                    32, 32, 1, (s16)sMorphaTent1->waterTex2x, (s16)sMorphaTent1->waterTex2y, 32, 32));
 
         sp8C = this->subCamAt.x - this->subCamEye.x;
         sp88 = this->subCamAt.y - this->subCamEye.y;
@@ -2733,9 +2730,8 @@ void BossMo_DrawTent(Actor* thisx, PlayState* play) {
 
     func_80093D84(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->work[MO_TENT_BASE_TEX1_X],
-                                this->work[MO_TENT_BASE_TEX1_Y], 32, 32, 1, this->work[MO_TENT_BASE_TEX2_X],
-                                this->work[MO_TENT_BASE_TEX2_Y], 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->work[MO_TENT_BASE_TEX1_X], this->work[MO_TENT_BASE_TEX1_Y],
+                                32, 32, 1, this->work[MO_TENT_BASE_TEX2_X], this->work[MO_TENT_BASE_TEX2_Y], 32, 32));
     gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)((this->baseAlpha * 12.0f) / 10.0f));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->baseAlpha);
     scroll = (s16)(Math_SinS(this->work[MO_TENT_VAR_TIMER] * 0xB00) * 30.0f) + 350;
@@ -2850,8 +2846,8 @@ void BossMo_UpdateEffects(BossMo* this, PlayState* play) {
                         if (effect->type == MO_FX_SPLASH) {
                             Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
-                            BossMo_SpawnDroplet(MO_FX_SPLASH_TRAIL, (BossMoEffect*)play->specialEffects,
-                                                &effect->pos, &velocity, effect->scale);
+                            BossMo_SpawnDroplet(MO_FX_SPLASH_TRAIL, (BossMoEffect*)play->specialEffects, &effect->pos,
+                                                &velocity, effect->scale);
                         }
                         if (effect->vel.y < -20.0f) {
                             effect->vel.y = -20.0f;

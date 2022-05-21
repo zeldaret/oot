@@ -99,8 +99,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, PlayState* play) {
     MagicFire* this = (MagicFire*)thisx;
     Player* player = GET_PLAYER(play);
 
-    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) ||
-        (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -120,8 +119,7 @@ void MagicFire_Update(Actor* thisx, PlayState* play) {
 
     if (1) {}
     this->actor.world.pos = player->actor.world.pos;
-    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) ||
-        (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
+    if ((play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK) || (play->msgCtx.msgMode == MSGMODE_SONG_PLAYED)) {
         Actor_Kill(&this->actor);
         return;
     }

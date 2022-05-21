@@ -344,6 +344,6 @@ void EnKakasi_Draw(Actor* thisx, PlayState* play) {
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ フラグ！ ☆☆☆☆☆ %d\n" VT_RST, gSaveContext.scarecrowLongSongSet);
     }
     func_80093D18(play->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
-                          NULL, NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount, NULL,
+                          NULL, this);
 }

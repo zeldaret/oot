@@ -155,8 +155,7 @@ void ObjLightswitch_SpawnDisappearEffects(ObjLightswitch* this, PlayState* play)
         pos.x = this->actor.world.pos.x + ((z * s) + (x * c));
         pos.y = this->actor.world.pos.y + y + 10.0f;
         pos.z = this->actor.world.pos.z + ((z * c) - (x * s));
-        EffectSsDeadDb_Spawn(play, &pos, &D_80B97F74, &D_80B97F74, 100, 0, 255, 255, 160, 160, 255, 0, 0, 1, 9,
-                             true);
+        EffectSsDeadDb_Spawn(play, &pos, &D_80B97F74, &D_80B97F74, 100, 0, 255, 255, 160, 160, 255, 0, 0, 1, 9, true);
     }
 }
 
@@ -186,9 +185,9 @@ void ObjLightswitch_Init(Actor* thisx, PlayState* play) {
         this->actor.world.rot.x = this->actor.home.rot.x = this->actor.shape.rot.x;
         this->actor.world.rot.z = this->actor.home.rot.z = this->actor.shape.rot.z;
         this->actor.flags |= ACTOR_FLAG_5;
-        if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_OBJ_OSHIHIKI,
-                               this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, 0,
-                               this->actor.home.rot.y, 0, (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
+        if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_OBJ_OSHIHIKI, this->actor.home.pos.x,
+                               this->actor.home.pos.y, this->actor.home.pos.z, 0, this->actor.home.rot.y, 0,
+                               (0xFF << 8) | PUSHBLOCK_SMALL_START_ON) == NULL) {
             osSyncPrintf(VT_COL(RED, WHITE));
             // "Push-pull block occurrence failure"
             osSyncPrintf("押引ブロック発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_obj_lightswitch.c", 452,

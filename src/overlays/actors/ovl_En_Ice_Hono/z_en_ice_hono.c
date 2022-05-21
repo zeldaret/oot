@@ -240,9 +240,8 @@ void EnIceHono_DropFlame(EnIceHono* this, PlayState* play) {
     if (bgFlag != 0) {
         s32 i;
         for (i = 0; i < 8; i++) {
-            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ICE_HONO, this->actor.world.pos.x,
-                        this->actor.world.pos.y, this->actor.world.pos.z, 0,
-                        ((s32)(Rand_ZeroOne() * 1000.0f) + i * 0x2000) - 0x1F4, 0, 1);
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ICE_HONO, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, 0, ((s32)(Rand_ZeroOne() * 1000.0f) + i * 0x2000) - 0x1F4, 0, 1);
         }
         EnIceHono_SetupActionSpreadFlames(this);
     }
@@ -292,9 +291,8 @@ void EnIceHono_SpreadFlames(EnIceHono* this, PlayState* play) {
         s32 i;
         for (i = 0; i < 10; i++) {
             s32 rot = i * 0x1999;
-            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ICE_HONO, this->actor.world.pos.x,
-                        this->actor.world.pos.y, this->actor.world.pos.z, 0,
-                        ((s32)(Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0, 2);
+            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ICE_HONO, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, 0, ((s32)(Rand_ZeroOne() * 1000.0f) + rot) - 0x1F4, 0, 2);
         }
     }
 
@@ -379,16 +377,14 @@ void EnIceHono_Draw(Actor* thisx, PlayState* play) {
     func_80093D84(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (play->state.frames * -20) % 512,
-                                32, 128));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (play->state.frames * -20) % 512, 32, 128));
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 170, 255, 255, this->alpha);
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 150, 255, 0);
 
-    Matrix_RotateY(
-        BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
-        MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y + 0x8000)),
+                   MTXMODE_APPLY);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ice_hono.c", 718),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

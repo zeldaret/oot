@@ -390,10 +390,8 @@ void Skybox_Setup(PlayState* play, SkyboxContext* skyboxCtx, s16 skyboxId) {
                 if (gSaveContext.skyboxTime >= gTimeBasedSkyboxConfigs[skyboxConfig][i].startTime &&
                     (gSaveContext.skyboxTime < gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime ||
                      gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime == 0xFFFF)) {
-                    play->envCtx.skybox1Index = skybox1Index =
-                        gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox1Index;
-                    play->envCtx.skybox2Index = skybox2Index =
-                        gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox2Index;
+                    play->envCtx.skybox1Index = skybox1Index = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox1Index;
+                    play->envCtx.skybox2Index = skybox2Index = gTimeBasedSkyboxConfigs[skyboxConfig][i].skybox2Index;
                     if (gTimeBasedSkyboxConfigs[skyboxConfig][i].changeSkybox) {
                         play->envCtx.skyboxBlend =
                             Environment_LerpWeight(gTimeBasedSkyboxConfigs[skyboxConfig][i].endTime,

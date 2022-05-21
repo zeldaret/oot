@@ -448,9 +448,8 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
 
             beamParams = ((play->sceneNum == SCENE_DAIYOUSEI_IZUMI) ? 0 : 1);
 
-            this->beam =
-                (EnDyExtra*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DY_EXTRA,
-                                               beamPos.x, beamPos.y, beamPos.z, 0, 0, 0, beamParams);
+            this->beam = (EnDyExtra*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_DY_EXTRA,
+                                                        beamPos.x, beamPos.y, beamPos.z, 0, 0, 0, beamParams);
         }
     }
     if (this->refillTimer > 1) {
@@ -696,8 +695,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
 
         } else if (!this->lightBallSpawned) {
             demoEffectParams = ((s16)(sDemoEffectLightColors[actionIndex] << 0xC) | DEMO_EFFECT_LIGHT);
-            Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
-                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, (s32)demoEffectParams);
+            Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, 0, 0, 0, (s32)demoEffectParams);
             this->lightBallSpawned = true;
         }
     } else {
@@ -747,9 +746,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
             itemPos.y = (LINK_IS_ADULT ? player->actor.world.pos.y + 73.0f : player->actor.world.pos.y + 53.0f);
             itemPos.z = player->actor.world.pos.z;
 
-            this->item =
-                (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM,
-                                              itemPos.x, itemPos.y, itemPos.z, 0, 0, 0, sExItemTypes[actionIndex]);
+            this->item = (EnExItem*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, itemPos.x,
+                                                       itemPos.y, itemPos.z, 0, 0, 0, sExItemTypes[actionIndex]);
 
             if (this->item != NULL) {
                 if (gSaveContext.magicAcquired == 0) {
@@ -792,8 +790,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
     if ((play->csCtx.npcActions[0]->action >= 19) && (play->csCtx.npcActions[0]->action < 22) &&
         !this->warpEffectSpawned) {
         actionIndex = play->csCtx.npcActions[0]->action - 11;
-        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x,
-                    player->actor.world.pos.y, player->actor.world.pos.z, 0, 0, 0, actionIndex);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, player->actor.world.pos.x, player->actor.world.pos.y,
+                    player->actor.world.pos.z, 0, 0, 0, actionIndex);
         this->warpEffectSpawned = true;
     }
     BgDyYoseizo_Bob(this, play);
@@ -821,16 +819,16 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     if (play->csCtx.state != CS_STATE_IDLE) {
         sfx = 0;
         if (play->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) ||
-                (play->csCtx.frames == 426) || (play->csCtx.frames == 851)) {
+            if ((play->csCtx.frames == 32) || (play->csCtx.frames == 291) || (play->csCtx.frames == 426) ||
+                (play->csCtx.frames == 851)) {
                 sfx = 1;
             }
             if (play->csCtx.frames == 101) {
                 sfx = 2;
             }
         } else {
-            if ((play->csCtx.frames == 35) || (play->csCtx.frames == 181) ||
-                (play->csCtx.frames == 462) || (play->csCtx.frames == 795)) {
+            if ((play->csCtx.frames == 35) || (play->csCtx.frames == 181) || (play->csCtx.frames == 462) ||
+                (play->csCtx.frames == 795)) {
                 sfx = 1;
             }
             if (play->csCtx.frames == 90) {
@@ -864,8 +862,7 @@ void BgDyYoseizo_Update(Actor* thisx, PlayState* play2) {
     Actor_SetScale(&this->actor, this->scale);
 }
 
-s32 BgDyYoseizo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 void* thisx) {
+s32 BgDyYoseizo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BgDyYoseizo* this = (BgDyYoseizo*)thisx;
 
     if (limbIndex == 8) { // Torso
@@ -904,8 +901,8 @@ void BgDyYoseizo_Draw(Actor* thisx, PlayState* play) {
 
         gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthState]));
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, BgDyYoseizo_OverrideLimbDraw, NULL, this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              BgDyYoseizo_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_bg_dy_yoseizo.c", 1629);
     BgDyYoseizo_DrawEffects(this, play);

@@ -112,8 +112,8 @@ s32 EnFw_PlayerInRange(EnFw* this, PlayState* play) {
         return false;
     }
 
-    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &collisionPos,
-                                &poly, true, false, false, true, &bgId)) {
+    if (BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &collisionPos, &poly,
+                                true, false, false, true, &bgId)) {
         return false;
     }
 
@@ -187,8 +187,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 void EnFw_Init(Actor* thisx, PlayState* play) {
     EnFw* this = (EnFw*)thisx;
 
-    SkelAnime_InitFlex(play, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable,
-                       11);
+    SkelAnime_InitFlex(play, &this->skelAnime, &gFlareDancerCoreSkel, NULL, this->jointTable, this->morphTable, 11);
     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENFW_ANIM_0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(play, &this->collider);
@@ -363,8 +362,7 @@ void EnFw_Update(Actor* thisx, PlayState* play) {
     if (!CHECK_FLAG_ALL(this->actor.flags, ACTOR_FLAG_13)) {
         // not attached to hookshot.
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 20.0f, 0.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 10.0f, 20.0f, 0.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         this->actionFunc(this, play);
         if (this->damageTimer == 0 && this->explosionTimer == 0 && this->actionFunc == EnFw_Run) {
             CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
@@ -373,8 +371,7 @@ void EnFw_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnFw_OverrideLimbDraw(PlayState* PlayState, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                          void* thisx) {
+s32 EnFw_OverrideLimbDraw(PlayState* PlayState, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     return false;
 }
 

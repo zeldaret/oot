@@ -14,8 +14,7 @@ void EffectSs_InitInfo(PlayState* play, s32 tableSize) {
                      (u32)overlay->vramEnd - (u32)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
     }
 
-    sEffectSsInfo.table =
-        GameState_Alloc(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
+    sEffectSsInfo.table = GameState_Alloc(&play->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
     ASSERT(sEffectSsInfo.table != NULL, "EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
 
     sEffectSsInfo.searchStartIndex = 0;

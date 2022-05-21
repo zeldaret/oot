@@ -630,8 +630,7 @@ void func_80B0D878(EnSw* this, PlayState* play) {
         pos.y += 10.0f + ((Rand_ZeroOne() - 0.5f) * 6.0f);
         pos.x += (Rand_ZeroOne() - 0.5f) * 32.0f;
         pos.z += (Rand_ZeroOne() - 0.5f) * 32.0f;
-        EffectSsDeadDb_Spawn(play, &pos, &velAndAccel, &velAndAccel, 42, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9,
-                             true);
+        EffectSsDeadDb_Spawn(play, &pos, &velAndAccel, &velAndAccel, 42, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, true);
     }
 }
 
@@ -669,8 +668,7 @@ void func_80B0DC7C(EnSw* this, PlayState* play) {
         pos.y = ((Rand_ZeroOne() - 0.5f) * 6.0f) + (this->actor.world.pos.y + 10.0f);
         pos.x = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.x;
         pos.z = ((Rand_ZeroOne() - 0.5f) * 32.0f) + this->actor.world.pos.z;
-        EffectSsDeadDb_Spawn(play, &pos, &velAndAccel, &velAndAccel, 42, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9,
-                             1);
+        EffectSsDeadDb_Spawn(play, &pos, &velAndAccel, &velAndAccel, 42, 0, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
         this->actor.shape.rot.x += 0x1000;
         this->actor.shape.rot.z += 0x1000;
     } else {
@@ -702,8 +700,8 @@ s32 func_80B0DEA8(EnSw* this, PlayState* play, s32 arg2) {
         return false;
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos) >= 130.0f) {
         return false;
-    } else if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &sp48,
-                                        &sp58, true, false, false, true, &sp54)) {
+    } else if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &player->actor.world.pos, &sp48, &sp58,
+                                        true, false, false, true, &sp54)) {
         return true;
     } else {
         return false;
@@ -725,8 +723,8 @@ s32 func_80B0DFFC(EnSw* this, PlayState* play) {
                                         false, false, true, &sp5C)) {
         sp4C = false;
     } else if (((play->state.frames % 4) == 1) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, true,
-                                       false, false, true, &sp5C)) {
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, true, false,
+                                       false, true, &sp5C)) {
         sp4C = false;
     } else if (((play->state.frames % 4) == 2) &&
                !BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_46C, &sp50, &sp60, true,
@@ -734,8 +732,8 @@ s32 func_80B0DFFC(EnSw* this, PlayState* play) {
         if (0) {}
         sp4C = false;
     } else if (((play->state.frames % 4) == 3) &&
-               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, true,
-                                       false, false, true, &sp5C)) {
+               BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, true, false,
+                                       false, true, &sp5C)) {
         sp4C = false;
     }
 

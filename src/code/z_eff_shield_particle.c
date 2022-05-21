@@ -51,8 +51,7 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
         if (this->lightDecay == true) {
             this->lightInfo.type = LIGHT_POINT_NOGLOW;
             this->lightInfo.params.point = initParams->lightPoint;
-            this->lightNode =
-                LightContext_InsertLight(Effect_Getplay(), &Effect_Getplay()->lightCtx, &this->lightInfo);
+            this->lightNode = LightContext_InsertLight(Effect_Getplay(), &Effect_Getplay()->lightCtx, &this->lightInfo);
         } else {
             this->lightNode = NULL;
         }

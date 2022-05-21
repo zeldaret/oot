@@ -200,8 +200,8 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
                 Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                 Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
                 this->unk_39C = 1;
-                sZelda = (EnZl3*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ZL3, 970.0f,
-                                                    1086.0f, -200.0f, 0, 0, 0, 1);
+                sZelda = (EnZl3*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ZL3, 970.0f, 1086.0f,
+                                                    -200.0f, 0, 0, 0, 1);
                 sZelda->unk_3C8 = 0;
                 sZelda->actor.world.pos.x = 970.0f;
                 sZelda->actor.world.pos.y = 1086.0f;
@@ -666,8 +666,8 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
             }
             if (this->unk_398 == 80) {
                 BossGanon2_SetObjectSegment(this, play, OBJECT_GANON2, false);
-                TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
-                                       SEGMENTED_TO_VIRTUAL(object_ganon2_Tex_021A90), 160, 180, 128, 40);
+                TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(object_ganon2_Tex_021A90),
+                                       160, 180, 128, 40);
             }
             this->subCamEye.x = ((this->actor.world.pos.x + 500.0f) - 350.0f) + 100.0f;
             this->subCamEye.y = this->actor.world.pos.y;
@@ -716,8 +716,8 @@ void func_808FD5F4(BossGanon2* this, PlayState* play) {
             }
             if (this->unk_398 >= 229) {
                 play->envCtx.fillScreen = true;
-                play->envCtx.screenFillColor[0] = play->envCtx.screenFillColor[1] =
-                    play->envCtx.screenFillColor[2] = 255;
+                play->envCtx.screenFillColor[0] = play->envCtx.screenFillColor[1] = play->envCtx.screenFillColor[2] =
+                    255;
                 play->envCtx.screenFillColor[3] = 100;
                 if (this->unk_398 == 234) {
                     Vec3f sp68;
@@ -1447,8 +1447,7 @@ void func_8090109C(BossGanon2* this, PlayState* play) {
         pos.x = this->unk_1B8.x;
         pos.y = this->unk_1B8.y;
         pos.z = this->unk_1B8.z;
-        func_8002836C(play, &pos, &velocity, &accel, &sPrimColor, &sEnvColor, (s16)Rand_ZeroFloat(50.0f) + 50, 0,
-                      17);
+        func_8002836C(play, &pos, &velocity, &accel, &sPrimColor, &sEnvColor, (s16)Rand_ZeroFloat(50.0f) + 50, 0, 17);
     }
 }
 
@@ -2115,8 +2114,7 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
             play->envCtx.prevLightSetting = 6;
             play->envCtx.lightSetting = 7;
             Math_ApproachF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
-            play->envCtx.lightBlend =
-                (Math_SinS(play->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
+            play->envCtx.lightBlend = (Math_SinS(play->gameplayFrames * 0x5000) * 0.15f) + (0.15f + this->unk_33C);
             break;
         case 55:
             play->envCtx.prevLightSetting = 2;
@@ -2127,8 +2125,7 @@ void BossGanon2_Update(Actor* thisx, PlayState* play) {
             play->envCtx.prevLightSetting = 2;
             play->envCtx.lightSetting = 8;
             Math_ApproachF(&this->unk_33C, 0.69f, 1.0f, 0.05f);
-            play->envCtx.lightBlend =
-                (Math_SinS(play->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
+            play->envCtx.lightBlend = (Math_SinS(play->gameplayFrames * 0x7000) * 0.15f) + (0.15f + this->unk_33C);
             break;
         case 7:
             play->envCtx.prevLightSetting = 0;
@@ -2386,9 +2383,8 @@ void func_80903F38(BossGanon2* this, PlayState* play) {
     }
 
     if (D_80910638 >= 4) {
-        gSPSegment(
-            POLY_XLU_DISP++, 0x08,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, play->gameplayFrames * 18, 0, 32, 32));
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, play->gameplayFrames * 18, 0, 32, 32));
         gDPPipeSync(POLY_XLU_DISP++);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, D_80907080);
         Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
@@ -2498,8 +2494,7 @@ void func_8090464C(BossGanon2* this, PlayState* play) {
     }
 }
 
-s32 BossGanon2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                void* thisx) {
+s32 BossGanon2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     s32 pad;
     BossGanon2* this = (BossGanon2*)thisx;
 

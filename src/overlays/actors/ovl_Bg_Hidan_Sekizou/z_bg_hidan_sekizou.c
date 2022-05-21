@@ -407,15 +407,15 @@ void BgHidanSekizou_Draw(Actor* thisx, PlayState* play2) {
     if (this->dyna.actor.params == 0) {
         if (this->unk_168[0] > 0) {
             if ((s16)(Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->dyna.actor.shape.rot.y) >= 0) {
-                POLY_XLU_DISP = func_8088DC50(play, this, this->dyna.actor.shape.rot.y + 0x2000, this->unk_168[0],
-                                              POLY_XLU_DISP);
-                POLY_XLU_DISP = func_8088DC50(play, this, this->dyna.actor.shape.rot.y - 0x2000, this->unk_168[0],
-                                              POLY_XLU_DISP);
+                POLY_XLU_DISP =
+                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y + 0x2000, this->unk_168[0], POLY_XLU_DISP);
+                POLY_XLU_DISP =
+                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y - 0x2000, this->unk_168[0], POLY_XLU_DISP);
             } else {
-                POLY_XLU_DISP = func_8088DC50(play, this, this->dyna.actor.shape.rot.y - 0x2000, this->unk_168[0],
-                                              POLY_XLU_DISP);
-                POLY_XLU_DISP = func_8088DC50(play, this, this->dyna.actor.shape.rot.y + 0x2000, this->unk_168[0],
-                                              POLY_XLU_DISP);
+                POLY_XLU_DISP =
+                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y - 0x2000, this->unk_168[0], POLY_XLU_DISP);
+                POLY_XLU_DISP =
+                    func_8088DC50(play, this, this->dyna.actor.shape.rot.y + 0x2000, this->unk_168[0], POLY_XLU_DISP);
             }
         }
     } else {

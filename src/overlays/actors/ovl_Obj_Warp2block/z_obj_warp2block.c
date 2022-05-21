@@ -65,9 +65,8 @@ static Color_RGB8 sColors[] = {
 };
 
 void ObjWarp2block_Spawn(ObjWarp2block* this, PlayState* play) {
-    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0,
-                sSpawnData[(this->dyna.actor.params >> 8) & 1].params);
+    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
+                this->dyna.actor.world.pos.z, 0, 0, 0, sSpawnData[(this->dyna.actor.params >> 8) & 1].params);
 
     Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.child->world.pos.x,
                 this->dyna.actor.child->world.pos.y, this->dyna.actor.child->world.pos.z, 0, 0, 0,

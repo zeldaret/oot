@@ -156,8 +156,8 @@ s32 SkelCurve_Update(PlayState* play, SkelCurve* skelCurve) {
 /**
  * Recursively draws limbs with appropriate properties.
  */
-void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve,
-                        OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
+void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
+                        PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     SkelCurveLimb* limb = SEGMENTED_TO_VIRTUAL(skelCurve->skeleton[limbIndex]);
 
     OPEN_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 279);
@@ -234,8 +234,8 @@ void SkelCurve_DrawLimb(PlayState* play, s32 limbIndex, SkelCurve* skelCurve,
     CLOSE_DISPS(play->state.gfxCtx, "../z_fcurve_data_skelanime.c", 371);
 }
 
-void SkelCurve_Draw(Actor* actor, PlayState* play, SkelCurve* skelCurve,
-                    OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
+void SkelCurve_Draw(Actor* actor, PlayState* play, SkelCurve* skelCurve, OverrideCurveLimbDraw overrideLimbDraw,
+                    PostCurveLimbDraw postLimbDraw, s32 lod, void* data) {
     if (skelCurve->jointTable != NULL) {
         SkelCurve_DrawLimb(play, 0, skelCurve, overrideLimbDraw, postLimbDraw, lod, data);
     }

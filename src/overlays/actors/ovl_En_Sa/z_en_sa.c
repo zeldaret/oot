@@ -217,8 +217,8 @@ s16 func_80AF56F4(PlayState* play, Actor* thisx) {
 }
 
 void func_80AF57D8(EnSa* this, PlayState* play) {
-    if (play->sceneNum != SCENE_SPOT05 ||
-        ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 || this->unk_1E0.unk_00 != 0) {
+    if (play->sceneNum != SCENE_SPOT05 || ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 ||
+        this->unk_1E0.unk_00 != 0) {
         func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f, func_80AF55E0,
                       func_80AF56F4);
     }
@@ -751,8 +751,7 @@ void EnSa_Update(Actor* thisx, PlayState* play) {
     func_80AF5F34(this, play);
 }
 
-s32 EnSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                          Gfx** gfx) {
+s32 EnSa_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnSa* this = (EnSa*)thisx;
     s32 pad;
     Vec3s sp18;

@@ -389,8 +389,8 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
                 raycastFrom.x = this->actor.world.pos.x;
                 raycastFrom.y = this->actor.world.pos.y + 50.0f;
                 raycastFrom.z = this->actor.world.pos.z;
-                floorY = BgCheck_EntityRaycastFloor5(play, &play->colCtx, &floorPoly, &floorBgId,
-                                                     &this->actor, &raycastFrom);
+                floorY = BgCheck_EntityRaycastFloor5(play, &play->colCtx, &floorPoly, &floorBgId, &this->actor,
+                                                     &raycastFrom);
                 yDistToFloor = floorY - (this->actor.world.pos.y - 59.5f);
                 if (fabsf(yDistToFloor) < 15.0f) {
                     dustPos.x = this->actor.world.pos.x;
@@ -408,8 +408,8 @@ s32 EnGoroiwa_MoveDownToNextWaypoint(EnGoroiwa* this, PlayState* play) {
         this->actor.world.pos.y = nextPointY - ((this->actor.world.pos.y - nextPointY) * 0.3f);
     }
     if (this->bounceCount == 0 &&
-        WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                &ySurface, &waterBox) &&
+        WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &ySurface,
+                                &waterBox) &&
         this->actor.world.pos.y <= ySurface) {
         this->stateFlags |= ENGOROIWA_IN_WATER;
         if (ySurface < thisY) {

@@ -159,12 +159,9 @@ void func_80ABF0CC(EnOkarinaTag* this, PlayState* play) {
             return;
         }
         if (this->unk_158 != 0) {
-            if ((play->msgCtx.ocarinaMode == OCARINA_MODE_05) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_06) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_07) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_08) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_09) ||
-                (play->msgCtx.ocarinaMode == OCARINA_MODE_0A) ||
+            if ((play->msgCtx.ocarinaMode == OCARINA_MODE_05) || (play->msgCtx.ocarinaMode == OCARINA_MODE_06) ||
+                (play->msgCtx.ocarinaMode == OCARINA_MODE_07) || (play->msgCtx.ocarinaMode == OCARINA_MODE_08) ||
+                (play->msgCtx.ocarinaMode == OCARINA_MODE_09) || (play->msgCtx.ocarinaMode == OCARINA_MODE_0A) ||
                 (play->msgCtx.ocarinaMode == OCARINA_MODE_0D)) {
                 if (this->switchFlag >= 0) {
                     Flags_SetSwitch(play, this->switchFlag);
@@ -253,7 +250,7 @@ void func_80ABF4C8(EnOkarinaTag* this, PlayState* play) {
                 break;
             case 6:
                 play->csCtx.segment = LINK_IS_ADULT ? SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_003C80)
-                                                         : SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_005020);
+                                                    : SEGMENTED_TO_VIRTUAL(&spot02_scene_Cs_005020);
                 gSaveContext.cutsceneTrigger = 1;
                 SET_EVENTCHKINF(EVENTCHKINF_1D);
                 func_80078884(NA_SE_SY_CORRECT_CHIME);

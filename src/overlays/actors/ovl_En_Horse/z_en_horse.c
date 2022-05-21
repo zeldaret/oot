@@ -867,9 +867,8 @@ void EnHorse_Init(Actor* thisx, PlayState* play2) {
         EnHorse_InitInactive(this);
     } else if (this->actor.params == 3) {
         EnHorse_InitIngoHorse(this);
-        this->rider =
-            Actor_Spawn(&play->actorCtx, play, ACTOR_EN_IN, this->actor.world.pos.x, this->actor.world.pos.y,
-                        this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, 1, 1);
+        this->rider = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_IN, this->actor.world.pos.x, this->actor.world.pos.y,
+                                  this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, 1, 1);
         ASSERT(this->rider != NULL, "this->race.rider != NULL", "../z_en_horse.c", 3077);
         if (!GET_EVENTINF(EVENTINF_HORSES_06)) {
             this->ingoHorseMaxSpeed = 12.07f;
@@ -979,8 +978,8 @@ void EnHorse_Frozen(EnHorse* this, PlayState* play) {
 
 void EnHorse_StickDirection(Vec2f* curStick, f32* stickMag, s16* angle);
 
-void EnHorse_UpdateSpeed(EnHorse* this, PlayState* play, f32 brakeDecel, f32 brakeAngle, f32 minStickMag,
-                         f32 decel, f32 baseSpeed, s16 turnSpeed) {
+void EnHorse_UpdateSpeed(EnHorse* this, PlayState* play, f32 brakeDecel, f32 brakeAngle, f32 minStickMag, f32 decel,
+                         f32 baseSpeed, s16 turnSpeed) {
     s16* stickAnglePtr; // probably fake
     f32 stickMag;
     s16 stickAngle;
@@ -1021,10 +1020,9 @@ void EnHorse_UpdateSpeed(EnHorse* this, PlayState* play, f32 brakeDecel, f32 bra
 
     if (this->stateFlags & ENHORSE_BOOST) {
         if ((16 - this->boostTimer) > 0) {
-            this->actor.speedXZ =
-                (EnHorse_SlopeSpeedMultiplier(this, play) * this->boostSpeed - this->actor.speedXZ) /
-                    (16 - this->boostTimer) +
-                this->actor.speedXZ;
+            this->actor.speedXZ = (EnHorse_SlopeSpeedMultiplier(this, play) * this->boostSpeed - this->actor.speedXZ) /
+                                      (16 - this->boostTimer) +
+                                  this->actor.speedXZ;
         } else {
             this->actor.speedXZ = EnHorse_SlopeSpeedMultiplier(this, play) * this->boostSpeed;
         }
@@ -2835,8 +2833,7 @@ void EnHorse_Vec3fOffset(Vec3f* src, s16 yaw, f32 dist, f32 height, Vec3f* dst) 
     dst->z = src->z + Math_CosS(yaw) * dist;
 }
 
-s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, CollisionPoly** floorPoly,
-                            f32* floorHeight) {
+s32 EnHorse_CalcFloorHeight(EnHorse* this, PlayState* play, Vec3f* pos, CollisionPoly** floorPoly, f32* floorHeight) {
     s32 bgId;
     f32 waterY;
     WaterBox* waterBox;
@@ -2917,8 +2914,8 @@ void EnHorse_CheckFloors(EnHorse* this, PlayState* play) {
     WaterBox* waterBox;
     s32 pad;
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                &waterHeight, &waterBox) == 1 &&
+    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterHeight,
+                                &waterBox) == 1 &&
         this->actor.floorHeight < waterHeight) {
         EnHorse_ObstructMovement(this, play, 1, galloping);
         return;
@@ -3557,8 +3554,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl1.base);
         CollisionCheck_SetOC(play, &play->colChkCtx, &this->cyl2.base);
         if ((player->stateFlags1 & PLAYER_STATE1_0) && player->rideActor != NULL) {
-            if (play->sceneNum != SCENE_SPOT20 ||
-                (play->sceneNum == SCENE_SPOT20 && (thisx->world.pos.z < -2400.0f))) {
+            if (play->sceneNum != SCENE_SPOT20 || (play->sceneNum == SCENE_SPOT20 && (thisx->world.pos.z < -2400.0f))) {
                 EnHorse_UpdateConveyors(this, play);
             }
         }

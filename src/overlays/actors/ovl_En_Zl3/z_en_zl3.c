@@ -141,8 +141,7 @@ void func_80B53614(EnZl3* this, PlayState* play) {
 }
 
 void func_80B5366C(EnZl3* this, PlayState* play) {
-    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 void func_80B536B4(EnZl3* this) {
@@ -596,8 +595,7 @@ void func_80B54360(EnZl3* this, s16 arg1, s32 arg2) {
     this->unk_2BC[arg2] = arg1;
 }
 
-s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx) {
+s32 func_80B5458C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     s32 pad[3];
     EnZl3* this = (EnZl3*)thisx;
     s16* unk_28C = this->unk_28C;
@@ -784,8 +782,8 @@ void func_80B54F18(EnZl3* this, PlayState* play) {
         f32 posY = this->actor.world.pos.y + (kREG(5) + -26.0f);
         f32 posZ = this->actor.world.pos.z;
 
-        Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, WARP_PURPLE_CRYSTAL);
+        Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000, 0,
+                           WARP_PURPLE_CRYSTAL);
         this->unk_2F8 = 1;
     }
 }
@@ -1813,8 +1811,8 @@ void func_80B5772C(EnZl3* this, PlayState* play) {
 
 void func_80B57754(EnZl3* this, PlayState* play) {
     if (gSaveContext.unk_13F0 == 0) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_OCEFF_WIPE4, this->actor.world.pos.x,
-                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 1);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_OCEFF_WIPE4, this->actor.world.pos.x, this->actor.world.pos.y,
+                    this->actor.world.pos.z, 0, 0, 0, 1);
         func_80B56DA4(this);
     }
 }
@@ -2445,8 +2443,7 @@ void func_80B593D0(EnZl3* this, PlayState* play) {
     func_80B58C08(this, play);
 }
 
-s32 func_80B5944C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx) {
+s32 func_80B5944C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     if (limbIndex == 14) {
         Mtx* mtx = Graph_Alloc(play->state.gfxCtx, sizeof(Mtx) * 7);
         EnZl3* this = (EnZl3*)thisx;

@@ -203,8 +203,7 @@ void EnZl2_setMouthIndex(EnZl2* this, s16 index) {
 }
 
 void func_80B4ED2C(EnZl2* this, PlayState* play) {
-    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 EnZl2_UpdateSkelAnime(EnZl2* this) {
@@ -433,8 +432,7 @@ void func_80B4F230(EnZl2* this, s16 arg1, s32 arg2) {
     this->unk_20C[arg2] = arg1;
 }
 
-s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                  Gfx** gfx) {
+s32 func_80B4F45C(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     s32 pad;
     EnZl2* this = (EnZl2*)thisx;
     Mtx* sp74;
@@ -663,8 +661,8 @@ void func_80B4FFF0(EnZl2* this, PlayState* play) {
         posY = this->actor.world.pos.y + (kREG(5) + -26.0f);
         posZ = this->actor.world.pos.z;
 
-        Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000,
-                           0, WARP_PURPLE_CRYSTAL);
+        Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0x4000, 0,
+                           WARP_PURPLE_CRYSTAL);
         this->unk_248 = 1;
     }
 }
@@ -716,8 +714,7 @@ void func_80B501E8(EnZl2* this, PlayState* play) {
 
     if (npcAction != NULL) {
         this->actor.shape.shadowAlpha = this->alpha =
-            (1.0f - Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames)) *
-            255.0f;
+            (1.0f - Environment_LerpWeight(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames)) * 255.0f;
         func_80B501C4(this, this->alpha);
     }
 }

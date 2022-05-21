@@ -481,8 +481,7 @@ void EnCs_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[linkChildObjectLoadEntryIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx - 7);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildSpookyMaskDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06,
-                       play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
         }
     }
 

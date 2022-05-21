@@ -198,8 +198,8 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
             case FIRE_ROCK_SPAWNED_FALLING2:
                 func_80033E88(&this->actor, play, 5, 2);
             case FIRE_ROCK_BROKEN_PIECE1:
-                Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale,
-                                         1, 8.0f, 500, 10, false);
+                Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
+                                         8.0f, 500, 10, false);
                 for (i = 0; i < 5; i++) {
                     flamePos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
                     flamePos.y = this->actor.floorHeight;
@@ -209,8 +209,8 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
                 this->actionFunc = EnFireRock_SpawnMoreBrokenPieces;
                 break;
             default:
-                Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale,
-                                         3, 8.0f, 200, 10, false);
+                Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 3,
+                                         8.0f, 200, 10, false);
                 SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EV_EXPLOSION);
                 Actor_Kill(&this->actor);
                 break;

@@ -165,8 +165,7 @@ void EnDh_Destroy(Actor* thisx, PlayState* play) {
     Collider_DestroyJntSph(play, &this->collider2);
 }
 
-void EnDh_SpawnDebris(PlayState* play, EnDh* this, Vec3f* spawnPos, f32 spread, s32 arg4, f32 accelXZ,
-                      f32 scale) {
+void EnDh_SpawnDebris(PlayState* play, EnDh* this, Vec3f* spawnPos, f32 spread, s32 arg4, f32 accelXZ, f32 scale) {
     Vec3f pos;
     Vec3f vel = { 0.0f, 8.0f, 0.0f };
     Vec3f accel = { 0.0f, -1.5f, 0.0f };
@@ -554,8 +553,8 @@ void EnDh_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         POLY_OPA_DISP =
-            SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                               this->skelAnime.dListCount, NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
+            SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                               NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
         func_80093D84(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
@@ -568,8 +567,7 @@ void EnDh_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, 85, 55, 0, 130);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->state.frames * -3) % 0x80, 0, 0x20, 0x40, 1,
-                                    (play->state.frames * -10) % 0x80, (play->state.frames * -20) % 0x100,
-                                    0x20, 0x40));
+                                    (play->state.frames * -10) % 0x80, (play->state.frames * -20) % 0x100, 0x20, 0x40));
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 0, 0, 0, this->dirtWaveAlpha);
 
         Matrix_Translate(0.0f, -this->actor.shape.yOffset, 0.0f, MTXMODE_APPLY);

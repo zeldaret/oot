@@ -80,8 +80,7 @@ void OceffSpot_End(OceffSpot* this, PlayState* play) {
         this->unk_174 -= 0.05f;
     } else {
         Actor_Kill(&this->actor);
-        if (gTimeSpeed != 400 && play->msgCtx.unk_E40E == 0 &&
-            GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
+        if (gTimeSpeed != 400 && play->msgCtx.unk_E40E == 0 && GET_EVENTINF_HORSES_STATE() != EVENTINF_HORSES_STATE_1) {
             if (play->msgCtx.ocarinaAction != OCARINA_ACTION_CHECK_NOWARP_DONE ||
                 play->msgCtx.ocarinaMode != OCARINA_MODE_08) {
                 gSaveContext.sunsSongState = SUNSSONG_START;
@@ -157,8 +156,8 @@ void OceffSpot_Draw(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_oceff_spot.c", 469),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, sCylinderMaterialDL);
-    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32, 1,
-                                                     0, scroll * (-8), 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(play->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 32, 1, 0,
+                                                     scroll * (-8), 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sCylinderModelDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_oceff_spot.c", 485);

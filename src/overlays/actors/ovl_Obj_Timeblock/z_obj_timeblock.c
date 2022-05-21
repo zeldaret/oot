@@ -83,8 +83,8 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
 }
 
 void ObjTimeblock_SpawnDemoEffect(ObjTimeblock* this, PlayState* play) {
-    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0,
+    Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
+                this->dyna.actor.world.pos.z, 0, 0, 0,
                 sSizeOptions[(this->dyna.actor.params >> 8) & 1].demoEffectParams);
 }
 

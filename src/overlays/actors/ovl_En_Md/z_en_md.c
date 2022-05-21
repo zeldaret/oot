@@ -555,8 +555,8 @@ void func_80AAB158(EnMd* this, PlayState* play) {
     func_80034A14(&this->actor, &this->unk_1E0, 2, temp);
     if (this->actionFunc != func_80AABC10) {
         if (temp2) {
-            func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f,
-                          EnMd_GetText, func_80AAAF04);
+            func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f, EnMd_GetText,
+                          func_80AAAF04);
         }
     }
 }
@@ -809,8 +809,7 @@ void EnMd_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 }
 
-s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                          Gfx** gfx) {
+s32 EnMd_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnMd* this = (EnMd*)thisx;
     Vec3s vec;
 

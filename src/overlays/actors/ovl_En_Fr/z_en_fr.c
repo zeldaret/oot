@@ -283,11 +283,11 @@ void EnFr_Update(Actor* thisx, PlayState* play) {
         sEnFrPointers.frogs[frogIndex] = this;
         Actor_ProcessInitChain(&this->actor, sInitChain);
         // frog
-        SkelAnime_InitFlex(play, &this->skelAnime, &object_fr_Skel_00B498, &object_fr_Anim_001534,
-                           this->jointTable, this->morphTable, 24);
+        SkelAnime_InitFlex(play, &this->skelAnime, &object_fr_Skel_00B498, &object_fr_Anim_001534, this->jointTable,
+                           this->morphTable, 24);
         // butterfly
-        SkelAnime_Init(play, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
-                       this->jointTableButterfly, this->morphTableButterfly, 8);
+        SkelAnime_Init(play, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim, this->jointTableButterfly,
+                       this->morphTableButterfly, 8);
         // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
         this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
@@ -335,8 +335,8 @@ void EnFr_IsDivingIntoWater(EnFr* this, PlayState* play) {
     WaterBox* waterBox;
     f32 waterSurface;
 
-    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                &waterSurface, &waterBox)) {
+    if (WaterBox_GetSurfaceImpl(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterSurface,
+                                &waterBox)) {
         this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent;
         this->isBelowWaterSurfaceCurrent = this->actor.world.pos.y <= waterSurface ? true : false;
     }

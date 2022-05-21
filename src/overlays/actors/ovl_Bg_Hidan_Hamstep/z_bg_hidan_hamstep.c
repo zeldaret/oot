@@ -114,9 +114,9 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, PlayState* play2) {
         params = (i + 1) & 0xFF;
         params |= (this->dyna.actor.params & 0xFF00);
 
-        step = (BgHidanHamstep*)Actor_SpawnAsChild(
-            &play->actorCtx, &step->dyna.actor, play, ACTOR_BG_HIDAN_HAMSTEP, pos.x, pos.y, pos.z,
-            this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, params);
+        step = (BgHidanHamstep*)Actor_SpawnAsChild(&play->actorCtx, &step->dyna.actor, play, ACTOR_BG_HIDAN_HAMSTEP,
+                                                   pos.x, pos.y, pos.z, this->dyna.actor.world.rot.x,
+                                                   this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, params);
 
         if (step == NULL) {
             return 0;

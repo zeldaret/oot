@@ -117,8 +117,8 @@ void ObjComb_Break(ObjComb* this, PlayState* play) {
             arg5 = 32;
         }
 
-        EffectSsKakera_Spawn(play, &pos, &velocity, &pos, gravity, arg5, arg6, 4, 0, scale, 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, dlist);
+        EffectSsKakera_Spawn(play, &pos, &velocity, &pos, gravity, arg5, arg6, 4, 0, scale, 0, 0, 80, KAKERA_COLOR_NONE,
+                             OBJECT_GAMEPLAY_FIELD_KEEP, dlist);
     }
 
     pos.x = this->actor.world.pos.x;

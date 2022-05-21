@@ -85,8 +85,7 @@ void EnMThunder_Init(Actor* thisx, PlayState* play2) {
 
     if (player->stateFlags2 & PLAYER_STATE2_17) {
         if (!gSaveContext.magicAcquired || gSaveContext.unk_13F0 ||
-            (((this->actor.params & 0xFF00) >> 8) &&
-             !(func_80087708(play, (this->actor.params & 0xFF00) >> 8, 0)))) {
+            (((this->actor.params & 0xFF00) >> 8) && !(func_80087708(play, (this->actor.params & 0xFF00) >> 8, 0)))) {
             Audio_PlaySoundGeneral(NA_SE_IT_ROLLING_CUT, &player->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
             Audio_PlaySoundGeneral(NA_SE_IT_SWORD_SWING_HARD, &player->actor.projectedPos, 4,
@@ -332,8 +331,8 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
         case 0:
         case 1:
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk_1B4 * 30) & 0xFF), 0,
-                                        0x40, 0x20, 1, 0xFF - ((u8)(s32)(this->unk_1B4 * 20) & 0xFF), 0, 8, 8));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0xFF - ((u8)(s32)(this->unk_1B4 * 30) & 0xFF), 0, 0x40,
+                                        0x20, 1, 0xFF - ((u8)(s32)(this->unk_1B4 * 20) & 0xFF), 0, 8, 8));
             break;
     }
 
@@ -387,8 +386,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->gameplayFrames * 5) & 0xFF, 0, 0x20, 0x20, 1,
-                                (play->gameplayFrames * 20) & 0xFF, (play->gameplayFrames * phi_t1) & 0xFF, 8,
-                                8));
+                                (play->gameplayFrames * 20) & 0xFF, (play->gameplayFrames * phi_t1) & 0xFF, 8, 8));
 
     gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
 

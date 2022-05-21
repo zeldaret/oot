@@ -266,8 +266,8 @@ void EnBb_SpawnFlameTrail(PlayState* play, EnBb* this, s16 startAtZero) {
     s32 i;
 
     for (i = 0; i < 5; i++) {
-        next = (EnBb*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BB, this->actor.world.pos.x,
-                                  this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
+        next = (EnBb*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BB, this->actor.world.pos.x, this->actor.world.pos.y,
+                                  this->actor.world.pos.z, 0, 0, 0, 0);
         if (next != NULL) {
             now->actor.child = &next->actor;
             next->actor.parent = &now->actor;
@@ -1309,8 +1309,8 @@ void EnBb_Draw(Actor* thisx, PlayState* play) {
                     sp70.z = this->actor.world.pos.z + sFireIceOffsets[index].z;
 
                     if ((this->dmgEffect != 7) && (this->dmgEffect != 5)) {
-                        EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &sp70, 0x96, 0x96, 0x96, 0xFA, 0xEB,
-                                                       0xF5, 0xFF, 0.8f);
+                        EffectSsEnIce_SpawnFlyingVec3f(play, &this->actor, &sp70, 0x96, 0x96, 0x96, 0xFA, 0xEB, 0xF5,
+                                                       0xFF, 0.8f);
                     } else {
                         sp70.y -= 17.0f;
                         EffectSsEnFire_SpawnVec3f(play, &this->actor, &sp70, 0x28, 1, 0, -1);

@@ -155,8 +155,8 @@ void EnVali_Init(Actor* thisx, PlayState* play) {
     EnVali_SetupLurk(this);
 
     this->actor.flags &= ~ACTOR_FLAG_0;
-    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId,
-                                                          &this->actor, &this->actor.world.pos);
+    this->actor.floorHeight =
+        BgCheck_EntityRaycastFloor4(&play->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &this->actor.world.pos);
     this->actor.params = BARI_TYPE_NORMAL;
 
     if (this->actor.floorHeight == BGCHECK_Y_MIN) {
@@ -801,8 +801,8 @@ void EnVali_Draw(Actor* thisx, PlayState* play) {
 
     EnVali_DrawBody(this, play);
 
-    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                                   EnVali_OverrideLimbDraw, EnVali_PostLimbDraw, this, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnVali_OverrideLimbDraw,
+                                   EnVali_PostLimbDraw, this, POLY_XLU_DISP);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_vali.c", 1538);
 }

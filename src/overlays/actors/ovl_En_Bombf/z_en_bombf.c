@@ -169,9 +169,8 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
             this->bombCollider.base.acFlags &= ~AC_HIT;
 
             if (this->bombCollider.base.ac->category != ACTORCAT_BOSS) {
-                bombFlower =
-                    (EnBombf*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOMBF, this->actor.world.pos.x,
-                                          this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
+                bombFlower = (EnBombf*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOMBF, this->actor.world.pos.x,
+                                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 if (bombFlower != NULL) {
                     bombFlower->unk_200 = 1;
                     bombFlower->timer = 0;
@@ -182,9 +181,8 @@ void EnBombf_GrowBomb(EnBombf* this, PlayState* play) {
             }
         } else {
             if (Player_IsBurningStickInRange(play, &this->actor.world.pos, 30.0f, 50.0f)) {
-                bombFlower =
-                    (EnBombf*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOMBF, this->actor.world.pos.x,
-                                          this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
+                bombFlower = (EnBombf*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOMBF, this->actor.world.pos.x,
+                                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 if (bombFlower != NULL) {
                     bombFlower->timer = 100;
                     this->timer = 180;
@@ -427,10 +425,9 @@ void EnBombf_Update(Actor* thisx, PlayState* play) {
                 }
 
                 Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
-                play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] =
-                    play->envCtx.adjLight1Color[2] = 250;
-                play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] =
-                    play->envCtx.adjAmbientColor[2] = 250;
+                play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = 250;
+                play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] = play->envCtx.adjAmbientColor[2] =
+                    250;
                 Camera_AddQuake(&play->mainCamera, 2, 0xB, 8);
                 thisx->params = BOMBFLOWER_EXPLOSION;
                 this->timer = 10;
@@ -507,8 +504,7 @@ void EnBombf_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 20, 10, 0);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_bombf.c", 1054),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_OPA_DISP++, 0x08,
-                   SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(play->state.gfxCtx, play)));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(EnBombf_NewMtxDList(play->state.gfxCtx, play)));
         gSPDisplayList(POLY_OPA_DISP++, gBombFlowerBombAndSparkDL);
     } else {
         Collider_UpdateSpheres(0, &this->explosionCollider);

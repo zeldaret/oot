@@ -152,8 +152,8 @@ void EnGanonMant_Tear(EnGanonMant* this) {
 /**
  * Updates the dynamic strands that control the shape and motion of the cloak
  */
-void EnGanonMant_UpdateStrand(PlayState* play, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos,
-                              Vec3f* rot, Vec3f* vel, s16 strandNum) {
+void EnGanonMant_UpdateStrand(PlayState* play, EnGanonMant* this, Vec3f* root, Vec3f* pos, Vec3f* nextPos, Vec3f* rot,
+                              Vec3f* vel, s16 strandNum) {
     f32 xDiff;
     f32 zDiff;
     f32 gravity;

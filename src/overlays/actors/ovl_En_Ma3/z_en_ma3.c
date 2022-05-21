@@ -291,8 +291,8 @@ void EnMa3_Update(Actor* thisx, PlayState* play) {
     EnMa3_UpdateEyes(this);
     this->actionFunc(this, play);
     func_80AA2E54(this, play);
-    func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f,
-                  func_80AA2AA0, func_80AA2BD4);
+    func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, (f32)this->collider.dim.radius + 150.0f, func_80AA2AA0,
+                  func_80AA2BD4);
     if (this->unk_1E0.unk_00 == 0) {
         if (this->unk_20A != 0) {
             func_800F6584(0);

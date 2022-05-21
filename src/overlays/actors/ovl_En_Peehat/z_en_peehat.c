@@ -192,8 +192,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 36.0f * 0.001f);
-    SkelAnime_Init(play, &this->skelAnime, &gPeehatSkel, &gPeehatRisingAnim, this->jointTable, this->morphTable,
-                   24);
+    SkelAnime_Init(play, &this->skelAnime, &gPeehatSkel, &gPeehatRisingAnim, this->jointTable, this->morphTable, 24);
     ActorShape_Init(&this->actor.shape, 100.0f, ActorShadow_DrawCircle, 27.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->unk_2D4 = 0;
@@ -578,14 +577,12 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, PlayState* play) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
                 pos.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
                 pos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
-                EffectSsDeadDb_Spawn(play, &pos, &zeroVec, &zeroVec, 40, 7, 255, 255, 255, 255, 255, 0, 0, 1, 9,
-                                     1);
+                EffectSsDeadDb_Spawn(play, &pos, &zeroVec, &zeroVec, 40, 7, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             }
         }
         if (&player->actor != this->colQuad.base.at || this->colCylinder.base.acFlags & AC_HIT) {
             if (!(this->actor.bgCheckFlags & BGCHECKFLAG_GROUND)) {
-                EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_PIHAT_SM_DEAD, 1, 1,
-                                                  40);
+                EffectSsDeadSound_SpawnStationary(play, &this->actor.projectedPos, NA_SE_EN_PIHAT_SM_DEAD, 1, 1, 40);
             }
             Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0x20);
             Actor_Kill(&this->actor);
@@ -754,8 +751,7 @@ void EnPeehat_StateAttackRecoil(EnPeehat* this, PlayState* play) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
                 pos.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
                 pos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
-                EffectSsDeadDb_Spawn(play, &pos, &zeroVec, &zeroVec, 40, 7, 255, 255, 255, 255, 255, 0, 0, 1, 9,
-                                     1);
+                EffectSsDeadDb_Spawn(play, &pos, &zeroVec, &zeroVec, 40, 7, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             }
             Actor_Kill(&this->actor);
         } else {
@@ -931,8 +927,7 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
     if (thisx->colChkInfo.damageEffect != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
         if (thisx->speedXZ != 0.0f || thisx->velocity.y != 0.0f) {
             Actor_MoveForward(thisx);
-            Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 30.0f, 30.0f,
-                                    UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+            Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         }
 
         this->actionFunc(this, play);
@@ -1003,8 +998,7 @@ void EnPeehat_Update(Actor* thisx, PlayState* play) {
     Math_SmoothStepToF(&this->scaleShift, 0.0f, 1.0f, 0.001f, 0.0f);
 }
 
-s32 EnPeehat_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              void* thisx) {
+s32 EnPeehat_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnPeehat* this = (EnPeehat*)thisx;
 
     if (limbIndex == 4) {

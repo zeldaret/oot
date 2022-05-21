@@ -422,8 +422,8 @@ void EnNy_SetupDie(EnNy* this, PlayState* play) {
                 effectPos.y = Rand_CenteredFloat(30.0f) + this->actor.world.pos.y;
                 effectPos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
                 effectScale = Rand_S16Offset(0x50, 0x64);
-                EffectSsDtBubble_SpawnColorProfile(play, &effectPos, &effectVelocity, &effectAccel, effectScale,
-                                                   25, 0, 1);
+                EffectSsDtBubble_SpawnColorProfile(play, &effectPos, &effectVelocity, &effectAccel, effectScale, 25, 0,
+                                                   1);
             }
             for (i = 0; i < 0x14; i++) {
                 effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;

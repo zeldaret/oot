@@ -273,8 +273,7 @@ void BgSpot06Objects_LockSpawnWaterRipples(BgSpot06Objects* this, PlayState* pla
 
 void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, PlayState* play, s32 flag) {
     if (!(play->gameplayFrames % 7) || flag) {
-        EffectSsBubble_Spawn(play, &this->dyna.actor.world.pos, 0.0f, 40.0f, 30.0f,
-                             (Rand_ZeroOne() * 0.05f) + 0.175f);
+        EffectSsBubble_Spawn(play, &this->dyna.actor.world.pos, 0.0f, 40.0f, 30.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
 
@@ -441,8 +440,8 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, -gameplayFrames, gameplayFrames, 32, 32, 1, gameplayFrames,
                                 gameplayFrames, 32, 32));
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -gameplayFrames, gameplayFrames * 6, 32, 32, 1,
-                                gameplayFrames, gameplayFrames * 6, 32, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, -gameplayFrames, gameplayFrames * 6, 32, 32, 1, gameplayFrames,
+                                gameplayFrames * 6, 32, 32));
 
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 

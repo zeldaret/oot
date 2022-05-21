@@ -80,8 +80,8 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, PlayState* play) {
                 }
             } else {
                 curCobraInfo->cobra = (BgJyaCobra*)Actor_SpawnAsChild(
-                    &play->actorCtx, &this->actor, play, ACTOR_BG_JYA_COBRA, curSpawnData->pos.x,
-                    curSpawnData->pos.y, curSpawnData->pos.z, 0, curCobraInfo->rotY, 0, curSpawnData->params);
+                    &play->actorCtx, &this->actor, play, ACTOR_BG_JYA_COBRA, curSpawnData->pos.x, curSpawnData->pos.y,
+                    curSpawnData->pos.z, 0, curCobraInfo->rotY, 0, curSpawnData->params);
                 this->actor.child = NULL;
 
                 if (&curCobraInfo->cobra->dyna.actor == NULL) {
@@ -156,8 +156,8 @@ void BgJyaBigmirror_HandleMirRay(Actor* thisx, PlayState* play) {
                     Object_IsLoadEntryLoaded(&play->objectCtx, mirRayObjectLoadEntryIndex)) {
 
                     this->lightBeams[i] =
-                        Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x,
-                                    sMirRayPositions[i].y, sMirRayPositions[i].z, 0, 0, 0, sMirRayParamsVals[i]);
+                        Actor_Spawn(&play->actorCtx, play, ACTOR_MIR_RAY, sMirRayPositions[i].x, sMirRayPositions[i].y,
+                                    sMirRayPositions[i].z, 0, 0, 0, sMirRayParamsVals[i]);
 
                     if (this->lightBeams[i] == NULL) {
                         // "Mir Ray generation failed"

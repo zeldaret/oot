@@ -194,8 +194,8 @@ void EnGoma_SetupFlee(EnGoma* this) {
 void EnGoma_Flee(EnGoma* this, PlayState* play) {
     SkelAnime_Update(&this->skelanime);
     Math_ApproachF(&this->actor.speedXZ, 20.0f / 3.0f, 0.5f, 2.0f);
-    Math_ApproachS(&this->actor.world.rot.y,
-                   Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) + 0x8000, 3, 2000);
+    Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &GET_PLAYER(play)->actor) + 0x8000,
+                   3, 2000);
     Math_ApproachS(&this->actor.shape.rot.y, this->actor.world.rot.y, 2, 3000);
 
     if (this->actionTimer == 0) {
@@ -289,8 +289,8 @@ void EnGoma_Egg(EnGoma* this, PlayState* play) {
             pos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
             pos.y = Rand_ZeroFloat(30.0f) + this->actor.world.pos.y;
             pos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
-            EffectSsHahen_Spawn(play, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, HAHEN_OBJECT_DEFAULT,
-                                10, NULL);
+            EffectSsHahen_Spawn(play, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, HAHEN_OBJECT_DEFAULT, 10,
+                                NULL);
         }
     }
 }
@@ -790,8 +790,8 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
         case ENGOMA_NORMAL:
             this->actor.naviEnemyId = NAVI_ENEMY_GOHMA_LARVA;
             Matrix_Translate(this->actor.world.pos.x,
-                             this->actor.world.pos.y + ((this->actor.shape.yOffset * this->actor.scale.y) +
-                                                        play->mainCamera.skyboxOffset.y),
+                             this->actor.world.pos.y +
+                                 ((this->actor.shape.yOffset * this->actor.scale.y) + play->mainCamera.skyboxOffset.y),
                              this->actor.world.pos.z, MTXMODE_NEW);
             Matrix_RotateX(BINANG_TO_RAD_ALT(this->slopePitch), MTXMODE_APPLY);
             Matrix_RotateZ(BINANG_TO_RAD_ALT(this->slopeRoll), MTXMODE_APPLY);
@@ -799,8 +799,8 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
             Matrix_RotateX(BINANG_TO_RAD_ALT(this->actor.shape.rot.x), MTXMODE_APPLY);
             Matrix_RotateZ(BINANG_TO_RAD_ALT(this->actor.shape.rot.z), MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-            SkelAnime_DrawOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw,
-                              NULL, this);
+            SkelAnime_DrawOpa(play, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw, NULL,
+                              this);
             break;
 
         case ENGOMA_EGG:
@@ -861,11 +861,10 @@ void EnGoma_SpawnHatchDebris(EnGoma* this, PlayState* play2) {
     }
 
     for (i = 0; i < 15; i++) {
-        Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_GOMA,
-                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.x,
-                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.y + 15.0f,
-                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(0x10000 - 0.01f),
-                           0, i + 10);
+        Actor_SpawnAsChild(
+            &play->actorCtx, &this->actor, play, ACTOR_EN_GOMA, Rand_CenteredFloat(10.0f) + this->actor.world.pos.x,
+            Rand_CenteredFloat(10.0f) + this->actor.world.pos.y + 15.0f,
+            Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(0x10000 - 0.01f), 0, i + 10);
     }
 }
 

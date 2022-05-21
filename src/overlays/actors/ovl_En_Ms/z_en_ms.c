@@ -181,6 +181,6 @@ void EnMs_Draw(Actor* thisx, PlayState* play) {
     EnMs* this = (EnMs*)thisx;
 
     func_80093D18(play->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          NULL, NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, this);
 }

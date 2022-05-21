@@ -100,8 +100,7 @@ static f32 sSpawnSin;
 s32 EnWood02_SpawnZoneCheck(EnWood02* this, PlayState* play, Vec3f* pos) {
     f32 phi_f12;
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, pos, &this->actor.projectedPos,
-                                 &this->actor.projectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, pos, &this->actor.projectedPos, &this->actor.projectedW);
 
     phi_f12 = ((this->actor.projectedW == 0.0f) ? 1000.0f : fabsf(1.0f / this->actor.projectedW));
 
@@ -143,9 +142,9 @@ void EnWood02_SpawnOffspring(EnWood02* this, PlayState* play) {
                 } else {
                     childParams = (((this->drawType & 0xF0) << 4) | (this->actor.params + 1));
                 }
-                childWood = (EnWood02*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,
-                                                          ACTOR_EN_WOOD02, childPos.x, childPos.y, childPos.z,
-                                                          this->actor.world.rot.x, *childSpawnAngle, 0, childParams);
+                childWood = (EnWood02*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_WOOD02,
+                                                          childPos.x, childPos.y, childPos.z, this->actor.world.rot.x,
+                                                          *childSpawnAngle, 0, childParams);
                 if (childWood != NULL) {
                     childWood->unk_14E[0] = i;
                     this->unk_14E[i] |= 1;
@@ -343,8 +342,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                 if (this->actor.home.rot.z != 0) {
                     this->actor.home.rot.z &= 0x1FFF;
                     this->actor.home.rot.z |= 0xE000;
-                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, dropsSpawnPt.x, dropsSpawnPt.y,
-                                dropsSpawnPt.z, 0, this->actor.world.rot.y, 0, this->actor.home.rot.z);
+                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_SW, dropsSpawnPt.x, dropsSpawnPt.y, dropsSpawnPt.z, 0,
+                                this->actor.world.rot.y, 0, this->actor.home.rot.z);
                     this->actor.home.rot.z = 0;
                 }
             }
@@ -360,8 +359,8 @@ void EnWood02_Update(Actor* thisx, PlayState* play2) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_TREE_SWING);
 
                 for (i = 3; i >= 0; i--) {
-                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_WOOD02, dropsSpawnPt.x, dropsSpawnPt.y,
-                                dropsSpawnPt.z, 0, Rand_CenteredFloat(65535.0f), 0, leavesParams);
+                    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_WOOD02, dropsSpawnPt.x, dropsSpawnPt.y, dropsSpawnPt.z,
+                                0, Rand_CenteredFloat(65535.0f), 0, leavesParams);
                 }
             }
             this->unk_14C = -0x15;

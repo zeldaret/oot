@@ -219,8 +219,8 @@ void BgYdanSp_BurnFloorWeb(BgYdanSp* this, PlayState* play) {
             velocity.x = (7.0f * sins) * distXZ;
             velocity.y = 0.0f;
             velocity.z = (7.0f * coss) * distXZ;
-            EffectSsDeadDb_Spawn(play, &this->dyna.actor.home.pos, &velocity, &accel, 60, 6, 255, 255, 150, 170,
-                                 255, 0, 0, 1, 0xE, 1);
+            EffectSsDeadDb_Spawn(play, &this->dyna.actor.home.pos, &velocity, &accel, 60, 6, 255, 255, 150, 170, 255, 0,
+                                 0, 1, 0xE, 1);
             rot2 += 0x2AAA;
         }
     }
@@ -384,8 +384,8 @@ void BgYdanSp_BurnWallWeb(BgYdanSp* this, PlayState* play) {
             velocity.x = 6.5f * coss2 * distXYZ;
             velocity.y = 6.5f * coss * distXYZ;
             velocity.z = -6.5f * sins * distXYZ;
-            EffectSsDeadDb_Spawn(play, &this->dyna.actor.home.pos, &velocity, &accel, 80, 6, 255, 255, 150, 170,
-                                 255, 0, 0, 1, 0xE, 1);
+            EffectSsDeadDb_Spawn(play, &this->dyna.actor.home.pos, &velocity, &accel, 80, 6, 255, 255, 150, 170, 255, 0,
+                                 0, 1, 0xE, 1);
             rot2 += 0x2AAA;
         }
     }

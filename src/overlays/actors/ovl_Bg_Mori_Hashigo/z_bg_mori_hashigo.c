@@ -76,8 +76,7 @@ static InitChainEntry sInitChainLadder[] = {
     ICHAIN_VEC3F_DIV1000(scale, 1000, ICHAIN_STOP),
 };
 
-void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionHeader* collision,
-                                s32 moveFlag) {
+void BgMoriHashigo_InitDynapoly(BgMoriHashigo* this, PlayState* play, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader;
     s32 pad2;
@@ -119,9 +118,9 @@ s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, PlayState* play) {
     pos.y = -210.0f + this->dyna.actor.world.pos.y;
     pos.z = 6.0f * cs + this->dyna.actor.world.pos.z;
 
-    ladder = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_MORI_HASHIGO, pos.x, pos.y,
-                                pos.z, this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y,
-                                this->dyna.actor.world.rot.z, 0);
+    ladder =
+        Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_MORI_HASHIGO, pos.x, pos.y, pos.z,
+                           this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 0);
     if (ladder != NULL) {
         return true;
     } else {

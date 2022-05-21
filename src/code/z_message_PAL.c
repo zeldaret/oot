@@ -3104,8 +3104,7 @@ void Message_Update(PlayState* play) {
 
             if (var) {
                 if (msgCtx->talkActor != NULL) {
-                    Actor_GetScreenPos(play, &GET_PLAYER(play)->actor, &focusScreenPosX,
-                                       &playerFocusScreenPosY);
+                    Actor_GetScreenPos(play, &GET_PLAYER(play)->actor, &focusScreenPosX, &playerFocusScreenPosY);
                     Actor_GetScreenPos(play, msgCtx->talkActor, &focusScreenPosX, &actorFocusScreenPosY);
 
                     if (playerFocusScreenPosY >= actorFocusScreenPosY) {
@@ -3235,8 +3234,7 @@ void Message_Update(PlayState* play) {
                 }
             } else if (msgCtx->textboxEndType != TEXTBOX_ENDTYPE_PERSISTENT &&
                        msgCtx->textboxEndType != TEXTBOX_ENDTYPE_EVENT && YREG(31) == 0) {
-                if (msgCtx->textboxEndType == TEXTBOX_ENDTYPE_2_CHOICE &&
-                    play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
+                if (msgCtx->textboxEndType == TEXTBOX_ENDTYPE_2_CHOICE && play->msgCtx.ocarinaMode == OCARINA_MODE_01) {
                     if (Message_ShouldAdvance(play)) {
                         osSyncPrintf("OCARINA_MODE=%d -> ", play->msgCtx.ocarinaMode);
                         play->msgCtx.ocarinaMode = (msgCtx->choiceIndex == 0) ? OCARINA_MODE_02 : OCARINA_MODE_04;
@@ -3317,8 +3315,7 @@ void Message_Update(PlayState* play) {
                     player->naviActor->flags |= 0x10000;
                 }
                 if (msgCtx->ocarinaAction == OCARINA_ACTION_FREE_PLAY_DONE &&
-                    (play->msgCtx.ocarinaMode == OCARINA_MODE_01 ||
-                     play->msgCtx.ocarinaMode == OCARINA_MODE_0B)) {
+                    (play->msgCtx.ocarinaMode == OCARINA_MODE_01 || play->msgCtx.ocarinaMode == OCARINA_MODE_0B)) {
                     play->msgCtx.ocarinaMode = OCARINA_MODE_04;
                     if (msgCtx->unk_E3F2 == OCARINA_SONG_SUNS) {
                         play->msgCtx.ocarinaMode = OCARINA_MODE_01;

@@ -1237,8 +1237,8 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 40, 90, 80, effect->alpha);
 
             gSPSegment(POLY_OPA_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, effect->timer + (i * 3),
-                                        (effect->timer + (i * 3)) * 5, 32, 64, 1, 0, 0, 32, 32));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, effect->timer + (i * 3), (effect->timer + (i * 3)) * 5,
+                                        32, 64, 1, 0, 0, 32, 32));
 
             Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
@@ -1379,8 +1379,8 @@ void Fishing_DrawStreamSplash(PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_fishing.c", 2572);
 
     gSPSegment(POLY_XLU_DISP++, 0x09,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->gameplayFrames * 1,
-                                play->gameplayFrames * 8, 32, 64, 1, -(play->gameplayFrames * 2), 0, 16, 16));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->gameplayFrames * 1, play->gameplayFrames * 8, 32, 64, 1,
+                                -(play->gameplayFrames * 2), 0, 16, 16));
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, 50);
 
@@ -2595,8 +2595,7 @@ void Fishing_UpdateLure(Fishing* this, PlayState* play) {
                 D_80B7A6CC = 3;
             }
 
-            if ((sLurePos.y <= (WATER_SURFACE_Y(play) + 4.0f)) &&
-                (sLurePos.y >= (WATER_SURFACE_Y(play) - 4.0f))) {
+            if ((sLurePos.y <= (WATER_SURFACE_Y(play) + 4.0f)) && (sLurePos.y >= (WATER_SURFACE_Y(play) - 4.0f))) {
 
                 phi_v0 = 63;
                 if (CHECK_BTN_ALL(input->cur.button, BTN_A) || (D_80B7E138 > 1.0f)) {
@@ -3235,8 +3234,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                 } else {
                     Math_ApproachZeroF(&this->actor.speedXZ, 1.0f, 0.01f);
 
-                    if ((this->actor.speedXZ == 0.0f) ||
-                        (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 5.0f))) {
+                    if ((this->actor.speedXZ == 0.0f) || (this->actor.world.pos.y > (WATER_SURFACE_Y(play) - 5.0f))) {
                         this->unk_1B4.x = Rand_ZeroFloat(300.0f);
                         this->unk_1B4.z = Rand_ZeroFloat(300.0f);
                         this->unk_1B4.y = this->actor.floorHeight + 10.0f;
@@ -3245,10 +3243,10 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
 
                         spB8 = this->fishMouthPos;
                         spB8.y = WATER_SURFACE_Y(play);
-                        Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 10.0f, 300.0f,
-                                            150, 90);
-                        Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 30.0f, 400.0f,
-                                            150, 90);
+                        Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 10.0f, 300.0f, 150,
+                                            90);
+                        Fishing_SpawnRipple(&this->actor.projectedPos, play->specialEffects, &spB8, 30.0f, 400.0f, 150,
+                                            90);
 
                         Audio_PlayActorSound2(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
                         break;
@@ -3968,8 +3966,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
                         SkelAnime_InitFlex(play, &this->skelAnime, &gFishingFishSkel, &gFishingFishAnim, 0, 0, 0);
                         Animation_MorphToLoop(&this->skelAnime, &gFishingFishAnim, 0.0f);
                     } else {
-                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, 0, 0,
-                                           0);
+                        SkelAnime_InitFlex(play, &this->skelAnime, &gFishingLoachSkel, &gFishingLoachAnim, 0, 0, 0);
                         Animation_MorphToLoop(&this->skelAnime, &gFishingLoachAnim, 0.0f);
                     }
                 }
@@ -4104,8 +4101,7 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
         this->actor.shape.rot.y = this->actor.world.rot.y;
 
         if ((this->unk_158 != -1) && (this->unk_158 != -2) && (this->unk_158 != -25)) {
-            if ((this->actor.world.pos.y > WATER_SURFACE_Y(play)) &&
-                (this->actor.prevPos.y <= WATER_SURFACE_Y(play))) {
+            if ((this->actor.world.pos.y > WATER_SURFACE_Y(play)) && (this->actor.prevPos.y <= WATER_SURFACE_Y(play))) {
                 func_80B70A2C(this, play, true);
                 func_80B71278(this, 1);
                 this->unk_184 = this->actor.velocity.y;
@@ -4203,14 +4199,13 @@ void Fishing_UpdateFish(Actor* thisx, PlayState* play2) {
             pos.x = Rand_CenteredFloat(range) + this->actor.world.pos.x;
             pos.y = Rand_CenteredFloat(range) + this->actor.world.pos.y;
             pos.z = Rand_CenteredFloat(range) + this->actor.world.pos.z;
-            Fishing_SpawnBubble(&this->actor.projectedPos, play->specialEffects, &pos,
-                                Rand_ZeroFloat(0.035f) + 0.04f, 0);
+            Fishing_SpawnBubble(&this->actor.projectedPos, play->specialEffects, &pos, Rand_ZeroFloat(0.035f) + 0.04f,
+                                0);
         }
     }
 }
 
-s32 Fishing_FishOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 void* thisx) {
+s32 Fishing_FishOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 0xD) {
@@ -4240,8 +4235,7 @@ void Fishing_FishPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s
     }
 }
 
-s32 Fishing_LoachOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  void* thisx) {
+s32 Fishing_LoachOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 3) {
@@ -4279,17 +4273,16 @@ void Fishing_DrawFish(Actor* thisx, PlayState* play) {
         Matrix_RotateY(BINANG_TO_RAD(this->unk_16C) - (M_PI / 2), MTXMODE_APPLY);
         Matrix_Translate(0.0f, 0.0f, this->unk_16C * 10.0f * 0.01f, MTXMODE_APPLY);
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, Fishing_FishOverrideLimbDraw, Fishing_FishPostLimbDraw, this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              Fishing_FishOverrideLimbDraw, Fishing_FishPostLimbDraw, this);
     } else {
         Matrix_Translate(0.0f, 0.0f, 3000.0f, MTXMODE_APPLY);
         Matrix_RotateY(BINANG_TO_RAD(this->unk_16C), MTXMODE_APPLY);
         Matrix_Translate(0.0f, 0.0f, -3000.0f, MTXMODE_APPLY);
         Matrix_RotateY(-(M_PI / 2), MTXMODE_APPLY);
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, Fishing_LoachOverrideLimbDraw, Fishing_LoachPostLimbDraw,
-                              this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              Fishing_LoachOverrideLimbDraw, Fishing_LoachPostLimbDraw, this);
     }
 }
 
@@ -5601,8 +5594,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         D_80B7E077--;
     }
 
-    if ((D_80B7E077 == 1) && (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) &&
-        ((D_80B7A680 & 0xFFF) == 0xFFF)) {
+    if ((D_80B7E077 == 1) && (Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) && ((D_80B7A680 & 0xFFF) == 0xFFF)) {
         D_80B7E077 = 200;
 
         if (Rand_ZeroOne() < 0.5f) {
@@ -5642,8 +5634,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         Math_ApproachZeroF(&D_80B7A658, 1.0f, 2.0f);
     }
 
-    play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] =
-        D_80B7A658;
+    play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = D_80B7A658;
 
     if ((u8)D_80B7A650 > 0) {
         s32 pad;
@@ -5676,8 +5667,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
         }
     }
 
-    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSoundPos, &sStreamSoundProjectedPos,
-                                 &sProjectedW);
+    SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &sStreamSoundPos, &sStreamSoundProjectedPos, &sProjectedW);
 
     func_80078914(&sStreamSoundProjectedPos, NA_SE_EV_WATER_WALL - SFX_FLAG);
 
@@ -5691,8 +5681,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
     osSyncPrintf("HI_SCORE = %x\n", HIGH_SCORE(HS_FISHING));
 }
 
-s32 Fishing_OwnerOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  void* thisx) {
+s32 Fishing_OwnerOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     Fishing* this = (Fishing*)thisx;
 
     if (limbIndex == 8) { // Head
@@ -5737,9 +5726,8 @@ void Fishing_DrawOwner(Actor* thisx, PlayState* play) {
         (fabsf(this->actor.projectedPos.x) < (100.0f + this->actor.projectedPos.z))) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sFishingOwnerEyeTexs[this->unk_160]));
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, Fishing_OwnerOverrideLimbDraw, Fishing_OwnerPostLimbDraw,
-                              this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              Fishing_OwnerOverrideLimbDraw, Fishing_OwnerPostLimbDraw, this);
     }
 
     Fishing_DrawPondProps(play);

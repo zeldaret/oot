@@ -199,8 +199,7 @@ void BgSpot02Objects_Draw(Actor* thisx, PlayState* play) {
 }
 
 void func_808ACC34(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL &&
-        play->csCtx.npcActions[0]->action == 2) {
+    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 2) {
         this->unk_16A++;
 
         if (this->unk_16A >= 12) {
@@ -226,8 +225,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot02_objects.c", 600);
 
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL &&
-        play->csCtx.npcActions[0]->action == 2) {
+    if (play->csCtx.state != 0 && play->csCtx.npcActions[0] != NULL && play->csCtx.npcActions[0]->action == 2) {
         if (this->unk_16A < 5) {
             rate = (this->unk_16A / 5.0f);
             redPrim = greenPrim = bluePrim = 255;
@@ -267,8 +265,7 @@ void func_808ACCB8(Actor* thisx, PlayState* play) {
 }
 
 void func_808AD3D4(BgSpot02Objects* this, PlayState* play) {
-    if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL &&
-        play->csCtx.npcActions[2]->action == 2) {
+    if (play->csCtx.state != 0 && play->csCtx.npcActions[2] != NULL && play->csCtx.npcActions[2]->action == 2) {
         if (this->timer == 2) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_EXPLOSION_ICE);
         }
@@ -301,8 +298,8 @@ void func_808AD450(Actor* thisx, PlayState* play) {
             }
         }
 
-        lerp = Environment_LerpWeight(play->csCtx.npcActions[2]->endFrame,
-                                      play->csCtx.npcActions[2]->startFrame, play->csCtx.frames);
+        lerp = Environment_LerpWeight(play->csCtx.npcActions[2]->endFrame, play->csCtx.npcActions[2]->startFrame,
+                                      play->csCtx.frames);
 
         // should be able to remove & 0xFFFF with some other change
         if ((play->csCtx.npcActions[2]->action & 0xFFFF) == 2) {

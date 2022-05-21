@@ -306,8 +306,7 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
                 effPos.y += 30.0f;
             }
 
-            EffectSsBomb2_SpawnLayered(play, &effPos, &effVelocity, &bomb2Accel, 100,
-                                       (thisx->shape.rot.z * 6) + 19);
+            EffectSsBomb2_SpawnLayered(play, &effPos, &effVelocity, &bomb2Accel, 100, (thisx->shape.rot.z * 6) + 19);
 
             effPos.y = thisx->floorHeight;
             if (thisx->floorHeight > BGCHECK_Y_MIN) {
@@ -316,11 +315,9 @@ void EnBom_Update(Actor* thisx, PlayState* play2) {
 
             Audio_PlayActorSound2(thisx, NA_SE_IT_BOMB_EXPLOSION);
 
-            play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] =
-                play->envCtx.adjLight1Color[2] = 250;
+            play->envCtx.adjLight1Color[0] = play->envCtx.adjLight1Color[1] = play->envCtx.adjLight1Color[2] = 250;
 
-            play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] =
-                play->envCtx.adjAmbientColor[2] = 250;
+            play->envCtx.adjAmbientColor[0] = play->envCtx.adjAmbientColor[1] = play->envCtx.adjAmbientColor[2] = 250;
 
             Camera_AddQuake(&play->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;

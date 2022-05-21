@@ -127,17 +127,15 @@ void EnWeatherTag_Init(Actor* thisx, PlayState* play) {
     }
 }
 
-u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 skyboxConfig,
-                                       u8 changeSkyboxNextConfig, u8 lightConfig, u8 changeLightNextConfig,
-                                       u16 changeDuration, u8 weatherMode) {
+u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 skyboxConfig, u8 changeSkyboxNextConfig,
+                                       u8 lightConfig, u8 changeLightNextConfig, u16 changeDuration, u8 weatherMode) {
     s32 pad;
     u8 ret = false;
     Player* player = GET_PLAYER(play);
 
     if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < WEATHER_TAG_RANGE100(this->actor.params)) {
         if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging ||
-            (play->skyboxId != SKYBOX_NORMAL_SKY &&
-             play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
+            (play->skyboxId != SKYBOX_NORMAL_SKY && play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
             if (play->envCtx.stormRequest == STORM_REQUEST_NONE &&
                 ((play->envCtx.lightMode != LIGHT_MODE_TIME) ||
@@ -170,17 +168,15 @@ u8 WeatherTag_CheckEnableWeatherEffect(EnWeatherTag* this, PlayState* play, u8 s
     return ret;
 }
 
-u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, PlayState* play, u8 skyboxConfig,
-                                  u8 changeSkyboxNextConfig, u8 lightConfig, u8 changeLightNextConfig,
-                                  u16 changeDuration) {
+u8 WeatherTag_CheckRestoreWeather(EnWeatherTag* this, PlayState* play, u8 skyboxConfig, u8 changeSkyboxNextConfig,
+                                  u8 lightConfig, u8 changeLightNextConfig, u16 changeDuration) {
     s32 pad;
     u8 ret = false;
     Player* player = GET_PLAYER(play);
 
     if ((WEATHER_TAG_RANGE100(this->actor.params) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         if ((play->envCtx.lightMode != LIGHT_MODE_TIME) || !gSkyboxIsChanging ||
-            (play->skyboxId != SKYBOX_NORMAL_SKY &&
-             play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
+            (play->skyboxId != SKYBOX_NORMAL_SKY && play->envCtx.lightConfig == play->envCtx.changeLightNextConfig)) {
             gInterruptSongOfStorms = true;
             if ((play->envCtx.stormRequest == STORM_REQUEST_NONE) &&
                 ((play->envCtx.lightMode != LIGHT_MODE_TIME) ||

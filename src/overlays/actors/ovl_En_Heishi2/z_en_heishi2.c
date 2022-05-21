@@ -118,8 +118,8 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
     } else {
         this->unk_2E0 = 60.0f;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable,
-                       this->morphTable, 17);
+        SkelAnime_Init(play, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable,
+                       17);
         collider = &this->collider;
         Collider_InitCylinder(play, collider);
         Collider_SetCylinder(play, collider, &this->actor, &sCylinderInit);
@@ -796,8 +796,7 @@ void EnHeishi2_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnHeishi2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               void* thisx) {
+s32 EnHeishi2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHeishi2* this = (EnHeishi2*)thisx;
 
     switch (this->type) {
@@ -858,8 +857,7 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
             gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[linkChildObjectLoadEntryIndex].segment);
             gSPSegment(POLY_OPA_DISP++, 0x0D, mtx);
             gSPDisplayList(POLY_OPA_DISP++, gLinkChildKeatonMaskDL);
-            gSPSegment(POLY_OPA_DISP++, 0x06,
-                       play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
+            gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
         }
     }
 

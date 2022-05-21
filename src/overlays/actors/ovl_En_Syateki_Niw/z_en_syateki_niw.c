@@ -669,8 +669,7 @@ void EnSyatekiNiw_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                void* thisx) {
+s32 SyatekiNiw_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSyatekiNiw* this = (EnSyatekiNiw*)thisx;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
@@ -703,8 +702,8 @@ void EnSyatekiNiw_Draw(Actor* thisx, PlayState* play) {
             func_80026230(play, &sp30, 0, 0x14);
         }
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, SyatekiNiw_OverrideLimbDraw, NULL, this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              SyatekiNiw_OverrideLimbDraw, NULL, this);
         func_80026608(play);
         EnSyatekiNiw_DrawEffects(this, play);
     }

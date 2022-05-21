@@ -137,8 +137,8 @@ void EnEncount1_SpawnLeevers(EnEncount1* this, PlayState* play) {
                 }
                 spawnPos.y = floorY;
 
-                leever = (EnReeba*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_REEBA,
-                                                      spawnPos.x, spawnPos.y, spawnPos.z, 0, 0, 0, spawnParams);
+                leever = (EnReeba*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_REEBA, spawnPos.x,
+                                                      spawnPos.y, spawnPos.z, 0, 0, 0, spawnParams);
 
                 if (1) {}
                 if (1) {}
@@ -197,8 +197,8 @@ void EnEncount1_SpawnTektites(EnEncount1* this, PlayState* play) {
                     return;
                 }
                 spawnPos.y = floorY;
-                if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_TITE, spawnPos.x,
-                                       spawnPos.y, spawnPos.z, 0, 0, 0, TEKTITE_RED) != NULL) {
+                if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_TITE, spawnPos.x, spawnPos.y,
+                                       spawnPos.z, 0, 0, 0, TEKTITE_RED) != NULL) {
                     this->curNumSpawn++;
                     this->totalNumSpawn++;
                 } else {
@@ -292,8 +292,8 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, PlayState* play) {
                 }
                 this->killCount++;
             }
-            if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, spawnId, spawnPos.x, spawnPos.y,
-                                   spawnPos.z, 0, 0, 0, spawnParams) != NULL) {
+            if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, spawnId, spawnPos.x, spawnPos.y, spawnPos.z, 0,
+                                   0, 0, spawnParams) != NULL) {
                 this->curNumSpawn++;
                 if (this->curNumSpawn >= this->maxCurSpawns) {
                     this->fieldSpawnTimer = 100;

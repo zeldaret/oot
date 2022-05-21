@@ -886,8 +886,7 @@ void EnSkj_SpawnDeathEffect(EnSkj* this, PlayState* play) {
     effectVel.y = 0.0f;
     effectVel.x = 0.0f;
 
-    EffectSsDeadDb_Spawn(play, &effectPos, &effectVel, &effectAccel, 100, 10, 255, 255, 255, 255, 0, 0, 255, 1, 9,
-                         1);
+    EffectSsDeadDb_Spawn(play, &effectPos, &effectVel, &effectAccel, 100, 10, 255, 255, 255, 255, 0, 0, 255, 1, 9, 1);
 }
 
 void EnSkj_SetupWaitInRange(EnSkj* this) {
@@ -952,8 +951,8 @@ void EnSkj_WaitForSong(EnSkj* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     // Played a song thats not Saria's song
-    if (!GET_ITEMGETINF(ITEMGETINF_16) && ((play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) ||
-                                           (play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
+    if (!GET_ITEMGETINF(ITEMGETINF_16) &&
+        ((play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL) || (play->msgCtx.msgMode == MSGMODE_OCARINA_FAIL_NO_TEXT))) {
         play->msgCtx.ocarinaMode = OCARINA_MODE_04;
         Message_CloseTextbox(play);
         player->unk_6A8 = &this->actor;
@@ -1035,8 +1034,7 @@ void EnSkj_SariaSongTalk(EnSkj* this, PlayState* play) {
             EnSkj_SetupWaitInRange(this);
         } else {
             func_80AFFE24(this);
-            func_8002F434(&this->actor, play, GI_HEART_PIECE, EnSkj_GetItemXzRange(this),
-                          EnSkj_GetItemYRange(this));
+            func_8002F434(&this->actor, play, GI_HEART_PIECE, EnSkj_GetItemXzRange(this), EnSkj_GetItemYRange(this));
         }
     }
 }

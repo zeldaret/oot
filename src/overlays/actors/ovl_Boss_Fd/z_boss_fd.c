@@ -176,16 +176,13 @@ void BossFd_Init(Actor* thisx, PlayState* play) {
     s16 i;
 
     Flags_SetSwitch(play, 0x14);
-    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_VB_SIMA, 680.0f, -100.0f, 0.0f, 0, 0, 0,
-                       100);
+    Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_VB_SIMA, 680.0f, -100.0f, 0.0f, 0, 0, 0, 100);
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     Actor_SetScale(&this->actor, 0.05f);
     SkelAnime_Init(play, &this->skelAnimeHead, &gVolvagiaHeadSkel, &gVolvagiaHeadEmergeAnim, NULL, NULL, 0);
-    SkelAnime_Init(play, &this->skelAnimeRightArm, &gVolvagiaRightArmSkel, &gVolvagiaRightArmEmergeAnim, NULL,
-                   NULL, 0);
-    SkelAnime_Init(play, &this->skelAnimeLeftArm, &gVolvagiaLeftArmSkel, &gVolvagiaLeftArmEmergeAnim, NULL, NULL,
-                   0);
+    SkelAnime_Init(play, &this->skelAnimeRightArm, &gVolvagiaRightArmSkel, &gVolvagiaRightArmEmergeAnim, NULL, NULL, 0);
+    SkelAnime_Init(play, &this->skelAnimeLeftArm, &gVolvagiaLeftArmSkel, &gVolvagiaLeftArmEmergeAnim, NULL, NULL, 0);
     this->introState = BFD_CS_WAIT;
     if (this->introState == BFD_CS_NONE) {
         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_FIRE_BOSS);
@@ -912,8 +909,8 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                 this->actor.world.pos.y -= 1000.0f;
             }
             if (this->timers[0] == 7) {
-                Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, this->actor.world.pos.x,
-                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
+                Actor_Spawn(&play->actorCtx, play, ACTOR_ITEM_B_HEART, this->actor.world.pos.x, this->actor.world.pos.y,
+                            this->actor.world.pos.z, 0, 0, 0, 0);
             }
             break;
         case BOSSFD_WAIT_INTRO:
@@ -1095,16 +1092,16 @@ void BossFd_Effects(BossFd* this, PlayState* play) {
     } else if (this->fogMode == 2) {
         this->fogMode--;
         play->envCtx.lightSettingOverride = 0;
-        Math_ApproachF(&play->envCtx.lightBlend, 0.55f + 0.05f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x3E00),
-                       1.0f, 0.15f);
+        Math_ApproachF(&play->envCtx.lightBlend, 0.55f + 0.05f * Math_SinS(this->work[BFD_VAR_TIMER] * 0x3E00), 1.0f,
+                       0.15f);
         play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
         play->envCtx.lightSetting = 3;
         play->envCtx.prevLightSetting = 0;
     } else if (this->fogMode == 10) {
         this->fogMode = 1;
         play->envCtx.lightSettingOverride = 0;
-        Math_ApproachF(&play->envCtx.lightBlend, 0.21f + 0.07f * Math_SinS(this->work[BFD_VAR_TIMER] * 0xC00),
-                       1.0f, 0.05f);
+        Math_ApproachF(&play->envCtx.lightBlend, 0.21f + 0.07f * Math_SinS(this->work[BFD_VAR_TIMER] * 0xC00), 1.0f,
+                       0.05f);
         play->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
         play->envCtx.lightSetting = 3;
         play->envCtx.prevLightSetting = 0;
@@ -1657,8 +1654,7 @@ void BossFd_Draw(Actor* thisx, PlayState* play) {
     osSyncPrintf("FD DRAW END2\n");
 }
 
-s32 BossFd_OverrideRightArmDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                void* thisx) {
+s32 BossFd_OverrideRightArmDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
@@ -1680,8 +1676,7 @@ s32 BossFd_OverrideRightArmDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec
     return false;
 }
 
-s32 BossFd_OverrideLeftArmDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               void* thisx) {
+s32 BossFd_OverrideLeftArmDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossFd* this = (BossFd*)thisx;
 
     switch (limbIndex) {
@@ -1917,9 +1912,8 @@ void BossFd_DrawBody(PlayState* play, BossFd* this) {
                     Matrix_MultVec3f(&spF0, &spE4);
                     Matrix_Get(&spFC);
                     Matrix_MtxFToYXZRotS(&spFC, &spDC, 0);
-                    bones =
-                        (EnVbBall*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_VB_BALL,
-                                                      spE4.x, spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);
+                    bones = (EnVbBall*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_VB_BALL, spE4.x,
+                                                          spE4.y, spE4.z, spDC.x, spDC.y, spDC.z, i + 200);
 
                     bones->actor.scale.x = this->actor.scale.x * temp_float;
                     bones->actor.scale.y = this->actor.scale.y * spD4;

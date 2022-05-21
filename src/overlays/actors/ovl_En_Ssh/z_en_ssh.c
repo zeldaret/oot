@@ -157,8 +157,8 @@ s32 EnSsh_CheckCeilingPos(EnSsh* this, PlayState* play) {
     posB.x = this->actor.world.pos.x;
     posB.y = this->actor.world.pos.y + 1000.0f;
     posB.z = this->actor.world.pos.z;
-    if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &posB, &this->ceilingPos, &poly, false,
-                                 false, true, true, &bgId)) {
+    if (!BgCheck_EntityLineTest1(&play->colCtx, &this->actor.world.pos, &posB, &this->ceilingPos, &poly, false, false,
+                                 true, true, &bgId)) {
         return false;
     } else {
         return true;

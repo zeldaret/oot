@@ -359,8 +359,8 @@ void EnDntNomal_TargetGivePrize(EnDntNomal* this, PlayState* play) {
         f32 itemY = this->mouthPos.y;
         f32 itemZ = this->mouthPos.z;
 
-        if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, itemX, itemY, itemZ, 0,
-                               0, 0, EXITEM_BULLET_BAG) == NULL) {
+        if (Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_ITEM, itemX, itemY, itemZ, 0, 0, 0,
+                               EXITEM_BULLET_BAG) == NULL) {
             func_8002DF54(play, NULL, 7);
             Actor_Kill(&this->actor);
         }
@@ -615,9 +615,8 @@ void EnDntNomal_StageHide(EnDntNomal* this, PlayState* play) {
                 break;
             case DNT_ACTION_LOW_RUPEES:
             case DNT_ACTION_HIGH_RUPEES:
-                rupee =
-                    (EnExRuppy*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_RUPPY, this->actor.world.pos.x,
-                                            this->actor.world.pos.y + 20.0f, this->actor.world.pos.z, 0, 0, 0, 3);
+                rupee = (EnExRuppy*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_EX_RUPPY, this->actor.world.pos.x,
+                                                this->actor.world.pos.y + 20.0f, this->actor.world.pos.z, 0, 0, 0, 3);
                 if (rupee != NULL) {
                     rupeeColor = this->action - DNT_ACTION_LOW_RUPEES;
                     rupee->colorIdx = rupeeColor;
@@ -696,8 +695,8 @@ void EnDntNomal_StageAttack(EnDntNomal* this, PlayState* play) {
         spawnY = this->mouthPos.y + spawnOffset.y;
         spawnZ = this->mouthPos.z + spawnOffset.z;
 
-        nut = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, spawnX, spawnY, spawnZ,
-                          this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 4);
+        nut = Actor_Spawn(&play->actorCtx, play, ACTOR_EN_NUTSBALL, spawnX, spawnY, spawnZ, this->actor.shape.rot.x,
+                          this->actor.shape.rot.y, this->actor.shape.rot.z, 4);
         if (nut != NULL) {
             nut->velocity.y = spawnOffset.y * 0.5f;
         }
@@ -821,8 +820,7 @@ void EnDntNomal_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnDntNomal_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                void* thisx) {
+s32 EnDntNomal_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDntNomal* this = (EnDntNomal*)thisx;
 
     if ((limbIndex == 1) || (limbIndex == 3) || (limbIndex == 4) || (limbIndex == 5) || (limbIndex == 6)) {
@@ -878,8 +876,7 @@ void EnDntNomal_DrawTargetScrub(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1833);
     func_80093D18(play->state.gfxCtx);
-    SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDntNomal_PostLimbDraw,
-                      this);
+    SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDntNomal_PostLimbDraw, this);
     Matrix_Translate(this->flowerPos.x, this->flowerPos.y, this->flowerPos.z, MTXMODE_NEW);
     Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1848),

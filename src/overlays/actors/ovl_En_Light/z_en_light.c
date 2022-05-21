@@ -164,9 +164,8 @@ void EnLight_Draw(Actor* thisx, PlayState* play) {
     func_80093D84(play->state.gfxCtx);
 
     if (this->actor.params >= 0) {
-        gSPSegment(
-            POLY_XLU_DISP++, 0x08,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
 
         dList = gEffFire1DL;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
@@ -182,9 +181,8 @@ void EnLight_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     }
 
-    Matrix_RotateY(
-        BINANG_TO_RAD((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y) + 0x8000)),
-        MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD((s16)((Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) - this->actor.shape.rot.y) + 0x8000)),
+                   MTXMODE_APPLY);
 
     if (this->actor.params & 1) {
         Matrix_RotateY(M_PI, MTXMODE_APPLY);

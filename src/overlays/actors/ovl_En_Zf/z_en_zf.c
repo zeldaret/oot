@@ -324,13 +324,13 @@ void EnZf_Init(Actor* thisx, PlayState* play) {
     if (thisx->params == ENZF_TYPE_DINOLFOS) {
         thisx->colChkInfo.health = 12;
         thisx->naviEnemyId = NAVI_ENEMY_DINOLFOS;
-        SkelAnime_Init(play, &this->skelAnime, &gZfDinolfosSkel, &gZfCryingAnim, this->jointTable,
-                       this->morphTable, ENZF_LIMB_MAX);
+        SkelAnime_Init(play, &this->skelAnime, &gZfDinolfosSkel, &gZfCryingAnim, this->jointTable, this->morphTable,
+                       ENZF_LIMB_MAX);
     } else { // Lizalfos
         thisx->colChkInfo.health = 6;
         thisx->naviEnemyId = NAVI_ENEMY_LIZALFOS;
-        SkelAnime_Init(play, &this->skelAnime, &gZfLizalfosSkel, &gZfCryingAnim, this->jointTable,
-                       this->morphTable, ENZF_LIMB_MAX);
+        SkelAnime_Init(play, &this->skelAnime, &gZfLizalfosSkel, &gZfCryingAnim, this->jointTable, this->morphTable,
+                       ENZF_LIMB_MAX);
     }
 
     if (thisx->params < ENZF_TYPE_LIZALFOS_MINIBOSS_A) { // Not minibosses
@@ -764,8 +764,8 @@ void EnZf_SetupApproachPlayer(EnZf* this, PlayState* play) {
 
     if (this->actor.params >= ENZF_TYPE_LIZALFOS_MINIBOSS_A) { // miniboss
         this->curPlatform = EnZf_FindPlatform(&this->actor.world.pos, this->curPlatform);
-        this->nextPlatform = EnZf_FindNextPlatformTowardsPlayer(&this->actor.world.pos, this->curPlatform,
-                                                                this->homePlatform, play);
+        this->nextPlatform =
+            EnZf_FindNextPlatformTowardsPlayer(&this->actor.world.pos, this->curPlatform, this->homePlatform, play);
         this->hopAnimIndex = 0;
     }
     this->actor.speedXZ = 0.0f;
@@ -794,8 +794,8 @@ void EnZf_ApproachPlayer(EnZf* this, PlayState* play) {
 
     if (!EnZf_DodgeRangedEngaging(play, this)) {
         if (sp48 != this->curPlatform) {
-            this->nextPlatform = EnZf_FindNextPlatformTowardsPlayer(&this->actor.world.pos, this->curPlatform,
-                                                                    this->homePlatform, play);
+            this->nextPlatform =
+                EnZf_FindNextPlatformTowardsPlayer(&this->actor.world.pos, this->curPlatform, this->homePlatform, play);
 
             if ((sp48 < 0) && (this->nextPlatform == this->curPlatform)) {
                 sp48 = this->curPlatform;
@@ -1784,8 +1784,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
             this->actor.speedXZ = -this->actor.speedXZ;
         }
     } else if ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-               !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ,
-                                           this->actor.shape.rot.y + 0x3FFF)) {
+               !Actor_TestFloorInDirection(&this->actor, play, this->actor.speedXZ, this->actor.shape.rot.y + 0x3FFF)) {
         if (this->actor.bgCheckFlags & BGCHECKFLAG_WALL) {
             if (this->actor.speedXZ >= 0.0f) {
                 phi_v0_4 = this->actor.shape.rot.y + 0x3FFF;
@@ -1880,8 +1879,7 @@ void EnZf_CircleAroundPlayer(EnZf* this, PlayState* play) {
                     EnZf_CanAttack(play, this)) {
                     EnZf_SetupSlash(this);
                 } else if ((this->actor.xzDistToPlayer < 280.0f) && (this->actor.xzDistToPlayer > 240.0f) &&
-                           !EnZf_PrimaryFloorCheck(this, play, 191.9956f) &&
-                           ((play->gameplayFrames % 2) == 0)) {
+                           !EnZf_PrimaryFloorCheck(this, play, 191.9956f) && ((play->gameplayFrames % 2) == 0)) {
                     EnZf_SetupJumpForward(this);
                 } else {
                     EnZf_SetupApproachPlayer(this, play);
@@ -2135,8 +2133,7 @@ void EnZf_Update(Actor* thisx, PlayState* play) {
     }
 }
 
-s32 EnZf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                          Gfx** gfx) {
+s32 EnZf_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnZf* this = (EnZf*)thisx;
 
     switch (limbIndex) {
@@ -2277,8 +2274,8 @@ void EnZf_Draw(Actor* thisx, PlayState* play) {
             if ((this->iceTimer % 4) == 0) {
                 s32 icePosIndex = this->iceTimer >> 2;
 
-                EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &this->bodyPartsPos[icePosIndex], 150, 150, 150, 250,
-                                               235, 245, 255, 1.4f);
+                EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &this->bodyPartsPos[icePosIndex], 150, 150, 150, 250, 235,
+                                               245, 255, 1.4f);
             }
             if (1) {}
         }
@@ -2335,8 +2332,7 @@ s32 EnZf_DodgeRangedEngaging(PlayState* play, EnZf* this) {
 
         this->actor.world.rot.y = this->actor.shape.rot.y;
 
-        if ((((this->actor.xzDistToPlayer < 90.0f) || (phi_t0 == 3)) &&
-             !EnZf_PrimaryFloorCheck(this, play, 135.0f)) ||
+        if ((((this->actor.xzDistToPlayer < 90.0f) || (phi_t0 == 3)) && !EnZf_PrimaryFloorCheck(this, play, 135.0f)) ||
             (projectileActor->id == ACTOR_ARMS_HOOK)) {
             EnZf_SetupJumpUp(this);
             return true;

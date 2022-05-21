@@ -73,8 +73,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
-void BossFd2_SpawnDebris(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
-                         Vec3f* acceleration, f32 scale) {
+void BossFd2_SpawnDebris(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
+                         f32 scale) {
     s16 i;
 
     for (i = 0; i < 180; i++, effect++) {
@@ -116,8 +116,8 @@ void BossFd2_SpawnFireBreath(PlayState* play, BossFdEffect* effect, Vec3f* posit
     }
 }
 
-void BossFd2_SpawnEmber(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
-                        Vec3f* acceleration, f32 scale) {
+void BossFd2_SpawnEmber(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
+                        f32 scale) {
     s16 i;
 
     for (i = 0; i < 180; i++, effect++) {
@@ -462,16 +462,16 @@ void BossFd2_BreatheFire(BossFd2* this, PlayState* play) {
         Matrix_MultVec3f(&spawnSpeed, &spawnVel);
 
         breathScale = 300.0f + 50.0f * Math_SinS(this->work[FD2_VAR_TIMER] * 0x2000);
-        BossFd2_SpawnFireBreath(play, bossFd->effects, &spawnPos, &spawnVel, &spawnAccel, breathScale,
-                                breathOpacity, this->actor.shape.rot.y + this->headRot.y);
+        BossFd2_SpawnFireBreath(play, bossFd->effects, &spawnPos, &spawnVel, &spawnAccel, breathScale, breathOpacity,
+                                this->actor.shape.rot.y + this->headRot.y);
 
         spawnPos.x += spawnVel.x * 0.5f;
         spawnPos.y += spawnVel.y * 0.5f;
         spawnPos.z += spawnVel.z * 0.5f;
 
         breathScale = 300.0f + 50.0f * Math_SinS(this->work[FD2_VAR_TIMER] * 0x2000);
-        BossFd2_SpawnFireBreath(play, bossFd->effects, &spawnPos, &spawnVel, &spawnAccel, breathScale,
-                                breathOpacity, this->actor.shape.rot.y + this->headRot.y);
+        BossFd2_SpawnFireBreath(play, bossFd->effects, &spawnPos, &spawnVel, &spawnAccel, breathScale, breathOpacity,
+                                this->actor.shape.rot.y + this->headRot.y);
 
         spawnSpeed.x = 0.0f;
         spawnSpeed.y = 17.0f;
@@ -781,8 +781,8 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
                 this->subCamId = SUB_CAM_ID_DONE;
                 func_80064534(play, &play->csCtx);
                 func_8002DF54(play, &this->actor, 7);
-                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
-                                   0, 0, 0, WARP_DUNGEON_ADULT);
+                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
+                                   WARP_DUNGEON_ADULT);
                 Flags_SetClear(play, play->roomCtx.curRoom.num);
             }
             break;
@@ -998,8 +998,7 @@ void BossFd2_Update(Actor* thisx, PlayState* play2) {
     }
 }
 
-s32 BossFd2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                             void* thisx) {
+s32 BossFd2_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossFd2* this = (BossFd2*)thisx;
     BossFd* bossFd = (BossFd*)this->actor.parent;
 
@@ -1055,8 +1054,7 @@ void BossFd2_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* ro
     Collider_UpdateSpheres(limbIndex, &this->collider);
 }
 
-void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos, Vec3f* rot, Vec3f* pull,
-                        f32* scale) {
+void BossFd2_UpdateMane(BossFd2* this, PlayState* play, Vec3f* head, Vec3f* pos, Vec3f* rot, Vec3f* pull, f32* scale) {
     f32 sp138[10] = { 0.0f, 100.0f, 50.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
     f32 sp110[10] = { 0.0f, 5.0f, -10.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f, 500.0f };
     f32 spE8[10] = { 0.4f, 0.6f, 0.8f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f };
@@ -1180,8 +1178,8 @@ void BossFd2_DrawMane(BossFd2* this, PlayState* play) {
                        this->rightMane.pull, this->rightMane.scale);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, bossFd->fwork[BFD_MANE_COLOR_LEFT], 0, 255);
-    BossFd2_UpdateMane(this, play, &this->leftMane.head, this->leftMane.pos, this->leftMane.rot,
-                       this->leftMane.pull, this->leftMane.scale);
+    BossFd2_UpdateMane(this, play, &this->leftMane.head, this->leftMane.pos, this->leftMane.rot, this->leftMane.pull,
+                       this->leftMane.scale);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_boss_fd2.c", 2601);
 }
@@ -1208,8 +1206,8 @@ void BossFd2_Draw(Actor* thisx, PlayState* play) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         gDPSetEnvColor(POLY_OPA_DISP++, 255, 255, 255, 128);
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              BossFd2_OverrideLimbDraw, BossFd2_PostLimbDraw, &this->actor);
         BossFd2_DrawMane(this, play);
         POLY_OPA_DISP = Play_SetFog(play, POLY_OPA_DISP);
     }

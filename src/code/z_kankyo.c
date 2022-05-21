@@ -384,8 +384,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
 
             if (play->skyboxId == SKYBOX_NORMAL_SKY) {
                 if (gWeatherMode == WEATHER_MODE_SNOW) {
-                    play->envCtx.precipitation[PRECIP_SNOW_CUR] =
-                        play->envCtx.precipitation[PRECIP_SNOW_MAX] = 64;
+                    play->envCtx.precipitation[PRECIP_SNOW_CUR] = play->envCtx.precipitation[PRECIP_SNOW_MAX] = 64;
                 } else if (gWeatherMode == WEATHER_MODE_RAIN) {
                     play->envCtx.precipitation[PRECIP_RAIN_MAX] = 20;
                     play->envCtx.precipitation[PRECIP_RAIN_CUR] = 20;
@@ -431,8 +430,7 @@ void Environment_Init(PlayState* play2, EnvironmentContext* envCtx, s32 unused) 
         play->csCtx.npcActions[i] = 0;
     }
 
-    if (Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 &&
-        !play->envCtx.sunMoonDisabled) {
+    if (Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_GAMEPLAY_FIELD_KEEP) < 0 && !play->envCtx.sunMoonDisabled) {
         play->envCtx.sunMoonDisabled = true;
         // "Sun setting other than field keep! So forced release!"
         osSyncPrintf(VT_COL(YELLOW, BLACK) "\n\nフィールド常駐以外、太陽設定！よって強制解除！\n" VT_RST);
@@ -873,9 +871,8 @@ void Environment_PrintDebugInfo(PlayState* play, Gfx** gfx) {
 void Environment_PlayTimeBasedSequence(PlayState* play);
 void Environment_UpdateRain(PlayState* play);
 
-void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx,
-                        PauseContext* pauseCtx, MessageContext* msgCtx, GameOverContext* gameOverCtx,
-                        GraphicsContext* gfxCtx) {
+void Environment_Update(PlayState* play, EnvironmentContext* envCtx, LightContext* lightCtx, PauseContext* pauseCtx,
+                        MessageContext* msgCtx, GameOverContext* gameOverCtx, GraphicsContext* gfxCtx) {
     f32 sp8C;
     f32 sp88 = 0.0f;
     u16 i;
@@ -1389,8 +1386,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
     }
 
     if (gSaveContext.entranceIndex != ENTR_SPOT00_0 || ((void)0, gSaveContext.sceneSetupIndex) != 5) {
-        Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x,
-                         play->view.eye.y + play->envCtx.sunPos.y,
+        Matrix_Translate(play->view.eye.x + play->envCtx.sunPos.x, play->view.eye.y + play->envCtx.sunPos.y,
                          play->view.eye.z + play->envCtx.sunPos.z, MTXMODE_NEW);
 
         y = play->envCtx.sunPos.y / 25.0f;
@@ -1424,8 +1420,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         func_80093AD0(play->state.gfxCtx);
         gSPDisplayList(POLY_OPA_DISP++, gSunDL);
 
-        Matrix_Translate(play->view.eye.x - play->envCtx.sunPos.x,
-                         play->view.eye.y - play->envCtx.sunPos.y,
+        Matrix_Translate(play->view.eye.x - play->envCtx.sunPos.x, play->view.eye.y - play->envCtx.sunPos.y,
                          play->view.eye.z - play->envCtx.sunPos.z, MTXMODE_NEW);
 
         color = -y / 120.0f;
@@ -1452,12 +1447,11 @@ void Environment_DrawSunAndMoon(PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 2429);
 }
 
-void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
-                                  GraphicsContext* gfxCtx, Vec3f pos, s32 unused) {
+void Environment_DrawSunLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
+                                  Vec3f pos, s32 unused) {
     if ((play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) && (play->envCtx.skyboxConfig == 0)) {
-        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000,
-                                  370, Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400,
-                                  true);
+        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, 2000, 370,
+                                  Math_CosS(((void)0, gSaveContext.dayTime) - CLOCK_TIME(12, 0)) * 120.0f, 400, true);
     }
 }
 
@@ -1469,9 +1463,8 @@ typedef enum {
     /* 2 */ LENS_FLARE_RING
 } LensFlareType;
 
-void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view,
-                               GraphicsContext* gfxCtx, Vec3f pos, s32 unused, s16 scale, f32 colorIntensity,
-                               s16 glareStrength, u8 isSun) {
+void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View* view, GraphicsContext* gfxCtx,
+                               Vec3f pos, s32 unused, s16 scale, f32 colorIntensity, s16 glareStrength, u8 isSun) {
     s16 i;
     f32 tempX;
     f32 tempY;
@@ -1811,8 +1804,7 @@ void Environment_ChangeLightSetting(PlayState* play, u32 lightSetting) {
  * An example usage of a filter is to dim the skybox in cloudy conditions.
  */
 void Environment_DrawSkyboxFilters(PlayState* play) {
-    if (((play->skyboxId != SKYBOX_NONE) && (play->lightCtx.fogNear < 980)) ||
-        (play->skyboxId == SKYBOX_UNSET_1D)) {
+    if (((play->skyboxId != SKYBOX_NONE) && (play->lightCtx.fogNear < 980)) || (play->skyboxId == SKYBOX_UNSET_1D)) {
         f32 alpha;
 
         OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 3032);
@@ -1840,9 +1832,8 @@ void Environment_DrawSkyboxFilters(PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 3048);
 
         func_800938B4(play->state.gfxCtx);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, play->envCtx.skyboxFilterColor[0],
-                        play->envCtx.skyboxFilterColor[1], play->envCtx.skyboxFilterColor[2],
-                        play->envCtx.skyboxFilterColor[3]);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, play->envCtx.skyboxFilterColor[0], play->envCtx.skyboxFilterColor[1],
+                        play->envCtx.skyboxFilterColor[2], play->envCtx.skyboxFilterColor[3]);
         gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_kankyo.c", 3056);
@@ -2097,8 +2088,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_4 << 4 | NATURE_CHANNEL_CRITTER_5,
                                              CHANNEL_IO_PORT_1, 0);
 
-            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
-                play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
+            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                 osSyncPrintf("\n\n\nNa_StartMorinigBgm\n\n");
                 func_800F5510(play->sequenceCtx.seqId);
             }
@@ -2125,8 +2115,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             break;
 
         case TIMESEQ_EARLY_NIGHT_CRITTERS:
-            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
-                play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
+            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                 Audio_PlayNatureAmbienceSequence(play->sequenceCtx.natureAmbienceId);
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_1, 1);
             }
@@ -2143,8 +2132,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
         case TIMESEQ_NIGHT_CRITTERS:
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_0, CHANNEL_IO_PORT_1, 0);
 
-            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
-                play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
+            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_1 << 4 | NATURE_CHANNEL_CRITTER_3,
                                                  CHANNEL_IO_PORT_1, 1);
             }
@@ -2173,8 +2161,7 @@ void Environment_PlayTimeBasedSequence(PlayState* play) {
             Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_1 << 4 | NATURE_CHANNEL_CRITTER_3,
                                              CHANNEL_IO_PORT_1, 0);
 
-            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 &&
-                play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
+            if (play->envCtx.precipitation[PRECIP_RAIN_MAX] == 0 && play->envCtx.precipitation[PRECIP_SOS_MAX] == 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_CRITTER_4 << 4 | NATURE_CHANNEL_CRITTER_5,
                                                  CHANNEL_IO_PORT_1, 1);
             }
@@ -2198,9 +2185,8 @@ void Environment_DrawCustomLensFlare(PlayState* play) {
         pos.y = gCustomLensFlarePos.y;
         pos.z = gCustomLensFlarePos.z;
 
-        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos,
-                                  gLensFlareUnused, gLensFlareScale, gLensFlareColorIntensity, gLensFlareGlareStrength,
-                                  false);
+        Environment_DrawLensFlare(play, &play->envCtx, &play->view, play->state.gfxCtx, pos, gLensFlareUnused,
+                                  gLensFlareScale, gLensFlareColorIntensity, gLensFlareGlareStrength, false);
     }
 }
 

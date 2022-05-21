@@ -271,11 +271,10 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
             this->actionFunc = EnDoor_Idle;
             this->playerIsOpening = 0;
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->animStyle])) {
-            Audio_PlayActorSound2(&this->actor,
-                                  (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                   play->sceneNum == SCENE_HIDAN)
-                                      ? NA_SE_EV_IRON_DOOR_OPEN
-                                      : NA_SE_OC_DOOR_OPEN);
+            Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
+                                                 play->sceneNum == SCENE_HIDAN)
+                                                    ? NA_SE_EV_IRON_DOOR_OPEN
+                                                    : NA_SE_OC_DOOR_OPEN);
             if (this->skelAnime.playSpeed < 1.5f) {
                 numEffects = (s32)(Rand_ZeroOne() * 30.0f) + 50;
                 for (i = 0; i < numEffects; i++) {
@@ -283,11 +282,10 @@ void EnDoor_Open(EnDoor* this, PlayState* play) {
                 }
             }
         } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->animStyle])) {
-            Audio_PlayActorSound2(&this->actor,
-                                  (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
-                                   play->sceneNum == SCENE_HIDAN)
-                                      ? NA_SE_EV_IRON_DOOR_CLOSE
-                                      : NA_SE_EV_DOOR_CLOSE);
+            Audio_PlayActorSound2(&this->actor, (play->sceneNum == SCENE_HAKADAN || play->sceneNum == SCENE_HAKADANCH ||
+                                                 play->sceneNum == SCENE_HIDAN)
+                                                    ? NA_SE_EV_IRON_DOOR_CLOSE
+                                                    : NA_SE_EV_DOOR_CLOSE);
         }
     }
 }
@@ -311,8 +309,7 @@ s32 EnDoor_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         doorDLists = sDoorDLists[this->dListIndex];
         transitionEntry = &play->transiActorCtx.list[(u16)this->actor.params >> 0xA];
         rot->z += this->actor.world.rot.y;
-        if ((play->roomCtx.prevRoom.num >= 0) ||
-            (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
+        if ((play->roomCtx.prevRoom.num >= 0) || (transitionEntry->sides[0].room == transitionEntry->sides[1].room)) {
             rotDiff = ((this->actor.shape.rot.y + this->skelAnime.jointTable[3].z) + rot->z) -
                       Math_Vec3f_Yaw(&play->view.eye, &this->actor.world.pos);
             *dList = (ABS(rotDiff) < 0x4000) ? doorDLists[0] : doorDLists[1];
@@ -334,8 +331,8 @@ void EnDoor_Draw(Actor* thisx, PlayState* play) {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_door.c", 910);
 
         func_80093D18(play->state.gfxCtx);
-        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDoor_OverrideLimbDraw,
-                          NULL, &this->actor);
+        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDoor_OverrideLimbDraw, NULL,
+                          &this->actor);
         if (this->actor.world.rot.y != 0) {
             if (1) {}
             if (this->actor.world.rot.y > 0) {

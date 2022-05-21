@@ -474,8 +474,7 @@ void EnSyatekiMan_Update(Actor* thisx, PlayState* play) {
     func_80038290(play, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
-s32 EnSyatekiMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  void* thisx) {
+s32 EnSyatekiMan_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSyatekiMan* this = (EnSyatekiMan*)thisx;
     s32 turnDirection;
 

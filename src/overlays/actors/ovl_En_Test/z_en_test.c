@@ -259,8 +259,8 @@ void EnTest_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
 
-    SkelAnime_Init(play, &this->skelAnime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->jointTable,
-                   this->morphTable, STALFOS_LIMB_MAX);
+    SkelAnime_Init(play, &this->skelAnime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->jointTable, this->morphTable,
+                   STALFOS_LIMB_MAX);
     SkelAnime_Init(play, &this->upperSkelanime, &gStalfosSkel, &gStalfosMiddleGuardAnim, this->upperJointTable,
                    this->upperMorphTable, STALFOS_LIMB_MAX);
 
@@ -1831,8 +1831,7 @@ s32 EnTest_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* 
         OPEN_DISPS(play->state.gfxCtx, "../z_en_test.c", 3582);
 
         gDPPipeSync(POLY_OPA_DISP++);
-        gDPSetEnvColor(POLY_OPA_DISP++, 80 + ABS((s16)(Math_SinS(play->gameplayFrames * 2000) * 175.0f)), 0, 0,
-                       255);
+        gDPSetEnvColor(POLY_OPA_DISP++, 80 + ABS((s16)(Math_SinS(play->gameplayFrames * 2000) * 175.0f)), 0, 0, 255);
 
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_test.c", 3587);
     }
@@ -1881,8 +1880,7 @@ void EnTest_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot
         Matrix_MultVec3f(&D_80864664, &sp70);
         Matrix_MultVec3f(&D_80864670, &sp64);
 
-        if ((this->swordState >= 1) &&
-            ((this->actor.params != STALFOS_TYPE_INVISIBLE) || play->actorCtx.lensActive)) {
+        if ((this->swordState >= 1) && ((this->actor.params != STALFOS_TYPE_INVISIBLE) || play->actorCtx.lensActive)) {
             EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &sp70, &sp64);
         } else if (this->swordState >= 0) {
             EffectBlure_AddSpace(Effect_GetByIndex(this->effectIndex));
@@ -1967,8 +1965,8 @@ void EnTest_Draw(Actor* thisx, PlayState* play) {
         if ((this->iceTimer % 4) == 0) {
             s32 iceIndex = this->iceTimer >> 2;
 
-            EffectSsEnIce_SpawnFlyingVec3s(play, thisx, &this->bodyPartsPos[iceIndex], 150, 150, 150, 250, 235,
-                                           245, 255, 1.5f);
+            EffectSsEnIce_SpawnFlyingVec3s(play, thisx, &this->bodyPartsPos[iceIndex], 150, 150, 150, 250, 235, 245,
+                                           255, 1.5f);
         }
     }
 }

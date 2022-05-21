@@ -75,8 +75,7 @@ void EnDntJiji_Init(Actor* thisx, PlayState* play) {
     EnDntJiji* this = (EnDntJiji*)thisx;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-    SkelAnime_Init(play, &this->skelAnime, &gDntJijiSkel, &gDntJijiBurrowAnim, this->jointTable, this->morphTable,
-                   13);
+    SkelAnime_Init(play, &this->skelAnime, &gDntJijiSkel, &gDntJijiBurrowAnim, this->jointTable, this->morphTable, 13);
     Collider_InitCylinder(play, &this->collider);
     Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit);
     this->stage = (EnDntDemo*)this->actor.parent;

@@ -496,8 +496,7 @@ Vec3s* Camera_GetCamBgDataUnderPlayer(Camera* camera, u16* dataCnt) {
 
     Actor_GetWorldPosShapeRot(&playerPosShape, &camera->player->actor);
     playerPosShape.pos.y += Player_GetHeight(camera->player);
-    if (BgCheck_EntityRaycastFloor3(&camera->play->colCtx, &floorPoly, &bgId, &playerPosShape.pos) ==
-        BGCHECK_Y_MIN) {
+    if (BgCheck_EntityRaycastFloor3(&camera->play->colCtx, &floorPoly, &bgId, &playerPosShape.pos) == BGCHECK_Y_MIN) {
         // no floor
         return NULL;
     }
@@ -519,8 +518,8 @@ s32 Camera_GetWaterBoxDataIdx(Camera* camera, f32* waterY) {
     Actor_GetWorldPosShapeRot(&playerPosShape, &camera->player->actor);
     *waterY = playerPosShape.pos.y;
 
-    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, playerPosShape.pos.x, playerPosShape.pos.z,
-                              waterY, &waterBox)) {
+    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, playerPosShape.pos.x, playerPosShape.pos.z, waterY,
+                              &waterBox)) {
         // player's position is not in a water box.
         *waterY = BGCHECK_Y_MIN;
         return -1;
@@ -554,8 +553,7 @@ f32 Camera_GetWaterSurface(Camera* camera, Vec3f* chkPos, s32* envProp) {
     Actor_GetWorldPosShapeRot(&playerPosRot, &camera->player->actor);
     waterY = playerPosRot.pos.y;
 
-    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, chkPos->x, chkPos->z, &waterY,
-                              &waterBox)) {
+    if (!WaterBox_GetSurface1(camera->play, &camera->play->colCtx, chkPos->x, chkPos->z, &waterY, &waterBox)) {
         // chkPos is not within the x/z boundaries of a water box.
         return BGCHECK_Y_MIN;
     }
@@ -1716,9 +1714,9 @@ s32 Camera_Normal2(Camera* camera) {
             rwData->unk_20 = BGCAM_ROT(bgData).x;
             rwData->unk_22 = BGCAM_ROT(bgData).y;
             rwData->unk_24 = playerPosRot->pos.y;
-            rwData->unk_1C = BGCAM_FOV(bgData) == -1      ? roData->unk_14
-                             : BGCAM_FOV(bgData) >= 0x169 ? CAM_DATA_SCALED(BGCAM_FOV(bgData))
-                                                          : BGCAM_FOV(bgData);
+            rwData->unk_1C = BGCAM_FOV(bgData) == -1
+                                 ? roData->unk_14
+                                 : BGCAM_FOV(bgData) >= 0x169 ? CAM_DATA_SCALED(BGCAM_FOV(bgData)) : BGCAM_FOV(bgData);
 
             rwData->unk_28 = BGCAM_JFIFID(bgData) == -1 ? 0 : BGCAM_JFIFID(bgData);
 
@@ -2967,9 +2965,7 @@ s32 Camera_Battle1(Camera* camera) {
     }
     rwData->roll += (((OREG(36) * camera->speedRatio) * (1.0f - distRatio)) - rwData->roll) * CAM_DATA_SCALED(OREG(37));
     camera->roll = CAM_DEG_TO_BINANG(rwData->roll);
-    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0 ? 0.8f
-                                    : gSaveContext.health <= 0x10 ? 0.8f
-                                                                  : 1.0f) *
+    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0 ? 0.8f : gSaveContext.health <= 0x10 ? 0.8f : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
 }
@@ -3716,8 +3712,8 @@ s32 Camera_KeepOn4(Camera* camera) {
             if (!(roData->unk_1C & 1)) {
                 angleCnt = ARRAY_COUNT(D_8011D3B0);
                 for (i = 0; i < angleCnt; i++) {
-                    if (!CollisionCheck_LineOCCheck(camera->play, &camera->play->colChkCtx, &D_8015BD50,
-                                                    &D_8015BD70, spCC, sp9C) &&
+                    if (!CollisionCheck_LineOCCheck(camera->play, &camera->play->colChkCtx, &D_8015BD50, &D_8015BD70,
+                                                    spCC, sp9C) &&
                         !Camera_BGCheck(camera, &D_8015BD50, &D_8015BD70)) {
                         break;
                     }
@@ -5603,8 +5599,8 @@ s32 Camera_Demo1(Camera* camera) {
             rwData->curFrame = 0.0f;
             camera->animState++;
             // "absolute" : "relative"
-            osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n",
-                         camera->play->state.frames, *relativeToPlayer == 0 ? "絶対" : "相対");
+            osSyncPrintf(VT_SGR("1") "%06u:" VT_RST " camera: spline demo: start %s \n", camera->play->state.frames,
+                         *relativeToPlayer == 0 ? "絶対" : "相対");
 
             if (PREG(93)) {
                 Camera_DebugPrintSplineArray("CENTER", 5, csAtPoints);
@@ -6941,8 +6937,7 @@ void func_80057FC4(Camera* camera) {
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 break;
             default:
-                osSyncPrintf("camera: room type: default set etc (%d)\n",
-                             camera->play->roomCtx.curRoom.behaviorType1);
+                osSyncPrintf("camera: room type: default set etc (%d)\n", camera->play->roomCtx.curRoom.behaviorType1);
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 camera->unk_14C |= 4;
@@ -7357,8 +7352,8 @@ void Camera_UpdateDistortion(Camera* camera) {
         depthPhase += CAM_DEG_TO_BINANG(depthPhaseStep);
         screenPlanePhase += CAM_DEG_TO_BINANG(screenPlanePhaseStep);
 
-        View_SetDistortionOrientation(&camera->play->view, Math_CosS(depthPhase) * 0.0f,
-                                      Math_SinS(depthPhase) * 0.0f, Math_SinS(screenPlanePhase) * 0.0f);
+        View_SetDistortionOrientation(&camera->play->view, Math_CosS(depthPhase) * 0.0f, Math_SinS(depthPhase) * 0.0f,
+                                      Math_SinS(screenPlanePhase) * 0.0f);
         View_SetDistortionScale(&camera->play->view, Math_SinS(screenPlanePhase) * (xScale * scaleFactor) + 1.0f,
                                 Math_CosS(screenPlanePhase) * (yScale * scaleFactor) + 1.0f,
                                 Math_CosS(depthPhase) * (zScale * scaleFactor) + 1.0f);
@@ -7415,8 +7410,8 @@ Vec3s Camera_Update(Camera* camera) {
         spAC = curPlayerPosRot.pos;
         spAC.y += Player_GetHeight(camera->player);
 
-        playerGroundY = BgCheck_EntityRaycastFloor5(camera->play, &camera->play->colCtx, &playerFloorPoly,
-                                                    &bgId, &camera->player->actor, &spAC);
+        playerGroundY = BgCheck_EntityRaycastFloor5(camera->play, &camera->play->colCtx, &playerFloorPoly, &bgId,
+                                                    &camera->player->actor, &spAC);
         if (playerGroundY != BGCHECK_Y_MIN) {
             // player is above ground.
             sOOBTimer = 0;

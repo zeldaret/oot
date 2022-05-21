@@ -226,8 +226,7 @@ void func_80ABA244(EnNiwLady* this, PlayState* play) {
         this->cuccosInPen = BREG(7) - 1;
     }
     phi_s1 = this->cuccosInPen;
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) ||
-        (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 101;
     }
     if (this->cuccosInPen >= 7) {
@@ -360,8 +359,7 @@ void func_80ABA878(EnNiwLady* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     s8 playerExchangeItemId;
 
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) ||
-        (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 11;
     }
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
@@ -479,8 +477,7 @@ void func_80ABAD7C(EnNiwLady* this, PlayState* play) {
     if (Text_GetFaceReaction(play, 8) != 0) {
         this->actor.textId = Text_GetFaceReaction(play, 8);
     }
-    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) ||
-        (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_NONE) || (Message_GetState(&play->msgCtx) == TEXT_STATE_DONE)) {
         this->unk_26E = 8;
     }
     if (Actor_ProcessTalkRequest(&this->actor, play)) {
@@ -553,8 +550,7 @@ Gfx* EnNiwLady_EmptyDList(GraphicsContext* gfxCtx) {
     return dList;
 }
 
-s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               void* thisx) {
+s32 EnNiwLady_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnNiwLady* this = (EnNiwLady*)thisx;
     s32 pad;
 
@@ -585,8 +581,8 @@ void EnNiwLady_Draw(Actor* thisx, PlayState* play) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, EnNiwLady_EmptyDList(play->state.gfxCtx));
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, EnNiwLady_OverrideLimbDraw, NULL, this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              EnNiwLady_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_niw_lady.c", 1370);
 }

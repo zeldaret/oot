@@ -105,8 +105,8 @@ void EnBomChu_Explode(EnBomChu* this, PlayState* play) {
     EnBom* bomb;
     s32 i;
 
-    bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x,
-                               this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, BOMB_BODY);
+    bomb = (EnBom*)Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BOM, this->actor.world.pos.x, this->actor.world.pos.y,
+                               this->actor.world.pos.z, 0, 0, 0, BOMB_BODY);
     if (bomb != NULL) {
         bomb->timer = 0;
     }
@@ -450,8 +450,8 @@ void EnBomChu_Update(Actor* thisx, PlayState* play2) {
 
         waterY = this->actor.world.pos.y;
 
-        if (WaterBox_GetSurface1(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                 &waterY, &waterBox)) {
+        if (WaterBox_GetSurface1(play, &play->colCtx, this->actor.world.pos.x, this->actor.world.pos.z, &waterY,
+                                 &waterBox)) {
             this->actor.yDistToWater = waterY - this->actor.world.pos.y;
 
             if (this->actor.yDistToWater < 0.0f) {

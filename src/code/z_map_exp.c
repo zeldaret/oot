@@ -293,8 +293,7 @@ void Map_Init(PlayState* play) {
         case SCENE_MIZUSIN_BS:
         case SCENE_JYASINBOSS:
         case SCENE_HAKADAN_BS:
-            mapIndex =
-                (play->sceneNum >= SCENE_YDAN_BOSS) ? play->sceneNum - SCENE_YDAN_BOSS : play->sceneNum;
+            mapIndex = (play->sceneNum >= SCENE_YDAN_BOSS) ? play->sceneNum - SCENE_YDAN_BOSS : play->sceneNum;
             R_MAP_INDEX = gSaveContext.mapIndex = mapIndex;
             if ((play->sceneNum <= SCENE_ICE_DOUKUTO) || (play->sceneNum >= SCENE_YDAN_BOSS)) {
                 R_COMPASS_SCALE_X = gMapData->dgnCompassInfo[mapIndex][0];
@@ -585,8 +584,8 @@ void Map_Update(PlayState* play) {
             case SCENE_JYASINBOSS:
             case SCENE_HAKADAN_BS:
                 VREG(30) = gMapData->bossFloor[play->sceneNum - SCENE_YDAN_BOSS];
-                R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE +
-                                  gMapData->floorTexIndexOffset[play->sceneNum - SCENE_YDAN_BOSS][VREG(30)];
+                R_MAP_TEX_INDEX =
+                    R_MAP_TEX_INDEX_BASE + gMapData->floorTexIndexOffset[play->sceneNum - SCENE_YDAN_BOSS][VREG(30)];
                 break;
         }
     }

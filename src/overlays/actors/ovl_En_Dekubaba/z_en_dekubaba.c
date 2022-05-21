@@ -226,8 +226,8 @@ void EnDekubaba_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 22.0f);
-    SkelAnime_Init(play, &this->skelAnime, &gDekuBabaSkel, &gDekuBabaFastChompAnim, this->jointTable,
-                   this->morphTable, 8);
+    SkelAnime_Init(play, &this->skelAnime, &gDekuBabaSkel, &gDekuBabaFastChompAnim, this->jointTable, this->morphTable,
+                   8);
     Collider_InitJntSph(play, &this->collider);
     Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
@@ -533,8 +533,8 @@ void EnDekubaba_Grow(EnDekubaba* this, PlayState* play) {
     this->actor.world.pos.x = this->actor.home.pos.x + headShiftX;
     this->actor.world.pos.z = this->actor.home.pos.z + headShiftZ;
 
-    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f, this->size * 5.0f,
+                             1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 
     if (this->timer == 0) {
         if (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < 240.0f * this->size) {
@@ -594,8 +594,8 @@ void EnDekubaba_Retract(EnDekubaba* this, PlayState* play) {
     this->actor.world.pos.x = this->actor.home.pos.x + xShift;
     this->actor.world.pos.z = this->actor.home.pos.z + zShift;
 
-    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 0xA, NULL);
+    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f, this->size * 5.0f,
+                             1, HAHEN_OBJECT_DEFAULT, 0xA, NULL);
 
     if (this->timer == 0) {
         EnDekubaba_SetupWait(this);
@@ -1006,8 +1006,8 @@ void EnDekubaba_ShrinkDie(EnDekubaba* this, PlayState* play) {
 
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
     this->actor.shape.rot.z += 0x1C70;
-    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f,
-                             this->size * 5.0f, 1, HAHEN_OBJECT_DEFAULT, 10, NULL);
+    EffectSsHahen_SpawnBurst(play, &this->actor.home.pos, this->size * 3.0f, 0, this->size * 12.0f, this->size * 5.0f,
+                             1, HAHEN_OBJECT_DEFAULT, 10, NULL);
 }
 
 void EnDekubaba_DeadStickDrop(EnDekubaba* this, PlayState* play) {
@@ -1283,8 +1283,8 @@ void EnDekubaba_Draw(Actor* thisx, PlayState* play) {
     func_80093D18(play->state.gfxCtx);
 
     if (this->actionFunc != EnDekubaba_DeadStickDrop) {
-        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL,
-                          EnDekubaba_PostLimbDraw, this);
+        SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, EnDekubaba_PostLimbDraw,
+                          this);
 
         if (this->actionFunc == EnDekubaba_Wait) {
             EnDekubaba_DrawStemRetracted(this, play);

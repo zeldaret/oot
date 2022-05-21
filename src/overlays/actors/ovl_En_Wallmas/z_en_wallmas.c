@@ -244,8 +244,8 @@ void EnWallmas_SetupDie(EnWallmas* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
 
-    EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0, 255,
-                         1, 9, true);
+    EffectSsDeadDb_Spawn(play, &this->actor.world.pos, &zeroVec, &zeroVec, 250, -10, 255, 255, 255, 255, 0, 0, 255, 1,
+                         9, true);
 
     Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xC0);
     this->actionFunc = EnWallmas_Die;
@@ -608,8 +608,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }
 
-s32 EnWallMas_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               void* thisx) {
+s32 EnWallMas_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnWallmas* this = (EnWallmas*)thisx;
 
     if (limbIndex == 1) {
@@ -646,8 +645,8 @@ void EnWallmas_Draw(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
         func_80093D18(play->state.gfxCtx);
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }
 
     EnWallmas_DrawXlu(this, play);

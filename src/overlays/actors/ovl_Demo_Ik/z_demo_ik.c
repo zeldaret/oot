@@ -27,8 +27,7 @@ void DemoIk_Destroy(Actor* thisx, PlayState* play) {
 }
 
 void DemoIk_BgCheck(DemoIk* this, PlayState* play) {
-    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f,
-                            UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 75.0f, 30.0f, 30.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 }
 
 s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
@@ -403,8 +402,7 @@ void DemoIk_Type2Action2(DemoIk* this, PlayState* play) {
     func_80984048(this, play);
 }
 
-s32 DemoIk_Type2OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 void* thisx) {
+s32 DemoIk_Type2OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     DemoIk* this = (DemoIk*)thisx;
 
     if ((limbIndex == 1) && (DemoIk_GetCurFrame(this) < 30.0f)) {

@@ -237,8 +237,8 @@ void func_80882CC4(BgHakaZou* this, PlayState* play) {
             actorSpawnPos.z = this->dyna.actor.world.pos.z + (j - 1) * cos;
             actorSpawnPos.y = this->dyna.actor.world.pos.y + (i - 1) * 55;
 
-            Actor_Spawn(&play->actorCtx, play, ACTOR_BG_HAKA_ZOU, actorSpawnPos.x, actorSpawnPos.y,
-                        actorSpawnPos.z, 0, this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 2);
+            Actor_Spawn(&play->actorCtx, play, ACTOR_BG_HAKA_ZOU, actorSpawnPos.x, actorSpawnPos.y, actorSpawnPos.z, 0,
+                        this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 2);
             func_800286CC(play, &actorSpawnPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }

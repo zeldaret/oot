@@ -1127,8 +1127,8 @@ void func_80A99048(EnKo* this, PlayState* play) {
         this->actor.flags &= ~ACTOR_FLAG_4;
         this->actor.objectLoadEntryIndex = this->legsObjectLoadEntryIndex;
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->actor.objectLoadEntryIndex].segment);
-        SkelAnime_InitFlex(play, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader,
-                           NULL, this->jointTable, this->morphTable, 16);
+        SkelAnime_InitFlex(play, &this->skelAnime, sSkeleton[sModelInfo[ENKO_TYPE].legsId].flexSkeletonHeader, NULL,
+                           this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
         Collider_InitCylinder(play, &this->collider);
@@ -1244,8 +1244,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
 
     if (this->actionFunc != func_80A99048) {
         if ((s32)this->modelAlpha != 0) {
-            gSegments[6] =
-                VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[this->osAnimeObjectLoadEntryIndex].segment);
             SkelAnime_Update(&this->skelAnime);
             func_80A98DB4(this, play);
             EnKo_Blink(this);
@@ -1269,8 +1268,7 @@ void EnKo_Update(Actor* thisx, PlayState* play) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &collider->base);
 }
 
-s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
-                          Gfx** gfx) {
+s32 EnKo_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx, Gfx** gfx) {
     EnKo* this = (EnKo*)thisx;
     void* eyeTexture;
     Vec3s sp40;
@@ -1343,8 +1341,7 @@ void EnKo_Draw(Actor* thisx, PlayState* play) {
                    EnKo_SetEnvColor(play->state.gfxCtx, tunicColor.r, tunicColor.g, tunicColor.b, 255));
         gSPSegment(POLY_OPA_DISP++, 0x09,
                    EnKo_SetEnvColor(play->state.gfxCtx, bootsColor.r, bootsColor.g, bootsColor.b, 255));
-        func_80034BA0(play, &this->skelAnime, EnKo_OverrideLimbDraw, EnKo_PostLimbDraw, &this->actor,
-                      this->modelAlpha);
+        func_80034BA0(play, &this->skelAnime, EnKo_OverrideLimbDraw, EnKo_PostLimbDraw, &this->actor, this->modelAlpha);
     } else if ((s16)this->modelAlpha != 0) {
         tunicColor.a = this->modelAlpha;
         bootsColor.a = this->modelAlpha;
@@ -1352,8 +1349,7 @@ void EnKo_Draw(Actor* thisx, PlayState* play) {
                    EnKo_SetEnvColor(play->state.gfxCtx, tunicColor.r, tunicColor.g, tunicColor.b, tunicColor.a));
         gSPSegment(POLY_XLU_DISP++, 0x09,
                    EnKo_SetEnvColor(play->state.gfxCtx, bootsColor.r, bootsColor.g, bootsColor.b, bootsColor.a));
-        func_80034CC4(play, &this->skelAnime, EnKo_OverrideLimbDraw, EnKo_PostLimbDraw, &this->actor,
-                      this->modelAlpha);
+        func_80034CC4(play, &this->skelAnime, EnKo_OverrideLimbDraw, EnKo_PostLimbDraw, &this->actor, this->modelAlpha);
     }
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_ko.c", 2136);
 }

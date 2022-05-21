@@ -89,8 +89,7 @@ void DoorWarp1_Destroy(Actor* thisx, PlayState* play) {
     LightContext_RemoveLight(play, &play->lightCtx, this->lowerLight);
 
     for (i = 0; i < 3; i++) {
-        play->envCtx.adjAmbientColor[i] = play->envCtx.adjFogColor[i] = play->envCtx.adjLight1Color[i] =
-            0;
+        play->envCtx.adjAmbientColor[i] = play->envCtx.adjFogColor[i] = play->envCtx.adjLight1Color[i] = 0;
     }
     //! @bug SkelAnime_Free is not called for crystal variants
 }
@@ -231,8 +230,7 @@ void DoorWarp1_SetupBlueCrystal(DoorWarp1* this, PlayState* play) {
     this->actor.shape.yOffset = 800.0f;
 
     for (i = 0; i < 3; i++) {
-        play->envCtx.adjAmbientColor[i] = play->envCtx.adjFogColor[i] = play->envCtx.adjLight1Color[i] =
-            -255;
+        play->envCtx.adjAmbientColor[i] = play->envCtx.adjFogColor[i] = play->envCtx.adjLight1Color[i] = -255;
     }
 
     play->envCtx.adjFogNear = -500;
@@ -819,8 +817,8 @@ void DoorWarp1_AdultWarpOut(DoorWarp1* this, PlayState* play) {
         s16 i;
 
         for (i = 0; i < 3; i++) {
-            play->envCtx.adjAmbientColor[i] = play->envCtx.adjFogColor[i] =
-                play->envCtx.adjLight1Color[i] = -255.0f * temp_f0_2;
+            play->envCtx.adjAmbientColor[i] = play->envCtx.adjFogColor[i] = play->envCtx.adjLight1Color[i] =
+                -255.0f * temp_f0_2;
         }
 
         play->envCtx.adjFogNear = -500.0f * temp_f0_2;
@@ -886,8 +884,8 @@ void DoorWarp1_DrawBlueCrystal(DoorWarp1* this, PlayState* play) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (u8)this->crystalAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (u8)this->crystalAlpha);
 
-    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL,
-                                   &this->actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, &this->actor,
+                                   POLY_XLU_DISP);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_door_warp1.c", 2098);
 
@@ -910,8 +908,8 @@ void DoorWarp1_DrawPurpleCrystal(DoorWarp1* this, PlayState* play) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)this->crystalAlpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 100, (u8)this->crystalAlpha);
 
-    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL,
-                                   &this->actor, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_Draw(play, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, &this->actor,
+                                   POLY_XLU_DISP);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_door_warp1.c", 2152);
 
@@ -1006,8 +1004,8 @@ void DoorWarp1_DrawWarp(DoorWarp1* this, PlayState* play) {
         spEC *= 2;
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100,
-                                    1, spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100, 1,
+                                    spEC & 0xFF, -((s16)this->unk_19C & 511), 0x100, 0x100));
 
         Matrix_Translate(0.0f, this->unk_198 * 60.0f, 0.0f, MTXMODE_APPLY);
 

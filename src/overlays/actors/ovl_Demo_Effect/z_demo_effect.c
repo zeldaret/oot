@@ -126,9 +126,8 @@ void DemoEffect_SetupUpdate(DemoEffect* this, DemoEffectFunc updateFunc) {
  * Gives a number on the range of 0.0f - 1.0f representing current cutscene action completion percentage.
  */
 f32 DemoEffect_InterpolateCsFrames(PlayState* play, s32 csActionId) {
-    f32 interpolated =
-        Environment_LerpWeight(play->csCtx.npcActions[csActionId]->endFrame,
-                               play->csCtx.npcActions[csActionId]->startFrame, play->csCtx.frames);
+    f32 interpolated = Environment_LerpWeight(play->csCtx.npcActions[csActionId]->endFrame,
+                                              play->csCtx.npcActions[csActionId]->startFrame, play->csCtx.frames);
     if (interpolated > 1.0f) {
         interpolated = 1.0f;
     }
@@ -404,9 +403,9 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
 
             Actor_SetScale(&this->actor, 0.020f);
 
-            crystalLight = (DemoEffect*)Actor_SpawnAsChild(
-                &play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
-                this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_CRYSTAL_LIGHT);
+            crystalLight = (DemoEffect*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT,
+                                                           this->actor.world.pos.x, this->actor.world.pos.y,
+                                                           this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_CRYSTAL_LIGHT);
 
             if (crystalLight != NULL) {
                 Actor_SetScale(&crystalLight->actor, 0.6f);
@@ -914,11 +913,10 @@ void DemoEffect_UpdateLightRingTriforce(DemoEffect* this, PlayState* play) {
     DemoEffect_UpdatePositionToParent(this, play);
 
     if (play->csCtx.state != CS_STATE_IDLE) {
-        if (play->csCtx.npcActions[this->csActionId] != NULL &&
-            play->csCtx.npcActions[this->csActionId]->action == 2) {
-            blueOrb = (DemoEffect*)Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT,
-                                               this->actor.world.pos.x, this->actor.world.pos.y,
-                                               this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_BLUE_ORB);
+        if (play->csCtx.npcActions[this->csActionId] != NULL && play->csCtx.npcActions[this->csActionId]->action == 2) {
+            blueOrb = (DemoEffect*)Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                                               this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
+                                               DEMO_EFFECT_BLUE_ORB);
 
             if (blueOrb != NULL) {
                 Actor_SetScale(&blueOrb->actor, 0.0f);
@@ -1069,8 +1067,7 @@ void DemoEffect_UpdateLightEffect(DemoEffect* this, PlayState* play) {
                 break;
         }
 
-        if (play->sceneNum == SCENE_SPOT04 && gSaveContext.sceneSetupIndex == 6 &&
-            play->csCtx.frames == 197) {
+        if (play->sceneNum == SCENE_SPOT04 && gSaveContext.sceneSetupIndex == 6 && play->csCtx.frames == 197) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_WHITE_OUT);
         }
 
@@ -1197,10 +1194,10 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
                 this->godLgt.lightRingSpawnTimer--;
             } else {
                 this->godLgt.lightRingSpawnTimer = this->godLgt.lightRingSpawnDelay;
-                lightRing = (DemoEffect*)Actor_Spawn(
-                    &play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
-                    this->actor.world.pos.y, this->actor.world.pos.z, this->actor.world.rot.x + 0x4000,
-                    this->actor.world.rot.y, this->actor.world.rot.z, DEMO_EFFECT_LIGHTRING_EXPANDING);
+                lightRing = (DemoEffect*)Actor_Spawn(&play->actorCtx, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                                                     this->actor.world.pos.y, this->actor.world.pos.z,
+                                                     this->actor.world.rot.x + 0x4000, this->actor.world.rot.y,
+                                                     this->actor.world.rot.z, DEMO_EFFECT_LIGHTRING_EXPANDING);
 
                 if (lightRing != NULL) {
                     Actor_SetScale(&lightRing->actor, 1.0f);
@@ -1254,9 +1251,9 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
         DemoEffect_MoveToCsEndpoint(this, play, this->csActionId, 1);
 
         if (play->csCtx.npcActions[this->csActionId]->action == 3) {
-            lgtShower = (DemoEffect*)Actor_SpawnAsChild(
-                &play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
-                this->actor.world.pos.y - 150.0f, this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_LGT_SHOWER);
+            lgtShower = (DemoEffect*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_DEMO_EFFECT,
+                                                        this->actor.world.pos.x, this->actor.world.pos.y - 150.0f,
+                                                        this->actor.world.pos.z, 0, 0, 0, DEMO_EFFECT_LGT_SHOWER);
 
             if (lgtShower != NULL) {
                 lgtShower->actor.scale.x = 0.23f;
@@ -1513,8 +1510,8 @@ void DemoEffect_JewelSparkle(DemoEffect* this, PlayState* play, s32 spawnerCount
         velocity.x = (Rand_ZeroOne() - 0.5f) * 1.5f;
         velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
 
-        EffectSsKiraKira_SpawnDispersed(play, &this->actor.world.pos, &velocity, &accel, &primColor, &envColor,
-                                        3000, 16);
+        EffectSsKiraKira_SpawnDispersed(play, &this->actor.world.pos, &velocity, &accel, &primColor, &envColor, 3000,
+                                        16);
     }
 }
 
@@ -1785,9 +1782,8 @@ void DemoEffect_DrawFireBall(Actor* thisx, PlayState* play) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_effect.c", 2709),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPMatrix(POLY_XLU_DISP++, play->billboardMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-    gSPSegment(
-        POLY_XLU_DISP++, 8,
-        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 128 - ((frames * 20) % 128) - 1, 32, 32));
+    gSPSegment(POLY_XLU_DISP++, 8,
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 128 - ((frames * 20) % 128) - 1, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, gCreationFireBallDL);
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2723);
 }
@@ -1951,8 +1947,8 @@ void DemoEffect_DrawLightRing(Actor* thisx, PlayState* play2) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_effect.c", 2963),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1, 16, 128,
-                                1, 0, 0, 8, 1024));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1, 16, 128, 1, 0,
+                                0, 8, 1024));
     gSPDisplayList(POLY_XLU_DISP++, gGoldenGoddessLightRingDL);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 2978);
@@ -2000,8 +1996,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
                 Matrix_RotateY(BINANG_TO_RAD(this->triforceSpot.rotation), MTXMODE_APPLY);
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_effect.c", 3053),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPSegment(POLY_XLU_DISP++, 8,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
+                gSPSegment(POLY_XLU_DISP++, 8, Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
                 gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 160, this->triforceSpot.triforceSpotOpacity);
                 gDPSetEnvColor(POLY_XLU_DISP++, 170, 140, 0, 255);
                 gSPDisplayList(POLY_XLU_DISP++, gTriforceDL);
@@ -2012,8 +2007,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, PlayState* play) {
                 Matrix_RotateY(BINANG_TO_RAD(this->triforceSpot.rotation), MTXMODE_APPLY);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_effect.c", 3085),
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                gSPSegment(POLY_OPA_DISP++, 8,
-                           Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
+                gSPSegment(POLY_OPA_DISP++, 8, Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
                 gDPSetPrimColor(POLY_OPA_DISP++, 128, 128, 255, 255, 160, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 170, 140, 0, 255);
                 gSPDisplayList(POLY_OPA_DISP++, gTriforceDL);
@@ -2053,8 +2047,8 @@ s32 DemoEffect_OverrideLimbDrawTimeWarp(PlayState* play, SkelCurve* skelCurve, s
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 170, 255, 255, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, this->envXluColor[0], this->envXluColor[1], this->envXluColor[2], 255);
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (frames * 6) % 1024, 256 - ((frames * 16) % 256) - 1, 256,
-                                64, 1, (frames * 4) % 512, 128 - ((frames * 12) % 128) - 1, 128, 32));
+               Gfx_TwoTexScroll(play->state.gfxCtx, 0, (frames * 6) % 1024, 256 - ((frames * 16) % 256) - 1, 256, 64, 1,
+                                (frames * 4) % 512, 128 - ((frames * 12) % 128) - 1, 128, 32));
     CLOSE_DISPS(play->state.gfxCtx, "../z_demo_effect.c", 3172);
 
     if (limbIndex == 0) {
@@ -2076,8 +2070,7 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
     u8 effectType = (this->actor.params & 0x00FF);
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL ||
-        Flags_GetEnv(play, 1) || gSaveContext.sceneSetupIndex >= 4 ||
-        gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
+        Flags_GetEnv(play, 1) || gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
 
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 25);

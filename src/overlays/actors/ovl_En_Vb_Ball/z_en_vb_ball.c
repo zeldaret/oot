@@ -84,8 +84,8 @@ void EnVbBall_Destroy(Actor* thisx, PlayState* play) {
     }
 }
 
-void EnVbBall_SpawnDebris(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
-                          Vec3f* acceleration, f32 scale) {
+void EnVbBall_SpawnDebris(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
+                          f32 scale) {
     s16 i;
 
     for (i = 0; i < 180; i++, effect++) {
@@ -102,8 +102,8 @@ void EnVbBall_SpawnDebris(PlayState* play, BossFdEffect* effect, Vec3f* position
     }
 }
 
-void EnVbBall_SpawnDust(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
-                        Vec3f* acceleration, f32 scale) {
+void EnVbBall_SpawnDust(PlayState* play, BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
+                        f32 scale) {
     s16 i;
 
     for (i = 0; i < 180; i++, effect++) {
@@ -153,8 +153,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, PlayState* play) {
             dustPos.y = this->actor.floorHeight + 10.0f;
             dustPos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
 
-            EnVbBall_SpawnDust(play, bossFd->effects, &dustPos, &dustVel, &dustAcc,
-                               Rand_ZeroFloat(80.0f) + 200.0f);
+            EnVbBall_SpawnDust(play, bossFd->effects, &dustPos, &dustVel, &dustAcc, Rand_ZeroFloat(80.0f) + 200.0f);
         }
     }
     if (this->actor.world.pos.y < 50.0f) {
@@ -213,11 +212,10 @@ void EnVbBall_Update(Actor* thisx, PlayState* play2) {
                         spawnOffset.y = Rand_ZeroFloat(3.0f) + 4.0f;
                         spawnOffset.z = Rand_CenteredFloat(10.0f);
                     }
-                    newActor = (EnVbBall*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play,
-                                                             ACTOR_EN_VB_BALL, this->actor.world.pos.x + spawnOffset.x,
-                                                             this->actor.world.pos.y + spawnOffset.y,
-                                                             this->actor.world.pos.z + spawnOffset.z, 0, 0,
-                                                             this->actor.world.rot.z * 0.5f, this->actor.params + 1);
+                    newActor = (EnVbBall*)Actor_SpawnAsChild(
+                        &play->actorCtx, &this->actor, play, ACTOR_EN_VB_BALL, this->actor.world.pos.x + spawnOffset.x,
+                        this->actor.world.pos.y + spawnOffset.y, this->actor.world.pos.z + spawnOffset.z, 0, 0,
+                        this->actor.world.rot.z * 0.5f, this->actor.params + 1);
                     if (newActor != NULL) {
                         if ((i == 0) && (this->actor.params == 100)) {
                             Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROCK, &newActor->actor.projectedPos, 4,

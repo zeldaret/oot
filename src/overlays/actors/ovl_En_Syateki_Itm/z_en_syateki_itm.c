@@ -72,8 +72,8 @@ void EnSyatekiItm_Init(Actor* thisx, PlayState* play2) {
     EnSyatekiItm* this = (EnSyatekiItm*)thisx;
     s32 i;
 
-    this->man = (EnSyatekiMan*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_SYATEKI_MAN,
-                                                  140.0f, 0.0f, 255.0f, 0, -0x4000, 0, 0);
+    this->man = (EnSyatekiMan*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_SYATEKI_MAN, 140.0f,
+                                                  0.0f, 255.0f, 0, -0x4000, 0, 0);
     if (this->man == NULL) {
         // "Spawn error"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ エラー原 ☆☆☆☆ \n" VT_RST);
@@ -81,9 +81,8 @@ void EnSyatekiItm_Init(Actor* thisx, PlayState* play2) {
         return;
     }
     for (i = 0; i < 10; i++) {
-        this->markers[i] =
-            (EnExRuppy*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_RUPPY,
-                                           sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
+        this->markers[i] = (EnExRuppy*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_EX_RUPPY,
+                                                          sRupeePos[i].x, sRupeePos[i].y, sRupeePos[i].z, 0, 0, 0, 4);
         if (this->markers[i] == NULL) {
             // "Second spawn error"
             osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ エラー原セカンド ☆☆☆☆ \n" VT_RST);
@@ -234,8 +233,8 @@ void EnSyatekiItm_SpawnTargets(EnSyatekiItm* this, PlayState* play) {
 
         for (i = 0; i < this->numTargets; i++) {
             this->targets[i] = (EnGSwitch*)Actor_SpawnAsChild(
-                &play->actorCtx, &this->actor, play, ACTOR_EN_G_SWITCH, this->targetHome[i].x,
-                this->targetHome[i].y, this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
+                &play->actorCtx, &this->actor, play, ACTOR_EN_G_SWITCH, this->targetHome[i].x, this->targetHome[i].y,
+                this->targetHome[i].z, 0, 0, 0, (ENGSWITCH_TARGET_RUPEE << 0xC) | 0x3F);
             if (this->targets[i] == NULL) {
                 // "Rupee spawn error"
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ルピーでエラー原 ☆☆☆☆ \n" VT_RST);

@@ -462,8 +462,7 @@ void EnSb_Update(Actor* thisx, PlayState* play) {
         Actor_SetScale(&this->actor, 0.006f);
         Actor_MoveForward(&this->actor);
         this->actionFunc(this, play);
-        Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
         EnSb_UpdateDamage(this, play);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
@@ -486,8 +485,8 @@ void EnSb_Draw(Actor* thisx, PlayState* play) {
     s16 fireDecr;
 
     func_8002EBCC(&this->actor, play, 1);
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          NULL, EnSb_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          EnSb_PostLimbDraw, this);
     if (this->fire != 0) {
         this->actor.colorFilterTimer++;
         fireDecr = this->fire - 1;

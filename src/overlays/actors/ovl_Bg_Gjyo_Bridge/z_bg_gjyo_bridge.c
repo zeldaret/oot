@@ -103,8 +103,7 @@ void BgGjyoBridge_Draw(Actor* thisx, PlayState* play) {
     func_80093D84(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 8,
-               Gfx_TexScroll(play->state.gfxCtx, play->gameplayFrames & 127,
-                             play->gameplayFrames * -3 & 127, 32, 32));
+               Gfx_TexScroll(play->state.gfxCtx, play->gameplayFrames & 127, play->gameplayFrames * -3 & 127, 32, 32));
 
     gSPSegment(POLY_XLU_DISP++, 9,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, -play->gameplayFrames & 127, 32, 32, 1, 0,

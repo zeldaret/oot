@@ -249,8 +249,8 @@ Gfx* DemoEc_AllocColorDList(GraphicsContext* gfxCtx, u8* color) {
     return dList;
 }
 
-void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* arg3,
-                         OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw) {
+void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* arg3, OverrideLimbDraw overrideLimbDraw,
+                         PostLimbDraw postLimbDraw) {
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 pad;
@@ -275,8 +275,8 @@ void DemoEc_DrawSkeleton(DemoEc* this, PlayState* play, void* eyeTexture, void* 
     CLOSE_DISPS(gfxCtx, "../z_demo_ec.c", 595);
 }
 
-void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gfx* arg3, u8* color1,
-                                    u8* color2, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw) {
+void DemoEc_DrawSkeletonCustomColor(DemoEc* this, PlayState* play, Gfx* arg2, Gfx* arg3, u8* color1, u8* color2,
+                                    OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw) {
     s32 pad;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
     SkelAnime* skelAnime = &this->skelAnime;
@@ -653,8 +653,8 @@ void DemoEc_UpdateCarpenter(DemoEc* this, PlayState* play) {
     DemoEc_UpdateBgFlags(this, play);
 }
 
-s32 DemoEc_CarpenterOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                     void* thisx, Gfx** gfx) {
+s32 DemoEc_CarpenterOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
+                                     Gfx** gfx) {
     DemoEc* this = (DemoEc*)thisx;
 
     if (limbIndex == 1) {
@@ -694,8 +694,7 @@ Gfx* DemoEc_GetCarpenterPostLimbDList(DemoEc* this) {
     }
 }
 
-void DemoEc_CarpenterPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
-                                  Gfx** gfx) {
+void DemoEc_CarpenterPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     DemoEc* this = (DemoEc*)thisx;
     Gfx* postLimbDList;
 
@@ -741,8 +740,7 @@ Gfx* DemoEc_GetGerudoPostLimbDList(DemoEc* this) {
     }
 }
 
-void DemoEc_GerudoPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
-                               Gfx** gfx) {
+void DemoEc_GerudoPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     DemoEc* this = (DemoEc*)thisx;
     Gfx* postLimbDList;
 
@@ -1077,8 +1075,7 @@ void DemoEc_UpdateFishingOwner(DemoEc* this, PlayState* play) {
     DemoEc_UpdateBgFlags(this, play);
 }
 
-void DemoEc_FishingOwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx,
-                                     Gfx** gfx) {
+void DemoEc_FishingOwnerPostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     DemoEc* this = (DemoEc*)thisx;
 
     if ((limbIndex == 8) && !(HIGH_SCORE(HS_FISHING) & 0x1000)) {

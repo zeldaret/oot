@@ -10,12 +10,11 @@ void EnClearTag_Draw(Actor* thisx, PlayState* play);
 void EnClearTag_UpdateEffects(PlayState* play);
 void EnClearTag_DrawEffects(PlayState* play);
 
-void EnClearTag_CreateDebrisEffect(PlayState* play, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
-                                   f32 scale, f32 floorHeight);
+void EnClearTag_CreateDebrisEffect(PlayState* play, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale,
+                                   f32 floorHeight);
 void EnClearTag_CreateFireEffect(PlayState* play, Vec3f* pos, f32 scale);
 void EnClearTag_CreateSmokeEffect(PlayState* play, Vec3f* position, f32 scale);
-void EnClearTag_CreateFlashEffect(PlayState* play, Vec3f* position, f32 scale, f32 floorHeight,
-                                  Vec3f* floorTangent);
+void EnClearTag_CreateFlashEffect(PlayState* play, Vec3f* position, f32 scale, f32 floorHeight, Vec3f* floorTangent);
 
 void EnClearTag_CalculateFloorTangent(EnClearTag* this);
 
@@ -86,8 +85,8 @@ static EnClearTagEffect sEffects[CLEAR_TAG_EFFECT_COUNT];
  * Creates a debris effect.
  * Debris effects are spawned when the Arwing dies. It spawns fire effects.
  */
-void EnClearTag_CreateDebrisEffect(PlayState* play, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
-                                   f32 scale, f32 floorHeight) {
+void EnClearTag_CreateDebrisEffect(PlayState* play, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale,
+                                   f32 floorHeight) {
     s16 i;
     EnClearTagEffect* effect = (EnClearTagEffect*)play->specialEffects;
 
@@ -184,8 +183,7 @@ void EnClearTag_CreateSmokeEffect(PlayState* play, Vec3f* position, f32 scale) {
  * Flash effects are spawned when the Arwing dies.
  * Flash effects two components: 1) a billboard flash, and 2) a light effect on the ground.
  */
-void EnClearTag_CreateFlashEffect(PlayState* play, Vec3f* position, f32 scale, f32 floorHeight,
-                                  Vec3f* floorTangent) {
+void EnClearTag_CreateFlashEffect(PlayState* play, Vec3f* position, f32 scale, f32 floorHeight, Vec3f* floorTangent) {
     s16 i;
     EnClearTagEffect* effect = (EnClearTagEffect*)play->specialEffects;
 
@@ -640,8 +638,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
         crashEffectLocation.x = this->actor.world.pos.x;
         crashEffectLocation.y = (this->actor.world.pos.y + 40.0f) - 30.0f;
         crashEffectLocation.z = this->actor.world.pos.z;
-        EnClearTag_CreateFlashEffect(play, &crashEffectLocation, 6.0f, this->actor.floorHeight,
-                                     &this->floorTangent);
+        EnClearTag_CreateFlashEffect(play, &crashEffectLocation, 6.0f, this->actor.floorHeight, &this->floorTangent);
 
         // Spawn smoke effect.
         crashEffectLocation.y = (this->actor.world.pos.y + 30.0f) - 50.0f;
@@ -660,9 +657,8 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
             debrisEffectAcceleration.y = -1.0f;
             debrisEffectAcceleration.z = 0.0f;
 
-            EnClearTag_CreateDebrisEffect(play, &crashEffectLocation, &crashEffectVelocity,
-                                          &debrisEffectAcceleration, Rand_ZeroFloat(0.15f) + 0.075f,
-                                          this->actor.floorHeight);
+            EnClearTag_CreateDebrisEffect(play, &crashEffectLocation, &crashEffectVelocity, &debrisEffectAcceleration,
+                                          Rand_ZeroFloat(0.15f) + 0.075f, this->actor.floorHeight);
         }
     }
 
@@ -986,9 +982,9 @@ void EnClearTag_DrawEffects(PlayState* play) {
 
             // Draw the fire effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, (s8)effect->primColor.a);
-            gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0,
-                                        32, 32));
+            gSPSegment(
+                POLY_XLU_DISP++, 8,
+                Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);

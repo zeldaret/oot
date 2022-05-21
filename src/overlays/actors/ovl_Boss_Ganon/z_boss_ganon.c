@@ -158,8 +158,7 @@ void BossGanonEff_SpawnWindowShard(PlayState* play, Vec3f* pos, Vec3f* velocity,
     }
 }
 
-void BossGanonEff_SpawnSparkle(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 scale,
-                               s16 arg6) {
+void BossGanonEff_SpawnSparkle(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 scale, s16 arg6) {
     s16 i;
     GanondorfEffect* eff = play->specialEffects;
 
@@ -178,8 +177,8 @@ void BossGanonEff_SpawnSparkle(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec
     }
 }
 
-void BossGanonEff_SpawnLightRay(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 scale,
-                                f32 arg5, s16 arg6) {
+void BossGanonEff_SpawnLightRay(PlayState* play, Vec3f* pos, Vec3f* velocity, Vec3f* accel, f32 scale, f32 arg5,
+                                s16 arg6) {
     s16 i;
     GanondorfEffect* eff = play->specialEffects;
 
@@ -378,8 +377,8 @@ void BossGanon_Init(Actor* thisx, PlayState* play2) {
             BossGanon_SetupTowerCutscene(this, play);
         }
 
-        sCape = (EnGanonMant*)Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_EN_GANON_MANT, 0.0f,
-                                                 0.0f, 0.0f, 0, 0, 0, 1);
+        sCape = (EnGanonMant*)Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_EN_GANON_MANT, 0.0f, 0.0f, 0.0f, 0,
+                                                 0, 0, 1);
         Actor_ChangeCategory(play, &play->actorCtx, thisx, ACTORCAT_BOSS);
     } else {
         thisx->flags &= ~ACTOR_FLAG_0;
@@ -581,12 +580,11 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
                 this->useOpenHand = true;
                 BossGanon_SetIntroCsCamera(this, 0);
                 this->csState = 1;
-                sZelda = (EnZl3*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ZL3, 0.0f,
-                                                    220.0f, -150.0f, 0, 0, 0, 0x2000);
+                sZelda = (EnZl3*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ZL3, 0.0f, 220.0f,
+                                                    -150.0f, 0, 0, 0, 0x2000);
             }
 
-            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_GANON_ORGAN, 0.0f, 0.0f, 0.0f, 0,
-                               0, 0, 1);
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_GANON_ORGAN, 0.0f, 0.0f, 0.0f, 0, 0, 0, 1);
             sCape->minY = 57.0f;
             // fallthrough
         case 1:
@@ -1081,12 +1079,11 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
 
             if (this->csTimer == 50) {
                 gSegments[6] = VIRTUAL_TO_PHYSICAL(
-                    play->objectCtx.loadEntries[Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_GANON)]
-                        .segment);
+                    play->objectCtx.loadEntries[Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_GANON)].segment);
 
                 if (!GET_EVENTCHKINF(EVENTCHKINF_78)) {
-                    TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
-                                           SEGMENTED_TO_VIRTUAL(gDorfTitleCardTex), 160, 180, 128, 40);
+                    TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gDorfTitleCardTex), 160,
+                                           180, 128, 40);
                 }
 
                 SET_EVENTCHKINF(EVENTCHKINF_78);
@@ -1514,8 +1511,8 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
             this->fwork[1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_00EA00);
             this->csState = 101;
             this->skelAnime.playSpeed = 0.0f;
-            sZelda = (EnZl3*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ZL3, 0.0f,
-                                                6000.0f, 0.0f, 0, 0, 0, 0x2000);
+            sZelda = (EnZl3*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_ZL3, 0.0f, 6000.0f, 0.0f,
+                                                0, 0, 0, 0x2000);
 
             player->actor.world.pos.x = -472.0f;
             player->actor.world.pos.y = 4102.0f;
@@ -1911,8 +1908,8 @@ void BossGanon_PoundFloor(BossGanon* this, PlayState* play) {
                     sp6C.x = Rand_CenteredFloat(25.0f);
                     sp6C.y = Rand_ZeroFloat(17.0f);
                     sp6C.z = Rand_CenteredFloat(25.0f);
-                    BossGanonEff_SpawnLightRay(play, &sp60, &sp6C, &sZeroVec, Rand_ZeroFloat(300.0f) + 500.0f,
-                                               13.0f, 0x1E);
+                    BossGanonEff_SpawnLightRay(play, &sp60, &sp6C, &sZeroVec, Rand_ZeroFloat(300.0f) + 500.0f, 13.0f,
+                                               0x1E);
                 }
             }
             break;
@@ -2499,8 +2496,8 @@ void BossGanon_SetupVulnerable(BossGanon* this, PlayState* play) {
         sCape->minDist = 20.0f;
 
         for (i = 0; i < 10; i++) {
-            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_GANON, this->unk_1FC.x,
-                               this->unk_1FC.y, this->unk_1FC.z, Rand_CenteredFloat(0x8000),
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BOSS_GANON, this->unk_1FC.x, this->unk_1FC.y,
+                               this->unk_1FC.z, Rand_CenteredFloat(0x8000),
                                (s16)Rand_CenteredFloat(0x8000) + this->actor.yawTowardsPlayer, 0, 0xC8 + i);
         }
 
@@ -2644,8 +2641,8 @@ void BossGanon_Vulnerable(BossGanon* this, PlayState* play) {
                     sp40.x = Rand_CenteredFloat(25.0f);
                     sp40.y = Rand_CenteredFloat(25.0f);
                     sp40.z = Rand_CenteredFloat(25.0f);
-                    BossGanonEff_SpawnSparkle(play, &this->unk_1FC, &sp40, &sZeroVec,
-                                              Rand_ZeroFloat(200.0f) + 500.0f, 0x14);
+                    BossGanonEff_SpawnSparkle(play, &this->unk_1FC, &sp40, &sZeroVec, Rand_ZeroFloat(200.0f) + 500.0f,
+                                              0x14);
                 }
 
                 Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_WATER2);
@@ -2712,8 +2709,8 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                     sp50.x = Rand_CenteredFloat(20.0f);
                     sp50.y = Rand_CenteredFloat(20.0f);
                     sp50.z = Rand_CenteredFloat(20.0f);
-                    BossGanonEff_SpawnSparkle(play, &this->unk_1FC, &sp50, &sZeroVec,
-                                              Rand_ZeroFloat(200.0f) + 500.0f, 0x1E);
+                    BossGanonEff_SpawnSparkle(play, &this->unk_1FC, &sp50, &sZeroVec, Rand_ZeroFloat(200.0f) + 500.0f,
+                                              0x1E);
                 }
 
                 damage = flags = CollisionCheck_GetSwordDamage(acHitInfo->toucher.dmgFlags);
@@ -3089,8 +3086,7 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
         case 11:
             play->envCtx.prevLightSetting = 12;
             play->envCtx.lightSetting = 11;
-            Math_ApproachF(&play->envCtx.lightBlend, (Math_CosS(this->unk_1A4 * 0x1800) * 0.5f) + 0.5f, 1.0f,
-                           1.0f);
+            Math_ApproachF(&play->envCtx.lightBlend, (Math_CosS(this->unk_1A4 * 0x1800) * 0.5f) + 0.5f, 1.0f, 1.0f);
             break;
         case 12:
             play->envCtx.prevLightSetting = 12;
@@ -3127,13 +3123,11 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
 
     if (this->whiteFillAlpha != 0) {
         play->envCtx.screenFillColor[3] = (s8)(u8)this->whiteFillAlpha;
-        play->envCtx.screenFillColor[0] = play->envCtx.screenFillColor[1] =
-            play->envCtx.screenFillColor[2] = 255;
+        play->envCtx.screenFillColor[0] = play->envCtx.screenFillColor[1] = play->envCtx.screenFillColor[2] = 255;
         play->envCtx.fillScreen = true;
     } else if (this->screenFlashTimer != 0) {
         play->envCtx.fillScreen = true;
-        play->envCtx.screenFillColor[0] = play->envCtx.screenFillColor[1] =
-            play->envCtx.screenFillColor[2] = 255;
+        play->envCtx.screenFillColor[0] = play->envCtx.screenFillColor[1] = play->envCtx.screenFillColor[2] = 255;
 
         play->envCtx.screenFillColor[3] = ((this->screenFlashTimer % 2) != 0) ? 100 : 0;
 
@@ -3193,8 +3187,7 @@ void BossGanon_Update(Actor* thisx, PlayState* play2) {
     }
 }
 
-s32 BossGanon_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                               void* thisx) {
+s32 BossGanon_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossGanon* this = (BossGanon*)thisx;
 
     switch (limbIndex) {
@@ -3382,9 +3375,9 @@ void BossGanon_DrawShock(BossGanon* this, PlayState* play) {
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
                 if (this->shockGlow) {
-                    gSPSegment(POLY_XLU_DISP++, 0x08,
-                               Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0,
-                                                (this->unk_1A2 + i) * -15, 32, 64));
+                    gSPSegment(
+                        POLY_XLU_DISP++, 0x08,
+                        Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->unk_1A2 + i) * -15, 32, 64));
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 255, 170, 255);
                     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 128);
                     gSPDisplayList(POLY_XLU_DISP++, gDorfShockGlowDL);
@@ -3453,8 +3446,8 @@ void BossGanon_DrawBigMagicCharge(BossGanon* this, PlayState* play) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, (s8)this->unk_290);
         gDPSetEnvColor(POLY_XLU_DISP++, 200, 255, 0, 128);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->unk_1A2 * -2, 0, 0x40, 0x40, 1, 0,
-                                    this->unk_1A2 * 0xA, 0x40, 0x40));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->unk_1A2 * -2, 0, 0x40, 0x40, 1, 0, this->unk_1A2 * 0xA,
+                                    0x40, 0x40));
         Matrix_Translate(this->unk_278.x, this->unk_278.y, this->unk_278.z, MTXMODE_NEW);
         Matrix_ReplaceRotation(&play->billboardMtxF);
         Matrix_Scale(this->unk_28C, this->unk_28C, this->unk_28C, MTXMODE_APPLY);
@@ -3469,9 +3462,8 @@ void BossGanon_DrawBigMagicCharge(BossGanon* this, PlayState* play) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_ganon.c", 7601),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 0, 100, (s8)this->unk_288);
-        gSPSegment(
-            POLY_XLU_DISP++, 0x09,
-            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, this->unk_1A2 * -4, 0x20, 0x20));
+        gSPSegment(POLY_XLU_DISP++, 0x09,
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 0x20, 0x20, 1, 0, this->unk_1A2 * -4, 0x20, 0x20));
         gSPDisplayList(POLY_XLU_DISP++, gDorfBigMagicBGCircleDL);
 
         // yellow background dot
@@ -3584,8 +3576,8 @@ void BossGanon_DrawDarkVortex(BossGanon* this, PlayState* play) {
         Matrix_Push();
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->unk_1A2 * -8, 0, 0x20, 0x40, 1,
-                                    this->unk_1A2 * -4, this->unk_1A2 * -8, 0x20, 0x20));
+                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->unk_1A2 * -8, 0, 0x20, 0x40, 1, this->unk_1A2 * -4,
+                                    this->unk_1A2 * -8, 0x20, 0x20));
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 100, 0, 200, (s8)this->fwork[GDF_VORTEX_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 130, 0, 0, 128);
 
@@ -4033,8 +4025,7 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                 if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf)) < 30.0f) {
                     spBA = 3;
                     SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_GANON_DAMAGE1);
-                    SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40,
-                                                       NA_SE_EN_GANON_HIT_THUNDER);
+                    SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_GANON_HIT_THUNDER);
                 }
                 break;
 
@@ -4249,8 +4240,8 @@ void func_808E1EB4(Actor* thisx, PlayState* play2) {
                     accel.y = vel.y * -0.03f;
                     accel.z = vel.z * -0.03f;
 
-                    BossGanonEff_SpawnLightRay(play, &dorf->unk_1FC, &vel, &accel,
-                                               Rand_ZeroFloat(500.0f) + 1000.0f, 15.0f, 0x14);
+                    BossGanonEff_SpawnLightRay(play, &dorf->unk_1FC, &vel, &accel, Rand_ZeroFloat(500.0f) + 1000.0f,
+                                               15.0f, 0x14);
                 }
 
                 for (i = 1; i < 15; i++) {
@@ -4468,8 +4459,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
 
                 if (dorf->timers[2] == 0) {
                     func_8002F6D4(play, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 0x50);
-                    SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40,
-                                                       NA_SE_EN_GANON_HIT_THUNDER);
+                    SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, 40, NA_SE_EN_GANON_HIT_THUNDER);
                     dorf->timers[2] = 20;
 
                     for (i = 0; i < ARRAY_COUNT(this->unk_4E4); i++) {
@@ -4544,8 +4534,8 @@ void func_808E2544(Actor* thisx, PlayState* play) {
             sp60.y = Rand_CenteredFloat(30.0f);
             sp60.z = Rand_CenteredFloat(30.0);
 
-            BossGanonEff_SpawnLightRay(play, &this->actor.world.pos, &sp60, &sZeroVec,
-                                       Rand_ZeroFloat(200.0f) + 500.0f, 15.0f, 0x1E);
+            BossGanonEff_SpawnLightRay(play, &this->actor.world.pos, &sp60, &sZeroVec, Rand_ZeroFloat(200.0f) + 500.0f,
+                                       15.0f, 0x1E);
         }
     }
 }
@@ -4787,8 +4777,7 @@ void BossGanon_UpdateEffects(PlayState* play) {
 
                     if (((eff->scale * 150.0f) < distToPlayer) && (distToPlayer < (eff->scale * 300.0f))) {
                         eff->timer = 150;
-                        func_8002F6D4(play, &sGanondorf->actor, 7.0f, sGanondorf->actor.yawTowardsPlayer, 0.0f,
-                                      0x20);
+                        func_8002F6D4(play, &sGanondorf->actor, 7.0f, sGanondorf->actor.yawTowardsPlayer, 0.0f, 0x20);
                     }
                 }
             }
@@ -4984,8 +4973,8 @@ void BossGanon_DrawEffects(PlayState* play) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, eff->alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 255, 0, 128);
             gSPSegment(POLY_XLU_DISP++, 0x08,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (eff->timer * 100), 0, 64, 32, 1,
-                                        (eff->timer * 100), 0, 64, 32));
+                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, (eff->timer * 100), 0, 64, 32, 1, (eff->timer * 100), 0,
+                                        64, 32));
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             Matrix_Scale((eff->scale * 200.0f) / 1500.0f, (eff->unk_40 * 200.0f) / 1500.0f,
                          (eff->scale * 200.0f) / 1500.0f, MTXMODE_APPLY);
@@ -5002,9 +4991,9 @@ void BossGanon_DrawEffects(PlayState* play) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 150, 170, 0, eff->alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
-            gSPSegment(POLY_XLU_DISP++, 0x0A,
-                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, eff->timer * 2, eff->timer * -20,
-                                        64, 64));
+            gSPSegment(
+                POLY_XLU_DISP++, 0x0A,
+                Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 32, 32, 1, eff->timer * 2, eff->timer * -20, 64, 64));
             Matrix_Translate(eff->pos.x, eff->pos.y, eff->pos.z, MTXMODE_NEW);
             Matrix_ReplaceRotation(&play->billboardMtxF);
             Matrix_Scale(eff->scale, eff->scale, 1.0f, MTXMODE_APPLY);

@@ -358,8 +358,8 @@ void EnGo_ChangeAnim(EnGo* this, s32 index) {
 s32 EnGo_IsActorSpawned(EnGo* this, PlayState* play) {
     if (((this->actor.params) & 0xF0) == 0x90) {
         return true;
-    } else if (play->sceneNum == SCENE_HIDAN && !Flags_GetSwitch(play, (this->actor.params) >> 8) &&
-               LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x10) {
+    } else if (play->sceneNum == SCENE_HIDAN && !Flags_GetSwitch(play, (this->actor.params) >> 8) && LINK_IS_ADULT &&
+               (this->actor.params & 0xF0) == 0x10) {
         return true;
     } else if (play->sceneNum == SCENE_SPOT18 && LINK_IS_ADULT && (this->actor.params & 0xF0) == 0x00) {
         return true;
@@ -585,8 +585,7 @@ void func_80A3F908(EnGo* this, PlayState* play) {
         }
 
         if ((this->actor.params & 0xF0) == 0x90) {
-            isUnkCondition =
-                func_80A3ED24(play, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+            isUnkCondition = func_80A3ED24(play, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
             isUnkCondition = func_800343CC(play, &this->actor, &this->unk_1E0.unk_00, float1, EnGo_GetTextID,
                                            EnGo_SetFlagsGetStates);
@@ -1143,8 +1142,8 @@ void EnGo_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gGoronCsEyeOpenTex));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_go.c", 2525);
         EnGo_DrawEffects(this, play);
     }

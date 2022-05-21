@@ -189,8 +189,8 @@ s32 Scene_ExecuteCommands(PlayState* play, SceneCmd* sceneCmd) {
 }
 
 void Scene_CommandSpawnList(PlayState* play, SceneCmd* cmd) {
-    ActorEntry* linkEntry = play->linkActorEntry = (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) +
-                                                        play->setupEntranceList[play->curSpawn].spawn;
+    ActorEntry* linkEntry = play->linkActorEntry =
+        (ActorEntry*)SEGMENTED_TO_VIRTUAL(cmd->spawnList.segment) + play->setupEntranceList[play->curSpawn].spawn;
     s16 linkObjectId;
 
     play->linkAgeOnLoad = ((void)0, gSaveContext.linkAge);
@@ -233,8 +233,7 @@ void Scene_CommandEntranceList(PlayState* play, SceneCmd* cmd) {
 
 void Scene_CommandSpecialFiles(PlayState* play, SceneCmd* cmd) {
     if (cmd->specialFiles.keepObjectId != OBJECT_INVALID) {
-        play->objectCtx.subKeepIndex =
-            Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
+        play->objectCtx.subKeepIndex = Object_SpawnPersistent(&play->objectCtx, cmd->specialFiles.keepObjectId);
         gSegments[5] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[play->objectCtx.subKeepIndex].segment);
     }
 

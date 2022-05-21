@@ -196,16 +196,15 @@ void EnBoom_Fly(EnBoom* this, PlayState* play) {
             // Copy the position from the prevous frame to the boomerang to start the bounce back.
             Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.prevPos);
         } else {
-            collided = BgCheck_EntityLineTest1(&play->colCtx, &this->actor.prevPos, &this->actor.world.pos,
-                                               &hitPoint, &this->actor.wallPoly, true, true, true, true, &hitDynaID);
+            collided = BgCheck_EntityLineTest1(&play->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
+                                               &this->actor.wallPoly, true, true, true, true, &hitDynaID);
 
             if (collided) {
                 // If the boomerang collides with something and it's is a Jabu Object actor with params equal to 0, then
                 // set collided to 0 so that the boomerang will go through the wall.
                 // Otherwise play a clank sound and keep collided set to bounce back.
                 if (func_8002F9EC(play, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
-                    (hitDynaID != BGCHECK_SCENE &&
-                     ((hitActor = DynaPoly_GetActor(&play->colCtx, hitDynaID)) != NULL) &&
+                    (hitDynaID != BGCHECK_SCENE && ((hitActor = DynaPoly_GetActor(&play->colCtx, hitDynaID)) != NULL) &&
                      hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS && hitActor->actor.params == 0)) {
                     collided = false;
                 } else {

@@ -251,8 +251,7 @@ void DemoGj_InitCommon(DemoGj* this, PlayState* play, CollisionHeader* header) {
 }
 
 // TODO: find a better name
-s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 drawConfig,
-                          CollisionHeader* header) {
+s32 DemoGj_InitSetIndices(DemoGj* this, PlayState* play, s32 updateMode, s32 drawConfig, CollisionHeader* header) {
     if (!DemoGj_IsSceneInvalid()) {
         this->updateMode = updateMode;
         this->drawConfig = drawConfig;
@@ -1403,8 +1402,7 @@ void DemoGj_Init(Actor* thisx, PlayState* play) {
 
         default:
             // "Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!"
-            osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play,
-                         this);
+            osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, play, this);
             Actor_Kill(&this->dyna.actor);
     }
 }

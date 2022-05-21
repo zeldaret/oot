@@ -456,8 +456,7 @@ void EnOssan_UpdateShopOfferings(EnOssan* this, PlayState* play) {
 
                 if (params >= 0) {
                     this->shelfSlots[i] = (EnGirlA*)Actor_Spawn(
-                        &play->actorCtx, play, ACTOR_EN_GIRLA,
-                        this->shelves->actor.world.pos.x + shopItem->xOffset,
+                        &play->actorCtx, play, ACTOR_EN_GIRLA, this->shelves->actor.world.pos.x + shopItem->xOffset,
                         this->shelves->actor.world.pos.y + shopItem->yOffset,
                         this->shelves->actor.world.pos.z + shopItem->zOffset, this->shelves->actor.shape.rot.x,
                         this->shelves->actor.shape.rot.y + sItemShelfRot[i], this->shelves->actor.shape.rot.z, params);
@@ -888,8 +887,7 @@ void EnOssan_State_StartConversation(EnOssan* this, PlayState* play, Player* pla
     u8 dialogState = Message_GetState(&play->msgCtx);
 
     if (this->actor.params == OSSAN_TYPE_MASK && dialogState == TEXT_STATE_CHOICE) {
-        if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0]) &&
-            Message_ShouldAdvance(play)) {
+        if (!EnOssan_TestEndInteraction(this, play, &play->state.input[0]) && Message_ShouldAdvance(play)) {
             switch (play->msgCtx.choiceIndex) {
                 case 0:
                     EnOssan_StartShopping(play, this);
@@ -1588,8 +1586,7 @@ void EnOssan_State_SelectMaskItem(EnOssan* this, PlayState* play, Player* player
             this->stateFlag = this->tempStateFlag;
             Message_ContinueTextbox(play, this->shelfSlots[this->cursorIndex]->actor.textId);
         }
-    } else if (talkState == TEXT_STATE_CHOICE &&
-               !EnOssan_TestCancelOption(this, play, &play->state.input[0]) &&
+    } else if (talkState == TEXT_STATE_CHOICE && !EnOssan_TestCancelOption(this, play, &play->state.input[0]) &&
                Message_ShouldAdvance(play)) {
         switch (play->msgCtx.choiceIndex) {
             case 0:
@@ -2234,8 +2231,8 @@ void EnOssan_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 }
 
-s32 EnOssan_OverrideLimbDrawDefaultShopkeeper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos,
-                                              Vec3s* rot, void* thisx) {
+s32 EnOssan_OverrideLimbDrawDefaultShopkeeper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                              void* thisx) {
     EnOssan* this = (EnOssan*)thisx;
 
     if (limbIndex == 8) {
@@ -2267,8 +2264,8 @@ void EnOssan_DrawCursor(PlayState* play, EnOssan* this, f32 x, f32 y, f32 z, u8 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4215);
 }
 
-void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t,
-                         f32 dx, f32 dy) {
+void EnOssan_DrawTextRec(PlayState* play, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 dx,
+                         f32 dy) {
     f32 unk;
     s32 ulx, uly, lrx, lry;
     f32 w, h;
@@ -2351,8 +2348,8 @@ void EnOssan_DrawBazaarShopkeeper(Actor* thisx, PlayState* play) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_oB1.c", 4340);
 }
 
-s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos,
-                                             Vec3s* rot, void* thisx) {
+s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                             void* thisx) {
     static void* sKokiriShopkeeperEyeTextures[] = {
         gKokiriShopkeeperEyeDefaultTex,
         gKokiriShopkeeperEyeHalfTex,
@@ -2420,8 +2417,8 @@ void EnOssan_DrawGoronShopkeeper(Actor* thisx, PlayState* play) {
     func_80093D18(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sGoronShopkeeperEyeTextures[this->eyeTextureIdx]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gGoronCsMouthNeutralTex));
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          NULL, NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, this);
     EnOssan_DrawCursor(play, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);
     EnOssan_DrawStickDirectionPrompts(play, this);
 
@@ -2468,8 +2465,8 @@ void EnOssan_DrawPotionShopkeeper(Actor* thisx, PlayState* play) {
 
     func_80093D18(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sPotionShopkeeperEyeTextures[this->eyeTextureIdx]));
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          NULL, NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, this);
     EnOssan_DrawCursor(play, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);
     EnOssan_DrawStickDirectionPrompts(play, this);
 
@@ -2487,8 +2484,8 @@ void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, PlayState* play) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
                SEGMENTED_TO_VIRTUAL(sHappyMaskShopkeeperEyeTextures[this->happyMaskShopkeeperEyeIdx]));
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          NULL, NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, this);
     EnOssan_DrawCursor(play, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);
     EnOssan_DrawStickDirectionPrompts(play, this);
 
@@ -2506,8 +2503,8 @@ void EnOssan_DrawBombchuShopkeeper(Actor* thisx, PlayState* play) {
     func_80093D18(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBombchuShopkeeperEyeTextures[this->eyeTextureIdx]));
-    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          NULL, NULL, this);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
+                          NULL, this);
     EnOssan_DrawCursor(play, this, this->cursorX, this->cursorY, this->cursorZ, this->drawCursor);
     EnOssan_DrawStickDirectionPrompts(play, this);
 

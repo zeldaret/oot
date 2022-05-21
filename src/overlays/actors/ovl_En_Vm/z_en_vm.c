@@ -240,8 +240,8 @@ void EnVm_Wait(EnVm* this, PlayState* play) {
             this->skelAnime.playSpeed = 1.0f;
         } else {
             this->skelAnime.curFrame = 6.0f;
-            EffectSsDeadDd_Spawn(play, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255,
-                                 255, 16, 20);
+            EffectSsDeadDd_Spawn(play, &this->beamPos2, &D_80B2EAEC, &D_80B2EAEC, 150, -25, 0, 0, 255, 0, 255, 255, 255,
+                                 16, 20);
             EnVm_SetupAttack(this);
         }
     }
@@ -483,8 +483,8 @@ void EnVm_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
             sp80.z = (this->beamScale.z + 500.0f) * (this->actor.scale.y * 10000.0f);
             Matrix_MultVec3f(&sp80, &this->beamPos3);
 
-            if (BgCheck_EntityLineTest1(&play->colCtx, &this->beamPos1, &this->beamPos3, &posResult, &poly, true,
-                                        true, false, true, &bgId) == true) {
+            if (BgCheck_EntityLineTest1(&play->colCtx, &this->beamPos1, &this->beamPos3, &posResult, &poly, true, true,
+                                        false, true, &bgId) == true) {
                 this->beamScale.z = Math_Vec3f_DistXYZ(&this->beamPos1, &posResult) - 5.0f;
                 this->unk_260 = 4;
                 this->beamPos3 = posResult;

@@ -151,8 +151,8 @@ void EnSth_SetupAfterObjectLoaded(EnSth* this, PlayState* play) {
 
     EnSth_SetupShapeColliderUpdate2AndDraw(this, play);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(play->objectCtx.loadEntries[this->waitObjectLoadEntryIndex].segment);
-    SkelAnime_InitFlex(play, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable,
-                       this->morphTable, 16);
+    SkelAnime_InitFlex(play, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable, this->morphTable,
+                       16);
     Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
 
     this->eventFlag = sEventFlags[this->actor.params];

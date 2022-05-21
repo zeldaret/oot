@@ -210,8 +210,7 @@ void EnAm_Init(Actor* thisx, PlayState* play) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
-    SkelAnime_Init(play, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable,
-                   14);
+    SkelAnime_Init(play, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable, 14);
     Actor_SetScale(&this->dyna.actor, 0.01f);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     Collider_InitCylinder(play, &this->hurtCollider);
@@ -685,8 +684,8 @@ void EnAm_Statue(EnAm* this, PlayState* play) {
 
         if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) ||
             !(this->dyna.actor.bgCheckFlags & BGCHECKFLAG_GROUND) ||
-            !func_800435D8(play, &this->dyna, 0x14,
-                           (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA) ||
+            !func_800435D8(play, &this->dyna, 0x14, (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f,
+                           0xA) ||
             ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
@@ -968,8 +967,7 @@ void EnAm_Draw(Actor* thisx, PlayState* play) {
             sp68.y = this->dyna.actor.world.pos.y + sIcePosOffsets[index].y;
             sp68.z = this->dyna.actor.world.pos.z + sIcePosOffsets[index].z;
 
-            EffectSsEnIce_SpawnFlyingVec3f(play, &this->dyna.actor, &sp68, 150, 150, 150, 250, 235, 245, 255,
-                                           1.4f);
+            EffectSsEnIce_SpawnFlyingVec3f(play, &this->dyna.actor, &sp68, 150, 150, 150, 250, 235, 245, 255, 1.4f);
         }
     }
 

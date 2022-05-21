@@ -213,8 +213,7 @@ void EnBa_FallAsBlob(EnBa* this, PlayState* play) {
         }
     } else {
         Actor_MoveForward(&this->actor);
-        Actor_UpdateBgCheckInfo(play, &this->actor, 30.0f, 28.0f, 80.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 30.0f, 28.0f, 80.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 }
 
@@ -387,8 +386,8 @@ void func_809B75A0(EnBa* this, PlayState* play2) {
     this->unk_14C = 0;
 
     for (i = 7; i < 14; i++) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BA, this->unk_158[i].x, this->unk_158[i].y,
-                    this->unk_158[i].z, 0, 0, 0, EN_BA_DEAD_BLOB);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_EN_BA, this->unk_158[i].x, this->unk_158[i].y, this->unk_158[i].z, 0,
+                    0, 0, EN_BA_DEAD_BLOB);
     }
     unk_temp = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_158[0]) + 0x8000;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, this->unk_31C, 0);
@@ -485,9 +484,9 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
         Matrix_Push();
         gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B8118[this->actor.params]));
-        gSPSegment(POLY_OPA_DISP++, 0x09,
-                   Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0,
-                                    (play->gameplayFrames * -10) % 128, 32, 32));
+        gSPSegment(
+            POLY_OPA_DISP++, 0x09,
+            Gfx_TwoTexScroll(play->state.gfxCtx, 0, 0, 0, 16, 16, 1, 0, (play->gameplayFrames * -10) % 128, 32, 32));
         for (i = 0; i < 14; i++, mtx++) {
             Matrix_Translate(this->unk_158[i].x, this->unk_158[i].y, this->unk_158[i].z, MTXMODE_NEW);
             Matrix_RotateZYX(this->unk_2A8[i].x, this->unk_2A8[i].y, this->unk_2A8[i].z, MTXMODE_APPLY);
@@ -512,9 +511,8 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->gameplayFrames * 2) % 128,
-                                    (play->gameplayFrames * 2) % 128, 32, 32, 1,
-                                    (play->gameplayFrames * -5) % 128, (play->gameplayFrames * -5) % 128, 32,
-                                    32));
+                                    (play->gameplayFrames * 2) % 128, 32, 32, 1, (play->gameplayFrames * -5) % 128,
+                                    (play->gameplayFrames * -5) % 128, 32, 32));
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 125, 100, 255);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ba.c", 991),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

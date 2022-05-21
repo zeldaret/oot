@@ -121,16 +121,13 @@ void func_808A39FC(BgMoriHineri* this, PlayState* play) {
         if (this->dyna.actor.params >= 4) {
             this->dyna.actor.params -= 4;
             if (this->dyna.actor.params == 0) {
-                this->moriHineriObjectLoadEntryIndex =
-                    Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI1A);
+                this->moriHineriObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI1A);
             } else if (this->dyna.actor.params == 1) {
-                this->moriHineriObjectLoadEntryIndex =
-                    Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI1);
+                this->moriHineriObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI1);
             } else {
                 this->moriHineriObjectLoadEntryIndex =
-                    (this->dyna.actor.params == 2)
-                        ? Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI2A)
-                        : Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI2);
+                    (this->dyna.actor.params == 2) ? Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI2A)
+                                                   : Object_GetLoadEntryIndex(&play->objectCtx, OBJECT_MORI_HINERI2);
             }
             if (this->moriHineriObjectLoadEntryIndex < 0) {
                 Actor_Kill(&this->dyna.actor);
@@ -183,10 +180,8 @@ void func_808A3C8C(BgMoriHineri* this, PlayState* play) {
 void func_808A3D58(BgMoriHineri* this, PlayState* play) {
     s16 mainCamChildId;
 
-    if ((Flags_GetSwitch(play, this->switchFlag) &&
-         (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
-        (!Flags_GetSwitch(play, this->switchFlag) &&
-         (this->dyna.actor.params == 1 || this->dyna.actor.params == 3))) {
+    if ((Flags_GetSwitch(play, this->switchFlag) && (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
+        (!Flags_GetSwitch(play, this->switchFlag) && (this->dyna.actor.params == 1 || this->dyna.actor.params == 3))) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
@@ -217,8 +212,7 @@ void func_808A3E54(BgMoriHineri* this, PlayState* play) {
             sSubCamId = CAM_ID_NONE;
         }
     }
-    if ((sSubCamId >= CAM_ID_SUB_FIRST) &&
-        ((GET_ACTIVE_CAM(play)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
+    if ((sSubCamId >= CAM_ID_SUB_FIRST) && ((GET_ACTIVE_CAM(play)->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }

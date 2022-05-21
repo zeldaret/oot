@@ -157,8 +157,8 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, PlayState* play, s32 arg2) {
     actorPosition.y += this->dyna.actor.prevPos.y;
     actorPosition.z += this->dyna.actor.world.pos.z;
 
-    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor6(&play->colCtx, &this->dyna.actor.floorPoly,
-                                                               &this->bgId, &this->dyna.actor, &actorPosition, chkDist);
+    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor6(&play->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
+                                                               &this->dyna.actor, &actorPosition, chkDist);
 
     if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
         this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;

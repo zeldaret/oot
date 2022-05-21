@@ -227,9 +227,8 @@ void EnEncount2_SpawnRocks(EnEncount2* this, PlayState* play) {
                     tempVec2Z = Rand_CenteredFloat(70.0f) + player->actor.world.pos.z;
                 }
             }
-            spawnedRock =
-                (EnFireRock*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FIRE_ROCK,
-                                                tempVec2X, tempVec1Y, tempVec2Z, 0, 0, 0, spawnedRockType);
+            spawnedRock = (EnFireRock*)Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FIRE_ROCK,
+                                                          tempVec2X, tempVec1Y, tempVec2Z, 0, 0, 0, spawnedRockType);
             if (spawnedRock != NULL) {
                 spawnedRock->spawner = this;
                 this->numSpawnedRocks++;

@@ -336,9 +336,8 @@ void EnKz_Init(Actor* thisx, PlayState* play) {
 
     if (LINK_IS_ADULT) {
         if (!GET_INFTABLE(INFTABLE_138)) {
-            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_ICE_SHELTER,
-                               this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
-                               0x04FF);
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_BG_ICE_SHELTER, this->actor.world.pos.x,
+                               this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0x04FF);
         }
         this->actionFunc = EnKz_Wait;
     } else {

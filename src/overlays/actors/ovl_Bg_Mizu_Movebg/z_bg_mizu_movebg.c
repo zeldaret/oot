@@ -157,10 +157,9 @@ void BgMizuMovebg_Init(Actor* thisx, PlayState* play) {
             Matrix_RotateY(BINANG_TO_RAD(thisx->world.rot.y), MTXMODE_NEW);
             Matrix_MultVec3f(&D_8089EBA0, &sp48);
 
-            if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK,
-                                   thisx->world.pos.x + sp48.x, thisx->world.pos.y + sp48.y,
-                                   thisx->world.pos.z + sp48.z, thisx->world.rot.x, thisx->world.rot.y,
-                                   thisx->world.rot.z, 2) == NULL) {
+            if (Actor_SpawnAsChild(&play->actorCtx, thisx, play, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x + sp48.x,
+                                   thisx->world.pos.y + sp48.y, thisx->world.pos.z + sp48.z, thisx->world.rot.x,
+                                   thisx->world.rot.y, thisx->world.rot.z, 2) == NULL) {
                 Actor_Kill(thisx);
             }
             break;
@@ -338,8 +337,7 @@ void func_8089E650(BgMizuMovebg* this, PlayState* play) {
         this->waypointId++;
         if (this->waypointId >= play->setupPathList[MOVEBG_PATH_ID(this->dyna.actor.params)].count) {
             this->waypointId = 0;
-            func_8089E108(play->setupPathList, &this->dyna.actor.world.pos,
-                          MOVEBG_PATH_ID(this->dyna.actor.params), 0);
+            func_8089E108(play->setupPathList, &this->dyna.actor.world.pos, MOVEBG_PATH_ID(this->dyna.actor.params), 0);
         }
     }
     if (!(D_8089EE40 & 1) && MOVEBG_SPEED(this->dyna.actor.params) != 0) {

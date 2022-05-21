@@ -79,8 +79,8 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, PlayState* play) {
         } else {
             rotationSpeed = 33;
         }
-        EffectSsKakera_Spawn(play, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
-                             4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
+        EffectSsKakera_Spawn(play, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E, 4,
+                             0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDL);
     }
     Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.world.pos);
     func_80033480(play, &burstDepthY, 60.0f, 4, 110, 160, 1);

@@ -126,8 +126,8 @@ void ObjHamishi_Break(ObjHamishi* this, PlayState* play) {
             gravity = -320;
         }
 
-        EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, gravity, phi_v0, 30, 5, 0,
-                             sEffectScales[i], 3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
+        EffectSsKakera_Spawn(play, &pos, &velocity, &this->actor.world.pos, gravity, phi_v0, 30, 5, 0, sEffectScales[i],
+                             3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDL);
     }
 
     func_80033480(play, &this->actor.world.pos, 140.0f, 6, 180, 90, 1);

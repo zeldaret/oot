@@ -139,8 +139,7 @@ void EffectSsKakera_Draw(PlayState* play, u32 index, EffectSs* this) {
 void func_809A9BA8(EffectSs* this, PlayState* play) {
     this->rObjectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, this->rObjId);
 
-    if ((this->rObjectLoadEntryIndex < 0) ||
-        !Object_IsLoadEntryLoaded(&play->objectCtx, this->rObjectLoadEntryIndex)) {
+    if ((this->rObjectLoadEntryIndex < 0) || !Object_IsLoadEntryLoaded(&play->objectCtx, this->rObjectLoadEntryIndex)) {
         this->life = 0;
         this->draw = NULL;
     }

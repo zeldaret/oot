@@ -330,8 +330,8 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             this->actor.world.pos.y += 2.0f * Math_SinS(this->gallopTimer * 0x5DC);
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 75) {
-                TitleCard_InitBossName(play, &play->actorCtx.titleCtx,
-                                       SEGMENTED_TO_VIRTUAL(gPhantomGanonTitleCardTex), 160, 180, 128, 40);
+                TitleCard_InitBossName(play, &play->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(gPhantomGanonTitleCardTex),
+                                       160, 180, 128, 40);
             }
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_RETREAT;
@@ -364,10 +364,9 @@ void EnfHG_Intro(EnfHG* this, PlayState* play) {
             if ((fabsf(this->actor.world.pos.z - (GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f)) < 300.0f) &&
                 !this->spawnedWarp) {
                 this->spawnedWarp = true;
-                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE,
-                                   GND_BOSSROOM_CENTER_X + 0.0f, this->actor.world.pos.y + 50.0f,
-                                   GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f, 0, this->actor.shape.rot.y, 0,
-                                   FHGFIRE_WARP_RETREAT);
+                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE, GND_BOSSROOM_CENTER_X + 0.0f,
+                                   this->actor.world.pos.y + 50.0f, GND_BOSSROOM_CENTER_Z + 400.0f - 0.5f, 0,
+                                   this->actor.shape.rot.y, 0, FHGFIRE_WARP_RETREAT);
                 this->fhgFireKillWarp = true;
             }
             Math_ApproachF(&this->subCamAt.x, this->actor.world.pos.x, 0.2f, 50.0f);
@@ -485,8 +484,8 @@ void EnfHG_Approach(EnfHG* this, PlayState* play) {
             this->actionFunc = EnfHG_Attack;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
             this->timers[0] = 40;
-            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE,
-                               this->actor.world.pos.x, this->actor.world.pos.y + 50.0f, this->actor.world.pos.z, 0,
+            Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE, this->actor.world.pos.x,
+                               this->actor.world.pos.y + 50.0f, this->actor.world.pos.z, 0,
                                this->actor.shape.rot.y + 0x8000, 0, FHGFIRE_WARP_EMERGE);
             this->fhgFireKillWarp = false;
         }
@@ -519,9 +518,9 @@ void EnfHG_Attack(EnfHG* this, PlayState* play) {
         }
         if (this->hitTimer == 0) {
             if (this->timers[1] == 24) {
-                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE,
-                                   this->actor.world.pos.x, (this->actor.world.pos.y + 100.0f) + 25.0f,
-                                   this->actor.world.pos.z, 0, 0, 0, FHGFIRE_LIGHTNING_STRIKE);
+                Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_FHG_FIRE, this->actor.world.pos.x,
+                                   (this->actor.world.pos.y + 100.0f) + 25.0f, this->actor.world.pos.z, 0, 0, 0,
+                                   FHGFIRE_LIGHTNING_STRIKE);
             }
             if (this->timers[1] == 45) {
                 Animation_MorphToLoop(&this->skin.skelAnime, &gPhantomHorseAirAnim, 0.0f);

@@ -1226,14 +1226,14 @@ void EnHy_Draw(Actor* thisx, PlayState* play) {
                         envColorSeg10.a = 0;
                     }
                     gSPSegment(POLY_OPA_DISP++, 0x0A,
-                               EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg10.r, envColorSeg10.g,
-                                                envColorSeg10.b, envColorSeg10.a));
+                               EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg10.r, envColorSeg10.g, envColorSeg10.b,
+                                                envColorSeg10.a));
                 }
                 break;
         }
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, EnHy_OverrideLimbDraw, EnHy_PostLimbDraw, &this->actor);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              EnHy_OverrideLimbDraw, EnHy_PostLimbDraw, &this->actor);
     }
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2388);

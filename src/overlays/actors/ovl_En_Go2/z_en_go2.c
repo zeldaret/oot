@@ -473,10 +473,9 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return CUR_UPG_VALUE(UPG_STRENGTH) != 0    ? 0x302C
-               : !Flags_GetSwitch(play, 0x1B) ? 0x3017
-               : GET_INFTABLE(INFTABLE_F8)         ? 0x3019
-                                                   : 0x3018;
+        return CUR_UPG_VALUE(UPG_STRENGTH) != 0
+                   ? 0x302C
+                   : !Flags_GetSwitch(play, 0x1B) ? 0x3017 : GET_INFTABLE(INFTABLE_F8) ? 0x3019 : 0x3018;
     }
 }
 
@@ -804,8 +803,7 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return func_800343CC(play, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId,
-                             EnGo2_GetState);
+        return func_800343CC(play, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId, EnGo2_GetState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
@@ -2061,8 +2059,8 @@ void EnGo2_Draw(Actor* thisx, PlayState* play) {
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
 
-        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);
         CLOSE_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3081);
     }
 }

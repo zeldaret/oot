@@ -106,8 +106,7 @@ void EnXc_SpawnNut(EnXc* this, PlayState* play) {
     f32 y = pos->y + 3.0f;
     f32 z = (Math_CosS(angle) * 30.0f) + pos->z;
 
-    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ARROW, x, y, z, 0xFA0, this->actor.shape.rot.y, 0,
-                ARROW_CS_NUT);
+    Actor_Spawn(&play->actorCtx, play, ACTOR_EN_ARROW, x, y, z, 0xFA0, this->actor.shape.rot.y, 0, ARROW_CS_NUT);
 }
 
 void EnXc_BgCheck(EnXc* this, PlayState* play) {
@@ -171,8 +170,7 @@ void func_80B3C620(EnXc* this, PlayState* play, s32 npcActionIdx) {
     f32 unk;
 
     if (npcAction != NULL) {
-        unk =
-            Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames, 0, 0);
+        unk = Environment_LerpWeightAccelDecel(npcAction->endFrame, npcAction->startFrame, play->csCtx.frames, 0, 0);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
         startZ = npcAction->startPos.z;
@@ -1058,8 +1056,7 @@ s32 EnXc_PullingOutHarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dL
     return 0;
 }
 
-s32 EnXc_HarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              void* thisx) {
+s32 EnXc_HarpOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnXc* this = (EnXc*)thisx;
 
     if (limbIndex == 12) {
@@ -1397,8 +1394,7 @@ void func_80B3F534(PlayState* play) {
     u16 frameCount = csCtx->frames;
 
     if (frameCount == 310) {
-        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0,
-                    WARP_DESTINATION);
+        Actor_Spawn(&play->actorCtx, play, ACTOR_DOOR_WARP1, -1044.0f, -1243.0f, 7458.0f, 0, 0, 0, WARP_DESTINATION);
     }
 }
 
@@ -1684,8 +1680,7 @@ void EnXc_ShowTriforceIdle(EnXc* this, PlayState* play) {
     func_80B400AC(this, play);
 }
 
-s32 EnXc_TriforceOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                  void* thisx) {
+s32 EnXc_TriforceOverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (limbIndex == 15) {
         *dList = gSheikDL_011620;
     }
@@ -2139,8 +2134,7 @@ void EnXc_DrawSquintingEyes(Actor* thisx, PlayState* play) {
     func_80093D18(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSheikEyeSquintingTex));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gSheikEyeSquintingTex));
-    SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
-                          NULL);
+    SkelAnime_DrawFlexOpa(play, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL, NULL);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 854);
 }
 

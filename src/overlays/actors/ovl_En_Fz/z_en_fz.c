@@ -227,8 +227,8 @@ void EnFz_UpdateTargetPos(EnFz* this, PlayState* play) {
     vec1.z = 220.0f;
     Matrix_MultVec3f(&vec1, &this->wallHitPos);
 
-    if (BgCheck_EntityLineTest1(&play->colCtx, &pos, &this->wallHitPos, &hitPos, &hitPoly, true, false, false,
-                                true, &bgId)) {
+    if (BgCheck_EntityLineTest1(&play->colCtx, &pos, &this->wallHitPos, &hitPos, &hitPoly, true, false, false, true,
+                                &bgId)) {
         Math_Vec3f_Copy(&this->wallHitPos, &hitPos);
     }
 
@@ -321,9 +321,8 @@ void EnFz_SpawnIceSmokeActiveState(EnFz* this) {
 void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
     Vec3f vec;
 
-    if (this->isMoving &&
-        ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
-         (Actor_TestFloorInDirection(&this->actor, play, 60.0f, this->actor.world.rot.y) == 0))) {
+    if (this->isMoving && ((this->actor.bgCheckFlags & BGCHECKFLAG_WALL) ||
+                           (Actor_TestFloorInDirection(&this->actor, play, 60.0f, this->actor.world.rot.y) == 0))) {
         this->actor.bgCheckFlags &= ~BGCHECKFLAG_WALL;
         this->isMoving = false;
         this->speedXZ = 0.0f;
@@ -697,8 +696,7 @@ void EnFz_Update(Actor* thisx, PlayState* play) {
     Actor_MoveForward(&this->actor);
 
     if (this->updateBgInfo) {
-        Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f,
-                                UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 20.0f, 20.0f, 20.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
     }
 
     iceSmokeSpawnFuncs[this->state](this);

@@ -130,8 +130,8 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, PlayState* play) {
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_StalfosFight);
     Flags_UnsetClear(play, this->dyna.actor.room);
-    stalfos = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 209.0f, 827.0f,
-                                 -3320.0f, 0, 0, 0, 1);
+    stalfos = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 209.0f, 827.0f, -3320.0f, 0,
+                                 0, 0, 1);
     if (stalfos != NULL) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
@@ -191,8 +191,8 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
 
     BgMoriBigst_SetupAction(this, BgMoriBigst_StalfosPairFight);
     Flags_UnsetClear(play, this->dyna.actor.room);
-    stalfos1 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 70.0f, 827.0f,
-                                  -3383.0f, 0, 0, 0, 5);
+    stalfos1 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 70.0f, 827.0f, -3383.0f, 0,
+                                  0, 0, 5);
     if (stalfos1 != NULL) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
@@ -200,8 +200,8 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, PlayState* play) {
         // "Warning: 3-1 Stalfos failure"
         osSyncPrintf("Warning : 第３-1スタルフォス発生失敗\n");
     }
-    stalfos2 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 170.0f, 827.0f,
-                                  -3260.0f, 0, 0, 0, 5);
+    stalfos2 = Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_EN_TEST, 170.0f, 827.0f, -3260.0f, 0,
+                                  0, 0, 5);
     if (stalfos2 != NULL) {
         this->dyna.actor.child = NULL;
         this->dyna.actor.home.rot.z++;
