@@ -16,13 +16,13 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgMjin_Init(Actor* thisx, PlayState* play);
+void BgMjin_Destroy(Actor* thisx, PlayState* play);
+void BgMjin_Update(Actor* thisx, PlayState* play);
+void BgMjin_Draw(Actor* thisx, PlayState* play);
 
-void func_808A0850(BgMjin* this, GlobalContext* globalCtx);
-void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx);
+void func_808A0850(BgMjin* this, PlayState* play);
+void BgMjin_DoNothing(BgMjin* this, PlayState* play);
 
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
@@ -52,13 +52,13 @@ void BgMjin_SetupAction(BgMjin* this, BgMjinActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgMjin_Init(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
     s8 objectLoadEntryIndex;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     objectLoadEntryIndex =
-        Object_GetLoadEntryIndex(&globalCtx->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
+        Object_GetLoadEntryIndex(&play->objectCtx, (thisx->params != 0 ? OBJECT_MJIN : OBJECT_MJIN_OKA));
     this->waitObjectLoadEntryIndex = objectLoadEntryIndex;
     if (objectLoadEntryIndex < 0) {
         Actor_Kill(thisx);
@@ -67,50 +67,50 @@ void BgMjin_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgMjin_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgMjin_Destroy(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
+void func_808A0850(BgMjin* this, PlayState* play) {
     CollisionHeader* colHeader;
     CollisionHeader* collision;
 
-    if (Object_IsLoadEntryLoaded(&globalCtx->objectCtx, this->waitObjectLoadEntryIndex)) {
+    if (Object_IsLoadEntryLoaded(&play->objectCtx, this->waitObjectLoadEntryIndex)) {
         colHeader = NULL;
         this->dyna.actor.flags &= ~ACTOR_FLAG_4;
         this->dyna.actor.objectLoadEntryIndex = this->waitObjectLoadEntryIndex;
-        Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
+        Actor_SetObjectDependency(play, &this->dyna.actor);
         DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &gWarpPadCol : &gOcarinaWarpPadCol;
         CollisionHeader_GetVirtual(collision, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
         BgMjin_SetupAction(this, BgMjin_DoNothing);
         this->dyna.actor.draw = BgMjin_Draw;
     }
 }
 
-void BgMjin_DoNothing(BgMjin* this, GlobalContext* globalCtx) {
+void BgMjin_DoNothing(BgMjin* this, PlayState* play) {
 }
 
-void BgMjin_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgMjin_Update(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgMjin_Draw(Actor* thisx, PlayState* play) {
     BgMjin* this = (BgMjin*)thisx;
     Gfx* dlist;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 250);
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 250);
 
     if (thisx->params != 0) {
-        s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&globalCtx->objectCtx, sObjectIDs[thisx->params - 1]);
+        s32 objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sObjectIDs[thisx->params - 1]);
 
         if (objectLoadEntryIndex >= 0) {
-            gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.loadEntries[objectLoadEntryIndex].segment);
+            gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.loadEntries[objectLoadEntryIndex].segment);
         }
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_06000000));
@@ -119,10 +119,10 @@ void BgMjin_Draw(Actor* thisx, GlobalContext* globalCtx) {
         dlist = gOcarinaWarpPadDL;
     }
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 285),
+    func_80093D18(play->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_mjin.c", 285),
               G_MTX_NOPUSH | G_MTX_MODELVIEW | G_MTX_LOAD);
     gSPDisplayList(POLY_OPA_DISP++, dlist);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mjin.c", 288);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_mjin.c", 288);
 }

@@ -29,7 +29,7 @@ Useful data for guessing types:
 
 Another useful thing to put here: the prototype for an action function is
 ```C
-typedef void (*ActorNameActionFunc)(struct ActorName*, GlobalContext*);
+typedef void (*ActorNameActionFunc)(struct ActorName*, PlayState*);
 ```
 where you replace `ActorName` by the actual actor name as used elsewhere in the actor, e.g. `EnJj`.
 

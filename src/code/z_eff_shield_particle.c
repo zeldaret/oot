@@ -52,7 +52,7 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
             this->lightInfo.type = LIGHT_POINT_NOGLOW;
             this->lightInfo.params.point = initParams->lightPoint;
             this->lightNode =
-                LightContext_InsertLight(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, &this->lightInfo);
+                LightContext_InsertLight(Effect_Getplay(), &Effect_Getplay()->lightCtx, &this->lightInfo);
         } else {
             this->lightNode = NULL;
         }
@@ -63,10 +63,10 @@ void EffectShieldParticle_Destroy(void* thisx) {
     EffectShieldParticle* this = (EffectShieldParticle*)thisx;
 
     if ((this != NULL) && (this->lightDecay == true)) {
-        if (this->lightNode == Effect_GetGlobalCtx()->lightCtx.listHead) {
-            Effect_GetGlobalCtx()->lightCtx.listHead = this->lightNode->next;
+        if (this->lightNode == Effect_Getplay()->lightCtx.listHead) {
+            Effect_Getplay()->lightCtx.listHead = this->lightNode->next;
         }
-        LightContext_RemoveLight(Effect_GetGlobalCtx(), &Effect_GetGlobalCtx()->lightCtx, this->lightNode);
+        LightContext_RemoveLight(Effect_Getplay(), &Effect_Getplay()->lightCtx, this->lightNode);
     }
 }
 
