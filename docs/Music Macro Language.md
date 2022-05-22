@@ -12,7 +12,7 @@ Generally, a sequence is composed in three major sections: descriptor, track, an
 
 ### Primitives and Labels
 
-Sequences may contain primitives, such as text and integers, which can be used as parameters for commands or entries.
+Sequences may contain primitives, such as text and integers, which can be used as parameters for instructions or entries.
 
 **Strings**: A series of Unicode characters enclosed by quotation marks.  For example: `"this is a string"`.
 
@@ -28,7 +28,7 @@ ldchan 1, chan1_script
 end
 
 .channel chan1_script
-... various channel commands ...
+... various channel instructions ...
 ```
 
 The following illustrates the usage of label offsets to allow rewriting a parameter to a command:
@@ -39,13 +39,13 @@ stseq 5, notecmd+1   # Changes the pitch played by the notedvg command
 notedvg 0, 10, 127   # The first parameter here will be changed to 5
 ```
 
-### Comments and Metacommands
+### Comments and Metainstructions
 
 Comments allow you to provide information that may be valuable to those who read the sequence contents directly.  These can provide documentation or explain more complex logic used in the sequence and are particularly useful for more complex, programmatic sequences.
 
 A comment always starts with a # character.  This may appear anywhere in a line, and all text after the # will be ignored by editors or parsers.  These comments will not be saved or stored in the binary representation of a sequence.  They are purely for documentation purposes only.
 
-Metacommands are commands that are read by the editor or parser, but do not get stored in the resultant binary file directly.  The following metacommands are supported by the parser provided by `assemble_sequence`.  Other tools may support additional metacommands, but these are always supported by all tools.
+Metainstructions are instructions that are read by the editor or parser, but do not get stored in the resultant binary file directly.  The following metainstructions are supported by the parser provided by `assemble_sequence`.  Other tools may support additional metainstructions, but these are always supported by all tools.
 
 **.define** *symbol* *value*
 
@@ -106,7 +106,7 @@ jump main_loop_start
 end
 
 .channel channel0_main
-... various commands here ...
+... various instructions here ...
 end
 
 .include "alternate.mus.inc" # This is the same as though alternate.mus.inc was written directly here.
@@ -127,36 +127,36 @@ end
 .desc title Alternate Melody
 
 .channel channel0_alt
-... various commands here...
+... various instructions here...
 end
 ```
 
-**Label Metacommands**
+**Label Metainstructions**
 
-The following metacommands allow you to define a label that points to the relevant set of commands.  These metacommands are the following:
+The following metainstructions allow you to define a label that points to the relevant set of instructions.  These metainstructions are the following:
 
-| Metacommand | Description                                             |
-| ----------- | ------------------------------------------------------- |
-| .sequence   | A series of sequence commands within a track section.   |
-| .channel    | A series of channel commands within a track section.    |
-| .layer      | A series of note layer commands within a track section. |
-| .table      | A table of entries or bytes within a data section.      |
-| .array      | An array of bytes or shorts in a data section.          |
-| .filter     | References a filter structure in a data section.        |
-| .envelope   | References an envelope structure in a data section.     |
-| .buffer     | References a buffer within a data section.              |
+| Metacommand | Description                                                 |
+| ----------- | ----------------------------------------------------------- |
+| .sequence   | A series of sequence instructions within a track section.   |
+| .channel    | A series of channel instructions within a track section.    |
+| .layer      | A series of note layer instructions within a track section. |
+| .table      | A table of entries or bytes within a data section.          |
+| .array      | An array of bytes or shorts in a data section.              |
+| .filter     | References a filter structure in a data section.            |
+| .envelope   | References an envelope structure in a data section.         |
+| .buffer     | References a buffer within a data section.                  |
 
-**Section Metacommands**
+**Section Metainstructions**
 
-There are metacommands specific to certain sections that will be documented in those sections specifically.  These will be described in those sections as appropriate.  Note that metacommands are always distinguished by starting with a period, whereas commands do not.
+There are metainstructions specific to certain sections that will be documented in those sections specifically.  These will be described in those sections as appropriate.  Note that metainstructions are always distinguished by starting with a period, whereas instructions do not.
 
 ### Descriptor Section
 
-The descriptor section is composed of commands that provide information useful for describing the sequence.  The only required command for this section is .usefont, which may only be used at the very beginning of the track and defines what soundfonts will be available for use by the sequence.
+The descriptor section is composed of instructions that provide information useful for describing the sequence.  The only required command for this section is .usefont, which may only be used at the very beginning of the track and defines what soundfonts will be available for use by the sequence.
 
-#### Metacommands
+#### Metainstructions
 
-*Descriptor commands have no binary representation.*
+*Descriptor instructions have no binary representation.*
 
 **.desc** *type* *text*
 
@@ -180,19 +180,19 @@ The descriptor section is composed of commands that provide information useful f
 
 ### Track Section
 
-Tracks are composed of three different types of commands: sequence, channel, and note layer.  The sequence contains commands for controlling the overall sequence itself.  Channels are defined at the sequence level, with at most sixteen channels running at the same time.  Each channel can then reference zero or more note layers, where the actual note commands will be referenced.  Most of the commands are specific to these subsections and are not interchangeable, aside from the *Branching Commands*, which are supported with all three.  A sequence *always* starts with sequence commands.
+Tracks are composed of three different types of instructions: sequence, channel, and note layer.  The sequence contains instructions for controlling the overall sequence itself.  Channels are defined at the sequence level, with at most sixteen channels running at the same time.  Each channel can then reference zero or more note layers, where the actual note instructions will be referenced.  Most of the instructions are specific to these subsections and are not interchangeable, aside from the *Branching instructions*, which are supported with all three.  A sequence *always* starts with sequence instructions.
 
 Tracks are executed by the **sequence player**, as defined in `audio_seqplayer.c`.  The sequence player is capable of executing one track at a time, with sixteen simultaneous channels, each channel typically supporting four note layers.  A tick counter allows the player to track the execution time of a sequence.  Ticks increment based by the tempo.
 
-All commands in a track section are executed simultaneously unless a delay command is specified, in which case subsequent commands will only run after that number of ticks have elapsed while playing the sequence.
+All instructions in a track section are executed simultaneously unless a delay command is specified, in which case subsequent instructions will only run after that number of ticks have elapsed while playing the sequence.
 
-A track can loop (potentially) indefinitely by using branching commands, or can end if the sequence command `end` is encountered.  This will end processing of the sequence, and the sequence player will no longer process any further commands until a new sequence is started.
+A track can loop (potentially) indefinitely by using branching instructions, or can end if the sequence command `end` is encountered.  This will end processing of the sequence, and the sequence player will no longer process any further instructions until a new sequence is started.
 
 #### Long Notes Versus Short Notes
 
-The sequence format supports two different ways of representing note commands in binary: long and short.
+The sequence format supports two different ways of representing note instructions in binary: long and short.
 
-Short notes only encode the pitch being played and optionally the note duration (delay). This can provide significant space savings when the notes being played are all using the same gate and velocity (a drum section, for example, with a continuous drum roll).  There are dedicated commands that allow you to change the gate and velocity parameters, either setting default values or changing the parameters for following notes.
+Short notes only encode the pitch being played and optionally the note duration (delay). This can provide significant space savings when the notes being played are all using the same gate and velocity (a drum section, for example, with a continuous drum roll).  There are dedicated instructions that allow you to change the gate and velocity parameters, either setting default values or changing the parameters for following notes.
 
 Long notes, in comparison, encode the pitch and velocity with each command, in addition to either the duration, gate length, or both.  This provides better space savings compared to short notes if the gate or velocity parameters change frequently with each note, as it can take two or more bytes to do this with short notes rather than one additional byte with the long note.  Long note mode is recommended most with melodic sections, where your instruments are intended to be more expressive.
 
@@ -200,17 +200,17 @@ Long notes, in comparison, encode the pitch and velocity with each command, in a
 
 ##### Sequence Registers
 
-Certain commands support loading or storing values and utilize a register associated to the sequence for this task.  For documentation purposes, this is referred to as the `$V` register.  This register is one byte in size; most commands treat it as a signed value.
+Certain instructions support loading or storing values and utilize a register associated to the sequence for this task.  For documentation purposes, this is referred to as the `$V` register.  This register is one byte in size; most instructions treat it as a signed value.
 
 ##### IO Ports
 
 Each sequence player contains 8 IO ports that are one byte in size each.  These ports can be used to communicate state information between other parts of the game engine, or across different parts of the sequence.  For example, a sequence script could use an IO port that, when set to a certain value, changes what instrument is used.
 
-##### Metacommands
+##### Metainstructions
 
 **.sequence** *label name*
 
-**Description:** Defines a label for the following subsection of sequence commands.  Note that it is considered an error if a sequence label is proceeded with anything that is not a sequence command.
+**Description:** Defines a label for the following subsection of sequence instructions.  Note that it is considered an error if a sequence label is proceeded with anything that is not a sequence command.
 
 **Example:**
 ```
@@ -220,7 +220,7 @@ delay 500
 jump loop_start        # Plays the same melody indefinitely.
 ```
 
-##### Commands
+##### Instructions
 
 |    |    00    | 10 | 20 | 30 |    40    |  50   |  60   |  70  |  80  |   90   |   A0    |  B0   |    C0     |     D0      | E0 |      F0       |
 | -- | -------- | -- | -- | -- | -------- | ----- | ----- | ---- | ---- | ------ | ------- | ----- | --------- | ----------- | -- | ------------- |
@@ -241,7 +241,7 @@ jump loop_start        # Plays the same melody indefinitely.
 | 0E | testchan |    |    |    | stopchan | subio | ldres | stio | ldio | ldchan | rldchan | ldseq | rand      | rtranspose  |    | *delay1       |
 | 0F | testchan |    |    |    | stopchan | subio | ldres | stio | ldio | ldchan | rldchan | ldseq |           | transpose   |    | *end          |
 
-Commands marked with an asterisk (\*) are documented in the section *Branching Commands*.
+Instructions marked with an asterisk (\*) are documented in the section *Branching Instructions*.
 
 **testchan** *N*
 
@@ -256,12 +256,12 @@ Commands marked with an asterisk (\*) are documented in the section *Branching C
 delay1
 testchan 1
 beqz wait_until_done
-# Commands here only execute once channel 1 reaches an end command.
+# Instructions here only execute once channel 1 reaches an end command.
 ```
 
 **stopchan** *N*
 
-**Description:** Stops channel *N* from executing any further commands.  Any notes currently playing on the channel will cease.
+**Description:** Stops channel *N* from executing any further instructions.  Any notes currently playing on the channel will cease.
 
 **Parameters:**
 * `N` [integer: 0-15] - The channel number to stop.
@@ -271,7 +271,7 @@ beqz wait_until_done
 ldchan 0, chan0
 ldchan 1, chan1
 delay 50
-stopchan 1      # Stops channel 1 after 50 ticks, even if there's additional commands.
+stopchan 1      # Stops channel 1 after 50 ticks, even if there's additional instructions.
 ```
 
 **subio** *N*
@@ -295,9 +295,9 @@ stio 0
 
 Unlike the dedicated `ldseq` command, this does not assign the loaded sequence to a sequence player for playback.  This was likely intended to be paired with `runseq`, since the sequence would be loaded into the pool and ready for playback immediately and wouldn't introduce any processing lag.  Unfortunately, with the way the pools are designed, this is suboptimal and could introduce issues.
 
-As a best practice, if you want to do dynamic sequence changes, allocate a buffer inside your sequence and use `ldseq` to load it into the buffer and call it as a sequence function.  If you want to change the sequence being played by another sequence player, you must use the `ldres` and `runseq` commands.
+As a best practice, if you want to do dynamic sequence changes, allocate a buffer inside your sequence and use `ldseq` to load it into the buffer and call it as a sequence function.  If you want to change the sequence being played by another sequence player, you must use the `ldres` and `runseq` instructions.
 
-You do not need to use this command to load sample banks or soundfonts.  There are no commands to allow a sequence to use an arbitrary soundfont, and any soundfonts assigned to a sequence are preemptively loaded into the pool prior to the sequence player initializing.  The engine also already handles loading sample banks and samples automatically, so there are no useful situations where you would need to use this command with sample banks.
+You do not need to use this command to load sample banks or soundfonts.  There are no instructions to allow a sequence to use an arbitrary soundfont, and any soundfonts assigned to a sequence are preemptively loaded into the pool prior to the sequence player initializing.  The engine also already handles loading sample banks and samples automatically, so there are no useful situations where you would need to use this command with sample banks.
 
 **Parameters:**
 * `IO` [integer: 0-7] - The IO port to use for tracking the asynchronous load status.
@@ -416,7 +416,7 @@ end
 
 **runseq** *player*, *index*
 
-**Description:** Instructs the specified sequence player to play the specified sequence.  Unlike most commands, this one operates synchronously and will block execution of the current sequence script until the command finishes (presumably, this is to avoid potential race conditions if you replace the sequence in the current sequence player).  If you want to specifically change the sequence being played by the current player, you can use `0xFF` for the player.
+**Description:** Instructs the specified sequence player to play the specified sequence.  Unlike most instructions, this one operates synchronously and will block execution of the current sequence script until the command finishes (presumably, this is to avoid potential race conditions if you replace the sequence in the current sequence player).  If you want to specifically change the sequence being played by the current player, you can use `0xFF` for the player.
 
 If this command modifies the current sequence player, the sequence player will reset and no longer execute the original script.  Otherwise, the sequence player will continue to play once the other sequence player has finished loading.
 
@@ -541,15 +541,15 @@ bltz wait_for_finish
 end
 
 .sequence option1
-... commands for one sequence ...
+... instructions for one sequence ...
 end
 
 .sequence option2
-... commands for a completely different sequence ...
+... instructions for a completely different sequence ...
 end
 
 .sequence option3
-... commands for a remixed sequence between the two ...
+... instructions for a remixed sequence between the two ...
 end
 
 .data
@@ -564,7 +564,7 @@ end
 
 **Description:** Assigns a random integer to the `$V` register between `0` (inclusive) and `max` (exclusive).  If `max` is 0, then it will be any random value between `-128` (inclusive) and `127`.
 
-Note that a side effect of the implementation for this command is that if a maximum of 1 is used, then this will always set `$V` to 0.  In addition, the `$V` register is signed even though the random value is calculated entirely with unsigned values.  As a result, although you can set the maximum to a value larger than 127, it is not recommended as this will not interact well with most other commands.
+Note that a side effect of the implementation for this command is that if a maximum of 1 is used, then this will always set `$V` to 0.  In addition, the `$V` register is signed even though the random value is calculated entirely with unsigned values.  As a result, although you can set the maximum to a value larger than 127, it is not recommended as this will not interact well with most other instructions.
 
 **Parameters:**
 * `max` [integer: 0-255] - The maximum (exclusive) to use for the random value, or 0 for any random value to be chosen
@@ -717,7 +717,7 @@ notevg PITCH_C5, 6, 0
 
 The default mute behavior for the sequence player is 0b01100000.
 
-Note that the mute behavior mostly is only affected by the `mute` command.  The game also supports dynamic muting via the channel command `STOPSOMETHING2`, which will stop playing new notes for that channel (this operates separately from the mute behavior).  It also supports toggling mute mode for all sequence players via audio commands `0xF1` and `0xF2`.
+Note that the mute behavior mostly is only affected by the `mute` command.  The game also supports dynamic muting via the channel command `STOPSOMETHING2`, which will stop playing new notes for that channel (this operates separately from the mute behavior).  It also supports toggling mute mode for all sequence players via audio instructions `0xF1` and `0xF2`.
 
 **Parameters:**
 * `mask` [integer: 0-65535] - The default mute behavior for the sequence.
@@ -917,19 +917,19 @@ delay 500         # Now the player may not be able to play notes if there aren't
 
 ##### Channel Registers
 
-Every channel contains two registers that commands can use for mathematical calculations, loading and storing values, and referencing data sections.  Like the sequence player, there is an eight-bit `$V` register that's used mainly for loading and storing values, and a sixteen-bit `$P` register used as an offset pointer for indirect references within the channel script.
+Every channel contains two registers that instructions can use for mathematical calculations, loading and storing values, and referencing data sections.  Like the sequence player, there is an eight-bit `$V` register that's used mainly for loading and storing values, and a sixteen-bit `$P` register used as an offset pointer for indirect references within the channel script.
 
 ##### IO Ports
 
 Similar to the sequence player, each channel contains its own dedicated eight IO ports that are one byte wide.  These ports can be used to store or communicate values across different portions of the channel script.
 
-Channels also have access to the sequence player's IO ports, allowing values to be sent across different levels as needed.  Keep in mind that since each channel's script runs in parallel, you will want to ensure that channels do not write back to the same IO port on the sequence player in a destructive fashion.  (These commands are executed in a single thread, so it is safe for different channels to modify the same IO port if, for example, the script was configured to modify one bit while leaving the rest unmodified.)
+Channels also have access to the sequence player's IO ports, allowing values to be sent across different levels as needed.  Keep in mind that since each channel's script runs in parallel, you will want to ensure that channels do not write back to the same IO port on the sequence player in a destructive fashion.  (These instructions are executed in a single thread, so it is safe for different channels to modify the same IO port if, for example, the script was configured to modify one bit while leaving the rest unmodified.)
 
-##### Metacommands
+##### Metainstructions
 
 **.channel** *label name*
 
-**Description:** Defines a label for the following subsection of channel commands.  Note that it is considered an error if a channel label is proceeded with anything that is not a channel command.
+**Description:** Defines a label for the following subsection of channel instructions.  Note that it is considered an error if a channel label is proceeded with anything that is not a channel command.
 
 **Example:**
 ```
@@ -939,7 +939,7 @@ delay 500
 jump loop_start        # Plays the same melody indefinitely.
 ```
 
-##### Commands
+##### Instructions
 
 |    |   00   | 10        | 20     | 30    |  40   |  50   |  60  |  70      |  80       |   90       | A0 |  B0         |    C0        |     D0      | E0           |      F0       |
 | -- | ------ | --------- | ------ | ----- | ----- | ----- | ---- | -------- | --------- | ---------- | -- | ----------- | ------------ | ----------- | ------------ | ------------- |
@@ -960,7 +960,7 @@ jump loop_start        # Plays the same melody indefinitely.
 | 0E | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    |             | lditoptr     | preqscale   | bendfine     | *delay1       |
 | 0F | cdelay | sampleptr | ldchan | stcio | ldcio | subio | ldio | rldlayer | ldlayer   | dynldlayer |    |             | stptrtoseq   | vol         |              | *end          |
 
-Commands marked with an asterisk (\*) are documented in the section *Branching Commands*.
+Instructions marked with an asterisk (\*) are documented in the section *Branching Instructions*.
 
 **cdelay** *ticks*
 
