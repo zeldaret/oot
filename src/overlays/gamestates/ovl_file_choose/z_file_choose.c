@@ -1490,9 +1490,10 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
         gSaveContext.magicCapacity = 0;
 
-    // Set the fill target to be the magic from the previous save
+    // Set the fill target to be the saved magic amount
     gSaveContext.magicFillTarget = gSaveContext.magic;
-    // Set magicLevel and magic to 0 so the magic meter and magic grows from nothing to the state before the save
+    // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing to respectively the full
+    // capacity and `magicFillTarget`
     gSaveContext.magicLevel = gSaveContext.magic = 0;
 
     osSyncPrintf(VT_FGCOL(GREEN));

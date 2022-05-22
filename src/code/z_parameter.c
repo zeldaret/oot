@@ -2291,9 +2291,9 @@ void Magic_Reset(PlayState* play) {
 
 /**
  * Request to either increase or consume magic.
- * amount is the positive-valued amount to either increase or decrease magic by
- * type is how the magic is increased or consumed.
- * Returns false if the request failed
+ * @param amount the positive-valued amount to either increase or decrease magic by
+ * @param type how the magic is increased or consumed.
+ * @return false if the request failed
  */
 s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
     if (!gSaveContext.isMagicAcquired) {
@@ -2353,12 +2353,10 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 } else {
                     return false;
                 }
+            } else if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
+                return true;
             } else {
-                if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return false;
             }
 
         case MAGIC_CONSUME_WAIT_PREVIEW:
@@ -2411,7 +2409,7 @@ void Magic_Update(PlayState* play) {
     s16 borderChangeR;
     s16 borderChangeG;
     s16 borderChangeB;
-    s16 temp; // target for magicCapacity or magicBorderIndex
+    s16 temp; // target for magicCapacity, or magicBorderIndex
 
     switch (gSaveContext.magicState) {
         case MAGIC_STATE_STEP_CAPACITY:

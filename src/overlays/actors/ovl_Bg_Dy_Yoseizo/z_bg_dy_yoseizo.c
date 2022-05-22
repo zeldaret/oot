@@ -711,7 +711,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
             case FAIRY_UPGRADE_MAGIC:
                 gSaveContext.isMagicAcquired = true;
                 gSaveContext.magicFillTarget = MAGIC_NORMAL_METER;
-                // magicLevel is already 0, which triggers magicCapacity to grow
+                // magicLevel is already 0, setting isMagicAcquired to true triggers magicCapacity to grow
                 Interface_ChangeAlpha(9);
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
