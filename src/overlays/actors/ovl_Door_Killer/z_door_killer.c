@@ -104,7 +104,7 @@ void DoorKiller_Init(Actor* thisx, PlayState* play2) {
 
     // Look in the object bank for one of the four objects containing door textures
     objectLoadEntryIndex = -1;
-    //! @bug If no object is loaded, `sDoorTextures` will be read out of bounds
+    //! @bug If no object load entry is found, `sDoorTextures` will be read out of bounds
     for (i = 0; objectLoadEntryIndex < 0; i++) {
         objectLoadEntryIndex = Object_GetLoadEntryIndex(&play->objectCtx, sDoorTextures[i].objectId);
         this->textureEntryIndex = i;
