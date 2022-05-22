@@ -9,12 +9,12 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot01Fusya_Init(Actor* thisx, PlayState* play);
+void BgSpot01Fusya_Destroy(Actor* thisx, PlayState* play);
+void BgSpot01Fusya_Update(Actor* thisx, PlayState* play);
+void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play);
 
-void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
+void func_808AAA50(BgSpot01Fusya* this, PlayState* play);
 
 const ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
@@ -39,7 +39,7 @@ void BgSpot01Fusya_SetupAction(BgSpot01Fusya* this, BgSpot01FusyaActionFunc acti
     this->actionFunc = actionFunc;
 }
 
-void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Init(Actor* thisx, PlayState* play) {
     BgSpot01Fusya* this = (BgSpot01Fusya*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -52,10 +52,10 @@ void BgSpot01Fusya_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot01Fusya_SetupAction(this, func_808AAA50);
 }
 
-void BgSpot01Fusya_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
+void func_808AAA50(BgSpot01Fusya* this, PlayState* play) {
     f32 temp;
     Actor* thisx = &this->actor;
 
@@ -68,20 +68,20 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->unk_154, this->unk_158, this->unk_15C, 100.0f);
 }
 
-void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot01Fusya_Update(Actor* thisx, PlayState* play) {
     BgSpot01Fusya* this = (BgSpot01Fusya*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgSpot01Fusya_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 210);
+void BgSpot01Fusya_Draw(Actor* thisx, PlayState* play) {
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot01_fusya.c", 210);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot01_fusya.c", 214),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoWindmillSailsDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_spot01_fusya.c", 219);
 }

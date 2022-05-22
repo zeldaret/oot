@@ -9,18 +9,18 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void EffDust_Init(Actor* thisx, GlobalContext* globalCtx);
-void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EffDust_Update(Actor* thisx, GlobalContext* globalCtx);
-void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EffDust_Init(Actor* thisx, PlayState* play);
+void EffDust_Destroy(Actor* thisx, PlayState* play);
+void EffDust_Update(Actor* thisx, PlayState* play);
+void EffDust_Draw(Actor* thisx, PlayState* play);
 
 void EffDust_InitPosAndDistance(EffDust* this);
 
-void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx);
-void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx);
-void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx);
-void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx);
-void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx);
+void EffDust_UpdateFunc_8099DB28(EffDust* this, PlayState* play);
+void EffDust_UpdateFunc_8099DD74(EffDust* this, PlayState* play);
+void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play);
+void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play);
+void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play);
 
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
@@ -59,7 +59,7 @@ void EffDust_InitPosAndDistance(EffDust* this) {
     this->index = 0;
 }
 
-void EffDust_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EffDust_Init(Actor* thisx, PlayState* play) {
     EffDust* this = (EffDust*)thisx;
     EffDustType dustEffect = this->actor.params;
 
@@ -109,10 +109,10 @@ void EffDust_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->life = 10;
 }
 
-void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EffDust_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx) {
+void EffDust_UpdateFunc_8099DB28(EffDust* this, PlayState* play) {
     s16 theta;
     s16 fi;
     f32* distanceTraveled = this->distanceTraveled;
@@ -141,7 +141,7 @@ void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx) {
     }
 }
 
-void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx) {
+void EffDust_UpdateFunc_8099DD74(EffDust* this, PlayState* play) {
     s16 theta;
     s16 fi;
     f32* distanceTraveled = this->distanceTraveled;
@@ -170,9 +170,9 @@ void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx) {
     }
 }
 
-void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
+void EffDust_UpdateFunc_8099DFC0(EffDust* this, PlayState* play) {
     s16 theta;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
     Actor* parent = this->actor.parent;
     f32* distanceTraveled = this->distanceTraveled;
     s32 i;
@@ -253,16 +253,16 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
     }
 }
 
-void EffDust_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EffDust_Update(Actor* thisx, PlayState* play) {
     EffDust* this = (EffDust*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
+void EffDust_DrawFunc_8099E4F4(Actor* thisx, PlayState* play2) {
     EffDust* this = (EffDust*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    PlayState* play = play2;
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     Vec3f* initialPositions;
     f32* distanceTraveled;
     s32 i;
@@ -290,7 +290,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
                              MTXMODE_NEW);
 
             Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->billboardMtxF, MTXMODE_APPLY);
+            Matrix_Mult(&play->billboardMtxF, MTXMODE_APPLY);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 449),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -306,15 +306,15 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
     CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 458);
 }
 
-void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
+void EffDust_DrawFunc_8099E784(Actor* thisx, PlayState* play2) {
     EffDust* this = (EffDust*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    PlayState* play = play2;
+    GraphicsContext* gfxCtx = play->state.gfxCtx;
     f32* distanceTraveled;
     Vec3f* initialPositions;
     s32 i;
     f32 aux;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
 
     OPEN_DISPS(gfxCtx, "../z_eff_dust.c", 472);
 
@@ -351,7 +351,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
             Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
                          *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
 
-            Matrix_ReplaceRotation(&globalCtx->billboardMtxF);
+            Matrix_ReplaceRotation(&play->billboardMtxF);
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -365,8 +365,8 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx2) {
     CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 515);
 }
 
-void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EffDust_Draw(Actor* thisx, PlayState* play) {
     EffDust* this = (EffDust*)thisx;
 
-    this->drawFunc(thisx, globalCtx);
+    this->drawFunc(thisx, play);
 }

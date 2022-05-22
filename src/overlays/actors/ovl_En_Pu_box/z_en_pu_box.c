@@ -9,10 +9,10 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnPubox_Init(Actor* thisx, PlayState* play);
+void EnPubox_Destroy(Actor* thisx, PlayState* play);
+void EnPubox_Update(Actor* thisx, PlayState* play);
+void EnPubox_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_Pu_box_InitVars = {
     ACTOR_EN_PU_BOX,
@@ -26,7 +26,7 @@ const ActorInit En_Pu_box_InitVars = {
     (ActorFunc)EnPubox_Draw,
 };
 
-void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnPubox_Init(Actor* thisx, PlayState* play) {
     CollisionHeader* colHeader = NULL;
     EnPubox* this = (EnPubox*)thisx;
 
@@ -56,16 +56,16 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->targetMode = 1;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&gBlockMediumCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
 }
 
-void EnPubox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnPubox_Destroy(Actor* thisx, PlayState* play) {
     EnPubox* this = (EnPubox*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnPubox_Update(Actor* thisx, PlayState* play) {
     EnPubox* this = (EnPubox*)thisx;
 
     thisx->speedXZ += this->dyna.unk_150;
@@ -80,11 +80,11 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_150 = 0.0f;
     Actor_MoveForward(thisx);
     Actor_UpdateBgCheckInfo(
-        globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius, thisx->colChkInfo.cylRadius,
+        play, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius, thisx->colChkInfo.cylRadius,
         UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 | UPDBGCHECKINFO_FLAG_4);
     thisx->focus.pos = thisx->world.pos;
 }
 
-void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gBlockMediumDL);
+void EnPubox_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, gBlockMediumDL);
 }

@@ -899,5 +899,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx) {
+void Sram_Init(PlayState* play, SramContext* sramCtx) {
 }

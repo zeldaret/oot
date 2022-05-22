@@ -13,13 +13,13 @@ FaultClient D_801614B8;
 s16 sTransitionFillTimer;
 u64 D_801614D0[0xA00];
 
-void Play_SpawnScene(GlobalContext* this, s32 sceneNum, s32 spawn);
+void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn);
 
-void func_800BC450(GlobalContext* this) {
+void func_800BC450(PlayState* this) {
     Camera_ChangeDataIdx(GET_ACTIVE_CAM(this), this->unk_1242B - 1);
 }
 
-void func_800BC490(GlobalContext* this, s16 point) {
+void func_800BC490(PlayState* this, s16 point) {
     ASSERT(point == 1 || point == 2, "point == 1 || point == 2", "../z_play.c", 2160);
 
     this->unk_1242B = point;
@@ -32,12 +32,12 @@ void func_800BC490(GlobalContext* this, s16 point) {
     func_800BC450(this);
 }
 
-s32 func_800BC56C(GlobalContext* this, s16 arg1) {
+s32 func_800BC56C(PlayState* this, s16 arg1) {
     return (arg1 == this->unk_1242B);
 }
 
 // original name: "Game_play_shop_pr_vr_switch_set"
-void func_800BC590(GlobalContext* this) {
+void func_800BC590(PlayState* this) {
     osSyncPrintf("Game_play_shop_pr_vr_switch_set()\n");
 
     if (YREG(15) == 0x10) {
@@ -45,7 +45,7 @@ void func_800BC590(GlobalContext* this) {
     }
 }
 
-void Play_SetupTransition(GlobalContext* this, s32 transitionType) {
+void Play_SetupTransition(PlayState* this, s32 transitionType) {
     TransitionContext* transitionCtx = &this->transitionCtx;
 
     bzero(transitionCtx, sizeof(TransitionContext));
@@ -143,17 +143,17 @@ void Play_SetupTransition(GlobalContext* this, s32 transitionType) {
     }
 }
 
-void func_800BC88C(GlobalContext* this) {
+void func_800BC88C(PlayState* this) {
     this->transitionCtx.transitionType = -1;
 }
 
-Gfx* Play_SetFog(GlobalContext* this, Gfx* gfx) {
+Gfx* Play_SetFog(PlayState* this, Gfx* gfx) {
     return Gfx_SetFog2(gfx, this->lightCtx.fogColor[0], this->lightCtx.fogColor[1], this->lightCtx.fogColor[2], 0,
                        this->lightCtx.fogNear, 1000);
 }
 
 void Play_Destroy(GameState* thisx) {
-    GlobalContext* this = (GlobalContext*)thisx;
+    PlayState* this = (PlayState*)thisx;
     Player* player = GET_PLAYER(this);
 
     this->state.gfxCtx->callback = NULL;
@@ -195,7 +195,7 @@ void Play_Destroy(GameState* thisx) {
 }
 
 void Play_Init(GameState* thisx) {
-    GlobalContext* this = (GlobalContext*)thisx;
+    PlayState* this = (PlayState*)thisx;
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     u32 zAlloc;
     u32 zAllocAligned;
@@ -418,7 +418,7 @@ void Play_Init(GameState* thisx) {
     }
 }
 
-void Play_Update(GlobalContext* this) {
+void Play_Update(PlayState* this) {
     s32 pad1;
     s32 sp80;
     Input* input;
@@ -603,7 +603,7 @@ void Play_Update(GlobalContext* this) {
                             this->state.running = false;
 
                             if (gSaveContext.gameMode != 2) {
-                                SET_NEXT_GAMESTATE(&this->state, Play_Init, GlobalContext);
+                                SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
                                 gSaveContext.entranceIndex = this->nextEntranceIndex;
 
                                 if (gSaveContext.minigameState == 1) {
@@ -654,7 +654,7 @@ void Play_Update(GlobalContext* this) {
 
                     if (sTransitionFillTimer >= 20) {
                         this->state.running = false;
-                        SET_NEXT_GAMESTATE(&this->state, Play_Init, GlobalContext);
+                        SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
                         gSaveContext.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
@@ -696,7 +696,7 @@ void Play_Update(GlobalContext* this) {
                 case TRANS_MODE_INSTANT:
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         this->state.running = false;
-                        SET_NEXT_GAMESTATE(&this->state, Play_Init, GlobalContext);
+                        SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
                         gSaveContext.entranceIndex = this->nextEntranceIndex;
                         this->transitionTrigger = TRANS_TRIGGER_OFF;
                         this->transitionMode = TRANS_MODE_OFF;
@@ -742,7 +742,7 @@ void Play_Update(GlobalContext* this) {
                     } else {
                         if (this->envCtx.sandstormEnvA == 255) {
                             this->state.running = false;
-                            SET_NEXT_GAMESTATE(&this->state, Play_Init, GlobalContext);
+                            SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
                             gSaveContext.entranceIndex = this->nextEntranceIndex;
                             this->transitionTrigger = TRANS_TRIGGER_OFF;
                             this->transitionMode = TRANS_MODE_OFF;
@@ -1073,7 +1073,7 @@ skip:
                        this->state.gfxCtx);
 }
 
-void Play_DrawOverlayElements(GlobalContext* this) {
+void Play_DrawOverlayElements(PlayState* this) {
     if ((this->pauseCtx.state != 0) || (this->pauseCtx.debugState != 0)) {
         KaleidoScopeCall_Draw(this);
     }
@@ -1089,7 +1089,7 @@ void Play_DrawOverlayElements(GlobalContext* this) {
     }
 }
 
-void Play_Draw(GlobalContext* this) {
+void Play_Draw(PlayState* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
     Lights* sp228;
     Vec3f sp21C;
@@ -1346,7 +1346,7 @@ void Play_Draw(GlobalContext* this) {
 }
 
 void Play_Main(GameState* thisx) {
-    GlobalContext* this = (GlobalContext*)thisx;
+    PlayState* this = (PlayState*)thisx;
 
     D_8012D1F8 = &this->state.input[0];
 
@@ -1389,11 +1389,11 @@ void Play_Main(GameState* thisx) {
 }
 
 // original name: "Game_play_demo_mode_check"
-s32 Play_InCsMode(GlobalContext* this) {
+s32 Play_InCsMode(PlayState* this) {
     return (this->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(this);
 }
 
-f32 func_800BFCB8(GlobalContext* this, MtxF* mf, Vec3f* vec) {
+f32 func_800BFCB8(PlayState* this, MtxF* mf, Vec3f* vec) {
     CollisionPoly poly;
     f32 temp1;
     f32 temp2;
@@ -1459,7 +1459,7 @@ f32 func_800BFCB8(GlobalContext* this, MtxF* mf, Vec3f* vec) {
     return floorY;
 }
 
-void* Play_LoadFile(GlobalContext* this, RomFile* file) {
+void* Play_LoadFile(PlayState* this, RomFile* file) {
     u32 size;
     void* allocp;
 
@@ -1470,12 +1470,12 @@ void* Play_LoadFile(GlobalContext* this, RomFile* file) {
     return allocp;
 }
 
-void Play_InitEnvironment(GlobalContext* this, s16 skyboxId) {
+void Play_InitEnvironment(PlayState* this, s16 skyboxId) {
     Skybox_Init(&this->state, &this->skyboxCtx, skyboxId);
     Environment_Init(this, &this->envCtx, 0);
 }
 
-void Play_InitScene(GlobalContext* this, s32 spawn) {
+void Play_InitScene(PlayState* this, s32 spawn) {
     this->curSpawn = spawn;
     this->linkActorEntry = NULL;
     this->unk_11DFC = NULL;
@@ -1494,7 +1494,7 @@ void Play_InitScene(GlobalContext* this, s32 spawn) {
     Play_InitEnvironment(this, this->skyboxId);
 }
 
-void Play_SpawnScene(GlobalContext* this, s32 sceneNum, s32 spawn) {
+void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn) {
     SceneTableEntry* scene = &gSceneTable[sceneNum];
 
     scene->unk_13 = 0;
@@ -1515,7 +1515,7 @@ void Play_SpawnScene(GlobalContext* this, s32 sceneNum, s32 spawn) {
     osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(this, &this->roomCtx) / 1024.0f);
 }
 
-void Play_GetScreenPos(GlobalContext* this, Vec3f* src, Vec3f* dest) {
+void Play_GetScreenPos(PlayState* this, Vec3f* src, Vec3f* dest) {
     f32 w;
 
     Matrix_Mult(&this->viewProjectionMtxF, MTXMODE_NEW);
@@ -1528,7 +1528,7 @@ void Play_GetScreenPos(GlobalContext* this, Vec3f* src, Vec3f* dest) {
     dest->y = (SCREEN_HEIGHT / 2) - ((dest->y / w) * (SCREEN_HEIGHT / 2));
 }
 
-s16 Play_CreateSubCamera(GlobalContext* this) {
+s16 Play_CreateSubCamera(PlayState* this) {
     s16 i;
 
     for (i = CAM_ID_SUB_FIRST; i < NUM_CAMS; i++) {
@@ -1553,11 +1553,11 @@ s16 Play_CreateSubCamera(GlobalContext* this) {
     return i;
 }
 
-s16 Play_GetActiveCamId(GlobalContext* this) {
+s16 Play_GetActiveCamId(PlayState* this) {
     return this->activeCamId;
 }
 
-s16 Play_ChangeCameraStatus(GlobalContext* this, s16 camId, s16 status) {
+s16 Play_ChangeCameraStatus(PlayState* this, s16 camId, s16 status) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     if (status == CAM_STAT_ACTIVE) {
@@ -1567,7 +1567,7 @@ s16 Play_ChangeCameraStatus(GlobalContext* this, s16 camId, s16 status) {
     return Camera_ChangeStatus(this->cameraPtrs[camIdx], status);
 }
 
-void Play_ClearCamera(GlobalContext* this, s16 camId) {
+void Play_ClearCamera(PlayState* this, s16 camId) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     if (camIdx == CAM_ID_MAIN) {
@@ -1585,7 +1585,7 @@ void Play_ClearCamera(GlobalContext* this, s16 camId) {
     }
 }
 
-void Play_ClearAllSubCameras(GlobalContext* this) {
+void Play_ClearAllSubCameras(PlayState* this) {
     s16 subCamId;
 
     for (subCamId = CAM_ID_SUB_FIRST; subCamId < NUM_CAMS; subCamId++) {
@@ -1597,13 +1597,13 @@ void Play_ClearAllSubCameras(GlobalContext* this) {
     this->activeCamId = CAM_ID_MAIN;
 }
 
-Camera* Play_GetCamera(GlobalContext* this, s16 camId) {
+Camera* Play_GetCamera(PlayState* this, s16 camId) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
     return this->cameraPtrs[camIdx];
 }
 
-s32 Play_CameraSetAtEye(GlobalContext* this, s16 camId, Vec3f* at, Vec3f* eye) {
+s32 Play_CameraSetAtEye(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye) {
     s32 ret = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
@@ -1629,7 +1629,7 @@ s32 Play_CameraSetAtEye(GlobalContext* this, s16 camId, Vec3f* at, Vec3f* eye) {
     return ret;
 }
 
-s32 Play_CameraSetAtEyeUp(GlobalContext* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
+s32 Play_CameraSetAtEyeUp(PlayState* this, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
     s32 ret = 0;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
@@ -1657,14 +1657,14 @@ s32 Play_CameraSetAtEyeUp(GlobalContext* this, s16 camId, Vec3f* at, Vec3f* eye,
     return ret;
 }
 
-s32 Play_CameraSetFov(GlobalContext* this, s16 camId, f32 fov) {
+s32 Play_CameraSetFov(PlayState* this, s16 camId, f32 fov) {
     s32 ret = Camera_SetParam(this->cameraPtrs[camId], 0x20, &fov) & 1;
 
     if (1) {}
     return ret;
 }
 
-s32 Play_SetCameraRoll(GlobalContext* this, s16 camId, s16 roll) {
+s32 Play_SetCameraRoll(PlayState* this, s16 camId, s16 roll) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     Camera* camera = this->cameraPtrs[camIdx];
 
@@ -1673,14 +1673,14 @@ s32 Play_SetCameraRoll(GlobalContext* this, s16 camId, s16 roll) {
     return 1;
 }
 
-void Play_CopyCamera(GlobalContext* this, s16 destCamId, s16 srcCamId) {
+void Play_CopyCamera(PlayState* this, s16 destCamId, s16 srcCamId) {
     s16 srcCamId2 = (srcCamId == CAM_ID_NONE) ? this->activeCamId : srcCamId;
     s16 destCamId1 = (destCamId == CAM_ID_NONE) ? this->activeCamId : destCamId;
 
     Camera_Copy(this->cameraPtrs[destCamId1], this->cameraPtrs[srcCamId2]);
 }
 
-s32 func_800C0808(GlobalContext* this, s16 camId, Player* player, s16 setting) {
+s32 func_800C0808(PlayState* this, s16 camId, Player* player, s16 setting) {
     Camera* camera;
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
 
@@ -1689,11 +1689,11 @@ s32 func_800C0808(GlobalContext* this, s16 camId, Player* player, s16 setting) {
     return Camera_ChangeSetting(camera, setting);
 }
 
-s32 Play_CameraChangeSetting(GlobalContext* this, s16 camId, s16 setting) {
+s32 Play_CameraChangeSetting(PlayState* this, s16 camId, s16 setting) {
     return Camera_ChangeSetting(Play_GetCamera(this, camId), setting);
 }
 
-void func_800C08AC(GlobalContext* this, s16 camId, s16 arg2) {
+void func_800C08AC(PlayState* this, s16 camId, s16 arg2) {
     s16 camIdx = (camId == CAM_ID_NONE) ? this->activeCamId : camId;
     s16 i;
 
@@ -1716,7 +1716,7 @@ void func_800C08AC(GlobalContext* this, s16 camId, s16 arg2) {
     }
 }
 
-s16 Play_CameraGetUID(GlobalContext* this, s16 camId) {
+s16 Play_CameraGetUID(PlayState* this, s16 camId) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
@@ -1726,7 +1726,7 @@ s16 Play_CameraGetUID(GlobalContext* this, s16 camId) {
     }
 }
 
-s16 func_800C09D8(GlobalContext* this, s16 camId, s16 arg2) {
+s16 func_800C09D8(PlayState* this, s16 camId, s16 arg2) {
     Camera* camera = this->cameraPtrs[camId];
 
     if (camera != NULL) {
@@ -1740,7 +1740,7 @@ s16 func_800C09D8(GlobalContext* this, s16 camId, s16 arg2) {
     }
 }
 
-void Play_SaveSceneFlags(GlobalContext* this) {
+void Play_SaveSceneFlags(PlayState* this) {
     SavedSceneFlags* savedSceneFlags = &gSaveContext.sceneFlags[this->sceneNum];
 
     savedSceneFlags->chest = this->actorCtx.flags.chest;
@@ -1749,7 +1749,7 @@ void Play_SaveSceneFlags(GlobalContext* this) {
     savedSceneFlags->collect = this->actorCtx.flags.collect;
 }
 
-void Play_SetRespawnData(GlobalContext* this, s32 respawnMode, s16 entranceIndex, s32 roomIndex, s32 playerParams,
+void Play_SetRespawnData(PlayState* this, s32 respawnMode, s16 entranceIndex, s32 roomIndex, s32 playerParams,
                          Vec3f* pos, s16 yaw) {
     RespawnData* respawnData = &gSaveContext.respawn[respawnMode];
 
@@ -1762,7 +1762,7 @@ void Play_SetRespawnData(GlobalContext* this, s32 respawnMode, s16 entranceIndex
     respawnData->tempCollectFlags = this->actorCtx.flags.tempCollect;
 }
 
-void Play_SetupRespawnPoint(GlobalContext* this, s32 respawnMode, s32 playerParams) {
+void Play_SetupRespawnPoint(PlayState* this, s32 respawnMode, s32 playerParams) {
     Player* player = GET_PLAYER(this);
     s32 entranceIndex;
     s8 roomIndex;
@@ -1775,7 +1775,7 @@ void Play_SetupRespawnPoint(GlobalContext* this, s32 respawnMode, s32 playerPara
     }
 }
 
-void Play_TriggerVoidOut(GlobalContext* this) {
+void Play_TriggerVoidOut(PlayState* this) {
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempSwchFlags = this->actorCtx.flags.tempSwch;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].tempCollectFlags = this->actorCtx.flags.tempCollect;
     gSaveContext.respawnFlag = 1;
@@ -1784,7 +1784,7 @@ void Play_TriggerVoidOut(GlobalContext* this) {
     this->transitionType = TRANS_TYPE_FADE_BLACK;
 }
 
-void Play_LoadToLastEntrance(GlobalContext* this) {
+void Play_LoadToLastEntrance(PlayState* this) {
     gSaveContext.respawnFlag = -1;
     this->transitionTrigger = TRANS_TRIGGER_START;
 
@@ -1802,21 +1802,21 @@ void Play_LoadToLastEntrance(GlobalContext* this) {
     this->transitionType = TRANS_TYPE_FADE_BLACK;
 }
 
-void Play_TriggerRespawn(GlobalContext* this) {
+void Play_TriggerRespawn(PlayState* this) {
     Play_SetupRespawnPoint(this, RESPAWN_MODE_DOWN, 0xDFF);
     Play_LoadToLastEntrance(this);
 }
 
-s32 func_800C0CB8(GlobalContext* this) {
+s32 func_800C0CB8(PlayState* this) {
     return (this->roomCtx.curRoom.meshHeader->base.type != 1) && (YREG(15) != 0x20) && (YREG(15) != 0x30) &&
            (YREG(15) != 0x40) && (this->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
-s32 FrameAdvance_IsEnabled(GlobalContext* this) {
+s32 FrameAdvance_IsEnabled(PlayState* this) {
     return !!this->frameAdvCtx.enabled;
 }
 
-s32 func_800C0D34(GlobalContext* this, Actor* actor, s16* yaw) {
+s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw) {
     TransitionActorEntry* transitionActor;
     s32 frontRoom;
 
@@ -1840,7 +1840,7 @@ s32 func_800C0D34(GlobalContext* this, Actor* actor, s16* yaw) {
     return 1;
 }
 
-s32 func_800C0DB4(GlobalContext* this, Vec3f* pos) {
+s32 func_800C0DB4(PlayState* this, Vec3f* pos) {
     WaterBox* waterBox;
     CollisionPoly* poly;
     Vec3f waterSurfacePos;
