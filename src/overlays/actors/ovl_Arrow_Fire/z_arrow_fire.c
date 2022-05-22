@@ -9,14 +9,14 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_25)
 
-void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx);
-void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx);
-void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx);
+void ArrowFire_Init(Actor* thisx, PlayState* play);
+void ArrowFire_Destroy(Actor* thisx, PlayState* play);
+void ArrowFire_Update(Actor* thisx, PlayState* play);
+void ArrowFire_Draw(Actor* thisx, PlayState* play);
 
-void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx);
-void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx);
-void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx);
+void ArrowFire_Charge(ArrowFire* this, PlayState* play);
+void ArrowFire_Fly(ArrowFire* this, PlayState* play);
+void ArrowFire_Hit(ArrowFire* this, PlayState* play);
 
 #include "overlays/ovl_Arrow_Fire/ovl_Arrow_Fire.c"
 
@@ -40,7 +40,7 @@ void ArrowFire_SetupAction(ArrowFire* this, ArrowFireActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
+void ArrowFire_Init(Actor* thisx, PlayState* play) {
     ArrowFire* this = (ArrowFire*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -53,12 +53,12 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_15C = 0.0f;
 }
 
-void ArrowFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    func_800876C8(globalCtx);
+void ArrowFire_Destroy(Actor* thisx, PlayState* play) {
+    func_800876C8(play);
     LOG_STRING("消滅", "../z_arrow_fire.c", 421); // "Disappearance"
 }
 
-void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
+void ArrowFire_Charge(ArrowFire* this, PlayState* play) {
     EnArrow* arrow;
 
     arrow = (EnArrow*)this->actor.parent;
@@ -91,7 +91,7 @@ void func_80865ECC(Vec3f* unkPos, Vec3f* firePos, f32 scale) {
     unkPos->z += ((firePos->z - unkPos->z) * scale);
 }
 
-void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx) {
+void ArrowFire_Hit(ArrowFire* this, PlayState* play) {
     f32 scale;
     f32 offset;
     u16 timer;
@@ -143,7 +143,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
+void ArrowFire_Fly(ArrowFire* this, PlayState* play) {
     EnArrow* arrow;
     f32 distanceScaled;
     s32 pad;
@@ -177,25 +177,24 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
     }
 }
 
-void ArrowFire_Update(Actor* thisx, GlobalContext* globalCtx) {
+void ArrowFire_Update(Actor* thisx, PlayState* play) {
     ArrowFire* this = (ArrowFire*)thisx;
 
-    if (globalCtx->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK ||
-        globalCtx->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
+    if (play->msgCtx.msgMode == MSGMODE_OCARINA_CORRECT_PLAYBACK || play->msgCtx.msgMode == MSGMODE_SONG_PLAYED) {
         Actor_Kill(&this->actor);
     } else {
-        this->actionFunc(this, globalCtx);
+        this->actionFunc(this, play);
     }
 }
 
-void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+void ArrowFire_Draw(Actor* thisx, PlayState* play2) {
     ArrowFire* this = (ArrowFire*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
     u32 stateFrames;
     EnArrow* arrow;
     Actor* transform;
 
-    stateFrames = globalCtx->state.frames;
+    stateFrames = play->state.frames;
     arrow = (EnArrow*)this->actor.parent;
     if (1) {}
 
@@ -203,7 +202,7 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         if (1) {}
         transform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
 
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
+        OPEN_DISPS(play->state.gfxCtx, "../z_arrow_fire.c", 618);
 
         Matrix_Translate(transform->world.pos.x, transform->world.pos.y, transform->world.pos.z, MTXMODE_NEW);
         Matrix_RotateY(BINANG_TO_RAD(transform->shape.rot.y), MTXMODE_APPLY);
@@ -222,7 +221,7 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         }
 
         // Draw fire on the arrow
-        func_80093D84(globalCtx->state.gfxCtx);
+        func_80093D84(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 200, 0, this->alpha);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 128);
         Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);
@@ -233,14 +232,14 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         }
         Matrix_Scale(this->radius * 0.2f, this->unk_158 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_arrow_fire.c", 666),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, sMaterialDL);
         gSPDisplayList(POLY_XLU_DISP++,
-                       Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
+                       Gfx_TwoTexScroll(play->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
                                         255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
         gSPDisplayList(POLY_XLU_DISP++, sModelDL);
 
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);
+        CLOSE_DISPS(play->state.gfxCtx, "../z_arrow_fire.c", 682);
     }
 }

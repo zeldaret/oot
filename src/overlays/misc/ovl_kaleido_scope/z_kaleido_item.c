@@ -77,12 +77,12 @@ void KaleidoScope_SetItemCursorVtx(PauseContext* pauseCtx) {
     KaleidoScope_SetCursorVtx(pauseCtx, pauseCtx->cursorSlot[PAUSE_ITEM] * 4, pauseCtx->itemVtx);
 }
 
-void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
+void KaleidoScope_DrawItemSelect(PlayState* play) {
     static s16 magicArrowEffectsR[] = { 255, 100, 255 };
     static s16 magicArrowEffectsG[] = { 0, 100, 255 };
     static s16 magicArrowEffectsB[] = { 0, 255, 100 };
-    Input* input = &globalCtx->state.input[0];
-    PauseContext* pauseCtx = &globalCtx->pauseCtx;
+    Input* input = &play->state.input[0];
+    PauseContext* pauseCtx = &play->pauseCtx;
     u16 i;
     u16 j;
     u16 cursorItem;
@@ -94,9 +94,9 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
     s16 oldCursorPoint;
     s16 moveCursorResult;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_item.c", 234);
+    OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_item.c", 234);
 
-    func_800949A8(globalCtx->state.gfxCtx);
+    func_800949A8(play->state.gfxCtx);
 
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -156,7 +156,7 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
                                 pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = cursorPoint;
 
-                                KaleidoScope_MoveCursorToSpecialPos(globalCtx, PAUSE_CURSOR_PAGE_LEFT);
+                                KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_LEFT);
 
                                 moveCursorResult = 2;
                             }
@@ -188,7 +188,7 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
                                 pauseCtx->cursorX[PAUSE_ITEM] = cursorX;
                                 pauseCtx->cursorPoint[PAUSE_ITEM] = cursorPoint;
 
-                                KaleidoScope_MoveCursorToSpecialPos(globalCtx, PAUSE_CURSOR_PAGE_RIGHT);
+                                KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
 
                                 moveCursorResult = 2;
                             }
@@ -235,7 +235,7 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
                         continue;
                     }
 
-                    KaleidoScope_MoveCursorToSpecialPos(globalCtx, PAUSE_CURSOR_PAGE_RIGHT);
+                    KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_RIGHT);
                     break;
                 }
             }
@@ -271,7 +271,7 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
                         continue;
                     }
 
-                    KaleidoScope_MoveCursorToSpecialPos(globalCtx, PAUSE_CURSOR_PAGE_LEFT);
+                    KaleidoScope_MoveCursorToSpecialPos(play, PAUSE_CURSOR_PAGE_LEFT);
                     break;
                 }
             }
@@ -467,13 +467,13 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
             }
 
             gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[j + 0], 4, 0);
-            KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gItemIcons[gSaveContext.inventory.items[i]], 32,
-                                               32, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(play->state.gfxCtx, gItemIcons[gSaveContext.inventory.items[i]], 32, 32,
+                                               0);
         }
     }
 
     if (pauseCtx->cursorSpecialPos == 0) {
-        KaleidoScope_DrawCursor(globalCtx, PAUSE_ITEM);
+        KaleidoScope_DrawCursor(play, PAUSE_ITEM);
     }
 
     gDPPipeSync(POLY_OPA_DISP++);
@@ -482,19 +482,19 @@ void KaleidoScope_DrawItemSelect(GlobalContext* globalCtx) {
 
     for (i = 0; i < 15; i++) {
         if ((gAmmoItems[i] != ITEM_NONE) && (gSaveContext.inventory.items[i] != ITEM_NONE)) {
-            KaleidoScope_DrawAmmoCount(pauseCtx, globalCtx->state.gfxCtx, gSaveContext.inventory.items[i]);
+            KaleidoScope_DrawAmmoCount(pauseCtx, play->state.gfxCtx, gSaveContext.inventory.items[i]);
         }
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_item.c", 516);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_item.c", 516);
 }
 
 static s16 sCButtonPosX[] = { 660, 900, 1140 };
 static s16 sCButtonPosY[] = { 1100, 920, 1100 };
 
-void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
+void KaleidoScope_UpdateItemEquip(PlayState* play) {
     static s16 D_8082A488 = 0;
-    PauseContext* pauseCtx = &globalCtx->pauseCtx;
+    PauseContext* pauseCtx = &play->pauseCtx;
     Vtx* bowItemVtx;
     u16 offsetX;
     u16 offsetY;
@@ -597,7 +597,7 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                         } else {
                             gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[1];
                             gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[0];
-                            Interface_LoadItemIcon2(globalCtx, 2);
+                            Interface_LoadItemIcon2(play, 2);
                         }
                     } else {
                         gSaveContext.equips.buttonItems[2] = ITEM_NONE;
@@ -614,7 +614,7 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                         } else {
                             gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[1];
                             gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[0];
-                            Interface_LoadItemIcon2(globalCtx, 3);
+                            Interface_LoadItemIcon2(play, 3);
                         }
                     } else {
                         gSaveContext.equips.buttonItems[3] = ITEM_NONE;
@@ -634,18 +634,18 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                         (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[1];
                         gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[0];
-                        Interface_LoadItemIcon2(globalCtx, 2);
+                        Interface_LoadItemIcon2(play, 2);
                     } else if ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_ARROW_FIRE) &&
                                (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[1];
                         gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[0];
-                        Interface_LoadItemIcon2(globalCtx, 3);
+                        Interface_LoadItemIcon2(play, 3);
                     }
                 }
 
                 gSaveContext.equips.buttonItems[1] = pauseCtx->equipTargetItem;
                 gSaveContext.equips.cButtonSlots[0] = pauseCtx->equipTargetSlot;
-                Interface_LoadItemIcon1(globalCtx, 1);
+                Interface_LoadItemIcon1(play, 1);
 
                 osSyncPrintf("Ｃ左sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
                              gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
@@ -672,7 +672,7 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                         } else {
                             gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[2];
                             gSaveContext.equips.cButtonSlots[0] = gSaveContext.equips.cButtonSlots[1];
-                            Interface_LoadItemIcon2(globalCtx, 1);
+                            Interface_LoadItemIcon2(play, 1);
                         }
                     } else {
                         gSaveContext.equips.buttonItems[1] = ITEM_NONE;
@@ -689,7 +689,7 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                         } else {
                             gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[2];
                             gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[1];
-                            Interface_LoadItemIcon2(globalCtx, 3);
+                            Interface_LoadItemIcon2(play, 3);
                         }
                     } else {
                         gSaveContext.equips.buttonItems[3] = ITEM_NONE;
@@ -708,17 +708,17 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                     if ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_ARROW_FIRE) &&
                         (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[2];
-                        Interface_LoadItemIcon2(globalCtx, 1);
+                        Interface_LoadItemIcon2(play, 1);
                     } else if ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_ARROW_FIRE) &&
                                (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[2];
-                        Interface_LoadItemIcon2(globalCtx, 3);
+                        Interface_LoadItemIcon2(play, 3);
                     }
                 }
 
                 gSaveContext.equips.buttonItems[2] = pauseCtx->equipTargetItem;
                 gSaveContext.equips.cButtonSlots[1] = pauseCtx->equipTargetSlot;
-                Interface_LoadItemIcon1(globalCtx, 2);
+                Interface_LoadItemIcon1(play, 2);
 
                 osSyncPrintf("Ｃ下sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
                              gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],
@@ -745,7 +745,7 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                         } else {
                             gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[3];
                             gSaveContext.equips.cButtonSlots[0] = gSaveContext.equips.cButtonSlots[2];
-                            Interface_LoadItemIcon2(globalCtx, 1);
+                            Interface_LoadItemIcon2(play, 1);
                         }
                     } else {
                         gSaveContext.equips.buttonItems[1] = ITEM_NONE;
@@ -762,7 +762,7 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                         } else {
                             gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[3];
                             gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[2];
-                            Interface_LoadItemIcon2(globalCtx, 2);
+                            Interface_LoadItemIcon2(play, 2);
                         }
                     } else {
                         gSaveContext.equips.buttonItems[2] = ITEM_NONE;
@@ -781,17 +781,17 @@ void KaleidoScope_UpdateItemEquip(GlobalContext* globalCtx) {
                     if ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_ARROW_FIRE) &&
                         (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[3];
-                        Interface_LoadItemIcon2(globalCtx, 1);
+                        Interface_LoadItemIcon2(play, 1);
                     } else if ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_ARROW_FIRE) &&
                                (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[3];
-                        Interface_LoadItemIcon2(globalCtx, 2);
+                        Interface_LoadItemIcon2(play, 2);
                     }
                 }
 
                 gSaveContext.equips.buttonItems[3] = pauseCtx->equipTargetItem;
                 gSaveContext.equips.cButtonSlots[2] = pauseCtx->equipTargetSlot;
-                Interface_LoadItemIcon1(globalCtx, 3);
+                Interface_LoadItemIcon1(play, 3);
 
                 osSyncPrintf("Ｃ右sl_item_no=%d (1)=%d (2)=%d (3)=%d\n", pauseCtx->equipTargetItem,
                              gSaveContext.equips.buttonItems[1], gSaveContext.equips.buttonItems[2],

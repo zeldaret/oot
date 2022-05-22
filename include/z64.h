@@ -15,6 +15,7 @@
 #include "z64environment.h"
 #include "z64cutscene.h"
 #include "z64collision_check.h"
+#include "z64curve.h"
 #include "z64scene.h"
 #include "z64effect.h"
 #include "z64item.h"
@@ -795,13 +796,10 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8    type;
-    /* 0x01 */ u8    num; // number of dlist entries
-    /* 0x04 */ void* start;
-    /* 0x08 */ void* end;
-} Polygon; // size = 0xC
+} PolygonBase;
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    num; // number of dlist entries
     /* 0x04 */ void* start;
     /* 0x08 */ void* end;
@@ -822,7 +820,7 @@ typedef struct {
 } BgImage; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
     /* 0x04 */ Gfx*  dlist;
     union {
@@ -852,27 +850,51 @@ typedef struct {
 } PolygonDlist2; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    num; // number of dlist entries
     /* 0x04 */ void* start;
     /* 0x08 */ void* end;
 } PolygonType2; // size = 0xC
 
 typedef union {
-    Polygon      polygon;
+    PolygonBase  base;
     PolygonType0 polygon0;
     PolygonType1 polygon1;
     PolygonType2 polygon2;
-} Mesh; // "Ground Shape"
+} MeshHeader; // "Ground Shape"
+
+typedef enum {
+    /* 0 */ LENS_MODE_HIDE_ACTORS, // lens actors are visible by default, and hidden by using lens (for example, fake walls)
+    /* 1 */ LENS_MODE_SHOW_ACTORS // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
+} LensMode;
+
+typedef enum {
+    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
+    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
+    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
+    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
+    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
+    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
+} RoomBehaviorType1;
+
+typedef enum {
+    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
+    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
+    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
+    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
+    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
+    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
+    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
+} RoomBehaviorType2;
 
 typedef struct {
     /* 0x00 */ s8   num;
     /* 0x01 */ u8   unk_01;
-    /* 0x02 */ u8   unk_02;
-    /* 0x03 */ u8   unk_03;
+    /* 0x02 */ u8   behaviorType2;
+    /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
-    /* 0x05 */ u8   showInvisActors;
-    /* 0x08 */ Mesh* mesh; // original name: "ground_shape"
+    /* 0x05 */ u8   lensMode;
+    /* 0x08 */ MeshHeader* meshHeader; // original name: "ground_shape"
     /* 0x0C */ void* segment;
     /* 0x10 */ char unk_10[0x4];
 } Room; // size = 0x14
@@ -1155,8 +1177,7 @@ typedef struct {
     /* 0x04 */ TransitionActorEntry* list;
 } TransitionActorContext;
 
-// Global Context (dbg ram start: 80212020)
-typedef struct GlobalContext {
+typedef struct PlayState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ s16 sceneNum;
     /* 0x000A6 */ u8 sceneConfig;
@@ -1186,15 +1207,15 @@ typedef struct GlobalContext {
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
     /* 0x11D34 */ TransitionActorContext transiActorCtx;
-    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
-    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
-    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
-    /* 0x11D48 */ s32 (*startPlayerFishing)(struct GlobalContext* globalCtx);
-    /* 0x11D4C */ s32 (*grabPlayer)(struct GlobalContext* globalCtx, Player* player);
-    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct GlobalContext* globalCtx, Actor* actor, s32 mode);
-    /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
-    /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
-    /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
+    /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
+    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
+    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct PlayState* play);
+    /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
+    /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
+    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 mode);
+    /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
+    /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
+    /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
     /* 0x11D60 */ MtxF viewProjectionMtxF;
     /* 0x11DA0 */ MtxF billboardMtxF;
     /* 0x11DE0 */ Mtx* billboardMtx;
@@ -1207,7 +1228,7 @@ typedef struct GlobalContext {
     /* 0x11DF0 */ RomFile* roomList;
     /* 0x11DF4 */ ActorEntry* linkActorEntry;
     /* 0x11DF8 */ ActorEntry* setupActorList;
-    /* 0x11DFC */ UNK_PTR unk_11DFC;
+    /* 0x11DFC */ void* unk_11DFC;
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
@@ -1235,7 +1256,7 @@ typedef struct GlobalContext {
     /* 0x1242B */ u8 unk_1242B;
     /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
-} GlobalContext; // size = 0x12518
+} PlayState; // size = 0x12518
 
 typedef struct {
     /* 0x0000 */ GameState state;

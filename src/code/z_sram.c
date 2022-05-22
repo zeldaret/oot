@@ -707,7 +707,7 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
 
     gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
     gSaveContext.linkAge = LINK_AGE_CHILD;
-    gSaveContext.dayTime = 0x6AAB;
+    gSaveContext.dayTime = CLOCK_TIME(10, 0);
     gSaveContext.cutsceneIndex = 0xFFF1;
 
     if (fileChooseCtx->buttonIndex == 0) {
@@ -899,5 +899,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx) {
+void Sram_Init(PlayState* play, SramContext* sramCtx) {
 }
