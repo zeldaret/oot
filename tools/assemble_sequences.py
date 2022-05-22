@@ -131,7 +131,7 @@ def generate_sequence_font_table(sequences, output_path, machine, packspecs):
             for id in defn.fonts:
                 stream.write(struct.pack(packspecs.genPackString("b"), id))
         
-        while stream.getbuffer().nbytes & 0xf != 0:
+        while stream.getbuffer().nbytes & 0xF != 0:
             stream.write(struct.pack(packspecs.genPackString("b"), 0))
 
         elf = ELF(

@@ -67,46 +67,46 @@ struct Command {
 };
 
 const Command commands[] = {
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xff, "end", {} },
-	{ { SectionType::Seq, SectionType::Chan }, 0xfe, "delay1", {} },
-	{ { SectionType::Seq, SectionType::Chan }, 0xfd, "delay", { Arg::var } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xfc, "call", { Arg::addr } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xfb, "jump", { Arg::addr } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xfa, "beqz", { Arg::addr } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf9, "bltz", { Arg::addr } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf8, "loop", { Arg::u8 } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf7, "loopend", {} },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf6, "break", {} },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf5, "bgez", { Arg::addr } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf4, "rjump", { Arg::reladdr8 } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf3, "rbeqz", { Arg::reladdr8 } },
-	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xf2, "rbltz", { Arg::reladdr8 } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xFF, "end", {} },
+	{ { SectionType::Seq, SectionType::Chan }, 0xFE, "delay1", {} },
+	{ { SectionType::Seq, SectionType::Chan }, 0xFD, "delay", { Arg::var } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xFC, "call", { Arg::addr } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xFB, "jump", { Arg::addr } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xFA, "beqz", { Arg::addr } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF9, "bltz", { Arg::addr } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF8, "loop", { Arg::u8 } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF7, "loopend", {} },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF6, "break", {} },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF5, "bgez", { Arg::addr } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF4, "rjump", { Arg::reladdr8 } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF3, "rbeqz", { Arg::reladdr8 } },
+	{ { SectionType::Seq, SectionType::Chan, SectionType::Layer }, 0xF2, "rbltz", { Arg::reladdr8 } },
 
-	{ { SectionType::Seq }, 0xf1, "allocnotelist", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xf0, "freenotelist", {} },
-	{ { SectionType::Seq }, 0xdf, "transpose", { Arg::s8 } },
-	{ { SectionType::Seq }, 0xde, "rtranspose", { Arg::s8 } },
-	{ { SectionType::Seq }, 0xdd, "tempo", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xdc, "tempochg", { Arg::s8 } },
-	{ { SectionType::Seq }, 0xdb, "vol", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xda, "volmode", { Arg::s8 } },
-	{ { SectionType::Seq }, 0xd7, "initchan", { Arg::u16 } },
-	{ { SectionType::Seq }, 0xd6, "freechan", { Arg::u16 } },
-	{ { SectionType::Seq }, 0xd5, "mutescale", { Arg::s8 } },
-	{ { SectionType::Seq }, 0xd4, "mute", {} },
-	{ { SectionType::Seq }, 0xd3, "mutebhv", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xd2, "ldshortvelarr", { Arg::addr } },
-	{ { SectionType::Seq }, 0xd1, "ldshortgatearr", { Arg::addr } },
-	{ { SectionType::Seq }, 0xd0, "notealloc", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xce, "rand", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xcd, "dyncall", { Arg::addr } },
-	{ { SectionType::Seq }, 0xcc, "ldi", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xc9, "and", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xc8, "sub", { Arg::u8 } },
-	{ { SectionType::Seq }, 0xc7, "stseq", { Arg::u8, Arg::addr } },
-	{ { SectionType::Seq }, 0xc6, "stop", {} },
-	{ { SectionType::Seq }, 0xc5, "scriptctr", { Arg::u16 } },
-	{ { SectionType::Seq }, 0xc4, "runseq", { Arg::u8, Arg::u8 } },
+	{ { SectionType::Seq }, 0xF1, "allocnotelist", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xF0, "freenotelist", {} },
+	{ { SectionType::Seq }, 0xDF, "transpose", { Arg::s8 } },
+	{ { SectionType::Seq }, 0xDE, "rtranspose", { Arg::s8 } },
+	{ { SectionType::Seq }, 0xDD, "tempo", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xDC, "tempochg", { Arg::s8 } },
+	{ { SectionType::Seq }, 0xDB, "vol", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xDA, "volmode", { Arg::s8 } },
+	{ { SectionType::Seq }, 0xD7, "initchan", { Arg::u16 } },
+	{ { SectionType::Seq }, 0xD6, "freechan", { Arg::u16 } },
+	{ { SectionType::Seq }, 0xD5, "mutescale", { Arg::s8 } },
+	{ { SectionType::Seq }, 0xD4, "mute", {} },
+	{ { SectionType::Seq }, 0xD3, "mutebhv", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xD2, "ldshortvelarr", { Arg::addr } },
+	{ { SectionType::Seq }, 0xD1, "ldshortgatearr", { Arg::addr } },
+	{ { SectionType::Seq }, 0xD0, "notealloc", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xCE, "rand", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xCD, "dyncall", { Arg::addr } },
+	{ { SectionType::Seq }, 0xCC, "ldi", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xC9, "and", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xC8, "sub", { Arg::u8 } },
+	{ { SectionType::Seq }, 0xC7, "stseq", { Arg::u8, Arg::addr } },
+	{ { SectionType::Seq }, 0xC6, "stop", {} },
+	{ { SectionType::Seq }, 0xC5, "scriptctr", { Arg::u16 } },
+	{ { SectionType::Seq }, 0xC4, "runseq", { Arg::u8, Arg::u8 } },
 
 	{ { SectionType::Seq }, 0x00, "testchan", { Arg::bits4 } },
 	{ { SectionType::Seq }, 0x40, "stopchan", { Arg::bits4 } },
@@ -115,69 +115,69 @@ const Command commands[] = {
 	{ { SectionType::Seq }, 0x70, "stio", { Arg::bits4 } },
 	{ { SectionType::Seq }, 0x80, "ldio", { Arg::bits4 } },
 	{ { SectionType::Seq }, 0x90, "ldchan", { Arg::bits4, Arg::addr } },
-	{ { SectionType::Seq }, 0xa0, "rldchan", { Arg::bits4, Arg::reladdr16 } },
-	{ { SectionType::Seq }, 0xb0, "ldseq", { Arg::bits4, Arg::u8, Arg::addr } },
+	{ { SectionType::Seq }, 0xA0, "rldchan", { Arg::bits4, Arg::reladdr16 } },
+	{ { SectionType::Seq }, 0xB0, "ldseq", { Arg::bits4, Arg::u8, Arg::addr } },
 
-	{ { SectionType::Chan }, 0xf1, "allocnotelist", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xf0, "freenotelist", {} },
-	{ { SectionType::Chan }, 0xee, "bendfine", { Arg::s8 } },
-	{ { SectionType::Chan }, 0xed, "gain", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xeb, "fontinstr", {} },
-	{ { SectionType::Chan }, 0xea, "stop", {} },
-	{ { SectionType::Chan }, 0xe9, "notepri", { Arg::u8 } },
-    { { SectionType::Chan }, 0xe8, "params", { Arg::u8, Arg::u8, Arg::u8, Arg::s8, Arg::s8, Arg::u8, Arg::u8, Arg::u8 } },  // TODO: Params for E8 to E6
-    { { SectionType::Chan }, 0xe7, "ldparams", { Arg::addr } },
-    { { SectionType::Chan }, 0xe6, "samplbook", { Arg::addr } },
-	{ { SectionType::Chan }, 0xe5, "rvrbidx", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xe4, "dyncall", {} },
-	{ { SectionType::Chan }, 0xe3, "vibdelay", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xe2, "vibdepthgrad", { Arg::u8, Arg::u8, Arg::u8 } },
-	{ { SectionType::Chan }, 0xe1, "vibfreqgrad", { Arg::u8, Arg::u8, Arg::u8 } },
-	{ { SectionType::Chan }, 0xe0, "volexp", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xdf, "vol", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xde, "freqscale", { Arg::u16 } },
-	{ { SectionType::Chan }, 0xdd, "pan", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xdc, "panweight", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xdb, "transpose", { Arg::s8 } },
-	{ { SectionType::Chan }, 0xda, "env", { Arg::addr } },
-	{ { SectionType::Chan }, 0xd9, "releaserate", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xd8, "vibdepth", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xd7, "vibfreq", { Arg::u8 } },
-//	{ { SectionType::Chan }, 0xd6, "chan_setupdatesperframe_unimplemented", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xd4, "reverb", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xd3, "bend", { Arg::s8 } },
-	{ { SectionType::Chan }, 0xd2, "sustain", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xd1, "notealloc", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xd0, "effects", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xcf, "stptrtoseq", { Arg::addr } },
-	{ { SectionType::Chan }, 0xce, "ldptr", { Arg::u16OrAddr } },
-	{ { SectionType::Chan }, 0xcd, "stopchan", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xcc, "ldi", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xcb, "ldseq", { Arg::addr } },
-	{ { SectionType::Chan }, 0xca, "mutebhv", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xc9, "and", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xc8, "sub", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xc7, "stseq", { Arg::u8, Arg::addr } },
-	{ { SectionType::Chan }, 0xc6, "font", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xc5, "dyntbllookup", {} },
-	{ { SectionType::Chan }, 0xc4, "noshort", {} },
-	{ { SectionType::Chan }, 0xc3, "short", {} },
-	{ { SectionType::Chan }, 0xc2, "dyntbl", { Arg::addr } },
-	{ { SectionType::Chan }, 0xc1, "instr", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xbd, "randptr", { Arg::u16, Arg::u16 } },
-	{ { SectionType::Chan }, 0xbc, "ptradd", { Arg::u16OrAddr } },
-	{ { SectionType::Chan }, 0xbb, "unkbb", { Arg::u8, Arg::u16 } },
-	{ { SectionType::Chan }, 0xba, "randgate", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xb9, "randvel", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xb8, "rand", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xb7, "randtoptr", { Arg::u16OrAddr } },
-	{ { SectionType::Chan }, 0xb6, "dyntblv", {} },
-	{ { SectionType::Chan }, 0xb5, "dyntbltoptr", {} },
-	{ { SectionType::Chan }, 0xb4, "ptrtodyntbl", {} },
-	{ { SectionType::Chan }, 0xb3, "filter", { Arg::u8 } },
-	{ { SectionType::Chan }, 0xb2, "ldseqtoptr", { Arg::addr } },
-	{ { SectionType::Chan }, 0xb1, "freefilter", {} },
-	{ { SectionType::Chan }, 0xb0, "ldfilter", { Arg::addr } },
+	{ { SectionType::Chan }, 0xF1, "allocnotelist", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xF0, "freenotelist", {} },
+	{ { SectionType::Chan }, 0xEE, "bendfine", { Arg::s8 } },
+	{ { SectionType::Chan }, 0xED, "gain", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xEB, "fontinstr", {} },
+	{ { SectionType::Chan }, 0xEA, "stop", {} },
+	{ { SectionType::Chan }, 0xE9, "notepri", { Arg::u8 } },
+    { { SectionType::Chan }, 0xE8, "params", { Arg::u8, Arg::u8, Arg::u8, Arg::s8, Arg::s8, Arg::u8, Arg::u8, Arg::u8 } },  // TODO: Params for E8 to E6
+    { { SectionType::Chan }, 0xE7, "ldparams", { Arg::addr } },
+    { { SectionType::Chan }, 0xE6, "samplbook", { Arg::addr } },
+	{ { SectionType::Chan }, 0xE5, "rvrbidx", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xE4, "dyncall", {} },
+	{ { SectionType::Chan }, 0xE3, "vibdelay", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xE2, "vibdepthgrad", { Arg::u8, Arg::u8, Arg::u8 } },
+	{ { SectionType::Chan }, 0xE1, "vibfreqgrad", { Arg::u8, Arg::u8, Arg::u8 } },
+	{ { SectionType::Chan }, 0xE0, "volexp", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xDF, "vol", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xDE, "freqscale", { Arg::u16 } },
+	{ { SectionType::Chan }, 0xDD, "pan", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xDC, "panweight", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xDB, "transpose", { Arg::s8 } },
+	{ { SectionType::Chan }, 0xDA, "env", { Arg::addr } },
+	{ { SectionType::Chan }, 0xD9, "releaserate", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xD8, "vibdepth", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xD7, "vibfreq", { Arg::u8 } },
+//	{ { SectionType::Chan }, 0xD6, "chan_setupdatesperframe_unimplemented", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xD4, "reverb", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xD3, "bend", { Arg::s8 } },
+	{ { SectionType::Chan }, 0xD2, "sustain", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xD1, "notealloc", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xD0, "effects", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xCF, "stptrtoseq", { Arg::addr } },
+	{ { SectionType::Chan }, 0xCE, "ldptr", { Arg::u16OrAddr } },
+	{ { SectionType::Chan }, 0xCD, "stopchan", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xCC, "ldi", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xCB, "ldseq", { Arg::addr } },
+	{ { SectionType::Chan }, 0xCA, "mutebhv", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xC9, "and", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xC8, "sub", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xC7, "stseq", { Arg::u8, Arg::addr } },
+	{ { SectionType::Chan }, 0xC6, "font", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xC5, "dyntbllookup", {} },
+	{ { SectionType::Chan }, 0xC4, "noshort", {} },
+	{ { SectionType::Chan }, 0xC3, "short", {} },
+	{ { SectionType::Chan }, 0xC2, "dyntbl", { Arg::addr } },
+	{ { SectionType::Chan }, 0xC1, "instr", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xBD, "randptr", { Arg::u16, Arg::u16 } },
+	{ { SectionType::Chan }, 0xBC, "ptradd", { Arg::u16OrAddr } },
+	{ { SectionType::Chan }, 0xBB, "unkbb", { Arg::u8, Arg::u16 } },
+	{ { SectionType::Chan }, 0xBA, "randgate", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xB9, "randvel", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xB8, "rand", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xB7, "randtoptr", { Arg::u16OrAddr } },
+	{ { SectionType::Chan }, 0xB6, "dyntblv", {} },
+	{ { SectionType::Chan }, 0xB5, "dyntbltoptr", {} },
+	{ { SectionType::Chan }, 0xB4, "ptrtodyntbl", {} },
+	{ { SectionType::Chan }, 0xB3, "filter", { Arg::u8 } },
+	{ { SectionType::Chan }, 0xB2, "ldseqtoptr", { Arg::addr } },
+	{ { SectionType::Chan }, 0xB1, "freefilter", {} },
+	{ { SectionType::Chan }, 0xB0, "ldfilter", { Arg::addr } },
 
 	{ { SectionType::Chan }, 0x00, "cdelay", { Arg::bits4 } },
 	{ { SectionType::Chan }, 0x10, "sample", { Arg::bits3, Arg::addr } },
@@ -194,26 +194,26 @@ const Command commands[] = {
 	{ { SectionType::Chan }, 0x90, "dellayer", { Arg::bits3 } },
 	{ { SectionType::Chan }, 0x98, "dynldlayer", { Arg::bits3 } },
 
-	{ { SectionType::Layer }, 0xc0, "ldelay", { Arg::var } },
-	{ { SectionType::Layer }, 0xc0, "lldelay", { Arg::varlong } }, // Workaround for weirdly encoded numbers
-	{ { SectionType::Layer }, 0xc1, "shortvel", { Arg::u8 } },
-	{ { SectionType::Layer }, 0xc2, "transpose", { Arg::s8 } },
-	{ { SectionType::Layer }, 0xc3, "shortdelay", { Arg::var } },
-	{ { SectionType::Layer }, 0xc4, "legato", {} },
-	{ { SectionType::Layer }, 0xc5, "nolegato", {} },
-	{ { SectionType::Layer }, 0xc6, "instr", { Arg::u8 } },
-	{ { SectionType::Layer }, 0xc7, "portamento", { Arg::u8, Arg::u8, Arg::u8OrVar } },
-	{ { SectionType::Layer }, 0xc8, "noportamento", {} },
-	{ { SectionType::Layer }, 0xc9, "shortgate", { Arg::u8 } },
-	{ { SectionType::Layer }, 0xca, "notepan", { Arg::u8 } },
-	{ { SectionType::Layer }, 0xcb, "env", { Arg::addr, Arg::u8 } },
-	{ { SectionType::Layer }, 0xcc, "nodrumpan", {} },
-	{ { SectionType::Layer }, 0xcd, "stereo", { Arg::u8 } },
-	{ { SectionType::Layer }, 0xce, "bendfine", { Arg::s8 } },
-	{ { SectionType::Layer }, 0xcf, "releaserate", { Arg::u8 } },
+	{ { SectionType::Layer }, 0xC0, "ldelay", { Arg::var } },
+	{ { SectionType::Layer }, 0xC0, "lldelay", { Arg::varlong } }, // Workaround for weirdly encoded numbers
+	{ { SectionType::Layer }, 0xC1, "shortvel", { Arg::u8 } },
+	{ { SectionType::Layer }, 0xC2, "transpose", { Arg::s8 } },
+	{ { SectionType::Layer }, 0xC3, "shortdelay", { Arg::var } },
+	{ { SectionType::Layer }, 0xC4, "legato", {} },
+	{ { SectionType::Layer }, 0xC5, "nolegato", {} },
+	{ { SectionType::Layer }, 0xC6, "instr", { Arg::u8 } },
+	{ { SectionType::Layer }, 0xC7, "portamento", { Arg::u8, Arg::u8, Arg::u8OrVar } },
+	{ { SectionType::Layer }, 0xC8, "noportamento", {} },
+	{ { SectionType::Layer }, 0xC9, "shortgate", { Arg::u8 } },
+	{ { SectionType::Layer }, 0xCA, "notepan", { Arg::u8 } },
+	{ { SectionType::Layer }, 0xCB, "env", { Arg::addr, Arg::u8 } },
+	{ { SectionType::Layer }, 0xCC, "nodrumpan", {} },
+	{ { SectionType::Layer }, 0xCD, "stereo", { Arg::u8 } },
+	{ { SectionType::Layer }, 0xCE, "bendfine", { Arg::s8 } },
+	{ { SectionType::Layer }, 0xCF, "releaserate", { Arg::u8 } },
 
-	{ { SectionType::Layer }, 0xd0, "ldshortvel", { Arg::bits4 } },
-	{ { SectionType::Layer }, 0xe0, "ldshortgate", { Arg::bits4 } },
+	{ { SectionType::Layer }, 0xD0, "ldshortvel", { Arg::bits4 } },
+	{ { SectionType::Layer }, 0xE0, "ldshortgate", { Arg::bits4 } },
 
 	{ { SectionType::Layer }, 0x00, "notedvg", { Arg::bits6, Arg::var, Arg::u8, Arg::u8 } },
 	{ { SectionType::Layer }, 0x40, "notedv", { Arg::bits6, Arg::var, Arg::u8 } },
@@ -460,7 +460,7 @@ bool Tokenizer::readStringLiteral(string* out) {
 }
 
 int32_t Tokenizer::toI32(int64_t n) {
-	if (-0x7fffffff-1 <= n && n <= 0x7fffffff)
+	if (-0x7FFFFFFF-1 <= n && n <= 0x7FFFFFFF)
 		return (int32_t)n;
 	throw ParseError(ind, "arithmetic out of range");
 }
@@ -716,22 +716,22 @@ void Compiler::applyFixups() {
 			case Arg::reladdr8:
 				target -= f.relativeTo;
 				minTarget = -0x80;
-				maxTarget = 0x7f;
-				output[f.pos] = (uint8_t)(target & 0xff);
+				maxTarget = 0x7F;
+				output[f.pos] = (uint8_t)(target & 0xFF);
 				break;
 			case Arg::reladdr16:
 				target -= f.relativeTo;
 				minTarget = -0x8000;
-				maxTarget = 0x7fff;
-				output[f.pos] = (uint8_t)((target & 0xff00) >> 8);
-				output[f.pos + 1] = (uint8_t)(target & 0xff);
+				maxTarget = 0x7FFF;
+				output[f.pos] = (uint8_t)((target & 0xFF00) >> 8);
+				output[f.pos + 1] = (uint8_t)(target & 0xFF);
 				break;
 			case Arg::addr:
 			case Arg::u16OrAddr:
 				minTarget = 0;
-				maxTarget = 0xffff;
-				output[f.pos] = (uint8_t)((target & 0xff00) >> 8);
-				output[f.pos + 1] = (uint8_t)(target & 0xff);
+				maxTarget = 0xFFFF;
+				output[f.pos] = (uint8_t)((target & 0xFF00) >> 8);
+				output[f.pos + 1] = (uint8_t)(target & 0xFF);
 				break;
 			default:
 				assert(!"bad fixup arg type");
@@ -1093,24 +1093,24 @@ void Compiler::emitCommandArgument(Arg a, Tokenizer& tk, int32_t* valOut) {
 	}
 
 	if (a == Arg::s8 || a == Arg::u8) {
-		v &= 0xff;
+		v &= 0xFF;
 		output.push_back((uint8_t)v);
 	} else if (a == Arg::s16 || a == Arg::u16 || a == Arg::u16OrAddr) {
-		v &= 0xffff;
+		v &= 0xFFFF;
 		output.push_back((uint8_t)(v >> 8));
-		output.push_back((uint8_t)(v & 0xff));
+		output.push_back((uint8_t)(v & 0xFF));
 	} else if (a == Arg::var) {
-		v &= 0x7fff;
+		v &= 0x7FFF;
 		if (v < 0x80) {
 			output.push_back((uint8_t)v);
 		} else {
 			output.push_back((uint8_t)(v >> 8 | 0x80));
-			output.push_back((uint8_t)(v & 0xff));
+			output.push_back((uint8_t)(v & 0xFF));
 		}
 	} else if (a == Arg::varlong) {
-		v &= 0x7fff;
+		v &= 0x7FFF;
 		output.push_back((uint8_t)(v >> 8 | 0x80));
-		output.push_back((uint8_t)(v & 0xff));
+		output.push_back((uint8_t)(v & 0xFF));
 	} else if (a == Arg::bits3 || a == Arg::bits4 || a == Arg::bits6) {
 		int32_t mask = (a == Arg::bits3 ? 7 : a == Arg::bits4 ? 15 : 63);
 		v &= mask;
@@ -1121,8 +1121,8 @@ void Compiler::emitCommandArgument(Arg a, Tokenizer& tk, int32_t* valOut) {
 }
 
 void Compiler::write(int16_t v) {
-	output.push_back((uint8_t)((v & 0xff00) >> 8));
-	output.push_back((uint8_t)(v & 0xff));
+	output.push_back((uint8_t)((v & 0xFF00) >> 8));
+	output.push_back((uint8_t)(v & 0xFF));
 }
 
 void Compiler::balign(int32_t to) {

@@ -54,50 +54,50 @@ def get_sequence_symbols(inc_path):
     return (pitches, fonts)
 
 control_flow_commands = {
-    0xff: ['end'],
-    0xfe: ['delay1'],
-    0xfd: ['delay', 'var'],
-    0xfc: ['call', 'addr'],
-    0xfb: ['jump', 'addr'],
-    0xfa: ['beqz', 'addr'],
-    0xf9: ['bltz', 'addr'],
-    0xf8: ['loop', 'u8'],
-    0xf7: ['loopend'],
-    0xf6: ['break'],
-    0xf5: ['bgez', 'addr'],
-    0xf4: ['rjump', 'reladdr8'],
-    0xf3: ['rbeqz', 'reladdr8'],
-    0xf2: ['rbltz', 'reladdr8'],
+    0xFF: ['end'],
+    0xFE: ['delay1'],
+    0xFD: ['delay', 'var'],
+    0xFC: ['call', 'addr'],
+    0xFB: ['jump', 'addr'],
+    0xFA: ['beqz', 'addr'],
+    0xF9: ['bltz', 'addr'],
+    0xF8: ['loop', 'u8'],
+    0xF7: ['loopend'],
+    0xF6: ['break'],
+    0xF5: ['bgez', 'addr'],
+    0xF4: ['rjump', 'reladdr8'],
+    0xF3: ['rbeqz', 'reladdr8'],
+    0xF2: ['rbltz', 'reladdr8'],
 }
 
 commands = {}
 commands['seq'] = join(control_flow_commands, {
     # non-arg commands
-    0xf1: ['allocnotelist', 'u8'],
-    0xf0: ['freenotelist'],
-    0xdf: ['transpose', 's8'],
-    0xde: ['rtranspose', 's8'],
-    0xdd: ['tempo', 'u8'],
-    0xdc: ['tempochg', 's8'],
-    0xdb: ['vol', 'u8'],
-    0xda: ['volmode', 's8'],
-    0xd7: ['initchan', 'hex16'],
-    0xd6: ['freechan', 'hex16'],
-    0xd5: ['mutescale', 's8'],
-    0xd4: ['mute'],
-    0xd3: ['mutebhv', 'hex8'],
-    0xd2: ['ldshortvelarr', 'addr'],
-    0xd1: ['ldshortgatearr', 'addr'],
-    0xd0: ['notealloc', 'u8'],
-    0xce: ['rand', 'u8'],
-    0xcd: ['dyncall', 'addr'],
-    0xcc: ['ldi', 'u8'],
-    0xc9: ['and', 'u8'],
-    0xc8: ['sub', 'u8'],
-    0xc7: ['stseq', 'u8', 'addr'],
-    0xc6: ['stop'],
-    0xc5: ['scriptctr', 'u16'],
-    0xc4: ['runseq', 'u8', 'u8'],
+    0xF1: ['allocnotelist', 'u8'],
+    0xF0: ['freenotelist'],
+    0xDF: ['transpose', 's8'],
+    0xDE: ['rtranspose', 's8'],
+    0xDD: ['tempo', 'u8'],
+    0xDC: ['tempochg', 's8'],
+    0xDB: ['vol', 'u8'],
+    0xDA: ['volmode', 's8'],
+    0xD7: ['initchan', 'hex16'],
+    0xD6: ['freechan', 'hex16'],
+    0xD5: ['mutescale', 's8'],
+    0xD4: ['mute'],
+    0xD3: ['mutebhv', 'hex8'],
+    0xD2: ['ldshortvelarr', 'addr'],
+    0xD1: ['ldshortgatearr', 'addr'],
+    0xD0: ['notealloc', 'u8'],
+    0xCE: ['rand', 'u8'],
+    0xCD: ['dyncall', 'addr'],
+    0xCC: ['ldi', 'u8'],
+    0xC9: ['and', 'u8'],
+    0xC8: ['sub', 'u8'],
+    0xC7: ['stseq', 'u8', 'addr'],
+    0xC6: ['stop'],
+    0xC5: ['scriptctr', 'u16'],
+    0xC4: ['runseq', 'u8', 'u8'],
     # arg commands
     0x00: ['testchan', 'bits:4'],
     0x40: ['stopchan', 'bits:4'],
@@ -112,66 +112,66 @@ commands['seq'] = join(control_flow_commands, {
 
 commands['chan'] = join(control_flow_commands, {
     # non-arg commands
-    0xf1: ['allocnotelist', 'u8'],
-    0xf0: ['freenotelist'],
-    0xee: ['bendfine', 's8'],
-    0xed: ['gain', 'u8'],
-    0xeb: ['fontinstr'],
-    0xea: ['stop'],
-    0xe9: ['notepri', 'u8'],
-    0xe8: ['params', 'u8', 'u8', 'u8', 's8', 's8', 'u8', 'u8', 'u8'],
-    0xe7: ['ldparams', 'addr'],
-    0xe6: ['samplbook', 'addr'],
-    0xe5: ['rvrbidx', 'u8'],
-    0xe4: ['dyncall'],
-    0xe3: ['vibdelay', 'u8'],
-    0xe2: ['vibdepthgrad', 'u8', 'u8', 'u8'],
-    0xe1: ['vibfreqgrad', 'u8', 'u8', 'u8'],
-    0xe0: ['volexp', 'u8'],
-    0xdf: ['vol', 'u8'],
-    0xde: ['freqscale', 'u16'],
-    0xdd: ['pan', 'u8'],
-    0xdc: ['panweight', 'u8'],
-    0xdb: ['transpose', 's8'],
-    0xda: ['env', 'addr'],
-    0xd9: ['releaserate', 'u8'],
-    0xd8: ['vibdepth', 'u8'],
-    0xd7: ['vibfreq', 'u8'],
-#    0xd6: ['setupdatesperframe_unimplemented', 'u8'],
-    0xd4: ['reverb', 'u8'],
-    0xd3: ['bend', 's8'],
-    0xd2: ['sustain', 'u8'],
-    0xd1: ['notealloc', 'u8'],
-    0xd0: ['effects', 'u8'],
-    0xcf: ['stptrtoseq', 'addr'],
-    0xce: ['ldptr', 'hex16'],
-    0xcd: ['stopchan', 'u8'],
-    0xcc: ['ldi', 'u8'],
-    0xcb: ['ldseq', 'addr'],
-    0xca: ['mutebhv', 'hex8'],
-    0xc9: ['and', 'u8'],
-    0xc8: ['sub', 'u8'],
-    0xc7: ['stseq', 'u8', 'addr'],
-    0xc6: ['font', 'u8'],
-    0xc5: ['dyntbllookup'],
-    0xc4: ['noshort'],
-    0xc3: ['short'],
-    0xc2: ['dyntbl', 'addr'],
-    0xc1: ['instr', 'u8'],
-    0xbd: ['randptr', 'u16', 'u16'],
-    0xbc: ['ptradd', 'u16'],
-    0xbb: ['unkbb', 'u8', 'u16'],
-    0xba: ['randgate', 'u8'],
-    0xb9: ['randvel', 'u8'],
-    0xb8: ['rand', 'u8'],
-    0xb7: ['randtoptr', 'u16'],
-    0xb6: ['dyntblv'],
-    0xb5: ['dyntbltoptr'],
-    0xb4: ['ptrtodyntbl'],
-    0xb3: ['filter', 'u8'],
-    0xb2: ['ldseqtoptr', 'addr'],
-    0xb1: ['freefilter'],
-    0xb0: ['ldfilter', 'addr'],
+    0xF1: ['allocnotelist', 'u8'],
+    0xF0: ['freenotelist'],
+    0xEE: ['bendfine', 's8'],
+    0xED: ['gain', 'u8'],
+    0xEB: ['fontinstr'],
+    0xEA: ['stop'],
+    0xE9: ['notepri', 'u8'],
+    0xE8: ['params', 'u8', 'u8', 'u8', 's8', 's8', 'u8', 'u8', 'u8'],
+    0xE7: ['ldparams', 'addr'],
+    0xE6: ['samplbook', 'addr'],
+    0xE5: ['rvrbidx', 'u8'],
+    0xE4: ['dyncall'],
+    0xE3: ['vibdelay', 'u8'],
+    0xE2: ['vibdepthgrad', 'u8', 'u8', 'u8'],
+    0xE1: ['vibfreqgrad', 'u8', 'u8', 'u8'],
+    0xE0: ['volexp', 'u8'],
+    0xDF: ['vol', 'u8'],
+    0xDE: ['freqscale', 'u16'],
+    0xDD: ['pan', 'u8'],
+    0xDC: ['panweight', 'u8'],
+    0xDB: ['transpose', 's8'],
+    0xDA: ['env', 'addr'],
+    0xD9: ['releaserate', 'u8'],
+    0xD8: ['vibdepth', 'u8'],
+    0xD7: ['vibfreq', 'u8'],
+#    0xD6: ['setupdatesperframe_unimplemented', 'u8'],
+    0xD4: ['reverb', 'u8'],
+    0xD3: ['bend', 's8'],
+    0xD2: ['sustain', 'u8'],
+    0xD1: ['notealloc', 'u8'],
+    0xD0: ['effects', 'u8'],
+    0xCF: ['stptrtoseq', 'addr'],
+    0xCE: ['ldptr', 'hex16'],
+    0xCD: ['stopchan', 'u8'],
+    0xCC: ['ldi', 'u8'],
+    0xCB: ['ldseq', 'addr'],
+    0xCA: ['mutebhv', 'hex8'],
+    0xC9: ['and', 'u8'],
+    0xC8: ['sub', 'u8'],
+    0xC7: ['stseq', 'u8', 'addr'],
+    0xC6: ['font', 'u8'],
+    0xC5: ['dyntbllookup'],
+    0xC4: ['noshort'],
+    0xC3: ['short'],
+    0xC2: ['dyntbl', 'addr'],
+    0xC1: ['instr', 'u8'],
+    0xBD: ['randptr', 'u16', 'u16'],
+    0xBC: ['ptradd', 'u16'],
+    0xBB: ['unkbb', 'u8', 'u16'],
+    0xBA: ['randgate', 'u8'],
+    0xB9: ['randvel', 'u8'],
+    0xB8: ['rand', 'u8'],
+    0xB7: ['randtoptr', 'u16'],
+    0xB6: ['dyntblv'],
+    0xB5: ['dyntbltoptr'],
+    0xB4: ['ptrtodyntbl'],
+    0xB3: ['filter', 'u8'],
+    0xB2: ['ldseqtoptr', 'addr'],
+    0xB1: ['freefilter'],
+    0xB0: ['ldfilter', 'addr'],
     # arg commands
     0x00: ['cdelay', 'bits:4'],
     0x10: ['sample', 'bits:3', 'addr'],
@@ -191,27 +191,27 @@ commands['chan'] = join(control_flow_commands, {
 
 commands_layer_base = join(control_flow_commands, {
     # non-arg commands
-    0xc0: ['ldelay', 'var'],
-    0xc1: ['shortvel', 'u8'],
-    0xc2: ['transpose', 's8'],
-    0xc3: ['shortdelay', 'var'],
-    0xc4: ['legato'],
-    0xc5: ['nolegato'],
-    0xc6: ['instr', 'u8'],
-    0xc7: ['portamento', 'hex8', 'u8', 'u8'],
-    0xc8: ['noportamento'],
-    0xc9: ['shortgate', 'u8'],
-    0xca: ['notepan', 'u8'],
-    0xcb: ['env', 'addr', 'u8'],
-    0xcc: ['nodrumpan'],
-    0xcd: ['stereo', 'u8'],
-    0xce: ['bendfine', 's8'],
-    0xcf: ['releaserate', 'u8'],
+    0xC0: ['ldelay', 'var'],
+    0xC1: ['shortvel', 'u8'],
+    0xC2: ['transpose', 's8'],
+    0xC3: ['shortdelay', 'var'],
+    0xC4: ['legato'],
+    0xC5: ['nolegato'],
+    0xC6: ['instr', 'u8'],
+    0xC7: ['portamento', 'hex8', 'u8', 'u8'],
+    0xC8: ['noportamento'],
+    0xC9: ['shortgate', 'u8'],
+    0xCA: ['notepan', 'u8'],
+    0xCB: ['env', 'addr', 'u8'],
+    0xCC: ['nodrumpan'],
+    0xCD: ['stereo', 'u8'],
+    0xCE: ['bendfine', 's8'],
+    0xCF: ['releaserate', 'u8'],
     # arg commands
-    0xd0: ['ldshortvel', 'bits:4'],
-    0xe0: ['ldshortgate', 'bits:4'],
+    0xD0: ['ldshortvel', 'bits:4'],
+    0xE0: ['ldshortgate', 'bits:4'],
 })
-del commands_layer_base[0xfd]
+del commands_layer_base[0xFD]
 
 commands['layer_large'] = join(commands_layer_base, {
     0x00: ['notedvg', 'bits:6', 'var', 'u8', 'u8'],
@@ -324,7 +324,7 @@ def decode_one(state):
         hit_eof = True
         return
 
-    if seq_num == 0 and pos in (0x6197, 0x61BD, 0x6372):
+    if seq_num == 0 and pos in (0x6197, 0x6197, 0x6197):
         # unfinished code
         return
 
@@ -345,7 +345,7 @@ def decode_one(state):
 
     def s8():
         ret = u8()
-        return ret - 0x100 if ret >= 0x80 else ret
+        return ret - 0x100 if ret >= 0x100 else ret
 
     def u16():
         hi = u8()
@@ -354,7 +354,7 @@ def decode_one(state):
 
     def s16():
         ret = u16()
-        return ret - 0x10000 if ret >= 0x8000 else ret
+        return ret - 0x10000 if ret >= 0x10000 else ret
 
     def peek16():
         nonlocal pos
@@ -365,7 +365,7 @@ def decode_one(state):
     def var():
         ret = u8()
         if ret & 0x80:
-            ret = (ret << 8) & 0x7f00;
+            ret = (ret << 8) & 0x7F00;
             ret |= u8()
             return (ret, ret < 0x80)
         return (ret, False)
@@ -437,7 +437,7 @@ def decode_one(state):
     for a in cmd_args:
         if cmd_mn == 'portamento' and len(out_args) == 2 and (int(out_args[0], 0) & 0x80) == 0:
             a = 'var'
-        if cmd_mn == 'ldptr' and seq_num == 0 and peek16() not in (0, 0x7fbc):
+        if cmd_mn == 'ldptr' and seq_num == 0 and peek16() not in (0, 0x7FBC):
             a = 'addr'
             out_mn = "ldptr"
 
@@ -460,17 +460,17 @@ def decode_one(state):
         elif a == 'u8':
             out_args.append(str(u8()))
         elif a == 'hex8':
-            out_args.append(hex(u8()))
+            out_args.append(hex(u8()).upper())
         elif a == 's8':
             v = u8()
             out_args.append(str(v if v < 128 else v - 256))
         elif a == 'u16':
             out_args.append(str(u16()))
         elif a == 'hex16':
-            out_args.append(hex(u16()))
+            out_args.append(hex(u16()).upper())
         elif a == 'var':
             val, bad = var()
-            out_args.append(hex(val))
+            out_args.append(hex(val).upper())
             if bad:
                 long_var = True
         elif a in ('addr', 'reladdr8', 'reladdr16'):
@@ -580,18 +580,18 @@ def main():
 
     if seq_num == 0:
         tables = [
-            ('chan', 0xE1, 0x80),
-            ('chan', 0x1E1, 0x60),
-            ('chan', 0xEE3, 0x50),
-            ('chan', 0x16D5, 0x80),
-            ('chan', 0x17D5, 0x78),
-            ('chan', 0x315E, 0x80),
-            ('chan', 0x325E, 0x80),
-            ('chan', 0x335E, 0x80),
-            ('chan', 0x345E, 0x73),
-            ('chan', 0x5729, 0x48),
-            ('chan', 0x5EE5, 0x8),
-            ('chan', 0x5FF2, 0x80),
+            ('chan', 0xE1, 0xE1),
+            ('chan', 0x1E1, 0x1E1),
+            ('chan', 0xEE3, 0xEE3),
+            ('chan', 0x16D5, 0x16D5),
+            ('chan', 0x17D5, 0x17D5),
+            ('chan', 0x315E, 0x315E),
+            ('chan', 0x325E, 0x325E),
+            ('chan', 0x335E, 0x335E),
+            ('chan', 0x345E, 0x345E),
+            ('chan', 0x5729, 0x5729),
+            ('chan', 0x5EE5, 0x5EE5),
+            ('chan', 0x5FF2, 0x5FF2),
         ]
 
         unused = [
@@ -702,11 +702,11 @@ def main():
 
     # Add unreachable 'end' markers
     for i in range(1, len(data)):
-        if (data[i] == 0xff and output[i] is None and output[i - 1] is not None
+        if (data[i] == 0xFF and output[i] is None and output[i - 1] is not None
                 and label_name[i] is None):
             tp = output_instate[i - 1][1]
             if tp in ["seq", "chan", "layer_small", "layer_large"]:
-                output[i] = gen_mnemonic(tp, 0xff)
+                output[i] = gen_mnemonic(tp, 0xFF)
 
     # Add aligners and strip padding
     for i in range(len(data)):
@@ -766,7 +766,7 @@ def main():
             print(f".{label_kind[i]} {label_name[i]}")
         o = output[i]
         if o is None:
-            print(f"byte {hex(data[i])}")
+            print(f"byte {hex(data[i]).upper()}")
         elif o:
             print(o)
         elif label_name[i] is not None:

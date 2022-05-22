@@ -33,9 +33,9 @@ fixups = {
 offsets = {
     "MQDebug": {
         "0": {
-            "0x2a50": ["Envelope", 16],
-            "0x2a80": ["Envelope", 12],
-            "0x2a90": ["Envelope", 16]
+            "0x2A50": ["Envelope", 16],
+            "0x2A80": ["Envelope", 12],
+            "0x2A90": ["Envelope", 16]
         }
     }
 }

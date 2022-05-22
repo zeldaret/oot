@@ -23,15 +23,15 @@ banks = []
 font_lookup = {}
 
 last_font_match_sizes = {
-    "ocarina" :    0x12b60,
+    "ocarina" :    0x12B60,
     "ocarina1_0" : 0x3940,
-    "majora" :     0x3f0
+    "majora" :     0x3F0
 }
 
 audiobank_sizes = {
-    "ocarina" :    0x2bdc0,
-    "ocarina1_0" : 0x1ca50,
-    "majora" :     0x263f0
+    "ocarina" :    0x2BDC0,
+    "ocarina1_0" : 0x1CA50,
+    "majora" :     0x263F0
 }
 
 class DrumOffsetTable:
@@ -789,7 +789,7 @@ def processBanks(sampledir, builddir, tabledir):
                             output.write(input.read(bug_src))
                             bug_word = input.read(4)
                             output.write(bug_word)
-                            output.write(input.read(0xfffc))
+                            output.write(input.read(0xFFFC))
                             output.write(bug_word)
                     Path(temppath).unlink(missing_ok=True)
             else:

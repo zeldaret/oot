@@ -276,7 +276,7 @@ def align(val, al):
     return (val + (al - 1)) & -al
 
 def padding16(val):
-    mod16 = val & 0xf
+    mod16 = val & 0xF
     if mod16 > 0:
         return 16 - mod16
     return 0
@@ -524,7 +524,7 @@ class SampleHeader:
 
     def serializeTo(self, output, packspecs=StructPackSpec()):
         self.updateReferences()
-        modes = (self.codec & 0xf) << 4
+        modes = (self.codec & 0xF) << 4
         modes |= (self.medium & 0x3) << 2
         output.write(struct.pack(packspecs.genPackString("bbHXPPP"), modes, self.u2, self.length, self.offsetInBank, self.loopOffset, self.bookOffset))
         return 4 + (3 * packspecs.pointerSize()) + packspecs.pointerPaddingSize()
