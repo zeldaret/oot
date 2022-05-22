@@ -1019,23 +1019,4 @@ typedef struct {
     u16 params;
 } SoundParams;
 
-#define DEFINE_SOUNDFONT(a, b, c, d, e, f, g, h, i) a
-typedef enum {
-    SOUNDFONT_SFX_1,
-    SOUNDFONT_SFX_2,
-    FONT_ID_MAX
-} SoundfontId;
-#undef DEFINE_SOUNDFONT
-
-typedef enum {
-    SAMPLE_BANK_SFX,
-    SAMPLE_BANK_ORCHESTRA,
-    SAMPLE_BANK_DEKU_TREE,
-    SAMPLE_BANK_JABU_JABU,
-    SAMPLE_BANK_FOREST_TEMPLE,
-    SAMPLE_BANK_GORON_CITY,
-    SAMPLE_BANK_SPIRIT_TEMPLE,
-    BANK_ID_MAX
-} SampleBankId;
-
 #endif
