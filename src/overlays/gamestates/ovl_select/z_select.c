@@ -37,7 +37,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.showTitleCard = true;
     gWeatherMode = WEATHER_MODE_CLEAR;
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, Play_Init, GlobalContext);
+    SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
 // "Translation" (Actual name)

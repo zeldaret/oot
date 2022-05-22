@@ -229,8 +229,8 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value) {
     gSaveContext.equips.equipment |= value << gEquipShifts[equipment];
 }
 
-u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
-    Player* player = GET_PLAYER(globalCtx);
+u8 Inventory_DeleteEquipment(PlayState* play, s16 equipment) {
+    Player* player = GET_PLAYER(play);
     s32 pad;
     u16 equipValue = gSaveContext.equips.equipment & gEquipMasks[equipment];
 
@@ -252,8 +252,8 @@ u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
             gSaveContext.infTable[INFTABLE_1DX_INDEX] = 1;
         }
 
-        Player_SetEquipmentData(globalCtx, player);
-        globalCtx->pauseCtx.cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
+        Player_SetEquipmentData(play, player);
+        play->pauseCtx.cursorSpecialPos = PAUSE_CURSOR_PAGE_LEFT;
     }
 
     return equipValue;

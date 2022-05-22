@@ -6,7 +6,7 @@
 
 struct BossSst;
 
-typedef void (*BossSstActionFunc)(struct BossSst*, GlobalContext*);
+typedef void (*BossSstActionFunc)(struct BossSst*, PlayState*);
 
 #define BOSS_SST_EFFECT_COUNT 18
 

@@ -10,17 +10,17 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void BgZg_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgZg_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgZg_Init(Actor* thisx, PlayState* play);
+void BgZg_Destroy(Actor* thisx, PlayState* play);
+void BgZg_Update(Actor* thisx, PlayState* play);
+void BgZg_Draw(Actor* thisx, PlayState* play);
 
 void func_808C0C50(BgZg* this);
-s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx);
+s32 func_808C0C98(BgZg* this, PlayState* play);
 s32 func_808C0CC8(BgZg* this);
-void func_808C0CD4(BgZg* this, GlobalContext* globalCtx);
-void func_808C0D08(BgZg* this, GlobalContext* globalCtx);
-void func_808C0EEC(BgZg* this, GlobalContext* globalCtx);
+void func_808C0CD4(BgZg* this, PlayState* play);
+void func_808C0D08(BgZg* this, PlayState* play);
+void func_808C0EEC(BgZg* this, PlayState* play);
 
 static BgZgActionFunc sActionFuncs[] = {
     func_808C0CD4,
@@ -47,10 +47,10 @@ const ActorInit Bg_Zg_InitVars = {
     (ActorFunc)BgZg_Draw,
 };
 
-void BgZg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgZg_Destroy(Actor* thisx, PlayState* play) {
     BgZg* this = (BgZg*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_808C0C50(BgZg* this) {
@@ -58,10 +58,10 @@ void func_808C0C50(BgZg* this) {
                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
 }
 
-s32 func_808C0C98(BgZg* this, GlobalContext* globalCtx) {
+s32 func_808C0C98(BgZg* this, PlayState* play) {
     s32 flag = (this->dyna.actor.params >> 8) & 0xFF;
 
-    return Flags_GetSwitch(globalCtx, flag);
+    return Flags_GetSwitch(play, flag);
 }
 
 s32 func_808C0CC8(BgZg* this) {
@@ -70,21 +70,21 @@ s32 func_808C0CC8(BgZg* this) {
     return flag;
 }
 
-void func_808C0CD4(BgZg* this, GlobalContext* globalCtx) {
-    if (func_808C0C98(this, globalCtx) != 0) {
+void func_808C0CD4(BgZg* this, PlayState* play) {
+    if (func_808C0C98(this, play) != 0) {
         this->action = 1;
         func_808C0C50(this);
     }
 }
 
-void func_808C0D08(BgZg* this, GlobalContext* globalCtx) {
+void func_808C0D08(BgZg* this, PlayState* play) {
     this->dyna.actor.world.pos.y += (kREG(16) + 20.0f) * 1.2f;
     if ((((kREG(17) + 200.0f) * 1.2f) + this->dyna.actor.home.pos.y) <= this->dyna.actor.world.pos.y) {
         Actor_Kill(&this->dyna.actor);
     }
 }
 
-void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgZg_Update(Actor* thisx, PlayState* play) {
     BgZg* this = (BgZg*)thisx;
     s32 action = this->action;
 
@@ -92,11 +92,11 @@ void BgZg_Update(Actor* thisx, GlobalContext* globalCtx) {
         // "Main Mode is wrong!!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        sActionFuncs[action](this, globalCtx);
+        sActionFuncs[action](this, play);
     }
 }
 
-void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgZg_Init(Actor* thisx, PlayState* play) {
     s32 pad[2];
     BgZg* this = (BgZg*)thisx;
     CollisionHeader* colHeader;
@@ -105,7 +105,7 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     colHeader = NULL;
     CollisionHeader_GetVirtual(&gTowerCollapseBarsCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((func_808C0CC8(this) == 8) || (func_808C0CC8(this) == 9)) {
         this->dyna.actor.scale.x = this->dyna.actor.scale.x * 1.3f;
         this->dyna.actor.scale.z = this->dyna.actor.scale.z * 1.3f;
@@ -114,13 +114,13 @@ void BgZg_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->action = 0;
     this->drawConfig = 0;
-    if (func_808C0C98(this, globalCtx)) {
+    if (func_808C0C98(this, play)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
 
-void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
-    GraphicsContext* localGfxCtx = globalCtx->state.gfxCtx;
+void func_808C0EEC(BgZg* this, PlayState* play) {
+    GraphicsContext* localGfxCtx = play->state.gfxCtx;
 
     OPEN_DISPS(localGfxCtx, "../z_bg_zg.c", 311);
 
@@ -132,7 +132,7 @@ void func_808C0EEC(BgZg* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(localGfxCtx, "../z_bg_zg.c", 320);
 }
 
-void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgZg_Draw(Actor* thisx, PlayState* play) {
     BgZg* this = (BgZg*)thisx;
     s32 drawConfig = this->drawConfig;
 
@@ -140,6 +140,6 @@ void BgZg_Draw(Actor* thisx, GlobalContext* globalCtx) {
         // "Drawing mode is wrong !!!!!!!!!!!!!!!!!!!!!!!!!"
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
     } else {
-        sDrawFuncs[drawConfig](this, globalCtx);
+        sDrawFuncs[drawConfig](this, play);
     }
 }
