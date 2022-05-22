@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="07_Jabu_Jabu" Index="7">
+    <Soundfont Name="07 Jabu Jabu" Index="7">
         <Instruments>
             <Instrument Name="Rumbling Insides" Enum="RUMBLE"/>
             <Instrument/>

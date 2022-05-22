@@ -292,7 +292,7 @@ build/$(SPEC): $(SPEC)
 	$(CPP) $(CPPFLAGS) $< > $@
 
 build/ldscript.txt: build/$(SPEC)
-	python3 tools/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank
+	python3 tools/assemble_sound.py assets/soundfonts build/assets build/include assets/samples --build-bank --match ocarina
 	python3 tools/assemble_sequences.py src/audio assets/sequences build/include build
 	$(MKLDSCRIPT) $< $@
 

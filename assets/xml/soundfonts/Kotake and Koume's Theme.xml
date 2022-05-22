@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="29_Kotake_and_Koume's_Theme" Index="29">
+    <Soundfont Name="29 Kotake and Koume's Theme" Index="29">
         <Instruments>
             <Instrument Name="Koto" Enum="KOTO"/>
             <Instrument Name="Drum" Enum="DRUM"/>

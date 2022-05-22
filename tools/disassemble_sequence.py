@@ -399,7 +399,7 @@ def decode_one(state):
             a -= 2**16
         if a <= 0:
             mn = ['disable', 'hang', 'goto', 'restart'][-a]
-            output[orig_pos] = '{mn}' + ' {b}' if mn == 'goto' else ''
+            output[orig_pos] = mn + (f' {b}' if mn == 'goto' else '')
             # assume any goto is backwards and stop decoding
         else:
             output[orig_pos] = f'point {a}, {b}'

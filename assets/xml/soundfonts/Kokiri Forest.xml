@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="15_Kokiri_Forest" Index="15">
+    <Soundfont Name="15 Kokiri Forest" Index="15">
         <Instruments>
             <Instrument Name="Pan Flute" Enum="FLUTE"/>
             <Instrument Name="Oboe" Enum="OBOE"/>

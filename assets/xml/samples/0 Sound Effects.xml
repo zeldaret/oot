@@ -1046,7 +1046,7 @@
 	<Sample Name="Iron Boots 1">
 		<Offset Version="MQDebug" At="0x29b480"/>
 	</Sample>
-	<Sample Name="Metal Clink">
+	<Sample Name="Metal Clink (Copy)">
 		<Offset Version="MQDebug" At="0x29eb20"/>
 	</Sample>
 </Root>

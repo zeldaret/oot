@@ -698,7 +698,7 @@ class SoundEffect:
         self.sample = SampleHeader()
         self.sample.parseFrom(datafile, datafile[self.headerOffset:self.headerOffset + 16], self.name, banks, baseOffset, self.headerOffset, self.pitch, usedFontData)
         
-    def serializeTo(self, output,packspecs=StructPackSpec()):
+    def serializeTo(self, output, packspecs=StructPackSpec()):
         if self.sample is not None:
             self.headerOffset = self.sample.addr	
         output.write(struct.pack(packspecs.genPackString("PfX"), self.headerOffset, self.pitch))
@@ -774,7 +774,7 @@ class Percussion:
         self.envelope = Envelope()
         self.envelope.parseFrom(datafile, baseOffset, self.envelopeOffset, usedFontData)
 
-    def serializeTo(self, output,packspecs=StructPackSpec()):
+    def serializeTo(self, output, packspecs=StructPackSpec()):
         if self.sample is not None:
             self.headerOffset = self.sample.addr
         if self.envelope is not None:
@@ -899,8 +899,8 @@ class Instrument:
             self.keyHighSample.parseFrom(datafile, datafile[self.keyHighOffset:self.keyHighOffset + 16], self.name, banks, baseOffset, self.keyHighOffset, self.keyHighPitch, usedFontData)
 
     def serializeTo(self, output, packspecs=StructPackSpec()):
-        self.updateReferences()	
-        output.write(struct.pack("BBBb", self.loaded, self.lowRange, self.highRange, self.decay))
+        self.updateReferences()
+        output.write(struct.pack(packspecs.genPackString("BBBb"), self.loaded, self.lowRange, self.highRange, self.decay))
         if self.envelope is None:
             output.write(struct.pack(packspecs.genPackString("X4x")))
         else:
@@ -917,7 +917,7 @@ class Instrument:
         if self.keyHighSample is None:
             output.write(struct.pack(str(packspecs.pointerSize() << 1) + "x"))
         else:
-            output.write(struct.pack(packspecs.genPackString("PfX"), self.keyHighOffset, self.keyHighPitch))			
+            output.write(struct.pack(packspecs.genPackString("PfX"), self.keyHighOffset, self.keyHighPitch))
 
         return 16 + (packspecs.pointerSize() << 2) + (packspecs.pointerPaddingSize() << 2)
 
@@ -1058,7 +1058,7 @@ class SampleTableEntry:
     def parseFrom(self, input):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBB6x", input)
 
-    def serializeTo(self, output,packspecs=StructPackSpec()):		
+    def serializeTo(self, output, packspecs=StructPackSpec()):		
         output.write(struct.pack(packspecs.genPackString("LLBB6x"), self.offset, self.length, self.medium, self.cache))
 
 class SoundfontEntry:
@@ -1148,9 +1148,9 @@ class Soundfont:
 
     def getSamples(self):
         samples = []
-        [samples.extend(instrument.getSamples()) for instrument in self.instruments if instrument is not None]
-        [samples.append(drum.sample) for drum in self.percussion if drum is not None]
-        [samples.append(effect.sample) for effect in self.soundEffects if effect is not None]
+        [samples.extend(instrument.getSamples()) for instrument in self.instruments if type(instrument) is not int]
+        [samples.append(drum.sample) for drum in self.percussion if type(drum) is not int]
+        [samples.append(effect.sample) for effect in self.soundEffects if type(effect) is not int]
         return samples
 
     def parseFrom(self, entry, datafile, fontdef, usedFontData):
@@ -1188,8 +1188,8 @@ class Soundfont:
                 if fontdef:
                     instdef = fontdef.instruments[instIdx] if instIdx < len(fontdef.instruments) else None
                 buffer = setData[offset:offset + 32]
-                instrument = None if offset == 0 else Instrument()
-                if instrument:
+                instrument = instIdx if offset == 0 else Instrument()
+                if type(instrument) is Instrument:
                     instrument.parseFrom(setData, buffer, self.name, instdef, banks, entry.offset, offset, instIdx, usedFontData)
                 self.instruments.append(instrument)
                 instIdx += 1
@@ -1201,8 +1201,8 @@ class Soundfont:
                     effectdef = fontdef.effects[i] if i < len(fontdef.effects) else None
                 buffer = effectsTable[i * 8:(i * 8) + 8]
                 offset = struct.unpack(">L", buffer[0:4])[0]
-                effect = None if offset == 0 else SoundEffect()
-                if effect:
+                effect = i if offset == 0 else SoundEffect()
+                if type(effect) is SoundEffect:
                     effect.parseFrom(setData, buffer, effectdef, banks, entry.offset, effectsOffset + (i * 8), i, usedFontData)
                 self.soundEffects.append(effect)
 
@@ -1214,14 +1214,14 @@ class Soundfont:
                 if fontdef:
                     drumdef = fontdef.drums[i] if i < len(fontdef.drums) else None
                 offset = percussionsOffsets[i]
-                percussion = None if offset == 0 else Percussion()
-                if percussion:
+                percussion = i if offset == 0 else Percussion()
+                if type(percussion) is Percussion:
                     percussion.parseFrom(setData, setData[offset:offset + 16], drumdef, banks, entry.offset, offset, i, usedFontData)
                 self.percussion.append(percussion)
 
-        self.instruments = sorted(self.instruments, key=lambda i: 100 if i is None else i.offset)
-        self.percussion = sorted(self.percussion, key=lambda d: 100 if d is None else d.offset)
-        self.soundEffects = sorted(self.soundEffects, key=lambda x: 100 if x is None else x.offset)
+        self.instruments = sorted(self.instruments, key=lambda i: i if type(i) is int else i.offset)
+        self.percussion = sorted(self.percussion, key=lambda d: d if type(d) is int else d.offset)
+        self.soundEffects = sorted(self.soundEffects, key=lambda x: x if type(x) is int else x.offset)
 
     def fromXML(self, xml_element):
         #Read font attr
@@ -1376,16 +1376,35 @@ class Soundfont:
             overrideBanks = XmlTree.SubElement(root, "ForceSampleBank")
             XmlTree.SubElement(overrideBanks, "Bank", { "Name": bankNames[self.bankOverride] })
 
-        instruments = XmlTree.SubElement(root, "Instruments")
-        drums = XmlTree.SubElement(root, "Drums")
-        effects = XmlTree.SubElement(root, "SoundEffects")
+        instElements = XmlTree.SubElement(root, "Instruments")
+        drumElements = XmlTree.SubElement(root, "Drums")
+        effectElements = XmlTree.SubElement(root, "SoundEffects")
         envelopes = XmlTree.SubElement(root, "Envelopes")
         samples = XmlTree.SubElement(root, "Samples")
         unused = None
 
-        [inst.toXML(instruments, samplesFound, envelopesFound, sampleNames, tunings) if inst is not None else XmlTree.SubElement(root, "Instrument") for inst in self.instruments]
-        [drum.toXML(drums, samplesFound, envelopesFound, sampleNames, tunings) if drum is not None else XmlTree.SubElement(root, "Drum") for drum in self.percussion]
-        [effect.toXML(effects, samplesFound, sampleNames, tunings) if effect is not None else XmlTree.SubElement(root, "SoundEffect") for effect in self.soundEffects]
+        nullInst = set([i for i in self.instruments if type(i) is int])
+        nullDrum = set([d for d in self.percussion if type(d) is int])
+        nullSfx = set([x for x in self.soundEffects if type(x) is int])
+
+        realInst = [i for i in self.instruments if type(i) is Instrument]
+        realDrum = [d for d in self.percussion if type(d) is Percussion]
+        realSfx = [x for x in self.soundEffects if type(x) is SoundEffect]
+
+        instruments = list(realInst)
+        drums = list(realDrum)
+        effects = list(realSfx)
+
+        for i in nullInst:
+            instruments.insert(i, None) if i < len(instruments) else instruments.append(None)
+        for i in nullDrum:
+            drums.insert(i, None) if i < len(drums) else drums.append(None)
+        for i in nullSfx:
+            effects.insert(i, None) if i < len(effects) else effects.append(None)
+
+        [inst.toXML(instElements, samplesFound, envelopesFound, sampleNames, tunings) if inst is not None else XmlTree.SubElement(instElements, "Instrument") for inst in instruments]
+        [drum.toXML(drumElements, samplesFound, envelopesFound, sampleNames, tunings) if drum is not None else XmlTree.SubElement(drumElements, "Drum") for drum in drums]
+        [effect.toXML(effectElements, samplesFound, sampleNames, tunings) if effect is not None else XmlTree.SubElement(effectElements, "SoundEffect") for effect in effects]
 
         for item in self.unused:
             if isinstance(item, Envelope):

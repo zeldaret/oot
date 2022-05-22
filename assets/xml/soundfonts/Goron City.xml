@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="14_Goron_City" Index="14">
+    <Soundfont Name="14 Goron City" Index="14">
         <Instruments>
             <Instrument Name="Goron Drum" Enum="DRUM"/>
             <Instrument Name="Voice and Slap" Enum="OOH_0"/>

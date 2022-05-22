@@ -60,9 +60,10 @@ class GarbageBlock:
         self.data = []
         self.addr = -1
 
-    def serializeTo(self, output):
+    def serializeTo(self, output, packspecs=StructPackSpec()):
         if self.data:
-            output.write(self.data)
+            for i in range(len(self.data)):
+                output.write(struct.pack(packspecs.genPackString("B"), self.data[i]))
         return len(self.data)
 
 def checkMatch(refData, checkData, nameStr):
@@ -161,7 +162,6 @@ def orderWaveBlocksInstOrder(font, ser_blocks, base_addr):
                 current_addr += 16
 
     return current_addr
-
 
 def orderWaveBlocksBankOrder(font, ser_blocks, base_addr):
     # Extract all used blocks from the font (ugh)
@@ -515,11 +515,9 @@ def linkFontToBank(font):
             if sfx.sample is not None and sfx.pitch < 0.0:
                 sfx.pitch = sfx.sample.tuning
 
-def getBankbinName(idx):
-    return f"audiotable_{idx}"
-
-def getFontbinName(idx):
-    return f"audiobank_{idx:0>3d}"
+def getFileName(idx=None, name=""):
+    name = f"{idx}_{name}" if idx is not None else name
+    return ''.join('_' if c not in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_' else c for c in name)
 
 def readFonts(dirpath):
     for file in os.listdir(dirpath):
@@ -736,7 +734,7 @@ def processBanks(sampledir, builddir, tabledir):
             opath = None
             syms = []
             if builddir is not None:
-                opath = os.path.join(builddir, f"{getBankbinName(mybank.idx)}.o")
+                opath = os.path.join(builddir, f"{getFileName(name=mybank.name)}.o")
             if len(sorted_samples) > 0:
                 output = None
                 if builddir is not None:
@@ -959,14 +957,14 @@ def main(args):
     # Process banks and build sample info blocks
     bankbuilddir = None
     tablebuilddir = os.path.join(outpath, 'data')
-    if args.buildbank:
+    if args.build_bank:
         bankbuilddir = os.path.join(outpath, 'samplebanks')
     processBanks(sampledir, bankbuilddir, tablebuilddir)
 
     # Check bank matches (if requested)
     mydir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    if debug_mode and args.buildbank and match_mode:
+    if debug_mode and args.build_bank and match_mode:
         # Find reference files.
         bankdat_path = os.path.join("baserom", "Audiotable")
         print("Extracted audiotable ref:", bankdat_path)
@@ -1054,7 +1052,7 @@ def main(args):
                 with open(fontpaths[font.idx], 'ab') as f:
                     f.write(struct.pack(f"{diff}x"))
         
-        with open(os.path.join(audiobank_dir, f"audiobank_{font.idx}.o"), "wb") as elffile:
+        with open(os.path.join(audiobank_dir, f"{getFileName(idx=font.idx, name=font.name)}.o"), "wb") as elffile:
             with open(fontpaths[font.idx], "rb") as bin:
                 elf = ELF(
                     e_class=ELFCLASS.ELFCLASS64 if target_64 else ELFCLASS.ELFCLASS32,
@@ -1092,7 +1090,6 @@ def main(args):
         tblfile.write(struct.pack(packspecs.genPackString("H14x"), total_fonts))
 
         for font in fonts_ordered:
-            binname = getFontbinName(font.idx)
             fontsize = os.path.getsize(fontpaths[font.idx])
 
             myentry = font.getTableEntry()
@@ -1102,16 +1099,16 @@ def main(args):
             myentry.serializeTo(tblfile, packspecs)
 
     # Pad audiobank to match if needed...
-    # if match_mode:
-    #     if match_mode in audiobank_sizes:
-    #         target_size = audiobank_sizes[match_mode]
-    #         current_size = os.path.getsize(audiobank_path)
-    #         diff = target_size - current_size
+    if match_mode:
+        if match_mode in audiobank_sizes:
+            target_size = audiobank_sizes[match_mode]
+            current_size = os.path.getsize(audiobank_tbl_tmp)
+            diff = target_size - current_size
 
-    #         with open(audiobank_path, 'ab') as f:
-    #             f.write(struct.pack(f"{diff}x"))
+            with open(audiobank_tbl_tmp, 'ab') as f:
+                f.write(struct.pack(f"{diff}x"))
 
-    with open(audiobank_tbl_path + ".o", "wb") as elftblfile:
+    with open(audiobank_tbl_path, "wb") as elftblfile:
         with open(audiobank_tbl_tmp, "rb") as tblfile:
             elf = ELF(
                 e_class=ELFCLASS.ELFCLASS64 if target_64 else ELFCLASS.ELFCLASS32,

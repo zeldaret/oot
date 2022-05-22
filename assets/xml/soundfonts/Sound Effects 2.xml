@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="01_Sound_Effects_2" Index="1" Symbol="gSoundEffectsFont2">
+    <Soundfont Name="01 Sound Effects 2" Index="1" Symbol="gSoundEffectsFont2">
         <Instruments>
             <Instrument Name="Heavy Gunshot" Enum="GUNSHOT"/>
             <Instrument Name="Dodongo Roar" Enum="DODONGO_ROAR"/>

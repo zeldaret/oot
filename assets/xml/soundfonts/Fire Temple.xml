@@ -1,5 +1,5 @@
 <Root>
-    <Soundfont Name="10_Fire_Temple" Index="10">
+    <Soundfont Name="10 Fire Temple" Index="10">
         <Instruments>
             <Instrument Name="Islamic Chant 1" Enum="CHANT_0"/>
             <Instrument Name="Islamic Chant 2" Enum="CHANT_1"/>

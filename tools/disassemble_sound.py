@@ -16,17 +16,6 @@ import sys
 usedTuning = {}
 refBanks = {}
 
-# Fixes up unused data in soundfont into something recognizable
-sf_unused_fixups = {
-    "MQDebug": {
-        0: {
-            0x2a50: ("Envelope", 16),
-            0x2a80: ("Envelope", 12),
-            0x2a90: ("Envelope", 16)
-        }
-    }
-}
-
 # Used for data gap detection (finding potentially unreferenced data)
 # Format: list of tuples (object, start offset, end offset)
 usedFontData = []
@@ -127,7 +116,7 @@ def read_samplebank_xml(xml_dir, version, sampleNames):
     for xmlfile in os.listdir(xml_dir):
         if xmlfile.endswith(".xml"):
             bankname = os.path.splitext(xmlfile)[0]
-            index = int(bankname.split("_")[0])
+            index = int(bankname.split(" ")[0])
             results[index] = bankname
             root = XmlTree.parse(os.path.join(xml_dir, xmlfile))
             for sample in root.findall("Sample"):
@@ -389,6 +378,9 @@ def main(args):
     with open("offsets.json", "r") as offset_file:
         table_offsets = json.load(offset_file)
     
+    with open("fixups.json", "r") as fixups_file:
+        sf_unused_fixups = json.load(fixups_file)
+    
     version = args.version
     # code file
     code_data = args.code.read()
@@ -443,15 +435,18 @@ def main(args):
     populateSampleNames(fonts, sampleNames)
     tunings = populateTunings(fonts)
 
-    for fontId in sf_unused_fixups[version]:
+    for fontIdStr in sf_unused_fixups[version]:
+        fontId = int(fontIdStr)
         font = fonts[fontId]
-        for offset in sf_unused_fixups[version][fontId]:
-            fixup = sf_unused_fixups[version][fontId][offset]
+        for offsetStr in sf_unused_fixups[version][fontIdStr]:
+            offset = int(offsetStr, 0)
+            fixup = sf_unused_fixups[version][fontIdStr][offsetStr]
             datatype = fixup[0]
             length = fixup[1]
             def makeEnvelope(data, baseOffset, offset):
                 env = Envelope()
                 env.parseFrom(data, baseOffset, offset, usedFontData)
+                return env
             converted_data = {
                 "Envelope": makeEnvelope(font_data, font.offset, offset)
             }.get(datatype)
