@@ -79,8 +79,8 @@ void KaleidoScope_DrawDebugEditorText(Gfx** gfxp) {
     GfxPrint_Destroy(&printer);
 }
 
-void KaleidoScope_DrawDigit(GlobalContext* globalCtx, s32 digit, s32 rectLeft, s32 rectTop) {
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 208);
+void KaleidoScope_DrawDigit(PlayState* play, s32 digit, s32 rectLeft, s32 rectTop) {
+    OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_debug.c", 208);
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, ((u8*)gCounterDigit0Tex + (8 * 16 * digit)), G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -88,16 +88,16 @@ void KaleidoScope_DrawDigit(GlobalContext* globalCtx, s32 digit, s32 rectLeft, s
     gSPTextureRectangle(POLY_OPA_DISP++, rectLeft << 2, rectTop << 2, (rectLeft + 8) << 2, (rectTop + 16) << 2,
                         G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 220);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_debug.c", 220);
 }
 
-void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
+void KaleidoScope_DrawDebugEditor(PlayState* play) {
     static s16 curSection = 0;
     static s16 curRow = 0;
     static s32 prevDBtnInput = 0;
     static s32 heldDBtnTimer = 0;
-    PauseContext* pauseCtx = &globalCtx->pauseCtx;
-    Input* input = &globalCtx->state.input[0];
+    PauseContext* pauseCtx = &play->pauseCtx;
+    Input* input = &play->state.input[0];
     Gfx* gfx;
     Gfx* gfxRef;
     s16 spD8[4];
@@ -108,12 +108,12 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
     s16 y;
     s32 dBtnInput = input->cur.button & (BTN_DUP | BTN_DDOWN | BTN_DLEFT | BTN_DRIGHT);
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 402);
+    OPEN_DISPS(play->state.gfxCtx, "../z_kaleido_debug.c", 402);
 
     pauseCtx->stickRelX = input->rel.stick_x;
     pauseCtx->stickRelY = input->rel.stick_y;
 
-    func_800944C4(globalCtx->state.gfxCtx);
+    func_800944C4(play->state.gfxCtx);
 
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
@@ -138,7 +138,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
     // Current Health Quarter (X / 4)
-    KaleidoScope_DrawDigit(globalCtx, (gSaveContext.health % 0x10) / 4, 194, 15);
+    KaleidoScope_DrawDigit(play, (gSaveContext.health % 0x10) / 4, 194, 15);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -162,7 +162,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
     }
 
     for (i = 0, x = 68; i < 4; i++, x += 10) {
-        KaleidoScope_DrawDigit(globalCtx, spD8[i], x, 15);
+        KaleidoScope_DrawDigit(play, spD8[i], x, 15);
     }
 
     // Health capacity
@@ -173,8 +173,8 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         spD8[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(globalCtx, spD8[2], 146, 15);
-    KaleidoScope_DrawDigit(globalCtx, spD8[3], 156, 15);
+    KaleidoScope_DrawDigit(play, spD8[2], 146, 15);
+    KaleidoScope_DrawDigit(play, spD8[3], 156, 15);
 
     // Health
     spD8[2] = 0;
@@ -184,8 +184,8 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         spD8[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(globalCtx, spD8[2], 172, 15);
-    KaleidoScope_DrawDigit(globalCtx, spD8[3], 182, 15);
+    KaleidoScope_DrawDigit(play, spD8[2], 172, 15);
+    KaleidoScope_DrawDigit(play, spD8[3], 182, 15);
 
     // Inventory
     for (slot = 0, i = 0, y = 35; i < 4; i++, y += 15) {
@@ -209,8 +209,8 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
                 spD8[2] = spD8[3] = 0;
             }
 
-            KaleidoScope_DrawDigit(globalCtx, spD8[2], x, y);
-            KaleidoScope_DrawDigit(globalCtx, spD8[3], x + 10, y);
+            KaleidoScope_DrawDigit(play, spD8[2], x, y);
+            KaleidoScope_DrawDigit(play, spD8[3], x + 10, y);
         }
     }
 
@@ -227,24 +227,24 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
             spD8[2] = spD8[3] = 0;
         }
 
-        KaleidoScope_DrawDigit(globalCtx, spD8[3], spD8[1], 98);
+        KaleidoScope_DrawDigit(play, spD8[3], spD8[1], 98);
         spD8[1] += 10;
     }
 
     // Upgrades
     for (spD8[1] = 78, i = 0; i < 8; i++, spD8[1] += 12) {
-        KaleidoScope_DrawDigit(globalCtx, CUR_UPG_VALUE(i), spD8[1], 115);
+        KaleidoScope_DrawDigit(play, CUR_UPG_VALUE(i), spD8[1], 115);
     }
 
     // Equipment
     for (spD8[1] = 202, i = 0; i < 4; i++, spD8[1] += 12) {
-        KaleidoScope_DrawDigit(globalCtx, ALL_EQUIP_VALUE(i), spD8[1], 115);
+        KaleidoScope_DrawDigit(play, ALL_EQUIP_VALUE(i), spD8[1], 115);
     }
 
     // Dungeon Items
     for (spD8[1] = 78, i = 0; i < 12; i++, spD8[1] += 12) {
         spD8[2] = gSaveContext.inventory.dungeonItems[i] & gEquipMasks[0];
-        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 132);
+        KaleidoScope_DrawDigit(play, spD8[2], spD8[1], 132);
     }
 
     // Medallions
@@ -253,7 +253,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST + i)) {
             spD8[2] = 1;
         }
-        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 149);
+        KaleidoScope_DrawDigit(play, spD8[2], spD8[1], 149);
     }
 
     // Spiritual Stones
@@ -262,7 +262,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD + i)) {
             spD8[2] = 1;
         }
-        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 149);
+        KaleidoScope_DrawDigit(play, spD8[2], spD8[1], 149);
     }
 
     // Songs
@@ -271,7 +271,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         if (CHECK_QUEST_ITEM(QUEST_SONG_MINUET + i)) {
             spD8[2] = 1;
         }
-        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 166);
+        KaleidoScope_DrawDigit(play, spD8[2], spD8[1], 166);
     }
 
     // Other Quest Items
@@ -280,7 +280,7 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY + i)) {
             spD8[2] = 1;
         }
-        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 185);
+        KaleidoScope_DrawDigit(play, spD8[2], spD8[1], 185);
     }
 
     // GS Tokens
@@ -297,14 +297,13 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         spD8[3] -= 10;
     }
 
-    KaleidoScope_DrawDigit(globalCtx, spD8[1], 145, 185);
-    KaleidoScope_DrawDigit(globalCtx, spD8[2], 155, 185);
-    KaleidoScope_DrawDigit(globalCtx, spD8[3], 165, 185);
+    KaleidoScope_DrawDigit(play, spD8[1], 145, 185);
+    KaleidoScope_DrawDigit(play, spD8[2], 155, 185);
+    KaleidoScope_DrawDigit(play, spD8[3], 165, 185);
 
     // Heart Pieces (X / 4)
-    KaleidoScope_DrawDigit(globalCtx,
-                           ((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT,
-                           210, 185);
+    KaleidoScope_DrawDigit(
+        play, ((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> QUEST_HEART_PIECE_COUNT, 210, 185);
 
     // Handles navigating the menu to different sections with the D-Pad
     // When the same direction is held, registers the input periodically based on a timer
@@ -383,13 +382,13 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
 
         case 2:
             if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                Health_ChangeBy(globalCtx, -4);
+                Health_ChangeBy(play, -4);
             } else if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                Health_ChangeBy(globalCtx, 4);
+                Health_ChangeBy(play, 4);
             } else if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
-                Health_ChangeBy(globalCtx, -0x10);
+                Health_ChangeBy(play, -0x10);
             } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN)) {
-                Health_ChangeBy(globalCtx, 0x10);
+                Health_ChangeBy(play, 0x10);
             }
             break;
 
@@ -645,5 +644,5 @@ void KaleidoScope_DrawDebugEditor(GlobalContext* globalCtx) {
         pauseCtx->debugState = 0;
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 861);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_kaleido_debug.c", 861);
 }

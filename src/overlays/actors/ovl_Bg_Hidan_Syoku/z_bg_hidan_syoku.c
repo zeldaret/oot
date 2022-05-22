@@ -9,14 +9,14 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSyoku_Init(Actor* thisx, PlayState* play);
+void BgHidanSyoku_Destroy(Actor* thisx, PlayState* play);
+void BgHidanSyoku_Update(Actor* thisx, PlayState* play);
+void BgHidanSyoku_Draw(Actor* thisx, PlayState* play);
 
-void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx);
-void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx);
-void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
+void func_8088F4B8(BgHidanSyoku* this, PlayState* play);
+void func_8088F514(BgHidanSyoku* this, PlayState* play);
+void func_8088F62C(BgHidanSyoku* this, PlayState* play);
 
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
@@ -34,7 +34,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanSyoku_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
     CollisionHeader* colHeader = NULL;
@@ -42,15 +42,15 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gFireTempleFlareDancerPlatformCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
     this->dyna.actor.home.pos.y += 540.0f;
 }
 
-void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanSyoku_Destroy(Actor* thisx, PlayState* play) {
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8088F47C(BgHidanSyoku* this) {
@@ -59,14 +59,14 @@ void func_8088F47C(BgHidanSyoku* this) {
     this->actionFunc = func_8088F62C;
 }
 
-void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    if (Flags_GetClear(globalCtx, this->dyna.actor.room) && func_8004356C(&this->dyna)) {
+void func_8088F4B8(BgHidanSyoku* this, PlayState* play) {
+    if (Flags_GetClear(play, this->dyna.actor.room) && func_8004356C(&this->dyna)) {
         this->timer = 140;
         this->actionFunc = func_8088F514;
     }
 }
 
-void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
+void func_8088F514(BgHidanSyoku* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -78,7 +78,7 @@ void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
+void func_8088F5A0(BgHidanSyoku* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -90,7 +90,7 @@ void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
+void func_8088F62C(BgHidanSyoku* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -104,23 +104,23 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanSyoku_Update(Actor* thisx, PlayState* play) {
     BgHidanSyoku* this = (BgHidanSyoku*)thisx;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
     if (func_8004356C(&this->dyna)) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
-        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
+        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_FIRE_PLATFORM);
     } else if (!func_8004356C(&this->dyna)) {
         if (this->unk_168 != 0) {
-            Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+            Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
         }
         this->unk_168 = 0;
     }
 }
 
-void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gFireTempleFlareDancerPlatformDL);
+void BgHidanSyoku_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, gFireTempleFlareDancerPlatformDL);
 }
