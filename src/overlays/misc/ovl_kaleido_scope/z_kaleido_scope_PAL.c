@@ -387,8 +387,8 @@ void KaleidoScope_SwitchPage(PauseContext* pauseCtx, u8 pt) {
 
     osSyncPrintf("kscope->kscp_pos+pt = %d\n", pauseCtx->pageIndex + pt);
 
-    gSaveContext.unk_13EA = 0;
-    Interface_ChangeAlpha(50);
+    gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+    Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
 }
 
 void KaleidoScope_HandlePageToggles(PauseContext* pauseCtx, Input* input) {
@@ -2915,8 +2915,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+                        Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
                     }
@@ -2962,8 +2962,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+                        Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
                     } else if (pauseCtx->ocarinaStaff->state == pauseCtx->ocarinaSongIdx) {
@@ -3012,8 +3012,8 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_DISABLED;
                         gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+                        Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
                         pauseCtx->unk_1EC = 0;
                         pauseCtx->state = 7;
                     }
@@ -3046,8 +3046,8 @@ void KaleidoScope_Update(PlayState* play) {
                             Interface_SetDoAction(play, DO_ACTION_NONE);
                             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                                 gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                            gSaveContext.unk_13EA = 0;
-                            Interface_ChangeAlpha(50);
+                            gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+                            Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
                             pauseCtx->unk_1EC = 2;
                             WREG(2) = -6240;
                             YREG(8) = pauseCtx->unk_204;
@@ -3071,8 +3071,8 @@ void KaleidoScope_Update(PlayState* play) {
                         func_800F64E0(0);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+                        Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
                     }
                     break;
 
@@ -3082,8 +3082,8 @@ void KaleidoScope_Update(PlayState* play) {
                         Interface_SetDoAction(play, DO_ACTION_NONE);
                         gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                             gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                        gSaveContext.unk_13EA = 0;
-                        Interface_ChangeAlpha(50);
+                        gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+                        Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
                         pauseCtx->unk_1EC = 5;
                         WREG(2) = -6240;
                         YREG(8) = pauseCtx->unk_204;
@@ -3136,7 +3136,7 @@ void KaleidoScope_Update(PlayState* play) {
             WREG(16) = -175;
             WREG(17) = 155;
             pauseCtx->unk_204 = -434.0f;
-            Interface_ChangeAlpha(1);
+            Interface_ChangeHudDisplay(HUD_DISPLAY_OFF);
 
             //! @bug messed up alignment, should match `ALIGN64`
             pauseCtx->iconItemSegment = (void*)(((u32)play->objectCtx.spaceStart + 0x30) & ~0x3F);
@@ -3483,9 +3483,9 @@ void KaleidoScope_Update(PlayState* play) {
             gSaveContext.buttonStatus[4] = D_808321A8[4];
             interfaceCtx->unk_1FA = interfaceCtx->unk_1FC = 0;
             osSyncPrintf(VT_FGCOL(YELLOW));
-            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.unk_13EE);
-            gSaveContext.unk_13EA = 0;
-            Interface_ChangeAlpha(gSaveContext.unk_13EE);
+            osSyncPrintf("i=%d  LAST_TIME_TYPE=%d\n", i, gSaveContext.hudDisplayType3);
+            gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
+            Interface_ChangeHudDisplay(gSaveContext.hudDisplayType3);
             player->targetActor = NULL;
             Player_SetEquipmentData(play, player);
             osSyncPrintf(VT_RST);

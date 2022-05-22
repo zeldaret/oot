@@ -483,7 +483,7 @@ void Play_Update(PlayState* this) {
                     if (this->transitionTrigger != TRANS_TRIGGER_END) {
                         s16 sceneSetupIndex = 0;
 
-                        Interface_ChangeAlpha(1);
+                        Interface_ChangeHudDisplay(HUD_DISPLAY_OFF);
 
                         if (gSaveContext.cutsceneIndex >= 0xFFF0) {
                             sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;

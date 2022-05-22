@@ -11,7 +11,7 @@ void func_801109B0(PlayState* play) {
     u8 temp;
 
     gSaveContext.sunsSongState = SUNSSONG_INACTIVE;
-    gSaveContext.unk_13E8 = gSaveContext.unk_13EA = 0;
+    gSaveContext.hudDisplayType1 = gSaveContext.hudDisplayType2 = HUD_DISPLAY_IDLE;
 
     View_Init(&interfaceCtx->view, play->state.gfxCtx);
 

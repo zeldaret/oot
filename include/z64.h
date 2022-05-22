@@ -574,8 +574,9 @@ typedef enum {
 } DoAction;
 
 typedef enum {
-    /* 1 */ HUD_DISPLAY_NONE = 1,
-    /* 2 */ HUD_DISPLAY_NONE_ALT,
+    /* 0 */ HUD_DISPLAY_IDLE,
+    /* 1 */ HUD_DISPLAY_OFF,
+    /* 2 */ HUD_DISPLAY_OFF_ALT,
     /* 3 */ HUD_DISPLAY_HEARTS,
     /* 4 */ HUD_DISPLAY_A,
     /* 5 */ HUD_DISPLAY_A_HEARTS_MAGIC,
@@ -588,7 +589,7 @@ typedef enum {
     /* 12 */ HUD_DISPLAY_A_B_MINIMAP,
     /* 13 */ HUD_DISPLAY_HEARTS_MAGIC_ALT,
     /* 50 */ HUD_DISPLAY_ALL = 50,
-    /* 52 */ HUD_DISPLAY_NONE_NOW = 52
+    /* 52 */ HUD_DISPLAY_OFF_NOW = 52
 } HudDisplayType;
 
 typedef struct {

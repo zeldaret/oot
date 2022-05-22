@@ -785,7 +785,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
 
             if (this->csTimer == 20) {
                 func_8002DF54(play, &this->actor, 0x17);
-                Interface_ChangeAlpha(11); // show hearts only
+                Interface_ChangeHudDisplay(HUD_DISPLAY_HEARTS_ALT); // show hearts only
             }
 
             if (this->csTimer == 25) {
@@ -793,7 +793,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             }
 
             if (this->csTimer == 100) {
-                Interface_ChangeAlpha(1);
+                Interface_ChangeHudDisplay(HUD_DISPLAY_OFF);
             }
 
             if (this->csTimer == 120) {

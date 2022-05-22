@@ -391,7 +391,7 @@ void BgDyYoseizo_GreetPlayer_NoReward(BgDyYoseizo* this, PlayState* play) {
 
     if ((this->dialogState == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
-        Interface_ChangeAlpha(5);
+        Interface_ChangeHudDisplay(HUD_DISPLAY_A_HEARTS_MAGIC);
         this->actionFunc = BgDyYoseizo_SetupHealPlayer_NoReward;
     }
 
@@ -711,7 +711,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
             case FAIRY_UPGRADE_MAGIC:
                 gSaveContext.magicAcquired = true;
                 gSaveContext.unk_13F6 = 0x30;
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudDisplay(HUD_DISPLAY_HEARTS_MAGIC);
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
                 if (!gSaveContext.magicAcquired) {
@@ -720,11 +720,11 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
                 gSaveContext.doubleMagic = true;
                 gSaveContext.unk_13F6 = 0x60;
                 gSaveContext.magicLevel = 0;
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudDisplay(HUD_DISPLAY_HEARTS_MAGIC);
                 break;
             case FAIRY_UPGRADE_HALF_DAMAGE:
                 gSaveContext.doubleDefense = true;
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudDisplay(HUD_DISPLAY_HEARTS_MAGIC);
                 break;
         }
 
@@ -758,7 +758,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, PlayState* play) {
 
                 this->itemSpawned = true;
                 gSaveContext.healthAccumulator = 0x140;
-                Interface_ChangeAlpha(9);
+                Interface_ChangeHudDisplay(HUD_DISPLAY_HEARTS_MAGIC);
                 gSaveContext.itemGetInf[ITEMGETINF_18_19_1A_INDEX] |= sItemGetFlags[actionIndex];
                 Item_Give(play, sItemIds[actionIndex]);
             }

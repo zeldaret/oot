@@ -181,7 +181,7 @@ void func_80B4B010(EnZl1* this, PlayState* play) {
         Play_CameraSetAtEye(play, this->subCamId, &subCamAt, &subCamEye);
         Play_CameraSetFov(play, this->subCamId, 30.0f);
         ShrinkWindow_SetVal(0x20);
-        Interface_ChangeAlpha(2);
+        Interface_ChangeHudDisplay(HUD_DISPLAY_OFF_ALT);
         player->actor.world.pos = playerPos;
         player->actor.speedXZ = 0.0f;
         this->unk_1E2 = 0;
@@ -556,7 +556,7 @@ void func_80B4BF2C(EnZl1* this, PlayState* play) {
         case 6:
             if (Actor_TextboxIsClosing(&this->actor, play)) {
                 func_8002DF54(play, &this->actor, 7);
-                Interface_ChangeAlpha(50);
+                Interface_ChangeHudDisplay(HUD_DISPLAY_ALL);
                 this->actor.flags &= ~ACTOR_FLAG_8;
                 this->unk_1E2 = 4;
             }
