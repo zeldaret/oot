@@ -33,7 +33,7 @@ EffectInfo sEffectInfoTable[] = {
     },
 };
 
-PlayState* Effect_Getplay(void) {
+PlayState* Effect_GetPlayState(void) {
     return sEffectContext.play;
 }
 

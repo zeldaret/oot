@@ -367,6 +367,7 @@ void Scene_CommandTimeSettings(PlayState* play, SceneCmd* cmd) {
     if (((play->envCtx.sceneTimeSpeed == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == ENTR_SPOT06_8)) {
         gSaveContext.skyboxTime = ((void)0, gSaveContext.dayTime);
+
         if ((gSaveContext.skyboxTime > CLOCK_TIME(4, 0)) && (gSaveContext.skyboxTime < CLOCK_TIME(6, 30))) {
             gSaveContext.skyboxTime = CLOCK_TIME(5, 0) + 1;
         } else if ((gSaveContext.skyboxTime >= CLOCK_TIME(6, 30)) && (gSaveContext.skyboxTime <= CLOCK_TIME(8, 0))) {

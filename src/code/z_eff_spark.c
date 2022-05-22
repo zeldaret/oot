@@ -131,7 +131,7 @@ s32 EffectSpark_Update(void* thisx) {
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     Vtx* vertices;
     EffectSpark* this = (EffectSpark*)thisx;
-    PlayState* play = Effect_Getplay();
+    PlayState* play = Effect_GetPlayState();
     s32 i;
     s32 j;
     u8 sp1D3;

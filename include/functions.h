@@ -185,7 +185,7 @@ void func_80026608(PlayState* play);
 void func_80026690(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
 void func_80026860(PlayState* play, Color_RGBA8* color, s16 arg2, s16 arg3);
 void func_80026A6C(PlayState* play);
-PlayState* Effect_Getplay(void);
+PlayState* Effect_GetPlayState(void);
 void* Effect_GetByIndex(s32 index);
 void Effect_InitContext(PlayState* play);
 void Effect_Add(PlayState* play, s32* pIndex, s32 type, u8 arg3, u8 arg4, void* initParams);

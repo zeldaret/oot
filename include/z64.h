@@ -1180,7 +1180,6 @@ typedef struct {
     /* 0x04 */ TransitionActorEntry* list;
 } TransitionActorContext;
 
-// Global Context (dbg ram start: 80212020)
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ s16 sceneNum;
