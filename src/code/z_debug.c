@@ -151,19 +151,15 @@ void func_8006390C(Input* input) {
                     gGameInfo->dpadLast = dpad;
                 }
 
-                increment = CHECK_BTN_ANY(dpad, BTN_DRIGHT)
-                                ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B)
-                                       ? 1000
-                                       : CHECK_BTN_ALL(input->cur.button, BTN_A)
-                                             ? 100
-                                             : CHECK_BTN_ALL(input->cur.button, BTN_B) ? 10 : 1)
-                                : CHECK_BTN_ANY(dpad, BTN_DLEFT)
-                                      ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B)
-                                             ? -1000
-                                             : CHECK_BTN_ALL(input->cur.button, BTN_A)
-                                                   ? -100
-                                                   : CHECK_BTN_ALL(input->cur.button, BTN_B) ? -10 : -1)
-                                      : 0;
+                increment = CHECK_BTN_ANY(dpad, BTN_DRIGHT)  ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B) ? 1000
+                                                                : CHECK_BTN_ALL(input->cur.button, BTN_A)       ? 100
+                                                                : CHECK_BTN_ALL(input->cur.button, BTN_B)       ? 10
+                                                                                                                : 1)
+                            : CHECK_BTN_ANY(dpad, BTN_DLEFT) ? (CHECK_BTN_ALL(input->cur.button, BTN_A | BTN_B) ? -1000
+                                                                : CHECK_BTN_ALL(input->cur.button, BTN_A)       ? -100
+                                                                : CHECK_BTN_ALL(input->cur.button, BTN_B)       ? -10
+                                                                                                                : -1)
+                                                             : 0;
 
                 gGameInfo->data[gGameInfo->regCur + regGroup] += increment;
                 if (CHECK_BTN_ANY(dpad, BTN_DUP)) {

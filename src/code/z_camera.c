@@ -1714,9 +1714,9 @@ s32 Camera_Normal2(Camera* camera) {
             rwData->unk_20 = BGCAM_ROT(bgData).x;
             rwData->unk_22 = BGCAM_ROT(bgData).y;
             rwData->unk_24 = playerPosRot->pos.y;
-            rwData->unk_1C = BGCAM_FOV(bgData) == -1
-                                 ? roData->unk_14
-                                 : BGCAM_FOV(bgData) >= 0x169 ? CAM_DATA_SCALED(BGCAM_FOV(bgData)) : BGCAM_FOV(bgData);
+            rwData->unk_1C = BGCAM_FOV(bgData) == -1      ? roData->unk_14
+                             : BGCAM_FOV(bgData) >= 0x169 ? CAM_DATA_SCALED(BGCAM_FOV(bgData))
+                                                          : BGCAM_FOV(bgData);
 
             rwData->unk_28 = BGCAM_JFIFID(bgData) == -1 ? 0 : BGCAM_JFIFID(bgData);
 
@@ -2965,7 +2965,9 @@ s32 Camera_Battle1(Camera* camera) {
     }
     rwData->roll += (((OREG(36) * camera->speedRatio) * (1.0f - distRatio)) - rwData->roll) * CAM_DATA_SCALED(OREG(37));
     camera->roll = CAM_DEG_TO_BINANG(rwData->roll);
-    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0 ? 0.8f : gSaveContext.health <= 0x10 ? 0.8f : 1.0f) *
+    camera->fov = Camera_LERPCeilF((player->meleeWeaponState != 0 ? 0.8f
+                                    : gSaveContext.health <= 0x10 ? 0.8f
+                                                                  : 1.0f) *
                                        (fov - ((fov * 0.05f) * distRatio)),
                                    camera->fov, camera->fovUpdateRate, 1.0f);
 }

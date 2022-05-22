@@ -473,9 +473,10 @@ u16 EnGo2_GetTextIdGoronCityLowestFloor(PlayState* play, EnGo2* this) {
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
-        return CUR_UPG_VALUE(UPG_STRENGTH) != 0
-                   ? 0x302C
-                   : !Flags_GetSwitch(play, 0x1B) ? 0x3017 : GET_INFTABLE(INFTABLE_F8) ? 0x3019 : 0x3018;
+        return CUR_UPG_VALUE(UPG_STRENGTH) != 0 ? 0x302C
+               : !Flags_GetSwitch(play, 0x1B)   ? 0x3017
+               : GET_INFTABLE(INFTABLE_F8)      ? 0x3019
+                                                : 0x3018;
     }
 }
 
