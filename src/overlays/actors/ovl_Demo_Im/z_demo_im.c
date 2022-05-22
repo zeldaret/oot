@@ -845,7 +845,7 @@ s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
     f32 playerPosX = player->actor.world.pos.x;
     f32 thisPosX = this->actor.world.pos.x;
 
-    if ((thisPosX - (kREG(17) + 130.0f) < playerPosX) && (!Gameplay_InCsMode(globalCtx))) {
+    if ((thisPosX - (kREG(17) + 130.0f) < playerPosX) && (!Play_InCsMode(globalCtx))) {
         return true;
     } else {
         return false;

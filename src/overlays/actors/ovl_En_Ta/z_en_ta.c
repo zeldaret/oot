@@ -522,10 +522,10 @@ void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
     Vec3f subCamEye;
     Vec3f subCamAt;
 
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
     this->returnToCamId = globalCtx->activeCamId;
-    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
 
     subCamEye.x = 1053.0f;
     subCamEye.y = 11.0f;
@@ -535,12 +535,12 @@ void func_80B14E28(EnTa* this, GlobalContext* globalCtx) {
     subCamAt.y = 45.0f;
     subCamAt.z = -40.0f;
 
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
 }
 
 void func_80B14EDC(EnTa* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->subCamId);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
+    Play_ClearCamera(globalCtx, this->subCamId);
 }
 
 void func_80B14F20(EnTa* this, EnTaActionFunc arg1) {
@@ -737,7 +737,7 @@ void func_80B154FC(EnTa* this, GlobalContext* globalCtx) {
         func_800F5918();
     }
 
-    if (gSaveContext.timer1Value == 0 && !Gameplay_InCsMode(globalCtx)) {
+    if (gSaveContext.timer1Value == 0 && !Play_InCsMode(globalCtx)) {
         Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
         this->unk_2E0 &= ~0x200;
         func_80078884(NA_SE_SY_FOUND);

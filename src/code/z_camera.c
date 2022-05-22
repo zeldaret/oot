@@ -6111,7 +6111,7 @@ s32 Camera_Demo6(Camera* camera) {
     s16 stateTimers[4];
     Demo6ReadWriteData* rwData = &camera->paramData.demo6.rwData;
 
-    mainCam = Gameplay_GetCamera(camera->globalCtx, CAM_ID_MAIN);
+    mainCam = Play_GetCamera(camera->globalCtx, CAM_ID_MAIN);
     camFocus = camera->target;
     stateTimers[1] = 0x37;
     stateTimers[2] = 0x46;
@@ -6216,7 +6216,7 @@ s32 Camera_Demo9(Camera* camera) {
     f32* camFOV = &camera->fov;
     Demo9ReadWriteData* rwData = &camera->paramData.demo9.rwData;
 
-    mainCam = Gameplay_GetCamera(camera->globalCtx, CAM_ID_MAIN);
+    mainCam = Play_GetCamera(camera->globalCtx, CAM_ID_MAIN);
     mainCamPlayerPosRot = &mainCam->playerPosRot;
     if (RELOAD_PARAMS(camera) || R_RELOAD_CAM_PARAMS) {
         values = sCameraSettings[camera->setting].cameraModes[camera->mode].values;
@@ -6929,19 +6929,20 @@ void func_80057FC4(Camera* camera) {
     if (camera != &camera->globalCtx->mainCamera) {
         camera->prevSetting = camera->setting = CAM_SET_FREE0;
         camera->unk_14C &= ~0x4;
-    } else if (camera->globalCtx->roomCtx.curRoom.mesh->polygon.type != 1) {
-        switch (camera->globalCtx->roomCtx.curRoom.unk_03) {
-            case 1:
+    } else if (camera->globalCtx->roomCtx.curRoom.meshHeader->base.type != 1) {
+        switch (camera->globalCtx->roomCtx.curRoom.behaviorType1) {
+            case ROOM_BEHAVIOR_TYPE1_1:
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_DUNGEON0;
                 break;
-            case 0:
+            case ROOM_BEHAVIOR_TYPE1_0:
                 osSyncPrintf("camera: room type: default set field\n");
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 break;
             default:
-                osSyncPrintf("camera: room type: default set etc (%d)\n", camera->globalCtx->roomCtx.curRoom.unk_03);
+                osSyncPrintf("camera: room type: default set etc (%d)\n",
+                             camera->globalCtx->roomCtx.curRoom.behaviorType1);
                 Camera_ChangeDoorCam(camera, NULL, -99, 0, 0, 18, 10);
                 camera->prevSetting = camera->setting = CAM_SET_NORMAL0;
                 camera->unk_14C |= 4;
@@ -7250,7 +7251,7 @@ s32 Camera_UpdateWater(Camera* camera) {
 
 s32 Camera_UpdateHotRoom(Camera* camera) {
     camera->distortionFlags &= ~DISTORTION_HOT_ROOM;
-    if (camera->globalCtx->roomCtx.curRoom.unk_02 == 3) {
+    if (camera->globalCtx->roomCtx.curRoom.behaviorType2 == ROOM_BEHAVIOR_TYPE2_3) {
         camera->distortionFlags |= DISTORTION_HOT_ROOM;
     }
 
@@ -7630,7 +7631,7 @@ void Camera_Finish(Camera* camera) {
     Player* player = GET_PLAYER(camera->globalCtx);
 
     if (camera->timer == 0) {
-        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STAT_ACTIVE);
+        Play_ChangeCameraStatus(camera->globalCtx, camera->parentCamId, CAM_STAT_ACTIVE);
 
         if ((camera->parentCamId == CAM_ID_MAIN) && (camera->csId != 0)) {
             player->actor.freezeTimer = 0;
@@ -7660,7 +7661,7 @@ void Camera_Finish(Camera* camera) {
         camera->timer = -1;
         camera->globalCtx->envCtx.fillScreen = false;
 
-        Gameplay_ClearCamera(camera->globalCtx, camera->camId);
+        Play_ClearCamera(camera->globalCtx, camera->camId);
     }
 }
 
@@ -7776,7 +7777,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
                     func_80078884(0);
                     break;
                 case 2:
-                    if (camera->globalCtx->roomCtx.curRoom.unk_03 == 1) {
+                    if (camera->globalCtx->roomCtx.curRoom.behaviorType1 == ROOM_BEHAVIOR_TYPE1_1) {
                         func_80078884(NA_SE_SY_ATTENTION_URGENCY);
                     } else {
                         func_80078884(NA_SE_SY_ATTENTION_ON);

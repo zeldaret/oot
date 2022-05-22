@@ -507,7 +507,7 @@ void Health_UpdateBeatingHeart(GlobalContext* globalCtx) {
             interfaceCtx->beatingHeartOscillator = 0;
             interfaceCtx->beatingHeartOscillatorDirection = 0;
             if (!Player_InCsMode(globalCtx) && (globalCtx->pauseCtx.state == 0) &&
-                (globalCtx->pauseCtx.debugState == 0) && Health_IsCritical() && !Gameplay_InCsMode(globalCtx)) {
+                (globalCtx->pauseCtx.debugState == 0) && Health_IsCritical() && !Play_InCsMode(globalCtx)) {
                 func_80078884(NA_SE_SY_HITPOINT_ALARM);
             }
         }

@@ -118,7 +118,7 @@ void DemoKekkai_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (DemoKekkai_CheckEventFlag(thisx->params)) {
         if (thisx->params == KEKKAI_TOWER) {
-            globalCtx->envCtx.unk_BF = 1;
+            globalCtx->envCtx.lightSettingOverride = 1;
         }
         Actor_Kill(thisx);
     }

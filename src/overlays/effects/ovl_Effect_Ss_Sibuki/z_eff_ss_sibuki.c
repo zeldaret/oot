@@ -92,7 +92,7 @@ void EffectSsSibuki_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->rMoveDelay--;
 
         if (this->rMoveDelay == 0) {
-            yaw = Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN));
+            yaw = Camera_GetInputDirYaw(Play_GetCamera(globalCtx, CAM_ID_MAIN));
             xzVelScale = ((200.0f + KREG(20)) * 0.01f) + ((0.1f * Rand_ZeroOne()) * (KREG(23) + 20.0f));
 
             if (this->rDirection != 0) {

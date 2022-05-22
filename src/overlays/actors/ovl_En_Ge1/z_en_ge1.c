@@ -209,13 +209,11 @@ void EnGe1_SetAnimationIdle(EnGe1* this) {
 }
 
 s32 EnGe1_CheckCarpentersFreed(void) {
-    u16 carpenterFlags = gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX];
-
-    if (!((carpenterFlags & EVENTCHKINF_90_MASK) && (carpenterFlags & EVENTCHKINF_91_MASK) &&
-          (carpenterFlags & EVENTCHKINF_92_MASK) && (carpenterFlags & EVENTCHKINF_93_MASK))) {
-        return 0;
+    if (!(GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(0)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(1)) &&
+          GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(2)) && GET_EVENTCHKINF(EVENTCHKINF_CARPENTERS_FREE(3)))) {
+        return false;
     }
-    return 1;
+    return true;
 }
 
 /**
@@ -629,6 +627,8 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     CLEAR_EVENTINF(EVENTINF_HORSES_08);
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
+    // With the current `SaveContext` struct definition, the expression in the debug string is an out-of-bounds read,
+    // see the other occurrence of this for more details.
     LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", HIGH_SCORE(HS_HBA), "../z_en_ge1.c", 1111);
     this->actor.flags |= ACTOR_FLAG_16;
 

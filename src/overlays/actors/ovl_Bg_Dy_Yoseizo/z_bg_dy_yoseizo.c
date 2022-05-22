@@ -289,7 +289,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
         return;
     }
 
-    globalCtx->envCtx.unk_BF = 2;
+    globalCtx->envCtx.lightSettingOverride = 2;
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         OnePointCutscene_Init(globalCtx, 8603, -99, NULL, CAM_ID_MAIN);
@@ -549,7 +549,7 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
     if (this->vanishTimer == 0) {
         func_8002DF54(globalCtx, &this->actor, 7);
-        globalCtx->envCtx.unk_BF = 0;
+        globalCtx->envCtx.lightSettingOverride = 0;
         findOcarinaSpot = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
 
         while (findOcarinaSpot != NULL) {

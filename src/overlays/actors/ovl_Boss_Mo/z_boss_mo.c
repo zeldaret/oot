@@ -767,7 +767,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
                 Math_ApproachS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
                 if (this->timers[0] == 0) {
-                    mainCam1 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                    mainCam1 = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                     this->work[MO_TENT_ACTION_STATE] = MO_TENT_SHAKE;
                     this->tentMaxAngle = .001f;
                     this->fwork[MO_TENT_SWING_RATE_X] = this->fwork[MO_TENT_SWING_RATE_Z] =
@@ -777,9 +777,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     this->sfxTimer = 30;
                     Audio_ResetIncreasingTranspose();
                     func_80064520(globalCtx, &globalCtx->csCtx);
-                    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                    this->subCamId = Play_CreateSubCamera(globalCtx);
+                    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                     this->subCamEye = mainCam1->eye;
                     this->subCamAt = mainCam1->at;
                     this->subCamYaw = Math_FAtan2F(this->subCamEye.x - this->actor.world.pos.x,
@@ -859,7 +859,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
-                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+                Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
             }
             break;
         case MO_TENT_CUT:
@@ -895,9 +895,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->subCamAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
                 Math_ApproachF(&this->subCamAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
-                Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+                Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
                 if (player->actor.world.pos.y <= 42.0f) {
-                    mainCam2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                    mainCam2 = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                     mainCam2->eye = this->subCamEye;
                     mainCam2->eyeNext = this->subCamEye;
                     mainCam2->at = this->subCamAt;
@@ -1201,7 +1201,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp7C;
     f32 sp78;
     Player* player = GET_PLAYER(globalCtx);
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
     Vec3f bubblePos;
     Vec3f bubblePos2;
     Camera* mainCam2;
@@ -1228,9 +1228,9 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 // checks if Link is on one of the four platforms
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
-                this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-                Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+                this->subCamId = Play_CreateSubCamera(globalCtx);
+                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
                 this->actor.speedXZ = 0.0f;
                 this->csState = MO_INTRO_START;
                 this->timers[2] = 50;
@@ -1440,7 +1440,7 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->timers[0] = 50;
             }
             if (this->timers[2] == 20) {
-                mainCam2 = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam2 = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam2->eye = this->subCamEye;
                 mainCam2->eyeNext = this->subCamEye;
                 mainCam2->at = this->subCamAt;
@@ -1483,11 +1483,11 @@ void BossMo_IntroCs(BossMo* this, GlobalContext* globalCtx) {
         this->subCamUp.x = this->subCamUp.z =
             sinf(this->work[MO_TENT_VAR_TIMER] * 0.03f) * this->subCamYawShake * (-2.0f);
         this->subCamUp.y = 1.0f;
-        Gameplay_CameraSetAtEyeUp(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
+        Play_CameraSetAtEyeUp(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye, &this->subCamUp);
         mainCam->eye = this->subCamEye;
         mainCam->eyeNext = this->subCamEye;
         mainCam->at = this->subCamAt;
-        Gameplay_CameraSetFov(globalCtx, this->subCamId, this->subCamFov);
+        Play_CameraSetFov(globalCtx, this->subCamId, this->subCamFov);
     }
 
     if ((this->csState > MO_INTRO_START) && (this->work[MO_TENT_MOVE_TIMER] > 540)) {
@@ -1506,7 +1506,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
     f32 sp7C;
     Vec3f sp70;
     Vec3f sp64;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+    Camera* mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
     Vec3f velocity;
     Vec3f pos;
 
@@ -1514,9 +1514,9 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
         case MO_DEATH_START:
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+            this->subCamId = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
             this->csState = MO_DEATH_MO_CORE_BURST;
             this->subCamEye = mainCam->eye;
             this->timers[0] = 90;
@@ -1727,7 +1727,7 @@ void BossMo_DeathCs(BossMo* this, GlobalContext* globalCtx) {
                            this->subCamAtVel.y * this->subCamVelFactor);
             Math_ApproachF(&this->subCamVelFactor, 1.0f, 1.0f, this->subCamAccel);
         }
-        Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
+        Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamAt, &this->subCamEye);
     }
 }
 

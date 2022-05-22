@@ -223,10 +223,9 @@ s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, 
 }
 
 s32 EnGe2_CheckCarpentersFreed(void) {
-    if (CHECK_FLAG_ALL(
-            gSaveContext.eventChkInf[EVENTCHKINF_90_91_92_93_INDEX] &
-                (EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK | 0xF0),
-            EVENTCHKINF_90_MASK | EVENTCHKINF_91_MASK | EVENTCHKINF_92_MASK | EVENTCHKINF_93_MASK)) {
+    if (CHECK_FLAG_ALL(gSaveContext.eventChkInf[EVENTCHKINF_CARPENTERS_FREE_INDEX] &
+                           (EVENTCHKINF_CARPENTERS_FREE_MASK_ALL | 0xF0),
+                       EVENTCHKINF_CARPENTERS_FREE_MASK_ALL)) {
         return 1;
     }
     return 0;

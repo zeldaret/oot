@@ -374,15 +374,15 @@ void BossSst_HeadSetupIntro(BossSst* this, GlobalContext* globalCtx) {
 
     func_80064520(globalCtx, &globalCtx->csCtx);
     func_8002DF54(globalCtx, &this->actor, 8);
-    sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+    sSubCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
     Math_Vec3f_Copy(&sSubCamAt, &player->actor.world.pos);
     if (GET_EVENTCHKINF(EVENTCHKINF_77)) {
         sSubCamEye.z = ROOM_CENTER_Z - 100.0f;
     }
 
-    Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+    Play_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
     Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
     this->actionFunc = BossSst_HeadIntro;
 }
@@ -409,11 +409,11 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
         func_8002DF54(globalCtx, &this->actor, 7);
         sSubCamAt.y += 30.0f;
         sSubCamAt.z += 300.0f;
-        Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
-        Gameplay_CopyCamera(globalCtx, CAM_ID_MAIN, sSubCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_WAIT);
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-        Gameplay_ClearCamera(globalCtx, sSubCamId);
+        Play_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_CopyCamera(globalCtx, CAM_ID_MAIN, sSubCamId);
+        Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_WAIT);
+        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+        Play_ClearCamera(globalCtx, sSubCamId);
         SET_EVENTCHKINF(EVENTCHKINF_77);
         BossSst_HeadSetupNeutral(this);
         this->colliderJntSph.base.ocFlags1 |= OC1_ON;
@@ -612,7 +612,7 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != BossSst_HeadNeutral) {
-        Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
+        Play_CameraSetAtEye(globalCtx, sSubCamId, &sSubCamAt, &sSubCamEye);
     }
 }
 
@@ -995,7 +995,7 @@ void BossSst_UpdateDeathCamera(BossSst* this, GlobalContext* globalCtx) {
     subCamEye.x = this->actor.world.pos.x + (sSubCamEye.z * sn) + (sSubCamEye.x * cs);
     subCamEye.y = this->actor.home.pos.y - 140.0f + sSubCamEye.y;
     subCamEye.z = this->actor.world.pos.z + (sSubCamEye.z * cs) - (sSubCamEye.x * sn);
-    Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &subCamAt, &subCamEye);
+    Play_CameraSetAtEye(globalCtx, sSubCamId, &subCamAt, &subCamEye);
 }
 
 void BossSst_HeadSetupDeath(BossSst* this, GlobalContext* globalCtx) {
@@ -1012,10 +1012,10 @@ void BossSst_HeadSetupDeath(BossSst* this, GlobalContext* globalCtx) {
     sHands[LEFT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     sHands[RIGHT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0x100FF);
-    sSubCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
-    Gameplay_CopyCamera(globalCtx, sSubCamId, CAM_ID_MAIN);
+    sSubCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_ACTIVE);
+    Play_CopyCamera(globalCtx, sSubCamId, CAM_ID_MAIN);
     func_8002DF54(globalCtx, &player->actor, 8);
     func_80064520(globalCtx, &globalCtx->csCtx);
     Math_Vec3f_Copy(&sSubCamEye, &GET_ACTIVE_CAM(globalCtx)->eye);
@@ -1034,7 +1034,7 @@ void BossSst_HeadDeath(BossSst* this, GlobalContext* globalCtx) {
         BossSst_HandSetupThrash(sHands[RIGHT]);
         BossSst_HeadSetupThrash(this);
     } else if (this->timer > 48) {
-        Gameplay_CameraSetAtEye(globalCtx, sSubCamId, &this->actor.focus.pos, &sSubCamEye);
+        Play_CameraSetAtEye(globalCtx, sSubCamId, &this->actor.focus.pos, &sSubCamEye);
         Math_StepToF(&this->radius, -350.0f, 10.0f);
     } else if (this->timer == 48) {
         Player* player = GET_PLAYER(globalCtx);
@@ -1175,10 +1175,10 @@ void BossSst_HeadFinish(BossSst* this, GlobalContext* globalCtx) {
     if (this->effectMode == BONGO_NULL) {
         if (this->timer < -170) {
             BossSst_UpdateDeathCamera(this, globalCtx);
-            Gameplay_CopyCamera(globalCtx, CAM_ID_MAIN, sSubCamId);
-            Gameplay_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
-            Gameplay_ClearCamera(globalCtx, sSubCamId);
+            Play_CopyCamera(globalCtx, CAM_ID_MAIN, sSubCamId);
+            Play_ChangeCameraStatus(globalCtx, sSubCamId, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+            Play_ClearCamera(globalCtx, sSubCamId);
             func_8002DF54(globalCtx, &GET_PLAYER(globalCtx)->actor, 7);
             func_80064534(globalCtx, &globalCtx->csCtx);
             Actor_Kill(&this->actor);

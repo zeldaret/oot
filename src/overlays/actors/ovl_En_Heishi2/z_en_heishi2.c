@@ -308,9 +308,9 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     this->subCamEye.x = 947.0f;
     this->subCamEye.y = 1195.0f;
     this->subCamEye.z = 2682.0f;
@@ -319,7 +319,7 @@ void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     this->subCamAt.y = 1145.0f;
     this->subCamAt.z = 3014.0f;
 
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
     this->actionFunc = func_80A53850;
 }
 
@@ -327,11 +327,11 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
     BgSpot15Saku* gate;
 
     SkelAnime_Update(&this->skelAnime);
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgSpot15Saku*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->unk_168 == 0)) {
-        Gameplay_ClearCamera(globalCtx, this->subCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+        Play_ClearCamera(globalCtx, this->subCamId);
+        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         Message_CloseTextbox(globalCtx);
         this->unk_30C = 1;
         func_8002DF54(globalCtx, NULL, 7);
@@ -472,9 +472,9 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
 
     Animation_Change(&this->skelAnime, &gEnHeishiIdleAnim, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
+    Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     this->subCamEyeInit.x = -71.0f;
     this->subCamEye.x = -71.0f;
     this->subCamEyeInit.y = 571.0f;
@@ -487,7 +487,7 @@ void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     this->subCamAt.y = 417.0f;
     this->subCamAtInit.z = -1079.0f;
     this->subCamAt.z = -1079.0f;
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
     this->actionFunc = func_80A53F30;
 }
 
@@ -495,11 +495,11 @@ void func_80A53F30(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
 
     SkelAnime_Update(&this->skelAnime);
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &this->subCamEye, &this->subCamAt);
     gate = (BgGateShutter*)this->gate;
     if ((this->unk_2F2[0] == 0) || (gate->openingState == 0)) {
-        Gameplay_ClearCamera(globalCtx, this->subCamId);
-        Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
+        Play_ClearCamera(globalCtx, this->subCamId);
+        Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_ACTIVE);
         if (this->unk_30A != 2) {
             if (this->unk_30A == 0) {
                 this->actor.textId = 0x2015;

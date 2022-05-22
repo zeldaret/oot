@@ -150,8 +150,9 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
         this->actor.objBankIndex = this->requiredObjBankIndex;
         this->actionFunc = EnDoor_Idle;
         if (doorType == DOOR_EVENING) {
-            doorType =
-                (gSaveContext.dayTime > 0xC000 && gSaveContext.dayTime < 0xE000) ? DOOR_SCENEEXIT : DOOR_CHECKABLE;
+            doorType = (gSaveContext.dayTime > CLOCK_TIME(18, 0) && gSaveContext.dayTime < CLOCK_TIME(21, 0))
+                           ? DOOR_SCENEEXIT
+                           : DOOR_CHECKABLE;
         }
         this->actor.world.rot.y = 0x0000;
         if (doorType == DOOR_LOCKED) {

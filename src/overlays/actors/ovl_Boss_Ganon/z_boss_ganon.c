@@ -559,9 +559,9 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
 
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
+            this->csCamIndex = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
             this->csCamFov = 60.0f;
 
             if (GET_EVENTCHKINF(EVENTCHKINF_78)) {
@@ -624,7 +624,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             // fallthrough
         case 3:
             this->envLightMode = 0;
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.lightBlend = 0.0f;
             this->csCamAt.y = (sinf(this->unk_704) * 300.0f) + this->csCamEye.y;
             this->csCamAt.z = (cosf(this->unk_704) * -300.0f) + this->csCamEye.z;
             Math_ApproachF(&this->unk_704, 0.25f, 0.05f, this->csCamAtMaxStep.y);
@@ -662,7 +662,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->envLightMode = 5;
 
             if (this->csTimer < 50) {
-                globalCtx->envCtx.unk_D8 = 1.0f;
+                globalCtx->envCtx.lightBlend = 1.0f;
             }
 
             if (this->csTimer == 10) {
@@ -693,7 +693,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->fwork[GDF_TRIFORCE_PRIM_B] = 255.0f;
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             func_80078884(NA_SE_EV_TRIFORCE_MARK);
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.lightBlend = 0.0f;
             // fallthrough
         case 7:
             this->envLightMode = 6;
@@ -708,7 +708,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             }
 
             if (this->csTimer == 30) {
-                globalCtx->envCtx.unk_D8 = 1.0f;
+                globalCtx->envCtx.lightBlend = 1.0f;
             }
 
             BossGanon_SetIntroCsCamera(this, 4);
@@ -740,7 +740,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->fwork[GDF_TRIFORCE_PRIM_B] = 255.0f;
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             func_80078884(NA_SE_EV_TRIFORCE_MARK);
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.lightBlend = 0.0f;
             // fallthrough
         case 9:
             this->envLightMode = 7;
@@ -760,7 +760,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             }
 
             if (this->csTimer == 32) {
-                globalCtx->envCtx.unk_D8 = 1.0f;
+                globalCtx->envCtx.lightBlend = 1.0f;
             }
 
             if (this->csTimer == 50) {
@@ -832,7 +832,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
 
         case 15: // side view of all 3 of them
             this->envLightMode = 0;
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.lightBlend = 0.0f;
             BossGanon_SetIntroCsCamera(this, 10);
 
             if (this->csTimer == 30) {
@@ -925,7 +925,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->fwork[GDF_TRIFORCE_PRIM_A] = 0.0f;
             this->fwork[GDF_TRIFORCE_PRIM_B] = 255.0f;
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.lightBlend = 0.0f;
             // fallthrough
         case 19: // show triforce
             this->envLightMode = 8;
@@ -934,7 +934,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                 this->envLightMode = 9;
 
                 if (this->csTimer == 60) {
-                    globalCtx->envCtx.unk_D8 = 1.0f;
+                    globalCtx->envCtx.lightBlend = 1.0f;
                 }
             }
 
@@ -1122,7 +1122,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             }
 
             if (this->csTimer == 120) {
-                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
                 mainCam->eye = this->csCamEye;
                 mainCam->eyeNext = this->csCamEye;
                 mainCam->at = this->csCamAt;
@@ -1157,8 +1157,8 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
                            this->csCamAtMaxStep.z * this->csCamMaxStepScale);
         }
 
-        Gameplay_CameraSetAtEye(globalCtx, this->csCamIndex, &this->csCamAt, &this->csCamEye);
-        Gameplay_CameraSetFov(globalCtx, this->csCamIndex, this->csCamFov);
+        Play_CameraSetAtEye(globalCtx, this->csCamIndex, &this->csCamAt, &this->csCamEye);
+        Play_CameraSetFov(globalCtx, this->csCamIndex, this->csCamFov);
     }
 }
 
@@ -1235,9 +1235,9 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
         case 0:
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
+            this->csCamIndex = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
 
             this->actor.world.pos.x = 0.0f;
             this->actor.world.pos.y = 70.0f;
@@ -1260,7 +1260,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             this->envLightMode = 13;
 
             if (this->csTimer < 30) {
-                globalCtx->envCtx.unk_D8 = 0.0f;
+                globalCtx->envCtx.lightBlend = 0.0f;
             }
 
             if (this->csTimer >= 2) {
@@ -1408,13 +1408,13 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
                 this->envLightMode = 15;
                 this->unk_508 = 0.0f;
                 this->fwork[GDF_FWORK_1] = 1000.0f;
-                globalCtx->envCtx.unk_D8 = 0.0f;
+                globalCtx->envCtx.lightBlend = 0.0f;
             }
             break;
 
         case 7:
             if (this->csTimer < 10) {
-                globalCtx->envCtx.unk_D8 = 0.0f;
+                globalCtx->envCtx.lightBlend = 0.0f;
             }
 
             if (this->csTimer == 30) {
@@ -1506,9 +1506,9 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
         case 100:
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
-            this->csCamIndex = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-            Gameplay_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
+            this->csCamIndex = Play_CreateSubCamera(globalCtx);
+            Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
+            Play_ChangeCameraStatus(globalCtx, this->csCamIndex, CAM_STAT_ACTIVE);
             Animation_MorphToPlayOnce(&this->skelAnime, &object_ganon_anime2_Anim_00ADDC, 0.0f);
             this->fwork[1] = Animation_GetLastFrame(&object_ganon_anime2_Anim_00EA00);
             this->csState = 101;
@@ -1543,7 +1543,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             sCape->tearTimer = 20;
 
             this->whiteFillAlpha = 255.0f;
-            globalCtx->envCtx.unk_D8 = 1.0f;
+            globalCtx->envCtx.lightBlend = 1.0f;
             // fallthrough
         case 101:
             player->actor.world.pos.y = 4102.0f;
@@ -1641,7 +1641,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             this->csCamAt.z = sZelda->actor.world.pos.z;
 
             if (this->csTimer >= 10) {
-                Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+                Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.05f);
             }
 
             if (this->csTimer == 10) {
@@ -1782,7 +1782,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             this->csCamAt.z = (sZelda->actor.world.pos.z - 25.0f) + 80.0f;
 
             if (this->csTimer > 50) {
-                mainCam = Gameplay_GetCamera(globalCtx, CAM_ID_MAIN);
+                mainCam = Play_GetCamera(globalCtx, CAM_ID_MAIN);
 
                 mainCam->eye = this->csCamEye;
                 mainCam->eyeNext = this->csCamEye;
@@ -1824,7 +1824,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
 
         sp64 = this->csCamAt;
         sp64.y += this->unk_70C;
-        Gameplay_CameraSetAtEye(globalCtx, this->csCamIndex, &sp64, &this->csCamEye);
+        Play_CameraSetAtEye(globalCtx, this->csCamIndex, &sp64, &this->csCamEye);
     }
 }
 
@@ -3016,106 +3016,107 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 
-    globalCtx->envCtx.unk_BF = 0;
-    globalCtx->envCtx.unk_BE = 0;
-    globalCtx->envCtx.unk_DC = 2;
+    globalCtx->envCtx.lightSettingOverride = 0;
+    globalCtx->envCtx.prevLightSetting = 0;
+    globalCtx->envCtx.lightBlendOverride = LIGHT_BLEND_OVERRIDE_FULL_CONTROL;
 
     switch (this->envLightMode) {
         case -1:
             break;
         case 0:
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 0.0f, 1.0f, 0.02f);
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 0.0f, 1.0f, 0.02f);
             break;
         case 1:
-            globalCtx->envCtx.unk_BD = 1;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
+            globalCtx->envCtx.lightSetting = 1;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.1f);
             break;
         case 2:
-            globalCtx->envCtx.unk_BD = 1;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.02f);
+            globalCtx->envCtx.lightSetting = 1;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.02f);
             break;
         case 3:
-            globalCtx->envCtx.unk_BD = 3;
-            globalCtx->envCtx.unk_D8 = 1.0f;
+            globalCtx->envCtx.lightSetting = 3;
+            globalCtx->envCtx.lightBlend = 1.0f;
             break;
         case 35:
-            globalCtx->envCtx.unk_BD = 0;
-            globalCtx->envCtx.unk_D8 = 1.0f;
+            globalCtx->envCtx.lightSetting = 0;
+            globalCtx->envCtx.lightBlend = 1.0f;
             break;
         case 4:
-            globalCtx->envCtx.unk_BD = 4;
-            globalCtx->envCtx.unk_D8 = 1.0f;
+            globalCtx->envCtx.lightSetting = 4;
+            globalCtx->envCtx.lightBlend = 1.0f;
             break;
         case 5:
-            globalCtx->envCtx.unk_BE = 5;
-            globalCtx->envCtx.unk_BD = 3;
-            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.075f);
+            globalCtx->envCtx.prevLightSetting = 5;
+            globalCtx->envCtx.lightSetting = 3;
+            Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.075f);
             break;
         case 6:
-            globalCtx->envCtx.unk_BE = 5;
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.prevLightSetting = 5;
+            globalCtx->envCtx.lightBlend = 0.0f;
             break;
         case 65:
-            globalCtx->envCtx.unk_BE = 3;
-            globalCtx->envCtx.unk_BD = 6;
-            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            globalCtx->envCtx.prevLightSetting = 3;
+            globalCtx->envCtx.lightSetting = 6;
+            Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.05f);
             break;
         case 7:
-            globalCtx->envCtx.unk_BE = 7;
-            globalCtx->envCtx.unk_D8 = 0.0f;
+            globalCtx->envCtx.prevLightSetting = 7;
+            globalCtx->envCtx.lightBlend = 0.0f;
             break;
         case 75:
-            globalCtx->envCtx.unk_BE = 4;
-            globalCtx->envCtx.unk_BD = 8;
-            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            globalCtx->envCtx.prevLightSetting = 4;
+            globalCtx->envCtx.lightSetting = 8;
+            Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.05f);
             break;
         case 8:
-            globalCtx->envCtx.unk_BE = 3;
-            globalCtx->envCtx.unk_BD = 9;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+            globalCtx->envCtx.prevLightSetting = 3;
+            globalCtx->envCtx.lightSetting = 9;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.05f);
             break;
         case 9:
-            globalCtx->envCtx.unk_BE = 3;
-            globalCtx->envCtx.unk_BD = 0xA;
-            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            globalCtx->envCtx.prevLightSetting = 3;
+            globalCtx->envCtx.lightSetting = 10;
+            Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.05f);
             break;
         case 10:
-            globalCtx->envCtx.unk_BE = 3;
-            globalCtx->envCtx.unk_BD = 0xB;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+            globalCtx->envCtx.prevLightSetting = 3;
+            globalCtx->envCtx.lightSetting = 11;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.05f);
             this->unk_1A4 = 0;
             break;
         case 11:
-            globalCtx->envCtx.unk_BE = 0xC;
-            globalCtx->envCtx.unk_BD = 0xB;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, (Math_CosS(this->unk_1A4 * 0x1800) * 0.5f) + 0.5f, 1.0f, 1.0f);
+            globalCtx->envCtx.prevLightSetting = 12;
+            globalCtx->envCtx.lightSetting = 11;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, (Math_CosS(this->unk_1A4 * 0x1800) * 0.5f) + 0.5f, 1.0f,
+                           1.0f);
             break;
         case 12:
-            globalCtx->envCtx.unk_BE = 0xC;
-            globalCtx->envCtx.unk_BD = 3;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.05f);
+            globalCtx->envCtx.prevLightSetting = 12;
+            globalCtx->envCtx.lightSetting = 3;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.05f);
             break;
         case 13:
-            globalCtx->envCtx.unk_BD = 0xD;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.025f);
+            globalCtx->envCtx.lightSetting = 13;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.025f);
             break;
         case 14:
-            globalCtx->envCtx.unk_BD = 0xE;
-            globalCtx->envCtx.unk_D8 = 1.0f;
+            globalCtx->envCtx.lightSetting = 14;
+            globalCtx->envCtx.lightBlend = 1.0f;
             break;
         case 15:
-            globalCtx->envCtx.unk_BE = 0xE;
-            globalCtx->envCtx.unk_BD = 0xF;
-            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.01f);
+            globalCtx->envCtx.prevLightSetting = 14;
+            globalCtx->envCtx.lightSetting = 15;
+            Math_ApproachF(&globalCtx->envCtx.lightBlend, 1.0f, 1.0f, 0.01f);
             break;
         case 16:
-            globalCtx->envCtx.unk_BE = 0x10;
-            globalCtx->envCtx.unk_BD = 0xF;
-            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            globalCtx->envCtx.prevLightSetting = 16;
+            globalCtx->envCtx.lightSetting = 15;
+            Math_ApproachZeroF(&globalCtx->envCtx.lightBlend, 1.0f, 0.05f);
             break;
         case 20:
-            globalCtx->envCtx.unk_BE = 2;
-            globalCtx->envCtx.unk_BD = 1;
+            globalCtx->envCtx.prevLightSetting = 2;
+            globalCtx->envCtx.lightSetting = 1;
             break;
         default:
             break;
@@ -3169,7 +3170,7 @@ void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
         gLensFlareScale = this->lensFlareScale;
         gLensFlareColorIntensity = 10.0f;
-        gLensFlareScreenFillAlpha = 0;
+        gLensFlareGlareStrength = 0;
     } else {
         gCustomLensFlareOn = false;
     }
@@ -3807,7 +3808,7 @@ void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_2EC[0].y = this->unk_2EC[1].y + 30.0f;
     this->unk_2EC[0].z = this->unk_2EC[1].z;
 
-    POLY_OPA_DISP = Gameplay_SetFog(globalCtx, POLY_OPA_DISP);
+    POLY_OPA_DISP = Play_SetFog(globalCtx, POLY_OPA_DISP);
 
     BossGanon_DrawEffects(globalCtx);
 
@@ -4708,7 +4709,7 @@ void BossGanon_UpdateEffects(GlobalContext* globalCtx) {
                 }
             } else if (eff->type == GDF_EFF_LIGHTNING) {
                 if (eff->unk_3C == 0.0f) {
-                    eff->unk_44 = BINANG_TO_RAD_ALT(Camera_GetInputDirYaw(Gameplay_GetCamera(globalCtx, CAM_ID_MAIN)));
+                    eff->unk_44 = BINANG_TO_RAD_ALT(Camera_GetInputDirYaw(Play_GetCamera(globalCtx, CAM_ID_MAIN)));
                 } else {
                     eff->unk_44 = M_PI / 2;
                 }

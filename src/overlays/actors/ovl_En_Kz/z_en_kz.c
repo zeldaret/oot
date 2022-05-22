@@ -367,16 +367,16 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
     Vec3f subCamAt;
     Vec3f subCamEye;
 
-    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
+    this->subCamId = Play_CreateSubCamera(globalCtx);
     this->returnToCamId = globalCtx->activeCamId;
-    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_WAIT);
+    Play_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     subCamAt = this->actor.world.pos;
     subCamEye = this->actor.home.pos;
     subCamAt.y += 60.0f;
     subCamEye.y += -100.0f;
     subCamEye.z += 260.0f;
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     func_8002DF54(globalCtx, &this->actor, 8);
     this->actor.speedXZ = 0.1f;
     this->actionFunc = EnKz_Mweep;
@@ -392,7 +392,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
     subCamAt.y += 60.0f;
     subCamEye.y += -100.0f;
     subCamEye.z += 260.0f;
-    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
+    Play_CameraSetAtEye(globalCtx, this->subCamId, &subCamAt, &subCamEye);
     if ((EnKz_FollowPath(this, globalCtx) == 1) && (this->waypoint == 0)) {
         Animation_ChangeByInfo(&this->skelanime, sAnimationInfo, ENKZ_ANIM_1);
         Inventory_ReplaceItem(globalCtx, ITEM_LETTER_RUTO, ITEM_BOTTLE);
@@ -407,8 +407,8 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->subCamId);
+    Play_ChangeCameraStatus(globalCtx, this->returnToCamId, CAM_STAT_ACTIVE);
+    Play_ClearCamera(globalCtx, this->subCamId);
     func_8002DF54(globalCtx, &this->actor, 7);
     this->actionFunc = EnKz_Wait;
 }

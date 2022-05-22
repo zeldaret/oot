@@ -631,7 +631,7 @@ s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AF3878(EnRu2* this, GlobalContext* globalCtx) {
-    if (func_80AF383C(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
+    if (func_80AF383C(this, globalCtx) && !Play_InCsMode(globalCtx)) {
         this->action = 16;
         OnePointCutscene_Init(globalCtx, 3130, -99, &this->actor, CAM_ID_MAIN);
     }
