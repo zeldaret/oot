@@ -29,10 +29,10 @@
 #define vClosestDirection genericVar1 // relative to spike trap's facing angle if moving out, absolute if moving in
 #define vMovementMetric genericVar2
 
-void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnTrap_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnTrap_Init(Actor* thisx, PlayState* play);
+void EnTrap_Destroy(Actor* thisx, PlayState* play);
+void EnTrap_Update(Actor* thisx, PlayState* play);
+void EnTrap_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
@@ -59,7 +59,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 20, 0, { 0, 0, 0 } },
 };
 
-void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnTrap_Init(Actor* thisx, PlayState* play) {
     f32 trapDist;
     f32 trapSpeed;
     s16 zSpeed;
@@ -88,7 +88,7 @@ void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             trapSpeed = 10.0f;
             thisx->params = 0xF;
         }
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 20.0f, 20.0f,
+        Actor_UpdateBgCheckInfo(play, thisx, 10.0f, 20.0f, 20.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);
         thisx->home.pos = thisx->world.pos;
@@ -109,19 +109,19 @@ void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->moveSpeedLeftRight.z = this->moveSpeedForwardBack.x = xSpeed;
     }
     thisx->focus.pos = thisx->world.pos;
-    Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
+    Collider_InitCylinder(play, &this->collider);
+    Collider_SetCylinder(play, &this->collider, thisx, &sCylinderInit);
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
     thisx->targetMode = 3;
     thisx->colChkInfo.mass = 0xFF;
 }
 
-void EnTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnTrap_Destroy(Actor* thisx, PlayState* play) {
     EnTrap* this = (EnTrap*)thisx;
-    Collider_DestroyCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnTrap_Update(Actor* thisx, PlayState* play) {
     EnTrap* this = (EnTrap*)thisx;
     Vec3f posTemp;
     s16 angleToKnockPlayer;
@@ -153,12 +153,12 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetColorFilter(thisx, 0, 250, 0, 250);
         icePos.y += 10.0f;
         icePos.z += 10.0f;
-        EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
+        EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
         icePos.x += 10.0f;
         icePos.z -= 20.0f;
-        EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
+        EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
         icePos.x -= 20.0f;
-        EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
+        EffectSsEnIce_SpawnFlyingVec3f(play, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
     }
     // If not frozen:
     if (thisx->colorFilterTimer == 0) {
@@ -175,8 +175,8 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
             } else {
                 angleToKnockPlayer = thisx->yawTowardsPlayer;
             }
-            globalCtx->damagePlayer(globalCtx, -4);
-            func_8002F7A0(globalCtx, thisx, 6.0f, angleToKnockPlayer, 6.0f);
+            play->damagePlayer(play, -4);
+            func_8002F7A0(play, thisx, 6.0f, angleToKnockPlayer, 6.0f);
             this->playerDmgTimer = 15;
         }
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
@@ -190,7 +190,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                 posAhead.x = (Math_SinS(thisx->world.rot.y) * 30.0f) + thisx->world.pos.x;
                 posAhead.z = (Math_CosS(thisx->world.rot.y) * 30.0f) + thisx->world.pos.z;
                 posAhead.y = thisx->world.pos.y;
-                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->world.pos, &posAhead, &colPoint, &colPoly, true,
+                if (BgCheck_EntityLineTest1(&play->colCtx, &thisx->world.pos, &posAhead, &colPoint, &colPoly, true,
                                             true, false, true, &bgId) == true) {
                     this->vContinue = 0.0f;
                 }
@@ -310,7 +310,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         }
                         break;
                 }
-                if (!Actor_TestFloorInDirection(thisx, globalCtx, 50.0f, this->vClosestDirection)) {
+                if (!Actor_TestFloorInDirection(thisx, play, 50.0f, this->vClosestDirection)) {
                     this->vMovementMetric = 0.0f;
                 }
                 // if in initial position:
@@ -377,7 +377,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             posTemp = thisx->world.pos;
         }
-        Actor_UpdateBgCheckInfo(globalCtx, thisx, 25.0f, 20.0f, 20.0f,
+        Actor_UpdateBgCheckInfo(play, thisx, 25.0f, 20.0f, 20.0f,
                                 UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2 | UPDBGCHECKINFO_FLAG_3 |
                                     UPDBGCHECKINFO_FLAG_4);
         if (thisx->params & SPIKETRAP_MODE_LINEAR) {
@@ -386,13 +386,13 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     Collider_UpdateCylinder(thisx, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     if (thisx->colorFilterTimer == 0) {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
     }
 }
 
-void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    func_8002EBCC(thisx, globalCtx, 1);
-    Gfx_DrawDListOpa(globalCtx, gSlidingBladeTrapDL);
+void EnTrap_Draw(Actor* thisx, PlayState* play) {
+    func_8002EBCC(thisx, play, 1);
+    Gfx_DrawDListOpa(play, gSlidingBladeTrapDL);
 }

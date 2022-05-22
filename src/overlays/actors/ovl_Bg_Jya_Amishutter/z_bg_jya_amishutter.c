@@ -9,10 +9,10 @@
 
 #define FLAGS 0
 
-void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaAmishutter_Init(Actor* thisx, PlayState* play);
+void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play);
+void BgJyaAmishutter_Update(Actor* thisx, PlayState* play);
+void BgJyaAmishutter_Draw(Actor* thisx, PlayState* play);
 
 void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this);
 void BgJyaAmishutter_WaitForPlayer(BgJyaAmishutter* this);
@@ -42,33 +42,32 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                                  s32 flag) {
+void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, PlayState* play, CollisionHeader* collision, s32 flag) {
     s32 pad1;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_amishutter.c", 129,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
-void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaAmishutter_Init(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
-    BgJyaAmishutter_InitDynaPoly(this, globalCtx, &gAmishutterCol, DPM_UNK);
+    BgJyaAmishutter_InitDynaPoly(this, play, &gAmishutterCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     BgJyaAmishutter_SetupWaitForPlayer(this);
 }
 
-void BgJyaAmishutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaAmishutter_Destroy(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgJyaAmishutter_SetupWaitForPlayer(BgJyaAmishutter* this) {
@@ -117,12 +116,12 @@ void func_8089350C(BgJyaAmishutter* this) {
     }
 }
 
-void BgJyaAmishutter_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaAmishutter_Update(Actor* thisx, PlayState* play) {
     BgJyaAmishutter* this = (BgJyaAmishutter*)thisx;
 
     this->actionFunc(this);
 }
 
-void BgJyaAmishutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gAmishutterDL);
+void BgJyaAmishutter_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, gAmishutterDL);
 }

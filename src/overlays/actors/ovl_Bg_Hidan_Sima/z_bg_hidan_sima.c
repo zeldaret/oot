@@ -9,16 +9,16 @@
 
 #define FLAGS 0
 
-void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgHidanSima_Init(Actor* thisx, PlayState* play);
+void BgHidanSima_Destroy(Actor* thisx, PlayState* play);
+void BgHidanSima_Update(Actor* thisx, PlayState* play);
+void BgHidanSima_Draw(Actor* thisx, PlayState* play);
 
-void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx);
-void func_8088E5D0(BgHidanSima* this, GlobalContext* globalCtx);
-void func_8088E6D0(BgHidanSima* this, GlobalContext* globalCtx);
-void func_8088E760(BgHidanSima* this, GlobalContext* globalCtx);
-void func_8088E7A8(BgHidanSima* this, GlobalContext* globalCtx);
+void func_8088E518(BgHidanSima* this, PlayState* play);
+void func_8088E5D0(BgHidanSima* this, PlayState* play);
+void func_8088E6D0(BgHidanSima* this, PlayState* play);
+void func_8088E760(BgHidanSima* this, PlayState* play);
+void func_8088E7A8(BgHidanSima* this, PlayState* play);
 void func_8088E90C(BgHidanSima* this);
 
 const ActorInit Bg_Hidan_Sima_InitVars = {
@@ -80,7 +80,7 @@ static void* sFireballsTexs[] = {
     gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };
 
-void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanSima_Init(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -93,9 +93,9 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         CollisionHeader_GetVirtual(&gFireTempleStonePlatform2Col, &colHeader);
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
     for (i = 0; i < ARRAY_COUNT(sJntSphElementsInit); i++) {
         this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
@@ -106,20 +106,20 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanSima_Destroy(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyJntSph(globalCtx, &this->collider);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
-void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_8088E518(BgHidanSima* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
     if (func_8004356C(&this->dyna) && !(player->stateFlags1 & (PLAYER_STATE1_13 | PLAYER_STATE1_14))) {
         this->timer = 20;
-        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(globalCtx)) + 0x4000;
+        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(GET_ACTIVE_CAM(play)) + 0x4000;
         if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
             this->actionFunc = func_8088E5D0;
         } else {
@@ -128,7 +128,7 @@ void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8088E5D0(BgHidanSima* this, GlobalContext* globalCtx) {
+void func_8088E5D0(BgHidanSima* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -148,7 +148,7 @@ void func_8088E5D0(BgHidanSima* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8088E6D0(BgHidanSima* this, GlobalContext* globalCtx) {
+void func_8088E6D0(BgHidanSima* this, PlayState* play) {
     if (func_8004356C(&this->dyna)) {
         this->timer = 20;
     } else if (this->timer != 0) {
@@ -160,7 +160,7 @@ void func_8088E6D0(BgHidanSima* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8088E760(BgHidanSima* this, GlobalContext* globalCtx) {
+void func_8088E760(BgHidanSima* this, PlayState* play) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -171,7 +171,7 @@ void func_8088E760(BgHidanSima* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8088E7A8(BgHidanSima* this, GlobalContext* globalCtx) {
+void func_8088E7A8(BgHidanSima* this, PlayState* play) {
     f32 temp;
 
     if (this->timer != 0) {
@@ -205,11 +205,11 @@ void func_8088E90C(BgHidanSima* this) {
     }
 }
 
-void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanSima_Update(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
     s32 pad;
 
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
     if (this->dyna.actor.params != 0) {
         s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
 
@@ -219,12 +219,12 @@ void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - ((1.0f - cosf(temp * (M_PI / 20))) * 5.0f);
         if (this->actionFunc == func_8088E7A8) {
             func_8088E90C(this);
-            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+            CollisionCheck_SetAT(play, &play->colChkCtx, &this->collider.base);
         }
     }
 }
 
-Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
+Gfx* func_8088EB54(PlayState* play, BgHidanSima* this, Gfx* gfx) {
     MtxF mtxF;
     s32 phi_s5;
     s32 s3;
@@ -260,7 +260,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
         gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
         gSPMatrix(gfx++,
                   Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 611),
-                                   Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
+                                   Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(gfx++, gFireTempleFireballDL);
     }
@@ -269,18 +269,18 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
     gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
     gSPMatrix(gfx++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
-                               Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
+                               Graph_Alloc(play->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(gfx++, gFireTempleFireballDL);
     return gfx;
 }
 
-void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
+    func_80093D18(play->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
@@ -290,8 +290,8 @@ void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
             POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
-            POLY_XLU_DISP = func_8088EB54(globalCtx, this, POLY_XLU_DISP);
+            POLY_XLU_DISP = func_8088EB54(play, this, POLY_XLU_DISP);
         }
     }
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 668);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 668);
 }

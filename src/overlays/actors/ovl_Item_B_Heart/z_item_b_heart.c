@@ -9,12 +9,12 @@
 
 #define FLAGS 0
 
-void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx);
-void ItemBHeart_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx);
-void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx);
+void ItemBHeart_Init(Actor* thisx, PlayState* play);
+void ItemBHeart_Destroy(Actor* thisx, PlayState* play);
+void ItemBHeart_Update(Actor* thisx, PlayState* play);
+void ItemBHeart_Draw(Actor* thisx, PlayState* play);
 
-void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx);
+void func_80B85264(ItemBHeart* this, PlayState* play);
 
 const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
@@ -35,10 +35,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
 };
 
-void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx) {
+void ItemBHeart_Init(Actor* thisx, PlayState* play) {
     ItemBHeart* this = (ItemBHeart*)thisx;
 
-    if (Flags_GetCollectible(globalCtx, 0x1F)) {
+    if (Flags_GetCollectible(play, 0x1F)) {
         Actor_Kill(&this->actor);
     } else {
         Actor_ProcessInitChain(&this->actor, sInitChain);
@@ -46,23 +46,23 @@ void ItemBHeart_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void ItemBHeart_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void ItemBHeart_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx) {
+void ItemBHeart_Update(Actor* thisx, PlayState* play) {
     ItemBHeart* this = (ItemBHeart*)thisx;
 
-    func_80B85264(this, globalCtx);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
-    if (Actor_HasParent(&this->actor, globalCtx)) {
-        Flags_SetCollectible(globalCtx, 0x1F);
+    func_80B85264(this, play);
+    Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+    if (Actor_HasParent(&this->actor, play)) {
+        Flags_SetCollectible(play, 0x1F);
         Actor_Kill(&this->actor);
     } else {
-        func_8002F434(&this->actor, globalCtx, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
+        func_8002F434(&this->actor, play, GI_HEART_CONTAINER_2, 30.0f, 40.0f);
     }
 }
 
-void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
+void func_80B85264(ItemBHeart* this, PlayState* play) {
     f32 yOffset;
 
     this->unk_164++;
@@ -75,14 +75,14 @@ void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
 }
 
-void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void ItemBHeart_Draw(Actor* thisx, PlayState* play) {
     ItemBHeart* this = (ItemBHeart*)thisx;
     Actor* actorIt;
     u8 flag = false;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 506);
+    OPEN_DISPS(play->state.gfxCtx, "../z_item_b_heart.c", 506);
 
-    actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
+    actorIt = play->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
 
     while (actorIt != NULL) {
         if ((actorIt->id == ACTOR_DOOR_WARP1) && (actorIt->projectedPos.z > this->actor.projectedPos.z)) {
@@ -93,18 +93,18 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (flag) {
-        func_80093D84(globalCtx->state.gfxCtx);
-        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 551),
+        func_80093D84(play->state.gfxCtx);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 551),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_XLU_DISP++, gGiHeartContainerDL);
     } else {
-        func_80093D18(globalCtx->state.gfxCtx);
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 557),
+        func_80093D18(play->state.gfxCtx);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_item_b_heart.c", 557),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartBorderDL);
         gSPDisplayList(POLY_OPA_DISP++, gGiHeartContainerDL);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 561);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_item_b_heart.c", 561);
 }

@@ -32,14 +32,14 @@
 u16 D_8011E1C0 = 0;
 u16 D_8011E1C4 = 0;
 
-typedef void (*CutsceneStateHandler)(GlobalContext*, CutsceneContext*);
+typedef void (*CutsceneStateHandler)(PlayState*, CutsceneContext*);
 
-void func_80064720(GlobalContext* globalCtx, CutsceneContext* csCtx);
-void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx);
-void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx);
-void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx);
-void func_80068D84(GlobalContext* globalCtx, CutsceneContext* csCtx);
-void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx);
+void func_80064720(PlayState* play, CutsceneContext* csCtx);
+void func_80064760(PlayState* play, CutsceneContext* csCtx);
+void func_800647C0(PlayState* play, CutsceneContext* csCtx);
+void func_80068C3C(PlayState* play, CutsceneContext* csCtx);
+void func_80068D84(PlayState* play, CutsceneContext* csCtx);
+void func_80068DC0(PlayState* play, CutsceneContext* csCtx);
 
 CutsceneStateHandler sCsStateHandlers1[] = {
     func_80064720, func_80064760, func_80064720, func_80068D84, func_80064720,
@@ -103,9 +103,9 @@ u16 D_8015FCCC;      // only written to, never read
 char D_8015FCD0[20]; // unreferenced
 u8 D_8015FCE4;       // only written to, never read
 
-void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx);
+void func_80068ECC(PlayState* play, CutsceneContext* csCtx);
 
-void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneContext* csCtx) {
+void Cutscene_DrawDebugInfo(PlayState* play, Gfx** dlist, CutsceneContext* csCtx) {
     GfxPrint printer;
     s32 pad[2];
 
@@ -125,30 +125,30 @@ void Cutscene_DrawDebugInfo(GlobalContext* globalCtx, Gfx** dlist, CutsceneConte
     GfxPrint_Destroy(&printer);
 }
 
-void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_8006450C(PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_IDLE;
     csCtx->unk_0C = 0.0f;
 }
 
-void func_80064520(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80064520(PlayState* play, CutsceneContext* csCtx) {
     csCtx->state = CS_STATE_SKIPPABLE_INIT;
     csCtx->linkAction = NULL;
 }
 
-void func_80064534(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80064534(PlayState* play, CutsceneContext* csCtx) {
     if (csCtx->state != CS_STATE_UNSKIPPABLE_EXEC) {
         csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
     }
 }
 
-void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80064558(PlayState* play, CutsceneContext* csCtx) {
     if (gSaveContext.cutsceneIndex < 0xFFF0) {
-        sCsStateHandlers1[csCtx->state](globalCtx, csCtx);
+        sCsStateHandlers1[csCtx->state](play, csCtx);
     }
 }
 
-void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
-    Input* input = &globalCtx->state.input[0];
+void func_800645A0(PlayState* play, CutsceneContext* csCtx) {
+    Input* input = &play->state.input[0];
 
     if (CHECK_BTN_ALL(input->press.button, BTN_DLEFT) && (csCtx->state == CS_STATE_IDLE) &&
         (gSaveContext.sceneSetupIndex >= 4)) {
@@ -164,7 +164,7 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         gSaveContext.cutsceneTrigger = 1;
     }
 
-    if ((gSaveContext.cutsceneTrigger != 0) && (globalCtx->transitionTrigger == TRANS_TRIGGER_START)) {
+    if ((gSaveContext.cutsceneTrigger != 0) && (play->transitionTrigger == TRANS_TRIGGER_START)) {
         gSaveContext.cutsceneTrigger = 0;
     }
 
@@ -175,42 +175,42 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-        func_80068ECC(globalCtx, csCtx);
-        sCsStateHandlers2[csCtx->state](globalCtx, csCtx);
+        func_80068ECC(play, csCtx);
+        sCsStateHandlers2[csCtx->state](play, csCtx);
     }
 }
 
-void func_80064720(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80064720(PlayState* play, CutsceneContext* csCtx) {
 }
 
-u32 func_8006472C(GlobalContext* globalCtx, CutsceneContext* csCtx, f32 target) {
+u32 func_8006472C(PlayState* play, CutsceneContext* csCtx, f32 target) {
     return Math_StepToF(&csCtx->unk_0C, target, 0.1f);
 }
 
-void func_80064760(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80064760(PlayState* play, CutsceneContext* csCtx) {
     Interface_ChangeAlpha(1);
     ShrinkWindow_SetVal(0x20);
 
-    if (func_8006472C(globalCtx, csCtx, 1.0f)) {
+    if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
         csCtx->state++;
     }
 }
 
-void func_800647C0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
-    func_80068C3C(globalCtx, csCtx);
+void func_800647C0(PlayState* play, CutsceneContext* csCtx) {
+    func_80068C3C(play, csCtx);
     Interface_ChangeAlpha(1);
     ShrinkWindow_SetVal(0x20);
 
-    if (func_8006472C(globalCtx, csCtx, 1.0f)) {
+    if (func_8006472C(play, csCtx, 1.0f)) {
         Audio_SetCutsceneFlag(1);
         csCtx->state++;
     }
 }
 
 // Command 3: Misc. Actions
-void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80064824(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
+    Player* player = GET_PLAYER(play);
     f32 temp;
     u8 sp3F = 0;
 
@@ -229,60 +229,60 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             if (sp3F != 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_4, 0x3F);
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 1);
-                globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 20;
+                play->envCtx.precipitation[PRECIP_RAIN_MAX] = 20;
             }
             break;
         case 2:
             if (sp3F != 0) {
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_LIGHTNING, CHANNEL_IO_PORT_0, 0);
-                Environment_AddLightningBolts(globalCtx, 3);
+                Environment_AddLightningBolts(play, 3);
                 gLightningStrike.state = LIGHTNING_STRIKE_START;
             }
             break;
         case 3:
             if (sp3F != 0) {
-                Flags_SetEnv(globalCtx, 0);
+                Flags_SetEnv(play, 0);
                 if (gSaveContext.entranceIndex == ENTR_TOKINOMA_0) {
-                    Flags_SetEnv(globalCtx, 2);
+                    Flags_SetEnv(play, 2);
                 }
             }
             break;
         case 6:
-            if (globalCtx->envCtx.adjFogFar < 12800) {
-                globalCtx->envCtx.adjFogFar += 35;
+            if (play->envCtx.adjFogFar < 12800) {
+                play->envCtx.adjFogFar += 35;
             }
             break;
         case 7:
             if (sp3F != 0) {
-                globalCtx->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
-                globalCtx->envCtx.skyboxConfig = 1;
-                globalCtx->envCtx.changeSkyboxNextConfig = 0;
-                globalCtx->envCtx.changeSkyboxTimer = 60;
-                globalCtx->envCtx.changeLightEnabled = true;
-                globalCtx->envCtx.lightConfig = 0;
-                globalCtx->envCtx.changeLightNextConfig = 1;
-                globalCtx->envCtx.changeLightTimer = globalCtx->envCtx.changeDuration = 60;
+                play->envCtx.changeSkyboxState = CHANGE_SKYBOX_REQUESTED;
+                play->envCtx.skyboxConfig = 1;
+                play->envCtx.changeSkyboxNextConfig = 0;
+                play->envCtx.changeSkyboxTimer = 60;
+                play->envCtx.changeLightEnabled = true;
+                play->envCtx.lightConfig = 0;
+                play->envCtx.changeLightNextConfig = 1;
+                play->envCtx.changeLightTimer = play->envCtx.changeDuration = 60;
             }
             break;
         case 8:
-            if (globalCtx->roomCtx.unk_74[0] < 0x80) {
-                globalCtx->roomCtx.unk_74[0] += 4;
+            if (play->roomCtx.unk_74[0] < 0x80) {
+                play->roomCtx.unk_74[0] += 4;
             }
             break;
         case 9:
-            globalCtx->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
+            play->envCtx.precipitation[PRECIP_SNOW_MAX] = 16;
             break;
         case 10:
-            Flags_SetEnv(globalCtx, 1);
+            Flags_SetEnv(play, 1);
             break;
         case 11:
-            if (globalCtx->roomCtx.unk_74[0] < 0x672) {
-                globalCtx->roomCtx.unk_74[0] += 0x14;
+            if (play->roomCtx.unk_74[0] < 0x672) {
+                play->roomCtx.unk_74[0] += 0x14;
             }
             if (csCtx->frames == 0x30F) {
                 func_80078884(NA_SE_EV_DEKU_DEATH);
             } else if (csCtx->frames == 0x2CD) {
-                globalCtx->roomCtx.unk_74[0] = 0;
+                play->roomCtx.unk_74[0] = 0;
             }
             break;
         case 12:
@@ -293,27 +293,26 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 13:
-            if (globalCtx->roomCtx.unk_74[1] == 0) {
+            if (play->roomCtx.unk_74[1] == 0) {
                 func_80078884(NA_SE_EV_TRIFORCE_FLASH);
             }
-            if (globalCtx->roomCtx.unk_74[1] < 0xFF) {
-                globalCtx->roomCtx.unk_74[1] += 5;
+            if (play->roomCtx.unk_74[1] < 0xFF) {
+                play->roomCtx.unk_74[1] += 5;
             }
             break;
         case 14:
             if (sp3F != 0) {
-                func_800BC490(globalCtx, 1);
+                func_800BC490(play, 1);
             }
             break;
         case 15:
             if (sp3F != 0) {
-                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, player->giObjectSegment, 160, 120,
-                                        144, 24, 20);
+                TitleCard_InitPlaceName(play, &play->actorCtx.titleCtx, player->giObjectSegment, 160, 120, 144, 24, 20);
             }
             break;
         case 16:
             if (sp3F != 0) {
-                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(globalCtx), 6);
+                sQuakeIndex = Quake_Add(GET_ACTIVE_CAM(play), 6);
                 Quake_SetSpeed(sQuakeIndex, 0x7FFF);
                 Quake_SetQuakeValues(sQuakeIndex, 4, 0, 1000, 0);
                 Quake_SetCountdown(sQuakeIndex, 800);
@@ -325,12 +324,12 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 18:
-            globalCtx->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
-            globalCtx->envCtx.stormRequest = STORM_REQUEST_STOP;
+            play->envCtx.precipitation[PRECIP_RAIN_MAX] = 0;
+            play->envCtx.stormRequest = STORM_REQUEST_STOP;
             if (gSaveContext.dayTime < CLOCK_TIME(7, 0)) {
                 gSaveContext.dayTime += 30;
             }
-            if (globalCtx->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
+            if (play->envCtx.precipitation[PRECIP_RAIN_CUR] == 0) {
                 gWeatherMode = WEATHER_MODE_CLEAR;
                 Audio_SetNatureAmbienceChannelIO(NATURE_CHANNEL_RAIN, CHANNEL_IO_PORT_1, 0);
             }
@@ -357,7 +356,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             D_801614B0.a = 255.0f * temp;
             break;
         case 24:
-            globalCtx->roomCtx.curRoom.segment = NULL;
+            play->roomCtx.curRoom.segment = NULL;
             break;
         case 25:
             gSaveContext.dayTime += 30;
@@ -368,45 +367,45 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
         case 26:
             if ((gSaveContext.dayTime < CLOCK_TIME(4, 30)) || (gSaveContext.dayTime >= CLOCK_TIME(6, 30))) {
                 if ((gSaveContext.dayTime >= CLOCK_TIME(6, 30)) && (gSaveContext.dayTime < CLOCK_TIME(16, 0))) {
-                    globalCtx->envCtx.lightSettingOverride = 1;
+                    play->envCtx.lightSettingOverride = 1;
                 } else if ((gSaveContext.dayTime >= CLOCK_TIME(16, 0)) &&
                            (gSaveContext.dayTime <= CLOCK_TIME(18, 30))) {
-                    globalCtx->envCtx.lightSettingOverride = 2;
+                    play->envCtx.lightSettingOverride = 2;
                 } else {
-                    globalCtx->envCtx.lightSettingOverride = 3;
+                    play->envCtx.lightSettingOverride = 3;
                 }
             }
             break;
         case 27:
-            if (globalCtx->state.frames & 8) {
-                if (globalCtx->envCtx.adjAmbientColor[0] < 40) {
-                    globalCtx->envCtx.adjAmbientColor[0] += 2;
-                    globalCtx->envCtx.adjLight1Color[1] -= 3;
-                    globalCtx->envCtx.adjLight1Color[2] -= 3;
+            if (play->state.frames & 8) {
+                if (play->envCtx.adjAmbientColor[0] < 40) {
+                    play->envCtx.adjAmbientColor[0] += 2;
+                    play->envCtx.adjLight1Color[1] -= 3;
+                    play->envCtx.adjLight1Color[2] -= 3;
                 }
             } else {
-                if (globalCtx->envCtx.adjAmbientColor[0] > 2) {
-                    globalCtx->envCtx.adjAmbientColor[0] -= 2;
-                    globalCtx->envCtx.adjLight1Color[1] += 3;
-                    globalCtx->envCtx.adjLight1Color[2] += 3;
+                if (play->envCtx.adjAmbientColor[0] > 2) {
+                    play->envCtx.adjAmbientColor[0] -= 2;
+                    play->envCtx.adjLight1Color[1] += 3;
+                    play->envCtx.adjLight1Color[2] += 3;
                 }
             }
             break;
         case 28:
-            globalCtx->unk_11DE9 = true;
+            play->unk_11DE9 = true;
             break;
         case 29:
-            globalCtx->unk_11DE9 = false;
+            play->unk_11DE9 = false;
             break;
         case 30:
-            Flags_SetEnv(globalCtx, 3);
+            Flags_SetEnv(play, 3);
             break;
         case 31:
-            Flags_SetEnv(globalCtx, 4);
+            Flags_SetEnv(play, 4);
             break;
         case 32:
             if (sp3F != 0) {
-                globalCtx->envCtx.sandstormState = SANDSTORM_FILL;
+                play->envCtx.sandstormState = SANDSTORM_FILL;
             }
             func_800788CC(NA_SE_EV_SAND_STORM - SFX_FLAG);
             break;
@@ -428,29 +427,29 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
 }
 
 // Command 4: Set Environment Lighting
-void Cutscene_Command_SetLighting(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
+void Cutscene_Command_SetLighting(PlayState* play, CutsceneContext* csCtx, CsCmdEnvLighting* cmd) {
     if (csCtx->frames == cmd->startFrame) {
-        globalCtx->envCtx.lightSettingOverride = cmd->setting - 1;
-        globalCtx->envCtx.lightBlend = 1.0f;
+        play->envCtx.lightSettingOverride = cmd->setting - 1;
+        play->envCtx.lightBlend = 1.0f;
     }
 }
 
 // Command 0x56: Play Background Music
-void Cutscene_Command_PlayBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
+void Cutscene_Command_PlayBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F595C(cmd->sequence - 1);
     }
 }
 
 // Command 0x57: Stop Background Music
-void Cutscene_Command_StopBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
+void Cutscene_Command_StopBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicChange* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800F59E8(cmd->sequence - 1);
     }
 }
 
 // Command 0x7C: Fade Background Music over duration
-void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
+void Cutscene_Command_FadeBGM(PlayState* play, CutsceneContext* csCtx, CsCmdMusicFade* cmd) {
     u8 var1;
 
     if ((csCtx->frames == cmd->startFrame) && (csCtx->frames < cmd->endFrame)) {
@@ -465,14 +464,14 @@ void Cutscene_Command_FadeBGM(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 }
 
 // Command 9: ?
-void Cutscene_Command_09(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
+void Cutscene_Command_09(PlayState* play, CutsceneContext* csCtx, CsCmdUnknown9* cmd) {
     if (csCtx->frames == cmd->startFrame) {
         func_800AA000(0.0f, cmd->unk_06, cmd->unk_07, cmd->unk_08);
     }
 }
 
 // Command 0x8C: Set Time of Day & Environment Time
-void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTime* cmd) {
+void func_80065134(PlayState* play, CutsceneContext* csCtx, CsCmdDayTime* cmd) {
     s16 temp1;
     s16 temp2;
 
@@ -486,23 +485,23 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
 }
 
 // Command 0x3E8: Code Execution (& Terminates Cutscene?)
-void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
-    Player* player = GET_PLAYER(globalCtx);
+void Cutscene_Command_Terminator(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
+    Player* player = GET_PLAYER(play);
     s32 temp = 0;
 
-    if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (globalCtx->sceneNum != SCENE_SPOT00) &&
+    if ((gSaveContext.gameMode != 0) && (gSaveContext.gameMode != 3) && (play->sceneNum != SCENE_SPOT00) &&
         (csCtx->frames > 20) &&
-        (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_A) ||
-         CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_B) ||
-         CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START)) &&
-        (gSaveContext.fileNum != 0xFEDC) && (globalCtx->transitionTrigger == TRANS_TRIGGER_OFF)) {
+        (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_A) ||
+         CHECK_BTN_ALL(play->state.input[0].press.button, BTN_B) ||
+         CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START)) &&
+        (gSaveContext.fileNum != 0xFEDC) && (play->transitionTrigger == TRANS_TRIGGER_OFF)) {
         Audio_PlaySoundGeneral(NA_SE_SY_PIECE_OF_HEART, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         temp = 1;
     }
 
     if ((csCtx->frames == cmd->startFrame) || (temp != 0) ||
-        ((csCtx->frames > 20) && CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_START) &&
+        ((csCtx->frames > 20) && CHECK_BTN_ALL(play->state.input[0].press.button, BTN_START) &&
          (gSaveContext.fileNum != 0xFEDC))) {
         csCtx->state = CS_STATE_UNSKIPPABLE_EXEC;
         Audio_SetCutsceneFlag(0);
@@ -518,477 +517,477 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
 
         switch (cmd->base) {
             case 1:
-                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 2:
-                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 3:
-                globalCtx->nextEntranceIndex = ENTR_SPOT09_0;
+                play->nextEntranceIndex = ENTR_SPOT09_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 4:
-                globalCtx->nextEntranceIndex = ENTR_SPOT16_0;
+                play->nextEntranceIndex = ENTR_SPOT16_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 5:
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_0;
+                play->nextEntranceIndex = ENTR_SPOT04_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 6:
-                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FILL_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FILL_WHITE;
                 break;
             case 7:
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_0;
+                play->nextEntranceIndex = ENTR_SPOT04_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_INSTANT;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 8:
                 gSaveContext.fw.set = 0;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 if (!GET_EVENTCHKINF(EVENTCHKINF_45)) {
                     SET_EVENTCHKINF(EVENTCHKINF_45);
-                    globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                    play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF3;
-                    globalCtx->transitionType = TRANS_TYPE_INSTANT;
+                    play->transitionType = TRANS_TYPE_INSTANT;
                 } else {
                     if (gSaveContext.sceneSetupIndex < 4) {
                         if (!LINK_IS_ADULT) {
-                            globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
+                            play->linkAgeOnLoad = LINK_AGE_ADULT;
                         } else {
-                            globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
+                            play->linkAgeOnLoad = LINK_AGE_CHILD;
                         }
                     }
-                    globalCtx->nextEntranceIndex = ENTR_TOKINOMA_2;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                    play->nextEntranceIndex = ENTR_TOKINOMA_2;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    play->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 }
                 break;
             case 9:
-                globalCtx->nextEntranceIndex = ENTR_SPOT09_0;
+                play->nextEntranceIndex = ENTR_SPOT09_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FILL_BROWN;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FILL_BROWN;
                 break;
             case 10:
-                globalCtx->nextEntranceIndex = ENTR_LINK_HOME_0;
+                play->nextEntranceIndex = ENTR_LINK_HOME_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 11:
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_0;
+                play->nextEntranceIndex = ENTR_SPOT04_0;
                 gSaveContext.cutsceneIndex = 0xFFF3;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 12:
-                globalCtx->nextEntranceIndex = ENTR_SPOT16_5;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT16_5;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 13:
-                globalCtx->nextEntranceIndex = ENTR_SPOT08_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT08_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 14:
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_11;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT04_11;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 15:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 16:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 17:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF6;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 18:
                 SET_EVENTCHKINF(EVENTCHKINF_4F);
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_4;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_TOKINOMA_4;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 19:
-                globalCtx->nextEntranceIndex = ENTR_SPOT16_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->nextEntranceIndex = ENTR_SPOT16_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 gSaveContext.cutsceneIndex = 0x8000;
                 break;
             case 21:
-                globalCtx->nextEntranceIndex = ENTR_SPOT06_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT06_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 22:
-                Item_Give(globalCtx, ITEM_SONG_REQUIEM);
-                globalCtx->nextEntranceIndex = ENTR_SPOT11_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                Item_Give(play, ITEM_SONG_REQUIEM);
+                play->nextEntranceIndex = ENTR_SPOT11_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 23:
-                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF8;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 24:
-                globalCtx->nextEntranceIndex = ENTR_BDAN_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_BDAN_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 25:
-                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->linkAgeOnLoad = LINK_AGE_ADULT;
+                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 26:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 27:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 28:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF6;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 29:
-                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.chamberCutsceneNum = 0;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 30:
-                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
-                Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
+                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
+                Item_Give(play, ITEM_MEDALLION_FIRE);
                 gSaveContext.chamberCutsceneNum = 1;
                 break;
             case 31:
-                globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.chamberCutsceneNum = 2;
                 break;
             case 32:
-                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->linkAgeOnLoad = LINK_AGE_CHILD;
+                play->nextEntranceIndex = ENTR_SPOT00_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionType = TRANS_TYPE_INSTANT;
+                play->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 33:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->nextEntranceIndex = ENTR_SPOT00_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 34:
-                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF3;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 35:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT00_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 38:
-                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 39:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF9;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 40:
-                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->linkAgeOnLoad = LINK_AGE_ADULT;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFFA;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 41:
-                globalCtx->nextEntranceIndex = ENTR_SPOT06_5;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT06_5;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 42:
-                globalCtx->nextEntranceIndex = ENTR_SPOT01_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT01_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 43:
-                globalCtx->nextEntranceIndex = ENTR_HAKASITARELAY_2;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->nextEntranceIndex = ENTR_HAKASITARELAY_2;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 44:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_3;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_INSTANT;
+                play->nextEntranceIndex = ENTR_TOKINOMA_3;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE_INSTANT;
                 break;
             case 46:
                 SET_EVENTCHKINF(EVENTCHKINF_4F);
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_4;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->nextEntranceIndex = ENTR_TOKINOMA_4;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 47:
-                Item_Give(globalCtx, ITEM_SONG_NOCTURNE);
+                Item_Give(play, ITEM_SONG_NOCTURNE);
                 SET_EVENTCHKINF(EVENTCHKINF_54);
-                globalCtx->nextEntranceIndex = ENTR_SPOT01_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT01_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 48:
-                globalCtx->nextEntranceIndex = ENTR_SPOT11_4;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
+                play->nextEntranceIndex = ENTR_SPOT11_4;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_SANDSTORM_END;
                 gSaveContext.nextTransitionType = TRANS_TYPE_SANDSTORM_END;
                 break;
             case 49:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_5;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
+                play->nextEntranceIndex = ENTR_TOKINOMA_5;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK_FAST;
                 break;
             case 50:
-                globalCtx->nextEntranceIndex = ENTR_SPOT01_13;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_INSTANT;
+                play->nextEntranceIndex = ENTR_SPOT01_13;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE_INSTANT;
                 break;
             case 51:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
+                play->nextEntranceIndex = ENTR_SPOT00_0;
                 gSaveContext.cutsceneIndex = 0xFFF8;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_WHITE, TCS_SLOW);
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_CIRCLE(TCA_NORMAL, TCC_WHITE, TCS_SLOW);
                 break;
             case 52:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
                 gSaveContext.cutsceneIndex = 0xFFF7;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_INSTANT;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_INSTANT;
                 break;
             case 53:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_16;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->nextEntranceIndex = ENTR_SPOT00_16;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 54:
                 gSaveContext.gameMode = 3;
                 Audio_SetSoundBanksMute(0x6F);
-                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = ENTR_SPOT09_0;
+                play->linkAgeOnLoad = LINK_AGE_CHILD;
+                play->nextEntranceIndex = ENTR_SPOT09_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 55:
-                globalCtx->nextEntranceIndex = ENTR_SPOT12_0;
+                play->nextEntranceIndex = ENTR_SPOT12_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 56:
-                globalCtx->nextEntranceIndex = ENTR_SPOT01_0;
+                play->nextEntranceIndex = ENTR_SPOT01_0;
                 gSaveContext.cutsceneIndex = 0xFFF4;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 57:
-                globalCtx->nextEntranceIndex = ENTR_SPOT16_0;
+                play->nextEntranceIndex = ENTR_SPOT16_0;
                 gSaveContext.cutsceneIndex = 0xFFF3;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 58:
-                globalCtx->nextEntranceIndex = ENTR_SPOT18_0;
+                play->nextEntranceIndex = ENTR_SPOT18_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 59:
-                globalCtx->nextEntranceIndex = ENTR_SPOT06_0;
+                play->nextEntranceIndex = ENTR_SPOT06_0;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 60:
-                globalCtx->nextEntranceIndex = ENTR_SPOT08_0;
+                play->nextEntranceIndex = ENTR_SPOT08_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 61:
-                globalCtx->nextEntranceIndex = ENTR_SPOT07_0;
+                play->nextEntranceIndex = ENTR_SPOT07_0;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 62:
-                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_0;
+                play->linkAgeOnLoad = LINK_AGE_ADULT;
+                play->nextEntranceIndex = ENTR_SPOT04_0;
                 gSaveContext.cutsceneIndex = 0xFFF6;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 63:
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_0;
+                play->nextEntranceIndex = ENTR_SPOT04_0;
                 gSaveContext.cutsceneIndex = 0xFFF7;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 64:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
+                play->nextEntranceIndex = ENTR_SPOT00_0;
                 gSaveContext.cutsceneIndex = 0xFFF5;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 65:
-                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
+                play->linkAgeOnLoad = LINK_AGE_CHILD;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 66:
-                globalCtx->nextEntranceIndex = ENTR_SPOT01_14;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT01_14;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 67:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_9;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT00_9;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 68:
-                globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 69:
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_12;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT04_12;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 70:
-                globalCtx->nextEntranceIndex = ENTR_SPOT16_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT16_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 71:
                 gSaveContext.equips.equipment |= EQUIP_VALUE_TUNIC_KOKIRI << (EQUIP_TYPE_TUNIC * 4);
-                Player_SetEquipmentData(globalCtx, player);
+                Player_SetEquipmentData(play, player);
                 gSaveContext.equips.equipment |= EQUIP_VALUE_BOOTS_KOKIRI << (EQUIP_TYPE_BOOTS * 4);
-                Player_SetEquipmentData(globalCtx, player);
-                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                Player_SetEquipmentData(play, player);
+                play->linkAgeOnLoad = LINK_AGE_CHILD;
+                play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 72:
-                globalCtx->nextEntranceIndex = ENTR_NAKANIWA_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_NAKANIWA_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF0;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 73:
-                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->linkAgeOnLoad = LINK_AGE_CHILD;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF2;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 74:
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF3;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 75:
-                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->linkAgeOnLoad = LINK_AGE_CHILD;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF4;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 76:
-                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->linkAgeOnLoad = LINK_AGE_ADULT;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF5;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 77:
-                globalCtx->linkAgeOnLoad = LINK_AGE_CHILD;
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->linkAgeOnLoad = LINK_AGE_CHILD;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF6;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 78:
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF7;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 79:
             case 80:
@@ -1005,177 +1004,177 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
             case 91:
             case 92:
             case 93:
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT20_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 94:
-                globalCtx->nextEntranceIndex = ENTR_SPOT20_1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->nextEntranceIndex = ENTR_SPOT20_1;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 95:
                 if (GET_EVENTCHKINF(EVENTCHKINF_48) && GET_EVENTCHKINF(EVENTCHKINF_49) &&
                     GET_EVENTCHKINF(EVENTCHKINF_4A)) {
-                    globalCtx->nextEntranceIndex = ENTR_TOKINOMA_0;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                    play->nextEntranceIndex = ENTR_TOKINOMA_0;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF3;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                    play->transitionType = TRANS_TYPE_FADE_BLACK;
                 } else {
                     switch (gSaveContext.sceneSetupIndex) {
                         case 8:
-                            globalCtx->nextEntranceIndex = ENTR_SPOT05_0;
-                            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                            globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                            play->nextEntranceIndex = ENTR_SPOT05_0;
+                            play->transitionTrigger = TRANS_TRIGGER_START;
+                            play->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
                         case 9:
-                            globalCtx->nextEntranceIndex = ENTR_SPOT17_0;
-                            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                            globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                            play->nextEntranceIndex = ENTR_SPOT17_0;
+                            play->transitionTrigger = TRANS_TRIGGER_START;
+                            play->transitionType = TRANS_TYPE_FADE_BLACK;
                             break;
                         case 10:
-                            globalCtx->nextEntranceIndex = ENTR_SPOT06_0;
-                            globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                            play->nextEntranceIndex = ENTR_SPOT06_0;
+                            play->transitionTrigger = TRANS_TRIGGER_START;
                             gSaveContext.cutsceneIndex = 0xFFF0;
-                            globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                            play->transitionType = TRANS_TYPE_FADE_WHITE;
                             break;
                     }
                 }
                 break;
             case 96:
                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW)) {
-                    globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                    play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF1;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+                    play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 } else {
                     SET_EVENTCHKINF(EVENTCHKINF_C8);
-                    globalCtx->nextEntranceIndex = ENTR_SPOT11_8;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                    play->nextEntranceIndex = ENTR_SPOT11_8;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    play->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 }
                 break;
             case 97:
                 if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT)) {
-                    globalCtx->nextEntranceIndex = ENTR_KENJYANOMA_0;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                    play->nextEntranceIndex = ENTR_KENJYANOMA_0;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
                     gSaveContext.cutsceneIndex = 0xFFF1;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
+                    play->transitionType = TRANS_TYPE_FADE_WHITE_FAST;
                 } else {
-                    globalCtx->nextEntranceIndex = ENTR_SPOT02_8;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                    play->nextEntranceIndex = ENTR_SPOT02_8;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    play->transitionType = TRANS_TYPE_FADE_WHITE;
                     gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 }
                 break;
             case 98:
-                globalCtx->nextEntranceIndex = ENTR_SPOT17_5;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->nextEntranceIndex = ENTR_SPOT17_5;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 99:
-                globalCtx->nextEntranceIndex = ENTR_SPOT05_3;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT05_3;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 100:
-                globalCtx->nextEntranceIndex = ENTR_SPOT04_0;
+                play->nextEntranceIndex = ENTR_SPOT04_0;
                 gSaveContext.cutsceneIndex = 0xFFF8;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 101:
-                globalCtx->nextEntranceIndex = ENTR_SPOT11_6;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_SANDSTORM_END;
+                play->nextEntranceIndex = ENTR_SPOT11_6;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_SANDSTORM_END;
                 break;
             case 102:
-                globalCtx->nextEntranceIndex = ENTR_TOKINOMA_6;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_TOKINOMA_6;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 103:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT00_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF3;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 104:
                 switch (sTitleCsState) {
                     case 0:
-                        globalCtx->nextEntranceIndex = ENTR_JYASINBOSS_0;
-                        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                        play->nextEntranceIndex = ENTR_JYASINBOSS_0;
+                        play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF2;
-                        globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                        play->transitionType = TRANS_TYPE_FADE_BLACK;
                         sTitleCsState++;
                         break;
                     case 1:
-                        globalCtx->nextEntranceIndex = ENTR_SPOT17_0;
-                        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                        play->nextEntranceIndex = ENTR_SPOT17_0;
+                        play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF1;
-                        globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                        play->transitionType = TRANS_TYPE_FADE_BLACK;
                         sTitleCsState++;
                         break;
                     case 2:
-                        globalCtx->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
-                        globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                        play->nextEntranceIndex = ENTR_HIRAL_DEMO_0;
+                        play->transitionTrigger = TRANS_TRIGGER_START;
                         gSaveContext.cutsceneIndex = 0xFFF6;
-                        globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                        play->transitionType = TRANS_TYPE_FADE_BLACK;
                         sTitleCsState = 0;
                         break;
                 }
                 break;
             case 105:
-                globalCtx->nextEntranceIndex = ENTR_SPOT02_0;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
+                play->nextEntranceIndex = ENTR_SPOT02_0;
+                play->transitionTrigger = TRANS_TRIGGER_START;
                 gSaveContext.cutsceneIndex = 0xFFF1;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 106:
-                globalCtx->nextEntranceIndex = ENTR_HAKAANA_OUKE_1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_HAKAANA_OUKE_1;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 107:
-                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_2;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_GANONTIKA_2;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 108:
-                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_3;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_GANONTIKA_3;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 109:
-                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_4;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_GANONTIKA_4;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 110:
-                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_5;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_GANONTIKA_5;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 111:
-                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_6;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_GANONTIKA_6;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 112:
-                globalCtx->nextEntranceIndex = ENTR_GANONTIKA_7;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_GANONTIKA_7;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 113:
                 if (Flags_GetEventChkInf(EVENTCHKINF_BB) && Flags_GetEventChkInf(EVENTCHKINF_BC) &&
                     Flags_GetEventChkInf(EVENTCHKINF_BD) && Flags_GetEventChkInf(EVENTCHKINF_BE) &&
                     Flags_GetEventChkInf(EVENTCHKINF_BF) && Flags_GetEventChkInf(EVENTCHKINF_AD)) {
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
-                    globalCtx->csCtx.frames = 0;
+                    play->csCtx.segment = SEGMENTED_TO_VIRTUAL(gTowerBarrierCs);
+                    play->csCtx.frames = 0;
                     gSaveContext.cutsceneTrigger = 1;
                     gSaveContext.cutsceneIndex = 0xFFFF;
                     csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
@@ -1185,70 +1184,70 @@ void Cutscene_Command_Terminator(GlobalContext* globalCtx, CutsceneContext* csCt
                 }
                 break;
             case 114:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_3;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT00_3;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 115:
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_17;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_BLACK;
+                play->nextEntranceIndex = ENTR_SPOT00_17;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_BLACK;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 116:
                 if (GET_EVENTCHKINF(EVENTCHKINF_C8)) {
-                    globalCtx->nextEntranceIndex = ENTR_SPOT02_8;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                    play->nextEntranceIndex = ENTR_SPOT02_8;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    play->transitionType = TRANS_TYPE_FADE_WHITE;
                 } else {
-                    globalCtx->nextEntranceIndex = ENTR_SPOT11_8;
-                    globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                    globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                    play->nextEntranceIndex = ENTR_SPOT11_8;
+                    play->transitionTrigger = TRANS_TRIGGER_START;
+                    play->transitionType = TRANS_TYPE_FADE_WHITE;
                 }
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 117:
                 gSaveContext.gameMode = 3;
                 Audio_SetSoundBanksMute(0x6F);
-                globalCtx->linkAgeOnLoad = LINK_AGE_ADULT;
-                globalCtx->nextEntranceIndex = ENTR_SPOT00_0;
+                play->linkAgeOnLoad = LINK_AGE_ADULT;
+                play->nextEntranceIndex = ENTR_SPOT00_0;
                 gSaveContext.cutsceneIndex = 0xFFF7;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
             case 118:
                 gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_GANON_DEMO_0;
-                Play_TriggerVoidOut(globalCtx);
+                Play_TriggerVoidOut(play);
                 gSaveContext.respawnFlag = -2;
                 gSaveContext.nextTransitionType = TRANS_TYPE_FADE_BLACK;
                 break;
             case 119:
                 gSaveContext.dayTime = CLOCK_TIME(12, 0);
                 gSaveContext.skyboxTime = CLOCK_TIME(12, 0);
-                globalCtx->nextEntranceIndex = ENTR_NAKANIWA_1;
-                globalCtx->transitionTrigger = TRANS_TRIGGER_START;
-                globalCtx->transitionType = TRANS_TYPE_FADE_WHITE;
+                play->nextEntranceIndex = ENTR_NAKANIWA_1;
+                play->transitionTrigger = TRANS_TRIGGER_START;
+                play->transitionType = TRANS_TYPE_FADE_WHITE;
                 break;
         }
     }
 }
 
 // Command 0x2D: Transition Effects
-void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* cmd) {
+void Cutscene_Command_TransitionFX(PlayState* play, CutsceneContext* csCtx, CsCmdBase* cmd) {
     f32 temp;
 
     if ((csCtx->frames >= cmd->startFrame) && (csCtx->frames <= cmd->endFrame)) {
-        globalCtx->envCtx.fillScreen = true;
+        play->envCtx.fillScreen = true;
         temp = Environment_LerpWeight(cmd->endFrame, cmd->startFrame, csCtx->frames);
 
         switch (cmd->base) {
             case 1:
             case 5:
-                globalCtx->envCtx.screenFillColor[0] = 160;
-                globalCtx->envCtx.screenFillColor[1] = 160;
-                globalCtx->envCtx.screenFillColor[2] = 160;
+                play->envCtx.screenFillColor[0] = 160;
+                play->envCtx.screenFillColor[1] = 160;
+                play->envCtx.screenFillColor[2] = 160;
                 if (cmd->base == 1) {
-                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
+                    play->envCtx.screenFillColor[3] = 255.0f * temp;
                     if ((temp == 0.0f) && (gSaveContext.entranceIndex == ENTR_KENJYANOMA_0)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_WHITE_OUT_S, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
@@ -1257,47 +1256,47 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                                                   (gSaveContext.entranceIndex == ENTR_YOUSEI_IZUMI_YOKO_0))) {
                         Audio_PlaySoundGeneral(NA_SE_EV_WHITE_OUT, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    } else if ((temp == 0.0f) && (globalCtx->sceneNum == SCENE_GANONTIKA)) {
+                    } else if ((temp == 0.0f) && (play->sceneNum == SCENE_GANONTIKA)) {
                         func_800788CC(NA_SE_EV_WHITE_OUT);
                     }
                 } else {
-                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
+                    play->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
 
             case 2:
             case 6:
-                globalCtx->envCtx.screenFillColor[0] = 0;
-                globalCtx->envCtx.screenFillColor[1] = 0;
-                globalCtx->envCtx.screenFillColor[2] = 255;
+                play->envCtx.screenFillColor[0] = 0;
+                play->envCtx.screenFillColor[1] = 0;
+                play->envCtx.screenFillColor[2] = 255;
                 if (cmd->base == 2) {
-                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
+                    play->envCtx.screenFillColor[3] = 255.0f * temp;
                 } else {
-                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
+                    play->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 }
                 break;
 
             case 3:
             case 7:
-                globalCtx->envCtx.screenFillColor[0] = 255;
-                globalCtx->envCtx.screenFillColor[1] = 0;
-                globalCtx->envCtx.screenFillColor[2] = 0;
+                play->envCtx.screenFillColor[0] = 255;
+                play->envCtx.screenFillColor[1] = 0;
+                play->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 3) {
-                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
+                    play->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
+                    play->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
 
             case 4:
             case 8:
-                globalCtx->envCtx.screenFillColor[0] = 0;
-                globalCtx->envCtx.screenFillColor[1] = 255;
-                globalCtx->envCtx.screenFillColor[2] = 0;
+                play->envCtx.screenFillColor[0] = 0;
+                play->envCtx.screenFillColor[1] = 255;
+                play->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 4) {
-                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
+                    play->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
+                    play->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
 
@@ -1307,13 +1306,13 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
 
             case 10:
             case 11:
-                globalCtx->envCtx.screenFillColor[0] = 0;
-                globalCtx->envCtx.screenFillColor[1] = 0;
-                globalCtx->envCtx.screenFillColor[2] = 0;
+                play->envCtx.screenFillColor[0] = 0;
+                play->envCtx.screenFillColor[1] = 0;
+                play->envCtx.screenFillColor[2] = 0;
                 if (cmd->base == 10) {
-                    globalCtx->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
+                    play->envCtx.screenFillColor[3] = (1.0f - temp) * 255.0f;
                 } else {
-                    globalCtx->envCtx.screenFillColor[3] = 255.0f * temp;
+                    play->envCtx.screenFillColor[3] = 255.0f * temp;
                 }
                 break;
 
@@ -1322,17 +1321,17 @@ void Cutscene_Command_TransitionFX(GlobalContext* globalCtx, CutsceneContext* cs
                 break;
 
             case 13:
-                globalCtx->envCtx.screenFillColor[0] = 0;
-                globalCtx->envCtx.screenFillColor[1] = 0;
-                globalCtx->envCtx.screenFillColor[2] = 0;
-                globalCtx->envCtx.screenFillColor[3] = 255.0f - ((1.0f - temp) * 155.0f);
+                play->envCtx.screenFillColor[0] = 0;
+                play->envCtx.screenFillColor[1] = 0;
+                play->envCtx.screenFillColor[2] = 0;
+                play->envCtx.screenFillColor[3] = 255.0f - ((1.0f - temp) * 155.0f);
                 break;
         }
     }
 }
 
 // Command 0x1 & 0x5: Camera Eye Points
-s32 Cutscene_Command_CameraEyePoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+s32 Cutscene_Command_CameraEyePoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1347,12 +1346,12 @@ s32 Cutscene_Command_CameraEyePoints(GlobalContext* globalCtx, CutsceneContext* 
         if (csCtx->unk_1A != 0) {
             csCtx->unk_18 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_CS_0);
-                Play_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_WAIT);
-                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Camera_ResetAnim(Play_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Play_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
-                                   csCtx->subCamEyePoints, GET_PLAYER(globalCtx), relativeToLink);
+                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
+                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->subCamLookAtPoints,
+                                   csCtx->subCamEyePoints, GET_PLAYER(play), relativeToLink);
             }
         }
     }
@@ -1369,7 +1368,7 @@ s32 Cutscene_Command_CameraEyePoints(GlobalContext* globalCtx, CutsceneContext* 
 }
 
 // Command 0x2 & 0x6: Camera At Points
-s32 Cutscene_Command_CameraLookAtPoints(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
+s32 Cutscene_Command_CameraLookAtPoints(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 relativeToLink) {
     s32 shouldContinue = 1;
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
@@ -1384,12 +1383,12 @@ s32 Cutscene_Command_CameraLookAtPoints(GlobalContext* globalCtx, CutsceneContex
         if (csCtx->unk_1B != 0) {
             D_8015FCC0 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_CS_0);
-                Play_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_WAIT);
-                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Camera_ResetAnim(Play_GetCamera(globalCtx, csCtx->subCamId));
-                Camera_SetCSParams(Play_GetCamera(globalCtx, csCtx->subCamId), csCtx->subCamLookAtPoints,
-                                   csCtx->subCamEyePoints, GET_PLAYER(globalCtx), relativeToLink);
+                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_CS_0);
+                Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Camera_ResetAnim(Play_GetCamera(play, csCtx->subCamId));
+                Camera_SetCSParams(Play_GetCamera(play, csCtx->subCamId), csCtx->subCamLookAtPoints,
+                                   csCtx->subCamEyePoints, GET_PLAYER(play), relativeToLink);
             }
         }
     }
@@ -1406,7 +1405,7 @@ s32 Cutscene_Command_CameraLookAtPoints(GlobalContext* globalCtx, CutsceneContex
 }
 
 // Command 0x7: ? (Related to camera positons)
-s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+s32 Cutscene_Command_07(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
     Vec3f sp3C;
@@ -1424,11 +1423,11 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
         if (csCtx->unk_1A != 0) {
             D_8015FCC2 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                subCam = Play_GetCamera(globalCtx, csCtx->subCamId);
+                subCam = Play_GetCamera(play, csCtx->subCamId);
                 subCam->player = NULL;
-                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
+                Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
                 sp28 = csCtx->subCamLookAtPoints->cameraRoll * 1.40625f;
                 Camera_SetParam(subCam, 64, &sp28);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
@@ -1437,8 +1436,8 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
                 sp30.x = csCtx->subCamEyePoints->pos.x;
                 sp30.y = csCtx->subCamEyePoints->pos.y;
                 sp30.z = csCtx->subCamEyePoints->pos.z;
-                Play_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
-                Play_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
+                Play_CameraSetAtEye(play, csCtx->subCamId, &sp3C, &sp30);
+                Play_CameraSetFov(play, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }
@@ -1449,7 +1448,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
 }
 
 // Command 0x8: ? (Related to camera focus points)
-s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cmd, u8 unused) {
+s32 Cutscene_Command_08(PlayState* play, CutsceneContext* csCtx, u8* cmd, u8 unused) {
     CsCmdBase* cmdBase = (CsCmdBase*)cmd;
     s32 size;
     Vec3f sp3C;
@@ -1467,19 +1466,19 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
         if (csCtx->unk_1B != 0) {
             D_8015FCC4 = cmdBase->startFrame;
             if (D_8015FCC8 != 0) {
-                subCam = Play_GetCamera(globalCtx, csCtx->subCamId);
+                subCam = Play_GetCamera(play, csCtx->subCamId);
                 subCam->player = NULL;
-                Play_ChangeCameraStatus(globalCtx, CAM_ID_MAIN, CAM_STAT_WAIT);
-                Play_ChangeCameraStatus(globalCtx, csCtx->subCamId, CAM_STAT_ACTIVE);
-                Play_CameraChangeSetting(globalCtx, csCtx->subCamId, CAM_SET_FREE0);
+                Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
+                Play_ChangeCameraStatus(play, csCtx->subCamId, CAM_STAT_ACTIVE);
+                Play_CameraChangeSetting(play, csCtx->subCamId, CAM_SET_FREE0);
                 sp3C.x = csCtx->subCamLookAtPoints->pos.x;
                 sp3C.y = csCtx->subCamLookAtPoints->pos.y;
                 sp3C.z = csCtx->subCamLookAtPoints->pos.z;
                 sp30.x = csCtx->subCamEyePoints->pos.x;
                 sp30.y = csCtx->subCamEyePoints->pos.y;
                 sp30.z = csCtx->subCamEyePoints->pos.z;
-                Play_CameraSetAtEye(globalCtx, csCtx->subCamId, &sp3C, &sp30);
-                Play_CameraSetFov(globalCtx, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
+                Play_CameraSetAtEye(play, csCtx->subCamId, &sp3C, &sp30);
+                Play_CameraSetFov(play, csCtx->subCamId, csCtx->subCamEyePoints->viewAngle);
             }
         }
     }
@@ -1490,7 +1489,7 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
 }
 
 // Command 0x13: Textbox
-void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdTextbox* cmd) {
+void Cutscene_Command_Textbox(PlayState* play, CutsceneContext* csCtx, CsCmdTextbox* cmd) {
     u8 dialogState;
     s16 originalCsFrames;
 
@@ -1499,40 +1498,40 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
             if (D_8011E1C0 != cmd->base) {
                 D_8011E1C0 = cmd->base;
                 if ((cmd->type == 3) && CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) {
-                    Message_StartTextbox(globalCtx, cmd->textId1, NULL);
+                    Message_StartTextbox(play, cmd->textId1, NULL);
                 } else if ((cmd->type == 4) && CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
-                    Message_StartTextbox(globalCtx, cmd->textId1, NULL);
+                    Message_StartTextbox(play, cmd->textId1, NULL);
                 } else {
-                    Message_StartTextbox(globalCtx, cmd->base, NULL);
+                    Message_StartTextbox(play, cmd->base, NULL);
                 }
                 return;
             }
         } else {
             if (D_8011E1C4 != cmd->base) {
                 D_8011E1C4 = cmd->base;
-                func_8010BD58(globalCtx, cmd->base);
+                func_8010BD58(play, cmd->base);
                 return;
             }
         }
 
         if (csCtx->frames >= cmd->endFrame) {
             originalCsFrames = csCtx->frames;
-            dialogState = Message_GetState(&globalCtx->msgCtx);
+            dialogState = Message_GetState(&play->msgCtx);
 
             if ((dialogState != TEXT_STATE_CLOSING) && (dialogState != TEXT_STATE_NONE) &&
                 (dialogState != TEXT_STATE_SONG_DEMO_DONE) && (dialogState != TEXT_STATE_8)) {
                 csCtx->frames--;
 
-                if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(globalCtx)) {
-                    if (globalCtx->msgCtx.choiceIndex == 0) {
+                if ((dialogState == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play)) {
+                    if (play->msgCtx.choiceIndex == 0) {
                         if (cmd->textId1 != 0xFFFF) {
-                            Message_ContinueTextbox(globalCtx, cmd->textId1);
+                            Message_ContinueTextbox(play, cmd->textId1);
                         } else {
                             csCtx->frames++;
                         }
                     } else {
                         if (cmd->textId2 != 0xFFFF) {
-                            Message_ContinueTextbox(globalCtx, cmd->textId2);
+                            Message_ContinueTextbox(play, cmd->textId2);
                         } else {
                             csCtx->frames++;
                         }
@@ -1541,15 +1540,15 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
 
                 if (dialogState == TEXT_STATE_9) {
                     if (cmd->textId1 != 0xFFFF) {
-                        Message_ContinueTextbox(globalCtx, cmd->textId1);
+                        Message_ContinueTextbox(play, cmd->textId1);
                     } else {
                         csCtx->frames++;
                     }
                 }
 
                 if (dialogState == TEXT_STATE_EVENT) {
-                    if (Message_ShouldAdvance(globalCtx)) {
-                        func_8010BD58(globalCtx, cmd->base);
+                    if (Message_ShouldAdvance(play)) {
+                        func_8010BD58(play, cmd->base);
                     }
                 }
             }
@@ -1563,7 +1562,7 @@ void Cutscene_Command_Textbox(GlobalContext* globalCtx, CutsceneContext* csCtx, 
     }
 }
 
-void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cutscenePtr) {
+void Cutscene_ProcessCommands(PlayState* play, CutsceneContext* csCtx, u8* cutscenePtr) {
     s16 i;
     s32 totalEntries;
     s32 cmdType;
@@ -1582,7 +1581,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
         return;
     }
 
-    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DRIGHT)) {
+    if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_UNSKIPPABLE_INIT;
         return;
     }
@@ -1600,7 +1599,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 MemCpy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
-                    func_80064824(globalCtx, csCtx, (void*)cutscenePtr);
+                    func_80064824(play, csCtx, (void*)cutscenePtr);
                     cutscenePtr += 0x30;
                 }
                 break;
@@ -1608,7 +1607,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 MemCpy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
-                    Cutscene_Command_SetLighting(globalCtx, csCtx, (void*)cutscenePtr);
+                    Cutscene_Command_SetLighting(play, csCtx, (void*)cutscenePtr);
                     cutscenePtr += 0x30;
                 }
                 break;
@@ -1616,7 +1615,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 MemCpy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
-                    Cutscene_Command_PlayBGM(globalCtx, csCtx, (void*)cutscenePtr);
+                    Cutscene_Command_PlayBGM(play, csCtx, (void*)cutscenePtr);
                     cutscenePtr += 0x30;
                 }
                 break;
@@ -1624,7 +1623,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 MemCpy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
-                    Cutscene_Command_StopBGM(globalCtx, csCtx, (void*)cutscenePtr);
+                    Cutscene_Command_StopBGM(play, csCtx, (void*)cutscenePtr);
                     cutscenePtr += 0x30;
                 }
                 break;
@@ -1632,7 +1631,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 MemCpy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
-                    Cutscene_Command_FadeBGM(globalCtx, csCtx, (void*)cutscenePtr);
+                    Cutscene_Command_FadeBGM(play, csCtx, (void*)cutscenePtr);
                     cutscenePtr += 0x30;
                 }
                 break;
@@ -1640,7 +1639,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 MemCpy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
-                    Cutscene_Command_09(globalCtx, csCtx, (void*)cutscenePtr);
+                    Cutscene_Command_09(play, csCtx, (void*)cutscenePtr);
                     cutscenePtr += 0xC;
                 }
                 break;
@@ -1648,7 +1647,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 MemCpy(&cmdEntries, cutscenePtr, 4);
                 cutscenePtr += 4;
                 for (j = 0; j < cmdEntries; j++) {
-                    func_80065134(globalCtx, csCtx, (void*)cutscenePtr);
+                    func_80065134(play, csCtx, (void*)cutscenePtr);
                     cutscenePtr += 0xC;
                 }
                 break;
@@ -1860,26 +1859,26 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 }
                 break;
             case CS_CMD_CAM_EYE:
-                cutscenePtr += Cutscene_Command_CameraEyePoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += Cutscene_Command_CameraEyePoints(play, csCtx, (void*)cutscenePtr, 0);
                 break;
             case CS_CMD_CAM_EYE_REL_TO_PLAYER:
-                cutscenePtr += Cutscene_Command_CameraEyePoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
+                cutscenePtr += Cutscene_Command_CameraEyePoints(play, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_CAM_AT:
-                cutscenePtr += Cutscene_Command_CameraLookAtPoints(globalCtx, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += Cutscene_Command_CameraLookAtPoints(play, csCtx, (void*)cutscenePtr, 0);
                 break;
             case CS_CMD_CAM_AT_REL_TO_PLAYER:
-                cutscenePtr += Cutscene_Command_CameraLookAtPoints(globalCtx, csCtx, (void*)cutscenePtr, 1);
+                cutscenePtr += Cutscene_Command_CameraLookAtPoints(play, csCtx, (void*)cutscenePtr, 1);
                 break;
             case CS_CMD_07:
-                cutscenePtr += Cutscene_Command_07(globalCtx, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += Cutscene_Command_07(play, csCtx, (void*)cutscenePtr, 0);
                 break;
             case CS_CMD_08:
-                cutscenePtr += Cutscene_Command_08(globalCtx, csCtx, (void*)cutscenePtr, 0);
+                cutscenePtr += Cutscene_Command_08(play, csCtx, (void*)cutscenePtr, 0);
                 break;
             case CS_CMD_TERMINATOR:
                 cutscenePtr += 4;
-                Cutscene_Command_Terminator(globalCtx, csCtx, (void*)cutscenePtr);
+                Cutscene_Command_Terminator(play, csCtx, (void*)cutscenePtr);
                 cutscenePtr += 8;
                 break;
             case CS_CMD_TEXTBOX:
@@ -1888,14 +1887,14 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
                 for (j = 0; j < cmdEntries; j++) {
                     cmd = (CsCmdBase*)cutscenePtr;
                     if (cmd->base != 0xFFFF) {
-                        Cutscene_Command_Textbox(globalCtx, csCtx, (void*)cutscenePtr);
+                        Cutscene_Command_Textbox(play, csCtx, (void*)cutscenePtr);
                     }
                     cutscenePtr += 0xC;
                 }
                 break;
             case CS_CMD_SCENE_TRANS_FX:
                 cutscenePtr += 4;
-                Cutscene_Command_TransitionFX(globalCtx, csCtx, (void*)cutscenePtr);
+                Cutscene_Command_TransitionFX(play, csCtx, (void*)cutscenePtr);
                 cutscenePtr += 8;
                 break;
             default:
@@ -1909,7 +1908,7 @@ void Cutscene_ProcessCommands(GlobalContext* globalCtx, CutsceneContext* csCtx, 
     }
 }
 
-void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80068C3C(PlayState* play, CutsceneContext* csCtx) {
     Gfx* displayList;
     Gfx* prevDisplayList;
 
@@ -1919,39 +1918,39 @@ void func_80068C3C(GlobalContext* globalCtx, CutsceneContext* csCtx) {
         if (0) {} // Also necessary to match
 
         if (BREG(0) != 0) {
-            OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4101);
+            OPEN_DISPS(play->state.gfxCtx, "../z_demo.c", 4101);
 
             prevDisplayList = POLY_OPA_DISP;
             displayList = Graph_GfxPlusOne(POLY_OPA_DISP);
             gSPDisplayList(OVERLAY_DISP++, displayList);
-            Cutscene_DrawDebugInfo(globalCtx, &displayList, csCtx);
+            Cutscene_DrawDebugInfo(play, &displayList, csCtx);
             gSPEndDisplayList(displayList++);
             Graph_BranchDlist(prevDisplayList, displayList);
             POLY_OPA_DISP = displayList;
 
-            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo.c", 4108);
+            CLOSE_DISPS(play->state.gfxCtx, "../z_demo.c", 4108);
         }
 
         csCtx->frames++;
         if (dREG(95) != 0) {
-            Cutscene_ProcessCommands(globalCtx, csCtx, D_8012D1F0);
+            Cutscene_ProcessCommands(play, csCtx, D_8012D1F0);
         } else {
-            Cutscene_ProcessCommands(globalCtx, csCtx, globalCtx->csCtx.segment);
+            Cutscene_ProcessCommands(play, csCtx, play->csCtx.segment);
         }
     }
 }
 
-void func_80068D84(GlobalContext* globalCtx, CutsceneContext* csCtx) {
-    if (func_8006472C(globalCtx, csCtx, 0.0f)) {
+void func_80068D84(PlayState* play, CutsceneContext* csCtx) {
+    if (func_8006472C(play, csCtx, 0.0f)) {
         Audio_SetCutsceneFlag(0);
         csCtx->state = CS_STATE_IDLE;
     }
 }
 
-void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80068DC0(PlayState* play, CutsceneContext* csCtx) {
     s16 i;
 
-    if (func_8006472C(globalCtx, csCtx, 0.0f)) {
+    if (func_8006472C(play, csCtx, 0.0f)) {
         csCtx->linkAction = NULL;
 
         for (i = 0; i < 10; i++) {
@@ -1968,12 +1967,12 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                 case 0x028E:
                 case 0x0292:
                 case 0x0476:
-                    Play_CopyCamera(globalCtx, sReturnToCamId, csCtx->subCamId);
+                    Play_CopyCamera(play, sReturnToCamId, csCtx->subCamId);
             }
 
-            Play_ChangeCameraStatus(globalCtx, sReturnToCamId, CAM_STAT_ACTIVE);
-            Play_ClearCamera(globalCtx, csCtx->subCamId);
-            func_8005B1A4(globalCtx->cameraPtrs[sReturnToCamId]);
+            Play_ChangeCameraStatus(play, sReturnToCamId, CAM_STAT_ACTIVE);
+            Play_ClearCamera(play, csCtx->subCamId);
+            func_8005B1A4(play->cameraPtrs[sReturnToCamId]);
         }
 
         Audio_SetCutsceneFlag(0);
@@ -1981,15 +1980,15 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 }
 
-void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
+void func_80068ECC(PlayState* play, CutsceneContext* csCtx) {
     u8 i;
 
-    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !Player_InCsMode(globalCtx)) {
+    if ((gSaveContext.cutsceneTrigger != 0) && (csCtx->state == CS_STATE_IDLE) && !Player_InCsMode(play)) {
         gSaveContext.cutsceneIndex = 0xFFFD;
     }
 
     if ((gSaveContext.cutsceneIndex >= 0xFFF0) && (csCtx->state == CS_STATE_IDLE)) {
-        Flags_UnsetEnv(globalCtx, 0);
+        Flags_UnsetEnv(play, 0);
 
         D_8011E1C0 = 0;
         D_8011E1C4 = 0;
@@ -2012,10 +2011,10 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
             D_8015FCC4 = 0xFFFF;
             csCtx->unk_1A = 0;
             csCtx->unk_1B = 0;
-            sReturnToCamId = globalCtx->activeCamId;
+            sReturnToCamId = play->activeCamId;
 
             if (D_8015FCC8 != 0) {
-                csCtx->subCamId = Play_CreateSubCamera(globalCtx);
+                csCtx->subCamId = Play_CreateSubCamera(play);
             }
 
             if (gSaveContext.cutsceneTrigger == 0) {
@@ -2025,14 +2024,14 @@ void func_80068ECC(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                 csCtx->state++;
             }
 
-            func_80068C3C(globalCtx, csCtx);
+            func_80068C3C(play, csCtx);
         }
 
         gSaveContext.cutsceneTrigger = 0;
     }
 }
 
-void func_80069048(GlobalContext* globalCtx) {
+void func_80069048(PlayState* play) {
     s16 i;
 
     D_8015FCCC = 0;
@@ -2042,13 +2041,13 @@ void func_80069048(GlobalContext* globalCtx) {
     D_8015FCE4 = 0;
 }
 
-void func_8006907C(GlobalContext* globalCtx) {
+void func_8006907C(PlayState* play) {
     if (D_8015FCCC != 0) {
         D_8015FCCC = 0;
     }
 }
 
-void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
+void Cutscene_HandleEntranceTriggers(PlayState* play) {
     EntranceCutscene* entranceCutscene;
     u8 requiredAge;
     s16 i;
@@ -2066,7 +2065,7 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
             (gSaveContext.cutsceneIndex < 0xFFF0) && ((u8)gSaveContext.linkAge == requiredAge) &&
             (gSaveContext.respawnFlag <= 0)) {
             Flags_SetEventChkInf(entranceCutscene->flag);
-            Cutscene_SetSegment(globalCtx, entranceCutscene->segAddr);
+            Cutscene_SetSegment(play, entranceCutscene->segAddr);
             gSaveContext.cutsceneTrigger = 2;
             gSaveContext.showTitleCard = false;
             break;
@@ -2074,7 +2073,7 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx) {
     }
 }
 
-void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
+void Cutscene_HandleConditionalTriggers(PlayState* play) {
     osSyncPrintf("\ngame_info.mode=[%d] restart_flag", ((void)0, gSaveContext.respawnFlag));
 
     if ((gSaveContext.gameMode == 0) && (gSaveContext.respawnFlag <= 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) {
@@ -2089,7 +2088,7 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if ((gSaveContext.entranceIndex == ENTR_SPOT10_9) && !Flags_GetEventChkInf(EVENTCHKINF_C1)) {
             Flags_SetEventChkInf(EVENTCHKINF_C1);
-            Item_Give(globalCtx, ITEM_OCARINA_FAIRY);
+            Item_Give(play, ITEM_OCARINA_FAIRY);
             gSaveContext.entranceIndex = ENTR_SPOT10_0;
             gSaveContext.cutsceneIndex = 0xFFF0;
         } else if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
@@ -2107,10 +2106,10 @@ void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx) {
     }
 }
 
-void Cutscene_SetSegment(GlobalContext* globalCtx, void* segment) {
+void Cutscene_SetSegment(PlayState* play, void* segment) {
     if (SEGMENT_NUMBER(segment) != 0) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(segment);
+        play->csCtx.segment = SEGMENTED_TO_VIRTUAL(segment);
     } else {
-        globalCtx->csCtx.segment = segment;
+        play->csCtx.segment = segment;
     }
 }
