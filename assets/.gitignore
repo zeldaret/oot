@@ -10,6 +10,7 @@
 *.vtx.inc
 *.dlist.inc
 
+/sequences/References.xml
 /soundfonts/*.xml
 /soundfonts/*.h
 /samples/Banks.xml

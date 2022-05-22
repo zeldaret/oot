@@ -8,6 +8,9 @@ reloc_prereq
 vtxdis
 aifc_decode
 assemble_sequence
+aiff_extract_codebook
+tabledesign
+vadpcm_enc
 yaz0
 
 graphovl/
