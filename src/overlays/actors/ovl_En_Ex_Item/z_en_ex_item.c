@@ -11,26 +11,26 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnExItem_Init(Actor* thisx, PlayState* play);
+void EnExItem_Destroy(Actor* thisx, PlayState* play);
+void EnExItem_Update(Actor* thisx, PlayState* play);
+void EnExItem_Draw(Actor* thisx, PlayState* play);
 
-void EnExItem_DrawItems(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_DrawRupee(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index);
-void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex);
+void EnExItem_DrawItems(EnExItem* this, PlayState* play);
+void EnExItem_DrawHeartPiece(EnExItem* this, PlayState* play);
+void EnExItem_DrawRupee(EnExItem* this, PlayState* play);
+void EnExItem_DrawKey(EnExItem* this, PlayState* play, s32 index);
+void EnExItem_DrawMagic(EnExItem* this, PlayState* play, s16 magicIndex);
 
-void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_SetupBowlCounter(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_BowlCounter(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_ExitChest(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_FairyMagic(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx);
-void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx);
+void EnExItem_WaitForObject(EnExItem* this, PlayState* play);
+void EnExItem_BowlPrize(EnExItem* this, PlayState* play);
+void EnExItem_SetupBowlCounter(EnExItem* this, PlayState* play);
+void EnExItem_BowlCounter(EnExItem* this, PlayState* play);
+void EnExItem_ExitChest(EnExItem* this, PlayState* play);
+void EnExItem_FairyMagic(EnExItem* this, PlayState* play);
+void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play);
+void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play);
+void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play);
 
 const ActorInit En_Ex_Item_InitVars = {
     ACTOR_EN_EX_ITEM,
@@ -44,10 +44,10 @@ const ActorInit En_Ex_Item_InitVars = {
     (ActorFunc)EnExItem_Draw,
 };
 
-void EnExItem_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnExItem_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnExItem_Init(Actor* thisx, PlayState* play) {
     s32 pad;
     EnExItem* this = (EnExItem*)thisx;
 
@@ -103,7 +103,7 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->getItemObjId >= 0) {
-        this->objectIdx = Object_GetIndex(&globalCtx->objectCtx, this->getItemObjId);
+        this->objectIdx = Object_GetIndex(&play->objectCtx, this->getItemObjId);
         this->actor.draw = NULL;
         if (this->objectIdx < 0) {
             Actor_Kill(&this->actor);
@@ -117,10 +117,10 @@ void EnExItem_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_WaitForObject(EnExItem* this, PlayState* play) {
     s32 onCounter;
 
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIdx)) {
+    if (Object_IsLoaded(&play->objectCtx, this->objectIdx)) {
         // "End of transfer"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 転送終了 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params, this);
@@ -254,7 +254,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_BowlPrize(EnExItem* this, PlayState* play) {
     s32 pad;
     f32 tmpf1;
     f32 tmpf2;
@@ -279,18 +279,18 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
             if (this->type == EXITEM_BOMBCHUS_BOWLING) {
                 sp3C = 220.0f;
             }
-            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.at.y - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.at.z + sp3C - globalCtx->view.eye.z;
+            tmpf1 = play->view.at.x - play->view.eye.x;
+            tmpf2 = play->view.at.y - play->view.eye.y;
+            tmpf3 = play->view.at.z + sp3C - play->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;
             tmpf6 = (tmpf2 / tmpf4) * 5.0f;
             tmpf7 = (tmpf3 / tmpf4) * 5.0f;
 
-            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.world.pos.x;
-            tmpf2 = globalCtx->view.eye.y + tmpf6 - this->actor.world.pos.y;
-            tmpf3 = globalCtx->view.eye.z + tmpf7 - this->actor.world.pos.z;
+            tmpf1 = play->view.eye.x + tmpf5 - this->actor.world.pos.x;
+            tmpf2 = play->view.eye.y + tmpf6 - this->actor.world.pos.y;
+            tmpf3 = play->view.eye.z + tmpf7 - this->actor.world.pos.z;
 
             this->actor.world.pos.x += (tmpf1 / tmpf4) * 5.0f;
             this->actor.world.pos.y += (tmpf2 / tmpf4) * 5.0f;
@@ -310,19 +310,19 @@ void EnExItem_BowlPrize(EnExItem* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnExItem_SetupBowlCounter(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_SetupBowlCounter(EnExItem* this, PlayState* play) {
     this->actor.world.rot.y = this->actor.shape.rot.y = 0x4268;
     this->actionFunc = EnExItem_BowlCounter;
 }
 
-void EnExItem_BowlCounter(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_BowlCounter(EnExItem* this, PlayState* play) {
     this->actor.shape.rot.y += 0x800;
     if (this->killItem) {
         Actor_Kill(&this->actor);
     }
 }
 
-void EnExItem_ExitChest(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_ExitChest(EnExItem* this, PlayState* play) {
     this->actor.shape.rot.y += 0x1000;
     if (this->timer != 0) {
         if (this->timer == 1) {
@@ -337,11 +337,11 @@ void EnExItem_ExitChest(EnExItem* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 }
 
-void EnExItem_FairyMagic(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_FairyMagic(EnExItem* this, PlayState* play) {
     this->actor.shape.rot.y += 0x800;
 }
 
-void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_TargetPrizeApproach(EnExItem* this, PlayState* play) {
     f32 tmpf1;
     f32 tmpf2;
     f32 tmpf3;
@@ -362,18 +362,18 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
 
     if (this->timer != 0) {
         if (this->prizeRotateTimer != 0) {
-            tmpf1 = globalCtx->view.at.x - globalCtx->view.eye.x;
-            tmpf2 = globalCtx->view.at.y - 10.0f - globalCtx->view.eye.y;
-            tmpf3 = globalCtx->view.at.z + 10.0f - globalCtx->view.eye.z;
+            tmpf1 = play->view.at.x - play->view.eye.x;
+            tmpf2 = play->view.at.y - 10.0f - play->view.eye.y;
+            tmpf3 = play->view.at.z + 10.0f - play->view.eye.z;
             tmpf4 = sqrtf(SQ(tmpf1) + SQ(tmpf2) + SQ(tmpf3));
 
             tmpf5 = (tmpf1 / tmpf4) * 5.0f;
             tmpf6 = (tmpf2 / tmpf4) * 5.0f;
             tmpf7 = (tmpf3 / tmpf4) * 5.0f;
 
-            tmpf1 = globalCtx->view.eye.x + tmpf5 - this->actor.world.pos.x;
-            tmpf2 = globalCtx->view.eye.y - 10.0f + tmpf6 - this->actor.world.pos.y;
-            tmpf3 = globalCtx->view.eye.z + 10.0f + tmpf7 - this->actor.world.pos.z;
+            tmpf1 = play->view.eye.x + tmpf5 - this->actor.world.pos.x;
+            tmpf2 = play->view.eye.y - 10.0f + tmpf6 - this->actor.world.pos.y;
+            tmpf3 = play->view.eye.z + 10.0f + tmpf7 - this->actor.world.pos.z;
 
             this->actor.world.pos.x += (tmpf1 / tmpf4) * 5.0f;
             this->actor.world.pos.y += (tmpf2 / tmpf4) * 5.0f;
@@ -383,32 +383,32 @@ void EnExItem_TargetPrizeApproach(EnExItem* this, GlobalContext* globalCtx) {
         s32 getItemId;
 
         this->actor.draw = NULL;
-        func_8002DF54(globalCtx, NULL, 7);
+        func_8002DF54(play, NULL, 7);
         this->actor.parent = NULL;
         if (CUR_UPG_VALUE(UPG_BULLET_BAG) == 1) {
             getItemId = GI_BULLET_BAG_40;
         } else {
             getItemId = GI_BULLET_BAG_50;
         }
-        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
+        func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
         this->actionFunc = EnExItem_TargetPrizeGive;
     }
 }
 
-void EnExItem_TargetPrizeGive(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_TargetPrizeGive(EnExItem* this, PlayState* play) {
     s32 getItemId;
 
-    if (Actor_HasParent(&this->actor, globalCtx)) {
+    if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = EnExItem_TargetPrizeFinish;
     } else {
         getItemId = (CUR_UPG_VALUE(UPG_BULLET_BAG) == 2) ? GI_BULLET_BAG_50 : GI_BULLET_BAG_40;
 
-        func_8002F434(&this->actor, globalCtx, getItemId, 2000.0f, 1000.0f);
+        func_8002F434(&this->actor, play, getItemId, 2000.0f, 1000.0f);
     }
 }
 
-void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+void EnExItem_TargetPrizeFinish(EnExItem* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         // "Successful completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
         SET_ITEMGETINF(ITEMGETINF_1D);
@@ -416,7 +416,7 @@ void EnExItem_TargetPrizeFinish(EnExItem* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnExItem_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     EnExItem* this = (EnExItem*)thisx;
 
@@ -429,10 +429,10 @@ void EnExItem_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->prizeRotateTimer != 0) {
         this->prizeRotateTimer--;
     }
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnExItem_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnExItem* this = (EnExItem*)thisx;
     s32 magicType;
@@ -446,11 +446,11 @@ void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case EXITEM_BOMBCHUS_COUNTER:
         case EXITEM_BOMBS_COUNTER:
         case EXITEM_BULLET_BAG:
-            EnExItem_DrawItems(this, globalCtx);
+            EnExItem_DrawItems(this, play);
             break;
         case EXITEM_HEART_PIECE_BOWLING:
         case EXITEM_HEART_PIECE_COUNTER:
-            EnExItem_DrawHeartPiece(this, globalCtx);
+            EnExItem_DrawHeartPiece(this, play);
             break;
         case EXITEM_PURPLE_RUPEE_BOWLING:
         case EXITEM_PURPLE_RUPEE_COUNTER:
@@ -459,61 +459,61 @@ void EnExItem_Draw(Actor* thisx, GlobalContext* globalCtx) {
         case EXITEM_RED_RUPEE_CHEST:
         case EXITEM_13:
         case EXITEM_14:
-            EnExItem_DrawRupee(this, globalCtx);
+            EnExItem_DrawRupee(this, play);
             break;
         case EXITEM_SMALL_KEY_CHEST:
-            EnExItem_DrawKey(this, globalCtx, 0);
+            EnExItem_DrawKey(this, play, 0);
             break;
         case EXITEM_MAGIC_FIRE:
         case EXITEM_MAGIC_WIND:
         case EXITEM_MAGIC_DARK:
             magicType = this->type - EXITEM_MAGIC_FIRE;
-            EnExItem_DrawMagic(this, globalCtx, magicType);
+            EnExItem_DrawMagic(this, play, magicType);
             break;
     }
 }
 
-void EnExItem_DrawItems(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_DrawItems(EnExItem* this, PlayState* play) {
     if (this->unk_17C != NULL) {
-        this->unk_17C(&this->actor, globalCtx, 0);
+        this->unk_17C(&this->actor, play, 0);
     }
     if (this) {}
-    func_8002ED80(&this->actor, globalCtx, 0);
-    GetItem_Draw(globalCtx, this->giDrawId);
+    func_8002ED80(&this->actor, play, 0);
+    GetItem_Draw(play, this->giDrawId);
 }
 
-void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx) {
-    func_8002ED80(&this->actor, globalCtx, 0);
-    GetItem_Draw(globalCtx, GID_HEART_PIECE);
+void EnExItem_DrawHeartPiece(EnExItem* this, PlayState* play) {
+    func_8002ED80(&this->actor, play, 0);
+    GetItem_Draw(play, GID_HEART_PIECE);
 }
 
-void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex) {
+void EnExItem_DrawMagic(EnExItem* this, PlayState* play, s16 magicIndex) {
     static s16 giDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
 
-    func_8002ED80(&this->actor, globalCtx, 0);
-    GetItem_Draw(globalCtx, giDrawIds[magicIndex]);
+    func_8002ED80(&this->actor, play, 0);
+    GetItem_Draw(play, giDrawIds[magicIndex]);
 }
 
-void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
+void EnExItem_DrawKey(EnExItem* this, PlayState* play, s32 index) {
     static void* keySegments[] = { gDropKeySmallTex };
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 880);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_ex_item.c", 880);
 
-    func_8009460C(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 887),
+    func_8009460C(play->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ex_item.c", 887),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));
     gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 893);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_ex_item.c", 893);
 }
 
-void EnExItem_DrawRupee(EnExItem* this, GlobalContext* globalCtx) {
+void EnExItem_DrawRupee(EnExItem* this, PlayState* play) {
     if (this->unk_17C != NULL) {
-        this->unk_17C(&this->actor, globalCtx, 0);
+        this->unk_17C(&this->actor, play, 0);
     }
     if (this->unk_180 != NULL) {
-        this->unk_180(&this->actor, globalCtx, 0);
+        this->unk_180(&this->actor, play, 0);
     }
-    GetItem_Draw(globalCtx, this->giDrawId);
+    GetItem_Draw(play, this->giDrawId);
 }

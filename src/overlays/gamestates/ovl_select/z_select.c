@@ -28,7 +28,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
-    AudioSeqCmd_StopSequence(SEQ_PLAYER_BGM_MAIN, 0);
+    SEQCMD_STOP_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = ENTR_LOAD_OPENING;
@@ -37,7 +37,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.showTitleCard = true;
     gWeatherMode = WEATHER_MODE_CLEAR;
     this->state.running = false;
-    SET_NEXT_GAMESTATE(&this->state, Play_Init, GlobalContext);
+    SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
 }
 
 // "Translation" (Actual name)

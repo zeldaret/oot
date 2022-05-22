@@ -16,7 +16,7 @@
 
 #define NUM_CAMS 4
 
-// Camera IDs are indices into `GlobalContext.cameraPtrs`
+// Camera IDs are indices into `PlayState.cameraPtrs`
 #define CAM_ID_MAIN 0 // The index of the main camera
 #define CAM_ID_SUB_FIRST 1 // The index sub cameras start at
 #define CAM_ID_NONE -1 // Used to indicate no camera. Can be used to default to the active camera in some scenarios
@@ -24,8 +24,8 @@
 #define SUB_CAM_ID_DONE 0 // Used in some actors for variables holding sub camera IDs to indicate "subcam is finished"
 
 #define ONEPOINT_CS_INFO(camera) (&camera->paramData.uniq9.csInfo)
-#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamId])
-#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamId])
+#define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
+#define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
@@ -1342,7 +1342,7 @@ typedef struct {
     /* 0x068 */ Vec3f up;
     /* 0x074 */ Vec3f eyeNext;
     /* 0x080 */ Vec3f skyboxOffset;
-    /* 0x08C */ struct GlobalContext* globalCtx;
+    /* 0x08C */ struct PlayState* play;
     /* 0x090 */ struct Player* player;
     /* 0x094 */ PosRot playerPosRot;
     /* 0x0A8 */ struct Actor* target;

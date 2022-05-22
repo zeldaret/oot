@@ -41,7 +41,7 @@ void KaleidoManager_ClearOvl(KaleidoMgrOverlay* ovl) {
     }
 }
 
-void KaleidoManager_Init(GlobalContext* globalCtx) {
+void KaleidoManager_Init(PlayState* play) {
     s32 largestSize = 0;
     s32 size;
     u32 i;
@@ -57,7 +57,7 @@ void KaleidoManager_Init(GlobalContext* globalCtx) {
     osSyncPrintf("KaleidoArea の最大サイズは %d バイトを確保します\n", largestSize);
     osSyncPrintf(VT_RST);
 
-    sKaleidoAreaPtr = GameState_Alloc(&globalCtx->state, largestSize, "../z_kaleido_manager.c", 150);
+    sKaleidoAreaPtr = GameState_Alloc(&play->state, largestSize, "../z_kaleido_manager.c", 150);
     LogUtils_CheckNullPointer("KaleidoArea_allocp", sKaleidoAreaPtr, "../z_kaleido_manager.c", 151);
 
     osSyncPrintf(VT_FGCOL(GREEN));

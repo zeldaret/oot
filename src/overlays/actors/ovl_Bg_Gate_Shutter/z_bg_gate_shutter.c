@@ -10,15 +10,15 @@
 
 #define FLAGS 0
 
-void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgGateShutter_Init(Actor* thisx, PlayState* play);
+void BgGateShutter_Destroy(Actor* thisx, PlayState* play);
+void BgGateShutter_Update(Actor* thisx, PlayState* play);
+void BgGateShutter_Draw(Actor* thisx, PlayState* play);
 
-void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx);
-void func_80878300(BgGateShutter* this, GlobalContext* globalCtx);
-void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx);
-void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx);
+void func_8087828C(BgGateShutter* this, PlayState* play);
+void func_80878300(BgGateShutter* this, PlayState* play);
+void func_808783AC(BgGateShutter* this, PlayState* play);
+void func_808783D4(BgGateShutter* this, PlayState* play);
 
 const ActorInit Bg_Gate_Shutter_InitVars = {
     ACTOR_BG_GATE_SHUTTER,
@@ -32,18 +32,18 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
     (ActorFunc)BgGateShutter_Draw,
 };
 
-void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgGateShutter_Init(Actor* thisx, PlayState* play) {
     BgGateShutter* this = (BgGateShutter*)thisx;
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&gKakarikoGuardGateCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->world.pos.x;
     this->somePos.y = thisx->world.pos.y;
     this->somePos.z = thisx->world.pos.z;
-    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (globalCtx->sceneNum == SCENE_SPOT01)) {
+    if ((GET_INFTABLE(INFTABLE_76) || GET_EVENTCHKINF(EVENTCHKINF_45)) && (play->sceneNum == SCENE_SPOT01)) {
         thisx->world.pos.x = -89.0f;
         thisx->world.pos.z = -1375.0f;
     }
@@ -55,13 +55,13 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = func_8087828C;
 }
 
-void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgGateShutter_Destroy(Actor* thisx, PlayState* play) {
     BgGateShutter* this = (BgGateShutter*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_8087828C(BgGateShutter* this, PlayState* play) {
     if (this->openingState == 1 && !GET_INFTABLE(INFTABLE_76)) {
         this->unk_178 = 2;
         this->actionFunc = func_80878300;
@@ -74,7 +74,7 @@ void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_80878300(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
@@ -89,14 +89,14 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_808783AC(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_808783AC(BgGateShutter* this, PlayState* play) {
     if (this->unk_178 == 0) {
         this->openingState = 0;
         this->actionFunc = func_8087828C;
     }
 }
 
-void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
+void func_808783D4(BgGateShutter* this, PlayState* play) {
     Actor* thisx = &this->dyna.actor;
 
     if (this->unk_178 == 0) {
@@ -112,23 +112,23 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgGateShutter_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgGateShutter_Update(Actor* thisx, PlayState* play) {
     BgGateShutter* this = (BgGateShutter*)thisx;
 
     if (this->unk_178 != 0) {
         this->unk_178 -= 1;
     }
-    this->actionFunc(this, globalCtx);
+    this->actionFunc(this, play);
 }
 
-void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 323);
+void BgGateShutter_Draw(Actor* thisx, PlayState* play) {
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_gate_shutter.c", 323);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(play->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gKakarikoGuardGateDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }

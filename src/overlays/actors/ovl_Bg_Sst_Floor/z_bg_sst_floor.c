@@ -9,10 +9,10 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void BgSstFloor_Init(BgSstFloor* this, GlobalContext* globalCtx);
-void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);
-void BgSstFloor_Update(BgSstFloor* this, GlobalContext* globalCtx);
-void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
+void BgSstFloor_Init(BgSstFloor* this, PlayState* play);
+void BgSstFloor_Destroy(BgSstFloor* this, PlayState* play);
+void BgSstFloor_Update(BgSstFloor* this, PlayState* play);
+void BgSstFloor_Draw(BgSstFloor* this, PlayState* play);
 
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
@@ -32,7 +32,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale.x, 100, ICHAIN_STOP),
 };
 
-void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
+void BgSstFloor_Init(BgSstFloor* thisx, PlayState* play) {
     s32 pad;
     BgSstFloor* this = (BgSstFloor*)thisx;
     CollisionHeader* colHeader = NULL;
@@ -40,20 +40,20 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gBongoDrumCol, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
-void BgSstFloor_Destroy(BgSstFloor* thisx, GlobalContext* globalCtx) {
+void BgSstFloor_Destroy(BgSstFloor* thisx, PlayState* play) {
     s32 pad;
     BgSstFloor* this = (BgSstFloor*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
+void BgSstFloor_Update(BgSstFloor* thisx, PlayState* play) {
     s32 pad;
     BgSstFloor* this = (BgSstFloor*)thisx;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
     CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(&gBongoDrumCol);
 
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
@@ -61,9 +61,9 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     if (1) {}
 
     if (func_80043590(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_BOSS_BONGO);
+        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_BOSS_BONGO);
     } else {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
 
     if (func_8004356C(&this->dyna) && (player->fallDistance > 1000.0f)) {
@@ -72,7 +72,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->dyna.actor.params == BONGOFLOOR_HIT) {
-        Actor* item00 = globalCtx->actorCtx.actorLists[ACTORCAT_MISC].head;
+        Actor* item00 = play->actorCtx.actorLists[ACTORCAT_MISC].head;
         f32 distFromRim;
         f32 xzDist;
 
@@ -117,20 +117,20 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         this->drumPhase--;
     }
     if (1) {}
-    func_8003EE6C(globalCtx, &globalCtx->colCtx.dyna);
+    func_8003EE6C(play, &play->colCtx.dyna);
 }
 
-void BgSstFloor_Draw(BgSstFloor* thisx, GlobalContext* globalCtx) {
+void BgSstFloor_Draw(BgSstFloor* thisx, PlayState* play) {
     BgSstFloor* this = (BgSstFloor*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 277);
-    func_80093D18(globalCtx->state.gfxCtx);
+    OPEN_DISPS(play->state.gfxCtx, "../z_bg_sst_floor.c", 277);
+    func_80093D18(play->state.gfxCtx);
     Matrix_Scale(1.0f, this->drumHeight * -0.0025f, 1.0f, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 283),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_sst_floor.c", 283),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, gBongoDrumDL);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_sst_floor.c", 287);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_bg_sst_floor.c", 287);
 }

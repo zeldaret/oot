@@ -91,7 +91,7 @@ extern u32 gGsFlagsMasks[4];
 extern u32 gGsFlagsShifts[4];
 extern void* gItemIcons[0x82];
 extern u8 gItemSlots[56];
-extern void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(GlobalContext*, SceneCmd*);
+extern void (*gSceneCmdHandlers[SCENE_CMD_ID_MAX])(PlayState*, SceneCmd*);
 extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
 extern RomFile gObjectTable[OBJECT_ID_MAX];
