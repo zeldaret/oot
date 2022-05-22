@@ -187,7 +187,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_PNG:.png=.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom build/assets/text $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
+$(shell mkdir -p build/baserom build/assets/text assets/sequences assets/soundfonts assets/samples $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 ifeq ($(COMPILER),ido)
 build/src/code/fault.o: CFLAGS += -trapuv
@@ -246,6 +246,9 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
+  $(RM) -r assets/sequences/
+  $(RM) -r assets/soundfonts/
+  $(RM) -r assets/samples/
 	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
 	$(RM) -r .extracted-assets.json
