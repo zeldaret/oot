@@ -2431,6 +2431,8 @@ void Magic_Update(PlayState* play) {
                     }
                 }
             } else {
+                // Once the capacity has reached its target,
+                // follow up by filling magic to magicFillTarget
                 gSaveContext.magicState = MAGIC_STATE_FILL;
             }
             break;

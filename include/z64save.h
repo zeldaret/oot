@@ -14,7 +14,7 @@ typedef enum {
     /* 0x6 */ MAGIC_STATE_METER_FLASH_3, // Flashes border with no additional behaviour
     /* 0x7 */ MAGIC_STATE_CONSUME_LENS, // Magic slowly consumed by lens. 
     /* 0x8 */ MAGIC_STATE_STEP_CAPACITY, // step magicCapacity to (gSaveContext.magicLevel * MAGIC_NORMAL_METER)
-    /* 0x9 */ MAGIC_STATE_FILL, // Add magic until full capacity is reached
+    /* 0x9 */ MAGIC_STATE_FILL, // Add magic until magicFillTarget is reached.
     /* 0xA */ MAGIC_STATE_ADD // Add requested magic
 } MagicState;
 
