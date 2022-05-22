@@ -577,17 +577,17 @@ typedef enum {
     /* 0 */ HUD_DISPLAY_IDLE,
     /* 1 */ HUD_DISPLAY_OFF,
     /* 2 */ HUD_DISPLAY_OFF_ALT,
-    /* 3 */ HUD_DISPLAY_HEARTS,
+    /* 3 */ HUD_DISPLAY_HEARTS, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
     /* 4 */ HUD_DISPLAY_A,
     /* 5 */ HUD_DISPLAY_A_HEARTS_MAGIC,
     /* 6 */ HUD_DISPLAY_A_HEARTS_MAGIC_MINIMAP,
     /* 7 */ HUD_DISPLAY_ALL_NO_MINIMAP,
     /* 8 */ HUD_DISPLAY_B,
-    /* 9 */ HUD_DISPLAY_HEARTS_MAGIC,
-    /* 10 */ HUD_DISPLAY_B_ALT,
-    /* 11 */ HUD_DISPLAY_HEARTS_ALT,
+    /* 9 */ HUD_DISPLAY_HEARTS_MAGIC, // Sets all alpha's directly, no opportunity to overwrite
+    /* 10 */ HUD_DISPLAY_B_TOGGLE,
+    /* 11 */ HUD_DISPLAY_HEARTS_ALT, // Sets all alpha's directly, no opportunity to overwrite
     /* 12 */ HUD_DISPLAY_A_B_MINIMAP,
-    /* 13 */ HUD_DISPLAY_HEARTS_MAGIC_ALT,
+    /* 13 */ HUD_DISPLAY_HEARTS_MAGIC_ALT, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
     /* 50 */ HUD_DISPLAY_ALL = 50,
     /* 52 */ HUD_DISPLAY_OFF_NOW = 52
 } HudDisplayType;

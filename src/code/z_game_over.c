@@ -70,7 +70,7 @@ void GameOver_Update(PlayState* play) {
             gSaveContext.eventInf[3] = 0;
             gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
                 gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-            gSaveContext.overrideButtonHudDisplay = gSaveContext.hudDisplayType1 = gSaveContext.hudDisplayType2 =
+            gSaveContext.overrideButtonHudDisplay = gSaveContext.hudDisplayRequest = gSaveContext.hudDisplayCur =
                 gSaveContext.hudDisplayCounter = 0;
 
             Environment_InitGameOverLights(play);

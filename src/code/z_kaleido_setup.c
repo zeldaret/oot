@@ -23,7 +23,7 @@ void KaleidoSetup_Update(PlayState* play) {
                 pauseCtx->debugState = 3;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-            gSaveContext.hudDisplayType3 = gSaveContext.hudDisplayType2;
+            gSaveContext.hudDisplayPrev = gSaveContext.hudDisplayCur;
 
             WREG(16) = -175;
             WREG(17) = 155;

@@ -1470,7 +1470,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;
     gSaveContext.eventInf[3] = 0;
-    gSaveContext.hudDisplayType3 = HUD_DISPLAY_ALL;
+    gSaveContext.hudDisplayPrev = HUD_DISPLAY_ALL;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
     gSaveContext.unk_13F0 = 0;
@@ -1487,7 +1487,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
-    gSaveContext.overrideButtonHudDisplay = gSaveContext.hudDisplayType1 = gSaveContext.hudDisplayType2 =
+    gSaveContext.overrideButtonHudDisplay = gSaveContext.hudDisplayRequest = gSaveContext.hudDisplayCur =
         gSaveContext.hudDisplayCounter = gSaveContext.unk_13F4 = 0;
 
     gSaveContext.unk_13F6 = gSaveContext.magic;
