@@ -207,7 +207,7 @@ extern u8 gAudioSfxSwapOff;
 extern u16 gAudioSfxSwapSource[10];
 extern u16 gAudioSfxSwapTarget[10];
 extern u8 gAudioSfxSwapMode[10];
-extern ActiveSeq gActiveSeqs[4];
+extern ActiveSequences gActiveSeqs[4];
 extern AudioContext gAudioContext;
 extern void(*D_801755D0)(void);
 

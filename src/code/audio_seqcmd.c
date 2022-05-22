@@ -22,7 +22,7 @@
 #include "ultra64/abi.h"
 
 // Direct audio command (skips the queueing system)
-#define SEQCMD_SET_PLAYER_VOLUME_NOW(playerIndex, volFadeTimer, volScale)                                          \
+#define SEQCMD_SET_PLAYER_VOLUME_NOW(playerIndex, volFadeTimer, volScale)                                        \
     Audio_ProcessSeqCmd((SEQ_CMD_SET_PLAYER_VOLUME << 28) | ((u8)playerIndex << 24) | ((u8)volFadeTimer << 16) | \
                         ((u8)(volScale * 127.0f)));
 
@@ -34,7 +34,7 @@ typedef struct {
 SeqRequest sSeqRequests[4][5];
 u8 sNumSeqRequests[4];
 u32 sAudioSeqCmds[0x100];
-ActiveSeq gActiveSeqs[4];
+ActiveSequences gActiveSeqs[4];
 
 u8 sSeqCmdWritePos = 0;
 u8 sSeqCmdReadPos = 0;
