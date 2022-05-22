@@ -2275,7 +2275,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
 void Magic_Fill(PlayState* play) {
     if (gSaveContext.isMagicAcquired) {
         gSaveContext.prevMagicState = gSaveContext.magicState;
-        gSaveContext.magicCapacityTarget = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
+        gSaveContext.magicFillTarget = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
         gSaveContext.magicState = MAGIC_STATE_FILL;
     }
 }
@@ -2411,13 +2411,13 @@ void Magic_Update(PlayState* play) {
     s16 borderChangeR;
     s16 borderChangeG;
     s16 borderChangeB;
-    s16 temp; // magicCapacityTarget or magicBorderIndex
+    s16 temp; // magicFillTarget or magicBorderIndex
 
     switch (gSaveContext.magicState) {
         case MAGIC_STATE_STEP_CAPACITY:
-            // Step magicCapacity to what is magicCapacityTarget
+            // Step magicCapacity to the capacity determined by magicLevel
             // This changes the width of the magic bar drawn
-            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER; // magicCapacityTarget
+            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER;
             if (gSaveContext.magicCapacity != temp) {
                 if (gSaveContext.magicCapacity < temp) {
                     gSaveContext.magicCapacity += 8;
@@ -2436,7 +2436,7 @@ void Magic_Update(PlayState* play) {
             break;
 
         case MAGIC_STATE_FILL:
-            // Add magic until full capacity is reached
+            // Add magic until magicFillTarget is reached
             gSaveContext.magic += 4;
 
             if (gSaveContext.gameMode == 0 && gSaveContext.sceneSetupIndex < 4) {
@@ -2445,10 +2445,10 @@ void Magic_Update(PlayState* play) {
             }
 
             // "Storage  MAGIC_NOW=%d (%d)"
-            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicCapacityTarget);
+            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicFillTarget);
 
-            if (gSaveContext.magic >= gSaveContext.magicCapacityTarget) {
-                gSaveContext.magic = gSaveContext.magicCapacityTarget;
+            if (gSaveContext.magic >= gSaveContext.magicFillTarget) {
+                gSaveContext.magic = gSaveContext.magicFillTarget;
                 gSaveContext.magicState = gSaveContext.prevMagicState;
                 gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
             }
@@ -4126,7 +4126,7 @@ void Interface_Update(PlayState* play) {
             osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
             osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.magic);
-            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicCapacityTarget);
+            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
             osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.magicCapacity);
             osSyncPrintf(VT_RST);
         }

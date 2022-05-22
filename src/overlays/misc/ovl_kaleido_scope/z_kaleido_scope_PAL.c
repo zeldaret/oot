@@ -3407,12 +3407,12 @@ void KaleidoScope_Update(PlayState* play) {
                         gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
                         osSyncPrintf(VT_FGCOL(YELLOW));
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicCapacityTarget);
+                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d   →  ", gSaveContext.magicFillTarget);
                         gSaveContext.magicCapacity = 0;
-                        gSaveContext.magicCapacityTarget = gSaveContext.magic;
+                        gSaveContext.magicFillTarget = gSaveContext.magic;
                         gSaveContext.magicLevel = gSaveContext.magic = 0;
                         osSyncPrintf("MAGIC_NOW=%d ", gSaveContext.magic);
-                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicCapacityTarget);
+                        osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
                         osSyncPrintf(VT_RST);
                     } else {
                         play->state.running = false;

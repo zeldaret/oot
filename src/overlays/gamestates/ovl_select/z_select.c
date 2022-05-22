@@ -20,7 +20,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitDebugSave();
-        gSaveContext.magicCapacityTarget = gSaveContext.magic;
+        gSaveContext.magicFillTarget = gSaveContext.magic;
         gSaveContext.magicCapacity = 0;
         gSaveContext.magicLevel = gSaveContext.magic = 0;
     }
