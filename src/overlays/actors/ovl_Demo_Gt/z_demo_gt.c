@@ -1004,10 +1004,10 @@ void func_809805D8(DemoGt* this, PlayState* play) {
     }
 }
 
-void func_809806B8(DemoGt* this, PlayState* PlayState) {
+void func_809806B8(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = PlayState->csCtx.frames;
+    u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
@@ -1016,14 +1016,14 @@ void func_809806B8(DemoGt* this, PlayState* PlayState) {
         dustPos.x = pos->x + 460.0f;
         dustPos.y = pos->y + 60.0f;
         dustPos.z = pos->z + 760.0f;
-        func_8097D7D8(PlayState, &dustPos, &velOffset, 6.0f, 6, 3, 35);
+        func_8097D7D8(play, &dustPos, &velOffset, 6.0f, 6, 3, 35);
     }
 }
 
-void func_8098078C(DemoGt* this, PlayState* PlayState) {
+void func_8098078C(DemoGt* this, PlayState* play) {
     s32 pad[3];
     Vec3f dustPos;
-    u16 frames = PlayState->csCtx.frames;
+    u16 frames = play->csCtx.frames;
     Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
@@ -1032,7 +1032,7 @@ void func_8098078C(DemoGt* this, PlayState* PlayState) {
         dustPos.x = pos->x + 360.0f;
         dustPos.y = pos->y + 70.0f;
         dustPos.z = pos->z - 640.0f;
-        func_8097D7D8(PlayState, &dustPos, &velOffset, 6.0, 6, 0, 35);
+        func_8097D7D8(play, &dustPos, &velOffset, 6.0, 6, 0, 35);
     }
 }
 

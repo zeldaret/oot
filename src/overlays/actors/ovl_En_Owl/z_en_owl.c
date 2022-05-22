@@ -886,7 +886,7 @@ void func_80ACBD4C(EnOwl* this, PlayState* play) {
     this->actionFlags |= 8;
 }
 
-void func_80ACBEA0(EnOwl* this, PlayState* PlayState) {
+void func_80ACBEA0(EnOwl* this, PlayState* play) {
     if (this->actionFlags & 1) {
         this->unk_3FE = 3;
         EnOwl_ChangeMode(this, func_80ACBD4C, func_80ACC540, &this->skelAnime, &gOwlTakeoffAnim, 0.0f);

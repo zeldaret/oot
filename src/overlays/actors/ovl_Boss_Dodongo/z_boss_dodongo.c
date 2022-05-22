@@ -622,7 +622,7 @@ void BossDodongo_BlowFire(BossDodongo* this, PlayState* play) {
     }
 }
 
-void BossDodongo_Inhale(BossDodongo* this, PlayState* PlayState) {
+void BossDodongo_Inhale(BossDodongo* this, PlayState* play) {
     this->unk_1E2 = 1;
 
     if (this->unk_1AC > 20) {
@@ -637,7 +637,7 @@ void BossDodongo_Inhale(BossDodongo* this, PlayState* PlayState) {
     } else {
         this->unk_1AC++;
 
-        if ((this->unk_1AC > 20) && (this->unk_1AC < 82) && BossDodongo_AteExplosive(this, PlayState)) {
+        if ((this->unk_1AC > 20) && (this->unk_1AC < 82) && BossDodongo_AteExplosive(this, play)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DRINK);
             BossDodongo_SetupExplode(this);
         }
