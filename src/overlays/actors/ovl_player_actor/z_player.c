@@ -6449,8 +6449,8 @@ s32 func_8083F360(PlayState* play, Player* this, f32 arg1, f32 arg2, f32 arg3, f
     sp60.z = this->actor.world.pos.z + (arg3 * yawCos);
     sp60.y = sp6C.y = this->actor.world.pos.y + arg1;
 
-    if (BgCheck_EntityLineTest1(&play->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, true, false, false,
-                                true, &wallBgId)) {
+    if (BgCheck_EntityLineTest1(&play->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, true, false, false, true,
+                                &wallBgId)) {
         wallPoly = this->actor.wallPoly;
 
         this->actor.bgCheckFlags |= BGCHECKFLAG_PLAYER_WALL_INTERACT;
