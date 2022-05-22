@@ -46,7 +46,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 // Just relocate the full address.
 
                 // Check address is valid for relocation
-                if ((*relocDataP & 0xF000000) == 0) {
+                if ((*relocDataP & 0x0F000000) == 0) {
                     relocOffset = *relocDataP - (uintptr_t)vRamStart;
                     relocatedValue = relocOffset + allocu32;
                     relocatedAddress = relocatedValue;
@@ -60,10 +60,10 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 // Extract the address from the target field of the J-type MIPS instruction.
                 // Relocate the address and update the instruction.
 
-                unrelocatedAddress = PHYS_TO_K0((*relocDataP & 0x3FFFFFF) << 2);
+                unrelocatedAddress = PHYS_TO_K0((*relocDataP & 0x03FFFFFF) << 2);
                 relocOffset = unrelocatedAddress - (uintptr_t)vRamStart;
-                relocatedValue = (*relocDataP & 0xFC000000) | (((allocu32 + relocOffset) & 0xFFFFFFF) >> 2);
-                relocatedAddress = PHYS_TO_K0((relocatedValue & 0x3FFFFFF) << 2);
+                relocatedValue = (*relocDataP & 0xFC000000) | (((allocu32 + relocOffset) & 0x0FFFFFFF) >> 2);
+                relocatedAddress = PHYS_TO_K0((relocatedValue & 0x03FFFFFF) << 2);
                 *relocDataP = relocatedValue;
                 break;
 
@@ -80,14 +80,14 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 // Handles relocation for a hi/lo pair, part 2.
                 // Grab the stored LUI (hi) from the `R_MIPS_HI16` section using the `rs` register of the instruction.
                 // The full address is calculated, relocated, and then used to update both the LUI and lo instructions.
-                // If the lo part is negative, add 1 to the LUI.
+                // If the lo part is negative, add 1 to the LUI value.
                 // Note: The lo instruction is assumed to have a signed immediate.
 
                 luiInstRef = luiRefs[(*relocDataP >> 0x15) & 0x1F];
                 regValP = &luiVals[(*relocDataP >> 0x15) & 0x1F];
 
                 // Check address is valid for relocation
-                if ((((*regValP << 0x10) + (s16)*relocDataP) & 0xF000000) == 0) {
+                if ((((*regValP << 0x10) + (s16)*relocDataP) & 0x0F000000) == 0) {
                     relocOffset = ((*regValP << 0x10) + (s16)*relocDataP) - (uintptr_t)vRamStart;
                     isLoNeg = (((relocOffset + allocu32) & 0x8000) ? 1 : 0);
                     unrelocatedAddress = (*luiInstRef << 0x10) + (s16)relocData;

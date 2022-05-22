@@ -1643,7 +1643,7 @@ typedef struct ArenaNode {
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
 } ArenaNode; // size = 0x30
 
-#define RELOC_SECTION(reloc) ((reloc) >> 0x1E)
+#define RELOC_SECTION(reloc) ((reloc) >> 30)
 #define RELOC_OFFSET(reloc) ((reloc) & 0xFFFFFF)
 #define RELOC_TYPE(reloc) ((reloc) & 0x3F000000)
 
