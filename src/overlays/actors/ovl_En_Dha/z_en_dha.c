@@ -10,18 +10,18 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)
 
-void EnDha_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnDha_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnDha_Init(Actor* thisx, PlayState* play);
+void EnDha_Destroy(Actor* thisx, PlayState* play);
+void EnDha_Update(Actor* thisx, PlayState* play);
+void EnDha_Draw(Actor* thisx, PlayState* play);
 
 void EnDha_SetupWait(EnDha* this);
-void EnDha_Wait(EnDha* this, GlobalContext* globalCtx);
+void EnDha_Wait(EnDha* this, PlayState* play);
 void EnDha_SetupTakeDamage(EnDha* this);
-void EnDha_TakeDamage(EnDha* this, GlobalContext* globalCtx);
+void EnDha_TakeDamage(EnDha* this, PlayState* play);
 void EnDha_SetupDeath(EnDha* this);
-void EnDha_Die(EnDha* this, GlobalContext* globalCtx);
-void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx);
+void EnDha_Die(EnDha* this, PlayState* play);
+void EnDha_UpdateHealth(EnDha* this, PlayState* play);
 
 const ActorInit En_Dha_InitVars = {
     ACTOR_EN_DHA,
@@ -151,12 +151,12 @@ void EnDha_SetupAction(EnDha* this, EnDhaActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnDha_Init(Actor* thisx, PlayState* play) {
     EnDha* this = (EnDha*)thisx;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &object_dh_Skel_000BD8, &object_dh_Anim_0015B0, this->jointTable,
+    SkelAnime_InitFlex(play, &this->skelAnime, &object_dh_Skel_000BD8, &object_dh_Anim_0015B0, this->jointTable,
                        this->morphTable, 4);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFeet, 90.0f);
     this->actor.focus.pos = this->actor.world.pos;
@@ -164,18 +164,18 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 8;
     this->limbAngleX[0] = -0x4000;
-    Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
+    Collider_InitJntSph(play, &this->collider);
+    Collider_SetJntSph(play, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
     this->actor.flags &= ~ACTOR_FLAG_0;
 
     EnDha_SetupWait(this);
 }
 
-void EnDha_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnDha_Destroy(Actor* thisx, PlayState* play) {
     s32 pad;
     EnDha* this = (EnDha*)thisx;
 
-    Collider_DestroyJntSph(globalCtx, &this->collider);
+    Collider_DestroyJntSph(play, &this->collider);
 }
 
 void EnDha_SetupWait(EnDha* this) {
@@ -188,11 +188,11 @@ void EnDha_SetupWait(EnDha* this) {
     EnDha_SetupAction(this, EnDha_Wait);
 }
 
-void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
+void EnDha_Wait(EnDha* this, PlayState* play) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f armPosMultiplier1 = { 0.0f, 0.0f, 55.0f };
     Vec3f armPosMultiplier2 = { 0.0f, 0.0f, -54.0f };
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
     s32 pad;
     s32 pad2;
     Vec3f playerPos = player->actor.world.pos;
@@ -213,7 +213,7 @@ void EnDha_Wait(EnDha* this, GlobalContext* globalCtx) {
 
         if (Math_Vec3f_DistXYZ(&playerPos, &this->handPos[0]) <= 12.0f) {
             if (this->unk_1CC == 0) {
-                if (globalCtx->grabPlayer(globalCtx, player)) {
+                if (play->grabPlayer(play, player)) {
                     this->timer = 0;
                     this->unk_1CC++;
 
@@ -300,8 +300,8 @@ void EnDha_SetupTakeDamage(EnDha* this) {
     EnDha_SetupAction(this, EnDha_TakeDamage);
 }
 
-void EnDha_TakeDamage(EnDha* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void EnDha_TakeDamage(EnDha* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
@@ -336,10 +336,10 @@ void EnDha_SetupDeath(EnDha* this) {
     EnDha_SetupAction(this, EnDha_Die);
 }
 
-void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
+void EnDha_Die(EnDha* this, PlayState* play) {
     s16 angle;
     Vec3f vec;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
 
     if ((player->stateFlags2 & PLAYER_STATE2_7) && (&this->actor == player->actor.parent)) {
         player->stateFlags2 &= ~PLAYER_STATE2_7;
@@ -357,7 +357,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
         if (this->actionTimer != 0) {
             if (-12000.0f < this->actor.shape.yOffset) {
                 this->actor.shape.yOffset -= 1000.0f;
-                func_80033480(globalCtx, &vec, 7.0f, 1, 0x5A, 0x14, 1);
+                func_80033480(play, &vec, 7.0f, 1, 0x5A, 0x14, 1);
             } else {
                 this->actionTimer--;
 
@@ -367,7 +367,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
             }
         } else {
             this->actor.shape.yOffset += 500.0f;
-            func_80033480(globalCtx, &vec, 7.0f, 1, 0x5A, 0x14, 1);
+            func_80033480(play, &vec, 7.0f, 1, 0x5A, 0x14, 1);
 
             if (this->actor.shape.yOffset == 0.0f) {
                 EnDha_SetupWait(this);
@@ -376,7 +376,7 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
+void EnDha_UpdateHealth(EnDha* this, PlayState* play) {
     if (!((this->unk_1C0 >= 8) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
 
@@ -387,7 +387,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;
-                Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xE0);
+                Item_DropCollectibleRandom(play, &this->actor, &this->actor.world.pos, 0xE0);
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_DAMAGE);
                 this->unk_1C0 = 9;
@@ -401,21 +401,21 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnDha_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnDha_Update(Actor* thisx, PlayState* play) {
     s32 pad;
     EnDha* this = (EnDha*)thisx;
 
     if (this->actor.parent == NULL) {
-        this->actor.parent = Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_DH, ACTORCAT_ENEMY, 10000.0f);
+        this->actor.parent = Actor_FindNearby(play, &this->actor, ACTOR_EN_DH, ACTORCAT_ENEMY, 10000.0f);
     }
 
-    EnDha_UpdateHealth(this, globalCtx);
-    this->actionFunc(this, globalCtx);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    EnDha_UpdateHealth(this, play);
+    this->actionFunc(this, play);
+    CollisionCheck_SetAC(play, &play->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
-s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnDha_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDha* this = (EnDha*)thisx;
 
     if (limbIndex == 1) {
@@ -432,7 +432,7 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return false;
 }
 
-void EnDha_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnDha_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     Vec3f handVec = { 1100.0f, 0.0f, 0.0f };
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     EnDha* this = (EnDha*)thisx;
@@ -455,11 +455,11 @@ void EnDha_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     }
 }
 
-void EnDha_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnDha_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
     EnDha* this = (EnDha*)thisx;
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+    func_80093D18(play->state.gfxCtx);
+    SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDha_OverrideLimbDraw, EnDha_PostLimbDraw, this);
 }
