@@ -86,7 +86,7 @@
     <Sequence Name="084_Ganondorfs_Theme"/>
     <Sequence Name="085_Shop"/>
     <Sequence Name="086_Chamber_of_Sages"/>
-    <Sequence Name="087_File_Select" Extract="false"/>
+    <Sequence Name="087_File_Select" Extract="false"/> <!-- The data in the sequence table just uses a reference pointer to the Fairy Fountain sequence. -->
     <Sequence Name="088_Ice_Cavern"/>
     <Sequence Name="089_Opening_the_Door_of_Time"/>
     <Sequence Name="090_Kaepora_Gaeboras_Theme"/>
@@ -108,5 +108,5 @@
     <Sequence Name="106_Ending_Credits_5"/>
     <Sequence Name="107_Dodongo_and_Volvagia_Battle"/>
     <Sequence Name="108_Timed_Minigame"/>
-    <Sequence Name="109_Unknown" Extract="false"/>
+    <Sequence Name="109_Cutscene_Effects" Extract="false"/>
 </Root>

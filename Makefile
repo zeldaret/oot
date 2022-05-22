@@ -246,9 +246,9 @@ clean:
 
 assetclean:
 	$(RM) -r $(ASSET_BIN_DIRS)
-  $(RM) -r assets/sequences/
-  $(RM) -r assets/soundfonts/
-  $(RM) -r assets/samples/
+	$(RM) -r assets/sequences/
+	$(RM) -r assets/soundfonts/
+	$(RM) -r assets/samples/
 	$(RM) -r assets/text/*.h
 	$(RM) -r build/assets
 	$(RM) -r .extracted-assets.json

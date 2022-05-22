@@ -3,21 +3,21 @@
         <Offset Version="MQDebug" At="0"/>
     </Sample>
     <Sample Name="Egyptian Flute">
-        <Offset Version="MQDebug" At="0xb0d0"/>
+        <Offset Version="MQDebug" At="0xB0D0"/>
     </Sample>
     <Sample Name="Tom Drum">
-        <Offset Version="MQDebug" At="0xe120"/>
+        <Offset Version="MQDebug" At="0xE120"/>
     </Sample>
     <Sample Name="Vocal Synth">
-        <Offset Version="MQDebug" At="0x103e0"/>
+        <Offset Version="MQDebug" At="0x103E0"/>
     </Sample>
     <Sample Name="Gong">
-        <Offset Version="MQDebug" At="0x12eb0"/>
+        <Offset Version="MQDebug" At="0x12EB0"/>
     </Sample>
     <Sample Name="Bass Slap?">
-        <Offset Version="MQDebug" At="0x1d3e0"/>
+        <Offset Version="MQDebug" At="0x1D3E0"/>
     </Sample>
     <Sample Name="Windchimes">
-        <Offset Version="MQDebug" At="0x22ee0"/>
+        <Offset Version="MQDebug" At="0x22EE0"/>
     </Sample>
 </Root>

@@ -125,7 +125,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s32 order;
     /* 0x04 */ s32 numPredictors;
-    /* 0x08 */ s16 book[1]; // Predictor coefficients, where each book size is 8 * order * npredictors. 8-byte aligned
+    /* 0x08 */ s16 book[1]; // Predictor coefficients, where book is a variable-length array, each book's length is 8 * order * npredictors. 8-byte aligned
 } AdpcmBook; // size >= 0x8
 
 typedef struct {

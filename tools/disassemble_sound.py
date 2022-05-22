@@ -21,6 +21,25 @@ refBanks = {}
 usedFontData = []
 usedRawData = []
 
+fixups = {
+    "MQDebug": {
+        "bankdefs": [1281424, 128],
+        "fontdefs": [1278576, 624],
+        "fontmaps": [1279200, 448],
+        "seqdefs": [1279648, 1776]
+    }
+}
+
+offsets = {
+    "MQDebug": {
+        "0": {
+            "0x2a50": ["Envelope", 16],
+            "0x2a80": ["Envelope", 12],
+            "0x2a90": ["Envelope", 16]
+        }
+    }
+}
+
 def parse_raw_def_data(raw_def_data, samplebanks):
     count = struct.unpack(">H", raw_def_data[:2])[0]
     entries = []
@@ -375,12 +394,9 @@ def populateTunings(fonts):
     return tunings
 
 def main(args):
-    with open("offsets.json", "r") as offset_file:
-        table_offsets = json.load(offset_file)
-    
-    with open("fixups.json", "r") as fixups_file:
-        sf_unused_fixups = json.load(fixups_file)
-    
+    table_offsets = offsets
+    sf_unused_fixups = fixups
+
     version = args.version
     # code file
     code_data = args.code.read()

@@ -9,10 +9,10 @@
         <Offset Version="MQDebug" At="0x4800"/>
     </Sample>
     <Sample Name="Goron Ooh (High)">
-        <Offset Version="MQDebug" At="0x72d0"/>
+        <Offset Version="MQDebug" At="0x72D0"/>
     </Sample>
     <Sample Name="Tom Drum">
-        <Offset Version="MQDebug" At="0x7b70"/>
+        <Offset Version="MQDebug" At="0x7B70"/>
     </Sample>
     <Sample Name="Resonant Bass Marimba">
         <Offset Version="MQDebug" At="0x8630"/>
