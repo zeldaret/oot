@@ -1647,12 +1647,12 @@ typedef struct ArenaNode {
 #define RELOC_OFFSET(reloc) ((reloc) & 0xFFFFFF)
 #define RELOC_TYPE(reloc) ((reloc) & 0x3F000000)
 
-typedef enum OverlayRelocationType {
+typedef enum MIPSRelocationType {
     R_MIPS_32 = 2,
     R_MIPS_26 = 4,
     R_MIPS_HI16 = 5,
     R_MIPS_LO16 = 6
-} OverlayRelocationType;
+} MIPSRelocationType;
 
 typedef struct OverlayRelocationSection {
     /* 0x00 */ u32 textSize;
