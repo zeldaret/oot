@@ -573,6 +573,24 @@ typedef enum {
     /* 0x1D */ DO_ACTION_MAX
 } DoAction;
 
+typedef enum {
+    /* 1 */ HUD_DISPLAY_NONE = 1,
+    /* 2 */ HUD_DISPLAY_NONE_ALT,
+    /* 3 */ HUD_DISPLAY_HEARTS,
+    /* 4 */ HUD_DISPLAY_A,
+    /* 5 */ HUD_DISPLAY_A_HEARTS_MAGIC,
+    /* 6 */ HUD_DISPLAY_A_HEARTS_MAGIC_MINIMAP,
+    /* 7 */ HUD_DISPLAY_ALL_NO_MINIMAP,
+    /* 8 */ HUD_DISPLAY_B,
+    /* 9 */ HUD_DISPLAY_HEARTS_MAGIC,
+    /* 10 */ HUD_DISPLAY_B_ALT,
+    /* 11 */ HUD_DISPLAY_HEARTS_ALT,
+    /* 12 */ HUD_DISPLAY_A_B_MINIMAP,
+    /* 13 */ HUD_DISPLAY_HEARTS_MAGIC_ALT,
+    /* 50 */ HUD_DISPLAY_ALL = 50,
+    /* 52 */ HUD_DISPLAY_NONE_NOW = 52
+} HudDisplayType;
+
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   actionVtx;
