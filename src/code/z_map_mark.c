@@ -53,11 +53,11 @@ static MapMarkDataOverlay sMapMarkDataOvl = {
 
 static MapMarkData** sLoadedMarkDataTable;
 
-void MapMark_Init(GlobalContext* globalCtx) {
+void MapMark_Init(PlayState* play) {
     MapMarkDataOverlay* overlay = &sMapMarkDataOvl;
     u32 overlaySize = (u32)overlay->vramEnd - (u32)overlay->vramStart;
 
-    overlay->loadedRamAddr = GameState_Alloc(&globalCtx->state, overlaySize, "../z_map_mark.c", 235);
+    overlay->loadedRamAddr = GameState_Alloc(&play->state, overlaySize, "../z_map_mark.c", 235);
     LogUtils_CheckNullPointer("dlftbl->allocp", overlay->loadedRamAddr, "../z_map_mark.c", 236);
 
     Overlay_Load(overlay->vromStart, overlay->vromEnd, overlay->vramStart, overlay->vramEnd, overlay->loadedRamAddr);
@@ -69,12 +69,12 @@ void MapMark_Init(GlobalContext* globalCtx) {
             : NULL);
 }
 
-void MapMark_ClearPointers(GlobalContext* globalCtx) {
+void MapMark_ClearPointers(PlayState* play) {
     sMapMarkDataOvl.loadedRamAddr = NULL;
     sLoadedMarkDataTable = NULL;
 }
 
-void MapMark_DrawForDungeon(GlobalContext* globalCtx) {
+void MapMark_DrawForDungeon(PlayState* play) {
     InterfaceContext* interfaceCtx;
     MapMarkIconData* mapMarkIconData;
     MapMarkPoint* markPoint;
@@ -84,18 +84,18 @@ void MapMark_DrawForDungeon(GlobalContext* globalCtx) {
     s32 rectLeft;
     s32 rectTop;
 
-    interfaceCtx = &globalCtx->interfaceCtx;
+    interfaceCtx = &play->interfaceCtx;
 
-    if ((gMapData != NULL) && (globalCtx->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon])) {
+    if ((gMapData != NULL) && (play->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon])) {
         // "Room number exceeded, yikes %d/%d  MapMarkDraw processing interrupted"
         osSyncPrintf(VT_COL(RED, WHITE) "部屋番号がオーバーしてるで,ヤバイで %d/%d  \nMapMarkDraw の処理を中断します\n",
-                     VT_RST, globalCtx->interfaceCtx.mapRoomNum, gMapData->dgnMinimapCount[dungeon]);
+                     VT_RST, play->interfaceCtx.mapRoomNum, gMapData->dgnMinimapCount[dungeon]);
         return;
     }
 
     mapMarkIconData = &sLoadedMarkDataTable[dungeon][interfaceCtx->mapRoomNum][0];
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
+    OPEN_DISPS(play->state.gfxCtx, "../z_map_mark.c", 303);
 
     while (true) {
         if (mapMarkIconData->markType == MAP_MARK_NONE) {
@@ -109,7 +109,7 @@ void MapMark_DrawForDungeon(GlobalContext* globalCtx) {
 
         markPoint = &mapMarkIconData->points[0];
         for (i = 0; i < mapMarkIconData->count; i++) {
-            if ((mapMarkIconData->markType != MAP_MARK_CHEST) || !Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
+            if ((mapMarkIconData->markType != MAP_MARK_CHEST) || !Flags_GetTreasure(play, markPoint->chestFlag)) {
                 markInfo = &sMapMarkInfoTable[mapMarkIconData->markType];
 
                 gDPPipeSync(OVERLAY_DISP++);
@@ -128,11 +128,11 @@ void MapMark_DrawForDungeon(GlobalContext* globalCtx) {
         mapMarkIconData++;
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 339);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_map_mark.c", 339);
 }
 
-void MapMark_Draw(GlobalContext* globalCtx) {
-    switch (globalCtx->sceneNum) {
+void MapMark_Draw(PlayState* play) {
+    switch (play->sceneNum) {
         case SCENE_YDAN:
         case SCENE_DDAN:
         case SCENE_BDAN:
@@ -148,7 +148,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
         case SCENE_BDAN_BOSS:
         case SCENE_MORIBOSSROOM:
         case SCENE_FIRE_BS:
-            MapMark_DrawForDungeon(globalCtx);
+            MapMark_DrawForDungeon(play);
             break;
     }
 }

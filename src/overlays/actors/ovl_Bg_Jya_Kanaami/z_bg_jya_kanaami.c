@@ -9,15 +9,15 @@
 
 #define FLAGS 0
 
-void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaKanaami_Init(Actor* thisx, PlayState* play);
+void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play);
+void BgJyaKanaami_Update(Actor* thisx, PlayState* play);
+void BgJyaKanaami_Draw(Actor* thisx, PlayState* play);
 
 void func_80899880(BgJyaKanaami* this);
-void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx);
+void func_80899894(BgJyaKanaami* this, PlayState* play);
 void func_8089993C(BgJyaKanaami* this);
-void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx);
+void func_80899950(BgJyaKanaami* this, PlayState* play);
 void func_80899A08(BgJyaKanaami* this);
 
 const ActorInit Bg_Jya_Kanaami_InitVars = {
@@ -39,26 +39,26 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 flag) {
+void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, PlayState* play, CollisionHeader* collision, s32 flag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
-void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaKanaami_Init(Actor* thisx, PlayState* play) {
     BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
-    BgJyaKanaami_InitDynaPoly(this, globalCtx, &gKanaamiCol, DPM_UNK);
+    BgJyaKanaami_InitDynaPoly(this, play, &gKanaamiCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
+    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F)) {
         func_80899A08(this);
     } else {
         func_80899880(this);
@@ -66,10 +66,10 @@ void BgJyaKanaami_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("(jya 金網)(arg_data 0x%04x)\n", this->dyna.actor.params);
 }
 
-void BgJyaKanaami_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaKanaami_Destroy(Actor* thisx, PlayState* play) {
     BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80899880(BgJyaKanaami* this) {
@@ -77,10 +77,10 @@ void func_80899880(BgJyaKanaami* this) {
     this->unk_16A = 0;
 }
 
-void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || this->unk_16A > 0) {
+void func_80899894(BgJyaKanaami* this, PlayState* play) {
+    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || this->unk_16A > 0) {
         if (this->dyna.actor.world.pos.x > -1000.0f && this->unk_16A == 0) {
-            OnePointCutscene_Init(globalCtx, 3450, -99, &this->dyna.actor, CAM_ID_MAIN);
+            OnePointCutscene_Init(play, 3450, -99, &this->dyna.actor, CAM_ID_MAIN);
         }
         this->unk_16A += 1;
         if (this->unk_16A >= 0xA) {
@@ -94,7 +94,7 @@ void func_8089993C(BgJyaKanaami* this) {
     this->unk_168 = 0;
 }
 
-void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
+void func_80899950(BgJyaKanaami* this, PlayState* play) {
     s32 pad[2];
     s32 quakeId;
 
@@ -102,7 +102,7 @@ void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
-        quakeId = Quake_Add(GET_ACTIVE_CAM(globalCtx), 3);
+        quakeId = Quake_Add(GET_ACTIVE_CAM(play), 3);
         Quake_SetSpeed(quakeId, 25000);
         Quake_SetQuakeValues(quakeId, 2, 0, 0, 0);
         Quake_SetCountdown(quakeId, 16);
@@ -114,15 +114,15 @@ void func_80899A08(BgJyaKanaami* this) {
     this->dyna.actor.world.rot.x = 0x4000;
 }
 
-void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaKanaami_Update(Actor* thisx, PlayState* play) {
     BgJyaKanaami* this = (BgJyaKanaami*)thisx;
 
     if (this->actionFunc != NULL) {
-        this->actionFunc(this, globalCtx);
+        this->actionFunc(this, play);
     }
     this->dyna.actor.shape.rot.x = this->dyna.actor.world.rot.x;
 }
 
-void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gKanaamiDL);
+void BgJyaKanaami_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, gKanaamiDL);
 }

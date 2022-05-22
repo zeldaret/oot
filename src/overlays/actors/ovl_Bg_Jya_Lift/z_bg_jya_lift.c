@@ -9,16 +9,16 @@
 
 #define FLAGS ACTOR_FLAG_4
 
-void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgJyaLift_Init(Actor* thisx, PlayState* play);
+void BgJyaLift_Destroy(Actor* thisx, PlayState* play);
+void BgJyaLift_Update(Actor* thisx, PlayState* play);
+void BgJyaLift_Draw(Actor* thisx, PlayState* play);
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
-void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
+void BgJyaLift_DelayMove(BgJyaLift* this, PlayState* play);
 void BgJyaLift_SetupMove(BgJyaLift* this);
-void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx);
+void BgJyaLift_Move(BgJyaLift* this, PlayState* play);
 
 static s16 sIsSpawned = false;
 
@@ -41,16 +41,16 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader, s32 moveFlag) {
+void BgJyaLift_InitDynapoly(BgJyaLift* this, PlayState* play, CollisionHeader* collisionHeader, s32 moveFlag) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, moveFlag);
     CollisionHeader_GetVirtual(collisionHeader, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
-void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaLift_Init(Actor* thisx, PlayState* play) {
     BgJyaLift* this = (BgJyaLift*)thisx;
 
     this->isSpawned = false;
@@ -61,9 +61,9 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // "Goddess lift CT"
     osSyncPrintf("女神リフト CT\n");
-    BgJyaLift_InitDynapoly(this, globalCtx, &gLiftCol, DPM_UNK);
+    BgJyaLift_InitDynapoly(this, play, &gLiftCol, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
-    if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
+    if (Flags_GetSwitch(play, (thisx->params & 0x3F))) {
         BgJyaLift_SetFinalPosY(this);
     } else {
         BgJyaLift_SetInitPosY(this);
@@ -73,7 +73,7 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->isSpawned = true;
 }
 
-void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgJyaLift_Destroy(Actor* thisx, PlayState* play) {
     BgJyaLift* this = (BgJyaLift*)thisx;
 
     if (this->isSpawned) {
@@ -81,7 +81,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         // "Goddess Lift DT"
         osSyncPrintf("女神リフト DT\n");
         sIsSpawned = false;
-        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+        DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
     }
 }
 
@@ -91,11 +91,11 @@ void BgJyaLift_SetInitPosY(BgJyaLift* this) {
     this->moveDelay = 0;
 }
 
-void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
+void BgJyaLift_DelayMove(BgJyaLift* this, PlayState* play) {
+    if (Flags_GetSwitch(play, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
-            OnePointCutscene_Init(globalCtx, 3430, -99, &this->dyna.actor, CAM_ID_MAIN);
+            OnePointCutscene_Init(play, 3430, -99, &this->dyna.actor, CAM_ID_MAIN);
             BgJyaLift_SetupMove(this);
         }
     }
@@ -105,7 +105,7 @@ void BgJyaLift_SetupMove(BgJyaLift* this) {
     this->actionFunc = BgJyaLift_Move;
 }
 
-void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
+void BgJyaLift_Move(BgJyaLift* this, PlayState* play) {
     f32 distFromBottom;
     f32 tempVelocity;
 
@@ -113,7 +113,7 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
     tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
     distFromBottom = Math_SmoothStepToF(&this->dyna.actor.world.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
     if ((this->dyna.actor.world.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.prevPos.y)) {
-        func_8005B1A4(GET_ACTIVE_CAM(globalCtx));
+        func_8005B1A4(GET_ACTIVE_CAM(play));
     }
     if (fabsf(distFromBottom) < 0.001f) {
         BgJyaLift_SetFinalPosY(this);
@@ -128,27 +128,27 @@ void BgJyaLift_SetFinalPosY(BgJyaLift* this) {
     this->dyna.actor.world.pos.y = 973.0f;
 }
 
-void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx2) {
+void BgJyaLift_Update(Actor* thisx, PlayState* play2) {
     BgJyaLift* this = (BgJyaLift*)thisx;
-    GlobalContext* globalCtx = globalCtx2;
+    PlayState* play = play2;
 
     if (this->actionFunc != NULL) {
-        this->actionFunc(this, globalCtx);
+        this->actionFunc(this, play);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
+        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DIRECTED_YAW);
     } else if (((this->dyna.unk_160 & 4) == 0) && (this->unk_16B & 4) &&
-               (globalCtx->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
+               (play->cameraPtrs[CAM_ID_MAIN]->setting == CAM_SET_DIRECTED_YAW)) {
+        Camera_ChangeSetting(play->cameraPtrs[CAM_ID_MAIN], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.unk_160;
 
     // Spirit Temple room 5 is the main room with the statue room 25 is directly above room 5
-    if ((globalCtx->roomCtx.curRoom.num != 5) && (globalCtx->roomCtx.curRoom.num != 25)) {
+    if ((play->roomCtx.curRoom.num != 5) && (play->roomCtx.curRoom.num != 25)) {
         Actor_Kill(thisx);
     }
 }
 
-void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gLiftDL);
+void BgJyaLift_Draw(Actor* thisx, PlayState* play) {
+    Gfx_DrawDListOpa(play, gLiftDL);
 }

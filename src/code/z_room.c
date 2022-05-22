@@ -1,9 +1,9 @@
 #include "global.h"
 #include "vt.h"
 
-void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags);
-void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags);
-void func_80096F6C(GlobalContext* globalCtx, Room* room, u32 flags);
+void func_80095AB4(PlayState* play, Room* room, u32 flags);
+void func_80095D04(PlayState* play, Room* room, u32 flags);
+void func_80096F6C(PlayState* play, Room* room, u32 flags);
 
 Vec3f D_801270A0 = { 0.0f, 0.0f, 0.0f };
 
@@ -22,34 +22,34 @@ Gfx D_801270B0[] = {
     gsSPEndDisplayList(),
 };
 
-void (*sRoomDrawHandlers[])(GlobalContext* globalCtx, Room* room, u32 flags) = {
+void (*sRoomDrawHandlers[])(PlayState* play, Room* room, u32 flags) = {
     func_80095AB4,
     func_80096F6C,
     func_80095D04,
 };
 
-void func_80095AA0(GlobalContext* globalCtx, Room* room, Input* arg2, UNK_TYPE arg3) {
+void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3) {
 }
 
 // Room Draw Polygon Type 0
-void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
+void func_80095AB4(PlayState* play, Room* room, u32 flags) {
     s32 i;
     PolygonType0* polygon0;
     PolygonDlist* polygonDlist;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 193);
+    OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 193);
 
     if (flags & 1) {
-        func_800342EC(&D_801270A0, globalCtx);
+        func_800342EC(&D_801270A0, play);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
-        func_80093C80(globalCtx);
+        func_80093C80(play);
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
     if (flags & 2) {
-        func_8003435C(&D_801270A0, globalCtx);
+        func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(globalCtx->state.gfxCtx);
+        func_80093D84(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
@@ -67,7 +67,7 @@ void func_80095AB4(GlobalContext* globalCtx, Room* room, u32 flags) {
         polygonDlist++;
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 239);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 239);
 }
 
 #define SHAPE_SORT_MAX 64
@@ -80,7 +80,7 @@ typedef struct struct_80095D04 {
 } struct_80095D04; // size = 0x10
 
 // Room Draw Polygon Type 2
-void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
+void func_80095D04(PlayState* play, Room* room, u32 flags) {
     PolygonType2* polygon2;
     PolygonDlist2* polygonDlist;
     struct_80095D04 spB8[SHAPE_SORT_MAX];
@@ -99,18 +99,18 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     PolygonDlist2* polygonDlistIter;
     f32 temp_f2;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 287);
+    OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 287);
     if (flags & 1) {
-        func_800342EC(&D_801270A0, globalCtx);
+        func_800342EC(&D_801270A0, play);
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
-        func_80093C80(globalCtx);
+        func_80093C80(play);
         gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
     if (1) {}
     if (flags & 2) {
-        func_8003435C(&D_801270A0, globalCtx);
+        func_8003435C(&D_801270A0, play);
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(globalCtx->state.gfxCtx);
+        func_80093D84(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
     }
 
@@ -125,10 +125,10 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
         pos.x = polygonDlist->pos.x;
         pos.y = polygonDlist->pos.y;
         pos.z = polygonDlist->pos.z;
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
+        SkinMatrix_Vec3fMtxFMultXYZW(&play->viewProjectionMtxF, &pos, &projectedPos, &projectedW);
         if (-(f32)polygonDlist->unk_06 < projectedPos.z) {
             temp_f2 = projectedPos.z - polygonDlist->unk_06;
-            if (temp_f2 < globalCtx->lightCtx.fogFar) {
+            if (temp_f2 < play->lightCtx.fogFar) {
                 spA4->unk_00 = polygonDlist;
                 spA4->unk_04 = temp_f2;
                 iter = spB4;
@@ -212,7 +212,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     iREG(88) = i - 1;
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 430);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 430);
 }
 
 #define JPEG_MARKER 0xFFD8FFE0
@@ -306,7 +306,7 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
 }
 
 // Room Draw Polygon Type 1 - Single Format
-void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
+void func_80096680(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* spA8;
     PolygonType1* polygon1;
@@ -316,9 +316,9 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     u32 drawOpa;
     u32 drawXlu;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
+    OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 628);
 
-    activeCam = GET_ACTIVE_CAM(globalCtx);
+    activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     polygon1 = &room->meshHeader->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
@@ -330,7 +330,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (drawOpa) {
-            func_80093D18(globalCtx->state.gfxCtx);
+            func_80093D18(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
@@ -355,16 +355,16 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     if (drawXlu) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(globalCtx->state.gfxCtx);
+        func_80093D84(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 691);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 691);
 }
 
-BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
-    Camera* activeCam = GET_ACTIVE_CAM(globalCtx);
+BgImage* func_80096A74(PolygonType1* polygon1, PlayState* play) {
+    Camera* activeCam = GET_ACTIVE_CAM(play);
     s32 camDataIdx;
     s16 camDataIdx2;
     Player* player;
@@ -373,12 +373,12 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
 
     camDataIdx = activeCam->camDataIdx;
     // jfifid
-    camDataIdx2 = func_80041C10(&globalCtx->colCtx, camDataIdx, BGCHECK_SCENE)[2].y;
+    camDataIdx2 = func_80041C10(&play->colCtx, camDataIdx, BGCHECK_SCENE)[2].y;
     if (camDataIdx2 >= 0) {
         camDataIdx = camDataIdx2;
     }
 
-    player = GET_PLAYER(globalCtx);
+    player = GET_PLAYER(play);
     player->actor.params = (player->actor.params & 0xFF00) | camDataIdx;
 
     bgImage = SEGMENTED_TO_VIRTUAL(polygon1->multi.list);
@@ -397,7 +397,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
 }
 
 // Room Draw Polygon Type 1 - Multi Format
-void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
+void func_80096B6C(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
     PolygonType1* polygon1;
@@ -408,13 +408,13 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     u32 drawOpa;
     u32 drawXlu;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
+    OPEN_DISPS(play->state.gfxCtx, "../z_room.c", 752);
 
-    activeCam = GET_ACTIVE_CAM(globalCtx);
+    activeCam = GET_ACTIVE_CAM(play);
     isFixedCamera = (activeCam->setting == CAM_SET_PREREND_FIXED);
     polygon1 = &room->meshHeader->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
-    bgImage = func_80096A74(polygon1, globalCtx);
+    bgImage = func_80096A74(polygon1, play);
     drawBg = (flags & 1) && isFixedCamera && bgImage->source && !(SREG(25) & 1);
     drawOpa = (flags & 1) && (polygonDlist->opa != NULL) && !(SREG(25) & 2);
     drawXlu = (flags & 2) && (polygonDlist->xlu != NULL) && !(SREG(25) & 4);
@@ -423,7 +423,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
         gSPSegment(POLY_OPA_DISP++, 0x03, room->segment);
 
         if (drawOpa) {
-            func_80093D18(globalCtx->state.gfxCtx);
+            func_80093D18(play->state.gfxCtx);
             gSPMatrix(POLY_OPA_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
             gSPDisplayList(POLY_OPA_DISP++, polygonDlist->opa);
         }
@@ -449,35 +449,35 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
 
     if (drawXlu) {
         gSPSegment(POLY_XLU_DISP++, 0x03, room->segment);
-        func_80093D84(globalCtx->state.gfxCtx);
+        func_80093D84(play->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
         gSPDisplayList(POLY_XLU_DISP++, polygonDlist->xlu);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 819);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 819);
 }
 
 // Room Draw Polygon Type 1
-void func_80096F6C(GlobalContext* globalCtx, Room* room, u32 flags) {
+void func_80096F6C(PlayState* play, Room* room, u32 flags) {
     PolygonType1* polygon1 = &room->meshHeader->polygon1;
 
     if (polygon1->format == 1) {
-        func_80096680(globalCtx, room, flags);
+        func_80096680(play, room, flags);
     } else if (polygon1->format == 2) {
-        func_80096B6C(globalCtx, room, flags);
+        func_80096B6C(play, room, flags);
     } else {
         LogUtils_HungupThread("../z_room.c", 841);
     }
 }
 
-void func_80096FD4(GlobalContext* globalCtx, Room* room) {
+void func_80096FD4(PlayState* play, Room* room) {
     room->num = -1;
     room->segment = NULL;
 }
 
-u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
+u32 func_80096FE8(PlayState* play, RoomContext* roomCtx) {
     u32 maxRoomSize = 0;
-    RomFile* roomList = globalCtx->roomList;
+    RomFile* roomList = play->roomList;
     u32 roomSize;
     s32 i;
     s32 j;
@@ -487,7 +487,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     u32 backRoomSize;
     u32 cumulRoomSize;
 
-    for (i = 0; i < globalCtx->numRooms; i++) {
+    for (i = 0; i < play->numRooms; i++) {
         roomSize = roomList[i].vromEnd - roomList[i].vromStart;
         osSyncPrintf("ROOM%d size=%d\n", i, roomSize);
         if (maxRoomSize < roomSize) {
@@ -495,13 +495,13 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
         }
     }
 
-    if (globalCtx->transiActorCtx.numActors != 0) {
-        RomFile* roomList = globalCtx->roomList;
-        TransitionActorEntry* transitionActor = &globalCtx->transiActorCtx.list[0];
+    if (play->transiActorCtx.numActors != 0) {
+        RomFile* roomList = play->roomList;
+        TransitionActorEntry* transitionActor = &play->transiActorCtx.list[0];
 
-        LOG_NUM("game_play->room_rom_address.num", globalCtx->numRooms, "../z_room.c", 912);
+        LOG_NUM("game_play->room_rom_address.num", play->numRooms, "../z_room.c", 912);
 
-        for (j = 0; j < globalCtx->transiActorCtx.numActors; j++) {
+        for (j = 0; j < play->transiActorCtx.numActors; j++) {
             frontRoom = transitionActor->sides[0].room;
             backRoom = transitionActor->sides[1].room;
             frontRoomSize = (frontRoom < 0) ? 0 : roomList[frontRoom].vromEnd - roomList[frontRoom].vromStart;
@@ -520,7 +520,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     osSyncPrintf(VT_FGCOL(YELLOW));
     // "Room buffer size=%08x(%5.1fK)"
     osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
-    roomCtx->bufPtrs[0] = GameState_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
+    roomCtx->bufPtrs[0] = GameState_Alloc(&play->state, maxRoomSize, "../z_room.c", 946);
     // "Room buffer initial pointer=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);
     roomCtx->bufPtrs[1] = (void*)((s32)roomCtx->bufPtrs[0] + maxRoomSize);
@@ -531,13 +531,13 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
     roomCtx->status = 0;
 
     frontRoom = gSaveContext.respawnFlag > 0 ? ((void)0, gSaveContext.respawn[gSaveContext.respawnFlag - 1].roomIndex)
-                                             : globalCtx->setupEntranceList[globalCtx->curSpawn].room;
-    func_8009728C(globalCtx, roomCtx, frontRoom);
+                                             : play->setupEntranceList[play->curSpawn].room;
+    func_8009728C(play, roomCtx, frontRoom);
 
     return maxRoomSize;
 }
 
-s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
+s32 func_8009728C(PlayState* play, RoomContext* roomCtx, s32 roomNum) {
     u32 size;
 
     if (roomCtx->status == 0) {
@@ -546,13 +546,13 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        ASSERT(roomNum < globalCtx->numRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
+        ASSERT(roomNum < play->numRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
-        size = globalCtx->roomList[roomNum].vromEnd - globalCtx->roomList[roomNum].vromStart;
+        size = play->roomList[roomNum].vromEnd - play->roomList[roomNum].vromStart;
         roomCtx->unk_34 = (void*)ALIGN16((u32)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
 
         osCreateMesgQueue(&roomCtx->loadQueue, &roomCtx->loadMsg, 1);
-        DmaMgr_SendRequest2(&roomCtx->dmaRequest, roomCtx->unk_34, globalCtx->roomList[roomNum].vromStart, size, 0,
+        DmaMgr_SendRequest2(&roomCtx->dmaRequest, roomCtx->unk_34, play->roomList[roomNum].vromStart, size, 0,
                             &roomCtx->loadQueue, NULL, "../z_room.c", 1036);
         roomCtx->unk_30 ^= 1;
 
@@ -562,16 +562,16 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
     return 0;
 }
 
-s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
+s32 func_800973FC(PlayState* play, RoomContext* roomCtx) {
     if (roomCtx->status == 1) {
         if (osRecvMesg(&roomCtx->loadQueue, NULL, OS_MESG_NOBLOCK) == 0) {
             roomCtx->status = 0;
             roomCtx->curRoom.segment = roomCtx->unk_34;
             gSegments[3] = VIRTUAL_TO_PHYSICAL(roomCtx->unk_34);
 
-            Scene_ExecuteCommands(globalCtx, roomCtx->curRoom.segment);
-            Player_SetBootData(globalCtx, GET_PLAYER(globalCtx));
-            Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
+            Scene_ExecuteCommands(play, roomCtx->curRoom.segment);
+            Player_SetBootData(play, GET_PLAYER(play));
+            Actor_SpawnTransitionActors(play, &play->actorCtx);
 
             return 1;
         }
@@ -582,23 +582,23 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
     return 1;
 }
 
-void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags) {
+void Room_Draw(PlayState* play, Room* room, u32 flags) {
     if (room->segment != NULL) {
         gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
         ASSERT(room->meshHeader->base.type < ARRAY_COUNTU(sRoomDrawHandlers),
                "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
-        sRoomDrawHandlers[room->meshHeader->base.type](globalCtx, room, flags);
+        sRoomDrawHandlers[room->meshHeader->base.type](play, room, flags);
     }
 }
 
-void func_80097534(GlobalContext* globalCtx, RoomContext* roomCtx) {
+void func_80097534(PlayState* play, RoomContext* roomCtx) {
     roomCtx->prevRoom.num = -1;
     roomCtx->prevRoom.segment = NULL;
-    func_80031B14(globalCtx, &globalCtx->actorCtx);
-    Actor_SpawnTransitionActors(globalCtx, &globalCtx->actorCtx);
-    Map_InitRoomData(globalCtx, roomCtx->curRoom.num);
-    if (!((globalCtx->sceneNum >= SCENE_SPOT00) && (globalCtx->sceneNum <= SCENE_SPOT20))) {
-        Map_SavePlayerInitialInfo(globalCtx);
+    func_80031B14(play, &play->actorCtx);
+    Actor_SpawnTransitionActors(play, &play->actorCtx);
+    Map_InitRoomData(play, roomCtx->curRoom.num);
+    if (!((play->sceneNum >= SCENE_SPOT00) && (play->sceneNum <= SCENE_SPOT20))) {
+        Map_SavePlayerInitialInfo(play);
     }
-    Audio_SetEnvReverb(globalCtx->roomCtx.curRoom.echo);
+    Audio_SetEnvReverb(play->roomCtx.curRoom.echo);
 }
