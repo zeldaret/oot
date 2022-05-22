@@ -269,7 +269,6 @@ struct ParseError {
 	ParseError(const string& message) : message(message) {}
 	ParseError(const int32_t pos, const string& message) : pos(pos), message(message) {}
 	ParseError(const ErrorLevel level, const string& message) : level(level), message(message) {}
-	ParseError(const ErrorLevel level, const int32_t pos, const string& message) : level(level), pos(pos), message(message) {}
 
 	void output(vector<ProcessingState*> fileStack) const;
 };
@@ -630,7 +629,7 @@ private:
 	void processLine(string_view line, string_view filename, int lineNumber);
 	void processLabelMetaCommand(string_view cmd, Tokenizer& tk, bool noAlign);
 	void processGlobalMetaCommand(string_view cmd, Tokenizer& tk, string_view filename);
-	void processMetaCommand(string_view cmd, Tokenizer& tk, string_view filename);
+	void processMetaCommand(string_view cmd, Tokenizer& tk);
 	void processDataCommand(string_view mnemonic, Tokenizer& tk, int lineNumber);
 	void processTrackCommand(string_view mnemonic, Tokenizer& tk, int lineNumber);
 	void emitCommandArgument(Arg a, Tokenizer& tk, int32_t* valOut);
@@ -801,7 +800,7 @@ void Compiler::processLine(string_view line, string_view filename, int lineNumbe
 
 	switch (currentSection()) {
 		case SectionType::Meta:
-			processMetaCommand(cmd, tk, filename);
+			processMetaCommand(cmd, tk);
 			break;
 		case SectionType::Seq:
 		case SectionType::Chan:
@@ -881,7 +880,7 @@ void Compiler::processLabelMetaCommand(string_view cmd, Tokenizer& tk, bool noAl
 	labelValues[string(labelName)] = desc;
 }
 
-void Compiler::processMetaCommand(string_view cmd, Tokenizer& tk, string_view filename) {
+void Compiler::processMetaCommand(string_view cmd, Tokenizer& tk) {
 	if (cmd == ".desc") {
 		// Descriptors are ignored by the assembler.  We'll read in the string and then skip the remainder
 		// of the line.

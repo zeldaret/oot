@@ -1,6 +1,6 @@
 CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
 PROGRAMS := aifc_decode elf2rom makeromfs mkdmadata mkldscript reloc_prereq vtxdis yaz0
-CPPFLAGS := -Wall -Wextra -pedantic -std=c++20 -g -O2
+CPPFLAGS := -Wall -Wextra -pedantic -std=c++17 -g -O2
 CPP_PROGRAMS := assemble_sequence
 
 ifeq ($(shell command -v clang >/dev/null 2>&1; echo $$?),0)
@@ -43,7 +43,7 @@ vtxdis_SOURCES            := vtxdis.c
 yaz0_SOURCES              := yaz0tool.c yaz0.c util.c
 
 aifc_decode_LIBRARIES       := -lm
-assemble_sequence_LIBRARIES := -lstdc++
+assemble_sequence_LIBRARIES := -lstdc++ -lm
 
 define COMPILE =
 $(1): $($1_SOURCES)
