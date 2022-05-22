@@ -27,7 +27,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     }
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
-    gSaveContext.overrideButtonHudDisplay = gSaveContext.hudDisplayRequest = gSaveContext.hudDisplayCur =
+    gSaveContext.hudDisplayOverrideButton = gSaveContext.hudDisplayRequest = gSaveContext.hudDisplayCur =
         gSaveContext.hudDisplayCounter = 0;
     Audio_QueueSeqCmd(SEQ_PLAYER_BGM_MAIN << 24 | NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;

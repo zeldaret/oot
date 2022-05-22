@@ -1487,7 +1487,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
-    gSaveContext.overrideButtonHudDisplay = gSaveContext.hudDisplayRequest = gSaveContext.hudDisplayCur =
+    gSaveContext.hudDisplayOverrideButton = gSaveContext.hudDisplayRequest = gSaveContext.hudDisplayCur =
         gSaveContext.hudDisplayCounter = gSaveContext.unk_13F4 = 0;
 
     gSaveContext.unk_13F6 = gSaveContext.magic;

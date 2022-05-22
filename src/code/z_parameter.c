@@ -236,12 +236,12 @@ void Interface_RaiseButtonAlphas(PlayState* play, s16 risingAlpha) {
 
 /**
  * Slowly diminish button alphas on the hud
- * If gSaveContext.overrideButtonHudDisplay != 0, then force the buttons to raise instead
+ * If gSaveContext.hudDisplayOverrideButton != 0, then force the buttons to raise instead
  */
 void Interface_DimButtonAlphas(PlayState* play, s16 dimmingAlpha, s16 risingAlpha) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
 
-    if (gSaveContext.overrideButtonHudDisplay != 0) {
+    if (gSaveContext.hudDisplayOverrideButton != 0) {
         Interface_RaiseButtonAlphas(play, risingAlpha);
         return;
     }
@@ -643,12 +643,12 @@ void func_80083108(PlayState* play) {
 
     if ((gSaveContext.cutsceneIndex < 0xFFF0) ||
         ((play->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
-        gSaveContext.overrideButtonHudDisplay = 0;
+        gSaveContext.hudDisplayOverrideButton = 0;
 
         if ((player->stateFlags1 & PLAYER_STATE1_23) || (play->shootingGalleryStatus > 1) ||
             ((play->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(play, 0x38))) {
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
-                gSaveContext.overrideButtonHudDisplay = 1;
+                gSaveContext.hudDisplayOverrideButton = 1;
 
                 if (gSaveContext.buttonStatus[0] == BTN_DISABLED) {
                     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
@@ -705,7 +705,7 @@ void func_80083108(PlayState* play) {
         } else if (play->sceneNum == SCENE_KENJYANOMA) {
             Interface_ChangeHudDisplay(HUD_DISPLAY_OFF);
         } else if (play->sceneNum == SCENE_TURIBORI) {
-            gSaveContext.overrideButtonHudDisplay = 2;
+            gSaveContext.hudDisplayOverrideButton = 2;
             if (play->interfaceCtx.unk_260 != 0) {
                 if (gSaveContext.equips.buttonItems[0] != ITEM_FISHING_POLE) {
                     gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
