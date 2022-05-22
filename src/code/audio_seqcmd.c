@@ -22,8 +22,8 @@
 #include "ultra64/abi.h"
 
 // Direct audio command (skips the queueing system)
-#define Audio_SetVolumeScaleNow(playerIndex, volFadeTimer, volScale)                                          \
-    Audio_ProcessSeqCmd((SEQ_CMD_SET_PLAYER_VOL << 28) | ((u8)playerIndex << 24) | ((u8)volFadeTimer << 16) | \
+#define SEQCMD_SET_PLAYER_VOLUME_NOW(playerIndex, volFadeTimer, volScale)                                          \
+    Audio_ProcessSeqCmd((SEQ_CMD_SET_PLAYER_VOLUME << 28) | ((u8)playerIndex << 24) | ((u8)volFadeTimer << 16) | \
                         ((u8)(volScale * 127.0f)));
 
 typedef struct {
@@ -222,7 +222,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             }
             break;
 
-        case SEQ_CMD_SET_PLAYER_VOL:
+        case SEQ_CMD_SET_PLAYER_VOLUME:
             // Transition volume to a target volume for an entire player
             duration = (cmd & 0xFF0000) >> 15;
             val = cmd & 0xFF;
@@ -273,7 +273,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             gActiveSeqs[playerIndex].freqScaleChannelFlags |= 1 << channelIndex;
             break;
 
-        case SEQ_CMD_SET_CHANNEL_VOL:
+        case SEQ_CMD_SET_CHANNEL_VOLUME:
             // Transition volume to a target volume for a specific channel
             duration = (cmd & 0xFF0000) >> 15;
             channelIndex = (cmd & 0xF00) >> 8;
@@ -466,7 +466,7 @@ void Audio_SetVolumeScale(u8 playerIndex, u8 scaleIndex, u8 targetVol, u8 volFad
             volScale *= gActiveSeqs[playerIndex].volScales[i] / 127.0f;
         }
 
-        Audio_SetVolumeScaleNow(playerIndex, volFadeTimer, volScale);
+        SEQCMD_SET_PLAYER_VOLUME_NOW(playerIndex, volFadeTimer, volScale);
     }
 }
 
