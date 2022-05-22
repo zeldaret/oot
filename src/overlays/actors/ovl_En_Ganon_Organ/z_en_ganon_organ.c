@@ -9,10 +9,10 @@
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 
-void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnGanonOrgan_Init(Actor* thisx, PlayState* play);
+void EnGanonOrgan_Destroy(Actor* thisx, PlayState* play);
+void EnGanonOrgan_Update(Actor* thisx, PlayState* play);
+void EnGanonOrgan_Draw(Actor* thisx, PlayState* play);
 
 const ActorInit En_Ganon_Organ_InitVars = {
     ACTOR_EN_GANON_ORGAN,
@@ -30,14 +30,14 @@ static u64 sForceAlignment = 0;
 
 #include "overlays/ovl_En_Ganon_Organ/ovl_En_Ganon_Organ.c"
 
-void EnGanonOrgan_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnGanonOrgan_Init(Actor* thisx, PlayState* play) {
     thisx->flags &= ~ACTOR_FLAG_0;
 }
 
-void EnGanonOrgan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnGanonOrgan_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnGanonOrgan_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnGanonOrgan_Update(Actor* thisx, PlayState* play) {
     BossGanon* dorf;
 
     osSyncPrintf("ORGAN MOVE 1\n");
@@ -89,22 +89,22 @@ Gfx* func_80A28148(GraphicsContext* gfxCtx, BossGanon* dorf) {
     return displayList;
 }
 
-void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnGanonOrgan_Draw(Actor* thisx, PlayState* play) {
     BossGanon* dorf = (BossGanon*)thisx->parent;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 205);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_ganon_organ.c", 205);
 
     osSyncPrintf("ORGAN DRAW  1\n");
-    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(play->state.gfxCtx);
     if ((thisx->params == 1) && (dorf->organAlpha != 255)) {
-        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(globalCtx->state.gfxCtx, dorf));
-        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(globalCtx->state.gfxCtx, dorf));
+        gSPSegment(POLY_OPA_DISP++, 0x08, func_80A280BC(play->state.gfxCtx, dorf));
+        gSPSegment(POLY_OPA_DISP++, 0x09, func_80A28148(play->state.gfxCtx, dorf));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x08, EnGanonOrgan_EmptyDList(globalCtx->state.gfxCtx));
-        gSPSegment(POLY_OPA_DISP++, 0x09, EnGanonOrgan_EmptyDList(globalCtx->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x08, EnGanonOrgan_EmptyDList(play->state.gfxCtx));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnGanonOrgan_EmptyDList(play->state.gfxCtx));
     }
     Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_NEW);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 221),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_ganon_organ.c", 221),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     gSPDisplayList(POLY_OPA_DISP++, sRoomOrganAndFloorDL);
@@ -112,5 +112,5 @@ void EnGanonOrgan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("ORGAN DRAW  2\n");
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ganon_organ.c", 230);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_ganon_organ.c", 230);
 }
