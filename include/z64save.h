@@ -151,11 +151,11 @@ typedef struct {
     /* 0x13E0 */ u8 seqId;
     /* 0x13E1 */ u8 natureAmbienceId;
     /* 0x13E2 */ u8 buttonStatus[5];
-    /* 0x13E7 */ u8 overrideButtonHudDisplay; // alpha related
+    /* 0x13E7 */ u8 overrideButtonHudDisplay; // for certain hud displays, will override button dim request and ensure the buttons are still visible
     /* 0x13E8 */ u16 hudDisplayRequest; // requested hud display. Reset to 0 when the hud display target is reached
     /* 0x13EA */ u16 hudDisplayCur; // current hud display
     /* 0x13EC */ u16 hudDisplayCounter; // Number of frames in the transition to a new hud display. Used to step alpha
-    /* 0x13EE */ u16 hudDisplayPrev; // previous alpha type
+    /* 0x13EE */ u16 hudDisplayPrev; // previous hud display. Used to store and recover hud display for pause menu and text boxes
     /* 0x13F0 */ s16 unk_13F0; // magic related
     /* 0x13F2 */ s16 unk_13F2; // magic related
     /* 0x13F4 */ s16 unk_13F4; // magic related

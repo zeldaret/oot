@@ -169,10 +169,10 @@ static Gfx sSetupDL_80125A60[] = {
 };
 
 // original name: "alpha_change"
-void Interface_ChangeHudDisplay(u16 hudDisplayCur) {
-    if (hudDisplayCur != gSaveContext.hudDisplayCur) {
-        osSyncPrintf("ＡＬＰＨＡーＴＹＰＥ＝%d  LAST_TIME_TYPE=%d\n", hudDisplayCur, gSaveContext.hudDisplayPrev);
-        gSaveContext.hudDisplayCur = gSaveContext.hudDisplayRequest = hudDisplayCur;
+void Interface_ChangeHudDisplay(u16 hudDisplay) {
+    if (hudDisplay != gSaveContext.hudDisplayCur) {
+        osSyncPrintf("ＡＬＰＨＡーＴＹＰＥ＝%d  LAST_TIME_TYPE=%d\n", hudDisplay, gSaveContext.hudDisplayPrev);
+        gSaveContext.hudDisplayCur = gSaveContext.hudDisplayRequest = hudDisplay;
         gSaveContext.hudDisplayCounter = 1;
     }
 }
@@ -3893,7 +3893,7 @@ void Interface_Update(PlayState* play) {
         case HUD_DISPLAY_HEARTS_ALT:
         case HUD_DISPLAY_A_B_MINIMAP:
         case HUD_DISPLAY_HEARTS_MAGIC_ALT:
-            dimmingAlpha = 255 - (gSaveContext.hudDisplayCounter << 5);
+            dimmingAlpha = 255 - (32 * gSaveContext.hudDisplayCounter);
             if (dimmingAlpha < 0) {
                 dimmingAlpha = 0;
             }
@@ -3907,7 +3907,7 @@ void Interface_Update(PlayState* play) {
             break;
 
         case HUD_DISPLAY_ALL:
-            dimmingAlpha = 255 - (gSaveContext.hudDisplayCounter << 5);
+            dimmingAlpha = 255 - (32 * gSaveContext.hudDisplayCounter);
             if (dimmingAlpha < 0) {
                 dimmingAlpha = 0;
             }
@@ -3956,6 +3956,7 @@ void Interface_Update(PlayState* play) {
                         interfaceCtx->minimapAlpha = 170;
                     }
                     break;
+
                 default:
                     if (interfaceCtx->minimapAlpha != 255) {
                         interfaceCtx->minimapAlpha = risingAlpha;
