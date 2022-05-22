@@ -114,13 +114,13 @@ def bootstrap(ovl_path, ovl_text):
         ",\n" + indent + init_func_name + ",\n};\n*/"
 
     decs = "u32 " + init_func_name + \
-        "(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);\n"
+        "(PlayState* play, u32 index, EffectSs* this, void* initParamsx);\n"
     decs += "void " + \
         init_func_name[:-4] + \
-            "Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);\n"
+            "Draw(PlayState* play, u32 index, EffectSs* this);\n"
     decs += "void " + \
         init_func_name[:-4] + \
-            "Update(GlobalContext* globalCtx, u32 index, EffectSs* this);\n"
+            "Update(PlayState* play, u32 index, EffectSs* this);\n"
 
     insert_pos = ovl_text.find("global.h>\n")
 
