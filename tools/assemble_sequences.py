@@ -17,7 +17,7 @@ class SequenceDefinition:
         self.fonts = []
         self.ref = None
 
-def process_sequence_file(sequence: str, soundfont_path: Path, output_path: Path) -> SequenceDefinition:
+def process_sequence_file(sequence, soundfont_path, output_path):
     defn = SequenceDefinition()
 
     defn.name = os.path.basename(sequence)
@@ -52,7 +52,7 @@ def process_sequence_file(sequence: str, soundfont_path: Path, output_path: Path
 
     return defn
 
-def process_sequence_files(sequence_path: Path, src_seq_path: Path, soundfont_path: Path, output_path: Path):
+def process_sequence_files(sequence_path, src_seq_path, soundfont_path, output_path):
     result = []
 
     for file in os.listdir(sequence_path):
@@ -76,7 +76,7 @@ def process_sequence_files(sequence_path: Path, src_seq_path: Path, soundfont_pa
     result = sorted(result, key=lambda defn: os.path.basename(defn.name))
     return result
 
-def get_seq_index(refname: str, seqdefs: list[SequenceDefinition]):
+def get_seq_index(refname, seqdefs):
     for i in range(len(seqdefs)):
         defn = seqdefs[i]
         if defn.name.endswith(refname):
@@ -84,7 +84,7 @@ def get_seq_index(refname: str, seqdefs: list[SequenceDefinition]):
     
     raise f"Sequence {refname} not found but referenced"
 
-def generate_sequence_table(sequences: list[SequenceDefinition], output_path: Path, machine: EM, packspecs: StructPackSpec):
+def generate_sequence_table(sequences, output_path, machine, packspecs):
     with open(os.path.join(output_path, "assets", "data", "SequenceTable.o"), "wb") as seqtable:
         stream = io.BytesIO()
         stream.write(struct.pack(packspecs.genPackString("H14x"), len(sequences)))
@@ -110,7 +110,7 @@ def generate_sequence_table(sequences: list[SequenceDefinition], output_path: Pa
         elf.append_symbol("_SequenceTable_end", rodata, stream.getbuffer().nbytes, 4, STB.STB_GLOBAL, STT.STT_OBJECT, STV.STV_DEFAULT)
         seqtable.write(bytes(elf))
 
-def generate_sequence_font_table(sequences: list[SequenceDefinition], output_path: Path, machine: EM, packspecs: StructPackSpec):
+def generate_sequence_font_table(sequences, output_path, machine, packspecs):
     with open(os.path.join(output_path, "assets", "data", "SequenceFontTable.o"), "wb") as seqmap:
         stream = io.BytesIO()
         seqoffsets = {}
