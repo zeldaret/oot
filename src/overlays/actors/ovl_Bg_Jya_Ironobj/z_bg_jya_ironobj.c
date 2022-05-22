@@ -20,7 +20,7 @@ void func_808992D8(BgJyaIronobj* this);
 void func_808992E8(BgJyaIronobj* this, PlayState* play);
 
 void BgJyaIronobj_SpawnPillarParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
-void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, PlayState* arg1, EnIk* enIk);
+void BgJyaIronobj_SpawnThoneParticles(BgJyaIronobj* this, PlayState* play, EnIk* enIk);
 
 static int sUnused = 0;
 
