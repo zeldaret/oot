@@ -2411,7 +2411,7 @@ void Magic_Update(PlayState* play) {
     s16 borderChangeR;
     s16 borderChangeG;
     s16 borderChangeB;
-    s16 temp; // magicFillTarget or magicBorderIndex
+    s16 temp; // target for magicCapacity or magicBorderIndex
 
     switch (gSaveContext.magicState) {
         case MAGIC_STATE_STEP_CAPACITY:
