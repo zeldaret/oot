@@ -85,10 +85,10 @@ instr FONT00_INSTR_DING
 transpose 12
 releaserate 225
 notepan 54
-notedv PITCH_BF3, 0xc, 73
-notedv PITCH_C4, 0xc, 73
-notedv PITCH_D4, 0xc, 73
-notedv PITCH_EF4, 0xc, 73
+notedv PITCH_BF3, 0xC, 73
+notedv PITCH_C4, 0xC, 73
+notedv PITCH_D4, 0xC, 73
+notedv PITCH_EF4, 0xC, 73
 notedv PITCH_F4, 0x18, 73
 end
 
@@ -120,7 +120,7 @@ notedv PITCH_F4, 0x4, 73
 notedv PITCH_EF4, 0x4, 73
 notedv PITCH_D4, 0x4, 73
 notedv PITCH_C4, 0x4, 73
-notedv PITCH_BF3, 0xc, 73
+notedv PITCH_BF3, 0xC, 73
 end
 
 .layer layer_581C
@@ -129,9 +129,9 @@ transpose 24
 env envelope_65D8, 245
 notepan 74
 portamento 0x81, 20, 255
-notedv PITCH_F3, 0xc, 73
+notedv PITCH_F3, 0xC, 73
 ldelay 0x4
-notedv PITCH_F3, 0xc, 73
+notedv PITCH_F3, 0xC, 73
 end
 
 .channel system_puzzle_solved
@@ -152,7 +152,7 @@ end
 
 .layer layer_5850
 notepan 74
-ldelay 0xc
+ldelay 0xC
 notedv PITCH_GF4, 0x18, 75
 notedv PITCH_A3, 0x18, 75
 notedv PITCH_E4, 0x18, 75
@@ -208,10 +208,10 @@ ldlayer 1, layer_58C3
 end
 
 .layer layer_58AD
-notedv PITCH_A4, 0xc, 70
-notedv PITCH_B4, 0xc, 70
-notedv PITCH_D5, 0xc, 70
-notedv PITCH_E5, 0xc, 70
+notedv PITCH_A4, 0xC, 70
+notedv PITCH_B4, 0xC, 70
+notedv PITCH_D5, 0xC, 70
+notedv PITCH_E5, 0xC, 70
 notedv PITCH_A5, 0x12, 70
 notedv PITCH_A5, 0x12, 40
 notedv PITCH_A5, 0x12, 15
@@ -220,13 +220,13 @@ end
 .layer layer_58C3
 ldelay 0x6
 notepan 34
-notedv PITCH_A4, 0xc, 40
+notedv PITCH_A4, 0xC, 40
 notepan 94
-notedv PITCH_B4, 0xc, 40
+notedv PITCH_B4, 0xC, 40
 notepan 34
-notedv PITCH_D5, 0xc, 40
+notedv PITCH_D5, 0xC, 40
 notepan 94
-notedv PITCH_E5, 0xc, 40
+notedv PITCH_E5, 0xC, 40
 notepan 34
 notedv PITCH_A5, 0x12, 40
 notepan 94
@@ -279,7 +279,7 @@ end
 instr FONTANY_INSTR_SQUARE
 env envelope_6660, 242
 portamento 0x81, 36, 72
-notedv PITCH_D4, 0xa, 45
+notedv PITCH_D4, 0xA, 45
 notedv PITCH_D4, 0x6, 45
 end
 
@@ -366,7 +366,7 @@ transpose 9
 env envelope_6660, 250
 portamento 0x81, 24, 64
 notedv PITCH_D3, 0x2, 65
-notedv PITCH_A2, 0xc, 65
+notedv PITCH_A2, 0xC, 65
 notedv PITCH_D3, 0x6, 35
 end
 
@@ -380,9 +380,9 @@ env envelope_6660, 250
 notedv PITCH_D4, 0x6, 90
 notedv PITCH_G4, 0x6, 90
 notedv PITCH_GF4, 0x6, 90
-notedv PITCH_G4, 0xc, 90
-notedv PITCH_G4, 0xc, 40
-notedv PITCH_G4, 0xc, 20
+notedv PITCH_G4, 0xC, 90
+notedv PITCH_G4, 0xC, 40
+notedv PITCH_G4, 0xC, 20
 end
 
 .channel system_menu_unused_down
@@ -393,9 +393,9 @@ end
 instr FONT00_INSTR_DING
 env envelope_6660, 250
 transpose 12
-notedv PITCH_GF4, 0xa, 78
-notedv PITCH_D4, 0xa, 78
-notedv PITCH_B3, 0xa, 78
+notedv PITCH_GF4, 0xA, 78
+notedv PITCH_D4, 0xA, 78
+notedv PITCH_B3, 0xA, 78
 notedv PITCH_A3, 0x14, 78
 end
 
@@ -407,9 +407,9 @@ end
 instr FONT00_INSTR_DING
 env envelope_6660, 250
 transpose 12
-notedv PITCH_A3, 0xa, 78
-notedv PITCH_B3, 0xa, 78
-notedv PITCH_D4, 0xa, 78
+notedv PITCH_A3, 0xA, 78
+notedv PITCH_B3, 0xA, 78
+notedv PITCH_D4, 0xA, 78
 notedv PITCH_GF4, 0x14, 78
 end
 
@@ -421,7 +421,7 @@ end
 instr FONT00_INSTR_DING
 env envelope_6660, 250
 transpose 12
-notedv PITCH_D4, 0xa, 78
+notedv PITCH_D4, 0xA, 78
 notedv PITCH_A3, 0x14, 78
 end
 
@@ -433,7 +433,7 @@ end
 instr FONT00_INSTR_DING
 env envelope_6660, 250
 transpose 12
-notedv PITCH_A3, 0xa, 78
+notedv PITCH_A3, 0xA, 78
 notedv PITCH_D4, 0x14, 78
 end
 
@@ -443,7 +443,7 @@ ldlayer 0, layer_5A60
 end
 
 .layer layer_5A60
-notedv PITCH_EF4, 0xc, 70
+notedv PITCH_EF4, 0xC, 70
 end
 
 .channel system_message_advance
@@ -453,7 +453,7 @@ end
 .layer layer_5A68
 instr FONT00_INSTR_DING
 env envelope_6660, 248
-notedv PITCH_G4, 0x2e, 95
+notedv PITCH_G4, 0x2E, 95
 end
 
 .channel system_countdown_caution
@@ -492,8 +492,8 @@ end
 .layer layer_5AA9
 instr FONTANY_INSTR_SAWTOOTH
 env envelope_6660, 248
-notedvg PITCH_DF5, 0xd, 60, 128
-notedv PITCH_DF5, 0xd, 60
+notedvg PITCH_DF5, 0xD, 60, 128
+notedv PITCH_DF5, 0xD, 60
 end
 
 .channel system_explosive_boom
@@ -571,7 +571,7 @@ env envelope_6674, 245
 portamento 0x81, 36, 255
 notedv PITCH_F2, 0x8, 68
 portamento 0x81, 20, 225
-notedv PITCH_C4, 0x1c, 68
+notedv PITCH_C4, 0x1C, 68
 end
 
 .channel system_unused21
@@ -586,8 +586,8 @@ end
 .layer layer_unused_5B45
 env envelope_6674, 245
 portamento 0x83, 32, 255
-notedv PITCH_F2, 0xc, 80
-notedv PITCH_F2, 0xc, 40
+notedv PITCH_F2, 0xC, 80
+notedv PITCH_F2, 0xC, 40
 end
 
 .channel system_unused22
@@ -609,10 +609,10 @@ end
 .layer layer_5B69
 notepan 84
 ldelay 0x6
-notedv PITCH_G3, 0xc, 80
-notedv PITCH_C4, 0xc, 80
-notedv PITCH_G4, 0xc, 80
-notedv PITCH_C5, 0xc, 80
+notedv PITCH_G3, 0xC, 80
+notedv PITCH_C4, 0xC, 80
+notedv PITCH_G4, 0xC, 80
+notedv PITCH_C5, 0xC, 80
 env envelope_6660, 222
 notepan 44
 notedv PITCH_E5, 0x18, 30
@@ -622,10 +622,10 @@ end
 
 .layer layer_5B88
 notepan 44
-notedv PITCH_E3, 0xc, 80
-notedv PITCH_A3, 0xc, 80
-notedv PITCH_E4, 0xc, 80
-notedv PITCH_A4, 0xc, 80
+notedv PITCH_E3, 0xC, 80
+notedv PITCH_A3, 0xC, 80
+notedv PITCH_E4, 0xC, 80
+notedv PITCH_A4, 0xC, 80
 notepan 64
 notedv PITCH_E5, 0x60, 80
 end
@@ -640,15 +640,15 @@ end
 .layer layer_5BA7
 call layer_fn_5BB4
 .layer layer_5BAA
-notedv PITCH_AF4, 0xa, 75
+notedv PITCH_AF4, 0xA, 75
 notedv PITCH_AF4, 0x14, 55
 notedv PITCH_AF4, 0x14, 35
 end
 
 .layer layer_fn_5BB4
-notedv PITCH_AF4, 0xa, 75
-notedv PITCH_F4, 0xa, 75
-notedv PITCH_DF4, 0xa, 75
+notedv PITCH_AF4, 0xA, 75
+notedv PITCH_F4, 0xA, 75
+notedv PITCH_DF4, 0xA, 75
 end
 
 .channel system_menu_scroll_left
@@ -766,7 +766,7 @@ end
 transpose 48
 loop 4
 releaserate 250
-notedv PITCH_C4, 0xc, 98
+notedv PITCH_C4, 0xC, 98
 releaserate 216
 notedv PITCH_C4, 0x28, 87
 loopend
@@ -780,11 +780,11 @@ end
 .layer layer_5C80
 notedv PITCH_E4, 0x6, 70
 notedv PITCH_D4, 0x6, 70
-notedv PITCH_C4, 0xc, 70
+notedv PITCH_C4, 0xC, 70
 notepan 44
 notedv PITCH_C4, 0x6, 36
 notepan 84
-notedv PITCH_C4, 0xc, 36
+notedv PITCH_C4, 0xC, 36
 end
 
 .channel system_rupee_increase
@@ -794,7 +794,7 @@ end
 
 .layer layer_5C9B
 instr FONT00_INSTR_RUPEE
-notedv PITCH_G5, 0xe, 66
+notedv PITCH_G5, 0xE, 66
 end
 
 .layer layer_5CA1
@@ -823,9 +823,9 @@ end
 
 .layer layer_5CC4
 call layer_fn_5BB4
-notedv PITCH_BF4, 0xa, 75
-notedv PITCH_G4, 0xa, 75
-notedv PITCH_EF4, 0xa, 75
+notedv PITCH_BF4, 0xA, 75
+notedv PITCH_G4, 0xA, 75
+notedv PITCH_EF4, 0xA, 75
 jump layer_5BAA
 
 .channel system_long_whiteout
@@ -847,7 +847,7 @@ instr FONT00_INSTR_SLIDE_HEAVY
 env envelope_67D8, 221
 transpose 12
 portamento 0x81, 2, 255
-notedv PITCH_B5, 0xfa, 85
+notedv PITCH_B5, 0xFA, 85
 end
 
 .channel system_whiteout
@@ -860,14 +860,14 @@ end
 instr FONT00_INSTR_WHISTLE_PERSON
 env envelope_67D8, 200
 transpose 24
-notedv PITCH_B5, 0xc8, 100
+notedv PITCH_B5, 0xC8, 100
 end
 
 .layer layer_5D12
 instr FONT00_INSTR_SLIDE_HEAVY
 env envelope_67D8, 200
 transpose 12
-notedv PITCH_B5, 0xc8, 85
+notedv PITCH_B5, 0xC8, 85
 end
 
 .channel system_warp_in
@@ -898,7 +898,7 @@ ldlayer 1, layer_5D51
 end
 
 .layer layer_5D4B
-ldelay 0x2a
+ldelay 0x2A
 env envelope_66A0, 251
 
 .layer layer_5D51
@@ -946,7 +946,7 @@ end
 .layer layer_5D84
 call layer_fn_5D8E
 notedv PITCH_C3, 0x8, 46
-notedv PITCH_C4, 0x1c, 36
+notedv PITCH_C4, 0x1C, 36
 end
 
 .layer layer_fn_5D8E
@@ -969,7 +969,7 @@ end
 instr FONT00_INSTR_WARP
 env envelope_6610, 232
 transpose 36
-notedv PITCH_E3, 0x1e, 95
+notedv PITCH_E3, 0x1E, 95
 end
 
 .layer layer_5DB1
@@ -1080,10 +1080,10 @@ rjump layer_5E53
 notepan 34
 .layer layer_5E53
 transpose 12
-notedv PITCH_F4, 0xc, 85
-notedv PITCH_BF4, 0xc, 85
-notedv PITCH_EF5, 0xc, 85
-notedv PITCH_BF5, 0xc, 85
+notedv PITCH_F4, 0xC, 85
+notedv PITCH_BF4, 0xC, 85
+notedv PITCH_EF5, 0xC, 85
+notedv PITCH_BF5, 0xC, 85
 notedv PITCH_F5, 0x18, 85
 notedv PITCH_F5, 0x18, 45
 notedv PITCH_F5, 0x18, 25
@@ -1096,10 +1096,10 @@ end
 .layer layer_5E6F
 instr FONTANY_INSTR_SINE
 env envelope_66D0, 248
-notedv PITCH_BF3, 0xc, 80
-notedv PITCH_F3, 0xc, 80
-notedv PITCH_D4, 0xc, 80
-notedv PITCH_EF4, 0xc, 80
+notedv PITCH_BF3, 0xC, 80
+notedv PITCH_F3, 0xC, 80
+notedv PITCH_D4, 0xC, 80
+notedv PITCH_EF4, 0xC, 80
 notedv PITCH_F4, 0x18, 80
 notedv PITCH_F4, 0x18, 40
 end
@@ -1113,5 +1113,5 @@ instr FONTANY_INSTR_SINE
 env envelope_6720, 246
 portamento 0x83, 32, 127
 notedv PITCH_C4, 0x8, 80
-notedv PITCH_C5, 0xc, 80
+notedv PITCH_C5, 0xC, 80
 end

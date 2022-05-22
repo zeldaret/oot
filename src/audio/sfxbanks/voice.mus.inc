@@ -441,9 +441,9 @@ end
 
 .layer layer_628B
 transpose 1
-notedv PITCH_DF2, 0x7f, 100
+notedv PITCH_DF2, 0x7F, 100
 notedv PITCH_D2, 0x118, 100
-notedv PITCH_EF2, 0x13e, 100
+notedv PITCH_EF2, 0x13E, 100
 end
 
 .channel voice_link_old_sweat
@@ -453,7 +453,7 @@ end
 .layer layer_629D
 transpose 1
 notedv PITCH_E2, 0x122, 100
-notedv PITCH_F2, 0xa3, 100
+notedv PITCH_F2, 0xA3, 100
 notedv PITCH_GF2, 0x35, 100
 end
 
@@ -471,7 +471,7 @@ end
 
 .layer layer_62B8
 transpose 1
-notedv PITCH_G2, 0xb9, 100
+notedv PITCH_G2, 0xB9, 100
 notedv PITCH_AF2, 0x86, 100
 notedv PITCH_A2, 0x74, 100
 end
@@ -770,8 +770,8 @@ end
 .layer layer_6428
 transpose 1
 notedv PITCH_A0, 0x62, 100
-notedv PITCH_BF0, 0x6a, 100
-notedv PITCH_B0, 0x3a, 100
+notedv PITCH_BF0, 0x6A, 100
+notedv PITCH_B0, 0x3A, 100
 end
 
 .channel voice_link_kid_wallmaster
@@ -804,8 +804,8 @@ end
 
 .layer layer_6455
 transpose 1
-notedv PITCH_C1, 0x10b, 50
-notedv PITCH_C1, 0xc5, 50
+notedv PITCH_C1, 0x10B, 50
+notedv PITCH_C1, 0xC5, 50
 notedv PITCH_D1, 0x87, 100
 notedv PITCH_EF1, 0x21, 100
 end
@@ -816,7 +816,7 @@ end
 
 .layer layer_646B
 transpose 1
-notedv PITCH_E1, 0xd9, 100
+notedv PITCH_E1, 0xD9, 100
 notedv PITCH_F1, 0x62, 100
 notedv PITCH_GF1, 0x109, 100
 end
@@ -836,7 +836,7 @@ end
 .layer layer_6486
 transpose 1
 notedv PITCH_G1, 0x41, 100
-notedv PITCH_AF1, 0x10a, 100
+notedv PITCH_AF1, 0x10A, 100
 notedv PITCH_A1, 0x53, 100
 end
 

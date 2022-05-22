@@ -41,7 +41,7 @@ legato
 .layer layer_5F29
 transpose 0
 .layer layer_5F2B
-notedv PITCH_C4, 0x1e0, 127
+notedv PITCH_C4, 0x1E0, 127
 end
 
 .array addr_5F30
@@ -82,7 +82,7 @@ transpose 24
 
 .layer layer_5F5C
 portamento 0x81, 15, 255
-notedv PITCH_G3, 0x8c, 80
+notedv PITCH_G3, 0x8C, 80
 end
 
 .channel ocarina_warp_in

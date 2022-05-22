@@ -507,7 +507,7 @@ end
 
 .layer layer_354D
 portamento 0x81, 34, 80
-notedv PITCH_C3, 0x1e, 100
+notedv PITCH_C3, 0x1E, 100
 end
 
 .channel enemy_dodongo_breathe
@@ -536,7 +536,7 @@ end
 
 .layer layer_3574
 portamento 0x81, 36, 255
-notedv PITCH_E4, 0xa, 100
+notedv PITCH_E4, 0xA, 100
 portamento 0x81, 44, 255
 notedv PITCH_B3, 0x24, 100
 end
@@ -553,9 +553,9 @@ transpose -6
 
 .layer layer_3591
 portamento 0x81, 38, 255
-notedv PITCH_GF4, 0xa, 100
+notedv PITCH_GF4, 0xA, 100
 portamento 0x81, 46, 255
-notedv PITCH_DF4, 0x5a, 100
+notedv PITCH_DF4, 0x5A, 100
 end
 
 .channel enemy_boss_dodongo_exhale
@@ -569,8 +569,8 @@ end
 transpose -12
 
 .layer layer_35AE
-portamento 0x1, 34, 0x14
-notedv PITCH_B3, 0x5a, 100
+portamento 0x1, 34, 0x1
+notedv PITCH_B3, 0x5A, 100
 end
 
 .channel enemy_boss_dodongo_walk
@@ -628,7 +628,7 @@ transpose -8
 env envelope_69DC, 240
 portamento 0x81, 34, 64
 notedv PITCH_C3, 0x32, 100
-notedv PITCH_C1, 0x5a, 100
+notedv PITCH_C1, 0x5A, 100
 end
 
 .layer layer_3606
@@ -664,7 +664,7 @@ portamento 0x81, 29, 150
 notedv PITCH_C3, 0x8, 100
 env envelope_68EC, 250
 portamento 0x81, 27, 150
-notedv PITCH_F2, 0x1e, 100
+notedv PITCH_F2, 0x1E, 100
 end
 
 .channel enemy_dodongo_jr_land
@@ -675,7 +675,7 @@ end
 instr FONT01_INSTR_SMASH
 env envelope_68DC, 250
 portamento 0x81, 36, 64
-notedv PITCH_D3, 0x1e, 100
+notedv PITCH_D3, 0x1E, 100
 end
 
 .channel enemy_boss_gohma_walk
@@ -735,7 +735,7 @@ end
 
 .layer layer_36AB
 portamento 0x81, 48, 255
-notedv PITCH_GF4, 0x1e, 100
+notedv PITCH_GF4, 0x1E, 100
 end
 
 .channel enemy_larvae_hurt
@@ -752,7 +752,7 @@ rjump layer_36C3
 instr FONT01_INSTR_MONSTER_ROAR
 .layer layer_36C3
 portamento 0x81, 51, 255
-notedv PITCH_B5, 0xa, 100
+notedv PITCH_B5, 0xA, 100
 portamento 0x81, 60, 255
 notedv PITCH_E5, 0x12, 100
 end
@@ -764,12 +764,12 @@ end
 .layer layer_36D6
 instr FONT01_INSTR_MECH
 portamento 0x81, 51, 255
-notedv PITCH_F5, 0xa, 100
+notedv PITCH_F5, 0xA, 100
 portamento 0x81, 53, 255
-notedv PITCH_G5, 0xa, 100
+notedv PITCH_G5, 0xA, 100
 transpose 4
 portamento 0x81, 55, 255
-notedv PITCH_B5, 0xa, 100
+notedv PITCH_B5, 0xA, 100
 transpose 6
 portamento 0x81, 51, 255
 notedv PITCH_B5, 0x14, 100
@@ -785,9 +785,9 @@ instr FONT01_INSTR_MECH
 portamento 0x81, 56, 255
 notedv PITCH_C5, 0x5, 100
 portamento 0x81, 54, 255
-notedv PITCH_BF4, 0xa, 100
+notedv PITCH_BF4, 0xA, 100
 portamento 0x81, 51, 255
-notedv PITCH_AF4, 0xa, 100
+notedv PITCH_AF4, 0xA, 100
 portamento 0x81, 47, 255
 notedv PITCH_DF4, 0x14, 100
 end
@@ -803,7 +803,7 @@ notedv PITCH_E3, 0x50, 100
 end
 
 .layer layer_372C
-ldelay 0xf
+ldelay 0xF
 notedv PITCH_C4, 0x50, 100
 end
 
@@ -826,11 +826,11 @@ end
 instr FONT01_INSTR_MONSTER_ROAR
 legato
 portamento 0x85, 39, 255
-notedv PITCH_G4, 0xa, 100
-notedv PITCH_C4, 0xa, 100
-notedv PITCH_G4, 0xa, 100
-notedv PITCH_C4, 0xa, 100
-notedv PITCH_G4, 0xa, 100
+notedv PITCH_G4, 0xA, 100
+notedv PITCH_C4, 0xA, 100
+notedv PITCH_G4, 0xA, 100
+notedv PITCH_C4, 0xA, 100
+notedv PITCH_G4, 0xA, 100
 notedv PITCH_C4, 0x5, 100
 end
 
@@ -852,7 +852,7 @@ legato
 env envelope_68FC, 255
 portamento 0x85, 25, 220
 notedv PITCH_EF3, 0x5, 100
-notedv PITCH_BF2, 0xa, 100
+notedv PITCH_BF2, 0xA, 100
 end
 
 .channel chan_unused_3791
@@ -882,7 +882,7 @@ end
 .layer layer_37AF
 instr FONT01_INSTR_OWL_FLAP
 portamento 0x81, 36, 255
-notedv PITCH_E4, 0xa, 100
+notedv PITCH_E4, 0xA, 100
 portamento 0x81, 42, 255
 notedv PITCH_DF4, 0x6, 100
 end
@@ -894,7 +894,7 @@ end
 
 .layer layer_37C7
 instr FONT01_INSTR_DODONGO_ROAR
-ldelay 0xa
+ldelay 0xA
 portamento 0x81, 48, 64
 notedv PITCH_D5, 0x28, 100
 end
@@ -915,7 +915,7 @@ end
 .layer layer_37EA
 instr FONT01_INSTR_DODONGO_ROAR
 portamento 0x81, 48, 255
-notedv PITCH_D5, 0xa, 100
+notedv PITCH_D5, 0xA, 100
 portamento 0x81, 55, 255
 notedv PITCH_F4, 0x48, 100
 end
@@ -934,9 +934,9 @@ end
 instr FONT01_INSTR_DINO_ROAR
 legato
 portamento 0x81, 39, 255
-notedv PITCH_D4, 0xa, 100
+notedv PITCH_D4, 0xA, 100
 portamento 0x81, 41, 255
-notedv PITCH_F4, 0xc8, 100
+notedv PITCH_F4, 0xC8, 100
 end
 
 .channel enemy_boss_gohma_hurt
@@ -957,7 +957,7 @@ end
 .layer layer_3838
 instr FONT01_INSTR_MONSTER_ROAR
 portamento 0x81, 39, 255
-notedv PITCH_G4, 0xf, 100
+notedv PITCH_G4, 0xF, 100
 portamento 0x81, 44, 255
 notedv PITCH_B3, 0x24, 100
 end
@@ -981,7 +981,7 @@ end
 
 .layer layer_385C
 instr FONT01_INSTR_TEKTITE_ROTATE
-notedv PITCH_D2, 0x1e, 70
+notedv PITCH_D2, 0x1E, 70
 end
 
 .channel enemy_dodongo_jr_burrow
@@ -992,17 +992,17 @@ end
 instr FONT01_INSTR_TEKTITE_ROTATE
 notedv PITCH_BF2, 0x19, 100
 notedv PITCH_AF2, 0x14, 100
-notedv PITCH_BF2, 0xf, 100
-notedv PITCH_AF2, 0xf, 100
-notedv PITCH_BF2, 0xa, 100
-notedv PITCH_AF2, 0xf, 100
-notedv PITCH_BF2, 0xf, 70
+notedv PITCH_BF2, 0xF, 100
+notedv PITCH_AF2, 0xF, 100
+notedv PITCH_BF2, 0xA, 100
+notedv PITCH_AF2, 0xF, 100
+notedv PITCH_BF2, 0xF, 70
 .layer layer_387D
-notedv PITCH_AF2, 0xf, 70
-notedv PITCH_BF2, 0xf, 70
-notedv PITCH_AF2, 0xf, 70
-notedv PITCH_BF2, 0xa, 60
-notedv PITCH_AF2, 0xa, 60
+notedv PITCH_AF2, 0xF, 70
+notedv PITCH_BF2, 0xF, 70
+notedv PITCH_AF2, 0xF, 70
+notedv PITCH_BF2, 0xA, 60
+notedv PITCH_AF2, 0xA, 60
 end
 
 .channel enemy_bug_burrow
@@ -1068,7 +1068,7 @@ end
 
 .layer layer_38D7
 portamento 0x81, 35, 64
-notedv PITCH_DF3, 0xc, 64
+notedv PITCH_DF3, 0xC, 64
 end
 
 .channel enemy_stalfos_laugh
@@ -1078,7 +1078,7 @@ end
 
 .layer layer_38E5
 instr FONT01_INSTR_PHANTOM_LAUGH_0
-notedv PITCH_C4, 0x8c, 100
+notedv PITCH_C4, 0x8C, 100
 end
 
 .channel enemy_lizalfos_hurt
@@ -1090,7 +1090,7 @@ end
 .layer layer_38F6
 instr FONT01_INSTR_LIZALFOS
 portamento 0x81, 33, 255
-notedv PITCH_DF4, 0xf, 100
+notedv PITCH_DF4, 0xF, 100
 portamento 0x81, 38, 255
 notedv PITCH_AF2, 0x28, 100
 end
@@ -1122,9 +1122,9 @@ end
 .layer layer_392E
 instr FONT01_INSTR_LIZALFOS
 portamento 0x81, 35, 255
-notedv PITCH_E3, 0xf, 100
+notedv PITCH_E3, 0xF, 100
 portamento 0x81, 31, 255
-notedv PITCH_C3, 0x1e, 100
+notedv PITCH_C3, 0x1E, 100
 end
 
 .layer layer_393F
@@ -1176,15 +1176,15 @@ end
 instr FONT01_INSTR_PHANTOM_MOAN
 legato
 portamento 0x85, 43, 200
-notedv PITCH_AF4, 0x1e, 100
-notedv PITCH_A3, 0x8c, 100
-notedv PITCH_E4, 0xc8, 100
+notedv PITCH_AF4, 0x1E, 100
+notedv PITCH_A3, 0x8C, 100
+notedv PITCH_E4, 0xC8, 100
 end
 
 .layer layer_3997
 instr FONT01_INSTR_POT_BREAK
 notedv PITCH_G3, 0x5, 100
-notedv PITCH_G3, 0xf, 100
+notedv PITCH_G3, 0xF, 100
 end
 
 .channel enemy_stalkid_die
@@ -1206,7 +1206,7 @@ end
 .layer layer_39B1
 instr FONT01_INSTR_LIZALFOS
 transpose 48
-notedv PITCH_DF4, 0xa, 80
+notedv PITCH_DF4, 0xA, 80
 end
 
 .channel enemy_lizalfos_land
@@ -1216,8 +1216,8 @@ end
 .layer layer_39BD
 instr FONT01_INSTR_LIZALFOS
 transpose 48
-notedv PITCH_E4, 0xa, 80
-notedv PITCH_D4, 0xa, 80
+notedv PITCH_E4, 0xA, 80
+notedv PITCH_D4, 0xA, 80
 end
 
 .channel enemy_lizalfos_jump
@@ -1229,8 +1229,8 @@ end
 .layer layer_39D2
 instr FONT01_INSTR_LIZALFOS
 transpose 48
-notedv PITCH_E4, 0xa, 100
-notedv PITCH_GF4, 0xa, 100
+notedv PITCH_E4, 0xA, 100
+notedv PITCH_GF4, 0xA, 100
 end
 
 .layer layer_39DD
@@ -1243,7 +1243,7 @@ end
 
 .layer layer_39ED
 instr FONT01_INSTR_MOBLIN_GROWL
-ldelay 0xa
+ldelay 0xA
 notedv PITCH_EF4, 0x5, 100
 notedv PITCH_D4, 0x5, 100
 notedv PITCH_C4, 0x5, 100
@@ -1268,13 +1268,13 @@ ldlayer 0, layer_3A2E
 end
 
 .layer layer_3A18
-notedv PITCH_E2, 0xa, 100
-notedv PITCH_GF2, 0xa, 100
-notedv PITCH_E2, 0xa, 100
-notedv PITCH_GF2, 0xa, 100
-notedv PITCH_E2, 0xa, 100
-notedv PITCH_GF2, 0xa, 100
-notedv PITCH_E2, 0xa, 100
+notedv PITCH_E2, 0xA, 100
+notedv PITCH_GF2, 0xA, 100
+notedv PITCH_E2, 0xA, 100
+notedv PITCH_GF2, 0xA, 100
+notedv PITCH_E2, 0xA, 100
+notedv PITCH_GF2, 0xA, 100
+notedv PITCH_E2, 0xA, 100
 end
 
 .layer layer_3A2E
@@ -1282,7 +1282,7 @@ instr FONT01_INSTR_PHANTOM_WAIL
 env envelope_699C, 250
 legato
 portamento 0x85, 23, 255
-notedv PITCH_C4, 0x1e, 100
+notedv PITCH_C4, 0x1E, 100
 notedv PITCH_F3, 0x52, 100
 end
 
@@ -1296,7 +1296,7 @@ instr FONT01_INSTR_PHANTOM_WAIL
 env envelope_699C, 240
 legato
 portamento 0x85, 37, 200
-notedv PITCH_GF4, 0x1e, 100
+notedv PITCH_GF4, 0x1E, 100
 notedv PITCH_GF3, 0x64, 100
 end
 
@@ -1310,7 +1310,7 @@ end
 .layer layer_3A64
 legato
 portamento 0x85, 23, 255
-notedv PITCH_C4, 0x1e, 100
+notedv PITCH_C4, 0x1E, 100
 notedv PITCH_F3, 0x52, 100
 end
 
@@ -1331,8 +1331,8 @@ end
 .layer layer_3A87
 instr FONT01_INSTR_GERUDO_ATTACK
 env envelope_682C, 240
-ldelay 0xa
-notedv PITCH_B3, 0x1e, 100
+ldelay 0xA
+notedv PITCH_B3, 0x1E, 100
 end
 
 .channel enemy_armos_hurt
@@ -1344,8 +1344,8 @@ end
 instr FONT01_INSTR_PHANTOM_WAIL
 legato
 portamento 0x85, 39, 100
-notedv PITCH_F4, 0x1e, 100
-notedv PITCH_C4, 0x1e, 100
+notedv PITCH_F4, 0x1E, 100
+notedv PITCH_C4, 0x1E, 100
 end
 
 .channel enemy_boss_dodongo_demo_wall
@@ -1419,7 +1419,7 @@ transpose -4
 .layer layer_3B14
 legato
 portamento 0x81, 27, 255
-notedv PITCH_F3, 0xaa, 100
+notedv PITCH_F3, 0xAA, 100
 .layer layer_3B1D
 notedv PITCH_F3, 30000, 100
 rjump layer_3B1D
@@ -1471,7 +1471,7 @@ ldlayer 0, layer_3B62
 end
 
 .layer layer_3B62
-notedv PITCH_F3, 0x1e, 100
+notedv PITCH_F3, 0x1E, 100
 end
 
 .channel enemy_big_baba_attack
@@ -1493,9 +1493,9 @@ end
 .layer layer_3B7D
 instr FONT01_INSTR_GUAY_HURT
 portamento 0x81, 44, 255
-notedv PITCH_C5, 0xa, 100
+notedv PITCH_C5, 0xA, 100
 portamento 0x81, 53, 255
-notedv PITCH_F4, 0x1e, 100
+notedv PITCH_F4, 0x1E, 100
 end
 
 .channel enemy_big_baba_die
@@ -1510,7 +1510,7 @@ instr FONT01_INSTR_MONSTER_ROAR
 env envelope_69AC, 255
 legato
 portamento 0x85, 31, 255
-notedv PITCH_C4, 0x1e, 100
+notedv PITCH_C4, 0x1E, 100
 notedv PITCH_C3, 0x78, 100
 end
 
@@ -1532,7 +1532,7 @@ ldlayer 0, layer_3BC3
 end
 
 .layer layer_3BC3
-notedv PITCH_F4, 0xf, 100
+notedv PITCH_F4, 0xF, 100
 end
 
 .channel enemy_deku_baba_attack
@@ -1543,7 +1543,7 @@ end
 instr FONT01_INSTR_BABA_LUNGE
 transpose 48
 portamento 0x81, 48, 255
-notedv PITCH_C5, 0x1e, 100
+notedv PITCH_C5, 0x1E, 100
 end
 
 .channel enemy_deku_baba_die
@@ -1558,7 +1558,7 @@ end
 .layer layer_3BE7
 legato
 portamento 0x85, 49, 200
-notedv PITCH_GF5, 0x1e, 100
+notedv PITCH_GF5, 0x1E, 100
 notedv PITCH_GF4, 0x32, 100
 end
 
@@ -1581,9 +1581,9 @@ end
 .layer layer_3C0B
 instr FONT01_INSTR_GUAY_HURT
 portamento 0x81, 44, 255
-notedv PITCH_C5, 0xa, 100
+notedv PITCH_C5, 0xA, 100
 portamento 0x81, 53, 255
-notedv PITCH_F4, 0x1e, 100
+notedv PITCH_F4, 0x1E, 100
 end
 
 .channel enemy_tailpasaran_fly
@@ -1675,7 +1675,7 @@ end
 
 .layer layer_3CA3
 instr FONT01_INSTR_TEKTITE_ROTATE
-notedv PITCH_C4, 0xa, 70
+notedv PITCH_C4, 0xA, 70
 end
 
 .channel enemy_poe_attack_charge
@@ -1690,7 +1690,7 @@ end
 
 .layer layer_3CB6
 instr FONT01_INSTR_POT_BREAK
-notedv PITCH_F3, 0xa, 30
+notedv PITCH_F3, 0xA, 30
 end
 
 .channel enemy_poe_float
@@ -1714,7 +1714,7 @@ end
 
 .layer layer_3CD9
 notedv PITCH_E4, 0x32, 100
-ldelay 0xa
+ldelay 0xA
 rjump layer_3CD9
 
 .channel enemy_poe_vanish
@@ -1751,9 +1751,9 @@ end
 
 .layer layer_3D14
 portamento 0x81, 49, 200
-notedv PITCH_A5, 0xa, 100
+notedv PITCH_A5, 0xA, 100
 portamento 0x81, 60, 155
-notedv PITCH_E5, 0x1e, 100
+notedv PITCH_E5, 0x1E, 100
 end
 
 .channel enemy_poe_die
@@ -1765,9 +1765,9 @@ end
 .layer layer_3D2C
 instr FONT01_INSTR_POE_DISAPPEAR
 portamento 0x81, 49, 200
-notedv PITCH_A5, 0xa, 100
+notedv PITCH_A5, 0xA, 100
 portamento 0x81, 60, 155
-notedv PITCH_E5, 0x3c, 100
+notedv PITCH_E5, 0x3C, 100
 end
 
 .channel enemy_boss_dodongo_roar
@@ -1779,7 +1779,7 @@ end
 .layer layer_3D47
 instr FONT01_INSTR_MONSTER_ROAR
 portamento 0x85, 11, 50
-notedv PITCH_C3, 0x12c, 100
+notedv PITCH_C3, 0x12C, 100
 end
 
 .layer layer_3D52
@@ -1791,7 +1791,7 @@ end
 .layer layer_3D5D
 instr FONT01_INSTR_DODONGO_ROAR
 portamento 0x81, 12, 255
-notedv PITCH_DF2, 0xc8, 100
+notedv PITCH_DF2, 0xC8, 100
 end
 
 .channel enemy_boss_gohma_eyeroll
@@ -1806,7 +1806,7 @@ transpose 4
 
 .layer layer_3D75
 portamento 0x81, 3, 200
-notedv PITCH_E1, 0x8c, 100
+notedv PITCH_E1, 0x8C, 100
 end
 
 .channel enemy_boss_dodongo_die
@@ -1824,14 +1824,14 @@ transpose -6
 .layer layer_3D91
 instr FONT01_INSTR_DODONGO_ROAR
 portamento 0x85, 38, 255
-notedv PITCH_E4, 0x1e, 100
+notedv PITCH_E4, 0x1E, 100
 notedv PITCH_B2, 0x96, 100
 transpose -5
 env envelope_69DC, 127
 portamento 0x85, 31, 255
-notedv PITCH_A3, 0x3c, 80
+notedv PITCH_A3, 0x3C, 80
 env envelope_6A3C, 127
-notedv PITCH_D2, 0xe6, 80
+notedv PITCH_D2, 0xE6, 80
 end
 
 .layer layer_3DB4
@@ -1841,7 +1841,7 @@ portamento 0x81, 15, 20
 notedv PITCH_E3, 0x96, 100
 env envelope_6A2C, 240
 portamento 0x81, 31, 100
-notedv PITCH_C2, 0x10e, 100
+notedv PITCH_C2, 0x10E, 100
 end
 
 .channel enemy_boss_dodongo_dying_groan
@@ -1868,7 +1868,7 @@ end
 .layer layer_3DF5
 instr FONT01_INSTR_DODONGO_ROAR
 portamento 0x81, 12, 255
-notedv PITCH_DF2, 0xc8, 100
+notedv PITCH_DF2, 0xC8, 100
 end
 
 .channel enemy_boss_dodongo_fossilize
@@ -1908,8 +1908,8 @@ notedv PITCH_C4, 0x46, 100
 notedv PITCH_BF3, 0x32, 100
 notedv PITCH_G3, 0x28, 100
 notedv PITCH_EF3, 0x28, 100
-notedv PITCH_D3, 0x1e, 100
-notedv PITCH_BF2, 0x1e, 100
+notedv PITCH_D3, 0x1E, 100
+notedv PITCH_BF2, 0x1E, 100
 end
 
 .channel enemy_boss_dodongo_hurt
@@ -1925,7 +1925,7 @@ end
 transpose -8
 
 .layer layer_3E58
-portamento 0x1, 38, 0x14
+portamento 0x1, 38, 0x1
 notedv PITCH_EF4, 0x50, 100
 end
 
@@ -1963,13 +1963,13 @@ transpose -6
 .layer layer_3E95
 instr FONT01_INSTR_DINO_ROAR
 portamento 0x85, 38, 255
-notedv PITCH_E4, 0x1e, 100
+notedv PITCH_E4, 0x1E, 100
 notedv PITCH_B2, 0x96, 100
 transpose -5
 portamento 0x85, 32, 255
-notedv PITCH_C4, 0x3c, 80
+notedv PITCH_C4, 0x3C, 80
 env envelope_6A3C, 200
-notedv PITCH_B2, 0xc8, 80
+notedv PITCH_B2, 0xC8, 80
 end
 
 .layer layer_3EB4
@@ -1979,7 +1979,7 @@ portamento 0x81, 15, 20
 notedv PITCH_E3, 0x96, 100
 env envelope_6A2C, 200
 portamento 0x81, 31, 100
-notedv PITCH_C2, 0x12c, 100
+notedv PITCH_C2, 0x12C, 100
 end
 
 .channel enemy_scrub_emerge
@@ -2018,7 +2018,7 @@ end
 
 .layer layer_3EFD
 portamento 0x81, 31, 64
-notedv PITCH_C4, 0xc, 100
+notedv PITCH_C4, 0xC, 100
 end
 
 .channel enemy_scrub_walk
@@ -2039,7 +2039,7 @@ end
 instr FONT01_INSTR_SCRUB_DEATH
 transpose 4
 portamento 0x81, 51, 255
-notedv PITCH_B5, 0xa, 100
+notedv PITCH_B5, 0xA, 100
 portamento 0x81, 60, 255
 notedv PITCH_E5, 0x19, 100
 end
@@ -2051,9 +2051,9 @@ end
 .layer layer_3F2D
 instr FONT01_INSTR_SCRUB_DEATH
 portamento 0x81, 59, 255
-notedv PITCH_E5, 0xa, 100
+notedv PITCH_E5, 0xA, 100
 portamento 0x81, 51, 255
-notedv PITCH_F4, 0x1e, 100
+notedv PITCH_F4, 0x1E, 100
 end
 
 .channel enemy_boss_gohma_dissolve
@@ -2081,9 +2081,9 @@ end
 
 .layer layer_3F5F
 portamento 0x81, 36, 255
-notedv PITCH_E4, 0xa, 100
+notedv PITCH_E4, 0xA, 100
 portamento 0x81, 44, 255
-notedv PITCH_B3, 0x1e, 100
+notedv PITCH_B3, 0x1E, 100
 end
 
 .channel enemy_tektite_die
@@ -2095,15 +2095,15 @@ end
 .layer layer_3F78
 instr FONT01_INSTR_DODONGO_ROAR
 portamento 0x81, 32, 255
-notedv PITCH_C4, 0xa, 100
+notedv PITCH_C4, 0xA, 100
 portamento 0x81, 40, 255
-notedv PITCH_G3, 0x5c, 100
+notedv PITCH_G3, 0x5C, 100
 end
 
 .layer layer_3F89
 instr FONT01_INSTR_GUAY_HURT
 portamento 0x81, 43, 255
-notedv PITCH_B4, 0xf, 80
+notedv PITCH_B4, 0xF, 80
 portamento 0x81, 48, 255
 notedv PITCH_EF4, 0x24, 80
 end
@@ -2134,7 +2134,7 @@ instr FONT01_INSTR_DODONGO_ROAR
 portamento 0x81, 22, 127
 notedv PITCH_DF4, 0x28, 100
 portamento 0x81, 38, 255
-notedv PITCH_A2, 0x7f, 100
+notedv PITCH_A2, 0x7F, 100
 end
 
 .layer layer_3FCB
@@ -2150,7 +2150,7 @@ end
 .layer layer_3FD7
 instr FONT01_INSTR_DINO_INHALE
 portamento 0x81, 51, 255
-notedv PITCH_B5, 0xa, 100
+notedv PITCH_B5, 0xA, 100
 portamento 0x81, 60, 255
 notedv PITCH_E5, 0x14, 100
 end
@@ -2183,7 +2183,7 @@ instr FONT01_INSTR_DINO_ROAR
 legato
 portamento 0x85, 29, 255
 notedv PITCH_BF3, 0x14, 100
-notedv PITCH_BF2, 0x3c, 100
+notedv PITCH_BF2, 0x3C, 100
 end
 
 .channel enemy_dissolve
@@ -2252,8 +2252,8 @@ end
 .layer layer_4081
 instr FONT01_INSTR_GERUDO_ATTACK
 env envelope_682C, 240
-ldelay 0xa
-notedv PITCH_D4, 0x1e, 100
+ldelay 0xA
+notedv PITCH_D4, 0x1E, 100
 end
 
 .channel enemy_dodongo_swipe
@@ -2266,7 +2266,7 @@ end
 .layer layer_4098
 transpose 5
 portamento 0x81, 26, 200
-notedv PITCH_B5, 0xc8, 100
+notedv PITCH_B5, 0xC8, 100
 end
 
 .channel enemy_poe_transform
@@ -2292,7 +2292,7 @@ end
 transpose -6
 
 .layer layer_40C3
-notedv PITCH_C3, 0x1a0, 100
+notedv PITCH_C3, 0x1A0, 100
 end
 
 .channel enemy_wallmaster_retreat
@@ -2315,7 +2315,7 @@ end
 
 .layer layer_40E3
 portamento 0x81, 9, 128
-notedv PITCH_A1, 0xf, 100
+notedv PITCH_A1, 0xF, 100
 end
 
 .channel enemy_floormaster_hurt
@@ -2329,7 +2329,7 @@ end
 .layer layer_40F8
 legato
 portamento 0x85, 42, 128
-notedv PITCH_AF4, 0x1e, 100
+notedv PITCH_AF4, 0x1E, 100
 notedv PITCH_C4, 0x28, 100
 end
 
@@ -2416,9 +2416,9 @@ end
 .layer layer_418B
 instr FONT01_INSTR_GUAY_HURT
 portamento 0x81, 32, 255
-notedv PITCH_C4, 0xa, 100
+notedv PITCH_C4, 0xA, 100
 portamento 0x81, 41, 255
-notedv PITCH_F3, 0xe, 100
+notedv PITCH_F3, 0xE, 100
 end
 
 .channel enemy_torch_slug_hurt
@@ -2461,7 +2461,7 @@ end
 
 .layer layer_41E0
 portamento 0x81, 21, 255
-notedv PITCH_BF2, 0xe6, 100
+notedv PITCH_BF2, 0xE6, 100
 end
 
 .channel enemy_phantom_lightning
@@ -2500,7 +2500,7 @@ end
 
 .layer layer_4214
 instr FONT01_INSTR_GANONDORF_CHARGE
-notedv PITCH_F4, 0x5a, 100
+notedv PITCH_F4, 0x5A, 100
 end
 
 .channel enemy_phantom_painting_enter
@@ -2510,7 +2510,7 @@ end
 
 .layer layer_4220
 instr FONT01_INSTR_SWOOSH
-notedv PITCH_D4, 0x5a, 100
+notedv PITCH_D4, 0x5A, 100
 end
 
 .channel enemy_phantom_shout
@@ -2535,7 +2535,7 @@ instr 2
 legato
 portamento 0x81, 37, 255
 .layer layer_4245
-notedv PITCH_GF3, 0xc8, 100
+notedv PITCH_GF3, 0xC8, 100
 rjump layer_4245
 
 .channel enemy_boss_twinrova_ice_reflected
@@ -2557,7 +2557,7 @@ end
 
 .layer layer_4261
 instr FONT01_INSTR_ELECTRIC_ATTACK
-notedv PITCH_C5, 0x8c, 100
+notedv PITCH_C5, 0x8C, 100
 end
 
 .channel enemy_phantom_attack_unused
@@ -2568,7 +2568,7 @@ gain 16
 end
 
 .layer layer_4273
-notedv PITCH_E3, 0x1c2, 100
+notedv PITCH_E3, 0x1C2, 100
 end
 
 .channel enemy_phantom_staff
@@ -2578,7 +2578,7 @@ gain 20
 end
 
 .layer layer_4280
-ldelay 0xf
+ldelay 0xF
 notedv PITCH_C4, 0x7, 100
 notedv PITCH_G4, 0x7, 100
 notedv PITCH_C5, 0x7, 100
@@ -2600,7 +2600,7 @@ end
 
 .layer layer_42AA
 portamento 0x81, 33, 255
-notedv PITCH_DF3, 0x6e, 100
+notedv PITCH_DF3, 0x6E, 100
 end
 
 .channel enemy_phantom_orb_dissipate
@@ -2610,7 +2610,7 @@ end
 
 .layer layer_42B8
 portamento 0x81, 60, 200
-notedv PITCH_C3, 0x1e, 100
+notedv PITCH_C3, 0x1E, 100
 end
 
 .channel enemy_phantom_die_roar
@@ -2626,19 +2626,19 @@ end
 
 .layer layer_42D4
 portamento 0x81, 46, 100
-notedv PITCH_D4, 0xb4, 100
+notedv PITCH_D4, 0xB4, 100
 end
 
 .layer layer_42DD
 ldelay 0x96
 portamento 0x81, 36, 220
-notedv PITCH_E3, 0xd2, 100
+notedv PITCH_E3, 0xD2, 100
 end
 
 .layer layer_42E9
-ldelay 0x14a
+ldelay 0x14A
 portamento 0x81, 31, 200
-notedv PITCH_A2, 0x14a, 100
+notedv PITCH_A2, 0x14A, 100
 end
 
 .channel enemy_phantom_hurt
@@ -2652,8 +2652,8 @@ end
 instr FONT01_INSTR_PHANTOM_WAIL
 legato
 portamento 0x85, 39, 100
-notedv PITCH_A4, 0x1e, 100
-notedv PITCH_C4, 0x3c, 100
+notedv PITCH_A4, 0x1E, 100
+notedv PITCH_C4, 0x3C, 100
 end
 
 .layer layer_430F
@@ -2695,7 +2695,7 @@ transpose -16
 
 .layer layer_434C
 instr FONT01_INSTR_THUNDERBURST
-notedv PITCH_AF4, 0x1c2, 100
+notedv PITCH_AF4, 0x1C2, 100
 end
 
 .channel enemy_deadhand_die
@@ -2719,7 +2719,7 @@ end
 .layer layer_436C
 legato
 portamento 0x85, 30, 100
-notedv PITCH_G3, 0x1e, 100
+notedv PITCH_G3, 0x1E, 100
 notedv PITCH_C3, 0x14, 100
 end
 
@@ -2741,7 +2741,7 @@ end
 
 .layer layer_438E
 portamento 0x81, 28, 64
-notedv PITCH_GF2, 0xd, 76
+notedv PITCH_GF2, 0xD, 76
 end
 
 .channel enemy_moblin_dash
@@ -2752,7 +2752,7 @@ end
 
 .layer layer_439F
 portamento 0x81, 32, 64
-notedv PITCH_BF2, 0x1d, 100
+notedv PITCH_BF2, 0x1D, 100
 end
 
 .channel enemy_moblin_slide
@@ -2824,7 +2824,7 @@ end
 .layer layer_43FC
 instr FONT01_INSTR_EXPLOSION_LAVA
 env envelope_68EC, 251
-notedv PITCH_A2, 0x2c, 100
+notedv PITCH_A2, 0x2C, 100
 end
 
 .channel enemy_bubble_dash
@@ -2905,7 +2905,7 @@ end
 
 .layer layer_4482
 transpose 42
-notedv PITCH_F4, 0xa, 100
+notedv PITCH_F4, 0xA, 100
 end
 
 .channel enemy_moblin_spear_point
@@ -2916,7 +2916,7 @@ end
 
 .layer layer_4490
 transpose 44
-notedv PITCH_B3, 0x1d, 100
+notedv PITCH_B3, 0x1D, 100
 end
 
 .channel enemy_moblin_club_strike
@@ -2948,8 +2948,8 @@ end
 instr FONT01_INSTR_LIZALFOS
 legato
 portamento 0x85, 23, 200
-notedv PITCH_C3, 0x1e, 100
-notedv PITCH_DF2, 0x3c, 100
+notedv PITCH_C3, 0x1E, 100
+notedv PITCH_DF2, 0x3C, 100
 end
 
 .channel enemy_boss_volvagia_rock
@@ -2973,16 +2973,16 @@ end
 
 .layer layer_44E4
 instr FONT01_INSTR_THUNDER_HURT
-notedv PITCH_D4, 0xa8, 100
+notedv PITCH_D4, 0xA8, 100
 end
 
 .layer layer_44EB
 instr FONT01_INSTR_DINO_ROAR
 legato
 portamento 0x81, 43, 255
-notedv PITCH_GF4, 0xa, 100
+notedv PITCH_GF4, 0xA, 100
 portamento 0x81, 45, 255
-notedv PITCH_A4, 0xa8, 100
+notedv PITCH_A4, 0xA8, 100
 end
 
 .channel enemy_boss_ganon_roar
@@ -2993,7 +2993,7 @@ end
 
 .layer layer_4508
 instr FONT01_INSTR_MONSTER_ROAR
-notedv PITCH_E4, 0xb4, 100
+notedv PITCH_E4, 0xB4, 100
 end
 
 .layer layer_450F
@@ -3017,7 +3017,7 @@ instr FONT01_INSTR_DINO_ROAR
 legato
 portamento 0x85, 39, 255
 notedv PITCH_F4, 0x14, 80
-notedv PITCH_C3, 0x6e, 80
+notedv PITCH_C3, 0x6E, 80
 end
 
 .layer layer_4532
@@ -3025,7 +3025,7 @@ instr FONT01_INSTR_THUNDER_HURT
 legato
 portamento 0x85, 39, 255
 notedv PITCH_A4, 0x14, 100
-notedv PITCH_C2, 0xc8, 100
+notedv PITCH_C2, 0xC8, 100
 end
 
 .channel enemy_volvagia_paralyzed
@@ -3037,8 +3037,8 @@ end
 .layer layer_4549
 legato
 portamento 0x85, 19, 255
-notedv PITCH_GF2, 0x1e, 100
-notedv PITCH_B1, 0x1e, 100
+notedv PITCH_GF2, 0x1E, 100
+notedv PITCH_B1, 0x1E, 100
 end
 
 .channel enemy_boss_volvagia_cry
@@ -3056,7 +3056,7 @@ end
 instr FONT01_INSTR_DINO_ROAR
 legato
 portamento 0x81, 49, 255
-notedv PITCH_C5, 0xa, 100
+notedv PITCH_C5, 0xA, 100
 portamento 0x81, 51, 255
 notedv PITCH_EF5, 0x78, 100
 end
@@ -3076,7 +3076,7 @@ instr FONT01_INSTR_MONSTER_ROAR
 legato
 portamento 0x85, 40, 200
 notedv PITCH_AF4, 0x10, 100
-notedv PITCH_D3, 0xb4, 100
+notedv PITCH_D3, 0xB4, 100
 end
 
 .channel enemy_boss_volvagia_hole
@@ -3136,7 +3136,7 @@ end
 .layer layer_45DF
 instr FONT01_INSTR_DINO_ROAR
 portamento 0x81, 30, 255
-notedv PITCH_BF3, 0x2e, 100
+notedv PITCH_BF3, 0x2E, 100
 end
 
 .channel enemy_redead_hurt
@@ -3167,7 +3167,7 @@ ldelay 0x18
 .layer layer_460D
 legato
 portamento 0x85, 30, 255
-notedv PITCH_F3, 0x1e, 100
+notedv PITCH_F3, 0x1E, 100
 notedv PITCH_EF2, 0x84, 100
 end
 
@@ -3212,7 +3212,7 @@ end
 instr FONT01_INSTR_SMASH
 env envelope_692C, 250
 portamento 0x81, 17, 50
-notedv PITCH_D1, 0x1e, 100
+notedv PITCH_D1, 0x1E, 100
 end
 
 .channel enemy_poe_sister_laugh
@@ -3252,7 +3252,7 @@ end
 .layer layer_468B
 env envelope_6A4C, 220
 .layer layer_468F
-notedv PITCH_A1, 0xfa, 100
+notedv PITCH_A1, 0xFA, 100
 rjump layer_468F
 
 .channel enemy_boss_morpha_attack
@@ -3266,7 +3266,7 @@ end
 env envelope_6A2C, 220
 portamento 0x81, 12, 120
 .layer layer_46A7
-notedv PITCH_A3, 0xd0, 100
+notedv PITCH_A3, 0xD0, 100
 rjump layer_46A7
 
 .channel enemy_boss_morpha_toss
@@ -3280,7 +3280,7 @@ end
 env envelope_69BC, 235
 legato
 portamento 0x85, 0, 255
-notedv PITCH_A2, 0x2a, 100
+notedv PITCH_A2, 0x2A, 100
 notedv PITCH_A0, 0x52, 100
 end
 
@@ -3305,7 +3305,7 @@ end
 portamento 0x81, 17, 255
 notedv PITCH_BF2, 0x8, 100
 portamento 0x81, 26, 255
-notedv PITCH_EF1, 0xc, 100
+notedv PITCH_EF1, 0xC, 100
 end
 
 .channel enemy_octorok_die
@@ -3331,8 +3331,8 @@ end
 legato
 portamento 0x85, 23, 255
 .layer layer_4712
-notedv PITCH_F2, 0x2c, 100
-notedv PITCH_AF2, 0x2c, 100
+notedv PITCH_F2, 0x2C, 100
+notedv PITCH_AF2, 0x2C, 100
 rjump layer_4712
 
 .channel enemy_boss_morpha_demo_bubble
@@ -3400,23 +3400,23 @@ instr FONT01_INSTR_DINO_ROAR
 legato
 portamento 0x85, 37, 255
 .layer layer_4788
-notedv PITCH_EF4, 0x1e, 100
+notedv PITCH_EF4, 0x1E, 100
 .layer layer_478B
-notedv PITCH_G3, 0x1e, 100
+notedv PITCH_G3, 0x1E, 100
 nolegato
 legato
 portamento 0x85, 34, 255
 .layer layer_4794
-notedv PITCH_BF4, 0x1e, 100
+notedv PITCH_BF4, 0x1E, 100
 .layer layer_4797
-notedv PITCH_BF3, 0x1e, 100
+notedv PITCH_BF3, 0x1E, 100
 nolegato
 rjump layer_4783
 
 .layer layer_479D
 instr FONT01_INSTR_GORON_YAWN
 portamento 0x85, 35, 255
-notedv PITCH_DF4, 0xe8, 100
+notedv PITCH_DF4, 0xE8, 100
 end
 
 .channel enemy_boss_morpha_water_spin
@@ -3428,8 +3428,8 @@ end
 legato
 portamento 0x85, 25, 128
 .layer layer_47B3
-notedv PITCH_EF5, 0xc, 100
-notedv PITCH_BF2, 0xc, 100
+notedv PITCH_EF5, 0xC, 100
+notedv PITCH_BF2, 0xC, 100
 rjump layer_47B3
 
 .channel enemy_boss_morpha_water_move
@@ -3543,8 +3543,8 @@ end
 instr FONT01_INSTR_PHANTOM_WAIL
 legato
 portamento 0x85, 24, 100
-notedv PITCH_D3, 0x1e, 100
-notedv PITCH_A2, 0x2e, 100
+notedv PITCH_D3, 0x1E, 100
+notedv PITCH_A2, 0x2E, 100
 end
 
 .channel enemy_big_octo_walk
@@ -3570,7 +3570,7 @@ end
 
 .layer layer_487F
 notedv PITCH_DF3, 0x8, 100
-notedv PITCH_BF2, 0x1e, 100
+notedv PITCH_BF2, 0x1E, 100
 end
 
 .channel enemy_big_octo_hurt
@@ -3587,14 +3587,14 @@ instr FONT01_INSTR_LIZALFOS
 legato
 portamento 0x85, 25, 255
 notedv PITCH_DF3, 0x18, 100
-notedv PITCH_GF1, 0x1c, 100
+notedv PITCH_GF1, 0x1C, 100
 end
 
 .layer layer_48A4
 instr FONT01_INSTR_PHANTOM_WAIL
 legato
 portamento 0x85, 30, 100
-notedv PITCH_AF3, 0xc, 100
+notedv PITCH_AF3, 0xC, 100
 notedv PITCH_EF3, 0x12, 100
 end
 
@@ -3659,7 +3659,7 @@ rjump layer_4913
 
 .layer layer_4920
 env envelope_68AC, 240
-ldelay 0xcc
+ldelay 0xCC
 rjump layer_4913
 
 .channel enemy_final_hit
@@ -3671,7 +3671,7 @@ end
 .layer layer_4931
 transpose 6
 portamento 0x81, 48, 54
-notedv PITCH_BF5, 0x2c, 100
+notedv PITCH_BF5, 0x2C, 100
 end
 
 .channel enemy_boss_morpha_die_cry
@@ -3776,7 +3776,7 @@ end
 .layer layer_49DB
 instr FONT01_INSTR_DINO_INHALE
 portamento 0x81, 7, 255
-notedv PITCH_BF3, 0xe6, 84
+notedv PITCH_BF3, 0xE6, 84
 end
 
 .channel enemy_boss_twinrova_fire_charge
@@ -3789,7 +3789,7 @@ end
 .layer layer_49F0
 legato
 portamento 0x85, 15, 120
-notedv PITCH_C4, 0xc8, 100
+notedv PITCH_C4, 0xC8, 100
 .layer layer_49F9
 notedv PITCH_C4, 30000, 100
 rjump layer_49F9
@@ -3855,7 +3855,7 @@ end
 .layer layer_4A56
 legato
 portamento 0x85, 35, 120
-notedv PITCH_AF5, 0xc8, 100
+notedv PITCH_AF5, 0xC8, 100
 .layer layer_4A5F
 notedv PITCH_AF5, 30000, 100
 rjump layer_4A5F
@@ -3900,9 +3900,9 @@ loop 10
 legato
 portamento 0x85, 27, 255
 .layer layer_4AAA
-notedv PITCH_F3, 0x1e, 100
+notedv PITCH_F3, 0x1E, 100
 .layer layer_4AAD
-notedv PITCH_A2, 0x1e, 100
+notedv PITCH_A2, 0x1E, 100
 nolegato
 loopend
 end
@@ -3928,7 +3928,7 @@ end
 env envelope_68DC, 250
 .layer layer_4ACD
 portamento 0x81, 26, 64
-notedv PITCH_E2, 0xc, 100
+notedv PITCH_E2, 0xC, 100
 rjump layer_4ACD
 
 .channel enemy_darunia_head_pat
@@ -3939,7 +3939,7 @@ end
 
 .layer layer_4ADF
 portamento 0x81, 32, 130
-notedv PITCH_GF2, 0x1e, 100
+notedv PITCH_GF2, 0x1E, 100
 end
 
 .channel enemy_boss_twinrova_hurt_cry_old
@@ -3989,7 +3989,7 @@ end
 env envelope_69DC, 240
 legato
 portamento 0x85, 3, 255
-notedv PITCH_F2, 0x1a, 100
+notedv PITCH_F2, 0x1A, 100
 notedv PITCH_A0, 0x20, 100
 end
 
@@ -4022,7 +4022,7 @@ end
 instr FONT01_INSTR_GUNSHOT
 env envelope_68DC, 249
 portamento 0x81, 26, 96
-notedv PITCH_DF2, 0x1e, 100
+notedv PITCH_DF2, 0x1E, 100
 end
 
 .channel enemy_knuckle_attack
@@ -4063,7 +4063,7 @@ instr FONT01_INSTR_PHANTOM_MOAN
 legato
 portamento 0x85, 46, 200
 notedv PITCH_C5, 0x20, 100
-notedv PITCH_E4, 0x6c, 100
+notedv PITCH_E4, 0x6C, 100
 end
 
 .layer layer_4BA9
@@ -4108,10 +4108,10 @@ ldelay 0x8
 instr FONT01_INSTR_PHANTOM_LAUGH_1
 transpose 12
 portamento 0x81, 48, 100
-notedv PITCH_E5, 0x1e, 100
+notedv PITCH_E5, 0x1E, 100
 portamento 0x85, 51, 100
 notedv PITCH_F5, 0x14, 100
-notedv PITCH_B4, 0x1e, 100
+notedv PITCH_B4, 0x1E, 100
 end
 
 .layer layer_4BF3
@@ -4139,7 +4139,7 @@ end
 legato
 portamento 0x85, 19, 200
 notedv PITCH_EF2, 0x18, 100
-notedv PITCH_B2, 0x3c, 100
+notedv PITCH_B2, 0x3C, 100
 end
 
 .channel enemy_larvae_paralyzed
@@ -4163,13 +4163,13 @@ end
 instr FONT01_INSTR_GUAY_HURT
 .layer layer_4C36
 portamento 0x81, 32, 255
-notedv PITCH_C4, 0xa, 100
+notedv PITCH_C4, 0xA, 100
 portamento 0x81, 34, 255
-notedv PITCH_D4, 0xa, 100
+notedv PITCH_D4, 0xA, 100
 portamento 0x81, 36, 255
-notedv PITCH_E4, 0xa, 100
+notedv PITCH_E4, 0xA, 100
 portamento 0x81, 45, 255
-notedv PITCH_A3, 0xe, 100
+notedv PITCH_A3, 0xE, 100
 end
 
 .channel enemy_bari_split
@@ -4215,7 +4215,7 @@ end
 legato
 portamento 0x85, 56, 128
 notedv PITCH_BF5, 0x14, 100
-notedv PITCH_D5, 0x2c, 100
+notedv PITCH_D5, 0x2C, 100
 end
 
 .channel enemy_floormaster_mini_grow
@@ -4227,7 +4227,7 @@ vibdepth 96
 end
 
 .layer layer_4CA2
-notedv PITCH_AF3, 0x3c, 80
+notedv PITCH_AF3, 0x3C, 80
 rjump layer_4CA2
 
 .channel enemy_floormaster_grow_done
@@ -4239,7 +4239,7 @@ instr FONT01_INSTR_EXPLOSION_LAVA
 env envelope_694C, 249
 legato
 portamento 0x85, 7, 150
-notedv PITCH_DF1, 0xa, 100
+notedv PITCH_DF1, 0xA, 100
 notedv PITCH_DF2, 0x16, 100
 end
 
@@ -4263,7 +4263,7 @@ end
 .layer layer_4CD3
 legato
 portamento 0x85, 6, 255
-notedv PITCH_EF3, 0x2a, 69
+notedv PITCH_EF3, 0x2A, 69
 notedv PITCH_G2, 0x40, 69
 rjump layer_4CD3
 
@@ -4284,7 +4284,7 @@ legato
 env envelope_68FC, 255
 portamento 0x85, 25, 220
 notedv PITCH_EF3, 0x5, 80
-notedv PITCH_BF2, 0xa, 80
+notedv PITCH_BF2, 0xA, 80
 end
 
 .channel enemy_cucco_flap
@@ -4305,7 +4305,7 @@ ldlayer 3, layer_4A17
 end
 
 .layer layer_4D23
-ldelay 0x7f
+ldelay 0x7F
 end
 
 .channel enemy_floormaster_slide
@@ -4329,8 +4329,8 @@ instr FONT01_INSTR_SLIDE_BOOTS
 notedv PITCH_GF1, 0x40, 100
 notedv PITCH_GF1, 0x14, 100
 notedv PITCH_GF1, 0x10, 84
-notedv PITCH_GF1, 0xa, 68
-notedv PITCH_GF1, 0xa, 68
+notedv PITCH_GF1, 0xA, 68
+notedv PITCH_GF1, 0xA, 68
 end
 
 .layer layer_4D4D
@@ -4368,7 +4368,7 @@ end
 .layer layer_4D7B
 instr FONT01_INSTR_SLIDE_BOOTS
 notedv PITCH_EF1, 0x6, 100
-notedv PITCH_GF1, 0xe, 100
+notedv PITCH_GF1, 0xE, 100
 notedv PITCH_C2, 0x10, 100
 end
 
@@ -4389,7 +4389,7 @@ end
 
 .layer layer_4D9C
 instr FONT01_INSTR_SLIDE_BOOTS
-ldelay 0xe
+ldelay 0xE
 notedv PITCH_EF1, 0x14, 64
 end
 
@@ -4402,7 +4402,7 @@ end
 instr FONT01_INSTR_SLIDE_BOOTS
 env envelope_695C, 249
 loop 5
-notedv PITCH_C2, 0xa, 100
+notedv PITCH_C2, 0xA, 100
 notedv PITCH_G1, 0x8, 100
 loopend
 end
@@ -4460,7 +4460,7 @@ end
 .layer layer_4E03
 instr FONT01_INSTR_MONSTER_ROAR
 portamento 0x81, 37, 100
-notedv PITCH_GF2, 0xb0, 100
+notedv PITCH_GF2, 0xB0, 100
 end
 
 .channel enemy_tentacle_die
@@ -4509,7 +4509,7 @@ instr FONT01_INSTR_EXPLOSION_LAVA
 env envelope_694C, 249
 legato
 portamento 0x85, 19, 150
-notedv PITCH_C1, 0xa, 100
+notedv PITCH_C1, 0xA, 100
 notedv PITCH_B2, 0x14, 100
 end
 
@@ -4527,7 +4527,7 @@ transpose 2
 instr FONT01_INSTR_EXPLOSION_LAVA
 portamento 0x85, 34, 255
 notedv PITCH_F4, 0x14, 100
-notedv PITCH_B2, 0x7f, 100
+notedv PITCH_B2, 0x7F, 100
 end
 
 .layer layer_4E75
@@ -4538,7 +4538,7 @@ instr FONT01_INSTR_PHANTOM_WAIL
 legato
 portamento 0x85, 39, 64
 notedv PITCH_F4, 0x12, 100
-notedv PITCH_A3, 0xa8, 100
+notedv PITCH_A3, 0xA8, 100
 end
 
 .channel enemy_boss_barinade_tentacle_break
@@ -4575,7 +4575,7 @@ end
 transpose 8
 
 .layer layer_4EB7
-notedv PITCH_A3, 0x1a2, 100
+notedv PITCH_A3, 0x1A2, 100
 end
 
 .channel enemy_deadhand_grab
@@ -4587,7 +4587,7 @@ end
 
 .layer layer_4EC6
 portamento 0x81, 22, 255
-notedv PITCH_DF2, 0x7f, 100
+notedv PITCH_DF2, 0x7F, 100
 end
 
 .channel enemy_tentacle_wind_up
@@ -4599,7 +4599,7 @@ end
 
 .layer layer_4ED8
 portamento 0x81, 16, 255
-notedv PITCH_G2, 0x7f, 100
+notedv PITCH_G2, 0x7F, 100
 end
 
 .channel enemy_shabom_pop
@@ -4658,7 +4658,7 @@ end
 .layer layer_4F32
 env envelope_6A2C, 230
 .layer layer_4F36
-notedv PITCH_E2, 0xd0, 80
+notedv PITCH_E2, 0xD0, 80
 rjump layer_4F36
 
 .channel enemy_stinger_attack
@@ -4725,7 +4725,7 @@ transpose 2
 
 .layer layer_4F8A
 portamento 0x81, 23, 200
-notedv PITCH_B2, 0x2c, 100
+notedv PITCH_B2, 0x2C, 100
 end
 
 .channel enemy_peahat_fly
@@ -4942,7 +4942,7 @@ instr FONT01_INSTR_SCRUB_DEATH
 legato
 portamento 0x85, 4, 60
 notedv PITCH_D2, 0x32, 100
-notedv PITCH_AF1, 0x7f, 100
+notedv PITCH_AF1, 0x7F, 100
 end
 
 .channel enemy_boss_bongo_hand_hurt
@@ -5121,7 +5121,7 @@ end
 
 .layer layer_51E3
 portamento 0x81, 20, 64
-notedv PITCH_BF1, 0xd, 100
+notedv PITCH_BF1, 0xD, 100
 end
 
 .channel enemy_firehead_hurt
@@ -5158,7 +5158,7 @@ transpose 2
 .layer layer_521B
 instr 2
 portamento 0x81, 21, 255
-notedv PITCH_B4, 0xe0, 100
+notedv PITCH_B4, 0xE0, 100
 end
 
 .layer layer_5226
@@ -5166,7 +5166,7 @@ transpose 1
 
 .layer layer_5228
 instr FONT01_INSTR_PHANTOM_LAUGH_1
-notedv PITCH_F4, 0xe0, 100
+notedv PITCH_F4, 0xE0, 100
 end
 
 .channel enemy_moblin_club_shockwave
@@ -5221,7 +5221,7 @@ instr FONT01_INSTR_MONSTER_ROAR
 legato
 portamento 0x85, 27, 127
 notedv PITCH_A3, 0x28, 100
-notedv PITCH_E3, 0xc8, 100
+notedv PITCH_E3, 0xC8, 100
 end
 
 .layer layer_5286
@@ -5282,7 +5282,7 @@ end
 
 .layer layer_52D2
 transpose 48
-notedv PITCH_BF2, 0xe0, 100
+notedv PITCH_BF2, 0xE0, 100
 end
 
 .channel enemy_like_like_die
@@ -5350,7 +5350,7 @@ end
 
 .layer layer_5335
 instr 2
-notedv PITCH_C3, 0xc8, 100
+notedv PITCH_C3, 0xC8, 100
 end
 
 .layer layer_533C
@@ -5418,7 +5418,7 @@ end
 
 .layer layer_539F
 portamento 0x81, 35, 239
-notedv PITCH_AF2, 0xe0, 100
+notedv PITCH_AF2, 0xE0, 100
 end
 
 .channel enemy_knuckle_armor_hurt
@@ -5463,7 +5463,7 @@ end
 
 .layer layer_53E4
 instr FONT01_INSTR_ELECTRIC_ATTACK
-notedv PITCH_B5, 0x5a, 70
+notedv PITCH_B5, 0x5A, 70
 end
 
 .channel enemy_pot_fly
@@ -5562,7 +5562,7 @@ end
 
 .layer layer_5460
 instr FONT01_INSTR_BABA_ATTACK
-notedv PITCH_DF3, 0x2d, 100
+notedv PITCH_DF3, 0x2D, 100
 end
 
 .channel enemy_spike_trap_roll
@@ -5571,9 +5571,9 @@ ldlayer 0, layer_546C
 end
 
 .layer layer_546C
-notedv PITCH_EF2, 0xa, 50
-notedv PITCH_F2, 0xa, 50
-notedv PITCH_G2, 0xa, 50
+notedv PITCH_EF2, 0xA, 50
+notedv PITCH_F2, 0xA, 50
+notedv PITCH_G2, 0xA, 50
 rjump layer_546C
 
 .channel enemy_stalkid_walk
@@ -5582,7 +5582,7 @@ end
 
 .layer layer_547B
 instr FONT01_INSTR_EGG_CRACK
-notedv PITCH_DF3, 0xe, 70
+notedv PITCH_DF3, 0xE, 70
 end
 
 .channel enemy_stalkid_attack
@@ -5631,13 +5631,13 @@ vibdepth 50
 end
 
 .layer layer_54C5
-ldelay 0xa
+ldelay 0xA
 
 .layer layer_54C7
 instr FONT01_INSTR_MONSTER_ROAR
 loop 4
 portamento 0x81, 30, 107
-notedv PITCH_F4, 0x8c, 100
+notedv PITCH_F4, 0x8C, 100
 .layer layer_54D3
 legato
 portamento 0x85, 39, 255
@@ -5646,17 +5646,17 @@ notedv PITCH_AF3, 0x48, 100
 nolegato
 loopend
 portamento 0x81, 35, 255
-notedv PITCH_BF2, 0xfa, 100
+notedv PITCH_BF2, 0xFA, 100
 end
 
 .layer layer_54E9
-ldelay 0xa
+ldelay 0xA
 
 .layer layer_54EB
 instr FONT01_INSTR_DINO_ROAR
 loop 4
 portamento 0x81, 44, 107
-notedv PITCH_A4, 0x8c, 100
+notedv PITCH_A4, 0x8C, 100
 .layer layer_54F7
 legato
 portamento 0x85, 47, 255
@@ -5665,7 +5665,7 @@ notedv PITCH_D4, 0x48, 100
 nolegato
 loopend
 portamento 0x81, 37, 255
-notedv PITCH_C3, 0xc8, 100
+notedv PITCH_C3, 0xC8, 100
 end
 
 .channel enemy_boss_ganon_penultimate_hit
@@ -5677,7 +5677,7 @@ vibdepth 50
 end
 
 .layer layer_551B
-ldelay 0xd
+ldelay 0xD
 
 .layer layer_551D
 instr FONT01_INSTR_MONSTER_ROAR
@@ -5696,7 +5696,7 @@ end
 
 .layer layer_552F
 portamento 0x81, 42, 40
-notedv PITCH_G4, 0x7f, 100
+notedv PITCH_G4, 0x7F, 100
 end
 
 .channel enemy_wolfos_attack
@@ -5732,7 +5732,7 @@ end
 .layer layer_5566
 legato
 portamento 0x85, 39, 128
-notedv PITCH_B4, 0x1c, 100
+notedv PITCH_B4, 0x1C, 100
 notedv PITCH_AF4, 0x60, 100
 end
 
@@ -5754,8 +5754,8 @@ end
 instr FONT01_INSTR_GUAY_HURT
 legato
 portamento 0x85, 34, 255
-notedv PITCH_C4, 0xa, 100
-notedv PITCH_A3, 0x1e, 100
+notedv PITCH_C4, 0xA, 100
+notedv PITCH_A3, 0x1E, 100
 end
 
 .channel enemy_guay_die
@@ -5767,7 +5767,7 @@ end
 instr FONT01_INSTR_GUAY_HURT
 legato
 portamento 0x85, 39, 255
-notedv PITCH_G3, 0xf, 100
+notedv PITCH_G3, 0xF, 100
 notedv PITCH_DF2, 0x60, 100
 end
 
@@ -5780,7 +5780,7 @@ end
 .layer layer_55AE
 instr FONT01_INSTR_ANIMALS
 transpose 48
-notedv PITCH_C4, 0xc, 100
+notedv PITCH_C4, 0xC, 100
 notedv PITCH_D4, 0x14, 100
 end
 
@@ -5793,9 +5793,9 @@ end
 .layer layer_55C1
 instr FONT01_INSTR_ANIMALS
 transpose 48
-notedv PITCH_F4, 0xc, 100
+notedv PITCH_F4, 0xC, 100
 notedv PITCH_D4, 0x12, 100
-notedv PITCH_E4, 0xc, 100
+notedv PITCH_E4, 0xC, 100
 notedv PITCH_D4, 0x10, 100
 end
 
@@ -5825,12 +5825,12 @@ ldlayer 1, layer_55F5
 end
 
 .layer layer_55F3
-ldelay 0xc
+ldelay 0xC
 
 .layer layer_55F5
 instr FONT01_INSTR_GORON_YAWN
 transpose 48
-notedv PITCH_C4, 0x7f, 100
+notedv PITCH_C4, 0x7F, 100
 end
 
 .channel enemy_boss_ganon_growl
@@ -5846,7 +5846,7 @@ instr FONT01_INSTR_MONSTER_ROAR
 legato
 portamento 0x85, 19, 191
 notedv PITCH_GF2, 0x34, 100
-notedv PITCH_E2, 0xc0, 100
+notedv PITCH_E2, 0xC0, 100
 end
 
 .channel enemy_gold_skull_spin
@@ -5884,7 +5884,7 @@ rjump layer_5649
 transpose 48
 .layer layer_5649
 instr FONT01_INSTR_WITCH_ARGUE
-notedv PITCH_EF4, 0x7f, 100
+notedv PITCH_EF4, 0x7F, 100
 end
 
 .channel enemy_skulltula_creak
@@ -5924,7 +5924,7 @@ end
 .layer layer_5684
 env envelope_6A2C, 230
 .layer layer_5688
-notedv PITCH_DF2, 0xd0, 56
+notedv PITCH_DF2, 0xD0, 56
 rjump layer_5688
 
 .channel enemy_goron_kid_cry

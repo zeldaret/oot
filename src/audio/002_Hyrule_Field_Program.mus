@@ -15,7 +15,7 @@
 
 mutebhv 0x20
 mutescale 70
-initchan 0xffff
+initchan 0xFFFF
 ldi 0
 stio 3  # set current external state = 0 (moving)
 stio 6  # set buffer index = 0

@@ -9,7 +9,7 @@ mutebhv 0x60
 mutescale 0
 vol 127
 tempo 120
-initchan 0xfff
+initchan 0xFFF
 ldchan 0, channel_player0
 ldchan 1, channel_player1
 ldchan 2, channel_player2

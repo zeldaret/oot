@@ -17,7 +17,7 @@ stseq 32, seq_17+1
 ldio 5
 stseq 0, seq_17+2
 .sequence seq_17
-initchan 0xd000
+initchan 0xD000
 ldchan 13, chan_EDB
 ldio 5
 and 1
@@ -91,7 +91,7 @@ and 128
 rbeqz seq_8C
 ldchan 15, chan_E0B
 .sequence seq_8C
-delay 0x7fd0
+delay 0x7FD0
 rjump seq_8C
 
 .channel chan_91
@@ -242,10 +242,10 @@ byte FONT02_INSTR_BIRD_CHIRP_1
 byte FONT02_INSTR_BIRD_CHIRP_0
 
 .array addr_17F
-byte 0x4b
+byte 0x4B
 byte 0x55
 byte 0x32
-byte 0x3c
+byte 0x3C
 byte 0x50
 byte 0x50
 byte 0x50
@@ -257,8 +257,8 @@ byte 0x50
 byte 0x50
 byte 0x52
 byte 0x50
-byte 0x4b
-byte 0x5a
+byte 0x4B
+byte 0x5A
 byte 0x50
 byte 0x0
 
@@ -514,13 +514,13 @@ stseq 103, layer_385
 end
 
 .array addr_35A
-byte 0xf
+byte 0xF
 byte 0x10
 byte 0x11
 byte 0x11
 
 .array addr_35E
-byte 0x3c
+byte 0x3C
 byte 0x73
 byte 0x64
 byte 0x64
@@ -550,7 +550,7 @@ env envelope_1006, 255
 legato
 portamento 0x85, 39, 255
 .layer layer_385
-notedv PITCH_G4, 0xc, 40
+notedv PITCH_G4, 0xC, 40
 .layer layer_388
 notedv PITCH_G2, 0x73, 40
 end
@@ -564,17 +564,17 @@ rjump layer_395
 notepan 84
 .layer layer_395
 call layer_fn_EFC
-notedv PITCH_E4, 0x7e, 100
-notedv PITCH_D4, 0x15f, 78
+notedv PITCH_E4, 0x7E, 100
+notedv PITCH_D4, 0x15F, 78
 call layer_fn_EFC
-notedv PITCH_D4, 0xe2, 95
-notedv PITCH_C4, 0x2d, 86
+notedv PITCH_D4, 0xE2, 95
+notedv PITCH_C4, 0x2D, 86
 notedv PITCH_F4, 0x144, 75
-notedv PITCH_D4, 0xc4, 97
+notedv PITCH_D4, 0xC4, 97
 call layer_fn_EFC
-notedv PITCH_D4, 0xd3, 67
-notedv PITCH_E4, 0x3b, 106
-notedv PITCH_C4, 0x10b, 94
+notedv PITCH_D4, 0xD3, 67
+notedv PITCH_E4, 0x3B, 106
+notedv PITCH_C4, 0x10B, 94
 call layer_fn_EFC
 rjump layer_395
 
@@ -592,9 +592,9 @@ call layer_fn_EFC
 notedv PITCH_C4, 0x9, 64
 notedv PITCH_C4, 0x96, 75
 call layer_fn_EFC
-notedv PITCH_C4, 0x5f, 100
+notedv PITCH_C4, 0x5F, 100
 notedv PITCH_C4, 0x137, 90
-notedv PITCH_C4, 0xce, 75
+notedv PITCH_C4, 0xCE, 75
 call layer_fn_EFC
 notedv PITCH_C4, 0x119, 86
 notedv PITCH_C4, 0x23, 69
@@ -611,21 +611,21 @@ rjump layer_406
 notepan 94
 .layer layer_406
 call layer_fn_F03
-notedv PITCH_D4, 0xc, 81
-notedv PITCH_E4, 0xfe, 99
+notedv PITCH_D4, 0xC, 81
+notedv PITCH_E4, 0xFE, 99
 notedv PITCH_D4, 0x34, 89
 call layer_fn_F03
-notedv PITCH_C4, 0xf4, 86
+notedv PITCH_C4, 0xF4, 86
 notedv PITCH_D4, 0x187, 97
 call layer_fn_F03
 notedv PITCH_C4, 0x15, 72
-notedv PITCH_D4, 0xd3, 67
+notedv PITCH_D4, 0xD3, 67
 notedv PITCH_E4, 0x91, 98
 call layer_fn_F03
 notedv PITCH_E4, 0x8, 86
-notedv PITCH_D4, 0x13b, 94
-notedv PITCH_C4, 0xb, 94
-notedv PITCH_C4, 0x10f, 94
+notedv PITCH_D4, 0x13B, 94
+notedv PITCH_C4, 0xB, 94
+notedv PITCH_C4, 0x10F, 94
 rjump layer_406
 
 .layer layer_43F
@@ -639,19 +639,19 @@ notepan 34
 .layer layer_44B
 call layer_fn_F03
 call layer_fn_F03
-notedv PITCH_C4, 0xd3, 72
+notedv PITCH_C4, 0xD3, 72
 call layer_fn_F03
-notedv PITCH_C4, 0xb, 85
+notedv PITCH_C4, 0xB, 85
 notedv PITCH_E4, 0x126, 100
-notedv PITCH_D4, 0xa7, 90
+notedv PITCH_D4, 0xA7, 90
 call layer_fn_F03
-notedv PITCH_D4, 0xa6, 75
+notedv PITCH_D4, 0xA6, 75
 notedv PITCH_F4, 0x18, 86
 notedv PITCH_C4, 0x163, 84
 call layer_fn_F03
-notedv PITCH_D4, 0xdb, 94
+notedv PITCH_D4, 0xDB, 94
 notedv PITCH_E4, 0x9, 67
-notedv PITCH_C4, 0xe0, 81
+notedv PITCH_C4, 0xE0, 81
 rjump layer_44B
 
 .layer layer_481
@@ -669,19 +669,19 @@ notepan 64
 notedvg PITCH_C4, 0x200, 90, 127
 call layer_fn_F0A
 notepan 91
-notedvg PITCH_D4, 0x7f, 61, 127
+notedvg PITCH_D4, 0x7F, 61, 127
 ldelay 0x96
 notepan 77
-notedvg PITCH_DF4, 0x1c8, 100, 127
+notedvg PITCH_DF4, 0x1C8, 100, 127
 call layer_fn_F0A
 notepan 38
 notedvg PITCH_C4, 0x174, 54, 127
-ldelay 0xae
+ldelay 0xAE
 notepan 87
 notedvg PITCH_DF4, 0x298, 73, 127
 call layer_fn_F0A
 notepan 54
-notedvg PITCH_C4, 0x1b5, 95, 127
+notedvg PITCH_C4, 0x1B5, 95, 127
 rjump layer_48A
 
 .layer layer_4C7
@@ -696,19 +696,19 @@ notepan 94
 call layer_fn_F11
 call layer_fn_F11
 notedv PITCH_E4, 0x108, 100
-notedv PITCH_D4, 0xb, 78
-notedv PITCH_D4, 0x2d, 95
+notedv PITCH_D4, 0xB, 78
+notedv PITCH_D4, 0x2D, 95
 call layer_fn_F11
-notedv PITCH_C4, 0xf6, 86
+notedv PITCH_C4, 0xF6, 86
 notedv PITCH_D4, 0x155, 97
 call layer_fn_F11
-notedv PITCH_D4, 0xd3, 67
+notedv PITCH_D4, 0xD3, 67
 notedv PITCH_C4, 0x15, 94
 notedv PITCH_E4, 0x91, 106
 call layer_fn_F11
-notedv PITCH_D4, 0x13b, 94
+notedv PITCH_D4, 0x13B, 94
 notedv PITCH_E4, 0x8, 106
-notedv PITCH_C4, 0x10f, 94
+notedv PITCH_C4, 0x10F, 94
 rjump layer_4D3
 
 .layer layer_50C
@@ -722,19 +722,19 @@ notepan 34
 .layer layer_518
 call layer_fn_F11
 call layer_fn_F11
-notedv PITCH_C4, 0xfa, 64
+notedv PITCH_C4, 0xFA, 64
 call layer_fn_F11
-notedv PITCH_C4, 0xe, 75
-notedv PITCH_E4, 0x10f, 100
+notedv PITCH_C4, 0xE, 75
+notedv PITCH_E4, 0x10F, 100
 notedv PITCH_D4, 0x8, 90
 call layer_fn_F11
 notedv PITCH_D4, 0x92, 75
 notedv PITCH_F4, 0x43, 86
 notedv PITCH_C4, 0x155, 69
 call layer_fn_F11
-notedv PITCH_D4, 0xf5, 77
-notedv PITCH_E4, 0xbd, 77
-notedv PITCH_C4, 0xda, 81
+notedv PITCH_D4, 0xF5, 77
+notedv PITCH_E4, 0xBD, 77
+notedv PITCH_C4, 0xDA, 81
 rjump layer_518
 
 .layer layer_54E
@@ -743,22 +743,22 @@ notepan 84
 notedv PITCH_E4, 0x126, 100
 notepan 74
 notedv PITCH_E4, 0x9, 78
-notedv PITCH_C4, 0x16f, 74
+notedv PITCH_C4, 0x16F, 74
 
 .layer layer_560
 call layer_fn_F18
 call layer_fn_F18
 notepan 47
-notedv PITCH_C4, 0x1c2, 100
+notedv PITCH_C4, 0x1C2, 100
 notepan 58
-notedv PITCH_D4, 0xf8, 91
+notedv PITCH_D4, 0xF8, 91
 
 .layer layer_572
 call layer_fn_F18
 ldelay 0x14
 call layer_fn_F18
 notepan 95
-notedv PITCH_F4, 0x4b, 67
+notedv PITCH_F4, 0x4B, 67
 notepan 87
 notedv PITCH_D4, 0x9, 55
 notedv PITCH_D4, 0x18, 60
@@ -771,8 +771,8 @@ call layer_fn_F18
 ldelay 0x30
 call layer_fn_F18
 notepan 72
-notedv PITCH_C4, 0xa, 91
-notedv PITCH_DF4, 0xc2, 88
+notedv PITCH_C4, 0xA, 91
+notedv PITCH_DF4, 0xC2, 88
 notepan 37
 notedv PITCH_D4, 0x9, 76
 notedv PITCH_D4, 0x155, 91
@@ -786,7 +786,7 @@ call layer_fn_F1F
 call layer_fn_F1F
 notepan 84
 call layer_fn_F1F
-notedv PITCH_D4, 0xc2, 90
+notedv PITCH_D4, 0xC2, 90
 notedv PITCH_EF4, 0x68, 94
 call layer_fn_F1F
 notedv PITCH_D4, 0x95, 100
@@ -796,18 +796,18 @@ notedv PITCH_D4, 0x126, 78
 call layer_fn_F1F
 notedv PITCH_C4, 0x6, 84
 notedv PITCH_E4, 0x24, 76
-notedv PITCH_C4, 0x19d, 78
-notedv PITCH_C4, 0x5e, 57
+notedv PITCH_C4, 0x19D, 78
+notedv PITCH_C4, 0x5E, 57
 notepan 74
 call layer_fn_F1F
-notedv PITCH_D4, 0xa8, 88
+notedv PITCH_D4, 0xA8, 88
 notedv PITCH_C4, 0x159, 67
 notedv PITCH_E4, 0x105, 84
 notedv PITCH_E4, 0x43, 67
 call layer_fn_F1F
-notedv PITCH_DF4, 0xd3, 81
+notedv PITCH_DF4, 0xD3, 81
 call layer_fn_F1F
-notedv PITCH_D4, 0xb, 91
+notedv PITCH_D4, 0xB, 91
 notedv PITCH_E4, 0x126, 88
 rjump layer_5B2
 
@@ -820,33 +820,33 @@ call layer_fn_F1F
 call layer_fn_F1F
 notepan 44
 notedv PITCH_D4, 0x15, 75
-notedv PITCH_EF4, 0x3d, 94
+notedv PITCH_EF4, 0x3D, 94
 call layer_fn_F1F
 notedv PITCH_D4, 0x95, 81
 notedv PITCH_E4, 0x137, 42
-notedv PITCH_C4, 0x1f4, 69
+notedv PITCH_C4, 0x1F4, 69
 call layer_fn_F1F
-notedv PITCH_F4, 0xc8, 91
+notedv PITCH_F4, 0xC8, 91
 notedv PITCH_D4, 0x95, 84
 notepan 54
 call layer_fn_F1F
 notedv PITCH_EF4, 0x95, 87
 notedv PITCH_D4, 0x163, 96
 call layer_fn_F1F
-notedv PITCH_EF4, 0xd8, 61
+notedv PITCH_EF4, 0xD8, 61
 call layer_fn_F1F
-notedv PITCH_C4, 0x1e0, 81
-noteldv 39, 0x4f, 68
+notedv PITCH_C4, 0x1E0, 81
+noteldv 39, 0x4F, 68
 call layer_fn_F1F
 notedv PITCH_E4, 0x8, 75
-notedv PITCH_EF4, 0x1a5, 94
+notedv PITCH_EF4, 0x1A5, 94
 call layer_fn_F1F
 rjump layer_612
 
 .layer layer_665
 loop 3
 notepan 104
-notedv PITCH_E4, 0x1cc, 75
+notedv PITCH_E4, 0x1CC, 75
 call layer_fn_F26
 notepan 50
 notedv PITCH_C4, 0x167, 87
@@ -884,18 +884,18 @@ call layer_fn_F26
 loopend
 notepan 64
 notedv PITCH_C4, 0x9, 57
-notedv PITCH_E4, 0xd8, 69
+notedv PITCH_E4, 0xD8, 69
 call layer_fn_F26
 rjump layer_665
 
 .layer layer_6CE
 call layer_fn_F2D
 notepan 74
-notedv PITCH_E4, 0x15f, 86
+notedv PITCH_E4, 0x15F, 86
 call layer_fn_F2D
 notedv PITCH_E4, 0x126, 59
 notepan 90
-notedv PITCH_E4, 0x15f, 66
+notedv PITCH_E4, 0x15F, 66
 notedv PITCH_C4, 0x126, 49
 
 .layer layer_6E8
@@ -904,18 +904,18 @@ ldelay 0x47
 call layer_fn_F2D
 notedv PITCH_D4, 0x137, 81
 notepan 83
-notedv PITCH_E4, 0x10b, 99
+notedv PITCH_E4, 0x10B, 99
 
 .layer layer_6FA
 call layer_fn_F2D
 call layer_fn_F2D
 ldelay 0x21
 call layer_fn_F2D
-notedv PITCH_C4, 0x18d, 49
+notedv PITCH_C4, 0x18D, 49
 notedv PITCH_C4, 0x116, 78
 notepan 69
 call layer_fn_F2D
-notedv PITCH_C4, 0x1c4, 57
+notedv PITCH_C4, 0x1C4, 57
 
 .layer layer_716
 call layer_fn_F2D
@@ -935,52 +935,52 @@ call layer_fn_F34
 notepan 54
 call layer_fn_F34
 notepan 49
-notedv PITCH_E4, 0xbf, 86
+notedv PITCH_E4, 0xBF, 86
 notepan 41
 notedv PITCH_D4, 0x44, 59
-notedv PITCH_C4, 0x1ca, 91
+notedv PITCH_C4, 0x1CA, 91
 notepan 57
-notedv PITCH_C4, 0xee, 77
+notedv PITCH_C4, 0xEE, 77
 
 .layer layer_74E
 call layer_fn_F34
 call layer_fn_F34
 ldelay 0x19
 notepan 39
-notedv PITCH_E4, 0xc2, 59
-notedv PITCH_D4, 0xa4, 49
+notedv PITCH_E4, 0xC2, 59
+notedv PITCH_D4, 0xA4, 49
 notepan 51
-notedv PITCH_D4, 0x13f, 55
+notedv PITCH_D4, 0x13F, 55
 notepan 59
-notedv PITCH_C4, 0xdb, 72
-notedv PITCH_C4, 0x2f9, 86
+notedv PITCH_C4, 0xDB, 72
+notedv PITCH_C4, 0x2F9, 86
 
 .layer layer_770
 call layer_fn_F34
 call layer_fn_F34
 call layer_fn_F34
-ldelay 0x4b
+ldelay 0x4B
 notepan 48
 notedv PITCH_D4, 0x34, 95
 notepan 53
-notedv PITCH_C4, 0xed, 64
+notedv PITCH_C4, 0xED, 64
 call layer_fn_F34
 rjump layer_734
 
 .layer layer_78B
 call layer_fn_F3B
-notedv PITCH_C4, 0x4f, 95
-notedv PITCH_C4, 0x4f, 95
+notedv PITCH_C4, 0x4F, 95
+notedv PITCH_C4, 0x4F, 95
 
 .layer layer_794
 call layer_fn_F3B
 call layer_fn_F3B
-notedv PITCH_C4, 0xa9, 75
+notedv PITCH_C4, 0xA9, 75
 notedv PITCH_C4, 0x63, 73
 notedv PITCH_C4, 0x91, 71
 call layer_fn_F3B
 notedv PITCH_C4, 0x55, 78
-notedv PITCH_C4, 0xd3, 74
+notedv PITCH_C4, 0xD3, 74
 call layer_fn_F3B
 
 .layer layer_7B2
@@ -988,9 +988,9 @@ call layer_fn_F3B
 ldelay 0x29
 call layer_fn_F3B
 notedv PITCH_C4, 0x45, 57
-notedv PITCH_C4, 0x5e, 57
+notedv PITCH_C4, 0x5E, 57
 call layer_fn_F3B
-notedv PITCH_C4, 0x4b, 49
+notedv PITCH_C4, 0x4B, 49
 notedv PITCH_C4, 0x48, 46
 
 .layer layer_7C9
@@ -999,8 +999,8 @@ ldelay 0x44
 call layer_fn_F3B
 call layer_fn_F3B
 notedv PITCH_C4, 0x54, 88
-notedv PITCH_C4, 0x5b, 88
-notedv PITCH_C4, 0xbf, 83
+notedv PITCH_C4, 0x5B, 88
+notedv PITCH_C4, 0xBF, 83
 rjump layer_78B
 
 .layer layer_7E0
@@ -1010,26 +1010,26 @@ call layer_fn_F42
 .layer layer_7E6
 call layer_fn_F42
 notepan 24
-notedvg PITCH_E4, 0x1aa, 86, 127
+notedvg PITCH_E4, 0x1AA, 86, 127
 notedvg PITCH_D4, 0x73, 56, 127
 call layer_fn_F42
 notepan 49
-notedvg PITCH_C4, 0x1f4, 94, 127
+notedvg PITCH_C4, 0x1F4, 94, 127
 call layer_fn_F42
 notedvg PITCH_E4, 0x349, 68, 127
 notedvg PITCH_F4, 0x167, 71, 127
 call layer_fn_F42
 notedvg PITCH_E4, 0x349, 68, 127
 notedvg PITCH_E4, 0x229, 91, 127
-notedvg PITCH_F4, 0xdb, 71, 127
+notedvg PITCH_F4, 0xDB, 71, 127
 call layer_fn_F42
-notedvg PITCH_F4, 0x12c, 82, 220
+notedvg PITCH_F4, 0x12C, 82, 220
 call layer_fn_F42
 notedvg PITCH_E4, 0x282, 81, 127
-notedvg PITCH_E4, 0x4f, 68, 127
-notedvg PITCH_F4, 0xdb, 71, 127
+notedvg PITCH_E4, 0x4F, 68, 127
+notedvg PITCH_F4, 0xDB, 71, 127
 call layer_fn_F42
-notedvg PITCH_F4, 0x1c3, 54, 127
+notedvg PITCH_F4, 0x1C3, 54, 127
 call layer_fn_F42
 rjump layer_7E6
 
@@ -1044,19 +1044,19 @@ notepan 76
 call layer_fn_F42
 notedvg PITCH_E4, 0x142, 86, 127
 call layer_fn_F42
-notedvg PITCH_D4, 0x1f4, 94, 127
+notedvg PITCH_D4, 0x1F4, 94, 127
 call layer_fn_F42
-notedvg PITCH_E4, 0xfe, 49, 127
-notedvg PITCH_C4, 0xc3, 71, 127
-notedvg PITCH_D4, 0x1cb, 61, 127
+notedvg PITCH_E4, 0xFE, 49, 127
+notedvg PITCH_C4, 0xC3, 71, 127
+notedvg PITCH_D4, 0x1CB, 61, 127
 call layer_fn_F42
 notedvg PITCH_D4, 0x25, 51, 127
 call layer_fn_F42
-notedvg PITCH_DF4, 0x23d, 91, 127
-notedvg PITCH_C4, 0x2fd, 88, 127
+notedvg PITCH_DF4, 0x23D, 91, 127
+notedvg PITCH_C4, 0x2FD, 88, 127
 notepan 100
 call layer_fn_F42
-notedvg PITCH_E4, 0x15c, 76, 127
+notedvg PITCH_E4, 0x15C, 76, 127
 notedvg PITCH_F4, 0x284, 59, 180
 rjump layer_849
 
@@ -1179,7 +1179,7 @@ notepan 50
 .layer layer_9C4
 call layer_fn_F57
 notedv PITCH_C4, 0x41, 86
-ldelay 0x9f
+ldelay 0x9F
 call layer_fn_F57
 notedv PITCH_DF4, 0x36, 56
 ldelay 0x123
@@ -1188,12 +1188,12 @@ notedv PITCH_C4, 0x45, 36
 ldelay 0x95
 call layer_fn_F57
 notedv PITCH_D4, 0x32, 70
-ldelay 0xe2
+ldelay 0xE2
 call layer_fn_F57
-notedv PITCH_C4, 0x4c, 51
-ldelay 0x8f
-notedv PITCH_D4, 0x3d, 70
-ldelay 0x14e
+notedv PITCH_C4, 0x4C, 51
+ldelay 0x8F
+notedv PITCH_D4, 0x3D, 70
+ldelay 0x14E
 call layer_fn_F57
 rjump layer_9C4
 
@@ -1207,23 +1207,23 @@ rjump layer_A11
 .layer layer_A09
 call layer_fn_F57
 notepan 78
-ldelay 0xd3
+ldelay 0xD3
 .layer layer_A11
 call layer_fn_F57
-ldelay 0x1bb
+ldelay 0x1BB
 call layer_fn_F57
 ldelay 0x108
 call layer_fn_F57
 notedv PITCH_C4, 0x47, 44
-ldelay 0x1a3
+ldelay 0x1A3
 call layer_fn_F57
 notedv PITCH_C4, 0x47, 64
 call layer_fn_F57
 notedv PITCH_DF4, 0x38, 71
-ldelay 0x15f
+ldelay 0x15F
 call layer_fn_F57
-notedv PITCH_D4, 0x3c, 89
-ldelay 0x2c1
+notedv PITCH_D4, 0x3C, 89
+ldelay 0x2C1
 call layer_fn_F57
 notedv PITCH_C4, 0x39, 57
 ldelay 0x160
@@ -1254,19 +1254,19 @@ notepan 50
 .layer layer_A6E
 call layer_fn_F57
 notedv PITCH_E3, 0x61, 75
-notedv PITCH_E3, 0x5e, 79
-notedv PITCH_E3, 0x5f, 77
+notedv PITCH_E3, 0x5E, 79
+notedv PITCH_E3, 0x5F, 77
 call layer_fn_F5E
 call layer_fn_F5E
 call layer_fn_F5E
 call layer_fn_F5E
 notedv PITCH_F3, 0x69, 78
 notedv PITCH_F3, 0x70, 79
-notedv PITCH_F3, 0x6b, 72
+notedv PITCH_F3, 0x6B, 72
 call layer_fn_F5E
 call layer_fn_F5E
 call layer_fn_F5E
-notedv PITCH_E3, 0x5f, 69
+notedv PITCH_E3, 0x5F, 69
 notedv PITCH_E3, 0x59, 74
 call layer_fn_F5E
 call layer_fn_F5E
@@ -1274,8 +1274,8 @@ call layer_fn_F5E
 call layer_fn_F5E
 .layer layer_AAA
 notedv PITCH_E3, 0x58, 81
-notedv PITCH_E3, 0x5d, 83
-notedv PITCH_E3, 0x5b, 77
+notedv PITCH_E3, 0x5D, 83
+notedv PITCH_E3, 0x5B, 77
 call layer_fn_F5E
 call layer_fn_F5E
 notedv PITCH_E3, 0x66, 69
@@ -1288,7 +1288,7 @@ notedv PITCH_F3, 0x66, 74
 call layer_fn_F5E
 call layer_fn_F5E
 call layer_fn_F5E
-notedv PITCH_E3, 0x4e, 87
+notedv PITCH_E3, 0x4E, 87
 notedv PITCH_E3, 0x51, 78
 call layer_fn_F5E
 call layer_fn_F5E
@@ -1299,33 +1299,33 @@ end
 
 .layer layer_AE6
 call layer_fn_F73
-notedv PITCH_C4, 0xa6, 75
+notedv PITCH_C4, 0xA6, 75
 call layer_fn_F73
 call layer_fn_F73
 call layer_fn_F73
-notedv PITCH_DF4, 0xa6, 79
+notedv PITCH_DF4, 0xA6, 79
 
 .layer layer_AFA
 call layer_fn_F73
 call layer_fn_F73
 call layer_fn_F73
 call layer_fn_F73
-notedv PITCH_DF4, 0xa6, 84
+notedv PITCH_DF4, 0xA6, 84
 call layer_fn_F73
 call layer_fn_F73
 call layer_fn_F73
-notedv PITCH_C4, 0xa6, 102
+notedv PITCH_C4, 0xA6, 102
 call layer_fn_F73
 call layer_fn_F73
 call layer_fn_F73
-notedv PITCH_C4, 0xa6, 64
+notedv PITCH_C4, 0xA6, 64
 rjump layer_AE6
 
 .layer layer_B26
 releaserate 236
 legato
 notepan 34
-notedv PITCH_C4, 0x2a, 85
+notedv PITCH_C4, 0x2A, 85
 call layer_fn_F49
 call layer_fn_F49
 call layer_fn_F49
@@ -1339,15 +1339,15 @@ legato
 notepan 95
 portamento 0x85, 38, 255
 notedv PITCH_DF4, 0x34, 76
-notedv PITCH_C4, 0x4f, 76
+notedv PITCH_C4, 0x4F, 76
 call layer_fn_F49
 call layer_fn_F49
 notepan 37
 portamento 0x81, 38, 127
-notedv PITCH_C4, 0xe1, 99
+notedv PITCH_C4, 0xE1, 99
 call layer_fn_F49
 notepan 49
-notedv PITCH_C4, 0x1a, 81
+notedv PITCH_C4, 0x1A, 81
 call layer_fn_F49
 notepan 39
 portamento 0x81, 38, 127
@@ -1356,7 +1356,7 @@ call layer_fn_F49
 notepan 55
 portamento 0x85, 39, 255
 notedv PITCH_DF4, 0x112, 78
-notedv PITCH_DF4, 0x5e, 78
+notedv PITCH_DF4, 0x5E, 78
 call layer_fn_F49
 call layer_fn_F49
 notepan 74
@@ -1372,7 +1372,7 @@ call layer_fn_F49
 notepan 94
 portamento 0x85, 39, 255
 notedv PITCH_DF4, 0x112, 78
-notedv PITCH_DF4, 0x5e, 78
+notedv PITCH_DF4, 0x5E, 78
 rjump layer_B3F
 
 .layer layer_BB3
@@ -1383,7 +1383,7 @@ call layer_fn_F49
 call layer_fn_F49
 call layer_fn_F49
 notepan 84
-notedv PITCH_DF4, 0x5e, 64
+notedv PITCH_DF4, 0x5E, 64
 rjump layer_BD2
 
 .layer layer_BC9
@@ -1400,7 +1400,7 @@ call layer_fn_F49
 notepan 76
 portamento 0x85, 39, 255
 notedv PITCH_DF4, 0x43, 85
-notedv PITCH_B3, 0xf1, 85
+notedv PITCH_B3, 0xF1, 85
 call layer_fn_F49
 call layer_fn_F49
 call layer_fn_F49
@@ -1417,7 +1417,7 @@ notedv PITCH_DF4, 0x59, 96
 call layer_fn_F49
 notepan 94
 portamento 0x85, 38, 255
-notedv PITCH_C4, 0xc3, 99
+notedv PITCH_C4, 0xC3, 99
 notedv PITCH_B3, 0x17, 99
 call layer_fn_F49
 call layer_fn_F49
@@ -1439,7 +1439,7 @@ releaserate 236
 notepan 34
 ldelay 0x18
 call layer_fn_F50
-notedv PITCH_C4, 0x2a, 85
+notedv PITCH_C4, 0x2A, 85
 call layer_fn_F50
 rjump layer_C60
 
@@ -1451,29 +1451,29 @@ notepan 75
 notedv PITCH_C4, 0x34, 94
 call layer_fn_F50
 notepan 34
-notedv PITCH_C4, 0x9f, 67
+notedv PITCH_C4, 0x9F, 67
 call layer_fn_F50
 call layer_fn_F50
 notepan 72
-notedv PITCH_C4, 0xc5, 79
+notedv PITCH_C4, 0xC5, 79
 call layer_fn_F50
 notepan 41
 notedv PITCH_C4, 0x85, 68
 call layer_fn_F50
 notepan 49
-notedv PITCH_C4, 0xd3, 99
+notedv PITCH_C4, 0xD3, 99
 call layer_fn_F50
 call layer_fn_F50
 notepan 68
-notedv PITCH_C4, 0x3b, 94
+notedv PITCH_C4, 0x3B, 94
 call layer_fn_F50
 call layer_fn_F50
 call layer_fn_F50
 notepan 105
-notedv PITCH_C4, 0xc5, 81
+notedv PITCH_C4, 0xC5, 81
 call layer_fn_F50
 notepan 76
-notedv PITCH_C4, 0x3b, 86
+notedv PITCH_C4, 0x3B, 86
 call layer_fn_F50
 call layer_fn_F50
 rjump layer_C60
@@ -1483,7 +1483,7 @@ releaserate 236
 notepan 34
 call layer_fn_F50
 ldelay 0x18
-notedv PITCH_C4, 0x5e, 77
+notedv PITCH_C4, 0x5E, 77
 call layer_fn_F50
 call layer_fn_F50
 rjump layer_CD2
@@ -1497,25 +1497,25 @@ notepan 75
 notedv PITCH_C4, 0x98, 94
 call layer_fn_F50
 notepan 34
-notedv PITCH_C4, 0xd2, 84
+notedv PITCH_C4, 0xD2, 84
 call layer_fn_F50
 call layer_fn_F50
 notepan 59
-notedv PITCH_C4, 0xa8, 99
+notedv PITCH_C4, 0xA8, 99
 call layer_fn_F50
 notepan 95
 notedv PITCH_C4, 0x25, 74
 call layer_fn_F50
 call layer_fn_F50
 notepan 81
-notedv PITCH_C4, 0x2c, 88
+notedv PITCH_C4, 0x2C, 88
 call layer_fn_F50
 call layer_fn_F50
 notepan 64
-notedv PITCH_C4, 0x4e, 91
+notedv PITCH_C4, 0x4E, 91
 call layer_fn_F50
 notepan 37
-notedv PITCH_C4, 0x9e, 68
+notedv PITCH_C4, 0x9E, 68
 call layer_fn_F50
 notepan 45
 notedv PITCH_C4, 0x73, 78
@@ -1532,7 +1532,7 @@ call layer_fn_F65
 notepan 34
 ldelay 0x18
 call layer_fn_F65
-notedv PITCH_C4, 0x2a, 85
+notedv PITCH_C4, 0x2A, 85
 call layer_fn_F65
 rjump layer_D3C
 
@@ -1545,7 +1545,7 @@ call layer_fn_F65
 call layer_fn_F65
 notepan 47
 notedv PITCH_DF4, 0x28, 76
-notedv PITCH_DF4, 0x2a, 77
+notedv PITCH_DF4, 0x2A, 77
 call layer_fn_F65
 call layer_fn_F65
 call layer_fn_F65
@@ -1556,17 +1556,17 @@ call layer_fn_F65
 call layer_fn_F65
 call layer_fn_F65
 notepan 37
-notedv PITCH_C4, 0x2b, 65
+notedv PITCH_C4, 0x2B, 65
 notedv PITCH_C4, 0x33, 65
 call layer_fn_F65
 call layer_fn_F65
 call layer_fn_F65
 notepan 87
 notedv PITCH_C4, 0x21, 88
-notedv PITCH_C4, 0x2f, 88
+notedv PITCH_C4, 0x2F, 88
 call layer_fn_F65
 notepan 71
-notedv PITCH_C4, 0x2d, 77
+notedv PITCH_C4, 0x2D, 77
 notedv PITCH_C4, 0x27, 77
 call layer_fn_F65
 call layer_fn_F65
@@ -1626,7 +1626,7 @@ rjump chan_DAB
 notepan 84
 .layer layer_DEF
 legato
-portamento 0x1, 34, 0x64
+portamento 0x1, 34, 0x1
 .layer layer_DF4
 notedv PITCH_C4, 0x60, 100
 rjump layer_DF4
@@ -1639,7 +1639,7 @@ rjump layer_DEF
 .layer layer_DFF
 stereo 20
 legato
-portamento 0x1, 34, 0x64
+portamento 0x1, 34, 0x1
 .layer layer_E06
 notedv PITCH_BF3, 0x60, 100
 rjump layer_E06
@@ -1747,7 +1747,7 @@ env envelope_101E, 97
 portamento 0x85, 27, 255
 legato
 .layer layer_EB8
-notedv PITCH_A2, 0x1c2, 110
+notedv PITCH_A2, 0x1C2, 110
 .layer layer_EBC
 notedv PITCH_A2, 0x64, 110
 .layer layer_EBF
@@ -1766,7 +1766,7 @@ releaserate 97
 notepan 64
 ldelay 0x1
 .layer layer_ECF
-notedv PITCH_C4, 0xc8, 127
+notedv PITCH_C4, 0xC8, 127
 .layer layer_ED3
 stereo 20
 notedv PITCH_A1, 0x28, 80
@@ -1795,7 +1795,7 @@ byte 0x0
 .layer layer_fn_EFC
 ldelay 0x64
 .layer layer_EFE
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F00
 stereo 0
 end
@@ -1803,7 +1803,7 @@ end
 .layer layer_fn_F03
 ldelay 0x64
 .layer layer_F05
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F07
 stereo 0
 end
@@ -1811,7 +1811,7 @@ end
 .layer layer_fn_F0A
 ldelay 0x64
 .layer layer_F0C
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F0E
 stereo 0
 end
@@ -1819,7 +1819,7 @@ end
 .layer layer_fn_F11
 ldelay 0x64
 .layer layer_F13
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F15
 stereo 0
 end
@@ -1827,7 +1827,7 @@ end
 .layer layer_fn_F18
 ldelay 0x64
 .layer layer_F1A
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F1C
 stereo 0
 end
@@ -1835,7 +1835,7 @@ end
 .layer layer_fn_F1F
 ldelay 0x64
 .layer layer_F21
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F23
 stereo 0
 end
@@ -1843,7 +1843,7 @@ end
 .layer layer_fn_F26
 ldelay 0x64
 .layer layer_F28
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F2A
 stereo 0
 end
@@ -1851,7 +1851,7 @@ end
 .layer layer_fn_F2D
 ldelay 0x64
 .layer layer_F2F
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F31
 stereo 0
 end
@@ -1859,7 +1859,7 @@ end
 .layer layer_fn_F34
 ldelay 0x64
 .layer layer_F36
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F38
 stereo 0
 end
@@ -1867,7 +1867,7 @@ end
 .layer layer_fn_F3B
 ldelay 0x64
 .layer layer_F3D
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F3F
 stereo 0
 end
@@ -1875,7 +1875,7 @@ end
 .layer layer_fn_F42
 ldelay 0x64
 .layer layer_F44
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F46
 stereo 0
 end
@@ -1883,7 +1883,7 @@ end
 .layer layer_fn_F49
 ldelay 0x64
 .layer layer_F4B
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F4D
 stereo 0
 end
@@ -1891,7 +1891,7 @@ end
 .layer layer_fn_F50
 ldelay 0x64
 .layer layer_F52
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F54
 stereo 0
 end
@@ -1899,7 +1899,7 @@ end
 .layer layer_fn_F57
 ldelay 0x64
 .layer layer_F59
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F5B
 stereo 0
 end
@@ -1907,7 +1907,7 @@ end
 .layer layer_fn_F5E
 ldelay 0x64
 .layer layer_F60
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F62
 stereo 0
 end
@@ -1915,7 +1915,7 @@ end
 .layer layer_fn_F65
 ldelay 0x64
 .layer layer_F67
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F69
 stereo 0
 end
@@ -1923,7 +1923,7 @@ end
 .layer layer_fn_F6C
 ldelay 0x64
 .layer layer_F6E
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F70
 stereo 0
 end
@@ -1931,7 +1931,7 @@ end
 .layer layer_fn_F73
 ldelay 0x64
 .layer layer_F75
-ldelay 0x7f
+ldelay 0x7F
 .layer layer_F77
 stereo 0
 end
@@ -1957,18 +1957,18 @@ byte 0x8
 byte 0x8
 byte 0x9
 byte 0x9
-byte 0xa
-byte 0xa
-byte 0xb
-byte 0xb
-byte 0xc
-byte 0xc
-byte 0xd
-byte 0xd
-byte 0xe
-byte 0xe
-byte 0xf
-byte 0xf
+byte 0xA
+byte 0xA
+byte 0xB
+byte 0xB
+byte 0xC
+byte 0xC
+byte 0xD
+byte 0xD
+byte 0xE
+byte 0xE
+byte 0xF
+byte 0xF
 byte 0x10
 byte 0x10
 byte 0x11
@@ -1989,18 +1989,18 @@ byte 0x18
 byte 0x18
 byte 0x19
 byte 0x19
-byte 0x1a
-byte 0x1a
-byte 0x1b
-byte 0x1b
-byte 0x1c
-byte 0x1c
-byte 0x1d
-byte 0x1d
-byte 0x1e
-byte 0x1e
-byte 0x1f
-byte 0x1f
+byte 0x1A
+byte 0x1A
+byte 0x1B
+byte 0x1B
+byte 0x1C
+byte 0x1C
+byte 0x1D
+byte 0x1D
+byte 0x1E
+byte 0x1E
+byte 0x1F
+byte 0x1F
 
 .array addr_FBA
 byte 0x0
@@ -2043,30 +2043,30 @@ byte 0x9
 byte 0x9
 byte 0x9
 byte 0x9
-byte 0xa
-byte 0xa
-byte 0xa
-byte 0xa
-byte 0xb
-byte 0xb
-byte 0xb
-byte 0xb
-byte 0xc
-byte 0xc
-byte 0xc
-byte 0xc
-byte 0xd
-byte 0xd
-byte 0xd
-byte 0xd
-byte 0xe
-byte 0xe
-byte 0xe
-byte 0xe
-byte 0xf
-byte 0xf
-byte 0xf
-byte 0xf
+byte 0xA
+byte 0xA
+byte 0xA
+byte 0xA
+byte 0xB
+byte 0xB
+byte 0xB
+byte 0xB
+byte 0xC
+byte 0xC
+byte 0xC
+byte 0xC
+byte 0xD
+byte 0xD
+byte 0xD
+byte 0xD
+byte 0xE
+byte 0xE
+byte 0xE
+byte 0xE
+byte 0xF
+byte 0xF
+byte 0xF
+byte 0xF
 
 .envelope envelope_FFA
 point 270, 32700
