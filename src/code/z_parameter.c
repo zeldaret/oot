@@ -2156,7 +2156,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
 }
 
 /**
- * Returns false if player is out of health
+ * @return false if player is out of health
  */
 s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 heartCount;
