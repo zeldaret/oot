@@ -14,6 +14,15 @@ from audio_common import toCachePolicy, toMedium
 
 refseqs = {}
 
+offsets = {
+    "MQDebug": {
+        "bankdefs": [1281424, 128],
+        "fontdefs": [1278576, 624],
+        "fontmaps": [1279200, 448],
+        "seqdefs": [1279648, 1776]
+    }
+}
+
 class SequenceEntry:
     def __init__(self, data):
         self.offset, self.length, self.medium, self.cache = struct.unpack(">LLBBxxxxxx", data)
@@ -51,9 +60,7 @@ def get_soundfont_ids_for_seq(index, data):
     return struct.unpack(">b", data[seq_idx + 1:seq_idx + 2])[0]
 
 def main(args):
-    with open("offsets.json", "r") as offset_file:
-        table_offsets = json.load(offset_file)
-    
+    table_offsets = offsets
     version = args.version
 
     # code file
