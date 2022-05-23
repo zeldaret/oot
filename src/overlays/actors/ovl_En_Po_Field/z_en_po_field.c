@@ -377,7 +377,7 @@ void EnPoField_CorrectYPos(EnPoField* this, GlobalContext* globalCtx) {
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.home.pos.y;
 }
 
-f32 EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
+void EnPoField_SetFleeSpeed(EnPoField* this, GlobalContext* globalCtx) {
     Player* player = GET_PLAYER(globalCtx);
     f32 speed =
         ((player->stateFlags1 & PLAYER_STATE1_23) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;

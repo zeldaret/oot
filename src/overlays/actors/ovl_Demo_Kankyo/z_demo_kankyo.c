@@ -791,6 +791,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_150[i].unk_0.z = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f22);
                 this->unk_150[i].unk_23 = 0;
                 this->unk_150[i].unk_22++;
+                FALLTHROUGH;
             case 1:
                 if (this->actor.params == DEMOKANKYO_WARP_OUT) {
                     if (func_800BB2B4(&camPos, &sWarpRoll, &sWarpFoV, sWarpOutCameraPoints, &this->unk_150[i].unk_20,
@@ -836,6 +837,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
             case 0:
                 this->unk_150[i].unk_18 = Rand_ZeroOne();
                 this->unk_150[i].unk_23++;
+                FALLTHROUGH;
             case 1:
                 Math_SmoothStepToF(&this->unk_150[i].unk_18, 1.0f, 0.5f, 0.4f, 0.2f);
                 if (this->unk_150[i].unk_18 >= 1.0f) {
@@ -929,6 +931,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
                 this->unk_150[i].unk_0.z = (s16)((Rand_ZeroOne() - 0.5f) * 16.0f * temp_f20);
                 this->unk_150[i].unk_23 = 0;
                 this->unk_150[i].unk_22++;
+                FALLTHROUGH;
             case 1:
                 if (func_800BB2B4(&camPos, &sSparklesRoll, &sSparklesFoV, sSparklesCameraPoints,
                                   &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
@@ -952,6 +955,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
             case 0:
                 this->unk_150[i].unk_18 = Rand_ZeroOne();
                 this->unk_150[i].unk_23++;
+                FALLTHROUGH;
             case 1:
                 Math_SmoothStepToF(&this->unk_150[i].unk_18, 1.0f, 0.5f, 0.4f, 0.2f);
                 if (1.0f <= this->unk_150[i].unk_18) {

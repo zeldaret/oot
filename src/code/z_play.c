@@ -513,7 +513,7 @@ void Play_Update(GlobalContext* this) {
                         // non-instance modes break out of this switch
                         break;
                     }
-                    // fallthrough
+                    FALLTHROUGH;
                 case TRANS_MODE_INSTANCE_INIT:
                     this->transitionCtx.init(&this->transitionCtx.instanceData);
 

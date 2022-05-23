@@ -588,7 +588,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_ORGAN, 0.0f, 0.0f, 0.0f, 0,
                                0, 0, 1);
             sCape->minY = 57.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 1:
             this->envLightMode = 3;
             if (this->csTimer == 70) {
@@ -621,7 +621,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
 
             this->csCamAt.x = 0.0f;
             this->unk_704 = 1.2566371f;
-            // fallthrough
+            FALLTHROUGH;
         case 3:
             this->envLightMode = 0;
             globalCtx->envCtx.unk_D8 = 0.0f;
@@ -638,7 +638,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->csState = 4;
             BossGanon_SetIntroCsCamera(this, 2);
             this->csTimer = 0;
-            // fallthrough
+            FALLTHROUGH;
         case 4:
             if ((this->csTimer == 0) || (this->csTimer == 10) || (this->csTimer == 20)) {
                 this->csCamEye.y += 68.0f;
@@ -694,7 +694,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             func_80078884(NA_SE_EV_TRIFORCE_MARK);
             globalCtx->envCtx.unk_D8 = 0.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 7:
             this->envLightMode = 6;
             // fade in links triforce
@@ -741,7 +741,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             func_80078884(NA_SE_EV_TRIFORCE_MARK);
             globalCtx->envCtx.unk_D8 = 0.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 9:
             this->envLightMode = 7;
             BossGanon_SetIntroCsCamera(this, 6);
@@ -926,7 +926,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->fwork[GDF_TRIFORCE_PRIM_B] = 255.0f;
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             globalCtx->envCtx.unk_D8 = 0.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 19: // show triforce
             this->envLightMode = 8;
 
@@ -1051,7 +1051,7 @@ void BossGanon_IntroCutscene(BossGanon* this, GlobalContext* globalCtx) {
             this->csCamAt.z = this->unk_1FC.z;
             this->fwork[GDF_VORTEX_ALPHA] = 255.0f;
             this->fwork[GDF_VORTEX_SCALE] = 0.2f;
-            // fallthrough
+            FALLTHROUGH;
         case 22: // start floating, show title card, start fight
             if (this->csTimer > 30) {
                 this->envLightMode = 0;
@@ -1249,7 +1249,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             this->csState = 1;
             this->csTimer = 0;
             this->useOpenHand = true;
-            // fallthrough
+            FALLTHROUGH;
         case 1:
             player->actor.shape.rot.y = -0x8000;
 
@@ -1544,7 +1544,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
 
             this->whiteFillAlpha = 255.0f;
             globalCtx->envCtx.unk_D8 = 1.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 101:
             player->actor.world.pos.y = 4102.0f;
             Math_ApproachZeroF(&this->whiteFillAlpha, 1.0f, 5.0f);
@@ -1630,7 +1630,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, GlobalContext* globalCtx) 
             } else {
                 break;
             }
-            // fallthrough
+            FALLTHROUGH;
         case 104:
             this->csCamEye.x = -432.0f;
             this->csCamEye.y = 4147.0f;
@@ -4026,7 +4026,7 @@ void BossGanon_LightBall_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     this->unk_1C2 = 0;
                     break;
                 }
-                // fallthrough
+                FALLTHROUGH;
             case 4:
                 if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf)) < 30.0f) {
                     spBA = 3;
@@ -4391,7 +4391,7 @@ void func_808E2544(Actor* thisx, GlobalContext* globalCtx) {
             new_var = this->unk_1F0.x - this->actor.world.pos.x;
             this->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z)) +
                                       (this->actor.params << 0xD) - 0x20C000;
-            // fallthrough
+            FALLTHROUGH;
         case 11:
             if (this->timers[0] != 0) {
                 this->unk_1F0 = player->actor.world.pos;

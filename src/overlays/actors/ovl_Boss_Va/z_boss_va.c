@@ -1559,6 +1559,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
             globalCtx->envCtx.screenFillColor[3] = 0;
             globalCtx->envCtx.fillScreen = true;
             sCsState++;
+            FALLTHROUGH;
         case DEATH_BODY_TUMORS:
             this->unk_1AC += 0x100;
             sSubCamEyeNext.x = (Math_SinS(this->unk_1AC) * (160.0f + this->unk_1A8)) + sSubCamAtNext.x;
@@ -1653,6 +1654,7 @@ void BossVa_BodyDeath(BossVa* this, GlobalContext* globalCtx) {
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_RU1, sWarpPos[sp7C].x, sWarpPos[sp7C].y,
                             sWarpPos[sp7C].z, 0, 0, 0, 0);
             }
+            FALLTHROUGH;
         case DEATH_FINISH:
             Rand_CenteredFloat(0.5f);
             globalCtx->envCtx.fillScreen = false;
@@ -1824,7 +1826,7 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&sSubCamEye.z, sSubCamAtNext.z, 1.0f, 10.0f, 0.0f);
             sSubCamEye.y += 20.0f;
             sCsState++;
-
+            FALLTHROUGH;
         case DEATH_CORE_TUMORS:
         case DEATH_CORE_DEAD:
         case DEATH_CORE_BURST:
@@ -2175,6 +2177,7 @@ void BossVa_ZapperDeath(BossVa* this, GlobalContext* globalCtx) {
     switch (sCsState) {
         case DEATH_ZAPPER_2:
             sp3C = -55.0f;
+            FALLTHROUGH;
         case DEATH_ZAPPER_1:
         case DEATH_ZAPPER_3:
             if (!this->burst) {
@@ -2482,6 +2485,7 @@ void BossVa_BariIntro(BossVa* this, GlobalContext* globalCtx) {
                     }
                 }
             }
+            FALLTHROUGH;
         case INTRO_UNUSED_CALL_BARI:
             this->timer--;
             if (this->timer == 0) {
@@ -3736,6 +3740,7 @@ void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
             switch (mode) {
                 case SPARK_UNUSED:
                     effect->type = VA_SMALL_SPARK;
+                    FALLTHROUGH;
                 case SPARK_TETHER:
                     tempVec = *offset;
                     tempVec.x += this->actor.world.pos.x;
@@ -3746,6 +3751,7 @@ void BossVa_SpawnSpark(GlobalContext* globalCtx, BossVaEffect* effect, BossVa* t
 
                 case SPARK_BODY:
                     effect->type = VA_SMALL_SPARK;
+                    FALLTHROUGH;
                 case SPARK_BARI:
                     effect->offset.x = offset->x;
                     effect->offset.z = offset->z;

@@ -1523,7 +1523,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             this->workf[UNK_F11] = 600.0f;
             Audio_QueueSeqCmd(0x1 << 28 | SEQ_PLAYER_BGM_MAIN << 24 | 0xC800FF);
             this->work[CS_TIMER_2] = 0;
-            // fallthrough
+            FALLTHROUGH;
         case 1:
             if (this->work[CS_TIMER_2] == 20) {
                 Message_StartTextbox(globalCtx, 0x6059, NULL);
@@ -1666,7 +1666,7 @@ void BossTw_TwinrovaMergeCS(BossTw* this, GlobalContext* globalCtx) {
             sEnvType = -1;
             globalCtx->envCtx.unk_BD = 4;
             Math_ApproachF(&globalCtx->envCtx.unk_D8, 1, 1, 0.1f);
-            // fallthrough
+            FALLTHROUGH;
         case 2:
             SkelAnime_Update(&this->skelAnime);
             Math_ApproachF(&this->actor.scale.x, 0.0069999993f, 1, 0.0006999999f);
@@ -3944,7 +3944,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                         this->blastTailPos[i] = this->actor.world.pos;
                     }
                     this->workf[TAIL_ALPHA] = 255.0f;
-                    // fallthrough
+                    FALLTHROUGH;
                 case 1:
                 case 10:
                     this->blastActive = true;
@@ -4133,7 +4133,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                     }
 
                     this->workf[TAIL_ALPHA] = 255.0f;
-                    // fallthrough
+                    FALLTHROUGH;
                 case 1:
                 case 10:
                     this->blastActive = true;

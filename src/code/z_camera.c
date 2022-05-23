@@ -1382,7 +1382,7 @@ void func_80046E20(Camera* camera, VecSph* eyeAdjustment, f32 minDist, f32 arg3,
 
             camera->eye = newEyeColChk.pos;
             atEyeColChk = newEyeColChk;
-
+            FALLTHROUGH;
         case 3:
         case 6:
             if (anim->unk_18 != 0) {
@@ -1477,6 +1477,7 @@ s32 Camera_Normal1(Camera* camera) {
         case 20:
             camera->yawUpdateRateInv = OREG(27);
             camera->pitchUpdateRateInv = OREG(27);
+            FALLTHROUGH;
         case 0:
         case 10:
         case 25:
@@ -2037,6 +2038,7 @@ s32 Camera_Parallel1(Camera* camera) {
             rwData->unk_00.x = 0.0f;
             rwData->yTarget = playerPosRot->pos.y - camera->playerPosDelta.y;
             camera->animState++;
+            break;
     }
 
     if (rwData->animTimer != 0) {
@@ -2156,6 +2158,9 @@ s32 Camera_Parallel1(Camera* camera) {
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? roData->unk_1C : roData->unk_14);
     //! @bug No return
+#ifdef AVOID_UB
+    return (s32)gGameInfo;
+#endif
 }
 
 s32 Camera_Parallel2(Camera* camera) {
@@ -2530,7 +2535,7 @@ s32 Camera_Jump3(Camera* camera) {
     f32 spC4;
     f32 spC0;
     f32 spBC;
-    Vec3f spB0; // unused
+    UNUSED Vec3f spB0;
     VecSph eyeDiffSph;
     PosRot* playerPosRot = &camera->playerPosRot;
     Jump3ReadOnlyData* roData = &camera->paramData.jump3.roData;
@@ -2613,8 +2618,7 @@ s32 Camera_Jump3(Camera* camera) {
             break;
     }
 
-    spB0 = *eye; // unused
-    (void)spB0;  // suppresses set but unused warning
+    spB0 = *eye;
 
     spC4 = CAM_DATA_SCALED(OREG(25)) * camera->speedRatio;
     spC0 = camera->speedRatio * CAM_DATA_SCALED(OREG(26));
@@ -3029,6 +3033,7 @@ s32 Camera_Battle4(Camera* camera) {
         case 20:
             rwData->animTimer = 50;
             camera->animState++;
+            break;
     }
 
     camera->yawUpdateRateInv = Camera_LERPCeilF(roData->lerpUpdateRate, camera->yawUpdateRateInv,
@@ -3800,7 +3805,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     KeepOn0ReadWriteData* rwData = &camera->paramData.keep0.rwData;
     s32 pad;
     Vec3s* sceneCamData;
-    Vec3s sceneCamRot;
+    UNUSED Vec3s sceneCamRot;
     s16 fov;
 
     camera->unk_14C &= ~0x10;
@@ -3820,8 +3825,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(sceneCamData));
     *eye = *eyeNext;
 
-    sceneCamRot = BGCAM_ROT(sceneCamData); // unused
-    (void)sceneCamRot;                     // suppresses set but unused warning
+    sceneCamRot = BGCAM_ROT(sceneCamData);
 
     fov = BGCAM_FOV(sceneCamData);
     if (fov == -1) {
@@ -4736,6 +4740,7 @@ s32 Camera_Unique3(Camera* camera) {
             rwData->initialFov = camera->fov;
             rwData->initialDist = OLib_Vec3fDist(at, &camera->eye);
             camera->animState++;
+            FALLTHROUGH;
         case 1:
             if (doorParams->timer1-- > 0) {
                 break;
@@ -4749,7 +4754,7 @@ s32 Camera_Unique3(Camera* camera) {
             sp60.pitch = -sp4C.x;
             Camera_Vec3fVecSphGeoAdd(at, &camera->eye, &sp60);
             camera->animState++;
-
+            FALLTHROUGH;
         case 2:
             if (roData->interfaceFlags & 4) {
                 camera->at = cameraPlayerPosRot->pos;
@@ -4759,7 +4764,7 @@ s32 Camera_Unique3(Camera* camera) {
                 break;
             }
             camera->animState++;
-
+            FALLTHROUGH;
         case 3:
             camera->unk_14C |= (0x400 | 0x10);
             if ((camera->unk_14C & 8) != 0) {
@@ -4767,6 +4772,7 @@ s32 Camera_Unique3(Camera* camera) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 4:
             if (roData->interfaceFlags & 2) {
                 camera->unk_14C |= 4;
@@ -4787,6 +4793,7 @@ s32 Camera_Unique3(Camera* camera) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 5:
             camera->fov = Camera_LERPCeilF(rwData->initialFov, camera->fov, 0.4f, 0.1f);
             OLib_Vec3fDiffToVecSphGeo(&sp60, at, &camera->eye);
@@ -4797,6 +4804,7 @@ s32 Camera_Unique3(Camera* camera) {
                 break;
             }
             camera->animState++;
+            FALLTHROUGH;
         default:
             camera->unk_14C |= 4;
             camera->unk_14C &= ~8;
@@ -4998,7 +5006,7 @@ s32 Camera_Unique7(Camera* camera) {
     VecSph playerPosEyeOffset;
     s16 fov;
     Vec3s* sceneCamData;
-    Vec3s sceneCamRot;
+    UNUSED Vec3s sceneCamRot;
     Vec3f* at = &camera->at;
     PosRot* playerPosRot = &camera->playerPosRot;
     Vec3f* eye = &camera->eye;
@@ -5018,8 +5026,7 @@ s32 Camera_Unique7(Camera* camera) {
 
     Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(sceneCamData));
     *eye = *eyeNext;
-    sceneCamRot = BGCAM_ROT(sceneCamData); // unused
-    (void)sceneCamRot;                     // suppresses set but unused warning
+    sceneCamRot = BGCAM_ROT(sceneCamData);
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 
@@ -5394,6 +5401,7 @@ s32 Camera_Unique9(Camera* camera) {
                 Camera_LERPFloorF(eyeTarget.y, camera->eyeNext.y, rwData->curKeyFrame->lerpStepScale, 1.0f);
             camera->eyeNext.z =
                 Camera_LERPFloorF(eyeTarget.z, camera->eyeNext.z, rwData->curKeyFrame->lerpStepScale, 1.0f);
+            FALLTHROUGH;
         case 9:
         case 10:
             // linear interpolation of at/fov/roll
@@ -5429,6 +5437,7 @@ s32 Camera_Unique9(Camera* camera) {
                 Camera_LERPCeilF(rwData->eyeTarget.y, camera->eyeNext.y, rwData->curKeyFrame->lerpStepScale, 1.0f);
             camera->eyeNext.z =
                 Camera_LERPCeilF(rwData->eyeTarget.z, camera->eyeNext.z, rwData->curKeyFrame->lerpStepScale, 1.0f);
+            FALLTHROUGH;
         case 11:
         case 12:
         setAtFOVRoll:
@@ -5479,6 +5488,7 @@ s32 Camera_Unique9(Camera* camera) {
 
             Camera_ChangeModeFlags(camera->globalCtx->cameraPtrs[camIdx], CAM_MODE_NORMAL, 1);
         }
+            FALLTHROUGH;
         case 18: {
             // copy the current camera to the parent (or default)'s camera.
             s32 camIdx = camera->parentCamId <= CAM_ID_NONE ? CAM_ID_MAIN : camera->parentCamId;
@@ -5487,10 +5497,12 @@ s32 Camera_Unique9(Camera* camera) {
             *eye = *eyeNext;
             Camera_Copy(cam, camera);
         }
+            FALLTHROUGH;
         default:
             if (camera->camId != CAM_ID_MAIN) {
                 camera->timer = 0;
             }
+            break;
     }
 
     *eye = *eyeNext;
@@ -5610,6 +5622,7 @@ s32 Camera_Demo1(Camera* camera) {
                 Camera_DebugPrintSplineArray("CENTER", 5, csAtPoints);
                 Camera_DebugPrintSplineArray("   EYE", 5, csEyePoints);
             }
+            FALLTHROUGH;
         case 1:
             // follow CutsceneCameraPoints.  function returns 1 if at the end.
             if (func_800BB2B4(&csEyeUpdate, &newRoll, cameraFOV, csEyePoints, &rwData->keyframe, &rwData->curFrame) ||
@@ -5789,6 +5802,7 @@ s32 Camera_Demo3(Camera* camera) {
             if (camera->unk_14C & 8) {
                 camera->animState = 4;
             }
+            FALLTHROUGH;
         case 10:
         case 20:
             skipUpdateEye = true;
@@ -5812,7 +5826,7 @@ s32 Camera_Demo3(Camera* camera) {
                   camera->unk_14C & 8)) {
                 goto skipeyeUpdate;
             }
-
+            FALLTHROUGH;
         default:
             camera->unk_14C |= 0x14;
             camera->unk_14C &= ~8;
@@ -6143,6 +6157,7 @@ s32 Camera_Demo6(Camera* camera) {
             Camera_Vec3fVecSphGeoAdd(eyeNext, &camera->at, &eyeOffset);
             camera->eye = *eyeNext;
             camera->animState++;
+            FALLTHROUGH;
         case 1:
             if (stateTimers[camera->animState] < rwData->animTimer) {
                 func_8002DF54(camera->globalCtx, &camera->player->actor, 8);
@@ -6154,6 +6169,7 @@ s32 Camera_Demo6(Camera* camera) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 2:
             Camera_LERPCeilVec3f(&rwData->atTarget, &camera->at, 0.1f, 0.1f, 8.0f);
             if (stateTimers[camera->animState] < rwData->animTimer) {
@@ -6161,6 +6177,7 @@ s32 Camera_Demo6(Camera* camera) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 3:
             camera->fov = Camera_LERPCeilF(50.0f, camera->fov, 0.2f, 0.01f);
             if (stateTimers[camera->animState] < rwData->animTimer) {
@@ -6245,6 +6262,7 @@ s32 Camera_Demo9(Camera* camera) {
                 onePointCamData->actionParameters &= 0xFFF;
             }
             rwData->animTimer = onePointCamData->initTimer;
+            FALLTHROUGH;
         case 1:
             // Run the camera state
             if (rwData->animTimer > 0) {
@@ -6298,6 +6316,7 @@ s32 Camera_Demo9(Camera* camera) {
                 rwData->animTimer--;
                 break;
             }
+            FALLTHROUGH;
         case 3:
             // the cs is finished, decide the next action
             camera->timer = 0;
@@ -6740,6 +6759,7 @@ s32 Camera_Special9(Camera* camera) {
             rwData->targetYaw = ABS(playerPosRot->rot.y - adjustedPlayerPosRot.rot.y) >= 0x4000
                                     ? BINANG_ROT180(adjustedPlayerPosRot.rot.y)
                                     : adjustedPlayerPosRot.rot.y;
+            FALLTHROUGH;
         case 1:
             doorParams->timer1--;
             if (doorParams->timer1 <= 0) {
@@ -6769,6 +6789,7 @@ s32 Camera_Special9(Camera* camera) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 2:
             spAC = playerPosRot->pos;
             spAC.y += playerYOffset + roData->yOffset;
@@ -6781,6 +6802,7 @@ s32 Camera_Special9(Camera* camera) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 3:
             spAC = playerPosRot->pos;
             spAC.y += (playerYOffset + roData->yOffset);
@@ -6796,8 +6818,10 @@ s32 Camera_Special9(Camera* camera) {
             } else {
                 break;
             }
+            FALLTHROUGH;
         case 4:
             camera->animState++;
+            FALLTHROUGH;
         default:
             camera->unk_14C |= (0x400 | 0x10);
             sCameraInterfaceFlags = 0;

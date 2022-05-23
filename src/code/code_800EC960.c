@@ -3984,7 +3984,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             if (D_80130604 == 2) {
                 sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
-            // fallthrough
+            FALLTHROUGH;
         case BANK_OCARINA:
             entry->dist = sqrtf(entry->dist);
             vol = Audio_ComputeSoundVolume(bankId, entryIdx) * *entry->vol;

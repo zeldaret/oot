@@ -100,14 +100,17 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
         switch (reloc & 0x3F000000) {
             case 0x2000000:
                 dbg = 0x16;
+                FALLTHROUGH;
             case 0x4000000:
                 dbg += 0xA;
+                FALLTHROUGH;
             case 0x6000000:
                 if (gOverlayLogSeverity >= 3) {
                     osSyncPrintf("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
                     osSyncPrintf(" %08x %08x %08x %08x\n", ((u32)relocDataP + (u32)vRamAddress) - allocu32, relocData,
                                  unrelocatedAddress, relocOffset);
                 }
+                // No break required for matching
         }
     }
 }

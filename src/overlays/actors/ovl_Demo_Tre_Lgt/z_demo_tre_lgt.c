@@ -152,6 +152,9 @@ s32 DemoTreLgt_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCu
     // If the return value ends up being false (0), the limb won't draw (meaning no limb at all will draw).
     // In MQ Debug, `Graph_CloseDisps` has the last instruction writing to v0 before this function ends.
     // That instruction sets v0 to a non-NULL pointer, which is "true", so the limbs get drawn.
+#ifdef AVOID_UB
+    return true;
+#endif
 }
 
 void DemoTreLgt_Draw(Actor* thisx, GlobalContext* globalCtx) {
