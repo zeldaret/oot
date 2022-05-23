@@ -8,6 +8,4 @@
 .section .rodata
 
 .balign 16
-
-glabel audio_padding
-    .incbin "baserom.z64", 0x44DC0, 0x20
+.fill 0x20

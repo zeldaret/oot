@@ -21,7 +21,7 @@ refBanks = {}
 usedFontData = []
 usedRawData = []
 
-fixups = {
+offsets = {
     "MQDebug": {
         "bankdefs": [1281424, 128],
         "fontdefs": [1278576, 624],
@@ -30,7 +30,7 @@ fixups = {
     }
 }
 
-offsets = {
+fixups = {
     "MQDebug": {
         "0": {
             "0x2A50": ["Envelope", 16],

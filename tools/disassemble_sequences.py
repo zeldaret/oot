@@ -40,8 +40,7 @@ def convert_aseq_to_mus(aseq_name, mus_name, font_path, seqinc):
     try:
         subprocess.run(["python3", rel_seqdecode, aseq_name, font_path, seqinc], check=True, stdout=output_file)
     except subprocess.CalledProcessError:
-        print(f"failed to convert {aseq_name} to mus format (header was {os.path.basename(font_path)})", file=sys.stderr)
-        exit(1)
+        exit(f"failed to convert {aseq_name} to mus format (header was {os.path.basename(font_path)})")
     finally:
         output_file.close()
 
@@ -106,8 +105,6 @@ def main(args):
             if not os.path.exists(mus_file) or os.path.getsize(mus_file) == 0:
                 convert_aseq_to_mus(aseq.name, mus_file, os.path.join(soundfont_inc_path, f"{font_id}.inc"), args.seqinc)
 
-            f"Usage: {sys.argv[0]} <version> <code file> <Audioseq file> <sequence defs path> <soundfont assets path> <sequences output dir>"
-
     if len(refseqs.keys()) > 0:
         with open(os.path.join(midi_out_dir, "References.xml"), "w") as refxml:
             root = XmlTree.Element("References")
@@ -132,16 +129,16 @@ def main(args):
             prettyxml = minidom.parseString(xmlstring).toprettyxml(indent="\t")
             refxml.write(prettyxml)
 
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("version", metavar="<version>", help="The version of Ocarina of Time being disassembled.")
-parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
-parser.add_argument("audioseq", metavar="<Audioseq file>", type=argparse.FileType("rb"), help="Path to the 'Audioseq' file, usually in baserom.")
-parser.add_argument("seqdef", metavar="<sequence defs XML>", type=argparse.FileType("r"), help="The asset XML where the sequence definitions are stored.")
-parser.add_argument("fontinc", metavar="<soundfont include path>", type=Path, help="The path to the soundfont inc files.")
-parser.add_argument("seqinc", metavar="<sequence.inc file>", type=Path, help="The path to the sequence.inc file.")
-parser.add_argument("output", metavar="<sequences output dir>", type=Path, help="The output path for sequences.")
-parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
-args = parser.parse_args()
-
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("version", metavar="<version>", help="The version of Ocarina of Time being disassembled.")
+    parser.add_argument("code", metavar="<code file>", type=argparse.FileType("rb"), help="Path to the 'code' file, usually in baserom.")
+    parser.add_argument("audioseq", metavar="<Audioseq file>", type=argparse.FileType("rb"), help="Path to the 'Audioseq' file, usually in baserom.")
+    parser.add_argument("seqdef", metavar="<sequence defs XML>", type=argparse.FileType("r"), help="The asset XML where the sequence definitions are stored.")
+    parser.add_argument("fontinc", metavar="<soundfont include path>", type=Path, help="The path to the soundfont inc files.")
+    parser.add_argument("seqinc", metavar="<sequence.inc file>", type=Path, help="The path to the sequence.inc file.")
+    parser.add_argument("output", metavar="<sequences output dir>", type=Path, help="The output path for sequences.")
+    parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
+    args = parser.parse_args()
+
     main(args)
