@@ -483,7 +483,8 @@ s32 Player_InBlockingCsMode(PlayState* play, Player* this) {
     return (this->stateFlags1 & (PLAYER_STATE1_7 | PLAYER_STATE1_29)) || (this->csMode != 0) ||
            (play->transitionTrigger == TRANS_TRIGGER_START) || (this->stateFlags1 & PLAYER_STATE1_0) ||
            (this->stateFlags3 & PLAYER_STATE3_7) ||
-           ((gSaveContext.unk_13F0 != 0) && (Player_ActionToMagicSpell(this, this->itemActionParam) >= 0));
+           ((gSaveContext.magicState != MAGIC_STATE_IDLE) &&
+            (Player_ActionToMagicSpell(this, this->itemActionParam) >= 0));
 }
 
 s32 Player_InCsMode(PlayState* play) {
