@@ -356,7 +356,7 @@ void AudioLoad_InitTable(AudioTable* table, u32 romAddr, u16 unkMediumParam) {
 SoundFontData* AudioLoad_SyncLoadSeqFonts(s32 seqId, u32* outDefaultFontId) {
     char pad[0x8];
     s32 index;
-    SoundFontData* font;
+    SoundFontData* fontData;
     s32 numFonts;
     s32 fontId;
     s32 i;
@@ -371,12 +371,12 @@ SoundFontData* AudioLoad_SyncLoadSeqFonts(s32 seqId, u32* outDefaultFontId) {
 
     while (numFonts > 0) {
         fontId = gAudioContext.sequenceFontTable[index++];
-        font = AudioLoad_SyncLoadFont(fontId);
+        fontData = AudioLoad_SyncLoadFont(fontId);
         numFonts--;
     }
 
     *outDefaultFontId = fontId;
-    return font;
+    return fontData;
 }
 
 void AudioLoad_SyncLoadSeqParts(s32 seqId, s32 arg1) {
@@ -623,7 +623,7 @@ u32 AudioLoad_TrySyncLoadSampleBank(u32 sampleBankId, u32* outMedium, s32 noLoad
 }
 
 SoundFontData* AudioLoad_SyncLoadFont(u32 fontId) {
-    SoundFontData* ret;
+    SoundFontData* fontData;
     s32 sampleBankId1;
     s32 sampleBankId2;
     s32 didAllocate;
@@ -650,15 +650,15 @@ SoundFontData* AudioLoad_SyncLoadFont(u32 fontId) {
         relocInfo.baseAddr2 = 0;
     }
 
-    ret = AudioLoad_SyncLoad(FONT_TABLE, fontId, &didAllocate);
-    if (ret == NULL) {
+    fontData = AudioLoad_SyncLoad(FONT_TABLE, fontId, &didAllocate);
+    if (fontData == NULL) {
         return NULL;
     }
     if (didAllocate == true) {
-        AudioLoad_RelocateFontAndPreloadSamples(realFontId, ret, &relocInfo, false);
+        AudioLoad_RelocateFontAndPreloadSamples(realFontId, fontData, &relocInfo, false);
     }
 
-    return ret;
+    return fontData;
 }
 
 void* AudioLoad_SyncLoad(u32 tableType, u32 id, s32* didAllocate) {
