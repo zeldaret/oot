@@ -831,8 +831,8 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
                 soundOffset = BASE_OFFSET(soundOffset);
                 // Overwrite the offset in fontData with this new pointer
                 ((Drum**)fontDataStartAddr[0])[i] = drum = soundOffset;
-                // Ensure that drums are not loaded in multiple times
-                // Just in case the same drum is not already relocated
+                // Ensure that the drum is not already relocated
+                // Just in case the same drum is in the drum list multiple times
                 if (!drum->isRelocated) {
                     // Relocate the SoundFontSound embedded in the drum struct
                     AudioLoad_RelocateSample(&drum->sound, fontData, relocInfo);
@@ -897,7 +897,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
             fontDataStartAddr[i] = BASE_OFFSET(fontDataStartAddr[i]);
             // Transfer this pointer to intr
             inst = fontDataStartAddr[i];
-            // Ensure that drums are not already relocated
+            // Ensure that the instrument is not already relocated
             // Just in case the same instrument is in the instrument list multiple times
             if (!inst->isRelocated) {
                 // Some instruments have a different samples for low pitches
