@@ -124,7 +124,7 @@ typedef struct {
     /* 0x00 */ u32 codec : 4;
     /* 0x00 */ u32 medium : 2;
     /* 0x00 */ u32 unk_bit26 : 1;
-    /* 0x00 */ u32 unk_bit25 : 1;
+    /* 0x00 */ u32 isRelocated : 1;
     /* 0x01 */ u32 size : 24;
     /* 0x04 */ u8* sampleAddr;
     /* 0x08 */ AdpcmLoop* loop;
@@ -190,7 +190,7 @@ typedef struct {
 } SynthesisReverb; // size = 0x2C8
 
 typedef struct {
-    /* 0x00 */ u8 loaded;
+    /* 0x00 */ u8 isRelocated;
     /* 0x01 */ u8 normalRangeLo;
     /* 0x02 */ u8 normalRangeHi;
     /* 0x03 */ u8 releaseRate;
@@ -203,7 +203,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 releaseRate;
     /* 0x01 */ u8 pan;
-    /* 0x02 */ u8 loaded;
+    /* 0x02 */ u8 isRelocated;
     /* 0x04 */ SoundFontSound sound;
     /* 0x14 */ AdsrEnvelope* envelope;
 } Drum; // size = 0x14
