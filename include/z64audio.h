@@ -213,7 +213,7 @@ typedef struct {
     /* 0x01 */ u8 pan;
     /* 0x02 */ u8 isRelocated; // have sound.sampleHeader and envelope been relocated (offsets to pointers)
     /* 0x04 */ SoundFontSound sound;
-    /* 0x10 */ AdsrEnvelope* envelope;
+    /* 0x0C */ AdsrEnvelope* envelope;
 } Drum; // size = 0x10
 
 typedef struct {
