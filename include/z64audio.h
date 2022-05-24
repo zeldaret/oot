@@ -121,7 +121,8 @@ typedef struct {
 } AdpcmBook; // size >= 0x8
 
 /**
- * Meta-Data for samples found inside soundfonts
+ * Meta-Data for samples.
+ * Found inside soundfonts
  */
 typedef struct {
     /* 0x00 */ u32 codec : 4; // Type of compression used for the sample
@@ -136,7 +137,7 @@ typedef struct {
 
 /**
  * Meta-Data for a sound (instrument, drums, or sfx).
- * Found in a soundfonts
+ * Found inside soundfonts
  */
 typedef struct {
     /* 0x00 */ SoundFontSampleHeader* sampleHeader;
