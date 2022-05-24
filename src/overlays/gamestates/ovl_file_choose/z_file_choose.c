@@ -1470,7 +1470,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;
     gSaveContext.eventInf[3] = 0;
-    gSaveContext.hudDisplayPrev = HUD_DISPLAY_ALL;
+    gSaveContext.hudDisplayPrev = HUD_MODE_ALL;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
     gSaveContext.magicState = MAGIC_STATE_IDLE;

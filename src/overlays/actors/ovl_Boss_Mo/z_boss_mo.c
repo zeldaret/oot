@@ -793,7 +793,7 @@ void BossMo_Tentacle(BossMo* this, PlayState* play) {
         case MO_TENT_SHAKE:
             if (this->timers[0] == 138) {
                 ShrinkWindow_SetVal(0);
-                Interface_ChangeHudDisplay(HUD_DISPLAY_HEARTS_ALT);
+                Interface_ChangeHudMode(HUD_MODE_HEARTS_ALT);
             }
             if ((this->timers[0] % 8) == 0) {
                 play->damagePlayer(play, -1);

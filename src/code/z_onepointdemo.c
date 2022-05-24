@@ -1169,7 +1169,7 @@ s16 OnePointCutscene_Init(PlayState* play, s16 csId, s16 timer, Actor* actor, s1
         OnePointCutscene_SetAsChild(play, vChildCamId, subCamId);
         vSubCamStatus = CAM_STAT_WAIT;
     } else {
-        Interface_ChangeHudDisplay(HUD_DISPLAY_OFF_ALT);
+        Interface_ChangeHudMode(HUD_MODE_OFF_ALT);
     }
     OnePointCutscene_SetAsChild(play, subCamId, parentCamId);
 

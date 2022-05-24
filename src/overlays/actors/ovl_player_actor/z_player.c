@@ -2832,7 +2832,7 @@ void func_80835DE4(PlayState* play, Player* this, PlayerFunc674 func, s32 flags)
 void func_80835E44(PlayState* play, s16 camSetting) {
     if (!func_800C0CB8(play)) {
         if (camSetting == CAM_SET_SCENE_TRANSITION) {
-            Interface_ChangeHudDisplay(HUD_DISPLAY_OFF_ALT);
+            Interface_ChangeHudMode(HUD_MODE_OFF_ALT);
         }
     } else {
         Camera_ChangeSetting(Play_GetCamera(play, CAM_ID_MAIN), camSetting);

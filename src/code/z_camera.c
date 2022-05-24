@@ -788,7 +788,7 @@ void Camera_UpdateInterface(s16 flags) {
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
             sCameraInterfaceAlpha = interfaceAlpha;
-            Interface_ChangeHudDisplay(sCameraInterfaceAlpha);
+            Interface_ChangeHudMode(sCameraInterfaceAlpha);
         }
     }
 }
