@@ -590,7 +590,7 @@ typedef enum {
     /* 13 */ HUD_MODE_HEARTS_MAGIC_ALT, // Uses Interface_DimButtonAlphas so gives the opportunity to overwrite
     /* 50 */ HUD_MODE_ALL = 50,
     /* 52 */ HUD_MODE_OFF_NOW = 52
-} HudDisplayType;
+} HudMode;
 
 typedef struct {
     /* 0x0000 */ View   view;

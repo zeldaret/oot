@@ -24,7 +24,7 @@ void KaleidoSetup_Update(PlayState* play) {
                 pauseCtx->debugState = 3;
             }
         } else if (CHECK_BTN_ALL(input->press.button, BTN_START)) {
-            gSaveContext.hudDisplayPrev = gSaveContext.hudDisplayCur;
+            gSaveContext.hudModePrev = gSaveContext.hudModeCur;
 
             WREG(16) = -175;
             WREG(17) = 155;

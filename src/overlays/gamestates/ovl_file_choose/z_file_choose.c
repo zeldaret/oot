@@ -1470,7 +1470,7 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.eventInf[1] = 0;
     gSaveContext.eventInf[2] = 0;
     gSaveContext.eventInf[3] = 0;
-    gSaveContext.hudDisplayPrev = HUD_MODE_ALL;
+    gSaveContext.hudModePrev = HUD_MODE_ALL;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
     gSaveContext.magicState = MAGIC_STATE_IDLE;
@@ -1487,8 +1487,8 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
-    gSaveContext.hudDisplayOverrideButton = gSaveContext.hudDisplayRequest = gSaveContext.hudDisplayCur =
-        gSaveContext.hudDisplayCounter = gSaveContext.magicCapacity = 0;
+    gSaveContext.hudModeOverrideButton = gSaveContext.hudModeRequest = gSaveContext.hudModeCur =
+        gSaveContext.hudModeCounter = gSaveContext.magicCapacity = 0;
 
     // Set the fill target to be the saved magic amount
     gSaveContext.magicFillTarget = gSaveContext.magic;
