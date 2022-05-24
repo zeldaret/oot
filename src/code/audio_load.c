@@ -34,7 +34,7 @@ void AudioLoad_ProcessAsyncLoadUnkMedium(AudioAsyncLoad* asyncLoad, s32 resetSta
 void AudioLoad_ProcessAsyncLoad(AudioAsyncLoad* asyncLoad, s32 resetStatus);
 void AudioLoad_RelocateFontAndPreloadSamples(s32 fontId, SoundFontData* fontData, SampleBankRelocInfo* relocInfo,
                                              s32 async);
-void AudioLoad_RelocateSampleHeader(SoundFontSound* sound, SoundFontData* fontData, SampleBankRelocInfo* relocInfo);
+void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, SampleBankRelocInfo* relocInfo);
 void AudioLoad_DiscardFont(s32 fontId);
 u32 AudioLoad_TrySyncLoadSampleBank(u32 sampleBankId, u32* outMedium, s32 noLoad);
 void* AudioLoad_SyncLoad(u32 tableType, u32 tableId, s32* didAllocate);
@@ -835,7 +835,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
                 // Just in case the same drum is in the drum list multiple times
                 if (!drum->isRelocated) {
                     // Relocate the SoundFontSound embedded in the drum struct
-                    AudioLoad_RelocateSampleHeader(&drum->sound, fontData, relocInfo);
+                    AudioLoad_RelocateSample(&drum->sound, fontData, relocInfo);
                     // Get the offset to the envelope used by the drum
                     soundOffset = drum->envelope;
                     // Relocate the envelope offset to a pointer (ramAddr)
@@ -872,7 +872,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
                 if (sfx->sampleHeader != NULL) {
                     // Relocate the SoundFontSound embedded in the sfx struct
                     // (The entire sfx struct is a SoundFontSound)
-                    AudioLoad_RelocateSampleHeader(sfx, fontData, relocInfo);
+                    AudioLoad_RelocateSample(sfx, fontData, relocInfo);
                 }
             }
         }
@@ -904,18 +904,18 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
                 // Check if this instrument uses that feature
                 if (inst->normalRangeLo != 0) {
                     // Relocate the SoundFontSound embedded in the sfx struct
-                    AudioLoad_RelocateSampleHeader(&inst->lowNotesSound, fontData, relocInfo);
+                    AudioLoad_RelocateSample(&inst->lowNotesSound, fontData, relocInfo);
                 }
 
                 // Every instrument has a sample for the default range
                 // Relocate the SoundFontSound embedded in the sfx struct
-                AudioLoad_RelocateSampleHeader(&inst->normalNotesSound, fontData, relocInfo);
+                AudioLoad_RelocateSample(&inst->normalNotesSound, fontData, relocInfo);
 
                 // Some instruments have a different samples for high pitches
                 // Check if this instrument uses that feature
                 if (inst->normalRangeHi != 0x7F) {
                     // Relocate the SoundFontSound embedded in the sfx struct
-                    AudioLoad_RelocateSampleHeader(&inst->highNotesSound, fontData, relocInfo);
+                    AudioLoad_RelocateSample(&inst->highNotesSound, fontData, relocInfo);
                 }
 
                 // Get the offset to the envelope used by the instrument
@@ -1633,7 +1633,8 @@ void AudioLoad_AsyncDmaUnkMedium(u32 devAddr, void* ramAddr, u32 size, s16 arg3)
 }
 
 /**
- * Read and extract information from a SoundFontSound contained in the soundFont binary loaded into ram
+ * Read and extract information from SoundFontSound and its SoundFontSampleHeader
+ * contained in the soundFont binary loaded into ram
  * SoundFontSound contains metadata on a sample used by a particular instrument/drum/sfx
  * Also relocate offsets into pointers within this loaded SoundFontSound
  *
@@ -1641,7 +1642,7 @@ void AudioLoad_AsyncDmaUnkMedium(u32 devAddr, void* ramAddr, u32 size, s16 arg3)
  * @param fontData ram address of raw soundfont binary loaded into cache
  * @param relocInfo information on the sampleBank containing raw audio samples
  */
-void AudioLoad_RelocateSampleHeader(SoundFontSound* sound, SoundFontData* fontData, SampleBankRelocInfo* relocInfo) {
+void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, SampleBankRelocInfo* relocInfo) {
     SoundFontSampleHeader* sampleHeader;
     void* reloc;
 
