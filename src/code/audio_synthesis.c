@@ -665,7 +665,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex) {
     s32 pad1[3];
-    SoundFontSample* audioFontSample;
+    SoundFontSampleHeader* audioFontSample;
     AdpcmLoop* loopInfo;
     s32 nSamplesUntilLoopEnd;
     s32 nSamplesInThisIteration;
@@ -756,7 +756,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
         noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
         synthState->samplePosInt += nSamplesToLoad;
     } else {
-        audioFontSample = noteSubEu->sound.soundFontSound->sample;
+        audioFontSample = noteSubEu->sound.soundFontSound->sampleHeader;
         loopInfo = audioFontSample->loop;
         loopEndPos = loopInfo->end;
         sampleAddr = audioFontSample->sampleAddr;

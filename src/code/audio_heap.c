@@ -5,7 +5,7 @@ void AudioHeap_InitSampleCaches(u32 persistentSize, u32 temporarySize);
 SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size);
 SampleCacheEntry* AudioHeap_AllocPersistentSampleCacheEntry(u32 size);
 void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry);
-void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSample* sample);
+void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSampleHeader* sampleHeader);
 void AudioHeap_DiscardSampleCaches(void);
 void AudioHeap_DiscardSampleBank(s32 sampleBankId);
 void AudioHeap_DiscardSampleBanks(void);
@@ -931,13 +931,13 @@ void AudioHeap_Init(void) {
         reverb->bufSizePerChan = reverb->windowSize;
         reverb->framesToIgnore = 2;
         reverb->resampleFlags = 1;
-        reverb->sound.sample = &reverb->sample;
-        reverb->sample.loop = &reverb->loop;
+        reverb->sound.sampleHeader = &reverb->sampleHeader;
+        reverb->sampleHeader.loop = &reverb->loop;
         reverb->sound.tuning = 1.0f;
-        reverb->sample.codec = CODEC_REVERB;
-        reverb->sample.medium = MEDIUM_RAM;
-        reverb->sample.size = reverb->windowSize * 2;
-        reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
+        reverb->sampleHeader.codec = CODEC_REVERB;
+        reverb->sampleHeader.medium = MEDIUM_RAM;
+        reverb->sampleHeader.size = reverb->windowSize * 2;
+        reverb->sampleHeader.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
         reverb->loop.count = 1;
         reverb->loop.end = reverb->windowSize;
@@ -1100,7 +1100,7 @@ SampleCacheEntry* AudioHeap_AllocTemporarySampleCacheEntry(u32 size) {
         preload = &gAudioContext.preloadSampleStack[i];
         if (preload->isFree == false) {
             start = preload->ramAddr;
-            end = preload->ramAddr + preload->sample->size - 1;
+            end = preload->ramAddr + preload->sampleHeader->size - 1;
 
             if (end < allocBefore && start < allocBefore) {
                 continue;
@@ -1159,26 +1159,26 @@ void AudioHeap_UnapplySampleCacheForFont(SampleCacheEntry* entry, s32 fontId) {
         inst = Audio_GetInstrumentInner(fontId, instId);
         if (inst != NULL) {
             if (inst->normalRangeLo != 0) {
-                AudioHeap_UnapplySampleCache(entry, inst->lowNotesSound.sample);
+                AudioHeap_UnapplySampleCache(entry, inst->lowNotesSound.sampleHeader);
             }
             if (inst->normalRangeHi != 0x7F) {
-                AudioHeap_UnapplySampleCache(entry, inst->highNotesSound.sample);
+                AudioHeap_UnapplySampleCache(entry, inst->highNotesSound.sampleHeader);
             }
-            AudioHeap_UnapplySampleCache(entry, inst->normalNotesSound.sample);
+            AudioHeap_UnapplySampleCache(entry, inst->normalNotesSound.sampleHeader);
         }
     }
 
     for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
         drum = Audio_GetDrum(fontId, drumId);
         if (drum != NULL) {
-            AudioHeap_UnapplySampleCache(entry, drum->sound.sample);
+            AudioHeap_UnapplySampleCache(entry, drum->sound.sampleHeader);
         }
     }
 
     for (sfxId = 0; sfxId < gAudioContext.soundFonts[fontId].numSfx; sfxId++) {
         sfx = Audio_GetSfx(fontId, sfxId);
         if (sfx != NULL) {
-            AudioHeap_UnapplySampleCache(entry, sfx->sample);
+            AudioHeap_UnapplySampleCache(entry, sfx->sampleHeader);
         }
     }
 }
@@ -1204,11 +1204,11 @@ void AudioHeap_DiscardSampleCacheEntry(SampleCacheEntry* entry) {
     }
 }
 
-void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSample* sample) {
-    if (sample != NULL) {
-        if (sample->sampleAddr == entry->allocatedAddr) {
-            sample->sampleAddr = entry->sampleAddr;
-            sample->medium = entry->origMedium;
+void AudioHeap_UnapplySampleCache(SampleCacheEntry* entry, SoundFontSampleHeader* sampleHeader) {
+    if (sampleHeader != NULL) {
+        if (sampleHeader->sampleAddr == entry->allocatedAddr) {
+            sampleHeader->sampleAddr = entry->sampleAddr;
+            sampleHeader->medium = entry->origMedium;
         }
     }
 }
@@ -1275,14 +1275,14 @@ typedef struct {
     u8 newMedium;
 } StorageChange;
 
-void AudioHeap_ChangeStorage(StorageChange* change, SoundFontSample* sample) {
-    if (sample != NULL) {
+void AudioHeap_ChangeStorage(StorageChange* change, SoundFontSampleHeader* sampleHeader) {
+    if (sampleHeader != NULL) {
         u32 start = change->oldAddr;
         u32 end = change->oldAddr + change->size;
 
-        if (start <= (u32)sample->sampleAddr && (u32)sample->sampleAddr < end) {
-            sample->sampleAddr = sample->sampleAddr - start + change->newAddr;
-            sample->medium = change->newMedium;
+        if (start <= (u32)sampleHeader->sampleAddr && (u32)sampleHeader->sampleAddr < end) {
+            sampleHeader->sampleAddr = sampleHeader->sampleAddr - start + change->newAddr;
+            sampleHeader->medium = change->newMedium;
         }
     }
 }
@@ -1358,26 +1358,26 @@ void AudioHeap_ApplySampleBankCacheInternal(s32 apply, s32 sampleBankId) {
                 inst = Audio_GetInstrumentInner(fontId, instId);
                 if (inst != NULL) {
                     if (inst->normalRangeLo != 0) {
-                        AudioHeap_ChangeStorage(&change, inst->lowNotesSound.sample);
+                        AudioHeap_ChangeStorage(&change, inst->lowNotesSound.sampleHeader);
                     }
                     if (inst->normalRangeHi != 0x7F) {
-                        AudioHeap_ChangeStorage(&change, inst->highNotesSound.sample);
+                        AudioHeap_ChangeStorage(&change, inst->highNotesSound.sampleHeader);
                     }
-                    AudioHeap_ChangeStorage(&change, inst->normalNotesSound.sample);
+                    AudioHeap_ChangeStorage(&change, inst->normalNotesSound.sampleHeader);
                 }
             }
 
             for (drumId = 0; drumId < gAudioContext.soundFonts[fontId].numDrums; drumId++) {
                 drum = Audio_GetDrum(fontId, drumId);
                 if (drum != NULL) {
-                    AudioHeap_ChangeStorage(&change, drum->sound.sample);
+                    AudioHeap_ChangeStorage(&change, drum->sound.sampleHeader);
                 }
             }
 
             for (sfxId = 0; sfxId < gAudioContext.soundFonts[fontId].numSfx; sfxId++) {
                 sfx = Audio_GetSfx(fontId, sfxId);
                 if (sfx != NULL) {
-                    AudioHeap_ChangeStorage(&change, sfx->sample);
+                    AudioHeap_ChangeStorage(&change, sfx->sampleHeader);
                 }
             }
         }
