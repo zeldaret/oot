@@ -22,7 +22,7 @@ typedef struct {
     /* 0x14 */ u32 medium2;
 } SampleBankRelocInfo; // size = 0x18
 
-// opaque type for unpatched sound font data (should maybe get rid of this?)
+// opaque type for soundfont data loaded into ram (should maybe get rid of this?)
 typedef void SoundFontData;
 
 /* forward declarations */
