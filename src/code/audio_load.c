@@ -895,7 +895,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
             // Relocate the instrument offset to a pointer (ramAddr)
             // Overwrite the offset in fontData with this new pointer
             fontDataStartAddr[i] = BASE_OFFSET(fontDataStartAddr[i]);
-            // Transfer this pointer to intr
+            // Transfer this pointer to inst
             inst = fontDataStartAddr[i];
             // Ensure that the instrument is not already relocated
             // Just in case the same instrument is in the instrument list multiple times
