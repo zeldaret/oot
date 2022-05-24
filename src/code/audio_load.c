@@ -787,7 +787,7 @@ AudioTable* AudioLoad_GetLoadTable(s32 tableType) {
     return table;
 }
 
-void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, RelocInfo* relocInfo) {
+void AudioLoad_RelocateFont(s32 fontId, SoundFontData* mem, RelocInfo* relocInfo) {
     u32 reloc;
     u32 reloc2;
     Instrument* inst;
@@ -797,11 +797,10 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, RelocInfo* relo
     s32 numDrums = gAudioContext.soundFonts[fontId].numDrums;
     s32 numInstruments = gAudioContext.soundFonts[fontId].numInstruments;
     s32 numSfx = gAudioContext.soundFonts[fontId].numSfx;
-    void** ptrs = (void**)fontData;
+    void** ptrs = (void**)mem;
 
-#define BASE_OFFSET(x) (void*)((u32)(x) + (u32)(fontData))
+#define BASE_OFFSET(x) (void*)((u32)(x) + (u32)(mem))
 
-    // relocate drums
     reloc2 = ptrs[0];
     if (1) {}
     if ((reloc2 != 0) && (numDrums != 0)) {
@@ -812,7 +811,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, RelocInfo* relo
                 reloc = BASE_OFFSET(reloc);
                 ((Drum**)ptrs[0])[i] = drum = reloc;
                 if (!drum->loaded) {
-                    AudioLoad_RelocateSample(&drum->sound, fontData, relocInfo);
+                    AudioLoad_RelocateSample(&drum->sound, mem, relocInfo);
                     reloc = drum->envelope;
                     drum->envelope = BASE_OFFSET(reloc);
                     drum->loaded = 1;
@@ -821,7 +820,6 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, RelocInfo* relo
         }
     }
 
-    // relocate sfxs
     reloc2 = ptrs[1];
     if (1) {}
     if ((reloc2 != 0) && (numSfx != 0)) {
@@ -831,7 +829,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, RelocInfo* relo
             if (reloc != 0) {
                 sfx = reloc;
                 if (sfx->sample != NULL) {
-                    AudioLoad_RelocateSample(sfx, fontData, relocInfo);
+                    AudioLoad_RelocateSample(sfx, mem, relocInfo);
                 }
             }
         }
@@ -841,18 +839,17 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, RelocInfo* relo
         numInstruments = 0x7E;
     }
 
-    // relocate instruments
     for (i = 2; i <= 2 + numInstruments - 1; i++) {
         if (ptrs[i] != NULL) {
             ptrs[i] = BASE_OFFSET(ptrs[i]);
             inst = ptrs[i];
             if (!inst->loaded) {
                 if (inst->normalRangeLo != 0) {
-                    AudioLoad_RelocateSample(&inst->lowNotesSound, fontData, relocInfo);
+                    AudioLoad_RelocateSample(&inst->lowNotesSound, mem, relocInfo);
                 }
-                AudioLoad_RelocateSample(&inst->normalNotesSound, fontData, relocInfo);
+                AudioLoad_RelocateSample(&inst->normalNotesSound, mem, relocInfo);
                 if (inst->normalRangeHi != 0x7F) {
-                    AudioLoad_RelocateSample(&inst->highNotesSound, fontData, relocInfo);
+                    AudioLoad_RelocateSample(&inst->highNotesSound, mem, relocInfo);
                 }
 
                 reloc = inst->envelope;
@@ -1607,12 +1604,10 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* mem, RelocIn
                     sample->sampleAddr = RELOC(sample->sampleAddr, relocInfo->baseAddr1);
                     sample->medium = relocInfo->medium1;
                     break;
-
                 case 1:
                     sample->sampleAddr = RELOC(sample->sampleAddr, relocInfo->baseAddr2);
                     sample->medium = relocInfo->medium2;
                     break;
-
                 case 2:
                 case 3:
                     // Invalid? This leaves sample->medium as MEDIUM_CART and MEDIUM_DISK_DRIVE
