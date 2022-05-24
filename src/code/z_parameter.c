@@ -2156,7 +2156,7 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
 }
 
 /**
- * Returns false if player is out of health
+ * @return false if player is out of health
  */
 s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 heartCount;
@@ -2275,7 +2275,7 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
 void Magic_Fill(PlayState* play) {
     if (gSaveContext.isMagicAcquired) {
         gSaveContext.prevMagicState = gSaveContext.magicState;
-        gSaveContext.magicCapacityTarget = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
+        gSaveContext.magicFillTarget = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
         gSaveContext.magicState = MAGIC_STATE_FILL;
     }
 }
@@ -2291,9 +2291,9 @@ void Magic_Reset(PlayState* play) {
 
 /**
  * Request to either increase or consume magic.
- * amount is the positive-valued amount to either increase or decrease magic by
- * type is how the magic is increased or consumed.
- * Returns false if the request failed
+ * @param amount the positive-valued amount to either increase or decrease magic by
+ * @param type how the magic is increased or consumed.
+ * @return false if the request failed
  */
 s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
     if (!gSaveContext.isMagicAcquired) {
@@ -2353,12 +2353,10 @@ s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
                 } else {
                     return false;
                 }
+            } else if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
+                return true;
             } else {
-                if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return false;
             }
 
         case MAGIC_CONSUME_WAIT_PREVIEW:
@@ -2411,13 +2409,13 @@ void Magic_Update(PlayState* play) {
     s16 borderChangeR;
     s16 borderChangeG;
     s16 borderChangeB;
-    s16 temp; // magicCapacityTarget or magicBorderIndex
+    s16 temp; // target for magicCapacity, or magicBorderIndex
 
     switch (gSaveContext.magicState) {
         case MAGIC_STATE_STEP_CAPACITY:
-            // Step magicCapacity to what is magicCapacityTarget
-            // This changes the width of the magic bar drawn
-            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER; // magicCapacityTarget
+            // Step magicCapacity to the capacity determined by magicLevel
+            // This changes the width of the magic meter drawn
+            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER;
             if (gSaveContext.magicCapacity != temp) {
                 if (gSaveContext.magicCapacity < temp) {
                     gSaveContext.magicCapacity += 8;
@@ -2431,12 +2429,14 @@ void Magic_Update(PlayState* play) {
                     }
                 }
             } else {
+                // Once the capacity has reached its target,
+                // follow up by filling magic to magicFillTarget
                 gSaveContext.magicState = MAGIC_STATE_FILL;
             }
             break;
 
         case MAGIC_STATE_FILL:
-            // Add magic until full capacity is reached
+            // Add magic until magicFillTarget is reached
             gSaveContext.magic += 4;
 
             if (gSaveContext.gameMode == 0 && gSaveContext.sceneSetupIndex < 4) {
@@ -2445,10 +2445,10 @@ void Magic_Update(PlayState* play) {
             }
 
             // "Storage  MAGIC_NOW=%d (%d)"
-            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicCapacityTarget);
+            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicFillTarget);
 
-            if (gSaveContext.magic >= gSaveContext.magicCapacityTarget) {
-                gSaveContext.magic = gSaveContext.magicCapacityTarget;
+            if (gSaveContext.magic >= gSaveContext.magicFillTarget) {
+                gSaveContext.magic = gSaveContext.magicFillTarget;
                 gSaveContext.magicState = gSaveContext.prevMagicState;
                 gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
             }
@@ -2633,7 +2633,7 @@ void Magic_DrawMeter(PlayState* play) {
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
 
         if (gSaveContext.magicState == MAGIC_STATE_METER_FLASH_2) {
-            // Yellow part of the bar indicating the amount of magic to be subtracted
+            // Yellow part of the meter indicating the amount of magic to be subtracted
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
 
             gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
@@ -2644,7 +2644,7 @@ void Magic_DrawMeter(PlayState* play) {
                                 (R_MAGIC_FILL_X + gSaveContext.magic) << 2, (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0,
                                 0, 1 << 10, 1 << 10);
 
-            // Fill the rest of the bar with the normal magic color
+            // Fill the rest of the meter with the normal magic color
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
                             interfaceCtx->magicAlpha);
@@ -2653,7 +2653,7 @@ void Magic_DrawMeter(PlayState* play) {
                                 (R_MAGIC_FILL_X + gSaveContext.magicTarget) << 2, (magicMeterY + 10) << 2,
                                 G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         } else {
-            // Fill the whole bar with the normal magic color
+            // Fill the whole meter with the normal magic color
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
                             interfaceCtx->magicAlpha);
 
@@ -4126,7 +4126,7 @@ void Interface_Update(PlayState* play) {
             osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
             osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.magic);
-            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicCapacityTarget);
+            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
             osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.magicCapacity);
             osSyncPrintf(VT_RST);
         }
