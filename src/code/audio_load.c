@@ -827,7 +827,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
             // Some drum data entries are empty.
             // This is represented by 0 offset in the drum offset list
             if (soundOffset != 0) {
-                // Relocated the drum offset to a pointer (ramAddr)
+                // Relocate the drum offset to a pointer (ramAddr)
                 soundOffset = BASE_OFFSET(soundOffset);
                 // Overwrite the offset in fontData with this new pointer
                 ((Drum**)fontDataStartAddr[0])[i] = drum = soundOffset;
@@ -838,7 +838,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
                     AudioLoad_RelocateSample(&drum->sound, fontData, relocInfo);
                     // Get the offset to the envelope used by the drum
                     soundOffset = drum->envelope;
-                    // Relocated the envelope offset to a pointer (ramAddr)
+                    // Relocate the envelope offset to a pointer (ramAddr)
                     // Overwrite the offset in fontData with this new pointer
                     drum->envelope = BASE_OFFSET(soundOffset);
                     // This drum data is now processed and relocated
@@ -892,7 +892,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
         // Some instrument data entries are empty.
         // This is represented by 0 offset in the instrument offset list
         if (fontDataStartAddr[i] != NULL) {
-            // Relocated the instrument offset to a pointer (ramAddr)
+            // Relocate the instrument offset to a pointer (ramAddr)
             // Overwrite the offset in fontData with this new pointer
             fontDataStartAddr[i] = BASE_OFFSET(fontDataStartAddr[i]);
             // Transfer this pointer to intr
@@ -920,7 +920,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
 
                 // Get the offset to the envelope used by the instrument
                 soundOffset = inst->envelope;
-                // Relocated the envelope offset to a pointer (ramAddr)
+                // Relocate the envelope offset to a pointer (ramAddr)
                 // Overwrite the offset in fontData with this new pointer
                 inst->envelope = BASE_OFFSET(soundOffset);
                 // This instrument data is now processed and relocated
@@ -931,6 +931,7 @@ void AudioLoad_RelocateFont(s32 fontId, SoundFontData* fontData, SampleBankReloc
 
 #undef BASE_OFFSET
 
+    // Store the relocated pointers to the sound lists in the soundFonts meta-data struct
     gAudioContext.soundFonts[fontId].drums = (Drum**)fontDataStartAddr[0];
     gAudioContext.soundFonts[fontId].soundEffects = (SoundFontSound*)fontDataStartAddr[1];
     gAudioContext.soundFonts[fontId].instruments = (Instrument**)(fontDataStartAddr + 2);
@@ -1699,9 +1700,6 @@ void AudioLoad_RelocateSample(SoundFontSound* sound, SoundFontData* fontData, Sa
 }
 
 /**
- * Read and extract information from soundFont binary loaded into ram.
- * Also relocate offsets into pointers within this loaded soundFont
- *
  * @param fontId index of font being processed
  * @param fontData ram address of raw soundfont binary loaded into cache
  * @param relocInfo information on the sampleBank containing raw audio samples
