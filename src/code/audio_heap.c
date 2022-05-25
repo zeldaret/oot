@@ -907,8 +907,10 @@ void AudioHeap_Init(void) {
                                                                      gAudioContext.maxAudioCmds * sizeof(u64));
     }
 
+    // Initialize the decay rate table for adsr
     gAudioContext.decayRateTable = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
     AudioHeap_InitDecayRateTable();
+
     for (i = 0; i < 4; i++) {
         gAudioContext.synthesisReverbs[i].useReverb = 0;
     }
