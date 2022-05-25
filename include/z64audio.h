@@ -574,23 +574,17 @@ typedef struct {
     /* 0x34 */ s32 temporarySampleCacheMem;
 } AudioSpec; // size = 0x38
 
-/**
- * The audio buffer stores the fully processed digital audio before it is sent to the audio interface (AI), then to the
- * digital-analog converter (DAC), then to play on the speakers. The audio buffer is written to by the rsp after
- * processing audio commands, and the audio buffer is read by AI which sends the data to the DAC.
- * This struct parameterizes that buffer.
- */
 typedef struct {
     /* 0x00 */ s16 specUnk4;
-    /* 0x02 */ u16 frequency; // Target sampling rate in Hz
-    /* 0x04 */ u16 aiFrequency; // True sampling rate set to the audio interface (AI) for the audio digital-analog converter (DAC)
+    /* 0x02 */ u16 frequency;
+    /* 0x04 */ u16 aiFrequency;
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
     /* 0x0C */ s16 updatesPerFrame; // for each frame of the audio thread (default 60 fps), number of updates to process audio
-    /* 0x0E */ s16 samplesPerUpdate; // number of sample bytes to process each update
-    /* 0x10 */ s16 samplesPerUpdateMax; // maxiumum number of sample bytes to process each update
-    /* 0x12 */ s16 samplesPerUpdateMin; // minimum number of sample bytes to process each update
+    /* 0x0E */ s16 samplesPerUpdate;
+    /* 0x10 */ s16 samplesPerUpdateMax;
+    /* 0x12 */ s16 samplesPerUpdateMin;
     /* 0x14 */ s16 numSequencePlayers;
     /* 0x18 */ f32 resampleRate;
     /* 0x1C */ f32 updatesPerFrameInv; // inverse (reciprocal) of updates per frame
