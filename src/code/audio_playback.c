@@ -125,7 +125,7 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
 }
 
 void Audio_NoteInit(Note* note) {
-    if (note->playbackState.parentLayer->adsr.decayRateIndex == 0) {
+    if (note->playbackState.parentLayer->adsr.decayIndex == 0) {
         Audio_AdsrInit(&note->playbackState.adsr, note->playbackState.parentLayer->channel->adsr.envelope,
                        &note->playbackState.adsrVolScaleUnused);
     } else {
@@ -506,10 +506,10 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
         } else {
             note->playbackState.unk_04 = 1;
             note->playbackState.adsr.action.s.decay = true;
-            if (layer->adsr.decayRateIndex == 0) {
-                note->playbackState.adsr.fadeOutVel = gAudioContext.decayRateTable[layer->channel->adsr.decayRateIndex];
+            if (layer->adsr.decayIndex == 0) {
+                note->playbackState.adsr.fadeOutVel = gAudioContext.adsrDecayTable[layer->channel->adsr.decayIndex];
             } else {
-                note->playbackState.adsr.fadeOutVel = gAudioContext.decayRateTable[layer->adsr.decayRateIndex];
+                note->playbackState.adsr.fadeOutVel = gAudioContext.adsrDecayTable[layer->adsr.decayIndex];
             }
             note->playbackState.adsr.sustain =
                 ((f32)(s32)(layer->channel->adsr.sustain) * note->playbackState.adsr.current) / 256.0f;
