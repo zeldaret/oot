@@ -12,12 +12,12 @@ void AudioHeap_DiscardSampleBanks(void);
 
 /**
  * Effectively scales updatesPerFrame by the reciprocal of scaleInv
- * updatesPerFrameScaled is just updatesPerFrame scaled down by a factor of 256.0f
- * i.e. (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameScaled)
+ * updatesPerFrameLargeScaled is just updatesPerFrame scaled down by a factor of 256.0f
+ * i.e. (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameLargeScaled)
  * is just a float representation of updatesPerFrame.
  */
 f32 AudioHeap_CalculateDecayRate(f32 scaleInv) {
-    return (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameScaled) / scaleInv;
+    return (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameLargeScaled) / scaleInv;
 }
 
 /**
@@ -835,9 +835,10 @@ void AudioHeap_Init(void) {
     gAudioContext.audioBufferParameters.samplesPerUpdateMax = gAudioContext.audioBufferParameters.samplesPerUpdate + 8;
     gAudioContext.audioBufferParameters.samplesPerUpdateMin = gAudioContext.audioBufferParameters.samplesPerUpdate - 8;
     gAudioContext.audioBufferParameters.resampleRate = 32000.0f / (s32)gAudioContext.audioBufferParameters.frequency;
-    gAudioContext.audioBufferParameters.updatesPerFrameScaled =
+    gAudioContext.audioBufferParameters.updatesPerFrameLargeScaled =
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
-    gAudioContext.audioBufferParameters.unk_24 = gAudioContext.audioBufferParameters.updatesPerFrame * 0.25f;
+    gAudioContext.audioBufferParameters.updatesPerFrameSmallScaled =
+        gAudioContext.audioBufferParameters.updatesPerFrame * (1.0f / 4.0f);
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.sampleDmaBufSize1 = spec->sampleDmaBufSize1;
     gAudioContext.sampleDmaBufSize2 = spec->sampleDmaBufSize2;
