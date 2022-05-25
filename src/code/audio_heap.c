@@ -908,7 +908,7 @@ void AudioHeap_Init(void) {
     }
 
     // Initialize the decay rate table for adsr
-    gAudioContext.decayRateTable = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
+    gAudioContext.decayRateTable = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 256 * sizeof(f32));
     AudioHeap_InitDecayRateTable();
 
     for (i = 0; i < 4; i++) {
