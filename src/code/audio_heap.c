@@ -11,14 +11,13 @@ void AudioHeap_DiscardSampleBank(s32 sampleBankId);
 void AudioHeap_DiscardSampleBanks(void);
 
 /**
- * Effectively scale updatesPerFrame by the reciprocal of scaleInv
+ * Effectively scales updatesPerFrame by the reciprocal of scaleInv
  * updatesPerFrameScaled is just updatesPerFrame scaled down by a factor of 256.0f
- * The return scales that back up by a factor of 256.0f:
  * i.e. (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameScaled)
  * is just a float representation of updatesPerFrame.
  */
 f32 AudioHeap_CalculateDecayRate(f32 scaleInv) {
-    return 256.0f * gAudioContext.audioBufferParameters.updatesPerFrameScaled / scaleInv;
+    return (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameScaled) / scaleInv;
 }
 
 /**
