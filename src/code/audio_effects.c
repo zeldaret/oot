@@ -259,7 +259,7 @@ f32 Audio_AdsrUpdate(AdsrState* adsr) {
                     break;
 
                 default:
-                    adsr->delay *= gAudioContext.audioBufferParameters.updatesPerFrameSmallScaled;
+                    adsr->delay *= gAudioContext.audioBufferParameters.updatesPerFrameScaled;
                     if (adsr->delay == 0) {
                         adsr->delay = 1;
                     }

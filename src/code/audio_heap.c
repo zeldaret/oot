@@ -11,13 +11,12 @@ void AudioHeap_DiscardSampleBank(s32 sampleBankId);
 void AudioHeap_DiscardSampleBanks(void);
 
 /**
- * Effectively scales updatesPerFrame by the reciprocal of scaleInv
- * updatesPerFrameLargeScaled is just updatesPerFrame scaled down by a factor of 256.0f
- * i.e. (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameLargeScaled)
- * is just a float representation of updatesPerFrame.
+ * Effectively scales updatesPerFrameInv by the reciprocal of scaleInv
+ * updatesPerFrameInvScaled is just updatesPerFrameInv scaled down by a factor of 256.0f
+ * i.e. (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameInvScaled) is just updatesPerFrameInvScaled.
  */
 f32 AudioHeap_CalculateDecayRate(f32 scaleInv) {
-    return (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameLargeScaled) / scaleInv;
+    return (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameInvScaled) / scaleInv;
 }
 
 /**
@@ -835,10 +834,10 @@ void AudioHeap_Init(void) {
     gAudioContext.audioBufferParameters.samplesPerUpdateMax = gAudioContext.audioBufferParameters.samplesPerUpdate + 8;
     gAudioContext.audioBufferParameters.samplesPerUpdateMin = gAudioContext.audioBufferParameters.samplesPerUpdate - 8;
     gAudioContext.audioBufferParameters.resampleRate = 32000.0f / (s32)gAudioContext.audioBufferParameters.frequency;
-    gAudioContext.audioBufferParameters.updatesPerFrameLargeScaled =
+    gAudioContext.audioBufferParameters.updatesPerFrameInvScaled =
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
-    gAudioContext.audioBufferParameters.updatesPerFrameSmallScaled =
-        gAudioContext.audioBufferParameters.updatesPerFrame * (1.0f / 4.0f);
+    gAudioContext.audioBufferParameters.updatesPerFrameScaled =
+        gAudioContext.audioBufferParameters.updatesPerFrame / 4.0f;
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.sampleDmaBufSize1 = spec->sampleDmaBufSize1;
     gAudioContext.sampleDmaBufSize2 = spec->sampleDmaBufSize2;
