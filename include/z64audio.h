@@ -193,7 +193,7 @@ typedef struct {
     /* 0x00 */ u8 loaded;
     /* 0x01 */ u8 normalRangeLo;
     /* 0x02 */ u8 normalRangeHi;
-    /* 0x03 */ u8 releaseRate;
+    /* 0x03 */ u8 decayRateIndex;
     /* 0x04 */ AdsrEnvelope* envelope;
     /* 0x08 */ SoundFontSound lowNotesSound;
     /* 0x10 */ SoundFontSound normalNotesSound;
@@ -201,7 +201,7 @@ typedef struct {
 } Instrument; // size = 0x20
 
 typedef struct {
-    /* 0x00 */ u8 releaseRate;
+    /* 0x00 */ u8 decayRateIndex;
     /* 0x01 */ u8 pan;
     /* 0x02 */ u8 loaded;
     /* 0x04 */ SoundFontSound sound;
@@ -271,7 +271,7 @@ typedef struct {
 } SequencePlayer; // size = 0x160
 
 typedef struct {
-    /* 0x0 */ u8 releaseRate;
+    /* 0x0 */ u8 decayRateIndex;
     /* 0x1 */ u8 sustain;
     /* 0x4 */ AdsrEnvelope* envelope;
 } AdsrSettings; // size = 0x8
@@ -574,23 +574,29 @@ typedef struct {
     /* 0x34 */ s32 temporarySampleCacheMem;
 } AudioSpec; // size = 0x38
 
+/**
+ * The audio buffer stores the fully processed digital audio before it is sent to the audio interface (AI), then to the
+ * digital-analog converter (DAC), then to play on the speakers. The audio buffer is written to by the rsp after
+ * processing audio commands, and the audio buffer is read by AI which sends the data to the DAC.
+ * This struct parameterizes that buffer.
+ */
 typedef struct {
     /* 0x00 */ s16 specUnk4;
-    /* 0x02 */ u16 frequency;
-    /* 0x04 */ u16 aiFrequency;
+    /* 0x02 */ u16 frequency; // Target sampling rate in Hz
+    /* 0x04 */ u16 aiFrequency; // True sampling rate set to the audio interface (AI) for the audio digital-analog converter (DAC)
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
-    /* 0x0C */ s16 updatesPerFrame;
-    /* 0x0E */ s16 samplesPerUpdate;
-    /* 0x10 */ s16 samplesPerUpdateMax;
-    /* 0x12 */ s16 samplesPerUpdateMin;
+    /* 0x0C */ s16 updatesPerFrame; // for each frame of the audio thread (default 60 fps), number of updates to process audio
+    /* 0x0E */ s16 samplesPerUpdate; // number of sample bytes to process each update
+    /* 0x10 */ s16 samplesPerUpdateMax; // maxiumum number of sample bytes to process each update
+    /* 0x12 */ s16 samplesPerUpdateMin; // minimum number of sample bytes to process each update
     /* 0x14 */ s16 numSequencePlayers;
     /* 0x18 */ f32 resampleRate;
-    /* 0x1C */ f32 updatesPerFrameInv;
-    /* 0x20 */ f32 unkUpdatesPerFrameScaled;
+    /* 0x1C */ f32 updatesPerFrameInv; // inverse (reciprocal) of updates per frame
+    /* 0x20 */ f32 updatesPerFrameScaled; // updatesPerFrame scaled up by a factor of 256
     /* 0x24 */ f32 unk_24;
-} AudioBufferParameters;
+} AudioBufferParameters; // size = 0x28
 
 typedef struct {
     /* 0x0 */ u8* start;
@@ -856,7 +862,7 @@ typedef struct {
     /* 0x3518 */ volatile u8 resetStatus;
     /* 0x3519 */ u8 audioResetSpecIdToLoad;
     /* 0x351C */ s32 audioResetFadeOutFramesLeft;
-    /* 0x3520 */ f32* unk_3520;
+    /* 0x3520 */ f32* decayRateTable;
     /* 0x3524 */ u8* audioHeap;
     /* 0x3528 */ u32 audioHeapSize;
     /* 0x352C */ Note* notes;

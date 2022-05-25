@@ -10,32 +10,42 @@ void AudioHeap_DiscardSampleCaches(void);
 void AudioHeap_DiscardSampleBank(s32 sampleBankId);
 void AudioHeap_DiscardSampleBanks(void);
 
-f32 func_800DDE20(f32 arg0) {
-    return 256.0f * gAudioContext.audioBufferParameters.unkUpdatesPerFrameScaled / arg0;
+/**
+ * Effectively scale updatesPerFrame by the reciprocal of scaleInv
+ * updatesPerFrameScaled is just updatesPerFrame scaled down by a factor of 256.0f
+ * The return scales that back up by a factor of 256.0f:
+ * i.e. (256.0f * gAudioContext.audioBufferParameters.updatesPerFrameScaled)
+ * is just a float representation of updatesPerFrame.
+ */
+f32 AudioHeap_CalculateDecayRate(f32 scaleInv) {
+    return 256.0f * gAudioContext.audioBufferParameters.updatesPerFrameScaled / scaleInv;
 }
 
-void func_800DDE3C(void) {
+/**
+ * Initialize the decay rate table used for decaying notes as part of adsr
+ */
+void AudioHeap_InitDecayRateTable(void) {
     s32 i;
 
-    gAudioContext.unk_3520[255] = func_800DDE20(0.25f);
-    gAudioContext.unk_3520[254] = func_800DDE20(0.33f);
-    gAudioContext.unk_3520[253] = func_800DDE20(0.5f);
-    gAudioContext.unk_3520[252] = func_800DDE20(0.66f);
-    gAudioContext.unk_3520[251] = func_800DDE20(0.75f);
+    gAudioContext.decayRateTable[255] = AudioHeap_CalculateDecayRate(0.25f);
+    gAudioContext.decayRateTable[254] = AudioHeap_CalculateDecayRate(0.33f);
+    gAudioContext.decayRateTable[253] = AudioHeap_CalculateDecayRate(0.5f);
+    gAudioContext.decayRateTable[252] = AudioHeap_CalculateDecayRate(0.66f);
+    gAudioContext.decayRateTable[251] = AudioHeap_CalculateDecayRate(0.75f);
 
     for (i = 128; i < 251; i++) {
-        gAudioContext.unk_3520[i] = func_800DDE20(251 - i);
+        gAudioContext.decayRateTable[i] = AudioHeap_CalculateDecayRate(251 - i);
     }
 
     for (i = 16; i < 128; i++) {
-        gAudioContext.unk_3520[i] = func_800DDE20(4 * (143 - i));
+        gAudioContext.decayRateTable[i] = AudioHeap_CalculateDecayRate(4 * (143 - i));
     }
 
     for (i = 1; i < 16; i++) {
-        gAudioContext.unk_3520[i] = func_800DDE20(60 * (23 - i));
+        gAudioContext.decayRateTable[i] = AudioHeap_CalculateDecayRate(60 * (23 - i));
     }
 
-    gAudioContext.unk_3520[0] = 0.0f;
+    gAudioContext.decayRateTable[0] = 0.0f;
 }
 
 void AudioHeap_ResetLoadStatus(void) {
@@ -826,7 +836,7 @@ void AudioHeap_Init(void) {
     gAudioContext.audioBufferParameters.samplesPerUpdateMax = gAudioContext.audioBufferParameters.samplesPerUpdate + 8;
     gAudioContext.audioBufferParameters.samplesPerUpdateMin = gAudioContext.audioBufferParameters.samplesPerUpdate - 8;
     gAudioContext.audioBufferParameters.resampleRate = 32000.0f / (s32)gAudioContext.audioBufferParameters.frequency;
-    gAudioContext.audioBufferParameters.unkUpdatesPerFrameScaled =
+    gAudioContext.audioBufferParameters.updatesPerFrameScaled =
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.audioBufferParameters.unk_24 = gAudioContext.audioBufferParameters.updatesPerFrame * 0.25f;
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
@@ -898,8 +908,8 @@ void AudioHeap_Init(void) {
                                                                      gAudioContext.maxAudioCmds * sizeof(u64));
     }
 
-    gAudioContext.unk_3520 = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
-    func_800DDE3C();
+    gAudioContext.decayRateTable = AudioHeap_Alloc(&gAudioContext.notesAndBuffersPool, 0x100 * sizeof(f32));
+    AudioHeap_InitDecayRateTable();
     for (i = 0; i < 4; i++) {
         gAudioContext.synthesisReverbs[i].useReverb = 0;
     }
