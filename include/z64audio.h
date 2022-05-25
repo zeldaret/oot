@@ -587,7 +587,7 @@ typedef struct {
     /* 0x12 */ s16 samplesPerUpdateMin;
     /* 0x14 */ s16 numSequencePlayers;
     /* 0x18 */ f32 resampleRate;
-    /* 0x1C */ f32 updatesPerFrameInv; // inverse (reciprocal) of updates per frame
+    /* 0x1C */ f32 updatesPerFrameInv; // inverse (reciprocal) of updatesPerFrame
     /* 0x20 */ f32 updatesPerFrameLargeScaled; // updatesPerFrame scaled down by a factor of 256
     /* 0x24 */ f32 updatesPerFrameSmallScaled; // updatesPerFrame scaled down by a factor of 4
 } AudioBufferParameters; // size = 0x28
