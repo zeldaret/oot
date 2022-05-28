@@ -17,20 +17,20 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)
 
-void EnHy_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnHy_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx);
+void EnHy_Init(Actor* thisx, PlayState* play);
+void EnHy_Destroy(Actor* thisx, PlayState* play);
+void EnHy_Update(Actor* thisx, PlayState* play);
+void EnHy_Draw(Actor* thisx, PlayState* play);
 
-void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx);
-void func_80A7134C(EnHy* this, GlobalContext* globalCtx);
-void func_80A71530(EnHy* this, GlobalContext* globalCtx);
-void func_80A711B4(EnHy* this, GlobalContext* globalCtx);
-void func_80A712C0(EnHy* this, GlobalContext* globalCtx);
-void func_80A710F8(EnHy* this, GlobalContext* globalCtx);
-void func_80A7127C(EnHy* this, GlobalContext* globalCtx);
-void EnHy_DoNothing(EnHy* this, GlobalContext* globalCtx);
-void func_80A714C4(EnHy* this, GlobalContext* globalCtx);
+void EnHy_InitImpl(EnHy* this, PlayState* play);
+void func_80A7134C(EnHy* this, PlayState* play);
+void func_80A71530(EnHy* this, PlayState* play);
+void func_80A711B4(EnHy* this, PlayState* play);
+void func_80A712C0(EnHy* this, PlayState* play);
+void func_80A710F8(EnHy* this, PlayState* play);
+void func_80A7127C(EnHy* this, PlayState* play);
+void EnHy_DoNothing(EnHy* this, PlayState* play);
+void func_80A714C4(EnHy* this, PlayState* play);
 
 const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
@@ -351,22 +351,22 @@ static EnHyInit2Info sInit2Info[] = {
     /* ENHY_TYPE_AHG_20 */ { 20.0f, { 0.0f, 0.0f, -200.0f }, 0.01f, 0x06, 30.0f },
 };
 
-s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
+s32 EnHy_FindSkelAndHeadObjects(EnHy* this, PlayState* play) {
     u8 headInfoIndex = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
     u8 skelInfoIndex2 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex2;
     u8 skelInfoIndex1 = sModelInfo[this->actor.params & 0x7F].skelInfoIndex1;
 
-    this->objBankIndexSkel1 = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex1].objectId);
+    this->objBankIndexSkel1 = Object_GetIndex(&play->objectCtx, sSkeletonInfo[skelInfoIndex1].objectId);
     if (this->objBankIndexSkel1 < 0) {
         return false;
     }
 
-    this->objBankIndexSkel2 = Object_GetIndex(&globalCtx->objectCtx, sSkeletonInfo[skelInfoIndex2].objectId);
+    this->objBankIndexSkel2 = Object_GetIndex(&play->objectCtx, sSkeletonInfo[skelInfoIndex2].objectId);
     if (this->objBankIndexSkel2 < 0) {
         return false;
     }
 
-    this->objBankIndexHead = Object_GetIndex(&globalCtx->objectCtx, sHeadInfo[headInfoIndex].objectId);
+    this->objBankIndexHead = Object_GetIndex(&play->objectCtx, sHeadInfo[headInfoIndex].objectId);
     if (this->objBankIndexHead < 0) {
         return false;
     }
@@ -374,24 +374,24 @@ s32 EnHy_FindSkelAndHeadObjects(EnHy* this, GlobalContext* globalCtx) {
     return true;
 }
 
-s32 EnHy_AreSkelAndHeadObjectsLoaded(EnHy* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkel1)) {
+s32 EnHy_AreSkelAndHeadObjectsLoaded(EnHy* this, PlayState* play) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexSkel1)) {
         return false;
     }
 
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexSkel2)) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexSkel2)) {
         return false;
     }
 
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexHead)) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexHead)) {
         return false;
     }
 
     return true;
 }
 
-s32 EnHy_FindOsAnimeObject(EnHy* this, GlobalContext* globalCtx) {
-    this->objBankIndexOsAnime = Object_GetIndex(&globalCtx->objectCtx, OBJECT_OS_ANIME);
+s32 EnHy_FindOsAnimeObject(EnHy* this, PlayState* play) {
+    this->objBankIndexOsAnime = Object_GetIndex(&play->objectCtx, OBJECT_OS_ANIME);
 
     if (this->objBankIndexOsAnime < 0) {
         return false;
@@ -400,24 +400,24 @@ s32 EnHy_FindOsAnimeObject(EnHy* this, GlobalContext* globalCtx) {
     return true;
 }
 
-s32 EnHy_IsOsAnimeObjectLoaded(EnHy* this, GlobalContext* globalCtx) {
-    if (!Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndexOsAnime)) {
+s32 EnHy_IsOsAnimeObjectLoaded(EnHy* this, PlayState* play) {
+    if (!Object_IsLoaded(&play->objectCtx, this->objBankIndexOsAnime)) {
         return false;
     }
 
     return true;
 }
 
-void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
+void func_80A6F7CC(EnHy* this, PlayState* play, s32 getItemId) {
     this->unkGetItemId = getItemId;
-    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
+    func_8002F434(&this->actor, play, getItemId, this->actor.xzDistToPlayer + 1.0f,
                   fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
-u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
-    Player* player = GET_PLAYER(globalCtx);
+u16 func_80A6F810(PlayState* play, Actor* thisx) {
+    Player* player = GET_PLAYER(play);
     EnHy* this = (EnHy*)thisx;
-    u16 textId = Text_GetFaceReaction(globalCtx, (this->actor.params & 0x7F) + 37);
+    u16 textId = Text_GetFaceReaction(play, (this->actor.params & 0x7F) + 37);
 
     if (textId != 0) {
         if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
@@ -428,9 +428,9 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
 
     switch (this->actor.params & 0x7F) {
         case ENHY_TYPE_AOB:
-            if (globalCtx->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneNum == SCENE_KAKARIKO) {
                 return (this->unk_330 & EVENTCHKINF_6B_MASK) ? 0x508D : (GET_INFTABLE(INFTABLE_CB) ? 0x508C : 0x508B);
-            } else if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
+            } else if (play->sceneNum == SCENE_MARKET_DAY) {
                 return GET_EVENTINF(EVENTINF_30) ? 0x709B : 0x709C;
             } else if (gSaveContext.dogIsLost) {
                 s16 followingDog = (gSaveContext.dogParams & 0xF00) >> 8;
@@ -451,9 +451,9 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C0) ? 0x7017 : 0x7016;
             }
         case ENHY_TYPE_AHG_2:
-            if (globalCtx->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneNum == SCENE_KAKARIKO) {
                 return 0x5086;
-            } else if (globalCtx->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneNum == SCENE_SPOT01) {
                 return 0x5085;
             } else if (GET_EVENTCHKINF(EVENTCHKINF_80)) {
                 return GET_INFTABLE(INFTABLE_C3) ? 0x701A : 0x7047;
@@ -476,9 +476,9 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
         case ENHY_TYPE_BBA:
             return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704A : (GET_INFTABLE(INFTABLE_C6) ? 0x7022 : 0x7021);
         case ENHY_TYPE_BJI_7:
-            if (globalCtx->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneNum == SCENE_KAKARIKO) {
                 return 0x5088;
-            } else if (globalCtx->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneNum == SCENE_SPOT01) {
                 return 0x5087;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x704D : (GET_INFTABLE(INFTABLE_C7) ? 0x7028 : 0x7027);
@@ -490,17 +490,17 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                 return GET_INFTABLE(INFTABLE_C8) ? 0x701E : 0x701D;
             }
         case ENHY_TYPE_BOJ_9:
-            if (globalCtx->sceneNum == SCENE_KAKARIKO) {
+            if (play->sceneNum == SCENE_KAKARIKO) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x5082 : 0x5081;
-            } else if (globalCtx->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x5080 : 0x507F;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7049 : (GET_INFTABLE(INFTABLE_CA) ? 0x7020 : 0x701F);
             }
         case ENHY_TYPE_BOJ_10:
-            if (globalCtx->sceneNum == SCENE_LABO) {
+            if (play->sceneNum == SCENE_LABO) {
                 return GET_EVENTCHKINF(EVENTCHKINF_AA) ? 0x507E : 0x507D;
-            } else if (globalCtx->sceneNum == SCENE_SPOT01) {
+            } else if (play->sceneNum == SCENE_SPOT01) {
                 return CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) ? 0x507C : 0x507B;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7046 : (GET_INFTABLE(INFTABLE_CD) ? 0x7019 : 0x7018);
@@ -508,7 +508,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
         case ENHY_TYPE_CNE_11:
             return GET_INFTABLE(INFTABLE_8B) ? (GET_INFTABLE(INFTABLE_CC) ? 0x7014 : 0x70A4) : 0x7014;
         case ENHY_TYPE_BOJ_12:
-            if (globalCtx->sceneNum == SCENE_SPOT01) {
+            if (play->sceneNum == SCENE_SPOT01) {
                 return !IS_DAY ? 0x5084 : 0x5083;
             } else {
                 return GET_EVENTCHKINF(EVENTCHKINF_80) ? 0x7044 : 0x7015;
@@ -548,12 +548,12 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
     }
 }
 
-s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
+s16 func_80A70058(PlayState* play, Actor* thisx) {
     EnHy* this = (EnHy*)thisx;
     s16 beggarItems[] = { ITEM_BLUE_FIRE, ITEM_FISH, ITEM_BUG, ITEM_FAIRY };
     s16 beggarRewards[] = { 150, 100, 50, 25 };
 
-    switch (Message_GetState(&globalCtx->msgCtx)) {
+    switch (Message_GetState(&play->msgCtx)) {
         case TEXT_STATE_NONE:
         case TEXT_STATE_DONE_HAS_NEXT:
         case TEXT_STATE_CHOICE:
@@ -592,7 +592,7 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                 case 0x70F3:
                     Rupees_ChangeBy(beggarRewards[this->actor.textId - 0x70F0]);
                     Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_17);
-                    Player_UpdateBottleHeld(globalCtx, GET_PLAYER(globalCtx), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
+                    Player_UpdateBottleHeld(play, GET_PLAYER(play), ITEM_BOTTLE, PLAYER_AP_BOTTLE);
                     break;
                 case 0x7016:
                     SET_INFTABLE(INFTABLE_C0);
@@ -655,13 +655,13 @@ s16 func_80A70058(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.dogParams = 0;
                     break;
                 case 0x709F:
-                    func_80A6F7CC(this, globalCtx, GET_INFTABLE(INFTABLE_191) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
+                    func_80A6F7CC(this, play, GET_INFTABLE(INFTABLE_191) ? GI_RUPEE_BLUE : GI_HEART_PIECE);
                     this->actionFunc = func_80A714C4;
                     break;
             }
             return 0;
         case TEXT_STATE_EVENT:
-            if (!Message_ShouldAdvance(globalCtx)) {
+            if (!Message_ShouldAdvance(play)) {
                 return 1;
             } else {
                 return 2;
@@ -702,7 +702,7 @@ void EnHy_InitSetProperties(EnHy* this) {
     this->unkRange += this->collider.dim.radius;
 }
 
-void EnHy_UpdateCollider(EnHy* this, GlobalContext* globalCtx) {
+void EnHy_UpdateCollider(EnHy* this, PlayState* play) {
     Vec3s pos;
 
     pos.x = this->actor.world.pos.x;
@@ -712,29 +712,29 @@ void EnHy_UpdateCollider(EnHy* this, GlobalContext* globalCtx) {
     pos.y += sColliderInfo[this->actor.params & 0x7F].offset.y;
     pos.z += sColliderInfo[this->actor.params & 0x7F].offset.z;
     this->collider.dim.pos = pos;
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
 }
 
-void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80A70834(EnHy* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_5) {
         if (!Inventory_HasSpecificBottle(ITEM_BLUE_FIRE) && !Inventory_HasSpecificBottle(ITEM_BUG) &&
             !Inventory_HasSpecificBottle(ITEM_FISH)) {
-            switch (func_8002F368(globalCtx)) {
+            switch (func_8002F368(play)) {
                 case EXCH_ITEM_POE:
                 case EXCH_ITEM_BIG_POE:
                 case EXCH_ITEM_LETTER_RUTO:
                     this->actor.textId = 0x70EF;
                     break;
                 default:
-                    if (Player_GetMask(globalCtx) == PLAYER_MASK_NONE) {
+                    if (Player_GetMask(play) == PLAYER_MASK_NONE) {
                         this->actor.textId = 0x70ED;
                     }
                     break;
             }
         } else {
-            switch (func_8002F368(globalCtx)) {
+            switch (func_8002F368(play)) {
                 case EXCH_ITEM_BLUE_FIRE:
                     this->actor.textId = 0x70F0;
                     break;
@@ -745,7 +745,7 @@ void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
                     this->actor.textId = 0x70F2;
                     break;
                 default:
-                    if (Player_GetMask(globalCtx) == PLAYER_MASK_NONE) {
+                    if (Player_GetMask(play) == PLAYER_MASK_NONE) {
                         this->actor.textId = 0x700C;
                     }
                     break;
@@ -756,8 +756,8 @@ void func_80A70834(EnHy* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
-    Player* player = GET_PLAYER(globalCtx);
+void func_80A70978(EnHy* this, PlayState* play) {
+    Player* player = GET_PLAYER(play);
     s16 phi_a3;
 
     switch (this->actor.params & 0x7F) {
@@ -793,13 +793,13 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
 
     func_80034A14(&this->actor, &this->unk_1E8, sInit1Info[this->actor.params & 0x7F].unkPresetIndex, phi_a3);
 
-    if (func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
-        func_80A70834(this, globalCtx);
+    if (func_800343CC(play, &this->actor, &this->unk_1E8.unk_00, this->unkRange, func_80A6F810, func_80A70058)) {
+        func_80A70834(this, play);
     }
 }
 
-s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
-    switch (globalCtx->sceneNum) {
+s32 EnHy_ShouldSpawn(EnHy* this, PlayState* play) {
+    switch (play->sceneNum) {
         case SCENE_SPOT01:
             if (!((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_9 || (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_10 ||
                   (this->actor.params & 0x7F) == ENHY_TYPE_BOJ_12 || (this->actor.params & 0x7F) == ENHY_TYPE_AHG_2 ||
@@ -867,53 +867,53 @@ s32 EnHy_ShouldSpawn(EnHy* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHy_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnHy_Init(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
 
-    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, globalCtx) ||
-        !EnHy_FindSkelAndHeadObjects(this, globalCtx)) {
+    if ((this->actor.params & 0x7F) >= ENHY_TYPE_MAX || !EnHy_FindOsAnimeObject(this, play) ||
+        !EnHy_FindSkelAndHeadObjects(this, play)) {
         Actor_Kill(&this->actor);
     }
 
-    if (!EnHy_ShouldSpawn(this, globalCtx)) {
+    if (!EnHy_ShouldSpawn(this, play)) {
         Actor_Kill(&this->actor);
     }
 
     this->actionFunc = EnHy_InitImpl;
 }
 
-void EnHy_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnHy_Destroy(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
 
-    Collider_DestroyCylinder(globalCtx, &this->collider);
+    Collider_DestroyCylinder(play, &this->collider);
 }
 
-void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
-    if (EnHy_IsOsAnimeObjectLoaded(this, globalCtx) && EnHy_AreSkelAndHeadObjectsLoaded(this, globalCtx)) {
+void EnHy_InitImpl(EnHy* this, PlayState* play) {
+    if (EnHy_IsOsAnimeObjectLoaded(this, play) && EnHy_AreSkelAndHeadObjectsLoaded(this, play)) {
         this->actor.objBankIndex = this->objBankIndexSkel1;
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime,
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->actor.objBankIndex].segment);
+        SkelAnime_InitFlex(play, &this->skelAnime,
                            sSkeletonInfo[sModelInfo[this->actor.params & 0x7F].skelInfoIndex1].skeleton, NULL,
                            this->jointTable, this->morphTable, 16);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
-        Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sColCylInit);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexOsAnime].segment);
+        Collider_InitCylinder(play, &this->collider);
+        Collider_SetCylinder(play, &this->collider, &this->actor, &sColCylInit);
         EnHy_InitCollider(this);
         CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, sModelInfo[this->actor.params & 0x7F].animInfoIndex);
 
-        if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
+        if ((play->sceneNum == SCENE_MARKET_ALLEY) || (play->sceneNum == SCENE_MARKET_DAY)) {
             this->actor.flags &= ~ACTOR_FLAG_4;
             this->actor.uncullZoneScale = 0.0f;
         }
 
-        if (globalCtx->sceneNum == SCENE_KAKARIKO) {
+        if (play->sceneNum == SCENE_KAKARIKO) {
             this->unk_330 = gSaveContext.eventChkInf[EVENTCHKINF_6B_INDEX];
         }
 
         EnHy_InitSetProperties(this);
-        this->path = Path_GetByIndex(globalCtx, (this->actor.params & 0x780) >> 7, 15);
+        this->path = Path_GetByIndex(play, (this->actor.params & 0x780) >> 7, 15);
 
         switch (this->actor.params & 0x7F) {
             case ENHY_TYPE_BOJ_3:
@@ -927,7 +927,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80A712C0;
                 break;
             case ENHY_TYPE_AOB:
-                if (globalCtx->sceneNum == SCENE_MARKET_DAY) {
+                if (play->sceneNum == SCENE_MARKET_DAY) {
                     this->actionFunc = func_80A710F8;
                     break;
                 }
@@ -961,7 +961,7 @@ void EnHy_InitImpl(EnHy* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
+void func_80A710F8(EnHy* this, PlayState* play) {
     if (this->unk_1E8.unk_00 != 0) {
         if (this->skelAnime.animation != &gObjOsAnim_0BFC) {
             Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_26);
@@ -975,7 +975,7 @@ void func_80A710F8(EnHy* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A711B4(EnHy* this, GlobalContext* globalCtx) {
+void func_80A711B4(EnHy* this, PlayState* play) {
     s16 yaw;
     f32 distSq;
 
@@ -991,24 +991,24 @@ void func_80A711B4(EnHy* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A7127C(EnHy* this, GlobalContext* globalCtx) {
-    func_80034F54(globalCtx, this->unk_21C, this->unk_23C, 16);
+void func_80A7127C(EnHy* this, PlayState* play) {
+    func_80034F54(play, this->unk_21C, this->unk_23C, 16);
 }
 
-void EnHy_DoNothing(EnHy* this, GlobalContext* globalCtx) {
+void EnHy_DoNothing(EnHy* this, PlayState* play) {
 }
 
-void func_80A712C0(EnHy* this, GlobalContext* globalCtx) {
+void func_80A712C0(EnHy* this, PlayState* play) {
     if ((this->actor.xzDistToPlayer <= 100.0f) && (this->path != NULL)) {
         Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENHY_ANIM_7);
         this->actor.speedXZ = 0.4f;
         this->actionFunc = func_80A7134C;
     }
 
-    func_80034F54(globalCtx, this->unk_21C, this->unk_23C, 16);
+    func_80034F54(play, this->unk_21C, this->unk_23C, 16);
 }
 
-void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
+void func_80A7134C(EnHy* this, PlayState* play) {
     s16 yaw;
     f32 distSq;
 
@@ -1042,17 +1042,17 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
-    if (Actor_HasParent(&this->actor, globalCtx)) {
+void func_80A714C4(EnHy* this, PlayState* play) {
+    if (Actor_HasParent(&this->actor, play)) {
         this->actionFunc = func_80A71530;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->unkGetItemId, this->actor.xzDistToPlayer + 1.0f,
+        func_8002F434(&this->actor, play, this->unkGetItemId, this->actor.xzDistToPlayer + 1.0f,
                       fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
-void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
-    if ((Message_GetState(&globalCtx->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(globalCtx)) {
+void func_80A71530(EnHy* this, PlayState* play) {
+    if ((Message_GetState(&play->msgCtx) == TEXT_STATE_DONE) && Message_ShouldAdvance(play)) {
         switch (this->unkGetItemId) {
             case GI_HEART_PIECE:
                 gSaveContext.dogParams = 0;
@@ -1070,11 +1070,11 @@ void func_80A71530(EnHy* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnHy_Update(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
 
     if (this->actionFunc != EnHy_InitImpl) {
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexOsAnime].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexOsAnime].segment);
         SkelAnime_Update(&this->skelAnime);
         EnHy_UpdateEyes(this);
 
@@ -1082,15 +1082,15 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_MoveForward(&this->actor);
         }
 
-        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
+        Actor_UpdateBgCheckInfo(play, &this->actor, 0.0f, 0.0f, 0.0f, UPDBGCHECKINFO_FLAG_2);
     }
 
-    this->actionFunc(this, globalCtx);
-    func_80A70978(this, globalCtx);
-    EnHy_UpdateCollider(this, globalCtx);
+    this->actionFunc(this, play);
+    func_80A70978(this, play);
+    EnHy_UpdateCollider(this, play);
 }
 
-s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnHy_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
     s32 pad;
     Vec3s sp48;
@@ -1099,11 +1099,11 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if (1) {}
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2170);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2170);
 
     if (limbIndex == 15) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexHead].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexHead].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->objBankIndexHead].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexHead].segment);
         i = sModelInfo[this->actor.params & 0x7F].headInfoIndex;
         *dList = sHeadInfo[i].headDList;
 
@@ -1112,7 +1112,7 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
             gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(ptr));
         }
 
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkel1].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexSkel1].segment);
     }
 
     if (limbIndex == 15) {
@@ -1134,21 +1134,21 @@ s32 EnHy_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->z += Math_CosS(this->unk_23C[limbIndex]) * 200.0f;
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2228);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2228);
 
     return false;
 }
 
-void EnHy_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnHy_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnHy* this = (EnHy*)thisx;
     s32 pad;
     Vec3f sp3C = { 400.0f, 0.0f, 0.0f };
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2255);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2255);
 
     if (limbIndex == 7) {
-        gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objBankIndexSkel2].segment);
-        gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objBankIndexSkel2].segment);
+        gSPSegment(POLY_OPA_DISP++, 0x06, play->objectCtx.status[this->objBankIndexSkel2].segment);
+        gSegments[6] = VIRTUAL_TO_PHYSICAL(play->objectCtx.status[this->objBankIndexSkel2].segment);
     }
 
     if ((this->actor.params & 0x7F) == ENHY_TYPE_BOJ_3 && limbIndex == 8) {
@@ -1159,29 +1159,29 @@ void EnHy_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_MultVec3f(&sp3C, &this->actor.focus.pos);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2281);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2281);
 }
 
-Gfx* EnHy_SetEnvColor(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB, u8 envA) {
+Gfx* EnHy_SetEnvColor(GraphicsContext* play, u8 envR, u8 envG, u8 envB, u8 envA) {
     Gfx* dList;
 
-    dList = Graph_Alloc(globalCtx, 2 * sizeof(Gfx));
+    dList = Graph_Alloc(play, 2 * sizeof(Gfx));
     gDPSetEnvColor(dList, envR, envG, envB, envA);
     gSPEndDisplayList(dList + 1);
 
     return dList;
 }
 
-void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void EnHy_Draw(Actor* thisx, PlayState* play) {
     EnHy* this = (EnHy*)thisx;
     Color_RGBA8 envColorSeg8;
     Color_RGBA8 envColorSeg9;
     Color_RGBA8 envColorSeg10;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2318);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2318);
 
     if (this->actionFunc != EnHy_InitImpl) {
-        func_80093D18(globalCtx->state.gfxCtx);
+        func_80093D18(play->state.gfxCtx);
         Matrix_Translate(this->modelOffset.x, this->modelOffset.y, this->modelOffset.z, MTXMODE_APPLY);
         envColorSeg8 = sModelInfo[this->actor.params & 0x7F].envColorSeg8;
         envColorSeg9 = sModelInfo[this->actor.params & 0x7F].envColorSeg9;
@@ -1209,10 +1209,10 @@ void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
             case ENHY_TYPE_BJI_19:
             case ENHY_TYPE_AHG_20:
                 gSPSegment(POLY_OPA_DISP++, 0x08,
-                           EnHy_SetEnvColor(globalCtx->state.gfxCtx, envColorSeg8.r, envColorSeg8.g, envColorSeg8.b,
+                           EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg8.r, envColorSeg8.g, envColorSeg8.b,
                                             envColorSeg8.a));
                 gSPSegment(POLY_OPA_DISP++, 0x09,
-                           EnHy_SetEnvColor(globalCtx->state.gfxCtx, envColorSeg9.r, envColorSeg9.g, envColorSeg9.b,
+                           EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg9.r, envColorSeg9.g, envColorSeg9.b,
                                             envColorSeg9.a));
 
                 if ((this->actor.params & 0x7F) == ENHY_TYPE_CNE_8 || (this->actor.params & 0x7F) == ENHY_TYPE_CNE_11) {
@@ -1224,15 +1224,15 @@ void EnHy_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         envColorSeg10.a = 0;
                     }
                     gSPSegment(POLY_OPA_DISP++, 0x0A,
-                               EnHy_SetEnvColor(globalCtx->state.gfxCtx, envColorSeg10.r, envColorSeg10.g,
-                                                envColorSeg10.b, envColorSeg10.a));
+                               EnHy_SetEnvColor(play->state.gfxCtx, envColorSeg10.r, envColorSeg10.g, envColorSeg10.b,
+                                                envColorSeg10.a));
                 }
                 break;
         }
 
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                              this->skelAnime.dListCount, EnHy_OverrideLimbDraw, EnHy_PostLimbDraw, &this->actor);
+        SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                              EnHy_OverrideLimbDraw, EnHy_PostLimbDraw, &this->actor);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2388);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_hy.c", 2388);
 }

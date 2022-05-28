@@ -9,17 +9,17 @@
 
 #define FLAGS 0
 
-void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx);
-void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
+void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play);
+void BgSpot08Iceblock_Destroy(Actor* thisx, PlayState* play);
+void BgSpot08Iceblock_Update(Actor* thisx, PlayState* play);
+void BgSpot08Iceblock_Draw(Actor* thisx, PlayState* play);
 
 void BgSpot08Iceblock_SetupFloatNonrotating(BgSpot08Iceblock* this);
-void BgSpot08Iceblock_FloatNonrotating(BgSpot08Iceblock* this, GlobalContext* globalCtx);
+void BgSpot08Iceblock_FloatNonrotating(BgSpot08Iceblock* this, PlayState* play);
 void BgSpot08Iceblock_SetupFloatRotating(BgSpot08Iceblock* this);
-void BgSpot08Iceblock_FloatRotating(BgSpot08Iceblock* this, GlobalContext* globalCtx);
+void BgSpot08Iceblock_FloatRotating(BgSpot08Iceblock* this, PlayState* play);
 void BgSpot08Iceblock_SetupFloatOrbitingTwins(BgSpot08Iceblock* this);
-void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, GlobalContext* globalCtx);
+void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play);
 void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this);
 
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
@@ -38,15 +38,14 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
     this->actionFunc = actionFunc;
 }
 
-void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHeader* collision,
-                                   s32 flags) {
+void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, PlayState* play, CollisionHeader* collision, s32 flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
     DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // "Warning: move BG registration failed"
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xD9,
@@ -158,7 +157,7 @@ static f32 sRollCoss[] = {
  *  Handles all the factors that influence rolling: inertia, random oscillations, and most significantly, player weight,
  * and combines them to produce a matrix that rotates the actor to match the surface normal
  */
-void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, PlayState* play) {
     f32 deviationFromVertSq;
     f32 stabilityCorrection;
     Vec3f surfaceNormalHorizontal;
@@ -172,7 +171,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     s32 rollDataIndex;
     MtxF mtx;
     s32 pad;
-    Player* player = GET_PLAYER(globalCtx);
+    Player* player = GET_PLAYER(play);
 
     switch (this->dyna.actor.params & 0xFF) {
         case 0x11: // Medium nonrotating
@@ -251,7 +250,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     Matrix_MtxFToYXZRotS(&mtx, &this->dyna.actor.shape.rot, 0);
 }
 
-void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, PlayState* play) {
     s32 pad[2];
     f32 sin;
     f32 cos;
@@ -260,7 +259,7 @@ void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, GlobalContext* globa
     cos = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
 
     if (!(this->dyna.actor.params & 0x100)) {
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT08_ICEBLOCK,
+        Actor_SpawnAsChild(&play->actorCtx, &this->dyna.actor, play, ACTOR_BG_SPOT08_ICEBLOCK,
                            this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
                            this->dyna.actor.home.rot.x, this->dyna.actor.home.rot.y, this->dyna.actor.home.rot.z,
                            0x123);
@@ -280,7 +279,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2200, ICHAIN_STOP),
 };
 
-void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Init(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
     CollisionHeader* colHeader;
 
@@ -300,10 +299,10 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params & 0xF) {
         case 2:
         case 3:
-            BgSpot08Iceblock_InitDynaPoly(this, globalCtx, colHeader, DPM_UNK3);
+            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DPM_UNK3);
             break;
         default:
-            BgSpot08Iceblock_InitDynaPoly(this, globalCtx, colHeader, DPM_UNK);
+            BgSpot08Iceblock_InitDynaPoly(this, play, colHeader, DPM_UNK);
             break;
     }
 
@@ -340,7 +339,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
             BgSpot08Iceblock_SetupFloatRotating(this);
             break;
         case 3:
-            BgSpot08Iceblock_SpawnTwinFloe(this, globalCtx);
+            BgSpot08Iceblock_SpawnTwinFloe(this, play);
             break;
         case 4:
             BgSpot08Iceblock_SetupNoAction(this);
@@ -348,42 +347,42 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Destroy(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(play, &play->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot08Iceblock_SetupFloatNonrotating(BgSpot08Iceblock* this) {
     BgSpot08Iceblock_SetupAction(this, BgSpot08Iceblock_FloatNonrotating);
 }
 
-void BgSpot08Iceblock_FloatNonrotating(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_FloatNonrotating(BgSpot08Iceblock* this, PlayState* play) {
     BgSpot08Iceblock_Bobbing(this);
     BgSpot08Iceblock_SinkUnderPlayer(this);
     BgSpot08Iceblock_SetWaterline(this);
     this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y;
-    BgSpot08Iceblock_Roll(this, globalCtx);
+    BgSpot08Iceblock_Roll(this, play);
 }
 
 void BgSpot08Iceblock_SetupFloatRotating(BgSpot08Iceblock* this) {
     BgSpot08Iceblock_SetupAction(this, BgSpot08Iceblock_FloatRotating);
 }
 
-void BgSpot08Iceblock_FloatRotating(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_FloatRotating(BgSpot08Iceblock* this, PlayState* play) {
     BgSpot08Iceblock_Bobbing(this);
     BgSpot08Iceblock_SinkUnderPlayer(this);
     BgSpot08Iceblock_SetWaterline(this);
     this->dyna.actor.world.rot.y = this->dyna.actor.world.rot.y + 0x190;
     this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y;
-    BgSpot08Iceblock_Roll(this, globalCtx);
+    BgSpot08Iceblock_Roll(this, play);
 }
 
 void BgSpot08Iceblock_SetupFloatOrbitingTwins(BgSpot08Iceblock* this) {
     BgSpot08Iceblock_SetupAction(this, BgSpot08Iceblock_FloatOrbitingTwins);
 }
 
-void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, PlayState* play) {
     f32 cos;
     f32 sin;
 
@@ -407,14 +406,14 @@ void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, GlobalContext* 
     }
 
     this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y;
-    BgSpot08Iceblock_Roll(this, globalCtx);
+    BgSpot08Iceblock_Roll(this, play);
 }
 
 void BgSpot08Iceblock_SetupNoAction(BgSpot08Iceblock* this) {
     BgSpot08Iceblock_SetupAction(this, NULL);
 }
 
-void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Update(Actor* thisx, PlayState* play) {
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
     if (Rand_ZeroOne() < 0.05f) {
@@ -425,11 +424,11 @@ void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->bobPhaseSlow += this->bobIncrSlow;
     this->bobPhaseFast += this->bobIncrFast;
     if (this->actionFunc != NULL) {
-        this->actionFunc(this, globalCtx);
+        this->actionFunc(this, play);
     }
 }
 
-void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
+void BgSpot08Iceblock_Draw(Actor* thisx, PlayState* play) {
     Gfx* dList;
     BgSpot08Iceblock* this = (BgSpot08Iceblock*)thisx;
 
@@ -442,5 +441,5 @@ void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    Gfx_DrawDListOpa(globalCtx, dList);
+    Gfx_DrawDListOpa(play, dList);
 }

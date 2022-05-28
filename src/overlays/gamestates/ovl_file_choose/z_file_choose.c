@@ -1454,7 +1454,7 @@ void FileChoose_LoadGame(GameState* thisx) {
         gSaveContext.fileNum = this->buttonIndex;
         Sram_OpenSave(&this->sramCtx);
         gSaveContext.gameMode = 0;
-        SET_NEXT_GAMESTATE(&this->state, Play_Init, GlobalContext);
+        SET_NEXT_GAMESTATE(&this->state, Play_Init, PlayState);
         this->state.running = false;
     }
 
@@ -1473,31 +1473,31 @@ void FileChoose_LoadGame(GameState* thisx) {
     gSaveContext.unk_13EE = 0x32;
     gSaveContext.nayrusLoveTimer = 0;
     gSaveContext.healthAccumulator = 0;
-    gSaveContext.unk_13F0 = 0;
-    gSaveContext.unk_13F2 = 0;
+    gSaveContext.magicState = MAGIC_STATE_IDLE;
+    gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
     gSaveContext.forcedSeqId = NA_BGM_GENERAL_SFX;
-    gSaveContext.skyboxTime = 0;
+    gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
     gSaveContext.nextTransitionType = TRANS_NEXT_TYPE_DEFAULT;
     gSaveContext.nextCutsceneIndex = 0xFFEF;
     gSaveContext.cutsceneTrigger = 0;
     gSaveContext.chamberCutsceneNum = 0;
-    gSaveContext.nextDayTime = 0xFFFF;
-    gSaveContext.unk_13C3 = 0;
+    gSaveContext.nextDayTime = NEXT_TIME_NONE;
+    gSaveContext.retainWeatherMode = false;
 
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
 
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC =
-        gSaveContext.unk_13F4 = 0;
+        gSaveContext.magicCapacity = 0;
 
-    gSaveContext.unk_13F6 = gSaveContext.magic;
-    gSaveContext.magic = 0;
-    gSaveContext.magicLevel = gSaveContext.magic;
-
-    if (1) {}
+    // Set the fill target to be the saved magic amount
+    gSaveContext.magicFillTarget = gSaveContext.magic;
+    // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing to respectively the full
+    // capacity and `magicFillTarget`
+    gSaveContext.magicLevel = gSaveContext.magic = 0;
 
     osSyncPrintf(VT_FGCOL(GREEN));
-    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.unk_13F6), gSaveContext.magic);
+    osSyncPrintf("Z_MAGIC_NOW_NOW=%d  MAGIC_NOW=%d\n", ((void)0, gSaveContext.magicFillTarget), gSaveContext.magic);
     osSyncPrintf(VT_RST);
 
     gSaveContext.naviTimer = 0;
@@ -1826,28 +1826,28 @@ void FileChoose_InitContext(GameState* thisx) {
 
     ShrinkWindow_SetVal(0);
 
-    gSaveContext.skyboxTime = 0;
-    gSaveContext.dayTime = 0;
+    gSaveContext.skyboxTime = CLOCK_TIME(0, 0);
+    gSaveContext.dayTime = CLOCK_TIME(0, 0);
 
     Skybox_Init(&this->state, &this->skyboxCtx, SKYBOX_NORMAL_SKY);
 
-    gTimeIncrement = 10;
+    gTimeSpeed = 10;
 
-    envCtx->unk_19 = 0;
-    envCtx->unk_1A = 0;
-    envCtx->unk_21 = 0;
-    envCtx->unk_22 = 0;
+    envCtx->changeSkyboxState = CHANGE_SKYBOX_INACTIVE;
+    envCtx->changeSkyboxTimer = 0;
+    envCtx->changeLightEnabled = false;
+    envCtx->changeLightTimer = 0;
     envCtx->skyboxDmaState = SKYBOX_DMA_INACTIVE;
     envCtx->skybox1Index = 99;
     envCtx->skybox2Index = 99;
-    envCtx->unk_1F = 0;
-    envCtx->unk_20 = 0;
-    envCtx->unk_BD = 0;
-    envCtx->unk_17 = 2;
+    envCtx->lightConfig = 0;
+    envCtx->changeLightNextConfig = 0;
+    envCtx->lightSetting = 0;
+    envCtx->skyboxConfig = 2;
     envCtx->skyboxDisabled = 0;
     envCtx->skyboxBlend = 0;
-    envCtx->unk_84 = 0.0f;
-    envCtx->unk_88 = 0.0f;
+    envCtx->glareAlpha = 0.0f;
+    envCtx->lensFlareAlphaScale = 0.0f;
 
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
 
