@@ -2155,10 +2155,7 @@ s32 Camera_Parallel1(Camera* camera) {
     camera->fov = Camera_LERPCeilF(roData->fovTarget, camera->fov, camera->fovUpdateRate, 1.0f);
     camera->roll = Camera_LERPCeilS(0, camera->roll, 0.5, 0xA);
     camera->atLERPStepScale = Camera_ClampLERPScale(camera, sp6A ? roData->unk_1C : roData->unk_14);
-    //! @bug No return
-#ifdef AVOID_UB
-    return (s32)gGameInfo;
-#endif
+    //! @bug doesn't return
 }
 
 s32 Camera_Parallel2(Camera* camera) {
