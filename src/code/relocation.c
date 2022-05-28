@@ -40,8 +40,8 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
         relocDataP = (u32*)(sections[RELOC_SECTION(reloc)] + RELOC_OFFSET(reloc));
         relocData = *relocDataP;
 
-        switch (RELOC_TYPE(reloc)) {
-            case R_MIPS_32 << 24:
+        switch (RELOC_TYPE_MASK(reloc)) {
+            case R_MIPS_32 << RELOC_TYPE_SHIFT:
                 // Handles 32-bit address relocation, used for things such as jump tables and pointers in data.
                 // Just relocate the full address.
 
@@ -55,7 +55,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 }
                 break;
 
-            case R_MIPS_26 << 24:
+            case R_MIPS_26 << RELOC_TYPE_SHIFT:
                 // Handles 26-bit address relocation, used for jumps and jals.
                 // Extract the address from the target field of the J-type MIPS instruction.
                 // Relocate the address and update the instruction.
@@ -67,7 +67,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 *relocDataP = relocatedValue;
                 break;
 
-            case R_MIPS_HI16 << 24:
+            case R_MIPS_HI16 << RELOC_TYPE_SHIFT:
                 // Handles relocation for a hi/lo pair, part 1.
                 // Store the reference to the LUI instruction (hi) using the `rt` register of the instruction.
                 // This will be updated later in the `R_MIPS_LO16` section.
@@ -76,7 +76,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                 luiVals[(*relocDataP >> 0x10) & 0x1F] = *relocDataP;
                 break;
 
-            case R_MIPS_LO16 << 24:
+            case R_MIPS_LO16 << RELOC_TYPE_SHIFT:
                 // Handles relocation for a hi/lo pair, part 2.
                 // Grab the stored LUI (hi) from the `R_MIPS_HI16` section using the `rs` register of the instruction.
                 // The full address is calculated, relocated, and then used to update both the LUI and lo instructions.
@@ -102,12 +102,12 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
         }
 
         dbg = 0x10;
-        switch (RELOC_TYPE(reloc)) {
-            case R_MIPS_32 << 24:
+        switch (RELOC_TYPE_MASK(reloc)) {
+            case R_MIPS_32 << RELOC_TYPE_SHIFT:
                 dbg = 0x16;
-            case R_MIPS_26 << 24:
+            case R_MIPS_26 << RELOC_TYPE_SHIFT:
                 dbg += 0xA;
-            case R_MIPS_LO16 << 24:
+            case R_MIPS_LO16 << RELOC_TYPE_SHIFT:
                 if (gOverlayLogSeverity >= 3) {
                     osSyncPrintf("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
                     osSyncPrintf(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + (uintptr_t)vRamStart - allocu32,
