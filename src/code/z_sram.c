@@ -17,9 +17,9 @@ typedef struct {
     /* 0x18 */ s16 rupees;
     /* 0x1A */ u16 swordHealth;
     /* 0x1C */ u16 naviTimer;
-    /* 0x1E */ u8 magicAcquired;
+    /* 0x1E */ u8 isMagicAcquired;
     /* 0x1F */ u8 unk_1F;
-    /* 0x20 */ u8 doubleMagic;
+    /* 0x20 */ u8 isDoubleMagicAcquired;
     /* 0x21 */ u8 doubleDefense;
     /* 0x22 */ u8 bgsFlag;
     /* 0x23 */ u8 ocarinaGameRoundNum;
@@ -104,13 +104,13 @@ static SavePlayerData sNewSavePlayerData = {
     0x30,                                               // healthCapacity
     0x30,                                               // defense
     0,                                                  // magicLevel
-    0x30,                                               // magic
+    MAGIC_NORMAL_METER,                                 // magic
     0,                                                  // rupees
     0,                                                  // swordHealth
     0,                                                  // naviTimer
-    0,                                                  // magicAcquired
+    false,                                              // isMagicAcquired
     0,                                                  // unk_1F
-    0,                                                  // doubleMagic
+    false,                                              // isDoubleMagicAcquired
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
@@ -189,13 +189,13 @@ static SavePlayerData sDebugSavePlayerData = {
     0xE0,                                               // healthCapacity
     0xE0,                                               // health
     0,                                                  // magicLevel
-    0x30,                                               // magic
+    MAGIC_NORMAL_METER,                                 // magic
     150,                                                // rupees
     8,                                                  // swordHealth
     0,                                                  // naviTimer
-    1,                                                  // magicAcquired
+    true,                                               // isMagicAcquired
     0,                                                  // unk_1F
-    0,                                                  // doubleMagic
+    false,                                              // isDoubleMagicAcquired
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
