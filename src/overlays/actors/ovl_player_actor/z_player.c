@@ -2667,7 +2667,7 @@ s32 func_808356E8(Player* this, PlayState* play) {
 }
 
 void func_808357E8(Player* this, Gfx** dLists) {
-    this->leftHandDLists = &dLists[gSaveContext.linkAge];
+    this->leftHandDLists = dLists + gSaveContext.linkAge;
 }
 
 s32 func_80835800(Player* this, PlayState* play) {
@@ -2754,7 +2754,7 @@ s32 func_80835B60(Player* this, PlayState* play) {
     if (!(this->stateFlags1 & PLAYER_STATE1_25)) {
         func_80833638(this, func_80835C08);
         LinkAnimation_PlayOnce(play, &this->skelAnime2, &gPlayerAnim_0025F8);
-        func_808357E8(this, D_80125EF8);
+        func_808357E8(this, gPlayerLeftHandBoomerangDLs);
         func_8002F7DC(&this->actor, NA_SE_PL_CATCH_BOOMERANG);
         func_80832698(this, NA_SE_VO_LI_SWORD_N);
         return 1;
@@ -13805,11 +13805,11 @@ void func_80851A50(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         this->interactRangeActor->parent = &this->actor;
 
         if (!LINK_IS_ADULT) {
-            dLists = D_80125DE8;
+            dLists = gPlayerLeftHandBgsDLs;
         } else {
-            dLists = D_80125E18;
+            dLists = gPlayerLeftHandClosedDLs;
         }
-        this->leftHandDLists = &dLists[gSaveContext.linkAge];
+        this->leftHandDLists = dLists + gSaveContext.linkAge;
 
         func_8002F7DC(&this->actor, sp2C->unk_00);
         if (!LINK_IS_ADULT) {
@@ -14119,7 +14119,7 @@ void func_80852648(PlayState* play, Player* this, CsCmdActorAction* arg2) {
         this->heldItemActionParam = this->itemActionParam = PLAYER_AP_NONE;
         this->heldItemId = ITEM_NONE;
         this->modelGroup = this->nextModelGroup = Player_ActionToModelGroup(this, PLAYER_AP_NONE);
-        this->leftHandDLists = D_80125E08;
+        this->leftHandDLists = gPlayerLeftHandOpenDLs;
         Inventory_ChangeEquipment(EQUIP_TYPE_SWORD, EQUIP_VALUE_SWORD_MASTER);
         gSaveContext.equips.buttonItems[0] = ITEM_SWORD_MASTER;
         Inventory_DeleteEquipment(play, EQUIP_TYPE_SWORD);
