@@ -273,9 +273,9 @@ void AudioLoad_InitSampleDmaBuffers(s32 numNotes) {
 s32 AudioLoad_IsFontLoadComplete(s32 fontId) {
     if (fontId == 0xFF) {
         return true;
-    } else if (IS_FONT_LOAD_COMPLETE(fontId)) {
+    } else if (FONT_LOAD_COMPLETE(fontId)) {
         return true;
-    } else if (IS_FONT_LOAD_COMPLETE(AudioLoad_GetRealTableIndex(FONT_TABLE, fontId))) {
+    } else if (FONT_LOAD_COMPLETE(AudioLoad_GetRealTableIndex(FONT_TABLE, fontId))) {
         return true;
     } else {
         return false;
@@ -285,9 +285,9 @@ s32 AudioLoad_IsFontLoadComplete(s32 fontId) {
 s32 AudioLoad_IsSeqLoadComplete(s32 seqId) {
     if (seqId == 0xFF) {
         return true;
-    } else if (IS_SEQ_LOAD_COMPLETE(seqId)) {
+    } else if (SEQ_LOAD_COMPLETE(seqId)) {
         return true;
-    } else if (IS_SEQ_LOAD_COMPLETE(AudioLoad_GetRealTableIndex(SEQUENCE_TABLE, seqId))) {
+    } else if (SEQ_LOAD_COMPLETE(AudioLoad_GetRealTableIndex(SEQUENCE_TABLE, seqId))) {
         return true;
     } else {
         return false;
@@ -297,9 +297,9 @@ s32 AudioLoad_IsSeqLoadComplete(s32 seqId) {
 s32 AudioLoad_IsSampleLoadComplete(s32 sampleBankId) {
     if (sampleBankId == 0xFF) {
         return true;
-    } else if (IS_SAMPLE_FONT_LOAD_COMPLETE(sampleBankId)) {
+    } else if (SAMPLE_FONT_LOAD_COMPLETE(sampleBankId)) {
         return true;
-    } else if (IS_SAMPLE_FONT_LOAD_COMPLETE(AudioLoad_GetRealTableIndex(SAMPLE_TABLE, sampleBankId))) {
+    } else if (SAMPLE_FONT_LOAD_COMPLETE(AudioLoad_GetRealTableIndex(SAMPLE_TABLE, sampleBankId))) {
         return true;
     } else {
         return false;
