@@ -4749,7 +4749,7 @@ s32 Camera_Unique3(Camera* camera) {
             rwData->initialFov = camera->fov;
             rwData->initialDist = OLib_Vec3fDist(at, &camera->eye);
             camera->animState++;
-            // fallthrough
+
         case 1:
             if (doorParams->timer1-- > 0) {
                 break;
@@ -4766,7 +4766,7 @@ s32 Camera_Unique3(Camera* camera) {
 
             Camera_Vec3fVecSphGeoAdd(at, &camera->eye, &sp60);
             camera->animState++;
-            // fallthrough
+
         case 2:
             if (roData->interfaceFlags & 4) {
                 camera->at = cameraPlayerPosRot->pos;
