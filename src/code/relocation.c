@@ -110,7 +110,7 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                     osSyncPrintf(" %08x %08x %08x %08x\n", ((u32)relocDataP + (u32)vRamAddress) - allocu32, relocData,
                                  unrelocatedAddress, relocOffset);
                 }
-                // No break required for matching
+                // Adding a break prevents matching
         }
     }
 }

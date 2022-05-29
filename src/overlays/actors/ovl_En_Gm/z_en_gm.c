@@ -212,6 +212,7 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
                 FALLTHROUGH;
             case 2:
                 this->actionFunc = EnGm_ProcessChoiceIndex;
+                FALLTHROUGH;
             default:
                 return;
         }
