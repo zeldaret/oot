@@ -448,14 +448,14 @@ f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, s32* bgId) {
  * Returns the CameraSettingType of the camera at index `bgCamDataIndex`
  */
 s16 Camera_GetSurfaceBgCamDataSetting(Camera* camera, s32 bgCamDataIndex) {
-    return SurfaceType_GetCameraSettingImpl(&camera->play->colCtx, bgCamDataIndex, BGCHECK_SCENE);
+    return BgCheck_GetBgCamDataSettingImpl(&camera->play->colCtx, bgCamDataIndex, BGCHECK_SCENE);
 }
 
 /**
  * Returns the scene camera info for the current camera data index
  */
 Vec3s* Camera_GetSurfaceBgCamData(Camera* camera) {
-    return SurfaceType_GetCameraVec3sImpl(&camera->play->colCtx, camera->bgCamDataIndex, BGCHECK_SCENE);
+    return BgCheck_GetBgCamDataVec3sImpl(&camera->play->colCtx, camera->bgCamDataIndex, BGCHECK_SCENE);
 }
 
 /**
@@ -470,7 +470,7 @@ s32 Camera_GetSurfaceBgCamDataIndex(Camera* camera, s32* bgId, CollisionPoly* po
     Actor_GetWorldPosShapeRot(&playerPosRot, &camera->player->actor); // unused.
     bgCamDataIndex = SurfaceType_GetBgCamDataIndex(&camera->play->colCtx, poly, *bgId);
 
-    if (SurfaceType_GetCameraSettingImpl(&camera->play->colCtx, bgCamDataIndex, *bgId) == CAM_SET_NONE) {
+    if (BgCheck_GetBgCamDataSettingImpl(&camera->play->colCtx, bgCamDataIndex, *bgId) == CAM_SET_NONE) {
         ret = -1;
     } else {
         ret = bgCamDataIndex;
@@ -497,8 +497,8 @@ Vec3s* Camera_GetSurfaceBgCamDataAndNumData(Camera* camera, u16* bgCamDataNumDat
         return NULL;
     }
 
-    *bgCamDataNumData = SurfaceType_GetCameraNumData(&camera->play->colCtx, floorPoly, bgId);
-    return SurfaceType_GetCameraVec3s(&camera->play->colCtx, floorPoly, bgId);
+    *bgCamDataNumData = BgCheck_GetBgCamDataNumVec3s(&camera->play->colCtx, floorPoly, bgId);
+    return BgCheck_GetBgCamDataVec3s(&camera->play->colCtx, floorPoly, bgId);
 }
 
 /**
@@ -4302,6 +4302,19 @@ s32 Camera_Subj3(Camera* camera) {
     return 1;
 }
 
+/**
+ * Crawlspaces
+ * Moves the camera from third person to first person when entering a crawlspace
+ * While in the crawlspace, link remains fixed in a single direction
+ * The camera is what swings up and down while crawling forward or backwards
+ *
+ * Note:
+ * Subject 4 uses bgCamData.data differently than other functions:
+ * All Vec3s data are points along the crawlspace
+ * The second point represents the entrance, and the second last point represents the exit
+ * All other points are unused
+ * All instances of crawlsapces have 6 points, except for the Testroom scene which has 9 points
+ */
 s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;

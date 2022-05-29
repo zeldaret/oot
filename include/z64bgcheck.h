@@ -52,6 +52,16 @@ typedef struct {
 } CollisionPoly; // size = 0x10
 
 typedef struct {
+    /* 0x0 */ u16 setting; // camera setting described by CameraSettingType enum
+    /* 0x2 */ s16 numData; // The total count of Vec3s data in the collision
+    /* 0x4 */ Vec3s* data; // See `SubBgCamData`
+} BgCamData; // size = 0x8
+
+typedef BgCamData CamData; // Todo: Zapd compatibility
+
+// The structure used for all instances of Vec3s data from `BgCamData` with the exception of crawlspaces.
+// See `Camera_Subj4` for Vec3s data usage in crawlspaces
+typedef struct {
     /* 0x00 */ Vec3s pos;
     /* 0x06 */ Vec3s rot;
     /* 0x0C */ s16 fov;
@@ -61,42 +71,7 @@ typedef struct {
                 s16 flags;
     };
     /* 0x10 */ s16 unk_10; // unused
-} SubBgCamData;
-
-/**
- * BgCamData Summary:
- * 
- * setting - camera setting described by CameraSettingType enum
- * numData - The total count of Vec3s data in the collision
- * data - data stored in Vec3s with various purposes summarized below:
- * 
- * numData = 0:
- *      data unused
- * 
- * numData = 3: data organized in SubBgCamData struct
- *      data[0]   // Position
- *      data[1]   // Rotation
- *      data[2].x // Field of View
- *      data[2].y // Jfif Id, timer, flags
- *      data[2].z // unused
- * 
- * numData = 6: Crawlspaces only (CAM_SET_CRAWLSPACE), entirely position data
- *      data[1] // Front entrance coordinates to crawlspace
- *      data[4] // Back entrance coordinates to crawlspace
- *      data[0], data[2], data[3], data[5] // Unused coordinates along crawlspace line
- * 
- * numData = 9: Testroom scene & crawlspace only, entirely position data
- *      data[1] // Front entrance coordinates to crawlspace
- *      data[7] // Back entrance coordinates to crawlspace
- *      data[0], data[2] to data[6], data[8], // Unused coordinates along crawlspace line
- */
-typedef struct {
-    /* 0x00 */ u16 setting;
-    /* 0x02 */ s16 numData;
-    /* 0x04 */ Vec3s* data; // may contain positions, rotations, fov, Jfif Id, timer, or flags
-} BgCamData;
-
-typedef BgCamData CamData; // Todo: Zapd compatibility
+} SubBgCamData; // size = 0x12
 
 typedef struct {
     /* 0x00 */ s16 xMin;

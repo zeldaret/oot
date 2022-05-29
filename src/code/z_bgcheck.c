@@ -3840,7 +3840,7 @@ u32 SurfaceType_GetBgCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly,
 /**
  * BgCamData get setting of bgCamData
  */
-u16 SurfaceType_GetCameraSettingImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId) {
+u16 BgCheck_GetBgCamDataSettingImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId) {
     u16 camSetting;
     CollisionHeader* colHeader;
     BgCamData* bgCamData;
@@ -3859,7 +3859,7 @@ u16 SurfaceType_GetCameraSettingImpl(CollisionContext* colCtx, u32 bgCamDataInde
 /**
  * SurfaceType get setting of bgCamData
  */
-u16 SurfaceType_GetCameraSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u16 BgCheck_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     BgCamData* bgCamData;
     SurfaceType* surfaceTypes;
@@ -3878,13 +3878,13 @@ u16 SurfaceType_GetCameraSetting(CollisionContext* colCtx, CollisionPoly* poly, 
         return CAM_SET_NONE;
     }
 
-    return SurfaceType_GetCameraSettingImpl(colCtx, SurfaceType_GetBgCamDataIndex(colCtx, poly, bgId), bgId);
+    return BgCheck_GetBgCamDataSettingImpl(colCtx, SurfaceType_GetBgCamDataIndex(colCtx, poly, bgId), bgId);
 }
 
 /**
  * CamData Get the total count of Vec3s data from bgCamData
  */
-u16 SurfaceType_GetCameraNumDataImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId) {
+u16 BgCheck_GetBgCamDataNumVec3sImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     BgCamData* bgCamData;
 
@@ -3903,7 +3903,7 @@ u16 SurfaceType_GetCameraNumDataImpl(CollisionContext* colCtx, u32 bgCamDataInde
 /**
  * SurfaceType Get the total count of Vec3s data from bgCamData
  */
-u16 SurfaceType_GetCameraNumData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+u16 BgCheck_GetBgCamDataNumVec3s(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     BgCamData* bgCamData;
     SurfaceType* surfaceTypes;
@@ -3922,13 +3922,13 @@ u16 SurfaceType_GetCameraNumData(CollisionContext* colCtx, CollisionPoly* poly, 
         return 0;
     }
 
-    return SurfaceType_GetCameraNumDataImpl(colCtx, SurfaceType_GetBgCamDataIndex(colCtx, poly, bgId), bgId);
+    return BgCheck_GetBgCamDataNumVec3sImpl(colCtx, SurfaceType_GetBgCamDataIndex(colCtx, poly, bgId), bgId);
 }
 
 /**
  * SurfaceType Get Vec3s data from bgCamData
  */
-Vec3s* SurfaceType_GetCameraVec3sImpl(CollisionContext* colCtx, s32 bgCamDataIndex, s32 bgId) {
+Vec3s* BgCheck_GetBgCamDataVec3sImpl(CollisionContext* colCtx, s32 bgCamDataIndex, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     BgCamData* bgCamDataList;
 
@@ -3947,7 +3947,7 @@ Vec3s* SurfaceType_GetCameraVec3sImpl(CollisionContext* colCtx, s32 bgCamDataInd
 /**
  * SurfaceType Get Vec3s data from bgCamData
  */
-Vec3s* SurfaceType_GetCameraVec3s(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
+Vec3s* BgCheck_GetBgCamDataVec3s(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     BgCamData* bgCamData;
     SurfaceType* surfaceTypes;
@@ -3966,7 +3966,7 @@ Vec3s* SurfaceType_GetCameraVec3s(CollisionContext* colCtx, CollisionPoly* poly,
         return NULL;
     }
 
-    return SurfaceType_GetCameraVec3sImpl(colCtx, SurfaceType_GetBgCamDataIndex(colCtx, poly, bgId), bgId);
+    return BgCheck_GetBgCamDataVec3sImpl(colCtx, SurfaceType_GetBgCamDataIndex(colCtx, poly, bgId), bgId);
 }
 
 /**
