@@ -882,7 +882,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
                 return true;
             }
             if (player->invincibilityTimer <= 0) {
-                this->collider.base.ocFlags1 |= 8;
+                this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
             } else {
                 return false;
             }
@@ -894,7 +894,7 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
                 play->damagePlayer(play, -4);
                 func_8002F71C(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
-                this->collider.base.ocFlags1 &= ~0x8;
+                this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
             }
         }
     }
@@ -1583,7 +1583,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 this->eyeMouthTexState = 1;
             }
             this->collider.base.acFlags = AC_NONE;
-            this->collider.base.ocFlags1 = 0xD; // OC_PLAYER | OC_NO_PUSH | OC_ON
+            this->collider.base.ocFlags1 = OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER;
             this->actionFunc = EnGo2_CurledUp;
             break;
         case GORON_DMT_BOMB_FLOWER:
