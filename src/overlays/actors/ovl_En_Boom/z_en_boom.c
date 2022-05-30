@@ -261,7 +261,7 @@ void EnBoom_Draw(Actor* thisx, PlayState* play) {
     Matrix_MultVec3f(&sMultVec1, &vec1);
     Matrix_MultVec3f(&sMultVec2, &vec2);
 
-    if (func_80090480(play, &this->collider, &this->boomerangInfo, &vec1, &vec2) != 0) {
+    if (func_80090480(play, &this->collider, &this->boomerangInfo, &vec1, &vec2)) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->effectIndex), &vec1, &vec2);
     }
 

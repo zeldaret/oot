@@ -20,10 +20,12 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     osSyncPrintf(VT_RST);
     if (gSaveContext.fileNum == 0xFF) {
         Sram_InitDebugSave();
-        gSaveContext.unk_13F6 = gSaveContext.magic;
-        gSaveContext.magic = 0;
-        gSaveContext.unk_13F4 = 0;
-        gSaveContext.magicLevel = gSaveContext.magic;
+        // Set the fill target to be the saved magic amount
+        gSaveContext.magicFillTarget = gSaveContext.magic;
+        // Set `magicLevel` and `magic` to 0 so `magicCapacity` then `magic` grows from nothing
+        // to respectively the full capacity and `magicFillTarget`
+        gSaveContext.magicCapacity = 0;
+        gSaveContext.magicLevel = gSaveContext.magic = 0;
     }
     gSaveContext.buttonStatus[0] = gSaveContext.buttonStatus[1] = gSaveContext.buttonStatus[2] =
         gSaveContext.buttonStatus[3] = gSaveContext.buttonStatus[4] = BTN_ENABLED;
