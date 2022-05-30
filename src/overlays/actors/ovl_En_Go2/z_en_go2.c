@@ -873,11 +873,11 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
             (this->actionFunc != EnGo2_ContinueRolling)) {
             return false;
         } else {
-            if (this->collider.base.acFlags & 2) {
+            if (this->collider.base.acFlags & AC_HIT) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->actor.flags &= ~ACTOR_FLAG_24;
-                this->collider.base.acFlags &= ~0x2;
+                this->collider.base.acFlags &= ~AC_HIT;
                 EnGo2_StopRolling(this, play);
                 return true;
             }
@@ -1582,7 +1582,7 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS)) {
                 this->eyeMouthTexState = 1;
             }
-            this->collider.base.acFlags = 0;
+            this->collider.base.acFlags = AC_NONE;
             this->collider.base.ocFlags1 = 0xD; // OC_PLAYER | OC_NO_PUSH | OC_ON
             this->actionFunc = EnGo2_CurledUp;
             break;

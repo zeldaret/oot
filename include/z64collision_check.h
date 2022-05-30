@@ -25,7 +25,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions.
-    /* 0x02 */ u8 acFlags; // Information flags for OC collisions.
+    /* 0x02 */ u8 acFlags; // Information flags for AC collisions.
     /* 0x03 */ u8 ocFlags1; // Information flags for OC collisions.
     /* 0x04 */ u8 ocFlags2; // Flags related to which colliders it can OC collide with.
     /* 0x05 */ u8 shape; // JntSph, Cylinder, Tris, or Quad

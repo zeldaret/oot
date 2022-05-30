@@ -324,8 +324,8 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
     }
 
     if (this->unk_392 == 0) {
-        if ((this->collider.base.acFlags & 2) || phi_v1) {
-            this->collider.base.acFlags &= ~2;
+        if ((this->collider.base.acFlags & AC_HIT) || phi_v1) {
+            this->collider.base.acFlags &= ~AC_HIT;
             this->unk_392 = 0x10;
             Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->unk_392);
             if (Actor_ApplyDamage(&this->actor) != 0) {

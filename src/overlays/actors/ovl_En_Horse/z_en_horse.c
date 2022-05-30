@@ -3532,7 +3532,7 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
                 thisx->speedXZ -= 1.0f;
             }
         }
-        if (this->jntSph.base.acFlags & 2) {
+        if (this->jntSph.base.acFlags & AC_HIT) {
             this->unk_21C = this->unk_228;
             if (this->stateFlags & ENHORSE_DRAW) {
                 Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->unk_21C, 4, &gSfxDefaultFreqAndVolScale,

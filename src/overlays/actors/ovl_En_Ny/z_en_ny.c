@@ -303,8 +303,8 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
         this->hitPlayer = 1;
         return 0;
     } else {
-        if (this->collider.base.acFlags & 2) {
-            this->collider.base.acFlags &= ~2;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             effectPos.x = this->collider.elements[0].info.bumper.hitPos.x;
             effectPos.y = this->collider.elements[0].info.bumper.hitPos.y;
             effectPos.z = this->collider.elements[0].info.bumper.hitPos.z;

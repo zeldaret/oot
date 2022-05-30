@@ -445,8 +445,8 @@ void func_80AFD968(EnSkb* this, PlayState* play) {
         this->unk_281 = 0;
         func_80AFD7B4(this, play);
     } else if (this->unk_280 >= 3) {
-        if ((this->collider.base.acFlags & 2) != 0) {
-            this->collider.base.acFlags &= ~2;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_282 = this->actor.colChkInfo.damageEffect;
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
