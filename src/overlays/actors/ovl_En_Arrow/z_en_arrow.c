@@ -300,7 +300,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.info.atHitInfo->bumperFlags & 2) {
+                    if (this->collider.info.atHitInfo->bumperFlags & BUMP_HIT) {
                         this->actor.world.pos.x = this->collider.info.atHitInfo->bumper.hitPos.x;
                         this->actor.world.pos.y = this->collider.info.atHitInfo->bumper.hitPos.y;
                         this->actor.world.pos.z = this->collider.info.atHitInfo->bumper.hitPos.z;
