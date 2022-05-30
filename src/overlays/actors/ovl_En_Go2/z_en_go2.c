@@ -805,7 +805,8 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
         return func_800343CC(play, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId, EnGo2_GetState);
-    } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
+    } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) &&
+               !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;
     } else {
         if (Actor_ProcessTalkRequest(&this->actor, play)) {
@@ -886,8 +887,8 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
             } else {
                 return false;
             }
-            if (this->collider.base.ocFlags2 & 1) {
-                this->collider.base.ocFlags2 &= ~1;
+            if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
+                this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
 
                 arg2 = this->actionFunc == EnGo2_ContinueRolling ? 1.5f : this->actor.speedXZ * 1.5f;
 
@@ -951,7 +952,7 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
     s16 yawDiffAbs;
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        if ((this->collider.base.ocFlags2 & 1) == 0) {
+        if (!(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             return false;
         } else {
