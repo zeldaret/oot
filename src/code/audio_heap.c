@@ -863,10 +863,11 @@ void AudioHeap_Init(void) {
     gAudioContext.sampleDmaCount = 0;
 
     // audio buffer parameters
-    gAudioContext.audioBufferParameters.frequency = spec->frequency;
-    gAudioContext.audioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.audioBufferParameters.frequency);
+    gAudioContext.audioBufferParameters.samplingFrequency = spec->samplingFrequency;
+    gAudioContext.audioBufferParameters.aiSamplingFrequency =
+        osAiSetFrequency(gAudioContext.audioBufferParameters.samplingFrequency);
     gAudioContext.audioBufferParameters.samplesPerFrameTarget =
-        ALIGN16(gAudioContext.audioBufferParameters.frequency / gAudioContext.refreshRate);
+        ALIGN16(gAudioContext.audioBufferParameters.samplingFrequency / gAudioContext.refreshRate);
     gAudioContext.audioBufferParameters.minAiBufferLength =
         gAudioContext.audioBufferParameters.samplesPerFrameTarget - 0x10;
     gAudioContext.audioBufferParameters.maxAiBufferLength =
@@ -878,7 +879,8 @@ void AudioHeap_Init(void) {
                                                            ~7;
     gAudioContext.audioBufferParameters.samplesPerUpdateMax = gAudioContext.audioBufferParameters.samplesPerUpdate + 8;
     gAudioContext.audioBufferParameters.samplesPerUpdateMin = gAudioContext.audioBufferParameters.samplesPerUpdate - 8;
-    gAudioContext.audioBufferParameters.resampleRate = 32000.0f / (s32)gAudioContext.audioBufferParameters.frequency;
+    gAudioContext.audioBufferParameters.resampleRate =
+        32000.0f / (s32)gAudioContext.audioBufferParameters.samplingFrequency;
     gAudioContext.audioBufferParameters.updatesPerFrameInvScaled =
         (1.0f / 256.0f) / gAudioContext.audioBufferParameters.updatesPerFrame;
     gAudioContext.audioBufferParameters.updatesPerFrameScaled =
@@ -900,7 +902,7 @@ void AudioHeap_Init(void) {
 
     gAudioContext.unk_2870 = gAudioContext.refreshRate;
     gAudioContext.unk_2870 *= gAudioContext.audioBufferParameters.updatesPerFrame;
-    gAudioContext.unk_2870 /= gAudioContext.audioBufferParameters.aiFrequency;
+    gAudioContext.unk_2870 /= gAudioContext.audioBufferParameters.aiSamplingFrequency;
     gAudioContext.unk_2870 /= gAudioContext.tempoInternalToExternal;
 
     gAudioContext.audioBufferParameters.specUnk4 = spec->unk_04;

@@ -570,7 +570,7 @@ typedef struct {
  * Most often resets during scene transitions, but will highly depend on game play.
  */ 
 typedef struct {
-    /* 0x00 */ u32 frequency; // Target sampling rate in Hz
+    /* 0x00 */ u32 samplingFrequency; // Target sampling rate in Hz
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 numNotes;
     /* 0x06 */ u8 numSequencePlayers;
@@ -599,8 +599,8 @@ typedef struct {
  */
 typedef struct {
     /* 0x00 */ s16 specUnk4;
-    /* 0x02 */ u16 frequency; // Target sampling rate in Hz
-    /* 0x04 */ u16 aiFrequency; // True sampling rate of the audio interface (AI), see `osAiSetFrequency`
+    /* 0x02 */ u16 samplingFrequency; // Target sampling rate in Hz
+    /* 0x04 */ u16 aiSamplingFrequency; // True sampling rate of the audio interface (AI), see `osAiSetFrequency`
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
