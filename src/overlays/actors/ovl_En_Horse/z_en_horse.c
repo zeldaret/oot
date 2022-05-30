@@ -542,7 +542,7 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
     f32 px;
     f32 pz;
     f32 d;
-    f32 dist;
+    f32 distSq;
     s32 prevWaypoint;
 
     EnHorse_RaceWaypointPos(raceInfo->waypoints, this->curRaceWaypoint, &curWaypointPos);
@@ -561,11 +561,11 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, PlayState* play, RaceInfo* raceIn
         prevWaypoint = raceInfo->numWaypoints - 1;
     }
     EnHorse_RaceWaypointPos(raceInfo->waypoints, prevWaypoint, &prevWaypointPos);
-    Math3D_PointDistToLine2D(this->actor.world.pos.x, this->actor.world.pos.z, prevWaypointPos.x, prevWaypointPos.z,
-                             curWaypointPos.x, curWaypointPos.z, &dist);
+    Math3D_PointDistSqToLine2D(this->actor.world.pos.x, this->actor.world.pos.z, prevWaypointPos.x, prevWaypointPos.z,
+                               curWaypointPos.x, curWaypointPos.z, &distSq);
     EnHorse_RotateToPoint(this, play, &curWaypointPos, 400);
 
-    if (dist < 90000.0f) {
+    if (distSq < SQ(300.0f)) {
         playerDist = this->actor.xzDistToPlayer;
         if (playerDist < 130.0f || this->jntSph.elements[0].info.ocElemFlags & 2) {
             if (Math_SinS(this->actor.yawTowardsPlayer - this->actor.world.rot.y) > 0.0f) {
