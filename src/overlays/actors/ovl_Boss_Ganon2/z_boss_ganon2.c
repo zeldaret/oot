@@ -1830,8 +1830,8 @@ void func_80902348(BossGanon2* this, PlayState* play) {
         for (i = 0; i < ARRAY_COUNT(this->unk_864); i++) {
             if (this->unk_444.elements[i].info.bumperFlags & 2) {
                 this->unk_444.elements[i].info.bumperFlags &= ~2;
-            } else if (this->unk_444.elements[i].info.toucherFlags & 2) {
-                this->unk_444.elements[i].info.toucherFlags &= ~2;
+            } else if (this->unk_444.elements[i].info.toucherFlags & TOUCH_HIT) {
+                this->unk_444.elements[i].info.toucherFlags &= ~TOUCH_HIT;
 
                 if (this->unk_312 == 1) {
                     phi_v0_2 = 0x1800;

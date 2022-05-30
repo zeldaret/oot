@@ -317,6 +317,7 @@ typedef enum {
 #define TOUCH_ON (1 << 0) // Can have AT collisions
 #define TOUCH_HIT (1 << 1) // Had an AT collision
 #define TOUCH_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
+#define TOUCH_SFX_MASK (3 << 3)
 #define TOUCH_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
 #define TOUCH_SFX_HARD (1 << 3) // Always uses hard deflection sound
 #define TOUCH_SFX_WOOD (2 << 3) // Always uses wood deflection sound
