@@ -1010,7 +1010,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ Vec3f initalPos;
     /* 0x0C */ s16 animTimer;
-    /* 0x10 */ InfiniteLine bgCamPosPlayerLine;
+    /* 0x10 */ InfiniteLine eyeAndDirection;
 } Unique0ReadWriteData; // size = 0x28
 
 typedef struct {

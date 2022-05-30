@@ -3843,15 +3843,15 @@ u32 SurfaceType_GetBgCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly,
 u16 BgCheck_GetBgCamDataSettingImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId) {
     u16 camSetting;
     CollisionHeader* colHeader;
-    BgCamData* bgCamData;
+    BgCamData* bgCamDataList;
 
     colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
     if (colHeader == NULL) {
         return CAM_SET_NONE;
     }
 
-    bgCamData = colHeader->bgCamDataList;
-    camSetting = bgCamData[bgCamDataIndex].setting;
+    bgCamDataList = colHeader->bgCamDataList;
+    camSetting = bgCamDataList[bgCamDataIndex].setting;
 
     return camSetting;
 }
@@ -3861,15 +3861,15 @@ u16 BgCheck_GetBgCamDataSettingImpl(CollisionContext* colCtx, u32 bgCamDataIndex
  */
 u16 BgCheck_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
-    BgCamData* bgCamData;
+    BgCamData* bgCamDataList;
     SurfaceType* surfaceTypes;
 
     if (colHeader == NULL) {
         return CAM_SET_NONE;
     }
 
-    bgCamData = colHeader->bgCamDataList;
-    if (bgCamData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    bgCamDataList = colHeader->bgCamDataList;
+    if (bgCamDataList == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return CAM_SET_NONE;
     }
 
@@ -3882,22 +3882,22 @@ u16 BgCheck_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s
 }
 
 /**
- * CamData Get the total count of Vec3s data from bgCamData
+ * Get the total count of Vec3s data from bgCamData
  */
 u16 BgCheck_GetBgCamDataNumVec3sImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
-    BgCamData* bgCamData;
+    BgCamData* bgCamDataList;
 
     if (colHeader == NULL) {
         return 0;
     }
 
-    bgCamData = colHeader->bgCamDataList;
-    if (bgCamData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    bgCamDataList = colHeader->bgCamDataList;
+    if (bgCamDataList == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
 
-    return bgCamData[bgCamDataIndex].numData;
+    return bgCamDataList[bgCamDataIndex].numData;
 }
 
 /**
@@ -3905,15 +3905,15 @@ u16 BgCheck_GetBgCamDataNumVec3sImpl(CollisionContext* colCtx, u32 bgCamDataInde
  */
 u16 BgCheck_GetBgCamDataNumVec3s(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
-    BgCamData* bgCamData;
+    BgCamData* bgCamDataList;
     SurfaceType* surfaceTypes;
 
     if (colHeader == NULL) {
         return 0;
     }
 
-    bgCamData = colHeader->bgCamDataList;
-    if (bgCamData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    bgCamDataList = colHeader->bgCamDataList;
+    if (bgCamDataList == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return 0;
     }
 
@@ -3949,15 +3949,15 @@ Vec3s* BgCheck_GetBgCamDataVec3sImpl(CollisionContext* colCtx, s32 bgCamDataInde
  */
 Vec3s* BgCheck_GetBgCamDataVec3s(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId) {
     CollisionHeader* colHeader = BgCheck_GetCollisionHeader(colCtx, bgId);
-    BgCamData* bgCamData;
+    BgCamData* bgCamDataList;
     SurfaceType* surfaceTypes;
 
     if (colHeader == NULL) {
         return NULL;
     }
 
-    bgCamData = colHeader->bgCamDataList;
-    if (bgCamData == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
+    bgCamDataList = colHeader->bgCamDataList;
+    if (bgCamDataList == PHYSICAL_TO_VIRTUAL(gSegments[0])) {
         return NULL;
     }
 

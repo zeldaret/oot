@@ -4311,9 +4311,9 @@ s32 Camera_Subj3(Camera* camera) {
  * Note:
  * Subject 4 uses bgCamData.data differently than other functions:
  * All Vec3s data are points along the crawlspace
- * The second point represents the entrance, and the second last point represents the exit
+ * The second point represents the entrance, and the second to last point represents the exit
  * All other points are unused
- * All instances of crawlsapces have 6 points, except for the Testroom scene which has 9 points
+ * All instances of crawlspaces have 6 points, except for the Testroom scene which has 9 points
  */
 s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;
@@ -4873,9 +4873,9 @@ s32 Camera_Unique0(Camera* camera) {
         camera->unk_14C &= ~4;
 
         bgCamData = (SubBgCamData*)Camera_GetSurfaceBgCamData(camera);
-        Camera_Vec3sToVec3f(&rwData->bgCamPosPlayerLine.point, &bgCamData->pos);
+        Camera_Vec3sToVec3f(&rwData->eyeAndDirection.point, &bgCamData->pos);
 
-        *eye = camera->eyeNext = rwData->bgCamPosPlayerLine.point;
+        *eye = camera->eyeNext = rwData->eyeAndDirection.point;
         bgCamRot = bgCamData->rot;
         fov = bgCamData->fov;
         if (fov != -1) {
@@ -4888,8 +4888,8 @@ s32 Camera_Unique0(Camera* camera) {
         atPlayerOffset.r = OLib_Vec3fDist(&playerPosWithOffset, eye);
         atPlayerOffset.yaw = bgCamRot.y;
         atPlayerOffset.pitch = -bgCamRot.x;
-        OLib_VecSphGeoToVec3f(&rwData->bgCamPosPlayerLine.dir, &atPlayerOffset);
-        Math3D_LineClosestToPoint(&rwData->bgCamPosPlayerLine, &playerPosRot->pos, &camera->at);
+        OLib_VecSphGeoToVec3f(&rwData->eyeAndDirection.dir, &atPlayerOffset);
+        Math3D_LineClosestToPoint(&rwData->eyeAndDirection, &playerPosRot->pos, &camera->at);
         rwData->initalPos = playerPosRot->pos;
         camera->animState++;
     }
@@ -8078,7 +8078,7 @@ s16 func_8005AD1C(Camera* camera, s16 arg1) {
 /**
  * A bgCamDataIndex of -99 will save the door params without changing the camera setting
  * A bgCamDataIndex of -1 uses the default door camera setting (CAM_SET_DOORC)
- * Otherwise, change the door camera setting by reading the bg surface data indexed at bgCamDataIndex
+ * Otherwise, change the door camera setting by reading the bgCamData indexed at bgCamDataIndex
  */
 s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 bgCamDataIndex, f32 arg3, s16 timer1, s16 timer2,
                          s16 timer3) {
