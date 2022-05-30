@@ -2567,7 +2567,7 @@ void BossMo_DrawWater(BossMo* this, PlayState* play) {
     if (1) {}
 
     Matrix_Push();
-    Gfx_SetupDL25Xlu(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Translate(0.0f, MO_WATER_LEVEL(play), 0.0f, MTXMODE_NEW);
 
     gSPSegment(POLY_XLU_DISP++, 0x0D,
@@ -2599,7 +2599,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
         BossMo_DrawWater(this, play);
     }
     if (this->drawActor) {
-        Gfx_SetupDL25Xlu(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, 0, sMorphaTent1->work[MO_TENT_VAR_TIMER] * 3,
@@ -2644,7 +2644,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
                 shadowAlpha = 160;
             }
 
-            Gfx_SetupDL44Xlu(play->state.gfxCtx);
+            Gfx_SetupDL_44Xlu(play->state.gfxCtx);
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, shadowAlpha);
 
@@ -2671,7 +2671,7 @@ void BossMo_DrawCore(Actor* thisx, PlayState* play) {
         Vec3f sp6C;
         Vec3f sp60;
 
-        Gfx_SetupDL25Xlu(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (s8)this->fwork[MO_CORE_INTRO_WATER_ALPHA]);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (s8)this->fwork[MO_CORE_INTRO_WATER_ALPHA]);
@@ -2724,11 +2724,11 @@ void BossMo_DrawTent(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_mo.c", 6958);
     if (1) {}
-    Gfx_SetupDL25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, (s8)(this->baseAlpha * 1.5f));
     gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);
 
-    Gfx_SetupDL25Xlu(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->work[MO_TENT_BASE_TEX1_X], this->work[MO_TENT_BASE_TEX1_Y],
                                 32, 32, 1, this->work[MO_TENT_BASE_TEX2_X], this->work[MO_TENT_BASE_TEX2_Y], 32, 32));
@@ -2909,7 +2909,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BIG_RIPPLE) {
             if (materialFlag == 0) {
-                Gfx_SetupDL60NoCDXlu(gfxCtx);
+                Gfx_SetupDL_60NoCDXlu(gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
@@ -2932,7 +2932,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_SMALL_RIPPLE) {
             if (materialFlag == 0) {
-                Gfx_SetupDL25Xlu(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 255, 0);
 
@@ -2984,7 +2984,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_WET_SPOT) {
             if (materialFlag == 0) {
-                Gfx_SetupDL44Xlu(gfxCtx);
+                Gfx_SetupDL_44Xlu(gfxCtx);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
@@ -3010,7 +3010,7 @@ void BossMo_DrawEffects(BossMoEffect* effect, PlayState* play) {
     for (i = 0; i < BOSS_MO_EFFECT_COUNT; i++, effect++) {
         if (effect->type == MO_FX_BUBBLE) {
             if (materialFlag == 0) {
-                Gfx_SetupDL25Opa(play->state.gfxCtx);
+                Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
                 gDPSetEnvColor(POLY_OPA_DISP++, 150, 150, 150, 0);
 

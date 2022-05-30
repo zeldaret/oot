@@ -324,7 +324,7 @@ void EnMThunder_Draw(Actor* thisx, PlayState* play2) {
     s32 phi_t1;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_m_thunder.c", 844);
-    Gfx_SetupDL25Xlu(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_m_thunder.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

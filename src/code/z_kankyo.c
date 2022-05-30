@@ -1417,7 +1417,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
         scale = (color * 2.0f) + 10.0f;
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 2364), G_MTX_LOAD);
-        Gfx_SetupDL54Opa(play->state.gfxCtx);
+        Gfx_SetupDL_54Opa(play->state.gfxCtx);
         gSPDisplayList(POLY_OPA_DISP++, gSunDL);
 
         Matrix_Translate(play->view.eye.x - play->envCtx.sunPos.x, play->view.eye.y - play->envCtx.sunPos.y,
@@ -1436,7 +1436,7 @@ void Environment_DrawSunAndMoon(PlayState* play) {
 
         if (alpha > 0.0f) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 2406), G_MTX_LOAD);
-            Gfx_SetupDL51Opa(play->state.gfxCtx);
+            Gfx_SetupDL_51Opa(play->state.gfxCtx);
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 240, 255, 180, alpha);
             gDPSetEnvColor(POLY_OPA_DISP++, 80, 70, 20, alpha);
@@ -1631,7 +1631,7 @@ void Environment_DrawLensFlare(PlayState* play, EnvironmentContext* envCtx, View
 
         if (glareStrength != 0) {
             if (glareAlphaScale > 0.0f) {
-                POLY_XLU_DISP = Gfx_SetupDL57(POLY_XLU_DISP);
+                POLY_XLU_DISP = Gfx_SetupDL_57(POLY_XLU_DISP);
 
                 alpha = colorIntensity / 10.0f;
                 alpha = CLAMP_MAX(alpha, 1.0f);
@@ -1752,7 +1752,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
 
             for (i = 0; i < play->envCtx.precipitation[PRECIP_RAIN_CUR]; i++) {
                 if (!materialFlag) {
-                    Gfx_SetupDL25Xlu(gfxCtx);
+                    Gfx_SetupDL_25Xlu(gfxCtx);
                     gDPSetEnvColor(POLY_XLU_DISP++, 155, 155, 155, 0);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 120);
                     materialFlag++;
@@ -1809,7 +1809,7 @@ void Environment_DrawSkyboxFilters(PlayState* play) {
 
         OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 3032);
 
-        Gfx_SetupDL57Opa(play->state.gfxCtx);
+        Gfx_SetupDL_57Opa(play->state.gfxCtx);
 
         alpha = (1000 - play->lightCtx.fogNear) * 0.02f;
 
@@ -1831,7 +1831,7 @@ void Environment_DrawSkyboxFilters(PlayState* play) {
     if (play->envCtx.customSkyboxFilter) {
         OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 3048);
 
-        Gfx_SetupDL57Opa(play->state.gfxCtx);
+        Gfx_SetupDL_57Opa(play->state.gfxCtx);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, play->envCtx.skyboxFilterColor[0], play->envCtx.skyboxFilterColor[1],
                         play->envCtx.skyboxFilterColor[2], play->envCtx.skyboxFilterColor[3]);
         gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
@@ -1843,7 +1843,7 @@ void Environment_DrawSkyboxFilters(PlayState* play) {
 void Environment_DrawLightningFlash(PlayState* play, u8 red, u8 green, u8 blue, u8 alpha) {
     OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 3069);
 
-    Gfx_SetupDL57Opa(play->state.gfxCtx);
+    Gfx_SetupDL_57Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, red, green, blue, alpha);
     gDPFillRectangle(POLY_OPA_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
@@ -2015,7 +2015,7 @@ void Environment_DrawLightning(PlayState* play, s32 unused) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_kankyo.c", 3333),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(lightningTextures[sLightningBolts[i].textureIndex]));
-            Gfx_SetupDL61Xlu(play->state.gfxCtx);
+            Gfx_SetupDL_61Xlu(play->state.gfxCtx);
             gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gEffLightningDL);
         }
@@ -2306,7 +2306,7 @@ void Environment_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, 
         OPEN_DISPS(gfxCtx, "../z_kankyo.c", 3835);
 
         if (drawFlags & FILL_SCREEN_OPA) {
-            POLY_OPA_DISP = Gfx_SetupDL57(POLY_OPA_DISP);
+            POLY_OPA_DISP = Gfx_SetupDL_57(POLY_OPA_DISP);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, red, green, blue, alpha);
             gDPSetAlphaDither(POLY_OPA_DISP++, G_AD_DISABLE);
             gDPSetColorDither(POLY_OPA_DISP++, G_CD_DISABLE);
@@ -2314,7 +2314,7 @@ void Environment_FillScreen(GraphicsContext* gfxCtx, u8 red, u8 green, u8 blue, 
         }
 
         if (drawFlags & FILL_SCREEN_XLU) {
-            POLY_XLU_DISP = Gfx_SetupDL57(POLY_XLU_DISP);
+            POLY_XLU_DISP = Gfx_SetupDL_57(POLY_XLU_DISP);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, red, green, blue, alpha);
 
             if ((u32)alpha == 255) {
@@ -2468,7 +2468,7 @@ void Environment_DrawSandstorm(PlayState* play, u8 sandstormState) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_kankyo.c", 4044);
 
-    POLY_XLU_DISP = Gfx_SetupDL64(POLY_XLU_DISP);
+    POLY_XLU_DISP = Gfx_SetupDL_64(POLY_XLU_DISP);
 
     gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
     gDPSetColorDither(POLY_XLU_DISP++, G_CD_NOISE);

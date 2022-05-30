@@ -1524,7 +1524,7 @@ void EnMb_Draw(Actor* thisx, PlayState* play) {
     s32 bodyPartIdx;
     EnMb* this = (EnMb*)thisx;
 
-    Gfx_SetupDL25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           EnMb_PostLimbDraw, thisx);
 

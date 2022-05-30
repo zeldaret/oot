@@ -242,7 +242,7 @@ void BgHidanCurtain_Draw(Actor* thisx, PlayState* play) {
     BgHidanCurtain* this = (BgHidanCurtain*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_curtain.c", 685);
-    Gfx_SetupDL25Xlu(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 220, 0, this->alpha);
 

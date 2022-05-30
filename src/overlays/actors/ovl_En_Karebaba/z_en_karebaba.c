@@ -445,7 +445,7 @@ void EnKarebaba_DrawBaseShadow(EnKarebaba* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_karebaba.c", 1013);
 
-    Gfx_SetupDL44Xlu(play->state.gfxCtx);
+    Gfx_SetupDL_44Xlu(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
     func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mf);
@@ -469,7 +469,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_karebaba.c", 1056);
 
-    Gfx_SetupDL25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if (this->actionFunc == EnKarebaba_DeadItemDrop) {
         if (this->actor.params > 40 || (this->actor.params & 1)) {

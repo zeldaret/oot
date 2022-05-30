@@ -1082,7 +1082,7 @@ void EnSt_Draw(Actor* thisx, PlayState* play) {
     EnSt* this = (EnSt*)thisx;
 
     EnSt_CheckBodyStickHit(this, play);
-    Gfx_SetupDL25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSt_OverrideLimbDraw,
                       EnSt_PostLimbDraw, this);
 }

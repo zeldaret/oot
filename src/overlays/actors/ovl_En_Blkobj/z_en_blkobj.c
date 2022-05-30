@@ -152,7 +152,7 @@ void EnBlkobj_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_blkobj.c", 349);
 
-    Gfx_SetupDL25Xlu(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gameplayFrames = play->gameplayFrames % 128;
 

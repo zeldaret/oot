@@ -332,7 +332,7 @@ void func_8097D29C(DemoGo* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_go.c", 732);
 
-    Gfx_SetupDL25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
 

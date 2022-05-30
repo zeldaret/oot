@@ -399,7 +399,7 @@ void EnFw_Draw(Actor* thisx, PlayState* play) {
     Matrix_Push();
     EnFw_DrawEffects(this, play);
     Matrix_Pop();
-    Gfx_SetupDL25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
 }
@@ -458,7 +458,7 @@ void EnFw_DrawEffects(EnFw* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fw.c", 1191);
 
     materialFlag = false;
-    Gfx_SetupDL25Xlu(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (1) {}
 
     for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {

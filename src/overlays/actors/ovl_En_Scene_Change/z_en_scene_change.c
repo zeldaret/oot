@@ -62,7 +62,7 @@ void EnSceneChange_Draw(Actor* thisx, PlayState* play) {
     displayListHead = displayList;
     gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
 
-    Gfx_SetupDL25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     CLOSE_DISPS(play->state.gfxCtx, "../z_en_scene_change.c", 386);
 }
