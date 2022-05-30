@@ -128,11 +128,12 @@ u8 sSeqInstructionArgsTable[] = {
     CMD_ARGS_0,                                     // 0xFF
 };
 
-u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 arg1) {
-    u8 highBits = sSeqInstructionArgsTable[arg1 - 0xB0];
+u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
+    u8 highBits = sSeqInstructionArgsTable[cmd - 0xB0];
     u8 lowBits = highBits & 3;
     u16 ret = 0;
 
+    // only 1 argument
     if (lowBits == 1) {
         if (!(highBits & 0x80)) {
             ret = AudioSeq_ScriptReadU8(state);
