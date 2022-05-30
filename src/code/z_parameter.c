@@ -1696,11 +1696,14 @@ u8 Item_Give(PlayState* play, u8 item) {
         Health_ChangeBy(play, 0x10);
         return item;
     } else if (item == ITEM_MAGIC_SMALL) {
-        if (gSaveContext.unk_13F0 != 10) {
+        if (gSaveContext.magicState != MAGIC_STATE_ADD) {
+            // This function is only used to store the magicState.
+            // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
+            // I.e. magic is added not filled
             Magic_Fill(play);
         }
 
-        func_80087708(play, 12, 5);
+        Magic_RequestChange(play, 12, MAGIC_ADD);
 
         if (!GET_INFTABLE(INFTABLE_198)) {
             SET_INFTABLE(INFTABLE_198);
@@ -1709,11 +1712,14 @@ u8 Item_Give(PlayState* play, u8 item) {
 
         return item;
     } else if (item == ITEM_MAGIC_LARGE) {
-        if (gSaveContext.unk_13F0 != 10) {
+        if (gSaveContext.magicState != MAGIC_STATE_ADD) {
+            // This function is only used to store the magicState.
+            // Setting the state to FILL gets immediately overwritten in Magic_RequestChange.
+            // I.e. magic is added not filled.
             Magic_Fill(play);
         }
 
-        func_80087708(play, 24, 5);
+        Magic_RequestChange(play, 24, MAGIC_ADD);
 
         if (!GET_INFTABLE(INFTABLE_198)) {
             SET_INFTABLE(INFTABLE_198);
@@ -2149,25 +2155,27 @@ void Interface_LoadActionLabelB(PlayState* play, u16 action) {
     interfaceCtx->unk_1FA = true;
 }
 
-s32 Health_ChangeBy(PlayState* play, s16 healthChange) {
+/**
+ * @return false if player is out of health
+ */
+s32 Health_ChangeBy(PlayState* play, s16 amount) {
     u16 heartCount;
     u16 healthLevel;
 
     // "＊＊＊＊＊ Fluctuation=%d (now=%d, max=%d) ＊＊＊"
-    osSyncPrintf("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", healthChange, gSaveContext.health,
+    osSyncPrintf("＊＊＊＊＊  増減=%d (now=%d, max=%d)  ＊＊＊", amount, gSaveContext.health,
                  gSaveContext.healthCapacity);
 
     // clang-format off
-    if (healthChange > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4,
-                                                   &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
-                                                   &gSfxDefaultReverb);
-    } else if (gSaveContext.doubleDefense && (healthChange < 0)) {
-        healthChange >>= 1;
-        osSyncPrintf("ハート減少半分！！＝%d\n", healthChange); // "Heart decrease halved!!＝%d"
+    if (amount > 0) { Audio_PlaySoundGeneral(NA_SE_SY_HP_RECOVER, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
+                                             &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+    } else if (gSaveContext.doubleDefense && (amount < 0)) {
+        amount >>= 1;
+        osSyncPrintf("ハート減少半分！！＝%d\n", amount); // "Heart decrease halved!!＝%d"
     }
     // clang-format on
 
-    gSaveContext.health += healthChange;
+    gSaveContext.health += amount;
 
     if (gSaveContext.health > gSaveContext.healthCapacity) {
         gSaveContext.health = gSaveContext.healthCapacity;
@@ -2265,115 +2273,133 @@ void Inventory_ChangeAmmo(s16 item, s16 ammoChange) {
 }
 
 void Magic_Fill(PlayState* play) {
-    if (gSaveContext.magicAcquired) {
-        gSaveContext.unk_13F2 = gSaveContext.unk_13F0;
-        gSaveContext.unk_13F6 = (gSaveContext.doubleMagic * 0x30) + 0x30;
-        gSaveContext.unk_13F0 = 9;
+    if (gSaveContext.isMagicAcquired) {
+        gSaveContext.prevMagicState = gSaveContext.magicState;
+        gSaveContext.magicFillTarget = (gSaveContext.isDoubleMagicAcquired + 1) * MAGIC_NORMAL_METER;
+        gSaveContext.magicState = MAGIC_STATE_FILL;
     }
 }
 
-void func_800876C8(PlayState* play) {
-    if ((gSaveContext.unk_13F0 != 8) && (gSaveContext.unk_13F0 != 9)) {
-        if (gSaveContext.unk_13F0 == 10) {
-            gSaveContext.unk_13F2 = gSaveContext.unk_13F0;
+void Magic_Reset(PlayState* play) {
+    if ((gSaveContext.magicState != MAGIC_STATE_STEP_CAPACITY) && (gSaveContext.magicState != MAGIC_STATE_FILL)) {
+        if (gSaveContext.magicState == MAGIC_STATE_ADD) {
+            gSaveContext.prevMagicState = gSaveContext.magicState;
         }
-        gSaveContext.unk_13F0 = 5;
+        gSaveContext.magicState = MAGIC_STATE_RESET;
     }
 }
 
-s32 func_80087708(PlayState* play, s16 arg1, s16 arg2) {
-    if (!gSaveContext.magicAcquired) {
-        return 0;
+/**
+ * Request to either increase or consume magic.
+ * @param amount the positive-valued amount to either increase or decrease magic by
+ * @param type how the magic is increased or consumed.
+ * @return false if the request failed
+ */
+s32 Magic_RequestChange(PlayState* play, s16 amount, s16 type) {
+    if (!gSaveContext.isMagicAcquired) {
+        return false;
     }
 
-    if ((arg2 != 5) && (gSaveContext.magic - arg1) < 0) {
-        if (gSaveContext.unk_13F4 != 0) {
+    if ((type != MAGIC_ADD) && (gSaveContext.magic - amount) < 0) {
+        if (gSaveContext.magicCapacity != 0) {
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         }
-        return 0;
+        return false;
     }
 
-    switch (arg2) {
-        case 0:
-        case 2:
-            if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
-                if (gSaveContext.unk_13F0 == 7) {
+    switch (type) {
+        case MAGIC_CONSUME_NOW:
+        case MAGIC_CONSUME_NOW_ALT:
+            // Consume magic immediately
+            if ((gSaveContext.magicState == MAGIC_STATE_IDLE) ||
+                (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS)) {
+                if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
                     play->actorCtx.lensActive = false;
                 }
-                gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
-                gSaveContext.unk_13F0 = 1;
-                return 1;
+                gSaveContext.magicTarget = gSaveContext.magic - amount;
+                gSaveContext.magicState = MAGIC_STATE_CONSUME_SETUP;
+                return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                return 0;
+                return false;
             }
-        case 1:
-            if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
-                if (gSaveContext.unk_13F0 == 7) {
+
+        case MAGIC_CONSUME_WAIT_NO_PREVIEW:
+            // Sets consume target but waits to consume.
+            // No yellow magic to preview target consumption.
+            // Unused
+            if ((gSaveContext.magicState == MAGIC_STATE_IDLE) ||
+                (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS)) {
+                if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
                     play->actorCtx.lensActive = false;
                 }
-                gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
-                gSaveContext.unk_13F0 = 6;
-                return 1;
+                gSaveContext.magicTarget = gSaveContext.magic - amount;
+                gSaveContext.magicState = MAGIC_STATE_METER_FLASH_3;
+                return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                return 0;
+                return false;
             }
-        case 3:
-            if (gSaveContext.unk_13F0 == 0) {
+
+        case MAGIC_CONSUME_LENS:
+            if (gSaveContext.magicState == MAGIC_STATE_IDLE) {
                 if (gSaveContext.magic != 0) {
-                    play->interfaceCtx.unk_230 = 80;
-                    gSaveContext.unk_13F0 = 7;
-                    return 1;
+                    play->interfaceCtx.lensMagicConsumptionTimer = 80;
+                    gSaveContext.magicState = MAGIC_STATE_CONSUME_LENS;
+                    return true;
                 } else {
-                    return 0;
+                    return false;
                 }
+            } else if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
+                return true;
             } else {
-                if (gSaveContext.unk_13F0 == 7) {
-                    return 1;
-                } else {
-                    return 0;
-                }
+                return false;
             }
-        case 4:
-            if ((gSaveContext.unk_13F0 == 0) || (gSaveContext.unk_13F0 == 7)) {
-                if (gSaveContext.unk_13F0 == 7) {
+
+        case MAGIC_CONSUME_WAIT_PREVIEW:
+            // Sets consume target but waits to consume.
+            // Preview consumption with a yellow bar
+            if ((gSaveContext.magicState == MAGIC_STATE_IDLE) ||
+                (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS)) {
+                if (gSaveContext.magicState == MAGIC_STATE_CONSUME_LENS) {
                     play->actorCtx.lensActive = false;
                 }
-                gSaveContext.unk_13F8 = gSaveContext.magic - arg1;
-                gSaveContext.unk_13F0 = 4;
-                return 1;
+                gSaveContext.magicTarget = gSaveContext.magic - amount;
+                gSaveContext.magicState = MAGIC_STATE_METER_FLASH_2;
+                return true;
             } else {
                 Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                return 0;
+                return false;
             }
-        case 5:
-            if (gSaveContext.unk_13F4 >= gSaveContext.magic) {
-                gSaveContext.unk_13F8 = gSaveContext.magic + arg1;
 
-                if (gSaveContext.unk_13F8 >= gSaveContext.unk_13F4) {
-                    gSaveContext.unk_13F8 = gSaveContext.unk_13F4;
+        case MAGIC_ADD:
+            // Sets target for magic to increase to
+            if (gSaveContext.magic <= gSaveContext.magicCapacity) {
+                gSaveContext.magicTarget = gSaveContext.magic + amount;
+
+                if (gSaveContext.magicTarget >= gSaveContext.magicCapacity) {
+                    gSaveContext.magicTarget = gSaveContext.magicCapacity;
                 }
 
-                gSaveContext.unk_13F0 = 10;
-                return 1;
+                gSaveContext.magicState = MAGIC_STATE_ADD;
+                return true;
             }
             break;
     }
 
-    return 0;
+    return false;
 }
 
-void Interface_UpdateMagicBar(PlayState* play) {
+void Magic_Update(PlayState* play) {
     static s16 sMagicBorderColors[][3] = {
         { 255, 255, 255 },
         { 150, 150, 150 },
-        { 255, 255, 150 },
-        { 255, 255, 50 },
+        { 255, 255, 150 }, // unused
+        { 255, 255, 50 },  // unused
     };
     static s16 sMagicBorderIndices[] = { 0, 1, 1, 0 };
     static s16 sMagicBorderRatio = 2;
@@ -2383,29 +2409,34 @@ void Interface_UpdateMagicBar(PlayState* play) {
     s16 borderChangeR;
     s16 borderChangeG;
     s16 borderChangeB;
-    s16 temp;
+    s16 temp; // target for magicCapacity, or magicBorderIndex
 
-    switch (gSaveContext.unk_13F0) {
-        case 8:
-            temp = gSaveContext.magicLevel * 0x30;
-            if (gSaveContext.unk_13F4 != temp) {
-                if (gSaveContext.unk_13F4 < temp) {
-                    gSaveContext.unk_13F4 += 8;
-                    if (gSaveContext.unk_13F4 > temp) {
-                        gSaveContext.unk_13F4 = temp;
+    switch (gSaveContext.magicState) {
+        case MAGIC_STATE_STEP_CAPACITY:
+            // Step magicCapacity to the capacity determined by magicLevel
+            // This changes the width of the magic meter drawn
+            temp = gSaveContext.magicLevel * MAGIC_NORMAL_METER;
+            if (gSaveContext.magicCapacity != temp) {
+                if (gSaveContext.magicCapacity < temp) {
+                    gSaveContext.magicCapacity += 8;
+                    if (gSaveContext.magicCapacity > temp) {
+                        gSaveContext.magicCapacity = temp;
                     }
                 } else {
-                    gSaveContext.unk_13F4 -= 8;
-                    if (gSaveContext.unk_13F4 <= temp) {
-                        gSaveContext.unk_13F4 = temp;
+                    gSaveContext.magicCapacity -= 8;
+                    if (gSaveContext.magicCapacity <= temp) {
+                        gSaveContext.magicCapacity = temp;
                     }
                 }
             } else {
-                gSaveContext.unk_13F0 = 9;
+                // Once the capacity has reached its target,
+                // follow up by filling magic to magicFillTarget
+                gSaveContext.magicState = MAGIC_STATE_FILL;
             }
             break;
 
-        case 9:
+        case MAGIC_STATE_FILL:
+            // Add magic until magicFillTarget is reached
             gSaveContext.magic += 4;
 
             if (gSaveContext.gameMode == 0 && gSaveContext.sceneSetupIndex < 4) {
@@ -2414,32 +2445,36 @@ void Interface_UpdateMagicBar(PlayState* play) {
             }
 
             // "Storage  MAGIC_NOW=%d (%d)"
-            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.unk_13F6);
-            if (gSaveContext.magic >= gSaveContext.unk_13F6) {
-                gSaveContext.magic = gSaveContext.unk_13F6;
-                gSaveContext.unk_13F0 = gSaveContext.unk_13F2;
-                gSaveContext.unk_13F2 = 0;
+            osSyncPrintf("蓄電  MAGIC_NOW=%d (%d)\n", gSaveContext.magic, gSaveContext.magicFillTarget);
+
+            if (gSaveContext.magic >= gSaveContext.magicFillTarget) {
+                gSaveContext.magic = gSaveContext.magicFillTarget;
+                gSaveContext.magicState = gSaveContext.prevMagicState;
+                gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
             }
             break;
 
-        case 1:
+        case MAGIC_STATE_CONSUME_SETUP:
+            // Sets the speed at which magic border flashes
             sMagicBorderRatio = 2;
-            gSaveContext.unk_13F0 = 2;
+            gSaveContext.magicState = MAGIC_STATE_CONSUME;
             break;
 
-        case 2:
+        case MAGIC_STATE_CONSUME:
+            // Consume magic until target is reached or no more magic is available
             gSaveContext.magic -= 2;
             if (gSaveContext.magic <= 0) {
                 gSaveContext.magic = 0;
-                gSaveContext.unk_13F0 = 3;
+                gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
-            } else if (gSaveContext.magic == gSaveContext.unk_13F8) {
-                gSaveContext.unk_13F0 = 3;
+            } else if (gSaveContext.magic == gSaveContext.magicTarget) {
+                gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             }
-        case 3:
-        case 4:
-        case 6:
+            // fallthrough (flash border while magic is being consumed)
+        case MAGIC_STATE_METER_FLASH_1:
+        case MAGIC_STATE_METER_FLASH_2:
+        case MAGIC_STATE_METER_FLASH_3:
             temp = sMagicBorderIndices[sMagicBorderStep];
             borderChangeR = ABS(sMagicBorderR - sMagicBorderColors[temp][0]) / sMagicBorderRatio;
             borderChangeG = ABS(sMagicBorderG - sMagicBorderColors[temp][1]) / sMagicBorderRatio;
@@ -2476,12 +2511,13 @@ void Interface_UpdateMagicBar(PlayState* play) {
             }
             break;
 
-        case 5:
+        case MAGIC_STATE_RESET:
             sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
-            gSaveContext.unk_13F0 = 0;
+            gSaveContext.magicState = MAGIC_STATE_IDLE;
             break;
 
-        case 7:
+        case MAGIC_STATE_CONSUME_LENS:
+            // Slowly consume magic while lens is on
             if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
                 (play->gameOverCtx.state == GAMEOVER_INACTIVE) && (play->transitionTrigger == TRANS_TRIGGER_OFF) &&
                 (play->transitionMode == TRANS_MODE_OFF) && !Play_InCsMode(play)) {
@@ -2490,18 +2526,19 @@ void Interface_UpdateMagicBar(PlayState* play) {
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[3] != ITEM_LENS)) ||
                     !play->actorCtx.lensActive) {
+                    // Force lens off and set magic meter state to idle
                     play->actorCtx.lensActive = false;
                     Audio_PlaySoundGeneral(NA_SE_SY_GLASSMODE_OFF, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                            &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-                    gSaveContext.unk_13F0 = 0;
+                    gSaveContext.magicState = MAGIC_STATE_IDLE;
                     sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
                     break;
                 }
 
-                interfaceCtx->unk_230--;
-                if (interfaceCtx->unk_230 == 0) {
+                interfaceCtx->lensMagicConsumptionTimer--;
+                if (interfaceCtx->lensMagicConsumptionTimer == 0) {
                     gSaveContext.magic--;
-                    interfaceCtx->unk_230 = 80;
+                    interfaceCtx->lensMagicConsumptionTimer = 80;
                 }
             }
 
@@ -2541,34 +2578,35 @@ void Interface_UpdateMagicBar(PlayState* play) {
             }
             break;
 
-        case 10:
+        case MAGIC_STATE_ADD:
+            // Add magic until target is reached
             gSaveContext.magic += 4;
             Audio_PlaySoundGeneral(NA_SE_SY_GAUGE_UP - SFX_FLAG, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                    &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-            if (gSaveContext.magic >= gSaveContext.unk_13F8) {
-                gSaveContext.magic = gSaveContext.unk_13F8;
-                gSaveContext.unk_13F0 = gSaveContext.unk_13F2;
-                gSaveContext.unk_13F2 = 0;
+            if (gSaveContext.magic >= gSaveContext.magicTarget) {
+                gSaveContext.magic = gSaveContext.magicTarget;
+                gSaveContext.magicState = gSaveContext.prevMagicState;
+                gSaveContext.prevMagicState = MAGIC_STATE_IDLE;
             }
             break;
 
         default:
-            gSaveContext.unk_13F0 = 0;
+            gSaveContext.magicState = MAGIC_STATE_IDLE;
             break;
     }
 }
 
-void Interface_DrawMagicBar(PlayState* play) {
+void Magic_DrawMeter(PlayState* play) {
     InterfaceContext* interfaceCtx = &play->interfaceCtx;
-    s16 magicBarY;
+    s16 magicMeterY;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_parameter.c", 2650);
 
     if (gSaveContext.magicLevel != 0) {
         if (gSaveContext.healthCapacity > 0xA0) {
-            magicBarY = R_MAGIC_BAR_LARGE_Y;
+            magicMeterY = R_MAGIC_METER_Y_LOWER; // two rows of hearts
         } else {
-            magicBarY = R_MAGIC_BAR_SMALL_Y;
+            magicMeterY = R_MAGIC_METER_Y_HIGHER; // one row of hearts
         }
 
         func_80094520(play->state.gfxCtx);
@@ -2576,55 +2614,55 @@ void Interface_DrawMagicBar(PlayState* play) {
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, sMagicBorderR, sMagicBorderG, sMagicBorderB, interfaceCtx->magicAlpha);
         gDPSetEnvColor(OVERLAY_DISP++, 100, 50, 50, 255);
 
-        OVERLAY_DISP =
-            Gfx_TextureIA8(OVERLAY_DISP, gMagicBarEndTex, 8, 16, R_MAGIC_BAR_X, magicBarY, 8, 16, 1 << 10, 1 << 10);
+        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gMagicMeterEndTex, 8, 16, R_MAGIC_METER_X, magicMeterY, 8, 16,
+                                      1 << 10, 1 << 10);
 
-        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gMagicBarMidTex, 24, 16, R_MAGIC_BAR_X + 8, magicBarY,
-                                      gSaveContext.unk_13F4, 16, 1 << 10, 1 << 10);
+        OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, gMagicMeterMidTex, 24, 16, R_MAGIC_METER_X + 8, magicMeterY,
+                                      gSaveContext.magicCapacity, 16, 1 << 10, 1 << 10);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, gMagicBarEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 16, 0,
+        gDPLoadTextureBlock(OVERLAY_DISP++, gMagicMeterEndTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 16, 0,
                             G_TX_MIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, ((R_MAGIC_BAR_X + gSaveContext.unk_13F4) + 8) << 2, magicBarY << 2,
-                            ((R_MAGIC_BAR_X + gSaveContext.unk_13F4) + 16) << 2, (magicBarY + 16) << 2, G_TX_RENDERTILE,
-                            256, 0, 1 << 10, 1 << 10);
+        gSPTextureRectangle(OVERLAY_DISP++, ((R_MAGIC_METER_X + gSaveContext.magicCapacity) + 8) << 2, magicMeterY << 2,
+                            ((R_MAGIC_METER_X + gSaveContext.magicCapacity) + 16) << 2, (magicMeterY + 16) << 2,
+                            G_TX_RENDERTILE, 256, 0, 1 << 10, 1 << 10);
 
         gDPPipeSync(OVERLAY_DISP++);
         gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE, PRIMITIVE,
                           ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0, 0, PRIMITIVE);
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
 
-        if (gSaveContext.unk_13F0 == 4) {
-            // Yellow part of the bar indicating the amount of magic to be subtracted
+        if (gSaveContext.magicState == MAGIC_STATE_METER_FLASH_2) {
+            // Yellow part of the meter indicating the amount of magic to be subtracted
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
 
-            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicBarFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
+            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                  G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
-                                (R_MAGIC_FILL_X + gSaveContext.magic) << 2, (magicBarY + 10) << 2, G_TX_RENDERTILE, 0,
+            gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicMeterY + 3) << 2,
+                                (R_MAGIC_FILL_X + gSaveContext.magic) << 2, (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0,
                                 0, 1 << 10, 1 << 10);
 
-            // Fill the rest of the bar with the normal magic color
+            // Fill the rest of the meter with the normal magic color
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
                             interfaceCtx->magicAlpha);
 
-            gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
-                                (R_MAGIC_FILL_X + gSaveContext.unk_13F8) << 2, (magicBarY + 10) << 2, G_TX_RENDERTILE,
-                                0, 0, 1 << 10, 1 << 10);
+            gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicMeterY + 3) << 2,
+                                (R_MAGIC_FILL_X + gSaveContext.magicTarget) << 2, (magicMeterY + 10) << 2,
+                                G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
         } else {
-            // Fill the whole bar with the normal magic color
+            // Fill the whole meter with the normal magic color
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, R_MAGIC_FILL_COLOR(0), R_MAGIC_FILL_COLOR(1), R_MAGIC_FILL_COLOR(2),
                             interfaceCtx->magicAlpha);
 
-            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicBarFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
+            gDPLoadMultiBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, 0, G_TX_RENDERTILE, G_IM_FMT_I, 16, 16, 0,
                                  G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                  G_TX_NOLOD, G_TX_NOLOD);
 
-            gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicBarY + 3) << 2,
-                                (R_MAGIC_FILL_X + gSaveContext.magic) << 2, (magicBarY + 10) << 2, G_TX_RENDERTILE, 0,
+            gSPTextureRectangle(OVERLAY_DISP++, R_MAGIC_FILL_X << 2, (magicMeterY + 3) << 2,
+                                (R_MAGIC_FILL_X + gSaveContext.magic) << 2, (magicMeterY + 10) << 2, G_TX_RENDERTILE, 0,
                                 0, 1 << 10, 1 << 10);
         }
     }
@@ -3161,7 +3199,7 @@ void Interface_Draw(PlayState* play) {
                               16, svar3, 206, 8, 16, 1 << 10, 1 << 10);
         }
 
-        Interface_DrawMagicBar(play);
+        Magic_DrawMeter(play);
         Minimap_Draw(play);
 
         if ((R_PAUSE_MENU_MODE != 2) && (R_PAUSE_MENU_MODE != 3)) {
@@ -4076,22 +4114,24 @@ void Interface_Update(PlayState* play) {
 
     WREG(7) = interfaceCtx->unk_1F4;
 
+    // Update Magic
     if ((play->pauseCtx.state == 0) && (play->pauseCtx.debugState == 0) && (msgCtx->msgMode == MSGMODE_NONE) &&
         (play->transitionTrigger == TRANS_TRIGGER_OFF) && (play->gameOverCtx.state == GAMEOVER_INACTIVE) &&
         (play->transitionMode == TRANS_MODE_OFF) && ((play->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(play))) {
-        if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
-            gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
-            gSaveContext.unk_13F0 = 8;
+
+        if (gSaveContext.isMagicAcquired && (gSaveContext.magicLevel == 0)) {
+            gSaveContext.magicLevel = gSaveContext.isDoubleMagicAcquired + 1;
+            gSaveContext.magicState = MAGIC_STATE_STEP_CAPACITY;
             osSyncPrintf(VT_FGCOL(YELLOW));
             osSyncPrintf("魔法スター─────ト！！！！！！！！！\n"); // "Magic Start!!!!!!!!!"
             osSyncPrintf("MAGIC_MAX=%d\n", gSaveContext.magicLevel);
             osSyncPrintf("MAGIC_NOW=%d\n", gSaveContext.magic);
-            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.unk_13F6);
-            osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.unk_13F4);
+            osSyncPrintf("Z_MAGIC_NOW_NOW=%d\n", gSaveContext.magicFillTarget);
+            osSyncPrintf("Z_MAGIC_NOW_MAX=%d\n", gSaveContext.magicCapacity);
             osSyncPrintf(VT_RST);
         }
 
-        Interface_UpdateMagicBar(play);
+        Magic_Update(play);
     }
 
     if (gSaveContext.timer1State == 0) {

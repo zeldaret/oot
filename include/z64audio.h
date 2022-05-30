@@ -193,7 +193,7 @@ typedef struct {
     /* 0x00 */ u8 loaded;
     /* 0x01 */ u8 normalRangeLo;
     /* 0x02 */ u8 normalRangeHi;
-    /* 0x03 */ u8 releaseRate;
+    /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
     /* 0x04 */ AdsrEnvelope* envelope;
     /* 0x08 */ SoundFontSound lowNotesSound;
     /* 0x10 */ SoundFontSound normalNotesSound;
@@ -201,7 +201,7 @@ typedef struct {
 } Instrument; // size = 0x20
 
 typedef struct {
-    /* 0x00 */ u8 releaseRate;
+    /* 0x00 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
     /* 0x01 */ u8 pan;
     /* 0x02 */ u8 loaded;
     /* 0x04 */ SoundFontSound sound;
@@ -271,7 +271,7 @@ typedef struct {
 } SequencePlayer; // size = 0x160
 
 typedef struct {
-    /* 0x0 */ u8 releaseRate;
+    /* 0x0 */ u8 decayIndex; // index used to obtain adsr decay rate from adsrDecayTable
     /* 0x1 */ u8 sustain;
     /* 0x4 */ AdsrEnvelope* envelope;
 } AdsrSettings; // size = 0x8
@@ -581,16 +581,16 @@ typedef struct {
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
-    /* 0x0C */ s16 updatesPerFrame;
+    /* 0x0C */ s16 updatesPerFrame; // for each frame of the audio thread (default 60 fps), number of updates to process audio
     /* 0x0E */ s16 samplesPerUpdate;
     /* 0x10 */ s16 samplesPerUpdateMax;
     /* 0x12 */ s16 samplesPerUpdateMin;
     /* 0x14 */ s16 numSequencePlayers;
     /* 0x18 */ f32 resampleRate;
-    /* 0x1C */ f32 updatesPerFrameInv;
-    /* 0x20 */ f32 unkUpdatesPerFrameScaled;
-    /* 0x24 */ f32 unk_24;
-} AudioBufferParameters;
+    /* 0x1C */ f32 updatesPerFrameInv; // inverse (reciprocal) of updatesPerFrame
+    /* 0x20 */ f32 updatesPerFrameInvScaled; // updatesPerFrameInv scaled down by a factor of 256
+    /* 0x24 */ f32 updatesPerFrameScaled; // updatesPerFrame scaled down by a factor of 4
+} AudioBufferParameters; // size = 0x28
 
 typedef struct {
     /* 0x0 */ u8* start;
@@ -856,7 +856,7 @@ typedef struct {
     /* 0x3518 */ volatile u8 resetStatus;
     /* 0x3519 */ u8 audioResetSpecIdToLoad;
     /* 0x351C */ s32 audioResetFadeOutFramesLeft;
-    /* 0x3520 */ f32* unk_3520;
+    /* 0x3520 */ f32* adsrDecayTable; // A table on the audio heap that stores decay rates used for adsr
     /* 0x3524 */ u8* audioHeap;
     /* 0x3528 */ u32 audioHeapSize;
     /* 0x352C */ Note* notes;
