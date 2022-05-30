@@ -41,9 +41,9 @@ u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** inst
 
 // CMD_ARGS_(NUMBER_OF_ARGS)
 #define CMD_ARGS_0 0
-#define CMD_ARGS_1(argType) ((argType << 7) | 1)
-#define CMD_ARGS_2(argType0, argType1) ((argType0 << 7) | (argType1 << 6) | 2)
-#define CMD_ARGS_3(argType0, argType1, argType2) ((argType0 << 7) | (argType1 << 6) | (argType1 << 5) | 3)
+#define CMD_ARGS_1(arg0Type) ((arg0Type << 7) | 1)
+#define CMD_ARGS_2(arg0Type, arg1Type) ((arg0Type << 7) | (arg1Type << 6) | 2)
+#define CMD_ARGS_3(arg0Type, arg1Type, arg2Type) ((arg0Type << 7) | (arg1Type << 6) | (arg2Type << 5) | 3)
 
 u8 sSeqInstructionArgsTable[] = {
     CMD_ARGS_1(CMD_ARG_S16),                        // 0xB0
