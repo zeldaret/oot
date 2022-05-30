@@ -26,7 +26,7 @@ typedef enum {
 
 // ==== Secondary commands ====
 
-// Subset of SEQ_CMD_TEMPO_CMD
+// Subset of `SEQ_CMD_TEMPO_CMD`
 typedef enum {
     /* 0x0 */ SEQ_SUB_CMD_TEMPO_SET,
     /* 0x1 */ SEQ_SUB_CMD_TEMPO_SPEED_UP,
@@ -35,7 +35,7 @@ typedef enum {
     /* 0x4 */ SEQ_SUB_CMD_TEMPO_RESET
 } TempoCmdType;
 
-// Subset of SEQ_CMD_SETUP_CMD
+// Subset of `SEQ_CMD_SETUP_CMD`
 typedef enum {
     /* 0x0 */ SEQ_SUB_CMD_SETUP_RESTORE_VOLUME,
     /* 0x1 */ SEQ_SUB_CMD_SETUP_SEQ_UNQUEUE,
@@ -52,7 +52,7 @@ typedef enum {
     /* 0xF */ SEQ_SUB_CMD_SETUP_RESET_SETUP_CMDS
 } SetupCmdType;
 
-// Subset of SEQ_CMD_GLOBAL_CMD
+// Subset of `SEQ_CMD_GLOBAL_CMD`
 typedef enum {
     /* 0x0 */ SEQ_SUB_CMD_GLOBAL_SET_SOUND_MODE,
     /* 0x1 */ SEQ_SUB_CMD_GLOBAL_DISABLE_NEW_SEQUENCES
@@ -69,18 +69,18 @@ typedef enum {
  *   0pttaass
  *
  * DESCRIPTION
- *   Request a sequence (seqId) to be played on the specified player (playerIndex).
- *   The sequence will gradually fade in over the course of (fadeInTimer).
- *   How (fadeInTimer) is interpreted depends on (seqArgs)
+ *   Request a sequence (`seqId`) to be played on the specified player (`playerIndex`).
+ *   The sequence will gradually fade in over the course of (`fadeInTimer`).
+ *   How (`fadeInTimer`) is interpreted depends on (`seqArgs`)
  *
- *   seqArgs = 8 and seqArgs = 9 (commonly used arguments) appear to have no functionality,
+ *   `seqArgs = 8` and `seqArgs = 9` (commonly used arguments) appear to have no functionality,
  *   although unused commands may suggest  these were intended to be a an priority for an unimplemented priority system.
  *
- *   ((seqArgs & 0x7F) != 0x7F) will interpret fadeInTimer as number of frames at 30 fps
- *   ((seqArgs & 0x7F) == 0x7F) will interpret fadeInTimer as skip ticks
- *   (seqArgs & 0x80) i.e. (seqArgs >= 0x80) has an incomplete implementation
+ *   `((seqArgs & 0x7F) != 0x7F)` will interpret fadeInTimer as number of frames at 30 fps
+ *   `((seqArgs & 0x7F) == 0x7F)` will interpret fadeInTimer as skip ticks
+ *   `(seqArgs & 0x80)` i.e. `(seqArgs >= 0x80)` has an incomplete implementation
  *   and is not functional in Ocarina of Time. No sequence will play as a result.
- *   The code and purpose for seqArgs >= 0x80 was completed and is functional in Majora's Mask.
+ *   The code and purpose for `seqArgs >= 0x80` was completed and is functional in Majora's Mask.
  */
 #define SEQCMD_PLAY_SEQUENCE(playerIndex, fadeInTimer, seqArgs, seqId)                               \
     Audio_QueueSeqCmd((SEQ_CMD_PLAY << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeInTimer) << 16) | \
@@ -95,8 +95,8 @@ typedef enum {
  *   1pttUUFF
  *
  * DESCRIPTION
- *   Request the active sequence to be stopped on the specified player (playerIndex).
- *   The sequence will gradually fade out over the course of (fadeOutTimer) frames at a rate of 30 fps.
+ *   Request the active sequence to be stopped on the specified player (`playerIndex`).
+ *   The sequence will gradually fade out over the course of (`fadeOutTimer`) frames at a rate of 30 fps.
  *   Note: The 0xFF in the command is not read from at all, but is common in all StopSequence Commands
  */
 #define SEQCMD_STOP_SEQUENCE(playerIndex, fadeOutTimer) \
@@ -111,11 +111,11 @@ typedef enum {
  *   2pttiiss
  *
  * DESCRIPTION
- *   Request a sequence (seqId) be added to a queue for a specified player (playerIndex).
- *   The request will be queued based on (priority).
+ *   Request a sequence (`seqId`) be added to a queue for a specified player (playerIndex).
+ *   The request will be queued based on (`priority`).
  *   Higher values have higher priority and will be queued to play sooner
- *   The sequence will gradually fade in over the course of (fadeInTimer).
- *   How (fadeInTimer) is interpreted depends on (seqArgs), see SEQCMD_PLAY_SEQUENCE
+ *   The sequence will gradually fade in over the course of (`fadeInTimer`).
+ *   How (fadeInTimer) is interpreted depends on (`seqArgs`), see `SEQCMD_PLAY_SEQUENCE`
  *
  *   The sequence that will be playing will be the 1st entry of the queue
  */
@@ -132,9 +132,9 @@ typedef enum {
  *   3pttUUss
  *
  * DESCRIPTION
- *   Request the active sequence to be stopped on the specified player (playerIndex).
+ *   Request the active sequence to be stopped on the specified player (`playerIndex`).
  *   Start the next sequence in the queue and move all requests forward place in the queue.
- *   The sequence will gradually fade out over the course of (fadeOutTimer) frames at a rate of 30 fps.
+ *   The sequence will gradually fade out over the course of (`fadeOutTimer`) frames at a rate of 30 fps.
  */
 #define SEQCMD_UNQUEUE_SEQUENCE(playerIndex, fadeOutTimer, seqId) \
     Audio_QueueSeqCmd((SEQ_CMD_UNQUEUE << 28) | ((u8)(playerIndex) << 24) | ((u8)(fadeOutTimer) << 16) | (seqId))
@@ -148,7 +148,7 @@ typedef enum {
  *   4pddUUvv
  *
  * DESCRIPTION
- *   Set the (volume) of an entire sequence on (playerIndex) over a (duration).
+ *   Set the (`volume`) of an entire sequence on (`playerIndex`) over a (`duration`).
  */
 #define SEQCMD_SET_PLAYER_VOLUME(playerIndex, duration, volume) \
     Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_VOLUME << 28) | ((u8)(playerIndex) << 24) | ((duration) << 16) | (volume))
@@ -162,10 +162,10 @@ typedef enum {
  *   5pddffff
  *
  * DESCRIPTION
- *   Scale the frequency of an entire sequence on (playerIndex).
- *   The scaling factor (freq) is relative to 1000.
- *   i.e. freq = 2000 with double the pitch and freq = 500 will half the pitch.
- *   Apply the frequency shift over (duration)
+ *   Scale the frequency of an entire sequence on (`playerIndex`).
+ *   The scaling factor (`freq`) is relative to 1000.
+ *   i.e. `freq = 2000` with double the pitch and `freq = 500` will half the pitch.
+ *   Apply the frequency shift over (`duration`)
  */
 #define SEQCMD_SET_PLAYER_FREQ(playerIndex, duration, freq) \
     Audio_QueueSeqCmd((SEQ_CMD_SET_PLAYER_FREQ << 28) | ((u8)(playerIndex) << 24) | ((duration) << 16) | (freq))
@@ -179,10 +179,10 @@ typedef enum {
  *   Dpddcfff
  *
  * DESCRIPTION
- *   Scale the frequency of a specific channel (channelIndex) on (playerIndex).
- *   The scaling factor (freq) is relative to 1000.
- *   i.e. freq = 2000 with double the pitch and freq = 500 will half the pitch.
- *   Apply the frequency shift over (duration)
+ *   Scale the frequency of a specific channel (`channelIndex`) on (`playerIndex`).
+ *   The scaling factor (`freq`) is relative to 1000.
+ *   i.e. `freq = 2000` with double the pitch and `freq = 500` will half the pitch.
+ *   Apply the frequency shift over (`duration`)
  */
 #define SEQCMD_SET_CHANNEL_FREQ(playerIndex, duration, channelIndex, freq)                                \
     Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_FREQ << 28) | ((u8)(playerIndex) << 24) | ((duration) << 16) | \
@@ -197,7 +197,7 @@ typedef enum {
  *   6pddUcvv
  *
  * DESCRIPTION
- *   Set the (volume) of a specific channel (channelIndex) on (playerIndex) over a (duration).
+ *   Set the (`volume`) of a specific channel (`channelIndex`) on (`playerIndex`) over a (`duration`).
  */
 #define SEQCMD_SET_CHANNEL_VOLUME(playerIndex, duration, channelIndex, volume)                                  \
     Audio_QueueSeqCmd((SEQ_CMD_SET_CHANNEL_VOLUME << 28) | ((u8)(playerIndex) << 24) | ((u8)(duration) << 16) | \
@@ -212,8 +212,8 @@ typedef enum {
  *   7pttUUvv
  *
  * DESCRIPTION
- *   Set a value (ioData) that will be read as io (port) directly by the sequence script on (playerIndex).
- *   This will be set to the global port, and how the sequence responds to the (ioData) will entirely depend on the
+ *   Set a value (`ioData`) that will be read as io (`port`) directly by the sequence script on (`playerIndex`).
+ *   This will be set to the global port, and how the sequence responds to the (`ioData`) will entirely depend on the
  *   customized sequence scripts for each sequence.
  *   Note: There are only a maximum of 8 ports indexed 0-7
  *   i.e. the sequence can only read 8 different io values at once)
@@ -230,8 +230,8 @@ typedef enum {
  *   8pttUcvv
  *
  * DESCRIPTION
- *   Set a (value) that will be read as io (port) directly by the sequence script on (playerIndex).
- *   This will be set to a specific channel (channelIndex), and how the sequence responds to the (ioData)
+ *   Set a value (`ioData`) that will be read as io (`port`) directly by the sequence script on (`playerIndex`).
+ *   This will be set to a specific channel (`channelIndex`), and how the sequence responds to the (`ioData`)
  *   will entirely depend on the customized sequence scripts for each sequence.
  *   Note: There are only a maximum of 8 ports indexed 0-7
  *   i.e. the sequence can only read 8 different io values at once)
@@ -249,10 +249,10 @@ typedef enum {
  *   9pUUmmmm
  *
  * DESCRIPTION
- *   Disable (or reenable) specific channel from receiving io of (playerIndex).
- *   Only disables channel io set by (SEQCMD_SET_CHANNEL_IO).
- *   i.e. calling Audio_QueueCmdS8 0x6 directy will still work.
- *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex).
+ *   Disable (or reenable) specific channel from receiving io of (`playerIndex`).
+ *   Only disables channel io set by (`SEQCMD_SET_CHANNEL_IO`).
+ *   i.e. calling `Audio_QueueCmdS8` 0x6 directy will still work.
+ *   Each of the 16 bits in (`channelMask`) is mapped to one of the 16 channel by `(1 << channelIndex)`.
  *   bit-on (1) disables a channel from receiving io, bit-off (0) reenables a channel receiving io.
  */
 #define SEQCMD_DISABLE_CHANNEL_IO(playerIndex, channelMask) \
@@ -267,8 +267,8 @@ typedef enum {
  *   ApUUmmmm
  *
  * DESCRIPTION
- *   Disable (or reenable) specific channels of (playerIndex).
- *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex).
+ *   Disable (or reenable) specific channels of (`playerIndex`).
+ *   Each of the 16 bits in (`channelMask`) is mapped to one of the 16 channel by `(1 << channelIndex)`.
  *   bit-on (1) disables a channel, bit-off (0) reenables a channel.
  */
 #define SEQCMD_DISABLE_CHANNELS(playerIndex, channelMask) \
@@ -285,7 +285,7 @@ typedef enum {
  *   Bpdd0ttt
  *
  * DESCRIPTION
- *   Overwrite the current tempo on (playerIndex) to (tempoTarget) over a (duration)
+ *   Overwrite the current tempo on (`playerIndex`) to (`tempoTarget`) over a (`duration`)
  */
 #define SEQCMD_SET_TEMPO(playerIndex, duration, tempoTarget)                                                  \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (SEQ_SUB_CMD_TEMPO_SET << 12) | ((u8)(playerIndex) << 24) | \
@@ -300,8 +300,8 @@ typedef enum {
  *   Bpdd1ttt
  *
  * DESCRIPTION
- *   Increase the tempo based on the current tempo on (playerIndex)
- *   by adding (tempoIncrease) from the tempo over a (duration).
+ *   Increase the tempo based on the current tempo on (`playerIndex`)
+ *   by adding (`tempoIncrease`) from the tempo over a (`duration`).
  */
 #define SEQCMD_SPEED_UP_TEMPO(playerIndex, duration, tempoIncrease)                                                \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (SEQ_SUB_CMD_TEMPO_SPEED_UP << 12) | ((u8)(playerIndex) << 24) | \
@@ -316,8 +316,8 @@ typedef enum {
  *   Bpdd2ttt
  *
  * DESCRIPTION
- *   Decrease the tempo based on the current tempo on (playerIndex)
- *   by a subtracting (tempoDecrease) from the tempo over a (duration).
+ *   Decrease the tempo based on the current tempo on (`playerIndex`)
+ *   by a subtracting (`tempoDecrease`) from the tempo over a (`duration`).
  */
 #define SEQCMD_SLOW_DOWN_TEMPO(playerIndex, duration, tempoDecrease)                                                \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (SEQ_SUB_CMD_TEMPO_SLOW_DOWN << 12) | ((u8)(playerIndex) << 24) | \
@@ -332,10 +332,10 @@ typedef enum {
  *   Bpdd3ttt
  *
  * DESCRIPTION
- *   Scale the tempo based on the current tempo on (playerIndex)
- *   by a multiplicating factor (tempoScale) over a (duration).
- *   Note: The tempoScale is relative to 100.
- *   i.e. a tempoScale = 200 will double the current tempo, while tempoScale = 50 will half the current tempo.
+ *   Scale the tempo based on the current tempo on (`playerIndex`)
+ *   by a multiplicating factor (`tempoScale`) over a (`duration`).
+ *   Note: The `tempoScale` is relative to 100.
+ *   i.e. a `tempoScale = 200` will double the current tempo, while `tempoScale = 50` will half the current tempo.
  */
 #define SEQCMD_SCALE_TEMPO(playerIndex, duration, tempoScale)                                                   \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (SEQ_SUB_CMD_TEMPO_SCALE << 12) | ((u8)(playerIndex) << 24) | \
@@ -350,7 +350,7 @@ typedef enum {
  *   Bpdd4UUU
  *
  * DESCRIPTION
- *   Reset the tempo to the original tempo on (playerIndex) over a (duration)
+ *   Reset the tempo to the original tempo on (`playerIndex`) over a (`duration`)
  */
 #define SEQCMD_RESET_TEMPO(playerIndex, duration)                                                               \
     Audio_QueueSeqCmd((SEQ_CMD_TEMPO_CMD << 28) | (SEQ_SUB_CMD_TEMPO_RESET << 12) | ((u8)(playerIndex) << 24) | \
@@ -360,9 +360,9 @@ typedef enum {
  * ==== Audio Sequence Setup Commands ====
  *
  * The setup commands are designed to wait to be executed.
- * They will be queued onto a playerIndex (maximum 8 commands).
- * These commands will only execute once that playerIndex is finished playing and is no longer enabled.
- * They will often target a different player (playerIndexTarget) but not always.
+ * They will be queued onto a `playerIndex` (maximum 8 commands).
+ * These commands will only execute once that `playerIndex` is finished playing and is no longer enabled.
+ * They will often target a different player (`playerIndexTarget`) but not always.
  */
 
 /**
@@ -374,8 +374,8 @@ typedef enum {
  *   Cp0sUUdd
  *
  * DESCRIPTION
- *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing.
- *   Restores volume over the (duration).
+ *   Queue a request to restore (`playerIndexTarget`) volume back to normal levels once (`playerIndex`) is no longer playing.
+ *   Restores volume over the (`duration`).
  */
 #define SEQCMD_SETUP_RESTORE_PLAYER_VOLUME(playerIndex, playerIndexTarget, duration)         \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME << 20) | \
@@ -389,12 +389,12 @@ typedef enum {
  *   Cp1UUUUU
  *
  * DESCRIPTION
- *    Queue a request to have (playerIndex) unqueued once (playerIndex) is no longer playing.
+ *    Queue a request to have (`playerIndex`) unqueued once (`playerIndex`) is no longer playing.
  *    This allows the next sequence in the sequence queue to start playing.
- *    Note: this command does not work as intended as unqueueing the seqeuence relies on gActiveSeqs[playerIndex].seqId
- *    However, gActiveSeqs[playerIndex].seqId is reset before the sequence is no longer playing,
+ *    Note: this command does not work as intended as unqueueing the seqeuence relies on `gActiveSeqs[playerIndex].seqId`
+ *    However, `gActiveSeqs[playerIndex].seqId` is reset before the sequence is no longer playing,
  *    i.e. before this command can run.
- *    A simple fix would have been to unqueue based on gActiveSeqs[playerIndex].prevSeqId instead.
+ *    A simple fix would have been to unqueue based on `gActiveSeqs[playerIndex].prevSeqId` instead.
  */
 #define SEQCMD_SETUP_UNQUEUE_SEQUENCE(playerIndex) \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_SEQ_UNQUEUE << 20) | ((u8)(playerIndex) << 24))
@@ -408,7 +408,7 @@ typedef enum {
  *   Cp2sUUUU
  *
  * DESCRIPTION
- *    Queue a request to restart (playerIndexTarget) to play its active seqId once (playerIndex) is no longer playing.
+ *    Queue a request to restart (`playerIndexTarget`) to play its active seqId once (`playerIndex`) is no longer playing.
  */
 #define SEQCMD_SETUP_RESTART_SEQUENCE(playerIndex, playerIndexTarget)                                                 \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTART_SEQ << 20) | ((u8)(playerIndex) << 24) | \
@@ -423,10 +423,10 @@ typedef enum {
  *   Cp3sddtt
  *
  * DESCRIPTION
- *   Queue a request to scale the tempo on (playerIndexTarget) once (playerIndex) is no longer playing.
- *   The tempo will scale by a factor of (tempoScale) smoothly over a (duration).
- *   Note: The tempoScale is relative to 100.
- *   i.e. a tempoScale = 200 will double the current tempo, while tempoScale = 50 will half the current tempo.
+ *   Queue a request to scale the tempo on (`playerIndexTarget`) once (`playerIndex`) is no longer playing.
+ *   The tempo will scale by a factor of (`tempoScale`) smoothly over a (`duration`).
+ *   Note: The `tempoScale` is relative to 100.
+ *   i.e. a `tempoScale = 200` will double the current tempo, while `tempoScale = 50` will half the current tempo.
  */
 #define SEQCMD_SETUP_SCALE_TEMPO(playerIndex, playerIndexTarget, duration, tempoScale)                                \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_TEMPO_SCALE << 20) | ((u8)(playerIndex) << 24) | \
@@ -441,8 +441,8 @@ typedef enum {
  *   Cp4sUUdd
  *
  * DESCRIPTION
- *   Queue a request to reset the tempo on (playerIndexTarget) once (playerIndex) is no longer playing.
- *   The tempo will reset smoothly over a (duration)
+ *   Queue a request to reset the tempo on (`playerIndexTarget`) once (`playerIndex`) is no longer playing.
+ *   The tempo will reset smoothly over a (`duration`)
  */
 #define SEQCMD_SETUP_RESET_TEMPO(playerIndex, playerIndexTarget, duration)                                            \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_TEMPO_RESET << 20) | ((u8)(playerIndex) << 24) | \
@@ -457,8 +457,8 @@ typedef enum {
  *   Cp5siiii
  *
  * DESCRIPTION
- *   Queue a request to play a (seqId) on (playerIndexTarget) once (playerIndex) is no longer playing.
- *   To set the fadeInTimer of this sequence, use the command (SEQCMD_SETUP_SET_FADE_IN_TIMER) below.
+ *   Queue a request to play a (`seqId`) on (`playerIndexTarget`) once (`playerIndex`) is no longer playing.
+ *   To set the `fadeInTimer` of this sequence, use the command (`SEQCMD_SETUP_SET_FADE_IN_TIMER`) below.
  */
 #define SEQCMD_SETUP_PLAY_SEQUENCE(playerIndex, playerIndexTarget, seqId)                                          \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_PLAY_SEQ << 20) | ((u8)(playerIndex) << 24) | \
@@ -473,8 +473,8 @@ typedef enum {
  *   Cs6UttUU
  *
  * DESCRIPTION
- *   This command is paired with (SEQCMD_SETUP_PLAY_SEQUENCE) above.
- *   It will set the (fadeInTimer) used by (SEQCMD_SETUP_PLAY_SEQUENCE) when called on (playerIndexTarget)
+ *   This command is paired with (`SEQCMD_SETUP_PLAY_SEQUENCE`) above.
+ *   It will set the (`fadeInTimer`) used by (`SEQCMD_SETUP_PLAY_SEQUENCE`) when called on (`playerIndexTarget`)
  */
 #define SEQCMD_SETUP_SET_FADE_IN_TIMER(playerIndexTarget, fadeInTimer)                       \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_SET_FADE_TIMER << 20) | \
@@ -489,9 +489,9 @@ typedef enum {
  *   Cp7sddnn
  *
  * DESCRIPTION
- *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing.
- *   Specifically, it will only restore volume if the number of queued requests on (playerIndex) matches (numSeqRequests).
- *   Restores volume over the (duration).
+ *   Queue a request to restore (`playerIndexTarget`) volume back to normal levels once (`playerIndex`) is no longer playing.
+ *   Specifically, it will only restore volume if the number of queued requests on (`playerIndex`) matches (`numSeqRequests`).
+ *   Restores volume over the (`duration`).
  */
 #define SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_IF_QUEUED(playerIndex, playerIndexTarget, duration, numSeqRequests) \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_IF_QUEUED << 20) |         \
@@ -507,8 +507,8 @@ typedef enum {
  *   Cp8siidd
  *
  * DESCRIPTION
- *   Queue a request to restore (playerIndexTarget) volume back to normal levels once (playerIndex) is no longer playing.
- *   Restores volume with a (scaleIndex, see VolumeScaleIndex enum) over the duration (duration)
+ *   Queue a request to restore (`playerIndexTarget`) volume back to normal levels once (`playerIndex`) is no longer playing.
+ *   Restores volume with a (`scaleIndex`, see `VolumeScaleIndex` enum) over the (`duration`)
  */
 #define SEQCMD_SETUP_RESTORE_PLAYER_VOLUME_WITH_SCALE(playerIndex, playerIndexTarget, scaleIndex, duration)   \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_WITH_SCALE << 20) |       \
@@ -524,8 +524,8 @@ typedef enum {
  *   Cp9smmmm
  *
  * DESCRIPTION
- *   Queue a request to disable (or reenable) specific channels of (playerIndexTarget) once (playerIndex) is no longer playing.
- *   Each of the 16 bits in (channelMask) is mapped to one of the 16 channel by (1 << channelIndex). 
+ *   Queue a request to disable (or reenable) specific channels of (`playerIndexTarget`) once (`playerIndex`) is no longer playing.
+ *   Each of the 16 bits in (`channelMask`) is mapped to one of the 16 channel by `(1 << channelIndex)`. 
  *   bit-on (1) disables a channel, bit-off (0) reenables a channel.
  */
 #define SEQCMD_SETUP_DISABLE_CHANNELS(playerIndex, playerIndexTarget, channelMask)             \
@@ -541,9 +541,9 @@ typedef enum {
  *   CpAsddff
  *
  * DESCRIPTION
- *   Queue a request to scale the player frequency (playerIndexTarget) once (playerIndex) is no longer playing.
- *   The scaling factor (freq) is relative to 100. I.e. freq = 200 with double the pitch and freq = 50 will half the
- *   pitch. Apply the frequency shift over (duration)
+ *   Queue a request to scale the player frequency (`playerIndexTarget`) once (`playerIndex`) is no longer playing.
+ *   The scaling factor (`freq`) is relative to 100 
+ *   i.e. `freq = 200` with double the pitch and freq = 50 will half the pitch. Apply the frequency shift over (`duration`)
  *   Note: Carefully observe that the base level freq is 100, which is 10 times smaller than other freq commands,
  *   which are based on a freq relative to 1000
  */
@@ -562,11 +562,11 @@ typedef enum {
  *
  * DESCRIPTION
  *   Queue a request to discard audio data by popping one more more audio caches from the audio heap
- *   once (playerIndex) is no longer playing.
- *   All tables with the flag (tableTypeFlag & (1 << tableType)) will be discarded, specifically:
- *   (tableTypeFlag & 1) will discard the SEQUENCE_TABLE
- *   (tableTypeFlag & 2) will discard the FONT_TABLE
- *   (tableTypeFlag & 4) will discard the SAMPLE_TABLE
+ *   once (`playerIndex`) is no longer playing.
+ *   All tables with the flag `(tableTypeFlag & (1 << tableType))` will be discarded, specifically:
+ *   `(tableTypeFlag & 1)` will discard the `SEQUENCE_TABLE`
+ *   `(tableTypeFlag & 2)` will discard the `FONT_TABLE`
+ *   `(tableTypeFlag & 4)` will discard the `SAMPLE_TABLE`
  */
 #define SEQCMD_SETUP_POP_CACHE(playerIndex, playerIndexTarget, tableTypeFlag)                                       \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_POP_CACHE << 20) | ((u8)(playerIndex) << 24) | \
@@ -581,7 +581,7 @@ typedef enum {
  *   CpFUUUUU
  *
  * DESCRIPTION
- *   Discard all setup command requests on (playerIndex) by resetting the setup command queue.
+ *   Discard all setup command requests on (`playerIndex`) by resetting the setup command queue.
  */
 #define SEQCMD_RESET_SETUP_CMDS(playerIndex)                                                   \
     Audio_QueueSeqCmd((SEQ_CMD_SETUP_CMD << 28) | (SEQ_SUB_CMD_SETUP_RESET_SETUP_CMDS << 20) | \
@@ -602,11 +602,11 @@ typedef enum {
  *   EUUUU0ss
  *
  * DESCRIPTION
- *   Change the soundMode of the audio.
- *   soundMode = 0 is STEREO (Note: SURROUND maps to 0 as well)
- *   soundMode = 1 is HEADSET
- *   soundMode = 2 is UNKNOWN
- *   soundMode = 3 is MONO
+ *   Change the `soundMode` of the audio.
+ *   `soundMode = 0` is `STEREO` (Note: `SURROUND` maps to 0 as well)
+ *   `soundMode = 1` is `HEADSET`
+ *   `soundMode = 2` is `UNKNOWN`
+ *   `soundMode = 3` is `MONO`
  */
 #define SEQCMD_SET_SOUND_MODE(soundMode) \
     Audio_QueueSeqCmd((SEQ_CMD_GLOBAL_CMD << 28) | (SEQ_SUB_CMD_GLOBAL_SET_SOUND_MODE << 8) | (u8)(soundMode))
@@ -620,10 +620,10 @@ typedef enum {
  *   EUUUU1dd
  *
  * DESCRIPTION
- *   Disable new sequences from starting when (isDisabled) is set to true.
- *   Set (isDisabled) to false to reenable new sequences being able to start.
- *   Note: this does not disabled the sfx player as there is a bypass for that playerIndex specifically.
- *   Note: isDisabled should be a (u8) to prevent interfering with the SUB_CMD, but is required to be (u16) for matching
+ *   Disable new sequences from starting when (`isDisabled`) is set to true.
+ *   Set (`isDisabled`) to false to reenable new sequences being able to start.
+ *   Note: this does not disabled the sfx player as there is a bypass for that `playerIndex` specifically.
+ *   Note: `isDisabled` should be a (u8) to prevent interfering with the `SUB_CMD`, but is required to be (u16) for matching
  */
 #define SEQCMD_DISABLE_NEW_SEQUENCES(isDisabled) \
     Audio_QueueSeqCmd((SEQ_CMD_GLOBAL_CMD << 28) | (SEQ_SUB_CMD_GLOBAL_DISABLE_NEW_SEQUENCES << 8) | (u16)(isDisabled))
@@ -638,12 +638,12 @@ typedef enum {
  *
  * DESCRIPTION
  *   This will reset the entire audio heap and rebuild it from scratch
- *   using the audio specification defined in gAudioSpecs indexed by (specId).
+ *   using the audio specification defined in `gAudioSpecs` indexed by (`specId`).
  *
- *   It will also change how the 16 channels for sequence NA_BGM_GENERAL_SFX are allocated
- *   to the 7 sfx banks using (sfxChannelLayout). There are 4 possible layouts indexed by 0-3.
- *   However, only (sfxChannelLayout = 0) is properly implemented. (sfxChannelLayout = 1) and
- *   (sfxChannelLayout = 2) lead to bug-filled sfxs, and (sfxChannelLayout = 3) commonly leads
+ *   It will also change how the 16 channels for sequence `NA_BGM_GENERAL_SFX` are allocated
+ *   to the 7 sfx banks using (`sfxChannelLayout`). There are 4 possible layouts indexed by 0-3.
+ *   However, only `(sfxChannelLayout = 0)` is properly implemented. `(sfxChannelLayout = 1)` and
+ *   `(sfxChannelLayout = 2)` lead to bug-filled sfxs, and `(sfxChannelLayout = 3)` commonly leads
  *   to softlocking based on testing.
  */
 #define SEQCMD_RESET_AUDIO_HEAP(sfxChannelLayout, specId) \

@@ -4,10 +4,10 @@
  * This file implements a set of high-level audio sequence commands that allow sequences to be modified in real-time.
  * These commands are intended to interface external to the audio library.
  *
- * These commands are generated using (Audio_QueueSeqCmd), and a user-friendly interface for this function
- * can be found in (seqcmd.h)
+ * These commands are generated using `Audio_QueueSeqCmd`, and a user-friendly interface for this function
+ * can be found in `seqcmd.h`
  *
- * These commands change sequences by generating internal audio commands (Audio_QueueCmd) which allows these
+ * These commands change sequences by generating internal audio commands `Audio_QueueCmd` which allows these
  * sequence requests to be passed onto the audio thread. It is worth noting all functions in this file are
  * called from the graph thread.
  *
@@ -52,11 +52,11 @@ void Audio_StartSequence(u8 playerIndex, u8 seqId, u8 seqArgs, u16 fadeTimer) {
     if (!gNewSeqDisabled || (playerIndex == SEQ_PLAYER_SFX)) {
         seqArgs &= 0x7F;
         if (seqArgs == 0x7F) {
-            // fadeTimer is interpreted as skip ticks
+            // `fadeTimer` is interpreted as skip ticks
             duration = (fadeTimer >> 3) * 60 * gAudioContext.audioBufferParameters.updatesPerFrame;
             Audio_QueueCmdS32(0x85000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(seqId, 8, 8), duration);
         } else {
-            // fadeTimer is interpreated as number of frames at 30 fps
+            // `fadeTimer` is interpreated as number of frames at 30 fps
             Audio_QueueCmdS32(0x82000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(seqId, 8, 8),
                               (fadeTimer * (u16)gAudioContext.audioBufferParameters.updatesPerFrame) / 4);
         }
@@ -126,8 +126,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // Play a new sequence
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
-            // fadeTimer is only shifted 13 bytes instead of 16 bytes.
-            // fadeTimer continues to be scaled in Audio_StartSequence
+            // `fadeTimer` is only shifted 13 bytes instead of 16 bytes.
+            // `fadeTimer` continues to be scaled in `Audio_StartSequence`
             fadeTimer = (cmd & 0xFF0000) >> 13;
             if (!gActiveSeqs[playerIndex].isWaitingForFonts && (seqArgs < 0x80)) {
                 Audio_StartSequence(playerIndex, seqId, seqArgs, fadeTimer);
@@ -141,7 +141,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             break;
 
         case SEQ_CMD_QUEUE:
-            // Queue a sequence into sSeqRequests
+            // Queue a sequence into `sSeqRequests`
             seqId = cmd & 0xFF;
             seqArgs = (cmd & 0xFF00) >> 8;
             fadeTimer = (cmd & 0xFF0000) >> 13;
@@ -313,8 +313,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             break;
 
         case SEQ_CMD_DISABLE_CHANNEL_IO:
-            // Disable channel io specifically for SEQ_CMD_SET_CHANNEL_IO
-            // This can be bypassed by setting channel io through Audio_QueueCmdS8 0x6 directly.
+            // Disable channel io specifically for `SEQ_CMD_SET_CHANNEL_IO`
+            // This can be bypassed by setting channel io through `Audio_QueueCmdS8` 0x6 directly.
             // This is accomplished by setting a channel mask.
             gActiveSeqs[playerIndex].channelPortMask = cmd & 0xFFFF;
             break;
@@ -323,7 +323,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // Disable or Reenable channels
             channelMaskDisable = cmd & 0xFFFF;
             if (channelMaskDisable != 0) {
-                // Apply channel mask channelMaskDisable
+                // Apply channel mask `channelMaskDisable`
                 Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIndex, 16, 8), channelMaskDisable);
                 // Disable channels
                 Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIndex, 16, 8) | 0xFF00, 1);
@@ -332,7 +332,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
             // Reenable channels
             channelMaskEnable = (channelMaskDisable ^ 0xFFFF);
             if (channelMaskEnable != 0) {
-                // Apply channel mask channelMaskEnable
+                // Apply channel mask `channelMaskEnable`
                 Audio_QueueCmdU16(0x90000000 | _SHIFTL(playerIndex, 16, 8), channelMaskEnable);
                 // Enable channels
                 Audio_QueueCmdS8(0x08000000 | _SHIFTL(playerIndex, 16, 8) | 0xFF00, 0);
@@ -363,8 +363,8 @@ void Audio_ProcessSeqCmd(u32 cmd) {
                     }
                 }
             } else {
-                // SEQ_SUB_CMD_SETUP_RESET_SETUP_CMDS
-                // Discard all setup command requests on playerIndex
+                // `SEQ_SUB_CMD_SETUP_RESET_SETUP_CMDS`
+                // Discard all setup command requests on `playerIndex`
                 gActiveSeqs[playerIndex].setupCmdNum = 0;
             }
             break;
@@ -400,7 +400,7 @@ void Audio_ProcessSeqCmd(u32 cmd) {
 }
 
 /**
- * Add the sequence cmd to the sAudioSeqCmds queue
+ * Add the sequence cmd to the `sAudioSeqCmds` queue
  */
 void Audio_QueueSeqCmd(u32 cmd) {
     sAudioSeqCmds[sSeqCmdWritePos++] = cmd;
@@ -496,7 +496,7 @@ void Audio_UpdateActiveSequences(void) {
 
         // The setup for this block of code was not fully implemented until Majora's Mask.
         // The intent was to load soundfonts asyncronously before playing a
-        // sequence in Audio_StartSequence using (seqArgs & 0x80).
+        // sequence in `Audio_StartSequence` using `(seqArgs & 0x80)`.
         // Checks if the requested sequence is finished loading fonts
         if (gActiveSeqs[playerIndex].isWaitingForFonts) {
             switch (func_800E5E20(&retMsg)) {
@@ -550,12 +550,12 @@ void Audio_UpdateActiveSequences(void) {
                 tempoOp = (tempoCmd & 0xF000) >> 12;
                 switch (tempoOp) {
                     case SEQ_SUB_CMD_TEMPO_SPEED_UP:
-                        // Speed up tempo by "tempoTarget" amount
+                        // Speed up tempo by `tempoTarget` amount
                         tempoTarget += tempoPrev;
                         break;
 
                     case SEQ_SUB_CMD_TEMPO_SLOW_DOWN:
-                        // Slow down tempo by "tempoTarget" amount
+                        // Slow down tempo by `tempoTarget` amount
                         if (tempoTarget < tempoPrev) {
                             tempoTarget = tempoPrev - tempoTarget;
                         }
@@ -573,8 +573,8 @@ void Audio_UpdateActiveSequences(void) {
                                           : tempoPrev;
                         break;
 
-                    default: // SEQ_SUB_CMD_TEMPO_SET
-                        // tempoTarget is the new tempo
+                    default: // `SEQ_SUB_CMD_TEMPO_SET`
+                        // `tempoTarget` is the new tempo
                         break;
                 }
 
@@ -620,7 +620,7 @@ void Audio_UpdateActiveSequences(void) {
                             gActiveSeqs[playerIndex].channelData[channelIndex].volTarget;
                         gActiveSeqs[playerIndex].volChannelFlags ^= (1 << channelIndex);
                     }
-                    // CHAN_UPD_VOL_SCALE
+                    // `CHAN_UPD_VOL_SCALE`
                     Audio_QueueCmdF32(0x01000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8),
                                       gActiveSeqs[playerIndex].channelData[channelIndex].volCur);
                 }
@@ -640,7 +640,7 @@ void Audio_UpdateActiveSequences(void) {
                             gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleTarget;
                         gActiveSeqs[playerIndex].freqScaleChannelFlags ^= (1 << channelIndex);
                     }
-                    // CHAN_UPD_FREQ_SCALE
+                    // `CHAN_UPD_FREQ_SCALE`
                     Audio_QueueCmdF32(0x04000000 | _SHIFTL(playerIndex, 16, 8) | _SHIFTL(channelIndex, 8, 8),
                                       gActiveSeqs[playerIndex].channelData[channelIndex].freqScaleCur);
                 }
@@ -661,8 +661,8 @@ void Audio_UpdateActiveSequences(void) {
                 continue;
             }
 
-            // Only process setup commands if the playerIndex if no longer playing
-            // i.e. the seqPlayer is no longer enabled
+            // Only process setup commands if `playerIndex` if no longer playing
+            // i.e. the `seqPlayer` is no longer enabled
             if (gAudioContext.seqPlayers[playerIndex].enabled) {
                 continue;
             }
@@ -675,13 +675,13 @@ void Audio_UpdateActiveSequences(void) {
 
                 switch (setupOp) {
                     case SEQ_SUB_CMD_SETUP_RESTORE_VOLUME:
-                        // Restore playerIndexTarget volume back to normal levels
+                        // Restore `playerIndexTarget` volume back to normal levels
                         Audio_SetVolumeScale(playerIndexTarget, VOL_SCALE_INDEX_FANFARE, 0x7F, setupVal1);
                         break;
 
                     case SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_IF_QUEUED:
-                        // Restore playerIndexTarget volume back to normal levels,
-                        // but only if the number of sequence queue requests from sSeqRequests
+                        // Restore `playerIndexTarget` volume back to normal levels,
+                        // but only if the number of sequence queue requests from `sSeqRequests`
                         // exactly matches the argument to the command
                         if (setupVal1 == sNumSeqRequests[playerIndex]) {
                             Audio_SetVolumeScale(playerIndexTarget, VOL_SCALE_INDEX_FANFARE, 0x7F, setupVal2);
@@ -689,18 +689,18 @@ void Audio_UpdateActiveSequences(void) {
                         break;
 
                     case SEQ_SUB_CMD_SETUP_SEQ_UNQUEUE:
-                        // Unqueue playerIndex from sSeqRequests
+                        // Unqueue `playerIndex` from sSeqRequests
                         // Note: this command does not work as intended as unqueueing
-                        // the seqeuence relies on gActiveSeqs[playerIndex].seqId
-                        // However, gActiveSeqs[playerIndex].seqId is reset before the sequence on (playerIndex)
+                        // the seqeuence relies on `gActiveSeqs[playerIndex].seqId`
+                        // However, `gActiveSeqs[playerIndex].seqId` is reset before the sequence on `playerIndex`
                         // is no longer playing, i.e. before this command can run.
-                        // A simple fix would have been to unqueue based on gActiveSeqs[playerIndex].prevSeqId instead
+                        // A simple fix would have been to unqueue based on `gActiveSeqs[playerIndex].prevSeqId` instead
                         SEQCMD_UNQUEUE_SEQUENCE(playerIndex, 0, gActiveSeqs[playerIndex].seqId);
                         break;
 
                     case SEQ_SUB_CMD_SETUP_RESTART_SEQ:
-                        // Restart the currently active sequence on playerIndexTarget with full volume.
-                        // Sequence on playerIndexTarget must still be active to play (can be muted)
+                        // Restart the currently active sequence on `playerIndexTarget` with full volume.
+                        // Sequence on `playerIndexTarget` must still be active to play (can be muted)
                         SEQCMD_PLAY_SEQUENCE(playerIndexTarget, 1, 0, gActiveSeqs[playerIndexTarget].seqId);
                         gActiveSeqs[playerIndexTarget].fadeVolUpdate = 1;
                         gActiveSeqs[playerIndexTarget].volScales[VOL_SCALE_INDEX_FANFARE] = 0x7F;
@@ -718,7 +718,7 @@ void Audio_UpdateActiveSequences(void) {
 
                     case SEQ_SUB_CMD_SETUP_PLAY_SEQ:
                         // Play the requested sequence
-                        // Uses the fade timer set by SEQ_SUB_CMD_SETUP_SET_FADE_TIMER
+                        // Uses the fade timer set by `SEQ_SUB_CMD_SETUP_SET_FADE_TIMER`
                         seqId = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
                         SEQCMD_PLAY_SEQUENCE(playerIndexTarget, gActiveSeqs[playerIndexTarget].setupFadeTimer, 0,
                                              seqId);
@@ -727,14 +727,14 @@ void Audio_UpdateActiveSequences(void) {
                         break;
 
                     case SEQ_SUB_CMD_SETUP_SET_FADE_TIMER:
-                        // A command specifically to support SEQ_SUB_CMD_SETUP_PLAY_SEQ
-                        // Sets the fade timer for the sequence requested in SEQ_SUB_CMD_SETUP_PLAY_SEQ
+                        // A command specifically to support `SEQ_SUB_CMD_SETUP_PLAY_SEQ`
+                        // Sets the fade timer for the sequence requested in `SEQ_SUB_CMD_SETUP_PLAY_SEQ`
                         gActiveSeqs[playerIndex].setupFadeTimer = setupVal2;
                         break;
 
                     case SEQ_SUB_CMD_SETUP_RESTORE_VOLUME_WITH_SCALE:
                         // Restore the volume back to default levels
-                        // Allows a scaleIndex to be specified.
+                        // Allows a `scaleIndex` to be specified.
                         Audio_SetVolumeScale(playerIndexTarget, setupVal2, 0x7F, setupVal1);
                         break;
 
@@ -752,13 +752,13 @@ void Audio_UpdateActiveSequences(void) {
                         break;
 
                     case SEQ_SUB_CMD_SETUP_DISABLE_CHANNELS:
-                        // Disable (or reenable) specific channels of playerIndexTarget
+                        // Disable (or reenable) specific channels of `playerIndexTarget`
                         channelMask = gActiveSeqs[playerIndex].setupCmd[j] & 0xFFFF;
                         SEQCMD_DISABLE_CHANNELS(playerIndexTarget, channelMask);
                         break;
 
                     case SEQ_SUB_CMD_SETUP_SET_PLAYER_FREQ:
-                        // Scale all channels of playerIndexTarget
+                        // Scale all channels of `playerIndexTarget`
                         SEQCMD_SET_PLAYER_FREQ(playerIndexTarget, setupVal2, (setupVal1 * 10) & 0xFFFF);
                         break;
                 }
