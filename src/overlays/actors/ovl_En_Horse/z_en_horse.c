@@ -372,7 +372,7 @@ static RaceWaypoint sIngoRaceWaypoints[] = {
     { -1552, 1, -1008, 11, 0x638D }, { -947, -1, -1604, 10, 0x4002 },
 };
 
-static RaceInfo sIngoRace = { 8, sIngoRaceWaypoints };
+static RaceInfo sIngoRace = { ARRAY_COUNT(sIngoRaceWaypoints), sIngoRaceWaypoints };
 static s32 sAnimSoundFrames[] = { 0, 16 };
 
 static InitChainEntry sInitChain[] = {
@@ -611,7 +611,7 @@ void EnHorse_PlayWalkingSound(EnHorse* this) {
 
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_WALK, &this->actor.projectedPos, 4, &gSfxDefaultFreqAndVolScale,
                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
-        if (++this->soundTimer > 1) {
+        if (++this->soundTimer >= ARRAY_COUNT(sAnimSoundFrames)) {
             this->soundTimer = 0;
         }
     }
