@@ -4304,15 +4304,6 @@ s32 Camera_Subj3(Camera* camera) {
     return 1;
 }
 
-/**
- * Subject 4 uses bgCamData.data differently than other functions:
- * It uses the only setting where bgCamData.numData is either 6 or 9 from the scene files (CAM_SET_CRAWLSPACE)
- * bgCamData.data[1] stores the coordinates of the front entrance to the crawlspace
- * bgCamData.data[4] stores the coordinates of the back entrance to the crawlspace
- * bgCamData.data[0], bgCamData.data[2], bgCamData.data[3], bgCamData.data[5], go unused,
- *      but also contain coordinates along the straight line path of the crawlspace
- * Front refers to the side of the crawlspace first accessible via casual gameplay, Back is the other entrance
- */
 #define BGCAMDATA_CRAWLSPACE_FRONT_POS(v) ((v)[1])
 #define BGCAMDATA_CRAWLSPACE_BACK_POS(v, l) ((v)[l - 2])
 #define vCrawlSpaceBackPos temp1
@@ -4323,6 +4314,13 @@ s32 Camera_Subj3(Camera* camera) {
  * Moves the camera from third person to first person when entering a crawlspace
  * While in the crawlspace, link remains fixed in a single direction
  * The camera is what swings up and down while crawling forward or backwards
+ *
+ * Note:
+ * Subject 4 uses bgCamData.data differently than other functions:
+ * All Vec3s data are points along the crawlspace
+ * The second point represents the entrance, and the second to last point represents the exit
+ * All other points are unused
+ * All instances of crawlspaces have 6 points, except for the Testroom scene which has 9 points
  */
 s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;

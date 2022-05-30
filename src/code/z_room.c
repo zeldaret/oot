@@ -365,17 +365,15 @@ void func_80096680(PlayState* play, Room* room, u32 flags) {
 
 BgImage* func_80096A74(PolygonType1* polygon1, PlayState* play) {
     Camera* activeCam = GET_ACTIVE_CAM(play);
-    s32 bgCamDataIndex;
-    s16 camDataIdx2;
+    s32 bgCamDataIndex = activeCam->bgCamDataIndex;
+    s16 jfifId;
     Player* player;
     BgImage* bgImage;
     s32 i;
 
-    bgCamDataIndex = activeCam->bgCamDataIndex;
-    // jfifid
-    camDataIdx2 = BgCheck_GetBgCamDataVec3sImpl(&play->colCtx, bgCamDataIndex, BGCHECK_SCENE)[2].y;
-    if (camDataIdx2 >= 0) {
-        bgCamDataIndex = camDataIdx2;
+    jfifId = ((SubBgCamData*)BgCheck_GetBgCamDataVec3sImpl(&play->colCtx, bgCamDataIndex, BGCHECK_SCENE))->jfifId;
+    if (jfifId >= 0) {
+        bgCamDataIndex = jfifId;
     }
 
     player = GET_PLAYER(play);

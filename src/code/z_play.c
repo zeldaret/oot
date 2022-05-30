@@ -201,7 +201,7 @@ void Play_Init(GameState* thisx) {
     u32 zAllocAligned;
     size_t zAllocSize;
     Player* player;
-    s32 playerStartCamId;
+    s32 playerStartBgCamDataIndex;
     s32 i;
     u8 tempSetupIndex;
     s32 pad[2];
@@ -389,10 +389,10 @@ void Play_Init(GameState* thisx) {
     Camera_InitPlayerSettings(&this->mainCamera, player);
     Camera_ChangeMode(&this->mainCamera, CAM_MODE_NORMAL);
 
-    playerStartCamId = player->actor.params & 0xFF;
-    if (playerStartCamId != 0xFF) {
-        osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartCamId);
-        Camera_ChangeBgCamDataIndex(&this->mainCamera, playerStartCamId);
+    playerStartBgCamDataIndex = player->actor.params & 0xFF;
+    if (playerStartBgCamDataIndex != 0xFF) {
+        osSyncPrintf("player has start camera ID (" VT_FGCOL(BLUE) "%d" VT_RST ")\n", playerStartBgCamDataIndex);
+        Camera_ChangeBgCamDataIndex(&this->mainCamera, playerStartBgCamDataIndex);
     }
 
     if (YREG(15) == 32) {
