@@ -311,7 +311,7 @@ typedef enum {
     /* 0x1B */ CAM_DATA_MAX
 } CameraDataType;
 
-#define CAM_FUNCDATA_FLAGS(flags) \
+#define CAM_FUNCDATA_INTERFACE_FLAGS(flags) \
     { flags, CAM_DATA_INTERFACE_FLAGS }
 
 typedef struct {

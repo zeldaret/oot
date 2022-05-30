@@ -4687,7 +4687,7 @@ s32 Camera_Unique2(Camera* camera) {
     }
 
     playerPos = camera->playerPosRot.pos;
-    lerpRateFactor = (roData->interfaceFlags & 1 ? 1.0f : camera->speedRatio);
+    lerpRateFactor = (roData->interfaceFlags & UNIQUE2_FLAG_1 ? 1.0f : camera->speedRatio);
     at->x = F32_LERPIMP(at->x, playerPos.x, lerpRateFactor * 0.6f);
     at->y = F32_LERPIMP(at->y, playerPos.y + playerHeight + roData->yOffset, 0.4f);
     at->z = F32_LERPIMP(at->z, playerPos.z, lerpRateFactor * 0.6f);
@@ -6684,7 +6684,7 @@ s32 Camera_Special6(Camera* camera) {
         rwData->animTimer--;
     } else {
         // Camera following link on the x axis.
-        // Overwrite interface alpha to 0
+        // Overwrite interface alpha to 50
         sCameraInterfaceFlags = (sCameraInterfaceFlags & (u16)~CAM_HUD_ALPHA_MASK) | CAM_HUD_ALPHA_50;
         eyePosCalc = *eyeNext;
         eyePosCalc.x += (playerPosRot->pos.x - eyePosCalc.x) * 0.5f;
@@ -8041,7 +8041,7 @@ s32 Camera_SetViewParam(Camera* camera, s32 viewFlag, void* param) {
     return true;
 }
 
-s32 Camera_UnsetViewFlag(Camera* camera, s16 viewFlags) {
+s32 Camera_ClearViewFlag(Camera* camera, s16 viewFlags) {
     camera->viewFlags &= ~viewFlags;
     return true;
 }
