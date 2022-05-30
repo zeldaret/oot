@@ -578,8 +578,8 @@ typedef struct {
     /* 0x08 */ u8 unk_08; // unused, set to zero
     /* 0x09 */ u8 numReverbs;
     /* 0x0C */ ReverbSettings* reverbSettings;
-    /* 0x10 */ u16 sampleDmaBufSize1; // size of buffer in the audio misc pool to store small snippets of indivisual samples. Stored short-lived.
-    /* 0x12 */ u16 sampleDmaBufSize2; // size of buffer in the audio misc pool to store small snippets of indivisual samples. Stored long-lived.
+    /* 0x10 */ u16 sampleDmaBufSize1; // size of buffer in the audio misc pool to store small snippets of individual samples. Stored short-lived.
+    /* 0x12 */ u16 sampleDmaBufSize2; // size of buffer in the audio misc pool to store small snippets of individual samples. Stored long-lived.
     /* 0x14 */ u16 unk_14;
     /* 0x18 */ u32 persistentSeqCacheSize;  // size of cache on audio pool to store sequences persistently
     /* 0x1C */ u32 persistentFontCacheSize; // size of cache on audio pool to store soundFonts persistently
@@ -616,7 +616,7 @@ typedef struct {
 } AudioBufferParameters; // size = 0x28
 
 /**
- * Meta-data associated with a pool (contain withing the Audio Heap)
+ * Meta-data associated with a pool (contained within the Audio Heap)
  */
 typedef struct {
     /* 0x0 */ u8* startRamAddr; // start addr of the pool
@@ -855,7 +855,7 @@ typedef struct {
     /* 0x28A0 */ s32 curAudioFrameDmaCount;
     /* 0x28A4 */ s32 rspTaskIndex;
     /* 0x28A8 */ s32 curAiBufIndex;
-    /* 0x28AC */ Acmd* abiCmdBufs[2]; // Pointer to audio heap where the audio binary interface command lists (for the rsp) are stored. Two lists that alternative every frame
+    /* 0x28AC */ Acmd* abiCmdBufs[2]; // Pointer to audio heap where the audio binary interface command lists (for the rsp) are stored. Two lists that alternate every frame
     /* 0x28B4 */ Acmd* curAbiCmdBuf; // Pointer to the currently active abiCmdBufs
     /* 0x28B8 */ AudioTask* curTask;
     /* 0x28BC */ char unk_28BC[0x4];
@@ -906,7 +906,7 @@ typedef struct {
     /* 0x5BD8 */ u8 cmdWrPos;
     /* 0x5BD9 */ u8 cmdRdPos;
     /* 0x5BDA */ u8 cmdQueueFinished;
-    /* 0x5BDC */ u16 activeChannelsFlags[4]; // bitwise flag for 16 channels. Only channels with bit turned on will be processed 
+    /* 0x5BDC */ u16 activeChannelsFlags[4]; // bitfield for 16 channels. Only channels with bit turned on will be processed 
     /* 0x5BE4 */ OSMesgQueue* audioResetQueueP;
     /* 0x5BE8 */ OSMesgQueue* taskStartQueueP;
     /* 0x5BEC */ OSMesgQueue* cmdProcQueueP;

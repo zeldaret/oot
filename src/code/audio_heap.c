@@ -121,9 +121,9 @@ void AudioHeap_WritebackDCache(void* ramAddr, u32 size) {
 }
 
 /**
- * Attempt to allocated space externally to the audio heap. If no external pool is available,
+ * Attempt to allocate space externally to the audio heap. If no external pool is available,
  * then allocate space on the pool provided in the argument.
- * Afterwards, zero all data pool the new allocated space
+ * The newly allocated space is zero'ed
  */
 void* AudioHeap_AllocZeroedAttemptExternal(AudioAllocPool* pool, u32 size) {
     void* ramAddr = NULL;
@@ -169,7 +169,7 @@ void* AudioHeap_AllocDmaMemoryZeroed(AudioAllocPool* pool, u32 size) {
 }
 
 /**
- * Allocates space on a pool contained withing the heap and sets all the allocated space to 0
+ * Allocates space on a pool contained within the heap and sets all the allocated space to 0
  */
 void* AudioHeap_AllocZeroed(AudioAllocPool* pool, u32 size) {
     u8* ramAddr = AudioHeap_Alloc(pool, size);
