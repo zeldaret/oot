@@ -453,6 +453,29 @@ typedef enum {
     /* 0xFF */ NAVI_ENEMY_NONE = 0xFF
 } NaviEnemy;
 
+#define ACTOR_PARAMS_TRANSITION_INDEX_SHIFT 10
+#define ACTOR_TRANSITION_INDEX(actor) ((u16)(actor)->params >> ACTOR_PARAMS_TRANSITION_INDEX_SHIFT)
+
+// EnDoor and DoorKiller share knobAnim and playerIsOpening
+// Due to alignment, a substruct cannot be used in the structs of these actors.
+#define DOOR_ACTOR_BASE               \
+    /* 0x0000 */ Actor actor;         \
+    /* 0x014C */ SkelAnime skelAnime; \
+    /* 0x0190 */ u8 knobAnim;        \
+    /* 0x0191 */ u8 playerIsOpening;
+
+typedef struct DoorActorBase {
+    /* 0x0000 */ DOOR_ACTOR_BASE
+} DoorActorBase;
+
+typedef enum {
+    /* 0x00 */ KNOB_ANIM_ADULT_L,
+    /* 0x01 */ KNOB_ANIM_CHILD_L,
+    /* 0x02 */ KNOB_ANIM_ADULT_R,
+    /* 0x03 */ KNOB_ANIM_CHILD_R,
+    /* 0x04 */ KNOB_ANIM_MAX
+} KnobDoorAnim;
+
 #define UPDBGCHECKINFO_FLAG_0 (1 << 0) // check wall
 #define UPDBGCHECKINFO_FLAG_1 (1 << 1) // check ceiling
 #define UPDBGCHECKINFO_FLAG_2 (1 << 2) // check floor and water

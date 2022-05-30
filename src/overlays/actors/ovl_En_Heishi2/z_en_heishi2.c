@@ -93,7 +93,7 @@ void EnHeishi2_Init(Actor* thisx, PlayState* play) {
     if ((this->type == 6) || (this->type == 9)) {
         this->actor.draw = EnHeishi2_DrawKingGuard;
         this->actor.flags &= ~ACTOR_FLAG_0;
-        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, 6);
+        Actor_ChangeCategory(play, &play->actorCtx, &this->actor, ACTORCAT_PROP);
         if (this->type == 6) {
             this->actionFunc = EnHeishi2_DoNothing1;
 

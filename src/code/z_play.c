@@ -1824,7 +1824,7 @@ s32 func_800C0D34(PlayState* this, Actor* actor, s16* yaw) {
         return 0;
     }
 
-    transitionActor = &this->transiActorCtx.list[(u16)actor->params >> 10];
+    transitionActor = &this->transiActorCtx.list[ACTOR_TRANSITION_INDEX(actor)];
     frontRoom = transitionActor->sides[0].room;
 
     if (frontRoom == transitionActor->sides[1].room) {
