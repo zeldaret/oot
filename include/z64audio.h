@@ -600,7 +600,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s16 specUnk4;
     /* 0x02 */ u16 frequency; // Target sampling rate in Hz
-    /* 0x04 */ u16 aiFrequency; // True sampling rate used by the audio interface (AI) for the audio digital-analog converter (DAC), see `osAiSetFrequency`
+    /* 0x04 */ u16 aiFrequency; // True sampling rate of the audio interface (AI), see `osAiSetFrequency`
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;
