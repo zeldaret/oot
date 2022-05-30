@@ -330,7 +330,7 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
     }
 
     if (this->isFreezing) {
-        if ((this->actor.params < 0) && (this->collider1.base.atFlags & 2)) {
+        if ((this->actor.params < 0) && (this->collider1.base.atFlags & AT_HIT)) {
             this->isMoving = false;
             this->collider1.base.acFlags &= ~2;
             this->actor.speedXZ = this->speedXZ = 0.0f;

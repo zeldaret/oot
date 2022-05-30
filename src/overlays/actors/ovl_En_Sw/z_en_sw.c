@@ -359,7 +359,7 @@ s32 func_80B0C9F0(EnSw* this, PlayState* play) {
         }
     }
 
-    if ((this->unk_390 == 0) && (this->collider.base.atFlags & 2)) {
+    if ((this->unk_390 == 0) && (this->collider.base.atFlags & AT_HIT)) {
         this->unk_390 = 30;
     }
 

@@ -291,15 +291,15 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
 
     sp3F = 0;
     this->hitPlayer = 0;
-    if (this->collider.base.atFlags & 4) {
-        this->collider.base.atFlags &= ~4;
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~AT_BOUNCED;
         this->hitPlayer = 1;
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.speedXZ = -4.0f;
         return 0;
     }
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         this->hitPlayer = 1;
         return 0;
     } else {

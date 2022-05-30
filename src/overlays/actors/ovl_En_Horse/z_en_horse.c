@@ -3595,9 +3595,9 @@ void EnHorse_Update(Actor* thisx, PlayState* play2) {
         }
 
         if (thisx->speedXZ >= 5.0f) {
-            this->cyl1.base.atFlags |= 1;
+            this->cyl1.base.atFlags |= AT_ON;
         } else {
-            this->cyl1.base.atFlags &= ~1;
+            this->cyl1.base.atFlags &= ~AT_ON;
         }
 
         if (gSaveContext.entranceIndex != 343 || gSaveContext.sceneSetupIndex != 9) {
