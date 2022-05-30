@@ -3601,7 +3601,7 @@ u8 CollisionCheck_GetSwordDamage(s32 dmgFlags) {
         damage = 2;
     } else if (dmgFlags & 0x48800400) {
         damage = 4;
-    } else if (dmgFlags & 0x04000000) {
+    } else if (dmgFlags & DMG_JUMP_GIANT) {
         damage = 8;
     }
 

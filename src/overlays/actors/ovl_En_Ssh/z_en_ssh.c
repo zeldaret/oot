@@ -434,13 +434,13 @@ void EnSsh_CheckBodyStickHit(EnSsh* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        info->bumper.dmgFlags |= 2;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
+        info->bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        info->bumper.dmgFlags &= ~2;
-        this->colCylinder[1].info.bumper.dmgFlags |= 2;
-        this->colCylinder[2].info.bumper.dmgFlags |= 2;
+        info->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 

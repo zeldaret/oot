@@ -2692,14 +2692,14 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
         acHitInfo = this->collider.info.acHitInfo;
 
         if ((this->actionFunc == BossGanon_HitByLightBall) || (this->actionFunc == BossGanon_ChargeBigMagic)) {
-            if (acHitInfo->toucher.dmgFlags & 0x2000) {
+            if (acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
                 BossGanon_SetupVulnerable(this, play);
                 this->timers[2] = 0;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_DAMAGE1);
                 this->unk_1A6 = 15;
             }
         } else if ((this->actionFunc == BossGanon_Vulnerable) && (this->unk_1C2 >= 3)) {
-            if (!(acHitInfo->toucher.dmgFlags & 0x80)) {
+            if (!(acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
                 u8 hitWithSword = false;
                 u8 damage;
                 Vec3f sp50;
@@ -3937,7 +3937,7 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
 
                     this->collider.base.acFlags &= ~2;
 
-                    if ((hitWithBottle == false) && (acHitInfo->toucher.dmgFlags & 0x100000)) {
+                    if ((hitWithBottle == false) && (acHitInfo->toucher.dmgFlags & DMG_SHIELD)) {
                         spBA = 2;
                         Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -4422,7 +4422,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
 
                 this->collider.base.acFlags &= ~2;
 
-                if (!(acHitInfo->toucher.dmgFlags & 0x100000) || Player_HasMirrorShieldEquipped(play)) {
+                if (!(acHitInfo->toucher.dmgFlags & DMG_SHIELD) || Player_HasMirrorShieldEquipped(play)) {
                     func_800AA000(this->actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
                     this->unk_1C2 = 0xC;
                     this->actor.speedXZ = -30.0f;

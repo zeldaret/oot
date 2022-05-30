@@ -1129,7 +1129,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
             Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
-            this->colliderBody.info.bumper.dmgFlags = 0x10;
+            this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
         }
     }
 
@@ -1217,7 +1217,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 }
 
 void BossVa_SetupBodyPhase3(BossVa* this) {
-    this->colliderBody.info.bumper.dmgFlags = 0x10;
+    this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
     this->actor.speedXZ = 0.0f;
     sPhase3StopMoving = false;
     BossVa_SetupAction(this, BossVa_BodyPhase3);
@@ -1421,7 +1421,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
             }
             Math_SmoothStepToF(&this->actor.speedXZ, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
         }
-        this->colliderBody.info.bumper.dmgFlags = 0x10;
+        this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {

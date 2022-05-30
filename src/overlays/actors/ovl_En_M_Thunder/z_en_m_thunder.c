@@ -44,8 +44,8 @@ static ColliderCylinderInit D_80AA0420 = {
     { 200, 200, 0, { 0, 0, 0 } },
 };
 
-static u32 D_80AA044C[] = { 0x01000000, 0x00400000, 0x00800000 };
-static u32 D_80AA0458[] = { 0x08000000, 0x02000000, 0x04000000 };
+static u32 D_80AA044C[] = { DMG_SPIN_MASTER, DMG_SPIN_KOKIRI, DMG_SPIN_GIANT };
+static u32 D_80AA0458[] = { DMG_JUMP_MASTER, DMG_JUMP_KOKIRI, DMG_JUMP_GIANT };
 
 static u16 sSfxIds[] = {
     NA_SE_IT_ROLLING_CUT_LV2,

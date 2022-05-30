@@ -262,8 +262,8 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
 
     acHits[0] = (this->colliders[0].base.acFlags & AC_HIT) != 0;
     acHits[1] = (this->colliders[1].base.acFlags & AC_HIT) != 0;
-    if ((acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & 0x10)) ||
-        (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & 0x10))) {
+    if ((acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & DMG_BOOMERANG)) ||
+        (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & DMG_BOOMERANG))) {
 
         for (i = 0; i < 2; i++) {
             this->colliders[i].base.atFlags &= ~(AT_HIT | AT_BOUNCED);
@@ -272,8 +272,8 @@ void EnBrob_Update(Actor* thisx, PlayState* play2) {
 
         func_809CAEF4(this);
     } else if ((this->colliders[0].base.atFlags & AT_HIT) || (this->colliders[1].base.atFlags & AT_HIT) ||
-               (acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & 0x100)) ||
-               (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & 0x100))) {
+               (acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & DMG_SLASH_KOKIRI)) ||
+               (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & DMG_SLASH_KOKIRI))) {
 
         if (this->actionFunc == func_809CB114 && !(this->colliders[0].base.atFlags & AT_BOUNCED) &&
             !(this->colliders[1].base.atFlags & AT_BOUNCED)) {

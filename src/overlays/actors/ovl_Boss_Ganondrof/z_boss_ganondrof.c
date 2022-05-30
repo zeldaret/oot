@@ -1244,7 +1244,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                         u8 canKill = false;
                         s32 dmgFlags = hurtbox->toucher.dmgFlags;
 
-                        if (dmgFlags & 0x80) {
+                        if (dmgFlags & DMG_HOOKSHOT) {
                             return;
                         }
                         dmg = CollisionCheck_GetSwordDamage(dmgFlags);

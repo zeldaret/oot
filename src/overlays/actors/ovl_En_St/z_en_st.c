@@ -303,13 +303,13 @@ void EnSt_CheckBodyStickHit(EnSt* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        body->bumper.dmgFlags |= 2;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
+        body->bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        body->bumper.dmgFlags &= ~2;
-        this->colCylinder[1].info.bumper.dmgFlags |= 2;
-        this->colCylinder[2].info.bumper.dmgFlags |= 2;
+        body->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -419,7 +419,7 @@ s32 EnSt_CheckHitFrontside(EnSt* this) {
 
 s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     ColliderCylinder* cyl = &this->colCylinder[0];
-    s32 flags = 0; // ac hit flags from colliders 0 and 1
+    s32 flags = 0; // damage flags from colliders 0 and 1
     s32 hit = false;
 
     if (cyl->base.acFlags & AC_HIT) {
