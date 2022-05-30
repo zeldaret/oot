@@ -537,13 +537,13 @@ void func_80B0D590(EnSw* this, PlayState* play) {
         if (this->actor.scale.x < 0.0139999995f) {
             this->collider.elements[0].info.toucherFlags = 0;
             this->collider.elements[0].info.bumperFlags = 0;
-            this->collider.elements[0].info.ocElemFlags = 0;
+            this->collider.elements[0].info.ocElemFlags = OCELEM_NONE;
         }
 
         if (this->actor.scale.x >= 0.0139999995f) {
             this->collider.elements[0].info.toucherFlags = 1;
             this->collider.elements[0].info.bumperFlags = 1;
-            this->collider.elements[0].info.ocElemFlags = 1;
+            this->collider.elements[0].info.ocElemFlags = OCELEM_ON;
         }
 
         Math_ApproachF(&this->actor.scale.x, !IS_DAY ? 0.02f : 0.0f, 0.2f, 0.01f);
