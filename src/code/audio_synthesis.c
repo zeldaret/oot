@@ -613,9 +613,9 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             cmd = AudioSynth_LoadReverbSamples(cmd, aiBufLen, reverb, updateIndex);
 
             // Mixes reverb sample into the main dry channel
-            // reverb->vol is always set to 0x7FFF (audio spec), and DMEM_LEFT_CH is cleared before reverbs.
+            // reverb->volume is always set to 0x7FFF (audio spec), and DMEM_LEFT_CH is cleared before reverbs.
             // So this is essentially a DMEMmove from DMEM_WET_LEFT_CH to DMEM_LEFT_CH
-            aMix(cmd++, 0x34, reverb->vol, DMEM_WET_LEFT_CH, DMEM_LEFT_CH);
+            aMix(cmd++, 0x34, reverb->volume, DMEM_WET_LEFT_CH, DMEM_LEFT_CH);
 
             unk14 = reverb->unk_14;
             if (unk14) {

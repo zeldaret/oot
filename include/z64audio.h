@@ -171,7 +171,7 @@ typedef struct {
     /* 0x005 */ s8 unk_05;
     /* 0x006 */ u16 windowSize;
     /* 0x008 */ s16 unk_08;
-    /* 0x00A */ s16 vol;
+    /* 0x00A */ s16 volume;
     /* 0x00C */ u16 decayRate; // determines how fast reverb dissipates
     /* 0x00E */ u16 unk_0E;
     /* 0x010 */ s16 leakRtl;
@@ -556,7 +556,7 @@ typedef struct {
     /* 0x04 */ u16 decayRate; // determines how fast reverb dissipates
     /* 0x06 */ u16 unk_6;
     /* 0x08 */ u16 unk_8;
-    /* 0x0A */ u16 vol;
+    /* 0x0A */ u16 volume;
     /* 0x0C */ u16 leakRtl;
     /* 0x0E */ u16 leakLtr;
     /* 0x10 */ s8 unk_10;
@@ -600,7 +600,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ s16 specUnk4;
     /* 0x02 */ u16 frequency; // Target sampling rate in Hz
-    /* 0x04 */ u16 aiFrequency; // True sampling rate set to the audio interface (AI) for the audio digital-analog converter (DAC)
+    /* 0x04 */ u16 aiFrequency; // True sampling rate used by the audio interface (AI) for the audio digital-analog converter (DAC), see `osAiSetFrequency`
     /* 0x06 */ s16 samplesPerFrameTarget;
     /* 0x08 */ s16 maxAiBufferLength;
     /* 0x0A */ s16 minAiBufferLength;

@@ -984,7 +984,7 @@ void AudioHeap_Init(void) {
         reverb->windowSize = settings->windowSize * 64;
         reverb->windowSize /= reverb->downsampleRate;
         reverb->decayRate = settings->decayRate;
-        reverb->vol = settings->vol;
+        reverb->volume = settings->volume;
         reverb->unk_14 = settings->unk_6 * 64;
         reverb->unk_16 = settings->unk_8;
         reverb->unk_18 = 0;
