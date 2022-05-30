@@ -6356,7 +6356,7 @@ void func_8083F070(Player* this, LinkAnimationHeader* anim, PlayState* play) {
 }
 
 /**
- * Returns true if Player chooses to enter crawlspace
+ * @return true if Player chooses to enter crawlspace
  */
 s32 Player_IsEnteringCrawlspace(Player* this, PlayState* play, u32 wallFlags) {
     CollisionPoly* wallPoly;
@@ -6481,8 +6481,8 @@ s32 func_8083F524(PlayState* play, Player* this) {
 
 /**
  * Two exit walls are placed at each end of the crawlspace, separate to the two entrance wall used to enter the
- * crawlspace These front and back exit walls are slightly more interior in the crawlspace relative to the front and
- * back entrance walls When player interacts with either of these two interior exit walls, start the leaving-crawlspace
+ * crawlspace. These front and back exit walls are slightly more interior in the crawlspace relative to the front and
+ * back entrance walls. When player interacts with either of these two interior exit walls, start the leaving-crawlspace
  * cutscene and return true. Else, return false
  */
 s32 Player_IsLeavingCrawlspace(Player* this, PlayState* play) {
