@@ -11,7 +11,7 @@
  * sequence requests to be passed onto the audio thread. It is worth noting all functions in this file are
  * called from the graph thread.
  *
- * These commands are not to be confused with the sequence commands used by the sequences themselves
+ * These commands are not to be confused with the sequence instructions used by the sequences themselves
  * which are a midi-based scripting language.
  *
  * Nor are these commands to be confused with the internal audio commands used to transfer requests from
