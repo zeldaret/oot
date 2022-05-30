@@ -15,21 +15,126 @@ u16 AudioSeq_ScriptReadCompressedU16(SeqScriptState* state);
 
 u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** instOut, AdsrSettings* adsr);
 
-u8 D_80130520[] = {
-    0x81, 0x00, 0x81, 0x01, 0x00, 0x00, 0x00, 0x81, 0x01, 0x01, 0x01, 0x42, 0x81, 0xC2, 0x00, 0x00,
-    0x00, 0x01, 0x81, 0x00, 0x00, 0x00, 0x01, 0x42, 0x01, 0x01, 0x01, 0x81, 0x01, 0x01, 0x81, 0x81,
-    0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x81, 0x01, 0x01, 0x01, 0x81, 0x01,
-    0x01, 0x03, 0x03, 0x01, 0x00, 0x01, 0x01, 0x81, 0x03, 0x01, 0x00, 0x02, 0x00, 0x01, 0x01, 0x82,
-    0x00, 0x01, 0x01, 0x01, 0x01, 0x81, 0x00, 0x00, 0x01, 0x81, 0x81, 0x81, 0x81, 0x00, 0x00, 0x00,
+/**
+ * sSeqInstructionArgsTable is a table for each sequence instruction
+ * that contains both how many arguments an instruction takes, as well
+ * as the type of each argument
+ *
+ * sSeqInstructionArgsTable is bitpacked as follows:
+ * abcUUUnn
+ *
+ * n - number of arguments that the sequence instruction takes
+ *
+ * a - bitFlag for the size of arg0 if it exists
+ * b - bitFlag for the size of arg1 if it exists
+ * c - bitFlag for the size of arg2 if it exists
+ *
+ * bit on - argument is 16 bytes
+ * bit off - argument is 8 bytes
+ *
+ * U - Unused
+ */
+
+// argType
+#define CMD_ARG_U8 0
+#define CMD_ARG_S16 1
+
+// CMD_ARGS_(NUMBER_OF_ARGS)
+#define CMD_ARGS_0 0
+#define CMD_ARGS_1(argType) ((argType << 7) | 1)
+#define CMD_ARGS_2(argType0, argType1) ((argType0 << 7) | (argType1 << 6) | 2)
+#define CMD_ARGS_3(argType0, argType1, argType2) ((argType0 << 7) | (argType1 << 6) | (argType1 << 5) | 3)
+
+u8 sSeqInstructionArgsTable[] = {
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xB0
+    CMD_ARGS_0,                                     // 0xB1
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xB2
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xB3
+    CMD_ARGS_0,                                     // 0xB4
+    CMD_ARGS_0,                                     // 0xB5
+    CMD_ARGS_0,                                     // 0xB6
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xB7
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xB8
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xB9
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xBA
+    CMD_ARGS_2(CMD_ARG_U8, CMD_ARG_S16),            // 0xBB
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xBC
+    CMD_ARGS_2(CMD_ARG_S16, CMD_ARG_S16),           // 0xBD
+    CMD_ARGS_0,                                     // 0xBE
+    CMD_ARGS_0,                                     // 0xBF
+    CMD_ARGS_0,                                     // 0xC0
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xC1
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xC2
+    CMD_ARGS_0,                                     // 0xC3
+    CMD_ARGS_0,                                     // 0xC4
+    CMD_ARGS_0,                                     // 0xC5
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xC6
+    CMD_ARGS_2(CMD_ARG_U8, CMD_ARG_S16),            // 0xC7
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xC8
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xC9
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xCA
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xCB
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xCC
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xCD
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xCE
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xCF
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD0
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD1
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD2
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD3
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD4
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD5
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD6
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD7
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD8
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xD9
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xDA
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xDB
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xDC
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xDD
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xDE
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xDF
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xE0
+    CMD_ARGS_3(CMD_ARG_U8, CMD_ARG_U8, CMD_ARG_U8), // 0xE1
+    CMD_ARGS_3(CMD_ARG_U8, CMD_ARG_U8, CMD_ARG_U8), // 0xE2
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xE3
+    CMD_ARGS_0,                                     // 0xE4
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xE5
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xE6
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xE7
+    CMD_ARGS_3(CMD_ARG_U8, CMD_ARG_U8, CMD_ARG_U8), // 0xE8
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xE9
+    CMD_ARGS_0,                                     // 0xEA
+    CMD_ARGS_2(CMD_ARG_U8, CMD_ARG_U8),             // 0xEB
+    CMD_ARGS_0,                                     // 0xEC
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xED
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xEE
+    CMD_ARGS_2(CMD_ARG_S16, CMD_ARG_U8),            // 0xEF
+    CMD_ARGS_0,                                     // 0xF0
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xF1
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xF2
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xF3
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xF4
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xF5
+    CMD_ARGS_0,                                     // 0xF6
+    CMD_ARGS_0,                                     // 0xF7
+    CMD_ARGS_1(CMD_ARG_U8),                         // 0xF8
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xF9
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xFA
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xFB
+    CMD_ARGS_1(CMD_ARG_S16),                        // 0xFC
+    CMD_ARGS_0,                                     // 0xFD
+    CMD_ARGS_0,                                     // 0xFE
+    CMD_ARGS_0,                                     // 0xFF
 };
 
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 arg1) {
-    u8 temp_v0 = D_80130520[arg1 - 0xB0];
-    u8 loBits = temp_v0 & 3;
+    u8 highBits = sSeqInstructionArgsTable[arg1 - 0xB0];
+    u8 lowBits = highBits & 3;
     u16 ret = 0;
 
-    if (loBits == 1) {
-        if ((temp_v0 & 0x80) == 0) {
+    if (lowBits == 1) {
+        if (!(highBits & 0x80)) {
             ret = AudioSeq_ScriptReadU8(state);
         } else {
             ret = AudioSeq_ScriptReadS16(state);
@@ -998,7 +1103,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
         s32 pad2;
 
         if (command >= 0xB0) {
-            highBits = D_80130520[(s32)command - 0xB0];
+            highBits = sSeqInstructionArgsTable[(s32)command - 0xB0];
             lowBits = highBits & 3;
 
             for (i = 0; i < lowBits; i++, highBits <<= 1) {
