@@ -27,7 +27,9 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
-#define CAM_HUD_ALPHA(alpha) (((alpha) & 0xF) << 8)
+#define CAM_HUD_ALPHA_SHIFT 8
+#define CAM_HUD_ALPHA_MASK (0x0F00)
+#define CAM_HUD_ALPHA(alpha) (((alpha) & 0xF) << CAM_HUD_ALPHA_SHIFT)
 
 #define CAM_HUD_ALPHA_50 CAM_HUD_ALPHA(0)
 #define CAM_HUD_ALPHA_1 CAM_HUD_ALPHA(1)
@@ -46,17 +48,17 @@
 #define CAM_HUD_ALPHA_IGNORE CAM_HUD_ALPHA(0xF)
 
 /**
- * shinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums.
- *                  Can also add on the flag ( | CAM_SHRINKWIN_CURVAL) to make the window shrink immediately
+ * shrinkWindowFlag: determines the size of the letter-box shrink window. See CAM_SHRINKWINVAL_* enums.
+ *                  Can also add on the flag ( | CAM_SHRINKWIN_INSTANT) to make the window shrink immediately
  * interfaceAlpha: hides certain hud icons
  *    - A value of 0 in camera is translated to an interface alpha of 50, which is the value to restore all hud icons to the screen
  *    - A value of 0xF in camera results in no change in the alpha
  * funcFlags: Custom flags for functions
  */
-#define CAM_INTERFACE_FLAGS(shinkWindowFlag, interfaceAlpha, funcFlags) \
-    (((shinkWindowFlag) & CAM_SHRINKWIN_MASK) | (interfaceAlpha) | ((funcFlags) & 0xFF))
+#define CAM_INTERFACE_FLAGS(shrinkWindowFlag, interfaceAlpha, funcFlags) \
+    (((shrinkWindowFlag) & CAM_SHRINKWIN_MASK) | (interfaceAlpha) | ((funcFlags) & 0xFF))
 
-// Shrinking the window from the top and bottom with a black box (letterboxing)
+// Shrinking the window from the top and bottom with black borders (letterboxing)
 #define CAM_SHRINKWIN_MASK (0xF000)
 
 #define CAM_SHRINKWINVAL_MASK (0x7000)
@@ -65,23 +67,21 @@
 #define CAM_SHRINKWINVAL_MEDIUM (0x2000)
 #define CAM_SHRINKWINVAL_LARGE (0x3000)
 
-#define CAM_SHRINKWIN_CURVAL (0x8000) // Bit to determine whether set the current value directy (on), or to set the shrink-value target (off) 
+#define CAM_SHRINKWIN_INSTANT (0x8000) // Bit to determine whether to set the current value directy (on), or to set the shrink-value target (off) 
 
 #define CAM_SHRINKWINVAL_IGNORE (0xF000) // No change in shrink window, keep the previous values
 
-#define CAM_HUD_ALPHA_MASK (0x0F00)
-
-// Camera behaviorFlags. Flags spcifically for settings, modes, and scene/bg/cs camData
-// Used to store current state, only CAM_FLAG_SET_1 and CAM_FLAG_BG_1 are read from and used in logic
+// Camera behaviorFlags. Flags specifically  for settings, modes, and bgCamData
+// Used to store current state, only CAM_BEHAVIOR_SET_1 and CAM_BEHAVIOR_BG_1 are read from and used in logic
 // Setting (0x1, 0x10)
-#define CAM_FLAG_SET_1 (1 << 0)
-#define CAM_FLAG_SET_2 (1 << 4)
+#define CAM_BEHAVIOR_SET_1 (1 << 0)
+#define CAM_BEHAVIOR_SET_2 (1 << 4)
 // Mode (0x2, 0x20)
-#define CAM_FLAG_MODE_1 (1 << 1)
-#define CAM_FLAG_MODE_2 (1 << 5)
+#define CAM_BEHAVIOR_MODE_1 (1 << 1)
+#define CAM_BEHAVIOR_MODE_2 (1 << 5)
 // Bg Scene Data (0x4, 0x40)
-#define CAM_FLAG_BG_1 (1 << 2)
-#define CAM_FLAG_BG_2 (1 << 6)
+#define CAM_BEHAVIOR_BG_1 (1 << 2)
+#define CAM_BEHAVIOR_BG_2 (1 << 6)
 
 // Camera stateFlags. Variety of generic flags
 #define CAM_STATE_1 (1 << 0) // Must be set for the camera to change settings based on the bg surface

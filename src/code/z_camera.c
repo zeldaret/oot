@@ -750,11 +750,11 @@ s32 Camera_CopyPREGToModeValues(Camera* camera) {
     return true;
 }
 
-void Camera_UpdateInterface(s16 flags) {
+void Camera_UpdateInterface(s16 interfaceFlags) {
     s16 interfaceAlpha;
 
-    if ((flags & CAM_SHRINKWIN_MASK) != CAM_SHRINKWINVAL_IGNORE) {
-        switch (flags & CAM_SHRINKWINVAL_MASK) {
+    if ((interfaceFlags & CAM_SHRINKWIN_MASK) != CAM_SHRINKWINVAL_IGNORE) {
+        switch (interfaceFlags & CAM_SHRINKWINVAL_MASK) {
             case CAM_SHRINKWINVAL_SMALL:
                 sCameraShrinkWindowVal = 26;
                 break;
@@ -772,16 +772,16 @@ void Camera_UpdateInterface(s16 flags) {
                 break;
         }
 
-        if (flags & CAM_SHRINKWIN_CURVAL) {
+        if (interfaceFlags & CAM_SHRINKWIN_INSTANT) {
             ShrinkWindow_SetCurrentVal(sCameraShrinkWindowVal);
         } else {
             ShrinkWindow_SetVal(sCameraShrinkWindowVal);
         }
     }
 
-    if ((flags & CAM_HUD_ALPHA_MASK) != CAM_HUD_ALPHA_MASK) {
-        interfaceAlpha = (flags & CAM_HUD_ALPHA_MASK) >> 8;
-        if (interfaceAlpha == 0) {
+    if ((interfaceFlags & CAM_HUD_ALPHA_MASK) != CAM_HUD_ALPHA_IGNORE) {
+        interfaceAlpha = (interfaceFlags & CAM_HUD_ALPHA_MASK) >> CAM_HUD_ALPHA_SHIFT;
+        if (interfaceAlpha == (CAM_HUD_ALPHA_50 >> CAM_HUD_ALPHA_SHIFT)) {
             interfaceAlpha = 50;
         }
         if (interfaceAlpha != sCameraInterfaceAlpha) {
@@ -7027,7 +7027,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
     camera->stateFlags |= CAM_STATE_4;
 
     if (camera == &camera->play->mainCamera) {
-        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE | CAM_SHRINKWIN_CURVAL, CAM_HUD_ALPHA_2, 0);
+        sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_LARGE | CAM_SHRINKWIN_INSTANT, CAM_HUD_ALPHA_2, 0);
     } else {
         sCameraInterfaceFlags = CAM_INTERFACE_FLAGS(CAM_SHRINKWINVAL_NONE, CAM_HUD_ALPHA_50, 0);
     }
@@ -7701,7 +7701,7 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
     }
 
     if ((camera->stateFlags & CAM_STATE_20) && (flags == 0)) {
-        camera->behaviorFlags |= CAM_FLAG_MODE_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_2;
         return -1;
     }
 
@@ -7719,18 +7719,18 @@ s32 Camera_ChangeModeFlags(Camera* camera, s16 mode, u8 flags) {
             func_8005A02C(camera);
             return 0xC0000000 | mode;
         } else {
-            camera->behaviorFlags |= CAM_FLAG_MODE_2;
-            camera->behaviorFlags |= CAM_FLAG_MODE_1;
+            camera->behaviorFlags |= CAM_BEHAVIOR_MODE_2;
+            camera->behaviorFlags |= CAM_BEHAVIOR_MODE_1;
             return 0;
         }
     } else {
         if (mode == camera->mode && flags == 0) {
-            camera->behaviorFlags |= CAM_FLAG_MODE_2;
-            camera->behaviorFlags |= CAM_FLAG_MODE_1;
+            camera->behaviorFlags |= CAM_BEHAVIOR_MODE_2;
+            camera->behaviorFlags |= CAM_BEHAVIOR_MODE_1;
             return -1;
         }
-        camera->behaviorFlags |= CAM_FLAG_MODE_2;
-        camera->behaviorFlags |= CAM_FLAG_MODE_1;
+        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_MODE_1;
         Camera_CopyDataToRegs(camera, mode);
         modeChangeFlags = 0;
         switch (mode) {
@@ -7838,16 +7838,16 @@ s32 Camera_CheckValidMode(Camera* camera, s16 mode) {
 }
 
 s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
-    if (camera->behaviorFlags & CAM_FLAG_SET_1) {
+    if (camera->behaviorFlags & CAM_BEHAVIOR_SET_1) {
         if ((u32)((u32)(sCameraSettings[camera->setting].unk_00 & 0xF000000) >> 0x18) >=
             (u32)((u32)(sCameraSettings[setting].unk_00 & 0xF000000) >> 0x18)) {
-            camera->behaviorFlags |= CAM_FLAG_SET_2;
+            camera->behaviorFlags |= CAM_BEHAVIOR_SET_2;
             return -2;
         }
     }
     if (((setting == CAM_SET_MEADOW_BIRDS_EYE) || (setting == CAM_SET_MEADOW_UNUSED)) && LINK_IS_ADULT &&
         (camera->play->sceneNum == SCENE_SPOT05)) {
-        camera->behaviorFlags |= CAM_FLAG_SET_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_SET_2;
         return -5;
     }
 
@@ -7857,16 +7857,16 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
     }
 
     if ((setting == camera->setting) && (!(flags & 1))) {
-        camera->behaviorFlags |= CAM_FLAG_SET_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_SET_2;
         if (!(flags & 2)) {
-            camera->behaviorFlags |= CAM_FLAG_SET_1;
+            camera->behaviorFlags |= CAM_BEHAVIOR_SET_1;
         }
         return -1;
     }
 
-    camera->behaviorFlags |= CAM_FLAG_SET_2;
+    camera->behaviorFlags |= CAM_BEHAVIOR_SET_2;
     if (!(flags & 2)) {
-        camera->behaviorFlags |= CAM_FLAG_SET_1;
+        camera->behaviorFlags |= CAM_BEHAVIOR_SET_1;
     }
 
     camera->stateFlags |= (CAM_STATE_4 | CAM_STATE_8);
@@ -7908,17 +7908,17 @@ s32 Camera_ChangeDataIdx(Camera* camera, s32 camDataIdx) {
     s16 settingChangeSuccessful;
 
     if (camDataIdx == -1 || camDataIdx == camera->camDataIdx) {
-        camera->behaviorFlags |= CAM_FLAG_BG_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_BG_2;
         return -1;
     }
 
-    if (!(camera->behaviorFlags & CAM_FLAG_BG_2)) {
+    if (!(camera->behaviorFlags & CAM_BEHAVIOR_BG_2)) {
         newCameraSetting = Camera_GetCamDataSetting(camera, camDataIdx);
-        camera->behaviorFlags |= CAM_FLAG_BG_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_BG_2;
         settingChangeSuccessful = Camera_ChangeSettingFlags(camera, newCameraSetting, 5) >= 0;
         if (settingChangeSuccessful || sCameraSettings[camera->setting].unk_00 & 0x80000000) {
             camera->camDataIdx = camDataIdx;
-            camera->behaviorFlags |= CAM_FLAG_BG_1;
+            camera->behaviorFlags |= CAM_BEHAVIOR_BG_1;
             Camera_CopyDataToRegs(camera, camera->mode);
         } else if (settingChangeSuccessful < -1) {
             //! @bug: This is likely checking the wrong value. The actual return of Camera_ChangeSettingFlags or
@@ -8110,11 +8110,11 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
     } else {
         s32 setting = Camera_GetCamDataSetting(camera, camDataIdx);
 
-        camera->behaviorFlags |= CAM_FLAG_BG_2;
+        camera->behaviorFlags |= CAM_BEHAVIOR_BG_2;
 
         if (Camera_ChangeSetting(camera, setting) >= 0) {
             camera->camDataIdx = camDataIdx;
-            camera->behaviorFlags |= CAM_FLAG_BG_1;
+            camera->behaviorFlags |= CAM_BEHAVIOR_BG_1;
         }
 
         osSyncPrintf("....change door camera ID %d (set %d)\n", camera->camDataIdx, camera->setting);
