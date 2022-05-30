@@ -710,7 +710,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 DbCamera_AddVecSph(sp7C, sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
-                spFC.yaw = BINANG_ROT180(sp104.yaw);
+                spFC.yaw = sp104.yaw - 0x7FFF;
                 DbCamera_AddVecSph(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xB) {
@@ -738,7 +738,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
                 DbCamera_AddVecSph(sp7C, sp7C, &spFC);
             } else {
                 spFC.pitch = -spFC.pitch;
-                spFC.yaw = BINANG_ROT180(sp104.yaw);
+                spFC.yaw = sp104.yaw - 0x7FFF;
                 DbCamera_AddVecSph(sp80, sp80, &spFC);
             }
             if (dbCamera->unk_40 == 0xC) {
@@ -760,7 +760,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             spFC.yaw = sp104.yaw;
             DbCamera_AddVecSph(sp7C, sp7C, &spFC);
         } else {
-            spFC.yaw = BINANG_ROT180(sp104.yaw);
+            spFC.yaw = sp104.yaw - 0x7FFF;
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
 
@@ -778,7 +778,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             spFC.yaw = sp104.yaw;
             DbCamera_AddVecSph(sp7C, sp7C, &spFC);
         } else {
-            spFC.yaw = BINANG_ROT180(sp104.yaw);
+            spFC.yaw = sp104.yaw - 0x7FFF;
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 2) {
@@ -874,7 +874,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp7C, sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
-            spFC.yaw = BINANG_ROT180(sp104.yaw);
+            spFC.yaw = sp104.yaw - 0x7FFF;
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xB) {
@@ -903,7 +903,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             DbCamera_AddVecSph(sp7C, sp7C, &spFC);
         } else {
             spFC.pitch = -spFC.pitch;
-            spFC.yaw = BINANG_ROT180(sp104.yaw);
+            spFC.yaw = sp104.yaw - 0x7FFF;
             DbCamera_AddVecSph(sp80, sp80, &spFC);
         }
         if (dbCamera->unk_40 == 0xC) {
@@ -964,7 +964,7 @@ void DbCamera_Update(DbCamera* dbCamera, Camera* cam) {
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? yaw : -yaw);
             DbCamera_AddVecSph(sp80, sp7C, &sp104);
             dbCamera->sub.unk_104A.x = -sp104.pitch;
-            dbCamera->sub.unk_104A.y = BINANG_ROT180(sp104.yaw);
+            dbCamera->sub.unk_104A.y = sp104.yaw - 0x7FFF;
         } else {
             sp104.pitch += (s16)((temp_f0_5 >= 0.0f) ? -pitch : pitch);
             sp104.yaw += (s16)((temp_f2_2 >= 0.0f) ? -yaw : yaw);
