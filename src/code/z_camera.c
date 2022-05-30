@@ -529,6 +529,8 @@ s32 Camera_GetWaterBoxBgCamDataIndex(Camera* camera, f32* waterY) {
     }
 
     bgCamDataIndex = WaterBox_GetBgCamDataIndex(&camera->play->colCtx, waterBox);
+
+    //! @bug bgCamDataIndex = 0 is a valid index, should be (bgCamDataIndex < 0)
     if ((bgCamDataIndex <= 0) || (WaterBox_GetCameraSetting(&camera->play->colCtx, waterBox) <= CAM_SET_NONE)) {
         // no camera data index, or no CameraSettingType
         return -2;
