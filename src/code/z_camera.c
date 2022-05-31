@@ -454,7 +454,7 @@ s16 Camera_GetBgCamDataSetting(Camera* camera, s32 bgCamDataIndex) {
 /**
  * Returns the bgCamData using the current bgCamData index
  */
-Vec3s* Camera_GetBgCamData(Camera* camera) {
+s16* Camera_GetBgCamData(Camera* camera) {
     return BgCheck_GetBgCamDataImpl(&camera->play->colCtx, camera->bgCamDataIndex, BGCHECK_SCENE);
 }
 
@@ -483,7 +483,7 @@ s32 Camera_GetBgCamDataIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
  * Also returns the number of pieces of data there are in `bgCamDataCount`.
  * If there is no floor, then return NULL
  */
-Vec3s* Camera_GetBgCamDataUnderPlayer(Camera* camera, u16* bgCamDataCount) {
+s16* Camera_GetBgCamDataUnderPlayer(Camera* camera, u16* bgCamDataCount) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
@@ -4359,7 +4359,7 @@ s32 Camera_Subj4(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&sp5C, at, eye);
     sCameraInterfaceFlags = roData->interfaceFlags;
     if (camera->animState == 0) {
-        bgCamData = Camera_GetBgCamDataUnderPlayer(camera, &bgCamDataCount);
+        bgCamData = (Vec3s*)Camera_GetBgCamDataUnderPlayer(camera, &bgCamDataCount);
         Camera_Vec3sToVec3f(&rwData->unk_00.point, &bgCamData[1]);
         Camera_Vec3sToVec3f(&sp98, &bgCamData[bgCamDataCount - 2]);
 

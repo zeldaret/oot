@@ -637,8 +637,8 @@ u32 SurfaceType_GetBgCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly,
 u16 BgCheck_GetBgCamDataSettingImpl(CollisionContext* colCtx, u32 bgCamDataIndex, s32 bgId);
 u16 BgCheck_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 BgCheck_GetBgCamDataCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-Vec3s* BgCheck_GetBgCamDataImpl(CollisionContext* colCtx, s32 bgCamDataIndex, s32 bgId);
-Vec3s* BgCheck_GetBgCamData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s16* BgCheck_GetBgCamDataImpl(CollisionContext* colCtx, s32 bgCamDataIndex, s32 bgId);
+s16* BgCheck_GetBgCamData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
