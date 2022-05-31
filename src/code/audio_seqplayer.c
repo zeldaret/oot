@@ -25,117 +25,111 @@ u8 AudioSeq_GetInstrument(SequenceChannel* channel, u8 instId, Instrument** inst
  *
  * n - number of arguments that the sequence instruction takes
  *
- * a - bitFlag for the size of arg0 if it exists
- * b - bitFlag for the size of arg1 if it exists
- * c - bitFlag for the size of arg2 if it exists
+ * a - bitFlag for the type of arg0 if it exists
+ * b - bitFlag for the type of arg1 if it exists
+ * c - bitFlag for the type of arg2 if it exists
  *
- * bit on - argument is 16 bytes
- * bit off - argument is 8 bytes
+ * bitFlag on - argument is s16
+ * bitFlag off - argument is u8
  *
  * U - Unused
  */
 
-// argType
-#define ARG_U8 0
-#define ARG_S16 1
-
 // CMD_ARGS_(NUMBER_OF_ARGS)
 #define CMD_ARGS_0() 0
-#define CMD_ARGS_1(arg0Type) ((arg0Type << 7) | 1)
-#define CMD_ARGS_2(arg0Type, arg1Type) ((arg0Type << 7) | (arg1Type << 6) | 2)
-#define CMD_ARGS_3(arg0Type, arg1Type, arg2Type) ((arg0Type << 7) | (arg1Type << 6) | (arg2Type << 5) | 3)
+#define CMD_ARGS_1(arg0Type) (((sizeof(arg0Type) - 1) << 7) | 1)
+#define CMD_ARGS_2(arg0Type, arg1Type) (((sizeof(arg0Type) - 1) << 7) | ((sizeof(arg1Type) - 1) << 6) | 2)
+#define CMD_ARGS_3(arg0Type, arg1Type, arg2Type) \
+    (((sizeof(arg0Type) - 1) << 7) | ((sizeof(arg1Type) - 1) << 6) | ((sizeof(arg2Type) - 1) << 5) | 3)
 
 u8 sSeqInstructionArgsTable[] = {
-    CMD_ARGS_1(ARG_S16),                // 0xB0
-    CMD_ARGS_0(),                       // 0xB1
-    CMD_ARGS_1(ARG_S16),                // 0xB2
-    CMD_ARGS_1(ARG_U8),                 // 0xB3
-    CMD_ARGS_0(),                       // 0xB4
-    CMD_ARGS_0(),                       // 0xB5
-    CMD_ARGS_0(),                       // 0xB6
-    CMD_ARGS_1(ARG_S16),                // 0xB7
-    CMD_ARGS_1(ARG_U8),                 // 0xB8
-    CMD_ARGS_1(ARG_U8),                 // 0xB9
-    CMD_ARGS_1(ARG_U8),                 // 0xBA
-    CMD_ARGS_2(ARG_U8, ARG_S16),        // 0xBB
-    CMD_ARGS_1(ARG_S16),                // 0xBC
-    CMD_ARGS_2(ARG_S16, ARG_S16),       // 0xBD
-    CMD_ARGS_0(),                       // 0xBE
-    CMD_ARGS_0(),                       // 0xBF
-    CMD_ARGS_0(),                       // 0xC0
-    CMD_ARGS_1(ARG_U8),                 // 0xC1
-    CMD_ARGS_1(ARG_S16),                // 0xC2
-    CMD_ARGS_0(),                       // 0xC3
-    CMD_ARGS_0(),                       // 0xC4
-    CMD_ARGS_0(),                       // 0xC5
-    CMD_ARGS_1(ARG_U8),                 // 0xC6
-    CMD_ARGS_2(ARG_U8, ARG_S16),        // 0xC7
-    CMD_ARGS_1(ARG_U8),                 // 0xC8
-    CMD_ARGS_1(ARG_U8),                 // 0xC9
-    CMD_ARGS_1(ARG_U8),                 // 0xCA
-    CMD_ARGS_1(ARG_S16),                // 0xCB
-    CMD_ARGS_1(ARG_U8),                 // 0xCC
-    CMD_ARGS_1(ARG_U8),                 // 0xCD
-    CMD_ARGS_1(ARG_S16),                // 0xCE
-    CMD_ARGS_1(ARG_S16),                // 0xCF
-    CMD_ARGS_1(ARG_U8),                 // 0xD0
-    CMD_ARGS_1(ARG_U8),                 // 0xD1
-    CMD_ARGS_1(ARG_U8),                 // 0xD2
-    CMD_ARGS_1(ARG_U8),                 // 0xD3
-    CMD_ARGS_1(ARG_U8),                 // 0xD4
-    CMD_ARGS_1(ARG_U8),                 // 0xD5
-    CMD_ARGS_1(ARG_U8),                 // 0xD6
-    CMD_ARGS_1(ARG_U8),                 // 0xD7
-    CMD_ARGS_1(ARG_U8),                 // 0xD8
-    CMD_ARGS_1(ARG_U8),                 // 0xD9
-    CMD_ARGS_1(ARG_S16),                // 0xDA
-    CMD_ARGS_1(ARG_U8),                 // 0xDB
-    CMD_ARGS_1(ARG_U8),                 // 0xDC
-    CMD_ARGS_1(ARG_U8),                 // 0xDD
-    CMD_ARGS_1(ARG_S16),                // 0xDE
-    CMD_ARGS_1(ARG_U8),                 // 0xDF
-    CMD_ARGS_1(ARG_U8),                 // 0xE0
-    CMD_ARGS_3(ARG_U8, ARG_U8, ARG_U8), // 0xE1
-    CMD_ARGS_3(ARG_U8, ARG_U8, ARG_U8), // 0xE2
-    CMD_ARGS_1(ARG_U8),                 // 0xE3
-    CMD_ARGS_0(),                       // 0xE4
-    CMD_ARGS_1(ARG_U8),                 // 0xE5
-    CMD_ARGS_1(ARG_U8),                 // 0xE6
-    CMD_ARGS_1(ARG_S16),                // 0xE7
-    CMD_ARGS_3(ARG_U8, ARG_U8, ARG_U8), // 0xE8
-    CMD_ARGS_1(ARG_U8),                 // 0xE9
-    CMD_ARGS_0(),                       // 0xEA
-    CMD_ARGS_2(ARG_U8, ARG_U8),         // 0xEB
-    CMD_ARGS_0(),                       // 0xEC
-    CMD_ARGS_1(ARG_U8),                 // 0xED
-    CMD_ARGS_1(ARG_U8),                 // 0xEE
-    CMD_ARGS_2(ARG_S16, ARG_U8),        // 0xEF
-    CMD_ARGS_0(),                       // 0xF0
-    CMD_ARGS_1(ARG_U8),                 // 0xF1
+    CMD_ARGS_1(s16),        // 0xB0
+    CMD_ARGS_0(),           // 0xB1
+    CMD_ARGS_1(s16),        // 0xB2
+    CMD_ARGS_1(u8),         // 0xB3
+    CMD_ARGS_0(),           // 0xB4
+    CMD_ARGS_0(),           // 0xB5
+    CMD_ARGS_0(),           // 0xB6
+    CMD_ARGS_1(s16),        // 0xB7
+    CMD_ARGS_1(u8),         // 0xB8
+    CMD_ARGS_1(u8),         // 0xB9
+    CMD_ARGS_1(u8),         // 0xBA
+    CMD_ARGS_2(u8, s16),    // 0xBB
+    CMD_ARGS_1(s16),        // 0xBC
+    CMD_ARGS_2(s16, s16),   // 0xBD
+    CMD_ARGS_0(),           // 0xBE
+    CMD_ARGS_0(),           // 0xBF
+    CMD_ARGS_0(),           // 0xC0
+    CMD_ARGS_1(u8),         // 0xC1
+    CMD_ARGS_1(s16),        // 0xC2
+    CMD_ARGS_0(),           // 0xC3
+    CMD_ARGS_0(),           // 0xC4
+    CMD_ARGS_0(),           // 0xC5
+    CMD_ARGS_1(u8),         // 0xC6
+    CMD_ARGS_2(u8, s16),    // 0xC7
+    CMD_ARGS_1(u8),         // 0xC8
+    CMD_ARGS_1(u8),         // 0xC9
+    CMD_ARGS_1(u8),         // 0xCA
+    CMD_ARGS_1(s16),        // 0xCB
+    CMD_ARGS_1(u8),         // 0xCC
+    CMD_ARGS_1(u8),         // 0xCD
+    CMD_ARGS_1(s16),        // 0xCE
+    CMD_ARGS_1(s16),        // 0xCF
+    CMD_ARGS_1(u8),         // 0xD0
+    CMD_ARGS_1(u8),         // 0xD1
+    CMD_ARGS_1(u8),         // 0xD2
+    CMD_ARGS_1(u8),         // 0xD3
+    CMD_ARGS_1(u8),         // 0xD4
+    CMD_ARGS_1(u8),         // 0xD5
+    CMD_ARGS_1(u8),         // 0xD6
+    CMD_ARGS_1(u8),         // 0xD7
+    CMD_ARGS_1(u8),         // 0xD8
+    CMD_ARGS_1(u8),         // 0xD9
+    CMD_ARGS_1(s16),        // 0xDA
+    CMD_ARGS_1(u8),         // 0xDB
+    CMD_ARGS_1(u8),         // 0xDC
+    CMD_ARGS_1(u8),         // 0xDD
+    CMD_ARGS_1(s16),        // 0xDE
+    CMD_ARGS_1(u8),         // 0xDF
+    CMD_ARGS_1(u8),         // 0xE0
+    CMD_ARGS_3(u8, u8, u8), // 0xE1
+    CMD_ARGS_3(u8, u8, u8), // 0xE2
+    CMD_ARGS_1(u8),         // 0xE3
+    CMD_ARGS_0(),           // 0xE4
+    CMD_ARGS_1(u8),         // 0xE5
+    CMD_ARGS_1(u8),         // 0xE6
+    CMD_ARGS_1(s16),        // 0xE7
+    CMD_ARGS_3(u8, u8, u8), // 0xE8
+    CMD_ARGS_1(u8),         // 0xE9
+    CMD_ARGS_0(),           // 0xEA
+    CMD_ARGS_2(u8, u8),     // 0xEB
+    CMD_ARGS_0(),           // 0xEC
+    CMD_ARGS_1(u8),         // 0xED
+    CMD_ARGS_1(u8),         // 0xEE
+    CMD_ARGS_2(s16, u8),    // 0xEF
+    CMD_ARGS_0(),           // 0xF0
+    CMD_ARGS_1(u8),         // 0xF1
     // Control flow instructions (>= 0xF2) can only have 0 or 1 args
-    CMD_ARGS_1(ARG_U8),  // 0xF2
-    CMD_ARGS_1(ARG_U8),  // 0xF3
-    CMD_ARGS_1(ARG_U8),  // 0xF4
-    CMD_ARGS_1(ARG_S16), // 0xF5
-    CMD_ARGS_0(),        // 0xF6
-    CMD_ARGS_0(),        // 0xF7
-    CMD_ARGS_1(ARG_U8),  // 0xF8
-    CMD_ARGS_1(ARG_S16), // 0xF9
-    CMD_ARGS_1(ARG_S16), // 0xFA
-    CMD_ARGS_1(ARG_S16), // 0xFB
-    CMD_ARGS_1(ARG_S16), // 0xFC
-    CMD_ARGS_0(),        // 0xFD
-    CMD_ARGS_0(),        // 0xFE
-    CMD_ARGS_0(),        // 0xFF
+    CMD_ARGS_1(u8),  // 0xF2
+    CMD_ARGS_1(u8),  // 0xF3
+    CMD_ARGS_1(u8),  // 0xF4
+    CMD_ARGS_1(s16), // 0xF5
+    CMD_ARGS_0(),    // 0xF6
+    CMD_ARGS_0(),    // 0xF7
+    CMD_ARGS_1(u8),  // 0xF8
+    CMD_ARGS_1(s16), // 0xF9
+    CMD_ARGS_1(s16), // 0xFA
+    CMD_ARGS_1(s16), // 0xFB
+    CMD_ARGS_1(s16), // 0xFC
+    CMD_ARGS_0(),    // 0xFD
+    CMD_ARGS_0(),    // 0xFE
+    CMD_ARGS_0(),    // 0xFF
 };
-
-#undef ARG_U8
-#undef ARG_S16
 
 /**
  * Read and return the argument from the sequence script for a control flow instructions
  * Control flow instructions (>= 0xF2) can only have 0 or 1 args
- * @return the argument value for a control flow instruction. If there are no arguments, return 0
+ * @return the argument value for a control flow instruction, or 0 if there is no argument
  */
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
     u8 highBits = sSeqInstructionArgsTable[cmd - 0xB0];
