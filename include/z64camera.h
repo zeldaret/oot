@@ -1361,7 +1361,7 @@ typedef struct {
     /* 0x104 */ f32 playerGroundY;
     /* 0x108 */ Vec3f floorNorm;
     /* 0x114 */ f32 waterYPos;
-    /* 0x118 */ s32 waterBgCamDataIndex;
+    /* 0x118 */ s32 bgCamDataIndexBeforeUnderwater;
     /* 0x11C */ s32 waterCamSetting;
     /* 0x120 */ s32 waterQuakeId;
     /* 0x124 */ void* data0;

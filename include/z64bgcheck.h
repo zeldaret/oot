@@ -62,13 +62,13 @@ typedef struct {
 
 typedef struct {
     /* 0x0 */ u16 setting; // camera setting described by CameraSettingType enum
-    /* 0x2 */ s16 numData; // The total count of Vec3s data in the collision
-    /* 0x4 */ Vec3s* data; // See `SubBgCamData`
-} BgCamData; // size = 0x8
+    /* 0x2 */ s16 count; // The total count of Vec3s data in the collision
+    /* 0x4 */ Vec3s* bgCamData; // See `BgCamData`
+} BgCamDataHeader; // size = 0x8
 
-typedef BgCamData CamData; // Todo: Zapd compatibility
+typedef BgCamDataHeader CamData; // Todo: Zapd compatibility
 
-// The structure used for all instances of Vec3s data from `BgCamData` with the exception of crawlspaces.
+// The structure used for all instances of Vec3s data from `BgCamDataHeader` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces
 typedef struct {
     /* 0x00 */ Vec3s pos;
@@ -80,7 +80,7 @@ typedef struct {
                 s16 flags;
     };
     /* 0x10 */ s16 unk_10; // unused
-} SubBgCamData; // size = 0x12
+} BgCamData; // size = 0x12
 
 typedef struct {
     /* 0x00 */ s16 xMin;
@@ -111,7 +111,7 @@ typedef struct {
     /* 0x14 */ u16 numPolygons;
     /* 0x18 */ CollisionPoly* polyList;
     /* 0x1C */ SurfaceType* surfaceTypeList;
-    /* 0x20 */ BgCamData* bgCamDataList;
+    /* 0x20 */ BgCamDataHeader* bgCamDataList;
     /* 0x24 */ u16 numWaterBoxes;
     /* 0x28 */ WaterBox* waterBoxes;
 } CollisionHeader; // original name: BGDataInfo

@@ -636,9 +636,9 @@ void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
 u32 SurfaceType_GetBgCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u16 BgCheck_GetBgCamDataSettingImpl(CollisionContext* colCtx, u32 camId, s32 bgId);
 u16 BgCheck_GetBgCamDataSetting(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-u16 BgCheck_GetBgCamDataNumVec3s(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-Vec3s* BgCheck_GetBgCamDataVec3sImpl(CollisionContext* colCtx, s32 camId, s32 bgId);
-Vec3s* BgCheck_GetBgCamDataVec3s(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 BgCheck_GetBgCamDataCount(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+Vec3s* BgCheck_GetBgCamDataImpl(CollisionContext* colCtx, s32 camId, s32 bgId);
+Vec3s* BgCheck_GetBgCamData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
@@ -668,7 +668,7 @@ s32 WaterBox_GetSurface2(PlayState* play, CollisionContext* colCtx, Vec3f* pos, 
 s32 WaterBox_GetSurfaceImpl(PlayState* play, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
                             WaterBox** outWaterBox);
 u32 WaterBox_GetBgCamDataIndex(CollisionContext* colCtx, WaterBox* waterBox);
-u16 WaterBox_GetCameraSetting(CollisionContext* colCtx, WaterBox* waterBox);
+u16 WaterBox_GetBgCamDataSetting(CollisionContext* colCtx, WaterBox* waterBox);
 u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox);
 s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
 s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
