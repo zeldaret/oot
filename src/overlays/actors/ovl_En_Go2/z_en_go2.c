@@ -777,7 +777,7 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
         }
     }
 #ifdef AVOID_UB
-    return faceReaction; // the return vlue of faceReaction is always in v0 at this point
+    return faceReaction; // faceReaction is always in the v0 return value register at this point
 #endif
 }
 
