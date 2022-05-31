@@ -522,12 +522,19 @@ def main(args):
             with open(filename, "wb") as bin_file:
                 bin_file.write(samplebank_gaps[offset])
 
+    os.makedirs(args.fontinc, exist_ok=True)
     # Export soundfonts
     for font in fonts:
         dir = os.path.join(fonts_out_dir)
         os.makedirs(dir, exist_ok=True)
         filename = os.path.join(dir, f"{font.name}.xml")
+        if font.name[0:1].isnumeric():
+            idx = font.name.find(' ')
+            if idx >= 0:
+                font.name = font.name[idx + 1:]
+
         write_soundfont(font, filename, real_samplebanks, sampleNames, tunings)
+        write_soundfont_define(font, len(fonts), os.path.join(args.fontinc, f"{font.idx}.inc"))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(add_help=False)
@@ -538,6 +545,7 @@ if __name__ == "__main__":
     parser.add_argument("assetxml", metavar="<assets XML dir>", type=Path, help="The asset XML path where the definitions are stored.")
     parser.add_argument("sampleout", metavar="<samples out dir>", type=Path, help="The output path for extracted samples.")
     parser.add_argument("fontout", metavar="<soundfont out dir>", type=Path, help="The output path for extracted soundfonts.")
+    parser.add_argument("fontinc", metavar="<soundfont includes out dir>", type=Path, help="The output path for generated soundfont include files.")
     parser.add_argument("--help", "-h", "-?", action="help", help="Show this help message and exit.")
     parser.add_argument("--detect-gaps", "-g", dest="gaps", action='store_true', help="Outputs unreferenced data ranges to standard out.")
     args = parser.parse_args()

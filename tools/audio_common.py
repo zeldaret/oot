@@ -844,7 +844,7 @@ class Instrument:
         self.envelope = None
         self.addr = -1
         self.idx = -1
-        
+
         self.keyLowOffset = -1
         self.keyMedOffset = -1
         self.keyHighOffset = -1
@@ -875,7 +875,7 @@ class Instrument:
         return samples
 
     def parseFrom(self, datafile, input, fontname, instdef, banks, baseOffset, offset, index, usedFontData):
-        self.index = index
+        self.idx = index
         self.offset = offset
         if instdef:
             self.name = instdef.name or f"Inst_{index}_{offset:0>8x}_{fontname}"
@@ -1005,7 +1005,7 @@ class Instrument:
             "Instrument",
             {
                 "Name": self.name or f"Inst_{self.offset:0>8x}",
-                "Index": str(self.index),
+                "Index": str(self.idx),
                 "Enum": self.enum or "",
                 "Decay": str(self.decay),
                 "Envelope": self.envelope.name
@@ -1232,14 +1232,14 @@ class Soundfont:
             self.medium = toMedium(med_str)
         if cache_str is not None:
             self.cachePolicy = toCachePolicy(cache_str)
-            
+
         #Read bank names
         e_banks = xml_element.find("SampleBanks")
         e_list_bank = e_banks.findall("Bank")
         
         for e_bank in e_list_bank:
             self.bankNames.append(e_bank.get("Name"))
-            
+
         #See if there's a funky bank override
         e_banks = xml_element.find("ForceSampleBank")
         if e_banks:
@@ -1248,7 +1248,7 @@ class Soundfont:
             e_list_bank = e_banks.findall("Bank")
             for e_bank in e_list_bank:
                 self.bankNames.append(e_bank.get("Name"))
-        
+
         #Read envelopes
         e_envelopes = xml_element.find("Envelopes")
         if e_envelopes is not None:
@@ -1257,7 +1257,7 @@ class Soundfont:
                 env = Envelope()
                 env.fromXML(e_env)
                 self.envelopes[env.name] = env
-                
+
         #resolve env references
         env_list = self.getAllEnvelopes()
         for env in env_list:
@@ -1268,7 +1268,7 @@ class Soundfont:
                     if val is not None:
                         refscript = self.envelopes[val]
                         env.referencedScripts[val] = refscript
-        
+
         #Read SFX
         use_idx_field = True
         e_soundeffects = xml_element.find("SoundEffects")
@@ -1286,7 +1286,7 @@ class Soundfont:
                             use_idx_field = False
                             sfx.idx = self.sfx_read - 1
                         self.sfxIdxLookup[sfx.idx] = sfx
-        
+
         #Read Percussion
         use_idx_field = True
         e_drums = xml_element.find("Drums")
@@ -1307,7 +1307,7 @@ class Soundfont:
                             use_idx_field = False
                             drum.idx = self.perc_read - 1						
                         self.percIdxLookup[drum.idx] = drum
-        
+
         #Read Instruments
         use_idx_field = True
         e_insts = xml_element.find("Instruments")
@@ -1328,7 +1328,7 @@ class Soundfont:
                             use_idx_field = False
                             inst.idx = self.inst_read - 1
                         self.instIdxLookup[inst.idx] = inst
-                        
+
         #Read samples (if present)
         e_samps = xml_element.find("Samples")
         if e_samps is not None:
@@ -1339,7 +1339,7 @@ class Soundfont:
                 if sfile.endswith(".aifc"):
                     sfile = sfile[:-5]
                 self.sampleOrder.append((sname,sfile))
-        
+
         #Unused block (if present)
         e_unused = xml_element.find("Unused")
         if e_unused is not None:
@@ -1371,7 +1371,7 @@ class Soundfont:
 
         if self.bank2 and self.bank2 > -1:
             XmlTree.SubElement(banks, "Bank", { "Name": bankNames[self.bankIdx2] })
-        
+
         if self.bankOverride:
             overrideBanks = XmlTree.SubElement(root, "ForceSampleBank")
             XmlTree.SubElement(overrideBanks, "Bank", { "Name": bankNames[self.bankOverride] })
@@ -1494,3 +1494,33 @@ def loadFontDefTable(filepath):
             record.parseFrom(f.read(16))
             fontdeftbl.append(record)
     return fontdeftbl	
+
+def write_soundfont_define(font, fontcount, filename):
+    width = int(math.log10(fontcount)) + 1
+    index = str(font.idx).zfill(width)
+
+    with open(filename, "w") as file:
+        file.write("#   Soundfont file constants\n")
+        file.write(f"#   ID: {font.idx}\n")
+        file.write(f"#   Name: {font.name}\n")
+        file.write("\n##### INSTRUMENTS #####\n")
+
+        for instrument in font.instruments:
+            if type(instrument) is int:
+                continue
+
+            file.write(f".define FONT{index}_INSTR_{instrument.enum} {instrument.idx}\n")
+        
+        file.write("\n##### DRUMS #####\n")
+        for drum in font.percussion:
+            if type(drum) is int:
+                continue
+
+            file.write(f".define FONT{index}_DRUM_{drum.enum} {drum.idx}\n")
+        
+        file.write("\n##### EFFECTS #####\n")
+        for effect in font.soundEffects:
+            if type(effect) is int:
+                continue
+
+            file.write(f".define FONT{index}_EFFECT_{effect.enum} {effect.idx}\n")
