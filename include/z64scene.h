@@ -12,7 +12,7 @@ typedef struct {
     /* 0x00 */ RomFile sceneFile;
     /* 0x08 */ RomFile titleFile;
     /* 0x10 */ u8  unk_10;
-    /* 0x11 */ u8  config;
+    /* 0x11 */ u8  drawConfig;
     /* 0x12 */ u8  unk_12;
     /* 0x13 */ u8  unk_13;
 } SceneTableEntry; // size = 0x14
@@ -337,6 +337,63 @@ typedef enum {
 } ReturnEntranceIndex;
 
 #undef DEFINE_ENTRANCE
+
+typedef enum {
+    /*  0 */ SDC_DEFAULT,
+    /*  1 */ SDC_SPOT00,
+    /*  2 */ SDC_SPOT01,
+    /*  3 */ SDC_SPOT03,
+    /*  4 */ SDC_SPOT04,
+    /*  5 */ SDC_SPOT06,
+    /*  6 */ SDC_SPOT07,
+    /*  7 */ SDC_SPOT08,
+    /*  8 */ SDC_SPOT09,
+    /*  9 */ SDC_SPOT10,
+    /* 10 */ SDC_SPOT11,
+    /* 11 */ SDC_SPOT12,
+    /* 12 */ SDC_SPOT13,
+    /* 13 */ SDC_SPOT15,
+    /* 14 */ SDC_SPOT16,
+    /* 15 */ SDC_SPOT17,
+    /* 16 */ SDC_SPOT18,
+    /* 17 */ SDC_SPOT20,
+    /* 18 */ SDC_HIDAN, // used for Fire Temple and its boss scene
+    /* 19 */ SDC_YDAN,
+    /* 20 */ SDC_DDAN,
+    /* 21 */ SDC_BDAN, // used for Jabu-Jabu and its boss scene
+    /* 22 */ SDC_BMORI1,
+    /* 23 */ SDC_MIZUSIN,
+    /* 24 */ SDC_HAKADAN, // used for Bottom Of The Well, Shadow Temple and its boss scene
+    /* 25 */ SDC_JYASINZOU,
+    /* 26 */ SDC_GANONTIKA,
+    /* 27 */ SDC_MEN,
+    /* 28 */ SDC_YDAN_BOSS,
+    /* 29 */ SDC_MIZUSIN_BS,
+    /* 30 */ SDC_TOKINOMA,
+    /* 31 */ SDC_KAKUSIANA,
+    /* 32 */ SDC_KENJYANOMA,
+    /* 33 */ SDC_GREAT_FAIRY_FOUNTAIN, // used for both Great Fairy Fountains scenes
+    /* 34 */ SDC_SYATEKIJYOU,
+    /* 35 */ SDC_HAIRAL_NIWA, // used for Castle Courtyard (with the hedges) (day, night and debug scenes)
+    /* 36 */ SDC_GANON_CASTLE_EXTERIOR, // used for two scenes
+    /* 37 */ SDC_ICE_DOUKUTO,
+    /* 38 */ SDC_GANON_FINAL,
+    /* 39 */ SDC_FAIRY_FOUNTAIN, // used for both Fairy Fountains scenes
+    /* 40 */ SDC_GERUDOWAY,
+    /* 41 */ SDC_BOWLING,
+    /* 42 */ SDC_HAKAANA_OUKE,
+    /* 43 */ SDC_HYLIA_LABO,
+    /* 44 */ SDC_SOUKO,
+    /* 45 */ SDC_MIHARIGOYA,
+    /* 46 */ SDC_MAHOUYA,
+    /* 47 */ SDC_CALM_WATER, // used for Castle Courtyard (with Zelda), Sacred Forest Meadow, and debug Jungle Gym
+    /* 48 */ SDC_GRAVE_EXIT_LIGHT_SHINING, // used for one grave scene and the Dampé race scene
+    /* 49 */ SDC_BESITU,
+    /* 50 */ SDC_TURIBORI,
+    /* 51 */ SDC_GANON_SONOGO,
+    /* 52 */ SDC_GANONTIKA_SONOGO,
+    /* 53 */ SDC_MAX
+} SceneDrawConfig;
 
 // Scene commands
 

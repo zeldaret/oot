@@ -1180,7 +1180,7 @@ typedef struct {
 typedef struct PlayState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ s16 sceneNum;
-    /* 0x000A6 */ u8 sceneConfig;
+    /* 0x000A6 */ u8 sceneDrawConfig;
     /* 0x000A7 */ char unk_A7[0x9];
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
