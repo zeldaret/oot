@@ -433,6 +433,7 @@ beginseg
     include "build/src/code/loadfragment2.o"
     include "build/src/code/mtxuty-cvt.o"
     include "build/src/code/relocation.o"
+    include "build/src/code/load.o"
     include "build/src/code/code_800FC620.o"
     include "build/src/code/padutils.o"
     include "build/src/code/padsetup.o"
