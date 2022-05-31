@@ -27,6 +27,12 @@
 #define PARENT_CAM(cam) ((cam)->play->cameraPtrs[(cam)->parentCamId])
 #define CHILD_CAM(cam) ((cam)->play->cameraPtrs[(cam)->childCamId])
 
+// R_CAM_MOVE
+#define CAM_MOVE_SHOP 0x10 // Various shops
+#define CAM_MOVE_HOUSE 0x20 // Prerend toggle with c-up
+#define CAM_MOVE_PREREND 0x30 // Prerend fixed
+#define CAM_MOVE_MARKET 0x40 // Main market area
+
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,

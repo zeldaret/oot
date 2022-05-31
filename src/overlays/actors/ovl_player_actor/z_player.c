@@ -5144,7 +5144,7 @@ s32 func_8083B998(Player* this, PlayState* play) {
                                     (this->unk_664->naviEnemyId != NAVI_ENEMY_NONE))) {
         this->stateFlags2 |= PLAYER_STATE2_21;
     } else if ((this->naviTextId == 0) && !func_8008E9C4(this) && CHECK_BTN_ALL(sControlInput->press.button, BTN_CUP) &&
-               (YREG(15) != 0x10) && (YREG(15) != 0x20) && !func_8083B8F4(this, play)) {
+               (R_CAM_MOVE != CAM_MOVE_SHOP) && (R_CAM_MOVE != CAM_MOVE_HOUSE) && !func_8083B8F4(this, play)) {
         func_80078884(NA_SE_SY_ERROR);
     }
 

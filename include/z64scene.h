@@ -446,8 +446,8 @@ typedef enum {
 #define SCENE_CMD_ALTERNATE_HEADER_LIST(alternateHeaderList) \
     { SCENE_CMD_ID_ALTERNATE_HEADER_LIST, 0, CMD_PTR(alternateHeaderList) }
 
-#define SCENE_CMD_MISC_SETTINGS(camMode, worldMapLocation) \
-    { SCENE_CMD_ID_MISC_SETTINGS, camMode, CMD_W(worldMapLocation) }
+#define SCENE_CMD_MISC_SETTINGS(camMove, worldMapLocation) \
+    { SCENE_CMD_ID_MISC_SETTINGS, camMove, CMD_W(worldMapLocation) }
 
 
 #endif

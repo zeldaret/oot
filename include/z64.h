@@ -1253,7 +1253,7 @@ typedef struct PlayState {
     /* 0x1241B */ u8 transitionMode; // "fbdemo_wipe_modem"
     /* 0x1241C */ TransitionFade transitionFade;
     /* 0x12428 */ char unk_12428[0x3];
-    /* 0x1242B */ u8 unk_1242B;
+    /* 0x1242B */ u8 indoorBgCamDataIndexPlusOne;
     /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
 } PlayState; // size = 0x12518
