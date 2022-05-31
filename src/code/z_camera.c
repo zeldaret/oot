@@ -481,9 +481,9 @@ s32 Camera_GetBgCamDataIndex(Camera* camera, s32* bgId, CollisionPoly* poly) {
 /**
  * Returns the bgCamData for the floor under the player.
  * If there is no floor then there is no camera data, returns the number of
- * pieces of data there are in `bgCamDataNumData`
+ * pieces of data there are in `bgCamDataCount`
  */
-Vec3s* Camera_GetBgCamDataForCrawlspaces(Camera* camera, u16* bgCamDataNumData) {
+Vec3s* Camera_GetBgCamDataForCrawlspaces(Camera* camera, u16* bgCamDataCount) {
     CollisionPoly* floorPoly;
     s32 pad;
     s32 bgId;
@@ -497,7 +497,7 @@ Vec3s* Camera_GetBgCamDataForCrawlspaces(Camera* camera, u16* bgCamDataNumData) 
         return NULL;
     }
 
-    *bgCamDataNumData = BgCheck_GetBgCamDataCount(&camera->play->colCtx, floorPoly, bgId);
+    *bgCamDataCount = BgCheck_GetBgCamDataCount(&camera->play->colCtx, floorPoly, bgId);
     return BgCheck_GetBgCamData(&camera->play->colCtx, floorPoly, bgId);
 }
 
@@ -4321,7 +4321,7 @@ s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f* at = &camera->at;
-    u16 bgCamDataNumData;
+    u16 bgCamDataCount;
     Vec3s* bgCamData;
     Vec3f sp98;
     Vec3f sp8C;
@@ -4359,9 +4359,9 @@ s32 Camera_Subj4(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&sp5C, at, eye);
     sCameraInterfaceFlags = roData->interfaceFlags;
     if (camera->animState == 0) {
-        bgCamData = Camera_GetBgCamDataForCrawlspaces(camera, &bgCamDataNumData);
+        bgCamData = Camera_GetBgCamDataForCrawlspaces(camera, &bgCamDataCount);
         Camera_Vec3sToVec3f(&rwData->unk_00.point, &bgCamData[1]);
-        Camera_Vec3sToVec3f(&sp98, &bgCamData[bgCamDataNumData - 2]);
+        Camera_Vec3sToVec3f(&sp98, &bgCamData[bgCamDataCount - 2]);
 
         sp64.r = 10.0f;
         // 0x238C ~ 50 degrees
