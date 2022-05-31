@@ -140,17 +140,17 @@ u8 sSeqInstructionArgsTable[] = {
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
     u8 highBits = sSeqInstructionArgsTable[cmd - 0xB0];
     u8 lowBits = highBits & 3;
-    u16 ret = 0;
+    u16 cmdArg = 0;
 
     // only 1 argument
     if (lowBits == 1) {
         if (!(highBits & 0x80)) {
-            ret = AudioSeq_ScriptReadU8(state);
+            cmdArg = AudioSeq_ScriptReadU8(state);
         } else {
-            ret = AudioSeq_ScriptReadS16(state);
+            cmdArg = AudioSeq_ScriptReadS16(state);
         }
     }
-    return ret;
+    return cmdArg;
 }
 
 s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* state, s32 cmd, s32 cmdArg) {
