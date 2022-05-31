@@ -1664,6 +1664,17 @@ typedef struct ArenaNode {
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
 } ArenaNode; // size = 0x30
 
+#define RELOC_SECTION(reloc) ((reloc) >> 30)
+#define RELOC_OFFSET(reloc) ((reloc) & 0xFFFFFF)
+#define RELOC_TYPE_MASK(reloc) ((reloc) & 0x3F000000)
+#define RELOC_TYPE_SHIFT 24
+
+/* MIPS Relocation Types */
+#define R_MIPS_32 2
+#define R_MIPS_26 4
+#define R_MIPS_HI16 5
+#define R_MIPS_LO16 6
+
 typedef struct OverlayRelocationSection {
     /* 0x00 */ u32 textSize;
     /* 0x04 */ u32 dataSize;
