@@ -4751,7 +4751,6 @@ s32 Camera_Unique3(Camera* camera) {
             rwData->initialFov = camera->fov;
             rwData->initialDist = OLib_Vec3fDist(at, &camera->eye);
             camera->animState++;
-
         case 1:
             if (doorParams->timer1-- > 0) {
                 break;
@@ -4778,7 +4777,7 @@ s32 Camera_Unique3(Camera* camera) {
                 break;
             }
             camera->animState++;
-            // fallthrough
+
         case 3:
             camera->unk_14C |= (0x400 | 0x10);
             if ((camera->unk_14C & 8) != 0) {
@@ -4786,7 +4785,6 @@ s32 Camera_Unique3(Camera* camera) {
             } else {
                 break;
             }
-            // fallthrough
         case 4:
             if (roData->interfaceFlags & 2) {
                 camera->unk_14C |= 4;
@@ -4807,7 +4805,6 @@ s32 Camera_Unique3(Camera* camera) {
             } else {
                 break;
             }
-            // fallthrough
         case 5:
             camera->fov = Camera_LERPCeilF(rwData->initialFov, camera->fov, 0.4f, 0.1f);
             OLib_Vec3fDiffToVecSphGeo(&sp60, at, &camera->eye);
@@ -4818,7 +4815,6 @@ s32 Camera_Unique3(Camera* camera) {
                 break;
             }
             camera->animState++;
-            // fallthrough
         default:
             camera->unk_14C |= 4;
             camera->unk_14C &= ~8;
