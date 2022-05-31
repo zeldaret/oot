@@ -31,7 +31,6 @@ void (*sRoomDrawHandlers[MESH_HEADER_TYPE_MAX])(PlayState* play, Room* room, u32
 void func_80095AA0(PlayState* play, Room* room, Input* arg2, UNK_TYPE arg3) {
 }
 
-// Room Draw Polygon Type 0
 void Room_Draw0(PlayState* play, Room* room, u32 flags) {
     s32 i;
     MeshHeader0* meshHeader0;
@@ -79,7 +78,6 @@ typedef struct struct_80095D04 {
     /* 0x0C */ struct struct_80095D04* unk_0C;
 } struct_80095D04; // size = 0x10
 
-// Room Draw Polygon Type 2
 void Room_Draw2(PlayState* play, Room* room, u32 flags) {
     MeshHeader2* meshHeader2;
     MeshHeader2Entry* meshHeader2Entry;
@@ -305,7 +303,6 @@ void func_8009638C(Gfx** displayList, void* source, void* tlut, u16 width, u16 h
     *displayList = displayListHead;
 }
 
-// Room Draw Polygon Type 1 - Single Format
 void Room_Draw1Single(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* spA8;
@@ -396,7 +393,6 @@ BgImage* func_80096A74(MeshHeader1Multi* meshHeader1Multi, PlayState* play) {
     return NULL;
 }
 
-// Room Draw Polygon Type 1 - Multi Format
 void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
     Camera* activeCam;
     Gfx* gfx;
@@ -457,7 +453,6 @@ void Room_Draw1Multi(PlayState* play, Room* room, u32 flags) {
     CLOSE_DISPS(play->state.gfxCtx, "../z_room.c", 819);
 }
 
-// Room Draw Polygon Type 1
 void Room_Draw1(PlayState* play, Room* room, u32 flags) {
     MeshHeader1Base* meshHeader1Base = &room->meshHeader->meshHeader1Base;
 
