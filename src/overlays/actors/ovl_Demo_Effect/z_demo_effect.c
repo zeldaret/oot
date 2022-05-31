@@ -1,5 +1,8 @@
 #include "z_demo_effect.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "objects/object_efc_fire_ball/object_efc_fire_ball.h"

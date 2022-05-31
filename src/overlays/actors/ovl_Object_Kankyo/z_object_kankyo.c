@@ -5,6 +5,9 @@
  */
 
 #include "z_object_kankyo.h"
+
+#include "save_flags.h"
+
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_spot02_objects/object_spot02_objects.h"

@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_ingate.h"
+
+#include "save_flags.h"
+
 #include "objects/object_ingate/object_ingate.h"
 
 #define FLAGS 0

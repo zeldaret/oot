@@ -5,6 +5,9 @@
  */
 
 #include "z_door_shutter.h"
+
+#include "save_flags.h"
+
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 
 #include "objects/object_gnd/object_gnd.h"

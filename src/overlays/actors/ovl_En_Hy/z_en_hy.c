@@ -5,6 +5,9 @@
  */
 
 #include "z_en_hy.h"
+
+#include "save_flags.h"
+
 #include "objects/object_aob/object_aob.h"
 #include "objects/object_ahg/object_ahg.h"
 #include "objects/object_bob/object_bob.h"

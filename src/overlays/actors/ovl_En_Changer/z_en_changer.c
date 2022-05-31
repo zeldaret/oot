@@ -5,7 +5,10 @@
  */
 
 #include "z_en_changer.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "overlays/actors/ovl_Item_Etcetera/z_item_etcetera.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 

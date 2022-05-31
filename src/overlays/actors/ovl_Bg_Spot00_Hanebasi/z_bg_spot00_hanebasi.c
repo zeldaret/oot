@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_spot00_hanebasi.h"
+
+#include "save_flags.h"
+
 #include "objects/object_spot00_objects/object_spot00_objects.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 

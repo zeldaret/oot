@@ -5,6 +5,9 @@
  */
 
 #include "z_boss_sst.h"
+
+#include "save_flags.h"
+
 #include "objects/object_sst/object_sst.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.h"

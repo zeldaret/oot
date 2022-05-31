@@ -1,4 +1,7 @@
 #include "z_boss_goma.h"
+
+#include "save_flags.h"
+
 #include "objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"

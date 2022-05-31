@@ -1,6 +1,9 @@
 #include "z_en_ex_ruppy.h"
+#include "src/overlays/actors/ovl_En_Diving_Game/z_en_diving_game.h"
+
+#include "save_flags.h"
 #include "vt.h"
-#include "../ovl_En_Diving_Game/z_en_diving_game.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS ACTOR_FLAG_4

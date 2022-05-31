@@ -5,6 +5,9 @@
  */
 
 #include "z_en_mu.h"
+
+#include "save_flags.h"
+
 #include "objects/object_mu/object_mu.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)

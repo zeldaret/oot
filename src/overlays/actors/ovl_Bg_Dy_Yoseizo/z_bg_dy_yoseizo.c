@@ -5,9 +5,12 @@
  */
 
 #include "z_bg_dy_yoseizo.h"
-#include "objects/object_dy_obj/object_dy_obj.h"
-#include "vt.h"
 #include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
+
+#include "save_flags.h"
+#include "vt.h"
+
+#include "objects/object_dy_obj/object_dy_obj.h"
 #include "scenes/indoors/yousei_izumi_yoko/yousei_izumi_yoko_scene.h"
 #include "scenes/indoors/daiyousei_izumi/daiyousei_izumi_scene.h"
 

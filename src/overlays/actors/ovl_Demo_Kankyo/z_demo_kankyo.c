@@ -1,5 +1,8 @@
 #include "z_demo_kankyo.h"
+
 #include "z64cutscene_commands.h"
+#include "save_flags.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_efc_star_field/object_efc_star_field.h"
 #include "objects/object_toki_objects/object_toki_objects.h"

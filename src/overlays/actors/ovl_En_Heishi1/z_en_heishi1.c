@@ -5,8 +5,11 @@
  */
 
 #include "z_en_heishi1.h"
-#include "objects/object_sd/object_sd.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
+#include "objects/object_sd/object_sd.h"
 
 #define FLAGS ACTOR_FLAG_4
 

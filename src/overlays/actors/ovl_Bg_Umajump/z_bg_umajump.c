@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_umajump.h"
+
+#include "save_flags.h"
+
 #include "objects/object_umajump/object_umajump.h"
 
 #define FLAGS 0

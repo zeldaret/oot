@@ -5,6 +5,9 @@
  */
 
 #include "z_en_tk.h"
+
+#include "save_flags.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_tk/object_tk.h"
 

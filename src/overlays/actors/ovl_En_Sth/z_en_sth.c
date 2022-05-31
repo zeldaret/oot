@@ -4,8 +4,11 @@
  * Description: Uncursed House of Skulltula People
  */
 
-#include "vt.h"
 #include "z_en_sth.h"
+
+#include "save_flags.h"
+#include "vt.h"
+
 #include "objects/object_ahg/object_ahg.h"
 #include "objects/object_boj/object_boj.h"
 

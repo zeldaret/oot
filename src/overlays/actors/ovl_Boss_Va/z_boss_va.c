@@ -5,6 +5,9 @@
  */
 
 #include "z_boss_va.h"
+
+#include "save_flags.h"
+
 #include "objects/object_bv/object_bv.h"
 #include "overlays/actors/ovl_En_Boom/z_en_boom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"

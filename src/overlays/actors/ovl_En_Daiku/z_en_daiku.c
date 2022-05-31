@@ -1,4 +1,7 @@
 #include "z_en_daiku.h"
+
+#include "save_flags.h"
+
 #include "overlays/actors/ovl_En_GeldB/z_en_geldb.h"
 #include "objects/object_daiku/object_daiku.h"
 

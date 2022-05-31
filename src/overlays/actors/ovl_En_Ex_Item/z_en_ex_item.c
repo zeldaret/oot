@@ -5,9 +5,12 @@
  */
 
 #include "z_en_ex_item.h"
+
+#include "save_flags.h"
+#include "vt.h"
+
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
-#include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)
 

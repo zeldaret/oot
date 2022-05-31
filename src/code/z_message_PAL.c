@@ -1,6 +1,9 @@
 #include "global.h"
+
+#include "save_flags.h"
 #include "message_data_static.h"
 #include "vt.h"
+
 #include "textures/parameter_static/parameter_static.h"
 
 s16 sTextFade = false; // original name: key_off_flag ?

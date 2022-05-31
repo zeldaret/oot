@@ -1,4 +1,7 @@
 #include "z_efc_erupc.h"
+
+#include "save_flags.h"
+
 #include "objects/object_efc_erupc/object_efc_erupc.h"
 
 #define FLAGS (ACTOR_FLAG_4 | ACTOR_FLAG_5)

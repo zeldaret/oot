@@ -5,6 +5,9 @@
  */
 
 #include "z_en_jj.h"
+
+#include "save_flags.h"
+
 #include "objects/object_jj/object_jj.h"
 #include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 

@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_relay_objects.h"
+
+#include "save_flags.h"
+
 #include "objects/object_relay_objects/object_relay_objects.h"
 
 #define FLAGS ACTOR_FLAG_4

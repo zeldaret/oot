@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include "save_flags.h"
+
 #include "scenes/overworld/spot00/spot00_scene.h"
 #include "scenes/overworld/spot00/spot00_room_0.h"
 #include "scenes/overworld/spot01/spot01_scene.h"

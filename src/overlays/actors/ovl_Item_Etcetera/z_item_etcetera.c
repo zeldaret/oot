@@ -6,6 +6,8 @@
 
 #include "z_item_etcetera.h"
 
+#include "save_flags.h"
+
 #define FLAGS ACTOR_FLAG_4
 
 void ItemEtcetera_Init(Actor* thisx, PlayState* play);

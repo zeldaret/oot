@@ -5,9 +5,12 @@
  */
 
 #include "z_en_ik.h"
+
+#include "save_flags.h"
+#include "vt.h"
+
 #include "scenes/dungeons/jyasinboss/jyasinboss_scene.h"
 #include "objects/object_ik/object_ik.h"
-#include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4
 

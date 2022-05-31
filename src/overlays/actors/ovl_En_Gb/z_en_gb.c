@@ -5,6 +5,9 @@
  */
 
 #include "z_en_gb.h"
+
+#include "save_flags.h"
+
 #include "objects/object_ps/object_ps.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)

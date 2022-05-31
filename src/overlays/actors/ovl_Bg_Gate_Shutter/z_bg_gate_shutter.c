@@ -5,8 +5,11 @@
  */
 
 #include "z_bg_gate_shutter.h"
-#include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
+#include "objects/object_spot01_matoyab/object_spot01_matoyab.h"
 
 #define FLAGS 0
 

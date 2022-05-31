@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include "save_flags.h"
+
 static s16 sFloorTexIndexOffset[10][8] = {
     { 0, 0, 0, 0, 2, 4, 6, 8 }, { 0, 0, 0, 0, 0, 0, 0, 2 },
     { 0, 0, 0, 0, 0, 0, 0, 2 }, { 0, 0, 0, 0, 0, 2, 4, 6 },

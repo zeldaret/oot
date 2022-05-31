@@ -5,6 +5,9 @@
  */
 
 #include "z_boss_fd.h"
+
+#include "save_flags.h"
+
 #include "objects/object_fd/object_fd.h"
 #include "overlays/actors/ovl_En_Vb_Ball/z_en_vb_ball.h"
 #include "overlays/actors/ovl_Bg_Vb_Sima/z_bg_vb_sima.h"

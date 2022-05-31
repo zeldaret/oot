@@ -1,4 +1,7 @@
 #include "z_boss_dodongo.h"
+
+#include "save_flags.h"
+
 #include "objects/object_kingdodongo/object_kingdodongo.h"
 #include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 #include "scenes/dungeons/ddan_boss/ddan_boss_room_1.h"

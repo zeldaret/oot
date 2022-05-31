@@ -1,6 +1,9 @@
 #include "global.h"
 #include "ultra64.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 

@@ -1,5 +1,8 @@
 #include "z_en_syateki_man.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "objects/object_ossan/object_ossan.h"
 

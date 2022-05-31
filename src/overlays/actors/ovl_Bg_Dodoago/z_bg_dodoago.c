@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_dodoago.h"
+
+#include "save_flags.h"
+
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/object_ddan_objects/object_ddan_objects.h"
 

@@ -5,6 +5,9 @@
  */
 
 #include "z_en_fu.h"
+
+#include "save_flags.h"
+
 #include "objects/object_fu/object_fu.h"
 #include "scenes/indoors/hakasitarelay/hakasitarelay_scene.h"
 

@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_spot01_fusya.h"
+
+#include "save_flags.h"
+
 #include "objects/object_spot01_objects/object_spot01_objects.h"
 
 #define FLAGS ACTOR_FLAG_4

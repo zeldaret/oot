@@ -1,4 +1,6 @@
 #include "global.h"
+
+#include "save_flags.h"
 #include "vt.h"
 
 void* D_8012D1F0 = NULL;

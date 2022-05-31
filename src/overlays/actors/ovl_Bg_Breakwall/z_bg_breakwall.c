@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_breakwall.h"
+
+#include "save_flags.h"
+
 #include "scenes/dungeons/ddan/ddan_scene.h"
 #include "objects/object_bwall/object_bwall.h"
 #include "objects/object_kingdodongo/object_kingdodongo.h"

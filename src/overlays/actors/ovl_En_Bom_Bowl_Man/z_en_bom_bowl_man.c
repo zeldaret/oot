@@ -1,5 +1,8 @@
 #include "z_en_bom_bowl_man.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
 #include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 #include "objects/object_bg/object_bg.h"

@@ -5,6 +5,9 @@
  */
 
 #include "z_demo_kekkai.h"
+
+#include "save_flags.h"
+
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "scenes/dungeons/ganontika/ganontika_scene.h"
 

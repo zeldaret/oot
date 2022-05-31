@@ -1,5 +1,8 @@
 #include "global.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "textures/parameter_static/parameter_static.h"
 

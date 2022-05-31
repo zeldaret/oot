@@ -5,7 +5,10 @@
  */
 
 #include "z_en_mm2.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "objects/object_mm/object_mm.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_4)

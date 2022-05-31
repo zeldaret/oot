@@ -5,6 +5,9 @@
  */
 
 #include "z_en_mm.h"
+
+#include "save_flags.h"
+
 #include "objects/object_mm/object_mm.h"
 #include "objects/object_link_child/object_link_child.h"
 

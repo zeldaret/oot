@@ -5,6 +5,9 @@
  */
 
 #include "z_en_geldb.h"
+
+#include "save_flags.h"
+
 #include "objects/object_geldb/object_geldb.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)

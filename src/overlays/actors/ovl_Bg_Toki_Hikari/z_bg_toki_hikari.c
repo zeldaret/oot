@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_toki_hikari.h"
+
+#include "save_flags.h"
+
 #include "objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS ACTOR_FLAG_5

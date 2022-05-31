@@ -5,6 +5,8 @@
  */
 
 #include "z_en_wonder_talk.h"
+
+#include "save_flags.h"
 #include "vt.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3 | ACTOR_FLAG_27)

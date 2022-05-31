@@ -1,4 +1,7 @@
 #include "z_en_du.h"
+
+#include "save_flags.h"
+
 #include "objects/object_du/object_du.h"
 #include "scenes/overworld/spot18/spot18_scene.h"
 

@@ -5,6 +5,9 @@
  */
 
 #include "z_door_toki.h"
+
+#include "save_flags.h"
+
 #include "objects/object_toki_objects/object_toki_objects.h"
 
 #define FLAGS 0

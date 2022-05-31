@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_spot09_obj.h"
+
+#include "save_flags.h"
+
 #include "objects/object_spot09_obj/object_spot09_obj.h"
 
 #define FLAGS 0

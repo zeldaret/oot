@@ -1,4 +1,6 @@
 #include "global.h"
+
+#include "save_flags.h"
 #include "vt.h"
 
 #include "overlays/actors/ovl_Arms_Hook/z_arms_hook.h"

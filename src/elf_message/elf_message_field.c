@@ -1,4 +1,6 @@
 #include "global.h"
+
+#include "save_flags.h"
 #include "z64elf_message.h"
 
 ElfMessage gOverworldNaviMsgs[] = {

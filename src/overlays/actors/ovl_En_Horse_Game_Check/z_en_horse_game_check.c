@@ -5,6 +5,9 @@
  */
 
 #include "z_en_horse_game_check.h"
+
+#include "save_flags.h"
+
 #include "overlays/actors/ovl_En_Horse/z_en_horse.h"
 
 #define FLAGS ACTOR_FLAG_4

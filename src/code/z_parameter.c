@@ -1,5 +1,8 @@
 #include "global.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "textures/parameter_static/parameter_static.h"
 #include "textures/do_action_static/do_action_static.h"
 #include "textures/icon_item_static/icon_item_static.h"

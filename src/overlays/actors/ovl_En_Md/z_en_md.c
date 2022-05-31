@@ -5,6 +5,9 @@
  */
 
 #include "z_en_md.h"
+
+#include "save_flags.h"
+
 #include "objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 

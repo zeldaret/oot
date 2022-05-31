@@ -1,6 +1,9 @@
 #include "z_en_heishi4.h"
-#include "objects/object_sd/object_sd.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
+#include "objects/object_sd/object_sd.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 

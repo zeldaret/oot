@@ -6,9 +6,11 @@
 
 #include "z_en_dnt_demo.h"
 
+#include "save_flags.h"
+#include "vt.h"
+
 #include "overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.h"
 #include "overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.h"
-#include "vt.h"
 
 #define FLAGS 0
 

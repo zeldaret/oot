@@ -1,5 +1,7 @@
 #include "global.h"
 
+#include "save_flags.h"
+
 void GameOver_Init(PlayState* play) {
     play->gameOverCtx.state = GAMEOVER_INACTIVE;
 }

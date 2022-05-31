@@ -1,4 +1,7 @@
 #include "z_en_sa.h"
+
+#include "save_flags.h"
+
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "objects/object_sa/object_sa.h"
 #include "scenes/overworld/spot04/spot04_scene.h"

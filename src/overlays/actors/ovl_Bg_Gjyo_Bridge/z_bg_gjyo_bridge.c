@@ -5,6 +5,9 @@
  */
 
 #include "z_bg_gjyo_bridge.h"
+
+#include "save_flags.h"
+
 #include "objects/object_gjyo_objects/object_gjyo_objects.h"
 #include "scenes/dungeons/ganon_tou/ganon_tou_scene.h"
 

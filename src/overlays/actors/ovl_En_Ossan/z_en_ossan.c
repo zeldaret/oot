@@ -1,5 +1,8 @@
 #include "z_en_ossan.h"
+
+#include "save_flags.h"
 #include "vt.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_ossan/object_ossan.h"
 #include "objects/object_oF1d_map/object_oF1d_map.h"

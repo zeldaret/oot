@@ -5,6 +5,9 @@
  */
 
 #include "z_en_dog.h"
+
+#include "save_flags.h"
+
 #include "objects/object_dog/object_dog.h"
 
 #define FLAGS 0

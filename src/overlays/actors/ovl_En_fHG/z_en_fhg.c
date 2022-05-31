@@ -5,6 +5,9 @@
  */
 
 #include "z_en_fhg.h"
+
+#include "save_flags.h"
+
 #include "objects/object_fhg/object_fhg.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"

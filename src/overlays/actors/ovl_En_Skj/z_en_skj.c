@@ -1,4 +1,7 @@
 #include "z_en_skj.h"
+
+#include "save_flags.h"
+
 #include "overlays/actors/ovl_En_Skjneedle/z_en_skjneedle.h"
 #include "objects/object_skj/object_skj.h"
 

@@ -1,4 +1,7 @@
 #include "z_en_cs.h"
+
+#include "save_flags.h"
+
 #include "objects/object_cs/object_cs.h"
 #include "objects/object_link_child/object_link_child.h"
 

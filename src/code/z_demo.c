@@ -1,4 +1,6 @@
 #include "global.h"
+
+#include "save_flags.h"
 #include "z64camera.h"
 
 #include "scenes/indoors/tokinoma/tokinoma_scene.h"

@@ -1,4 +1,7 @@
 #include "z_en_shopnuts.h"
+
+#include "save_flags.h"
+
 #include "objects/object_shopnuts/object_shopnuts.h"
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_2)

@@ -5,6 +5,9 @@
  */
 
 #include "z_en_door.h"
+
+#include "save_flags.h"
+
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"

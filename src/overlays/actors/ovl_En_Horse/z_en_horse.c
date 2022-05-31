@@ -5,6 +5,9 @@
  */
 
 #include "z_en_horse.h"
+
+#include "save_flags.h"
+
 #include "overlays/actors/ovl_En_In/z_en_in.h"
 #include "objects/object_horse/object_horse.h"
 #include "objects/object_hni/object_hni.h"

@@ -5,6 +5,8 @@
  */
 
 #include "z_en_weather_tag.h"
+
+#include "save_flags.h"
 #include "vt.h"
 
 #define FLAGS ACTOR_FLAG_4
