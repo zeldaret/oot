@@ -1108,7 +1108,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
         s32 pad2;
 
         if (command >= 0xB0) {
-            highBits = sSeqInstructionArgsTable[(s32)command - 0xB0];
+            highBits = sSeqInstructionArgsTable[command - 0xB0];
             lowBits = highBits & 3;
 
             for (i = 0; i < lowBits; i++, highBits <<= 1) {
