@@ -112,20 +112,21 @@ u8 sSeqInstructionArgsTable[] = {
     CMD_ARGS_2(ARG_S16, ARG_U8),        // 0xEF
     CMD_ARGS_0(),                       // 0xF0
     CMD_ARGS_1(ARG_U8),                 // 0xF1
-    CMD_ARGS_1(ARG_U8),                 // 0xF2
-    CMD_ARGS_1(ARG_U8),                 // 0xF3
-    CMD_ARGS_1(ARG_U8),                 // 0xF4
-    CMD_ARGS_1(ARG_S16),                // 0xF5
-    CMD_ARGS_0(),                       // 0xF6
-    CMD_ARGS_0(),                       // 0xF7
-    CMD_ARGS_1(ARG_U8),                 // 0xF8
-    CMD_ARGS_1(ARG_S16),                // 0xF9
-    CMD_ARGS_1(ARG_S16),                // 0xFA
-    CMD_ARGS_1(ARG_S16),                // 0xFB
-    CMD_ARGS_1(ARG_S16),                // 0xFC
-    CMD_ARGS_0(),                       // 0xFD
-    CMD_ARGS_0(),                       // 0xFE
-    CMD_ARGS_0(),                       // 0xFF
+    // Control Flow Instructions (>= 0xF2) can only have 0 or 1 args
+    CMD_ARGS_1(ARG_U8),  // 0xF2
+    CMD_ARGS_1(ARG_U8),  // 0xF3
+    CMD_ARGS_1(ARG_U8),  // 0xF4
+    CMD_ARGS_1(ARG_S16), // 0xF5
+    CMD_ARGS_0(),        // 0xF6
+    CMD_ARGS_0(),        // 0xF7
+    CMD_ARGS_1(ARG_U8),  // 0xF8
+    CMD_ARGS_1(ARG_S16), // 0xF9
+    CMD_ARGS_1(ARG_S16), // 0xFA
+    CMD_ARGS_1(ARG_S16), // 0xFB
+    CMD_ARGS_1(ARG_S16), // 0xFC
+    CMD_ARGS_0(),        // 0xFD
+    CMD_ARGS_0(),        // 0xFE
+    CMD_ARGS_0(),        // 0xFF
 };
 
 #undef ARG_U8
