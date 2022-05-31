@@ -1114,7 +1114,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
             highBits = sSeqInstructionArgsTable[cmd - 0xB0];
             lowBits = highBits & 3;
 
-            // read in arguments for the command
+            // read in arguments for the instruction
             for (i = 0; i < lowBits; i++, highBits <<= 1) {
                 if (!(highBits & 0x80)) {
                     cmdArgs[i] = AudioSeq_ScriptReadU8(scriptState);
