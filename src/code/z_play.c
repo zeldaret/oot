@@ -1500,7 +1500,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn) {
     scene->unk_13 = 0;
     this->loadedScene = scene;
     this->sceneNum = sceneNum;
-    this->sceneConfig = scene->config;
+    this->sceneDrawConfig = scene->drawConfig;
 
     osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 
