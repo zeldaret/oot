@@ -127,8 +127,8 @@ u8 sSeqInstructionArgsTable[] = {
 };
 
 /**
- * Read and return the argument from the sequence script for a control flow instructions
- * Control flow instructions (>= 0xF2) can only have 0 or 1 args
+ * Read and return the argument from the sequence script for a control flow instruction.
+ * Control flow instructions (>= 0xF2) can only have 0 or 1 args.
  * @return the argument value for a control flow instruction, or 0 if there is no argument
  */
 u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
@@ -705,11 +705,10 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
                 layer->stereo.asByte = AudioSeq_ScriptReadU8(state);
                 break;
 
-            case 0xCE: {
+            case 0xCE:
                 tempByte = AudioSeq_ScriptReadU8(state);
                 layer->unk_34 = gBendPitchTwoSemitonesFrequencies[(tempByte + 0x80) & 0xFF];
                 break;
-            }
 
             default:
                 switch (cmd & 0xF0) {
