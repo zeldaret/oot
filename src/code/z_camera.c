@@ -7021,7 +7021,7 @@ void Camera_InitPlayerSettings(Camera* camera, Player* player) {
         camera->bgId = bgId;
     }
 
-    camera->waterBgCamDataIndex = -1;
+    camera->bgCamDataIndexBeforeUnderwater = -1;
     camera->waterCamSetting = -1;
     camera->unk_14C |= 4;
 
@@ -7178,7 +7178,7 @@ s32 Camera_UpdateWater(Camera* camera) {
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
-                camera->waterBgCamDataIndex = camera->bgCamDataIndex;
+                camera->bgCamDataIndexBeforeUnderwater = camera->bgCamDataIndex;
                 *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
@@ -7194,7 +7194,7 @@ s32 Camera_UpdateWater(Camera* camera) {
             if (!(camera->unk_14C & 0x200)) {
                 camera->unk_14C |= 0x200;
                 camera->waterYPos = waterY;
-                camera->waterBgCamDataIndex = camera->bgCamDataIndex;
+                camera->bgCamDataIndexBeforeUnderwater = camera->bgCamDataIndex;
                 *quakeId = -1;
             }
             if (camera->playerGroundY != camera->playerPosRot.pos.y) {
@@ -7210,11 +7210,11 @@ s32 Camera_UpdateWater(Camera* camera) {
             camera->unk_14C &= ~0x200;
             prevBgId = camera->bgId;
             camera->bgId = BGCHECK_SCENE;
-            if (camera->waterBgCamDataIndex < 0) {
+            if (camera->bgCamDataIndexBeforeUnderwater < 0) {
                 func_80057FC4(camera);
                 camera->bgCamDataIndex = -1;
             } else {
-                Camera_ChangeBgCamDataIndex(camera, camera->waterBgCamDataIndex);
+                Camera_ChangeBgCamDataIndex(camera, camera->bgCamDataIndexBeforeUnderwater);
             }
             camera->bgId = prevBgId;
         }
