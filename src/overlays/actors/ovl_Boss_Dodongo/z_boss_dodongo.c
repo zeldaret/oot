@@ -1236,12 +1236,12 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     if (this->unk_1C0 == 0) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
-                if (this->collider.elements[i].info.bumperFlags & 2) {
+                if (this->collider.elements[i].info.bumperFlags & BUMP_HIT) {
                     item1 = this->collider.elements[i].info.acHitInfo;
                     item2 = item1;
 
                     if ((item2->toucher.dmgFlags & 0x10) || (item2->toucher.dmgFlags & 4)) {
-                        this->collider.elements[i].info.bumperFlags &= ~2;
+                        this->collider.elements[i].info.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
                         this->unk_1DA = 0x32;
@@ -1251,8 +1251,8 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
             }
         }
 
-        if (this->collider.elements->info.bumperFlags & 2) {
-            this->collider.elements->info.bumperFlags &= ~2;
+        if (this->collider.elements->info.bumperFlags & BUMP_HIT) {
+            this->collider.elements->info.bumperFlags &= ~BUMP_HIT;
             item1 = this->collider.elements[0].info.acHitInfo;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
                 swordDamage = damage = CollisionCheck_GetSwordDamage(item1->toucher.dmgFlags);

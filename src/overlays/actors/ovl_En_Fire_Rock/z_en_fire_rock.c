@@ -344,8 +344,8 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
         if (this->actionFunc != EnFireRock_SpawnMoreBrokenPieces) {
             if ((this->type == FIRE_ROCK_SPAWNED_FALLING1) || (this->type == FIRE_ROCK_SPAWNED_FALLING2) ||
                 (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
-                if (this->collider.base.atFlags & 4) {
-                    this->collider.base.atFlags &= ~4;
+                if (this->collider.base.atFlags & AT_BOUNCED) {
+                    this->collider.base.atFlags &= ~AT_BOUNCED;
                     Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
                     thisx->velocity.y = 0.0f;
                     thisx->speedXZ = 0.0f;
@@ -359,8 +359,8 @@ void EnFireRock_Update(Actor* thisx, PlayState* play) {
         }
 
         if (this->type == FIRE_ROCK_ON_FLOOR) {
-            if (this->collider.base.atFlags & 2) {
-                this->collider.base.atFlags &= ~2;
+            if (this->collider.base.atFlags & AT_HIT) {
+                this->collider.base.atFlags &= ~AT_HIT;
                 if (this->collider.base.at == playerActor) {
                     if (!(player->stateFlags1 & PLAYER_STATE1_26)) {
                         func_8002F758(play, thisx, 2.0f, -player->actor.world.rot.y, 3.0f, 4);

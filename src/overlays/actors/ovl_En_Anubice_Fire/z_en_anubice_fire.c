@@ -108,11 +108,11 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
     Math_ApproachF(&this->scale, this->unk_154, 0.2f, 0.4f);
     if ((this->unk_15A == 0) && (this->scale < 0.1f)) {
         Actor_Kill(&this->actor);
-    } else if ((this->actor.params == 0) && (this->cylinder.base.atFlags & 4)) {
+    } else if ((this->actor.params == 0) && (this->cylinder.base.atFlags & AT_BOUNCED)) {
         if (Player_HasMirrorShieldEquipped(play)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
-            this->cylinder.base.atFlags &= 0xFFE9;
-            this->cylinder.base.atFlags |= 8;
+            this->cylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
+            this->cylinder.base.atFlags |= AT_TYPE_PLAYER;
             this->cylinder.info.toucher.dmgFlags = 2;
             this->unk_15A = 30;
             this->actor.params = 1;

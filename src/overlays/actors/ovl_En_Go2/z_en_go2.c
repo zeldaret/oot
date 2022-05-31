@@ -805,7 +805,8 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
 s32 func_80A44790(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
         return func_800343CC(play, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId, EnGo2_GetState);
-    } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
+    } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) &&
+               !(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
         return false;
     } else {
         if (Actor_ProcessTalkRequest(&this->actor, play)) {
@@ -873,28 +874,28 @@ s32 func_80A44AB0(EnGo2* this, PlayState* play) {
             (this->actionFunc != EnGo2_ContinueRolling)) {
             return false;
         } else {
-            if (this->collider.base.acFlags & 2) {
+            if (this->collider.base.acFlags & AC_HIT) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                        &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                 this->actor.flags &= ~ACTOR_FLAG_24;
-                this->collider.base.acFlags &= ~0x2;
+                this->collider.base.acFlags &= ~AC_HIT;
                 EnGo2_StopRolling(this, play);
                 return true;
             }
             if (player->invincibilityTimer <= 0) {
-                this->collider.base.ocFlags1 |= 8;
+                this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
             } else {
                 return false;
             }
-            if (this->collider.base.ocFlags2 & 1) {
-                this->collider.base.ocFlags2 &= ~1;
+            if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
+                this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
 
                 arg2 = this->actionFunc == EnGo2_ContinueRolling ? 1.5f : this->actor.speedXZ * 1.5f;
 
                 play->damagePlayer(play, -4);
                 func_8002F71C(play, &this->actor, arg2, this->actor.yawTowardsPlayer, 6.0f);
                 Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
-                this->collider.base.ocFlags1 &= ~0x8;
+                this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
             }
         }
     }
@@ -951,7 +952,7 @@ s32 EnGo2_IsWakingUp(EnGo2* this) {
     s16 yawDiffAbs;
 
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        if ((this->collider.base.ocFlags2 & 1) == 0) {
+        if (!(this->collider.base.ocFlags2 & OC2_HIT_PLAYER)) {
             this->actor.flags &= ~ACTOR_FLAG_0;
             return false;
         } else {
@@ -1324,7 +1325,7 @@ void EnGo2_GetItemAnimation(EnGo2* this, PlayState* play) {
 
 void EnGo2_SetupRolling(EnGo2* this, PlayState* play) {
     if ((this->actor.params & 0x1F) == GORON_CITY_ROLLING_BIG || (this->actor.params & 0x1F) == GORON_CITY_LINK) {
-        this->collider.info.bumperFlags = 1;
+        this->collider.info.bumperFlags = BUMP_ON;
         this->actor.speedXZ = GET_INFTABLE(INFTABLE_11E) ? 6.0f : 3.6000001f;
     } else {
         this->actor.speedXZ = 6.0f;
@@ -1348,7 +1349,7 @@ void EnGo2_StopRolling(EnGo2* this, PlayState* play) {
             }
         }
     } else {
-        this->collider.info.bumperFlags = 0;
+        this->collider.info.bumperFlags = BUMP_NONE;
     }
 
     this->actor.shape.rot = this->actor.world.rot;
@@ -1582,8 +1583,8 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS)) {
                 this->eyeMouthTexState = 1;
             }
-            this->collider.base.acFlags = 0;
-            this->collider.base.ocFlags1 = 0xD; // OC_PLAYER | OC_NO_PUSH | OC_ON
+            this->collider.base.acFlags = AC_NONE;
+            this->collider.base.ocFlags1 = OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER;
             this->actionFunc = EnGo2_CurledUp;
             break;
         case GORON_DMT_BOMB_FLOWER:

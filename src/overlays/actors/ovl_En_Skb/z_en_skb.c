@@ -296,7 +296,7 @@ void EnSkb_Advance(EnSkb* this, PlayState* play) {
 void func_80AFD33C(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, 0.6f, 0.0f,
                      Animation_GetLastFrame(&gStalchildAttackingAnim), ANIMMODE_ONCE_INTERP, 4.0f);
-    this->collider.base.atFlags &= ~4;
+    this->collider.base.atFlags &= ~AT_BOUNCED;
     this->unk_280 = 3;
     this->actor.speedXZ = 0.0f;
     EnSkb_SetupAction(this, EnSkb_SetupAttack);
@@ -312,8 +312,8 @@ void EnSkb_SetupAttack(EnSkb* this, PlayState* play) {
     } else if (frameData == 6) {
         this->unk_281 = 0;
     }
-    if (this->collider.base.atFlags & 4) {
-        this->collider.base.atFlags &= ~6;
+    if (this->collider.base.atFlags & AT_BOUNCED) {
+        this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         func_80AFD47C(this);
     } else if (SkelAnime_Update(&this->skelAnime) != 0) {
         func_80AFCD60(this);
@@ -323,7 +323,7 @@ void EnSkb_SetupAttack(EnSkb* this, PlayState* play) {
 void func_80AFD47C(EnSkb* this) {
     Animation_Change(&this->skelAnime, &gStalchildAttackingAnim, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f,
                      ANIMMODE_ONCE_INTERP, 0.0f);
-    this->collider.base.atFlags &= ~4;
+    this->collider.base.atFlags &= ~AT_BOUNCED;
     this->unk_280 = 5;
     this->unk_281 = 0;
     EnSkb_SetupAction(this, func_80AFD508);
@@ -445,8 +445,8 @@ void func_80AFD968(EnSkb* this, PlayState* play) {
         this->unk_281 = 0;
         func_80AFD7B4(this, play);
     } else if (this->unk_280 >= 3) {
-        if ((this->collider.base.acFlags & 2) != 0) {
-            this->collider.base.acFlags &= ~2;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_282 = this->actor.colChkInfo.damageEffect;
                 Actor_SetDropFlag(&this->actor, &this->collider.elements[1].info, true);
