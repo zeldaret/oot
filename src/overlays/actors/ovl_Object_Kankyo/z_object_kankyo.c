@@ -490,7 +490,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2) {
     Vec3f vec2 = { 0.0f, 0.0f, 0.0f };
     s16 i;
 
-    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_100)) {
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_UNDERWATER)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 807);
         POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
@@ -585,7 +585,7 @@ void ObjectKankyo_DrawSnow(ObjectKankyo* this2, PlayState* play2) {
     s32 pad;
     s32 pad2;
 
-    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_100)) {
+    if (!(play->cameraPtrs[CAM_ID_MAIN]->stateFlags & CAM_STATE_UNDERWATER)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 958);
         if (play->envCtx.precipitation[PRECIP_SNOW_CUR] < play->envCtx.precipitation[PRECIP_SNOW_MAX]) {
             if (play->state.frames % 16 == 0) {

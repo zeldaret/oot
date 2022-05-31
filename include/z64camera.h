@@ -77,7 +77,7 @@
 // Used to store current state, only CAM_BEHAVIOR_SETTING_1 and CAM_BEHAVIOR_BG_2 are read from and used in logic
 // Setting (0x1, 0x10)
 #define CAM_BEHAVIOR_SETTING_1 (1 << 0)
-#define CAM_BEHAVIOR_SETTING_2 (1 << 4)
+#define CAM_BEHAVIOR_SETTING_VALID (1 << 4)
 // Mode (0x2, 0x20)
 #define CAM_BEHAVIOR_MODE_1 (1 << 1)
 #define CAM_BEHAVIOR_MODE_2 (1 << 5)
@@ -94,7 +94,7 @@
 #define CAM_STATE_20 (1 << 5)
 #define CAM_STATE_40 (1 << 6)
 #define CAM_STATE_80 (1 << 7) // Set in play, unused
-#define CAM_STATE_100 (1 << 8) // Camera (eye) is underwater
+#define CAM_STATE_UNDERWATER (1 << 8) // Camera (eye) is underwater
 #define CAM_STATE_200 (1 << 9)
 #define CAM_STATE_400 (1 << 0xA) // Prevents the camera from changing settings based on the bg surface
 #define CAM_STATE_1000 (1 << 0xC) // Set in Camera_Demo7, but Camera_Demo7 is never called
