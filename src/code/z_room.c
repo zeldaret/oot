@@ -371,7 +371,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, PlayState* play) {
     BgImage* bgImage;
     s32 i;
 
-    jfifId = ((SubBgCamData*)BgCheck_GetBgCamDataVec3sImpl(&play->colCtx, bgCamDataIndex, BGCHECK_SCENE))->jfifId;
+    jfifId = ((BgCamData*)BgCheck_GetBgCamDataImpl(&play->colCtx, bgCamDataIndex, BGCHECK_SCENE))->jfifId;
     if (jfifId >= 0) {
         bgCamDataIndex = jfifId;
     }
