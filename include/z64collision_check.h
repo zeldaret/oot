@@ -25,7 +25,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions.
-    /* 0x02 */ u8 acFlags; // Information flags for OC collisions.
+    /* 0x02 */ u8 acFlags; // Information flags for AC collisions.
     /* 0x03 */ u8 ocFlags1; // Information flags for OC collisions.
     /* 0x04 */ u8 ocFlags2; // Flags related to which colliders it can OC collide with.
     /* 0x05 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
@@ -317,6 +317,7 @@ typedef enum {
 #define TOUCH_ON (1 << 0) // Can have AT collisions
 #define TOUCH_HIT (1 << 1) // Had an AT collision
 #define TOUCH_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
+#define TOUCH_SFX_MASK (3 << 3)
 #define TOUCH_SFX_NORMAL (0 << 3) // Hit sound effect based on AC collider's type
 #define TOUCH_SFX_HARD (1 << 3) // Always uses hard deflection sound
 #define TOUCH_SFX_WOOD (2 << 3) // Always uses wood deflection sound

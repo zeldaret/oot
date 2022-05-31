@@ -330,17 +330,17 @@ void EnFz_ApplyDamage(EnFz* this, PlayState* play) {
     }
 
     if (this->isFreezing) {
-        if ((this->actor.params < 0) && (this->collider1.base.atFlags & 2)) {
+        if ((this->actor.params < 0) && (this->collider1.base.atFlags & AT_HIT)) {
             this->isMoving = false;
-            this->collider1.base.acFlags &= ~2;
+            this->collider1.base.acFlags &= ~AC_HIT;
             this->actor.speedXZ = this->speedXZ = 0.0f;
             this->timer = 10;
             EnFz_SetupDisappear(this);
-        } else if (this->collider2.base.acFlags & 0x80) {
-            this->collider2.base.acFlags &= ~0x80;
-            this->collider1.base.acFlags &= ~2;
-        } else if (this->collider1.base.acFlags & 2) {
-            this->collider1.base.acFlags &= ~2;
+        } else if (this->collider2.base.acFlags & AC_BOUNCED) {
+            this->collider2.base.acFlags &= ~AC_BOUNCED;
+            this->collider1.base.acFlags &= ~AC_HIT;
+        } else if (this->collider1.base.acFlags & AC_HIT) {
+            this->collider1.base.acFlags &= ~AC_HIT;
             if (this->actor.colChkInfo.damageEffect != 2) {
                 if (this->actor.colChkInfo.damageEffect == 0xF) {
                     Actor_ApplyDamage(&this->actor);
