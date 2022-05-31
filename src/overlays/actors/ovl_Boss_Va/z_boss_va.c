@@ -1139,7 +1139,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
         if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
             Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
-            this->colliderBody.info.bumper.dmgFlags = 0xFC00712;
+            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
             if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
@@ -1429,7 +1429,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
-            this->colliderBody.info.bumper.dmgFlags = 0xFC00712;
+            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
             this->timer--;
         } else {
             if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {

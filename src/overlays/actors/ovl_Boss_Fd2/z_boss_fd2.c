@@ -831,7 +831,7 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
 
         hurtbox = this->collider.elements[0].info.acHitInfo;
         if (!bossFd->faceExposed) {
-            if (hurtbox->toucher.dmgFlags & 0x40000040) {
+            if (hurtbox->toucher.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;

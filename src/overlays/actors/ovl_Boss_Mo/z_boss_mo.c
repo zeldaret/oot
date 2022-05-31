@@ -1158,7 +1158,8 @@ void BossMo_TentCollisionCheck(BossMo* this, PlayState* play) {
                 this->work[MO_TENT_ACTION_STATE] = MO_TENT_CUT;
                 this->timers[0] = 40;
                 this->cutScale = 1.0f;
-            } else if (hurtbox->toucher.dmgFlags & 0x0D800600) {
+            } else if (hurtbox->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_JUMP_GIANT | DMG_SPIN_MASTER |
+                                                    DMG_SPIN_GIANT | DMG_SLASH_GIANT | DMG_SLASH_MASTER)) {
                 this->linkHitTimer = 5;
             }
             this->tentRippleSize = 0.2f;

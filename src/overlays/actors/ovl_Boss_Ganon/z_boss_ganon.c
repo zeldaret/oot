@@ -2747,7 +2747,7 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                     sCape->tearTimer = 1;
                 }
             }
-        } else if (acHitInfo->toucher.dmgFlags & 0x1F8A4) {
+        } else if (acHitInfo->toucher.dmgFlags & DMG_RANGED) {
             Audio_PlayActorSound2(&this->actor, 0);
 
             for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {

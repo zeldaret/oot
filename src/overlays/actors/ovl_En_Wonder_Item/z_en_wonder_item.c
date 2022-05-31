@@ -103,8 +103,8 @@ void EnWonderItem_DropCollectible(EnWonderItem* this, PlayState* play, s32 autoC
 
 void EnWonderItem_Init(Actor* thisx, PlayState* play) {
     static u32 damageFlags[] = {
-        0x00000702 /* sword slash */,
-        0x0001F820 /* arrow */,
+        DMG_SLASH | DMG_DEKU_STICK,
+        DMG_ARROW,
         DMG_HAMMER_SWING,
         DMG_EXPLOSIVE,
         DMG_SLINGSHOT,

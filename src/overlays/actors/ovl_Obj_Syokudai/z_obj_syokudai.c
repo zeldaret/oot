@@ -172,7 +172,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
         }
         if (this->colliderFlame.base.acFlags & AC_HIT) {
             dmgFlags = this->colliderFlame.info.acHitInfo->toucher.dmgFlags;
-            if (dmgFlags & 0x20820) {
+            if (dmgFlags & (DMG_FIRE | DMG_ARROW_NORMAL)) {
                 interactionType = 1;
             }
         } else if (player->heldItemActionParam == PLAYER_AP_STICK) {
@@ -203,7 +203,7 @@ void ObjSyokudai_Update(Actor* thisx, PlayState* play2) {
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
                     this->litTimer = 50 * litTimeScale + 100;
                 }
-            } else if ((torchType != 0) && (((interactionType > 0) && (dmgFlags & 0x20800)) ||
+            } else if ((torchType != 0) && (((interactionType > 0) && (dmgFlags & DMG_FIRE)) ||
                                             ((interactionType < 0) && (player->unk_860 != 0)))) {
 
                 if ((interactionType < 0) && (player->unk_860 < 200)) {

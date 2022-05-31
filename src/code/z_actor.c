@@ -4061,7 +4061,8 @@ u8 Actor_ApplyDamage(Actor* actor) {
 void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
         actor->dropFlag = 0x00;
-    } else if (freezeFlag && (colInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+    } else if (freezeFlag &&
+               (colInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
         actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         actor->dropFlag = 0x00;
     } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
@@ -4097,7 +4098,8 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
         curColInfo = &jntSph->elements[i].info;
         if (curColInfo->acHitInfo == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+        } else if (freezeFlag &&
+                   (curColInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
             actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             flag = 0x00;
         } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {

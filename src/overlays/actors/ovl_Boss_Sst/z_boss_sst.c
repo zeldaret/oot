@@ -863,7 +863,7 @@ void BossSst_HeadStunned(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupVulnerable(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadStunnedAnim, -5.0f);
     this->colliderCyl.base.acFlags |= AC_ON;
-    this->colliderCyl.info.bumper.dmgFlags = 0x0FC00702; // Sword-type damage
+    this->colliderCyl.info.bumper.dmgFlags = DMG_SWORD | DMG_DEKU_STICK;
     this->actor.speedXZ = 0.0f;
     this->colliderJntSph.elements[10].info.bumperFlags |= (BUMP_ON | BUMP_HOOKABLE);
     this->colliderJntSph.elements[0].info.bumperFlags &= ~BUMP_ON;
@@ -919,7 +919,7 @@ void BossSst_HeadDamage(BossSst* this, PlayState* play) {
 void BossSst_HeadSetupRecover(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadRecoverAnim, -5.0f);
     this->colliderCyl.base.acFlags &= ~AC_ON;
-    this->colliderCyl.info.bumper.dmgFlags = 0xFFCFFFFF;
+    this->colliderCyl.info.bumper.dmgFlags = DMG_DEFAULT;
     this->colliderJntSph.elements[10].info.bumperFlags &= ~(BUMP_ON | BUMP_HOOKABLE);
     this->colliderJntSph.elements[0].info.bumperFlags |= BUMP_ON;
     this->vVanish = true;

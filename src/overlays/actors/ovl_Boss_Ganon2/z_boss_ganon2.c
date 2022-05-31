@@ -1888,7 +1888,8 @@ void func_80902524(BossGanon2* this, PlayState* play) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
                     Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
-                } else if ((this->actionFunc == func_80900890) && (acHitInfo->toucher.dmgFlags & 0x9000200)) {
+                } else if ((this->actionFunc == func_80900890) &&
+                           (acHitInfo->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER))) {
                     this->unk_316 = 60;
                     this->unk_342 = 5;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
@@ -1920,7 +1921,7 @@ void func_80902524(BossGanon2* this, PlayState* play) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
             Audio_StopSfxById(NA_SE_EN_MGANON_UNARI);
             phi_v1_2 = 1;
-            if (acHitInfo->toucher.dmgFlags & 0x9000200) {
+            if (acHitInfo->toucher.dmgFlags & (DMG_JUMP_MASTER | DMG_SPIN_MASTER | DMG_SLASH_MASTER)) {
                 if (acHitInfo->toucher.dmgFlags & DMG_JUMP_MASTER) {
                     phi_v1_2 = 4;
                 } else {

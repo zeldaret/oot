@@ -293,7 +293,7 @@ void func_80ADE28C(EnPoh* this) {
     } else {
         Animation_PlayOnce(&this->skelAnime, &gPoeComposerDamagedAnim);
     }
-    if (this->colliderCyl.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
+    if (this->colliderCyl.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->colliderCyl.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->colliderCyl.base.ac) + 0x8000;

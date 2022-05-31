@@ -1831,7 +1831,7 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
 
                 this->invincibilityFrames = 10;
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
-                       (acHitInfo->toucher.dmgFlags & 0x00000005)) {
+                       (acHitInfo->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM2);
                 Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
