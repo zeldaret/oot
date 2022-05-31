@@ -153,7 +153,7 @@ u16 AudioSeq_GetScriptControlFlowArgument(SeqScriptState* state, u8 cmd) {
     return ret;
 }
 
-s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* state, s32 cmd, s32 arg) {
+s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* state, s32 cmd, s32 cmdArg) {
     switch (cmd) {
         case 0xFF:
             if (state->depth == 0) {
@@ -170,11 +170,11 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
 
         case 0xFC:
             state->stack[state->depth++] = state->pc;
-            state->pc = seqPlayer->seqData + (u16)arg;
+            state->pc = seqPlayer->seqData + (u16)cmdArg;
             break;
 
         case 0xF8:
-            state->remLoopIters[state->depth] = arg;
+            state->remLoopIters[state->depth] = cmdArg;
             state->stack[state->depth++] = state->pc;
             break;
 
@@ -204,7 +204,7 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
             if (cmd == 0xF5 && state->value < 0) {
                 break;
             }
-            state->pc = seqPlayer->seqData + (u16)arg;
+            state->pc = seqPlayer->seqData + (u16)cmdArg;
             break;
 
         case 0xF2:
@@ -216,7 +216,7 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
             if (cmd == 0xF2 && state->value >= 0) {
                 break;
             }
-            state->pc += (s8)(arg & 0xFF);
+            state->pc += (s8)(cmdArg & 0xFF);
             break;
     }
 
