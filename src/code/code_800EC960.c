@@ -4084,7 +4084,7 @@ void Audio_ResetSfxChannelState(void) {
     sAudioCodeReverb = 0;
 }
 
-void Audio_PlaySequenceForCutsceneEffects(u8 csEffectType) {
+void Audio_PlayCutsceneEffectsSequence(u8 csEffectType) {
     if (gSoundBankMuted[0] != 1) {
         Audio_StartSeq(SEQ_PLAYER_BGM_SUB, 0, NA_BGM_CUTSCENE_EFFECTS);
         Audio_SeqCmd8(SEQ_PLAYER_BGM_SUB, 0, 0, csEffectType);
@@ -5201,7 +5201,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     u8 channelIdx;
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_WINDMILL) {
-        Audio_PlaySequenceForCutsceneEffects(SEQ_CS_EFFECTS_RAINFALL);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_RAINFALL);
         return;
     }
 

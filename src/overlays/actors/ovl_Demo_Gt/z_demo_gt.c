@@ -487,7 +487,7 @@ void func_8097EF00(DemoGt* this, PlayState* play) {
     u16 frames = play->csCtx.frames;
 
     if (frames == 527) {
-        Audio_PlaySequenceForCutsceneEffects(SEQ_CS_EFFECTS_TOWER_COLLAPSE);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TOWER_COLLAPSE);
     }
 }
 
