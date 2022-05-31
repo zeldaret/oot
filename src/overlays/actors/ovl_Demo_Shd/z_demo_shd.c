@@ -50,7 +50,7 @@ void func_80991298(DemoShd* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[0] != NULL) ||
         (play->csCtx.state != CS_STATE_IDLE && play->csCtx.npcActions[1] != NULL)) {
         if (play->csCtx.frames == 800) {
-            Audio_PlaySequenceForCutsceneEffects(SEQ_CS_EFFECTS_BONGO_DEATH);
+            Audio_PlaySequenceForCutsceneEffects(SEQ_CS_EFFECTS_BONGO_EMERGES);
         }
         if (play->csCtx.frames == 1069) {
             Audio_PlaySequenceForCutsceneEffects(SEQ_CS_EFFECTS_BONGO_HOVER);

@@ -141,9 +141,9 @@ typedef enum {
     /* 0x6 */ SEQ_CS_EFFECTS_LAVA_ERUPT, // Lava erupting from Volvagia's pit
     /* 0x7 */ SEQ_CS_EFFECTS_BONGO_HURL_LINK, // Link screaming while attacked by invisible Bongo Bongo
     /* 0x8 */ SEQ_CS_EFFECTS_BONGO_HOVER, // Bongo Bongo hovering menacingly
-    /* 0x9 */ SEQ_CS_EFFECTS_BONGO_DEATH, // Bongo Bongo disintegrating
-    /* 0xA */ SEQ_CS_EFFECTS_TRIAL_WARP, // Warping from trial barrier
-    /* 0xB */ SEQ_CS_EFFECTS_TRIAL_DESTROY, // Destroying the trial barrier
+    /* 0x9 */ SEQ_CS_EFFECTS_BONGO_EMERGES, // Bongo Bongo emerging from the well
+    /* 0xA */ SEQ_CS_EFFECTS_TRIAL_WARP, // Warping from one of the trial barriers
+    /* 0xB */ SEQ_CS_EFFECTS_TRIAL_DESTROY, // Destroying one of the trial barriers
     /* 0xC */ SEQ_CS_EFFECTS_DISPEL_BARRIER, // Dispelling the Tower barrier
     /* 0xD */ SEQ_CS_EFFECTS_TOWER_COLLAPSE, // Ganon's Tower's collapse
     /* 0xE */ SEQ_CS_EFFECTS_LINK_SCREAM, // Child Link screaming (unused)
