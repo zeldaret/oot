@@ -12,7 +12,6 @@
  *        3) Layer Instruction
  *   - All three sets share a common pool of control flow instructions (>= 0xF2).
  *     Otherwise, each set of intructions have its own command interpreter
- *
  */
 #include "ultra64.h"
 #include "global.h"
