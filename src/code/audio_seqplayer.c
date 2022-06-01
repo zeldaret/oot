@@ -66,7 +66,7 @@ u8 sSeqInstructionArgsTable[] = {
     CMD_ARGS_0(),           // 0xB5 (`dyntbltoptr()`, channel: read dyntable large)
     CMD_ARGS_0(),           // 0xB6 (`dyntblv()`, channel: read dyntable)
     CMD_ARGS_1(s16),        // 0xB7 (`randtoptr(u16)`, channel: random large)
-    CMD_ARGS_1(u8),         // 0xB8 (`rand()`, channel: random value)
+    CMD_ARGS_1(u8),         // 0xB8 (`rand(u8)`, channel: random value)
     CMD_ARGS_1(u8),         // 0xB9 (`randvel(u8)`, channel: set velocity random variance)
     CMD_ARGS_1(u8),         // 0xBA (`randgate(u8)`, channel: set gatetime random variance)
     CMD_ARGS_2(u8, s16),    // 0xBB (`unkbb(u8, u16)`, channel:)
@@ -134,7 +134,7 @@ u8 sSeqInstructionArgsTable[] = {
     CMD_ARGS_1(u8),  // 0xF8 (`loop(u8)`, loop)
     CMD_ARGS_1(s16), // 0xF9 (`bltz(addr)`, branch if less than zero)
     CMD_ARGS_1(s16), // 0xFA (`beqz(addr)`, branch if equal to zero)
-    CMD_ARGS_1(s16), // 0xFB (`jump()`, jump)
+    CMD_ARGS_1(s16), // 0xFB (`jump(addr)`, jump)
     CMD_ARGS_1(s16), // 0xFC (`call(addr)`, call and jump to a function)
     CMD_ARGS_0(),    // 0xFD (`delay(var)`, delay n frames)
     CMD_ARGS_0(),    // 0xFE (`delay1()`, delay 1 frame)
@@ -207,7 +207,7 @@ s32 AudioSeq_HandleScriptFlowControl(SequencePlayer* seqPlayer, SeqScriptState* 
         case 0xF5: // `bgez(addr)`, branch if greater than or equal to zero
         case 0xF9: // `bltz(addr)`, branch if less than zero
         case 0xFA: // `beqz(addr)`, branch if equal to zero
-        case 0xFB: // `jump()`, jump
+        case 0xFB: // `jump(addr)`, jump
             if (cmd == 0xFA && state->value != 0) {
                 break;
             }
@@ -1528,7 +1528,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                                                             : gAudioContext.audioRandom % cmdArgs[0];
                         break;
 
-                    case 0xB8: // `rand()`, channel: random value
+                    case 0xB8: // `rand(u8)`, channel: random value
                         scriptState->value = (cmdArgs[0] == 0) ? gAudioContext.audioRandom & 0xFFFF
                                                                : gAudioContext.audioRandom % cmdArgs[0];
                         break;
@@ -1751,7 +1751,6 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         if (dummy) {}
                         break;
-
                     case 0xF0: // `freenotelist()`, seqPlayer: unreserve notes
                         Audio_NotePoolClear(&seqPlayer->notePool);
                         break;
