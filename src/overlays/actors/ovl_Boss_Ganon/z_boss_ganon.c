@@ -2686,9 +2686,9 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
     s16 j;
     ColliderInfo* acHitInfo;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->unk_2D4 = 2;
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
         acHitInfo = this->collider.info.acHitInfo;
 
         if ((this->actionFunc == BossGanon_HitByLightBall) || (this->actionFunc == BossGanon_ChargeBigMagic)) {
@@ -3932,10 +3932,10 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                     hitWithBottle = false;
                 }
 
-                if ((this->collider.base.acFlags & 2) || hitWithBottle) {
+                if ((this->collider.base.acFlags & AC_HIT) || hitWithBottle) {
                     ColliderInfo* acHitInfo = this->collider.info.acHitInfo;
 
-                    this->collider.base.acFlags &= ~2;
+                    this->collider.base.acFlags &= ~AC_HIT;
 
                     if ((hitWithBottle == false) && (acHitInfo->toucher.dmgFlags & 0x100000)) {
                         spBA = 2;
@@ -4417,10 +4417,10 @@ void func_808E2544(Actor* thisx, PlayState* play) {
                 break;
             }
 
-            if (this->collider.base.acFlags & 2) {
+            if (this->collider.base.acFlags & AC_HIT) {
                 acHitInfo = this->collider.info.acHitInfo;
 
-                this->collider.base.acFlags &= ~2;
+                this->collider.base.acFlags &= ~AC_HIT;
 
                 if (!(acHitInfo->toucher.dmgFlags & 0x100000) || Player_HasMirrorShieldEquipped(play)) {
                     func_800AA000(this->actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);

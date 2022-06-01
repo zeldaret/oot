@@ -288,7 +288,7 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, PlayState* play) {
     f32 sin;
     f32 cos;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->timer = 130;
         this->dyna.actor.flags |= ACTOR_FLAG_4;
         sin = Math_SinS(this->dyna.actor.world.rot.y);

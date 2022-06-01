@@ -174,7 +174,7 @@ void ObjComb_Wait(ObjComb* this, PlayState* play) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         dmgFlags = this->collider.elements[0].info.acHitInfo->toucher.dmgFlags;
         if (dmgFlags & 0x4001F866) {
