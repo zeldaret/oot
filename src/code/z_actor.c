@@ -5535,6 +5535,22 @@ s32 Actor_RotateToPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* tors
     return true;
 }
 
+/**
+ * Computes the necessary HeadRot and TorsoRot steps to be added to the normal rotation to smoothly turn an actors's
+ * head and torso towards the player if within a certain yaw.
+ * Also sets the focus position to the actor's world position with the specified Y adjustment.
+ *
+ * @param play
+ * @param actor
+ * @param headRot the computed actors' head's rotation step
+ * @param torsoRot the computed actors' torso's rotation step
+ * @param focusPosYAdj how much to adjust the focus position's Y value from the actor's world position
+ *
+ * @return s32 boolean, true if rotated towards player, false if roatated back forwards.
+ *
+ * @note if in a cutscene or debug camera is enabled, and the entrance was from Kokiri Forest entrance 0, the computed
+ * rotation will instead turn towards the view eye no matter the yaw.
+ */
 s32 Actor_TurnToPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, f32 focusPosYAdj) {
     Player* player = GET_PLAYER(play);
     s16 yaw;
@@ -5562,6 +5578,22 @@ s32 Actor_TurnToPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tor
     return true;
 }
 
+/**
+ * Computes the necessary HeadRot and TorsoRot steps to be added to the normal rotation to smoothly turn an actors's
+ * head and torso towards the player if within a certain yaw, else rotate back forward.
+ * Also sets the focus position with the specified point.
+ *
+ * @param play
+ * @param actor
+ * @param headRot the computed actors' head's rotation step
+ * @param torsoRot the computed actors' torso's rotation step
+ * @param focusPos the point to set as the actor's focus position
+ *
+ * @return s32 boolean, true if rotated towards player, false if roatated back forwards.
+ *
+ * @note if in a cutscene or debug camera is enabled, and the entrance was from Kokiri Forest entrance 0, the computed
+ * rotation will instead turn towards the view eye no matter the yaw.
+ */
 s32 Actor_TurnToPlayerSetFocus(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos) {
     Player* player = GET_PLAYER(play);
     s16 yaw;
