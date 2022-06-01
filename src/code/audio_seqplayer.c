@@ -1836,7 +1836,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             seqScript->value = (gAudioContext.audioRandom >> 2) % command;
                         }
                         break;
-                    case 0xCD: // `dyncall(addr)`, seqPlayer: dyncall
+                    case 0xCD: { // `dyncall(addr)`, seqPlayer: dyncall
                         temp = AudioSeq_ScriptReadS16(seqScript);
 
                         if ((seqScript->value != -1) && (seqScript->depth != 3)) {
@@ -1848,6 +1848,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             seqScript->pc = &seqPlayer->seqData[temp];
                         }
                         break;
+                    }
                     case 0xCC: // `ldi(u8)`, seqPlayer: set value
                         seqScript->value = AudioSeq_ScriptReadU8(seqScript);
                         break;
