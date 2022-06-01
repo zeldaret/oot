@@ -5503,7 +5503,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     return false;
 }
 
-s32 func_80037F30(Vec3s* headRot, Vec3s* torsoRot) {
+s32 Actor_RotateForward(Vec3s* headRot, Vec3s* torsoRot) {
     Math_SmoothStepToS(&headRot->y, 0, 6, 6200, 100);
     Math_SmoothStepToS(&headRot->x, 0, 6, 6200, 100);
     Math_SmoothStepToS(&torsoRot->y, 0, 6, 6200, 100);
@@ -5511,7 +5511,7 @@ s32 func_80037F30(Vec3s* headRot, Vec3s* torsoRot) {
     return true;
 }
 
-s32 func_80037FC8(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* torsoRot) {
+s32 Actor_RotateToPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* torsoRot) {
     s16 pitch;
     s16 yaw;
     s16 yawDiff;
@@ -5535,7 +5535,7 @@ s32 func_80037FC8(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* torsoRot) 
     return true;
 }
 
-s32 func_80038154(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, f32 focusPosYAdj) {
+s32 Actor_TurnToPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, f32 focusPosYAdj) {
     Player* player = GET_PLAYER(play);
     s16 yaw;
     Vec3f target;
@@ -5546,7 +5546,7 @@ s32 func_80038154(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
         yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
         if (yaw >= 0x4300) {
-            func_80037F30(headRot, torsoRot);
+            Actor_RotateForward(headRot, torsoRot);
             return false;
         }
     }
@@ -5557,12 +5557,12 @@ s32 func_80038154(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot
         target = player->actor.focus.pos;
     }
 
-    func_80037FC8(actor, &target, headRot, torsoRot);
+    Actor_RotateToPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }
 
-s32 func_80038290(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos) {
+s32 Actor_TurnToPlayerSetFocus(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos) {
     Player* player = GET_PLAYER(play);
     s16 yaw;
     Vec3f target;
@@ -5572,7 +5572,7 @@ s32 func_80038290(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
         yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
         if (yaw >= 0x4300) {
-            func_80037F30(headRot, torsoRot);
+            Actor_RotateForward(headRot, torsoRot);
             return false;
         }
     }
@@ -5583,7 +5583,7 @@ s32 func_80038290(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot
         target = player->actor.focus.pos;
     }
 
-    func_80037FC8(actor, &target, headRot, torsoRot);
+    Actor_RotateToPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }
