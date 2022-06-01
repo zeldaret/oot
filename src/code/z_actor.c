@@ -5542,8 +5542,8 @@ s32 Actor_RotateToPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* tors
  *
  * @param play
  * @param actor
- * @param headRot the computed actors' head's rotation step
- * @param torsoRot the computed actors' torso's rotation step
+ * @param headRot the computed actor's head's rotation step
+ * @param torsoRot the computed actor's torso's rotation step
  * @param focusPosYAdj how much to adjust the focus position's Y value from the actor's world position
  *
  * @return s32 boolean, true if rotated towards player, false if roatated back forwards.
@@ -5585,8 +5585,8 @@ s32 Actor_TurnToPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tor
  *
  * @param play
  * @param actor
- * @param headRot the computed actors' head's rotation step
- * @param torsoRot the computed actors' torso's rotation step
+ * @param headRot the computed actor's head's rotation step
+ * @param torsoRot the computed actor's torso's rotation step
  * @param focusPos the point to set as the actor's focus position
  *
  * @return s32 boolean, true if rotated towards player, false if roatated back forwards.
