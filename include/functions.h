@@ -1931,7 +1931,7 @@ void AudioDebug_Draw(GfxPrint* printer);
 void AudioDebug_ScrPrt(const s8* str, u16 num);
 void func_800F3054(void);
 void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx);
-void func_800F3F3C(u8);
+void Audio_PlayCutsceneEffectsSequence(u8 csEffectType);
 void func_800F4010(Vec3f* pos, u16 sfxId, f32);
 void Audio_PlaySoundRandom(Vec3f* pos, u16 baseSfxId, u8 randLim);
 void func_800F4138(Vec3f* pos, u16 sfxId, f32);

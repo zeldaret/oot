@@ -227,7 +227,7 @@ void func_80966E98(Demo6K* this, PlayState* play) {
     }
 
     if (play->csCtx.frames == 342) {
-        func_800F3F3C(2);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SAGE_SEAL);
     }
 
     if (this->timer1 == 39) {

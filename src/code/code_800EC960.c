@@ -253,7 +253,7 @@ u8 sSeqFlags[0x6E] = {
     0,    // NA_BGM_STAFF_4
     0,    // NA_BGM_FIRE_BOSS
     0x8,  // NA_BGM_TIMED_MINI_GAME
-    0,    // NA_BGM_VARIOUS_SFX
+    0,    // NA_BGM_CUTSCENE_EFFECTS
 };
 
 s8 sSpecReverbs[20] = { 0, 0, 0, 0, 0, 0, 0, 40, 0, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -4084,10 +4084,10 @@ void Audio_ResetSfxChannelState(void) {
     sAudioCodeReverb = 0;
 }
 
-void func_800F3F3C(u8 arg0) {
+void Audio_PlayCutsceneEffectsSequence(u8 csEffectType) {
     if (gSoundBankMuted[0] != 1) {
-        Audio_StartSeq(SEQ_PLAYER_BGM_SUB, 0, NA_BGM_VARIOUS_SFX);
-        Audio_SeqCmd8(SEQ_PLAYER_BGM_SUB, 0, 0, arg0);
+        Audio_StartSeq(SEQ_PLAYER_BGM_SUB, 0, NA_BGM_CUTSCENE_EFFECTS);
+        Audio_SeqCmd8(SEQ_PLAYER_BGM_SUB, 0, 0, csEffectType);
     }
 }
 
@@ -5201,7 +5201,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     u8 channelIdx;
 
     if (func_800FA0B4(SEQ_PLAYER_BGM_MAIN) == NA_BGM_WINDMILL) {
-        func_800F3F3C(0xF);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_RAINFALL);
         return;
     }
 
