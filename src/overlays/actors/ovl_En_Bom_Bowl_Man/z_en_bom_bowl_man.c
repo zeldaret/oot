@@ -497,7 +497,7 @@ void EnBomBowlMan_Update(Actor* thisx, PlayState* play) {
                 }
             }
 
-            Actor_TurnToPlayerSetFocus(play, &this->actor, &this->unk_218, &this->unk_224, this->actor.focus.pos);
+            Actor_TrackPlayer(play, &this->actor, &this->unk_218, &this->unk_224, this->actor.focus.pos);
             break;
     }
 

@@ -5503,7 +5503,7 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     return false;
 }
 
-s32 Actor_RotateForward(Vec3s* headRot, Vec3s* torsoRot) {
+s32 Actor_TrackNone(Vec3s* headRot, Vec3s* torsoRot) {
     Math_SmoothStepToS(&headRot->y, 0, 6, 6200, 100);
     Math_SmoothStepToS(&headRot->x, 0, 6, 6200, 100);
     Math_SmoothStepToS(&torsoRot->y, 0, 6, 6200, 100);
@@ -5511,7 +5511,7 @@ s32 Actor_RotateForward(Vec3s* headRot, Vec3s* torsoRot) {
     return true;
 }
 
-s32 Actor_RotateToPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* torsoRot) {
+s32 Actor_TrackPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* torsoRot) {
     s16 pitch;
     s16 yaw;
     s16 yawDiff;
@@ -5536,33 +5536,31 @@ s32 Actor_RotateToPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* tors
 }
 
 /**
- * Computes the necessary HeadRot and TorsoRot steps to be added to the normal rotation to smoothly turn an actors's
- * head and torso towards the player if within a certain yaw.
- * Also sets the focus position to the actor's world position with the specified Y adjustment.
+ * Same as Actor_TrackPlayer, except use the actor's world position as the focus point, with the height
+ * specified.
  *
  * @param play
  * @param actor
  * @param headRot the computed actor's head's rotation step
  * @param torsoRot the computed actor's torso's rotation step
- * @param focusPosYAdj how much to adjust the focus position's Y value from the actor's world position
+ * @param focusHeight the height of the focus point relative to their world position
  *
- * @return s32 boolean, true if rotated towards player, false if roatated back forwards.
+ * @return true if rotated towards player, false if rotations were stepped back to zero.
  *
- * @note if in a cutscene or debug camera is enabled, and the entrance was from Kokiri Forest entrance 0, the computed
- * rotation will instead turn towards the view eye no matter the yaw.
+ * @note same note as Actor_TrackPlayer
  */
-s32 Actor_TurnToPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, f32 focusPosYAdj) {
+s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, f32 focusHeight) {
     Player* player = GET_PLAYER(play);
     s16 yaw;
     Vec3f target;
 
     actor->focus.pos = actor->world.pos;
-    actor->focus.pos.y += focusPosYAdj;
+    actor->focus.pos.y += focusHeight;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
         yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
         if (yaw >= 0x4300) {
-            Actor_RotateForward(headRot, torsoRot);
+            Actor_TrackNone(headRot, torsoRot);
             return false;
         }
     }
@@ -5573,14 +5571,14 @@ s32 Actor_TurnToPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tor
         target = player->actor.focus.pos;
     }
 
-    Actor_RotateToPoint(actor, &target, headRot, torsoRot);
+    Actor_TrackPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }
 
 /**
  * Computes the necessary HeadRot and TorsoRot steps to be added to the normal rotation to smoothly turn an actors's
- * head and torso towards the player if within a certain yaw, else rotate back forward.
+ * head and torso towards the player if within a certain yaw, else smoothly returns the rotations back to zero.
  * Also sets the focus position with the specified point.
  *
  * @param play
@@ -5589,12 +5587,12 @@ s32 Actor_TurnToPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* tor
  * @param torsoRot the computed actor's torso's rotation step
  * @param focusPos the point to set as the actor's focus position
  *
- * @return s32 boolean, true if rotated towards player, false if roatated back forwards.
+ * @return true if rotated towards player, false if rotations were stepped back to zero.
  *
- * @note if in a cutscene or debug camera is enabled, and the entrance was from Kokiri Forest entrance 0, the computed
+ * @note if in a cutscene or debug camera is enabled, and the last entrance used was Kokiri Forest spawn 0, the computed
  * rotation will instead turn towards the view eye no matter the yaw.
  */
-s32 Actor_TurnToPlayerSetFocus(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos) {
+s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos) {
     Player* player = GET_PLAYER(play);
     s16 yaw;
     Vec3f target;
@@ -5604,7 +5602,7 @@ s32 Actor_TurnToPlayerSetFocus(PlayState* play, Actor* actor, Vec3s* headRot, Ve
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
         yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
         if (yaw >= 0x4300) {
-            Actor_RotateForward(headRot, torsoRot);
+            Actor_TrackNone(headRot, torsoRot);
             return false;
         }
     }
@@ -5615,7 +5613,7 @@ s32 Actor_TurnToPlayerSetFocus(PlayState* play, Actor* actor, Vec3s* headRot, Ve
         target = player->actor.focus.pos;
     }
 
-    Actor_RotateToPoint(actor, &target, headRot, torsoRot);
+    Actor_TrackPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }
