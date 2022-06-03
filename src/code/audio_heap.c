@@ -759,13 +759,13 @@ void AudioHeap_UpdateReverbs(void) {
  * Clear the current Audio Interface Buffer
  */
 void AudioHeap_ClearCurrentAiBuffer(void) {
-    s32 curAiBuffferIndex = gAudioContext.curAiBufIndex;
+    s32 curAiBufferIndex = gAudioContext.curAiBufIndex;
     s32 i;
 
-    gAudioContext.aiBufLengths[curAiBuffferIndex] = gAudioContext.audioBufferParameters.minAiBufferLength;
+    gAudioContext.aiBufLengths[curAiBufferIndex] = gAudioContext.audioBufferParameters.minAiBufferLength;
 
     for (i = 0; i < AIBUF_LEN; i++) {
-        gAudioContext.aiBuffers[curAiBuffferIndex][i] = 0;
+        gAudioContext.aiBuffers[curAiBufferIndex][i] = 0;
     }
 }
 
