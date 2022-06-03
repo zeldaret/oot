@@ -6,7 +6,7 @@
 
 struct EfcErupc;
 
-typedef void (*EfcErupcActionFunc)(struct EfcErupc*, GlobalContext*);
+typedef void (*EfcErupcActionFunc)(struct EfcErupc*, PlayState*);
 
 #define EFC_ERUPC_EFFECT_COUNT 100
 

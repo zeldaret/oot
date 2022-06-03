@@ -13,6 +13,7 @@ beginseg
     name "boot"
     address 0x80000460
     include "build/src/boot/boot_main.o"
+    include "build/data/unk_800093F0.data.o"
     include "build/data/unk_80009410.data.o"
     include "build/src/boot/idle.o"
     include "build/src/boot/viconfig.o"
@@ -321,7 +322,7 @@ beginseg
     include "build/src/code/z_elf_message.o"
     include "build/src/code/z_face_reaction.o"
     include "build/src/code/code_8006C3A0.o"
-    include "build/src/code/code_8006C510.o"
+    include "build/src/code/z_fcurve_data.o"
     include "build/src/code/z_fcurve_data_skelanime.o"
     include "build/src/code/z_game_dlftbls.o"
     include "build/src/code/z_horse.o"
@@ -408,7 +409,7 @@ beginseg
     include "build/src/code/fault.o"
     include "build/data/fault.bss.o"
     include "build/src/code/fault_drawer.o"
-    include "build/asm/code_800D71F0.o"
+    include "build/asm/kanread.o"
     include "build/src/code/ucode_disas.o"
     pad_text // audio library aligned to 32 bytes?
     include "build/src/code/audio_data.o"
@@ -432,6 +433,7 @@ beginseg
     include "build/src/code/loadfragment2.o"
     include "build/src/code/mtxuty-cvt.o"
     include "build/src/code/relocation.o"
+    include "build/src/code/load.o"
     include "build/src/code/code_800FC620.o"
     include "build/src/code/padutils.o"
     include "build/src/code/padsetup.o"
@@ -515,6 +517,7 @@ beginseg
     include_data_with_rodata "build/src/code/z_message_PAL.o"
     include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
+    include "build/data/audio_tables.rodata.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
 endseg

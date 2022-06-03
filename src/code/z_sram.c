@@ -17,9 +17,9 @@ typedef struct {
     /* 0x18 */ s16 rupees;
     /* 0x1A */ u16 swordHealth;
     /* 0x1C */ u16 naviTimer;
-    /* 0x1E */ u8 magicAcquired;
+    /* 0x1E */ u8 isMagicAcquired;
     /* 0x1F */ u8 unk_1F;
-    /* 0x20 */ u8 doubleMagic;
+    /* 0x20 */ u8 isDoubleMagicAcquired;
     /* 0x21 */ u8 doubleDefense;
     /* 0x22 */ u8 bgsFlag;
     /* 0x23 */ u8 ocarinaGameRoundNum;
@@ -47,8 +47,8 @@ typedef struct {
     /* 0x0F18 */ char unk_F18[0x04];
     /* 0x0F1C */ u32 worldMapAreaData; // "area_arrival"
     /* 0x0F20 */ char unk_F20[0x4];
-    /* 0x0F24 */ u8 scarecrowCustomSongSet;
-    /* 0x0F25 */ u8 scarecrowCustomSong[0x360];
+    /* 0x0F24 */ u8 scarecrowLongSongSet;
+    /* 0x0F25 */ u8 scarecrowLongSong[0x360];
     /* 0x1285 */ char unk_1285[0x24];
     /* 0x12A9 */ u8 scarecrowSpawnSongSet;
     /* 0x12AA */ u8 scarecrowSpawnSong[0x80];
@@ -104,13 +104,13 @@ static SavePlayerData sNewSavePlayerData = {
     0x30,                                               // healthCapacity
     0x30,                                               // defense
     0,                                                  // magicLevel
-    0x30,                                               // magic
+    MAGIC_NORMAL_METER,                                 // magic
     0,                                                  // rupees
     0,                                                  // swordHealth
     0,                                                  // naviTimer
-    0,                                                  // magicAcquired
+    false,                                              // isMagicAcquired
     0,                                                  // unk_1F
-    0,                                                  // doubleMagic
+    false,                                              // isDoubleMagicAcquired
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
@@ -189,13 +189,13 @@ static SavePlayerData sDebugSavePlayerData = {
     0xE0,                                               // healthCapacity
     0xE0,                                               // health
     0,                                                  // magicLevel
-    0x30,                                               // magic
+    MAGIC_NORMAL_METER,                                 // magic
     150,                                                // rupees
     8,                                                  // swordHealth
     0,                                                  // naviTimer
-    1,                                                  // magicAcquired
+    true,                                               // isMagicAcquired
     0,                                                  // unk_1F
-    0,                                                  // doubleMagic
+    false,                                              // isDoubleMagicAcquired
     0,                                                  // doubleDefense
     0,                                                  // bgsFlag
     0,                                                  // ocarinaGameRoundNum
@@ -294,10 +294,16 @@ void Sram_InitDebugSave(void) {
         }
     }
 
-    gSaveContext.entranceIndex = 0xCD;
+    gSaveContext.entranceIndex = ENTR_SPOT00_0;
     gSaveContext.magicLevel = 0;
     gSaveContext.sceneFlags[5].swch = 0x40000000;
 }
+
+static s16 sDungeonEntrances[] = {
+    ENTR_YDAN_0,      ENTR_DDAN_0,      ENTR_BDAN_0,         ENTR_BMORI1_0,           ENTR_HIDAN_0, ENTR_MIZUSIN_0,
+    ENTR_JYASINZOU_0, ENTR_HAKADAN_0,   ENTR_HAKADANCH_0,    ENTR_ICE_DOUKUTO_0,      ENTR_GANON_0, ENTR_MEN_0,
+    ENTR_GERUDOWAY_0, ENTR_GANONTIKA_0, ENTR_GANON_SONOGO_0, ENTR_GANONTIKA_SONOGO_0,
+};
 
 /**
  *  Copy save currently on the buffer to Save Context and complete various tasks to open the save.
@@ -310,10 +316,6 @@ void Sram_InitDebugSave(void) {
  *  - Revert any trade items that spoil
  */
 void Sram_OpenSave(SramContext* sramCtx) {
-    static s16 dungeonEntrances[] = {
-        0x0000, 0x0004, 0x0028, 0x0169, 0x0165, 0x0010, 0x0082, 0x0037,
-        0x0098, 0x0088, 0x041B, 0x0008, 0x0486, 0x0467, 0x0179, 0x056C,
-    };
     u16 i;
     u16 j;
     u8* ptr;
@@ -343,45 +345,54 @@ void Sram_OpenSave(SramContext* sramCtx) {
         case SCENE_MEN:
         case SCENE_GERUDOWAY:
         case SCENE_GANONTIKA:
-            gSaveContext.entranceIndex = dungeonEntrances[gSaveContext.savedSceneNum];
+            gSaveContext.entranceIndex = sDungeonEntrances[gSaveContext.savedSceneNum];
             break;
+
         case SCENE_YDAN_BOSS:
-            gSaveContext.entranceIndex = 0;
+            gSaveContext.entranceIndex = ENTR_YDAN_0;
             break;
+
         case SCENE_DDAN_BOSS:
-            gSaveContext.entranceIndex = 4;
+            gSaveContext.entranceIndex = ENTR_DDAN_0;
             break;
+
         case SCENE_BDAN_BOSS:
-            gSaveContext.entranceIndex = 0x28;
+            gSaveContext.entranceIndex = ENTR_BDAN_0;
             break;
+
         case SCENE_MORIBOSSROOM:
-            gSaveContext.entranceIndex = 0x169;
+            gSaveContext.entranceIndex = ENTR_BMORI1_0;
             break;
+
         case SCENE_FIRE_BS:
-            gSaveContext.entranceIndex = 0x165;
+            gSaveContext.entranceIndex = ENTR_HIDAN_0;
             break;
+
         case SCENE_MIZUSIN_BS:
-            gSaveContext.entranceIndex = 0x10;
+            gSaveContext.entranceIndex = ENTR_MIZUSIN_0;
             break;
+
         case SCENE_JYASINBOSS:
-            gSaveContext.entranceIndex = 0x82;
+            gSaveContext.entranceIndex = ENTR_JYASINZOU_0;
             break;
+
         case SCENE_HAKADAN_BS:
-            gSaveContext.entranceIndex = 0x37;
+            gSaveContext.entranceIndex = ENTR_HAKADAN_0;
             break;
+
         case SCENE_GANON_SONOGO:
         case SCENE_GANONTIKA_SONOGO:
         case SCENE_GANON_BOSS:
         case SCENE_GANON_FINAL:
         case SCENE_GANON_DEMO:
-            gSaveContext.entranceIndex = 0x41B;
+            gSaveContext.entranceIndex = ENTR_GANON_0;
             break;
 
         default:
             if (gSaveContext.savedSceneNum != SCENE_LINK_HOME) {
-                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? 0xBB : 0x5F4;
+                gSaveContext.entranceIndex = (LINK_AGE_IN_YEARS == YEARS_CHILD) ? ENTR_LINK_HOME_0 : ENTR_TOKINOMA_7;
             } else {
-                gSaveContext.entranceIndex = 0xBB;
+                gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
             }
             break;
     }
@@ -393,14 +404,14 @@ void Sram_OpenSave(SramContext* sramCtx) {
         gSaveContext.health = 0x30;
     }
 
-    if (gSaveContext.scarecrowCustomSongSet) {
+    if (gSaveContext.scarecrowLongSongSet) {
         osSyncPrintf(VT_FGCOL(BLUE));
         osSyncPrintf("\n====================================================================\n");
 
-        MemCpy(gScarecrowCustomSongPtr, gSaveContext.scarecrowCustomSong, sizeof(gSaveContext.scarecrowCustomSong));
+        MemCpy(gScarecrowLongSongPtr, gSaveContext.scarecrowLongSong, sizeof(gSaveContext.scarecrowLongSong));
 
-        ptr = (u8*)gScarecrowCustomSongPtr;
-        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowCustomSong); i++, ptr++) {
+        ptr = (u8*)gScarecrowLongSongPtr;
+        for (i = 0; i < ARRAY_COUNT(gSaveContext.scarecrowLongSong); i++, ptr++) {
             osSyncPrintf("%d, ", *ptr);
         }
 
@@ -694,9 +705,9 @@ void Sram_InitSave(FileChooseContext* fileChooseCtx, SramContext* sramCtx) {
         Sram_InitDebugSave();
     }
 
-    gSaveContext.entranceIndex = 0xBB;
+    gSaveContext.entranceIndex = ENTR_LINK_HOME_0;
     gSaveContext.linkAge = LINK_AGE_CHILD;
-    gSaveContext.dayTime = 0x6AAB;
+    gSaveContext.dayTime = CLOCK_TIME(10, 0);
     gSaveContext.cutsceneIndex = 0xFFF1;
 
     if (fileChooseCtx->buttonIndex == 0) {
@@ -888,5 +899,5 @@ void Sram_Alloc(GameState* gameState, SramContext* sramCtx) {
     ASSERT(sramCtx->readBuff != NULL, "sram->read_buff != NULL", "../z_sram.c", 1295);
 }
 
-void Sram_Init(GlobalContext* globalCtx, SramContext* sramCtx) {
+void Sram_Init(PlayState* play, SramContext* sramCtx) {
 }

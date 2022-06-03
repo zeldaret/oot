@@ -9,11 +9,11 @@
 
 #define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
 
-void EnTana_Init(Actor* thisx, GlobalContext* globalCtx);
-void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx);
-void EnTana_Update(Actor* thisx, GlobalContext* globalCtx);
-void EnTana_DrawWoodenShelves(Actor* thisx, GlobalContext* globalCtx);
-void EnTana_DrawStoneShelves(Actor* thisx, GlobalContext* globalCtx);
+void EnTana_Init(Actor* thisx, PlayState* play);
+void EnTana_Destroy(Actor* thisx, PlayState* play);
+void EnTana_Update(Actor* thisx, PlayState* play);
+void EnTana_DrawWoodenShelves(Actor* thisx, PlayState* play);
+void EnTana_DrawStoneShelves(Actor* thisx, PlayState* play);
 
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
@@ -56,7 +56,7 @@ static void* sStoneTextures[] = {
     gShopDungenStone2Tex,
 };
 
-void EnTana_Init(Actor* thisx, GlobalContext* globalCtx) {
+void EnTana_Init(Actor* thisx, PlayState* play) {
     EnTana* this = (EnTana*)thisx;
 
     osSyncPrintf("☆☆☆ %s ☆☆☆\n", sShelfTypes[thisx->params]);
@@ -65,35 +65,35 @@ void EnTana_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->draw = sDrawFuncs[thisx->params];
 }
 
-void EnTana_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+void EnTana_Destroy(Actor* thisx, PlayState* play) {
 }
 
-void EnTana_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnTana_Update(Actor* thisx, PlayState* play) {
 }
 
-void EnTana_DrawWoodenShelves(Actor* thisx, GlobalContext* globalCtx) {
+void EnTana_DrawWoodenShelves(Actor* thisx, PlayState* play) {
     EnTana* this = (EnTana*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 148);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_tana.c", 148);
 
-    func_80093D18(globalCtx->state.gfxCtx);
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 152),
+    func_80093D18(play->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tana.c", 152),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 157);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_tana.c", 157);
 }
 
-void EnTana_DrawStoneShelves(Actor* thisx, GlobalContext* globalCtx) {
+void EnTana_DrawStoneShelves(Actor* thisx, PlayState* play) {
     EnTana* this = (EnTana*)thisx;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 163);
+    OPEN_DISPS(play->state.gfxCtx, "../z_en_tana.c", 163);
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    func_80093D18(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sStoneTextures[thisx->params]));
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tana.c", 169),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_tana.c", 169),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, sShelfDLists[thisx->params]);
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tana.c", 174);
+    CLOSE_DISPS(play->state.gfxCtx, "../z_en_tana.c", 174);
 }

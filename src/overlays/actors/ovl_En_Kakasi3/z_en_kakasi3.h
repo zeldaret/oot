@@ -6,7 +6,7 @@
 
 struct EnKakasi3;
 
-typedef void (*EnKakasi3ActionFunc)(struct EnKakasi3*, GlobalContext*);
+typedef void (*EnKakasi3ActionFunc)(struct EnKakasi3*, PlayState*);
 
 typedef struct EnKakasi3 {
     /* 0x0000 */ Actor actor;
@@ -27,7 +27,7 @@ typedef struct EnKakasi3 {
     /* 0x01B0 */ Vec3s rot;
     /* 0x01B8 */ f32 unk_1B8;
     /* 0x01BC */ ColliderCylinder collider;
-    /* 0x0208 */ s16 camId;
+    /* 0x0208 */ s16 subCamId;
 } EnKakasi3; // size = 0x020C
 
 #endif

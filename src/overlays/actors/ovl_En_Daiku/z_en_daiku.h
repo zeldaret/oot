@@ -6,7 +6,7 @@
 
 struct EnDaiku;
 
-typedef void (*EnDaikuActionFunc)(struct EnDaiku*, GlobalContext*);
+typedef void (*EnDaikuActionFunc)(struct EnDaiku*, PlayState*);
 
 typedef struct EnDaiku {
     /* 0x0000 */ Actor actor;
@@ -25,7 +25,7 @@ typedef struct EnDaiku {
     /* 0x0204 */ s32 subCamId;
     /* 0x0208 */ s16 rotYtowardsPath;
     /* 0x020C */ Vec3f subCamEyeInit;
-    /* 0x0218 */ Vec3f subCamAtTarget;
+    /* 0x0218 */ Vec3f subCamAtNext;
     /* 0x0224 */ Vec3f subCamEye;
     /* 0x0230 */ Vec3f subCamAt;
     /* 0x023C */ s32 stateFlags;

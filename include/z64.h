@@ -10,10 +10,12 @@
 #include "z64player.h"
 #include "z64audio.h"
 #include "z64object.h"
+#include "z64ocarina.h"
 #include "z64camera.h"
 #include "z64environment.h"
 #include "z64cutscene.h"
 #include "z64collision_check.h"
+#include "z64curve.h"
 #include "z64scene.h"
 #include "z64effect.h"
 #include "z64item.h"
@@ -276,12 +278,12 @@ typedef struct {
     /* 0x0C */ f32   unk_0C;
     /* 0x10 */ u16   frames;
     /* 0x12 */ u16   unk_12;
-    /* 0x14 */ s32   unk_14;
+    /* 0x14 */ s32   subCamId;
     /* 0x18 */ u16   unk_18;
     /* 0x1A */ u8    unk_1A;
     /* 0x1B */ u8    unk_1B;
-    /* 0x1C */ CutsceneCameraPoint* cameraFocus;
-    /* 0x20 */ CutsceneCameraPoint* cameraPosition;
+    /* 0x1C */ CutsceneCameraPoint* subCamLookAtPoints;
+    /* 0x20 */ CutsceneCameraPoint* subCamEyePoints;
     /* 0x24 */ CsCmdActorAction* linkAction;
     /* 0x28 */ CsCmdActorAction* npcActions[10]; // "npcdemopnt"
 } CutsceneContext; // size = 0x50
@@ -334,97 +336,6 @@ typedef struct {
     /* 0x144 */ Vec3f rot;
     /* 0x150 */ char unk_150[0x10];
 } SkyboxContext; // size = 0x160
-
-typedef enum {
-    /*  0 */ OCARINA_SONG_MINUET,
-    /*  1 */ OCARINA_SONG_BOLERO,
-    /*  2 */ OCARINA_SONG_SERENADE,
-    /*  3 */ OCARINA_SONG_REQUIEM,
-    /*  4 */ OCARINA_SONG_NOCTURNE,
-    /*  5 */ OCARINA_SONG_PRELUDE,
-    /*  6 */ OCARINA_SONG_SARIAS,
-    /*  7 */ OCARINA_SONG_EPONAS,
-    /*  8 */ OCARINA_SONG_LULLABY,
-    /*  9 */ OCARINA_SONG_SUNS,
-    /* 10 */ OCARINA_SONG_TIME,
-    /* 11 */ OCARINA_SONG_STORMS,
-    /* 12 */ OCARINA_SONG_SCARECROW,
-    /* 13 */ OCARINA_SONG_MEMORY_GAME,
-    /* 14 */ OCARINA_SONG_MAX,
-    /* 14 */ OCARINA_SONG_SCARECROW_LONG = OCARINA_SONG_MAX // anything larger than 13 is considered the long scarecrow's song
-} OcarinaSongId;
-
-typedef enum {
-    /* 0x00 */ OCARINA_ACTION_UNK_0, // acts like free play but never set
-    /* 0x01 */ OCARINA_ACTION_FREE_PLAY,
-    /* 0x02 */ OCARINA_ACTION_TEACH_MINUET, // Song demonstrations by teachers
-    /* 0x03 */ OCARINA_ACTION_TEACH_BOLERO,
-    /* 0x04 */ OCARINA_ACTION_TEACH_SERENADE,
-    /* 0x05 */ OCARINA_ACTION_TEACH_REQUIEM,
-    /* 0x06 */ OCARINA_ACTION_TEACH_NOCTURNE,
-    /* 0x07 */ OCARINA_ACTION_TEACH_PRELUDE,
-    /* 0x08 */ OCARINA_ACTION_TEACH_SARIA,
-    /* 0x09 */ OCARINA_ACTION_TEACH_EPONA,
-    /* 0x0A */ OCARINA_ACTION_TEACH_LULLABY,
-    /* 0x0B */ OCARINA_ACTION_TEACH_SUNS,
-    /* 0x0C */ OCARINA_ACTION_TEACH_TIME,
-    /* 0x0D */ OCARINA_ACTION_TEACH_STORMS,
-    /* 0x0E */ OCARINA_ACTION_UNK_E,
-    /* 0x0F */ OCARINA_ACTION_PLAYBACK_MINUET, // Playing back a particular song
-    /* 0x10 */ OCARINA_ACTION_PLAYBACK_BOLERO,
-    /* 0x11 */ OCARINA_ACTION_PLAYBACK_SERENADE,
-    /* 0x12 */ OCARINA_ACTION_PLAYBACK_REQUIEM,
-    /* 0x13 */ OCARINA_ACTION_PLAYBACK_NOCTURNE,
-    /* 0x14 */ OCARINA_ACTION_PLAYBACK_PRELUDE,
-    /* 0x15 */ OCARINA_ACTION_PLAYBACK_SARIA,
-    /* 0x16 */ OCARINA_ACTION_PLAYBACK_EPONA,
-    /* 0x17 */ OCARINA_ACTION_PLAYBACK_LULLABY,
-    /* 0x18 */ OCARINA_ACTION_PLAYBACK_SUNS,
-    /* 0x19 */ OCARINA_ACTION_PLAYBACK_TIME,
-    /* 0x1A */ OCARINA_ACTION_PLAYBACK_STORMS,
-    /* 0x1B */ OCARINA_ACTION_UNK_1B,
-    /* 0x1C */ OCARINA_ACTION_CHECK_MINUET, // Playing songs for check spots
-    /* 0x1D */ OCARINA_ACTION_CHECK_BOLERO,
-    /* 0x1E */ OCARINA_ACTION_CHECK_SERENADE,
-    /* 0x1F */ OCARINA_ACTION_CHECK_REQUIEM,
-    /* 0020 */ OCARINA_ACTION_CHECK_NOCTURNE,
-    /* 0x21 */ OCARINA_ACTION_CHECK_PRELUDE,
-    /* 0x22 */ OCARINA_ACTION_CHECK_SARIA,
-    /* 0x23 */ OCARINA_ACTION_CHECK_EPONA,
-    /* 0x24 */ OCARINA_ACTION_CHECK_LULLABY,
-    /* 0x25 */ OCARINA_ACTION_CHECK_SUNS,
-    /* 0x26 */ OCARINA_ACTION_CHECK_TIME,
-    /* 0x27 */ OCARINA_ACTION_CHECK_STORMS,
-    /* 0x28 */ OCARINA_ACTION_CHECK_SCARECROW, // Playing back the song as adult that was set as child
-    /* 0x29 */ OCARINA_ACTION_FREE_PLAY_DONE,
-    /* 0x2A */ OCARINA_ACTION_SCARECROW_LONG_RECORDING,
-    /* 0x2B */ OCARINA_ACTION_SCARECROW_LONG_PLAYBACK,
-    /* 0x2C */ OCARINA_ACTION_SCARECROW_RECORDING,
-    /* 0x2D */ OCARINA_ACTION_SCARECROW_PLAYBACK,
-    /* 0x2E */ OCARINA_ACTION_MEMORY_GAME,
-    /* 0x2F */ OCARINA_ACTION_FROGS,
-    /* 0x30 */ OCARINA_ACTION_CHECK_NOWARP, // Check for any of sarias - storms
-    /* 0x31 */ OCARINA_ACTION_CHECK_NOWARP_DONE
-} OcarinaSongActionIDs;
-
-typedef enum {
-    /* 0x00 */ OCARINA_MODE_00,
-    /* 0x01 */ OCARINA_MODE_01,
-    /* 0x02 */ OCARINA_MODE_02,
-    /* 0x03 */ OCARINA_MODE_03,
-    /* 0x04 */ OCARINA_MODE_04,
-    /* 0x05 */ OCARINA_MODE_05,
-    /* 0x06 */ OCARINA_MODE_06,
-    /* 0x07 */ OCARINA_MODE_07,
-    /* 0x08 */ OCARINA_MODE_08,
-    /* 0x09 */ OCARINA_MODE_09,
-    /* 0x0A */ OCARINA_MODE_0A,
-    /* 0x0B */ OCARINA_MODE_0B,
-    /* 0x0C */ OCARINA_MODE_0C,
-    /* 0x0D */ OCARINA_MODE_0D,
-    /* 0x0E */ OCARINA_MODE_0E,
-    /* 0x0F */ OCARINA_MODE_0F
-} OcarinaMode;
 
 typedef enum {
     TEXTBOX_ICON_TRIANGLE,
@@ -484,11 +395,11 @@ typedef enum {
     /* 0x21 */ MSGMODE_SCARECROW_LONG_RECORDING_START,
     /* 0x22 */ MSGMODE_SCARECROW_LONG_RECORDING_ONGOING,
     /* 0x23 */ MSGMODE_SCARECROW_LONG_PLAYBACK,
-    /* 0x24 */ MSGMODE_SCARECROW_RECORDING_START,
-    /* 0x25 */ MSGMODE_SCARECROW_RECORDING_ONGOING,
-    /* 0x26 */ MSGMODE_SCARECROW_RECORDING_FAILED,
-    /* 0x27 */ MSGMODE_SCARECROW_RECORDING_DONE,
-    /* 0x28 */ MSGMODE_SCARECROW_PLAYBACK,
+    /* 0x24 */ MSGMODE_SCARECROW_SPAWN_RECORDING_START,
+    /* 0x25 */ MSGMODE_SCARECROW_SPAWN_RECORDING_ONGOING,
+    /* 0x26 */ MSGMODE_SCARECROW_SPAWN_RECORDING_FAILED,
+    /* 0x27 */ MSGMODE_SCARECROW_SPAWN_RECORDING_DONE,
+    /* 0x28 */ MSGMODE_SCARECROW_SPAWN_PLAYBACK,
     /* 0x29 */ MSGMODE_MEMORY_GAME_START,
     /* 0x2A */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_PLAYING,
     /* 0x2B */ MSGMODE_MEMORY_GAME_LEFT_SKULLKID_WAIT,
@@ -602,7 +513,7 @@ typedef struct {
     /* 0xE408 */ Actor* talkActor;
     /* 0xE40C */ s16    disableWarpSongs; // warp song flag set by scene commands
     /* 0xE40E */ s16    unk_E40E; // ocarina related
-    /* 0xE410 */ u8     lastOcaNoteIdx;
+    /* 0xE410 */ u8     lastOcarinaButtonIndex;
 } MessageContext; // size = 0xE418
 
 typedef enum {
@@ -675,7 +586,7 @@ typedef struct {
     /* 0x022A */ s16    beatingHeartOscillator;
     /* 0x022C */ s16    beatingHeartOscillatorDirection;
     /* 0x022E */ s16    unk_22E;
-    /* 0x0230 */ s16    unk_230;
+    /* 0x0230 */ s16    lensMagicConsumptionTimer; // When lens is active, 1 unit of magic is consumed every time the timer reaches 0
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
     /* 0x023A */ u8     numHorseBoosts;
     /* 0x023C */ u16    unk_23C;
@@ -861,13 +772,10 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8    type;
-    /* 0x01 */ u8    num; // number of dlist entries
-    /* 0x04 */ void* start;
-    /* 0x08 */ void* end;
-} Polygon; // size = 0xC
+} PolygonBase;
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    num; // number of dlist entries
     /* 0x04 */ void* start;
     /* 0x08 */ void* end;
@@ -888,7 +796,7 @@ typedef struct {
 } BgImage; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    format; // 1 = single, 2 = multi
     /* 0x04 */ Gfx*  dlist;
     union {
@@ -918,27 +826,51 @@ typedef struct {
 } PolygonDlist2; // size = 0x8
 
 typedef struct {
-    /* 0x00 */ u8    type;
+    /* 0x00 */ PolygonBase base;
     /* 0x01 */ u8    num; // number of dlist entries
     /* 0x04 */ void* start;
     /* 0x08 */ void* end;
 } PolygonType2; // size = 0xC
 
 typedef union {
-    Polygon      polygon;
+    PolygonBase  base;
     PolygonType0 polygon0;
     PolygonType1 polygon1;
     PolygonType2 polygon2;
-} Mesh; // "Ground Shape"
+} MeshHeader; // "Ground Shape"
+
+typedef enum {
+    /* 0 */ LENS_MODE_HIDE_ACTORS, // lens actors are visible by default, and hidden by using lens (for example, fake walls)
+    /* 1 */ LENS_MODE_SHOW_ACTORS // lens actors are invisible by default, and shown by using lens (for example, invisible enemies)
+} LensMode;
+
+typedef enum {
+    /* 0 */ ROOM_BEHAVIOR_TYPE1_0,
+    /* 1 */ ROOM_BEHAVIOR_TYPE1_1,
+    /* 2 */ ROOM_BEHAVIOR_TYPE1_2,
+    /* 3 */ ROOM_BEHAVIOR_TYPE1_3, // unused
+    /* 4 */ ROOM_BEHAVIOR_TYPE1_4, // unused
+    /* 5 */ ROOM_BEHAVIOR_TYPE1_5
+} RoomBehaviorType1;
+
+typedef enum {
+    /* 0 */ ROOM_BEHAVIOR_TYPE2_0,
+    /* 1 */ ROOM_BEHAVIOR_TYPE2_1,
+    /* 2 */ ROOM_BEHAVIOR_TYPE2_2,
+    /* 3 */ ROOM_BEHAVIOR_TYPE2_3,
+    /* 4 */ ROOM_BEHAVIOR_TYPE2_4,
+    /* 5 */ ROOM_BEHAVIOR_TYPE2_5,
+    /* 6 */ ROOM_BEHAVIOR_TYPE2_6
+} RoomBehaviorType2;
 
 typedef struct {
     /* 0x00 */ s8   num;
     /* 0x01 */ u8   unk_01;
-    /* 0x02 */ u8   unk_02;
-    /* 0x03 */ u8   unk_03;
+    /* 0x02 */ u8   behaviorType2;
+    /* 0x03 */ u8   behaviorType1;
     /* 0x04 */ s8   echo;
-    /* 0x05 */ u8   showInvisActors;
-    /* 0x08 */ Mesh* mesh; // original name: "ground_shape"
+    /* 0x05 */ u8   lensMode;
+    /* 0x08 */ MeshHeader* meshHeader; // original name: "ground_shape"
     /* 0x0C */ void* segment;
     /* 0x10 */ char unk_10[0x4];
 } Room; // size = 0x14
@@ -1077,8 +1009,7 @@ typedef struct {
         TransitionCircle circle;
         TransitionTriforce triforce;
         TransitionWipe wipe;
-        char data[0x228];
-    };
+    } instanceData;
     /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
@@ -1087,7 +1018,7 @@ typedef struct {
     /* 0x23C */ void  (*start)(void* transition);
     /* 0x240 */ void  (*setType)(void* transition, s32 type);
     /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setUnkColor)(void* transition, u32 color);
     /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 
@@ -1222,19 +1153,18 @@ typedef struct {
     /* 0x04 */ TransitionActorEntry* list;
 } TransitionActorContext;
 
-// Global Context (dbg ram start: 80212020)
-typedef struct GlobalContext {
+typedef struct PlayState {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ s16 sceneNum;
-    /* 0x000A6 */ u8 sceneConfig;
+    /* 0x000A6 */ u8 sceneDrawConfig;
     /* 0x000A7 */ char unk_A7[0x9];
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x0034C */ Camera subCameras[NUM_CAMS - SUBCAM_FIRST];
+    /* 0x0034C */ Camera subCameras[NUM_CAMS - CAM_ID_SUB_FIRST];
     /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
-    /* 0x007A0 */ s16 activeCamera;
-    /* 0x007A2 */ s16 nextCamera;
+    /* 0x007A0 */ s16 activeCamId;
+    /* 0x007A2 */ s16 nextCamId;
     /* 0x007A4 */ SequenceContext sequenceCtx;
     /* 0x007A8 */ LightContext lightCtx;
     /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
@@ -1253,15 +1183,15 @@ typedef struct GlobalContext {
     /* 0x117A4 */ ObjectContext objectCtx;
     /* 0x11CBC */ RoomContext roomCtx;
     /* 0x11D34 */ TransitionActorContext transiActorCtx;
-    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
-    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
-    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
-    /* 0x11D48 */ s32 (*startPlayerFishing)(struct GlobalContext* globalCtx);
-    /* 0x11D4C */ s32 (*grabPlayer)(struct GlobalContext* globalCtx, Player* player);
-    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct GlobalContext* globalCtx, Actor* actor, s32 mode);
-    /* 0x11D54 */ void (*func_11D54)(Player* player, struct GlobalContext* globalCtx);
-    /* 0x11D58 */ s32 (*damagePlayer)(struct GlobalContext* globalCtx, s32 damage);
-    /* 0x11D5C */ void (*talkWithPlayer)(struct GlobalContext* globalCtx, Actor* actor);
+    /* 0x11D3C */ void (*playerInit)(Player* player, struct PlayState* play, FlexSkeletonHeader* skelHeader);
+    /* 0x11D40 */ void (*playerUpdate)(Player* player, struct PlayState* play, Input* input);
+    /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct PlayState* play);
+    /* 0x11D48 */ s32 (*startPlayerFishing)(struct PlayState* play);
+    /* 0x11D4C */ s32 (*grabPlayer)(struct PlayState* play, Player* player);
+    /* 0x11D50 */ s32 (*startPlayerCutscene)(struct PlayState* play, Actor* actor, s32 mode);
+    /* 0x11D54 */ void (*func_11D54)(Player* player, struct PlayState* play);
+    /* 0x11D58 */ s32 (*damagePlayer)(struct PlayState* play, s32 damage);
+    /* 0x11D5C */ void (*talkWithPlayer)(struct PlayState* play, Actor* actor);
     /* 0x11D60 */ MtxF viewProjectionMtxF;
     /* 0x11DA0 */ MtxF billboardMtxF;
     /* 0x11DE0 */ Mtx* billboardMtx;
@@ -1274,7 +1204,7 @@ typedef struct GlobalContext {
     /* 0x11DF0 */ RomFile* roomList;
     /* 0x11DF4 */ ActorEntry* linkActorEntry;
     /* 0x11DF8 */ ActorEntry* setupActorList;
-    /* 0x11DFC */ UNK_PTR unk_11DFC;
+    /* 0x11DFC */ void* unk_11DFC;
     /* 0x11E00 */ EntranceEntry* setupEntranceList;
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
@@ -1302,7 +1232,7 @@ typedef struct GlobalContext {
     /* 0x1242B */ u8 unk_1242B;
     /* 0x1242C */ SceneTableEntry* loadedScene;
     /* 0x12430 */ char unk_12430[0xE8];
-} GlobalContext; // size = 0x12518
+} PlayState; // size = 0x12518
 
 typedef struct {
     /* 0x0000 */ GameState state;
@@ -1500,7 +1430,7 @@ typedef struct {
     /* 0x2C */ s16*  owMinimapPosX;
     /* 0x30 */ s16*  owMinimapPosY;
     /* 0x34 */ s16 (*owCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
-    /* 0x38 */ s16*  dgnMinimapTexIndexBase; // dungeon minimap texture index base
+    /* 0x38 */ s16*  dgnTexIndexBase; // dungeon texture index base
     /* 0x3C */ s16 (*dgnCompassInfo)[4]; // [X scale, Y scale, X offset, Y offset]
     /* 0x40 */ s16*  owMinimapWidth;
     /* 0x44 */ s16*  owMinimapHeight;
@@ -1665,6 +1595,17 @@ typedef struct ArenaNode {
     /* 0x28 */ u8 unk_28[0x30-0x28]; // probably padding
 } ArenaNode; // size = 0x30
 
+#define RELOC_SECTION(reloc) ((reloc) >> 30)
+#define RELOC_OFFSET(reloc) ((reloc) & 0xFFFFFF)
+#define RELOC_TYPE_MASK(reloc) ((reloc) & 0x3F000000)
+#define RELOC_TYPE_SHIFT 24
+
+/* MIPS Relocation Types */
+#define R_MIPS_32 2
+#define R_MIPS_26 4
+#define R_MIPS_HI16 5
+#define R_MIPS_LO16 6
+
 typedef struct OverlayRelocationSection {
     /* 0x00 */ u32 textSize;
     /* 0x04 */ u32 dataSize;
@@ -1774,19 +1715,22 @@ typedef struct {
     /* 0x100 */ u16 acCodes[256];
 } JpegHuffmanTableOld; // size = 0x300
 
-typedef struct {
+typedef union {
+    struct {
     /* 0x00 */ u32 address;
     /* 0x04 */ u32 mbCount;
     /* 0x08 */ u32 mode;
     /* 0x0C */ u32 qTableYPtr;
     /* 0x10 */ u32 qTableUPtr;
     /* 0x14 */ u32 qTableVPtr;
-    /* 0x18 */ char unk_18[0x8];
+    /* 0x18 */ u32 mbSize; // This field is used by the microcode to save the macroblock size during a yield
+    };
+    long long int force_structure_alignment;
 } JpegTaskData; // size = 0x20
 
 typedef struct {
     /* 0x000 */ JpegTaskData taskData;
-    /* 0x020 */ char yieldData[0x200];
+    /* 0x020 */ u64 yieldData[0x200 / sizeof(u64)];
     /* 0x220 */ JpegQuantizationTable qTableY;
     /* 0x2A0 */ JpegQuantizationTable qTableU;
     /* 0x320 */ JpegQuantizationTable qTableV;
