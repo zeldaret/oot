@@ -62,7 +62,7 @@ typedef enum {
 typedef enum {
     /* 0 */ LOAD_STATUS_NOT_LOADED, // the entry data is not loaded
     /* 1 */ LOAD_STATUS_IN_PROGRESS, // the entry data is being loaded asynchronously
-    /* 2 */ LOAD_STATUS_COMPLETE, // the entry data is loaded, it may be discarded if no longer in use, or the memory is needed for something else
+    /* 2 */ LOAD_STATUS_COMPLETE, // the entry data is loaded, it may be discarded if not stored persistently, and either no longer in use, or the memory is needed for something else
     /* 3 */ LOAD_STATUS_DISCARDABLE, // the entry data is loaded, and can be discarded
     /* 4 */ LOAD_STATUS_MAYBE_DISCARDABLE, // only for font table entries, like COMPLETE but prefer discarding it over a COMPLETE entry
     /* 5 */ LOAD_STATUS_PERMANENTLY_LOADED // the entry data is loaded in the permanent pool, it won't be discarded
@@ -168,7 +168,7 @@ typedef struct {
     /* 0x006 */ u16 windowSize;
     /* 0x008 */ s16 unk_08;
     /* 0x00A */ s16 volume;
-    /* 0x00C */ u16 decayRatio; // determines how long reverb persists
+    /* 0x00C */ u16 decayRatio; // determines how much reverb persists
     /* 0x00E */ u16 unk_0E;
     /* 0x010 */ s16 leakRtl;
     /* 0x012 */ s16 leakLtr;
@@ -549,7 +549,7 @@ typedef struct Note {
 typedef struct {
     /* 0x00 */ u8 downsampleRate;
     /* 0x02 */ u16 windowSize;
-    /* 0x04 */ u16 decayRatio; // determines how long reverb persists
+    /* 0x04 */ u16 decayRatio; // determines how much reverb persists
     /* 0x06 */ u16 unk_6;
     /* 0x08 */ u16 unk_8;
     /* 0x0A */ u16 volume;
