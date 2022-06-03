@@ -716,7 +716,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             this->timer = 80;
             this->frameCount = 0;
             this->actor.flags &= ~ACTOR_FLAG_0;
-            // fall-through
+            FALLTHROUGH;
         case 2: // zoom on player from room center
             // room entrance, towards center
             player->actor.shape.rot.y = -0x705C;

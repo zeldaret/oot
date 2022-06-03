@@ -144,11 +144,13 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     break;
                 case 0x208F:
                     SET_EVENTCHKINF(EVENTCHKINF_1E);
+                    FALLTHROUGH;
                 case 0x2004:
                 case 0x2012:
                     if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
                         HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
                     }
+                    FALLTHROUGH;
                 case 0x208E:
                     CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
@@ -157,6 +159,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     break;
                 case 0x2002:
                     SET_INFTABLE(INFTABLE_B9);
+                    FALLTHROUGH;
                 case 0x2003:
                     if (!GET_EVENTINF(EVENTINF_HORSES_0A)) {
                         ret = 0;
@@ -164,6 +167,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     break;
                 default:
                     ret = 0;
+                    break;
             }
             break;
         case TEXT_STATE_NONE:

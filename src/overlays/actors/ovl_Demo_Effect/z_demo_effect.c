@@ -458,6 +458,7 @@ void DemoEffect_Init(Actor* thisx, PlayState* play2) {
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE:
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL:
             this->actor.flags |= ACTOR_FLAG_25;
+            FALLTHROUGH;
         case DEMO_EFFECT_TIMEWARP_MASTERSWORD:
             this->initDrawFunc = DemoEffect_DrawTimeWarp;
             this->initUpdateFunc = DemoEffect_InitTimeWarp;

@@ -312,6 +312,7 @@ s32 EnNy_CollisionCheck(EnNy* this, PlayState* play) {
                 switch (this->actor.colChkInfo.damageEffect) {
                     case 0xE:
                         sp3F = 1;
+                        FALLTHROUGH;
                     case 0xF:
                         Actor_ApplyDamage(&this->actor);
                         Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);

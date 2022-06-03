@@ -527,11 +527,11 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             play->damagePlayer(play, -8);
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 1, 0xC);
             this->grabDamageTimer = 20;
-            // fallthrough
+            FALLTHROUGH;
         case REDEAD_GRAB_START:
             Math_SmoothStepToS(&this->headYRotation, 0, 1, 0x5DC, 0);
             Math_SmoothStepToS(&this->upperBodyYRotation, 0, 1, 0x5DC, 0);
-            // fallthrough
+            FALLTHROUGH;
         case REDEAD_GRAB_ATTACK:
             if (!(player->stateFlags2 & PLAYER_STATE2_7)) {
                 Animation_Change(&this->skelAnime, &gGibdoRedeadGrabEndAnim, 0.5f, 0.0f,

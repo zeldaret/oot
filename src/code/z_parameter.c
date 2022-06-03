@@ -2471,7 +2471,7 @@ void Magic_Update(PlayState* play) {
                 gSaveContext.magicState = MAGIC_STATE_METER_FLASH_1;
                 sMagicBorderR = sMagicBorderG = sMagicBorderB = 255;
             }
-            // fallthrough (flash border while magic is being consumed)
+            FALLTHROUGH; // Flash border while magic is being consumed
         case MAGIC_STATE_METER_FLASH_1:
         case MAGIC_STATE_METER_FLASH_2:
         case MAGIC_STATE_METER_FLASH_3:
@@ -3535,6 +3535,7 @@ void Interface_Draw(PlayState* play) {
                             gSaveContext.timer1State = 8;
                         }
                     }
+                    FALLTHROUGH;
                 case 4:
                 case 8:
                     if ((gSaveContext.timer1State == 4) || (gSaveContext.timer1State == 8)) {
@@ -3604,6 +3605,7 @@ void Interface_Draw(PlayState* play) {
 
                         gSaveContext.timer1State = 14;
                     }
+                    FALLTHROUGH;
                 case 14:
                     if (gSaveContext.timer1State == 14) {
                         if (gSaveContext.healthCapacity > 0xA0) {
@@ -3707,6 +3709,7 @@ void Interface_Draw(PlayState* play) {
                                     gSaveContext.timer2State = 10;
                                 }
                             }
+                            FALLTHROUGH;
                         case 4:
                         case 10:
                             if ((gSaveContext.timer2State == 4) || (gSaveContext.timer2State == 10)) {

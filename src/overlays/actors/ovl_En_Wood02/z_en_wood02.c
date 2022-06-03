@@ -191,9 +191,11 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
         case WOOD_BUSH_GREEN_LARGE_SPAWNER:
         case WOOD_BUSH_BLACK_LARGE_SPAWNER:
             spawnType = 1;
+            FALLTHROUGH;
         case WOOD_BUSH_GREEN_LARGE_SPAWNED:
         case WOOD_BUSH_BLACK_LARGE_SPAWNED:
             spawnType++;
+            FALLTHROUGH;
         case WOOD_TREE_CONICAL_LARGE:
         case WOOD_BUSH_GREEN_LARGE:
         case WOOD_BUSH_BLACK_LARGE:
@@ -208,12 +210,14 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
         case WOOD_BUSH_GREEN_SMALL_SPAWNER:
         case WOOD_BUSH_BLACK_SMALL_SPAWNER:
             spawnType = 1;
+            FALLTHROUGH;
         case WOOD_TREE_CONICAL_SPAWNED:
         case WOOD_TREE_OVAL_YELLOW_SPAWNED:
         case WOOD_TREE_OVAL_GREEN_SPAWNED:
         case WOOD_BUSH_GREEN_SMALL_SPAWNED:
         case WOOD_BUSH_BLACK_SMALL_SPAWNED:
             spawnType++;
+            FALLTHROUGH;
         case WOOD_TREE_CONICAL_MEDIUM:
         case WOOD_TREE_OVAL_GREEN:
         case WOOD_TREE_KAKARIKO_ADULT:
@@ -236,6 +240,7 @@ void EnWood02_Init(Actor* thisx, PlayState* play2) {
             this->actor.velocity.x = Rand_CenteredFloat(6.0f);
             this->actor.velocity.z = Rand_CenteredFloat(6.0f);
             this->actor.velocity.y = (Rand_ZeroOne() * 1.25f) + -3.1f;
+            break;
     }
 
     if (this->actor.params <= WOOD_TREE_CONICAL_SPAWNED) {

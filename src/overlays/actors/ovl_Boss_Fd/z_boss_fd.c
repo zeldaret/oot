@@ -372,6 +372,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                     this->timers[0] = 100;
                     this->introState = BFD_CS_LOOK_LINK;
                 }
+                FALLTHROUGH;
             case BFD_CS_LOOK_LINK:
                 player2->actor.world.pos.x = 380.0f;
                 player2->actor.world.pos.y = 100.0f;
@@ -504,6 +505,7 @@ void BossFd_Fly(BossFd* this, PlayState* play) {
                         case INTRO_FLY_EMERGE:
                             this->timers[5] = 100;
                             this->introFlyState = INTRO_FLY_HOLE;
+                            FALLTHROUGH;
                         case INTRO_FLY_HOLE:
                             if (this->timers[5] == 0) {
                                 this->introFlyState = INTRO_FLY_CAMERA;

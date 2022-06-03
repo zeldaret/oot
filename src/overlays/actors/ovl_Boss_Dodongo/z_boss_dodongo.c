@@ -279,6 +279,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             this->unk_198 = 160;
             player->actor.world.pos.y = -1023.76f;
             this->subCamEye.y = player->actor.world.pos.y - 480.0f + 50.0f;
+            FALLTHROUGH;
         case 2:
             if (this->unk_198 >= 131) {
                 player->actor.world.pos.x = -890.0f;
@@ -1616,6 +1617,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                 this->skelAnime.playSpeed = 0.0f;
                 Flags_SetClear(play, play->roomCtx.curRoom.num);
             }
+            FALLTHROUGH;
         case 100:
             if ((this->unk_1DA < 0x2C6) && (Rand_ZeroOne() < 0.5f)) {
                 Vec3f sp68;

@@ -834,6 +834,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
                 Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonChargeAnim, 0.0f);
                 this->work[GND_ACTION_STATE] = CHARGE_ATTACK;
             }
+            FALLTHROUGH;
         case CHARGE_ATTACK:
             if (this->timers[0] != 0) {
                 Vec3f vecToLink;
@@ -985,6 +986,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
             this->subCamAtMaxVelFrac.x = 0.2f;
             this->subCamAtMaxVelFrac.y = 0.2f;
             this->subCamAtMaxVelFrac.z = 0.2f;
+            FALLTHROUGH;
         case DEATH_THROES:
             switch (this->work[GND_ACTION_STATE]) {
                 case DEATH_SPASM:
@@ -1001,6 +1003,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
                         Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonLimpAnim, -20.0f);
                         this->work[GND_ACTION_STATE] = DEATH_HUNCHED;
                     }
+                    FALLTHROUGH;
                 case DEATH_HUNCHED:
                     bodyDecayLevel = 1;
                     break;
@@ -1432,6 +1435,7 @@ s32 BossGanondrof_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, 
             if (this->deathState != NOT_DEAD) {
                 *dList = NULL;
             }
+            FALLTHROUGH;
         default:
             rot->y += this->rideRotY[limbIndex];
             rot->z += this->rideRotZ[limbIndex];

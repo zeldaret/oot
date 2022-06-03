@@ -209,6 +209,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
             break;
         case 0xD:
             this->actor.gravity = 0.0f;
+            FALLTHROUGH;
         case 0xE:
             this->actor.colChkInfo.mass = 0;
             this->actor.flags &= ~ACTOR_FLAG_0;
@@ -223,6 +224,7 @@ void EnNiw_Init(Actor* thisx, PlayState* play) {
     switch (this->actor.params) {
         case 0xA:
             this->actor.colChkInfo.mass = MASS_IMMOVABLE;
+            FALLTHROUGH;
         case 0xD:
         case 0xE:
             Collider_SetCylinder(play, &this->collider, &this->actor, &sCylinderInit2);

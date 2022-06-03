@@ -1281,6 +1281,7 @@ void AudioLoad_ProcessSlowLoads(s32 resetStatus) {
                     slowLoad->status = LOAD_STATUS_DONE;
                     continue;
                 }
+                FALLTHROUGH;
             case LOAD_STATUS_START:
                 slowLoad->status = LOAD_STATUS_LOADING;
                 if (slowLoad->bytesRemaining == 0) {

@@ -253,6 +253,7 @@ void EnFhgFire_LightningTrail(EnFhgFire* this, PlayState* play) {
         case TRAIL_INIT:
             this->work[FHGFIRE_FIRE_MODE] = TRAIL_APPEAR;
             this->work[FHGFIRE_TIMER] = (s16)(Rand_ZeroOne() * 7.0f) + 7;
+            FALLTHROUGH;
         case TRAIL_APPEAR:
             Math_ApproachF(&this->fwork[FHGFIRE_SCALE], 1.7f, 1.0f, 0.34f);
 

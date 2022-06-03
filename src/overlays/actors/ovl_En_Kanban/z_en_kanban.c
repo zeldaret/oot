@@ -583,6 +583,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             if (DECR(this->airTimer) == 0) {
                 this->actionState = ENKANBAN_GROUND;
             }
+            FALLTHROUGH;
         }
         case ENKANBAN_GROUND:
         case ENKANBAN_WATER:

@@ -1524,6 +1524,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
             this->subCamYaw = Math_FAtan2F(dx, dz);
             this->subCamDist = sqrtf(SQ(dx) + SQ(dz));
             this->subCamYawRate = 0.0f;
+            FALLTHROUGH;
         case MO_DEATH_MO_CORE_BURST:
             this->baseAlpha = 0.0f;
             if (this->timers[0] & 4) {
@@ -1638,6 +1639,7 @@ void BossMo_DeathCs(BossMo* this, PlayState* play) {
                 sMorphaTent1->timers[0] = 120;
                 this->timers[0] = 150;
             }
+            FALLTHROUGH;
         case MO_DEATH_CEILING:
             Math_ApproachF(&this->subCamYaw, 0.0f, 0.05f, 0.0029999996f);
             Math_ApproachF(&this->subCamDist, 490.0f, 0.1f, 1.0f);

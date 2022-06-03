@@ -2,14 +2,11 @@
 #define FUNCTIONS_H
 
 #include "z64.h"
+#include "macros.h"
 
 f32 fabsf(f32 f);
 #ifndef __sgi
-#define fabsf __builtin_fabsf
-f32 __floatundisf(u32 c);
-f64 __floatundidf(u32 c); 
-f32 __powisf2(f32 a, s32 b);
-unsigned long __udivdi3(unsigned long a, unsigned long b);
+#define fabsf(f) __builtin_fabsf((f32)(f))
 #else
 #pragma intrinsic(fabsf)
 #endif
@@ -1251,12 +1248,12 @@ void LinkAnimation_BlendToMorph(PlayState* play, SkelAnime* skelAnime, LinkAnima
                                 Vec3s* blendTable);
 void LinkAnimation_EndLoop(SkelAnime* skelAnime);
 s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame);
-s32 SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-s32 SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                       AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-s32 SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                       AnimationHeader* animation);
+BAD_RETURN(s32) SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32) SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32) SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation);
 s32 SkelAnime_Update(SkelAnime* skelAnime);
 void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed, f32 startFrame, f32 endFrame,
                           u8 mode, f32 morphFrames, s8 taper);
