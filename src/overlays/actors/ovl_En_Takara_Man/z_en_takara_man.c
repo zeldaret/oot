@@ -185,7 +185,7 @@ void EnTakaraMan_Update(Actor* thisx, PlayState* play) {
     }
 
     Actor_SetFocus(&this->actor, this->height);
-    func_80038290(play, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
+    Actor_TrackPlayer(play, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
     if (this->eyeTimer == 0) {
         this->eyeTextureIdx++;
         if (this->eyeTextureIdx >= 2) {

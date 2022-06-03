@@ -203,13 +203,16 @@ void func_80A3DC44(EnGm* this, PlayState* play) {
         switch (func_80A3D7C8()) {
             case 0:
                 SET_INFTABLE(INFTABLE_B0);
+                FALLTHROUGH;
             case 3:
                 this->actionFunc = func_80A3DD7C;
                 return;
             case 1:
                 SET_INFTABLE(INFTABLE_B1);
+                FALLTHROUGH;
             case 2:
                 this->actionFunc = EnGm_ProcessChoiceIndex;
+                FALLTHROUGH;
             default:
                 return;
         }

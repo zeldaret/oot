@@ -390,7 +390,7 @@ void EnFloormas_SetupSmWait(EnFloormas* this) {
 
 void EnFloormas_SetupTakeDamage(EnFloormas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) {
+    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
@@ -977,7 +977,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
     s32 pad;
     s32 isSmall;
 
-    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
@@ -986,7 +986,7 @@ void EnFloormas_ColliderCheck(EnFloormas* this, PlayState* play) {
                 if (this->actor.scale.x < 0.01f) {
                     isSmall = 1;
                 }
-                if (isSmall && this->collider.info.acHitInfo->toucher.dmgFlags & 0x80) {
+                if (isSmall && this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT) {
                     this->actor.colChkInfo.damage = 2;
                     this->actor.colChkInfo.damageEffect = 0;
                 }

@@ -263,7 +263,7 @@ void EnPoField_SetupFlee(EnPoField* this) {
 
 void EnPoField_SetupDamage(EnPoField* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gPoeFieldDamagedAnim, -6.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) {
+    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
@@ -376,7 +376,7 @@ void EnPoField_CorrectYPos(EnPoField* this, PlayState* play) {
     this->actor.world.pos.y = Math_SinS(this->unk_194 * 0x800) * 13.0f + this->actor.home.pos.y;
 }
 
-f32 EnPoField_SetFleeSpeed(EnPoField* this, PlayState* play) {
+void EnPoField_SetFleeSpeed(EnPoField* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
     f32 speed =
         ((player->stateFlags1 & PLAYER_STATE1_23) && player->rideActor != NULL) ? player->rideActor->speedXZ : 12.0f;

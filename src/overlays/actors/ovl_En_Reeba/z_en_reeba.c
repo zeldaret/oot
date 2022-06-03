@@ -532,6 +532,7 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
+                    FALLTHROUGH;
                 case 13: // hookshot/longshot
                     if ((this->actor.colChkInfo.health > 2) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
@@ -540,6 +541,7 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
+                    FALLTHROUGH;
                 case 14:
                     this->unk_27C = 6;
                     Actor_ApplyDamage(&this->actor);

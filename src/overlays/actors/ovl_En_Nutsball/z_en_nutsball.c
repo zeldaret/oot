@@ -120,7 +120,7 @@ void func_80ABBBA8(EnNutsball* this, PlayState* play) {
                 this->collider.base.atFlags &= ~AT_TYPE_ENEMY & ~AT_BOUNCED & ~AT_HIT;
                 this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
-                this->collider.info.toucher.dmgFlags = 2;
+                this->collider.info.toucher.dmgFlags = DMG_DEKU_STICK;
                 Matrix_MtxFToYXZRotS(&player->shieldMf, &sp4C, 0);
                 this->actor.world.rot.y = sp4C.y + 0x8000;
                 this->timer = 30;

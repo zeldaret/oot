@@ -299,7 +299,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
                     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     u8 i;
 
-                    if (hitItem->toucher.dmgFlags & 0x700) {
+                    if (hitItem->toucher.dmgFlags & DMG_SLASH) {
                         this->cutType = sCutTypes[player->meleeWeaponAnimation];
                     } else {
                         this->cutType = CUT_POST;
@@ -583,6 +583,7 @@ void EnKanban_Update(Actor* thisx, PlayState* play2) {
             if (DECR(this->airTimer) == 0) {
                 this->actionState = ENKANBAN_GROUND;
             }
+            FALLTHROUGH;
         }
         case ENKANBAN_GROUND:
         case ENKANBAN_WATER:

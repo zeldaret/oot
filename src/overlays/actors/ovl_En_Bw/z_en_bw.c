@@ -241,6 +241,7 @@ void func_809CEA24(EnBw* this, PlayState* play) {
             switch (sp64) {
                 case 0:
                     this->unk_236 += this->unk_238;
+                    FALLTHROUGH;
                 case 1:
                     if (this->unk_221 == 3) {
                         if (play->gameplayFrames & 2) {
@@ -261,11 +262,13 @@ void func_809CEA24(EnBw* this, PlayState* play) {
                     break;
                 case 2:
                     this->unk_236 += this->unk_238;
+                    FALLTHROUGH;
                 case 3:
                     this->unk_238 = 0x4000;
                     break;
                 case 4:
                     this->unk_236 += this->unk_238;
+                    FALLTHROUGH;
                 case 5:
                     this->unk_238 = -0x4000;
                     break;

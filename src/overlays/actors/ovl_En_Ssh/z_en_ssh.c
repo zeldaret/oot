@@ -200,12 +200,16 @@ void EnSsh_InitColliders(EnSsh* this, PlayState* play) {
         Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dmgFlags = 0x0003F8E9;
-    this->colCylinder[1].info.bumper.dmgFlags = 0xFFC00716;
+    this->colCylinder[0].info.bumper.dmgFlags =
+        DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT;
+    this->colCylinder[1].info.bumper.dmgFlags =
+        DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
+        ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
     this->colCylinder[2].base.colType = COLTYPE_METAL;
     this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
     this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dmgFlags = 0xFFCC0716;
+    this->colCylinder[2].info.bumper.dmgFlags =
+        DMG_DEFAULT & ~(DMG_ARROW | DMG_MAGIC_FIRE | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
@@ -434,13 +438,13 @@ void EnSsh_CheckBodyStickHit(EnSsh* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        info->bumper.dmgFlags |= 2;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
+        info->bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        info->bumper.dmgFlags &= ~2;
-        this->colCylinder[1].info.bumper.dmgFlags |= 2;
-        this->colCylinder[2].info.bumper.dmgFlags |= 2;
+        info->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 

@@ -931,7 +931,7 @@ void EnHy_InitImpl(EnHy* this, PlayState* play) {
                     this->actionFunc = func_80A710F8;
                     break;
                 }
-                // fall-through
+                FALLTHROUGH;
             case ENHY_TYPE_COB:
             case ENHY_TYPE_AHG_2:
             case ENHY_TYPE_AHG_4:

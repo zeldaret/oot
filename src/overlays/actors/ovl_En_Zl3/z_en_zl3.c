@@ -942,8 +942,10 @@ void func_80B55444(EnZl3* this, PlayState* play) {
                     break;
                 case 8:
                     this->unk_328 = 1;
+                    FALLTHROUGH;
                 default:
                     osSyncPrintf("En_Zl3_inFinal_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    break;
             }
             this->unk_2F0 = temp_v0;
         }

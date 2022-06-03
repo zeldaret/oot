@@ -109,6 +109,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, PlayState* play, s32 arg2) {
         switch (arg2) {
             case 10:
                 this->unk_275 = 1;
+                FALLTHROUGH;
             case 9:
                 frames = Animation_GetLastFrame(&gObjOsAnim_07D0);
                 Animation_Change(&this->skelAnime, &gObjOsAnim_07D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);

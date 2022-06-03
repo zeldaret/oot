@@ -77,8 +77,8 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         0, 1, 0, { 255, 255, 170, 255 }, { 255, 255, 0, 0 },
     };
     static u32 dmgFlags[] = {
-        0x00000800, 0x00000020, 0x00000020, 0x00000800, 0x00001000,
-        0x00002000, 0x00010000, 0x00004000, 0x00008000, 0x00000004,
+        DMG_ARROW_FIRE,  DMG_ARROW_NORMAL, DMG_ARROW_NORMAL, DMG_ARROW_FIRE, DMG_ARROW_ICE,
+        DMG_ARROW_LIGHT, DMG_ARROW_UNK3,   DMG_ARROW_UNK1,   DMG_ARROW_UNK2, DMG_SLINGSHOT,
     };
     EnArrow* this = (EnArrow*)thisx;
 
@@ -121,8 +121,8 @@ void EnArrow_Init(Actor* thisx, PlayState* play) {
         Collider_SetQuad(play, &this->collider, &this->actor, &sColliderInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
-            this->collider.info.toucherFlags &= ~0x18;
-            this->collider.info.toucherFlags |= 0;
+            this->collider.info.toucherFlags &= ~TOUCH_SFX_MASK;
+            this->collider.info.toucherFlags |= TOUCH_SFX_NORMAL;
         }
 
         if (this->actor.params < 0) {
@@ -300,7 +300,7 @@ void EnArrow_Fly(EnArrow* this, PlayState* play) {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.info.atHitInfo->bumperFlags & 2) {
+                    if (this->collider.info.atHitInfo->bumperFlags & BUMP_HIT) {
                         this->actor.world.pos.x = this->collider.info.atHitInfo->bumper.hitPos.x;
                         this->actor.world.pos.y = this->collider.info.atHitInfo->bumper.hitPos.y;
                         this->actor.world.pos.z = this->collider.info.atHitInfo->bumper.hitPos.z;

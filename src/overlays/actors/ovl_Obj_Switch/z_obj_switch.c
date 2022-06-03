@@ -492,7 +492,7 @@ s32 ObjSwitch_EyeIsHit(ObjSwitch* this) {
     Actor* collidingActor;
     s16 yawDiff;
 
-    if ((this->tris.col.base.acFlags & AC_HIT) && !(this->unk_17F & 2)) {
+    if ((this->tris.col.base.acFlags & AC_HIT) && !(this->unk_17F & AC_HIT)) {
         collidingActor = this->tris.col.base.ac;
         if (collidingActor != NULL) {
             yawDiff = collidingActor->world.rot.y - this->dyna.actor.shape.rot.y;
@@ -609,7 +609,7 @@ void ObjSwitch_CrystalOff(ObjSwitch* this, PlayState* play) {
             }
             break;
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 ObjSwitch_SetOn(this, play);
                 ObjSwitch_CrystalTurnOnInit(this);
@@ -651,7 +651,7 @@ void ObjSwitch_CrystalOn(ObjSwitch* this, PlayState* play) {
             }
             break;
         case OBJSWITCH_SUBTYPE_TOGGLE:
-            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & 2) && this->disableAcTimer <= 0) {
+            if ((this->jntSph.col.base.acFlags & AC_HIT) && !(this->unk_17F & AC_HIT) && this->disableAcTimer <= 0) {
                 this->disableAcTimer = 10;
                 play = play;
                 ObjSwitch_CrystalTurnOffInit(this);

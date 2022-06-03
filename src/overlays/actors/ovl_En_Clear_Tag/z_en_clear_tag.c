@@ -488,6 +488,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                                 this->actor.world.pos.y, this->actor.world.pos.z, this->actor.world.rot.x,
                                 this->actor.world.rot.y, this->actor.world.rot.z, CLEAR_TAG_STATE_LASER);
                 }
+                FALLTHROUGH;
             }
             case CLEAR_TAG_STATE_CRASHING:
             state_crashing:
@@ -591,6 +592,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                         this->subCamId = Play_CreateSubCamera(play);
                         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
+                        FALLTHROUGH;
                     case CLEAR_TAG_CUTSCENE_MODE_PLAY:
                         // Update the Arwing cutscene camera to spin around in a circle.
                         cutsceneTimer = this->frameCounter * 128;

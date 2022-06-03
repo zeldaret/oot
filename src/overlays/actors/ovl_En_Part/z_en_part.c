@@ -49,6 +49,7 @@ void func_80ACDDE8(EnPart* this, PlayState* play) {
             break;
         case 13:
             this->timer = 400;
+            FALLTHROUGH;
         case 12:
             this->actor.speedXZ = Rand_CenteredFloat(6.0f);
             this->actor.home.pos = this->actor.world.pos;
@@ -59,11 +60,13 @@ void func_80ACDDE8(EnPart* this, PlayState* play) {
             break;
         case 14:
             EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, 40, 0x8001, 0, -1);
+            FALLTHROUGH;
         case 1:
         case 4:
         case 9:
         case 10:
             this->timer += (s16)(Rand_ZeroOne() * 17.0f) + 5;
+            FALLTHROUGH;
         case 2:
             this->actor.velocity.y = Rand_ZeroOne() * 5.0f + 4.0f;
             this->actor.gravity = -0.6f - Rand_ZeroOne() * 0.5f;
@@ -71,6 +74,7 @@ void func_80ACDDE8(EnPart* this, PlayState* play) {
             break;
         case 11:
             EffectSsEnFire_SpawnVec3f(play, &this->actor, &this->actor.world.pos, 40, 0x8001, 0, -1);
+            FALLTHROUGH;
         case 3:
             this->actor.speedXZ = (Rand_ZeroOne() - 0.5f) * 3.0f;
             this->timer = (s16)(Rand_ZeroOne() * 17.0f) + 10;

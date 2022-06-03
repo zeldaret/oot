@@ -883,7 +883,7 @@ void ObjectKankyo_Beams(ObjectKankyo* this, PlayState* play) {
         for (i = 0; i < 6; i++) {
             if (play->csCtx.npcActions[i + 1] != NULL && play->csCtx.npcActions[i + 1]->action == 2) {
                 if (this->effects[i].size == 0.1f) {
-                    func_800F3F3C(11);
+                    Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TRIAL_DESTROY);
                 }
                 Math_ApproachZeroF(&this->effects[i].size, 0.1f, 0.1f);
             }

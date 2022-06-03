@@ -1522,7 +1522,7 @@ void func_80B3FA08(EnXc* this, PlayState* play) {
 }
 
 void func_80B3FA2C(void) {
-    func_800F3F3C(1);
+    Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SHEIK_TRANSFORM);
 }
 
 void EnXc_PlayTriforceSFX(Actor* thisx, PlayState* play) {
@@ -1759,7 +1759,7 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
 
 void EnXc_PlayLinkScreamSFX(EnXc* this, PlayState* play) {
     if (play->csCtx.frames == 1455) {
-        func_800F3F3C(7);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_BONGO_HURL_LINK);
     }
 }
 

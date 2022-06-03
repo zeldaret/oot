@@ -253,7 +253,7 @@ void EnFu_Update(Actor* thisx, PlayState* play) {
         Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
         this->behaviorFlags &= ~FU_RESET_LOOK_ANGLE;
     } else {
-        func_80038290(play, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.focus.pos);
     }
 }
 

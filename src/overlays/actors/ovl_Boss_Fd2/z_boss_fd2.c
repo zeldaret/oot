@@ -674,6 +674,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
             this->subCamAtMaxVelFrac.x = 0.1f;
             this->subCamAtMaxVelFrac.y = 0.1f;
             this->subCamAtMaxVelFrac.z = 0.1f;
+            FALLTHROUGH;
         case DEATH_RETREAT:
             this->work[FD2_HOLE_COUNTER]++;
             if (this->work[FD2_HOLE_COUNTER] < 15) {
@@ -831,7 +832,7 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
 
         hurtbox = this->collider.elements[0].info.acHitInfo;
         if (!bossFd->faceExposed) {
-            if (hurtbox->toucher.dmgFlags & 0x40000040) {
+            if (hurtbox->toucher.dmgFlags & DMG_HAMMER) {
                 bossFd->actor.colChkInfo.health -= 2;
                 if ((s8)bossFd->actor.colChkInfo.health <= 2) {
                     bossFd->actor.colChkInfo.health = 1;
@@ -863,11 +864,11 @@ void BossFd2_CollisionCheck(BossFd2* this, PlayState* play) {
             u8 damage;
 
             if ((damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags)) == 0) {
-                damage = (hurtbox->toucher.dmgFlags & 0x00001000) ? 4 : 2;
+                damage = (hurtbox->toucher.dmgFlags & DMG_ARROW_ICE) ? 4 : 2;
             } else {
                 canKill = true;
             }
-            if (hurtbox->toucher.dmgFlags & 0x80) {
+            if (hurtbox->toucher.dmgFlags & DMG_HOOKSHOT) {
                 damage = 0;
             }
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {

@@ -253,6 +253,7 @@ void EnFhgFire_LightningTrail(EnFhgFire* this, PlayState* play) {
         case TRAIL_INIT:
             this->work[FHGFIRE_FIRE_MODE] = TRAIL_APPEAR;
             this->work[FHGFIRE_TIMER] = (s16)(Rand_ZeroOne() * 7.0f) + 7;
+            FALLTHROUGH;
         case TRAIL_APPEAR:
             Math_ApproachF(&this->fwork[FHGFIRE_SCALE], 1.7f, 1.0f, 0.34f);
 
@@ -490,7 +491,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, PlayState* play) {
                                                         (s16)(Rand_ZeroOne() * 25.0f) + 50, FHGFLASH_LIGHTBALL_GREEN);
                     }
                     canBottleReflect2 = canBottleReflect1;
-                    if (!canBottleReflect2 && (hurtbox->toucher.dmgFlags & 0x00100000)) {
+                    if (!canBottleReflect2 && (hurtbox->toucher.dmgFlags & DMG_SHIELD)) {
                         killMode = BALL_IMPACT;
                         Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,

@@ -270,7 +270,7 @@ void EnAni_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->unk_2A8 & 1) {
-        func_80038290(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A2.z = 0;
         this->unk_2A2.y = this->unk_2A2.z;
         this->unk_2A2.x = this->unk_2A2.z;

@@ -298,7 +298,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->flags & 1) {
-        func_80038290(play, &this->actor, &this->headRotation, &vec, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->headRotation, &vec, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRotation.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRotation.y, 0, 6, 6200, 100);

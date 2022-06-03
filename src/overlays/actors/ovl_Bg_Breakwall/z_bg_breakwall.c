@@ -225,7 +225,7 @@ void BgBreakwall_WaitForObject(BgBreakwall* this, PlayState* play) {
  * despawn itself.
  */
 void BgBreakwall_Wait(BgBreakwall* this, PlayState* play) {
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         Vec3f effectPos;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
