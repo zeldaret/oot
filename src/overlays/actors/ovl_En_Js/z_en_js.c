@@ -185,7 +185,7 @@ void EnJs_Update(Actor* thisx, PlayState* play) {
     }
     this->actionFunc(this, play);
     if (this->unk_284 & 1) {
-        func_80038290(play, &this->actor, &this->unk_278, &this->unk_27E, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_278, &this->unk_27E, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_278.x, 0, 6, 0x1838, 0x64);
         Math_SmoothStepToS(&this->unk_278.y, 0, 6, 0x1838, 0x64);

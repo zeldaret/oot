@@ -5506,93 +5506,117 @@ s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3) {
     return false;
 }
 
-s32 func_80037F30(Vec3s* arg0, Vec3s* arg1) {
-    Math_SmoothStepToS(&arg0->y, 0, 6, 6200, 100);
-    Math_SmoothStepToS(&arg0->x, 0, 6, 6200, 100);
-    Math_SmoothStepToS(&arg1->y, 0, 6, 6200, 100);
-    Math_SmoothStepToS(&arg1->x, 0, 6, 6200, 100);
+s32 Actor_TrackNone(Vec3s* headRot, Vec3s* torsoRot) {
+    Math_SmoothStepToS(&headRot->y, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&headRot->x, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->y, 0, 6, 6200, 100);
+    Math_SmoothStepToS(&torsoRot->x, 0, 6, 6200, 100);
     return true;
 }
 
-s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
-    s16 sp36;
-    s16 sp34;
-    s16 var;
+s32 Actor_TrackPoint(Actor* actor, Vec3f* target, Vec3s* headRot, Vec3s* torsoRot) {
+    s16 pitch;
+    s16 yaw;
+    s16 yawDiff;
 
-    sp36 = Math_Vec3f_Pitch(&actor->focus.pos, arg1);
-    sp34 = Math_Vec3f_Yaw(&actor->focus.pos, arg1) - actor->world.rot.y;
+    pitch = Math_Vec3f_Pitch(&actor->focus.pos, target);
+    yaw = Math_Vec3f_Yaw(&actor->focus.pos, target) - actor->world.rot.y;
 
-    Math_SmoothStepToS(&arg2->x, sp36, 6, 2000, 1);
-    arg2->x = (arg2->x < -6000) ? -6000 : ((arg2->x > 6000) ? 6000 : arg2->x);
+    Math_SmoothStepToS(&headRot->x, pitch, 6, 2000, 1);
+    headRot->x = CLAMP(headRot->x, -6000, 6000);
 
-    var = Math_SmoothStepToS(&arg2->y, sp34, 6, 2000, 1);
-    arg2->y = (arg2->y < -8000) ? -8000 : ((arg2->y > 8000) ? 8000 : arg2->y);
+    yawDiff = Math_SmoothStepToS(&headRot->y, yaw, 6, 2000, 1);
+    headRot->y = CLAMP(headRot->y, -8000, 8000);
 
-    if (var && (ABS(arg2->y) < 8000)) {
+    if ((yawDiff != 0) && (ABS(headRot->y) < 8000)) {
         return false;
     }
 
-    Math_SmoothStepToS(&arg3->y, sp34 - arg2->y, 4, 2000, 1);
-    arg3->y = (arg3->y < -12000) ? -12000 : ((arg3->y > 12000) ? 12000 : arg3->y);
+    Math_SmoothStepToS(&torsoRot->y, yaw - headRot->y, 4, 2000, 1);
+    torsoRot->y = CLAMP(torsoRot->y, -12000, 12000);
 
     return true;
 }
 
-s32 func_80038154(PlayState* play, Actor* actor, Vec3s* arg2, Vec3s* arg3, f32 arg4) {
+/**
+ * Same as Actor_TrackPlayer, except use the actor's world position as the focus point, with the height
+ * specified.
+ *
+ * @param play
+ * @param actor
+ * @param headRot the computed actor's head's rotation step
+ * @param torsoRot the computed actor's torso's rotation step
+ * @param focusHeight the height of the focus point relative to their world position
+ *
+ * @return true if rotated towards player, false if rotations were stepped back to zero.
+ *
+ * @note same note as Actor_TrackPlayer
+ */
+s32 Actor_TrackPlayerSetFocusHeight(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, f32 focusHeight) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
-    Vec3f sp2C;
-    s16 var;
-    s16 abs_var;
+    s16 yaw;
+    Vec3f target;
 
     actor->focus.pos = actor->world.pos;
-    actor->focus.pos.y += arg4;
+    actor->focus.pos.y += focusHeight;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
-        var = actor->yawTowardsPlayer - actor->shape.rot.y;
-        abs_var = ABS(var);
-        if (abs_var >= 0x4300) {
-            func_80037F30(arg2, arg3);
+        yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
+        if (yaw >= 0x4300) {
+            Actor_TrackNone(headRot, torsoRot);
             return false;
         }
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0)) {
-        sp2C = play->view.eye;
+        target = play->view.eye;
     } else {
-        sp2C = player->actor.focus.pos;
+        target = player->actor.focus.pos;
     }
 
-    func_80037FC8(actor, &sp2C, arg2, arg3);
+    Actor_TrackPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }
 
-s32 func_80038290(PlayState* play, Actor* actor, Vec3s* arg2, Vec3s* arg3, Vec3f arg4) {
+/**
+ * Computes the necessary HeadRot and TorsoRot steps to be added to the normal rotation to smoothly turn an actors's
+ * head and torso towards the player if within a certain yaw, else smoothly returns the rotations back to zero.
+ * Also sets the focus position with the specified point.
+ *
+ * @param play
+ * @param actor
+ * @param headRot the computed actor's head's rotation step
+ * @param torsoRot the computed actor's torso's rotation step
+ * @param focusPos the point to set as the actor's focus position
+ *
+ * @return true if rotated towards player, false if rotations were stepped back to zero.
+ *
+ * @note if in a cutscene or debug camera is enabled, and the last entrance used was Kokiri Forest spawn 0, the computed
+ * rotation will instead turn towards the view eye no matter the yaw.
+ */
+s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos) {
     Player* player = GET_PLAYER(play);
-    s32 pad;
-    Vec3f sp24;
-    s16 var;
-    s16 abs_var;
+    s16 yaw;
+    Vec3f target;
 
-    actor->focus.pos = arg4;
+    actor->focus.pos = focusPos;
 
     if (!(((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0))) {
-        var = actor->yawTowardsPlayer - actor->shape.rot.y;
-        abs_var = ABS(var);
-        if (abs_var >= 0x4300) {
-            func_80037F30(arg2, arg3);
+        yaw = ABS(BINANG_SUB(actor->yawTowardsPlayer, actor->shape.rot.y));
+        if (yaw >= 0x4300) {
+            Actor_TrackNone(headRot, torsoRot);
             return false;
         }
     }
 
     if (((play->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) && (gSaveContext.entranceIndex == ENTR_SPOT04_0)) {
-        sp24 = play->view.eye;
+        target = play->view.eye;
     } else {
-        sp24 = player->actor.focus.pos;
+        target = player->actor.focus.pos;
     }
 
-    func_80037FC8(actor, &sp24, arg2, arg3);
+    Actor_TrackPoint(actor, &target, headRot, torsoRot);
 
     return true;
 }
