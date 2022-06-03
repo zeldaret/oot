@@ -87,7 +87,7 @@ void AudioMgr_Unlock(AudioMgr* audioMgr) {
     osRecvMesg(&audioMgr->lockQueue, NULL, OS_MESG_BLOCK);
 }
 
-void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr) {
+void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Scheduler* sched, IrqMgr* irqMgr) {
     bzero(audioMgr, sizeof(AudioMgr));
 
     audioMgr->sched = sched;

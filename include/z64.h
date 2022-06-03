@@ -1628,7 +1628,7 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ IrqMgr*       irqMgr;
-    /* 0x0004 */ SchedContext* sched;
+    /* 0x0004 */ Scheduler* sched;
     /* 0x0008 */ OSScTask      audioTask;
     /* 0x0070 */ AudioTask*    rspTask;
     /* 0x0074 */ OSMesgQueue   interruptQueue;

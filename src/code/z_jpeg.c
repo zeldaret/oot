@@ -60,8 +60,8 @@ void Jpeg_ScheduleDecoderTask(JpegContext* ctx) {
     ctx->scTask.framebuffer = NULL;
     ctx->scTask.list.t = sJpegTask;
 
-    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)&ctx->scTask, OS_MESG_BLOCK);
-    Sched_Notify(&gSchedContext);
+    osSendMesg(&gScheduler.cmdQueue, (OSMesg)&ctx->scTask, OS_MESG_BLOCK);
+    Sched_Notify(&gScheduler);
     osRecvMesg(&ctx->mq, NULL, OS_MESG_BLOCK);
 }
 

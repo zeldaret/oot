@@ -243,10 +243,10 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
 
     if (1) {}
 
-    gfxCtx->schedMsgQueue = &gSchedContext.cmdQueue;
+    gfxCtx->schedMsgQueue = &gScheduler.cmdQueue;
 
-    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
-    Sched_Notify(&gSchedContext);
+    osSendMesg(&gScheduler.cmdQueue, (OSMesg)scTask, OS_MESG_BLOCK);
+    Sched_Notify(&gScheduler);
 }
 
 void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {

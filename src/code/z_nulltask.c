@@ -18,8 +18,8 @@ void Sched_FlushTaskQueue(void) {
     osCreateMesgQueue(task.msgQueue, &msg, 1);
 
     // Send it to and wake up the scheduler
-    osSendMesg(&gSchedContext.cmdQueue, (OSMesg)&task, OS_MESG_BLOCK);
-    Sched_Notify(&gSchedContext);
+    osSendMesg(&gScheduler.cmdQueue, (OSMesg)&task, OS_MESG_BLOCK);
+    Sched_Notify(&gScheduler);
 
     // Wait until the task has been processed, indicating that no task is
     // running and the task queue is now empty.

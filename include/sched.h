@@ -62,9 +62,9 @@ typedef struct {
     /* 0x0220 */ CfbInfo*     pendingSwapBuf2;  // buffer 2 (always NULL)
     /* 0x0220 */ s32          isFirstSwap;
     /* 0x0250 */ IrqMgrClient irqClient;
-} SchedContext; // size = 0x258
+} Scheduler; // size = 0x258
 
-void Sched_Notify(SchedContext* sc);
-void Sched_Init(SchedContext* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr);
+void Sched_Notify(Scheduler* sc);
+void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr);
 
 #endif

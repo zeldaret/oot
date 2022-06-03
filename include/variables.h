@@ -193,7 +193,7 @@ extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 extern s32 gTrnsnUnkState;
 extern Color_RGBA8_u32 D_801614B0;
 extern PreNmiBuff* gAppNmiBufferPtr;
-extern SchedContext gSchedContext;
+extern Scheduler gScheduler;
 extern PadMgr gPadMgr;
 extern u32 gSegments[NUM_SEGMENTS];
 extern volatile OSTime D_8016A520;

@@ -100,7 +100,7 @@ void Sched_SwapFrameBufferImpl(CfbInfo* cfbInfo) {
     cfbInfo->unk_10 = 0;
 }
 
-void Sched_SwapFrameBuffer(SchedContext* sc, CfbInfo* cfbInfo) {
+void Sched_SwapFrameBuffer(Scheduler* sc, CfbInfo* cfbInfo) {
     if (sc->isFirstSwap) {
         sc->isFirstSwap = false;
 
@@ -111,7 +111,7 @@ void Sched_SwapFrameBuffer(SchedContext* sc, CfbInfo* cfbInfo) {
     Sched_SwapFrameBufferImpl(cfbInfo);
 }
 
-void Sched_HandlePreNMI(SchedContext* sc) {
+void Sched_HandlePreNMI(Scheduler* sc) {
     OSTime now;
 
     if (sc->curRSPTask != NULL) {
@@ -140,7 +140,7 @@ void Sched_HandlePreNMI(SchedContext* sc) {
     }
 }
 
-void Sched_HandleNMI(SchedContext* sc) {
+void Sched_HandleNMI(Scheduler* sc) {
     // black the screen and reset the VI y scale just in time for NMI reset
     ViConfig_UpdateVi(true);
 }
@@ -148,7 +148,7 @@ void Sched_HandleNMI(SchedContext* sc) {
 /**
  * Enqueue a task to either the audio task list or the gfx task list
  */
-void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
+void Sched_QueueTask(Scheduler* sc, OSScTask* task) {
     s32 type = task->list.t.type;
 
     ASSERT((type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK),
@@ -187,7 +187,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
     task->state = task->flags & OS_SC_RCP_MASK;
 }
 
-void Sched_Yield(SchedContext* sc) {
+void Sched_Yield(Scheduler* sc) {
     if (!(sc->curRSPTask->state & OS_SC_YIELD)) {
         // Not already been asked to yield
         ASSERT(sc->curRSPTask->list.t.type != M_AUDTASK, "sc->curRSPTask->list.t.type != M_AUDTASK", "../sched.c", 496);
@@ -206,7 +206,7 @@ void Sched_Yield(SchedContext* sc) {
 /**
  * Check if the fraembuffer the gfx task wants to use is allowed
  */
-OSScTask* Sched_GfxTaskFramebufferValid(SchedContext* sc, OSScTask* task) {
+OSScTask* Sched_GfxTaskFramebufferValid(Scheduler* sc, OSScTask* task) {
     if (task == NULL) {
         return NULL;
     }
@@ -257,7 +257,7 @@ OSScTask* Sched_GfxTaskFramebufferValid(SchedContext* sc, OSScTask* task) {
  * @param state Bits containing whether the RSP and RDP are currently in use
  * @return Bits containing whether the RSP and RDP will be in use after starting the next tasks
  */
-s32 Sched_Schedule(SchedContext* sc, OSScTask** spTaskOut, OSScTask** dpTaskOut, s32 state) {
+s32 Sched_Schedule(Scheduler* sc, OSScTask** spTaskOut, OSScTask** dpTaskOut, s32 state) {
     s32 nextState = state;
     OSScTask* gfxTask = sc->gfxListHead;
     OSScTask* audioTask = sc->audioListHead;
@@ -321,7 +321,7 @@ s32 Sched_Schedule(SchedContext* sc, OSScTask** spTaskOut, OSScTask** dpTaskOut,
  *
  * @see Sched_HandleRetrace
  */
-void Sched_SetNextFramebufferFromTask(SchedContext* sc, OSScTask* task) {
+void Sched_SetNextFramebufferFromTask(Scheduler* sc, OSScTask* task) {
     if (sc->pendingSwapBuf1 == NULL) {
         sc->pendingSwapBuf1 = task->framebuffer;
 
@@ -338,7 +338,7 @@ void Sched_SetNextFramebufferFromTask(SchedContext* sc, OSScTask* task) {
  * If so, send a message to the task's message queue if there is one, and swap the framebuffer
  * if required.
  */
-u32 Sched_TaskComplete(SchedContext* sc, OSScTask* task) {
+u32 Sched_TaskComplete(Scheduler* sc, OSScTask* task) {
     // Check that the task has released both the RSP and RDP. For graphics tasks that use both,
     // the RSP will typically finish before the RDP, as the RSP can halt while the RDP is still
     // working through the command buffer.
@@ -362,7 +362,7 @@ u32 Sched_TaskComplete(SchedContext* sc, OSScTask* task) {
  * passthrough via the RSP, if there is no RSP task to run then the RDP task will
  * also do nothing.
  */
-void Sched_RunTask(SchedContext* sc, OSScTask* spTask, OSScTask* dpTask) {
+void Sched_RunTask(Scheduler* sc, OSScTask* spTask, OSScTask* dpTask) {
     ASSERT(sc->curRSPTask == NULL, "sc->curRSPTask == NULL", "../sched.c", 663);
 
     // If there is no RSP task there's nothing to do.
@@ -422,7 +422,7 @@ void Sched_RunTask(SchedContext* sc, OSScTask* spTask, OSScTask* dpTask) {
  * on VI Retrace. Tasks that have been sent to it will be enqueued onto the audio or
  * gfx task queue and one may be ran if the RSP is available.
  */
-void Sched_HandleNotification(SchedContext* sc) {
+void Sched_HandleNotification(Scheduler* sc) {
     OSScTask* nextRSP = NULL;
     OSScTask* nextRDP = NULL;
     s32 state;
@@ -454,7 +454,7 @@ void Sched_HandleNotification(SchedContext* sc) {
     }
 }
 
-void Sched_HandleRetrace(SchedContext* sc) {
+void Sched_HandleRetrace(Scheduler* sc) {
     if (sLogScheduler) {
         osSyncPrintf("%08d:scHandleRetrace %08x\n", (u32)OS_CYCLES_TO_USEC(osGetTime()), osViGetCurrentFramebuffer());
     }
@@ -498,7 +498,7 @@ void Sched_HandleRetrace(SchedContext* sc) {
 /**
  * RSP has signalled that the task has either completed or yielded.
  */
-void Sched_HandleRSPDone(SchedContext* sc) {
+void Sched_HandleRSPDone(Scheduler* sc) {
     OSScTask* curRSPTask;
     OSScTask* nextRSP = NULL;
     OSScTask* nextRDP = NULL;
@@ -557,7 +557,7 @@ void Sched_HandleRSPDone(SchedContext* sc) {
 /**
  * RDP has signalled task done upon reaching a DPFullSync command
  */
-void Sched_HandleRDPDone(SchedContext* sc) {
+void Sched_HandleRDPDone(Scheduler* sc) {
     OSScTask* curTask;
     OSScTask* nextRSP = NULL;
     OSScTask* nextRDP = NULL;
@@ -595,7 +595,7 @@ void Sched_HandleRDPDone(SchedContext* sc) {
  *
  * Original name: osScKickEntryMsg
  */
-void Sched_Notify(SchedContext* sc) {
+void Sched_Notify(Scheduler* sc) {
     if (sLogScheduler) {
         osSyncPrintf("osScKickEntryMsg\n");
     }
@@ -605,7 +605,7 @@ void Sched_Notify(SchedContext* sc) {
 
 void Sched_ThreadEntry(void* arg) {
     OSMesg msg = NULL;
-    SchedContext* sc = (SchedContext*)arg;
+    Scheduler* sc = (Scheduler*)arg;
 
     while (true) {
         if (sLogScheduler) {
@@ -650,8 +650,8 @@ void Sched_ThreadEntry(void* arg) {
     }
 }
 
-void Sched_Init(SchedContext* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr) {
-    bzero(sc, sizeof(SchedContext));
+void Sched_Init(Scheduler* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr) {
+    bzero(sc, sizeof(Scheduler));
     sc->isFirstSwap = true;
 
     // Create message queues for receiving interrupt events and tasks

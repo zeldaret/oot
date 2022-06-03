@@ -1580,7 +1580,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr);
 void AudioMgr_HandlePreNMI(AudioMgr* audioMgr);
 void AudioMgr_ThreadEntry(void* arg0);
 void AudioMgr_Unlock(AudioMgr* audioMgr);
-void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
+void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Scheduler* sched, IrqMgr* irqMgr);
 void TitleSetup_InitImpl(GameState* gameState);
 void TitleSetup_Destroy(GameState* gameState);
 void TitleSetup_Init(GameState* gameState);
