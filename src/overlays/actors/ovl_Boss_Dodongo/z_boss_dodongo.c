@@ -1241,7 +1241,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
                     item1 = this->collider.elements[i].info.acHitInfo;
                     item2 = item1;
 
-                    if ((item2->toucher.dmgFlags & 0x10) || (item2->toucher.dmgFlags & 4)) {
+                    if ((item2->toucher.dmgFlags & DMG_BOOMERANG) || (item2->toucher.dmgFlags & DMG_SLINGSHOT)) {
                         this->collider.elements[i].info.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);

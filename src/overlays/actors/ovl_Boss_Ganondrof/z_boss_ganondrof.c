@@ -1238,7 +1238,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 hurtbox = this->colliderBody.info.acHitInfo;
             }
             if (this->flyMode != GND_FLY_PAINTING) {
-                if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & 0x0001F8A4)) {
+                if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
                     osSyncPrintf("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
@@ -1247,7 +1247,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                         u8 canKill = false;
                         s32 dmgFlags = hurtbox->toucher.dmgFlags;
 
-                        if (dmgFlags & 0x80) {
+                        if (dmgFlags & DMG_HOOKSHOT) {
                             return;
                         }
                         dmg = CollisionCheck_GetSwordDamage(dmgFlags);
@@ -1272,7 +1272,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 } else {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
                 }
-            } else if (acHit && (hurtbox->toucher.dmgFlags & 0x0001F8A4)) {
+            } else if (acHit && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;
                 this->actor.colChkInfo.health -= 2;
                 horse->hitTimer = 20;

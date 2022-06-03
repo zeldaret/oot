@@ -320,7 +320,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
             if (this->skelAnime.curFrame >= 4.0f) {
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
                     AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-                this->collider2.elements[0].info.toucher.dmgFlags = 0xFFCFFFFF;
+                this->collider2.elements[0].info.toucher.dmgFlags = DMG_DEFAULT;
                 this->collider2.elements[0].info.toucher.damage = 8;
             }
             if (this->collider2.base.atFlags & AT_BOUNCED) {
@@ -376,7 +376,7 @@ void EnDh_Burrow(EnDh* this, PlayState* play) {
             this->drawDirtWave++;
             this->collider1.base.atFlags = this->collider1.info.toucherFlags =
                 AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-            this->collider1.info.toucher.dmgFlags = 0xFFCFFFFF;
+            this->collider1.info.toucher.dmgFlags = DMG_DEFAULT;
             this->collider1.info.toucher.damage = 4;
             FALLTHROUGH;
         case 1:

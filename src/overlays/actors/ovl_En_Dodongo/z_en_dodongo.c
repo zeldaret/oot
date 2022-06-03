@@ -630,7 +630,7 @@ void EnDodongo_SweepTail(EnDodongo* this, PlayState* play) {
             this->timer = 18;
             this->colliderBody.base.atFlags = this->sphElements[1].info.toucherFlags =
                 this->sphElements[2].info.toucherFlags = AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-            this->sphElements[1].info.toucher.dmgFlags = this->sphElements[2].info.toucher.dmgFlags = 0xFFCFFFFF;
+            this->sphElements[1].info.toucher.dmgFlags = this->sphElements[2].info.toucher.dmgFlags = DMG_DEFAULT;
             this->sphElements[1].info.toucher.damage = this->sphElements[2].info.toucher.damage = 8;
         }
     } else if (this->timer > 1) {

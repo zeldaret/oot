@@ -331,7 +331,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
         this->flameScaleY = 80.0f;
         this->flameScaleX = 100.0f;
         this->collider.elements[0].info.toucherFlags = TOUCH_ON | TOUCH_SFX_HARD;
-        this->collider.elements[0].info.toucher.dmgFlags = 0xFFCFFFFF;
+        this->collider.elements[0].info.toucher.dmgFlags = DMG_DEFAULT;
         this->collider.elements[0].info.toucher.damage = 8;
         this->bobSize = this->actionState * 20.0f;
         this->flamePrimAlpha = 255;

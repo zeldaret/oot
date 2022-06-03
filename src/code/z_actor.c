@@ -4064,22 +4064,23 @@ u8 Actor_ApplyDamage(Actor* actor) {
 void Actor_SetDropFlag(Actor* actor, ColliderInfo* colInfo, s32 freezeFlag) {
     if (colInfo->acHitInfo == NULL) {
         actor->dropFlag = 0x00;
-    } else if (freezeFlag && (colInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+    } else if (freezeFlag &&
+               (colInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
         actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         actor->dropFlag = 0x00;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x0800) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
         actor->dropFlag = 0x01;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x1000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
         actor->dropFlag = 0x02;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x4000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK1) {
         actor->dropFlag = 0x04;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x8000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK2) {
         actor->dropFlag = 0x08;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x10000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK3) {
         actor->dropFlag = 0x10;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x2000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
         actor->dropFlag = 0x20;
-    } else if (colInfo->acHitInfo->toucher.dmgFlags & 0x80000) {
+    } else if (colInfo->acHitInfo->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
         if (freezeFlag) {
             actor->freezeTimer = colInfo->acHitInfo->toucher.damage;
         }
@@ -4100,22 +4101,23 @@ void Actor_SetDropFlagJntSph(Actor* actor, ColliderJntSph* jntSph, s32 freezeFla
         curColInfo = &jntSph->elements[i].info;
         if (curColInfo->acHitInfo == NULL) {
             flag = 0x00;
-        } else if (freezeFlag && (curColInfo->acHitInfo->toucher.dmgFlags & 0x10060000)) {
+        } else if (freezeFlag &&
+                   (curColInfo->acHitInfo->toucher.dmgFlags & (DMG_UNKNOWN_1 | DMG_MAGIC_ICE | DMG_MAGIC_FIRE))) {
             actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             flag = 0x00;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x0800) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_FIRE) {
             flag = 0x01;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x1000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_ICE) {
             flag = 0x02;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x4000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK1) {
             flag = 0x04;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x8000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK2) {
             flag = 0x08;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x10000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_UNK3) {
             flag = 0x10;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x2000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
             flag = 0x20;
-        } else if (curColInfo->acHitInfo->toucher.dmgFlags & 0x80000) {
+        } else if (curColInfo->acHitInfo->toucher.dmgFlags & DMG_MAGIC_LIGHT) {
             if (freezeFlag) {
                 actor->freezeTimer = curColInfo->acHitInfo->toucher.damage;
             }

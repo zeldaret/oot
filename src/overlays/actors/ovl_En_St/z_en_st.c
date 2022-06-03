@@ -285,12 +285,18 @@ void EnSt_InitColliders(EnSt* this, PlayState* play) {
         Collider_SetCylinder(play, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].info.bumper.dmgFlags = 0x0003F8F9;
-    this->colCylinder[1].info.bumper.dmgFlags = 0xFFC00706;
+    this->colCylinder[0].info.bumper.dmgFlags =
+        DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT;
+    this->colCylinder[1].info.bumper.dmgFlags =
+        DMG_DEFAULT &
+        ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) &
+        ~(DMG_MAGIC_LIGHT | DMG_MAGIC_ICE);
     this->colCylinder[2].base.colType = COLTYPE_METAL;
     this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
     this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
-    this->colCylinder[2].info.bumper.dmgFlags = 0xFFCC0706;
+    this->colCylinder[2].info.bumper.dmgFlags =
+        DMG_DEFAULT &
+        ~(DMG_MAGIC_FIRE | DMG_ARROW | DMG_HOOKSHOT | DMG_HAMMER_SWING | DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT);
 
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 
@@ -303,13 +309,13 @@ void EnSt_CheckBodyStickHit(EnSt* this, PlayState* play) {
     Player* player = GET_PLAYER(play);
 
     if (player->unk_860 != 0) {
-        body->bumper.dmgFlags |= 2;
-        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
-        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
+        body->bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~DMG_DEKU_STICK;
     } else {
-        body->bumper.dmgFlags &= ~2;
-        this->colCylinder[1].info.bumper.dmgFlags |= 2;
-        this->colCylinder[2].info.bumper.dmgFlags |= 2;
+        body->bumper.dmgFlags &= ~DMG_DEKU_STICK;
+        this->colCylinder[1].info.bumper.dmgFlags |= DMG_DEKU_STICK;
+        this->colCylinder[2].info.bumper.dmgFlags |= DMG_DEKU_STICK;
     }
 }
 
@@ -419,7 +425,7 @@ s32 EnSt_CheckHitFrontside(EnSt* this) {
 
 s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     ColliderCylinder* cyl = &this->colCylinder[0];
-    s32 flags = 0; // ac hit flags from colliders 0 and 1
+    s32 flags = 0; // damage flags from colliders 0 and 1
     s32 hit = false;
 
     if (cyl->base.acFlags & AC_HIT) {
@@ -465,9 +471,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, PlayState* play) {
     this->actor.gravity = -1.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALWALL_DEAD);
 
-    if (flags & 0x1F820) {
-        // arrow, fire arrow, ice arrow, light arrow,
-        // and three unknows, unused arrows?
+    if (flags & DMG_ARROW) {
         EnSt_SetupAction(this, EnSt_Die);
         this->finishDeathTimer = 8;
     } else {

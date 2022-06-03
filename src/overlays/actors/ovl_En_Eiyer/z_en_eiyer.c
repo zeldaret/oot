@@ -178,7 +178,7 @@ void EnEiyer_RotateAroundHome(EnEiyer* this) {
 }
 
 void EnEiyer_SetupAppearFromGround(EnEiyer* this) {
-    this->collider.info.bumper.dmgFlags = 0x19;
+    this->collider.info.bumper.dmgFlags = DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT;
     Animation_PlayLoop(&this->skelanime, &gStingerIdleAnim);
 
     this->actor.world.pos.x = this->actor.home.pos.x;
@@ -228,7 +228,7 @@ void EnEiyer_SetupInactive(EnEiyer* this) {
 void EnEiyer_SetupAmbush(EnEiyer* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;
     Animation_PlayOnce(&this->skelanime, &gStingerBackflipAnim);
-    this->collider.info.bumper.dmgFlags = ~0x00300000;
+    this->collider.info.bumper.dmgFlags = DMG_DEFAULT;
     this->basePos = this->actor.world.pos;
     this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.flags |= ACTOR_FLAG_12;
@@ -290,14 +290,14 @@ void EnEiyer_SetupDie(EnEiyer* this) {
     this->timer = 20;
     Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 40);
 
-    if (this->collider.info.bumper.dmgFlags != 0x19) {
+    if (this->collider.info.bumper.dmgFlags != (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)) {
         this->actor.speedXZ = 6.0f;
         Animation_MorphToLoop(&this->skelanime, &gStingerHitAnim, -3.0f);
     } else {
         this->actor.speedXZ -= 6.0f;
     }
 
-    this->collider.info.bumper.dmgFlags = ~0x00300000;
+    this->collider.info.bumper.dmgFlags = DMG_DEFAULT;
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
     this->actionFunc = EnEiyer_Die;
@@ -612,7 +612,7 @@ void EnEiyer_UpdateDamage(EnEiyer* this, PlayState* play) {
             }
 
             // If underground, one hit kill
-            if (this->collider.info.bumper.dmgFlags == 0x19) {
+            if (this->collider.info.bumper.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT)) {
                 if (this->actor.colChkInfo.damage == 0) {
                     EnEiyer_SetupAmbush(this, play);
                 } else {
@@ -687,7 +687,8 @@ s32 EnEiyer_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3f*
         pos->z += 2500.0f;
     }
 
-    if (this->collider.info.bumper.dmgFlags == 0x19 && limbIndex != 9 && limbIndex != 10) {
+    if (this->collider.info.bumper.dmgFlags == (DMG_BOOMERANG | DMG_EXPLOSIVE | DMG_DEKU_NUT) && limbIndex != 9 &&
+        limbIndex != 10) {
         *dList = NULL;
     }
     return 0;
