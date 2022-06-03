@@ -811,7 +811,7 @@ s32 func_800E6590(s32 playerIdx, s32 arg1, s32 arg2) {
                     return 0;
                 }
                 loopEnd = sound->sample->loop->end;
-                samplePos = note->synthesisState.samplePosInt;
+                samplePos = note->synthesisState.curSamplePos;
                 return loopEnd - samplePos;
             }
             return 0;
