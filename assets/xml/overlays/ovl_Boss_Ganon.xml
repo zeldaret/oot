@@ -1,4 +1,5 @@
 <Root>
+    <ExternalFile XmlPath="objects/gameplay_keep.xml" OutPath="objects/gameplay_keep/"/>
     <File Name="ovl_Boss_Ganon" BaseAddress="0x808D6870" RangeStart="0xE6B8" RangeEnd="0x211D8">
         <Texture Name="gDorfLightning1Tex" OutName="lightning_1" Format="i8" Width="32" Height="96" Offset="0x11600" Static="Off"/>
         <Texture Name="gDorfLightning2Tex" OutName="lightning_2" Format="i8" Width="32" Height="96" Offset="0x12200" Static="Off"/>
