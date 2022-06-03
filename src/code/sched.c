@@ -28,7 +28,7 @@
  *  Audio Processing tasks.
  *  These tasks have a higher "priority" than other tasks. If an audio task is enqueued and another
  *  task is currently running, the scheduler will signal to the running task that it should "yield"
- *  the RSP to the audio task. The running task will save it's current state and stop running, allowing
+ *  the RSP to the audio task. The running task will save its current state and stop running, allowing
  *  the scheduler to send the audio task. This ensures that audio data is always available to be consumed
  *  by the audio DAC even if another task such as graphics is running slow, avoiding undesirable sound
  *  artifacts. This is the meaning of "cooperative" scheduler, the current task must acknowledge the
@@ -334,7 +334,7 @@ void Sched_SetNextFramebufferFromTask(Scheduler* sc, OSScTask* task) {
 }
 
 /**
- * Checks if the task is done, i.e. it is no longer running on either the RSP and RDP.
+ * Checks if the task is done, i.e. it is no longer running on either the RSP or RDP.
  * If so, send a message to the task's message queue if there is one, and swap the framebuffer
  * if required.
  */
