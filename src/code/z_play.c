@@ -1183,7 +1183,7 @@ void Play_Draw(PlayState* this) {
             PreRender_SetValues(&this->pauseBgPreRender, SCREEN_WIDTH, SCREEN_HEIGHT, gfxCtx->curFrameBuffer, gZBuffer);
 
             if (R_PAUSE_MENU_MODE == 2) {
-                MsgEvent_SendNullTask();
+                Sched_FlushTaskQueue();
                 PreRender_Calc(&this->pauseBgPreRender);
                 R_PAUSE_MENU_MODE = 3;
             } else if (R_PAUSE_MENU_MODE >= 4) {
