@@ -716,7 +716,7 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, PlayState* play) {
 void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, PlayState* play) {
     if (Flags_GetEnv(play, 1)) {
         if (!(this->effectFlags & 0x2)) {
-            func_800F3F3C(0);
+            Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_SWORD_GLOW);
             this->effectFlags |= 0x2;
         }
 
@@ -879,7 +879,7 @@ void DemoEffect_UpdateLightRingShrinking(DemoEffect* this, PlayState* play) {
     }
 
     if (this->lightRing.timer == 255) {
-        func_800F3F3C(5);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_DIN_MAGIC);
     }
 }
 
@@ -1232,7 +1232,7 @@ void DemoEffect_UpdateGodLgtNayru(DemoEffect* this, PlayState* play) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
             }
             if (play->csCtx.frames == 80) {
-                func_800F3F3C(4);
+                Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_NAYRU_MAGIC);
             }
         }
     }
@@ -1262,7 +1262,7 @@ void DemoEffect_UpdateGodLgtFarore(DemoEffect* this, PlayState* play) {
             }
 
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_DM_FLYING_GOD_DASH);
-            func_800F3F3C(3);
+            Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_FARORE_MAGIC);
         }
 
         if (gSaveContext.entranceIndex == ENTR_HIRAL_DEMO_0) {

@@ -78,7 +78,7 @@ void EfcErupc_UpdateAction(EfcErupc* this, PlayState* play) {
             switch (play->csCtx.npcActions[2]->action) {
                 case 2:
                     if (this->unk_14E == 0) {
-                        func_800F3F3C(6);
+                        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_LAVA_ERUPT);
                         SET_EVENTCHKINF(EVENTCHKINF_2F);
                     }
                     this->unk_14E++;
