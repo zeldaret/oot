@@ -2,14 +2,11 @@
 #define FUNCTIONS_H
 
 #include "z64.h"
+#include "macros.h"
 
 f32 fabsf(f32 f);
 #ifndef __sgi
-#define fabsf __builtin_fabsf
-f32 __floatundisf(u32 c);
-f64 __floatundidf(u32 c); 
-f32 __powisf2(f32 a, s32 b);
-unsigned long __udivdi3(unsigned long a, unsigned long b);
+#define fabsf(f) __builtin_fabsf((f32)(f))
 #else
 #pragma intrinsic(fabsf)
 #endif
@@ -92,7 +89,7 @@ void __osDispatchThread(void);
 void __osCleanupThread(void);
 void __osDequeueThread(OSThread** queue, OSThread* thread);
 void osDestroyThread(OSThread* thread);
-void bzero(void* __s, u32 __n);
+void bzero(void* __s, s32 __n);
 void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, void* sp, OSPri pri);
 void __osSetSR(u32);
 u32 __osGetSR(void);
@@ -1251,12 +1248,12 @@ void LinkAnimation_BlendToMorph(PlayState* play, SkelAnime* skelAnime, LinkAnima
                                 Vec3s* blendTable);
 void LinkAnimation_EndLoop(SkelAnime* skelAnime);
 s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame);
-s32 SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-s32 SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                       AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-s32 SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                       AnimationHeader* animation);
+BAD_RETURN(s32) SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32) SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32) SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation);
 s32 SkelAnime_Update(SkelAnime* skelAnime);
 void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed, f32 startFrame, f32 endFrame,
                           u8 mode, f32 morphFrames, s8 taper);
@@ -1715,7 +1712,7 @@ s32 Math3D_TriChkLineSegParaZDist(Vec3f* v0, Vec3f* v1, Vec3f* v2, Plane* plane,
 s32 Math3D_LineSegVsPlane(f32 nx, f32 ny, f32 nz, f32 originDist, Vec3f* linePointA, Vec3f* linePointB,
                           Vec3f* intersect, s32 fromFront);
 void Math3D_TriNorm(TriNorm* tri, Vec3f* va, Vec3f* vb, Vec3f* vc);
-s32 Math3D_PointDistToLine2D(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32* lineLenSq);
+s32 Math3D_PointDistSqToLine2D(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32* lineLenSq);
 s32 Math3D_LineVsSph(Sphere16* sphere, Linef* line);
 s32 Math3D_TriVsSphIntersect(Sphere16* sphere, TriNorm* tri, Vec3f* intersectPoint);
 s32 Math3D_CylVsLineSeg(Cylinder16* cyl, Vec3f* linePointA, Vec3f* linePointB, Vec3f* intersectA, Vec3f* intersectB);
@@ -1931,7 +1928,7 @@ void AudioDebug_Draw(GfxPrint* printer);
 void AudioDebug_ScrPrt(const s8* str, u16 num);
 void func_800F3054(void);
 void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx);
-void func_800F3F3C(u8);
+void Audio_PlayCutsceneEffectsSequence(u8 csEffectType);
 void func_800F4010(Vec3f* pos, u16 sfxId, f32);
 void Audio_PlaySoundRandom(Vec3f* pos, u16 baseSfxId, u8 randLim);
 void func_800F4138(Vec3f* pos, u16 sfxId, f32);
@@ -2039,11 +2036,11 @@ Gfx* GfxPrint_Close(GfxPrint* this);
 s32 GfxPrint_Printf(GfxPrint* this, const char* fmt, ...);
 void RcpUtils_PrintRegisterStatus(void);
 void RcpUtils_Reset(void);
-void* Overlay_AllocateAndLoad(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd);
+void* Overlay_AllocateAndLoad(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* vRamEnd);
 void MtxConv_F2L(Mtx* m1, MtxF* m2);
 void MtxConv_L2F(MtxF* m1, Mtx* m2);
 void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* overlayInfo, void* vRamAddress);
-s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, void* allocatedVRamAddress);
+s32 Overlay_Load(uintptr_t vRomStart, uintptr_t vRomEnd, void* vRamStart, void* vRamEnd, void* allocatedVRamAddress);
 // ? func_800FC800(?);
 // ? func_800FC83C(?);
 // ? func_800FCAB4(?);

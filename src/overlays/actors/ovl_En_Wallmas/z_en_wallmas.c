@@ -501,7 +501,7 @@ void EnWallmas_Stun(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
-    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {

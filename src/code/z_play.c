@@ -513,7 +513,7 @@ void Play_Update(PlayState* this) {
                         // non-instance modes break out of this switch
                         break;
                     }
-                    // fallthrough
+                    FALLTHROUGH;
                 case TRANS_MODE_INSTANCE_INIT:
                     this->transitionCtx.init(&this->transitionCtx.instanceData);
 
@@ -1500,7 +1500,7 @@ void Play_SpawnScene(PlayState* this, s32 sceneNum, s32 spawn) {
     scene->unk_13 = 0;
     this->loadedScene = scene;
     this->sceneNum = sceneNum;
-    this->sceneConfig = scene->config;
+    this->sceneDrawConfig = scene->drawConfig;
 
     osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 

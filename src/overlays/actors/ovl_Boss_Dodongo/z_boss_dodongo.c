@@ -279,6 +279,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             this->unk_198 = 160;
             player->actor.world.pos.y = -1023.76f;
             this->subCamEye.y = player->actor.world.pos.y - 480.0f + 50.0f;
+            FALLTHROUGH;
         case 2:
             if (this->unk_198 >= 131) {
                 player->actor.world.pos.x = -890.0f;
@@ -1236,12 +1237,12 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
     if (this->unk_1C0 == 0) {
         if (this->actionFunc == BossDodongo_Inhale) {
             for (i = 0; i < 19; i++) {
-                if (this->collider.elements[i].info.bumperFlags & 2) {
+                if (this->collider.elements[i].info.bumperFlags & BUMP_HIT) {
                     item1 = this->collider.elements[i].info.acHitInfo;
                     item2 = item1;
 
                     if ((item2->toucher.dmgFlags & DMG_BOOMERANG) || (item2->toucher.dmgFlags & DMG_SLINGSHOT)) {
-                        this->collider.elements[i].info.bumperFlags &= ~2;
+                        this->collider.elements[i].info.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
                         this->unk_1DA = 0x32;
@@ -1251,8 +1252,8 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
             }
         }
 
-        if (this->collider.elements->info.bumperFlags & 2) {
-            this->collider.elements->info.bumperFlags &= ~2;
+        if (this->collider.elements->info.bumperFlags & BUMP_HIT) {
+            this->collider.elements->info.bumperFlags &= ~BUMP_HIT;
             item1 = this->collider.elements[0].info.acHitInfo;
             if ((this->actionFunc == BossDodongo_Vulnerable) || (this->actionFunc == BossDodongo_LayDown)) {
                 swordDamage = damage = CollisionCheck_GetSwordDamage(item1->toucher.dmgFlags);
@@ -1616,6 +1617,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                 this->skelAnime.playSpeed = 0.0f;
                 Flags_SetClear(play, play->roomCtx.curRoom.num);
             }
+            FALLTHROUGH;
         case 100:
             if ((this->unk_1DA < 0x2C6) && (Rand_ZeroOne() < 0.5f)) {
                 Vec3f sp68;

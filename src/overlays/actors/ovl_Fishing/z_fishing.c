@@ -5242,7 +5242,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             D_80B7A6CC = 2;
             Interface_ChangeAlpha(12);
             sSubCamVelFactor = 0.0f;
-            // fallthrough
+            FALLTHROUGH;
         }
 
         case 2:
@@ -5374,7 +5374,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             Message_StartTextbox(play, 0x409E, NULL);
             D_80B7A6CC = 11;
             func_800A9F6C(0.0f, 150, 10, 10);
-            // fallthrough
+            FALLTHROUGH;
         }
 
         case 11:
@@ -5417,7 +5417,7 @@ void Fishing_UpdateOwner(Actor* thisx, PlayState* play2) {
             D_80B7A6CC = 21;
             D_80B7FEC8 = 45.0f;
             D_80B7A6D0 = 10;
-            // fallthrough
+            FALLTHROUGH;
         }
 
         case 21:

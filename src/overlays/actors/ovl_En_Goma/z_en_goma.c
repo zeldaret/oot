@@ -613,7 +613,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
         ColliderInfo* acHitInfo;
         u8 swordDamage;
 
-        if ((this->colCyl1.base.atFlags & 2) && this->actionFunc == EnGoma_Jump) {
+        if ((this->colCyl1.base.atFlags & AT_HIT) && this->actionFunc == EnGoma_Jump) {
             EnGoma_SetupLand(this);
             this->actor.speedXZ = 0.0f;
             this->actor.velocity.y = 0.0f;

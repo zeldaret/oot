@@ -227,7 +227,7 @@ void DoorKiller_FallAsRubble(DoorKiller* this, PlayState* play) {
 
 s32 DoorKiller_IsHit(Actor* thisx, PlayState* play) {
     DoorKiller* this = (DoorKiller*)thisx;
-    if ((this->colliderCylinder.base.acFlags & 2) && (this->colliderCylinder.info.acHitInfo != NULL)) {
+    if ((this->colliderCylinder.base.acFlags & AC_HIT) && (this->colliderCylinder.info.acHitInfo != NULL)) {
         return true;
     }
     return false;

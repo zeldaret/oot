@@ -339,10 +339,10 @@ s32 func_809F70E8(EnDodojr* this, PlayState* play) {
         return 0;
     }
 
-    if (!(this->collider.base.acFlags & 2)) {
+    if (!(this->collider.base.acFlags & AC_HIT)) {
         return 0;
     } else {
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
 
         if ((this->actionFunc == func_809F73AC) || (this->actionFunc == func_809F74C4)) {
             this->actor.shape.shadowDraw = ActorShadow_DrawCircle;

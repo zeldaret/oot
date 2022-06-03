@@ -1299,13 +1299,13 @@ static LinkAnimationHeader* D_808543D4[] = {
 };
 
 // return type can't be void due to regalloc in func_8084FCAC
-s32 func_80832210(Player* this) {
+BAD_RETURN(s32) func_80832210(Player* this) {
     this->actor.speedXZ = 0.0f;
     this->linearVelocity = 0.0f;
 }
 
 // return type can't be void due to regalloc in func_8083F72C
-s32 func_80832224(Player* this) {
+BAD_RETURN(s32) func_80832224(Player* this) {
     func_80832210(this);
     this->unk_6AD = 0;
 }

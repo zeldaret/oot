@@ -411,14 +411,14 @@ void func_8086DB68(BgBdanSwitch* this, PlayState* play) {
         default:
             return;
         case YELLOW_TALL_1:
-            if (((this->collider.base.acFlags & AC_HIT) != 0) && this->unk_1D8 <= 0) {
+            if ((this->collider.base.acFlags & AC_HIT) && this->unk_1D8 <= 0) {
                 this->unk_1D8 = 0xA;
                 func_8086DC30(this);
                 func_8086D4B4(this, play);
             }
             break;
         case YELLOW_TALL_2:
-            if (((this->collider.base.acFlags & AC_HIT) != 0) && ((this->unk_1DC & 2) == 0) && this->unk_1D8 <= 0) {
+            if ((this->collider.base.acFlags & AC_HIT) && !(this->unk_1DC & AC_HIT) && this->unk_1D8 <= 0) {
                 this->unk_1D8 = 0xA;
                 func_8086DC30(this);
                 func_8086D4B4(this, play);
@@ -455,7 +455,7 @@ void func_8086DCE8(BgBdanSwitch* this, PlayState* play) {
             }
             break;
         case YELLOW_TALL_2:
-            if (((this->collider.base.acFlags & AC_HIT) != 0) && ((this->unk_1DC & 2) == 0) && (this->unk_1D8 <= 0)) {
+            if ((this->collider.base.acFlags & AC_HIT) && !(this->unk_1DC & AC_HIT) && (this->unk_1D8 <= 0)) {
                 this->unk_1D8 = 0xA;
                 func_8086DDA8(this);
                 func_8086D548(this, play);

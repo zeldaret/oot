@@ -674,6 +674,7 @@ void BossFd2_Death(BossFd2* this, PlayState* play) {
             this->subCamAtMaxVelFrac.x = 0.1f;
             this->subCamAtMaxVelFrac.y = 0.1f;
             this->subCamAtMaxVelFrac.z = 0.1f;
+            FALLTHROUGH;
         case DEATH_RETREAT:
             this->work[FD2_HOLE_COUNTER]++;
             if (this->work[FD2_HOLE_COUNTER] < 15) {

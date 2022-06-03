@@ -161,7 +161,7 @@ void DemoKekkai_TowerBarrier(DemoKekkai* this, PlayState* play) {
     if ((play->csCtx.state != CS_STATE_IDLE) && (play->csCtx.npcActions[0] != NULL) &&
         (play->csCtx.npcActions[0]->action != 1) && (play->csCtx.npcActions[0]->action == 2)) {
         if (!(this->sfxFlag & 1)) {
-            func_800F3F3C(0xC);
+            Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_DISPEL_BARRIER);
             this->sfxFlag |= 1;
         }
         if (this->barrierScrollRate < 7.0f) {
@@ -208,7 +208,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, PlayState* play) {
     DemoKekkai* this = (DemoKekkai*)thisx;
 
     if (play->csCtx.frames == csFrames[this->actor.params]) {
-        func_800F3F3C(0xA);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_TRIAL_WARP);
     }
     if (this->energyAlpha >= 0.05f) {
         this->energyAlpha -= 0.05f;

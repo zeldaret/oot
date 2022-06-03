@@ -777,6 +777,7 @@ void EnItem00_Draw(Actor* thisx, PlayState* play) {
                     }
                     break;
                 }
+                FALLTHROUGH;
             case ITEM00_BOMBS_A:
             case ITEM00_BOMBS_B:
             case ITEM00_BOMBS_SPECIAL:

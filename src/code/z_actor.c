@@ -3811,12 +3811,15 @@ void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3)
             sp38.unk_00 = 0;
             sp38.unk_04 = 0;
             sp38.unk_02 = 0;
+            FALLTHROUGH;
         case 3:
             sp38.unk_06 = 0;
             sp38.unk_0A = 0;
             sp38.unk_08 = 0;
+            FALLTHROUGH;
         case 2:
             sp38.unk_0C = 0;
+            break;
     }
 
     func_800344BC(actor, arg1, sp38.unk_00, sp38.unk_04, sp38.unk_02, sp38.unk_06, sp38.unk_0A, sp38.unk_08,
