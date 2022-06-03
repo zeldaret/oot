@@ -464,7 +464,7 @@ void EnFw_DrawEffects(EnFw* this, PlayState* play) {
     for (i = 0; i < EN_FW_EFFECT_COUNT; i++, eff++) {
         if (eff->type != 0) {
             if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_0);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
                 gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 materialFlag = true;

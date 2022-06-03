@@ -1714,7 +1714,7 @@ void Environment_DrawRain(PlayState* play, View* view, GraphicsContext* gfxCtx) 
         if (play->envCtx.precipitation[PRECIP_RAIN_CUR]) {
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 150, 255, 255, 30);
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
         }
 
         // draw rain drops

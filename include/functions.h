@@ -1118,7 +1118,7 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData);
 Gfx* Gfx_SetFog(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
 Gfx* Gfx_SetFogWithSync(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
 Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far);
-Gfx* Gfx_CallSetupDL(Gfx* gfx, u32 i);
+Gfx* Gfx_SetupDL(Gfx* gfx, u32 i);
 Gfx* Gfx_SetupDL_57(Gfx* gfx);
 Gfx* Gfx_SetupDL_52NoCD(Gfx* gfx);
 void Gfx_SetupDL_57Opa(GraphicsContext* gfxCtx);

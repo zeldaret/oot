@@ -492,7 +492,7 @@ void ObjectKankyo_DrawFairies(ObjectKankyo* this2, PlayState* play2) {
 
     if (!(play->cameraPtrs[CAM_ID_MAIN]->unk_14C & 0x100)) {
         OPEN_DISPS(play->state.gfxCtx, "../z_object_kankyo.c", 807);
-        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
+        POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gSun1Tex));
         gSPDisplayList(POLY_XLU_DISP++, gKokiriDustMoteMaterialDL);
 

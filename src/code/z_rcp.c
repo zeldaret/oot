@@ -895,7 +895,7 @@ Gfx* Gfx_SetFog2(Gfx* gfx, s32 r, s32 g, s32 b, s32 a, s32 near, s32 far) {
     return Gfx_SetFog(gfx, r, g, b, a, near, far);
 }
 
-Gfx* Gfx_CallSetupDLImpl(Gfx* gfx, u32 i) {
+Gfx* Gfx_SetupDLImpl(Gfx* gfx, u32 i) {
     s32 dListIndex = 6 * i;
 
     gSPDisplayList(gfx++, &((Gfx*)sSetupDL)[dListIndex]);
@@ -903,12 +903,12 @@ Gfx* Gfx_CallSetupDLImpl(Gfx* gfx, u32 i) {
     return gfx;
 }
 
-Gfx* Gfx_CallSetupDL(Gfx* gfx, u32 i) {
-    return Gfx_CallSetupDLImpl(gfx, i);
+Gfx* Gfx_SetupDL(Gfx* gfx, u32 i) {
+    return Gfx_SetupDLImpl(gfx, i);
 }
 
-void Gfx_CallSetupDLAtPtr(Gfx** gfxp, u32 i) {
-    *gfxp = Gfx_CallSetupDL(*gfxp, i);
+void Gfx_SetupDLAtPtr(Gfx** gfxp, u32 i) {
+    *gfxp = Gfx_SetupDL(*gfxp, i);
 }
 
 Gfx* Gfx_SetupDL_57(Gfx* gfx) {

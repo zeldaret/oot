@@ -233,7 +233,7 @@ void EnGo2_DrawEffects(EnGo2* this, PlayState* play) {
     for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_0);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 materialFlag = true;

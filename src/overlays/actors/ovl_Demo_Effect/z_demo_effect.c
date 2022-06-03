@@ -2074,7 +2074,7 @@ void DemoEffect_DrawTimeWarp(Actor* thisx, PlayState* play) {
         Flags_GetEnv(play, 1) || gSaveContext.sceneSetupIndex >= 4 || gSaveContext.entranceIndex == ENTR_TOKINOMA_4) {
         OPEN_DISPS(gfxCtx, "../z_demo_effect.c", 3201);
 
-        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_25);
+        POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_25);
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
         SkelCurve_Draw(&this->actor, play, &this->skelCurve, DemoEffect_OverrideLimbDrawTimeWarp, NULL, 1,
                        &this->actor);

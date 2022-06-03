@@ -1280,7 +1280,7 @@ void Fishing_DrawEffects(FishingEffect* effect, PlayState* play) {
     for (i = 30; i < FISHING_EFFECT_COUNT; i++) {
         if (effect->type == FS_EFF_RAIN_DROP) {
             if (materialFlag == 0) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
                 gDPSetCombineMode(POLY_XLU_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
                 gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 150, 255, 255, 30);
                 materialFlag++;
@@ -1853,7 +1853,7 @@ void Fishing_DrawLureAndLine(PlayState* play, Vec3f* linePos, Vec3f* lineRot) {
         Fishing_DrawLureHook(play, &hookPos[1], &sLureHookRefPos[1], 1);
     }
 
-    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, SETUPDL_20);
+    POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
 
     gDPSetCombineMode(POLY_XLU_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 55);
