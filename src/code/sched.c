@@ -315,9 +315,13 @@ s32 Sched_Schedule(SchedContext* sc, OSScTask** spTaskOut, OSScTask** dpTaskOut,
 }
 
 /**
- * Routine to swap the framebuffer on task completion
+ * Sets the next framebuffer to the framebuffer associated to `task`.
+ * If there is no current buffer or it is time to swap, this buffer will be swapped to
+ * immediately, otherwise it will be swapped to later in Sched_HandleRetrace.
+ *
+ * @see Sched_HandleRetrace
  */
-void Sched_TaskSwapBuffer(SchedContext* sc, OSScTask* task) {
+void Sched_SetNextFramebufferFromTask(SchedContext* sc, OSScTask* task) {
     if (sc->pendingSwapBuf1 == NULL) {
         sc->pendingSwapBuf1 = task->framebuffer;
 
@@ -346,7 +350,7 @@ u32 Sched_TaskComplete(SchedContext* sc, OSScTask* task) {
 
         // Swap the framebuffer if needed
         if (task->flags & OS_SC_SWAPBUFFER) {
-            Sched_TaskSwapBuffer(sc, task);
+            Sched_SetNextFramebufferFromTask(sc, task);
         }
         return true;
     }

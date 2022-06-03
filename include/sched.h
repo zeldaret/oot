@@ -6,7 +6,7 @@
 
 #define OS_SC_NEEDS_RDP     0x0001  // Task uses the RDP
 #define OS_SC_NEEDS_RSP     0x0002  // Task uses the RSP
-#define OS_SC_DRAM_DLIST    0x0004  // RDP commands generated in the RSP pass through DRAM
+#define OS_SC_DRAM_DLIST    0x0004  // Unimplemented
 #define OS_SC_PARALLEL_TASK 0x0010  // Unimplemented
 #define OS_SC_LAST_TASK     0x0020  // Unimplemented
 #define OS_SC_SWAPBUFFER    0x0040  // Swap framebuffer when done
