@@ -692,7 +692,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
             case 0xCB:
                 sp3A = AudioSeq_ScriptReadS16(state);
                 layer->adsr.envelope = (AdsrEnvelope*)(seqPlayer->seqData + sp3A);
-                // fallthrough
+                FALLTHROUGH;
             case 0xCF:
                 layer->adsr.decayIndex = AudioSeq_ScriptReadU8(state);
                 break;
@@ -1172,7 +1172,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                         }
 
                         cmdArgs[0] = cmdArgs[1];
-                        // fallthrough
+                        FALLTHROUGH;
                     case 0xC1:
                         cmd = (u8)cmdArgs[0];
                         AudioSeq_SetInstrument(channel, cmd);
@@ -1719,7 +1719,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         break;
                     case 0xDF:
                         seqPlayer->transposition = 0;
-                        // Note: intentional fallthrough, also executes below command
+                        FALLTHROUGH;
                     case 0xDE:
                         seqPlayer->transposition += (s8)AudioSeq_ScriptReadU8(seqScript);
                         break;
@@ -1759,7 +1759,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             case 1:
                                 seqPlayer->state = 0;
                                 seqPlayer->fadeVolume = 0.0f;
-                                // NOTE: Intentional fallthrough
+                                FALLTHROUGH;
                             case 0:
                                 seqPlayer->fadeTimer = seqPlayer->fadeTimerUnkEu;
                                 if (seqPlayer->fadeTimerUnkEu != 0) {

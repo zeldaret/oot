@@ -2341,6 +2341,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
             case MSGMODE_OCARINA_FAIL:
             case MSGMODE_SONG_PLAYBACK_FAIL:
                 Message_DrawText(play, &gfx);
+                FALLTHROUGH;
             case MSGMODE_OCARINA_FAIL_NO_TEXT:
                 msgCtx->stateTimer--;
                 if (msgCtx->stateTimer == 0) {
@@ -2539,6 +2540,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                         sOcarinaButtonIndexBufPos++;
                     }
                 }
+                FALLTHROUGH;
             case MSGMODE_SONG_DEMONSTRATION_DONE:
                 Message_DrawText(play, &gfx);
                 break;
@@ -2838,6 +2840,7 @@ void Message_DrawMain(PlayState* play, Gfx** p) {
                     Message_ResetOcarinaNoteState();
                     msgCtx->msgMode = MSGMODE_FROGS_WAITING;
                 }
+                FALLTHROUGH;
             case MSGMODE_FROGS_WAITING:
                 break;
             case MSGMODE_TEXT_DONE:

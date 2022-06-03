@@ -106,6 +106,7 @@ void EnFireRock_Init(Actor* thisx, PlayState* play) {
             // sets unused vars?
             this->unk_17C.x = (f32)(Rand_CenteredFloat(50.0f) + player->actor.world.pos.x);
             this->unk_17C.z = (f32)(Rand_CenteredFloat(50.0f) + player->actor.world.pos.z);
+            FALLTHROUGH;
         case FIRE_ROCK_SPAWNED_FALLING2: // spawned by encount2 and by the ceilling spawner
             this->scale = (Rand_ZeroFloat(2.0f) / 100.0f) + 0.02f;
             Actor_SetScale(&this->actor, this->scale);
@@ -180,6 +181,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
                     Math_ApproachF(&this->actor.world.pos.z, player->actor.world.pos.z, 1.0f, 10.0f);
                 }
             }
+            FALLTHROUGH;
         case FIRE_ROCK_SPAWNED_FALLING2:
             flamePos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
             flamePos.y = Rand_CenteredFloat(20.0f) + this->actor.world.pos.y;
@@ -197,6 +199,7 @@ void EnFireRock_Fall(EnFireRock* this, PlayState* play) {
             case FIRE_ROCK_SPAWNED_FALLING1:
             case FIRE_ROCK_SPAWNED_FALLING2:
                 func_80033E88(&this->actor, play, 5, 2);
+                FALLTHROUGH;
             case FIRE_ROCK_BROKEN_PIECE1:
                 Actor_SpawnFloorDustRing(play, &this->actor, &this->actor.world.pos, this->actor.shape.shadowScale, 1,
                                          8.0f, 500, 10, false);
@@ -236,6 +239,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, PlayState* play) {
             break;
         case FIRE_ROCK_BROKEN_PIECE1:
             nextRockType = FIRE_ROCK_BROKEN_PIECE2;
+            break;
     }
 
     if (nextRockType != FIRE_ROCK_SPAWNED_FALLING1) {

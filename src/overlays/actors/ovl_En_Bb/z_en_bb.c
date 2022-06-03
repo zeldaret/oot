@@ -379,7 +379,7 @@ void EnBb_Init(Actor* thisx, PlayState* play) {
                 this->path = this->actionState >> 4;
                 this->collider.elements[0].dim.modelSphere.radius = 0x16;
                 Actor_SetScale(thisx, 0.03f);
-                // fallthrough
+                FALLTHROUGH;
             case ENBB_GREEN:
                 thisx->naviEnemyId = NAVI_ENEMY_GREEN_BUBBLE;
                 this->bobSize = (this->actionState & 0xF) * 20.0f;
@@ -1087,6 +1087,7 @@ void EnBb_SetupStunned(EnBb* this) {
             break;
         case 9:
             this->fireIceTimer = 0x30;
+            FALLTHROUGH;
         case 15:
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             Actor_SetColorFilter(&this->actor, 0, 0xB4, 0, 0x50);
@@ -1154,6 +1155,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
         switch (this->dmgEffect) {
             case 7:
                 this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
+                FALLTHROUGH;
             case 5:
                 this->fireIceTimer = 0x30;
                 //! @bug
@@ -1212,6 +1214,7 @@ void EnBb_CollisionCheck(EnBb* this, PlayState* play) {
                            ((this->actor.params != ENBB_WHITE) && (this->flameScaleX < 20.0f))) {
                     EnBb_SetupDamage(this);
                 }
+                FALLTHROUGH;
             case 13:
                 break;
         }

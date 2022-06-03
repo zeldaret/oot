@@ -277,8 +277,10 @@ void EnSw_Init(Actor* thisx, PlayState* play) {
             this->actor.velocity.y = 8.0f;
             this->actor.speedXZ = 4.0f;
             this->actor.gravity = -1.0f;
+            FALLTHROUGH;
         case 2:
             this->actor.scale.x = 0.0f;
+            FALLTHROUGH;
         case 1:
             this->collider.elements[0].info.toucher.damage *= 2;
             this->actor.naviEnemyId = NAVI_ENEMY_GOLD_SKULLTULA;

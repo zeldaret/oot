@@ -339,7 +339,7 @@ void EnTest_ChooseRandomAction(EnTest* this, PlayState* play) {
                 EnTest_SetupJumpslash(this);
                 break;
             }
-            // fallthrough
+            FALLTHROUGH;
         case 8:
             EnTest_SetupWalkAndBlock(this);
             break;
@@ -1755,7 +1755,7 @@ void EnTest_Update(Actor* thisx, PlayState* play) {
             case 3:
                 this->unk_7DE++;
                 this->upperSkelanime.morphWeight = 4.0f;
-                // fallthrough
+                FALLTHROUGH;
             case 4:
                 oldWeight = this->upperSkelanime.morphWeight;
                 this->upperSkelanime.morphWeight -= 1.0f;
