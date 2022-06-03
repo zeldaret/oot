@@ -296,7 +296,7 @@ void func_800E5584(AudioCmd* cmd) {
             break;
 
         case 0x90:
-            gAudioContext.activeChannelsFlags[cmd->arg0] = cmd->asUShort;
+            gAudioContext.unk_5BDC[cmd->arg0] = cmd->asUShort;
             break;
 
         case 0xF9:
@@ -440,7 +440,7 @@ void Audio_ResetCmdQueue(void) {
 
 void Audio_ProcessCmd(AudioCmd* cmd) {
     SequencePlayer* seqPlayer;
-    u16 activeChannelsFlags;
+    u16 phi_v0;
     s32 i;
 
     if ((cmd->op & 0xF0) == 0xF0) {
@@ -464,12 +464,12 @@ void Audio_ProcessCmd(AudioCmd* cmd) {
             return;
         }
         if (cmd->arg1 == 0xFF) {
-            activeChannelsFlags = gAudioContext.activeChannelsFlags[cmd->arg0];
+            phi_v0 = gAudioContext.unk_5BDC[cmd->arg0];
             for (i = 0; i < 16; i++) {
-                if (activeChannelsFlags & 1) {
+                if (phi_v0 & 1) {
                     func_800E6300(seqPlayer->channels[i], cmd);
                 }
-                activeChannelsFlags = activeChannelsFlags >> 1;
+                phi_v0 = phi_v0 >> 1;
             }
         }
     }

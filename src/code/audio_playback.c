@@ -532,7 +532,7 @@ void Audio_SeqLayerNoteRelease(SequenceLayer* layer) {
 s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
     f32 freqScale;
     f32 ratio;
-    u8 harmonicIndex;
+    u8 sampleCountIndex;
 
     if (waveId < 128) {
         waveId = 128;
@@ -543,41 +543,41 @@ s32 Audio_BuildSyntheticWave(Note* note, SequenceLayer* layer, s32 waveId) {
         freqScale *= (layer->portamento.extent + 1.0f);
     }
     if (freqScale < 0.99999f) {
-        harmonicIndex = 0;
+        sampleCountIndex = 0;
         ratio = 1.0465f;
     } else if (freqScale < 1.99999f) {
-        harmonicIndex = 1;
+        sampleCountIndex = 1;
         ratio = 0.52325f;
     } else if (freqScale < 3.99999f) {
-        harmonicIndex = 2;
+        sampleCountIndex = 2;
         ratio = 0.26263f;
     } else {
-        harmonicIndex = 3;
+        sampleCountIndex = 3;
         ratio = 0.13081f;
     }
     layer->freqScale *= ratio;
     note->playbackState.waveId = waveId;
-    note->playbackState.harmonicIndex = harmonicIndex;
+    note->playbackState.sampleCountIndex = sampleCountIndex;
 
-    note->noteSubEu.sound.samples = &gWaveSamples[waveId - 128][harmonicIndex * 64];
+    note->noteSubEu.sound.samples = &gWaveSamples[waveId - 128][sampleCountIndex * 64];
 
-    return harmonicIndex;
+    return sampleCountIndex;
 }
 
 void Audio_InitSyntheticWave(Note* note, SequenceLayer* layer) {
-    s32 harmonicIndex;
-    s32 waveHarmonicIndex;
+    s32 sampleCountIndex;
+    s32 waveSampleCountIndex;
     s32 waveId = layer->instOrWave;
 
     if (waveId == 0xFF) {
         waveId = layer->channel->instOrWave;
     }
 
-    harmonicIndex = note->playbackState.harmonicIndex;
-    waveHarmonicIndex = Audio_BuildSyntheticWave(note, layer, waveId);
+    sampleCountIndex = note->playbackState.sampleCountIndex;
+    waveSampleCountIndex = Audio_BuildSyntheticWave(note, layer, waveId);
 
-    if (waveHarmonicIndex != harmonicIndex) {
-        note->noteSubEu.unk_06 = waveHarmonicIndex * 4 + harmonicIndex;
+    if (waveSampleCountIndex != sampleCountIndex) {
+        note->noteSubEu.unk_06 = waveSampleCountIndex * 4 + sampleCountIndex;
     }
 }
 

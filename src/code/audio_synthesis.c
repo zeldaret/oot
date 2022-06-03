@@ -4,7 +4,7 @@
 #define DEFAULT_LEN_1CH 0x1A0
 #define DEFAULT_LEN_2CH 0x340
 
-// Data Memory Addresses for the RSP
+// DMEM Addresses for the RSP
 #define DMEM_TEMP 0x3C0
 #define DMEM_UNCOMPRESSED_NOTE 0x580
 #define DMEM_NOTE_PAN_TEMP 0x5C0
@@ -609,13 +609,13 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
         useReverb = reverb->useReverb;
         if (useReverb) {
 
-            // Loads reverb samples from DRAM (ringBuffer) into DMEM (DMEM_WET_LEFT_CH)
+            // Loads reverb samples from RDRAM (ringBuffer) into DMEM (DMEM_WET_LEFT_CH)
             cmd = AudioSynth_LoadReverbSamples(cmd, aiBufLen, reverb, updateIndex);
 
             // Mixes reverb sample into the main dry channel
             // reverb->volume is always set to 0x7FFF (audio spec), and DMEM_LEFT_CH is cleared before reverbs.
-            // So this is essentially a DMEMmove from DMEM_WET_LEFT_CH to DMEM_LEFT_CH
-            aMix(cmd++, 0x34, reverb->volume, DMEM_WET_LEFT_CH, DMEM_LEFT_CH);
+            // So for the first reverb, this is essentially a DMEMmove from DMEM_WET_LEFT_CH to DMEM_LEFT_CH
+            aMix(cmd++, DEFAULT_LEN_2CH >> 4, reverb->volume, DMEM_WET_LEFT_CH, DMEM_LEFT_CH);
 
             unk14 = reverb->unk_14;
             if (unk14) {
@@ -623,7 +623,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             }
 
             // Decays reverb over time. The (+ 0x8000) here is -100%
-            aMix(cmd++, 0x34, reverb->decayRate + 0x8000, DMEM_WET_LEFT_CH, DMEM_WET_LEFT_CH);
+            aMix(cmd++, DEFAULT_LEN_2CH >> 4, reverb->decayRatio + 0x8000, DMEM_WET_LEFT_CH, DMEM_WET_LEFT_CH);
 
             // Leak reverb between the left and right channels
             if (reverb->leakRtl != 0 || reverb->leakLtr != 0) {
@@ -631,7 +631,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
             }
 
             if (unk14) {
-                // Saves the wet channel sample from DMEM (DMEM_WET_LEFT_CH) into (ringBuffer) DRAM for future use
+                // Saves the wet channel sample from DMEM (DMEM_WET_LEFT_CH) into RDRAM (ringBuffer) for future use
                 cmd = AudioSynth_SaveReverbSamples(cmd, reverb, updateIndex);
                 if (reverb->unk_05 != -1) {
                     cmd = AudioSynth_MaybeMixRingBuffer1(cmd, reverb, updateIndex);
@@ -658,7 +658,7 @@ Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updat
                 cmd = AudioSynth_FilterReverb(cmd, aiBufLen * 2, reverb);
             }
 
-            // Saves the wet channel sample from DMEM (DMEM_WET_LEFT_CH) into (ringBuffer) DRAM for future use
+            // Saves the wet channel sample from DMEM (DMEM_WET_LEFT_CH) into RDRAM (ringBuffer) for future use
             if (unk14) {
                 cmd = AudioSynth_SaveRingBuffer2(cmd, reverb, updateIndex);
             } else {

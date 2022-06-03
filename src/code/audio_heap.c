@@ -114,7 +114,7 @@ void AudioHeap_DiscardSequence(s32 seqId) {
 }
 
 /**
- * Perform a writeback from the L1 data cache to the ram.
+ * Perform a writeback from the data cache to the ram.
  */
 void AudioHeap_WritebackDCache(void* ramAddr, u32 size) {
     Audio_WritebackDCache(ramAddr, size);
@@ -198,7 +198,7 @@ void* AudioHeap_Alloc(AudioAllocPool* pool, u32 size) {
 }
 
 /**
- * Initialize a pool at the requested address with the requested size.
+ * Initialize a pool to allocate memory from the specified address, up to the specified size.
  * Store the metadata of this pool in AudioAllocPool* pool
  */
 void AudioHeap_AllocPoolInit(AudioAllocPool* pool, void* ramAddr, u32 size) {
@@ -756,9 +756,9 @@ void AudioHeap_UpdateReverbs(void) {
 }
 
 /**
- * Clear the Audio Interface Buffers
+ * Clear the current Audio Interface Buffer
  */
-void AudioHeap_ClearAiBuffers(void) {
+void AudioHeap_ClearCurrentAiBuffer(void) {
     s32 curAiBuffferIndex = gAudioContext.curAiBufIndex;
     s32 i;
 
@@ -818,7 +818,7 @@ s32 AudioHeap_ResetStep(void) {
             break;
 
         case 2:
-            AudioHeap_ClearAiBuffers();
+            AudioHeap_ClearCurrentAiBuffer();
             if (gAudioContext.audioResetFadeOutFramesLeft != 0) {
                 gAudioContext.audioResetFadeOutFramesLeft--;
             } else {
@@ -887,7 +887,7 @@ void AudioHeap_Init(void) {
         gAudioContext.audioBufferParameters.updatesPerFrame / 4.0f;
     gAudioContext.audioBufferParameters.updatesPerFrameInv = 1.0f / gAudioContext.audioBufferParameters.updatesPerFrame;
 
-    // sample dma size
+    // SampleDma buffer size
     gAudioContext.sampleDmaBufSize1 = spec->sampleDmaBufSize1;
     gAudioContext.sampleDmaBufSize2 = spec->sampleDmaBufSize2;
 
@@ -915,7 +915,7 @@ void AudioHeap_Init(void) {
         gAudioContext.audioBufferParameters.maxAiBufferLength -= 0x10;
     }
 
-    // Determine the maximum allowable number of audio command list entries for the rsp microcode
+    // Determine the length of the buffer for storing the audio command list passed to the rsp audio microcode
     gAudioContext.maxAudioCmds = gAudioContext.numNotes * 0x10 * gAudioContext.audioBufferParameters.updatesPerFrame +
                                  spec->numReverbs * 0x18 + 0x140;
 
@@ -931,23 +931,23 @@ void AudioHeap_Init(void) {
         gAudioContext.externalPool.curRamAddr = gAudioContext.externalPool.startRamAddr;
     }
 
-    // Session Pool Split (split into Cache and Misc heaps)
+    // Session Pool Split (split into Cache and Misc pools)
     gAudioContext.sessionPoolSplit.miscPoolSize = miscPoolSize;
     gAudioContext.sessionPoolSplit.cachePoolSize = cachePoolSize;
     AudioHeap_SessionPoolsInit(&gAudioContext.sessionPoolSplit);
 
-    // Cache Pool Split (Split into Persistent and Temporary heaps)
+    // Cache Pool Split (split into Persistent and Temporary pools)
     gAudioContext.cachePoolSplit.persistentCommonPoolSize = persistentSize;
     gAudioContext.cachePoolSplit.temporaryCommonPoolSize = temporarySize;
     AudioHeap_CachePoolInit(&gAudioContext.cachePoolSplit);
 
-    // Persistent Pool Split (Split into Sequences, SoundFonts, Samples)
+    // Persistent Pool Split (split into Sequences, SoundFonts, Samples pools)
     gAudioContext.persistentCommonPoolSplit.seqCacheSize = spec->persistentSeqCacheSize;
     gAudioContext.persistentCommonPoolSplit.fontCacheSize = spec->persistentFontCacheSize;
     gAudioContext.persistentCommonPoolSplit.sampleBankCacheSize = spec->persistentSampleBankCacheSize;
     AudioHeap_PersistentCachesInit(&gAudioContext.persistentCommonPoolSplit);
 
-    // Temporary Pool Split (Split into Sequences, SoundFonts, Samples)
+    // Temporary Pool Split (split into Sequences, SoundFonts, Samples pools)
     gAudioContext.temporaryCommonPoolSplit.seqCacheSize = spec->temporarySeqCacheSize;
     gAudioContext.temporaryCommonPoolSplit.fontCacheSize = spec->temporaryFontCacheSize;
     gAudioContext.temporaryCommonPoolSplit.sampleBankCacheSize = spec->temporarySampleBankCacheSize;
@@ -962,7 +962,7 @@ void AudioHeap_Init(void) {
     gAudioContext.noteSubsEu =
         AudioHeap_AllocZeroed(&gAudioContext.miscPool, gAudioContext.audioBufferParameters.updatesPerFrame *
                                                            gAudioContext.numNotes * sizeof(NoteSubEu));
-    // Initialize audio binary interface command list buffer
+    // Initialize audio binary interface command list buffers
     for (i = 0; i != 2; i++) {
         gAudioContext.abiCmdBufs[i] =
             AudioHeap_AllocDmaMemoryZeroed(&gAudioContext.miscPool, gAudioContext.maxAudioCmds * sizeof(u64));
@@ -985,7 +985,7 @@ void AudioHeap_Init(void) {
         reverb->downsampleRate = settings->downsampleRate;
         reverb->windowSize = settings->windowSize * 64;
         reverb->windowSize /= reverb->downsampleRate;
-        reverb->decayRate = settings->decayRate;
+        reverb->decayRatio = settings->decayRatio;
         reverb->volume = settings->volume;
         reverb->unk_14 = settings->unk_6 * 64;
         reverb->unk_16 = settings->unk_8;
@@ -1057,7 +1057,7 @@ void AudioHeap_Init(void) {
         AudioSeq_ResetSequencePlayer(&gAudioContext.seqPlayers[j]);
     }
 
-    // Initialize two additional caches on the audio heap
+    // Initialize two additional sample caches for individual samples
     AudioHeap_InitSampleCaches(spec->persistentSampleCacheSize, spec->temporarySampleCacheSize);
     AudioLoad_InitSampleDmaBuffers(gAudioContext.numNotes);
 
@@ -1125,7 +1125,7 @@ void* AudioHeap_AllocSampleCache(u32 size, s32 fontId, void* sampleAddr, s8 medi
 
 /**
  * Initializes the persistent and temporary caches used for individual samples. Will attempt to use heap space available
- * on the external pool. If no external pool is provided, then default to using space on the misc heap.
+ * on the external pool. If no external pool is provided, then default to using space on the misc pool.
  */
 void AudioHeap_InitSampleCaches(u32 persistentSampleCacheSize, u32 temporarySampleCacheSize) {
     void* ramAddr;

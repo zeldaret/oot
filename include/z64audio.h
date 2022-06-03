@@ -60,17 +60,13 @@ typedef enum {
 } AudioCacheType;
 
 typedef enum {
-    /* 0 */ LOAD_STATUS_NOT_LOADED,
-    /* 1 */ LOAD_STATUS_IN_PROGRESS,
-    /* 2 */ LOAD_STATUS_COMPLETE,
-    /* 3 */ LOAD_STATUS_DISCARDABLE,
-    /* 4 */ LOAD_STATUS_MAYBE_DISCARDABLE,
-    /* 5 */ LOAD_STATUS_PERMANENTLY_LOADED
+    /* 0 */ LOAD_STATUS_NOT_LOADED, // the entry data is not loaded
+    /* 1 */ LOAD_STATUS_IN_PROGRESS, // the entry data is being loaded asynchronously
+    /* 2 */ LOAD_STATUS_COMPLETE, // the entry data is loaded, it may be discarded if no longer in use, or the memory is needed for something else
+    /* 3 */ LOAD_STATUS_DISCARDABLE, // the entry data is loaded, and can be discarded
+    /* 4 */ LOAD_STATUS_MAYBE_DISCARDABLE, // only for font table entries, like COMPLETE but prefer discarding it over a COMPLETE entry
+    /* 5 */ LOAD_STATUS_PERMANENTLY_LOADED // the entry data is loaded in the permanent pool, it won't be discarded
 } AudioLoadStatus;
-
-#define SAMPLE_FONT_LOAD_COMPLETE(sampleBankId) (gAudioContext.sampleFontLoadStatus[sampleBankId] >= LOAD_STATUS_COMPLETE)
-#define FONT_LOAD_COMPLETE(fontId) (gAudioContext.fontLoadStatus[fontId] >= LOAD_STATUS_COMPLETE)
-#define SEQ_LOAD_COMPLETE(seqId) (gAudioContext.seqLoadStatus[seqId] >= LOAD_STATUS_COMPLETE)
 
 typedef s32 (*DmaHandler)(OSPiHandle* handle, OSIoMesg* mb, s32 direction);
 
@@ -172,7 +168,7 @@ typedef struct {
     /* 0x006 */ u16 windowSize;
     /* 0x008 */ s16 unk_08;
     /* 0x00A */ s16 volume;
-    /* 0x00C */ u16 decayRate; // determines how fast reverb dissipates
+    /* 0x00C */ u16 decayRatio; // determines how long reverb persists
     /* 0x00E */ u16 unk_0E;
     /* 0x010 */ s16 leakRtl;
     /* 0x012 */ s16 leakLtr;
@@ -488,7 +484,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ u8 priority;
     /* 0x01 */ u8 waveId;
-    /* 0x02 */ u8 harmonicIndex;
+    /* 0x02 */ u8 sampleCountIndex;
     /* 0x03 */ u8 fontId;
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 stereoHeadsetEffects;
@@ -500,7 +496,7 @@ typedef struct {
     /* 0x18 */ SequenceLayer* wantedParentLayer;
     /* 0x1C */ NoteAttributes attributes;
     /* 0x40 */ AdsrState adsr;
-    // Majora's Mask suggests this struct contain portamento, vibratoState
+    // Majora's Mask suggests this struct contains portamento, vibratoState
 } NotePlaybackState; // size = 0x60
 
 typedef struct {
@@ -553,7 +549,7 @@ typedef struct Note {
 typedef struct {
     /* 0x00 */ u8 downsampleRate;
     /* 0x02 */ u16 windowSize;
-    /* 0x04 */ u16 decayRate; // determines how fast reverb dissipates
+    /* 0x04 */ u16 decayRatio; // determines how long reverb persists
     /* 0x06 */ u16 unk_6;
     /* 0x08 */ u16 unk_8;
     /* 0x0A */ u16 volume;
@@ -567,7 +563,7 @@ typedef struct {
 
 /**
  * The high-level audio specifications requested when initializing or resetting the audio heap.
- * Most often resets during scene transitions, but will highly depend on game play.
+ * The audio heap can be reset on various occasions, including on most scene transitions.
  */ 
 typedef struct {
     /* 0x00 */ u32 samplingFrequency; // Target sampling rate in Hz
@@ -578,8 +574,8 @@ typedef struct {
     /* 0x08 */ u8 unk_08; // unused, set to zero
     /* 0x09 */ u8 numReverbs;
     /* 0x0C */ ReverbSettings* reverbSettings;
-    /* 0x10 */ u16 sampleDmaBufSize1; // size of buffer in the audio misc pool to store small snippets of individual samples. Stored short-lived.
-    /* 0x12 */ u16 sampleDmaBufSize2; // size of buffer in the audio misc pool to store small snippets of individual samples. Stored long-lived.
+    /* 0x10 */ u16 sampleDmaBufSize1; // size of buffers in the audio misc pool to store small snippets of individual samples. Stored short-lived.
+    /* 0x12 */ u16 sampleDmaBufSize2; // size of buffers in the audio misc pool to store small snippets of individual samples. Stored long-lived.
     /* 0x14 */ u16 unk_14;
     /* 0x18 */ u32 persistentSeqCacheSize;  // size of cache on audio pool to store sequences persistently
     /* 0x1C */ u32 persistentFontCacheSize; // size of cache on audio pool to store soundFonts persistently
@@ -594,8 +590,7 @@ typedef struct {
 /**
  * The audio buffer stores the fully processed digital audio before it is sent to the audio interface (AI), then to the
  * digital-analog converter (DAC), then to play on the speakers. The audio buffer is written to by the rsp after
- * processing audio commands, and the audio buffer is read by AI which sends the data to the DAC.
- * This struct parameterizes that buffer.
+ * processing audio commands. This struct parameterizes that buffer.
  */
 typedef struct {
     /* 0x00 */ s16 specUnk4;
@@ -851,7 +846,7 @@ typedef struct {
     /* 0x2894 */ s32 numNotes;
     /* 0x2898 */ s16 tempoInternalToExternal;
     /* 0x289A */ s8 soundMode;
-    /* 0x289C */ s32 totalTaskCount; // The total number of times the top-level function on the audio thread is run since audio is initialized
+    /* 0x289C */ s32 totalTaskCount; // The total number of times the top-level function on the audio thread has run since audio was initialized
     /* 0x28A0 */ s32 curAudioFrameDmaCount;
     /* 0x28A4 */ s32 rspTaskIndex;
     /* 0x28A8 */ s32 curAiBufIndex;
@@ -873,13 +868,13 @@ typedef struct {
     /* 0x29B0 */ AudioAllocPool audioInitPool;// A sub-pool to the main pool, contains all sub-pools and data that persists every audio reset
     /* 0x29C0 */ AudioAllocPool miscPool; // A sub-pool to the session pool. 
     /* 0x29D0 */ char unk_29D0[0x20]; // probably two unused pools
-    /* 0x29F0 */ AudioAllocPool cachePool; // The common pool for all cache entries
-    /* 0x2A00 */ AudioAllocPool persistentCommonPool; // A sub-pool to the cache pool, contains all caches for data stored persistently
-    /* 0x2A10 */ AudioAllocPool temporaryCommonPool; // A sub-pool to the cache pool, contains all caches for data stored temporarily
+    /* 0x29F0 */ AudioAllocPool cachePool; // The common pool for cache entries
+    /* 0x2A00 */ AudioAllocPool persistentCommonPool; // A sub-pool to the cache pool, contains caches for data stored persistently
+    /* 0x2A10 */ AudioAllocPool temporaryCommonPool; // A sub-pool to the cache pool, contains caches for data stored temporarily
     /* 0x2A20 */ AudioCache seqCache; // Cache to store sequences
     /* 0x2B30 */ AudioCache fontCache; // Cache to store soundFonts
     /* 0x2C40 */ AudioCache sampleBankCache; // Cache for loading entire sample banks
-    /* 0x2D50 */ AudioAllocPool permanentPool; // Pool to stores audio data that is always loaded in. Used for sfxs
+    /* 0x2D50 */ AudioAllocPool permanentPool; // Pool to store audio data that is always loaded. Used for sfxs
     /* 0x2D60 */ AudioCacheEntry permanentCache[32]; // individual entries to the permanent pool
     /* 0x2EE0 */ AudioSampleCache persistentSampleCache; // Stores individual samples persistently
     /* 0x3174 */ AudioSampleCache temporarySampleCache; // Stores individual samples temporarily
@@ -906,7 +901,7 @@ typedef struct {
     /* 0x5BD8 */ u8 cmdWrPos;
     /* 0x5BD9 */ u8 cmdRdPos;
     /* 0x5BDA */ u8 cmdQueueFinished;
-    /* 0x5BDC */ u16 activeChannelsFlags[4]; // bitfield for 16 channels. Only channels with bit turned on will be processed 
+    /* 0x5BDC */ u16 unk_5BDC[4];
     /* 0x5BE4 */ OSMesgQueue* audioResetQueueP;
     /* 0x5BE8 */ OSMesgQueue* taskStartQueueP;
     /* 0x5BEC */ OSMesgQueue* cmdProcQueueP;
