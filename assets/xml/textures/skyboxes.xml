@@ -1,21 +1,21 @@
 <Root>
     <File Name="vr_fine0_static">
-        <Texture Name="gSunriseSkybox1Tex" OutName="sunrise_1" Format="ci8" Width="128" Height="64" Offset="0x0" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
-        <Texture Name="gSunriseSkybox2Tex" OutName="sunrise_2" Format="ci8" Width="128" Height="64" Offset="0x2000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
-        <Texture Name="gSunriseSkybox3Tex" OutName="sunrise_3" Format="ci8" Width="128" Height="64" Offset="0x4000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
-        <Texture Name="gSunriseSkybox4Tex" OutName="sunrise_4" Format="ci8" Width="128" Height="64" Offset="0x6000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
-        <Texture Name="gSunriseSkybox5Tex" OutName="sunrise_5" Format="ci8" Width="128" Height="128" Offset="0x8000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
+        <Texture Name="gSunriseSkybox1Tex" OutName="sunrise_1" Format="ci8" Width="128" Height="64" Offset="0x0" ExternalPalette="vr_fine0_pal_static" SplitPalette="True"/>
+        <Texture Name="gSunriseSkybox2Tex" OutName="sunrise_2" Format="ci8" Width="128" Height="64" Offset="0x2000" ExternalPalette="vr_fine0_pal_static" SplitPalette="True"/>
+        <Texture Name="gSunriseSkybox3Tex" OutName="sunrise_3" Format="ci8" Width="128" Height="64" Offset="0x4000" ExternalPalette="vr_fine0_pal_static" SplitPalette="True"/>
+        <Texture Name="gSunriseSkybox4Tex" OutName="sunrise_4" Format="ci8" Width="128" Height="64" Offset="0x6000" ExternalPalette="vr_fine0_pal_static" SplitPalette="True"/>
+        <Texture Name="gSunriseSkybox5Tex" OutName="sunrise_5" Format="ci8" Width="128" Height="128" Offset="0x8000" ExternalPalette="vr_fine0pal_static" SplitPalette="True"/>
     </File>
     <File Name="vr_fine0_pal_static">
         <Texture Name="gSunriseSkyboxTlut" OutName="sunrise_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
     </File>
 
     <File Name="vr_fine1_static">
-        <Texture Name="gDaySkybox1Tex" OutName="day_1" Format="ci8" Width="128" Height="64" Offset="0x0" ExternalPalette="vr_fine1_pal_static"/>
-        <Texture Name="gDaySkybox2Tex" OutName="day_2" Format="ci8" Width="128" Height="64" Offset="0x2000" ExternalPalette="vr_fine1_pal_static"/>
-        <Texture Name="gDaySkybox3Tex" OutName="day_3" Format="ci8" Width="128" Height="64" Offset="0x4000" ExternalPalette="vr_fine1_pal_static"/>
-        <Texture Name="gDaySkybox4Tex" OutName="day_4" Format="ci8" Width="128" Height="64" Offset="0x6000" ExternalPalette="vr_fine1_pal_static"/>
-        <Texture Name="gDaySkybox5Tex" OutName="day_5" Format="ci8" Width="128" Height="128" Offset="0x8000" ExternalPalette="vr_fine1_pal_static"/>
+        <Texture Name="gDaySkybox1Tex" OutName="day_1" Format="ci8" Width="128" Height="64" Offset="0x0" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
+        <Texture Name="gDaySkybox2Tex" OutName="day_2" Format="ci8" Width="128" Height="64" Offset="0x2000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
+        <Texture Name="gDaySkybox3Tex" OutName="day_3" Format="ci8" Width="128" Height="64" Offset="0x4000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
+        <Texture Name="gDaySkybox4Tex" OutName="day_4" Format="ci8" Width="128" Height="64" Offset="0x6000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
+        <Texture Name="gDaySkybox5Tex" OutName="day_5" Format="ci8" Width="128" Height="128" Offset="0x8000" ExternalPalette="vr_fine1_pal_static" SplitPalette="True"/>
     </File>
     <File Name="vr_fine1_pal_static">
         <Texture Name="gDaySkyboxTlut" OutName="day_tlut" Format="rgba16" Width="16" Height="8" Offset="0x0"/>
