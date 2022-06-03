@@ -262,7 +262,7 @@ void func_80A56900(EnHeishi4* this, PlayState* play) {
 
 void func_80A56994(EnHeishi4* this, PlayState* play) {
     SkelAnime_Update(&this->skelAnime);
-    func_80038290(play, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
+    Actor_TrackPlayer(play, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
     if ((this->unk_282 == Message_GetState(&play->msgCtx)) && Message_ShouldAdvance(play)) {
         Message_CloseTextbox(play);
         SET_INFTABLE(INFTABLE_6C);

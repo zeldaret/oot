@@ -102,8 +102,8 @@ s32 BgHidanHamstep_SpawnChildren(BgHidanHamstep* this, PlayState* play2) {
     s16 params;
     PlayState* play = play2;
 
-    pos = pos; // Required to match
     pos.y = this->dyna.actor.home.pos.y - 100.0f;
+    pos = pos; // Required to match
     sin = Math_SinS(this->dyna.actor.shape.rot.y + 0x8000);
     cos = Math_CosS(this->dyna.actor.shape.rot.y + 0x8000);
 

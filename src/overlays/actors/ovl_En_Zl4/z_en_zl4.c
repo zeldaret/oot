@@ -515,6 +515,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_25)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 1:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 EnZl4_SetActiveCamDir(play, 3);
@@ -555,6 +556,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_10)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 5:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -574,6 +576,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_25)) {
                 this->talkState = 13;
             }
+            FALLTHROUGH;
         case 13:
             if (!((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play))) {
                 break;
@@ -600,6 +603,7 @@ s32 EnZl4_CsAskStone(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_29)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 8:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 EnZl4_SetActiveCamMove(play, 2);
@@ -654,6 +658,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_2)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 3:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_16);
@@ -697,6 +702,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_25)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 9:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Message_StartTextbox(play, 0x7033, NULL);
@@ -738,6 +744,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_12)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 13:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_6);
@@ -766,6 +773,7 @@ s32 EnZl4_CsAskName(EnZl4* this, PlayState* play) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 17:
             this->talkTimer2++;
             if (this->talkTimer2 == 130) {
@@ -833,6 +841,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_4)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 6:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ZL4_ANIM_33);
@@ -864,6 +873,7 @@ s32 EnZl4_CsTellLegend(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_27)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 11:
             if (!((Message_GetState(&play->msgCtx) == TEXT_STATE_CHOICE) && Message_ShouldAdvance(play))) {
                 break;
@@ -946,6 +956,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, PlayState* play) {
             this->talkTimer2 = 0;
             this->talkState++;
             Message_StartTextbox(play, 0x2079, NULL);
+            FALLTHROUGH;
         case 1:
             this->talkTimer2++;
             if (this->talkTimer2 >= 20) {
@@ -1035,6 +1046,7 @@ s32 EnZl4_CsWarnAboutGanon(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_32)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 12:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 play->msgCtx.msgMode = MSGMODE_PAUSED;
@@ -1055,6 +1067,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
             EnZl4_SetActiveCamMove(play, 10);
             this->talkTimer2 = 0;
             this->talkState++;
+            FALLTHROUGH;
         case 1:
             this->talkTimer2++;
             if (this->talkTimer2 >= 10) {
@@ -1077,6 +1090,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_20)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 4:
             if ((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play)) {
                 Message_StartTextbox(play, 0x207D, NULL);
@@ -1092,6 +1106,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, PlayState* play) {
             if (EnZl4_SetNextAnim(this, ZL4_ANIM_8)) {
                 this->talkState++;
             }
+            FALLTHROUGH;
         case 6:
             if (!((Message_GetState(&play->msgCtx) == TEXT_STATE_EVENT) && Message_ShouldAdvance(play))) {
                 break;

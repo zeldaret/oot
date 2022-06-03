@@ -243,7 +243,7 @@ void EnDs_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->unk_1E8 & 1) {
-        func_80038290(play, &this->actor, &this->unk_1D8, &this->unk_1DE, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_1D8, &this->unk_1DE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
         Math_SmoothStepToS(&this->unk_1D8.y, 0, 6, 0x1838, 100);

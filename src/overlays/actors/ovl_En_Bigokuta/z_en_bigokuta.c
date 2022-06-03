@@ -333,7 +333,7 @@ void func_809BD524(EnBigokuta* this) {
     this->unk_19A = 0;
     this->cylinder[0].base.atFlags |= AT_ON;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DAIOCTA_MAHI);
-    if (this->collider.elements->info.acHitInfo->toucher.dmgFlags & 1) {
+    if (this->collider.elements->info.acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
         this->unk_195 = true;
         this->unk_196 = 20;
     } else {

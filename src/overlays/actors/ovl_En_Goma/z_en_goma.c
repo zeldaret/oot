@@ -626,7 +626,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
             if (this->gomaType == ENGOMA_NORMAL) {
                 u32 dmgFlags = acHitInfo->toucher.dmgFlags;
 
-                if (dmgFlags & 0x100000) {
+                if (dmgFlags & DMG_SHIELD) {
                     if (this->actionFunc == EnGoma_Jump) {
                         EnGoma_SetupLand(this);
                         this->actor.velocity.y = 0.0f;
@@ -636,7 +636,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
                         Matrix_MultVec3f(&sShieldKnockbackVel, &this->shieldKnockbackVel);
                         this->invincibilityTimer = 5;
                     }
-                } else if (dmgFlags & 1) { // stun
+                } else if (dmgFlags & DMG_DEKU_NUT) { // stun
                     if (this->actionFunc != EnGoma_Stunned) {
                         EnGoma_SetupStunned(this, play);
                         this->hurtTimer = 8;
@@ -644,7 +644,7 @@ void EnGoma_UpdateHit(EnGoma* this, PlayState* play) {
                 } else {
                     swordDamage = CollisionCheck_GetSwordDamage(dmgFlags);
 
-                    if (swordDamage) {
+                    if (swordDamage != 0) {
                         EffectSsSibuki_SpawnBurst(play, &this->actor.focus.pos);
                     } else {
                         swordDamage = 1;

@@ -135,7 +135,7 @@ void EnGSwitch_Init(Actor* thisx, PlayState* play) {
             this->actor.scale.x = 0.25f;
             this->actor.scale.y = 0.45f;
             this->actor.scale.z = 0.25f;
-            this->collider.info.bumper.dmgFlags = 0x1F820;
+            this->collider.info.bumper.dmgFlags = DMG_ARROW;
             this->objId = OBJECT_TSUBO;
             this->objIndex = Object_GetIndex(&play->objectCtx, this->objId);
             if (this->objIndex < 0) {

@@ -435,12 +435,16 @@ void EnRr_CollisionCheck(EnRr* this, PlayState* play) {
             switch (this->actor.colChkInfo.damageEffect) {
                 case RR_DMG_LIGHT_ARROW:
                     dropType++; // purple rupee
+                    FALLTHROUGH;
                 case RR_DMG_SHDW_ARROW:
                     dropType++; // flexible
+                    FALLTHROUGH;
                 case RR_DMG_WIND_ARROW:
                     dropType++; // arrow
+                    FALLTHROUGH;
                 case RR_DMG_SPRT_ARROW:
                     dropType++; // magic jar
+                    FALLTHROUGH;
                 case RR_DMG_NORMAL:
                     // "ouch"
                     osSyncPrintf(VT_FGCOL(RED) "いてっ( %d : LIFE %d : DAMAGE %d : %x )！！" VT_RST "\n",

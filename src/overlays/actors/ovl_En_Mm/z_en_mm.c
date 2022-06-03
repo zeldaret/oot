@@ -488,7 +488,7 @@ void func_80AAE50C(EnMm* this, PlayState* play) {
 }
 
 void func_80AAE598(EnMm* this, PlayState* play) {
-    func_80038290(play, &this->actor, &this->unk_248, &this->unk_24E, this->actor.focus.pos);
+    Actor_TrackPlayer(play, &this->actor, &this->unk_248, &this->unk_24E, this->actor.focus.pos);
     SkelAnime_Update(&this->skelAnime);
 
     if ((func_80AADA70() != 0) && (this->unk_1E0 == 0)) {

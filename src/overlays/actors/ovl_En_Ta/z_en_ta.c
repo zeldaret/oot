@@ -1146,7 +1146,7 @@ void EnTa_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->unk_2E0 & 1) {
-        func_80038290(play, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_2D4.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2D4.y, 0, 6, 6200, 100);

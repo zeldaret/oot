@@ -2,14 +2,11 @@
 #define FUNCTIONS_H
 
 #include "z64.h"
+#include "macros.h"
 
 f32 fabsf(f32 f);
 #ifndef __sgi
-#define fabsf __builtin_fabsf
-f32 __floatundisf(u32 c);
-f64 __floatundidf(u32 c); 
-f32 __powisf2(f32 a, s32 b);
-unsigned long __udivdi3(unsigned long a, unsigned long b);
+#define fabsf(f) __builtin_fabsf((f32)(f))
 #else
 #pragma intrinsic(fabsf)
 #endif
@@ -22,7 +19,7 @@ void cleararena(void);
 void bootproc(void);
 void Main_ThreadEntry(void* arg);
 void Idle_ThreadEntry(void* arg);
-void ViConfig_UpdateVi(u32 mode);
+void ViConfig_UpdateVi(u32 black);
 void ViConfig_UpdateBlack(void);
 s32 DmaMgr_CompareName(const char* name1, const char* name2);
 s32 DmaMgr_DmaRomToRam(u32 rom, u32 ram, u32 size);
@@ -535,7 +532,7 @@ s32 Flags_GetInfTable(s32 flag);
 void Flags_SetInfTable(s32 flag);
 u16 func_80037C30(PlayState* play, s16 arg1);
 s32 func_80037D98(PlayState* play, Actor* actor, s16 arg2, s32* arg3);
-s32 func_80038290(PlayState* play, Actor* actor, Vec3s* arg2, Vec3s* arg3, Vec3f arg4);
+s32 Actor_TrackPlayer(PlayState* play, Actor* actor, Vec3s* headRot, Vec3s* torsoRot, Vec3f focusPos);
 void ActorOverlayTable_LogPrint(void);
 void ActorOverlayTable_Init(void);
 void ActorOverlayTable_Cleanup(void);
@@ -980,7 +977,7 @@ void MapMark_Draw(PlayState* play);
 void PreNmiBuff_Init(PreNmiBuff* this);
 void PreNmiBuff_SetReset(PreNmiBuff* this);
 u32 PreNmiBuff_IsResetting(PreNmiBuff* this);
-void MsgEvent_SendNullTask(void);
+void Sched_FlushTaskQueue(void);
 f32 OLib_Vec3fDist(Vec3f* a, Vec3f* b);
 f32 OLib_Vec3fDistXZ(Vec3f* a, Vec3f* b);
 f32 OLib_ClampMinDist(f32 val, f32 min);
@@ -1251,12 +1248,12 @@ void LinkAnimation_BlendToMorph(PlayState* play, SkelAnime* skelAnime, LinkAnima
                                 Vec3s* blendTable);
 void LinkAnimation_EndLoop(SkelAnime* skelAnime);
 s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame);
-s32 SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-s32 SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                       AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
-s32 SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
-                       AnimationHeader* animation);
+BAD_RETURN(s32) SkelAnime_Init(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                               AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32) SkelAnime_InitFlex(PlayState* play, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation, Vec3s* jointTable, Vec3s* morphTable, s32 limbCount);
+BAD_RETURN(s32) SkelAnime_InitSkin(PlayState* play, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
+                                   AnimationHeader* animation);
 s32 SkelAnime_Update(SkelAnime* skelAnime);
 void Animation_ChangeImpl(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed, f32 startFrame, f32 endFrame,
                           u8 mode, f32 morphFrames, s8 taper);
@@ -1566,10 +1563,10 @@ void THA_Dt(TwoHeadArena* tha);
 void func_800C3C20(void);
 void func_800C3C80(AudioMgr* audioMgr);
 void AudioMgr_HandleRetrace(AudioMgr* audioMgr);
-void AudioMgr_HandlePRENMI(AudioMgr* audioMgr);
+void AudioMgr_HandlePreNMI(AudioMgr* audioMgr);
 void AudioMgr_ThreadEntry(void* arg0);
 void AudioMgr_Unlock(AudioMgr* audioMgr);
-void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, SchedContext* sched, IrqMgr* irqMgr);
+void AudioMgr_Init(AudioMgr* audioMgr, void* stack, OSPri pri, OSId id, Scheduler* sched, IrqMgr* irqMgr);
 void TitleSetup_InitImpl(GameState* gameState);
 void TitleSetup_Destroy(GameState* gameState);
 void TitleSetup_Init(GameState* gameState);
@@ -1633,24 +1630,6 @@ void PadMgr_HandlePreNMI(PadMgr* padmgr);
 // fault.c (actual bug in game), and the compiler notices and won't compile it
 // void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
 void PadMgr_Init(PadMgr* padmgr, OSMesgQueue* serialEventQueue, IrqMgr* irqMgr, OSId id, OSPri priority, void* stack);
-void Sched_SwapFrameBuffer(CfbInfo* cfbInfo);
-void func_800C84E4(SchedContext* sc, CfbInfo* cfbInfo);
-void Sched_HandleReset(SchedContext* sc);
-void Sched_HandleStart(SchedContext* sc);
-void Sched_QueueTask(SchedContext* sc, OSScTask* task);
-void Sched_Yield(SchedContext* sc);
-OSScTask* func_800C89D4(SchedContext* sc, OSScTask* task);
-s32 Sched_Schedule(SchedContext* sc, OSScTask** sp, OSScTask** dp, s32 state);
-void func_800C8BC4(SchedContext* sc, OSScTask* task);
-u32 Sched_IsComplete(SchedContext* sc, OSScTask* task);
-void Sched_RunTask(SchedContext* sc, OSScTask* spTask, OSScTask* dpTask);
-void Sched_HandleEntry(SchedContext* sc);
-void Sched_HandleRetrace(SchedContext* sc);
-void Sched_HandleRSPDone(SchedContext* sc);
-void Sched_HandleRDPDone(SchedContext* sc);
-void Sched_SendEntryMsg(SchedContext* sc);
-void Sched_ThreadEntry(void* arg);
-void Sched_Init(SchedContext* sc, void* stack, OSPri priority, UNK_TYPE arg3, UNK_TYPE arg4, IrqMgr* irqMgr);
 void SpeedMeter_InitImpl(SpeedMeter* this, u32 arg1, u32 y);
 void SpeedMeter_Init(SpeedMeter* this);
 void SpeedMeter_Destroy(SpeedMeter* this);
@@ -2264,7 +2243,7 @@ void guMtxF2L(MtxF* m1, Mtx* m2);
 // ? __ll_to_f(?);
 // ? __ull_to_d(?);
 // ? __ull_to_f(?);
-u32* osViGetCurrentFramebuffer(void);
+void* osViGetCurrentFramebuffer(void);
 s32 __osSpSetPc(void* pc);
 f32 absf(f32);
 void* __osMemset(void* dest, s32 val, size_t len);

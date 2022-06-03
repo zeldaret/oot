@@ -35,6 +35,7 @@
 #include "irqmgr.h"
 #include "padmgr.h"
 #include "fault.h"
+#include "sched.h"
 
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
@@ -116,30 +117,6 @@ typedef struct {
     /* 0x000C */ Gfx*   d;
 } TwoHeadGfxArena; // size = 0x10
 
-typedef struct {
-    /* 0x00 */ u16* fb1;
-    /* 0x04 */ u16* swapBuffer;
-    /* 0x08 */ OSViMode* viMode;
-    /* 0x0C */ u32 features;
-    /* 0x10 */ u8 unk_10;
-    /* 0x11 */ s8 updateRate;
-    /* 0x12 */ s8 updateRate2;
-    /* 0x13 */ u8 unk_13;
-    /* 0x14 */ f32 xScale;
-    /* 0x18 */ f32 yScale;
-} CfbInfo; // size = 0x1C
-
-typedef struct OSScTask {
-    /* 0x00 */ struct OSScTask* next;
-    /* 0x04 */ u32 state;
-    /* 0x08 */ u32 flags;
-    /* 0x0C */ CfbInfo* framebuffer;
-    /* 0x10 */ OSTask list;
-    /* 0x50 */ OSMesgQueue* msgQueue;
-    /* 0x54 */ OSMesg msg;
-    /* 0x58 */ char unk_58[0x10];
-} OSScTask; // size = 0x68
-
 typedef struct GraphicsContext {
     /* 0x0000 */ Gfx* polyOpaBuffer; // Pointer to "Zelda 0"
     /* 0x0004 */ Gfx* polyXluBuffer; // Pointer to "Zelda 1"
@@ -150,7 +127,6 @@ typedef struct GraphicsContext {
     /* 0x0038 */ OSMesg msgBuff[0x08];
     /* 0x0058 */ OSMesgQueue* schedMsgQueue;
     /* 0x005C */ OSMesgQueue queue;
-    /* 0x0074 */ char unk_074[0x04];
     /* 0x0078 */ OSScTask task;
     /* 0x00E0 */ char unk_0E0[0xD0];
     /* 0x01B0 */ Gfx* workBuffer;
@@ -1580,63 +1556,18 @@ typedef struct {
     /* 0x10 */ u32 data[1];
 } Yaz0Header; // size = 0x10 ("data" is not part of the header)
 
-// == Previously sched.h
-
-#define OS_SC_NEEDS_RDP         0x0001
-#define OS_SC_NEEDS_RSP         0x0002
-#define OS_SC_DRAM_DLIST        0x0004
-#define OS_SC_PARALLEL_TASK     0x0010
-#define OS_SC_LAST_TASK         0x0020
-#define OS_SC_SWAPBUFFER        0x0040
-
-#define OS_SC_RCP_MASK          0x0003
-#define OS_SC_TYPE_MASK         0x0007
-
 typedef struct {
-    /* 0x0000 */ u16*   curBuffer;
-    /* 0x0004 */ u16*   nextBuffer;
-} FrameBufferSwap;
-
-typedef struct {
-    /* 0x0000 */ OSMesgQueue  interruptQueue;
-    /* 0x0018 */ OSMesg       interruptMsgBuf[8];
-    /* 0x0038 */ OSMesgQueue  cmdQueue;
-    /* 0x0050 */ OSMesg       cmdMsgBuf[8];
-    /* 0x0070 */ OSThread     thread;
-    /* 0x0220 */ OSScTask*    audioListHead;
-    /* 0x0224 */ OSScTask*    gfxListHead;
-    /* 0x0228 */ OSScTask*    audioListTail;
-    /* 0x022C */ OSScTask*    gfxListTail;
-    /* 0x0230 */ OSScTask*    curRSPTask;
-    /* 0x0234 */ OSScTask*    curRDPTask;
-    /* 0x0238 */ s32          retraceCnt;
-    /* 0x023C */ s32          doAudio;
-    /* 0x0240 */ CfbInfo*     curBuf;
-    /* 0x0244 */ CfbInfo*     pendingSwapBuf1;
-    /* 0x0220 */ CfbInfo*     pendingSwapBuf2;
-    /* 0x0220 */ UNK_TYPE4    unk_24C;
-    /* 0x0250 */ IrqMgrClient irqClient;
-} SchedContext; // size = 0x258
-
-// ========================
-
-#define OS_SC_DP                0x0001
-#define OS_SC_SP                0x0002
-#define OS_SC_YIELD             0x0010
-#define OS_SC_YIELDED           0x0020
-
-typedef struct {
-    /* 0x0000 */ IrqMgr*       irqMgr;
-    /* 0x0004 */ SchedContext* sched;
-    /* 0x0008 */ OSScTask      audioTask;
-    /* 0x0070 */ AudioTask*    rspTask;
-    /* 0x0074 */ OSMesgQueue   interruptQueue;
-    /* 0x008C */ OSMesg        interruptMsgBuf[8];
-    /* 0x00AC */ OSMesgQueue   taskQueue;
-    /* 0x00C4 */ OSMesg        taskMsgBuf[1];
-    /* 0x00C8 */ OSMesgQueue   lockQueue;
-    /* 0x00E0 */ OSMesg        lockMsgBuf[1];
-    /* 0x00E8 */ OSThread      thread;
+    /* 0x0000 */ IrqMgr*     irqMgr;
+    /* 0x0004 */ Scheduler*  sched;
+    /* 0x0008 */ OSScTask    audioTask;
+    /* 0x0070 */ AudioTask*  rspTask;
+    /* 0x0074 */ OSMesgQueue interruptQueue;
+    /* 0x008C */ OSMesg      interruptMsgBuf[8];
+    /* 0x00AC */ OSMesgQueue taskQueue;
+    /* 0x00C4 */ OSMesg      taskMsgBuf[1];
+    /* 0x00C8 */ OSMesgQueue lockQueue;
+    /* 0x00E0 */ OSMesg      lockMsgBuf[1];
+    /* 0x00E8 */ OSThread    thread;
 } AudioMgr; // size = 0x298
 
 struct ArenaNode;
@@ -1823,7 +1754,6 @@ typedef struct {
     /* 0x14 */ u8* dhtPtr[4];
     /* 0x24 */ void* imageData;
     /* 0x28 */ u32 mode; // 0 if Y V0 is 1 and 2 if Y V0 is 2
-    /* 0x2C */ char unk_2C[4];
     /* 0x30 */ OSScTask scTask;
     /* 0x98 */ OSMesgQueue mq;
     /* 0xB0 */ OSMesg msg;

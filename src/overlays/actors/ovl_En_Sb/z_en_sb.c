@@ -385,6 +385,7 @@ s32 EnSb_UpdateDamage(EnSb* this, PlayState* play) {
         switch (this->actor.colChkInfo.damageEffect) {
             case 14: // wind arrow
                 hitByWindArrow = true;
+                FALLTHROUGH;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
                     hitY = this->collider.info.bumper.hitPos.y - this->actor.world.pos.y;

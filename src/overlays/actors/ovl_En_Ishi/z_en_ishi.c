@@ -356,7 +356,7 @@ void EnIshi_Wait(EnIshi* this, PlayState* play) {
             EnIshi_SpawnBugs(this, play);
         }
     } else if ((this->collider.base.acFlags & AC_HIT) && (type == ROCK_SMALL) &&
-               this->collider.info.acHitInfo->toucher.dmgFlags & 0x40000048) {
+               this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_HAMMER | DMG_EXPLOSIVE)) {
         EnIshi_DropCollectible(this, play);
         SoundSource_PlaySfxAtFixedWorldPos(play, &this->actor.world.pos, sBreakSoundDurations[type],
                                            sBreakSounds[type]);

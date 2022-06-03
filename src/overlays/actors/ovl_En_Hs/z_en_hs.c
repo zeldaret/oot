@@ -241,7 +241,7 @@ void EnHs_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->unk_2A8 & 1) {
-        func_80038290(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A8 &= ~1;
     } else {
         Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);

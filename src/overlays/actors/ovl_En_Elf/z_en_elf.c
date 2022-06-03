@@ -373,8 +373,10 @@ void EnElf_Init(Actor* thisx, PlayState* play) {
         case FAIRY_HEAL_BIG:
             this->fairyFlags |= FAIRY_FLAG_BIG;
             thisx->shape.shadowDraw = ActorShadow_DrawWhiteCircle;
+            FALLTHROUGH;
         case FAIRY_HEAL_TIMED:
             this->fairyFlags |= FAIRY_FLAG_TIMED;
+            FALLTHROUGH;
         case FAIRY_HEAL:
             colorConfig = -1;
             EnElf_SetupAction(this, func_80A0329C);

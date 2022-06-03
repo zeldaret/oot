@@ -292,7 +292,7 @@ void EnMm2_Update(Actor* thisx, PlayState* play) {
     s32 pad;
 
     if (this->unk_1F4 & 1) {
-        func_80038290(play, &this->actor, &this->unk_1E8, &this->unk_1EE, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_1E8, &this->unk_1EE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_1E8.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_1E8.y, 0, 6, 6200, 100);

@@ -17,7 +17,7 @@ void PreNMI_Update(PreNMIContext* this) {
     }
 
     if (this->timer == 0) {
-        ViConfig_UpdateVi(1);
+        ViConfig_UpdateVi(true);
         func_80092320(this);
         return;
     }

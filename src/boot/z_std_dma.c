@@ -431,7 +431,7 @@ s32 DmaMgr_SendRequest2(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk5, 
                         const char* file, s32 line) {
     req->filename = file;
     req->line = line;
-    DmaMgr_SendRequestImpl(req, ram, vrom, size, unk5, queue, msg);
+    return DmaMgr_SendRequestImpl(req, ram, vrom, size, unk5, queue, msg);
 }
 
 s32 DmaMgr_SendRequest1(void* ram0, u32 vrom, u32 size, const char* file, s32 line) {

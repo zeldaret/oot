@@ -105,14 +105,17 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
         switch (RELOC_TYPE_MASK(reloc)) {
             case R_MIPS_32 << RELOC_TYPE_SHIFT:
                 dbg = 0x16;
+                FALLTHROUGH;
             case R_MIPS_26 << RELOC_TYPE_SHIFT:
                 dbg += 0xA;
+                FALLTHROUGH;
             case R_MIPS_LO16 << RELOC_TYPE_SHIFT:
                 if (gOverlayLogSeverity >= 3) {
                     osSyncPrintf("%02d %08x %08x %08x ", dbg, relocDataP, relocatedValue, relocatedAddress);
                     osSyncPrintf(" %08x %08x %08x %08x\n", (uintptr_t)relocDataP + (uintptr_t)vRamStart - allocu32,
                                  relocData, unrelocatedAddress, relocOffset);
                 }
+                // Adding a break prevents matching
         }
     }
 }
