@@ -772,7 +772,7 @@ void EnFd_Draw(Actor* thisx, PlayState* play) {
     Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         clampedHealth = CLAMP(thisx->colChkInfo.health - 1, 0, 23);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, primColors[clampedHealth / 8].r, primColors[clampedHealth / 8].g,
                         primColors[clampedHealth / 8].b, (u8)this->fadeAlpha);
@@ -882,11 +882,11 @@ void EnFd_DrawEffectsFlames(EnFd* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd.c", 1969);
     materialFlag = false;
     if (1) {}
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
         if (eff->type == FD_EFFECT_FLAME) {
             if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
                 gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_7928);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 10, 0, (u8)((this->fadeAlpha / 255.0f) * 255));
                 materialFlag = true;
@@ -914,12 +914,12 @@ void EnFd_DrawEffectsDots(EnFd* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_fd.c", 2034);
 
     materialFlag = false;
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     for (i = 0; i < EN_FD_EFFECT_COUNT; i++, eff++) {
         if (eff->type == FD_EFFECT_DOT) {
             if (!materialFlag) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gFlareDancerDL_79F8);
                 materialFlag = true;
             }

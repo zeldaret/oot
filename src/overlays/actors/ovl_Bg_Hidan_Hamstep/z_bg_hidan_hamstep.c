@@ -398,7 +398,7 @@ void BgHidanHamstep_Update(Actor* thisx, PlayState* play) {
 void BgHidanHamstep_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 782);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_hamstep.c", 787),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

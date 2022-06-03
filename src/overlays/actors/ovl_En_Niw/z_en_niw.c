@@ -1140,7 +1140,7 @@ void EnNiw_Draw(Actor* thisx, PlayState* play) {
     Vec3f scale = { 0.15f, 0.15f, 0.15f };
     GraphicsContext* gfxCtx = play->state.gfxCtx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiw_OverrideLimbDraw, NULL, this);
 
@@ -1210,7 +1210,7 @@ void EnNiw_DrawEffects(EnNiw* this, PlayState* play) {
 
     OPEN_DISPS(gfxCtx, "../z_en_niw.c", 1897);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     for (i = 0; i < EN_NIW_EFFECT_COUNT; i++, effect++) {
         if (effect->type == 1) {

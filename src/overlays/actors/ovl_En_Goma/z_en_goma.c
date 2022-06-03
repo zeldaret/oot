@@ -784,7 +784,7 @@ void EnGoma_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_goma.c", 2040);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     switch (this->gomaType) {
         case ENGOMA_NORMAL:
