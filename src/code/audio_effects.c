@@ -1,7 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
-void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculateVolume, s32 b) {
+void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculateVolume, s32 applyBend) {
     f32 channelVolume;
     f32 chanFreqScale;
     s32 i;
@@ -19,13 +19,14 @@ void Audio_SequenceChannelProcessSound(SequenceChannel* channel, s32 recalculate
     }
 
     chanFreqScale = channel->freqScale;
-    if (b != 0) {
-        chanFreqScale *= channel->seqPlayer->unk_34;
+    if (applyBend) {
+        chanFreqScale *= channel->seqPlayer->bend;
         channel->changes.s.freqScale = true;
     }
 
     for (i = 0; i < 4; i++) {
         SequenceLayer* layer = channel->layers[i];
+
         if (layer != NULL && layer->enabled && layer->note != NULL) {
             if (layer->notePropertiesNeedInit) {
                 layer->noteFreqScale = layer->freqScale * chanFreqScale;
@@ -58,11 +59,12 @@ void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer) {
         if (seqPlayer->fadeVolume > 1.0f) {
             seqPlayer->fadeVolume = 1.0f;
         }
-        if (seqPlayer->fadeVolume < 0) {
-            seqPlayer->fadeVolume = 0;
+        if (seqPlayer->fadeVolume < 0.0f) {
+            seqPlayer->fadeVolume = 0.0f;
         }
 
-        if (--seqPlayer->fadeTimer == 0 && seqPlayer->state == 2) {
+        seqPlayer->fadeTimer--;
+        if (seqPlayer->fadeTimer == 0 && seqPlayer->state == 2) {
             AudioSeq_SequencePlayerDisable(seqPlayer);
             return;
         }
@@ -74,31 +76,34 @@ void Audio_SequencePlayerProcessSound(SequencePlayer* seqPlayer) {
 
     for (i = 0; i < 16; i++) {
         if (seqPlayer->channels[i]->enabled == 1) {
-            Audio_SequenceChannelProcessSound(seqPlayer->channels[i], seqPlayer->recalculateVolume, seqPlayer->unk_0b1);
+            Audio_SequenceChannelProcessSound(seqPlayer->channels[i], seqPlayer->recalculateVolume,
+                                              seqPlayer->applyBend);
         }
     }
 
     seqPlayer->recalculateVolume = false;
 }
 
-f32 Audio_GetPortamentoFreqScale(Portamento* p) {
+f32 Audio_GetPortamentoFreqScale(Portamento* portamento) {
     u32 loResCur;
-    f32 result;
+    f32 portamentoFreq;
 
-    p->cur += p->speed;
-    loResCur = (p->cur >> 8) & 0xFF;
+    portamento->cur += portamento->speed;
+    loResCur = (portamento->cur >> 8) & 0xFF;
 
     if (loResCur >= 127) {
         loResCur = 127;
-        p->mode = 0;
+        portamento->mode = 0;
     }
 
-    result = 1.0f + p->extent * (gBendPitchOneOctaveFrequencies[loResCur + 128] - 1.0f);
-    return result;
+    portamentoFreq = 1.0f + portamento->extent * (gBendPitchOneOctaveFrequencies[loResCur + 128] - 1.0f);
+
+    return portamentoFreq;
 }
 
 s16 Audio_GetVibratoPitchChange(VibratoState* vib) {
     s32 index;
+
     vib->time += (s32)vib->rate;
     index = (vib->time >> 10) & 0x3F;
     return vib->curve[index];
@@ -116,7 +121,7 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
 
     if (vib->delay != 0) {
         vib->delay--;
-        return 1;
+        return 1.0f;
     }
 
     //! @bug this probably meant to compare with gAudioContext.sequenceChannelNone.
@@ -151,7 +156,7 @@ f32 Audio_GetVibratoFreqScale(VibratoState* vib) {
         }
     }
 
-    if (vib->extent == 0) {
+    if (vib->extent == 0.0f) {
         return 1.0f;
     }
 

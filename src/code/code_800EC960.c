@@ -2873,8 +2873,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 5);
             GfxPrint_Printf(printer, "DRIVER %05X / %05X",
-                            gAudioContext.notesAndBuffersPool.cur - gAudioContext.notesAndBuffersPool.start,
-                            gAudioContext.notesAndBuffersPool.size);
+                            gAudioContext.miscPool.curRamAddr - gAudioContext.miscPool.startRamAddr,
+                            gAudioContext.miscPool.size);
 
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(
@@ -2890,7 +2890,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 8);
             GfxPrint_Printf(printer, "ST-SEQ %02Xseqs  (%05X / %06X)", gAudioContext.seqCache.persistent.numEntries,
-                            gAudioContext.seqCache.persistent.pool.cur - gAudioContext.seqCache.persistent.pool.start,
+                            gAudioContext.seqCache.persistent.pool.curRamAddr -
+                                gAudioContext.seqCache.persistent.pool.startRamAddr,
                             gAudioContext.seqCache.persistent.pool.size);
 
             for (k = 0; (u32)k < gAudioContext.seqCache.persistent.numEntries; k++) {
@@ -2900,7 +2901,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 10);
             GfxPrint_Printf(printer, "ST-BNK %02Xbanks (%05X / %06X)", gAudioContext.fontCache.persistent.numEntries,
-                            gAudioContext.fontCache.persistent.pool.cur - gAudioContext.fontCache.persistent.pool.start,
+                            gAudioContext.fontCache.persistent.pool.curRamAddr -
+                                gAudioContext.fontCache.persistent.pool.startRamAddr,
                             gAudioContext.fontCache.persistent.pool.size);
 
             for (k = 0; (u32)k < gAudioContext.fontCache.persistent.numEntries; k++) {
@@ -2910,7 +2912,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 12);
             GfxPrint_Printf(printer, "E-MEM  %05X / %05X",
-                            gAudioContext.permanentPool.cur - gAudioContext.permanentPool.start,
+                            gAudioContext.permanentPool.curRamAddr - gAudioContext.permanentPool.startRamAddr,
                             gAudioContext.permanentPool.size);
             break;
 

@@ -9,13 +9,13 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     f32 vel;
     u8 pan;
     u8 reverbVol;
-    StereoData sp24;
+    StereoData stereoData;
     s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
 
     vel = attrs->velocity;
     pan = attrs->pan;
     reverbVol = attrs->reverbVol;
-    sp24 = attrs->stereo.s;
+    stereoData = attrs->stereo.s;
 
     sub->bitField0 = note->noteSubEu.bitField0;
     sub->bitField1 = note->noteSubEu.bitField1;
@@ -28,8 +28,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
 
     sub->bitField0.stereoStrongRight = false;
     sub->bitField0.stereoStrongLeft = false;
-    sub->bitField0.stereoHeadsetEffects = sp24.stereoHeadsetEffects;
-    sub->bitField0.usesHeadsetPanEffects = sp24.usesHeadsetPanEffects;
+    sub->bitField0.stereoHeadsetEffects = stereoData.stereoHeadsetEffects;
+    sub->bitField0.usesHeadsetPanEffects = stereoData.usesHeadsetPanEffects;
     if (stereoHeadsetEffects && gAudioContext.soundMode == 1) {
         smallPanIndex = pan >> 1;
         if (smallPanIndex > 0x3F) {
@@ -59,20 +59,23 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
         sub->bitField0.stereoStrongRight = strongRight;
         sub->bitField0.stereoStrongLeft = strongLeft;
 
-        switch (sp24.bit2) {
+        switch (stereoData.bit2) {
             case 0:
                 break;
+
             case 1:
-                sub->bitField0.stereoStrongRight = sp24.strongRight;
-                sub->bitField0.stereoStrongLeft = sp24.strongLeft;
+                sub->bitField0.stereoStrongRight = stereoData.strongRight;
+                sub->bitField0.stereoStrongLeft = stereoData.strongLeft;
                 break;
+
             case 2:
-                sub->bitField0.stereoStrongRight = sp24.strongRight | strongRight;
-                sub->bitField0.stereoStrongLeft = sp24.strongLeft | strongLeft;
+                sub->bitField0.stereoStrongRight = stereoData.strongRight | strongRight;
+                sub->bitField0.stereoStrongLeft = stereoData.strongLeft | strongLeft;
                 break;
+
             case 3:
-                sub->bitField0.stereoStrongRight = sp24.strongRight ^ strongRight;
-                sub->bitField0.stereoStrongLeft = sp24.strongLeft ^ strongLeft;
+                sub->bitField0.stereoStrongRight = stereoData.strongRight ^ strongRight;
+                sub->bitField0.stereoStrongLeft = stereoData.strongLeft ^ strongLeft;
                 break;
         }
 
@@ -82,8 +85,8 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
         volLeft = 0.707f; // approx 1/sqrt(2)
         volRight = 0.707f;
     } else {
-        sub->bitField0.stereoStrongRight = sp24.strongRight;
-        sub->bitField0.stereoStrongLeft = sp24.strongLeft;
+        sub->bitField0.stereoStrongRight = stereoData.strongRight;
+        sub->bitField0.stereoStrongLeft = stereoData.strongLeft;
         volLeft = gDefaultPanVolume[pan];
         volRight = gDefaultPanVolume[0x7F - pan];
     }
@@ -94,7 +97,7 @@ void Audio_InitNoteSub(Note* note, NoteSubEu* sub, NoteSubAttributes* attrs) {
     sub->targetVolLeft = (s32)((vel * volLeft) * (0x1000 - 0.001f));
     sub->targetVolRight = (s32)((vel * volRight) * (0x1000 - 0.001f));
 
-    sub->unk_2 = attrs->unk_1;
+    sub->gain = attrs->gain;
     sub->filter = attrs->filter;
     sub->unk_07 = attrs->unk_14;
     sub->unk_0E = attrs->unk_16;
@@ -106,16 +109,11 @@ void Audio_NoteSetResamplingRate(NoteSubEu* noteSubEu, f32 resamplingRateInput) 
 
     if (resamplingRateInput < 2.0f) {
         noteSubEu->bitField1.hasTwoParts = false;
-
-        if (1.99998f < resamplingRateInput) {
-            resamplingRate = 1.99998f;
-        } else {
-            resamplingRate = resamplingRateInput;
-        }
+        resamplingRate = CLAMP_MAX(resamplingRateInput, 1.99998f);
 
     } else {
         noteSubEu->bitField1.hasTwoParts = true;
-        if (3.99996f < resamplingRateInput) {
+        if (resamplingRateInput > 3.99996f) {
             resamplingRate = 1.99998f;
         } else {
             resamplingRate = resamplingRateInput * 0.5f;
@@ -255,7 +253,7 @@ void Audio_ProcessNotes(void) {
                 subAttrs.pan = attrs->pan;
                 subAttrs.reverbVol = attrs->reverb;
                 subAttrs.stereo = attrs->stereo;
-                subAttrs.unk_1 = attrs->unk_1;
+                subAttrs.gain = attrs->gain;
                 subAttrs.filter = attrs->filter;
                 subAttrs.unk_14 = attrs->unk_4;
                 subAttrs.unk_16 = attrs->unk_6;
@@ -273,7 +271,7 @@ void Audio_ProcessNotes(void) {
                     subAttrs.stereo = layer->stereo;
                 }
                 subAttrs.reverbVol = channel->reverb;
-                subAttrs.unk_1 = channel->unk_0C;
+                subAttrs.gain = channel->gain;
                 subAttrs.filter = channel->filter;
                 subAttrs.unk_14 = channel->unk_0F;
                 subAttrs.unk_16 = channel->unk_20;
@@ -297,6 +295,7 @@ void Audio_ProcessNotes(void) {
 
 SoundFontSound* Audio_InstrumentGetSound(Instrument* instrument, s32 semitone) {
     SoundFontSound* sound;
+
     if (semitone < instrument->normalRangeLo) {
         sound = &instrument->lowNotesSound;
     } else if (semitone <= instrument->normalRangeHi) {
@@ -470,7 +469,7 @@ void Audio_SeqLayerDecayRelease(SequenceLayer* layer, s32 target) {
         if (layer->channel != NULL) {
             chan = layer->channel;
             attrs->reverb = chan->reverb;
-            attrs->unk_1 = chan->unk_0C;
+            attrs->gain = chan->gain;
             attrs->filter = chan->filter;
 
             if (attrs->filter != NULL) {
@@ -849,62 +848,62 @@ Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceLayer* layer) {
 }
 
 Note* Audio_AllocNote(SequenceLayer* layer) {
-    Note* ret;
+    Note* note;
     u32 policy = layer->channel->noteAllocPolicy;
 
     if (policy & 1) {
-        ret = layer->note;
-        if (ret != NULL && ret->playbackState.prevParentLayer == layer &&
-            ret->playbackState.wantedParentLayer == NO_LAYER) {
-            Audio_NoteReleaseAndTakeOwnership(ret, layer);
-            Audio_AudioListRemove(&ret->listItem);
-            AudioSeq_AudioListPushBack(&ret->listItem.pool->releasing, &ret->listItem);
-            return ret;
+        note = layer->note;
+        if (note != NULL && note->playbackState.prevParentLayer == layer &&
+            note->playbackState.wantedParentLayer == NO_LAYER) {
+            Audio_NoteReleaseAndTakeOwnership(note, layer);
+            Audio_AudioListRemove(&note->listItem);
+            AudioSeq_AudioListPushBack(&note->listItem.pool->releasing, &note->listItem);
+            return note;
         }
     }
 
     if (policy & 2) {
-        if (!(ret = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
-            !(ret = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
-            !(ret = Audio_AllocNoteFromActive(&layer->channel->notePool, layer))) {
+        if (!(note = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
+            !(note = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
+            !(note = Audio_AllocNoteFromActive(&layer->channel->notePool, layer))) {
             goto null_return;
         }
-        return ret;
+        return note;
     }
 
     if (policy & 4) {
-        if (!(ret = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
-            !(ret = Audio_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
-            !(ret = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
-            !(ret = Audio_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
-            !(ret = Audio_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
-            !(ret = Audio_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer))) {
+        if (!(note = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
+            !(note = Audio_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
+            !(note = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
+            !(note = Audio_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
+            !(note = Audio_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
+            !(note = Audio_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer))) {
             goto null_return;
         }
-        return ret;
+        return note;
     }
 
     if (policy & 8) {
-        if (!(ret = Audio_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
-            !(ret = Audio_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
-            !(ret = Audio_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
+        if (!(note = Audio_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
+            !(note = Audio_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
+            !(note = Audio_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
             goto null_return;
         }
-        return ret;
+        return note;
     }
 
-    if (!(ret = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
-        !(ret = Audio_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
-        !(ret = Audio_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
-        !(ret = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
-        !(ret = Audio_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
-        !(ret = Audio_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
-        !(ret = Audio_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
-        !(ret = Audio_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer)) &&
-        !(ret = Audio_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
+    if (!(note = Audio_AllocNoteFromDisabled(&layer->channel->notePool, layer)) &&
+        !(note = Audio_AllocNoteFromDisabled(&layer->channel->seqPlayer->notePool, layer)) &&
+        !(note = Audio_AllocNoteFromDisabled(&gAudioContext.noteFreeLists, layer)) &&
+        !(note = Audio_AllocNoteFromDecaying(&layer->channel->notePool, layer)) &&
+        !(note = Audio_AllocNoteFromDecaying(&layer->channel->seqPlayer->notePool, layer)) &&
+        !(note = Audio_AllocNoteFromDecaying(&gAudioContext.noteFreeLists, layer)) &&
+        !(note = Audio_AllocNoteFromActive(&layer->channel->notePool, layer)) &&
+        !(note = Audio_AllocNoteFromActive(&layer->channel->seqPlayer->notePool, layer)) &&
+        !(note = Audio_AllocNoteFromActive(&gAudioContext.noteFreeLists, layer))) {
         goto null_return;
     }
-    return ret;
+    return note;
 
 null_return:
     layer->bit3 = true;
@@ -932,6 +931,6 @@ void Audio_NoteInitAll(void) {
         note->portamento.speed = 0;
         note->playbackState.stereoHeadsetEffects = false;
         note->unk_BC = 0;
-        note->synthesisState.synthesisBuffers = AudioHeap_AllocDmaMemory(&gAudioContext.notesAndBuffersPool, 0x1E0);
+        note->synthesisState.synthesisBuffers = AudioHeap_AllocDmaMemory(&gAudioContext.miscPool, 0x1E0);
     }
 }

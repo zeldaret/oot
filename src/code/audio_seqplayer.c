@@ -243,7 +243,7 @@ void AudioSeq_InitSequenceChannel(SequenceChannel* channel) {
     channel->noteUnused = NULL;
     channel->reverbIndex = 0;
     channel->reverb = 0;
-    channel->unk_0C = 0;
+    channel->gain = 0;
     channel->notePriority = 3;
     channel->someOtherPriority = 1;
     channel->delay = 0;
@@ -311,7 +311,7 @@ s32 AudioSeq_SeqChannelSetLayer(SequenceChannel* channel, s32 layerIdx) {
     layer->note = NULL;
     layer->instrument = NULL;
     layer->freqScale = 1.0f;
-    layer->unk_34 = 1.0f;
+    layer->bend = 1.0f;
     layer->velocitySquare2 = 0.0f;
     layer->instOrWave = 0xFF;
     return 0;
@@ -410,10 +410,10 @@ void AudioSeq_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     seqPlayer->finished = true;
 
     if (AudioLoad_IsSeqLoadComplete(seqPlayer->seqId)) {
-        AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 3);
+        AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, LOAD_STATUS_DISCARDABLE);
     }
     if (AudioLoad_IsFontLoadComplete(seqPlayer->defaultFont)) {
-        AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, 4);
+        AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, LOAD_STATUS_MAYBE_DISCARDABLE);
     }
 
     if (seqPlayer->defaultFont == gAudioContext.fontCache.temporary.entries[0].id) {
@@ -569,6 +569,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep5(SequenceLayer* layer, s32 sameSound) {
 
     if (layer->note != NULL && layer->note->playbackState.parentLayer == layer) {
         Note* note = layer->note;
+
         Audio_NotePortamentoInit(note);
     }
     return 0;
@@ -707,7 +708,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep2(SequenceLayer* layer) {
 
             case 0xCE:
                 tempByte = AudioSeq_ScriptReadU8(state);
-                layer->unk_34 = gBendPitchTwoSemitonesFrequencies[(tempByte + 0x80) & 0xFF];
+                layer->bend = gBendPitchTwoSemitonesFrequencies[(tempByte + 0x80) & 0xFF];
                 break;
 
             default:
@@ -832,11 +833,13 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
                         freqScale2 = temp_f2;
                         freqScale = temp_f14;
                         break;
+
                     case PORTAMENTO_MODE_2:
                     case PORTAMENTO_MODE_4:
                         freqScale = temp_f2;
                         freqScale2 = temp_f14;
                         break;
+
                     default:
                         freqScale = temp_f2;
                         freqScale2 = temp_f2;
@@ -885,7 +888,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
     }
 
     layer->delay2 = layer->delay;
-    layer->freqScale *= layer->unk_34;
+    layer->freqScale *= layer->bend;
     if (layer->delay == 0) {
         if (layer->sound != NULL) {
             time = (f32)layer->sound->sample->loop->end;
@@ -905,6 +908,7 @@ s32 AudioSeq_SeqLayerProcessScriptStep4(SequenceLayer* layer, s32 cmd) {
             // set when this is reached...)
             if (PORTAMENTO_IS_SPECIAL(*portamento)) {
                 s32 speed2;
+
                 speed2 = seqPlayer->tempo * 0x8000 / gAudioContext.tempoInternalToExternal;
                 speed2 = speed2 * 0x100 / (layer->delay * layer->portamentoTime);
                 if (speed2 >= 0x7FFF) {
@@ -1431,7 +1435,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->vibratoRateStart = 0;
                         channel->vibratoRateChangeDelay = 0;
                         channel->filter = NULL;
-                        channel->unk_0C = 0;
+                        channel->gain = 0;
                         channel->adsr.sustain = 0;
                         channel->velocityRandomVariance = 0;
                         channel->gateTimeRandomVariance = 0;
@@ -1447,7 +1451,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
 
                     case 0xED:
                         cmd = (u8)cmdArgs[0];
-                        channel->unk_0C = cmd;
+                        channel->gain = cmd;
                         break;
 
                     case 0xB0:
@@ -1459,6 +1463,7 @@ void AudioSeq_SequenceChannelProcessScript(SequenceChannel* channel) {
                     case 0xB1:
                         channel->filter = NULL;
                         break;
+
                     case 0xB3:
                         cmd = cmdArgs[0];
 
@@ -1654,8 +1659,8 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
         return;
     }
 
-    AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, 2);
-    AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, 2);
+    AudioLoad_SetSeqLoadStatus(seqPlayer->seqId, LOAD_STATUS_COMPLETE);
+    AudioLoad_SetFontLoadStatus(seqPlayer->defaultFont, LOAD_STATUS_COMPLETE);
 
     if (seqPlayer->muted && (seqPlayer->muteBehavior & 0x80)) {
         return;
@@ -1714,15 +1719,18 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                         if (dummy) {}
                         break;
+
                     case 0xF0:
                         Audio_NotePoolClear(&seqPlayer->notePool);
                         break;
+
                     case 0xDF:
                         seqPlayer->transposition = 0;
                         FALLTHROUGH;
                     case 0xDE:
                         seqPlayer->transposition += (s8)AudioSeq_ScriptReadU8(seqScript);
                         break;
+
                     case 0xDD:
                         seqPlayer->tempo = AudioSeq_ScriptReadU8(seqScript) * 48;
                         if (seqPlayer->tempo > gAudioContext.tempoInternalToExternal) {
@@ -1732,9 +1740,11 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             seqPlayer->tempo = 1;
                         }
                         break;
+
                     case 0xDC:
                         seqPlayer->unk_0C = (s8)AudioSeq_ScriptReadU8(seqScript) * 48;
                         break;
+
                     case 0xDA:
                         command = AudioSeq_ScriptReadU8(seqScript);
                         temp = AudioSeq_ScriptReadS16(seqScript);
@@ -1746,6 +1756,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                                     seqPlayer->state = command;
                                 }
                                 break;
+
                             case 2:
                                 seqPlayer->fadeTimer = temp;
                                 seqPlayer->state = command;
@@ -1753,6 +1764,7 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                                 break;
                         }
                         break;
+
                     case 0xDB:
                         value = AudioSeq_ScriptReadU8(seqScript);
                         switch (seqPlayer->state) {
@@ -1769,29 +1781,37 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                                     seqPlayer->fadeVolume = (s32)value / 127.0f;
                                 }
                                 break;
+
                             case 2:
                                 break;
                         }
                         break;
+
                     case 0xD9:
                         seqPlayer->fadeVolumeScale = (s8)AudioSeq_ScriptReadU8(seqScript) / 127.0f;
                         break;
+
                     case 0xD7:
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         AudioSeq_SequencePlayerSetupChannels(seqPlayer, temp);
                         break;
+
                     case 0xD6:
                         AudioSeq_ScriptReadS16(seqScript);
                         break;
+
                     case 0xD5:
                         seqPlayer->muteVolumeScale = (s8)AudioSeq_ScriptReadU8(seqScript) / 127.0f;
                         break;
+
                     case 0xD4:
                         seqPlayer->muted = true;
                         break;
+
                     case 0xD3:
                         seqPlayer->muteBehavior = AudioSeq_ScriptReadU8(seqScript);
                         break;
+
                     case 0xD1:
                     case 0xD2:
                         temp = AudioSeq_ScriptReadS16(seqScript);
@@ -1802,9 +1822,11 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             seqPlayer->shortNoteGateTimeTable = data3;
                         }
                         break;
+
                     case 0xD0:
                         seqPlayer->noteAllocPolicy = AudioSeq_ScriptReadU8(seqScript);
                         break;
+
                     case 0xCE:
                         command = AudioSeq_ScriptReadU8(seqScript);
                         if (command == 0) {
@@ -1813,7 +1835,8 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             seqScript->value = (gAudioContext.audioRandom >> 2) % command;
                         }
                         break;
-                    case 0xCD: {
+
+                    case 0xCD:
                         temp = AudioSeq_ScriptReadS16(seqScript);
 
                         if ((seqScript->value != -1) && (seqScript->depth != 3)) {
@@ -1825,32 +1848,39 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                             seqScript->pc = &seqPlayer->seqData[temp];
                         }
                         break;
-                    }
+
                     case 0xCC:
                         seqScript->value = AudioSeq_ScriptReadU8(seqScript);
                         break;
+
                     case 0xC9:
                         seqScript->value &= AudioSeq_ScriptReadU8(seqScript);
                         break;
+
                     case 0xC8:
                         seqScript->value -= AudioSeq_ScriptReadU8(seqScript);
                         break;
+
                     case 0xC7:
                         command = AudioSeq_ScriptReadU8(seqScript);
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         data2 = &seqPlayer->seqData[temp];
                         *data2 = (u8)seqScript->value + command;
                         break;
+
                     case 0xC6:
                         seqPlayer->stopScript = true;
                         return;
+
                     case 0xC5:
                         seqPlayer->scriptCounter = (u16)AudioSeq_ScriptReadS16(seqScript);
                         break;
+
                     case 0xEF:
                         AudioSeq_ScriptReadS16(seqScript);
                         AudioSeq_ScriptReadU8(seqScript);
                         break;
+
                     case 0xC4:
                         command = AudioSeq_ScriptReadU8(seqScript);
                         if (command == 0xFF) {
@@ -1870,12 +1900,15 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0x00:
                         seqScript->value = seqPlayer->channels[commandLow]->enabled ^ 1;
                         break;
+
                     case 0x50:
                         seqScript->value -= seqPlayer->soundScriptIO[commandLow];
                         break;
+
                     case 0x70:
                         seqPlayer->soundScriptIO[commandLow] = seqScript->value;
                         break;
+
                     case 0x80:
                         seqScript->value = seqPlayer->soundScriptIO[commandLow];
                         if (commandLow < 2) {
@@ -1885,20 +1918,24 @@ void AudioSeq_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0x40:
                         AudioSeq_SequenceChannelDisable(seqPlayer->channels[commandLow]);
                         break;
+
                     case 0x90:
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         AudioSeq_SequenceChannelEnable(seqPlayer, commandLow, (void*)&seqPlayer->seqData[temp]);
                         break;
+
                     case 0xA0:
                         tempS = AudioSeq_ScriptReadS16(seqScript);
                         AudioSeq_SequenceChannelEnable(seqPlayer, commandLow, (void*)&seqScript->pc[tempS]);
                         break;
+
                     case 0xB0:
                         command = AudioSeq_ScriptReadU8(seqScript);
                         temp = AudioSeq_ScriptReadS16(seqScript);
                         data2 = &seqPlayer->seqData[temp];
                         AudioLoad_SlowLoadSeq(command, data2, &seqPlayer->soundScriptIO[commandLow]);
                         break;
+
                     case 0x60: {
                         command = AudioSeq_ScriptReadU8(seqScript);
                         value = command;
@@ -1976,7 +2013,7 @@ void AudioSeq_InitSequencePlayerChannels(s32 playerIdx) {
     s32 i, j;
 
     for (i = 0; i < 0x10; i++) {
-        seqPlayer->channels[i] = AudioHeap_AllocZeroed(&gAudioContext.notesAndBuffersPool, sizeof(SequenceChannel));
+        seqPlayer->channels[i] = AudioHeap_AllocZeroed(&gAudioContext.miscPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
             seqPlayer->channels[i] = &gAudioContext.sequenceChannelNone;
         } else {
@@ -2002,14 +2039,14 @@ void AudioSeq_InitSequencePlayer(SequencePlayer* seqPlayer) {
     seqPlayer->muted = false;
     seqPlayer->fontDmaInProgress = false;
     seqPlayer->seqDmaInProgress = false;
-    seqPlayer->unk_0b1 = false;
+    seqPlayer->applyBend = false;
 
     for (j = 0; j < 8; j++) {
         seqPlayer->soundScriptIO[j] = -1;
     }
     seqPlayer->muteBehavior = 0x40 | 0x20;
     seqPlayer->fadeVolumeScale = 1.0f;
-    seqPlayer->unk_34 = 1.0f;
+    seqPlayer->bend = 1.0f;
     Audio_InitNoteLists(&seqPlayer->notePool);
     AudioSeq_ResetSequencePlayer(seqPlayer);
 }
