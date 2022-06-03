@@ -217,14 +217,14 @@ void MagicFire_Draw(Actor* thisx, PlayState* play) {
 
     if (this->action > 0) {
         OPEN_DISPS(play->state.gfxCtx, "../z_magic_fire.c", 682);
-        POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
+        POLY_XLU_DISP = Gfx_SetupDL_57(POLY_XLU_DISP);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (u8)(s32)(60 * this->screenTintIntensity),
                         (u8)(s32)(20 * this->screenTintIntensity), (u8)(s32)(0 * this->screenTintIntensity),
                         (u8)(s32)(120 * this->screenTintIntensity));
         gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
         gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
         gDPFillRectangle(POLY_XLU_DISP++, 0, 0, 319, 239);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 255, 200, 0, (u8)(this->alphaMultiplier * 255));
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, (u8)(this->alphaMultiplier * 255));
         Matrix_Scale(0.15f, 0.15f, 0.15f, MTXMODE_APPLY);

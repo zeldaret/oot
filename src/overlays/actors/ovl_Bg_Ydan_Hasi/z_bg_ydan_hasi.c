@@ -178,7 +178,7 @@ void BgYdanHasi_Draw(Actor* thisx, PlayState* play) {
     } else {
         OPEN_DISPS(play->state.gfxCtx, "../z_bg_ydan_hasi.c", 577);
 
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, 0, -play->gameplayFrames % 128, play->gameplayFrames % 128,
                                     0x20, 0x20, 1, play->gameplayFrames % 128, play->gameplayFrames % 128, 0x20, 0x20));

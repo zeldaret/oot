@@ -105,7 +105,7 @@ void DemoShd_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_demo_shd.c", 726);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_demo_shd.c", 729),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

@@ -563,7 +563,7 @@ s16 func_80A97738(PlayState* play, Actor* thisx) {
                         break;
                     case 0x10B7:
                         SET_INFTABLE(INFTABLE_BC);
-
+                        FALLTHROUGH;
                     case 0x10B8:
                         this->actor.textId = (play->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
                         return (play->msgCtx.choiceIndex == 0) ? 2 : 1;

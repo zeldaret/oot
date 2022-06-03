@@ -279,6 +279,7 @@ void BossDodongo_IntroCutscene(BossDodongo* this, PlayState* play) {
             this->unk_198 = 160;
             player->actor.world.pos.y = -1023.76f;
             this->subCamEye.y = player->actor.world.pos.y - 480.0f + 50.0f;
+            FALLTHROUGH;
         case 2:
             if (this->unk_198 >= 131) {
                 player->actor.world.pos.x = -890.0f;
@@ -1118,7 +1119,7 @@ void BossDodongo_Draw(Actor* thisx, PlayState* play) {
     s32 pad;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_dodongo.c", 3922);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if ((this->unk_1C0 >= 2) && (this->unk_1C0 & 1)) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
@@ -1240,7 +1241,7 @@ void BossDodongo_UpdateDamage(BossDodongo* this, PlayState* play) {
                     item1 = this->collider.elements[i].info.acHitInfo;
                     item2 = item1;
 
-                    if ((item2->toucher.dmgFlags & 0x10) || (item2->toucher.dmgFlags & 4)) {
+                    if ((item2->toucher.dmgFlags & DMG_BOOMERANG) || (item2->toucher.dmgFlags & DMG_SLINGSHOT)) {
                         this->collider.elements[i].info.bumperFlags &= ~BUMP_HIT;
                         this->unk_1C0 = 2;
                         BossDodongo_SetupWalk(this);
@@ -1616,6 +1617,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, PlayState* play) {
                 this->skelAnime.playSpeed = 0.0f;
                 Flags_SetClear(play, play->roomCtx.curRoom.num);
             }
+            FALLTHROUGH;
         case 100:
             if ((this->unk_1DA < 0x2C6) && (Rand_ZeroOne() < 0.5f)) {
                 Vec3f sp68;
@@ -1675,7 +1677,7 @@ void BossDodongo_DrawEffects(PlayState* play) {
 
     OPEN_DISPS(gfxCtx, "../z_boss_dodongo.c", 5228);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     unkMtx = &play->billboardMtxF;
 
     for (i = 0; i < BOSS_DODONGO_EFFECT_COUNT; i++, eff++) {

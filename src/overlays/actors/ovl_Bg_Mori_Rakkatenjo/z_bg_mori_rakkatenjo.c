@@ -222,7 +222,7 @@ void BgMoriRakkatenjo_Draw(Actor* thisx, PlayState* play) {
     BgMoriRakkatenjo* this = (BgMoriRakkatenjo*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_mori_rakkatenjo.c", 497);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, play->objectCtx.status[this->moriTexObjIndex].segment);
 

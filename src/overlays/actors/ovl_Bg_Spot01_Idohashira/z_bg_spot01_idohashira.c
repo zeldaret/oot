@@ -321,7 +321,7 @@ void func_808AB700(BgSpot01Idohashira* this, PlayState* play) {
 
     OPEN_DISPS(localGfxCtx, "../z_bg_spot01_idohashira.c", 689);
 
-    func_80093D18(localGfxCtx);
+    Gfx_SetupDL_25Opa(localGfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(localGfxCtx, "../z_bg_spot01_idohashira.c", 699),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

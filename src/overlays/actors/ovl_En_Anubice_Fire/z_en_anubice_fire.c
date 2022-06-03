@@ -113,7 +113,7 @@ void func_809B27D8(EnAnubiceFire* this, PlayState* play) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
             this->cylinder.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
             this->cylinder.base.atFlags |= AT_TYPE_PLAYER;
-            this->cylinder.info.toucher.dmgFlags = 2;
+            this->cylinder.info.toucher.dmgFlags = DMG_DEKU_STICK;
             this->unk_15A = 30;
             this->actor.params = 1;
             this->actor.velocity.x *= -1.0f;
@@ -224,7 +224,7 @@ void EnAnubiceFire_Draw(Actor* thisx, PlayState* play) {
     s32 i;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_anubice_fire.c", 503);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);

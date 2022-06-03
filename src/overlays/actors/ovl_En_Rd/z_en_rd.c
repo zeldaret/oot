@@ -527,11 +527,11 @@ void EnRd_Grab(EnRd* this, PlayState* play) {
             play->damagePlayer(play, -8);
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 1, 0xC);
             this->grabDamageTimer = 20;
-            // fallthrough
+            FALLTHROUGH;
         case REDEAD_GRAB_START:
             Math_SmoothStepToS(&this->headYRotation, 0, 1, 0x5DC, 0);
             Math_SmoothStepToS(&this->upperBodyYRotation, 0, 1, 0x5DC, 0);
-            // fallthrough
+            FALLTHROUGH;
         case REDEAD_GRAB_ATTACK:
             if (!(player->stateFlags2 & PLAYER_STATE2_7)) {
                 Animation_Change(&this->skelAnime, &gGibdoRedeadGrabEndAnim, 0.5f, 0.0f,
@@ -963,7 +963,7 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_rd.c", 1679);
 
     if (this->alpha == 255) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_OPA_DISP++, 8, &D_80116280[2]);
         POLY_OPA_DISP =
@@ -981,7 +981,7 @@ void EnRd_Draw(Actor* thisx, PlayState* play) {
             }
         }
     } else {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_XLU_DISP++, 8, &D_80116280[0]);
         POLY_XLU_DISP =

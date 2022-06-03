@@ -125,7 +125,7 @@ void EnKarebaba_ResetCollider(EnKarebaba* this) {
     this->bodyCollider.dim.height = 25;
     this->bodyCollider.base.colType = COLTYPE_HARD;
     this->bodyCollider.base.acFlags |= AC_HARD;
-    this->bodyCollider.info.bumper.dmgFlags = ~0x00300000;
+    this->bodyCollider.info.bumper.dmgFlags = DMG_DEFAULT;
     this->headCollider.dim.height = 25;
 }
 
@@ -155,7 +155,8 @@ void EnKarebaba_SetupUpright(EnKarebaba* this) {
         Actor_SetScale(&this->actor, 0.01f);
         this->bodyCollider.base.colType = COLTYPE_HIT6;
         this->bodyCollider.base.acFlags &= ~AC_HARD;
-        this->bodyCollider.info.bumper.dmgFlags = !LINK_IS_ADULT ? 0x07C00710 : 0x0FC00710;
+        this->bodyCollider.info.bumper.dmgFlags =
+            !LINK_IS_ADULT ? ((DMG_SWORD | DMG_BOOMERANG) & ~DMG_JUMP_MASTER) : (DMG_SWORD | DMG_BOOMERANG);
         this->bodyCollider.dim.radius = 15;
         this->bodyCollider.dim.height = 80;
         this->headCollider.dim.height = 80;
@@ -445,7 +446,7 @@ void EnKarebaba_DrawBaseShadow(EnKarebaba* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_karebaba.c", 1013);
 
-    func_80094044(play->state.gfxCtx);
+    Gfx_SetupDL_44Xlu(play->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
     func_80038A28(this->boundFloor, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z, &mf);
@@ -469,7 +470,7 @@ void EnKarebaba_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_karebaba.c", 1056);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if (this->actionFunc == EnKarebaba_DeadItemDrop) {
         if (this->actor.params > 40 || (this->actor.params & 1)) {
