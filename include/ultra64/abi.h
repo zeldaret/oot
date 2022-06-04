@@ -330,14 +330,13 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = _SHIFTL(dmemi, 16, 16) | _SHIFTL(dmemo, 0, 16);     \
 }
 
-#define aLoadBuffer(pkt, s, d, c)                                      \
-{                                                                      \
-        Acmd *_a = (Acmd *)pkt;                                        \
-                                                                       \
-        _a->words.w0 = (_SHIFTL(A_LOADBUFF, 24, 8) |                   \
-                        _SHIFTL((c) >> 4, 16, 8) | _SHIFTL(d, 0, 16)); \
-        _a->words.w1 = (u32)(s);                                       \
-}
+#define aLoadBuffer(pkt, ramAddrSrc, dmemAddrDest, size)                                                          \
+    {                                                                                                             \
+        Acmd* _a = (Acmd*)pkt;                                                                                    \
+                                                                                                                  \
+        _a->words.w0 = (_SHIFTL(A_LOADBUFF, 24, 8) | _SHIFTL((size) >> 4, 16, 8) | _SHIFTL(dmemAddrDest, 0, 16)); \
+        _a->words.w1 = (u32)(ramAddrSrc);                                                                         \
+    }
 
 #define aMix(pkt, f, g, i, o)                                         \
 {                                                                     \
@@ -461,14 +460,13 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = (u32)(addr);                                     \
 }
 
-#define aDuplicate(pkt, count, dmemi, dmemo, a4)                        \
-{                                                                       \
-        Acmd *_a = (Acmd *)pkt;                                         \
-                                                                        \
-        _a->words.w0 = (_SHIFTL(A_DUPLICATE, 24, 8) |                   \
-                        _SHIFTL(count, 16, 8) | _SHIFTL(dmemi, 0, 16)); \
-        _a->words.w1 = _SHIFTL(dmemo, 16, 16) | _SHIFTL(a4, 0, 16);     \
-}
+#define aDuplicate(pkt, size, dmemAddrSrc, dmemAddrDest, sizeUnused)                                       \
+    {                                                                                                      \
+        Acmd* _a = (Acmd*)pkt;                                                                             \
+                                                                                                           \
+        _a->words.w0 = (_SHIFTL(A_DUPLICATE, 24, 8) | _SHIFTL(size, 16, 8) | _SHIFTL(dmemAddrSrc, 0, 16)); \
+        _a->words.w1 = _SHIFTL(dmemAddrDest, 16, 16) | _SHIFTL(sizeUnused, 0, 16);                         \
+    }
 
 #define aAddMixer(pkt, count, dmemi, dmemo, a4)                           \
 {                                                                         \

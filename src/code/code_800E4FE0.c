@@ -166,9 +166,15 @@ AudioTask* func_800E5000(void) {
 
     gAudioContext.curAbiCmdBuf =
         AudioSynth_Update(gAudioContext.curAbiCmdBuf, &abiCmdCnt, currAiBuffer, gAudioContext.aiBufLengths[index]);
+
+    // Update audioRandom to the next random number
     gAudioContext.audioRandom = (gAudioContext.audioRandom + gAudioContext.totalTaskCount) * osGetCount();
     gAudioContext.audioRandom =
         gAudioContext.aiBuffers[index][gAudioContext.totalTaskCount & 0xFF] + gAudioContext.audioRandom;
+
+    // gWaveSamples[8] interprets compiled assembly code as s16 samples as a way to generate sound with noise.
+    // Start with the address of func_800E4FE0, and offset it by a random number between 0 - 0xFFF0
+    // Use the resulting address as the starting address to interprest 64 samples i.e. `s16 samples[64]`
     gWaveSamples[8] = (s16*)(((u8*)func_800E4FE0) + (gAudioContext.audioRandom & 0xFFF0));
 
     index = gAudioContext.rspTaskIndex;

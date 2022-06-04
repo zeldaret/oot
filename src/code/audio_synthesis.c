@@ -23,7 +23,7 @@ Acmd* AudioSynth_SaveRingBufferPart(Acmd* cmd, u16 dmem, u16 startPos, s32 lengt
 Acmd* AudioSynth_DoOneAudioUpdate(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIndex);
 Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf,
                              s32 aiBufLen, Acmd* cmd, s32 updateIndex);
-Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 nSamplesToLoad);
+Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 numSamplesToLoad);
 Acmd* AudioSynth_NoteApplyHeadsetPanEffects(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 bufLen,
                                             s32 flags, s32 side);
 Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen,
@@ -40,7 +40,12 @@ u16 D_801304B0[] = {
     0x7FFF, 0xD001, 0x3FFF, 0xF001, 0x5FFF, 0x9001, 0x7FFF, 0x8001,
 };
 
-u8 D_801304C0[] = { 0x40, 0x20, 0x10, 0x8 };
+u8 sNumSamplesPerWavePeriod[] = {
+    64, // 1st harmonic
+    32, // 2nd harmonic
+    16, // 4th harmonic
+    8,  // 8th harmonic
+};
 
 void AudioSynth_InitNextRingBuf(s32 chunkLen, s32 updateIndex, s32 reverbIndex) {
     ReverbRingBufferItem* bufItem;
@@ -129,7 +134,7 @@ void func_800DB03C(s32 updateIndex) {
             subEu2->bitField0.enabled = false;
         }
 
-        subEu->unk_06 = 0;
+        subEu->logHarmonicCurAndPrev = 0;
     }
 }
 
@@ -392,8 +397,8 @@ void AudioSynth_EnvSetup1(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 void func_800DBD08(void) {
 }
 
-void AudioSynth_LoadBuffer(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
-    aLoadBuffer(cmd, arg3, arg1, arg2);
+void AudioSynth_LoadBuffer(Acmd* cmd, s32 dmemAddrDest, s32 size, s32 ramAddrSrc) {
+    aLoadBuffer(cmd, ramAddrSrc, dmemAddrDest, size);
 }
 
 void AudioSynth_SaveBuffer(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
@@ -727,7 +732,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 thing;
     s32 s5;
     Note* note;
-    u32 nSamplesToLoad;
+    u32 numSamplesToLoad;
     u16 unk7;
     u16 unkE;
     s16* filter;
@@ -761,7 +766,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     resamplingRateFixedPoint = noteSubEu->resamplingRateFixedPoint;
     nParts = noteSubEu->bitField1.hasTwoParts + 1;
     samplesLenFixedPoint = (resamplingRateFixedPoint * aiBufLen * 2) + synthState->samplePosFrac;
-    nSamplesToLoad = samplesLenFixedPoint >> 16;
+    numSamplesToLoad = samplesLenFixedPoint >> 16;
     synthState->samplePosFrac = samplesLenFixedPoint & 0xFFFF;
 
     // Partially-optimized out no-op ifs required for matching. SM64 decomp
@@ -774,9 +779,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     synthState->numParts = nParts;
 
     if (noteSubEu->bitField1.isSyntheticWave) {
-        cmd = AudioSynth_LoadWaveSamples(cmd, noteSubEu, synthState, nSamplesToLoad);
-        noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
-        synthState->samplePosInt += nSamplesToLoad;
+        cmd = AudioSynth_LoadWaveSamples(cmd, noteSubEu, synthState, numSamplesToLoad);
+        noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * (s32)sizeof(s16));
+        synthState->samplePosInt += numSamplesToLoad;
     } else {
         audioFontSample = noteSubEu->sound.soundFontSound->sample;
         loopInfo = audioFontSample->loop;
@@ -789,11 +794,11 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
             s5 = 0;
 
             if (nParts == 1) {
-                samplesLenAdjusted = nSamplesToLoad;
-            } else if (nSamplesToLoad & 1) {
-                samplesLenAdjusted = (nSamplesToLoad & ~1) + (curPart * 2);
+                samplesLenAdjusted = numSamplesToLoad;
+            } else if (numSamplesToLoad & 1) {
+                samplesLenAdjusted = (numSamplesToLoad & ~1) + (curPart * 2);
             } else {
-                samplesLenAdjusted = nSamplesToLoad;
+                samplesLenAdjusted = numSamplesToLoad;
             }
 
             if (audioFontSample->codec == CODEC_ADPCM || audioFontSample->codec == CODEC_SMALL_ADPCM) {
@@ -1184,30 +1189,37 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     return cmd;
 }
 
-Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 nSamplesToLoad) {
-    s32 temp_v0;
-    s32 unk6 = noteSubEu->unk_06;
-    s32 samplePosInt = synthState->samplePosInt;
-    s32 repeats;
+Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState,
+                                 s32 numSamplesToLoad) {
+    s32 numSampleSlotsAvail;
+    s32 logHarmonicCurAndPrev = noteSubEu->logHarmonicCurAndPrev;
+    s32 curSamplePos = synthState->samplePosInt;
+    size_t duplicateSize;
 
     if (noteSubEu->bitField1.bookOffset != 0) {
-        AudioSynth_LoadBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, ALIGN16(nSamplesToLoad * 2), gWaveSamples[8]);
-        gWaveSamples[8] += nSamplesToLoad * 2;
+        AudioSynth_LoadBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, ALIGN16(numSamplesToLoad * sizeof(s16)), gWaveSamples[8]);
+        gWaveSamples[8] += numSamplesToLoad * sizeof(s16);
         return cmd;
     } else {
-        aLoadBuffer(cmd++, noteSubEu->sound.samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
-        if (unk6 != 0) {
-            samplePosInt = (samplePosInt * D_801304C0[unk6 >> 2]) / D_801304C0[unk6 & 3];
+        // move the synthetmic wave from ram to the rsp
+        aLoadBuffer(cmd++, noteSubEu->sound.waveSampleAddr, DMEM_UNCOMPRESSED_NOTE, 64 * sizeof(s16));
+        if (logHarmonicCurAndPrev != 0) {
+            // curSamplePos scaled by (current-harmonic / prev-harmonic)
+            curSamplePos = curSamplePos * sNumSamplesPerWavePeriod[logHarmonicCurAndPrev >> 2] /
+                           sNumSamplesPerWavePeriod[logHarmonicCurAndPrev & 3];
         }
-        samplePosInt &= 0x3F;
-        temp_v0 = 0x40 - samplePosInt;
-        if (temp_v0 < nSamplesToLoad) {
-            repeats = ((nSamplesToLoad - temp_v0 + 0x3F) / 0x40);
-            if (repeats != 0) {
-                aDuplicate(cmd++, repeats, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + 0x80, 0x80);
+
+        curSamplePos &= 0x3F;
+        numSampleSlotsAvail = 64 - curSamplePos;
+
+        if (numSampleSlotsAvail < numSamplesToLoad) {
+            duplicateSize = ((numSamplesToLoad - numSampleSlotsAvail + 0x3F) / 64);
+            if (duplicateSize != 0) {
+                aDuplicate(cmd++, duplicateSize, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + (64 * sizeof(s16)),
+                           64 * sizeof(s16));
             }
         }
-        synthState->samplePosInt = samplePosInt;
+        synthState->samplePosInt = curSamplePos;
     }
     return cmd;
 }
