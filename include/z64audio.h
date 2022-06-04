@@ -18,6 +18,8 @@
 
 #define AIBUF_LEN 0x580
 
+#define AUDIO_RELOCATED_ADDRESS_START K0BASE
+
 typedef enum {
     /* 0 */ ADSR_STATE_DISABLED,
     /* 1 */ ADSR_STATE_INITIAL,
@@ -207,7 +209,7 @@ typedef struct {
 } SynthesisReverb; // size = 0x2C8
 
 typedef struct {
-    /* 0x00 */ u8 isRelocated; // have all sampleHeaders and envelope been relocated (offsets to pointers)
+    /* 0x00 */ u8 isRelocated; // have have the envelope and all sampleHeaders been relocated (offsets to pointers)
     /* 0x01 */ u8 normalRangeLo;
     /* 0x02 */ u8 normalRangeHi;
     /* 0x03 */ u8 adsrDecayIndex; // index used to obtain adsr decay rate from adsrDecayTable
