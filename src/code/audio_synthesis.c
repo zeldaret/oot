@@ -745,7 +745,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
     if (noteSubEu->bitField0.needsInit == true) {
         flags = A_INIT;
         synthState->restart = 0;
-        synthState->curSamplePos = note->startSamplePos;
+        synthState->samplePosInt = note->startSamplePos;
         synthState->samplePosFrac = 0;
         synthState->curVolLeft = 0;
         synthState->curVolRight = 0;
@@ -775,8 +775,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
 
     if (noteSubEu->bitField1.isSyntheticWave) {
         cmd = AudioSynth_LoadWaveSamples(cmd, noteSubEu, synthState, nSamplesToLoad);
-        noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->curSamplePos * 2);
-        synthState->curSamplePos += nSamplesToLoad;
+        noteSamplesDmemAddrBeforeResampling = DMEM_UNCOMPRESSED_NOTE + (synthState->samplePosInt * 2);
+        synthState->samplePosInt += nSamplesToLoad;
     } else {
         audioFontSample = noteSubEu->sound.soundFontSound->sample;
         loopInfo = audioFontSample->loop;
@@ -822,8 +822,8 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 restart = false;
                 phi_s4 = 0;
 
-                nFirstFrameSamplesToIgnore = synthState->curSamplePos & 0xF;
-                nSamplesUntilLoopEnd = loopEndPos - synthState->curSamplePos;
+                nFirstFrameSamplesToIgnore = synthState->samplePosInt & 0xF;
+                nSamplesUntilLoopEnd = loopEndPos - synthState->samplePosInt;
                 nSamplesToProcess = samplesLenAdjusted - nSamplesProcessed;
 
                 if (nFirstFrameSamplesToIgnore == 0 && !synthState->restart) {
@@ -891,7 +891,7 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 }
 
                 if (nFramesToDecode != 0) {
-                    frameIndex = (synthState->curSamplePos + skipInitialSamples - nFirstFrameSamplesToIgnore) / 16;
+                    frameIndex = (synthState->samplePosInt + skipInitialSamples - nFirstFrameSamplesToIgnore) / 16;
                     sampleDataOffset = frameIndex * frameSize;
                     if (audioFontSample->medium == MEDIUM_RAM) {
                         sampleData = (u8*)(sampleDataStart + sampleDataOffset + sampleAddr);
@@ -995,9 +995,9 @@ Acmd* AudioSynth_ProcessNote(s32 noteIndex, NoteSubEu* noteSubEu, NoteSynthesisS
                 } else {
                     if (restart) {
                         synthState->restart = true;
-                        synthState->curSamplePos = loopInfo->start;
+                        synthState->samplePosInt = loopInfo->start;
                     } else {
-                        synthState->curSamplePos += nSamplesToProcess;
+                        synthState->samplePosInt += nSamplesToProcess;
                     }
                 }
             }
@@ -1187,7 +1187,7 @@ Acmd* AudioSynth_ProcessEnvelope(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
 Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 nSamplesToLoad) {
     s32 temp_v0;
     s32 unk6 = noteSubEu->unk_06;
-    s32 curSamplePos = synthState->curSamplePos;
+    s32 samplePosInt = synthState->samplePosInt;
     s32 repeats;
 
     if (noteSubEu->bitField1.bookOffset != 0) {
@@ -1197,17 +1197,17 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     } else {
         aLoadBuffer(cmd++, noteSubEu->sound.samples, DMEM_UNCOMPRESSED_NOTE, 0x80);
         if (unk6 != 0) {
-            curSamplePos = (curSamplePos * D_801304C0[unk6 >> 2]) / D_801304C0[unk6 & 3];
+            samplePosInt = (samplePosInt * D_801304C0[unk6 >> 2]) / D_801304C0[unk6 & 3];
         }
-        curSamplePos &= 0x3F;
-        temp_v0 = 0x40 - curSamplePos;
+        samplePosInt &= 0x3F;
+        temp_v0 = 0x40 - samplePosInt;
         if (temp_v0 < nSamplesToLoad) {
             repeats = ((nSamplesToLoad - temp_v0 + 0x3F) / 0x40);
             if (repeats != 0) {
                 aDuplicate(cmd++, repeats, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + 0x80, 0x80);
             }
         }
-        synthState->curSamplePos = curSamplePos;
+        synthState->samplePosInt = samplePosInt;
     }
     return cmd;
 }
