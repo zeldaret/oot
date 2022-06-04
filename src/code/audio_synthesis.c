@@ -331,8 +331,8 @@ Acmd* AudioSynth_MaybeMixRingBuffer1(Acmd* cmd, SynthesisReverb* reverb, s32 upd
 void func_800DBB94(void) {
 }
 
-void AudioSynth_ClearBuffer(Acmd* cmd, s32 arg1, s32 arg2) {
-    aClearBuffer(cmd, arg1, arg2);
+void AudioSynth_ClearBuffer(Acmd* cmd, s32 dmemAddr, s32 size) {
+    aClearBuffer(cmd, dmemAddr, size);
 }
 
 void func_800DBBBC(void) {
@@ -401,8 +401,8 @@ void AudioSynth_LoadBuffer(Acmd* cmd, s32 dmemAddrDest, s32 size, s32 ramAddrSrc
     aLoadBuffer(cmd, ramAddrSrc, dmemAddrDest, size);
 }
 
-void AudioSynth_SaveBuffer(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
-    aSaveBuffer(cmd, arg1, arg3, arg2);
+void AudioSynth_SaveBuffer(Acmd* cmd, s32 dmemAddrSrc, s32 size, s32 ramAddrDest) {
+    aSaveBuffer(cmd, dmemAddrSrc, ramAddrDest, size);
 }
 
 void AudioSynth_EnvSetup2(Acmd* cmd, s32 volLeft, s32 volRight) {

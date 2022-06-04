@@ -294,13 +294,20 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = (u32)(a2);                                    \
 }
 
-#define aClearBuffer(pkt, d, c)                                         \
-{                                                                       \
-        Acmd *_a = (Acmd *)pkt;                                         \
-                                                                        \
-        _a->words.w0 = _SHIFTL(A_CLEARBUFF, 24, 8) | _SHIFTL(d, 0, 24); \
-        _a->words.w1 = (u32)(c);                                        \
-}
+/*
+ * Clears DMEM data by writing zeros.
+ *
+ * @param pkt pointer to a Acmd command
+ * @param dmemAddr DMEM address to be cleared
+ * @param size number of bytes to clear (rounded up to 16 byte alignment)
+ */
+#define aClearBuffer(pkt, dmemAddr, size)                                      \
+    {                                                                          \
+        Acmd* _a = (Acmd*)pkt;                                                 \
+                                                                               \
+        _a->words.w0 = _SHIFTL(A_CLEARBUFF, 24, 8) | _SHIFTL(dmemAddr, 0, 24); \
+        _a->words.w1 = (uintptr_t)(size);                                      \
+    }
 
 #define aEnvMixer(pkt, dmemi, count, swapLR, x0, x1, x2, x3, m, bits)  \
 {                                                                      \
@@ -373,14 +380,21 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = (u32)(s);                                \
 }
 
-#define aSaveBuffer(pkt, s, d, c)                                      \
-{                                                                      \
-        Acmd *_a = (Acmd *)pkt;                                        \
-                                                                       \
-        _a->words.w0 = (_SHIFTL(A_SAVEBUFF, 24, 8) |                   \
-                        _SHIFTL((c) >> 4, 16, 8) | _SHIFTL(s, 0, 16)); \
-        _a->words.w1 = (u32)(d);                                       \
-}
+/*
+ * Stores a buffer from DMEM to RDRAM.
+ *
+ * @param pkt pointer to a Acmd command
+ * @param dmemAddrSrc DMEM source address
+ * @param ramAddrDest RDRAM destination address
+ * @param size number of bytes to copy (rounded down to 16 byte alignment)
+ */
+#define aSaveBuffer(pkt, dmemAddrSrc, ramAddrDest, size)                                                         \
+    {                                                                                                            \
+        Acmd* _a = (Acmd*)pkt;                                                                                   \
+                                                                                                                 \
+        _a->words.w0 = (_SHIFTL(A_SAVEBUFF, 24, 8) | _SHIFTL((size) >> 4, 16, 8) | _SHIFTL(dmemAddrSrc, 0, 16)); \
+        _a->words.w1 = (uintptr_t)(ramAddrDest);                                                                 \
+    }
 
 #define aSegment(pkt, s, b)                                   \
 {                                                             \
