@@ -352,12 +352,12 @@ typedef struct {
     /* 0x24 */ Normal1ReadWriteData rwData;
 } Normal1; // size = 0x50
 
-#define NORMAL1_FLAG_1 (1 << 0)
-#define NORMAL1_FLAG_2 (1 << 1)
-#define NORMAL1_FLAG_4 (1 << 2)
-#define NORMAL1_FLAG_10 (1 << 4)
-#define NORMAL1_FLAG_20 (1 << 5)
-#define NORMAL1_FLAG_80 (1 << 7)
+#define NORMAL1_FLAG_0 (1 << 0)
+#define NORMAL1_FLAG_1 (1 << 1)
+#define NORMAL1_FLAG_2 (1 << 2)
+#define NORMAL1_FLAG_4 (1 << 4)
+#define NORMAL1_FLAG_5 (1 << 5)
+#define NORMAL1_FLAG_7 (1 << 7)
 
 #define CAM_FUNCDATA_NORM1(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -411,10 +411,10 @@ typedef struct {
     /* 0x20 */ Normal2ReadWriteData rwData;
 } Normal2; // size = 0x4C
 
-#define NORMAL2_FLAG_1 (1 << 0)
-#define NORMAL2_FLAG_4 (1 << 2)
-#define NORMAL2_FLAG_10 (1 << 4)
-#define NORMAL2_FLAG_80 (1 << 7)
+#define NORMAL2_FLAG_0 (1 << 0)
+#define NORMAL2_FLAG_2 (1 << 2)
+#define NORMAL2_FLAG_4 (1 << 4)
+#define NORMAL2_FLAG_7 (1 << 7)
 
 #define CAM_FUNCDATA_NORM2(yOffset, eyeDist, eyeDistNext, unk_23, yawUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -494,14 +494,14 @@ typedef struct {
     /* 0x28 */ Parallel1ReadWriteData rwData;
 } Parallel1; // size = 0x44
 
-#define PARALLEL1_FLAG_1 (1 << 0)
-#define PARALLEL1_FLAG_2 (1 << 1)
-#define PARALLEL1_FLAG_4 (1 << 2)
-#define PARALLEL1_FLAG_8 (1 << 3)
-#define PARALLEL1_FLAG_10 (1 << 4)
-#define PARALLEL1_FLAG_20 (1 << 5)
-#define PARALLEL1_FLAG_40 (1 << 6)
-#define PARALLEL1_FLAG_80 (1 << 7)
+#define PARALLEL1_FLAG_0 (1 << 0)
+#define PARALLEL1_FLAG_1 (1 << 1)
+#define PARALLEL1_FLAG_2 (1 << 2)
+#define PARALLEL1_FLAG_3 (1 << 3)
+#define PARALLEL1_FLAG_4 (1 << 4)
+#define PARALLEL1_FLAG_5 (1 << 5)
+#define PARALLEL1_FLAG_6 (1 << 6)
+#define PARALLEL1_FLAG_7 (1 << 7)
 
 #define CAM_FUNCDATA_PARA1(yOffset, eyeDist, pitchTarget, yawTarget, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, interfaceFlags, groundYOffset, groundAtLerpStepScale) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -516,8 +516,8 @@ typedef struct {
     { groundYOffset, CAM_DATA_GROUND_Y_OFFSET }, \
     { groundAtLerpStepScale, CAM_DATA_GROUND_AT_LERP_STEP_SCALE }
 
-#define PARALLEL3_FLAG_1 (1 << 0)
-#define PARALLEL3_FLAG_2 (1 << 1)
+#define PARALLEL3_FLAG_0 (1 << 0)
+#define PARALLEL3_FLAG_1 (1 << 1)
 
 typedef struct {
     /* 0x00 */ f32 atYOffset;
@@ -541,8 +541,8 @@ typedef struct {
     /* 0x20 */ Jump1ReadWriteData rwData;
 } Jump1; // size = 0x48
 
-#define JUMP1_FLAG_4 (1 << 2)
-#define JUMP1_FLAG_10 (1 << 4)
+#define JUMP1_FLAG_2 (1 << 2)
+#define JUMP1_FLAG_4 (1 << 4)
 
 #define CAM_FUNCDATA_JUMP1(yOffset, eyeDist, eyeDistNext, yawUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -580,8 +580,8 @@ typedef struct {
     /* 0x24 */ Jump2ReadWriteData rwData;
 } Jump2; // size = 0x34
 
-#define JUMP2_FLAG_2 (1 << 1)
-#define JUMP2_FLAG_4 (1 << 2)
+#define JUMP2_FLAG_1 (1 << 1)
+#define JUMP2_FLAG_2 (1 << 2)
 
 #define CAM_FUNCDATA_JUMP2(yOffset, eyeDist, eyeDistNext, minMaxDistFactor, yawUpdateRateTarget, xzUpdateRateTarget, fov, atLerpStepScale, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -619,9 +619,9 @@ typedef struct {
     /* 0x24 */ Jump3ReadWriteData rwData;
 } Jump3; // size = 0x48
 
-#define JUMP3_FLAG_1 (1 << 0)
-#define JUMP3_FLAG_4 (1 << 2)
-#define JUMP3_FLAG_10 (1 << 4)
+#define JUMP3_FLAG_0 (1 << 0)
+#define JUMP3_FLAG_2 (1 << 2)
+#define JUMP3_FLAG_4 (1 << 4)
 
 #define CAM_FUNCDATA_JUMP3(yOffset, eyeDist, eyeDistNext, pitchTarget, yawUpdateRateTarget, xzUpdateRateTarget, maxYawUpdate, fov, atLerpStepScale, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -668,9 +668,9 @@ typedef struct {
     /* 0x30 */ Battle1ReadWriteData rwData;
 } Battle1; // size = 0x50
 
-#define BATTLE1_FLAG_1 (1 << 0)
-#define BATTLE1_FLAG_2 (1 << 1)
-#define BATTLE1_FLAG_80 (1 << 7)
+#define BATTLE1_FLAG_0 (1 << 0)
+#define BATTLE1_FLAG_1 (1 << 1)
+#define BATTLE1_FLAG_7 (1 << 7)
 
 #define CAM_FUNCDATA_BATT1(yOffset, eyeDist, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, interfaceFlags, groundYOffset, groundAtLerpStepScale) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -747,8 +747,8 @@ typedef struct {
     /* 0x34 */ KeepOn1ReadWriteData rwData;
 } KeepOn1; // size = 0x4C
 
-#define KEEPON1_FLAG_1 (1 << 0)
-#define KEEPON1_FLAG_2 (1 << 1)
+#define KEEPON1_FLAG_0 (1 << 0)
+#define KEEPON1_FLAG_1 (1 << 1)
 
 #define CAM_FUNCDATA_KEEP1(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, interfaceFlags, groundYOffset, groundAtLerpStepScale) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -792,9 +792,9 @@ typedef struct {
     /* 0x2C */ KeepOn3ReadWriteData rwData;
 } KeepOn3; // size = 0x4C
 
-#define KEEPON3_FLAG_10 (1 << 4)
-#define KEEPON3_FLAG_20 (1 << 5)
-#define KEEPON3_FLAG_80 (1 << 7)
+#define KEEPON3_FLAG_4 (1 << 4)
+#define KEEPON3_FLAG_5 (1 << 5)
+#define KEEPON3_FLAG_7 (1 << 7)
 
 #define CAM_FUNCDATA_KEEP3(yOffset, eyeDist, eyeDistNext, swingYawInit, swingYawFinal, swingPitchInit, swingPitchFinal, swingPitchAdj, fov, atLerpStepScale, yawUpdateRateTarget, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -838,14 +838,14 @@ typedef struct {
     /* 0x20 */ KeepOn4ReadWriteData rwData;
 } KeepOn4; // size = 0x38
 
-#define KEEPON4_FLAG_1 (1 << 0)
-#define KEEPON4_FLAG_2 (1 << 1)
-#define KEEPON4_FLAG_4 (1 << 2)
-#define KEEPON4_FLAG_8 (1 << 3)
-#define KEEPON4_FLAG_10 (1 << 4)
-#define KEEPON4_FLAG_20 (1 << 5)
-#define KEEPON4_FLAG_40 (1 << 6)
-#define KEEPON4_FLAG_80 (1 << 7)
+#define KEEPON4_FLAG_0 (1 << 0)
+#define KEEPON4_FLAG_1 (1 << 1)
+#define KEEPON4_FLAG_2 (1 << 2)
+#define KEEPON4_FLAG_3 (1 << 3)
+#define KEEPON4_FLAG_4 (1 << 4)
+#define KEEPON4_FLAG_5 (1 << 5)
+#define KEEPON4_FLAG_6 (1 << 6)
+#define KEEPON4_FLAG_7 (1 << 7)
 
 #define CAM_FUNCDATA_KEEP4(yOffset, eyeDist, pitchTarget, yawTarget, atOffsetZ, fov, interfaceFlags, yawUpdateRateTarget, unk_22) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -923,7 +923,7 @@ typedef struct {
 } Fixed2; // size = 0x24
 
 
-#define FIXED2_FLAG_1 (1 << 0)
+#define FIXED2_FLAG_0 (1 << 0)
 
 #define CAM_FUNCDATA_FIXD2(yOffset, yawUpdateRateTarget, xzUpdateRateTarget, fov, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -966,7 +966,7 @@ typedef struct {
     /* 0x14 */ Fixed4ReadWriteData rwData;
 } Fixed4; // size = 0x24
 
-#define FIXED4_FLAG_4 (1 << 2)
+#define FIXED4_FLAG_2 (1 << 2)
 
 #define CAM_FUNCDATA_FIXD4(yOffset, yawUpdateRateTarget, xzUpdateRateTarget, fov, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -1110,9 +1110,9 @@ typedef struct {
     /* 0x10 */ Unique2ReadWriteData rwData;
 } Unique2; // size = 0x18
 
-#define UNIQUE2_FLAG_1 (1 << 0)
-#define UNIQUE2_FLAG_2 (1 << 1)
-#define UNIQUE2_FLAG_10 (1 << 4)
+#define UNIQUE2_FLAG_0 (1 << 0)
+#define UNIQUE2_FLAG_1 (1 << 1)
+#define UNIQUE2_FLAG_4 (1 << 4)
 
 #define CAM_FUNCDATA_UNIQ2(yOffset, eyeDist, fov, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -1144,8 +1144,8 @@ typedef struct {
     /* 0x0C */ Unique3ReadWriteData rwData;
 } Unique3; // size = 0x14
 
-#define UNIQUE3_FLAG_2 (1 << 1)
-#define UNIQUE3_FLAG_4 (1 << 2)
+#define UNIQUE3_FLAG_1 (1 << 1)
+#define UNIQUE3_FLAG_2 (1 << 2)
 
 #define CAM_FUNCDATA_UNIQ3(yOffset, fov, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
@@ -1167,7 +1167,7 @@ typedef struct {
     /* 0x04 */ Unique0ReadWriteData rwData;
 } Unique0; // size = 0x2C
 
-#define UNIQUE0_FLAG_1 (1 << 0)
+#define UNIQUE0_FLAG_0 (1 << 0)
 
 typedef struct {
     /* 0x0 */ s16 interfaceFlags;
@@ -1177,7 +1177,7 @@ typedef struct {
     /* 0x0 */ Unique6ReadOnlyData roData;
 } Unique6; // size = 0x4
 
-#define UNIQUE6_FLAG_1 (1 << 0)
+#define UNIQUE6_FLAG_0 (1 << 0)
 
 typedef struct {
     /* 0x0 */ f32 fov;
@@ -1329,8 +1329,8 @@ typedef struct {
     /* 0x10 */ Demo9ReadWriteData rwData;
 } Demo9; // size = 0x1C
 
-#define DEMO9_FLAG_2 (1 << 1)
-#define DEMO9_FLAG_10 (1 << 4)
+#define DEMO9_FLAG_1 (1 << 1)
+#define DEMO9_FLAG_4 (1 << 4)
 
 typedef struct {
     /* 0x0 */ f32 lerpAtScale;
@@ -1433,9 +1433,9 @@ typedef struct {
     /* 0x0C */ Special9ReadWriteData rwData;
 } Special9; // size = 0x10
 
-#define SPECIAL9_FLAG_1 (1 << 0)
-#define SPECIAL9_FLAG_2 (1 << 1)
-#define SPECIAL9_FLAG_8 (1 << 3)
+#define SPECIAL9_FLAG_0 (1 << 0)
+#define SPECIAL9_FLAG_1 (1 << 1)
+#define SPECIAL9_FLAG_3 (1 << 3)
 
 #define CAM_FUNCDATA_SPEC9(yOffset, fov, interfaceFlags) \
     { yOffset, CAM_DATA_Y_OFFSET }, \
