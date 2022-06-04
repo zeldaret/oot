@@ -1213,7 +1213,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         numSampleSlotsAvail = 64 - curSamplePos;
 
         if (numSampleSlotsAvail < numSamplesToLoad) {
-            numDuplicates = ((numSamplesToLoad - numSampleSlotsAvail + 0x3F) / 64);
+            numDuplicates = ((numSamplesToLoad - numSampleSlotsAvail + 0x3F) / 0x40);
             if (numDuplicates != 0) {
                 aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + (64 * sizeof(s16)));
             }
