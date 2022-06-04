@@ -1299,13 +1299,13 @@ static LinkAnimationHeader* D_808543D4[] = {
 };
 
 // return type can't be void due to regalloc in func_8084FCAC
-s32 func_80832210(Player* this) {
+BAD_RETURN(s32) func_80832210(Player* this) {
     this->actor.speedXZ = 0.0f;
     this->linearVelocity = 0.0f;
 }
 
 // return type can't be void due to regalloc in func_8083F72C
-s32 func_80832224(Player* this) {
+BAD_RETURN(s32) func_80832224(Player* this) {
     func_80832210(this);
     this->unk_6AD = 0;
 }
@@ -3475,10 +3475,10 @@ s32 func_80837818(Player* this) {
     return sp18;
 }
 
-void func_80837918(Player* this, s32 quadIndex, u32 flags) {
-    this->meleeWeaponQuads[quadIndex].info.toucher.dmgFlags = flags;
+void func_80837918(Player* this, s32 quadIndex, u32 dmgFlags) {
+    this->meleeWeaponQuads[quadIndex].info.toucher.dmgFlags = dmgFlags;
 
-    if (flags == 2) {
+    if (dmgFlags == DMG_DEKU_STICK) {
         this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_WOOD;
     } else {
         this->meleeWeaponQuads[quadIndex].info.toucherFlags = TOUCH_ON | TOUCH_NEAREST;
@@ -3486,13 +3486,13 @@ void func_80837918(Player* this, s32 quadIndex, u32 flags) {
 }
 
 static u32 D_80854488[][2] = {
-    { 0x00000200, 0x08000000 }, { 0x00000100, 0x02000000 }, { 0x00000400, 0x04000000 },
-    { 0x00000002, 0x08000000 }, { 0x00000040, 0x40000000 },
+    { DMG_SLASH_MASTER, DMG_JUMP_MASTER }, { DMG_SLASH_KOKIRI, DMG_JUMP_KOKIRI }, { DMG_SLASH_GIANT, DMG_JUMP_GIANT },
+    { DMG_DEKU_STICK, DMG_JUMP_MASTER },   { DMG_HAMMER_SWING, DMG_HAMMER_JUMP },
 };
 
 void func_80837948(PlayState* play, Player* this, s32 arg2) {
     s32 pad;
-    u32 flags;
+    u32 dmgFlags;
     s32 temp;
 
     func_80835C58(play, this, func_808502D0, 0);
@@ -3526,13 +3526,13 @@ void func_80837948(PlayState* play, Player* this, s32 arg2) {
     }
 
     if ((arg2 >= PLAYER_MWA_FLIPSLASH_START) && (arg2 <= PLAYER_MWA_JUMPSLASH_FINISH)) {
-        flags = D_80854488[temp][1];
+        dmgFlags = D_80854488[temp][1];
     } else {
-        flags = D_80854488[temp][0];
+        dmgFlags = D_80854488[temp][0];
     }
 
-    func_80837918(this, 0, flags);
-    func_80837918(this, 1, flags);
+    func_80837918(this, 0, dmgFlags);
+    func_80837918(this, 1, dmgFlags);
 }
 
 void func_80837AE0(Player* this, s32 timer) {
@@ -10672,7 +10672,7 @@ void Player_Draw(Actor* thisx, PlayState* play2) {
         }
 
         func_80093C80(play);
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (this->invincibilityTimer > 0) {
             this->unk_88F += CLAMP(50 - this->invincibilityTimer, 8, 40);

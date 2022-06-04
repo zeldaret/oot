@@ -488,6 +488,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                                 this->actor.world.pos.y, this->actor.world.pos.z, this->actor.world.rot.x,
                                 this->actor.world.rot.y, this->actor.world.rot.z, CLEAR_TAG_STATE_LASER);
                 }
+                FALLTHROUGH;
             }
             case CLEAR_TAG_STATE_CRASHING:
             state_crashing:
@@ -591,6 +592,7 @@ void EnClearTag_Update(Actor* thisx, PlayState* play2) {
                         this->subCamId = Play_CreateSubCamera(play);
                         Play_ChangeCameraStatus(play, CAM_ID_MAIN, CAM_STAT_WAIT);
                         Play_ChangeCameraStatus(play, this->subCamId, CAM_STAT_ACTIVE);
+                        FALLTHROUGH;
                     case CLEAR_TAG_CUTSCENE_MODE_PLAY:
                         // Update the Arwing cutscene camera to spin around in a circle.
                         cutsceneTimer = this->frameCounter * 128;
@@ -683,7 +685,7 @@ void EnClearTag_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_clear_tag.c", 983);
     if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         if (this->state >= CLEAR_TAG_STATE_LASER) {
             // Draw Arwing lasers.
@@ -700,7 +702,7 @@ void EnClearTag_Draw(Actor* thisx, PlayState* play) {
             gSPDisplayList(POLY_XLU_DISP++, gArwingLaserDL);
         } else {
             // Draw the Arwing itself.
-            func_80093D18(play->state.gfxCtx);
+            Gfx_SetupDL_25Opa(play->state.gfxCtx);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
             if (this->crashingTimer != 0) {
                 f32 xRotation;
@@ -892,8 +894,8 @@ void EnClearTag_DrawEffects(PlayState* play) {
     EnClearTagEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_en_clear_tag.c", 1288);
-    func_80093D18(play->state.gfxCtx);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     // Draw all Debris effects.
     for (i = 0; i < CLEAR_TAG_EFFECT_COUNT; i++, effect++) {

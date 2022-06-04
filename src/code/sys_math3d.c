@@ -987,15 +987,15 @@ s32 Math3D_TriChkPointParaYImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 z, f32 x, f
 
     if (fabsf(ny) > 0.5f) {
         // Do a check on each face of the triangle, if the point is within `chkDist` units return true.
-        if (Math3D_PointDistToLine2D(z, x, v0->z, v0->x, v1->z, v1->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(z, x, v0->z, v0->x, v1->z, v1->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
 
-        if (Math3D_PointDistToLine2D(z, x, v1->z, v1->x, v2->z, v2->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(z, x, v1->z, v1->x, v2->z, v2->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
 
-        if (Math3D_PointDistToLine2D(z, x, v2->z, v2->x, v0->z, v0->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(z, x, v2->z, v2->x, v0->z, v0->x, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
     }
@@ -1121,15 +1121,15 @@ s32 Math3D_TriChkPointParaXImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 y, f32 z, f
 
     if (fabsf(nx) > 0.5f) {
 
-        if (Math3D_PointDistToLine2D(y, z, v0->y, v0->z, v1->y, v1->z, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(y, z, v0->y, v0->z, v1->y, v1->z, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
 
-        if (Math3D_PointDistToLine2D(y, z, v1->y, v1->z, v2->y, v2->z, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(y, z, v1->y, v1->z, v2->y, v2->z, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
 
-        if (Math3D_PointDistToLine2D(y, z, v2->y, v2->z, v0->y, v0->z, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(y, z, v2->y, v2->z, v0->y, v0->z, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
     }
@@ -1233,15 +1233,15 @@ s32 Math3D_TriChkPointParaZImpl(Vec3f* v0, Vec3f* v1, Vec3f* v2, f32 x, f32 y, f
 
     if (fabsf(nz) > 0.5f) {
 
-        if (Math3D_PointDistToLine2D(x, y, v0->x, v0->y, v1->x, v1->y, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(x, y, v0->x, v0->y, v1->x, v1->y, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
 
-        if (Math3D_PointDistToLine2D(x, y, v1->x, v1->y, v2->x, v2->y, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(x, y, v1->x, v1->y, v2->x, v2->y, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
 
-        if (Math3D_PointDistToLine2D(x, y, v2->x, v2->y, v0->x, v0->y, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
+        if (Math3D_PointDistSqToLine2D(x, y, v2->x, v2->y, v0->x, v0->y, &distToEdgeSq) && (distToEdgeSq < chkDistSq)) {
             return true;
         }
     }
@@ -1415,7 +1415,7 @@ s32 Math3D_PointInSph(Sphere16* sphere, Vec3f* point) {
  * Distance squared is output to `lineLenSq`, returns true if the point perpendicular from (`x0`,`y0`)
  * is contained within the segment between (`x1`,`y1`) and (`x2`,`y2`)
  */
-s32 Math3D_PointDistToLine2D(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32* lineLenSq) {
+s32 Math3D_PointDistSqToLine2D(f32 x0, f32 y0, f32 x1, f32 y1, f32 x2, f32 y2, f32* lineLenSq) {
     static Vec3f perpendicularPoint;
 
     f32 perpendicularRatio;

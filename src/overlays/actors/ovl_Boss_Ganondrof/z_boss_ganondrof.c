@@ -834,6 +834,7 @@ void BossGanondrof_Charge(BossGanondrof* this, PlayState* play) {
                 Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonChargeAnim, 0.0f);
                 this->work[GND_ACTION_STATE] = CHARGE_ATTACK;
             }
+            FALLTHROUGH;
         case CHARGE_ATTACK:
             if (this->timers[0] != 0) {
                 Vec3f vecToLink;
@@ -985,6 +986,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
             this->subCamAtMaxVelFrac.x = 0.2f;
             this->subCamAtMaxVelFrac.y = 0.2f;
             this->subCamAtMaxVelFrac.z = 0.2f;
+            FALLTHROUGH;
         case DEATH_THROES:
             switch (this->work[GND_ACTION_STATE]) {
                 case DEATH_SPASM:
@@ -1001,6 +1003,7 @@ void BossGanondrof_Death(BossGanondrof* this, PlayState* play) {
                         Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonLimpAnim, -20.0f);
                         this->work[GND_ACTION_STATE] = DEATH_HUNCHED;
                     }
+                    FALLTHROUGH;
                 case DEATH_HUNCHED:
                     bodyDecayLevel = 1;
                     break;
@@ -1235,7 +1238,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 hurtbox = this->colliderBody.info.acHitInfo;
             }
             if (this->flyMode != GND_FLY_PAINTING) {
-                if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & 0x0001F8A4)) {
+                if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
                     osSyncPrintf("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
@@ -1244,7 +1247,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                         u8 canKill = false;
                         s32 dmgFlags = hurtbox->toucher.dmgFlags;
 
-                        if (dmgFlags & 0x80) {
+                        if (dmgFlags & DMG_HOOKSHOT) {
                             return;
                         }
                         dmg = CollisionCheck_GetSwordDamage(dmgFlags);
@@ -1269,7 +1272,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, PlayState* play) {
                 } else {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
                 }
-            } else if (acHit && (hurtbox->toucher.dmgFlags & 0x0001F8A4)) {
+            } else if (acHit && (hurtbox->toucher.dmgFlags & DMG_RANGED)) {
                 this->work[GND_INVINC_TIMER] = 10;
                 this->actor.colChkInfo.health -= 2;
                 horse->hitTimer = 20;
@@ -1432,6 +1435,7 @@ s32 BossGanondrof_OverrideLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, 
             if (this->deathState != NOT_DEAD) {
                 *dList = NULL;
             }
+            FALLTHROUGH;
         default:
             rot->y += this->rideRotY[limbIndex];
             rot->z += this->rideRotZ[limbIndex];
@@ -1492,7 +1496,7 @@ void BossGanondrof_Draw(Actor* thisx, PlayState* play) {
     }
 
     osSyncPrintf("YP %f\n", this->actor.world.pos.y);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->work[GND_INVINC_TIMER] & 4) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);
     } else {

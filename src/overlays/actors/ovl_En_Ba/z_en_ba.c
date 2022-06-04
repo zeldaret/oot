@@ -300,8 +300,8 @@ void EnBa_SwingAtPlayer(EnBa* this, PlayState* play) {
         }
         this->unk_2A8[13].x = this->unk_2A8[12].x;
         this->unk_2A8[13].y = this->unk_2A8[12].y;
-        if (this->collider.base.atFlags & 2) {
-            this->collider.base.atFlags &= ~2;
+        if (this->collider.base.atFlags & AT_HIT) {
+            this->collider.base.atFlags &= ~AT_HIT;
             if (this->collider.base.at == &player->actor) {
                 func_8002F71C(play, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
             }
@@ -447,8 +447,8 @@ void EnBa_Die(EnBa* this, PlayState* play) {
 void EnBa_Update(Actor* thisx, PlayState* play) {
     EnBa* this = (EnBa*)thisx;
 
-    if ((this->actor.params < EN_BA_DEAD_BLOB) && (this->collider.base.acFlags & 2)) {
-        this->collider.base.acFlags &= ~2;
+    if ((this->actor.params < EN_BA_DEAD_BLOB) && (this->collider.base.acFlags & AC_HIT)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         this->actor.colChkInfo.health--;
         if (this->actor.colChkInfo.health == 0) {
             func_809B75A0(this, play);
@@ -479,7 +479,7 @@ void EnBa_Draw(Actor* thisx, PlayState* play) {
     Vec3f unused = { 0.0f, 0.0f, 448.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ba.c", 933);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     if (this->actor.params < EN_BA_DEAD_BLOB) {
         Matrix_Push();
         gSPSegment(POLY_OPA_DISP++, 0x0C, mtx);

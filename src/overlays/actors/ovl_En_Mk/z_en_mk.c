@@ -298,7 +298,7 @@ void EnMk_Update(Actor* thisx, PlayState* play) {
     this->actionFunc(this, play);
 
     if (this->flags & 1) {
-        func_80038290(play, &this->actor, &this->headRotation, &vec, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->headRotation, &vec, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRotation.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRotation.y, 0, 6, 6200, 100);
@@ -365,7 +365,7 @@ void EnMk_PostLimbDraw(PlayState* play, s32 limbIndex, Gfx** dList, Vec3s* rot, 
 void EnMk_Draw(Actor* thisx, PlayState* play) {
     EnMk* this = (EnMk*)thisx;
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMk_OverrideLimbDraw, EnMk_PostLimbDraw, &this->actor);
 }

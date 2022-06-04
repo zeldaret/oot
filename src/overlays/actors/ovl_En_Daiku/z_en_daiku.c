@@ -590,7 +590,7 @@ void EnDaiku_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_daiku.c", 1227);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if ((thisx->params & 3) == 0) {
         gDPSetEnvColor(POLY_OPA_DISP++, 170, 10, 70, 255);

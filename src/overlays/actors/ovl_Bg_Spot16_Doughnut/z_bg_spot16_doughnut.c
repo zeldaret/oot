@@ -123,7 +123,7 @@ void BgSpot16Doughnut_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 210);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     if (1) {}
 
@@ -149,7 +149,7 @@ void BgSpot16Doughnut_DrawExpanding(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 245);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot16_doughnut.c", 248),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

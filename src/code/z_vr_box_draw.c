@@ -14,7 +14,7 @@ Mtx* SkyboxDraw_UpdateMatrix(SkyboxContext* skyboxCtx, f32 x, f32 y, f32 z) {
 void SkyboxDraw_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId, s16 blend, f32 x, f32 y, f32 z) {
     OPEN_DISPS(gfxCtx, "../z_vr_box_draw.c", 52);
 
-    func_800945A0(gfxCtx);
+    Gfx_SetupDL_40Opa(gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x7, skyboxCtx->staticSegments[0]);
     gSPSegment(POLY_OPA_DISP++, 0x8, skyboxCtx->staticSegments[1]);

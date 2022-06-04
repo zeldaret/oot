@@ -60,7 +60,7 @@ void EffectSsFcircle_Draw(PlayState* play, u32 index, EffectSs* this) {
     Matrix_RotateY(BINANG_TO_RAD(this->rYaw), MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_fcircle.c", 163),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->gameplayFrames % 128, 0, 32, 64, 1, 0,
                                 ((play->gameplayFrames) * -0xF) % 256, 32, 64));

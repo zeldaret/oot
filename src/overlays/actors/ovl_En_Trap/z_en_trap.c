@@ -147,7 +147,7 @@ void EnTrap_Update(Actor* thisx, PlayState* play) {
         touchingActor = true;
     }
     // Freeze the trap if hit by ice arrows:
-    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+    if (this->collider.base.acFlags & AC_HIT) {
         icePos = thisx->world.pos;
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetColorFilter(thisx, 0, 250, 0, 250);
