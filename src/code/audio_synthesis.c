@@ -1194,7 +1194,7 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
     s32 numSampleSlotsAvail;
     s32 logHarmonicCurAndPrev = noteSubEu->logHarmonicCurAndPrev;
     s32 curSamplePos = synthState->samplePosInt;
-    size_t duplicateSize;
+    s32 numDuplicates;
 
     if (noteSubEu->bitField1.bookOffset != 0) {
         AudioSynth_LoadBuffer(cmd++, DMEM_UNCOMPRESSED_NOTE, ALIGN16(numSamplesToLoad * sizeof(s16)), gWaveSamples[8]);
@@ -1213,10 +1213,9 @@ Acmd* AudioSynth_LoadWaveSamples(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisS
         numSampleSlotsAvail = 64 - curSamplePos;
 
         if (numSampleSlotsAvail < numSamplesToLoad) {
-            duplicateSize = ((numSamplesToLoad - numSampleSlotsAvail + 0x3F) / 64);
-            if (duplicateSize != 0) {
-                aDuplicate(cmd++, duplicateSize, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + (64 * sizeof(s16)),
-                           64 * sizeof(s16));
+            numDuplicates = ((numSamplesToLoad - numSampleSlotsAvail + 0x3F) / 64);
+            if (numDuplicates != 0) {
+                aDuplicate(cmd++, numDuplicates, DMEM_UNCOMPRESSED_NOTE, DMEM_UNCOMPRESSED_NOTE + (64 * sizeof(s16)));
             }
         }
         synthState->samplePosInt = curSamplePos;

@@ -330,12 +330,20 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = _SHIFTL(dmemi, 16, 16) | _SHIFTL(dmemo, 0, 16);     \
 }
 
+/*
+ * Loads a buffer from RDRAM to DMEM.
+ *
+ * @param pkt pointer to a Acmd command
+ * @param ramAddrSrc RDRAM source address
+ * @param dmemAddrDest DMEM destination address
+ * @param size number of bytes to copy (rounded down to 16 byte alignment)
+ */
 #define aLoadBuffer(pkt, ramAddrSrc, dmemAddrDest, size)                                                          \
     {                                                                                                             \
         Acmd* _a = (Acmd*)pkt;                                                                                    \
                                                                                                                   \
         _a->words.w0 = (_SHIFTL(A_LOADBUFF, 24, 8) | _SHIFTL((size) >> 4, 16, 8) | _SHIFTL(dmemAddrDest, 0, 16)); \
-        _a->words.w1 = (u32)(ramAddrSrc);                                                                         \
+        _a->words.w1 = (uintptr_t)(ramAddrSrc);                                                                   \
     }
 
 #define aMix(pkt, f, g, i, o)                                         \
@@ -460,12 +468,20 @@ typedef short ENVMIX_STATE[40];
         _a->words.w1 = (u32)(addr);                                     \
 }
 
-#define aDuplicate(pkt, size, dmemAddrSrc, dmemAddrDest, sizeUnused)                                       \
-    {                                                                                                      \
-        Acmd* _a = (Acmd*)pkt;                                                                             \
-                                                                                                           \
-        _a->words.w0 = (_SHIFTL(A_DUPLICATE, 24, 8) | _SHIFTL(size, 16, 8) | _SHIFTL(dmemAddrSrc, 0, 16)); \
-        _a->words.w1 = _SHIFTL(dmemAddrDest, 16, 16) | _SHIFTL(sizeUnused, 0, 16);                         \
+/*
+ * Duplicates 128 bytes of data a number of times.
+ *
+ * @param pkt pointer to a Acmd command
+ * @param numCopies number of times to duplicate 128 bytes from src
+ * @param dmemAddrSrc DMEM source address
+ * @param dmemAddrDest DMEM destination address for the first duplicate, each subsequent duplicate is at dest += 0x80
+ */
+#define aDuplicate(pkt, numCopies, dmemAddrSrc, dmemAddrDest)                                                   \
+    {                                                                                                           \
+        Acmd* _a = (Acmd*)pkt;                                                                                  \
+                                                                                                                \
+        _a->words.w0 = (_SHIFTL(A_DUPLICATE, 24, 8) | _SHIFTL(numCopies, 16, 8) | _SHIFTL(dmemAddrSrc, 0, 16)); \
+        _a->words.w1 = _SHIFTL(dmemAddrDest, 16, 16) | _SHIFTL(0x80, 0, 16);                                    \
     }
 
 #define aAddMixer(pkt, count, dmemi, dmemo, a4)                           \
