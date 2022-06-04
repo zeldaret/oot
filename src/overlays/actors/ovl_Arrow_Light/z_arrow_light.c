@@ -209,7 +209,7 @@ void ArrowLight_Draw(Actor* thisx, PlayState* play) {
 
         // Draw yellow effect over the screen when arrow hits
         if (this->unk_164 > 0) {
-            POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
+            POLY_XLU_DISP = Gfx_SetupDL_57(POLY_XLU_DISP);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(30.0f * this->unk_164) & 0xFF,
                             (s32)(40.0f * this->unk_164) & 0xFF, 0, (s32)(150.0f * this->unk_164) & 0xFF);
             gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
@@ -218,7 +218,7 @@ void ArrowLight_Draw(Actor* thisx, PlayState* play) {
         }
 
         // Draw light on the arrow
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 170, this->alpha);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 128);
         Matrix_RotateZYX(0x4000, 0x0, 0x0, MTXMODE_APPLY);

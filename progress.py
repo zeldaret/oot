@@ -58,6 +58,9 @@ def GetNonMatchingSize(path):
 
     return size
 
+def IsCFile(objfile):
+    srcfile = objfile.strip().replace("build/", "").replace(".o", ".c")
+    return os.path.isfile(srcfile)
 
 mapFile = ReadAllLines("build/z64.map")
 curSegment = None
@@ -82,7 +85,7 @@ for line in mapFile:
         size = int(lineSplit[2], 16)
         objFile = lineSplit[3]
 
-        if (section == ".text"):
+        if (section == ".text" and IsCFile(objFile)):
             if (objFile.startswith("build/src")):
                 src += size
 

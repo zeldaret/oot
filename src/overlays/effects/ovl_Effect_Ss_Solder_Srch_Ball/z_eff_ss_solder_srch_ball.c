@@ -25,7 +25,7 @@ u32 EffectSsSolderSrchBall_Init(PlayState* play, u32 index, EffectSs* this, void
     this->update = EffectSsSolderSrchBall_Update;
     this->life = 100;
     this->rUnused = initParams->unused;
-    this->actor = initParams->linkDetected; // actor field was incorrectly used as a pointer to something else
+    this->actor = (Actor*)initParams->linkDetected; // actor field was incorrectly used as a pointer to something else
     return 1;
 }
 
@@ -37,7 +37,7 @@ void EffectSsSolderSrchBall_Update(PlayState* play, u32 index, EffectSs* this) {
     s16* linkDetected;
     Player* player = GET_PLAYER(play);
 
-    linkDetected = this->actor;
+    linkDetected = (s16*)this->actor;
 
     playerPosDiffX = player->actor.world.pos.x - this->pos.x;
     playerPosDiffY = player->actor.world.pos.y - this->pos.y;
