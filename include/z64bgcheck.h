@@ -59,7 +59,7 @@ typedef struct {
 
 typedef BgCamDataHeader CamData; // Todo: Zapd compatibility
 
-// The structure used for all instances of Vec3s data from `BgCamDataHeader` with the exception of crawlspaces.
+// The structure used for all instances of s16 data from `BgCamDataHeader` with the exception of crawlspaces.
 // See `Camera_Subj4` for Vec3s data usage in crawlspaces
 typedef struct {
     /* 0x00 */ Vec3s pos;

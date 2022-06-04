@@ -4322,8 +4322,8 @@ s32 Camera_Subj4(Camera* camera) {
     Vec3f* eye = &camera->eye;
     Vec3f* eyeNext = &camera->eyeNext;
     Vec3f* at = &camera->at;
-    u16 bgCamDataCount;
-    Vec3s* bgCamData;
+    u16 crawlspaceNumPoints;
+    Vec3s* crawlspacePoints;
     Vec3f sp98;
     Vec3f sp8C;
     f32 sp88;
@@ -4360,9 +4360,9 @@ s32 Camera_Subj4(Camera* camera) {
     OLib_Vec3fDiffToVecSphGeo(&sp5C, at, eye);
     sCameraInterfaceFlags = roData->interfaceFlags;
     if (camera->animState == 0) {
-        bgCamData = (Vec3s*)Camera_GetBgCamDataUnderPlayer(camera, &bgCamDataCount);
-        Camera_Vec3sToVec3f(&rwData->unk_00.point, &bgCamData[1]);
-        Camera_Vec3sToVec3f(&sp98, &bgCamData[bgCamDataCount - 2]);
+        crawlspacePoints = (Vec3s*)Camera_GetBgCamDataUnderPlayer(camera, &crawlspaceNumPoints);
+        Camera_Vec3sToVec3f(&rwData->unk_00.point, &crawlspacePoints[1]);
+        Camera_Vec3sToVec3f(&sp98, &crawlspacePoints[crawlspaceNumPoints - 2]);
 
         sp64.r = 10.0f;
         // 0x238C ~ 50 degrees
