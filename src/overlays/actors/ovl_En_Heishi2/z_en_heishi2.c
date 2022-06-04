@@ -769,7 +769,7 @@ void EnHeishi2_Update(Actor* thisx, PlayState* play) {
     if ((this->type == 2) || (this->type == 5)) {
         this->actor.focus.pos.y = 70.0f;
         Actor_SetFocus(&this->actor, 70.0f);
-        func_80038290(play, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
     }
 
     this->unk_2FC++;
@@ -842,7 +842,7 @@ void EnHeishi2_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_heishi2.c", 1792);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);

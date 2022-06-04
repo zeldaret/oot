@@ -397,7 +397,7 @@ void EnGe2_TurnToFacePlayer(EnGe2* this, PlayState* play) {
     if (ABS(angleDiff) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 4000, 100);
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        func_80038290(play, &this->actor, &this->headRot, &this->unk_2EE, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->unk_2EE, this->actor.focus.pos);
     } else {
         if (angleDiff < 0) {
             Math_SmoothStepToS(&this->headRot.y, -0x2000, 6, 6200, 0x100);
@@ -413,7 +413,7 @@ void EnGe2_TurnToFacePlayer(EnGe2* this, PlayState* play) {
 void EnGe2_LookAtPlayer(EnGe2* this, PlayState* play) {
     if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) &&
         (this->actor.xzDistToPlayer < 200.0f)) {
-        func_80038290(play, &this->actor, &this->headRot, &this->unk_2EE, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->unk_2EE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);
@@ -554,7 +554,8 @@ void EnGe2_Update(Actor* thisx, PlayState* play) {
     if ((this->stateFlags & GE2_STATE_KO) || (this->stateFlags & GE2_STATE_CAPTURING)) {
         this->actionFunc(this, play);
     } else if (this->collider.base.acFlags & AC_HIT) {
-        if ((this->collider.info.acHitInfo != NULL) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x80)) {
+        if ((this->collider.info.acHitInfo != NULL) &&
+            (this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
             Actor_SetColorFilter(&this->actor, 0, 120, 0, 400);
             this->actor.update = EnGe2_UpdateStunned;
             return;
@@ -603,8 +604,8 @@ void EnGe2_UpdateStunned(Actor* thisx, PlayState* play2) {
     CollisionCheck_SetOC(play, &play->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(play, &this->actor, 40.0f, 25.0f, 40.0f, UPDBGCHECKINFO_FLAG_0 | UPDBGCHECKINFO_FLAG_2);
 
-    if ((this->collider.base.acFlags & AC_HIT) &&
-        ((this->collider.info.acHitInfo == NULL) || !(this->collider.info.acHitInfo->toucher.dmgFlags & 0x80))) {
+    if ((this->collider.base.acFlags & AC_HIT) && ((this->collider.info.acHitInfo == NULL) ||
+                                                   !(this->collider.info.acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT))) {
         this->actor.colorFilterTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;
@@ -649,7 +650,7 @@ void EnGe2_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge2.c", 1274);
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     func_8002EBCC(&this->actor, play, 0);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,

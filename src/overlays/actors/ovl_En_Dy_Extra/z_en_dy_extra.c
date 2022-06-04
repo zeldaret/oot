@@ -90,8 +90,8 @@ void EnDyExtra_Update(Actor* thisx, PlayState* play) {
 void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
     static Color_RGBA8 primColors[] = { { 255, 255, 170, 255 }, { 255, 255, 170, 255 } };
     static Color_RGBA8 envColors[] = { { 255, 100, 255, 255 }, { 100, 255, 255, 255 } };
-    static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02,
-                               0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02 };
+    static u8 D_809FFC50[] = { 0x02, 0x01, 0x01, 0x02, 0x00, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01,
+                               0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x02, 0x01, 0x00, 0x01, 0x02, 0x00 };
     EnDyExtra* this = (EnDyExtra*)thisx;
     s32 pad;
     GraphicsContext* gfxCtx = play->state.gfxCtx;
@@ -111,7 +111,7 @@ void EnDyExtra_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(gfxCtx, "../z_en_dy_extra.c", 294);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, play->state.frames * 2, 0, 0x20, 0x40, 1, play->state.frames,
                                 play->state.frames * -8, 0x10, 0x10));

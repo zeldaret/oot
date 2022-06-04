@@ -296,7 +296,7 @@ void EnMb_Init(Actor* thisx, PlayState* play) {
             this->actor.uncullZoneScale = 800.0f;
             this->actor.uncullZoneDownward = 1800.0f;
             this->playerDetectionRange = 710.0f;
-            this->attackCollider.info.toucher.dmgFlags = 0x20000000;
+            this->attackCollider.info.toucher.dmgFlags = DMG_UNBLOCKABLE;
 
             relYawFromPlayer =
                 this->actor.world.rot.y - Math_Vec3f_Yaw(&this->actor.world.pos, &player->actor.world.pos);
@@ -1524,7 +1524,7 @@ void EnMb_Draw(Actor* thisx, PlayState* play) {
     s32 bodyPartIdx;
     EnMb* this = (EnMb*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, NULL,
                           EnMb_PostLimbDraw, thisx);
 

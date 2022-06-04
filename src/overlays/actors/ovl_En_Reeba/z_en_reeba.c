@@ -532,6 +532,7 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
+                    FALLTHROUGH;
                 case 13: // hookshot/longshot
                     if ((this->actor.colChkInfo.health > 2) && (this->unk_27E != 4)) {
                         this->unk_27E = 4;
@@ -540,6 +541,7 @@ void func_80AE5EDC(EnReeba* this, PlayState* play) {
                         this->actionfunc = func_80AE58EC;
                         break;
                     }
+                    FALLTHROUGH;
                 case 14:
                     this->unk_27C = 6;
                     Actor_ApplyDamage(&this->actor);
@@ -657,7 +659,7 @@ void EnReeba_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_reeba.c", 1062);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     if (this->isBig) {
         gDPSetPrimColor(POLY_OPA_DISP++, 0x0, 0x01, 155, 55, 255, 255);

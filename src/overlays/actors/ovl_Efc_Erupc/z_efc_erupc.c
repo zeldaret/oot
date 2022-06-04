@@ -78,7 +78,7 @@ void EfcErupc_UpdateAction(EfcErupc* this, PlayState* play) {
             switch (play->csCtx.npcActions[2]->action) {
                 case 2:
                     if (this->unk_14E == 0) {
-                        func_800F3F3C(6);
+                        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_LAVA_ERUPT);
                         SET_EVENTCHKINF(EVENTCHKINF_2F);
                     }
                     this->unk_14E++;
@@ -116,7 +116,7 @@ void EfcErupc_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_efc_erupc.c", 282);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(play->state.gfxCtx, 0, this->unk_14C * 1, this->unk_14E * -4, 32, 64, 1,
@@ -167,7 +167,7 @@ void EfcErupc_DrawEffects(EfcErupcEffect* effect, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_efc_erupc.c", 368);
     for (i = 0; i < EFC_ERUPC_EFFECT_COUNT; i++, effect++) {
         if (effect->isActive) {
-            func_80093D84(play->state.gfxCtx);
+            Gfx_SetupDL_25Xlu(play->state.gfxCtx);
             gSPDisplayList(POLY_XLU_DISP++, object_efc_erupc_DL_002760);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, effect->color.r, effect->color.g, effect->color.b, effect->alpha);
             gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 0, 0);

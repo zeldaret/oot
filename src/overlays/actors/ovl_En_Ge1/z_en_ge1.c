@@ -693,7 +693,7 @@ void EnGe1_TurnToFacePlayer(EnGe1* this, PlayState* play) {
     if (ABS(angleDiff) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 4000, 100);
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        func_80038290(play, &this->actor, &this->headRot, &this->unk_2A2, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->unk_2A2, this->actor.focus.pos);
     } else {
         if (angleDiff < 0) {
             Math_SmoothStepToS(&this->headRot.y, -0x2000, 6, 6200, 0x100);
@@ -710,7 +710,7 @@ void EnGe1_LookAtPlayer(EnGe1* this, PlayState* play) {
     s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_80038290(play, &this->actor, &this->headRot, &this->unk_2A2, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->headRot, &this->unk_2A2, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);
@@ -805,7 +805,7 @@ void EnGe1_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ge1.c", 1442);
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe1_OverrideLimbDraw, EnGe1_PostLimbDraw, this);

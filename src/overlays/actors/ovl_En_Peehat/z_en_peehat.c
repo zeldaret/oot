@@ -231,7 +231,7 @@ void EnPeehat_Init(Actor* thisx, PlayState* play) {
             this->colCylinder.dim.radius = 25;
             this->colCylinder.dim.height = 15;
             this->colCylinder.dim.yShift = -5;
-            this->colCylinder.info.bumper.dmgFlags = 0x1F824;
+            this->colCylinder.info.bumper.dmgFlags = DMG_ARROW | DMG_SLINGSHOT;
             this->colQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
             this->colQuad.base.acFlags = AC_ON | AC_TYPE_PLAYER;
             this->actor.naviEnemyId = NAVI_ENEMY_PEAHAT_LARVA;
@@ -1064,7 +1064,7 @@ void EnPeehat_Draw(Actor* thisx, PlayState* play) {
     };
     EnPeehat* this = (EnPeehat*)thisx;
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     SkelAnime_DrawOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPeehat_OverrideLimbDraw,
                       EnPeehat_PostLimbDraw, this);
     if (this->actor.speedXZ != 0.0f || this->actor.velocity.y != 0.0f) {

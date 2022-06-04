@@ -212,6 +212,7 @@ void EnDh_Wait(EnDh* this, PlayState* play) {
                 this->actionState++;
                 this->drawDirtWave++;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_HIDE);
+                FALLTHROUGH;
             case 1:
                 this->dirtWavePhase += 0x3A7;
                 Math_SmoothStepToF(&this->dirtWaveSpread, 300.0f, 1.0f, 5.0f, 0.0f);
@@ -311,6 +312,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
             Animation_PlayOnce(&this->skelAnime, &object_dh_Anim_001A3C);
             this->actionState++;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_BITE);
+            FALLTHROUGH;
         case 0:
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0x5DC, 0);
             break;
@@ -318,7 +320,7 @@ void EnDh_Attack(EnDh* this, PlayState* play) {
             if (this->skelAnime.curFrame >= 4.0f) {
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
                     AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-                this->collider2.elements[0].info.toucher.dmgFlags = 0xFFCFFFFF;
+                this->collider2.elements[0].info.toucher.dmgFlags = DMG_DEFAULT;
                 this->collider2.elements[0].info.toucher.damage = 8;
             }
             if (this->collider2.base.atFlags & AT_BOUNCED) {
@@ -374,8 +376,9 @@ void EnDh_Burrow(EnDh* this, PlayState* play) {
             this->drawDirtWave++;
             this->collider1.base.atFlags = this->collider1.info.toucherFlags =
                 AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
-            this->collider1.info.toucher.dmgFlags = 0xFFCFFFFF;
+            this->collider1.info.toucher.dmgFlags = DMG_DEFAULT;
             this->collider1.info.toucher.damage = 4;
+            FALLTHROUGH;
         case 1:
             this->dirtWavePhase += 0x47E;
             Math_SmoothStepToF(&this->dirtWaveSpread, 300.0f, 1.0f, 8.0f, 0.0f);
@@ -549,21 +552,21 @@ void EnDh_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dh.c", 1099);
     if (this->alpha == 255) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         POLY_OPA_DISP =
             SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                                NULL, EnDh_PostLimbDraw, &this->actor, POLY_OPA_DISP);
     } else {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->alpha);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[0]);
         POLY_XLU_DISP = SkelAnime_DrawFlex(play, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, NULL, NULL, &this->actor, POLY_XLU_DISP);
     }
     if (this->drawDirtWave) {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 85, 55, 0, 130);
         gSPSegment(POLY_XLU_DISP++, 0x08,
                    Gfx_TwoTexScroll(play->state.gfxCtx, 0, (play->state.frames * -3) % 0x80, 0, 0x20, 0x40, 1,
