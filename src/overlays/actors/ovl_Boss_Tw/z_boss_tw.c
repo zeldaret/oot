@@ -65,7 +65,7 @@ void BossTw_Destroy(Actor* thisx, PlayState* play);
 void BossTw_Update(Actor* thisx, PlayState* play);
 void BossTw_Draw(Actor* thisx, PlayState* play);
 
-void BossTw_TwinrovaDamage(BossTw* this, PlayState* play, u8 arg2);
+void BossTw_TwinrovaDamage(BossTw* this, PlayState* play, u8 damage);
 void BossTw_TwinrovaSetupFly(BossTw* this, PlayState* play);
 void BossTw_DrawEffects(PlayState* play);
 void BossTw_TwinrovaLaugh(BossTw* this, PlayState* play);

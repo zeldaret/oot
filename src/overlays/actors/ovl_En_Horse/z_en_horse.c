@@ -929,7 +929,7 @@ void EnHorse_Freeze(EnHorse* this) {
     }
 }
 
-void EnHorse_ChangeIdleAnimation(EnHorse* this, s32 arg1, f32 arg2);
+void EnHorse_ChangeIdleAnimation(EnHorse* this, s32 anim, f32 morphFrames);
 void EnHorse_StartMountedIdleResetAnim(EnHorse* this);
 void EnHorse_StartMountedIdle(EnHorse* this);
 void EnHorse_StartGalloping(EnHorse* this);
@@ -1809,7 +1809,7 @@ void EnHorse_StartIdleRidable(EnHorse* this) {
     this->stateFlags &= ~ENHORSE_UNRIDEABLE;
 }
 
-void EnHorse_StartMovingAnimation(EnHorse* this, s32 arg1, f32 arg2, f32 arg3);
+void EnHorse_StartMovingAnimation(EnHorse* this, s32 animId, f32 morphFrames, f32 startFrame);
 
 void EnHorse_Idle(EnHorse* this, PlayState* play) {
     this->actor.speedXZ = 0.0f;

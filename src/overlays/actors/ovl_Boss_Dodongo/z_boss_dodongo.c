@@ -16,7 +16,7 @@ void BossDodongo_Walk(BossDodongo* this, PlayState* play);
 void BossDodongo_Inhale(BossDodongo* this, PlayState* play);
 void BossDodongo_BlowFire(BossDodongo* this, PlayState* play);
 void BossDodongo_Roll(BossDodongo* this, PlayState* play);
-void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 arg2);
+void BossDodongo_SpawnFire(BossDodongo* this, PlayState* play, s16 params);
 void BossDodongo_Explode(BossDodongo* this, PlayState* play);
 void BossDodongo_LayDown(BossDodongo* this, PlayState* play);
 void BossDodongo_Vulnerable(BossDodongo* this, PlayState* play);
