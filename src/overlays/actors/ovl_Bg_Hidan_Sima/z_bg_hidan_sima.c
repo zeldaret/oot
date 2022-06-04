@@ -279,7 +279,7 @@ void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
     BgHidanSima* this = (BgHidanSima*)thisx;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
@@ -287,7 +287,7 @@ void BgHidanSima_Draw(Actor* thisx, PlayState* play) {
     } else {
         gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform2DL);
         if (this->actionFunc == func_8088E7A8) {
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
+            POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_20);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
             POLY_XLU_DISP = func_8088EB54(play, this, POLY_XLU_DISP);

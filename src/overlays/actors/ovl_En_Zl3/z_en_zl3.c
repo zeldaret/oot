@@ -942,8 +942,10 @@ void func_80B55444(EnZl3* this, PlayState* play) {
                     break;
                 case 8:
                     this->unk_328 = 1;
+                    FALLTHROUGH;
                 default:
                     osSyncPrintf("En_Zl3_inFinal_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    break;
             }
             this->unk_2F0 = temp_v0;
         }
@@ -2706,7 +2708,7 @@ void func_80B59FF4(EnZl3* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl3.c", 2165);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(eyeTex));
@@ -2731,7 +2733,7 @@ void func_80B5A1D0(EnZl3* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_zl3.c", 2205);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 8, SEGMENTED_TO_VIRTUAL(eyeTex));
     gSPSegment(POLY_XLU_DISP++, 9, SEGMENTED_TO_VIRTUAL(eyeTex));

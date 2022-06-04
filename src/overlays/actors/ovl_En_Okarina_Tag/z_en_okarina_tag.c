@@ -88,6 +88,7 @@ void EnOkarinaTag_Init(Actor* thisx, PlayState* play) {
                     Actor_Kill(&this->actor);
                     break;
                 }
+                FALLTHROUGH;
             case 1:
             case 4:
             case 6:

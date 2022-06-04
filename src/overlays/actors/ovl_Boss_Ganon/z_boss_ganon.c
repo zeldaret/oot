@@ -586,7 +586,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
 
             Actor_SpawnAsChild(&play->actorCtx, &this->actor, play, ACTOR_EN_GANON_ORGAN, 0.0f, 0.0f, 0.0f, 0, 0, 0, 1);
             sCape->minY = 57.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 1:
             this->envLightMode = 3;
             if (this->csTimer == 70) {
@@ -619,7 +619,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
 
             this->csCamAt.x = 0.0f;
             this->unk_704 = 1.2566371f;
-            // fallthrough
+            FALLTHROUGH;
         case 3:
             this->envLightMode = 0;
             play->envCtx.lightBlend = 0.0f;
@@ -636,7 +636,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             this->csState = 4;
             BossGanon_SetIntroCsCamera(this, 2);
             this->csTimer = 0;
-            // fallthrough
+            FALLTHROUGH;
         case 4:
             if ((this->csTimer == 0) || (this->csTimer == 10) || (this->csTimer == 20)) {
                 this->csCamEye.y += 68.0f;
@@ -692,7 +692,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             func_80078884(NA_SE_EV_TRIFORCE_MARK);
             play->envCtx.lightBlend = 0.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 7:
             this->envLightMode = 6;
             // fade in links triforce
@@ -739,7 +739,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             func_80078884(NA_SE_EV_TRIFORCE_MARK);
             play->envCtx.lightBlend = 0.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 9:
             this->envLightMode = 7;
             BossGanon_SetIntroCsCamera(this, 6);
@@ -924,7 +924,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             this->fwork[GDF_TRIFORCE_PRIM_B] = 255.0f;
             this->fwork[GDF_TRIFORCE_ENV_G] = 100.0f;
             play->envCtx.lightBlend = 0.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 19: // show triforce
             this->envLightMode = 8;
 
@@ -1049,7 +1049,7 @@ void BossGanon_IntroCutscene(BossGanon* this, PlayState* play) {
             this->csCamAt.z = this->unk_1FC.z;
             this->fwork[GDF_VORTEX_ALPHA] = 255.0f;
             this->fwork[GDF_VORTEX_SCALE] = 0.2f;
-            // fallthrough
+            FALLTHROUGH;
         case 22: // start floating, show title card, start fight
             if (this->csTimer > 30) {
                 this->envLightMode = 0;
@@ -1247,7 +1247,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
             this->csState = 1;
             this->csTimer = 0;
             this->useOpenHand = true;
-            // fallthrough
+            FALLTHROUGH;
         case 1:
             player->actor.shape.rot.y = -0x8000;
 
@@ -1542,7 +1542,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
 
             this->whiteFillAlpha = 255.0f;
             play->envCtx.lightBlend = 1.0f;
-            // fallthrough
+            FALLTHROUGH;
         case 101:
             player->actor.world.pos.y = 4102.0f;
             Math_ApproachZeroF(&this->whiteFillAlpha, 1.0f, 5.0f);
@@ -1628,7 +1628,7 @@ void BossGanon_DeathAndTowerCutscene(BossGanon* this, PlayState* play) {
             } else {
                 break;
             }
-            // fallthrough
+            FALLTHROUGH;
         case 104:
             this->csCamEye.x = -432.0f;
             this->csCamEye.y = 4147.0f;
@@ -2686,20 +2686,20 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
     s16 j;
     ColliderInfo* acHitInfo;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->unk_2D4 = 2;
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
         acHitInfo = this->collider.info.acHitInfo;
 
         if ((this->actionFunc == BossGanon_HitByLightBall) || (this->actionFunc == BossGanon_ChargeBigMagic)) {
-            if (acHitInfo->toucher.dmgFlags & 0x2000) {
+            if (acHitInfo->toucher.dmgFlags & DMG_ARROW_LIGHT) {
                 BossGanon_SetupVulnerable(this, play);
                 this->timers[2] = 0;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_DAMAGE1);
                 this->unk_1A6 = 15;
             }
         } else if ((this->actionFunc == BossGanon_Vulnerable) && (this->unk_1C2 >= 3)) {
-            if (!(acHitInfo->toucher.dmgFlags & 0x80)) {
+            if (!(acHitInfo->toucher.dmgFlags & DMG_HOOKSHOT)) {
                 u8 hitWithSword = false;
                 u8 damage;
                 Vec3f sp50;
@@ -2747,7 +2747,7 @@ void BossGanon_UpdateDamage(BossGanon* this, PlayState* play) {
                     sCape->tearTimer = 1;
                 }
             }
-        } else if (acHitInfo->toucher.dmgFlags & 0x1F8A4) {
+        } else if (acHitInfo->toucher.dmgFlags & DMG_RANGED) {
             Audio_PlayActorSound2(&this->actor, 0);
 
             for (i = 0; i < ARRAY_COUNT(sCape->strands); i++) {
@@ -3343,7 +3343,7 @@ void BossGanon_DrawShock(BossGanon* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_boss_ganon.c", 7350);
 
     if ((this->unk_2E8 != 0) || (this->unk_2E6 != 0)) {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 0);
         gSPDisplayList(POLY_XLU_DISP++, gDorfLightBallMaterialDL);
@@ -3399,7 +3399,7 @@ void BossGanon_DrawHandLightBall(BossGanon* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_boss_ganon.c", 7476);
 
     if (this->handLightBallScale > 0.0f) {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
 
         if ((this->unk_1A2 % 2) != 0) {
@@ -3440,7 +3440,7 @@ void BossGanon_DrawBigMagicCharge(BossGanon* this, PlayState* play) {
     OPEN_DISPS(gfxCtx, "../z_boss_ganon.c", 7548);
 
     if (this->unk_284 > 0.0f) {
-        func_80093D84(play->state.gfxCtx);
+        Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
         // light flecks
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, (s8)this->unk_290);
@@ -3754,7 +3754,7 @@ void BossGanon_DrawShadowTexture(void* tex, BossGanon* this, PlayState* play) {
 
     OPEN_DISPS(gfxCtx, "../z_boss_ganon.c", 8372);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, 50);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
@@ -3785,8 +3785,8 @@ void BossGanon_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon.c", 9138);
 
-    func_80093D18(play->state.gfxCtx);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     if ((this->unk_1A6 & 2) != 0) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);
@@ -3932,12 +3932,12 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                     hitWithBottle = false;
                 }
 
-                if ((this->collider.base.acFlags & 2) || hitWithBottle) {
+                if ((this->collider.base.acFlags & AC_HIT) || hitWithBottle) {
                     ColliderInfo* acHitInfo = this->collider.info.acHitInfo;
 
-                    this->collider.base.acFlags &= ~2;
+                    this->collider.base.acFlags &= ~AC_HIT;
 
-                    if ((hitWithBottle == false) && (acHitInfo->toucher.dmgFlags & 0x100000)) {
+                    if ((hitWithBottle == false) && (acHitInfo->toucher.dmgFlags & DMG_SHIELD)) {
                         spBA = 2;
                         Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
@@ -4020,7 +4020,7 @@ void BossGanon_LightBall_Update(Actor* thisx, PlayState* play2) {
                     this->unk_1C2 = 0;
                     break;
                 }
-                // fallthrough
+                FALLTHROUGH;
             case 4:
                 if (sqrtf(SQ(xDistFromGanondorf) + SQ(yDistFromGanondorf) + SQ(zDistFromGanondorf)) < 30.0f) {
                     spBA = 3;
@@ -4127,7 +4127,7 @@ void BossGanon_LightBall_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon.c", 9849);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     alpha = ((this->unk_1A2 % 2) != 0) ? this->fwork[GDF_FWORK_1] * 0.4f : this->fwork[GDF_FWORK_1] * 0.35f;
 
@@ -4273,7 +4273,7 @@ void func_808E229C(Actor* thisx, PlayState* play2) {
     s32 temp;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon.c", 10081);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 0, 0);
     gSPDisplayList(POLY_XLU_DISP++, gDorfLightBallMaterialDL);
@@ -4384,7 +4384,7 @@ void func_808E2544(Actor* thisx, PlayState* play) {
             new_var = this->unk_1F0.x - this->actor.world.pos.x;
             this->actor.shape.rot.y = RAD_TO_BINANG(Math_FAtan2F(new_var, this->unk_1F0.z - this->actor.world.pos.z)) +
                                       (this->actor.params << 0xD) - 0x20C000;
-            // fallthrough
+            FALLTHROUGH;
         case 11:
             if (this->timers[0] != 0) {
                 this->unk_1F0 = player->actor.world.pos;
@@ -4417,12 +4417,12 @@ void func_808E2544(Actor* thisx, PlayState* play) {
                 break;
             }
 
-            if (this->collider.base.acFlags & 2) {
+            if (this->collider.base.acFlags & AC_HIT) {
                 acHitInfo = this->collider.info.acHitInfo;
 
-                this->collider.base.acFlags &= ~2;
+                this->collider.base.acFlags &= ~AC_HIT;
 
-                if (!(acHitInfo->toucher.dmgFlags & 0x100000) || Player_HasMirrorShieldEquipped(play)) {
+                if (!(acHitInfo->toucher.dmgFlags & DMG_SHIELD) || Player_HasMirrorShieldEquipped(play)) {
                     func_800AA000(this->actor.xyzDistToPlayerSq, 0xB4, 0x14, 0x64);
                     this->unk_1C2 = 0xC;
                     this->actor.speedXZ = -30.0f;
@@ -4556,7 +4556,7 @@ void func_808E324C(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_ganon.c", 10489);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 255, (s8)this->fwork[GDF_FWORK_1]);
     gDPSetEnvColor(POLY_XLU_DISP++, 150, 255, 0, 128);
     gSPSegment(POLY_XLU_DISP++, 0x0D, mtx);
@@ -4811,7 +4811,7 @@ void BossGanon_DrawEffects(PlayState* play) {
     GanondorfEffect* effFirst = eff;
 
     OPEN_DISPS(gfxCtx, "../z_boss_ganon.c", 10865);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     for (i = 0; i < 200; i++, eff++) {
         if (eff->type == GDF_EFF_WINDOW_SHARD) {

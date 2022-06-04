@@ -1146,7 +1146,7 @@ void EnTa_Update(Actor* thisx, PlayState* play) {
     }
 
     if (this->unk_2E0 & 1) {
-        func_80038290(play, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.focus.pos);
+        Actor_TrackPlayer(play, &this->actor, &this->unk_2D4, &this->unk_2DA, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_2D4.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_2D4.y, 0, 6, 6200, 100);
@@ -1211,7 +1211,7 @@ void EnTa_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_ta.c", 2381);
 
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x9, SEGMENTED_TO_VIRTUAL(gTalonHeadSkinTex));

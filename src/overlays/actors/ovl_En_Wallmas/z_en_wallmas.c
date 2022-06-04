@@ -219,7 +219,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
-    if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
+    if (this->collider.info.acHitInfo->toucher.dmgFlags & (DMG_ARROW | DMG_SLINGSHOT)) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
@@ -501,7 +501,7 @@ void EnWallmas_Stun(EnWallmas* this, PlayState* play) {
 }
 
 void EnWallmas_ColUpdate(EnWallmas* this, PlayState* play) {
-    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+    if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         Actor_SetDropFlag(&this->actor, &this->collider.info, true);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
@@ -587,7 +587,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_wallmas.c", 1386);
 
-    func_80094044(play->state.gfxCtx);
+    Gfx_SetupDL_44Xlu(play->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 255);
 
     func_80038A28(this->actor.floorPoly, this->actor.world.pos.x, this->actor.floorHeight, this->actor.world.pos.z,
@@ -644,7 +644,7 @@ void EnWallmas_Draw(Actor* thisx, PlayState* play) {
     EnWallmas* this = (EnWallmas*)thisx;
 
     if (this->actionFunc != EnWallmas_WaitToDrop) {
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
         SkelAnime_DrawFlexOpa(play, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                               EnWallMas_OverrideLimbDraw, EnWallMas_PostLimbDraw, this);
     }

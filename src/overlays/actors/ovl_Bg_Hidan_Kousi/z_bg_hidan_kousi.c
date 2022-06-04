@@ -152,7 +152,7 @@ void BgHidanKousi_Update(Actor* thisx, PlayState* play) {
 void BgHidanKousi_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 350);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

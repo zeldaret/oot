@@ -1129,7 +1129,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
             Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
             this->actor.colorFilterTimer = this->invincibilityTimer;
         } else {
-            this->colliderBody.info.bumper.dmgFlags = 0x10;
+            this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
         }
     }
 
@@ -1139,7 +1139,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
         if (this->colliderBody.base.ac->id == ACTOR_EN_BOOM) {
             sPhase2Timer &= 0xFE00;
             Actor_SetColorFilter(&this->actor, 0, 255, 0, 160);
-            this->colliderBody.info.bumper.dmgFlags = 0xFC00712;
+            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
         } else {
             sKillBari++;
             if ((this->actor.colorFilterTimer != 0) && !(this->actor.colorFilterParams & 0x4000)) {
@@ -1217,7 +1217,7 @@ void BossVa_BodyPhase2(BossVa* this, PlayState* play) {
 }
 
 void BossVa_SetupBodyPhase3(BossVa* this) {
-    this->colliderBody.info.bumper.dmgFlags = 0x10;
+    this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
     this->actor.speedXZ = 0.0f;
     sPhase3StopMoving = false;
     BossVa_SetupAction(this, BossVa_BodyPhase3);
@@ -1421,7 +1421,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
             }
             Math_SmoothStepToF(&this->actor.speedXZ, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
         }
-        this->colliderBody.info.bumper.dmgFlags = 0x10;
+        this->colliderBody.info.bumper.dmgFlags = DMG_BOOMERANG;
     } else {
         Math_SmoothStepToS(&this->vaBodySpinRate, 0, 1, 0x96, 0);
         if (this->timer > 0) {
@@ -1429,7 +1429,7 @@ void BossVa_BodyPhase4(BossVa* this, PlayState* play) {
                 this->timer = 35;
             }
             Math_SmoothStepToF(&this->actor.shape.yOffset, -480.0f, 1.0f, 30.0f, 0.0f);
-            this->colliderBody.info.bumper.dmgFlags = 0xFC00712;
+            this->colliderBody.info.bumper.dmgFlags = DMG_SWORD | DMG_BOOMERANG | DMG_DEKU_STICK;
             this->timer--;
         } else {
             if ((player->stateFlags1 & PLAYER_STATE1_26) && (this->timer < -60)) {
@@ -1555,6 +1555,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
             play->envCtx.screenFillColor[3] = 0;
             play->envCtx.fillScreen = true;
             sCsState++;
+            FALLTHROUGH;
         case DEATH_BODY_TUMORS:
             this->unk_1AC += 0x100;
             sSubCamEyeNext.x = (Math_SinS(this->unk_1AC) * (160.0f + this->unk_1A8)) + sSubCamAtNext.x;
@@ -1648,6 +1649,7 @@ void BossVa_BodyDeath(BossVa* this, PlayState* play) {
                 Actor_Spawn(&play->actorCtx, play, ACTOR_EN_RU1, sWarpPos[sp7C].x, sWarpPos[sp7C].y, sWarpPos[sp7C].z,
                             0, 0, 0, 0);
             }
+            FALLTHROUGH;
         case DEATH_FINISH:
             Rand_CenteredFloat(0.5f);
             play->envCtx.fillScreen = false;
@@ -1818,7 +1820,7 @@ void BossVa_SupportCut(BossVa* this, PlayState* play) {
             Math_SmoothStepToF(&sSubCamEye.z, sSubCamAtNext.z, 1.0f, 10.0f, 0.0f);
             sSubCamEye.y += 20.0f;
             sCsState++;
-
+            FALLTHROUGH;
         case DEATH_CORE_TUMORS:
         case DEATH_CORE_DEAD:
         case DEATH_CORE_BURST:
@@ -2169,6 +2171,7 @@ void BossVa_ZapperDeath(BossVa* this, PlayState* play) {
     switch (sCsState) {
         case DEATH_ZAPPER_2:
             sp3C = -55.0f;
+            FALLTHROUGH;
         case DEATH_ZAPPER_1:
         case DEATH_ZAPPER_3:
             if (!this->burst) {
@@ -2476,6 +2479,7 @@ void BossVa_BariIntro(BossVa* this, PlayState* play) {
                     }
                 }
             }
+            FALLTHROUGH;
         case INTRO_UNUSED_CALL_BARI:
             this->timer--;
             if (this->timer == 0) {
@@ -3174,9 +3178,9 @@ void BossVa_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_va.c", 4542);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     paramsPtr = &this->actor.params;
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
@@ -3508,7 +3512,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
     for (i = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_LARGE_SPARK) {
             if (materialFlag == 0) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gDPSetEnvColor(POLY_XLU_DISP++, 130, 130, 30, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_0156A0);
                 materialFlag++;
@@ -3529,7 +3533,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
     for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_SPARK_BALL) {
             if (materialFlag == 0) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_011738);
                 materialFlag++;
             }
@@ -3555,7 +3559,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
     for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_BLOOD) {
             if (materialFlag == 0) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_009430);
                 gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gEffBubble1Tex));
                 materialFlag++;
@@ -3587,7 +3591,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
             BossVa* parent = effect->parent;
 
             if (materialFlag == 0) {
-                func_80093D18(play->state.gfxCtx);
+                Gfx_SetupDL_25Opa(play->state.gfxCtx);
                 gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, effect->envColor[3]);
                 gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_0128B8);
                 materialFlag++;
@@ -3609,7 +3613,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
     for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_GORE) {
             if (materialFlag == 0) {
-                func_80093D18(play->state.gfxCtx);
+                Gfx_SetupDL_25Opa(play->state.gfxCtx);
                 gSPDisplayList(POLY_OPA_DISP++, gBarinadeDL_012BA0);
                 materialFlag++;
             }
@@ -3640,7 +3644,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
     for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_ZAP_CHARGE) {
             if (materialFlag == 0) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_0135B0);
                 materialFlag++;
             }
@@ -3663,7 +3667,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
     for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_BLAST_SPARK) {
             if (materialFlag == 0) {
-                func_80093C14(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu2(play->state.gfxCtx);
                 gDPSetEnvColor(POLY_XLU_DISP++, 130, 130, 30, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_0156A0);
                 materialFlag++;
@@ -3685,7 +3689,7 @@ void BossVa_DrawEffects(BossVaEffect* effect, PlayState* play) {
     for (i = 0, materialFlag = 0; i < BOSS_VA_EFFECT_COUNT; i++, effect++) {
         if (effect->type == VA_SMALL_SPARK) {
             if (materialFlag == 0) {
-                func_80093D84(play->state.gfxCtx);
+                Gfx_SetupDL_25Xlu(play->state.gfxCtx);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 100, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gBarinadeDL_008F08);
                 materialFlag++;
@@ -3725,6 +3729,7 @@ void BossVa_SpawnSpark(PlayState* play, BossVaEffect* effect, BossVa* this, Vec3
             switch (mode) {
                 case SPARK_UNUSED:
                     effect->type = VA_SMALL_SPARK;
+                    FALLTHROUGH;
                 case SPARK_TETHER:
                     tempVec = *offset;
                     tempVec.x += this->actor.world.pos.x;
@@ -3735,6 +3740,7 @@ void BossVa_SpawnSpark(PlayState* play, BossVaEffect* effect, BossVa* this, Vec3
 
                 case SPARK_BODY:
                     effect->type = VA_SMALL_SPARK;
+                    FALLTHROUGH;
                 case SPARK_BARI:
                     effect->offset.x = offset->x;
                     effect->offset.z = offset->z;

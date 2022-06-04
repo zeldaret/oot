@@ -399,7 +399,7 @@ void ObjLightswitch_DrawOpa(ObjLightswitch* this, PlayState* play) {
     Vec3s rot;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_lightswitch.c", 809);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gDPSetEnvColor(POLY_OPA_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
                    (u8)(this->alpha >> 6));
@@ -449,7 +449,7 @@ void ObjLightswitch_DrawXlu(ObjLightswitch* this, PlayState* play) {
     Vec3s sp60;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_obj_lightswitch.c", 890);
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gDPSetEnvColor(POLY_XLU_DISP++, (u8)(this->color[0] >> 6), (u8)(this->color[1] >> 6), (u8)(this->color[2] >> 6),
                    (u8)(this->alpha >> 6));

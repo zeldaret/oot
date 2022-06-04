@@ -2853,8 +2853,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 5);
             GfxPrint_Printf(printer, "DRIVER %05X / %05X",
-                            gAudioContext.notesAndBuffersPool.cur - gAudioContext.notesAndBuffersPool.start,
-                            gAudioContext.notesAndBuffersPool.size);
+                            gAudioContext.miscPool.curRamAddr - gAudioContext.miscPool.startRamAddr,
+                            gAudioContext.miscPool.size);
 
             GfxPrint_SetPos(printer, 3, 6);
             GfxPrint_Printf(
@@ -2870,7 +2870,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 8);
             GfxPrint_Printf(printer, "ST-SEQ %02Xseqs  (%05X / %06X)", gAudioContext.seqCache.persistent.numEntries,
-                            gAudioContext.seqCache.persistent.pool.cur - gAudioContext.seqCache.persistent.pool.start,
+                            gAudioContext.seqCache.persistent.pool.curRamAddr -
+                                gAudioContext.seqCache.persistent.pool.startRamAddr,
                             gAudioContext.seqCache.persistent.pool.size);
 
             for (k = 0; (u32)k < gAudioContext.seqCache.persistent.numEntries; k++) {
@@ -2880,7 +2881,8 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 10);
             GfxPrint_Printf(printer, "ST-BNK %02Xbanks (%05X / %06X)", gAudioContext.fontCache.persistent.numEntries,
-                            gAudioContext.fontCache.persistent.pool.cur - gAudioContext.fontCache.persistent.pool.start,
+                            gAudioContext.fontCache.persistent.pool.curRamAddr -
+                                gAudioContext.fontCache.persistent.pool.startRamAddr,
                             gAudioContext.fontCache.persistent.pool.size);
 
             for (k = 0; (u32)k < gAudioContext.fontCache.persistent.numEntries; k++) {
@@ -2890,7 +2892,7 @@ void AudioDebug_Draw(GfxPrint* printer) {
 
             GfxPrint_SetPos(printer, 3, 12);
             GfxPrint_Printf(printer, "E-MEM  %05X / %05X",
-                            gAudioContext.permanentPool.cur - gAudioContext.permanentPool.start,
+                            gAudioContext.permanentPool.curRamAddr - gAudioContext.permanentPool.startRamAddr,
                             gAudioContext.permanentPool.size);
             break;
 
@@ -3964,7 +3966,7 @@ void Audio_SetSoundProperties(u8 bankId, u8 entryIdx, u8 channelIdx) {
             if (D_80130604 == 2) {
                 sp38 = func_800F3990(*entry->posY, entry->sfxParams);
             }
-            // fallthrough
+            FALLTHROUGH;
         case BANK_OCARINA:
             entry->dist = sqrtf(entry->dist);
             vol = Audio_ComputeSoundVolume(bankId, entryIdx) * *entry->vol;
@@ -4064,10 +4066,10 @@ void Audio_ResetSfxChannelState(void) {
     sAudioCodeReverb = 0;
 }
 
-void func_800F3F3C(u8 arg0) {
+void Audio_PlayCutsceneEffectsSequence(u8 csEffectType) {
     if (gSoundBankMuted[0] != 1) {
         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, 0, 0, NA_BGM_CUTSCENE_EFFECTS);
-        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_SUB, 0, 0, arg0);
+        SEQCMD_SET_CHANNEL_IO(SEQ_PLAYER_BGM_SUB, 0, 0, csEffectType);
     }
 }
 
@@ -5193,7 +5195,7 @@ void Audio_StartNatureAmbienceSequence(u16 playerIO, u16 channelMask) {
     u8 channelIdx;
 
     if (Audio_GetActiveSeqId(SEQ_PLAYER_BGM_MAIN) == NA_BGM_WINDMILL) {
-        func_800F3F3C(0xF);
+        Audio_PlayCutsceneEffectsSequence(SEQ_CS_EFFECTS_RAINFALL);
         return;
     }
 

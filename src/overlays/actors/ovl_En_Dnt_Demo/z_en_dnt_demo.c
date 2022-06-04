@@ -162,6 +162,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                         SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_MAIN, 0, 0, NA_BGM_SARIA_THEME);
                         break;
                     }
+                    FALLTHROUGH;
                 case PLAYER_MASK_TRUTH:
                     if (!GET_ITEMGETINF(ITEMGETINF_1F) && (Player_GetMask(play) != PLAYER_MASK_SKULL)) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
@@ -176,6 +177,7 @@ void EnDntDemo_Judge(EnDntDemo* this, PlayState* play) {
                         }
                         break;
                     }
+                    FALLTHROUGH;
                 case PLAYER_MASK_KEATON:
                 case PLAYER_MASK_SPOOKY:
                 case PLAYER_MASK_BUNNY:

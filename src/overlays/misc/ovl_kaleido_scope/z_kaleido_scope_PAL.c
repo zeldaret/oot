@@ -677,7 +677,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
             if (sInDungeonScene) {
                 KaleidoScope_DrawDungeonMap(play, gfxCtx);
-                func_800949A8(gfxCtx);
+                Gfx_SetupDL_42Opa(gfxCtx);
 
                 gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -721,7 +721,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
 
                 if (sInDungeonScene) {
                     KaleidoScope_DrawDungeonMap(play, gfxCtx);
-                    func_800949A8(gfxCtx);
+                    Gfx_SetupDL_42Opa(gfxCtx);
 
                     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
@@ -779,7 +779,7 @@ void KaleidoScope_DrawPages(PlayState* play, GraphicsContext* gfxCtx) {
         }
     }
 
-    func_800949A8(gfxCtx);
+    Gfx_SetupDL_42Opa(gfxCtx);
 
     if ((pauseCtx->state == 7) || ((pauseCtx->state >= 8) && (pauseCtx->state < 0x12))) {
         KaleidoScope_UpdatePrompt(play);
@@ -2215,7 +2215,7 @@ void KaleidoScope_DrawGameOver(PlayState* play) {
 
     OPEN_DISPS(gfxCtx, "../z_kaleido_scope_PAL.c", 3122);
 
-    func_800944C4(gfxCtx);
+    Gfx_SetupDL_39Opa(gfxCtx);
 
     gDPSetCycleType(POLY_OPA_DISP++, G_CYC_2CYCLE);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_PASS, G_RM_XLU_SURF2);
@@ -2276,11 +2276,11 @@ void KaleidoScope_Draw(PlayState* play) {
     if (pauseCtx->debugState == 0) {
         KaleidoScope_SetView(pauseCtx, pauseCtx->eye.x, pauseCtx->eye.y, pauseCtx->eye.z);
 
-        func_800949A8(play->state.gfxCtx);
+        Gfx_SetupDL_42Opa(play->state.gfxCtx);
         KaleidoScope_InitVertices(play, play->state.gfxCtx);
         KaleidoScope_DrawPages(play, play->state.gfxCtx);
 
-        func_800949A8(play->state.gfxCtx);
+        Gfx_SetupDL_42Opa(play->state.gfxCtx);
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 

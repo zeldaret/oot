@@ -716,7 +716,7 @@ void BossGoma_Encounter(BossGoma* this, PlayState* play) {
             this->timer = 80;
             this->frameCount = 0;
             this->actor.flags &= ~ACTOR_FLAG_0;
-            // fall-through
+            FALLTHROUGH;
         case 2: // zoom on player from room center
             // room entrance, towards center
             player->actor.shape.rot.y = -0x705C;
@@ -1299,7 +1299,7 @@ void BossGoma_FloorAttack(BossGoma* this, PlayState* play) {
     switch (this->actionState) {
         case 0:
             for (i = 0; i < this->collider.count; i++) {
-                if (this->collider.elements[i].info.toucherFlags & 2) {
+                if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
                     this->framesUntilNextAction = 10;
                     break;
                 }
@@ -1831,14 +1831,14 @@ void BossGoma_UpdateHit(BossGoma* this, PlayState* play) {
 
                 this->invincibilityFrames = 10;
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
-                       (acHitInfo->toucher.dmgFlags & 0x00000005)) {
+                       (acHitInfo->toucher.dmgFlags & (DMG_SLINGSHOT | DMG_DEKU_NUT))) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM2);
                 Audio_StopSfxById(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
                 BossGoma_SetupFloorStunned(this);
                 this->sfxFaintTimer = 100;
 
-                if (acHitInfo->toucher.dmgFlags & 1) {
+                if (acHitInfo->toucher.dmgFlags & DMG_DEKU_NUT) {
                     this->framesUntilNextAction = 40;
                 } else {
                     this->framesUntilNextAction = 90;
@@ -2118,7 +2118,7 @@ void BossGoma_Draw(Actor* thisx, PlayState* play) {
 
     OPEN_DISPS(play->state.gfxCtx, "../z_boss_goma.c", 4991);
 
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     Matrix_Translate(0.0f, -4000.0f, 0.0f, MTXMODE_APPLY);
 
     if (this->noBackfaceCulling) {

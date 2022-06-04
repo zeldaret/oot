@@ -1132,7 +1132,7 @@ void FileChoose_ConfigModeDraw(GameState* thisx) {
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
-    func_800949A8(this->state.gfxCtx);
+    Gfx_SetupDL_42Opa(this->state.gfxCtx);
     FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
     FileChoose_SetWindowVtx(&this->state);
     FileChoose_SetWindowContentVtx(&this->state);
@@ -1545,7 +1545,7 @@ void FileChoose_SelectModeDraw(GameState* thisx) {
     ZREG(11) += ZREG(10);
     Environment_UpdateSkybox(SKYBOX_NORMAL_SKY, &this->envCtx, &this->skyboxCtx);
     gDPPipeSync(POLY_OPA_DISP++);
-    func_800949A8(this->state.gfxCtx);
+    Gfx_SetupDL_42Opa(this->state.gfxCtx);
     FileChoose_SetView(this, 0.0f, 0.0f, 64.0f);
     FileChoose_SetWindowVtx(&this->state);
     FileChoose_SetWindowContentVtx(&this->state);
@@ -1675,7 +1675,7 @@ void FileChoose_Main(GameState* thisx) {
 
     // do not draw controls text in the options menu
     if ((this->configMode <= CM_NAME_ENTRY_TO_MAIN) || (this->configMode >= CM_UNUSED_DELAY)) {
-        func_800944C4(this->state.gfxCtx);
+        Gfx_SetupDL_39Opa(this->state.gfxCtx);
 
         gDPSetCombineLERP(POLY_OPA_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                           PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
