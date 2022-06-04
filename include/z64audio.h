@@ -541,7 +541,7 @@ typedef struct Note {
     /* 0x10 */ NoteSynthesisState synthesisState;
     /* 0x30 */ NotePlaybackState playbackState;
     /* 0xB8 */ char unk_B8[0x4];
-    /* 0xBC */ u32 startSamplePos; // initial position/index to start processing s16 samples. Always set to 0
+    /* 0xBC */ u32 startSamplePos; // initial position/index to start processing s16 samples
     /* 0xC0 */ NoteSubEu noteSubEu;
 } Note; // size = 0xE0
 
