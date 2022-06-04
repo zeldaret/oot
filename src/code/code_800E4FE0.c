@@ -172,7 +172,7 @@ AudioTask* func_800E5000(void) {
 
     // gWaveSamples[8] interprets compiled assembly code as s16 samples as a way to generate sound with noise.
     // Start with the address of func_800E4FE0, and offset it by a random number between 0 - 0xFFF0
-    // Use the resulting address as the starting address to interprest 64 samples i.e. `s16 samples[64]`
+    // Use the resulting address as the starting address to interpret 64 samples i.e. `s16 samples[64]`
     gWaveSamples[8] = (s16*)(((u8*)func_800E4FE0) + (gAudioContext.audioRandom & 0xFFF0));
 
     index = gAudioContext.rspTaskIndex;
