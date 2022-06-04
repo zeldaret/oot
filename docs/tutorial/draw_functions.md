@@ -42,7 +42,7 @@ void EnJj_Draw(Actor *thisx, PlayState *play) {
     temp_a1 = play->state.gfxCtx;
     sp4C = temp_a1;
     Graph_OpenDisps(&sp3C, temp_a1, (const char *) "../z_en_jj.c", 0x36F);
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * 0.076624215f) * 10.0f) - 10.0f, 0.0f, (u8)1U);
     Matrix_Scale(10.0f, 10.0f, 10.0f, (u8)1U);
     temp_v1 = temp_a1->polyOpa.p;
@@ -145,7 +145,7 @@ void EnJj_Draw(Actor *thisx, PlayState *play) {
     EnJj *this = THIS;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_jj.c", 879);
-    func_800943C8(play->state.gfxCtx);
+    Gfx_SetupDL_37Opa(play->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * (M_PI/41.0f)) * 10.0f) - 10.0f, 0.0f, 1);
     Matrix_Scale(10.0f, 10.0f, 10.0f, 1);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A88CFC[this->unk_30E]));
@@ -190,7 +190,7 @@ void func_809F5A6C(Actor *thisx, PlayState *play) {
     temp_a1 = play->state.gfxCtx;
     temp_s0 = temp_a1;
     Graph_OpenDisps(&sp48, temp_a1, (const char *) "../z_en_dnt_nomal.c", 0x6FE);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     temp_v0 = temp_s0->polyOpa.p;
     temp_s0->polyOpa.p = temp_v0 + 8;
     temp_v0->words.w0 = 0xDB060020;
@@ -370,7 +370,7 @@ void func_809F5A6C(Actor *thisx, PlayState *play) {
     sp60.unk8 = (s32) D_809F5E94.unk8;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_dnt_nomal.c", 1790);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809F5EA0[this->unk_268]));
 

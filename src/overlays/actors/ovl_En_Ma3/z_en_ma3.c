@@ -144,11 +144,13 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     break;
                 case 0x208F:
                     SET_EVENTCHKINF(EVENTCHKINF_1E);
+                    FALLTHROUGH;
                 case 0x2004:
                 case 0x2012:
                     if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
                         HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
                     }
+                    FALLTHROUGH;
                 case 0x208E:
                     CLEAR_EVENTINF(EVENTINF_HORSES_0A);
                     thisx->flags &= ~ACTOR_FLAG_16;
@@ -157,6 +159,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     break;
                 case 0x2002:
                     SET_INFTABLE(INFTABLE_B9);
+                    FALLTHROUGH;
                 case 0x2003:
                     if (!GET_EVENTINF(EVENTINF_HORSES_0A)) {
                         ret = 0;
@@ -164,6 +167,7 @@ s16 func_80AA2BD4(PlayState* play, Actor* thisx) {
                     break;
                 default:
                     ret = 0;
+                    break;
             }
             break;
         case TEXT_STATE_NONE:
@@ -361,7 +365,7 @@ void EnMa3_Draw(Actor* thisx, PlayState* play) {
     activeCam = GET_ACTIVE_CAM(play);
     someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &activeCam->eye);
     func_800F6268(someFloat, NA_BGM_LONLON);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));

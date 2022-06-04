@@ -227,13 +227,13 @@ void EnGo2_DrawEffects(EnGo2* this, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go2_eff.c", 111);
 
     materialFlag = false;
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
     if (1) {}
 
     for (i = 0; i < EN_GO2_EFFECT_COUNT; i++, dustEffect++) {
         if (dustEffect->type) {
             if (!materialFlag) {
-                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+                POLY_XLU_DISP = Gfx_SetupDL(POLY_XLU_DISP, SETUPDL_0);
                 gSPDisplayList(POLY_XLU_DISP++, gGoronDL_00FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 materialFlag = true;
@@ -351,6 +351,7 @@ s16 EnGo2_GetStateGoronCityRollingBig(PlayState* play, EnGo2* this) {
                     return 2;
                 }
             }
+            FALLTHROUGH;
         default:
             return 1;
     }
@@ -383,6 +384,7 @@ s16 EnGo2_GetStateGoronDmtBombFlower(PlayState* play, EnGo2* this) {
                 }
                 return 1;
             }
+            FALLTHROUGH;
         default:
             return 1;
     }
@@ -515,6 +517,7 @@ s16 EnGo2_GetStateGoronCityLink(PlayState* play, EnGo2* this) {
                     return 2;
                 case 0x3037:
                     SET_INFTABLE(INFTABLE_10E);
+                    FALLTHROUGH;
                 default:
                     return 0;
             }
@@ -544,6 +547,7 @@ s16 EnGo2_GetStateGoronCityLink(PlayState* play, EnGo2* this) {
                 switch (this->actor.textId) {
                     case 0x3035:
                         SET_INFTABLE(INFTABLE_10B);
+                        FALLTHROUGH;
                     case 0x3032:
                     case 0x3033:
                         this->actor.textId = 0x3034;
@@ -553,6 +557,7 @@ s16 EnGo2_GetStateGoronCityLink(PlayState* play, EnGo2* this) {
                         return 2;
                 }
             }
+            break;
     }
     return 1;
 }
@@ -598,15 +603,18 @@ s16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
                     if (func_8002F368(play) != EXCH_ITEM_CLAIM_CHECK) {
                         break;
                     }
+                    FALLTHROUGH;
                 case 0x3059:
                     if (dialogState == TEXT_STATE_NONE) {
                         func_800F4524(&gSfxDefaultPos, NA_SE_EN_GOLON_WAKE_UP, 60);
                     }
+                    FALLTHROUGH;
                 case 0x3054:
                     if (dialogState == TEXT_STATE_NONE) {
                         Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                                &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                     }
+                    break;
             }
             return 1;
         case TEXT_STATE_CHOICE:
@@ -631,6 +639,7 @@ s16 EnGo2_GetStateGoronDmtBiggoron(PlayState* play, EnGo2* this) {
                 }
                 return 2;
             }
+            break;
     }
     return 1;
 }
@@ -655,6 +664,7 @@ s16 EnGo2_GetStateGoronFireGeneric(PlayState* play, EnGo2* this) {
                 }
                 return 1;
             }
+            FALLTHROUGH;
         default:
             return 1;
     }
@@ -732,7 +742,7 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
     EnGo2* this = (EnGo2*)thisx;
     u16 faceReaction = Text_GetFaceReaction(play, 0x20);
 
-    if (faceReaction) {
+    if (faceReaction != 0) {
         return faceReaction;
     } else {
         switch (this->actor.params & 0x1F) {
@@ -766,6 +776,9 @@ u16 EnGo2_GetTextId(PlayState* play, Actor* thisx) {
                 return EnGo2_GetTextIdGoronMarketBazaar(play, this);
         }
     }
+#ifdef AVOID_UB
+    return faceReaction; // faceReaction is always in the v0 return value register at this point
+#endif
 }
 
 s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
@@ -800,6 +813,11 @@ s16 EnGo2_GetState(PlayState* play, Actor* thisx) {
         case GORON_MARKET_BAZAAR:
             return EnGo2_GetStateGoronMarketBazaar(play, this);
     }
+#ifdef AVOID_UB
+    // The v0 register isn't set in this function, the last value in v0 is the return value of Actor_ProcessTalkRequest
+    // called in the function below, which must be false for this function to be called
+    return false;
+#endif
 }
 
 s32 func_80A44790(EnGo2* this, PlayState* play) {
@@ -1121,6 +1139,7 @@ void func_80A454CC(EnGo2* this) {
                 Animation_ChangeByInfo(&this->skelAnime, sAnimationInfo, ENGO2_ANIM_4);
                 break;
             }
+            FALLTHROUGH;
         default:
             this->skelAnime.playSpeed = 0.0f;
             break;
@@ -1217,8 +1236,10 @@ void EnGo2_SelectGoronWakingUp(EnGo2* this) {
                 EnGo2_WakingUp(this);
                 break;
             }
+            FALLTHROUGH;
         default:
             EnGo2_DefaultWakingUp(this);
+            break;
     }
 }
 
@@ -1592,10 +1613,12 @@ void EnGo2_Init(Actor* thisx, PlayState* play) {
                 Path_CopyLastPoint(this->path, &this->actor.world.pos);
                 this->actor.home.pos = this->actor.world.pos;
             }
+            FALLTHROUGH;
         case GORON_DMT_DC_ENTRANCE:
         case GORON_DMT_FAIRY_HINT:
         default:
             this->actionFunc = EnGo2_CurledUp;
+            break;
     }
 }
 
@@ -1971,7 +1994,7 @@ s32 EnGo2_DrawCurledUp(EnGo2* this, PlayState* play) {
     Vec3f D_80A48554 = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2881);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go2.c", 2884),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, gGoronDL_00BD80);
@@ -1987,7 +2010,7 @@ s32 EnGo2_DrawRolling(EnGo2* this, PlayState* play) {
     f32 speedXZ;
 
     OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 2914);
-    func_80093D18(play->state.gfxCtx);
+    Gfx_SetupDL_25Opa(play->state.gfxCtx);
     speedXZ = this->actionFunc == EnGo2_ReverseRolling ? 0.0f : this->actor.speedXZ;
     Matrix_RotateZYX((play->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_en_go2.c", 2926),
@@ -2056,7 +2079,7 @@ void EnGo2_Draw(Actor* thisx, PlayState* play) {
         EnGo2_DrawRolling(this, play);
     } else {
         OPEN_DISPS(play->state.gfxCtx, "../z_en_go2.c", 3063);
-        func_80093D18(play->state.gfxCtx);
+        Gfx_SetupDL_25Opa(play->state.gfxCtx);
 
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
         gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));

@@ -2,16 +2,21 @@
 #include "vt.h"
 
 // this should probably go elsewhere but right now viconfig.o is the only object between idle and z_std_dma
-OSPiHandle* gCartHandle = 0;
+OSPiHandle* gCartHandle = NULL;
 
-void ViConfig_UpdateVi(u32 mode) {
-    if (mode != 0) {
+void ViConfig_UpdateVi(u32 black) {
+    if (black) {
+        // Black the screen on next call to ViConfig_UpdateBlack, skip most VI configuration
+
         osSyncPrintf(VT_COL(YELLOW, BLACK) "osViSetYScale1(%f);\n" VT_RST, 1.0f);
 
         if (osTvType == OS_TV_PAL) {
             osViSetMode(&osViModePalLan1);
         }
 
+        // Reset the VI y scale. The VI y scale is different between NTSC (1.0) and PAL (0.833)
+        // and should be reset to 1.0 during PreNMI to ensure there are no issues when restarting.
+        // (see section 30.4.3 VI Processing with PreNMI Events in the N64 Programming Manual)
         osViSetYScale(1.0f);
     } else {
         osViSetMode(&gViConfigMode);
@@ -34,13 +39,13 @@ void ViConfig_UpdateVi(u32 mode) {
         }
     }
 
-    gViConfigUseDefault = mode;
+    gViConfigBlack = black;
 }
 
 void ViConfig_UpdateBlack(void) {
-    if (gViConfigUseDefault != 0) {
-        osViBlack(1);
+    if (gViConfigBlack) {
+        osViBlack(true);
     } else {
-        osViBlack(0);
+        osViBlack(false);
     }
 }

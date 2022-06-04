@@ -429,7 +429,7 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, PlayState* play) 
 
     OPEN_DISPS(play->state.gfxCtx, "../z_bg_spot06_objects.c", 844);
 
-    func_80093D84(play->state.gfxCtx);
+    Gfx_SetupDL_25Xlu(play->state.gfxCtx);
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(play->state.gfxCtx, "../z_bg_spot06_objects.c", 850),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
